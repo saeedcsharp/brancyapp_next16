@@ -1,0 +1,144 @@
+.flowTestHeader {
+  color: var(--text-h1);
+  font-size: var(--font-16);
+  font-weight: var(--weight-600);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding-bottom: var(--padding-10);
+  border-bottom: 1px solid var(--color-gray30);
+}
+
+.flowTestControls {
+  display: flex;
+  gap: 8px;
+}
+.flowTestheaderBtn {
+  width: 40px;
+  height: 40px;
+  cursor: pointer;
+}
+.flowTestMessages {
+  flex: 1;
+  width: 100%;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-10);
+}
+html[dir="rtl"] .flowTestHeader {
+  flex-direction: row-reverse;
+}
+.flowTestInput {
+  display: flex;
+  width: 100%;
+
+  gap: var(--gap-10);
+}
+.userInput {
+  flex: 1;
+  padding: 12px 16px;
+  border: 2px solid #e5e7eb;
+  border-radius: 24px;
+  outline: none;
+  font-size: 14px;
+  transition: border-color 0.2s ease;
+}
+.userInput:focus {
+  border-color: #667eea;
+}
+
+.flowTestMessage {
+  animation: messageSlideIn 0.3s ease-out;
+  display: flex;
+  flex-direction: column;
+  max-width: 80%;
+}
+
+/* User messages - right side, blue */
+.flowTestMessage.user {
+  background: linear-gradient(150deg, var(--color-light-blue30) 30%, var(--color-light-blue60) 100%);
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  border-radius: 18px 18px 4px 18px;
+  align-self: flex-end;
+  padding: var(--padding-8);
+}
+
+.flowTestMessage {
+  background: linear-gradient(200deg, var(--color-purple30) 0%, var(--color-purple60) 100%);
+  color: var(--text-h1);
+  animation: var(--bottom08);
+  transition: var(--transition3);
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  align-self: flex-start;
+  border-radius: 18px 18px 18px 4px;
+  padding: var(--padding-8);
+}
+
+.messageImage {
+  max-width: 100%;
+  max-height: 200px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+.voicePlayBtn {
+  background: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 20px;
+  padding: 8px 16px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s ease;
+}
+.voicePlayBtn :hover {
+  background: #2563eb;
+  transform: scale(1.05);
+}
+
+/*  is typing */
+.typingIndicator {
+  background: linear-gradient(200deg, var(--color-purple30) 0%, var(--color-purple60) 100%);
+  color: var(--text-h1);
+  align-self: flex-start;
+  border-radius: 18px 18px 18px 4px;
+  padding: 5px 8px;
+  font-size: var(--font-14);
+  animation: var(--bottom08);
+  font-weight: var(--weight-400);
+  width: fit-content;
+  display: inline-flex;
+  gap: 4px;
+}
+
+.typingIndicator span {
+  display: inline-block;
+  animation: bounce 1.4s infinite ease-in-out both;
+}
+
+.typingIndicator .dot1 {
+  animation-delay: 0s;
+}
+
+.typingIndicator .dot2 {
+  animation-delay: 0.15s;
+}
+
+.typingIndicator .dot3 {
+  animation-delay: 0.3s;
+}
+
+@keyframes bounce {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-5px);
+  }
+}

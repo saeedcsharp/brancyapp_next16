@@ -1,0 +1,235 @@
+/* ___2- Information___ */
+@media (max-width: 768px) {
+  .information {
+    justify-content: flex-start !important;
+    flex-direction: column !important;
+    overflow-y: scroll;
+    padding: var(--padding-12) var(--padding-10) var(--padding-50) var(--padding-10) !important;
+  }
+  .information > div:nth-child(1) {
+    max-width: 100% !important;
+    min-height: 250px !important;
+  }
+  .information > div:nth-child(2) {
+    max-width: 100% !important;
+    min-height: 480px !important;
+  }
+}
+.information {
+  padding: var(--paddingboxmobile);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  gap: var(--gap-10);
+  animation: var(--top08);
+  background-color: var(--color-white);
+  border-radius: var(--br20);
+  transition: var(--transition3);
+}
+.icon {
+  display: flex;
+  width: 15px;
+  height: 15px;
+  background-color: var(--color-light-blue);
+  color: var(--color-ffffff);
+  border-radius: var(--br5);
+  text-align: center;
+  font-size: var(--font-10);
+  font-weight: var(--weight-600);
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+.quillEditor {
+  min-height: 100px;
+  display: flex;
+  position: relative;
+  background-color: var(--color-white);
+  border: 1px solid var(--content-box);
+  border-radius: 0 var(--br8) var(--br8) var(--br8);
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  flex-direction: column-reverse;
+  flex-wrap: nowrap;
+  overflow-y: scroll;
+  transition: var(--transition2);
+  resize: none;
+
+  font-size: var(--font-14);
+
+  font-weight: var(--weight-400);
+  color: var(--text-h1);
+}
+.quillEditor:hover {
+  border: 1px solid var(--color-dark-blue);
+  border-radius: 0 var(--br15) var(--br15) var(--br15);
+}
+
+.quillEditor:has(> div:nth-child(2) > div:nth-child(1):focus) {
+  transform: scale(0.99);
+  border-color: var(--color-dark-blue);
+  box-shadow: 0 0 0 5px var(--color-dark-blue30);
+  border-radius: 0 var(--br15) var(--br15) var(--br15);
+}
+.quillEditor > div:first-child {
+  border: 0px;
+
+  padding: var(--padding-10);
+  display: flex;
+  justify-content: center;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: var(--gap-10);
+}
+.quillEditor > div:first-child > span {
+  margin-right: 0px !important;
+  border: 1px solid var(--color-gray30);
+  border-radius: var(--br5);
+}
+
+.quillEditor > div:first-child > span > span,
+.quillEditor > div:first-child > span > button {
+  transition: var(--transition2);
+}
+.quillEditor > div:first-child > span > span:hover,
+.quillEditor > div:first-child > span > button:hover {
+  background-color: var(--color-gray30);
+}
+
+.quillEditor > div:first-child > span:nth-child(1) > span:nth-child(1) > span:nth-child(2),
+.quillEditor > div:first-child > span:nth-child(1) > span:nth-child(3) > span:nth-child(2),
+.quillEditor > div:first-child > span:nth-child(3) > span:nth-child(1) > span:nth-child(2) {
+  background-color: var(--background-root);
+  border-radius: var(--br8) var(--br8) var(--br8) 0px;
+  border: 1px solid var(--color-gray60);
+  padding: var(--padding-8);
+  width: max-content;
+  margin-bottom: 5px;
+  box-shadow: var(--box-shadow);
+  animation: top 0.6s both;
+  bottom: 100%;
+  top: auto;
+}
+.quillEditor > div:first-child > span:nth-child(1) > span:nth-child(1) > span:nth-child(2) > span,
+.quillEditor > div:first-child > span:nth-child(1) > span:nth-child(3) > span:nth-child(2) > span,
+.quillEditor > div:first-child > span:nth-child(3) > span:nth-child(1) > span:nth-child(2) > span {
+  border-radius: 3px;
+  transition: var(--transition2);
+}
+
+.quillEditor > div:first-child > span:nth-child(1) > span:nth-child(3) > span:nth-child(1) > svg > polyline,
+.quillEditor > div:first-child > span:nth-child(1) > span:nth-child(3) > span:nth-child(1) > svg > line,
+.quillEditor > div:first-child > span:nth-child(1) > span:nth-child(1) > span:nth-child(1) > svg > line,
+.quillEditor > div:first-child > span:nth-child(1) > span:nth-child(1) > span:nth-child(1) > svg > polyline,
+.quillEditor > div:first-child > span:nth-child(3) > span:nth-child(1) > span:nth-child(1) > svg > line,
+.quillEditor > div:first-child > span:nth-child(4) > button > svg > line,
+.quillEditor > div:first-child > span:nth-child(4) > button > svg > path,
+.quillEditor > div:first-child > span:nth-child(5) > button > svg > line,
+.quillEditor > div:first-child > span:nth-child(5) > button > svg > path,
+.quillEditor > div:first-child > span:nth-child(6) > button > svg > line,
+.quillEditor > div:first-child > span:nth-child(6) > button > svg > path,
+.quillEditor > div:first-child > span:nth-child(7) > button > svg > rect,
+.quillEditor > div:first-child > span:nth-child(7) > button > svg > line {
+  stroke: var(--text-h1);
+  stroke-width: 1.2;
+}
+
+.quillEditor > div:first-child > span:nth-child(4) > button:last-child > svg > path {
+  fill: var(--text-h1);
+  stroke: none;
+  stroke-width: 0;
+}
+
+.quillEditor > div:nth-child(2) {
+  border: 0px;
+}
+.information > div:first-child > textarea {
+  border: 1px solid var(--content-box);
+  background-color: var(--color-disable);
+}
+.information > div:first-child > textarea:focus {
+  border: 1px solid var(--content-box) !important;
+  box-shadow: 0 0 0 0px !important;
+  transform: scale(1);
+}
+.quillEditor > div:nth-child(2) > div:nth-child(3) {
+  position: absolute;
+  bottom: -0px !important;
+  left: 50% !important;
+  transform: translateX(-66%) !important;
+  top: auto !important;
+  background-color: var(--background-root);
+  border-radius: var(--br8) var(--br8) 0px var(--br8);
+  border: 1px solid var(--color-gray60);
+  padding: var(--padding-8);
+  box-shadow: var(--box-shadow);
+  animation: top 0.6s both;
+  height: max-content;
+}
+.quillEditor > div:nth-child(2) > div:nth-child(3) > input {
+  border-radius: var(--br5);
+  border: 1px solid var(--color-gray60);
+  background-color: var(--color-white);
+  transition: var(--transition2);
+}
+.quillEditor > div:nth-child(2) > div:nth-child(3) > input:hover {
+  border-radius: var(--br8);
+  border: 1px solid var(--color-dark-blue);
+  background-color: var(--color-white);
+}
+.quillEditor > div:nth-child(2) > div:nth-child(3) > input:focus {
+  transform: scale(0.99);
+  border-radius: var(--br8);
+  border-color: var(--color-dark-blue);
+  box-shadow: 0 0 0 3px var(--color-dark-blue30);
+}
+.quillEditor > div:nth-child(2) > div::before {
+  color: var(--text-h2);
+  text-align: center;
+}
+.tableSection {
+  margin-top: 20px;
+  padding: 20px;
+  background-color: var(--color-white);
+  border-radius: var(--br20);
+  border: 1px solid var(--content-box);
+}
+
+.tableButton {
+  padding: 10px 20px;
+  background-color: var(--color-dark-blue);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--br5);
+  cursor: pointer;
+  transition: var(--transition2);
+  margin-bottom: 20px;
+}
+
+.tableButton:hover {
+  background-color: var(--color-dark-blue30);
+}
+
+.tablePreview {
+  overflow-x: auto;
+}
+
+.tablePreview table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.tablePreview th,
+.tablePreview td {
+  border: 1px solid var(--color-gray30);
+  padding: 8px;
+  text-align: center;
+}
+
+.tablePreview th {
+  background-color: var(--color-gray30);
+  font-weight: bold;
+}

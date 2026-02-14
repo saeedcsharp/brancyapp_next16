@@ -1,0 +1,54 @@
+/* QuickReplyNode Styles */
+
+.nodeContainer {
+  /* border-color: #1abc9c; */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-10);
+}
+
+.titleSection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  margin-bottom: 8px;
+  padding-bottom: 8px;
+  border-bottom: 1px solid var(--color-gray30);
+}
+
+.titleInput {
+  padding: 8px;
+  background: white;
+  border: 2px solid #1abc9c;
+  border-radius: 4px;
+  font-size: 13px;
+  color: #2c3e50;
+  outline: none;
+  transition: all 0.2s;
+  font-weight: 500;
+}
+
+.titleInput:focus {
+  border-color: #16a085;
+  box-shadow: 0 0 0 3px rgba(26, 188, 156, 0.1);
+}
+
+.titleInput::placeholder {
+  color: #95a5a6;
+  font-weight: normal;
+}
+
+.buttonItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  text-align: left;
+  transition: all 0.2s;
+}
+.buttonItem > div:nth-child(1) {
+  width: calc(100% - 30px);
+}

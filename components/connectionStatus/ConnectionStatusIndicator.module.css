@@ -1,0 +1,124 @@
+/* model 1 */
+/* .container {
+  position: fixed;
+  bottom: 20px;
+  right: -105px;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 15px;
+  min-width: 130px;
+  max-width: 150px;
+  width: 100%;
+  border-radius: var(--br15);
+  font-size: 14px;
+  font-weight: 400;
+  z-index: 9999;
+  box-shadow: var(--box-shadow);
+  animation: slideIn 0.3s ease-out;
+  transition: var(--transition3);
+  color: white;
+  justify-content: center;
+  align-content: center;
+}
+
+.container > div {
+  max-width: 20px;
+}
+.container[data-status="disconnected"] {
+  background-color: var(--color-dark-red60);
+  backdrop-filter: blur(10px);
+}
+.container[data-status="connected"] {
+  background-color: var(--color-dark-green60);
+  backdrop-filter: blur(10px);
+}
+
+.slideOut {
+  animation: slideOutRight 0.3s ease-out forwards;
+}
+
+@keyframes slideOutRight {
+  to {
+    transform: translateX(-120px);
+  }
+}
+
+@keyframes slideInRTL {
+  from {
+    transform: translateX(-100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes slideIn {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+[dir="rtl"] .container {
+  right: auto;
+  left: -100px;
+}
+[dir="rtl"] .container {
+  animation: slideInRTL 0.3s ease-out;
+}
+[dir="rtl"] .slideOut {
+  animation: slideOutLeft 0.3s ease-out forwards;
+}
+
+@keyframes slideOutLeft {
+  to {
+    transform: translateX(120px);
+  }
+}
+ */
+
+/* model 2 */
+.container {
+  position: fixed;
+  bottom: 5px;
+  height: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 15px;
+  width: fit-content;
+  border-radius: var(--br5);
+  font-size: 14px;
+  font-weight: 400;
+  z-index: 9999;
+  box-shadow: var(--box-shadow);
+  animation: var(--fadeIn3);
+  transition: var(--transition3);
+  color: white;
+  justify-content: center;
+  align-content: center;
+}
+
+.container > div {
+  max-width: 10px;
+}
+.container[data-status="disconnected"] {
+  background-color: var(--color-dark-red60);
+  backdrop-filter: blur(10px);
+}
+.container[data-status="connected"] {
+  background-color: var(--color-dark-green60);
+  backdrop-filter: blur(10px);
+}
+
+.slideOut {
+  animation: var(--fadeOut3);
+}

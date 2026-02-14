@@ -1,0 +1,86 @@
+.all {
+  gap: var(--gap-20);
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.all {
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.5s ease, opacity 0.1s ease-in-out;
+}
+
+.all.show {
+  max-height: 100%;
+  opacity: 1;
+}
+
+.tagNotification,
+.tagNotificationred {
+  border-radius: var(--br8);
+  padding: var(--paddingtag);
+  text-align: center;
+  font-size: var(--font-14);
+
+  font-weight: var(--weight-400);
+  line-height: normal;
+}
+.tag {
+  text-align: -webkit-center;
+  width: 50px;
+  position: relative;
+}
+.tagNotificationred {
+  background-color: var(--color-light-red30);
+  width: fit-content;
+  color: var(--color-dark-red);
+}
+
+.tagNotification {
+  background-color: var(--color-light-blue30);
+  color: var(--color-light-blue);
+  width: fit-content;
+}
+
+.title {
+  text-align: start;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  text-transform: capitalize;
+}
+
+.unfollowAllFollowing,
+.unfollowAllUnfollowers,
+.likeFollowerPosts,
+.likeAllComments,
+.followerRequest {
+  display: flex;
+  padding: 0px var(--padding-20);
+  gap: var(--gap-5);
+  justify-content: space-evenly;
+  align-items: center;
+  border-radius: var(--br15);
+  border: 1px solid var(--content-box);
+  transition: var(--transition3);
+  min-height: 57px;
+  height: 100%;
+  align-content: center;
+  flex-direction: row;
+  cursor: pointer;
+}
+
+.unfollowAllFollowing:hover,
+.unfollowAllUnfollowers:hover,
+.likeFollowerPosts:hover,
+.likeAllComments:hover,
+.followerRequest:hover {
+  box-shadow: var(--box-shadow);
+}

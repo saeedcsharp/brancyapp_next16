@@ -1,0 +1,83 @@
+.switchTab2x {
+  padding: var(--padding-5);
+
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  min-height: 50px;
+  max-height: 50px;
+  text-align: center;
+  border-radius: var(--br15);
+  background-color: var(--background-root);
+  transition: var(--transition3);
+  justify-content: space-between;
+  box-shadow: 0px 2px 10px 0px #00000040 inset;
+  @media (max-width: 800px) {
+    min-height: 45px !important;
+    max-height: 45px !important;
+  }
+}
+
+.active {
+  cursor: pointer;
+  position: relative;
+  border-radius: var(--br10);
+  background-color: var(--color-light-green);
+  color: var(--color-white);
+  transition: var(--transition3);
+  width: 45%;
+  height: 38px;
+  display: flex;
+  gap: var(--gap-10);
+  justify-content: center;
+  align-items: center;
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  @media (max-width: 800px) {
+    height: 34px !important;
+  }
+}
+.deactive {
+  display: flex;
+  cursor: pointer;
+  position: relative;
+  width: 45%;
+  height: 38px;
+  border-radius: var(--br10);
+  color: var(--text-h2);
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  @media (max-width: 800px) {
+    font-size: var(--font-14) !important;
+  }
+}
+
+.buttonContainer {
+  justify-content: center;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  position: relative;
+  font-size: var(--font-14);
+  font-weight: var(--weight-400) !important;
+  width: 140px;
+  gap: var(--gap-5);
+  @media (max-width: 800px) {
+    font-size: var(--font-12) !important;
+  }
+}
+.buttonContainer svg {
+  height: 20px;
+  @media (max-width: 800px) {
+    height: 18px !important;
+  }
+}
+.icon {
+  position: relative;
+  width: 20px;
+}

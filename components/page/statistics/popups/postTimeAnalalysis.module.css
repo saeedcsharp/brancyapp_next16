@@ -1,0 +1,494 @@
+.allTimesContainer {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-50);
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.chartCurveLong {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  min-height: 300px;
+}
+.chartCurveLong > div {
+  height: 100%;
+}
+
+/* Heatmap */
+
+.heatmapLegend {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-10);
+  font-size: var(--font-12);
+  color: var(--text-h2);
+}
+
+.legendGradient {
+  width: 100px;
+  height: 12px;
+  border-radius: var(--br8);
+  background: linear-gradient(
+    to right,
+    var(--color-dark-red60),
+    var(--color-dark-yellow60),
+    var(--color-light-yellow60),
+    var(--color-light-green60),
+    var(--color-dark-green60)
+  );
+}
+
+.heatmapGrid {
+  padding: var(--padding-5);
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(60px, 1fr));
+  gap: var(--gap-10);
+}
+
+.heatmapCell {
+  aspect-ratio: 1;
+  border-radius: var(--br10);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: var(--transition3);
+  position: relative;
+  overflow: hidden;
+  animation: heatmapFadeIn 0.4s ease-out forwards;
+  opacity: 0;
+  border: 2px solid transparent;
+}
+
+@keyframes heatmapFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.heatmapCell:hover {
+  z-index: 10;
+  box-shadow: var(--box-shadow);
+  border: 2px solid var(--color-dark-blue);
+}
+
+.heatmapValue {
+  font-size: var(--font-16);
+  margin-top: var(--gap-3);
+  color: var(--text-h1);
+  font-weight: var(--weight-600);
+  z-index: 1;
+}
+
+.selectedCell {
+  border-color: var(--color-dark-blue) !important;
+  box-shadow: 0 0 0 3px var(--color-dark-blue30) !important;
+  transform: scale(1.05) !important;
+}
+
+/* Hour Details Panel */
+.hourDetailsPanel {
+  grid-column: 1 / -1;
+  background: var(--background-root);
+  border-radius: var(--br15);
+  padding: var(--padding-12);
+  animation: var(--top04);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-10);
+}
+
+.detailsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: var(--padding-10);
+  border-bottom: 1px solid var(--box-border);
+  flex-direction: row;
+}
+
+.headerContent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-5);
+}
+
+.detailsHeader h4 {
+  font-size: var(--font-32);
+  font-weight: var(--weight-700);
+  color: var(--text-h1);
+  margin: 0;
+  line-height: 1;
+  font-variant-numeric: tabular-nums;
+}
+
+.headerSubtitle {
+  font-size: var(--font-12);
+  color: var(--text-h2);
+  margin: 0;
+  font-weight: var(--weight-400);
+  line-height: 1.5;
+}
+
+/* Ultra Minimal Metrics Row */
+
+.metricItem {
+  display: flex;
+  align-items: baseline;
+  gap: var(--gap-8);
+}
+
+.metricValue {
+  font-size: var(--font-24);
+  font-weight: var(--weight-700);
+  color: var(--text-h1);
+  font-variant-numeric: tabular-nums;
+}
+
+.metricLabel {
+  font-size: var(--font-12);
+  color: var(--text-h2);
+  font-weight: var(--weight-400);
+  line-height: 1.5;
+}
+
+/* Professional Insight Card */
+
+.insightBadge {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-5);
+  padding: var(--padding-4) var(--padding-10);
+  border-radius: var(--br6);
+  font-size: var(--font-11);
+  font-weight: var(--weight-600);
+  width: fit-content;
+  letter-spacing: 0.3px;
+}
+
+.insightText {
+  font-size: var(--font-13);
+  color: var(--text-h1);
+  line-height: 1.7;
+  font-weight: var(--weight-400);
+}
+
+/* Minute Bar Styles for Heatmap Integration */
+.minutesBar {
+  flex: 1;
+  display: flex;
+  min-height: 28px;
+  border-radius: var(--br8);
+  overflow: hidden;
+  box-shadow: var(--small-shadow);
+  border: 1px solid var(--box-border);
+}
+
+.minuteSegment {
+  flex: 1;
+  min-width: 1px;
+  transition: var(--transition2);
+  cursor: pointer;
+  animation: minuteFadeIn 0.6s ease-out forwards;
+  opacity: 0;
+}
+
+@keyframes minuteFadeIn {
+  to {
+    opacity: 1;
+  }
+}
+
+.minuteSegment:hover {
+  transform: scaleY(1.3);
+  z-index: 1;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Selected Minute */
+.selectedMinute {
+  box-shadow: 0 0 0 2px var(--color-dark-blue) inset !important;
+  transform: scaleY(1.4) !important;
+  z-index: 2 !important;
+}
+
+/* Minute Details Panel */
+.minuteDetailsPanel {
+  grid-column: 1 / -1;
+  animation: var(--top04);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-10);
+}
+.minutesBarparent {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  padding: var(--padding-10) var(--padding-5);
+  background-color: var(--color-gray30);
+  border-radius: var(--br10);
+  gap: var(--gap-10);
+}
+.minuteDetailsHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: var(--padding-10);
+  border-bottom: 1px solid var(--box-border);
+}
+
+.minuteTimeDisplay {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-5);
+}
+
+.minuteTimeMain {
+  font-size: var(--font-24);
+  font-weight: var(--weight-700);
+  color: var(--text-h1);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.minuteTimeCount {
+  font-size: var(--font-11);
+  color: var(--text-h2);
+  font-weight: var(--weight-400);
+  line-height: 1.5;
+}
+
+/* Minute Minimal Metrics */
+.minuteMetrics {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-10);
+  margin-bottom: var(--gap-12);
+}
+
+.minuteMetricItem {
+  display: flex;
+  align-items: baseline;
+  gap: var(--gap-8);
+}
+
+.minuteMetricValue {
+  font-size: var(--font-20);
+  font-weight: var(--weight-700);
+  color: var(--text-h1);
+  font-variant-numeric: tabular-nums;
+}
+
+.minuteMetricLabel {
+  font-size: var(--font-11);
+  color: var(--text-h2);
+  font-weight: var(--weight-400);
+  line-height: 1.5;
+}
+
+/* Minute Professional Insight */
+.minuteInsightCard {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-8);
+  padding: var(--padding-12);
+  background: var(--content-box);
+  border-radius: var(--br8);
+  border-right: 3px solid var(--color-dark-blue);
+}
+
+.minuteInsightText {
+  font-size: var(--font-12);
+  color: var(--text-h1);
+  line-height: 1.7;
+  font-weight: var(--weight-400);
+}
+
+/* Ultra Minimal Recommendation Summary */
+.recommendationSummary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-20);
+}
+.recommendationsFlex {
+  display: flex;
+  gap: var(--gap-15);
+  flex-direction: column;
+  transition: var(--transition2);
+  animation: var(--top04);
+}
+
+/* Minimal Card Design */
+.recommendCard {
+  transition: var(--transition2);
+  animation: var(--fadeIn3);
+  border: 1px solid var(--color-light-green60);
+  border-radius: var(--br10);
+  padding: var(--padding-10);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-10);
+  animation: var(--top04);
+}
+.avoidCard {
+  transition: var(--transition2);
+  animation: var(--fadeIn3);
+  border: 1px solid var(--color-light-red60);
+  border-radius: var(--br10);
+  padding: var(--padding-10);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-10);
+  animation: var(--top04);
+}
+.avoidCard:hover {
+  box-shadow: var(--small-shadow);
+  border-color: var(--color-light-red);
+}
+.recommendCard:hover {
+  box-shadow: var(--small-shadow);
+  border-color: var(--color-light-green);
+}
+
+.cardHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--gap-10);
+}
+
+.rankBadge {
+  width: 18px;
+  height: 18px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-16);
+  font-weight: var(--weight-700);
+  flex-shrink: 0;
+}
+
+.cardMeta {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-5);
+  align-content: flex-start;
+  align-items: flex-end;
+  justify-content: center;
+}
+
+.metaLabel {
+  font-size: var(--font-10);
+  color: var(--text-h2);
+  font-weight: var(--weight-500);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.metaValue {
+  font-size: var(--font-12);
+  color: var(--text-h1);
+  font-weight: var(--weight-600);
+}
+
+.timeDisplay {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-3);
+  padding: var(--padding-10) 0;
+  border-bottom: 1px solid var(--box-border);
+}
+
+.timeMain {
+  font-size: var(--font-24);
+  font-weight: var(--weight-700);
+  color: var(--text-h1);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+  direction: ltr;
+  text-align: left;
+}
+
+.timeSub {
+  font-size: var(--font-10);
+  color: var(--text-h2);
+  font-weight: var(--weight-400);
+}
+
+.statsGrid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: var(--gap-10);
+}
+
+.statBox {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-3);
+}
+
+.statNumber {
+  font-size: var(--font-18);
+  font-weight: var(--weight-700);
+  color: var(--text-h1);
+  font-variant-numeric: tabular-nums;
+  line-height: 1;
+}
+
+.statText {
+  font-size: var(--font-9);
+  color: var(--text-h2);
+  font-weight: var(--weight-400);
+  line-height: 1.3;
+}
+
+.insighthigh {
+  font-size: var(--font-12);
+  color: var(--color-light-green);
+  padding: var(--padding-8) var(--padding-10);
+  background: var(--color-light-green10);
+  border-radius: var(--br8);
+  line-height: 1.5;
+  font-weight: var(--weight-400);
+}
+.insightlow {
+  font-size: var(--font-12);
+  color: var(--color-light-red);
+  padding: var(--padding-8) var(--padding-10);
+  background: var(--color-light-red10);
+  border-radius: var(--br8);
+  line-height: 1.5;
+  font-weight: var(--weight-400);
+}
+
+/* Avoid Card */
+
+.avoidBadge {
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--color-light-red);
+  color: var(--color-white);
+  border-radius: var(--br8);
+  font-size: var(--font-16);
+  font-weight: var(--weight-700);
+  flex-shrink: 0;
+}
+
+.avoidInsight {
+  font-size: var(--font-11);
+  color: var(--text-h1);
+  padding: var(--padding-8) var(--padding-10);
+  background: var(--color-light-red10);
+  border-radius: var(--br6);
+  line-height: 1.5;
+  font-weight: var(--weight-400);
+  border-right: 2px solid var(--color-light-red);
+}

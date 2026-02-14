@@ -1,0 +1,250 @@
+.winnerResult {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 116;
+  transition: box-shadow 0.3s;
+  border-radius: var(--br25);
+  background-color: var(--color-white);
+  border: 3px solid var(--box-border);
+  box-sizing: border-box;
+  padding: var(--paddingbox);
+  justify-content: space-between;
+  width: 395px;
+  max-width: calc(100% - 50px);
+  height: 700px;
+  max-height: calc(100% - 50px);
+  min-width: 250px;
+  gap: var(--gap-20);
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease-in-out;
+}
+@media (max-width: 480px) {
+  .winnerResult {
+    padding: var(--paddingboxmobile) !important;
+    height: 100% !important;
+  }
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.header {
+  position: relative;
+  color: var(--text-h1);
+  font-size: var(--font-18);
+  font-style: normal;
+  font-weight: var(--weight-800);
+  line-height: normal;
+  text-align: center;
+  width: 100%;
+  text-transform: capitalize;
+}
+
+.activeWinnerPickerContainer {
+  position: relative;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  width: 98%;
+  height: 100%;
+}
+.activeWinnerPickerContainer::-webkit-scrollbar {
+  display: none;
+}
+
+.activeWinnerPickerlist {
+  display: flex;
+  gap: var(--gap-20);
+  flex-direction: column;
+  flex-wrap: nowrap;
+}
+
+.innerContainer {
+  position: relative;
+  height: 90px;
+  display: flex;
+  flex-direction: row;
+  border: 1px solid var(--content-box);
+  border-radius: var(--br10);
+  justify-content: space-around;
+  align-items: center;
+  transition: box-shadow 0.3s;
+}
+.innerContainer:hover {
+  box-shadow: 0px 5px 16px 0px rgba(0, 0, 0, 0.15);
+}
+.Count {
+  position: relative;
+  width: 55px;
+  color: var(--color-light-blue);
+  font-size: 40px;
+  font-weight: var(--weight-800);
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+}
+.status {
+  color: var(--color-purple);
+  background-color: var(--color-purple30);
+  padding: var(--paddingtag);
+  line-height: 14px;
+  border-radius: var(--br8);
+  font-size: var(--font-12);
+  font-weight: var(--weight-600);
+}
+.winnerInfoContainer {
+  gap: var(--gap-5);
+  display: flex;
+  position: relative;
+  width: 100%;
+  max-width: 160px;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.abortContainer {
+  display: flex;
+  position: relative;
+  width: 100%;
+  max-width: 160px;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.Containerdone {
+  display: flex;
+  position: relative;
+  width: 100%;
+  max-width: 195px;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.arrow {
+  position: relative;
+
+  width: 55px;
+  height: 60%;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+  transition: all 0.3s;
+}
+.arrow:hover .icon {
+  transform: scale(1.2);
+}
+.arrow:active .icon {
+  transform: scale(0.9);
+}
+.notarrow {
+  position: relative;
+  width: 55px;
+  height: 80%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+.icon {
+  position: relative;
+  width: 20px;
+  cursor: pointer;
+  transition: transform 0.3s ease-in-out;
+  box-sizing: border-box;
+}
+
+.winnerId {
+  position: relative;
+  color: var(--text-h1);
+
+  font-size: var(--font-16);
+  font-style: normal;
+  font-weight: var(--weight-700);
+  line-height: normal;
+  height: 20px;
+}
+.winnerTimeContainer {
+  color: var(--text-h1);
+  display: flex;
+  gap: var(--gap-5);
+  position: relative;
+  font-size: var(--font-12);
+  height: 20px;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.winnerTime {
+  position: relative;
+  color: var(--text-h1);
+  font-size: var(--font-12);
+  font-style: normal;
+  font-weight: var(--weight-500);
+}
+.imageContainer {
+  position: relative;
+  width: 16px;
+  height: 16px;
+}
+.error {
+  color: var(--color-dark-red);
+  background-color: var(--color-dark-red30);
+  padding: var(--paddingtag);
+  border-radius: var(--br8);
+  font-size: var(--font-12);
+  font-weight: var(--weight-600);
+  line-height: 14px;
+}
+.success {
+  color: var(--color-dark-green);
+  background-color: var(--color-dark-green30);
+  padding: var(--paddingtag);
+  border-radius: var(--br8);
+  font-size: var(--font-12);
+  font-weight: var(--weight-600);
+  line-height: 14px;
+}
+.date {
+  color: var(--text-h2);
+  font-weight: var(--weight-400);
+  position: relative;
+  display: flex;
+  transition: all 0.3s ease-in-out;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+  transition: all 0.3s ease-in-out;
+}
+
+.day {
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+  transition: all 0.3s ease-in-out;
+  @media (max-width: 800px) {
+    font-size: var(--font-12) !important;
+    font-weight: var(--weight-500) !important;
+  }
+}
+.hour {
+  color: var(--text-h2);
+  font-size: var(--font-12);
+  font-weight: var(--weight-500);
+  transition: all 0.3s ease-in-out;
+  @media (max-width: 800px) {
+    font-size: var(--font-10) !important;
+  }
+}

@@ -1,0 +1,260 @@
+.cart {
+  overflow-y: auto;
+  overflow-x: hidden;
+  animation: var(--top08);
+  width: 100%;
+  display: flex;
+  gap: var(--gap-20);
+  flex-direction: column;
+  border-radius: var(--br25);
+  background: var(--color-white);
+  padding: var(--paddingbox);
+  transition: var(--transition3);
+  margin-block: 10px;
+  @media (max-width: 768px) {
+    padding: var(--paddingboxmobile);
+  }
+}
+.cart:hover {
+  box-shadow: var(--box-shadow);
+}
+.backtocart {
+  width: 100%;
+  gap: var(--gap-20);
+  font-size: var(--font-16);
+  font-weight: var(--weight-700);
+  text-transform: capitalize;
+  color: var(--text-h1);
+  cursor: pointer;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: flex-start;
+  align-items: center;
+}
+html[dir="rtl"] .backtocart > img {
+  transform: rotate(180deg);
+}
+.addresssection {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-gray30);
+  padding: var(--padding-12) var(--padding-10);
+  border-radius: var(--br20);
+  transition: var(--transition3);
+  gap: var(--gap-20);
+}
+.loadingContainer > div > svg > circle {
+  stroke: #ffffff !important;
+}
+.boxheader {
+  display: flex;
+  text-transform: capitalize;
+  flex-direction: row;
+  gap: var(--gap-20);
+  width: 100%;
+  justify-content: space-between;
+  align-items: center;
+  background-color: var(--color-gray30);
+  border-radius: var(--br8);
+  padding: var(--padding-8) var(--padding-10);
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+  color: var(--text-h1);
+}
+.changeaddress {
+  cursor: pointer;
+  color: var(--color-dark-blue);
+  display: flex;
+  text-transform: capitalize;
+  flex-direction: row;
+  gap: var(--gap-8);
+  justify-content: space-between;
+  align-items: center;
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+  transition: var(--transition3);
+}
+.addressContent {
+  flex-wrap: wrap;
+  width: 100%;
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--gap-20);
+}
+.addressContentsection {
+  width: 100%;
+  max-width: calc(50% - 10px);
+  min-width: 200px;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-10);
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+  color: var(--text-h1);
+  text-align: start;
+  align-items: center;
+}
+.addressContentsection > svg {
+  min-width: 20px;
+  min-height: 20px;
+  width: 20px;
+  height: 20px;
+}
+.productContainer {
+  border-radius: var(--br20);
+  padding: var(--padding-12) var(--padding-10);
+  color: var(--text-h1);
+  border: 1px solid var(--color-gray30);
+  position: relative;
+  transition: var(--transition3);
+}
+.addresssection:hover,
+.productContainer:hover {
+  border: 1px solid var(--color-dark-blue);
+}
+.itemsCount {
+  background: var(--color-dark-blue30);
+  color: var(--color-dark-blue);
+  border: 1px solid var(--color-dark-blue60);
+  border-radius: var(--br10);
+  padding: var(--paddingtag);
+  font-size: var(--font-14);
+}
+.card {
+  min-width: 200px;
+  width: 200px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-10);
+  @media (max-width: 768px) {
+    min-width: 150px;
+    width: 150px;
+  }
+}
+.img {
+  width: 200px;
+  height: 200px;
+  object-fit: cover;
+  border-radius: var(--br15);
+  @media (max-width: 768px) {
+    width: 150px;
+    height: 150px;
+  }
+}
+.info {
+  font-size: var(--font-14);
+  color: var(--text-h1);
+  font-weight: var(--weight-500);
+  padding: var(--padding-5);
+  width: fit-content;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-5);
+  background-color: var(--color-gray10);
+  border-radius: var(--br10);
+  transition: var(--transition3);
+  align-content: flex-start;
+  border: 1px solid var(--color-gray30);
+}
+/* ---------------------summary------------------------ */
+.summary {
+  min-width: 350px;
+  max-width: 350px;
+  transition: var(--transition3);
+  margin-block: 10px;
+  display: flex;
+  width: 100%;
+  background: var(--color-white);
+  border-radius: var(--br25);
+  animation: fadein-left 1s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  padding: var(--paddingbox);
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: var(--gap-30);
+  overflow-y: auto;
+}
+.summary:hover {
+  box-shadow: var(--box-shadow);
+}
+@keyframes fadein-left {
+  0% {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.summarycontent {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-10);
+  width: 100%;
+  font-size: var(--font-14);
+  color: var(--text-h1);
+  font-weight: var(--weight-500);
+}
+.Deliveryoption {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-10);
+  width: 100%;
+  color: var(--text-h1);
+}
+.summarycontent > div > div > div {
+  font-weight: var(--weight-700);
+}
+.summarycontent > div:nth-child(2) > div > div,
+.summarycontent > div:nth-child(2) > div > div > div {
+  color: var(--color-dark-green);
+  fill: var(--color-dark-green);
+}
+.scrollableProductList {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 10px 0;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+}
+
+.scrollableProductList::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scrollableProductList::-webkit-scrollbar-track {
+  border-radius: 5px;
+}
+
+.scrollableProductList::-webkit-scrollbar-thumb {
+  background: #8798ad70;
+  border-radius: 5px;
+}
+
+.scrollableProductList::-webkit-scrollbar-thumb:hover {
+  background: #667485;
+}
+
+/* -------------------is mobile ------------------- */
+.ordersummary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-30);
+  background-color: var(--background-root);
+  width: 100%;
+  color: var(--text-h1);
+  transition: var(--transition3);
+  padding: var(--padding-10) !important;
+  border-radius: var(--br15);
+  -webkit-backdrop-filter: blur(25px) brightness(0.9) saturate(1.5);
+  backdrop-filter: blur(25px) brightness(0.9) saturate(1.5);
+  position: relative;
+  bottom: 0px;
+  margin-bottom: 40px;
+}

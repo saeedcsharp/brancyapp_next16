@@ -1,0 +1,77 @@
+.settingModal {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  width: 100%;
+  gap: var(--gap-30);
+}
+
+.tabContainer {
+  display: block;
+}
+
+.shortcutsTab {
+  display: block;
+}
+
+@media (max-width: 768px) {
+  .tabContainer {
+    display: none;
+  }
+
+  .shortcutsTab {
+    display: none;
+  }
+}
+
+.shortcutsTable {
+  width: 100%;
+  border-collapse: collapse;
+  color: var(--text-h1);
+  font-size: var(--font-12);
+}
+
+.shortcutsTable td {
+  padding: 5px 12px;
+  border-bottom: 1px solid var(--color-gray30);
+  text-align: start;
+}
+.shortcutsTable td span {
+  padding: var(--paddingtag);
+  border: 1px solid var(--color-gray60);
+  border-radius: var(--br5);
+  background-color: var(--color-gray10);
+  line-height: 2.5;
+  text-align: start;
+}
+
+.shortcutsTable td:first-child {
+  width: 50%;
+  font-weight: 500;
+}
+
+.shortcutsTable td:last-child {
+  width: 50%;
+}
+
+.shortcutsTable tr:last-child td {
+  border-bottom: none;
+}
+
+.deleteConfirm {
+  animation: pulseBackground 1.5s ease-in-out infinite;
+}
+
+@keyframes pulseBackground {
+  0% {
+    background: transparent;
+  }
+  50% {
+    background: var(--color-dark-red30);
+  }
+  100% {
+    background: transparent;
+  }
+}

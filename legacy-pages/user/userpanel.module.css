@@ -1,0 +1,37 @@
+.pinContainer {
+  justify-content: center;
+  height: 100%;
+  width: calc(100% - 130px);
+  left: 110px;
+  min-width: 250px;
+  top: 80px;
+  display: flex;
+  -moz-column-gap: var(--gap-20);
+  column-gap: var(--gap-20);
+  position: fixed;
+  animation: var(--bottom08);
+  transition: var(--transition3);
+  background-color: var(--background-root);
+}
+
+.maincontainer {
+  display: flex;
+  gap: var(--gap-30);
+  position: relative;
+  margin: 10px 0;
+  padding: var(--paddingbox);
+  grid-row-end: span 82;
+  border-radius: var(--br25);
+  background-color: var(--color-white);
+
+  font-size: var(--font-12);
+  transition: var(--transition3);
+  color: var(--color-gray);
+  width: 100%;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.maincontainer:hover {
+  box-shadow: var(--box-shadow);
+}

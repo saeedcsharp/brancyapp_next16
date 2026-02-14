@@ -1,0 +1,268 @@
+@media screen and (max-width: 720px) {
+  .sidebarparent {
+    display: none;
+  }
+}
+@media (min-width: 720px) and (max-width: 1024px) {
+  .sidebar {
+    width: 60px !important;
+    /* margin-inline-start: -70px !important; */
+  }
+}
+@media (max-height: 580px) {
+  .path,
+  .logosvg {
+    display: none;
+  }
+  .sidebar {
+    justify-content: center !important;
+  }
+}
+
+.sidebarparent {
+  position: relative;
+  min-width: 90px;
+  width: 90px;
+  transition: var(--transition6);
+}
+.sidebar {
+  padding-block: 30px;
+  border-radius: var(--br25);
+  margin-top: 0;
+  gap: var(--gap-20);
+  z-index: 101;
+  display: flex;
+  position: fixed;
+  min-width: 70px;
+  margin-inline-start: 20px;
+  margin-top: 20px;
+  height: calc(100% - 40px);
+  transition: var(--transition6);
+  background: var(--color-dark-blue);
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  animation: fade-in-left 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+  @media (max-height: 570px) {
+    padding-block: 10px !important;
+  }
+}
+.navicon {
+  transition: var(--transition6);
+}
+html[dir="rtl"] .sidebar {
+  animation: fade-in-right 0.6s cubic-bezier(0.39, 0.575, 0.565, 1) both;
+}
+@keyframes fade-in-right {
+  0% {
+    transform: translateX(80px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes fade-in-right {
+  0% {
+    transform: translateX(80px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes fade-in-left {
+  0% {
+    transform: translateX(-80px);
+    opacity: 0;
+  }
+  100% {
+    -webkit-transform: translateX(0);
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+.logosvg {
+  position: relative;
+  width: 35px;
+  min-height: 45px;
+  fill: var(--color-dark-blue);
+  margin-inline-end: 5px;
+  transition: var(--transition2);
+}
+.logosvg:hover {
+  fill: var(--color-ffffff);
+}
+
+.menuCategoriesChild {
+  border-radius: var(--br20);
+  position: absolute;
+  height: 100%;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+  right: 3px;
+  background-color: var(--color-white);
+  transition: var(--transition3);
+}
+html[dir="rtl"] .menuCategoriesChild {
+  right: -3px !important;
+}
+.navSidebar {
+  position: relative;
+  display: flex;
+  gap: var(--gap-30);
+  width: 30px;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  align-content: center;
+  margin-inline-end: 5px;
+  flex-wrap: nowrap;
+  @media (max-height: 520px) {
+    overflow-y: scroll;
+    overflow-x: hidden;
+    gap: var(--gap-20);
+    justify-content: flex-start;
+  }
+}
+
+/* Add menu indicator for active state */
+.menuIndicator {
+  position: absolute;
+  border-radius: 50%;
+  overflow: hidden;
+  top: 10px;
+  margin-inline-start: 72px;
+  width: 15px;
+  height: 15px;
+  background: var(--color-dark-blue);
+  transition: all 0.5s cubic-bezier(0.45, -0.4, 0.49, 1.33);
+  z-index: 1000;
+}
+
+/* Position modifiers for the indicator */
+.indicator-userhome {
+  transform: translateY(0px) !important;
+}
+.indicator-userorders {
+  transform: translateY(63px) !important;
+}
+.indicator-userorderscart {
+  transform: translateY(63px) !important;
+}
+.indicator-userordersinQueue {
+  transform: translateY(63px) !important;
+}
+.indicator-userordersinQueue {
+  transform: translateY(63px) !important;
+}
+.indicator-userordersinProgress {
+  transform: translateY(63px) !important;
+}
+.indicator-userorderspickingup {
+  transform: translateY(63px) !important;
+}
+.indicator-userorderssent {
+  transform: translateY(63px) !important;
+}
+.indicator-userordersdelivered {
+  transform: translateY(63px) !important;
+}
+.indicator-userordersfailed {
+  transform: translateY(63px) !important;
+}
+.indicator-usershop {
+  transform: translateY(118px) !important;
+}
+.indicator-userwallet {
+  transform: translateY(180px) !important;
+}
+.indicator-usermessage {
+  transform: translateY(240px) !important;
+}
+.indicator-usersetting {
+  transform: translateY(300px) !important;
+}
+
+.advertisebutton,
+.homebutton,
+.marketbutton,
+.messagingbutton,
+.shopbutton,
+.pagebutton,
+.settingbutton,
+.storebutton,
+.walletbutton {
+  transition: var(--transition2);
+  position: relative;
+  width: 30px;
+  height: 30px;
+}
+
+.navSidebar > div {
+  --scale: 1;
+  transform: scale(var(--scale));
+  transform-origin: center left;
+  will-change: transform;
+}
+html[dir="rtl"] .navSidebar > div {
+  transform-origin: center right;
+}
+.navSidebar > div:not(:last-child) {
+  transition: transform 0.1s ease-in-out;
+}
+/* ------------------------------ */
+.buttonName {
+  transform: scale(0.9) translateX(-10px);
+  position: absolute;
+  visibility: hidden;
+  opacity: 0;
+  top: 0px;
+  margin-inline-start: 45px;
+  font-size: var(--font-14);
+  line-height: 19px;
+  font-weight: var(--weight-400);
+  padding: var(--padding-5) var(--padding-8);
+  background-color: var(--color-white);
+  color: var(--text-h1);
+  border-radius: var(--br8);
+  box-shadow: var(--box-shadow);
+  text-transform: capitalize;
+  text-wrap: nowrap;
+  transition: opacity 0.5s ease, visibility 0.3s ease, transform 0.3s ease;
+}
+
+/* Unified hover state instead of repeating per button class */
+.navSidebar > div:hover .buttonName {
+  visibility: visible;
+  opacity: 1;
+  transform: scale(0.9) translateX(0);
+}
+
+/* Arrow (tail) attached to tooltip for synchronized animation */
+.buttonName::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  inset-inline-start: -5px; /* Left side in LTR */
+  width: 10px;
+  height: 10px;
+  background: var(--color-white);
+  border-radius: 2px;
+  transform: translateY(-50%) rotate(45deg) scale(0.7);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform 0.3s ease;
+  z-index: -1; /* stay behind tooltip panel */
+  pointer-events: none;
+}
+
+.navSidebar > div:hover .buttonName::before {
+  opacity: 1;
+  transform: translateY(-50%) rotate(45deg) scale(0.9);
+}

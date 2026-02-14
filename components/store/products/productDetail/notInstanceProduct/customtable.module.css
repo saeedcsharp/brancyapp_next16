@@ -1,0 +1,88 @@
+.tablePreview {
+  overflow: auto;
+  padding: var(--padding-5);
+  height: 100%;
+}
+.tablePreview table {
+  width: 100%;
+  border-collapse: collapse;
+}
+.tablePreview th:first-child {
+  color: var(--color-dark-blue);
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+}
+.tablePreview::-webkit-scrollbar {
+  display: block;
+}
+.tablePreview tbody tr:nth-child(n + 1) {
+  animation: var(--top04);
+  transition: var(--transition3);
+  border-block-end: 2px solid transparent;
+}
+.tablePreview tbody tr:nth-child(n + 1):hover {
+  background-color: var(--color-gray10);
+}
+.tablePreview td {
+  padding: var(--padding-8);
+  border-block-end: 2px solid transparent;
+}
+.tablePreview td:first-child {
+  padding: 0px;
+  min-width: 70px;
+}
+
+.headerRow {
+  background-color: var(--color-dark-blue30);
+}
+.insertButton {
+  padding: 10px 20px;
+  background-color: var(--color-dark-blue);
+  color: var(--color-white);
+  border: none;
+  border-radius: var(--br5);
+  cursor: pointer;
+  transition: var(--transition2);
+}
+
+.actionHeader,
+.actionCell {
+  text-align: center;
+  vertical-align: middle;
+  min-width: 80px;
+}
+
+.actionHeader img,
+.actionCell img {
+  cursor: pointer;
+  margin: 5px;
+  width: 24px;
+  height: 24px;
+}
+.highlightedColumn,
+.highlightRemoveRowBg td,
+.highlightRemoveRowBg th {
+  background-color: var(--color-dark-red30);
+  transition: var(--transition3);
+}
+.highlightAddColumnBorder {
+  border-inline-end: 2px solid var(--color-light-green) !important;
+  transition: var(--transition3);
+}
+.highlightAddRowBorder td {
+  border-block-end: 2px solid var(--color-light-green) !important;
+  transition: var(--transition2);
+}
+@media (max-width: 568px) {
+  .highlightAddColumnBorder {
+    border-inline-end: transparent !important;
+  }
+  .highlightAddRowBorder td {
+    border-block-end: 2px solid transparent !important;
+  }
+  .highlightedColumn,
+  .highlightRemoveRowBg td,
+  .highlightRemoveRowBg th {
+    background-color: transparent !important;
+  }
+}

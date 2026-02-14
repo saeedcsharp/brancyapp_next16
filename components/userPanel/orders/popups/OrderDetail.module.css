@@ -1,0 +1,127 @@
+@media (max-width: 480px) {
+  .orderinfoStep > svg,
+  .orderprogressStep > svg,
+  .orderpickupStep > svg,
+  .ordersendStep > svg {
+    height: 20px;
+  }
+}
+
+.popup {
+  width: 595px;
+  max-width: calc(100% - 50px);
+  height: 100%;
+  max-height: calc(100% - 50px);
+  min-width: 250px;
+}
+
+.orderStepactive {
+  height: 50px;
+  width: 50px;
+  min-width: 50px;
+  padding: var(--padding-10);
+  border-radius: var(--br15);
+  background-color: var(--color-dark-blue30);
+  stroke: var(--color-dark-blue);
+  border: 1px solid transparent;
+}
+.orderStep {
+  opacity: 0.6;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  max-height: 50px;
+  background-color: var(--color-gray10);
+  border-radius: var(--br15);
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--padding-5);
+}
+.orderinfoStep {
+  padding: var(--padding-10);
+  min-width: 50px;
+  min-height: 50px;
+  max-width: 50px;
+  max-height: 50px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-gray60);
+  border-radius: var(--br15);
+  cursor: pointer;
+  stroke: var(--color-gray);
+  transition: var(--transition2);
+}
+.orderinfoStep:hover {
+  background-color: var(--color-gray30);
+}
+.orderprogressStep,
+.orderpickupStep,
+.ordersendStep {
+  padding: var(--padding-8);
+  aspect-ratio: 1/1;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--br10);
+  transition: var(--transition2);
+  stroke: var(--color-gray);
+  border: 1px solid transparent;
+}
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  gap: var(--gap-5);
+}
+.loadercircle {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: var(--color-gray);
+}
+
+.closeButton {
+  min-width: 50px;
+  min-height: 50px;
+  max-width: 50px;
+  max-height: 50px;
+  padding: var(--padding-10);
+  border-radius: var(--br15);
+  stroke: var(--color-dark-blue);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: var(--transition2);
+}
+.closeButton:hover {
+  background-color: var(--color-gray30);
+}
+.ordernumber {
+  position: relative;
+  padding: var(--padding-8) var(--padding-16);
+  background-color: var(--color-white);
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+  border-radius: var(--br20);
+}
+.headerStyle {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  max-height: 50px;
+  background-color: var(--color-gray30);
+  border-radius: var(--br25);
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--padding-8);
+}

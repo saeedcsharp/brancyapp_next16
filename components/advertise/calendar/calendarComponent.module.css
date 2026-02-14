@@ -1,0 +1,407 @@
+@media (max-width: 480px) {
+  .calendar {
+    padding: var(--paddingboxmobile) !important;
+    gap: var(--gap-20) !important;
+  }
+}
+.calendar {
+  max-width: 400px;
+  display: flex;
+  gap: var(--gap-30);
+  position: relative;
+  margin: 10px 0;
+  padding: var(--paddingbox);
+  grid-row-end: span 82;
+  border-radius: var(--br25);
+  background-color: var(--color-white);
+
+  font-size: var(--font-12);
+  transition: var(--transition3);
+  color: var(--color-gray);
+  width: 100%;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+
+.calendar:hover {
+  box-shadow: var(--box-shadow);
+}
+
+.Section {
+  position: relative;
+  width: 100%;
+  gap: var(--gap-10);
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition3);
+}
+
+.header {
+  display: flex;
+  position: relative;
+  align-items: center;
+  left: 10px;
+  color: var(--text-h2);
+  font-size: var(--font-18);
+
+  font-weight: var(--weight-800);
+  text-align: left;
+  transition: var(--transition2);
+}
+
+.adslist {
+  width: 100%;
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  gap: var(--gap-10);
+  height: 310px;
+  overflow-x: hidden;
+  overflow-y: scroll;
+  @media (max-width: 950px) {
+    height: 390px !important;
+  }
+}
+
+.nextads {
+  position: relative;
+  min-height: 70px;
+  width: 100%;
+  display: flex;
+  padding: var(--padding-10);
+  gap: var(--gap-5);
+  flex-direction: row;
+  border: 1px solid var(--content-box);
+  border-radius: var(--br15);
+
+  align-items: center;
+  justify-content: space-between;
+  transition: var(--transition2);
+  cursor: pointer;
+}
+.nextads:hover {
+  border: 1px solid var(--color-dark-blue);
+}
+
+.adsection {
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.storyadtime {
+  position: relative;
+  width: 100%;
+  font-weight: var(--weight-600);
+  font-size: var(--font-12);
+  color: var(--color-light-blue);
+}
+.postadtime {
+  position: relative;
+  width: 100%;
+  font-weight: var(--weight-600);
+  font-size: var(--font-12);
+  color: var(--color-purple);
+}
+.campaigntime {
+  position: relative;
+  width: 100%;
+  font-weight: var(--weight-600);
+  font-size: var(--font-12);
+  color: var(--color-dark-yellow);
+}
+.postad {
+  padding: var(--paddingtag);
+  color: var(--color-purple);
+  border-radius: var(--br8);
+  background-color: var(--color-purple30);
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  position: relative;
+  font-weight: var(--weight-600);
+  font-size: var(--font-12);
+}
+.storyad {
+  position: relative;
+  font-weight: var(--weight-600);
+  font-size: var(--font-12);
+  color: var(--color-light-blue);
+  padding: var(--paddingtag);
+  height: fit-content;
+  width: fit-content;
+  border-radius: var(--br8);
+  background-color: var(--color-light-blue30);
+  display: flex;
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.submenu {
+  position: relative;
+  color: var(--text-h2);
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  text-transform: uppercase;
+}
+
+/* ___calendar ___ */
+.calendarmodule {
+  height: max-content;
+}
+.gooli {
+  position: relative;
+  min-width: 5px;
+  min-height: 5px;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+
+  background-color: var(--color-light-blue);
+}
+.multigooli {
+  position: relative;
+  display: flex;
+  gap: var(--gap-3);
+  top: 12px;
+}
+
+.calendarmodule > div > div > div > div:nth-child(2) > div:nth-child(1) > div > div:nth-child(2) {
+  background-color: var(--color-disable) !important;
+  border-radius: var(--br15) var(--gap-15) 0px 0px !important;
+}
+.calendarmodule > div > div > div > div:nth-child(2) > div:nth-child(1) > div > div:nth-child(n + 2) {
+  background-color: var(--color-disable) !important;
+}
+.calendarmodule > div > div > div > div:nth-child(2) > div:nth-child(1) > div > div:last-child {
+  border-radius: 0px 0px var(--br15) var(--br15) !important;
+  padding-bottom: 10px;
+}
+
+/* .calendarmodule -start */
+.calendarmodule > div {
+  border: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  background: transparent !important;
+  height: max-content !important;
+  box-shadow: none !important;
+}
+.calendarmodule > div > div:nth-child(1) {
+  padding: 0px;
+  border-bottom: 0px !important;
+}
+.calendarmodule > div > div:nth-child(2) {
+  padding: 0px;
+  border-top: 1px solid var(--color-gray30) !important;
+}
+
+.calendarmodule > div > div:nth-child(1) > div:nth-child(1) {
+  width: 100% !important;
+  padding: 0px !important;
+}
+/* .calendarmodule - end */
+/* header -start */
+
+.calendarmodule > div > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) {
+  padding: 0px !important;
+  margin: 0 !important;
+  font-size: var(--font-14) !important;
+  font-weight: var(--weight-400);
+}
+
+.calendarmodule > div > div > div > div > div > div {
+  width: 100%;
+  margin: 0px !important;
+  color: var(--color-light-blue) !important;
+}
+
+.calendarmodule > div > div > div > div:nth-child(2) > div:nth-child(1) > div > div:nth-child(1) {
+  color: var(--color-light-blue) !important;
+  width: 100%;
+  margin: 0px !important;
+}
+
+.calendarmodule > div > div > div > div > div > button:nth-child(3),
+.calendarmodule > div > div > div > div > div > button:nth-child(1) {
+  margin: 5px 0px !important;
+  height: 17px !important;
+  width: 20px !important;
+  align-items: center !important;
+  padding: 0px !important;
+
+  margin: 0px !important;
+  transition: var(--transition1);
+}
+.calendarmodule > div > div > div > div > div > button:nth-child(3) > i,
+.calendarmodule > div > div > div > div > div > button:nth-child(1) > i {
+  height: 7px !important;
+  margin-top: 0px !important;
+  padding: 0px !important;
+  width: 7px !important;
+  border-radius: 2px 3px 4px 2px !important;
+  border-width: 0 3px 3px 0 !important;
+  border: solid var(--color-light-blue);
+}
+.calendarmodule > div > div > div > div > div > button:nth-child(3):hover,
+.calendarmodule > div > div > div > div > div > button:nth-child(1):hover {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  color: var(--color-light-blue) !important;
+}
+.calendarmodule > div > div > div > div > div > button:nth-child(1):active {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  transform: translatex(-3px) !important;
+}
+.calendarmodule > div > div > div > div > div > button:nth-child(3):active {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  transform: translatex(3px) !important;
+}
+
+.calendarmodule > div > div > div > div > div > div > span {
+  padding: 0 var(--padding-10) 0 var(--padding-10) !important;
+}
+/* header -end */
+/* day - start */
+.calendarmodule > div > div > div > div:nth-child(2) {
+  padding: 0px 0px var(--padding-10) 0px !important;
+}
+
+.calendarmodule > div > div > div > div:nth-child(2) > div:nth-child(1),
+.calendarmodule > div > div > div > div:nth-child(2) > div:nth-child(2),
+.calendarmodule > div > div > div > div:nth-child(2) > div:nth-child(3) {
+  padding: 0px !important;
+  background-color: var(--color-white) !important;
+  border-radius: 0px !important;
+  bottom: 0px !important;
+  left: 0px !important;
+  right: 0px !important;
+  top: 0px !important;
+}
+
+.calendarmodule > div > div > div > div > div > div > div > div {
+  text-transform: uppercase;
+  width: 100% !important;
+  max-width: 100% !important;
+  aspect-ratio: 1/1 !important;
+  height: 100% !important;
+  font-size: var(--font-12);
+  font-weight: var(--weight-600);
+}
+
+.calendarmodule > div > div > div > div > div > div > div:nth-child(n + 2) > div {
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  text-transform: uppercase !important;
+
+  font-size: var(--font-12) !important;
+  font-weight: var(--weight-400) !important;
+  color: var(--text-h1) !important;
+}
+.calendarmodule > div > div > div > div > div > div > div:nth-child(n + 2) > div > span {
+  width: 70% !important;
+  height: 70% !important;
+  display: flex !important;
+  font-size: var(--font-14);
+  border-radius: var(--br10) !important;
+  bottom: auto !important;
+  left: auto !important;
+  position: relative !important;
+  right: auto !important;
+  top: auto !important;
+  align-items: center !important;
+  justify-content: center !important;
+}
+.calendarmodule > div > div > div > div > div > div > div:nth-child(n + 2) > div > span:hover {
+  box-shadow: none !important;
+  background-color: var(--color-dark-blue60) !important;
+  border: 1px solid var(--color-dark-blue) !important;
+  color: var(--text-h1) !important;
+}
+/* day - end */
+/* time picker -start- */
+.calendarmodule > div > div:nth-child(2) > div {
+  justify-self: center;
+  padding: 0px !important;
+  min-width: 150px !important;
+  width: 150px;
+  margin-top: 5px !important;
+  color: var(--text-h2) !important;
+  font-weight: var(--weight-400) !important;
+}
+.calendarmodule > div > div:nth-child(2) > div > div:nth-child(n + 1) > button:nth-child(3) {
+  margin: 5px 0px !important;
+  height: 20px !important;
+  width: 20px !important;
+  align-items: center !important;
+  padding: var(--padding-3) !important;
+
+  content: url("/down-arrow.svg");
+  transition: var(--transition1);
+}
+.calendarmodule > div > div:nth-child(2) > div > div:nth-child(n + 1) > button:nth-child(1):hover,
+.calendarmodule > div > div:nth-child(2) > div > div:nth-child(n + 1) > button:nth-child(3):hover {
+  background-color: transparent !important;
+  box-shadow: none !important;
+}
+.calendarmodule > div > div:nth-child(2) > div > div:nth-child(n + 1) > button:nth-child(1):active,
+.calendarmodule > div > div:nth-child(2) > div > div:nth-child(n + 1) > button:nth-child(3):active {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  transform: translatey(-3px) !important;
+}
+.calendarmodule > div > div:nth-child(2) > div > div:nth-child(n + 1) > button:nth-child(3):active {
+  background-color: transparent !important;
+  box-shadow: none !important;
+  transform: translatey(3px) !important;
+}
+
+.calendarmodule > div > div:nth-child(2) > div > div:nth-child(n + 1) > button:nth-child(1) {
+  margin: 5px 0px !important;
+  height: 20px !important;
+  width: 20px !important;
+  align-items: center !important;
+  padding: var(--padding-3) !important;
+
+  content: url("/up-arrow.svg") !important;
+  transition: var(--transition1);
+}
+
+.calendarmodule > div > div:nth-child(2) > div > div:nth-child(n + 1) > input,
+.calendarmodule > div > div:nth-child(2) > div > div:nth-child(n + 1) > div:nth-child(2) {
+  padding: var(--padding-10) !important;
+  height: 45px !important;
+  width: 40px !important;
+
+  margin: 0px !important;
+  border: 1px solid var(--color-gray60) !important;
+  border-radius: var(--br8) !important;
+
+  background-color: transparent !important;
+  color: var(--text-h1) !important;
+  font-weight: var(--weight-400) !important;
+}
+/* time picker -end- */
+
+.calendarmodule > div > div:nth-child(2) > div > div:nth-child(n + 1) > input,
+.calendarmodule > div > div:nth-child(2) > div > div:nth-child(n + 1) > div:nth-child(2) {
+  padding: var(--padding-10) !important;
+  height: 45px !important;
+  width: 40px !important;
+
+  margin: 0px !important;
+  border: 1px solid var(--color-gray60) !important;
+  border-radius: var(--br8) !important;
+
+  background-color: transparent !important;
+  color: var(--text-h1) !important;
+  font-weight: var(--weight-400) !important;
+}

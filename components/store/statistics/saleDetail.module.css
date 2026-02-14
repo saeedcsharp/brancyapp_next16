@@ -1,0 +1,95 @@
+/* Modal Styles */
+.modalOverlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modalContent {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  max-width: 80%;
+  max-height: 80%;
+  overflow: auto;
+}
+
+.saleDetailContainer {
+  min-width: 400px;
+  min-height: 300px;
+}
+
+.saleDetailHeader {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 20px;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 10px;
+}
+
+.saleDetailHeader h2 {
+  margin: 0;
+  color: #333;
+}
+
+.closeButton {
+  background: none;
+  border: none;
+  font-size: 24px;
+  cursor: pointer;
+  color: #666;
+  padding: 0;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.closeButton:hover {
+  color: #333;
+}
+
+.saleDetailContent {
+  color: #333;
+}
+
+/* New styles to match AdDetails structure */
+.header {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--gap-5);
+  justify-content: space-between;
+}
+
+.saleheader {
+  position: relative;
+  display: flex;
+  gap: var(--gap-10);
+  align-items: center;
+}
+
+.salemodel {
+  position: relative;
+  color: var(--text-h1);
+  font-weight: var(--weight-600);
+  font-size: var(--font-16);
+}
+
+.salenumber {
+  position: relative;
+  color: var(--text-h2);
+  font-weight: var(--weight-600);
+  font-size: var(--font-16);
+}

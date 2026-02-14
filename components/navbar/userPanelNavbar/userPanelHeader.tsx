@@ -1,0 +1,176 @@
+import { useSession } from "next-auth/react";
+import { MouseEvent, useContext, useEffect, useRef, useState } from "react";
+import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
+import { InstaInfoContext } from "saeed/context/instaInfoContext";
+import { handleDecompress } from "saeed/helper/pako";
+import { getHubConnection } from "saeed/helper/pushNotif";
+import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { PushNotif } from "saeed/models/push/pushNotif";
+import { IUserInfo } from "saeed/models/userPanel/login";
+import NavbarUserMobile from "../instagramerNavbar/navbar_user_mobile";
+import UserNotificationBar from "./userNotificationBar";
+import styles from "./userPanelHeader.module.css";
+import UserProfile from "./userProfile";
+const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+interface UserPanelHeaderProps {
+  handleShowHamMenu: (ham: string) => void;
+  handleShowNotifBar: (e: MouseEvent) => void;
+  handleShowProfile: (e: MouseEvent) => void;
+  handleShowSignOut: (e: MouseEvent) => void;
+  handleShowUpgrade: (e: MouseEvent) => void;
+  handleShowSwitch: (e: MouseEvent) => void;
+  showNotifBar: boolean;
+  showProfile: boolean;
+}
+const UserPanelHeader: React.FC<UserPanelHeaderProps> = ({
+  handleShowHamMenu,
+  handleShowNotifBar,
+  handleShowProfile,
+  handleShowSignOut,
+  handleShowSwitch,
+  showNotifBar,
+  showProfile,
+}) => {
+  const { data: session } = useSession();
+  const [isFirstLoad, setIsFirstLoad] = useState(true);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [gooli, setGooli] = useState(false);
+  const fullscreenButtonRef = useRef<HTMLDivElement>(null);
+  const [userProfile, setUserProfile] = useState<string | null>(null);
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+      setIsFullscreen(true);
+    } else {
+      document.exitFullscreen();
+      setIsFullscreen(false);
+    }
+  };
+  // const [navbarNotifs, setNavbarNotifs] = useState<PushNotif[]>([]);
+  const { value, setValue } = useContext(InstaInfoContext) ?? {};
+  function handleGetNotif(notif: string) {
+    console.log("Notif in user navbar header", notif);
+    const decombNotif = handleDecompress(notif);
+    console.log("decombNotif in user navbar header", decombNotif);
+    const notifObj = JSON.parse(decombNotif!) as PushNotif;
+    if (notifObj.IsNavbar) {
+      console.log("decomb Message in user navbar header", JSON.parse(notifObj.Message!));
+      // setNavbarNotifs((prev) => [notifObj, ...prev]);
+      if (setValue && session!.user.currentIndex === -1) setValue((prev) => [notifObj, ...prev]);
+      if (!showNotifBar) setGooli(true);
+    }
+  }
+  function handleDeleteNotif(index: number) {
+    if (setValue) setValue((prev) => prev.filter((_, i) => i !== index));
+  }
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      if (!isFirstLoad) return;
+      const hubConnection = getHubConnection();
+      if (hubConnection) {
+        console.log("user interval pushnotif");
+        hubConnection.off("User", handleGetNotif);
+        hubConnection.on("User", handleGetNotif);
+        clearInterval(intervalId);
+        setIsFirstLoad(false);
+      }
+    }, 500);
+  }, []);
+  async function fetchData() {
+    try {
+      const res = await GetServerResult<boolean, IUserInfo>(MethodType.get, session, "User/Account/GetTitleInfo");
+      if (res.succeeded) {
+        setUserProfile(res.value.profileUrl);
+      } else notify(res.info.responseType, NotifType.Warning);
+    } catch (error) {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    }
+  }
+  useEffect(() => {
+    if (!session) return;
+    fetchData();
+  }, [session]);
+  return (
+    <>
+      <nav className={styles.pageheadersmobile}>
+        <NavbarUserMobile handleShowHamMenu={handleShowHamMenu} />
+      </nav>
+      <div className={styles.pageheaders}>
+        <div className={styles.pageHeaderIcons}>
+          {/* <div
+            onClick={props.handleShowSearchBar}
+            id="showSearchBar"
+            className={styles.search}
+          >
+            <svg className={styles.icon} fill="none" viewBox="0 0 24 24">
+              <path
+                d="M19.7 17.4h-1.2L18 17a10.3 10.3 0 1 0-1 1l.4.5v1.3l4.2 4.2 2.4-2.4zm-9.4 0a7.1 7.1 0 1 1 0-14.2 7.1 7.1 0 0 1 0 14.2"
+                fill="var(--color-light-blue)"
+              />
+            </svg>
+          </div> */}
+          <div className={styles.fullscreen} onClick={toggleFullscreen} ref={fullscreenButtonRef}>
+            {isFullscreen ? (
+              <svg className={styles.icon} width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M8 3V6C8 6.53043 7.78929 7.03914 7.41421 7.41421C7.03914 7.78929 6.53043 8 6 8H3M21 8H18C17.4696 8 16.9609 7.78929 16.5858 7.41421C16.2107 7.03914 16 6.53043 16 6V3M16 21V18C16 17.4696 16.2107 16.9609 16.5858 16.5858C16.9609 16.2107 17.4696 16 18 16H21M3 16H6C6.53043 16 7.03914 16.2107 7.41421 16.5858C7.78929 16.9609 8 17.4696 8 18V21"
+                  stroke="var(--color-light-blue)"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            ) : (
+              <svg className={styles.icon} width="24" height="24" viewBox="0 0 24 24" fill="none">
+                <path
+                  d="M8 3H5C4.46957 3 3.96086 3.21071 3.58579 3.58579C3.21071 3.96086 3 4.46957 3 5V8M21 8V5C21 4.46957 20.7893 3.96086 20.4142 3.58579C20.0391 3.21071 19.5304 3 19 3H16M16 21H19C19.5304 21 20.0391 20.7893 20.4142 20.4142C20.7893 20.0391 21 19.5304 21 19V16M3 16V19C3 19.5304 3.21071 20.0391 3.58579 20.4142C3.96086 20.7893 4.46957 21 5 21H8"
+                  stroke="var(--color-light-blue)"
+                  strokeWidth="3.5"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                />
+              </svg>
+            )}
+          </div>
+          <div
+            onClick={(e) => {
+              handleShowNotifBar(e), setGooli(false);
+            }}
+            id="showNotifhBar"
+            className={styles.notif}>
+            <svg fill="none" className={styles.icon} viewBox="0 0 21 25">
+              <path
+                d="M19.4 18.2h-18a1.5 1.5 0 0 1-.8-2.7l.3-.3.1-.2.7-1Q3 11 2.9 7.7v-.3a7.5 7.5 0 0 1 15 .3q0 3.3 1.2 6.3l.8 1.2h.1l.1.2h.1l.2.2a1.5 1.5 0 0 1-1 2.6m-9-15a4.5 4.5 0 0 0-4.5 4.5q0 3.8-1.4 7.3l-.1.2h12V15a17 17 0 0 1-1.5-7v-.4a4.5 4.5 0 0 0-4.5-4.5m1.9 17.5a1.5 1.5 0 0 1 2.2 2q-.9.9-1.9 1.2a7 7 0 0 1-4.4 0q-1-.4-1.9-1.1a1.5 1.5 0 1 1 2-2.3h.2l.6.5a4 4 0 0 0 2.6 0z"
+                fill="var(--color-light-blue)"
+              />
+            </svg>
+
+            {gooli && session?.user.currentIndex === -1 && <div className={styles.gooli} />}
+          </div>
+          <img
+            loading="lazy"
+            decoding="async"
+            onClick={handleShowProfile}
+            className={styles.ProfileIcon}
+            alt="instagram profile picture"
+            src={userProfile ? baseMediaUrl + userProfile : "/no-profile.svg"}
+          />
+        </div>
+        {/* {props.showSearchBar && (
+        {showNotifBar && <NotificationBar data={"0"} />}
+        )} */}
+        {showNotifBar && (
+          <UserNotificationBar
+            data={session?.user.currentIndex === -1 && value ? value : []}
+            handleDeleteNotif={handleDeleteNotif}
+          />
+        )}
+        {showProfile && (
+          <UserProfile data="Profile" handleShowSignOut={handleShowSignOut} handleShowSwitch={handleShowSwitch} />
+        )}
+      </div>
+    </>
+  );
+};
+
+export default UserPanelHeader;

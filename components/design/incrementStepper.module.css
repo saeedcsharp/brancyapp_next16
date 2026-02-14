@@ -1,0 +1,95 @@
+.stepper {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: var(--gap-10);
+  width: 100px;
+  height: 35px;
+  border-radius: var(--br10);
+
+  padding: 0 var(--padding-8);
+  background-color: var(--color-gray30);
+  transition: var(--transition3);
+}
+.stepper:hover {
+  box-shadow: 0 0 0 3px var(--color-gray10);
+}
+.icon {
+  position: relative;
+  cursor: pointer;
+  position: relative;
+  display: flex;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  transition: var(--transition3);
+  border-radius: var(--br5);
+
+  align-items: center;
+  justify-content: center;
+}
+.icon:hover {
+  background-color: var(--color-gray30);
+
+  transform: scale(1.1);
+}
+.icon:active {
+  transform: scale(0.96);
+}
+
+.value {
+  text-align: center;
+  color: var(--text-h1);
+  font-size: var(--font-16);
+  font-weight: var(--weight-400);
+  width: 21px;
+}
+
+.icon:disabled {
+  position: relative;
+  cursor: no-drop;
+  position: relative;
+  display: flex;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  background-color: var(--color-gray60);
+  border: 1px solid var(--color-gray);
+  border-radius: 50%;
+
+  align-items: center;
+  justify-content: center;
+}
+.value:disabled {
+  color: var(--color-gray);
+  font-size: var(--font-16);
+  font-weight: var(--weight-400);
+  width: 21px;
+  cursor: no-drop;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-1px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(1px);
+  }
+}
+
+.shake {
+  animation: shake 0.5s ease-in-out;
+}

@@ -1,0 +1,363 @@
+.postsContainer {
+  padding-inline: 10px;
+  margin-inline: 20px;
+  padding-bottom: 30px;
+  width: calc(100% - 40px);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: var(--gap-20);
+}
+
+.frameContainer {
+  animation: var(--bottom14);
+  padding-top: var(--padding-5);
+  will-change: transform;
+  contain: layout style paint;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-evenly;
+  overflow: hidden;
+  position: relative;
+  display: flex;
+  gap: var(--gap-20);
+  opacity: 0;
+}
+html[dir="rtl"] .frameContainer {
+  flex-direction: row-reverse !important;
+}
+
+@media (max-width: 768px) {
+  .postsContainer {
+    margin-inline: 0px !important;
+    width: 100% !important;
+  }
+  .post,
+  .draft,
+  .error {
+    max-width: 200px !important;
+    height: 260px !important;
+  }
+  .icon {
+    height: 15px !important;
+  }
+  .postinfo,
+  .draftinfo {
+    margin: 13px !important;
+    font-size: var(--font-14) !important;
+  }
+  .frameContainer {
+    width: calc(100% - 20px) !important;
+    left: 0px !important;
+    row-gap: var(--gap-20);
+    column-gap: var(--gap-10);
+    margin-inline: 10px !important;
+  }
+  .drafttitle {
+    position: relative;
+    font-size: var(--font-12) !important;
+    font-weight: var(--weight-400);
+  }
+  .counter {
+    height: 15px !important;
+    font-size: var(--font-14) !important;
+    font-weight: var(--weight-400) !important;
+  }
+  .postid,
+  .createpostid {
+    font-weight: var(--weight-400) !important;
+    font-size: var(--font-10) !important;
+  }
+  .counterpopup {
+    padding: var(--padding-5) !important;
+    min-width: 60px !important;
+    border-radius: var(--br8) !important;
+    font-size: var(--font-14) !important;
+    font-weight: var(--weight-400) !important;
+    bottom: -40px !important;
+  }
+  .postimage {
+    min-height: 174px !important;
+  }
+  .newcomment {
+    top: 18px !important;
+    left: 3px !important;
+    height: 4px !important;
+    width: 4px !important;
+  }
+}
+@media (max-width: 500px) {
+  .post,
+  .draft,
+  .error {
+    max-width: 165px !important;
+    height: 220px !important;
+  }
+  .postinfo,
+  .draftinfo {
+    margin: 10px !important;
+    font-size: var(--font-12) !important;
+  }
+  .counter {
+    gap: var(--gap-5) !important;
+    height: 12px !important;
+    font-size: var(--font-12) !important;
+    font-weight: var(--weight-400) !important;
+  }
+
+  .counterpopup {
+    padding: var(--padding-5) !important;
+    min-width: 60px !important;
+    border-radius: var(--br8) !important;
+    font-size: var(--font-12) !important;
+    font-weight: var(--weight-400) !important;
+    bottom: -35px !important;
+  }
+  .engagmentinfo {
+    row-gap: var(--gap-10) !important;
+  }
+  .postimage {
+    min-height: 145px !important;
+  }
+  .cardbackground {
+    border-radius: var(--br20) !important;
+  }
+}
+.post,
+.draft,
+.error {
+  position: relative;
+  max-width: 250px;
+  display: flex;
+  width: 100%;
+  height: 320px;
+  justify-content: center;
+  transition: var(--transition3);
+  will-change: transform;
+  contain: layout style paint;
+}
+
+.cardbackground {
+  width: 100%;
+  background-color: var(--color-white);
+  position: absolute;
+  height: 100%;
+  border-radius: var(--br25);
+  transition: var(--transition3);
+  will-change: transform;
+  backface-visibility: hidden;
+}
+.newpost {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  background-color: var(--color-gray30);
+  border-radius: var(--br10);
+  display: flex;
+  align-content: center;
+  justify-content: center;
+  gap: var(--gap-10);
+  align-items: center;
+  flex-direction: column;
+}
+.postidandmenu {
+  display: flex;
+  position: absolute;
+  align-items: center;
+  flex-direction: row;
+  top: 10px;
+  width: 100%;
+  padding-inline: 10px;
+  justify-content: space-between;
+}
+html[dir="rtl"] .postidandmenu {
+  flex-direction: row-reverse !important;
+}
+
+.postinfo,
+.draftinfo {
+  gap: var(--gap-15);
+  position: relative;
+  display: flex;
+  width: 100%;
+  margin: 15px;
+  flex-direction: column;
+  align-content: center;
+  justify-content: flex-start;
+  align-items: center;
+  color: var(--text-h2);
+  font-size: var(--font-16);
+}
+.post:hover .cardbackground {
+  transform: scale(1.02);
+}
+
+.engagmentinfo {
+  position: relative;
+  display: flex;
+  row-gap: var(--gap-15);
+  width: 100%;
+  flex-wrap: wrap;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-content: flex-start;
+}
+.engagmentinfo > div {
+  min-width: 40%;
+}
+.counter {
+  position: relative;
+  display: flex;
+  width: 40%;
+  height: 20px;
+  line-height: 20px;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--gap-10);
+  text-wrap: nowrap;
+  color: var(--text-h2);
+  font-size: var(--font-14);
+  font-weight: var(--weight-500);
+}
+.icon {
+  position: relative;
+  width: 20px;
+  height: auto;
+}
+.newcomment {
+  position: absolute;
+  top: 25px;
+  left: 5px;
+  height: 5px;
+  width: 5px;
+  border-radius: 50%;
+  background-color: var(--color-dark-red);
+}
+.postimage {
+  position: relative;
+  max-width: 100%;
+  min-height: 220px;
+  width: 100% !important;
+  height: auto !important;
+  aspect-ratio: 1 / 1;
+  background-color: var(--color-gray10);
+  border-radius: var(--br10);
+  overflow: hidden;
+  contain: layout style paint;
+  transform: translateZ(0);
+  object-fit: cover;
+}
+
+.counterpopup {
+  position: absolute;
+  padding: var(--padding-8);
+  top: -50px;
+  min-width: 60px;
+  border-radius: var(--br10);
+  background-color: var(--background-root);
+  box-shadow: var(--box-shadow);
+  color: var(--text-h2);
+  font-size: var(--font-16);
+  font-weight: var(--weight-400);
+  text-transform: uppercase;
+  text-align: center;
+  z-index: 1;
+  transition: var(--transition3);
+  animation: var(--top04);
+}
+.counterpopup::after {
+  content: " ";
+  position: absolute;
+  left: 50%;
+  bottom: -12px;
+  z-index: 5;
+  width: 13px;
+  height: 13px;
+  transform: rotate(45deg) translatex(-50%);
+  border-top-left-radius: var(--br5);
+  background-color: var(--background-root);
+}
+
+.postid {
+  padding: var(--paddingtag);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-white);
+  text-wrap: nowrap;
+  min-width: 35px;
+  border-radius: var(--br8);
+  font-weight: var(--weight-400);
+  font-size: var(--font-12);
+  color: var(--text-h2);
+}
+.createpostid {
+  padding: var(--paddingtag);
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: var(--color-white);
+  text-wrap: nowrap;
+  min-width: 35px;
+  border-radius: var(--br8);
+  font-weight: var(--weight-400);
+  font-size: var(--font-12);
+  color: var(--text-h2);
+}
+
+.drafttitle {
+  position: relative;
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+}
+.draftpreviewall {
+  position: relative;
+  width: 100%;
+  height: 80%;
+  display: flex;
+  flex-wrap: wrap;
+  flex-direction: row;
+  column-gap: var(--gap-10);
+  row-gap: var(--gap-8);
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+}
+
+.draftpreview {
+  background-color: var(--color-gray60);
+  border-radius: var(--br15);
+  position: relative;
+  width: 33%;
+  display: flex;
+  aspect-ratio: 1 / 1;
+  transition: var(--transition2);
+  align-items: center;
+  justify-content: center;
+}
+
+.draftpreviewimage {
+  width: 100% !important;
+  height: 100% !important;
+  aspect-ratio: 1 / 1;
+  position: relative;
+  border-radius: var(--br15);
+  transition: var(--transition2);
+}
+.draftpreview:hover {
+  scale: 1.05;
+}
+
+.deleted {
+  opacity: 0.5;
+  filter: grayscale(1);
+}
+
+.deleted .cardbackground {
+  background-color: var(--color-gray30);
+}

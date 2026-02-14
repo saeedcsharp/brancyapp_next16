@@ -1,0 +1,192 @@
+.schedulStories {
+  /* margin-inline: 20px; */
+  display: flex;
+  flex-direction: column;
+  /* width: calc(100% - 40px); */
+  width: 100%;
+  animation: var(--bottom08);
+  transition: var(--transition3);
+  border-radius: var(--br25);
+  background-color: var(--color-white);
+  gap: var(--gap-20);
+  height: 100%;
+  min-height: 370px;
+  max-height: 370px;
+  padding: var(--paddingbox);
+  justify-content: space-between;
+}
+.schedulStories:hover {
+  box-shadow: var(--box-shadow);
+}
+
+/* ___navigation___ */
+.forwardbutton,
+.backbutton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  min-height: 30px;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--br10);
+  background-color: var(--color-dark-blue);
+  color: #fff;
+  cursor: pointer;
+  transition: var(--transition2);
+}
+.forwardbutton:hover:not(:disabled),
+.backbutton:hover:not(:disabled) {
+  transform: scale(1.1);
+}
+.forwardbutton:disabled,
+.backbutton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+html[dir="rtl"] .forwardbutton,
+html[dir="rtl"] .backbutton {
+  transform: rotate(180deg);
+}
+html[dir="rtl"] .forwardbutton:hover:not(:disabled),
+html[dir="rtl"] .backbutton:hover:not(:disabled) {
+  transform: rotate(180deg) scale(1.1);
+}
+/* ___thereAreNostory___ */
+.thereAreNostoryParent {
+  padding-inline: var(--padding-20);
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-20);
+  width: -moz-fit-content;
+  width: fit-content;
+  height: 300px;
+  color: var(--text-h1);
+  font-size: var(--font-16);
+  font-weight: var(--weight-600);
+}
+
+/* ___swiper___ */
+.schedulStorysswiper {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-10);
+  width: 100%;
+  height: 100%;
+}
+.cardStoryTimerParent {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--gap-10);
+  overflow-x: scroll;
+  overflow-y: hidden;
+  padding: var(--padding-10);
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 0;
+  -webkit-overflow-scrolling: touch;
+  user-select: none;
+  transition: var(--transition3);
+}
+.cardStoryTimer {
+  display: flex;
+  position: relative;
+  height: 245px;
+  aspect-ratio: 9/16;
+  border-radius: var(--br15);
+  flex-direction: column-reverse;
+  transition: var(--transition3);
+  min-width: 120px;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+.StoryCount {
+  color: var(--color-ffffff);
+  text-align: center;
+  font-size: var(--font-12);
+}
+.advertiseIcon {
+  height: 20px;
+  width: 20px;
+}
+.storyimageandcover {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: var(--br10);
+  background-color: var(--color-black80);
+}
+
+.cover {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: var(--br10);
+  background-color: var(--color-black80);
+}
+.storyimage {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  border-radius: var(--br10);
+  -o-object-fit: cover;
+  object-fit: cover;
+  transition: var(--transition3);
+}
+.cardStoryTimer:hover .storyimage {
+  scale: 0.95;
+}
+.storyconent {
+  display: flex;
+  position: absolute;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-evenly;
+  width: 100%;
+  height: 100%;
+  align-content: center;
+  flex-wrap: nowrap;
+}
+.storyconent > div {
+  display: flex;
+  flex-direction: column;
+  top: 0px;
+  left: 0px;
+  transform: none;
+  gap: var(--gap-5);
+}
+
+.deleteIcon {
+  position: absolute;
+  bottom: 5px;
+  right: 5px;
+  /* left: 50%;
+  transform: translateX(-50%); */
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+}
+@media (max-width: 500px) {
+  .schedulStories {
+    padding: var(--paddingboxmobile) !important;
+    margin-inline: 10px !important;
+    width: calc(100% - 20px) !important;
+  }
+  .forwardbutton,
+  .backbutton {
+    display: none !important;
+  }
+}

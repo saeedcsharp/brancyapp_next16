@@ -1,0 +1,15 @@
+/* OnMessageNode Styles */
+
+.nodeContainer {
+  /* border-color: #27ae60; */
+}
+
+.container {
+  padding: 8px;
+  text-align: center;
+  color: #27ae60;
+  font-weight: 600;
+  font-size: 13px;
+  background: linear-gradient(135deg, rgba(39, 174, 96, 0.05) 0%, rgba(39, 174, 96, 0.15) 100%);
+  border-radius: 4px;
+}

@@ -1,0 +1,89 @@
+.newvariation {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 116;
+  transition: var(--transition3);
+  border-radius: var(--br25);
+  background: var(--color-white);
+  border: 3px solid var(--box-border);
+  padding: var(--paddingbox);
+  justify-content: space-between;
+  width: 395px;
+  max-width: calc(100% - 50px);
+  height: 700px;
+  max-height: calc(100% - 50px);
+  min-width: 250px;
+  gap: var(--gap-20);
+  overflow-y: scroll;
+  animation: var(--fadeIn3);
+}
+
+@media (max-width: 480px) {
+  .newvariation {
+    padding: var(--paddingboxmobile) !important;
+    max-width: calc(100% - 20px) !important;
+    max-height: calc(100% - 20px) !important;
+  }
+}
+.content {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-20);
+}
+.tagsContainer {
+  position: relative;
+  display: flex;
+  gap: var(--gap-10);
+  flex-wrap: wrap;
+  /* width: 100%;
+  height: 100%; */
+  min-height: 200px;
+  max-height: fit-content;
+  border: 1px solid var(--content-box);
+  background-color: var(--color-gray10);
+  padding: var(--padding-10);
+  border-radius: 0px var(--br8) var(--br8) var(--br8);
+  overflow-y: scroll;
+  justify-content: flex-start;
+  align-content: flex-start;
+  align-items: flex-start;
+  transition: var(--transition3);
+}
+
+html[dir="rtl"] .tagsContainer {
+  border-radius: var(--br8) 0px var(--br8) var(--br8);
+}
+
+.tag {
+  display: flex;
+  align-items: center;
+  color: var(--text-h1);
+
+  background-color: var(--background-root);
+  padding: var(--padding-5) var(--padding-8);
+  border-radius: var(--br8);
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  gap: var(--gap-8);
+  transition: var(--transition3);
+}
+.tagcolor {
+  width: 13px;
+  height: 13px;
+  border-radius: 50%;
+}
+.namesection {
+  display: flex;
+  gap: var(--gap-5);
+  width: 100%;
+  justify-content: space-between;
+}
+/* html[dir="rtl"] {
+} */

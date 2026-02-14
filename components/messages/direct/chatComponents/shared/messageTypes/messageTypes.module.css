@@ -1,0 +1,146 @@
+/* Message Type Styles */
+
+/* Left/Right Chat Containers */
+.leftchat,
+.rightchat {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: var(--gap-10);
+}
+.leftchat {
+  flex-direction: row;
+}
+.rightchat {
+  flex-direction: row-reverse;
+}
+/* Chat with Reply Containers */
+.leftchatwithreply,
+.rightchatwithreply {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-5);
+}
+.leftchatwithreply {
+  align-items: flex-start;
+}
+.rightchatwithreply {
+  align-items: flex-end;
+}
+/* Voice Message Styles */
+.chatvoice {
+  max-height: 35px;
+}
+/* Text Message Bubbles */
+.rightchatMSG,
+.leftchatMSG {
+  position: relative;
+  text-align: left;
+  display: flex;
+  flex-direction: column;
+  line-height: 18px;
+  padding: var(--padding-5) var(--padding-10);
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  letter-spacing: 0.5px;
+  white-space-collapse: preserve;
+  overflow-wrap: anywhere;
+  word-wrap: break-word;
+}
+.rightchatMSG {
+  border-radius: var(--br8) 0px var(--br8) var(--br8);
+  background: var(--color-dark-blue);
+  color: var(--color-ffffff);
+}
+.leftchatMSG {
+  border-radius: 0px var(--br8) var(--br8) var(--br8);
+  background-color: var(--color-light-blue30);
+  color: var(--text-h1);
+}
+/* ------------------------------------------------------- */
+/* Child Containers for Multiple Messages */
+.multiChatRow {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-5);
+  transition: var(--transition3);
+}
+
+/* Replied Message Styles */
+.leftrepliedmsg {
+  border-left: 3px solid var(--color-light-blue30);
+  text-align: left;
+  height: 46px;
+  border-radius: 0px var(--br10) var(--br10) 0px;
+  background: var(--color-light-blue30);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  color: var(--text-h1);
+  position: relative;
+  padding: var(--padding-5) var(--padding-10) 0px var(--padding-10);
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+}
+
+.leftrepliedmsgdiscription {
+  text-align: left;
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  overflow: hidden;
+  color: var(--text-h1);
+  position: relative;
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  bottom: 3px;
+}
+
+.rightrepliedmsg {
+  border-right: 3px solid var(--color-dark-blue);
+  text-align: left;
+  height: 46px;
+  border-radius: var(--br10) 0px 0px var(--br10);
+  background: var(--color-dark-blue30);
+  display: -webkit-box;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  overflow: hidden;
+  color: var(--text-h1);
+  position: relative;
+  padding: var(--padding-5) var(--padding-10) 0px var(--padding-10);
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+}
+
+.rightrepliedmsgdiscription {
+  text-align: left;
+  -webkit-line-clamp: 1;
+  line-clamp: 1;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  display: -webkit-box;
+  overflow: hidden;
+  color: var(--text-h1);
+  position: relative;
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  bottom: 3px;
+}
+.multimedia {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  align-items: center;
+  cursor: pointer;
+  transition: var(--transition2);
+  gap: var(--gap-10);
+}

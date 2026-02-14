@@ -1,0 +1,23 @@
+.optiontext {
+  position: relative;
+  display: flex;
+  color: var(--color-gray);
+  background-color: var(--color-gray30);
+  padding: var(--padding-5);
+  border-radius: var(--br8);
+  font-size: var(--font-12);
+  font-weight: var(--weight-500);
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  min-width: 80px;
+  text-wrap: nowrap;
+  transition: var(--transition3);
+  @media (max-width: 720px) {
+    padding: var(--paddingtag);
+    min-width: fit-content !important;
+    font-size: var(--font-10) !important;
+    font-weight: var(--weight-500) !important;
+    border-radius: var(--br5) !important;
+  }
+}

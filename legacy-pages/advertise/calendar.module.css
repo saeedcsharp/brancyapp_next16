@@ -1,0 +1,20 @@
+.pinContainer {
+  width: calc(100% - 40px);
+  margin-inline: 20px;
+  display: grid;
+  -moz-column-gap: var(--gap-20);
+  column-gap: var(--gap-20);
+  grid-template-columns: minmax(200px, 400px) minmax(200px, 100%);
+  grid-auto-rows: 10px;
+  position: relative;
+  justify-content: center;
+  justify-items: center;
+  animation: var(--bottom14);
+  transition: var(--transition3);
+}
+
+@media (max-width: 950px) {
+  .pinContainer {
+    grid-template-columns: minmax(200px, 1fr);
+  }
+}

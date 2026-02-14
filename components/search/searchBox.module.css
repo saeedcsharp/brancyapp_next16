@@ -1,0 +1,14 @@
+.option {
+  position: relative;
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+}
+
+.buttonCheckboxChild4 {
+  position: relative;
+}
+.all {
+  display: flex;
+  position: relative;
+}

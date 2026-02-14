@@ -1,0 +1,32 @@
+.timerblue {
+  font-weight: var(--weight-800);
+  font-size: var(--font-14);
+  animation: flashcheck 2s linear infinite;
+}
+@keyframes flashcheck {
+  0% {
+    color: var(--color-dark-blue);
+  }
+  50% {
+    color: var(--color-dark-blue60);
+  }
+  100% {
+    color: var(--color-dark-blue);
+  }
+}
+.timered {
+  font-weight: var(--weight-800);
+  font-size: var(--font-14);
+  animation: flashpay 2s linear infinite;
+}
+@keyframes flashpay {
+  0% {
+    color: var(--color-dark-red);
+  }
+  50% {
+    color: var(--color-dark-red60);
+  }
+  100% {
+    color: var(--color-dark-red);
+  }
+}

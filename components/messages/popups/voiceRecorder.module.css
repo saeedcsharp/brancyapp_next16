@@ -1,0 +1,88 @@
+.voicerecord {
+  position: relative;
+  width: 100%;
+  min-height: 42px;
+  max-height: 42px;
+  background-color: var(--color-dark-blue);
+  border-radius: var(--br50);
+  padding: 0px var(--padding-5) 0px var(--padding-5);
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-15);
+
+  align-content: center;
+  align-items: center;
+}
+.closebtn {
+  left: 10px;
+  position: absolute;
+  width: 25px;
+  height: 25px;
+  padding: var(--padding-5);
+
+  fill: var(--color-gray);
+  transition: var(--transition2);
+  cursor: pointer;
+  z-index: 10 !important;
+}
+.wave {
+  position: relative;
+
+  width: 100%;
+  height: 30px;
+}
+.recordtime {
+  position: relative;
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  color: var(--color-ffffff);
+  letter-spacing: 3px;
+}
+.recordbtn {
+  position: relative;
+  height: 20px;
+  aspect-ratio: 1/1;
+  background-color: var(--color-ffffff);
+  border-radius: 50%;
+  display: flex;
+}
+.recordbtn1,
+.recordbtn2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 5px;
+  height: 5px;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+}
+.recordbtn1 {
+  animation: pulse 0.5s infinite alternate both;
+}
+.recordbtn2 {
+  background-color: var(--color-light-red);
+}
+
+@keyframes pulse {
+  0% {
+    background-color: var(--color-light-red30);
+  }
+
+  100% {
+    background-color: var(--color-light-red);
+  }
+}
+.sendvoicebtn {
+  left: calc(100% - 38px);
+  border-radius: 50%;
+  background-color: var(--color-ffffff);
+  position: absolute;
+  width: 32px;
+  height: 32px;
+  padding: var(--padding-8);
+
+  fill: var(--color-gray);
+  transition: var(--transition2);
+  cursor: pointer;
+  z-index: 10 !important;
+}

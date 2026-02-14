@@ -1,0 +1,65 @@
+.twoDotIcon {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 14px;
+  height: 5px;
+  position: absolute;
+}
+
+.twoDotIconContainer {
+  position: relative;
+  width: 26px;
+  height: 12px;
+  border-radius: var(--br5) var(--br5) var(--br5) 0;
+  transition: var(--transition2);
+  cursor: pointer;
+}
+
+html[dir="rtl"] .twoDotIconContainer {
+  border-radius: var(--br5) var(--br5) 0 var(--br5);
+}
+
+.threeDotIcon {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 20px;
+  height: 5px;
+  position: absolute;
+}
+
+.threeDotIconContainer {
+  position: relative;
+  min-width: 30px;
+  width: 30px;
+  height: 12px;
+  top: 11px;
+  border-radius: var(--br5) var(--br5) var(--br5) 0;
+  transition: var(--transition6);
+  cursor: pointer;
+}
+
+.circle {
+  content: " ";
+  position: relative;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-dark-blue);
+  transition: var(--transition6);
+  box-shadow: 0 0 0 4px var(--color-dark-blue60);
+  cursor: pointer;
+
+  &:hover {
+    transform: scale(0.8);
+  }
+
+  &:active {
+    transform: scale(1.2);
+  }
+}
+
+html[dir="rtl"] .icon {
+  filter: brightness(0.5);
+}

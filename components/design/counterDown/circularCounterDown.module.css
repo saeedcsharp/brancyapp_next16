@@ -1,0 +1,55 @@
+/* Circular Countdown Timer */
+.countdownCircleWrapper {
+  position: relative;
+  width: 48px;
+  height: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.countdownCircleSvg {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 48px;
+  height: 48px;
+  transform: rotate(-90deg);
+}
+
+.countdownCircleBg {
+  stroke: rgba(255, 255, 255, 0.2);
+  stroke-width: 6;
+  fill: none;
+}
+
+.countdownCircleFg {
+  stroke: #175ce3;
+  stroke-width: 10;
+  fill: none;
+  transition: stroke-dashoffset 0.5s linear;
+}
+
+.countdownCircleFgThin {
+  stroke: #fff;
+  stroke-width: 4;
+  fill: none;
+  transition: stroke-dashoffset 0.5s linear;
+}
+
+/* Nueva clase para el icono */
+.countdownCircleIcon {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2;
+}
+
+/* Mantener esta clase para compatibilidad */
+.countdownCircleText {
+  display: none;
+}

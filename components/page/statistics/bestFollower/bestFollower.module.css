@@ -1,0 +1,87 @@
+.all {
+  gap: var(--gap-10);
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.bestFollowerContainer {
+  position: relative;
+  gap: var(--gap-20);
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  justify-content: flex-start;
+}
+
+.counter {
+  border-radius: var(--br8);
+  background-color: var(--color-gray30);
+  padding: var(--paddingtag);
+  position: relative;
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  min-width: 60px;
+  font-weight: var(--weight-400);
+  text-align: center;
+  border: 1px solid transparent;
+  transition: var(--transition3);
+  margin-right: 5px;
+}
+
+.popupContent {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 120;
+  transition: var(--transition3);
+  border-radius: var(--br20);
+  background: var(--background-root);
+  justify-content: space-between;
+  max-width: calc(100% - 40px);
+  max-height: calc(100% - 40px);
+  gap: var(--gap-5);
+  padding: var(--padding-5);
+  width: 500px;
+  aspect-ratio: 1/1;
+  min-width: 250px;
+  animation: var(--fadeIn4);
+}
+.closebtn {
+  position: relative;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: var(--transition2);
+}
+
+.profileimagebig {
+  position: relative;
+  border-radius: var(--br15);
+  width: 100%;
+  aspect-ratio: 1/1;
+}
+
+.collapsed {
+  grid-row-end: span 10 !important;
+}
+
+.normal {
+  grid-row-end: span 49 !important;
+}
+
+.expanded {
+  grid-row-end: span 80 !important;
+}
+
+.hidden {
+  display: none !important;
+}

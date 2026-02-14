@@ -1,0 +1,79 @@
+.all {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 0px 0px 20px 0px;
+  padding: var(--paddingbox);
+  grid-row-end: span 24;
+  border-radius: var(--br25);
+  background: linear-gradient(190deg, var(--color-light-blue), var(--color-dark-blue));
+  font-size: var(--font-12);
+  transition: var(--transition3);
+  width: 100%;
+  @media (max-width: 480px) {
+    padding: var(--paddingboxmobile) !important;
+  }
+}
+.all:hover {
+  box-shadow: var(--box-shadow);
+}
+.settingContainer {
+  position: relative;
+  width: 30px;
+  height: 20px;
+  gap: var(--gap-5);
+  cursor: pointer;
+}
+
+.title {
+  width: min-content;
+  position: relative;
+  color: var(--color-white);
+  text-align: center;
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+}
+
+.time {
+  line-height: 25px;
+  width: 70px;
+  position: relative;
+  color: var(--color-white);
+  text-align: center;
+  font-size: var(--font-22);
+  font-weight: var(--weight-800);
+}
+
+/* time section*/
+
+.dayBox {
+  background-color: transparent;
+  font-size: var(--font-14);
+  height: 45px;
+  display: flex;
+  position: relative;
+  width: 100%;
+  align-items: center;
+  border-radius: var(--br10);
+  border: 2px solid var(--color-white);
+  cursor: pointer;
+  justify-content: center;
+  transition: var(--transition3);
+  color: var(--color-white);
+  font-weight: var(--weight-600);
+  transition: var(--transition3);
+  animation: var(--fadeIn2);
+}
+
+.dayBox:hover {
+  box-shadow: var(--small-shadow);
+  transform: translateY(-2px);
+}
+
+.activeDay {
+  background-color: var(--color-white);
+  color: var(--color-light-blue);
+  animation: var(--fadeIn2);
+  transition: var(--transition3);
+}

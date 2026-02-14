@@ -1,0 +1,459 @@
+/* Live Test Modal - Instagram DM simulator */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+}
+
+.header {
+  height: 56px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  border-bottom: 1px solid var(--color-gray30);
+}
+
+.title {
+  font-weight: 600;
+  color: var(--text-h1, #222);
+  font-size: 14px;
+}
+
+.headerLeft {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.avatarRing {
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  padding: 2px;
+  background: conic-gradient(#ff7a59, #fcb045, #fd1d1d, #833ab4, #5851db, #405de6, #ff7a59);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.avatarInner {
+  width: 100%;
+  height: 100%;
+  border-radius: 50%;
+  background: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.avatarDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #2ecc71;
+  border: 2px solid #fff;
+  position: relative;
+  left: 10px;
+  top: 10px;
+}
+
+.userBlock {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.1;
+}
+.userName {
+  font-weight: 600;
+  font-size: 13px;
+  color: var(--text-h1, #222);
+}
+.userStatus {
+  font-size: 11px;
+  color: var(--text-h2, #6b6b6b);
+}
+
+.closeBtn,
+.resetBtn {
+  border: none;
+  background: transparent;
+  color: var(--text-h2, #555);
+  cursor: pointer;
+  font-size: 13px;
+  padding: 6px 8px;
+  border-radius: 6px;
+}
+
+.resetBtn {
+  color: var(--color-dark-blue, #2962ff);
+}
+
+.closeBtn:hover,
+.resetBtn:hover {
+  background: var(--color-gray10, #f5f5f5);
+}
+/*  chat */
+.chat {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+
+  overflow-y: auto;
+}
+
+.messages {
+  flex: 1;
+  overflow-y: auto;
+  padding: 12px;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 0, 0, 0.2) transparent;
+}
+
+.messages::-webkit-scrollbar {
+  width: 6px;
+}
+
+.messages::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.messages::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.messages::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.row {
+  display: flex;
+  margin: 6px 0;
+}
+
+.right {
+  justify-content: flex-end;
+}
+
+.row.right {
+  justify-content: flex-end;
+}
+
+.bubble {
+  max-width: 80%;
+  padding: 5px 10px;
+  border-radius: 10px;
+  font-size: var(--font-12);
+  line-height: 1.4;
+  word-break: break-word;
+  animation: bubbleIn 180ms ease-out;
+}
+
+.fullWidth {
+  max-width: 100% !important;
+  width: 100%;
+}
+
+.bot {
+  background: linear-gradient(200deg, var(--color-purple30) 0%, var(--color-purple60) 100%);
+  color: var(--text-h1);
+  animation: var(--bottom08);
+  transition: var(--transition3);
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  align-self: flex-start;
+  border-radius: 18px 18px 18px 4px;
+  padding: var(--padding-8);
+}
+
+.user {
+  background: linear-gradient(150deg, var(--color-light-blue30) 30%, var(--color-light-blue60) 100%);
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  border-radius: 18px 18px 4px 18px;
+  align-self: flex-end;
+  padding: var(--padding-8);
+}
+
+.media {
+  display: block;
+  max-width: 240px;
+  max-height: 320px;
+  border-radius: 10px;
+}
+
+.linkCard {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  background: var(--color-gray30);
+  border-radius: 10px;
+  padding: 8px;
+}
+
+.linkTitle {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.linkUrl {
+  font-size: 12px;
+  font-weight: 600;
+  color: var(--color-dark-blue);
+  text-decoration: underline;
+}
+
+.quickReplies {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 6px;
+  position: absolute;
+  bottom: 60px;
+  width: 100%;
+  overflow-x: auto;
+  z-index: 10;
+}
+
+.chip {
+  background: #385599;
+  color: #fff;
+  padding: 6px 10px;
+  border-radius: 16px;
+  font-size: 12px;
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: var(--transition3);
+}
+
+.carousel {
+  display: flex;
+  gap: 10px;
+  overflow-x: auto;
+  padding-bottom: 8px;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gray60) transparent;
+  background-color: var(--color-white);
+}
+
+.carousel::-webkit-scrollbar {
+  height: 6px;
+}
+
+.carousel::-webkit-scrollbar-track {
+  background: rgba(0, 0, 0, 0.05);
+  border-radius: 3px;
+}
+
+.carousel::-webkit-scrollbar-thumb {
+  background: rgba(0, 0, 0, 0.2);
+  border-radius: 3px;
+}
+
+.carousel::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 0, 0, 0.3);
+}
+
+.card {
+  min-width: 240px;
+  max-width: 260px;
+  background: var(--color-gray10);
+  border-radius: 20px;
+  overflow: hidden;
+  scroll-snap-align: start;
+}
+
+.cardBody {
+  padding: 10px;
+}
+
+.cardTitle {
+  font-weight: 600;
+  font-size: 14px;
+  color: var(--text-h1);
+}
+.cardSubtitle {
+  font-size: 12px;
+  font-weight: 400;
+  color: var(--text-h2);
+  margin-top: 4px;
+  margin-block: 10px;
+}
+
+.cardButtons {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  margin-top: 10px;
+}
+
+.btn {
+  border: none;
+  background: var(--color-gray30);
+  color: var(--text-h1);
+  font-size: 12px;
+  padding: 8px 10px;
+  font-weight: 600;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.btn.secondary {
+  background: var(--color-gray10);
+  color: var(--text-h1);
+  font-size: 12px;
+  font-weight: 400;
+}
+
+/* Explicit secondary class for CSS modules usage */
+.secondary {
+  background: var(--color-gray10);
+  color: var(--text-h1);
+}
+
+.typing {
+  font-size: 11px;
+  color: var(--text-h2);
+  padding: 0 12px 6px;
+}
+.BtnGroup {
+  display: flex;
+  gap: var(--gap-10);
+}
+.inputBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.textInput {
+  flex: 1;
+  border: 1px solid var(--color-gray40, #d9d9d9);
+  border-radius: 20px;
+  padding: 10px 12px;
+  font-size: 13px;
+  outline: none;
+}
+
+.sendBtn {
+  border: none;
+  background: var(--color-dark-blue, #2962ff);
+  color: #fff;
+  border-radius: 18px;
+  padding: 8px 12px;
+  font-size: 13px;
+  cursor: pointer;
+  transition: transform 0.1s ease, box-shadow 0.2s ease;
+}
+
+.sendBtn:active,
+.btn:active,
+.chip:active {
+  transform: scale(0.98);
+}
+
+.placeholder {
+  padding: 24px;
+  text-align: center;
+  color: var(--text-h2, #666);
+  font-size: 12px;
+}
+
+.metaLeft {
+  text-align: left;
+  padding-left: 6px;
+}
+.metaRight {
+  text-align: right;
+  padding-right: 6px;
+  color: rgba(255, 255, 255, 0.9);
+}
+
+.daySeparator {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin: 10px 0;
+  color: var(--color-gray10);
+  font-size: 11px;
+}
+.daySeparator::before,
+.daySeparator::after {
+  content: "";
+  flex: 1;
+  height: 1px;
+  background: var(--color-gray30);
+}
+.dayText {
+  background: var(--color-gray30);
+  color: var(--text-h2);
+  padding: 2px 8px;
+  border-radius: 10px;
+  backdrop-filter: blur(2px);
+}
+
+.typingBubble {
+  margin: 4px 0 10px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--color-gray60);
+  border-radius: 16px;
+  padding: 6px 10px;
+  width: fit-content;
+}
+
+.dot {
+  width: 6px;
+  height: 6px;
+  border-radius: 50%;
+  background: var(--color-gray);
+  animation: typing 1s infinite ease-in-out;
+}
+.dot:nth-child(2) {
+  animation-delay: 0.15s;
+}
+.dot:nth-child(3) {
+  animation-delay: 0.3s;
+}
+
+@keyframes typing {
+  0%,
+  80%,
+  100% {
+    transform: translateY(0);
+    opacity: 0.4;
+  }
+  40% {
+    transform: translateY(-3px);
+    opacity: 1;
+  }
+}
+
+@keyframes bubbleIn {
+  from {
+    transform: translateY(6px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.meta {
+  font-size: 10px;
+  color: var(--text-h2, #666);
+  margin-top: 4px;
+}

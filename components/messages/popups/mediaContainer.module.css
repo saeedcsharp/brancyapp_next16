@@ -1,0 +1,21 @@
+.taskpopup {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 116;
+  transition: var(--transition3);
+  border-radius: var(--br10);
+  background: var(--color-white);
+  border: 3px solid var(--box-border);
+  box-shadow: var(--small-shadow);
+  padding: var(--padding-5);
+  width: max-content;
+  max-width: calc(100% - 50px);
+  height: max-content;
+  max-height: calc(100% - 50px);
+  animation: var(--fadeIn3);
+  box-shadow: var(--box-shadow);
+}

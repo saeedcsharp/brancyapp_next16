@@ -1,0 +1,180 @@
+/* ___1- General___ */
+@media (max-width: 768px) {
+  .general {
+    padding: var(--padding-12) var(--padding-10) var(--padding-50) var(--padding-10) !important;
+  }
+  .general > div:first-child > div:nth-child(2) {
+    flex-wrap: nowrap !important;
+    align-items: flex-start !important;
+    flex-direction: column !important;
+  }
+  .brand,
+  .Category > div {
+    max-width: 100% !important;
+  }
+}
+.general > div:first-child > div:nth-child(2) > div:first-child > div:nth-child(2) > div:nth-child(2) {
+  display: none;
+}
+
+.general {
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  width: 100%;
+  height: 100%;
+  gap: var(--gap-30);
+  animation: var(--top08);
+  padding: var(--paddingboxmobile);
+  background-color: var(--color-white);
+  border-radius: var(--br20);
+  transition: var(--transition3);
+}
+
+.tooltip {
+  position: absolute;
+  top: 25px;
+  width: 200px;
+  display: flex;
+  cursor: pointer;
+  background-color: var(--background-root);
+  border-radius: var(--br8);
+  padding: var(--padding-8);
+  color: var(--text-h1);
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  transition: var(--transition3);
+  box-shadow: var(--small-shadow);
+  animation: var(--fadeIn3);
+  z-index: 10;
+  white-space: pre-line;
+}
+.tooltip:after {
+  content: "";
+  position: absolute;
+  top: -10px;
+  margin-inline-start: 15px;
+  transform: translateX(-50%);
+  border-width: 5px;
+  border-style: solid;
+  border-color: transparent transparent var(--background-root) transparent;
+}
+
+.Category {
+  position: relative;
+  width: 100%;
+  gap: var(--gap-20);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.brand {
+  margin-top: 10px;
+  position: relative;
+  width: 100%;
+  max-width: calc(50% - 11px);
+  height: 280px;
+  gap: var(--gap-20);
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.namesection {
+  display: flex;
+  gap: var(--gap-5);
+  width: 100%;
+  justify-content: space-between;
+}
+
+.nameenglish {
+  text-align: left;
+  font-size: var(--font-12);
+  min-width: 45%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  text-wrap: auto;
+}
+.namepersian {
+  min-width: 45%;
+  text-align: right;
+  justify-content: flex-end;
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  display: flex;
+  align-items: center;
+  text-wrap: auto;
+}
+
+.customtitle {
+  width: 100%;
+}
+.customtitle > input {
+  transform: none !important;
+}
+.customtitletooltip {
+  position: absolute;
+  top: 50px;
+  width: 100%;
+  max-height: 205px;
+  overflow-y: scroll;
+  height: max-content;
+  background-color: var(--background-root);
+  border-radius: var(--br5) var(--br5) var(--br15) var(--br15);
+  z-index: 200;
+  box-shadow: var(--dropdown-shadow);
+  animation: scale-in-ver-top 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+.customtitletooltip::-webkit-scrollbar {
+  display: block;
+}
+.customtitletooltip > div:last-child {
+  border-bottom: 0px;
+  margin-bottom: 5px;
+}
+
+@keyframes scale-in-ver-top {
+  0% {
+    -webkit-transform: scaleY(0);
+    transform: scaleY(0);
+    -webkit-transform-origin: 100% 0%;
+    transform-origin: 100% 0%;
+    opacity: 1;
+  }
+  100% {
+    -webkit-transform: scaleY(1);
+    transform: scaleY(1);
+    -webkit-transform-origin: 100% 0%;
+    transform-origin: 100% 0%;
+    opacity: 1;
+  }
+}
+.customtitleitem {
+  line-height: 19px;
+  position: relative;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+  width: 100%;
+  border-bottom: 1px solid var(--color-gray30);
+  gap: var(--gap-8);
+  display: flex;
+  height: 40px;
+  padding-inline-end: 0px;
+  padding-inline-start: var(--padding-10);
+  padding-block: var(--padding-10);
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  cursor: pointer;
+  transition: var(--transition3);
+  text-align: start;
+  justify-content: space-between;
+  align-items: center;
+}
+.customtitleitem:hover {
+  color: var(--color-light-blue);
+}

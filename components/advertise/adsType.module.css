@@ -1,0 +1,71 @@
+.story {
+  position: relative;
+  display: flex;
+  color: var(--color-light-blue);
+  background-color: var(--color-light-blue30);
+  padding: var(--padding-5);
+  border-radius: var(--br8);
+  font-size: var(--font-12);
+  font-weight: var(--weight-500);
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  transition: var(--transition3);
+  min-width: 80px;
+  text-wrap: nowrap;
+  @media (max-width: 720px) {
+    padding: var(--paddingtag);
+    min-width: fit-content !important;
+    font-size: var(--font-10) !important;
+    font-weight: var(--weight-500) !important;
+    border-radius: var(--br5) !important;
+  }
+}
+
+.post {
+  position: relative;
+  display: flex;
+  padding: var(--padding-5);
+  border-radius: var(--br8);
+  font-size: var(--font-12);
+  font-weight: var(--weight-500);
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  transition: var(--transition3);
+  color: var(--color-purple);
+  min-width: 80px;
+  text-wrap: nowrap;
+  background-color: var(--color-purple30);
+  @media (max-width: 720px) {
+    padding: var(--paddingtag);
+    min-width: fit-content !important;
+    font-size: var(--font-10) !important;
+    font-weight: var(--weight-500) !important;
+    border-radius: var(--br5) !important;
+  }
+}
+
+.campaign {
+  padding: var(--padding-5);
+  border-radius: var(--br8);
+  font-size: var(--font-12);
+  font-weight: var(--weight-500);
+  justify-content: center;
+  align-items: center;
+  text-transform: uppercase;
+  position: relative;
+  display: flex;
+  min-width: 80px;
+  text-wrap: nowrap;
+  color: var(--color-light-yellow);
+  background-color: var(--color-light-yellow30);
+  transition: var(--transition3);
+  @media (max-width: 720px) {
+    padding: var(--paddingtag);
+    min-width: fit-content !important;
+    font-size: var(--font-10) !important;
+    font-weight: var(--weight-500) !important;
+    border-radius: var(--br5) !important;
+  }
+}

@@ -1,0 +1,527 @@
+/* ___general___ */
+
+.pincontainer {
+  width: calc(100% - 120px);
+  margin-inline: 20px;
+  max-height: calc(100% - 90px);
+  min-width: 250px;
+  top: 80px;
+  display: flex;
+  -moz-column-gap: var(--gap-20);
+  column-gap: var(--gap-20);
+  position: fixed;
+  justify-content: center;
+  justify-items: center;
+  animation: var(--bottom14);
+  transition: var(--transition3);
+  background-color: var(--background-edf4ff);
+}
+
+.disableRight {
+  display: flex;
+  position: relative;
+  margin: 10px 0px 10px 0px;
+  grid-row-end: span 82;
+  border-radius: var(--br25);
+  background-color: var(--color-white);
+
+  transition: var(--transition3);
+  color: var(--text-input-general);
+  width: 100%;
+  min-width: 400px;
+  flex-direction: column;
+  justify-content: space-between;
+}
+.search {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-10);
+  height: 40px;
+  align-items: center;
+  justify-content: space-between;
+}
+.searchicon {
+  position: relative;
+
+  width: 40px;
+  height: 40px;
+  display: flex;
+  border-radius: var(--br10);
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition3);
+}
+.searchbox {
+  position: relative;
+  display: flex;
+  width: 85%;
+  height: 40px;
+  border-radius: var(--br10);
+}
+.inputbox {
+  display: flex;
+  position: relative;
+  width: 100%;
+  max-width: 270px;
+  height: 40px;
+  border: 1px solid red;
+  border-radius: var(--br10);
+
+  justify-content: flex-end;
+  align-items: center;
+}
+.readandunread {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  border: 1px solid var(--color-gray60);
+  border-radius: var(--br10);
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  transition: var(--transition3);
+}
+.readandunread:hover {
+  border: 1px solid var(--color-dark-blue);
+}
+.readandunread:active {
+  border: 1px solid var(--color-dark-blue);
+  box-shadow: 0 0 0 4px var(--border-btn);
+}
+.eyeIcon {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+.userslist {
+  position: relative;
+  width: 100%;
+  height: calc(100% - 120px);
+  display: flex;
+  gap: var(--gap-10);
+  flex-direction: column;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+.ticket {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-10);
+  width: 100%;
+  height: 50px;
+  align-items: center;
+  justify-content: space-between;
+  transition: var(--transition2);
+  cursor: pointer;
+}
+
+.pictureIcon {
+  position: relative;
+  border-radius: 50%;
+  background-color: var(--color-white);
+  width: 48px;
+  height: 48px;
+}
+.onlinering {
+  justify-content: center;
+
+  align-items: center;
+  display: flex;
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  border-radius: 50%;
+  background-color: var(--second-44cb8c);
+}
+.profile {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-5);
+  width: 100%;
+  align-items: flex-start;
+  justify-content: center;
+}
+.username {
+  position: relative;
+  text-align: left;
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-800);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+  width: 100%;
+
+  line-height: normal;
+  white-space: nowrap;
+}
+.messagetext {
+  position: relative;
+  color: var(--text-h1);
+  text-align: center;
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100px;
+  width: 100%;
+
+  line-height: normal;
+  white-space: nowrap;
+}
+.notifbox {
+  position: relative;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-5);
+  width: 100%;
+  max-width: 50px;
+  align-items: center;
+  justify-content: center;
+}
+
+.new {
+  border-radius: var(--br10);
+  background-color: var(--color-dark-blue);
+  padding: var(--padding-3) var(--padding-10);
+  overflow: hidden;
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  color: var(--color-ffffff);
+}
+.user {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-10);
+  width: 100%;
+  height: 50px;
+  align-items: center;
+  justify-content: space-between;
+  transition: var(--transition2);
+  cursor: pointer;
+}
+.userbackground {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-10);
+  padding: var(--padding-10);
+  align-items: center;
+  justify-content: space-between;
+  transition: var(--transition2);
+}
+.userbackground:hover {
+  background: var(--color-gray10);
+  border-radius: var(--br15);
+}
+.selectedUserbackground {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-10);
+  padding: var(--padding-10);
+  align-items: center;
+  justify-content: space-between;
+  transition: var(--transition2);
+  background: var(--color-gray10);
+  border-radius: var(--br15);
+}
+/* ___left___ */
+.rightheader {
+  position: relative;
+  width: 100%;
+  height: 80px;
+  border-bottom: 2px solid var(--elements-box-border);
+  display: flex;
+  gap: var(--gap-20);
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+.rightrow,
+.leftrow {
+  position: relative;
+  display: flex;
+  gap: var(--gap-20);
+  align-items: center;
+}
+.backIcon {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--color-light-blue30);
+  width: 40px;
+  height: 40px;
+  border-radius: var(--br10);
+  align-items: center;
+  cursor: pointer;
+  transition: var(--transition3);
+}
+.backIcon:hover {
+  box-shadow: 0 0 0 4px var(--color-light-blue10);
+  border: 1px solid var(--color-light-blue);
+}
+.userstatus {
+  position: relative;
+  color: var(--second-44cb8c);
+  text-align: center;
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  text-align: left;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 190px;
+  width: 100%;
+
+  line-height: normal;
+  white-space: nowrap;
+}
+.userchat {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-10);
+  height: 50px;
+  align-items: center;
+  justify-content: space-between;
+  transition: var(--transition2);
+  cursor: pointer;
+}
+.moreIcon {
+  position: relative;
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
+/* ___chat___ */
+
+.chat {
+  padding-top: 5px;
+  position: relative;
+  width: 100%;
+  height: calc(100% - 120px);
+}
+.customstyle {
+  position: relative;
+  width: 100%;
+  overflow-x: hidden !important;
+}
+
+.leftchatrow {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-width: 80%;
+  gap: var(--gap-5);
+}
+.leftchat {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--gap-10);
+}
+
+.chaticon {
+  display: flex;
+  position: relative;
+  width: 15px;
+  height: 15px;
+  align-content: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  flex-direction: row;
+  gap: var(--gap-5);
+  align-items: center;
+  cursor: pointer;
+}
+
+/* ___ */
+.rightchatrow {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  left: 20%;
+  max-width: 80%;
+  gap: var(--gap-5);
+
+  align-items: flex-end;
+}
+.rightchat {
+  position: relative;
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  gap: var(--gap-10);
+}
+.rightchatMSG {
+  text-align: left;
+  border-radius: var(--br10) 0px var(--br10) var(--br10);
+  background: var(--color-light-blue);
+  display: flex;
+  width: fit-content;
+  color: var(--color-ffffff);
+  position: relative;
+  padding: var(--padding-8);
+  position: relative;
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+}
+.chatstatus {
+  position: relative;
+  display: flex;
+  gap: var(--gap-5);
+}
+.sent {
+  position: relative;
+}
+/* ___detail___ */
+
+.chatdetail {
+  margin-left: 10px;
+  margin-right: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-20);
+  width: 100%;
+  height: 50px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.goend {
+  top: -5px;
+  display: flex;
+  position: relative;
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+
+  background-color: var(--text-maintext);
+  box-shadow: var(--box-shadow);
+  transition: var(--transition2);
+  border: 1px solid transparent;
+
+  cursor: pointer;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+}
+.goend:hover {
+  border: 1px solid var(--color-dark-blue);
+}
+.goend:active {
+  border: 1px solid var(--color-dark-blue);
+  transform: scale(0.95);
+}
+.goendicon {
+  transform: rotate(270deg);
+  position: relative;
+  width: 16px;
+  height: 15px;
+}
+/* ___answer___ */
+
+.input {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+.sendbtn {
+  position: relative;
+  width: 40px;
+  height: 40px;
+  display: flex;
+  background-color: var(--color-dark-blue);
+  border-radius: 50%;
+
+  align-items: center;
+  justify-content: center;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: var(--transition3);
+}
+.sendbtn:hover {
+  border: 1px solid var(--color-dark-blue);
+  transform: scale(1.05);
+}
+.sendbtn:active {
+  border: 1px solid var(--color-dark-blue);
+  transform: scale(0.95);
+}
+.sendicon {
+  position: relative;
+  width: 15px;
+  height: 15px;
+}
+/* ___dragDropSidebar___ */
+.parent {
+  display: flex;
+  width: 250px;
+}
+.showDiv {
+  /* min-width: 50px; */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  animation: showMe 0.5s forwards;
+  background-color: var(--color-white);
+  color: var(--text-h1);
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  gap: var(--gap-8);
+}
+
+.showDiv:hover .dragicon {
+  transform: scale(1.1);
+}
+.dragicon {
+  transition: var(--transition2);
+  height: 15px;
+}
+.hide {
+  opacity: 0;
+  width: 0px;
+}
+.hideDiv {
+  animation: hideMe 0.5s forwards;
+}
+
+@keyframes showMe {
+  from {
+    width: 0px;
+    opacity: 0;
+  }
+  to {
+    width: 50px;
+    opacity: 1;
+  }
+}
+
+@keyframes hideMe {
+  from {
+    opacity: 1;
+    width: 50px;
+  }
+  to {
+    opacity: 0;
+    width: 0px;
+  }
+}

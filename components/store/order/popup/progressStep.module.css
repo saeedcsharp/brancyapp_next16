@@ -1,0 +1,201 @@
+@media (max-width: 480px) {
+  .popup {
+    padding: 20px 20px 30px 20px !important;
+    max-width: 100% !important;
+    bottom: 0 !important;
+    top: auto !important;
+    left: auto !important;
+    border-radius: var(--br25) var(--br25) 0 0 !important;
+    animation: var(--slide-in);
+  }
+
+  .orderinfoStep > svg,
+  .orderprogressStep > svg,
+  .orderpickupStep > svg,
+  .ordersendStep > svg {
+    height: 20px;
+  }
+}
+
+.popup {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 116;
+  transition: var(--transition3);
+  border-radius: var(--br25);
+  background-color: var(--color-white);
+  /* border: 3px solid var(--box-border); */
+  padding: var(--paddingboxmobile);
+  justify-content: space-between;
+  /* width: 395px; */
+  width: 595px;
+  max-width: calc(100% - 50px);
+  height: 100%;
+  max-height: calc(100% - 50px);
+  min-width: 250px;
+  /* overflow-y: scroll; */
+  animation: var(--fadeIn3);
+}
+.headerstep {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  gap: var(--gap-10);
+}
+.orderStepactive {
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  max-width: 50px;
+  max-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  stroke: var(--color-dark-blue);
+
+  transition: var(--transition2);
+  padding: var(--padding-10);
+  border-radius: var(--br15);
+  background-color: var(--color-dark-blue30);
+}
+.orderStepactive > svg {
+  stroke: var(--color-dark-blue);
+}
+.orderStep {
+  height: 50px;
+  width: 100%;
+  max-width: 430px;
+  display: flex;
+  flex-direction: row;
+  max-height: 50px;
+  background-color: var(--color-gray10);
+  border-radius: var(--br15);
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--padding-5);
+}
+.orderinfoStep {
+  padding: var(--padding-10);
+  min-width: 50px;
+  min-height: 50px;
+  max-width: 50px;
+  max-height: 50px;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid var(--color-gray60);
+  border-radius: var(--br15);
+  cursor: pointer;
+  stroke: var(--color-gray);
+  transition: var(--transition2);
+}
+.orderinfoStep:hover {
+  background-color: var(--color-gray30);
+  border: 1px solid var(--color-gray30);
+}
+
+.orderprogressStep,
+.orderpickupStep,
+.ordersendStep {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 40px;
+  max-height: 40px;
+  cursor: pointer;
+  display: flex;
+  padding: var(--padding-8);
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--br10);
+  transition: var(--transition2);
+  stroke: var(--color-gray);
+  border: 1px solid transparent;
+}
+.orderprogressStep:hover,
+.orderpickupStep:hover,
+.ordersendStep:hover {
+  background-color: var(--color-gray30);
+}
+.orderinfoStep > svg,
+.orderprogressStep > svg,
+.orderpickupStep > svg,
+.ordersendStep > svg {
+  transition: var(--transition2);
+  max-width: 25px;
+  max-height: 25px;
+  width: 25px;
+  height: 25px;
+}
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  gap: var(--gap-5);
+}
+.loadercircle {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: var(--color-gray);
+  animation: loader 3s ease-in-out infinite;
+}
+@keyframes loader {
+  0%,
+  40% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.3);
+  }
+}
+.closeButton {
+  min-width: 50px;
+  min-height: 50px;
+  max-width: 50px;
+  max-height: 50px;
+  padding: var(--padding-10);
+  border-radius: var(--br15);
+  stroke: var(--color-dark-blue);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: var(--transition2);
+}
+.closeButton:hover {
+  background-color: var(--color-gray30);
+}
+.ordernumber {
+  position: relative;
+  padding: var(--padding-8) var(--padding-16);
+  background-color: var(--color-white);
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+  border-radius: var(--br20);
+}
+.headerStyle {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  max-height: 50px;
+  background-color: var(--color-gray30);
+  border-radius: var(--br25);
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--padding-8) var(--padding-16) var(--padding-8) var(--padding-8);
+}
+/* ------------------------------------------------------------------------------------- */

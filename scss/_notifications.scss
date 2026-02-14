@@ -1,0 +1,81 @@
+/* Notification styles */
+.Toastify__toast-container {
+  width: 70% !important;
+  flex-direction: column;
+  bottom: 20px !important;
+  padding: 0px !important;
+}
+@media (max-width: 650px) {
+  .Toastify__toast-container {
+    width: 90% !important;
+    left: 50%;
+    transform: translateX(-50%);
+  }
+  .Toastify__toast-container > div > button {
+    transform: translateY(5px);
+  }
+}
+.Toastify__close-button {
+  position: relative !important;
+  top: 0px;
+  right: 0px;
+  background: transparent;
+  outline: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  opacity: 1;
+  display: flex;
+  transition: 0.3s ease;
+  z-index: 1;
+  color: var(--text-h1) !important;
+  align-items: center;
+  justify-content: center;
+}
+.Toastify__close-button > svg {
+  height: 20px !important;
+  width: 20px !important;
+}
+
+.Toastify__toast {
+  margin-bottom: 0px !important;
+}
+
+.Toastify__toast-body {
+  padding: 0px !important;
+}
+
+.Toastify__toast-theme--colored.Toastify__toast--success,
+.Toastify__toast-theme--colored.Toastify__toast--error,
+.Toastify__toast-theme--colored.Toastify__toast--info,
+.Toastify__toast-theme--colored.Toastify__toast--warning {
+  min-height: 40px !important;
+  width: 100% !important;
+  color: var(--text-h1) !important;
+  backdrop-filter: blur(10px) !important;
+  font-weight: var(--weight-400) !important;
+  border-radius: var(--br10) !important;
+  margin-bottom: 10px !important;
+  justify-content: space-between;
+  padding: var(--padding-10);
+}
+
+.Toastify__toast-theme--colored.Toastify__toast--success {
+  background: var(--color-light-green60) !important;
+  border: 1px solid var(--color-light-green);
+}
+
+.Toastify__toast-theme--colored.Toastify__toast--error {
+  background: var(--color-dark-red60) !important;
+  border: 1px solid var(--color-dark-red);
+}
+
+.Toastify__toast-theme--colored.Toastify__toast--info {
+  background: var(--color-dark-blue60) !important;
+  border: 1px solid var(--color-dark-blue);
+}
+
+.Toastify__toast-theme--colored.Toastify__toast--warning {
+  background: var(--color-dark-yellow60) !important;
+  border: 1px solid var(--color-dark-yellow);
+}

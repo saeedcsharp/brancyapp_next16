@@ -1,0 +1,46 @@
+.thumbnailsContainer {
+  display: flex;
+  gap: var(--gap-10);
+  flex-direction: row;
+  height: 100%;
+  flex-wrap: wrap;
+  overflow-y: auto;
+  justify-content: space-around;
+  align-content: flex-start;
+}
+
+.thumbnailImage,
+.thumbnailMask,
+.thumbnailsContainer {
+  position: relative;
+  transition: all 0.3s;
+}
+
+.thumbnailMask {
+  display: flex;
+  width: 85px;
+  height: 85px;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.thumbnailImage {
+  object-fit: cover;
+  width: 90%;
+  height: 90%;
+  border-radius: var(--br15);
+  border: 3px solid transparent;
+  box-shadow: none;
+  background-color: var(--color-gray10);
+  box-sizing: border-box;
+}
+
+.thumbnailImage:hover {
+  box-shadow: 0 0 0 3px var(--color-dark-blue60);
+}
+
+.selectedPost {
+  border: 3px solid transparent;
+  box-shadow: var(--color-light-green) 0 0 0 3px;
+}

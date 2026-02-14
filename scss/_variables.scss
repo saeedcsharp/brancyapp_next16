@@ -1,0 +1,213 @@
+:root {
+  //scroll-snap-type: y mandatory;
+
+  /* ___ light theme ___ */
+
+  /* رنگ اصلی*/
+  --background-root: #edf4ff;
+  /* کارت های اصلی */
+  --color-silver: #8798ad;
+  --content-box: #c7d0f0;
+
+  /* رنگ ها*/
+  --color-gray: #8f9bb3;
+  --color-light-yellow: #ffb700;
+  --color-dark-yellow: #ff9a4d;
+  --color-dark-red: #ec4466;
+  --color-light-red: #ff4e85;
+  --color-purple: #9d6dff;
+  --color-firoze: #00c1d4;
+  --color-dark-green: #2eac65;
+  --color-light-green: #44cb8c;
+  --color-light-blue: #2699fb;
+  --color-dark-blue: #2977ff;
+
+  /* 10% رنگ ها*/
+  --color-gray10: #8f9bb310;
+  --color-light-yellow10: #ffb70010;
+  --color-dark-yellow10: #ff9a4d10;
+  --color-dark-red10: #ec446610;
+  --color-light-red10: #ff636310;
+  --color-purple10: #9d6dff10;
+  --color-firoze10: #00c1d410;
+  --color-dark-green10: #2eac6510;
+  --color-light-green10: #44cb8c10;
+  --color-light-blue10: #2699fb10;
+  --color-dark-blue10: #2977ff10;
+
+  /* 30% رنگ ها*/
+  --color-gray30: #8f9bb330;
+  --color-light-yellow30: #ffb70030;
+  --color-dark-yellow30: #ff9a4d30;
+  --color-dark-red30: #ec446630;
+  --color-light-red30: #ff636330;
+  --color-purple30: #9d6dff30;
+  --color-firoze30: #00c1d430;
+  --color-dark-green30: #2eac6530;
+  --color-light-green30: #44cb8c30;
+  --color-light-blue30: #2699fb30;
+  --color-dark-blue30: #2977ff30;
+
+  /* 60% رنگ ها*/
+  --color-gray60: #8f9bb360;
+  --color-light-yellow60: #ffb70060;
+  --color-dark-yellow60: #ff9a4d60;
+  --color-dark-red60: #ec446660;
+  --color-light-red60: #ff636360;
+  --color-purple60: #9d6dff60;
+  --color-firoze60: #00c1d460;
+  --color-dark-green60: #2eac6560;
+  --color-light-green60: #44cb8c60;
+  --color-light-blue60: #2699fb60;
+  --color-dark-blue60: #2977ff60;
+
+  /* متفرقه رنگ ها*/
+  --color-white: #ffffff;
+  --color-white30: #ffffff30;
+  --color-ffffff: #ffffff;
+  --color-ffffff30: #ffffff30;
+  --color-black80: #00000080;
+
+  /* رنگ لاین ها */
+  --box-border: #deebff;
+
+  /* نوشته ها */
+  --text-h1: #21335a;
+  --text-h2: #6a7787;
+  --text-h3: #8798ad;
+
+  /* غیر فعال ها */
+  --color-disable: #f7f9ff;
+
+  /* Animation variables */
+  --fadeIn2: fadeIn 0.2s ease-in-out forwards !important;
+  --fadeIn3: fadeIn 0.3s ease-in-out forwards !important;
+  --fadeIn4: fadeIn 0.4s ease-in-out forwards !important;
+  --fadeOut2: fadeOut 0.2s ease-in-out forwards !important;
+  --fadeOut3: fadeOut 0.3s ease-in-out forwards !important;
+  --fadeOut4: fadeOut 0.4s ease-in-out forwards !important;
+  --bottom: bottom 0.8s both !important;
+  --slide-in: slide-in-blurred-bottom 0.6s cubic-bezier(0.23, 1, 0.32, 1) both !important;
+  --bottom08: bottom 0.8s both;
+  --bottom14: bottom 1.4s both;
+  --top04: top 0.4s ease-in-out;
+  --top08: top 0.8s ease-in-out;
+  --top14: top 1.4s ease-in-out;
+
+  /* transition */
+  --transition1: all 0.1s ease-in-out !important;
+  --transition2: all 0.2s ease-in-out !important;
+  --transition3: all 0.3s ease-in-out !important;
+  --transition6: all 0.6s ease-in-out !important;
+  --transition9: all 0.9s ease-in-out !important;
+
+  /* Effects */
+  --box-shadow: 0px 5px 16px 0px #00000030;
+  --small-shadow: 0px 24px 56px 0px #0000001f;
+  --dropdown-shadow: 0px 5px 32px -1px #00000030;
+
+  /* border radius */
+  --br5: 5px;
+  --br8: 8px;
+  --br10: 10px;
+  --br12: 12px;
+  --br15: 15px;
+  --br20: 20px;
+  --br25: 25px;
+  --br30: 30px;
+  --br35: 35px;
+  --br50: 50px;
+  --br100: 100px;
+
+  /* -- font weight --*/
+  --weight-100: 100;
+  --weight-200: 200;
+  --weight-300: 300;
+  --weight-400: 400;
+  --weight-500: 500;
+  --weight-600: 600;
+  --weight-700: 700;
+  --weight-800: 800;
+  --weight-900: 900;
+
+  /* -- font sizes --*/
+  --font-10: 10px;
+  --font-11: 11px;
+  --font-12: 12px;
+  --font-14: 14px;
+  --font-16: 16px;
+  --font-18: 18px;
+  --font-20: 20px;
+  --font-22: 22px;
+  --font-24: 24px;
+  --font-26: 26px;
+  --font-28: 28px;
+  --font-30: 30px;
+  --font-50: 50px;
+
+  /* Gaps */
+  --gap-1: 1px;
+  --gap-3: 3px;
+  --gap-5: 5px;
+  --gap-8: 8px;
+  --gap-10: 10px;
+  --gap-12: 12px;
+  --gap-15: 15px;
+  --gap-20: 20px;
+  --gap-30: 30px;
+  --gap-40: 40px;
+  --gap-50: 50px;
+
+  /* Paddings */
+  --paddingbox: 30px 32px;
+  --paddingboxmobile: 20px 18px;
+  --paddingtag: 3px 5px 3px 5px;
+  --padding-2: 2px;
+  --padding-3: 3px;
+  --padding-4: 4px;
+  --padding-5: 5px;
+  --padding-8: 8px;
+  --padding-10: 10px;
+  --padding-12: 12px;
+  --padding-14: 14px;
+  --padding-16: 16px;
+  --padding-18: 18px;
+  --padding-20: 20px;
+  --padding-22: 22px;
+  --padding-24: 24px;
+  --padding-26: 26px;
+  --padding-28: 28px;
+  --padding-30: 30px;
+  --padding-32: 32px;
+  --padding-40: 40px;
+  --padding-50: 50px;
+}
+
+/* ___ DARK theme ___ */
+[data-theme="dark"] {
+  /* بک گراند اصلی*/
+  --background-root: #161d1f;
+
+  /* کارت های اصلی */
+  --color-silver: #8798ad;
+  --content-box: #49535d;
+
+  /* متفرقه رنگ ها*/
+  --color-white: #252a31;
+  --color-white30: #252a3130;
+
+  /* رنگ لاین ها */
+  --box-border: #39414a;
+
+  /* نوشته ها */
+  --text-h1: #dddddd;
+  --text-h2: #9da8b7;
+  --text-h3: #cdd3df;
+
+  /* غیر فعال ها */
+  --color-disable: #39414a;
+
+  /* Effects */
+  --box-shadow: 0px 5px 16px 0px #00000060;
+  --dropdown-shadow: 0px 5px 10px 4px #00000080;
+}

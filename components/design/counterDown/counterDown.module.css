@@ -1,0 +1,169 @@
+.countdownWrapperStory {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  top: 20px;
+  flex-direction: column;
+  row-gap: var(--gap-5);
+  column-gap: var(--gap-10);
+}
+
+@keyframes pulseBoxShadow {
+  0% {
+    box-shadow: 0px 0px 10px 0px currentColor;
+  }
+  50% {
+    box-shadow: 0px 0px 15px 0px currentColor;
+  }
+  100% {
+    box-shadow: 0px 0px 10px 0px currentColor;
+  }
+}
+
+@keyframes pulseBoxShadowFast {
+  0% {
+    box-shadow: 0px 0px 20px 0px currentColor;
+  }
+  50% {
+    box-shadow: 0px 0px 5px 0px currentColor;
+  }
+  100% {
+    box-shadow: 0px 0px 20px 0px currentColor;
+  }
+}
+
+.fast {
+  position: absolute;
+  aspect-ratio: 1 / 1;
+  height: 55px;
+  left: -13px !important;
+  top: 5px !important;
+  border-radius: 50%;
+  animation: pulseBoxShadowFast 1s infinite;
+}
+
+.test {
+  position: absolute;
+  aspect-ratio: 1 / 1;
+  height: 55px;
+  left: -13px !important;
+  top: 5px !important;
+  border-radius: 50%;
+  animation: pulseBoxShadow 2s infinite;
+}
+.countdownWrapperWinnerPicker {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  align-content: center;
+  gap: var(--gap-10);
+  justify-content: center;
+  align-items: center;
+  color: var(--text-h1);
+}
+html[dir="rtl"] .countdownWrapperWinnerPicker {
+  flex-direction: row-reverse;
+}
+.countdownWrapperPost {
+  position: relative;
+  display: flex;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  flex-direction: row;
+  align-content: center;
+  gap: var(--gap-10);
+  justify-content: center;
+  align-items: center;
+}
+.countdownItem {
+  stroke-linecap: round;
+  display: flex;
+  gap: var(--gap-15);
+  position: relative;
+  font-size: var(--font-18);
+  line-height: 10px;
+  width: 45px;
+  height: 62px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+}
+.timeRem,
+.timeRem1,
+.timeRem2,
+.timeRem3 {
+  position: absolute;
+  color: var(--color-ffffff);
+  font-size: var(--font-18);
+  line-height: 10px;
+  height: 20px;
+  width: 30px;
+  top: 18px;
+}
+
+.timeRem {
+  left: 7px;
+}
+.timeRem1 {
+  left: 62px;
+}
+.timeRem2 {
+  left: 115px;
+}
+.timeRem3 {
+  left: 22px;
+}
+
+.span {
+  color: var(--color-ffffff);
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  text-transform: uppercase;
+}
+
+.countdownSvg {
+  top: 0;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 100%;
+  height: 100%;
+}
+
+.timeValue {
+  position: relative;
+  text-align: center;
+  font-size: var(--font-18);
+
+  font-weight: var(--weight-400);
+}
+
+.timeTitle {
+  position: relative;
+  font-size: var(--font-12);
+  text-align: center;
+
+  line-height: 20px;
+  font-weight: var(--weight-400);
+}
+
+/* .timeBlackValue {
+  position: relative;
+  color: var(--text-h1);
+  text-align: center;
+  font-size: var(--font-18);
+
+  font-weight: var(--weight-400);
+}
+
+.timeBlackTitle {
+  position: relative;
+  color: var(--text-h1);
+  font-size: var(--font-12);
+  text-align: center;
+
+  line-height: 20px;
+  font-weight: var(--weight-400);
+} */

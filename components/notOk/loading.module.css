@@ -1,0 +1,80 @@
+.card {
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+@keyframes animate-svg {
+  0% {
+    fill: var(--color-dark-blue10);
+  }
+  20% {
+    fill: var(--color-dark-blue);
+  }
+  80% {
+    fill: var(--color-dark-blue);
+  }
+  100% {
+    fill: var(--color-dark-blue10);
+  }
+}
+@keyframes animate-brancy {
+  0% {
+    fill: var(--color-dark-blue10);
+  }
+  20% {
+    fill: var(--color-dark-blue);
+  }
+  90% {
+    fill: var(--color-dark-blue);
+  }
+  100% {
+    fill: var(--color-dark-blue10);
+  }
+}
+.logo1 {
+  animation: animate-svg 5s cubic-bezier(0.785, 0.135, 0.15, 0.86) 0.1s infinite;
+}
+.logo2 {
+  animation: animate-svg 5s cubic-bezier(0.785, 0.135, 0.15, 0.86) 0.2s infinite;
+}
+.logo3 {
+  animation: animate-svg 5s cubic-bezier(0.785, 0.135, 0.15, 0.86) 0.3s infinite;
+}
+.logo4 {
+  animation: animate-svg 5s cubic-bezier(0.785, 0.135, 0.15, 0.86) 0.4s infinite;
+}
+.logo5 {
+  animation: animate-svg 5s cubic-bezier(0.785, 0.135, 0.15, 0.86) 0.5s infinite;
+}
+.logo6 {
+  animation: animate-svg 5s cubic-bezier(0.785, 0.135, 0.15, 0.86) 0.4s infinite;
+}
+.logo7 {
+  animation: animate-svg 5s cubic-bezier(0.785, 0.135, 0.15, 0.86) 0.3s infinite;
+}
+.logo8 {
+  animation: animate-svg 5s cubic-bezier(0.785, 0.135, 0.15, 0.86) 0.2s infinite;
+}
+.logo9 {
+  animation: animate-svg 5s cubic-bezier(0.785, 0.135, 0.15, 0.86) 0.1s infinite;
+}
+.logo10 {
+  animation: animate-brancy 5s cubic-bezier(0.785, 0.135, 0.15, 0.86) 1.5s infinite;
+}
+.logo11 {
+  animation: animate-brancy 5s cubic-bezier(0.785, 0.135, 0.15, 0.86) 1.4s infinite;
+}
+.logo12 {
+  animation: animate-brancy 5s cubic-bezier(0.785, 0.135, 0.15, 0.86) 1.3s infinite;
+}
+.logo13 {
+  animation: animate-brancy 5s cubic-bezier(0.785, 0.135, 0.15, 0.86) 1.2s infinite;
+}
+.logo14 {
+  animation: animate-brancy 5s cubic-bezier(0.785, 0.135, 0.15, 0.86) 1.1s infinite;
+}
+.logo15 {
+  animation: animate-brancy 5s cubic-bezier(0.785, 0.135, 0.15, 0.86) 1s infinite;
+}

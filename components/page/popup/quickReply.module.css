@@ -1,0 +1,23 @@
+.wordpool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-10);
+  max-height: 120px;
+  overflow-y: auto;
+}
+
+.specificword {
+  color: var(--text-h1);
+  font-weight: var(--weight-400);
+  font-size: var(--text-14);
+  transition: var(--transition3);
+  border-radius: var(--br8);
+  padding: var(--paddingtag);
+  display: flex;
+  align-items: center;
+  gap: var(--gap-5);
+  background-color: var(--color-dark-blue30);
+}
+html[dir="rtl"] .specificword {
+  flex-direction: row-reverse;
+}

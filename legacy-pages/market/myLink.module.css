@@ -1,0 +1,59 @@
+@media (max-width: 720px) {
+  .pincontainer {
+    width: calc(100% - 40px) !important;
+    left: 0px !important;
+    top: 90px !important;
+    height: calc(100% - 110px) !important;
+  }
+}
+.pincontainer {
+  border-radius: var(--br25);
+  position: fixed;
+  display: flex;
+  background-color: var(--color-white);
+  transition: var(--transition3);
+  animation: var(--bottom14);
+  justify-content: flex-start;
+  flex-direction: column;
+  height: 100%;
+  gap: var(--gap-20);
+  max-height: calc(100% - 100px);
+  width: calc(100% - 130px);
+  margin-inline: 20px;
+  min-width: 250px;
+  top: 80px;
+  align-items: center;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+
+.pincontainer:hover {
+  box-shadow: var(--box-shadow);
+}
+
+.goend {
+  position: fixed;
+  display: flex;
+  transition: var(--transition2);
+  border: 1px solid transparent;
+  cursor: pointer;
+  align-content: center;
+  justify-content: center;
+  align-items: center;
+  bottom: 130px;
+  right: 20px;
+  border-radius: 50%;
+  background-color: var(--color-light-blue60);
+  box-shadow: var(--box-shadow);
+  width: 30px;
+  height: 30px;
+}
+
+.goend:hover {
+  border: 1px solid var(--color-dark-blue);
+  fill: var(--color-dark-blue);
+}
+.goend:active {
+  border: 1px solid var(--color-dark-blue);
+  transform: scale(0.95);
+}

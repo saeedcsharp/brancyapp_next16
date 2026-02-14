@@ -1,0 +1,57 @@
+.copyright {
+  margin-block: 100px 60px;
+  position: relative;
+  align-self: center;
+  width: 100%;
+  color: var(--text-h1);
+  font-size: 14px;
+  font-weight: 400;
+  border-radius: 30px;
+  padding: 70px 20px 30px 20px;
+  width: calc(100% - 20px);
+  max-width: 1440px;
+  background-color: var(--color-gray10);
+  display: flex;
+  line-height: 18px;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  text-align: center;
+  align-content: center;
+  @media (max-width: 768px) {
+    font-size: 12px !important;
+    padding: 50px 10px 20px 10px;
+    gap: 10px;
+    border-radius: 30px;
+    margin-block: 60px 30px;
+  }
+}
+.copyrightimg {
+  top: -50px;
+  position: absolute;
+  transform: translateX(-50%);
+  left: 50%;
+  width: 90px;
+  height: 90px;
+  @media (max-width: 768px) {
+    width: 60px;
+    height: 60px;
+    top: -20px;
+  }
+}
+
+.madeby {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 5px;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+.brancylogo {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+}

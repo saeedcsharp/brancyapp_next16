@@ -1,0 +1,220 @@
+.aiPromptContainer {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-30);
+  width: 100%;
+  height: 100%;
+  align-items: flex-start;
+  overflow-y: auto;
+}
+html[dir="rtl"] .aiPromptContainer {
+  flex-direction: row-reverse;
+}
+.AIgeneral {
+  gap: var(--gap-30);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  transition: var(--transition3);
+  animation: var(--top04);
+  @media (max-width: 1024px) {
+    max-height: calc(100% - 20px);
+  }
+}
+html[dir="rtl"] .AIgeneral {
+  direction: rtl !important;
+  text-align: start !important;
+}
+.headerprompt {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  height: fit-content;
+  gap: var(--gap-20);
+  align-items: center;
+  justify-content: flex-start;
+}
+html[dir="rtl"] .headerprompt {
+  flex-direction: row-reverse;
+}
+.promptheaderleft {
+  position: relative;
+  display: flex;
+  width: 100%;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-10);
+  transition: var(--transition3);
+  flex-wrap: wrap;
+}
+.AIlab {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  padding: var(--padding-10) var(--padding-20);
+  border-radius: var(--br15);
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  color: var(--text-h1);
+  background-color: var(--color-gray30);
+  flex-direction: column;
+  transition: var(--transition3);
+  animation: var(--top04);
+  @media (max-width: 1024px) {
+    max-height: calc(100% - 20px);
+  }
+}
+.reanalize {
+  display: flex;
+  gap: var(--gap-10);
+  align-items: center;
+  justify-content: center;
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+  color: var(--color-dark-blue);
+  transition: var(--transition3);
+  animation: var(--fadeIn4);
+}
+.reanalize:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
+.promptMode {
+  border: none;
+  width: 100%;
+  display: flex;
+  gap: var(--gap-20);
+  transition: var(--transition3);
+}
+.promptModeparent {
+  gap: var(--gap-8);
+  transition: var(--transition3);
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+}
+.promptModecontent {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  max-height: 200px;
+  min-height: 200px;
+  justify-content: center;
+  background-color: var(--color-gray30);
+  transition: var(--transition3);
+  animation: var(--fadeIn4);
+  border-radius: var(--br15);
+  @media (max-width: 600px) {
+    max-height: 160px;
+    min-height: 160px;
+  }
+}
+.promptModecontentloading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  height: 100%;
+  max-height: 200px;
+  transition: var(--transition3);
+  animation: var(--fadeIn4);
+  min-height: 200px;
+  justify-content: center;
+  background-color: var(--color-gray30);
+  border-radius: var(--br15);
+  @media (max-width: 600px) {
+    max-height: 160px;
+    min-height: 160px;
+  }
+}
+.promptModecontentAnalysis {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  height: 100%;
+  animation: var(--fadeIn4);
+  max-height: 200px;
+  min-height: 200px;
+  justify-content: flex-start;
+  background-color: var(--color-gray10);
+  border: 1px solid var(--color-gray60);
+  gap: var(--gap-20);
+  border-radius: var(--br15);
+  transition: var(--transition3);
+  padding: var(--padding-10);
+  overflow-y: auto;
+  overflow-x: hidden;
+  @media (max-width: 600px) {
+    max-height: 160px;
+    min-height: 160px;
+  }
+}
+
+.promptModeoptionlist {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-10);
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  padding: var(--padding-10) var(--padding-14);
+  margin: var(--padding-8) var(--padding-10);
+  transition: var(--transition3);
+  animation: var(--top04);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.promptModeoption {
+  display: flex;
+  flex-direction: row;
+  width: fit-content;
+  text-wrap: nowrap;
+  cursor: pointer;
+  gap: var(--gap-5);
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-8) var(--padding-10);
+  border-radius: var(--br15);
+  transition: var(--transition3);
+  background-color: var(--color-white);
+  border: 1px solid transparent;
+}
+.promptModeoption:hover {
+  border: 1px solid var(--color-gray);
+}
+.backicon {
+  background-color: var(--color-dark-blue30);
+  width: 40px;
+  padding: var(--padding-10);
+  height: 40px;
+  border-radius: var(--br10);
+  cursor: pointer;
+  transition: var(--transition3);
+  border: 1px solid transparent;
+}
+.backicon:hover {
+  border: 1px solid var(--color-dark-blue);
+}
+html[dir="rtl"] .backicon {
+  rotate: 180deg;
+}
+
+.emptyAI {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  flex-direction: column;
+  gap: var(--gap-20);
+}

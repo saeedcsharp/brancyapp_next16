@@ -1,0 +1,36 @@
+.outerSelection {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--content-box);
+  border-radius: var(--br8);
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+}
+.innerSelection {
+  position: relative;
+  width: 17px;
+  height: 17px;
+  border-radius: var(--br5);
+  background-color: var(--color-dark-blue);
+  color: var(--color-ffffff) f;
+}
+.deactice {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border: 1px solid var(--content-box);
+  border-radius: var(--br8);
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  opacity: 0.4;
+  pointer-events: none;
+}

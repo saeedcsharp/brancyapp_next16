@@ -1,0 +1,27 @@
+/**
+ * Main SCSS File
+ * This file imports all partial SCSS files
+ */
+
+// Import variables first as they are used by other partials
+@import "variables";
+
+// Base styles and resets
+@import "reset";
+@import "animations";
+
+// Typography and text elements
+@import "typography";
+
+// Layout components
+@import "layout";
+@import "buttons";
+@import "icons";
+
+// UI components
+@import "profile";
+@import "charts";
+@import "notifications";
+
+// Browser-specific styles
+@import "scrollbars";

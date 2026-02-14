@@ -1,0 +1,339 @@
+.all {
+  gap: var(--gap-20);
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+
+  justify-content: space-between;
+}
+.all {
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.5s ease, opacity 0.1s ease;
+}
+
+.all.show {
+  max-height: 100%;
+  opacity: 1;
+}
+
+/* explicit class to satisfy CSS Modules lookup in TS/linters */
+.show {
+  --noop: 1;
+}
+
+.winnerPicker {
+  position: relative;
+  display: flex;
+  gap: var(--gap-10);
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.score,
+.most,
+.random {
+  position: relative;
+  width: 100%;
+  height: 70px;
+  min-height: 70px;
+  border: 1px solid var(--content-box);
+  border-radius: var(--br15);
+  gap: var(--gap-10);
+
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  padding: var(--padding-10);
+  transition: var(--transition2);
+  cursor: pointer;
+}
+.score:hover,
+.most:hover,
+.random:hover {
+  border: 1px solid var(--color-dark-blue);
+}
+
+.icon {
+  position: relative;
+  width: 100%;
+  max-width: 50px;
+  max-height: 35px;
+  aspect-ratio: 1 / 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  cursor: pointer;
+}
+.title {
+  position: relative;
+  font-size: var(--font-16);
+  font-weight: var(--weight-600);
+  color: var(--color-dark-blue);
+}
+
+.frame {
+  position: relative;
+  width: 100%;
+  display: flex;
+  gap: var(--gap-5);
+  flex-direction: column;
+  align-items: flex-start;
+}
+
+.lotteryresult {
+  height: 100%;
+  overflow-y: auto;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-10);
+  transition: var(--transition3);
+}
+
+.activeWinnerPickerlist {
+  height: 100%;
+  width: 100%;
+  display: flex;
+  gap: var(--gap-20);
+  flex-direction: column;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+}
+html[dir="rtl"] .activeWinnerPickerlist > div > div:nth-child(2) {
+  left: -10% !important;
+}
+
+.innerContainer {
+  max-height: 90px;
+  height: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  padding: var(--padding-10) var(--padding-8);
+  border-bottom: 1px solid var(--color-gray30);
+  transition: var(--transition3);
+}
+
+.status {
+  color: var(--color-purple);
+  background-color: var(--color-purple30);
+  padding: var(--paddingtag);
+  line-height: 14px;
+  border-radius: var(--br8);
+  font-size: var(--font-12);
+  font-weight: var(--weight-600);
+}
+
+.winnerInfoContainer {
+  gap: var(--gap-8);
+  display: flex;
+  position: relative;
+  align-items: flex-start;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 50px;
+}
+.winnermoreContainer {
+  gap: var(--gap-8);
+  display: flex;
+  position: relative;
+  align-items: center;
+  flex-direction: column;
+  justify-content: space-between;
+  min-height: 50px;
+}
+
+.arrow,
+.notarrow {
+  position: relative;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  box-sizing: border-box;
+}
+
+.winnerId {
+  position: relative;
+  color: var(--text-h1);
+  font-size: var(--font-16);
+  font-weight: var(--weight-700);
+}
+
+.winnerTimeContainer {
+  color: var(--text-h1);
+  display: flex;
+  gap: var(--gap-5);
+  position: relative;
+  font-size: var(--font-12);
+  min-height: 20px;
+  justify-content: flex-start;
+  flex-direction: row;
+}
+
+.winnerTime {
+  position: relative;
+  color: var(--text-h1);
+  font-size: var(--font-12);
+  font-style: normal;
+  font-weight: var(--weight-500);
+}
+
+.error {
+  min-width: 60px;
+  border: 1px solid var(--color-dark-red30);
+  color: var(--color-dark-red);
+  background-color: var(--color-dark-red10);
+  padding: var(--paddingtag);
+  border-radius: var(--br10);
+  font-size: var(--font-10);
+  font-weight: var(--weight-500);
+  line-height: 16px;
+}
+
+.success {
+  min-width: 60px;
+  border: 1px solid var(--color-dark-green30);
+  color: var(--color-dark-green);
+  background-color: var(--color-dark-green10);
+  padding: var(--paddingtag);
+  border-radius: var(--br10);
+  font-size: var(--font-10);
+  font-weight: var(--weight-500);
+  line-height: 16px;
+}
+
+.pending {
+  min-width: 60px;
+  border: 1px solid var(--color-purple30);
+  color: var(--color-purple);
+  background-color: var(--color-purple10);
+  padding: var(--paddingtag);
+  border-radius: var(--br10);
+  font-size: var(--font-10);
+  font-weight: var(--weight-500);
+  line-height: 16px;
+}
+
+.date {
+  color: var(--text-h2);
+  font-weight: var(--weight-400);
+  position: relative;
+  display: flex;
+  transition: all 0.3s ease-in-out;
+  flex-direction: row;
+  align-content: center;
+  align-items: center;
+}
+
+.day {
+  color: var(--text-h1);
+  font-size: var(--font-12);
+  font-weight: var(--weight-500);
+}
+
+.hour {
+  color: var(--text-h2);
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+}
+
+/* Swiper styles for WinnerPicker */
+.swiperContent {
+  width: 100%;
+  height: auto;
+  position: relative;
+}
+
+.Count {
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+  width: 20px;
+  text-align: center;
+}
+.swiperbuttonparent {
+  position: absolute;
+  bottom: 0px;
+  width: 80%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 2;
+}
+/* Navigation icons for swiper */
+.paginationvariant14Icon {
+  cursor: pointer;
+  color: var(--text-h1);
+  transition: all 0.3s ease;
+}
+
+.paginationvariant13Icon {
+  cursor: pointer;
+  color: var(--text-h1);
+  transition: all 0.3s ease;
+}
+
+/* Custom navigation buttons */
+
+.swiperbuttonprevcustom {
+  position: absolute !important;
+  cursor: pointer;
+  z-index: 2;
+  bottom: 0px;
+  right: 80%;
+  width: 21px;
+  height: 20px;
+  transition: var(--transition3);
+}
+
+.swiperbuttonnextcustom {
+  left: 80%;
+  position: absolute !important;
+  cursor: pointer;
+  z-index: 2;
+  bottom: 0px;
+  width: 21px;
+  height: 20px;
+  transition: var(--transition3);
+}
+
+.swiperbuttonnextcustom:hover,
+.swiperbuttonprevcustom:hover {
+  transform: scale(1.05);
+}
+
+html[dir="rtl"] .swiperbuttonnextcustom {
+  position: absolute !important;
+  transform: rotateY(180deg);
+  cursor: pointer;
+  z-index: 2;
+  bottom: 0px;
+  right: 80%;
+  left: auto;
+  width: 21px;
+  height: 20px;
+  transition: var(--transition3);
+}
+
+html[dir="rtl"] .swiperbuttonprevcustom {
+  transform: rotateY(180deg);
+  left: 80%;
+  right: auto;
+  position: absolute !important;
+  cursor: pointer;
+  z-index: 2;
+  bottom: 0px;
+  width: 21px;
+  height: 20px;
+  transition: var(--transition3);
+}

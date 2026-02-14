@@ -1,0 +1,62 @@
+/* TextNode Styles */
+
+.container {
+  /* border-color: #3498db; */
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-10);
+}
+
+.textareaWrapper {
+  display: flex;
+  gap: 6px;
+  align-items: flex-start;
+}
+
+.textarea {
+  flex: 1;
+  padding: 8px;
+  border: 2px solid #3498db;
+  border-radius: 4px;
+  font-size: 13px;
+  font-family: inherit;
+  resize: vertical;
+  min-height: 60px;
+  transition: all 0.2s;
+}
+
+.textarea:focus {
+  outline: none;
+  border-color: #2980b9;
+  box-shadow: 0 0 0 3px rgba(52, 152, 219, 0.15);
+}
+
+.textarea::placeholder {
+  color: #999;
+}
+
+.pasteButton {
+  padding: 8px 12px;
+  background: #3498db;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: all 0.2s;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 40px;
+  height: 38px;
+  flex-shrink: 0;
+}
+
+.pasteButton:hover {
+  background: #2980b9;
+  transform: scale(1.05);
+}
+
+.pasteButton:active {
+  transform: scale(0.95);
+}

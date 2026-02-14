@@ -1,0 +1,170 @@
+.schedulPosts {
+  /* margin-inline: 20px; */
+  display: flex;
+  flex-direction: column;
+  /* width: calc(100% - 40px); */
+  width: 100%;
+  animation: var(--bottom08);
+  transition: var(--transition3);
+  border-radius: var(--br25);
+  background-color: var(--color-white);
+  gap: var(--gap-20);
+  height: 100%;
+  min-height: 300px;
+  max-height: 300px;
+  padding: var(--paddingbox);
+  justify-content: space-between;
+}
+@media (max-width: 500px) {
+  .schedulPosts {
+    padding: var(--paddingboxmobile) !important;
+    margin-inline: 10px !important;
+    width: calc(100% - 20px) !important;
+  }
+  .navButton {
+    display: none !important;
+  }
+}
+.schedulPosts:hover {
+  box-shadow: var(--box-shadow);
+}
+
+.thereAreNoPostsParent {
+  padding-inline: var(--padding-20);
+  align-self: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-20);
+  width: fit-content;
+  height: 200px;
+  color: var(--text-h1);
+  font-size: var(--font-16);
+  font-weight: var(--weight-600);
+}
+.ScheduledPostsWrapper {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-10);
+  width: 100%;
+  position: relative;
+}
+.navButton {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 30px;
+  min-height: 30px;
+  width: 30px;
+  height: 30px;
+  border-radius: var(--br10);
+  background-color: var(--color-dark-blue);
+  color: #fff;
+  cursor: pointer;
+  transition: var(--transition2);
+}
+.navButton:hover:not(:disabled) {
+  transform: scale(1.1);
+}
+.navButton:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+.navButtonLeft {
+  transform: scaleX(var(--scale-x, 1));
+}
+.navButtonRight {
+  transform: scaleX(var(--scale-x, 1));
+}
+html[dir="rtl"] .navButton {
+  transform: rotate(180deg);
+}
+html[dir="rtl"] .navButton:hover:not(:disabled) {
+  transform: rotate(180deg) scale(1.1);
+}
+.ScheduledPosts {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  align-items: center;
+  justify-content: flex-start;
+  gap: var(--gap-10);
+  overflow-x: scroll;
+  overflow-y: hidden;
+  padding: var(--padding-10);
+  scroll-snap-type: x mandatory;
+  scroll-padding-left: 0;
+  -webkit-overflow-scrolling: touch;
+  user-select: none;
+  transition: var(--transition3);
+}
+.cardPost {
+  position: relative;
+  display: flex;
+  background-color: var(--color-gray30);
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--br15);
+  transition: var(--transition3);
+  aspect-ratio: 1/1;
+  min-width: 180px;
+  min-height: 180px;
+  width: 180px;
+  height: 180px;
+  max-width: 180px;
+  max-height: 180px;
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+}
+
+.postimage {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  border-radius: var(--br15);
+  object-fit: cover;
+  filter: brightness(0.6);
+  transition: var(--transition3);
+}
+.cardPost:hover .postimage {
+  filter: brightness(1);
+  scale: 0.95;
+}
+.CounterDown {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.PostCount {
+  position: absolute;
+  bottom: 20px;
+  left: 50%;
+  transform: translateX(-50%);
+  color: var(--color-ffffff);
+  text-align: center;
+  font-size: var(--font-12);
+}
+.advertiseIcon {
+  position: absolute;
+  bottom: 18px;
+  left: 50%;
+  transform: translateX(-50%);
+  height: 20px;
+  width: 20px;
+}
+.deleteIcon {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  height: 20px;
+  width: 20px;
+  cursor: pointer;
+}

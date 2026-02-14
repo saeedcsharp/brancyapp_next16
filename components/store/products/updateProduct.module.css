@@ -1,0 +1,28 @@
+.update {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 116;
+  transition: var(--transition3);
+  border-radius: var(--br25);
+  background-color: var(--color-white);
+
+  padding: var(--paddingbox);
+  justify-content: space-between;
+  width: 395px;
+  max-width: calc(100% - 50px);
+  height: 700px;
+  max-height: calc(100% - 50px);
+  min-width: 250px;
+  gap: var(--gap-20);
+  overflow-y: auto;
+  animation: var(--fadeIn3);
+}
+@media (max-width: 480px) {
+  .update {
+    padding: var(--paddingboxmobile) !important;
+  }
+}

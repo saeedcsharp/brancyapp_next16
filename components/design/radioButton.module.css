@@ -1,0 +1,46 @@
+.radioButtonInput {
+  display: none;
+}
+
+.radioButtonLabel {
+  color: var(--text-h1);
+  gap: var(--gap-10);
+  display: flex;
+  cursor: pointer;
+transition: var(--transition3);
+  align-items: center;
+  font-size: var(--font-14);
+  font-weight: var(--weight-500);
+  text-transform: capitalize;
+  text-decoration: none;
+  text-align: start;
+  line-height: 16px;
+}
+
+.radioButtonCustom {
+  position: relative;
+  display: flex;
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+  border-radius: 50%;
+  border: 1px solid var(--color-dark-blue);
+  transition: var(--transition1);
+}
+.radioButtonLabel:hover .radioButtonCustom {
+  border: 3px solid var(--color-dark-blue);
+}
+
+.radioButtonInput:checked + .radioButtonLabel .radioButtonCustom {
+  border: 5px solid var(--color-dark-blue);
+}
+
+.radioButtonsContainer {
+  display: flex;
+  align-items: center;
+  gap: 24px !important;
+  position: absolute;
+  top: 50px;
+  left: 100px;
+}

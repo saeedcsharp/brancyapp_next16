@@ -1,0 +1,104 @@
+.allnotpass {
+  position: absolute;
+  min-width: 290px;
+  width: 100%;
+  max-width: 340px;
+  height: 80%;
+  max-height: 345px;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-20);
+  left: 50%;
+  transform: translate(-50%, -50%);
+  top: 50%;
+  border-radius: var(--br30);
+  justify-content: center;
+  align-items: center;
+  z-index: 15;
+  justify-content: space-evenly;
+  padding: var(--paddingboxmobile);
+  background-color: var(--background-root);
+
+  @media (max-width: 480px) {
+    max-width: 290px !important;
+  }
+}
+.background {
+  position: fixed;
+  backdrop-filter: blur(2px);
+  width: 105%;
+  height: calc(100% + 5px);
+  bottom: 0px;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 100;
+}
+
+.icon {
+  background-color: var(--color-gray10);
+  border-radius: var(--br20);
+  /* max-width: 100px;
+    width: 100%;
+    min-width: 50px;
+    min-height: 50px;
+    height: 100%; */
+  max-height: 100px;
+  aspect-ratio: 1/1;
+  padding: var(--padding-10);
+}
+.allnotpass span {
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  line-height: 20px;
+}
+.btn {
+  cursor: pointer;
+  position: relative;
+  text-wrap: nowrap;
+  border: 1px solid var(--color-dark-blue);
+  font-weight: var(--weight-800);
+  font-size: var(--font-14);
+  border-radius: var(--br10);
+  padding-inline: 14px;
+  height: 100%;
+  max-height: 40px;
+  color: var(--color-dark-blue);
+  width: 100%;
+  background: linear-gradient(
+    to left,
+    var(--color-white) 0,
+    var(--color-dark-blue) 20%
+  );
+  transition: var(--transition3);
+  background-position: 0;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: shine-ltr 2.5s infinite linear;
+  animation-fill-mode: forwards;
+  -webkit-text-size-adjust: none;
+}
+html[dir="rtl"] .btn {
+  animation: shine-rtl 3s infinite linear;
+}
+@keyframes shine-ltr {
+  0% {
+    background-position: 0;
+  }
+
+  100% {
+    background-position: 270px;
+  }
+}
+@keyframes shine-rtl {
+  0% {
+    background-position: 262px;
+  }
+
+  100% {
+    background-position: 0;
+  }
+}
+.btn:hover {
+  box-shadow: 0 0 0 4px var(--color-dark-blue30);
+}

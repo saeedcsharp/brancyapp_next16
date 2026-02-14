@@ -1,0 +1,69 @@
+import React from "react";
+import { IItem, IOwnerInbox, IThread } from "saeed/models/messages/IMessage";
+import { ItemType } from "saeed/models/messages/enum";
+import styles from "../directChatBox.module.css";
+import { ChatAudio } from "./shared/messageTypes/ChatAudio";
+import { ChatGeneric } from "./shared/messageTypes/ChatGeneric";
+import { ChatMedia } from "./shared/messageTypes/ChatMedia";
+import { ChatMediaShare } from "./shared/messageTypes/ChatMediaShare";
+import { ChatStoryMention } from "./shared/messageTypes/ChatStoryMention";
+import { ChatText } from "./shared/messageTypes/ChatText";
+import { ImageClickInfo, VideoClickInfo } from "./types";
+interface RightChatWrapperProps {
+  item: IItem;
+  chatBox: IThread;
+  ownerInbox: IOwnerInbox;
+  baseMediaUrl: string;
+  useExternalUrl: boolean;
+  onClickSubIcon: (iconId: string, itemId: string) => void;
+  onImageContainerClick?: (info: ImageClickInfo) => void;
+  onVideoContainerClick?: (info: VideoClickInfo) => void;
+  dateFormatToggle: string;
+  toggleDateFormat: (itemId: string) => void;
+  formatDate: (timestamp: number, itemId: string | null) => string;
+  handleFindEmoji: (text: string | null) => string | null;
+  getMessageDirectionClass: (text: string | null, baseClass: string) => string;
+  handleSpecifyRepliedItemFullName: (itemId: string, repItem: IItem | null) => string;
+  handleSpecifyRepliedItemType: (repItemId: string, repItem: IItem | null) => string;
+}
+export const RightChatWrapper: React.FC<RightChatWrapperProps> = (props) => {
+  const { item } = props;
+  const commonProps = {
+    item,
+    direction: "right" as const,
+    chatBox: props.chatBox,
+    ownerInbox: props.ownerInbox,
+    baseMediaUrl: props.baseMediaUrl,
+    useExternalUrl: props.useExternalUrl,
+    onClickSubIcon: props.onClickSubIcon,
+    onImageContainerClick: props.onImageContainerClick,
+    onVideoContainerClick: props.onVideoContainerClick,
+    dateFormatToggle: props.dateFormatToggle,
+    toggleDateFormat: props.toggleDateFormat,
+    formatDate: props.formatDate,
+    handleFindEmoji: props.handleFindEmoji,
+    getMessageDirectionClass: props.getMessageDirectionClass,
+    handleSpecifyRepliedItemFullName: props.handleSpecifyRepliedItemFullName,
+    handleSpecifyRepliedItemType: props.handleSpecifyRepliedItemType,
+  };
+  const renderMessage = () => {
+    switch (item.itemType) {
+      case ItemType.Text:
+      case ItemType.ReplyStory:
+        return <ChatText {...commonProps} />;
+      case ItemType.AudioShare:
+        return <ChatAudio {...commonProps} />;
+      case ItemType.Media:
+        return <ChatMedia {...commonProps} />;
+      case ItemType.MediaShare:
+        return <ChatMediaShare {...commonProps} />;
+      case ItemType.StoryMention:
+        return <ChatStoryMention {...commonProps} />;
+      case ItemType.Generic:
+        return <ChatGeneric {...commonProps} />;
+      default:
+        return null;
+    }
+  };
+  return <div className={styles.rightchatrow}>{renderMessage()}</div>;
+};

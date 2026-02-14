@@ -1,0 +1,368 @@
+.initial {
+  position: absolute;
+  display: flex;
+  width: 344px;
+  height: 48px;
+  align-items: center;
+  flex-shrink: 0;
+  border-radius: var(--br15);
+  transition: var(--transition3);
+  outline: none;
+  border: 1px solid var(--content-box);
+}
+.initial:focus {
+  background: var(--color-white);
+  border-color: var(--color-dark-blue);
+  border-radius: var(--br8);
+  box-shadow: 0 0 4px 5px var(--color-gray);
+  /* color: var(--color-white); */
+  background-position: 15px center;
+  transition: var(--transition3);
+}
+
+.hover {
+  position: absolute;
+  width: 236px;
+  height: 48px;
+  background: var(--color-gray);
+  border-color: var(--content-box);
+  border-radius: var(--br10);
+  background-color: var(--color-disable);
+  transition: var(--transition3);
+}
+
+.disable {
+  padding-inline: var(--padding-16) var(--padding-28);
+  position: relative;
+  display: flex;
+  height: 42px;
+  color: var(--text-h2);
+  border-radius: var(--br15);
+  background: var(--color-white);
+  border: 1px solid var(--content-box);
+  outline: none;
+  transition: var(--transition3);
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  width: -webkit-fill-available;
+  align-items: flex-start;
+  align-content: flex-start;
+  pointer-events: none !important;
+  opacity: 0.3 !important;
+}
+.filled {
+  position: absolute;
+  width: 236px;
+  height: 42px;
+  border-color: var(--content-box);
+  border-radius: var(--br15);
+  background-color: var(--color-white);
+  transition: var(--transition3);
+}
+.success {
+  position: absolute;
+  width: 236px;
+  height: 42px;
+  border-color: var(--color-dark-green);
+  border-radius: var(--br15);
+  background-color: var(--color-white);
+  transition: var(--transition3);
+}
+.info {
+  position: absolute;
+  width: 236px;
+  height: 42px;
+  border-color: var(--color-light-blue);
+  border-radius: var(--br15);
+  background-color: var(--color-white);
+  transition: var(--transition3);
+}
+.warning {
+  position: absolute;
+  width: 236px;
+  height: 42px;
+  border-color: var(--color-dark-yellow);
+  border-radius: var(--br15);
+  background-color: var(--color-white);
+  transition: var(--transition3);
+}
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-1px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(1px);
+  }
+}
+
+.danger {
+  padding-inline: var(--padding-16) var(--padding-28);
+  position: relative;
+  display: flex;
+  height: 42px;
+  color: var(--text-h2);
+  border-radius: var(--br15);
+  background: var(--color-white);
+  border: 1px solid var(--color-dark-red);
+  outline: none;
+  transition: var(--transition3);
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  width: -webkit-fill-available;
+  align-items: flex-start;
+  align-content: flex-start;
+  animation: shake 0.6s ease-in-out;
+}
+/* Reusable shake class for inputs */
+.shake {
+  animation: shake 0.6s ease-in-out;
+}
+.num {
+  position: absolute;
+  width: 236px;
+  height: 42px;
+  border-color: var(--content-box);
+  border-radius: var(--br15);
+  background-color: var(--color-disable);
+  transition: var(--transition3);
+}
+.numAndPercentage {
+  position: absolute;
+  width: 236px;
+  height: 42px;
+  border-color: var(--content-box);
+  border-radius: var(--br15);
+  background-color: var(--color-disable);
+  transition: var(--transition3);
+}
+.search {
+  width: 348px;
+  height: 20px;
+  color: var(--content-box);
+  border-radius: var(--br15);
+  background: var(--color-white);
+  transition: var(--transition3);
+  outline: none;
+  /* Remove the always-on background image */
+  padding: var(--padding-10) var(--padding-10) var(--padding-10) 42px;
+  border: 1px solid var(--content-box);
+  line-height: 30px;
+  text-decoration: none;
+}
+.search:focus {
+  background-size: auto 20px;
+  background: var(--color-white);
+  border-color: var(--color-dark-blue);
+  border-radius: var(--br15);
+  box-shadow: 0 0 4px 5px var(--color-gray);
+  color: var(--text-h1);
+  /* Remove the always-on background image */
+  transition: var(--transition3);
+  line-height: 30px;
+  text-decoration: none;
+}
+
+/* Add these styles for background image handling */
+.emptyInput.search {
+  background-image: url("/icon-search.svg");
+  background-repeat: no-repeat;
+  background-size: auto 20px;
+  background-position: 15px center;
+}
+
+/* For empty inputs that are focused */
+.emptyInput.search:focus {
+  background-image: url("/icon-search.svg");
+  background-repeat: no-repeat;
+  background-position: 15px center;
+}
+
+/* ___textinputbox___*/
+.textinputbox {
+  padding-inline: var(--padding-16) var(--padding-28);
+  position: relative;
+  display: flex;
+  height: 42px;
+  color: var(--text-h2);
+  border-radius: var(--br15);
+  background: var(--color-white);
+  border: 1px solid var(--content-box);
+  outline: none;
+  transition: var(--transition3);
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  width: -webkit-fill-available;
+  align-items: flex-start;
+  align-content: flex-start;
+}
+
+.textinputbox:hover {
+  border-color: var(--color-dark-blue);
+  border-radius: var(--br10);
+}
+
+.textinputbox:focus {
+  border-radius: var(--br10);
+  transform: scale(0.99);
+
+  border-color: var(--color-dark-blue);
+  box-shadow: 0 0 0 5px var(--color-dark-blue30);
+
+  color: var(--text-h1);
+}
+.textinputbox:focus-visible {
+  border-radius: var(--br10);
+  transform: scale(0.99);
+  border: 1px solid var(--color-dark-blue) !important;
+  box-shadow: 0 0 0 5px var(--color-dark-blue30);
+
+  color: var(--text-h1);
+}
+
+.textinputbox:active {
+  transform: scale(0.99);
+  text-decoration: none;
+}
+
+.textinputbox::placeholder {
+  color: var(--text-h2);
+  text-decoration: none;
+}
+
+.textinputbox:focus::placeholder {
+  color: var(--text-h2);
+  transition: var(--transition3);
+  text-decoration: none;
+}
+
+.textinputbox:disabled {
+  background-color: var(--color-disable); /* Or any other style to indicate disabled state */
+  color: var(--text-h3); /* Lighter text color for disabled state */
+  cursor: not-allowed;
+  border-color: var(--content-box); /* Keep border or change as needed */
+}
+
+.textinputbox:disabled:hover,
+.textinputbox:disabled:focus {
+  border-color: var(--content-box); /* Prevent hover/focus styles on disabled */
+  box-shadow: none;
+  transform: none;
+}
+
+/* ___textinputbox___*/
+
+/* ___serachMenuBar___*/
+.serachMenuBar {
+  padding: var(--padding-5) var(--padding-20) var(--padding-5) 42px;
+  position: relative;
+  display: flex;
+  height: 42px;
+  color: var(--text-h2);
+  background: var(--color-white);
+  border: 1px solid var(--content-box);
+  outline: none;
+  transition: var(--transition3);
+  font-size: var(--font-12);
+
+  font-weight: var(--weight-400);
+  line-height: 20px;
+  width: -webkit-fill-available;
+  border-radius: var(--br15);
+  /* Remove the always-on background image */
+  text-decoration: none;
+}
+html[dir="rtl"] .serachMenuBar {
+  padding: var(--padding-5) 42px var(--padding-5) var(--padding-5) !important;
+  background-position: right 10px center !important;
+}
+.serachMenuBar:hover {
+  border-color: var(--color-dark-blue);
+  border-radius: var(--br10);
+  line-height: 20px;
+  text-decoration: none;
+}
+
+.serachMenuBar:focus {
+  background: var(--color-white);
+  border-color: var(--color-dark-blue);
+  border-radius: var(--br10);
+  box-shadow: 0 0 0 5px var(--color-dark-blue30);
+  color: var(--text-h1);
+  transition: var(--transition3);
+  /* Remove the always-on background image */
+  line-height: 20px;
+  text-decoration: none;
+}
+
+/* Add these styles for background image handling */
+.emptyInput.serachMenuBar {
+  background-image: url("/icon-search.svg");
+  background-repeat: no-repeat;
+  background-position: 10px center;
+}
+
+/* For empty inputs that are focused */
+.emptyInput.serachMenuBar:focus {
+  background-image: url("/icon-search.svg");
+  background-repeat: no-repeat;
+  background-position: 10px center;
+}
+
+.serachMenuBar:active {
+  transform: scale(0.99);
+  text-decoration: none;
+}
+
+.serachMenuBar::placeholder {
+  color: var(--text-h2);
+  line-height: 20px;
+  text-decoration: none;
+  text-transform: capitalize;
+}
+
+.serachMenuBar:focus::placeholder {
+  color: var(--text-h2);
+  transition: var(--transition3);
+  line-height: 20px;
+  text-decoration: none;
+}
+
+/* ___serachMenuBar___*/
+.inputWrapper {
+  padding: 2px;
+  position: relative;
+  display: inline-block;
+  width: 100%;
+}
+.clearButton {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.clearButtonLtr {
+  right: 10px;
+}
+.clearButtonRtl {
+  left: 10px;
+}
+.inputWrapper input.ltr {
+  padding-right: 30px;
+}
+.inputWrapper input.rtl {
+  padding-left: 30px;
+}

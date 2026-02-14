@@ -1,0 +1,141 @@
+.tooBigCard {
+  overflow: hidden;
+  grid-row-end: span 75;
+  contain: layout style;
+}
+
+.toobigcardclose {
+  grid-row-end: span 10;
+  padding: 15px !important;
+  transition: all 0.3s ease;
+  contain: layout style;
+}
+
+.contactBox {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-content: space-between;
+  flex-direction: column;
+  gap: var(--gap-30);
+}
+
+.frameContainer {
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-15);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font-size: var(--font-14);
+  color: var(--text-h1);
+  max-height: 0;
+  opacity: 0;
+  transition:
+    max-height 0.5s ease,
+    opacity 0.5s ease;
+  will-change: max-height, opacity;
+  contain: layout style;
+  padding: 0 var(--gap-5);
+}
+
+.frameContainerShow {
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-30);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font-size: var(--font-14);
+  color: var(--text-h1);
+  max-height: 100%;
+  opacity: 1;
+  transition:
+    max-height 0.5s ease,
+    opacity 0.5s ease;
+  will-change: max-height, opacity;
+  contain: layout style;
+  padding: 0 var(--gap-5);
+}
+
+.headersection {
+  position: relative;
+  height: 60px;
+  display: flex;
+  gap: var(--gap-10);
+  justify-content: space-evenly;
+  flex-direction: row;
+  width: 100%;
+  align-content: center;
+  align-items: center;
+  contain: layout style;
+  cursor: pointer;
+}
+
+.backdropfade {
+  position: absolute;
+  top: -70px;
+  left: -80px;
+  width: 180px;
+  height: 120px;
+  border-radius: 50%;
+  filter: blur(40px);
+  background-color: var(--color-dark-blue60);
+}
+
+html[dir="rtl"] .backdropfade {
+  right: -80px;
+  left: auto;
+}
+
+.headerandinput {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-8);
+  transition: var(--transition3);
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+.summaryText {
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  color: var(--text-h2);
+  white-space: pre-wrap;
+  word-break: break-word;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  text-align: justify;
+}
+
+.headersection :global(.sparkle) {
+  animation: sparkle 2s ease-in-out infinite;
+  filter: drop-shadow(0 0 4px rgba(255, 255, 255, 0.5));
+}
+
+@keyframes sparkle {
+  0%,
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.6;
+    transform: scale(0.9);
+  }
+}
+
+@media (max-width: 768px) {
+  .summaryText {
+    font-size: var(--font-14);
+    line-height: 1.7;
+  }
+}

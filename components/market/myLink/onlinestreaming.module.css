@@ -1,0 +1,435 @@
+@media (max-width: 768px) {
+  .all {
+    gap: 20px !important;
+    padding: 20px !important;
+  }
+  .header {
+    padding: 0px !important;
+    height: 120px !important;
+  }
+  .headertext {
+    margin-top: 10px !important;
+    font-size: 14px !important;
+    font-weight: 400 !important;
+  }
+  .headertextblue {
+    font-size: 16px !important;
+  }
+
+  .radioinput {
+    font-size: 12px !important;
+    top: 0px !important;
+  }
+  .headerimg {
+    width: 100px !important;
+    height: 100px !important;
+  }
+  .videodetail {
+    gap: 10px !important;
+    padding: 0px !important;
+    font-size: 18px !important;
+    font-weight: 600 !important;
+  }
+  .contentttext {
+    -webkit-line-clamp: unset !important;
+    line-clamp: unset !important;
+    display: block !important;
+    overflow: visible !important;
+    font-size: 12px !important;
+    font-weight: 400 !important;
+    line-height: 1;
+  }
+}
+.embedvideofromtumbparent {
+  width: 100%;
+  border-radius: 30px;
+  overflow: hidden;
+  position: relative;
+}
+.all {
+  position: relative;
+  align-self: center;
+  width: 100%;
+  margin-bottom: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  align-content: center;
+  gap: 30px;
+}
+.header {
+  text-wrap: nowrap;
+  position: relative;
+  width: 100%;
+  height: 150px;
+  top: 70px;
+  display: flex;
+  flex-direction: row;
+  gap: 10px;
+  align-items: flex-start;
+  justify-content: space-between;
+  cursor: pointer;
+}
+.headerparent {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+  align-items: flex-start;
+  width: 100%;
+  @media (max-width: 768px) {
+    gap: 0px;
+  }
+}
+.headertext {
+  margin-top: 30px;
+  display: flex;
+  gap: 5px;
+  display: flex;
+  flex-wrap: nowrap;
+  color: var(--text-h1);
+  font-size: 24px;
+  font-weight: 400;
+  text-transform: capitalize;
+  flex-direction: row;
+  align-items: center;
+}
+.headertextblue {
+  font-weight: 800;
+  font-size: 28px;
+  background: linear-gradient(
+    to right,
+    var(--color-dark-blue),
+    var(--color-light-blue)
+  );
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.headerimg {
+  width: 200px;
+  height: 200px;
+  z-index: 1;
+}
+.content {
+  max-height: 0px;
+  overflow: hidden;
+  transition: all 0.6s ease-in-out !important;
+  opacity: 0;
+}
+.content.show {
+  max-height: 1000px;
+  opacity: 1;
+}
+.content {
+  position: relative;
+  display: flex;
+  width: 100%;
+  gap: 20px;
+  max-width: 1200px;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.radioinput input {
+  display: none;
+}
+.radioinput {
+  top: 15px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: 15px;
+  padding: 5px;
+  gap: 10px;
+  background-color: var(--background-root);
+  color: var(--text-h1);
+  max-width: 330px;
+  width: 100%;
+  flex-direction: row;
+  overflow: hidden;
+  @media (max-width: 768px) {
+    max-width: fit-content;
+    gap: 5px;
+  }
+}
+.ribonparent {
+  z-index: 2;
+  margin-block: 60px;
+  height: 200px;
+  width: 100%;
+  position: relative;
+  @media (max-width: 768px) {
+    height: 100px;
+    margin-block: 20px;
+  }
+}
+.ribon1 {
+  height: 40px;
+  padding: 0px 10px;
+  transform: rotate(3deg);
+  background-color: #e43535;
+  background-image: url("/streamonline-back.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  width: calc(100% + 60px);
+  left: -30px;
+  top: 40px;
+  position: absolute;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  @media (max-width: 768px) {
+    height: 25px;
+  }
+}
+.ribon2 {
+  height: 60px;
+  padding: 0px 10px;
+  transform: rotate(-3deg);
+  background-color: #e43535;
+  background-image: url("/streamonline-back.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  color: white;
+  font-size: 12px;
+  font-weight: 600;
+  width: calc(100% + 60px);
+  left: -30px;
+  position: absolute;
+  box-shadow: 0 4px 19px 0 rgba(0, 0, 0, 0.35);
+  top: 0px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  @media (max-width: 768px) {
+    height: 35px;
+  }
+}
+
+.marquee {
+  top: 0;
+  left: 0%;
+  width: 100%;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  animation: marquee 30s linear infinite;
+  display: flex;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+}
+
+.marquee1 {
+  top: 0;
+  left: 0%;
+  width: 100%;
+  overflow: hidden;
+  position: absolute;
+  white-space: nowrap;
+  animation: marquee 30s linear infinite;
+  display: flex;
+  font-weight: 400;
+  font-size: 14px;
+  flex-wrap: nowrap;
+  justify-content: space-around;
+  align-items: center;
+  height: 100%;
+  @media (max-width: 768px) {
+    font-size: 10px;
+  }
+}
+
+.marquee2 {
+  left: 100%;
+}
+
+.marquee span,
+.marquee1 span {
+  margin: 0 10px;
+  font-weight: 600;
+  font-size: 14px;
+  flex: 0 0 auto;
+  white-space: nowrap;
+  @media (max-width: 768px) {
+    font-size: 10px;
+  }
+}
+
+.marquee b {
+  font-weight: 400;
+  font-size: 14px;
+  @media (max-width: 768px) {
+    font-size: 10px;
+  }
+}
+.marqueeImg {
+  width: 24px;
+  min-height: 24px;
+  min-width: 24px;
+  height: 24px;
+  object-fit: contain;
+  @media (max-width: 768px) {
+    width: 19px;
+    min-height: 19px;
+    min-width: 19px;
+    height: 19px;
+  }
+}
+/* انیمیشن راست به چپ برای ribon1 */
+.ribon1 .marquee {
+  animation: marqueeRTL 30s linear infinite;
+}
+
+.ribon1 .marquee2 {
+  left: 100%;
+}
+
+/* انیمیشن چپ به راست برای ribon2 */
+.ribon2 .marquee {
+  animation: marqueeLTR 30s linear infinite;
+  left: 0%;
+}
+
+.ribon2 .marquee2 {
+  left: -100%;
+}
+
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* راست به چپ */
+@keyframes marqueeRTL {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+/* چپ به راست */
+@keyframes marqueeLTR {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+.option {
+  padding: 5px;
+  width: 100%;
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  z-index: 1;
+  font-weight: 400;
+  font-size: 12px;
+  height: 50px;
+  justify-content: space-between;
+  transition: all 0.2s ease-in-out !important;
+  @media (max-width: 768px) {
+    justify-content: center;
+    width: 35px;
+    height: 35px;
+  }
+}
+.option > span {
+  @media (max-width: 768px) {
+    display: none;
+  }
+}
+.option svg {
+  width: 25px;
+}
+.option:has(input:checked) {
+  border-radius: 10px;
+  padding: 5px;
+  transition: all 0.2s ease-in-out !important;
+  background-color: var(--color-white);
+}
+.embedvide {
+  gap: 20px;
+  display: flex;
+  width: 100%;
+  position: relative;
+  flex-direction: column;
+  align-items: center;
+}
+.embedvideofromtumb {
+  border: none;
+  overflow: hidden;
+  position: relative;
+  max-width: 1200px;
+  width: 100%;
+  aspect-ratio: 16/9;
+  object-fit: cover;
+  border-radius: 30px;
+  background-color: var(--color-gray10);
+}
+.videodetail {
+  padding-inline: 30px;
+  gap: 20px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  font-weight: 800;
+  font-size: 30px;
+  color: var(--text-h1);
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.videodetail h3 {
+  margin: 0;
+  line-height: 1.3;
+  word-break: break-word;
+}
+.contentttext {
+  overflow: hidden;
+  -webkit-line-clamp: 14;
+  line-clamp: 14;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  display: -webkit-box;
+  color: var(--text-h1);
+  font-size: 14px;
+  font-weight: 400;
+  line-height: normal;
+  overflow-y: auto;
+}
+.contentttext a {
+  color: var(--color-light-blue);
+}
+.streamlogo {
+  width: 300px;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 30px;
+}
+.show {
+  max-height: 1000px !important;
+  opacity: 1 !important;
+}

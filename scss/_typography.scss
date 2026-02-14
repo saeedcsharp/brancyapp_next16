@@ -1,0 +1,94 @@
+.Title {
+  position: relative;
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  // text-transform: uppercase;
+  color: var(--text-h2);
+  text-align: left;
+  transition: var(--transition3);
+}
+
+/* برای توضیح اصلی اپشن */
+.title {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-5);
+  position: relative;
+  text-transform: capitalize;
+  text-align: start;
+  color: var(--text-h1);
+  font-weight: var(--weight-700);
+  font-size: var(--font-16);
+  transition: var(--transition3);
+  @media (max-width: 768px) {
+    font-size: var(--font-14) !important;
+  }
+}
+/* برای توضیح اصلی اپشن */
+.title2 {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-5);
+  position: relative;
+  text-transform: capitalize;
+  text-align: start;
+  color: var(--text-h1);
+  font-weight: var(--weight-500);
+  font-size: var(--font-14);
+  transition: var(--transition3);
+  @media (max-width: 768px) {
+    font-size: var(--font-14) !important;
+  }
+}
+
+/* برای توضیح کارایی اپشن */
+.explain {
+  text-align: start;
+  position: relative;
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  color: var(--text-h2);
+  text-transform: capitalize;
+  transition: var(--transition3);
+}
+
+.headertext {
+  position: relative;
+  width: fit-content;
+  margin-inline: 10px;
+  display: flex;
+  color: var(--text-h2);
+  text-transform: capitalize;
+  align-items: center;
+  font-size: var(--font-12);
+  font-weight: var(--weight-600);
+  transition: var(--transition3);
+}
+
+.counter {
+  position: relative;
+  font-size: var(--font-12);
+  color: var(--text-h2);
+  font-weight: var(--weight-400);
+  display: flex;
+  gap: var(--gap-3);
+  transition: var(--transition3);
+  align-items: center;
+  direction: initial !important;
+  text-align: initial !important;
+}
+
+.rtl {
+  direction: rtl !important;
+  text-align: right !important;
+}
+
+.ltr {
+  direction: ltr !important;
+  text-align: left !important;
+}
+
+.translate {
+  direction: initial !important;
+  text-align: initial !important;
+}

@@ -1,0 +1,349 @@
+.frameWrapper,
+.header {
+  position: relative;
+  display: flex;
+  gap: var(--gap-10);
+}
+
+.frameWrapper {
+  flex-direction: column;
+  width: 100%;
+}
+
+.header {
+  flex-direction: row;
+  align-items: center;
+}
+
+.explaintask {
+  position: relative;
+  text-align: left;
+  font-size: var(--font-12);
+  color: var(--text-h2);
+  font-weight: var(--weight-400);
+  width: 100%;
+}
+
+.explaintask,
+.tagNotification,
+.title {
+  line-height: normal;
+}
+
+.title {
+  position: relative;
+  color: var(--text-h1);
+  font-size: var(--font-18);
+  font-weight: var(--weight-800);
+  text-align: left;
+  width: 100%;
+  text-transform: capitalize;
+}
+
+.tagNotification {
+  border-radius: var(--br8);
+  padding: var(--paddingtag);
+  text-align: center;
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  background-color: var(--color-dark-red30);
+  color: var(--color-dark-red);
+}
+
+.titleBox {
+  position: relative;
+  width: -moz-fit-content;
+  width: fit-content;
+  display: flex;
+  color: var(--text-h1);
+  text-transform: capitalize;
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+}
+
+.radioButtonsContainer {
+  display: flex;
+  align-items: flex-start;
+  position: relative;
+  gap: var(--gap-10);
+  flex-direction: column;
+  width: 100%;
+}
+
+.radioBoxContainer {
+  width: 100%;
+  align-items: flex-start;
+  justify-content: flex-start;
+}
+
+.progressBar,
+.radioBoxContainer {
+  position: relative;
+  display: flex;
+  gap: var(--gap-10);
+  flex-direction: column;
+  height: 100%;
+  transition: var(--transition3);
+}
+
+.progressBarTitleContainer {
+  position: relative;
+  width: 100%;
+  height: 14px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.completeProgressBar,
+.dayLeft {
+  position: relative;
+  width: fit-content;
+  height: 14px;
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  line-height: normal;
+}
+
+.completeProgressBar {
+  color: var(--color-dark-blue);
+}
+
+.dayLeft {
+  color: var(--text-h1);
+  letter-spacing: 1px;
+}
+
+.progressBarContainer {
+  position: relative;
+  width: 100% !important;
+}
+
+.discribe {
+  position: relative;
+  text-align: left;
+  color: var(--text-h2);
+  font-weight: var(--weight-400);
+  font-size: var(--font-10);
+  line-height: normal;
+  width: 100%;
+}
+
+.chart {
+  width: 100%;
+  max-height: 180px;
+}
+.chart > div > div:nth-child(1) {
+  display: none;
+}
+.chart > div > div:nth-child(2) > div > div {
+  max-height: 120px;
+}
+.chart > div > div:nth-child(2) > div:nth-child(2) {
+  top: 10px;
+}
+.historylist {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px solid var(--content-box);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  color: var(--text-h1);
+}
+.test {
+  position: relative;
+  height: 100%;
+}
+.users {
+  gap: var(--gap-15);
+  display: flex;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: flex-start;
+  @media (max-width: 720px) {
+    gap: var(--gap-10) !important;
+  }
+}
+.profile {
+  gap: var(--gap-15);
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 50px;
+  @media (max-width: 720px) {
+    height: 45px !important;
+  }
+}
+.image {
+  position: relative;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+  -o-object-fit: cover;
+  object-fit: cover;
+  border-radius: 50%;
+  cursor: pointer;
+}
+.detail {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.name {
+  position: relative;
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-800);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
+  @media (max-width: 720px) {
+    font-size: var(--font-12) !important;
+    font-weight: var(--weight-600) !important;
+  }
+}
+.instaid {
+  color: var(--text-h1);
+  position: relative;
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 250px;
+  @media (max-width: 720px) {
+    font-size: var(--font-10) !important;
+    font-weight: var(--weight-400) !important;
+  }
+}
+.time {
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  position: relative;
+  color: var(--text-h2);
+  white-space: nowrap;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  @media (max-width: 720px) {
+    font-size: var(--font-10) !important;
+    font-weight: var(--weight-400) !important;
+  }
+}
+.navigation {
+  position: absolute;
+  display: flex;
+  width: 85%;
+  left: 50%;
+  transform: translateX(-50%);
+  justify-content: space-between;
+  z-index: 15;
+  bottom: 32px;
+  @media (max-width: 720px) {
+    bottom: 22px !important;
+    width: 100% !important;
+  }
+}
+.paginationvariant13Icon {
+  position: absolute;
+  z-index: 5;
+  width: 21px;
+  height: 20px;
+  bottom: 0;
+  transition: var(--transition3);
+  cursor: pointer;
+}
+.paginationvariant14Icon {
+  left: 80%;
+  position: absolute;
+  z-index: 5;
+  width: 21px;
+  height: 20px;
+  bottom: 0;
+  transition: var(--transition3);
+  cursor: pointer;
+}
+
+.paginationvariant13Icon {
+  right: 80%;
+}
+
+.paginationvariant13Icon:hover {
+  transform: scale(1.1);
+}
+
+.paginationvariant13Icon:active {
+  transform: scale(0.9);
+}
+
+.paginationvariant14Icon:hover {
+  transform: scale(1.1);
+}
+
+.paginationvariant14Icon:active {
+  transform: scale(0.9);
+}
+
+.titlepopup {
+  width: 100%;
+  color: var(--text-h1);
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-inline: 5px;
+}
+.popupContent {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 120;
+  transition: var(--transition3);
+  border-radius: var(--br25);
+  background: var(--color-white);
+
+  justify-content: space-between;
+  max-width: calc(100% - 40px);
+  max-height: calc(100% - 40px);
+  gap: var(--gap-10);
+  padding: var(--padding-5);
+  width: 500px;
+  aspect-ratio: 1/1;
+  min-width: 250px;
+  animation: var(--fadeIn4);
+}
+.username {
+  color: var(--text-h1);
+}
+
+.profileimagebig {
+  position: relative;
+
+  border-radius: var(--br15);
+  width: 100%;
+}
+
+.radioBoxTitle {
+  position: relative;
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  line-height: normal;
+  text-align: start;
+}
+
+.all {
+  width: 100%;
+  height: 100%;
+  gap: var(--gap-10);
+  display: flex;
+  flex-direction: column;
+}

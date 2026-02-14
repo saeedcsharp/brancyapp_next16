@@ -1,0 +1,282 @@
+/* GenericItemNode Styles */
+
+.nodeContainer {
+  /* border-color: #9b59b6; */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.label {
+  font-size: 10px;
+  font-weight: var(--weight-500);
+  color: var(--text-h2);
+  text-transform: uppercase;
+  text-align: left;
+}
+
+.inputWrapper {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.input {
+  flex: 1;
+  padding: 8px;
+  font-size: 12px;
+  border: 2px solid #9b59b6;
+  border-radius: 4px;
+  outline: none;
+  transition: all 0.2s;
+  background: white;
+}
+
+.input:focus {
+  border-color: #8e44ad;
+  box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.1);
+}
+
+.input::placeholder {
+  color: #bdc3c7;
+}
+
+.pasteBtn {
+  width: 32px;
+  height: 32px;
+  min-width: 32px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #9b59b6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 14px;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.pasteBtn:hover {
+  background: #8e44ad;
+  transform: scale(1.05);
+}
+
+.pasteBtn:active {
+  transform: scale(0.95);
+}
+
+.fileInput {
+  display: none;
+}
+
+.imagePreview {
+  margin-top: 8px;
+  border-radius: 4px;
+  overflow: hidden;
+  border: 2px solid #9b59b6;
+}
+
+.previewImg {
+  width: 100%;
+  height: auto;
+  max-height: 120px;
+  object-fit: cover;
+  display: block;
+}
+
+.progressContainer {
+  margin-top: 8px;
+}
+
+.progressBar {
+  width: 100%;
+  height: 20px;
+  background: #f0f0f0;
+  border-radius: 10px;
+  overflow: hidden;
+  position: relative;
+}
+
+.progressFill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--color-light-blue), var(--color-dark-blue));
+  transition: width 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.progressText {
+  color: white;
+  font-size: 11px;
+  font-weight: bold;
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+}
+
+.preview,
+.videoPreview {
+  width: 100%;
+  max-height: 200px;
+  object-fit: contain;
+  border-radius: 5px;
+  margin-top: 15px;
+}
+
+.fileInfo {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-5);
+  font-size: 10px;
+  color: var(--text-h2);
+  margin-top: 8px;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.fileName {
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.fileSize {
+  font-weight: 600;
+}
+
+.buttonsSection {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding-top: 10px;
+  border-top: 1px solid var(--color-gray30);
+}
+
+.buttonItem {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+}
+
+.inputTextparent {
+  width: calc(100% - 40px);
+}
+
+.buttonInput {
+  flex: 1;
+  padding: 8px;
+  font-size: 12px;
+  border: 2px solid #9b59b6;
+  border-radius: 4px;
+  outline: none;
+  transition: all 0.2s;
+  background: #f8f9fa;
+}
+
+.buttonInput:focus {
+  border-color: #8e44ad;
+  background: white;
+  box-shadow: 0 0 0 3px rgba(155, 89, 182, 0.1);
+}
+
+.buttonInput::placeholder {
+  color: #bdc3c7;
+}
+
+.removeButton {
+  width: 28px;
+  height: 28px;
+  min-width: 28px;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #e74c3c;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 20px;
+  font-weight: bold;
+  line-height: 1;
+  transition: all 0.2s;
+  flex-shrink: 0;
+}
+
+.removeButton:hover {
+  background: #c0392b;
+  transform: scale(1.1);
+}
+
+.removeButton:active {
+  transform: scale(0.95);
+}
+
+.addButton {
+  margin-top: 8px;
+  padding: 8px 12px;
+  font-size: 11px;
+  background: #9b59b6;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  transition: all 0.2s;
+  font-weight: 500;
+  box-shadow: 0 2px 4px rgba(155, 89, 182, 0.2);
+}
+
+.addButton:hover {
+  background: #8e44ad;
+  transform: translateY(-1px);
+  box-shadow: 0 3px 6px rgba(155, 89, 182, 0.3);
+}
+
+.addButton:active {
+  transform: translateY(0);
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-1px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(1px);
+  }
+}
+
+.shakeHorizontal {
+  animation: shake 0.6s ease-in-out;
+  animation-iteration-count: 1;
+  border-radius: 4px;
+  border: 1px solid var(--color-dark-red);
+}

@@ -1,0 +1,42 @@
+.activestatus {
+  color: var(--color-light-blue);
+  background-color: var(--color-light-blue30);
+}
+.finishedstatus {
+  color: var(--color-dark-green);
+  background-color: var(--color-dark-green30);
+}
+.canceledstatus {
+  color: var(--color-dark-red);
+  background-color: var(--color-dark-red30);
+}
+.preparingStatus {
+  color: var(--color-purple);
+  background-color: var(--color-purple30);
+}
+
+.activestatus,
+.finishedstatus,
+.canceledstatus,
+.preparingStatus {
+  position: relative;
+  display: flex;
+  padding: var(--padding-5);
+
+  border-radius: var(--br8);
+  font-size: var(--font-12);
+  font-weight: var(--weight-600);
+  justify-content: center;
+  min-width: 80px;
+  align-items: center;
+  text-transform: uppercase;
+  transition: var(--transition3);
+  text-wrap: nowrap;
+  @media (max-width: 720px) {
+    min-width: 70px;
+    padding: var(--paddingtag);
+    font-size: var(--font-10) !important;
+    font-weight: var(--weight-600) !important;
+    border-radius: var(--br5) !important;
+  }
+}

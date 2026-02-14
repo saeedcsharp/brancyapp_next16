@@ -1,0 +1,422 @@
+@media (max-width: 480px) {
+  .popup {
+    padding: 20px 20px 30px 20px !important;
+    max-width: 100% !important;
+    bottom: 0 !important;
+    top: auto !important;
+    left: auto !important;
+    border-radius: var(--br25) var(--br25) 0 0 !important;
+    animation: var(--slide-in) !important;
+  }
+  .loader {
+    gap: var(--gap-3) !important;
+  }
+  .orderStepactive {
+    width: 40px !important;
+    height: 40px !important;
+    min-width: 40px !important;
+    min-height: 40px !important;
+    max-width: 40px !important;
+    max-height: 40px !important;
+    padding: var(--padding-5) !important;
+  }
+
+  .closeButton {
+    min-width: 40px !important;
+    min-height: 40px !important;
+    max-width: 40px !important;
+    max-height: 40px !important;
+    padding: var(--padding-5) !important;
+  }
+}
+.popup {
+  width: 595px;
+  max-width: calc(100% - 50px);
+  height: 100%;
+  max-height: calc(100% - 50px);
+  min-width: 250px;
+}
+.popupmini {
+  position: fixed;
+  max-width: 400px;
+  width: calc(100% - 40px);
+  max-height: 400px;
+  aspect-ratio: 1 / 1;
+  box-shadow: var(--box-shadow);
+  background-color: var(--color-white);
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  border-radius: var(--br50);
+  display: flex;
+  flex-direction: column;
+  padding: var(--paddingbox);
+  justify-content: space-between;
+  z-index: 117;
+  transition: var(--transition3);
+}
+.orderStepactive {
+  width: 50px;
+  height: 50px;
+  min-width: 50px;
+  min-height: 50px;
+  max-width: 50px;
+  max-height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  stroke: var(--color-dark-blue);
+  transition: var(--transition2);
+  padding: var(--padding-10);
+  border-radius: var(--br15);
+  background-color: var(--color-gray10);
+  border: 1px solid var(--color-gray30);
+}
+.orderStepactive > svg {
+  transition: var(--transition2);
+  stroke: var(--text-h1);
+}
+.orderStepactive:hover {
+  background-color: var(--color-gray30);
+}
+.orderstepopen {
+  stroke: var(--color-dark-blue);
+  background-color: var(--color-dark-blue10);
+  border: 1px solid var(--color-dark-blue);
+}
+.orderstepopen > svg {
+  transition: var(--transition2);
+  stroke: var(--color-dark-blue);
+}
+.loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  gap: var(--gap-5);
+}
+.loadercircle {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: var(--color-gray);
+  animation: loader 3s ease-in-out infinite;
+}
+@keyframes loader {
+  0%,
+  40% {
+    transform: scale(1);
+  }
+  20% {
+    transform: scale(1.3);
+  }
+}
+.closeButton {
+  min-width: 50px;
+  min-height: 50px;
+  max-width: 50px;
+  max-height: 50px;
+  padding: var(--padding-10);
+  border-radius: var(--br15);
+  stroke: var(--color-dark-blue);
+  border: 1px solid transparent;
+  cursor: pointer;
+  transition: var(--transition2);
+}
+.closeButton:hover {
+  background-color: var(--color-gray30);
+}
+.headerStyle {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  max-height: 40px;
+  min-height: 40px;
+  background-color: var(--color-gray30);
+  border-radius: var(--br25);
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--padding-8) var(--padding-16) var(--padding-8) var(--padding-8);
+}
+.ordernumber {
+  position: relative;
+  padding: var(--padding-5) var(--padding-16);
+  background-color: var(--color-white);
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+  border-radius: var(--br20);
+}
+.orderStep {
+  overflow: hidden;
+  height: 50px;
+  width: 100%;
+  max-width: 430px;
+  display: flex;
+  flex-direction: row;
+  max-height: 50px;
+  background-color: var(--color-gray10);
+  border-radius: var(--br15);
+  align-content: center;
+  justify-content: space-between;
+  align-items: center;
+  padding: var(--padding-5);
+}
+.maincontent {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  animation: var(--top04);
+  font-size: var(--font-16);
+  color: var(--text-h1);
+  text-align: center;
+  gap: var(--gap-20);
+}
+
+/* -------------------------------pickup------------------------------------ */
+.StepPickup_orderprogressStep,
+.StepPickup_orderpickupStep,
+.StepPickup_ordersendStep {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 40px;
+  max-height: 40px;
+  display: flex;
+  padding: var(--padding-8);
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--br10);
+  transition: var(--transition2);
+  stroke: var(--color-gray);
+  border: 1px solid transparent;
+}
+.StepPickup_orderprogressStepactive {
+  border: 1px solid var(--color-dark-blue);
+  background-color: var(--color-dark-blue10);
+  stroke: var(--color-dark-blue);
+}
+.StepPickup_orderprogressStepactive > svg {
+  stroke: var(--color-dark-blue);
+}
+.StepPickup_ordersendStep {
+  opacity: 0.4;
+}
+.StepPickup_orderprogressStep {
+  stroke: var(--color-dark-green);
+}
+.StepPickup_orderpickupStep:hover {
+  background-color: var(--color-gray30);
+  border: 1px solid var(--color-gray30);
+}
+.StepPickup_orderpickupStep {
+  cursor: pointer;
+  stroke: var(--color-dark-blue);
+}
+/* ----------------------------pickup Container------------------------------ */
+.pdfsection {
+  width: 100%;
+  display: flex;
+  gap: var(--gap-20);
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  padding: var(--padding-20);
+  font-size: var(--font-16);
+  color: var(--text-h1);
+  text-align: center;
+  border-radius: var(--br20);
+  background-color: var(--color-gray10);
+}
+.attention {
+  display: flex;
+  width: 100%;
+  gap: 10px;
+  justify-content: flex-start;
+  align-content: center;
+  align-items: center;
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-500);
+  flex-direction: row;
+  text-align: start;
+}
+/* ----------------------------------sent--------------------------------- */
+.StepSend_orderprogressStep,
+.StepSend_orderpickupStep,
+.StepSend_ordersendStep {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 40px;
+  max-height: 40px;
+  display: flex;
+  padding: var(--padding-8);
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--br10);
+  transition: var(--transition2);
+  stroke: var(--color-gray);
+  border: 1px solid transparent;
+}
+.StepSend_orderprogressStepactive {
+  border: 1px solid var(--color-dark-blue);
+  background-color: var(--color-dark-blue10);
+  stroke: var(--color-dark-blue);
+}
+
+.StepSend_ordersendStep > svg {
+  stroke: var(--color-dark-blue);
+}
+.StepSend_orderprogressStep,
+.StepSend_orderpickupStep {
+  stroke: var(--color-dark-green);
+}
+.StepSend_ordersendStep {
+  cursor: pointer;
+}
+
+.StepSend_ordersendStep:hover {
+  background-color: var(--color-gray30);
+  border: 1px solid var(--color-gray30);
+}
+
+/* ----------------------------send Container------------------------------ */
+
+.infoTable {
+  padding-top: 10px;
+  width: 100%;
+  border-collapse: separate;
+  border-spacing: 0px;
+}
+.infoTable > tbody {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  align-content: flex-start;
+  flex-wrap: nowrap;
+}
+.infoTable > tbody > tr {
+  padding: var(--padding-10) var(--padding-5);
+  padding-block: 10px;
+  border-radius: var(--br10);
+  width: 100%;
+  border-top: 1px solid var(--color-gray10);
+  transition: var(--transition2);
+}
+.infoTable > tbody > tr:hover {
+  background-color: var(--color-gray10);
+}
+.tableheader {
+  text-transform: uppercase;
+  width: 130px;
+  min-width: 130px;
+  max-width: 130px;
+  text-align: start;
+  color: var(--text-h2);
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+}
+.tablecontent {
+  text-align: start;
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-500);
+}
+.mobileparent {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-10);
+  align-items: center;
+}
+/* ----------------------------------delivered--------------------------------- */
+.Stepdelivered_orderprogressStep,
+.Stepdelivered_orderpickupStep,
+.Stepdelivered_ordersendStep {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 40px;
+  max-height: 40px;
+  display: flex;
+  padding: var(--padding-8);
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--br10);
+  transition: var(--transition2);
+  stroke: var(--color-gray);
+  border: 1px solid transparent;
+}
+.Stepdelivered_orderprogressStepactive {
+  border: 1px solid var(--color-dark-green);
+  background-color: var(--color-dark-green10);
+  stroke: var(--color-dark-green);
+}
+
+.Stepdelivered_ordersendStep > svg {
+  stroke: var(--color-dark-green);
+}
+.Stepdelivered_orderprogressStep,
+.Stepdelivered_orderpickupStep {
+  stroke: var(--color-dark-green);
+}
+.Stepdelivered_ordersendStep {
+  cursor: pointer;
+}
+
+.Stepdelivered_ordersendStep:hover {
+  background-color: var(--color-gray30);
+  border: 1px solid var(--color-gray30);
+}
+
+/* ---------------------------failed------------------------ */
+
+.StepFailed_orderprogressStep,
+.StepFailed_orderpickupStep,
+.StepFailed_ordersendStep {
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  max-width: 40px;
+  max-height: 40px;
+  display: flex;
+  padding: var(--padding-8);
+  align-items: center;
+  justify-content: center;
+  border-radius: var(--br10);
+  transition: var(--transition2);
+  stroke: var(--color-gray);
+  border: 1px solid transparent;
+}
+.StepFailed_orderprogressStepactive {
+  border: 1px solid var(--color-dark-red);
+  background-color: var(--color-dark-red10);
+  stroke: var(--color-dark-red);
+}
+
+.StepFailed_ordersendStep > svg {
+  stroke: var(--color-dark-red);
+}
+.StepFailed_orderprogressStep,
+.StepFailed_orderpickupStep {
+  stroke: var(--color-dark-red);
+}
+.StepFailed_ordersendStep {
+  cursor: pointer;
+}
+
+.StepFailed_ordersendStep:hover {
+  background-color: var(--color-gray30);
+  border: 1px solid var(--color-gray30);
+}

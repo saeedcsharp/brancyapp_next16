@@ -1,0 +1,125 @@
+/* Radar Chart Container */
+.container {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* SVG Main */
+.svg {
+  width: 100%;
+  height: 100%;
+}
+
+/* Grid Circles */
+.gridCircle {
+  fill: none;
+  stroke: var(--color-gray30);
+  stroke-width: 1;
+}
+
+/* Axis Lines */
+.axisLine {
+  stroke: var(--color-gray30);
+  stroke-width: 1;
+}
+
+/* Data Path (Polygon) */
+.dataPath {
+  fill-opacity: 0.2;
+  stroke-width: 2;
+  transition: fill-opacity 0.3s ease;
+}
+
+.dataPath:hover {
+  fill-opacity: 0.35;
+}
+
+/* Data Points (Circles) */
+.dataPoint {
+  transition: all 0.2s ease;
+}
+.categoryGroup {
+  cursor: default;
+  max-width: 60px;
+  word-break: break-word;
+  transform: scale(0.9);
+  transform-origin: center;
+}
+/* Category Label (Title) */
+.categoryLabel {
+  text-anchor: middle;
+  dominant-baseline: middle;
+  max-width: 60px;
+  word-break: break-word;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+
+  fill: var(--text-h2);
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  user-select: none;
+  word-break: break-word;
+}
+
+/* Value Label */
+.valueLabel {
+  text-anchor: middle;
+  dominant-baseline: middle;
+  fill: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+  user-select: none;
+}
+
+/* Legend Container */
+.legend {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: row;
+}
+.legendItem {
+  display: flex;
+  align-items: center;
+  position: relative;
+  gap: 8px;
+  cursor: pointer;
+  transition: opacity 0.3s ease;
+}
+
+.legendItem:hover {
+  opacity: 0.7;
+}
+
+/* Legend Circle */
+.legendCircle {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  transition: all 0.3s ease;
+}
+
+/* Legend Text */
+.legendText {
+  fill: var(--text-h1);
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+}
+
+/* Platform Colors */
+.youtube {
+  --platform-color: #ff0000;
+}
+
+.aparat {
+  --platform-color: #00a8e8;
+}
+
+.twitch {
+  --platform-color: #9146ff;
+}

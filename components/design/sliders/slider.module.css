@@ -1,0 +1,78 @@
+.slider1,
+.slider2 {
+  width: 100% !important;
+  height: 5px !important;
+  background: var(--color-gray60) !important;
+  border-radius: var(--br5);
+}
+
+/* RTL support for sliders */
+html[dir="rtl"] .slider1,
+html[dir="rtl"] .slider2 {
+  direction: rtl;
+}
+
+.slider1 > :nth-child(3) {
+  width: 17px !important;
+  height: 17px !important;
+  cursor: grab !important;
+  background: var(--color-white) !important;
+  border-radius: 50% !important;
+  border: 2px solid var(--text-h3) !important;
+  top: -7px !important;
+}
+.slider1 > :nth-child(3):hover {
+  border: 5px solid var(--text-h3) !important;
+}
+.slider1 > :nth-child(3):active {
+  cursor: grabbing !important;
+  background: var(--text-h3) !important;
+}
+.slider2 > div:nth-child(4),
+.slider2 > div:nth-child(5) {
+  width: 15px !important;
+  height: 22px !important;
+  cursor: grab !important;
+  background: var(--color-dark-blue) !important;
+  border-radius: var(--br8) !important;
+  top: -8px !important;
+}
+.slider2 > div:nth-child(2),
+.slider1 > div:nth-child(1) {
+  height: 5px;
+  border-radius: var(--br8) !important;
+  background-color: var(--color-dark-blue60);
+}
+
+/* RTL support for slider track */
+html[dir="rtl"] .slider2 > div:nth-child(2),
+html[dir="rtl"] .slider1 > div:nth-child(1) {
+  direction: rtl;
+}
+
+.fromto {
+  position: relative;
+  width: 100%;
+  display: flex;
+  gap: var(--gap-10);
+  flex-direction: row;
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  color: var(--text-h2);
+  justify-content: center;
+}
+.clocks {
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  color: var(--text-h1);
+}
+.price {
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  font-size: var(--font-14);
+  transition: var(--transition2);
+  gap: var(--gap-10);
+  align-items: center;
+}

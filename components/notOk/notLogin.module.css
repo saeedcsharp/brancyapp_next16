@@ -1,0 +1,109 @@
+.accountsGrid {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-10);
+  height: 100%;
+  overflow-y: auto;
+}
+
+.accountsGrid > div {
+  padding: 16px 8px;
+  height: auto;
+  border-radius: var(--br15);
+  cursor: pointer;
+  transition: var(--transition3);
+}
+.accountsGrid > div:hover {
+  background: var(--color-gray30);
+}
+.line {
+  height: 1px;
+  background: var(--color-gray60);
+  margin: 12px 0;
+}
+.blinkYellow {
+  color: var(--color-light-yellow);
+  animation: blink 2s infinite;
+}
+.blinkRed {
+  color: var(--color-light-red);
+  animation: blink 1s infinite;
+}
+.connecttooltip {
+  display: flex;
+  color: var(--text-h2);
+  padding: 8px 12px;
+  cursor: pointer;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-10);
+  transition: var(--transition3);
+  outline: none;
+}
+@keyframes blink {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Tooltip Modal Styles */
+
+.step {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  align-items: center;
+  text-align: center;
+  animation: var(--top04);
+}
+
+.stepImage {
+  object-fit: contain;
+  animation: var(--fadeIn4);
+  height: 350px;
+  border-radius: var(--br20);
+}
+
+.stepIndicator {
+  display: flex;
+  gap: 8px;
+}
+
+.activeStep,
+.inactiveStep {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 14px;
+  transition: all 0.3s ease;
+  cursor: pointer;
+  user-select: none;
+}
+
+.activeStep {
+  background: var(--color-dark-blue);
+  color: white;
+}
+
+.inactiveStep {
+  color: var(--text-h2);
+}
+
+.inactiveStep:hover {
+  background: var(--color-gray30);
+}
+
+.navigationButtons {
+  display: flex;
+  gap: 12px;
+}

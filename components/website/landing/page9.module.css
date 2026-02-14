@@ -1,0 +1,577 @@
+.page9 {
+  place-self: center;
+  transition: var(--transition2);
+  color: var(--text-h1);
+  /* scroll-snap-align: start; - حذف شده برای جلوگیری از اسکرول خودکار */
+  position: relative;
+  padding: var(--padding-40) 0;
+  width: calc(100vw - 40px);
+  max-width: calc(1480px - 40px);
+  display: flex;
+  gap: var(--gap-50);
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  background: url("data:image/svg+xml,%3Csvg viewBox='0 0 250 250' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1' numOctaves='1' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)' opacity='0.1'/%3E%3C/svg%3E"),
+    radial-gradient(75% 67% at 70% 60%, #193496cb 0, #081130a6 70%), #071538;
+  border-radius: var(--br50);
+  margin-block: 60px;
+  margin-inline: 40px;
+}
+
+@media (max-width: 768px) {
+  .page9 {
+    gap: var(--gap-30) !important;
+    padding: var(--padding-30) 0 !important;
+    border-radius: var(--br30) !important;
+    margin-inline: 20px !important;
+    width: calc(100vw - 20px) !important;
+    max-width: calc(100vw - 20px) !important;
+  }
+
+  .headerandinput {
+    padding-inline: 20px !important;
+  }
+
+  .durationSwitch {
+    max-width: 95% !important;
+  }
+
+  .planCard {
+    min-width: 190px !important;
+    max-width: fit-content;
+  }
+
+  .planCard.highlighted {
+    min-width: 190px !important;
+    max-width: fit-content;
+  }
+  .pricingCard {
+    gap: var(--gap-20) !important;
+  }
+}
+.header {
+  gap: var(--gap-10);
+  align-items: center;
+  padding-inline: var(--padding-20);
+  align-self: center;
+  font-size: clamp(24px, 5vw, 48px);
+  font-weight: var(--weight-800);
+  text-transform: capitalize;
+  color: var(--color-ffffff);
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  flex-wrap: nowrap;
+  justify-content: center;
+  contain: layout;
+}
+.title {
+  margin-block: 20px;
+  font-size: clamp(12px, 2vw, 16px);
+  font-weight: var(--weight-600);
+  color: #fff;
+  text-transform: capitalize;
+}
+.explain {
+  font-size: clamp(12px, 2vw, 16px);
+  font-weight: var(--weight-400);
+  color: var(--text-h2);
+  text-transform: capitalize;
+}
+.header span {
+  background: linear-gradient(to right, var(--color-dark-blue), var(--color-light-blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  contain: content;
+  padding-bottom: 5px;
+}
+
+.planshowmore {
+  position: relative;
+  font-size: clamp(14px, 2vw, 16px);
+  color: var(--color-light-blue);
+  font-weight: var(--weight-500);
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+  transition-property: color;
+  display: flex;
+  gap: var(--gap-10);
+  align-items: center;
+  justify-content: center;
+}
+.planshowmore:focus:after,
+.planshowmore:hover:after {
+  width: 100%;
+  left: 0%;
+}
+
+.planshowmore:after {
+  content: "";
+  pointer-events: none;
+  bottom: -10px;
+  left: 50%;
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  background-color: var(--color-light-blue60);
+  transition-timing-function: cubic-bezier(0.25, 0.8, 0.25, 1);
+  transition-duration: 400ms;
+}
+
+.container {
+  width: 100%;
+  min-height: 100vh;
+  padding: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+/* ------------------------------------- */
+.headerandinput {
+  padding-inline: 40px;
+}
+
+/* تولتیپ اسلایدر */
+.sliderContainer {
+  position: relative;
+  width: 100%;
+}
+
+.sliderTooltip {
+  position: absolute;
+  top: -45px;
+  background: rgba(0, 0, 0, 0.9);
+  color: white;
+  padding: 8px 12px;
+  border-radius: 8px;
+  font-size: 0.9rem;
+  font-weight: 500;
+  white-space: nowrap;
+  transform: translateX(-50%);
+  pointer-events: none;
+
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+  /* transition: left 0.2s ease-out; */
+}
+
+.sliderTooltip::after {
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border-width: 5px;
+  border-style: solid;
+  border-color: rgba(0, 0, 0, 0.9) transparent transparent transparent;
+}
+
+/* بازه فعال اسلایدر */
+/* .activeSegment {
+  position: absolute;
+  top: 7px;
+  height: 6px;
+  border-radius: 3px;
+  z-index: 1;
+  box-shadow: 0 2px 8px var(--color-gray60);
+  backdrop-filter: blur(5px);
+}
+*/
+.pricingCard {
+  width: 100%;
+
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-30);
+}
+/* ------------------------------------- */
+
+.slider {
+  width: 100%;
+  height: 6px;
+  border-radius: 3px;
+  background: #fff;
+  outline: none;
+  opacity: 1;
+  transition: opacity 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  appearance: none;
+  position: relative;
+
+  /* اضافه کردن نقاط استپ روی track */
+  background-image: radial-gradient(circle at 0%, var(--color-black80) 2px, transparent 2px),
+    radial-gradient(circle at 16.67%, var(--color-black80) 2px, transparent 2px),
+    radial-gradient(circle at 33.33%, var(--color-black80) 2px, transparent 2px),
+    radial-gradient(circle at 50%, var(--color-black80) 2px, transparent 2px),
+    radial-gradient(circle at 66.67%, var(--color-black80) 2px, transparent 2px),
+    radial-gradient(circle at 83.33%, var(--color-black80) 2px, transparent 2px),
+    radial-gradient(circle at 100%, var(--color-black80) 2px, transparent 2px),
+    linear-gradient(to right, var(--color-gray10), var(--color-gray60));
+}
+.labelContainer {
+  display: flex;
+  gap: var(--gap-5);
+}
+/* html[dir="rtl"] .labelContainer {
+  flex-direction: row-reverse;
+} */
+.slider:hover {
+  opacity: 1;
+}
+
+.slider:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.slider::-webkit-slider-thumb {
+  appearance: none;
+  width: 25px;
+  height: 25px;
+  border-radius: 30px;
+  background: #fff;
+  cursor: pointer;
+  box-shadow: 0 4px 12px rgba(103, 126, 234, 0.4);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+
+  position: relative;
+}
+
+.slider::-webkit-slider-thumb:hover {
+  transform: scale(1.1);
+  box-shadow: 0 6px 16px rgba(103, 126, 234, 0.6);
+}
+
+.slider::-moz-range-thumb {
+  width: 25px;
+  height: 25px;
+  border-radius: 50%;
+  background: #fff;
+  cursor: pointer;
+  border: none;
+  box-shadow: 0 4px 12px rgba(103, 126, 234, 0.4);
+}
+
+.sliderMarks {
+  position: relative;
+  width: 100%;
+  height: 20px;
+  font-size: var(--font-14);
+  color: #fff;
+}
+
+.sliderMarks span {
+  position: absolute;
+  transform: translateX(-50%);
+  white-space: nowrap;
+}
+
+.durationSwitch {
+  border: 1px solid var(--color-gray60);
+  display: flex;
+  background: var(--color-gray30);
+  border-radius: var(--br20);
+  backdrop-filter: blur(10px);
+  padding: var(--padding-5);
+  gap: var(--gap-5);
+  justify-content: center;
+  max-width: 600px;
+  width: 100%;
+  overflow-x: auto;
+  margin: 0 auto;
+}
+
+.switchButton {
+  flex: 1;
+  padding: var(--padding-8) var(--padding-10);
+  background: transparent;
+  border: none;
+  border-radius: var(--br15);
+  color: #fff;
+  cursor: pointer;
+  transition: var(--transition3);
+  font-weight: var(--weight-400);
+  font-size: var(--font-14);
+
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  border: 1px solid transparent;
+}
+
+.discountLabel {
+  position: absolute;
+  top: -5px;
+  right: 5px;
+  background-color: var(--color-dark-blue);
+  color: #fff;
+  z-index: 1;
+  padding: 1px 3px 1px 3px;
+  border-radius: var(--br8);
+  font-size: var(--font-10);
+  font-weight: var(--weight-500);
+}
+html[dir="rtl"] .discountLabel {
+  right: auto;
+  left: 5px;
+}
+.switchButton:hover {
+  background: var(--color-gray30);
+  color: #fff;
+}
+.switchButton.active {
+  background: #fff;
+  color: #000;
+  font-weight: var(--weight-700);
+  transform: scale(1.02);
+}
+
+.switchButton.disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.switchButton.disabled:hover {
+  background: none;
+}
+/* -----------------plan card ------------------------ */
+.planCards {
+  display: flex;
+  overflow-x: auto;
+  gap: 10px;
+  padding: 20px;
+  scroll-snap-type: x mandatory;
+  scroll-behavior: smooth;
+  scrollbar-width: thin;
+  scrollbar-color: transparent transparent;
+  justify-content: flex-start;
+}
+html[dir="rtl"] .planCards {
+  flex-direction: row-reverse;
+}
+
+.planCard {
+  min-width: 220px;
+  max-width: fit-content;
+
+  padding: var(--padding-5);
+  flex-shrink: 0;
+  background: var(--background-root);
+  border: 1px solid transparent;
+  border-radius: var(--br20);
+  transition: var(--transition3);
+  box-shadow: var(--box-shadow);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-20);
+  overflow: hidden;
+  scroll-snap-align: center;
+}
+
+.planCard.highlighted {
+  min-width: 260px;
+  max-width: fit-content;
+  background-color: var(--background-root);
+  border: 1px solid var(--color-dark-blue);
+  transform: translateY(-4px);
+  box-shadow: var(--box-shadow);
+  scale: 1.02;
+}
+
+.planCard.unsuitable {
+  /* opacity: 0.4; */
+  filter: brightness(0.8);
+  scale: 0.95;
+  cursor: not-allowed;
+}
+
+.planCard.dimmed {
+  /* opacity: 0.4; */
+  filter: brightness(0.8);
+  scale: 0.95;
+  border: 1px solid transparent;
+  transform: none;
+  position: relative;
+}
+/* -----------------plan card ------------------------ */
+
+.planHeader {
+  background-color: var(--color-white);
+  display: flex;
+
+  padding: var(--padding-10);
+  justify-content: space-between;
+  align-items: flex-start;
+  min-height: 160px;
+  flex-direction: column;
+  gap: var(--gap-20);
+  border-radius: var(--br15) var(--br15) var(--br20) var(--br20);
+  transition: var(--transition3);
+}
+.planHeader.highlighted {
+  box-shadow: var(--box-shadow);
+}
+
+.planModel {
+  display: flex;
+  gap: var(--gap-5);
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+  padding: var(--padding-5) var(--padding-10);
+  border-radius: var(--br10);
+  color: var(--text-h1);
+  align-items: center;
+  @media (max-width: 860px) {
+    font-size: var(--font-12);
+    padding: var(--padding-4) var(--padding-5);
+  }
+}
+/* html[dir="rtl"] .planModel {
+  flex-direction: row-reverse;
+} */
+.planCards > article:nth-child(1) > header > h4 {
+  background: linear-gradient(135deg, var(--color-light-green30), var(--color-light-green60));
+  color: var(--color-light-green);
+}
+.planCards > article:nth-child(2) > header > h4 {
+  background: linear-gradient(135deg, var(--color-firoze30), var(--color-firoze60));
+  color: var(--color-firoze);
+}
+.planCards > article:nth-child(3) > header > h4 {
+  background: linear-gradient(135deg, var(--color-purple30), var(--color-purple60));
+  color: var(--color-purple);
+}
+
+.planCards > article:nth-child(4) > header > h4 {
+  background: linear-gradient(135deg, var(--color-light-yellow30), var(--color-light-yellow60));
+  color: var(--color-light-yellow);
+}
+.planCards > article:nth-child(5) > header > h4 {
+  background: linear-gradient(135deg, var(--color-light-red30), var(--color-light-red60));
+  color: var(--color-dark-red);
+}
+.planCards > article:nth-child(6) > header > h4 {
+  background: linear-gradient(135deg, var(--color-dark-blue30), var(--color-dark-blue60));
+  color: var(--color-dark-blue);
+}
+
+.planLevel {
+  background: rgba(255, 255, 255, 0.12);
+  padding: 6px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.8);
+  font-weight: 500;
+  letter-spacing: 0.02em;
+}
+
+.planExplain {
+  font-size: 10px;
+}
+
+.planFollowerRange {
+  text-align: center;
+  font-size: 1rem;
+  font-weight: 400;
+  color: rgba(255, 255, 255, 0.9);
+  margin-bottom: 20px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 12px;
+  letter-spacing: 0.01em;
+}
+/* ----------------- plan price section ------------------------ */
+.planPriceSection {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+}
+
+.planDiscount {
+  background-color: var(--color-dark-red30);
+  color: var(--color-light-red);
+  padding: var(--paddingtag);
+  border-radius: var(--br10);
+  font-size: var(--font-12);
+  font-weight: var(--weight-500);
+}
+
+.originalPrice {
+  display: flex;
+  flex-direction: row;
+  color: var(--text-h2);
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  align-items: flex-start;
+  text-decoration: line-through;
+  line-height: 23px;
+  animation: var(--fadeIn3);
+  transition: var(--transition3);
+}
+.originalPrice > div > div {
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+}
+.finalPrice > div {
+  line-height: 14px;
+  align-items: flex-start;
+  width: fit-content;
+}
+.finalPrice > div > div {
+  font-weight: var(--weight-700);
+}
+
+.planUnavailable {
+  color: var(--text-h2);
+  font-weight: var(--weight-400);
+  font-style: italic;
+  font-size: var(--font-14);
+}
+/* ----------------- plan price section ------------------------ */
+
+.planFeatures {
+  display: flex;
+  flex-direction: column;
+  text-wrap: nowrap;
+  gap: var(--gap-10);
+  padding-inline: var(--padding-5);
+  padding-bottom: var(--padding-10);
+}
+
+.planFeature {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-5);
+  font-size: var(--font-12);
+  transition: var(--transition3);
+  font-weight: var(--weight-400);
+  line-height: 14px;
+}
+
+.planFeature.active {
+  color: var(--text-h1);
+}
+
+.planFeature.inactive {
+  color: var(--text-h2);
+  opacity: 0.6;
+}
+
+.featureIcon {
+  height: 14px;
+  transition: color var(--transition3);
+}
+.featureIcon > svg {
+  width: 14px;
+  height: 14px;
+  min-width: 14px;
+  min-height: 14px;
+}
+/* ------------------------------- */

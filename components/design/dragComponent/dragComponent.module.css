@@ -1,0 +1,56 @@
+.box {
+  display: flex;
+  z-index: 100;
+  position: absolute;
+  cursor: move;
+  background: var(--background-root);
+  max-width: 100px;
+  width: -moz-max-content;
+  width: max-content;
+  border-radius: var(--br8);
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  user-select: none;
+  align-items: center;
+}
+.box::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border: 8px solid transparent;
+  border-bottom-color: var(--background-root);
+  border-top: 0;
+  margin-left: -8px;
+  margin-top: -7px;
+  z-index: 200;
+}
+.draglimit {
+  left: 0px;
+  top: 0px;
+  position: absolute;
+  width: 333px;
+  height: 333px;
+}
+
+.text {
+  position: relative;
+  color: var(--color-ffffff);
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  padding: var(--padding-3) var(--padding-5) var(--padding-5) var(--padding-5);
+  max-width: 100px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.icon {
+  position: relative;
+  height: 12px;
+  margin-inline-end: 5px;
+  aspect-ratio: 1/1;
+  cursor: pointer;
+}

@@ -1,0 +1,126 @@
+.searchBar1 {
+  position: relative;
+  display: flex;
+  gap: var(--gap-20);
+  flex-direction: row;
+  right: 650px;
+}
+.searchBar > input {
+  height: 35px !important;
+  width: 380px;
+}
+.iconboxClose {
+  position: absolute;
+  top: 10px;
+  right: 65px;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+  transition: var(--transition2);
+  opacity: 0.4;
+}
+.iconboxClose:hover {
+  opacity: 0.8;
+}
+.filterback {
+  background-color: var(--background-root);
+  border-radius: var(--br8);
+}
+.filter {
+  cursor: pointer;
+  position: relative;
+  min-width: 35px;
+  height: 35px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-dark-blue30);
+  border-radius: var(--br8);
+
+  align-content: center;
+  padding: var(--padding-5);
+  border: 2px solid transparent;
+  transition: var(--transition3);
+}
+.filter:hover .icon {
+  transform: scale(1.2);
+}
+.activeFilter {
+  border: 2px solid var(--color-dark-blue);
+}
+.icon {
+  position: relative;
+  width: 20px;
+  transition: var(--transition2);
+}
+.popup {
+  position: absolute;
+  top: 50px;
+  left: 400px;
+  border-radius: 0 var(--br15) var(--br15) var(--br15);
+  background-color: var(--color-white);
+  box-shadow: var(--small-shadow);
+  width: 140px;
+  gap: var(--gap-30);
+  display: flex;
+  flex-direction: column;
+  padding: var(--padding-16);
+
+  align-items: flex-start;
+  transition: var(--transition3);
+}
+.showPopup {
+  display: flex;
+  animation: scale-in-tl 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes scale-in-tl {
+  0% {
+    transform: scale(0);
+    transform-origin: 0 0;
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1);
+    transform-origin: 0 0;
+    opacity: 1;
+  }
+}
+
+.hidePopup {
+  display: none;
+  display: flex;
+  animation: scale-out-tl 0.2s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes scale-out-tl {
+  0% {
+    transform: scale(1);
+    transform-origin: 0 0;
+    opacity: 1;
+  }
+  100% {
+    transform: scale(0);
+    transform-origin: 0 0;
+    opacity: 0;
+  }
+}
+
+.unShowPopup {
+  display: none;
+}
+
+.searchBar1 {
+  animation: slide-in-right 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes slide-in-right {
+  0% {
+    transform: translateX(50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}

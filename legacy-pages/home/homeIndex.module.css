@@ -1,0 +1,30 @@
+.headerTab,
+.inboxContainer {
+  display: flex;
+  flex-direction: row;
+}
+
+.headerTab {
+  position: sticky;
+  height: 80px;
+  top: 0;
+  backdrop-filter: blur(20px);
+  z-index: 100;
+  text-align: center;
+  font-size: var(--font-16);
+  color: var(--text-h1);
+  width: 100%;
+  gap: var(--gap-20);
+  justify-content: right;
+}
+
+.inboxContainer {
+  position: relative;
+  width: calc(100% - 40px);
+  margin-inline: 20px;
+  justify-content: center;
+  gap: var(--gap-20);
+  flex-wrap: wrap;
+  animation: var(--bottom08);
+  margin-bottom: 20px;
+}

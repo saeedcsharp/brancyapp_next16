@@ -1,0 +1,620 @@
+.page2 {
+  margin-top: 250px;
+  line-height: normal;
+  color: var(--text-h1);
+  scroll-snap-align: start;
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--gap-10);
+  background-color: var(--background-root);
+  transition: var(--transition3);
+  contain: layout;
+}
+
+.header {
+  max-width: 90%;
+  position: absolute;
+  top: -180px;
+}
+.title {
+  padding-bottom: var(--padding-10);
+  font-size: clamp(20px, 5vw, 48px);
+  font-weight: var(--weight-800);
+  text-transform: capitalize;
+  transition: var(--transition2);
+}
+.title span {
+  background: linear-gradient(to right, var(--color-dark-blue), var(--color-light-blue));
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.explain {
+  font-size: clamp(12px, 2vw, 16px);
+  font-weight: var(--weight-400);
+  color: var(--text-h2);
+  text-transform: capitalize;
+}
+.backgroundfade {
+  position: absolute;
+  overflow: hidden;
+  max-width: 100%;
+  width: 100%;
+  justify-content: center;
+  align-items: flex-start;
+  height: 500px;
+  display: flex;
+}
+.ellipse1,
+.ellipse2,
+.ellipse3,
+.ellipse4 {
+  position: relative;
+  border-radius: 50%;
+  width: 100%;
+  max-width: 250px;
+  height: 120px;
+  filter: blur(120px);
+}
+.ellipse1 {
+  background-color: var(--color-dark-blue);
+}
+.ellipse2 {
+  background-color: var(--color-purple);
+}
+.ellipse3 {
+  background-color: var(--color-dark-red);
+}
+.ellipse4 {
+  background-color: var(--color-dark-yellow);
+}
+
+.tabContainer {
+  display: flex;
+  gap: var(--gap-10);
+  height: 100px;
+  justify-content: center;
+  width: 100%;
+  top: -4px;
+  position: relative;
+  overflow-x: auto;
+  overflow-y: hidden;
+  @media (max-width: 600px) {
+    height: 80px !important;
+    padding-inline: 100px;
+    justify-content: flex-start;
+  }
+}
+
+.tab {
+  min-width: 130px;
+  max-width: 90px;
+  height: 70px;
+  justify-content: flex-end;
+  border: none;
+  display: flex;
+  margin-inline: 10px;
+  background: transparent;
+  cursor: pointer;
+  font-size: clamp(14px, 1vw, 22px);
+  font-weight: var(--weight-700);
+  position: relative;
+  transition: var(--transition3);
+  color: var(--tab-color, #666);
+  flex-direction: column;
+  align-items: center;
+  @media (max-width: 600px) {
+    height: 50px !important;
+    min-width: 50px !important;
+    margin-inline: 20px !important;
+  }
+}
+
+/* Tab specific colors - always applied */
+.tab[data-tab-id="ads"] {
+  --tab-color: var(--color-dark-yellow);
+}
+.tab[data-tab-id="store"] {
+  --tab-color: var(--color-light-red);
+}
+.tab[data-tab-id="postchi"] {
+  --tab-color: var(--color-dark-red);
+}
+.tab[data-tab-id="publish"] {
+  --tab-color: var(--color-purple);
+}
+.tab[data-tab-id="Extension"] {
+  --tab-color: #4545ff;
+}
+.tab[data-tab-id="jobs"] {
+  --tab-color: var(--color-dark-blue);
+}
+.tab[data-tab-id="ids"] {
+  --tab-color: var(--color-light-blue);
+}
+
+/* Removed specific active colors since we're using the same color all the time */
+
+.tab.active,
+.tabActive {
+  color: var(--tab-color);
+}
+
+.tabUnderline {
+  position: absolute;
+  left: 0;
+  width: 100%;
+  height: 15px;
+  top: 0px;
+  pointer-events: none;
+  animation: flip-in-hor-bottom 0.6s cubic-bezier(0.895, 0.03, 0.685, 0.22) both;
+}
+@keyframes flip-in-hor-bottom {
+  0% {
+    transform: rotateX(90deg);
+    top: -3px;
+  }
+  100% {
+    transform: rotateX(0);
+  }
+}
+.tabUnderlinefade {
+  position: absolute;
+  z-index: 0;
+  transform: translateX(10px);
+  width: 25vw;
+  top: 3px;
+  margin-bottom: 10px;
+  padding-bottom: 10px;
+  pointer-events: none;
+  animation: var(--fadeIn4);
+  animation-duration: 2.5s;
+  border: none;
+  @media (max-width: 600px) {
+    width: 80vw;
+  }
+}
+
+/* carousel */
+.serviceContainer {
+  position: relative;
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  padding: var(--padding-10);
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+}
+
+/* Auto-slide progress indicator */
+.autoSlideProgress {
+  position: relative;
+  bottom: 0;
+  left: 0;
+  width: 50px;
+  height: 3px;
+  background-color: var(--color-gray30);
+  border-radius: 1px;
+  overflow: hidden;
+  animation: var(--fadeIn3);
+}
+
+.autoSlideProgress::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  top: 0;
+  height: 100%;
+  width: 0%;
+  background: linear-gradient(to right, var(--color-dark-blue), var(--color-light-blue));
+  animation: autoSlideProgressAnimation 10s linear infinite;
+}
+
+@keyframes autoSlideProgressAnimation {
+  0% {
+    width: 0%;
+  }
+  100% {
+    width: 100%;
+  }
+}
+
+.serviceContainer:hover .autoSlideProgress::after {
+  animation-play-state: paused;
+}
+
+.carouselList {
+  justify-content: center;
+  min-height: 80px;
+  height: 80px;
+  width: 100%;
+  display: flex;
+  overflow: hidden;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  contain: layout;
+  isolation: isolate;
+}
+
+.carouselItem {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  position: relative;
+  align-content: flex-start;
+  margin: 0 10px;
+  padding: 0;
+  flex: 1 1 3%;
+  max-height: 150px;
+  overflow: hidden;
+  background-color: var(--color-white30);
+  border-radius: var(--br20);
+  backdrop-filter: saturate(1.5);
+  border: 1px solid var(--color-gray60);
+  transform: translate3d(0, 0, 0);
+  contain: layout style paint;
+  isolation: isolate;
+  cursor: pointer;
+  transition: all 0.6s cubic-bezier(0.55, 0.24, 0.18, 1);
+}
+
+.carouselItem:hover {
+  flex-basis: 10%;
+  transition: all 0.3s ease;
+}
+
+.carouselItem[data-active] {
+  flex-basis: 60%;
+  flex-grow: 0;
+}
+
+.carouselBox {
+  position: relative;
+  width: 100%;
+  max-height: 150px;
+
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.carouselContents {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: var(--gap-5);
+  position: relative;
+}
+
+.userName {
+  color: var(--text-h1);
+  font-size: clamp(14px, 1vw, 16px);
+  line-height: 1;
+  font-weight: var(--weight-600);
+  text-transform: capitalize;
+  margin: 0;
+  opacity: 0;
+  display: none;
+  transform: translateY(200px);
+}
+
+.userTitle {
+  font-size: clamp(12px, 1vw, 14px);
+  font-weight: var(--weight-400);
+  text-transform: uppercase;
+  line-height: 1;
+  color: var(--text-h2);
+
+  background-clip: text;
+  -webkit-background-clip: text;
+  text-wrap: balance;
+  opacity: 0;
+  display: none;
+  transform: translateY(200px);
+  max-width: 18em;
+}
+
+.carouselItem[data-active] .userName {
+  display: block;
+  animation: fadeInSlide 1s forwards;
+  animation-delay: 0.05s;
+}
+
+.carouselItem[data-active] .userTitle {
+  display: block;
+  animation: fadeInSlide 1s forwards;
+  animation-delay: 0.15s;
+}
+
+@keyframes fadeInSlide {
+  0% {
+    opacity: 0;
+    transform: translateY(200px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.carouselNav {
+  justify-content: space-between;
+  position: relative;
+  width: 200px;
+  bottom: 0;
+  right: 0;
+  display: flex;
+  padding: 1em;
+  flex-direction: row;
+  align-items: center;
+  place-self: center;
+  /* @media (max-width: 500px) {
+    width: 100%;
+  } */
+}
+html[dir="rtl"] .carouselNav {
+  flex-direction: row-reverse;
+  transform: rotateY(180deg);
+}
+.prev,
+.next {
+  display: flex;
+  align-items: center;
+  gap: 0.5em;
+  padding: 0.5em 1.5em;
+  background: transparent;
+  border: none;
+  color: var(--text-h1);
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+
+.prev svg,
+.next svg {
+  width: 24px;
+  height: 24px;
+}
+
+.prev path,
+.next path {
+  fill: currentColor;
+}
+
+@media screen and (max-width: 600px) {
+  .carouselItem {
+    flex-basis: 5%;
+    margin: 0 5px;
+    border-radius: 15px;
+    max-height: 120px;
+    transition: all 0.25s cubic-bezier(0.55, 0.24, 0.18, 1);
+  }
+  .carouselBox {
+    max-height: 120px;
+  }
+  .carouselItem[data-active] {
+    flex-basis: 50%;
+    flex-grow: 0;
+  }
+}
+/* carousel */
+.serviceCard {
+  width: 100%;
+  max-width: 250px;
+  padding: 20px;
+  min-height: 170px;
+  background: radial-gradient(60% 60% at 50% 0%, var(--color-white30) 0%, var(--background-root) 100%);
+  border-radius: var(--br25);
+  gap: var(--gap-10);
+  box-shadow: var(--box-shadow);
+  border: 1px solid var(--color-white);
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition3);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  align-content: center;
+  @media (max-width: 600px) {
+    min-width: 190px !important;
+    max-width: 190px !important;
+    min-height: 140px !important;
+  }
+}
+.cardtitle {
+  font-size: clamp(16px, 1vw, 24px);
+  font-weight: var(--weight-600);
+  color: var(--text-h1);
+  text-transform: capitalize;
+  text-align: center;
+}
+.cardexplain {
+  font-size: clamp(10px, 1vw, 12px);
+  font-weight: var(--weight-400);
+  color: var(--text-h2);
+  text-transform: capitalize;
+  text-align: center;
+  text-wrap: balance;
+}
+.selectedCard {
+  transform: translateY(10px);
+  animation: selectCarddesktop 0.3s ease-in-out;
+
+  @media (max-width: 600px) {
+    animation: selectCardmobile 0.3s ease-in-out;
+  }
+}
+
+@keyframes selectCarddesktop {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(10px);
+  }
+}
+@keyframes selectCardmobile {
+  0% {
+    transform: translateY(0);
+  }
+  100% {
+    transform: translateY(0);
+  }
+}
+
+.serviceIcon {
+  max-width: 20px;
+  max-height: 20px;
+  height: 20px;
+  width: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: var(--br10);
+  animation: var(--fadeIn4);
+}
+
+.contentArea {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-40);
+  width: 100%;
+  padding-inline: var(--padding-30);
+  max-width: 1200px;
+  min-height: 600px;
+  height: 100%;
+  max-height: 800px;
+  animation: var(--slide-in);
+  align-items: center;
+  justify-content: flex-start;
+  flex-wrap: nowrap;
+  filter: drop-shadow(5px 5px 15px var(--color-gray60)) !important;
+  @media (max-width: 600px) {
+    min-height: 200px;
+  }
+}
+.contentAreaParent {
+  max-width: 1200px;
+  min-height: 600px;
+  height: 100%;
+
+  @media (max-width: 600px) {
+    min-height: 380px;
+  }
+}
+
+.serviceText {
+  animation: var(--fade-in);
+  font-size: clamp(12px, 3vw, 16px);
+  color: var(--text-h1);
+  text-align: center;
+  display: flex;
+  flex-wrap: wrap;
+  font-weight: var(--weight-600);
+  justify-content: center;
+  text-wrap: balance;
+}
+
+.serviceText .letter {
+  display: inline-block;
+  opacity: 0;
+  transform: translateX(10px);
+  animation: fadeInUp 0.5s forwards;
+  white-space: pre-wrap;
+  will-change: transform, opacity;
+}
+
+.serviceText .space {
+  margin: 0 0px;
+}
+
+@keyframes fadeInUp {
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.servicepicture {
+  width: 100%;
+  height: 100%;
+  animation: var(--fade-in);
+  max-width: 800px;
+  max-height: 500px;
+  object-fit: contain;
+  border-radius: var(--br10);
+  will-change: auto;
+  contain: layout;
+}
+.animation-enter {
+  animation: fadeIn 0.3s ease-in forwards;
+}
+.animation-exit {
+  animation: fadeOut 0.3s ease-out forwards;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-10px);
+  }
+}
+
+/* Focus styles for accessibility */
+.tab:focus-visible {
+  outline: 2px solid var(--tab-color);
+  outline-offset: 2px;
+  border-radius: var(--br5);
+}
+
+.carouselItem:focus-visible {
+  outline: 2px solid var(--color-dark-blue);
+  outline-offset: 2px;
+  border-radius: var(--br20);
+}
+
+.prev:focus-visible,
+.next:focus-visible {
+  outline: 2px solid var(--color-dark-blue);
+  outline-offset: 2px;
+  border-radius: var(--br5);
+}
+
+/* Improved performance */
+.serviceContainer,
+.carouselItem,
+.contentArea {
+  will-change: transform;
+  contain: layout style paint;
+}
+
+.servicepicture {
+  will-change: auto;
+  contain: layout;
+}

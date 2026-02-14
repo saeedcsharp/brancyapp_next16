@@ -1,0 +1,42 @@
+.customcheckbox input {
+  display: none;
+}
+
+.customcheckbox {
+  color: var(--text-h1);
+  gap: var(--gap-10);
+  display: flex;
+  cursor: pointer;
+  align-items: center;
+  font-size: var(--font-14);
+  line-height: var(--font-14);
+  font-weight: var(--weight-500);
+  text-transform: capitalize;
+  text-decoration: none;
+  text-align: start;
+}
+
+.customcheckbox:hover .checkmark {
+  box-shadow: 0 0 0 2px var(--color-dark-blue60);
+}
+.customcheckbox .checkmark:active {
+  border: 3px solid var(--color-dark-blue);
+}
+
+.customcheckbox .checkmark {
+  width: 16px;
+  height: 16px;
+  min-width: 16px;
+  min-height: 16px;
+  cursor: pointer;
+  border: 1px solid var(--color-dark-blue);
+  display: inline-block;
+
+  border-radius: var(--br5);
+  transition: var(--transition3);
+}
+
+.customcheckbox input:checked + .checkmark {
+  background: url("/checkbox1.svg") center no-repeat;
+  background-color: var(--color-dark-blue);
+}

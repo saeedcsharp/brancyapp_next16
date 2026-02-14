@@ -1,0 +1,47 @@
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+@media (max-width: 480px) {
+  .shareWinnerPicker {
+    padding: var(--paddingboxmobile) !important;
+  }
+}
+.shareWinnerPicker {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 116;
+  transition: box-shadow 0.3s;
+  border-radius: var(--br25);
+  background: var(--color-white);
+  border: 3px solid var(--box-border);
+  box-sizing: border-box;
+  padding: var(--paddingbox);
+  justify-content: space-between;
+  width: 395px;
+  max-width: calc(100% - 50px);
+  height: 700px;
+  max-height: calc(100% - 50px);
+  min-width: 250px;
+  gap: var(--gap-20);
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+.header {
+  position: relative;
+  color: var(--text-h1);
+  font-size: var(--font-18);
+  font-weight: var(--weight-800);
+  text-align: center;
+  text-transform: capitalize;
+}

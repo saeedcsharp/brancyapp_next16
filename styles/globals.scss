@@ -1,0 +1,251 @@
+@import "../scss/main.scss";
+//@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+*,
+body {
+  /* Reordered so Persian/Arabic (fa/ar) will pick Lahzeh first when applied via language/dir selectors */
+  font-family: "Montserrat", "Lahzeh", "Yekanbakh", system-ui, sans-serif !important;
+}
+
+/* ============ فونت Montserrat برای سایر زبان‌ها ============ */
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 100;
+  src: url("/fonts/Montserrat-Thin.woff2") format("woff2"), url("/fonts/Montserrat-Thin.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 200;
+  src: url("/fonts/Montserrat-ExtraLight.woff2") format("woff2"),
+    url("/fonts/Montserrat-ExtraLight.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 300;
+  src: url("/fonts/Montserrat-Light.woff2") format("woff2"), url("/fonts/Montserrat-Light.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/Montserrat-Regular.woff2") format("woff2"), url("/fonts/Montserrat-Regular.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 500;
+  src: url("/fonts/Montserrat-Medium.woff2") format("woff2"), url("/fonts/Montserrat-Medium.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 600;
+  src: url("/fonts/Montserrat-SemiBold.woff2") format("woff2"), url("/fonts/Montserrat-SemiBold.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 700;
+  src: url("/fonts/Montserrat-Bold.woff2") format("woff2"), url("/fonts/Montserrat-Bold.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 800;
+  src: url("/fonts/Montserrat-ExtraBold.woff2") format("woff2"), url("/fonts/Montserrat-ExtraBold.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Montserrat";
+  font-style: normal;
+  font-weight: 900;
+  src: url("/fonts/Montserrat-Black.woff2") format("woff2"), url("/fonts/Montserrat-Black.woff") format("woff");
+  font-display: swap;
+}
+/* ============ فونت Lahzeh (FaNum) برای فارسی و عربی ============ */
+//lahze
+@font-face {
+  font-family: "Lahzeh";
+  font-style: normal;
+  font-weight: 100; /* Thin */
+  src: url("/fonts/Lahzeh-FaNum-Thin.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lahzeh";
+  font-style: normal;
+  font-weight: 200; /* ExtraLight */
+  src: url("/fonts/Lahzeh-FaNum-ExtraLight.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lahzeh";
+  font-style: normal;
+  font-weight: 300; /* Light */
+  src: url("/fonts/Lahzeh-FaNum-Light.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lahzeh";
+  font-style: normal;
+  font-weight: 400; /* Regular */
+  src: url("/fonts/Lahzeh-FaNum-Regular.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lahzeh";
+  font-style: normal;
+  font-weight: 500; /* Medium */
+  src: url("/fonts/Lahzeh-FaNum-Medium.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lahzeh";
+  font-style: normal;
+  font-weight: 600; /* SemiBold */
+  src: url("/fonts/Lahzeh-FaNum-SemiBold.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lahzeh";
+  font-style: normal;
+  font-weight: 700; /* Bold */
+  src: url("/fonts/Lahzeh-FaNum-Bold.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lahzeh";
+  font-style: normal;
+  font-weight: 800; /* ExtraBold */
+  src: url("/fonts/Lahzeh-FaNum-ExtraBold.woff2") format("woff2");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Lahzeh";
+  font-style: normal;
+  font-weight: 900; /* Black */
+  src: url("/fonts/Lahzeh-FaNum-Black.woff2") format("woff2");
+  font-display: swap;
+}
+// Yekanbakh
+@font-face {
+  font-family: "Yekanbakh";
+  font-style: normal;
+  font-weight: 100;
+  src: url("/fonts/YekanBakhNoEn-Thin.woff2") format("woff2"), url("/fonts/YekanBakhNoEn-Thin.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Yekanbakh";
+  font-style: normal;
+  font-weight: 300;
+  src: url("/fonts/YekanBakhNoEn-Light.woff2") format("woff2"), url("/fonts/YekanBakhNoEn-Light.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Yekanbakh";
+  font-style: normal;
+  font-weight: 400;
+  src: url("/fonts/YekanBakhNoEn-Regular.woff2") format("woff2"),
+    url("/fonts/YekanBakhNoEn-Regular.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Yekanbakh";
+  font-style: normal;
+  font-weight: 600;
+  src: url("/fonts/YekanBakhNoEn-SemiBold.woff2") format("woff2"),
+    url("/fonts/YekanBakhNoEn-SemiBold.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Yekanbakh";
+  font-style: normal;
+  font-weight: 700;
+  src: url("/fonts/YekanBakhNoEn-Bold.woff2") format("woff2"), url("/fonts/YekanBakhNoEn-Bold.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Yekanbakh";
+  font-style: normal;
+  font-weight: 800;
+  src: url("/fonts/YekanBakhNoEn-ExtraBold.woff2") format("woff2"),
+    url("/fonts/YekanBakhNoEn-ExtraBold.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Yekanbakh";
+  font-style: normal;
+  font-weight: 900;
+  src: url("/fonts/YekanBakhNoEn-Black.woff2") format("woff2"), url("/fonts/YekanBakhNoEn-Black.woff") format("woff");
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Yekanbakh";
+  font-style: normal;
+  font-weight: 950;
+  src: url("/fonts/YekanBakhNoEn-ExtraBlack.woff2") format("woff2"),
+    url("/fonts/YekanBakhNoEn-ExtraBlack.woff") format("woff");
+  font-display: swap;
+}
+
+/* If you still want Yekanbakh as fallback keep (commented) below definitions. */
+/*
+@font-face { font-family: "Yekanbakh"; font-style: normal; font-weight: 400; src: url("/fonts/YekanBakhNoEn-Regular.woff2") format("woff2"); font-display: swap; }
+*/
+
+/* Language specific override (optional): ensure fa/ar use Lahzeh first */
+html[lang="fa"],
+html[lang="ar"] {
+  font-family: "Lahzeh", "Yekanbakh", "Montserrat", system-ui, sans-serif !important;
+}
+
+/* Force Lahzeh for any RTL context as fallback (in case lang not set early) */
+html[dir="rtl"],
+body[dir="rtl"],
+[dir="rtl"] * {
+  font-family: "Lahzeh", "Yekanbakh", "Montserrat", system-ui, sans-serif !important;
+}
+
+@import "../scss/main.scss";
+//@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
+
+*,
+body {
+  font-family: "Montserrat", "Yekanbakh", system-ui, sans-serif !important;
+}
+
+/* ============ فونت Yekanbakh برای فارسی و عربی ============ */

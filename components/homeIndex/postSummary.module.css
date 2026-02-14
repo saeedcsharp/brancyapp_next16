@@ -1,0 +1,148 @@
+.contactBox {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-content: space-between;
+  flex-direction: column;
+  gap: var(--gap-30);
+}
+
+.frameContainer {
+  overflow-y: hidden;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-10);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font-size: var(--font-14);
+  color: var(--text-h1);
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.5s ease, opacity 0.5s ease;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  will-change: max-height, opacity;
+  contain: layout style;
+  @media (max-width: 768px) {
+    overflow-y: auto;
+  }
+}
+
+.tooBigCard {
+  overflow: hidden;
+  grid-row-end: span 75;
+  contain: layout style;
+}
+
+.toobigcardclose {
+  grid-row-end: span 10;
+  padding: 15px !important;
+  transition: all 0.3s ease;
+  contain: layout style;
+}
+.frameContainer.show {
+  max-height: 100%;
+  opacity: 1;
+}
+
+.headersection {
+  position: relative;
+  height: 60px;
+  display: flex;
+  gap: var(--gap-10);
+  justify-content: space-evenly;
+  flex-direction: row;
+  width: 100%;
+  align-content: center;
+  align-items: center;
+  contain: layout style;
+}
+.backdropfade {
+  position: absolute;
+  top: -70px;
+  left: -80px;
+  width: 180px;
+  height: 120px;
+  border-radius: 50%;
+  filter: blur(40px);
+  background-color: var(--color-dark-blue60);
+}
+html[dir="rtl"] .backdropfade {
+  right: -80px;
+}
+.headerandinput {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-8);
+  transition: var(--transition3);
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+/* ------------------------------------------ */
+
+.loadingMore {
+  display: flex;
+  justify-content: center;
+  padding: 16px;
+  margin-top: 12px;
+  contain: layout style;
+}
+.postItem {
+  width: calc(100% / 3 - 7px);
+  aspect-ratio: 1;
+  position: relative;
+  cursor: pointer;
+  border-radius: var(--br15);
+  overflow: hidden;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+  will-change: transform, box-shadow;
+  contain: layout style;
+  background-color: var(--color-gray10);
+  border: 1px solid var(--color-gray10);
+  @media (max-width: 768px) {
+    width: calc(100% / 2 - 7px);
+  }
+}
+.postItem:hover {
+  transform: scale(0.95);
+}
+
+.postImage {
+  object-fit: cover;
+  border-radius: var(--br10);
+  will-change: auto;
+  max-width: 100%;
+  height: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.postNumber {
+  position: absolute;
+  bottom: 4px;
+  right: 4px;
+  background: rgba(0, 0, 0, 0.8);
+  color: white;
+  font-size: 10px;
+  padding: 2px 6px;
+  border-radius: var(--br5);
+  font-weight: 600;
+  line-height: 1;
+}
+
+.empty {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--text-h2);
+  font-size: var(--font-14);
+  padding: 20px;
+  text-align: center;
+}

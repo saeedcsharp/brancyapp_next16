@@ -1,0 +1,444 @@
+/* Header Responsive Styles */
+@media (max-width: 799px) {
+  .headerdesktop {
+    display: none !important;
+  }
+  .settingsDropdownOpen,
+  .settingsDropdown {
+    min-width: 150px;
+  }
+}
+
+@media (min-width: 800px) {
+  .headermobile {
+    display: none !important;
+  }
+}
+
+/* Mobile Header */
+.headermobile {
+  animation: var(--top14);
+  border-radius: var(--br20);
+  gap: var(--gap-20);
+  position: fixed;
+  top: 5px;
+  width: calc(100% - 20px);
+  max-width: 1920px;
+  padding: var(--padding-16) var(--padding-16);
+  display: flex;
+  left: 10px;
+  align-self: center;
+  border: 1px solid var(--color-white);
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  z-index: 2;
+  background-color: var(--color-white30);
+  -webkit-backdrop-filter: blur(20px);
+  backdrop-filter: blur(20px);
+}
+
+.headermobile::before {
+  border-radius: var(--br20);
+  content: " ";
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-root);
+  opacity: 0.5;
+}
+
+/* Desktop Header */
+.headerdesktop {
+  position-area: center;
+  animation: var(--top14);
+  border-radius: var(--br20);
+  gap: var(--gap-20);
+  position: fixed;
+  top: 20px;
+  width: calc(100% - 32px);
+  max-width: 1920px;
+  padding: var(--padding-16);
+  display: flex;
+  border: 1px solid var(--color-white);
+  left: 16px;
+  height: 70px;
+  justify-content: space-between;
+  align-items: center;
+  align-self: center;
+  flex-direction: row;
+  z-index: 98;
+  background-color: var(--color-white30);
+  backdrop-filter: blur(10px);
+}
+
+.headerdesktop::before {
+  border-radius: var(--br20);
+  content: " ";
+  top: 0;
+  left: 0;
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: var(--background-root);
+  opacity: 0.5;
+}
+
+/* Logo Styles */
+.BrancyLogoLTR {
+  position: relative;
+  display: block;
+  height: 35px;
+}
+
+.BrancyLogoRTL {
+  display: none;
+  position: relative;
+  height: 35px;
+}
+
+html[dir="rtl"] .BrancyLogoRTL {
+  display: block !important;
+}
+
+html[dir="rtl"] .BrancyLogoLTR {
+  display: none !important;
+}
+
+/* Mobile Settings Parent */
+.settingmobileparent {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-10);
+}
+
+/* Header Menu Desktop */
+.headermenudesktop {
+  max-width: 500px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-15);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.headermenulist {
+  color: var(--text-h1);
+  text-transform: capitalize;
+  position: relative;
+  font-size: var(--font-16);
+  font-weight: var(--weight-400);
+  cursor: pointer;
+  transition: var(--transition2);
+}
+
+.headermenulist:hover {
+  transform: translateY(-2px);
+}
+
+.headermenulistactive {
+  color: var(--color-dark-blue) !important;
+  font-weight: var(--weight-700) !important;
+  position: relative;
+}
+
+/* .headermenulistactive::after {
+  content: "";
+  position: absolute;
+  bottom: -5px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: var(--color-dark-blue);
+  border-radius: 1px;
+} */
+
+/* Get Start Section */
+.getstart {
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-20);
+  align-items: center;
+}
+
+/* Button Styles */
+.startsvg {
+  position: relative;
+  top: 0;
+  left: 0;
+  width: 24px;
+  height: 24px;
+  z-index: 0;
+}
+
+.button {
+  text-wrap: nowrap;
+  display: flex;
+  color: var(--color-ffffff);
+  height: 40px;
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  background-color: var(--color-dark-blue);
+  border-radius: var(--br15);
+  transition: var(--transition6);
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-5);
+  padding: var(--padding-14);
+  border: var(--color-dark-blue) 2px solid;
+}
+
+html[dir="rtl"] .button svg {
+  transform: rotate(180deg) !important;
+}
+
+.button:hover {
+  color: var(--color-dark-blue);
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.button svg {
+  width: 20px;
+  position: relative;
+  display: flex;
+  transition: var(--transition6);
+}
+
+.button:hover svg {
+  transform: translateX(5px);
+  fill: var(--color-dark-blue);
+}
+
+/* Menu Button */
+.menubtn {
+  height: 32px;
+  width: 32px;
+  border: 0;
+  padding: var(--padding-3);
+  background-color: var(--color-white);
+  border-radius: 8px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  z-index: 10;
+  transition: all 0.5s ease;
+}
+
+.mobileMenuOpen ~ .menubtn,
+.mobileMenuContainer:has(.mobileMenuOpen) .menubtn {
+  background-color: var(--background-root);
+}
+
+/* Animation keyframes for menu opening */
+@keyframes scale-in-tr {
+  0% {
+    transform: scale(0) translate(0px, 0px);
+    transform-origin: 100% 0%;
+    opacity: 1;
+    border-radius: var(--br15);
+  }
+
+  100% {
+    transform: scale(1) translate(15px, -15px);
+    transform-origin: 100% 0%;
+    opacity: 1;
+    border-radius: var(--br15);
+  }
+}
+
+/* Animation keyframes for menu closing */
+@keyframes scale-out-tr {
+  0% {
+    transform: scale(1) translate(15px, -15px);
+    transform-origin: 100% 0%;
+    opacity: 1;
+    border-radius: var(--br15);
+  }
+  100% {
+    transform: scale(0) translate(15px, -15px);
+    transform-origin: 100% 0%;
+    opacity: 1;
+    border-radius: var(--br20);
+  }
+}
+
+/* Mobile menu container */
+.mobileMenuContainer {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.mobileMenu {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 200px;
+  background-color: var(--color-white);
+  padding: var(--padding-16);
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-15);
+  overflow: hidden;
+  /* Apply closing animation by default */
+  animation: scale-out-tr 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  transform-origin: 100% 0%;
+}
+
+.mobileMenu > a:nth-child(2) {
+  border: 2px solid var(--color-dark-blue);
+}
+
+.headermenulistmobile {
+  padding: var(--padding-10);
+  border-radius: var(--br15);
+  width: 100%;
+  text-transform: capitalize;
+  text-align: center;
+  transition: all 0.3s ease;
+  color: var(--text-h1);
+  animation: var(--top14);
+  animation-delay: 1s;
+}
+
+.headermenulistmobileactive {
+  background-color: #007bff !important;
+  color: white !important;
+  font-weight: var(--weight-600) !important;
+  box-shadow: 0 2px 8px rgba(0, 123, 255, 0.3);
+}
+
+.mobileMenuOpen {
+  /* Apply opening animation when menu is open */
+  animation: scale-in-tr 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  transform-origin: 100% 0%;
+  visibility: visible;
+  width: 200px;
+  height: auto;
+}
+
+/* Options and Radio Button Styles */
+.options {
+  position: relative;
+  width: 100%;
+  display: flex;
+  row-gap: var(--gap-20);
+  justify-content: space-between;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+.radiobtn {
+  position: relative;
+  width: 45%;
+}
+
+/* Settings Dropdown */
+.settingsWrapper {
+  position: relative;
+}
+
+.settingsButton {
+  background: none;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--color-gray);
+  border-radius: 50%;
+  transition: background-color 0.2s ease;
+}
+
+.settingsDropdown {
+  position: absolute;
+  top: 5px;
+  right: 10px;
+  min-width: 300px;
+  background-color: var(--color-white);
+  padding: var(--padding-5) var(--padding-16) var(--padding-16) var(--padding-16);
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-15);
+  overflow: hidden;
+
+  /* Apply closing animation by default */
+  animation: scale-out-tr 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  transform-origin: 100% 0%;
+}
+
+.settingsDropdownOpen {
+  /* Apply opening animation when menu is open */
+  animation: scale-in-tr 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  transform-origin: 100% 0%;
+  visibility: visible;
+  min-width: 300px;
+  height: auto;
+}
+
+/* RTL Specific Styles */
+html[dir="rtl"] .mobileMenu {
+  right: auto;
+  left: 5px;
+  transform-origin: 0% 0%;
+  animation: scale-out-tl 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+html[dir="rtl"] .mobileMenuOpen {
+  transform-origin: 0% 0%;
+  animation: scale-in-tl 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+html[dir="rtl"] .settingsDropdown {
+  right: auto;
+  left: 10px;
+  transform-origin: 0% 0%;
+  animation: scale-out-tl 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+html[dir="rtl"] .settingsDropdownOpen {
+  transform-origin: 0% 0%;
+  animation: scale-in-tl 0.6s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+}
+
+@keyframes scale-in-tl {
+  0% {
+    transform: scale(0) translate(0px, 0px);
+    transform-origin: 0% 0%;
+    opacity: 1;
+    border-radius: var(--br15);
+  }
+
+  100% {
+    transform: scale(1) translate(-15px, -15px);
+    transform-origin: 0% 0%;
+    opacity: 1;
+    border-radius: var(--br15);
+  }
+}
+
+@keyframes scale-out-tl {
+  0% {
+    transform: scale(1) translate(-15px, -15px);
+    transform-origin: 0% 0%;
+    opacity: 1;
+    border-radius: var(--br15);
+  }
+  100% {
+    transform: scale(0) translate(-15px, -15px);
+    transform-origin: 0% 0%;
+    opacity: 1;
+    border-radius: var(--br20);
+  }
+}

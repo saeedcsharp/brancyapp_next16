@@ -1,0 +1,189 @@
+.tutorialOverlay {
+  position: fixed;
+  display: flex;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 9999;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+  pointer-events: none;
+  align-items: center;
+  justify-content: center;
+  /* background-color: var(--color-black80);
+  backdrop-filter: blur(5px); */
+}
+
+.tutorialOverlay.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+.visible {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: all;
+}
+.backdrop {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+.tooltip {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-20);
+  border: none;
+  position: absolute;
+  background: var(--background-root);
+  border-radius: var(--br30);
+  box-shadow: var(--box-shadow);
+  max-width: 400px;
+  width: auto;
+  min-width: 320px;
+  z-index: 999999;
+  animation: tooltipAppear 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+  padding: var(--paddingboxmobile);
+}
+.tooltipbackground {
+  overflow: hidden;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: var(--br30);
+  z-index: -1;
+}
+.tooltipbackground:before {
+  overflow: hidden;
+  content: " ";
+  width: 100%;
+  height: 80%;
+  filter: blur(70px);
+  position: absolute;
+  bottom: -50%;
+  left: 50%;
+  transform: translatex(-50%);
+  background: var(--color-gray60);
+  border-radius: 50%;
+}
+/* .tooltip::after {
+  content: " ";
+  position: absolute;
+  bottom: -12px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 12px solid transparent;
+  border-right: 12px solid transparent;
+  border-top: 13px solid var(--background-root);
+  filter: contrast(0.55);
+} */
+@keyframes tooltipAppear {
+  from {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.8) translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) translateY(0);
+  }
+}
+.closeButton {
+  position: absolute;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  top: 16px;
+  right: 16px;
+  width: 30px;
+  height: 30px;
+  z-index: 2;
+}
+.closeButton:hover {
+  scale: 1.1;
+}
+.tooltipTitle {
+  min-height: 25px;
+  font-size: var(--font-16);
+  font-weight: var(--weight-700);
+  color: var(--text-h1);
+  padding-inline: var(--padding-30);
+}
+.tooltipText {
+  color: var(--text-h2);
+  font-size: var(--font-14);
+  font-weight: var(--weight-500);
+}
+.navigation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-10);
+}
+
+html[dir="ltr"] .navigation > div:nth-child(2) > button > svg {
+  transform: rotate(180deg);
+}
+
+.stepIndicator {
+  display: flex;
+  justify-content: center;
+  gap: var(--gap-10);
+}
+.stepDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background-color: var(--color-gray30);
+  border: none;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+.stepDot:hover {
+  background-color: var(--color-gray);
+  transform: scale(1.1);
+}
+.stepDot.active {
+  background-color: var(--color-dark-blue);
+  box-shadow: 0 0 0 3px var(--color-dark-blue30);
+}
+.active {
+  background-color: var(--color-dark-blue);
+}
+.stepDot.completed {
+  background-color: var(--color-gray);
+}
+.completed {
+  background-color: var(--color-gray);
+}
+.highlighted {
+  position: relative !important;
+  z-index: 999999 !important;
+  padding: var(--padding-10) !important;
+  border-radius: var(--br15) !important;
+  animation: highlightPulse 2s infinite !important;
+}
+@keyframes highlightPulse {
+  0%,
+  100% {
+    box-shadow: 0 0 0 2px var(--color-light-red);
+  }
+  50% {
+    box-shadow: 0 0 0 4px var(--color-light-red);
+  }
+}
+@media (max-width: 720px) {
+  .tutorialOverlay {
+    display: none !important;
+  }
+}

@@ -1,0 +1,233 @@
+.contactBox {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-content: space-between;
+  flex-direction: column;
+  gap: var(--gap-30);
+}
+
+.frameContainer {
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-15);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font-size: var(--font-14);
+  color: var(--text-h1);
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.5s ease, opacity 0.5s ease;
+  will-change: max-height, opacity;
+  contain: layout style;
+}
+.tooBigCard {
+  overflow: hidden;
+  grid-row-end: span 75;
+  contain: layout style;
+}
+
+.toobigcardclose {
+  grid-row-end: span 10;
+  padding: 15px !important;
+  transition: all 0.3s ease;
+  contain: layout style;
+}
+.frameContainer.show {
+  max-height: 100%;
+  opacity: 1;
+}
+
+.headersection {
+  position: relative;
+  height: 60px;
+  display: flex;
+  gap: var(--gap-10);
+  justify-content: space-evenly;
+  flex-direction: row;
+  width: 100%;
+  align-content: center;
+  align-items: center;
+  contain: layout style;
+}
+.backdropfade {
+  position: absolute;
+  top: -70px;
+  left: -80px;
+  width: 180px;
+  height: 120px;
+  border-radius: 50%;
+  filter: blur(40px);
+  background-color: var(--color-dark-blue60);
+}
+html[dir="rtl"] .backdropfade {
+  right: -80px;
+}
+.headerandinput {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-8);
+  transition: var(--transition3);
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+.customstyle {
+  width: 100%;
+  overflow-x: hidden !important;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  row-gap: var(--gap-20);
+  justify-content: space-between;
+  align-items: center;
+}
+
+.groupWrapper {
+  column-gap: var(--br10);
+  display: flex;
+  position: relative;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+  padding-bottom: 15px;
+  border-bottom: 1px solid var(--color-gray30);
+}
+
+.profile {
+  width: 40px;
+  display: flex;
+  row-gap: var(--gap-8);
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+.imageProfile {
+  background-color: var(--color-gray10);
+  cursor: pointer;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  justify-content: center;
+  align-items: center;
+  flex-shrink: 0;
+  background-color: var(--color-gray10);
+  background-image: url("/no-profile.svg");
+}
+.replyicon {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+  transition: var(--transition2);
+}
+.replyicon:hover {
+  transform: scale(1.2);
+}
+.replyicon:active {
+  transform: scale(0.98);
+}
+.optionwrapper {
+  display: flex;
+  width: 100%;
+  row-gap: var(--gap-5);
+  position: relative;
+  flex-direction: column;
+  justify-content: flex-start;
+}
+.profileuser {
+  height: 20px;
+  gap: var(--gap-10);
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+.username {
+  max-width: 100px;
+  width: 100%;
+  color: var(--text-h1);
+  text-align: left;
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+  /* overflow: hidden; */
+  text-overflow: ellipsis;
+  max-width: 150px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  @media (max-width: 480px) {
+    max-width: 110px;
+  }
+}
+
+.message {
+  text-align: left;
+  color: var(--text-h1);
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 265px;
+  width: 100%;
+  height: 100%;
+  -webkit-line-clamp: 2;
+  line-clamp: 2;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  display: -webkit-box;
+}
+.ticket,
+.direct,
+.comment,
+.unknown,
+.reply {
+  padding: var(--paddingtag);
+  border-radius: var(--br5);
+  font-size: var(--font-12);
+  font-weight: var(--weight-500);
+  text-wrap: nowrap;
+  text-align: center;
+}
+.ticket {
+  color: var(--color-purple);
+  background-color: var(--color-purple30);
+}
+.direct {
+  color: var(--color-dark-blue);
+  background-color: var(--color-dark-blue30);
+}
+.comment {
+  color: var(var(--color-firoze));
+  background-color: var(--color-firoze30);
+}
+.unknown {
+  color: var(--color-light-red);
+  background-color: var(--color-light-red30);
+}
+.reply {
+  color: var(--color-light-blue);
+  background-color: var(--color-light-blue30);
+}
+
+.closebtn {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+
+  transition: var(--transition2);
+}
+
+.profileimagebig {
+  position: relative;
+  border-radius: var(--br15);
+  width: 100%;
+  height: auto;
+  max-height: 300px;
+  object-fit: cover;
+}

@@ -1,0 +1,140 @@
+.instagramprofile {
+  height: 40px;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-10);
+  align-content: center;
+  align-items: center;
+  transition: var(--transition2);
+}
+
+.instagramimage {
+  background-color: var(--color-gray10);
+  background-image: url("/no-profile.svg");
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  position: relative;
+  border-radius: 50%;
+  height: 100%;
+  min-height: 40px;
+  max-height: 60px;
+  min-width: 40px;
+  max-width: 60px;
+  aspect-ratio: 1/1;
+  object-fit: cover;
+  transition: var(--transition2);
+}
+
+.instagramprofiledetail {
+  max-width: 180px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-5);
+  align-items: flex-start;
+  justify-content: space-evenly;
+  transition: var(--transition2);
+}
+
+.instagramusername {
+  line-height: 20px;
+  position: relative;
+  text-align: left;
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-5);
+  width: 100%;
+  transition: var(--transition2);
+}
+
+.instagramid {
+  position: relative;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--gap-5);
+  width: 100%;
+  color: var(--text-h2);
+  font-size: var(--font-12);
+  font-weight: var(--weight-500);
+  transition: var(--transition2);
+}
+.remaining {
+  position: relative;
+  text-align: left;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  text-transform: capitalize;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--gap-5);
+  width: 100%;
+  color: var(--text-h2);
+  font-size: var(--font-10);
+  font-weight: var(--weight-400);
+  transition: var(--transition2);
+}
+.IDred,
+.IDgreen,
+.IDpurple,
+.IDblue,
+.IDgray {
+  text-wrap: nowrap;
+  width: fit-content;
+  background-color: var(--color-gray10);
+  border: 1px solid var(--color-gray30);
+  border-radius: var(--br5);
+  padding: 1px var(--padding-5);
+  font-size: var(--font-10);
+  font-weight: var(--weight-400);
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-5);
+  transition: var(--transition2);
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+.IDblue {
+  background-color: var(--color-light-blue10);
+  border: 1px solid var(--color-light-blue30);
+  color: var(--color-light-blue);
+}
+.IDred {
+  background-color: var(--color-light-red10);
+  border: 1px solid var(--color-light-red30);
+  color: var(--color-light-red);
+}
+.IDgreen {
+  background-color: var(--color-light-green10);
+  border: 1px solid var(--color-light-green30);
+  color: var(--color-light-green);
+}
+.IDpurple {
+  background-color: var(--color-purple10);
+  border: 1px solid var(--color-purple30);
+  color: var(--color-purple);
+}
+.IDtag {
+  background-color: var(--color-gray10);
+  border: 1px solid var(--color-gray30);
+  color: var(--color-gray);
+}

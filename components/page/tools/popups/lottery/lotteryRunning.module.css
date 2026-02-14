@@ -1,0 +1,88 @@
+.winnerPickerRunning {
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  z-index: 116;
+  transition: box-shadow 0.3s;
+  border-radius: var(--br25);
+  background: var(--color-white);
+  border: 3px solid var(--box-border);
+  box-sizing: border-box;
+  padding: var(--paddingbox);
+  justify-content: space-between;
+  width: 395px;
+  max-width: calc(100% - 50px);
+  height: 700px;
+  max-height: calc(100% - 50px);
+  min-width: 250px;
+  gap: var(--gap-20);
+  overflow-y: auto;
+  animation: fadeIn 0.3s ease-in-out;
+}
+@media (max-width: 480px) {
+  .winnerPickerRunning {
+    padding: var(--paddingboxmobile) !important;
+    height: 100% !important;
+  }
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+.header {
+  position: relative;
+  color: var(--text-h1);
+  font-size: var(--font-18);
+  font-style: normal;
+  font-weight: var(--weight-800);
+  text-align: center;
+  text-transform: capitalize;
+}
+.winnerPickerRunningContainer {
+  position: relative;
+  display: flex;
+  height: 100%;
+  flex-direction: column;
+  gap: var(--gap-15);
+  flex-wrap: nowrap;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.winnerId {
+  position: relative;
+  gap: var(--gap-20);
+  width: 100%;
+  padding: var(--padding-14);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  border-radius: var(--br15);
+  border: 1px solid var(--background-root);
+  background-color: var(--background-root);
+  color: var(--text-h1);
+  font-size: var(--font-18);
+  font-weight: var(--weight-800);
+  transition: all 0.2s;
+  box-sizing: border-box;
+  animation: flash 3s linear infinite;
+}
+@keyframes flash {
+  0% {
+    border-color: var(--background-root);
+  }
+  50% {
+    border-color: var(--color-dark-blue);
+  }
+  100% {
+    border-color: var(--background-root);
+  }
+}

@@ -1,0 +1,108 @@
+.contactBox {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-content: space-between;
+  flex-direction: column;
+  gap: var(--gap-20);
+}
+
+.frameContainer {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font-size: var(--font-14);
+  color: var(--text-h1);
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  overflow-y: scroll;
+  overflow-x: hidden;
+}
+.frameContainer {
+  max-height: 0;
+  opacity: 0;
+  transition: var(--transition6);
+}
+
+.frameContainer.show {
+  max-height: 100%;
+  opacity: 1;
+}
+.customstyle {
+  width: 100%;
+  overflow-x: hidden !important;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  row-gap: var(--gap-15);
+  justify-content: space-between;
+  align-items: center;
+}
+
+.groupWrapper {
+  position: relative;
+  cursor: pointer;
+  width: 90px;
+  height: 140px;
+}
+.imageContent {
+  position: relative;
+  border-radius: var(--br15);
+  width: 80px;
+  height: 80px;
+  overflow: hidden;
+  max-height: 100%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  filter: opacity(0.4);
+}
+.imageProfile {
+  background-color: var(--color-gray10);
+  cursor: pointer;
+  border-radius: 50%;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  position: relative;
+  top: -30px;
+  max-width: 100%;
+  overflow: hidden;
+  max-height: 100%;
+  object-fit: cover;
+  box-shadow: var(--box-shadow);
+}
+
+.profileid {
+  position: relative;
+  top: -30px;
+  color: var(--text-h1);
+  text-align: center;
+  font-size: var(--font-14);
+
+  font-weight: var(--weight-400);
+  line-height: normal;
+  white-space: nowrap;
+  width: 100%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.closebtn {
+  position: relative;
+  width: 15px;
+  height: 15px;
+  cursor: pointer;
+
+  transition: var(--transition2);
+}
+
+.profileimagebig {
+  position: relative;
+
+  border-radius: var(--br15);
+  width: 100%;
+  aspect-ratio: 1/1;
+}

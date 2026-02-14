@@ -1,0 +1,249 @@
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { MouseEvent, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import Modal from "saeed/components/design/modal";
+import DomainManager from "saeed/components/market/properties/domainManager";
+import Features from "saeed/components/market/properties/features";
+import Link from "saeed/components/market/properties/link";
+import AddNewLink from "saeed/components/market/properties/popups/addNewLink";
+import DeleteLink from "saeed/components/market/properties/popups/deletLink";
+import EditLink from "saeed/components/market/properties/popups/editLink";
+import FeaturePopUp from "saeed/components/market/properties/popups/featurePopup";
+import StatisticsLinks from "saeed/components/market/properties/popups/statisticsLink";
+import {
+  internalNotify,
+  InternalResponseType,
+  NotifType,
+  notify,
+  ResponseType,
+} from "saeed/components/notifications/notificationBox";
+import { changePositionToFixed, changePositionToRelative } from "saeed/helper/changeMarketAdsStyle";
+import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
+import { LanguageKey } from "saeed/i18n";
+import { InstagramerAccountInfo } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
+import { GetServerResult, MethodType } from "saeed/models/IResult";
+import {
+  ILink,
+  IOrderFeatures,
+  ISaveLink,
+  IUpdateFeatureOrder,
+  IUpdateLink,
+  IUpdateOrderLink,
+} from "saeed/models/market/properties";
+
+const Properties = () => {
+  //  return <Soon />;
+  const router = useRouter();
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push("/");
+    },
+  });
+  const { t } = useTranslation();
+  const [showAddNewLink, setShowAddNewLink] = useState(false);
+  const [showFeatureBox, setShowFeatureBox] = useState(false);
+  const [showLinkBox, setShowLinkBox] = useState(false);
+  const [featureId, setFeatureId] = useState(0);
+  const [linkId, setLinkId] = useState(1000);
+  const [showDeleteLink, setShowDeleteLink] = useState(false);
+  const [showEditLink, setSshowEditLink] = useState(false);
+  const [linkInfos, setLinkInfos] = useState<ILink[] | null>(null);
+  const [features, setFeatures] = useState<IOrderFeatures | null>(null);
+  const [instagramerInfo, setInstagramerInfo] = useState<InstagramerAccountInfo | null>(null);
+  function handleShowFeatureBox(featureId: number) {
+    changePositionToFixed();
+    setFeatureId(featureId);
+    setShowFeatureBox(true);
+  }
+  function handleShowDotIcons(e: MouseEvent) {
+    e.stopPropagation();
+    const index = parseInt(e.currentTarget.id);
+    if (linkId === index) {
+      setLinkId(1000);
+      return;
+    }
+    setLinkId(index);
+  }
+  function handleClickOnIcon(e: MouseEvent) {
+    e.stopPropagation();
+    const icon = e.currentTarget.id;
+    switch (icon) {
+      case t(LanguageKey.edit):
+        setSshowEditLink(true);
+        break;
+      case t(LanguageKey.navbar_Statistics):
+        setShowLinkBox(true);
+        break;
+      case t(LanguageKey.delete):
+        setShowDeleteLink(true);
+        break;
+    }
+  }
+  function handleRemoveMask() {
+    changePositionToRelative();
+    setShowFeatureBox(false);
+    setShowLinkBox(false);
+    setShowAddNewLink(false);
+    setShowDeleteLink(false);
+    setSshowEditLink(false);
+  }
+  async function handleAddNewLink(newLink: ISaveLink) {
+    const instagramerId = session?.user.instagramerIds[session.user.currentIndex];
+    if (!instagramerId) return;
+    var res = await GetServerResult<ISaveLink, boolean>(
+      MethodType.post,
+      session,
+      "Instagramer/link/CreateLink",
+      newLink
+    );
+    if (res.value) {
+      fetchData();
+    }
+    console.log("Add New Link", newLink);
+  }
+  async function handleUpdateLink(updatedLink: IUpdateLink) {
+    console.log("updatedLink", updatedLink);
+    try {
+      var res = await GetServerResult<ISaveLink, boolean>(
+        MethodType.post,
+        session,
+        "Instagramer/link/UpdateLink",
+        updatedLink,
+        [{ key: "linkId", value: updatedLink.linkId.toString() }]
+      );
+      if (res.succeeded) {
+        fetchData();
+      } else notify(res.info.responseType, NotifType.Error);
+    } catch (error) {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    }
+
+    console.log(updatedLink);
+  }
+  async function handleDeleteLink(linkId: number) {
+    const instagramerId = session?.user.instagramerIds[session.user.currentIndex];
+    if (!instagramerId) return;
+    var res = await GetServerResult<string, boolean>(MethodType.get, session, "Instagramer/link/deleteLink", null, [
+      { key: "id", value: linkId.toString() },
+    ]);
+    if (res.value) setLinkInfos((prev) => prev?.filter((x) => x.id !== linkId)!);
+    handleRemoveMask();
+  }
+  async function handleUpdateOrderLinks(orderLinks: IUpdateOrderLink) {
+    var res = await GetServerResult<IUpdateOrderLink, boolean>(
+      MethodType.post,
+      session,
+      "Instagramer/link/UpdateOrders",
+      orderLinks
+    );
+    if (res.value) {
+      //fetchData();
+    }
+    console.log("orderLinks", orderLinks);
+  }
+  async function handleUpdatefeatures(updateFeatures: IUpdateFeatureOrder) {
+    console.log("updateFeatures", updateFeatures);
+    var res = await GetServerResult<IUpdateFeatureOrder, boolean>(
+      MethodType.post,
+      session,
+      "Instagramer/Bio/UpdateOrderItems",
+      updateFeatures
+    );
+    // setFeatures(updateFeatures);
+    if (res.value) {
+      //fetchData();
+    }
+    console.log("updateFeatures", updateFeatures);
+  }
+  const fetchData = async () => {
+    try {
+      const [links, orderItems, accountInfo] = await Promise.all([
+        GetServerResult<string, ILink[]>(MethodType.get, session, "Instagramer/link/GetAllLinks", null),
+        GetServerResult<string, IOrderFeatures>(MethodType.get, session, "Instagramer/Bio/GetOrderItems", null),
+        GetServerResult<boolean, InstagramerAccountInfo>(MethodType.get, session, "Instagramer/Account/GetInfo"),
+      ]);
+      if (links.succeeded) setLinkInfos(links.value);
+      else notify(links.info.responseType, NotifType.Error);
+      if (orderItems.succeeded) setFeatures(orderItems.value);
+      else notify(orderItems.info.responseType, NotifType.Error);
+      if (accountInfo.succeeded) setInstagramerInfo(accountInfo.value);
+      else notify(accountInfo.info.responseType, NotifType.Error);
+    } catch (error) {
+      internalNotify(InternalResponseType.UnexpectedError, NotifType.Error);
+    }
+  };
+  useEffect(() => {
+    if (!session) return;
+    if (session && !packageStatus(session)) router.push("/upgrade");
+    if (!LoginStatus(session)) router.push("/");
+    fetchData();
+  }, [session]);
+  if (session?.user.currentIndex === -1) router.push("/user");
+  return (
+    session &&
+    session!.user.currentIndex !== -1 && (
+      <>
+        {/* head for SEO */}
+        <Head>
+          {" "}
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+          <title>Bran.cy ▸ {t(LanguageKey.navbar_Properties)}</title>
+          <meta name="description" content="Advanced Instagram post management tool" />
+          <meta name="theme-color"></meta>
+          <meta
+            name="keywords"
+            content="instagram, manage, tools, Brancy,post create , story create , Lottery , insight , Graph , like , share, comment , view , tag , hashtag , "
+          />
+          <meta name="robots" content="index, follow" />
+          <link rel="canonical" href="https://www.Brancy.app/page/posts" />
+          {/* Add other meta tags as needed */}
+        </Head>
+        {/* head for SEO */}
+
+        <div onClick={() => setLinkId(1000)} className="pinContainer">
+          <DomainManager instagramerInfo={instagramerInfo} />
+          <Features showMask={handleShowFeatureBox} features={features} handleUpdateFeature={handleUpdatefeatures} />
+          <Link
+            data={linkInfos}
+            addNewLink={() => {
+              setShowAddNewLink(true);
+              changePositionToFixed();
+            }}
+            handleShowDotIcons={handleShowDotIcons}
+            handleClickOnIcon={handleClickOnIcon}
+            handleUpdateOrderLinks={handleUpdateOrderLinks}
+            dotIconIndex={linkId}
+          />
+        </div>
+        <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showFeatureBox}>
+          <FeaturePopUp removeMask={handleRemoveMask} featureId={featureId} handleAddNewLink={handleAddNewLink} />
+        </Modal>
+
+        <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showAddNewLink}>
+          <AddNewLink removeMask={handleRemoveMask} handleAddNewLink={handleAddNewLink} />
+        </Modal>
+
+        <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showLinkBox}>
+          <StatisticsLinks removeMask={handleRemoveMask} linkId={linkId} />
+        </Modal>
+
+        <Modal closePopup={handleRemoveMask} classNamePopup={"popupSendFile"} showContent={showDeleteLink}>
+          <DeleteLink linkId={linkId} removeMask={handleRemoveMask} handleDeleteLink={handleDeleteLink} />
+        </Modal>
+
+        <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showEditLink}>
+          <EditLink
+            removeMask={handleRemoveMask}
+            handleUpdateLink={handleUpdateLink}
+            info={linkInfos?.find((x) => x.id === linkId)!}
+          />
+        </Modal>
+      </>
+    )
+  );
+};
+
+export default Properties;

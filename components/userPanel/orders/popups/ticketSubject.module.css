@@ -1,0 +1,147 @@
+.container {
+  border-radius: 16px;
+  padding: 24px;
+  max-width: 400px;
+  max-height: 70vh; /* Set maximum height to 70% of viewport height */
+  overflow-y: auto; /* Enable vertical scrolling */
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.08);
+}
+
+.title {
+  font-size: 20px;
+  font-weight: 600;
+  color: #333;
+  margin-bottom: 24px;
+}
+
+.addressList {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.addressItem {
+  display: flex;
+  flex-direction: column;
+}
+
+.addressHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 8px;
+}
+
+.addressLabel {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.radioContainer {
+  display: flex;
+  align-items: center;
+}
+
+.radioButton {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 20px;
+  height: 20px;
+  border: 2px solid #ddd;
+  border-radius: 50%;
+  outline: none;
+  cursor: pointer;
+  position: relative;
+}
+
+.radioButton:checked {
+  border-color: #3b82f6;
+}
+
+.radioButton:checked::after {
+  content: "";
+  position: absolute;
+  top: 3px;
+  left: 3px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #3b82f6;
+}
+
+.labelText {
+  font-size: 16px;
+  color: #333;
+}
+
+.editButton {
+  border: none;
+  background: none;
+  cursor: pointer;
+  color: #aaa;
+  position: relative;
+}
+
+.addressContent {
+  background: #f7f9fc;
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.addressRow {
+  display: flex;
+  align-items: center;
+  margin-bottom: 12px;
+  gap: 10px;
+}
+
+.addressRow:last-child {
+  margin-bottom: 0;
+}
+
+.icon {
+  color: #aaa;
+  width: 20px;
+  height: 20px;
+}
+
+.addressText {
+  color: #444;
+  font-size: 14px;
+}
+
+.buttonContainer {
+  display: flex;
+  gap: 16px;
+  margin-top: 32px;
+}
+
+.discardButton {
+  flex: 1;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background: white;
+  color: #444;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.submitButton {
+  flex: 1;
+  padding: 12px;
+  border: none;
+  border-radius: 8px;
+  background: #3b82f6;
+  color: white;
+  font-size: 16px;
+  cursor: pointer;
+  text-align: center;
+}
+
+.selectedRadio {
+  background-color: #3b82f6;
+  border-color: #3b82f6;
+}

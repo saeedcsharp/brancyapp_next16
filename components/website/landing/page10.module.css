@@ -1,0 +1,189 @@
+.page10 {
+  color: var(--text-h1);
+  scroll-snap-align: start;
+  position: relative;
+  border-bottom: 1px solid var(--color-gray);
+  width: 100%;
+  height: 700px;
+  display: flex;
+  gap: var(--gap-50);
+  align-content: center;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.titlecenter {
+  transition: var(--transition3);
+  padding-inline: var(--padding-10);
+  padding-bottom: var(--padding-10);
+  color: var(--text-h1);
+  font-weight: var(--weight-800);
+  font-size: clamp(26px, 5vw, 32px);
+  text-transform: capitalize;
+}
+
+/* ___page10___ */
+.reviews {
+  height: 370px;
+  width: 100%;
+
+  display: flex;
+  flex-direction: row;
+  scroll-behavior: smooth;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scroll-snap-type: x mandatory;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+@media (max-width: 800px) {
+  .page10 {
+    gap: var(--gap-20) !important;
+  }
+  .reviewbox {
+    min-width: 90% !important;
+    width: 100% !important;
+    max-width: 90% !important;
+    height: 320px !important;
+  }
+  .waves {
+    top: 35% !important;
+    stroke-width: 100px !important;
+    animation: waveWidth 15s ease-in-out infinite alternate !important;
+  }
+  .iconq {
+    position: absolute !important;
+    right: 20px !important;
+    bottom: -30px !important;
+  }
+  .wavesvg {
+    position: absolute !important;
+    left: -5% !important;
+    top: 0px !important;
+    width: 160% !important;
+    height: 50vh !important;
+  }
+}
+.reviewbox {
+  margin-top: 5px;
+
+  min-width: 500px;
+  width: 100%;
+  max-width: 30%;
+  height: 340px;
+  border-radius: var(--br50);
+  padding: var(--padding-30);
+  margin-inline: 20px;
+  scroll-snap-align: center;
+  backdrop-filter: blur(30px);
+  gap: var(--gap-10);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--color-gray30);
+  justify-content: space-between;
+  transition: var(--transition3);
+  will-change: transform;
+}
+.reviewbox:hover {
+  transform: translateY(-5px);
+}
+
+.reviewboxtitle {
+  text-align: center;
+  width: 100%;
+  color: var(--text-h1);
+  font-size: clamp(16px, 1vw, 18px);
+  font-weight: var(--weight-700);
+}
+.reviewboxexplain {
+  text-wrap: balance;
+  padding-bottom: 2px;
+  color: var(--text-h1);
+  font-size: clamp(12px, 1vw, 14px);
+  font-weight: var(--weight-300);
+  -webkit-line-clamp: 6;
+  line-clamp: 6;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  display: -webkit-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  text-overflow: ellipsis;
+}
+.reviewboxdetail {
+  width: 100%;
+  display: flex;
+  gap: var(--gap-20);
+  align-items: center;
+  justify-content: space-between;
+}
+
+.reviewprofile {
+  height: 65px;
+  display: flex;
+  gap: var(--gap-20);
+}
+.navigationreview {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-30);
+}
+.iconq {
+  min-width: 90px;
+  width: 90px;
+  height: 65px;
+  transition: var(--transition3);
+}
+html[dir="rtl"] .navigationreview {
+  flex-direction: row-reverse;
+}
+
+.backward,
+.forward {
+  transition: var(--transition3);
+  cursor: pointer;
+  width: 50px;
+  height: 50px;
+}
+
+.backward.fade,
+.forward.fade {
+  opacity: 0.3;
+  pointer-events: none;
+}
+
+.backward:hover,
+.forward:hover {
+  transform: scale(1.1);
+}
+
+.backward:active,
+.forward:active {
+  transform: scale(0.9);
+}
+
+.waves {
+  position: absolute;
+  top: 30%;
+  width: 100%;
+  opacity: 0.8;
+  z-index: -1;
+  stroke-width: 35px;
+  animation: waveWidth 25s ease-in-out infinite alternate;
+  will-change: transform, opacity;
+}
+.wavesvg {
+  position: absolute;
+  left: -90%;
+  top: 0px;
+  width: 300%;
+  height: 100vh;
+}
+@keyframes waveWidth {
+  0% {
+    transform: translateX(-50%);
+  }
+  100% {
+  }
+}

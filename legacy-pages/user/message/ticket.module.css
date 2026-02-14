@@ -1,0 +1,38 @@
+.header {
+  display: none;
+}
+@media (max-width: 720px) {
+  .header {
+    animation: var(--bottom08);
+    width: calc(100% - 90px);
+    height: 45px;
+    margin-inline-start: 90px;
+    position: absolute;
+    top: 11px;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: column;
+    animation: welcome 1s cubic-bezier(0.25, 0.46, 0.45, 0.94) both 1s;
+  }
+}
+.header > div:nth-child(1) {
+  font-weight: var(--weight-700) !important;
+  font-size: var(--font-18) !important;
+}
+.header > div:nth-child(2) {
+  font-weight: var(--weight-400) !important;
+  font-size: var(--font-14) !important;
+}
+
+@keyframes welcome {
+  0% {
+    letter-spacing: -0.5em;
+    filter: blur(15px);
+    opacity: 0;
+  }
+  100% {
+    filter: blur(0);
+    opacity: 1;
+  }
+}

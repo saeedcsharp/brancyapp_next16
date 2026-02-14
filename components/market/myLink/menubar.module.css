@@ -1,0 +1,203 @@
+.menubar {
+  position: sticky;
+  width: 100%;
+  min-height: 60px;
+  height: 60px;
+  max-width: 1440px;
+  top: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
+  flex-direction: row;
+  gap: var(--gap-16);
+  overflow-x: auto;
+  overflow-y: hidden;
+  background-color: var(--color-gray30);
+  backdrop-filter: blur(30px);
+  border-radius: 50px;
+  z-index: 20;
+  transform: translateZ(0);
+  will-change: scroll-position;
+  scroll-behavior: smooth;
+  contain: layout style paint;
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.menubar::-webkit-scrollbar {
+  display: none;
+}
+
+.menuitem {
+  height: 60px;
+  justify-content: center;
+  width: fit-content;
+  align-content: center;
+  padding-inline: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  cursor: pointer;
+  position: relative;
+  transition: all 0.2s ease-in-out;
+  transform: translateZ(0);
+  outline: none;
+  white-space: nowrap;
+  border: none;
+  background: transparent;
+  font-size: 14px;
+  font-weight: 400;
+  color: inherit;
+  font: inherit;
+  will-change: transform, color;
+  @media (max-width: 768px) {
+    font-size: 12px;
+    font-weight: 500;
+  }
+}
+.menuitem:focus-visible {
+  outline: 3px solid var(--color-dark-blue);
+  outline-offset: 3px;
+  border-radius: 8px;
+  transform: translateY(-2px);
+}
+
+.menuitem:hover:not(:focus-visible) {
+  transform: translateY(-1px);
+  color: var(--color-dark-blue);
+}
+
+.menuitem:hover .loader0,
+.menuitem:hover .loader1,
+.menuitem:hover .loader2,
+.menuitem:hover .loader3,
+.menuitem:hover .loader4,
+.menuitem:hover .loader5,
+.menuitem:hover .loader6,
+.menuitem:hover .loader7,
+.menuitem:hover .loader8,
+.menuitem:hover .loader9,
+.menuitem:hover .loader10 {
+  opacity: 0.6;
+  transform: scaleX(0.8) translateZ(0);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .menuitem {
+    transition: none;
+  }
+
+  .menuitem:hover,
+  .menuitem:focus-visible {
+    transform: none;
+  }
+}
+.loader0,
+.loader1,
+.loader2,
+.loader3,
+.loader4,
+.loader5,
+.loader6,
+.loader7,
+.loader8,
+.loader9,
+.loader10 {
+  position: absolute;
+  border-radius: 50% 50% 0 0;
+  overflow: hidden;
+  top: 57px;
+  width: 100%;
+  height: 3px;
+  animation: slideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    var(--color-dark-blue60) 30%,
+    var(--color-dark-blue) 50%,
+    var(--color-dark-blue60) 80%,
+    transparent 100%
+  );
+  transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  transform: translateZ(0);
+  will-change: transform, opacity, background;
+  opacity: 0;
+}
+
+/* Keyframes for slide-in animation */
+@keyframes slideIn {
+  0% {
+    opacity: 0;
+    transform: scaleX(0) translateZ(0);
+    background-position: -100% 0;
+  }
+
+  100% {
+    opacity: 1;
+    transform: scaleX(1) translateZ(0);
+    background-position: 100% 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .loader0,
+  .loader1,
+  .loader2,
+  .loader3,
+  .loader4,
+  .loader5,
+  .loader6,
+  .loader7,
+  .loader8,
+  .loader9,
+  .loader10 {
+    animation: none;
+    transition: none;
+    opacity: 1;
+    transform: scaleX(1) translateZ(0);
+  }
+}
+.active {
+  position: relative;
+  color: var(--color-dark-blue);
+  transition: all 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  text-wrap: nowrap;
+  transform: translateZ(0);
+  font-weight: 500;
+  font-size: 14px;
+  @media (max-width: 768px) {
+    font-size: 12px;
+    font-weight: 600;
+  }
+}
+
+.active .loader0,
+.active .loader1,
+.active .loader2,
+.active .loader3,
+.active .loader4,
+.active .loader5,
+.active .loader6,
+.active .loader7,
+.active .loader8,
+.active .loader9,
+.active .loader10 {
+  opacity: 1;
+  animation: slideIn 0.8s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+.title {
+  font-weight: 400;
+  transition: color 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  text-wrap: nowrap;
+  transform: translateZ(0);
+  text-decoration: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .active,
+  .title {
+    transition: none;
+  }
+}

@@ -1,0 +1,201 @@
+.contactBox {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-content: space-between;
+  flex-direction: column;
+  gap: var(--gap-30);
+}
+.tooBigCard {
+  overflow: hidden;
+  grid-row-end: span 75;
+}
+
+.toobigcardclose {
+  grid-row-end: span 10;
+  padding: 15px !important;
+  transition: all 0.3s ease;
+}
+.frameContainer {
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.5s ease;
+}
+.frameContainer {
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-20);
+  position: relative;
+  justify-content: space-between;
+  width: 100%;
+  height: 100%;
+  font-size: var(--font-14);
+  color: var(--text-h1);
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.5s ease;
+}
+.show {
+  max-height: 500px;
+  opacity: 1;
+  transition: max-height 0.3s ease, opacity 0.5s ease;
+}
+
+.headersection {
+  position: relative;
+  height: 60px;
+  display: flex;
+  gap: var(--gap-10);
+  justify-content: space-evenly;
+  flex-direction: row;
+  width: 100%;
+
+  align-content: center;
+  align-items: center;
+}
+.backdropfade {
+  position: absolute;
+  top: -70px;
+  left: -80px;
+  width: 180px;
+  height: 120px;
+  border-radius: 50%;
+  filter: blur(40px);
+  background-color: var(--color-dark-blue60);
+}
+html[dir="rtl"] .backdropfade {
+  right: -80px;
+}
+.headerandinput {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-8);
+  transition: var(--transition3);
+  align-items: center;
+  align-content: center;
+  justify-content: center;
+}
+
+.contactBox {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  align-content: space-between;
+  flex-direction: column;
+  gap: var(--gap-20);
+}
+.frameContainer {
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.5s ease;
+}
+.frameContainer {
+  overflow-y: scroll;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-30);
+  position: relative;
+  width: 100%;
+  height: 100%;
+  font-size: var(--font-14);
+  color: var(--text-h1);
+  max-height: 0;
+  opacity: 0;
+  transition: max-height 0.3s ease, opacity 0.5s ease;
+}
+.show {
+  max-height: 500px;
+  opacity: 1;
+  transition: max-height 0.3s ease, opacity 0.5s ease;
+}
+.groupWrapper {
+  gap: var(--gap-50);
+  display: flex;
+  position: relative;
+  flex-direction: column;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-start;
+}
+.orderinfo {
+  cursor: pointer;
+  padding-bottom: 30px;
+  border-bottom: 1px solid var(--color-gray30);
+  width: 100%;
+  display: flex;
+  gap: var(--gap-10);
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+}
+.section {
+  display: flex;
+  gap: var(--gap-10);
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+  width: 100%;
+}
+.orderid {
+  background-color: var(--color-dark-blue30);
+  border-radius: var(--br10);
+  padding: var(--paddingtag);
+  color: var(--color-dark-blue);
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+  transition: var(--transition3);
+  @media (max-width: 800px) {
+    font-size: var(--font-12) !important;
+    font-weight: var(--weight-500) !important;
+  }
+}
+.price {
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+  transition: var(--transition3);
+  display: flex;
+  align-items: center;
+  gap: var(--gap-5);
+  flex-direction: row;
+  @media (max-width: 800px) {
+    font-size: var(--font-12) !important;
+    font-weight: var(--weight-400) !important;
+  }
+}
+.date {
+  color: var(--text-h2);
+  font-weight: var(--weight-400);
+  position: relative;
+  text-align: center;
+
+  transition: var(--transition3);
+  @media (max-width: 800px) {
+    min-width: 75px !important;
+  }
+}
+
+.day {
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  transition: var(--transition3);
+  @media (max-width: 800px) {
+    font-size: var(--font-12) !important;
+    font-weight: var(--weight-400) !important;
+  }
+}
+.hour {
+  color: var(--text-h2);
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  transition: var(--transition3);
+  @media (max-width: 800px) {
+    font-size: var(--font-10) !important;
+  }
+}

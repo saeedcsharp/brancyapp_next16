@@ -1,0 +1,494 @@
+.multiChart {
+  gap: var(--gap-10);
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.multiChart > div:last-child {
+  border-top: 1px solid var(--color-gray30);
+  padding-top: 10px;
+}
+.objectDatenavigator {
+  position: relative;
+  display: flex;
+  min-height: 40px;
+  height: 40px;
+  gap: var(--gap-15);
+  color: var(--color-light-blue);
+  align-items: center !important;
+}
+.objectDatenavigatorsecond {
+  position: relative;
+  display: flex;
+  min-height: 40px;
+  width: 100%;
+  height: 40px;
+  gap: var(--gap-15);
+  color: var(--color-light-blue);
+  justify-content: space-between;
+  align-items: center !important;
+}
+/* ensure navigator is above chart and receives pointer events */
+.objectDatenavigator,
+.objectDatenavigatorsecond {
+  pointer-events: auto;
+}
+
+/* user-select / touch behavior fallbacks for older browsers */
+.objectDatenavigator,
+.textWrapper,
+.inlineNavigator,
+.monthDots {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.backForwardIcon,
+.forwardIcon {
+  width: 30px;
+  height: 30px;
+  position: relative;
+  padding: 8px;
+  transition: var(--transition3);
+  -webkit-transition: var(--transition3);
+  cursor: pointer;
+}
+.backForwardIcon:hover {
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+}
+.backForwardIcon:active {
+  transform: translateX(-3px);
+  -webkit-transform: translateX(-3px);
+}
+.forwardIcon:hover {
+  transform: scale(1.1);
+  -webkit-transform: scale(1.1);
+}
+.forwardIcon:active {
+  transform: translateX(3px);
+  -webkit-transform: translateX(3px);
+}
+.textWrapper {
+  height: 40px;
+  width: 120px;
+  display: flex;
+  text-align: center;
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  transition: var(--transition3);
+}
+.textWrapper:hover {
+  cursor: grab;
+  cursor: -webkit-grab;
+}
+.textWrapper:active {
+  cursor: grabbing;
+  cursor: -webkit-grabbing;
+}
+.totalcounter {
+  display: flex;
+  flex-direction: row;
+  gap: 2px;
+  text-align: center;
+  text-wrap: nowrap;
+  position: relative;
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  color: var(--text-h2);
+  text-transform: capitalize;
+  transition: var(--transition3);
+}
+html[dir="rtl"] .totalcounter {
+  flex-direction: row-reverse;
+}
+
+/* MultiChart Container */
+.chartContainer {
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Legend Dotmenu */
+.legendMenu {
+  position: absolute;
+  top: -35px;
+  right: 0px;
+  width: fit-content;
+  z-index: 10;
+}
+html[dir="rtl"] .legendMenu {
+  position: absolute;
+  top: -35px;
+  left: 10px;
+  width: fit-content;
+  z-index: 10;
+}
+
+/* Legend Icon */
+.legendIcon {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transition: var(--transition2);
+}
+
+.legendIconHidden {
+  width: 12px;
+  height: 12px;
+  border-radius: 50%;
+  transition: var(--transition2);
+  background-color: var(--color-gray30);
+}
+
+/* SVG Styles */
+.chartSvg {
+  display: block;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+  touch-action: pan-y;
+  -ms-touch-action: pan-y;
+  -webkit-touch-callout: none;
+  width: 100%;
+  transition: var(--transition3);
+  animation: fadeIn 0.8s ease-in-out forwards;
+}
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+/* Tooltip */
+.tooltip {
+  position: absolute;
+  background-color: var(--color-white);
+
+  background-clip: padding-box;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  border: 1px solid var(--color-gray30);
+  border-radius: var(--br10);
+  padding: 8px;
+  box-shadow: var(--box-shadow);
+  pointer-events: none;
+  z-index: 10000;
+  min-width: 120px;
+  max-width: 300px;
+  animation: var(--fadeIn3);
+}
+
+.tooltipLeft {
+  transform: translateX(-100%);
+  -webkit-transform: translateX(-100%);
+}
+
+.tooltipRight {
+  transform: translateX(0);
+  -webkit-transform: translateX(0);
+}
+
+.tooltipHeader {
+  font-size: var(--font-12);
+  color: var(--text-h1);
+  padding: var(--padding-5);
+  font-weight: var(--weight-600);
+  border-bottom: 1px solid var(--color-gray30);
+  text-align: center;
+  margin-bottom: 6px;
+}
+
+.tooltipRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  font-size: var(--font-12);
+  color: var(--text-h2);
+  font-weight: var(--weight-400);
+  gap: 15px;
+}
+
+.tooltipRowLeft {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.tooltipColorDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+}
+
+.tooltipSeriesName {
+  font-size: var(--font-12);
+  color: var(--text-h2);
+  max-width: 100px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: var(--weight-400);
+}
+
+.tooltipSeriesValue {
+  font-size: var(--font-12);
+  font-weight: var(--weight-700);
+}
+
+.tooltipTotal {
+  margin-top: 8px;
+  padding-top: 6px;
+  /* border-top: 1px solid var(--color-gray30); */
+  display: flex;
+  justify-content: space-between;
+  font-size: var(--font-12);
+  color: var(--text-h2);
+  font-weight: var(--weight-600);
+}
+
+.tooltipTotalLabel {
+  font-size: var(--font-12);
+  color: var(--text-h2);
+}
+
+.tooltipTotalValue {
+  font-size: var(--font-12);
+  color: var(--color-dark-blue);
+}
+
+/* Inline navigator (replaces Swiper) */
+.inlineNavigator {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+.inlineNavigator {
+  touch-action: pan-y;
+  -ms-touch-action: pan-y;
+  user-select: none;
+}
+
+.monthDots {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  justify-content: center;
+}
+
+.monthDots {
+  z-index: 1201;
+}
+
+.dot,
+.activeDot {
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  border: none;
+  background: var(--color-gray20);
+  padding: 0;
+  cursor: pointer;
+}
+
+.activeDot {
+  background: var(--color-dark-blue);
+  box-shadow: 0 0 0 3px var(--color-dark-blue);
+  -webkit-box-shadow: 0 0 0 3px var(--color-dark-blue);
+}
+
+/* visible focus for keyboard users */
+.dot:focus,
+.activeDot:focus {
+  outline: none;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+  -webkit-box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+}
+
+/* Dragging cursor feedback */
+.dragging {
+  cursor: grabbing !important;
+}
+
+/* Disabled state for prev/next nav icons when at edge */
+.disabledNav {
+  pointer-events: none !important;
+  opacity: 0.3 !important;
+  transition: var(--transition3);
+  -webkit-transition: var(--transition3);
+}
+
+.secondList {
+  display: flex;
+  flex-direction: column;
+}
+.firstList {
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-10);
+}
+
+/* Overlay for grid lines and average line (rendered as HTML for performance) */
+.overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  pointer-events: none; /* allow pointer events to pass to SVG/interactive controls */
+  overflow: hidden;
+}
+
+.gridLine {
+  position: absolute;
+  height: 1px;
+  background: var(--color-gray10);
+  pointer-events: none;
+}
+
+.gridLineV {
+  position: absolute;
+  width: 1px;
+  background: var(--color-gray10);
+  pointer-events: none;
+}
+
+.averageLine {
+  position: absolute;
+  height: 1px;
+  width: 100%;
+  background: linear-gradient(90deg, var(--color-dark-blue) 0%, var(--color-dark-blue10) 100%);
+  pointer-events: none;
+  transition: var(--transition2);
+}
+
+.averageLabel {
+  min-width: 32px;
+  transform: translateY(-50%);
+  position: absolute;
+  display: flex;
+  background-color: var(--color-dark-blue);
+  color: #fff;
+  font-weight: 500;
+  font-size: 10px;
+  padding: 2px 5px;
+  border-radius: 6px;
+  pointer-events: auto;
+  transition: var(--transition2);
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-direction: row;
+}
+.averageLabel:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  transform: translateY(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent transparent transparent var(--color-dark-blue);
+  transition: var(--transition2);
+}
+.chartContainer:hover .averageLabel {
+  opacity: 0.6;
+}
+.chartContainer:hover .averageLine {
+  opacity: 0.3;
+}
+
+/* Smooth animations for chart data entry */
+.animatedPath {
+  stroke-dasharray: 2000;
+  stroke-dashoffset: 2000;
+  animation: pathDrawIn 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+}
+
+.animatedArea {
+  opacity: 0;
+  animation: areaFadeIn 0.5s cubic-bezier(0.4, 0, 0.2, 1) 0.3s forwards;
+}
+
+.animatedGridLine {
+  opacity: 0;
+  animation: gridFadeIn 0.5s ease-out forwards;
+}
+
+@keyframes pathDrawIn {
+  from {
+    stroke-dashoffset: 2000;
+    opacity: 0.3;
+  }
+  to {
+    stroke-dashoffset: 0;
+    opacity: 1;
+  }
+}
+
+@keyframes areaFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes gridFadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Crosshair Y-axis value labels */
+.hoverLabelRect {
+  min-width: 32px;
+  transform: translateY(-50%);
+  position: absolute;
+  display: flex;
+  background-color: var(--color-gray);
+  color: #fff;
+  font-weight: 500;
+  font-size: 10px;
+  padding: 2px 5px;
+  border-radius: 6px;
+  pointer-events: auto;
+  transition: var(--transition1);
+  justify-content: center;
+  align-items: center;
+  align-content: center;
+  flex-direction: row;
+}
+.hoverLabelRect:after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -10px;
+  transform: translateY(-50%);
+  border-width: 6px;
+  border-style: solid;
+  border-color: transparent transparent transparent var(--color-gray);
+  transition: var(--transition1);
+}
