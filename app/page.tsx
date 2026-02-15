@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import LandingPageClient from "./landing-page-client";
+import LandingPageClient from "./LandingPageClient";
 
 export const metadata: Metadata = {
   title: "Brancy | Social Media Management Tool",

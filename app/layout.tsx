@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "quill/dist/quill.snow.css";
 import "saeed/components/page/statistics/sliderToFourBox.css";
-import "saeed/styles/globals.scss";
+import "./globals.scss";
 import Providers from "./providers";
 
 export const metadata: Metadata = {

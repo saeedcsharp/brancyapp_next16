@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import React, { createContext, useEffect, useState } from "react";
+import React, { createContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
 import startSignalR from "saeed/helper/pushNotif";
@@ -10,18 +10,21 @@ export const DirectionContext = createContext<Direction>("ltr");
 
 export const DirectionProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { i18n } = useTranslation();
-  const [direction, setDirection] = useState<Direction>("ltr");
   const { data: session } = useSession();
-  useEffect(() => {
+
+  const direction = useMemo<Direction>(() => {
     const currentLanguage = i18n.language || "en";
-    const dir: Direction = currentLanguage === "fa" || currentLanguage === "ar" ? "rtl" : "ltr";
-    setDirection(dir);
-    // Set direction for all elements except those with ID 't'
-    document.documentElement.dir = dir;
+    return currentLanguage === "fa" || currentLanguage === "ar" ? "rtl" : "ltr";
   }, [i18n.language]);
+
+  useEffect(() => {
+    document.documentElement.dir = direction;
+  }, [direction]);
+
   useEffect(() => {
     if (!session || !LoginStatus(session) || !packageStatus(session)) return;
     startSignalR(session);
   }, [session]);
+
   return <DirectionContext.Provider value={direction}>{children}</DirectionContext.Provider>;
 };

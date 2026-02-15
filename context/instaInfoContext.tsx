@@ -1,6 +1,6 @@
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import React, { useCallback, useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { NotifType, notify, notPackageNotify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { InstagramerAccountInfo, IRefreshToken } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { GetServerResult, MethodType } from "saeed/models/IResult";
@@ -14,6 +14,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const { data: session, update } = useSession();
   const router = useRouter();
   const [value, setValue] = React.useState<PushNotif[]>([]);
+  const contextValue = useMemo(() => ({ value, setValue }), [value]);
   const lastUpdateRef = useRef<number>(0);
   const isUpdatingRef = useRef<boolean>(false);
 
@@ -48,7 +49,6 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
               biography: accountInfo?.biography ?? session?.user.biography ?? null,
             },
           });
-          console.log("newCurrentIndex", updatedSession);
           router.replace("/");
         } else notify(res.info.responseType, NotifType.Warning);
       } catch (error) {
@@ -57,7 +57,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         isUpdatingRef.current = false;
       }
     },
-    [session, update, router]
+    [session, update, router],
   );
 
   const GetAccountInfo = useCallback(async () => {
@@ -68,9 +68,8 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       let res = await GetServerResult<boolean, InstagramerAccountInfo>(
         MethodType.get,
         session,
-        "Instagramer" + "/Account/GetInfo"
+        "Instagramer" + "/Account/GetInfo",
       );
-      console.log(" ✅ Console ⋙ contextres", res);
       if (res.info.responseType === ResponseType.Forbidden) {
         await signOut({
           redirect: false, // Don't redirect the user after signing out
@@ -92,7 +91,6 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         // setUser(res.value);
         // throw new Error(`Failed to fetch data, status: ${res.statusCode}`);
       } else if (res.succeeded) {
-        console.log("sesionnnnnnnnnnnnnnnn res value", res.value);
         if (res.value.packageExpireTime < Date.now() / 1000) notPackageNotify();
         const updatedSession = await update({
           ...session,
@@ -124,7 +122,6 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             biography: res.value.biography,
           },
         });
-        console.log("sesionnnnnnnnnn", updatedSession);
 
         // setUser(res.value);
       }
@@ -141,22 +138,18 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     const lastUpdate = Number(session.user.lastUpdate || 0);
     const expireTime = session.user.expireTime * 1000;
 
-    console.log("last updateeeeee", lastUpdate);
-
     // Prevent multiple rapid calls
     if (isUpdatingRef.current) return;
 
     // Check if token needs refresh (24 hours before expiry)
     if (expireTime - 864 * 1e6 < currentTime) {
-      console.log("Token needs refresh");
       refreshToken();
     }
     // Check if account info needs update (20 seconds since last update)
     else if (currentTime - lastUpdate > 20000) {
-      console.log("Account info needs update");
       GetAccountInfo();
     }
   }, [session, GetAccountInfo, refreshToken]);
 
-  return <>{<InstaInfoContext.Provider value={{ value, setValue }}>{children}</InstaInfoContext.Provider>}</>;
+  return <InstaInfoContext.Provider value={contextValue}>{children}</InstaInfoContext.Provider>;
 };
