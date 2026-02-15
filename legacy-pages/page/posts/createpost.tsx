@@ -115,7 +115,7 @@ const mediaReducer = (state: MediaState, action: MediaAction): MediaState => {
       return {
         ...state,
         showMedias: state.showMedias.map((media, index) =>
-          index === action.payload.index ? { ...media, ...action.payload.media } : media
+          index === action.payload.index ? { ...media, ...action.payload.media } : media,
         ),
       };
     case "DELETE_MEDIA":
@@ -136,7 +136,7 @@ const mediaReducer = (state: MediaState, action: MediaAction): MediaState => {
       return {
         ...state,
         showMedias: state.showMedias.map((media, index) =>
-          index === action.payload.index ? { ...media, tagPeaple: action.payload.tags } : media
+          index === action.payload.index ? { ...media, tagPeaple: action.payload.tags } : media,
         ),
       };
     case "CLEAR_MEDIAS":
@@ -522,12 +522,12 @@ const CreatePost = () => {
       Array.from({ length: 9 - (showMedias ? showMedias.length : 0) }, (_, index) => (
         <div key={index} className={styles.posts1}></div>
       )),
-    [showMedias?.length]
+    [showMedias?.length],
   );
 
   const disableDivArray = useMemo(
     () => Array.from({ length: 9 }, (_, index) => <div key={index} className={styles.disablePosts1}></div>),
-    []
+    [],
   );
 
   // Memoized filtered hashtag list
@@ -610,7 +610,7 @@ const CreatePost = () => {
         MethodType.get,
         session,
         "Instagramer" + "/Post/GetBestPublishTime",
-        null
+        null,
       );
       if (res.succeeded) {
         setRecommendedTime(res.value);
@@ -628,7 +628,7 @@ const CreatePost = () => {
         MethodType.get,
         session,
         "Instagramer/Hashtag/GetHashtagList",
-        null
+        null,
       );
 
       if (res.succeeded) {
@@ -647,7 +647,7 @@ const CreatePost = () => {
       var res = await GetServerResult<boolean, string[]>(
         MethodType.get,
         session,
-        "Instagramer/Post/GetCaptionPromptExamples"
+        "Instagramer/Post/GetCaptionPromptExamples",
       );
 
       if (res.succeeded) setTags(res.value);
@@ -667,7 +667,7 @@ const CreatePost = () => {
           session,
           "Instagramer" + "/searchLocations",
           null,
-          [{ key: "query", value: query }]
+          [{ key: "query", value: query }],
         );
         if (res.succeeded) {
           uiDispatch({
@@ -690,7 +690,7 @@ const CreatePost = () => {
         console.error("Error searching location:", error);
       }
     },
-    [session]
+    [session],
   );
 
   const handleApiPeopleSearch = useCallback(
@@ -703,7 +703,7 @@ const CreatePost = () => {
           session,
           "Instagramer" + "/Users/searchPeople",
           null,
-          [{ key: "query", value: query }]
+          [{ key: "query", value: query }],
         );
         console.log(res);
         if (res.succeeded && searchType == SearchType.CollaboratePeople) {
@@ -713,8 +713,8 @@ const CreatePost = () => {
                 (x) =>
                   !showMedias[0].tagPeaple.map((z) => z.username).includes(x.username) &&
                   x.username !== session?.user.username &&
-                  x.username !== searchTagPeaple
-              )
+                  x.username !== searchTagPeaple,
+              ),
             );
           else setPageInfo(res.value.filter((x) => x.username !== session?.user.username));
           uiDispatch({
@@ -733,8 +733,8 @@ const CreatePost = () => {
                 (x) =>
                   !collabratorPages.includes(x.username) &&
                   x.username !== session?.user.username &&
-                  x.username !== searchPeaple
-              )
+                  x.username !== searchPeaple,
+              ),
             );
           else setTagPeaple(res.value.filter((x) => x.username !== session?.user.username));
           uiDispatch({
@@ -760,7 +760,7 @@ const CreatePost = () => {
         console.error("Error searching people:", error);
       }
     },
-    [session, showMedias, showMediaIndex, searchTagPeaple, collabratorPages, searchPeaple]
+    [session, showMedias, showMediaIndex, searchTagPeaple, collabratorPages, searchPeaple],
   );
   function handleSaveAutoReply(sendAutoReply: IMediaUpdateAutoReply) {
     setAutoReply({
@@ -781,6 +781,18 @@ const CreatePost = () => {
     });
     uiDispatch({ type: "TOGGLE_QUICK_REPLY_POPUP", payload: false });
   }
+
+  const closeCreatePost = useCallback(() => {
+    if (typeof window !== "undefined") {
+      const modalWindow = window as Window & { __closeInterceptedModal?: () => void };
+      if (typeof modalWindow.__closeInterceptedModal === "function") {
+        modalWindow.__closeInterceptedModal();
+        return;
+      }
+    }
+    router.push("/page/posts");
+  }, [router]);
+
   const HandleUpload = useCallback(
     async (isDraft: boolean) => {
       console.log("upload entry");
@@ -839,7 +851,7 @@ const CreatePost = () => {
                 key: "timeUnix",
                 value: !automaticPost ? "0" : Math.floor(dateAndTime / 1e3).toString(),
               },
-            ]
+            ],
           );
           if (res.succeeded && res.value > 0) {
             setDraftId(res.value);
@@ -894,7 +906,7 @@ const CreatePost = () => {
                 key: "timeUnix",
                 value: !automaticPost ? "0" : Math.floor(dateAndTime / 1e3).toString(),
               },
-            ]
+            ],
           );
           if (res.succeeded && res.value > 0) {
             setDraftId(res.value);
@@ -961,14 +973,14 @@ const CreatePost = () => {
               value: !automaticPost ? "0" : Math.floor(dateAndTime / 1e3).toString(),
             },
           ],
-          (progress) => mediaDispatch({ type: "SET_PROGRESS", payload: progress })
+          (progress) => mediaDispatch({ type: "SET_PROGRESS", payload: progress }),
         );
         if (res.succeeded && res.value > 0) {
           setDraftId(res.value);
         }
       }
       uiDispatch({ type: "SET_ANALIZE_PROCESSING", payload: false });
-      router.push("/page/posts/");
+      closeCreatePost();
     },
     [
       showMedias,
@@ -983,8 +995,8 @@ const CreatePost = () => {
       automaticPost,
       sharePreviewToFeed,
       session,
-      router,
-    ]
+      closeCreatePost,
+    ],
   );
 
   const HandleDelete = useCallback(async () => {
@@ -995,9 +1007,9 @@ const CreatePost = () => {
           session,
           "Instagramer/Post/deleteDraft",
           null,
-          [{ key: "draftId", value: draftId.toString() }]
+          [{ key: "draftId", value: draftId.toString() }],
         );
-        if (res.succeeded) router.push("/page/posts");
+        if (res.succeeded) closeCreatePost();
         else notify(res.info.responseType, NotifType.Warning);
       } else if (prePostId > 0) {
         var res = await GetServerResult<boolean, boolean>(
@@ -1005,15 +1017,15 @@ const CreatePost = () => {
           session,
           "Instagramer/Post/deletePrePost",
           null,
-          [{ key: "prePostId", value: prePostId.toString() }]
+          [{ key: "prePostId", value: prePostId.toString() }],
         );
-        if (res.succeeded) router.push("/page/posts");
+        if (res.succeeded) closeCreatePost();
         else notify(res.info.responseType, NotifType.Warning);
       }
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
     }
-  }, [session, draftId, prePostId, router]);
+  }, [session, draftId, prePostId, closeCreatePost]);
   const handleSearchLocationInputChange = useCallback(
     async (e: ChangeEvent<HTMLInputElement>) => {
       return;
@@ -1043,7 +1055,7 @@ const CreatePost = () => {
         setLocationInfo([]);
       }
     },
-    [loacationBox, locationTimeOutId, locationLocked, handleApiLocationSearch]
+    [loacationBox, locationTimeOutId, locationLocked, handleApiLocationSearch],
   );
 
   const handleSearchPeopleInputChange = useCallback(
@@ -1082,7 +1094,7 @@ const CreatePost = () => {
         setPeopleTimeOutId(timeOutId);
       }
     },
-    [showAddPeapleBox, showAddTagPeapleBox, peopleTimeOutId, peopleLocked, handleApiPeopleSearch]
+    [showAddPeapleBox, showAddTagPeapleBox, peopleTimeOutId, peopleLocked, handleApiPeopleSearch],
   );
   const handleOptionSelect = useCallback(
     (id: number) => {
@@ -1098,7 +1110,7 @@ const CreatePost = () => {
       uiDispatch({ type: "SET_SELECTED_OPTIONS", payload: selectedIndex });
       uiDispatch({ type: "TOGGLE_OPTIONS", payload: false });
     },
-    [hashtags]
+    [hashtags],
   );
 
   const handleChangeCaptionTextarea = useCallback((e: ChangeEvent<HTMLTextAreaElement>) => {
@@ -1119,7 +1131,7 @@ const CreatePost = () => {
         e.preventDefault();
       }
     },
-    [hashtagsWord]
+    [hashtagsWord],
   );
 
   const handleAddHashtag = useCallback(
@@ -1134,7 +1146,7 @@ const CreatePost = () => {
         formDispatch({ type: "SET_CAPTION", payload: newCaptionWord });
       }
     },
-    [hashtagsWord, captionTextArea]
+    [hashtagsWord, captionTextArea],
   );
 
   const handleAIPromptSubmit = useCallback(
@@ -1149,7 +1161,7 @@ const CreatePost = () => {
           session,
           "Instagramer/Post/GenerateCaptionWithAI",
           null,
-          [{ key: "prompt", value: aiPrompt }]
+          [{ key: "prompt", value: aiPrompt }],
         );
         if (response.succeeded) {
           const hashtagMatches = response.value.match(/#(\w+|[\u0600-\u06FF]+)/g);
@@ -1168,7 +1180,7 @@ const CreatePost = () => {
         setAiLoading(false);
       }
     },
-    [aiLoading, captionTextArea, session]
+    [aiLoading, captionTextArea, session],
   );
 
   const checkSpecVideo = useCallback(
@@ -1253,7 +1265,7 @@ const CreatePost = () => {
 
       return true;
     },
-    [postType]
+    [postType],
   );
 
   const checkSpecImage = useCallback((width: number, height: number, size: number) => {
@@ -1283,7 +1295,7 @@ const CreatePost = () => {
           showMedias[0].height,
           showMedias[0].duration,
           showMedias[0].size,
-          PostType.Album
+          PostType.Album,
         )
       ) {
         uiDispatch({ type: "TOGGLE_CHANGE_POST_TO_ALBUM", payload: true });
@@ -1750,7 +1762,7 @@ const CreatePost = () => {
         payload: { active: false, loading: false, noresult: false },
       });
     },
-    [collabratorPages]
+    [collabratorPages],
   );
 
   const handleSelectTag = useCallback(
@@ -1767,7 +1779,7 @@ const CreatePost = () => {
         payload: { active: false, loading: false, noresult: false },
       });
     },
-    [totalTaggedPeopleCount]
+    [totalTaggedPeopleCount],
   );
 
   const handleTagPeaple = useCallback(
@@ -1790,7 +1802,7 @@ const CreatePost = () => {
         },
       });
     },
-    [showMediaIndex, collabratorPages, searchTagPeaple, selectedTagPeaple, showMedias]
+    [showMediaIndex, collabratorPages, searchTagPeaple, selectedTagPeaple, showMedias],
   );
   const handleStopDrag = useCallback(
     (username: string, position: { x: number; y: number }, deltaX: number, deltaY: number) => {
@@ -1834,7 +1846,7 @@ const CreatePost = () => {
       }
       console.log(showMedias);
     },
-    [prePostId, showMedias, showMediaIndex, renderWidthSize]
+    [prePostId, showMedias, showMediaIndex, renderWidthSize],
   );
 
   const handleChangeAlbumChildren = useCallback(
@@ -1843,7 +1855,7 @@ const CreatePost = () => {
       var nTagPeaples = showMedias[index].tagPeaple;
       // Removed setRefresh call as it's no longer needed
     },
-    [showMedias]
+    [showMedias],
   );
 
   const handleDeleteTag = useCallback(
@@ -1858,7 +1870,7 @@ const CreatePost = () => {
         },
       });
     },
-    [prePostId, showMedias, showMediaIndex]
+    [prePostId, showMedias, showMediaIndex],
   );
 
   const removeMask = useCallback(() => {
@@ -1877,19 +1889,19 @@ const CreatePost = () => {
         removeMask();
       }
     },
-    [removeMask]
+    [removeMask],
   );
 
   const handleShowDraft = useCallback(() => {
     if (showMedias.length > 0 && prePostId <= 0) uiDispatch({ type: "TOGGLE_DRAFT", payload: true });
-    else router.push("/page/posts");
-  }, [showMedias, prePostId, router]);
+    else closeCreatePost();
+  }, [showMedias, prePostId, closeCreatePost]);
 
   const handleShowDeleteDraft = useCallback(() => {
     if (draftId > 0) uiDispatch({ type: "TOGGLE_DELETE_DRAFT", payload: true });
     else if (prePostId > 0) uiDispatch({ type: "TOGGLE_DELETE_PREPOST", payload: true });
-    else router.push("/page/posts");
-  }, [draftId, prePostId, router]);
+    else closeCreatePost();
+  }, [draftId, prePostId, closeCreatePost]);
   const handleGetDraftPost = async (draftId: string) => {
     console.log("draftId", draftId);
     try {
@@ -1898,7 +1910,7 @@ const CreatePost = () => {
         session,
         "Instagramer/Post/GetDraft",
         null,
-        [{ key: "draftId", value: draftId }]
+        [{ key: "draftId", value: draftId }],
       );
       if (draftRes.succeeded) {
         const draft = draftRes.value;
@@ -2031,7 +2043,7 @@ const CreatePost = () => {
         session,
         "Instagramer" + "" + "/Post/GetPrePost",
         null,
-        [{ key: "prePostId", value: prePostId?.toString() }]
+        [{ key: "prePostId", value: prePostId?.toString() }],
       );
       if (res.succeeded) {
         const prePost = res.value;
@@ -2058,7 +2070,7 @@ const CreatePost = () => {
                 prompt: null,
                 promptId: null,
                 sendCount: 0,
-              }
+              },
         );
         setCollabratorPages(prePost.collaborators);
         formDispatch({ type: "SET_CAPTION", payload: prePost.caption });
@@ -2191,7 +2203,7 @@ const CreatePost = () => {
         MethodType.get,
         session,
         "Instagramer" + "" + "/Post/GetPublishLimitContent",
-        null
+        null,
       );
       if (res.succeeded) {
         if (res.value.total === res.value.usage) {
@@ -2221,7 +2233,7 @@ const CreatePost = () => {
         setSelectedPeaple(null);
       }
     },
-    [collabratorPages, selectedPeaple]
+    [collabratorPages, selectedPeaple],
   );
 
   const handleVerifyDeleteReels = useCallback((): void => {
@@ -2241,15 +2253,15 @@ const CreatePost = () => {
         session,
         "Instagramer" + "" + "/Post/DeletePrePost",
         null,
-        [{ key: "prePostId", value: prePostId.toString() }]
+        [{ key: "prePostId", value: prePostId.toString() }],
       );
       if (res.succeeded) {
-        router.push("/page/posts");
+        closeCreatePost();
       } else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
     }
-  }, [session, prePostId, router]);
+  }, [session, prePostId, closeCreatePost]);
   useEffect(() => {
     if (!session || status !== "authenticated") return;
     if (!isDataLoaded && router.isReady) {
@@ -2322,12 +2334,12 @@ const CreatePost = () => {
   const handlePublishPost = useCallback(() => {
     if (prePostId > 0) return;
     HandleUpload(false);
-    router.push("/page/posts");
-  }, [prePostId, HandleUpload, router]);
+    closeCreatePost();
+  }, [prePostId, HandleUpload, closeCreatePost]);
 
   const handleSaveDraft = useCallback(async () => HandleUpload(true), [HandleUpload]);
 
-  const handleCancelDraft = useCallback(() => router.push("/page/posts"), [router]);
+  const handleCancelDraft = useCallback(() => closeCreatePost(), [closeCreatePost]);
 
   const handleToggleDeletePrepost = useCallback(() => {
     uiDispatch({ type: "TOGGLE_DELETE_PREPOST", payload: false });
@@ -2557,8 +2569,8 @@ const CreatePost = () => {
                             alt="added media"
                             src={
                               showMedias[showMediaIndex].mediaType == MediaType.Image
-                                ? showMedias[showMediaIndex].mediaUri ?? showMedias[showMediaIndex].media
-                                : showMedias[showMediaIndex].coverUri ?? showMedias[showMediaIndex].cover
+                                ? (showMedias[showMediaIndex].mediaUri ?? showMedias[showMediaIndex].media)
+                                : (showMedias[showMediaIndex].coverUri ?? showMedias[showMediaIndex].cover)
                             }
                           />
                         ) : (
@@ -2813,7 +2825,7 @@ const CreatePost = () => {
                               key={i}
                               className={styles.postpicture}
                               alt="Post picture"
-                              src={v.mediaType == MediaType.Image ? v.mediaUri ?? v.media : v.coverUri ?? v.cover}
+                              src={v.mediaType == MediaType.Image ? (v.mediaUri ?? v.media) : (v.coverUri ?? v.cover)}
                             />
                           ) : (
                             <video
@@ -2824,7 +2836,7 @@ const CreatePost = () => {
                               className={styles.postpicture}
                               src={v.mediaUri ?? v.media}
                             />
-                          )
+                          ),
                         )}
 
                         {showMedias.length <= 9 && prePostId <= 0 && (
@@ -2873,7 +2885,7 @@ const CreatePost = () => {
                                 key={i}
                                 className={styles.postpicture}
                                 alt="Post picture"
-                                src={v.mediaType == MediaType.Image ? v.mediaUri ?? v.media : v.coverUri ?? v.cover}
+                                src={v.mediaType == MediaType.Image ? (v.mediaUri ?? v.media) : (v.coverUri ?? v.cover)}
                               />
                             ) : (
                               <video
@@ -2887,7 +2899,7 @@ const CreatePost = () => {
                                 className={styles.postpicture}
                                 src={v.mediaUri ?? v.media}
                               />
-                            )
+                            ),
                           )}
                           {showMedias.length === 0 && (
                             <div
@@ -3444,7 +3456,7 @@ const CreatePost = () => {
                                       ].join(" | ")}
                                     </div>
                                   </div>
-                                )
+                                ),
                             )}
                           </div>
                         </div>

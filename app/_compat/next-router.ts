@@ -52,12 +52,21 @@ function toHref(url: string | { pathname?: string; query?: Record<string, unknow
 }
 
 function getAsPath(pathname: string, searchParams: URLSearchParams | null): string {
+  if (typeof window !== "undefined") {
+    return `${window.location.pathname}${window.location.search}${window.location.hash}`;
+  }
   const query = searchParams?.toString() || "";
   return query ? `${pathname}?${query}` : pathname;
 }
 
-function buildQuery(params: ReturnType<typeof useParams>, searchParams: ReturnType<typeof useSearchParams>): Query {
+function buildQuery(
+  params: ReturnType<typeof useParams>,
+  searchParams: ReturnType<typeof useSearchParams>,
+  pathname: string,
+): Query {
   const query: Query = {};
+  const effectivePathname =
+    typeof window !== "undefined" && window.location.pathname ? window.location.pathname : pathname;
 
   Object.entries(params || {}).forEach(([key, value]) => {
     query[key] = value as QueryValue;
@@ -75,6 +84,20 @@ function buildQuery(params: ReturnType<typeof useParams>, searchParams: ReturnTy
     });
   }
 
+  if (query.postid === undefined) {
+    const postInfoMatch = effectivePathname.match(/\/postinfo\/([^/]+)/);
+    if (postInfoMatch?.[1]) {
+      query.postid = decodeURIComponent(postInfoMatch[1]);
+    }
+  }
+
+  if (query.storyid === undefined) {
+    const storyInfoMatch = effectivePathname.match(/\/storyinfo\/([^/]+)/);
+    if (storyInfoMatch?.[1]) {
+      query.storyid = decodeURIComponent(storyInfoMatch[1]);
+    }
+  }
+
   return query;
 }
 
@@ -88,7 +111,7 @@ export function useRouter(): NextRouter {
     pathname,
     route: pathname,
     asPath: getAsPath(pathname, searchParams),
-    query: buildQuery(params, searchParams),
+    query: buildQuery(params, searchParams, pathname),
     basePath: "",
     isReady: true,
     isFallback: false,

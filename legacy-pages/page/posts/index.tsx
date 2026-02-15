@@ -43,7 +43,13 @@ const Posts = () => {
 
     isFetchingRef.current = true;
     try {
-      const res = await GetServerResult<string, IPost>(MethodType.get, session, "Instagramer/Post/GetPosts", null, []);
+      const res = await GetServerResult<string, IPost>(
+        MethodType.get,
+        session,
+        "Instagramer/Post/GetPosts",
+        undefined,
+        [],
+      );
       if (res.succeeded) {
         setPost(res.value);
         setIsDataLoaded(true);
@@ -112,7 +118,7 @@ const Posts = () => {
         handleCopyLink(value);
       }
     },
-    [t]
+    [t],
   );
   useEffect(() => {
     // Only fetch data if not already loaded and session is available
@@ -156,7 +162,7 @@ const Posts = () => {
       post.posts?.length
         ? `Manage your ${post.posts.length} Instagram posts - Advanced post management tool`
         : "Advanced Instagram post management tool - Create, schedule, and analyze your posts",
-    [post.posts?.length]
+    [post.posts?.length],
   );
 
   useEffect(() => {

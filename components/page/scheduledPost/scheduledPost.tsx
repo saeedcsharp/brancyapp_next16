@@ -121,8 +121,8 @@ const ScheduledPost = (props: { data: IPrePost[] | null }) => {
         MethodType.get,
         session,
         `Instagramer/${userId}/Post/DeletePrePost`,
-        null,
-        [{ key: "prePostId", value: deletePrePost.toString() }]
+        undefined,
+        [{ key: "prePostId", value: deletePrePost.toString() }],
       );
       if (res.succeeded) {
         setScheduledPosts((prev) => ({

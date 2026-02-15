@@ -141,7 +141,7 @@ const PostContent = (props: PostContentProps) => {
         MethodType.get,
         session,
         "Instagramer/Post/GetPostByScrollingDown",
-        null,
+        undefined,
         [{ key: "createdTime", value: nextTime.toString() }],
       );
 
@@ -189,7 +189,7 @@ const PostContent = (props: PostContentProps) => {
           MethodType.get,
           session,
           "Instagramer/Post/GetPostByGuid",
-          null,
+          undefined,
           [{ key: "guid", value: guid }],
         );
 
@@ -212,7 +212,7 @@ const PostContent = (props: PostContentProps) => {
 
   const navigateToPostInfo = useCallback(
     (postId: number) => {
-      router.push(`/page/posts/postinfo/${postId}`);
+      (console.log("navigating to post info with id:", postId), router.push(`/page/posts/postinfo/${postId}`));
     },
     [router],
   );

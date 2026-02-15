@@ -101,6 +101,31 @@ const ShowPost = () => {
   const { t } = useTranslation();
   const router = useRouter();
   const { query } = router;
+  const postIdParam = useMemo(() => {
+    const rawPostId = query.postid;
+    if (typeof rawPostId === "string" && rawPostId.length > 0) return rawPostId;
+    if (Array.isArray(rawPostId) && rawPostId.length > 0) return rawPostId[0];
+
+    const match = router.asPath.match(/\/page\/posts\/postinfo\/([^/?#]+)/);
+    if (match?.[1]) return decodeURIComponent(match[1]);
+
+    if (typeof window !== "undefined") {
+      const pathMatch = window.location.pathname.match(/\/page\/posts\/postinfo\/([^/?#]+)/);
+      if (pathMatch?.[1]) return decodeURIComponent(pathMatch[1]);
+    }
+
+    return undefined;
+  }, [query.postid, router.asPath]);
+
+  const closePostInfo = useCallback(() => {
+    const modalWindow = window as Window & { __closeInterceptedModal?: () => void };
+    if (modalWindow.__closeInterceptedModal) {
+      modalWindow.__closeInterceptedModal();
+      return;
+    }
+    router.push("/page/posts");
+  }, [router]);
+
   const { data: session, status } = useSession();
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const isFetchingRef = useRef(false);
@@ -511,7 +536,7 @@ const ShowPost = () => {
         [
           {
             key: "postId",
-            value: query.postid ? (query.postid as string) : "-1",
+            value: postIdParam ?? "-1",
           },
         ],
       );
@@ -527,20 +552,20 @@ const ShowPost = () => {
   }
   useEffect(() => {
     if (!session || status !== "authenticated") return;
-    if (router.isReady && query.postid) {
+    if (router.isReady && postIdParam) {
       if (!isDataLoaded) {
-        fetchData(query.postid as string);
+        fetchData(postIdParam);
       }
-    } else if (router.isReady && query.postid === undefined) {
-      router.push("/page/posts");
+    } else if (router.isReady && !postIdParam) {
+      router.replace("/page/posts");
     }
-  }, [router.isReady, session, status, query.postid, isDataLoaded, fetchData]);
+  }, [router.isReady, session, status, postIdParam, isDataLoaded, fetchData, router]);
   if (session?.user.currentIndex === -1) router.push("/user");
   if (session && !packageStatus(session)) router.push("/upgrade");
   return (
     session &&
     session.user.currentIndex !== -1 &&
-    query.postid && (
+    postIdParam && (
       <>
         {/* head for SEO */}
         <Head>
@@ -600,7 +625,7 @@ const ShowPost = () => {
               <div
                 title="Close"
                 onClick={() => {
-                  router.push("/page/posts");
+                  closePostInfo();
                 }}
                 className={styles.headerIconcontainer}>
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 170 180">

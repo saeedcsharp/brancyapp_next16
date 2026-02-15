@@ -81,6 +81,29 @@ const ShowStory = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const { query } = router;
+  const storyIdParam = useMemo(() => {
+    const rawStoryId = query.storyid;
+    if (typeof rawStoryId === "string" && rawStoryId.length > 0) return rawStoryId;
+    if (Array.isArray(rawStoryId) && rawStoryId.length > 0) return rawStoryId[0];
+
+    const match = router.asPath.match(/\/page\/stories\/storyinfo\/([^/?#]+)/);
+    if (match?.[1]) return decodeURIComponent(match[1]);
+
+    if (typeof window !== "undefined") {
+      const pathMatch = window.location.pathname.match(/\/page\/stories\/storyinfo\/([^/?#]+)/);
+      if (pathMatch?.[1]) return decodeURIComponent(pathMatch[1]);
+    }
+
+    return undefined;
+  }, [query.storyid, router.asPath]);
+  const closeStoryInfo = useCallback(() => {
+    const modalWindow = window as Window & { __closeInterceptedModal?: () => void };
+    if (modalWindow.__closeInterceptedModal) {
+      modalWindow.__closeInterceptedModal();
+      return;
+    }
+    router.push("/page/stories");
+  }, [router]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const isFetchingRef = useRef(false);
   const timeoutRef = useRef<NodeJS.Timeout>();
@@ -385,7 +408,7 @@ const ShowStory = () => {
         [
           {
             key: "storyId",
-            value: query.storyid as string,
+            value: storyIdParam as string,
           },
         ],
       );
@@ -401,13 +424,13 @@ const ShowStory = () => {
   }
   useEffect(() => {
     if (router.isReady) {
-      if (query.storyid === undefined) {
-        router.push("/page/stories");
+      if (!storyIdParam) {
+        router.replace("/page/stories");
       } else if (!isDataLoaded && session && LoginStatus(session)) {
-        fetchData(query.storyid as string);
+        fetchData(storyIdParam);
       }
     }
-  }, [router.isReady, query.storyid, isDataLoaded, session, fetchData, router]);
+  }, [router.isReady, storyIdParam, isDataLoaded, session, fetchData, router]);
   const fetchReplies = useCallback(async () => {
     var nReplies = storyReplies.threads;
     try {
@@ -452,7 +475,7 @@ const ShowStory = () => {
           "Instagramer/Story/SearchViewers",
           null,
           [
-            { key: "storyid", value: query.storyid as string },
+            { key: "storyid", value: storyIdParam as string },
             { key: "query", value: searchQuery },
           ],
         );
@@ -472,7 +495,7 @@ const ShowStory = () => {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session, query.storyid, handleCloseSearch],
+    [session, storyIdParam, handleCloseSearch],
   );
   const handleSearchViewers = useCallback(
     (e: ChangeEvent<HTMLInputElement>) => {
@@ -584,11 +607,19 @@ const ShowStory = () => {
         } else if (showLotteryPopup) {
           setShowLotteryPopup(false);
         } else {
-          router.push("/page/stories");
+          closeStoryInfo();
         }
       }
     },
-    [profilePopup.show, mediaModal.isOpen, showQuickReplyPopup, showLotteryPopup, handleClosePopup, mediaModal, router],
+    [
+      profilePopup.show,
+      mediaModal.isOpen,
+      showQuickReplyPopup,
+      showLotteryPopup,
+      handleClosePopup,
+      mediaModal,
+      closeStoryInfo,
+    ],
   );
 
   useEffect(() => {
@@ -597,21 +628,21 @@ const ShowStory = () => {
   }, [handleKeyDown]);
 
   const storyTitle = useMemo(
-    () => `Brancy - Story Insight #${storyContent.tempId || query.storyid}`,
-    [storyContent.tempId, query.storyid],
+    () => `Brancy - Story Insight #${storyContent.tempId || storyIdParam}`,
+    [storyContent.tempId, storyIdParam],
   );
 
   const storyDescription = useMemo(
     () =>
       `View detailed insights for Instagram story #${
-        storyContent.tempId || query.storyid
+        storyContent.tempId || storyIdParam
       }. Track views, interactions, reach, and engagement analytics for your Instagram stories.`,
-    [storyContent.tempId, query.storyid],
+    [storyContent.tempId, storyIdParam],
   );
 
-  const canonicalUrl = useMemo(() => `https://www.Brancy.app/page/stories/storyinfo/${query.storyid}`, [query.storyid]);
+  const canonicalUrl = useMemo(() => `https://www.Brancy.app/page/stories/storyinfo/${storyIdParam}`, [storyIdParam]);
 
-  if (!session || !isValidIndex || !query.storyid) return null;
+  if (!session || !isValidIndex || !storyIdParam) return null;
 
   return (
     <>
@@ -676,8 +707,8 @@ const ShowStory = () => {
             </div>
             <div
               title="Close"
-              onClick={() => router.push("/page/stories")}
-              onKeyDown={(e) => e.key === "Enter" && router.push("/page/stories")}
+              onClick={closeStoryInfo}
+              onKeyDown={(e) => e.key === "Enter" && closeStoryInfo()}
               className={styles.headerIconcontainer}>
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 170 180">
                 <path

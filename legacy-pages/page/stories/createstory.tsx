@@ -96,12 +96,23 @@ const CreateStory = () => {
   const [showDeletePreStory, setShowDeletePreStory] = useState(false);
   const [showDraftError, setshowDraftError] = useState<IErrorPrePostInfo | null>(null);
 
+  const closeCreateStory = useCallback(() => {
+    if (typeof window !== "undefined") {
+      const modalWindow = window as Window & { __closeInterceptedModal?: () => void };
+      if (typeof modalWindow.__closeInterceptedModal === "function") {
+        modalWindow.__closeInterceptedModal();
+        return;
+      }
+    }
+    router.push("/page/stories");
+  }, [router]);
+
   const GetNextBestTimes = useCallback(async () => {
     var res = await GetServerResult<boolean, number[]>(
       MethodType.get,
       session,
       "Instagramer/Post/GetBestPublishTime",
-      null
+      null,
     );
     if (res.succeeded) {
       setRecommendedTime(res.value);
@@ -150,7 +161,7 @@ const CreateStory = () => {
                 key: "timeUnix",
                 value: !automaticPost ? "0" : Math.floor(dateAndTime / 1e3).toString(),
               },
-            ]
+            ],
           );
           if (res.succeeded && res.value > 0) {
             setDraftId(res.value);
@@ -198,7 +209,7 @@ const CreateStory = () => {
                 key: "timeUnix",
                 value: !automaticPost ? "0" : Math.floor(dateAndTime / 1e3).toString(),
               },
-            ]
+            ],
           );
           if (res.succeeded && res.value > 0) {
             setDraftId(res.value);
@@ -206,9 +217,9 @@ const CreateStory = () => {
         }
       }
       setAnalizeProcessing(false);
-      router.push("/page/stories/");
+      closeCreateStory();
     },
-    [session, showMedias, QuickReply, autoReply, draftId, preStoryId, automaticPost, dateAndTime, router]
+    [session, showMedias, QuickReply, autoReply, draftId, preStoryId, automaticPost, dateAndTime, closeCreateStory],
   );
   const HandleDelete = useCallback(async () => {
     try {
@@ -218,9 +229,9 @@ const CreateStory = () => {
           session,
           "Instagramer" + "/Story/deleteDraft",
           null,
-          [{ key: "id", value: draftId.toString() }]
+          [{ key: "id", value: draftId.toString() }],
         );
-        if (res.succeeded) router.push("/page/stories");
+        if (res.succeeded) closeCreateStory();
         else notify(res.info.responseType, NotifType.Warning);
       } else if (preStoryId > 0) {
         var res = await GetServerResult<boolean, boolean>(
@@ -228,15 +239,15 @@ const CreateStory = () => {
           session,
           "Instagramer" + "/story/deletePreStory",
           null,
-          [{ key: "preStoryId", value: preStoryId.toString() }]
+          [{ key: "preStoryId", value: preStoryId.toString() }],
         );
-        if (res.succeeded) router.push("/page/stories");
+        if (res.succeeded) closeCreateStory();
         else notify(res.info.responseType, NotifType.Warning);
       }
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
     }
-  }, [session, draftId, preStoryId, router]);
+  }, [session, draftId, preStoryId, closeCreateStory]);
   const handleDeletePreStory = useCallback(async () => {
     try {
       const res = await GetServerResult<boolean, boolean>(
@@ -244,15 +255,15 @@ const CreateStory = () => {
         session,
         "Instagramer" + "" + "/Story/DeletePreStory",
         null,
-        [{ key: "preStoryId", value: preStoryId.toString() }]
+        [{ key: "preStoryId", value: preStoryId.toString() }],
       );
       if (res.succeeded) {
-        router.push("/page/stories");
+        closeCreateStory();
       } else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
     }
-  }, [session, preStoryId, router]);
+  }, [session, preStoryId, closeCreateStory]);
   const handleSelectAlbumMedia = useCallback(
     async (e: ChangeEvent<HTMLInputElement>) => {
       setLoadingUpload(true);
@@ -397,7 +408,7 @@ const CreateStory = () => {
         setLoadingUpload(false);
       }
     },
-    [session]
+    [session],
   );
 
   // const handleSelectCover = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -595,7 +606,7 @@ const CreateStory = () => {
       }
       setLoadingUpload(false);
     },
-    [session, preStoryId]
+    [session, preStoryId],
   );
 
   const handleUploadImage = useCallback(() => {
@@ -640,18 +651,18 @@ const CreateStory = () => {
         removeMask();
       }
     },
-    [removeMask]
+    [removeMask],
   );
   const handleShowDraft = useCallback(() => {
     if (showMedias && preStoryId <= 0) setShowDraft(true);
-    else router.push("/page/stories");
-  }, [showMedias, preStoryId, router]);
+    else closeCreateStory();
+  }, [showMedias, preStoryId, closeCreateStory]);
   const handleShowDeleteDraft = useCallback(() => {
     console.log("drafttttttttt", draftId);
     if (draftId > 0) setShowDeleteDraft(true);
     else if (preStoryId > 0) setShowDeletePreStory(true);
-    else router.push("/page/stories");
-  }, [draftId, preStoryId, router]);
+    else closeCreateStory();
+  }, [draftId, preStoryId, closeCreateStory]);
   const handleGetDraftStory = useCallback(
     async (draftId: string) => {
       try {
@@ -661,7 +672,7 @@ const CreateStory = () => {
           session,
           "Instagramer" + "/Story/GetDraft",
           null,
-          [{ key: "id", value: draftId }]
+          [{ key: "id", value: draftId }],
         );
         if (res.succeeded) {
           const draft = res.value;
@@ -708,7 +719,7 @@ const CreateStory = () => {
                   sendCount: 0,
                   sendPr: false,
                   replySuccessfullyDirected: false,
-                }
+                },
           );
           console.log("mediaType", draft.mediaType);
           if (draft.mediaType == MediaType.Image) {
@@ -748,7 +759,7 @@ const CreateStory = () => {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session, basePictureUrl]
+    [session, basePictureUrl],
   );
 
   const handleGetPreStory = useCallback(
@@ -760,7 +771,7 @@ const CreateStory = () => {
           session,
           "Instagramer/Story/GetPreStory",
           null,
-          [{ key: "id", value: preStoryId }]
+          [{ key: "id", value: preStoryId }],
         );
         if (res.succeeded) {
           const preStory = res.value;
@@ -804,7 +815,7 @@ const CreateStory = () => {
                   sendCount: 0,
                   sendPr: false,
                   replySuccessfullyDirected: false,
-                }
+                },
           );
           setAutomaticPost(true);
           setDateAndTime(preStory.upingTime * 1e3);
@@ -846,7 +857,7 @@ const CreateStory = () => {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session, basePictureUrl]
+    [session, basePictureUrl],
   );
 
   const getPublishLimitContent = useCallback(async () => {
@@ -855,7 +866,7 @@ const CreateStory = () => {
         MethodType.get,
         session,
         "Instagramer/Post/GetPublishLimitContent",
-        null
+        null,
       );
       if (res.succeeded) {
         if (res.value.total === res.value.usage) {
@@ -1191,8 +1202,8 @@ const CreateStory = () => {
                             alt="added media"
                             src={
                               showMedias.mediaType == MediaType.Image
-                                ? showMedias.mediaUri ?? showMedias.media
-                                : showMedias.coverUri ?? showMedias.cover
+                                ? (showMedias.mediaUri ?? showMedias.media)
+                                : (showMedias.coverUri ?? showMedias.cover)
                             }
                           />
                         ) : (
@@ -1422,7 +1433,7 @@ const CreateStory = () => {
                                       ].join(" | ")}
                                     </div>
                                   </div>
-                                )
+                                ),
                             )}
                           </div>
                         </div>
@@ -1439,7 +1450,6 @@ const CreateStory = () => {
                               className="saveButton"
                               onClick={() => {
                                 HandleUpload(false);
-                                router.push("/page/stories");
                               }}
                               role="button"
                               aria-label="Publish post"
@@ -1493,15 +1503,11 @@ const CreateStory = () => {
           <SaveDraft
             removeMask={removeMask}
             saveDraft={async () => HandleUpload(true)}
-            cancelDraft={() => router.push("/page/stories")}
+            cancelDraft={closeCreateStory}
           />
         </Modal>
         <Modal closePopup={removeMask} classNamePopup={"popupSendFile"} showContent={showDeleteDraft}>
-          <DeleteDraft
-            removeMask={removeMask}
-            deleteDraft={() => HandleDelete()}
-            cancelDraft={() => router.push("/page/stories")}
-          />
+          <DeleteDraft removeMask={removeMask} deleteDraft={() => HandleDelete()} cancelDraft={closeCreateStory} />
         </Modal>
         <Modal
           closePopup={() => setShowQuickReplyPopup(false)}
