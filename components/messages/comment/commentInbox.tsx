@@ -388,17 +388,17 @@ const CommentInbox = () => {
       }
       // mainNavOrderId = generalRes.value.mainNavOrderId;
     } else if (ticketType === CommentType.Story && !activeHideInbox) {
-      var businessDirectInbox: IGetDirectInbox = {
-        categoryId: 1,
-        oldCursor: nextMaxId,
-        searchTerm: "",
-      };
       try {
-        let businessRes = await GetServerResult<boolean, ICommetInbox>(
+        const info: IGetCommentBoxInfo = {
+          nextMaxId: nextMaxId,
+          productType: MediaProductType.Live,
+          searchTerm: query,
+        };
+        let businessRes = await GetServerResult<IGetCommentBoxInfo, ICommetInbox>(
           MethodType.post,
           session,
           "Instagramer" + "/Comment/GetInbox",
-          businessDirectInbox,
+          info,
         );
         console.log("businessRes ", businessRes.value);
         if (businessRes.succeeded && !query) {
@@ -434,7 +434,7 @@ const CommentInbox = () => {
           MethodType.post,
           session,
           "Instagramer" + "/Comment/GetInbox",
-          null,
+          undefined,
         );
         console.log("Hide Fb inboxxxxxxxxxxxxxxxxxxx ", hideFb.value);
         if (hideFb.succeeded && !query) {
@@ -574,7 +574,7 @@ const CommentInbox = () => {
         MethodType.post,
         session,
         "Instagramer" + "/Comment/GetInbox",
-        null,
+        undefined,
       );
       console.log(" ✅ Console ⋙ Hide ", res.value);
       if (res.succeeded) setHideInbox(res.value);
@@ -767,7 +767,7 @@ const CommentInbox = () => {
         MethodType.get,
         session,
         "Instagramer" + "/post/ChangeCommentingStatus",
-        null,
+        undefined,
         [
           { key: "postId", value: postId.toString() },
           { key: "isEnable", value: "true" },
@@ -1435,7 +1435,7 @@ const CommentInbox = () => {
         MethodType.get,
         session,
         "Instagramer" + `/Post/${!activeAutoReply ? "PauseAutoReply" : "ResumeAutoReply"}`,
-        null,
+        undefined,
         [
           {
             key: "postId",
@@ -1486,7 +1486,7 @@ const CommentInbox = () => {
         MethodType.get,
         session,
         "Instagramer" + `/Comment/${!activeAutoReply ? "PauseLiveAutoReply" : "ResumeLiveAutoReply"}`,
-        null,
+        undefined,
         [
           {
             key: "liveMediaId",

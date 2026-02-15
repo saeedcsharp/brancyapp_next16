@@ -610,7 +610,7 @@ const CreatePost = () => {
         MethodType.get,
         session,
         "Instagramer" + "/Post/GetBestPublishTime",
-        null,
+        undefined,
       );
       if (res.succeeded) {
         setRecommendedTime(res.value);
@@ -628,7 +628,7 @@ const CreatePost = () => {
         MethodType.get,
         session,
         "Instagramer/Hashtag/GetHashtagList",
-        null,
+        undefined,
       );
 
       if (res.succeeded) {
@@ -666,7 +666,7 @@ const CreatePost = () => {
           MethodType.get,
           session,
           "Instagramer" + "/searchLocations",
-          null,
+          undefined,
           [{ key: "query", value: query }],
         );
         if (res.succeeded) {
@@ -702,7 +702,7 @@ const CreatePost = () => {
           MethodType.get,
           session,
           "Instagramer" + "/Users/searchPeople",
-          null,
+          undefined,
           [{ key: "query", value: query }],
         );
         console.log(res);
@@ -895,7 +895,7 @@ const CreatePost = () => {
           };
 
           console.log("dataVideo", vData);
-          var res = await GetServerResult<IPostImageInfo, number>(
+          var res = await GetServerResult<IPostVideoInfo, number>(
             MethodType.post,
             session,
             `Instagramer/Post/PublishReels`,
@@ -1006,7 +1006,7 @@ const CreatePost = () => {
           MethodType.get,
           session,
           "Instagramer/Post/deleteDraft",
-          null,
+          undefined,
           [{ key: "draftId", value: draftId.toString() }],
         );
         if (res.succeeded) closeCreatePost();
@@ -1016,7 +1016,7 @@ const CreatePost = () => {
           MethodType.get,
           session,
           "Instagramer/Post/deletePrePost",
-          null,
+          undefined,
           [{ key: "prePostId", value: prePostId.toString() }],
         );
         if (res.succeeded) closeCreatePost();
@@ -1160,7 +1160,7 @@ const CreatePost = () => {
           MethodType.get,
           session,
           "Instagramer/Post/GenerateCaptionWithAI",
-          null,
+          undefined,
           [{ key: "prompt", value: aiPrompt }],
         );
         if (response.succeeded) {
@@ -1909,7 +1909,7 @@ const CreatePost = () => {
         MethodType.get,
         session,
         "Instagramer/Post/GetDraft",
-        null,
+        undefined,
         [{ key: "draftId", value: draftId }],
       );
       if (draftRes.succeeded) {
@@ -2042,7 +2042,7 @@ const CreatePost = () => {
         MethodType.get,
         session,
         "Instagramer" + "" + "/Post/GetPrePost",
-        null,
+        undefined,
         [{ key: "prePostId", value: prePostId?.toString() }],
       );
       if (res.succeeded) {
@@ -2203,7 +2203,7 @@ const CreatePost = () => {
         MethodType.get,
         session,
         "Instagramer" + "" + "/Post/GetPublishLimitContent",
-        null,
+        undefined,
       );
       if (res.succeeded) {
         if (res.value.total === res.value.usage) {
@@ -2252,7 +2252,7 @@ const CreatePost = () => {
         MethodType.get,
         session,
         "Instagramer" + "" + "/Post/DeletePrePost",
-        null,
+        undefined,
         [{ key: "prePostId", value: prePostId.toString() }],
       );
       if (res.succeeded) {

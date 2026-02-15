@@ -125,7 +125,7 @@ const StoryContent = (props: {
         MethodType.get,
         session,
         "Instagramer/Story/GetNextStories",
-        null,
+        undefined,
         [
           {
             key: "lastStoryCreatedTime",
