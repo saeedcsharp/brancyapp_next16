@@ -3,13 +3,14 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { InitialSetupState } from "saeed/models/homeIndex/home";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { NotifType, notify, ResponseType } from "../notifications/notificationBox";
 import { useTutorial } from "./hooks/useTutorial";
 import InitialSetup from "./initialSetup/initialSetup";
 import { tutorialConfigs, TutorialPageKey } from "./tutorialConfigs";
 import TutorialDesktop from "./tutorialDesktop";
 import TutorialMobile from "./tutorialMobile";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 interface TutorialWrapperProps {
   pageKey: TutorialPageKey;
@@ -28,7 +29,7 @@ const TutorialWrapper: React.FC<TutorialWrapperProps> = ({ pageKey }) => {
   const fetchInitialSetupFromApi = async (currentSession: Session | null): Promise<InitialSetupState | null> => {
     if (!currentSession) return null;
     try {
-      const res = await GetServerResult<boolean, string>(MethodType.get, session, "Instagramer/UiSetting/Get");
+      const res = await clientFetchApi<boolean, string>("/api/uisetting/Get", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
 
       if (!res.statusCode) {
         notify(res.info.responseType, NotifType.Warning);

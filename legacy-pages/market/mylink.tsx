@@ -27,7 +27,7 @@ import {
 } from "saeed/components/notifications/notificationBox";
 import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { FeatureType } from "saeed/models/market/enums";
 import {
   IBusinessHour,
@@ -41,6 +41,7 @@ import {
   IWorkHourItem,
 } from "saeed/models/market/myLink";
 import styles from "./myLink.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 function handleFeatureInfo(mediaLink: IMyLink) {
   var featureArray: IFeatureInfo[] = [];
   if (mediaLink.announcement && mediaLink.announcement.isActive) {
@@ -228,11 +229,7 @@ const MyLink = () => {
       setLoading(true);
       setError(null);
       try {
-        const info = await GetServerResult<string, ISmartLink>(
-          MethodType.get,
-          session,
-          "Instagramer/Bio/GetMyLink"
-        );
+        const info = await clientFetchApi<string, ISmartLink>("/api/bio/GetMyLink", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
         if (info.succeeded) {
           let data: IMyLink = {
             announcement: info.value.announcement

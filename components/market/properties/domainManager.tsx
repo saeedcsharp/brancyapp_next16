@@ -9,10 +9,11 @@ import { handleCopyLink } from "saeed/helper/copyLink";
 import useHideDiv from "saeed/hook/useHide";
 import { LanguageKey } from "saeed/i18n";
 import { InstagramerAccountInfo } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { CustomDomainStatus } from "saeed/models/market/enums";
 import { DomainType, ICustomeDomainInfo } from "saeed/models/market/properties";
 import styles from "./domainManager.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const baseShortUrl = process.env.NEXT_PUBLIC_SHORT_LINK;
 const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccountInfo | null }) => {
   const { t } = useTranslation();
@@ -32,11 +33,7 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
   async function getCustomerInfo() {
     const instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     if (!instagramerId) return;
-    const res = await GetServerResult<boolean, ICustomeDomainInfo>(
-      MethodType.get,
-      session,
-      "Instagramer" + "/Bio/GetCustomDomain"
-    );
+    const res = await clientFetchApi<boolean, ICustomeDomainInfo>("Instagramer" + "/Bio/GetCustomDomain", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
 
     if (res.succeeded) {
       setCustomeDomain(res.value);
@@ -51,13 +48,7 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
     const query = type === DomainType.BrancyDefault ? "false" : "true";
     const instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     if (!instagramerId) return;
-    const res = await GetServerResult<boolean, boolean>(
-      MethodType.get,
-      session,
-      "Instagramer" + "/Bio/ToggleCustomDomain",
-      null,
-      [{ key: "enabled", value: query }]
-    );
+    const res = await clientFetchApi<boolean, boolean>("Instagramer" + "/Bio/ToggleCustomDomain", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "enabled", value: query }], onUploadProgress: undefined });
     if (res.succeeded) {
     }
   }
@@ -65,12 +56,7 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
     if (!handleCheckRequest()) return;
     const instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     if (!instagramerId) return;
-    const res = await GetServerResult<boolean, { url: string }>(
-      MethodType.post,
-      session,
-      "Instagramer" + "/Bio/UpdateCustomDomain",
-      { url: inputText }
-    );
+    const res = await clientFetchApi<boolean, { url: string }>("Instagramer" + "/Bio/UpdateCustomDomain", { methodType: MethodType.post, session: session, data: { url: inputText }, queries: undefined, onUploadProgress: undefined });
     if (res.succeeded) {
     }
   }

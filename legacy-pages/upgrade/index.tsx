@@ -18,7 +18,7 @@ import { useTranslation } from "react-i18next";
 import { RoleAccess } from "saeed/helper/loadingStatus";
 import { convertMillisecondsToDays, convertToMilliseconds } from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import {
   generateMockFeaturesList,
   generateMockUserPackageInfo,
@@ -35,6 +35,7 @@ import Loading from "saeed/components/notOk/loading";
 import PriceFormater, { PriceFormaterClassName } from "saeed/components/priceFormater";
 
 import styles from "./upgrade.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 type UpgradeState = {
   packageExtensions: IBasePackagePrice[];
@@ -152,11 +153,7 @@ const Upgrade = memo(function Upgrade() {
 
   const getUserPackageInfo = useCallback(async () => {
     try {
-      const res = await GetServerResult<boolean, IFeatureInfo>(
-        MethodType.get,
-        session,
-        "Instagramer/PSG/GetPackageFeatureDetails"
-      );
+      const res = await clientFetchApi<boolean, IFeatureInfo>("/api/psg/GetPackageFeatureDetails", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       const currentPlan = getMockCurrentUserPlan(t, res.value.followerCount);
       dispatch({ type: "SET_CURRENT_USER_PLAN", payload: currentPlan });
       const userPackageInfo: UserPackageInfo = generateMockUserPackageInfo(t, res.value);
@@ -170,11 +167,7 @@ const Upgrade = memo(function Upgrade() {
   const getTokenPackages = useCallback(async () => {
     try {
       if (!session) return;
-      const res = await GetServerResult<boolean, IReserveFeaturePrices[]>(
-        MethodType.get,
-        session,
-        "Instagramer/PSG/GetReserveFeaturePrices"
-      );
+      const res = await clientFetchApi<boolean, IReserveFeaturePrices[]>("/api/psg/GetReserveFeaturePrices", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         const aiPackages = res.value.filter((x) => x.featureId === FeatureType.AI);
         const customPackage = res.value.filter((x) => x.featureId === FeatureType.CustomDomain);
@@ -193,11 +186,7 @@ const Upgrade = memo(function Upgrade() {
   const getPackageExtensions = useCallback(async () => {
     if (!session) return;
     try {
-      const res = await GetServerResult<boolean, IBasePackagePrice[]>(
-        MethodType.get,
-        session,
-        "Instagramer/PSG/GetPackagePrices"
-      );
+      const res = await clientFetchApi<boolean, IBasePackagePrice[]>("/api/psg/GetPackagePrices", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         dispatch({ type: "SET_PACKAGE_EXTENSIONS", payload: res.value });
       } else notify(res.info.responseType, NotifType.Warning);
@@ -208,13 +197,7 @@ const Upgrade = memo(function Upgrade() {
   const handleTokenPurchase = useCallback(
     async (tokenPackageId: number) => {
       try {
-        const res = await GetServerResult<boolean, string>(
-          MethodType.get,
-          session,
-          "Instagramer/PSG/GetRedirectReserveFeaturePrice",
-          null,
-          [{ key: "reserveFeatureId", value: tokenPackageId.toString() }]
-        );
+        const res = await clientFetchApi<boolean, string>("/api/psg/GetRedirectReserveFeaturePrice", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "reserveFeatureId", value: tokenPackageId.toString() }], onUploadProgress: undefined });
         if (res.succeeded) {
           router.push(res.value);
         } else notify(res.info.responseType, NotifType.Warning);
@@ -227,13 +210,7 @@ const Upgrade = memo(function Upgrade() {
   const handlePackageExtension = useCallback(
     async (monthCount: number) => {
       try {
-        const res = await GetServerResult<boolean, string>(
-          MethodType.get,
-          session,
-          `Instagramer/PSG/GetPackageRedirectUrl`,
-          null,
-          [{ key: "monthCount", value: monthCount.toString() }]
-        );
+        const res = await clientFetchApi<boolean, string>(`/api/psg/GetPackageRedirectUrl`, { methodType: MethodType.get, session: session, data: null, queries: [{ key: "monthCount", value: monthCount.toString() }], onUploadProgress: undefined });
         if (res.succeeded) router.push(res.value);
         else notify(res.info.responseType, NotifType.Warning);
       } catch (error) {

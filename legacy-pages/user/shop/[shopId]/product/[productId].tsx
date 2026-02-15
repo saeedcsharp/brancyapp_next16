@@ -36,7 +36,7 @@ import { handleDecompress } from "saeed/helper/pako";
 import { LanguageKey } from "saeed/i18n";
 
 // Models & Types
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IComment } from "saeed/models/messages/IMessage";
 import { AvailabilityStatus } from "saeed/models/store/enum";
 import {
@@ -55,6 +55,7 @@ import {
 // Styles
 import Modal from "saeed/components/design/modal";
 import styles from "./product.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 // Constants
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
@@ -666,16 +667,10 @@ export default function Product() {
     async (categoryId: number) => {
       try {
         if (!session || !shopId || !productId) return;
-        const res = await GetServerResult<boolean, IProduct>(
-          MethodType.get,
-          session,
-          "user/shop/getShopProducts",
-          null,
-          [
+        const res = await clientFetchApi<boolean, IProduct>("/api/shop/getShopProducts", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "instagramerId", value: shopId.toString() },
             { key: "categoryId", value: categoryId.toString() },
-          ]
-        );
+          ], onUploadProgress: undefined });
 
         if (res.succeeded) {
           const filteredProducts = res.value.products.filter((x) => x.shortProduct.productId !== Number(productId));
@@ -699,9 +694,9 @@ export default function Product() {
     async (instagramerId: number) => {
       if (!session) return;
       try {
-        const res = await GetServerResult<boolean, IFullShop>(MethodType.get, session, "user/shop/getfullshop", null, [
+        const res = await clientFetchApi<boolean, IFullShop>("/api/shop/getfullshop", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "instagramerId", value: instagramerId.toString() },
-        ]);
+        ], onUploadProgress: undefined });
         if (res.succeeded) {
           productDispatch({ type: "SET_SHOP", payload: res.value.shortShop });
         }
@@ -718,39 +713,27 @@ export default function Product() {
 
     try {
       const [res, commentRes, hashtagRes] = await Promise.all([
-        GetServerResult<boolean, IFullProduct>(MethodType.get, session, "user/shop/getfullproduct", null, [
+        clientFetchApi<boolean, IFullProduct>("/api/shop/getfullproduct", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "instagramerId", value: shopId.toString() },
           { key: "productId", value: productId.toString() },
           { key: "language", value: findSystemLanguage().toString() },
-        ]),
+        ], onUploadProgress: undefined }),
         (async () => {
           try {
-            return await GetServerResult<boolean, IComment[]>(
-              MethodType.get,
-              session,
-              "user/shop/GetProductComments",
-              null,
-              [
+            return await clientFetchApi<boolean, IComment[]>("/api/shop/GetProductComments", { methodType: MethodType.get, session: session, data: null, queries: [
                 { key: "instagramerId", value: shopId.toString() },
                 { key: "productId", value: productId.toString() },
-              ]
-            );
+              ], onUploadProgress: undefined });
           } catch {
             return { succeeded: false, value: [] } as any;
           }
         })(),
         (async () => {
           try {
-            return await GetServerResult<boolean, string[]>(
-              MethodType.get,
-              session,
-              "user/shop/getproducthashtags",
-              null,
-              [
+            return await clientFetchApi<boolean, string[]>("/api/shop/getproducthashtags", { methodType: MethodType.get, session: session, data: null, queries: [
                 { key: "instagramerId", value: shopId.toString() },
                 { key: "productId", value: productId.toString() },
-              ]
-            );
+              ], onUploadProgress: undefined });
           } catch {
             return { succeeded: false, value: [] } as any;
           }
@@ -814,17 +797,11 @@ export default function Product() {
   ]);
   const handleSaveProduct = useCallback(async () => {
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "user/shop/UpdateFavoriteProduct",
-        null,
-        [
+      const res = await clientFetchApi<boolean, boolean>("/api/shop/UpdateFavoriteProduct", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "instagramerId", value: shopId?.toString() },
           { key: "productId", value: product!.productId.toString() },
           { key: "isFavorite", value: (!product!.isFavorite).toString() },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         productDispatch({
           type: "UPDATE_PRODUCT_FAVORITE",
@@ -878,12 +855,12 @@ export default function Product() {
     const promises = totalStock
       .filter((x) => x.stock > 0)
       .map(async (a) => {
-        const res = await GetServerResult<boolean, boolean>(MethodType.get, session, "user/shop/addcard", null, [
+        const res = await clientFetchApi<boolean, boolean>("/api/shop/addcard", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "instagramerId", value: shopId.toString() },
           { key: "productId", value: productId.toString() },
           { key: "subProductId", value: a.subProductId.toString() },
           { key: "count", value: a.stock.toString() },
-        ]);
+        ], onUploadProgress: undefined });
         if (!res.succeeded) {
           notify(res.info.responseType, NotifType.Warning);
           return;
@@ -1063,17 +1040,11 @@ export default function Product() {
 
   const handleUpdateFavorite = useCallback(async () => {
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "user/shop/UpdateFavoriteProduct",
-        null,
-        [
+      const res = await clientFetchApi<boolean, boolean>("/api/shop/UpdateFavoriteProduct", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "instagramerId", value: shopId?.toString() || "" },
           { key: "productId", value: product?.productId.toString() || "" },
           { key: "isFavorite", value: (!product?.isFavorite).toString() },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         productDispatch({
           type: "UPDATE_PRODUCT_FAVORITE",

@@ -12,7 +12,7 @@ import {
   ResponseType,
 } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import {
   IAddress,
   ICompleteProduct,
@@ -34,6 +34,7 @@ import UpdateAddresses from "saeed/components/userPanel/orders/popups/updateAddr
 import findSystemLanguage from "saeed/helper/findSystemLanguage";
 
 import styles from "./cardId.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 // Interface for grouped shop data
 interface IGroupedShop {
@@ -436,12 +437,12 @@ const OrdersCart = () => {
 
       const timeout = setTimeout(async () => {
         try {
-          const res = await GetServerResult<boolean, boolean>(MethodType.get, session, "user/shop/AddCard", null, [
+          const res = await clientFetchApi<boolean, boolean>("/api/shop/AddCard", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "instagramerId", value: cardId!.toString() },
             { key: "productId", value: productId.toString() },
             { key: "subProductId", value: subProductId.toString() },
             { key: "count", value: "0" },
-          ]);
+          ], onUploadProgress: undefined });
 
           if (res.succeeded) {
             dispatch({ type: "REMOVE_DELETED_PRODUCT", payload: subProductId });
@@ -493,12 +494,12 @@ const OrdersCart = () => {
         try {
           dispatch({ type: "SET_ADD_CART_LOADING", payload: subProductId });
 
-          const res = await GetServerResult<boolean, boolean>(MethodType.get, session, "user/shop/AddCard", null, [
+          const res = await clientFetchApi<boolean, boolean>("/api/shop/AddCard", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "instagramerId", value: cardId!.toString() },
             { key: "productId", value: productId.toString() },
             { key: "subProductId", value: subProductId.toString() },
             { key: "count", value: newQuantity.toString() },
-          ]);
+          ], onUploadProgress: undefined });
 
           if (res.succeeded) {
             dispatch({ type: "UPDATE_QUANTITY", payload: { productId, subProductId, quantity: newQuantity } });
@@ -522,16 +523,10 @@ const OrdersCart = () => {
     abortControllerRef.current = new AbortController();
 
     try {
-      const res = await GetServerResult<boolean, ICompleteProduct[]>(
-        MethodType.get,
-        session,
-        "user/shop/GetInstagramerCard",
-        null,
-        [
+      const res = await clientFetchApi<boolean, ICompleteProduct[]>("/api/shop/GetInstagramerCard", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "instagramerId", value: cardId?.toString() },
           { key: "language", value: findSystemLanguage().toString() },
-        ]
-      );
+        ], onUploadProgress: undefined });
 
       if (res.succeeded) {
         const filteredProducts = res.value.map((product: ICompleteProduct) => ({
@@ -560,17 +555,11 @@ const OrdersCart = () => {
   const getLogisticPrice = useCallback(
     async (addressId: number) => {
       try {
-        const res = await GetServerResult<boolean, ILogistic[]>(
-          MethodType.get,
-          session,
-          "user/shop/GetLogesticPrice",
-          null,
-          [
+        const res = await clientFetchApi<boolean, ILogistic[]>("/api/shop/GetLogesticPrice", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "instagramerId", value: cardId as string },
             { key: "addressId", value: addressId.toString() },
             { key: "language", value: findSystemLanguage().toString() },
-          ]
-        );
+          ], onUploadProgress: undefined });
 
         if (res.succeeded) {
           dispatch({ type: "SET_LOGISTIC_PRICE", payload: res.value });
@@ -595,7 +584,7 @@ const OrdersCart = () => {
 
     dispatch({ type: "SET_LOADING", payload: true });
     try {
-      const res = await GetServerResult<boolean, IAddress[]>(MethodType.get, session, "User/Address/GetAddresses");
+      const res = await clientFetchApi<boolean, IAddress[]>("/api/address/GetAddresses", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         if (res.value.length > 0) {
           const defaultAddress = res.value.find((x: IAddress) => x.isDefault);
@@ -617,11 +606,7 @@ const OrdersCart = () => {
 
   const handleGetAddressInputType = useCallback(async () => {
     try {
-      const res = await GetServerResult<boolean, InputTypeAddress>(
-        MethodType.get,
-        session,
-        "User/Address/GetAddressInputType"
-      );
+      const res = await clientFetchApi<boolean, InputTypeAddress>("/api/address/GetAddressInputType", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         dispatch({ type: "SET_INPUT_TYPE_ADDRESS", payload: res.value });
       } else {
@@ -683,12 +668,7 @@ const OrdersCart = () => {
     };
 
     try {
-      const res = await GetServerResult<boolean, IUpdateUserAddress>(
-        MethodType.post,
-        session,
-        "User/Address/UpdateUserAddress",
-        updatedAddress
-      );
+      const res = await clientFetchApi<boolean, IUpdateUserAddress>("/api/address/UpdateUserAddress", { methodType: MethodType.post, session: session, data: updatedAddress, queries: undefined, onUploadProgress: undefined });
 
       if (res.succeeded) {
         dispatch({ type: "SET_PREV_ADDRESS_ID", payload: null });

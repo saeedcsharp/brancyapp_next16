@@ -12,7 +12,7 @@ import rgbaToHex from "saeed/helper/rgbaToHex";
 import { BackgrounCssTodStr, SvgGenerator } from "saeed/helper/svgGenerator";
 import { svgToFile, svgToJpgFile } from "saeed/helper/svgtojpeg";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import {
   ICreateTermsAndConditionInfo,
   IGetLastTermsUi,
@@ -21,6 +21,7 @@ import {
   TermsType,
 } from "saeed/models/page/tools/tools";
 import styles from "./termsAndConditionWinnerPicker.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 function filterTypeSlide(backgrounds: IGetTermsAndConditionInfo, type: TermsType) {
   const result = backgrounds.background.filter((x) => x.type === type);
@@ -483,11 +484,7 @@ const TermsAndConditionWinnerPicker = (props: {
 
   async function handleGetLastTermsUri() {
     try {
-      var res = await GetServerResult<boolean, IGetLastTermsUi[]>(
-        MethodType.get,
-        session,
-        "Instagramer/Lottery/GetLastTermsUis"
-      );
+      var res = await clientFetchApi<boolean, IGetLastTermsUi[]>("/api/lottery/GetLastTermsUis", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         console.log("dataaaaaaaaa", data);
         if (res.value.length > 0) {

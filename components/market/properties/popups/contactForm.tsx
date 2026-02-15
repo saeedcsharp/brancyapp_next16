@@ -11,9 +11,10 @@ import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { ICantactMap, IUpdateContactMap } from "saeed/models/market/properties";
 import styles from "./featureBoxPU.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 const OpenStreetMap = dynamic(() => import("saeed/components/mainLeaftlet"), {
   ssr: false,
@@ -52,12 +53,7 @@ const ContactForm = (props: { removeMask: () => void }) => {
       showMap: contactAndMap.showMap,
     };
     try {
-      var res = await GetServerResult<IUpdateContactMap, boolean>(
-        MethodType.post,
-        session,
-        "Instagramer/bio/UpdateContact",
-        updateContactMap
-      );
+      var res = await clientFetchApi<IUpdateContactMap, boolean>("/api/bio/UpdateContact", { methodType: MethodType.post, session: session, data: updateContactMap, queries: undefined, onUploadProgress: undefined });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
       else props.removeMask();
     } catch (error) {
@@ -87,7 +83,7 @@ const ContactForm = (props: { removeMask: () => void }) => {
     setEmailError(!emailRegex.test(e.target.value));
   }
   async function fetchData() {
-    var res = await GetServerResult<string, ICantactMap>(MethodType.get, session, "Instagramer/bio/GetContact");
+    var res = await clientFetchApi<string, ICantactMap>("/api/bio/GetContact", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
     if (res.succeeded) {
       setContactAndMap(res.value);
       setLoading(false);

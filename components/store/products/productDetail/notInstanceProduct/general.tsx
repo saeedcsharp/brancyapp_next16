@@ -13,7 +13,7 @@ import {
 } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import {
   IGeneralInfo,
   ILastCategory,
@@ -22,6 +22,7 @@ import {
   ISuggestedPrice,
 } from "saeed/models/store/IProduct";
 import styles from "./general.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 function General({
   productId,
   suggestedPrice,
@@ -245,16 +246,10 @@ function General({
   }
   async function getSecondaryCategory(categoryId: number, dependId?: number, brandId?: number) {
     try {
-      const res = await GetServerResult<boolean, IProduct_SecondaryCategory>(
-        MethodType.get,
-        session,
-        "shopper" + "" + "/Product/GetSeconderyCategoryList",
-        null,
-        [
+      const res = await clientFetchApi<boolean, IProduct_SecondaryCategory>("shopper" + "" + "/Product/GetSeconderyCategoryList", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "language", value: "1" },
           { key: "categoryId", value: categoryId.toString() },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         setDependentCategoryElemets({ element: [], selectIndex: 0 });
         setBrandCategoryElements({ element: [], selectIndex: 0 });
@@ -383,14 +378,8 @@ function General({
     }
     try {
       const [mainCat, lastCat] = await Promise.all([
-        GetServerResult<boolean, IProduct_MainCategory[]>(
-          MethodType.get,
-          session,
-          "shopper" + "" + "/Product/GetMainCategoryList",
-          null,
-          [{ key: "language", value: "1" }]
-        ),
-        GetServerResult<boolean, ILastCategory>(MethodType.get, session, "shopper" + "" + "/Product/GetLastCategory"),
+        clientFetchApi<boolean, IProduct_MainCategory[]>("shopper" + "" + "/Product/GetMainCategoryList", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "language", value: "1" }], onUploadProgress: undefined }),
+        clientFetchApi<boolean, ILastCategory>("shopper" + "" + "/Product/GetLastCategory", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
       ]);
       if (mainCat.succeeded && lastCat.succeeded) {
         setGeneralInfo((prev) => ({ ...prev, mainCategory: mainCat.value }));

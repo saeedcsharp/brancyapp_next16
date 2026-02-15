@@ -11,10 +11,11 @@ import OrderDetail from "saeed/components/userPanel/orders/popups/OrderDetail";
 import { InstaInfoContext } from "saeed/context/instaInfoContext";
 import findSystemLanguage from "saeed/helper/findSystemLanguage";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IOrderByStatus, IOrderDetail } from "saeed/models/store/orders";
 import { IUserOrder } from "saeed/models/userPanel/orders";
 import styles from "./cart.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 export default function Card() {
   const { value, setValue } = React.useContext(InstaInfoContext) ?? {};
@@ -41,10 +42,10 @@ export default function Card() {
 
     setLoadingProducts((prev) => [...prev, instagramerId]);
     try {
-      const res = await GetServerResult<boolean, any[]>(MethodType.get, session, "user/shop/GetInstagramerCard", null, [
+      const res = await clientFetchApi<boolean, any[]>("/api/shop/GetInstagramerCard", { methodType: MethodType.get, session: session, data: null, queries: [
         { key: "instagramerId", value: instagramerId.toString() },
         { key: "language", value: findSystemLanguage().toString() },
-      ]);
+      ], onUploadProgress: undefined });
 
       if (res.succeeded && res.value.length > 0) {
         setStores((prevStores) => ({
@@ -63,10 +64,10 @@ export default function Card() {
 
   async function fetchData() {
     try {
-      const res = await GetServerResult<boolean, IUserOrder>(MethodType.get, session, "user/shop/GetAllCard", null, [
+      const res = await clientFetchApi<boolean, IUserOrder>("/api/shop/GetAllCard", { methodType: MethodType.get, session: session, data: null, queries: [
         { key: "nextMaxId", value: "" },
         { key: "language", value: findSystemLanguage().toString() },
-      ]);
+      ], onUploadProgress: undefined });
 
       if (res.succeeded) {
         console.log("Cart data received:", res.value);

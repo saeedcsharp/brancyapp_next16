@@ -16,7 +16,7 @@ import Loading from "saeed/components/notOk/loading";
 import InsightChart from "saeed/components/page/posts/insightChart";
 import formatTimeAgo from "saeed/helper/formatTimeAgo";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import {
   ILastPost_Condotion,
   ILastPost_Figure,
@@ -24,6 +24,7 @@ import {
   ILikeComment_GetLikeFollowers,
 } from "saeed/models/page/tools/tools";
 import styles from "./autointeraction.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const LikeFollowerPost = (props: { removeMask: () => void; data: number; id: string; name: string }) => {
   const { data: session } = useSession();
@@ -39,16 +40,11 @@ const LikeFollowerPost = (props: { removeMask: () => void; data: number; id: str
   async function handleSaveButton() {
     let instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     try {
-      var res = await GetServerResult<ILastPost_UpdateCondotion, boolean>(
-        MethodType.post,
-        session,
-        "Instagramer" + instagramerId + "/LikeLastPostFollower/UpdateCondition",
-        {
+      var res = await clientFetchApi<ILastPost_UpdateCondotion, boolean>("Instagramer" + instagramerId + "/LikeLastPostFollower/UpdateCondition", { methodType: MethodType.post, session: session, data: {
           isPaused: !condition?.isPaused,
           includeClicked: condition?.includeClicked,
           maxLikeCount: condition?.maxLikeCount,
-        }
-      );
+        }, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         internalNotify(InternalResponseType.Ok, NotifType.Success);
         props.removeMask();
@@ -62,26 +58,10 @@ const LikeFollowerPost = (props: { removeMask: () => void; data: number; id: str
     let instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     try {
       const [checkRes, conditionRes, figureRes, acceptedFollowersRes] = await Promise.all([
-        GetServerResult<boolean, boolean>(
-          MethodType.get,
-          session,
-          "Instagramer" + instagramerId + "/LikeLastPostFollower/CheckAvailability"
-        ),
-        GetServerResult<boolean, ILastPost_Condotion>(
-          MethodType.get,
-          session,
-          "Instagramer" + instagramerId + "/LikeLastPostFollower/GetCondition"
-        ),
-        GetServerResult<boolean, ILastPost_Figure>(
-          MethodType.get,
-          session,
-          "Instagramer" + "/LikeLastPostFollower/GetFigure"
-        ),
-        GetServerResult<boolean, ILikeComment_GetLikeFollowers[]>(
-          MethodType.get,
-          session,
-          "Instagramer" + instagramerId + "/LikeLastPostFollower/GetLikedFollowers"
-        ),
+        clientFetchApi<boolean, boolean>("Instagramer" + instagramerId + "/LikeLastPostFollower/CheckAvailability", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, ILastPost_Condotion>("Instagramer" + instagramerId + "/LikeLastPostFollower/GetCondition", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, ILastPost_Figure>("Instagramer" + "/LikeLastPostFollower/GetFigure", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, ILikeComment_GetLikeFollowers[]>("Instagramer" + instagramerId + "/LikeLastPostFollower/GetLikedFollowers", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
       ]);
       if (checkRes.value) {
         setLoadingStatus(false);
@@ -107,17 +87,12 @@ const LikeFollowerPost = (props: { removeMask: () => void; data: number; id: str
     if (lastPost?.length === 0) return;
     let instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     try {
-      var res = await GetServerResult<boolean, ILikeComment_GetLikeFollowers[]>(
-        MethodType.get,
-        session,
-        "Instagramer" + instagramerId + "/AutoAcceptFollower/GetAcceptedFollowers",
-        [
+      var res = await clientFetchApi<boolean, ILikeComment_GetLikeFollowers[]>("Instagramer" + instagramerId + "/AutoAcceptFollower/GetAcceptedFollowers", { methodType: MethodType.get, session: session, data: [
           {
             key: "nextId",
             value: lastPost![lastPost!.length - 1].likeFollowerId.toString(),
           },
-        ]
-      );
+        ], queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         setLastPost((prev) => [...prev!, ...res.value]);
       } else notify(res.info.responseType, NotifType.Error);

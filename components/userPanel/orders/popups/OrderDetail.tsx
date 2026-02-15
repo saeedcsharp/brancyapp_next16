@@ -7,10 +7,11 @@ import Loading from "saeed/components/notOk/loading";
 import OrderDetailContent from "saeed/components/store/order/popup/OrderDetail-Content";
 import findSystemLanguage from "saeed/helper/findSystemLanguage";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { OrderStep } from "saeed/models/store/enum";
 import { IFullProduct, IOrderDetail } from "saeed/models/store/orders";
 import styles from "./OrderDetail.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 interface OrderDetailProps {
   removeMask: () => void;
@@ -39,13 +40,7 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
 
   const handleAcceptOrder = useCallback(async () => {
     try {
-      const res = await GetServerResult<string, string>(
-        MethodType.get,
-        session,
-        "User/Order/GetOrderPaymentLink",
-        null,
-        [{ key: "orderId", value: orderDetail.orderId }]
-      );
+      const res = await clientFetchApi<string, string>("/api/order/GetOrderPaymentLink", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "orderId", value: orderDetail.orderId }], onUploadProgress: undefined });
       if (res.succeeded) router.replace(res.value);
       else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
@@ -80,20 +75,14 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
   }, []);
   async function fetchData() {
     try {
-      const res = await GetServerResult<IOrderDetail, IFullProduct>(
-        MethodType.get,
-        session,
-        orderDetail.instagramerId !== undefined ? "User/Order/GetFullOrder" : "",
-        null,
-        [
+      const res = await clientFetchApi<IOrderDetail, IFullProduct>(orderDetail.instagramerId !== undefined ? "User/Order/GetFullOrder" : "", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "orderId", value: orderDetail.orderId },
           {
             key: "instagramerId",
             value: orderDetail.instagramerId !== undefined ? orderDetail.instagramerId!.toString() : "",
           },
           { key: "language", value: findSystemLanguage().toString() },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) setFullProduct(res.value);
       else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {

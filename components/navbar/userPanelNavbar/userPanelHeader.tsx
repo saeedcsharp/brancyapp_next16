@@ -4,13 +4,14 @@ import { NotifType, notify, ResponseType } from "saeed/components/notifications/
 import { InstaInfoContext } from "saeed/context/instaInfoContext";
 import { handleDecompress } from "saeed/helper/pako";
 import { getHubConnection } from "saeed/helper/pushNotif";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { PushNotif } from "saeed/models/push/pushNotif";
 import { IUserInfo } from "saeed/models/userPanel/login";
 import NavbarUserMobile from "../instagramerNavbar/navbar_user_mobile";
 import UserNotificationBar from "./userNotificationBar";
 import styles from "./userPanelHeader.module.css";
 import UserProfile from "./userProfile";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 interface UserPanelHeaderProps {
   handleShowHamMenu: (ham: string) => void;
@@ -78,7 +79,7 @@ const UserPanelHeader: React.FC<UserPanelHeaderProps> = ({
   }, []);
   async function fetchData() {
     try {
-      const res = await GetServerResult<boolean, IUserInfo>(MethodType.get, session, "User/Account/GetTitleInfo");
+      const res = await clientFetchApi<boolean, IUserInfo>("/api/account/GetTitleInfo", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         setUserProfile(res.value.profileUrl);
       } else notify(res.info.responseType, NotifType.Warning);

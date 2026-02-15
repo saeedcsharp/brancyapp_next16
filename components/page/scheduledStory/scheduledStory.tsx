@@ -10,11 +10,12 @@ import { InstaInfoContext } from "saeed/context/instaInfoContext";
 import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IScheduledStoryClient, IScheduledStoryServer } from "saeed/models/page/story/preStories";
 import { ShowRings } from "../../design/counterDown/counterDown";
 import DeletePrePost from "../scheduledPost/deletePrePost";
 import styles from "./scheduledStory.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 let unixNow = Date.now();
 const ScheduledStory = (props: { data: IScheduledStoryServer[] | null; totalCount: number }) => {
@@ -101,13 +102,7 @@ const ScheduledStory = (props: { data: IScheduledStoryServer[] | null; totalCoun
   async function handleDeletePreStory() {
     if (!deletePreStory) return;
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Instagramer" + "" + "/Story/DeletePreStory",
-        null,
-        [{ key: "id", value: deletePreStory.toString() }]
-      );
+      const res = await clientFetchApi<boolean, boolean>("Instagramer" + "" + "/Story/DeletePreStory", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "id", value: deletePreStory.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         setScheduledStories((prev) => ({
           ...prev!,

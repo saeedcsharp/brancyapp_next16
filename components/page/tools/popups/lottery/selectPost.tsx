@@ -12,9 +12,10 @@ import {
 import Loading from "saeed/components/notOk/loading";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IShortPostInfo } from "saeed/models/page/tools/tools";
 import styles from "./selectPost.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const SelectPost = (props: {
   removeMask: () => void;
@@ -38,18 +39,12 @@ const SelectPost = (props: {
     hasMore,
     fetchMore: async () => {
       try {
-        const result = await GetServerResult<string, IShortPostInfo[]>(
-          MethodType.get,
-          session,
-          "Instagramer/Post/GetPostCards",
-          null,
-          [
+        const result = await clientFetchApi<string, IShortPostInfo[]>("/api/post/GetPostCards", { methodType: MethodType.get, session: session, data: null, queries: [
             {
               key: "nextTimeUnix",
               value: nextTime.toString(),
             },
-          ]
-        );
+          ], onUploadProgress: undefined });
         return result.succeeded ? result.value : [];
       } catch (error) {
         console.log("error from loader:", error);
@@ -70,11 +65,7 @@ const SelectPost = (props: {
 
   async function getPost() {
     try {
-      var res = await GetServerResult<string, IShortPostInfo[]>(
-        MethodType.get,
-        session,
-        "Instagramer/Post/GetPostCards"
-      );
+      var res = await clientFetchApi<string, IShortPostInfo[]>("/api/post/GetPostCards", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         setPost(res.value);
         if (res.value.length > 0) {

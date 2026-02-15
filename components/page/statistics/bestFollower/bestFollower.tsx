@@ -7,9 +7,10 @@ import Loading from "saeed/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IBestFollowers } from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/bestFollower";
 import styles from "./bestFollower.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const FollowerCard = memo(
   ({ follower, onImageClick }: { follower: IBestFollowers; onImageClick: (url: string, username: string) => void }) => {
@@ -137,13 +138,7 @@ const BestFollowers = (props: { largSizeForIngage: () => void }) => {
     isFetchingRef.current = true;
     try {
       setLoadingStatus(true);
-      const res = await GetServerResult<string, IBestFollowers[]>(
-        MethodType.get,
-        session,
-        "Instagramer/Statistics/GetBestFollowers",
-        null,
-        []
-      );
+      const res = await clientFetchApi<string, IBestFollowers[]>("/api/statistics/GetBestFollowers", { methodType: MethodType.get, session: session, data: null, queries: [], onUploadProgress: undefined });
       if (res.succeeded) {
         const sortedFollowers = [...res.value].sort((a, b) => b.count - a.count);
         setBestFollowers(sortedFollowers);

@@ -35,7 +35,7 @@ import {
 } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import {
   AutoReplyPayLoadType,
   IceOrPersistent,
@@ -44,6 +44,7 @@ import {
   SpecialPayLoad,
 } from "saeed/models/messages/enum";
 import {
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
   IAutoReplySetting,
   ICreateGeneralAutoReply,
   IGeneralAutoReply,
@@ -180,12 +181,7 @@ const Properties = () => {
       (x) => iceBreakers.profileButtons.items.indexOf(x) !== index
     );
     try {
-      const res = await GetServerResult<IProfileButtons[], boolean>(
-        MethodType.post,
-        session,
-        "Instagramer/Message/UpdateIceBreaker",
-        iceBreakers.profileButtons.items
-      );
+      const res = await clientFetchApi<IProfileButtons[], boolean>("/api/message/UpdateIceBreaker", { methodType: MethodType.post, session: session, data: iceBreakers.profileButtons.items, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         if (iceBreakers.profileButtons.items[index].specialPayload !== null) {
           setSpecialPayloadInfoForIce((prev) => [
@@ -264,12 +260,7 @@ const Properties = () => {
       (x) => persistentMenus.profileButtons.items.indexOf(x) !== index
     );
     try {
-      const res = await GetServerResult<IProfileButtons[], boolean>(
-        MethodType.post,
-        session,
-        "Instagramer/Message/UpdatePersistentMenu",
-        newList
-      );
+      const res = await clientFetchApi<IProfileButtons[], boolean>("/api/message/UpdatePersistentMenu", { methodType: MethodType.post, session: session, data: newList, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         if (
           persistentMenus.profileButtons.items[index].specialPayload !== null
@@ -316,13 +307,7 @@ const Properties = () => {
   async function handleHideRobotReply(e: ChangeEvent<HTMLInputElement>) {
     try {
       const toggle = e.target.checked;
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Instagramer/Message/ToggleHideCommentAutoReply",
-        null,
-        [{ key: "isHide", value: toggle.toString() }]
-      );
+      const res = await clientFetchApi<boolean, boolean>("/api/message/ToggleHideCommentAutoReply", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "isHide", value: toggle.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         setMessagePanel((prev) => ({
           ...prev,
@@ -338,13 +323,7 @@ const Properties = () => {
   async function handleLikeRobotReply(e: ChangeEvent<HTMLInputElement>) {
     try {
       const toggle = e.target.checked;
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Instagramer/Message/ToggleLikeReplyAutoReply",
-        null,
-        [{ key: "isLike", value: toggle.toString() }]
-      );
+      const res = await clientFetchApi<boolean, boolean>("/api/message/ToggleLikeReplyAutoReply", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "isLike", value: toggle.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         setMessagePanel((prev) => ({
           ...prev,
@@ -372,13 +351,7 @@ const Properties = () => {
   async function handleToggleFollowTemplate(e: ChangeEvent<HTMLInputElement>) {
     try {
       const toggle = e.target.checked;
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Instagramer/Message/ToggleCheckFollowerTemplate",
-        null,
-        [{ key: "isEnable", value: toggle.toString() }]
-      );
+      const res = await clientFetchApi<boolean, boolean>("/api/message/ToggleCheckFollowerTemplate", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "isEnable", value: toggle.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         setMessagePanel((prev) => ({
           ...prev,
@@ -393,15 +366,10 @@ const Properties = () => {
   }
   async function handleSaveFollowerTemplate() {
     try {
-      const res = await GetServerResult<IMessagePanel, boolean>(
-        MethodType.post,
-        session,
-        "Instagramer/Message/UpdateCheckFollowerTemplate",
-        {
+      const res = await clientFetchApi<IMessagePanel, boolean>("/api/message/UpdateCheckFollowerTemplate", { methodType: MethodType.post, session: session, data: {
           title: messagePanel.followTemplate.title,
           buttonText: messagePanel.followTemplate.content,
-        }
-      );
+        }, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded)
         internalNotify(
           InternalResponseType.SaveFollowTemplate,
@@ -423,13 +391,7 @@ const Properties = () => {
     const prevLng = messagePanel.language;
     try {
       setMessagePanel((prev) => ({ ...prev, language: 1e6 }));
-      const res = await GetServerResult<IMessagePanel, boolean>(
-        MethodType.get,
-        session,
-        "Instagramer/Message/SetDefaultLanguage",
-        null,
-        [{ key: "language", value: messagePanel.language.toString() }]
-      );
+      const res = await clientFetchApi<IMessagePanel, boolean>("/api/message/SetDefaultLanguage", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "language", value: messagePanel.language.toString() }], onUploadProgress: undefined });
       if (res.succeeded)
         internalNotify(InternalResponseType.SelectLanguage, NotifType.Success);
       else notify(res.info.responseType, NotifType.Warning);
@@ -448,15 +410,7 @@ const Properties = () => {
   async function handleSaveAutoReply(autoReply: ICreateGeneralAutoReply) {
     console.log("autoReplyyyyyyy", autoReply);
     try {
-      const res = await GetServerResult<
-        ICreateGeneralAutoReply,
-        IGeneralAutoReply
-      >(
-        MethodType.post,
-        session,
-        "Instagramer/Message/CreateGeneralAutoReply",
-        autoReply
-      );
+      const res = await clientFetchApi<ICreateGeneralAutoReply, IGeneralAutoReply>("/api/message/CreateGeneralAutoReply", { methodType: MethodType.post, session: session, data: autoReply, queries: undefined, onUploadProgress: undefined });
       console.log("CreateGeneralAutoReply res", res);
       if (res.succeeded && autoReply.id !== "") {
         setAutoReplies((prev) =>
@@ -480,16 +434,10 @@ const Properties = () => {
     try {
       const toggle = e.target.checked;
       console.log("Toggle:", toggle);
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Instagramer" +
+      const res = await clientFetchApi<boolean, boolean>("Instagramer" +
           `/Message/${
             toggle ? "ResumeGeneralAutoReply" : "PauseGeneralAutoReply"
-          }`,
-        null,
-        [{ key: "id", value: id.toString() }]
-      );
+          }`, { methodType: MethodType.get, session: session, data: null, queries: [{ key: "id", value: id.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         setAutoReplies((prev) =>
           prev.map((x) =>
@@ -510,14 +458,10 @@ const Properties = () => {
   }
   async function handleGeneralActiveAutoreply(on: boolean) {
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Instagramer" +
+      const res = await clientFetchApi<boolean, boolean>("Instagramer" +
           `/Message/${
             on ? "ResumeAllGeneralAutoReplies" : "PauseAllGeneralAutoReplies"
-          }`
-      );
+          }`, { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         setAutoReplies((prev) =>
           prev.map((x) => ({
@@ -538,13 +482,7 @@ const Properties = () => {
   }
   async function handleGetNextAutoreply(nexMaxId: string) {
     try {
-      const res = await GetServerResult<boolean, IGeneralAutoReply[]>(
-        MethodType.get,
-        session,
-        "Instagramer/Message/GetGeneralAutoReplies",
-        null,
-        [{ key: "nextMaxId", value: nexMaxId.toString() }]
-      );
+      const res = await clientFetchApi<boolean, IGeneralAutoReply[]>("/api/message/GetGeneralAutoReplies", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "nextMaxId", value: nexMaxId.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         setAutoReplies((prev) => [...prev, ...res.value]);
       } else notify(res.info.responseType, NotifType.Warning);
@@ -582,26 +520,10 @@ const Properties = () => {
     try {
       const [iceRes, persistentRes, replySettingRes, generalMsgRes] =
         await Promise.all([
-          GetServerResult<boolean, IIceBreaker>(
-            MethodType.get,
-            session,
-            "Instagramer/Message/GetIceBreaker"
-          ),
-          GetServerResult<boolean, IIceBreaker>(
-            MethodType.get,
-            session,
-            "Instagramer/Message/GetPersistentMenu"
-          ),
-          GetServerResult<boolean, IAutoReplySetting>(
-            MethodType.get,
-            session,
-            "Instagramer/Message/GetAutoReplySetting"
-          ),
-          GetServerResult<boolean, IGeneralAutoReply[]>(
-            MethodType.get,
-            session,
-            "Instagramer/Message/GetGeneralAutoReplies"
-          ),
+          clientFetchApi<boolean, IIceBreaker>("/api/message/GetIceBreaker", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+          clientFetchApi<boolean, IIceBreaker>("/api/message/GetPersistentMenu", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+          clientFetchApi<boolean, IAutoReplySetting>("/api/message/GetAutoReplySetting", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+          clientFetchApi<boolean, IGeneralAutoReply[]>("/api/message/GetGeneralAutoReplies", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
         ]);
       if (iceRes.succeeded) {
         setIceBreakers(iceRes.value);
@@ -660,23 +582,14 @@ const Properties = () => {
       setPersistentMenusUpdateLoading(true);
       const newList = [...persistentMenus.profileButtons.items, addNewObj];
       try {
-        const res = await GetServerResult<IUpdateProfileButton[], boolean>(
-          MethodType.post,
-          session,
-          "Instagramer/Message/UpdatePersistentMenu",
-          newList
-        );
+        const res = await clientFetchApi<IUpdateProfileButton[], boolean>("/api/message/UpdatePersistentMenu", { methodType: MethodType.post, session: session, data: newList, queries: undefined, onUploadProgress: undefined });
         if (res.succeeded) {
           internalNotify(
             InternalResponseType.SaveIceBreaker,
             NotifType.Success
           );
           try {
-            const res = await GetServerResult<boolean, IIceBreaker>(
-              MethodType.get,
-              session,
-              "Instagramer/Message/GetPersistentMenu"
-            );
+            const res = await clientFetchApi<boolean, IIceBreaker>("/api/message/GetPersistentMenu", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
             if (res.succeeded) setPersistentMenus(res.value);
             else notify(res.info.responseType, NotifType.Warning);
           } catch (error) {
@@ -692,23 +605,14 @@ const Properties = () => {
       setIceBeakerUpdateLoading(true);
       const newList2 = [...iceBreakers.profileButtons.items, addNewObj];
       try {
-        const res = await GetServerResult<IProfileButtons[], boolean>(
-          MethodType.post,
-          session,
-          "Instagramer/Message/UpdateIceBreaker",
-          newList2
-        );
+        const res = await clientFetchApi<IProfileButtons[], boolean>("/api/message/UpdateIceBreaker", { methodType: MethodType.post, session: session, data: newList2, queries: undefined, onUploadProgress: undefined });
         if (res.succeeded) {
           internalNotify(
             InternalResponseType.SaveIceBreaker,
             NotifType.Success
           );
           try {
-            const res = await GetServerResult<boolean, IIceBreaker>(
-              MethodType.get,
-              session,
-              "Instagramer/Message/GetIceBreaker"
-            );
+            const res = await clientFetchApi<boolean, IIceBreaker>("/api/message/GetIceBreaker", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
             if (res.succeeded) setIceBreakers(res.value);
             else notify(res.info.responseType, NotifType.Warning);
           } catch (error) {
@@ -725,13 +629,7 @@ const Properties = () => {
   async function handleTogglePersistentMenu(e: ChangeEvent<HTMLInputElement>) {
     try {
       const toggle = e.target.checked;
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Instagramer/Message/TogglePersistentMenu",
-        null,
-        [{ key: "isEnabled", value: toggle.toString() }]
-      );
+      const res = await clientFetchApi<boolean, boolean>("/api/message/TogglePersistentMenu", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "isEnabled", value: toggle.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         setPersistentMenus((prev) => ({
           ...prev,
@@ -747,13 +645,7 @@ const Properties = () => {
   async function handleToggleIceBreaker(e: ChangeEvent<HTMLInputElement>) {
     try {
       const toggle = e.target.checked;
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Instagramer/Message/ToggleIceBreaker",
-        null,
-        [{ key: "isEnabled", value: toggle.toString() }]
-      );
+      const res = await clientFetchApi<boolean, boolean>("/api/message/ToggleIceBreaker", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "isEnabled", value: toggle.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         setIceBreakers((prev) => ({
           ...prev,

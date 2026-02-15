@@ -13,7 +13,7 @@ import NotInstanceProductDetail from "saeed/components/store/products/productDet
 import DeleteProduct from "saeed/components/store/products/productDetail/notInstanceProduct/popups/deleteProduct";
 import { packageStatus } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IDetailsPost } from "saeed/models/page/post/posts";
 import {
   IMaxSize,
@@ -22,6 +22,7 @@ import {
   ITempIdAndNonProductCount,
 } from "saeed/models/store/IProduct";
 import styles from "./productDetail.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const ProductDetail = () => {
   //  return <Soon />;
   const router = useRouter();
@@ -60,23 +61,11 @@ const ProductDetail = () => {
     async (productId: number, postId: number) => {
       try {
         const [res1, res2] = await Promise.all([
-          GetServerResult<boolean, IProduct_FullProduct>(
-            MethodType.get,
-            session,
-            "shopper" + "" + "/Product/GetFullProduct",
-            null,
-            [
+          clientFetchApi<boolean, IProduct_FullProduct>("shopper" + "" + "/Product/GetFullProduct", { methodType: MethodType.get, session: session, data: null, queries: [
               { key: "language", value: "1" },
               { key: "productId", value: productId.toString() },
-            ]
-          ),
-          GetServerResult<boolean, IDetailsPost>(
-            MethodType.get,
-            session,
-            "Instagramer" + "" + "/Post/GetPostInfo",
-            null,
-            [{ key: "postId", value: postId.toString() }]
-          ),
+            ], onUploadProgress: undefined }),
+          clientFetchApi<boolean, IDetailsPost>("Instagramer" + "" + "/Post/GetPostInfo", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "postId", value: postId.toString() }], onUploadProgress: undefined }),
         ]);
 
         if (res1.succeeded && res2.succeeded) {
@@ -110,13 +99,7 @@ const ProductDetail = () => {
   const getPostInfo = useCallback(
     async (postId: number) => {
       try {
-        const res = await GetServerResult<boolean, IDetailsPost>(
-          MethodType.get,
-          session,
-          "Instagramer/Post/GetPostInfo",
-          null,
-          [{ key: "postId", value: postId.toString() }]
-        );
+        const res = await clientFetchApi<boolean, IDetailsPost>("/api/post/GetPostInfo", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "postId", value: postId.toString() }], onUploadProgress: undefined });
         if (res.succeeded) {
           console.log("setPostInfo", res);
           setState((prev) => ({
@@ -148,19 +131,9 @@ const ProductDetail = () => {
   const getShortProduct = useCallback(async () => {
     try {
       const [res1, res2, res3] = await Promise.all([
-        GetServerResult<boolean, IProduct_ShortProduct>(
-          MethodType.get,
-          session,
-          "shopper/Product/GetProductByTempId",
-          null,
-          [{ key: "tempId", value: query.tempId as string }]
-        ),
-        GetServerResult<boolean, ITempIdAndNonProductCount>(
-          MethodType.get,
-          session,
-          "shopper/Product/GetLastTempIdAndNonProductsCount"
-        ),
-        GetServerResult<boolean, IMaxSize>(MethodType.get, session, "Shopper/Product/GetMaxSize"),
+        clientFetchApi<boolean, IProduct_ShortProduct>("/api/product/GetProductByTempId", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "tempId", value: query.tempId as string }], onUploadProgress: undefined }),
+        clientFetchApi<boolean, ITempIdAndNonProductCount>("/api/product/GetLastTempIdAndNonProductsCount", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, IMaxSize>("/api/product/GetMaxSize", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
       ]);
 
       if (res1.succeeded && res2.succeeded) {
@@ -212,18 +185,12 @@ const ProductDetail = () => {
   const handleNextProduct = useCallback(
     async (tempId: number) => {
       try {
-        const res = await GetServerResult<boolean, IProduct_ShortProduct>(
-          MethodType.get,
-          session,
-          "shopper" + "" + "/Product/GetNextProduct",
-          null,
-          [
+        const res = await clientFetchApi<boolean, IProduct_ShortProduct>("shopper" + "" + "/Product/GetNextProduct", { methodType: MethodType.get, session: session, data: null, queries: [
             {
               key: "productId",
               value: state.shortProduct!.productId.toString(),
             },
-          ]
-        );
+          ], onUploadProgress: undefined });
         if (res.succeeded) {
           router.push(`/store/products/productDetail?tempId=${res.value.tempId}`);
           setState((prev) => ({
@@ -259,18 +226,12 @@ const ProductDetail = () => {
   const handlePreviousProduct = useCallback(
     async (tempId: number) => {
       try {
-        const res = await GetServerResult<boolean, IProduct_ShortProduct>(
-          MethodType.get,
-          session,
-          "shopper" + "" + "/Product/GetPreviousProduct",
-          null,
-          [
+        const res = await clientFetchApi<boolean, IProduct_ShortProduct>("shopper" + "" + "/Product/GetPreviousProduct", { methodType: MethodType.get, session: session, data: null, queries: [
             {
               key: "productId",
               value: state.shortProduct!.productId.toString(),
             },
-          ]
-        );
+          ], onUploadProgress: undefined });
         if (res.succeeded) {
           router.push(`/store/products/productDetail?tempId=${res.value.tempId}`);
           setState((prev) => ({

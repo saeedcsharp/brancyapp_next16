@@ -2,9 +2,10 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { NotifType, notify, ResponseType } from "../notifications/notificationBox";
 import styles from "./notpermission.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 export enum PermissionType {
   Comments = "Comments",
@@ -48,11 +49,7 @@ export default function NotPermission({ permissionType }: NotPermissionProps) {
 
   async function redirectToInstagram() {
     try {
-      const response = await GetServerResult<boolean, string>(
-        MethodType.get,
-        session,
-        "PreInstagramer/GetInstagramRedirect"
-      );
+      const response = await clientFetchApi<boolean, string>("/api/preinstagramer/GetInstagramRedirect", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (response.succeeded) {
         router.push(response.value);
       } else {

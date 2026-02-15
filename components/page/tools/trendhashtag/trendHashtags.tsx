@@ -16,9 +16,10 @@ import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { calculateSummary } from "saeed/helper/numberFormater";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IShortHashtag, ITrendHashtag } from "saeed/models/page/tools/tools";
 import styles from "./trendHashtags.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 // Using constants outside the component to avoid recreations
 const INITIAL_LANGUAGE_ITEM = 0;
@@ -168,16 +169,10 @@ const TrandHashtags = () => {
     if (!session) return;
 
     try {
-      let res = await GetServerResult<string, ITrendHashtag[]>(
-        MethodType.get,
-        session,
-        "Instagramer/hashtag/GetTrendHashtag",
-        null,
-        [
+      let res = await clientFetchApi<string, ITrendHashtag[]>("/api/hashtag/GetTrendHashtag", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "languageId", value: languageItemRef.current.toString() },
           { key: "period", value: timeItemRef.current.toString() },
-        ]
-      );
+        ], onUploadProgress: undefined });
 
       if (res.succeeded) {
         dispatch({ type: "SET_TREND_HASHTAGS", payload: res.value });
@@ -194,13 +189,7 @@ const TrandHashtags = () => {
       if (!session || !query) return;
 
       try {
-        var res = await GetServerResult<boolean, IShortHashtag[]>(
-          MethodType.get,
-          session,
-          "Instagramer/hashtag/searchHashtag",
-          null,
-          [{ key: "query", value: query }]
-        );
+        var res = await clientFetchApi<boolean, IShortHashtag[]>("/api/hashtag/searchHashtag", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "query", value: query }], onUploadProgress: undefined });
 
         if (res.succeeded) {
           dispatch({ type: "SET_SEARCHED_HASHTAGS", payload: res.value });

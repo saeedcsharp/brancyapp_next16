@@ -5,9 +5,10 @@ import { useTranslation } from "react-i18next";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { ILinkInsight } from "saeed/models/market/statistics";
 import MultiChart from "../../../design/chart/Chart_month";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 type State = {
   insightGraph: ILinkInsight;
@@ -56,13 +57,7 @@ const StatisticsLinks = (props: { linkId: number; removeMask: () => void }) => {
     dispatch({ type: "FETCH_START" });
 
     try {
-      const res = await GetServerResult<boolean, ILinkInsight>(
-        MethodType.get,
-        session,
-        "Instagramer/Link/GetLinkInsight",
-        null,
-        [{ key: "linkId", value: props.linkId.toString() }]
-      );
+      const res = await clientFetchApi<boolean, ILinkInsight>("/api/link/GetLinkInsight", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "linkId", value: props.linkId.toString() }], onUploadProgress: undefined });
 
       if (abortControllerRef.current?.signal.aborted) return;
 

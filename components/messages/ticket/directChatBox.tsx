@@ -15,7 +15,7 @@ import formatTimeAgo from "saeed/helper/formatTimeAgo";
 import initialzedTime from "saeed/helper/manageTimer";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
+import { MethodType, UploadFile } from "saeed/helper/apihelper";
 import { ItemType, StatusReplied } from "saeed/models/messages/enum";
 import {
   IItem,
@@ -30,6 +30,7 @@ import { LeftChatWrapper } from "./chatComponents/LeftChatWrapper";
 import { RightChatWrapper } from "./chatComponents/RightChatWrapper";
 import { TicketPendingMessages } from "./chatComponents/shared/messageTypes/TicketPendingMessages";
 import styles from "./ticketChatBox.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 //#endregion
 
 //#region تعریف کامپوننت و Props
@@ -305,9 +306,9 @@ const DirectChatBox = (props: {
   const handleSendRead = async () => {
     if (!props.hub) return;
     try {
-      await GetServerResult<boolean, boolean>(MethodType.get, session, "Instagramer/Ticket/ReadFbTicket", null, [
+      await clientFetchApi<boolean, boolean>("/api/ticket/ReadFbTicket", { methodType: MethodType.get, session: session, data: null, queries: [
         { key: "ticketId", value: props.chatBox.ticketId.toString() },
-      ]);
+      ], onUploadProgress: undefined });
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
     }

@@ -17,7 +17,7 @@ import initialzedTime, { convertToMilliseconds } from "saeed/helper/manageTimer"
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { IAITools, ICreatePrompt, IPrompts, ITotalPrompt } from "saeed/models/AI/prompt";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IMasterFlow, ITotalMasterFlow } from "saeed/models/messages/properies";
 import AIPromptBox from "./aiPromptBox";
 import Flow from "./flow";
@@ -27,6 +27,7 @@ import { TutorialModalContent } from "./flowNode/NodeTutorials";
 import { SettingModal } from "./flowNode/settingmodal";
 import AIToolsSettings from "./popup/AIToolsSettings";
 import LiveChat from "./popup/liveChat";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 let firstTime = 0;
 let touchMove = 0;
@@ -230,19 +231,13 @@ const FlowAndAIInbox = () => {
   const fetchData = async (ticketType: ToggleOrder, nextMaxId: string | null, query: string | null) => {
     if (ticketType === ToggleOrder.FirstToggle) {
       try {
-        let flowRes = await GetServerResult<boolean, IMasterFlow>(
-          MethodType.get,
-          session,
-          "Instagramer/Flow/GetMasterFlows",
-          null,
-          [
+        let flowRes = await clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "query", value: query ? query : undefined },
             {
               key: "nextMaxId",
               value: nextMaxId ? nextMaxId : undefined,
             },
-          ],
-        );
+          ], onUploadProgress: undefined });
         console.log("flow boxxxxxxxx", flowRes);
         if (flowRes.succeeded && !query) {
           setMasterFlow((prev) => ({
@@ -273,19 +268,13 @@ const FlowAndAIInbox = () => {
       }
     } else if (ticketType === ToggleOrder.SecondToggle) {
       try {
-        let promptRes = await GetServerResult<boolean, IPrompts>(
-          MethodType.get,
-          session,
-          "Instagramer/AI/GetPrompts",
-          null,
-          [
+        let promptRes = await clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "query", value: query ? query : undefined },
             {
               key: "nextMaxId",
               value: nextMaxId ? nextMaxId : undefined,
             },
-          ],
-        );
+          ], onUploadProgress: undefined });
         console.log("promptRes ", promptRes.value);
         if (promptRes.succeeded && !query) {
           setPromptInbox((prev) => ({
@@ -373,9 +362,9 @@ const FlowAndAIInbox = () => {
   async function fetchFirstData() {
     try {
       const [flowRes, promptRes, aiToolRes] = await Promise.all([
-        GetServerResult<boolean, IMasterFlow>(MethodType.get, session, "Instagramer/Flow/GetMasterFlows", null),
-        GetServerResult<boolean, IPrompts>(MethodType.get, session, "Instagramer/AI/GetPrompts"),
-        GetServerResult<boolean, IAITools[]>(MethodType.get, session, "Instagramer/AI/GetTools"),
+        clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", { methodType: MethodType.get, session: session, data: null, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, IAITools[]>("/api/ai/GetTools", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
       ]);
       if (!flowRes.succeeded) notify(flowRes.info.responseType, NotifType.Warning);
       if (flowRes.succeeded) setMasterFlow(flowRes.value);

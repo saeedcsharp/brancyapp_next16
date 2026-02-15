@@ -4,9 +4,10 @@ import { ChangeEvent, useState } from "react";
 import RingLoader from "saeed/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IAddress, ILogistic } from "saeed/models/userPanel/orders";
 import styles from "./postalCode.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
 export default function PostalCode({ handleShowLogestic }: { handleShowLogestic: (logistics: ILogistic[]) => void }) {
@@ -41,11 +42,7 @@ export default function PostalCode({ handleShowLogestic }: { handleShowLogestic:
 
   async function getShopLogistic() {
     try {
-      const res = await GetServerResult<boolean, ILogistic[]>(
-        MethodType.get,
-        session,
-        "Business/Authorize/GetShopLogestics"
-      );
+      const res = await clientFetchApi<boolean, ILogistic[]>("/api/authorize/GetShopLogestics", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         setPostalStatus("ok");
         setShowAddress(false);
@@ -58,13 +55,7 @@ export default function PostalCode({ handleShowLogestic }: { handleShowLogestic:
   async function handleVerifyAddress() {
     setPostalStatus("pending");
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Business/Authorize/SetShopAddress",
-        null,
-        [{ key: "addressId", value: address?.id.toString() }]
-      );
+      const res = await clientFetchApi<boolean, boolean>("/api/authorize/SetShopAddress", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "addressId", value: address?.id.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         getShopLogistic();
       } else {
@@ -77,13 +68,7 @@ export default function PostalCode({ handleShowLogestic }: { handleShowLogestic:
   }
   async function handleCreatePostByPostalCode(code: string) {
     try {
-      const res = await GetServerResult<boolean, IAddress>(
-        MethodType.get,
-        session,
-        "User/Address/CreateAddressByPostalCode",
-        null,
-        [{ key: "postalCode", value: code }]
-      );
+      const res = await clientFetchApi<boolean, IAddress>("/api/address/CreateAddressByPostalCode", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "postalCode", value: code }], onUploadProgress: undefined });
       if (res.succeeded) {
         setPostalStatus("verify");
         setAddress(res.value);

@@ -10,7 +10,7 @@ import { NotifType, notify, ResponseType } from "saeed/components/notifications/
 import { getEnumValue } from "saeed/helper/handleItemTypeEnum";
 import initialzedTime from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import {
   FailLotteryStatus,
   FailLotteryStatusStr,
@@ -18,6 +18,7 @@ import {
   LotteryStatus,
 } from "saeed/models/page/tools/tools";
 import styles from "./lotteryHistory.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const LotteryHistory = (props: {
   removeMask: () => void;
   lotteryId: string | null;
@@ -49,36 +50,18 @@ const LotteryHistory = (props: {
   async function fetchData() {
     try {
       var [doneRes, pendingRes, rejectRes] = await Promise.all([
-        GetServerResult<boolean, IShortLotteriesInfo>(
-          MethodType.get,
-          session,
-          "Instagramer/Lottery/GetShortLotteries",
-          null,
-          [
+        clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "lotteryStatus", value: LotteryStatus.Ended.toString() },
             { key: "nextMaxId", value: "" },
-          ]
-        ),
-        GetServerResult<boolean, IShortLotteriesInfo>(
-          MethodType.get,
-          session,
-          "Instagramer/Lottery/GetShortLotteries",
-          null,
-          [
+          ], onUploadProgress: undefined }),
+        clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "lotteryStatus", value: LotteryStatus.Upcoming.toString() },
             { key: "nextMaxId", value: "" },
-          ]
-        ),
-        GetServerResult<boolean, IShortLotteriesInfo>(
-          MethodType.get,
-          session,
-          "Instagramer/Lottery/GetShortLotteries",
-          null,
-          [
+          ], onUploadProgress: undefined }),
+        clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "lotteryStatus", value: LotteryStatus.Failed.toString() },
             { key: "nextMaxId", value: "" },
-          ]
-        ),
+          ], onUploadProgress: undefined }),
       ]);
       if (doneRes.succeeded) {
         // const id = res.value.items.find((x) => x.id === props.lotteryId);
@@ -152,16 +135,10 @@ const LotteryHistory = (props: {
 
       console.log("Making API call with nextMaxId:", nextMaxId, "lotteryStatus:", lotteryStatus);
 
-      const response = await GetServerResult<boolean, IShortLotteriesInfo>(
-        MethodType.get,
-        session,
-        "Instagramer/Lottery/GetShortLotteries",
-        null,
-        [
+      const response = await clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "lotteryStatus", value: lotteryStatus.toString() },
           { key: "nextMaxId", value: nextMaxId },
-        ]
-      );
+        ], onUploadProgress: undefined });
 
       console.log("API response:", response);
 

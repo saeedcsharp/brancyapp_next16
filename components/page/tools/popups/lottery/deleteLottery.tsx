@@ -9,7 +9,8 @@ import {
   ResponseType,
 } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const DeleteLottery = (props: {
   lotteryId: string;
   handleCancelDelete: () => void;
@@ -24,18 +25,12 @@ const DeleteLottery = (props: {
   });
   async function abortLottery() {
     try {
-      var res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Instagramer/Lottery/RejectLottery",
-        null,
-        [
+      var res = await clientFetchApi<boolean, boolean>("/api/lottery/RejectLottery", { methodType: MethodType.get, session: session, data: null, queries: [
           {
             key: "id",
             value: props.lotteryId.toString(),
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         internalNotify(InternalResponseType.Ok, NotifType.Success, ", Your lottery has aborted successfuly");
         props.handleDeleteLottery();

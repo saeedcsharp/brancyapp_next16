@@ -11,11 +11,12 @@ import { detectEmojiOnly } from "saeed/helper/emojiDetector";
 import formatTimeAgo from "saeed/helper/formatTimeAgo";
 import initialzedTime from "saeed/helper/manageTimer";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IItem, IOwnerInbox, ISendTicketMessage, ITicket } from "saeed/models/userPanel/message";
 import { SystemSendingMessages } from "./chatComponents/shared/messageTypes/SystemSendingMessages";
 import { SystemChatWrapper } from "./chatComponents/SystemChatWrapper";
 import styles from "./ticketChatBox.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 //#endregion
 
 //#region تعریف کامپوننت و Props
@@ -205,13 +206,7 @@ const SystemChatBox = (props: {
     abortControllerRef.current = new AbortController();
 
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Instagramer/Ticket/SeenSystemTicket",
-        null,
-        [{ key: "ticketId", value: props.chatBox.ticketId.toString() }]
-      );
+      const res = await clientFetchApi<boolean, boolean>("/api/ticket/SeenSystemTicket", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "ticketId", value: props.chatBox.ticketId.toString() }], onUploadProgress: undefined });
 
       if (isMountedRef.current && !res.succeeded) {
         notify(res.info.responseType, NotifType.Warning);

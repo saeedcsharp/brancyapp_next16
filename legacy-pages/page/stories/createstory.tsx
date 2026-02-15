@@ -30,7 +30,7 @@ import { LoginStatus, packageStatus, RoleAccess } from "saeed/helper/loadingStat
 import initialzedTime from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
+import { MethodType, UploadFile } from "saeed/helper/apihelper";
 import { AutoReplyPayLoadType, MediaProductType } from "saeed/models/messages/enum";
 import { IAutomaticReply, IMediaUpdateAutoReply, IPublishLimit } from "saeed/models/page/post/posts";
 import { IErrorPrePostInfo, IPostImageInfo, MediaType } from "saeed/models/page/post/preposts";
@@ -42,6 +42,7 @@ import {
   IStoryVideoInfo,
 } from "saeed/models/page/story/preStories";
 import styles from "./createStory.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const CreateStory = () => {
   const router = useRouter();
   const { data: session } = useSession();
@@ -108,12 +109,7 @@ const CreateStory = () => {
   }, [router]);
 
   const GetNextBestTimes = useCallback(async () => {
-    var res = await GetServerResult<boolean, number[]>(
-      MethodType.get,
-      session,
-      "Instagramer/Post/GetBestPublishTime",
-      null,
-    );
+    var res = await clientFetchApi<boolean, number[]>("/api/post/GetBestPublishTime", { methodType: MethodType.get, session: session, data: null, queries: undefined, onUploadProgress: undefined });
     if (res.succeeded) {
       setRecommendedTime(res.value);
     }
@@ -150,19 +146,13 @@ const CreateStory = () => {
             uiParameters: null,
           };
           console.log("dataImage", data);
-          var res = await GetServerResult<IStoryImageInfo, number>(
-            MethodType.post,
-            session,
-            "Instagramer" + `/Story/PublishImage`,
-            data,
-            [
+          var res = await clientFetchApi<IStoryImageInfo, number>("Instagramer" + `/Story/PublishImage`, { methodType: MethodType.post, session: session, data: data, queries: [
               { key: "isDraft", value: isDraft ? "true" : "false" },
               {
                 key: "timeUnix",
                 value: !automaticPost ? "0" : Math.floor(dateAndTime / 1e3).toString(),
               },
-            ],
-          );
+            ], onUploadProgress: undefined });
           if (res.succeeded && res.value > 0) {
             setDraftId(res.value);
           }
@@ -198,19 +188,13 @@ const CreateStory = () => {
           };
 
           console.log("dataVideo", vData);
-          var res = await GetServerResult<IPostImageInfo, number>(
-            MethodType.post,
-            session,
-            "Instagramer" + `/Story/PublishVideo`,
-            vData,
-            [
+          var res = await clientFetchApi<IPostImageInfo, number>("Instagramer" + `/Story/PublishVideo`, { methodType: MethodType.post, session: session, data: vData, queries: [
               { key: "isDraft", value: isDraft ? "true" : "false" },
               {
                 key: "timeUnix",
                 value: !automaticPost ? "0" : Math.floor(dateAndTime / 1e3).toString(),
               },
-            ],
-          );
+            ], onUploadProgress: undefined });
           if (res.succeeded && res.value > 0) {
             setDraftId(res.value);
           }
@@ -224,23 +208,11 @@ const CreateStory = () => {
   const HandleDelete = useCallback(async () => {
     try {
       if (draftId > 0) {
-        var res = await GetServerResult<boolean, boolean>(
-          MethodType.get,
-          session,
-          "Instagramer" + "/Story/deleteDraft",
-          null,
-          [{ key: "id", value: draftId.toString() }],
-        );
+        var res = await clientFetchApi<boolean, boolean>("Instagramer" + "/Story/deleteDraft", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "id", value: draftId.toString() }], onUploadProgress: undefined });
         if (res.succeeded) closeCreateStory();
         else notify(res.info.responseType, NotifType.Warning);
       } else if (preStoryId > 0) {
-        var res = await GetServerResult<boolean, boolean>(
-          MethodType.get,
-          session,
-          "Instagramer" + "/story/deletePreStory",
-          null,
-          [{ key: "preStoryId", value: preStoryId.toString() }],
-        );
+        var res = await clientFetchApi<boolean, boolean>("Instagramer" + "/story/deletePreStory", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "preStoryId", value: preStoryId.toString() }], onUploadProgress: undefined });
         if (res.succeeded) closeCreateStory();
         else notify(res.info.responseType, NotifType.Warning);
       }
@@ -250,13 +222,7 @@ const CreateStory = () => {
   }, [session, draftId, preStoryId, closeCreateStory]);
   const handleDeletePreStory = useCallback(async () => {
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Instagramer" + "" + "/Story/DeletePreStory",
-        null,
-        [{ key: "preStoryId", value: preStoryId.toString() }],
-      );
+      const res = await clientFetchApi<boolean, boolean>("Instagramer" + "" + "/Story/DeletePreStory", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "preStoryId", value: preStoryId.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         closeCreateStory();
       } else notify(res.info.responseType, NotifType.Warning);
@@ -667,13 +633,7 @@ const CreateStory = () => {
     async (draftId: string) => {
       try {
         console.log("draftId", draftId);
-        let res = await GetServerResult<boolean, IStoryDraftInfo>(
-          MethodType.get,
-          session,
-          "Instagramer" + "/Story/GetDraft",
-          null,
-          [{ key: "id", value: draftId }],
-        );
+        let res = await clientFetchApi<boolean, IStoryDraftInfo>("Instagramer" + "/Story/GetDraft", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "id", value: draftId }], onUploadProgress: undefined });
         if (res.succeeded) {
           const draft = res.value;
           setDraftId(Number(draftId));
@@ -766,13 +726,7 @@ const CreateStory = () => {
     async (preStoryId: string) => {
       try {
         console.log("preStoryId", preStoryId);
-        let res = await GetServerResult<boolean, IPreStoryInfo>(
-          MethodType.get,
-          session,
-          "Instagramer/Story/GetPreStory",
-          null,
-          [{ key: "id", value: preStoryId }],
-        );
+        let res = await clientFetchApi<boolean, IPreStoryInfo>("/api/story/GetPreStory", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "id", value: preStoryId }], onUploadProgress: undefined });
         if (res.succeeded) {
           const preStory = res.value;
           setpreStoryId(preStory.preStoryId);
@@ -862,12 +816,7 @@ const CreateStory = () => {
 
   const getPublishLimitContent = useCallback(async () => {
     try {
-      var res = await GetServerResult<boolean, IPublishLimit>(
-        MethodType.get,
-        session,
-        "Instagramer/Post/GetPublishLimitContent",
-        null,
-      );
+      var res = await clientFetchApi<boolean, IPublishLimit>("/api/post/GetPublishLimitContent", { methodType: MethodType.get, session: session, data: null, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         if (res.value.total === res.value.usage) {
           setAutomaticPost(true);

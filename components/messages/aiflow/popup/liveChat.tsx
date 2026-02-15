@@ -30,11 +30,12 @@ import {
   ICreatePrompt,
   ILiveChat,
 } from "saeed/models/AI/prompt";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { ItemType } from "saeed/models/messages/enum";
 
 // Styles
 import styles from "./AI_liveChat.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 type ChatState = {
   messages: ILiveChat[];
@@ -161,13 +162,7 @@ export default function LiveChat({
         username,
       };
 
-      const res = await GetServerResult<ICreateLiveChat, ILiveChat>(
-        MethodType.post,
-        session,
-        "Instagramer/AI/SendTestMessage",
-        createPromptInfo,
-        [{ key: "isStart", value: state.isFirstMessage ? "true" : "false" }]
-      );
+      const res = await clientFetchApi<ICreateLiveChat, ILiveChat>("/api/ai/SendTestMessage", { methodType: MethodType.post, session: session, data: createPromptInfo, queries: [{ key: "isStart", value: state.isFirstMessage ? "true" : "false" }], onUploadProgress: undefined });
       console.log("LiveChat response:", res);
       if (res.succeeded) {
         dispatch({ type: "ADD_MESSAGE", payload: res.value });

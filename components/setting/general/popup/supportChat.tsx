@@ -6,9 +6,10 @@ import { NotifType, notify, ResponseType } from "saeed/components/notifications/
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
 import { ICreateLiveChat, ICreatePrompt, ILiveChat } from "saeed/models/AI/prompt";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { ItemType } from "saeed/models/messages/enum";
 import styles from "./supportChat.module.scss";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 export default function SupportChat({
   promptInfo,
   setShowLiveChatPopup,
@@ -52,13 +53,7 @@ export default function SupportChat({
         username: username,
       };
       console.log("createPromptInfo", createPromptInfo);
-      const res = await GetServerResult<ICreateLiveChat, ILiveChat>(
-        MethodType.post,
-        session,
-        "Instagramer/AI/SendTestMessage",
-        createPromptInfo,
-        [{ key: "isStart", value: "true" }]
-      );
+      const res = await clientFetchApi<ICreateLiveChat, ILiveChat>("/api/ai/SendTestMessage", { methodType: MethodType.post, session: session, data: createPromptInfo, queries: [{ key: "isStart", value: "true" }], onUploadProgress: undefined });
       if (res.succeeded) {
         setMessages((prev) => [...prev, res.value]);
       } else notify(res.info.responseType, NotifType.Warning);
@@ -77,13 +72,7 @@ export default function SupportChat({
         username: username,
       };
       console.log("resume chat", createPromptInfo);
-      const res = await GetServerResult<ICreateLiveChat, ILiveChat>(
-        MethodType.post,
-        session,
-        "Instagramer/AI/SendTestMessage",
-        createPromptInfo,
-        [{ key: "isStart", value: "false" }]
-      );
+      const res = await clientFetchApi<ICreateLiveChat, ILiveChat>("/api/ai/SendTestMessage", { methodType: MethodType.post, session: session, data: createPromptInfo, queries: [{ key: "isStart", value: "false" }], onUploadProgress: undefined });
       if (res.succeeded) setMessages((prev) => [...prev, res.value]);
       else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {

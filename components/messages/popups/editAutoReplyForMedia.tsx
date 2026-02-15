@@ -22,11 +22,12 @@ import {
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
 import { IDetailPrompt, IPrompts, ITotalPrompt } from "saeed/models/AI/prompt";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { AutoReplyPayLoadType, MediaProductType } from "saeed/models/messages/enum";
 import { IMasterFlow, ITotalMasterFlow } from "saeed/models/messages/properies";
 import { IAutomaticReply, IMediaUpdateAutoReply } from "saeed/models/page/post/posts";
 import styles from "./editAutoReply.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 type CheckBoxState = {
   Custom: boolean;
   Flow: boolean;
@@ -440,16 +441,10 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
           payload: true,
         });
         try {
-          const res = await GetServerResult<boolean, IPrompts>(
-            MethodType.get,
-            session,
-            "Instagramer/AI/GetPrompts",
-            null,
-            [
+          const res = await clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", { methodType: MethodType.get, session: session, data: null, queries: [
               { key: "query", value: searchTerm },
               { key: "nextMaxId", value: "" },
-            ]
-          );
+            ], onUploadProgress: undefined });
           if (!isMountedRef.current) return;
           if (res.succeeded) {
             setSearchPrompts(res.value);
@@ -491,13 +486,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
           payload: true,
         });
         try {
-          const res = await GetServerResult<boolean, IMasterFlow>(
-            MethodType.get,
-            session,
-            "Instagramer/Flow/GetMasterFlows",
-            null,
-            [{ key: "query", value: searchTerm }]
-          );
+          const res = await clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "query", value: searchTerm }], onUploadProgress: undefined });
           if (!isMountedRef.current) return;
           if (res.succeeded) {
             setMasterSearchFlows(res.value);
@@ -524,13 +513,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
   const getMasterFlow = useCallback(
     async (masterFlowId: string) => {
       try {
-        const res = await GetServerResult<boolean, ITotalMasterFlow>(
-          MethodType.get,
-          session,
-          "Instagramer/Flow/GetShortMasterFlow",
-          null,
-          [{ key: "id", value: masterFlowId }]
-        );
+        const res = await clientFetchApi<boolean, ITotalMasterFlow>("/api/flow/GetShortMasterFlow", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "id", value: masterFlowId }], onUploadProgress: undefined });
         if (res.succeeded) return res.value;
         notify(res.info.responseType, NotifType.Warning);
       } catch (error) {
@@ -544,13 +527,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
   const getPrompt = useCallback(
     async (promptId: string) => {
       try {
-        const res = await GetServerResult<boolean, ITotalPrompt>(
-          MethodType.get,
-          session,
-          "Instagramer/AI/GetPrompt",
-          null,
-          [{ key: "promptId", value: promptId }]
-        );
+        const res = await clientFetchApi<boolean, ITotalPrompt>("/api/ai/GetPrompt", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "promptId", value: promptId }], onUploadProgress: undefined });
         if (res.succeeded) return res.value;
         notify(res.info.responseType, NotifType.Warning);
       } catch (error) {
@@ -598,15 +575,15 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       }
 
       const [promptRes, flowRes] = await Promise.all([
-        GetServerResult<boolean, IPrompts>(MethodType.get, session, "Instagramer/AI/GetPrompts", null, [
+        clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "query", value: "" },
           { key: "nextMaxId", value: "" },
-        ]),
-        GetServerResult<boolean, IMasterFlow>(MethodType.get, session, "Instagramer/Flow/GetMasterFlows", null, [
+        ], onUploadProgress: undefined }),
+        clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "query", value: "" },
           { key: "privateReply", value: "true" },
           { key: "nextMaxId", value: "" },
-        ]),
+        ], onUploadProgress: undefined }),
       ]);
 
       if (!isMountedRef.current) return;
@@ -630,16 +607,10 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       if (!nextMaxId || searchAIMode || !isMountedRef.current) return;
       setDispatchLoading({ type: "SET_LOADING_MORE_AI_ITEMS", payload: true });
       try {
-        const res = await GetServerResult<boolean, IPrompts>(
-          MethodType.get,
-          session,
-          "Instagramer/AI/GetPrompts",
-          null,
-          [
+        const res = await clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "query", value: "" },
             { key: "nextMaxId", value: nextMaxId },
-          ]
-        );
+          ], onUploadProgress: undefined });
         if (!isMountedRef.current) return;
         if (res.succeeded)
           setPrompts((prev) => ({
@@ -673,13 +644,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       if (!isMountedRef.current) return;
       setDispatchLoading({ type: "SET_LOADING_PROMPT", payload: true });
       try {
-        const res = await GetServerResult<boolean, IDetailPrompt>(
-          MethodType.get,
-          session,
-          `Instagramer/AI/GetPrompt`,
-          null,
-          [{ key: "promptId", value: promptId }]
-        );
+        const res = await clientFetchApi<boolean, IDetailPrompt>(`/api/ai/GetPrompt`, { methodType: MethodType.get, session: session, data: null, queries: [{ key: "promptId", value: promptId }], onUploadProgress: undefined });
         if (!isMountedRef.current) return;
         if (res.succeeded) setSelectedPrompt(res.value);
         else {
@@ -705,17 +670,11 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
         type: "SET_LOADING_MORE_FLOW_ITEMS",
         payload: true,
       });
-      const res = await GetServerResult<boolean, IMasterFlow>(
-        MethodType.get,
-        session,
-        "Instagramer/Flow/GetMasterFlows",
-        null,
-        [
+      const res = await clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "query", value: "" },
           { key: "privateReply", value: "true" },
           { key: "nextMaxId", value: masterFlows.nextMaxId },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (!isMountedRef.current || !res.value) return;
       if (res.succeeded) {
         setMasterFlows((prev) => ({

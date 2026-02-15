@@ -15,11 +15,12 @@ import { handleDecompress } from "saeed/helper/pako";
 import { getHubConnection } from "saeed/helper/pushNotif";
 import { specifyLogistic } from "saeed/helper/specifyLogistic";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { PushNotif, PushResponseType } from "saeed/models/push/pushNotif";
 import { OrderStep } from "saeed/models/store/enum";
 import { IOrderByStatus, IOrderByStatusItem, IOrderDetail, IOrderPushNotifExtended } from "saeed/models/store/orders";
 import styles from "./failed.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const MemoizedCheckBoxButton = React.memo(CheckBoxButton);
 interface SelectionState {
@@ -134,19 +135,13 @@ export default function Failed() {
     if (orders.nextMaxId === null) return;
     setLoadingMore(true);
     try {
-      const res = await GetServerResult<boolean, IOrderByStatus>(
-        MethodType.post,
-        session,
-        "User/Order/GetOrdersByStatuses",
-        [
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", { methodType: MethodType.post, session: session, data: [
           OrderStep.UserCanceled,
           OrderStep.InstagramerCanceled,
           OrderStep.Failed,
           OrderStep.ShippingFailed,
           OrderStep.Expired,
-        ],
-        [{ key: "nextMaxId", value: orders.nextMaxId }]
-      );
+        ], queries: [{ key: "nextMaxId", value: orders.nextMaxId }], onUploadProgress: undefined });
       if (res.succeeded) {
         console.log("GetOrdersByStatus more item res", res.value);
         setOrders((prev) => ({
@@ -162,18 +157,13 @@ export default function Failed() {
   }
   async function fetchData() {
     try {
-      const res = await GetServerResult<boolean, IOrderByStatus>(
-        MethodType.post,
-        session,
-        "User/Order/GetOrdersByStatuses",
-        [
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", { methodType: MethodType.post, session: session, data: [
           OrderStep.UserCanceled,
           OrderStep.InstagramerCanceled,
           OrderStep.Failed,
           OrderStep.ShippingFailed,
           OrderStep.Expired,
-        ]
-      );
+        ], queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         console.log("GetOrdersByStatus res", res.value);
         setOrders(res.value);

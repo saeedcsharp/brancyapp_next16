@@ -4,9 +4,10 @@ import { useTranslation } from "react-i18next";
 import RingLoader from "saeed/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { InputTypeAddress } from "saeed/models/userPanel/orders";
 import styles from "./bankAccountType.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 export default function CardNumber({
   handleShowAddress,
 }: {
@@ -68,11 +69,7 @@ export default function CardNumber({
   };
   async function handleGetAddressInputType() {
     try {
-      const res = await GetServerResult<boolean, InputTypeAddress>(
-        MethodType.get,
-        session,
-        "User/Address/GetAddressInputType"
-      );
+      const res = await clientFetchApi<boolean, InputTypeAddress>("/api/address/GetAddressInputType", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         setUploadStatusCredit("ok");
         handleShowAddress(res.value);
@@ -83,13 +80,7 @@ export default function CardNumber({
   }
   async function authorizeInstagramerByCardNumber(cardNumber: string) {
     try {
-      const res = await GetServerResult<boolean, number>(
-        MethodType.get,
-        session,
-        "Business/Authorize/AuthorizeInstagramerByCardNumber",
-        null,
-        [{ key: "cardNumber", value: cardNumber }]
-      );
+      const res = await clientFetchApi<boolean, number>("/api/authorize/AuthorizeInstagramerByCardNumber", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "cardNumber", value: cardNumber }], onUploadProgress: undefined });
       if (!res.succeeded) {
         setUploadStatusCredit("fail");
         notify(res.info.responseType, NotifType.Warning);

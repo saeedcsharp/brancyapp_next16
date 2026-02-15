@@ -21,7 +21,7 @@ import { packageStatus } from "saeed/helper/loadingStatus";
 import { handleDecompress } from "saeed/helper/pako";
 import { getHubConnection } from "saeed/helper/pushNotif";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { PushNotif, PushResponseType } from "saeed/models/push/pushNotif";
 import { OrderStep, OrderStepStatus, ShippingRequestType } from "saeed/models/store/enum";
 import { IOrderByStatus, IOrderByStatusItem, IOrderDetail, IOrderPushNotifExtended } from "saeed/models/store/orders";
@@ -30,6 +30,7 @@ import "swiper/css/free-mode";
 import { FreeMode } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "./ordernew.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 const Orders = () => {
   //  return <Soon />;
@@ -162,13 +163,7 @@ const Orders = () => {
     if (loadingMoreItem.faileds && orderStep === OrderStepStatus.Failed) return;
     setLoadingMoreItem((prev) => ({ ...prev, faileds: true }));
     try {
-      const res = await GetServerResult<number[], IOrderByStatus>(
-        MethodType.post,
-        session,
-        "Shopper/Order/GetOrdersByStatuses",
-        [OrderStep.UserCanceled, OrderStep.InstagramerCanceled, OrderStep.ShippingFailed, OrderStep.Failed],
-        [{ key: "nextMaxId", value: nextMaxId?.toString() || "" }]
-      );
+      const res = await clientFetchApi<number[], IOrderByStatus>("/api/order/GetOrdersByStatuses", { methodType: MethodType.post, session: session, data: [OrderStep.UserCanceled, OrderStep.InstagramerCanceled, OrderStep.ShippingFailed, OrderStep.Failed], queries: [{ key: "nextMaxId", value: nextMaxId?.toString() || "" }], onUploadProgress: undefined });
       if (res.succeeded) {
         setOrders((prev) => ({
           ...prev,
@@ -213,16 +208,10 @@ const Orders = () => {
         break;
     }
     try {
-      const res = await GetServerResult<boolean, IOrderByStatus>(
-        MethodType.get,
-        session,
-        "Shopper/Order/GetOrdersByStatus",
-        null,
-        [
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatus", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "status", value: orderStep.toString() },
           { key: "nextMaxId", value: nextMaxId.toString() },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         switch (orderStep) {
           case OrderStepStatus.Pending:
@@ -298,27 +287,27 @@ const Orders = () => {
     setFirstLoading(false);
     try {
       const [pending, inprogress, pickingup, sent, delivered, failed] = await Promise.all([
-        GetServerResult<number[], IOrderByStatus>(MethodType.get, session, "Shopper/Order/GetOrdersByStatus", null, [
+        clientFetchApi<number[], IOrderByStatus>("/api/order/GetOrdersByStatus", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "status", value: OrderStep.Paid.toString() },
-        ]),
-        GetServerResult<number[], IOrderByStatus>(MethodType.get, session, "Shopper/Order/GetOrdersByStatus", null, [
+        ], onUploadProgress: undefined }),
+        clientFetchApi<number[], IOrderByStatus>("/api/order/GetOrdersByStatus", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "status", value: OrderStep.InstagramerAccepted.toString() },
-        ]),
-        GetServerResult<boolean, IOrderByStatus>(MethodType.get, session, "Shopper/Order/GetOrdersByStatus", null, [
+        ], onUploadProgress: undefined }),
+        clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatus", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "status", value: OrderStep.ShippingRequest.toString() },
-        ]),
-        GetServerResult<boolean, IOrderByStatus>(MethodType.get, session, "Shopper/Order/GetOrdersByStatus", null, [
+        ], onUploadProgress: undefined }),
+        clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatus", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "status", value: OrderStep.InShipping.toString() },
-        ]),
-        GetServerResult<boolean, IOrderByStatus>(MethodType.get, session, "Shopper/Order/GetOrdersByStatus", null, [
+        ], onUploadProgress: undefined }),
+        clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatus", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "status", value: OrderStep.Delivered.toString() },
-        ]),
-        GetServerResult<boolean, IOrderByStatus>(MethodType.post, session, "Shopper/Order/GetOrdersByStatuses", [
+        ], onUploadProgress: undefined }),
+        clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", { methodType: MethodType.post, session: session, data: [
           OrderStep.UserCanceled,
           OrderStep.InstagramerCanceled,
           OrderStep.ShippingFailed,
           OrderStep.Failed,
-        ]),
+        ], queries: undefined, onUploadProgress: undefined }),
       ]);
       console.log("inprogresssssssss", inprogress);
       console.log("faileddddddd", failed);
@@ -363,9 +352,9 @@ const Orders = () => {
       setOrdersInprocess((prev) => [...prev, ...Array.from(orderIds)]);
       const results = await Promise.all(
         Array.from(orderIds).map((orderId) =>
-          GetServerResult<boolean, boolean>(MethodType.get, session, "Shopper/Order/AcceptOrder", null, [
+          clientFetchApi<boolean, boolean>("/api/order/AcceptOrder", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "orderId", value: orderId },
-          ])
+          ], onUploadProgress: undefined })
         )
       );
 
@@ -417,9 +406,9 @@ const Orders = () => {
       setOrdersInprocess((prev) => [...prev, ...Array.from(orderIds)]);
       const results = await Promise.all(
         Array.from(orderIds).map((orderId) =>
-          GetServerResult<boolean, boolean>(MethodType.get, session, "Shopper/Order/ReadyOrderForShipping", null, [
+          clientFetchApi<boolean, boolean>("/api/order/ReadyOrderForShipping", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "orderId", value: orderId },
-          ])
+          ], onUploadProgress: undefined })
         )
       );
 
@@ -474,13 +463,7 @@ const Orders = () => {
         userId: userId,
         shippingRequestType: undefined,
       });
-      const res = await GetServerResult<boolean, ShippingRequestType>(
-        MethodType.get,
-        session,
-        "Shopper/Order/GetShippingRequestType",
-        null,
-        [{ key: "orderId", value: orderId }]
-      );
+      const res = await clientFetchApi<boolean, ShippingRequestType>("/api/order/GetShippingRequestType", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "orderId", value: orderId }], onUploadProgress: undefined });
       if (res.succeeded) {
         setOrderDetailIdForPickingUp((prev) => ({
           ...prev!,
@@ -699,16 +682,10 @@ const Orders = () => {
   async function handleSendCodeByParcelId(orderId: string, parcelId: string) {
     setOrdersInprocess((prev) => [...prev, orderId]);
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Shopper/Order/SentOrderByParcelId",
-        null,
-        [
+      const res = await clientFetchApi<boolean, boolean>("/api/order/SentOrderByParcelId", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "orderId", value: orderId },
           { key: "parcelId", value: parcelId },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -719,13 +696,7 @@ const Orders = () => {
   async function handleSendOrderByNonRequestType(orderId: string) {
     setOrdersInprocess((prev) => [...prev, orderId]);
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Shopper/Order/SentOrderByNonRequestType",
-        null,
-        [{ key: "orderId", value: orderId }]
-      );
+      const res = await clientFetchApi<boolean, boolean>("/api/order/SentOrderByNonRequestType", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "orderId", value: orderId }], onUploadProgress: undefined });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -736,13 +707,7 @@ const Orders = () => {
   async function handleSendOrderByNonTrackingIdOrderDeliverd(orderId: string) {
     setOrdersInprocess((prev) => [...prev, orderId]);
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Shopper/Order/SetNonTrackingIdOrderDelivered",
-        null,
-        [{ key: "orderId", value: orderId }]
-      );
+      const res = await clientFetchApi<boolean, boolean>("/api/order/SetNonTrackingIdOrderDelivered", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "orderId", value: orderId }], onUploadProgress: undefined });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -753,9 +718,9 @@ const Orders = () => {
   async function handleRejectOrder(orderId: string) {
     setOrdersInprocess((prev) => [...prev, orderId]);
     try {
-      const res = await GetServerResult<boolean, boolean>(MethodType.get, session, "Shopper/Order/RejectOrder", null, [
+      const res = await clientFetchApi<boolean, boolean>("/api/order/RejectOrder", { methodType: MethodType.get, session: session, data: null, queries: [
         { key: "orderId", value: orderId },
-      ]);
+      ], onUploadProgress: undefined });
       if (res.succeeded) {
       } else {
         notify(res.info.responseType, NotifType.Warning);

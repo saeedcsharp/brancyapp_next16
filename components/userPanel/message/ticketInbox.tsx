@@ -20,7 +20,7 @@ import {
 import Loading from "saeed/components/notOk/loading";
 import initialzedTime from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
+import { MethodType, UploadFile } from "saeed/helper/apihelper";
 import { IIsSendingMessage } from "saeed/models/messages/IMessage";
 import {
   IItem,
@@ -32,6 +32,7 @@ import {
 import ReportModal from "./popup/reportModal";
 import UserPanelDirectChatBox from "./ticketChatBox";
 import styles from "./ticketInbox.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 let firstTime = 0;
 let touchMove = 0;
@@ -210,16 +211,10 @@ const UserPanelDirectInbox = () => {
     var myTicket = ticketInbox?.tickets.find((x) => x.ticketId === ticketId);
     if (myTicket) {
       try {
-        let tRes = await GetServerResult<boolean, boolean>(
-          MethodType.get,
-          session,
-          "User/SystemTicket/UpdateSystemTicketPinStatus",
-          null,
-          [
+        let tRes = await clientFetchApi<boolean, boolean>("/api/systemticket/UpdateSystemTicketPinStatus", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "ticketId", value: ticketId.toString() },
             { key: "isPin", value: (!myTicket.isPin).toString() },
-          ],
-        );
+          ], onUploadProgress: undefined });
         if (tRes.succeeded) {
           setTicketInbox((prev) => ({
             ...prev!,
@@ -255,19 +250,13 @@ const UserPanelDirectInbox = () => {
     var mainTicket = ticketInbox?.tickets.find((x) => x.ticketId === ticketId);
     var hideTicket = hideInbox?.tickets.find((x) => x.ticketId === ticketId);
     try {
-      let tRes = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "User/SystemTicket/UpdateSystemTicketHideStatus",
-        null,
-        [
+      let tRes = await clientFetchApi<boolean, boolean>("/api/systemticket/UpdateSystemTicketHideStatus", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "ticketId", value: ticketId.toString() },
           {
             key: "isHide",
             value: mainTicket ? "true" : hideTicket ? "false" : "false",
           },
-        ],
-      );
+        ], onUploadProgress: undefined });
       if (tRes.succeeded && hideTicket) {
         setHideInbox((prev) => ({
           ...prev!,
@@ -332,17 +321,11 @@ const UserPanelDirectInbox = () => {
     query: string | null,
   ) => {
     try {
-      let tRes = await GetServerResult<boolean, IUserPanelMessage>(
-        MethodType.get,
-        session,
-        "User/SystemTicket/GetSystemInbox",
-        null,
-        [
+      let tRes = await clientFetchApi<boolean, IUserPanelMessage>("/api/systemticket/GetSystemInbox", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "isHide", value: isHide.toString() },
           { key: "nextMaxId", value: oldestCursor ? oldestCursor : undefined },
           { key: "query", value: query || "" },
-        ],
-      );
+        ], onUploadProgress: undefined });
       console.log("generalResssssssssssss", tRes);
       if (tRes.succeeded && !query) {
         setTicketInbox((prev) => ({
@@ -378,17 +361,11 @@ const UserPanelDirectInbox = () => {
   };
   async function fetchHides() {
     try {
-      let res = await GetServerResult<boolean, IUserPanelMessage>(
-        MethodType.get,
-        session,
-        "User/SystemTicket/GetSystemInbox",
-        null,
-        [
+      let res = await clientFetchApi<boolean, IUserPanelMessage>("/api/systemticket/GetSystemInbox", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "isHide", value: "true" },
           { key: "query", value: undefined },
           { key: "nextMaxId", value: undefined },
-        ],
-      );
+        ], onUploadProgress: undefined });
       console.log(" ✅ Console ⋙ Hide", res.value);
       if (res.succeeded) setHideInbox(res.value);
       else notify(res.info.responseType, NotifType.Warning);
@@ -399,11 +376,7 @@ const UserPanelDirectInbox = () => {
   const fetchTicket = async () => {
     var uniqueTicket: ITicket[] = [];
     try {
-      let res = await GetServerResult<boolean, IUserPanelMessage>(
-        MethodType.get,
-        session,
-        "User/SystemTicket/GetSystemInbox",
-      );
+      let res = await clientFetchApi<boolean, IUserPanelMessage>("/api/systemticket/GetSystemInbox", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       setTicketInbox(res.value);
       console.log("res.value ", res.value);
       uniqueTicket = res.value.tickets;
@@ -436,19 +409,13 @@ const UserPanelDirectInbox = () => {
     if (onLoading) return;
     onLoading = true;
     try {
-      let newTicket = await GetServerResult<boolean, ITicket>(
-        MethodType.get,
-        session,
-        "User/SystemTicket/GetSystemTicket",
-        null,
-        [
+      let newTicket = await clientFetchApi<boolean, ITicket>("/api/systemticket/GetSystemTicket", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "ticketId", value: ticket.ticketId.toString() },
           {
             key: "nextMaxId",
             value: ticket.nextMaxId!.toString(),
           },
-        ],
-      );
+        ], onUploadProgress: undefined });
       console.log("newThreadFetch", newTicket);
       if (newTicket.succeeded) {
         // updateInboxFromChatBox(
@@ -500,18 +467,12 @@ const UserPanelDirectInbox = () => {
       uploadId = res1.fileName;
     }
     try {
-      const res = await GetServerResult<ISendTicketMessage, IItem>(
-        MethodType.post,
-        session,
-        "User/SystemTicket/AddSystemTicketItem",
-        {
+      const res = await clientFetchApi<ISendTicketMessage, IItem>("/api/systemticket/AddSystemTicketItem", { methodType: MethodType.post, session: session, data: {
           itemType: message.itemType,
           text: message.text,
           imageUrl:
             message.itemType === ITicketMediaType.Image ? uploadId : null,
-        },
-        [{ key: "ticketId", value: message.ticketId.toString() }],
-      );
+        }, queries: [{ key: "ticketId", value: message.ticketId.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         setSendingMessages((prev) =>
           prev.filter((x) => x.ticketId !== message.ticketId),
@@ -566,13 +527,7 @@ const UserPanelDirectInbox = () => {
   async function handleSendRead(ticketId: number) {
     console.log("readdddddddddddddddddddddddddddddddd");
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "User/SystemTicket/SeenSystemTicket",
-        null,
-        [{ key: "ticketId", value: ticketId.toString() }],
-      );
+      const res = await clientFetchApi<boolean, boolean>("/api/systemticket/SeenSystemTicket", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "ticketId", value: ticketId.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         setTicketInbox((prev) => ({
           ...prev!,
@@ -614,12 +569,9 @@ const UserPanelDirectInbox = () => {
         (x) => x.ticketId === ticketId,
       );
       var hideTicket = hideInbox?.tickets.find((x) => x.ticketId === ticketId);
-      const res = await GetServerResult<
-        { title: string; message: string },
-        boolean
-      >(MethodType.post, session, "User/SystemTicket/ReportToAdmin", report, [
+      const res = await clientFetchApi<{ title: string; message: string }, boolean>("/api/systemticket/ReportToAdmin", { methodType: MethodType.post, session: session, data: report, queries: [
         { key: "ticketId", value: ticketId.toString() },
-      ]);
+      ], onUploadProgress: undefined });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
       else if (res.succeeded && mainTicket) {
         setTicketInbox((prev) => ({

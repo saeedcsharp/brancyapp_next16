@@ -3,8 +3,9 @@ import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { NotifType, notify, notPackageNotify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { InstagramerAccountInfo, IRefreshToken } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { PushNotif } from "saeed/models/push/pushNotif";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 type SharedStateContextType = {
   value: PushNotif[];
   setValue: React.Dispatch<React.SetStateAction<PushNotif[]>>;
@@ -24,7 +25,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       isUpdatingRef.current = true;
 
       try {
-        const res = await GetServerResult<boolean, IRefreshToken>(MethodType.get, session, "user/RefreshToken");
+        const res = await clientFetchApi<boolean, IRefreshToken>("/api/user/RefreshToken", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
         if (res.succeeded) {
           const instagramerIds = res.value.role.instagramerIds;
           const instagramerCount = instagramerIds.length;
@@ -65,11 +66,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     isUpdatingRef.current = true;
 
     try {
-      let res = await GetServerResult<boolean, InstagramerAccountInfo>(
-        MethodType.get,
-        session,
-        "Instagramer" + "/Account/GetInfo",
-      );
+      let res = await clientFetchApi<boolean, InstagramerAccountInfo>("Instagramer" + "/Account/GetInfo", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.info.responseType === ResponseType.Forbidden) {
         await signOut({
           redirect: false, // Don't redirect the user after signing out

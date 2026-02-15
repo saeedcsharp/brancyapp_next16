@@ -9,8 +9,9 @@ import {
   ResponseType,
 } from "saeed/components/notifications/notificationBox";
 import { IRefreshToken } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, GetServerResultWIthAccessToken, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import styles from "./metaDirect.module.css";
+import { clientFetchApi, clientFetchApiWithAccessToken } from "saeed/helper/clientFetchApi";
 
 export default function MetaRedirect() {
   const { data: session, update } = useSession();
@@ -25,13 +26,7 @@ export default function MetaRedirect() {
   async function createInstagramerAccount() {
     console.log("createInstagramerAccount");
     try {
-      const response = await GetServerResultWIthAccessToken<boolean, number>(
-        MethodType.get,
-        "Bearer" + " " + query.state,
-        "PreInstagramer/VerifyCode",
-        null,
-        [{ key: "code", value: query.code as string }]
-      );
+      const response = await clientFetchApiWithAccessToken<boolean, number>("/api/preinstagramer/VerifyCode", { methodType: MethodType.get, accessToken: "Bearer" + " " + query.state, data: null, queries: [{ key: "code", value: query.code as string }], onUploadProgress: undefined });
       if (response.succeeded && session != null) {
         try {
           if (
@@ -59,7 +54,7 @@ export default function MetaRedirect() {
           } else {
             {
               try {
-                const res = await GetServerResult<boolean, IRefreshToken>(MethodType.get, session, "user/RefreshToken");
+                const res = await clientFetchApi<boolean, IRefreshToken>("/api/user/RefreshToken", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
                 if (res.succeeded) {
                   await update({
                     ...session,

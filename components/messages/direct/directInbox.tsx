@@ -20,7 +20,7 @@ import { handleDecompress } from "saeed/helper/pako";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
+import { MethodType, UploadFile } from "saeed/helper/apihelper";
 import { CategoryType, ItemType, MediaType } from "saeed/models/messages/enum";
 import {
   IGetDirectInbox,
@@ -38,6 +38,7 @@ import SendVideoFile from "../popups/sendVideoFile";
 import { MediaModal, useMediaModal } from "../shared/utils";
 import DirectChatBox from "./directChatBox";
 import styles from "./directInbox.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 let firstTime = 0;
 let touchMove = 0;
 let touchStart = 0;
@@ -205,16 +206,10 @@ const DirectInbox = () => {
   };
   async function handleGetRepliedItems(thread: IThread, itemId: string, categoryType: CategoryType) {
     try {
-      let res = await GetServerResult<boolean, IItem>(
-        MethodType.get,
-        session,
-        "Instagramer" + "" + "/Message/GetDirectParentItem",
-        null,
-        [
+      let res = await clientFetchApi<boolean, IItem>("Instagramer" + "" + "/Message/GetDirectParentItem", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "recpId", value: thread.recp.igId },
           { key: "itemId", value: itemId },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded && categoryType === CategoryType.General) {
         setGeneralInbox((prev) => ({
           ...prev!,
@@ -328,16 +323,10 @@ const DirectInbox = () => {
     var bTread = businessInbox?.threads.find((x) => x.threadId === threadId);
     if (gThread) {
       try {
-        let gRes = await GetServerResult<boolean, boolean>(
-          MethodType.get,
-          session,
-          "Instagramer" + "/Message/PinThread",
-          null,
-          [
+        let gRes = await clientFetchApi<boolean, boolean>("Instagramer" + "/Message/PinThread", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "recpId", value: recpId },
             { key: "isPin", value: (!gThread.isPin).toString() },
-          ]
-        );
+          ], onUploadProgress: undefined });
         if (gRes.succeeded) {
           setGeneralInbox((prev) => ({
             ...prev!,
@@ -362,16 +351,10 @@ const DirectInbox = () => {
     }
     if (bTread) {
       try {
-        let bRes = await GetServerResult<boolean, boolean>(
-          MethodType.get,
-          session,
-          "Instagramer" + "/Message/PinThread",
-          null,
-          [
+        let bRes = await clientFetchApi<boolean, boolean>("Instagramer" + "/Message/PinThread", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "recpId", value: recpId },
             { key: "isPin", value: (!bTread.isPin).toString() },
-          ]
-        );
+          ], onUploadProgress: undefined });
         if (bRes.succeeded) {
           setBusinessInbox((prev) => ({
             ...prev!,
@@ -402,19 +385,13 @@ const DirectInbox = () => {
     destCategoryType: CategoryType
   ) => {
     try {
-      let res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Instagramer" + "/Message/ChangeCategory",
-        null,
-        [
+      let res = await clientFetchApi<boolean, boolean>("Instagramer" + "/Message/ChangeCategory", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "recpId", value: recpId.toString() },
           {
             key: "categoryId",
             value: destCategoryType.toString(),
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
       // console.log("changeCategory ", categoryType.toString());
       if (res.succeeded) {
         setShowDivIndex(null);
@@ -600,12 +577,7 @@ const DirectInbox = () => {
         searchTerm: query ? query : null,
       };
       try {
-        let generalRes = await GetServerResult<IGetDirectInbox, IInbox>(
-          MethodType.post,
-          session,
-          "Instagramer/Message/GetDirectInbox",
-          generalDirectInbox
-        );
+        let generalRes = await clientFetchApi<IGetDirectInbox, IInbox>("/api/message/GetDirectInbox", { methodType: MethodType.post, session: session, data: generalDirectInbox, queries: undefined, onUploadProgress: undefined });
         console.log("generalResssssssssssss", generalRes);
         if (generalRes.succeeded && !query) {
           setGeneralInbox((prev) => {
@@ -647,12 +619,7 @@ const DirectInbox = () => {
         searchTerm: "",
       };
       try {
-        let businessRes = await GetServerResult<IGetDirectInbox, IInbox>(
-          MethodType.post,
-          session,
-          "Instagramer/Message/GetDirectInbox",
-          businessDirectInbox
-        );
+        let businessRes = await clientFetchApi<IGetDirectInbox, IInbox>("/api/message/GetDirectInbox", { methodType: MethodType.post, session: session, data: businessDirectInbox, queries: undefined, onUploadProgress: undefined });
         console.log("businessRes ", businessRes.value);
         if (businessRes.succeeded && !query) {
           setBusinessInbox((prev) => {
@@ -694,12 +661,7 @@ const DirectInbox = () => {
         searchTerm: "",
       };
       try {
-        let res = await GetServerResult<IGetDirectInbox, IInbox>(
-          MethodType.post,
-          session,
-          "Instagramer" + "/Message/GetDirectInbox",
-          businessDirectInbox
-        );
+        let res = await clientFetchApi<IGetDirectInbox, IInbox>("Instagramer" + "/Message/GetDirectInbox", { methodType: MethodType.post, session: session, data: businessDirectInbox, queries: undefined, onUploadProgress: undefined });
         console.log("hideressss ", res.value);
         if (res.succeeded && !query) {
           setHideInbox((prev) => {
@@ -742,12 +704,7 @@ const DirectInbox = () => {
       searchTerm: "",
     };
     try {
-      let businessRes = await GetServerResult<IGetDirectInbox, IInbox>(
-        MethodType.post,
-        session,
-        "Instagramer/Message/GetDirectInbox",
-        businessDirectInbox
-      );
+      let businessRes = await clientFetchApi<IGetDirectInbox, IInbox>("/api/message/GetDirectInbox", { methodType: MethodType.post, session: session, data: businessDirectInbox, queries: undefined, onUploadProgress: undefined });
       if (businessRes.succeeded) setBusinessInbox(businessRes.value);
       else notify(businessRes.info.responseType, NotifType.Warning);
     } catch (error) {
@@ -761,12 +718,7 @@ const DirectInbox = () => {
       searchTerm: "",
     };
     try {
-      let res = await GetServerResult<IGetDirectInbox, IInbox>(
-        MethodType.post,
-        session,
-        "Instagramer/Message/GetDirectInbox",
-        businessDirectInbox
-      );
+      let res = await clientFetchApi<IGetDirectInbox, IInbox>("/api/message/GetDirectInbox", { methodType: MethodType.post, session: session, data: businessDirectInbox, queries: undefined, onUploadProgress: undefined });
       console.log(" ✅ Console ⋙ Hide", res.value);
       if (res.succeeded) setHideInbox(res.value);
       else notify(res.info.responseType, NotifType.Warning);
@@ -782,12 +734,7 @@ const DirectInbox = () => {
     };
     var uniqueGeneralThreads: IThread[] = [];
     try {
-      let generalRes = await GetServerResult<IGetDirectInbox, IInbox>(
-        MethodType.post,
-        session,
-        "Instagramer/Message/GetDirectInbox",
-        generalDirectInbox
-      );
+      let generalRes = await clientFetchApi<IGetDirectInbox, IInbox>("/api/message/GetDirectInbox", { methodType: MethodType.post, session: session, data: generalDirectInbox, queries: undefined, onUploadProgress: undefined });
       setGeneralInbox(generalRes.value);
       console.log("generalRes.value ", generalRes.value);
       uniqueGeneralThreads = generalRes.value.threads;
@@ -811,19 +758,13 @@ const DirectInbox = () => {
     if (onLoading) return;
     onLoading = true;
     try {
-      let newThread = await GetServerResult<IGetDirectInboxItems, IThread>(
-        MethodType.get,
-        session,
-        "Instagramer/Message/GetThread",
-        null,
-        [
+      let newThread = await clientFetchApi<IGetDirectInboxItems, IThread>("/api/message/GetThread", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "recpId", value: chatBox.recp.igId },
           {
             key: "nextMaxId",
             value: !chatBox.onCurrentSnapShot ? undefined : chatBox.nextMaxId!.toString(),
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
       console.log("newThreadFetch", newThread);
       if (newThread.succeeded) {
         var gthread = generalInbox?.threads.find((x) => x.threadId === chatBox.threadId);
@@ -1162,16 +1103,10 @@ const DirectInbox = () => {
     let respItem: IItem | null = null;
     if (item.DirectItem.RepliedToItemId) {
       try {
-        let res = await GetServerResult<boolean, IItem>(
-          MethodType.get,
-          session,
-          "Instagramer/Message/GetDirectParentItem",
-          null,
-          [
+        let res = await clientFetchApi<boolean, IItem>("/api/message/GetDirectParentItem", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "recpId", value: item.RecpId },
             { key: "itemId", value: item.DirectItem.RepliedToItemId },
-          ]
-        );
+          ], onUploadProgress: undefined });
         if (res.succeeded) respItem = res.value;
         else if (res.info.responseType === ResponseType.InvalidItemId) item.DirectItem.RepliedToItemId = null;
       } catch (error) {}
@@ -1325,16 +1260,10 @@ const DirectInbox = () => {
     } else {
       try {
         console.log("igiddddddddddddddd", item.RecpId);
-        let newThread = await GetServerResult<IGetDirectInboxItems, IThread>(
-          MethodType.get,
-          session,
-          "Instagramer" + "/Message/GetThread",
-          null,
-          [
+        let newThread = await clientFetchApi<IGetDirectInboxItems, IThread>("Instagramer" + "/Message/GetThread", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "recpId", value: item.RecpId },
             { key: "nextMaxId", value: "null" },
-          ]
-        );
+          ], onUploadProgress: undefined });
         console.log("newThreadFetch", newThread);
         if (newThread.succeeded) {
           for (
@@ -1345,16 +1274,10 @@ const DirectInbox = () => {
             i++
           ) {
             await delay(1000);
-            newThread = await GetServerResult<IGetDirectInboxItems, IThread>(
-              MethodType.get,
-              session,
-              "Instagramer" + "/Message/GetThread",
-              null,
-              [
+            newThread = await clientFetchApi<IGetDirectInboxItems, IThread>("Instagramer" + "/Message/GetThread", { methodType: MethodType.get, session: session, data: null, queries: [
                 { key: "recpId", value: item.RecpId },
                 { key: "nextMaxId", value: "null" },
-              ]
-            );
+              ], onUploadProgress: undefined });
           }
           console.log("threadId", newThread.value.threadId);
           console.log("tempThreadIds", tempThreadIds);

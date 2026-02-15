@@ -24,7 +24,7 @@ import { handleDecompress } from "saeed/helper/pako";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
+import { MethodType, UploadFile } from "saeed/helper/apihelper";
 import { ItemType, MediaType, StatusReplied, TicketType } from "saeed/models/messages/enum";
 import {
   IFbTicketInfo,
@@ -49,6 +49,7 @@ import { MediaModal, useMediaModal } from "../shared/utils";
 import DirectChatBox from "./directChatBox";
 import SystemChatBox from "./systemChatBox";
 import styles from "./ticketInbox.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 let firstTime = 0;
 let touchMove = 0;
 let touchStart = 0;
@@ -268,16 +269,10 @@ const TicketInbox = () => {
     var sTicket = systemInbox?.tickets.find((x) => x.ticketId === ticketId);
     if (gThread) {
       try {
-        let gRes = await GetServerResult<boolean, boolean>(
-          MethodType.get,
-          session,
-          "Instagramer" + "/Message/PinThread",
-          null,
-          [
+        let gRes = await clientFetchApi<boolean, boolean>("Instagramer" + "/Message/PinThread", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "recpId", value: recpId },
             { key: "isPin", value: (!gThread.isPin).toString() },
-          ]
-        );
+          ], onUploadProgress: undefined });
         if (gRes.succeeded) {
           setFbInbox((prev) => ({
             ...prev!,
@@ -302,16 +297,10 @@ const TicketInbox = () => {
     }
     if (sTicket) {
       try {
-        let bRes = await GetServerResult<boolean, boolean>(
-          MethodType.get,
-          session,
-          "Instagramer/Ticket/UpdateSystemTicketPinStatus",
-          null,
-          [
+        let bRes = await clientFetchApi<boolean, boolean>("/api/ticket/UpdateSystemTicketPinStatus", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "ticketId", value: ticketId?.toString() },
             { key: "isPin", value: (!sTicket.isPin).toString() },
-          ]
-        );
+          ], onUploadProgress: undefined });
         if (bRes.succeeded) {
           setSystemInbox((prev) => ({
             ...prev!,
@@ -490,12 +479,7 @@ const TicketInbox = () => {
         isHidden: false,
       };
       try {
-        let fbRes = await GetServerResult<IFbTicketInfo, ITicketInbox>(
-          MethodType.post,
-          session,
-          "Instagramer" + "/Ticket/GetFbInbox",
-          generalDirectInbox
-        );
+        let fbRes = await clientFetchApi<IFbTicketInfo, ITicketInbox>("Instagramer" + "/Ticket/GetFbInbox", { methodType: MethodType.post, session: session, data: generalDirectInbox, queries: undefined, onUploadProgress: undefined });
         console.log("not hides Fb inboxxxxxxxxxxxxxxxxxxx", fbRes);
         if (fbRes.succeeded && !query) {
           setFbInbox((prev) => ({
@@ -526,20 +510,14 @@ const TicketInbox = () => {
       }
     } else if (ticketType === TicketType.InSys && !activeHideInbox) {
       try {
-        let sTicket = await GetServerResult<boolean, IUserPanelMessage>(
-          MethodType.get,
-          session,
-          "Instagramer/Ticket/GetSystemInbox",
-          null,
-          [
+        let sTicket = await clientFetchApi<boolean, IUserPanelMessage>("/api/ticket/GetSystemInbox", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "query", value: query ? query : undefined },
             {
               key: "nextMaxId",
               value: oldestCursor ? oldestCursor : undefined,
             },
             { key: "isHide", value: "false" },
-          ]
-        );
+          ], onUploadProgress: undefined });
         console.log("businessRes ", sTicket.value);
         if (sTicket.succeeded && !query) {
           setSystemInbox((prev) => ({
@@ -575,12 +553,7 @@ const TicketInbox = () => {
         isHidden: true,
       };
       try {
-        let hideFb = await GetServerResult<IFbTicketInfo, ITicketInbox>(
-          MethodType.post,
-          session,
-          "Instagramer" + "/Ticket/GetFbInbox",
-          generalDirectInbox
-        );
+        let hideFb = await clientFetchApi<IFbTicketInfo, ITicketInbox>("Instagramer" + "/Ticket/GetFbInbox", { methodType: MethodType.post, session: session, data: generalDirectInbox, queries: undefined, onUploadProgress: undefined });
         console.log("Hide Fb inboxxxxxxxxxxxxxxxxxxx ", hideFb.value);
         if (hideFb.succeeded && !query) {
           setHideInbox((prev) => ({
@@ -611,20 +584,14 @@ const TicketInbox = () => {
       }
     } else if (ticketType === TicketType.InSys && activeHideInbox) {
       try {
-        let hideSys = await GetServerResult<boolean, IUserPanelMessage>(
-          MethodType.get,
-          session,
-          "Instagramer/Ticket/GetSystemInbox",
-          null,
-          [
+        let hideSys = await clientFetchApi<boolean, IUserPanelMessage>("/api/ticket/GetSystemInbox", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "query", value: query ? query : undefined },
             {
               key: "nextMaxId",
               value: oldestCursor ? oldestCursor : undefined,
             },
             { key: "isHide", value: "true" },
-          ]
-        );
+          ], onUploadProgress: undefined });
         console.log("Hide Fb inboxxxxxxxxxxxxxxxxxxx ", hideSys.value);
         if (hideSys.succeeded && !query) {
           setHideSystemInbox((prev) => ({
@@ -657,13 +624,7 @@ const TicketInbox = () => {
   };
   async function fetchSystemTicket() {
     try {
-      let inSysRes = await GetServerResult<boolean, IUserPanelMessage>(
-        MethodType.get,
-        session,
-        "Instagramer/Ticket/GetSystemInbox",
-        null,
-        [{ key: "isHide", value: "false" }]
-      );
+      let inSysRes = await clientFetchApi<boolean, IUserPanelMessage>("/api/ticket/GetSystemInbox", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "isHide", value: "false" }], onUploadProgress: undefined });
       console.log("GetSystemInboxxxxxxxxxxxxxxx", inSysRes.value);
       if (inSysRes.succeeded) {
         setSystemInbox(inSysRes.value);
@@ -686,13 +647,7 @@ const TicketInbox = () => {
   }
   async function fetchHideSystemTicket() {
     try {
-      let inSysRes = await GetServerResult<boolean, IUserPanelMessage>(
-        MethodType.get,
-        session,
-        "Instagramer/Ticket/GetSystemInbox",
-        null,
-        [{ key: "isHide", value: "true" }]
-      );
+      let inSysRes = await clientFetchApi<boolean, IUserPanelMessage>("/api/ticket/GetSystemInbox", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "isHide", value: "true" }], onUploadProgress: undefined });
       console.log("GetSystemInboxxxxxxxxxxxxxxxHideeeeeeeeee", inSysRes.value);
       if (inSysRes.succeeded) {
         setHideSystemInbox(inSysRes.value);
@@ -708,12 +663,7 @@ const TicketInbox = () => {
       isHidden: false,
     };
     try {
-      let fbRes = await GetServerResult<IFbTicketInfo, ITicketInbox>(
-        MethodType.post,
-        session,
-        "Instagramer/Ticket/GetFbInbox",
-        fbTicket
-      );
+      let fbRes = await clientFetchApi<IFbTicketInfo, ITicketInbox>("/api/ticket/GetFbInbox", { methodType: MethodType.post, session: session, data: fbTicket, queries: undefined, onUploadProgress: undefined });
       if (fbRes.succeeded) {
         setFbInbox(fbRes.value);
         if (router.isReady && query.ticketId !== undefined) {
@@ -742,12 +692,7 @@ const TicketInbox = () => {
       searchTerm: null,
     };
     try {
-      let res = await GetServerResult<IFbTicketInfo, ITicketInbox>(
-        MethodType.post,
-        session,
-        "Instagramer" + "/Ticket/GetFbInbox",
-        businessDirectInbox
-      );
+      let res = await clientFetchApi<IFbTicketInfo, ITicketInbox>("Instagramer" + "/Ticket/GetFbInbox", { methodType: MethodType.post, session: session, data: businessDirectInbox, queries: undefined, onUploadProgress: undefined });
       console.log(" ✅ Console ⋙ Hide", res.value);
       if (res.succeeded) setHideInbox(res.value);
       else notify(res.info.responseType, NotifType.Warning);
@@ -760,19 +705,13 @@ const TicketInbox = () => {
     if (onLoading) return;
     onLoading = true;
     try {
-      let res = await GetServerResult<boolean, IThread_Ticket>(
-        MethodType.get,
-        session,
-        "Instagramer" + "/Ticket/GetFbTicket",
-        null,
-        [
+      let res = await clientFetchApi<boolean, IThread_Ticket>("Instagramer" + "/Ticket/GetFbTicket", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "ticketId", value: chatBox.ticketId.toString() },
           {
             key: "nextMaxId",
             value: !chatBox.onCurrentSnapShot ? undefined : chatBox.nextMaxId!.toString(),
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         setFbInbox((prev) => ({
           ...prev!,
@@ -805,20 +744,14 @@ const TicketInbox = () => {
       uploadId = res.fileName;
     }
     try {
-      const res = await GetServerResult<ISendTicketMessage, userItem>(
-        MethodType.post,
-        session,
-        "Instagramer/Ticket/AddSystemTicketItem",
-        {
+      const res = await clientFetchApi<ISendTicketMessage, userItem>("/api/ticket/AddSystemTicketItem", { methodType: MethodType.post, session: session, data: {
           itemType: message.itemType,
           text: message.text,
           imageUrl: message.itemType === ITicketMediaType.Image ? uploadId : null,
-        },
-        [
+        }, queries: [
           { key: "ticketId", value: message.ticketId.toString() },
           { key: "clientContext", value: message.clientContext },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         setSendingMessages((prev) => prev.filter((x) => x.clientContext !== message.clientContext));
         setSystemInbox((prev) => ({
@@ -834,19 +767,13 @@ const TicketInbox = () => {
   }
   async function handleGetSystemItemDataFromGraph(ticketId: number) {
     try {
-      let res = await GetServerResult<boolean, ITicket>(
-        MethodType.get,
-        session,
-        "Instagramer/Ticket/GetSystemTicket",
-        null,
-        [
+      let res = await clientFetchApi<boolean, ITicket>("/api/ticket/GetSystemTicket", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "ticketId", value: ticketId.toString() },
           {
             key: "nextMaxId",
             value: undefined,
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         setSystemInbox((prev) => {
           const existingTicket = prev!.tickets.find((t) => t.ticketId === res.value.ticketId);
@@ -874,19 +801,13 @@ const TicketInbox = () => {
     if (onLoading) return;
     onLoading = true;
     try {
-      let res = await GetServerResult<boolean, ITicket>(
-        MethodType.get,
-        session,
-        "Instagramer/Ticket/GetSystemTicket",
-        null,
-        [
+      let res = await clientFetchApi<boolean, ITicket>("/api/ticket/GetSystemTicket", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "ticketId", value: ticketId.toString() },
           {
             key: "nextMaxId",
             value: nextMaxId === null ? undefined : nextMaxId,
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         setSystemInbox((prev) => ({
           ...prev!,
@@ -939,13 +860,7 @@ const TicketInbox = () => {
     }
     setReplyLoading(true);
     try {
-      let res = await GetServerResult<IReplyTicket_Media_Server[], IThread_Ticket>(
-        MethodType.post,
-        session,
-        "Instagramer/Ticket/UpdateFbTicketItems",
-        replyObj,
-        [{ key: "ticketId", value: ticketId.toString() }]
-      );
+      let res = await clientFetchApi<IReplyTicket_Media_Server[], IThread_Ticket>("/api/ticket/UpdateFbTicketItems", { methodType: MethodType.post, session: session, data: replyObj, queries: [{ key: "ticketId", value: ticketId.toString() }], onUploadProgress: undefined });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -956,13 +871,7 @@ const TicketInbox = () => {
   async function handleCloseTicket(ticketId: number) {
     try {
       if (ticketId === userSelectedId) setUserSelectedId(null);
-      let res = await GetServerResult<IGetDirectInbox, ITicketInbox>(
-        MethodType.get,
-        session,
-        "Instagramer/Ticket/CloseFbTicket",
-        null,
-        [{ key: "ticketId", value: ticketId.toString() }]
-      );
+      let res = await clientFetchApi<IGetDirectInbox, ITicketInbox>("/api/ticket/CloseFbTicket", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "ticketId", value: ticketId.toString() }], onUploadProgress: undefined });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -974,16 +883,10 @@ const TicketInbox = () => {
     setSearchbox("");
     try {
       if (ticketId === userSelectedId) setUserSelectedId(null);
-      let res = await GetServerResult<IGetDirectInbox, ITicketInbox>(
-        MethodType.get,
-        session,
-        "Instagramer" + "/Ticket/UpdateFbTicketHiddenStatus",
-        null,
-        [
+      let res = await clientFetchApi<IGetDirectInbox, ITicketInbox>("Instagramer" + "/Ticket/UpdateFbTicketHiddenStatus", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "ticketId", value: ticketId.toString() },
           { key: "isHidden", value: (!hidden).toString() },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded && !hidden) {
         const thread = fbInbox?.threads.find((x) => x.ticketId === ticketId);
         if (!thread) return;
@@ -1233,13 +1136,7 @@ const TicketInbox = () => {
     console.log("ticketId", ticketId);
     console.log("itemIds", itemIds);
     try {
-      let res = await GetServerResult<string[], IThread_Ticket>(
-        MethodType.post,
-        session,
-        "Instagramer/Ticket/GetFbTicketItems",
-        itemIds,
-        [{ key: "ticketId", value: ticketId.toString() }]
-      );
+      let res = await clientFetchApi<string[], IThread_Ticket>("/api/ticket/GetFbTicketItems", { methodType: MethodType.post, session: session, data: itemIds, queries: [{ key: "ticketId", value: ticketId.toString() }], onUploadProgress: undefined });
       console.log("ressssssss", res.value);
       if (res.succeeded) {
         const hideTicket = refHideInbox.current!.threads.find((x) => x.ticketId === ticketId);
@@ -1346,16 +1243,10 @@ const TicketInbox = () => {
   async function handleGetTicket(ticketId: string) {
     console.log("handleGetTicket", ticketId);
     try {
-      let res = await GetServerResult<boolean, IThread_Ticket>(
-        MethodType.get,
-        session,
-        "Instagramer" + "/Ticket/GetFbTicket",
-        null,
-        [
+      let res = await clientFetchApi<boolean, IThread_Ticket>("Instagramer" + "/Ticket/GetFbTicket", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "ticketId", value: ticketId },
           { key: "nextMaxId", value: undefined },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         setFbInbox((prev) => {
           const existingThread = prev!.threads.find((t) => t.threadId === res.value.threadId);
@@ -1409,19 +1300,13 @@ const TicketInbox = () => {
     const hideTicket = systemInbox?.tickets.find((x) => x.ticketId === ticketId);
     const unHideTicket = hideSystemInbox?.tickets.find((x) => x.ticketId === ticketId);
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Instagramer/Ticket/UpdateSystemTicketHideStatus",
-        null,
-        [
+      const res = await clientFetchApi<boolean, boolean>("/api/ticket/UpdateSystemTicketHideStatus", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "ticketId", value: ticketId.toString() },
           {
             key: "isHide",
             value: hideTicket ? "true" : "false",
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded && hideTicket) {
         setSystemInbox((prev) => ({
           ...prev!,

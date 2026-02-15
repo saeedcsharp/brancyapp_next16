@@ -11,11 +11,12 @@ import NotAllowed from "saeed/components/notOk/notAllowed";
 import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { calculateSummary } from "saeed/helper/numberFormater";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { IStory, IStoryContent } from "saeed/models/page/story/stories";
 import ScheduledStory from "../scheduledStory/scheduledStory";
 import styles from "./storyContent.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
@@ -121,18 +122,12 @@ const StoryContent = (props: {
     hasMore,
     fetchMore: async () => {
       if (nextTime <= 0) return [];
-      const res = await GetServerResult<boolean, IStoryContent[]>(
-        MethodType.get,
-        session,
-        "Instagramer/Story/GetNextStories",
-        undefined,
-        [
+      const res = await clientFetchApi<boolean, IStoryContent[]>("/api/story/GetNextStories", { methodType: MethodType.get, session: session, data: undefined, queries: [
           {
             key: "lastStoryCreatedTime",
             value: nextTime.toString(),
           },
-        ],
-      );
+        ], onUploadProgress: undefined });
 
       if (!res.succeeded || !res.value || !Array.isArray(res.value)) {
         return [];

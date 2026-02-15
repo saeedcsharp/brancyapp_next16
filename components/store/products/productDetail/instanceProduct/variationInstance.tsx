@@ -14,7 +14,7 @@ import {
 import Loading from "saeed/components/notOk/loading";
 import priceFormatter from "saeed/helper/priceFormater";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { Language } from "saeed/models/store/enum";
 import {
   IDisCount,
@@ -28,6 +28,7 @@ import {
 } from "saeed/models/store/IProduct";
 import Discount from "../notInstanceProduct/popups/discount";
 import styles from "./Variation.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 export interface IAddNewVariation {
   val1: INewVariation | null;
@@ -189,16 +190,10 @@ function IntanceVariation({
   };
   async function fetchData() {
     try {
-      const res = await GetServerResult<boolean, IProduct_Variation>(
-        MethodType.get,
-        session,
-        "shopper" + "" + "/Product/GetVariations",
-        null,
-        [
+      const res = await clientFetchApi<boolean, IProduct_Variation>("shopper" + "" + "/Product/GetVariations", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "categoryId", value: productInstance.categoryId.toString() },
           { key: "language", value: "1" },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         console.log("ssssssssssssssssssssssssssss", res.value);
         setVariation(res.value);

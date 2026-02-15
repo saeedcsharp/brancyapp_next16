@@ -15,7 +15,7 @@ import {
 import Loading from "saeed/components/notOk/loading";
 import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { InsightPeriod } from "saeed/models/market/enums";
 import {
   ILinkInsight,
@@ -24,6 +24,7 @@ import {
   IVideoInsight,
 } from "saeed/models/market/statistics";
 import styles from "./statistics.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const Statistics = () => {
   //  return <Soon />;
   const { t } = useTranslation();
@@ -130,28 +131,10 @@ const Statistics = () => {
     try {
       const [tiRes, tiFiguresRes, allLinkRes, lastVideoRes] = await Promise.all(
         [
-          GetServerResult<boolean, ITotalInsight>(
-            MethodType.get,
-            session,
-            "Instagramer/Bio/GetTotalInsight",
-            null,
-            [{ key: "period", value: InsightPeriod.Daily.toString() }],
-          ),
-          GetServerResult<boolean, ITotalInsightFigures>(
-            MethodType.get,
-            session,
-            "Instagramer/Bio/GetTotalInsightFigures",
-          ),
-          GetServerResult<boolean, ILinkInsight[]>(
-            MethodType.get,
-            session,
-            "Instagramer/Link/GetAllLinkInsight",
-          ),
-          GetServerResult<boolean, IVideoInsight>(
-            MethodType.get,
-            session,
-            "Instagramer/Bio/GetVideoInsight",
-          ),
+          clientFetchApi<boolean, ITotalInsight>("/api/bio/GetTotalInsight", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "period", value: InsightPeriod.Daily.toString() }], onUploadProgress: undefined }),
+          clientFetchApi<boolean, ITotalInsightFigures>("/api/bio/GetTotalInsightFigures", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+          clientFetchApi<boolean, ILinkInsight[]>("/api/link/GetAllLinkInsight", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+          clientFetchApi<boolean, IVideoInsight>("/api/bio/GetVideoInsight", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
         ],
       );
       if (tiRes.succeeded) setTotalInsight(tiRes.value);

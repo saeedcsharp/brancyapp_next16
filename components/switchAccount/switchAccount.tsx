@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { InstagramerAccountInfo } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { IIpCondition } from "saeed/models/userPanel/login";
 import { IPartner_User } from "saeed/models/userPanel/setting";
@@ -17,6 +17,7 @@ import {
   ResponseType,
 } from "../notifications/notificationBox";
 import styles from "./switchAccount.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 function SwitchAccount(props: { removeMask: () => void }) {
   const { t } = useTranslation();
@@ -39,11 +40,7 @@ function SwitchAccount(props: { removeMask: () => void }) {
   }
   async function getInstagramers() {
     try {
-      const res = await GetServerResult<boolean, InstagramerAccountInfo[]>(
-        MethodType.get,
-        session,
-        "user/GetMyInstagramers"
-      );
+      const res = await clientFetchApi<boolean, InstagramerAccountInfo[]>("/api/user/GetMyInstagramers", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         await getPartners(res.value);
         if (res.value.length > 0) setInstagramers(res.value);
@@ -62,7 +59,7 @@ function SwitchAccount(props: { removeMask: () => void }) {
   async function getPartners(instagramers: InstagramerAccountInfo[]) {
     try {
       setPartnersLoading(true);
-      const res = await GetServerResult<boolean, IPartner_User[]>(MethodType.get, session, "user/Session/GetPartners");
+      const res = await clientFetchApi<boolean, IPartner_User[]>("/api/session/GetPartners", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         const newIns = res.value.filter((x) => !instagramers.map((i) => i.username).includes(x.username));
         console.log("instagramersss", newIns);
@@ -77,13 +74,7 @@ function SwitchAccount(props: { removeMask: () => void }) {
 
   async function handleApprovePartner(id: number) {
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "user/Session/ApprovePartnerRequest",
-        null,
-        [{ key: "instagramerId", value: id.toString() }]
-      );
+      const res = await clientFetchApi<boolean, boolean>("/api/session/ApprovePartnerRequest", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "instagramerId", value: id.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         await getInstagramers();
         notify(ResponseType.Ok, NotifType.Success);
@@ -97,13 +88,7 @@ function SwitchAccount(props: { removeMask: () => void }) {
 
   async function handleRejectPartner(id: number) {
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "user/Session/RejectPartnerRequest",
-        null,
-        [{ key: "instagramerId", value: id.toString() }]
-      );
+      const res = await clientFetchApi<boolean, boolean>("/api/session/RejectPartnerRequest", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "instagramerId", value: id.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         setPartners((x) => x.filter((p) => p.instagramerId !== id));
         notify(ResponseType.Ok, NotifType.Success);
@@ -146,7 +131,7 @@ function SwitchAccount(props: { removeMask: () => void }) {
 
   async function handleRedirectToInstagram() {
     try {
-      const response = await GetServerResult<boolean, IIpCondition>(MethodType.get, session, "user/ip");
+      const response = await clientFetchApi<boolean, IIpCondition>("/api/user/ip", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (response.succeeded) {
         if (!response.value.isInstagramAuthorize) internalNotify(InternalResponseType.TurnOnProxy, NotifType.Warning);
         else {
@@ -162,11 +147,7 @@ function SwitchAccount(props: { removeMask: () => void }) {
 
   async function redirectToInstagram() {
     try {
-      const response = await GetServerResult<boolean, string>(
-        MethodType.get,
-        session,
-        "PreInstagramer/GetInstagramRedirect"
-      );
+      const response = await clientFetchApi<boolean, string>("/api/preinstagramer/GetInstagramRedirect", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (response.succeeded) {
         router.push(response.value);
       } else {

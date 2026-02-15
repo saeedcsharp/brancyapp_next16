@@ -11,9 +11,10 @@ import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
 import { handleDecompress } from "saeed/helper/pako";
 import { getHubConnection } from "saeed/helper/pushNotif";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IPost, IPostContent, IShortDraft } from "saeed/models/page/post/posts";
 import { PushNotif, PushResponseType } from "saeed/models/push/pushNotif";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 const Posts = () => {
   const router = useRouter();
@@ -43,13 +44,7 @@ const Posts = () => {
 
     isFetchingRef.current = true;
     try {
-      const res = await GetServerResult<string, IPost>(
-        MethodType.get,
-        session,
-        "Instagramer/Post/GetPosts",
-        undefined,
-        [],
-      );
+      const res = await clientFetchApi<string, IPost>("/api/post/GetPosts", { methodType: MethodType.get, session: session, data: undefined, queries: [], onUploadProgress: undefined });
       if (res.succeeded) {
         setPost(res.value);
         setIsDataLoaded(true);

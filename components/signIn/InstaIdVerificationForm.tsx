@@ -2,10 +2,11 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from "react";
 import { IRefreshToken } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, GetServerResultWIthAccessToken, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import RingLoader from "../design/loader/ringLoder";
 import { internalNotify, InternalResponseType, NotifType, notify } from "../notifications/notificationBox";
 import styles from "./verificationForm.module.css";
+import { clientFetchApi, clientFetchApiWithAccessToken } from "saeed/helper/clientFetchApi";
 
 export default function InstaIdVerificationForm(props: {
   preInstaToken: string;
@@ -78,18 +79,12 @@ export default function InstaIdVerificationForm(props: {
     setLoading(true);
     try {
       console.log("Start GetServerResultWIthAccessToken");
-      const response = await GetServerResultWIthAccessToken<boolean, number>(
-        MethodType.get,
-        props.preInstaToken,
-        "PreInstagramer/VerifyCode",
-        null,
-        [{ key: "verificationCode", value: verificationCode }]
-      );
+      const response = await clientFetchApiWithAccessToken<boolean, number>("/api/preinstagramer/VerifyCode", { methodType: MethodType.get, accessToken: props.preInstaToken, data: null, queries: [{ key: "verificationCode", value: verificationCode }], onUploadProgress: undefined });
       if (response.statusCode !== 200) {
         setCode(new Array(6).fill(""));
         notify(response.info.responseType, NotifType.Error);
       } else {
-        const res = await GetServerResult<boolean, IRefreshToken>(MethodType.get, session, "user/RefreshToken");
+        const res = await clientFetchApi<boolean, IRefreshToken>("/api/user/RefreshToken", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
         if (res.succeeded) {
           await update({
             ...session,

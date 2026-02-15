@@ -7,7 +7,7 @@ import { NotifType, notify, ResponseType } from "saeed/components/notifications/
 import Loading from "saeed/components/notOk/loading";
 import priceFormatter from "saeed/helper/priceFormater";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import {
   ICreateInstance_ForVariation,
   IDisCount,
@@ -21,6 +21,7 @@ import {
 import Discount from "./popups/discount";
 import NewVariation from "./popups/newVariation";
 import styles from "./Variation.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 export interface IAddNewVariation {
   val1: INewVariation | null;
   val2: INewVariation | null;
@@ -422,16 +423,10 @@ function Variation({
   };
   async function fetchData() {
     try {
-      const res = await GetServerResult<boolean, IProduct_Variation>(
-        MethodType.get,
-        session,
-        "shopper" + "" + "/Product/GetVariations",
-        null,
-        [
+      const res = await clientFetchApi<boolean, IProduct_Variation>("shopper" + "" + "/Product/GetVariations", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "categoryId", value: categoryId.toString() },
           { key: "language", value: "1" },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         setVariation(res.value);
         InitilaizedAddNew();
@@ -443,13 +438,7 @@ function Variation({
       notify(ResponseType.Unexpected, NotifType.Error);
     }
     try {
-      const res = await GetServerResult<boolean, IGetSuggestedPrice>(
-        MethodType.get,
-        session,
-        "shopper" + "" + "/Product/GetSuggestedPriceV2",
-        null,
-        [{ key: "productId", value: shortProduct.productId.toString() }]
-      );
+      const res = await clientFetchApi<boolean, IGetSuggestedPrice>("shopper" + "" + "/Product/GetSuggestedPriceV2", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "productId", value: shortProduct.productId.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         setSuggestedPriceV2(res.value);
         console.log("suggestedPriceV2", res.value);

@@ -7,9 +7,10 @@ import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
 import { InitialSetupState } from "saeed/models/homeIndex/home";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { ICalendar, ILangauge } from "saeed/models/setting/general";
 import styles from "./general.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 function System() {
   const { i18n, t } = useTranslation();
@@ -222,12 +223,7 @@ function System() {
         language: window.localStorage.getItem("language") || "en",
         theme: window.localStorage.getItem("theme") || "light",
       };
-      const res = await GetServerResult<InitialSetupState, boolean>(
-        MethodType.post,
-        session,
-        "Instagramer/UiSetting/Update",
-        settingUiUpdate
-      );
+      const res = await clientFetchApi<InitialSetupState, boolean>("/api/uisetting/Update", { methodType: MethodType.post, session: session, data: settingUiUpdate, queries: undefined, onUploadProgress: undefined });
 
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
     } catch (error) {

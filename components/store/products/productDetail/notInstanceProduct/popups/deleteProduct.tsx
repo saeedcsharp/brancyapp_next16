@@ -3,20 +3,15 @@ import router from "next/router";
 import { useTranslation } from "react-i18next";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import styles from "./deleteProduct.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const DeleteProduct = (props: { productId: number; removeMask: () => void }) => {
   const { t } = useTranslation();
   const { data: session } = useSession();
   async function handleDeleteProduct() {
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "shopper/Product/UnLoadProduct",
-        null,
-        [{ key: "productId", value: props.productId.toString() }]
-      );
+      const res = await clientFetchApi<boolean, boolean>("/api/product/UnLoadProduct", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "productId", value: props.productId.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         router.push("/store/products");
       } else {

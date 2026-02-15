@@ -12,7 +12,7 @@ import {
 } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, IResult, MethodType } from "saeed/helper/apihelper";
+import { IResult, MethodType } from "saeed/helper/apihelper";
 import { IDetailsPost } from "saeed/models/page/post/posts";
 import { MediaType } from "saeed/models/page/post/preposts";
 import {
@@ -50,6 +50,7 @@ import styles from "./notinstanceproduct.module.css";
 import Setting from "./setting";
 import Specifications from "./specifications";
 import Variation from "./Variation";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 export default function NotInstanceProductDetail({
   maxSize,
@@ -217,28 +218,16 @@ export default function NotInstanceProductDetail({
   }
   async function handleSaveProductSuggestion(key: string | null) {
     console.log("keyyyyyyyyyy", key);
-    var res = await GetServerResult<boolean, boolean>(
-      MethodType.get,
-      session,
-      "shopper/Product/SaveProductSuggestion",
-      null,
-      [
+    var res = await clientFetchApi<boolean, boolean>("/api/product/SaveProductSuggestion", { methodType: MethodType.get, session: session, data: null, queries: [
         { key: "productId", value: productId.toString() },
         {
           key: "key",
           value: key ? key : undefined,
         },
-      ]
-    );
+      ], onUploadProgress: undefined });
     if (res.succeeded) {
       try {
-        var res2 = await GetServerResult<boolean, { medias: { url: string; key: string }[] }>(
-          MethodType.get,
-          session,
-          "shopper/Product/GetMediaSuggestion",
-          null,
-          [{ key: "productId", value: productId.toString() }]
-        );
+        var res2 = await clientFetchApi<boolean, { medias: { url: string; key: string }[] }>("/api/product/GetMediaSuggestion", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "productId", value: productId.toString() }], onUploadProgress: undefined });
         if (res2.succeeded) {
           if (res2.value.medias.length === 0) return;
           setSuggestedMediaList(res2.value);
@@ -459,18 +448,12 @@ export default function NotInstanceProductDetail({
   async function handleUploadMedia() {
     if (customMedia.length > 0) {
       const mediaUploadPromises = customMedia.map(async (media) =>
-        GetServerResult<IUploadMedia, boolean>(
-          MethodType.post,
-          session,
-          "shopper" + "" + "/Product/InsertProductMedia",
-          media,
-          [
+        clientFetchApi<IUploadMedia, boolean>("shopper" + "" + "/Product/InsertProductMedia", { methodType: MethodType.post, session: session, data: media, queries: [
             {
               key: "productId",
               value: productId.toString(),
             },
-          ]
-        )
+          ], onUploadProgress: undefined })
       );
       return await Promise.all(mediaUploadPromises);
     }
@@ -479,20 +462,14 @@ export default function NotInstanceProductDetail({
   async function handleUploadSuggestedMedia() {
     if (customMedia.length > 0) {
       const mediaUploadPromises = suggestedMedia.map(async (media) =>
-        GetServerResult<boolean, boolean>(
-          MethodType.get,
-          session,
-          "shopper" + "" + "/Product/InsertProductMedia",
-          null,
-          [
+        clientFetchApi<boolean, boolean>("shopper" + "" + "/Product/InsertProductMedia", { methodType: MethodType.get, session: session, data: null, queries: [
             {
               key: "productId",
               value: productId.toString(),
             },
             { key: "key", value: media.key },
             { key: "index", value: media.index.toString() },
-          ]
-        )
+          ], onUploadProgress: undefined })
       );
       return await Promise.all(mediaUploadPromises);
     }
@@ -513,18 +490,12 @@ export default function NotInstanceProductDetail({
       value: true,
     };
     if (defaultMedia.items.length > 0) {
-      result = await GetServerResult<IProduct_UpdateChildrenMedia, boolean>(
-        MethodType.post,
-        session,
-        "shopper" + "" + "/Product/UpdateChildrenMediaStatus",
-        defaultMedia,
-        [
+      result = await clientFetchApi<IProduct_UpdateChildrenMedia, boolean>("shopper" + "" + "/Product/UpdateChildrenMediaStatus", { methodType: MethodType.post, session: session, data: defaultMedia, queries: [
           {
             key: "productId",
             value: productId.toString(),
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
     }
     return result;
   }
@@ -561,16 +532,11 @@ export default function NotInstanceProductDetail({
       })),
     }));
     console.log("newSubProduct", newSubProducts);
-    result = await GetServerResult<IProduct_CreateSubProduct, boolean>(
-      MethodType.post,
-      session,
-      "shopper" + "" + "/Product/CreateSubProducts",
-      {
+    result = await clientFetchApi<IProduct_CreateSubProduct, boolean>("shopper" + "" + "/Product/CreateSubProducts", { methodType: MethodType.post, session: session, data: {
         productId: productId,
         subProducts: newSubProducts,
         deActiveSubProducts: [],
-      }
-    );
+      }, queries: undefined, onUploadProgress: undefined });
     console.log("fffffffffffffffffffff", result);
     return result;
   }
@@ -604,18 +570,12 @@ export default function NotInstanceProductDetail({
     if (isUpdateing) return;
     setIsUpdateing(true);
     try {
-      const res = await GetServerResult<IProduct_CreateInstance, boolean>(
-        MethodType.post,
-        session,
-        "shopper" + "" + "/Product/CreateProductInstance",
-        createInstance,
-        [
+      const res = await clientFetchApi<IProduct_CreateInstance, boolean>("shopper" + "" + "/Product/CreateProductInstance", { methodType: MethodType.post, session: session, data: createInstance, queries: [
           {
             key: "shouldOverride",
             value: "true",
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
       console.log("CreateProductInstance", res);
       if (res.succeeded) {
         createSubProductAndMedia();
@@ -706,13 +666,7 @@ export default function NotInstanceProductDetail({
   }
   async function getSuggestedPrice() {
     try {
-      const res = await GetServerResult<boolean, ISuggestedPrice[]>(
-        MethodType.get,
-        session,
-        "shopper" + "" + "/Product/GetSuggestedPrice",
-        null,
-        [{ key: "productId", value: productId.toString() }]
-      );
+      const res = await clientFetchApi<boolean, ISuggestedPrice[]>("shopper" + "" + "/Product/GetSuggestedPrice", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "productId", value: productId.toString() }], onUploadProgress: undefined });
       console.log("GetSuggestedPrice", res);
       if (res.succeeded && res.value.length > 0) {
         setSuggestedPrice(res.value);

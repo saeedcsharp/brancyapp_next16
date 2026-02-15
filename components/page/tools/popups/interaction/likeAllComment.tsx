@@ -15,7 +15,7 @@ import Loading from "saeed/components/notOk/loading";
 import InsightChart from "saeed/components/page/posts/insightChart";
 import formatTimeAgo from "saeed/helper/formatTimeAgo";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import {
   ILikeComment_Condotion,
   ILikeComment_Figure,
@@ -23,6 +23,7 @@ import {
   ILikeComment_UpdateCondotion,
 } from "saeed/models/page/tools/tools";
 import styles from "./autointeraction.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const LikeAllComments = (props: { removeMask: () => void }) => {
   const { data: session } = useSession();
@@ -38,15 +39,10 @@ const LikeAllComments = (props: { removeMask: () => void }) => {
   async function handleSaveButton() {
     let instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     try {
-      var res = await GetServerResult<ILikeComment_UpdateCondotion, boolean>(
-        MethodType.post,
-        session,
-        "Instagramer" + "/LikeComment/UpdateCondition",
-        {
+      var res = await clientFetchApi<ILikeComment_UpdateCondotion, boolean>("Instagramer" + "/LikeComment/UpdateCondition", { methodType: MethodType.post, session: session, data: {
           isPaused: !condition?.isPaused,
           includeClicked: condition?.includeClicked,
-        }
-      );
+        }, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         internalNotify(InternalResponseType.Ok, NotifType.Success);
         props.removeMask();
@@ -60,22 +56,10 @@ const LikeAllComments = (props: { removeMask: () => void }) => {
     let instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     try {
       const [checkRes, conditionRes, figureRes, acceptedFollowersRes] = await Promise.all([
-        GetServerResult<boolean, boolean>(MethodType.get, session, "Instagramer" + "/LikeComment/CheckAvailability"),
-        GetServerResult<boolean, ILikeComment_Condotion>(
-          MethodType.get,
-          session,
-          "Instagramer" + "/LikeComment/GetCondition"
-        ),
-        GetServerResult<boolean, ILikeComment_Figure>(
-          MethodType.get,
-          session,
-          "Instagramer" + "/LikeComment/GetFigure"
-        ),
-        GetServerResult<boolean, ILikeComment_GetLikeComments[]>(
-          MethodType.get,
-          session,
-          "Instagramer" + "/LikeComment/GetLikedComments"
-        ),
+        clientFetchApi<boolean, boolean>("Instagramer" + "/LikeComment/CheckAvailability", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, ILikeComment_Condotion>("Instagramer" + "/LikeComment/GetCondition", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, ILikeComment_Figure>("Instagramer" + "/LikeComment/GetFigure", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, ILikeComment_GetLikeComments[]>("Instagramer" + "/LikeComment/GetLikedComments", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
       ]);
       if (checkRes.value) {
         setLoadingStatus(false);
@@ -89,17 +73,12 @@ const LikeAllComments = (props: { removeMask: () => void }) => {
     if (likeComments?.length === 0) return;
     let instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     try {
-      var res = await GetServerResult<boolean, ILikeComment_GetLikeComments[]>(
-        MethodType.get,
-        session,
-        "Instagramer" + instagramerId + "/AutoAcceptFollower/GetAcceptedFollowers",
-        [
+      var res = await clientFetchApi<boolean, ILikeComment_GetLikeComments[]>("Instagramer" + instagramerId + "/AutoAcceptFollower/GetAcceptedFollowers", { methodType: MethodType.get, session: session, data: [
           {
             key: "nextId",
             value: likeComments![likeComments!.length - 1].acceptedFollowerId.toString(),
           },
-        ]
-      );
+        ], queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         setLikeComments((prev) => [...prev!, ...res.value]);
       } else notify(res.info.responseType, NotifType.Error);

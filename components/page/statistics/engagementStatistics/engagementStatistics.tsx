@@ -6,13 +6,14 @@ import Loading from "saeed/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IMonthGraph, IShortMonth } from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import { EngagmentStatistics } from "saeed/models/page/statistics/totalStatistics/EngagmentStatistics";
 import { IFollowerStatistics } from "saeed/models/page/statistics/totalStatistics/FollowerStatistics";
 import MultiChart from "../../../design/chart/Chart_month";
 import InlineBarChart from "../../../design/chart/inlineBarChart";
 import styles from "./engagementStatistics.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 type StatsState = {
   likes: IMonthGraph[] | null;
   shares: IMonthGraph[] | null;
@@ -326,20 +327,8 @@ const EngageMentStatistics = () => {
     isFetchingRef.current = true;
     try {
       const [engagementRes, followerRes] = await Promise.all([
-        GetServerResult<string, EngagmentStatistics>(
-          MethodType.get,
-          session,
-          "Instagramer/Statistics/GetEngagmentStatistics",
-          null,
-          []
-        ),
-        GetServerResult<string, IFollowerStatistics>(
-          MethodType.get,
-          session,
-          "Instagramer/Statistics/GetFollowerStatistics",
-          null,
-          []
-        ),
+        clientFetchApi<string, EngagmentStatistics>("/api/statistics/GetEngagmentStatistics", { methodType: MethodType.get, session: session, data: null, queries: [], onUploadProgress: undefined }),
+        clientFetchApi<string, IFollowerStatistics>("/api/statistics/GetFollowerStatistics", { methodType: MethodType.get, session: session, data: null, queries: [], onUploadProgress: undefined }),
       ]);
       if (engagementRes && engagementRes.value) {
         dispatch({ type: "SET_ENGAGEMENT_DATA", payload: engagementRes.value });

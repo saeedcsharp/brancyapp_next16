@@ -16,13 +16,14 @@ import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { AvailabilityStatus } from "saeed/models/store/enum";
 import { IProduct_ShortProduct, ITempIdAndNonProductCount } from "saeed/models/store/IProduct";
 import styles from "./productList.module.css";
 import ProductListDesktop from "./productListComponents/ProductListDesktop";
 import ProductListMobile from "./productListComponents/ProductListMobile";
 import UpdateProduct from "./updateProduct";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 function debounce(func: (...args: any[]) => void, delay: number) {
   let timer: NodeJS.Timeout;
   return function (...args: any[]) {
@@ -117,12 +118,7 @@ const ProductList = () => {
       }
 
       // ارسال درخواست به سرور برای تغییر وضعیت
-      const res = await GetServerResult<boolean, IProduct_ShortProduct[]>(
-        MethodType.get,
-        session,
-        "shopper" + "" + "/Product/ChangeAvailableProduct",
-        null,
-        [
+      const res = await clientFetchApi<boolean, IProduct_ShortProduct[]>("shopper" + "" + "/Product/ChangeAvailableProduct", { methodType: MethodType.get, session: session, data: null, queries: [
           {
             key: "productId",
             value: productId.toString(),
@@ -131,8 +127,7 @@ const ProductList = () => {
             key: "value",
             value: statusId,
           },
-        ],
-      );
+        ], onUploadProgress: undefined });
 
       if (res.succeeded) {
         setProducts(newArray);
@@ -169,12 +164,7 @@ const ProductList = () => {
           hasChanges = true;
 
           // ارسال درخواست به سرور بدون انتظار برای پاسخ
-          GetServerResult<boolean, IProduct_ShortProduct[]>(
-            MethodType.get,
-            session,
-            "shopper" + "" + "/Product/ChangeAvailableProduct",
-            null,
-            [
+          clientFetchApi<boolean, IProduct_ShortProduct[]>("shopper" + "" + "/Product/ChangeAvailableProduct", { methodType: MethodType.get, session: session, data: null, queries: [
               {
                 key: "productId",
                 value: product.productId.toString(),
@@ -183,19 +173,13 @@ const ProductList = () => {
                 key: "value",
                 value: AvailabilityStatus.OutOfStock.toString(),
               },
-            ],
-          );
+            ], onUploadProgress: undefined });
         } else if (product.minStock > 0 && product.availabilityStatus === AvailabilityStatus.OutOfStock) {
           product.availabilityStatus = AvailabilityStatus.Available;
           hasChanges = true;
 
           // ارسال درخواست به سرور بدون انتظار برای پاسخ
-          GetServerResult<boolean, IProduct_ShortProduct[]>(
-            MethodType.get,
-            session,
-            "shopper" + "" + "/Product/ChangeAvailableProduct",
-            null,
-            [
+          clientFetchApi<boolean, IProduct_ShortProduct[]>("shopper" + "" + "/Product/ChangeAvailableProduct", { methodType: MethodType.get, session: session, data: null, queries: [
               {
                 key: "productId",
                 value: product.productId.toString(),
@@ -204,8 +188,7 @@ const ProductList = () => {
                 key: "value",
                 value: AvailabilityStatus.Available.toString(),
               },
-            ],
-          );
+            ], onUploadProgress: undefined });
         }
       });
 
@@ -220,13 +203,7 @@ const ProductList = () => {
   // اضافه کردن تابع برای جستجوی محصولات
   async function handleApiProductSearch(query: string) {
     try {
-      var res = await GetServerResult<[], IProduct_ShortProduct[]>(
-        MethodType.post,
-        session,
-        "shopper/Product/SearchProducts",
-        {},
-        [{ key: "query", value: query }],
-      );
+      var res = await clientFetchApi<[], IProduct_ShortProduct[]>("/api/product/SearchProducts", { methodType: MethodType.post, session: session, data: {}, queries: [{ key: "query", value: query }], onUploadProgress: undefined });
       console.log(res);
       if (res.succeeded && res.value.length > 0) {
         // بررسی و تغییر وضعیت محصولات جستجو شده
@@ -248,23 +225,13 @@ const ProductList = () => {
     try {
       setIsProductListLoading(true);
       const [res1, res2] = await Promise.all([
-        GetServerResult<boolean, IProduct_ShortProduct[]>(
-          MethodType.get,
-          session,
-          "shopper/Product/GetProductList",
-          null,
-          [
+        clientFetchApi<boolean, IProduct_ShortProduct[]>("/api/product/GetProductList", { methodType: MethodType.get, session: session, data: null, queries: [
             {
               key: "excludeProductInstance",
               value: filter.toString(),
             },
-          ],
-        ),
-        GetServerResult<boolean, ITempIdAndNonProductCount>(
-          MethodType.get,
-          session,
-          "shopper/Product/GetLastTempIdAndNonProductsCount",
-        ),
+          ], onUploadProgress: undefined }),
+        clientFetchApi<boolean, ITempIdAndNonProductCount>("/api/product/GetLastTempIdAndNonProductsCount", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
       ]);
       if (res1.succeeded) {
         setNonProductCount(res2.value.nonProductCount);
@@ -287,12 +254,7 @@ const ProductList = () => {
     try {
       if (!products || products.length === 0) return [];
 
-      const res = await GetServerResult<boolean, IProduct_ShortProduct[]>(
-        MethodType.get,
-        session,
-        "shopper/Product/GetProductList",
-        null,
-        [
+      const res = await clientFetchApi<boolean, IProduct_ShortProduct[]>("/api/product/GetProductList", { methodType: MethodType.get, session: session, data: null, queries: [
           {
             key: "nextMaxId",
             value: products[products.length - 1].productId.toString(),
@@ -301,8 +263,7 @@ const ProductList = () => {
             key: "excludeProductInstance",
             value: notInstanceFilter.toString(),
           },
-        ],
-      );
+        ], onUploadProgress: undefined });
 
       if (res.succeeded) {
         // بررسی و تغییر وضعیت محصولات بیشتر دریافت شده

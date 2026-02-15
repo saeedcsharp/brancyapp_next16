@@ -5,9 +5,10 @@ import CheckBoxButton from "saeed/components/design/checkBoxButton";
 import RingLoader from "saeed/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { ILogistic } from "saeed/models/userPanel/orders";
 import styles from "./logistic.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 export default function Logistic({
   shippingList,
@@ -30,12 +31,7 @@ export default function Logistic({
   async function saveSupportLogistics() {
     setVerifyLoading(true);
     try {
-      const res = await GetServerResult<number[], boolean>(
-        MethodType.post,
-        session,
-        "Business/Authorize/SaveSupportLogestic",
-        selectedShippings
-      );
+      const res = await clientFetchApi<number[], boolean>("/api/authorize/SaveSupportLogestic", { methodType: MethodType.post, session: session, data: selectedShippings, queries: undefined, onUploadProgress: undefined });
       if (!res.succeeded) {
         notify(res.info.responseType, NotifType.Warning);
         setSelectedShippings([]);

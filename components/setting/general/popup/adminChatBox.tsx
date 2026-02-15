@@ -9,12 +9,13 @@ import { NotifType, notify, ResponseType } from "saeed/components/notifications/
 import LinkifyText from "saeed/context/LinkifyText";
 import initialzedTime from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { StatusReplied } from "saeed/models/messages/enum";
 import { PlatformTicketItemType, PlatformTicketType } from "saeed/models/setting/enums";
 import { IPlatformTicket } from "saeed/models/setting/general";
 import { IItem, IOwnerInbox, ISendTicketMessage, ITicketMediaType } from "saeed/models/userPanel/message";
 import styles from "./adminChatBox.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 const TicketTypeIcon = memo(({ type, size = 16 }: { type: string; size?: number }) => {
   const { t } = useTranslation();
@@ -420,13 +421,7 @@ const AdminChatBox = (props: {
   };
   async function handleSendRead() {
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Instagramer/Ticket/SeenPlatformTicket",
-        null,
-        [{ key: "ticketId", value: props.chatBox.ticketId.toString() }]
-      );
+      const res = await clientFetchApi<boolean, boolean>("/api/ticket/SeenPlatformTicket", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "ticketId", value: props.chatBox.ticketId.toString() }], onUploadProgress: undefined });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);

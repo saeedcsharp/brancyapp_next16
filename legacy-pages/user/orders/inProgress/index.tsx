@@ -14,11 +14,12 @@ import initialzedTime from "saeed/helper/manageTimer";
 import { handleDecompress } from "saeed/helper/pako";
 import { getHubConnection } from "saeed/helper/pushNotif";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { PushNotif, PushResponseType } from "saeed/models/push/pushNotif";
 import { LogisticType, OrderStep } from "saeed/models/store/enum";
 import { IOrderByStatus, IOrderByStatusItem, IOrderDetail, IOrderPushNotifExtended } from "saeed/models/store/orders";
 import styles from "./inprogress.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const MemoizedCheckBoxButton = React.memo(CheckBoxButton);
 interface SelectionState {
@@ -197,9 +198,9 @@ const InProgress = () => {
     if (orderIds.size === 0) return;
     const results = await Promise.all(
       Array.from(orderIds).map((orderId) =>
-        GetServerResult<boolean, boolean>(MethodType.get, session, "User/Order/RejectOrder", null, [
+        clientFetchApi<boolean, boolean>("/api/order/RejectOrder", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "orderId", value: orderId },
-        ])
+        ], onUploadProgress: undefined })
       )
     );
     const successfulOrderIds = new Set<string>();
@@ -228,13 +229,7 @@ const InProgress = () => {
     if (orders.nextMaxId === null) return;
     setLoadingMore(true);
     try {
-      const res = await GetServerResult<boolean, IOrderByStatus>(
-        MethodType.post,
-        session,
-        "User/Order/GetOrdersByStatuses",
-        [OrderStep.Paid, OrderStep.InstagramerAccepted],
-        [{ key: "nextMaxId", value: orders.nextMaxId }]
-      );
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", { methodType: MethodType.post, session: session, data: [OrderStep.Paid, OrderStep.InstagramerAccepted], queries: [{ key: "nextMaxId", value: orders.nextMaxId }], onUploadProgress: undefined });
       if (res.succeeded) {
         console.log("GetOrdersByStatus more item res", res.value);
         setOrders((prev) => ({
@@ -250,12 +245,7 @@ const InProgress = () => {
   }
   async function fetchData() {
     try {
-      const res = await GetServerResult<boolean, IOrderByStatus>(
-        MethodType.post,
-        session,
-        "User/Order/GetOrdersByStatuses",
-        [OrderStep.Paid, OrderStep.InstagramerAccepted]
-      );
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", { methodType: MethodType.post, session: session, data: [OrderStep.Paid, OrderStep.InstagramerAccepted], queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         console.log("GetOrdersByStatus res", res.value);
         setOrders(res.value);

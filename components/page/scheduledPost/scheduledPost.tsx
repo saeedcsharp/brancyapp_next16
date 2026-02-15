@@ -10,11 +10,12 @@ import { InstaInfoContext } from "saeed/context/instaInfoContext";
 import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IPrePost, IScheduledPost } from "saeed/models/page/post/preposts";
 import { ShowRings } from "../../design/counterDown/counterDown";
 import DeletePrePost from "./deletePrePost";
 import styles from "./schedulePost.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const ScheduledPost = (props: { data: IPrePost[] | null }) => {
   const { data: session } = useSession();
@@ -117,13 +118,7 @@ const ScheduledPost = (props: { data: IPrePost[] | null }) => {
     try {
       setDeletePrePost(null);
       const userId = session?.user.instagramerIds[session.user.currentIndex];
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        `Instagramer/${userId}/Post/DeletePrePost`,
-        undefined,
-        [{ key: "prePostId", value: deletePrePost.toString() }],
-      );
+      const res = await clientFetchApi<boolean, boolean>(`/api/${userid}/Post`, { methodType: MethodType.get, session: session, data: undefined, queries: [{ key: "prePostId", value: deletePrePost.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         setScheduledPosts((prev) => ({
           ...prev!,

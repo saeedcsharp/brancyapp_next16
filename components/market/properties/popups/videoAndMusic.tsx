@@ -15,9 +15,10 @@ import {
 } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IChannel, IChannelBox, IChannelInfo, ISearchChannel, IUpdateChannel } from "saeed/models/market/properties";
 import styles from "./featureBoxPU.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const initialChannelSearchState: ISearchChannel = {
   searchAparatPage: "",
   searchYoutubePage: "",
@@ -139,13 +140,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
   const handleApiChannelSearch = useCallback(
     async (query: string) => {
       try {
-        const res = await GetServerResult<boolean, IChannelInfo[]>(
-          MethodType.get,
-          session,
-          `instagramer/Bio/${selectedEmbed}`,
-          null,
-          [{ key: "query", value: query }]
-        );
+        const res = await clientFetchApi<boolean, IChannelInfo[]>(`/api/bio/${selectedEmbed}`, { methodType: MethodType.get, session: session, data: null, queries: [{ key: "query", value: query }], onUploadProgress: undefined });
 
         if (res.succeeded) {
           dispatch({
@@ -221,12 +216,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
       (updateYoutube.id || updateYoutube.username || channelSearch.searchYoutubePage)
     ) {
       try {
-        const youtubeUpdateRes = await GetServerResult<IUpdateChannel, boolean>(
-          MethodType.post,
-          session,
-          "instagramer/Bio/SaveYoutubePage",
-          updateYoutube
-        );
+        const youtubeUpdateRes = await clientFetchApi<IUpdateChannel, boolean>("/api/bio/SaveYoutubePage", { methodType: MethodType.post, session: session, data: updateYoutube, queries: undefined, onUploadProgress: undefined });
 
         if (!youtubeUpdateRes.succeeded) {
           notify(youtubeUpdateRes.info.responseType, NotifType.Warning);
@@ -238,12 +228,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
 
     if (channelSearch.activeAparat && (updateAparat.id || updateAparat.username || channelSearch.searchAparatPage)) {
       try {
-        const aparatUpdateRes = await GetServerResult<IUpdateChannel, boolean>(
-          MethodType.post,
-          session,
-          "instagramer/Bio/SaveAparatPage",
-          updateAparat
-        );
+        const aparatUpdateRes = await clientFetchApi<IUpdateChannel, boolean>("/api/bio/SaveAparatPage", { methodType: MethodType.post, session: session, data: updateAparat, queries: undefined, onUploadProgress: undefined });
 
         if (!aparatUpdateRes.succeeded) {
           notify(aparatUpdateRes.info.responseType, NotifType.Warning);
@@ -350,7 +335,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
 
   const fetchChannelData = useCallback(async () => {
     try {
-      const res = await GetServerResult<boolean, IChannel>(MethodType.get, session, `instagramer/Bio/GetChannels`);
+      const res = await clientFetchApi<boolean, IChannel>(`/api/bio/GetChannels`, { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
 
       if (res.succeeded) {
         const channelSearchData: ISearchChannel = {

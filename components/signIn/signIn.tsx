@@ -3,11 +3,12 @@ import { useTranslation } from "react-i18next";
 import { detectLocaleFromTimezone } from "saeed/helper/detectLocaleFromTimezone";
 import { LanguageKey } from "saeed/i18n";
 import { SendCodeResult } from "saeed/models/ApiModels/User/SendCodeResult";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import GoogleLoginButton from "./googleLoginPopup";
 import ReactPhoneInput from "./reactPhoneInput";
 import styles from "./signIn.module.css";
 import VerificationForm from "./verificationForm";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 export enum SignInType {
   Phonenumber = 0,
   VerificaionCode = 1,
@@ -44,7 +45,7 @@ export default function SignIn(props: {
     setLoading(true);
     try {
       console.log("hello", nationalNumber);
-      var res = await GetServerResult<boolean, SendCodeResult>(MethodType.get, null, "User/signIn", null, [
+      var res = await clientFetchApi<boolean, SendCodeResult>("/api/user/signIn", { methodType: MethodType.get, session: null, data: null, queries: [
         {
           key: "phoneNumber",
           value: nationalNumber,
@@ -61,7 +62,7 @@ export default function SignIn(props: {
           key: "sessionId",
           value: sessionId ?? undefined,
         },
-      ]);
+      ], onUploadProgress: undefined });
       if (res.succeeded) {
         setPreUserToken(res.value.token);
         setSignInType(SignInType.VerificaionCode);

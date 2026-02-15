@@ -17,11 +17,12 @@ import { addSignalRMethod, OnInstance, removeSignalRMethod } from "saeed/helper/
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IPost, IPostContent } from "saeed/models/page/post/posts";
 import { IUploadPost, UploadPostSteps } from "saeed/models/page/socketPage";
 import ScheduledPost from "../scheduledPost/scheduledPost";
 import styles from "./postContent.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 type PostState = {
   posts: IPostContent[] | null;
@@ -137,13 +138,7 @@ const PostContent = (props: PostContentProps) => {
     hasMore,
     fetchMore: async () => {
       if (nextTime <= 0) return [];
-      const result = await GetServerResult<string, IPostContent[]>(
-        MethodType.get,
-        session,
-        "Instagramer/Post/GetPostByScrollingDown",
-        undefined,
-        [{ key: "createdTime", value: nextTime.toString() }],
-      );
+      const result = await clientFetchApi<string, IPostContent[]>("/api/post/GetPostByScrollingDown", { methodType: MethodType.get, session: session, data: undefined, queries: [{ key: "createdTime", value: nextTime.toString() }], onUploadProgress: undefined });
 
       if (!result.succeeded || !result.value || !Array.isArray(result.value)) {
         return [];
@@ -185,13 +180,7 @@ const PostContent = (props: PostContentProps) => {
       try {
         internalNotify(InternalResponseType.PostUploaded, NotifType.Info);
 
-        const result = await GetServerResult<string, IPostContent[]>(
-          MethodType.get,
-          session,
-          "Instagramer/Post/GetPostByGuid",
-          undefined,
-          [{ key: "guid", value: guid }],
-        );
+        const result = await clientFetchApi<string, IPostContent[]>("/api/post/GetPostByGuid", { methodType: MethodType.get, session: session, data: undefined, queries: [{ key: "guid", value: guid }], onUploadProgress: undefined });
 
         if (result.succeeded && result.value?.length > 0) {
           startTransition(() => {

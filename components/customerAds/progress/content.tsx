@@ -3,7 +3,7 @@ import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import DragComponent, { positionType } from "saeed/components/design/dragComponent/dragComponent";
 import InputText from "saeed/components/design/inputText";
 import TextArea from "saeed/components/design/textArea/textArea";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import styles from "./progress.module.css";
 import styles2 from "./uploadContent.module.css";
 
@@ -12,6 +12,7 @@ import Head from "next/head";
 import { convertHeicToJpeg } from "saeed/helper/convertHeicToJPEG";
 import { IPageInfo, IShowMedia } from "saeed/models/customerAds/customerAd";
 import { MediaType, PostType } from "saeed/models/page/post/preposts";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 function Content(props: {
   handleUpdateContent: (content: IShowMedia[], caption: string) => void;
   data: IShowMedia[];
@@ -47,13 +48,7 @@ function Content(props: {
     try {
       var instagramerId = session?.user.instagramerIds[session.user.currentIndex];
       console.log("start searched people ", query);
-      var res = await GetServerResult<boolean, IPageInfo[]>(
-        MethodType.get,
-        session,
-        "Instagramer" + "/searchPeople",
-        null,
-        [{ key: "query", value: query }]
-      );
+      var res = await clientFetchApi<boolean, IPageInfo[]>("Instagramer" + "/searchPeople", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "query", value: query }], onUploadProgress: undefined });
       console.log(res);
       if (res.succeeded) setPageInfo(res.value);
     } catch {}

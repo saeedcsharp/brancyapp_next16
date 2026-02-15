@@ -5,10 +5,7 @@ import "react-phone-input-2/lib/style.css";
 import { getCountryCodeFromTimezone } from "saeed/helper/detectLocaleFromTimezone";
 import { LanguageKey } from "saeed/i18n";
 import { SendCodeResult } from "saeed/models/ApiModels/User/SendCodeResult";
-import {
-  GetServerResultWIthAccessToken,
-  MethodType,
-} from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import RingLoader from "../design/loader/ringLoder";
 import {
   NotifType,
@@ -16,6 +13,7 @@ import {
   ResponseType,
 } from "../notifications/notificationBox";
 import styles from "./landingSignIn.module.css";
+import { clientFetchApiWithAccessToken } from "saeed/helper/clientFetchApi";
 
 const LandingSignIn = (prop: {
   handleShowVerification: (preUserToken: string) => void;
@@ -58,12 +56,7 @@ const LandingSignIn = (prop: {
     setLoading(true);
     event.preventDefault();
     try {
-      var res = await GetServerResultWIthAccessToken<boolean, SendCodeResult>(
-        MethodType.get,
-        "",
-        "User/signIn",
-        null,
-        [
+      var res = await clientFetchApiWithAccessToken<boolean, SendCodeResult>("/api/user/signIn", { methodType: MethodType.get, accessToken: "", data: null, queries: [
           {
             key: "phoneNumber",
             value: nationalNumber,
@@ -80,8 +73,7 @@ const LandingSignIn = (prop: {
             key: "sessionId",
             value: sessionId ?? undefined,
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         prop.handleShowVerification(res.value.token);
       } else {

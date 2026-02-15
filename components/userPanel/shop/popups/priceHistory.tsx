@@ -6,9 +6,10 @@ import LineChart from "saeed/components/graphs/lineChart";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { chartxType, SuperFigure } from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import styles from "./priceHistory.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 export default function PriceHistory({
   removeMask,
   productId,
@@ -40,16 +41,10 @@ export default function PriceHistory({
   };
   async function fetchData() {
     try {
-      const res = await GetServerResult<boolean, SuperFigure>(
-        MethodType.get,
-        session,
-        "user/shop/GetPriceHistory",
-        null,
-        [
+      const res = await clientFetchApi<boolean, SuperFigure>("/api/shop/GetPriceHistory", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "productId", value: productId },
           { key: "instagramerId", value: instagramerId },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         setPriceHistory(res.value);
       } else notify(res.info.responseType, NotifType.Warning);

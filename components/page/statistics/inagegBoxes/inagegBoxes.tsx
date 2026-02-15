@@ -7,12 +7,13 @@ import { useTranslation } from "react-i18next";
 import Loading from "saeed/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { IPostContent } from "saeed/models/page/post/posts";
 import { IIngageBox } from "saeed/models/page/statistics/statisticsContent/ingageBoxes/ingageBox";
 
 import styles from "./ingageBoxes.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
@@ -159,13 +160,7 @@ const IngageBoxModel = (props: {
 
       const fetchData = async () => {
         try {
-          const res = await GetServerResult<string, IIngageBox>(
-            MethodType.get,
-            session,
-            "Instagramer/Statistics/GetOverview",
-            null,
-            []
-          );
+          const res = await clientFetchApi<string, IIngageBox>("/api/statistics/GetOverview", { methodType: MethodType.get, session: session, data: null, queries: [], onUploadProgress: undefined });
 
           if (controller.signal.aborted) return;
 

@@ -11,9 +11,10 @@ import { NotifType, notify, ResponseType } from "saeed/components/notifications/
 import Loading from "saeed/components/notOk/loading";
 import { hexToRgb, rgbToHex } from "saeed/helper/rgbaToHex";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
+import { MethodType, UploadFile } from "saeed/helper/apihelper";
 import { IGetLastBanner, ILotteryInfo, LotteryType } from "saeed/models/page/tools/tools";
 import styles from "./winnerAnnouncementAndBanner.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
 // Function to get current Persian date and time
@@ -206,11 +207,7 @@ const WinnerAnnouncementAndBanner = (props: {
   };
   async function handleGetLastBanner() {
     try {
-      const res = await GetServerResult<boolean, IGetLastBanner>(
-        MethodType.get,
-        session,
-        "Instagramer/Lottery/GetLastBannerSetting"
-      );
+      const res = await clientFetchApi<boolean, IGetLastBanner>("/api/lottery/GetLastBannerSetting", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         setBannerInfo(res.value);
         if (props.lotteryInfo.lotteryId) {

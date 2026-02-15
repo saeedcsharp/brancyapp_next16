@@ -15,10 +15,11 @@ import {
 } from "saeed/components/notifications/notificationBox";
 import { LoginStatus } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { Language } from "saeed/models/messages/enum";
 import { IMessagePanel } from "saeed/models/messages/properies";
 import styles from "./properties.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 function MessagePanel({
   messagePanel,
@@ -63,11 +64,7 @@ function MessagePanel({
       // Wrapped in useCallback
       if (!LoginStatus(session)) return;
       try {
-        const res = await GetServerResult<boolean, boolean>(
-          MethodType.get,
-          session,
-          "Instagramer" + "" + `/Message${on ? "/ResumeAllAutoReplies" : "/PauseAllAutoReplies"}`
-        );
+        const res = await clientFetchApi<boolean, boolean>("Instagramer" + "" + `/Message${on ? "/ResumeAllAutoReplies" : "/PauseAllAutoReplies"}`, { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
         if (res.succeeded)
           internalNotify(on ? InternalResponseType.AutoReplyOn : InternalResponseType.AutoReplyOff, NotifType.Success);
         else notify(res.info.responseType, NotifType.Warning);

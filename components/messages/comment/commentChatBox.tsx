@@ -20,7 +20,7 @@ import { isRTL } from "saeed/helper/checkRtl";
 import initialzedTime from "saeed/helper/manageTimer";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { ActionType, MediaProductType } from "saeed/models/messages/enum";
 import { IComment, IMedia, IOwnerInbox } from "saeed/models/messages/IMessage";
 import { IMediaUpdateAutoReply } from "saeed/models/page/post/posts";
@@ -30,6 +30,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Dotmenu from "../../design/dotMenu/dotMenu";
 import styles from "./commentChatBox.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const CommentChatBox = (props: {
   userSelectId: string | null;
   hub: HubConnection | null;
@@ -319,17 +320,11 @@ const CommentChatBox = (props: {
       setAiLoading(true);
 
       // Call AI service to generate reply based on the comment
-      const response = await GetServerResult<boolean, string>(
-        MethodType.get,
-        session,
-        "Instagramer/Comment/GenerateCommentBaseAI",
-        null,
-        [
+      const response = await clientFetchApi<boolean, string>("/api/comment/GenerateCommentBaseAI", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "comment", value: replyBox.comment.text },
           { key: "username", value: replyBox.comment.username },
           { key: "postId", value: props.chatBox.postId?.toString() },
-        ]
-      );
+        ], onUploadProgress: undefined });
 
       if (response.succeeded) {
         const aiReply = response.value;
@@ -378,17 +373,11 @@ const CommentChatBox = (props: {
       aiButton.style.pointerEvents = "none";
 
       // Call AI service to generate reply based on the comment
-      const response = await GetServerResult<boolean, string>(
-        MethodType.get,
-        session,
-        "Instagramer/Comment/GenerateCommentBaseAI",
-        null,
-        [
+      const response = await clientFetchApi<boolean, string>("/api/comment/GenerateCommentBaseAI", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "comment", value: replyBox.comment.text },
           { key: "username", value: replyBox.comment.username },
           { key: "postId", value: props.chatBox.postId?.toString() },
-        ]
-      );
+        ], onUploadProgress: undefined });
 
       if (response.succeeded) {
         const aiReply = response.value;

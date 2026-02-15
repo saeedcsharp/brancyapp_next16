@@ -16,9 +16,10 @@ import {
 } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { ILotteryPost } from "saeed/models/page/post/posts";
 import styles from "./postLottery.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 export enum LotteryPopupType {
   PostLottery,
   StoryLottery,
@@ -81,12 +82,7 @@ export default function LotteryPopup({
 
     setIsCreating(true);
     try {
-      const response = await GetServerResult<boolean, ILotteryPost>(
-        MethodType.get,
-        session,
-        "Instagramer" + apiConfig.createUrl,
-        null,
-        [
+      const response = await clientFetchApi<boolean, ILotteryPost>("Instagramer" + apiConfig.createUrl, { methodType: MethodType.get, session: session, data: null, queries: [
           { key: apiConfig.keyId, value: id ? id.toString() : liveId },
           { key: "filterText", value: filterText },
           { key: "randomCount", value: winnerNumber },
@@ -94,8 +90,7 @@ export default function LotteryPopup({
             key: "timezoneOffset",
             value: (-1 * new Date().getTimezoneOffset() * 60).toString(),
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (response.succeeded) {
         setCreatedTime(response.value.createdTime * 1000);
         setWinnerNumber(response.value.randomCount.toString());
@@ -111,13 +106,7 @@ export default function LotteryPopup({
   }, [createdTime, session, apiConfig, id, liveId, filterText, winnerNumber, basePictureUrl]);
   const getLottery = useCallback(async () => {
     try {
-      const response = await GetServerResult<boolean, ILotteryPost>(
-        MethodType.get,
-        session,
-        "Instagramer" + apiConfig.getUrl,
-        null,
-        [{ key: apiConfig.keyId, value: id ? id.toString() : liveId }]
-      );
+      const response = await clientFetchApi<boolean, ILotteryPost>("Instagramer" + apiConfig.getUrl, { methodType: MethodType.get, session: session, data: null, queries: [{ key: apiConfig.keyId, value: id ? id.toString() : liveId }], onUploadProgress: undefined });
       if (response.succeeded) {
         setCreatedTime(response.value.createdTime * 1000);
         setWinnerNumber(response.value.randomCount.toString());

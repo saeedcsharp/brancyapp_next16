@@ -12,10 +12,11 @@ import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
 import { handleDecompress } from "saeed/helper/pako";
 import { getHubConnection } from "saeed/helper/pushNotif";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IStoryDraft } from "saeed/models/page/story/preStories";
 import { IStory, IStoryContent } from "saeed/models/page/story/stories";
 import { PushNotif, PushResponseType } from "saeed/models/push/pushNotif";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 type StoryAction =
   | { type: "SET_STORY"; payload: IStory }
@@ -103,7 +104,7 @@ const Stories = () => {
     isFetchingRef.current = true;
 
     try {
-      const res = await GetServerResult<string, IStory>(MethodType.get, session, "Instagramer/Story/LoadingStoryPage");
+      const res = await clientFetchApi<string, IStory>("/api/story/LoadingStoryPage", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
 
       if (!isMountedRef.current || abortControllerRef.current?.signal.aborted) return;
 

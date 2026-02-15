@@ -37,7 +37,7 @@ import { LoginStatus, RoleAccess, packageStatus } from "saeed/helper/loadingStat
 import { convertToMilliseconds, convertToSeconds } from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
+import { MethodType, UploadFile } from "saeed/helper/apihelper";
 import {
   CreateHashtagListItem,
   FollowerLotteryType,
@@ -62,6 +62,7 @@ import {
   lotterySpecificationType,
 } from "saeed/models/page/tools/tools";
 import { FeatureType, IFeatureInfo } from "saeed/models/psg/psg";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 function addHashPrefixOrSuffix(list: string[]) {
   const result = [];
 
@@ -324,13 +325,7 @@ const Tools = () => {
   const confirmDeleteHashtag = useCallback(async () => {
     if (!selectedHashtagList) return;
     try {
-      const res = await GetServerResult<string, IHashtag>(
-        MethodType.get,
-        session,
-        "Instagramer/hashtag/DeleteHashtagList",
-        null,
-        [{ key: "hashtagListId", value: selectedHashtagList.listId.toString() }]
-      );
+      const res = await clientFetchApi<string, IHashtag>("/api/hashtag/DeleteHashtagList", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "hashtagListId", value: selectedHashtagList.listId.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         setHashtagData(res.value);
         internalNotify(InternalResponseType.Ok, NotifType.Success);
@@ -395,13 +390,7 @@ const Tools = () => {
     };
     console.log("hashtagListItem", hashtagListItem);
     try {
-      var res = await GetServerResult<CreateHashtagListItem, boolean>(
-        MethodType.post,
-        session,
-        "Instagramer/hashtag/createHashtagList",
-        hashtagListItem,
-        []
-      );
+      var res = await clientFetchApi<CreateHashtagListItem, boolean>("/api/hashtag/createHashtagList", { methodType: MethodType.post, session: session, data: hashtagListItem, queries: [], onUploadProgress: undefined });
       if (res.succeeded) {
         GetHashtagList();
       } else {
@@ -421,12 +410,7 @@ const Tools = () => {
     };
     console.log("HashtagListItem", obj);
     try {
-      var res = await GetServerResult<HashtagListItem, boolean>(
-        MethodType.post,
-        session,
-        "Instagramer/hashtag/UpdateHashtagList",
-        obj
-      );
+      var res = await clientFetchApi<HashtagListItem, boolean>("/api/hashtag/UpdateHashtagList", { methodType: MethodType.post, session: session, data: obj, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         setHashtagData((prev) => ({
           ...prev!,
@@ -469,13 +453,7 @@ const Tools = () => {
               return;
             case "Delete List":
               {
-                var res = await GetServerResult<string, IHashtag>(
-                  MethodType.get,
-                  session,
-                  "Instagramer/hashtag/DeleteHashtagList",
-                  null,
-                  [{ key: "hashtagListId", value: hashtag.listId.toString() }]
-                );
+                var res = await clientFetchApi<string, IHashtag>("/api/hashtag/DeleteHashtagList", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "hashtagListId", value: hashtag.listId.toString() }], onUploadProgress: undefined });
                 if (res.succeeded) {
                   setHashtagData(res.value);
                 }
@@ -505,13 +483,7 @@ const Tools = () => {
       case "Delete List":
         {
           let instagramer = session?.user.instagramerIds[session.user.currentIndex];
-          var res = await GetServerResult<string, IHashtag>(
-            MethodType.get,
-            session,
-            "Instagramer" + instagramer + "/hashtag/HidePictureAnalysisHashtag",
-            null,
-            [{ key: "id", value: hashtag.id.toString() }]
-          );
+          var res = await clientFetchApi<string, IHashtag>("Instagramer" + instagramer + "/hashtag/HidePictureAnalysisHashtag", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "id", value: hashtag.id.toString() }], onUploadProgress: undefined });
           if (res.succeeded) {
             setHashtagData((prev) => ({
               ...prev!,
@@ -539,13 +511,7 @@ const Tools = () => {
       case "Delete List":
         {
           let instagramer = session?.user.instagramerIds[session.user.currentIndex];
-          var res = await GetServerResult<string, IHashtag>(
-            MethodType.get,
-            session,
-            "Instagramer" + instagramer + "/hashtag/HidePageAnalysisHashtag",
-            null,
-            [{ key: "id", value: hashtag.id.toString() }]
-          );
+          var res = await clientFetchApi<string, IHashtag>("Instagramer" + instagramer + "/hashtag/HidePageAnalysisHashtag", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "id", value: hashtag.id.toString() }], onUploadProgress: undefined });
           if (res.succeeded) {
             setHashtagData((prev) => ({
               ...prev!,
@@ -773,12 +739,7 @@ const Tools = () => {
       winnerCount: lotteryInfo.winnerCount,
     };
     try {
-      const res = await GetServerResult<ILotteryInfo, boolean>(
-        MethodType.post,
-        session,
-        "Instagramer/Lottery/CreateLottery",
-        cerateLottery
-      );
+      const res = await clientFetchApi<ILotteryInfo, boolean>("/api/lottery/CreateLottery", { methodType: MethodType.post, session: session, data: cerateLottery, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         internalNotify(InternalResponseType.Ok, NotifType.Success);
         setlotteryInfo({
@@ -825,18 +786,12 @@ const Tools = () => {
   };
   const handleShareTermsAsStory = async (lotteryId: string) => {
     try {
-      var res = await GetServerResult<boolean, IFullLottery>(
-        MethodType.get,
-        session,
-        "Instagramer/Lottery/PublishTerms",
-        null,
-        [
+      var res = await clientFetchApi<boolean, IFullLottery>("/api/lottery/PublishTerms", { methodType: MethodType.get, session: session, data: null, queries: [
           {
             key: "lotteryId",
             value: lotteryId.toString(),
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         internalNotify(InternalResponseType.Ok, NotifType.Success, ", Terms is stored successfully");
       } else {
@@ -946,13 +901,7 @@ const Tools = () => {
     isFetchingRef.current = true;
 
     try {
-      let hashtagList = await GetServerResult<string, IHashtag>(
-        MethodType.get,
-        session,
-        "Instagramer/hashtag/GetHashtagList",
-        null,
-        []
-      );
+      let hashtagList = await clientFetchApi<string, IHashtag>("/api/hashtag/GetHashtagList", { methodType: MethodType.get, session: session, data: null, queries: [], onUploadProgress: undefined });
       if (hashtagList.succeeded) {
         setHashtagData(hashtagList.value);
         setIsDataLoaded(true);
@@ -979,11 +928,7 @@ const Tools = () => {
   const [featureInfo, setFeatureInfo] = useState<IFeatureInfo | null>(null);
   async function handleGetFeature() {
     try {
-      const res = await GetServerResult<boolean, IFeatureInfo>(
-        MethodType.get,
-        session,
-        "Instagramer/PSG/GetPackageFeatureDetails"
-      );
+      const res = await clientFetchApi<boolean, IFeatureInfo>("/api/psg/GetPackageFeatureDetails", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) setFeatureInfo(res.value);
       else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {

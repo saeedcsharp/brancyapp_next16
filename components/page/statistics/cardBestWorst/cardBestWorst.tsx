@@ -6,11 +6,12 @@ import Loading from "saeed/components/notOk/loading";
 import { GetTimeZoneOffset } from "saeed/helper/formatTimeAgo";
 import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { IBestTime } from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/cardBestWorst";
 import { HourCountUnix } from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import styles from "./cardBestWorst.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const formatTime = (hourValue: number): string => {
   let hour = Math.floor(hourValue);
   let minutes = Math.floor((hourValue - hour) * 60).toString();
@@ -73,12 +74,7 @@ const CardBestWorst = (props: {
     if (isFetchingRef.current) return;
     isFetchingRef.current = true;
     try {
-      const res = await GetServerResult<boolean, IBestTime>(
-        MethodType.get,
-        session,
-        "Instagramer/Statistics/GetTimeAnalysis",
-        null
-      );
+      const res = await clientFetchApi<boolean, IBestTime>("/api/statistics/GetTimeAnalysis", { methodType: MethodType.get, session: session, data: null, queries: undefined, onUploadProgress: undefined });
       if (!isMountedRef.current) return;
       if (res.succeeded) {
         setLoadingStatus(false);

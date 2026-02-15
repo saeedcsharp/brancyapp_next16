@@ -4,10 +4,11 @@ import { useTranslation } from "react-i18next";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IFullLottery } from "saeed/models/page/tools/tools";
 import ConstantCounterDown from "../../../../design/counterDown/constantCounterDown";
 import styles from "./lotteryRunning.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const LotteryRunning = (props: {
   removeMask: () => void;
   handleBachFromLotteryRunning: () => void;
@@ -24,18 +25,12 @@ const LotteryRunning = (props: {
   const [fullLottery, setFullLottery] = useState<IFullLottery>();
   async function fetchData() {
     try {
-      var res = await GetServerResult<boolean, IFullLottery>(
-        MethodType.get,
-        session,
-        "Instagramer/Lottery/GetFullLottery",
-        null,
-        [
+      var res = await clientFetchApi<boolean, IFullLottery>("/api/lottery/GetFullLottery", { methodType: MethodType.get, session: session, data: null, queries: [
           {
             key: "id",
             value: props.lotteryId.toString(),
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         setLoading(false);
         setFullLottery(res.value);

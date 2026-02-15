@@ -5,8 +5,9 @@ import { useTranslation } from "react-i18next";
 import TextArea from "saeed/components/design/textArea/textArea";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IAnnouncementInfo } from "saeed/models/market/properties";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 const Announcement = (props: { removeMask: () => void }) => {
   const { t } = useTranslation();
@@ -20,12 +21,7 @@ const Announcement = (props: { removeMask: () => void }) => {
     //Api to save Announcement decsription
     const instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     if (!instagramerId) return;
-    var res = await GetServerResult<{ str: string }, boolean>(
-      MethodType.post,
-      session,
-      "Instagramer" + "/bio/UpdateAnnouncement",
-      { str: announcement?.str }
-    );
+    var res = await clientFetchApi<{ str: string }, boolean>("Instagramer" + "/bio/UpdateAnnouncement", { methodType: MethodType.post, session: session, data: { str: announcement?.str }, queries: undefined, onUploadProgress: undefined });
     if (res.succeeded) {
       props.removeMask();
     }
@@ -33,11 +29,7 @@ const Announcement = (props: { removeMask: () => void }) => {
   async function fetchData() {
     const instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     if (!instagramerId) return;
-    var res = await GetServerResult<string, IAnnouncementInfo>(
-      MethodType.get,
-      session,
-      "Instagramer/bio/GetAnnouncement"
-    );
+    var res = await clientFetchApi<string, IAnnouncementInfo>("/api/bio/GetAnnouncement", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
     if (res.succeeded) {
       setAnnouncement(res.value);
       setLoading(false);

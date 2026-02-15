@@ -5,10 +5,11 @@ import { NotifType, notify, ResponseType } from "saeed/components/notifications/
 import Loading from "saeed/components/notOk/loading";
 import findSystemLanguage from "saeed/helper/findSystemLanguage";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IFullProduct, IOrderDetail } from "saeed/models/store/orders";
 import OrderDetailContent from "./OrderDetail-Content";
 import styles from "./orderstep.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 interface OrderDetailProps {
   removeMask: () => void;
   orderDetail: IOrderDetail;
@@ -52,20 +53,14 @@ const OrderFailed: FC<OrderDetailProps> = ({ removeMask, orderDetail }) => {
   }, []);
   async function handleGetFullOrder() {
     try {
-      const res = await GetServerResult<IOrderDetail, IFullProduct>(
-        MethodType.get,
-        session,
-        "Shopper/Order/GetFullOrder",
-        null,
-        [
+      const res = await clientFetchApi<IOrderDetail, IFullProduct>("/api/order/GetFullOrder", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "orderId", value: orderDetail.orderId },
           {
             key: "userId",
             value: orderDetail.userId ? orderDetail.userId.toString() : "",
           },
           { key: "language", value: findSystemLanguage().toString() },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         setFullProduct(res.value);
         setLoading(false);

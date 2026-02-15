@@ -4,11 +4,12 @@ import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { _arrayBufferToBase64 } from "saeed/helper/arrayBufferToBase64";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
+import { MethodType, UploadFile } from "saeed/helper/apihelper";
 import { BusinessBankAccountType } from "saeed/models/store/enum";
 import RingLoader from "../../design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
 import styles from "./nationalCard.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 export default function NationalCard({
   handleShowCredit,
@@ -39,11 +40,7 @@ export default function NationalCard({
   // }, [uploadStatus, showUpload]);
   async function getInstagramerAuthorizeType() {
     try {
-      const res = await GetServerResult<boolean, BusinessBankAccountType>(
-        MethodType.get,
-        session,
-        "Business/Authorize/GetInstagramerAuthorizeType"
-      );
+      const res = await clientFetchApi<boolean, BusinessBankAccountType>("/api/authorize/GetInstagramerAuthorizeType", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
       else {
         setUploadStatus("ok");
@@ -59,13 +56,7 @@ export default function NationalCard({
     inputRef?: React.RefObject<HTMLInputElement>
   ) {
     try {
-      const res = await GetServerResult<boolean, string>(
-        MethodType.get,
-        session,
-        "Business/Authorize/UserAuthorizeByNationalCard",
-        null,
-        [{ key: "url", value: url }]
-      );
+      const res = await clientFetchApi<boolean, string>("/api/authorize/UserAuthorizeByNationalCard", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "url", value: url }], onUploadProgress: undefined });
       if (!res.succeeded) {
         if (inputRef?.current) inputRef.current.value = "";
         setImg(null);

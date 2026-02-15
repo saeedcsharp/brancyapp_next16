@@ -8,8 +8,9 @@ import {
   notify,
 } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IUnFollowAllFollowing_UpdateCondotion } from "saeed/models/page/tools/tools";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const RemoveFollowing = (props: {
   condition: IUnFollowAllFollowing_UpdateCondotion;
   handleBackToUnfollowFollowing: () => void;
@@ -25,12 +26,7 @@ const RemoveFollowing = (props: {
   async function removeFollowing() {
     let instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     try {
-      var res = await GetServerResult<IUnFollowAllFollowing_UpdateCondotion, boolean>(
-        MethodType.post,
-        session,
-        "Instagramer" + instagramerId + "/UnfollowAllFollowing/UpdateCondition",
-        props.condition
-      );
+      var res = await clientFetchApi<IUnFollowAllFollowing_UpdateCondotion, boolean>("Instagramer" + instagramerId + "/UnfollowAllFollowing/UpdateCondition", { methodType: MethodType.post, session: session, data: props.condition, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         internalNotify(InternalResponseType.Ok, NotifType.Success);
         props.removeMask();

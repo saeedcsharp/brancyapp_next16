@@ -16,7 +16,7 @@ import {
   ILastTransaction,
   IPageSummary,
 } from "saeed/models/homeIndex/home";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IPostContent } from "saeed/models/page/post/posts";
 import { IStoryContent } from "saeed/models/page/story/stories";
 import AccountSummary from "../../components/homeIndex/accountSummary";
@@ -28,6 +28,7 @@ import PageDetail from "../../components/homeIndex/pageDetail";
 import PostSummary from "../../components/homeIndex/postSummary";
 import TutorialWrapper from "../../components/tutorial/tutorialWrapper";
 import styles from "./homeIndex.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 const initialState = {
   error: { message: null } as IError,
@@ -128,7 +129,13 @@ const Home = () => {
         pageSummary,
       ] = await Promise.all([
         session.user.messagePermission
-          ? GetServerResult<boolean, ILastMessage[]>(MethodType.get, session, "Instagramer/Home/GetLastMessages", null)
+          ? clientFetchApi<boolean, ILastMessage[]>("/api/home/GetLastMessages", {
+              methodType: MethodType.get,
+              session: session,
+              data: null,
+              queries: undefined,
+              onUploadProgress: undefined,
+            })
           : {
               succeeded: false,
               value: [],
@@ -149,7 +156,13 @@ const Home = () => {
         //   null
         // ),
         session.user.commentPermission
-          ? GetServerResult<boolean, ILastMessage[]>(MethodType.get, session, "Instagramer/Home/GetLastComments", null)
+          ? clientFetchApi<boolean, ILastMessage[]>("/api/home/GetLastComments", {
+              methodType: MethodType.get,
+              session: session,
+              data: null,
+              queries: undefined,
+              onUploadProgress: undefined,
+            })
           : {
               succeeded: false,
               value: [],
@@ -163,14 +176,21 @@ const Home = () => {
               statusCode: 200,
               errorMessage: "",
             },
-        GetServerResult<boolean, IInstagramerHomeTiles>(MethodType.get, session, "Instagramer/Home/GetTiles", null),
+        clientFetchApi<boolean, IInstagramerHomeTiles>("/api/home/GetTiles", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
         session.user.insightPermission
-          ? GetServerResult<boolean, IDemographicInsight>(
-              MethodType.get,
-              session,
-              "Instagramer/Statistics/GetDemographicInsight",
-              null,
-            )
+          ? clientFetchApi<boolean, IDemographicInsight>("/api/statistics/GetDemographicInsight", {
+              methodType: MethodType.get,
+              session: session,
+              data: null,
+              queries: undefined,
+              onUploadProgress: undefined,
+            })
           : {
               succeeded: false,
               value: {
@@ -189,14 +209,27 @@ const Home = () => {
               statusCode: 200,
               errorMessage: "",
             },
-        GetServerResult<boolean, IStoryContent[]>(
-          MethodType.get,
-          session,
-          "Instagramer/Story/GetLastActiveStories",
-          null,
-        ),
-        GetServerResult<boolean, IPostContent[]>(MethodType.get, session, "Instagramer/Post/GetPostCards", null),
-        GetServerResult<boolean, IPageSummary>(MethodType.get, session, "Instagramer/Home/GetPageSummary", null),
+        clientFetchApi<boolean, IStoryContent[]>("/api/story/GetLastActiveStories", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IPostContent[]>("/api/post/GetPostCards", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IPageSummary>("/api/home/GetPageSummary", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
       ]);
       if (session.user.messagePermission) dispatch({ type: "SET_LAST_MESSAGES", payload: lastMessages.value });
       // dispatch({ type: "SET_LAST_REPLIES", payload: lastReplies.value });
@@ -314,7 +347,7 @@ const Home = () => {
             style={{
               maxWidth: "calc(3 * 395px + 2 * var(--gap-20))",
             }}>
-            <AccountSummary data={state.pageSummary} />
+            {state.pageSummary && <AccountSummary data={state.pageSummary} />}
 
             {session.user.messagePermission && state.hometiles && (
               <LastMessage

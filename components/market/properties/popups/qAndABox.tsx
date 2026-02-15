@@ -5,9 +5,10 @@ import { useTranslation } from "react-i18next";
 import TextArea from "saeed/components/design/textArea/textArea";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IQuestion, IUpdateFAQ } from "saeed/models/market/properties";
 import styles from "./featureBoxPU.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const QAndABox = (props: { removeMask: () => void }) => {
   const { data: session } = useSession();
   const { t } = useTranslation();
@@ -51,17 +52,12 @@ const QAndABox = (props: { removeMask: () => void }) => {
         question: item.question,
       })),
     };
-    const res = await GetServerResult<IUpdateFAQ, boolean>(
-      MethodType.post,
-      session,
-      "Instagramer/bio/UpdateFaqs",
-      updateFAQ
-    );
+    const res = await clientFetchApi<IUpdateFAQ, boolean>("/api/bio/UpdateFaqs", { methodType: MethodType.post, session: session, data: updateFAQ, queries: undefined, onUploadProgress: undefined });
     if (res.value) props.removeMask();
   }, [currentInstagramerId, qABoxes, session, props.removeMask]);
   const fetchData = useCallback(async () => {
     if (!currentInstagramerId) return;
-    const res = await GetServerResult<string, IQuestion[]>(MethodType.get, session, "Instagramer/bio/GetFaqs");
+    const res = await clientFetchApi<string, IQuestion[]>("/api/bio/GetFaqs", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
     if (res.succeeded) {
       setQABoxes(res.value);
     }

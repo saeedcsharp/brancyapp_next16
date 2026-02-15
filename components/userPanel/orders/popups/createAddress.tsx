@@ -7,9 +7,10 @@ import RingLoader from "saeed/components/design/loader/ringLoder";
 import TextArea from "saeed/components/design/textArea/textArea";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IAddress, InputTypeAddress, IUpdateUserAddress } from "saeed/models/userPanel/orders";
 import styles from "./addresses.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 enum CreateAddresStep {
   PostalCode,
   VerifyAddress,
@@ -45,13 +46,7 @@ export default function CreateAddresses({
   async function handleCreatePostByPostalCode() {
     setLoadingCreateAddress(true);
     try {
-      const res = await GetServerResult<IAddress, IAddress>(
-        MethodType.get,
-        session,
-        "User/Address/CreateAddressByPostalCode",
-        null,
-        [{ key: "postalCode", value: postalCode }]
-      );
+      const res = await clientFetchApi<IAddress, IAddress>("/api/address/CreateAddressByPostalCode", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "postalCode", value: postalCode }], onUploadProgress: undefined });
       if (res.succeeded) {
         setAddress(res.value);
         setUpdateAddress((prev) => ({
@@ -75,12 +70,7 @@ export default function CreateAddresses({
     console.log("updateAddress", updateAddress);
     updateUserAddress(newAddress);
     try {
-      const res = await GetServerResult<IUpdateUserAddress, boolean>(
-        MethodType.post,
-        session,
-        "User/Address/UpdateUserAddress",
-        updateAddress
-      );
+      const res = await clientFetchApi<IUpdateUserAddress, boolean>("/api/address/UpdateUserAddress", { methodType: MethodType.post, session: session, data: updateAddress, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         // setAddress(newAddress);
         updateUserAddress(newAddress);

@@ -11,10 +11,11 @@ import {
   notify,
 } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IPageInfo } from "saeed/models/page/post/preposts";
 import { IPageAnalysisHashtags } from "saeed/models/page/tools/tools";
 import styles from "./newPageAnalyzer.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 interface IPageHashtagAnalysisInfo {
@@ -56,12 +57,7 @@ const NewPageAnalyzer = (props: {
         pk: 0,
         username: SelectedPeaple.username,
       };
-      var res = await GetServerResult<IPageHashtagAnalysisInfo, IPageAnalysisHashtags>(
-        MethodType.post,
-        session,
-        "Instagramer" + "/hashtag/AnalysisPageHashtags",
-        info
-      );
+      var res = await clientFetchApi<IPageHashtagAnalysisInfo, IPageAnalysisHashtags>("Instagramer" + "/hashtag/AnalysisPageHashtags", { methodType: MethodType.post, session: session, data: info, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         setHashtags(res.value.hashtags);
       } else {
@@ -79,13 +75,7 @@ const NewPageAnalyzer = (props: {
     try {
       var instagramerId = session?.user.instagramerIds[session.user.currentIndex];
       console.log("start searched people ", query);
-      var res = await GetServerResult<boolean, IPageInfo[]>(
-        MethodType.get,
-        session,
-        "Instagramer" + "/searchPeople",
-        null,
-        [{ key: "query", value: query }]
-      );
+      var res = await clientFetchApi<boolean, IPageInfo[]>("Instagramer" + "/searchPeople", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "query", value: query }], onUploadProgress: undefined });
       if (res.succeeded) setPageInfo(res.value);
       else notify(res.info.responseType, NotifType.Error);
     } catch {

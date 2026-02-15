@@ -11,9 +11,10 @@ import NotShopper from "saeed/components/notOk/notShopper";
 import { packageStatus } from "saeed/helper/loadingStatus";
 import { calculateSummary } from "saeed/helper/numberFormater";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IProduct_Candidate } from "saeed/models/store/IProduct";
 import styles from "./selectProduct.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const SelectProduct = () => {
   //  //  return <Soon />;
@@ -35,13 +36,7 @@ const SelectProduct = () => {
   const [hasMore, setHasMore] = useState(false);
   async function fetchData(includeProduct: boolean) {
     try {
-      const res = await GetServerResult<boolean, IProduct_Candidate[]>(
-        MethodType.get,
-        session,
-        "shopper" + "" + "/Product/GetProductCandidates",
-        null,
-        [{ key: "includeProduct", value: includeProduct + "" }]
-      );
+      const res = await clientFetchApi<boolean, IProduct_Candidate[]>("shopper" + "" + "/Product/GetProductCandidates", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "includeProduct", value: includeProduct + "" }], onUploadProgress: undefined });
       if (res.succeeded) {
         const container = userRef.current;
         if (container) {
@@ -60,19 +55,13 @@ const SelectProduct = () => {
   }
   async function getMoreData() {
     try {
-      const res = await GetServerResult<boolean, IProduct_Candidate[]>(
-        MethodType.get,
-        session,
-        "shopper" + "" + "/Product/GetProductCandidates",
-        null,
-        [
+      const res = await clientFetchApi<boolean, IProduct_Candidate[]>("shopper" + "" + "/Product/GetProductCandidates", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "includeProduct", value: "true" },
           {
             key: "nextMaxCreatedTime",
             value: products![products!.length - 1].createdTime.toString(),
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         setProducts((prev) => [...prev!, ...res.value]);
         setHasMore(false);
@@ -112,12 +101,7 @@ const SelectProduct = () => {
   }
   async function handleSaveCandidateProduct() {
     try {
-      const res = await GetServerResult<{ postIds: number[] }, boolean>(
-        MethodType.post,
-        session,
-        "shopper" + "" + "/Product/CreateProducts",
-        { postIds: selectedPosts }
-      );
+      const res = await clientFetchApi<{ postIds: number[] }, boolean>("shopper" + "" + "/Product/CreateProducts", { methodType: MethodType.post, session: session, data: { postIds: selectedPosts }, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         router.push("/store/products");
       } else {

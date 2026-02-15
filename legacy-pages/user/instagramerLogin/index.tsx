@@ -14,10 +14,11 @@ import FaceBook from "saeed/components/signIn/faceBook";
 import formatTimeAgo from "saeed/helper/formatTimeAgo";
 import { LanguageKey } from "saeed/i18n";
 import { SendCodeResult } from "saeed/models/ApiModels/User/SendCodeResult";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { InstagramerAccountInfo } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { IIpCondition } from "saeed/models/userPanel/login";
 import styles from "./instagramerLogin.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
@@ -67,13 +68,7 @@ export default function InstaLogin(props: { removeMask: () => void }) {
 
     setLoading(true);
     try {
-      const response = await GetServerResult<boolean, SendCodeResult>(
-        MethodType.get,
-        session,
-        "PreInstagramer/SendCode",
-        null,
-        [{ key: "username", value: instaId }]
-      );
+      const response = await clientFetchApi<boolean, SendCodeResult>("/api/preinstagramer/SendCode", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "username", value: instaId }], onUploadProgress: undefined });
 
       if (response.statusCode !== 200) {
         if (response.info.responseType === ResponseType.ExceedLoginAttempt) {
@@ -96,11 +91,7 @@ export default function InstaLogin(props: { removeMask: () => void }) {
     if (!session) return;
 
     try {
-      const response = await GetServerResult<boolean, string>(
-        MethodType.get,
-        session,
-        "PreInstagramer/GetInstagramRedirect"
-      );
+      const response = await clientFetchApi<boolean, string>("/api/preinstagramer/GetInstagramRedirect", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
 
       if (response.succeeded) {
         router.push(response.value);
@@ -116,7 +107,7 @@ export default function InstaLogin(props: { removeMask: () => void }) {
     if (!session) return;
 
     try {
-      const response = await GetServerResult<boolean, IIpCondition>(MethodType.get, session, "user/ip");
+      const response = await clientFetchApi<boolean, IIpCondition>("/api/user/ip", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (response.succeeded) {
         if (!response.value.isInstagramAuthorize) {
           internalNotify(InternalResponseType.TurnOnProxy, NotifType.Warning);
@@ -135,11 +126,7 @@ export default function InstaLogin(props: { removeMask: () => void }) {
     if (!session) return;
 
     try {
-      const res = await GetServerResult<boolean, InstagramerAccountInfo[]>(
-        MethodType.get,
-        session,
-        "user/GetMyInstagramers"
-      );
+      const res = await clientFetchApi<boolean, InstagramerAccountInfo[]>("/api/user/GetMyInstagramers", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
 
       if (res.succeeded && res.value.length > 0) {
         setInstagramers(res.value);
@@ -341,11 +328,7 @@ export default function InstaLogin(props: { removeMask: () => void }) {
 
   async function redirectToFacebook() {
     try {
-      const response = await GetServerResult<boolean, string>(
-        MethodType.get,
-        session,
-        "PreInstagramer/GetFacebookRedirect"
-      );
+      const response = await clientFetchApi<boolean, string>("/api/preinstagramer/GetFacebookRedirect", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (response.succeeded) {
         router.push(response.value);
       } else {
@@ -358,7 +341,7 @@ export default function InstaLogin(props: { removeMask: () => void }) {
 
   async function handleRedirectToFacebook() {
     try {
-      const response = await GetServerResult<boolean, IIpCondition>(MethodType.get, session, "user/ip");
+      const response = await clientFetchApi<boolean, IIpCondition>("/api/user/ip", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (response.succeeded) {
         if (!response.value.isInstagramAuthorize) internalNotify(InternalResponseType.TurnOnProxy, NotifType.Warning);
         else {

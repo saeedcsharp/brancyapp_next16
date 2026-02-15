@@ -9,9 +9,10 @@ import System from "saeed/components/setting/general/system";
 import UserPartners from "saeed/components/userPanel/setting/partner";
 import { LanguageKey } from "saeed/i18n";
 import { IRefreshToken } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IPartner_User } from "saeed/models/userPanel/setting";
 import styles from "./setting.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 function InputField({
   label,
   placeholder,
@@ -303,13 +304,7 @@ function Setting() {
 
   async function handleGetNextPartners(id: string) {
     try {
-      const res = await GetServerResult<boolean, IPartner_User[]>(
-        MethodType.get,
-        session,
-        "user/Session/GetPartners",
-        null,
-        [{ key: "nextMaxId", value: id }]
-      );
+      const res = await clientFetchApi<boolean, IPartner_User[]>("/api/session/GetPartners", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "nextMaxId", value: id }], onUploadProgress: undefined });
       if (res.succeeded) {
         setPartners((prev) => [...prev!, ...res.value]);
       } else notify(res.info.responseType, NotifType.Warning);
@@ -319,7 +314,7 @@ function Setting() {
   }
   async function refreshToken(id: number) {
     try {
-      const res = await GetServerResult<boolean, IRefreshToken>(MethodType.get, session, "user/RefreshToken");
+      const res = await clientFetchApi<boolean, IRefreshToken>("/api/user/RefreshToken", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         const instagramerIds = res.value.role.instagramerIds;
         const newCurrentIndex = instagramerIds.indexOf(id);
@@ -344,13 +339,7 @@ function Setting() {
   }
   async function handleApprovePartner(id: number) {
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "user/Session/ApprovePartnerRequest",
-        null,
-        [{ key: "instagramerId", value: id.toString() }]
-      );
+      const res = await clientFetchApi<boolean, boolean>("/api/session/ApprovePartnerRequest", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "instagramerId", value: id.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         setPartners((prev) => prev!.map((x) => (x.instagramerId === id ? { ...x, approved: true } : x)));
         await refreshToken(id);
@@ -361,13 +350,7 @@ function Setting() {
   }
   async function handleRejectPartner(id: number) {
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "user/Session/RejectPartnerRequest",
-        null,
-        [{ key: "instagramerId", value: id.toString() }]
-      );
+      const res = await clientFetchApi<boolean, boolean>("/api/session/RejectPartnerRequest", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "instagramerId", value: id.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         setPartners((prev) => prev!.filter((x) => x.instagramerId !== id));
       } else notify(res.info.responseType, NotifType.Warning);
@@ -377,7 +360,7 @@ function Setting() {
   }
   async function fetchData() {
     try {
-      const res = await GetServerResult<boolean, IPartner_User[]>(MethodType.get, session, "user/Session/GetPartners");
+      const res = await clientFetchApi<boolean, IPartner_User[]>("/api/session/GetPartners", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         setPartners(res.value);
       } else notify(res.info.responseType, NotifType.Warning);

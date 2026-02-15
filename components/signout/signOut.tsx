@@ -2,8 +2,9 @@ import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import styles from "./signOut.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 function SignOut(props: { removeMask: () => void }) {
   const router = useRouter();
   const { data: session } = useSession();
@@ -13,9 +14,9 @@ function SignOut(props: { removeMask: () => void }) {
     window.localStorage.setItem("sessionId", session!.user.sessionId);
     const deleteSession = false;
 
-    await GetServerResult<boolean, boolean>(MethodType.get, session, "User/signout", null, [
+    await clientFetchApi<boolean, boolean>("/api/user/signout", { methodType: MethodType.get, session: session, data: null, queries: [
       { key: "deleteSession", value: deleteSession.toString() },
-    ]);
+    ], onUploadProgress: undefined });
   }
 
   const signOut2 = async () => {

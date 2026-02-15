@@ -5,8 +5,9 @@ import { useTranslation } from "react-i18next";
 import ProgressBar from "saeed/components/design/progressBar/progressBar";
 import { convertHeicToJpeg } from "saeed/helper/convertHeicToJPEG";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import styles from "./newPictureAnalyzerList.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 interface IHashtagPicture {
   media: string;
@@ -77,14 +78,7 @@ const NewPictureAnalyzerList = (props: {
         let info: IHashtagPicture = {
           media: (await toBase64(file)) as string,
         };
-        const serverResult = await GetServerResult<IHashtagPicture, string[]>(
-          MethodType.post,
-          session,
-          "Instagramer/hashtag/GetHashtagsByImage",
-          info,
-          [],
-          setProgress
-        );
+        const serverResult = await clientFetchApi<IHashtagPicture, string[]>("/api/hashtag/GetHashtagsByImage", { methodType: MethodType.post, session: session, data: info, queries: [], onUploadProgress: setProgress });
         if (serverResult.statusCode == 200) {
           console.log("Image uploaded successfully");
           setHashtags(serverResult.value);

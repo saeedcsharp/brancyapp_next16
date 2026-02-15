@@ -8,10 +8,11 @@ import Loading from "saeed/components/notOk/loading";
 import ShopPage from "saeed/components/userPanel/shop/shop";
 import findSystemLanguage from "saeed/helper/findSystemLanguage";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { SelectedMarketType } from "saeed/models/market/enums";
 import { IFullShop } from "saeed/models/userPanel/shop";
 import styles from "./shop.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
 const StorePage = () => {
@@ -34,10 +35,10 @@ const StorePage = () => {
   }
   async function fetchData() {
     try {
-      const res = await GetServerResult<boolean, IFullShop[]>(MethodType.get, session, "user/shop/searchshop", null, [
+      const res = await clientFetchApi<boolean, IFullShop[]>("/api/shop/searchshop", { methodType: MethodType.get, session: session, data: null, queries: [
         { key: "query", value: undefined },
         { key: "languageId", value: findSystemLanguage().toString() },
-      ]);
+      ], onUploadProgress: undefined });
       console.log("shop", res.value);
       if (res.succeeded) {
         setStoreMarkets(res.value);

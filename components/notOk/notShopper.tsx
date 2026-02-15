@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import {
   BusinessBankAccountType,
   CreateShopperSteps,
@@ -19,6 +19,7 @@ import Logistic from "../store/logistic/logistic";
 import TermsAndCondition from "../store/termsandcondition/termsandcondition";
 import Loading from "./loading";
 import styles from "./notShopper.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 export default function NotShopper() {
   const { data: session, update } = useSession();
@@ -34,11 +35,7 @@ export default function NotShopper() {
 
   async function getAuthorizeUserType() {
     try {
-      const res = await GetServerResult<boolean, IdentityVerifyType>(
-        MethodType.get,
-        session,
-        "Business/Authorize/GetAuthorizeUserType"
-      );
+      const res = await clientFetchApi<boolean, IdentityVerifyType>("/api/authorize/GetAuthorizeUserType", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
       else {
         setVerifyType(res.value);
@@ -52,11 +49,7 @@ export default function NotShopper() {
   }
   async function getInstagramerAuthorizeType() {
     try {
-      const res = await GetServerResult<boolean, BusinessBankAccountType>(
-        MethodType.get,
-        session,
-        "Business/Authorize/GetInstagramerAuthorizeType"
-      );
+      const res = await clientFetchApi<boolean, BusinessBankAccountType>("/api/authorize/GetInstagramerAuthorizeType", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
       else {
         setBankAccountType(res.value);
@@ -70,11 +63,7 @@ export default function NotShopper() {
   }
   async function handleGetAddressInputType() {
     try {
-      const res = await GetServerResult<boolean, InputTypeAddress>(
-        MethodType.get,
-        session,
-        "User/Address/GetAddressInputType"
-      );
+      const res = await clientFetchApi<boolean, InputTypeAddress>("/api/address/GetAddressInputType", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         setInputTypeAddress(res.value);
         setSteps(CreateShopperSteps.Address);
@@ -87,11 +76,7 @@ export default function NotShopper() {
   }
   async function getShopLogistic() {
     try {
-      const res = await GetServerResult<boolean, ILogistic[]>(
-        MethodType.get,
-        session,
-        "Business/Authorize/GetShopLogestics"
-      );
+      const res = await clientFetchApi<boolean, ILogistic[]>("/api/authorize/GetShopLogestics", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         setLogistic(res.value);
         setSteps(CreateShopperSteps.Shipping);
@@ -104,13 +89,7 @@ export default function NotShopper() {
   }
   async function getAuthorizeLevel() {
     try {
-      const res = await GetServerResult<boolean, number>(
-        MethodType.get,
-        session,
-        "Business/Authorize/GetAuthorizeLevel",
-        null,
-        [{ key: "isShopper", value: "0" }]
-      );
+      const res = await clientFetchApi<boolean, number>("/api/authorize/GetAuthorizeLevel", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "isShopper", value: "0" }], onUploadProgress: undefined });
       console.log("AddShopperAddress", res.value);
 
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
@@ -131,7 +110,7 @@ export default function NotShopper() {
   async function handleCreateShopper() {
     setFinalLoading(true);
     try {
-      const res = await GetServerResult<boolean, boolean>(MethodType.get, session, "Business/Authorize/CreateShopper");
+      const res = await clientFetchApi<boolean, boolean>("/api/authorize/CreateShopper", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
       else {
         await update({

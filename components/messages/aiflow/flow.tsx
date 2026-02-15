@@ -40,9 +40,10 @@ import {
 } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { ITotalMasterFlow } from "saeed/models/messages/properies";
 import styles from "./Flow.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 // #endregion IMPORTS AND EXPORTS
 
 // #region INTERFACES & TYPE DEFINITIONS
@@ -3589,13 +3590,7 @@ export default function Flow({
   const reloadFlow = useCallback(
     async (useLocalStorage: boolean = false) => {
       try {
-        const res = await GetServerResult<boolean, IGetFlow>(
-          MethodType.get,
-          session,
-          "Instagramer/Flow/GetMasterFlow",
-          null,
-          [{ key: "id", value: flowPropsId }]
-        );
+        const res = await clientFetchApi<boolean, IGetFlow>("/api/flow/GetMasterFlow", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "id", value: flowPropsId }], onUploadProgress: undefined });
         if (res.succeeded) {
           const rawNodes = res.value.flowModel.nodes || [];
           const normalizedNodes = rawNodes.map((node: any) => {
@@ -3658,13 +3653,7 @@ export default function Flow({
 
   async function getFlow() {
     try {
-      const res = await GetServerResult<boolean, IGetFlow>(
-        MethodType.get,
-        session,
-        "Instagramer/Flow/GetMasterFlow",
-        null,
-        [{ key: "id", value: flowPropsId }]
-      );
+      const res = await clientFetchApi<boolean, IGetFlow>("/api/flow/GetMasterFlow", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "id", value: flowPropsId }], onUploadProgress: undefined });
       if (res.succeeded) {
         const rawNodes = res.value.flowModel.nodes || [];
         const normalizedNodes = rawNodes.map((node: any) => {
@@ -3815,20 +3804,14 @@ export default function Flow({
 
   const handleServerSave = async () => {
     try {
-      const res = await GetServerResult<any, ITotalMasterFlow>(
-        MethodType.post,
-        session,
-        "Instagramer/Flow/CreateMasterFlow",
-        editorState,
-        [
+      const res = await clientFetchApi<any, ITotalMasterFlow>("/api/flow/CreateMasterFlow", { methodType: MethodType.post, session: session, data: editorState, queries: [
           { key: "checkFollower", value: checkFollower.toString() },
           { key: "title", value: flowTitle },
           {
             key: "masterFlowId",
             value: flowPropsId !== "newFlow" ? flowPropsId : undefined,
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (!res.succeeded) {
         notify(res.info.responseType, NotifType.Warning);
       } else {

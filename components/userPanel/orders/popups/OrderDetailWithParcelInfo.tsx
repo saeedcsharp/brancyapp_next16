@@ -11,9 +11,10 @@ import findSystemLanguage from "saeed/helper/findSystemLanguage";
 import initialzedTime from "saeed/helper/manageTimer";
 import { specifyLogistic } from "saeed/helper/specifyLogistic";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IFullProduct, IOrderDetail, IParcelInfo } from "saeed/models/store/orders";
 import styles from "./OrderDetailWithParcelInfo.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 interface OrderDetailProps {
   removeMask: () => void;
@@ -66,20 +67,14 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
     else {
       try {
         setLoadingFullProduct(true);
-        const res = await GetServerResult<boolean, IFullProduct>(
-          MethodType.get,
-          session,
-          orderDetail.instagramerId !== undefined ? "User/Order/GetFullOrder" : "",
-          null,
-          [
+        const res = await clientFetchApi<boolean, IFullProduct>(orderDetail.instagramerId !== undefined ? "User/Order/GetFullOrder" : "", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "orderId", value: orderDetail.orderId },
             {
               key: "instagramerId",
               value: orderDetail.instagramerId !== undefined ? orderDetail.instagramerId!.toString() : "",
             },
             { key: "language", value: findSystemLanguage().toString() },
-          ]
-        );
+          ], onUploadProgress: undefined });
         if (res.succeeded) {
           setFullProduct(res.value);
           setActiveFullProduct(true);
@@ -94,13 +89,7 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
   async function handleGetParcelInfo() {
     setLoading(true);
     try {
-      const res = await GetServerResult<boolean, IParcelInfo>(
-        MethodType.get,
-        session,
-        "User/Order/GetParcelInfo",
-        null,
-        [{ key: "orderId", value: orderDetail.orderId }]
-      );
+      const res = await clientFetchApi<boolean, IParcelInfo>("/api/order/GetParcelInfo", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "orderId", value: orderDetail.orderId }], onUploadProgress: undefined });
       if (res.succeeded) setParcelInfo(res.value);
       else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {

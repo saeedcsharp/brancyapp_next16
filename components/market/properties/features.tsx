@@ -22,11 +22,12 @@ import { useTranslation } from "react-i18next";
 import Loading from "saeed/components/notOk/loading";
 import useHideDiv from "saeed/hook/useHide";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { FeatureType } from "saeed/models/market/enums";
 import { IFeatureItem, IOrderFeatures, IUpdateFeatureOrder } from "saeed/models/market/properties";
 import CheckBoxButton from "../../design/checkBoxButton";
 import styles from "./features.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 const getFeatureClassName = (featureType: FeatureType): string => {
   switch (featureType) {
@@ -208,9 +209,9 @@ const Features = (props: {
       const instagramerId = session?.user?.instagramerIds?.[session.user.currentIndex];
       if (!instagramerId) return;
       try {
-        await GetServerResult<string, boolean>(MethodType.get, session, "Instagramer/Bio/ToggleFeatureBox", null, [
+        await clientFetchApi<string, boolean>("/api/bio/ToggleFeatureBox", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "enabled", value: checked.toString() },
-        ]);
+        ], onUploadProgress: undefined });
       } catch (error) {
         if (isMountedRef.current) {
           setCheckbox(!checked);

@@ -21,7 +21,7 @@ import { ToggleOrder } from "saeed/components/design/toggleButton/types";
 import Loading from "saeed/components/notOk/loading";
 import { convertHeicToJpeg } from "saeed/helper/convertHeicToJPEG";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
+import { MethodType, UploadFile } from "saeed/helper/apihelper";
 import {
   IBannerSelectedImage,
   ICustomeBannerInfo,
@@ -32,6 +32,7 @@ import {
   IUpdateProfileBanner,
 } from "saeed/models/market/properties";
 import styles from "./featureBoxPU.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "image/tiff", "image/gif"];
 const MAX_CAPTION_LENGTH = 150;
@@ -386,8 +387,8 @@ const Banner = memo((props: BannerProps) => {
     abortControllerRef.current = new AbortController();
     try {
       const [profileRes, bannerRes] = await Promise.all([
-        GetServerResult<string, IProfileBanner>(MethodType.get, session, "Instagramer/Bio/GetCustomProfile", null),
-        GetServerResult<string, ICustomeBannerInfo>(MethodType.get, session, "Instagramer/Bio/GetCustomBanners", null),
+        clientFetchApi<string, IProfileBanner>("/api/bio/GetCustomProfile", { methodType: MethodType.get, session: session, data: null, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<string, ICustomeBannerInfo>("/api/bio/GetCustomBanners", { methodType: MethodType.get, session: session, data: null, queries: undefined, onUploadProgress: undefined }),
       ]);
       if (abortControllerRef.current?.signal.aborted) return;
       if (profileRes.succeeded) {
@@ -445,20 +446,8 @@ const Banner = memo((props: BannerProps) => {
         }
       });
       const [profileRes, bannerRes] = await Promise.all([
-        GetServerResult<IUpdateProfileBanner, boolean>(
-          MethodType.post,
-          session,
-          "Instagramer/Bio/UpdateCustomProfile",
-          updateProfile
-        ),
-        GetServerResult<IUpdateBanner, boolean>(
-          MethodType.post,
-          session,
-          "Instagramer/Bio/UpdateCustomBanners",
-          updateBanner,
-          [],
-          setProgress
-        ),
+        clientFetchApi<IUpdateProfileBanner, boolean>("/api/bio/UpdateCustomProfile", { methodType: MethodType.post, session: session, data: updateProfile, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<IUpdateBanner, boolean>("/api/bio/UpdateCustomBanners", { methodType: MethodType.post, session: session, data: updateBanner, queries: [], onUploadProgress: setProgress }),
       ]);
       if (profileRes.succeeded && bannerRes.succeeded) {
         props.removeMask();

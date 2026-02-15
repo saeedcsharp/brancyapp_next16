@@ -6,7 +6,8 @@ import { useTranslation } from "react-i18next";
 import InputText from "saeed/components/design/inputText";
 import TextArea from "saeed/components/design/textArea/textArea";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 export default function ReportProduct({
   removeMask,
   productId,
@@ -31,19 +32,13 @@ export default function ReportProduct({
   const isFormValid = inputText.trim() !== "" && textArea.trim() !== "";
   async function handleReportProduct() {
     try {
-      const res = await GetServerResult<{ subject: "string"; message: "string" }, boolean>(
-        MethodType.post,
-        session,
-        "user/shop/ReportProduct",
-        {
+      const res = await clientFetchApi<{ subject: "string"; message: "string" }, boolean>("/api/shop/ReportProduct", { methodType: MethodType.post, session: session, data: {
           subject: inputText,
           message: textArea,
-        },
-        [
+        }, queries: [
           { key: "instagramerId", value: instagramerId },
           { key: "productId", value: productId },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
       } else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {

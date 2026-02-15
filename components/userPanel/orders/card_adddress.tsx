@@ -11,7 +11,7 @@ import Loading from "saeed/components/notOk/loading";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import PriceFormater, { PriceFormaterClassName } from "saeed/components/priceFormater";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import IUserCoupon, {
   IAddress,
   ICompleteProduct,
@@ -21,6 +21,7 @@ import IUserCoupon, {
 } from "saeed/models/userPanel/orders";
 
 import styles from "./card_address.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const MOBILE_BREAKPOINT = 1024;
@@ -159,19 +160,13 @@ export default function CardAddress({
     dispatch({ type: "SET_LOADING_COUPON", payload: true });
 
     try {
-      const res = await GetServerResult<boolean, IUserCoupon>(
-        MethodType.get,
-        session,
-        "user/shop/GetProductCoupon",
-        null,
-        [
+      const res = await clientFetchApi<boolean, IUserCoupon>("/api/shop/GetProductCoupon", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "code", value: state.couponCode },
           {
             key: "instagramerId",
             value: products[0].shortProduct.instagramerId.toString(),
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         dispatch({ type: "SET_COUPON", payload: res.value });
       } else {
@@ -191,18 +186,12 @@ export default function CardAddress({
   const handleGetOrderPaymentLink = useCallback(
     async (id: string) => {
       try {
-        const res = await GetServerResult<string, string>(
-          MethodType.get,
-          session,
-          "User/Order/GetOrderPaymentLink",
-          null,
-          [
+        const res = await clientFetchApi<string, string>("/api/order/GetOrderPaymentLink", { methodType: MethodType.get, session: session, data: null, queries: [
             {
               key: "orderId",
               value: id,
             },
-          ]
-        );
+          ], onUploadProgress: undefined });
         if (res.succeeded) router.replace(res.value);
         else {
           notify(res.info.responseType, NotifType.Warning);
@@ -232,18 +221,12 @@ export default function CardAddress({
     };
 
     try {
-      const res = await GetServerResult<ICreateOrder, string>(
-        MethodType.post,
-        session,
-        "User/Order/CreateOrder",
-        order,
-        [
+      const res = await clientFetchApi<ICreateOrder, string>("/api/order/CreateOrder", { methodType: MethodType.post, session: session, data: order, queries: [
           {
             key: "instagramerId",
             value: products[0].shortProduct.instagramerId.toString(),
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         handleGetOrderPaymentLink(res.value);
         return;

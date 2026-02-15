@@ -9,10 +9,11 @@ import { NotifType, notify, ResponseType } from "saeed/components/notifications/
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
 import { IDetailPrompt } from "saeed/models/AI/prompt";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IceOrPersistent, PayloadType, SpecialPayLoad } from "saeed/models/messages/enum";
 import { IIceBreaker } from "saeed/models/messages/properies";
 import styles from "./properties.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 // Wrap component with React.memo for performance
 const IceBreaker = React.memo(
   ({
@@ -76,13 +77,7 @@ const IceBreaker = React.memo(
           return newState;
         });
         if (selectedPrompt.find((x) => x.promptId === promptId)) return;
-        const res = await GetServerResult<boolean, IDetailPrompt>(
-          MethodType.get,
-          session,
-          `Instagramer/AI/GetPrompt`,
-          null,
-          [{ key: "promptId", value: promptId }]
-        );
+        const res = await clientFetchApi<boolean, IDetailPrompt>(`/api/ai/GetPrompt`, { methodType: MethodType.get, session: session, data: null, queries: [{ key: "promptId", value: promptId }], onUploadProgress: undefined });
         if (res.succeeded) setSelectedPrompt((prev) => [...prev, res.value]);
         else {
           notify(res.info.responseType, NotifType.Warning);

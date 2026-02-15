@@ -15,9 +15,10 @@ import {
 } from "saeed/components/notifications/notificationBox";
 import initialzedTime from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { ITotalMasterFlow } from "saeed/models/messages/properies";
 import styles from "./settingmodal.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 interface SettingModalProps {
   masterFlowId: string;
   snapToGridEnabled: boolean;
@@ -106,20 +107,14 @@ export const SettingModal: React.FC<SettingModalProps> = ({
     event.preventDefault();
     setUploading(true);
     try {
-      const res = await GetServerResult<any, ITotalMasterFlow>(
-        MethodType.post,
-        session,
-        "Instagramer/Flow/CreateMasterFlow",
-        editorState,
-        [
+      const res = await clientFetchApi<any, ITotalMasterFlow>("/api/flow/CreateMasterFlow", { methodType: MethodType.post, session: session, data: editorState, queries: [
           { key: "checkFollower", value: checkFollower.toString() },
           { key: "title", value: flowTitleState },
           {
             key: "masterFlowId",
             value: masterFlowId !== "newFlow" ? masterFlowId : undefined,
           },
-        ],
-      );
+        ], onUploadProgress: undefined });
       if (!res.succeeded) {
         notify(res.info.responseType, NotifType.Warning);
       } else {

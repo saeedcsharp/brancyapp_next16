@@ -11,7 +11,7 @@ import {
   ResponseType,
 } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, IResult, MethodType } from "saeed/helper/apihelper";
+import { IResult, MethodType } from "saeed/helper/apihelper";
 import { IDetailsPost } from "saeed/models/page/post/posts";
 import { MediaType } from "saeed/models/page/post/preposts";
 import { ParcelPocketDeliveryType, Steps } from "saeed/models/store/enum";
@@ -43,6 +43,7 @@ import MediaInstance from "./mediaInstance";
 import SettingInstance from "./settingInstance";
 import SpecificationsInstance from "./specificationInstance";
 import InstanceVariation from "./variationInstance";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 export default function InstanceProductDetail({
   fullProduct,
   maxSize,
@@ -240,12 +241,12 @@ export default function InstanceProductDetail({
   async function handleUploadMedia(uploadMedias: IUploadMedia[]) {
     if (uploadMedias.length > 0) {
       const mediaUploadPromises = uploadMedias.map(async (media) =>
-        GetServerResult<IUploadMedia, boolean>(MethodType.post, session, "shopper/Product/InsertProductMedia", media, [
+        clientFetchApi<IUploadMedia, boolean>("/api/product/InsertProductMedia", { methodType: MethodType.post, session: session, data: media, queries: [
           {
             key: "productId",
             value: fullProduct.productInstance.productId.toString(),
           },
-        ])
+        ], onUploadProgress: undefined })
       );
       return await Promise.all(mediaUploadPromises);
     }
@@ -266,18 +267,12 @@ export default function InstanceProductDetail({
       value: true,
     };
     if (customMedias.length > 0) {
-      result = await GetServerResult<{ items: ICustomMedia[] }, boolean>(
-        MethodType.post,
-        session,
-        "shopper/Product/UpdateSelfMediaStatus",
-        { items: customMedias },
-        [
+      result = await clientFetchApi<{ items: ICustomMedia[] }, boolean>("/api/product/UpdateSelfMediaStatus", { methodType: MethodType.post, session: session, data: { items: customMedias }, queries: [
           {
             key: "productId",
             value: fullProduct.productInstance.productId.toString(),
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
     }
     return result;
   }
@@ -296,12 +291,7 @@ export default function InstanceProductDetail({
       value: true,
     };
     if (specs.items.length > 0) {
-      result = await GetServerResult<ISpecificationOrder, boolean>(
-        MethodType.post,
-        session,
-        "shopper/Product/UpdateSpecificationOrder",
-        specs
-      );
+      result = await clientFetchApi<ISpecificationOrder, boolean>("/api/product/UpdateSpecificationOrder", { methodType: MethodType.post, session: session, data: specs, queries: undefined, onUploadProgress: undefined });
     }
     return result;
   }
@@ -320,18 +310,12 @@ export default function InstanceProductDetail({
       value: true,
     };
     if (defaultMedias.length > 0) {
-      result = await GetServerResult<IProduct_UpdateChildrenMedia, boolean>(
-        MethodType.post,
-        session,
-        "shopper/Product/UpdateChildrenMediaStatus",
-        { items: defaultMedias },
-        [
+      result = await clientFetchApi<IProduct_UpdateChildrenMedia, boolean>("/api/product/UpdateChildrenMediaStatus", { methodType: MethodType.post, session: session, data: { items: defaultMedias }, queries: [
           {
             key: "productId",
             value: fullProduct.productInstance.productId.toString(),
           },
-        ]
-      );
+        ], onUploadProgress: undefined });
     }
     return result;
   }
@@ -447,28 +431,17 @@ export default function InstanceProductDetail({
         suggestedMediaRes,
       ] = await Promise.all([
         // First API call
-        GetServerResult<IProduct_CreateSubProduct, boolean>(
-          MethodType.post,
-          session,
-          "shopper/Product/CreateSubProducts",
-          {
+        clientFetchApi<IProduct_CreateSubProduct, boolean>("/api/product/CreateSubProducts", { methodType: MethodType.post, session: session, data: {
             productId: fullProduct.productInstance.productId,
             subProducts: updatedSubProducts,
             deActiveSubProducts: deActiveSubProducts,
-          }
-        ),
-        GetServerResult<IProduct_SettingUpdate, boolean>(
-          MethodType.post,
-          session,
-          "shopper/Product/UpdateSecondaryProductDetails",
-          updatedSetting,
-          [
+          }, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<IProduct_SettingUpdate, boolean>("/api/product/UpdateSecondaryProductDetails", { methodType: MethodType.post, session: session, data: updatedSetting, queries: [
             {
               key: "productId",
               value: fullProduct.productInstance.productId.toString(),
             },
-          ]
-        ),
+          ], onUploadProgress: undefined }),
         handleUpdateSpecification(specificationOrder),
         handleUploadMedia(uploadMedias),
         handleUpdateChildrenMedia(defaultMedias),
@@ -495,14 +468,14 @@ export default function InstanceProductDetail({
   }
   async function handleUploadSuggestedMedia(suggestedMedia: { key: string; index: number }[]) {
     const mediaUploadPromises = suggestedMedia.map(async (media) =>
-      GetServerResult<boolean, boolean>(MethodType.get, session, "shopper/Product/InsertProductMedia", null, [
+      clientFetchApi<boolean, boolean>("/api/product/InsertProductMedia", { methodType: MethodType.get, session: session, data: null, queries: [
         {
           key: "productId",
           value: shortProduct.productId.toString(),
         },
         { key: "key", value: media.key },
         { key: "index", value: media.index.toString() },
-      ])
+      ], onUploadProgress: undefined })
     );
     return mediaUploadPromises;
   }
@@ -522,13 +495,7 @@ export default function InstanceProductDetail({
       });
     }
     try {
-      var res2 = await GetServerResult<boolean, ISuggestedMedia>(
-        MethodType.get,
-        session,
-        "shopper/Product/GetMediaSuggestion",
-        null,
-        [{ key: "productId", value: shortProduct.productId.toString() }]
-      );
+      var res2 = await clientFetchApi<boolean, ISuggestedMedia>("/api/product/GetMediaSuggestion", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "productId", value: shortProduct.productId.toString() }], onUploadProgress: undefined });
       console.log("GetMediaSuggestion", res2);
       if (res2.succeeded) {
         if (res2.value.medias.length === 0) return;

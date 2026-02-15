@@ -14,7 +14,7 @@ import SignIn, { RedirectType, SignInType } from "saeed/components/signIn/signIn
 import SignInPage1 from "saeed/components/signIn/signInPage1";
 import findSystemLanguage from "saeed/helper/findSystemLanguage";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { AvailabilityStatus } from "saeed/models/store/enum";
 import {
   IFilter,
@@ -26,6 +26,7 @@ import {
   ProductSortType,
 } from "saeed/models/userPanel/shop";
 import styles from "./products.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const ProductsPage = () => {
   const router = useRouter();
@@ -136,7 +137,7 @@ const ProductsPage = () => {
       setLoading(true);
       try {
         const [res, res2, res3] = await Promise.all([
-          GetServerResult<boolean, IProduct>(MethodType.get, session, "user/shop/getshopproducts", null, [
+          clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "instagramerId", value: shopId.toString() },
             { key: "nextMaxId", value: undefined },
             { key: "includeUnavailable", value: "true" },
@@ -144,15 +145,15 @@ const ProductsPage = () => {
             { key: "maxPrice", value: undefined },
             { key: "minPrice", value: undefined },
             { key: "hashtagId", value: undefined },
-          ]),
-          GetServerResult<boolean, IFullShop>(MethodType.get, session, "user/shop/getfullshop", null, [
+          ], onUploadProgress: undefined }),
+          clientFetchApi<boolean, IFullShop>("/api/shop/getfullshop", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "instagramerId", value: shopId.toString() },
             { key: "language", value: findSystemLanguage().toString() },
-          ]),
-          GetServerResult<boolean, IFilterInfo>(MethodType.get, session, "user/shop/getfilters", null, [
+          ], onUploadProgress: undefined }),
+          clientFetchApi<boolean, IFilterInfo>("/api/shop/getfilters", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "instagramerId", value: shopId.toString() },
             { key: "categoryId", value: undefined },
-          ]),
+          ], onUploadProgress: undefined }),
         ]);
         if (res3.succeeded && res3.value.priceRange) {
           setPriceRange([Math.ceil(res3.value.priceRange.minPrice), Math.ceil(res3.value.priceRange.maxPrice)]);
@@ -250,7 +251,7 @@ const ProductsPage = () => {
   async function getAllProducts() {
     setProductsLoading(true);
     try {
-      const res = await GetServerResult<boolean, IProduct>(MethodType.get, session, "user/shop/getshopproducts", null, [
+      const res = await clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", { methodType: MethodType.get, session: session, data: null, queries: [
         { key: "instagramerId", value: shopId!.toString() },
         { key: "nextMaxId", value: undefined },
         { key: "includeUnavailable", value: "true" },
@@ -258,7 +259,7 @@ const ProductsPage = () => {
         { key: "maxPrice", value: undefined },
         { key: "minPrice", value: undefined },
         { key: "hashtagId", value: undefined },
-      ]);
+      ], onUploadProgress: undefined });
       if (res.succeeded) {
         setIsFiltersActive(false);
         setProducts(res.value);
@@ -278,7 +279,7 @@ const ProductsPage = () => {
     if (categoryId !== undefined) setCategory(categoryId);
     try {
       const [res, res2] = await Promise.all([
-        GetServerResult<boolean, IProduct>(MethodType.get, session, "user/shop/getshopproducts", null, [
+        clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", { methodType: MethodType.get, session: session, data: null, queries: [
           {
             key: "instagramerId",
             value: fullShop?.shortShop.instagramerId.toString(),
@@ -292,8 +293,8 @@ const ProductsPage = () => {
           { key: "maxPrice", value: undefined },
           { key: "minPrice", value: undefined },
           { key: "hashtagId", value: undefined },
-        ]),
-        GetServerResult<boolean, IFilterInfo>(MethodType.get, session, "user/shop/getfilters", null, [
+        ], onUploadProgress: undefined }),
+        clientFetchApi<boolean, IFilterInfo>("/api/shop/getfilters", { methodType: MethodType.get, session: session, data: null, queries: [
           {
             key: "instagramerId",
             value: fullShop?.shortShop.instagramerId.toString(),
@@ -302,7 +303,7 @@ const ProductsPage = () => {
             key: "categoryId",
             value: categoryId === -1 ? undefined : categoryId.toString(),
           },
-        ]),
+        ], onUploadProgress: undefined }),
       ]);
       console.log("res2.value.priceRange", res2.value.priceRange);
       if (res.succeeded) {
@@ -368,13 +369,7 @@ const ProductsPage = () => {
       const validParams = params.filter((p) => p.value !== undefined);
       console.log("API Params for loading more:", validParams);
 
-      const res = await GetServerResult<boolean, IProduct>(
-        MethodType.get,
-        session,
-        "user/shop/getshopproducts",
-        null,
-        validParams
-      );
+      const res = await clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", { methodType: MethodType.get, session: session, data: null, queries: validParams, onUploadProgress: undefined });
 
       if (res.succeeded) {
         console.log(`Received ${res.value.products.length} more products.`);
@@ -486,7 +481,7 @@ const ProductsPage = () => {
     setIsFiltersActive(false);
     setProductsLoading(true);
     try {
-      const res = await GetServerResult<boolean, IProduct>(MethodType.get, session, "user/shop/getshopproducts", null, [
+      const res = await clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", { methodType: MethodType.get, session: session, data: null, queries: [
         { key: "instagramerId", value: shopId!.toString() },
         { key: "nextMaxId", value: undefined },
         { key: "includeUnavailable", value: "true" },
@@ -494,7 +489,7 @@ const ProductsPage = () => {
         { key: "maxPrice", value: undefined },
         { key: "minPrice", value: undefined },
         { key: "hashtagId", value: hashtagId },
-      ]);
+      ], onUploadProgress: undefined });
       if (res.succeeded) {
         setProducts(res.value);
       } else notify(res.info.responseType, NotifType.Warning);
@@ -546,13 +541,7 @@ const ProductsPage = () => {
       } else {
         params.push({ key: "productSortBy", value: sortProduct.toString() });
       }
-      const res = await GetServerResult<boolean, IProduct>(
-        MethodType.get,
-        session,
-        "user/shop/getshopproducts",
-        null,
-        params
-      );
+      const res = await clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", { methodType: MethodType.get, session: session, data: null, queries: params, onUploadProgress: undefined });
       if (res.succeeded) {
         setProducts(res.value);
       } else notify(res.info.responseType, NotifType.Warning);
@@ -569,20 +558,14 @@ const ProductsPage = () => {
       return;
     }
     try {
-      const res = await GetServerResult<boolean, IProductCard[]>(
-        MethodType.get,
-        session,
-        "user/shop/searchshopproducts",
-        null,
-        [
+      const res = await clientFetchApi<boolean, IProductCard[]>("/api/shop/searchshopproducts", { methodType: MethodType.get, session: session, data: null, queries: [
           {
             key: "instagramerId",
             value: fullShop?.shortShop.instagramerId.toString(),
           },
           { key: "query", value: query },
           { key: "languageId", value: findSystemLanguage().toString() },
-        ]
-      );
+        ], onUploadProgress: undefined });
 
       if (res.succeeded) {
         setSearchResults(res.value);

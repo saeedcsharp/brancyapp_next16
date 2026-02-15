@@ -17,7 +17,7 @@ import Support from "saeed/components/setting/general/Support";
 import System from "saeed/components/setting/general/system";
 import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
+import { MethodType, UploadFile } from "saeed/helper/apihelper";
 import { StatusReplied } from "saeed/models/messages/enum";
 import { PlatformTicketItemType } from "saeed/models/setting/enums";
 import {
@@ -29,6 +29,7 @@ import {
   ITicketInsights,
 } from "saeed/models/setting/general";
 import { ISendTicketMessage } from "saeed/models/userPanel/message";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 const General = () => {
   const { t } = useTranslation();
@@ -73,12 +74,7 @@ const General = () => {
   const handleCreateTicket = async (ticketData: ICreatePlatform) => {
     console.log("Creating ticket with data:", ticketData);
     try {
-      const res = await GetServerResult<ICreatePlatform, IPlatformTicket>(
-        MethodType.post,
-        session,
-        "Instagramer/Ticket/CreatePlatformTicket",
-        ticketData
-      );
+      const res = await clientFetchApi<ICreatePlatform, IPlatformTicket>("/api/ticket/CreatePlatformTicket", { methodType: MethodType.post, session: session, data: ticketData, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         setPlatform((prev) => ({
           ...prev,
@@ -118,19 +114,13 @@ const General = () => {
     try {
       if (!platform.nextMaxId) return;
       setIsLoadingMore(true);
-      const res = await GetServerResult<StatusReplied[], IPlatform>(
-        MethodType.post,
-        session,
-        "Instagramer/Ticket/GetPlatformTicketInbox",
-        [
+      const res = await clientFetchApi<StatusReplied[], IPlatform>("/api/ticket/GetPlatformTicketInbox", { methodType: MethodType.post, session: session, data: [
           StatusReplied.TimerClosed,
           StatusReplied.InstagramerClosed,
           StatusReplied.UserReplied,
           StatusReplied.InstagramerReplied,
           StatusReplied.JustCreated,
-        ],
-        [{ key: "nextMaxId", value: platform.nextMaxId ?? "" }]
-      );
+        ], queries: [{ key: "nextMaxId", value: platform.nextMaxId ?? "" }], onUploadProgress: undefined });
       if (res.succeeded)
         setPlatform((prev) => ({
           ...res.value,
@@ -148,17 +138,8 @@ const General = () => {
     try {
       setIsDataLoaded(true);
       const [platformRes, insightRes] = await Promise.all([
-        await GetServerResult<StatusReplied[], IPlatform>(
-          MethodType.post,
-          session,
-          "Instagramer/Ticket/GetPlatformTicketInbox",
-          statusRepled
-        ),
-        await GetServerResult<boolean, ITicketInsights[]>(
-          MethodType.get,
-          session,
-          "Instagramer/Ticket/GetPlatformTicketInsight"
-        ),
+        await clientFetchApi<StatusReplied[], IPlatform>("/api/ticket/GetPlatformTicketInbox", { methodType: MethodType.post, session: session, data: statusRepled, queries: undefined, onUploadProgress: undefined }),
+        await clientFetchApi<boolean, ITicketInsights[]>("/api/ticket/GetPlatformTicketInsight", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
       ]);
       if (platformRes.succeeded) setPlatform(platformRes.value);
       else notify(platformRes.info.responseType, NotifType.Warning);
@@ -199,13 +180,7 @@ const General = () => {
       text: message.text ?? "",
     };
     try {
-      const res = await GetServerResult<ICreateMedia, IPlatformItem>(
-        MethodType.post,
-        session,
-        "Instagramer/Ticket/UpdatePlatformTicket",
-        createMessage,
-        [{ key: "ticketId", value: message.ticketId.toString() }]
-      );
+      const res = await clientFetchApi<ICreateMedia, IPlatformItem>("/api/ticket/UpdatePlatformTicket", { methodType: MethodType.post, session: session, data: createMessage, queries: [{ key: "ticketId", value: message.ticketId.toString() }], onUploadProgress: undefined });
 
       if (res.succeeded) {
         // Update the ticket with the new message item
@@ -279,16 +254,10 @@ const General = () => {
   ) {
     if (nextMaxId === null) return;
     try {
-      const res = await GetServerResult<boolean, IPlatformTicket>(
-        MethodType.get,
-        session,
-        "Instagramer/Ticket/GetPlatformTicket",
-        null,
-        [
+      const res = await clientFetchApi<boolean, IPlatformTicket>("/api/ticket/GetPlatformTicket", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "ticketId", value: ticketId.toString() },
           { key: "nextMaxId", value: nextMaxId },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         console.log("Fetched more ticket items:", res.value.nextMaxId);
         setPlatform((prev) => ({
@@ -312,19 +281,13 @@ const General = () => {
     const isPinned = platform.tickets.find(
       (t) => t.ticketId === ticketId
     )?.isPin;
-    const res = await GetServerResult<boolean, boolean>(
-      MethodType.get,
-      session,
-      "Instagramer/Ticket/UpdatePlatformTicketPinStatus",
-      null,
-      [
+    const res = await clientFetchApi<boolean, boolean>("/api/ticket/UpdatePlatformTicketPinStatus", { methodType: MethodType.get, session: session, data: null, queries: [
         { key: "ticketId", value: ticketId.toString() },
         {
           key: "isPin",
           value: (!isPinned).toString(),
         },
-      ]
-    );
+      ], onUploadProgress: undefined });
     if (res.succeeded) {
       setPlatform((prev) => ({
         ...prev,
@@ -337,13 +300,7 @@ const General = () => {
   async function handleCloseTicket(ticketId: number) {
     const closedTicket = platform.tickets.find((t) => t.ticketId === ticketId);
     if (!closedTicket || closedTicket.isClosed) return;
-    const res = await GetServerResult<boolean, boolean>(
-      MethodType.get,
-      session,
-      "Instagramer/Ticket/ClosePlatformTicket",
-      null,
-      [{ key: "ticketId", value: ticketId.toString() }]
-    );
+    const res = await clientFetchApi<boolean, boolean>("/api/ticket/ClosePlatformTicket", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "ticketId", value: ticketId.toString() }], onUploadProgress: undefined });
     if (res.succeeded) {
       setPlatform((prev) => ({
         ...prev,

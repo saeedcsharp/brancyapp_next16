@@ -12,7 +12,7 @@ import Loading from "saeed/components/notOk/loading";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
 import { IDetailPrompt, IPrompts } from "saeed/models/AI/prompt";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { PayloadType, SpecialPayLoad } from "saeed/models/messages/enum";
 import {
   IMasterFlow,
@@ -22,6 +22,7 @@ import {
   IUpdateProfileButton,
 } from "saeed/models/messages/properies";
 import styles from "./specialPayLoad.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 // Reducer for checkbox state
 type CheckBoxState = {
   custom: boolean;
@@ -365,16 +366,10 @@ const SpecialPayLoadComp = React.memo(
             payload: true,
           });
           try {
-            const res = await GetServerResult<boolean, IPrompts>(
-              MethodType.get,
-              session,
-              "Instagramer/AI/GetPrompts",
-              null,
-              [
+            const res = await clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", { methodType: MethodType.get, session: session, data: null, queries: [
                 { key: "query", value: searchTerm },
                 { key: "nextMaxId", value: "" },
-              ]
-            );
+              ], onUploadProgress: undefined });
             if (!isMountedRef.current) return;
             if (res.succeeded) {
               setSearchPrompts(res.value);
@@ -414,13 +409,7 @@ const SpecialPayLoadComp = React.memo(
             payload: true,
           });
           try {
-            const res = await GetServerResult<boolean, IMasterFlow>(
-              MethodType.get,
-              session,
-              "Instagramer/Flow/GetMasterFlows",
-              null,
-              [{ key: "query", value: searchTerm }]
-            );
+            const res = await clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "query", value: searchTerm }], onUploadProgress: undefined });
             if (!isMountedRef.current) return;
             if (res.succeeded) {
               setMasterSearchFlows(res.value);
@@ -448,15 +437,15 @@ const SpecialPayLoadComp = React.memo(
       setDispatchLoading({ type: "SET_LOADING", payload: true });
       try {
         const [promptRes, flowRes] = await Promise.all([
-          GetServerResult<boolean, IPrompts>(MethodType.get, session, "Instagramer/AI/GetPrompts", null, [
+          clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "query", value: "" },
             { key: "nextMaxId", value: "" },
-          ]),
-          GetServerResult<boolean, IMasterFlow>(MethodType.get, session, "Instagramer/Flow/GetMasterFlows", null, [
+          ], onUploadProgress: undefined }),
+          clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "query", value: "" },
             { key: "privateReply", value: "" },
             { key: "nextMaxId", value: "" },
-          ]),
+          ], onUploadProgress: undefined }),
         ]);
         if (!isMountedRef.current) return;
         if (promptRes.succeeded) setPrompts(promptRes.value);
@@ -478,16 +467,10 @@ const SpecialPayLoadComp = React.memo(
         if (!nextMaxId || searchAIMode || !isMountedRef.current) return;
         setDispatchLoading({ type: "SET_LOADING_MORE_AI_ITEMS", payload: true });
         try {
-          const res = await GetServerResult<boolean, IPrompts>(
-            MethodType.get,
-            session,
-            "Instagramer/AI/GetPrompts",
-            null,
-            [
+          const res = await clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", { methodType: MethodType.get, session: session, data: null, queries: [
               { key: "query", value: "" },
               { key: "nextMaxId", value: nextMaxId },
-            ]
-          );
+            ], onUploadProgress: undefined });
           if (!isMountedRef.current) return;
           if (res.succeeded) {
             setPrompts((prev) => ({
@@ -523,13 +506,7 @@ const SpecialPayLoadComp = React.memo(
         if (!isMountedRef.current) return;
         setDispatchLoading({ type: "SET_LOADING_PROMPT", payload: true });
         try {
-          const res = await GetServerResult<boolean, IDetailPrompt>(
-            MethodType.get,
-            session,
-            "Instagramer/AI/GetPrompt",
-            null,
-            [{ key: "promptId", value: promptId }]
-          );
+          const res = await clientFetchApi<boolean, IDetailPrompt>("/api/ai/GetPrompt", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "promptId", value: promptId }], onUploadProgress: undefined });
           if (!isMountedRef.current) return;
           if (res.succeeded) {
             setSelectedPrompt(res.value);
@@ -582,17 +559,11 @@ const SpecialPayLoadComp = React.memo(
         payload: true,
       });
       try {
-        const res = await GetServerResult<boolean, IMasterFlow>(
-          MethodType.get,
-          session,
-          "Instagramer/Flow/GetMasterFlows",
-          null,
-          [
+        const res = await clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", { methodType: MethodType.get, session: session, data: null, queries: [
             { key: "query", value: "" },
             { key: "privateReply", value: "" },
             { key: "nextMaxId", value: masterFlows.nextMaxId },
-          ]
-        );
+          ], onUploadProgress: undefined });
         if (!isMountedRef.current || !res.value) return;
         if (res.succeeded) {
           setMasterFlows((prev) => ({

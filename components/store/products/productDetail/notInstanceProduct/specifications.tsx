@@ -22,7 +22,7 @@ import DragDrop from "saeed/components/design/dragDrop/dragDrop";
 import InputText from "saeed/components/design/inputText";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import {
   ICreateInstance_ForSpecification,
   ICustomSpecificationItem,
@@ -31,6 +31,7 @@ import {
   ISpecificationItem,
 } from "saeed/models/store/IProduct";
 import styles from "./specifications.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 function SortableItem({
   item,
@@ -379,16 +380,10 @@ function Specifications({
 
   async function handleGetLastSpecification() {
     try {
-      const res = await GetServerResult<boolean, IProduct_LastSpecification>(
-        MethodType.get,
-        session,
-        "shopper" + "" + "/Product/GetLastProductSpecification",
-        null,
-        [
+      const res = await clientFetchApi<boolean, IProduct_LastSpecification>("shopper" + "" + "/Product/GetLastProductSpecification", { methodType: MethodType.get, session: session, data: null, queries: [
           { key: "categoryId", value: categoryId.toString() },
           { key: "language", value: "1" },
-        ]
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded) {
         let newSpecItems: {
           customSpecification: ICustomSpecificationItem | null;

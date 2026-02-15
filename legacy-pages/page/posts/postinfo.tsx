@@ -33,12 +33,13 @@ import { LoginStatus, packageStatus, RoleAccess } from "saeed/helper/loadingStat
 import initialzedTime from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { MediaProductType } from "saeed/models/messages/enum";
 import { IGetMediaCommentInfo, IMedia } from "saeed/models/messages/IMessage";
 import { IAutomaticReply, IDetailsPost, IInsightPost, IMediaUpdateAutoReply } from "saeed/models/page/post/posts";
 import { MediaType } from "saeed/models/page/post/preposts";
 import styles from "./showPost.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 function convertMillisecondsToTime(ms: number) {
   if (ms <= 0) {
@@ -332,12 +333,7 @@ const ShowPost = () => {
           searchInReplys: false,
           searchTerm: null,
         };
-        var newComments = await GetServerResult<IGetMediaCommentInfo, IMedia>(
-          MethodType.post,
-          session,
-          "Instagramer/Comment/GetMediaComments",
-          info,
-        );
+        var newComments = await clientFetchApi<IGetMediaCommentInfo, IMedia>("/api/comment/GetMediaComments", { methodType: MethodType.post, session: session, data: info, queries: undefined, onUploadProgress: undefined });
         if (newComments.succeeded) {
           setComments((prev) => ({
             ...prev!,
@@ -367,13 +363,7 @@ const ShowPost = () => {
       if (isFetchingRef.current || !session) return;
       isFetchingRef.current = true;
       try {
-        var res = await GetServerResult<Boolean, IDetailsPost>(
-          MethodType.get,
-          session,
-          "Instagramer/Post/GetPostInfo",
-          undefined,
-          [{ key: "postId", value: postId }],
-        );
+        var res = await clientFetchApi<Boolean, IDetailsPost>("/api/post/GetPostInfo", { methodType: MethodType.get, session: session, data: undefined, queries: [{ key: "postId", value: postId }], onUploadProgress: undefined });
         if (res.succeeded) {
           setDetailPost(res.value);
           setCaptionLength(res.value.caption ? res.value.caption.length : 0);
@@ -409,13 +399,7 @@ const ShowPost = () => {
           setIsDataLoaded(true);
         }
         if (session.user.insightPermission) {
-          var res2 = await GetServerResult<Boolean, IInsightPost>(
-            MethodType.get,
-            session,
-            "Instagramer/Post/GetPostInsightInfo",
-            undefined,
-            [{ key: "postId", value: postId }],
-          );
+          var res2 = await clientFetchApi<Boolean, IInsightPost>("/api/post/GetPostInsightInfo", { methodType: MethodType.get, session: session, data: undefined, queries: [{ key: "postId", value: postId }], onUploadProgress: undefined });
           if (res2.succeeded) {
             setInsight(res2.value);
           }
@@ -461,12 +445,7 @@ const ShowPost = () => {
           searchInReplys: false,
           searchTerm: searchQuery,
         };
-        var res = await GetServerResult<IGetMediaCommentInfo, IMedia>(
-          MethodType.post,
-          session,
-          "Instagramer" + "/Comment/GetMediaComments",
-          info,
-        );
+        var res = await clientFetchApi<IGetMediaCommentInfo, IMedia>("Instagramer" + "/Comment/GetMediaComments", { methodType: MethodType.post, session: session, data: info, queries: undefined, onUploadProgress: undefined });
         if (searchQuery !== lastSearchQuery.current) return;
         console.log(res);
         if (res.succeeded) {
@@ -502,13 +481,7 @@ const ShowPost = () => {
   const handleUpdateAtuoReply = useCallback(
     async (sendReply: IMediaUpdateAutoReply) => {
       try {
-        const res = await GetServerResult<IMediaUpdateAutoReply, IAutomaticReply>(
-          MethodType.post,
-          session,
-          "Instagramer/Post/UpdateAutoReply",
-          sendReply,
-          [{ key: "postId", value: detailPost.postId.toString() }],
-        );
+        const res = await clientFetchApi<IMediaUpdateAutoReply, IAutomaticReply>("/api/post/UpdateAutoReply", { methodType: MethodType.post, session: session, data: sendReply, queries: [{ key: "postId", value: detailPost.postId.toString() }], onUploadProgress: undefined });
         if (res.succeeded) {
           setAutoReply(res.value);
           if (!comments?.automaticCommentReply) {
@@ -528,18 +501,12 @@ const ShowPost = () => {
   async function handleResumeFeedAutoReply(e: ChangeEvent<HTMLInputElement>) {
     try {
       const activeAutoReply = e.target.checked;
-      var res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Instagramer" + `/Post/${!activeAutoReply ? "PauseAutoReply" : "ResumeAutoReply"}`,
-        undefined,
-        [
+      var res = await clientFetchApi<boolean, boolean>("Instagramer" + `/Post/${!activeAutoReply ? "PauseAutoReply" : "ResumeAutoReply"}`, { methodType: MethodType.get, session: session, data: undefined, queries: [
           {
             key: "postId",
             value: postIdParam ?? "-1",
           },
-        ],
-      );
+        ], onUploadProgress: undefined });
       if (res.succeeded)
         setAutoReply((prev) => ({
           ...prev,
@@ -966,12 +933,7 @@ const ShowPost = () => {
                               <ToggleCheckBoxButton
                                 name=" TurnoffCommenting"
                                 handleToggle={async (e) => {
-                                  await GetServerResult<boolean, boolean>(
-                                    MethodType.get,
-                                    session,
-                                    "Instagramer" + "/post/ChangeCommentingStatus",
-                                    undefined,
-                                    [
+                                  await clientFetchApi<boolean, boolean>("Instagramer" + "/post/ChangeCommentingStatus", { methodType: MethodType.get, session: session, data: undefined, queries: [
                                       {
                                         key: "postId",
                                         value: detailPost.postId.toString(),
@@ -980,8 +942,7 @@ const ShowPost = () => {
                                         key: "isEnable",
                                         value: !e.target.checked ? "true" : "false",
                                       },
-                                    ],
-                                  );
+                                    ], onUploadProgress: undefined });
                                   setDetailPost((prev) => ({
                                     ...prev,
                                     commentEnabled: e.target.checked,

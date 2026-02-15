@@ -1,11 +1,12 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { NotifType, notify, ResponseType } from "../notifications/notificationBox";
 import Loading from "../notOk/loading";
 import PriceFormater, { PriceFormaterClassName, PriceType } from "../priceFormater";
 import styles from "./upgrade.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 export interface PaymentInfo {
   accountType: number;
   price: number;
@@ -23,11 +24,7 @@ function Upgrade(props: { removeMask: () => void }) {
   const [loading, setLoading] = useState(true);
   async function getPSGInfo() {
     try {
-      const res = await GetServerResult<boolean, PaymentInfo[]>(
-        MethodType.get,
-        session,
-        "Instagramer" + "/PSG/GetPackagePrices"
-      );
+      const res = await clientFetchApi<boolean, PaymentInfo[]>("Instagramer" + "/PSG/GetPackagePrices", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         setPackages(res.value);
         setLoading(false);
@@ -38,13 +35,7 @@ function Upgrade(props: { removeMask: () => void }) {
   }
   async function handleRedirectToPayment(month: number) {
     try {
-      const res = await GetServerResult<boolean, string>(
-        MethodType.get,
-        session,
-        "Instagramer" + "/PSG/GetPackageRedirectUrl",
-        null,
-        [{ key: "monthCount", value: month.toString() }]
-      );
+      const res = await clientFetchApi<boolean, string>("Instagramer" + "/PSG/GetPackageRedirectUrl", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "monthCount", value: month.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         router.push(res.value);
       } else notify(res.info.responseType, NotifType.Warning);

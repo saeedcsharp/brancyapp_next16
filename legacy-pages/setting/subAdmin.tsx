@@ -13,7 +13,8 @@ import Partners from "saeed/components/setting/subAdmin/partner";
 import { LoginStatus, packageStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
 import { ICreatePartner, IPartner, ISession, IUpdatePartner } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 
 const SubAdmin = () => {
   const router = useRouter();
@@ -55,9 +56,9 @@ const SubAdmin = () => {
 
     try {
       const [sessionRes, partnerRes] = await Promise.all([
-        GetServerResult<boolean, ISession[]>(MethodType.get, session, "User/Session/GetSessions"),
+        clientFetchApi<boolean, ISession[]>("/api/session/GetSessions", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
         RoleAccess(session)
-          ? GetServerResult<boolean, IPartner[]>(MethodType.get, session, "Instagramer/Account/GetPartners")
+          ? clientFetchApi<boolean, IPartner[]>("/api/account/GetPartners", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined })
           : Promise.resolve({
               succeeded: false,
               value: null,
@@ -79,13 +80,7 @@ const SubAdmin = () => {
 
   async function handleGetNextSession(nextMaxId: number) {
     try {
-      const res = await GetServerResult<boolean, ISession[]>(
-        MethodType.get,
-        session,
-        "User/Session/GetSessions",
-        null,
-        [{ key: "nextMaxId", value: nextMaxId.toString() }]
-      );
+      const res = await clientFetchApi<boolean, ISession[]>("/api/session/GetSessions", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "nextMaxId", value: nextMaxId.toString() }], onUploadProgress: undefined });
       if (res.succeeded && nextMaxId === undefined) setSessions(res.value);
       else if (res.succeeded && nextMaxId !== undefined) {
         setSessions((prev) => [...prev!, ...res.value]);
@@ -97,9 +92,9 @@ const SubAdmin = () => {
 
   async function handleDeleteSession(sessionId: string) {
     try {
-      const res = await GetServerResult<boolean, boolean>(MethodType.get, session, "User/Session/DeleteSession", null, [
+      const res = await clientFetchApi<boolean, boolean>("/api/session/DeleteSession", { methodType: MethodType.get, session: session, data: null, queries: [
         { key: "sessionId", value: sessionId },
-      ]);
+      ], onUploadProgress: undefined });
       if (res.succeeded) {
         setSessions(sessions!.filter((x) => x.sessionId !== sessionId));
       } else notify(res.info.responseType, NotifType.Warning);
@@ -112,12 +107,7 @@ const SubAdmin = () => {
 
   async function handleSavePartner(addNewObj: ICreatePartner): Promise<void> {
     try {
-      const res = await GetServerResult<ICreatePartner, IPartner>(
-        MethodType.post,
-        session,
-        "Instagramer/Account/CreatePartner",
-        addNewObj
-      );
+      const res = await clientFetchApi<ICreatePartner, IPartner>("/api/account/CreatePartner", { methodType: MethodType.post, session: session, data: addNewObj, queries: undefined, onUploadProgress: undefined });
 
       if (res.succeeded) {
         console.log("create partner", res.value);
@@ -134,12 +124,7 @@ const SubAdmin = () => {
 
   async function handleUpdatePartner(addNewObj: IUpdatePartner): Promise<void> {
     try {
-      const res = await GetServerResult<ICreatePartner, IPartner>(
-        MethodType.post,
-        session,
-        "Instagramer/Account/UpdatePartner",
-        addNewObj
-      );
+      const res = await clientFetchApi<ICreatePartner, IPartner>("/api/account/UpdatePartner", { methodType: MethodType.post, session: session, data: addNewObj, queries: undefined, onUploadProgress: undefined });
       if (res.succeeded) {
         setPartners((prev) => prev!.map((x) => (x.userId === res.value.userId ? res.value : x)));
       } else {
@@ -154,13 +139,7 @@ const SubAdmin = () => {
 
   async function handleDeletePartner(userId: number) {
     try {
-      const res = await GetServerResult<boolean, boolean>(
-        MethodType.get,
-        session,
-        "Instagramer/Account/RemovePartner",
-        null,
-        [{ key: "userId", value: userId.toString() }]
-      );
+      const res = await clientFetchApi<boolean, boolean>("/api/account/RemovePartner", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "userId", value: userId.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         setPartners((prev) => prev!.filter((x) => x.userId !== userId));
       } else notify(res.info.responseType, NotifType.Warning);

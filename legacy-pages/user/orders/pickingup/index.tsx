@@ -13,11 +13,12 @@ import initialzedTime from "saeed/helper/manageTimer";
 import { handleDecompress } from "saeed/helper/pako";
 import { getHubConnection } from "saeed/helper/pushNotif";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { PushNotif, PushResponseType } from "saeed/models/push/pushNotif";
 import { LogisticType, OrderStep } from "saeed/models/store/enum";
 import { IOrderByStatus, IOrderByStatusItem, IOrderDetail, IOrderPushNotifExtended } from "saeed/models/store/orders";
 import styles from "./pickingup.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const MemoizedCheckBoxButton = React.memo(CheckBoxButton);
 interface SelectionState {
@@ -192,13 +193,7 @@ const PickingUp = () => {
   const isAllSelected = state.selectedOrders.size === orders.items.length;
   async function fetchData() {
     try {
-      const res = await GetServerResult<boolean, IOrderByStatus>(
-        MethodType.get,
-        session,
-        "User/Order/GetOrdersByStatus",
-        null,
-        [{ key: "status", value: OrderStep.ShippingRequest.toString() }]
-      );
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatus", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "status", value: OrderStep.ShippingRequest.toString() }], onUploadProgress: undefined });
       if (res.succeeded) {
         console.log("GetOrdersByStatus InstagramerAccepted res", res.value);
         setOrders(res.value);

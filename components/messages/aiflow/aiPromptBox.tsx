@@ -20,9 +20,10 @@ import {
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n/languageKeys";
 import { IAITools, IAnalysisPrompt, ICreatePrompt, IDetailPrompt, ITotalPrompt } from "saeed/models/AI/prompt";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import styles from "./aiPromptBox.module.css";
 import LiveChat from "./popup/liveChat";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const AIPromptBox = ({
   aiTools,
   userSelectId,
@@ -115,13 +116,7 @@ const AIPromptBox = ({
       try {
         setLoading(true);
         setDetailedPrompt((prev) => ({ ...prev, customPromptAnalysis: null }));
-        const res = await GetServerResult<boolean, IDetailPrompt>(
-          MethodType.get,
-          session,
-          "Instagramer/AI/GetPrompt",
-          null,
-          [{ key: "promptId", value: userSelectId! }]
-        );
+        const res = await clientFetchApi<boolean, IDetailPrompt>("/api/ai/GetPrompt", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "promptId", value: userSelectId! }], onUploadProgress: undefined });
         if (!signal?.aborted) {
           if (res.succeeded) {
             setDetailedPrompt(res.value);
@@ -151,19 +146,13 @@ const AIPromptBox = ({
   const handleCreateAIPrompt = useCallback(async () => {
     try {
       setUpdateLoading(true);
-      const res = await GetServerResult<ICreatePrompt, ITotalPrompt>(
-        MethodType.post,
-        session,
-        "Instagramer/AI/CreatePrompt",
-        {
+      const res = await clientFetchApi<ICreatePrompt, ITotalPrompt>("/api/ai/CreatePrompt", { methodType: MethodType.post, session: session, data: {
           prompt: detailedPrompt.promptStr,
           title: detailedPrompt.title,
           reNewForThread: detailedPrompt.reNewForThread,
           shouldFollower: detailedPrompt.shouldFollower,
           promptAnalysis: advancePrompt ? detailedPrompt.customPromptAnalysis : null,
-        },
-        [{ key: "promptId", value: userSelectId ? userSelectId : undefined }]
-      );
+        }, queries: [{ key: "promptId", value: userSelectId ? userSelectId : undefined }], onUploadProgress: undefined });
       if (res.succeeded) {
         updateAIPrompt(res.value);
         internalNotify(InternalResponseType.Ok, NotifType.Success);
@@ -180,12 +169,7 @@ const AIPromptBox = ({
     setLoadingPromptAnalysis(true);
     startTransition(async () => {
       try {
-        const res = await GetServerResult<string, IAnalysisPrompt>(
-          MethodType.post,
-          session,
-          "Instagramer/AI/GetPromptAnalysis",
-          { str: detailedPrompt.promptStr }
-        );
+        const res = await clientFetchApi<string, IAnalysisPrompt>("/api/ai/GetPromptAnalysis", { methodType: MethodType.post, session: session, data: { str: detailedPrompt.promptStr }, queries: undefined, onUploadProgress: undefined });
         if (res.succeeded) {
           setDetailedPrompt((prev) => ({
             ...prev,

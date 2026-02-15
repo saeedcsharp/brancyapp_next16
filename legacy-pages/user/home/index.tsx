@@ -10,13 +10,14 @@ import Link from "next/link";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import PriceFormater, { PriceFormaterClassName } from "saeed/components/priceFormater";
-import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/apihelper";
 import { IUserInfo } from "saeed/models/userPanel/login";
 import { IShortShop } from "saeed/models/userPanel/orders";
 import { IFavoriteProduct } from "saeed/models/userPanel/shop";
 import "swiper/css";
 import "swiper/css/free-mode";
 import styles from "./index.module.css";
+import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
 const orderSteps = [
@@ -176,9 +177,9 @@ function Markets() {
   async function fetchData() {
     try {
       const [res, saveRes, explorRes] = await Promise.all([
-        GetServerResult<boolean, IUserInfo>(MethodType.get, session, "User/Account/GetTitleInfo"),
-        GetServerResult<boolean, IFavoriteProduct>(MethodType.get, session, "user/shop/GetFavoriteProducts"),
-        GetServerResult<boolean, IShortShop[]>(MethodType.get, session, "user/shop/GetExplorer"),
+        clientFetchApi<boolean, IUserInfo>("/api/account/GetTitleInfo", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, IFavoriteProduct>("/api/shop/GetFavoriteProducts", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, IShortShop[]>("/api/shop/GetExplorer", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
       ]);
       if (res.succeeded) {
         setUserInfo(res.value);
