@@ -11,7 +11,7 @@ import { NotifType, notify, ResponseType } from "saeed/components/notifications/
 import Loading from "saeed/components/notOk/loading";
 import { hexToRgb, rgbToHex } from "saeed/helper/rgbaToHex";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType, UploadFile } from "saeed/models/IResult";
+import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
 import { IGetLastBanner, ILotteryInfo, LotteryType } from "saeed/models/page/tools/tools";
 import styles from "./winnerAnnouncementAndBanner.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;

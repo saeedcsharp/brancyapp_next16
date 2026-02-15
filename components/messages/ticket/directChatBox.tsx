@@ -15,7 +15,7 @@ import formatTimeAgo from "saeed/helper/formatTimeAgo";
 import initialzedTime from "saeed/helper/manageTimer";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType, UploadFile } from "saeed/models/IResult";
+import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
 import { ItemType, StatusReplied } from "saeed/models/messages/enum";
 import {
   IItem,

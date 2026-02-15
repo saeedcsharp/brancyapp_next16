@@ -12,7 +12,7 @@ import {
 import Loading from "saeed/components/notOk/loading";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { IShortPostInfo } from "saeed/models/page/tools/tools";
 import styles from "./selectPost.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;

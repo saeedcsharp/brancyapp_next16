@@ -30,7 +30,7 @@ import { LoginStatus, packageStatus, RoleAccess } from "saeed/helper/loadingStat
 import initialzedTime from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType, UploadFile } from "saeed/models/IResult";
+import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
 import { AutoReplyPayLoadType, MediaProductType } from "saeed/models/messages/enum";
 import { IAutomaticReply, IMediaUpdateAutoReply, IPublishLimit } from "saeed/models/page/post/posts";
 import { IErrorPrePostInfo, IPostImageInfo, MediaType } from "saeed/models/page/post/preposts";

@@ -15,7 +15,7 @@ import {
 } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { IChannel, IChannelBox, IChannelInfo, ISearchChannel, IUpdateChannel } from "saeed/models/market/properties";
 import styles from "./featureBoxPU.module.css";
 const initialChannelSearchState: ISearchChannel = {

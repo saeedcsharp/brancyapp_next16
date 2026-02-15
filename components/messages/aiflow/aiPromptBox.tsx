@@ -20,7 +20,7 @@ import {
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n/languageKeys";
 import { IAITools, IAnalysisPrompt, ICreatePrompt, IDetailPrompt, ITotalPrompt } from "saeed/models/AI/prompt";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import styles from "./aiPromptBox.module.css";
 import LiveChat from "./popup/liveChat";
 const AIPromptBox = ({

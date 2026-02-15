@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { NotifType, notify, notPackageNotify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { InstagramerAccountInfo, IRefreshToken } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { PushNotif } from "saeed/models/push/pushNotif";
 type SharedStateContextType = {
   value: PushNotif[];

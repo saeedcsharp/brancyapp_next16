@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import InputText from "saeed/components/design/inputText";
 import TextArea from "saeed/components/design/textArea/textArea";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 export default function ReportProduct({
   removeMask,
   productId,

@@ -4,7 +4,7 @@ import { ChangeEvent, useState } from "react";
 import RingLoader from "saeed/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { IAddress, ILogistic } from "saeed/models/userPanel/orders";
 import styles from "./postalCode.module.css";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;

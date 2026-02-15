@@ -12,7 +12,7 @@ import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
 import { handleDecompress } from "saeed/helper/pako";
 import { getHubConnection } from "saeed/helper/pushNotif";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { IStoryDraft } from "saeed/models/page/story/preStories";
 import { IStory, IStoryContent } from "saeed/models/page/story/stories";
 import { PushNotif, PushResponseType } from "saeed/models/push/pushNotif";

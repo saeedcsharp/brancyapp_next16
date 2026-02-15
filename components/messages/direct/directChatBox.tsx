@@ -21,7 +21,7 @@ import formatTimeAgo from "saeed/helper/formatTimeAgo";
 import initialzedTime from "saeed/helper/manageTimer";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
-import { UploadFile } from "saeed/models/IResult";
+import { UploadFile } from "saeed/helper/apihelper";
 import { IIsSendingMessage, IItem, IOwnerInbox, IThread, IUploadVoice } from "saeed/models/messages/IMessage";
 import { ItemType } from "saeed/models/messages/enum";
 import Tooltip from "../../design/tooltip/tooltip";

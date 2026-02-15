@@ -37,7 +37,7 @@ import { LoginStatus, RoleAccess, packageStatus } from "saeed/helper/loadingStat
 import { convertToMilliseconds, convertToSeconds } from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType, UploadFile } from "saeed/models/IResult";
+import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
 import {
   CreateHashtagListItem,
   FollowerLotteryType,

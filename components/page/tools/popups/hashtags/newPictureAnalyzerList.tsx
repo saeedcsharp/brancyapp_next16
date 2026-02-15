@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import ProgressBar from "saeed/components/design/progressBar/progressBar";
 import { convertHeicToJpeg } from "saeed/helper/convertHeicToJPEG";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import styles from "./newPictureAnalyzerList.module.css";
 
 interface IHashtagPicture {

@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { NotifType, notify, ResponseType } from "../notifications/notificationBox";
 import Loading from "../notOk/loading";
 import PriceFormater, { PriceFormaterClassName, PriceType } from "../priceFormater";

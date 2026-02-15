@@ -9,7 +9,7 @@ import { NotifType, notify, ResponseType } from "saeed/components/notifications/
 import LinkifyText from "saeed/context/LinkifyText";
 import initialzedTime from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { StatusReplied } from "saeed/models/messages/enum";
 import { PlatformTicketItemType, PlatformTicketType } from "saeed/models/setting/enums";
 import { IPlatformTicket } from "saeed/models/setting/general";

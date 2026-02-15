@@ -3,7 +3,7 @@ import router from "next/router";
 import { useTranslation } from "react-i18next";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import styles from "./deleteProduct.module.css";
 const DeleteProduct = (props: { productId: number; removeMask: () => void }) => {
   const { t } = useTranslation();

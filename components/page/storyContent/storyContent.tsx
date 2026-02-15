@@ -1,15 +1,7 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import {
-  MouseEvent,
-  useCallback,
-  useEffect,
-  useId,
-  useMemo,
-  useReducer,
-  useState,
-} from "react";
+import { MouseEvent, useCallback, useEffect, useId, useMemo, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Dotmenu from "saeed/components/design/dotMenu/dotMenu";
 import DotLoaders from "saeed/components/design/loader/dotLoaders";
@@ -19,7 +11,7 @@ import NotAllowed from "saeed/components/notOk/notAllowed";
 import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { calculateSummary } from "saeed/helper/numberFormater";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { IStory, IStoryContent } from "saeed/models/page/story/stories";
 import ScheduledStory from "../scheduledStory/scheduledStory";
@@ -65,9 +57,7 @@ function storyReducer(state: StoryState, action: StoryAction): StoryState {
     case "ADD_STORIES":
       return {
         ...state,
-        stories: state.stories
-          ? [...state.stories, ...action.payload.stories]
-          : action.payload.stories,
+        stories: state.stories ? [...state.stories, ...action.payload.stories] : action.payload.stories,
         hasMore: action.payload.hasMore,
         nextTime: action.payload.nextTime,
       };
@@ -103,10 +93,7 @@ const StoryContent = (props: {
 
   const { stories, hasMore, nextTime, loadingStatus } = state;
 
-  const hasAccess = useMemo(
-    () => LoginStatus(session) && RoleAccess(session, PartnerRole.PageView),
-    [session]
-  );
+  const hasAccess = useMemo(() => LoginStatus(session) && RoleAccess(session, PartnerRole.PageView), [session]);
 
   const handleMenuToggle = useCallback((storyId: number) => {
     setOpenMenuStoryId((prev) => (prev === storyId ? null : storyId));
@@ -114,24 +101,21 @@ const StoryContent = (props: {
 
   const handleStoryClick = useCallback(
     (storyId: number) => {
-      router.push(`/page/stories/storyinfo?storyid=${storyId}`);
+      router.push(`/page/stories/storyinfo/${storyId}`);
     },
-    [router]
+    [router],
   );
 
   const handleCreateStory = useCallback(() => {
     router.push("/page/stories/createstory?newschedulestory=false");
   }, [router]);
 
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent, callback: () => void) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        callback();
-      }
-    },
-    []
-  );
+  const handleKeyDown = useCallback((e: React.KeyboardEvent, callback: () => void) => {
+    if (e.key === "Enter" || e.key === " ") {
+      e.preventDefault();
+      callback();
+    }
+  }, []);
 
   const { containerRef, isLoadingMore } = useInfiniteScroll<IStoryContent>({
     hasMore,
@@ -147,7 +131,7 @@ const StoryContent = (props: {
             key: "lastStoryCreatedTime",
             value: nextTime.toString(),
           },
-        ]
+        ],
       );
 
       if (!res.succeeded || !res.value || !Array.isArray(res.value)) {
@@ -173,10 +157,7 @@ const StoryContent = (props: {
         payload: {
           stories: newStories,
           hasMore: hasMoreData,
-          nextTime:
-            newStories.length > 0
-              ? newStories[newStories.length - 1].createdTime
-              : nextTime,
+          nextTime: newStories.length > 0 ? newStories[newStories.length - 1].createdTime : nextTime,
         },
       });
     },
@@ -195,77 +176,51 @@ const StoryContent = (props: {
         payload: {
           stories,
           hasMore: stories.length >= 10,
-          nextTime:
-            stories.length > 0 ? stories[stories.length - 1].createdTime : -1,
+          nextTime: stories.length > 0 ? stories[stories.length - 1].createdTime : -1,
         },
       });
     }
   }, [props.data.storyContents, hasAccess]);
 
-  const renderDraftItem = useCallback(
-    (draft: any, index: number, isError: boolean = false) => {
-      const draftItemStyle =
-        isError && draft.statusCreatedTime > index
-          ? {
-              border: "1px solid var(--color-dark-red)",
-              borderRadius: "var(--br10)",
-              cursor: "pointer",
-            }
-          : {};
+  const renderDraftItem = useCallback((draft: any, index: number, isError: boolean = false) => {
+    const draftItemStyle =
+      isError && draft.statusCreatedTime > index
+        ? {
+            border: "1px solid var(--color-dark-red)",
+            borderRadius: "var(--br10)",
+            cursor: "pointer",
+          }
+        : {};
 
-      return (
-        <div
-          className={styles.draftpreview}
-          key={draft.draftId}
-          title={`🔗 Draft No.${index + 1}`}>
-          <Link
-            href={`/page/stories/createstory?newschedulestory=false&draftId=${draft.draftId}`}
-            aria-label={`Edit draft ${draft.draftId}`}
-            tabIndex={0}>
-            <div style={draftItemStyle}>
-              <img
-                className={styles.draftpreviewimage}
-                src={basePictureUrl + draft.thumbnailMediaUrl}
-                alt={`Draft preview ${index + 1}`}
-              />
-            </div>
-          </Link>
-        </div>
-      );
-    },
-    []
-  );
+    return (
+      <div className={styles.draftpreview} key={draft.draftId} title={`🔗 Draft No.${index + 1}`}>
+        <Link
+          href={`/page/stories/createstory?newschedulestory=false&draftId=${draft.draftId}`}
+          aria-label={`Edit draft ${draft.draftId}`}
+          tabIndex={0}>
+          <div style={draftItemStyle}>
+            <img
+              className={styles.draftpreviewimage}
+              src={basePictureUrl + draft.thumbnailMediaUrl}
+              alt={`Draft preview ${index + 1}`}
+            />
+          </div>
+        </Link>
+      </div>
+    );
+  }, []);
 
-  const errorDraftsToRender = useMemo(
-    () => props.data.errorDrafts.slice(0, 6),
-    [props.data.errorDrafts]
-  );
-  const draftsToRender = useMemo(
-    () => props.data.drafts?.slice(0, 6) || [],
-    [props.data.drafts]
-  );
+  const errorDraftsToRender = useMemo(() => props.data.errorDrafts.slice(0, 6), [props.data.errorDrafts]);
+  const draftsToRender = useMemo(() => props.data.drafts?.slice(0, 6) || [], [props.data.drafts]);
 
   return (
     <>
-      <div
-        className={styles.storiesContainer}
-        ref={containerRef}
-        role="region"
-        aria-label="Stories content">
-        <ScheduledStory
-          data={props.data.scheduledStory}
-          totalCount={props.data.preStoryTotalCount}
-        />
+      <div className={styles.storiesContainer} ref={containerRef} role="region" aria-label="Stories content">
+        <ScheduledStory data={props.data.scheduledStory} totalCount={props.data.preStoryTotalCount} />
         {loadingStatus && <Loading />}
         {!hasAccess && (
-          <section
-            className={`${styles.frameContainer} translate`}
-            role="complementary">
-            <div
-              className={styles.story}
-              role="button"
-              tabIndex={0}
-              aria-label="Create new story">
+          <section className={`${styles.frameContainer} translate`} role="complementary">
+            <div className={styles.story} role="button" tabIndex={0} aria-label="Create new story">
               <div className={styles.cardbackground} />
               <div className={styles.storyinfo}>
                 <div className={styles.newstory}>
@@ -287,46 +242,30 @@ const StoryContent = (props: {
         {!loadingStatus && stories && (
           <section className={`${styles.frameContainer} translate`} role="main">
             {errorDraftsToRender.length > 0 && (
-              <div
-                className={styles.draft}
-                role="article"
-                aria-label="Error drafts section">
+              <div className={styles.draft} role="article" aria-label="Error drafts section">
                 <div className={styles.cardbackground} />
                 <div className={styles.draftinfo}>
                   <div className={styles.newstory}>
                     <div className={styles.drafttitle}>
                       {t("publishError")} ({errorDraftsToRender.length})
                     </div>
-                    <div
-                      className={styles.draftpreviewall}
-                      role="list"
-                      aria-label="Error drafts list">
-                      {errorDraftsToRender.map((draft, index) =>
-                        renderDraftItem(draft, index, true)
-                      )}
+                    <div className={styles.draftpreviewall} role="list" aria-label="Error drafts list">
+                      {errorDraftsToRender.map((draft, index) => renderDraftItem(draft, index, true))}
                     </div>
                   </div>
                 </div>
               </div>
             )}
             {draftsToRender.length > 0 && (
-              <div
-                className={styles.draft}
-                role="article"
-                aria-label="Drafts section">
+              <div className={styles.draft} role="article" aria-label="Drafts section">
                 <div className={styles.cardbackground} />
                 <div className={styles.draftinfo}>
                   <div className={styles.newstory}>
                     <div className={styles.drafttitle}>
                       {t("StoryDraft")} ({draftsToRender.length}/6)
                     </div>
-                    <div
-                      className={styles.draftpreviewall}
-                      role="list"
-                      aria-label="Drafts list">
-                      {draftsToRender.map((draft, index) =>
-                        renderDraftItem(draft, index, false)
-                      )}
+                    <div className={styles.draftpreviewall} role="list" aria-label="Drafts list">
+                      {draftsToRender.map((draft, index) => renderDraftItem(draft, index, false))}
                     </div>
                   </div>
                 </div>
@@ -349,9 +288,7 @@ const StoryContent = (props: {
                     />
                   </svg>
                   {t("pageStory_CreateNewStory")}
-                  <div className={styles.createpostid}>
-                    {stories.length > 0 ? stories[0].tempId + 1 : ""}
-                  </div>
+                  <div className={styles.createpostid}>{stories.length > 0 ? stories[0].tempId + 1 : ""}</div>
                 </div>
               </div>
             </div>
@@ -363,15 +300,11 @@ const StoryContent = (props: {
                   <div
                     className={styles.story}
                     onClick={() => handleStoryClick(v.storyId)}
-                    onKeyDown={(e) =>
-                      handleKeyDown(e, () => handleStoryClick(v.storyId))
-                    }
+                    onKeyDown={(e) => handleKeyDown(e, () => handleStoryClick(v.storyId))}
                     key={`${uniqueId}-story-${v.storyId}`}
                     role="button"
                     tabIndex={0}
-                    aria-label={`Story ${v.tempId}, ${
-                      isActive ? "active" : "inactive"
-                    }`}>
+                    aria-label={`Story ${v.tempId}, ${isActive ? "active" : "inactive"}`}>
                     <div className={styles.cardbackground} />
                     <div className={styles.storyinfo}>
                       <img
@@ -383,14 +316,8 @@ const StoryContent = (props: {
                       <div className={styles.menuandinfo}>
                         <div className={styles.storyidandmenu}>
                           <div
-                            className={
-                              isActive
-                                ? styles.activestory
-                                : styles.inactivestory
-                            }
-                            aria-label={`Story number ${v.tempId}, ${
-                              isActive ? "active" : "inactive"
-                            }`}>
+                            className={isActive ? styles.activestory : styles.inactivestory}
+                            aria-label={`Story number ${v.tempId}, ${isActive ? "active" : "inactive"}`}>
                             {v.tempId}
                           </div>
                           <Dotmenu
@@ -406,10 +333,7 @@ const StoryContent = (props: {
                                     preventDefault: () => {},
                                     currentTarget: { id: t("linkURL") },
                                   } as unknown as MouseEvent;
-                                  props.handleClickOnIcon(
-                                    fakeEvent,
-                                    v.instaShareLink
-                                  );
+                                  props.handleClickOnIcon(fakeEvent, v.instaShareLink);
                                   setOpenMenuStoryId(null);
                                 },
                               },
@@ -419,47 +343,25 @@ const StoryContent = (props: {
 
                         <div className={styles.engagmentinfo}>
                           <Tooltip
-                            tooltipValue={
-                              v.viewCount > 0
-                                ? v.viewCount.toLocaleString()
-                                : "0"
-                            }
+                            tooltipValue={v.viewCount > 0 ? v.viewCount.toLocaleString() : "0"}
                             position="top"
                             onHover={true}>
                             <div className={styles.counter}>
-                              <img
-                                className={styles.icon}
-                                alt=""
-                                src="/icon-view.svg"
-                                aria-hidden="true"
-                              />
+                              <img className={styles.icon} alt="" src="/icon-view.svg" aria-hidden="true" />
                               <span aria-label={`${v.viewCount} views`}>
-                                {calculateSummary(
-                                  v.viewCount > 0 ? v.viewCount : 0
-                                )}
+                                {calculateSummary(v.viewCount > 0 ? v.viewCount : 0)}
                               </span>
                             </div>
                           </Tooltip>
 
                           <Tooltip
-                            tooltipValue={
-                              v.replyCount > 0
-                                ? v.replyCount.toLocaleString()
-                                : "0"
-                            }
+                            tooltipValue={v.replyCount > 0 ? v.replyCount.toLocaleString() : "0"}
                             position="top"
                             onHover={true}>
                             <div className={styles.counter}>
-                              <img
-                                className={styles.icon}
-                                alt=""
-                                src="/icon-comment.svg"
-                                aria-hidden="true"
-                              />
+                              <img className={styles.icon} alt="" src="/icon-comment.svg" aria-hidden="true" />
                               <span aria-label={`${v.replyCount} replies`}>
-                                {calculateSummary(
-                                  v.replyCount > 0 ? v.replyCount : 0
-                                )}
+                                {calculateSummary(v.replyCount > 0 ? v.replyCount : 0)}
                               </span>
                             </div>
                           </Tooltip>

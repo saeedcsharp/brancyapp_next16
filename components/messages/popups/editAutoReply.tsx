@@ -24,7 +24,7 @@ import {
 
 import { LanguageKey } from "saeed/i18n";
 import { IDetailPrompt, IPrompts } from "saeed/models/AI/prompt";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { AutoReplyPayLoadType, MediaProductType } from "saeed/models/messages/enum";
 import {
   ICreateGeneralAutoReply,

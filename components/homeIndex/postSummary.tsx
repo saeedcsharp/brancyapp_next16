@@ -108,7 +108,7 @@ const PostItem = memo(
       />
       <span className={styles.postNumber}>{post.tempId.toLocaleString()}</span>
     </div>
-  )
+  ),
 );
 
 PostItem.displayName = "PostItem";
@@ -130,9 +130,9 @@ const PostSummary = memo((props: { data: IInstagramerHomeTiles | null; posts: IP
 
   const handlePostClick = useCallback(
     (postId: number) => {
-      router.push(`/page/posts/postinfo?postid=${postId}`);
+      router.push(`/page/posts/postinfo/${postId}`);
     },
-    [router]
+    [router],
   );
 
   // const fetchPosts = useCallback(
@@ -253,7 +253,7 @@ const PostSummary = memo((props: { data: IInstagramerHomeTiles | null; posts: IP
 
   const followingCount = useMemo(
     () => props.data?.followingCount?.toLocaleString() || "0",
-    [props.data?.followingCount]
+    [props.data?.followingCount],
   );
 
   const containerStyle = useMemo(
@@ -261,7 +261,7 @@ const PostSummary = memo((props: { data: IInstagramerHomeTiles | null; posts: IP
       maxHeight: state.isHidden ? "0" : "100%",
       opacity: state.isHidden ? 0 : 1,
     }),
-    [state.isHidden]
+    [state.isHidden],
   );
 
   // useEffect(() => {

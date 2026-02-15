@@ -13,7 +13,7 @@ import {
 import formatTimeAgo from "saeed/helper/formatTimeAgo";
 import { LanguageKey } from "saeed/i18n";
 import { SendCodeResult } from "saeed/models/ApiModels/User/SendCodeResult";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { InstagramerAccountInfo } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { IIpCondition } from "saeed/models/userPanel/login";
 import styles from "./notLogin.module.css";

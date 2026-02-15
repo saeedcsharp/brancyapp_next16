@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { _arrayBufferToBase64 } from "saeed/helper/arrayBufferToBase64";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType, UploadFile } from "saeed/models/IResult";
+import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
 import { BusinessBankAccountType } from "saeed/models/store/enum";
 import RingLoader from "../../design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";

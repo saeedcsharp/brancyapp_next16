@@ -6,7 +6,7 @@ import { NotifType, notify, ResponseType } from "saeed/components/notifications/
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
 import { ICreateLiveChat, ICreatePrompt, ILiveChat } from "saeed/models/AI/prompt";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { ItemType } from "saeed/models/messages/enum";
 import styles from "./supportChat.module.scss";
 export default function SupportChat({

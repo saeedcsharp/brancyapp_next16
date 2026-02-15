@@ -10,7 +10,7 @@ import { InstaInfoContext } from "saeed/context/instaInfoContext";
 import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { IScheduledStoryClient, IScheduledStoryServer } from "saeed/models/page/story/preStories";
 import { ShowRings } from "../../design/counterDown/counterDown";
 import DeletePrePost from "../scheduledPost/deletePrePost";

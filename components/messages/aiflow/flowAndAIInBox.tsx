@@ -17,7 +17,7 @@ import initialzedTime, { convertToMilliseconds } from "saeed/helper/manageTimer"
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { IAITools, ICreatePrompt, IPrompts, ITotalPrompt } from "saeed/models/AI/prompt";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { IMasterFlow, ITotalMasterFlow } from "saeed/models/messages/properies";
 import AIPromptBox from "./aiPromptBox";
 import Flow from "./flow";

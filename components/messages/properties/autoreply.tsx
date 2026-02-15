@@ -9,7 +9,7 @@ import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
 import { ILoadingStatus } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { IDetailPrompt } from "saeed/models/AI/prompt";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { AutoReplyPayLoadType, MediaProductType } from "saeed/models/messages/enum";
 import { IGeneralAutoReply } from "saeed/models/messages/properies";
 import styles from "./properties.module.css";

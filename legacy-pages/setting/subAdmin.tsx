@@ -13,7 +13,7 @@ import Partners from "saeed/components/setting/subAdmin/partner";
 import { LoginStatus, packageStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
 import { ICreatePartner, IPartner, ISession, IUpdatePartner } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 
 const SubAdmin = () => {
   const router = useRouter();

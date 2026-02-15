@@ -21,7 +21,7 @@ import { ToggleOrder } from "saeed/components/design/toggleButton/types";
 import Loading from "saeed/components/notOk/loading";
 import { convertHeicToJpeg } from "saeed/helper/convertHeicToJPEG";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType, UploadFile } from "saeed/models/IResult";
+import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
 import {
   IBannerSelectedImage,
   ICustomeBannerInfo,

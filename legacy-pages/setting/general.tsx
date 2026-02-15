@@ -17,7 +17,7 @@ import Support from "saeed/components/setting/general/Support";
 import System from "saeed/components/setting/general/system";
 import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType, UploadFile } from "saeed/models/IResult";
+import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
 import { StatusReplied } from "saeed/models/messages/enum";
 import { PlatformTicketItemType } from "saeed/models/setting/enums";
 import {

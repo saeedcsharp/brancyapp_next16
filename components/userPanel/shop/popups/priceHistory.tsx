@@ -6,7 +6,7 @@ import LineChart from "saeed/components/graphs/lineChart";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { chartxType, SuperFigure } from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import styles from "./priceHistory.module.css";
 export default function PriceHistory({

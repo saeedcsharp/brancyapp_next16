@@ -5,7 +5,7 @@ import { NotifType, notify, ResponseType } from "saeed/components/notifications/
 import Loading from "saeed/components/notOk/loading";
 import findSystemLanguage from "saeed/helper/findSystemLanguage";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { IFullProduct, IOrderDetail } from "saeed/models/store/orders";
 import OrderDetailContent from "./OrderDetail-Content";
 import styles from "./orderstep.module.css";

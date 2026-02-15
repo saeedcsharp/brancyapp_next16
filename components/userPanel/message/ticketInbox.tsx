@@ -20,7 +20,7 @@ import {
 import Loading from "saeed/components/notOk/loading";
 import initialzedTime from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType, UploadFile } from "saeed/models/IResult";
+import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
 import { IIsSendingMessage } from "saeed/models/messages/IMessage";
 import {
   IItem,

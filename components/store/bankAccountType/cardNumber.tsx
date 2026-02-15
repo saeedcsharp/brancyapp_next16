@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import RingLoader from "saeed/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { InputTypeAddress } from "saeed/models/userPanel/orders";
 import styles from "./bankAccountType.module.css";
 export default function CardNumber({

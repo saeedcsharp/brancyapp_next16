@@ -2,39 +2,22 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import {
-  MouseEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useReducer,
-  useRef,
-  useState,
-  useTransition,
-} from "react";
+import { MouseEvent, useCallback, useEffect, useMemo, useReducer, useRef, useState, useTransition } from "react";
 import { useTranslation } from "react-i18next";
 import Dotmenu from "saeed/components/design/dotMenu/dotMenu";
 import DotLoaders from "saeed/components/design/loader/dotLoaders";
 import Tooltip from "saeed/components/design/tooltip/tooltip";
-import {
-  internalNotify,
-  InternalResponseType,
-  NotifType,
-} from "saeed/components/notifications/notificationBox";
+import { internalNotify, InternalResponseType, NotifType } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import NotAllowed from "saeed/components/notOk/notAllowed";
 import { checkGuid } from "saeed/helper/guidList";
 import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { calculateSummary } from "saeed/helper/numberFormater";
-import {
-  addSignalRMethod,
-  OnInstance,
-  removeSignalRMethod,
-} from "saeed/helper/pushNotif";
+import { addSignalRMethod, OnInstance, removeSignalRMethod } from "saeed/helper/pushNotif";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { IPost, IPostContent } from "saeed/models/page/post/posts";
 import { IUploadPost, UploadPostSteps } from "saeed/models/page/socketPage";
 import ScheduledPost from "../scheduledPost/scheduledPost";
@@ -76,18 +59,14 @@ function postReducer(state: PostState, action: PostAction): PostState {
     case "ADD_POSTS":
       return {
         ...state,
-        posts: state.posts
-          ? [...state.posts, ...action.payload.posts]
-          : action.payload.posts,
+        posts: state.posts ? [...state.posts, ...action.payload.posts] : action.payload.posts,
         hasMore: action.payload.hasMore,
         nextTime: action.payload.nextTime,
       };
     case "ADD_NEW_POST":
       return {
         ...state,
-        posts: state.posts
-          ? [action.payload.post, ...state.posts]
-          : [action.payload.post],
+        posts: state.posts ? [action.payload.post, ...state.posts] : [action.payload.post],
       };
     case "SET_LOADING":
       return {
@@ -119,10 +98,7 @@ const PostContent = (props: PostContentProps) => {
   const [isPending, startTransition] = useTransition();
   const postRefs = useRef<Map<number, HTMLDivElement>>(new Map());
   const { posts, hasMore, nextTime, loadingStatus } = state;
-  const isAuthorized = useMemo(
-    () => LoginStatus(session) && RoleAccess(session, PartnerRole.PageView),
-    [session]
-  );
+  const isAuthorized = useMemo(() => LoginStatus(session) && RoleAccess(session, PartnerRole.PageView), [session]);
   const uploadPostCallBack = useCallback((uploadPost: string): void => {
     const obj: IUploadPost = JSON.parse(uploadPost);
     if (obj.UploadState === UploadPostSteps.SendBackToServer) {
@@ -143,7 +119,7 @@ const PostContent = (props: PostContentProps) => {
         functionName: "PostUploadState",
       },
     ],
-    [uploadPostCallBack]
+    [uploadPostCallBack],
   );
 
   const normalizePost = useCallback(
@@ -154,7 +130,7 @@ const PostContent = (props: PostContentProps) => {
       commentCount: post.commentCount ?? 0,
       shareCount: post.shareCount ?? 0,
     }),
-    []
+    [],
   );
 
   const { containerRef, isLoadingMore } = useInfiniteScroll<IPostContent>({
@@ -166,7 +142,7 @@ const PostContent = (props: PostContentProps) => {
         session,
         "Instagramer/Post/GetPostByScrollingDown",
         null,
-        [{ key: "createdTime", value: nextTime.toString() }]
+        [{ key: "createdTime", value: nextTime.toString() }],
       );
 
       if (!result.succeeded || !result.value || !Array.isArray(result.value)) {
@@ -191,10 +167,7 @@ const PostContent = (props: PostContentProps) => {
         payload: {
           posts: newPosts,
           hasMore: hasMoreData,
-          nextTime:
-            newPosts.length > 0
-              ? newPosts[newPosts.length - 1].createdTime
-              : nextTime,
+          nextTime: newPosts.length > 0 ? newPosts[newPosts.length - 1].createdTime : nextTime,
         },
       });
     },
@@ -217,7 +190,7 @@ const PostContent = (props: PostContentProps) => {
           session,
           "Instagramer/Post/GetPostByGuid",
           null,
-          [{ key: "guid", value: guid }]
+          [{ key: "guid", value: guid }],
         );
 
         if (result.succeeded && result.value?.length > 0) {
@@ -227,13 +200,10 @@ const PostContent = (props: PostContentProps) => {
           });
         }
       } catch {
-        internalNotify(
-          InternalResponseType.UploadingPostError,
-          NotifType.Error
-        );
+        internalNotify(InternalResponseType.UploadingPostError, NotifType.Error);
       }
     },
-    [session, normalizePost]
+    [session, normalizePost],
   );
 
   const navigateToCreatePost = useCallback(() => {
@@ -242,9 +212,9 @@ const PostContent = (props: PostContentProps) => {
 
   const navigateToPostInfo = useCallback(
     (postId: number) => {
-      router.push(`/page/posts/postinfo?postid=${postId}`);
+      router.push(`/page/posts/postinfo/${postId}`);
     },
-    [router]
+    [router],
   );
 
   const handleMenuToggle = useCallback((postId: number) => {
@@ -287,19 +257,16 @@ const PostContent = (props: PostContentProps) => {
           break;
       }
     },
-    [posts, focusedPostIndex, navigateToPostInfo]
+    [posts, focusedPostIndex, navigateToPostInfo],
   );
 
-  const setPostRef = useCallback(
-    (postId: number, element: HTMLDivElement | null) => {
-      if (element) {
-        postRefs.current.set(postId, element);
-      } else {
-        postRefs.current.delete(postId);
-      }
-    },
-    []
-  );
+  const setPostRef = useCallback((postId: number, element: HTMLDivElement | null) => {
+    if (element) {
+      postRefs.current.set(postId, element);
+    } else {
+      postRefs.current.delete(postId);
+    }
+  }, []);
 
   useEffect(() => {
     addSignalRMethod(oninstance);
@@ -325,10 +292,7 @@ const PostContent = (props: PostContentProps) => {
         payload: {
           posts: mappedPosts,
           hasMore: mappedPosts.length >= 10,
-          nextTime:
-            mappedPosts.length > 0
-              ? mappedPosts[mappedPosts.length - 1].createdTime
-              : -1,
+          nextTime: mappedPosts.length > 0 ? mappedPosts[mappedPosts.length - 1].createdTime : -1,
         },
       });
     }
@@ -377,14 +341,12 @@ const PostContent = (props: PostContentProps) => {
             </svg>
             {t(LanguageKey.CreateNewPost)}
             <br />
-            <div className={styles.createpostid}>
-              {nextPostId.toLocaleString()}
-            </div>
+            <div className={styles.createpostid}>{nextPostId.toLocaleString()}</div>
           </div>
         </div>
       </div>
     ),
-    [navigateToCreatePost, nextPostId, t]
+    [navigateToCreatePost, nextPostId, t],
   );
   const getEngagementMetrics = useCallback(
     (
@@ -393,7 +355,7 @@ const PostContent = (props: PostContentProps) => {
         formattedViews: string;
         formattedComments: string;
         formattedShares: string;
-      }
+      },
     ) => [
       {
         type: "like" as const,
@@ -428,7 +390,7 @@ const PostContent = (props: PostContentProps) => {
         showNew: false,
       },
     ],
-    []
+    [],
   );
 
   const renderEngagementItem = useCallback(
@@ -441,13 +403,11 @@ const PostContent = (props: PostContentProps) => {
         fullCount: number;
         showNew: boolean;
       },
-      postId: string
+      postId: string,
     ) => (
       <Tooltip
         key={`${postId}-${metric.type}`}
-        tooltipValue={
-          metric.fullCount > -1 ? metric.fullCount.toLocaleString() : "0"
-        }
+        tooltipValue={metric.fullCount > -1 ? metric.fullCount.toLocaleString() : "0"}
         position="top"
         onHover={true}>
         <div className={`${styles.counter} translate`}>
@@ -470,19 +430,16 @@ const PostContent = (props: PostContentProps) => {
         </div>
       </Tooltip>
     ),
-    []
+    [],
   );
-  const pageTitle = useMemo(
-    () => `${t(LanguageKey.navbar_Post)} | Brancy - Instagram Management`,
-    [t]
-  );
+  const pageTitle = useMemo(() => `${t(LanguageKey.navbar_Post)} | Brancy - Instagram Management`, [t]);
 
   const pageDescription = useMemo(
     () =>
       processedPosts.length > 0
         ? `${t(LanguageKey.CreateNewPost)} - ${processedPosts.length} posts`
         : t(LanguageKey.CreateNewPost),
-    [processedPosts.length, t]
+    [processedPosts.length, t],
   );
 
   return (
@@ -490,10 +447,7 @@ const PostContent = (props: PostContentProps) => {
       <Head>
         <title>{pageTitle}</title>
         <meta name="description" content={pageDescription} />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=5"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5" />
         <meta property="og:title" content={pageTitle} />
         <meta property="og:description" content={pageDescription} />
         <meta property="og:type" content="website" />
@@ -506,21 +460,13 @@ const PostContent = (props: PostContentProps) => {
               rel="preload"
               href={basePictureUrl + processedPosts[0].thumbnailMediaUrl}
               as="image"
-              imageSrcSet={`${
-                basePictureUrl + processedPosts[0].thumbnailMediaUrl
-              } 1x, ${
+              imageSrcSet={`${basePictureUrl + processedPosts[0].thumbnailMediaUrl} 1x, ${
                 basePictureUrl + processedPosts[0].thumbnailMediaUrl
               }?w=500 2x`}
               imageSizes="(max-width: 500px) 165px, (max-width: 768px) 200px, 250px"
             />
-            <meta
-              property="og:image"
-              content={basePictureUrl + processedPosts[0].thumbnailMediaUrl}
-            />
-            <meta
-              name="twitter:image"
-              content={basePictureUrl + processedPosts[0].thumbnailMediaUrl}
-            />
+            <meta property="og:image" content={basePictureUrl + processedPosts[0].thumbnailMediaUrl} />
+            <meta name="twitter:image" content={basePictureUrl + processedPosts[0].thumbnailMediaUrl} />
           </>
         )}
       </Head>
@@ -529,10 +475,7 @@ const PostContent = (props: PostContentProps) => {
         {loadingStatus && <Loading />}
         {!isAuthorized && (
           <section className={`${styles.frameContainer} translate`}>
-            <div
-              className={styles.post}
-              title="🔗 Create New Post"
-              style={{ cursor: "pointer" }}>
+            <div className={styles.post} title="🔗 Create New Post" style={{ cursor: "pointer" }}>
               <div className={styles.cardbackground} />
               <div className={styles.postinfo}>
                 <div className={styles.newpost}>
@@ -559,18 +502,14 @@ const PostContent = (props: PostContentProps) => {
                 <div className={styles.draftinfo}>
                   <div className={styles.newpost}>
                     <div className={styles.drafttitle}>
-                      {t(LanguageKey.publishError)} ({" "}
-                      <strong>{props.data.errorDrafts.length}</strong> )
+                      {t(LanguageKey.publishError)} ( <strong>{props.data.errorDrafts.length}</strong> )
                     </div>
                     <div className={styles.draftpreviewall}>
                       {props.data.errorDrafts.map((draft, index) => (
                         <Link
                           className={styles.draftpreview}
                           key={draft.draftId}
-                          href={
-                            "/page/posts/createpost?newschedulepost=false&draftId=" +
-                            draft.draftId
-                          }
+                          href={"/page/posts/createpost?newschedulepost=false&draftId=" + draft.draftId}
                           aria-label={`Edit draft ${draft.draftId}`}>
                           <img
                             style={
@@ -603,8 +542,7 @@ const PostContent = (props: PostContentProps) => {
                 <div className={styles.draftinfo}>
                   <div className={styles.newpost}>
                     <div className={styles.drafttitle}>
-                      {t(LanguageKey.PostDraft)} (
-                      {props.data.nonErrorDrafts.length}/6)
+                      {t(LanguageKey.PostDraft)} ({props.data.nonErrorDrafts.length}/6)
                     </div>
                     <div className={styles.draftpreviewall}>
                       {props.data.nonErrorDrafts.map((draft, index) => (
@@ -653,9 +591,7 @@ const PostContent = (props: PostContentProps) => {
 
                 <div className={styles.postinfo}>
                   <img
-                    className={`${styles.postimage} ${
-                      post.isDeleted ? styles.deleted : ""
-                    }`}
+                    className={`${styles.postimage} ${post.isDeleted ? styles.deleted : ""}`}
                     alt="Post thumbnail"
                     src={basePictureUrl + post.thumbnailMediaUrl}
                     width={250}
@@ -664,14 +600,8 @@ const PostContent = (props: PostContentProps) => {
                     sizes="(max-width: 500px) 165px, (max-width: 768px) 200px, 250px"
                   />
                   <div className={styles.postidandmenu}>
-                    <div
-                      className={styles.postid}
-                      title={`ℹ️ Post no. ${post.tempId}`}>
-                      {post.isDeleted ? (
-                        <>{t(LanguageKey.DeletedPost)}</>
-                      ) : (
-                        post.tempId.toLocaleString()
-                      )}
+                    <div className={styles.postid} title={`ℹ️ Post no. ${post.tempId}`}>
+                      {post.isDeleted ? <>{t(LanguageKey.DeletedPost)}</> : post.tempId.toLocaleString()}
                     </div>
 
                     <Dotmenu
@@ -687,10 +617,7 @@ const PostContent = (props: PostContentProps) => {
                               preventDefault: () => {},
                               currentTarget: { id: t(LanguageKey.linkURL) },
                             } as unknown as MouseEvent;
-                            props.handleClickOnIcon(
-                              fakeEvent,
-                              post.instaShareLink
-                            );
+                            props.handleClickOnIcon(fakeEvent, post.instaShareLink);
                             setOpenMenuPostId(null);
                           },
                         },
@@ -699,9 +626,7 @@ const PostContent = (props: PostContentProps) => {
                   </div>
                   <div className={styles.engagmentinfo}>
                     {processedPosts.length > 0 &&
-                      getEngagementMetrics(post).map((metric) =>
-                        renderEngagementItem(metric, post.postId.toString())
-                      )}
+                      getEngagementMetrics(post).map((metric) => renderEngagementItem(metric, post.postId.toString()))}
                   </div>
                 </div>
               </div>

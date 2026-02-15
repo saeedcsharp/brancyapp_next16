@@ -16,7 +16,7 @@ import InsightChart from "saeed/components/page/posts/insightChart";
 import { convertArrayToLarray } from "saeed/helper/chunkArray";
 import formatTimeAgo from "saeed/helper/formatTimeAgo";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import {
   IUnFollowAllFollowing_Client_Condotion,
   IUnFollowAllFollowing_Figure,

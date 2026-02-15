@@ -12,7 +12,7 @@ import {
 } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, IResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, IResult, MethodType } from "saeed/helper/apihelper";
 import { IDetailsPost } from "saeed/models/page/post/posts";
 import { MediaType } from "saeed/models/page/post/preposts";
 import {

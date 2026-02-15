@@ -1,16 +1,7 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import {
-  ChangeEvent,
-  useCallback,
-  useEffect,
-  useId,
-  useMemo,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
+import { ChangeEvent, useCallback, useEffect, useId, useMemo, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import InputText from "saeed/components/design/inputText";
@@ -20,10 +11,7 @@ import FlexibleToggleButton from "saeed/components/design/toggleButton/flexibleT
 import { ToggleOrder } from "saeed/components/design/toggleButton/types";
 import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
 import Tooltip from "saeed/components/design/tooltip/tooltip";
-import {
-  MediaModal,
-  useMediaModal,
-} from "saeed/components/messages/shared/utils";
+import { MediaModal, useMediaModal } from "saeed/components/messages/shared/utils";
 import {
   internalNotify,
   InternalResponseType,
@@ -33,35 +21,21 @@ import {
 } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import NotAllowed from "saeed/components/notOk/notAllowed";
-import NotPermission, {
-  PermissionType,
-} from "saeed/components/notOk/notPermission";
-import LotteryPopup, {
-  LotteryPopupType,
-} from "saeed/components/page/popup/lottery";
+import NotPermission, { PermissionType } from "saeed/components/notOk/notPermission";
+import LotteryPopup, { LotteryPopupType } from "saeed/components/page/popup/lottery";
 import QuickStoryReplyPopup from "saeed/components/page/popup/quickStoryReply";
 import { isRTL } from "saeed/helper/checkRtl";
 import { convertArrayToLarray } from "saeed/helper/chunkArray";
 import { handleCopyLink } from "saeed/helper/copyLink";
 import formatTimeAgo from "saeed/helper/formatTimeAgo";
-import {
-  LoginStatus,
-  packageStatus,
-  RoleAccess,
-} from "saeed/helper/loadingStatus";
+import { LoginStatus, packageStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import initialzedTime from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
-import {
-  AutoReplyPayLoadType,
-  MediaProductType,
-} from "saeed/models/messages/enum";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
+import { AutoReplyPayLoadType, MediaProductType } from "saeed/models/messages/enum";
 import { IItem } from "saeed/models/messages/IMessage";
-import {
-  IAutomaticReply,
-  IMediaUpdateAutoReply,
-} from "saeed/models/page/post/posts";
+import { IAutomaticReply, IMediaUpdateAutoReply } from "saeed/models/page/post/posts";
 import { MediaType } from "saeed/models/page/post/preposts";
 import {
   IReaction,
@@ -86,10 +60,7 @@ type SearchAction =
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "SET_NO_RESULT"; payload: boolean }
   | { type: "RESET_SEARCH" };
-const searchReducer = (
-  state: SearchState,
-  action: SearchAction,
-): SearchState => {
+const searchReducer = (state: SearchState, action: SearchAction): SearchState => {
   switch (action.type) {
     case "SET_SEARCH_MODE":
       return { ...state, searchMode: action.payload };
@@ -113,29 +84,13 @@ const ShowStory = () => {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const isFetchingRef = useRef(false);
   const timeoutRef = useRef<NodeJS.Timeout>();
-  const isAuthenticated = useMemo(
-    () => session !== null && LoginStatus(session),
-    [session],
-  );
-  const hasPageAccess = useMemo(
-    () => session && RoleAccess(session, PartnerRole.PageView),
-    [session],
-  );
-  const hasPackageAccess = useMemo(
-    () => session && packageStatus(session),
-    [session],
-  );
-  const isValidIndex = useMemo(
-    () => session?.user.currentIndex !== -1,
-    [session?.user.currentIndex],
-  );
+  const isAuthenticated = useMemo(() => session !== null && LoginStatus(session), [session]);
+  const hasPageAccess = useMemo(() => session && RoleAccess(session, PartnerRole.PageView), [session]);
+  const hasPackageAccess = useMemo(() => session && packageStatus(session), [session]);
+  const isValidIndex = useMemo(() => session?.user.currentIndex !== -1, [session?.user.currentIndex]);
   const [loading, setLoading] = useState(false);
-  const [toggleValue, setToggleValue] = useState<ToggleOrder>(
-    ToggleOrder.FirstToggle,
-  );
-  const [toggleFollowersValue, setToggleFollowersValue] = useState<ToggleOrder>(
-    ToggleOrder.FirstToggle,
-  );
+  const [toggleValue, setToggleValue] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
+  const [toggleFollowersValue, setToggleFollowersValue] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
   const [followers, setFollowers] = useState<IStoryViewer[][]>([]);
   const [unFollowers, setUnFollowers] = useState<IStoryViewer[][]>([]);
   const [reaction, setReaction] = useState<IReaction[][]>([]);
@@ -199,10 +154,7 @@ const ShowStory = () => {
   const calculateCommentsPerSlide = useCallback(() => {
     const availableHeight = window.innerHeight - 250;
     const averageCommentHeight = 75;
-    const optimal = Math.max(
-      3,
-      Math.floor(availableHeight / averageCommentHeight),
-    );
+    const optimal = Math.max(3, Math.floor(availableHeight / averageCommentHeight));
     return Math.min(5, optimal);
   }, []);
   useEffect(() => {
@@ -221,9 +173,7 @@ const ShowStory = () => {
       const filtered = storyReplies.threads.filter((t) => {
         const username = t.recp?.username ?? "";
         const byUsername = username.toLowerCase().includes(q);
-        const byText = (t.items ?? []).some((i) =>
-          (i.text ?? "").toLowerCase().includes(q),
-        );
+        const byText = (t.items ?? []).some((i) => (i.text ?? "").toLowerCase().includes(q));
         return byUsername || byText;
       });
       setSearchReplies({ ...storyReplies, threads: filtered });
@@ -262,9 +212,7 @@ const ShowStory = () => {
     },
     [handleCloseSearch, handleApiReplySearch, peopleLocked],
   );
-  const [multiSelections, setMultiSelections] = useState<
-    { first: number; second?: number }[]
-  >([]);
+  const [multiSelections, setMultiSelections] = useState<{ first: number; second?: number }[]>([]);
   const initialMultiSelections = useMemo(() => {
     if (!storyInsight || !storyInsight.superFigures) return [];
     return storyInsight.superFigures.map((sf) => ({
@@ -277,27 +225,16 @@ const ShowStory = () => {
   }, [initialMultiSelections]);
   const buildMultiChartProps = useMemo(
     () => (sfIndex: number) => {
-      if (
-        !storyInsight ||
-        !storyInsight.superFigures ||
-        !storyInsight.superFigures[sfIndex]
-      )
-        return null;
+      if (!storyInsight || !storyInsight.superFigures || !storyInsight.superFigures[sfIndex]) return null;
       const sf = storyInsight.superFigures[sfIndex];
       const sel = multiSelections[sfIndex] || { first: 0, second: 0 };
       const firstKey = sf.firstIndexes?.[sel.first];
       const secondKey =
-        sf.secondIndexes && sf.secondIndexes[sel.first]
-          ? sf.secondIndexes[sel.first][sel.second ?? 0]
-          : undefined;
+        sf.secondIndexes && sf.secondIndexes[sel.first] ? sf.secondIndexes[sel.first][sel.second ?? 0] : undefined;
       let targetFig = sf.figures?.find(
-        (f) =>
-          f.firstIndex == firstKey &&
-          (secondKey === undefined || f.secondIndex == secondKey),
+        (f) => f.firstIndex == firstKey && (secondKey === undefined || f.secondIndex == secondKey),
       );
-      if (!targetFig)
-        targetFig =
-          sf.figures && sf.figures.length > 0 ? sf.figures[0] : undefined;
+      if (!targetFig) targetFig = sf.figures && sf.figures.length > 0 ? sf.figures[0] : undefined;
       const dayList = (targetFig && (targetFig.days ?? targetFig.hours)) || [];
       // derive month/year from first timestamp if available
       let year = new Date().getFullYear();
@@ -308,10 +245,7 @@ const ShowStory = () => {
         year = d.getFullYear();
         month = d.getMonth() + 1;
       }
-      const totalCount = (dayList || []).reduce(
-        (s: number, it: any) => s + (it.count || 0),
-        0,
-      );
+      const totalCount = (dayList || []).reduce((s: number, it: any) => s + (it.count || 0), 0);
       const seriesData = [
         {
           id: `${sfIndex}-0`,
@@ -356,13 +290,9 @@ const ShowStory = () => {
       isFetchingRef.current = true;
       try {
         var [contentRes, insightReses, repliesRes] = await Promise.all([
-          GetServerResult<Boolean, IStoryContent>(
-            MethodType.get,
-            session,
-            "Instagramer/Story/GetStory",
-            null,
-            [{ key: "storyId", value: storyId }],
-          ),
+          GetServerResult<Boolean, IStoryContent>(MethodType.get, session, "Instagramer/Story/GetStory", null, [
+            { key: "storyId", value: storyId },
+          ]),
           session.user.insightPermission
             ? GetServerResult<Boolean, IStoryInsight>(
                 MethodType.get,
@@ -411,18 +341,15 @@ const ShowStory = () => {
         ]);
         if (contentRes.succeeded && insightReses.succeeded) {
           setStoryContent(contentRes.value);
-          if (session.user.insightPermission)
-            setStoryInsight(insightReses.value);
+          if (session.user.insightPermission) setStoryInsight(insightReses.value);
           if (session.user.messagePermission) setStoryReplies(repliesRes.value);
           if (contentRes.value.autoReplyCommentInfo) {
             setAutoReply({
               items: contentRes.value.autoReplyCommentInfo.items,
               response: contentRes.value.autoReplyCommentInfo.response || "",
               replySuccessfullyDirected: false,
-              shouldFollower:
-                contentRes.value.autoReplyCommentInfo.shouldFollower,
-              automaticType:
-                contentRes.value.autoReplyCommentInfo.automaticType,
+              shouldFollower: contentRes.value.autoReplyCommentInfo.shouldFollower,
+              automaticType: contentRes.value.autoReplyCommentInfo.automaticType,
               masterFlow: contentRes.value.autoReplyCommentInfo.masterFlow,
               masterFlowId: contentRes.value.autoReplyCommentInfo.masterFlowId,
               mediaId: contentRes.value.autoReplyCommentInfo.mediaId,
@@ -433,8 +360,7 @@ const ShowStory = () => {
               sendCount: contentRes.value.autoReplyCommentInfo.sendCount,
               sendPr: contentRes.value.autoReplyCommentInfo.sendPr,
             });
-            if (!contentRes.value.autoReplyCommentInfo.pauseTime)
-              setQuickReply(true);
+            if (!contentRes.value.autoReplyCommentInfo.pauseTime) setQuickReply(true);
           }
           setLoading(false);
           setIsDataLoaded(true);
@@ -454,8 +380,7 @@ const ShowStory = () => {
       var res = await GetServerResult<boolean, boolean>(
         MethodType.get,
         session,
-        "Instagramer" +
-          `/Story/${!activeAutoReply ? "PauseAutoReply" : "ResumeAutoReply"}`,
+        "Instagramer" + `/Story/${!activeAutoReply ? "PauseAutoReply" : "ResumeAutoReply"}`,
         null,
         [
           {
@@ -517,13 +442,7 @@ const ShowStory = () => {
     } finally {
       setIsFetchingMoreReplies(false);
     }
-  }, [
-    session,
-    storyReplies.threads,
-    storyReplies.hasOlder,
-    storyReplies.nextMaxId,
-    storyContent.storyId,
-  ]);
+  }, [session, storyReplies.threads, storyReplies.hasOlder, storyReplies.nextMaxId, storyContent.storyId]);
   const handleApiPeopleSearch = useCallback(
     async (searchQuery: string) => {
       try {
@@ -538,9 +457,7 @@ const ShowStory = () => {
           ],
         );
         if (res.succeeded) {
-          setSearchViewers(
-            convertArrayToLarray<IStory_Viewers>(res.value.viewers, 5),
-          );
+          setSearchViewers(convertArrayToLarray<IStory_Viewers>(res.value.viewers, 5));
           searchDispatch({ type: "SET_LOADING", payload: false });
           searchDispatch({
             type: "SET_NO_RESULT",
@@ -589,9 +506,7 @@ const ShowStory = () => {
         const res = await GetServerResult<boolean, boolean>(
           MethodType.get,
           session,
-          "Instagramer" +
-            "" +
-            `/Message/${item.ownerEmojiReaction ? "SendUnReaction" : "SendReaction"}`,
+          "Instagramer" + "" + `/Message/${item.ownerEmojiReaction ? "SendUnReaction" : "SendReaction"}`,
           null,
           [
             { key: "threadId", value: threadId },
@@ -611,9 +526,7 @@ const ShowStory = () => {
                         ? y
                         : {
                             ...y,
-                            ownerEmojiReaction: y.ownerEmojiReaction
-                              ? null
-                              : "reaction",
+                            ownerEmojiReaction: y.ownerEmojiReaction ? null : "reaction",
                           },
                     ),
                   },
@@ -629,10 +542,7 @@ const ShowStory = () => {
   const handleUpdateAtuoReply = useCallback(
     async (sendReply: IMediaUpdateAutoReply) => {
       try {
-        const res = await GetServerResult<
-          ISendStoryAutomaticReply,
-          IAutomaticReply
-        >(
+        const res = await GetServerResult<ISendStoryAutomaticReply, IAutomaticReply>(
           MethodType.post,
           session,
           "Instagramer/Story/UpdateAutoReply",
@@ -678,15 +588,7 @@ const ShowStory = () => {
         }
       }
     },
-    [
-      profilePopup.show,
-      mediaModal.isOpen,
-      showQuickReplyPopup,
-      showLotteryPopup,
-      handleClosePopup,
-      mediaModal,
-      router,
-    ],
+    [profilePopup.show, mediaModal.isOpen, showQuickReplyPopup, showLotteryPopup, handleClosePopup, mediaModal, router],
   );
 
   useEffect(() => {
@@ -707,11 +609,7 @@ const ShowStory = () => {
     [storyContent.tempId, query.storyid],
   );
 
-  const canonicalUrl = useMemo(
-    () =>
-      `https://www.Brancy.app/page/stories/storyinfo?storyid=${query.storyid}`,
-    [query.storyid],
-  );
+  const canonicalUrl = useMemo(() => `https://www.Brancy.app/page/stories/storyinfo/${query.storyid}`, [query.storyid]);
 
   if (!session || !isValidIndex || !query.storyid) return null;
 
@@ -738,39 +636,19 @@ const ShowStory = () => {
         <meta name="twitter:description" content={storyDescription} />
 
         <meta name="theme-color" content="#2977ff" />
-        <meta
-          name="theme-color"
-          media="(prefers-color-scheme: light)"
-          content="#2977ff"
-        />
-        <meta
-          name="theme-color"
-          media="(prefers-color-scheme: dark)"
-          content="#1a1a1a"
-        />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes"
-        />
+        <meta name="theme-color" media="(prefers-color-scheme: light)" content="#2977ff" />
+        <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#1a1a1a" />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
         <meta name="mobile-web-app-capable" content="yes" />
         <meta name="apple-mobile-web-app-capable" content="yes" />
-        <meta
-          name="apple-mobile-web-app-status-bar-style"
-          content="black-translucent"
-        />
+        <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
         <meta name="apple-mobile-web-app-title" content="Brancy" />
         <meta name="msapplication-TileColor" content="#2977ff" />
         <meta name="msapplication-navbutton-color" content="#2977ff" />
       </Head>
-      <main
-        className="fullScreenPupup_bg"
-        role="main"
-        aria-label="Story insights">
+      <main className="fullScreenPupup_bg" role="main" aria-label="Story insights">
         <div className="fullScreenPupup_header" role="banner">
-          <div
-            className={styles.ToggleButton}
-            role="tablist"
-            aria-label="View toggle">
+          <div className={styles.ToggleButton} role="tablist" aria-label="View toggle">
             <FlexibleToggleButton
               options={[
                 { label: t(LanguageKey.details), id: 0 },
@@ -785,14 +663,9 @@ const ShowStory = () => {
             <div
               className={styles.headerIconcontainer}
               onClick={() => handleCopyLink(storyContent.instaShareLink)}
-              onKeyDown={(e) =>
-                e.key === "Enter" && handleCopyLink(storyContent.instaShareLink)
-              }
+              onKeyDown={(e) => e.key === "Enter" && handleCopyLink(storyContent.instaShareLink)}
               title="Share this page">
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="var(--text-h1)"
-                viewBox="0 0 36 36">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="var(--text-h1)" viewBox="0 0 36 36">
                 <path d="M26.3 2.3a6 6 0 1 0 0 12 6 6 0 0 0 0-12m-18 9a6 6 0 1 0 0 12 6 6 0 0 0 0-12m19.5 10.5a6 6 0 1 0 0 12 6 6 0 0 0 0-12" />
                 <path
                   opacity=".4"
@@ -804,14 +677,9 @@ const ShowStory = () => {
             <div
               title="Close"
               onClick={() => router.push("/page/stories")}
-              onKeyDown={(e) =>
-                e.key === "Enter" && router.push("/page/stories")
-              }
+              onKeyDown={(e) => e.key === "Enter" && router.push("/page/stories")}
               className={styles.headerIconcontainer}>
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 170 180">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 170 180">
                 <path
                   d="m100 85 66-67c2-2 3-5 3-8 0-5-5-10-10-10a10 10 0 0 0-8 3L84 70 18 3a10 10 0 0 0-8-3A10 10 0 0 0 0 10c0 3 1 6 3 8l67 67-4 3-63 65a10 10 0 0 0 7 17c3 0 6-1 8-3l12-13 54-54 67 67c4 5 10 5 15 0 4-4 4-10 0-15L99 85z"
                   fill="var(--text-h1)"
@@ -820,10 +688,7 @@ const ShowStory = () => {
             </div>
           </div>
         </div>
-        <div
-          className="fullScreenPupup_content"
-          role="region"
-          aria-label="Story content">
+        <div className="fullScreenPupup_content" role="region" aria-label="Story content">
           {!hasPageAccess && <NotAllowed />}
           {toggleValue === ToggleOrder.FirstToggle && (
             <>
@@ -834,9 +699,7 @@ const ShowStory = () => {
                     <div className="headerparent">
                       <div className="title">
                         {t(LanguageKey.navbar_Story)}
-                        <span
-                          className={styles.number}
-                          title={`ℹ️ Story no. ${storyContent.tempId}`}>
+                        <span className={styles.number} title={`ℹ️ Story no. ${storyContent.tempId}`}>
                           (<strong>{storyContent.tempId}</strong>)
                         </span>
                       </div>
@@ -849,13 +712,9 @@ const ShowStory = () => {
                           locale: t.locale,
                         });
                         return (
-                          <div
-                            className="date translate"
-                            title="ℹ️ publish time">
-                            <span className="day">
-                              {d.format("YYYY/MM/DD")}
-                            </span>{" "}
-                            -<span className="hour">{d.format("hh:mm a")}</span>
+                          <div className="date translate" title="ℹ️ publish time">
+                            <span className="day">{d.format("YYYY/MM/DD")}</span> -
+                            <span className="hour">{d.format("hh:mm a")}</span>
                           </div>
                         );
                       })()}
@@ -865,23 +724,15 @@ const ShowStory = () => {
                       onClick={() => {
                         if (
                           storyContent.mediaType === MediaType.Video &&
-                          storyContent.createdTime * 1e3 + 48 * 60 * 60 * 1000 <
-                            Date.now()
+                          storyContent.createdTime * 1e3 + 48 * 60 * 60 * 1000 < Date.now()
                         ) {
-                          internalNotify(
-                            InternalResponseType.NotPermittedForDownload,
-                            NotifType.Warning,
-                          );
+                          internalNotify(InternalResponseType.NotPermittedForDownload, NotifType.Warning);
                           return;
                         }
                         if (storyContent.mediaType === MediaType.Image)
-                          mediaModal.openImage(
-                            basePictureUrl + storyContent.mediaUrl,
-                          );
+                          mediaModal.openImage(basePictureUrl + storyContent.mediaUrl);
                         else if (storyContent.mediaType === MediaType.Video)
-                          mediaModal.openVideo(
-                            basePictureUrl + storyContent.mediaUrl,
-                          );
+                          mediaModal.openVideo(basePictureUrl + storyContent.mediaUrl);
                       }}
                       className={styles.picture}
                       alt="instagram Story picture"
@@ -889,13 +740,10 @@ const ShowStory = () => {
                     />
                     {!(
                       storyContent.mediaType === MediaType.Video &&
-                      storyContent.createdTime * 1e3 + 48 * 60 * 60 * 1000 <
-                        Date.now()
+                      storyContent.createdTime * 1e3 + 48 * 60 * 60 * 1000 < Date.now()
                     ) && (
                       <a
-                        href={
-                          basePictureUrl + storyContent.mediaUrl + "/download"
-                        }
+                        href={basePictureUrl + storyContent.mediaUrl + "/download"}
                         download
                         style={{
                           position: "absolute",
@@ -909,11 +757,7 @@ const ShowStory = () => {
                           zIndex: 10,
                         }}
                         title="Download media">
-                        <svg
-                          fill="none"
-                          xmlns="http://www.w3.org/2000/svg"
-                          width="22"
-                          viewBox="0 0 36 36">
+                        <svg fill="none" xmlns="http://www.w3.org/2000/svg" width="22" viewBox="0 0 36 36">
                           <path
                             fillRule="evenodd"
                             clipRule="evenodd"
@@ -930,81 +774,31 @@ const ShowStory = () => {
                     )}
 
                     <div className={styles.postpreview}>
-                      <div
-                        className={
-                          storyContent.replyCount > 0
-                            ? styles.postdetail
-                            : `${styles.postdetail} fadeDiv`
-                        }>
-                        <img
-                          title="ℹ️ like count"
-                          width="20px"
-                          height="20px"
-                          alt="view"
-                          src={"/icon-like.svg"}
-                        />
-                        <span>
-                          {storyContent.replyCount > 0
-                            ? storyContent.replyCount.toLocaleString()
-                            : "--"}
-                        </span>
+                      <div className={storyContent.replyCount > 0 ? styles.postdetail : `${styles.postdetail} fadeDiv`}>
+                        <img title="ℹ️ like count" width="20px" height="20px" alt="view" src={"/icon-like.svg"} />
+                        <span>{storyContent.replyCount > 0 ? storyContent.replyCount.toLocaleString() : "--"}</span>
                       </div>
-                      <div
-                        className={
-                          storyContent.shareCount > 0
-                            ? styles.postdetail
-                            : `${styles.postdetail} fadeDiv`
-                        }>
-                        <img
-                          title="ℹ️ Send count"
-                          width="20px"
-                          height="20px"
-                          alt="send"
-                          src={"/icon-send.svg"}
-                        />
-                        <span>
-                          {storyContent.shareCount > 0
-                            ? storyContent.shareCount.toLocaleString()
-                            : "--"}
-                        </span>
+                      <div className={storyContent.shareCount > 0 ? styles.postdetail : `${styles.postdetail} fadeDiv`}>
+                        <img title="ℹ️ Send count" width="20px" height="20px" alt="send" src={"/icon-send.svg"} />
+                        <span>{storyContent.shareCount > 0 ? storyContent.shareCount.toLocaleString() : "--"}</span>
                       </div>
-                      <div
-                        className={
-                          storyContent.viewCount > 0
-                            ? styles.postdetail
-                            : `${styles.postdetail} fadeDiv`
-                        }>
-                        <img
-                          title="ℹ️ Reach count"
-                          width="20px"
-                          height="20px"
-                          alt="view"
-                          src={"/icon-view.svg"}
-                        />
-                        <span>
-                          {storyContent.viewCount > 0
-                            ? storyContent.viewCount.toLocaleString()
-                            : "--"}
-                        </span>
+                      <div className={storyContent.viewCount > 0 ? styles.postdetail : `${styles.postdetail} fadeDiv`}>
+                        <img title="ℹ️ Reach count" width="20px" height="20px" alt="view" src={"/icon-view.svg"} />
+                        <span>{storyContent.viewCount > 0 ? storyContent.viewCount.toLocaleString() : "--"}</span>
                       </div>
                     </div>
                   </div>
                   {session.user.messagePermission && (
                     <div className={styles.container}>
-                      <div
-                        className={`headerandinput ${storyContent.expireTime * 1000 < Date.now() && "fadeDiv"}`}>
-                        <div
-                          className="headerparent"
-                          role="group"
-                          aria-label="Product settings">
+                      <div className={`headerandinput ${storyContent.expireTime * 1000 < Date.now() && "fadeDiv"}`}>
+                        <div className="headerparent" role="group" aria-label="Product settings">
                           <div className="title2" role="heading" aria-level={3}>
                             {t(LanguageKey.autocommentReply)}
                           </div>
                           <ToggleCheckBoxButton
                             name="quick-reply"
                             handleToggle={(e) => {
-                              if (storyContent.expireTime * 1000 < Date.now())
-                                return;
+                              if (storyContent.expireTime * 1000 < Date.now()) return;
                               handleResumeLiveAutoReply(e);
                               setQuickReply(!QuickReply);
                             }}
@@ -1015,17 +809,11 @@ const ShowStory = () => {
                             aria-label="Quick reply toggle"
                           />
                         </div>
-                        <div className="explain">
-                          {t(LanguageKey.QuickReplyexplain)}
-                        </div>
+                        <div className="explain">{t(LanguageKey.QuickReplyexplain)}</div>
                         <button
                           className={`cancelButton ${QuickReply ? "" : "fadeDiv"}`}
                           onClick={() => {
-                            if (
-                              storyContent.expireTime * 1000 < Date.now() ||
-                              !autoReply
-                            )
-                              return;
+                            if (storyContent.expireTime * 1000 < Date.now() || !autoReply) return;
                             if (QuickReply) {
                               setShowQuickReplyPopup(true);
                             }
@@ -1043,11 +831,7 @@ const ShowStory = () => {
                         <div className="headerparent">
                           <div className="title">{t(LanguageKey.reply)}</div>
                           <Tooltip
-                            tooltipValue={
-                              t(LanguageKey.WinnerPicker) +
-                              "," +
-                              t(LanguageKey.exportXlxs)
-                            }
+                            tooltipValue={t(LanguageKey.WinnerPicker) + "," + t(LanguageKey.exportXlxs)}
                             position="bottom"
                             onClick={true}>
                             <img
@@ -1068,158 +852,122 @@ const ShowStory = () => {
                             value={searchPepaple}
                             handleInputChange={handleSearchReply}
                           />
-                          {!searchState.searchMode &&
-                            storyReplies.threads.length === 0 && (
-                              <div
-                                className="explain"
-                                style={{ textAlign: "center" }}>
-                                {t(LanguageKey.emptycomment)}
-                              </div>
-                            )}
-                          {!searchState.searchMode &&
-                            storyReplies.threads.length > 0 && (
-                              <Slider
-                                onReachEnd={() => {
-                                  if (!storyReplies.nextMaxId) return;
-                                  fetchReplies();
-                                }}
-                                isLoading={isFetchingMoreReplies}
-                                itemsPerSlide={commentsPerSlide}>
-                                {storyReplies.threads.map((u, i) => (
-                                  <div
-                                    key={u.threadId || i}
-                                    className={styles.comment}>
-                                    <img
-                                      className="instagramimage"
-                                      title="◰ resize the picture"
-                                      onClick={() =>
-                                        handleImageClick(
-                                          basePictureUrl + u.recp.profilePic,
-                                          u.recp.username || "",
-                                        )
-                                      }
-                                      onError={(e) => {
-                                        (e.target as HTMLImageElement).src =
-                                          "/no-profile.svg";
-                                      }}
-                                      style={{
-                                        height: "40px",
-                                        width: "40px",
-                                        cursor: "pointer",
-                                      }}
-                                      width={40}
-                                      height={40}
-                                      alt="instagram profile picture"
-                                      src={basePictureUrl + u.recp.profilePic}
-                                    />
-                                    <div className={styles.commentdetail}>
-                                      <div
-                                        className="headerandinput"
-                                        style={{ gap: "2px" }}>
-                                        <div className="headerparent">
-                                          <div
-                                            className="instagramusername"
-                                            style={{ fontSize: "12px" }}>
-                                            {u.recp.username}
-                                          </div>
-                                          <img
-                                            onClick={() => {
-                                              if (!u.isActive) return;
-                                              handleReaction(
-                                                u.items[0],
-                                                u.threadId,
-                                              );
-                                            }}
-                                            className={`${styles.likeicon} ${!u.isActive && "fadeDiv"}`}
-                                            alt="like icon"
-                                            src={
-                                              u.items[0].ownerEmojiReaction
-                                                ? "/icon-isLiked.svg"
-                                                : "/icon-like.svg"
-                                            }
-                                          />
+                          {!searchState.searchMode && storyReplies.threads.length === 0 && (
+                            <div className="explain" style={{ textAlign: "center" }}>
+                              {t(LanguageKey.emptycomment)}
+                            </div>
+                          )}
+                          {!searchState.searchMode && storyReplies.threads.length > 0 && (
+                            <Slider
+                              onReachEnd={() => {
+                                if (!storyReplies.nextMaxId) return;
+                                fetchReplies();
+                              }}
+                              isLoading={isFetchingMoreReplies}
+                              itemsPerSlide={commentsPerSlide}>
+                              {storyReplies.threads.map((u, i) => (
+                                <div key={u.threadId || i} className={styles.comment}>
+                                  <img
+                                    className="instagramimage"
+                                    title="◰ resize the picture"
+                                    onClick={() =>
+                                      handleImageClick(basePictureUrl + u.recp.profilePic, u.recp.username || "")
+                                    }
+                                    onError={(e) => {
+                                      (e.target as HTMLImageElement).src = "/no-profile.svg";
+                                    }}
+                                    style={{
+                                      height: "40px",
+                                      width: "40px",
+                                      cursor: "pointer",
+                                    }}
+                                    width={40}
+                                    height={40}
+                                    alt="instagram profile picture"
+                                    src={basePictureUrl + u.recp.profilePic}
+                                  />
+                                  <div className={styles.commentdetail}>
+                                    <div className="headerandinput" style={{ gap: "2px" }}>
+                                      <div className="headerparent">
+                                        <div className="instagramusername" style={{ fontSize: "12px" }}>
+                                          {u.recp.username}
                                         </div>
-                                        <div
-                                          className="explain "
-                                          style={{
-                                            display: "flex",
-                                            gap: "var(--gap-5)",
-                                          }}>
-                                          <span>
-                                            {new DateObject({
-                                              date:
-                                                u.items[0].createdTime / 1000,
-                                              calendar:
-                                                initialzedTime().calendar,
-                                              locale: initialzedTime().locale,
-                                            }).format("YYYY/MM/DD - hh:mm a")}
-                                          </span>
-                                          ●
-                                          <span>
-                                            {formatTimeAgo(
-                                              u.items[0].createdTime / 1000,
-                                            )}
-                                          </span>
-                                        </div>
+                                        <img
+                                          onClick={() => {
+                                            if (!u.isActive) return;
+                                            handleReaction(u.items[0], u.threadId);
+                                          }}
+                                          className={`${styles.likeicon} ${!u.isActive && "fadeDiv"}`}
+                                          alt="like icon"
+                                          src={u.items[0].ownerEmojiReaction ? "/icon-isLiked.svg" : "/icon-like.svg"}
+                                        />
                                       </div>
                                       <div
-                                        className={`${styles.commenttext} ${isRTL(u.items[0].text) ? "rtl" : "ltr"}`}
-                                        title={u.items[0].text}>
-                                        {u.items[0].text}
+                                        className="explain "
+                                        style={{
+                                          display: "flex",
+                                          gap: "var(--gap-5)",
+                                        }}>
+                                        <span>
+                                          {new DateObject({
+                                            date: u.items[0].createdTime / 1000,
+                                            calendar: initialzedTime().calendar,
+                                            locale: initialzedTime().locale,
+                                          }).format("YYYY/MM/DD - hh:mm a")}
+                                        </span>
+                                        ●<span>{formatTimeAgo(u.items[0].createdTime / 1000)}</span>
                                       </div>
                                     </div>
-                                    {profilePopup.show && (
-                                      <>
-                                        <div
-                                          className="dialogBg"
-                                          onClick={handleClosePopup}
-                                          onKeyDown={(e) =>
-                                            e.key === "Escape" &&
-                                            handleClosePopup()
-                                          }
-                                          role="button"
-                                          tabIndex={0}
-                                          aria-label="Close profile popup"
-                                        />
-                                        <div
-                                          className={styles.popupContent}
-                                          role="dialog"
-                                          aria-modal="true"
-                                          aria-labelledby={`profile-${componentId}`}>
-                                          <div className="headerparent">
-                                            <span id={`profile-${componentId}`}>
-                                              @ {profilePopup.username}
-                                            </span>
-                                            <button
-                                              type="button"
-                                              title="Close popup (Esc)"
-                                              className="closepopup"
-                                              onClick={handleClosePopup}
-                                              aria-label="Close profile popup"
-                                              style={{
-                                                background: "none",
-                                                border: "none",
-                                                cursor: "pointer",
-                                              }}>
-                                              <img
-                                                alt="close button"
-                                                src="/close-box.svg"
-                                              />
-                                            </button>
-                                          </div>
-                                          <img
-                                            className={styles.profileimagebig}
-                                            src={profilePopup.image}
-                                            alt={`Profile picture of ${profilePopup.username}`}
-                                            title="profile picture"
-                                          />
-                                        </div>
-                                      </>
-                                    )}
+                                    <div
+                                      className={`${styles.commenttext} ${isRTL(u.items[0].text) ? "rtl" : "ltr"}`}
+                                      title={u.items[0].text}>
+                                      {u.items[0].text}
+                                    </div>
                                   </div>
-                                ))}
-                              </Slider>
-                            )}
+                                  {profilePopup.show && (
+                                    <>
+                                      <div
+                                        className="dialogBg"
+                                        onClick={handleClosePopup}
+                                        onKeyDown={(e) => e.key === "Escape" && handleClosePopup()}
+                                        role="button"
+                                        tabIndex={0}
+                                        aria-label="Close profile popup"
+                                      />
+                                      <div
+                                        className={styles.popupContent}
+                                        role="dialog"
+                                        aria-modal="true"
+                                        aria-labelledby={`profile-${componentId}`}>
+                                        <div className="headerparent">
+                                          <span id={`profile-${componentId}`}>@ {profilePopup.username}</span>
+                                          <button
+                                            type="button"
+                                            title="Close popup (Esc)"
+                                            className="closepopup"
+                                            onClick={handleClosePopup}
+                                            aria-label="Close profile popup"
+                                            style={{
+                                              background: "none",
+                                              border: "none",
+                                              cursor: "pointer",
+                                            }}>
+                                            <img alt="close button" src="/close-box.svg" />
+                                          </button>
+                                        </div>
+                                        <img
+                                          className={styles.profileimagebig}
+                                          src={profilePopup.image}
+                                          alt={`Profile picture of ${profilePopup.username}`}
+                                          title="profile picture"
+                                        />
+                                      </div>
+                                    </>
+                                  )}
+                                </div>
+                              ))}
+                            </Slider>
+                          )}
                           {searchState.searchMode && (
                             <>
                               {searchState.loading && (
@@ -1244,150 +992,109 @@ const ShowStory = () => {
                                   {t(LanguageKey.noresult)}
                                 </div>
                               )}
-                              {!searchState.loading &&
-                                !searchState.noresult && (
-                                  <Slider itemsPerSlide={6}>
-                                    {searchReplies.threads.map((u, i) => (
-                                      <div
-                                        key={u.threadId || i}
-                                        className={styles.comment}>
-                                        <img
-                                          className=" instagramimage"
-                                          title="◰ resize the picture"
-                                          onClick={() =>
-                                            handleImageClick(
-                                              basePictureUrl +
-                                                u.recp.profilePic,
-                                              u.recp.username || "",
-                                            )
-                                          }
-                                          onError={(e) => {
-                                            (e.target as HTMLImageElement).src =
-                                              "/no-profile.svg";
-                                          }}
-                                          style={{
-                                            height: "40px",
-                                            width: "40px",
-                                            cursor: "pointer",
-                                          }}
-                                          width={40}
-                                          height={40}
-                                          alt="instagram profile picture"
-                                          src={
-                                            basePictureUrl + u.recp.profilePic
-                                          }
-                                        />
-                                        <div className={styles.commentdetail}>
-                                          <div
-                                            className="headerandinput"
-                                            style={{ gap: "2px" }}>
-                                            <div className="headerparent">
-                                              <div
-                                                className="instagramusername"
-                                                style={{ fontSize: "12px" }}>
-                                                {u.recp.username}
-                                              </div>
-                                              <img
-                                                onClick={() => {
-                                                  if (!u.isActive) return;
-                                                  handleReaction(
-                                                    u.items[0],
-                                                    u.threadId,
-                                                  );
-                                                }}
-                                                className={`${styles.likeicon} ${!u.isActive && "fadeDiv"}`}
-                                                alt="like icon"
-                                                src={
-                                                  u.items[0].ownerEmojiReaction
-                                                    ? "/icon-isLiked.svg"
-                                                    : "/icon-like.svg"
-                                                }
-                                              />
+                              {!searchState.loading && !searchState.noresult && (
+                                <Slider itemsPerSlide={6}>
+                                  {searchReplies.threads.map((u, i) => (
+                                    <div key={u.threadId || i} className={styles.comment}>
+                                      <img
+                                        className=" instagramimage"
+                                        title="◰ resize the picture"
+                                        onClick={() =>
+                                          handleImageClick(basePictureUrl + u.recp.profilePic, u.recp.username || "")
+                                        }
+                                        onError={(e) => {
+                                          (e.target as HTMLImageElement).src = "/no-profile.svg";
+                                        }}
+                                        style={{
+                                          height: "40px",
+                                          width: "40px",
+                                          cursor: "pointer",
+                                        }}
+                                        width={40}
+                                        height={40}
+                                        alt="instagram profile picture"
+                                        src={basePictureUrl + u.recp.profilePic}
+                                      />
+                                      <div className={styles.commentdetail}>
+                                        <div className="headerandinput" style={{ gap: "2px" }}>
+                                          <div className="headerparent">
+                                            <div className="instagramusername" style={{ fontSize: "12px" }}>
+                                              {u.recp.username}
                                             </div>
-                                            <div
-                                              className="explain "
-                                              style={{
-                                                display: "flex",
-                                                gap: "var(--gap-5)",
-                                              }}>
-                                              <span>
-                                                {new DateObject({
-                                                  date:
-                                                    u.items[0].createdTime /
-                                                    1000,
-                                                  calendar:
-                                                    initialzedTime().calendar,
-                                                  locale:
-                                                    initialzedTime().locale,
-                                                }).format(
-                                                  "YYYY/MM/DD - hh:mm a",
-                                                )}
-                                              </span>
-                                              ●
-                                              <span>
-                                                {formatTimeAgo(
-                                                  u.items[0].createdTime / 1000,
-                                                )}
-                                              </span>
-                                            </div>
+                                            <img
+                                              onClick={() => {
+                                                if (!u.isActive) return;
+                                                handleReaction(u.items[0], u.threadId);
+                                              }}
+                                              className={`${styles.likeicon} ${!u.isActive && "fadeDiv"}`}
+                                              alt="like icon"
+                                              src={
+                                                u.items[0].ownerEmojiReaction ? "/icon-isLiked.svg" : "/icon-like.svg"
+                                              }
+                                            />
                                           </div>
                                           <div
-                                            className={`${styles.commenttext} ${isRTL(u.items[0].text) ? "rtl" : "ltr"}`}
-                                            title={u.items[0].text}>
-                                            {u.items[0].text}
+                                            className="explain "
+                                            style={{
+                                              display: "flex",
+                                              gap: "var(--gap-5)",
+                                            }}>
+                                            <span>
+                                              {new DateObject({
+                                                date: u.items[0].createdTime / 1000,
+                                                calendar: initialzedTime().calendar,
+                                                locale: initialzedTime().locale,
+                                              }).format("YYYY/MM/DD - hh:mm a")}
+                                            </span>
+                                            ●<span>{formatTimeAgo(u.items[0].createdTime / 1000)}</span>
                                           </div>
                                         </div>
-                                        {profilePopup.show && (
-                                          <>
-                                            <div
-                                              className="dialogBg"
-                                              onClick={handleClosePopup}
-                                              onKeyDown={(e) =>
-                                                e.key === "Escape" &&
-                                                handleClosePopup()
-                                              }
-                                              role="button"
-                                              tabIndex={0}
-                                              aria-label="Close profile popup"
-                                            />
-                                            <div
-                                              className={styles.popupContent}
-                                              role="dialog"
-                                              aria-modal="true">
-                                              <div className="headerparent">
-                                                @ {profilePopup.username}
-                                                <button
-                                                  type="button"
-                                                  title="Close popup (Esc)"
-                                                  className="closepopup"
-                                                  onClick={handleClosePopup}
-                                                  aria-label="Close profile popup"
-                                                  style={{
-                                                    background: "none",
-                                                    border: "none",
-                                                    cursor: "pointer",
-                                                  }}>
-                                                  <img
-                                                    alt="close button"
-                                                    src="/close-box.svg"
-                                                  />
-                                                </button>
-                                              </div>
-                                              <img
-                                                className={
-                                                  styles.profileimagebig
-                                                }
-                                                src={profilePopup.image}
-                                                alt={`Profile picture of ${profilePopup.username}`}
-                                                title="profile picture"
-                                              />
-                                            </div>
-                                          </>
-                                        )}
+                                        <div
+                                          className={`${styles.commenttext} ${isRTL(u.items[0].text) ? "rtl" : "ltr"}`}
+                                          title={u.items[0].text}>
+                                          {u.items[0].text}
+                                        </div>
                                       </div>
-                                    ))}
-                                  </Slider>
-                                )}
+                                      {profilePopup.show && (
+                                        <>
+                                          <div
+                                            className="dialogBg"
+                                            onClick={handleClosePopup}
+                                            onKeyDown={(e) => e.key === "Escape" && handleClosePopup()}
+                                            role="button"
+                                            tabIndex={0}
+                                            aria-label="Close profile popup"
+                                          />
+                                          <div className={styles.popupContent} role="dialog" aria-modal="true">
+                                            <div className="headerparent">
+                                              @ {profilePopup.username}
+                                              <button
+                                                type="button"
+                                                title="Close popup (Esc)"
+                                                className="closepopup"
+                                                onClick={handleClosePopup}
+                                                aria-label="Close profile popup"
+                                                style={{
+                                                  background: "none",
+                                                  border: "none",
+                                                  cursor: "pointer",
+                                                }}>
+                                                <img alt="close button" src="/close-box.svg" />
+                                              </button>
+                                            </div>
+                                            <img
+                                              className={styles.profileimagebig}
+                                              src={profilePopup.image}
+                                              alt={`Profile picture of ${profilePopup.username}`}
+                                              title="profile picture"
+                                            />
+                                          </div>
+                                        </>
+                                      )}
+                                    </div>
+                                  ))}
+                                </Slider>
+                              )}
                             </>
                           )}
                         </div>
@@ -1429,8 +1136,7 @@ const ShowStory = () => {
                                   />
                                 </svg>
                                 <div className={styles.totalcounter}>
-                                  {storyInsight.engagementFollowerType
-                                    ?.followEngaged ?? "--"}
+                                  {storyInsight.engagementFollowerType?.followEngaged ?? "--"}
                                 </div>
                               </div>
                               <div className={styles.followertype}>
@@ -1450,19 +1156,14 @@ const ShowStory = () => {
                                   />
                                 </svg>
                                 <div className={styles.totalcounter}>
-                                  {storyInsight.engagementFollowerType
-                                    ?.nonFollowEngaged ?? "--"}
+                                  {storyInsight.engagementFollowerType?.nonFollowEngaged ?? "--"}
                                 </div>
                               </div>
                             </div>
                           </div>
                           <div className={styles.Tableheader}>
-                            <div className={styles.Tableheadertext}>
-                              Interactions
-                            </div>
-                            <div className={styles.Tableheadercounter}>
-                              {storyInsight.interaction?.total ?? "--"}
-                            </div>
+                            <div className={styles.Tableheadertext}>Interactions</div>
+                            <div className={styles.Tableheadercounter}>{storyInsight.interaction?.total ?? "--"}</div>
                           </div>
                           <div className={styles.Tableheader1}>
                             <div className={styles.row}>
@@ -1470,9 +1171,7 @@ const ShowStory = () => {
                                 <div className={styles.bullet}></div>
                                 <div className={styles.insightlabel}>Like</div>
                               </div>
-                              <div className={styles.insightlabel}>
-                                {storyInsight.interaction?.likes ?? "--"}
-                              </div>
+                              <div className={styles.insightlabel}>{storyInsight.interaction?.likes ?? "--"}</div>
                             </div>
 
                             <div className={styles.row}>
@@ -1480,73 +1179,49 @@ const ShowStory = () => {
                                 <div className={styles.bullet}></div>
                                 <div className={styles.insightlabel}>Share</div>
                               </div>
-                              <div className={styles.insightlabel}>
-                                {storyInsight.interaction?.shares ?? "--"}
-                              </div>
+                              <div className={styles.insightlabel}>{storyInsight.interaction?.shares ?? "--"}</div>
                             </div>
                             <div className={styles.row}>
                               <div className={styles.rowheader}>
                                 <div className={styles.bullet}></div>
-                                <div className={styles.insightlabel}>
-                                  Replies
-                                </div>
+                                <div className={styles.insightlabel}>Replies</div>
                               </div>
-                              <div className={styles.insightlabel}>
-                                {storyInsight.interaction?.replies ?? "--"}
-                              </div>
+                              <div className={styles.insightlabel}>{storyInsight.interaction?.replies ?? "--"}</div>
                             </div>
                           </div>
 
                           <div className={styles.Tableheader}>
-                            <div className={styles.Tableheadertext}>
-                              Navigation
-                            </div>
-                            <div className={styles.Tableheadercounter}>
-                              {storyInsight.navigation?.total ?? "--"}
-                            </div>
+                            <div className={styles.Tableheadertext}>Navigation</div>
+                            <div className={styles.Tableheadercounter}>{storyInsight.navigation?.total ?? "--"}</div>
                           </div>
                           <div className={styles.Tableheader1}>
                             <div className={styles.row}>
                               <div className={styles.rowheader}>
                                 <div className={styles.bullet}></div>
-                                <div className={styles.insightlabel}>
-                                  Forward
-                                </div>
+                                <div className={styles.insightlabel}>Forward</div>
                               </div>
-                              <div className={styles.insightlabel}>
-                                {storyInsight.navigation?.forward ?? "--"}
-                              </div>
+                              <div className={styles.insightlabel}>{storyInsight.navigation?.forward ?? "--"}</div>
                             </div>
                             <div className={styles.row}>
                               <div className={styles.rowheader}>
                                 <div className={styles.bullet}></div>
                                 <div className={styles.insightlabel}>Back</div>
                               </div>
-                              <div className={styles.insightlabel}>
-                                {storyInsight.navigation?.backward ?? "--"}
-                              </div>
+                              <div className={styles.insightlabel}>{storyInsight.navigation?.backward ?? "--"}</div>
                             </div>
                             <div className={styles.row}>
                               <div className={styles.rowheader}>
                                 <div className={styles.bullet}></div>
-                                <div className={styles.insightlabel}>
-                                  Exited
-                                </div>
+                                <div className={styles.insightlabel}>Exited</div>
                               </div>
-                              <div className={styles.insightlabel}>
-                                {storyInsight.navigation?.exited ?? "--"}
-                              </div>
+                              <div className={styles.insightlabel}>{storyInsight.navigation?.exited ?? "--"}</div>
                             </div>
                             <div className={styles.row}>
                               <div className={styles.rowheader}>
                                 <div className={styles.bullet}></div>
-                                <div className={styles.insightlabel}>
-                                  Next Story
-                                </div>
+                                <div className={styles.insightlabel}>Next Story</div>
                               </div>
-                              <div className={styles.insightlabel}>
-                                {storyInsight.navigation?.nextStory ?? "--"}
-                              </div>
+                              <div className={styles.insightlabel}>{storyInsight.navigation?.nextStory ?? "--"}</div>
                             </div>
                           </div>
                         </div>
@@ -1571,8 +1246,7 @@ const ShowStory = () => {
                                   />
                                 </svg>
                                 <div className={styles.totalcounter}>
-                                  {storyInsight.reachFollowerType
-                                    ?.followReach ?? "--"}
+                                  {storyInsight.reachFollowerType?.followReach ?? "--"}
                                 </div>
                               </div>
                               <div className={styles.followertype}>
@@ -1592,30 +1266,23 @@ const ShowStory = () => {
                                   />
                                 </svg>
                                 <div className={styles.totalcounter}>
-                                  {storyInsight.reachFollowerType
-                                    ?.nonFollowReach ?? "--"}
+                                  {storyInsight.reachFollowerType?.nonFollowReach ?? "--"}
                                 </div>
                               </div>
                             </div>
                           </div>
                           <div className={styles.Tableheader}>
                             <div className={styles.Tableheadertext}>Reach</div>
-                            <div className={styles.Tableheadercounter}>
-                              {storyInsight.reach ?? "--"}
-                            </div>
+                            <div className={styles.Tableheadercounter}>{storyInsight.reach ?? "--"}</div>
                           </div>
                           <div className={styles.Tableheader1}>
                             {storyInsight.linkClicks && (
                               <div className={styles.row}>
                                 <div className={styles.rowheader}>
                                   <div className={styles.bullet}></div>
-                                  <div className={styles.insightlabel}>
-                                    Link Clicks
-                                  </div>
+                                  <div className={styles.insightlabel}>Link Clicks</div>
                                 </div>
-                                <div className={styles.insightlabel}>
-                                  {storyInsight.linkClicks.count}
-                                </div>
+                                <div className={styles.insightlabel}>{storyInsight.linkClicks.count}</div>
                               </div>
                             )}
                             {storyInsight.stickerTapCounts &&
@@ -1623,46 +1290,30 @@ const ShowStory = () => {
                                 <div key={i} className={styles.row}>
                                   <div className={styles.rowheader}>
                                     <div className={styles.bullet}></div>
-                                    <div className={styles.insightlabel}>
-                                      {v.title}
-                                    </div>
+                                    <div className={styles.insightlabel}>{v.title}</div>
                                   </div>
-                                  <div className={styles.insightlabel}>
-                                    {v.tapCount}
-                                  </div>
+                                  <div className={styles.insightlabel}>{v.tapCount}</div>
                                 </div>
                               ))}
                           </div>
                           <div className={styles.Tableheader}>
-                            <div className={styles.Tableheadertext}>
-                              Profile Activity
-                            </div>
-                            <div className={styles.Tableheadercounter}>
-                              {storyInsight.profileActivity?.total}
-                            </div>
+                            <div className={styles.Tableheadertext}>Profile Activity</div>
+                            <div className={styles.Tableheadercounter}>{storyInsight.profileActivity?.total}</div>
                           </div>
                           <div className={styles.Tableheader1}>
                             <div className={styles.row}>
                               <div className={styles.rowheader}>
                                 <div className={styles.bullet}></div>
-                                <div className={styles.insightlabel}>
-                                  Profile Visits
-                                </div>
+                                <div className={styles.insightlabel}>Profile Visits</div>
                               </div>
-                              <div className={styles.insightlabel}>
-                                {storyInsight.profileActivity?.profileVisits}
-                              </div>
+                              <div className={styles.insightlabel}>{storyInsight.profileActivity?.profileVisits}</div>
                             </div>
                             <div className={styles.row}>
                               <div className={styles.rowheader}>
                                 <div className={styles.bullet}></div>
-                                <div className={styles.insightlabel}>
-                                  Follows
-                                </div>
+                                <div className={styles.insightlabel}>Follows</div>
                               </div>
-                              <div className={styles.insightlabel}>
-                                {storyInsight.profileActivity?.follows}
-                              </div>
+                              <div className={styles.insightlabel}>{storyInsight.profileActivity?.follows}</div>
                             </div>
                           </div>
                         </div>
@@ -1670,8 +1321,7 @@ const ShowStory = () => {
                       <div className={styles.containergraph}>
                         <div className="headerandinput">
                           <div className="title">
-                            {storyInsight.superFigures &&
-                            storyInsight.superFigures[0]
+                            {storyInsight.superFigures && storyInsight.superFigures[0]
                               ? storyInsight.superFigures[0].title
                               : ""}
                           </div>
@@ -1683,19 +1333,10 @@ const ShowStory = () => {
                               return (
                                 <MultiChart
                                   id={`insight-0`}
-                                  name={
-                                    propsMulti.objectNavigators[0].title ||
-                                    `insight-0`
-                                  }
+                                  name={propsMulti.objectNavigators[0].title || `insight-0`}
                                   seriesData={propsMulti.seriesData as any}
-                                  objectNavigators={
-                                    propsMulti.objectNavigators as any
-                                  }
-                                  onObjectNavigatorChange={(
-                                    navIndex,
-                                    firstIndex,
-                                    secondIndex,
-                                  ) => {
+                                  objectNavigators={propsMulti.objectNavigators as any}
+                                  onObjectNavigatorChange={(navIndex, firstIndex, secondIndex) => {
                                     setMultiSelections((prev) => {
                                       const next = prev.slice();
                                       next[0] = {
@@ -1711,8 +1352,7 @@ const ShowStory = () => {
                         </div>
                         <div className="headerandinput">
                           <div className="title">
-                            {storyInsight.superFigures &&
-                            storyInsight.superFigures[1]
+                            {storyInsight.superFigures && storyInsight.superFigures[1]
                               ? storyInsight.superFigures[1].title
                               : ""}
                           </div>
@@ -1724,19 +1364,10 @@ const ShowStory = () => {
                               return (
                                 <MultiChart
                                   id={`insight-1`}
-                                  name={
-                                    propsMulti.objectNavigators[0].title ||
-                                    `insight-1`
-                                  }
+                                  name={propsMulti.objectNavigators[0].title || `insight-1`}
                                   seriesData={propsMulti.seriesData as any}
-                                  objectNavigators={
-                                    propsMulti.objectNavigators as any
-                                  }
-                                  onObjectNavigatorChange={(
-                                    navIndex,
-                                    firstIndex,
-                                    secondIndex,
-                                  ) => {
+                                  objectNavigators={propsMulti.objectNavigators as any}
+                                  onObjectNavigatorChange={(navIndex, firstIndex, secondIndex) => {
                                     setMultiSelections((prev) => {
                                       const next = prev.slice();
                                       next[1] = {
@@ -1752,91 +1383,70 @@ const ShowStory = () => {
                         </div>
                       </div>
                       {/* {session.user.loginStatus !== 0 && <NotPassword />} */}
-                      {storyInsight.superFigures &&
-                        storyInsight.superFigures.length > 0 && (
-                          <div className={styles.containergraph}>
-                            <div className="headerandinput">
-                              <div className="title">
-                                {storyInsight.superFigures &&
-                                storyInsight.superFigures[2]
-                                  ? storyInsight.superFigures[2].title
-                                  : ""}
-                              </div>
-                              {storyInsight.superFigures[2] &&
-                                (() => {
-                                  const propsMulti = buildMultiChartProps(2);
-                                  if (!propsMulti) return null;
-                                  return (
-                                    <MultiChart
-                                      id={`insight-2`}
-                                      name={
-                                        propsMulti.objectNavigators[0].title ||
-                                        `insight-2`
-                                      }
-                                      seriesData={propsMulti.seriesData as any}
-                                      objectNavigators={
-                                        propsMulti.objectNavigators as any
-                                      }
-                                      onObjectNavigatorChange={(
-                                        navIndex,
-                                        firstIndex,
-                                        secondIndex,
-                                      ) => {
-                                        setMultiSelections((prev) => {
-                                          const next = prev.slice();
-                                          next[2] = {
-                                            first: firstIndex,
-                                            second: secondIndex,
-                                          };
-                                          return next;
-                                        });
-                                      }}
-                                    />
-                                  );
-                                })()}
+                      {storyInsight.superFigures && storyInsight.superFigures.length > 0 && (
+                        <div className={styles.containergraph}>
+                          <div className="headerandinput">
+                            <div className="title">
+                              {storyInsight.superFigures && storyInsight.superFigures[2]
+                                ? storyInsight.superFigures[2].title
+                                : ""}
                             </div>
-                            <div className="headerandinput">
-                              <div className="title">
-                                {storyInsight.superFigures &&
-                                storyInsight.superFigures[3]
-                                  ? storyInsight.superFigures[3].title
-                                  : ""}
-                              </div>
-                              {storyInsight.superFigures[3] &&
-                                (() => {
-                                  const propsMulti = buildMultiChartProps(3);
-                                  if (!propsMulti) return null;
-                                  return (
-                                    <MultiChart
-                                      id={`insight-3`}
-                                      name={
-                                        propsMulti.objectNavigators[0].title ||
-                                        `insight-3`
-                                      }
-                                      seriesData={propsMulti.seriesData as any}
-                                      objectNavigators={
-                                        propsMulti.objectNavigators as any
-                                      }
-                                      onObjectNavigatorChange={(
-                                        navIndex,
-                                        firstIndex,
-                                        secondIndex,
-                                      ) => {
-                                        setMultiSelections((prev) => {
-                                          const next = prev.slice();
-                                          next[3] = {
-                                            first: firstIndex,
-                                            second: secondIndex,
-                                          };
-                                          return next;
-                                        });
-                                      }}
-                                    />
-                                  );
-                                })()}
-                            </div>
+                            {storyInsight.superFigures[2] &&
+                              (() => {
+                                const propsMulti = buildMultiChartProps(2);
+                                if (!propsMulti) return null;
+                                return (
+                                  <MultiChart
+                                    id={`insight-2`}
+                                    name={propsMulti.objectNavigators[0].title || `insight-2`}
+                                    seriesData={propsMulti.seriesData as any}
+                                    objectNavigators={propsMulti.objectNavigators as any}
+                                    onObjectNavigatorChange={(navIndex, firstIndex, secondIndex) => {
+                                      setMultiSelections((prev) => {
+                                        const next = prev.slice();
+                                        next[2] = {
+                                          first: firstIndex,
+                                          second: secondIndex,
+                                        };
+                                        return next;
+                                      });
+                                    }}
+                                  />
+                                );
+                              })()}
                           </div>
-                        )}
+                          <div className="headerandinput">
+                            <div className="title">
+                              {storyInsight.superFigures && storyInsight.superFigures[3]
+                                ? storyInsight.superFigures[3].title
+                                : ""}
+                            </div>
+                            {storyInsight.superFigures[3] &&
+                              (() => {
+                                const propsMulti = buildMultiChartProps(3);
+                                if (!propsMulti) return null;
+                                return (
+                                  <MultiChart
+                                    id={`insight-3`}
+                                    name={propsMulti.objectNavigators[0].title || `insight-3`}
+                                    seriesData={propsMulti.seriesData as any}
+                                    objectNavigators={propsMulti.objectNavigators as any}
+                                    onObjectNavigatorChange={(navIndex, firstIndex, secondIndex) => {
+                                      setMultiSelections((prev) => {
+                                        const next = prev.slice();
+                                        next[3] = {
+                                          first: firstIndex,
+                                          second: secondIndex,
+                                        };
+                                        return next;
+                                      });
+                                    }}
+                                  />
+                                );
+                              })()}
+                          </div>
+                        </div>
+                      )}
                       {!loading && !storyInsight && (
                         <img
                           style={{
@@ -1885,21 +1495,14 @@ const ShowStory = () => {
           }
         />
       </Modal>
-      <Modal
-        closePopup={() => setShowLotteryPopup(false)}
-        classNamePopup={"popup"}
-        showContent={showLotteryPopup}>
+      <Modal closePopup={() => setShowLotteryPopup(false)} classNamePopup={"popup"} showContent={showLotteryPopup}>
         <LotteryPopup
           setShowLotteryPopup={setShowLotteryPopup}
           id={storyContent.storyId}
           lotteryType={LotteryPopupType.StoryLottery}
         />
       </Modal>
-      <MediaModal
-        isOpen={mediaModal.isOpen}
-        media={mediaModal.media}
-        onClose={mediaModal.close}
-      />
+      <MediaModal isOpen={mediaModal.isOpen} media={mediaModal.media} onClose={mediaModal.close} />
     </>
   );
 };

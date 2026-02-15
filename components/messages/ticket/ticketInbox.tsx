@@ -24,7 +24,7 @@ import { handleDecompress } from "saeed/helper/pako";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType, UploadFile } from "saeed/models/IResult";
+import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
 import { ItemType, MediaType, StatusReplied, TicketType } from "saeed/models/messages/enum";
 import {
   IFbTicketInfo,

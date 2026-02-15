@@ -13,7 +13,7 @@ import initialzedTime from "saeed/helper/manageTimer";
 import { handleDecompress } from "saeed/helper/pako";
 import { getHubConnection } from "saeed/helper/pushNotif";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { PushNotif, PushResponseType } from "saeed/models/push/pushNotif";
 import { LogisticType, OrderStep } from "saeed/models/store/enum";
 import { IOrderByStatus, IOrderByStatusItem, IOrderDetail, IOrderPushNotifExtended } from "saeed/models/store/orders";

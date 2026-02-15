@@ -45,7 +45,7 @@ const LastLikeContainer = (props: { data: ILastLike[] | null }) => {
           <div className={`${styles.frameContainer} ${isHidden ? "" : styles.show}`}>
             {props.data.map((v, i) => (
               <div key={i} className={styles.groupWrapper}>
-                <Link href={"page/posts/postinfo?postid=" + v.postId} title="see your posts detail">
+                <Link href={`/page/posts/postinfo/${v.postId}`} title="see your posts detail">
                   <img
                     loading="lazy"
                     decoding="async"

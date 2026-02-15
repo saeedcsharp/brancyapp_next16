@@ -7,7 +7,7 @@ import Loading from "saeed/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { IBestFollowers } from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/bestFollower";
 import styles from "./bestFollower.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;

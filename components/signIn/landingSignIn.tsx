@@ -8,7 +8,7 @@ import { SendCodeResult } from "saeed/models/ApiModels/User/SendCodeResult";
 import {
   GetServerResultWIthAccessToken,
   MethodType,
-} from "saeed/models/IResult";
+} from "saeed/helper/apihelper";
 import RingLoader from "../design/loader/ringLoder";
 import {
   NotifType,

@@ -27,7 +27,7 @@ import {
 } from "saeed/components/notifications/notificationBox";
 import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { FeatureType } from "saeed/models/market/enums";
 import {
   IBusinessHour,

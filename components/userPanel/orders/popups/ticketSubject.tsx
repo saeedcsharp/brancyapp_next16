@@ -6,7 +6,7 @@ import InputText from "saeed/components/design/inputText";
 import RingLoader from "saeed/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType, UploadFile } from "saeed/models/IResult";
+import { GetServerResult, MethodType, UploadFile } from "saeed/helper/apihelper";
 import { ICreateSystemTicket, ITicket, ITicketMediaType } from "saeed/models/userPanel/message";
 interface State {
   selectedImage: string | null;

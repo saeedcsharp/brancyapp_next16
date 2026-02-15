@@ -15,7 +15,7 @@
 // import { LanguageKey } from "saeed/i18n";
 // import { ILoadingStatus } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 // import { LoginStatus } from "saeed/models/_AccountInfo/LoginStatus";
-// import { GetServerResult, MethodType } from "saeed/models/IResult";
+// import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 // import { FollowerLotteryType, IFollowerLottery } from "saeed/models/page/tools/tools";
 // import styles from "./followerLottery.module.css";
 // const FollowersLottery = (props: {

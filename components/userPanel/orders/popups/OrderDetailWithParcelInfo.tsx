@@ -11,7 +11,7 @@ import findSystemLanguage from "saeed/helper/findSystemLanguage";
 import initialzedTime from "saeed/helper/manageTimer";
 import { specifyLogistic } from "saeed/helper/specifyLogistic";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { IFullProduct, IOrderDetail, IParcelInfo } from "saeed/models/store/orders";
 import styles from "./OrderDetailWithParcelInfo.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;

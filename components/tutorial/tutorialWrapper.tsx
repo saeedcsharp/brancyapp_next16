@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import { InitialSetupState } from "saeed/models/homeIndex/home";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { NotifType, notify, ResponseType } from "../notifications/notificationBox";
 import { useTutorial } from "./hooks/useTutorial";
 import InitialSetup from "./initialSetup/initialSetup";

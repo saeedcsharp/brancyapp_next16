@@ -9,7 +9,7 @@ import {
   ResponseType,
 } from "saeed/components/notifications/notificationBox";
 import { IRefreshToken } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, GetServerResultWIthAccessToken, MethodType } from "saeed/models/IResult";
+import { GetServerResult, GetServerResultWIthAccessToken, MethodType } from "saeed/helper/apihelper";
 import styles from "./metaDirect.module.css";
 
 export default function MetaRedirect() {

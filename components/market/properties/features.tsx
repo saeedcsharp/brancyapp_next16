@@ -22,7 +22,7 @@ import { useTranslation } from "react-i18next";
 import Loading from "saeed/components/notOk/loading";
 import useHideDiv from "saeed/hook/useHide";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { FeatureType } from "saeed/models/market/enums";
 import { IFeatureItem, IOrderFeatures, IUpdateFeatureOrder } from "saeed/models/market/properties";
 import CheckBoxButton from "../../design/checkBoxButton";

@@ -7,7 +7,7 @@ import RingLoader from "saeed/components/design/loader/ringLoder";
 import TextArea from "saeed/components/design/textArea/textArea";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { IAddress, InputTypeAddress, IUpdateUserAddress } from "saeed/models/userPanel/orders";
 import styles from "./addresses.module.css";
 enum CreateAddresStep {

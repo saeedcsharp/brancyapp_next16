@@ -152,7 +152,7 @@ const IngageInfo = (props: {
                 {props.activeStories.length > 0 ? (
                   props.activeStories.map((story) => (
                     <Link
-                      href={`/page/stories/storyinfo?storyid=${story.storyId}`}
+                      href={`/page/stories/storyinfo/${story.storyId}`}
                       key={story.storyId}
                       style={{ position: "relative" }}>
                       <img
@@ -208,7 +208,7 @@ const IngageInfo = (props: {
               <div className=" instagramid">{t(LanguageKey.lastLike)}</div>
               <div className="instagramusername">
                 {numberToFormattedString(
-                  props.data.items.find((x) => x.topTileType === TopTileType.LikeCount)?.value ?? 0
+                  props.data.items.find((x) => x.topTileType === TopTileType.LikeCount)?.value ?? 0,
                 )}
               </div>
             </div>
@@ -226,7 +226,7 @@ const IngageInfo = (props: {
               <div className="instagramusername">
                 {props.data.items.find((x) => x.topTileType === TopTileType.Reach)?.value
                   ? numberToFormattedString(
-                      props.data.items.find((x) => x.topTileType === TopTileType.Reach)?.value ?? 0
+                      props.data.items.find((x) => x.topTileType === TopTileType.Reach)?.value ?? 0,
                     )
                   : t(LanguageKey.notfound)}
               </div>
@@ -244,7 +244,7 @@ const IngageInfo = (props: {
               <div className="instagramid">{t(LanguageKey.unreadcomment)}</div>
               <div className="instagramusername">
                 {numberToFormattedString(
-                  props.data.items.find((x) => x.topTileType === TopTileType.NewCommentCount)?.value ?? 0
+                  props.data.items.find((x) => x.topTileType === TopTileType.NewCommentCount)?.value ?? 0,
                 )}
               </div>
             </div>

@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import InputText from "saeed/components/design/inputText";
 import TextArea from "saeed/components/design/textArea/textArea";
 import { LanguageKey } from "saeed/i18n/languageKeys";
-import { UploadFile } from "saeed/models/IResult";
+import { UploadFile } from "saeed/helper/apihelper";
 import styles from "./GenericItemNode.module.css";
 import { BaseNodeProps, NodeData } from "./types";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL || "";

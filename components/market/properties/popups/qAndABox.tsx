@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import TextArea from "saeed/components/design/textArea/textArea";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { IQuestion, IUpdateFAQ } from "saeed/models/market/properties";
 import styles from "./featureBoxPU.module.css";
 const QAndABox = (props: { removeMask: () => void }) => {

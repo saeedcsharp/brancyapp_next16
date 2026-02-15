@@ -62,7 +62,7 @@ const PostStatsViewer: React.FC<PostStatsViewerProps> = ({ data, sortType, remov
           loadMore();
         }
       },
-      { threshold: 0.1, rootMargin: "100px" }
+      { threshold: 0.1, rootMargin: "100px" },
     );
     observerRef.current.observe(loadMoreRef.current);
     return () => {
@@ -72,7 +72,7 @@ const PostStatsViewer: React.FC<PostStatsViewerProps> = ({ data, sortType, remov
     };
   }, [hasMore, isLoading, loadMore]);
   const navigateToPost = useCallback((postId: string) => {
-    router.push(`/page/posts/postinfo?postid=${postId}`);
+    router.push(`/page/posts/postinfo/${postId}`);
   }, []);
 
   const formatNumber = (num: number): string => {

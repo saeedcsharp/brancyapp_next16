@@ -15,7 +15,7 @@ import Loading from "saeed/components/notOk/loading";
 import InsightChart from "saeed/components/page/posts/insightChart";
 import formatTimeAgo from "saeed/helper/formatTimeAgo";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import {
   ILikeComment_Condotion,
   ILikeComment_Figure,

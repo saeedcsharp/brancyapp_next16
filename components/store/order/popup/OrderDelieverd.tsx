@@ -9,7 +9,7 @@ import findSystemLanguage from "saeed/helper/findSystemLanguage";
 import initialzedTime from "saeed/helper/manageTimer";
 import { specifyLogistic } from "saeed/helper/specifyLogistic";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { IFullProduct, IOrderDetail, IParcelInfo } from "saeed/models/store/orders";
 import OrderDetailContent from "./OrderDetail-Content";
 import styles from "./orderstep.module.css";

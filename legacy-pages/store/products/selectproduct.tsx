@@ -11,7 +11,7 @@ import NotShopper from "saeed/components/notOk/notShopper";
 import { packageStatus } from "saeed/helper/loadingStatus";
 import { calculateSummary } from "saeed/helper/numberFormater";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { IProduct_Candidate } from "saeed/models/store/IProduct";
 import styles from "./selectProduct.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;

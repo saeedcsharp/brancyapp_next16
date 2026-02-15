@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { detectLocaleFromTimezone } from "saeed/helper/detectLocaleFromTimezone";
 import { LanguageKey } from "saeed/i18n";
 import { SendCodeResult } from "saeed/models/ApiModels/User/SendCodeResult";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import GoogleLoginButton from "./googleLoginPopup";
 import ReactPhoneInput from "./reactPhoneInput";
 import styles from "./signIn.module.css";

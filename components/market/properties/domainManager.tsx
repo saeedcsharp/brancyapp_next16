@@ -9,7 +9,7 @@ import { handleCopyLink } from "saeed/helper/copyLink";
 import useHideDiv from "saeed/hook/useHide";
 import { LanguageKey } from "saeed/i18n";
 import { InstagramerAccountInfo } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { CustomDomainStatus } from "saeed/models/market/enums";
 import { DomainType, ICustomeDomainInfo } from "saeed/models/market/properties";
 import styles from "./domainManager.module.css";

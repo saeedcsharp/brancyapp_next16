@@ -16,7 +16,7 @@ import {
 } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { ILotteryPost } from "saeed/models/page/post/posts";
 import styles from "./postLottery.module.css";
 export enum LotteryPopupType {

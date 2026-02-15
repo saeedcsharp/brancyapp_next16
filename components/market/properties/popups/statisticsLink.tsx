@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { ILinkInsight } from "saeed/models/market/statistics";
 import MultiChart from "../../../design/chart/Chart_month";
 

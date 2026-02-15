@@ -7,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import Loading from "saeed/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { IPostContent } from "saeed/models/page/post/posts";
 import { IIngageBox } from "saeed/models/page/statistics/statisticsContent/ingageBoxes/ingageBox";

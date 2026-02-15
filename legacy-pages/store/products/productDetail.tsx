@@ -13,7 +13,7 @@ import NotInstanceProductDetail from "saeed/components/store/products/productDet
 import DeleteProduct from "saeed/components/store/products/productDetail/notInstanceProduct/popups/deleteProduct";
 import { packageStatus } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { IDetailsPost } from "saeed/models/page/post/posts";
 import {
   IMaxSize,

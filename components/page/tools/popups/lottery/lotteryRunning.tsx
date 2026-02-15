@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { IFullLottery } from "saeed/models/page/tools/tools";
 import ConstantCounterDown from "../../../../design/counterDown/constantCounterDown";
 import styles from "./lotteryRunning.module.css";

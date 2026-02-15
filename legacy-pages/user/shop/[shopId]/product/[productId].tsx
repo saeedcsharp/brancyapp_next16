@@ -36,7 +36,7 @@ import { handleDecompress } from "saeed/helper/pako";
 import { LanguageKey } from "saeed/i18n";
 
 // Models & Types
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { IComment } from "saeed/models/messages/IMessage";
 import { AvailabilityStatus } from "saeed/models/store/enum";
 import {

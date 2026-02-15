@@ -3,7 +3,7 @@ import React, { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { LanguageKey } from "saeed/i18n";
-import { UploadFile } from "saeed/models/IResult";
+import { UploadFile } from "saeed/helper/apihelper";
 import { BaseNodeProps, NodeData } from "./types";
 import styles from "./VoiceNode.module.css";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL || "";

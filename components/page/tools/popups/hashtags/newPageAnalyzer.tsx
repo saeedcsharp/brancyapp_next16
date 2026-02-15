@@ -11,7 +11,7 @@ import {
   notify,
 } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { IPageInfo } from "saeed/models/page/post/preposts";
 import { IPageAnalysisHashtags } from "saeed/models/page/tools/tools";
 import styles from "./newPageAnalyzer.module.css";

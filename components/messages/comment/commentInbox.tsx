@@ -28,7 +28,7 @@ import { handleDecompress } from "saeed/helper/pako";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { GetServerResult, MethodType } from "saeed/models/IResult";
+import { GetServerResult, MethodType } from "saeed/helper/apihelper";
 import { ActionType, CommentType, ItemType, MediaProductType } from "saeed/models/messages/enum";
 import {
   IComment,
@@ -347,7 +347,7 @@ const CommentInbox = () => {
           MethodType.post,
           session,
           "Instagramer" + "/Comment/GetInbox",
-          info
+          info,
         );
         console.log("not hides Fb inboxxxxxxxxxxxxxxxxxxx", postComments);
         if (postComments.succeeded && !query) {
@@ -398,7 +398,7 @@ const CommentInbox = () => {
           MethodType.post,
           session,
           "Instagramer" + "/Comment/GetInbox",
-          businessDirectInbox
+          businessDirectInbox,
         );
         console.log("businessRes ", businessRes.value);
         if (businessRes.succeeded && !query) {
@@ -434,7 +434,7 @@ const CommentInbox = () => {
           MethodType.post,
           session,
           "Instagramer" + "/Comment/GetInbox",
-          null
+          null,
         );
         console.log("Hide Fb inboxxxxxxxxxxxxxxxxxxx ", hideFb.value);
         if (hideFb.succeeded && !query) {
@@ -477,7 +477,7 @@ const CommentInbox = () => {
         MethodType.post,
         session,
         "Instagramer" + "/Comment/GetInbox",
-        info
+        info,
       );
       if (router.isReady && query.mediaId !== undefined && query.commentType === "story") {
         const mediaId = query.mediaId as string;
@@ -498,7 +498,7 @@ const CommentInbox = () => {
               MethodType.post,
               session,
               "Instagramer/Comment/GetMediaComments",
-              info
+              info,
             );
             if (newThread.succeeded) {
               setUserSelectedId(newThread.value.mediaId);
@@ -527,7 +527,7 @@ const CommentInbox = () => {
         MethodType.post,
         session,
         "Instagramer/Comment/GetInbox",
-        info
+        info,
       );
       if (router.isReady && query.mediaId !== undefined && query.commentType === "post") {
         const mediaId = query.mediaId as string;
@@ -548,7 +548,7 @@ const CommentInbox = () => {
               MethodType.post,
               session,
               "Instagramer" + "/Comment/GetMediaComments",
-              info
+              info,
             );
             if (newThread.succeeded) {
               setUserSelectedId(newThread.value.mediaId);
@@ -574,7 +574,7 @@ const CommentInbox = () => {
         MethodType.post,
         session,
         "Instagramer" + "/Comment/GetInbox",
-        null
+        null,
       );
       console.log(" ✅ Console ⋙ Hide ", res.value);
       if (res.succeeded) setHideInbox(res.value);
@@ -602,7 +602,7 @@ const CommentInbox = () => {
         MethodType.post,
         session,
         "Instagramer" + "/Comment/GetMediaComments",
-        info
+        info,
       );
       console.log("newThreadFetch", newThread);
       if (newThread.succeeded) {
@@ -619,7 +619,7 @@ const CommentInbox = () => {
                     vanishMode: vanishMode,
                     nextMaxId: newThread.value.nextMaxId,
                     comments: nextMaxId ? [...newThread.value.comments, ...x.comments] : newThread.value.comments,
-                  }
+                  },
             ),
           }));
         } else if (storyCom) {
@@ -633,7 +633,7 @@ const CommentInbox = () => {
                     vanishMode: vanishMode,
                     nextMaxId: newThread.value.nextMaxId,
                     comments: nextMaxId ? [...newThread.value.comments, ...x.comments] : newThread.value.comments,
-                  }
+                  },
             ),
           }));
         }
@@ -684,7 +684,7 @@ const CommentInbox = () => {
           MethodType.post,
           session,
           "Instagramer" + "/Comment/GetMediaComments",
-          info
+          info,
         );
         console.log("newThreadFetch", newThread);
         if (newThread.succeeded) {
@@ -771,7 +771,7 @@ const CommentInbox = () => {
         [
           { key: "postId", value: postId.toString() },
           { key: "isEnable", value: "true" },
-        ]
+        ],
       );
       if (res.succeeded) {
         setPostCommentInbox((prev) => ({
@@ -1008,10 +1008,10 @@ const CommentInbox = () => {
                                         signTime: newComent.SignTime,
                                       },
                                     ],
-                                  }
+                                  },
                             )
                           : x.comments.filter((c) => c.id !== newComent.ParrentId),
-                      }
+                      },
                 ),
               }));
               setNewCommentRefresh((prev) => !prev);
@@ -1043,8 +1043,8 @@ const CommentInbox = () => {
                           unSeenCount: newComent.SentByOwner
                             ? 0
                             : refUserSelectId.current !== newComent.MediaId
-                            ? x.unSeenCount + 1
-                            : 0,
+                              ? x.unSeenCount + 1
+                              : 0,
                           lastCommentUnix: newComent.CreatedTime * 1e6,
                           lastSeenUnix: 0,
                           unAnsweredCount:
@@ -1077,7 +1077,7 @@ const CommentInbox = () => {
                               signTime: newComent.SignTime,
                             },
                           ],
-                        }
+                        },
                   )
                   .sort((a, b) => b.lastCommentUnix - a.lastCommentUnix),
               }));
@@ -1106,8 +1106,8 @@ const CommentInbox = () => {
                         unSeenCount: newComent.SentByOwner
                           ? 0
                           : refUserSelectId.current !== newComent.MediaId
-                          ? x.unSeenCount + 1
-                          : 0,
+                            ? x.unSeenCount + 1
+                            : 0,
                         commentEnabled: true,
                         lastSeenUnix: 0,
                         lastCommentUnix: newComent.CreatedTime * 1e6,
@@ -1141,7 +1141,7 @@ const CommentInbox = () => {
                             signTime: newComent.SignTime,
                           },
                         ],
-                      }
+                      },
                 )
                 .sort((a, b) => b.lastCommentUnix - a.lastCommentUnix),
             }));
@@ -1186,16 +1186,16 @@ const CommentInbox = () => {
                                 action.ActionType === ActionType.Hide
                                   ? true
                                   : action.ActionType === ActionType.UnHide
-                                  ? false
-                                  : c.isHide,
-                            }
+                                    ? false
+                                    : c.isHide,
+                            },
                       )
                       .filter((c) =>
                         action.ActionType === ActionType.Delete || action.ActionType === ActionType.Ignore
                           ? c.id !== action.CommentId
-                          : true
+                          : true,
                       ),
-                  }
+                  },
             ),
           }));
         } else if (refStoryCommentInbox.current?.medias.find((x) => x.mediaId === action.MediaId)) {
@@ -1208,7 +1208,7 @@ const CommentInbox = () => {
                     ...x,
                     unSeenCount: action.ActionType === ActionType.Read ? 0 : x.unSeenCount,
                     lastSeenUnix: action.ActionType === ActionType.Read ? Date.now() * 1e6 : x.lastSeenUnix,
-                  }
+                  },
             ),
           }));
         }
@@ -1260,10 +1260,10 @@ const CommentInbox = () => {
                                   userId: newComent.OwnerId,
                                   storyMention: null,
                                 },
-                              }
+                              },
                         )
                       : x.comments.filter((c) => c.id !== newComent.ParentCommentId),
-                  }
+                  },
             ),
           }));
         } else
@@ -1307,10 +1307,10 @@ const CommentInbox = () => {
                                   userId: newComent.OwnerId,
                                   storyMention: null,
                                 },
-                              }
+                              },
                         )
                       : x.comments.filter((c) => c.id !== newComent.ParentCommentId),
-                  }
+                  },
             ),
           }));
         setNewCommentRefresh((prev) => !prev);
@@ -1380,7 +1380,7 @@ const CommentInbox = () => {
         session,
         "Instagramer/Post/UpdateAutoReply",
         sendReply,
-        [{ key: "postId", value: postId.toString() }]
+        [{ key: "postId", value: postId.toString() }],
       );
       console.log("ressssssss", res, mediaId);
       if (res.succeeded) {
@@ -1392,7 +1392,7 @@ const CommentInbox = () => {
               : {
                   ...x,
                   automaticCommentReply: res.value,
-                }
+                },
           ),
         }));
         internalNotify(InternalResponseType.Ok, NotifType.Success);
@@ -1409,7 +1409,7 @@ const CommentInbox = () => {
         session,
         "Instagramer/Comment/UpdateLiveAutoReply",
         sendReply,
-        [{ key: "liveMediaId", value: liveMediaId }]
+        [{ key: "liveMediaId", value: liveMediaId }],
       );
       if (res.succeeded) {
         setPostCommentInbox((prev) => ({
@@ -1420,7 +1420,7 @@ const CommentInbox = () => {
               : {
                   ...x,
                   automaticCommentReply: res.value,
-                }
+                },
           ),
         }));
         internalNotify(InternalResponseType.Ok, NotifType.Success);
@@ -1441,7 +1441,7 @@ const CommentInbox = () => {
             key: "postId",
             value: postId.toString(),
           },
-        ]
+        ],
       );
       if (res.succeeded)
         setPostCommentInbox((prev) => ({
@@ -1472,7 +1472,7 @@ const CommentInbox = () => {
                         sendPr: false,
                         shouldFollower: false,
                       },
-                }
+                },
           ),
         }));
       else notify(res.info.responseType, NotifType.Warning);
@@ -1492,7 +1492,7 @@ const CommentInbox = () => {
             key: "liveMediaId",
             value: mediaId,
           },
-        ]
+        ],
       );
       if (res.succeeded)
         setPostCommentInbox((prev) => ({
@@ -1523,7 +1523,7 @@ const CommentInbox = () => {
                         sendPr: false,
                         shouldFollower: false,
                       },
-                }
+                },
           ),
         }));
       else notify(res.info.responseType, NotifType.Warning);
@@ -1717,7 +1717,7 @@ const CommentInbox = () => {
                     unreadCount:
                       postCommentInbox?.medias.reduce((total, media) => {
                         const unreadCount = media.comments.filter(
-                          (comment) => comment.createdTime > media.lastSeenUnix && !comment.sentByOwner
+                          (comment) => comment.createdTime > media.lastSeenUnix && !comment.sentByOwner,
                         ).length;
                         return total + unreadCount;
                       }, 0) || 0,
@@ -1728,7 +1728,7 @@ const CommentInbox = () => {
                     unreadCount:
                       storyCommentInbox?.medias.reduce((total, media) => {
                         const unreadCount = media.comments.filter(
-                          (comment) => comment.createdTime > media.lastSeenUnix && !comment.sentByOwner
+                          (comment) => comment.createdTime > media.lastSeenUnix && !comment.sentByOwner,
                         ).length;
                         return total + unreadCount;
                       }, 0) || 0,
@@ -1790,7 +1790,7 @@ const CommentInbox = () => {
                             <img
                               onClick={(e) => {
                                 e.stopPropagation();
-                                router.push(`/page/posts/postinfo?postid=${v.postId}`);
+                                router.push(`/page/posts/postinfo/${v.postId}`);
                               }}
                               title="🔗 View Post Details"
                               className={styles.shortcut}
@@ -2058,7 +2058,7 @@ const CommentInbox = () => {
                               </div>
                             </div>
                           </div>
-                        )
+                        ),
                     )}
                 </>
               )}
@@ -2167,7 +2167,7 @@ const CommentInbox = () => {
                               </div>
                             </div>
                           </div>
-                        )
+                        ),
                     )}
                 </>
               )}
@@ -2229,7 +2229,7 @@ const CommentInbox = () => {
                               </div>
                             </div>
                           </div>
-                        )
+                        ),
                     )}
                 </>
               )}
@@ -2291,7 +2291,7 @@ const CommentInbox = () => {
                               </div>
                             </div>
                           </div>
-                        )
+                        ),
                     )}
                 </>
               )}
