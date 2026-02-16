@@ -55,6 +55,7 @@ function toLocalApiPath(endpointOrPath: string): string {
   if (endpointOrPath.startsWith("/api/")) {
     const cleanApiPath = endpointOrPath.split("?")[0];
     const parts = cleanApiPath.split("/").filter(Boolean);
+    console.log("parts...", parts);
     if (parts.length >= 3) {
       return `/${parts[0]}/${parts[1]}/${lowerFirst(parts[2])}`;
     }
