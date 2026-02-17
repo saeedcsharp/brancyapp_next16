@@ -24,8 +24,8 @@ import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
 import { InstagramerAccountInfo } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType } from "saeed/helper/apihelper";
-import {
 import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import {
   ILink,
   IOrderFeatures,
   ISaveLink,
@@ -94,7 +94,13 @@ const Properties = () => {
   async function handleAddNewLink(newLink: ISaveLink) {
     const instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     if (!instagramerId) return;
-    var res = await clientFetchApi<ISaveLink, boolean>("/api/link/CreateLink", { methodType: MethodType.post, session: session, data: newLink, queries: undefined, onUploadProgress: undefined });
+    var res = await clientFetchApi<ISaveLink, boolean>("/api/link/CreateLink", {
+      methodType: MethodType.post,
+      session: session,
+      data: newLink,
+      queries: undefined,
+      onUploadProgress: undefined,
+    });
     if (res.value) {
       fetchData();
     }
@@ -103,7 +109,13 @@ const Properties = () => {
   async function handleUpdateLink(updatedLink: IUpdateLink) {
     console.log("updatedLink", updatedLink);
     try {
-      var res = await clientFetchApi<ISaveLink, boolean>("/api/link/UpdateLink", { methodType: MethodType.post, session: session, data: updatedLink, queries: [{ key: "linkId", value: updatedLink.linkId.toString() }], onUploadProgress: undefined });
+      var res = await clientFetchApi<ISaveLink, boolean>("/api/link/UpdateLink", {
+        methodType: MethodType.post,
+        session: session,
+        data: updatedLink,
+        queries: [{ key: "linkId", value: updatedLink.linkId.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         fetchData();
       } else notify(res.info.responseType, NotifType.Error);
@@ -116,14 +128,24 @@ const Properties = () => {
   async function handleDeleteLink(linkId: number) {
     const instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     if (!instagramerId) return;
-    var res = await clientFetchApi<string, boolean>("/api/link/deleteLink", { methodType: MethodType.get, session: session, data: null, queries: [
-      { key: "id", value: linkId.toString() },
-    ], onUploadProgress: undefined });
+    var res = await clientFetchApi<string, boolean>("/api/link/deleteLink", {
+      methodType: MethodType.get,
+      session: session,
+      data: null,
+      queries: [{ key: "id", value: linkId.toString() }],
+      onUploadProgress: undefined,
+    });
     if (res.value) setLinkInfos((prev) => prev?.filter((x) => x.id !== linkId)!);
     handleRemoveMask();
   }
   async function handleUpdateOrderLinks(orderLinks: IUpdateOrderLink) {
-    var res = await clientFetchApi<IUpdateOrderLink, boolean>("/api/link/UpdateOrders", { methodType: MethodType.post, session: session, data: orderLinks, queries: undefined, onUploadProgress: undefined });
+    var res = await clientFetchApi<IUpdateOrderLink, boolean>("/api/link/UpdateOrders", {
+      methodType: MethodType.post,
+      session: session,
+      data: orderLinks,
+      queries: undefined,
+      onUploadProgress: undefined,
+    });
     if (res.value) {
       //fetchData();
     }
@@ -131,7 +153,13 @@ const Properties = () => {
   }
   async function handleUpdatefeatures(updateFeatures: IUpdateFeatureOrder) {
     console.log("updateFeatures", updateFeatures);
-    var res = await clientFetchApi<IUpdateFeatureOrder, boolean>("/api/bio/UpdateOrderItems", { methodType: MethodType.post, session: session, data: updateFeatures, queries: undefined, onUploadProgress: undefined });
+    var res = await clientFetchApi<IUpdateFeatureOrder, boolean>("/api/bio/UpdateOrderItems", {
+      methodType: MethodType.post,
+      session: session,
+      data: updateFeatures,
+      queries: undefined,
+      onUploadProgress: undefined,
+    });
     // setFeatures(updateFeatures);
     if (res.value) {
       //fetchData();
@@ -141,9 +169,27 @@ const Properties = () => {
   const fetchData = async () => {
     try {
       const [links, orderItems, accountInfo] = await Promise.all([
-        clientFetchApi<string, ILink[]>("/api/link/GetAllLinks", { methodType: MethodType.get, session: session, data: null, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<string, IOrderFeatures>("/api/bio/GetOrderItems", { methodType: MethodType.get, session: session, data: null, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<boolean, InstagramerAccountInfo>("/api/account/GetInfo", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<string, ILink[]>("/api/link/GetAllLinks", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<string, IOrderFeatures>("/api/bio/GetOrderItems", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, InstagramerAccountInfo>("/api/account/GetInfo", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
       ]);
       if (links.succeeded) setLinkInfos(links.value);
       else notify(links.info.responseType, NotifType.Error);
