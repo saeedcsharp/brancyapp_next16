@@ -1,5 +1,4 @@
 import Link from "next/link";
-import { NextRouter } from "next/router";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "saeed/i18n";
@@ -20,9 +19,8 @@ const BASE_ITEM_SIZE = 50; // Base size for icons
 const MAGNIFICATION = 70; // Maximum size when hovering
 const DISTANCE = 150; // Distance of effect in pixels
 
-function InstagramerSidebar(props: { newRoute: string; router: NextRouter }) {
+function InstagramerSidebar(props: { newRoute: string; router?: any }) {
   const { t } = useTranslation();
-  const [indicatorClass, setIndicatorClass] = useState<string>("");
 
   // Mouse tracking states and refs
   const [mouseY, setMouseY] = useState<number | null>(null);
@@ -202,6 +200,21 @@ function InstagramerSidebar(props: { newRoute: string; router: NextRouter }) {
     [],
   );
 
+  const currentRoute = props.newRoute.toLowerCase();
+
+  const indicatorClass = useMemo(() => {
+    const activeMenuItem = menuItems.find((item) => {
+      const normalizedItemRoute = item.route.replaceAll("/", "").toLowerCase();
+      return (
+        currentRoute === normalizedItemRoute ||
+        currentRoute.startsWith(normalizedItemRoute) ||
+        (item.subRoutes && item.subRoutes.some((subRoute) => currentRoute === subRoute.toLowerCase()))
+      );
+    });
+
+    return activeMenuItem ? `${styles.menuIndicator} ${styles[`indicator-${activeMenuItem.id}`]}` : "";
+  }, [currentRoute, menuItems]);
+
   // Throttle function to limit update frequency
   const throttle = <T extends (...args: any[]) => any>(func: T, delay: number) => {
     let lastCall = 0;
@@ -319,20 +332,6 @@ function InstagramerSidebar(props: { newRoute: string; router: NextRouter }) {
       }
     };
   }, [mouseY]);
-  useEffect(() => {
-    const currentRoute = props.newRoute.toLowerCase();
-    const activeMenuItem = menuItems.find((item) => {
-      return (
-        currentRoute === item.route.toLowerCase() ||
-        (item.subRoutes && item.subRoutes.some((subRoute) => currentRoute === subRoute.toLowerCase()))
-      );
-    });
-    if (activeMenuItem) {
-      const newIndicatorClass = `${styles.menuIndicator} ${styles[`indicator-${activeMenuItem.id}`]}`;
-      setIndicatorClass(newIndicatorClass);
-    }
-  }, [props.newRoute, menuItems]);
-
   // Function to get the fill color for a menu item
   const getMenuItemColor = (item: MenuItem): string => {
     // Add transition style if not already present
@@ -343,7 +342,10 @@ function InstagramerSidebar(props: { newRoute: string; router: NextRouter }) {
       document.head.appendChild(styleTag);
     }
 
-    return item.subRoutes?.includes(props.newRoute) || item.id === props.newRoute
+    const normalizedItemRoute = item.route.replaceAll("/", "").toLowerCase();
+    return currentRoute === normalizedItemRoute ||
+      currentRoute.startsWith(normalizedItemRoute) ||
+      item.subRoutes?.some((subRoute) => subRoute.toLowerCase() === currentRoute)
       ? "var(--color-dark-blue)"
       : "var(--color-gray)";
   };

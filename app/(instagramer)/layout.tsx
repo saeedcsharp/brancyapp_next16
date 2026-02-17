@@ -2,7 +2,7 @@
 
 import { useSession } from "next-auth/react";
 import { MouseEvent, useState } from "react";
-import { useRouter } from "next/router";
+import { usePathname, useRouter } from "next/navigation";
 import LeftHamMenue from "saeed/components/hambergurMenu/leftHamMenu";
 import NavbarHeader from "saeed/components/navbar/instagramerNavbar/navbarHeader";
 import NavbarTabs from "saeed/components/navbar/instagramerNavbar/navbarTabs";
@@ -12,7 +12,8 @@ import SwitchAccount from "saeed/components/switchAccount/switchAccount";
 
 export default function InstagramerGroupLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const newRoute = (router.asPath || "").split("?")[0].replaceAll("/", "");
+  const pathname = usePathname();
+  const newRoute = (pathname || "").split("?")[0].replaceAll("/", "");
   const { data: session } = useSession();
 
   const [showSearchBar, setShowSearchBar] = useState(false);
