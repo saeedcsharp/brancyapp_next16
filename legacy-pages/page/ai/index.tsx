@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import router from "next/router";
 import { useEffect, useState } from "react";
+import Soon from "saeed/components/notOk/soon";
 import AIPage from "saeed/components/page/ai/AI_Img_Video";
 import { LoginStatus } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
@@ -52,7 +53,7 @@ export default function PageAI() {
         <meta name="twitter:description" content="Manage your Bran.cy account settings and preferences" />
         <meta name="twitter:image:alt" content="Bran.cy Settings Page" />
       </Head>
-      {!loading && <AIPage />}
+      {!loading && <Soon />}
     </>
   );
 }
