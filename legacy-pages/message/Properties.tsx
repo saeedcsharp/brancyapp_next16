@@ -21,18 +21,9 @@ import {
 } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import NotAllowed from "saeed/components/notOk/notAllowed";
-import NotPermission, {
-  PermissionType,
-} from "saeed/components/notOk/notPermission";
-import {
-  changePositionToFixed,
-  changePositionToRelative,
-} from "saeed/helper/changeMarketAdsStyle";
-import {
-  LoginStatus,
-  packageStatus,
-  RoleAccess,
-} from "saeed/helper/loadingStatus";
+import NotPermission, { PermissionType } from "saeed/components/notOk/notPermission";
+import { changePositionToFixed, changePositionToRelative } from "saeed/helper/changeMarketAdsStyle";
+import { LoginStatus, packageStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType } from "saeed/helper/api";
@@ -43,8 +34,8 @@ import {
   MediaProductType,
   SpecialPayLoad,
 } from "saeed/models/messages/enum";
-import {
 import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import {
   IAutoReplySetting,
   ICreateGeneralAutoReply,
   IGeneralAutoReply,
@@ -82,12 +73,7 @@ const Properties = () => {
   const fetchDataCallback = useCallback(fetchData, [session]);
 
   useEffect(() => {
-    if (
-      session &&
-      LoginStatus(session) &&
-      RoleAccess(session, PartnerRole.Message) &&
-      !isDataLoaded
-    ) {
+    if (session && LoginStatus(session) && RoleAccess(session, PartnerRole.Message) && !isDataLoaded) {
       fetchDataCallback();
     }
   }, [session, fetchDataCallback, isDataLoaded]);
@@ -129,8 +115,7 @@ const Properties = () => {
     },
   ];
   const [showSpecialPayLoad, setShowSpecialPayLoad] = useState(false);
-  const [specialPayloadInfoForIce, setSpecialPayloadInfoForIce] =
-    useState<ISpecialPayload[]>(specialPayLoadArr);
+  const [specialPayloadInfoForIce, setSpecialPayloadInfoForIce] = useState<ISpecialPayload[]>(specialPayLoadArr);
   const [specialPayloadInfoForPersistent, setSpecialPayloadInfoForPersistent] =
     useState<ISpecialPayload[]>(specialPayLoadArr);
   //-----------secial payload----------------------//
@@ -152,15 +137,12 @@ const Properties = () => {
             : {
                 ...x,
                 title: e.target.value,
-              }
+              },
         ),
       },
     }));
   }
-  function handleChangeTextArea(
-    e: ChangeEvent<HTMLTextAreaElement>,
-    index: number
-  ) {
+  function handleChangeTextArea(e: ChangeEvent<HTMLTextAreaElement>, index: number) {
     setIceBreakers((prev) => ({
       ...prev,
       profileButtons: {
@@ -170,7 +152,7 @@ const Properties = () => {
             : {
                 ...x,
                 response: e.target.value,
-              }
+              },
         ),
       },
     }));
@@ -178,19 +160,21 @@ const Properties = () => {
   async function handleDeletePrompt(index: number) {
     setIceBeakerUpdateLoading(true);
     const newList = iceBreakers.profileButtons.items.filter(
-      (x) => iceBreakers.profileButtons.items.indexOf(x) !== index
+      (x) => iceBreakers.profileButtons.items.indexOf(x) !== index,
     );
     try {
-      const res = await clientFetchApi<IProfileButtons[], boolean>("/api/message/UpdateIceBreaker", { methodType: MethodType.post, session: session, data: iceBreakers.profileButtons.items, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<IProfileButtons[], boolean>("/api/message/UpdateIceBreaker", {
+        methodType: MethodType.post,
+        session: session,
+        data: iceBreakers.profileButtons.items,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         if (iceBreakers.profileButtons.items[index].specialPayload !== null) {
           setSpecialPayloadInfoForIce((prev) => [
             ...prev,
-            specialPayLoadArr.find(
-              (x) =>
-                x.specialPayload ===
-                iceBreakers.profileButtons.items[index].specialPayload
-            )!,
+            specialPayLoadArr.find((x) => x.specialPayload === iceBreakers.profileButtons.items[index].specialPayload)!,
           ]);
         }
         setIceBreakers((prev) => ({
@@ -200,10 +184,7 @@ const Properties = () => {
           },
         }));
         setIceBeakerUpdateLoading(false);
-        internalNotify(
-          InternalResponseType.deleteIceBreaker,
-          NotifType.Success
-        );
+        internalNotify(InternalResponseType.deleteIceBreaker, NotifType.Success);
       } else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -211,17 +192,13 @@ const Properties = () => {
   }
   //-----------Ice Breaker----------------------//
   //-----------persistent Menu----------------------//
-  const [persistentMenusUpdateLoading, setPersistentMenusUpdateLoading] =
-    useState(false);
+  const [persistentMenusUpdateLoading, setPersistentMenusUpdateLoading] = useState(false);
   const [persistentMenus, setPersistentMenus] = useState<IIceBreaker>({
     isActive: true,
     profileButtons: { items: [] },
     updateTime: 0,
   });
-  function handleChangeInputPersistentMenu(
-    e: ChangeEvent<HTMLInputElement>,
-    index: number
-  ) {
+  function handleChangeInputPersistentMenu(e: ChangeEvent<HTMLInputElement>, index: number) {
     setPersistentMenus((prev) => ({
       ...prev,
       profileButtons: {
@@ -231,15 +208,12 @@ const Properties = () => {
             : {
                 ...x,
                 title: e.target.value,
-              }
+              },
         ),
       },
     }));
   }
-  function handleChangeTextAreaPersistentMenu(
-    e: ChangeEvent<HTMLTextAreaElement>,
-    index: number
-  ) {
+  function handleChangeTextAreaPersistentMenu(e: ChangeEvent<HTMLTextAreaElement>, index: number) {
     setPersistentMenus((prev) => ({
       ...prev,
       profileButtons: {
@@ -249,7 +223,7 @@ const Properties = () => {
             : {
                 ...x,
                 response: e.target.value,
-              }
+              },
         ),
       },
     }));
@@ -257,20 +231,22 @@ const Properties = () => {
   async function handleDeletePromptPersistentMenu(index: number) {
     setPersistentMenusUpdateLoading(true);
     const newList = persistentMenus.profileButtons.items.filter(
-      (x) => persistentMenus.profileButtons.items.indexOf(x) !== index
+      (x) => persistentMenus.profileButtons.items.indexOf(x) !== index,
     );
     try {
-      const res = await clientFetchApi<IProfileButtons[], boolean>("/api/message/UpdatePersistentMenu", { methodType: MethodType.post, session: session, data: newList, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<IProfileButtons[], boolean>("/api/message/UpdatePersistentMenu", {
+        methodType: MethodType.post,
+        session: session,
+        data: newList,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
-        if (
-          persistentMenus.profileButtons.items[index].specialPayload !== null
-        ) {
+        if (persistentMenus.profileButtons.items[index].specialPayload !== null) {
           setSpecialPayloadInfoForPersistent((prev) => [
             ...prev,
             specialPayLoadArr.find(
-              (x) =>
-                x.specialPayload ===
-                persistentMenus.profileButtons.items[index].specialPayload
+              (x) => x.specialPayload === persistentMenus.profileButtons.items[index].specialPayload,
             )!,
           ]);
         }
@@ -279,10 +255,7 @@ const Properties = () => {
           profileButtons: { items: newList },
         }));
         setPersistentMenusUpdateLoading(false);
-        internalNotify(
-          InternalResponseType.deleteIceBreaker,
-          NotifType.Success
-        );
+        internalNotify(InternalResponseType.deleteIceBreaker, NotifType.Success);
       } else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -307,7 +280,13 @@ const Properties = () => {
   async function handleHideRobotReply(e: ChangeEvent<HTMLInputElement>) {
     try {
       const toggle = e.target.checked;
-      const res = await clientFetchApi<boolean, boolean>("/api/message/ToggleHideCommentAutoReply", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "isHide", value: toggle.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/message/ToggleHideCommentAutoReply", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "isHide", value: toggle.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setMessagePanel((prev) => ({
           ...prev,
@@ -323,7 +302,13 @@ const Properties = () => {
   async function handleLikeRobotReply(e: ChangeEvent<HTMLInputElement>) {
     try {
       const toggle = e.target.checked;
-      const res = await clientFetchApi<boolean, boolean>("/api/message/ToggleLikeReplyAutoReply", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "isLike", value: toggle.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/message/ToggleLikeReplyAutoReply", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "isLike", value: toggle.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setMessagePanel((prev) => ({
           ...prev,
@@ -351,7 +336,13 @@ const Properties = () => {
   async function handleToggleFollowTemplate(e: ChangeEvent<HTMLInputElement>) {
     try {
       const toggle = e.target.checked;
-      const res = await clientFetchApi<boolean, boolean>("/api/message/ToggleCheckFollowerTemplate", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "isEnable", value: toggle.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/message/ToggleCheckFollowerTemplate", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "isEnable", value: toggle.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setMessagePanel((prev) => ({
           ...prev,
@@ -366,15 +357,17 @@ const Properties = () => {
   }
   async function handleSaveFollowerTemplate() {
     try {
-      const res = await clientFetchApi<IMessagePanel, boolean>("/api/message/UpdateCheckFollowerTemplate", { methodType: MethodType.post, session: session, data: {
+      const res = await clientFetchApi<IMessagePanel, boolean>("/api/message/UpdateCheckFollowerTemplate", {
+        methodType: MethodType.post,
+        session: session,
+        data: {
           title: messagePanel.followTemplate.title,
           buttonText: messagePanel.followTemplate.content,
-        }, queries: undefined, onUploadProgress: undefined });
-      if (res.succeeded)
-        internalNotify(
-          InternalResponseType.SaveFollowTemplate,
-          NotifType.Success
-        );
+        },
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
+      if (res.succeeded) internalNotify(InternalResponseType.SaveFollowTemplate, NotifType.Success);
       else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -391,9 +384,14 @@ const Properties = () => {
     const prevLng = messagePanel.language;
     try {
       setMessagePanel((prev) => ({ ...prev, language: 1e6 }));
-      const res = await clientFetchApi<IMessagePanel, boolean>("/api/message/SetDefaultLanguage", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "language", value: messagePanel.language.toString() }], onUploadProgress: undefined });
-      if (res.succeeded)
-        internalNotify(InternalResponseType.SelectLanguage, NotifType.Success);
+      const res = await clientFetchApi<IMessagePanel, boolean>("/api/message/SetDefaultLanguage", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "language", value: messagePanel.language.toString() }],
+        onUploadProgress: undefined,
+      });
+      if (res.succeeded) internalNotify(InternalResponseType.SelectLanguage, NotifType.Success);
       else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -404,18 +402,23 @@ const Properties = () => {
   //-----------Message panel----------------------//
   //-----------General Message----------------------//
   const [autoReplies, setAutoReplies] = useState<IGeneralAutoReply[]>([]);
-  const [showIndexAutoReply, setShowIndexAutoReply] = useState<string | null>(
-    null
-  );
+  const [showIndexAutoReply, setShowIndexAutoReply] = useState<string | null>(null);
   async function handleSaveAutoReply(autoReply: ICreateGeneralAutoReply) {
     console.log("autoReplyyyyyyy", autoReply);
     try {
-      const res = await clientFetchApi<ICreateGeneralAutoReply, IGeneralAutoReply>("/api/message/CreateGeneralAutoReply", { methodType: MethodType.post, session: session, data: autoReply, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<ICreateGeneralAutoReply, IGeneralAutoReply>(
+        "/api/message/CreateGeneralAutoReply",
+        {
+          methodType: MethodType.post,
+          session: session,
+          data: autoReply,
+          queries: undefined,
+          onUploadProgress: undefined,
+        },
+      );
       console.log("CreateGeneralAutoReply res", res);
       if (res.succeeded && autoReply.id !== "") {
-        setAutoReplies((prev) =>
-          prev.map((x) => (x.id !== res.value.id ? x : res.value))
-        );
+        setAutoReplies((prev) => prev.map((x) => (x.id !== res.value.id ? x : res.value)));
       } else if (res.succeeded && autoReply.id === "") {
         setAutoReplies((prev) => [res.value, ...prev]);
       } else {
@@ -427,17 +430,20 @@ const Properties = () => {
       setShowIndexAutoReply(null);
     }
   }
-  async function handleActiveAutoReply(
-    e: ChangeEvent<HTMLInputElement>,
-    id: string
-  ) {
+  async function handleActiveAutoReply(e: ChangeEvent<HTMLInputElement>, id: string) {
     try {
       const toggle = e.target.checked;
       console.log("Toggle:", toggle);
-      const res = await clientFetchApi<boolean, boolean>("Instagramer" +
-          `/Message/${
-            toggle ? "ResumeGeneralAutoReply" : "PauseGeneralAutoReply"
-          }`, { methodType: MethodType.get, session: session, data: null, queries: [{ key: "id", value: id.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>(
+        "Instagramer" + `/Message/${toggle ? "ResumeGeneralAutoReply" : "PauseGeneralAutoReply"}`,
+        {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "id", value: id.toString() }],
+          onUploadProgress: undefined,
+        },
+      );
       if (res.succeeded) {
         setAutoReplies((prev) =>
           prev.map((x) =>
@@ -446,8 +452,8 @@ const Properties = () => {
               : {
                   ...x,
                   pauseTime: toggle ? null : Date.now(),
-                }
-          )
+                },
+          ),
         );
       } else {
         notify(res.info.responseType, NotifType.Warning);
@@ -458,22 +464,26 @@ const Properties = () => {
   }
   async function handleGeneralActiveAutoreply(on: boolean) {
     try {
-      const res = await clientFetchApi<boolean, boolean>("Instagramer" +
-          `/Message/${
-            on ? "ResumeAllGeneralAutoReplies" : "PauseAllGeneralAutoReplies"
-          }`, { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>(
+        "Instagramer" + `/Message/${on ? "ResumeAllGeneralAutoReplies" : "PauseAllGeneralAutoReplies"}`,
+        {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        },
+      );
       if (res.succeeded) {
         setAutoReplies((prev) =>
           prev.map((x) => ({
             ...x,
             pauseTime: on ? null : Date.now(),
-          }))
+          })),
         );
         internalNotify(
-          on
-            ? InternalResponseType.AutoGeneralOn
-            : InternalResponseType.AutoGeneralOff,
-          NotifType.Success
+          on ? InternalResponseType.AutoGeneralOn : InternalResponseType.AutoGeneralOff,
+          NotifType.Success,
         );
       } else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
@@ -482,7 +492,13 @@ const Properties = () => {
   }
   async function handleGetNextAutoreply(nexMaxId: string) {
     try {
-      const res = await clientFetchApi<boolean, IGeneralAutoReply[]>("/api/message/GetGeneralAutoReplies", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "nextMaxId", value: nexMaxId.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IGeneralAutoReply[]>("/api/message/GetGeneralAutoReplies", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "nextMaxId", value: nexMaxId.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setAutoReplies((prev) => [...prev, ...res.value]);
       } else notify(res.info.responseType, NotifType.Warning);
@@ -503,11 +519,7 @@ const Properties = () => {
     setShowSpecialPayLoad(true);
   }
   async function fetchData() {
-    if (
-      !session ||
-      !LoginStatus(session) ||
-      !RoleAccess(session, PartnerRole.Message)
-    ) {
+    if (!session || !LoginStatus(session) || !RoleAccess(session, PartnerRole.Message)) {
       return;
     }
 
@@ -518,31 +530,50 @@ const Properties = () => {
     isFetchingRef.current = true;
 
     try {
-      const [iceRes, persistentRes, replySettingRes, generalMsgRes] =
-        await Promise.all([
-          clientFetchApi<boolean, IIceBreaker>("/api/message/GetIceBreaker", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-          clientFetchApi<boolean, IIceBreaker>("/api/message/GetPersistentMenu", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-          clientFetchApi<boolean, IAutoReplySetting>("/api/message/GetAutoReplySetting", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-          clientFetchApi<boolean, IGeneralAutoReply[]>("/api/message/GetGeneralAutoReplies", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-        ]);
+      const [iceRes, persistentRes, replySettingRes, generalMsgRes] = await Promise.all([
+        clientFetchApi<boolean, IIceBreaker>("/api/message/GetIceBreaker", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IIceBreaker>("/api/message/GetPersistentMenu", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IAutoReplySetting>("/api/message/GetAutoReplySetting", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IGeneralAutoReply[]>("/api/message/GetGeneralAutoReplies", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+      ]);
       if (iceRes.succeeded) {
         setIceBreakers(iceRes.value);
         setSpecialPayloadInfoForPersistent(
           specialPayLoadArr.filter((x) =>
-            persistentRes.value.profileButtons.items.every(
-              (y) => y.specialPayload !== x.specialPayload
-            )
-          )
+            persistentRes.value.profileButtons.items.every((y) => y.specialPayload !== x.specialPayload),
+          ),
         );
       }
       if (persistentRes.succeeded) {
         setPersistentMenus(persistentRes.value);
         setSpecialPayloadInfoForIce(
           specialPayLoadArr.filter((x) =>
-            iceRes.value.profileButtons.items.every(
-              (y) => y.specialPayload !== x.specialPayload
-            )
-          )
+            iceRes.value.profileButtons.items.every((y) => y.specialPayload !== x.specialPayload),
+          ),
         );
       }
       if (replySettingRes.succeeded) {
@@ -554,9 +585,7 @@ const Properties = () => {
             content: replySettingRes.value.checkFollowerTemplate
               ? replySettingRes.value.checkFollowerTemplate.buttonText
               : "",
-            title: replySettingRes.value.checkFollowerTemplate
-              ? replySettingRes.value.checkFollowerTemplate.title
-              : "",
+            title: replySettingRes.value.checkFollowerTemplate ? replySettingRes.value.checkFollowerTemplate.title : "",
           },
           language: replySettingRes.value.language,
           likeReplyStory: replySettingRes.value.autoReplyCustomAction.likeReply,
@@ -582,14 +611,23 @@ const Properties = () => {
       setPersistentMenusUpdateLoading(true);
       const newList = [...persistentMenus.profileButtons.items, addNewObj];
       try {
-        const res = await clientFetchApi<IUpdateProfileButton[], boolean>("/api/message/UpdatePersistentMenu", { methodType: MethodType.post, session: session, data: newList, queries: undefined, onUploadProgress: undefined });
+        const res = await clientFetchApi<IUpdateProfileButton[], boolean>("/api/message/UpdatePersistentMenu", {
+          methodType: MethodType.post,
+          session: session,
+          data: newList,
+          queries: undefined,
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) {
-          internalNotify(
-            InternalResponseType.SaveIceBreaker,
-            NotifType.Success
-          );
+          internalNotify(InternalResponseType.SaveIceBreaker, NotifType.Success);
           try {
-            const res = await clientFetchApi<boolean, IIceBreaker>("/api/message/GetPersistentMenu", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+            const res = await clientFetchApi<boolean, IIceBreaker>("/api/message/GetPersistentMenu", {
+              methodType: MethodType.get,
+              session: session,
+              data: undefined,
+              queries: undefined,
+              onUploadProgress: undefined,
+            });
             if (res.succeeded) setPersistentMenus(res.value);
             else notify(res.info.responseType, NotifType.Warning);
           } catch (error) {
@@ -605,14 +643,23 @@ const Properties = () => {
       setIceBeakerUpdateLoading(true);
       const newList2 = [...iceBreakers.profileButtons.items, addNewObj];
       try {
-        const res = await clientFetchApi<IProfileButtons[], boolean>("/api/message/UpdateIceBreaker", { methodType: MethodType.post, session: session, data: newList2, queries: undefined, onUploadProgress: undefined });
+        const res = await clientFetchApi<IProfileButtons[], boolean>("/api/message/UpdateIceBreaker", {
+          methodType: MethodType.post,
+          session: session,
+          data: newList2,
+          queries: undefined,
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) {
-          internalNotify(
-            InternalResponseType.SaveIceBreaker,
-            NotifType.Success
-          );
+          internalNotify(InternalResponseType.SaveIceBreaker, NotifType.Success);
           try {
-            const res = await clientFetchApi<boolean, IIceBreaker>("/api/message/GetIceBreaker", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+            const res = await clientFetchApi<boolean, IIceBreaker>("/api/message/GetIceBreaker", {
+              methodType: MethodType.get,
+              session: session,
+              data: undefined,
+              queries: undefined,
+              onUploadProgress: undefined,
+            });
             if (res.succeeded) setIceBreakers(res.value);
             else notify(res.info.responseType, NotifType.Warning);
           } catch (error) {
@@ -629,7 +676,13 @@ const Properties = () => {
   async function handleTogglePersistentMenu(e: ChangeEvent<HTMLInputElement>) {
     try {
       const toggle = e.target.checked;
-      const res = await clientFetchApi<boolean, boolean>("/api/message/TogglePersistentMenu", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "isEnabled", value: toggle.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/message/TogglePersistentMenu", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "isEnabled", value: toggle.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setPersistentMenus((prev) => ({
           ...prev,
@@ -645,7 +698,13 @@ const Properties = () => {
   async function handleToggleIceBreaker(e: ChangeEvent<HTMLInputElement>) {
     try {
       const toggle = e.target.checked;
-      const res = await clientFetchApi<boolean, boolean>("/api/message/ToggleIceBreaker", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "isEnabled", value: toggle.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/message/ToggleIceBreaker", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "isEnabled", value: toggle.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setIceBreakers((prev) => ({
           ...prev,
@@ -668,15 +727,9 @@ const Properties = () => {
         {/* head for SEO */}
         <Head>
           {" "}
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes"
-          />
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
           <title>Bran.cy ▸ {t(LanguageKey.navbar_Properties)}</title>
-          <meta
-            name="description"
-            content="Advanced Instagram post management tool"
-          />
+          <meta name="description" content="Advanced Instagram post management tool" />
           <meta name="theme-color"></meta>
           <meta
             name="keywords"
@@ -778,27 +831,16 @@ const Properties = () => {
           </main>
         )}
 
-        <Modal
-          closePopup={removeMask}
-          classNamePopup={"popup"}
-          showContent={isPopupCOMMENT}>
+        <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={isPopupCOMMENT}>
           <PopupComment onClose={removeMask} />
         </Modal>
-        <Modal
-          closePopup={removeMask}
-          classNamePopup={"popup"}
-          showContent={isPopupDirect}>
+        <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={isPopupDirect}>
           <PopupDirect onClose={removeMask} />
         </Modal>
-        <Modal
-          closePopup={removeMask}
-          classNamePopup={"popup"}
-          showContent={showSpecialPayLoad}>
+        <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showSpecialPayLoad}>
           <SpecialPayLoadComp
             specialPayloads={
-              type === IceOrPersistent.PersistentMenu
-                ? specialPayloadInfoForPersistent
-                : specialPayloadInfoForIce
+              type === IceOrPersistent.PersistentMenu ? specialPayloadInfoForPersistent : specialPayloadInfoForIce
             }
             removeMask={removeMask}
             handleSaveSpecialPayLoad={handleSaveSpecialPayLoad}
