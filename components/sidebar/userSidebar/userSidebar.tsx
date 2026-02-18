@@ -1,4 +1,5 @@
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { NextRouter } from "next/router";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -23,7 +24,6 @@ const DISTANCE = 150; // Distance of effect in pixels
 
 function UserSidebar(props: { newRouth: string; router: NextRouter }) {
   const { t } = useTranslation();
-  const [indicatorClass, setIndicatorClass] = useState<string>("");
 
   // Mouse tracking states and refs
   const [mouseY, setMouseY] = useState<number | null>(null);
@@ -66,13 +66,14 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
         translationKey: LanguageKey.navbar_Orders,
         isActive: (route: string) => {
           return (
+            route === "userorders" ||
             route.includes(UserPanelRoute.UserPanelOrdersCart) ||
-            route === UserPanelRoute.UserPanelOrdersFailed ||
-            route === UserPanelRoute.UserPanelOrdersInQueue ||
-            route === UserPanelRoute.UserPanelOrdersInProgress ||
-            route === UserPanelRoute.UserPanelOrdersPickingup ||
-            route === UserPanelRoute.UserPanelOrdersSent ||
-            route === UserPanelRoute.UserPaneOrdersDelivered
+            route === UserPanelRoute.UserPanelOrdersFailed.toLowerCase() ||
+            route === UserPanelRoute.UserPanelOrdersInQueue.toLowerCase() ||
+            route === UserPanelRoute.UserPanelOrdersInProgress.toLowerCase() ||
+            route === UserPanelRoute.UserPanelOrdersPickingup.toLowerCase() ||
+            route === UserPanelRoute.UserPanelOrdersSent.toLowerCase() ||
+            route === UserPanelRoute.UserPaneOrdersDelivered.toLowerCase()
           );
         },
       },
@@ -137,7 +138,7 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
         isActive: (route: string) => route === "usersetting",
       },
     ],
-    []
+    [],
   );
 
   // Throttle function to limit update frequency
@@ -160,7 +161,7 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
         setMouseY(event.pageY);
       }
     }, 33),
-    []
+    [],
   );
 
   const handleMouseLeave = useCallback(() => {
@@ -258,9 +259,11 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
     };
   }, [mouseY]);
 
-  useEffect(() => {
-    // تبدیل مسیر به فرمت مورد نیاز برای کلاس indicator
-    // Create a map for route to indicator class
+  const pathname = usePathname();
+  const currentRoute = (pathname || "").replaceAll("/", "").toLowerCase();
+
+  const indicatorClass = useMemo(() => {
+    // Map routes to their CSS indicator class names
     const routeToIndicatorMap: Record<string, string> = {
       userhome: UserPanelRoute.UserPanelHome,
       userorders: UserPanelRoute.UserPanelOrders,
@@ -276,18 +279,15 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
       userwallet: UserPanelRoute.UserPanelWallet,
       usersetting: UserPanelRoute.UserPanelSetting,
     };
-    let currentRoute = props.newRouth.toLowerCase();
-    // Check if the route includes userorderscart
-    if (currentRoute.includes(UserPanelRoute.UserPanelOrdersCart)) {
-      // Use UserPanelOrdersCart as the currentRoute for indicator mapping
-      currentRoute = UserPanelRoute.UserPanelOrdersCart;
-    }
-    const indicatorClass = routeToIndicatorMap[currentRoute];
 
-    if (indicatorClass) {
-      setIndicatorClass(`${styles.menuIndicator} ${styles[`indicator-${indicatorClass}`]}`);
+    let route = currentRoute;
+    // Check if the route includes userorderscart
+    if (route.includes(UserPanelRoute.UserPanelOrdersCart)) {
+      route = UserPanelRoute.UserPanelOrdersCart;
     }
-  }, [props.newRouth]);
+    const cssClass = routeToIndicatorMap[route];
+    return cssClass ? `${styles.menuIndicator} ${styles[`indicator-${cssClass}`]}` : "";
+  }, [currentRoute]);
 
   // Function to get the fill color for a menu item
   const getMenuItemColor = (item: MenuItem): string => {
@@ -299,7 +299,7 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
       document.head.appendChild(styleTag);
     }
 
-    return item.isActive(props.newRouth) ? "var(--color-dark-blue)" : "var(--color-gray)";
+    return item.isActive(currentRoute) ? "var(--color-dark-blue)" : "var(--color-gray)";
   };
 
   return (
