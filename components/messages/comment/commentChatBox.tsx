@@ -20,7 +20,7 @@ import { isRTL } from "saeed/helper/checkRtl";
 import initialzedTime from "saeed/helper/manageTimer";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { ActionType, MediaProductType } from "saeed/models/messages/enum";
 import { IComment, IMedia, IOwnerInbox } from "saeed/models/messages/IMessage";
 import { IMediaUpdateAutoReply } from "saeed/models/page/post/posts";

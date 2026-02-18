@@ -11,7 +11,7 @@ import NotAllowed from "saeed/components/notOk/notAllowed";
 import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { calculateSummary } from "saeed/helper/numberFormater";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { IStory, IStoryContent } from "saeed/models/page/story/stories";
 import ScheduledStory from "../scheduledStory/scheduledStory";

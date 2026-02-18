@@ -11,7 +11,7 @@ import OrderDetail from "saeed/components/userPanel/orders/popups/OrderDetail";
 import { InstaInfoContext } from "saeed/context/instaInfoContext";
 import findSystemLanguage from "saeed/helper/findSystemLanguage";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { IOrderByStatus, IOrderDetail } from "saeed/models/store/orders";
 import { IUserOrder } from "saeed/models/userPanel/orders";
 import styles from "./cart.module.css";

@@ -11,7 +11,7 @@ import findSystemLanguage from "saeed/helper/findSystemLanguage";
 import initialzedTime from "saeed/helper/manageTimer";
 import { specifyLogistic } from "saeed/helper/specifyLogistic";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { IFullProduct, IOrderDetail, IParcelInfo } from "saeed/models/store/orders";
 import styles from "./OrderDetailWithParcelInfo.module.css";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";

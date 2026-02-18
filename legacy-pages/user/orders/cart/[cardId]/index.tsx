@@ -12,7 +12,7 @@ import {
   ResponseType,
 } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import {
   IAddress,
   ICompleteProduct,

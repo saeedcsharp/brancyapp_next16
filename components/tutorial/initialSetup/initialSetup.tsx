@@ -5,7 +5,7 @@ import RadioButton from "saeed/components/design/radioButton";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
 import { InitialSetupState } from "saeed/models/homeIndex/home";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import styles from "./initialSetup.module.css";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";
 interface InitialSetupProps {

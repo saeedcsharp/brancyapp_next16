@@ -7,7 +7,7 @@ import { NotifType, notify, ResponseType } from "saeed/components/notifications/
 import Loading from "saeed/components/notOk/loading";
 import priceFormatter from "saeed/helper/priceFormater";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import {
   ICreateInstance_ForVariation,
   IDisCount,

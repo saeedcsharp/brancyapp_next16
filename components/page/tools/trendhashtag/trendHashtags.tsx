@@ -16,7 +16,7 @@ import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { calculateSummary } from "saeed/helper/numberFormater";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { IShortHashtag, ITrendHashtag } from "saeed/models/page/tools/tools";
 import styles from "./trendHashtags.module.css";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";

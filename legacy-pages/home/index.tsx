@@ -16,7 +16,7 @@ import {
   ILastTransaction,
   IPageSummary,
 } from "saeed/models/homeIndex/home";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { IPostContent } from "saeed/models/page/post/posts";
 import { IStoryContent } from "saeed/models/page/story/stories";
 import AccountSummary from "../../components/homeIndex/accountSummary";

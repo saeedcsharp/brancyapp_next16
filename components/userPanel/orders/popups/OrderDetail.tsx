@@ -7,7 +7,7 @@ import Loading from "saeed/components/notOk/loading";
 import OrderDetailContent from "saeed/components/store/order/popup/OrderDetail-Content";
 import findSystemLanguage from "saeed/helper/findSystemLanguage";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { OrderStep } from "saeed/models/store/enum";
 import { IFullProduct, IOrderDetail } from "saeed/models/store/orders";
 import styles from "./OrderDetail.module.css";

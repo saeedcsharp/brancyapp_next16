@@ -22,7 +22,7 @@ import DragDrop from "saeed/components/design/dragDrop/dragDrop";
 import InputText from "saeed/components/design/inputText";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import {
   ICreateInstance_ForSpecification,
   ICustomSpecificationItem,

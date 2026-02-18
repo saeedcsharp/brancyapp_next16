@@ -30,7 +30,7 @@ import {
   ICreatePrompt,
   ILiveChat,
 } from "saeed/models/AI/prompt";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { ItemType } from "saeed/models/messages/enum";
 
 // Styles

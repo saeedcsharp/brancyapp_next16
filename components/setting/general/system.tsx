@@ -7,7 +7,7 @@ import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
 import { InitialSetupState } from "saeed/models/homeIndex/home";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { ICalendar, ILangauge } from "saeed/models/setting/general";
 import styles from "./general.module.css";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";

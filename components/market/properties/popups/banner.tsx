@@ -21,7 +21,7 @@ import { ToggleOrder } from "saeed/components/design/toggleButton/types";
 import Loading from "saeed/components/notOk/loading";
 import { convertHeicToJpeg } from "saeed/helper/convertHeicToJPEG";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType, UploadFile } from "saeed/helper/apihelper";
+import { MethodType, UploadFile } from "saeed/helper/api";
 import {
   IBannerSelectedImage,
   ICustomeBannerInfo,
@@ -327,7 +327,7 @@ const Banner = memo((props: BannerProps) => {
         }, 3000);
       }
     },
-    [session, validateFile]
+    [session, validateFile],
   );
 
   const handleImageChange = useCallback(
@@ -336,7 +336,7 @@ const Banner = memo((props: BannerProps) => {
       if (!inputFile) return;
       await processFile(inputFile, id);
     },
-    [processFile]
+    [processFile],
   );
 
   const handleDragEnter = useCallback((e: React.DragEvent, loadingKey: keyof LoadingImageState) => {
@@ -367,7 +367,7 @@ const Banner = memo((props: BannerProps) => {
 
       await processFile(droppedFile, id);
     },
-    [processFile]
+    [processFile],
   );
 
   const handleUploadImage = useCallback((id: string) => {
@@ -387,8 +387,20 @@ const Banner = memo((props: BannerProps) => {
     abortControllerRef.current = new AbortController();
     try {
       const [profileRes, bannerRes] = await Promise.all([
-        clientFetchApi<string, IProfileBanner>("/api/bio/GetCustomProfile", { methodType: MethodType.get, session: session, data: null, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<string, ICustomeBannerInfo>("/api/bio/GetCustomBanners", { methodType: MethodType.get, session: session, data: null, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<string, IProfileBanner>("/api/bio/GetCustomProfile", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<string, ICustomeBannerInfo>("/api/bio/GetCustomBanners", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
       ]);
       if (abortControllerRef.current?.signal.aborted) return;
       if (profileRes.succeeded) {
@@ -446,8 +458,20 @@ const Banner = memo((props: BannerProps) => {
         }
       });
       const [profileRes, bannerRes] = await Promise.all([
-        clientFetchApi<IUpdateProfileBanner, boolean>("/api/bio/UpdateCustomProfile", { methodType: MethodType.post, session: session, data: updateProfile, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<IUpdateBanner, boolean>("/api/bio/UpdateCustomBanners", { methodType: MethodType.post, session: session, data: updateBanner, queries: [], onUploadProgress: setProgress }),
+        clientFetchApi<IUpdateProfileBanner, boolean>("/api/bio/UpdateCustomProfile", {
+          methodType: MethodType.post,
+          session: session,
+          data: updateProfile,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<IUpdateBanner, boolean>("/api/bio/UpdateCustomBanners", {
+          methodType: MethodType.post,
+          session: session,
+          data: updateBanner,
+          queries: [],
+          onUploadProgress: setProgress,
+        }),
       ]);
       if (profileRes.succeeded && bannerRes.succeeded) {
         props.removeMask();
@@ -472,7 +496,7 @@ const Banner = memo((props: BannerProps) => {
         props.removeMask();
       }
     },
-    [analizeProcessing, props]
+    [analizeProcessing, props],
   );
   useEffect(() => {
     if (!session) return;
@@ -494,7 +518,7 @@ const Banner = memo((props: BannerProps) => {
       urlKey: keyof IBannerSelectedImage,
       idKey: keyof IBannerSelectedImage,
       loadingKey: keyof LoadingImageState,
-      ref: React.RefObject<HTMLInputElement>
+      ref: React.RefObject<HTMLInputElement>,
     ) => {
       const isLoading = loadingImage[loadingKey];
       const hasError = errorImage[loadingKey];
@@ -624,7 +648,7 @@ const Banner = memo((props: BannerProps) => {
       handleDragOver,
       handleDrop,
       componentId,
-    ]
+    ],
   );
   return (
     <>

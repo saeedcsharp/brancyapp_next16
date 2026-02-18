@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import ProgressBar from "saeed/components/design/progressBar/progressBar";
 import { convertHeicToJpeg } from "saeed/helper/convertHeicToJPEG";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import styles from "./newPictureAnalyzerList.module.css";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";
 

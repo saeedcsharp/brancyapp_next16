@@ -12,7 +12,7 @@ import rgbaToHex from "saeed/helper/rgbaToHex";
 import { BackgrounCssTodStr, SvgGenerator } from "saeed/helper/svgGenerator";
 import { svgToFile, svgToJpgFile } from "saeed/helper/svgtojpeg";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import {
   ICreateTermsAndConditionInfo,
   IGetLastTermsUi,

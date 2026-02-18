@@ -21,7 +21,7 @@ import formatTimeAgo from "saeed/helper/formatTimeAgo";
 import initialzedTime from "saeed/helper/manageTimer";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
-import { UploadFile } from "saeed/helper/apihelper";
+import { UploadFile } from "saeed/helper/api";
 import { IIsSendingMessage, IItem, IOwnerInbox, IThread, IUploadVoice } from "saeed/models/messages/IMessage";
 import { ItemType } from "saeed/models/messages/enum";
 import Tooltip from "../../design/tooltip/tooltip";
@@ -91,7 +91,7 @@ const DirectChatBox = memo(
             }).format("hh:mm a - dddd - DD/MM/YYYY")
           : formatTimeAgo(timestamp);
       },
-      [dateFormatToggle]
+      [dateFormatToggle],
     );
     //#endregion
 
@@ -138,7 +138,7 @@ const DirectChatBox = memo(
         }
         setAnswerBox(value);
       },
-      [props.hub, props.chatBox.recp.igId]
+      [props.hub, props.chatBox.recp.igId],
     );
 
     const handleBackToButton = useCallback(() => {
@@ -164,7 +164,7 @@ const DirectChatBox = memo(
             break;
         }
       },
-      [props.chatBox.items, props.chatBox.recp.igId, props.hub]
+      [props.chatBox.items, props.chatBox.recp.igId, props.hub],
     );
 
     const handleDrop = useCallback(
@@ -181,7 +181,7 @@ const DirectChatBox = memo(
           });
         }
       },
-      [props.chatBox.threadId, props.chatBox.recp.igId, props.onSendFile]
+      [props.chatBox.threadId, props.chatBox.recp.igId, props.onSendFile],
     );
 
     const handleDragOver = useCallback((event: React.DragEvent) => {
@@ -220,7 +220,7 @@ const DirectChatBox = memo(
         }
         e.target.value = "";
       },
-      [props.chatBox.threadId, props.chatBox.recp.igId, props.onSendFile, props.onSendVideoFile]
+      [props.chatBox.threadId, props.chatBox.recp.igId, props.onSendFile, props.onSendVideoFile],
     );
 
     const handleClickOnVoiceIcon = useCallback(async () => {
@@ -247,7 +247,7 @@ const DirectChatBox = memo(
         if (!props.hub || props.hub.state !== HubConnectionState.Connected) return;
         await props.hub.send("SendAudioMessage", props.chatBox.recp.igId, res.fileName);
       },
-      [props.hub, props.chatBox.threadId, props.chatBox.recp.igId, props.handleSendMessage, session]
+      [props.hub, props.chatBox.threadId, props.chatBox.recp.igId, props.handleSendMessage, session],
     );
     //#endregion
 
@@ -278,15 +278,15 @@ const DirectChatBox = memo(
     const handleSpecifyRepliedItemFullName = useCallback(
       (itemId: string, repItem: IItem | null) => {
         if (repItem) {
-          return repItem.sentByOwner ? props.ownerInbox.username ?? "" : props.chatBox.recp.username ?? "";
+          return repItem.sentByOwner ? (props.ownerInbox.username ?? "") : (props.chatBox.recp.username ?? "");
         }
         const item = props.chatBox.items.find((x) => x.itemId === itemId);
         if (item) {
-          return item.sentByOwner ? props.ownerInbox.username ?? "" : props.chatBox.recp.username ?? "";
+          return item.sentByOwner ? (props.ownerInbox.username ?? "") : (props.chatBox.recp.username ?? "");
         }
         return "";
       },
-      [props.ownerInbox.username, props.chatBox.recp.username, props.chatBox.items]
+      [props.ownerInbox.username, props.chatBox.recp.username, props.chatBox.items],
     );
 
     const handleSpecifyRepliedItemType = useCallback(
@@ -300,13 +300,13 @@ const DirectChatBox = memo(
         }
         return "";
       },
-      [props.chatBox.items]
+      [props.chatBox.items],
     );
 
     const handleSendRead = useCallback(async () => {
       if (!props.hub || props.hub.state !== HubConnectionState.Connected) return;
       if (props.chatBox.items.length > 0) {
-        await props.hub.send("SendRead", props.chatBox.recp.igId, props.chatBox.items[0].itemId,true);
+        await props.hub.send("SendRead", props.chatBox.recp.igId, props.chatBox.items[0].itemId, true);
       }
     }, [props.hub, props.chatBox.recp.igId, props.chatBox.items]);
     //#endregion
@@ -610,7 +610,7 @@ const DirectChatBox = memo(
         }
       </>
     );
-  }
+  },
 );
 
 DirectChatBox.displayName = "DirectChatBox";

@@ -35,7 +35,7 @@ import {
 } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import {
   AutoReplyPayLoadType,
   IceOrPersistent,

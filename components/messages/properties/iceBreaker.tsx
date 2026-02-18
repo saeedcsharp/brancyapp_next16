@@ -9,7 +9,7 @@ import { NotifType, notify, ResponseType } from "saeed/components/notifications/
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
 import { IDetailPrompt } from "saeed/models/AI/prompt";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { IceOrPersistent, PayloadType, SpecialPayLoad } from "saeed/models/messages/enum";
 import { IIceBreaker } from "saeed/models/messages/properies";
 import styles from "./properties.module.css";

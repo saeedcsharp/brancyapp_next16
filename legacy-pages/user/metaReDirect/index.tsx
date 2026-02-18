@@ -9,7 +9,7 @@ import {
   ResponseType,
 } from "saeed/components/notifications/notificationBox";
 import { IRefreshToken } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import styles from "./metaDirect.module.css";
 import { clientFetchApi, clientFetchApiWithAccessToken } from "saeed/helper/clientFetchApi";
 

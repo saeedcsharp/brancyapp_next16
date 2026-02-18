@@ -15,7 +15,7 @@ import {
 import Loading from "saeed/components/notOk/loading";
 import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { InsightPeriod } from "saeed/models/market/enums";
 import {
   ILinkInsight,

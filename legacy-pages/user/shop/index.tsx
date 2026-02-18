@@ -8,7 +8,7 @@ import Loading from "saeed/components/notOk/loading";
 import ShopPage from "saeed/components/userPanel/shop/shop";
 import findSystemLanguage from "saeed/helper/findSystemLanguage";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { SelectedMarketType } from "saeed/models/market/enums";
 import { IFullShop } from "saeed/models/userPanel/shop";
 import styles from "./shop.module.css";

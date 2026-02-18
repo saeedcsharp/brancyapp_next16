@@ -8,19 +8,12 @@ import InputText from "saeed/components/design/inputText";
 import RingLoader from "saeed/components/design/loader/ringLoder";
 import Modal from "saeed/components/design/modal";
 import SendFile from "saeed/components/messages/popups/sendFile";
-import {
-  MediaModal,
-  useMediaModal,
-} from "saeed/components/messages/shared/utils";
-import {
-  NotifType,
-  notify,
-  ResponseType,
-} from "saeed/components/notifications/notificationBox";
+import { MediaModal, useMediaModal } from "saeed/components/messages/shared/utils";
+import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import initialzedTime from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType, UploadFile } from "saeed/helper/apihelper";
+import { MethodType, UploadFile } from "saeed/helper/api";
 import { IIsSendingMessage } from "saeed/models/messages/IMessage";
 import {
   IItem,
@@ -52,8 +45,7 @@ const UserPanelDirectInbox = () => {
   const { query } = router;
   const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
   const [ticketInbox, setTicketInbox] = useState<IUserPanelMessage>();
-  const [searchTicketInbox, setSearchTicketInbox] =
-    useState<IUserPanelMessage>();
+  const [searchTicketInbox, setSearchTicketInbox] = useState<IUserPanelMessage>();
   const tInbox = useRef(ticketInbox);
   const [hideInbox, setHideInbox] = useState<IUserPanelMessage>();
   const [searchHideInbox, setSearchHideInbox] = useState<IUserPanelMessage>();
@@ -89,12 +81,8 @@ const UserPanelDirectInbox = () => {
     loading: false,
     noResult: false,
   });
-  const [sendingMessages, setSendingMessages] = useState<ISendTicketMessage[]>(
-    [],
-  );
-  const [tempTicketIds, setTempTicketIds] = useState<{ ticketId: number }[]>(
-    [],
-  );
+  const [sendingMessages, setSendingMessages] = useState<ISendTicketMessage[]>([]);
+  const [tempTicketIds, setTempTicketIds] = useState<{ ticketId: number }[]>([]);
   const refTempTicket = useRef(tempTicketIds);
   const mediaModal = useMediaModal();
 
@@ -130,11 +118,7 @@ const UserPanelDirectInbox = () => {
         }, 700);
         return;
       }
-      if (
-        typeof window !== undefined &&
-        window.innerWidth <= 800 &&
-        displayRight === "none"
-      ) {
+      if (typeof window !== undefined && window.innerWidth <= 800 && displayRight === "none") {
         setDisplayLeft("none");
         setDisplayRight("");
       }
@@ -163,11 +147,7 @@ const UserPanelDirectInbox = () => {
       downFlagLeft = false;
       downFlagRight = false;
     }
-    if (
-      downFlagRight &&
-      mousePos.x - firstPos.x > 10 &&
-      showDivIndex !== null
-    ) {
+    if (downFlagRight && mousePos.x - firstPos.x > 10 && showDivIndex !== null) {
       setMoreSettingClassName("hideDiv");
       downFlagRight = false;
       downFlagLeft = false;
@@ -211,19 +191,21 @@ const UserPanelDirectInbox = () => {
     var myTicket = ticketInbox?.tickets.find((x) => x.ticketId === ticketId);
     if (myTicket) {
       try {
-        let tRes = await clientFetchApi<boolean, boolean>("/api/systemticket/UpdateSystemTicketPinStatus", { methodType: MethodType.get, session: session, data: null, queries: [
+        let tRes = await clientFetchApi<boolean, boolean>("/api/systemticket/UpdateSystemTicketPinStatus", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "ticketId", value: ticketId.toString() },
             { key: "isPin", value: (!myTicket.isPin).toString() },
-          ], onUploadProgress: undefined });
+          ],
+          onUploadProgress: undefined,
+        });
         if (tRes.succeeded) {
           setTicketInbox((prev) => ({
             ...prev!,
             tickets: prev!.tickets
-              .map((x) =>
-                x.ticketId !== myTicket?.ticketId
-                  ? x
-                  : { ...x, isPin: !x.isPin },
-              )
+              .map((x) => (x.ticketId !== myTicket?.ticketId ? x : { ...x, isPin: !x.isPin }))
               .sort((a, b) => {
                 if (a.isPin && !b.isPin) {
                   return -1;
@@ -250,13 +232,19 @@ const UserPanelDirectInbox = () => {
     var mainTicket = ticketInbox?.tickets.find((x) => x.ticketId === ticketId);
     var hideTicket = hideInbox?.tickets.find((x) => x.ticketId === ticketId);
     try {
-      let tRes = await clientFetchApi<boolean, boolean>("/api/systemticket/UpdateSystemTicketHideStatus", { methodType: MethodType.get, session: session, data: null, queries: [
+      let tRes = await clientFetchApi<boolean, boolean>("/api/systemticket/UpdateSystemTicketHideStatus", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "ticketId", value: ticketId.toString() },
           {
             key: "isHide",
             value: mainTicket ? "true" : hideTicket ? "false" : "false",
           },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (tRes.succeeded && hideTicket) {
         setHideInbox((prev) => ({
           ...prev!,
@@ -308,24 +296,23 @@ const UserPanelDirectInbox = () => {
   };
   const handleScroll = () => {
     const container = userListRef.current;
-    if (
-      container &&
-      container.scrollHeight - container.scrollTop === container.clientHeight
-    ) {
+    if (container && container.scrollHeight - container.scrollTop === container.clientHeight) {
       loadMoreItems();
     }
   };
-  const fetchData = async (
-    isHide: boolean,
-    oldestCursor: string | null,
-    query: string | null,
-  ) => {
+  const fetchData = async (isHide: boolean, oldestCursor: string | null, query: string | null) => {
     try {
-      let tRes = await clientFetchApi<boolean, IUserPanelMessage>("/api/systemticket/GetSystemInbox", { methodType: MethodType.get, session: session, data: null, queries: [
+      let tRes = await clientFetchApi<boolean, IUserPanelMessage>("/api/systemticket/GetSystemInbox", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "isHide", value: isHide.toString() },
           { key: "nextMaxId", value: oldestCursor ? oldestCursor : undefined },
           { key: "query", value: query || "" },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       console.log("generalResssssssssssss", tRes);
       if (tRes.succeeded && !query) {
         setTicketInbox((prev) => ({
@@ -361,11 +348,17 @@ const UserPanelDirectInbox = () => {
   };
   async function fetchHides() {
     try {
-      let res = await clientFetchApi<boolean, IUserPanelMessage>("/api/systemticket/GetSystemInbox", { methodType: MethodType.get, session: session, data: null, queries: [
+      let res = await clientFetchApi<boolean, IUserPanelMessage>("/api/systemticket/GetSystemInbox", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "isHide", value: "true" },
           { key: "query", value: undefined },
           { key: "nextMaxId", value: undefined },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       console.log(" ✅ Console ⋙ Hide", res.value);
       if (res.succeeded) setHideInbox(res.value);
       else notify(res.info.responseType, NotifType.Warning);
@@ -376,7 +369,13 @@ const UserPanelDirectInbox = () => {
   const fetchTicket = async () => {
     var uniqueTicket: ITicket[] = [];
     try {
-      let res = await clientFetchApi<boolean, IUserPanelMessage>("/api/systemticket/GetSystemInbox", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      let res = await clientFetchApi<boolean, IUserPanelMessage>("/api/systemticket/GetSystemInbox", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       setTicketInbox(res.value);
       console.log("res.value ", res.value);
       uniqueTicket = res.value.tickets;
@@ -386,9 +385,7 @@ const UserPanelDirectInbox = () => {
       if (query.id === undefined) return;
       var ticketId = query.id;
       if (ticketId) {
-        var oldTickets = uniqueTicket.find(
-          (x) => x.ticketId === parseInt(ticketId as string),
-        );
+        var oldTickets = uniqueTicket.find((x) => x.ticketId === parseInt(ticketId as string));
         // var oldBusiness = uniqeBusinessThreads.find(
         //   (x) => x.threadId === threadIdRouter
         // );
@@ -409,13 +406,19 @@ const UserPanelDirectInbox = () => {
     if (onLoading) return;
     onLoading = true;
     try {
-      let newTicket = await clientFetchApi<boolean, ITicket>("/api/systemticket/GetSystemTicket", { methodType: MethodType.get, session: session, data: null, queries: [
+      let newTicket = await clientFetchApi<boolean, ITicket>("/api/systemticket/GetSystemTicket", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "ticketId", value: ticket.ticketId.toString() },
           {
             key: "nextMaxId",
             value: ticket.nextMaxId!.toString(),
           },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       console.log("newThreadFetch", newTicket);
       if (newTicket.succeeded) {
         // updateInboxFromChatBox(
@@ -423,9 +426,7 @@ const UserPanelDirectInbox = () => {
         //   newThread.value.items,
         //   newThread.value.nextMaxId
         // );
-        var myTicket = ticketInbox?.tickets.find(
-          (x) => x.ticketId === ticket.ticketId,
-        );
+        var myTicket = ticketInbox?.tickets.find((x) => x.ticketId === ticket.ticketId);
         if (myTicket) {
           setTicketInbox((prev) => ({
             ...prev!,
@@ -454,12 +455,8 @@ const UserPanelDirectInbox = () => {
   };
   async function handleSendMessage(message: ISendTicketMessage) {
     console.log("IIsSendingMessage", message);
-    var mainTicket = ticketInbox?.tickets.find(
-      (x) => x.ticketId === message.ticketId,
-    );
-    var hideTicket = hideInbox?.tickets.find(
-      (x) => x.ticketId === message.ticketId,
-    );
+    var mainTicket = ticketInbox?.tickets.find((x) => x.ticketId === message.ticketId);
+    var hideTicket = hideInbox?.tickets.find((x) => x.ticketId === message.ticketId);
     setSendingMessages((prev) => [...prev, message]);
     var uploadId = "";
     if (message.itemType === ITicketMediaType.Image) {
@@ -467,32 +464,31 @@ const UserPanelDirectInbox = () => {
       uploadId = res1.fileName;
     }
     try {
-      const res = await clientFetchApi<ISendTicketMessage, IItem>("/api/systemticket/AddSystemTicketItem", { methodType: MethodType.post, session: session, data: {
+      const res = await clientFetchApi<ISendTicketMessage, IItem>("/api/systemticket/AddSystemTicketItem", {
+        methodType: MethodType.post,
+        session: session,
+        data: {
           itemType: message.itemType,
           text: message.text,
-          imageUrl:
-            message.itemType === ITicketMediaType.Image ? uploadId : null,
-        }, queries: [{ key: "ticketId", value: message.ticketId.toString() }], onUploadProgress: undefined });
+          imageUrl: message.itemType === ITicketMediaType.Image ? uploadId : null,
+        },
+        queries: [{ key: "ticketId", value: message.ticketId.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
-        setSendingMessages((prev) =>
-          prev.filter((x) => x.ticketId !== message.ticketId),
-        );
+        setSendingMessages((prev) => prev.filter((x) => x.ticketId !== message.ticketId));
         if (mainTicket)
           setTicketInbox((prev) => ({
             ...prev!,
             tickets: prev!.tickets.map((x) =>
-              x.ticketId !== message.ticketId
-                ? x
-                : { ...x, items: [res.value, ...x.items] },
+              x.ticketId !== message.ticketId ? x : { ...x, items: [res.value, ...x.items] },
             ),
           }));
         else if (hideTicket) {
           setHideInbox((prev) => ({
             ...prev!,
             tickets: prev!.tickets.map((x) =>
-              x.ticketId !== message.ticketId
-                ? x
-                : { ...x, items: [res.value, ...x.items] },
+              x.ticketId !== message.ticketId ? x : { ...x, items: [res.value, ...x.items] },
             ),
           }));
         }
@@ -515,11 +511,7 @@ const UserPanelDirectInbox = () => {
     setShowSendFile(false);
     setFileContent(null);
   };
-  const handleSendFile = (sendFile: {
-    file: File;
-    threadId: string;
-    igid: string;
-  }) => {
+  const handleSendFile = (sendFile: { file: File; threadId: string; igid: string }) => {
     console.log("sendFile", sendFile);
     setFileContent(sendFile);
     setShowSendFile(true);
@@ -527,14 +519,18 @@ const UserPanelDirectInbox = () => {
   async function handleSendRead(ticketId: number) {
     console.log("readdddddddddddddddddddddddddddddddd");
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/systemticket/SeenSystemTicket", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "ticketId", value: ticketId.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/systemticket/SeenSystemTicket", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "ticketId", value: ticketId.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setTicketInbox((prev) => ({
           ...prev!,
           tickets: prev!.tickets.map((x) =>
-            x.ticketId !== ticketId
-              ? x
-              : { ...x, userLastSeenUnix: Date.now() * 1000 },
+            x.ticketId !== ticketId ? x : { ...x, userLastSeenUnix: Date.now() * 1000 },
           ),
         }));
       } else notify(res.info.responseType, NotifType.Warning);
@@ -549,29 +545,24 @@ const UserPanelDirectInbox = () => {
     // setServerHahstagListId(e.currentTarget.id);
   };
   const showUserList = () => {
-    if (
-      typeof window !== undefined &&
-      window.innerWidth <= 800 &&
-      displayLeft === "none"
-    ) {
+    if (typeof window !== undefined && window.innerWidth <= 800 && displayLeft === "none") {
       setDisplayLeft("");
       setDisplayRight("none");
     }
     // setChatBox(null);
     setUserSelectedId(null);
   };
-  async function handleSendReport(
-    report: { title: string; message: string },
-    ticketId: number,
-  ) {
+  async function handleSendReport(report: { title: string; message: string }, ticketId: number) {
     try {
-      var mainTicket = ticketInbox?.tickets.find(
-        (x) => x.ticketId === ticketId,
-      );
+      var mainTicket = ticketInbox?.tickets.find((x) => x.ticketId === ticketId);
       var hideTicket = hideInbox?.tickets.find((x) => x.ticketId === ticketId);
-      const res = await clientFetchApi<{ title: string; message: string }, boolean>("/api/systemticket/ReportToAdmin", { methodType: MethodType.post, session: session, data: report, queries: [
-        { key: "ticketId", value: ticketId.toString() },
-      ], onUploadProgress: undefined });
+      const res = await clientFetchApi<{ title: string; message: string }, boolean>("/api/systemticket/ReportToAdmin", {
+        methodType: MethodType.post,
+        session: session,
+        data: report,
+        queries: [{ key: "ticketId", value: ticketId.toString() }],
+        onUploadProgress: undefined,
+      });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
       else if (res.succeeded && mainTicket) {
         setTicketInbox((prev) => ({
@@ -619,18 +610,10 @@ const UserPanelDirectInbox = () => {
 
   function handleSpecifyChatBox() {
     if (showSearchThread.searchMode) {
-      return searchTicketInbox?.tickets.find(
-        (x) => x.ticketId === userSelectedId,
-      );
-    } else if (
-      !showSearchThread.searchMode &&
-      ticketInbox?.tickets.find((x) => x.ticketId === userSelectedId)
-    ) {
+      return searchTicketInbox?.tickets.find((x) => x.ticketId === userSelectedId);
+    } else if (!showSearchThread.searchMode && ticketInbox?.tickets.find((x) => x.ticketId === userSelectedId)) {
       return ticketInbox?.tickets.find((x) => x.ticketId === userSelectedId);
-    } else if (
-      !showSearchThread.searchMode &&
-      hideInbox?.tickets.find((x) => x.ticketId === userSelectedId)
-    ) {
+    } else if (!showSearchThread.searchMode && hideInbox?.tickets.find((x) => x.ticketId === userSelectedId)) {
       return hideInbox?.tickets.find((x) => x.ticketId === userSelectedId);
     }
   }
@@ -679,9 +662,7 @@ const UserPanelDirectInbox = () => {
   function handleSpecifyUnread(items: IItem[], ticket: ITicket) {
     let unSeenDiv = <></>;
     const newItems = items
-      .filter(
-        (item) => item.timeStampUnix > ticket.userLastSeenUnix && item.sentByFb,
-      )
+      .filter((item) => item.timeStampUnix > ticket.userLastSeenUnix && item.sentByFb)
       .sort((a, b) => a.timeStampUnix - b.timeStampUnix);
     if (newItems.length > 0) {
       unSeenDiv = (
@@ -753,16 +734,8 @@ const UserPanelDirectInbox = () => {
                     title="ℹ️ Archieved Messages"
                     className={styles.readandunread}
                     onClick={() => setActiveHideInbox(false)}
-                    style={
-                      activeReadState
-                        ? {}
-                        : { border: "1px solid var(--color-dark-blue)" }
-                    }>
-                    <svg
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 36 36"
-                      className={styles.eyeIcon}>
+                    style={activeReadState ? {} : { border: "1px solid var(--color-dark-blue)" }}>
+                    <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36" className={styles.eyeIcon}>
                       <path
                         opacity=".4"
                         d="m25.58 15.38 4.18.14c1.15.16 2.14.5 2.94 1.28.79.8 1.12 1.8 1.28 2.94.15 1.1.14 2.64.14 4.34l-.14 4.18a5 5 0 0 1-1.28 2.94 5 5 0 0 1-2.94 1.28c-1.1.15-2.48.15-4.18.15H10.42c-1.7 0-3.1 0-4.18-.15A5 5 0 0 1 3.3 31.2a5 5 0 0 1-1.28-2.94c-.15-1.1-.15-2.48-.15-4.18l.15-4.34A5 5 0 0 1 3.3 16.8a5 5 0 0 1 2.94-1.28c1.1-.14 2.48-.14 4.18-.14z"
@@ -802,11 +775,7 @@ const UserPanelDirectInbox = () => {
                   onClick={() => setActiveReadState(!activeReadState)}
                   className={styles.readandunread}
                   title="ℹ️ Unread message only"
-                  style={
-                    activeReadState
-                      ? { border: "1px solid var(--color-dark-blue)" }
-                      : {}
-                  }>
+                  style={activeReadState ? { border: "1px solid var(--color-dark-blue)" } : {}}>
                   {activeReadState ? (
                     <svg
                       className={styles.eyeIcon}
@@ -850,10 +819,7 @@ const UserPanelDirectInbox = () => {
                 </div>
               </div>
               {/* ___list of user ___*/}
-              <div
-                className={styles.userslist}
-                ref={userListRef}
-                onScroll={handleScroll}>
+              <div className={styles.userslist} ref={userListRef} onScroll={handleScroll}>
                 {/* ___users list___*/}
                 {!showSearchThread.searchMode &&
                   ticketInbox &&
@@ -862,29 +828,20 @@ const UserPanelDirectInbox = () => {
                     <div key={v.ticketId}>
                       {((activeReadState &&
                         v.items
-                          .filter(
-                            (item) => item.timeStampUnix > v.userLastSeenUnix,
-                          )
-                          .sort((a, b) => a.timeStampUnix - b.timeStampUnix)
-                          .length > 0) ||
+                          .filter((item) => item.timeStampUnix > v.userLastSeenUnix)
+                          .sort((a, b) => a.timeStampUnix - b.timeStampUnix).length > 0) ||
                         !activeReadState) && (
                         <div
                           key={v.ticketId}
                           onMouseDown={() => handleMouseDown()}
                           onMouseUp={() => handleMouseUp()}
-                          onMouseMove={() =>
-                            handleMouseMove(v.ticketId.toString())
-                          }
-                          onTouchEnd={() =>
-                            handleTouchEnd(v.ticketId.toString())
-                          }
+                          onMouseMove={() => handleMouseMove(v.ticketId.toString())}
+                          onTouchEnd={() => handleTouchEnd(v.ticketId.toString())}
                           onClick={() => {
                             handleGetTicketChats(v);
                           }}
                           className={
-                            v.ticketId === userSelectedId
-                              ? styles.selectedUserbackground
-                              : styles.userbackground
+                            v.ticketId === userSelectedId ? styles.selectedUserbackground : styles.userbackground
                           }>
                           <div
                             className={styles.user}
@@ -901,18 +858,12 @@ const UserPanelDirectInbox = () => {
                               />
                             </div>
                             <div className={styles.profile}>
-                              <div
-                                className={styles.username}
-                                title={v.username ? v.username : ""}>
+                              <div className={styles.username} title={v.username ? v.username : ""}>
                                 {v.username}
                               </div>
-                              <div className={styles.messagetext}>
-                                {v.subject}
-                              </div>
+                              <div className={styles.messagetext}>{v.subject}</div>
                             </div>
-                            <div
-                              className={styles.notifbox}
-                              title="ℹ️ Slide to more">
+                            <div className={styles.notifbox} title="ℹ️ Slide to more">
                               <div className={styles.settingbox}>
                                 {handleSpecifyUnread(v.items, v)}
                                 {v.isPin && (
@@ -943,53 +894,52 @@ const UserPanelDirectInbox = () => {
                               </div>
                             </div>
                           </div>
-                          {showMoreSettingDiv &&
-                            showDivIndex === v.ticketId && (
-                              <>
-                                <div className={styles.moresetting}>
-                                  <div
-                                    title="ℹ️ Delete"
-                                    onClick={() => handleHideDiv(v.ticketId)}
-                                    className={styles[moreSettingClassName]}>
-                                    <svg
-                                      width="23"
-                                      height="25"
-                                      fill="none"
-                                      className={styles.dragicon}
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      viewBox="0 0 36 36">
-                                      <path
-                                        opacity=".4"
-                                        d="m29.37 23.48-.39 4.57a7 7 0 0 1-1.1 3.13 7 7 0 0 1-2.14 2.02c-.92.56-1.94.8-3.16.92H13.4a7 7 0 0 1-3.16-.93 7 7 0 0 1-2.13-2.02 7 7 0 0 1-1.1-3.13 50 50 0 0 1-.4-4.57L5.62 7.13h24.75z"
-                                      />
-                                      <path d="M14.25 26.95a1.1 1.1 0 0 1-1.12-1.13v-9a1.13 1.13 0 0 1 2.24 0v9c0 .62-.5 1.13-1.12 1.13m7.5-11.25c.62 0 1.13.5 1.13 1.12v9a1.13 1.13 0 0 1-2.25 0v-9a1.1 1.1 0 0 1 1.12-1.12M20.02 1.92a4.5 4.5 0 0 1 2.33.85q.73.58 1.16 1.34.4.7.87 1.7l.64 1.32h6.48a1.5 1.5 0 0 1 0 3h-27a1.5 1.5 0 1 1 0-3h6.61l.54-1.17q.45-1.03.86-1.76c.3-.52.64-1 1.15-1.4q1.06-.77 2.37-.87A18 18 0 0 1 18 1.88q1.16-.01 2.02.04m-5.6 5.2h7.27a19 19 0 0 0-.76-1.47 1.4 1.4 0 0 0-1.18-.74c-.39-.03-.9-.03-1.7-.03l-1.74.03c-.56.05-.91.27-1.2.77-.19.33-.39.77-.7 1.45" />
-                                    </svg>
+                          {showMoreSettingDiv && showDivIndex === v.ticketId && (
+                            <>
+                              <div className={styles.moresetting}>
+                                <div
+                                  title="ℹ️ Delete"
+                                  onClick={() => handleHideDiv(v.ticketId)}
+                                  className={styles[moreSettingClassName]}>
+                                  <svg
+                                    width="23"
+                                    height="25"
+                                    fill="none"
+                                    className={styles.dragicon}
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 36 36">
+                                    <path
+                                      opacity=".4"
+                                      d="m29.37 23.48-.39 4.57a7 7 0 0 1-1.1 3.13 7 7 0 0 1-2.14 2.02c-.92.56-1.94.8-3.16.92H13.4a7 7 0 0 1-3.16-.93 7 7 0 0 1-2.13-2.02 7 7 0 0 1-1.1-3.13 50 50 0 0 1-.4-4.57L5.62 7.13h24.75z"
+                                    />
+                                    <path d="M14.25 26.95a1.1 1.1 0 0 1-1.12-1.13v-9a1.13 1.13 0 0 1 2.24 0v9c0 .62-.5 1.13-1.12 1.13m7.5-11.25c.62 0 1.13.5 1.13 1.12v9a1.13 1.13 0 0 1-2.25 0v-9a1.1 1.1 0 0 1 1.12-1.12M20.02 1.92a4.5 4.5 0 0 1 2.33.85q.73.58 1.16 1.34.4.7.87 1.7l.64 1.32h6.48a1.5 1.5 0 0 1 0 3h-27a1.5 1.5 0 1 1 0-3h6.61l.54-1.17q.45-1.03.86-1.76c.3-.52.64-1 1.15-1.4q1.06-.77 2.37-.87A18 18 0 0 1 18 1.88q1.16-.01 2.02.04m-5.6 5.2h7.27a19 19 0 0 0-.76-1.47 1.4 1.4 0 0 0-1.18-.74c-.39-.03-.9-.03-1.7-.03l-1.74.03c-.56.05-.91.27-1.2.77-.19.33-.39.77-.7 1.45" />
+                                  </svg>
 
-                                    {/* Delete */}
-                                  </div>
-                                  <div
-                                    title="ℹ️ Pin"
-                                    onClick={() => handlePinDiv(v.ticketId)}
-                                    className={styles[moreSettingClassName]}>
-                                    <svg
-                                      className={styles.dragicon}
-                                      width="20"
-                                      height="20"
-                                      fill="none"
-                                      xmlns="http://www.w3.org/2000/svg"
-                                      viewBox="0 0 36 36">
-                                      <path d="M26.56 3.83a9.3 9.3 0 0 1 5.61 5.6c.16.45.35.97.42 1.43.08.55.03 1.06-.18 1.63-.43 1.21-1.41 1.75-2.5 2.35l-2.12 1.19c-.77.43-1.28.71-1.64.96s-.45.38-.5.46c-.01.05-.08.25-.06.93.01.63.1 1.5.21 2.72a9 9 0 0 1-1.27 5.76c-.2.3-.44.7-.71.98q-.47.51-1.16.78-.7.29-1.4.25c-.4-.02-.86-.12-1.25-.21a17 17 0 0 1-8.04-4.63 17 17 0 0 1-4.63-8.04 8 8 0 0 1-.21-1.25 3 3 0 0 1 .25-1.4q.29-.7.78-1.16a9 9 0 0 1 6.69-2c1.25.1 2.13.19 2.78.2.32 0 .73.03.94-.08.08-.04.22-.14.46-.5.25-.35.54-.86.97-1.63l1.16-2.09c.6-1.08 1.14-2.06 2.35-2.5.57-.2 1.08-.25 1.63-.17.46.07.98.26 1.42.42" />
-                                      <path
-                                        opacity=".6"
-                                        d="M10.96 22.92 3.8 30.06a1.5 1.5 0 1 0 2.13 2.12l7.14-7.14a19 19 0 0 1-2.12-2.12"
-                                      />
-                                    </svg>
-
-                                    {/* Pin */}
-                                  </div>
+                                  {/* Delete */}
                                 </div>
-                              </>
-                            )}
+                                <div
+                                  title="ℹ️ Pin"
+                                  onClick={() => handlePinDiv(v.ticketId)}
+                                  className={styles[moreSettingClassName]}>
+                                  <svg
+                                    className={styles.dragicon}
+                                    width="20"
+                                    height="20"
+                                    fill="none"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 36 36">
+                                    <path d="M26.56 3.83a9.3 9.3 0 0 1 5.61 5.6c.16.45.35.97.42 1.43.08.55.03 1.06-.18 1.63-.43 1.21-1.41 1.75-2.5 2.35l-2.12 1.19c-.77.43-1.28.71-1.64.96s-.45.38-.5.46c-.01.05-.08.25-.06.93.01.63.1 1.5.21 2.72a9 9 0 0 1-1.27 5.76c-.2.3-.44.7-.71.98q-.47.51-1.16.78-.7.29-1.4.25c-.4-.02-.86-.12-1.25-.21a17 17 0 0 1-8.04-4.63 17 17 0 0 1-4.63-8.04 8 8 0 0 1-.21-1.25 3 3 0 0 1 .25-1.4q.29-.7.78-1.16a9 9 0 0 1 6.69-2c1.25.1 2.13.19 2.78.2.32 0 .73.03.94-.08.08-.04.22-.14.46-.5.25-.35.54-.86.97-1.63l1.16-2.09c.6-1.08 1.14-2.06 2.35-2.5.57-.2 1.08-.25 1.63-.17.46.07.98.26 1.42.42" />
+                                    <path
+                                      opacity=".6"
+                                      d="M10.96 22.92 3.8 30.06a1.5 1.5 0 1 0 2.13 2.12l7.14-7.14a19 19 0 0 1-2.12-2.12"
+                                    />
+                                  </svg>
+
+                                  {/* Pin */}
+                                </div>
+                              </div>
+                            </>
+                          )}
                         </div>
                       )}
                     </div>
@@ -997,36 +947,25 @@ const UserPanelDirectInbox = () => {
                 {showSearchThread.searchMode && !activeHideInbox && (
                   <>
                     {showSearchThread.loading && <RingLoader />}
-                    {showSearchThread.noResult && (
-                      <h1 className="title2"> {t(LanguageKey.noresult)}</h1>
-                    )}
+                    {showSearchThread.noResult && <h1 className="title2"> {t(LanguageKey.noresult)}</h1>}
                     {!showSearchThread.loading &&
                       !showSearchThread.noResult &&
                       searchTicketInbox?.tickets.map(
                         (v) =>
                           ((activeReadState &&
                             v.items
-                              .filter(
-                                (item) => item.timeStampUnix > v.createdTime,
-                              )
-                              .sort((a, b) => a.timeStampUnix - b.timeStampUnix)
-                              .length > 0) ||
+                              .filter((item) => item.timeStampUnix > v.createdTime)
+                              .sort((a, b) => a.timeStampUnix - b.timeStampUnix).length > 0) ||
                             !activeReadState) && (
                             <div
                               key={v.ticketId}
                               onMouseDown={() => handleMouseDown()}
                               onMouseUp={() => handleMouseUp()}
-                              onMouseMove={() =>
-                                handleMouseMove(v.ticketId.toString())
-                              }
-                              onTouchEnd={() =>
-                                handleTouchEnd(v.ticketId.toString())
-                              }
+                              onMouseMove={() => handleMouseMove(v.ticketId.toString())}
+                              onTouchEnd={() => handleTouchEnd(v.ticketId.toString())}
                               onClick={() => handleSelectSearch(v)}
                               className={
-                                v.ticketId === userSelectedId
-                                  ? styles.selectedUserbackground
-                                  : styles.userbackground
+                                v.ticketId === userSelectedId ? styles.selectedUserbackground : styles.userbackground
                               }>
                               <div
                                 className={styles.user}
@@ -1043,23 +982,14 @@ const UserPanelDirectInbox = () => {
                                   />
                                 </div>
                                 <div className={styles.profile}>
-                                  <div
-                                    className={styles.username}
-                                    title={v.username ? v.username : ""}>
+                                  <div className={styles.username} title={v.username ? v.username : ""}>
                                     {v.username}
                                   </div>
                                   <div className={styles.messagetext}>
-                                    {handleLastMessage(
-                                      v.items.sort(
-                                        (a, b) =>
-                                          b.timeStampUnix - a.timeStampUnix,
-                                      )[0],
-                                    )}
+                                    {handleLastMessage(v.items.sort((a, b) => b.timeStampUnix - a.timeStampUnix)[0])}
                                   </div>
                                 </div>
-                                <div
-                                  className={styles.notifbox}
-                                  title="ℹ️ Slide to more">
+                                <div className={styles.notifbox} title="ℹ️ Slide to more">
                                   {handleSpecifyUnread(v.items, v)}
                                   <div className={styles.chattime}>
                                     {new DateObject({
@@ -1082,27 +1012,17 @@ const UserPanelDirectInbox = () => {
                         (v) =>
                           ((activeReadState &&
                             v.items
-                              .filter(
-                                (item) =>
-                                  item.timeStampUnix > v.userLastSeenUnix,
-                              )
-                              .sort((a, b) => a.timeStampUnix - b.timeStampUnix)
-                              .length > 0) ||
+                              .filter((item) => item.timeStampUnix > v.userLastSeenUnix)
+                              .sort((a, b) => a.timeStampUnix - b.timeStampUnix).length > 0) ||
                             !activeReadState) && (
                             <div
                               key={v.ticketId}
                               onMouseDown={() => handleMouseDown()}
                               onMouseUp={() => handleMouseUp()}
-                              onMouseMove={() =>
-                                handleMouseMove(v.ticketId.toString())
-                              }
-                              onTouchEnd={() =>
-                                handleTouchEnd(v.ticketId.toString())
-                              }
+                              onMouseMove={() => handleMouseMove(v.ticketId.toString())}
+                              onTouchEnd={() => handleTouchEnd(v.ticketId.toString())}
                               className={
-                                v.ticketId === userSelectedId
-                                  ? styles.selectedUserbackground
-                                  : styles.userbackground
+                                v.ticketId === userSelectedId ? styles.selectedUserbackground : styles.userbackground
                               }>
                               <div
                                 className={styles.user}
@@ -1119,18 +1039,12 @@ const UserPanelDirectInbox = () => {
                                   />
                                 </div>
                                 <div className={styles.profile}>
-                                  <div
-                                    className={styles.username}
-                                    title={v.username ? v.username : ""}>
+                                  <div className={styles.username} title={v.username ? v.username : ""}>
                                     {v.username}
                                   </div>
-                                  <div className={styles.messagetext}>
-                                    {v.items[0].text}
-                                  </div>
+                                  <div className={styles.messagetext}>{v.items[0].text}</div>
                                 </div>
-                                <div
-                                  className={styles.notifbox}
-                                  title="ℹ️ Slide to more">
+                                <div className={styles.notifbox} title="ℹ️ Slide to more">
                                   {handleSpecifyUnread(v.items, v)}
                                   <div className={styles.chattime}>
                                     {new DateObject({
@@ -1141,35 +1055,30 @@ const UserPanelDirectInbox = () => {
                                   </div>
                                 </div>
                               </div>
-                              {showMoreSettingDiv &&
-                                showDivIndex === v.ticketId && (
-                                  <>
-                                    <div className={styles.moresetting}>
-                                      <div
-                                        title="ℹ️ UnHide"
-                                        onClick={() =>
-                                          handleHideDiv(v.ticketId)
-                                        }
-                                        className={
-                                          styles[moreSettingClassName]
-                                        }>
-                                        <svg
-                                          width="23"
-                                          height="25"
-                                          fill="none"
-                                          className={styles.dragicon}
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          viewBox="0 0 36 36">
-                                          <path
-                                            opacity=".4"
-                                            d="m29.37 23.48-.39 4.57a7 7 0 0 1-1.1 3.13 7 7 0 0 1-2.14 2.02c-.92.56-1.94.8-3.16.92H13.4a7 7 0 0 1-3.16-.93 7 7 0 0 1-2.13-2.02 7 7 0 0 1-1.1-3.13 50 50 0 0 1-.4-4.57L5.62 7.13h24.75z"
-                                          />
-                                          <path d="M14.25 26.95a1.1 1.1 0 0 1-1.12-1.13v-9a1.13 1.13 0 0 1 2.24 0v9c0 .62-.5 1.13-1.12 1.13m7.5-11.25c.62 0 1.13.5 1.13 1.12v9a1.13 1.13 0 0 1-2.25 0v-9a1.1 1.1 0 0 1 1.12-1.12M20.02 1.92a4.5 4.5 0 0 1 2.33.85q.73.58 1.16 1.34.4.7.87 1.7l.64 1.32h6.48a1.5 1.5 0 0 1 0 3h-27a1.5 1.5 0 1 1 0-3h6.61l.54-1.17q.45-1.03.86-1.76c.3-.52.64-1 1.15-1.4q1.06-.77 2.37-.87A18 18 0 0 1 18 1.88q1.16-.01 2.02.04m-5.6 5.2h7.27a19 19 0 0 0-.76-1.47 1.4 1.4 0 0 0-1.18-.74c-.39-.03-.9-.03-1.7-.03l-1.74.03c-.56.05-.91.27-1.2.77-.19.33-.39.77-.7 1.45" />
-                                        </svg>
-                                      </div>
+                              {showMoreSettingDiv && showDivIndex === v.ticketId && (
+                                <>
+                                  <div className={styles.moresetting}>
+                                    <div
+                                      title="ℹ️ UnHide"
+                                      onClick={() => handleHideDiv(v.ticketId)}
+                                      className={styles[moreSettingClassName]}>
+                                      <svg
+                                        width="23"
+                                        height="25"
+                                        fill="none"
+                                        className={styles.dragicon}
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        viewBox="0 0 36 36">
+                                        <path
+                                          opacity=".4"
+                                          d="m29.37 23.48-.39 4.57a7 7 0 0 1-1.1 3.13 7 7 0 0 1-2.14 2.02c-.92.56-1.94.8-3.16.92H13.4a7 7 0 0 1-3.16-.93 7 7 0 0 1-2.13-2.02 7 7 0 0 1-1.1-3.13 50 50 0 0 1-.4-4.57L5.62 7.13h24.75z"
+                                        />
+                                        <path d="M14.25 26.95a1.1 1.1 0 0 1-1.12-1.13v-9a1.13 1.13 0 0 1 2.24 0v9c0 .62-.5 1.13-1.12 1.13m7.5-11.25c.62 0 1.13.5 1.13 1.12v9a1.13 1.13 0 0 1-2.25 0v-9a1.1 1.1 0 0 1 1.12-1.12M20.02 1.92a4.5 4.5 0 0 1 2.33.85q.73.58 1.16 1.34.4.7.87 1.7l.64 1.32h6.48a1.5 1.5 0 0 1 0 3h-27a1.5 1.5 0 1 1 0-3h6.61l.54-1.17q.45-1.03.86-1.76c.3-.52.64-1 1.15-1.4q1.06-.77 2.37-.87A18 18 0 0 1 18 1.88q1.16-.01 2.02.04m-5.6 5.2h7.27a19 19 0 0 0-.76-1.47 1.4 1.4 0 0 0-1.18-.74c-.39-.03-.9-.03-1.7-.03l-1.74.03c-.56.05-.91.27-1.2.77-.19.33-.39.77-.7 1.45" />
+                                      </svg>
                                     </div>
-                                  </>
-                                )}
+                                  </div>
+                                </>
+                              )}
                             </div>
                           ),
                       )}
@@ -1178,9 +1087,7 @@ const UserPanelDirectInbox = () => {
                 {activeHideInbox && showSearchThread.searchMode && (
                   <>
                     {showSearchThread.loading && <RingLoader />}
-                    {showSearchThread.noResult && (
-                      <h1 className="title2"> {t(LanguageKey.noresult)}</h1>
-                    )}
+                    {showSearchThread.noResult && <h1 className="title2"> {t(LanguageKey.noresult)}</h1>}
                     {!showSearchThread.loading &&
                       !showSearchThread.noResult &&
                       searchHideInbox &&
@@ -1188,26 +1095,17 @@ const UserPanelDirectInbox = () => {
                         (v) =>
                           ((activeReadState &&
                             v.items
-                              .filter(
-                                (item) => item.timeStampUnix > v.createdTime,
-                              )
-                              .sort((a, b) => a.timeStampUnix - b.timeStampUnix)
-                              .length > 0) ||
+                              .filter((item) => item.timeStampUnix > v.createdTime)
+                              .sort((a, b) => a.timeStampUnix - b.timeStampUnix).length > 0) ||
                             !activeReadState) && (
                             <div
                               key={v.ticketId}
                               onMouseDown={() => handleMouseDown()}
                               onMouseUp={() => handleMouseUp()}
-                              onMouseMove={() =>
-                                handleMouseMove(v.ticketId.toString())
-                              }
-                              onTouchEnd={() =>
-                                handleTouchEnd(v.ticketId.toString())
-                              }
+                              onMouseMove={() => handleMouseMove(v.ticketId.toString())}
+                              onTouchEnd={() => handleTouchEnd(v.ticketId.toString())}
                               className={
-                                v.ticketId === userSelectedId
-                                  ? styles.selectedUserbackground
-                                  : styles.userbackground
+                                v.ticketId === userSelectedId ? styles.selectedUserbackground : styles.userbackground
                               }>
                               <div
                                 key={v.ticketId}
@@ -1225,18 +1123,12 @@ const UserPanelDirectInbox = () => {
                                   />
                                 </div>
                                 <div className={styles.profile}>
-                                  <div
-                                    className={styles.username}
-                                    title={v.username ? v.username : ""}>
+                                  <div className={styles.username} title={v.username ? v.username : ""}>
                                     {v.username}
                                   </div>
-                                  <div className={styles.messagetext}>
-                                    {v.items[0].text}
-                                  </div>
+                                  <div className={styles.messagetext}>{v.items[0].text}</div>
                                 </div>
-                                <div
-                                  className={styles.notifbox}
-                                  title="ℹ️ Slide to more">
+                                <div className={styles.notifbox} title="ℹ️ Slide to more">
                                   {handleSpecifyUnread(v.items, v)}
                                   <div className={styles.chattime}>
                                     {new DateObject({
@@ -1266,16 +1158,10 @@ const UserPanelDirectInbox = () => {
                   handleShowIcon={handleShowIcon}
                   handleSendReport={handleSendReport}
                   fetchItemData={fetchItemData}
-                  sendingMessages={sendingMessages.filter(
-                    (x) => x.ticketId === userSelectedId,
-                  )}
+                  sendingMessages={sendingMessages.filter((x) => x.ticketId === userSelectedId)}
                   handleSendMessage={handleSendMessage}
                   handleSendRead={handleSendRead}
-                  onImageContainerClick={(info: {
-                    url: string;
-                    width: number;
-                    height: number;
-                  }) => {
+                  onImageContainerClick={(info: { url: string; width: number; height: number }) => {
                     mediaModal.openImage(info.url, info.width, info.height);
                   }}
                   setShowReport={setShowReport}
@@ -1285,41 +1171,24 @@ const UserPanelDirectInbox = () => {
               </div>
             )}
             {!userSelectedId && (
-              <div
-                className={styles.disableRight}
-                style={{ display: displayRight }}>
-                <img
-                  className={styles.disableRightimage}
-                  alt="instagram profile picture"
-                  src="/disableright.svg"
-                />
+              <div className={styles.disableRight} style={{ display: displayRight }}>
+                <img className={styles.disableRightimage} alt="instagram profile picture" src="/disableright.svg" />
                 Select a chat to start messaging
               </div>
             )}
           </div>
         </div>
       )}
-      <MediaModal
-        isOpen={mediaModal.isOpen}
-        media={mediaModal.media}
-        onClose={mediaModal.close}
-      />
+      <MediaModal isOpen={mediaModal.isOpen} media={mediaModal.media} onClose={mediaModal.close} />
       {fileContent && (
         <Modal
           closePopup={() => setShowSendFile(false)}
           classNamePopup={"popupSendFile"}
           showContent={showSendFile && fileContent !== null}>
-          <SendFile
-            removeMask={() => setShowSendFile(false)}
-            data={fileContent!}
-            send={handleSendImage}
-          />
+          <SendFile removeMask={() => setShowSendFile(false)} data={fileContent!} send={handleSendImage} />
         </Modal>
       )}
-      <Modal
-        closePopup={() => setShowReport(false)}
-        classNamePopup={"popup"}
-        showContent={showReport}>
+      <Modal closePopup={() => setShowReport(false)} classNamePopup={"popup"} showContent={showReport}>
         <ReportModal
           report={report}
           setReport={setReport}

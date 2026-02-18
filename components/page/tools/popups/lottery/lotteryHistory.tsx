@@ -10,7 +10,7 @@ import { NotifType, notify, ResponseType } from "saeed/components/notifications/
 import { getEnumValue } from "saeed/helper/handleItemTypeEnum";
 import initialzedTime from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import {
   FailLotteryStatus,
   FailLotteryStatusStr,

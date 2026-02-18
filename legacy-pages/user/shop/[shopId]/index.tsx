@@ -14,7 +14,7 @@ import SignIn, { RedirectType, SignInType } from "saeed/components/signIn/signIn
 import SignInPage1 from "saeed/components/signIn/signInPage1";
 import findSystemLanguage from "saeed/helper/findSystemLanguage";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { AvailabilityStatus } from "saeed/models/store/enum";
 import {
   IFilter,

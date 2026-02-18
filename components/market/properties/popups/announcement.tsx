@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import TextArea from "saeed/components/design/textArea/textArea";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { IAnnouncementInfo } from "saeed/models/market/properties";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";
 

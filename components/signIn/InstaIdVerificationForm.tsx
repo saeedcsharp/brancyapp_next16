@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from "react";
 import { IRefreshToken } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import RingLoader from "../design/loader/ringLoder";
 import { internalNotify, InternalResponseType, NotifType, notify } from "../notifications/notificationBox";
 import styles from "./verificationForm.module.css";

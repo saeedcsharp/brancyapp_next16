@@ -4,7 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { InstagramerAccountInfo } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { IIpCondition } from "saeed/models/userPanel/login";
 import { IPartner_User } from "saeed/models/userPanel/setting";

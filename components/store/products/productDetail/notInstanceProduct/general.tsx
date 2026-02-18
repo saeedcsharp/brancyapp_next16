@@ -13,7 +13,7 @@ import {
 } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import {
   IGeneralInfo,
   ILastCategory,

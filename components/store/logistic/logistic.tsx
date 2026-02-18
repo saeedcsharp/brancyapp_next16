@@ -5,7 +5,7 @@ import CheckBoxButton from "saeed/components/design/checkBoxButton";
 import RingLoader from "saeed/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { ILogistic } from "saeed/models/userPanel/orders";
 import styles from "./logistic.module.css";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";

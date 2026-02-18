@@ -15,7 +15,7 @@ import {
 } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { IChannel, IChannelBox, IChannelInfo, ISearchChannel, IUpdateChannel } from "saeed/models/market/properties";
 import styles from "./featureBoxPU.module.css";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";

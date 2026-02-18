@@ -13,7 +13,7 @@ import {
 import Loading from "saeed/components/notOk/loading";
 import initialzedTime, { convertToMilliseconds } from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { IFullLottery } from "saeed/models/page/tools/tools";
 import styles from "./winnersList.module.css";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";

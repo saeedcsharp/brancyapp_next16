@@ -11,7 +11,7 @@ import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { IDetailPrompt } from "saeed/models/AI/prompt";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { IceOrPersistent, PayloadType, SpecialPayLoad } from "saeed/models/messages/enum";
 import { IIceBreaker } from "saeed/models/messages/properies";
 import styles from "./properties.module.css";

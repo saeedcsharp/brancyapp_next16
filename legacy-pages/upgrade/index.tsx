@@ -18,7 +18,7 @@ import { useTranslation } from "react-i18next";
 import { RoleAccess } from "saeed/helper/loadingStatus";
 import { convertMillisecondsToDays, convertToMilliseconds } from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import {
   generateMockFeaturesList,
   generateMockUserPackageInfo,

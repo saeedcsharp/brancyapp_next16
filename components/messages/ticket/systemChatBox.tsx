@@ -11,7 +11,7 @@ import { detectEmojiOnly } from "saeed/helper/emojiDetector";
 import formatTimeAgo from "saeed/helper/formatTimeAgo";
 import initialzedTime from "saeed/helper/manageTimer";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { IItem, IOwnerInbox, ISendTicketMessage, ITicket } from "saeed/models/userPanel/message";
 import { SystemSendingMessages } from "./chatComponents/shared/messageTypes/SystemSendingMessages";
 import { SystemChatWrapper } from "./chatComponents/SystemChatWrapper";

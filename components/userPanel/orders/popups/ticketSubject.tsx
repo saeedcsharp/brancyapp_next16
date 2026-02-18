@@ -6,7 +6,7 @@ import InputText from "saeed/components/design/inputText";
 import RingLoader from "saeed/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType, UploadFile } from "saeed/helper/apihelper";
+import { MethodType, UploadFile } from "saeed/helper/api";
 import { ICreateSystemTicket, ITicket, ITicketMediaType } from "saeed/models/userPanel/message";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";
 interface State {
@@ -93,10 +93,19 @@ export default function TicketTitle({ removeMask, orderId }: { removeMask: () =>
     };
     try {
       console.log("Creating ticket with data:", createSystemTicket);
-      const res = await clientFetchApi<ICreateSystemTicket, ITicket>("/api/systemticket/CreateSystemTicketBaseOrderId", { methodType: MethodType.post, session: session, data: createSystemTicket, queries: [
-          { key: "orderId", value: orderId },
-          { key: "subject", value: state.subject },
-        ], onUploadProgress: undefined });
+      const res = await clientFetchApi<ICreateSystemTicket, ITicket>(
+        "/api/systemticket/CreateSystemTicketBaseOrderId",
+        {
+          methodType: MethodType.post,
+          session: session,
+          data: createSystemTicket,
+          queries: [
+            { key: "orderId", value: orderId },
+            { key: "subject", value: state.subject },
+          ],
+          onUploadProgress: undefined,
+        },
+      );
       if (res.succeeded) {
         console.log("Ticket created successfully:", res);
         router.push(`/user/message?id=${res.value.ticketId}`);

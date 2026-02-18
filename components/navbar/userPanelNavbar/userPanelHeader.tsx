@@ -4,7 +4,7 @@ import { NotifType, notify, ResponseType } from "saeed/components/notifications/
 import { InstaInfoContext } from "saeed/context/instaInfoContext";
 import { handleDecompress } from "saeed/helper/pako";
 import { getHubConnection } from "saeed/helper/pushNotif";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { PushNotif } from "saeed/models/push/pushNotif";
 import { IUserInfo } from "saeed/models/userPanel/login";
 import NavbarUserMobile from "../instagramerNavbar/navbar_user_mobile";

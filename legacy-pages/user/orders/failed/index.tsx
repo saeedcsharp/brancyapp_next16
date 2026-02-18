@@ -15,7 +15,7 @@ import { handleDecompress } from "saeed/helper/pako";
 import { getHubConnection } from "saeed/helper/pushNotif";
 import { specifyLogistic } from "saeed/helper/specifyLogistic";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { PushNotif, PushResponseType } from "saeed/models/push/pushNotif";
 import { OrderStep } from "saeed/models/store/enum";
 import { IOrderByStatus, IOrderByStatusItem, IOrderDetail, IOrderPushNotifExtended } from "saeed/models/store/orders";

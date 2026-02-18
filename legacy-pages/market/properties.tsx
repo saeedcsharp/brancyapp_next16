@@ -23,7 +23,7 @@ import { changePositionToFixed, changePositionToRelative } from "saeed/helper/ch
 import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
 import { InstagramerAccountInfo } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";
 import {
   ILink,

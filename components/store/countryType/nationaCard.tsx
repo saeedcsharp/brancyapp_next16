@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { _arrayBufferToBase64 } from "saeed/helper/arrayBufferToBase64";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType, UploadFile } from "saeed/helper/apihelper";
+import { MethodType, UploadFile } from "saeed/helper/api";
 import { BusinessBankAccountType } from "saeed/models/store/enum";
 import RingLoader from "../../design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
@@ -40,7 +40,13 @@ export default function NationalCard({
   // }, [uploadStatus, showUpload]);
   async function getInstagramerAuthorizeType() {
     try {
-      const res = await clientFetchApi<boolean, BusinessBankAccountType>("/api/authorize/GetInstagramerAuthorizeType", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, BusinessBankAccountType>("/api/authorize/GetInstagramerAuthorizeType", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
       else {
         setUploadStatus("ok");
@@ -53,10 +59,16 @@ export default function NationalCard({
   async function uploadNationalCard(
     url: string,
     setImg: (url: string | null) => void,
-    inputRef?: React.RefObject<HTMLInputElement>
+    inputRef?: React.RefObject<HTMLInputElement>,
   ) {
     try {
-      const res = await clientFetchApi<boolean, string>("/api/authorize/UserAuthorizeByNationalCard", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "url", value: url }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, string>("/api/authorize/UserAuthorizeByNationalCard", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "url", value: url }],
+        onUploadProgress: undefined,
+      });
       if (!res.succeeded) {
         if (inputRef?.current) inputRef.current.value = "";
         setImg(null);
@@ -73,7 +85,7 @@ export default function NationalCard({
   const compressAndUpload = (
     file: File,
     setImg: (url: string | null) => void,
-    inputRef?: React.RefObject<HTMLInputElement>
+    inputRef?: React.RefObject<HTMLInputElement>,
   ) => {
     if (!file) {
       if (inputRef?.current) inputRef.current.value = "";
@@ -138,8 +150,8 @@ export default function NationalCard({
     uploadStatus === "ok"
       ? `${styles.progressStep} ${styles.progressStepSuccess}`
       : uploadStatus === "fail"
-      ? `${styles.progressStep} ${styles.progressStepFail}`
-      : styles.progressStep;
+        ? `${styles.progressStep} ${styles.progressStepFail}`
+        : styles.progressStep;
 
   const iconSrc = uploadStatus === "ok" ? "/click-hashtag.svg" : "/attention.svg";
 

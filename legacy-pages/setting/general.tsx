@@ -5,11 +5,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Modal from "saeed/components/design/modal";
-import {
-  NotifType,
-  notify,
-  ResponseType,
-} from "saeed/components/notifications/notificationBox";
+import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import AdminChatBox from "saeed/components/setting/general/popup/adminChatBox";
 import CreateTicket from "saeed/components/setting/general/popup/createTicket";
 import Profile from "saeed/components/setting/general/profile";
@@ -17,7 +13,7 @@ import Support from "saeed/components/setting/general/Support";
 import System from "saeed/components/setting/general/system";
 import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType, UploadFile } from "saeed/helper/apihelper";
+import { MethodType, UploadFile } from "saeed/helper/api";
 import { StatusReplied } from "saeed/models/messages/enum";
 import { PlatformTicketItemType } from "saeed/models/setting/enums";
 import {
@@ -45,12 +41,8 @@ const General = () => {
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [showCreateTicket, setShowCreateTicket] = useState(false);
-  const [showRespondedTicket, setShowRespondedTicket] = useState<number | null>(
-    null
-  );
-  const [sendingMessages, setSendingMessages] = useState<ISendTicketMessage[]>(
-    []
-  );
+  const [showRespondedTicket, setShowRespondedTicket] = useState<number | null>(null);
+  const [sendingMessages, setSendingMessages] = useState<ISendTicketMessage[]>([]);
   const [platform, setPlatform] = useState<IPlatform>({
     nextMaxId: null,
     ownerInbox: {
@@ -74,16 +66,20 @@ const General = () => {
   const handleCreateTicket = async (ticketData: ICreatePlatform) => {
     console.log("Creating ticket with data:", ticketData);
     try {
-      const res = await clientFetchApi<ICreatePlatform, IPlatformTicket>("/api/ticket/CreatePlatformTicket", { methodType: MethodType.post, session: session, data: ticketData, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<ICreatePlatform, IPlatformTicket>("/api/ticket/CreatePlatformTicket", {
+        methodType: MethodType.post,
+        session: session,
+        data: ticketData,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setPlatform((prev) => ({
           ...prev,
           tickets: [res.value, ...prev.tickets],
         }));
         setTicketInsights((prev) => {
-          const hasJustCreated = prev.some(
-            (insight) => insight.actionStatus === StatusReplied.JustCreated
-          );
+          const hasJustCreated = prev.some((insight) => insight.actionStatus === StatusReplied.JustCreated);
 
           if (hasJustCreated) {
             return prev.map((insight) => {
@@ -93,10 +89,7 @@ const General = () => {
               return insight;
             });
           } else {
-            return [
-              ...prev,
-              { actionStatus: StatusReplied.JustCreated, count: 1 },
-            ];
+            return [...prev, { actionStatus: StatusReplied.JustCreated, count: 1 }];
           }
         });
       } else notify(res.info.responseType, NotifType.Warning);
@@ -114,13 +107,19 @@ const General = () => {
     try {
       if (!platform.nextMaxId) return;
       setIsLoadingMore(true);
-      const res = await clientFetchApi<StatusReplied[], IPlatform>("/api/ticket/GetPlatformTicketInbox", { methodType: MethodType.post, session: session, data: [
+      const res = await clientFetchApi<StatusReplied[], IPlatform>("/api/ticket/GetPlatformTicketInbox", {
+        methodType: MethodType.post,
+        session: session,
+        data: [
           StatusReplied.TimerClosed,
           StatusReplied.InstagramerClosed,
           StatusReplied.UserReplied,
           StatusReplied.InstagramerReplied,
           StatusReplied.JustCreated,
-        ], queries: [{ key: "nextMaxId", value: platform.nextMaxId ?? "" }], onUploadProgress: undefined });
+        ],
+        queries: [{ key: "nextMaxId", value: platform.nextMaxId ?? "" }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded)
         setPlatform((prev) => ({
           ...res.value,
@@ -138,8 +137,20 @@ const General = () => {
     try {
       setIsDataLoaded(true);
       const [platformRes, insightRes] = await Promise.all([
-        await clientFetchApi<StatusReplied[], IPlatform>("/api/ticket/GetPlatformTicketInbox", { methodType: MethodType.post, session: session, data: statusRepled, queries: undefined, onUploadProgress: undefined }),
-        await clientFetchApi<boolean, ITicketInsights[]>("/api/ticket/GetPlatformTicketInsight", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        await clientFetchApi<StatusReplied[], IPlatform>("/api/ticket/GetPlatformTicketInbox", {
+          methodType: MethodType.post,
+          session: session,
+          data: statusRepled,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        await clientFetchApi<boolean, ITicketInsights[]>("/api/ticket/GetPlatformTicketInsight", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
       ]);
       if (platformRes.succeeded) setPlatform(platformRes.value);
       else notify(platformRes.info.responseType, NotifType.Warning);
@@ -162,9 +173,7 @@ const General = () => {
           maxWidth: 700,
           maxHeight: 700,
           success(result) {
-            resolve(
-              new File([result], message.file!.name, { type: result.type })
-            );
+            resolve(new File([result], message.file!.name, { type: result.type }));
           },
           error(err) {
             reject(err);
@@ -180,13 +189,17 @@ const General = () => {
       text: message.text ?? "",
     };
     try {
-      const res = await clientFetchApi<ICreateMedia, IPlatformItem>("/api/ticket/UpdatePlatformTicket", { methodType: MethodType.post, session: session, data: createMessage, queries: [{ key: "ticketId", value: message.ticketId.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<ICreateMedia, IPlatformItem>("/api/ticket/UpdatePlatformTicket", {
+        methodType: MethodType.post,
+        session: session,
+        data: createMessage,
+        queries: [{ key: "ticketId", value: message.ticketId.toString() }],
+        onUploadProgress: undefined,
+      });
 
       if (res.succeeded) {
         // Update the ticket with the new message item
-        const myTicket = platform.tickets.find(
-          (x) => x.ticketId === message.ticketId
-        );
+        const myTicket = platform.tickets.find((x) => x.ticketId === message.ticketId);
         if (!myTicket) return;
         setPlatform((prev) => ({
           ...prev,
@@ -201,16 +214,14 @@ const General = () => {
                       ? StatusReplied.UserReplied
                       : ticket.actionStatus,
                 }
-              : ticket
+              : ticket,
           ),
         }));
 
         // Update ticketInsights if status changed from InstagramerReplied to UserReplied
         if (myTicket.actionStatus === StatusReplied.InstagramerReplied) {
           setTicketInsights((prev) => {
-            const hasUserReplied = prev.some(
-              (insight) => insight.actionStatus === StatusReplied.UserReplied
-            );
+            const hasUserReplied = prev.some((insight) => insight.actionStatus === StatusReplied.UserReplied);
 
             const updatedInsights = prev.map((insight) => {
               if (insight.actionStatus === StatusReplied.InstagramerReplied) {
@@ -224,10 +235,7 @@ const General = () => {
 
             // If UserReplied doesn't exist, add it
             if (!hasUserReplied) {
-              return [
-                ...updatedInsights,
-                { actionStatus: StatusReplied.UserReplied, count: 1 },
-              ];
+              return [...updatedInsights, { actionStatus: StatusReplied.UserReplied, count: 1 }];
             }
 
             return updatedInsights;
@@ -240,24 +248,23 @@ const General = () => {
       notify(ResponseType.Unexpected, NotifType.Error);
     } finally {
       setSendingMessages((prev) =>
-        prev.filter(
-          (x) =>
-            x.ticketId !== message.ticketId &&
-            x.clientContext !== message.clientContext
-        )
+        prev.filter((x) => x.ticketId !== message.ticketId && x.clientContext !== message.clientContext),
       );
     }
   };
-  async function handleGetPlatformTicket(
-    ticketId: number,
-    nextMaxId: string | null
-  ) {
+  async function handleGetPlatformTicket(ticketId: number, nextMaxId: string | null) {
     if (nextMaxId === null) return;
     try {
-      const res = await clientFetchApi<boolean, IPlatformTicket>("/api/ticket/GetPlatformTicket", { methodType: MethodType.get, session: session, data: null, queries: [
+      const res = await clientFetchApi<boolean, IPlatformTicket>("/api/ticket/GetPlatformTicket", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "ticketId", value: ticketId.toString() },
           { key: "nextMaxId", value: nextMaxId },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         console.log("Fetched more ticket items:", res.value.nextMaxId);
         setPlatform((prev) => ({
@@ -269,7 +276,7 @@ const General = () => {
                   nextMaxId: res.value.nextMaxId,
                   items: [...res.value.items, ...ticket.items],
                 }
-              : ticket
+              : ticket,
           ),
         }));
       } else notify(res.info.responseType, NotifType.Warning);
@@ -278,29 +285,37 @@ const General = () => {
     }
   }
   async function handlePinTicket(ticketId: number) {
-    const isPinned = platform.tickets.find(
-      (t) => t.ticketId === ticketId
-    )?.isPin;
-    const res = await clientFetchApi<boolean, boolean>("/api/ticket/UpdatePlatformTicketPinStatus", { methodType: MethodType.get, session: session, data: null, queries: [
+    const isPinned = platform.tickets.find((t) => t.ticketId === ticketId)?.isPin;
+    const res = await clientFetchApi<boolean, boolean>("/api/ticket/UpdatePlatformTicketPinStatus", {
+      methodType: MethodType.get,
+      session: session,
+      data: null,
+      queries: [
         { key: "ticketId", value: ticketId.toString() },
         {
           key: "isPin",
           value: (!isPinned).toString(),
         },
-      ], onUploadProgress: undefined });
+      ],
+      onUploadProgress: undefined,
+    });
     if (res.succeeded) {
       setPlatform((prev) => ({
         ...prev,
-        tickets: prev.tickets.map((t) =>
-          t.ticketId === ticketId ? { ...t, isPin: !isPinned } : t
-        ),
+        tickets: prev.tickets.map((t) => (t.ticketId === ticketId ? { ...t, isPin: !isPinned } : t)),
       }));
     } else notify(res.info.responseType, NotifType.Warning);
   }
   async function handleCloseTicket(ticketId: number) {
     const closedTicket = platform.tickets.find((t) => t.ticketId === ticketId);
     if (!closedTicket || closedTicket.isClosed) return;
-    const res = await clientFetchApi<boolean, boolean>("/api/ticket/ClosePlatformTicket", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "ticketId", value: ticketId.toString() }], onUploadProgress: undefined });
+    const res = await clientFetchApi<boolean, boolean>("/api/ticket/ClosePlatformTicket", {
+      methodType: MethodType.get,
+      session: session,
+      data: null,
+      queries: [{ key: "ticketId", value: ticketId.toString() }],
+      onUploadProgress: undefined,
+    });
     if (res.succeeded) {
       setPlatform((prev) => ({
         ...prev,
@@ -317,7 +332,7 @@ const General = () => {
             return { ...insight, count: Math.max(0, insight.count - 1) };
           }
           return insight;
-        })
+        }),
       );
     } else notify(res.info.responseType, NotifType.Warning);
   }
@@ -334,55 +349,33 @@ const General = () => {
       {/* head for SEO */}
       <Head>
         {" "}
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
         <title>Bran.cy ▸ {t(LanguageKey.navbar_General)}</title>
         <meta charSet="utf-8" />
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta
-          name="description"
-          content="Manage your Bran.cy account settings, preferences, and profile information"
-        />
+        <meta name="description" content="Manage your Bran.cy account settings, preferences, and profile information" />
         <meta name="theme-color" />
-        <meta
-          name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=5.0"
-        />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
         <meta
           name="keywords"
           content="brancy settings, account settings, profile settings, instagram management, user preferences"
         />
         <meta name="author" content="Bran.cy Team" />
         <meta name="robots" content="index, follow" />
-        <link
-          rel="canonical"
-          href="https://www.brancy.app/setting/general"
-          aria-label="Canonical link"
-        />
+        <link rel="canonical" href="https://www.brancy.app/setting/general" aria-label="Canonical link" />
         {/* Open Graph / Social Media Meta Tags */}
         <meta property="og:type" content="website" />
         <meta property="og:title" content="Bran.cy Settings" />
-        <meta
-          property="og:description"
-          content="Manage your Bran.cy account settings and preferences"
-        />
+        <meta property="og:description" content="Manage your Bran.cy account settings and preferences" />
         <meta property="og:site_name" content="Bran.cy" />
-        <meta
-          property="og:url"
-          content="https://www.brancy.app/setting/general"
-        />
+        <meta property="og:url" content="https://www.brancy.app/setting/general" />
         <meta property="og:locale" content="en_US" />
         <meta property="og:image:alt" content="Bran.cy Settings Page" />
         {/* Twitter Card Meta Tags */}
         <meta name="twitter:card" content="summary" />
         <meta name="twitter:title" content="Bran.cy Settings" />
         <meta name="twitter:site" content="@brancyapp" />
-        <meta
-          name="twitter:description"
-          content="Manage your Bran.cy account settings and preferences"
-        />
+        <meta name="twitter:description" content="Manage your Bran.cy account settings and preferences" />
         <meta name="twitter:image:alt" content="Bran.cy Settings Page" />
       </Head>
       {/* head for SEO */}
@@ -403,14 +396,8 @@ const General = () => {
           hasMore={!isLoadingMore}
         />
       </div>
-      <Modal
-        showContent={showCreateTicket}
-        closePopup={handleCloseCreateTicket}
-        classNamePopup={"popup"}>
-        <CreateTicket
-          removeMask={handleCloseCreateTicket}
-          handleCreateTicket={handleCreateTicket}
-        />
+      <Modal showContent={showCreateTicket} closePopup={handleCloseCreateTicket} classNamePopup={"popup"}>
+        <CreateTicket removeMask={handleCloseCreateTicket} handleCreateTicket={handleCreateTicket} />
       </Modal>
       <Modal
         showContent={showRespondedTicket !== null}
@@ -418,9 +405,7 @@ const General = () => {
         classNamePopup={"popup"}>
         <AdminChatBox
           chatBox={
-            platform.tickets.find(
-              (t) => t.ticketId === showRespondedTicket
-            ) ?? {
+            platform.tickets.find((t) => t.ticketId === showRespondedTicket) ?? {
               actionStatus: StatusReplied.JustCreated,
               fbId: "",
               isClosed: false,

@@ -16,7 +16,7 @@ import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { AvailabilityStatus } from "saeed/models/store/enum";
 import { IProduct_ShortProduct, ITempIdAndNonProductCount } from "saeed/models/store/IProduct";
 import styles from "./productList.module.css";

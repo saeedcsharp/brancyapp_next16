@@ -32,7 +32,7 @@ import { LoginStatus, packageStatus, RoleAccess } from "saeed/helper/loadingStat
 import initialzedTime from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { AutoReplyPayLoadType, MediaProductType } from "saeed/models/messages/enum";
 import { IItem } from "saeed/models/messages/IMessage";
 import { IAutomaticReply, IMediaUpdateAutoReply } from "saeed/models/page/post/posts";

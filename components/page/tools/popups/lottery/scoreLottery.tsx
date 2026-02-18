@@ -4,7 +4,7 @@ import IncrementStepper from "saeed/components/design/incrementStepper";
 import InputText from "saeed/components/design/inputText";
 import RadioButton from "saeed/components/design/radioButton";
 import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 
 import { useSession } from "next-auth/react";
 import router from "next/router";

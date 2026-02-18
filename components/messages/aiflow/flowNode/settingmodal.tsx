@@ -15,7 +15,7 @@ import {
 } from "saeed/components/notifications/notificationBox";
 import initialzedTime from "saeed/helper/manageTimer";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { ITotalMasterFlow } from "saeed/models/messages/properies";
 import styles from "./settingmodal.module.css";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";

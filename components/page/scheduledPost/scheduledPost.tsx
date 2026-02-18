@@ -10,7 +10,7 @@ import { InstaInfoContext } from "saeed/context/instaInfoContext";
 import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { IPrePost, IScheduledPost } from "saeed/models/page/post/preposts";
 import { ShowRings } from "../../design/counterDown/counterDown";
 import DeletePrePost from "./deletePrePost";

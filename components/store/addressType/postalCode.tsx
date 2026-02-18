@@ -4,7 +4,7 @@ import { ChangeEvent, useState } from "react";
 import RingLoader from "saeed/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { IAddress, ILogistic } from "saeed/models/userPanel/orders";
 import styles from "./postalCode.module.css";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";

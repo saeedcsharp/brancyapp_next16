@@ -28,7 +28,7 @@ import { handleDecompress } from "saeed/helper/pako";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { ActionType, CommentType, ItemType, MediaProductType } from "saeed/models/messages/enum";
 import {
   IComment,

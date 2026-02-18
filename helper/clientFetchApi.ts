@@ -1,5 +1,5 @@
 import { Session } from "next-auth";
-import { MethodType, IResult, StringDitionaryItem } from "saeed/helper/apihelper";
+import { MethodType, IResult, StringDitionaryItem } from "saeed/helper/api";
 import { ResponseType } from "saeed/components/notifications/notificationBox";
 
 function normalizeResult<J>(raw: any, statusCode = 500, errorMessage = ""): IResult<J> {

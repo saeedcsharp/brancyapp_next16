@@ -11,7 +11,7 @@ import NotShopper from "saeed/components/notOk/notShopper";
 import { packageStatus } from "saeed/helper/loadingStatus";
 import { calculateSummary } from "saeed/helper/numberFormater";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { IProduct_Candidate } from "saeed/models/store/IProduct";
 import styles from "./selectProduct.module.css";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";

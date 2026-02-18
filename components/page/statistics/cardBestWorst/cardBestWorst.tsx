@@ -6,7 +6,7 @@ import Loading from "saeed/components/notOk/loading";
 import { GetTimeZoneOffset } from "saeed/helper/formatTimeAgo";
 import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { IBestTime } from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/cardBestWorst";
 import { HourCountUnix } from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";

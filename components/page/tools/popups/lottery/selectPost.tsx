@@ -12,7 +12,7 @@ import {
 import Loading from "saeed/components/notOk/loading";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { IShortPostInfo } from "saeed/models/page/tools/tools";
 import styles from "./selectPost.module.css";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";

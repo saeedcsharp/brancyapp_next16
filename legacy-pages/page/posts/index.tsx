@@ -11,7 +11,7 @@ import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
 import { handleDecompress } from "saeed/helper/pako";
 import { getHubConnection } from "saeed/helper/pushNotif";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { IPost, IPostContent, IShortDraft } from "saeed/models/page/post/posts";
 import { PushNotif, PushResponseType } from "saeed/models/push/pushNotif";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";

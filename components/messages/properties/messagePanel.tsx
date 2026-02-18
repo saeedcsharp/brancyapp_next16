@@ -15,7 +15,7 @@ import {
 } from "saeed/components/notifications/notificationBox";
 import { LoginStatus } from "saeed/helper/loadingStatus";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { Language } from "saeed/models/messages/enum";
 import { IMessagePanel } from "saeed/models/messages/properies";
 import styles from "./properties.module.css";

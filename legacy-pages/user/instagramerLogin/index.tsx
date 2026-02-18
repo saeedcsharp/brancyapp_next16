@@ -14,7 +14,7 @@ import FaceBook from "saeed/components/signIn/faceBook";
 import formatTimeAgo from "saeed/helper/formatTimeAgo";
 import { LanguageKey } from "saeed/i18n";
 import { SendCodeResult } from "saeed/models/ApiModels/User/SendCodeResult";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { InstagramerAccountInfo } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
 import { IIpCondition } from "saeed/models/userPanel/login";
 import styles from "./instagramerLogin.module.css";

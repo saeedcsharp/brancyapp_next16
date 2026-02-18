@@ -5,7 +5,7 @@ import "react-phone-input-2/lib/style.css";
 import { getCountryCodeFromTimezone } from "saeed/helper/detectLocaleFromTimezone";
 import { LanguageKey } from "saeed/i18n";
 import { SendCodeResult } from "saeed/models/ApiModels/User/SendCodeResult";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import RingLoader from "../design/loader/ringLoder";
 import {
   NotifType,

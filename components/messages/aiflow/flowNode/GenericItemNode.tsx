@@ -6,7 +6,7 @@ import { toast } from "react-toastify";
 import InputText from "saeed/components/design/inputText";
 import TextArea from "saeed/components/design/textArea/textArea";
 import { LanguageKey } from "saeed/i18n/languageKeys";
-import { UploadFile } from "saeed/helper/apihelper";
+import { UploadFile } from "saeed/helper/api";
 import styles from "./GenericItemNode.module.css";
 import { BaseNodeProps, NodeData } from "./types";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL || "";
@@ -24,8 +24,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
 }) => {
   const { data: session } = useSession();
   const [imgUrl, setImgUrl] = useState<string | null>(
-    node.data?.tempUrl ||
-      (node.data.imageUrl ? baseMediaUrl + node.data.imageUrl : null)
+    node.data?.tempUrl || (node.data.imageUrl ? baseMediaUrl + node.data.imageUrl : null),
   );
   const [displayTitle, setDisplayTitle] = React.useState<string>("");
   const [shouldShake, setShouldShake] = React.useState<boolean>(false);
@@ -51,9 +50,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
       ];
 
       const isValidImage = validImageTypes.some(
-        (type) =>
-          file.type === type ||
-          file.name.toLowerCase().endsWith(type.split("/")[1])
+        (type) => file.type === type || file.name.toLowerCase().endsWith(type.split("/")[1]),
       );
       if (!isValidImage && file.type && !file.type.startsWith("image/")) {
         toast.warn(t(LanguageKey.New_Flow_upload_unsupported_media));
@@ -68,9 +65,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
       // برای تصاویر، ابتدا فشرده‌سازی و سپس آپلود
       setEditorState((prev: any) => ({
         ...prev,
-        nodes: prev.nodes.map((n: any) =>
-          n.id === node.id ? { ...n, uploadProgress: 0 } : n
-        ),
+        nodes: prev.nodes.map((n: any) => (n.id === node.id ? { ...n, uploadProgress: 0 } : n)),
       }));
 
       new Compressor(file, {
@@ -84,31 +79,19 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
             // CompressorJS returns a Blob; convert it to a proper File
             const blob = compressedFile as Blob;
             const mimeType = blob.type || "image/jpeg";
-            const extension =
-              mimeType === "image/jpeg"
-                ? ".jpg"
-                : file.name.slice(file.name.lastIndexOf(".")) || "";
-            const compressedFileName = file.name.replace(
-              /\.[^/.]+$/,
-              extension
-            );
+            const extension = mimeType === "image/jpeg" ? ".jpg" : file.name.slice(file.name.lastIndexOf(".")) || "";
+            const compressedFileName = file.name.replace(/\.[^/.]+$/, extension);
             const finalFile = new File([blob], compressedFileName, {
               type: mimeType,
             });
 
             // آپلود فایل فشرده‌شده (اکنون یک File واقعی است)
-            const uploadMedia = await UploadFile(
-              session,
-              finalFile,
-              (progress) => {
-                setEditorState((prev: any) => ({
-                  ...prev,
-                  nodes: prev.nodes.map((n: any) =>
-                    n.id === node.id ? { ...n, uploadProgress: progress } : n
-                  ),
-                }));
-              }
-            );
+            const uploadMedia = await UploadFile(session, finalFile, (progress) => {
+              setEditorState((prev: any) => ({
+                ...prev,
+                nodes: prev.nodes.map((n: any) => (n.id === node.id ? { ...n, uploadProgress: progress } : n)),
+              }));
+            });
             setImgUrl(uploadMedia.showUrl);
             updateNodeData(node.id, {
               imageUrl: uploadMedia.fileName,
@@ -122,17 +105,13 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
             });
             setEditorState((prev: any) => ({
               ...prev,
-              nodes: prev.nodes.map((n: any) =>
-                n.id === node.id ? { ...n, uploadProgress: undefined } : n
-              ),
+              nodes: prev.nodes.map((n: any) => (n.id === node.id ? { ...n, uploadProgress: undefined } : n)),
             }));
           } catch (error) {
             console.error("خطا در آپلود تصویر:", error);
             setEditorState((prev: any) => ({
               ...prev,
-              nodes: prev.nodes.map((n: any) =>
-                n.id === node.id ? { ...n, uploadProgress: undefined } : n
-              ),
+              nodes: prev.nodes.map((n: any) => (n.id === node.id ? { ...n, uploadProgress: undefined } : n)),
             }));
             toast.error(t(LanguageKey.New_Flow_uploadfilefailed));
           }
@@ -141,9 +120,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
           console.error("خطا در فشرده‌سازی تصویر:", err);
           setEditorState((prev: any) => ({
             ...prev,
-            nodes: prev.nodes.map((n: any) =>
-              n.id === node.id ? { ...n, uploadProgress: undefined } : n
-            ),
+            nodes: prev.nodes.map((n: any) => (n.id === node.id ? { ...n, uploadProgress: undefined } : n)),
           }));
           toast.error(t(LanguageKey.New_Flow_uploadfilefailed));
         },
@@ -151,7 +128,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
 
       e.target.value = "";
     },
-    [node.id, updateNodeData, setEditorState, t, session]
+    [node.id, updateNodeData, setEditorState, t, session],
   );
   const handlePaste = async (field: string) => {
     try {
@@ -206,11 +183,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
       return `https://${trimmed}`;
     }
     // اگر هیچ پروتکلی نداشت و شبیه دامنه است، https:// اضافه کن
-    if (
-      !trimmed.startsWith("http://") &&
-      !trimmed.startsWith("https://") &&
-      trimmed.includes(".")
-    ) {
+    if (!trimmed.startsWith("http://") && !trimmed.startsWith("https://") && trimmed.includes(".")) {
       return `https://${trimmed}`;
     }
     return trimmed;
@@ -265,9 +238,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
       //   return;
       // }
 
-      const newButtons = currentButtons.filter(
-        (_: any, idx: number) => idx !== index
-      );
+      const newButtons = currentButtons.filter((_: any, idx: number) => idx !== index);
       const outputToRemove = (node.buttonOutputs || [])[index];
 
       updateStateWithHistory((prev: any) => ({
@@ -276,9 +247,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
           if (n.id === node.id) {
             return {
               ...n,
-              buttonOutputs: (n.buttonOutputs || []).filter(
-                (_: any, idx: number) => idx !== index
-              ),
+              buttonOutputs: (n.buttonOutputs || []).filter((_: any, idx: number) => idx !== index),
               data: {
                 ...n.data,
                 buttons: newButtons,
@@ -288,15 +257,11 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
           return n;
         }),
         connections: prev.connections.filter(
-          (c: any) =>
-            !(
-              c.sourceNodeId === node.id &&
-              c.sourceSocketId === outputToRemove?.id
-            )
+          (c: any) => !(c.sourceNodeId === node.id && c.sourceSocketId === outputToRemove?.id),
         ),
       }));
     },
-    [node, updateStateWithHistory]
+    [node, updateStateWithHistory],
   );
 
   // اگر URL تغییر کرد، title را به‌روز کن
@@ -318,9 +283,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
       {/* Title */}
       <div className="headerandinput">
         <div className="headerparent" style={{ paddingInline: "10px" }}>
-          <label className={styles.label}>
-            {t(LanguageKey.New_Flow_message_title)}
-          </label>
+          <label className={styles.label}>{t(LanguageKey.New_Flow_message_title)}</label>
           <img
             onClick={() => handlePaste("title")}
             style={{ cursor: "pointer", width: "20px", height: "20px" }}
@@ -332,11 +295,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
         <div onClick={(e) => e.stopPropagation()}>
           <InputText
             className="textinputbox"
-            value={
-              node.data?.title === defaultTitlePlaceholder
-                ? ""
-                : node.data?.title || ""
-            }
+            value={node.data?.title === defaultTitlePlaceholder ? "" : node.data?.title || ""}
             maxLength={140}
             handleInputChange={(e) => {
               updateNodeData(node.id, { title: e.target.value });
@@ -361,9 +320,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
       {/* Subtitle */}
       <div className="headerandinput">
         <div className="headerparent" style={{ paddingInline: "10px" }}>
-          <label className={styles.label}>
-            {t(LanguageKey.New_Flow_message_description)}
-          </label>
+          <label className={styles.label}>{t(LanguageKey.New_Flow_message_description)}</label>
           <img
             onClick={() => handlePaste("subtitle")}
             style={{ cursor: "pointer", width: "20px", height: "20px" }}
@@ -372,9 +329,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
             src="/copy.svg"
           />
         </div>
-        <div
-          onClick={(e) => e.stopPropagation()}
-          style={{ height: "150px", minHeight: "150px", maxHeight: "150px" }}>
+        <div onClick={(e) => e.stopPropagation()} style={{ height: "150px", minHeight: "150px", maxHeight: "150px" }}>
           <TextArea
             className="captiontextarea"
             value={node.data?.subtitle || ""}
@@ -399,11 +354,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
                 onClick={(e) => {
                   e.stopPropagation();
                   if (node.data?.weblink) {
-                    window.open(
-                      node.data.weblink,
-                      "_blank",
-                      "noopener,noreferrer"
-                    );
+                    window.open(node.data.weblink, "_blank", "noopener,noreferrer");
                   }
                 }}
                 style={{ cursor: "pointer" }}>
@@ -420,9 +371,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
             src="/copy.svg"
           />
         </div>
-        <div
-          className={shouldShake ? styles.shakeHorizontal : ""}
-          onClick={(e) => e.stopPropagation()}>
+        <div className={shouldShake ? styles.shakeHorizontal : ""} onClick={(e) => e.stopPropagation()}>
           <InputText
             className="textinputbox"
             type="url"
@@ -485,12 +434,8 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
         {node.uploadProgress !== undefined && (
           <div className={styles.progressContainer}>
             <div className={styles.progressBar}>
-              <div
-                className={styles.progressFill}
-                style={{ width: `${node.uploadProgress}%` }}>
-                <span className={styles.progressText}>
-                  {node.uploadProgress}%
-                </span>
+              <div className={styles.progressFill} style={{ width: `${node.uploadProgress}%` }}>
+                <span className={styles.progressText}>{node.uploadProgress}%</span>
               </div>
             </div>
           </div>
@@ -507,9 +452,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
                 <span className={styles.fileName}>
                   {node.data.isVideo ? "🎬" : "🖼️"} {node.data.fileName}
                 </span>
-                <span className={styles.fileSize}>
-                  Size: {(node.data.fileSize / 1024).toFixed(2)} KB
-                </span>
+                <span className={styles.fileSize}>Size: {(node.data.fileSize / 1024).toFixed(2)} KB</span>
               </div>
             )}
           </>
@@ -520,9 +463,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
       <div className={styles.buttonsSection}>
         {node.data?.buttons?.map((btn: string, idx: number) => (
           <div key={idx} className={styles.buttonItem}>
-            <div
-              className={styles.inputTextparent}
-              onClick={(e) => e.stopPropagation()}>
+            <div className={styles.inputTextparent} onClick={(e) => e.stopPropagation()}>
               <InputText
                 className="textinputbox"
                 value={btn}
@@ -543,9 +484,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
                   setEditorState((prev: any) => ({
                     ...prev,
                     nodes: prev.nodes.map((n: any) =>
-                      n.id === node.id
-                        ? { ...n, buttonOutputs: newButtonOutputs }
-                        : n
+                      n.id === node.id ? { ...n, buttonOutputs: newButtonOutputs } : n,
                     ),
                   }));
                 }}
@@ -605,15 +544,8 @@ export const getGenericItemNodeHeight = (node: NodeData): number => {
   // Progress bar height
   const progressHeight = node.uploadProgress !== undefined ? 30 : 0;
 
-  const addButtonHeight =
-    !node.data?.buttons || node.data.buttons.length < 3 ? 35 : 0;
-  return (
-    baseHeight +
-    buttonCount * 35 +
-    mediaHeight +
-    progressHeight +
-    addButtonHeight
-  );
+  const addButtonHeight = !node.data?.buttons || node.data.buttons.length < 3 ? 35 : 0;
+  return baseHeight + buttonCount * 35 + mediaHeight + progressHeight + addButtonHeight;
 };
 
 // Node container class name for styling the node border

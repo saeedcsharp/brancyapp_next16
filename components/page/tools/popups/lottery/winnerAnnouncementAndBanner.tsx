@@ -11,7 +11,7 @@ import { NotifType, notify, ResponseType } from "saeed/components/notifications/
 import Loading from "saeed/components/notOk/loading";
 import { hexToRgb, rgbToHex } from "saeed/helper/rgbaToHex";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType, UploadFile } from "saeed/helper/apihelper";
+import { MethodType, UploadFile } from "saeed/helper/api";
 import { IGetLastBanner, ILotteryInfo, LotteryType } from "saeed/models/page/tools/tools";
 import styles from "./winnerAnnouncementAndBanner.module.css";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";
@@ -59,7 +59,7 @@ const WinnerAnnouncementAndBanner = (props: {
   const [boxColor, setBoxColor] = useState({ rgb: { b: 253, g: 253, r: 253 } });
   const [boxOpacity, setBoxOpacity] = useState(props.lotteryInfo.boxOpacity ? props.lotteryInfo.boxOpacity : 100);
   const [boxBlur, setBoxBlur] = useState<number>(
-    props.lotteryInfo && (props.lotteryInfo as any).boxBlur ? (props.lotteryInfo as any).boxBlur : 0
+    props.lotteryInfo && (props.lotteryInfo as any).boxBlur ? (props.lotteryInfo as any).boxBlur : 0,
   );
   const [fontBoxColor, setFontBoxColor] = useState({
     hex: props.lotteryInfo.fontColor || "#000000",
@@ -207,7 +207,13 @@ const WinnerAnnouncementAndBanner = (props: {
   };
   async function handleGetLastBanner() {
     try {
-      const res = await clientFetchApi<boolean, IGetLastBanner>("/api/lottery/GetLastBannerSetting", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IGetLastBanner>("/api/lottery/GetLastBannerSetting", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setBannerInfo(res.value);
         if (props.lotteryInfo.lotteryId) {

@@ -3,7 +3,7 @@ import React, { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { LanguageKey } from "saeed/i18n";
-import { UploadFile } from "saeed/helper/apihelper";
+import { UploadFile } from "saeed/helper/api";
 import { BaseNodeProps, NodeData } from "./types";
 import styles from "./VoiceNode.module.css";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL || "";
@@ -11,21 +11,13 @@ interface VoiceNodeProps extends BaseNodeProps {
   setEditorState: React.Dispatch<React.SetStateAction<any>>;
 }
 
-export const VoiceNode: React.FC<VoiceNodeProps> = ({
-  node,
-  updateNodeData,
-  setEditorState,
-}) => {
+export const VoiceNode: React.FC<VoiceNodeProps> = ({ node, updateNodeData, setEditorState }) => {
   const [recordingNodeId, setRecordingNodeId] = useState<string | null>(null);
-  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(
-    null
-  );
+  const [mediaRecorder, setMediaRecorder] = useState<MediaRecorder | null>(null);
   const [recordingDuration, setRecordingDuration] = useState<number>(0);
   const [countdown, setCountdown] = useState<number | null>(null);
   const audioChunksRef = useRef<Blob[]>([]);
-  const [voiceUrl, setVoiceUrl] = useState<string | null>(
-    node.data?.tempVoiceUrl || baseMediaUrl + node.data.voiceUrl
-  );
+  const [voiceUrl, setVoiceUrl] = useState<string | null>(node.data?.tempVoiceUrl || baseMediaUrl + node.data.voiceUrl);
   const { t } = useTranslation();
   const { data: session } = useSession();
 
@@ -55,9 +47,7 @@ export const VoiceNode: React.FC<VoiceNodeProps> = ({
       const validAudioTypes = ["audio/mp4", "audio/aac", "audio/m4a"];
 
       const isValidAudio = validAudioTypes.some(
-        (type) =>
-          file.type === type ||
-          file.name.toLowerCase().match(/\.(mp4|aac|m4a)$/i)
+        (type) => file.type === type || file.name.toLowerCase().match(/\.(mp4|aac|m4a)$/i),
       );
 
       if (!isValidAudio && file.type && !file.type.startsWith("audio/")) {
@@ -73,18 +63,14 @@ export const VoiceNode: React.FC<VoiceNodeProps> = ({
 
       setEditorState((prev: any) => ({
         ...prev,
-        nodes: prev.nodes.map((n: any) =>
-          n.id === node.id ? { ...n, uploadProgress: 0 } : n
-        ),
+        nodes: prev.nodes.map((n: any) => (n.id === node.id ? { ...n, uploadProgress: 0 } : n)),
       }));
 
       // آپلود فایل صوتی به سرور
       UploadFile(session, file, (progress) => {
         setEditorState((prev: any) => ({
           ...prev,
-          nodes: prev.nodes.map((n: any) =>
-            n.id === node.id ? { ...n, uploadProgress: progress } : n
-          ),
+          nodes: prev.nodes.map((n: any) => (n.id === node.id ? { ...n, uploadProgress: progress } : n)),
         }));
       })
         .then((upload) => {
@@ -99,25 +85,21 @@ export const VoiceNode: React.FC<VoiceNodeProps> = ({
           });
           setEditorState((prev: any) => ({
             ...prev,
-            nodes: prev.nodes.map((n: any) =>
-              n.id === node.id ? { ...n, uploadProgress: undefined } : n
-            ),
+            nodes: prev.nodes.map((n: any) => (n.id === node.id ? { ...n, uploadProgress: undefined } : n)),
           }));
         })
         .catch((error) => {
           console.error("خطا در آپلود فایل صوتی:", error);
           setEditorState((prev: any) => ({
             ...prev,
-            nodes: prev.nodes.map((n: any) =>
-              n.id === node.id ? { ...n, uploadProgress: undefined } : n
-            ),
+            nodes: prev.nodes.map((n: any) => (n.id === node.id ? { ...n, uploadProgress: undefined } : n)),
           }));
           toast.error(t(LanguageKey.New_Flow_uploadfilefailed));
         });
 
       e.target.value = "";
     },
-    [node.id, updateNodeData, setEditorState, session, t]
+    [node.id, updateNodeData, setEditorState, session, t],
   );
 
   const startRecording = useCallback(async () => {
@@ -190,23 +172,15 @@ export const VoiceNode: React.FC<VoiceNodeProps> = ({
         try {
           setEditorState((prev: any) => ({
             ...prev,
-            nodes: prev.nodes.map((n: any) =>
-              n.id === node.id ? { ...n, uploadProgress: 0 } : n
-            ),
+            nodes: prev.nodes.map((n: any) => (n.id === node.id ? { ...n, uploadProgress: 0 } : n)),
           }));
 
-          const uploadResult = await UploadFile(
-            session,
-            audioFile,
-            (progress) => {
-              setEditorState((prev: any) => ({
-                ...prev,
-                nodes: prev.nodes.map((n: any) =>
-                  n.id === node.id ? { ...n, uploadProgress: progress } : n
-                ),
-              }));
-            }
-          );
+          const uploadResult = await UploadFile(session, audioFile, (progress) => {
+            setEditorState((prev: any) => ({
+              ...prev,
+              nodes: prev.nodes.map((n: any) => (n.id === node.id ? { ...n, uploadProgress: progress } : n)),
+            }));
+          });
 
           if (uploadResult.showUrl) {
             setVoiceUrl(uploadResult.showUrl);
@@ -225,18 +199,14 @@ export const VoiceNode: React.FC<VoiceNodeProps> = ({
 
           setEditorState((prev: any) => ({
             ...prev,
-            nodes: prev.nodes.map((n: any) =>
-              n.id === node.id ? { ...n, uploadProgress: undefined } : n
-            ),
+            nodes: prev.nodes.map((n: any) => (n.id === node.id ? { ...n, uploadProgress: undefined } : n)),
           }));
         } catch (error) {
           console.error("خطا در آپلود فایل صوتی:", error);
           toast.error(t(LanguageKey.New_Flow_uploadfilefailed));
           setEditorState((prev: any) => ({
             ...prev,
-            nodes: prev.nodes.map((n: any) =>
-              n.id === node.id ? { ...n, uploadProgress: undefined } : n
-            ),
+            nodes: prev.nodes.map((n: any) => (n.id === node.id ? { ...n, uploadProgress: undefined } : n)),
           }));
         }
 
@@ -275,11 +245,7 @@ export const VoiceNode: React.FC<VoiceNodeProps> = ({
             onChange={handleVoiceUpload}
           />
           <label htmlFor={`voice-${node.id}`} className="cancelButton">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="20"
-              fill="var(--color-dark-blue)"
-              viewBox="0 0 36 36">
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" fill="var(--color-dark-blue)" viewBox="0 0 36 36">
               <path d="M19.5 31.88a1.5 1.5 0 0 1-3 0v-6.75h-.88c-.27 0-.6 0-.85-.04a1.8 1.8 0 0 1-1.47-.98c-.42-.85.04-1.6.13-1.76.15-.24.35-.5.5-.7l.05-.05 1.58-1.88q.43-.45.96-.83c.3-.21.83-.52 1.48-.52s1.17.3 1.48.52q.53.38.96.83c.57.6 1.14 1.32 1.58 1.88l.04.05c.16.2.36.46.5.7.1.16.56.9.14 1.76a1.8 1.8 0 0 1-1.46.98c-.27.04-.6.04-.86.04h-.87z" />
               <path
                 opacity=".4"
@@ -297,39 +263,22 @@ export const VoiceNode: React.FC<VoiceNodeProps> = ({
                 startRecording();
               }
             }}
-            className={`${
-              countdown !== null || recordingNodeId === node.id
-                ? "stopButton"
-                : "saveButton"
-            } ${
-              countdown !== null || recordingNodeId === node.id
-                ? styles.pulsingButton
-                : ""
+            className={`${countdown !== null || recordingNodeId === node.id ? "stopButton" : "saveButton"} ${
+              countdown !== null || recordingNodeId === node.id ? styles.pulsingButton : ""
             }`}>
             {countdown !== null ? (
               <>
-                {t(LanguageKey.New_Flow_areyoureadytorecord)} (
-                {countdown > 0 ? countdown : t(LanguageKey.start)})
+                {t(LanguageKey.New_Flow_areyoureadytorecord)} ({countdown > 0 ? countdown : t(LanguageKey.start)})
               </>
             ) : recordingNodeId === node.id ? (
               <>
-                {t(LanguageKey.New_Flow_voice_recording_started)} (
-                {Math.floor(recordingDuration / 60)}:
+                {t(LanguageKey.New_Flow_voice_recording_started)} ({Math.floor(recordingDuration / 60)}:
                 {(recordingDuration % 60).toString().padStart(2, "0")})
               </>
             ) : (
               <>
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  width="20"
-                  height="20">
-                  <path
-                    opacity=".4"
-                    d="M17 7v4a5 5 0 0 1-10 0V7a5 5 0 0 1 10 0"
-                    fill="#fff"
-                  />
+                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" width="20" height="20">
+                  <path opacity=".4" d="M17 7v4a5 5 0 0 1-10 0V7a5 5 0 0 1 10 0" fill="#fff" />
                   <path
                     stroke="#fff"
                     d="M17 7v4a5 5 0 0 1-10 0V7a5 5 0 0 1 10 0Zm3 4a8 8 0 0 1-8 8m0 0a8 8 0 0 1-8-8m8 8v3m0 0h3m-3 0H9"
@@ -347,12 +296,8 @@ export const VoiceNode: React.FC<VoiceNodeProps> = ({
       {node.uploadProgress !== undefined && (
         <div className={styles.progressContainer}>
           <div className={styles.progressBar}>
-            <div
-              className={styles.progressFill}
-              style={{ width: `${node.uploadProgress}%` }}>
-              <span className={styles.progressText}>
-                {node.uploadProgress}%
-              </span>
+            <div className={styles.progressFill} style={{ width: `${node.uploadProgress}%` }}>
+              <span className={styles.progressText}>{node.uploadProgress}%</span>
             </div>
           </div>
         </div>
@@ -371,9 +316,7 @@ export const VoiceNode: React.FC<VoiceNodeProps> = ({
               <span className={styles.fileName}>
                 {node.data.isRecorded ? "🎙️" : "🎵"} {node.data.fileName}
               </span>
-              <span className={styles.fileSize}>
-                {(node.data.fileSize / 1024 / 1024).toFixed(2)} MB
-              </span>
+              <span className={styles.fileSize}>{(node.data.fileSize / 1024 / 1024).toFixed(2)} MB</span>
             </div>
           )}
 

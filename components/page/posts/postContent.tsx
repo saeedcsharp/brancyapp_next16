@@ -17,7 +17,7 @@ import { addSignalRMethod, OnInstance, removeSignalRMethod } from "saeed/helper/
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { IPost, IPostContent } from "saeed/models/page/post/posts";
 import { IUploadPost, UploadPostSteps } from "saeed/models/page/socketPage";
 import ScheduledPost from "../scheduledPost/scheduledPost";

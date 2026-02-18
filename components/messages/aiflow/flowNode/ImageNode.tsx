@@ -4,7 +4,7 @@ import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { LanguageKey } from "saeed/i18n";
-import { UploadFile } from "saeed/helper/apihelper";
+import { UploadFile } from "saeed/helper/api";
 import styles from "./ImageNode.module.css";
 import { BaseNodeProps, NodeData } from "./types";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL || "";
@@ -42,10 +42,10 @@ export const ImageNode: React.FC<ImageNodeProps> = ({ node, updateNodeData, setE
       ];
 
       const isValidImage = validImageTypes.some(
-        (type) => file.type === type || file.name.toLowerCase().endsWith(type.split("/")[1])
+        (type) => file.type === type || file.name.toLowerCase().endsWith(type.split("/")[1]),
       );
       const isValidVideo = validVideoTypes.some(
-        (type) => file.type === type || file.name.toLowerCase().match(/\.(mp4|webm|ogg|mov|avi|mkv)$/i)
+        (type) => file.type === type || file.name.toLowerCase().match(/\.(mp4|webm|ogg|mov|avi|mkv)$/i),
       );
 
       if (
@@ -173,7 +173,7 @@ export const ImageNode: React.FC<ImageNodeProps> = ({ node, updateNodeData, setE
 
       e.target.value = "";
     },
-    [node.id, updateNodeData, setEditorState, t, session]
+    [node.id, updateNodeData, setEditorState, t, session],
   );
 
   return (

@@ -15,7 +15,7 @@ import formatTimeAgo from "saeed/helper/formatTimeAgo";
 import initialzedTime from "saeed/helper/manageTimer";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType, UploadFile } from "saeed/helper/apihelper";
+import { MethodType, UploadFile } from "saeed/helper/api";
 import { ItemType, StatusReplied } from "saeed/models/messages/enum";
 import {
   IItem,
@@ -99,7 +99,7 @@ const DirectChatBox = (props: {
           }).format("hh:mm a - dddd - DD/MM/YYYY")
         : formatTimeAgo(timestamp);
     },
-    [dateFormatToggle]
+    [dateFormatToggle],
   );
   //#endregion
 
@@ -125,7 +125,7 @@ const DirectChatBox = (props: {
   //#region useMemo برای بهینه‌سازی
   const sortedItems = useMemo(
     () => [...props.chatBox.items].sort((a, b) => b.createdTime - a.createdTime),
-    [props.chatBox.items]
+    [props.chatBox.items],
   );
   //#endregion
 
@@ -179,7 +179,7 @@ const DirectChatBox = (props: {
           break;
       }
     },
-    [props.chatBox.items, props.chatBox.recp.igId, props.hub]
+    [props.chatBox.items, props.chatBox.recp.igId, props.hub],
   );
 
   const handleDrop = useCallback((e: React.DragEvent) => {
@@ -221,7 +221,7 @@ const DirectChatBox = (props: {
       }
       e.target.value = "";
     },
-    [props.chatBox.threadId, props.chatBox.recp.igId, props.onSendFile, props.onSendVideoFile]
+    [props.chatBox.threadId, props.chatBox.recp.igId, props.onSendFile, props.onSendVideoFile],
   );
   const handleClickOnVoiceIcon = async () => {
     try {
@@ -292,7 +292,7 @@ const DirectChatBox = (props: {
       if (!item) return "";
       return item.sentByOwner ? props.ownerInbox.username!! : props.chatBox.recp.username!!;
     },
-    [props.ownerInbox.username, props.chatBox.recp.username, props.chatBox.items]
+    [props.ownerInbox.username, props.chatBox.recp.username, props.chatBox.items],
   );
 
   const handleSpecifyRepliedItemType = useMemo(
@@ -301,14 +301,18 @@ const DirectChatBox = (props: {
       if (!item) return "";
       return item.itemType === ItemType.Text ? item.text : ItemType[item.itemType];
     },
-    [props.chatBox.items]
+    [props.chatBox.items],
   );
   const handleSendRead = async () => {
     if (!props.hub) return;
     try {
-      await clientFetchApi<boolean, boolean>("/api/ticket/ReadFbTicket", { methodType: MethodType.get, session: session, data: null, queries: [
-        { key: "ticketId", value: props.chatBox.ticketId.toString() },
-      ], onUploadProgress: undefined });
+      await clientFetchApi<boolean, boolean>("/api/ticket/ReadFbTicket", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "ticketId", value: props.chatBox.ticketId.toString() }],
+        onUploadProgress: undefined,
+      });
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
     }

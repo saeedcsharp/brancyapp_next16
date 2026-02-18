@@ -9,7 +9,7 @@ import System from "saeed/components/setting/general/system";
 import UserPartners from "saeed/components/userPanel/setting/partner";
 import { LanguageKey } from "saeed/i18n";
 import { IRefreshToken } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { IPartner_User } from "saeed/models/userPanel/setting";
 import styles from "./setting.module.css";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";

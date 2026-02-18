@@ -12,7 +12,7 @@ import Loading from "saeed/components/notOk/loading";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { LanguageKey } from "saeed/i18n";
 import { IDetailPrompt, IPrompts } from "saeed/models/AI/prompt";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { PayloadType, SpecialPayLoad } from "saeed/models/messages/enum";
 import {
   IMasterFlow,

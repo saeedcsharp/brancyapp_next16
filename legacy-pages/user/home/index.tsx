@@ -10,7 +10,7 @@ import Link from "next/link";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import PriceFormater, { PriceFormaterClassName } from "saeed/components/priceFormater";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { IUserInfo } from "saeed/models/userPanel/login";
 import { IShortShop } from "saeed/models/userPanel/orders";
 import { IFavoriteProduct } from "saeed/models/userPanel/shop";

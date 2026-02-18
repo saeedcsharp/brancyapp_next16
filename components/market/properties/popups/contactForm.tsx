@@ -11,7 +11,7 @@ import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import Loading from "saeed/components/notOk/loading";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import { ICantactMap, IUpdateContactMap } from "saeed/models/market/properties";
 import styles from "./featureBoxPU.module.css";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";

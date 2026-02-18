@@ -11,7 +11,7 @@ import Loading from "saeed/components/notOk/loading";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import PriceFormater, { PriceFormaterClassName } from "saeed/components/priceFormater";
 import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import IUserCoupon, {
   IAddress,
   ICompleteProduct,

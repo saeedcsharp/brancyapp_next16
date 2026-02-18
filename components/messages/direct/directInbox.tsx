@@ -20,7 +20,7 @@ import { handleDecompress } from "saeed/helper/pako";
 import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
 import { LanguageKey } from "saeed/i18n";
 import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType, UploadFile } from "saeed/helper/apihelper";
+import { MethodType, UploadFile } from "saeed/helper/api";
 import { CategoryType, ItemType, MediaType } from "saeed/models/messages/enum";
 import {
   IGetDirectInbox,
@@ -206,10 +206,16 @@ const DirectInbox = () => {
   };
   async function handleGetRepliedItems(thread: IThread, itemId: string, categoryType: CategoryType) {
     try {
-      let res = await clientFetchApi<boolean, IItem>("Instagramer" + "" + "/Message/GetDirectParentItem", { methodType: MethodType.get, session: session, data: null, queries: [
+      let res = await clientFetchApi<boolean, IItem>("Instagramer" + "" + "/Message/GetDirectParentItem", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "recpId", value: thread.recp.igId },
           { key: "itemId", value: itemId },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded && categoryType === CategoryType.General) {
         setGeneralInbox((prev) => ({
           ...prev!,
@@ -219,9 +225,9 @@ const DirectInbox = () => {
               : {
                   ...x,
                   items: x.items.map((rep) =>
-                    rep.repliedToItemId !== itemId ? rep : { ...rep, repliedToItem: res.value }
+                    rep.repliedToItemId !== itemId ? rep : { ...rep, repliedToItem: res.value },
                   ),
-                }
+                },
           ),
         }));
       } else if (res.succeeded && categoryType === CategoryType.Business) {
@@ -233,9 +239,9 @@ const DirectInbox = () => {
               : {
                   ...x,
                   items: x.items.map((rep) =>
-                    rep.repliedToItemId !== itemId ? rep : { ...rep, repliedToItem: res.value }
+                    rep.repliedToItemId !== itemId ? rep : { ...rep, repliedToItem: res.value },
                   ),
-                }
+                },
           ),
         }));
       } else if (res.info.responseType === ResponseType.InvalidItemId && categoryType === CategoryType.General) {
@@ -247,9 +253,9 @@ const DirectInbox = () => {
               : {
                   ...x,
                   items: x.items.map((rep) =>
-                    rep.repliedToItemId !== itemId ? rep : { ...rep, repliedToItemId: null }
+                    rep.repliedToItemId !== itemId ? rep : { ...rep, repliedToItemId: null },
                   ),
-                }
+                },
           ),
         }));
       } else if (res.info.responseType === ResponseType.InvalidItemId && categoryType === CategoryType.Business) {
@@ -261,9 +267,9 @@ const DirectInbox = () => {
               : {
                   ...x,
                   items: x.items.map((rep) =>
-                    rep.repliedToItemId !== itemId ? rep : { ...rep, repliedToItemId: null }
+                    rep.repliedToItemId !== itemId ? rep : { ...rep, repliedToItemId: null },
                   ),
-                }
+                },
           ),
         }));
       } else notify(res.info.responseType, NotifType.Warning);
@@ -323,10 +329,16 @@ const DirectInbox = () => {
     var bTread = businessInbox?.threads.find((x) => x.threadId === threadId);
     if (gThread) {
       try {
-        let gRes = await clientFetchApi<boolean, boolean>("Instagramer" + "/Message/PinThread", { methodType: MethodType.get, session: session, data: null, queries: [
+        let gRes = await clientFetchApi<boolean, boolean>("Instagramer" + "/Message/PinThread", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "recpId", value: recpId },
             { key: "isPin", value: (!gThread.isPin).toString() },
-          ], onUploadProgress: undefined });
+          ],
+          onUploadProgress: undefined,
+        });
         if (gRes.succeeded) {
           setGeneralInbox((prev) => ({
             ...prev!,
@@ -351,10 +363,16 @@ const DirectInbox = () => {
     }
     if (bTread) {
       try {
-        let bRes = await clientFetchApi<boolean, boolean>("Instagramer" + "/Message/PinThread", { methodType: MethodType.get, session: session, data: null, queries: [
+        let bRes = await clientFetchApi<boolean, boolean>("Instagramer" + "/Message/PinThread", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "recpId", value: recpId },
             { key: "isPin", value: (!bTread.isPin).toString() },
-          ], onUploadProgress: undefined });
+          ],
+          onUploadProgress: undefined,
+        });
         if (bRes.succeeded) {
           setBusinessInbox((prev) => ({
             ...prev!,
@@ -382,16 +400,22 @@ const DirectInbox = () => {
     threadId: string,
     recpId: string,
     originCategoryType: CategoryType,
-    destCategoryType: CategoryType
+    destCategoryType: CategoryType,
   ) => {
     try {
-      let res = await clientFetchApi<boolean, boolean>("Instagramer" + "/Message/ChangeCategory", { methodType: MethodType.get, session: session, data: null, queries: [
+      let res = await clientFetchApi<boolean, boolean>("Instagramer" + "/Message/ChangeCategory", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "recpId", value: recpId.toString() },
           {
             key: "categoryId",
             value: destCategoryType.toString(),
           },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       // console.log("changeCategory ", categoryType.toString());
       if (res.succeeded) {
         setShowDivIndex(null);
@@ -577,7 +601,13 @@ const DirectInbox = () => {
         searchTerm: query ? query : null,
       };
       try {
-        let generalRes = await clientFetchApi<IGetDirectInbox, IInbox>("/api/message/GetDirectInbox", { methodType: MethodType.post, session: session, data: generalDirectInbox, queries: undefined, onUploadProgress: undefined });
+        let generalRes = await clientFetchApi<IGetDirectInbox, IInbox>("/api/message/GetDirectInbox", {
+          methodType: MethodType.post,
+          session: session,
+          data: generalDirectInbox,
+          queries: undefined,
+          onUploadProgress: undefined,
+        });
         console.log("generalResssssssssssss", generalRes);
         if (generalRes.succeeded && !query) {
           setGeneralInbox((prev) => {
@@ -619,7 +649,13 @@ const DirectInbox = () => {
         searchTerm: "",
       };
       try {
-        let businessRes = await clientFetchApi<IGetDirectInbox, IInbox>("/api/message/GetDirectInbox", { methodType: MethodType.post, session: session, data: businessDirectInbox, queries: undefined, onUploadProgress: undefined });
+        let businessRes = await clientFetchApi<IGetDirectInbox, IInbox>("/api/message/GetDirectInbox", {
+          methodType: MethodType.post,
+          session: session,
+          data: businessDirectInbox,
+          queries: undefined,
+          onUploadProgress: undefined,
+        });
         console.log("businessRes ", businessRes.value);
         if (businessRes.succeeded && !query) {
           setBusinessInbox((prev) => {
@@ -661,7 +697,13 @@ const DirectInbox = () => {
         searchTerm: "",
       };
       try {
-        let res = await clientFetchApi<IGetDirectInbox, IInbox>("Instagramer" + "/Message/GetDirectInbox", { methodType: MethodType.post, session: session, data: businessDirectInbox, queries: undefined, onUploadProgress: undefined });
+        let res = await clientFetchApi<IGetDirectInbox, IInbox>("Instagramer" + "/Message/GetDirectInbox", {
+          methodType: MethodType.post,
+          session: session,
+          data: businessDirectInbox,
+          queries: undefined,
+          onUploadProgress: undefined,
+        });
         console.log("hideressss ", res.value);
         if (res.succeeded && !query) {
           setHideInbox((prev) => {
@@ -704,7 +746,13 @@ const DirectInbox = () => {
       searchTerm: "",
     };
     try {
-      let businessRes = await clientFetchApi<IGetDirectInbox, IInbox>("/api/message/GetDirectInbox", { methodType: MethodType.post, session: session, data: businessDirectInbox, queries: undefined, onUploadProgress: undefined });
+      let businessRes = await clientFetchApi<IGetDirectInbox, IInbox>("/api/message/GetDirectInbox", {
+        methodType: MethodType.post,
+        session: session,
+        data: businessDirectInbox,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (businessRes.succeeded) setBusinessInbox(businessRes.value);
       else notify(businessRes.info.responseType, NotifType.Warning);
     } catch (error) {
@@ -718,7 +766,13 @@ const DirectInbox = () => {
       searchTerm: "",
     };
     try {
-      let res = await clientFetchApi<IGetDirectInbox, IInbox>("/api/message/GetDirectInbox", { methodType: MethodType.post, session: session, data: businessDirectInbox, queries: undefined, onUploadProgress: undefined });
+      let res = await clientFetchApi<IGetDirectInbox, IInbox>("/api/message/GetDirectInbox", {
+        methodType: MethodType.post,
+        session: session,
+        data: businessDirectInbox,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       console.log(" ✅ Console ⋙ Hide", res.value);
       if (res.succeeded) setHideInbox(res.value);
       else notify(res.info.responseType, NotifType.Warning);
@@ -734,7 +788,13 @@ const DirectInbox = () => {
     };
     var uniqueGeneralThreads: IThread[] = [];
     try {
-      let generalRes = await clientFetchApi<IGetDirectInbox, IInbox>("/api/message/GetDirectInbox", { methodType: MethodType.post, session: session, data: generalDirectInbox, queries: undefined, onUploadProgress: undefined });
+      let generalRes = await clientFetchApi<IGetDirectInbox, IInbox>("/api/message/GetDirectInbox", {
+        methodType: MethodType.post,
+        session: session,
+        data: generalDirectInbox,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       setGeneralInbox(generalRes.value);
       console.log("generalRes.value ", generalRes.value);
       uniqueGeneralThreads = generalRes.value.threads;
@@ -758,13 +818,19 @@ const DirectInbox = () => {
     if (onLoading) return;
     onLoading = true;
     try {
-      let newThread = await clientFetchApi<IGetDirectInboxItems, IThread>("/api/message/GetThread", { methodType: MethodType.get, session: session, data: null, queries: [
+      let newThread = await clientFetchApi<IGetDirectInboxItems, IThread>("/api/message/GetThread", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "recpId", value: chatBox.recp.igId },
           {
             key: "nextMaxId",
             value: !chatBox.onCurrentSnapShot ? undefined : chatBox.nextMaxId!.toString(),
           },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       console.log("newThreadFetch", newThread);
       if (newThread.succeeded) {
         var gthread = generalInbox?.threads.find((x) => x.threadId === chatBox.threadId);
@@ -776,17 +842,17 @@ const DirectInbox = () => {
               x.threadId !== chatBox.threadId
                 ? x
                 : chatBox.onCurrentSnapShot
-                ? {
-                    ...x,
-                    nextMaxId: newThread.value.nextMaxId,
-                    items: [
-                      ...newThread.value.items.filter(
-                        (newItem) => !x.items.some((existingItem) => existingItem.itemId === newItem.itemId)
-                      ),
-                      ...x.items,
-                    ],
-                  }
-                : newThread.value
+                  ? {
+                      ...x,
+                      nextMaxId: newThread.value.nextMaxId,
+                      items: [
+                        ...newThread.value.items.filter(
+                          (newItem) => !x.items.some((existingItem) => existingItem.itemId === newItem.itemId),
+                        ),
+                        ...x.items,
+                      ],
+                    }
+                  : newThread.value,
             ),
           }));
         } else if (bthread) {
@@ -796,17 +862,17 @@ const DirectInbox = () => {
               x.threadId !== chatBox.threadId
                 ? x
                 : chatBox.onCurrentSnapShot
-                ? {
-                    ...x,
-                    nextMaxId: newThread.value.nextMaxId,
-                    items: [
-                      ...newThread.value.items.filter(
-                        (newItem) => !x.items.some((existingItem) => existingItem.itemId === newItem.itemId)
-                      ),
-                      ...x.items,
-                    ],
-                  }
-                : newThread.value
+                  ? {
+                      ...x,
+                      nextMaxId: newThread.value.nextMaxId,
+                      items: [
+                        ...newThread.value.items.filter(
+                          (newItem) => !x.items.some((existingItem) => existingItem.itemId === newItem.itemId),
+                        ),
+                        ...x.items,
+                      ],
+                    }
+                  : newThread.value,
             ),
           }));
         }
@@ -951,7 +1017,7 @@ const DirectInbox = () => {
                 ...thread,
                 recpLastSeenUnix: !read.SentByOwner ? Date.now() * 1000 : thread.recpLastSeenUnix,
                 ownerLastSeenUnix: read.SentByOwner ? Date.now() * 1000 : thread.ownerLastSeenUnix,
-              }
+              },
         ),
       }));
     }
@@ -965,7 +1031,7 @@ const DirectInbox = () => {
                 ...thread,
                 recpLastSeenUnix: !read.SentByOwner ? Date.now() * 1000 : thread.recpLastSeenUnix,
                 ownerLastSeenUnix: read.SentByOwner ? Date.now() * 1000 : thread.ownerLastSeenUnix,
-              }
+              },
         ),
       }));
     }
@@ -996,9 +1062,9 @@ const DirectInbox = () => {
                             ? react.Emoji
                             : null
                           : item.recpEmojiReaction,
-                      }
+                      },
                 ),
-              }
+              },
         ),
       }));
     } else if (bthread) {
@@ -1024,9 +1090,9 @@ const DirectInbox = () => {
                             ? react.Emoji
                             : null
                           : item.recpEmojiReaction,
-                      }
+                      },
                 ),
-              }
+              },
         ),
       }));
     }
@@ -1045,7 +1111,7 @@ const DirectInbox = () => {
                 items: x.items
                   .filter((x) => x.itemId !== item.DirectItem?.ItemId)
                   .map((z) => (z.repliedToItemId !== item.DirectItem!.ItemId ? z : { ...z, repliedToItemId: null })),
-              }
+              },
         ),
       }));
     } else if (bthread) {
@@ -1059,7 +1125,7 @@ const DirectInbox = () => {
                 items: x.items
                   .filter((x) => x.itemId !== item.DirectItem?.ItemId)
                   .map((z) => (z.repliedToItemId !== item.DirectItem!.ItemId ? z : { ...z, repliedToItemId: null })),
-              }
+              },
         ),
       }));
     }
@@ -1076,9 +1142,9 @@ const DirectInbox = () => {
             : {
                 ...x,
                 items: x.items.map((z) =>
-                  z.itemId !== item.MessageEdit!.ItemId ? z : { ...z, text: item.MessageEdit!.Text }
+                  z.itemId !== item.MessageEdit!.ItemId ? z : { ...z, text: item.MessageEdit!.Text },
                 ),
-              }
+              },
         ),
       }));
     } else if (bthread) {
@@ -1090,9 +1156,9 @@ const DirectInbox = () => {
             : {
                 ...x,
                 items: x.items.map((z) =>
-                  z.itemId !== item.MessageEdit!.ItemId ? z : { ...z, text: item.MessageEdit!.Text }
+                  z.itemId !== item.MessageEdit!.ItemId ? z : { ...z, text: item.MessageEdit!.Text },
                 ),
-              }
+              },
         ),
       }));
     }
@@ -1103,10 +1169,16 @@ const DirectInbox = () => {
     let respItem: IItem | null = null;
     if (item.DirectItem.RepliedToItemId) {
       try {
-        let res = await clientFetchApi<boolean, IItem>("/api/message/GetDirectParentItem", { methodType: MethodType.get, session: session, data: null, queries: [
+        let res = await clientFetchApi<boolean, IItem>("/api/message/GetDirectParentItem", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "recpId", value: item.RecpId },
             { key: "itemId", value: item.DirectItem.RepliedToItemId },
-          ], onUploadProgress: undefined });
+          ],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) respItem = res.value;
         else if (res.info.responseType === ResponseType.InvalidItemId) item.DirectItem.RepliedToItemId = null;
       } catch (error) {}
@@ -1214,7 +1286,7 @@ const DirectInbox = () => {
                     refUserSelectId.current === item.ThreadId && !item.SentByOwner
                       ? item.DirectItem!.CreatedTime * 1e6
                       : x.ownerLastSeenUnix,
-                }
+                },
           )
           .sort((a, b) => {
             if (a.isPin && !b.isPin) {
@@ -1245,7 +1317,7 @@ const DirectInbox = () => {
                     refUserSelectId.current === item.ThreadId
                       ? item.DirectItem!.CreatedTime * 1e6
                       : x.ownerLastSeenUnix,
-                }
+                },
           )
           .sort((a, b) => {
             if (a.isPin && !b.isPin) {
@@ -1260,10 +1332,16 @@ const DirectInbox = () => {
     } else {
       try {
         console.log("igiddddddddddddddd", item.RecpId);
-        let newThread = await clientFetchApi<IGetDirectInboxItems, IThread>("Instagramer" + "/Message/GetThread", { methodType: MethodType.get, session: session, data: null, queries: [
+        let newThread = await clientFetchApi<IGetDirectInboxItems, IThread>("Instagramer" + "/Message/GetThread", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "recpId", value: item.RecpId },
             { key: "nextMaxId", value: "null" },
-          ], onUploadProgress: undefined });
+          ],
+          onUploadProgress: undefined,
+        });
         console.log("newThreadFetch", newThread);
         if (newThread.succeeded) {
           for (
@@ -1274,10 +1352,16 @@ const DirectInbox = () => {
             i++
           ) {
             await delay(1000);
-            newThread = await clientFetchApi<IGetDirectInboxItems, IThread>("Instagramer" + "/Message/GetThread", { methodType: MethodType.get, session: session, data: null, queries: [
+            newThread = await clientFetchApi<IGetDirectInboxItems, IThread>("Instagramer" + "/Message/GetThread", {
+              methodType: MethodType.get,
+              session: session,
+              data: null,
+              queries: [
                 { key: "recpId", value: item.RecpId },
                 { key: "nextMaxId", value: "null" },
-              ], onUploadProgress: undefined });
+              ],
+              onUploadProgress: undefined,
+            });
           }
           console.log("threadId", newThread.value.threadId);
           console.log("tempThreadIds", tempThreadIds);
@@ -1604,13 +1688,14 @@ const DirectInbox = () => {
                     id: 0,
                     label: t(LanguageKey.General),
                     unreadCount:
-                    generalInbox &&
-                      generalInbox?.threads.reduce((total, thread) => {
-                        const unreadCount = thread.items.filter(
-                          (item) => item.createdTime > thread.ownerLastSeenUnix
-                        ).length;
-                        return total + unreadCount;
-                      }, 0) || 0,
+                      (generalInbox &&
+                        generalInbox?.threads.reduce((total, thread) => {
+                          const unreadCount = thread.items.filter(
+                            (item) => item.createdTime > thread.ownerLastSeenUnix,
+                          ).length;
+                          return total + unreadCount;
+                        }, 0)) ||
+                      0,
                   },
                   {
                     id: 3,
@@ -1618,7 +1703,7 @@ const DirectInbox = () => {
                     unreadCount:
                       businessInbox?.threads.reduce((total, thread) => {
                         const unreadCount = thread.items.filter(
-                          (item) => item.createdTime > thread.ownerLastSeenUnix
+                          (item) => item.createdTime > thread.ownerLastSeenUnix,
                         ).length;
                         return total + unreadCount;
                       }, 0) || 0,
@@ -1712,7 +1797,7 @@ const DirectInbox = () => {
                                 v.items.length > 0
                                   ? handleLastMessage(v.items.sort((a, b) => b.createdTime - a.createdTime)[0])
                                   : "",
-                                styles.messagetext
+                                styles.messagetext,
                               )}>
                               {v.items.length > 0
                                 ? handleLastMessage(v.items.sort((a, b) => b.createdTime - a.createdTime)[0])
@@ -1872,7 +1957,7 @@ const DirectInbox = () => {
                             <div
                               className={getMessageDirectionClass(
                                 handleLastMessage(v.items.sort((a, b) => b.createdTime - a.createdTime)[0]),
-                                styles.messagetext
+                                styles.messagetext,
                               )}>
                               {handleLastMessage(v.items.sort((a, b) => b.createdTime - a.createdTime)[0])}
                             </div>
@@ -2069,7 +2154,7 @@ const DirectInbox = () => {
                                 <div
                                   className={getMessageDirectionClass(
                                     handleLastMessage(v.items.sort((a, b) => b.createdTime - a.createdTime)[0]),
-                                    styles.messagetext
+                                    styles.messagetext,
                                   )}>
                                   {handleLastMessage(v.items.sort((a, b) => b.createdTime - a.createdTime)[0])}
                                 </div>
@@ -2086,7 +2171,7 @@ const DirectInbox = () => {
                               </div>
                             </div>
                           </div>
-                        )
+                        ),
                     )}
                 </>
               )}
@@ -2200,7 +2285,7 @@ const DirectInbox = () => {
                               </div>
                             </div>
                           </div>
-                        )
+                        ),
                     )}
                 </>
               )}
@@ -2296,7 +2381,7 @@ const DirectInbox = () => {
                               </>
                             )}
                           </div>
-                        )
+                        ),
                     )}
                 </>
               )}
@@ -2435,7 +2520,7 @@ const DirectInbox = () => {
                               </>
                             )}
                           </div>
-                        )
+                        ),
                     )}
                 </>
               )}

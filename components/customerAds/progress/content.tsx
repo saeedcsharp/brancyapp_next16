@@ -3,7 +3,7 @@ import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import DragComponent, { positionType } from "saeed/components/design/dragComponent/dragComponent";
 import InputText from "saeed/components/design/inputText";
 import TextArea from "saeed/components/design/textArea/textArea";
-import { MethodType } from "saeed/helper/apihelper";
+import { MethodType } from "saeed/helper/api";
 import styles from "./progress.module.css";
 import styles2 from "./uploadContent.module.css";
 
