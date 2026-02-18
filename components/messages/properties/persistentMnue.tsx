@@ -71,7 +71,13 @@ const PersistentMenu = React.memo(
           return newState;
         });
         if (selectedPrompt.find((p) => p.promptId === promptId)) return;
-        const res = await clientFetchApi<boolean, IDetailPrompt>(`/api/ai/GetPrompt`, { methodType: MethodType.get, session: session, data: null, queries: [{ key: "promptId", value: promptId }], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, IDetailPrompt>(`/api/ai/GetPrompt`, {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "promptId", value: promptId }],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) setSelectedPrompt((prev) => [...prev, res.value]);
         else {
           notify(res.info.responseType, NotifType.Warning);
@@ -138,7 +144,7 @@ const PersistentMenu = React.memo(
           fadeTimeoutRef.current = null; // Clear the ref after timeout executes
         }, 3000);
       },
-      [originalHandleActivePersistentMenu]
+      [originalHandleActivePersistentMenu],
     );
 
     // Cleanup timeout on component unmount
@@ -439,6 +445,6 @@ const PersistentMenu = React.memo(
         </div>
       </>
     );
-  }
+  },
 );
 export default PersistentMenu;

@@ -514,6 +514,7 @@ const Properties = () => {
     setShowSpecialPayLoad(false);
   }
   function handleShowSpecialPayLoad(type: IceOrPersistent) {
+    console.log("typeee", type);
     setType(type);
     changePositionToFixed();
     setShowSpecialPayLoad(true);
