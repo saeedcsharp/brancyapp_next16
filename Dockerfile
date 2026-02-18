@@ -35,7 +35,9 @@ COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
 # Install sharp for optimized image handling in production
-RUN npm i --no-save sharp@0.33.5 && \
+RUN mkdir -p /app/sharp && cd /app/sharp && npm init -y && npm i sharp@0.33.5 && \
+    cp -r node_modules/sharp /app/node_modules/sharp && \
+    rm -rf /app/sharp && \
     chown -R nextjs:nodejs /app/node_modules/sharp
 
 ENV NEXT_SHARP_PATH=/app/node_modules/sharp
