@@ -1,7 +1,17 @@
 "use client";
 
 import React, { ComponentType } from "react";
-import { useParams, usePathname, useRouter as useAppRouter, useSearchParams } from "next/navigation";
+import { useParams, usePathname, useRouter as useAppRouter } from "next/navigation";
+
+// Safe wrapper: returns null during SSR/prerender instead of throwing
+function useSafeSearchParams(): URLSearchParams | null {
+  if (typeof window === "undefined") return null;
+  try {
+    return new URLSearchParams(window.location.search);
+  } catch {
+    return null;
+  }
+}
 
 type QueryValue = string | string[] | undefined;
 type Query = Record<string, QueryValue>;
@@ -61,7 +71,7 @@ function getAsPath(pathname: string, searchParams: URLSearchParams | null): stri
 
 function buildQuery(
   params: ReturnType<typeof useParams>,
-  searchParams: ReturnType<typeof useSearchParams>,
+  searchParams: URLSearchParams | null,
   pathname: string,
 ): Query {
   const query: Query = {};
@@ -105,7 +115,7 @@ export function useRouter(): NextRouter {
   const appRouter = useAppRouter();
   const pathname = usePathname() || "/";
   const params = useParams();
-  const searchParams = useSearchParams();
+  const searchParams = useSafeSearchParams();
 
   return {
     pathname,

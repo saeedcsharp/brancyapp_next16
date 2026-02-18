@@ -1,7 +1,21 @@
 "use client";
 
-import PageComponent from "saeed/legacy-pages/advertise/index";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { useEffect } from "react";
 
 export default function Page() {
-  return <PageComponent />;
+  const router = useRouter();
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push("/");
+    },
+  });
+
+  useEffect(() => {
+    router.push("/advertise/calendar");
+  }, [router]);
+
+  return null;
 }

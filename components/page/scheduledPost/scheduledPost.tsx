@@ -118,7 +118,13 @@ const ScheduledPost = (props: { data: IPrePost[] | null }) => {
     try {
       setDeletePrePost(null);
       const userId = session?.user.instagramerIds[session.user.currentIndex];
-      const res = await clientFetchApi<boolean, boolean>(`/api/${userid}/Post`, { methodType: MethodType.get, session: session, data: undefined, queries: [{ key: "prePostId", value: deletePrePost.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>(`/api/${userId}/Post`, {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: [{ key: "prePostId", value: deletePrePost.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setScheduledPosts((prev) => ({
           ...prev!,

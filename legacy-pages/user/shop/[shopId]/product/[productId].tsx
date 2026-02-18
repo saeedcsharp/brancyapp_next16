@@ -201,7 +201,7 @@ const productReducer = (state: ProductState, action: ProductAction): ProductStat
       return {
         ...state,
         addCard: state.addCard.map((item) =>
-          item.subProductId === action.payload.subProductId ? { ...item, stock: action.payload.stock } : item
+          item.subProductId === action.payload.subProductId ? { ...item, stock: action.payload.stock } : item,
         ),
       };
     case "REMOVE_ADD_CARD_ITEM":
@@ -370,7 +370,7 @@ export default function Product() {
       const walk = x - dragStartX;
       thumbnailContainerRef.current.scrollLeft = scrollLeft - walk;
     },
-    [isDragging, dragStartX, scrollLeft]
+    [isDragging, dragStartX, scrollLeft],
   );
 
   const handleMouseUp = useCallback(() => {
@@ -405,7 +405,7 @@ export default function Product() {
         });
       }
     },
-    [product?.isColorVariation]
+    [product?.isColorVariation],
   );
 
   const getCustomVariationStatus = useCallback(
@@ -429,7 +429,7 @@ export default function Product() {
         });
       }
     },
-    [product?.customVariation]
+    [product?.customVariation],
   );
 
   const compareVariations = useCallback((subProducts: ISubProduct[]) => {
@@ -469,7 +469,7 @@ export default function Product() {
         payload: { selectedVariation: newSelectedVars },
       });
     },
-    [selectedVars]
+    [selectedVars],
   );
 
   const handleIncrement = useCallback(
@@ -503,7 +503,7 @@ export default function Product() {
         },
       });
     },
-    [addCard, product]
+    [addCard, product],
   );
 
   const handleDecrement = useCallback(
@@ -528,7 +528,7 @@ export default function Product() {
         });
       }
     },
-    [addCard]
+    [addCard],
   );
 
   const handleInitialedSelectedProduct = useCallback(
@@ -590,7 +590,7 @@ export default function Product() {
         productDispatch({ type: "SET_LOADING_QUERY", payload: false });
       }
     },
-    [router.query.subProductId]
+    [router.query.subProductId],
   );
 
   // Memoized helper functions
@@ -660,17 +660,23 @@ export default function Product() {
           return <span>-</span>;
       }
     },
-    [t]
+    [t],
   );
 
   const fetchSimilarProducts = useCallback(
     async (categoryId: number) => {
       try {
         if (!session || !shopId || !productId) return;
-        const res = await clientFetchApi<boolean, IProduct>("/api/shop/getShopProducts", { methodType: MethodType.get, session: session, data: null, queries: [
+        const res = await clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "instagramerId", value: shopId.toString() },
             { key: "categoryId", value: categoryId.toString() },
-          ], onUploadProgress: undefined });
+          ],
+          onUploadProgress: undefined,
+        });
 
         if (res.succeeded) {
           const filteredProducts = res.value.products.filter((x) => x.shortProduct.productId !== Number(productId));
@@ -687,16 +693,20 @@ export default function Product() {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session, shopId, productId]
+    [session, shopId, productId],
   );
 
   const fetchShop = useCallback(
     async (instagramerId: number) => {
       if (!session) return;
       try {
-        const res = await clientFetchApi<boolean, IFullShop>("/api/shop/getfullshop", { methodType: MethodType.get, session: session, data: null, queries: [
-          { key: "instagramerId", value: instagramerId.toString() },
-        ], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, IFullShop>("/api/shop/getfullshop", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "instagramerId", value: instagramerId.toString() }],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) {
           productDispatch({ type: "SET_SHOP", payload: res.value.shortShop });
         }
@@ -704,7 +714,7 @@ export default function Product() {
         // ignore error
       }
     },
-    [session]
+    [session],
   );
 
   const fetchData = useCallback(async () => {
@@ -713,27 +723,45 @@ export default function Product() {
 
     try {
       const [res, commentRes, hashtagRes] = await Promise.all([
-        clientFetchApi<boolean, IFullProduct>("/api/shop/getfullproduct", { methodType: MethodType.get, session: session, data: null, queries: [
-          { key: "instagramerId", value: shopId.toString() },
-          { key: "productId", value: productId.toString() },
-          { key: "language", value: findSystemLanguage().toString() },
-        ], onUploadProgress: undefined }),
+        clientFetchApi<boolean, IFullProduct>("/api/shop/getfullproduct", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
+            { key: "instagramerId", value: shopId.toString() },
+            { key: "productId", value: productId.toString() },
+            { key: "language", value: findSystemLanguage().toString() },
+          ],
+          onUploadProgress: undefined,
+        }),
         (async () => {
           try {
-            return await clientFetchApi<boolean, IComment[]>("/api/shop/GetProductComments", { methodType: MethodType.get, session: session, data: null, queries: [
+            return await clientFetchApi<boolean, IComment[]>("/api/shop/GetProductComments", {
+              methodType: MethodType.get,
+              session: session,
+              data: null,
+              queries: [
                 { key: "instagramerId", value: shopId.toString() },
                 { key: "productId", value: productId.toString() },
-              ], onUploadProgress: undefined });
+              ],
+              onUploadProgress: undefined,
+            });
           } catch {
             return { succeeded: false, value: [] } as any;
           }
         })(),
         (async () => {
           try {
-            return await clientFetchApi<boolean, string[]>("/api/shop/getproducthashtags", { methodType: MethodType.get, session: session, data: null, queries: [
+            return await clientFetchApi<boolean, string[]>("/api/shop/getproducthashtags", {
+              methodType: MethodType.get,
+              session: session,
+              data: null,
+              queries: [
                 { key: "instagramerId", value: shopId.toString() },
                 { key: "productId", value: productId.toString() },
-              ], onUploadProgress: undefined });
+              ],
+              onUploadProgress: undefined,
+            });
           } catch {
             return { succeeded: false, value: [] } as any;
           }
@@ -797,11 +825,17 @@ export default function Product() {
   ]);
   const handleSaveProduct = useCallback(async () => {
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/shop/UpdateFavoriteProduct", { methodType: MethodType.get, session: session, data: null, queries: [
+      const res = await clientFetchApi<boolean, boolean>("/api/shop/UpdateFavoriteProduct", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "instagramerId", value: shopId?.toString() },
           { key: "productId", value: product!.productId.toString() },
           { key: "isFavorite", value: (!product!.isFavorite).toString() },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         productDispatch({
           type: "UPDATE_PRODUCT_FAVORITE",
@@ -855,12 +889,18 @@ export default function Product() {
     const promises = totalStock
       .filter((x) => x.stock > 0)
       .map(async (a) => {
-        const res = await clientFetchApi<boolean, boolean>("/api/shop/addcard", { methodType: MethodType.get, session: session, data: null, queries: [
-          { key: "instagramerId", value: shopId.toString() },
-          { key: "productId", value: productId.toString() },
-          { key: "subProductId", value: a.subProductId.toString() },
-          { key: "count", value: a.stock.toString() },
-        ], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, boolean>("/api/shop/addCard", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
+            { key: "instagramerId", value: shopId.toString() },
+            { key: "productId", value: productId.toString() },
+            { key: "subProductId", value: a.subProductId.toString() },
+            { key: "count", value: a.stock.toString() },
+          ],
+          onUploadProgress: undefined,
+        });
         if (!res.succeeded) {
           notify(res.info.responseType, NotifType.Warning);
           return;
@@ -924,7 +964,7 @@ export default function Product() {
       overflowX: "auto" as const,
       userSelect: "none" as const,
     }),
-    [isDragging]
+    [isDragging],
   );
 
   const hasFetched = useRef(false);
@@ -998,7 +1038,7 @@ export default function Product() {
           return "";
       }
     },
-    [t]
+    [t],
   );
 
   const getAvailableOptions = useCallback(
@@ -1035,16 +1075,22 @@ export default function Product() {
       }
       return [];
     },
-    [product, selectedProduct.colorId, selectedProduct.customVariation, selectedVars]
+    [product, selectedProduct.colorId, selectedProduct.customVariation, selectedVars],
   );
 
   const handleUpdateFavorite = useCallback(async () => {
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/shop/UpdateFavoriteProduct", { methodType: MethodType.get, session: session, data: null, queries: [
+      const res = await clientFetchApi<boolean, boolean>("/api/shop/UpdateFavoriteProduct", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "instagramerId", value: shopId?.toString() || "" },
           { key: "productId", value: product?.productId.toString() || "" },
           { key: "isFavorite", value: (!product?.isFavorite).toString() },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         productDispatch({
           type: "UPDATE_PRODUCT_FAVORITE",
@@ -1101,7 +1147,7 @@ export default function Product() {
 
     if (selectedVars.length > 0) {
       const filteredVars = selectedVars.filter((v) =>
-        (getAvailableOptions("variation", v.key) as string[]).includes(v.value)
+        (getAvailableOptions("variation", v.key) as string[]).includes(v.value),
       );
       if (filteredVars.length !== selectedVars.length) {
         productDispatch({ type: "SET_SELECTED_VARS", payload: filteredVars });
@@ -1562,7 +1608,7 @@ export default function Product() {
                                     onClick={() => {
                                       if (selectedVars.some((item) => item.key === x.key && item.value === v)) {
                                         const filteredVars = selectedVars.filter(
-                                          (item) => !(item.key === x.key && item.value === v)
+                                          (item) => !(item.key === x.key && item.value === v),
                                         );
                                         productDispatch({
                                           type: "SET_SELECTED_VARS",
@@ -1662,13 +1708,13 @@ export default function Product() {
                               <div className={styles.discountandremaining}>
                                 <span className={styles.discountBadge}>
                                   {Math.round(
-                                    ((showProduct.mainPrice - showProduct.price) / showProduct.mainPrice) * 100
+                                    ((showProduct.mainPrice - showProduct.price) / showProduct.mainPrice) * 100,
                                   )}
                                   %
                                 </span>
 
                                 {addCard.some(
-                                  (item) => item.subProductId === showProduct.subProductId && item.stock > 0
+                                  (item) => item.subProductId === showProduct.subProductId && item.stock > 0,
                                 ) &&
                                   showProduct.remainingDiscountTime && (
                                     <span className={styles.discountoverall} data-tooltip={getDiscountTooltip}>
@@ -1687,7 +1733,7 @@ export default function Product() {
 
                                 {(addCard.every((item) => item.subProductId !== showProduct.subProductId) ||
                                   addCard.some(
-                                    (item) => item.subProductId === showProduct.subProductId && item.stock === 0
+                                    (item) => item.subProductId === showProduct.subProductId && item.stock === 0,
                                   )) &&
                                   showProduct.remainingDiscountTime && (
                                     // <div className={styles.discountdateremaining}>
@@ -1698,7 +1744,7 @@ export default function Product() {
                             )}
 
                             {addCard.some(
-                              (item) => item.subProductId === showProduct.subProductId && item.stock > 0
+                              (item) => item.subProductId === showProduct.subProductId && item.stock > 0,
                             ) && (
                               <div className={styles.pricesection}>
                                 {showProduct.mainPrice - showProduct.price > 0 && (
@@ -1814,7 +1860,7 @@ export default function Product() {
                                   return;
                                 }
                                 const addedproduct = addCard.find(
-                                  (item) => item.subProductId === showProduct.subProductId
+                                  (item) => item.subProductId === showProduct.subProductId,
                                 );
                                 if (addedproduct)
                                   productDispatch({
@@ -1931,7 +1977,7 @@ export default function Product() {
                           description: string;
                           sizeTable: string;
                         }
-                      ).sizeTable
+                      ).sizeTable,
                     )
                       ? [
                           {
@@ -2055,7 +2101,7 @@ export default function Product() {
                           description: string;
                           sizeTable: string;
                         }
-                      ).sizeTable
+                      ).sizeTable,
                     ) && (
                       <div
                         className={styles.tablePreview}
@@ -2223,7 +2269,7 @@ export default function Product() {
                           key={product.shortProduct.productId}
                           onClick={() =>
                             router.push(
-                              `/user/shop/${product.shortProduct.instagramerId}/product/${product.shortProduct.productId}`
+                              `/user/shop/${product.shortProduct.instagramerId}/product/${product.shortProduct.productId}`,
                             )
                           }>
                           <div className={styles.productImageparent}>
@@ -2271,7 +2317,7 @@ export default function Product() {
                                         ((product.shortProduct.maxPrice - product.shortProduct.maxDiscountPrice) /
                                           product.shortProduct.maxPrice) *
                                           100 *
-                                          100
+                                          100,
                                       ) / 100}
                                       %
                                     </span>
