@@ -5,7 +5,7 @@ RUN apk add --no-cache libc6-compat
 WORKDIR /app
 
 COPY package.json package-lock.json* ./
-RUN npm ci --maxsockets 1 --prefer-offline
+RUN npm ci --maxsockets 1 --prefer-offline --legacy-peer-deps
 
 FROM base AS builder
 WORKDIR /app
@@ -13,6 +13,7 @@ COPY --from=deps /app/node_modules ./node_modules
 COPY . .
 
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_SHARP_PATH=/app/node_modules/sharp
 
 RUN npm run build
 
@@ -25,13 +26,19 @@ ENV NEXT_TELEMETRY_DISABLED=1
 RUN addgroup --system --gid 1001 nodejs && \
     adduser --system --uid 1001 nextjs
 
-# sharp for optimized image handling
-RUN npm i --no-save sharp && \
-    chown -R nextjs:nodejs /app
-
 COPY --from=builder /app/public ./public
+
+# Create .next directory with correct ownership before copying
+RUN mkdir .next && chown nextjs:nodejs .next
+
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
+
+# Install sharp for optimized image handling in production
+RUN npm i --no-save sharp@0.33.5 && \
+    chown -R nextjs:nodejs /app/node_modules/sharp
+
+ENV NEXT_SHARP_PATH=/app/node_modules/sharp
 
 USER nextjs
 
