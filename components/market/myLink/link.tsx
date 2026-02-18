@@ -28,7 +28,7 @@ const LinkItem = memo<LinkItemProps>(({ link, baseMediaUrl, onLinkClick }) => {
         handleClick();
       }
     },
-    [handleClick]
+    [handleClick],
   );
 
   const handleImageError = useCallback(() => {
@@ -115,7 +115,7 @@ const Link = memo<LinkComponentProps>(({ data }) => {
         toggleContentVisibility();
       }
     },
-    [toggleContentVisibility]
+    [toggleContentVisibility],
   );
   const sortedLinks = useMemo(() => {
     if (!data?.links?.length) return [];
@@ -130,7 +130,8 @@ const Link = memo<LinkComponentProps>(({ data }) => {
   }, [t]);
   const handleLinkClick = useCallback((redirectUrl: string) => {
     if (redirectUrl) {
-      window.location.href = redirectUrl;
+      const url = /^https?:\/\//i.test(redirectUrl) ? redirectUrl : `https://${redirectUrl}`;
+      window.location.href = url;
     }
   }, []);
   if (!data?.links?.length) return null;
