@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ChangeEvent, MouseEvent } from "react";
+import React, { ChangeEvent, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import CheckBoxButton from "saeed/components/design/checkBoxButton";
@@ -15,7 +15,7 @@ interface ProductListMobileProps {
   products: IProduct_ShortProduct[];
   productIds: number[];
   basePictureUrl: string | undefined;
-  availableStatus: JSX.Element[];
+  availableStatus: React.JSX.Element[];
   handleSelectProduct: (e: ChangeEvent<HTMLInputElement>, productId: number, productInId: number | null) => void;
   handleChangeActiveProduct: (productId: number, productInId: number | null, statusId: any) => Promise<void>;
   getStockClass: (stock: number, productInId: number | null) => string;

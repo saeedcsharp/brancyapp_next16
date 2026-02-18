@@ -1,3 +1,4 @@
+import React from "react";
 import styles from "./iconToggleButton.module.css";
 import { ToggleOrder } from "./types";
 
@@ -5,10 +6,10 @@ const IconToggleButton = (props: {
   data: { firstToggle: string; secondToggle: string };
   values: { firstToggle: string; secondToggle: string };
   dataIcon: {
-    firstIcon: { active: string | JSX.Element; diactive: string | JSX.Element };
+    firstIcon: { active: string | React.JSX.Element; diactive: string | React.JSX.Element };
     secondIcon: {
-      active: string | JSX.Element;
-      diactive: string | JSX.Element;
+      active: string | React.JSX.Element;
+      diactive: string | React.JSX.Element;
     };
   };
   setChangeToggle: (order: ToggleOrder) => void;

@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { MouseEvent, useCallback, useContext, useEffect, useMemo, useState } from "react";
+import { MouseEvent, use, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { InstaInfoContext } from "saeed/context/instaInfoContext";
 import formatTimeAgo from "saeed/helper/formatTimeAgo";
@@ -156,7 +156,7 @@ const LeftUserHamMenue = (props: {
   const { t } = useTranslation();
   const router = useRouter();
   const newRoute = useMemo(() => router.route.replaceAll("/", ""), [router.route]);
-  const { value, setValue } = useContext(InstaInfoContext) ?? {};
+  const { value, setValue } = use(InstaInfoContext) ?? {};
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   function getNotifLogo(responseType: PushResponseType, orderStep?: OrderStep) {

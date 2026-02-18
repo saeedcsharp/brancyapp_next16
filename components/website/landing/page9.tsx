@@ -96,7 +96,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
   // ریف‌ها برای مدیریت فوکوس و DOM
   const planCardsRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLInputElement>(null);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const isDraggingRef = useRef(false);
   const startXRef = useRef(0);
   const scrollLeftRef = useRef(0);
@@ -111,7 +111,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
     (plan: PlanTier, duration: keyof typeof discounts) => {
       return isPersian ? plan.prices[duration] : plan.pricesUsd[duration];
     },
-    [isPersian]
+    [isPersian],
   );
 
   // تعریف پلن‌ها با استفاده از translation - memoized برای بهینه‌سازی رندر
@@ -232,7 +232,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
         },
       },
     ],
-    [t]
+    [t],
   );
 
   const [state, dispatch] = useReducer(planReducer, {
@@ -263,7 +263,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
   const currentPlan = useMemo(() => {
     return (
       pricingPlans.find(
-        (plan) => state.selectedFollowers >= plan.minFollowers && state.selectedFollowers <= plan.maxFollowers
+        (plan) => state.selectedFollowers >= plan.minFollowers && state.selectedFollowers <= plan.maxFollowers,
       ) || pricingPlans[0]
     );
   }, [state.selectedFollowers, pricingPlans]);
@@ -274,7 +274,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
     if (!isCurrentDurationAvailable) {
       // پیدا کردن اولین مدت زمان موجود
       const availableDuration = Object.keys(discounts).find(
-        (duration) => getPriceForPlan(currentPlan, duration as keyof typeof discounts) > 0
+        (duration) => getPriceForPlan(currentPlan, duration as keyof typeof discounts) > 0,
       ) as keyof typeof discounts;
       if (availableDuration) {
         dispatch({ type: "SET_SELECTED_DURATION", payload: availableDuration });
@@ -290,7 +290,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
     }
     if (planCardsRef.current) {
       const currentPlanIndex = pricingPlans.findIndex(
-        (plan) => state.selectedFollowers >= plan.minFollowers && state.selectedFollowers <= plan.maxFollowers
+        (plan) => state.selectedFollowers >= plan.minFollowers && state.selectedFollowers <= plan.maxFollowers,
       );
       if (currentPlanIndex !== -1) {
         const cardElement = planCardsRef.current.children[currentPlanIndex] as HTMLElement;
@@ -319,7 +319,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
       const stepMax = followerSteps[segmentIndex + 1];
       return Math.round(stepMin + segmentProgress * (stepMax - stepMin));
     },
-    [followerSteps]
+    [followerSteps],
   );
   // تبدیل مقدار فالوور به موقعیت اسلایدر - optimized
   const followerValueToSlider = useCallback(
@@ -339,7 +339,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
       if (followerValue >= followerSteps[followerSteps.length - 1]) return 100;
       return 0;
     },
-    [followerSteps]
+    [followerSteps],
   );
   // محاسبه قیمت با تخفیف - memoized
   const calculatePrice = useCallback((basePrice: number, duration: keyof typeof discounts) => {
@@ -376,7 +376,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
       }
       return { index: 5, startPosition: (5 / 6) * 100, endPosition: 100, width: (1 / 6) * 100 };
     },
-    [followerSteps]
+    [followerSteps],
   );
   // آپدیت موقعیت تولتیپ هنگام تغییر slider
   useEffect(() => {
@@ -393,7 +393,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
       { value: 500000, label: "500K", position: (5 / 6) * 100 },
       { value: 1000000, label: "♾️", position: 100 },
     ],
-    []
+    [],
   );
   // آپدیت slider value هنگام تغییر selectedFollowers
   useEffect(() => {
@@ -506,7 +506,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
           break;
       }
     },
-    [state.isPopupOpen, closePopup, openPopup]
+    [state.isPopupOpen, closePopup, openPopup],
   );
   // Slider keyboard navigation
   const handleSliderKeyDown = useCallback(
@@ -538,7 +538,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
         dispatch({ type: "SET_SELECTED_FOLLOWERS", payload: sliderToFollowerValue(newValue) });
       }
     },
-    [state.sliderValue]
+    [state.sliderValue],
   );
   const titleContent = useMemo(() => {
     const text = t(LanguageKey.page9_planheader);
@@ -657,7 +657,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
                 state.selectedFollowers >= plan.minFollowers && state.selectedFollowers <= plan.maxFollowers;
               const isSuitable = true;
               const hasHighlightedPlan = pricingPlans.some(
-                (p) => state.selectedFollowers >= p.minFollowers && state.selectedFollowers <= p.maxFollowers
+                (p) => state.selectedFollowers >= p.minFollowers && state.selectedFollowers <= p.maxFollowers,
               );
               const shouldDim = hasHighlightedPlan && !isCurrentPlan;
               return (

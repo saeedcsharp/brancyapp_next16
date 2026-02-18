@@ -16,7 +16,7 @@ import {
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
 import { useSession } from "next-auth/react";
-import { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import DragDrop from "saeed/components/design/dragDrop/dragDrop";
 import InputText from "saeed/components/design/inputText";
@@ -59,10 +59,10 @@ function SortableItem({
   handleSelectSpecKeyIndex: (variationTitleId: number) => number;
   handleSelectPredefineValue: (id: any, index: number) => void;
   handleSelectSpecValueIndex: (variationId: number, variationTitleId: number) => number;
-  specifySpecValue: (id: any) => JSX.Element[];
+  specifySpecValue: (id: any) => React.JSX.Element[];
   handleChangeKeyCustom: (e: ChangeEvent<HTMLInputElement>, index: number) => void;
   handleChangeValueCustom: (e: ChangeEvent<HTMLTextAreaElement>, index: number) => void;
-  defaultSpecTitles: JSX.Element[];
+  defaultSpecTitles: React.JSX.Element[];
   t: (key: string) => string;
 }) {
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
@@ -117,7 +117,7 @@ function SortableItem({
                     handleOptionSelect={(id) => handleSelectPredefineValue(id, index)}
                     item={handleSelectSpecValueIndex(
                       item.defaultSpecification.value,
-                      item.defaultSpecification.variationTitle
+                      item.defaultSpecification.variationTitle,
                     )}
                     isRefresh={refresh}
                     dangerBorder={item.defaultSpecification.value === 0}
@@ -201,12 +201,12 @@ function Specifications({
     specificationItems: {
       customSpecification: ICustomSpecificationItem | null;
       defaultSpecification: ISpecificationItem | null;
-    }[]
+    }[],
   ) => void;
 }) {
   const { t } = useTranslation();
   const { data: session } = useSession();
-  const defaultSpecTitles: JSX.Element[] = initialzedDefaultSpecTitles();
+  const defaultSpecTitles: React.JSX.Element[] = initialzedDefaultSpecTitles();
   const [loading, setLoading] = useState<boolean>(true);
   const [refresh, setRefresh] = useState(false);
   const [specificationItems, setSpecificationItems] = useState(createInstanceInfo.specificationItems);
@@ -215,11 +215,11 @@ function Specifications({
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   function initialzedDefaultSpecTitles() {
-    let defaultSpecTitles: JSX.Element[] = [
+    let defaultSpecTitles: React.JSX.Element[] = [
       <div className={styles.namesection} id={"0"} key="0">
         <div>{t(LanguageKey.Pleaseselect)}</div>
       </div>,
@@ -229,7 +229,7 @@ function Specifications({
         defaultSpecTitles.push(
           <div id={vari.id.toString()} key={vari.id}>
             {vari.langValue}
-          </div>
+          </div>,
         );
       }
     }
@@ -247,8 +247,8 @@ function Specifications({
                 variationTitle: Number(id),
                 value: 0,
               },
-            }
-      )
+            },
+      ),
     );
     setRefresh(!refresh);
   }
@@ -264,8 +264,8 @@ function Specifications({
                 ...x.defaultSpecification!,
                 value: Number(id),
               },
-            }
-      )
+            },
+      ),
     );
   }
 
@@ -308,7 +308,7 @@ function Specifications({
         newArray.push(
           <div id={val.variationId.toString()} key={val.variationId}>
             {val.langValue}
-          </div>
+          </div>,
         );
       }
     }
@@ -343,8 +343,8 @@ function Specifications({
                 ...x.customSpecification!,
                 key: e.target.value,
               },
-            }
-      )
+            },
+      ),
     );
   }
 
@@ -359,8 +359,8 @@ function Specifications({
                 ...x.customSpecification!,
                 value: e.target.value,
               },
-            }
-      )
+            },
+      ),
     );
   }
 
@@ -380,10 +380,19 @@ function Specifications({
 
   async function handleGetLastSpecification() {
     try {
-      const res = await clientFetchApi<boolean, IProduct_LastSpecification>("shopper" + "" + "/Product/GetLastProductSpecification", { methodType: MethodType.get, session: session, data: null, queries: [
-          { key: "categoryId", value: categoryId.toString() },
-          { key: "language", value: "1" },
-        ], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IProduct_LastSpecification>(
+        "shopper" + "" + "/Product/GetLastProductSpecification",
+        {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
+            { key: "categoryId", value: categoryId.toString() },
+            { key: "language", value: "1" },
+          ],
+          onUploadProgress: undefined,
+        },
+      );
       if (res.succeeded) {
         let newSpecItems: {
           customSpecification: ICustomSpecificationItem | null;

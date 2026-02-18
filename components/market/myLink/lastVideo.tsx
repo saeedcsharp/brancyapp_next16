@@ -1,4 +1,5 @@
 import { memo, useCallback, useEffect, useMemo, useReducer, useRef } from "react";
+import ReactDOM from "react-dom";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "saeed/i18n";
 import { ILastVideo } from "saeed/models/market/myLink";
@@ -97,7 +98,7 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
       }
       return null;
     },
-    [ensureAbsoluteHttpUrl]
+    [ensureAbsoluteHttpUrl],
   );
 
   type OpenMode = "replace" | "new-tab";
@@ -110,7 +111,7 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
         window.location.href = finalUrl;
       }
     },
-    [ensureAbsoluteHttpUrl]
+    [ensureAbsoluteHttpUrl],
   );
 
   const openExternalUrl = useCallback(
@@ -154,7 +155,7 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
       // Default behavior: open normalized absolute URL
       navigateTo(absolute, mode);
     },
-    [ensureAbsoluteHttpUrl, isMobile, isAndroid, isIOS, parseYouTubeVideoId, navigateTo]
+    [ensureAbsoluteHttpUrl, isMobile, isAndroid, isIOS, parseYouTubeVideoId, navigateTo],
   );
   const activeOptionsCount = useMemo(() => {
     if (!data.lastVideo) return 0;
@@ -249,7 +250,7 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
           console.log("پلتفرم نامشخص");
       }
     },
-    [data.lastVideo]
+    [data.lastVideo],
   );
 
   let lastUserInteraction = 0;
@@ -358,17 +359,8 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
 
   // useEffect برای بارگذاری YouTube API
   useEffect(() => {
-    const loadYouTubeAPI = () => {
-      if (typeof window !== "undefined" && !(window as any).YT) {
-        const script = document.createElement("script");
-        script.src = "https://www.youtube.com/iframe_api";
-        script.async = true;
-        document.head.appendChild(script);
-      }
-    };
-
     if (data.lastVideo?.youtubeChannel?.video?.frameUrl) {
-      loadYouTubeAPI();
+      ReactDOM.preinit("https://www.youtube.com/iframe_api", { as: "script" });
     }
   }, [data.lastVideo]);
 
@@ -510,7 +502,7 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
         </label>
       );
     },
-    [handleStreamSelection, state.selectedEmbed]
+    [handleStreamSelection, state.selectedEmbed],
   );
   // تابع برای تبدیل لینک‌ها به عناصر قابل کلیک
   const convertLinksToClickable = useCallback((text: string) => {
@@ -614,7 +606,7 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
         </div>
       );
     },
-    [state.selectedEmbed, handleVideoError, handleRedirectYoutube, handleVideoClick, convertLinksToClickable]
+    [state.selectedEmbed, handleVideoError, handleRedirectYoutube, handleVideoClick, convertLinksToClickable],
   );
   if (!data.lastVideo) return null;
   return (

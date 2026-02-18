@@ -106,8 +106,8 @@ const TrandHashtags = () => {
   // Use refs for values that don't need to trigger re-renders
   const languageItemRef = useRef(INITIAL_LANGUAGE_ITEM);
   const timeItemRef = useRef(INITIAL_TIME_ITEM);
-  const hashtagTimeoutIdRef = useRef<NodeJS.Timeout>();
-  const timerIdRef = useRef<NodeJS.Timeout>();
+  const hashtagTimeoutIdRef = useRef<NodeJS.Timeout | undefined>(undefined);
+  const timerIdRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   // Complex state management with useReducer
   const [state, dispatch] = useReducer(hashtagsReducer, {
@@ -130,7 +130,7 @@ const TrandHashtags = () => {
       loading: state.isSearchLoading,
       noResult: state.isSearchNoResult,
     }),
-    [state.isSearchLoading, state.isSearchNoResult]
+    [state.isSearchLoading, state.isSearchNoResult],
   );
 
   // Memoized options to prevent unnecessary re-renders
@@ -143,7 +143,7 @@ const TrandHashtags = () => {
         {t(LanguageKey.pageTools_FA_AR)}
       </div>,
     ],
-    [t]
+    [t],
   );
 
   const timeOptions = useMemo(
@@ -161,7 +161,7 @@ const TrandHashtags = () => {
         {t(LanguageKey.pageTools_Day)}
       </div>,
     ],
-    [t]
+    [t],
   );
 
   // Optimized API calls with useCallback
@@ -169,10 +169,16 @@ const TrandHashtags = () => {
     if (!session) return;
 
     try {
-      let res = await clientFetchApi<string, ITrendHashtag[]>("/api/hashtag/GetTrendHashtag", { methodType: MethodType.get, session: session, data: null, queries: [
+      let res = await clientFetchApi<string, ITrendHashtag[]>("/api/hashtag/GetTrendHashtag", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "languageId", value: languageItemRef.current.toString() },
           { key: "period", value: timeItemRef.current.toString() },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
 
       if (res.succeeded) {
         dispatch({ type: "SET_TREND_HASHTAGS", payload: res.value });
@@ -189,7 +195,13 @@ const TrandHashtags = () => {
       if (!session || !query) return;
 
       try {
-        var res = await clientFetchApi<boolean, IShortHashtag[]>("/api/hashtag/searchHashtag", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "query", value: query }], onUploadProgress: undefined });
+        var res = await clientFetchApi<boolean, IShortHashtag[]>("/api/hashtag/searchHashtag", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "query", value: query }],
+          onUploadProgress: undefined,
+        });
 
         if (res.succeeded) {
           dispatch({ type: "SET_SEARCHED_HASHTAGS", payload: res.value });
@@ -205,7 +217,7 @@ const TrandHashtags = () => {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session]
+    [session],
   );
 
   // Optimized event handlers with useCallback
@@ -236,7 +248,7 @@ const TrandHashtags = () => {
         dispatch({ type: "SET_SEARCH_LOADING", payload: false });
       }
     },
-    [handleApiPeopleSearch, state.searchLocked]
+    [handleApiPeopleSearch, state.searchLocked],
   );
 
   const handlelanguageOptionSelect = useCallback(
@@ -244,7 +256,7 @@ const TrandHashtags = () => {
       languageItemRef.current = index;
       await fetchData();
     },
-    [fetchData]
+    [fetchData],
   );
 
   const handleTimeOptionSelect = useCallback(
@@ -252,7 +264,7 @@ const TrandHashtags = () => {
       timeItemRef.current = index;
       await fetchData();
     },
-    [fetchData]
+    [fetchData],
   );
 
   const handleOnMouseOver = useCallback(
@@ -262,7 +274,7 @@ const TrandHashtags = () => {
         dispatch({ type: "SET_HASHTAG_SVG", payload: "/copy-hashtag.svg" });
       }
     },
-    [state.hashtagSvg]
+    [state.hashtagSvg],
   );
 
   const handleOnMouseLeave = useCallback(() => {
@@ -295,7 +307,7 @@ const TrandHashtags = () => {
       timerIdRef.current = newTimerId;
       navigator.clipboard.writeText(hashtag);
     },
-    [state.selectedHashtags]
+    [state.selectedHashtags],
   );
 
   const clearHashtagList = useCallback(() => {
@@ -315,7 +327,7 @@ const TrandHashtags = () => {
       else if (index1.toString() !== state.index) return "/icon-hashtag.svg";
       else return state.hashtagSvg;
     },
-    [state.selectedHashtags, state.index, state.hashtagSvg]
+    [state.selectedHashtags, state.index, state.hashtagSvg],
   );
 
   // Effects

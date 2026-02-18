@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import DragDrop from "saeed/components/design/dragDrop/dragDrop";
 import InputText from "saeed/components/design/inputText";
@@ -22,7 +22,7 @@ const NewVariation = (props: {
   const [addNewValue, setAddNewValue] = useState<INewVariation>();
   const [customeTitle, setcustomeTitle] = useState("");
   // const [addNewObj, setAddNewObj] = useState(props.addNewObj);
-  const [defaultVariationTitle, setDefaultVariationTitle] = useState<JSX.Element[]>([
+  const [defaultVariationTitle, setDefaultVariationTitle] = useState<React.JSX.Element[]>([
     <div className={styles.namesection} id={"0"}>
       <div>{t(LanguageKey.Pleaseselect)}</div>
     </div>,
@@ -63,17 +63,17 @@ const NewVariation = (props: {
       newArray.push(
         <div className={styles.namesection} id={"0"}>
           <div>{t(LanguageKey.Pleaseselect)}</div>
-        </div>
+        </div>,
       );
       if (props.variation.colorCategories.length > 0 && !props.createInstance.isColorVariation) {
         newArray.push(
           <div className={styles.namesection} id="color">
             <div>{t(LanguageKey.color)}</div>
-          </div>
+          </div>,
         );
       }
       const newVariations = props.variation.variations.filter(
-        (x) => props.createInstance.variationTitles.find((v) => v === x.id) !== x.id
+        (x) => props.createInstance.variationTitles.find((v) => v === x.id) !== x.id,
       );
       console.log("newVariations", newVariations);
       for (let variation of newVariations) {

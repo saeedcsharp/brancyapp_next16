@@ -59,7 +59,7 @@ export default function NationalCard({
   async function uploadNationalCard(
     url: string,
     setImg: (url: string | null) => void,
-    inputRef?: React.RefObject<HTMLInputElement>,
+    inputRef?: React.RefObject<HTMLInputElement | null>,
   ) {
     try {
       const res = await clientFetchApi<boolean, string>("/api/authorize/UserAuthorizeByNationalCard", {
@@ -85,7 +85,7 @@ export default function NationalCard({
   const compressAndUpload = (
     file: File,
     setImg: (url: string | null) => void,
-    inputRef?: React.RefObject<HTMLInputElement>,
+    inputRef?: React.RefObject<HTMLInputElement | null>,
   ) => {
     if (!file) {
       if (inputRef?.current) inputRef.current.value = "";

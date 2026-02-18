@@ -29,11 +29,11 @@ interface LandingHeaderProps {
   themeState: ThemeState;
   dispatch: React.Dispatch<ThemeAction>;
   onShowCreateSignIn: () => void;
-  onMenuClickWithScroll: (targetRef: React.RefObject<HTMLDivElement>) => void;
-  onScrollToSection: (ref: React.RefObject<HTMLDivElement>) => void;
-  page2Ref: React.RefObject<HTMLDivElement>;
-  page4Ref: React.RefObject<HTMLDivElement>;
-  page9Ref: React.RefObject<HTMLDivElement>;
+  onMenuClickWithScroll: (targetRef: React.RefObject<HTMLDivElement | null>) => void;
+  onScrollToSection: (ref: React.RefObject<HTMLDivElement | null>) => void;
+  page2Ref: React.RefObject<HTMLDivElement | null>;
+  page4Ref: React.RefObject<HTMLDivElement | null>;
+  page9Ref: React.RefObject<HTMLDivElement | null>;
 }
 
 const LandingHeader: React.FC<LandingHeaderProps> = ({
@@ -67,7 +67,7 @@ const LandingHeader: React.FC<LandingHeaderProps> = ({
         checked: themeState.themeMode === "light mode",
       },
     ],
-    [themeState.themeMode, t]
+    [themeState.themeMode, t],
   );
 
   const languageOptions = useMemo(
@@ -113,7 +113,7 @@ const LandingHeader: React.FC<LandingHeaderProps> = ({
         checked: themeState.language === "az",
       },
     ],
-    [themeState.language]
+    [themeState.language],
   );
 
   // Force rerender when settings dropdown is opened
@@ -142,7 +142,7 @@ const LandingHeader: React.FC<LandingHeaderProps> = ({
         },
       });
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleChangeLanguage = useCallback(
@@ -162,7 +162,7 @@ const LandingHeader: React.FC<LandingHeaderProps> = ({
         window.scrollTo({ top: currentScrollPosition, behavior: "auto" });
       });
     },
-    [i18n, dispatch]
+    [i18n, dispatch],
   );
 
   const handleClickOutside = useCallback(
@@ -174,7 +174,7 @@ const LandingHeader: React.FC<LandingHeaderProps> = ({
         setIsSettingsOpen(false);
       }
     },
-    [isMenuOpen, isSettingsOpen]
+    [isMenuOpen, isSettingsOpen],
   );
 
   useEffect(() => {

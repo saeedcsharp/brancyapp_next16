@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { MouseEvent, useCallback, useContext, useEffect, useId, useMemo, useRef, useState } from "react";
+import { MouseEvent, use, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import { InstaInfoContext } from "saeed/context/instaInfoContext";
@@ -234,7 +234,7 @@ const LeftHamMenue = ({
   const { data: session } = useSession();
   const { t } = useTranslation();
   const router = useRouter();
-  const { value, setValue } = useContext(InstaInfoContext) ?? {};
+  const { value, setValue } = use(InstaInfoContext) ?? {};
 
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -346,7 +346,7 @@ const LeftHamMenue = ({
         }
       }
     },
-    [isNotificationOpen, isUserMenuOpen, removeMask]
+    [isNotificationOpen, isUserMenuOpen, removeMask],
   );
 
   useEffect(() => {
@@ -377,7 +377,7 @@ const LeftHamMenue = ({
       if (!setValue) return;
       setValue((prev) => prev.filter((_, i) => i !== index));
     },
-    [setValue]
+    [setValue],
   );
 
   return (
@@ -510,7 +510,7 @@ const LeftHamMenue = ({
                     aria-label={`Remove notification: ${getEnumValue(
                       PushResponseType,
                       PushResponseTitle,
-                      notif.ResponseType
+                      notif.ResponseType,
                     )}`}
                     style={{
                       cursor: "pointer",

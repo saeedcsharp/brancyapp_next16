@@ -1,4 +1,4 @@
-import { ChangeEvent, JSXElementConstructor, ReactElement, ReactNode, useEffect, useRef, useState } from "react";
+import React, { ChangeEvent, JSXElementConstructor, ReactElement, ReactNode, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "saeed/i18n";
@@ -6,7 +6,7 @@ import InputText from "../inputText";
 import RingLoader from "../loader/ringLoder";
 import styles from "./dragDrop.module.css";
 const DragDrop = (props: {
-  data: JSX.Element[];
+  data: React.JSX.Element[];
   handleOptionSelect: (id: any) => void;
   searchMod?: boolean;
   externalSearchMod?: boolean;
@@ -27,8 +27,8 @@ const DragDrop = (props: {
   const [openUpwards, setOpenUpwards] = useState(false);
   const [itemValue, setItemValue] = useState(0);
   const [searchText, setSearchText] = useState("");
-  const [searchElements, setSearchElements] = useState<JSX.Element[]>([]);
-  const [children, setChildren] = useState<JSX.Element[]>(props.data.filter((v) => v.props.id !== "0"));
+  const [searchElements, setSearchElements] = useState<React.JSX.Element[]>([]);
+  const [children, setChildren] = useState<React.JSX.Element[]>(props.data.filter((v) => v.props.id !== "0"));
   const [isSearch, setIsSearch] = useState(false);
   const [dropdownPosition, setDropdownPosition] = useState<{
     top: number;
@@ -268,8 +268,8 @@ const DragDrop = (props: {
                   ? styles.dropupClosing
                   : styles.dropdownClosing
                 : openUpwards
-                ? styles.dropup
-                : styles.dropdown
+                  ? styles.dropup
+                  : styles.dropdown
             }
             style={{
               position: "fixed",
@@ -369,7 +369,7 @@ const DragDrop = (props: {
             )}
             {props.isLoadingMoreItems && <RingLoader />}
           </div>,
-          document.body
+          document.body,
         )
       : null;
 

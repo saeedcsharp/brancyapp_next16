@@ -26,5 +26,5 @@ export const DirectionProvider: React.FC<{ children: React.ReactNode }> = ({ chi
     startSignalR(session);
   }, [session]);
 
-  return <DirectionContext.Provider value={direction}>{children}</DirectionContext.Provider>;
+  return <DirectionContext value={direction}>{children}</DirectionContext>;
 };

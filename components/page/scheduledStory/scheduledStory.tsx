@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import router from "next/router";
-import { useCallback, useContext, useEffect, useRef, useState } from "react";
+import { use, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import CounterDown2 from "saeed/components/design/counterDown/counterDown2";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
@@ -19,7 +19,7 @@ import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 let unixNow = Date.now();
 const ScheduledStory = (props: { data: IScheduledStoryServer[] | null; totalCount: number }) => {
-  const context = useContext(InstaInfoContext);
+  const context = use(InstaInfoContext);
   const { data: session, update } = useSession();
   const { t } = useTranslation();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
@@ -102,7 +102,13 @@ const ScheduledStory = (props: { data: IScheduledStoryServer[] | null; totalCoun
   async function handleDeletePreStory() {
     if (!deletePreStory) return;
     try {
-      const res = await clientFetchApi<boolean, boolean>("Instagramer" + "" + "/Story/DeletePreStory", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "id", value: deletePreStory.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("Instagramer" + "" + "/Story/DeletePreStory", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "id", value: deletePreStory.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setScheduledStories((prev) => ({
           ...prev!,

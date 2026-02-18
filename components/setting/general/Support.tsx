@@ -1,13 +1,4 @@
-import React, {
-  memo,
-  useCallback,
-  useEffect,
-  useId,
-  useMemo,
-  useReducer,
-  useRef,
-  useTransition,
-} from "react";
+import React, { memo, useCallback, useEffect, useId, useMemo, useReducer, useRef, useTransition } from "react";
 import { useTranslation } from "react-i18next";
 import Dotmenu from "saeed/components/design/dotMenu/dotMenu";
 import RingLoader from "saeed/components/design/loader/ringLoder";
@@ -32,128 +23,121 @@ interface SupportProps {
   hasMore: boolean;
 }
 
-const TicketTypeIcon = memo(
-  ({ type, size = 16 }: { type: PlatformTicketType; size?: number }) => {
-    switch (type) {
-      case PlatformTicketType.BugReport:
-        return (
-          <svg
-            width={size}
-            height={size}
-            xmlns="http://www.w3.org/2000/svg"
-            fill="var(--text-h1)"
-            viewBox="0 0 36 36">
-            <path
-              opacity=".4"
-              d="M21.68 8.82a7 7 0 0 1 1.97.37 6.5 6.5 0 0 1 3.84 3.83q.3.88.36 1.98.06 1.05.05 2.72v5a9.9 9.9 0 1 1-19.8 0v-5q-.01-1.65.04-2.72a7 7 0 0 1 .37-1.98 6.5 6.5 0 0 1 3.83-3.83c.6-.23 1.25-.32 1.98-.37a53 53 0 0 1 2.72-.04h1.92q1.64-.01 2.72.04"
-            />
-            <path d="M19.13 32.56a10 10 0 0 1-2.25 0v-7.81a1.13 1.13 0 0 1 2.25 0zM15.52 8.78q.15-1.05.57-1.78c.37-.6.9-1 1.91-1s1.54.4 1.9 1q.45.72.58 1.78.66 0 1.2.04a7 7 0 0 1 1.85.32 8 8 0 0 0-1.06-3.7A5 5 0 0 0 18 3a5 5 0 0 0-4.47 2.44 8 8 0 0 0-1.06 3.7 7 7 0 0 1 1.86-.32zM9.6 11.15l-.37-.05A3.23 3.23 0 0 1 6 7.88V7.5a1.5 1.5 0 1 0-3 0v.38c0 3.1 2.28 5.68 5.25 6.14a6 6 0 0 1 1.34-2.87m-1.49 6.7H4.5a1.5 1.5 0 1 0 0 3h3.6zm.21 6.93A6.9 6.9 0 0 0 3 31.5a1.5 1.5 0 0 0 3 0 3.9 3.9 0 0 1 3.4-3.87 10 10 0 0 1-1.09-2.85m18.29 2.85A3.9 3.9 0 0 1 30 31.5a1.5 1.5 0 1 0 3 0c0-3.27-2.27-6-5.31-6.72a10 10 0 0 1-1.09 2.85m1.3-6.78h3.6a1.5 1.5 0 1 0 0-3h-3.6zm-.15-6.83A6.2 6.2 0 0 0 33 7.88V7.5a1.5 1.5 0 1 0-3 0v.38a3.23 3.23 0 0 1-3.23 3.22q-.2 0-.36.05a6.5 6.5 0 0 1 1.34 2.87" />
-          </svg>
-        );
-      case PlatformTicketType.Wallet:
-        return (
-          <svg
-            width={size}
-            height={size}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="var(--text-h1)"
-            strokeWidth="2">
-            <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
-            <line x1="1" y1="10" x2="23" y2="10" />
-          </svg>
-        );
-      case PlatformTicketType.Message:
-        return (
-          <svg
-            width={size}
-            height={size}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="var(--text-h1)"
-            strokeWidth="2">
-            <path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z" />
-          </svg>
-        );
-      case PlatformTicketType.CustomerSupport:
-        return (
-          <svg
-            width={size}
-            height={size}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="var(--text-h1)"
-            strokeWidth="2">
-            <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
-            <circle cx="12" cy="7" r="4" />
-          </svg>
-        );
-      case PlatformTicketType.Ad:
-        return (
-          <svg
-            width={size}
-            height={size}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="var(--text-h1)"
-            strokeWidth="2">
-            <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
-            <line x1="3" y1="6" x2="21" y2="6" />
-            <path d="M16 10a4 4 0 0 1-8 0" />
-          </svg>
-        );
-      case PlatformTicketType.Shop:
-        return (
-          <svg
-            width={size}
-            height={size}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="var(--text-h1)"
-            strokeWidth="2">
-            <circle cx="9" cy="21" r="1" />
-            <circle cx="20" cy="21" r="1" />
-            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
-          </svg>
-        );
-      case PlatformTicketType.LinkMarket:
-        return (
-          <svg
-            width={size}
-            height={size}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="var(--text-h1)"
-            strokeWidth="2">
-            <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
-            <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
-          </svg>
-        );
-      case PlatformTicketType.Other:
-        return (
-          <svg
-            width={size}
-            height={size}
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="var(--text-h1)"
-            strokeWidth="2">
-            <circle cx="12" cy="12" r="3" />
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
-          </svg>
-        );
-      default:
-        return null;
-    }
+const TicketTypeIcon = memo(({ type, size = 16 }: { type: PlatformTicketType; size?: number }) => {
+  switch (type) {
+    case PlatformTicketType.BugReport:
+      return (
+        <svg width={size} height={size} xmlns="http://www.w3.org/2000/svg" fill="var(--text-h1)" viewBox="0 0 36 36">
+          <path
+            opacity=".4"
+            d="M21.68 8.82a7 7 0 0 1 1.97.37 6.5 6.5 0 0 1 3.84 3.83q.3.88.36 1.98.06 1.05.05 2.72v5a9.9 9.9 0 1 1-19.8 0v-5q-.01-1.65.04-2.72a7 7 0 0 1 .37-1.98 6.5 6.5 0 0 1 3.83-3.83c.6-.23 1.25-.32 1.98-.37a53 53 0 0 1 2.72-.04h1.92q1.64-.01 2.72.04"
+          />
+          <path d="M19.13 32.56a10 10 0 0 1-2.25 0v-7.81a1.13 1.13 0 0 1 2.25 0zM15.52 8.78q.15-1.05.57-1.78c.37-.6.9-1 1.91-1s1.54.4 1.9 1q.45.72.58 1.78.66 0 1.2.04a7 7 0 0 1 1.85.32 8 8 0 0 0-1.06-3.7A5 5 0 0 0 18 3a5 5 0 0 0-4.47 2.44 8 8 0 0 0-1.06 3.7 7 7 0 0 1 1.86-.32zM9.6 11.15l-.37-.05A3.23 3.23 0 0 1 6 7.88V7.5a1.5 1.5 0 1 0-3 0v.38c0 3.1 2.28 5.68 5.25 6.14a6 6 0 0 1 1.34-2.87m-1.49 6.7H4.5a1.5 1.5 0 1 0 0 3h3.6zm.21 6.93A6.9 6.9 0 0 0 3 31.5a1.5 1.5 0 0 0 3 0 3.9 3.9 0 0 1 3.4-3.87 10 10 0 0 1-1.09-2.85m18.29 2.85A3.9 3.9 0 0 1 30 31.5a1.5 1.5 0 1 0 3 0c0-3.27-2.27-6-5.31-6.72a10 10 0 0 1-1.09 2.85m1.3-6.78h3.6a1.5 1.5 0 1 0 0-3h-3.6zm-.15-6.83A6.2 6.2 0 0 0 33 7.88V7.5a1.5 1.5 0 1 0-3 0v.38a3.23 3.23 0 0 1-3.23 3.22q-.2 0-.36.05a6.5 6.5 0 0 1 1.34 2.87" />
+        </svg>
+      );
+    case PlatformTicketType.Wallet:
+      return (
+        <svg
+          width={size}
+          height={size}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="var(--text-h1)"
+          strokeWidth="2">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2" />
+          <line x1="1" y1="10" x2="23" y2="10" />
+        </svg>
+      );
+    case PlatformTicketType.Message:
+      return (
+        <svg
+          width={size}
+          height={size}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="var(--text-h1)"
+          strokeWidth="2">
+          <path d="m3 21 1.9-5.7a8.5 8.5 0 1 1 3.8 3.8z" />
+        </svg>
+      );
+    case PlatformTicketType.CustomerSupport:
+      return (
+        <svg
+          width={size}
+          height={size}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="var(--text-h1)"
+          strokeWidth="2">
+          <path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2" />
+          <circle cx="12" cy="7" r="4" />
+        </svg>
+      );
+    case PlatformTicketType.Ad:
+      return (
+        <svg
+          width={size}
+          height={size}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="var(--text-h1)"
+          strokeWidth="2">
+          <path d="M6 2 3 6v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6l-3-4z" />
+          <line x1="3" y1="6" x2="21" y2="6" />
+          <path d="M16 10a4 4 0 0 1-8 0" />
+        </svg>
+      );
+    case PlatformTicketType.Shop:
+      return (
+        <svg
+          width={size}
+          height={size}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="var(--text-h1)"
+          strokeWidth="2">
+          <circle cx="9" cy="21" r="1" />
+          <circle cx="20" cy="21" r="1" />
+          <path d="M1 1h4l2.68 13.39a2 2 0 0 0 2 1.61h9.72a2 2 0 0 0 2-1.61L23 6H6" />
+        </svg>
+      );
+    case PlatformTicketType.LinkMarket:
+      return (
+        <svg
+          width={size}
+          height={size}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="var(--text-h1)"
+          strokeWidth="2">
+          <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
+          <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
+        </svg>
+      );
+    case PlatformTicketType.Other:
+      return (
+        <svg
+          width={size}
+          height={size}
+          xmlns="http://www.w3.org/2000/svg"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="var(--text-h1)"
+          strokeWidth="2">
+          <circle cx="12" cy="12" r="3" />
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1 1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z" />
+        </svg>
+      );
+    default:
+      return null;
   }
-);
+});
 
 TicketTypeIcon.displayName = "TicketTypeIcon";
 
@@ -177,7 +161,7 @@ function Support({
   const [isPending, startTransition] = useTransition();
   const [activeFilter, setActiveFilter] = useReducer(
     (state: StatusReplied[], payload: StatusReplied[]) => payload,
-    [StatusReplied.InstagramerReplied]
+    [StatusReplied.InstagramerReplied],
   );
 
   useEffect(() => {
@@ -220,19 +204,19 @@ function Support({
           return "";
       }
     },
-    [t]
+    [t],
   );
   const handleStatusChange = useCallback(
     async (status: StatusReplied[]) => {
       if (timeoutRef.current) {
         clearTimeout(timeoutRef.current);
       }
-      startTransition(() => {
+      startTransition(async () => {
         setActiveFilter(status);
+        await changeStatusRepled(status);
       });
-      await changeStatusRepled(status);
     },
-    [changeStatusRepled]
+    [changeStatusRepled],
   );
   const sortedTickets = useMemo(() => {
     return platform.tickets.slice().sort((a, b) => {
@@ -247,10 +231,7 @@ function Support({
   const getEmptyStateMessage = useMemo(() => {
     if (activeFilter.includes(StatusReplied.InstagramerReplied)) {
       return t(LanguageKey.noNewAnsweredTickets);
-    } else if (
-      activeFilter.includes(StatusReplied.JustCreated) ||
-      activeFilter.includes(StatusReplied.UserReplied)
-    ) {
+    } else if (activeFilter.includes(StatusReplied.JustCreated) || activeFilter.includes(StatusReplied.UserReplied)) {
       return t(LanguageKey.noNewPendingTickets);
     } else if (
       activeFilter.includes(StatusReplied.UserClosed) ||
@@ -262,14 +243,11 @@ function Support({
     return "";
   }, [activeFilter, t]);
 
-  const handleCardKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (e.key === "Escape") {
-        setIsHidden();
-      }
-    },
-    []
-  );
+  const handleCardKeyDown = useCallback((e: React.KeyboardEvent<HTMLDivElement>) => {
+    if (e.key === "Escape") {
+      setIsHidden();
+    }
+  }, []);
 
   const handleTicketKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>, ticketId: number) => {
@@ -279,34 +257,32 @@ function Support({
       } else if (e.key === "ArrowDown" || e.key === "ArrowUp") {
         e.preventDefault();
         const currentElement = e.currentTarget;
-        const allTickets =
-          ticketListRef.current?.querySelectorAll("[data-ticket-card]");
+        const allTickets = ticketListRef.current?.querySelectorAll("[data-ticket-card]");
         if (!allTickets) return;
 
         const currentIndex = Array.from(allTickets).indexOf(currentElement);
-        const nextIndex =
-          e.key === "ArrowDown" ? currentIndex + 1 : currentIndex - 1;
+        const nextIndex = e.key === "ArrowDown" ? currentIndex + 1 : currentIndex - 1;
 
         if (nextIndex >= 0 && nextIndex < allTickets.length) {
           (allTickets[nextIndex] as HTMLElement).focus();
         }
       }
     },
-    [onOpenRespondedTicket]
+    [onOpenRespondedTicket],
   );
 
   const handlePinTicket = useCallback(
     (ticketId: number) => {
       pinTicket(ticketId);
     },
-    [pinTicket]
+    [pinTicket],
   );
 
   const handleCloseTicket = useCallback(
     (ticketId: number) => {
       closeTicket(ticketId);
     },
-    [closeTicket]
+    [closeTicket],
   );
 
   return (
@@ -348,9 +324,7 @@ function Support({
           onClick={onOpenCreateTicket}
           role="button"
           tabIndex={0}
-          aria-label={`${t(
-            LanguageKey.SettingGeneral_Support
-          )} - ایجاد تیکت جدید`}
+          aria-label={`${t(LanguageKey.SettingGeneral_Support)} - ایجاد تیکت جدید`}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {
               e.preventDefault();
@@ -362,24 +336,15 @@ function Support({
       </div>
       <div className={`${styles.all} ${isHidden ? "" : styles.show}`}>
         <div className={styles.headersection}>
-          <img
-            style={{ height: "50px" }}
-            src="/systemticket.svg"
-            alt="system ticket"
-          />
+          <img style={{ height: "50px" }} src="/systemticket.svg" alt="system ticket" />
           <div
-            onClick={() =>
-              handleStatusChange([StatusReplied.InstagramerReplied])
-            }
+            onClick={() => handleStatusChange([StatusReplied.InstagramerReplied])}
             className={styles.headerandinput}
             style={{ cursor: "pointer" }}
             role="button"
             tabIndex={0}
             aria-label={t(LanguageKey.Responded)}
-            aria-pressed={
-              activeFilter.includes(StatusReplied.InstagramerReplied) &&
-              activeFilter.length === 1
-            }
+            aria-pressed={activeFilter.includes(StatusReplied.InstagramerReplied) && activeFilter.length === 1}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
@@ -390,16 +355,13 @@ function Support({
               className="title"
               style={{
                 color:
-                  activeFilter.includes(StatusReplied.InstagramerReplied) &&
-                  activeFilter.length === 1
+                  activeFilter.includes(StatusReplied.InstagramerReplied) && activeFilter.length === 1
                     ? "#007AFF"
                     : undefined,
               }}>
               {ticketInsights.length > 0
                 ? ticketInsights
-                    .filter(
-                      (x) => x.actionStatus === StatusReplied.InstagramerReplied
-                    )
+                    .filter((x) => x.actionStatus === StatusReplied.InstagramerReplied)
                     .reduce((acc, curr) => acc + (curr.count || 0), 0)
                 : "---"}
             </span>
@@ -409,8 +371,7 @@ function Support({
                 minHeight: "30px",
                 textAlign: "center",
                 color:
-                  activeFilter.includes(StatusReplied.InstagramerReplied) &&
-                  activeFilter.length === 1
+                  activeFilter.includes(StatusReplied.InstagramerReplied) && activeFilter.length === 1
                     ? "#007AFF"
                     : undefined,
               }}>
@@ -418,36 +379,26 @@ function Support({
             </span>
           </div>
           <div
-            onClick={() =>
-              handleStatusChange([
-                StatusReplied.JustCreated,
-                StatusReplied.UserReplied,
-              ])
-            }
+            onClick={() => handleStatusChange([StatusReplied.JustCreated, StatusReplied.UserReplied])}
             className={styles.headerandinput}
             style={{ cursor: "pointer" }}
             role="button"
             tabIndex={0}
             aria-label={t(LanguageKey.Pending)}
             aria-pressed={
-              activeFilter.includes(StatusReplied.JustCreated) &&
-              activeFilter.includes(StatusReplied.UserReplied)
+              activeFilter.includes(StatusReplied.JustCreated) && activeFilter.includes(StatusReplied.UserReplied)
             }
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
                 e.preventDefault();
-                handleStatusChange([
-                  StatusReplied.JustCreated,
-                  StatusReplied.UserReplied,
-                ]);
+                handleStatusChange([StatusReplied.JustCreated, StatusReplied.UserReplied]);
               }
             }}>
             <span
               className="title"
               style={{
                 color:
-                  activeFilter.includes(StatusReplied.JustCreated) &&
-                  activeFilter.includes(StatusReplied.UserReplied)
+                  activeFilter.includes(StatusReplied.JustCreated) && activeFilter.includes(StatusReplied.UserReplied)
                     ? "#007AFF"
                     : undefined,
               }}>
@@ -455,8 +406,7 @@ function Support({
                 ? ticketInsights
                     .filter(
                       (x) =>
-                        x.actionStatus === StatusReplied.JustCreated ||
-                        x.actionStatus === StatusReplied.UserReplied
+                        x.actionStatus === StatusReplied.JustCreated || x.actionStatus === StatusReplied.UserReplied,
                     )
                     .reduce((acc, curr) => acc + (curr.count || 0), 0)
                 : "---"}
@@ -467,8 +417,7 @@ function Support({
                 minHeight: "30px",
                 textAlign: "center",
                 color:
-                  activeFilter.includes(StatusReplied.JustCreated) &&
-                  activeFilter.includes(StatusReplied.UserReplied)
+                  activeFilter.includes(StatusReplied.JustCreated) && activeFilter.includes(StatusReplied.UserReplied)
                     ? "#007AFF"
                     : undefined,
               }}>
@@ -477,11 +426,7 @@ function Support({
           </div>
           <div
             onClick={() =>
-              handleStatusChange([
-                StatusReplied.UserClosed,
-                StatusReplied.InstagramerClosed,
-                StatusReplied.TimerClosed,
-              ])
+              handleStatusChange([StatusReplied.UserClosed, StatusReplied.InstagramerClosed, StatusReplied.TimerClosed])
             }
             className={styles.headerandinput}
             style={{ cursor: "pointer" }}
@@ -519,7 +464,7 @@ function Support({
                       (x) =>
                         x.actionStatus === StatusReplied.UserClosed ||
                         x.actionStatus === StatusReplied.InstagramerClosed ||
-                        x.actionStatus === StatusReplied.TimerClosed
+                        x.actionStatus === StatusReplied.TimerClosed,
                     )
                     .reduce((acc, curr) => acc + (curr.count || 0), 0)
                 : "---"}
@@ -593,9 +538,7 @@ function Support({
                     onClick={() => onOpenRespondedTicket(p.ticketId)}
                     className={styles.ticketcard}
                     tabIndex={0}
-                    aria-label={`${p.subject} - ${getStatusNames(
-                      p.actionStatus
-                    )}`}
+                    aria-label={`${p.subject} - ${getStatusNames(p.actionStatus)}`}
                     role="listitem"
                     onKeyDown={(e) => handleTicketKeyDown(e, p.ticketId)}>
                     <div className="frameParent">
@@ -609,9 +552,7 @@ function Support({
                           data={[
                             {
                               icon: p.isPin ? (
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 36 36">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
                                   <path
                                     fill="var(--color-gray)"
                                     fillRule="evenodd"
@@ -623,9 +564,7 @@ function Support({
                                   />
                                 </svg>
                               ) : (
-                                <svg
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  viewBox="0 0 36 36">
+                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
                                   <path
                                     fill="var(--color-gray)"
                                     fillRule="evenodd"
@@ -637,19 +576,11 @@ function Support({
                                   />
                                 </svg>
                               ),
-                              value: p.isPin
-                                ? t(LanguageKey.unpin)
-                                : t(LanguageKey.pin),
+                              value: p.isPin ? t(LanguageKey.unpin) : t(LanguageKey.pin),
                               onClick: () => handlePinTicket(p.ticketId),
                             },
                             {
-                              icon: (
-                                <img
-                                  title="ℹ️ close ticket"
-                                  src="/close-box.svg"
-                                  alt="close ticket"
-                                />
-                              ),
+                              icon: <img title="ℹ️ close ticket" src="/close-box.svg" alt="close ticket" />,
                               value: t(LanguageKey.close),
                               onClick: () => handleCloseTicket(p.ticketId),
                             },
@@ -676,12 +607,8 @@ function Support({
                       )}
                     </div>
                     <div className="frameParent">
-                      <span className={getStatusClass(p.actionStatus)}>
-                        {getStatusNames(p.actionStatus)}
-                      </span>
-                      <span className={styles.time}>
-                        {formatTimeAgo(convertToSeconds(p.actionTime))}
-                      </span>
+                      <span className={getStatusClass(p.actionStatus)}>{getStatusNames(p.actionStatus)}</span>
+                      <span className={styles.time}>{formatTimeAgo(convertToSeconds(p.actionTime))}</span>
                     </div>
                   </div>
                   <div className={styles.divider} />

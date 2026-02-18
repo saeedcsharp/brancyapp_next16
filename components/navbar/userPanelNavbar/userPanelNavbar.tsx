@@ -1,7 +1,7 @@
 import { t } from "i18next";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { MouseEvent, useRef } from "react";
+import React, { MouseEvent, useRef } from "react";
 import { UserPanelRoute } from "saeed/components/sidebar/sidebar";
 import { LanguageKey } from "saeed/i18n";
 import styles from "./usePanelNavbar.module.css";
@@ -13,7 +13,7 @@ interface INavbar {
   initialSlide: number;
 }
 
-const svgMapping: { [key: string]: JSX.Element } = {
+const svgMapping: { [key: string]: React.JSX.Element } = {
   userorderscart: (
     <svg fill="none" viewBox="0 0 28 28">
       <path d="M17.63 10.28c0 1.12-.43 2.2-1.2 2.98a4.1 4.1 0 0 1-5.85 0 4.3 4.3 0 0 1-1.21-2.98" />

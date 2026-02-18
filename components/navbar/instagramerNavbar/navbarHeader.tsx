@@ -1,6 +1,6 @@
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { MouseEvent, useContext, useEffect, useRef, useState } from "react";
+import { MouseEvent, use, useEffect, useRef, useState } from "react";
 import { InstaInfoContext } from "saeed/context/instaInfoContext";
 import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
 import { handleDecompress } from "saeed/helper/pako";
@@ -43,7 +43,7 @@ const NavbarHeader = (props: {
     }
   };
   // const [navbarNotifs, setNavbarNotifs] = useState<PushNotif[]>([]);
-  const { value, setValue } = useContext(InstaInfoContext) ?? {};
+  const { value, setValue } = use(InstaInfoContext) ?? {};
   async function handleGetNotif(notif: string) {
     const decombNotif = handleDecompress(notif);
     const notifObj = JSON.parse(decombNotif!) as PushNotif;
@@ -130,7 +130,7 @@ const NavbarHeader = (props: {
           </div>
           <div
             onClick={(e) => {
-              props.handleShowNotifBar(e), setGooli(false);
+              (props.handleShowNotifBar(e), setGooli(false));
             }}
             id="showNotifhBar"
             className={styles.notif}

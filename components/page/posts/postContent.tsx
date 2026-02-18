@@ -138,7 +138,13 @@ const PostContent = (props: PostContentProps) => {
     hasMore,
     fetchMore: async () => {
       if (nextTime <= 0) return [];
-      const result = await clientFetchApi<string, IPostContent[]>("/api/post/GetPostByScrollingDown", { methodType: MethodType.get, session: session, data: undefined, queries: [{ key: "createdTime", value: nextTime.toString() }], onUploadProgress: undefined });
+      const result = await clientFetchApi<string, IPostContent[]>("/api/post/GetPostByScrollingDown", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: [{ key: "createdTime", value: nextTime.toString() }],
+        onUploadProgress: undefined,
+      });
 
       if (!result.succeeded || !result.value || !Array.isArray(result.value)) {
         return [];
@@ -180,7 +186,13 @@ const PostContent = (props: PostContentProps) => {
       try {
         internalNotify(InternalResponseType.PostUploaded, NotifType.Info);
 
-        const result = await clientFetchApi<string, IPostContent[]>("/api/post/GetPostByGuid", { methodType: MethodType.get, session: session, data: undefined, queries: [{ key: "guid", value: guid }], onUploadProgress: undefined });
+        const result = await clientFetchApi<string, IPostContent[]>("/api/post/GetPostByGuid", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: [{ key: "guid", value: guid }],
+          onUploadProgress: undefined,
+        });
 
         if (result.succeeded && result.value?.length > 0) {
           startTransition(() => {
@@ -562,7 +574,9 @@ const PostContent = (props: PostContentProps) => {
             {createNewPostButton}
             {processedPosts.map((post, index) => (
               <div
-                ref={(el) => setPostRef(post.postId, el)}
+                ref={(el) => {
+                  setPostRef(post.postId, el);
+                }}
                 className={styles.post}
                 role="button"
                 tabIndex={0}

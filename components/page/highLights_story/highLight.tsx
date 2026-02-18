@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import React, { useContext, useEffect, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Loading from "saeed/components/notOk/loading";
 import { InstaInfoContext } from "saeed/context/instaInfoContext";
@@ -18,7 +18,7 @@ const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const HighLight = ({ data }: { data: IHighLight[] | null }) => {
   const { data: session } = useSession();
   const { t } = useTranslation();
-  const instaInfo = useContext(InstaInfoContext);
+  const instaInfo = use(InstaInfoContext);
   const [highLights, setHighLights] = useState<IHighLight[] | null>(null);
   const [loadingStatus, setLoadingStaus] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.PageView));
   useEffect(() => {

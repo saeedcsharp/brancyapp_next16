@@ -107,7 +107,7 @@ const ShowStory = () => {
   }, [router]);
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const isFetchingRef = useRef(false);
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const isAuthenticated = useMemo(() => session !== null && LoginStatus(session), [session]);
   const hasPageAccess = useMemo(() => session && RoleAccess(session, PartnerRole.PageView), [session]);
   const hasPackageAccess = useMemo(() => session && packageStatus(session), [session]);
@@ -314,11 +314,21 @@ const ShowStory = () => {
       isFetchingRef.current = true;
       try {
         var [contentRes, insightReses, repliesRes] = await Promise.all([
-          clientFetchApi<Boolean, IStoryContent>("/api/story/GetStory", { methodType: MethodType.get, session: session, data: null, queries: [
-            { key: "storyId", value: storyId },
-          ], onUploadProgress: undefined }),
+          clientFetchApi<Boolean, IStoryContent>("/api/story/GetStory", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [{ key: "storyId", value: storyId }],
+            onUploadProgress: undefined,
+          }),
           session.user.insightPermission
-            ? clientFetchApi<Boolean, IStoryInsight>("/api/story/GetStoryInsight", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "storyId", value: storyId }], onUploadProgress: undefined })
+            ? clientFetchApi<Boolean, IStoryInsight>("/api/story/GetStoryInsight", {
+                methodType: MethodType.get,
+                session: session,
+                data: null,
+                queries: [{ key: "storyId", value: storyId }],
+                onUploadProgress: undefined,
+              })
             : {
                 succeeded: true,
                 value: {},
@@ -333,10 +343,16 @@ const ShowStory = () => {
                 errorMessage: "",
               },
           session.user.messagePermission
-            ? clientFetchApi<Boolean, IStoryReply>("/api/story/GetStoryReplies", { methodType: MethodType.get, session: session, data: null, queries: [
+            ? clientFetchApi<Boolean, IStoryReply>("/api/story/GetStoryReplies", {
+                methodType: MethodType.get,
+                session: session,
+                data: null,
+                queries: [
                   { key: "storyId", value: storyId },
                   { key: "nextMaxId", value: undefined },
-                ], onUploadProgress: undefined })
+                ],
+                onUploadProgress: undefined,
+              })
             : {
                 succeeded: true,
                 value: { threads: [], nextMaxId: null, hasOlder: false },
@@ -389,12 +405,21 @@ const ShowStory = () => {
     if (!autoReply) return;
     try {
       const activeAutoReply = e.target.checked;
-      var res = await clientFetchApi<boolean, boolean>("Instagramer" + `/Story/${!activeAutoReply ? "PauseAutoReply" : "ResumeAutoReply"}`, { methodType: MethodType.get, session: session, data: null, queries: [
-          {
-            key: "storyId",
-            value: storyIdParam as string,
-          },
-        ], onUploadProgress: undefined });
+      var res = await clientFetchApi<boolean, boolean>(
+        "Instagramer" + `/Story/${!activeAutoReply ? "PauseAutoReply" : "ResumeAutoReply"}`,
+        {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
+            {
+              key: "storyId",
+              value: storyIdParam as string,
+            },
+          ],
+          onUploadProgress: undefined,
+        },
+      );
       if (res.succeeded)
         setAutoReply((prev) => ({
           ...prev!,
@@ -421,10 +446,16 @@ const ShowStory = () => {
         setIsFetchingMoreReplies(true);
         var nextTime = storyReplies.nextMaxId;
         var storyId = storyContent.storyId;
-        var res = await clientFetchApi<boolean, IStoryReply>("Instagramer" + "" + "/Story/GetStoryReplies", { methodType: MethodType.get, session: session, data: null, queries: [
+        var res = await clientFetchApi<boolean, IStoryReply>("Instagramer" + "" + "/Story/GetStoryReplies", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "storyId", value: storyId.toString() },
             { key: "nextMaxId", value: nextTime ? nextTime : undefined },
-          ], onUploadProgress: undefined });
+          ],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) {
           for (let i = 0; i < res.value.threads.length; i++) {
             nReplies.push(res.value.threads[i]);
@@ -446,10 +477,16 @@ const ShowStory = () => {
   const handleApiPeopleSearch = useCallback(
     async (searchQuery: string) => {
       try {
-        const res = await clientFetchApi<boolean, IStory_Viewers_Server>("/api/story/SearchViewers", { methodType: MethodType.get, session: session, data: null, queries: [
+        const res = await clientFetchApi<boolean, IStory_Viewers_Server>("/api/story/SearchViewers", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "storyid", value: storyIdParam as string },
             { key: "query", value: searchQuery },
-          ], onUploadProgress: undefined });
+          ],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) {
           setSearchViewers(convertArrayToLarray<IStory_Viewers>(res.value.viewers, 5));
           searchDispatch({ type: "SET_LOADING", payload: false });
@@ -497,10 +534,19 @@ const ShowStory = () => {
   const handleReaction = useCallback(
     async (item: IItem, threadId: string) => {
       try {
-        const res = await clientFetchApi<boolean, boolean>("Instagramer" + "" + `/Message/${item.ownerEmojiReaction ? "SendUnReaction" : "SendReaction"}`, { methodType: MethodType.get, session: session, data: null, queries: [
-            { key: "threadId", value: threadId },
-            { key: "itemId", value: item.itemId },
-          ], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, boolean>(
+          "Instagramer" + "" + `/Message/${item.ownerEmojiReaction ? "SendUnReaction" : "SendReaction"}`,
+          {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
+              { key: "threadId", value: threadId },
+              { key: "itemId", value: item.itemId },
+            ],
+            onUploadProgress: undefined,
+          },
+        );
         if (res.succeeded) {
           setStoryReplies((prev) => ({
             ...prev,
@@ -530,7 +576,13 @@ const ShowStory = () => {
   const handleUpdateAtuoReply = useCallback(
     async (sendReply: IMediaUpdateAutoReply) => {
       try {
-        const res = await clientFetchApi<ISendStoryAutomaticReply, IAutomaticReply>("/api/story/UpdateAutoReply", { methodType: MethodType.post, session: session, data: sendReply, queries: [{ key: "storyId", value: storyContent.storyId.toString() }], onUploadProgress: undefined });
+        const res = await clientFetchApi<ISendStoryAutomaticReply, IAutomaticReply>("/api/story/UpdateAutoReply", {
+          methodType: MethodType.post,
+          session: session,
+          data: sendReply,
+          queries: [{ key: "storyId", value: storyContent.storyId.toString() }],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) {
           setAutoReply(res.value);
           if (!storyContent?.autoReplyCommentInfo)

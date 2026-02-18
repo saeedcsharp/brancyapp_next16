@@ -1,4 +1,4 @@
-import { KeyboardEvent, memo, useCallback, useId, useMemo, useReducer } from "react";
+import React, { KeyboardEvent, memo, useCallback, useId, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "saeed/i18n";
 import { IClientAnnouncement } from "saeed/models/market/myLink";
@@ -48,7 +48,7 @@ const Announcement = memo(function Announcement({ data }: AnnouncementProps) {
     if (!text) return null;
     const regex =
       /(https?:\/\/[\w\-._~:/?#\[\]@!$&'()*+,;=%]+|www\.[^\s]+|(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:\/[^\s]*)?)/g;
-    const elements: Array<string | JSX.Element> = [];
+    const elements: Array<string | React.JSX.Element> = [];
     let lastIndex = 0;
     let match: RegExpExecArray | null;
     while ((match = regex.exec(text)) !== null) {
@@ -61,7 +61,7 @@ const Announcement = memo(function Announcement({ data }: AnnouncementProps) {
       elements.push(
         <a key={`a-${start}`} href={href} target="_blank" rel="noopener noreferrer">
           {url}
-        </a>
+        </a>,
       );
       lastIndex = regex.lastIndex;
     }
@@ -92,7 +92,7 @@ const Announcement = memo(function Announcement({ data }: AnnouncementProps) {
         toggleExpanded();
       }
     },
-    [isExpanded]
+    [isExpanded],
   );
 
   if (!data || !announcementText.trim()) {

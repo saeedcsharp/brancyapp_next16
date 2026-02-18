@@ -371,7 +371,7 @@ const Banner = memo((props: BannerProps) => {
   );
 
   const handleUploadImage = useCallback((id: string) => {
-    const refMap: Record<string, React.RefObject<HTMLInputElement>> = {
+    const refMap: Record<string, React.RefObject<HTMLInputElement | null>> = {
       imgStr1: bannerRef1,
       imgStr2: bannerRef2,
       imgStr3: bannerRef3,
@@ -518,7 +518,7 @@ const Banner = memo((props: BannerProps) => {
       urlKey: keyof IBannerSelectedImage,
       idKey: keyof IBannerSelectedImage,
       loadingKey: keyof LoadingImageState,
-      ref: React.RefObject<HTMLInputElement>,
+      ref: React.RefObject<HTMLInputElement | null>,
     ) => {
       const isLoading = loadingImage[loadingKey];
       const hasError = errorImage[loadingKey];

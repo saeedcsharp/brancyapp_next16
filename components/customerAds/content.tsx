@@ -12,7 +12,7 @@ function Content(props: {
 }) {
   const [selectedAdsId, setSelectedAdsId] = useState<number[]>(props.selectedAdsId);
   const [refresh, setRefresh] = useState(false);
-  const originalTitle = "Bran.cy ▸ Advertiser Pages";
+  const [pageTitle, setPageTitle] = useState("Bran.cy ▸ Advertiser Pages");
 
   const handleAddTocard = (adId: number) => {
     let newAdIds = [...selectedAdsId];
@@ -32,10 +32,10 @@ function Content(props: {
 
   useEffect(() => {
     if (selectedAdsId.length > 0) {
-      document.title = "✅ 1 Item Added to Cart";
+      setPageTitle("✅ 1 Item Added to Cart");
 
       const timer = setTimeout(() => {
-        document.title = originalTitle;
+        setPageTitle("Bran.cy ▸ Advertiser Pages");
       }, 3000);
 
       return () => clearTimeout(timer);
@@ -44,6 +44,7 @@ function Content(props: {
 
   return (
     <>
+      <title>{pageTitle}</title>
       {/* head for SEO */}
       <Head>
         {" "}

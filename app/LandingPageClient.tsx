@@ -99,7 +99,7 @@ export default function LandingPageClient() {
     }
   }, [themeState.darkTheme]);
 
-  const scrollToSection = useCallback((ref: React.RefObject<HTMLDivElement>) => {
+  const scrollToSection = useCallback((ref: React.RefObject<HTMLDivElement | null>) => {
     if (ref.current) {
       ref.current.scrollIntoView({
         behavior: "smooth",
@@ -109,7 +109,7 @@ export default function LandingPageClient() {
   }, []);
 
   const handleMenuClickWithScroll = useCallback(
-    (targetRef: React.RefObject<HTMLDivElement>) => {
+    (targetRef: React.RefObject<HTMLDivElement | null>) => {
       setTimeout(() => {
         scrollToSection(targetRef);
       }, 100);

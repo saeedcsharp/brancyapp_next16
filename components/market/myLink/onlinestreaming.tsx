@@ -1,4 +1,5 @@
 import React, { memo, useCallback, useEffect, useMemo, useReducer, useRef } from "react";
+import ReactDOM from "react-dom";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "saeed/i18n";
 import { IOnlineStreaming } from "saeed/models/market/myLink";
@@ -133,7 +134,7 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
           console.log("پلتفرم نامشخص");
       }
     },
-    [data.onlineStream]
+    [data.onlineStream],
   );
   let lastUserInteraction = 0;
   if (typeof window !== "undefined") {
@@ -216,16 +217,8 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
     checkStreams();
   }, [data.onlineStream, initializeSelectedStream, checkStreamStatus]);
   useEffect(() => {
-    const loadYouTubeAPI = () => {
-      if (typeof window !== "undefined" && !(window as any).YT) {
-        const script = document.createElement("script");
-        script.src = "https://www.youtube.com/iframe_api";
-        script.async = true;
-        document.head.appendChild(script);
-      }
-    };
     if (data.onlineStream?.youtubeChannel?.live?.frameUrl) {
-      loadYouTubeAPI();
+      ReactDOM.preinit("https://www.youtube.com/iframe_api", { as: "script" });
     }
   }, [data.onlineStream]);
   useEffect(() => {
@@ -357,7 +350,7 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
         </label>
       );
     },
-    [handleStreamSelection, state.selectedEmbed]
+    [handleStreamSelection, state.selectedEmbed],
   );
 
   // تبدیل خودکار URLهای داخل متن به لینک‌های قابل کلیک
@@ -378,7 +371,7 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
       elements.push(
         <a key={`a-${start}`} href={href} target="_blank" rel="noopener noreferrer">
           {url}
-        </a>
+        </a>,
       );
       lastIndex = regex.lastIndex;
     }
@@ -442,7 +435,7 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
         </div>
       );
     },
-    [state.selectedEmbed, handleVideoError, handleRedirectYoutube, handleVideoClick, convertLinksToClickable]
+    [state.selectedEmbed, handleVideoError, handleRedirectYoutube, handleVideoClick, convertLinksToClickable],
   );
   console.log("data.onlineStream", data.onlineStream);
   if (!data.onlineStream) return null;

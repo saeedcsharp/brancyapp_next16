@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import { MouseEvent, useContext, useEffect, useRef, useState } from "react";
+import { MouseEvent, use, useEffect, useRef, useState } from "react";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
 import { InstaInfoContext } from "saeed/context/instaInfoContext";
 import { handleDecompress } from "saeed/helper/pako";
@@ -48,7 +48,7 @@ const UserPanelHeader: React.FC<UserPanelHeaderProps> = ({
     }
   };
   // const [navbarNotifs, setNavbarNotifs] = useState<PushNotif[]>([]);
-  const { value, setValue } = useContext(InstaInfoContext) ?? {};
+  const { value, setValue } = use(InstaInfoContext) ?? {};
   function handleGetNotif(notif: string) {
     console.log("Notif in user navbar header", notif);
     const decombNotif = handleDecompress(notif);
@@ -79,7 +79,13 @@ const UserPanelHeader: React.FC<UserPanelHeaderProps> = ({
   }, []);
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, IUserInfo>("/api/account/GetTitleInfo", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IUserInfo>("/api/account/GetTitleInfo", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setUserProfile(res.value.profileUrl);
       } else notify(res.info.responseType, NotifType.Warning);
@@ -135,7 +141,7 @@ const UserPanelHeader: React.FC<UserPanelHeaderProps> = ({
           </div>
           <div
             onClick={(e) => {
-              handleShowNotifBar(e), setGooli(false);
+              (handleShowNotifBar(e), setGooli(false));
             }}
             id="showNotifhBar"
             className={styles.notif}>

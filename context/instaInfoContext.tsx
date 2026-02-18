@@ -25,7 +25,13 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       isUpdatingRef.current = true;
 
       try {
-        const res = await clientFetchApi<boolean, IRefreshToken>("/api/user/RefreshToken", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, IRefreshToken>("/api/user/RefreshToken", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) {
           const instagramerIds = res.value.role.instagramerIds;
           const instagramerCount = instagramerIds.length;
@@ -66,7 +72,13 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     isUpdatingRef.current = true;
 
     try {
-      let res = await clientFetchApi<boolean, InstagramerAccountInfo>("Instagramer" + "/Account/GetInfo", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      let res = await clientFetchApi<boolean, InstagramerAccountInfo>("Instagramer" + "/Account/GetInfo", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.info.responseType === ResponseType.Forbidden) {
         await signOut({
           redirect: false, // Don't redirect the user after signing out
@@ -148,5 +160,5 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     }
   }, [session, GetAccountInfo, refreshToken]);
 
-  return <InstaInfoContext.Provider value={contextValue}>{children}</InstaInfoContext.Provider>;
+  return <InstaInfoContext value={contextValue}>{children}</InstaInfoContext>;
 };

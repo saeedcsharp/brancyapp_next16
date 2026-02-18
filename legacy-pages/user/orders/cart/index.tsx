@@ -18,7 +18,7 @@ import styles from "./cart.module.css";
 import { clientFetchApi } from "saeed/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 export default function Card() {
-  const { value, setValue } = React.useContext(InstaInfoContext) ?? {};
+  const { value, setValue } = React.use(InstaInfoContext) ?? {};
   const { data: session } = useSession();
   const router = useRouter();
   const userRef = useRef<HTMLDivElement>(null);
@@ -42,16 +42,22 @@ export default function Card() {
 
     setLoadingProducts((prev) => [...prev, instagramerId]);
     try {
-      const res = await clientFetchApi<boolean, any[]>("/api/shop/GetInstagramerCard", { methodType: MethodType.get, session: session, data: null, queries: [
-        { key: "instagramerId", value: instagramerId.toString() },
-        { key: "language", value: findSystemLanguage().toString() },
-      ], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, any[]>("/api/shop/GetInstagramerCard", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
+          { key: "instagramerId", value: instagramerId.toString() },
+          { key: "language", value: findSystemLanguage().toString() },
+        ],
+        onUploadProgress: undefined,
+      });
 
       if (res.succeeded && res.value.length > 0) {
         setStores((prevStores) => ({
           ...prevStores,
           shopCards: prevStores.shopCards.map((shop) =>
-            shop.instagramerId === instagramerId ? { ...shop, products: res.value } : shop
+            shop.instagramerId === instagramerId ? { ...shop, products: res.value } : shop,
           ),
         }));
       }
@@ -64,10 +70,16 @@ export default function Card() {
 
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, IUserOrder>("/api/shop/GetAllCard", { methodType: MethodType.get, session: session, data: null, queries: [
-        { key: "nextMaxId", value: "" },
-        { key: "language", value: findSystemLanguage().toString() },
-      ], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IUserOrder>("/api/shop/GetAllCard", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
+          { key: "nextMaxId", value: "" },
+          { key: "language", value: findSystemLanguage().toString() },
+        ],
+        onUploadProgress: undefined,
+      });
 
       if (res.succeeded) {
         console.log("Cart data received:", res.value);
@@ -167,7 +179,7 @@ export default function Card() {
                           alt={`${product.shortProduct.title} image`}
                           onClick={() => {
                             router.push(
-                              `/user/shop/${product.shortProduct.instagramerId}/product/${product.productId}`
+                              `/user/shop/${product.shortProduct.instagramerId}/product/${product.productId}`,
                             );
                           }}
                         />

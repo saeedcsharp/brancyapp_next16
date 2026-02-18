@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import AdsTypeComp from "saeed/components/advertise/adsType";
 import TimeTypeComp from "saeed/components/advertise/timeType";
@@ -13,16 +13,15 @@ function Confirmation(props: { customerAd: ICustomer; handleUpdateConfirmation: 
   const [customerAd, setCustomerAd] = useState<ICustomer>(props.customerAd);
   const [refresh, setRefresh] = useState(false);
 
-  useEffect(() => {
-    let title = "";
+  const pageTitle = useMemo(() => {
     if (customerAd.checkStatus === CheckStatus.Checking) {
-      title = "Bran.cy ▸ ⌚ Wait For Accept";
+      return "Bran.cy ▸ ⌚ Wait For Accept";
     } else if (customerAd.checkStatus === CheckStatus.Verified) {
-      title = "Bran.cy ▸ ✅ Accepted Order";
+      return "Bran.cy ▸ ✅ Accepted Order";
     } else if (customerAd.checkStatus === CheckStatus.Rejected) {
-      title = "Bran.cy ▸ ❎ Progress Failed ❗";
+      return "Bran.cy ▸ ❎ Progress Failed ❗";
     }
-    document.title = title;
+    return "Bran.cy";
   }, [customerAd.checkStatus]);
 
   function handleVerifiedToNextStep(ads: ICustomer) {
@@ -192,6 +191,7 @@ function Confirmation(props: { customerAd: ICustomer; handleUpdateConfirmation: 
 
   return (
     <>
+      <title>{pageTitle}</title>
       {/* head for SEO */}
       <Head>
         {" "}

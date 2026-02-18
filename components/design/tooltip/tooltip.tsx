@@ -1,4 +1,4 @@
-import { ReactNode, useContext, useEffect, useRef, useState } from "react";
+import { ReactNode, use, useEffect, useRef, useState } from "react";
 import { DirectionContext } from "../../../context/directionContext";
 import styles from "./tooltip.module.css";
 
@@ -34,7 +34,7 @@ const Tooltip = ({
   const timeoutRef = useRef<NodeJS.Timeout | null>(null);
   const forceShowTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
-  const direction = useContext(DirectionContext);
+  const direction = use(DirectionContext);
 
   // Update visibility when forceShow changes
   useEffect(() => {

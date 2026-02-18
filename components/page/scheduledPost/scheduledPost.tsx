@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import router from "next/router";
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from "react";
+import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import CounterDown2 from "saeed/components/design/counterDown/counterDown2";
 import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
@@ -20,7 +20,7 @@ const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const ScheduledPost = (props: { data: IPrePost[] | null }) => {
   const { data: session } = useSession();
   const { t } = useTranslation();
-  const context = useContext(InstaInfoContext);
+  const context = use(InstaInfoContext);
   const [loadingStatus, setLoadingStaus] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.PageView));
   const [scheduledPosts, setScheduledPosts] = useState<IScheduledPost | null>(null);
   const [deletePrePost, setDeletePrePost] = useState<number | null>(null);

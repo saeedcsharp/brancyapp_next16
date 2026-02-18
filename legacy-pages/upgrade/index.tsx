@@ -153,7 +153,13 @@ const Upgrade = memo(function Upgrade() {
 
   const getUserPackageInfo = useCallback(async () => {
     try {
-      const res = await clientFetchApi<boolean, IFeatureInfo>("/api/psg/GetPackageFeatureDetails", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IFeatureInfo>("/api/psg/GetPackageFeatureDetails", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       const currentPlan = getMockCurrentUserPlan(t, res.value.followerCount);
       dispatch({ type: "SET_CURRENT_USER_PLAN", payload: currentPlan });
       const userPackageInfo: UserPackageInfo = generateMockUserPackageInfo(t, res.value);
@@ -167,7 +173,13 @@ const Upgrade = memo(function Upgrade() {
   const getTokenPackages = useCallback(async () => {
     try {
       if (!session) return;
-      const res = await clientFetchApi<boolean, IReserveFeaturePrices[]>("/api/psg/GetReserveFeaturePrices", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IReserveFeaturePrices[]>("/api/psg/GetReserveFeaturePrices", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         const aiPackages = res.value.filter((x) => x.featureId === FeatureType.AI);
         const customPackage = res.value.filter((x) => x.featureId === FeatureType.CustomDomain);
@@ -186,7 +198,13 @@ const Upgrade = memo(function Upgrade() {
   const getPackageExtensions = useCallback(async () => {
     if (!session) return;
     try {
-      const res = await clientFetchApi<boolean, IBasePackagePrice[]>("/api/psg/GetPackagePrices", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IBasePackagePrice[]>("/api/psg/GetPackagePrices", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         dispatch({ type: "SET_PACKAGE_EXTENSIONS", payload: res.value });
       } else notify(res.info.responseType, NotifType.Warning);
@@ -197,7 +215,13 @@ const Upgrade = memo(function Upgrade() {
   const handleTokenPurchase = useCallback(
     async (tokenPackageId: number) => {
       try {
-        const res = await clientFetchApi<boolean, string>("/api/psg/GetRedirectReserveFeaturePrice", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "reserveFeatureId", value: tokenPackageId.toString() }], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, string>("/api/psg/GetRedirectReserveFeaturePrice", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "reserveFeatureId", value: tokenPackageId.toString() }],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) {
           router.push(res.value);
         } else notify(res.info.responseType, NotifType.Warning);
@@ -205,19 +229,25 @@ const Upgrade = memo(function Upgrade() {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session, router]
+    [session, router],
   );
   const handlePackageExtension = useCallback(
     async (monthCount: number) => {
       try {
-        const res = await clientFetchApi<boolean, string>(`/api/psg/GetPackageRedirectUrl`, { methodType: MethodType.get, session: session, data: null, queries: [{ key: "monthCount", value: monthCount.toString() }], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, string>(`/api/psg/GetPackageRedirectUrl`, {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "monthCount", value: monthCount.toString() }],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) router.push(res.value);
         else notify(res.info.responseType, NotifType.Warning);
       } catch (error) {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session, router]
+    [session, router],
   );
   const winnerPickerWarningLevel = useMemo(() => {
     if (!state.userPackageInfo) return "normal";
@@ -233,7 +263,7 @@ const Upgrade = memo(function Upgrade() {
       const days = Math.max(0, Math.round(timestamp / (24 * 60 * 60 * 1000)));
       return `${days.toLocaleString()} ${t(LanguageKey.countdown_Days)} ${t(LanguageKey.remainingTime)} `;
     },
-    [t]
+    [t],
   );
   const formatTokenRemaining = useCallback(
     (tokens: number | null) => {
@@ -241,7 +271,7 @@ const Upgrade = memo(function Upgrade() {
       const safeTokens = Math.max(0, tokens);
       return `${safeTokens.toLocaleString()} ${t(LanguageKey.Tokens)} `;
     },
-    [t]
+    [t],
   );
   const formatNumberRemaining = useCallback(
     (tokens: number | null) => {
@@ -249,7 +279,7 @@ const Upgrade = memo(function Upgrade() {
       const safeNumber = Math.max(0, tokens);
       return `${safeNumber} `;
     },
-    [t]
+    [t],
   );
   const aiTokenProgressPercentage = useMemo(() => {
     if (!state.userPackageInfo || !state.userPackageInfo.aiPackage) return 0;
@@ -320,7 +350,7 @@ const Upgrade = memo(function Upgrade() {
     if (state.userPackageInfo.packageRemainingTime <= 0) return 0;
     return Math.max(
       0,
-      Math.min(100, (state.userPackageInfo.packageRemainingTime / state.userPackageInfo.packageTotalDuration) * 100)
+      Math.min(100, (state.userPackageInfo.packageRemainingTime / state.userPackageInfo.packageTotalDuration) * 100),
     );
   }, [state.userPackageInfo]);
   const toggleSection = useCallback((section: "packages" | "tokens" | "domain" | "winnerpicker") => {
@@ -344,18 +374,18 @@ const Upgrade = memo(function Upgrade() {
       // If both are empty/null, return 0 (which triggers percentage < 1)
       return 0;
     },
-    []
+    [],
   );
 
   // Effective percentages for each section (main + reserve fallback)
   const effectiveAiPercentage = useMemo(
     () => getEffectivePercentage(aiTokenProgressPercentage, aiReserveTokenProgressPercentage),
-    [aiTokenProgressPercentage, aiReserveTokenProgressPercentage]
+    [aiTokenProgressPercentage, aiReserveTokenProgressPercentage],
   );
 
   const effectiveDomainPercentage = useMemo(
     () => getEffectivePercentage(customDomainTokenProgressPercentage, reverseCustomDomainTokenProgressPercentage),
-    [customDomainTokenProgressPercentage, reverseCustomDomainTokenProgressPercentage]
+    [customDomainTokenProgressPercentage, reverseCustomDomainTokenProgressPercentage],
   );
 
   const effectiveLotteryPercentage = useMemo(() => {
@@ -410,7 +440,7 @@ const Upgrade = memo(function Upgrade() {
       }
       return null;
     },
-    [t]
+    [t],
   );
   const getWarningStyle = useCallback((percentage: number) => {
     if (percentage < 5) return styles.danger;
@@ -469,8 +499,8 @@ const Upgrade = memo(function Upgrade() {
         }
       }
     };
-    startTransition(() => {
-      loadData();
+    startTransition(async () => {
+      await loadData();
     });
     return () => {
       controller.abort();
@@ -494,7 +524,13 @@ const Upgrade = memo(function Upgrade() {
         winnerpicker: winnerPickerProgress < 20,
       },
     });
-  }, [state.userPackageInfo, packageTimeProgressPercentage, effectiveAiPercentage, effectiveDomainPercentage, effectiveLotteryPercentage]);
+  }, [
+    state.userPackageInfo,
+    packageTimeProgressPercentage,
+    effectiveAiPercentage,
+    effectiveDomainPercentage,
+    effectiveLotteryPercentage,
+  ]);
 
   // مدیریت وضعیت yourPlanExpanded بر اساس عرض صفحه
   useEffect(() => {
@@ -526,7 +562,7 @@ const Upgrade = memo(function Upgrade() {
         <meta
           name="description"
           content={`${t(
-            LanguageKey.subscriptionManagement
+            LanguageKey.subscriptionManagement,
           )} - Manage your Instagram business subscription, AI tokens, custom domain, and winner picker packages`}
         />
         <meta name="theme-color" content="#2977ff" />
@@ -540,7 +576,7 @@ const Upgrade = memo(function Upgrade() {
         <meta
           property="og:description"
           content={`${t(
-            LanguageKey.subscriptionManagement
+            LanguageKey.subscriptionManagement,
           )} - Manage your Instagram business subscription and premium features`}
         />
         <meta property="og:type" content="website" />
@@ -1170,12 +1206,12 @@ const Upgrade = memo(function Upgrade() {
                               <div className={styles.progressHeader}>
                                 <span className={styles.progressValue}>
                                   {formatTokenRemaining(
-                                    state.userPackageInfo!.customDomainPackage!.sliderRemainingValue
+                                    state.userPackageInfo!.customDomainPackage!.sliderRemainingValue,
                                   )}
                                 </span>
                                 <span className={styles.progressValue}>
                                   {convertMillisecondsToDays(
-                                    state.userPackageInfo!.customDomainPackage!.sliderTotalValue
+                                    state.userPackageInfo!.customDomainPackage!.sliderTotalValue,
                                   )}
                                   {t(LanguageKey.remainingTime)}
                                 </span>
@@ -1195,12 +1231,12 @@ const Upgrade = memo(function Upgrade() {
                               <div className={styles.progressHeader}>
                                 <span className={styles.progressValue}>
                                   {formatTimeRemaining(
-                                    state.userPackageInfo!.customDomainReservePackage!.sliderRemainingValue
+                                    state.userPackageInfo!.customDomainReservePackage!.sliderRemainingValue,
                                   )}
                                 </span>
                                 <span className={styles.progressValue}>
                                   {convertMillisecondsToDays(
-                                    state.userPackageInfo!.customDomainReservePackage!.sliderTotalValue
+                                    state.userPackageInfo!.customDomainReservePackage!.sliderTotalValue,
                                   )}
                                   {t(LanguageKey.countdown_Days)}
                                 </span>

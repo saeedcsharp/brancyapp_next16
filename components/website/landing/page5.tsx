@@ -30,7 +30,7 @@ interface SpecialLine {
 const Page5: React.FC = () => {
   const { t } = useTranslation();
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const animationFrameRef = useRef<number>();
+  const animationFrameRef = useRef<number | undefined>(undefined);
   const timeRef = useRef(0);
   const setCanvasSize = useCallback((canvas: HTMLCanvasElement) => {
     canvas.width = window.innerWidth;
@@ -116,7 +116,7 @@ const Page5: React.FC = () => {
       });
       ctx.stroke();
     },
-    []
+    [],
   );
   useEffect(() => {
     const canvas = canvasRef.current;

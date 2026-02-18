@@ -5,7 +5,7 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import Script from "next/script";
 import "quill/dist/quill.snow.css";
-import { MouseEvent, useContext, useEffect, useState } from "react";
+import { MouseEvent, use, useEffect, useState } from "react";
 import ConnectionStatusIndicator from "saeed/components/connectionStatus/ConnectionStatusIndicator";
 import LeftHamMenue from "saeed/components/hambergurMenu/leftHamMenu";
 import LeftUserHamMenue from "saeed/components/hambergurMenu/leftUserHamMenu";
@@ -27,7 +27,7 @@ export default function App({ Component, pageProps }: AppProps) {
   // const [unShowPopup, setUnShowPopup] = useState(false);
   const router = useRouter();
   let newRoute = router.asPath.split("?")[0].replaceAll("/", "");
-  const context = useContext(InstaInfoContext);
+  const context = use(InstaInfoContext);
   const [showLeftHamMenu, setShowLeftHamMenu] = useState<boolean>(false);
   const [showLeftUserHamMenu, setShowLeftUserHamMenu] = useState<boolean>(false);
   const [showRightHamMenu, setShowRightHamMenu] = useState<boolean>(false);

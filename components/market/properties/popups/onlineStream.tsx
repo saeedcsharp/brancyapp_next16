@@ -110,7 +110,7 @@ const stateReducer = (state: any, action: StateAction) => {
 const VideoAndMusic = (props: { removeMask: () => void }) => {
   const { t } = useTranslation();
   const { data: session } = useSession();
-  const timeoutRef = useRef<NodeJS.Timeout>();
+  const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
 
   const [state, dispatch] = useReducer(stateReducer, {
     loading: true,
@@ -140,7 +140,13 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
   const handleApiChannelSearch = useCallback(
     async (query: string) => {
       try {
-        const res = await clientFetchApi<boolean, IChannelInfo[]>(`/api/bio/${selectedEmbed}`, { methodType: MethodType.get, session: session, data: null, queries: [{ key: "query", value: query }], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, IChannelInfo[]>(`/api/bio/${selectedEmbed}`, {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "query", value: query }],
+          onUploadProgress: undefined,
+        });
 
         if (res.succeeded) {
           dispatch({
@@ -158,7 +164,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session, selectedEmbed]
+    [session, selectedEmbed],
   );
 
   const handleSearchChannel = useCallback(
@@ -207,13 +213,19 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
         }, 1000);
       }
     },
-    [selectedEmbed, channelBox.peopleLocked, handleApiChannelSearch]
+    [selectedEmbed, channelBox.peopleLocked, handleApiChannelSearch],
   );
 
   const handleSave = useCallback(async () => {
     if (channelSearch.activeYoutube && (updateYoutube.id || updateYoutube.username)) {
       try {
-        const youtubeUpdateRes = await clientFetchApi<IUpdateChannel, boolean>("/api/bio/SaveYoutubePage", { methodType: MethodType.post, session: session, data: updateYoutube, queries: undefined, onUploadProgress: undefined });
+        const youtubeUpdateRes = await clientFetchApi<IUpdateChannel, boolean>("/api/bio/SaveYoutubePage", {
+          methodType: MethodType.post,
+          session: session,
+          data: updateYoutube,
+          queries: undefined,
+          onUploadProgress: undefined,
+        });
 
         if (!youtubeUpdateRes.succeeded) {
           notify(youtubeUpdateRes.info.responseType, NotifType.Warning);
@@ -225,7 +237,13 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
 
     if (channelSearch.activeAparat && (updateAparat.id || updateAparat.username)) {
       try {
-        const aparatUpdateRes = await clientFetchApi<IUpdateChannel, boolean>("/api/bio/SaveAparatPage", { methodType: MethodType.post, session: session, data: updateAparat, queries: undefined, onUploadProgress: undefined });
+        const aparatUpdateRes = await clientFetchApi<IUpdateChannel, boolean>("/api/bio/SaveAparatPage", {
+          methodType: MethodType.post,
+          session: session,
+          data: updateAparat,
+          queries: undefined,
+          onUploadProgress: undefined,
+        });
 
         if (!aparatUpdateRes.succeeded) {
           notify(aparatUpdateRes.info.responseType, NotifType.Warning);
@@ -340,7 +358,13 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
 
   const fetchChannelData = useCallback(async () => {
     try {
-      const res = await clientFetchApi<boolean, IChannel>(`/api/bio/GetChannels`, { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IChannel>(`/api/bio/GetChannels`, {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
 
       if (res.succeeded) {
         const channelSearchData: ISearchChannel = {

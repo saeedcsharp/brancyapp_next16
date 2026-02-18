@@ -117,7 +117,7 @@ const HourLineChartComponent: React.FC<HourLineChartProps> = ({ items, minY = 0,
       bottom: 30,
       left: 40,
     }),
-    []
+    [],
   );
 
   const chartWidth = dimensions.width - padding.left - padding.right;
@@ -127,7 +127,7 @@ const HourLineChartComponent: React.FC<HourLineChartProps> = ({ items, minY = 0,
     (index: number) => {
       return round2(padding.left + (index / Math.max(chartData.points.length - 1, 1)) * chartWidth);
     },
-    [padding.left, chartData.points.length, chartWidth]
+    [padding.left, chartData.points.length, chartWidth],
   );
 
   const getY = useCallback(
@@ -135,7 +135,7 @@ const HourLineChartComponent: React.FC<HourLineChartProps> = ({ items, minY = 0,
       const normalized = (value - chartData.minY) / (chartData.range || 1);
       return round2(padding.top + chartHeight - normalized * chartHeight);
     },
-    [chartData.minY, chartData.range, padding.top, chartHeight]
+    [chartData.minY, chartData.range, padding.top, chartHeight],
   );
 
   const linePath = useMemo(() => {
@@ -220,7 +220,7 @@ const HourLineChartComponent: React.FC<HourLineChartProps> = ({ items, minY = 0,
         setHoveredPoint(null);
       }
     },
-    [chartData.points, getX, getY]
+    [chartData.points, getX, getY],
   );
 
   const handleMouseLeave = useCallback(() => {
@@ -286,13 +286,13 @@ const HourLineChartComponent: React.FC<HourLineChartProps> = ({ items, minY = 0,
           break;
       }
     },
-    [chartData.points, getX, getY]
+    [chartData.points, getX, getY],
   );
 
   const renderedAnnotations = useMemo(() => {
     if (!annotations) return null;
 
-    const elements: JSX.Element[] = [];
+    const elements: React.JSX.Element[] = [];
 
     // Y-axis annotations (horizontal lines)
     annotations.yaxis?.forEach((ann, idx) => {
@@ -309,7 +309,7 @@ const HourLineChartComponent: React.FC<HourLineChartProps> = ({ items, minY = 0,
             strokeWidth={2}
             strokeDasharray={ann.strokeDashArray || 0}
             opacity={ann.opacity || 0.5}
-          />
+          />,
         );
 
         if (ann.label?.text) {
@@ -322,7 +322,7 @@ const HourLineChartComponent: React.FC<HourLineChartProps> = ({ items, minY = 0,
               fontSize="11"
               fontWeight="600">
               {ann.label.text}
-            </text>
+            </text>,
           );
         }
       }
@@ -340,7 +340,7 @@ const HourLineChartComponent: React.FC<HourLineChartProps> = ({ items, minY = 0,
             height={round2(Math.abs(y1 - y2))}
             fill={ann.fillColor || "var(--color-light-green30)"}
             opacity={ann.opacity || 0.2}
-          />
+          />,
         );
       }
     });
@@ -362,7 +362,7 @@ const HourLineChartComponent: React.FC<HourLineChartProps> = ({ items, minY = 0,
               strokeWidth={2}
               strokeDasharray={ann.strokeDashArray || 0}
               opacity={ann.opacity || 0.5}
-            />
+            />,
           );
 
           if (ann.label?.text) {
@@ -375,7 +375,7 @@ const HourLineChartComponent: React.FC<HourLineChartProps> = ({ items, minY = 0,
                 fontSize="11"
                 fontWeight="600">
                 {ann.label.text}
-              </text>
+              </text>,
             );
           }
         }
@@ -398,7 +398,7 @@ const HourLineChartComponent: React.FC<HourLineChartProps> = ({ items, minY = 0,
             fill={ann.marker?.fillColor || "var(--color-dark-blue)"}
             stroke={ann.marker?.strokeColor || "var(--color-white)"}
             strokeWidth={2}
-          />
+          />,
         );
 
         if (ann.label?.text) {
@@ -424,7 +424,7 @@ const HourLineChartComponent: React.FC<HourLineChartProps> = ({ items, minY = 0,
                 textAnchor="middle">
                 {ann.label.text}
               </text>
-            </g>
+            </g>,
           );
         }
       }

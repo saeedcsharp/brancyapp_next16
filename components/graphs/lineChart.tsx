@@ -1,6 +1,6 @@
 import { ApexOptions } from "apexcharts";
 import dynamic from "next/dynamic";
-import ReactDomServer from "react-dom/server";
+import { renderToStaticMarkup } from "react-dom/server";
 // import styles from "saeed/components/advertise/statistics/statistics.module.css";
 
 import {
@@ -52,24 +52,24 @@ export const LineChart = (props: {
               },
             ]
           : props.chartxType == chartxType.day
-          ? [
-              {
-                name: "series-1",
-                data: (props.items as DayCountUnix[]).map((item) => ({
-                  x: item.createdTime * 1000,
-                  y: item.count,
-                })),
-              },
-            ]
-          : [
-              {
-                name: "series-1",
-                data: (props.items as HourCountUnix[]).map((item) => ({
-                  x: item.relationHour,
-                  y: item.count,
-                })),
-              },
-            ],
+            ? [
+                {
+                  name: "series-1",
+                  data: (props.items as DayCountUnix[]).map((item) => ({
+                    x: item.createdTime * 1000,
+                    y: item.count,
+                  })),
+                },
+              ]
+            : [
+                {
+                  name: "series-1",
+                  data: (props.items as HourCountUnix[]).map((item) => ({
+                    x: item.relationHour,
+                    y: item.count,
+                  })),
+                },
+              ],
       chart: {
         id: props.chartId,
         type: "line",
@@ -160,7 +160,7 @@ export const LineChart = (props: {
           var data = w.globals.initialSeries[seriesIndex].data[dataPointIndex];
           if (props.chartxType != chartxType.hour) {
             const time = new Date(data.x);
-            let a = ReactDomServer.renderToString(
+            let a = renderToStaticMarkup(
               <div
                 className="tooltip"
                 style={{
@@ -179,11 +179,11 @@ export const LineChart = (props: {
                     {time.getDate() + " " + time.toLocaleString("en-US", { month: "long" })}{" "}
                   </div>
                 </div>
-              </div>
+              </div>,
             );
             return a;
           } else {
-            let a = ReactDomServer.renderToString(
+            let a = renderToStaticMarkup(
               <div
                 className="tooltip"
                 style={{
@@ -200,7 +200,7 @@ export const LineChart = (props: {
 
                   <div style={{ fontWeight: "var(--weight-500)" }}>{data.x + " "} </div>
                 </div>
-              </div>
+              </div>,
             );
             return a;
           }

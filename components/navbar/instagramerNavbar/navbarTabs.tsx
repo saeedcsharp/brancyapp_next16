@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { useEffect } from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "saeed/i18n";
 import styles from "./navbar.module.css";
@@ -12,7 +12,7 @@ interface INavbar {
   initialSlide: number;
 }
 
-const svgMapping: { [key: string]: JSX.Element } = {
+const svgMapping: { [key: string]: React.JSX.Element } = {
   posts: (
     <svg width="18" height="18" fill="none" viewBox="0 0 20 20" role="img" aria-label="Posts icon">
       <path d="M14.2 1H5.8C2.8 1 1 3 1 6v8c0 3 1.8 5 4.8 5h8.4c3 0 4.8-2 4.8-5V6c0-3-1.8-5-4.8-5" />

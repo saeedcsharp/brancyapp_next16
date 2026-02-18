@@ -1,15 +1,13 @@
 import Head from "next/head";
-import { useEffect } from "react";
 import { IPaymentInfo } from "saeed/models/customerAds/customerAd";
 import styles from "./progress.module.css";
 
 function Publish(props: { paymentInfo: IPaymentInfo }) {
-  useEffect(() => {
-    document.title = props.paymentInfo.success ? "Bran.cy ▸ ✅ Payment Successful" : "Bran.cy ▸ ❎ Payment Failed";
-  }, [props.paymentInfo.success]);
+  const pageTitle = props.paymentInfo.success ? "Bran.cy ▸ ✅ Payment Successful" : "Bran.cy ▸ ❎ Payment Failed";
 
   return (
     <>
+      <title>{pageTitle}</title>
       {/* head for SEO */}
       <Head>
         {" "}

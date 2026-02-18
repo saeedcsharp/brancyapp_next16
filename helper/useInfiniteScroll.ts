@@ -90,14 +90,14 @@ interface UseInfiniteScrollOptions<T = any> {
    * ref خارجی به container (اختیاری)
    * اگر مشخص نشود، یک ref داخلی ایجاد می‌شود
    */
-  containerRef?: React.RefObject<HTMLDivElement>;
+  containerRef?: React.RefObject<HTMLDivElement | null>;
 }
 
 interface UseInfiniteScrollReturn {
   /**
    * ref که باید به container اصلی متصل شود
    */
-  containerRef: React.RefObject<HTMLDivElement>;
+  containerRef: React.RefObject<HTMLDivElement | null>;
 
   /**
    * آیا در حال بارگذاری داده‌های بیشتر است؟
@@ -132,9 +132,7 @@ interface UseInfiniteScrollReturn {
  * );
  * ```
  */
-export function useInfiniteScroll<T = any>(
-  options: UseInfiniteScrollOptions<T>
-): UseInfiniteScrollReturn {
+export function useInfiniteScroll<T = any>(options: UseInfiniteScrollOptions<T>): UseInfiniteScrollReturn {
   const {
     hasMore,
     fetchMore,
@@ -192,9 +190,7 @@ export function useInfiniteScroll<T = any>(
 
       // فیلتر کردن آیتم‌های تکراری با استفاده از آخرین نسخه currentData
       const existingIds = new Set(currentDataRef.current.map(getItemId));
-      const uniqueNewData = newData.filter(
-        (item) => !existingIds.has(getItemId(item))
-      );
+      const uniqueNewData = newData.filter((item) => !existingIds.has(getItemId(item)));
 
       // اگر همه داده‌ها تکراری بودند، هیچ کاری نکن
       if (uniqueNewData.length === 0) {
@@ -213,20 +209,11 @@ export function useInfiniteScroll<T = any>(
       isLoadingRef.current = false;
       setIsLoadingMore(false);
     }
-  }, [
-    hasMore,
-    fetchMore,
-    onDataFetched,
-    getItemId,
-    enabled,
-    fetchDelay,
-    minItemsForMore,
-  ]);
+  }, [hasMore, fetchMore, onDataFetched, getItemId, enabled, fetchDelay, minItemsForMore]);
 
   // بررسی اینکه آیا نیاز به بارگذاری خودکار هست (وقتی scrollbar وجود ندارد)
   const checkAndLoadMore = useCallback(() => {
-    if (!containerRef.current || isLoadingRef.current || !hasMore || !enabled)
-      return;
+    if (!containerRef.current || isLoadingRef.current || !hasMore || !enabled) return;
 
     if (useContainerScroll) {
       const container = containerRef.current;
@@ -280,8 +267,7 @@ export function useInfiniteScroll<T = any>(
         }
       } else {
         // استفاده از window scroll
-        const scrollTop =
-          window.pageYOffset || document.documentElement.scrollTop;
+        const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const scrollHeight = document.documentElement.scrollHeight;
         const clientHeight = window.innerHeight;
 
@@ -302,14 +288,7 @@ export function useInfiniteScroll<T = any>(
       window.addEventListener("scroll", handleScroll, { passive: true });
       return () => window.removeEventListener("scroll", handleScroll);
     }
-  }, [
-    hasMore,
-    threshold,
-    handleLoadMore,
-    enabled,
-    useContainerScroll,
-    reverseScroll,
-  ]);
+  }, [hasMore, threshold, handleLoadMore, enabled, useContainerScroll, reverseScroll]);
 
   // بعد از render، چک کن که آیا نیاز به بارگذاری خودکار هست
   useEffect(() => {

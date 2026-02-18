@@ -11,7 +11,7 @@ import styles from "./userSidebar.module.css";
 type MenuItem = {
   id: string;
   route: string;
-  svgContent: JSX.Element;
+  svgContent: React.JSX.Element;
   translationKey: LanguageKey;
   isActive: (currentRoute: string) => boolean;
   subRoutes?: string[];
@@ -291,19 +291,14 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
 
   // Function to get the fill color for a menu item
   const getMenuItemColor = (item: MenuItem): string => {
-    // Add transition style if not already present
-    if (typeof window !== "undefined" && !document.getElementById("svg-transition-style")) {
-      const styleTag = document.createElement("style");
-      styleTag.id = "svg-transition-style";
-      styleTag.textContent = `.${styles.navSidebar} svg { transition: fill 0.3s ease-in-out; }`;
-      document.head.appendChild(styleTag);
-    }
-
     return item.isActive(currentRoute) ? "var(--color-dark-blue)" : "var(--color-gray)";
   };
 
   return (
     <>
+      <style
+        precedence="default"
+        href="svg-transition-style-user">{`.${styles.navSidebar} svg { transition: fill 0.3s ease-in-out; }`}</style>
       <aside className={styles.sidebarparent}>
         <div ref={sidebarRef} className={styles.sidebar} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
           <div className={styles.menuCategoriesChild} />

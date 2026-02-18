@@ -1,4 +1,4 @@
-import { memo, useCallback, useEffect, useMemo, useReducer, useRef } from "react";
+import React, { memo, useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "saeed/i18n";
 import { IFaq } from "saeed/models/market/myLink";
@@ -84,7 +84,7 @@ const Faq = memo(({ data }: { data: IFaq | null }) => {
     if (!text) return null;
     const regex =
       /(https?:\/\/[\w\-._~:/?#\[\]@!$&'()*+,;=%]+|www\.[^\s]+|(?:[a-zA-Z0-9-]+\.)+[a-zA-Z]{2,}(?:\/[^\s]*)?)/g;
-    const elements: Array<string | JSX.Element> = [];
+    const elements: Array<string | React.JSX.Element> = [];
     let lastIndex = 0;
     let match: RegExpExecArray | null;
     while ((match = regex.exec(text)) !== null) {
@@ -97,7 +97,7 @@ const Faq = memo(({ data }: { data: IFaq | null }) => {
       elements.push(
         <a key={`a-${start}`} href={href} target="_blank" rel="noopener noreferrer">
           {url}
-        </a>
+        </a>,
       );
       lastIndex = regex.lastIndex;
     }
@@ -145,7 +145,7 @@ const Faq = memo(({ data }: { data: IFaq | null }) => {
           break;
       }
     },
-    [faqItems, handleQuestionClick]
+    [faqItems, handleQuestionClick],
   );
 
   // Update refs array length when items change

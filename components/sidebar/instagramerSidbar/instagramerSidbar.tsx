@@ -9,7 +9,7 @@ import styles from "./sidebar.module.css";
 type MenuItem = {
   id: string;
   route: string;
-  svgContent: JSX.Element;
+  svgContent: React.JSX.Element;
   translationKey: LanguageKey;
   subRoutes?: string[];
 };
@@ -334,14 +334,6 @@ function InstagramerSidebar(props: { newRoute: string; router?: any }) {
   }, [mouseY]);
   // Function to get the fill color for a menu item
   const getMenuItemColor = (item: MenuItem): string => {
-    // Add transition style if not already present
-    if (typeof window !== "undefined" && !document.getElementById("svg-transition-style")) {
-      const styleTag = document.createElement("style");
-      styleTag.id = "svg-transition-style";
-      styleTag.textContent = `.${styles.navSidebar} svg { transition: fill 1.2s ease-in-out; }`;
-      document.head.appendChild(styleTag);
-    }
-
     const normalizedItemRoute = item.route.replaceAll("/", "").toLowerCase();
     return currentRoute === normalizedItemRoute ||
       currentRoute.startsWith(normalizedItemRoute) ||
@@ -352,6 +344,9 @@ function InstagramerSidebar(props: { newRoute: string; router?: any }) {
 
   return (
     <aside className={styles.sidebarparent}>
+      <style
+        precedence="default"
+        href="svg-transition-style">{`.${styles.navSidebar} svg { transition: fill 1.2s ease-in-out; }`}</style>
       <div ref={sidebarRef} className={styles.sidebar} onMouseMove={handleMouseMove} onMouseLeave={handleMouseLeave}>
         <div className={styles.menuCategoriesChild} />
 
