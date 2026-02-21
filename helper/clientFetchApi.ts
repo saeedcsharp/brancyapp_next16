@@ -1,4 +1,5 @@
 import { Session } from "next-auth";
+import { signOut } from "next-auth/react";
 import { MethodType, IResult, StringDitionaryItem } from "saeed/helper/api";
 import { ResponseType } from "saeed/components/notifications/notificationBox";
 
@@ -98,6 +99,11 @@ export async function clientFetchApi<TReq, TRes>(
     });
 
     if (onUploadProgress) onUploadProgress(100);
+
+    if (res.status === 401) {
+      signOut({ callbackUrl: "/" });
+      return normalizeResult<TRes>(null, 401, "Unauthorized");
+    }
 
     let json: any = null;
     try {

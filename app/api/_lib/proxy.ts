@@ -53,7 +53,13 @@ export async function proxyToBrancy(request: NextRequest, fixedSubUrl: string) {
       body: methodType === 1 ? JSON.stringify(data) : undefined,
       cache: "no-store",
     });
-
+    if (upstreamResponse.status === 401) {
+      console.log("Unauthorized response from upstream API, signing out user.");
+      const res = NextResponse.json(toErrorResult("Unauthorized"), { status: 401 });
+      res.cookies.delete("next-auth.session-token");
+      res.cookies.delete("__Secure-next-auth.session-token");
+      return res;
+    }
     const text = await upstreamResponse.text();
 
     return new NextResponse(text, {
