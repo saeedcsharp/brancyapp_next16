@@ -2,6 +2,9 @@ import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
 import { MethodType, IResult, StringDitionaryItem } from "saeed/helper/api";
 import { ResponseType } from "saeed/components/notifications/notificationBox";
+import { resolveBackendSubUrl } from "saeed/helper/apiRouteMap";
+
+const API_BASE_URL = "https://api.brancy.app/";
 
 function normalizeResult<J>(raw: any, statusCode = 500, errorMessage = ""): IResult<J> {
   return {
@@ -42,10 +45,6 @@ interface FetchOptions<T> {
   onUploadProgress?: (numb: number) => void;
 }
 
-function withQuery(path: string, queries: StringDitionaryItem[] = []): string {
-  return path;
-}
-
 function lowerFirst(value: string): string {
   if (!value) return value;
   return value.charAt(0).toLowerCase() + value.slice(1);
@@ -56,7 +55,6 @@ function toLocalApiPath(endpointOrPath: string): string {
   if (endpointOrPath.startsWith("/api/")) {
     const cleanApiPath = endpointOrPath.split("?")[0];
     const parts = cleanApiPath.split("/").filter(Boolean);
-    console.log("parts...", parts);
     if (parts.length >= 3) {
       return `/${parts[0]}/${parts[1]}/${lowerFirst(parts[2])}`;
     }
@@ -77,18 +75,87 @@ function toLocalApiPath(endpointOrPath: string): string {
   return `/api/general/${segments[0] ?? "check"}`;
 }
 
-export async function clientFetchApi<TReq, TRes>(
-  path: string,
-  options: FetchOptions<TReq> = {},
-): Promise<IResult<TRes>> {
-  const { session, methodType = MethodType.get, data, queries = [], onUploadProgress } = options;
+/**
+ * Check if a local API path belongs to /api/user/* (must stay server-side).
+ */
+function isUserRoute(localPath: string): boolean {
+  const clean = localPath.split("?")[0].toLowerCase();
+  return clean.startsWith("/api/user/") || clean === "/api/user";
+}
 
-  const accessToken = options.accessToken ?? getSessionAccessToken(session);
-  const instagramerId = session ? getSessionInstagramerId(session) : "-1";
-  const localPath = toLocalApiPath(path);
-  console.log("accessToken:", accessToken, "instagramerId:", instagramerId);
+/**
+ * Build the direct backend URL for a given backend sub-URL and query parameters.
+ */
+function buildDirectUrl(subUrl: string, queries: StringDitionaryItem[] = []): string {
+  const url = new URL(subUrl, API_BASE_URL);
+  for (const item of queries) {
+    if (item?.value !== undefined) {
+      url.searchParams.append(item.key, item.value);
+    }
+  }
+  return url.toString();
+}
+
+/**
+ * Call the backend directly from the client (bypassing Next.js API route).
+ */
+async function fetchDirect<TRes>(
+  backendSubUrl: string,
+  methodType: MethodType,
+  accessToken: string,
+  instagramerId: string,
+  data: any,
+  queries: StringDitionaryItem[],
+  onUploadProgress?: (numb: number) => void,
+): Promise<IResult<TRes>> {
   try {
-    const res = await fetch(withQuery(localPath, queries), {
+    const targetUrl = buildDirectUrl(backendSubUrl, queries);
+
+    const res = await fetch(targetUrl, {
+      method: methodType === MethodType.post ? "POST" : "GET",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: accessToken ?? "",
+        instagramerId,
+      },
+      body: methodType === MethodType.post ? JSON.stringify(data) : undefined,
+      cache: "no-store",
+    });
+
+    if (onUploadProgress) onUploadProgress(100);
+
+    if (res.status === 401) {
+      signOut({ callbackUrl: "/" });
+      return normalizeResult<TRes>(null, 401, "Unauthorized");
+    }
+
+    let json: any = null;
+    try {
+      json = await res.json();
+    } catch {
+      json = null;
+    }
+
+    return normalizeResult<TRes>(json, res.status, res.statusText);
+  } catch (error: any) {
+    return normalizeResult<TRes>(null, 500, error?.message ?? "Unexpected");
+  }
+}
+
+/**
+ * Call through the Next.js API proxy (used only for /api/user/* routes).
+ */
+async function fetchViaProxy<TRes>(
+  localPath: string,
+  methodType: MethodType,
+  accessToken: string,
+  instagramerId: string,
+  data: any,
+  queries: StringDitionaryItem[],
+  onUploadProgress?: (numb: number) => void,
+): Promise<IResult<TRes>> {
+  try {
+    const res = await fetch(localPath, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -116,6 +183,38 @@ export async function clientFetchApi<TReq, TRes>(
   } catch (error: any) {
     return normalizeResult<TRes>(null, 500, error?.message ?? "Unexpected");
   }
+}
+
+export async function clientFetchApi<TReq, TRes>(
+  path: string,
+  options: FetchOptions<TReq> = {},
+): Promise<IResult<TRes>> {
+  const { session, methodType = MethodType.get, data, queries = [], onUploadProgress } = options;
+
+  const accessToken = options.accessToken ?? getSessionAccessToken(session);
+  const instagramerId = session ? getSessionInstagramerId(session) : "-1";
+  const localPath = toLocalApiPath(path);
+
+  // /api/user/* → keep going through Next.js API proxy (server-side)
+  if (isUserRoute(localPath)) {
+    return fetchViaProxy<TRes>(localPath, methodType, accessToken, instagramerId, data, queries, onUploadProgress);
+  }
+
+  // All other routes → call backend directly from client
+  const backendSubUrl = resolveBackendSubUrl(localPath);
+  if (backendSubUrl) {
+    return fetchDirect<TRes>(backendSubUrl, methodType, accessToken, instagramerId, data, queries, onUploadProgress);
+  }
+
+  // Fallback: if route not found in map, derive sub-URL from path segments (like [scope]/[action] catch-all)
+  const parts = localPath.split("?")[0].split("/").filter(Boolean);
+  if (parts.length >= 3) {
+    const fallbackSubUrl = `${parts[1]}/${parts[2]}`;
+    return fetchDirect<TRes>(fallbackSubUrl, methodType, accessToken, instagramerId, data, queries, onUploadProgress);
+  }
+
+  // Last resort: proxy through Next.js
+  return fetchViaProxy<TRes>(localPath, methodType, accessToken, instagramerId, data, queries, onUploadProgress);
 }
 
 export async function clientFetchApiWithAccessToken<TReq, TRes>(
