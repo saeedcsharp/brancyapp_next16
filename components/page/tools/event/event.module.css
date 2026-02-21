@@ -1,0 +1,188 @@
+.eventCard {
+  display: flex;
+  position: relative;
+  width: 100%;
+  height: 100%;
+  flex-direction: column;
+  gap: var(--gap-20);
+  max-height: 0;
+  opacity: 0;
+  transition:
+    max-height 0.5s ease,
+    opacity 0.1s ease;
+}
+
+.show {
+  max-height: 100%;
+  opacity: 1;
+}
+
+.controls {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-12);
+  width: 100%;
+}
+
+.row {
+  display: flex;
+  gap: var(--gap-10);
+  align-items: center;
+  flex-wrap: wrap;
+}
+
+.label {
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  color: var(--text-h2);
+  min-width: 80px;
+}
+
+.dateBtn {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-5);
+  padding: var(--padding-8) var(--padding-14);
+  border-radius: var(--br8);
+  background-color: var(--content-box);
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  cursor: pointer;
+  border: 1px solid var(--color-gray30);
+  transition: var(--transition2);
+  white-space: nowrap;
+}
+
+.dateBtn:hover {
+  border-color: var(--color-light-blue);
+}
+
+.dateBtn svg {
+  width: 16px;
+  height: 16px;
+  flex-shrink: 0;
+}
+
+.languageSelect {
+  padding: var(--padding-8) var(--padding-14);
+  border-radius: var(--br8);
+  background-color: var(--content-box);
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  border: 1px solid var(--color-gray30);
+  cursor: pointer;
+  outline: none;
+  transition: var(--transition2);
+  min-width: 120px;
+}
+
+.languageSelect:hover,
+.languageSelect:focus {
+  border-color: var(--color-light-blue);
+}
+
+.searchBtn {
+  padding: var(--padding-8) var(--padding-20);
+  border-radius: var(--br8);
+  background-color: var(--color-dark-blue);
+  color: var(--color-ffffff);
+  font-size: var(--font-14);
+  font-weight: var(--weight-500);
+  cursor: pointer;
+  border: none;
+  transition: var(--transition2);
+  white-space: nowrap;
+}
+
+.searchBtn:hover {
+  opacity: 0.9;
+}
+
+.searchBtn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.eventList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-8);
+  width: 100%;
+  max-height: 400px;
+  overflow-y: auto;
+}
+
+.eventItem {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-5);
+  padding: var(--padding-12);
+  border-radius: var(--br8);
+  background-color: var(--content-box);
+  border: 1px solid var(--color-gray30);
+  transition: var(--transition2);
+}
+
+.eventItem:hover {
+  border-color: var(--color-light-blue);
+}
+
+.eventTitle {
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+  color: var(--text-h1);
+}
+
+.eventDescription {
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  color: var(--text-h2);
+  line-height: 1.5;
+}
+
+.eventMeta {
+  display: flex;
+  gap: var(--gap-10);
+  align-items: center;
+  flex-wrap: wrap;
+  margin-top: var(--gap-3);
+}
+
+.tag {
+  font-size: var(--font-10);
+  padding: var(--padding-2) var(--padding-8);
+  border-radius: var(--br5);
+  background-color: var(--color-light-blue);
+  color: var(--color-ffffff);
+}
+
+.tagReligious {
+  background-color: var(--color-dark-green);
+}
+
+.tagCountry {
+  background-color: var(--color-gray60);
+  color: var(--color-ffffff);
+}
+
+.eventDate {
+  font-size: var(--font-12);
+  color: var(--text-h3);
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-30);
+  font-size: var(--font-14);
+  color: var(--text-h2);
+}
+
+.loaderContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: var(--padding-30);
+  width: 100%;
+}

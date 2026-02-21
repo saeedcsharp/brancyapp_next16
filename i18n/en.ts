@@ -1471,6 +1471,13 @@ export default {
     pageTools_LikeNewFollowersPosts: "Like Latest Posts of New Followers",
     pageTools_RemoveAllFollowings: "Remove All Followings",
     pageTools_WinnerPicker: "Lottery (Winner Picker)",
+    pageTools_DayEvents: "Day Events",
+    pageTools_EventDateRange: "Date Range",
+    pageTools_EventLanguage: "Language",
+    pageTools_EventSelectDate: "Select Date Range",
+    pageTools_EventSearch: "Search Events",
+    pageTools_EventEmpty: "No events found for the selected range",
+    pageTools_EventReligious: "Religious",
     pageTools_exportcomments: "All comments are exported as an Excel file and can be downloaded and shared",
 
     pageTools_Lottery: "Create a Score Lottery",

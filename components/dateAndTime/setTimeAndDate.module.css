@@ -247,3 +247,14 @@
   border: 1px solid var(--color-dark-blue) !important;
   color: var(--color-ffffff) !important;
 }
+
+/* range mode */
+.calendarmodule :global(.rmdp-range) {
+  background-color: var(--color-dark-blue10) !important;
+}
+
+.calendarmodule :global(.rmdp-range.start) span,
+.calendarmodule :global(.rmdp-range.end) span {
+  background-color: var(--color-dark-blue) !important;
+  color: var(--color-ffffff) !important;
+}

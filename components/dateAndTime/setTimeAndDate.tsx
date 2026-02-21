@@ -23,6 +23,9 @@ const SetTimeAndDate = (props: {
   startDay?: number;
   fromUnix?: number;
   endUnix?: number;
+  range?: boolean;
+  onSaveRange?: (startUnix: number, endUnix: number) => void;
+  title?: string;
 }) => {
   const { t } = useTranslation();
   let startDate = props.startDay && props.startDay !== 0 ? props.startDay : Date.now() + 3600000;
@@ -37,6 +40,7 @@ const SetTimeAndDate = (props: {
   console.log("endunixxxxxx", props.endUnix);
   console.log("fromunixxxxxx", props.fromUnix);
   const [value, setValue] = useState<Value>(startDate);
+  const [rangeValue, setRangeValue] = useState<DateObject[]>([]);
   const [calendar, setCalendar] = useState(gregorian);
   const [locale, setLocale] = useState(english);
   // const checkDate = (date: string) => {
@@ -58,6 +62,14 @@ const SetTimeAndDate = (props: {
   const handleSave = (date: string | undefined) => {
     if (date !== undefined) {
       props.saveDateAndTime(date);
+    }
+  };
+
+  const handleSaveRange = () => {
+    if (rangeValue.length === 2 && rangeValue[0] && rangeValue[1] && props.onSaveRange) {
+      const startUnix = rangeValue[0].toUnix() * 1000;
+      const endUnix = rangeValue[1].toUnix() * 1000;
+      props.onSaveRange(startUnix, endUnix);
     }
   };
 
@@ -117,36 +129,56 @@ const SetTimeAndDate = (props: {
 
   return (
     <>
-      <div className="title">{t(LanguageKey.pageLottery_SetDateTime)}</div>
+      <div className="title">{props.title ?? t(LanguageKey.pageLottery_SetDateTime)}</div>
       <div className={styles.calendarmodule}>
-        <Calendar
-          calendar={calendar}
-          locale={locale}
-          mapDays={({ date }) => {
-            if (dayes.includes(date.day) && mounths.includes(date.month.index) && years.includes(date.year)) {
-              return {
-                disabled: true,
-                style: { backgroundColor: "var(--color-ffffff)" },
-                title: "Selected",
-              };
-            }
-          }}
-          shadow={false}
-          value={value}
-          onChange={setValue}
-          minDate={props.fromUnix ? new Date(props.fromUnix) : Date.now()}
-          maxDate={props.endUnix ? new Date(props.endUnix) : Date.now() + 2592000000}
-          format=" YYYY/MMMM/DD hh:mm a"
-          plugins={[<TimePicker position="bottom" hStep={1} mStep={1} hideSeconds={true} />]}
-        />
+        {props.range ? (
+          <Calendar
+            calendar={calendar}
+            locale={locale}
+            shadow={false}
+            value={rangeValue}
+            onChange={(dates: DateObject[]) => setRangeValue(dates)}
+            range
+            minDate={props.fromUnix ? new Date(props.fromUnix) : Date.now()}
+            maxDate={props.endUnix ? new Date(props.endUnix) : Date.now() + 2592000000}
+            format="YYYY/MM/DD"
+          />
+        ) : (
+          <Calendar
+            calendar={calendar}
+            locale={locale}
+            mapDays={({ date }) => {
+              if (dayes.includes(date.day) && mounths.includes(date.month.index) && years.includes(date.year)) {
+                return {
+                  disabled: true,
+                  style: { backgroundColor: "var(--color-ffffff)" },
+                  title: "Selected",
+                };
+              }
+            }}
+            shadow={false}
+            value={value}
+            onChange={setValue}
+            minDate={props.fromUnix ? new Date(props.fromUnix) : Date.now()}
+            maxDate={props.endUnix ? new Date(props.endUnix) : Date.now() + 2592000000}
+            format=" YYYY/MMMM/DD hh:mm a"
+            plugins={[<TimePicker position="bottom" hStep={1} mStep={1} hideSeconds={true} />]}
+          />
+        )}
       </div>
       <div className="ButtonContainer">
         <button onClick={props.backToNormalPicker} className="cancelButton">
           {t(LanguageKey.cancel)}
         </button>
-        <button onClick={() => handleSave(value?.valueOf().toString())} className={"saveButton"}>
-          {t(LanguageKey.save)}
-        </button>
+        {props.range ? (
+          <button onClick={handleSaveRange} className={"saveButton"}>
+            {t(LanguageKey.save)}
+          </button>
+        ) : (
+          <button onClick={() => handleSave(value?.valueOf().toString())} className={"saveButton"}>
+            {t(LanguageKey.save)}
+          </button>
+        )}
       </div>
     </>
   );

@@ -31,6 +31,7 @@ import WinnerAnnouncementAndBanner from "saeed/components/page/tools/popups/lott
 import WinnersList from "saeed/components/page/tools/popups/lottery/winnersList";
 import TrendHashtags from "saeed/components/page/tools/trendhashtag/trendHashtags";
 import WinnerPicker from "saeed/components/page/tools/winnerpicker/winnerPicker";
+import DayEvents from "saeed/components/page/tools/event/dayEvents";
 import { changePositionToFixed, changePositionToRelative } from "saeed/helper/changeMarketAdsStyle";
 import { checkRemainingTimeFeature } from "saeed/helper/checkFeature";
 import { LoginStatus, RoleAccess, packageStatus } from "saeed/helper/loadingStatus";
@@ -129,6 +130,9 @@ const Tools = () => {
   const [showTermsAndConditionWinnerPicker, setShowTermsAndConditionWinnerPicker] = useState(false);
   const [showWinnerAnnounceAndBanner, setshowWinnerAnnounceAndBanner] = useState(false);
   const [showSetTimeAndDate, setshowSetTimeAndDate] = useState(false);
+  const [showDayEventDatePicker, setShowDayEventDatePicker] = useState(false);
+  const [dayEventStartUnix, setDayEventStartUnix] = useState<number | null>(null);
+  const [dayEventEndUnix, setDayEventEndUnix] = useState<number | null>(null);
   const [showLotteryRunning, setShowLotteryRunning] = useState(false);
   const [showShareTermsAndCondition, setShowShareTermsAndCondition] = useState(false);
   const [showRemainingTime, setshowRemainingTime] = useState(false);
@@ -373,6 +377,7 @@ const Tools = () => {
     setShowTermsAndConditionWinnerPicker(false);
     setshowWinnerAnnounceAndBanner(false);
     setshowSetTimeAndDate(false);
+    setShowDayEventDatePicker(false);
     setShowLotteryRunning(false);
     setShowShareTermsAndCondition(false);
     setshowRemainingTime(false);
@@ -1082,6 +1087,14 @@ const Tools = () => {
               showWinnersList={handleShowWinnersList}
               // handleShowActiveWinnerPicker={handleShowActiveWinnerPicker}
             />
+            <DayEvents
+              handleShowDatePicker={() => {
+                changePositionToFixed();
+                setShowDayEventDatePicker(true);
+              }}
+              startUnix={dayEventStartUnix}
+              endUnix={dayEventEndUnix}
+            />
           </div>
 
           <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showNewList}>
@@ -1191,6 +1204,22 @@ const Tools = () => {
               startDay={
                 lotteryInfo.startTime !== 0 ? convertToMilliseconds(lotteryInfo.startTime) : Date.now() + 23400000
               }
+            />
+          </Modal>
+          <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showDayEventDatePicker}>
+            <SetTimeAndDate
+              removeMask={removeMask}
+              saveDateAndTime={() => {}}
+              backToNormalPicker={removeMask}
+              fromUnix={Date.now() + 300000}
+              endUnix={Date.now() + 2592000000}
+              range
+              onSaveRange={(start, end) => {
+                setDayEventStartUnix(start);
+                setDayEventEndUnix(end);
+                removeMask();
+              }}
+              title={t(LanguageKey.pageTools_EventSelectDate)}
             />
           </Modal>
           <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showLotteryRunning}>
