@@ -7,9 +7,7 @@ function normalizeUser(input: any) {
   const now = Date.now();
   const rawPackageExpireTime = input?.packageExpireTime;
   const normalizedPackageExpireTime =
-    typeof rawPackageExpireTime === "number" && rawPackageExpireTime > 0
-      ? rawPackageExpireTime
-      : undefined;
+    typeof rawPackageExpireTime === "number" && rawPackageExpireTime > 0 ? rawPackageExpireTime : undefined;
 
   return {
     ...input,
@@ -86,7 +84,31 @@ const handler = NextAuth({
           const instagramerIds: number[] = userRoll["instagramerIds"];
           const currntIndex = instagramerIds != null && instagramerIds.length > 0 ? 0 : -1;
 
+          // Fetch full instagramer account info so session has packageExpireTime, permissions, etc.
+          let instagramerData: any = {};
+          if (currntIndex >= 0) {
+            try {
+              const acctRes = await fetch("https://api.brancy.app/user/GetMyInstagramers", {
+                headers: {
+                  Authorization: loginResultInfo.token,
+                  instagramerId: String(instagramerIds[currntIndex]),
+                },
+              });
+              if (acctRes.ok) {
+                const acctJson = await acctRes.json();
+                const acctList = acctJson?.value;
+                if (Array.isArray(acctList) && acctList.length > currntIndex) {
+                  instagramerData = acctList[currntIndex];
+                }
+              }
+            } catch (e) {
+              console.warn("[AUTH] Failed to fetch instagramer account info:", e);
+            }
+          }
+
           return normalizeUser({
+            ...userRoll,
+            ...instagramerData,
             id: loginResultInfo.id,
             instagramerIds,
             accessToken: loginResultInfo.token,
@@ -131,7 +153,31 @@ const handler = NextAuth({
         const instagramerIds: number[] = userRoll["instagramerIds"];
         const currntIndex = instagramerIds != null && instagramerIds.length > 0 ? 0 : -1;
 
+        // Fetch full instagramer account info so session has packageExpireTime, permissions, etc.
+        let instagramerData: any = {};
+        if (currntIndex >= 0) {
+          try {
+            const acctRes = await fetch("https://api.brancy.app/user/GetMyInstagramers", {
+              headers: {
+                Authorization: loginResultInfo.token,
+                instagramerId: String(instagramerIds[currntIndex]),
+              },
+            });
+            if (acctRes.ok) {
+              const acctJson = await acctRes.json();
+              const acctList = acctJson?.value;
+              if (Array.isArray(acctList) && acctList.length > currntIndex) {
+                instagramerData = acctList[currntIndex];
+              }
+            }
+          } catch (e) {
+            console.warn("[AUTH] Failed to fetch instagramer account info:", e);
+          }
+        }
+
         return normalizeUser({
+          ...userRoll,
+          ...instagramerData,
           id: loginResultInfo.id,
           instagramerIds,
           accessToken: loginResultInfo.token,

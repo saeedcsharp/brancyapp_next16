@@ -1,4 +1,4 @@
-import { signIn } from "next-auth/react";
+import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { ChangeEvent, ClipboardEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -17,6 +17,7 @@ export default function VerificationForm(props: {
   sendPhonenumber: () => void;
 }) {
   const router = useRouter();
+  const { update: updateSession } = useSession();
   const [code, setCode] = useState<string[]>(new Array(6).fill(""));
   const [timeLeft, setTimeLeft] = useState(60);
   const [canResend, setCanResend] = useState(false);
@@ -102,11 +103,13 @@ export default function VerificationForm(props: {
       verificationCode,
     });
 
-    // if (res && !res.error && res.url !== null) {
-    //   console.log("Sign in successful:", res);
-    //   // Redirect to your desired URL after successful sign in
-    //   router.push(res.url); // Change '/dashboard' to your preferred destination
-    // }
+    if (res && !res.error) {
+      // Refresh the session so useSession() returns the new token immediately
+      await updateSession();
+      // Navigate to home — hard reload guarantees a fresh session everywhere
+      window.location.href = "/home";
+      return;
+    }
 
     setVerifyLoading(false);
     if (res && res.error) {

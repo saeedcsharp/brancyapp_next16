@@ -86,7 +86,7 @@ export async function clientFetchApi<TReq, TRes>(
   const accessToken = options.accessToken ?? getSessionAccessToken(session);
   const instagramerId = session ? getSessionInstagramerId(session) : "-1";
   const localPath = toLocalApiPath(path);
-
+  console.log("accessToken:", accessToken, "instagramerId:", instagramerId);
   try {
     const res = await fetch(withQuery(localPath, queries), {
       method: "POST",
