@@ -7,6 +7,7 @@ import LeftHamMenue from "saeed/components/hambergurMenu/leftHamMenu";
 import NavbarHeader from "saeed/components/navbar/instagramerNavbar/navbarHeader";
 import NavbarTabs from "saeed/components/navbar/instagramerNavbar/navbarTabs";
 import InstagramerSidebar from "saeed/components/sidebar/instagramerSidbar/instagramerSidbar";
+import NotLogin from "saeed/components/notOk/notLogin";
 import SignOut from "saeed/components/signout/signOut";
 import SwitchAccount from "saeed/components/switchAccount/switchAccount";
 
@@ -103,6 +104,7 @@ export default function InstagramerGroupLayout({ children }: { children: React.R
           handleRemoveNotifLogo={() => setToggleNotif((prev) => !prev)}
         />
       )}
+      {session?.user?.loginByInsta === false && <NotLogin removeMask={removeMask} />}
       {showSignOut && <SignOut removeMask={removeMask} />}
       {showSwitch && <SwitchAccount removeMask={removeMask} />}
     </main>

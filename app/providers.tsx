@@ -2,6 +2,7 @@
 
 import { SessionProvider } from "next-auth/react";
 import { ReactNode } from "react";
+import Notification from "saeed/components/notifications/notificationBox";
 import { DirectionProvider } from "saeed/context/directionContext";
 import { InstaProvider } from "saeed/context/instaInfoContext";
 
@@ -15,6 +16,7 @@ export default function Providers({ children }: ProvidersProps) {
       <DirectionProvider>
         <InstaProvider>{children}</InstaProvider>
       </DirectionProvider>
+      <Notification />
     </SessionProvider>
   );
 }

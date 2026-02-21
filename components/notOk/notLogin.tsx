@@ -63,7 +63,13 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
 
     setLoading(true);
     try {
-      const response = await clientFetchApi<boolean, SendCodeResult>("/api/preinstagramer/SendCode", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "username", value: instaId }], onUploadProgress: undefined });
+      const response = await clientFetchApi<boolean, SendCodeResult>("/api/preinstagramer/SendCode", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "username", value: instaId }],
+        onUploadProgress: undefined,
+      });
 
       if (response.statusCode !== 200) {
         if (response.info.responseType === ResponseType.ExceedLoginAttempt) {
@@ -86,7 +92,13 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
     if (!session) return;
 
     try {
-      const response = await clientFetchApi<boolean, string>("/api/preinstagramer/GetInstagramRedirect", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const response = await clientFetchApi<boolean, string>("/api/preinstagramer/GetInstagramRedirect", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
 
       if (response.succeeded) {
         router.push(response.value);
@@ -102,9 +114,16 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
     if (!session) return;
 
     try {
-      const response = await clientFetchApi<boolean, IIpCondition>("/api/user/ip", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const response = await clientFetchApi<boolean, IIpCondition>("/api/user/ip", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (response.succeeded) {
         if (!response.value.isInstagramAuthorize) {
+          console.log("User IP does not have Instagram authorization. Prompting to turn on proxy.");
           internalNotify(InternalResponseType.TurnOnProxy, NotifType.Warning);
         } else {
           await redirectToInstagram();
@@ -121,7 +140,13 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
     if (!session) return;
 
     try {
-      const res = await clientFetchApi<boolean, InstagramerAccountInfo[]>("/api/user/GetMyInstagramers", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, InstagramerAccountInfo[]>("/api/user/GetMyInstagramers", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
 
       if (res.succeeded && res.value.length > 0) {
         setInstagramers(res.value);
@@ -183,7 +208,7 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
       removeMask();
       router.push("/");
     },
-    [session, update, removeMask, router]
+    [session, update, removeMask, router],
   );
 
   const handleSignOut = useCallback(async () => {
@@ -216,7 +241,7 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
       sendInstaId();
       removeMask();
     },
-    [sendInstaId, removeMask]
+    [sendInstaId, removeMask],
   );
 
   const handleBackInstaId = useCallback(() => {
@@ -265,7 +290,7 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
         }
       }
     },
-    [showTooltip, currentStep, handleCloseTooltip, handleNextStep, handlePrevStep]
+    [showTooltip, currentStep, handleCloseTooltip, handleNextStep, handlePrevStep],
   );
 
   const instagramerItems = useMemo(() => {
@@ -308,7 +333,7 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
                 ID:{" "}
                 {Array.isArray(session?.user.instagramerIds)
                   ? session?.user.instagramerIds.join(", ")
-                  : session?.user.instagramerIds ?? "N/A"}
+                  : (session?.user.instagramerIds ?? "N/A")}
               </span>
             </div>
             <div className={`remaining ${timeClass}`}>
