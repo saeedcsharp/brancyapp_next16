@@ -270,7 +270,7 @@ const Home = () => {
       return;
     }
     console.log("Session loaded, checking package status...", session);
-    if (!packageStatus(session)) {
+    if (!packageStatus(session) && session?.user?.loginByInsta) {
       router.push("/upgrade");
       return;
     }
