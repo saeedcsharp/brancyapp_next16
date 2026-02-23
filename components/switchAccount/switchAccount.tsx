@@ -40,7 +40,13 @@ function SwitchAccount(props: { removeMask: () => void }) {
   }
   async function getInstagramers() {
     try {
-      const res = await clientFetchApi<boolean, InstagramerAccountInfo[]>("/api/user/GetMyInstagramers", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, InstagramerAccountInfo[]>("/api/user/GetMyInstagramers", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         await getPartners(res.value);
         if (res.value.length > 0) setInstagramers(res.value);
@@ -59,7 +65,13 @@ function SwitchAccount(props: { removeMask: () => void }) {
   async function getPartners(instagramers: InstagramerAccountInfo[]) {
     try {
       setPartnersLoading(true);
-      const res = await clientFetchApi<boolean, IPartner_User[]>("/api/session/GetPartners", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IPartner_User[]>("/api/session/GetPartners", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         const newIns = res.value.filter((x) => !instagramers.map((i) => i.username).includes(x.username));
         console.log("instagramersss", newIns);
@@ -74,7 +86,13 @@ function SwitchAccount(props: { removeMask: () => void }) {
 
   async function handleApprovePartner(id: number) {
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/session/ApprovePartnerRequest", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "instagramerId", value: id.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/session/ApprovePartnerRequest", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "instagramerId", value: id.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         await getInstagramers();
         notify(ResponseType.Ok, NotifType.Success);
@@ -88,7 +106,13 @@ function SwitchAccount(props: { removeMask: () => void }) {
 
   async function handleRejectPartner(id: number) {
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/session/RejectPartnerRequest", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "instagramerId", value: id.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/session/RejectPartnerRequest", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "instagramerId", value: id.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setPartners((x) => x.filter((p) => p.instagramerId !== id));
         notify(ResponseType.Ok, NotifType.Success);
@@ -131,7 +155,13 @@ function SwitchAccount(props: { removeMask: () => void }) {
 
   async function handleRedirectToInstagram() {
     try {
-      const response = await clientFetchApi<boolean, IIpCondition>("/api/user/ip", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const response = await clientFetchApi<boolean, IIpCondition>("/api/user/ip", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (response.succeeded) {
         if (!response.value.isInstagramAuthorize) internalNotify(InternalResponseType.TurnOnProxy, NotifType.Warning);
         else {
@@ -147,7 +177,13 @@ function SwitchAccount(props: { removeMask: () => void }) {
 
   async function redirectToInstagram() {
     try {
-      const response = await clientFetchApi<boolean, string>("/api/preinstagramer/GetInstagramRedirect", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const response = await clientFetchApi<boolean, string>("/api/preinstagramer/GetInstagramRedirect", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (response.succeeded) {
         router.push(response.value);
       } else {
@@ -209,7 +245,7 @@ function SwitchAccount(props: { removeMask: () => void }) {
         {/* Add other meta tags as needed */}
       </Head>
       <div className="dialogBg" onClick={props.removeMask} />
-      <main className={styles.popupmain}>
+      <main className={styles.popupmain} onClick={(e) => e.stopPropagation()}>
         <header className={styles.header}>
           <div className="headerparent">
             <div className="title">{t(LanguageKey.accountmanagement)}</div>
@@ -254,7 +290,7 @@ function SwitchAccount(props: { removeMask: () => void }) {
                     ID:{" "}
                     {Array.isArray(session?.user.instagramerIds)
                       ? session?.user.instagramerIds.join(", ")
-                      : session?.user.instagramerIds ?? "N/A"}
+                      : (session?.user.instagramerIds ?? "N/A")}
                   </span>
                 </div>
                 <div className={`${styles.remainingTime}`}>
@@ -369,7 +405,7 @@ function SwitchAccount(props: { removeMask: () => void }) {
                                   ID:{" "}
                                   {Array.isArray(session?.user.instagramerIds)
                                     ? session?.user.instagramerIds.join(", ")
-                                    : session?.user.instagramerIds ?? "N/A"}
+                                    : (session?.user.instagramerIds ?? "N/A")}
                                 </span>
                               </div>
                             </div>
@@ -473,7 +509,7 @@ function SwitchAccount(props: { removeMask: () => void }) {
                                     ID:{" "}
                                     {Array.isArray(session?.user.instagramerIds)
                                       ? session?.user.instagramerIds.join(", ")
-                                      : session?.user.instagramerIds ?? "N/A"}
+                                      : (session?.user.instagramerIds ?? "N/A")}
                                   </span>
                                 </div>
                                 <div className={`${styles.remainingTime} ${timeClass}`}>

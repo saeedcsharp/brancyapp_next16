@@ -7,7 +7,7 @@ import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { PushNotif, PushResponseType } from "brancy/models/push/pushNotif";
 import NavbarMobile from "brancy/components/navbar/instagramerNavbar/navbar_mobile";
-import styles from "brancy/components/navbar/instagramerNavbar/navbarheader.module.css";
+import styles from "./navbarheader.module.css";
 import NotificationBar from "brancy/components/navbar/instagramerNavbar/notificationBar";
 import Profile from "brancy/components/navbar/instagramerNavbar/profile";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;

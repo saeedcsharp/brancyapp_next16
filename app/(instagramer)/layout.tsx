@@ -36,6 +36,7 @@ export default function InstagramerGroupLayout({ children }: { children: React.R
   };
 
   const handleShowProfile = (event: MouseEvent) => {
+    console.log("show profile");
     event.stopPropagation();
     setShowProfile((prev) => !prev);
   };
@@ -71,8 +72,13 @@ export default function InstagramerGroupLayout({ children }: { children: React.R
     setShowSwitch(false);
   };
 
+  const handleOutsideClick = () => {
+    setShowNotifBar(false);
+    setShowProfile(false);
+  };
+
   return (
-    <main className="marketAdsCart">
+    <main className="marketAdsCart" onClick={handleOutsideClick}>
       <InstagramerSidebar newRoute={newRoute} router={router} />
       <div className="frameGroup">
         <header className="headerTab">
