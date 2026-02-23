@@ -2,8 +2,8 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import UserPanelDirectInbox from "saeed/components/userPanel/message/ticketInbox";
-import { LanguageKey } from "saeed/i18n";
+import UserPanelDirectInbox from "../../../components/userPanel/message/ticketInbox";
+import { LanguageKey } from "../../../i18n";
 import styles from "./ticket.module.css";
 
 function Messages() {

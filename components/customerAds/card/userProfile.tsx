@@ -1,6 +1,6 @@
-import styles from "saeed/components/customerAds/customerAds.module.css";
-import { calculateSummary } from "saeed/helper/numberFormater";
-import { ICardAdvertiser } from "saeed/models/customerAds/customerAd";
+import styles from "../customerAds.module.css";
+import { calculateSummary } from "../../../helper/numberFormater";
+import { ICardAdvertiser } from "../../../models/customerAds/customerAd";
 function UserProfile(prop: { data: ICardAdvertiser }) {
   return (
     <div className={styles.popupsection}>

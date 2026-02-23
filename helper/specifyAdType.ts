@@ -1,4 +1,4 @@
-import { AdsType } from "saeed/models/advertise/AdEnums";
+import { AdsType } from "../models/advertise/AdEnums";
 
 export function handleSpecifyAdType(adType: AdsType) {
   switch (adType) {

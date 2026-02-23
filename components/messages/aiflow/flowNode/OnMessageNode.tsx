@@ -1,6 +1,6 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../../../i18n";
 import styles from "./OnMessageNode.module.css";
 import { BaseNodeProps, NodeData } from "./types";
 export const OnMessageNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) => {

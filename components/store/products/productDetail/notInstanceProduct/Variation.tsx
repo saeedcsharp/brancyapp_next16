@@ -1,13 +1,13 @@
 import { useSession } from "next-auth/react";
 import { ChangeEvent, CSSProperties, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "saeed/components/design/dragDrop/dragDrop";
-import InputText from "saeed/components/design/inputText";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import priceFormatter from "saeed/helper/priceFormater";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
+import DragDrop from "../../../../design/dragDrop/dragDrop";
+import InputText from "../../../../design/inputText";
+import { NotifType, notify, ResponseType } from "../../../../notifications/notificationBox";
+import Loading from "../../../../notOk/loading";
+import priceFormatter from "../../../../../helper/priceFormater";
+import { LanguageKey } from "../../../../../i18n";
+import { MethodType } from "../../../../../helper/api";
 import {
   ICreateInstance_ForVariation,
   IDisCount,
@@ -17,11 +17,11 @@ import {
   IProduct_Variation,
   ISubProduct_Create,
   IVariation_Create,
-} from "saeed/models/store/IProduct";
+} from "../../../../../models/store/IProduct";
 import Discount from "./popups/discount";
 import NewVariation from "./popups/newVariation";
 import styles from "./Variation.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../../helper/clientFetchApi";
 export interface IAddNewVariation {
   val1: INewVariation | null;
   val2: INewVariation | null;

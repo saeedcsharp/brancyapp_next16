@@ -15,39 +15,39 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import SetTimeAndDate from "saeed/components/dateAndTime/setTimeAndDate";
-import AIWithPrompt from "saeed/components/design/ai/AIWithPrompt";
-import ConstantCounterDown from "saeed/components/design/counterDown/constantCounterDown";
-import DragComponent from "saeed/components/design/dragComponent/dragComponent";
-import DragDrop from "saeed/components/design/dragDrop/dragDrop";
-import InputText from "saeed/components/design/inputText";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import Modal from "saeed/components/design/modal";
-import ProgressBar from "saeed/components/design/progressBar/progressBar";
-import TextArea from "saeed/components/design/textArea/textArea";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
+import SetTimeAndDate from "../../../components/dateAndTime/setTimeAndDate";
+import AIWithPrompt from "../../../components/design/ai/AIWithPrompt";
+import ConstantCounterDown from "../../../components/design/counterDown/constantCounterDown";
+import DragComponent from "../../../components/design/dragComponent/dragComponent";
+import DragDrop from "../../../components/design/dragDrop/dragDrop";
+import InputText from "../../../components/design/inputText";
+import RingLoader from "../../../components/design/loader/ringLoder";
+import Modal from "../../../components/design/modal";
+import ProgressBar from "../../../components/design/progressBar/progressBar";
+import TextArea from "../../../components/design/textArea/textArea";
+import ToggleCheckBoxButton from "../../../components/design/toggleCheckBoxButton";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import NotAllowed from "saeed/components/notOk/notAllowed";
-import NotPermission, { PermissionType } from "saeed/components/notOk/notPermission";
-import ChangePostToAlbum from "saeed/components/page/popup/changePostToAlbum";
-import DeleteDraft from "saeed/components/page/popup/deleteDraft";
-import ErrorDraft from "saeed/components/page/popup/errorDraft";
-import QuickReplyPopup from "saeed/components/page/popup/quickReply";
-import SaveDraft from "saeed/components/page/popup/saveDraft";
-import DeletePrePost from "saeed/components/page/scheduledPost/deletePrePost";
-import { packageStatus, RoleAccess } from "saeed/helper/loadingStatus";
-import initialzedTime from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
-import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType, UploadFile } from "saeed/helper/api";
-import { AutoReplyPayLoadType, MediaProductType } from "saeed/models/messages/enum";
-import { IAutomaticReply, IMediaUpdateAutoReply, IPublishLimit } from "saeed/models/page/post/posts";
+} from "../../../components/notifications/notificationBox";
+import NotAllowed from "../../../components/notOk/notAllowed";
+import NotPermission, { PermissionType } from "../../../components/notOk/notPermission";
+import ChangePostToAlbum from "../../../components/page/popup/changePostToAlbum";
+import DeleteDraft from "../../../components/page/popup/deleteDraft";
+import ErrorDraft from "../../../components/page/popup/errorDraft";
+import QuickReplyPopup from "../../../components/page/popup/quickReply";
+import SaveDraft from "../../../components/page/popup/saveDraft";
+import DeletePrePost from "../../../components/page/scheduledPost/deletePrePost";
+import { packageStatus, RoleAccess } from "../../../helper/loadingStatus";
+import initialzedTime from "../../../helper/manageTimer";
+import { LanguageKey } from "../../../i18n";
+import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType, UploadFile } from "../../../helper/api";
+import { AutoReplyPayLoadType, MediaProductType } from "../../../models/messages/enum";
+import { IAutomaticReply, IMediaUpdateAutoReply, IPublishLimit } from "../../../models/page/post/posts";
 import {
   IDraftInfo,
   IErrorPrePostInfo,
@@ -62,10 +62,10 @@ import {
   IUiParameter,
   MediaType,
   PostType,
-} from "saeed/models/page/post/preposts";
-import { HashtagListItem, IHashtag } from "saeed/models/page/tools/tools";
+} from "../../../models/page/post/preposts";
+import { HashtagListItem, IHashtag } from "../../../models/page/tools/tools";
 import styles from "./createPost.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 
 enum SearchType {
   CollaboratePeople,

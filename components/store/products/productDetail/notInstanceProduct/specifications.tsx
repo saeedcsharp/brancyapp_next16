@@ -18,20 +18,20 @@ import { CSS } from "@dnd-kit/utilities";
 import { useSession } from "next-auth/react";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "saeed/components/design/dragDrop/dragDrop";
-import InputText from "saeed/components/design/inputText";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
+import DragDrop from "../../../../design/dragDrop/dragDrop";
+import InputText from "../../../../design/inputText";
+import { NotifType, notify, ResponseType } from "../../../../notifications/notificationBox";
+import { LanguageKey } from "../../../../../i18n";
+import { MethodType } from "../../../../../helper/api";
 import {
   ICreateInstance_ForSpecification,
   ICustomSpecificationItem,
   IProduct_LastSpecification,
   IProduct_Variation,
   ISpecificationItem,
-} from "saeed/models/store/IProduct";
+} from "../../../../../models/store/IProduct";
 import styles from "./specifications.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../../helper/clientFetchApi";
 
 function SortableItem({
   item,

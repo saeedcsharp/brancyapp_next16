@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from "react";
-import Dotmenu from "saeed/components/design/dotMenu/dotMenu";
-import LinkifyText from "saeed/context/LinkifyText";
-import { getMessageDirectionClass } from "saeed/helper/checkRtl";
-import { detectEmojiOnly } from "saeed/helper/emojiDetector";
+import Dotmenu from "../../../../../design/dotMenu/dotMenu";
+import LinkifyText from "../../../../../../context/LinkifyText";
+import { getMessageDirectionClass } from "../../../../../../helper/checkRtl";
+import { detectEmojiOnly } from "../../../../../../helper/emojiDetector";
 import { TicketBaseChatProps } from "../../types";
 import { TicketChatDate, TicketMessageStatus, TicketReactionEmoji } from "../utils";
 import styles from "./messageTypes.module.css";

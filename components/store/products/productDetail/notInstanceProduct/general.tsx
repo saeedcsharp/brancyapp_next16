@@ -1,28 +1,28 @@
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "saeed/components/design/dragDrop/dragDrop";
-import InputText from "saeed/components/design/inputText";
-import Tooltip from "saeed/components/design/tooltip/tooltip";
+import DragDrop from "../../../../design/dragDrop/dragDrop";
+import InputText from "../../../../design/inputText";
+import Tooltip from "../../../../design/tooltip/tooltip";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
+} from "../../../../notifications/notificationBox";
+import Loading from "../../../../notOk/loading";
+import { LanguageKey } from "../../../../../i18n";
+import { MethodType } from "../../../../../helper/api";
 import {
   IGeneralInfo,
   ILastCategory,
   IProduct_MainCategory,
   IProduct_SecondaryCategory,
   ISuggestedPrice,
-} from "saeed/models/store/IProduct";
+} from "../../../../../models/store/IProduct";
 import styles from "./general.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../../helper/clientFetchApi";
 function General({
   productId,
   suggestedPrice,

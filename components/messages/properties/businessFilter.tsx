@@ -1,18 +1,18 @@
 import { useSession } from "next-auth/react";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import RadioButton from "saeed/components/design/radioButton";
-import TextArea from "saeed/components/design/textArea/textArea";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import Loading from "saeed/components/notOk/loading";
-import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
-import { LanguageKey } from "saeed/i18n";
-import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
+import RadioButton from "../../design/radioButton";
+import TextArea from "../../design/textArea/textArea";
+import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
+import Loading from "../../notOk/loading";
+import { LoginStatus, RoleAccess } from "../../../helper/loadingStatus";
+import { LanguageKey } from "../../../i18n";
+import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
 import {
   BusinessFilterMsgType,
   BusinessFilterNumberType,
   IBusinessMessageFilter,
-} from "saeed/models/messages/properies";
+} from "../../../models/messages/properies";
 import styles from "./properties.module.css";
 
 function BusinessFilter() {

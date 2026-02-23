@@ -1,5 +1,5 @@
 import { memo, useCallback, useEffect, useId, useLayoutEffect, useMemo, useReducer, useRef } from "react";
-import { IClientBanner } from "saeed/models/market/myLink";
+import { IClientBanner } from "../../../models/market/myLink";
 import styles from "./banner.module.css";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 interface BannerState {

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { IUploadVoice } from "saeed/models/messages/IMessage";
-import MessageTockenGenerator from "saeed/models/messages/messageTockenGenerator";
+import { IUploadVoice } from "../../../models/messages/IMessage";
+import MessageTockenGenerator from "../../../models/messages/messageTockenGenerator";
 import WaveSurfer from "wavesurfer.js";
 import styles from "./voiceRecorder.module.css";
 var audioBase64: string | null = "";

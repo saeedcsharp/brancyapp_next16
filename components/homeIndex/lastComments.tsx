@@ -2,10 +2,10 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LoginStatus } from "saeed/helper/loadingStatus";
-import { LanguageKey } from "saeed/i18n";
-import entryTypeToStr, { ILastMessage } from "saeed/models/homeIndex/home";
-import { ItemType } from "saeed/models/messages/enum";
+import { LoginStatus } from "../../helper/loadingStatus";
+import { LanguageKey } from "../../i18n";
+import entryTypeToStr, { ILastMessage } from "../../models/homeIndex/home";
+import { ItemType } from "../../models/messages/enum";
 import Loading from "../notOk/loading";
 import styles from "./lastComments.module.css";
 

@@ -2,9 +2,9 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { memo, useCallback, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
-import { IInstagramerHomeTiles } from "saeed/models/homeIndex/home";
-import { IPostContent } from "saeed/models/page/post/posts";
+import { LanguageKey } from "../../i18n";
+import { IInstagramerHomeTiles } from "../../models/homeIndex/home";
+import { IPostContent } from "../../models/page/post/posts";
 import styles from "./postSummary.module.css";
 
 // Cache for posts data

@@ -1,4 +1,4 @@
-import { StatusType } from "saeed/components/confirmationStatus/confirmationStatus";
+import { StatusType } from "../../components/confirmationStatus/confirmationStatus";
 import { MediaType } from "../ApiModels/Instagramer/Page/FirstPostPage";
 import { AdsTimeType, AdsType, RejectedType } from "./AdEnums";
 import { IAdvertisingTerms } from "./peoperties";

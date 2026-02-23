@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
-import InlineBarChart from "saeed/components/design/chart/inlineBarChart";
-import { numberToFormattedString } from "saeed/helper/numberFormater";
-import useHideDiv from "saeed/hook/useHide";
-import { LanguageKey } from "saeed/i18n";
-import { IAdShortMonth } from "saeed/models/advertise/statistics";
+import InlineBarChart from "../../design/chart/inlineBarChart";
+import { numberToFormattedString } from "../../../helper/numberFormater";
+import useHideDiv from "../../../hook/useHide";
+import { LanguageKey } from "../../../i18n";
+import { IAdShortMonth } from "../../../models/advertise/statistics";
 import styles from "./statistics.module.css";
 const TotalAdsStatistics = (props: { data: IAdShortMonth[] }) => {
   const { hidePage, gridSpan, toggle } = useHideDiv(true, 47);

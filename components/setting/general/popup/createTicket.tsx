@@ -6,15 +6,15 @@ import React, {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "saeed/components/design/dragDrop/dragDrop";
-import InputText from "saeed/components/design/inputText";
-import TextArea from "saeed/components/design/textArea/textArea";
-import { LanguageKey } from "saeed/i18n";
+import DragDrop from "../../../design/dragDrop/dragDrop";
+import InputText from "../../../design/inputText";
+import TextArea from "../../../design/textArea/textArea";
+import { LanguageKey } from "../../../../i18n";
 import {
   PlatformTicketItemType,
   PlatformTicketType,
-} from "saeed/models/setting/enums";
-import { ICreatePlatform } from "saeed/models/setting/general";
+} from "../../../../models/setting/enums";
+import { ICreatePlatform } from "../../../../models/setting/general";
 
 interface ICreateTicketProps {
   removeMask: () => void;

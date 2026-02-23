@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
-import { packageStatus } from "saeed/helper/loadingStatus";
+import { packageStatus } from "../../helper/loadingStatus";
 
 const Title = () => {
   //  return <Soon />;

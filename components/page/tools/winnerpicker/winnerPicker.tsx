@@ -2,21 +2,21 @@ import { useSession } from "next-auth/react";
 import { MouseEvent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import Slider, { SliderSlide } from "saeed/components/design/slider/slider";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import { getEnumValue } from "saeed/helper/handleItemTypeEnum";
-import initialzedTime from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
+import Slider, { SliderSlide } from "../../../design/slider/slider";
+import { NotifType, notify, ResponseType } from "../../../notifications/notificationBox";
+import Loading from "../../../notOk/loading";
+import { getEnumValue } from "../../../../helper/handleItemTypeEnum";
+import initialzedTime from "../../../../helper/manageTimer";
+import { LanguageKey } from "../../../../i18n";
+import { MethodType } from "../../../../helper/api";
 import {
   FailLotteryStatus,
   FailLotteryStatusStr,
   IShortLotteriesInfo,
   LotteryStatus,
-} from "saeed/models/page/tools/tools";
+} from "../../../../models/page/tools/tools";
 import styles from "./winnerPicker.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../helper/clientFetchApi";
 
 const WinnerPicker = (props: {
   handleShowWinnerPickerPopup: (e: MouseEvent) => void;

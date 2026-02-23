@@ -1,8 +1,8 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
-import { TopTileType } from "saeed/models/homeIndex/enum";
-import { IDemographicInsight, IInstagramerHomeTileItem } from "saeed/models/homeIndex/home";
+import { LanguageKey } from "../../i18n";
+import { TopTileType } from "../../models/homeIndex/enum";
+import { IDemographicInsight, IInstagramerHomeTileItem } from "../../models/homeIndex/home";
 import styles from "./pageDetail.module.css";
 const PageDetail = (props: { data: IDemographicInsight; items: IInstagramerHomeTileItem[] | [] }) => {
   const { t } = useTranslation();

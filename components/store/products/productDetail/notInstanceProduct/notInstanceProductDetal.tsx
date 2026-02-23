@@ -2,19 +2,19 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { SetStateAction, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import RingLoader from "saeed/components/design/loader/ringLoder";
+import RingLoader from "../../../../design/loader/ringLoder";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import { LanguageKey } from "saeed/i18n";
-import { IResult, MethodType } from "saeed/helper/api";
-import { IDetailsPost } from "saeed/models/page/post/posts";
-import { MediaType } from "saeed/models/page/post/preposts";
+} from "../../../../notifications/notificationBox";
+import Loading from "../../../../notOk/loading";
+import { LanguageKey } from "../../../../../i18n";
+import { IResult, MethodType } from "../../../../../helper/api";
+import { IDetailsPost } from "../../../../../models/page/post/posts";
+import { MediaType } from "../../../../../models/page/post/preposts";
 import {
   AvailabilityStatus,
   GauranteeLength,
@@ -22,7 +22,7 @@ import {
   OrginalityStatus,
   ParcelPocketDeliveryType,
   Steps,
-} from "saeed/models/store/enum";
+} from "../../../../../models/store/enum";
 import {
   ICreateInstance_ForSpecification,
   ICreateInstance_ForVariation,
@@ -42,7 +42,7 @@ import {
   ISuggestedPrice,
   IUploadMedia,
   IVariation_Create,
-} from "saeed/models/store/IProduct";
+} from "../../../../../models/store/IProduct";
 import General from "./general";
 import Information from "./information";
 import Media from "./media";
@@ -50,7 +50,7 @@ import styles from "./notinstanceproduct.module.css";
 import Setting from "./setting";
 import Specifications from "./specifications";
 import Variation from "./Variation";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../../helper/clientFetchApi";
 
 export default function NotInstanceProductDetail({
   maxSize,

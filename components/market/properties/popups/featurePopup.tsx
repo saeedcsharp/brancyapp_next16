@@ -1,5 +1,5 @@
-import { FeatureType } from "saeed/models/market/enums";
-import { ISaveLink } from "saeed/models/market/properties";
+import { FeatureType } from "../../../../models/market/enums";
+import { ISaveLink } from "../../../../models/market/properties";
 import AddNewLink from "./addNewLink";
 import Announcement from "./announcement";
 import Banner from "./banner";

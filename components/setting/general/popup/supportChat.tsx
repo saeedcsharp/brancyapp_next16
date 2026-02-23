@@ -1,15 +1,15 @@
 import { t } from "i18next";
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import { LanguageKey } from "saeed/i18n";
-import { ICreateLiveChat, ICreatePrompt, ILiveChat } from "saeed/models/AI/prompt";
-import { MethodType } from "saeed/helper/api";
-import { ItemType } from "saeed/models/messages/enum";
+import RingLoader from "../../../design/loader/ringLoder";
+import { NotifType, notify, ResponseType } from "../../../notifications/notificationBox";
+import Loading from "../../../notOk/loading";
+import { LanguageKey } from "../../../../i18n";
+import { ICreateLiveChat, ICreatePrompt, ILiveChat } from "../../../../models/AI/prompt";
+import { MethodType } from "../../../../helper/api";
+import { ItemType } from "../../../../models/messages/enum";
 import styles from "./supportChat.module.scss";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../helper/clientFetchApi";
 export default function SupportChat({
   promptInfo,
   setShowLiveChatPopup,

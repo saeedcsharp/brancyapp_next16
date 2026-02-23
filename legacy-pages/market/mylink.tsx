@@ -3,32 +3,32 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import AdvertisingTermsPopup from "saeed/components/advertise/popups/advertisingTermsPopup";
-import BusinessHourPopup from "saeed/components/advertise/popups/businessHourPopup";
-import TarrifPopup from "saeed/components/advertise/popups/tariffPopup";
-import Modal from "saeed/components/design/modal";
-import Aboutus from "saeed/components/market/myLink/abouts";
-import Announcement from "saeed/components/market/myLink/announcement";
-import Banner from "saeed/components/market/myLink/banner";
-import ContactAndMap from "saeed/components/market/myLink/contactAndMap";
-import DynamicFeatures from "saeed/components/market/myLink/dynamicFeatures";
-import Faq from "saeed/components/market/myLink/faq";
-import FeatureBox from "saeed/components/market/myLink/featureBox";
-import LastVideo from "saeed/components/market/myLink/lastVideo";
-import Link from "saeed/components/market/myLink/link";
-import Menubar from "saeed/components/market/myLink/menubar";
-import OnlineStreaming from "saeed/components/market/myLink/onlinestreaming";
-import Reviews from "saeed/components/market/myLink/reviews";
-import Loading from "saeed/components/notOk/loading";
+import AdvertisingTermsPopup from "../../components/advertise/popups/advertisingTermsPopup";
+import BusinessHourPopup from "../../components/advertise/popups/businessHourPopup";
+import TarrifPopup from "../../components/advertise/popups/tariffPopup";
+import Modal from "../../components/design/modal";
+import Aboutus from "../../components/market/myLink/abouts";
+import Announcement from "../../components/market/myLink/announcement";
+import Banner from "../../components/market/myLink/banner";
+import ContactAndMap from "../../components/market/myLink/contactAndMap";
+import DynamicFeatures from "../../components/market/myLink/dynamicFeatures";
+import Faq from "../../components/market/myLink/faq";
+import FeatureBox from "../../components/market/myLink/featureBox";
+import LastVideo from "../../components/market/myLink/lastVideo";
+import Link from "../../components/market/myLink/link";
+import Menubar from "../../components/market/myLink/menubar";
+import OnlineStreaming from "../../components/market/myLink/onlinestreaming";
+import Reviews from "../../components/market/myLink/reviews";
+import Loading from "../../components/notOk/loading";
 import {
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { FeatureType } from "saeed/models/market/enums";
+} from "../../components/notifications/notificationBox";
+import { LoginStatus, packageStatus } from "../../helper/loadingStatus";
+import { LanguageKey } from "../../i18n";
+import { MethodType } from "../../helper/api";
+import { FeatureType } from "../../models/market/enums";
 import {
   IBusinessHour,
   IChannel,
@@ -39,9 +39,9 @@ import {
   ISmartLink,
   IVideoChannel,
   IWorkHourItem,
-} from "saeed/models/market/myLink";
+} from "../../models/market/myLink";
 import styles from "./myLink.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../helper/clientFetchApi";
 function handleFeatureInfo(mediaLink: IMyLink) {
   var featureArray: IFeatureInfo[] = [];
   if (mediaLink.announcement && mediaLink.announcement.isActive) {

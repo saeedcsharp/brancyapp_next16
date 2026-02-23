@@ -1,9 +1,9 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import CounterDown2, { ShowRings } from "saeed/components/design/counterDown/counterDown2";
-import Slider, { SliderSlide } from "saeed/components/design/slider/slider";
-import { LanguageKey } from "saeed/i18n";
-import { IUpcomingAds } from "saeed/models/advertise/adList";
+import CounterDown2, { ShowRings } from "../../design/counterDown/counterDown2";
+import Slider, { SliderSlide } from "../../design/slider/slider";
+import { LanguageKey } from "../../../i18n";
+import { IUpcomingAds } from "../../../models/advertise/adList";
 import styles from "../../../legacy-pages/advertise/adlist.module.css";
 import AdsTypeComp from "../adsType";
 import TimeTypeComp from "../timeType";

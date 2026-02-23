@@ -1,12 +1,12 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Loading from "saeed/components/notOk/loading";
-import { LoginStatus } from "saeed/helper/loadingStatus";
-import { calculateSummary } from "saeed/helper/numberFormater";
-import { LanguageKey } from "saeed/i18n";
-import { CategorySection } from "saeed/models/market/enums";
-import { IMarketInfo } from "saeed/models/market/home";
+import Loading from "../../notOk/loading";
+import { LoginStatus } from "../../../helper/loadingStatus";
+import { calculateSummary } from "../../../helper/numberFormater";
+import { LanguageKey } from "../../../i18n";
+import { CategorySection } from "../../../models/market/enums";
+import { IMarketInfo } from "../../../models/market/home";
 import styles from "./homeComponent.module.css";
 function Store(props: { data: IMarketInfo[] | undefined; fetchStorewData: (pagination: string) => void }) {
   const { data: session } = useSession();

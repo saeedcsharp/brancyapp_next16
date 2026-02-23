@@ -1,8 +1,8 @@
 import { t } from "i18next";
 import React, { useMemo } from "react";
-import { LanguageKey } from "saeed/i18n";
-import { IItem, IOwnerInbox, IThread_Ticket } from "saeed/models/messages/IMessage";
-import { ItemType } from "saeed/models/messages/enum";
+import { LanguageKey } from "../../../../i18n";
+import { IItem, IOwnerInbox, IThread_Ticket } from "../../../../models/messages/IMessage";
+import { ItemType } from "../../../../models/messages/enum";
 import styles from "../ticketChatBox.module.css";
 import { TicketChatAudio } from "./shared/messageTypes/TicketChatAudio";
 import { TicketChatMedia } from "./shared/messageTypes/TicketChatMedia";

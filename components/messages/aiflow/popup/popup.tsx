@@ -2,7 +2,7 @@ import Head from "next/head";
 import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../../../i18n";
 import styles from "./popup.module.css";
 
 export type PopupType = "info" | "success" | "error" | "warning";

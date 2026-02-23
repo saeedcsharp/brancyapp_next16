@@ -3,10 +3,10 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../i18n";
 
-import Soon from "saeed/components/notOk/soon";
-import { packageStatus } from "saeed/helper/loadingStatus";
+import Soon from "../../components/notOk/soon";
+import { packageStatus } from "../../helper/loadingStatus";
 
 const HelpCenter = () => {
   const router = useRouter();

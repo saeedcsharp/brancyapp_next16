@@ -3,29 +3,29 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useCallback, useReducer } from "react";
 import { useTranslation } from "react-i18next";
-import Modal from "saeed/components/design/modal";
-import NotAllowed from "saeed/components/notOk/notAllowed";
+import Modal from "../../components/design/modal";
+import NotAllowed from "../../components/notOk/notAllowed";
 import NotPermission, {
   PermissionType,
-} from "saeed/components/notOk/notPermission";
-import BestFollowers from "saeed/components/page/statistics/bestFollower/bestFollower";
-import CardBestWorst from "saeed/components/page/statistics/cardBestWorst/cardBestWorst";
-import EngageMentStatistics from "saeed/components/page/statistics/engagementStatistics/engagementStatistics";
-import IngageBoxModel from "saeed/components/page/statistics/inagegBoxes/inagegBoxes";
-import PostStatsViewer from "saeed/components/page/statistics/popups/PostStatsViewer";
-import PostTimeAnalysis from "saeed/components/page/statistics/popups/postTimeAnalysis";
+} from "../../components/notOk/notPermission";
+import BestFollowers from "../../components/page/statistics/bestFollower/bestFollower";
+import CardBestWorst from "../../components/page/statistics/cardBestWorst/cardBestWorst";
+import EngageMentStatistics from "../../components/page/statistics/engagementStatistics/engagementStatistics";
+import IngageBoxModel from "../../components/page/statistics/inagegBoxes/inagegBoxes";
+import PostStatsViewer from "../../components/page/statistics/popups/PostStatsViewer";
+import PostTimeAnalysis from "../../components/page/statistics/popups/postTimeAnalysis";
 import {
   LoginStatus,
   packageStatus,
   RoleAccess,
-} from "saeed/helper/loadingStatus";
-import { LanguageKey } from "saeed/i18n";
-import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { IPostContent } from "saeed/models/page/post/posts";
-import { IBestFollowers } from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/bestFollower";
-import { IBestTime } from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/cardBestWorst";
-import { GraphGhostViewersModel } from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/GraphGhostViewersModel";
-import { GraphViewsFourMonthModel } from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/GraphViewsFourMonthModel";
+} from "../../helper/loadingStatus";
+import { LanguageKey } from "../../i18n";
+import { PartnerRole } from "../../models/_AccountInfo/InstagramerAccountInfo";
+import { IPostContent } from "../../models/page/post/posts";
+import { IBestFollowers } from "../../models/page/statistics/statisticsContent/GraphIngageBoxes/bestFollower";
+import { IBestTime } from "../../models/page/statistics/statisticsContent/GraphIngageBoxes/cardBestWorst";
+import { GraphGhostViewersModel } from "../../models/page/statistics/statisticsContent/GraphIngageBoxes/GraphGhostViewersModel";
+import { GraphViewsFourMonthModel } from "../../models/page/statistics/statisticsContent/GraphIngageBoxes/GraphViewsFourMonthModel";
 import styles from "./page.module.css";
 enum PopupType {
   NONE = "NONE",

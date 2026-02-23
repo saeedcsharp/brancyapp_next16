@@ -1,12 +1,12 @@
 import React, { ChangeEvent, useEffect, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import CheckBoxButton from "saeed/components/design/checkBoxButton";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import PriceFormater, { PriceFormaterClassName } from "saeed/components/priceFormater";
-import initialzedTime from "saeed/helper/manageTimer";
-import { specifyLogistic } from "saeed/helper/specifyLogistic";
-import { LanguageKey } from "saeed/i18n";
+import CheckBoxButton from "../../design/checkBoxButton";
+import RingLoader from "../../design/loader/ringLoder";
+import PriceFormater, { PriceFormaterClassName } from "../../priceFormater";
+import initialzedTime from "../../../helper/manageTimer";
+import { specifyLogistic } from "../../../helper/specifyLogistic";
+import { LanguageKey } from "../../../i18n";
 import { OrderStepStatus } from "../../../models/store/enum";
 import { IOrderByStatus, IOrderByStatusItem } from "../../../models/store/orders";
 import styles from "./4-Sent.module.css";

@@ -1,10 +1,10 @@
-import { ITotalPrompt } from "saeed/models/AI/prompt";
+import { ITotalPrompt } from "../../AI/prompt";
 import {
   AutoReplyPayLoadType,
   MediaProductType,
-} from "saeed/models/messages/enum";
-import { IMedia } from "saeed/models/messages/IMessage";
-import { ITotalMasterFlow } from "saeed/models/messages/properies";
+} from "../../messages/enum";
+import { IMedia } from "../../messages/IMessage";
+import { ITotalMasterFlow } from "../../messages/properies";
 import { SuperFigure } from "../statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import { IPrePost, MediaType } from "./preposts";
 export interface IPost {

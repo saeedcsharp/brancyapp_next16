@@ -1,7 +1,7 @@
 import { KeyboardEvent, memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
-import { IClientBanner } from "saeed/models/market/myLink";
+import { LanguageKey } from "../../../i18n";
+import { IClientBanner } from "../../../models/market/myLink";
 import styles from "./abouts.module.css";
 
 const CURRENT_YEAR = new Date().getFullYear();

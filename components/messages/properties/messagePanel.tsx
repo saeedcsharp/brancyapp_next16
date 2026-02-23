@@ -1,25 +1,25 @@
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react"; // Added useRef, useCallback
 import { useTranslation } from "react-i18next";
-import Dotmenu from "saeed/components/design/dotMenu/dotMenu";
-import DragDrop from "saeed/components/design/dragDrop/dragDrop";
-import InputText from "saeed/components/design/inputText";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import Tooltip from "saeed/components/design/tooltip/tooltip";
+import Dotmenu from "../../design/dotMenu/dotMenu";
+import DragDrop from "../../design/dragDrop/dragDrop";
+import InputText from "../../design/inputText";
+import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
+import Tooltip from "../../design/tooltip/tooltip";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import { LoginStatus } from "saeed/helper/loadingStatus";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { Language } from "saeed/models/messages/enum";
-import { IMessagePanel } from "saeed/models/messages/properies";
+} from "../../notifications/notificationBox";
+import { LoginStatus } from "../../../helper/loadingStatus";
+import { LanguageKey } from "../../../i18n";
+import { MethodType } from "../../../helper/api";
+import { Language } from "../../../models/messages/enum";
+import { IMessagePanel } from "../../../models/messages/properies";
 import styles from "./properties.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 
 function MessagePanel({
   messagePanel,

@@ -1,29 +1,29 @@
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Slider, { SliderSlide } from "saeed/components/design/slider/slider";
-import FlexibleToggleButton from "saeed/components/design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "saeed/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
+import Slider, { SliderSlide } from "../../../../design/slider/slider";
+import FlexibleToggleButton from "../../../../design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "../../../../design/toggleButton/types";
+import ToggleCheckBoxButton from "../../../../design/toggleCheckBoxButton";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
-} from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import InsightChart from "saeed/components/page/posts/insightChart";
-import formatTimeAgo from "saeed/helper/formatTimeAgo";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
+} from "../../../../notifications/notificationBox";
+import Loading from "../../../../notOk/loading";
+import InsightChart from "../../../posts/insightChart";
+import formatTimeAgo from "../../../../../helper/formatTimeAgo";
+import { LanguageKey } from "../../../../../i18n";
+import { MethodType } from "../../../../../helper/api";
 import {
   ILikeComment_Condotion,
   ILikeComment_Figure,
   ILikeComment_GetLikeComments,
   ILikeComment_UpdateCondotion,
-} from "saeed/models/page/tools/tools";
+} from "../../../../../models/page/tools/tools";
 import styles from "./autointeraction.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../../helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const LikeAllComments = (props: { removeMask: () => void }) => {
   const { data: session } = useSession();

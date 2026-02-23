@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useState } from "react";
-import CheckBoxButton from "saeed/components/design/checkBoxButton";
-import InputText from "saeed/components/design/inputText";
-import RadioButton from "saeed/components/design/radioButton";
+import CheckBoxButton from "../../components/design/checkBoxButton";
+import InputText from "../../components/design/inputText";
+import RadioButton from "../../components/design/radioButton";
 import styles from "./step2-cart.module.css";
 
 // Define types

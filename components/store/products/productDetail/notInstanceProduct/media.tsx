@@ -25,11 +25,11 @@ import {
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import { convertHeicToJpeg } from "saeed/helper/convertHeicToJPEG";
-import { LanguageKey } from "saeed/i18n";
-import { MediaType } from "saeed/models/page/post/preposts";
-import { IProduct_Media, ISuggestedMedia } from "saeed/models/store/IProduct";
+} from "../../../../notifications/notificationBox";
+import { convertHeicToJpeg } from "../../../../../helper/convertHeicToJPEG";
+import { LanguageKey } from "../../../../../i18n";
+import { MediaType } from "../../../../../models/page/post/preposts";
+import { IProduct_Media, ISuggestedMedia } from "../../../../../models/store/IProduct";
 import styles from "./media.module.css";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;

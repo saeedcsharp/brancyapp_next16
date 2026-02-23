@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Slider from "react-slider";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../../i18n";
 import styles from "./slider.module.css";
 
 function PriceSlider(props: {

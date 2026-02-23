@@ -2,13 +2,13 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "saeed/components/design/dragDrop/dragDrop";
-import InputText from "saeed/components/design/inputText";
-import Tooltip from "saeed/components/design/tooltip/tooltip";
-import Loading from "saeed/components/notOk/loading";
-import { LanguageKey } from "saeed/i18n";
-import { IProduct_Setting } from "saeed/models/store/IProduct";
-import { GauranteeLength, GauranteeStatus, OrginalityStatus, ParcelPocketDeliveryType } from "saeed/models/store/enum";
+import DragDrop from "../../../../design/dragDrop/dragDrop";
+import InputText from "../../../../design/inputText";
+import Tooltip from "../../../../design/tooltip/tooltip";
+import Loading from "../../../../notOk/loading";
+import { LanguageKey } from "../../../../../i18n";
+import { IProduct_Setting } from "../../../../../models/store/IProduct";
+import { GauranteeLength, GauranteeStatus, OrginalityStatus, ParcelPocketDeliveryType } from "../../../../../models/store/enum";
 import styles from "./setting.module.css";
 
 function SettingInstance({

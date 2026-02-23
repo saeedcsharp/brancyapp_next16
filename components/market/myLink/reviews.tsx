@@ -1,6 +1,6 @@
 import { useState } from "react";
-import FiveStar from "saeed/components/fiveStar";
-import { IReviews } from "saeed/models/market/myLink";
+import FiveStar from "../../fiveStar";
+import { IReviews } from "../../../models/market/myLink";
 import styles from "./mylink.module.css";
 const Reviews = ({ data }: { data: IReviews | null }) => {
   const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;

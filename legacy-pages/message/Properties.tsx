@@ -3,38 +3,38 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Modal from "saeed/components/design/modal";
-import EditAutoReply from "saeed/components/messages/popups/editAutoReply";
-import SpecialPayLoadComp from "saeed/components/messages/popups/specialPayLoad";
-import AutoReply from "saeed/components/messages/properties/autoreply";
-import IceBreaker from "saeed/components/messages/properties/iceBreaker";
-import MessagePanel from "saeed/components/messages/properties/messagePanel";
-import PersistentMenu from "saeed/components/messages/properties/persistentMnue";
-import PopupComment from "saeed/components/messages/properties/popupComment";
-import PopupDirect from "saeed/components/messages/properties/popupDirect";
+import Modal from "../../components/design/modal";
+import EditAutoReply from "../../components/messages/popups/editAutoReply";
+import SpecialPayLoadComp from "../../components/messages/popups/specialPayLoad";
+import AutoReply from "../../components/messages/properties/autoreply";
+import IceBreaker from "../../components/messages/properties/iceBreaker";
+import MessagePanel from "../../components/messages/properties/messagePanel";
+import PersistentMenu from "../../components/messages/properties/persistentMnue";
+import PopupComment from "../../components/messages/properties/popupComment";
+import PopupDirect from "../../components/messages/properties/popupDirect";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import NotAllowed from "saeed/components/notOk/notAllowed";
-import NotPermission, { PermissionType } from "saeed/components/notOk/notPermission";
-import { changePositionToFixed, changePositionToRelative } from "saeed/helper/changeMarketAdsStyle";
-import { LoginStatus, packageStatus, RoleAccess } from "saeed/helper/loadingStatus";
-import { LanguageKey } from "saeed/i18n";
-import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/api";
+} from "../../components/notifications/notificationBox";
+import Loading from "../../components/notOk/loading";
+import NotAllowed from "../../components/notOk/notAllowed";
+import NotPermission, { PermissionType } from "../../components/notOk/notPermission";
+import { changePositionToFixed, changePositionToRelative } from "../../helper/changeMarketAdsStyle";
+import { LoginStatus, packageStatus, RoleAccess } from "../../helper/loadingStatus";
+import { LanguageKey } from "../../i18n";
+import { PartnerRole } from "../../models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType } from "../../helper/api";
 import {
   AutoReplyPayLoadType,
   IceOrPersistent,
   Language,
   MediaProductType,
   SpecialPayLoad,
-} from "saeed/models/messages/enum";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+} from "../../models/messages/enum";
+import { clientFetchApi } from "../../helper/clientFetchApi";
 import {
   IAutoReplySetting,
   ICreateGeneralAutoReply,
@@ -44,7 +44,7 @@ import {
   IProfileButtons,
   ISpecialPayload,
   IUpdateProfileButton,
-} from "saeed/models/messages/properies";
+} from "../../models/messages/properies";
 const Properties = () => {
   const { t } = useTranslation();
   const router = useRouter();

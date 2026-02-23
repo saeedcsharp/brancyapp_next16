@@ -4,42 +4,42 @@ import { useRouter } from "next/router";
 import { ChangeEvent, useCallback, useEffect, useMemo, useReducer, useRef, useState, useTransition } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import MultiChart from "saeed/components/design/chart/Chart_month";
-import InputText from "saeed/components/design/inputText";
-import Modal from "saeed/components/design/modal";
-import Slider from "saeed/components/design/slider/slider";
-import FlexibleToggleButton from "saeed/components/design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "saeed/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import Tooltip from "saeed/components/design/tooltip/tooltip";
-import { MediaModal, useMediaModal } from "saeed/components/messages/shared/utils";
+import MultiChart from "../../../components/design/chart/Chart_month";
+import InputText from "../../../components/design/inputText";
+import Modal from "../../../components/design/modal";
+import Slider from "../../../components/design/slider/slider";
+import FlexibleToggleButton from "../../../components/design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "../../../components/design/toggleButton/types";
+import ToggleCheckBoxButton from "../../../components/design/toggleCheckBoxButton";
+import Tooltip from "../../../components/design/tooltip/tooltip";
+import { MediaModal, useMediaModal } from "../../../components/messages/shared/utils";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import NotAllowed from "saeed/components/notOk/notAllowed";
-import NotPermission, { PermissionType } from "saeed/components/notOk/notPermission";
-import LotteryPopup, { LotteryPopupType } from "saeed/components/page/popup/lottery";
-import QuickReplyPopup from "saeed/components/page/popup/quickReply";
-import FollowersNonFollowers from "saeed/components/page/posts/popup/followers&NonFollowers";
-import { isRTL } from "saeed/helper/checkRtl";
-import { handleCopyLink } from "saeed/helper/copyLink";
-import formatTimeAgo from "saeed/helper/formatTimeAgo";
-import { LoginStatus, packageStatus, RoleAccess } from "saeed/helper/loadingStatus";
-import initialzedTime from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
-import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/api";
-import { MediaProductType } from "saeed/models/messages/enum";
-import { IGetMediaCommentInfo, IMedia } from "saeed/models/messages/IMessage";
-import { IAutomaticReply, IDetailsPost, IInsightPost, IMediaUpdateAutoReply } from "saeed/models/page/post/posts";
-import { MediaType } from "saeed/models/page/post/preposts";
+} from "../../../components/notifications/notificationBox";
+import Loading from "../../../components/notOk/loading";
+import NotAllowed from "../../../components/notOk/notAllowed";
+import NotPermission, { PermissionType } from "../../../components/notOk/notPermission";
+import LotteryPopup, { LotteryPopupType } from "../../../components/page/popup/lottery";
+import QuickReplyPopup from "../../../components/page/popup/quickReply";
+import FollowersNonFollowers from "../../../components/page/posts/popup/followers&NonFollowers";
+import { isRTL } from "../../../helper/checkRtl";
+import { handleCopyLink } from "../../../helper/copyLink";
+import formatTimeAgo from "../../../helper/formatTimeAgo";
+import { LoginStatus, packageStatus, RoleAccess } from "../../../helper/loadingStatus";
+import initialzedTime from "../../../helper/manageTimer";
+import { LanguageKey } from "../../../i18n";
+import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType } from "../../../helper/api";
+import { MediaProductType } from "../../../models/messages/enum";
+import { IGetMediaCommentInfo, IMedia } from "../../../models/messages/IMessage";
+import { IAutomaticReply, IDetailsPost, IInsightPost, IMediaUpdateAutoReply } from "../../../models/page/post/posts";
+import { MediaType } from "../../../models/page/post/preposts";
 import styles from "./showPost.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 function convertMillisecondsToTime(ms: number) {
   if (ms <= 0) {

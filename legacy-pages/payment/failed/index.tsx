@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../../i18n";
 import styles from "./fail.module.css";
 export default function FailedPaymentPage() {
   const { t } = useTranslation();

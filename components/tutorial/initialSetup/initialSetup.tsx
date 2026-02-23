@@ -1,13 +1,13 @@
 import { useSession } from "next-auth/react";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import RadioButton from "saeed/components/design/radioButton";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import { LanguageKey } from "saeed/i18n";
-import { InitialSetupState } from "saeed/models/homeIndex/home";
-import { MethodType } from "saeed/helper/api";
+import RadioButton from "../../design/radioButton";
+import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
+import { LanguageKey } from "../../../i18n";
+import { InitialSetupState } from "../../../models/homeIndex/home";
+import { MethodType } from "../../../helper/api";
 import styles from "./initialSetup.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 interface InitialSetupProps {
   onComplete: () => void;
 }

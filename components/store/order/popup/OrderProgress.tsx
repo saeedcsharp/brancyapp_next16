@@ -1,9 +1,9 @@
 import React, { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "saeed/components/design/checkBoxButton";
-import DragDrop from "saeed/components/design/dragDrop/dragDrop";
-import InputText from "saeed/components/design/inputText";
-import { LanguageKey } from "saeed/i18n";
+import CheckBoxButton from "../../../design/checkBoxButton";
+import DragDrop from "../../../design/dragDrop/dragDrop";
+import InputText from "../../../design/inputText";
+import { LanguageKey } from "../../../../i18n";
 import styles from "./OrderProgress.module.css";
 
 const OrderProgress = () => {

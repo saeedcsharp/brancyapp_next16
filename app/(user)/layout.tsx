@@ -2,11 +2,11 @@
 
 import { MouseEvent, useState } from "react";
 import { useRouter } from "next/router";
-import LeftUserHamMenue from "saeed/components/hambergurMenu/leftUserHamMenu";
-import UserPanelNavbar from "saeed/components/navbar/userPanelNavbar/userPanelNavbar";
-import UserSidebar from "saeed/components/sidebar/userSidebar/userSidebar";
-import SignOut from "saeed/components/signout/signOut";
-import SwitchAccount from "saeed/components/switchAccount/switchAccount";
+import LeftUserHamMenue from "../../components/hambergurMenu/leftUserHamMenu";
+import UserPanelNavbar from "../../components/navbar/userPanelNavbar/userPanelNavbar";
+import UserSidebar from "../../components/sidebar/userSidebar/userSidebar";
+import SignOut from "../../components/signout/signOut";
+import SwitchAccount from "../../components/switchAccount/switchAccount";
 
 export default function UserGroupLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();

@@ -1,33 +1,33 @@
 import { useSession } from "next-auth/react";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import IncrementStepper from "saeed/components/design/incrementStepper";
-import FlexibleToggleButton from "saeed/components/design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "saeed/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
+import IncrementStepper from "../../../../design/incrementStepper";
+import FlexibleToggleButton from "../../../../design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "../../../../design/toggleButton/types";
+import ToggleCheckBoxButton from "../../../../design/toggleCheckBoxButton";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
-} from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import InsightChart from "saeed/components/page/posts/insightChart";
-import { convertArrayToLarray } from "saeed/helper/chunkArray";
-import formatTimeAgo from "saeed/helper/formatTimeAgo";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
+} from "../../../../notifications/notificationBox";
+import Loading from "../../../../notOk/loading";
+import InsightChart from "../../../posts/insightChart";
+import { convertArrayToLarray } from "../../../../../helper/chunkArray";
+import formatTimeAgo from "../../../../../helper/formatTimeAgo";
+import { LanguageKey } from "../../../../../i18n";
+import { MethodType } from "../../../../../helper/api";
 import {
   IUnFollowAllFollowing_Client_Condotion,
   IUnFollowAllFollowing_Figure,
   IUnFollowAllFollowing_GetUnFollowing,
   IUnFollowAllFollowing_Server_Condotion,
   IUnFollowAllFollowing_UpdateCondotion,
-} from "saeed/models/page/tools/tools";
+} from "../../../../../models/page/tools/tools";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "./autointeraction.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../../helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const UnFollowAllFollowing = (props: {
   handleRemoveFollowing: (removeFollowing: IUnFollowAllFollowing_UpdateCondotion) => void;

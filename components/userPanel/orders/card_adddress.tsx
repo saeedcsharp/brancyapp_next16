@@ -3,25 +3,25 @@ import { useRouter } from "next/router";
 import { ChangeEvent, useCallback, useEffect, useId, useLayoutEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-import InputText from "saeed/components/design/inputText";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import RadioButton from "saeed/components/design/radioButton";
-import TextArea from "saeed/components/design/textArea/textArea";
-import Loading from "saeed/components/notOk/loading";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import PriceFormater, { PriceFormaterClassName } from "saeed/components/priceFormater";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
+import InputText from "../../design/inputText";
+import RingLoader from "../../design/loader/ringLoder";
+import RadioButton from "../../design/radioButton";
+import TextArea from "../../design/textArea/textArea";
+import Loading from "../../notOk/loading";
+import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
+import PriceFormater, { PriceFormaterClassName } from "../../priceFormater";
+import { LanguageKey } from "../../../i18n";
+import { MethodType } from "../../../helper/api";
 import IUserCoupon, {
   IAddress,
   ICompleteProduct,
   ICreateOrder,
   ILogistic,
   InputTypeAddress,
-} from "saeed/models/userPanel/orders";
+} from "../../../models/userPanel/orders";
 
 import styles from "./card_address.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const MOBILE_BREAKPOINT = 1024;

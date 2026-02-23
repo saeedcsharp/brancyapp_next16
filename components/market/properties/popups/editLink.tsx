@@ -3,18 +3,18 @@ import { ChangeEvent, useCallback, useEffect, useMemo, useReducer, useRef } from
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 
-import SetTimeAndDate from "saeed/components/dateAndTime/setTimeAndDate";
-import CheckBoxButton from "saeed/components/design/checkBoxButton";
-import InputText from "saeed/components/design/inputText";
-import Loading from "saeed/components/notOk/loading";
-import { internalNotify, InternalResponseType, NotifType } from "saeed/components/notifications/notificationBox";
+import SetTimeAndDate from "../../../dateAndTime/setTimeAndDate";
+import CheckBoxButton from "../../../design/checkBoxButton";
+import InputText from "../../../design/inputText";
+import Loading from "../../../notOk/loading";
+import { internalNotify, InternalResponseType, NotifType } from "../../../notifications/notificationBox";
 
-import { convertHeicToJpeg } from "saeed/helper/convertHeicToJPEG";
-import initialzedTime from "saeed/helper/manageTimer";
+import { convertHeicToJpeg } from "../../../../helper/convertHeicToJPEG";
+import initialzedTime from "../../../../helper/manageTimer";
 
-import { LanguageKey } from "saeed/i18n";
-import { TitleType } from "saeed/models/market/enums";
-import { ILink, IUpdateLink } from "saeed/models/market/properties";
+import { LanguageKey } from "../../../../i18n";
+import { TitleType } from "../../../../models/market/enums";
+import { ILink, IUpdateLink } from "../../../../models/market/properties";
 
 import styles from "./addNewLink.module.css";
 

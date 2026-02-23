@@ -1,13 +1,13 @@
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { InputTypeAddress } from "saeed/models/userPanel/orders";
+import RingLoader from "../../design/loader/ringLoder";
+import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
+import { LanguageKey } from "../../../i18n";
+import { MethodType } from "../../../helper/api";
+import { InputTypeAddress } from "../../../models/userPanel/orders";
 import styles from "./bankAccountType.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 export default function CardNumber({
   handleShowAddress,
 }: {

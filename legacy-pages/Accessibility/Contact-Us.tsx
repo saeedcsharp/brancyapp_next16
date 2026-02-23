@@ -1,7 +1,7 @@
 import Head from "next/head";
 import React, { useCallback, useEffect, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
-import SignIn, { RedirectType, SignInType } from "saeed/components/signIn/signIn";
+import SignIn, { RedirectType, SignInType } from "../../components/signIn/signIn";
 import AccessibilityHeader from "../../components/Accessibility/AccessibilityHeader";
 import styles from "./Contact-Us.module.css";
 

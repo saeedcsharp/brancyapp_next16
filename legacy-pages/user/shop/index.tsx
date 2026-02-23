@@ -3,16 +3,16 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import ShopPage from "saeed/components/userPanel/shop/shop";
-import findSystemLanguage from "saeed/helper/findSystemLanguage";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { SelectedMarketType } from "saeed/models/market/enums";
-import { IFullShop } from "saeed/models/userPanel/shop";
+import { NotifType, notify, ResponseType } from "../../../components/notifications/notificationBox";
+import Loading from "../../../components/notOk/loading";
+import ShopPage from "../../../components/userPanel/shop/shop";
+import findSystemLanguage from "../../../helper/findSystemLanguage";
+import { LanguageKey } from "../../../i18n";
+import { MethodType } from "../../../helper/api";
+import { SelectedMarketType } from "../../../models/market/enums";
+import { IFullShop } from "../../../models/userPanel/shop";
 import styles from "./shop.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
 const StorePage = () => {

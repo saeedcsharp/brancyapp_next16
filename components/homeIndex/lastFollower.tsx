@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import formatTimeAgo from "saeed/helper/formatTimeAgo";
-import { LanguageKey } from "saeed/i18n";
-import { ILastFollower } from "saeed/models/homeIndex/home";
+import formatTimeAgo from "../../helper/formatTimeAgo";
+import { LanguageKey } from "../../i18n";
+import { ILastFollower } from "../../models/homeIndex/home";
 import Loading from "../notOk/loading";
 import styles from "./lastFollower.module.css";
 

@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { MouseEvent, useEffect, useState } from "react";
-import { calculateSummary } from "saeed/helper/numberFormater";
-import { IAdvertiseSummary, ICardAdvertiser } from "saeed/models/customerAds/customerAd";
+import { calculateSummary } from "../../helper/numberFormater";
+import { IAdvertiseSummary, ICardAdvertiser } from "../../models/customerAds/customerAd";
 import styles from "./customerAds.module.css";
 
 function Content(props: {

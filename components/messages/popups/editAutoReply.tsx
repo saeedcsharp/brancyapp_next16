@@ -4,37 +4,37 @@ import router from "next/router";
 import React, { ChangeEvent, useCallback, useEffect, useId, useMemo, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import CheckBoxButton from "saeed/components/design/checkBoxButton";
-import DragDrop from "saeed/components/design/dragDrop/dragDrop";
-import InputText from "saeed/components/design/inputText";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import RadioButton from "saeed/components/design/radioButton";
-import TextArea from "saeed/components/design/textArea/textArea";
-import FlexibleToggleButton from "saeed/components/design/toggleButton/flexibleToggleButton";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import Tooltip from "saeed/components/design/tooltip/tooltip";
-import Loading from "saeed/components/notOk/loading";
+import CheckBoxButton from "../../design/checkBoxButton";
+import DragDrop from "../../design/dragDrop/dragDrop";
+import InputText from "../../design/inputText";
+import RingLoader from "../../design/loader/ringLoder";
+import RadioButton from "../../design/radioButton";
+import TextArea from "../../design/textArea/textArea";
+import FlexibleToggleButton from "../../design/toggleButton/flexibleToggleButton";
+import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
+import Tooltip from "../../design/tooltip/tooltip";
+import Loading from "../../notOk/loading";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
+} from "../../notifications/notificationBox";
 
-import { LanguageKey } from "saeed/i18n";
-import { IDetailPrompt, IPrompts } from "saeed/models/AI/prompt";
-import { MethodType } from "saeed/helper/api";
-import { AutoReplyPayLoadType, MediaProductType } from "saeed/models/messages/enum";
+import { LanguageKey } from "../../../i18n";
+import { IDetailPrompt, IPrompts } from "../../../models/AI/prompt";
+import { MethodType } from "../../../helper/api";
+import { AutoReplyPayLoadType, MediaProductType } from "../../../models/messages/enum";
 import {
   ICreateGeneralAutoReply,
   IGeneralAutoReply,
   IMasterFlow,
   ITotalMasterFlow,
-} from "saeed/models/messages/properies";
+} from "../../../models/messages/properies";
 
 import styles from "./editAutoReply.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 type CheckBoxState = {
   Custom: boolean;
   Flow: boolean;

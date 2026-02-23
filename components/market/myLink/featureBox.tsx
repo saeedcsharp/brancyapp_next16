@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { KeyboardEvent, memo, useCallback, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import FiveStar from "saeed/components/fiveStar";
-import { calculateSummary } from "saeed/helper/numberFormater";
-import { LanguageKey } from "saeed/i18n";
-import { IFeatureBox } from "saeed/models/market/myLink";
+import FiveStar from "../../fiveStar";
+import { calculateSummary } from "../../../helper/numberFormater";
+import { LanguageKey } from "../../../i18n";
+import { IFeatureBox } from "../../../models/market/myLink";
 import styles from "./featureBox.module.css";
 interface FeatureBoxProps {
   data: IFeatureBox | null;

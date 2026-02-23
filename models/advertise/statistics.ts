@@ -1,4 +1,4 @@
-import { StatusType } from "saeed/components/confirmationStatus/confirmationStatus";
+import { StatusType } from "../../components/confirmationStatus/confirmationStatus";
 import { IMonthGraph, IShortMonth } from "../page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import { AdsType } from "./AdEnums";
 

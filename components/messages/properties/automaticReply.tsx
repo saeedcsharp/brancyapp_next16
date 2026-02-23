@@ -1,14 +1,14 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import FlexibleToggleButton from "saeed/components/design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "saeed/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import Loading from "saeed/components/notOk/loading";
-import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
-import { LanguageKey } from "saeed/i18n";
-import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { IAutoReply } from "saeed/models/messages/properies";
+import FlexibleToggleButton from "../../design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "../../design/toggleButton/types";
+import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
+import Loading from "../../notOk/loading";
+import { LoginStatus, RoleAccess } from "../../../helper/loadingStatus";
+import { LanguageKey } from "../../../i18n";
+import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
+import { IAutoReply } from "../../../models/messages/properies";
 import Prompt from "./prompt";
 import styles from "./properties.module.css";
 

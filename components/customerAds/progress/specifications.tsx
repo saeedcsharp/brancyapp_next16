@@ -1,10 +1,10 @@
 import Head from "next/head";
 import { useState } from "react";
 import { DateObject } from "react-multi-date-picker";
-import SetTimeAndDate from "saeed/components/dateAndTime/setTimeAndDate";
-import initialzedTime from "saeed/helper/manageTimer";
-import { AdsTimeType, AdsType } from "saeed/models/advertise/AdEnums";
-import { ISpecification } from "saeed/legacy-pages/customerads/progress";
+import SetTimeAndDate from "../../dateAndTime/setTimeAndDate";
+import initialzedTime from "../../../helper/manageTimer";
+import { AdsTimeType, AdsType } from "../../../models/advertise/AdEnums";
+import { ISpecification } from "../../../legacy-pages/customerads/progress";
 import styles from "./progress.module.css";
 function Specifications(props: {
   specification: ISpecification;

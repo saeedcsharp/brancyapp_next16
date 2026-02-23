@@ -19,15 +19,15 @@ import { CSS } from "@dnd-kit/utilities";
 import { useSession } from "next-auth/react";
 import { ChangeEvent, memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Loading from "saeed/components/notOk/loading";
-import useHideDiv from "saeed/hook/useHide";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { FeatureType } from "saeed/models/market/enums";
-import { IFeatureItem, IOrderFeatures, IUpdateFeatureOrder } from "saeed/models/market/properties";
+import Loading from "../../notOk/loading";
+import useHideDiv from "../../../hook/useHide";
+import { LanguageKey } from "../../../i18n";
+import { MethodType } from "../../../helper/api";
+import { FeatureType } from "../../../models/market/enums";
+import { IFeatureItem, IOrderFeatures, IUpdateFeatureOrder } from "../../../models/market/properties";
 import CheckBoxButton from "../../design/checkBoxButton";
 import styles from "./features.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 
 const getFeatureClassName = (featureType: FeatureType): string => {
   switch (featureType) {

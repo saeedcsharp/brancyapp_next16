@@ -1,10 +1,10 @@
 import Head from "next/head";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import Dotmenu from "saeed/components/design/dotMenu/dotMenu";
-import RadioButton from "saeed/components/design/radioButton";
-import { LanguageKey } from "saeed/i18n";
-import { IAddress } from "saeed/models/userPanel/orders";
+import Dotmenu from "../../../design/dotMenu/dotMenu";
+import RadioButton from "../../../design/radioButton";
+import { LanguageKey } from "../../../../i18n";
+import { IAddress } from "../../../../models/userPanel/orders";
 import styles from "./addresses.module.css";
 
 export default function Addresses({

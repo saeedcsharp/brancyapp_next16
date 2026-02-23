@@ -1,5 +1,5 @@
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import { FeatureType, IFeatureInfo } from "saeed/models/psg/psg";
+import { NotifType, notify, ResponseType } from "../components/notifications/notificationBox";
+import { FeatureType, IFeatureInfo } from "../models/psg/psg";
 import { convertToMilliseconds } from "./manageTimer";
 
 // Helper function to check if current time is within time range

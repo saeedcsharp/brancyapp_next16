@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import LineChart from "saeed/components/graphs/lineChart";
-import useHideDiv from "saeed/hook/useHide";
-import { LanguageKey } from "saeed/i18n";
-import { chartxType, NumToMonth } from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+import LineChart from "../../graphs/lineChart";
+import useHideDiv from "../../../hook/useHide";
+import { LanguageKey } from "../../../i18n";
+import { chartxType, NumToMonth } from "../../../models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import { ISaleMonth } from "../../../models/store/statistics";
 import styles from "./statistics.module.css";
 const TwoMonth = (props: { data: ISaleMonth[] }) => {

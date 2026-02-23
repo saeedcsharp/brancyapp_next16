@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IAdvertiseSummary } from "saeed/models/customerAds/customerAd";
+import { IAdvertiseSummary } from "../../models/customerAds/customerAd";
 import styles from "./customerAds.module.css";
 function SelectAdmin(props: {
   selectedAds: IAdvertiseSummary[];

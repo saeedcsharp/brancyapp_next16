@@ -1,13 +1,13 @@
 import React, { memo, useCallback, useEffect, useId, useMemo, useReducer, useRef, useTransition } from "react";
 import { useTranslation } from "react-i18next";
-import Dotmenu from "saeed/components/design/dotMenu/dotMenu";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import formatTimeAgo from "saeed/helper/formatTimeAgo";
-import { convertToSeconds } from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
-import { StatusReplied } from "saeed/models/messages/enum";
-import { PlatformTicketType } from "saeed/models/setting/enums";
-import { IPlatform, ITicketInsights } from "saeed/models/setting/general";
+import Dotmenu from "../../design/dotMenu/dotMenu";
+import RingLoader from "../../design/loader/ringLoder";
+import formatTimeAgo from "../../../helper/formatTimeAgo";
+import { convertToSeconds } from "../../../helper/manageTimer";
+import { LanguageKey } from "../../../i18n";
+import { StatusReplied } from "../../../models/messages/enum";
+import { PlatformTicketType } from "../../../models/setting/enums";
+import { IPlatform, ITicketInsights } from "../../../models/setting/general";
 import styles from "./general.module.css";
 
 interface SupportProps {

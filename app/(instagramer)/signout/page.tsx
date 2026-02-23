@@ -1,6 +1,6 @@
 "use client";
 
-import PageComponent from "saeed/legacy-pages/signout/index";
+import PageComponent from "../../../legacy-pages/signout/index";
 
 export default function Page() {
   return <PageComponent />;

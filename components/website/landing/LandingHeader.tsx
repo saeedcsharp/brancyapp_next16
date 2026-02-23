@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import RadioButton from "saeed/components/design/radioButton";
-import { LanguageKey } from "saeed/i18n";
+import RadioButton from "../../design/radioButton";
+import { LanguageKey } from "../../../i18n";
 import styles from "./LandingHeader.module.css";
 
 type ThemeState = {

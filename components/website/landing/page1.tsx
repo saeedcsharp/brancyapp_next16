@@ -2,12 +2,12 @@ import Head from "next/head";
 import { lazy, Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { detectLocaleFromTimezone } from "saeed/helper/detectLocaleFromTimezone";
-import { LanguageKey } from "saeed/i18n";
+import { detectLocaleFromTimezone } from "../../../helper/detectLocaleFromTimezone";
+import { LanguageKey } from "../../../i18n";
 import styles from "./page1.module.css";
 
-const LandingSignIn = lazy(() => import("saeed/components/signIn/landingSignIn"));
-const GoogleLoginButton = lazy(() => import("saeed/components/signIn/googleLoginPopup"));
+const LandingSignIn = lazy(() => import("../../signIn/landingSignIn"));
+const GoogleLoginButton = lazy(() => import("../../signIn/googleLoginPopup"));
 interface Page1Props {
   handleShowVerification: (preUserToken: string) => void;
 }

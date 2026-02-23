@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react";
-import InputText from "saeed/components/design/inputText";
-import { IProducts } from "saeed/models/market/myLink";
+import InputText from "../../design/inputText";
+import { IProducts } from "../../../models/market/myLink";
 import styles from "./mylink.module.css";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;

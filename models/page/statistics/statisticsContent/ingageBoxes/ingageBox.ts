@@ -1,4 +1,4 @@
-import { IPostContent } from "saeed/models/page/post/posts";
+import { IPostContent } from "../../../post/posts";
 
 export interface IIngageBox {
   postCount: number;

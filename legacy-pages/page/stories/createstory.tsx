@@ -5,44 +5,44 @@ import { useRouter } from "next/router";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import SetTimeAndDate from "saeed/components/dateAndTime/setTimeAndDate";
-import ConstantCounterDown from "saeed/components/design/counterDown/constantCounterDown";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
+import SetTimeAndDate from "../../../components/dateAndTime/setTimeAndDate";
+import ConstantCounterDown from "../../../components/design/counterDown/constantCounterDown";
+import ToggleCheckBoxButton from "../../../components/design/toggleCheckBoxButton";
 
-import Modal from "saeed/components/design/modal";
-import ProgressBar from "saeed/components/design/progressBar/progressBar";
+import Modal from "../../../components/design/modal";
+import ProgressBar from "../../../components/design/progressBar/progressBar";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import NotAllowed from "saeed/components/notOk/notAllowed";
-import NotPermission, { PermissionType } from "saeed/components/notOk/notPermission";
-import DeleteDraft from "saeed/components/page/popup/deleteDraft";
-import ErrorDraft from "saeed/components/page/popup/errorDraft";
-import QuickStoryReplyPopup from "saeed/components/page/popup/quickStoryReply";
-import SaveDraft from "saeed/components/page/popup/saveDraft";
-import DeletePrePost from "saeed/components/page/scheduledPost/deletePrePost";
-import { convertHeicToJpeg } from "saeed/helper/convertHeicToJPEG";
-import { LoginStatus, packageStatus, RoleAccess } from "saeed/helper/loadingStatus";
-import initialzedTime from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
-import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType, UploadFile } from "saeed/helper/api";
-import { AutoReplyPayLoadType, MediaProductType } from "saeed/models/messages/enum";
-import { IAutomaticReply, IMediaUpdateAutoReply, IPublishLimit } from "saeed/models/page/post/posts";
-import { IErrorPrePostInfo, IPostImageInfo, MediaType } from "saeed/models/page/post/preposts";
+} from "../../../components/notifications/notificationBox";
+import NotAllowed from "../../../components/notOk/notAllowed";
+import NotPermission, { PermissionType } from "../../../components/notOk/notPermission";
+import DeleteDraft from "../../../components/page/popup/deleteDraft";
+import ErrorDraft from "../../../components/page/popup/errorDraft";
+import QuickStoryReplyPopup from "../../../components/page/popup/quickStoryReply";
+import SaveDraft from "../../../components/page/popup/saveDraft";
+import DeletePrePost from "../../../components/page/scheduledPost/deletePrePost";
+import { convertHeicToJpeg } from "../../../helper/convertHeicToJPEG";
+import { LoginStatus, packageStatus, RoleAccess } from "../../../helper/loadingStatus";
+import initialzedTime from "../../../helper/manageTimer";
+import { LanguageKey } from "../../../i18n";
+import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType, UploadFile } from "../../../helper/api";
+import { AutoReplyPayLoadType, MediaProductType } from "../../../models/messages/enum";
+import { IAutomaticReply, IMediaUpdateAutoReply, IPublishLimit } from "../../../models/page/post/posts";
+import { IErrorPrePostInfo, IPostImageInfo, MediaType } from "../../../models/page/post/preposts";
 import {
   IPreStory,
   IPreStoryInfo,
   IStoryDraftInfo,
   IStoryImageInfo,
   IStoryVideoInfo,
-} from "saeed/models/page/story/preStories";
+} from "../../../models/page/story/preStories";
 import styles from "./createStory.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 const CreateStory = () => {
   const router = useRouter();
   const { data: session } = useSession();

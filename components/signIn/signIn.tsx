@@ -1,14 +1,14 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { detectLocaleFromTimezone } from "saeed/helper/detectLocaleFromTimezone";
-import { LanguageKey } from "saeed/i18n";
-import { SendCodeResult } from "saeed/models/ApiModels/User/SendCodeResult";
-import { MethodType } from "saeed/helper/api";
+import { detectLocaleFromTimezone } from "../../helper/detectLocaleFromTimezone";
+import { LanguageKey } from "../../i18n";
+import { SendCodeResult } from "../../models/ApiModels/User/SendCodeResult";
+import { MethodType } from "../../helper/api";
 import GoogleLoginButton from "./googleLoginPopup";
 import ReactPhoneInput from "./reactPhoneInput";
 import styles from "./signIn.module.css";
 import VerificationForm from "./verificationForm";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../helper/clientFetchApi";
 export enum SignInType {
   Phonenumber = 0,
   VerificaionCode = 1,

@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from "react";
-import Dotmenu from "saeed/components/design/dotMenu/dotMenu";
-import MediaDetector from "saeed/components/messages/shared/utils/MediaDetector";
-import LinkifyText from "saeed/context/LinkifyText";
-import { ItemType } from "saeed/models/messages/enum";
+import Dotmenu from "../../../../../design/dotMenu/dotMenu";
+import MediaDetector from "../../../../shared/utils/MediaDetector";
+import LinkifyText from "../../../../../../context/LinkifyText";
+import { ItemType } from "../../../../../../models/messages/enum";
 import { BaseChatProps } from "../../types";
 import { ChatDate } from "../utils/ChatDate";
 import { MessageStatus } from "../utils/ChatDateandseen";

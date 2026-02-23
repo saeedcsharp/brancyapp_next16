@@ -1,6 +1,6 @@
-import { findDayName } from "saeed/helper/findDayName";
-import { numbToAmAndPmTime } from "saeed/helper/numberFormater";
-import { IBusinessHour } from "saeed/models/advertise/peoperties";
+import { findDayName } from "../../../helper/findDayName";
+import { numbToAmAndPmTime } from "../../../helper/numberFormater";
+import { IBusinessHour } from "../../../models/advertise/peoperties";
 import styles from "./adPopupStyle.module.css";
 export default function BusinessHourPopup(props: { businessInfo: IBusinessHour[]; removeMask: () => void }) {
   return (

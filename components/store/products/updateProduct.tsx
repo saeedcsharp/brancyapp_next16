@@ -1,11 +1,11 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import { MethodType } from "saeed/helper/api";
-import { IProduct_FullProduct } from "saeed/models/store/IProduct";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
+import Loading from "../../notOk/loading";
+import { MethodType } from "../../../helper/api";
+import { IProduct_FullProduct } from "../../../models/store/IProduct";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 

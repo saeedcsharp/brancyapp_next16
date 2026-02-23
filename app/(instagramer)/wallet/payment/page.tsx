@@ -1,6 +1,6 @@
 "use client";
 
-import PageComponent from "saeed/legacy-pages/wallet/payment";
+import PageComponent from "../../../../legacy-pages/wallet/payment";
 
 export default function Page() {
   return <PageComponent />;

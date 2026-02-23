@@ -1,9 +1,9 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LoginStatus } from "saeed/helper/loadingStatus";
-import { LanguageKey } from "saeed/i18n";
-import { ILastOrder } from "saeed/models/homeIndex/home";
+import { LoginStatus } from "../../helper/loadingStatus";
+import { LanguageKey } from "../../i18n";
+import { ILastOrder } from "../../models/homeIndex/home";
 import Loading from "../notOk/loading";
 import styles from "./lastOrder.module.css";
 

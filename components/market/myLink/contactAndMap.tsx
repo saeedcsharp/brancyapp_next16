@@ -1,8 +1,8 @@
 import dynamic from "next/dynamic";
 import { memo, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
-import { IContactAndMap } from "saeed/models/market/myLink";
+import { LanguageKey } from "../../../i18n";
+import { IContactAndMap } from "../../../models/market/myLink";
 import styles from "./contactAndMap.module.css";
 
 const MapWrapper = memo(({ mapProps }: { mapProps: any }) => {
@@ -52,7 +52,7 @@ const MapWrapper = memo(({ mapProps }: { mapProps: any }) => {
 
   return <OpenStreetMapComponent {...mapProps} />;
 });
-const OpenStreetMapComponent = dynamic(() => import("saeed/components/mainLeaftlet"), {
+const OpenStreetMapComponent = dynamic(() => import("../../mainLeaftlet"), {
   ssr: false,
   loading: () => (
     <div

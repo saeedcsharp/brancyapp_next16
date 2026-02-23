@@ -2,9 +2,9 @@ import { useSession } from "next-auth/react";
 import { KeyboardEvent, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import InputText from "saeed/components/design/inputText";
-import TextArea from "saeed/components/design/textArea/textArea";
-import { LanguageKey } from "saeed/i18n";
+import InputText from "../../design/inputText";
+import TextArea from "../../design/textArea/textArea";
+import { LanguageKey } from "../../../i18n";
 
 import styles from "./general.module.css";
 function Profile() {

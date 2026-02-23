@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useId, useMemo, useReducer, useRef, useTransition } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../../i18n";
 import styles from "./page2.module.css";
 
 interface Service {

@@ -11,9 +11,9 @@ import {
   useTransition,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../i18n";
 import styles from "./signInPage1.module.css";
-const LandingSignIn = lazy(() => import("saeed/components/signIn/landingSignIn"));
+const LandingSignIn = lazy(() => import("./landingSignIn"));
 const SignInPage1 = (props: { handleShowVerification: (preUserToken: string) => void }) => {
   const { t, i18n } = useTranslation();
   const signInParentRef = useRef<HTMLDivElement>(null);

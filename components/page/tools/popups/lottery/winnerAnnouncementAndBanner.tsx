@@ -4,17 +4,17 @@ import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
 import { HuePicker } from "react-color";
 import { useTranslation } from "react-i18next";
 import Slider from "react-slider";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import TextArea from "saeed/components/design/textArea/textArea";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import { hexToRgb, rgbToHex } from "saeed/helper/rgbaToHex";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType, UploadFile } from "saeed/helper/api";
-import { IGetLastBanner, ILotteryInfo, LotteryType } from "saeed/models/page/tools/tools";
+import RingLoader from "../../../../design/loader/ringLoder";
+import TextArea from "../../../../design/textArea/textArea";
+import ToggleCheckBoxButton from "../../../../design/toggleCheckBoxButton";
+import { NotifType, notify, ResponseType } from "../../../../notifications/notificationBox";
+import Loading from "../../../../notOk/loading";
+import { hexToRgb, rgbToHex } from "../../../../../helper/rgbaToHex";
+import { LanguageKey } from "../../../../../i18n";
+import { MethodType, UploadFile } from "../../../../../helper/api";
+import { IGetLastBanner, ILotteryInfo, LotteryType } from "../../../../../models/page/tools/tools";
 import styles from "./winnerAnnouncementAndBanner.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../../helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
 // Function to get current Persian date and time

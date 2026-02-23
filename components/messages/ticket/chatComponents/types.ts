@@ -1,5 +1,5 @@
-import { IItem, IOwnerInbox, IThread_Ticket } from "saeed/models/messages/IMessage";
-import { ITicket } from "saeed/models/userPanel/message";
+import { IItem, IOwnerInbox, IThread_Ticket } from "../../../../models/messages/IMessage";
+import { ITicket } from "../../../../models/userPanel/message";
 export type ChatDirection = "left" | "right" | "system";
 export interface ImageClickInfo {
   url: string;

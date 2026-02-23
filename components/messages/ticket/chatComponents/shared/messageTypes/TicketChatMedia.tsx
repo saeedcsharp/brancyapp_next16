@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from "react";
-import Dotmenu from "saeed/components/design/dotMenu/dotMenu";
-import MediaDetector from "saeed/components/messages/shared/utils/MediaDetector";
+import Dotmenu from "../../../../../design/dotMenu/dotMenu";
+import MediaDetector from "../../../../shared/utils/MediaDetector";
 import { TicketBaseChatProps } from "../../types";
 import { TicketChatDate, TicketMessageStatus, TicketReactionEmoji } from "../utils";
 import styles from "./messageTypes.module.css";

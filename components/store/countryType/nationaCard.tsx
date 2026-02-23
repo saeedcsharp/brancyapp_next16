@@ -2,14 +2,14 @@ import ImageCompressor from "compressorjs";
 import { useSession } from "next-auth/react";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { _arrayBufferToBase64 } from "saeed/helper/arrayBufferToBase64";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType, UploadFile } from "saeed/helper/api";
-import { BusinessBankAccountType } from "saeed/models/store/enum";
+import { _arrayBufferToBase64 } from "../../../helper/arrayBufferToBase64";
+import { LanguageKey } from "../../../i18n";
+import { MethodType, UploadFile } from "../../../helper/api";
+import { BusinessBankAccountType } from "../../../models/store/enum";
 import RingLoader from "../../design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
 import styles from "./nationalCard.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 
 export default function NationalCard({
   handleShowCredit,

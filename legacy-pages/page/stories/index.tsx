@@ -4,19 +4,19 @@ import { useRouter } from "next/router";
 import { MouseEvent, useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import StoryContent from "saeed/components/page/storyContent/storyContent";
-import convertFirstLetterToLowerCase from "saeed/helper/convertFirstLetterToLowerCase";
-import { handleCopyLink } from "saeed/helper/copyLink";
-import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
-import { handleDecompress } from "saeed/helper/pako";
-import { getHubConnection } from "saeed/helper/pushNotif";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { IStoryDraft } from "saeed/models/page/story/preStories";
-import { IStory, IStoryContent } from "saeed/models/page/story/stories";
-import { PushNotif, PushResponseType } from "saeed/models/push/pushNotif";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { NotifType, notify, ResponseType } from "../../../components/notifications/notificationBox";
+import StoryContent from "../../../components/page/storyContent/storyContent";
+import convertFirstLetterToLowerCase from "../../../helper/convertFirstLetterToLowerCase";
+import { handleCopyLink } from "../../../helper/copyLink";
+import { LoginStatus, packageStatus } from "../../../helper/loadingStatus";
+import { handleDecompress } from "../../../helper/pako";
+import { getHubConnection } from "../../../helper/pushNotif";
+import { LanguageKey } from "../../../i18n";
+import { MethodType } from "../../../helper/api";
+import { IStoryDraft } from "../../../models/page/story/preStories";
+import { IStory, IStoryContent } from "../../../models/page/story/stories";
+import { PushNotif, PushResponseType } from "../../../models/push/pushNotif";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 
 type StoryAction =
   | { type: "SET_STORY"; payload: IStory }

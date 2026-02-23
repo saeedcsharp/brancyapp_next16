@@ -1,6 +1,6 @@
 import React, { useCallback, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../i18n";
 import AccessibilityHeader from "../../components/Accessibility/AccessibilityHeader";
 import SignIn, { RedirectType, SignInType } from "../../components/signIn/signIn";
 import styles from "./Product-Updates.module.css";

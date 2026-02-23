@@ -2,28 +2,28 @@ import { useSession } from "next-auth/react";
 import router from "next/router";
 import { useCallback, useEffect, useId, useMemo, useRef, useState, useTransition } from "react";
 import { useTranslation } from "react-i18next";
-import AIButton from "saeed/components/design/ai/AIButton";
-import InputText from "saeed/components/design/inputText";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import RadioButton from "saeed/components/design/radioButton";
-import TextArea from "saeed/components/design/textArea/textArea";
-import FlexibleToggleButton from "saeed/components/design/toggleButton/flexibleToggleButton";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import Tooltip from "saeed/components/design/tooltip/tooltip";
+import AIButton from "../../design/ai/AIButton";
+import InputText from "../../design/inputText";
+import RingLoader from "../../design/loader/ringLoder";
+import RadioButton from "../../design/radioButton";
+import TextArea from "../../design/textArea/textArea";
+import FlexibleToggleButton from "../../design/toggleButton/flexibleToggleButton";
+import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
+import Tooltip from "../../design/tooltip/tooltip";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import { LanguageKey } from "saeed/i18n/languageKeys";
-import { IAITools, IAnalysisPrompt, ICreatePrompt, IDetailPrompt, ITotalPrompt } from "saeed/models/AI/prompt";
-import { MethodType } from "saeed/helper/api";
+} from "../../notifications/notificationBox";
+import Loading from "../../notOk/loading";
+import { LanguageKey } from "../../../i18n/languageKeys";
+import { IAITools, IAnalysisPrompt, ICreatePrompt, IDetailPrompt, ITotalPrompt } from "../../../models/AI/prompt";
+import { MethodType } from "../../../helper/api";
 import styles from "./aiPromptBox.module.css";
 import LiveChat from "./popup/liveChat";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 const AIPromptBox = ({
   aiTools,
   userSelectId,

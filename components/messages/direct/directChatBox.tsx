@@ -6,24 +6,24 @@ import router from "next/router";
 import { ChangeEvent, memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import InputEmoji from "react-input-emoji";
 import { DateObject } from "react-multi-date-picker";
-import RingLoader from "saeed/components/design/loader/ringLoder";
+import RingLoader from "../../design/loader/ringLoder";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import { getMessageDirectionClass } from "saeed/helper/checkRtl";
-import { convertHeicToJpeg } from "saeed/helper/convertHeicToJPEG";
-import { detectEmojiOnly } from "saeed/helper/emojiDetector";
-import formatTimeAgo from "saeed/helper/formatTimeAgo";
-import initialzedTime from "saeed/helper/manageTimer";
-import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
-import { LanguageKey } from "saeed/i18n";
-import { UploadFile } from "saeed/helper/api";
-import { IIsSendingMessage, IItem, IOwnerInbox, IThread, IUploadVoice } from "saeed/models/messages/IMessage";
-import { ItemType } from "saeed/models/messages/enum";
+} from "../../notifications/notificationBox";
+import { getMessageDirectionClass } from "../../../helper/checkRtl";
+import { convertHeicToJpeg } from "../../../helper/convertHeicToJPEG";
+import { detectEmojiOnly } from "../../../helper/emojiDetector";
+import formatTimeAgo from "../../../helper/formatTimeAgo";
+import initialzedTime from "../../../helper/manageTimer";
+import { useInfiniteScroll } from "../../../helper/useInfiniteScroll";
+import { LanguageKey } from "../../../i18n";
+import { UploadFile } from "../../../helper/api";
+import { IIsSendingMessage, IItem, IOwnerInbox, IThread, IUploadVoice } from "../../../models/messages/IMessage";
+import { ItemType } from "../../../models/messages/enum";
 import Tooltip from "../../design/tooltip/tooltip";
 import VoiceRecorder from "../popups/voiceRecorder";
 import { LeftChatWrapper } from "./chatComponents/LeftChatWrapper";

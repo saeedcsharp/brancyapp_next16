@@ -1,10 +1,10 @@
 import React, { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import MediaDetector from "saeed/components/messages/shared/utils/MediaDetector";
-import LinkifyText from "saeed/context/LinkifyText";
-import { detectEmojiOnly } from "saeed/helper/emojiDetector";
-import { ItemType, MediaType } from "saeed/models/messages/enum";
-import { IReplyTicket_Media } from "saeed/models/messages/IMessage";
+import MediaDetector from "../../../../shared/utils/MediaDetector";
+import LinkifyText from "../../../../../../context/LinkifyText";
+import { detectEmojiOnly } from "../../../../../../helper/emojiDetector";
+import { ItemType, MediaType } from "../../../../../../models/messages/enum";
+import { IReplyTicket_Media } from "../../../../../../models/messages/IMessage";
 import styles from "./messageTypes.module.css";
 // #region اینترفیس‌ها - ورودی‌های کامپوننت
 // تعریف انواع پراپس برای پیام‌های در انتظار ارسال و آیتم‌های آن.

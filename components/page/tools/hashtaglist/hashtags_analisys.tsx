@@ -1,14 +1,14 @@
 import { MouseEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import Dotmenu from "saeed/components/design/dotMenu/dotMenu";
-import Slider, { SliderSlide } from "saeed/components/design/slider/slider";
-import FlexibleToggleButton from "saeed/components/design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "saeed/components/design/toggleButton/types";
-import Loading from "saeed/components/notOk/loading";
-import initialzedTime from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
-import { IHashtag } from "saeed/models/page/tools/tools";
+import Dotmenu from "../../../design/dotMenu/dotMenu";
+import Slider, { SliderSlide } from "../../../design/slider/slider";
+import FlexibleToggleButton from "../../../design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "../../../design/toggleButton/types";
+import Loading from "../../../notOk/loading";
+import initialzedTime from "../../../../helper/manageTimer";
+import { LanguageKey } from "../../../../i18n";
+import { IHashtag } from "../../../../models/page/tools/tools";
 import styles from "./hashtags.module.css";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const Hashtags = (props: {

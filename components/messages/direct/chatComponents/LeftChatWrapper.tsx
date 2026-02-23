@@ -1,8 +1,8 @@
 import { t } from "i18next";
 import React from "react";
-import { LanguageKey } from "saeed/i18n";
-import { IItem, IOwnerInbox, IThread } from "saeed/models/messages/IMessage";
-import { ItemType } from "saeed/models/messages/enum";
+import { LanguageKey } from "../../../../i18n";
+import { IItem, IOwnerInbox, IThread } from "../../../../models/messages/IMessage";
+import { ItemType } from "../../../../models/messages/enum";
 import styles from "../directChatBox.module.css";
 import { ChatAudio } from "./shared/messageTypes/ChatAudio";
 import { ChatGeneric } from "./shared/messageTypes/ChatGeneric";

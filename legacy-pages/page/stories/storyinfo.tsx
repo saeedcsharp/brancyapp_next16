@@ -4,39 +4,39 @@ import { useRouter } from "next/router";
 import { ChangeEvent, useCallback, useEffect, useId, useMemo, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import InputText from "saeed/components/design/inputText";
-import Modal from "saeed/components/design/modal";
-import Slider from "saeed/components/design/slider/slider";
-import FlexibleToggleButton from "saeed/components/design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "saeed/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import Tooltip from "saeed/components/design/tooltip/tooltip";
-import { MediaModal, useMediaModal } from "saeed/components/messages/shared/utils";
+import InputText from "../../../components/design/inputText";
+import Modal from "../../../components/design/modal";
+import Slider from "../../../components/design/slider/slider";
+import FlexibleToggleButton from "../../../components/design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "../../../components/design/toggleButton/types";
+import ToggleCheckBoxButton from "../../../components/design/toggleCheckBoxButton";
+import Tooltip from "../../../components/design/tooltip/tooltip";
+import { MediaModal, useMediaModal } from "../../../components/messages/shared/utils";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import NotAllowed from "saeed/components/notOk/notAllowed";
-import NotPermission, { PermissionType } from "saeed/components/notOk/notPermission";
-import LotteryPopup, { LotteryPopupType } from "saeed/components/page/popup/lottery";
-import QuickStoryReplyPopup from "saeed/components/page/popup/quickStoryReply";
-import { isRTL } from "saeed/helper/checkRtl";
-import { convertArrayToLarray } from "saeed/helper/chunkArray";
-import { handleCopyLink } from "saeed/helper/copyLink";
-import formatTimeAgo from "saeed/helper/formatTimeAgo";
-import { LoginStatus, packageStatus, RoleAccess } from "saeed/helper/loadingStatus";
-import initialzedTime from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
-import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/api";
-import { AutoReplyPayLoadType, MediaProductType } from "saeed/models/messages/enum";
-import { IItem } from "saeed/models/messages/IMessage";
-import { IAutomaticReply, IMediaUpdateAutoReply } from "saeed/models/page/post/posts";
-import { MediaType } from "saeed/models/page/post/preposts";
+} from "../../../components/notifications/notificationBox";
+import Loading from "../../../components/notOk/loading";
+import NotAllowed from "../../../components/notOk/notAllowed";
+import NotPermission, { PermissionType } from "../../../components/notOk/notPermission";
+import LotteryPopup, { LotteryPopupType } from "../../../components/page/popup/lottery";
+import QuickStoryReplyPopup from "../../../components/page/popup/quickStoryReply";
+import { isRTL } from "../../../helper/checkRtl";
+import { convertArrayToLarray } from "../../../helper/chunkArray";
+import { handleCopyLink } from "../../../helper/copyLink";
+import formatTimeAgo from "../../../helper/formatTimeAgo";
+import { LoginStatus, packageStatus, RoleAccess } from "../../../helper/loadingStatus";
+import initialzedTime from "../../../helper/manageTimer";
+import { LanguageKey } from "../../../i18n";
+import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType } from "../../../helper/api";
+import { AutoReplyPayLoadType, MediaProductType } from "../../../models/messages/enum";
+import { IItem } from "../../../models/messages/IMessage";
+import { IAutomaticReply, IMediaUpdateAutoReply } from "../../../models/page/post/posts";
+import { MediaType } from "../../../models/page/post/preposts";
 import {
   IReaction,
   ISendStoryAutomaticReply,
@@ -46,10 +46,10 @@ import {
   IStoryInsight,
   IStoryReply,
   IStoryViewer,
-} from "saeed/models/page/story/stories";
+} from "../../../models/page/story/stories";
 import MultiChart from "../../../components/design/chart/Chart_month";
 import styles from "./showStory.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 
 type SearchState = {
   searchMode: boolean;

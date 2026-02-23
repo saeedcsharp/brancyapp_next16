@@ -1,9 +1,9 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useReducer, useRef, useState } from "react";
-import Loading from "saeed/components/notOk/loading";
-import { convertArrayToLarray } from "saeed/helper/chunkArray";
-import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
-import { ILoadingStatus, ISession } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
+import Loading from "../../notOk/loading";
+import { convertArrayToLarray } from "../../../helper/chunkArray";
+import { LoginStatus, RoleAccess } from "../../../helper/loadingStatus";
+import { ILoadingStatus, ISession } from "../../../models/_AccountInfo/InstagramerAccountInfo";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";

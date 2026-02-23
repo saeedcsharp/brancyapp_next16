@@ -7,8 +7,8 @@ import React, {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "saeed/components/design/inputText";
-import { LanguageKey } from "saeed/i18n/languageKeys";
+import InputText from "../../../design/inputText";
+import { LanguageKey } from "../../../../i18n/languageKeys";
 import styles from "./livetest.module.css";
 import { NodeData } from "./types";
 

@@ -1,8 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "saeed/components/design/inputText";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import { LanguageKey } from "saeed/i18n";
+import InputText from "../../../design/inputText";
+import ToggleCheckBoxButton from "../../../design/toggleCheckBoxButton";
+import { LanguageKey } from "../../../../i18n";
 
 interface FlowPropertiesProps {
   isOpen: boolean;

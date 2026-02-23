@@ -1,8 +1,8 @@
 import { useSession } from "next-auth/react";
 import { MouseEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
-import { IAutoInterAction } from "saeed/models/page/tools/tools";
+import { LanguageKey } from "../../../../i18n";
+import { IAutoInterAction } from "../../../../models/page/tools/tools";
 import styles from "./autoInteraction.module.css";
 const AutoInteraction = (props: { data: IAutoInterAction; handleShowPopup: (e: MouseEvent) => void }) => {
   const { t } = useTranslation();

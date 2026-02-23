@@ -1,10 +1,10 @@
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
-import IncrementStepper from "saeed/components/design/incrementStepper";
-import InputText from "saeed/components/design/inputText";
-import RadioButton from "saeed/components/design/radioButton";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import { MethodType } from "saeed/helper/api";
+import IncrementStepper from "../../../../design/incrementStepper";
+import InputText from "../../../../design/inputText";
+import RadioButton from "../../../../design/radioButton";
+import ToggleCheckBoxButton from "../../../../design/toggleCheckBoxButton";
+import { MethodType } from "../../../../../helper/api";
 
 import { useSession } from "next-auth/react";
 import router from "next/router";
@@ -15,25 +15,25 @@ import {
   ResponseType,
   internalNotify,
   notify,
-} from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import NotAllowed from "saeed/components/notOk/notAllowed";
-import checkFeature from "saeed/helper/checkFeature";
-import { RoleAccess } from "saeed/helper/loadingStatus";
-import initialzedTime, { convertToMilliseconds } from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
-import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { IPageInfo } from "saeed/models/customerAds/customerAd";
+} from "../../../../notifications/notificationBox";
+import Loading from "../../../../notOk/loading";
+import NotAllowed from "../../../../notOk/notAllowed";
+import checkFeature from "../../../../../helper/checkFeature";
+import { RoleAccess } from "../../../../../helper/loadingStatus";
+import initialzedTime, { convertToMilliseconds } from "../../../../../helper/manageTimer";
+import { LanguageKey } from "../../../../../i18n";
+import { PartnerRole } from "../../../../../models/_AccountInfo/InstagramerAccountInfo";
+import { IPageInfo } from "../../../../../models/customerAds/customerAd";
 import {
   ILotteryInfo,
   IShortPostInfo,
   LotteryType,
   ShowScoreLotteryType,
   lotterySpecificationType,
-} from "saeed/models/page/tools/tools";
-import { FeatureType, IFeatureInfo } from "saeed/models/psg/psg";
+} from "../../../../../models/page/tools/tools";
+import { FeatureType, IFeatureInfo } from "../../../../../models/psg/psg";
 import styles from "./scoreLottery.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../../helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const ScoreLottery = (props: {
   removeMask: () => void;

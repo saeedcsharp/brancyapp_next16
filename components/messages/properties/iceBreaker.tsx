@@ -1,19 +1,19 @@
 import { useSession } from "next-auth/react";
 import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "saeed/components/design/inputText";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import Tooltip from "saeed/components/design/tooltip/tooltip";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import { LanguageKey } from "saeed/i18n";
-import { IDetailPrompt } from "saeed/models/AI/prompt";
-import { MethodType } from "saeed/helper/api";
-import { IceOrPersistent, PayloadType, SpecialPayLoad } from "saeed/models/messages/enum";
-import { IIceBreaker } from "saeed/models/messages/properies";
+import InputText from "../../design/inputText";
+import RingLoader from "../../design/loader/ringLoder";
+import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
+import Tooltip from "../../design/tooltip/tooltip";
+import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
+import Loading from "../../notOk/loading";
+import { LanguageKey } from "../../../i18n";
+import { IDetailPrompt } from "../../../models/AI/prompt";
+import { MethodType } from "../../../helper/api";
+import { IceOrPersistent, PayloadType, SpecialPayLoad } from "../../../models/messages/enum";
+import { IIceBreaker } from "../../../models/messages/properies";
 import styles from "./properties.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 // Wrap component with React.memo for performance
 const IceBreaker = React.memo(
   ({

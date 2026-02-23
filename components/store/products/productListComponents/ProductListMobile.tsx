@@ -2,13 +2,13 @@ import Link from "next/link";
 import React, { ChangeEvent, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import CheckBoxButton from "saeed/components/design/checkBoxButton";
-import DragDrop from "saeed/components/design/dragDrop/dragDrop";
-import PriceFormater, { PriceFormaterClassName } from "saeed/components/priceFormater";
-import initialzedTime from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
-import { AvailabilityStatus } from "saeed/models/store/enum";
-import { IProduct_ShortProduct } from "saeed/models/store/IProduct";
+import CheckBoxButton from "../../../design/checkBoxButton";
+import DragDrop from "../../../design/dragDrop/dragDrop";
+import PriceFormater, { PriceFormaterClassName } from "../../../priceFormater";
+import initialzedTime from "../../../../helper/manageTimer";
+import { LanguageKey } from "../../../../i18n";
+import { AvailabilityStatus } from "../../../../models/store/enum";
+import { IProduct_ShortProduct } from "../../../../models/store/IProduct";
 import styles from "./productListMobile.module.css";
 
 interface ProductListMobileProps {

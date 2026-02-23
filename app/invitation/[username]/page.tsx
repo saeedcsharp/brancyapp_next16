@@ -1,6 +1,6 @@
 "use client";
 
-import PageComponent from "saeed/legacy-pages/invitation/[username]/index";
+import PageComponent from "../../../legacy-pages/invitation/[username]/index";
 
 export default function Page() {
   return <PageComponent />;

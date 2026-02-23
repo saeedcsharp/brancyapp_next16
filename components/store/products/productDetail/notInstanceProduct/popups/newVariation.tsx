@@ -1,11 +1,11 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "saeed/components/design/dragDrop/dragDrop";
-import InputText from "saeed/components/design/inputText";
-import RadioButton from "saeed/components/design/radioButton";
-import Loading from "saeed/components/notOk/loading";
-import { LanguageKey } from "saeed/i18n";
-import { ICreateInstance_ForVariation, IProduct_Variation } from "saeed/models/store/IProduct";
+import DragDrop from "../../../../../design/dragDrop/dragDrop";
+import InputText from "../../../../../design/inputText";
+import RadioButton from "../../../../../design/radioButton";
+import Loading from "../../../../../notOk/loading";
+import { LanguageKey } from "../../../../../../i18n";
+import { ICreateInstance_ForVariation, IProduct_Variation } from "../../../../../../models/store/IProduct";
 import { IAddNewVariation, INewVariation } from "../Variation";
 import styles from "./newVariation.module.css";
 const NewVariation = (props: {

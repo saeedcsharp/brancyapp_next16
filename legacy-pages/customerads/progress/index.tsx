@@ -3,16 +3,16 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Confirmation from "saeed/components/customerAds/progress/confirmation";
-import Content from "saeed/components/customerAds/progress/content";
-import Payment from "saeed/components/customerAds/progress/payment";
-import CancelProgress from "saeed/components/customerAds/progress/popups/cancelProgress";
-import SummaryTerms from "saeed/components/customerAds/progress/popups/summaryTerms";
-import Publish from "saeed/components/customerAds/progress/publish";
-import Specifications from "saeed/components/customerAds/progress/specifications";
-import Summary from "saeed/components/customerAds/progress/summary";
-import TermsAndCondition from "saeed/components/customerAds/progress/terms";
-import { AdsTimeType, AdsType } from "saeed/models/advertise/AdEnums";
+import Confirmation from "../../../components/customerAds/progress/confirmation";
+import Content from "../../../components/customerAds/progress/content";
+import Payment from "../../../components/customerAds/progress/payment";
+import CancelProgress from "../../../components/customerAds/progress/popups/cancelProgress";
+import SummaryTerms from "../../../components/customerAds/progress/popups/summaryTerms";
+import Publish from "../../../components/customerAds/progress/publish";
+import Specifications from "../../../components/customerAds/progress/specifications";
+import Summary from "../../../components/customerAds/progress/summary";
+import TermsAndCondition from "../../../components/customerAds/progress/terms";
+import { AdsTimeType, AdsType } from "../../../models/advertise/AdEnums";
 import {
   AdvertiserStatus,
   CheckStatus,
@@ -21,8 +21,8 @@ import {
   IPaymentInfo,
   IShowMedia,
   Steps,
-} from "saeed/models/customerAds/customerAd";
-import { MediaType } from "saeed/models/page/post/preposts";
+} from "../../../models/customerAds/customerAd";
+import { MediaType } from "../../../models/page/post/preposts";
 import styles from "./stepprogress.module.css";
 
 export interface ISpecification {

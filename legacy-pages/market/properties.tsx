@@ -3,28 +3,28 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { MouseEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Modal from "saeed/components/design/modal";
-import DomainManager from "saeed/components/market/properties/domainManager";
-import Features from "saeed/components/market/properties/features";
-import Link from "saeed/components/market/properties/link";
-import AddNewLink from "saeed/components/market/properties/popups/addNewLink";
-import DeleteLink from "saeed/components/market/properties/popups/deletLink";
-import EditLink from "saeed/components/market/properties/popups/editLink";
-import FeaturePopUp from "saeed/components/market/properties/popups/featurePopup";
-import StatisticsLinks from "saeed/components/market/properties/popups/statisticsLink";
+import Modal from "../../components/design/modal";
+import DomainManager from "../../components/market/properties/domainManager";
+import Features from "../../components/market/properties/features";
+import Link from "../../components/market/properties/link";
+import AddNewLink from "../../components/market/properties/popups/addNewLink";
+import DeleteLink from "../../components/market/properties/popups/deletLink";
+import EditLink from "../../components/market/properties/popups/editLink";
+import FeaturePopUp from "../../components/market/properties/popups/featurePopup";
+import StatisticsLinks from "../../components/market/properties/popups/statisticsLink";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import { changePositionToFixed, changePositionToRelative } from "saeed/helper/changeMarketAdsStyle";
-import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
-import { LanguageKey } from "saeed/i18n";
-import { InstagramerAccountInfo } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/api";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+} from "../../components/notifications/notificationBox";
+import { changePositionToFixed, changePositionToRelative } from "../../helper/changeMarketAdsStyle";
+import { LoginStatus, packageStatus } from "../../helper/loadingStatus";
+import { LanguageKey } from "../../i18n";
+import { InstagramerAccountInfo } from "../../models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType } from "../../helper/api";
+import { clientFetchApi } from "../../helper/clientFetchApi";
 import {
   ILink,
   IOrderFeatures,
@@ -32,7 +32,7 @@ import {
   IUpdateFeatureOrder,
   IUpdateLink,
   IUpdateOrderLink,
-} from "saeed/models/market/properties";
+} from "../../models/market/properties";
 
 const Properties = () => {
   //  return <Soon />;

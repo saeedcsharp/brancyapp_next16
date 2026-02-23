@@ -1,11 +1,11 @@
 import Head from "next/head";
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import TimerSlider from "saeed/components/design/sliders/timerSlider";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import { findDayName, findDayNumber } from "saeed/helper/findDayName";
-import { LanguageKey } from "saeed/i18n";
-import { BusinessDay, IActiveBusinessHour, IBusinessHour } from "saeed/models/advertise/peoperties";
+import TimerSlider from "../../../design/sliders/timerSlider";
+import ToggleCheckBoxButton from "../../../design/toggleCheckBoxButton";
+import { findDayName, findDayNumber } from "../../../../helper/findDayName";
+import { LanguageKey } from "../../../../i18n";
+import { BusinessDay, IActiveBusinessHour, IBusinessHour } from "../../../../models/advertise/peoperties";
 import styles from "./businessHours.module.css";
 
 const EditBusinessHours = (props: {

@@ -2,15 +2,15 @@ import type { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { InitialSetupState } from "saeed/models/homeIndex/home";
-import { MethodType } from "saeed/helper/api";
+import { InitialSetupState } from "../../models/homeIndex/home";
+import { MethodType } from "../../helper/api";
 import { NotifType, notify, ResponseType } from "../notifications/notificationBox";
 import { useTutorial } from "./hooks/useTutorial";
 import InitialSetup from "./initialSetup/initialSetup";
 import { tutorialConfigs, TutorialPageKey } from "./tutorialConfigs";
 import TutorialDesktop from "./tutorialDesktop";
 import TutorialMobile from "./tutorialMobile";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../helper/clientFetchApi";
 
 interface TutorialWrapperProps {
   pageKey: TutorialPageKey;

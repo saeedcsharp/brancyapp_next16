@@ -1,11 +1,11 @@
 import React from "react";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import MediaDetector from "saeed/components/messages/shared/utils/MediaDetector";
-import LinkifyText from "saeed/context/LinkifyText";
-import { getMessageDirectionClass } from "saeed/helper/checkRtl";
-import { detectEmojiOnly } from "saeed/helper/emojiDetector";
-import { IIsSendingMessage } from "saeed/models/messages/IMessage";
-import { ItemType, MediaType } from "saeed/models/messages/enum";
+import RingLoader from "../../../../../design/loader/ringLoder";
+import MediaDetector from "../../../../shared/utils/MediaDetector";
+import LinkifyText from "../../../../../../context/LinkifyText";
+import { getMessageDirectionClass } from "../../../../../../helper/checkRtl";
+import { detectEmojiOnly } from "../../../../../../helper/emojiDetector";
+import { IIsSendingMessage } from "../../../../../../models/messages/IMessage";
+import { ItemType, MediaType } from "../../../../../../models/messages/enum";
 import styles from "./messageTypes.module.css";
 
 // #region تایپ‌ها — تعریف تایپ‌های ورودی برای کامپوننت ChatSending

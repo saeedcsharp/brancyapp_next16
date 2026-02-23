@@ -7,10 +7,10 @@ import {
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+} from "../../../../notifications/notificationBox";
+import { LanguageKey } from "../../../../../i18n";
+import { MethodType } from "../../../../../helper/api";
+import { clientFetchApi } from "../../../../../helper/clientFetchApi";
 const DeleteLottery = (props: {
   lotteryId: string;
   handleCancelDelete: () => void;

@@ -1,4 +1,4 @@
-import { PriceType } from "saeed/components/priceFormater";
+import { PriceType } from "../../components/priceFormater";
 import { IShortProduct, IShortShop } from "../userPanel/shop";
 import { LogisticType, OrderStep, ParcelPocketDeliveryType, ShippingRequestType } from "./enum";
 import {

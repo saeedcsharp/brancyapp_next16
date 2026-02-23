@@ -2,7 +2,7 @@ import React, { useMemo } from "react";
 import Link from "next/link";
 import styles from "./footer.module.css";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../../i18n";
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();

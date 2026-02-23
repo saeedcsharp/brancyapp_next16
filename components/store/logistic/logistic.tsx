@@ -1,14 +1,14 @@
 import { t } from "i18next";
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useState } from "react";
-import CheckBoxButton from "saeed/components/design/checkBoxButton";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { ILogistic } from "saeed/models/userPanel/orders";
+import CheckBoxButton from "../../design/checkBoxButton";
+import RingLoader from "../../design/loader/ringLoder";
+import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
+import { LanguageKey } from "../../../i18n";
+import { MethodType } from "../../../helper/api";
+import { ILogistic } from "../../../models/userPanel/orders";
 import styles from "./logistic.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 export default function Logistic({
   shippingList,

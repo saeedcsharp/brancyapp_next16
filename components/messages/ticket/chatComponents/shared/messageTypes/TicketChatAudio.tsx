@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react";
-import Dotmenu from "saeed/components/design/dotMenu/dotMenu";
+import Dotmenu from "../../../../../design/dotMenu/dotMenu";
 import { TicketBaseChatProps } from "../../types";
 import { TicketChatDate, TicketMessageStatus, TicketReactionEmoji } from "../utils";
 import styles from "./messageTypes.module.css";

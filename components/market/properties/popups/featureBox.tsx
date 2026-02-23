@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useTranslation } from "react-i18next";
-import FiveStar from "saeed/components/fiveStar";
-import { LanguageKey } from "saeed/i18n";
+import FiveStar from "../../../fiveStar";
+import { LanguageKey } from "../../../../i18n";
 import styles from "./featureBoxPU.module.css";
 const FeatureBox = (props: { removeMask: () => void }) => {
   const { t } = useTranslation();

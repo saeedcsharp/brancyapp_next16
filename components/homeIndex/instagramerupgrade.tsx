@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../i18n";
 import FeatureListModal from "./FeatureListModal";
 import styles from "./instagramerupgrade.module.css";
 const SKIP_KEY = "instagramer-upgrade-skip";

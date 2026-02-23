@@ -1,11 +1,11 @@
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { MouseEvent, use, useEffect, useRef, useState } from "react";
-import { InstaInfoContext } from "saeed/context/instaInfoContext";
-import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
-import { handleDecompress } from "saeed/helper/pako";
-import { getHubConnection } from "saeed/helper/pushNotif";
-import { PushNotif, PushResponseType } from "saeed/models/push/pushNotif";
+import { InstaInfoContext } from "../../../context/instaInfoContext";
+import { LoginStatus, packageStatus } from "../../../helper/loadingStatus";
+import { handleDecompress } from "../../../helper/pako";
+import { getHubConnection } from "../../../helper/pushNotif";
+import { PushNotif, PushResponseType } from "../../../models/push/pushNotif";
 import NavbarMobile from "./navbar_mobile";
 import styles from "./navbarheader.module.css";
 import NotificationBar from "./notificationBar";

@@ -1,12 +1,12 @@
 import Head from "next/head";
 import { useEffect, useMemo, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
-import AdsTypeComp from "saeed/components/advertise/adsType";
-import TimeTypeComp from "saeed/components/advertise/timeType";
-import CounterDownNotRing, { CounterDownColor } from "saeed/components/design/counterDown/counterDownNotRing";
-import initialzedTime from "saeed/helper/manageTimer";
-import { AdsTimeType, AdsType } from "saeed/models/advertise/AdEnums";
-import { AdvertiserStatus, CheckStatus, ICustomer } from "saeed/models/customerAds/customerAd";
+import AdsTypeComp from "../../advertise/adsType";
+import TimeTypeComp from "../../advertise/timeType";
+import CounterDownNotRing, { CounterDownColor } from "../../design/counterDown/counterDownNotRing";
+import initialzedTime from "../../../helper/manageTimer";
+import { AdsTimeType, AdsType } from "../../../models/advertise/AdEnums";
+import { AdvertiserStatus, CheckStatus, ICustomer } from "../../../models/customerAds/customerAd";
 import styles from "./progress.module.css";
 
 function Confirmation(props: { customerAd: ICustomer; handleUpdateConfirmation: (customerAd: ICustomer) => void }) {

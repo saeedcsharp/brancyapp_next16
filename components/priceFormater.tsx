@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { numberToFormattedString } from "saeed/helper/numberFormater";
+import { numberToFormattedString } from "../helper/numberFormater";
 import styles from "./price.module.css";
 
 export enum PriceType {

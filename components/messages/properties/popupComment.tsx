@@ -1,9 +1,9 @@
 import { t } from "i18next";
 import React, { useState } from "react";
-import CheckBoxButton from "saeed/components/design/checkBoxButton";
-import InputText from "saeed/components/design/inputText";
-import TextArea from "saeed/components/design/textArea/textArea";
-import { LanguageKey } from "saeed/i18n";
+import CheckBoxButton from "../../design/checkBoxButton";
+import InputText from "../../design/inputText";
+import TextArea from "../../design/textArea/textArea";
+import { LanguageKey } from "../../../i18n";
 
 interface PopupCommentProps {
   onClose: () => void;

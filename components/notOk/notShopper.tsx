@@ -1,15 +1,15 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
+import { LanguageKey } from "../../i18n";
+import { MethodType } from "../../helper/api";
 import {
   BusinessBankAccountType,
   CreateShopperSteps,
   CreateShopStep,
   IdentityVerifyType,
-} from "saeed/models/store/enum";
-import { ILogistic, InputTypeAddress } from "saeed/models/userPanel/orders";
+} from "../../models/store/enum";
+import { ILogistic, InputTypeAddress } from "../../models/userPanel/orders";
 import RingLoader from "../design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "../notifications/notificationBox";
 import PostalCode from "../store/addressType/postalCode";
@@ -19,7 +19,7 @@ import Logistic from "../store/logistic/logistic";
 import TermsAndCondition from "../store/termsandcondition/termsandcondition";
 import Loading from "./loading";
 import styles from "./notShopper.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../helper/clientFetchApi";
 
 export default function NotShopper() {
   const { data: session, update } = useSession();

@@ -1,10 +1,10 @@
 import Head from "next/head";
 import React, { ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
-import EditAutoReplyForMedia from "saeed/components/messages/popups/editAutoReplyForMedia";
-import { LanguageKey } from "saeed/i18n";
-import { MediaProductType } from "saeed/models/messages/enum";
-import { IAutomaticReply, IMediaUpdateAutoReply } from "saeed/models/page/post/posts";
+import EditAutoReplyForMedia from "../../messages/popups/editAutoReplyForMedia";
+import { LanguageKey } from "../../../i18n";
+import { MediaProductType } from "../../../models/messages/enum";
+import { IAutomaticReply, IMediaUpdateAutoReply } from "../../../models/page/post/posts";
 
 interface QuickReplyPopupProps {
   setShowQuickReplyPopup: (show: boolean) => void;

@@ -9,36 +9,36 @@ import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 
 // Internal Components
-import CountdownTimer from "saeed/components/design/counterDown/counterDownForShop";
-import IncrementStepper from "saeed/components/design/incrementStepper";
-import Loading from "saeed/components/notOk/loading";
+import CountdownTimer from "../../../../../components/design/counterDown/counterDownForShop";
+import IncrementStepper from "../../../../../components/design/incrementStepper";
+import Loading from "../../../../../components/notOk/loading";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import PriceFormater, { PriceFormaterClassName } from "saeed/components/priceFormater";
-import SignIn, { RedirectType, SignInType } from "saeed/components/signIn/signIn";
-import SignInPage1 from "saeed/components/signIn/signInPage1";
-import PriceHistory from "saeed/components/userPanel/shop/popups/priceHistory";
-import ReportProduct from "saeed/components/userPanel/shop/popups/reportProduct";
+} from "../../../../../components/notifications/notificationBox";
+import PriceFormater, { PriceFormaterClassName } from "../../../../../components/priceFormater";
+import SignIn, { RedirectType, SignInType } from "../../../../../components/signIn/signIn";
+import SignInPage1 from "../../../../../components/signIn/signInPage1";
+import PriceHistory from "../../../../../components/userPanel/shop/popups/priceHistory";
+import ReportProduct from "../../../../../components/userPanel/shop/popups/reportProduct";
 
 // Helper Functions
-import { handleCopyLink } from "saeed/helper/copyLink";
-import findSystemLanguage from "saeed/helper/findSystemLanguage";
-import formatTimeAgo from "saeed/helper/formatTimeAgo";
-import initialzedTime from "saeed/helper/manageTimer";
-import { handleDecompress } from "saeed/helper/pako";
+import { handleCopyLink } from "../../../../../helper/copyLink";
+import findSystemLanguage from "../../../../../helper/findSystemLanguage";
+import formatTimeAgo from "../../../../../helper/formatTimeAgo";
+import initialzedTime from "../../../../../helper/manageTimer";
+import { handleDecompress } from "../../../../../helper/pako";
 
 // Internationalization
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../../../../i18n";
 
 // Models & Types
-import { MethodType } from "saeed/helper/api";
-import { IComment } from "saeed/models/messages/IMessage";
-import { AvailabilityStatus } from "saeed/models/store/enum";
+import { MethodType } from "../../../../../helper/api";
+import { IComment } from "../../../../../models/messages/IMessage";
+import { AvailabilityStatus } from "../../../../../models/store/enum";
 import {
   ColorStr,
   IAddToCard,
@@ -50,12 +50,12 @@ import {
   IShortShop,
   ISubProduct,
   IVariationComparison,
-} from "saeed/models/userPanel/shop";
+} from "../../../../../models/userPanel/shop";
 
 // Styles
-import Modal from "saeed/components/design/modal";
+import Modal from "../../../../../components/design/modal";
 import styles from "./product.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../../helper/clientFetchApi";
 
 // Constants
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;

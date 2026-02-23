@@ -1,18 +1,18 @@
 import { useRouter } from "next/router";
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
-import DragComponent, { positionType } from "saeed/components/design/dragComponent/dragComponent";
-import InputText from "saeed/components/design/inputText";
-import TextArea from "saeed/components/design/textArea/textArea";
-import { MethodType } from "saeed/helper/api";
+import DragComponent, { positionType } from "../../design/dragComponent/dragComponent";
+import InputText from "../../design/inputText";
+import TextArea from "../../design/textArea/textArea";
+import { MethodType } from "../../../helper/api";
 import styles from "./progress.module.css";
 import styles2 from "./uploadContent.module.css";
 
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { convertHeicToJpeg } from "saeed/helper/convertHeicToJPEG";
-import { IPageInfo, IShowMedia } from "saeed/models/customerAds/customerAd";
-import { MediaType, PostType } from "saeed/models/page/post/preposts";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { convertHeicToJpeg } from "../../../helper/convertHeicToJPEG";
+import { IPageInfo, IShowMedia } from "../../../models/customerAds/customerAd";
+import { MediaType, PostType } from "../../../models/page/post/preposts";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 function Content(props: {
   handleUpdateContent: (content: IShowMedia[], caption: string) => void;
   data: IShowMedia[];

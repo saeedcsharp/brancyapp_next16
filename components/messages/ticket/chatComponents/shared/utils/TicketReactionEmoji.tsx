@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from "react";
-import { IItem, IThread_Ticket } from "saeed/models/messages/IMessage";
-import { ITicket } from "saeed/models/userPanel/message";
+import { IItem, IThread_Ticket } from "../../../../../../models/messages/IMessage";
+import { ITicket } from "../../../../../../models/userPanel/message";
 import styles from "../../../ticketChatBox.module.css";
 export interface TicketReactionEmojiProps {
   item: IItem;

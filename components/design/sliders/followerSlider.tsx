@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Slider from "react-slider";
-import { calculateSummary } from "saeed/helper/numberFormater";
+import { calculateSummary } from "../../../helper/numberFormater";
 import styles from "./slider.module.css";
 
 function FollowerSlider(props: {

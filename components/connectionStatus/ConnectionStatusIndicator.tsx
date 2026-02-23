@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../i18n";
 import { ConnectionStatus, subscribeToConnectionStatus } from "../../helper/pushNotif";
 import RingLoader from "../design/loader/ringLoder";
 import styles from "./ConnectionStatusIndicator.module.css";

@@ -1,21 +1,21 @@
 import { useSession } from "next-auth/react";
 import { ChangeEvent, CSSProperties, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "saeed/components/design/dragDrop/dragDrop";
-import InputText from "saeed/components/design/inputText";
-import Tooltip from "saeed/components/design/tooltip/tooltip";
+import DragDrop from "../../../../design/dragDrop/dragDrop";
+import InputText from "../../../../design/inputText";
+import Tooltip from "../../../../design/tooltip/tooltip";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import priceFormatter from "saeed/helper/priceFormater";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { Language } from "saeed/models/store/enum";
+} from "../../../../notifications/notificationBox";
+import Loading from "../../../../notOk/loading";
+import priceFormatter from "../../../../../helper/priceFormater";
+import { LanguageKey } from "../../../../../i18n";
+import { MethodType } from "../../../../../helper/api";
+import { Language } from "../../../../../models/store/enum";
 import {
   IDisCount,
   IDiscount_ForClient,
@@ -25,10 +25,10 @@ import {
   ISubProduct_CreateForInstance,
   ITitleVariation_WithVarition,
   ITitleVariationVariation,
-} from "saeed/models/store/IProduct";
+} from "../../../../../models/store/IProduct";
 import Discount from "../notInstanceProduct/popups/discount";
 import styles from "./Variation.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../../helper/clientFetchApi";
 
 export interface IAddNewVariation {
   val1: INewVariation | null;

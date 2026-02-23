@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from "react";
-import MediaDetector from "saeed/components/messages/shared/utils/MediaDetector";
-import { IItem, ITicket } from "saeed/models/userPanel/message";
+import MediaDetector from "../../../../shared/utils/MediaDetector";
+import { IItem, ITicket } from "../../../../../../models/userPanel/message";
 import { TicketChatDate, TicketMessageStatus } from "../utils";
 import styles from "./messageTypes.module.css";
 // #region تعریف اینترفیس‌ها - انواع پراپس

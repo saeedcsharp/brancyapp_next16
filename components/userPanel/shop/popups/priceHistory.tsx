@@ -1,15 +1,15 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "saeed/components/design/dragDrop/dragDrop";
-import LineChart from "saeed/components/graphs/lineChart";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { chartxType, SuperFigure } from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+import DragDrop from "../../../design/dragDrop/dragDrop";
+import LineChart from "../../../graphs/lineChart";
+import { NotifType, notify, ResponseType } from "../../../notifications/notificationBox";
+import Loading from "../../../notOk/loading";
+import { LanguageKey } from "../../../../i18n";
+import { MethodType } from "../../../../helper/api";
+import { chartxType, SuperFigure } from "../../../../models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import styles from "./priceHistory.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../helper/clientFetchApi";
 export default function PriceHistory({
   removeMask,
   productId,

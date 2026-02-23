@@ -2,23 +2,23 @@ import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import FlexibleToggleButton from "saeed/components/design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "saeed/components/design/toggleButton/types";
-import Loading from "saeed/components/notOk/loading";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import { getEnumValue } from "saeed/helper/handleItemTypeEnum";
-import initialzedTime from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
+import RingLoader from "../../../../design/loader/ringLoder";
+import FlexibleToggleButton from "../../../../design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "../../../../design/toggleButton/types";
+import Loading from "../../../../notOk/loading";
+import { NotifType, notify, ResponseType } from "../../../../notifications/notificationBox";
+import { getEnumValue } from "../../../../../helper/handleItemTypeEnum";
+import initialzedTime from "../../../../../helper/manageTimer";
+import { LanguageKey } from "../../../../../i18n";
+import { MethodType } from "../../../../../helper/api";
 import {
   FailLotteryStatus,
   FailLotteryStatusStr,
   IShortLotteriesInfo,
   LotteryStatus,
-} from "saeed/models/page/tools/tools";
+} from "../../../../../models/page/tools/tools";
 import styles from "./lotteryHistory.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../../helper/clientFetchApi";
 const LotteryHistory = (props: {
   removeMask: () => void;
   lotteryId: string | null;

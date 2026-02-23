@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "saeed/components/design/checkBoxButton";
-import { LanguageKey } from "saeed/i18n";
+import CheckBoxButton from "../../design/checkBoxButton";
+import { LanguageKey } from "../../../i18n";
 import styles from "./timeline.module.css";
 
 // import RangeBar from "../../graphs/rangeBar";

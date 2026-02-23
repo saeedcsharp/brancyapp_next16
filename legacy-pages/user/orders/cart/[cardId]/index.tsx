@@ -10,9 +10,9 @@ import {
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
+} from "../../../../../components/notifications/notificationBox";
+import { LanguageKey } from "../../../../../i18n";
+import { MethodType } from "../../../../../helper/api";
 import {
   IAddress,
   ICompleteProduct,
@@ -21,20 +21,20 @@ import {
   IShortShop,
   ISubProduct,
   IUpdateUserAddress,
-} from "saeed/models/userPanel/orders";
-import { ColorStr } from "saeed/models/userPanel/shop";
+} from "../../../../../models/userPanel/orders";
+import { ColorStr } from "../../../../../models/userPanel/shop";
 
-import IncrementStepper from "saeed/components/design/incrementStepper";
-import Loading from "saeed/components/notOk/loading";
-import PriceFormater, { PriceFormaterClassName } from "saeed/components/priceFormater";
-import CardAddress from "saeed/components/userPanel/orders/card_adddress";
-import Addresses from "saeed/components/userPanel/orders/popups/addresses";
-import CreateAddresses from "saeed/components/userPanel/orders/popups/createAddress";
-import UpdateAddresses from "saeed/components/userPanel/orders/popups/updateAddress";
-import findSystemLanguage from "saeed/helper/findSystemLanguage";
+import IncrementStepper from "../../../../../components/design/incrementStepper";
+import Loading from "../../../../../components/notOk/loading";
+import PriceFormater, { PriceFormaterClassName } from "../../../../../components/priceFormater";
+import CardAddress from "../../../../../components/userPanel/orders/card_adddress";
+import Addresses from "../../../../../components/userPanel/orders/popups/addresses";
+import CreateAddresses from "../../../../../components/userPanel/orders/popups/createAddress";
+import UpdateAddresses from "../../../../../components/userPanel/orders/popups/updateAddress";
+import findSystemLanguage from "../../../../../helper/findSystemLanguage";
 
 import styles from "./cardId.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../../helper/clientFetchApi";
 
 // Interface for grouped shop data
 interface IGroupedShop {

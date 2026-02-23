@@ -2,12 +2,12 @@ import { useCallback, useMemo, useState } from "react";
 import { useSession } from "next-auth/react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import { MethodType } from "saeed/helper/api";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
-import initialzedTime, { convertToMilliseconds } from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
+import RingLoader from "../../../design/loader/ringLoder";
+import { NotifType, notify, ResponseType } from "../../../notifications/notificationBox";
+import { MethodType } from "../../../../helper/api";
+import { clientFetchApi } from "../../../../helper/clientFetchApi";
+import initialzedTime, { convertToMilliseconds } from "../../../../helper/manageTimer";
+import { LanguageKey } from "../../../../i18n";
 import styles from "./event.module.css";
 
 interface IDayEvent {

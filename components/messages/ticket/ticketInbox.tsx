@@ -4,28 +4,28 @@ import router from "next/router";
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import InputText from "saeed/components/design/inputText";
-import DotLoaders from "saeed/components/design/loader/dotLoaders";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import Modal from "saeed/components/design/modal";
-import FlexibleToggleButton from "saeed/components/design/toggleButton/flexibleToggleButton";
+import InputText from "../../design/inputText";
+import DotLoaders from "../../design/loader/dotLoaders";
+import RingLoader from "../../design/loader/ringLoder";
+import Modal from "../../design/modal";
+import FlexibleToggleButton from "../../design/toggleButton/flexibleToggleButton";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import NotAllowed from "saeed/components/notOk/notAllowed";
-import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
-import initialzedTime from "saeed/helper/manageTimer";
-import { handleDecompress } from "saeed/helper/pako";
-import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
-import { LanguageKey } from "saeed/i18n";
-import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType, UploadFile } from "saeed/helper/api";
-import { ItemType, MediaType, StatusReplied, TicketType } from "saeed/models/messages/enum";
+} from "../../notifications/notificationBox";
+import Loading from "../../notOk/loading";
+import NotAllowed from "../../notOk/notAllowed";
+import { LoginStatus, RoleAccess } from "../../../helper/loadingStatus";
+import initialzedTime from "../../../helper/manageTimer";
+import { handleDecompress } from "../../../helper/pako";
+import { useInfiniteScroll } from "../../../helper/useInfiniteScroll";
+import { LanguageKey } from "../../../i18n";
+import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType, UploadFile } from "../../../helper/api";
+import { ItemType, MediaType, StatusReplied, TicketType } from "../../../models/messages/enum";
 import {
   IFbTicketInfo,
   IGetDirectInbox,
@@ -35,21 +35,21 @@ import {
   IReplyTicket_Media_Server,
   IThread_Ticket,
   ITicketInbox,
-} from "saeed/models/messages/IMessage";
+} from "../../../models/messages/IMessage";
 import {
   ISendTicketMessage,
   ITicket,
   ITicketMediaType,
   IUserPanelMessage,
   IItem as userItem,
-} from "saeed/models/userPanel/message";
+} from "../../../models/userPanel/message";
 import SendFile from "../popups/sendFile";
 import SendVideoFile from "../popups/sendVideoFile";
 import { MediaModal, useMediaModal } from "../shared/utils";
 import DirectChatBox from "./directChatBox";
 import SystemChatBox from "./systemChatBox";
 import styles from "./ticketInbox.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 let firstTime = 0;
 let touchMove = 0;
 let touchStart = 0;

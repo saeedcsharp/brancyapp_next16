@@ -1,9 +1,9 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import styles from "saeed/components/customerAds/customerAds.module.css";
-import HeaderTitle from "saeed/components/headerTitle/headerTitle";
-import { BusinessDay } from "saeed/models/advertise/peoperties";
-import { IAdvertiseSummary, IFullAdvertiser, SelectedCardContent } from "saeed/models/customerAds/customerAd";
+import styles from "../customerAds.module.css";
+import HeaderTitle from "../../headerTitle/headerTitle";
+import { BusinessDay } from "../../../models/advertise/peoperties";
+import { IAdvertiseSummary, IFullAdvertiser, SelectedCardContent } from "../../../models/customerAds/customerAd";
 import BusinessHour from "./business";
 import Reviews from "./reviews";
 import Terms from "./terms";

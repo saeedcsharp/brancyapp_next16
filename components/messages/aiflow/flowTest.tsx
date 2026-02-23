@@ -2,7 +2,7 @@ import Head from "next/head";
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../../i18n";
 import styles from "./flowTest.module.scss";
 
 interface FlowMessage {

@@ -1,5 +1,5 @@
 import Head from "next/head";
-import { IPaymentInfo } from "saeed/models/customerAds/customerAd";
+import { IPaymentInfo } from "../../../models/customerAds/customerAd";
 import styles from "./progress.module.css";
 
 function Publish(props: { paymentInfo: IPaymentInfo }) {

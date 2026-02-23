@@ -1,8 +1,8 @@
 import { Session } from "next-auth";
 import { signOut } from "next-auth/react";
-import { MethodType, IResult, StringDitionaryItem } from "saeed/helper/api";
-import { ResponseType } from "saeed/components/notifications/notificationBox";
-import { resolveBackendSubUrl } from "saeed/helper/apiRouteMap";
+import { MethodType, IResult, StringDitionaryItem } from "./api";
+import { ResponseType } from "../components/notifications/notificationBox";
+import { resolveBackendSubUrl } from "./apiRouteMap";
 
 const API_BASE_URL = "https://api.brancy.app/";
 

@@ -3,11 +3,11 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { InstagramerAccountInfo } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { IIpCondition } from "saeed/models/userPanel/login";
-import { IPartner_User } from "saeed/models/userPanel/setting";
+import { LanguageKey } from "../../i18n";
+import { MethodType } from "../../helper/api";
+import { InstagramerAccountInfo } from "../../models/_AccountInfo/InstagramerAccountInfo";
+import { IIpCondition } from "../../models/userPanel/login";
+import { IPartner_User } from "../../models/userPanel/setting";
 import Loading from "../notOk/loading";
 import {
   internalNotify,
@@ -17,7 +17,7 @@ import {
   ResponseType,
 } from "../notifications/notificationBox";
 import styles from "./switchAccount.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 function SwitchAccount(props: { removeMask: () => void }) {
   const { t } = useTranslation();

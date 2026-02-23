@@ -1,7 +1,7 @@
 import React, { KeyboardEvent, memo, useCallback, useId, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
-import { IClientAnnouncement } from "saeed/models/market/myLink";
+import { LanguageKey } from "../../../i18n";
+import { IClientAnnouncement } from "../../../models/market/myLink";
 import styles from "./announcement.module.css";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 type AnnouncementProps = {

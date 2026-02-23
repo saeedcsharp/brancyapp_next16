@@ -7,7 +7,7 @@ import {
   SortBy,
   SortByNum,
   SortUp,
-} from "saeed/models/customerAds/customerAd";
+} from "../../models/customerAds/customerAd";
 import CheckBoxButton from "../design/checkBoxButton";
 import RadioButton from "../design/radioButton";
 import FollowerSlider from "../design/sliders/followerSlider";

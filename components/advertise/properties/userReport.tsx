@@ -1,9 +1,9 @@
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "saeed/components/design/inputText";
-import TextArea from "saeed/components/design/textArea/textArea";
-import useHideDiv from "saeed/hook/useHide";
-import { LanguageKey } from "saeed/i18n";
+import InputText from "../../design/inputText";
+import TextArea from "../../design/textArea/textArea";
+import useHideDiv from "../../../hook/useHide";
+import { LanguageKey } from "../../../i18n";
 import styles from "./propertiesComponent.module.css";
 function UserReport() {
   const [inputText, setInputText] = useState<string>("");

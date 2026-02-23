@@ -1,6 +1,6 @@
 import { useRef, useState } from "react";
-import { numberToFormattedString } from "saeed/helper/numberFormater";
-import { SuperFigure } from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+import { numberToFormattedString } from "../../../helper/numberFormater";
+import { SuperFigure } from "../../../models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";

@@ -2,23 +2,23 @@ import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import CheckBoxButton from "saeed/components/design/checkBoxButton";
-import InputText from "saeed/components/design/inputText";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import FlexibleToggleButton from "saeed/components/design/toggleButton/flexibleToggleButton";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
+import CheckBoxButton from "../../../design/checkBoxButton";
+import InputText from "../../../design/inputText";
+import RingLoader from "../../../design/loader/ringLoder";
+import FlexibleToggleButton from "../../../design/toggleButton/flexibleToggleButton";
+import ToggleCheckBoxButton from "../../../design/toggleCheckBoxButton";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
-} from "saeed/components/notifications/notificationBox";
-import initialzedTime from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { ITotalMasterFlow } from "saeed/models/messages/properies";
+} from "../../../notifications/notificationBox";
+import initialzedTime from "../../../../helper/manageTimer";
+import { LanguageKey } from "../../../../i18n";
+import { MethodType } from "../../../../helper/api";
+import { ITotalMasterFlow } from "../../../../models/messages/properies";
 import styles from "./settingmodal.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../helper/clientFetchApi";
 interface SettingModalProps {
   masterFlowId: string;
   snapToGridEnabled: boolean;

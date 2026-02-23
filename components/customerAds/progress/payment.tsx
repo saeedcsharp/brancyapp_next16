@@ -1,12 +1,12 @@
 import Head from "next/head";
 import { ChangeEvent, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
-import AdsTypeComp from "saeed/components/advertise/adsType";
-import TimeTypeComp from "saeed/components/advertise/timeType";
-import InputText from "saeed/components/design/inputText";
-import PriceFormater, { PriceFormaterClassName, PriceType } from "saeed/components/priceFormater";
-import initialzedTime from "saeed/helper/manageTimer";
-import { AdvertiserStatus, ICustomer } from "saeed/models/customerAds/customerAd";
+import AdsTypeComp from "../../advertise/adsType";
+import TimeTypeComp from "../../advertise/timeType";
+import InputText from "../../design/inputText";
+import PriceFormater, { PriceFormaterClassName, PriceType } from "../../priceFormater";
+import initialzedTime from "../../../helper/manageTimer";
+import { AdvertiserStatus, ICustomer } from "../../../models/customerAds/customerAd";
 import styles from "./progress.module.css";
 const taxFactor = 10;
 function Payment(props: { customerAd: ICustomer }) {

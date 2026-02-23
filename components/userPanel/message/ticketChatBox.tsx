@@ -1,11 +1,11 @@
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import InputEmoji from "react-input-emoji";
 import { DateObject } from "react-multi-date-picker";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import { convertHeicToJpeg } from "saeed/helper/convertHeicToJPEG";
-import initialzedTime from "saeed/helper/manageTimer";
-import { IOwnerInbox, ISendTicketMessage, ITicket, ITicketMediaType } from "saeed/models/userPanel/message";
+import RingLoader from "../../design/loader/ringLoder";
+import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
+import { convertHeicToJpeg } from "../../../helper/convertHeicToJPEG";
+import initialzedTime from "../../../helper/manageTimer";
+import { IOwnerInbox, ISendTicketMessage, ITicket, ITicketMediaType } from "../../../models/userPanel/message";
 import LinkifyText from "../../../context/LinkifyText";
 import styles from "./ticketChatBox.module.css";
 const UserPanelDirectChatBox = (props: {

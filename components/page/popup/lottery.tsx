@@ -2,24 +2,24 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import IncrementStepper from "saeed/components/design/incrementStepper";
-import InputText from "saeed/components/design/inputText";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import Tooltip from "saeed/components/design/tooltip/tooltip";
+import IncrementStepper from "../../design/incrementStepper";
+import InputText from "../../design/inputText";
+import RingLoader from "../../design/loader/ringLoder";
+import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
+import Tooltip from "../../design/tooltip/tooltip";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { ILotteryPost } from "saeed/models/page/post/posts";
+} from "../../notifications/notificationBox";
+import Loading from "../../notOk/loading";
+import { LanguageKey } from "../../../i18n";
+import { MethodType } from "../../../helper/api";
+import { ILotteryPost } from "../../../models/page/post/posts";
 import styles from "./postLottery.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 export enum LotteryPopupType {
   PostLottery,
   StoryLottery,

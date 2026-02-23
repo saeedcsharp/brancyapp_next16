@@ -1,4 +1,4 @@
-import { PriceType } from "saeed/components/priceFormater";
+import { PriceType } from "../../components/priceFormater";
 import { AvailabilityStatus, GauranteeLength } from "../store/enum";
 
 export interface IShortProduct {

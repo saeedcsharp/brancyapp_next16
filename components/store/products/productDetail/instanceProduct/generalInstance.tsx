@@ -1,10 +1,10 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "saeed/components/design/inputText";
-import Loading from "saeed/components/notOk/loading";
-import { LanguageKey } from "saeed/i18n";
-import { IProductInstance } from "saeed/models/store/IProduct";
+import InputText from "../../../../design/inputText";
+import Loading from "../../../../notOk/loading";
+import { LanguageKey } from "../../../../../i18n";
+import { IProductInstance } from "../../../../../models/store/IProduct";
 import styles from "./general.module.css";
 function GeneralInstance({
   productInstance,

@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../../i18n";
 import useMousePosition from "../../../helper/useMousePosition";
 import styles from "./page8.module.css";
 

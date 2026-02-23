@@ -1,8 +1,8 @@
 import { useTranslation } from "react-i18next";
-import InlineBarChart from "saeed/components/design/chart/inlineBarChart";
-import { numberToFormattedString } from "saeed/helper/numberFormater";
-import useHideDiv from "saeed/hook/useHide";
-import { LanguageKey } from "saeed/i18n";
+import InlineBarChart from "../../design/chart/inlineBarChart";
+import { numberToFormattedString } from "../../../helper/numberFormater";
+import useHideDiv from "../../../hook/useHide";
+import { LanguageKey } from "../../../i18n";
 import { ISaleShortMonth } from "../../../models/store/statistics";
 import styles from "./statistics.module.css";
 const TotalSalesStatistics = (props: { data: ISaleShortMonth[] }) => {

@@ -13,15 +13,15 @@ import {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import ProgressBar from "saeed/components/design/progressBar/progressBar";
-import RadioButton from "saeed/components/design/radioButton";
-import TextArea from "saeed/components/design/textArea/textArea";
-import FlexibleToggleButton from "saeed/components/design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "saeed/components/design/toggleButton/types";
-import Loading from "saeed/components/notOk/loading";
-import { convertHeicToJpeg } from "saeed/helper/convertHeicToJPEG";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType, UploadFile } from "saeed/helper/api";
+import ProgressBar from "../../../design/progressBar/progressBar";
+import RadioButton from "../../../design/radioButton";
+import TextArea from "../../../design/textArea/textArea";
+import FlexibleToggleButton from "../../../design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "../../../design/toggleButton/types";
+import Loading from "../../../notOk/loading";
+import { convertHeicToJpeg } from "../../../../helper/convertHeicToJPEG";
+import { LanguageKey } from "../../../../i18n";
+import { MethodType, UploadFile } from "../../../../helper/api";
 import {
   IBannerSelectedImage,
   ICustomeBannerInfo,
@@ -30,9 +30,9 @@ import {
   IProfileBannerCustomeFullName,
   IUpdateBanner,
   IUpdateProfileBanner,
-} from "saeed/models/market/properties";
+} from "../../../../models/market/properties";
 import styles from "./featureBoxPU.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../helper/clientFetchApi";
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "image/tiff", "image/gif"];
 const MAX_CAPTION_LENGTH = 150;

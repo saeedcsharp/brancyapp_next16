@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import Modal from "saeed/components/design/modal";
-import { LanguageKey } from "saeed/i18n";
+import RingLoader from "../../design/loader/ringLoder";
+import Modal from "../../design/modal";
+import { LanguageKey } from "../../../i18n";
 import styles from "./MediaModal.module.css";
 
 // #region تایپ‌ها و اینترفیس‌ها

@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
-import MediaDetector from "saeed/components/messages/shared/utils/MediaDetector";
-import LinkifyText from "saeed/context/LinkifyText";
-import { getMessageDirectionClass } from "saeed/helper/checkRtl";
-import { detectEmojiOnly } from "saeed/helper/emojiDetector";
-import { ISendTicketMessage, ITicketMediaType } from "saeed/models/userPanel/message";
+import MediaDetector from "../../../../shared/utils/MediaDetector";
+import LinkifyText from "../../../../../../context/LinkifyText";
+import { getMessageDirectionClass } from "../../../../../../helper/checkRtl";
+import { detectEmojiOnly } from "../../../../../../helper/emojiDetector";
+import { ISendTicketMessage, ITicketMediaType } from "../../../../../../models/userPanel/message";
 import styles from "./messageTypes.module.css";
 // #region تعریف اینترفیس‌ها
 // انواع پراپس برای لیست پیام‌های در حال ارسال و آیتم‌های آن.

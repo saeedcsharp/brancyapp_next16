@@ -1,7 +1,7 @@
 import React, { ChangeEvent, JSXElementConstructor, ReactElement, ReactNode, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../../i18n";
 import InputText from "../inputText";
 import RingLoader from "../loader/ringLoder";
 import styles from "./dragDrop.module.css";

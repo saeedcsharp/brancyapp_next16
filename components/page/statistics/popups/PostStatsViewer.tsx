@@ -1,9 +1,9 @@
 import router from "next/router";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DotLoaders from "saeed/components/design/loader/dotLoaders";
-import { LanguageKey } from "saeed/i18n";
-import { IPostContent } from "saeed/models/page/post/posts";
+import DotLoaders from "../../../design/loader/dotLoaders";
+import { LanguageKey } from "../../../../i18n";
+import { IPostContent } from "../../../../models/page/post/posts";
 import styles from "./PostStatsViewer.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const POSTS_PER_PAGE = 50;

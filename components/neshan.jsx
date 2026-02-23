@@ -12,7 +12,7 @@ import Icon from "@neshan-maps-platform/ol/style/Icon";
 import VectorSource from "@neshan-maps-platform/ol/source/Vector";
 import VectorLayer from "@neshan-maps-platform/ol/layer/Vector";
 import Point from "@neshan-maps-platform/ol/geom/Point";
-import addMarker from "saeed/akbar";
+import addMarker from "../akbar";
 
 const NeshanMap = dynamic(() => import("@neshan-maps-platform/react-openlayers"), { ssr: false });
 

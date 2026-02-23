@@ -2,15 +2,15 @@ import { useSession } from "next-auth/react";
 import React, { KeyboardEvent, MouseEvent, useCallback, useId, useMemo, useRef, useState, useTransition } from "react";
 import { useTranslation } from "react-i18next";
 
-import Dotmenu from "saeed/components/design/dotMenu/dotMenu";
-import Slider, { SliderSlide } from "saeed/components/design/slider/slider";
-import Loading from "saeed/components/notOk/loading";
+import Dotmenu from "../../../design/dotMenu/dotMenu";
+import Slider, { SliderSlide } from "../../../design/slider/slider";
+import Loading from "../../../notOk/loading";
 
-import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
+import { LoginStatus, RoleAccess } from "../../../../helper/loadingStatus";
 
-import { LanguageKey } from "saeed/i18n";
-import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { IHashtag } from "saeed/models/page/tools/tools";
+import { LanguageKey } from "../../../../i18n";
+import { PartnerRole } from "../../../../models/_AccountInfo/InstagramerAccountInfo";
+import { IHashtag } from "../../../../models/page/tools/tools";
 
 import styles from "./hashtags.module.css";
 

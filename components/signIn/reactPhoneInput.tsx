@@ -2,8 +2,8 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { getCountryCodeFromTimezone } from "saeed/helper/detectLocaleFromTimezone";
-import { LanguageKey } from "saeed/i18n";
+import { getCountryCodeFromTimezone } from "../../helper/detectLocaleFromTimezone";
+import { LanguageKey } from "../../i18n";
 import RingLoader from "../design/loader/ringLoder";
 import styles from "./reactPhoneInput.module.css";
 

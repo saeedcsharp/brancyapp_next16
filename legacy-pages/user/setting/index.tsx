@@ -2,17 +2,17 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "saeed/components/design/inputText";
-import RadioButton from "saeed/components/design/radioButton";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import System from "saeed/components/setting/general/system";
-import UserPartners from "saeed/components/userPanel/setting/partner";
-import { LanguageKey } from "saeed/i18n";
-import { IRefreshToken } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/api";
-import { IPartner_User } from "saeed/models/userPanel/setting";
+import InputText from "../../../components/design/inputText";
+import RadioButton from "../../../components/design/radioButton";
+import { NotifType, notify, ResponseType } from "../../../components/notifications/notificationBox";
+import System from "../../../components/setting/general/system";
+import UserPartners from "../../../components/userPanel/setting/partner";
+import { LanguageKey } from "../../../i18n";
+import { IRefreshToken } from "../../../models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType } from "../../../helper/api";
+import { IPartner_User } from "../../../models/userPanel/setting";
 import styles from "./setting.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 function InputField({
   label,
   placeholder,

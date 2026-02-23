@@ -3,10 +3,10 @@ import Head from "next/head";
 import router from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import FlowAndAIInbox from "saeed/components/messages/aiflow/flowAndAIInBox";
-import NotPermission, { PermissionType } from "saeed/components/notOk/notPermission";
-import { LoginStatus } from "saeed/helper/loadingStatus";
-import { LanguageKey } from "saeed/i18n/languageKeys";
+import FlowAndAIInbox from "../../../components/messages/aiflow/flowAndAIInBox";
+import NotPermission, { PermissionType } from "../../../components/notOk/notPermission";
+import { LoginStatus } from "../../../helper/loadingStatus";
+import { LanguageKey } from "../../../i18n/languageKeys";
 
 export default function AIFlow() {
   const { t } = useTranslation();

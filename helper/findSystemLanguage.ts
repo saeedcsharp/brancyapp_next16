@@ -1,4 +1,4 @@
-import { Language } from "saeed/models/messages/enum";
+import { Language } from "../models/messages/enum";
 
 export default function findSystemLanguage(): Language {
   const language = window.localStorage.getItem("language");

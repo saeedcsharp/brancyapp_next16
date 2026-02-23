@@ -2,20 +2,20 @@ import { useSession } from "next-auth/react";
 import router from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DotLoaders from "saeed/components/design/loader/dotLoaders";
+import DotLoaders from "../../../../design/loader/dotLoaders";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
-} from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { IShortPostInfo } from "saeed/models/page/tools/tools";
+} from "../../../../notifications/notificationBox";
+import Loading from "../../../../notOk/loading";
+import { useInfiniteScroll } from "../../../../../helper/useInfiniteScroll";
+import { LanguageKey } from "../../../../../i18n";
+import { MethodType } from "../../../../../helper/api";
+import { IShortPostInfo } from "../../../../../models/page/tools/tools";
 import styles from "./selectPost.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../../helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const SelectPost = (props: {
   removeMask: () => void;

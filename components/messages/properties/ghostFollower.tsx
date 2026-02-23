@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
-import TextArea from "saeed/components/design/textArea/textArea";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
+import TextArea from "../../design/textArea/textArea";
+import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
 import styles from "./properties.module.css";
 function GhostFollower() {
   return (

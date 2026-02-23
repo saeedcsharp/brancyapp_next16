@@ -17,9 +17,9 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "saeed/components/design/inputText";
-import { LanguageKey } from "saeed/i18n";
-import { ISpecification } from "saeed/models/store/IProduct";
+import InputText from "../../../../design/inputText";
+import { LanguageKey } from "../../../../../i18n";
+import { ISpecification } from "../../../../../models/store/IProduct";
 import styles from "./specifications.module.css";
 
 function SortableItem({ item, index }: { item: ISpecification; index: number }) {

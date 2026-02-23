@@ -2,15 +2,15 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "saeed/components/design/inputText";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import TextArea from "saeed/components/design/textArea/textArea";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { IAddress, InputTypeAddress, IUpdateUserAddress } from "saeed/models/userPanel/orders";
+import InputText from "../../../design/inputText";
+import RingLoader from "../../../design/loader/ringLoder";
+import TextArea from "../../../design/textArea/textArea";
+import { NotifType, notify, ResponseType } from "../../../notifications/notificationBox";
+import { LanguageKey } from "../../../../i18n";
+import { MethodType } from "../../../../helper/api";
+import { IAddress, InputTypeAddress, IUpdateUserAddress } from "../../../../models/userPanel/orders";
 import styles from "./addresses.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../helper/clientFetchApi";
 enum CreateAddresStep {
   PostalCode,
   VerifyAddress,

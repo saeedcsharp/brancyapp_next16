@@ -16,26 +16,26 @@ import { useSession } from "next-auth/react";
 import { t } from "i18next";
 
 // Local components
-import InputText from "saeed/components/design/inputText";
+import InputText from "../../../design/inputText";
 import {
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
+} from "../../../notifications/notificationBox";
 
 // Local types & models
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../../../i18n";
 import {
   ICreateLiveChat,
   ICreatePrompt,
   ILiveChat,
-} from "saeed/models/AI/prompt";
-import { MethodType } from "saeed/helper/api";
-import { ItemType } from "saeed/models/messages/enum";
+} from "../../../../models/AI/prompt";
+import { MethodType } from "../../../../helper/api";
+import { ItemType } from "../../../../models/messages/enum";
 
 // Styles
 import styles from "./AI_liveChat.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../helper/clientFetchApi";
 
 type ChatState = {
   messages: ILiveChat[];

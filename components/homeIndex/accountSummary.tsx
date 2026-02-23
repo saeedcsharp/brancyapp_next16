@@ -1,7 +1,7 @@
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import formatTimeAgo from "saeed/helper/formatTimeAgo";
-import { IPageSummary } from "saeed/models/homeIndex/home";
+import formatTimeAgo from "../../helper/formatTimeAgo";
+import { IPageSummary } from "../../models/homeIndex/home";
 import styles from "./accountSummary.module.css";
 
 interface AccountSummaryProps {

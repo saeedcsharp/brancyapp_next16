@@ -1,8 +1,8 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
-import { ILastLike } from "saeed/models/homeIndex/home";
+import { LanguageKey } from "../../i18n";
+import { ILastLike } from "../../models/homeIndex/home";
 import Loading from "../notOk/loading";
 import styles from "./lastLikeContainer.module.css";
 

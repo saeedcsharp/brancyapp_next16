@@ -1,5 +1,5 @@
-import { LanguageKey } from "saeed/i18n";
-import { BusinessDay } from "saeed/models/advertise/peoperties";
+import { LanguageKey } from "../i18n";
+import { BusinessDay } from "../models/advertise/peoperties";
 
 export function findDayName(id: number): LanguageKey {
   var dayName: LanguageKey = LanguageKey.SettingGeneralSystemmonday;

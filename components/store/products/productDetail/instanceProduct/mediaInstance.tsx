@@ -18,11 +18,11 @@ import { CSS } from "@dnd-kit/utilities";
 import ImageCompressor from "compressorjs";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { internalNotify, InternalResponseType, NotifType } from "saeed/components/notifications/notificationBox";
-import { convertHeicToJpeg } from "saeed/helper/convertHeicToJPEG";
-import { LanguageKey } from "saeed/i18n";
-import { MediaType } from "saeed/models/page/post/preposts";
-import { IMediaInstanceInfo, ISuggestedMedia } from "saeed/models/store/IProduct";
+import { internalNotify, InternalResponseType, NotifType } from "../../../../notifications/notificationBox";
+import { convertHeicToJpeg } from "../../../../../helper/convertHeicToJPEG";
+import { LanguageKey } from "../../../../../i18n";
+import { MediaType } from "../../../../../models/page/post/preposts";
+import { IMediaInstanceInfo, ISuggestedMedia } from "../../../../../models/store/IProduct";
 import styles from "./media.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 

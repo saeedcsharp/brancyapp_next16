@@ -4,24 +4,24 @@ import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { HuePicker } from "react-color";
 import { useTranslation } from "react-i18next";
 import Slider from "react-slider";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import rgbaToHex from "saeed/helper/rgbaToHex";
-import { BackgrounCssTodStr, SvgGenerator } from "saeed/helper/svgGenerator";
-import { svgToFile, svgToJpgFile } from "saeed/helper/svgtojpeg";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
+import RingLoader from "../../../../design/loader/ringLoder";
+import ToggleCheckBoxButton from "../../../../design/toggleCheckBoxButton";
+import { NotifType, notify, ResponseType } from "../../../../notifications/notificationBox";
+import Loading from "../../../../notOk/loading";
+import rgbaToHex from "../../../../../helper/rgbaToHex";
+import { BackgrounCssTodStr, SvgGenerator } from "../../../../../helper/svgGenerator";
+import { svgToFile, svgToJpgFile } from "../../../../../helper/svgtojpeg";
+import { LanguageKey } from "../../../../../i18n";
+import { MethodType } from "../../../../../helper/api";
 import {
   ICreateTermsAndConditionInfo,
   IGetLastTermsUi,
   IGetTermsAndConditionInfo,
   ILotteryInfo,
   TermsType,
-} from "saeed/models/page/tools/tools";
+} from "../../../../../models/page/tools/tools";
 import styles from "./termsAndConditionWinnerPicker.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../../helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 function filterTypeSlide(backgrounds: IGetTermsAndConditionInfo, type: TermsType) {
   const result = backgrounds.background.filter((x) => x.type === type);

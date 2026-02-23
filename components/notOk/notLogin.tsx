@@ -2,22 +2,22 @@ import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Loading from "saeed/components/notOk/loading";
+import Loading from "./loading";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import formatTimeAgo from "saeed/helper/formatTimeAgo";
-import { LanguageKey } from "saeed/i18n";
-import { SendCodeResult } from "saeed/models/ApiModels/User/SendCodeResult";
-import { MethodType } from "saeed/helper/api";
-import { InstagramerAccountInfo } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { IIpCondition } from "saeed/models/userPanel/login";
+} from "../notifications/notificationBox";
+import formatTimeAgo from "../../helper/formatTimeAgo";
+import { LanguageKey } from "../../i18n";
+import { SendCodeResult } from "../../models/ApiModels/User/SendCodeResult";
+import { MethodType } from "../../helper/api";
+import { InstagramerAccountInfo } from "../../models/_AccountInfo/InstagramerAccountInfo";
+import { IIpCondition } from "../../models/userPanel/login";
 import styles from "./notLogin.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 export default function NotLogin({ removeMask }: { removeMask: () => void }) {
   const { t } = useTranslation();

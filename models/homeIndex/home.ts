@@ -1,5 +1,5 @@
 import { t } from "i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../i18n";
 import { ItemType, MediaProductType } from "../messages/enum";
 import { EntryType, TopTileType } from "./enum";
 

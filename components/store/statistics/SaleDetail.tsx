@@ -1,7 +1,7 @@
 import Head from "next/head";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../../i18n";
 import styles from "./saleDetail.module.css";
 
 interface SaleDetailProps {

@@ -1,10 +1,10 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "saeed/components/design/checkBoxButton";
-import TextArea from "saeed/components/design/textArea/textArea";
-import useHideDiv from "saeed/hook/useHide";
-import { LanguageKey } from "saeed/i18n";
-import { IAdvertisingTerms } from "saeed/models/advertise/peoperties";
+import CheckBoxButton from "../../design/checkBoxButton";
+import TextArea from "../../design/textArea/textArea";
+import useHideDiv from "../../../hook/useHide";
+import { LanguageKey } from "../../../i18n";
+import { IAdvertisingTerms } from "../../../models/advertise/peoperties";
 import styles from "./propertiesComponent.module.css";
 
 function AdvertisingTerms(props: { advertisinfTerms: IAdvertisingTerms }) {

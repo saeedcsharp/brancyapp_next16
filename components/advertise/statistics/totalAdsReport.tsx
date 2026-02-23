@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
-import PriceFormater, { PriceFormaterClassName, PriceType } from "saeed/components/priceFormater";
-import useHideDiv from "saeed/hook/useHide";
-import { ITotalAdsReport } from "saeed/models/advertise/statistics";
+import PriceFormater, { PriceFormaterClassName, PriceType } from "../../priceFormater";
+import useHideDiv from "../../../hook/useHide";
+import { ITotalAdsReport } from "../../../models/advertise/statistics";
 import ConfirmationStatus, { StatusType } from "../../confirmationStatus/confirmationStatus";
 import AdsTypeComp from "../adsType";
 import styles from "./statistics.module.css";
 
 import { useTranslation } from "react-i18next";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import Loading from "saeed/components/notOk/loading";
-import initialzedTime from "saeed/helper/manageTimer";
-import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
-import { LanguageKey } from "saeed/i18n";
+import RingLoader from "../../design/loader/ringLoder";
+import Loading from "../../notOk/loading";
+import initialzedTime from "../../../helper/manageTimer";
+import { useInfiniteScroll } from "../../../helper/useInfiniteScroll";
+import { LanguageKey } from "../../../i18n";
 
 const TotalAdsReport = (props: {
   adsReports: ITotalAdsReport[] | null;

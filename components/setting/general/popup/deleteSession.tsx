@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
-import { ISession } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
+import { LanguageKey } from "../../../../i18n";
+import { ISession } from "../../../../models/_AccountInfo/InstagramerAccountInfo";
 import styles from "./deleteSession.module.css";
 
 function _arrayBufferToBase64(buffer: ArrayBuffer) {

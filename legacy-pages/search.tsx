@@ -1,4 +1,4 @@
-import SearchPage from "saeed/components/search/searchPage";
+import SearchPage from "../components/search/searchPage";
 
 const Search = () => {
   return (

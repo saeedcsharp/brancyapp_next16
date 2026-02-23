@@ -1,9 +1,9 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
-import { ItemType, MediaType } from "saeed/models/messages/enum";
-import { IIsSendingMessage } from "saeed/models/messages/IMessage";
+import { LanguageKey } from "../../../i18n";
+import { ItemType, MediaType } from "../../../models/messages/enum";
+import { IIsSendingMessage } from "../../../models/messages/IMessage";
 import styles from "./sendFile.module.css";
 
 function _arrayBufferToBase64(buffer: ArrayBuffer) {

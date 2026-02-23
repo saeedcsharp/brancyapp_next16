@@ -4,18 +4,18 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "saeed/components/design/dragDrop/dragDrop";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import PriceSlider from "saeed/components/design/sliders/priceSlider";
-import Loading from "saeed/components/notOk/loading";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import PriceFormater, { PriceFormaterClassName } from "saeed/components/priceFormater";
-import SignIn, { RedirectType, SignInType } from "saeed/components/signIn/signIn";
-import SignInPage1 from "saeed/components/signIn/signInPage1";
-import findSystemLanguage from "saeed/helper/findSystemLanguage";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { AvailabilityStatus } from "saeed/models/store/enum";
+import DragDrop from "../../../../components/design/dragDrop/dragDrop";
+import RingLoader from "../../../../components/design/loader/ringLoder";
+import PriceSlider from "../../../../components/design/sliders/priceSlider";
+import Loading from "../../../../components/notOk/loading";
+import { NotifType, notify, ResponseType } from "../../../../components/notifications/notificationBox";
+import PriceFormater, { PriceFormaterClassName } from "../../../../components/priceFormater";
+import SignIn, { RedirectType, SignInType } from "../../../../components/signIn/signIn";
+import SignInPage1 from "../../../../components/signIn/signInPage1";
+import findSystemLanguage from "../../../../helper/findSystemLanguage";
+import { LanguageKey } from "../../../../i18n";
+import { MethodType } from "../../../../helper/api";
+import { AvailabilityStatus } from "../../../../models/store/enum";
 import {
   IFilter,
   IFilterInfo,
@@ -24,9 +24,9 @@ import {
   IProductCard,
   ITopHashtags,
   ProductSortType,
-} from "saeed/models/userPanel/shop";
+} from "../../../../models/userPanel/shop";
 import styles from "./products.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const ProductsPage = () => {
   const router = useRouter();

@@ -11,8 +11,8 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 
-import SignIn, { RedirectType, SignInType } from "saeed/components/signIn/signIn";
-import { LanguageKey } from "saeed/i18n";
+import SignIn, { RedirectType, SignInType } from "../../components/signIn/signIn";
+import { LanguageKey } from "../../i18n";
 import AccessibilityHeader from "../../components/Accessibility/AccessibilityHeader";
 import styles from "./join-Us.module.css";
 

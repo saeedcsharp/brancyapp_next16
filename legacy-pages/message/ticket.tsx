@@ -3,9 +3,9 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import TicketInbox from "saeed/components/messages/ticket/ticketInbox";
-import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
-import { LanguageKey } from "saeed/i18n";
+import TicketInbox from "../../components/messages/ticket/ticketInbox";
+import { LoginStatus, packageStatus } from "../../helper/loadingStatus";
+import { LanguageKey } from "../../i18n";
 const Ticket = () => {
   //  return <Soon />;
   const { t } = useTranslation();

@@ -1,16 +1,16 @@
 import { useSession } from "next-auth/react";
 import { FC, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import findSystemLanguage from "saeed/helper/findSystemLanguage";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { OrderStep } from "saeed/models/store/enum";
-import { IFullProduct, IOrderDetail } from "saeed/models/store/orders";
+import { NotifType, notify, ResponseType } from "../../../notifications/notificationBox";
+import Loading from "../../../notOk/loading";
+import findSystemLanguage from "../../../../helper/findSystemLanguage";
+import { LanguageKey } from "../../../../i18n";
+import { MethodType } from "../../../../helper/api";
+import { OrderStep } from "../../../../models/store/enum";
+import { IFullProduct, IOrderDetail } from "../../../../models/store/orders";
 import OrderDetailContent from "./OrderDetail-Content";
 import styles from "./OrderDetail.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../helper/clientFetchApi";
 interface OrderDetailProps {
   removeMask: () => void;
   orderDetail: IOrderDetail;

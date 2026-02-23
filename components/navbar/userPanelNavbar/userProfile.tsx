@@ -1,6 +1,6 @@
 import { MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../../i18n";
 import styles from "./userProfile.module.css";
 const UserProfile = (props: {
   data: string;

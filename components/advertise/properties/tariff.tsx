@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import PriceFormater, { PriceFormaterClassName, PriceType } from "saeed/components/priceFormater";
-import useHideDiv from "saeed/hook/useHide";
-import { LanguageKey } from "saeed/i18n";
-import { ITariff } from "saeed/models/advertise/peoperties";
+import PriceFormater, { PriceFormaterClassName, PriceType } from "../../priceFormater";
+import useHideDiv from "../../../hook/useHide";
+import { LanguageKey } from "../../../i18n";
+import { ITariff } from "../../../models/advertise/peoperties";
 import styles from "./propertiesComponent.module.css";
 function Tariff(props: { setShowTariffPopup: (showTarifPopup: boolean) => void; tariif: ITariff }) {
   const { t } = useTranslation();

@@ -4,24 +4,24 @@ import router from "next/router";
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import InputText from "saeed/components/design/inputText";
-import DotLoaders from "saeed/components/design/loader/dotLoaders";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import Modal from "saeed/components/design/modal";
-import FlexibleToggleButton from "saeed/components/design/toggleButton/flexibleToggleButton";
-import Tooltip from "saeed/components/design/tooltip/tooltip";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import NotAllowed from "saeed/components/notOk/notAllowed";
-import { isRTL } from "saeed/helper/checkRtl";
-import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
-import initialzedTime from "saeed/helper/manageTimer";
-import { handleDecompress } from "saeed/helper/pako";
-import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
-import { LanguageKey } from "saeed/i18n";
-import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType, UploadFile } from "saeed/helper/api";
-import { CategoryType, ItemType, MediaType } from "saeed/models/messages/enum";
+import InputText from "../../design/inputText";
+import DotLoaders from "../../design/loader/dotLoaders";
+import RingLoader from "../../design/loader/ringLoder";
+import Modal from "../../design/modal";
+import FlexibleToggleButton from "../../design/toggleButton/flexibleToggleButton";
+import Tooltip from "../../design/tooltip/tooltip";
+import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
+import Loading from "../../notOk/loading";
+import NotAllowed from "../../notOk/notAllowed";
+import { isRTL } from "../../../helper/checkRtl";
+import { LoginStatus, RoleAccess } from "../../../helper/loadingStatus";
+import initialzedTime from "../../../helper/manageTimer";
+import { handleDecompress } from "../../../helper/pako";
+import { useInfiniteScroll } from "../../../helper/useInfiniteScroll";
+import { LanguageKey } from "../../../i18n";
+import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType, UploadFile } from "../../../helper/api";
+import { CategoryType, ItemType, MediaType } from "../../../models/messages/enum";
 import {
   IGetDirectInbox,
   IGetDirectInboxItems,
@@ -32,13 +32,13 @@ import {
   IIsSendingMessage,
   IItem,
   IThread,
-} from "saeed/models/messages/IMessage";
+} from "../../../models/messages/IMessage";
 import SendFile from "../popups/sendFile";
 import SendVideoFile from "../popups/sendVideoFile";
 import { MediaModal, useMediaModal } from "../shared/utils";
 import DirectChatBox from "./directChatBox";
 import styles from "./directInbox.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 let firstTime = 0;
 let touchMove = 0;
 let touchStart = 0;

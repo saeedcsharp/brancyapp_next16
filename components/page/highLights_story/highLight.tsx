@@ -1,12 +1,12 @@
 import { useSession } from "next-auth/react";
 import React, { use, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Loading from "saeed/components/notOk/loading";
-import { InstaInfoContext } from "saeed/context/instaInfoContext";
-import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
-import { LanguageKey } from "saeed/i18n";
-import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { IHighLight } from "saeed/models/page/story/hightLight";
+import Loading from "../../notOk/loading";
+import { InstaInfoContext } from "../../../context/instaInfoContext";
+import { LoginStatus, RoleAccess } from "../../../helper/loadingStatus";
+import { LanguageKey } from "../../../i18n";
+import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
+import { IHighLight } from "../../../models/page/story/hightLight";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";

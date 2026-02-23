@@ -1,5 +1,5 @@
 import { ChangeEvent, useCallback, useId, useMemo, useRef } from "react";
-import { isRTL } from "saeed/helper/checkRtl";
+import { isRTL } from "../../helper/checkRtl";
 import styles from "./inputBox.module.css";
 const persianNumbers = "۰۱۲۳۴۵۶۷۸۹";
 const arabicNumbers = "٠١٢٣٤٥٦٧٨٩";

@@ -1,8 +1,8 @@
 import { ChangeEvent, useCallback, useEffect, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "saeed/components/design/dragDrop/dragDrop";
-import TextArea from "saeed/components/design/textArea/textArea";
-import { LanguageKey } from "saeed/i18n";
+import DragDrop from "../../../design/dragDrop/dragDrop";
+import TextArea from "../../../design/textArea/textArea";
+import { LanguageKey } from "../../../../i18n";
 import styles from "./customFont.module.css";
 interface FontMap {
   [key: string]: {

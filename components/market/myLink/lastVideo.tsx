@@ -1,8 +1,8 @@
 import { memo, useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import ReactDOM from "react-dom";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
-import { ILastVideo } from "saeed/models/market/myLink";
+import { LanguageKey } from "../../../i18n";
+import { ILastVideo } from "../../../models/market/myLink";
 import styles from "./lastVideo.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 interface StreamState {

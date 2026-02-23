@@ -1,4 +1,4 @@
-import { IThread } from "saeed/models/messages/IMessage";
+import { IThread } from "../../messages/IMessage";
 import { IAutomaticReply } from "../post/posts";
 import { MediaType } from "../post/preposts";
 import { SuperFigure } from "../statistics/statisticsContent/GraphIngageBoxes/graphLikes";

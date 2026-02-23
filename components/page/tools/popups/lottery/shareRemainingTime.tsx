@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
-import { IShareremainingTime } from "saeed/models/page/tools/tools";
+import { LanguageKey } from "../../../../../i18n";
+import { IShareremainingTime } from "../../../../../models/page/tools/tools";
 import styles from "./shareRemainingTime.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 function convertUnixtimeToDHM(unixTime: number) {

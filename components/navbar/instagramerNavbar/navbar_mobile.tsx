@@ -1,8 +1,8 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { InstagramerRoute } from "saeed/components/sidebar/sidebar";
-import { LanguageKey } from "saeed/i18n";
+import { InstagramerRoute } from "../../sidebar/sidebar";
+import { LanguageKey } from "../../../i18n";
 import styles from "./navbarheader.module.css";
 
 const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: boolean }) => {

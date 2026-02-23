@@ -3,28 +3,28 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import MultiChart from "saeed/components/design/chart/Chart_month";
+import MultiChart from "../../components/design/chart/Chart_month";
 import RadarChart, {
   IPlatformData,
-} from "saeed/components/design/chart/radarChart";
+} from "../../components/design/chart/radarChart";
 import {
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { InsightPeriod } from "saeed/models/market/enums";
+} from "../../components/notifications/notificationBox";
+import Loading from "../../components/notOk/loading";
+import { LoginStatus, packageStatus } from "../../helper/loadingStatus";
+import { LanguageKey } from "../../i18n";
+import { MethodType } from "../../helper/api";
+import { InsightPeriod } from "../../models/market/enums";
 import {
   ILinkInsight,
   ITotalInsight,
   ITotalInsightFigures,
   IVideoInsight,
-} from "saeed/models/market/statistics";
+} from "../../models/market/statistics";
 import styles from "./statistics.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../helper/clientFetchApi";
 const Statistics = () => {
   //  return <Soon />;
   const { t } = useTranslation();

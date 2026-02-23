@@ -3,26 +3,26 @@ import Head from "next/head";
 import router from "next/router";
 import React, { ChangeEvent, useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "saeed/components/design/dragDrop/dragDrop";
-import InputText from "saeed/components/design/inputText";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import RadioButton from "saeed/components/design/radioButton";
-import TextArea from "saeed/components/design/textArea/textArea";
-import Loading from "saeed/components/notOk/loading";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import { LanguageKey } from "saeed/i18n";
-import { IDetailPrompt, IPrompts } from "saeed/models/AI/prompt";
-import { MethodType } from "saeed/helper/api";
-import { PayloadType, SpecialPayLoad } from "saeed/models/messages/enum";
+import DragDrop from "../../design/dragDrop/dragDrop";
+import InputText from "../../design/inputText";
+import RingLoader from "../../design/loader/ringLoder";
+import RadioButton from "../../design/radioButton";
+import TextArea from "../../design/textArea/textArea";
+import Loading from "../../notOk/loading";
+import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
+import { LanguageKey } from "../../../i18n";
+import { IDetailPrompt, IPrompts } from "../../../models/AI/prompt";
+import { MethodType } from "../../../helper/api";
+import { PayloadType, SpecialPayLoad } from "../../../models/messages/enum";
 import {
   IMasterFlow,
   IProfileButtons,
   ISpecialPayload,
   ITotalMasterFlow,
   IUpdateProfileButton,
-} from "saeed/models/messages/properies";
+} from "../../../models/messages/properies";
 import styles from "./specialPayLoad.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 // Reducer for checkbox state
 type CheckBoxState = {
   custom: boolean;

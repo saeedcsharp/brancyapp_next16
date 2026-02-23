@@ -1,25 +1,25 @@
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "saeed/components/design/dragDrop/dragDrop";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import Slider, { SliderSlide } from "saeed/components/design/slider/slider";
-import Tooltip from "saeed/components/design/tooltip/tooltip";
+import DragDrop from "../../../design/dragDrop/dragDrop";
+import RingLoader from "../../../design/loader/ringLoder";
+import Slider, { SliderSlide } from "../../../design/slider/slider";
+import Tooltip from "../../../design/tooltip/tooltip";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
-import { calculateSummary } from "saeed/helper/numberFormater";
-import { LanguageKey } from "saeed/i18n";
-import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/api";
-import { IShortHashtag, ITrendHashtag } from "saeed/models/page/tools/tools";
+} from "../../../notifications/notificationBox";
+import { LoginStatus, RoleAccess } from "../../../../helper/loadingStatus";
+import { calculateSummary } from "../../../../helper/numberFormater";
+import { LanguageKey } from "../../../../i18n";
+import { PartnerRole } from "../../../../models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType } from "../../../../helper/api";
+import { IShortHashtag, ITrendHashtag } from "../../../../models/page/tools/tools";
 import styles from "./trendHashtags.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../helper/clientFetchApi";
 
 // Using constants outside the component to avoid recreations
 const INITIAL_LANGUAGE_ITEM = 0;

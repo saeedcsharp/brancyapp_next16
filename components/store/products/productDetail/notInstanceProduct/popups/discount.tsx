@@ -3,15 +3,15 @@ import gregorian from "react-date-object/calendars/gregorian";
 import english from "react-date-object/locales/gregorian_en";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import SetTimeAndDate from "saeed/components/dateAndTime/setTimeAndDate";
-import IncrementStepper from "saeed/components/design/incrementStepper"; // Import IncrementStepper
-import InputText from "saeed/components/design/inputText";
-import Modal from "saeed/components/design/modal";
-import RadioButton from "saeed/components/design/radioButton";
-import { internalNotify, InternalResponseType, NotifType } from "saeed/components/notifications/notificationBox";
-import initialzedTime from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
-import { IDiscount_ForClient } from "saeed/models/store/IProduct";
+import SetTimeAndDate from "../../../../../dateAndTime/setTimeAndDate";
+import IncrementStepper from "../../../../../design/incrementStepper"; // Import IncrementStepper
+import InputText from "../../../../../design/inputText";
+import Modal from "../../../../../design/modal";
+import RadioButton from "../../../../../design/radioButton";
+import { internalNotify, InternalResponseType, NotifType } from "../../../../../notifications/notificationBox";
+import initialzedTime from "../../../../../../helper/manageTimer";
+import { LanguageKey } from "../../../../../../i18n";
+import { IDiscount_ForClient } from "../../../../../../models/store/IProduct";
 import styles from "./discount.module.css";
 
 const Discount = (props: {

@@ -1,16 +1,16 @@
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "saeed/components/design/inputText";
-import RadioButton from "saeed/components/design/radioButton";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import { LanguageKey } from "saeed/i18n";
-import { InitialSetupState } from "saeed/models/homeIndex/home";
-import { MethodType } from "saeed/helper/api";
-import { ICalendar, ILangauge } from "saeed/models/setting/general";
+import InputText from "../../design/inputText";
+import RadioButton from "../../design/radioButton";
+import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
+import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
+import { LanguageKey } from "../../../i18n";
+import { InitialSetupState } from "../../../models/homeIndex/home";
+import { MethodType } from "../../../helper/api";
+import { ICalendar, ILangauge } from "../../../models/setting/general";
 import styles from "./general.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 
 function System() {
   const { i18n, t } = useTranslation();

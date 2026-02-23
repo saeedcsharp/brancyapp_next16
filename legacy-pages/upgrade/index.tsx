@@ -15,27 +15,27 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 
-import { RoleAccess } from "saeed/helper/loadingStatus";
-import { convertMillisecondsToDays, convertToMilliseconds } from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
+import { RoleAccess } from "../../helper/loadingStatus";
+import { convertMillisecondsToDays, convertToMilliseconds } from "../../helper/manageTimer";
+import { LanguageKey } from "../../i18n";
+import { MethodType } from "../../helper/api";
 import {
   generateMockFeaturesList,
   generateMockUserPackageInfo,
   getMockCurrentUserPlan,
   PlanTier,
   UserPackageInfo,
-} from "saeed/models/mockData";
-import { FeatureType, IBasePackagePrice, IFeatureInfo, IReserveFeaturePrices } from "saeed/models/psg/psg";
+} from "../../models/mockData";
+import { FeatureType, IBasePackagePrice, IFeatureInfo, IReserveFeaturePrices } from "../../models/psg/psg";
 
-import ProgressBar from "saeed/components/design/progressBar/progressBar";
-import Tooltip from "saeed/components/design/tooltip/tooltip";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import PriceFormater, { PriceFormaterClassName } from "saeed/components/priceFormater";
+import ProgressBar from "../../components/design/progressBar/progressBar";
+import Tooltip from "../../components/design/tooltip/tooltip";
+import { NotifType, notify, ResponseType } from "../../components/notifications/notificationBox";
+import Loading from "../../components/notOk/loading";
+import PriceFormater, { PriceFormaterClassName } from "../../components/priceFormater";
 
 import styles from "./upgrade.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 type UpgradeState = {
   packageExtensions: IBasePackagePrice[];

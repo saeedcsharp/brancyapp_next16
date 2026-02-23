@@ -2,13 +2,13 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useCallback, useEffect, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { ILinkInsight } from "saeed/models/market/statistics";
+import { NotifType, notify, ResponseType } from "../../../notifications/notificationBox";
+import Loading from "../../../notOk/loading";
+import { LanguageKey } from "../../../../i18n";
+import { MethodType } from "../../../../helper/api";
+import { ILinkInsight } from "../../../../models/market/statistics";
 import MultiChart from "../../../design/chart/Chart_month";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../helper/clientFetchApi";
 
 type State = {
   insightGraph: ILinkInsight;

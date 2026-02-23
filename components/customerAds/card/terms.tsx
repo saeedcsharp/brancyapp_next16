@@ -1,4 +1,4 @@
-import styles from "saeed/components/customerAds/customerAds.module.css";
+import styles from "../customerAds.module.css";
 function Terms(props: { terms: string[] }) {
   return (
     <>

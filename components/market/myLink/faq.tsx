@@ -1,7 +1,7 @@
 import React, { memo, useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
-import { IFaq } from "saeed/models/market/myLink";
+import { LanguageKey } from "../../../i18n";
+import { IFaq } from "../../../models/market/myLink";
 import styles from "./faq.module.css";
 
 // Types

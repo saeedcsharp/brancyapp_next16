@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import { IItem, IOwnerInbox, ITicket, ITicketMediaType } from "saeed/models/userPanel/message";
+import { IItem, IOwnerInbox, ITicket, ITicketMediaType } from "../../../../models/userPanel/message";
 import styles from "../ticketChatBox.module.css";
 import { SystemChatImage } from "./shared/messageTypes/SystemChatImage";
 import { SystemChatText } from "./shared/messageTypes/SystemChatText";

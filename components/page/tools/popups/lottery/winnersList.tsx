@@ -9,14 +9,14 @@ import {
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import initialzedTime, { convertToMilliseconds } from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { IFullLottery } from "saeed/models/page/tools/tools";
+} from "../../../../notifications/notificationBox";
+import Loading from "../../../../notOk/loading";
+import initialzedTime, { convertToMilliseconds } from "../../../../../helper/manageTimer";
+import { LanguageKey } from "../../../../../i18n";
+import { MethodType } from "../../../../../helper/api";
+import { IFullLottery } from "../../../../../models/page/tools/tools";
 import styles from "./winnersList.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../../helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const WinnersList = (props: { removeMask: () => void; lotteryId: string; handleBackToLotteryHistory: () => void }) => {
   const { data: session } = useSession({

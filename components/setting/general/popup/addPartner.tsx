@@ -3,21 +3,21 @@ import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import PhoneInput from "react-phone-input-2";
-import SetTimeAndDate from "saeed/components/dateAndTime/setTimeAndDate";
-import InputText from "saeed/components/design/inputText";
-import RadioButton from "saeed/components/design/radioButton";
-import FlexibleToggleButton from "saeed/components/design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "saeed/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import { getCountryCodeFromTimezone } from "saeed/helper/detectLocaleFromTimezone";
-import initialzedTime from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
+import SetTimeAndDate from "../../../dateAndTime/setTimeAndDate";
+import InputText from "../../../design/inputText";
+import RadioButton from "../../../design/radioButton";
+import FlexibleToggleButton from "../../../design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "../../../design/toggleButton/types";
+import ToggleCheckBoxButton from "../../../design/toggleCheckBoxButton";
+import { getCountryCodeFromTimezone } from "../../../../helper/detectLocaleFromTimezone";
+import initialzedTime from "../../../../helper/manageTimer";
+import { LanguageKey } from "../../../../i18n";
 import {
   ICreatePartner,
   IPartner,
   IUpdatePartner,
   PartnerRole,
-} from "saeed/models/_AccountInfo/InstagramerAccountInfo";
+} from "../../../../models/_AccountInfo/InstagramerAccountInfo";
 import styles from "./addPartner.module.css";
 const AddPartner = React.memo(
   ({

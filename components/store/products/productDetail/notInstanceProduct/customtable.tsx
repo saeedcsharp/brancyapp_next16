@@ -1,8 +1,8 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "saeed/components/design/checkBoxButton";
-import InputText from "saeed/components/design/inputText";
-import { LanguageKey } from "saeed/i18n";
+import CheckBoxButton from "../../../../design/checkBoxButton";
+import InputText from "../../../../design/inputText";
+import { LanguageKey } from "../../../../../i18n";
 import styles from "./customtable.module.css";
 interface TableCell {
   value: string;

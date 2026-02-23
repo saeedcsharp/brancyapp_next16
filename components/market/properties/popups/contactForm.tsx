@@ -3,20 +3,20 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "saeed/components/design/inputText";
-import TextArea from "saeed/components/design/textArea/textArea";
-import FlexibleToggleButton from "saeed/components/design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "saeed/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { ICantactMap, IUpdateContactMap } from "saeed/models/market/properties";
+import InputText from "../../../design/inputText";
+import TextArea from "../../../design/textArea/textArea";
+import FlexibleToggleButton from "../../../design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "../../../design/toggleButton/types";
+import ToggleCheckBoxButton from "../../../design/toggleCheckBoxButton";
+import { NotifType, notify, ResponseType } from "../../../notifications/notificationBox";
+import Loading from "../../../notOk/loading";
+import { LanguageKey } from "../../../../i18n";
+import { MethodType } from "../../../../helper/api";
+import { ICantactMap, IUpdateContactMap } from "../../../../models/market/properties";
 import styles from "./featureBoxPU.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../helper/clientFetchApi";
 
-const OpenStreetMap = dynamic(() => import("saeed/components/mainLeaftlet"), {
+const OpenStreetMap = dynamic(() => import("../../../mainLeaftlet"), {
   ssr: false,
 });
 const ContactForm = (props: { removeMask: () => void }) => {

@@ -1,4 +1,4 @@
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../i18n";
 
 export type MessageMap = {
   CONSOLE_ERRORS: {

@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import { MouseEvent, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../../i18n";
 import styles from "./profile.module.css";
 
 const Profile = (props: {

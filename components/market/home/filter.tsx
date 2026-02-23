@@ -1,12 +1,12 @@
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "saeed/components/design/checkBoxButton";
-import InputText from "saeed/components/design/inputText";
-import RadioButton from "saeed/components/design/radioButton";
-import FollowerSlider from "saeed/components/design/sliders/followerSlider";
-import PriceSlider from "saeed/components/design/sliders/priceSlider";
-import RatingSlider from "saeed/components/design/sliders/ratingSlider";
-import { LanguageKey } from "saeed/i18n";
+import CheckBoxButton from "../../design/checkBoxButton";
+import InputText from "../../design/inputText";
+import RadioButton from "../../design/radioButton";
+import FollowerSlider from "../../design/sliders/followerSlider";
+import PriceSlider from "../../design/sliders/priceSlider";
+import RatingSlider from "../../design/sliders/ratingSlider";
+import { LanguageKey } from "../../../i18n";
 import {
   CategoryType,
   FilterNames,
@@ -15,7 +15,7 @@ import {
   SortBy,
   SortByNum,
   SortUp,
-} from "saeed/models/customerAds/customerAd";
+} from "../../../models/customerAds/customerAd";
 import styles from "./filter.module.css";
 
 function Filter(props: {

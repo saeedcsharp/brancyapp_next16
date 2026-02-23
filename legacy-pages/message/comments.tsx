@@ -3,12 +3,12 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import CommentInbox from "saeed/components/messages/comment/commentInbox";
+import CommentInbox from "../../components/messages/comment/commentInbox";
 import NotPermission, {
   PermissionType,
-} from "saeed/components/notOk/notPermission";
-import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
-import { LanguageKey } from "saeed/i18n";
+} from "../../components/notOk/notPermission";
+import { LoginStatus, packageStatus } from "../../helper/loadingStatus";
+import { LanguageKey } from "../../i18n";
 const Comments = () => {
   const { t } = useTranslation();
   const router = useRouter();

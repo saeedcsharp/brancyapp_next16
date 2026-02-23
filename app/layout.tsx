@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import "quill/dist/quill.snow.css";
-import "saeed/components/page/statistics/sliderToFourBox.css";
+import "../components/page/statistics/sliderToFourBox.css";
 import "./globals.scss";
 import Providers from "./providers";
 

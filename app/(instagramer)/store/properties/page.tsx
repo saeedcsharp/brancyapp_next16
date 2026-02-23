@@ -1,6 +1,6 @@
 "use client";
 
-import PageComponent from "saeed/legacy-pages/store/properties";
+import PageComponent from "../../../../legacy-pages/store/properties";
 
 export default function Page() {
   return <PageComponent />;

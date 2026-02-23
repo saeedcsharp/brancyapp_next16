@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import TextArea from "saeed/components/design/textArea/textArea";
-import { LanguageKey } from "saeed/i18n";
+import TextArea from "../../../design/textArea/textArea";
+import { LanguageKey } from "../../../../i18n";
 import styles from "./TextNode.module.css";
 import { BaseNodeProps, NodeData } from "./types";
 export const TextNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) => {

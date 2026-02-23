@@ -1,7 +1,7 @@
 import { ChangeEvent, KeyboardEvent, useCallback, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "saeed/components/design/inputText";
-import { LanguageKey } from "saeed/i18n";
+import InputText from "../../../../design/inputText";
+import { LanguageKey } from "../../../../../i18n";
 import styles from "./newHashtagList.module.css";
 interface HashtagState {
   hashtagSourceImg: string;

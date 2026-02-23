@@ -6,11 +6,11 @@ import {
   InternalResponseType,
   NotifType,
   notify,
-} from "saeed/components/notifications/notificationBox";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { IUnFollowAllFollowing_UpdateCondotion } from "saeed/models/page/tools/tools";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+} from "../../../../notifications/notificationBox";
+import { LanguageKey } from "../../../../../i18n";
+import { MethodType } from "../../../../../helper/api";
+import { IUnFollowAllFollowing_UpdateCondotion } from "../../../../../models/page/tools/tools";
+import { clientFetchApi } from "../../../../../helper/clientFetchApi";
 const RemoveFollowing = (props: {
   condition: IUnFollowAllFollowing_UpdateCondotion;
   handleBackToUnfollowFollowing: () => void;

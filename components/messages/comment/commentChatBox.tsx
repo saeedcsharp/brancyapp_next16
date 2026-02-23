@@ -5,32 +5,32 @@ import router from "next/router";
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import InputEmoji from "react-input-emoji";
 import { DateObject } from "react-multi-date-picker";
-import { AIButton } from "saeed/components/design/ai/AIButton";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import Tooltip from "saeed/components/design/tooltip/tooltip";
+import { AIButton } from "../../design/ai/AIButton";
+import RingLoader from "../../design/loader/ringLoder";
+import Tooltip from "../../design/tooltip/tooltip";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import { isRTL } from "saeed/helper/checkRtl";
-import initialzedTime from "saeed/helper/manageTimer";
-import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { ActionType, MediaProductType } from "saeed/models/messages/enum";
-import { IComment, IMedia, IOwnerInbox } from "saeed/models/messages/IMessage";
-import { IMediaUpdateAutoReply } from "saeed/models/page/post/posts";
+} from "../../notifications/notificationBox";
+import Loading from "../../notOk/loading";
+import { isRTL } from "../../../helper/checkRtl";
+import initialzedTime from "../../../helper/manageTimer";
+import { useInfiniteScroll } from "../../../helper/useInfiniteScroll";
+import { LanguageKey } from "../../../i18n";
+import { MethodType } from "../../../helper/api";
+import { ActionType, MediaProductType } from "../../../models/messages/enum";
+import { IComment, IMedia, IOwnerInbox } from "../../../models/messages/IMessage";
+import { IMediaUpdateAutoReply } from "../../../models/page/post/posts";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Dotmenu from "../../design/dotMenu/dotMenu";
 import styles from "./commentChatBox.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 const CommentChatBox = (props: {
   userSelectId: string | null;
   hub: HubConnection | null;

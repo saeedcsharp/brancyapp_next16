@@ -3,18 +3,18 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import AdsOption from "saeed/components/advertise/properties/adsOption";
-import AdvertisingTerms from "saeed/components/advertise/properties/advertisingTerms";
-import BusinessHours from "saeed/components/advertise/properties/businessHours";
-import Notifications from "saeed/components/advertise/properties/notifications";
-import EditBusinessHours from "saeed/components/advertise/properties/popups/editBusinessHours";
-import EditTariff from "saeed/components/advertise/properties/popups/editTariff";
-import Tariff from "saeed/components/advertise/properties/tariff";
-import UserReport from "saeed/components/advertise/properties/userReport";
-import Modal from "saeed/components/design/modal";
-import NotAdvertiser from "saeed/components/notOk/notAdvertiser";
-import { changePositionToFixed, changePositionToRelative } from "saeed/helper/changeMarketAdsStyle";
-import { LanguageKey } from "saeed/i18n";
+import AdsOption from "../../components/advertise/properties/adsOption";
+import AdvertisingTerms from "../../components/advertise/properties/advertisingTerms";
+import BusinessHours from "../../components/advertise/properties/businessHours";
+import Notifications from "../../components/advertise/properties/notifications";
+import EditBusinessHours from "../../components/advertise/properties/popups/editBusinessHours";
+import EditTariff from "../../components/advertise/properties/popups/editTariff";
+import Tariff from "../../components/advertise/properties/tariff";
+import UserReport from "../../components/advertise/properties/userReport";
+import Modal from "../../components/design/modal";
+import NotAdvertiser from "../../components/notOk/notAdvertiser";
+import { changePositionToFixed, changePositionToRelative } from "../../helper/changeMarketAdsStyle";
+import { LanguageKey } from "../../i18n";
 import {
   BusinessDay,
   IAdsOption,
@@ -22,7 +22,7 @@ import {
   IBusinessHour,
   INotifications,
   ITariff,
-} from "saeed/models/advertise/peoperties";
+} from "../../models/advertise/peoperties";
 const Properties = () => {
   //  return <Soon />;
   const router = useRouter();

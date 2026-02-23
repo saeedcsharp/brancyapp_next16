@@ -2,22 +2,22 @@ import Head from "next/head";
 import router, { useRouter } from "next/router"; // Add this import
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../../i18n";
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import PriceFormater, { PriceFormaterClassName } from "saeed/components/priceFormater";
-import { MethodType } from "saeed/helper/api";
-import { IUserInfo } from "saeed/models/userPanel/login";
-import { IShortShop } from "saeed/models/userPanel/orders";
-import { IFavoriteProduct } from "saeed/models/userPanel/shop";
+import { NotifType, notify, ResponseType } from "../../../components/notifications/notificationBox";
+import Loading from "../../../components/notOk/loading";
+import PriceFormater, { PriceFormaterClassName } from "../../../components/priceFormater";
+import { MethodType } from "../../../helper/api";
+import { IUserInfo } from "../../../models/userPanel/login";
+import { IShortShop } from "../../../models/userPanel/orders";
+import { IFavoriteProduct } from "../../../models/userPanel/shop";
 import "swiper/css";
 import "swiper/css/free-mode";
 import styles from "./index.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
 const orderSteps = [

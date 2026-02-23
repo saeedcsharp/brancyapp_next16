@@ -1,11 +1,11 @@
 import Head from "next/head";
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "saeed/components/design/checkBoxButton";
-import TextArea from "saeed/components/design/textArea/textArea";
-import { LanguageKey } from "saeed/i18n";
-import { DetailType, IRejectTerms } from "saeed/models/advertise/adList";
-import { IAdvertisingTerms } from "saeed/models/advertise/peoperties";
+import CheckBoxButton from "../../../design/checkBoxButton";
+import TextArea from "../../../design/textArea/textArea";
+import { LanguageKey } from "../../../../i18n";
+import { DetailType, IRejectTerms } from "../../../../models/advertise/adList";
+import { IAdvertisingTerms } from "../../../../models/advertise/peoperties";
 import styles from "./adDetails.module.css";
 const AdReject = (props: {
   data: IAdvertisingTerms;

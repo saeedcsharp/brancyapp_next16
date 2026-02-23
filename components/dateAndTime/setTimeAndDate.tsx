@@ -9,7 +9,7 @@ import persian_fa from "react-date-object/locales/persian_fa";
 import { useTranslation } from "react-i18next";
 import { Calendar, DateObject, Value } from "react-multi-date-picker";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../i18n";
 import styles from "./setTimeAndDate.module.css";
 
 var dayes: number[] = [];

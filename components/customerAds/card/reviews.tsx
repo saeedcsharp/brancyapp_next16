@@ -1,5 +1,5 @@
-import FiveStar from "saeed/components/fiveStar";
-import { IReview } from "saeed/models/market/myLink";
+import FiveStar from "../../fiveStar";
+import { IReview } from "../../../models/market/myLink";
 import styles from "./reviews.module.css";
 function Reviews({ reviews }: { reviews: IReview[] }) {
   const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;

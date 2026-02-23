@@ -1,8 +1,8 @@
 import React, { useEffect, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "saeed/components/design/checkBoxButton";
-import PriceFormater, { PriceFormaterClassName, PriceType } from "saeed/components/priceFormater";
-import { LanguageKey } from "saeed/i18n";
+import CheckBoxButton from "../../design/checkBoxButton";
+import PriceFormater, { PriceFormaterClassName, PriceType } from "../../priceFormater";
+import { LanguageKey } from "../../../i18n";
 import styles from "./7-InCart.module.css";
 
 const MemoizedCheckBoxButton = React.memo(CheckBoxButton);

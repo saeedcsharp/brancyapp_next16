@@ -3,16 +3,16 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import AdReport from "saeed/components/advertise/adList/popups/adreport";
-import TotalAdsReport from "saeed/components/advertise/statistics/totalAdsReport";
-import TotalAds from "saeed/components/advertise/statistics/totalAdsStatistics";
-import TwoMonth from "saeed/components/advertise/statistics/twoMonth";
-import { StatusType } from "saeed/components/confirmationStatus/confirmationStatus";
-import Modal from "saeed/components/design/modal";
-import NotAdvertiser from "saeed/components/notOk/notAdvertiser";
-import { LanguageKey } from "saeed/i18n";
-import { AdsType } from "saeed/models/advertise/AdEnums";
-import { IAdMonth, IAdShortMonth, IStatisticsInfo, ITotalAdsReport } from "saeed/models/advertise/statistics";
+import AdReport from "../../components/advertise/adList/popups/adreport";
+import TotalAdsReport from "../../components/advertise/statistics/totalAdsReport";
+import TotalAds from "../../components/advertise/statistics/totalAdsStatistics";
+import TwoMonth from "../../components/advertise/statistics/twoMonth";
+import { StatusType } from "../../components/confirmationStatus/confirmationStatus";
+import Modal from "../../components/design/modal";
+import NotAdvertiser from "../../components/notOk/notAdvertiser";
+import { LanguageKey } from "../../i18n";
+import { AdsType } from "../../models/advertise/AdEnums";
+import { IAdMonth, IAdShortMonth, IStatisticsInfo, ITotalAdsReport } from "../../models/advertise/statistics";
 import styles from "./statistics.module.css";
 
 const Statistics = () => {

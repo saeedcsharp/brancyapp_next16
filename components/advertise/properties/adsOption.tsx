@@ -1,10 +1,10 @@
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import BlurInputText from "saeed/components/design/blurInputText";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import useHideDiv from "saeed/hook/useHide";
-import { LanguageKey } from "saeed/i18n";
-import { IAdsOption } from "saeed/models/advertise/peoperties";
+import BlurInputText from "../../design/blurInputText";
+import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
+import useHideDiv from "../../../hook/useHide";
+import { LanguageKey } from "../../../i18n";
+import { IAdsOption } from "../../../models/advertise/peoperties";
 import styles from "./propertiesComponent.module.css";
 const numbersRegex = /^[0-9]+$/;
 function AdsOption(props: { adsOption: IAdsOption }) {

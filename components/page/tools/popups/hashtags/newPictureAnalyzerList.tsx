@@ -2,12 +2,12 @@ import { useSession } from "next-auth/react";
 import router from "next/router";
 import { ChangeEvent, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import ProgressBar from "saeed/components/design/progressBar/progressBar";
-import { convertHeicToJpeg } from "saeed/helper/convertHeicToJPEG";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
+import ProgressBar from "../../../../design/progressBar/progressBar";
+import { convertHeicToJpeg } from "../../../../../helper/convertHeicToJPEG";
+import { LanguageKey } from "../../../../../i18n";
+import { MethodType } from "../../../../../helper/api";
 import styles from "./newPictureAnalyzerList.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../../helper/clientFetchApi";
 
 interface IHashtagPicture {
   media: string;

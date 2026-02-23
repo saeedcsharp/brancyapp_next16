@@ -1,12 +1,12 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { MethodType } from "saeed/helper/api";
+import { MethodType } from "../../helper/api";
 import { NotifType, notify, ResponseType } from "../notifications/notificationBox";
 import Loading from "../notOk/loading";
 import PriceFormater, { PriceFormaterClassName, PriceType } from "../priceFormater";
 import styles from "./upgrade.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../helper/clientFetchApi";
 export interface PaymentInfo {
   accountType: number;
   price: number;

@@ -1,6 +1,6 @@
 "use client";
 
-import PageComponent from "saeed/legacy-pages/advertise/statistics";
+import PageComponent from "../../../../legacy-pages/advertise/statistics";
 
 export default function Page() {
   return <PageComponent />;

@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
-import { IPartner } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
+import { LanguageKey } from "../../../../i18n";
+import { IPartner } from "../../../../models/_AccountInfo/InstagramerAccountInfo";
 const DeletePartner = (props: {
   partner: IPartner;
   removeMask: () => void;

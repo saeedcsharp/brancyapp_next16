@@ -2,10 +2,10 @@ import { FormEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { getCountryCodeFromTimezone } from "saeed/helper/detectLocaleFromTimezone";
-import { LanguageKey } from "saeed/i18n";
-import { SendCodeResult } from "saeed/models/ApiModels/User/SendCodeResult";
-import { MethodType } from "saeed/helper/api";
+import { getCountryCodeFromTimezone } from "../../helper/detectLocaleFromTimezone";
+import { LanguageKey } from "../../i18n";
+import { SendCodeResult } from "../../models/ApiModels/User/SendCodeResult";
+import { MethodType } from "../../helper/api";
 import RingLoader from "../design/loader/ringLoder";
 import {
   NotifType,
@@ -13,7 +13,7 @@ import {
   ResponseType,
 } from "../notifications/notificationBox";
 import styles from "./landingSignIn.module.css";
-import { clientFetchApiWithAccessToken } from "saeed/helper/clientFetchApi";
+import { clientFetchApiWithAccessToken } from "../../helper/clientFetchApi";
 
 const LandingSignIn = (prop: {
   handleShowVerification: (preUserToken: string) => void;

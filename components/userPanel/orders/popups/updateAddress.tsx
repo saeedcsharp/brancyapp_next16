@@ -2,11 +2,11 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "saeed/components/design/inputText";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import TextArea from "saeed/components/design/textArea/textArea";
-import { LanguageKey } from "saeed/i18n";
-import { IAddress } from "saeed/models/userPanel/orders";
+import InputText from "../../../design/inputText";
+import RingLoader from "../../../design/loader/ringLoder";
+import TextArea from "../../../design/textArea/textArea";
+import { LanguageKey } from "../../../../i18n";
+import { IAddress } from "../../../../models/userPanel/orders";
 import styles from "./addresses.module.css";
 export default function UpdateAddresses({
   address,

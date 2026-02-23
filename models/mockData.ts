@@ -1,5 +1,5 @@
-import { convertToMilliseconds } from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
+import { convertToMilliseconds } from "../helper/manageTimer";
+import { LanguageKey } from "../i18n";
 import { PriceType } from "../components/priceFormater";
 import { FeatureType, IFeatureInfo } from "./psg/psg";
 

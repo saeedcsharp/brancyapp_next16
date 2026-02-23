@@ -4,32 +4,32 @@ import router from "next/router";
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import InputText from "saeed/components/design/inputText";
-import DotLoaders from "saeed/components/design/loader/dotLoaders";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import Modal from "saeed/components/design/modal";
-import FlexibleToggleButton from "saeed/components/design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "saeed/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import Tooltip from "saeed/components/design/tooltip/tooltip";
+import InputText from "../../design/inputText";
+import DotLoaders from "../../design/loader/dotLoaders";
+import RingLoader from "../../design/loader/ringLoder";
+import Modal from "../../design/modal";
+import FlexibleToggleButton from "../../design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "../../design/toggleButton/types";
+import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
+import Tooltip from "../../design/tooltip/tooltip";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import NotAllowed from "saeed/components/notOk/notAllowed";
-import LotteryPopup, { LotteryPopupType } from "saeed/components/page/popup/lottery";
-import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
-import initialzedTime from "saeed/helper/manageTimer";
-import { handleDecompress } from "saeed/helper/pako";
-import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
-import { LanguageKey } from "saeed/i18n";
-import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/api";
-import { ActionType, CommentType, ItemType, MediaProductType } from "saeed/models/messages/enum";
+} from "../../notifications/notificationBox";
+import Loading from "../../notOk/loading";
+import NotAllowed from "../../notOk/notAllowed";
+import LotteryPopup, { LotteryPopupType } from "../../page/popup/lottery";
+import { LoginStatus, RoleAccess } from "../../../helper/loadingStatus";
+import initialzedTime from "../../../helper/manageTimer";
+import { handleDecompress } from "../../../helper/pako";
+import { useInfiniteScroll } from "../../../helper/useInfiniteScroll";
+import { LanguageKey } from "../../../i18n";
+import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType } from "../../../helper/api";
+import { ActionType, CommentType, ItemType, MediaProductType } from "../../../models/messages/enum";
 import {
   IComment,
   ICommetInbox,
@@ -43,14 +43,14 @@ import {
   IReplyCommentInfo,
   IReplyLiveCommentInfo,
   IReplyTicket,
-} from "saeed/models/messages/IMessage";
-import { IAutomaticReply, IMediaUpdateAutoReply } from "saeed/models/page/post/posts";
+} from "../../../models/messages/IMessage";
+import { IAutomaticReply, IMediaUpdateAutoReply } from "../../../models/page/post/posts";
 import CommentStatistics from "../popups/commentStatistics";
 import EditAutoReplyForMedia from "../popups/editAutoReplyForMedia";
 import CommentChatBox from "./commentChatBox";
 import chatBoxStyles from "./commentChatBox.module.css";
 import styles from "./commentInbox.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 let firstTime = 0;
 let touchMove = 0;
 let touchStart = 0;

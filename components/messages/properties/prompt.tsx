@@ -1,8 +1,8 @@
 import { ChangeEvent, useState } from "react";
-import CheckBoxButton from "saeed/components/design/checkBoxButton";
-import InputText from "saeed/components/design/inputText";
-import TextArea from "saeed/components/design/textArea/textArea";
-import { IPropmt } from "saeed/models/messages/properies";
+import CheckBoxButton from "../../design/checkBoxButton";
+import InputText from "../../design/inputText";
+import TextArea from "../../design/textArea/textArea";
+import { IPropmt } from "../../../models/messages/properies";
 import styles from "./properties.module.css";
 
 function Prompt(props: { data: IPropmt; propmptNumber: number }) {

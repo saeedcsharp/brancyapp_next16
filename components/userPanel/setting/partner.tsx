@@ -2,12 +2,12 @@ import { useSession } from "next-auth/react";
 import { useEffect, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import Loading from "saeed/components/notOk/loading";
-import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
-import initialzedTime from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
-import { ILoadingStatus } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { IPartner_User } from "saeed/models/userPanel/setting";
+import Loading from "../../notOk/loading";
+import { LoginStatus, RoleAccess } from "../../../helper/loadingStatus";
+import initialzedTime from "../../../helper/manageTimer";
+import { LanguageKey } from "../../../i18n";
+import { ILoadingStatus } from "../../../models/_AccountInfo/InstagramerAccountInfo";
+import { IPartner_User } from "../../../models/userPanel/setting";
 import styles from "./general.module.css";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 export default function UserPartners({

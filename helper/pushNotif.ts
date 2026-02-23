@@ -1,6 +1,6 @@
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
 import { Session } from "next-auth";
-import { PushNotif } from "saeed/models/push/pushNotif";
+import { PushNotif } from "../models/push/pushNotif";
 import { LoginStatus, packageStatus } from "./loadingStatus";
 var hubConnection: HubConnection | null = null;
 let sessionVar: Session | null = null;

@@ -1,6 +1,6 @@
 import React, { useCallback, useId, useMemo } from "react";
-import Dotmenu from "saeed/components/design/dotMenu/dotMenu";
-import MediaDetector from "saeed/components/messages/shared/utils/MediaDetector";
+import Dotmenu from "../../../../../design/dotMenu/dotMenu";
+import MediaDetector from "../../../../shared/utils/MediaDetector";
 import { BaseChatProps } from "../../types";
 import { ChatDate } from "../utils/ChatDate";
 import { MessageStatus } from "../utils/ChatDateandseen";

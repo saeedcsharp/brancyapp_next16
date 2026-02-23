@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import FiveStar from "saeed/components/fiveStar";
-import { LanguageKey } from "saeed/i18n";
+import FiveStar from "../../fiveStar";
+import { LanguageKey } from "../../../i18n";
 import styles from "./page10.module.css";
 const reviews = [
   {

@@ -4,18 +4,18 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Modal from "saeed/components/design/modal";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import AdminChatBox from "saeed/components/setting/general/popup/adminChatBox";
-import CreateTicket from "saeed/components/setting/general/popup/createTicket";
-import Profile from "saeed/components/setting/general/profile";
-import Support from "saeed/components/setting/general/Support";
-import System from "saeed/components/setting/general/system";
-import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType, UploadFile } from "saeed/helper/api";
-import { StatusReplied } from "saeed/models/messages/enum";
-import { PlatformTicketItemType } from "saeed/models/setting/enums";
+import Modal from "../../components/design/modal";
+import { NotifType, notify, ResponseType } from "../../components/notifications/notificationBox";
+import AdminChatBox from "../../components/setting/general/popup/adminChatBox";
+import CreateTicket from "../../components/setting/general/popup/createTicket";
+import Profile from "../../components/setting/general/profile";
+import Support from "../../components/setting/general/Support";
+import System from "../../components/setting/general/system";
+import { LoginStatus, packageStatus } from "../../helper/loadingStatus";
+import { LanguageKey } from "../../i18n";
+import { MethodType, UploadFile } from "../../helper/api";
+import { StatusReplied } from "../../models/messages/enum";
+import { PlatformTicketItemType } from "../../models/setting/enums";
 import {
   ICreateMedia,
   ICreatePlatform,
@@ -23,9 +23,9 @@ import {
   IPlatformItem,
   IPlatformTicket,
   ITicketInsights,
-} from "saeed/models/setting/general";
-import { ISendTicketMessage } from "saeed/models/userPanel/message";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+} from "../../models/setting/general";
+import { ISendTicketMessage } from "../../models/userPanel/message";
+import { clientFetchApi } from "../../helper/clientFetchApi";
 
 const General = () => {
   const { t } = useTranslation();

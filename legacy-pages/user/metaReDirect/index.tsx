@@ -7,11 +7,11 @@ import {
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import { IRefreshToken } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/api";
+} from "../../../components/notifications/notificationBox";
+import { IRefreshToken } from "../../../models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType } from "../../../helper/api";
 import styles from "./metaDirect.module.css";
-import { clientFetchApi, clientFetchApiWithAccessToken } from "saeed/helper/clientFetchApi";
+import { clientFetchApi, clientFetchApiWithAccessToken } from "../../../helper/clientFetchApi";
 
 export default function MetaRedirect() {
   const { data: session, update } = useSession();

@@ -1,13 +1,13 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import Loading from "saeed/components/notOk/loading";
-import PriceFormater, { PriceFormaterClassName, PriceType } from "saeed/components/priceFormater";
-import initialzedTime from "saeed/helper/manageTimer";
-import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
-import useHideDiv from "saeed/hook/useHide";
-import { LanguageKey } from "saeed/i18n";
+import RingLoader from "../../design/loader/ringLoder";
+import Loading from "../../notOk/loading";
+import PriceFormater, { PriceFormaterClassName, PriceType } from "../../priceFormater";
+import initialzedTime from "../../../helper/manageTimer";
+import { useInfiniteScroll } from "../../../helper/useInfiniteScroll";
+import useHideDiv from "../../../hook/useHide";
+import { LanguageKey } from "../../../i18n";
 import { ITotalSalesReport } from "../../../models/store/statistics";
 import styles from "./statistics.module.css";
 

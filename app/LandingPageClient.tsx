@@ -5,16 +5,16 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import SignIn, { RedirectType, SignInType } from "saeed/components/signIn/signIn";
-import Footer from "saeed/components/website/landing/footer";
-import LandingHeader from "saeed/components/website/landing/LandingHeader";
-import Page1 from "saeed/components/website/landing/page1";
-import Page2 from "saeed/components/website/landing/page2";
-import Page4 from "saeed/components/website/landing/page4";
-import Page5 from "saeed/components/website/landing/page5";
-import Page8 from "saeed/components/website/landing/page8";
-import Page9 from "saeed/components/website/landing/page9";
-import { applyDetectedLocale } from "saeed/helper/detectLocaleFromTimezone";
+import SignIn, { RedirectType, SignInType } from "../components/signIn/signIn";
+import Footer from "../components/website/landing/footer";
+import LandingHeader from "../components/website/landing/LandingHeader";
+import Page1 from "../components/website/landing/page1";
+import Page2 from "../components/website/landing/page2";
+import Page4 from "../components/website/landing/page4";
+import Page5 from "../components/website/landing/page5";
+import Page8 from "../components/website/landing/page8";
+import Page9 from "../components/website/landing/page9";
+import { applyDetectedLocale } from "../helper/detectLocaleFromTimezone";
 import styles from "../legacy-pages/index.module.css";
 
 type ThemeState = {

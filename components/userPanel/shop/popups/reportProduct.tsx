@@ -1,13 +1,13 @@
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../../../i18n";
 
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "saeed/components/design/inputText";
-import TextArea from "saeed/components/design/textArea/textArea";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import { MethodType } from "saeed/helper/api";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import InputText from "../../../design/inputText";
+import TextArea from "../../../design/textArea/textArea";
+import { NotifType, notify, ResponseType } from "../../../notifications/notificationBox";
+import { MethodType } from "../../../../helper/api";
+import { clientFetchApi } from "../../../../helper/clientFetchApi";
 export default function ReportProduct({
   removeMask,
   productId,

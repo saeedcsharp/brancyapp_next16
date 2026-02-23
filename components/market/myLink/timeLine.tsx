@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { ITimeline } from "saeed/models/market/myLink";
+import { ITimeline } from "../../../models/market/myLink";
 import styles from "./mylink.module.css";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;

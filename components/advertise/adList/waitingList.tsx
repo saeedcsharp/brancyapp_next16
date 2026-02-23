@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import MultipleColorCounterDown from "saeed/components/design/counterDown/multipleColorCounterDown";
-import initialzedTime from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
-import { IWatingAds } from "saeed/models/advertise/adList";
+import MultipleColorCounterDown from "../../design/counterDown/multipleColorCounterDown";
+import initialzedTime from "../../../helper/manageTimer";
+import { LanguageKey } from "../../../i18n";
+import { IWatingAds } from "../../../models/advertise/adList";
 import styles from "../../../legacy-pages/advertise/adlist.module.css";
 import AdsTypeComp from "../adsType";
 

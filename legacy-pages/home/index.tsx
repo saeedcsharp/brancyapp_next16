@@ -3,9 +3,9 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ResponseType } from "saeed/components/notifications/notificationBox";
-import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
-import { IError } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
+import { ResponseType } from "../../components/notifications/notificationBox";
+import { LoginStatus, packageStatus } from "../../helper/loadingStatus";
+import { IError } from "../../models/_AccountInfo/InstagramerAccountInfo";
 import {
   IDemographicInsight,
   IInstagramerHomeTiles,
@@ -15,10 +15,10 @@ import {
   ILastOrder,
   ILastTransaction,
   IPageSummary,
-} from "saeed/models/homeIndex/home";
-import { MethodType } from "saeed/helper/api";
-import { IPostContent } from "saeed/models/page/post/posts";
-import { IStoryContent } from "saeed/models/page/story/stories";
+} from "../../models/homeIndex/home";
+import { MethodType } from "../../helper/api";
+import { IPostContent } from "../../models/page/post/posts";
+import { IStoryContent } from "../../models/page/story/stories";
 import AccountSummary from "../../components/homeIndex/accountSummary";
 import IngageInfo from "../../components/homeIndex/ingageInfo";
 import InstagramerUpgrade from "../../components/homeIndex/instagramerupgrade";
@@ -28,7 +28,7 @@ import PageDetail from "../../components/homeIndex/pageDetail";
 import PostSummary from "../../components/homeIndex/postSummary";
 import TutorialWrapper from "../../components/tutorial/tutorialWrapper";
 import styles from "./homeIndex.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../helper/clientFetchApi";
 
 const initialState = {
   error: { message: null } as IError,

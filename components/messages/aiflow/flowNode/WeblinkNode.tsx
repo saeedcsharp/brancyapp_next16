@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "saeed/components/design/inputText";
-import { LanguageKey } from "saeed/i18n/languageKeys";
+import InputText from "../../../design/inputText";
+import { LanguageKey } from "../../../../i18n/languageKeys";
 import { BaseNodeProps, NodeData } from "./types";
 import styles from "./WeblinkNode.module.css";
 export const WeblinkNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) => {

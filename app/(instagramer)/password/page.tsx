@@ -1,6 +1,6 @@
 "use client";
 
-import PageComponent from "saeed/legacy-pages/password/index";
+import PageComponent from "../../../legacy-pages/password/index";
 
 export default function Page() {
   return <PageComponent />;

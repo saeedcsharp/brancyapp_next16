@@ -4,8 +4,8 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Soon from "saeed/components/notOk/soon";
-import { packageStatus } from "saeed/helper/loadingStatus";
+import Soon from "../../components/notOk/soon";
+import { packageStatus } from "../../helper/loadingStatus";
 import styles from "./statistics.module.css";
 
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });

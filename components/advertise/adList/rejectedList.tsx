@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import Slider, { SliderSlide } from "saeed/components/design/slider/slider";
-import initialzedTime from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
-import { RejectedType } from "saeed/models/advertise/AdEnums";
-import { IRejectedAds } from "saeed/models/advertise/adList";
+import Slider, { SliderSlide } from "../../design/slider/slider";
+import initialzedTime from "../../../helper/manageTimer";
+import { LanguageKey } from "../../../i18n";
+import { RejectedType } from "../../../models/advertise/AdEnums";
+import { IRejectedAds } from "../../../models/advertise/adList";
 import styles from "../../../legacy-pages/advertise/adlist.module.css";
 import AdsTypeComp from "../adsType";
 import TimeTypeComp from "../timeType";

@@ -2,8 +2,8 @@ import { t } from "i18next";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { MouseEvent, useRef } from "react";
-import { UserPanelRoute } from "saeed/components/sidebar/sidebar";
-import { LanguageKey } from "saeed/i18n";
+import { UserPanelRoute } from "../../sidebar/sidebar";
+import { LanguageKey } from "../../../i18n";
 import styles from "./usePanelNavbar.module.css";
 import UserPanelHeader from "./userPanelHeader";
 interface INavbar {

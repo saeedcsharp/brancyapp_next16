@@ -1,9 +1,9 @@
 import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import CountdownTimerForLink from "saeed/components/design/counterDown/counterDownForLink";
-import { LanguageKey } from "saeed/i18n";
-import { ILink, IServerLink } from "saeed/models/market/myLink";
+import CountdownTimerForLink from "../../design/counterDown/counterDownForLink";
+import { LanguageKey } from "../../../i18n";
+import { ILink, IServerLink } from "../../../models/market/myLink";
 import styles from "./link.module.css";
 interface LinkComponentProps {
   data: ILink | null;

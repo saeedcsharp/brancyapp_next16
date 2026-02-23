@@ -1,11 +1,11 @@
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
-import { NotifType, notify, notPackageNotify, ResponseType } from "saeed/components/notifications/notificationBox";
-import { InstagramerAccountInfo, IRefreshToken } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/api";
-import { PushNotif } from "saeed/models/push/pushNotif";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { NotifType, notify, notPackageNotify, ResponseType } from "../components/notifications/notificationBox";
+import { InstagramerAccountInfo, IRefreshToken } from "../models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType } from "../helper/api";
+import { PushNotif } from "../models/push/pushNotif";
+import { clientFetchApi } from "../helper/clientFetchApi";
 type SharedStateContextType = {
   value: PushNotif[];
   setValue: React.Dispatch<React.SetStateAction<PushNotif[]>>;

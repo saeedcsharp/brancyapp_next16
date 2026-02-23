@@ -11,11 +11,11 @@ import React, {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import Dotmenu from "saeed/components/design/dotMenu/dotMenu";
-import Loading from "saeed/components/notOk/loading";
-import { LoginStatus } from "saeed/helper/loadingStatus";
-import { LanguageKey } from "saeed/i18n";
-import { DayCountUnix, IMonthGraph } from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+import Dotmenu from "../dotMenu/dotMenu";
+import Loading from "../../notOk/loading";
+import { LoginStatus } from "../../../helper/loadingStatus";
+import { LanguageKey } from "../../../i18n";
+import { DayCountUnix, IMonthGraph } from "../../../models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import multiStyles from "./Chart_day.module.css";
 interface ISeriesData {
   name: string;

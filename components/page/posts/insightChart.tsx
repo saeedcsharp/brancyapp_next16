@@ -1,7 +1,7 @@
 import { useRef, useState } from "react";
-import { ToggleOrder } from "saeed/components/design/toggleButton/types";
-import { LineChart } from "saeed/components/graphs/lineChart";
-import { SuperFigure, chartxType } from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+import { ToggleOrder } from "../../design/toggleButton/types";
+import { LineChart } from "../../graphs/lineChart";
+import { SuperFigure, chartxType } from "../../../models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";

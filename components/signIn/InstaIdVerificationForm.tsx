@@ -1,12 +1,12 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from "react";
-import { IRefreshToken } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "saeed/helper/api";
+import { IRefreshToken } from "../../models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType } from "../../helper/api";
 import RingLoader from "../design/loader/ringLoder";
 import { internalNotify, InternalResponseType, NotifType, notify } from "../notifications/notificationBox";
 import styles from "./verificationForm.module.css";
-import { clientFetchApi, clientFetchApiWithAccessToken } from "saeed/helper/clientFetchApi";
+import { clientFetchApi, clientFetchApiWithAccessToken } from "../../helper/clientFetchApi";
 
 export default function InstaIdVerificationForm(props: {
   preInstaToken: string;

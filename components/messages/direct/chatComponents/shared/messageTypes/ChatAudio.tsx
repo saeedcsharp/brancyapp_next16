@@ -1,5 +1,5 @@
 import React, { useMemo } from "react";
-import Dotmenu from "saeed/components/design/dotMenu/dotMenu";
+import Dotmenu from "../../../../../design/dotMenu/dotMenu";
 import { BaseChatProps } from "../../types";
 import { ChatDate } from "../utils/ChatDate";
 import { MessageStatus } from "../utils/ChatDateandseen";

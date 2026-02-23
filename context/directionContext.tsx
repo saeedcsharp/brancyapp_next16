@@ -1,8 +1,8 @@
 import { useSession } from "next-auth/react";
 import React, { createContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { LoginStatus, packageStatus } from "saeed/helper/loadingStatus";
-import startSignalR from "saeed/helper/pushNotif";
+import { LoginStatus, packageStatus } from "../helper/loadingStatus";
+import startSignalR from "../helper/pushNotif";
 
 type Direction = "ltr" | "rtl";
 

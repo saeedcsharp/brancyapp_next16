@@ -3,26 +3,26 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Modal from "saeed/components/design/modal";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import NotBasePackage from "saeed/components/notOk/notBasePackage";
-import NotShopper from "saeed/components/notOk/notShopper";
-import InstanceProductDetail from "saeed/components/store/products/productDetail/instanceProduct/instanceProductDetail";
-import NotInstanceProductDetail from "saeed/components/store/products/productDetail/notInstanceProduct/notInstanceProductDetal";
-import DeleteProduct from "saeed/components/store/products/productDetail/notInstanceProduct/popups/deleteProduct";
-import { packageStatus } from "saeed/helper/loadingStatus";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { IDetailsPost } from "saeed/models/page/post/posts";
+import Modal from "../../../components/design/modal";
+import { NotifType, notify, ResponseType } from "../../../components/notifications/notificationBox";
+import Loading from "../../../components/notOk/loading";
+import NotBasePackage from "../../../components/notOk/notBasePackage";
+import NotShopper from "../../../components/notOk/notShopper";
+import InstanceProductDetail from "../../../components/store/products/productDetail/instanceProduct/instanceProductDetail";
+import NotInstanceProductDetail from "../../../components/store/products/productDetail/notInstanceProduct/notInstanceProductDetal";
+import DeleteProduct from "../../../components/store/products/productDetail/notInstanceProduct/popups/deleteProduct";
+import { packageStatus } from "../../../helper/loadingStatus";
+import { LanguageKey } from "../../../i18n";
+import { MethodType } from "../../../helper/api";
+import { IDetailsPost } from "../../../models/page/post/posts";
 import {
   IMaxSize,
   IProduct_FullProduct,
   IProduct_ShortProduct,
   ITempIdAndNonProductCount,
-} from "saeed/models/store/IProduct";
+} from "../../../models/store/IProduct";
 import styles from "./productDetail.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 const ProductDetail = () => {
   //  return <Soon />;
   const router = useRouter();

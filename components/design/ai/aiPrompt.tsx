@@ -1,7 +1,7 @@
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import TextArea from "saeed/components/design/textArea/textArea";
-import { LanguageKey } from "saeed/i18n";
+import TextArea from "../textArea/textArea";
+import { LanguageKey } from "../../../i18n";
 import styles from "./aiPrompt.module.css";
 
 export default function AiPrompt({

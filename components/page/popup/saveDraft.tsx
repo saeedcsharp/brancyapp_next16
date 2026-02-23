@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
+import { LanguageKey } from "../../../i18n";
 function SaveDraft(props: { removeMask: () => void; saveDraft: () => void; cancelDraft: () => void }) {
   const saveAsDraft = () => {
     props.saveDraft();

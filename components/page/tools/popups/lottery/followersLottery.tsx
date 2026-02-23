@@ -1,5 +1,5 @@
 // import { useEffect, useState } from "react";
-// import RadioButton from "saeed/components/design/radioButton";
+// import RadioButton from "../../../../design/radioButton";
 // import { useSession } from "next-auth/react";
 // import { useTranslation } from "react-i18next";
 // import {
@@ -7,16 +7,16 @@
 //   InternalResponseType,
 //   NotifType,
 //   ResponseType,
-// } from "saeed/components/notifications/notificationBox";
-// import Loading from "saeed/components/notOk/loading";
-// import NotBasePackage from "saeed/components/notOk/notBasePackage";
-// import NotFeature from "saeed/components/notOk/notFeature";
-// import NotPassword from "saeed/components/notOk/notPassword";
-// import { LanguageKey } from "saeed/i18n";
-// import { ILoadingStatus } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-// import { LoginStatus } from "saeed/models/_AccountInfo/LoginStatus";
-// import { GetServerResult, MethodType } from "saeed/helper/api";
-// import { FollowerLotteryType, IFollowerLottery } from "saeed/models/page/tools/tools";
+// } from "../../../../notifications/notificationBox";
+// import Loading from "../../../../notOk/loading";
+// import NotBasePackage from "../../../../notOk/notBasePackage";
+// import NotFeature from "../../../../notOk/notFeature";
+// import NotPassword from "../../../../notOk/notPassword";
+// import { LanguageKey } from "../../../../../i18n";
+// import { ILoadingStatus } from "../../../../../models/_AccountInfo/InstagramerAccountInfo";
+// import { LoginStatus } from "../../../../../models/_AccountInfo/LoginStatus";
+// import { GetServerResult, MethodType } from "../../../../../helper/api";
+// import { FollowerLotteryType, IFollowerLottery } from "../../../../../models/page/tools/tools";
 // import styles from "./followerLottery.module.css";
 // const FollowersLottery = (props: {
 //   removeMask: () => void;

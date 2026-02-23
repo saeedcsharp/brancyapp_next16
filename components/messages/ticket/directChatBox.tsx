@@ -6,17 +6,17 @@ import { ChangeEvent, KeyboardEvent, MouseEvent, useCallback, useEffect, useMemo
 import { useTranslation } from "react-i18next";
 import InputEmoji from "react-input-emoji";
 import { DateObject } from "react-multi-date-picker";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import Tooltip from "saeed/components/design/tooltip/tooltip";
-import { NotifType, notify, ResponseType } from "saeed/components/notifications/notificationBox";
-import { convertHeicToJpeg } from "saeed/helper/convertHeicToJPEG";
-import { detectEmojiOnly } from "saeed/helper/emojiDetector";
-import formatTimeAgo from "saeed/helper/formatTimeAgo";
-import initialzedTime from "saeed/helper/manageTimer";
-import { useInfiniteScroll } from "saeed/helper/useInfiniteScroll";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType, UploadFile } from "saeed/helper/api";
-import { ItemType, StatusReplied } from "saeed/models/messages/enum";
+import RingLoader from "../../design/loader/ringLoder";
+import Tooltip from "../../design/tooltip/tooltip";
+import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
+import { convertHeicToJpeg } from "../../../helper/convertHeicToJPEG";
+import { detectEmojiOnly } from "../../../helper/emojiDetector";
+import formatTimeAgo from "../../../helper/formatTimeAgo";
+import initialzedTime from "../../../helper/manageTimer";
+import { useInfiniteScroll } from "../../../helper/useInfiniteScroll";
+import { LanguageKey } from "../../../i18n";
+import { MethodType, UploadFile } from "../../../helper/api";
+import { ItemType, StatusReplied } from "../../../models/messages/enum";
 import {
   IItem,
   IOwnerInbox,
@@ -24,13 +24,13 @@ import {
   IReplyTicket_Media,
   IThread_Ticket,
   IUploadVoice,
-} from "saeed/models/messages/IMessage";
+} from "../../../models/messages/IMessage";
 import VoiceRecorder from "../popups/voiceRecorder";
 import { LeftChatWrapper } from "./chatComponents/LeftChatWrapper";
 import { RightChatWrapper } from "./chatComponents/RightChatWrapper";
 import { TicketPendingMessages } from "./chatComponents/shared/messageTypes/TicketPendingMessages";
 import styles from "./ticketChatBox.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../helper/clientFetchApi";
 //#endregion
 
 //#region تعریف کامپوننت و Props

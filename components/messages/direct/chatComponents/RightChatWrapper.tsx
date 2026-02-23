@@ -1,6 +1,6 @@
 import React from "react";
-import { IItem, IOwnerInbox, IThread } from "saeed/models/messages/IMessage";
-import { ItemType } from "saeed/models/messages/enum";
+import { IItem, IOwnerInbox, IThread } from "../../../../models/messages/IMessage";
+import { ItemType } from "../../../../models/messages/enum";
 import styles from "../directChatBox.module.css";
 import { ChatAudio } from "./shared/messageTypes/ChatAudio";
 import { ChatGeneric } from "./shared/messageTypes/ChatGeneric";

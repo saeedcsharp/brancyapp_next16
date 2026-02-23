@@ -1,5 +1,5 @@
 import { ChangeEvent, CSSProperties, KeyboardEvent, memo, useMemo } from "react";
-import { isRTL } from "saeed/helper/checkRtl";
+import { isRTL } from "../../../helper/checkRtl";
 import styles from "./textArea.module.css";
 
 interface TextAreaProps {

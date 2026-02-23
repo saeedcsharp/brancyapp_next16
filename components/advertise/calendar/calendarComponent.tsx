@@ -3,11 +3,11 @@ import gregorian from "react-date-object/calendars/gregorian";
 import english from "react-date-object/locales/gregorian_en";
 import { useTranslation } from "react-i18next";
 import { Calendar, DateObject, Value } from "react-multi-date-picker";
-import initialzedTime from "saeed/helper/manageTimer";
-import useHideDiv from "saeed/hook/useHide";
-import { LanguageKey } from "saeed/i18n";
-import { AdsType } from "saeed/models/advertise/AdEnums";
-import { ICaledarAds } from "saeed/models/advertise/calendar";
+import initialzedTime from "../../../helper/manageTimer";
+import useHideDiv from "../../../hook/useHide";
+import { LanguageKey } from "../../../i18n";
+import { AdsType } from "../../../models/advertise/AdEnums";
+import { ICaledarAds } from "../../../models/advertise/calendar";
 import AdsTypeComp from "../adsType";
 import styles from "./calendarComponent.module.css";
 const CalendarComponent = (props: { totalAds: ICaledarAds[]; showReject: (adId: number) => void }) => {

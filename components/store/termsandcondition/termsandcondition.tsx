@@ -1,7 +1,7 @@
 import { t } from "i18next";
 import { useState } from "react";
-import CheckBoxButton from "saeed/components/design/checkBoxButton";
-import { LanguageKey } from "saeed/i18n";
+import CheckBoxButton from "../../design/checkBoxButton";
+import { LanguageKey } from "../../../i18n";
 import styles from "./termsandcondition.module.css";
 
 export default function TermsAndCondition({ onAccept }: { onAccept: (accepted: boolean) => void }) {

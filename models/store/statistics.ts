@@ -1,9 +1,9 @@
-import { StatusType } from "saeed/components/confirmationStatus/confirmationStatus";
-import { AdsType } from "saeed/models/advertise/AdEnums";
+import { StatusType } from "../../components/confirmationStatus/confirmationStatus";
+import { AdsType } from "../advertise/AdEnums";
 import {
   DayCountUnix,
   StatisticsUser,
-} from "saeed/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+} from "../page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 
 export interface ISaleMonth {
   month: number;

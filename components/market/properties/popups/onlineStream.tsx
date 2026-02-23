@@ -2,23 +2,23 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { ChangeEvent, SetStateAction, useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "saeed/components/design/checkBoxButton";
-import InputText from "saeed/components/design/inputText";
-import RingLoader from "saeed/components/design/loader/ringLoder";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
+import CheckBoxButton from "../../../design/checkBoxButton";
+import InputText from "../../../design/inputText";
+import RingLoader from "../../../design/loader/ringLoder";
+import ToggleCheckBoxButton from "../../../design/toggleCheckBoxButton";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "saeed/components/notifications/notificationBox";
-import Loading from "saeed/components/notOk/loading";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { IChannel, IChannelBox, IChannelInfo, ISearchChannel, IUpdateChannel } from "saeed/models/market/properties";
+} from "../../../notifications/notificationBox";
+import Loading from "../../../notOk/loading";
+import { LanguageKey } from "../../../../i18n";
+import { MethodType } from "../../../../helper/api";
+import { IChannel, IChannelBox, IChannelInfo, ISearchChannel, IUpdateChannel } from "../../../../models/market/properties";
 import styles from "./featureBoxPU.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../helper/clientFetchApi";
 const initialChannelSearchState: ISearchChannel = {
   searchAparatPage: "",
   searchYoutubePage: "",

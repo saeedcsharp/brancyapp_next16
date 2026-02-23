@@ -1,10 +1,10 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import Slider, { SliderSlide } from "saeed/components/design/slider/slider";
-import IconToggleButton from "saeed/components/design/toggleButton/iconToggleButton";
-import { ToggleOrder } from "saeed/components/design/toggleButton/types";
-import { LanguageKey } from "saeed/i18n";
-import { IFullPageInfo } from "saeed/models/page/post/preposts";
+import Slider, { SliderSlide } from "../../../design/slider/slider";
+import IconToggleButton from "../../../design/toggleButton/iconToggleButton";
+import { ToggleOrder } from "../../../design/toggleButton/types";
+import { LanguageKey } from "../../../../i18n";
+import { IFullPageInfo } from "../../../../models/page/post/preposts";
 import styles from "./followers&NonFollowers.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const FollowersNonFollowers = (props: { removeMask: () => void }) => {

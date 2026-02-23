@@ -1,4 +1,4 @@
-import { PriceType } from "saeed/components/priceFormater";
+import { PriceType } from "../components/priceFormater";
 
 export default function priceFormatter(type: PriceType) {
   return (value: number) => {

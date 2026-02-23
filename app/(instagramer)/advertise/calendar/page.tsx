@@ -1,6 +1,6 @@
 "use client";
 
-import PageComponent from "saeed/legacy-pages/advertise/calendar";
+import PageComponent from "../../../../legacy-pages/advertise/calendar";
 
 export default function Page() {
   return <PageComponent />;

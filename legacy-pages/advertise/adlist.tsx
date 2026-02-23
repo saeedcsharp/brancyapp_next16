@@ -3,18 +3,18 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import ActiveList from "saeed/components/advertise/adList/activeList";
-import AdDetails from "saeed/components/advertise/adList/popups/adDetails";
-import AdReport from "saeed/components/advertise/adList/popups/adreport";
-import RejectedList from "saeed/components/advertise/adList/rejectedList";
-import UpcomingList from "saeed/components/advertise/adList/upcomingList";
-import WaitingList from "saeed/components/advertise/adList/waitingList";
-import NotAdvertiser from "saeed/components/notOk/notAdvertiser";
-import { changePositionToFixed, changePositionToRelative } from "saeed/helper/changeMarketAdsStyle";
-import { LanguageKey } from "saeed/i18n";
+import ActiveList from "../../components/advertise/adList/activeList";
+import AdDetails from "../../components/advertise/adList/popups/adDetails";
+import AdReport from "../../components/advertise/adList/popups/adreport";
+import RejectedList from "../../components/advertise/adList/rejectedList";
+import UpcomingList from "../../components/advertise/adList/upcomingList";
+import WaitingList from "../../components/advertise/adList/waitingList";
+import NotAdvertiser from "../../components/notOk/notAdvertiser";
+import { changePositionToFixed, changePositionToRelative } from "../../helper/changeMarketAdsStyle";
+import { LanguageKey } from "../../i18n";
 
-import Modal from "saeed/components/design/modal";
-import { AdsTimeType, AdsType, RejectedType } from "saeed/models/advertise/AdEnums";
+import Modal from "../../components/design/modal";
+import { AdsTimeType, AdsType, RejectedType } from "../../models/advertise/AdEnums";
 import {
   DetailType,
   IActiveAds,
@@ -22,7 +22,7 @@ import {
   IRejectTerms,
   IUpcomingAds,
   IWatingAds,
-} from "saeed/models/advertise/adList";
+} from "../../models/advertise/adList";
 const AdList = () => {
   //  return <Soon />;
   const router = useRouter();

@@ -1,14 +1,14 @@
 import Head from "next/head";
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "saeed/components/design/inputText";
+import InputText from "../../../design/inputText";
 import {
   convertFormatedStringToNumber,
   numberToFormattedString,
   numberToFormattedString2,
-} from "saeed/helper/numberFormater";
-import { LanguageKey } from "saeed/i18n";
-import { IEditTariff, ITariff } from "saeed/models/advertise/peoperties";
+} from "../../../../helper/numberFormater";
+import { LanguageKey } from "../../../../i18n";
+import { IEditTariff, ITariff } from "../../../../models/advertise/peoperties";
 import styles from "./tariff.module.css";
 const EditTariff = (props: { removeMask: () => void; saveTariift: (tariif: ITariff) => void; tariif: ITariff }) => {
   const { t } = useTranslation();

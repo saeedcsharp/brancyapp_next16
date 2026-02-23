@@ -1,9 +1,9 @@
 import { useTranslation } from "react-i18next";
-import { findDayName } from "saeed/helper/findDayName";
-import { numbToAmAndPmTime } from "saeed/helper/numberFormater";
-import useHideDiv from "saeed/hook/useHide";
-import { LanguageKey } from "saeed/i18n";
-import { IBusinessHour } from "saeed/models/advertise/peoperties";
+import { findDayName } from "../../../helper/findDayName";
+import { numbToAmAndPmTime } from "../../../helper/numberFormater";
+import useHideDiv from "../../../hook/useHide";
+import { LanguageKey } from "../../../i18n";
+import { IBusinessHour } from "../../../models/advertise/peoperties";
 import styles from "./propertiesComponent.module.css";
 function BusinessHours(props: {
   businessInfo: IBusinessHour[];

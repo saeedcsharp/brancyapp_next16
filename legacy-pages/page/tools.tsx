@@ -3,42 +3,42 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import SetTimeAndDate from "saeed/components/dateAndTime/setTimeAndDate";
-import Modal from "saeed/components/design/modal";
+import SetTimeAndDate from "../../components/dateAndTime/setTimeAndDate";
+import Modal from "../../components/design/modal";
 import {
   InternalResponseType,
   NotifType,
   ResponseType,
   internalNotify,
   notify,
-} from "saeed/components/notifications/notificationBox";
-import NotAllowed from "saeed/components/notOk/notAllowed";
-import FontSelector from "saeed/components/page/tools/customFont/customFont";
-import Hashtags from "saeed/components/page/tools/hashtaglist/hashtags";
-import DeleteHashtagList from "saeed/components/page/tools/popups/hashtags/deleteHashtaglist";
-import NewHashtagList from "saeed/components/page/tools/popups/hashtags/newHashtagList";
-import NewPageAnalyzer from "saeed/components/page/tools/popups/hashtags/newPageAnalyzer";
-import NewPictureAnalyzerList from "saeed/components/page/tools/popups/hashtags/newPictureAnalyzerList";
-import UpdateHashtagList from "saeed/components/page/tools/popups/hashtags/updateHashtagList";
-import DeleteLottery from "saeed/components/page/tools/popups/lottery/deleteLottery";
-import LotteryHistory from "saeed/components/page/tools/popups/lottery/lotteryHistory";
-import LotteryRunning from "saeed/components/page/tools/popups/lottery/lotteryRunning";
-import ScoreLottery from "saeed/components/page/tools/popups/lottery/scoreLottery";
-import SelectPost from "saeed/components/page/tools/popups/lottery/selectPost";
-import ShareTermsAndCondition from "saeed/components/page/tools/popups/lottery/shareWinnerPickerTerms";
-import TermsAndConditionWinnerPicker from "saeed/components/page/tools/popups/lottery/termsAndConditionWinnerPicker";
-import WinnerAnnouncementAndBanner from "saeed/components/page/tools/popups/lottery/winnerAnnouncementAndBanner";
-import WinnersList from "saeed/components/page/tools/popups/lottery/winnersList";
-import TrendHashtags from "saeed/components/page/tools/trendhashtag/trendHashtags";
-import WinnerPicker from "saeed/components/page/tools/winnerpicker/winnerPicker";
-import DayEvents from "saeed/components/page/tools/event/dayEvents";
-import { changePositionToFixed, changePositionToRelative } from "saeed/helper/changeMarketAdsStyle";
-import { checkRemainingTimeFeature } from "saeed/helper/checkFeature";
-import { LoginStatus, RoleAccess, packageStatus } from "saeed/helper/loadingStatus";
-import { convertToMilliseconds, convertToSeconds } from "saeed/helper/manageTimer";
-import { LanguageKey } from "saeed/i18n";
-import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType, UploadFile } from "saeed/helper/api";
+} from "../../components/notifications/notificationBox";
+import NotAllowed from "../../components/notOk/notAllowed";
+import FontSelector from "../../components/page/tools/customFont/customFont";
+import Hashtags from "../../components/page/tools/hashtaglist/hashtags";
+import DeleteHashtagList from "../../components/page/tools/popups/hashtags/deleteHashtaglist";
+import NewHashtagList from "../../components/page/tools/popups/hashtags/newHashtagList";
+import NewPageAnalyzer from "../../components/page/tools/popups/hashtags/newPageAnalyzer";
+import NewPictureAnalyzerList from "../../components/page/tools/popups/hashtags/newPictureAnalyzerList";
+import UpdateHashtagList from "../../components/page/tools/popups/hashtags/updateHashtagList";
+import DeleteLottery from "../../components/page/tools/popups/lottery/deleteLottery";
+import LotteryHistory from "../../components/page/tools/popups/lottery/lotteryHistory";
+import LotteryRunning from "../../components/page/tools/popups/lottery/lotteryRunning";
+import ScoreLottery from "../../components/page/tools/popups/lottery/scoreLottery";
+import SelectPost from "../../components/page/tools/popups/lottery/selectPost";
+import ShareTermsAndCondition from "../../components/page/tools/popups/lottery/shareWinnerPickerTerms";
+import TermsAndConditionWinnerPicker from "../../components/page/tools/popups/lottery/termsAndConditionWinnerPicker";
+import WinnerAnnouncementAndBanner from "../../components/page/tools/popups/lottery/winnerAnnouncementAndBanner";
+import WinnersList from "../../components/page/tools/popups/lottery/winnersList";
+import TrendHashtags from "../../components/page/tools/trendhashtag/trendHashtags";
+import WinnerPicker from "../../components/page/tools/winnerpicker/winnerPicker";
+import DayEvents from "../../components/page/tools/event/dayEvents";
+import { changePositionToFixed, changePositionToRelative } from "../../helper/changeMarketAdsStyle";
+import { checkRemainingTimeFeature } from "../../helper/checkFeature";
+import { LoginStatus, RoleAccess, packageStatus } from "../../helper/loadingStatus";
+import { convertToMilliseconds, convertToSeconds } from "../../helper/manageTimer";
+import { LanguageKey } from "../../i18n";
+import { PartnerRole } from "../../models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType, UploadFile } from "../../helper/api";
 import {
   CreateHashtagListItem,
   FollowerLotteryType,
@@ -61,9 +61,9 @@ import {
   ShowScoreLotteryType,
   TermsType,
   lotterySpecificationType,
-} from "saeed/models/page/tools/tools";
-import { FeatureType, IFeatureInfo } from "saeed/models/psg/psg";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+} from "../../models/page/tools/tools";
+import { FeatureType, IFeatureInfo } from "../../models/psg/psg";
+import { clientFetchApi } from "../../helper/clientFetchApi";
 function addHashPrefixOrSuffix(list: string[]) {
   const result = [];
 

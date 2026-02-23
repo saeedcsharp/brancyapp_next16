@@ -4,19 +4,19 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import EditBusinessHours from "saeed/components/advertise/properties/popups/editBusinessHours";
-import Modal from "saeed/components/design/modal";
-import ToggleCheckBoxButton from "saeed/components/design/toggleCheckBoxButton";
-import NotShopper from "saeed/components/notOk/notShopper";
-import { changePositionToFixed, changePositionToRelative } from "saeed/helper/changeMarketAdsStyle";
-import { findDayName } from "saeed/helper/findDayName";
-import { packageStatus } from "saeed/helper/loadingStatus";
-import { numbToAmAndPmTime } from "saeed/helper/numberFormater";
-import { LanguageKey } from "saeed/i18n";
-import { BusinessDay, IBusinessHour } from "saeed/models/advertise/peoperties";
+import EditBusinessHours from "../../components/advertise/properties/popups/editBusinessHours";
+import Modal from "../../components/design/modal";
+import ToggleCheckBoxButton from "../../components/design/toggleCheckBoxButton";
+import NotShopper from "../../components/notOk/notShopper";
+import { changePositionToFixed, changePositionToRelative } from "../../helper/changeMarketAdsStyle";
+import { findDayName } from "../../helper/findDayName";
+import { packageStatus } from "../../helper/loadingStatus";
+import { numbToAmAndPmTime } from "../../helper/numberFormater";
+import { LanguageKey } from "../../i18n";
+import { BusinessDay, IBusinessHour } from "../../models/advertise/peoperties";
 import styles from "./properties.module.css";
 
-const MapComponent = dynamic(() => import("saeed/components/mainLeaftlet"), {
+const MapComponent = dynamic(() => import("../../components/mainLeaftlet"), {
   ssr: false,
 });
 

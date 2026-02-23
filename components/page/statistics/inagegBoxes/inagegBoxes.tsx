@@ -4,16 +4,16 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-import Loading from "saeed/components/notOk/loading";
-import { LoginStatus, RoleAccess } from "saeed/helper/loadingStatus";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
-import { PartnerRole } from "saeed/models/_AccountInfo/InstagramerAccountInfo";
-import { IPostContent } from "saeed/models/page/post/posts";
-import { IIngageBox } from "saeed/models/page/statistics/statisticsContent/ingageBoxes/ingageBox";
+import Loading from "../../../notOk/loading";
+import { LoginStatus, RoleAccess } from "../../../../helper/loadingStatus";
+import { LanguageKey } from "../../../../i18n";
+import { MethodType } from "../../../../helper/api";
+import { PartnerRole } from "../../../../models/_AccountInfo/InstagramerAccountInfo";
+import { IPostContent } from "../../../../models/page/post/posts";
+import { IIngageBox } from "../../../../models/page/statistics/statisticsContent/ingageBoxes/ingageBox";
 
 import styles from "./ingageBoxes.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../../../helper/clientFetchApi";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 

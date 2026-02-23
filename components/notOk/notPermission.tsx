@@ -1,11 +1,11 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "saeed/i18n";
-import { MethodType } from "saeed/helper/api";
+import { LanguageKey } from "../../i18n";
+import { MethodType } from "../../helper/api";
 import { NotifType, notify, ResponseType } from "../notifications/notificationBox";
 import styles from "./notpermission.module.css";
-import { clientFetchApi } from "saeed/helper/clientFetchApi";
+import { clientFetchApi } from "../../helper/clientFetchApi";
 
 export enum PermissionType {
   Comments = "Comments",

@@ -1,10 +1,10 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import TextArea from "saeed/components/design/textArea/textArea";
-import { handleCompress, handleDecompress } from "saeed/helper/pako";
-import { LanguageKey } from "saeed/i18n";
-import { IProduct_Information } from "saeed/models/store/IProduct";
+import TextArea from "../../../../design/textArea/textArea";
+import { handleCompress, handleDecompress } from "../../../../../helper/pako";
+import { LanguageKey } from "../../../../../i18n";
+import { IProduct_Information } from "../../../../../models/store/IProduct";
 import CustomTable from "./customtable";
 import styles from "./information.module.css";
 
