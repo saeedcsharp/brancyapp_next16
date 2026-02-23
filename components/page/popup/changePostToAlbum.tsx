@@ -1,5 +1,5 @@
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../i18n";
+import { LanguageKey } from "brancy/i18n";
 interface ChangePostToAlbumPopupProps {
   handleVerifyDeleteReels: () => void;
   handleCanselDeleteReels: () => void;

@@ -2,21 +2,21 @@ import { useSession } from "next-auth/react";
 import { MouseEvent, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import Slider, { SliderSlide } from "../../../design/slider/slider";
-import { NotifType, notify, ResponseType } from "../../../notifications/notificationBox";
-import Loading from "../../../notOk/loading";
-import { getEnumValue } from "../../../../helper/handleItemTypeEnum";
-import initialzedTime from "../../../../helper/manageTimer";
-import { LanguageKey } from "../../../../i18n";
-import { MethodType } from "../../../../helper/api";
+import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import { getEnumValue } from "brancy/helper/handleItemTypeEnum";
+import initialzedTime from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
 import {
   FailLotteryStatus,
   FailLotteryStatusStr,
   IShortLotteriesInfo,
   LotteryStatus,
-} from "../../../../models/page/tools/tools";
-import styles from "./winnerPicker.module.css";
-import { clientFetchApi } from "../../../../helper/clientFetchApi";
+} from "brancy/models/page/tools/tools";
+import styles from "brancy/components/page/tools/winnerpicker/winnerPicker.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 const WinnerPicker = (props: {
   handleShowWinnerPickerPopup: (e: MouseEvent) => void;

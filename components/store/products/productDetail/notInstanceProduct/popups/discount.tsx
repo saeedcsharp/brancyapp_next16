@@ -3,16 +3,16 @@ import gregorian from "react-date-object/calendars/gregorian";
 import english from "react-date-object/locales/gregorian_en";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import SetTimeAndDate from "../../../../../dateAndTime/setTimeAndDate";
-import IncrementStepper from "../../../../../design/incrementStepper"; // Import IncrementStepper
-import InputText from "../../../../../design/inputText";
-import Modal from "../../../../../design/modal";
-import RadioButton from "../../../../../design/radioButton";
-import { internalNotify, InternalResponseType, NotifType } from "../../../../../notifications/notificationBox";
-import initialzedTime from "../../../../../../helper/manageTimer";
-import { LanguageKey } from "../../../../../../i18n";
-import { IDiscount_ForClient } from "../../../../../../models/store/IProduct";
-import styles from "./discount.module.css";
+import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
+import IncrementStepper from "brancy/components/design/incrementStepper"; // Import IncrementStepper
+import InputText from "brancy/components/design/inputText";
+import Modal from "brancy/components/design/modal";
+import RadioButton from "brancy/components/design/radioButton";
+import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
+import initialzedTime from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { IDiscount_ForClient } from "brancy/models/store/IProduct";
+import styles from "brancy/components/store/products/productDetail/notInstanceProduct/popups/discount.module.css";
 
 const Discount = (props: {
   data: IDiscount_ForClient;

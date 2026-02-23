@@ -1,5 +1,5 @@
 // import { useEffect, useState } from "react";
-// import RadioButton from "../../../../design/radioButton";
+// import RadioButton from "brancy/components/design/radioButton";
 // import { useSession } from "next-auth/react";
 // import { useTranslation } from "react-i18next";
 // import {
@@ -7,17 +7,17 @@
 //   InternalResponseType,
 //   NotifType,
 //   ResponseType,
-// } from "../../../../notifications/notificationBox";
-// import Loading from "../../../../notOk/loading";
-// import NotBasePackage from "../../../../notOk/notBasePackage";
-// import NotFeature from "../../../../notOk/notFeature";
-// import NotPassword from "../../../../notOk/notPassword";
-// import { LanguageKey } from "../../../../../i18n";
-// import { ILoadingStatus } from "../../../../../models/_AccountInfo/InstagramerAccountInfo";
-// import { LoginStatus } from "../../../../../models/_AccountInfo/LoginStatus";
-// import { GetServerResult, MethodType } from "../../../../../helper/api";
-// import { FollowerLotteryType, IFollowerLottery } from "../../../../../models/page/tools/tools";
-// import styles from "./followerLottery.module.css";
+// } from "brancy/components/notifications/notificationBox";
+// import Loading from "brancy/components/notOk/loading";
+// import NotBasePackage from "brancy/components/notOk/notBasePackage";
+// import NotFeature from "brancy/components/notOk/notFeature";
+// import NotPassword from "brancy/components/notOk/notPassword";
+// import { LanguageKey } from "brancy/i18n";
+// import { ILoadingStatus } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+// import { LoginStatus } from "brancy/models/_AccountInfo/LoginStatus";
+// import { GetServerResult, MethodType } from "brancy/helper/api";
+// import { FollowerLotteryType, IFollowerLottery } from "brancy/models/page/tools/tools";
+// import styles from "brancy/components/page/tools/popups/lottery/followerLottery.module.css";
 // const FollowersLottery = (props: {
 //   removeMask: () => void;
 //   data: IFollowerLottery;

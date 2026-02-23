@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { numberToFormattedString } from "../helper/numberFormater";
-import styles from "./price.module.css";
+import { numberToFormattedString } from "brancy/helper/numberFormater";
+import styles from "brancy/components/price.module.css";
 
 export enum PriceType {
   Dollar = 0,

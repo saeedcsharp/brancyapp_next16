@@ -1,19 +1,19 @@
 import { useSession } from "next-auth/react";
 import React, { use, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Loading from "../../notOk/loading";
-import { InstaInfoContext } from "../../../context/instaInfoContext";
-import { LoginStatus, RoleAccess } from "../../../helper/loadingStatus";
-import { LanguageKey } from "../../../i18n";
-import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
-import { IHighLight } from "../../../models/page/story/hightLight";
+import Loading from "brancy/components/notOk/loading";
+import { InstaInfoContext } from "brancy/context/instaInfoContext";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { IHighLight } from "brancy/models/page/story/hightLight";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { A11y, Navigation, Pagination, Scrollbar } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import styles from "./highLight.module.css";
+import styles from "brancy/components/page/highLights_story/highLight.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const HighLight = ({ data }: { data: IHighLight[] | null }) => {
   const { data: session } = useSession();

@@ -1,16 +1,16 @@
 import { t } from "i18next";
 import React from "react";
-import { LanguageKey } from "../../../../i18n";
-import { IItem, IOwnerInbox, IThread } from "../../../../models/messages/IMessage";
-import { ItemType } from "../../../../models/messages/enum";
-import styles from "../directChatBox.module.css";
-import { ChatAudio } from "./shared/messageTypes/ChatAudio";
-import { ChatGeneric } from "./shared/messageTypes/ChatGeneric";
-import { ChatMedia } from "./shared/messageTypes/ChatMedia";
-import { ChatMediaShare } from "./shared/messageTypes/ChatMediaShare";
-import { ChatStoryMention } from "./shared/messageTypes/ChatStoryMention";
-import { ChatText } from "./shared/messageTypes/ChatText";
-import { ImageClickInfo, VideoClickInfo } from "./types";
+import { LanguageKey } from "brancy/i18n";
+import { IItem, IOwnerInbox, IThread } from "brancy/models/messages/IMessage";
+import { ItemType } from "brancy/models/messages/enum";
+import styles from "brancy/components/messages/direct/directChatBox.module.css";
+import { ChatAudio } from "brancy/components/messages/direct/chatComponents/shared/messageTypes/ChatAudio";
+import { ChatGeneric } from "brancy/components/messages/direct/chatComponents/shared/messageTypes/ChatGeneric";
+import { ChatMedia } from "brancy/components/messages/direct/chatComponents/shared/messageTypes/ChatMedia";
+import { ChatMediaShare } from "brancy/components/messages/direct/chatComponents/shared/messageTypes/ChatMediaShare";
+import { ChatStoryMention } from "brancy/components/messages/direct/chatComponents/shared/messageTypes/ChatStoryMention";
+import { ChatText } from "brancy/components/messages/direct/chatComponents/shared/messageTypes/ChatText";
+import { ImageClickInfo, VideoClickInfo } from "brancy/components/messages/direct/chatComponents/types";
 interface LeftChatWrapperProps {
   item: IItem;
   chatBox: IThread;

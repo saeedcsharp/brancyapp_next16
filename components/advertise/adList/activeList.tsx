@@ -1,12 +1,12 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import CounterDown2, { ShowRings } from "../../design/counterDown/counterDown2";
-import Slider, { SliderSlide } from "../../design/slider/slider";
-import { LanguageKey } from "../../../i18n";
-import { IActiveAds } from "../../../models/advertise/adList";
+import CounterDown2, { ShowRings } from "brancy/components/design/counterDown/counterDown2";
+import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
+import { LanguageKey } from "brancy/i18n";
+import { IActiveAds } from "brancy/models/advertise/adList";
 import styles from "../../../legacy-pages/advertise/adlist.module.css";
-import AdsTypeComp from "../adsType";
-import TimeTypeComp from "../timeType";
+import AdsTypeComp from "brancy/components/advertise/adsType";
+import TimeTypeComp from "brancy/components/advertise/timeType";
 
 const ActiveList = (props: {
   data: IActiveAds[];

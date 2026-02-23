@@ -3,22 +3,22 @@ import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import PhoneInput from "react-phone-input-2";
-import SetTimeAndDate from "../../../dateAndTime/setTimeAndDate";
-import InputText from "../../../design/inputText";
-import RadioButton from "../../../design/radioButton";
-import FlexibleToggleButton from "../../../design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "../../../design/toggleButton/types";
-import ToggleCheckBoxButton from "../../../design/toggleCheckBoxButton";
-import { getCountryCodeFromTimezone } from "../../../../helper/detectLocaleFromTimezone";
-import initialzedTime from "../../../../helper/manageTimer";
-import { LanguageKey } from "../../../../i18n";
+import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
+import InputText from "brancy/components/design/inputText";
+import RadioButton from "brancy/components/design/radioButton";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "brancy/components/design/toggleButton/types";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import { getCountryCodeFromTimezone } from "brancy/helper/detectLocaleFromTimezone";
+import initialzedTime from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
 import {
   ICreatePartner,
   IPartner,
   IUpdatePartner,
   PartnerRole,
-} from "../../../../models/_AccountInfo/InstagramerAccountInfo";
-import styles from "./addPartner.module.css";
+} from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import styles from "brancy/components/setting/general/popup/addPartner.module.css";
 const AddPartner = React.memo(
   ({
     partner,

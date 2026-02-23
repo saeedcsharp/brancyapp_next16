@@ -2,12 +2,12 @@ import Head from "next/head";
 import { lazy, Suspense, useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import { detectLocaleFromTimezone } from "../../../helper/detectLocaleFromTimezone";
-import { LanguageKey } from "../../../i18n";
-import styles from "./page1.module.css";
+import { detectLocaleFromTimezone } from "brancy/helper/detectLocaleFromTimezone";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/website/landing/page1.module.css";
 
-const LandingSignIn = lazy(() => import("../../signIn/landingSignIn"));
-const GoogleLoginButton = lazy(() => import("../../signIn/googleLoginPopup"));
+const LandingSignIn = lazy(() => import("brancy/components/signIn/landingSignIn"));
+const GoogleLoginButton = lazy(() => import("brancy/components/signIn/googleLoginPopup"));
 interface Page1Props {
   handleShowVerification: (preUserToken: string) => void;
 }

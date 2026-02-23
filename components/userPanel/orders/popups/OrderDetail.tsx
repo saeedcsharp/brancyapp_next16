@@ -2,16 +2,16 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { FC, useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NotifType, notify, ResponseType } from "../../../notifications/notificationBox";
-import Loading from "../../../notOk/loading";
-import OrderDetailContent from "../../../store/order/popup/OrderDetail-Content";
-import findSystemLanguage from "../../../../helper/findSystemLanguage";
-import { LanguageKey } from "../../../../i18n";
-import { MethodType } from "../../../../helper/api";
-import { OrderStep } from "../../../../models/store/enum";
-import { IFullProduct, IOrderDetail } from "../../../../models/store/orders";
-import styles from "./OrderDetail.module.css";
-import { clientFetchApi } from "../../../../helper/clientFetchApi";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import OrderDetailContent from "brancy/components/store/order/popup/OrderDetail-Content";
+import findSystemLanguage from "brancy/helper/findSystemLanguage";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { OrderStep } from "brancy/models/store/enum";
+import { IFullProduct, IOrderDetail } from "brancy/models/store/orders";
+import styles from "brancy/components/userPanel/orders/popups/OrderDetail.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 interface OrderDetailProps {
   removeMask: () => void;

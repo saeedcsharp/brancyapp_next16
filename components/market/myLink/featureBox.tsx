@@ -1,11 +1,11 @@
 import Link from "next/link";
 import { KeyboardEvent, memo, useCallback, useMemo, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import FiveStar from "../../fiveStar";
-import { calculateSummary } from "../../../helper/numberFormater";
-import { LanguageKey } from "../../../i18n";
-import { IFeatureBox } from "../../../models/market/myLink";
-import styles from "./featureBox.module.css";
+import FiveStar from "brancy/components/fiveStar";
+import { calculateSummary } from "brancy/helper/numberFormater";
+import { LanguageKey } from "brancy/i18n";
+import { IFeatureBox } from "brancy/models/market/myLink";
+import styles from "brancy/components/market/myLink/featureBox.module.css";
 interface FeatureBoxProps {
   data: IFeatureBox | null;
   handleShowTerms: () => void;

@@ -1,7 +1,7 @@
-import { convertToMilliseconds } from "../helper/manageTimer";
-import { LanguageKey } from "../i18n";
-import { PriceType } from "../components/priceFormater";
-import { FeatureType, IFeatureInfo } from "./psg/psg";
+import { convertToMilliseconds } from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { PriceType } from "brancy/components/priceFormater";
+import { FeatureType, IFeatureInfo } from "brancy/models/psg/psg";
 
 // ============================================
 // INTERFACES

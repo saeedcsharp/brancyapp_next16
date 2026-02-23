@@ -4,42 +4,42 @@ import { useRouter } from "next/router";
 import { ChangeEvent, useCallback, useEffect, useMemo, useReducer, useRef, useState, useTransition } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import MultiChart from "../../../components/design/chart/Chart_month";
-import InputText from "../../../components/design/inputText";
-import Modal from "../../../components/design/modal";
-import Slider from "../../../components/design/slider/slider";
-import FlexibleToggleButton from "../../../components/design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "../../../components/design/toggleButton/types";
-import ToggleCheckBoxButton from "../../../components/design/toggleCheckBoxButton";
-import Tooltip from "../../../components/design/tooltip/tooltip";
-import { MediaModal, useMediaModal } from "../../../components/messages/shared/utils";
+import MultiChart from "brancy/components/design/chart/Chart_month";
+import InputText from "brancy/components/design/inputText";
+import Modal from "brancy/components/design/modal";
+import Slider from "brancy/components/design/slider/slider";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "brancy/components/design/toggleButton/types";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
+import { MediaModal, useMediaModal } from "brancy/components/messages/shared/utils";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "../../../components/notifications/notificationBox";
-import Loading from "../../../components/notOk/loading";
-import NotAllowed from "../../../components/notOk/notAllowed";
-import NotPermission, { PermissionType } from "../../../components/notOk/notPermission";
-import LotteryPopup, { LotteryPopupType } from "../../../components/page/popup/lottery";
-import QuickReplyPopup from "../../../components/page/popup/quickReply";
-import FollowersNonFollowers from "../../../components/page/posts/popup/followers&NonFollowers";
-import { isRTL } from "../../../helper/checkRtl";
-import { handleCopyLink } from "../../../helper/copyLink";
-import formatTimeAgo from "../../../helper/formatTimeAgo";
-import { LoginStatus, packageStatus, RoleAccess } from "../../../helper/loadingStatus";
-import initialzedTime from "../../../helper/manageTimer";
-import { LanguageKey } from "../../../i18n";
-import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "../../../helper/api";
-import { MediaProductType } from "../../../models/messages/enum";
-import { IGetMediaCommentInfo, IMedia } from "../../../models/messages/IMessage";
-import { IAutomaticReply, IDetailsPost, IInsightPost, IMediaUpdateAutoReply } from "../../../models/page/post/posts";
-import { MediaType } from "../../../models/page/post/preposts";
+} from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import NotAllowed from "brancy/components/notOk/notAllowed";
+import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
+import LotteryPopup, { LotteryPopupType } from "brancy/components/page/popup/lottery";
+import QuickReplyPopup from "brancy/components/page/popup/quickReply";
+import FollowersNonFollowers from "brancy/components/page/posts/popup/followers&NonFollowers";
+import { isRTL } from "brancy/helper/checkRtl";
+import { handleCopyLink } from "brancy/helper/copyLink";
+import formatTimeAgo from "brancy/helper/formatTimeAgo";
+import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import initialzedTime from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType } from "brancy/helper/api";
+import { MediaProductType } from "brancy/models/messages/enum";
+import { IGetMediaCommentInfo, IMedia } from "brancy/models/messages/IMessage";
+import { IAutomaticReply, IDetailsPost, IInsightPost, IMediaUpdateAutoReply } from "brancy/models/page/post/posts";
+import { MediaType } from "brancy/models/page/post/preposts";
 import styles from "./showPost.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 function convertMillisecondsToTime(ms: number) {
   if (ms <= 0) {

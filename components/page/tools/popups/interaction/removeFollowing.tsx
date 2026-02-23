@@ -6,11 +6,11 @@ import {
   InternalResponseType,
   NotifType,
   notify,
-} from "../../../../notifications/notificationBox";
-import { LanguageKey } from "../../../../../i18n";
-import { MethodType } from "../../../../../helper/api";
-import { IUnFollowAllFollowing_UpdateCondotion } from "../../../../../models/page/tools/tools";
-import { clientFetchApi } from "../../../../../helper/clientFetchApi";
+} from "brancy/components/notifications/notificationBox";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { IUnFollowAllFollowing_UpdateCondotion } from "brancy/models/page/tools/tools";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const RemoveFollowing = (props: {
   condition: IUnFollowAllFollowing_UpdateCondotion;
   handleBackToUnfollowFollowing: () => void;

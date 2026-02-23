@@ -3,18 +3,18 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import ActiveList from "../../components/advertise/adList/activeList";
-import AdDetails from "../../components/advertise/adList/popups/adDetails";
-import AdReport from "../../components/advertise/adList/popups/adreport";
-import RejectedList from "../../components/advertise/adList/rejectedList";
-import UpcomingList from "../../components/advertise/adList/upcomingList";
-import WaitingList from "../../components/advertise/adList/waitingList";
-import NotAdvertiser from "../../components/notOk/notAdvertiser";
-import { changePositionToFixed, changePositionToRelative } from "../../helper/changeMarketAdsStyle";
-import { LanguageKey } from "../../i18n";
+import ActiveList from "brancy/components/advertise/adList/activeList";
+import AdDetails from "brancy/components/advertise/adList/popups/adDetails";
+import AdReport from "brancy/components/advertise/adList/popups/adreport";
+import RejectedList from "brancy/components/advertise/adList/rejectedList";
+import UpcomingList from "brancy/components/advertise/adList/upcomingList";
+import WaitingList from "brancy/components/advertise/adList/waitingList";
+import NotAdvertiser from "brancy/components/notOk/notAdvertiser";
+import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
+import { LanguageKey } from "brancy/i18n";
 
-import Modal from "../../components/design/modal";
-import { AdsTimeType, AdsType, RejectedType } from "../../models/advertise/AdEnums";
+import Modal from "brancy/components/design/modal";
+import { AdsTimeType, AdsType, RejectedType } from "brancy/models/advertise/AdEnums";
 import {
   DetailType,
   IActiveAds,
@@ -22,7 +22,7 @@ import {
   IRejectTerms,
   IUpcomingAds,
   IWatingAds,
-} from "../../models/advertise/adList";
+} from "brancy/models/advertise/adList";
 const AdList = () => {
   //  return <Soon />;
   const router = useRouter();

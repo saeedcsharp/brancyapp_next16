@@ -1,8 +1,8 @@
 import type { Metadata } from "next";
 import "quill/dist/quill.snow.css";
-import "../components/page/statistics/sliderToFourBox.css";
-import "./globals.scss";
-import Providers from "./providers";
+import "brancy/components/page/statistics/sliderToFourBox.css";
+import "brancy/app/globals.scss";
+import Providers from "brancy/app/providers";
 
 export const metadata: Metadata = {
   title: "Brancy",

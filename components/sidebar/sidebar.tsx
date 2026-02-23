@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import InstagramerSidebar from "./instagramerSidbar/instagramerSidbar";
-import UserSidebar from "./userSidebar/userSidebar";
+import InstagramerSidebar from "brancy/components/sidebar/instagramerSidbar/instagramerSidbar";
+import UserSidebar from "brancy/components/sidebar/userSidebar/userSidebar";
 
 const SideBar = () => {
   const router = useRouter();

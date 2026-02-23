@@ -1,13 +1,13 @@
 import { t } from "i18next";
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useState } from "react";
-import RingLoader from "../../design/loader/ringLoder";
-import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
-import { LanguageKey } from "../../../i18n";
-import { MethodType } from "../../../helper/api";
-import { IAddress, ILogistic } from "../../../models/userPanel/orders";
-import styles from "./postalCode.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { IAddress, ILogistic } from "brancy/models/userPanel/orders";
+import styles from "brancy/components/store/addressType/postalCode.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
 export default function PostalCode({ handleShowLogestic }: { handleShowLogestic: (logistics: ILogistic[]) => void }) {

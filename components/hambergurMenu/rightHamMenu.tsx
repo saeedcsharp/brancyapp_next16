@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { MouseEvent } from "react";
-import styles from "./hammenu.module.css";
+import styles from "brancy/components/hambergurMenu/hammenu.module.css";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const RightHamMenue = (props: {
   removeMask: () => void;

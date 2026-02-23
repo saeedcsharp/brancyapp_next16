@@ -2,12 +2,12 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { memo, useCallback, useEffect, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
-import { LoginStatus } from "../../helper/loadingStatus";
-import { LanguageKey } from "../../i18n";
-import entryTypeToStr, { ILastMessage } from "../../models/homeIndex/home";
-import { ItemType } from "../../models/messages/enum";
-import Loading from "../notOk/loading";
-import styles from "./lastMessage.module.css";
+import { LoginStatus } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import entryTypeToStr, { ILastMessage } from "brancy/models/homeIndex/home";
+import { ItemType } from "brancy/models/messages/enum";
+import Loading from "brancy/components/notOk/loading";
+import styles from "brancy/components/homeIndex/lastMessage.module.css";
 
 interface LastMessageState {
   isLoading: boolean;

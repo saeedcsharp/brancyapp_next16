@@ -1,12 +1,12 @@
 import Head from "next/head";
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "../../../design/checkBoxButton";
-import TextArea from "../../../design/textArea/textArea";
-import { LanguageKey } from "../../../../i18n";
-import { DetailType, IRejectTerms } from "../../../../models/advertise/adList";
-import { IAdvertisingTerms } from "../../../../models/advertise/peoperties";
-import styles from "./adDetails.module.css";
+import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import TextArea from "brancy/components/design/textArea/textArea";
+import { LanguageKey } from "brancy/i18n";
+import { DetailType, IRejectTerms } from "brancy/models/advertise/adList";
+import { IAdvertisingTerms } from "brancy/models/advertise/peoperties";
+import styles from "brancy/components/advertise/adList/popups/adDetails.module.css";
 const AdReject = (props: {
   data: IAdvertisingTerms;
   detailType: DetailType;

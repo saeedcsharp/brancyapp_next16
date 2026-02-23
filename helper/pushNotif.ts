@@ -1,7 +1,7 @@
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
 import { Session } from "next-auth";
-import { PushNotif } from "../models/push/pushNotif";
-import { LoginStatus, packageStatus } from "./loadingStatus";
+import { PushNotif } from "brancy/models/push/pushNotif";
+import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
 var hubConnection: HubConnection | null = null;
 let sessionVar: Session | null = null;
 var objsVar: OnInstance[] = [];

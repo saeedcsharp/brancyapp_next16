@@ -1,8 +1,8 @@
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import formatTimeAgo from "../../helper/formatTimeAgo";
-import { IPageSummary } from "../../models/homeIndex/home";
-import styles from "./accountSummary.module.css";
+import formatTimeAgo from "brancy/helper/formatTimeAgo";
+import { IPageSummary } from "brancy/models/homeIndex/home";
+import styles from "brancy/components/homeIndex/accountSummary.module.css";
 
 interface AccountSummaryProps {
   data: IPageSummary | null;

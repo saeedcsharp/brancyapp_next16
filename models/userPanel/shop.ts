@@ -1,5 +1,5 @@
-import { PriceType } from "../../components/priceFormater";
-import { AvailabilityStatus, GauranteeLength } from "../store/enum";
+import { PriceType } from "brancy/components/priceFormater";
+import { AvailabilityStatus, GauranteeLength } from "brancy/models/store/enum";
 
 export interface IShortProduct {
   maxInEachCard: number;

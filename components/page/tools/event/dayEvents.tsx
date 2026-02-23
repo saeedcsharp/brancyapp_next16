@@ -1,13 +1,14 @@
-import { useCallback, useMemo, useState } from "react";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { MethodType } from "brancy/helper/api";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import initialzedTime from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
 import { useSession } from "next-auth/react";
+import { useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import RingLoader from "../../../design/loader/ringLoder";
-import { NotifType, notify, ResponseType } from "../../../notifications/notificationBox";
-import { MethodType } from "../../../../helper/api";
-import { clientFetchApi } from "../../../../helper/clientFetchApi";
-import initialzedTime, { convertToMilliseconds } from "../../../../helper/manageTimer";
-import { LanguageKey } from "../../../../i18n";
 import styles from "./event.module.css";
 
 interface IDayEvent {
@@ -164,25 +165,33 @@ const DayEvents = (props: { handleShowDatePicker: () => void; startUnix: number 
         )}
 
         {!loading && events.length > 0 && (
-          <div className={styles.eventList}>
+          <Slider
+            slidesPerView={1}
+            spaceBetween={12}
+            itemsPerSlide={3}
+            navigation={true}
+            pagination={{ clickable: true, dynamicBullets: true }}
+            className={styles.eventList}>
             {events.map((event) => (
-              <div key={event.id} className={styles.eventItem}>
+              <SliderSlide key={event.id} className={styles.eventItem}>
                 <div className={styles.eventTitle}>{event.title}</div>
                 <div className={styles.eventDescription}>{event.description}</div>
                 <div className={styles.eventMeta}>
-                  <span className={styles.eventDate}>{formatDate(convertToMilliseconds(event.date))}</span>
-                  {event.countryCode && event.countryCode !== "--" && (
-                    <span className={`${styles.tag} ${styles.tagCountry}`}>{event.countryCode}</span>
-                  )}
-                  {event.isReligious && (
-                    <span className={`${styles.tag} ${styles.tagReligious}`}>
-                      {t(LanguageKey.pageTools_EventReligious)}
-                    </span>
-                  )}
+                  <span className={styles.eventDate}>{formatDate(event.date * 1000)}</span>
+                  <div className={styles.eventTags}>
+                    {event.countryCode && event.countryCode !== "--" && (
+                      <span className={`${styles.tag} ${styles.tagCountry}`}>{event.countryCode}</span>
+                    )}
+                    {event.isReligious && (
+                      <span className={`${styles.tag} ${styles.tagReligious}`}>
+                        {t(LanguageKey.pageTools_EventReligious)}
+                      </span>
+                    )}
+                  </div>
                 </div>
-              </div>
+              </SliderSlide>
             ))}
-          </div>
+          </Slider>
         )}
       </div>
     </div>

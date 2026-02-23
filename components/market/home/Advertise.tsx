@@ -1,14 +1,14 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Loading from "../../notOk/loading";
-import { LoginStatus, RoleAccess } from "../../../helper/loadingStatus";
-import { calculateSummary } from "../../../helper/numberFormater";
-import { LanguageKey } from "../../../i18n";
-import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
-import { CategorySection } from "../../../models/market/enums";
-import { IMarketInfo } from "../../../models/market/home";
-import styles from "./homeComponent.module.css";
+import Loading from "brancy/components/notOk/loading";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { calculateSummary } from "brancy/helper/numberFormater";
+import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { CategorySection } from "brancy/models/market/enums";
+import { IMarketInfo } from "brancy/models/market/home";
+import styles from "brancy/components/market/home/homeComponent.module.css";
 function Advertise(props: { data: IMarketInfo[] | undefined; fetchAdvertiseData: (pagination: string) => void }) {
   const { data: session } = useSession();
   const userRef = useRef<HTMLDivElement>(null);

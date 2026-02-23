@@ -3,12 +3,12 @@ import { useSession } from "next-auth/react";
 import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import InputText from "../../../design/inputText";
-import TextArea from "../../../design/textArea/textArea";
-import { LanguageKey } from "../../../../i18n/languageKeys";
-import { UploadFile } from "../../../../helper/api";
-import styles from "./GenericItemNode.module.css";
-import { BaseNodeProps, NodeData } from "./types";
+import InputText from "brancy/components/design/inputText";
+import TextArea from "brancy/components/design/textArea/textArea";
+import { LanguageKey } from "brancy/i18n/languageKeys";
+import { UploadFile } from "brancy/helper/api";
+import styles from "brancy/components/messages/aiflow/flowNode/GenericItemNode.module.css";
+import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL || "";
 
 interface GenericItemNodeProps extends BaseNodeProps {

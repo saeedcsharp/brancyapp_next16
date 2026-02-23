@@ -1,4 +1,4 @@
-import FeatureList from "../website/landing/featurelist";
+import FeatureList from "brancy/components/website/landing/featurelist";
 
 const FeatureListModal = ({ open, onClose }: { open: boolean; onClose: () => void }) => {
   if (!open) return null;

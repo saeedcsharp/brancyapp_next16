@@ -1,6 +1,6 @@
-import styles from "../customerAds.module.css";
-import { calculateSummary } from "../../../helper/numberFormater";
-import { ICardAdvertiser } from "../../../models/customerAds/customerAd";
+import styles from "brancy/components/customerAds/customerAds.module.css";
+import { calculateSummary } from "brancy/helper/numberFormater";
+import { ICardAdvertiser } from "brancy/models/customerAds/customerAd";
 function UserProfile(prop: { data: ICardAdvertiser }) {
   return (
     <div className={styles.popupsection}>

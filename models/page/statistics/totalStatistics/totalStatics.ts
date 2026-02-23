@@ -1,9 +1,9 @@
-import { GraphGhostViewersModel } from "../statisticsContent/GraphIngageBoxes/GraphGhostViewersModel";
-import { GraphViewsFourMonthModel } from "../statisticsContent/GraphIngageBoxes/GraphViewsFourMonthModel";
-import { IBestFollowers } from "../statisticsContent/GraphIngageBoxes/bestFollower";
-import { CardBestWorstModel } from "../statisticsContent/GraphIngageBoxes/cardBestWorst";
-import { IMonthGraph } from "../statisticsContent/GraphIngageBoxes/graphLikes";
-import { IIngageBox } from "../statisticsContent/ingageBoxes/ingageBox";
+import { GraphGhostViewersModel } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/GraphGhostViewersModel";
+import { GraphViewsFourMonthModel } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/GraphViewsFourMonthModel";
+import { IBestFollowers } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/bestFollower";
+import { CardBestWorstModel } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/cardBestWorst";
+import { IMonthGraph } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+import { IIngageBox } from "brancy/models/page/statistics/statisticsContent/ingageBoxes/ingageBox";
 
 export interface TotalStatistics {
   statisticContent: {

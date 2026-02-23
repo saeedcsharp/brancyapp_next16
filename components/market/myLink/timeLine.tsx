@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { ITimeline } from "../../../models/market/myLink";
-import styles from "./mylink.module.css";
+import { ITimeline } from "brancy/models/market/myLink";
+import styles from "brancy/components/market/myLink/mylink.module.css";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const Timeline = (props: { data: ITimeline | null }) => {

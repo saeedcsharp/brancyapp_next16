@@ -11,12 +11,12 @@ import React, {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import Dotmenu from "../dotMenu/dotMenu";
-import Loading from "../../notOk/loading";
-import { LoginStatus } from "../../../helper/loadingStatus";
-import { LanguageKey } from "../../../i18n";
-import { DayCountUnix, IMonthGraph } from "../../../models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
-import multiStyles from "./Chart_month.module.css";
+import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
+import Loading from "brancy/components/notOk/loading";
+import { LoginStatus } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { DayCountUnix, IMonthGraph } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+import multiStyles from "brancy/components/design/chart/Chart_month.module.css";
 interface ISeriesData {
   name: string;
   color: string;

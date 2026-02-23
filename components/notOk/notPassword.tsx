@@ -1,7 +1,7 @@
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../i18n";
-import styles from "./notPassword.module.css";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/notOk/notPassword.module.css";
 export default function NotPassword() {
   const router = useRouter();
   const { t } = useTranslation();

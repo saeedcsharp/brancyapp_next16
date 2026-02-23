@@ -2,14 +2,14 @@ import Link from "next/link";
 import React, { ChangeEvent, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import CheckBoxButton from "../../../design/checkBoxButton";
-import DragDrop from "../../../design/dragDrop/dragDrop";
-import PriceFormater, { PriceFormaterClassName } from "../../../priceFormater";
-import initialzedTime from "../../../../helper/manageTimer";
-import { LanguageKey } from "../../../../i18n";
-import { AvailabilityStatus } from "../../../../models/store/enum";
-import { IProduct_ShortProduct } from "../../../../models/store/IProduct";
-import styles from "./productListMobile.module.css";
+import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
+import initialzedTime from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { AvailabilityStatus } from "brancy/models/store/enum";
+import { IProduct_ShortProduct } from "brancy/models/store/IProduct";
+import styles from "brancy/components/store/products/productListComponents/productListMobile.module.css";
 
 interface ProductListMobileProps {
   products: IProduct_ShortProduct[];

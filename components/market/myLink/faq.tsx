@@ -1,8 +1,8 @@
 import React, { memo, useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../i18n";
-import { IFaq } from "../../../models/market/myLink";
-import styles from "./faq.module.css";
+import { LanguageKey } from "brancy/i18n";
+import { IFaq } from "brancy/models/market/myLink";
+import styles from "brancy/components/market/myLink/faq.module.css";
 
 // Types
 interface FaqItem {

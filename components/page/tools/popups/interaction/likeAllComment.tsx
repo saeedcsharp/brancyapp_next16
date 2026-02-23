@@ -1,29 +1,29 @@
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Slider, { SliderSlide } from "../../../../design/slider/slider";
-import FlexibleToggleButton from "../../../../design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "../../../../design/toggleButton/types";
-import ToggleCheckBoxButton from "../../../../design/toggleCheckBoxButton";
+import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "brancy/components/design/toggleButton/types";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
-} from "../../../../notifications/notificationBox";
-import Loading from "../../../../notOk/loading";
-import InsightChart from "../../../posts/insightChart";
-import formatTimeAgo from "../../../../../helper/formatTimeAgo";
-import { LanguageKey } from "../../../../../i18n";
-import { MethodType } from "../../../../../helper/api";
+} from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import InsightChart from "brancy/components/page/posts/insightChart";
+import formatTimeAgo from "brancy/helper/formatTimeAgo";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
 import {
   ILikeComment_Condotion,
   ILikeComment_Figure,
   ILikeComment_GetLikeComments,
   ILikeComment_UpdateCondotion,
-} from "../../../../../models/page/tools/tools";
-import styles from "./autointeraction.module.css";
-import { clientFetchApi } from "../../../../../helper/clientFetchApi";
+} from "brancy/models/page/tools/tools";
+import styles from "brancy/components/page/tools/popups/interaction/autointeraction.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const LikeAllComments = (props: { removeMask: () => void }) => {
   const { data: session } = useSession();

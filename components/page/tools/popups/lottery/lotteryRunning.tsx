@@ -1,14 +1,14 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NotifType, notify, ResponseType } from "../../../../notifications/notificationBox";
-import Loading from "../../../../notOk/loading";
-import { LanguageKey } from "../../../../../i18n";
-import { MethodType } from "../../../../../helper/api";
-import { IFullLottery } from "../../../../../models/page/tools/tools";
-import ConstantCounterDown from "../../../../design/counterDown/constantCounterDown";
-import styles from "./lotteryRunning.module.css";
-import { clientFetchApi } from "../../../../../helper/clientFetchApi";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { IFullLottery } from "brancy/models/page/tools/tools";
+import ConstantCounterDown from "brancy/components/design/counterDown/constantCounterDown";
+import styles from "brancy/components/page/tools/popups/lottery/lotteryRunning.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const LotteryRunning = (props: {
   removeMask: () => void;
   handleBachFromLotteryRunning: () => void;

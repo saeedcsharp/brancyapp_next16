@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../i18n";
-import { ILastLike } from "../../models/homeIndex/home";
-import Loading from "../notOk/loading";
-import styles from "./lastLikeContainer.module.css";
+import { LanguageKey } from "brancy/i18n";
+import { ILastLike } from "brancy/models/homeIndex/home";
+import Loading from "brancy/components/notOk/loading";
+import styles from "brancy/components/homeIndex/lastLikeContainer.module.css";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const LastLikeContainer = (props: { data: ILastLike[] | null }) => {

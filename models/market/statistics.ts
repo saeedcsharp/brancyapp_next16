@@ -1,4 +1,4 @@
-import { IMonthGraph } from "../page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+import { IMonthGraph } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 
 export interface IFeatureItem {
   x: number;

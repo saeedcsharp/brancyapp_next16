@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo } from "react";
-import Dotmenu from "../../../../../design/dotMenu/dotMenu";
-import LinkifyText from "../../../../../../context/LinkifyText";
-import { getMessageDirectionClass } from "../../../../../../helper/checkRtl";
-import { detectEmojiOnly } from "../../../../../../helper/emojiDetector";
-import { TicketBaseChatProps } from "../../types";
-import { TicketChatDate, TicketMessageStatus, TicketReactionEmoji } from "../utils";
-import styles from "./messageTypes.module.css";
+import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
+import LinkifyText from "brancy/context/LinkifyText";
+import { getMessageDirectionClass } from "brancy/helper/checkRtl";
+import { detectEmojiOnly } from "brancy/helper/emojiDetector";
+import { TicketBaseChatProps } from "brancy/components/messages/ticket/chatComponents/types";
+import { TicketChatDate, TicketMessageStatus, TicketReactionEmoji } from "brancy/components/messages/ticket/chatComponents/shared/utils";
+import styles from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/messageTypes.module.css";
 // #region تعریف کامپوننت - نمایش متن بلیت
 // این کامپوننت پیام متنی را برای هر دو جهت نمایش می‌دهد و منو/ایموجی را مدیریت می‌کند.
 const TicketChatTextComponent: React.FC<TicketBaseChatProps> = ({

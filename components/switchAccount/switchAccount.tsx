@@ -3,21 +3,21 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../i18n";
-import { MethodType } from "../../helper/api";
-import { InstagramerAccountInfo } from "../../models/_AccountInfo/InstagramerAccountInfo";
-import { IIpCondition } from "../../models/userPanel/login";
-import { IPartner_User } from "../../models/userPanel/setting";
-import Loading from "../notOk/loading";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { InstagramerAccountInfo } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { IIpCondition } from "brancy/models/userPanel/login";
+import { IPartner_User } from "brancy/models/userPanel/setting";
+import Loading from "brancy/components/notOk/loading";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "../notifications/notificationBox";
-import styles from "./switchAccount.module.css";
-import { clientFetchApi } from "../../helper/clientFetchApi";
+} from "brancy/components/notifications/notificationBox";
+import styles from "brancy/components/switchAccount/switchAccount.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 function SwitchAccount(props: { removeMask: () => void }) {
   const { t } = useTranslation();

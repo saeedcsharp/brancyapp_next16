@@ -1,4 +1,4 @@
-import { internalNotify, InternalResponseType, NotifType } from "../components/notifications/notificationBox";
+import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
 
 export function handleCopyLink(uriLink: string) {
   navigator.clipboard.writeText(uriLink);

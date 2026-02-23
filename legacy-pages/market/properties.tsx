@@ -3,28 +3,28 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { MouseEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Modal from "../../components/design/modal";
-import DomainManager from "../../components/market/properties/domainManager";
-import Features from "../../components/market/properties/features";
-import Link from "../../components/market/properties/link";
-import AddNewLink from "../../components/market/properties/popups/addNewLink";
-import DeleteLink from "../../components/market/properties/popups/deletLink";
-import EditLink from "../../components/market/properties/popups/editLink";
-import FeaturePopUp from "../../components/market/properties/popups/featurePopup";
-import StatisticsLinks from "../../components/market/properties/popups/statisticsLink";
+import Modal from "brancy/components/design/modal";
+import DomainManager from "brancy/components/market/properties/domainManager";
+import Features from "brancy/components/market/properties/features";
+import Link from "brancy/components/market/properties/link";
+import AddNewLink from "brancy/components/market/properties/popups/addNewLink";
+import DeleteLink from "brancy/components/market/properties/popups/deletLink";
+import EditLink from "brancy/components/market/properties/popups/editLink";
+import FeaturePopUp from "brancy/components/market/properties/popups/featurePopup";
+import StatisticsLinks from "brancy/components/market/properties/popups/statisticsLink";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "../../components/notifications/notificationBox";
-import { changePositionToFixed, changePositionToRelative } from "../../helper/changeMarketAdsStyle";
-import { LoginStatus, packageStatus } from "../../helper/loadingStatus";
-import { LanguageKey } from "../../i18n";
-import { InstagramerAccountInfo } from "../../models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "../../helper/api";
-import { clientFetchApi } from "../../helper/clientFetchApi";
+} from "brancy/components/notifications/notificationBox";
+import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
+import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { InstagramerAccountInfo } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType } from "brancy/helper/api";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   ILink,
   IOrderFeatures,
@@ -32,7 +32,7 @@ import {
   IUpdateFeatureOrder,
   IUpdateLink,
   IUpdateOrderLink,
-} from "../../models/market/properties";
+} from "brancy/models/market/properties";
 
 const Properties = () => {
   //  return <Soon />;

@@ -7,11 +7,11 @@ import {
   NotifType,
   notify,
   ResponseType,
-} from "../../../components/notifications/notificationBox";
-import { IRefreshToken } from "../../../models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "../../../helper/api";
+} from "brancy/components/notifications/notificationBox";
+import { IRefreshToken } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType } from "brancy/helper/api";
 import styles from "./metaDirect.module.css";
-import { clientFetchApi, clientFetchApiWithAccessToken } from "../../../helper/clientFetchApi";
+import { clientFetchApi, clientFetchApiWithAccessToken } from "brancy/helper/clientFetchApi";
 
 export default function MetaRedirect() {
   const { data: session, update } = useSession();

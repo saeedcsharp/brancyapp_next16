@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import styles from "./counterDown.module.css";
-import SVGCircle from "./svgCircle";
+import styles from "brancy/components/design/counterDown/counterDown.module.css";
+import SVGCircle from "brancy/components/design/counterDown/svgCircle";
 
 export enum ShowRings {
   Days = 0,

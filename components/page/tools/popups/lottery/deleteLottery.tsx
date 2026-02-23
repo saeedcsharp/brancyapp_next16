@@ -7,10 +7,10 @@ import {
   NotifType,
   notify,
   ResponseType,
-} from "../../../../notifications/notificationBox";
-import { LanguageKey } from "../../../../../i18n";
-import { MethodType } from "../../../../../helper/api";
-import { clientFetchApi } from "../../../../../helper/clientFetchApi";
+} from "brancy/components/notifications/notificationBox";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const DeleteLottery = (props: {
   lotteryId: string;
   handleCancelDelete: () => void;

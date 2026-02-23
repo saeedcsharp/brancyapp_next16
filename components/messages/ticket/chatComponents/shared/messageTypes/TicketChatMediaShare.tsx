@@ -1,9 +1,9 @@
 import React, { useCallback, useMemo } from "react";
-import Dotmenu from "../../../../../design/dotMenu/dotMenu";
-import MediaDetector from "../../../../shared/utils/MediaDetector";
-import { TicketBaseChatProps } from "../../types";
-import { TicketChatDate, TicketReactionEmoji } from "../utils";
-import styles from "./messageTypes.module.css";
+import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
+import MediaDetector from "brancy/components/messages/shared/utils/MediaDetector";
+import { TicketBaseChatProps } from "brancy/components/messages/ticket/chatComponents/types";
+import { TicketChatDate, TicketReactionEmoji } from "brancy/components/messages/ticket/chatComponents/shared/utils";
+import styles from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/messageTypes.module.css";
 // #endregion
 // #region تعریف کامپوننت - اشتراک رسانه
 // این کامپوننت محتوای به اشتراک‌گذاشته‌شده را نمایش می‌دهد و رویداد کلیک/کیبورد را هندل می‌کند.

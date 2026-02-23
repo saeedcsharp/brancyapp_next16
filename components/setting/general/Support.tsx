@@ -1,14 +1,14 @@
 import React, { memo, useCallback, useEffect, useId, useMemo, useReducer, useRef, useTransition } from "react";
 import { useTranslation } from "react-i18next";
-import Dotmenu from "../../design/dotMenu/dotMenu";
-import RingLoader from "../../design/loader/ringLoder";
-import formatTimeAgo from "../../../helper/formatTimeAgo";
-import { convertToSeconds } from "../../../helper/manageTimer";
-import { LanguageKey } from "../../../i18n";
-import { StatusReplied } from "../../../models/messages/enum";
-import { PlatformTicketType } from "../../../models/setting/enums";
-import { IPlatform, ITicketInsights } from "../../../models/setting/general";
-import styles from "./general.module.css";
+import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import formatTimeAgo from "brancy/helper/formatTimeAgo";
+import { convertToSeconds } from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { StatusReplied } from "brancy/models/messages/enum";
+import { PlatformTicketType } from "brancy/models/setting/enums";
+import { IPlatform, ITicketInsights } from "brancy/models/setting/general";
+import styles from "brancy/components/setting/general/general.module.css";
 
 interface SupportProps {
   isDataLoaded: boolean;

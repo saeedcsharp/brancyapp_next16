@@ -1,5 +1,5 @@
-import { BrowserType, DeviceType, OsType } from "../setting/enums";
-import { LoginStatus } from "./LoginStatus";
+import { BrowserType, DeviceType, OsType } from "brancy/models/setting/enums";
+import { LoginStatus } from "brancy/models/_AccountInfo/LoginStatus";
 
 export interface InstagramerAccountInfo {
   loginStatus: LoginStatus;

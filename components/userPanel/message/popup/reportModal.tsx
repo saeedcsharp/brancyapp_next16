@@ -1,8 +1,8 @@
 import { ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "../../../design/inputText";
-import TextArea from "../../../design/textArea/textArea";
-import { LanguageKey } from "../../../../i18n/languageKeys";
+import InputText from "brancy/components/design/inputText";
+import TextArea from "brancy/components/design/textArea/textArea";
+import { LanguageKey } from "brancy/i18n/languageKeys";
 
 interface ReportModalProps {
   report: {

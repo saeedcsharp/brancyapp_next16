@@ -1,4 +1,4 @@
-import { LogisticType } from "../models/store/enum";
+import { LogisticType } from "brancy/models/store/enum";
 
 export function specifyLogistic(id: number | null): string {
   switch (id) {

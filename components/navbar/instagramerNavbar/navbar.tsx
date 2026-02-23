@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useEffect, useRef } from "react";
-import styles from "./navbar.module.css";
+import styles from "brancy/components/navbar/instagramerNavbar/navbar.module.css";
 
 interface INavbar {
   id: string;

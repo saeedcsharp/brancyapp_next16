@@ -1,6 +1,6 @@
-import { NotifType, notify, ResponseType } from "../components/notifications/notificationBox";
-import { FeatureType, IFeatureInfo } from "../models/psg/psg";
-import { convertToMilliseconds } from "./manageTimer";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { FeatureType, IFeatureInfo } from "brancy/models/psg/psg";
+import { convertToMilliseconds } from "brancy/helper/manageTimer";
 
 // Helper function to check if current time is within time range
 function isTimeInRange(beginUnix: number, endUnix: number, timeUnix: number): boolean {

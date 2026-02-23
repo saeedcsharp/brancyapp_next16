@@ -1,15 +1,15 @@
 import { MouseEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import Dotmenu from "../../../design/dotMenu/dotMenu";
-import Slider, { SliderSlide } from "../../../design/slider/slider";
-import FlexibleToggleButton from "../../../design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "../../../design/toggleButton/types";
-import Loading from "../../../notOk/loading";
-import initialzedTime from "../../../../helper/manageTimer";
-import { LanguageKey } from "../../../../i18n";
-import { IHashtag } from "../../../../models/page/tools/tools";
-import styles from "./hashtags.module.css";
+import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
+import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "brancy/components/design/toggleButton/types";
+import Loading from "brancy/components/notOk/loading";
+import initialzedTime from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { IHashtag } from "brancy/models/page/tools/tools";
+import styles from "brancy/components/page/tools/hashtaglist/hashtags.module.css";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const Hashtags = (props: {
   data: IHashtag | null;

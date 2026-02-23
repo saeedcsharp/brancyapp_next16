@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
-import LinkifyText from "../../../../../../context/LinkifyText";
-import { getMessageDirectionClass } from "../../../../../../helper/checkRtl";
-import { detectEmojiOnly } from "../../../../../../helper/emojiDetector";
-import { IItem, ITicket } from "../../../../../../models/userPanel/message";
-import { TicketChatDate, TicketMessageStatus } from "../utils";
-import styles from "./messageTypes.module.css";
+import LinkifyText from "brancy/context/LinkifyText";
+import { getMessageDirectionClass } from "brancy/helper/checkRtl";
+import { detectEmojiOnly } from "brancy/helper/emojiDetector";
+import { IItem, ITicket } from "brancy/models/userPanel/message";
+import { TicketChatDate, TicketMessageStatus } from "brancy/components/messages/ticket/chatComponents/shared/utils";
+import styles from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/messageTypes.module.css";
 // #region تعریف اینترفیس - انواع پراپس
 // تعریف `SystemChatTextProps` که ورودی‌های کامپوننت متن سیستم را مشخص می‌کند.
 interface SystemChatTextProps {

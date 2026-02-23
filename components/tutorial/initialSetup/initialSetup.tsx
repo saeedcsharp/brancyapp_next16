@@ -1,13 +1,13 @@
 import { useSession } from "next-auth/react";
 import React, { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import RadioButton from "../../design/radioButton";
-import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
-import { LanguageKey } from "../../../i18n";
-import { InitialSetupState } from "../../../models/homeIndex/home";
-import { MethodType } from "../../../helper/api";
-import styles from "./initialSetup.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import RadioButton from "brancy/components/design/radioButton";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { LanguageKey } from "brancy/i18n";
+import { InitialSetupState } from "brancy/models/homeIndex/home";
+import { MethodType } from "brancy/helper/api";
+import styles from "brancy/components/tutorial/initialSetup/initialSetup.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 interface InitialSetupProps {
   onComplete: () => void;
 }

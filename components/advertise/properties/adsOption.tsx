@@ -1,11 +1,11 @@
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import BlurInputText from "../../design/blurInputText";
-import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
-import useHideDiv from "../../../hook/useHide";
-import { LanguageKey } from "../../../i18n";
-import { IAdsOption } from "../../../models/advertise/peoperties";
-import styles from "./propertiesComponent.module.css";
+import BlurInputText from "brancy/components/design/blurInputText";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import useHideDiv from "brancy/hook/useHide";
+import { LanguageKey } from "brancy/i18n";
+import { IAdsOption } from "brancy/models/advertise/peoperties";
+import styles from "brancy/components/advertise/properties/propertiesComponent.module.css";
 const numbersRegex = /^[0-9]+$/;
 function AdsOption(props: { adsOption: IAdsOption }) {
   const { t } = useTranslation();

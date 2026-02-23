@@ -2,9 +2,9 @@
 
 import { SessionProvider } from "next-auth/react";
 import { ReactNode } from "react";
-import Notification from "../components/notifications/notificationBox";
-import { DirectionProvider } from "../context/directionContext";
-import { InstaProvider } from "../context/instaInfoContext";
+import Notification from "brancy/components/notifications/notificationBox";
+import { DirectionProvider } from "brancy/context/directionContext";
+import { InstaProvider } from "brancy/context/instaInfoContext";
 
 type ProvidersProps = {
   children: ReactNode;

@@ -1,8 +1,8 @@
 import { ChangeEvent, MouseEvent, useState } from "react";
-import CheckBoxButton from "../design/checkBoxButton";
-import InputText from "../design/inputText";
-import styles from "./searchBar.module.css";
-import SearchContent from "./searchContent";
+import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import InputText from "brancy/components/design/inputText";
+import styles from "brancy/components/search/searchBar.module.css";
+import SearchContent from "brancy/components/search/searchContent";
 
 const SearchBar = (prop: { removeMask: (e: MouseEvent) => void }) => {
   const [filterList, setFilterList] = useState([

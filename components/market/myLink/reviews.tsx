@@ -1,7 +1,7 @@
 import { useState } from "react";
-import FiveStar from "../../fiveStar";
-import { IReviews } from "../../../models/market/myLink";
-import styles from "./mylink.module.css";
+import FiveStar from "brancy/components/fiveStar";
+import { IReviews } from "brancy/models/market/myLink";
+import styles from "brancy/components/market/myLink/mylink.module.css";
 const Reviews = ({ data }: { data: IReviews | null }) => {
   const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
   const [isContentVisible, setIsContentVisible] = useState(true);

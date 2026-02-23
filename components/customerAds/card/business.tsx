@@ -1,7 +1,7 @@
-import { findDayName } from "../../../helper/findDayName";
-import { numbToAmAndPmTime } from "../../../helper/numberFormater";
-import { IBusinessHour } from "../../../models/advertise/peoperties";
-import styles from "./business.module.css";
+import { findDayName } from "brancy/helper/findDayName";
+import { numbToAmAndPmTime } from "brancy/helper/numberFormater";
+import { IBusinessHour } from "brancy/models/advertise/peoperties";
+import styles from "brancy/components/customerAds/card/business.module.css";
 function BusinessHour(props: { businessHour: IBusinessHour[] }) {
   return (
     <>

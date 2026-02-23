@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../i18n";
-import FeatureListModal from "./FeatureListModal";
-import styles from "./instagramerupgrade.module.css";
+import { LanguageKey } from "brancy/i18n";
+import FeatureListModal from "brancy/components/homeIndex/FeatureListModal";
+import styles from "brancy/components/homeIndex/instagramerupgrade.module.css";
 const SKIP_KEY = "instagramer-upgrade-skip";
 const FIRST_LOGIN_KEY = "first-login-date";
 

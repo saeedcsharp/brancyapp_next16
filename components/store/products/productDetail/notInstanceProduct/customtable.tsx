@@ -1,9 +1,9 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "../../../../design/checkBoxButton";
-import InputText from "../../../../design/inputText";
-import { LanguageKey } from "../../../../../i18n";
-import styles from "./customtable.module.css";
+import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import InputText from "brancy/components/design/inputText";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/store/products/productDetail/notInstanceProduct/customtable.module.css";
 interface TableCell {
   value: string;
 }

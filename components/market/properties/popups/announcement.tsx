@@ -2,12 +2,12 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import TextArea from "../../../design/textArea/textArea";
-import Loading from "../../../notOk/loading";
-import { LanguageKey } from "../../../../i18n";
-import { MethodType } from "../../../../helper/api";
-import { IAnnouncementInfo } from "../../../../models/market/properties";
-import { clientFetchApi } from "../../../../helper/clientFetchApi";
+import TextArea from "brancy/components/design/textArea/textArea";
+import Loading from "brancy/components/notOk/loading";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { IAnnouncementInfo } from "brancy/models/market/properties";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 const Announcement = (props: { removeMask: () => void }) => {
   const { t } = useTranslation();

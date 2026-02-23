@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../i18n";
-import styles from "./counterDown.module.css";
-import SVGCircle from "./svgCircle";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/design/counterDown/counterDown.module.css";
+import SVGCircle from "brancy/components/design/counterDown/svgCircle";
 export enum ShowRings {
   All = 0,
   MinutesAndHours = 1,

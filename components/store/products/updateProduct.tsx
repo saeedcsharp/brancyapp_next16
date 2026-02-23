@@ -1,11 +1,11 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
-import Loading from "../../notOk/loading";
-import { MethodType } from "../../../helper/api";
-import { IProduct_FullProduct } from "../../../models/store/IProduct";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import { MethodType } from "brancy/helper/api";
+import { IProduct_FullProduct } from "brancy/models/store/IProduct";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 

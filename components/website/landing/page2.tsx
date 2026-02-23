@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useId, useMemo, useReducer, useRef, useTransition } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../i18n";
-import styles from "./page2.module.css";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/website/landing/page2.module.css";
 
 interface Service {
   id: string;

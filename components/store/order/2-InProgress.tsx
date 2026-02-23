@@ -1,15 +1,15 @@
 import React, { ChangeEvent, useEffect, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import CheckBoxButton from "../../design/checkBoxButton";
-import RingLoader from "../../design/loader/ringLoder";
-import PriceFormater, { PriceFormaterClassName } from "../../priceFormater";
-import initialzedTime from "../../../helper/manageTimer";
-import { specifyLogistic } from "../../../helper/specifyLogistic";
-import { LanguageKey } from "../../../i18n";
-import { OrderStepStatus } from "../../../models/store/enum";
-import { IOrderByStatus, IOrderByStatusItem } from "../../../models/store/orders";
-import styles from "./2-InProgress.module.css";
+import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
+import initialzedTime from "brancy/helper/manageTimer";
+import { specifyLogistic } from "brancy/helper/specifyLogistic";
+import { LanguageKey } from "brancy/i18n";
+import { OrderStepStatus } from "brancy/models/store/enum";
+import { IOrderByStatus, IOrderByStatusItem } from "brancy/models/store/orders";
+import styles from "brancy/components/store/order/2-InProgress.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const MemoizedCheckBoxButton = React.memo(CheckBoxButton);
 interface SelectionState {

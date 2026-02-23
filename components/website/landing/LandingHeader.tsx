@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import RadioButton from "../../design/radioButton";
-import { LanguageKey } from "../../../i18n";
-import styles from "./LandingHeader.module.css";
+import RadioButton from "brancy/components/design/radioButton";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/website/landing/LandingHeader.module.css";
 
 type ThemeState = {
   themeMode: string;

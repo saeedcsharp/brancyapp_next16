@@ -1,11 +1,11 @@
 import { useSession } from "next-auth/react";
 import router from "next/router";
 import { useTranslation } from "react-i18next";
-import { NotifType, notify, ResponseType } from "../../../../../notifications/notificationBox";
-import { LanguageKey } from "../../../../../../i18n";
-import { MethodType } from "../../../../../../helper/api";
-import styles from "./deleteProduct.module.css";
-import { clientFetchApi } from "../../../../../../helper/clientFetchApi";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import styles from "brancy/components/store/products/productDetail/notInstanceProduct/popups/deleteProduct.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const DeleteProduct = (props: { productId: number; removeMask: () => void }) => {
   const { t } = useTranslation();
   const { data: session } = useSession();

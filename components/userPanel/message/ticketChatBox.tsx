@@ -1,13 +1,13 @@
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import InputEmoji from "react-input-emoji";
 import { DateObject } from "react-multi-date-picker";
-import RingLoader from "../../design/loader/ringLoder";
-import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
-import { convertHeicToJpeg } from "../../../helper/convertHeicToJPEG";
-import initialzedTime from "../../../helper/manageTimer";
-import { IOwnerInbox, ISendTicketMessage, ITicket, ITicketMediaType } from "../../../models/userPanel/message";
-import LinkifyText from "../../../context/LinkifyText";
-import styles from "./ticketChatBox.module.css";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
+import initialzedTime from "brancy/helper/manageTimer";
+import { IOwnerInbox, ISendTicketMessage, ITicket, ITicketMediaType } from "brancy/models/userPanel/message";
+import LinkifyText from "brancy/context/LinkifyText";
+import styles from "brancy/components/userPanel/message/ticketChatBox.module.css";
 const UserPanelDirectChatBox = (props: {
   userSelectId: number | null;
   chatBox: ITicket;

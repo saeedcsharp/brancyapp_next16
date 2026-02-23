@@ -1,8 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "../../../design/inputText";
-import ToggleCheckBoxButton from "../../../design/toggleCheckBoxButton";
-import { LanguageKey } from "../../../../i18n";
+import InputText from "brancy/components/design/inputText";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import { LanguageKey } from "brancy/i18n";
 
 interface FlowPropertiesProps {
   isOpen: boolean;

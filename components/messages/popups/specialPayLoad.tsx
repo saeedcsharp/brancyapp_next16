@@ -3,26 +3,26 @@ import Head from "next/head";
 import router from "next/router";
 import React, { ChangeEvent, useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "../../design/dragDrop/dragDrop";
-import InputText from "../../design/inputText";
-import RingLoader from "../../design/loader/ringLoder";
-import RadioButton from "../../design/radioButton";
-import TextArea from "../../design/textArea/textArea";
-import Loading from "../../notOk/loading";
-import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
-import { LanguageKey } from "../../../i18n";
-import { IDetailPrompt, IPrompts } from "../../../models/AI/prompt";
-import { MethodType } from "../../../helper/api";
-import { PayloadType, SpecialPayLoad } from "../../../models/messages/enum";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import InputText from "brancy/components/design/inputText";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import RadioButton from "brancy/components/design/radioButton";
+import TextArea from "brancy/components/design/textArea/textArea";
+import Loading from "brancy/components/notOk/loading";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { LanguageKey } from "brancy/i18n";
+import { IDetailPrompt, IPrompts } from "brancy/models/AI/prompt";
+import { MethodType } from "brancy/helper/api";
+import { PayloadType, SpecialPayLoad } from "brancy/models/messages/enum";
 import {
   IMasterFlow,
   IProfileButtons,
   ISpecialPayload,
   ITotalMasterFlow,
   IUpdateProfileButton,
-} from "../../../models/messages/properies";
-import styles from "./specialPayLoad.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+} from "brancy/models/messages/properies";
+import styles from "brancy/components/messages/popups/specialPayLoad.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 // Reducer for checkbox state
 type CheckBoxState = {
   custom: boolean;

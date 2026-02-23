@@ -4,10 +4,10 @@ import router from "next/router";
 
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import DirectInbox from "../../components/messages/direct/directInbox";
-import NotPermission, { PermissionType } from "../../components/notOk/notPermission";
-import { LoginStatus, packageStatus } from "../../helper/loadingStatus";
-import { LanguageKey } from "../../i18n";
+import DirectInbox from "brancy/components/messages/direct/directInbox";
+import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
+import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
 const Direct = () => {
   const { t } = useTranslation();
   const { data: session } = useSession({

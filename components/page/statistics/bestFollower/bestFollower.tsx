@@ -2,15 +2,15 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Slider, { SliderSlide } from "../../../design/slider/slider";
-import Loading from "../../../notOk/loading";
-import { LoginStatus, RoleAccess } from "../../../../helper/loadingStatus";
-import { LanguageKey } from "../../../../i18n";
-import { PartnerRole } from "../../../../models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "../../../../helper/api";
-import { IBestFollowers } from "../../../../models/page/statistics/statisticsContent/GraphIngageBoxes/bestFollower";
-import styles from "./bestFollower.module.css";
-import { clientFetchApi } from "../../../../helper/clientFetchApi";
+import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
+import Loading from "brancy/components/notOk/loading";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType } from "brancy/helper/api";
+import { IBestFollowers } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/bestFollower";
+import styles from "brancy/components/page/statistics/bestFollower/bestFollower.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const FollowerCard = memo(
   ({ follower, onImageClick }: { follower: IBestFollowers; onImageClick: (url: string, username: string) => void }) => {

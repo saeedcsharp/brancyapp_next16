@@ -1,4 +1,4 @@
-import { AdsType } from "../models/advertise/AdEnums";
+import { AdsType } from "brancy/models/advertise/AdEnums";
 
 export function handleSpecifyAdType(adType: AdsType) {
   switch (adType) {

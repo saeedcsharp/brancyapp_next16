@@ -1,10 +1,10 @@
 import { useTranslation } from "react-i18next";
-import { findDayName } from "../../../helper/findDayName";
-import { numbToAmAndPmTime } from "../../../helper/numberFormater";
-import useHideDiv from "../../../hook/useHide";
-import { LanguageKey } from "../../../i18n";
-import { IBusinessHour } from "../../../models/advertise/peoperties";
-import styles from "./propertiesComponent.module.css";
+import { findDayName } from "brancy/helper/findDayName";
+import { numbToAmAndPmTime } from "brancy/helper/numberFormater";
+import useHideDiv from "brancy/hook/useHide";
+import { LanguageKey } from "brancy/i18n";
+import { IBusinessHour } from "brancy/models/advertise/peoperties";
+import styles from "brancy/components/advertise/properties/propertiesComponent.module.css";
 function BusinessHours(props: {
   businessInfo: IBusinessHour[];
   setShowBusinessHoursPopup: (showPopup: boolean) => void;

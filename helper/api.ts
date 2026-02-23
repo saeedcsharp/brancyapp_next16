@@ -5,7 +5,7 @@ import {
   NotifType,
   notify,
   ResponseType,
-} from "../components/notifications/notificationBox";
+} from "brancy/components/notifications/notificationBox";
 
 const UPLOAD_BASE_URL = "https://uupload.brancy.app/file";
 

@@ -2,23 +2,23 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { ChangeEvent, SetStateAction, useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "../../../design/checkBoxButton";
-import InputText from "../../../design/inputText";
-import RingLoader from "../../../design/loader/ringLoder";
-import ToggleCheckBoxButton from "../../../design/toggleCheckBoxButton";
+import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import InputText from "brancy/components/design/inputText";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "../../../notifications/notificationBox";
-import Loading from "../../../notOk/loading";
-import { LanguageKey } from "../../../../i18n";
-import { MethodType } from "../../../../helper/api";
-import { IChannel, IChannelBox, IChannelInfo, ISearchChannel, IUpdateChannel } from "../../../../models/market/properties";
-import styles from "./featureBoxPU.module.css";
-import { clientFetchApi } from "../../../../helper/clientFetchApi";
+} from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { IChannel, IChannelBox, IChannelInfo, ISearchChannel, IUpdateChannel } from "brancy/models/market/properties";
+import styles from "brancy/components/market/properties/popups/featureBoxPU.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const initialChannelSearchState: ISearchChannel = {
   searchAparatPage: "",
   searchYoutubePage: "",

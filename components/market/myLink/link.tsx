@@ -1,10 +1,10 @@
 import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import CountdownTimerForLink from "../../design/counterDown/counterDownForLink";
-import { LanguageKey } from "../../../i18n";
-import { ILink, IServerLink } from "../../../models/market/myLink";
-import styles from "./link.module.css";
+import CountdownTimerForLink from "brancy/components/design/counterDown/counterDownForLink";
+import { LanguageKey } from "brancy/i18n";
+import { ILink, IServerLink } from "brancy/models/market/myLink";
+import styles from "brancy/components/market/myLink/link.module.css";
 interface LinkComponentProps {
   data: ILink | null;
 }

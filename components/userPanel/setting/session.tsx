@@ -1,16 +1,16 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useReducer, useRef, useState } from "react";
-import Loading from "../../notOk/loading";
-import { convertArrayToLarray } from "../../../helper/chunkArray";
-import { LoginStatus, RoleAccess } from "../../../helper/loadingStatus";
-import { ILoadingStatus, ISession } from "../../../models/_AccountInfo/InstagramerAccountInfo";
+import Loading from "brancy/components/notOk/loading";
+import { convertArrayToLarray } from "brancy/helper/chunkArray";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { ILoadingStatus, ISession } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import styles from "./general.module.css";
+import styles from "brancy/components/userPanel/setting/general.module.css";
 export default function Session({
   sessions,
   handleShowDeleteSession,

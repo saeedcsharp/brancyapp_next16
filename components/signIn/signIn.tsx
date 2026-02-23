@@ -1,14 +1,14 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { detectLocaleFromTimezone } from "../../helper/detectLocaleFromTimezone";
-import { LanguageKey } from "../../i18n";
-import { SendCodeResult } from "../../models/ApiModels/User/SendCodeResult";
-import { MethodType } from "../../helper/api";
-import GoogleLoginButton from "./googleLoginPopup";
-import ReactPhoneInput from "./reactPhoneInput";
-import styles from "./signIn.module.css";
-import VerificationForm from "./verificationForm";
-import { clientFetchApi } from "../../helper/clientFetchApi";
+import { detectLocaleFromTimezone } from "brancy/helper/detectLocaleFromTimezone";
+import { LanguageKey } from "brancy/i18n";
+import { SendCodeResult } from "brancy/models/ApiModels/User/SendCodeResult";
+import { MethodType } from "brancy/helper/api";
+import GoogleLoginButton from "brancy/components/signIn/googleLoginPopup";
+import ReactPhoneInput from "brancy/components/signIn/reactPhoneInput";
+import styles from "brancy/components/signIn/signIn.module.css";
+import VerificationForm from "brancy/components/signIn/verificationForm";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 export enum SignInType {
   Phonenumber = 0,
   VerificaionCode = 1,

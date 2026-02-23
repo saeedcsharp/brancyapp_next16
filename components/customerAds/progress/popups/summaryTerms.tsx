@@ -1,4 +1,4 @@
-import styles from "./summaryTerms.module.css";
+import styles from "brancy/components/customerAds/progress/popups/summaryTerms.module.css";
 const SummaryTerms = (props: { terms: string; removeMask: () => void }) => {
   return (
     <>

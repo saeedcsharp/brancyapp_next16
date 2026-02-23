@@ -1,12 +1,12 @@
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "../../design/checkBoxButton";
-import InputText from "../../design/inputText";
-import RadioButton from "../../design/radioButton";
-import FollowerSlider from "../../design/sliders/followerSlider";
-import PriceSlider from "../../design/sliders/priceSlider";
-import RatingSlider from "../../design/sliders/ratingSlider";
-import { LanguageKey } from "../../../i18n";
+import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import InputText from "brancy/components/design/inputText";
+import RadioButton from "brancy/components/design/radioButton";
+import FollowerSlider from "brancy/components/design/sliders/followerSlider";
+import PriceSlider from "brancy/components/design/sliders/priceSlider";
+import RatingSlider from "brancy/components/design/sliders/ratingSlider";
+import { LanguageKey } from "brancy/i18n";
 import {
   CategoryType,
   FilterNames,
@@ -15,8 +15,8 @@ import {
   SortBy,
   SortByNum,
   SortUp,
-} from "../../../models/customerAds/customerAd";
-import styles from "./filter.module.css";
+} from "brancy/models/customerAds/customerAd";
+import styles from "brancy/components/market/home/filter.module.css";
 
 function Filter(props: {
   handleApplyFilter: (info: ISideBar) => void;

@@ -1,13 +1,13 @@
-import { FeatureType } from "../../../../models/market/enums";
-import { ISaveLink } from "../../../../models/market/properties";
-import AddNewLink from "./addNewLink";
-import Announcement from "./announcement";
-import Banner from "./banner";
-import ContactForm from "./contactForm";
-import FeatureBox from "./featureBox";
-import OnlineStream from "./onlineStream";
-import QAndABox from "./qAndABox";
-import VideoAndMusic from "./videoAndMusic";
+import { FeatureType } from "brancy/models/market/enums";
+import { ISaveLink } from "brancy/models/market/properties";
+import AddNewLink from "brancy/components/market/properties/popups/addNewLink";
+import Announcement from "brancy/components/market/properties/popups/announcement";
+import Banner from "brancy/components/market/properties/popups/banner";
+import ContactForm from "brancy/components/market/properties/popups/contactForm";
+import FeatureBox from "brancy/components/market/properties/popups/featureBox";
+import OnlineStream from "brancy/components/market/properties/popups/onlineStream";
+import QAndABox from "brancy/components/market/properties/popups/qAndABox";
+import VideoAndMusic from "brancy/components/market/properties/popups/videoAndMusic";
 
 const FeaturePopUp = (props: {
   featureId: number;

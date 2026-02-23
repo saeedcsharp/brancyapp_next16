@@ -18,20 +18,20 @@ import { CSS } from "@dnd-kit/utilities";
 import { useSession } from "next-auth/react";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "../../../../design/dragDrop/dragDrop";
-import InputText from "../../../../design/inputText";
-import { NotifType, notify, ResponseType } from "../../../../notifications/notificationBox";
-import { LanguageKey } from "../../../../../i18n";
-import { MethodType } from "../../../../../helper/api";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import InputText from "brancy/components/design/inputText";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
 import {
   ICreateInstance_ForSpecification,
   ICustomSpecificationItem,
   IProduct_LastSpecification,
   IProduct_Variation,
   ISpecificationItem,
-} from "../../../../../models/store/IProduct";
-import styles from "./specifications.module.css";
-import { clientFetchApi } from "../../../../../helper/clientFetchApi";
+} from "brancy/models/store/IProduct";
+import styles from "brancy/components/store/products/productDetail/notInstanceProduct/specifications.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 function SortableItem({
   item,

@@ -1,8 +1,8 @@
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import TextArea from "../textArea/textArea";
-import { LanguageKey } from "../../../i18n";
-import styles from "./aiPrompt.module.css";
+import TextArea from "brancy/components/design/textArea/textArea";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/design/ai/aiPrompt.module.css";
 
 export default function AiPrompt({
   aiLoading,

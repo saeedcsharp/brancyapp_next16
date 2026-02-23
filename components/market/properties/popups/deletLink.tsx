@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../../i18n";
-import styles from "./linkBoxPu.module.css";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/market/properties/popups/linkBoxPu.module.css";
 const DeleteLink = (props: { linkId: number; removeMask: () => void; handleDeleteLink: (linkId: number) => void }) => {
   const { t } = useTranslation();
   return (

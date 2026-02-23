@@ -2,15 +2,15 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "../../../design/inputText";
-import RingLoader from "../../../design/loader/ringLoder";
-import TextArea from "../../../design/textArea/textArea";
-import { NotifType, notify, ResponseType } from "../../../notifications/notificationBox";
-import { LanguageKey } from "../../../../i18n";
-import { MethodType } from "../../../../helper/api";
-import { IAddress, InputTypeAddress, IUpdateUserAddress } from "../../../../models/userPanel/orders";
-import styles from "./addresses.module.css";
-import { clientFetchApi } from "../../../../helper/clientFetchApi";
+import InputText from "brancy/components/design/inputText";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import TextArea from "brancy/components/design/textArea/textArea";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { IAddress, InputTypeAddress, IUpdateUserAddress } from "brancy/models/userPanel/orders";
+import styles from "brancy/components/userPanel/orders/popups/addresses.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 enum CreateAddresStep {
   PostalCode,
   VerifyAddress,

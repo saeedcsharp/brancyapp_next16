@@ -25,12 +25,12 @@ import {
   NotifType,
   notify,
   ResponseType,
-} from "../../../../notifications/notificationBox";
-import { convertHeicToJpeg } from "../../../../../helper/convertHeicToJPEG";
-import { LanguageKey } from "../../../../../i18n";
-import { MediaType } from "../../../../../models/page/post/preposts";
-import { IProduct_Media, ISuggestedMedia } from "../../../../../models/store/IProduct";
-import styles from "./media.module.css";
+} from "brancy/components/notifications/notificationBox";
+import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
+import { LanguageKey } from "brancy/i18n";
+import { MediaType } from "brancy/models/page/post/preposts";
+import { IProduct_Media, ISuggestedMedia } from "brancy/models/store/IProduct";
+import styles from "brancy/components/store/products/productDetail/notInstanceProduct/media.module.css";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const MAX_UPLOADS = 5;

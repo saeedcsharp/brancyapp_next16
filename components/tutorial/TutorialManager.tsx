@@ -1,8 +1,8 @@
 import React from "react";
-import { useTutorial } from "./hooks/useTutorial";
-import { TutorialPageKey, tutorialConfigs } from "./tutorialConfigs";
-import TutorialDesktop from "./tutorialDesktop";
-import TutorialMobile from "./tutorialMobile";
+import { useTutorial } from "brancy/components/tutorial/hooks/useTutorial";
+import { TutorialPageKey, tutorialConfigs } from "brancy/components/tutorial/tutorialConfigs";
+import TutorialDesktop from "brancy/components/tutorial/tutorialDesktop";
+import TutorialMobile from "brancy/components/tutorial/tutorialMobile";
 
 interface TutorialManagerProps {
   pageKey: TutorialPageKey;

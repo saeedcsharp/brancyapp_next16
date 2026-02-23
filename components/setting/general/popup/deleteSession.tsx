@@ -1,8 +1,8 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../../i18n";
-import { ISession } from "../../../../models/_AccountInfo/InstagramerAccountInfo";
-import styles from "./deleteSession.module.css";
+import { LanguageKey } from "brancy/i18n";
+import { ISession } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import styles from "brancy/components/setting/general/popup/deleteSession.module.css";
 
 function _arrayBufferToBase64(buffer: ArrayBuffer) {
   var binary = "";

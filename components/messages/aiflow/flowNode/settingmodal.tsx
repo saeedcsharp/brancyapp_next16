@@ -2,23 +2,23 @@ import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import CheckBoxButton from "../../../design/checkBoxButton";
-import InputText from "../../../design/inputText";
-import RingLoader from "../../../design/loader/ringLoder";
-import FlexibleToggleButton from "../../../design/toggleButton/flexibleToggleButton";
-import ToggleCheckBoxButton from "../../../design/toggleCheckBoxButton";
+import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import InputText from "brancy/components/design/inputText";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
-} from "../../../notifications/notificationBox";
-import initialzedTime from "../../../../helper/manageTimer";
-import { LanguageKey } from "../../../../i18n";
-import { MethodType } from "../../../../helper/api";
-import { ITotalMasterFlow } from "../../../../models/messages/properies";
-import styles from "./settingmodal.module.css";
-import { clientFetchApi } from "../../../../helper/clientFetchApi";
+} from "brancy/components/notifications/notificationBox";
+import initialzedTime from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { ITotalMasterFlow } from "brancy/models/messages/properies";
+import styles from "brancy/components/messages/aiflow/flowNode/settingmodal.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 interface SettingModalProps {
   masterFlowId: string;
   snapToGridEnabled: boolean;

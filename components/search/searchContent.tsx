@@ -1,5 +1,5 @@
-import { SearchContentModel } from "../../models/searchBar/searchContent";
-import styles from "./searchContent.module.css";
+import { SearchContentModel } from "brancy/models/searchBar/searchContent";
+import styles from "brancy/components/search/searchContent.module.css";
 
 const SearchContent = (props: { data?: SearchContentModel }) => {
   return (

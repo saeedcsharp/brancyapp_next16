@@ -2,15 +2,15 @@ import type { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { InitialSetupState } from "../../models/homeIndex/home";
-import { MethodType } from "../../helper/api";
-import { NotifType, notify, ResponseType } from "../notifications/notificationBox";
-import { useTutorial } from "./hooks/useTutorial";
-import InitialSetup from "./initialSetup/initialSetup";
-import { tutorialConfigs, TutorialPageKey } from "./tutorialConfigs";
-import TutorialDesktop from "./tutorialDesktop";
-import TutorialMobile from "./tutorialMobile";
-import { clientFetchApi } from "../../helper/clientFetchApi";
+import { InitialSetupState } from "brancy/models/homeIndex/home";
+import { MethodType } from "brancy/helper/api";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { useTutorial } from "brancy/components/tutorial/hooks/useTutorial";
+import InitialSetup from "brancy/components/tutorial/initialSetup/initialSetup";
+import { tutorialConfigs, TutorialPageKey } from "brancy/components/tutorial/tutorialConfigs";
+import TutorialDesktop from "brancy/components/tutorial/tutorialDesktop";
+import TutorialMobile from "brancy/components/tutorial/tutorialMobile";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 interface TutorialWrapperProps {
   pageKey: TutorialPageKey;

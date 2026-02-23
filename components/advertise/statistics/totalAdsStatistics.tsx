@@ -1,10 +1,10 @@
 import { useTranslation } from "react-i18next";
-import InlineBarChart from "../../design/chart/inlineBarChart";
-import { numberToFormattedString } from "../../../helper/numberFormater";
-import useHideDiv from "../../../hook/useHide";
-import { LanguageKey } from "../../../i18n";
-import { IAdShortMonth } from "../../../models/advertise/statistics";
-import styles from "./statistics.module.css";
+import InlineBarChart from "brancy/components/design/chart/inlineBarChart";
+import { numberToFormattedString } from "brancy/helper/numberFormater";
+import useHideDiv from "brancy/hook/useHide";
+import { LanguageKey } from "brancy/i18n";
+import { IAdShortMonth } from "brancy/models/advertise/statistics";
+import styles from "brancy/components/advertise/statistics/statistics.module.css";
 const TotalAdsStatistics = (props: { data: IAdShortMonth[] }) => {
   const { hidePage, gridSpan, toggle } = useHideDiv(true, 47);
   const { t } = useTranslation();

@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
-import styles from "../customerAds.module.css";
-import HeaderTitle from "../../headerTitle/headerTitle";
-import { IFullAdvertiser, SelectedCardContent } from "../../../models/customerAds/customerAd";
-import Terms from "./terms";
-import UserProfile from "./userProfile";
+import styles from "brancy/components/customerAds/customerAds.module.css";
+import HeaderTitle from "brancy/components/headerTitle/headerTitle";
+import { IFullAdvertiser, SelectedCardContent } from "brancy/models/customerAds/customerAd";
+import Terms from "brancy/components/customerAds/card/terms";
+import UserProfile from "brancy/components/customerAds/card/userProfile";
 
 export function card(props: { advertiserId: number; removeMask: () => void }) {
   const [selectedTabIndex, setSelectedTabIndex] = useState<SelectedCardContent>(SelectedCardContent.UserProfile);

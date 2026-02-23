@@ -1,10 +1,10 @@
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "../../design/inputText";
-import TextArea from "../../design/textArea/textArea";
-import useHideDiv from "../../../hook/useHide";
-import { LanguageKey } from "../../../i18n";
-import styles from "./propertiesComponent.module.css";
+import InputText from "brancy/components/design/inputText";
+import TextArea from "brancy/components/design/textArea/textArea";
+import useHideDiv from "brancy/hook/useHide";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/advertise/properties/propertiesComponent.module.css";
 function UserReport() {
   const [inputText, setInputText] = useState<string>("");
   const [textArea, setTextArea] = useState<string>("");

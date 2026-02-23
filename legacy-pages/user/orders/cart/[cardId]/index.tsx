@@ -10,9 +10,9 @@ import {
   NotifType,
   notify,
   ResponseType,
-} from "../../../../../components/notifications/notificationBox";
-import { LanguageKey } from "../../../../../i18n";
-import { MethodType } from "../../../../../helper/api";
+} from "brancy/components/notifications/notificationBox";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
 import {
   IAddress,
   ICompleteProduct,
@@ -21,20 +21,20 @@ import {
   IShortShop,
   ISubProduct,
   IUpdateUserAddress,
-} from "../../../../../models/userPanel/orders";
-import { ColorStr } from "../../../../../models/userPanel/shop";
+} from "brancy/models/userPanel/orders";
+import { ColorStr } from "brancy/models/userPanel/shop";
 
-import IncrementStepper from "../../../../../components/design/incrementStepper";
-import Loading from "../../../../../components/notOk/loading";
-import PriceFormater, { PriceFormaterClassName } from "../../../../../components/priceFormater";
-import CardAddress from "../../../../../components/userPanel/orders/card_adddress";
-import Addresses from "../../../../../components/userPanel/orders/popups/addresses";
-import CreateAddresses from "../../../../../components/userPanel/orders/popups/createAddress";
-import UpdateAddresses from "../../../../../components/userPanel/orders/popups/updateAddress";
-import findSystemLanguage from "../../../../../helper/findSystemLanguage";
+import IncrementStepper from "brancy/components/design/incrementStepper";
+import Loading from "brancy/components/notOk/loading";
+import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
+import CardAddress from "brancy/components/userPanel/orders/card_adddress";
+import Addresses from "brancy/components/userPanel/orders/popups/addresses";
+import CreateAddresses from "brancy/components/userPanel/orders/popups/createAddress";
+import UpdateAddresses from "brancy/components/userPanel/orders/popups/updateAddress";
+import findSystemLanguage from "brancy/helper/findSystemLanguage";
 
 import styles from "./cardId.module.css";
-import { clientFetchApi } from "../../../../../helper/clientFetchApi";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 // Interface for grouped shop data
 interface IGroupedShop {

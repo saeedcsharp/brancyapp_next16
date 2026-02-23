@@ -1,6 +1,6 @@
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../i18n";
+import { LanguageKey } from "brancy/i18n";
 function DeletePrePost(props: { removeMask: () => void; deletePrePost: () => void }) {
   const router = useRouter();
   const saveAsDraft = () => {

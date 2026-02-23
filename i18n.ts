@@ -1,14 +1,14 @@
 import i18n from "i18next";
 import { initReactI18next } from "react-i18next";
-import ar from "./i18n/ar";
-import az from "./i18n/az";
-import en from "./i18n/en";
-import fa from "./i18n/fa";
-import fr from "./i18n/fr";
-import gr from "./i18n/gr";
-import { LanguageKey } from "./i18n/languageKeys";
-import ru from "./i18n/ru";
-import tr from "./i18n/tr";
+import ar from "brancy/i18n/ar";
+import az from "brancy/i18n/az";
+import en from "brancy/i18n/en";
+import fa from "brancy/i18n/fa";
+import fr from "brancy/i18n/fr";
+import gr from "brancy/i18n/gr";
+import { LanguageKey } from "brancy/i18n/languageKeys";
+import ru from "brancy/i18n/ru";
+import tr from "brancy/i18n/tr";
 
 // برای سازگاری با نسخه‌های قبلی export می‌کنیم
 // ولی در نسخه‌های جدید می‌توانید مستقیماً از کلیدهای رشته‌ای استفاده کنید

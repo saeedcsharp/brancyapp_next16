@@ -1,12 +1,12 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { MethodType } from "../../helper/api";
-import { NotifType, notify, ResponseType } from "../notifications/notificationBox";
-import Loading from "../notOk/loading";
-import PriceFormater, { PriceFormaterClassName, PriceType } from "../priceFormater";
-import styles from "./upgrade.module.css";
-import { clientFetchApi } from "../../helper/clientFetchApi";
+import { MethodType } from "brancy/helper/api";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
+import styles from "brancy/components/upgrade/upgrade.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 export interface PaymentInfo {
   accountType: number;
   price: number;

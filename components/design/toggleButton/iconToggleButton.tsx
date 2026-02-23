@@ -1,6 +1,6 @@
 import React from "react";
-import styles from "./iconToggleButton.module.css";
-import { ToggleOrder } from "./types";
+import styles from "brancy/components/design/toggleButton/iconToggleButton.module.css";
+import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 
 const IconToggleButton = (props: {
   data: { firstToggle: string; secondToggle: string };

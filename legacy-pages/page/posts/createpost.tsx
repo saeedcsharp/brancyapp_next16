@@ -15,39 +15,39 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import SetTimeAndDate from "../../../components/dateAndTime/setTimeAndDate";
-import AIWithPrompt from "../../../components/design/ai/AIWithPrompt";
-import ConstantCounterDown from "../../../components/design/counterDown/constantCounterDown";
-import DragComponent from "../../../components/design/dragComponent/dragComponent";
-import DragDrop from "../../../components/design/dragDrop/dragDrop";
-import InputText from "../../../components/design/inputText";
-import RingLoader from "../../../components/design/loader/ringLoder";
-import Modal from "../../../components/design/modal";
-import ProgressBar from "../../../components/design/progressBar/progressBar";
-import TextArea from "../../../components/design/textArea/textArea";
-import ToggleCheckBoxButton from "../../../components/design/toggleCheckBoxButton";
+import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
+import AIWithPrompt from "brancy/components/design/ai/AIWithPrompt";
+import ConstantCounterDown from "brancy/components/design/counterDown/constantCounterDown";
+import DragComponent from "brancy/components/design/dragComponent/dragComponent";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import InputText from "brancy/components/design/inputText";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import Modal from "brancy/components/design/modal";
+import ProgressBar from "brancy/components/design/progressBar/progressBar";
+import TextArea from "brancy/components/design/textArea/textArea";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "../../../components/notifications/notificationBox";
-import NotAllowed from "../../../components/notOk/notAllowed";
-import NotPermission, { PermissionType } from "../../../components/notOk/notPermission";
-import ChangePostToAlbum from "../../../components/page/popup/changePostToAlbum";
-import DeleteDraft from "../../../components/page/popup/deleteDraft";
-import ErrorDraft from "../../../components/page/popup/errorDraft";
-import QuickReplyPopup from "../../../components/page/popup/quickReply";
-import SaveDraft from "../../../components/page/popup/saveDraft";
-import DeletePrePost from "../../../components/page/scheduledPost/deletePrePost";
-import { packageStatus, RoleAccess } from "../../../helper/loadingStatus";
-import initialzedTime from "../../../helper/manageTimer";
-import { LanguageKey } from "../../../i18n";
-import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType, UploadFile } from "../../../helper/api";
-import { AutoReplyPayLoadType, MediaProductType } from "../../../models/messages/enum";
-import { IAutomaticReply, IMediaUpdateAutoReply, IPublishLimit } from "../../../models/page/post/posts";
+} from "brancy/components/notifications/notificationBox";
+import NotAllowed from "brancy/components/notOk/notAllowed";
+import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
+import ChangePostToAlbum from "brancy/components/page/popup/changePostToAlbum";
+import DeleteDraft from "brancy/components/page/popup/deleteDraft";
+import ErrorDraft from "brancy/components/page/popup/errorDraft";
+import QuickReplyPopup from "brancy/components/page/popup/quickReply";
+import SaveDraft from "brancy/components/page/popup/saveDraft";
+import DeletePrePost from "brancy/components/page/scheduledPost/deletePrePost";
+import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import initialzedTime from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType, UploadFile } from "brancy/helper/api";
+import { AutoReplyPayLoadType, MediaProductType } from "brancy/models/messages/enum";
+import { IAutomaticReply, IMediaUpdateAutoReply, IPublishLimit } from "brancy/models/page/post/posts";
 import {
   IDraftInfo,
   IErrorPrePostInfo,
@@ -62,10 +62,10 @@ import {
   IUiParameter,
   MediaType,
   PostType,
-} from "../../../models/page/post/preposts";
-import { HashtagListItem, IHashtag } from "../../../models/page/tools/tools";
+} from "brancy/models/page/post/preposts";
+import { HashtagListItem, IHashtag } from "brancy/models/page/tools/tools";
 import styles from "./createPost.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 enum SearchType {
   CollaboratePeople,

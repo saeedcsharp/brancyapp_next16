@@ -1,21 +1,21 @@
 import { useSession } from "next-auth/react";
 import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "../../design/inputText";
-import RingLoader from "../../design/loader/ringLoder";
-import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
-import Tooltip from "../../design/tooltip/tooltip";
-import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
-import Loading from "../../notOk/loading";
-import { LoginStatus, RoleAccess } from "../../../helper/loadingStatus";
-import { LanguageKey } from "../../../i18n";
-import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
-import { IDetailPrompt } from "../../../models/AI/prompt";
-import { MethodType } from "../../../helper/api";
-import { IceOrPersistent, PayloadType, SpecialPayLoad } from "../../../models/messages/enum";
-import { IIceBreaker } from "../../../models/messages/properies";
-import styles from "./properties.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import InputText from "brancy/components/design/inputText";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { IDetailPrompt } from "brancy/models/AI/prompt";
+import { MethodType } from "brancy/helper/api";
+import { IceOrPersistent, PayloadType, SpecialPayLoad } from "brancy/models/messages/enum";
+import { IIceBreaker } from "brancy/models/messages/properies";
+import styles from "brancy/components/messages/properties/properties.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 // function PersistentMenu
 const PersistentMenu = React.memo(
   ({

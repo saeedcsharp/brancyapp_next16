@@ -1,5 +1,5 @@
-import { CustomDomainStatus, FeatureType } from "./enums";
-import { IBanner, IBaseProfile } from "./myLink";
+import { CustomDomainStatus, FeatureType } from "brancy/models/market/enums";
+import { IBanner, IBaseProfile } from "brancy/models/market/myLink";
 
 export interface INewLink {
   title: string;

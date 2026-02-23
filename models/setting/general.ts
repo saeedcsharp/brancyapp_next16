@@ -1,6 +1,6 @@
-import { StatusReplied } from "../messages/enum";
-import { IOwnerInbox } from "../messages/IMessage";
-import { PlatformTicketItemType, PlatformTicketType } from "./enums";
+import { StatusReplied } from "brancy/models/messages/enum";
+import { IOwnerInbox } from "brancy/models/messages/IMessage";
+import { PlatformTicketItemType, PlatformTicketType } from "brancy/models/setting/enums";
 
 export interface ILangauge {
   english: boolean;

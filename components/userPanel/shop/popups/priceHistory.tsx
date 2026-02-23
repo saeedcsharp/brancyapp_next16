@@ -1,15 +1,15 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "../../../design/dragDrop/dragDrop";
-import LineChart from "../../../graphs/lineChart";
-import { NotifType, notify, ResponseType } from "../../../notifications/notificationBox";
-import Loading from "../../../notOk/loading";
-import { LanguageKey } from "../../../../i18n";
-import { MethodType } from "../../../../helper/api";
-import { chartxType, SuperFigure } from "../../../../models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
-import styles from "./priceHistory.module.css";
-import { clientFetchApi } from "../../../../helper/clientFetchApi";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import LineChart from "brancy/components/graphs/lineChart";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { chartxType, SuperFigure } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+import styles from "brancy/components/userPanel/shop/popups/priceHistory.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 export default function PriceHistory({
   removeMask,
   productId,

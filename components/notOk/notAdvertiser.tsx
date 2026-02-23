@@ -1,22 +1,22 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../i18n";
-import { MethodType } from "../../helper/api";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
 import {
   BusinessBankAccountType,
   CreateShopperSteps,
   CreateShopStep,
   IdentityVerifyType,
-} from "../../models/store/enum";
-import RingLoader from "../design/loader/ringLoder";
-import { NotifType, notify, ResponseType } from "../notifications/notificationBox";
-import CardNumber from "../store/bankAccountType/cardNumber";
-import NationalCard from "../store/countryType/nationaCard";
-import TermsAndCondition from "../store/termsandcondition/termsandcondition";
-import Loading from "./loading";
-import styles from "./notAdvertiser.module.css";
-import { clientFetchApi } from "../../helper/clientFetchApi";
+} from "brancy/models/store/enum";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import CardNumber from "brancy/components/store/bankAccountType/cardNumber";
+import NationalCard from "brancy/components/store/countryType/nationaCard";
+import TermsAndCondition from "brancy/components/store/termsandcondition/termsandcondition";
+import Loading from "brancy/components/notOk/loading";
+import styles from "brancy/components/notOk/notAdvertiser.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 export default function NotAdvertiser() {
   const { data: session, update } = useSession();

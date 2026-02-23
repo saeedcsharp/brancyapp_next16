@@ -1,4 +1,4 @@
-import styles from "./confirmationStatus.module.css";
+import styles from "brancy/components/confirmationStatus/confirmationStatus.module.css";
 var adTypeName: string = "Post";
 var cssStatus: string = "activestatus";
 const ConfirmationStatus = (props: { statusType: StatusType }) => {

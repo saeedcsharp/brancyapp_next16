@@ -1,15 +1,15 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import RingLoader from "../../design/loader/ringLoder";
-import Loading from "../../notOk/loading";
-import PriceFormater, { PriceFormaterClassName, PriceType } from "../../priceFormater";
-import initialzedTime from "../../../helper/manageTimer";
-import { useInfiniteScroll } from "../../../helper/useInfiniteScroll";
-import useHideDiv from "../../../hook/useHide";
-import { LanguageKey } from "../../../i18n";
-import { ITotalSalesReport } from "../../../models/store/statistics";
-import styles from "./statistics.module.css";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import Loading from "brancy/components/notOk/loading";
+import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
+import initialzedTime from "brancy/helper/manageTimer";
+import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
+import useHideDiv from "brancy/hook/useHide";
+import { LanguageKey } from "brancy/i18n";
+import { ITotalSalesReport } from "brancy/models/store/statistics";
+import styles from "brancy/components/store/statistics/statistics.module.css";
 
 const TotalSalesReport = (props: {
   salesReports: ITotalSalesReport[] | null;

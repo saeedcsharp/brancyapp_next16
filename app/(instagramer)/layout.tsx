@@ -3,13 +3,13 @@
 import { useSession } from "next-auth/react";
 import { MouseEvent, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import LeftHamMenue from "../../components/hambergurMenu/leftHamMenu";
-import NavbarHeader from "../../components/navbar/instagramerNavbar/navbarHeader";
-import NavbarTabs from "../../components/navbar/instagramerNavbar/navbarTabs";
-import InstagramerSidebar from "../../components/sidebar/instagramerSidbar/instagramerSidbar";
-import NotLogin from "../../components/notOk/notLogin";
-import SignOut from "../../components/signout/signOut";
-import SwitchAccount from "../../components/switchAccount/switchAccount";
+import LeftHamMenue from "brancy/components/hambergurMenu/leftHamMenu";
+import NavbarHeader from "brancy/components/navbar/instagramerNavbar/navbarHeader";
+import NavbarTabs from "brancy/components/navbar/instagramerNavbar/navbarTabs";
+import InstagramerSidebar from "brancy/components/sidebar/instagramerSidbar/instagramerSidbar";
+import NotLogin from "brancy/components/notOk/notLogin";
+import SignOut from "brancy/components/signout/signOut";
+import SwitchAccount from "brancy/components/switchAccount/switchAccount";
 
 export default function InstagramerGroupLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();

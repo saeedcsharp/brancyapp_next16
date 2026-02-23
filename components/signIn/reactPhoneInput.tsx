@@ -2,10 +2,10 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
-import { getCountryCodeFromTimezone } from "../../helper/detectLocaleFromTimezone";
-import { LanguageKey } from "../../i18n";
-import RingLoader from "../design/loader/ringLoder";
-import styles from "./reactPhoneInput.module.css";
+import { getCountryCodeFromTimezone } from "brancy/helper/detectLocaleFromTimezone";
+import { LanguageKey } from "brancy/i18n";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import styles from "brancy/components/signIn/reactPhoneInput.module.css";
 
 const ReactPhoneInput = (prop: {
   natinalNumber: string;

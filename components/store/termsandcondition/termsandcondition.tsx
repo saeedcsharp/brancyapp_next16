@@ -1,8 +1,8 @@
 import { t } from "i18next";
 import { useState } from "react";
-import CheckBoxButton from "../../design/checkBoxButton";
-import { LanguageKey } from "../../../i18n";
-import styles from "./termsandcondition.module.css";
+import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/store/termsandcondition/termsandcondition.module.css";
 
 export default function TermsAndCondition({ onAccept }: { onAccept: (accepted: boolean) => void }) {
   const [isAccepted, setIsAccepted] = useState(false);

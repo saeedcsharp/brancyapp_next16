@@ -1,4 +1,4 @@
-import { ItemType } from "../messages/enum";
+import { ItemType } from "brancy/models/messages/enum";
 
 export interface ITotalPrompt {
   promptId: string;

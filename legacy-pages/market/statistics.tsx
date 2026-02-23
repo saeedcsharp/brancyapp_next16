@@ -3,28 +3,28 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import MultiChart from "../../components/design/chart/Chart_month";
+import MultiChart from "brancy/components/design/chart/Chart_month";
 import RadarChart, {
   IPlatformData,
-} from "../../components/design/chart/radarChart";
+} from "brancy/components/design/chart/radarChart";
 import {
   NotifType,
   notify,
   ResponseType,
-} from "../../components/notifications/notificationBox";
-import Loading from "../../components/notOk/loading";
-import { LoginStatus, packageStatus } from "../../helper/loadingStatus";
-import { LanguageKey } from "../../i18n";
-import { MethodType } from "../../helper/api";
-import { InsightPeriod } from "../../models/market/enums";
+} from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { InsightPeriod } from "brancy/models/market/enums";
 import {
   ILinkInsight,
   ITotalInsight,
   ITotalInsightFigures,
   IVideoInsight,
-} from "../../models/market/statistics";
+} from "brancy/models/market/statistics";
 import styles from "./statistics.module.css";
-import { clientFetchApi } from "../../helper/clientFetchApi";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const Statistics = () => {
   //  return <Soon />;
   const { t } = useTranslation();

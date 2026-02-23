@@ -6,15 +6,15 @@ import React, {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "../../../design/dragDrop/dragDrop";
-import InputText from "../../../design/inputText";
-import TextArea from "../../../design/textArea/textArea";
-import { LanguageKey } from "../../../../i18n";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import InputText from "brancy/components/design/inputText";
+import TextArea from "brancy/components/design/textArea/textArea";
+import { LanguageKey } from "brancy/i18n";
 import {
   PlatformTicketItemType,
   PlatformTicketType,
-} from "../../../../models/setting/enums";
-import { ICreatePlatform } from "../../../../models/setting/general";
+} from "brancy/models/setting/enums";
+import { ICreatePlatform } from "brancy/models/setting/general";
 
 interface ICreateTicketProps {
   removeMask: () => void;

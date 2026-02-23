@@ -1,6 +1,6 @@
 import { ChangeEvent, useCallback, useId, useMemo, useRef } from "react";
-import { isRTL } from "../../helper/checkRtl";
-import styles from "./inputBox.module.css";
+import { isRTL } from "brancy/helper/checkRtl";
+import styles from "brancy/components/design/inputBox.module.css";
 const persianNumbers = "۰۱۲۳۴۵۶۷۸۹";
 const arabicNumbers = "٠١٢٣٤٥٦٧٨٩";
 const thaiNumbers = "๐๑๒๓๔๕๖๗๘๙";

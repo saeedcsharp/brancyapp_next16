@@ -1,4 +1,4 @@
-import { PriceType } from "../../components/priceFormater";
+import { PriceType } from "brancy/components/priceFormater";
 
 export interface IBasePackage {
   instagramerId: number;

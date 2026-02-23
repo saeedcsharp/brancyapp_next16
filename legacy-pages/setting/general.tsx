@@ -4,18 +4,18 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Modal from "../../components/design/modal";
-import { NotifType, notify, ResponseType } from "../../components/notifications/notificationBox";
-import AdminChatBox from "../../components/setting/general/popup/adminChatBox";
-import CreateTicket from "../../components/setting/general/popup/createTicket";
-import Profile from "../../components/setting/general/profile";
-import Support from "../../components/setting/general/Support";
-import System from "../../components/setting/general/system";
-import { LoginStatus, packageStatus } from "../../helper/loadingStatus";
-import { LanguageKey } from "../../i18n";
-import { MethodType, UploadFile } from "../../helper/api";
-import { StatusReplied } from "../../models/messages/enum";
-import { PlatformTicketItemType } from "../../models/setting/enums";
+import Modal from "brancy/components/design/modal";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import AdminChatBox from "brancy/components/setting/general/popup/adminChatBox";
+import CreateTicket from "brancy/components/setting/general/popup/createTicket";
+import Profile from "brancy/components/setting/general/profile";
+import Support from "brancy/components/setting/general/Support";
+import System from "brancy/components/setting/general/system";
+import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType, UploadFile } from "brancy/helper/api";
+import { StatusReplied } from "brancy/models/messages/enum";
+import { PlatformTicketItemType } from "brancy/models/setting/enums";
 import {
   ICreateMedia,
   ICreatePlatform,
@@ -23,9 +23,9 @@ import {
   IPlatformItem,
   IPlatformTicket,
   ITicketInsights,
-} from "../../models/setting/general";
-import { ISendTicketMessage } from "../../models/userPanel/message";
-import { clientFetchApi } from "../../helper/clientFetchApi";
+} from "brancy/models/setting/general";
+import { ISendTicketMessage } from "brancy/models/userPanel/message";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 const General = () => {
   const { t } = useTranslation();

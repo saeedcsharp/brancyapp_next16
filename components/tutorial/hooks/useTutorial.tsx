@@ -5,8 +5,8 @@ import {
   markTutorialAsCompleted,
   resetAllTutorials as resetAllTutorialsStorage,
   resetTutorial as resetTutorialStorage,
-} from "../helpers/tutorialStorage";
-import { TutorialPageKey } from "../tutorialConfigs";
+} from "brancy/components/tutorial/helpers/tutorialStorage";
+import { TutorialPageKey } from "brancy/components/tutorial/tutorialConfigs";
 interface TutorialHookProps {
   pageKey: TutorialPageKey; // کلید منحصر بفرد هر صفحه مثل 'home', 'profile', 'messages'
 }

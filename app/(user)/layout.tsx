@@ -2,11 +2,11 @@
 
 import { MouseEvent, useState } from "react";
 import { useRouter } from "next/router";
-import LeftUserHamMenue from "../../components/hambergurMenu/leftUserHamMenu";
-import UserPanelNavbar from "../../components/navbar/userPanelNavbar/userPanelNavbar";
-import UserSidebar from "../../components/sidebar/userSidebar/userSidebar";
-import SignOut from "../../components/signout/signOut";
-import SwitchAccount from "../../components/switchAccount/switchAccount";
+import LeftUserHamMenue from "brancy/components/hambergurMenu/leftUserHamMenu";
+import UserPanelNavbar from "brancy/components/navbar/userPanelNavbar/userPanelNavbar";
+import UserSidebar from "brancy/components/sidebar/userSidebar/userSidebar";
+import SignOut from "brancy/components/signout/signOut";
+import SwitchAccount from "brancy/components/switchAccount/switchAccount";
 
 export default function UserGroupLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();

@@ -1,6 +1,6 @@
 import { ChangeEvent, CSSProperties, KeyboardEvent, memo, useMemo } from "react";
-import { isRTL } from "../../../helper/checkRtl";
-import styles from "./textArea.module.css";
+import { isRTL } from "brancy/helper/checkRtl";
+import styles from "brancy/components/design/textArea/textArea.module.css";
 
 interface TextAreaProps {
   name?: string;

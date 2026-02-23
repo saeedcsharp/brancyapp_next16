@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../../../i18n";
+import { LanguageKey } from "brancy/i18n";
 
 const DeleteHashtagList = (props: { handleCancelDelete: () => void; handleConfirmDelete: () => void }) => {
   const { t } = useTranslation();

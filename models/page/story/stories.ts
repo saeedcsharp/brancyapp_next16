@@ -1,8 +1,8 @@
-import { IThread } from "../../messages/IMessage";
-import { IAutomaticReply } from "../post/posts";
-import { MediaType } from "../post/preposts";
-import { SuperFigure } from "../statistics/statisticsContent/GraphIngageBoxes/graphLikes";
-import { IScheduledStoryServer, IStoryDraft } from "./preStories";
+import { IThread } from "brancy/models/messages/IMessage";
+import { IAutomaticReply } from "brancy/models/page/post/posts";
+import { MediaType } from "brancy/models/page/post/preposts";
+import { SuperFigure } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+import { IScheduledStoryServer, IStoryDraft } from "brancy/models/page/story/preStories";
 
 export interface IStoryContent {
   code: string;

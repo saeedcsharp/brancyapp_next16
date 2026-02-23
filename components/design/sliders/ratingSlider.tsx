@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import Slider from "react-slider";
-import styles from "./slider.module.css";
+import styles from "brancy/components/design/sliders/slider.module.css";
 
 function RatingSlider(props: {
   handleChangeRate: (minValue: number, maxValue: number) => void;

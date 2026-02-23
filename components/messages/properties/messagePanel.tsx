@@ -1,25 +1,25 @@
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react"; // Added useRef, useCallback
 import { useTranslation } from "react-i18next";
-import Dotmenu from "../../design/dotMenu/dotMenu";
-import DragDrop from "../../design/dragDrop/dragDrop";
-import InputText from "../../design/inputText";
-import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
-import Tooltip from "../../design/tooltip/tooltip";
+import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import InputText from "brancy/components/design/inputText";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "../../notifications/notificationBox";
-import { LoginStatus } from "../../../helper/loadingStatus";
-import { LanguageKey } from "../../../i18n";
-import { MethodType } from "../../../helper/api";
-import { Language } from "../../../models/messages/enum";
-import { IMessagePanel } from "../../../models/messages/properies";
-import styles from "./properties.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+} from "brancy/components/notifications/notificationBox";
+import { LoginStatus } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { Language } from "brancy/models/messages/enum";
+import { IMessagePanel } from "brancy/models/messages/properies";
+import styles from "brancy/components/messages/properties/properties.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 function MessagePanel({
   messagePanel,

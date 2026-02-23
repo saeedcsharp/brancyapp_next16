@@ -15,27 +15,27 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 
-import { RoleAccess } from "../../helper/loadingStatus";
-import { convertMillisecondsToDays, convertToMilliseconds } from "../../helper/manageTimer";
-import { LanguageKey } from "../../i18n";
-import { MethodType } from "../../helper/api";
+import { RoleAccess } from "brancy/helper/loadingStatus";
+import { convertMillisecondsToDays, convertToMilliseconds } from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
 import {
   generateMockFeaturesList,
   generateMockUserPackageInfo,
   getMockCurrentUserPlan,
   PlanTier,
   UserPackageInfo,
-} from "../../models/mockData";
-import { FeatureType, IBasePackagePrice, IFeatureInfo, IReserveFeaturePrices } from "../../models/psg/psg";
+} from "brancy/models/mockData";
+import { FeatureType, IBasePackagePrice, IFeatureInfo, IReserveFeaturePrices } from "brancy/models/psg/psg";
 
-import ProgressBar from "../../components/design/progressBar/progressBar";
-import Tooltip from "../../components/design/tooltip/tooltip";
-import { NotifType, notify, ResponseType } from "../../components/notifications/notificationBox";
-import Loading from "../../components/notOk/loading";
-import PriceFormater, { PriceFormaterClassName } from "../../components/priceFormater";
+import ProgressBar from "brancy/components/design/progressBar/progressBar";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
 
 import styles from "./upgrade.module.css";
-import { clientFetchApi } from "../../helper/clientFetchApi";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 type UpgradeState = {
   packageExtensions: IBasePackagePrice[];

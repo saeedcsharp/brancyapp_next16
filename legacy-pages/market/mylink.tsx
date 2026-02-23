@@ -3,32 +3,32 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { ReactNode, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import AdvertisingTermsPopup from "../../components/advertise/popups/advertisingTermsPopup";
-import BusinessHourPopup from "../../components/advertise/popups/businessHourPopup";
-import TarrifPopup from "../../components/advertise/popups/tariffPopup";
-import Modal from "../../components/design/modal";
-import Aboutus from "../../components/market/myLink/abouts";
-import Announcement from "../../components/market/myLink/announcement";
-import Banner from "../../components/market/myLink/banner";
-import ContactAndMap from "../../components/market/myLink/contactAndMap";
-import DynamicFeatures from "../../components/market/myLink/dynamicFeatures";
-import Faq from "../../components/market/myLink/faq";
-import FeatureBox from "../../components/market/myLink/featureBox";
-import LastVideo from "../../components/market/myLink/lastVideo";
-import Link from "../../components/market/myLink/link";
-import Menubar from "../../components/market/myLink/menubar";
-import OnlineStreaming from "../../components/market/myLink/onlinestreaming";
-import Reviews from "../../components/market/myLink/reviews";
-import Loading from "../../components/notOk/loading";
+import AdvertisingTermsPopup from "brancy/components/advertise/popups/advertisingTermsPopup";
+import BusinessHourPopup from "brancy/components/advertise/popups/businessHourPopup";
+import TarrifPopup from "brancy/components/advertise/popups/tariffPopup";
+import Modal from "brancy/components/design/modal";
+import Aboutus from "brancy/components/market/myLink/abouts";
+import Announcement from "brancy/components/market/myLink/announcement";
+import Banner from "brancy/components/market/myLink/banner";
+import ContactAndMap from "brancy/components/market/myLink/contactAndMap";
+import DynamicFeatures from "brancy/components/market/myLink/dynamicFeatures";
+import Faq from "brancy/components/market/myLink/faq";
+import FeatureBox from "brancy/components/market/myLink/featureBox";
+import LastVideo from "brancy/components/market/myLink/lastVideo";
+import Link from "brancy/components/market/myLink/link";
+import Menubar from "brancy/components/market/myLink/menubar";
+import OnlineStreaming from "brancy/components/market/myLink/onlinestreaming";
+import Reviews from "brancy/components/market/myLink/reviews";
+import Loading from "brancy/components/notOk/loading";
 import {
   NotifType,
   notify,
   ResponseType,
-} from "../../components/notifications/notificationBox";
-import { LoginStatus, packageStatus } from "../../helper/loadingStatus";
-import { LanguageKey } from "../../i18n";
-import { MethodType } from "../../helper/api";
-import { FeatureType } from "../../models/market/enums";
+} from "brancy/components/notifications/notificationBox";
+import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { FeatureType } from "brancy/models/market/enums";
 import {
   IBusinessHour,
   IChannel,
@@ -39,9 +39,9 @@ import {
   ISmartLink,
   IVideoChannel,
   IWorkHourItem,
-} from "../../models/market/myLink";
+} from "brancy/models/market/myLink";
 import styles from "./myLink.module.css";
-import { clientFetchApi } from "../../helper/clientFetchApi";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 function handleFeatureInfo(mediaLink: IMyLink) {
   var featureArray: IFeatureInfo[] = [];
   if (mediaLink.announcement && mediaLink.announcement.isActive) {

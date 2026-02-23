@@ -1,13 +1,13 @@
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import RingLoader from "../../design/loader/ringLoder";
-import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
-import { LanguageKey } from "../../../i18n";
-import { MethodType } from "../../../helper/api";
-import { InputTypeAddress } from "../../../models/userPanel/orders";
-import styles from "./bankAccountType.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { InputTypeAddress } from "brancy/models/userPanel/orders";
+import styles from "brancy/components/store/bankAccountType/bankAccountType.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 export default function CardNumber({
   handleShowAddress,
 }: {

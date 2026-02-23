@@ -17,10 +17,10 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "../../../../design/inputText";
-import { LanguageKey } from "../../../../../i18n";
-import { ISpecification } from "../../../../../models/store/IProduct";
-import styles from "./specifications.module.css";
+import InputText from "brancy/components/design/inputText";
+import { LanguageKey } from "brancy/i18n";
+import { ISpecification } from "brancy/models/store/IProduct";
+import styles from "brancy/components/store/products/productDetail/instanceProduct/specifications.module.css";
 
 function SortableItem({ item, index }: { item: ISpecification; index: number }) {
   const { t } = useTranslation();

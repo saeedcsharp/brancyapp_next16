@@ -1,6 +1,6 @@
 // CircularCountdown.js
 import { useEffect, useState } from "react";
-import styles from "./circularCounterDown.module.css";
+import styles from "brancy/components/design/counterDown/circularCounterDown.module.css";
 
 const CIRCLE_SIZE = 48;
 const RADIUS = 20;

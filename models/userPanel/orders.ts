@@ -1,5 +1,5 @@
-import { PriceType } from "../../components/priceFormater";
-import { AvailabilityStatus, GauranteeLength, ParcelPocketDeliveryType } from "../store/enum";
+import { PriceType } from "brancy/components/priceFormater";
+import { AvailabilityStatus, GauranteeLength, ParcelPocketDeliveryType } from "brancy/models/store/enum";
 
 export interface ICardItem {
   instagramerId: number;

@@ -1,10 +1,10 @@
 import router from "next/router";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DotLoaders from "../../../design/loader/dotLoaders";
-import { LanguageKey } from "../../../../i18n";
-import { IPostContent } from "../../../../models/page/post/posts";
-import styles from "./PostStatsViewer.module.css";
+import DotLoaders from "brancy/components/design/loader/dotLoaders";
+import { LanguageKey } from "brancy/i18n";
+import { IPostContent } from "brancy/models/page/post/posts";
+import styles from "brancy/components/page/statistics/popups/PostStatsViewer.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const POSTS_PER_PAGE = 50;
 export type SortType = "maxView" | "minView" | "maxEngagement" | "minEngagement";

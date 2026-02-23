@@ -1,18 +1,18 @@
 import { useRouter } from "next/router";
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
-import DragComponent, { positionType } from "../../design/dragComponent/dragComponent";
-import InputText from "../../design/inputText";
-import TextArea from "../../design/textArea/textArea";
-import { MethodType } from "../../../helper/api";
-import styles from "./progress.module.css";
-import styles2 from "./uploadContent.module.css";
+import DragComponent, { positionType } from "brancy/components/design/dragComponent/dragComponent";
+import InputText from "brancy/components/design/inputText";
+import TextArea from "brancy/components/design/textArea/textArea";
+import { MethodType } from "brancy/helper/api";
+import styles from "brancy/components/customerAds/progress/progress.module.css";
+import styles2 from "brancy/components/customerAds/progress/uploadContent.module.css";
 
 import { useSession } from "next-auth/react";
 import Head from "next/head";
-import { convertHeicToJpeg } from "../../../helper/convertHeicToJPEG";
-import { IPageInfo, IShowMedia } from "../../../models/customerAds/customerAd";
-import { MediaType, PostType } from "../../../models/page/post/preposts";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
+import { IPageInfo, IShowMedia } from "brancy/models/customerAds/customerAd";
+import { MediaType, PostType } from "brancy/models/page/post/preposts";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 function Content(props: {
   handleUpdateContent: (content: IShowMedia[], caption: string) => void;
   data: IShowMedia[];

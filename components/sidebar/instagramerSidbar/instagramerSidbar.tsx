@@ -1,9 +1,9 @@
 import Link from "next/link";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../i18n";
-import { InstagramerRoute } from "../sidebar";
-import styles from "./sidebar.module.css";
+import { LanguageKey } from "brancy/i18n";
+import { InstagramerRoute } from "brancy/components/sidebar/sidebar";
+import styles from "brancy/components/sidebar/instagramerSidbar/sidebar.module.css";
 
 // Type for menu items
 type MenuItem = {

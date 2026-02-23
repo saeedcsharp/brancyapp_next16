@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../i18n";
-import styles from "./notAllowed.module.css";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/notOk/notAllowed.module.css";
 export default function Soon() {
   const { t } = useTranslation();
   return (

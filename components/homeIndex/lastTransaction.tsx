@@ -2,12 +2,12 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import { LoginStatus } from "../../helper/loadingStatus";
-import initialzedTime from "../../helper/manageTimer";
-import { LanguageKey } from "../../i18n";
-import { ILastTransaction } from "../../models/homeIndex/home";
-import Loading from "../notOk/loading";
-import styles from "./lastTransaction.module.css";
+import { LoginStatus } from "brancy/helper/loadingStatus";
+import initialzedTime from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { ILastTransaction } from "brancy/models/homeIndex/home";
+import Loading from "brancy/components/notOk/loading";
+import styles from "brancy/components/homeIndex/lastTransaction.module.css";
 
 // const LastTransaction = () => {
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;

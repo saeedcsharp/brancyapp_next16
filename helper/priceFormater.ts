@@ -1,4 +1,4 @@
-import { PriceType } from "../components/priceFormater";
+import { PriceType } from "brancy/components/priceFormater";
 
 export default function priceFormatter(type: PriceType) {
   return (value: number) => {

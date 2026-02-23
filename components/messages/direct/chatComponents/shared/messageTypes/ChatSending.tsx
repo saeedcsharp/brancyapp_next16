@@ -1,12 +1,12 @@
 import React from "react";
-import RingLoader from "../../../../../design/loader/ringLoder";
-import MediaDetector from "../../../../shared/utils/MediaDetector";
-import LinkifyText from "../../../../../../context/LinkifyText";
-import { getMessageDirectionClass } from "../../../../../../helper/checkRtl";
-import { detectEmojiOnly } from "../../../../../../helper/emojiDetector";
-import { IIsSendingMessage } from "../../../../../../models/messages/IMessage";
-import { ItemType, MediaType } from "../../../../../../models/messages/enum";
-import styles from "./messageTypes.module.css";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import MediaDetector from "brancy/components/messages/shared/utils/MediaDetector";
+import LinkifyText from "brancy/context/LinkifyText";
+import { getMessageDirectionClass } from "brancy/helper/checkRtl";
+import { detectEmojiOnly } from "brancy/helper/emojiDetector";
+import { IIsSendingMessage } from "brancy/models/messages/IMessage";
+import { ItemType, MediaType } from "brancy/models/messages/enum";
+import styles from "brancy/components/messages/direct/chatComponents/shared/messageTypes/messageTypes.module.css";
 
 // #region تایپ‌ها — تعریف تایپ‌های ورودی برای کامپوننت ChatSending
 interface ChatSendingProps {

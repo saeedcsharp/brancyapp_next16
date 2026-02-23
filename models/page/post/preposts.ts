@@ -1,4 +1,4 @@
-import { IAutomaticReply, IMediaUpdateAutoReply } from "./posts";
+import { IAutomaticReply, IMediaUpdateAutoReply } from "brancy/models/page/post/posts";
 
 export interface IScheduledPost {
   info: IScheduledPostList[];

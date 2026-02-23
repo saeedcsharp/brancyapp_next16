@@ -9,14 +9,14 @@ import {
   NotifType,
   notify,
   ResponseType,
-} from "../../../../notifications/notificationBox";
-import Loading from "../../../../notOk/loading";
-import initialzedTime, { convertToMilliseconds } from "../../../../../helper/manageTimer";
-import { LanguageKey } from "../../../../../i18n";
-import { MethodType } from "../../../../../helper/api";
-import { IFullLottery } from "../../../../../models/page/tools/tools";
-import styles from "./winnersList.module.css";
-import { clientFetchApi } from "../../../../../helper/clientFetchApi";
+} from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import initialzedTime, { convertToMilliseconds } from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { IFullLottery } from "brancy/models/page/tools/tools";
+import styles from "brancy/components/page/tools/popups/lottery/winnersList.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const WinnersList = (props: { removeMask: () => void; lotteryId: string; handleBackToLotteryHistory: () => void }) => {
   const { data: session } = useSession({

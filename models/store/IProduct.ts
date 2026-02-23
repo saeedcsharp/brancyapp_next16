@@ -1,4 +1,4 @@
-import { PriceType } from "../../components/priceFormater";
+import { PriceType } from "brancy/components/priceFormater";
 import {
   AvailabilityStatus,
   GauranteeLength,
@@ -9,7 +9,7 @@ import {
   OrderType,
   OrginalityStatus,
   ParcelPocketDeliveryType,
-} from "./enum";
+} from "brancy/models/store/enum";
 export interface IProduct_Candidate {
   postId: number;
   thumbnailMediaUrl: string;

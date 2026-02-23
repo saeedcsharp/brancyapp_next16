@@ -6,30 +6,30 @@ import router from "next/router";
 import { ChangeEvent, memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import InputEmoji from "react-input-emoji";
 import { DateObject } from "react-multi-date-picker";
-import RingLoader from "../../design/loader/ringLoder";
+import RingLoader from "brancy/components/design/loader/ringLoder";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "../../notifications/notificationBox";
-import { getMessageDirectionClass } from "../../../helper/checkRtl";
-import { convertHeicToJpeg } from "../../../helper/convertHeicToJPEG";
-import { detectEmojiOnly } from "../../../helper/emojiDetector";
-import formatTimeAgo from "../../../helper/formatTimeAgo";
-import initialzedTime from "../../../helper/manageTimer";
-import { useInfiniteScroll } from "../../../helper/useInfiniteScroll";
-import { LanguageKey } from "../../../i18n";
-import { UploadFile } from "../../../helper/api";
-import { IIsSendingMessage, IItem, IOwnerInbox, IThread, IUploadVoice } from "../../../models/messages/IMessage";
-import { ItemType } from "../../../models/messages/enum";
-import Tooltip from "../../design/tooltip/tooltip";
-import VoiceRecorder from "../popups/voiceRecorder";
-import { LeftChatWrapper } from "./chatComponents/LeftChatWrapper";
-import { RightChatWrapper } from "./chatComponents/RightChatWrapper";
-import { ChatSending } from "./chatComponents/shared/messageTypes/ChatSending";
-import styles from "./directChatBox.module.css";
+} from "brancy/components/notifications/notificationBox";
+import { getMessageDirectionClass } from "brancy/helper/checkRtl";
+import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
+import { detectEmojiOnly } from "brancy/helper/emojiDetector";
+import formatTimeAgo from "brancy/helper/formatTimeAgo";
+import initialzedTime from "brancy/helper/manageTimer";
+import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
+import { LanguageKey } from "brancy/i18n";
+import { UploadFile } from "brancy/helper/api";
+import { IIsSendingMessage, IItem, IOwnerInbox, IThread, IUploadVoice } from "brancy/models/messages/IMessage";
+import { ItemType } from "brancy/models/messages/enum";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
+import VoiceRecorder from "brancy/components/messages/popups/voiceRecorder";
+import { LeftChatWrapper } from "brancy/components/messages/direct/chatComponents/LeftChatWrapper";
+import { RightChatWrapper } from "brancy/components/messages/direct/chatComponents/RightChatWrapper";
+import { ChatSending } from "brancy/components/messages/direct/chatComponents/shared/messageTypes/ChatSending";
+import styles from "brancy/components/messages/direct/directChatBox.module.css";
 //#endregion
 
 //#region تعریف کامپوننت و Props

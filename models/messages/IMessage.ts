@@ -1,5 +1,5 @@
-import { IAutomaticReply } from "../page/post/posts";
-import { ActionType, ItemType, MediaProductType, MediaType, StatusReplied } from "./enum";
+import { IAutomaticReply } from "brancy/models/page/post/posts";
+import { ActionType, ItemType, MediaProductType, MediaType, StatusReplied } from "brancy/models/messages/enum";
 
 ///___Direct___/// بخش پیام‌های مستقیم اینستاگرام
 

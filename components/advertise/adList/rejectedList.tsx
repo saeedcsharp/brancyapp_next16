@@ -1,14 +1,14 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import Slider, { SliderSlide } from "../../design/slider/slider";
-import initialzedTime from "../../../helper/manageTimer";
-import { LanguageKey } from "../../../i18n";
-import { RejectedType } from "../../../models/advertise/AdEnums";
-import { IRejectedAds } from "../../../models/advertise/adList";
+import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
+import initialzedTime from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { RejectedType } from "brancy/models/advertise/AdEnums";
+import { IRejectedAds } from "brancy/models/advertise/adList";
 import styles from "../../../legacy-pages/advertise/adlist.module.css";
-import AdsTypeComp from "../adsType";
-import TimeTypeComp from "../timeType";
+import AdsTypeComp from "brancy/components/advertise/adsType";
+import TimeTypeComp from "brancy/components/advertise/timeType";
 const RejectedList = (props: { data: IRejectedAds[] }) => {
   const { t } = useTranslation();
   const [isHidden, setIsHidden] = useState(false);

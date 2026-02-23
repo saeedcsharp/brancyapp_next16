@@ -5,32 +5,32 @@ import router from "next/router";
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import InputEmoji from "react-input-emoji";
 import { DateObject } from "react-multi-date-picker";
-import { AIButton } from "../../design/ai/AIButton";
-import RingLoader from "../../design/loader/ringLoder";
-import Tooltip from "../../design/tooltip/tooltip";
+import { AIButton } from "brancy/components/design/ai/AIButton";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "../../notifications/notificationBox";
-import Loading from "../../notOk/loading";
-import { isRTL } from "../../../helper/checkRtl";
-import initialzedTime from "../../../helper/manageTimer";
-import { useInfiniteScroll } from "../../../helper/useInfiniteScroll";
-import { LanguageKey } from "../../../i18n";
-import { MethodType } from "../../../helper/api";
-import { ActionType, MediaProductType } from "../../../models/messages/enum";
-import { IComment, IMedia, IOwnerInbox } from "../../../models/messages/IMessage";
-import { IMediaUpdateAutoReply } from "../../../models/page/post/posts";
+} from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import { isRTL } from "brancy/helper/checkRtl";
+import initialzedTime from "brancy/helper/manageTimer";
+import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { ActionType, MediaProductType } from "brancy/models/messages/enum";
+import { IComment, IMedia, IOwnerInbox } from "brancy/models/messages/IMessage";
+import { IMediaUpdateAutoReply } from "brancy/models/page/post/posts";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
-import Dotmenu from "../../design/dotMenu/dotMenu";
-import styles from "./commentChatBox.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
+import styles from "brancy/components/messages/comment/commentChatBox.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const CommentChatBox = (props: {
   userSelectId: string | null;
   hub: HubConnection | null;

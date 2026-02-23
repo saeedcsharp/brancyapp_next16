@@ -1,9 +1,9 @@
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { UserPanelRoute } from "../../sidebar/sidebar";
-import { LanguageKey } from "../../../i18n";
-import styles from "./navbarheader.module.css";
+import { UserPanelRoute } from "brancy/components/sidebar/sidebar";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/navbar/instagramerNavbar/navbarheader.module.css";
 const NavbarUserMobile = (prop: { handleShowHamMenu: (ham: string) => void }) => {
   const { t } = useTranslation();
   const router = useRouter();

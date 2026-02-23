@@ -3,29 +3,29 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import React, { useCallback, useReducer } from "react";
 import { useTranslation } from "react-i18next";
-import Modal from "../../components/design/modal";
-import NotAllowed from "../../components/notOk/notAllowed";
+import Modal from "brancy/components/design/modal";
+import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotPermission, {
   PermissionType,
-} from "../../components/notOk/notPermission";
-import BestFollowers from "../../components/page/statistics/bestFollower/bestFollower";
-import CardBestWorst from "../../components/page/statistics/cardBestWorst/cardBestWorst";
-import EngageMentStatistics from "../../components/page/statistics/engagementStatistics/engagementStatistics";
-import IngageBoxModel from "../../components/page/statistics/inagegBoxes/inagegBoxes";
-import PostStatsViewer from "../../components/page/statistics/popups/PostStatsViewer";
-import PostTimeAnalysis from "../../components/page/statistics/popups/postTimeAnalysis";
+} from "brancy/components/notOk/notPermission";
+import BestFollowers from "brancy/components/page/statistics/bestFollower/bestFollower";
+import CardBestWorst from "brancy/components/page/statistics/cardBestWorst/cardBestWorst";
+import EngageMentStatistics from "brancy/components/page/statistics/engagementStatistics/engagementStatistics";
+import IngageBoxModel from "brancy/components/page/statistics/inagegBoxes/inagegBoxes";
+import PostStatsViewer from "brancy/components/page/statistics/popups/PostStatsViewer";
+import PostTimeAnalysis from "brancy/components/page/statistics/popups/postTimeAnalysis";
 import {
   LoginStatus,
   packageStatus,
   RoleAccess,
-} from "../../helper/loadingStatus";
-import { LanguageKey } from "../../i18n";
-import { PartnerRole } from "../../models/_AccountInfo/InstagramerAccountInfo";
-import { IPostContent } from "../../models/page/post/posts";
-import { IBestFollowers } from "../../models/page/statistics/statisticsContent/GraphIngageBoxes/bestFollower";
-import { IBestTime } from "../../models/page/statistics/statisticsContent/GraphIngageBoxes/cardBestWorst";
-import { GraphGhostViewersModel } from "../../models/page/statistics/statisticsContent/GraphIngageBoxes/GraphGhostViewersModel";
-import { GraphViewsFourMonthModel } from "../../models/page/statistics/statisticsContent/GraphIngageBoxes/GraphViewsFourMonthModel";
+} from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { IPostContent } from "brancy/models/page/post/posts";
+import { IBestFollowers } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/bestFollower";
+import { IBestTime } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/cardBestWorst";
+import { GraphGhostViewersModel } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/GraphGhostViewersModel";
+import { GraphViewsFourMonthModel } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/GraphViewsFourMonthModel";
 import styles from "./page.module.css";
 enum PopupType {
   NONE = "NONE",

@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Slider from "react-slider";
-import { LanguageKey } from "../../../i18n";
-import styles from "./slider.module.css";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/design/sliders/slider.module.css";
 
 function PriceSlider(props: {
   handleChangePrice: (minValue: number, maxValue: number) => void;

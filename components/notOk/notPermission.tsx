@@ -1,11 +1,11 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../i18n";
-import { MethodType } from "../../helper/api";
-import { NotifType, notify, ResponseType } from "../notifications/notificationBox";
-import styles from "./notpermission.module.css";
-import { clientFetchApi } from "../../helper/clientFetchApi";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import styles from "brancy/components/notOk/notpermission.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 export enum PermissionType {
   Comments = "Comments",

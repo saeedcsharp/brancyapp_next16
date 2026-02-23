@@ -1,9 +1,9 @@
 import dynamic from "next/dynamic";
 import { memo, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../i18n";
-import { IContactAndMap } from "../../../models/market/myLink";
-import styles from "./contactAndMap.module.css";
+import { LanguageKey } from "brancy/i18n";
+import { IContactAndMap } from "brancy/models/market/myLink";
+import styles from "brancy/components/market/myLink/contactAndMap.module.css";
 
 const MapWrapper = memo(({ mapProps }: { mapProps: any }) => {
   const [shouldRender, setShouldRender] = useState(false);
@@ -52,7 +52,7 @@ const MapWrapper = memo(({ mapProps }: { mapProps: any }) => {
 
   return <OpenStreetMapComponent {...mapProps} />;
 });
-const OpenStreetMapComponent = dynamic(() => import("../../mainLeaftlet"), {
+const OpenStreetMapComponent = dynamic(() => import("brancy/components/mainLeaftlet"), {
   ssr: false,
   loading: () => (
     <div

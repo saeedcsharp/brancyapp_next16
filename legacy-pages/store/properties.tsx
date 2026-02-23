@@ -4,19 +4,19 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import EditBusinessHours from "../../components/advertise/properties/popups/editBusinessHours";
-import Modal from "../../components/design/modal";
-import ToggleCheckBoxButton from "../../components/design/toggleCheckBoxButton";
-import NotShopper from "../../components/notOk/notShopper";
-import { changePositionToFixed, changePositionToRelative } from "../../helper/changeMarketAdsStyle";
-import { findDayName } from "../../helper/findDayName";
-import { packageStatus } from "../../helper/loadingStatus";
-import { numbToAmAndPmTime } from "../../helper/numberFormater";
-import { LanguageKey } from "../../i18n";
-import { BusinessDay, IBusinessHour } from "../../models/advertise/peoperties";
+import EditBusinessHours from "brancy/components/advertise/properties/popups/editBusinessHours";
+import Modal from "brancy/components/design/modal";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import NotShopper from "brancy/components/notOk/notShopper";
+import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
+import { findDayName } from "brancy/helper/findDayName";
+import { packageStatus } from "brancy/helper/loadingStatus";
+import { numbToAmAndPmTime } from "brancy/helper/numberFormater";
+import { LanguageKey } from "brancy/i18n";
+import { BusinessDay, IBusinessHour } from "brancy/models/advertise/peoperties";
 import styles from "./properties.module.css";
 
-const MapComponent = dynamic(() => import("../../components/mainLeaftlet"), {
+const MapComponent = dynamic(() => import("brancy/components/mainLeaftlet"), {
   ssr: false,
 });
 

@@ -1,10 +1,10 @@
 import React, { ChangeEvent, JSXElementConstructor, ReactElement, ReactNode, useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../i18n";
-import InputText from "../inputText";
-import RingLoader from "../loader/ringLoder";
-import styles from "./dragDrop.module.css";
+import { LanguageKey } from "brancy/i18n";
+import InputText from "brancy/components/design/inputText";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import styles from "brancy/components/design/dragDrop/dragDrop.module.css";
 const DragDrop = (props: {
   data: React.JSX.Element[];
   handleOptionSelect: (id: any) => void;

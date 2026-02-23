@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from "react";
-import MediaDetector from "../../../../shared/utils/MediaDetector";
-import { IItem, ITicket } from "../../../../../../models/userPanel/message";
-import { TicketChatDate, TicketMessageStatus } from "../utils";
-import styles from "./messageTypes.module.css";
+import MediaDetector from "brancy/components/messages/shared/utils/MediaDetector";
+import { IItem, ITicket } from "brancy/models/userPanel/message";
+import { TicketChatDate, TicketMessageStatus } from "brancy/components/messages/ticket/chatComponents/shared/utils";
+import styles from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/messageTypes.module.css";
 // #region تعریف اینترفیس‌ها - انواع پراپس
 interface SystemChatImageProps {
   item: IItem;

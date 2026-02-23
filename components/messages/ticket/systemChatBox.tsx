@@ -5,18 +5,18 @@ import router from "next/router";
 import { ChangeEvent, MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import InputEmoji from "react-input-emoji";
 import { DateObject } from "react-multi-date-picker";
-import RingLoader from "../../design/loader/ringLoder";
-import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
-import { detectEmojiOnly } from "../../../helper/emojiDetector";
-import formatTimeAgo from "../../../helper/formatTimeAgo";
-import initialzedTime from "../../../helper/manageTimer";
-import { useInfiniteScroll } from "../../../helper/useInfiniteScroll";
-import { MethodType } from "../../../helper/api";
-import { IItem, IOwnerInbox, ISendTicketMessage, ITicket } from "../../../models/userPanel/message";
-import { SystemSendingMessages } from "./chatComponents/shared/messageTypes/SystemSendingMessages";
-import { SystemChatWrapper } from "./chatComponents/SystemChatWrapper";
-import styles from "./ticketChatBox.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { detectEmojiOnly } from "brancy/helper/emojiDetector";
+import formatTimeAgo from "brancy/helper/formatTimeAgo";
+import initialzedTime from "brancy/helper/manageTimer";
+import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
+import { MethodType } from "brancy/helper/api";
+import { IItem, IOwnerInbox, ISendTicketMessage, ITicket } from "brancy/models/userPanel/message";
+import { SystemSendingMessages } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/SystemSendingMessages";
+import { SystemChatWrapper } from "brancy/components/messages/ticket/chatComponents/SystemChatWrapper";
+import styles from "brancy/components/messages/ticket/ticketChatBox.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 //#endregion
 
 //#region تعریف کامپوننت و Props

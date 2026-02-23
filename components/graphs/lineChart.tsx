@@ -1,14 +1,14 @@
 import { ApexOptions } from "apexcharts";
 import dynamic from "next/dynamic";
 import { renderToStaticMarkup } from "react-dom/server";
-// import styles from "../advertise/statistics/statistics.module.css";
+// import styles from "brancy/components/advertise/statistics/statistics.module.css";
 
 import {
   DayCountUnix,
   HourCountUnix,
   IMonthGraph,
   chartxType,
-} from "../../models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+} from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export const LineChart = (props: {

@@ -3,15 +3,15 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import HeaderTitle from "../../components/headerTitle/headerTitle";
-import Advertise from "../../components/market/home/Advertise";
-import AllMarket from "../../components/market/home/allMarket";
-import Filter from "../../components/market/home/filter";
-import Store from "../../components/market/home/Store";
-import { packageStatus } from "../../helper/loadingStatus";
-import { LanguageKey } from "../../i18n";
-import { MarketType, SelectedMarketType } from "../../models/market/enums";
-import { IMarketInfo } from "../../models/market/home";
+import HeaderTitle from "brancy/components/headerTitle/headerTitle";
+import Advertise from "brancy/components/market/home/Advertise";
+import AllMarket from "brancy/components/market/home/allMarket";
+import Filter from "brancy/components/market/home/filter";
+import Store from "brancy/components/market/home/Store";
+import { packageStatus } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { MarketType, SelectedMarketType } from "brancy/models/market/enums";
+import { IMarketInfo } from "brancy/models/market/home";
 import styles from "./home.module.css";
 
 const MarketHome = () => {

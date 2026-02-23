@@ -3,18 +3,18 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import AdsOption from "../../components/advertise/properties/adsOption";
-import AdvertisingTerms from "../../components/advertise/properties/advertisingTerms";
-import BusinessHours from "../../components/advertise/properties/businessHours";
-import Notifications from "../../components/advertise/properties/notifications";
-import EditBusinessHours from "../../components/advertise/properties/popups/editBusinessHours";
-import EditTariff from "../../components/advertise/properties/popups/editTariff";
-import Tariff from "../../components/advertise/properties/tariff";
-import UserReport from "../../components/advertise/properties/userReport";
-import Modal from "../../components/design/modal";
-import NotAdvertiser from "../../components/notOk/notAdvertiser";
-import { changePositionToFixed, changePositionToRelative } from "../../helper/changeMarketAdsStyle";
-import { LanguageKey } from "../../i18n";
+import AdsOption from "brancy/components/advertise/properties/adsOption";
+import AdvertisingTerms from "brancy/components/advertise/properties/advertisingTerms";
+import BusinessHours from "brancy/components/advertise/properties/businessHours";
+import Notifications from "brancy/components/advertise/properties/notifications";
+import EditBusinessHours from "brancy/components/advertise/properties/popups/editBusinessHours";
+import EditTariff from "brancy/components/advertise/properties/popups/editTariff";
+import Tariff from "brancy/components/advertise/properties/tariff";
+import UserReport from "brancy/components/advertise/properties/userReport";
+import Modal from "brancy/components/design/modal";
+import NotAdvertiser from "brancy/components/notOk/notAdvertiser";
+import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
+import { LanguageKey } from "brancy/i18n";
 import {
   BusinessDay,
   IAdsOption,
@@ -22,7 +22,7 @@ import {
   IBusinessHour,
   INotifications,
   ITariff,
-} from "../../models/advertise/peoperties";
+} from "brancy/models/advertise/peoperties";
 const Properties = () => {
   //  return <Soon />;
   const router = useRouter();

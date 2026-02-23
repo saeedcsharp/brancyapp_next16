@@ -2,10 +2,10 @@ import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { ChangeEvent, ClipboardEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../i18n";
-import RingLoader from "../design/loader/ringLoder";
-import { NotifType, notify } from "../notifications/notificationBox";
-import styles from "./verificationForm.module.css";
+import { LanguageKey } from "brancy/i18n";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import { NotifType, notify } from "brancy/components/notifications/notificationBox";
+import styles from "brancy/components/signIn/verificationForm.module.css";
 
 export default function VerificationForm(props: {
   nationalNumber: string;

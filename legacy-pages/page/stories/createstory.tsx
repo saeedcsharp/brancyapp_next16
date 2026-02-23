@@ -5,44 +5,44 @@ import { useRouter } from "next/router";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import SetTimeAndDate from "../../../components/dateAndTime/setTimeAndDate";
-import ConstantCounterDown from "../../../components/design/counterDown/constantCounterDown";
-import ToggleCheckBoxButton from "../../../components/design/toggleCheckBoxButton";
+import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
+import ConstantCounterDown from "brancy/components/design/counterDown/constantCounterDown";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 
-import Modal from "../../../components/design/modal";
-import ProgressBar from "../../../components/design/progressBar/progressBar";
+import Modal from "brancy/components/design/modal";
+import ProgressBar from "brancy/components/design/progressBar/progressBar";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "../../../components/notifications/notificationBox";
-import NotAllowed from "../../../components/notOk/notAllowed";
-import NotPermission, { PermissionType } from "../../../components/notOk/notPermission";
-import DeleteDraft from "../../../components/page/popup/deleteDraft";
-import ErrorDraft from "../../../components/page/popup/errorDraft";
-import QuickStoryReplyPopup from "../../../components/page/popup/quickStoryReply";
-import SaveDraft from "../../../components/page/popup/saveDraft";
-import DeletePrePost from "../../../components/page/scheduledPost/deletePrePost";
-import { convertHeicToJpeg } from "../../../helper/convertHeicToJPEG";
-import { LoginStatus, packageStatus, RoleAccess } from "../../../helper/loadingStatus";
-import initialzedTime from "../../../helper/manageTimer";
-import { LanguageKey } from "../../../i18n";
-import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType, UploadFile } from "../../../helper/api";
-import { AutoReplyPayLoadType, MediaProductType } from "../../../models/messages/enum";
-import { IAutomaticReply, IMediaUpdateAutoReply, IPublishLimit } from "../../../models/page/post/posts";
-import { IErrorPrePostInfo, IPostImageInfo, MediaType } from "../../../models/page/post/preposts";
+} from "brancy/components/notifications/notificationBox";
+import NotAllowed from "brancy/components/notOk/notAllowed";
+import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
+import DeleteDraft from "brancy/components/page/popup/deleteDraft";
+import ErrorDraft from "brancy/components/page/popup/errorDraft";
+import QuickStoryReplyPopup from "brancy/components/page/popup/quickStoryReply";
+import SaveDraft from "brancy/components/page/popup/saveDraft";
+import DeletePrePost from "brancy/components/page/scheduledPost/deletePrePost";
+import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
+import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import initialzedTime from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType, UploadFile } from "brancy/helper/api";
+import { AutoReplyPayLoadType, MediaProductType } from "brancy/models/messages/enum";
+import { IAutomaticReply, IMediaUpdateAutoReply, IPublishLimit } from "brancy/models/page/post/posts";
+import { IErrorPrePostInfo, IPostImageInfo, MediaType } from "brancy/models/page/post/preposts";
 import {
   IPreStory,
   IPreStoryInfo,
   IStoryDraftInfo,
   IStoryImageInfo,
   IStoryVideoInfo,
-} from "../../../models/page/story/preStories";
+} from "brancy/models/page/story/preStories";
 import styles from "./createStory.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const CreateStory = () => {
   const router = useRouter();
   const { data: session } = useSession();

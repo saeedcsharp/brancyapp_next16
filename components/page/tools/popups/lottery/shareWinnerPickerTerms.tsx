@@ -1,6 +1,6 @@
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../../../i18n";
-import styles from "./shareWinnerPickerTerms.module.css";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/page/tools/popups/lottery/shareWinnerPickerTerms.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const ShareTermsAndCondition = (props: {
   // data: ITermsAndConditionProps;

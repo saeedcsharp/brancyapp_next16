@@ -3,42 +3,42 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import SetTimeAndDate from "../../components/dateAndTime/setTimeAndDate";
-import Modal from "../../components/design/modal";
+import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
+import Modal from "brancy/components/design/modal";
 import {
   InternalResponseType,
   NotifType,
   ResponseType,
   internalNotify,
   notify,
-} from "../../components/notifications/notificationBox";
-import NotAllowed from "../../components/notOk/notAllowed";
-import FontSelector from "../../components/page/tools/customFont/customFont";
-import Hashtags from "../../components/page/tools/hashtaglist/hashtags";
-import DeleteHashtagList from "../../components/page/tools/popups/hashtags/deleteHashtaglist";
-import NewHashtagList from "../../components/page/tools/popups/hashtags/newHashtagList";
-import NewPageAnalyzer from "../../components/page/tools/popups/hashtags/newPageAnalyzer";
-import NewPictureAnalyzerList from "../../components/page/tools/popups/hashtags/newPictureAnalyzerList";
-import UpdateHashtagList from "../../components/page/tools/popups/hashtags/updateHashtagList";
-import DeleteLottery from "../../components/page/tools/popups/lottery/deleteLottery";
-import LotteryHistory from "../../components/page/tools/popups/lottery/lotteryHistory";
-import LotteryRunning from "../../components/page/tools/popups/lottery/lotteryRunning";
-import ScoreLottery from "../../components/page/tools/popups/lottery/scoreLottery";
-import SelectPost from "../../components/page/tools/popups/lottery/selectPost";
-import ShareTermsAndCondition from "../../components/page/tools/popups/lottery/shareWinnerPickerTerms";
-import TermsAndConditionWinnerPicker from "../../components/page/tools/popups/lottery/termsAndConditionWinnerPicker";
-import WinnerAnnouncementAndBanner from "../../components/page/tools/popups/lottery/winnerAnnouncementAndBanner";
-import WinnersList from "../../components/page/tools/popups/lottery/winnersList";
-import TrendHashtags from "../../components/page/tools/trendhashtag/trendHashtags";
-import WinnerPicker from "../../components/page/tools/winnerpicker/winnerPicker";
-import DayEvents from "../../components/page/tools/event/dayEvents";
-import { changePositionToFixed, changePositionToRelative } from "../../helper/changeMarketAdsStyle";
-import { checkRemainingTimeFeature } from "../../helper/checkFeature";
-import { LoginStatus, RoleAccess, packageStatus } from "../../helper/loadingStatus";
-import { convertToMilliseconds, convertToSeconds } from "../../helper/manageTimer";
-import { LanguageKey } from "../../i18n";
-import { PartnerRole } from "../../models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType, UploadFile } from "../../helper/api";
+} from "brancy/components/notifications/notificationBox";
+import NotAllowed from "brancy/components/notOk/notAllowed";
+import FontSelector from "brancy/components/page/tools/customFont/customFont";
+import Hashtags from "brancy/components/page/tools/hashtaglist/hashtags";
+import DeleteHashtagList from "brancy/components/page/tools/popups/hashtags/deleteHashtaglist";
+import NewHashtagList from "brancy/components/page/tools/popups/hashtags/newHashtagList";
+import NewPageAnalyzer from "brancy/components/page/tools/popups/hashtags/newPageAnalyzer";
+import NewPictureAnalyzerList from "brancy/components/page/tools/popups/hashtags/newPictureAnalyzerList";
+import UpdateHashtagList from "brancy/components/page/tools/popups/hashtags/updateHashtagList";
+import DeleteLottery from "brancy/components/page/tools/popups/lottery/deleteLottery";
+import LotteryHistory from "brancy/components/page/tools/popups/lottery/lotteryHistory";
+import LotteryRunning from "brancy/components/page/tools/popups/lottery/lotteryRunning";
+import ScoreLottery from "brancy/components/page/tools/popups/lottery/scoreLottery";
+import SelectPost from "brancy/components/page/tools/popups/lottery/selectPost";
+import ShareTermsAndCondition from "brancy/components/page/tools/popups/lottery/shareWinnerPickerTerms";
+import TermsAndConditionWinnerPicker from "brancy/components/page/tools/popups/lottery/termsAndConditionWinnerPicker";
+import WinnerAnnouncementAndBanner from "brancy/components/page/tools/popups/lottery/winnerAnnouncementAndBanner";
+import WinnersList from "brancy/components/page/tools/popups/lottery/winnersList";
+import TrendHashtags from "brancy/components/page/tools/trendhashtag/trendHashtags";
+import WinnerPicker from "brancy/components/page/tools/winnerpicker/winnerPicker";
+import DayEvents from "brancy/components/page/tools/event/dayEvents";
+import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
+import { checkRemainingTimeFeature } from "brancy/helper/checkFeature";
+import { LoginStatus, RoleAccess, packageStatus } from "brancy/helper/loadingStatus";
+import { convertToMilliseconds, convertToSeconds } from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType, UploadFile } from "brancy/helper/api";
 import {
   CreateHashtagListItem,
   FollowerLotteryType,
@@ -61,9 +61,9 @@ import {
   ShowScoreLotteryType,
   TermsType,
   lotterySpecificationType,
-} from "../../models/page/tools/tools";
-import { FeatureType, IFeatureInfo } from "../../models/psg/psg";
-import { clientFetchApi } from "../../helper/clientFetchApi";
+} from "brancy/models/page/tools/tools";
+import { FeatureType, IFeatureInfo } from "brancy/models/psg/psg";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 function addHashPrefixOrSuffix(list: string[]) {
   const result = [];
 

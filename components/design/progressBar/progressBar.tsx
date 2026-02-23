@@ -1,4 +1,4 @@
-import styles from "./progressBar.module.css";
+import styles from "brancy/components/design/progressBar/progressBar.module.css";
 
 interface ProgressBarProps {
   width: number;

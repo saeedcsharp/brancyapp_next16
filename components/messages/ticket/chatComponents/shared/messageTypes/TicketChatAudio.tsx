@@ -1,8 +1,8 @@
 import React, { useCallback, useMemo } from "react";
-import Dotmenu from "../../../../../design/dotMenu/dotMenu";
-import { TicketBaseChatProps } from "../../types";
-import { TicketChatDate, TicketMessageStatus, TicketReactionEmoji } from "../utils";
-import styles from "./messageTypes.module.css";
+import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
+import { TicketBaseChatProps } from "brancy/components/messages/ticket/chatComponents/types";
+import { TicketChatDate, TicketMessageStatus, TicketReactionEmoji } from "brancy/components/messages/ticket/chatComponents/shared/utils";
+import styles from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/messageTypes.module.css";
 // #region تعریف کامپوننت - نمایش پیام صوتی
 // کامپوننتی که پیام‌های صوتی را بسته به جهت (چپ/راست) رندر می‌کند.
 const TicketChatAudioComponent: React.FC<TicketBaseChatProps> = ({

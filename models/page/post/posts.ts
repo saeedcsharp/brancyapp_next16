@@ -1,12 +1,12 @@
-import { ITotalPrompt } from "../../AI/prompt";
+import { ITotalPrompt } from "brancy/models/AI/prompt";
 import {
   AutoReplyPayLoadType,
   MediaProductType,
-} from "../../messages/enum";
-import { IMedia } from "../../messages/IMessage";
-import { ITotalMasterFlow } from "../../messages/properies";
-import { SuperFigure } from "../statistics/statisticsContent/GraphIngageBoxes/graphLikes";
-import { IPrePost, MediaType } from "./preposts";
+} from "brancy/models/messages/enum";
+import { IMedia } from "brancy/models/messages/IMessage";
+import { ITotalMasterFlow } from "brancy/models/messages/properies";
+import { SuperFigure } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+import { IPrePost, MediaType } from "brancy/models/page/post/preposts";
 export interface IPost {
   posts: IPostContent[] | null;
   prePosts: IPrePost[] | null;

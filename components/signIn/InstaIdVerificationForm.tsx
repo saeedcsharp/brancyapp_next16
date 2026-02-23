@@ -1,12 +1,12 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { ChangeEvent, KeyboardEvent, MouseEvent, useEffect, useState } from "react";
-import { IRefreshToken } from "../../models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "../../helper/api";
-import RingLoader from "../design/loader/ringLoder";
-import { internalNotify, InternalResponseType, NotifType, notify } from "../notifications/notificationBox";
-import styles from "./verificationForm.module.css";
-import { clientFetchApi, clientFetchApiWithAccessToken } from "../../helper/clientFetchApi";
+import { IRefreshToken } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType } from "brancy/helper/api";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import { internalNotify, InternalResponseType, NotifType, notify } from "brancy/components/notifications/notificationBox";
+import styles from "brancy/components/signIn/verificationForm.module.css";
+import { clientFetchApi, clientFetchApiWithAccessToken } from "brancy/helper/clientFetchApi";
 
 export default function InstaIdVerificationForm(props: {
   preInstaToken: string;

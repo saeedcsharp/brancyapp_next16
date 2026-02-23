@@ -1,14 +1,14 @@
 import { FC, useCallback, useEffect, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import { internalNotify, InternalResponseType, NotifType } from "../../../notifications/notificationBox";
-import PriceFormater, { PriceFormaterClassName } from "../../../priceFormater";
-import initialzedTime from "../../../../helper/manageTimer";
-import { specifyLogistic } from "../../../../helper/specifyLogistic";
-import { LanguageKey } from "../../../../i18n";
-import { IFullProduct } from "../../../../models/store/orders";
-import { ColorStr } from "../../../../models/userPanel/shop";
-import styles from "./OrderDetail-Content.module.css";
+import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
+import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
+import initialzedTime from "brancy/helper/manageTimer";
+import { specifyLogistic } from "brancy/helper/specifyLogistic";
+import { LanguageKey } from "brancy/i18n";
+import { IFullProduct } from "brancy/models/store/orders";
+import { ColorStr } from "brancy/models/userPanel/shop";
+import styles from "brancy/components/store/order/popup/OrderDetail-Content.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const toggleReducer = (state: boolean) => !state;
 

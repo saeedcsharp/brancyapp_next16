@@ -2,8 +2,8 @@ import i18next from "i18next";
 import { useTranslation } from "react-i18next";
 import { Slide, ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import { getEnumValue } from "../../helper/handleItemTypeEnum";
-import { LanguageKey } from "../../i18n";
+import { getEnumValue } from "brancy/helper/handleItemTypeEnum";
+import { LanguageKey } from "brancy/i18n";
 const getResponseTextLegacy = (responseType: ResponseType): string => {
   const responseTextMap: Record<ResponseType, LanguageKey> = {
     [ResponseType.Ok]: LanguageKey.Notify_Ok,

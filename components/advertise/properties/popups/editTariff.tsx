@@ -1,15 +1,15 @@
 import Head from "next/head";
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "../../../design/inputText";
+import InputText from "brancy/components/design/inputText";
 import {
   convertFormatedStringToNumber,
   numberToFormattedString,
   numberToFormattedString2,
-} from "../../../../helper/numberFormater";
-import { LanguageKey } from "../../../../i18n";
-import { IEditTariff, ITariff } from "../../../../models/advertise/peoperties";
-import styles from "./tariff.module.css";
+} from "brancy/helper/numberFormater";
+import { LanguageKey } from "brancy/i18n";
+import { IEditTariff, ITariff } from "brancy/models/advertise/peoperties";
+import styles from "brancy/components/advertise/properties/popups/tariff.module.css";
 const EditTariff = (props: { removeMask: () => void; saveTariift: (tariif: ITariff) => void; tariif: ITariff }) => {
   const { t } = useTranslation();
   const [editTariff, setEditTarrif] = useState<IEditTariff>({

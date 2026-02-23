@@ -71,7 +71,7 @@ module.exports = withPWA({
   reactStrictMode: true,
   productionBrowserSourceMaps: true, // Enable source maps in production
   sassOptions: {
-    includePaths: ["./scss"],
+    includePaths: ["brancy/scss"],
   },
   images: {
     remotePatterns: [{ protocol: "https", hostname: "ilink.influe.ir", pathname: "/**" }],

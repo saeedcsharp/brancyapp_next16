@@ -2,23 +2,23 @@ import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import RingLoader from "../../../../design/loader/ringLoder";
-import FlexibleToggleButton from "../../../../design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "../../../../design/toggleButton/types";
-import Loading from "../../../../notOk/loading";
-import { NotifType, notify, ResponseType } from "../../../../notifications/notificationBox";
-import { getEnumValue } from "../../../../../helper/handleItemTypeEnum";
-import initialzedTime from "../../../../../helper/manageTimer";
-import { LanguageKey } from "../../../../../i18n";
-import { MethodType } from "../../../../../helper/api";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "brancy/components/design/toggleButton/types";
+import Loading from "brancy/components/notOk/loading";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { getEnumValue } from "brancy/helper/handleItemTypeEnum";
+import initialzedTime from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
 import {
   FailLotteryStatus,
   FailLotteryStatusStr,
   IShortLotteriesInfo,
   LotteryStatus,
-} from "../../../../../models/page/tools/tools";
-import styles from "./lotteryHistory.module.css";
-import { clientFetchApi } from "../../../../../helper/clientFetchApi";
+} from "brancy/models/page/tools/tools";
+import styles from "brancy/components/page/tools/popups/lottery/lotteryHistory.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const LotteryHistory = (props: {
   removeMask: () => void;
   lotteryId: string | null;

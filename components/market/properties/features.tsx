@@ -19,15 +19,15 @@ import { CSS } from "@dnd-kit/utilities";
 import { useSession } from "next-auth/react";
 import { ChangeEvent, memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Loading from "../../notOk/loading";
-import useHideDiv from "../../../hook/useHide";
-import { LanguageKey } from "../../../i18n";
-import { MethodType } from "../../../helper/api";
-import { FeatureType } from "../../../models/market/enums";
-import { IFeatureItem, IOrderFeatures, IUpdateFeatureOrder } from "../../../models/market/properties";
-import CheckBoxButton from "../../design/checkBoxButton";
-import styles from "./features.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import Loading from "brancy/components/notOk/loading";
+import useHideDiv from "brancy/hook/useHide";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { FeatureType } from "brancy/models/market/enums";
+import { IFeatureItem, IOrderFeatures, IUpdateFeatureOrder } from "brancy/models/market/properties";
+import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import styles from "brancy/components/market/properties/features.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 const getFeatureClassName = (featureType: FeatureType): string => {
   switch (featureType) {

@@ -2,8 +2,8 @@ import Head from "next/head";
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../i18n";
-import styles from "./flowTest.module.scss";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/messages/aiflow/flowTest.module.scss";
 
 interface FlowMessage {
   id: string;

@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../i18n";
-import styles from "./page4.module.css";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/website/landing/page4.module.css";
 
 const SLIDE_DURATION = 5000;
 const ANIMATION_DURATION = 300;
@@ -86,52 +86,52 @@ const Page4 = () => {
         {
           title: "",
           textKey: LanguageKey.page4_content_instagram_management_text,
-          image: "./path-to-your-image.svg",
+          image: "brancy/components/website/landing/path-to-your-image.svg",
         },
         {
           title: "",
           textKey: LanguageKey.page4_content_admin_subadmin_text,
-          image: "./path-to-your-image1.svg",
+          image: "brancy/components/website/landing/path-to-your-image1.svg",
         },
         {
           title: "",
           textKey: LanguageKey.page4_content_store_shipping_text,
-          image: "./path-to-your-image2.svg",
+          image: "brancy/components/website/landing/path-to-your-image2.svg",
         },
         {
           title: "",
           textKey: LanguageKey.page4_content_advertising_text,
-          image: "./path-to-your-image3.svg",
+          image: "brancy/components/website/landing/path-to-your-image3.svg",
         },
         {
           title: "",
           textKey: LanguageKey.page4_content_hashtag_management_text,
-          image: "./path-to-your-image4.svg",
+          image: "brancy/components/website/landing/path-to-your-image4.svg",
         },
         {
           title: "",
           textKey: LanguageKey.page4_content_ai_analysis_text,
-          image: "./path-to-your-image5.svg",
+          image: "brancy/components/website/landing/path-to-your-image5.svg",
         },
         {
           title: "",
           textKey: LanguageKey.page4_content_ad_scheduling_text,
-          image: "./path-to-your-image6.svg",
+          image: "brancy/components/website/landing/path-to-your-image6.svg",
         },
         {
           title: "",
           textKey: LanguageKey.page4_content_financial_wallet_text,
-          image: "./path-to-your-image7.svg",
+          image: "brancy/components/website/landing/path-to-your-image7.svg",
         },
         {
           title: "",
           textKey: LanguageKey.page4_content_page_statistics_text,
-          image: "./path-to-your-image8.svg",
+          image: "brancy/components/website/landing/path-to-your-image8.svg",
         },
         {
           title: "",
           textKey: LanguageKey.page4_content_professional_messaging_text,
-          image: "./path-to-your-image9.svg",
+          image: "brancy/components/website/landing/path-to-your-image9.svg",
         },
       ] as const,
     []

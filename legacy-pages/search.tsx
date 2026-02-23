@@ -1,4 +1,4 @@
-import SearchPage from "../components/search/searchPage";
+import SearchPage from "brancy/components/search/searchPage";
 
 const Search = () => {
   return (

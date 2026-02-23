@@ -1,4 +1,4 @@
-import { CategorySection, MarketType } from "./enums";
+import { CategorySection, MarketType } from "brancy/models/market/enums";
 
 export interface IMarketInfo {
   marketId: number;

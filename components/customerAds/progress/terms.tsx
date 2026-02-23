@@ -1,7 +1,7 @@
 import Head from "next/head";
 import { useState } from "react";
-import CheckBoxButton from "../../design/checkBoxButton";
-import styles from "./progress.module.css";
+import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import styles from "brancy/components/customerAds/progress/progress.module.css";
 function TermsAndCondition(prop: { changeCheckBox: (checkBox: boolean) => void; checkBox: boolean }) {
   const [checkBax, setCheckBax] = useState<boolean>(prop.checkBox);
   const handleChangeCheckBox = () => {

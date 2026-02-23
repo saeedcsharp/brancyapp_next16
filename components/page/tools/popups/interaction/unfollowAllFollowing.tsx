@@ -1,33 +1,33 @@
 import { useSession } from "next-auth/react";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import IncrementStepper from "../../../../design/incrementStepper";
-import FlexibleToggleButton from "../../../../design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "../../../../design/toggleButton/types";
-import ToggleCheckBoxButton from "../../../../design/toggleCheckBoxButton";
+import IncrementStepper from "brancy/components/design/incrementStepper";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "brancy/components/design/toggleButton/types";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
-} from "../../../../notifications/notificationBox";
-import Loading from "../../../../notOk/loading";
-import InsightChart from "../../../posts/insightChart";
-import { convertArrayToLarray } from "../../../../../helper/chunkArray";
-import formatTimeAgo from "../../../../../helper/formatTimeAgo";
-import { LanguageKey } from "../../../../../i18n";
-import { MethodType } from "../../../../../helper/api";
+} from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import InsightChart from "brancy/components/page/posts/insightChart";
+import { convertArrayToLarray } from "brancy/helper/chunkArray";
+import formatTimeAgo from "brancy/helper/formatTimeAgo";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
 import {
   IUnFollowAllFollowing_Client_Condotion,
   IUnFollowAllFollowing_Figure,
   IUnFollowAllFollowing_GetUnFollowing,
   IUnFollowAllFollowing_Server_Condotion,
   IUnFollowAllFollowing_UpdateCondotion,
-} from "../../../../../models/page/tools/tools";
+} from "brancy/models/page/tools/tools";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import styles from "./autointeraction.module.css";
-import { clientFetchApi } from "../../../../../helper/clientFetchApi";
+import styles from "brancy/components/page/tools/popups/interaction/autointeraction.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const UnFollowAllFollowing = (props: {
   handleRemoveFollowing: (removeFollowing: IUnFollowAllFollowing_UpdateCondotion) => void;

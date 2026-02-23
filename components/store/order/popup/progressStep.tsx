@@ -1,10 +1,10 @@
 import { FC, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../../i18n";
+import { LanguageKey } from "brancy/i18n";
 
-import styles from "./progressStep.module.css";
+import styles from "brancy/components/store/order/popup/progressStep.module.css";
 
-import { orderDetailConfig, ordersBuyerInfoData, ordersProductInfoData } from "./order.enum";
+import { orderDetailConfig, ordersBuyerInfoData, ordersProductInfoData } from "brancy/components/store/order/popup/order.enum";
 
 const toggleReducer = (state: boolean) => !state;
 interface OrderDetailProps {

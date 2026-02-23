@@ -1,7 +1,7 @@
 import { MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../i18n";
-import styles from "./userProfile.module.css";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/navbar/userPanelNavbar/userProfile.module.css";
 const UserProfile = (props: {
   data: string;
   handleShowSignOut: (e: MouseEvent) => void;

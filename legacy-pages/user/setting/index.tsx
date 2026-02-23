@@ -2,17 +2,17 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "../../../components/design/inputText";
-import RadioButton from "../../../components/design/radioButton";
-import { NotifType, notify, ResponseType } from "../../../components/notifications/notificationBox";
-import System from "../../../components/setting/general/system";
-import UserPartners from "../../../components/userPanel/setting/partner";
-import { LanguageKey } from "../../../i18n";
-import { IRefreshToken } from "../../../models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "../../../helper/api";
-import { IPartner_User } from "../../../models/userPanel/setting";
+import InputText from "brancy/components/design/inputText";
+import RadioButton from "brancy/components/design/radioButton";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import System from "brancy/components/setting/general/system";
+import UserPartners from "brancy/components/userPanel/setting/partner";
+import { LanguageKey } from "brancy/i18n";
+import { IRefreshToken } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType } from "brancy/helper/api";
+import { IPartner_User } from "brancy/models/userPanel/setting";
 import styles from "./setting.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 function InputField({
   label,
   placeholder,

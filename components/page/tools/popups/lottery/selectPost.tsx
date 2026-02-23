@@ -2,20 +2,20 @@ import { useSession } from "next-auth/react";
 import router from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DotLoaders from "../../../../design/loader/dotLoaders";
+import DotLoaders from "brancy/components/design/loader/dotLoaders";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
-} from "../../../../notifications/notificationBox";
-import Loading from "../../../../notOk/loading";
-import { useInfiniteScroll } from "../../../../../helper/useInfiniteScroll";
-import { LanguageKey } from "../../../../../i18n";
-import { MethodType } from "../../../../../helper/api";
-import { IShortPostInfo } from "../../../../../models/page/tools/tools";
-import styles from "./selectPost.module.css";
-import { clientFetchApi } from "../../../../../helper/clientFetchApi";
+} from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { IShortPostInfo } from "brancy/models/page/tools/tools";
+import styles from "brancy/components/page/tools/popups/lottery/selectPost.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const SelectPost = (props: {
   removeMask: () => void;

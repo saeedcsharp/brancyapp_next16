@@ -1,5 +1,5 @@
 import { t } from "i18next";
-import { LanguageKey } from "../../i18n";
+import { LanguageKey } from "brancy/i18n";
 
 export enum BusinessDay {
   Monday = 0,

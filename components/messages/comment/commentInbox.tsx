@@ -4,32 +4,32 @@ import router from "next/router";
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import InputText from "../../design/inputText";
-import DotLoaders from "../../design/loader/dotLoaders";
-import RingLoader from "../../design/loader/ringLoder";
-import Modal from "../../design/modal";
-import FlexibleToggleButton from "../../design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "../../design/toggleButton/types";
-import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
-import Tooltip from "../../design/tooltip/tooltip";
+import InputText from "brancy/components/design/inputText";
+import DotLoaders from "brancy/components/design/loader/dotLoaders";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import Modal from "brancy/components/design/modal";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "brancy/components/design/toggleButton/types";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "../../notifications/notificationBox";
-import Loading from "../../notOk/loading";
-import NotAllowed from "../../notOk/notAllowed";
-import LotteryPopup, { LotteryPopupType } from "../../page/popup/lottery";
-import { LoginStatus, RoleAccess } from "../../../helper/loadingStatus";
-import initialzedTime from "../../../helper/manageTimer";
-import { handleDecompress } from "../../../helper/pako";
-import { useInfiniteScroll } from "../../../helper/useInfiniteScroll";
-import { LanguageKey } from "../../../i18n";
-import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "../../../helper/api";
-import { ActionType, CommentType, ItemType, MediaProductType } from "../../../models/messages/enum";
+} from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import NotAllowed from "brancy/components/notOk/notAllowed";
+import LotteryPopup, { LotteryPopupType } from "brancy/components/page/popup/lottery";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import initialzedTime from "brancy/helper/manageTimer";
+import { handleDecompress } from "brancy/helper/pako";
+import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
+import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType } from "brancy/helper/api";
+import { ActionType, CommentType, ItemType, MediaProductType } from "brancy/models/messages/enum";
 import {
   IComment,
   ICommetInbox,
@@ -43,14 +43,14 @@ import {
   IReplyCommentInfo,
   IReplyLiveCommentInfo,
   IReplyTicket,
-} from "../../../models/messages/IMessage";
-import { IAutomaticReply, IMediaUpdateAutoReply } from "../../../models/page/post/posts";
-import CommentStatistics from "../popups/commentStatistics";
-import EditAutoReplyForMedia from "../popups/editAutoReplyForMedia";
-import CommentChatBox from "./commentChatBox";
-import chatBoxStyles from "./commentChatBox.module.css";
-import styles from "./commentInbox.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+} from "brancy/models/messages/IMessage";
+import { IAutomaticReply, IMediaUpdateAutoReply } from "brancy/models/page/post/posts";
+import CommentStatistics from "brancy/components/messages/popups/commentStatistics";
+import EditAutoReplyForMedia from "brancy/components/messages/popups/editAutoReplyForMedia";
+import CommentChatBox from "brancy/components/messages/comment/commentChatBox";
+import chatBoxStyles from "brancy/components/messages/comment/commentChatBox.module.css";
+import styles from "brancy/components/messages/comment/commentInbox.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 let firstTime = 0;
 let touchMove = 0;
 let touchStart = 0;

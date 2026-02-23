@@ -1,9 +1,9 @@
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "../../../design/inputText";
-import { LanguageKey } from "../../../../i18n";
-import styles from "./QuickReplyNode.module.css";
-import { BaseNodeProps, NodeData } from "./types";
+import InputText from "brancy/components/design/inputText";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/messages/aiflow/flowNode/QuickReplyNode.module.css";
+import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
 interface QuickReplyNodeProps extends BaseNodeProps {
   setEditorState: React.Dispatch<React.SetStateAction<any>>;
   updateStateWithHistory: (updater: (prev: any) => any) => void;

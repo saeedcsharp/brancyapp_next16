@@ -6,17 +6,17 @@ import { ChangeEvent, KeyboardEvent, MouseEvent, useCallback, useEffect, useMemo
 import { useTranslation } from "react-i18next";
 import InputEmoji from "react-input-emoji";
 import { DateObject } from "react-multi-date-picker";
-import RingLoader from "../../design/loader/ringLoder";
-import Tooltip from "../../design/tooltip/tooltip";
-import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
-import { convertHeicToJpeg } from "../../../helper/convertHeicToJPEG";
-import { detectEmojiOnly } from "../../../helper/emojiDetector";
-import formatTimeAgo from "../../../helper/formatTimeAgo";
-import initialzedTime from "../../../helper/manageTimer";
-import { useInfiniteScroll } from "../../../helper/useInfiniteScroll";
-import { LanguageKey } from "../../../i18n";
-import { MethodType, UploadFile } from "../../../helper/api";
-import { ItemType, StatusReplied } from "../../../models/messages/enum";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
+import { detectEmojiOnly } from "brancy/helper/emojiDetector";
+import formatTimeAgo from "brancy/helper/formatTimeAgo";
+import initialzedTime from "brancy/helper/manageTimer";
+import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType, UploadFile } from "brancy/helper/api";
+import { ItemType, StatusReplied } from "brancy/models/messages/enum";
 import {
   IItem,
   IOwnerInbox,
@@ -24,13 +24,13 @@ import {
   IReplyTicket_Media,
   IThread_Ticket,
   IUploadVoice,
-} from "../../../models/messages/IMessage";
-import VoiceRecorder from "../popups/voiceRecorder";
-import { LeftChatWrapper } from "./chatComponents/LeftChatWrapper";
-import { RightChatWrapper } from "./chatComponents/RightChatWrapper";
-import { TicketPendingMessages } from "./chatComponents/shared/messageTypes/TicketPendingMessages";
-import styles from "./ticketChatBox.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+} from "brancy/models/messages/IMessage";
+import VoiceRecorder from "brancy/components/messages/popups/voiceRecorder";
+import { LeftChatWrapper } from "brancy/components/messages/ticket/chatComponents/LeftChatWrapper";
+import { RightChatWrapper } from "brancy/components/messages/ticket/chatComponents/RightChatWrapper";
+import { TicketPendingMessages } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/TicketPendingMessages";
+import styles from "brancy/components/messages/ticket/ticketChatBox.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 //#endregion
 
 //#region تعریف کامپوننت و Props

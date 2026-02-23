@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import Draggable, { DraggableBounds, DraggableData } from "react-draggable";
-import styles from "./dragComponent.module.css";
+import styles from "brancy/components/design/dragComponent/dragComponent.module.css";
 
 export type positionType = {
   x: number;

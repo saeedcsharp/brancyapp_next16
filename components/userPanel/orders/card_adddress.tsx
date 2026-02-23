@@ -3,25 +3,25 @@ import { useRouter } from "next/router";
 import { ChangeEvent, useCallback, useEffect, useId, useLayoutEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-import InputText from "../../design/inputText";
-import RingLoader from "../../design/loader/ringLoder";
-import RadioButton from "../../design/radioButton";
-import TextArea from "../../design/textArea/textArea";
-import Loading from "../../notOk/loading";
-import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
-import PriceFormater, { PriceFormaterClassName } from "../../priceFormater";
-import { LanguageKey } from "../../../i18n";
-import { MethodType } from "../../../helper/api";
+import InputText from "brancy/components/design/inputText";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import RadioButton from "brancy/components/design/radioButton";
+import TextArea from "brancy/components/design/textArea/textArea";
+import Loading from "brancy/components/notOk/loading";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
 import IUserCoupon, {
   IAddress,
   ICompleteProduct,
   ICreateOrder,
   ILogistic,
   InputTypeAddress,
-} from "../../../models/userPanel/orders";
+} from "brancy/models/userPanel/orders";
 
-import styles from "./card_address.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import styles from "brancy/components/userPanel/orders/card_address.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const MOBILE_BREAKPOINT = 1024;

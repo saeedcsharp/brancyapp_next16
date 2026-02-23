@@ -1,15 +1,15 @@
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { MouseEvent, use, useEffect, useRef, useState } from "react";
-import { InstaInfoContext } from "../../../context/instaInfoContext";
-import { LoginStatus, packageStatus } from "../../../helper/loadingStatus";
-import { handleDecompress } from "../../../helper/pako";
-import { getHubConnection } from "../../../helper/pushNotif";
-import { PushNotif, PushResponseType } from "../../../models/push/pushNotif";
-import NavbarMobile from "./navbar_mobile";
-import styles from "./navbarheader.module.css";
-import NotificationBar from "./notificationBar";
-import Profile from "./profile";
+import { InstaInfoContext } from "brancy/context/instaInfoContext";
+import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import { handleDecompress } from "brancy/helper/pako";
+import { getHubConnection } from "brancy/helper/pushNotif";
+import { PushNotif, PushResponseType } from "brancy/models/push/pushNotif";
+import NavbarMobile from "brancy/components/navbar/instagramerNavbar/navbar_mobile";
+import styles from "brancy/components/navbar/instagramerNavbar/navbarheader.module.css";
+import NotificationBar from "brancy/components/navbar/instagramerNavbar/notificationBar";
+import Profile from "brancy/components/navbar/instagramerNavbar/profile";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
 const NavbarHeader = (props: {

@@ -3,26 +3,26 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Modal from "../../../components/design/modal";
-import { NotifType, notify, ResponseType } from "../../../components/notifications/notificationBox";
-import Loading from "../../../components/notOk/loading";
-import NotBasePackage from "../../../components/notOk/notBasePackage";
-import NotShopper from "../../../components/notOk/notShopper";
-import InstanceProductDetail from "../../../components/store/products/productDetail/instanceProduct/instanceProductDetail";
-import NotInstanceProductDetail from "../../../components/store/products/productDetail/notInstanceProduct/notInstanceProductDetal";
-import DeleteProduct from "../../../components/store/products/productDetail/notInstanceProduct/popups/deleteProduct";
-import { packageStatus } from "../../../helper/loadingStatus";
-import { LanguageKey } from "../../../i18n";
-import { MethodType } from "../../../helper/api";
-import { IDetailsPost } from "../../../models/page/post/posts";
+import Modal from "brancy/components/design/modal";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import NotBasePackage from "brancy/components/notOk/notBasePackage";
+import NotShopper from "brancy/components/notOk/notShopper";
+import InstanceProductDetail from "brancy/components/store/products/productDetail/instanceProduct/instanceProductDetail";
+import NotInstanceProductDetail from "brancy/components/store/products/productDetail/notInstanceProduct/notInstanceProductDetal";
+import DeleteProduct from "brancy/components/store/products/productDetail/notInstanceProduct/popups/deleteProduct";
+import { packageStatus } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { IDetailsPost } from "brancy/models/page/post/posts";
 import {
   IMaxSize,
   IProduct_FullProduct,
   IProduct_ShortProduct,
   ITempIdAndNonProductCount,
-} from "../../../models/store/IProduct";
+} from "brancy/models/store/IProduct";
 import styles from "./productDetail.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const ProductDetail = () => {
   //  return <Soon />;
   const router = useRouter();

@@ -1,10 +1,10 @@
 import React, { useMemo } from "react";
-import MediaDetector from "../../../../shared/utils/MediaDetector";
-import LinkifyText from "../../../../../../context/LinkifyText";
-import { getMessageDirectionClass } from "../../../../../../helper/checkRtl";
-import { detectEmojiOnly } from "../../../../../../helper/emojiDetector";
-import { ISendTicketMessage, ITicketMediaType } from "../../../../../../models/userPanel/message";
-import styles from "./messageTypes.module.css";
+import MediaDetector from "brancy/components/messages/shared/utils/MediaDetector";
+import LinkifyText from "brancy/context/LinkifyText";
+import { getMessageDirectionClass } from "brancy/helper/checkRtl";
+import { detectEmojiOnly } from "brancy/helper/emojiDetector";
+import { ISendTicketMessage, ITicketMediaType } from "brancy/models/userPanel/message";
+import styles from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/messageTypes.module.css";
 // #region تعریف اینترفیس‌ها
 // انواع پراپس برای لیست پیام‌های در حال ارسال و آیتم‌های آن.
 interface SystemSendingMessagesProps {

@@ -1,4 +1,4 @@
-import { IPostContent } from "../../../models/page/post/posts";
+import { IPostContent } from "brancy/models/page/post/posts";
 
 function Posts(prop: { posts: IPostContent[] }) {
   return <></>;

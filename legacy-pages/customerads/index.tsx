@@ -1,16 +1,16 @@
 import { MouseEvent, useEffect, useState } from "react";
-import Content from "../../components/customerAds/content";
-import Navbar from "../../components/customerAds/navbar";
-import SelectAdmin from "../../components/customerAds/selectAdmin";
-import SideBar from "../../components/customerAds/sideBar";
+import Content from "brancy/components/customerAds/content";
+import Navbar from "brancy/components/customerAds/navbar";
+import SelectAdmin from "brancy/components/customerAds/selectAdmin";
+import SideBar from "brancy/components/customerAds/sideBar";
 import styles from "./index.module.css";
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import Card from "../../components/customerAds/card/card";
-import { NotifType, ResponseType, notify } from "../../components/notifications/notificationBox";
-import SignIn, { RedirectType, SignInType } from "../../components/signIn/signIn";
-import { IAdvertiseSummary, IAdvertiserInfo, ISideBar } from "../../models/customerAds/customerAd";
+import Card from "brancy/components/customerAds/card/card";
+import { NotifType, ResponseType, notify } from "brancy/components/notifications/notificationBox";
+import SignIn, { RedirectType, SignInType } from "brancy/components/signIn/signIn";
+import { IAdvertiseSummary, IAdvertiserInfo, ISideBar } from "brancy/models/customerAds/customerAd";
 
 const CustomerAds = () => {
   //  return <Soon />;

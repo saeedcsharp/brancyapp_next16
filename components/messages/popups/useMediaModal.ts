@@ -1,5 +1,5 @@
 import { useCallback, useState } from "react";
-import { ImageMediaData, MediaData, VideoMediaData } from "./MediaModal";
+import { ImageMediaData, MediaData, VideoMediaData } from "brancy/components/messages/popups/MediaModal";
 
 // #region اینترفیس خروجی هوک
 export interface UseMediaModalReturn {

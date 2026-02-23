@@ -16,26 +16,26 @@ import { useSession } from "next-auth/react";
 import { t } from "i18next";
 
 // Local components
-import InputText from "../../../design/inputText";
+import InputText from "brancy/components/design/inputText";
 import {
   NotifType,
   notify,
   ResponseType,
-} from "../../../notifications/notificationBox";
+} from "brancy/components/notifications/notificationBox";
 
 // Local types & models
-import { LanguageKey } from "../../../../i18n";
+import { LanguageKey } from "brancy/i18n";
 import {
   ICreateLiveChat,
   ICreatePrompt,
   ILiveChat,
-} from "../../../../models/AI/prompt";
-import { MethodType } from "../../../../helper/api";
-import { ItemType } from "../../../../models/messages/enum";
+} from "brancy/models/AI/prompt";
+import { MethodType } from "brancy/helper/api";
+import { ItemType } from "brancy/models/messages/enum";
 
 // Styles
-import styles from "./AI_liveChat.module.css";
-import { clientFetchApi } from "../../../../helper/clientFetchApi";
+import styles from "brancy/components/messages/aiflow/popup/AI_liveChat.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 type ChatState = {
   messages: ILiveChat[];

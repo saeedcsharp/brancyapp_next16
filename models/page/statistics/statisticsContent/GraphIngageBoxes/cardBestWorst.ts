@@ -1,4 +1,4 @@
-import { HourCountUnix } from "./graphLikes";
+import { HourCountUnix } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 
 export interface CardBestWorstModel {
   thirdyDays: {

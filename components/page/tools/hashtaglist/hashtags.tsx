@@ -2,17 +2,17 @@ import { useSession } from "next-auth/react";
 import React, { KeyboardEvent, MouseEvent, useCallback, useId, useMemo, useRef, useState, useTransition } from "react";
 import { useTranslation } from "react-i18next";
 
-import Dotmenu from "../../../design/dotMenu/dotMenu";
-import Slider, { SliderSlide } from "../../../design/slider/slider";
-import Loading from "../../../notOk/loading";
+import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
+import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
+import Loading from "brancy/components/notOk/loading";
 
-import { LoginStatus, RoleAccess } from "../../../../helper/loadingStatus";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 
-import { LanguageKey } from "../../../../i18n";
-import { PartnerRole } from "../../../../models/_AccountInfo/InstagramerAccountInfo";
-import { IHashtag } from "../../../../models/page/tools/tools";
+import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { IHashtag } from "brancy/models/page/tools/tools";
 
-import styles from "./hashtags.module.css";
+import styles from "brancy/components/page/tools/hashtaglist/hashtags.module.css";
 
 interface HashtagListItem {
   listId: number;

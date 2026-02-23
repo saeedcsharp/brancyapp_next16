@@ -1,10 +1,10 @@
 import React, { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "../../../design/checkBoxButton";
-import DragDrop from "../../../design/dragDrop/dragDrop";
-import InputText from "../../../design/inputText";
-import { LanguageKey } from "../../../../i18n";
-import styles from "./OrderProgress.module.css";
+import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import InputText from "brancy/components/design/inputText";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/store/order/popup/OrderProgress.module.css";
 
 const OrderProgress = () => {
   const { t } = useTranslation();

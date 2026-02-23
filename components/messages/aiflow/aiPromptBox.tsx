@@ -2,28 +2,28 @@ import { useSession } from "next-auth/react";
 import router from "next/router";
 import { useCallback, useEffect, useId, useMemo, useRef, useState, useTransition } from "react";
 import { useTranslation } from "react-i18next";
-import AIButton from "../../design/ai/AIButton";
-import InputText from "../../design/inputText";
-import RingLoader from "../../design/loader/ringLoder";
-import RadioButton from "../../design/radioButton";
-import TextArea from "../../design/textArea/textArea";
-import FlexibleToggleButton from "../../design/toggleButton/flexibleToggleButton";
-import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
-import Tooltip from "../../design/tooltip/tooltip";
+import AIButton from "brancy/components/design/ai/AIButton";
+import InputText from "brancy/components/design/inputText";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import RadioButton from "brancy/components/design/radioButton";
+import TextArea from "brancy/components/design/textArea/textArea";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "../../notifications/notificationBox";
-import Loading from "../../notOk/loading";
-import { LanguageKey } from "../../../i18n/languageKeys";
-import { IAITools, IAnalysisPrompt, ICreatePrompt, IDetailPrompt, ITotalPrompt } from "../../../models/AI/prompt";
-import { MethodType } from "../../../helper/api";
-import styles from "./aiPromptBox.module.css";
-import LiveChat from "./popup/liveChat";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+} from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import { LanguageKey } from "brancy/i18n/languageKeys";
+import { IAITools, IAnalysisPrompt, ICreatePrompt, IDetailPrompt, ITotalPrompt } from "brancy/models/AI/prompt";
+import { MethodType } from "brancy/helper/api";
+import styles from "brancy/components/messages/aiflow/aiPromptBox.module.css";
+import LiveChat from "brancy/components/messages/aiflow/popup/liveChat";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const AIPromptBox = ({
   aiTools,
   userSelectId,

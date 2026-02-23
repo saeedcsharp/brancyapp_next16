@@ -1,7 +1,7 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../i18n";
-import { ErrorPrePostType, IErrorPrePostInfo } from "../../../models/page/post/preposts";
+import { LanguageKey } from "brancy/i18n";
+import { ErrorPrePostType, IErrorPrePostInfo } from "brancy/models/page/post/preposts";
 function ErrorDraft(props: { data: IErrorPrePostInfo; removeMask: () => void }) {
   useEffect(() => {
     console.log("draft", props.data);

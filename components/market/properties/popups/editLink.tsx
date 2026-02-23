@@ -3,20 +3,20 @@ import { ChangeEvent, useCallback, useEffect, useMemo, useReducer, useRef } from
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 
-import SetTimeAndDate from "../../../dateAndTime/setTimeAndDate";
-import CheckBoxButton from "../../../design/checkBoxButton";
-import InputText from "../../../design/inputText";
-import Loading from "../../../notOk/loading";
-import { internalNotify, InternalResponseType, NotifType } from "../../../notifications/notificationBox";
+import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
+import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import InputText from "brancy/components/design/inputText";
+import Loading from "brancy/components/notOk/loading";
+import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
 
-import { convertHeicToJpeg } from "../../../../helper/convertHeicToJPEG";
-import initialzedTime from "../../../../helper/manageTimer";
+import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
+import initialzedTime from "brancy/helper/manageTimer";
 
-import { LanguageKey } from "../../../../i18n";
-import { TitleType } from "../../../../models/market/enums";
-import { ILink, IUpdateLink } from "../../../../models/market/properties";
+import { LanguageKey } from "brancy/i18n";
+import { TitleType } from "brancy/models/market/enums";
+import { ILink, IUpdateLink } from "brancy/models/market/properties";
 
-import styles from "./addNewLink.module.css";
+import styles from "brancy/components/market/properties/popups/addNewLink.module.css";
 
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 

@@ -1,9 +1,9 @@
 import { t } from "i18next";
 import React, { useState } from "react";
-import CheckBoxButton from "../../design/checkBoxButton";
-import InputText from "../../design/inputText";
-import TextArea from "../../design/textArea/textArea";
-import { LanguageKey } from "../../../i18n";
+import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import InputText from "brancy/components/design/inputText";
+import TextArea from "brancy/components/design/textArea/textArea";
+import { LanguageKey } from "brancy/i18n";
 
 interface PopupCommentProps {
   onClose: () => void;

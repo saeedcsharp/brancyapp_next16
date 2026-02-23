@@ -9,36 +9,36 @@ import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 
 // Internal Components
-import CountdownTimer from "../../../../../components/design/counterDown/counterDownForShop";
-import IncrementStepper from "../../../../../components/design/incrementStepper";
-import Loading from "../../../../../components/notOk/loading";
+import CountdownTimer from "brancy/components/design/counterDown/counterDownForShop";
+import IncrementStepper from "brancy/components/design/incrementStepper";
+import Loading from "brancy/components/notOk/loading";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "../../../../../components/notifications/notificationBox";
-import PriceFormater, { PriceFormaterClassName } from "../../../../../components/priceFormater";
-import SignIn, { RedirectType, SignInType } from "../../../../../components/signIn/signIn";
-import SignInPage1 from "../../../../../components/signIn/signInPage1";
-import PriceHistory from "../../../../../components/userPanel/shop/popups/priceHistory";
-import ReportProduct from "../../../../../components/userPanel/shop/popups/reportProduct";
+} from "brancy/components/notifications/notificationBox";
+import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
+import SignIn, { RedirectType, SignInType } from "brancy/components/signIn/signIn";
+import SignInPage1 from "brancy/components/signIn/signInPage1";
+import PriceHistory from "brancy/components/userPanel/shop/popups/priceHistory";
+import ReportProduct from "brancy/components/userPanel/shop/popups/reportProduct";
 
 // Helper Functions
-import { handleCopyLink } from "../../../../../helper/copyLink";
-import findSystemLanguage from "../../../../../helper/findSystemLanguage";
-import formatTimeAgo from "../../../../../helper/formatTimeAgo";
-import initialzedTime from "../../../../../helper/manageTimer";
-import { handleDecompress } from "../../../../../helper/pako";
+import { handleCopyLink } from "brancy/helper/copyLink";
+import findSystemLanguage from "brancy/helper/findSystemLanguage";
+import formatTimeAgo from "brancy/helper/formatTimeAgo";
+import initialzedTime from "brancy/helper/manageTimer";
+import { handleDecompress } from "brancy/helper/pako";
 
 // Internationalization
-import { LanguageKey } from "../../../../../i18n";
+import { LanguageKey } from "brancy/i18n";
 
 // Models & Types
-import { MethodType } from "../../../../../helper/api";
-import { IComment } from "../../../../../models/messages/IMessage";
-import { AvailabilityStatus } from "../../../../../models/store/enum";
+import { MethodType } from "brancy/helper/api";
+import { IComment } from "brancy/models/messages/IMessage";
+import { AvailabilityStatus } from "brancy/models/store/enum";
 import {
   ColorStr,
   IAddToCard,
@@ -50,12 +50,12 @@ import {
   IShortShop,
   ISubProduct,
   IVariationComparison,
-} from "../../../../../models/userPanel/shop";
+} from "brancy/models/userPanel/shop";
 
 // Styles
-import Modal from "../../../../../components/design/modal";
+import Modal from "brancy/components/design/modal";
 import styles from "./product.module.css";
-import { clientFetchApi } from "../../../../../helper/clientFetchApi";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 // Constants
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;

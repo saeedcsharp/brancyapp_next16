@@ -11,9 +11,9 @@ import {
   useTransition,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../i18n";
-import styles from "./signInPage1.module.css";
-const LandingSignIn = lazy(() => import("./landingSignIn"));
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/signIn/signInPage1.module.css";
+const LandingSignIn = lazy(() => import("brancy/components/signIn/landingSignIn"));
 const SignInPage1 = (props: { handleShowVerification: (preUserToken: string) => void }) => {
   const { t, i18n } = useTranslation();
   const signInParentRef = useRef<HTMLDivElement>(null);

@@ -1,13 +1,13 @@
-import { PriceType } from "../../components/priceFormater";
-import { IShortProduct, IShortShop } from "../userPanel/shop";
-import { LogisticType, OrderStep, ParcelPocketDeliveryType, ShippingRequestType } from "./enum";
+import { PriceType } from "brancy/components/priceFormater";
+import { IShortProduct, IShortShop } from "brancy/models/userPanel/shop";
+import { LogisticType, OrderStep, ParcelPocketDeliveryType, ShippingRequestType } from "brancy/models/store/enum";
 import {
   IProductInstance,
   ISecondaryInfo,
   ISpecification,
   ITitleVariation,
   ITitleVariation_WithVarition,
-} from "./IProduct";
+} from "brancy/models/store/IProduct";
 
 export interface IOrderByStatus {
   items: IOrderByStatusItem[];

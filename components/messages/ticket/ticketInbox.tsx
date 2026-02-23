@@ -4,28 +4,28 @@ import router from "next/router";
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import InputText from "../../design/inputText";
-import DotLoaders from "../../design/loader/dotLoaders";
-import RingLoader from "../../design/loader/ringLoder";
-import Modal from "../../design/modal";
-import FlexibleToggleButton from "../../design/toggleButton/flexibleToggleButton";
+import InputText from "brancy/components/design/inputText";
+import DotLoaders from "brancy/components/design/loader/dotLoaders";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import Modal from "brancy/components/design/modal";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "../../notifications/notificationBox";
-import Loading from "../../notOk/loading";
-import NotAllowed from "../../notOk/notAllowed";
-import { LoginStatus, RoleAccess } from "../../../helper/loadingStatus";
-import initialzedTime from "../../../helper/manageTimer";
-import { handleDecompress } from "../../../helper/pako";
-import { useInfiniteScroll } from "../../../helper/useInfiniteScroll";
-import { LanguageKey } from "../../../i18n";
-import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType, UploadFile } from "../../../helper/api";
-import { ItemType, MediaType, StatusReplied, TicketType } from "../../../models/messages/enum";
+} from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import NotAllowed from "brancy/components/notOk/notAllowed";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import initialzedTime from "brancy/helper/manageTimer";
+import { handleDecompress } from "brancy/helper/pako";
+import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
+import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType, UploadFile } from "brancy/helper/api";
+import { ItemType, MediaType, StatusReplied, TicketType } from "brancy/models/messages/enum";
 import {
   IFbTicketInfo,
   IGetDirectInbox,
@@ -35,21 +35,21 @@ import {
   IReplyTicket_Media_Server,
   IThread_Ticket,
   ITicketInbox,
-} from "../../../models/messages/IMessage";
+} from "brancy/models/messages/IMessage";
 import {
   ISendTicketMessage,
   ITicket,
   ITicketMediaType,
   IUserPanelMessage,
   IItem as userItem,
-} from "../../../models/userPanel/message";
-import SendFile from "../popups/sendFile";
-import SendVideoFile from "../popups/sendVideoFile";
-import { MediaModal, useMediaModal } from "../shared/utils";
-import DirectChatBox from "./directChatBox";
-import SystemChatBox from "./systemChatBox";
-import styles from "./ticketInbox.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+} from "brancy/models/userPanel/message";
+import SendFile from "brancy/components/messages/popups/sendFile";
+import SendVideoFile from "brancy/components/messages/popups/sendVideoFile";
+import { MediaModal, useMediaModal } from "brancy/components/messages/shared/utils";
+import DirectChatBox from "brancy/components/messages/ticket/directChatBox";
+import SystemChatBox from "brancy/components/messages/ticket/systemChatBox";
+import styles from "brancy/components/messages/ticket/ticketInbox.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 let firstTime = 0;
 let touchMove = 0;
 let touchStart = 0;

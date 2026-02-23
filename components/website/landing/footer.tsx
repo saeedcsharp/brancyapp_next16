@@ -1,8 +1,8 @@
 import React, { useMemo } from "react";
 import Link from "next/link";
-import styles from "./footer.module.css";
+import styles from "brancy/components/website/landing/footer.module.css";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../i18n";
+import { LanguageKey } from "brancy/i18n";
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();
@@ -13,19 +13,19 @@ const Footer: React.FC = () => {
         links: [
           {
             text: t(LanguageKey.footer_AboutUs),
-            href: "./Accessibility/About-Us",
+            href: "brancy/components/website/landing/Accessibility/About-Us",
           },
           {
             text: t(LanguageKey.footer_ContactUs),
-            href: "./Accessibility/Contact-Us",
+            href: "brancy/components/website/landing/Accessibility/Contact-Us",
           },
           {
             text: t(LanguageKey.footer_JoinUs),
-            href: "./Accessibility/join-Us",
+            href: "brancy/components/website/landing/Accessibility/join-Us",
           },
           {
             text: t(LanguageKey.footer_OrgChart),
-            href: "./Accessibility/OrgChart",
+            href: "brancy/components/website/landing/Accessibility/OrgChart",
           },
         ],
       },
@@ -34,16 +34,16 @@ const Footer: React.FC = () => {
         links: [
           {
             text: t(LanguageKey.footer_HelpCenter),
-            href: "./Accessibility/Help-Center",
+            href: "brancy/components/website/landing/Accessibility/Help-Center",
           },
           {
             text: t(LanguageKey.footer_Support),
-            href: "./Accessibility/Support",
+            href: "brancy/components/website/landing/Accessibility/Support",
           },
-          { text: t(LanguageKey.footer_FAQ), href: "./Accessibility/FAQ" },
+          { text: t(LanguageKey.footer_FAQ), href: "brancy/components/website/landing/Accessibility/FAQ" },
           {
             text: t(LanguageKey.footer_ReportAnIssue),
-            href: "./Accessibility/Report-an-Issue",
+            href: "brancy/components/website/landing/Accessibility/Report-an-Issue",
           },
         ],
       },
@@ -52,15 +52,15 @@ const Footer: React.FC = () => {
         links: [
           {
             text: t(LanguageKey.footer_TermsAndConditions),
-            href: "./Accessibility/Terms-and-conditions",
+            href: "brancy/components/website/landing/Accessibility/Terms-and-conditions",
           },
           {
             text: t(LanguageKey.footer_PrivacyNotice),
-            href: "./Accessibility/privacy-policy",
+            href: "brancy/components/website/landing/Accessibility/privacy-policy",
           },
           {
             text: t(LanguageKey.footer_CookieNotice),
-            href: "./Accessibility/Cookie-Notice",
+            href: "brancy/components/website/landing/Accessibility/Cookie-Notice",
           },
         ],
       },
@@ -69,19 +69,19 @@ const Footer: React.FC = () => {
         links: [
           {
             text: t(LanguageKey.footer_ProductUpdates),
-            href: "./Accessibility/Product-Updates",
+            href: "brancy/components/website/landing/Accessibility/Product-Updates",
           },
           {
             text: t(LanguageKey.footer_Articles),
-            href: "./Accessibility/Articles",
+            href: "brancy/components/website/landing/Accessibility/Articles",
           },
           {
             text: t(LanguageKey.footer_LatestNews),
-            href: "./Accessibility/Latest-news",
+            href: "brancy/components/website/landing/Accessibility/Latest-news",
           },
           {
             text: t(LanguageKey.footer_FollowUs),
-            href: "./Accessibility/Follow-Us",
+            href: "brancy/components/website/landing/Accessibility/Follow-Us",
           },
         ],
       },

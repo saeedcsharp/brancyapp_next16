@@ -2,12 +2,12 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "../../../design/inputText";
-import RingLoader from "../../../design/loader/ringLoder";
-import TextArea from "../../../design/textArea/textArea";
-import { LanguageKey } from "../../../../i18n";
-import { IAddress } from "../../../../models/userPanel/orders";
-import styles from "./addresses.module.css";
+import InputText from "brancy/components/design/inputText";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import TextArea from "brancy/components/design/textArea/textArea";
+import { LanguageKey } from "brancy/i18n";
+import { IAddress } from "brancy/models/userPanel/orders";
+import styles from "brancy/components/userPanel/orders/popups/addresses.module.css";
 export default function UpdateAddresses({
   address,
   removeMask,

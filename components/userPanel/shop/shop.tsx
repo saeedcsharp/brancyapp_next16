@@ -2,14 +2,14 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "../../design/dragDrop/dragDrop";
-import InputText from "../../design/inputText";
-import Loading from "../../notOk/loading";
-import { LoginStatus } from "../../../helper/loadingStatus";
-import { calculateSummary } from "../../../helper/numberFormater";
-import { LanguageKey } from "../../../i18n";
-import { IFullShop } from "../../../models/userPanel/shop";
-import styles from "./shop.module.css";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import InputText from "brancy/components/design/inputText";
+import Loading from "brancy/components/notOk/loading";
+import { LoginStatus } from "brancy/helper/loadingStatus";
+import { calculateSummary } from "brancy/helper/numberFormater";
+import { LanguageKey } from "brancy/i18n";
+import { IFullShop } from "brancy/models/userPanel/shop";
+import styles from "brancy/components/userPanel/shop/shop.module.css";
 
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 

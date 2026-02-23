@@ -1,9 +1,9 @@
 import { ChangeEvent, useCallback, useEffect, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "../../../design/dragDrop/dragDrop";
-import TextArea from "../../../design/textArea/textArea";
-import { LanguageKey } from "../../../../i18n";
-import styles from "./customFont.module.css";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import TextArea from "brancy/components/design/textArea/textArea";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/page/tools/customFont/customFont.module.css";
 interface FontMap {
   [key: string]: {
     [key: string]: string;

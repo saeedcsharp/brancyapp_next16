@@ -1,6 +1,6 @@
 import { memo, useCallback, useEffect, useId, useLayoutEffect, useMemo, useReducer, useRef } from "react";
-import { IClientBanner } from "../../../models/market/myLink";
-import styles from "./banner.module.css";
+import { IClientBanner } from "brancy/models/market/myLink";
+import styles from "brancy/components/market/myLink/banner.module.css";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 interface BannerState {
   currentSlide: number;

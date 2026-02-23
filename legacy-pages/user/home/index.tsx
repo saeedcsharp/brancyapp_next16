@@ -2,22 +2,22 @@ import Head from "next/head";
 import router, { useRouter } from "next/router"; // Add this import
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../i18n";
+import { LanguageKey } from "brancy/i18n";
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { NotifType, notify, ResponseType } from "../../../components/notifications/notificationBox";
-import Loading from "../../../components/notOk/loading";
-import PriceFormater, { PriceFormaterClassName } from "../../../components/priceFormater";
-import { MethodType } from "../../../helper/api";
-import { IUserInfo } from "../../../models/userPanel/login";
-import { IShortShop } from "../../../models/userPanel/orders";
-import { IFavoriteProduct } from "../../../models/userPanel/shop";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
+import { MethodType } from "brancy/helper/api";
+import { IUserInfo } from "brancy/models/userPanel/login";
+import { IShortShop } from "brancy/models/userPanel/orders";
+import { IFavoriteProduct } from "brancy/models/userPanel/shop";
 import "swiper/css";
 import "swiper/css/free-mode";
 import styles from "./index.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
 const orderSteps = [

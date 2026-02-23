@@ -1,4 +1,4 @@
-import { LanguageKey } from "../../i18n";
+import { LanguageKey } from "brancy/i18n";
 
 export type MessageMap = {
   CONSOLE_ERRORS: {

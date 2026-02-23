@@ -1,5 +1,5 @@
-import { IItem, IOwnerInbox, IThread_Ticket } from "../../../../models/messages/IMessage";
-import { ITicket } from "../../../../models/userPanel/message";
+import { IItem, IOwnerInbox, IThread_Ticket } from "brancy/models/messages/IMessage";
+import { ITicket } from "brancy/models/userPanel/message";
 export type ChatDirection = "left" | "right" | "system";
 export interface ImageClickInfo {
   url: string;

@@ -11,10 +11,10 @@ import {
 } from "react";
 
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../i18n";
-import { FeatureType } from "../../../models/market/enums";
-import { IFeatureInfo } from "../../../models/market/myLink";
-import styles from "./menubar.module.css";
+import { LanguageKey } from "brancy/i18n";
+import { FeatureType } from "brancy/models/market/enums";
+import { IFeatureInfo } from "brancy/models/market/myLink";
+import styles from "brancy/components/market/myLink/menubar.module.css";
 
 interface MenubarProps {
   data: IFeatureInfo[];

@@ -2,11 +2,11 @@ import { useSession } from "next-auth/react";
 import { KeyboardEvent, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import InputText from "../../design/inputText";
-import TextArea from "../../design/textArea/textArea";
-import { LanguageKey } from "../../../i18n";
+import InputText from "brancy/components/design/inputText";
+import TextArea from "brancy/components/design/textArea/textArea";
+import { LanguageKey } from "brancy/i18n";
 
-import styles from "./general.module.css";
+import styles from "brancy/components/setting/general/general.module.css";
 function Profile() {
   const { t } = useTranslation();
   const { data: session } = useSession();

@@ -1,4 +1,4 @@
-import { TutorialPageKey } from "../tutorialConfigs";
+import { TutorialPageKey } from "brancy/components/tutorial/tutorialConfigs";
 
 // کلید localStorage برای ذخیره وضعیت tutorials
 const TUTORIAL_STORAGE_KEY = "brancy_tutorial_completed";

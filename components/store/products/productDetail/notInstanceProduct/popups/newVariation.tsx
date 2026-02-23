@@ -1,13 +1,13 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "../../../../../design/dragDrop/dragDrop";
-import InputText from "../../../../../design/inputText";
-import RadioButton from "../../../../../design/radioButton";
-import Loading from "../../../../../notOk/loading";
-import { LanguageKey } from "../../../../../../i18n";
-import { ICreateInstance_ForVariation, IProduct_Variation } from "../../../../../../models/store/IProduct";
-import { IAddNewVariation, INewVariation } from "../Variation";
-import styles from "./newVariation.module.css";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import InputText from "brancy/components/design/inputText";
+import RadioButton from "brancy/components/design/radioButton";
+import Loading from "brancy/components/notOk/loading";
+import { LanguageKey } from "brancy/i18n";
+import { ICreateInstance_ForVariation, IProduct_Variation } from "brancy/models/store/IProduct";
+import { IAddNewVariation, INewVariation } from "brancy/components/store/products/productDetail/notInstanceProduct/Variation";
+import styles from "brancy/components/store/products/productDetail/notInstanceProduct/popups/newVariation.module.css";
 const NewVariation = (props: {
   createInstance: ICreateInstance_ForVariation;
   variation: IProduct_Variation;

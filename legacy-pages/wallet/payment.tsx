@@ -2,8 +2,8 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Soon from "../../components/notOk/soon";
-import { packageStatus } from "../../helper/loadingStatus";
+import Soon from "brancy/components/notOk/soon";
+import { packageStatus } from "brancy/helper/loadingStatus";
 import styles from "./payment.module.css";
 
 // توجه: همه متون این صفحه به صورت ایستا و فارسی برای پرزنت سرمایه‌گذار هستند.

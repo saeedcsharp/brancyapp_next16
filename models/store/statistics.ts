@@ -1,9 +1,9 @@
-import { StatusType } from "../../components/confirmationStatus/confirmationStatus";
-import { AdsType } from "../advertise/AdEnums";
+import { StatusType } from "brancy/components/confirmationStatus/confirmationStatus";
+import { AdsType } from "brancy/models/advertise/AdEnums";
 import {
   DayCountUnix,
   StatisticsUser,
-} from "../page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+} from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 
 export interface ISaleMonth {
   month: number;

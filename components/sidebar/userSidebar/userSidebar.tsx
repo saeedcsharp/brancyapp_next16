@@ -3,9 +3,9 @@ import { usePathname } from "next/navigation";
 import { NextRouter } from "next/router";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../i18n";
-import { UserPanelRoute } from "../sidebar";
-import styles from "./userSidebar.module.css";
+import { LanguageKey } from "brancy/i18n";
+import { UserPanelRoute } from "brancy/components/sidebar/sidebar";
+import styles from "brancy/components/sidebar/userSidebar/userSidebar.module.css";
 
 // Type for menu items
 type MenuItem = {

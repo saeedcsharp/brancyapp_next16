@@ -1,9 +1,9 @@
 import Head from "next/head";
 import React, { useCallback, useEffect, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
-import AccessibilityHeader from "../../components/Accessibility/AccessibilityHeader";
-import SignIn, { RedirectType, SignInType } from "../../components/signIn/signIn";
-import { LanguageKey } from "../../i18n";
+import AccessibilityHeader from "brancy/components/Accessibility/AccessibilityHeader";
+import SignIn, { RedirectType, SignInType } from "brancy/components/signIn/signIn";
+import { LanguageKey } from "brancy/i18n";
 import styles from "./Cookie-Notice.module.css";
 
 type ThemeState = {

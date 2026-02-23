@@ -12,7 +12,7 @@ import React, {
   useRef,
   useTransition,
 } from "react";
-import styles from "./slider.module.css";
+import styles from "brancy/components/design/slider/slider.module.css";
 
 //#region Types & Interfaces
 interface SliderProps {

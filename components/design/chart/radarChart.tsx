@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from "react";
-import styles from "./radarChart.module.css";
+import styles from "brancy/components/design/chart/radarChart.module.css";
 
 export interface IPlatformData {
   name: string;

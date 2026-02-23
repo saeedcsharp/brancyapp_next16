@@ -4,16 +4,16 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
 
-import Loading from "../../../notOk/loading";
-import { LoginStatus, RoleAccess } from "../../../../helper/loadingStatus";
-import { LanguageKey } from "../../../../i18n";
-import { MethodType } from "../../../../helper/api";
-import { PartnerRole } from "../../../../models/_AccountInfo/InstagramerAccountInfo";
-import { IPostContent } from "../../../../models/page/post/posts";
-import { IIngageBox } from "../../../../models/page/statistics/statisticsContent/ingageBoxes/ingageBox";
+import Loading from "brancy/components/notOk/loading";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { IPostContent } from "brancy/models/page/post/posts";
+import { IIngageBox } from "brancy/models/page/statistics/statisticsContent/ingageBoxes/ingageBox";
 
-import styles from "./ingageBoxes.module.css";
-import { clientFetchApi } from "../../../../helper/clientFetchApi";
+import styles from "brancy/components/page/statistics/inagegBoxes/ingageBoxes.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
@@ -237,12 +237,12 @@ const IngageBoxModel = (props: {
 
   return (
     <>
-      <Link href="./posts" style={{ textDecoration: "none", color: "inherit" }} aria-label="View all posts">
+      <Link href="brancy/components/page/statistics/inagegBoxes/posts" style={{ textDecoration: "none", color: "inherit" }} aria-label="View all posts">
         <div
           className={styles.box}
           role="button"
           tabIndex={0}
-          onKeyDown={handleKeyDown((e: any) => router.push("./posts"))}
+          onKeyDown={handleKeyDown((e: any) => router.push("brancy/components/page/statistics/inagegBoxes/posts"))}
           aria-label={`Total posts: ${state.postCount}`}>
           <div className={styles.animation1}>
             <div className={styles.gooli1} />
@@ -265,12 +265,12 @@ const IngageBoxModel = (props: {
         </div>
       </Link>
 
-      <Link href="./stories" style={{ textDecoration: "none", color: "inherit" }} aria-label="View all stories">
+      <Link href="brancy/components/page/statistics/inagegBoxes/stories" style={{ textDecoration: "none", color: "inherit" }} aria-label="View all stories">
         <div
           className={styles.box}
           role="button"
           tabIndex={0}
-          onKeyDown={handleKeyDown((e: any) => router.push("./stories"))}
+          onKeyDown={handleKeyDown((e: any) => router.push("brancy/components/page/statistics/inagegBoxes/stories"))}
           aria-label={`Total stories: ${calculateSummary(state.storyCount)}`}>
           <div className={styles.animation2}>
             <div className={styles.gooli6} />

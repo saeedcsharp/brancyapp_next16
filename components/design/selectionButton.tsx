@@ -1,4 +1,4 @@
-import styles from "./selectionButton.module.css";
+import styles from "brancy/components/design/selectionButton.module.css";
 const SelectionButton = (prop: { addAlternativePage: () => void; activeSelection: boolean }) => {
   return (
     <>

@@ -1,12 +1,12 @@
-import { ITotalPrompt } from "../AI/prompt";
-import { SuperFigure } from "../page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+import { ITotalPrompt } from "brancy/models/AI/prompt";
+import { SuperFigure } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import {
   AutoReplyPayLoadType,
   Language,
   MediaProductType,
   PayloadType,
   SpecialPayLoad,
-} from "./enum";
+} from "brancy/models/messages/enum";
 
 export interface ICommentAndDirectReply {
   commentReplies: IAutoReply;

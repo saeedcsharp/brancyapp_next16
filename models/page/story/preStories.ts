@@ -1,5 +1,5 @@
-import { IMediaUpdateAutoReply } from "../post/posts";
-import { MediaType } from "../post/preposts";
+import { IMediaUpdateAutoReply } from "brancy/models/page/post/posts";
+import { MediaType } from "brancy/models/page/post/preposts";
 
 export interface IScheduledStoryClient {
   info: ScheduledStoryList[];

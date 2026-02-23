@@ -1,4 +1,4 @@
-import { SuperFigure } from "../statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+import { SuperFigure } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 
 export interface IGetAnnouncementAndBannerInfo {
   addToPostChecked: boolean;

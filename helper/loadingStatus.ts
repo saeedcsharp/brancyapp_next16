@@ -1,5 +1,5 @@
 import { Session } from "next-auth";
-import { PartnerRole } from "../models/_AccountInfo/InstagramerAccountInfo";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 
 export const LoginStatus = (session: Session | null): boolean =>
   Boolean(session && session.user.currentIndex !== -1 && session.user.loginByInsta);

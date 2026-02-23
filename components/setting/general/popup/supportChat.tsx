@@ -1,15 +1,15 @@
 import { t } from "i18next";
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import RingLoader from "../../../design/loader/ringLoder";
-import { NotifType, notify, ResponseType } from "../../../notifications/notificationBox";
-import Loading from "../../../notOk/loading";
-import { LanguageKey } from "../../../../i18n";
-import { ICreateLiveChat, ICreatePrompt, ILiveChat } from "../../../../models/AI/prompt";
-import { MethodType } from "../../../../helper/api";
-import { ItemType } from "../../../../models/messages/enum";
-import styles from "./supportChat.module.scss";
-import { clientFetchApi } from "../../../../helper/clientFetchApi";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import { LanguageKey } from "brancy/i18n";
+import { ICreateLiveChat, ICreatePrompt, ILiveChat } from "brancy/models/AI/prompt";
+import { MethodType } from "brancy/helper/api";
+import { ItemType } from "brancy/models/messages/enum";
+import styles from "brancy/components/setting/general/popup/supportChat.module.scss";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 export default function SupportChat({
   promptInfo,
   setShowLiveChatPopup,

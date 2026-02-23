@@ -2,15 +2,15 @@ import { useSession } from "next-auth/react";
 import { useEffect, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import Slider, { SliderSlide } from "../../design/slider/slider";
-import Loading from "../../notOk/loading";
-import { getEnumValue } from "../../../helper/handleItemTypeEnum";
-import { LoginStatus, RoleAccess } from "../../../helper/loadingStatus";
-import initialzedTime from "../../../helper/manageTimer";
-import { LanguageKey } from "../../../i18n";
-import { ILoadingStatus, ISession } from "../../../models/_AccountInfo/InstagramerAccountInfo";
-import { BrowserType, BrowserTypeStr, DeviceType, DeviceTypeStr, OsType, OsTypeStr } from "../../../models/setting/enums";
-import styles from "./general.module.css";
+import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
+import Loading from "brancy/components/notOk/loading";
+import { getEnumValue } from "brancy/helper/handleItemTypeEnum";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import initialzedTime from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { ILoadingStatus, ISession } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { BrowserType, BrowserTypeStr, DeviceType, DeviceTypeStr, OsType, OsTypeStr } from "brancy/models/setting/enums";
+import styles from "brancy/components/setting/subAdmin/general.module.css";
 
 export default function ActivityHistory({
   sessions,

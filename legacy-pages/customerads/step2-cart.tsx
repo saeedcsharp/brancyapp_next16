@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import InputText from "../../components/design/inputText";
+import InputText from "brancy/components/design/inputText";
 import styles from "./step2-cart.module.css";
 const CustomerAdscart = () => {
   //  return <Soon />;

@@ -1,8 +1,8 @@
 import { useSession } from "next-auth/react";
 import React, { createContext, useEffect, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-import { LoginStatus, packageStatus } from "../helper/loadingStatus";
-import startSignalR from "../helper/pushNotif";
+import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import startSignalR from "brancy/helper/pushNotif";
 
 type Direction = "ltr" | "rtl";
 

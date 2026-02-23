@@ -1,11 +1,11 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "../../design/checkBoxButton";
-import TextArea from "../../design/textArea/textArea";
-import useHideDiv from "../../../hook/useHide";
-import { LanguageKey } from "../../../i18n";
-import { IAdvertisingTerms } from "../../../models/advertise/peoperties";
-import styles from "./propertiesComponent.module.css";
+import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import TextArea from "brancy/components/design/textArea/textArea";
+import useHideDiv from "brancy/hook/useHide";
+import { LanguageKey } from "brancy/i18n";
+import { IAdvertisingTerms } from "brancy/models/advertise/peoperties";
+import styles from "brancy/components/advertise/properties/propertiesComponent.module.css";
 
 function AdvertisingTerms(props: { advertisinfTerms: IAdvertisingTerms }) {
   const { t } = useTranslation();

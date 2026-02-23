@@ -1,7 +1,7 @@
-import PriceFormater, { PriceFormaterClassName, PriceType } from "../../priceFormater";
-import { unixToFormattedDate } from "../../../helper/formatTimeAgo";
-import { IInfluencerTeriffe } from "../../../models/market/myLink";
-import styles from "./adPopupStyle.module.css";
+import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
+import { unixToFormattedDate } from "brancy/helper/formatTimeAgo";
+import { IInfluencerTeriffe } from "brancy/models/market/myLink";
+import styles from "brancy/components/advertise/popups/adPopupStyle.module.css";
 export default function TarrifPopup({ teriif, removeMask }: { teriif: IInfluencerTeriffe; removeMask: () => void }) {
   return (
     <>

@@ -1,11 +1,11 @@
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import Slider, { SliderSlide } from "../../../design/slider/slider";
-import IconToggleButton from "../../../design/toggleButton/iconToggleButton";
-import { ToggleOrder } from "../../../design/toggleButton/types";
-import { LanguageKey } from "../../../../i18n";
-import { IFullPageInfo } from "../../../../models/page/post/preposts";
-import styles from "./followers&NonFollowers.module.css";
+import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
+import IconToggleButton from "brancy/components/design/toggleButton/iconToggleButton";
+import { ToggleOrder } from "brancy/components/design/toggleButton/types";
+import { LanguageKey } from "brancy/i18n";
+import { IFullPageInfo } from "brancy/models/page/post/preposts";
+import styles from "brancy/components/page/posts/popup/followers&NonFollowers.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const FollowersNonFollowers = (props: { removeMask: () => void }) => {
   const [toggleValue, setToggleValue] = useState<ToggleOrder>(ToggleOrder.FirstToggle);

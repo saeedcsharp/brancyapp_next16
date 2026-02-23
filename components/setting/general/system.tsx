@@ -1,16 +1,16 @@
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "../../design/inputText";
-import RadioButton from "../../design/radioButton";
-import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
-import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
-import { LanguageKey } from "../../../i18n";
-import { InitialSetupState } from "../../../models/homeIndex/home";
-import { MethodType } from "../../../helper/api";
-import { ICalendar, ILangauge } from "../../../models/setting/general";
-import styles from "./general.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import InputText from "brancy/components/design/inputText";
+import RadioButton from "brancy/components/design/radioButton";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { LanguageKey } from "brancy/i18n";
+import { InitialSetupState } from "brancy/models/homeIndex/home";
+import { MethodType } from "brancy/helper/api";
+import { ICalendar, ILangauge } from "brancy/models/setting/general";
+import styles from "brancy/components/setting/general/general.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 function System() {
   const { i18n, t } = useTranslation();

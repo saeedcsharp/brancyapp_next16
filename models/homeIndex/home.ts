@@ -1,7 +1,7 @@
 import { t } from "i18next";
-import { LanguageKey } from "../../i18n";
-import { ItemType, MediaProductType } from "../messages/enum";
-import { EntryType, TopTileType } from "./enum";
+import { LanguageKey } from "brancy/i18n";
+import { ItemType, MediaProductType } from "brancy/models/messages/enum";
+import { EntryType, TopTileType } from "brancy/models/homeIndex/enum";
 
 // const { t } = useTranslation();
 export type ILastMessage = {

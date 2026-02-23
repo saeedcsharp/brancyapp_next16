@@ -1,15 +1,15 @@
 import { useRef, useState } from "react";
-import { ToggleOrder } from "../../design/toggleButton/types";
-import { LineChart } from "../../graphs/lineChart";
-import { SuperFigure, chartxType } from "../../../models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+import { ToggleOrder } from "brancy/components/design/toggleButton/types";
+import { LineChart } from "brancy/components/graphs/lineChart";
+import { SuperFigure, chartxType } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import styles from "./insightChart.module.css";
-import SecondSwiper from "./secondSwiper";
+import styles from "brancy/components/page/posts/insightChart.module.css";
+import SecondSwiper from "brancy/components/page/posts/secondSwiper";
 
 function InsightChart(props: { superFigur: SuperFigure; toggleOrder?: ToggleOrder }) {
   // console.log(props.superFigur.figures[0].secondIndex);

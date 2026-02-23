@@ -1,10 +1,10 @@
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
-import IncrementStepper from "../../../../design/incrementStepper";
-import InputText from "../../../../design/inputText";
-import RadioButton from "../../../../design/radioButton";
-import ToggleCheckBoxButton from "../../../../design/toggleCheckBoxButton";
-import { MethodType } from "../../../../../helper/api";
+import IncrementStepper from "brancy/components/design/incrementStepper";
+import InputText from "brancy/components/design/inputText";
+import RadioButton from "brancy/components/design/radioButton";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import { MethodType } from "brancy/helper/api";
 
 import { useSession } from "next-auth/react";
 import router from "next/router";
@@ -15,25 +15,25 @@ import {
   ResponseType,
   internalNotify,
   notify,
-} from "../../../../notifications/notificationBox";
-import Loading from "../../../../notOk/loading";
-import NotAllowed from "../../../../notOk/notAllowed";
-import checkFeature from "../../../../../helper/checkFeature";
-import { RoleAccess } from "../../../../../helper/loadingStatus";
-import initialzedTime, { convertToMilliseconds } from "../../../../../helper/manageTimer";
-import { LanguageKey } from "../../../../../i18n";
-import { PartnerRole } from "../../../../../models/_AccountInfo/InstagramerAccountInfo";
-import { IPageInfo } from "../../../../../models/customerAds/customerAd";
+} from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import NotAllowed from "brancy/components/notOk/notAllowed";
+import checkFeature from "brancy/helper/checkFeature";
+import { RoleAccess } from "brancy/helper/loadingStatus";
+import initialzedTime, { convertToMilliseconds } from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { IPageInfo } from "brancy/models/customerAds/customerAd";
 import {
   ILotteryInfo,
   IShortPostInfo,
   LotteryType,
   ShowScoreLotteryType,
   lotterySpecificationType,
-} from "../../../../../models/page/tools/tools";
-import { FeatureType, IFeatureInfo } from "../../../../../models/psg/psg";
-import styles from "./scoreLottery.module.css";
-import { clientFetchApi } from "../../../../../helper/clientFetchApi";
+} from "brancy/models/page/tools/tools";
+import { FeatureType, IFeatureInfo } from "brancy/models/psg/psg";
+import styles from "brancy/components/page/tools/popups/lottery/scoreLottery.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const ScoreLottery = (props: {
   removeMask: () => void;

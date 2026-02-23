@@ -2,14 +2,14 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "../../../../design/dragDrop/dragDrop";
-import InputText from "../../../../design/inputText";
-import Tooltip from "../../../../design/tooltip/tooltip";
-import Loading from "../../../../notOk/loading";
-import { LanguageKey } from "../../../../../i18n";
-import { IProduct_Setting } from "../../../../../models/store/IProduct";
-import { GauranteeLength, GauranteeStatus, ParcelPocketDeliveryType } from "../../../../../models/store/enum";
-import styles from "./setting.module.css";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import InputText from "brancy/components/design/inputText";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
+import Loading from "brancy/components/notOk/loading";
+import { LanguageKey } from "brancy/i18n";
+import { IProduct_Setting } from "brancy/models/store/IProduct";
+import { GauranteeLength, GauranteeStatus, ParcelPocketDeliveryType } from "brancy/models/store/enum";
+import styles from "brancy/components/store/products/productDetail/notInstanceProduct/setting.module.css";
 
 function Setting({
   setting,

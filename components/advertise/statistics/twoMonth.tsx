@@ -1,10 +1,10 @@
 import { useTranslation } from "react-i18next";
-import LineChart from "../../graphs/lineChart";
-import useHideDiv from "../../../hook/useHide";
-import { LanguageKey } from "../../../i18n";
-import { IAdMonth } from "../../../models/advertise/statistics";
-import { chartxType, NumToMonth } from "../../../models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
-import styles from "./statistics.module.css";
+import LineChart from "brancy/components/graphs/lineChart";
+import useHideDiv from "brancy/hook/useHide";
+import { LanguageKey } from "brancy/i18n";
+import { IAdMonth } from "brancy/models/advertise/statistics";
+import { chartxType, NumToMonth } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+import styles from "brancy/components/advertise/statistics/statistics.module.css";
 const TwoMonth = (props: { data: IAdMonth[] }) => {
   const { hidePage, gridSpan, toggle } = useHideDiv(true, 47);
   const numberToFormattedString = (number: { toLocaleString: () => any }) => {

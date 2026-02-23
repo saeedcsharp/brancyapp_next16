@@ -1,6 +1,6 @@
 import { ReactNode, use, useEffect, useRef, useState } from "react";
-import { DirectionContext } from "../../../context/directionContext";
-import styles from "./tooltip.module.css";
+import { DirectionContext } from "brancy/context/directionContext";
+import styles from "brancy/components/design/tooltip/tooltip.module.css";
 
 interface TooltipProps {
   children: ReactNode;

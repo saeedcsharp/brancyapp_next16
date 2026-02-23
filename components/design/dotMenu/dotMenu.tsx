@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import styles from "./dotMenu.module.css";
+import styles from "brancy/components/design/dotMenu/dotMenu.module.css";
 
 type MenuPosition = "topLeft" | "topRight" | "bottomLeft" | "bottomRight";
 

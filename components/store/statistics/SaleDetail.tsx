@@ -1,8 +1,8 @@
 import Head from "next/head";
 import React from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../i18n";
-import styles from "./saleDetail.module.css";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/store/statistics/saleDetail.module.css";
 
 interface SaleDetailProps {
   saleId: number;

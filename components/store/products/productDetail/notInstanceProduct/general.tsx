@@ -1,28 +1,28 @@
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "../../../../design/dragDrop/dragDrop";
-import InputText from "../../../../design/inputText";
-import Tooltip from "../../../../design/tooltip/tooltip";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import InputText from "brancy/components/design/inputText";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "../../../../notifications/notificationBox";
-import Loading from "../../../../notOk/loading";
-import { LanguageKey } from "../../../../../i18n";
-import { MethodType } from "../../../../../helper/api";
+} from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
 import {
   IGeneralInfo,
   ILastCategory,
   IProduct_MainCategory,
   IProduct_SecondaryCategory,
   ISuggestedPrice,
-} from "../../../../../models/store/IProduct";
-import styles from "./general.module.css";
-import { clientFetchApi } from "../../../../../helper/clientFetchApi";
+} from "brancy/models/store/IProduct";
+import styles from "brancy/components/store/products/productDetail/notInstanceProduct/general.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 function General({
   productId,
   suggestedPrice,

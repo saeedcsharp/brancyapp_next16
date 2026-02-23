@@ -1,6 +1,6 @@
 import React, { useCallback, useMemo } from "react";
-import styles from "../../../directChatBox.module.css";
-import { ChatDateProps } from "../../types";
+import styles from "brancy/components/messages/direct/directChatBox.module.css";
+import { ChatDateProps } from "brancy/components/messages/direct/chatComponents/types";
 export const ChatDate: React.FC<ChatDateProps> = React.memo(
   ({ createdTime, itemId, direction, isToggled, onToggle, formatDate }) => {
     const formattedTimestamp = useMemo(() => createdTime / 1e3, [createdTime]);

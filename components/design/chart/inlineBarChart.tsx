@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styles from "./inlineBarChart.module.css";
+import styles from "brancy/components/design/chart/inlineBarChart.module.css";
 
 export interface IShortMonth {
   month: number;

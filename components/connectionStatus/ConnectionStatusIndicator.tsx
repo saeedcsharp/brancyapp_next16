@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../i18n";
-import { ConnectionStatus, subscribeToConnectionStatus } from "../../helper/pushNotif";
-import RingLoader from "../design/loader/ringLoder";
-import styles from "./ConnectionStatusIndicator.module.css";
+import { LanguageKey } from "brancy/i18n";
+import { ConnectionStatus, subscribeToConnectionStatus } from "brancy/helper/pushNotif";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import styles from "brancy/components/connectionStatus/ConnectionStatusIndicator.module.css";
 
 export default function ConnectionStatusIndicator() {
   const [status, setStatus] = useState<ConnectionStatus>(null);

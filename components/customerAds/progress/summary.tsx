@@ -1,12 +1,12 @@
 import Head from "next/head";
 import { useState } from "react";
 import { DateObject } from "react-multi-date-picker";
-import AdsTypeComp from "../../advertise/adsType";
-import TimeTypeComp from "../../advertise/timeType";
-import PriceFormater, { PriceFormaterClassName, PriceType } from "../../priceFormater";
-import initialzedTime from "../../../helper/manageTimer";
-import { ICustomer } from "../../../models/customerAds/customerAd";
-import styles from "./progress.module.css";
+import AdsTypeComp from "brancy/components/advertise/adsType";
+import TimeTypeComp from "brancy/components/advertise/timeType";
+import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
+import initialzedTime from "brancy/helper/manageTimer";
+import { ICustomer } from "brancy/models/customerAds/customerAd";
+import styles from "brancy/components/customerAds/progress/progress.module.css";
 function Summary(prop: { customer: ICustomer; handleShowSummaryTerms: (terms: string) => void }) {
   const [customerAd, setCustomerAd] = useState<ICustomer>(prop.customer);
   return (

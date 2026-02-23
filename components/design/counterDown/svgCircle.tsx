@@ -1,4 +1,4 @@
-import styles from "./counterDown.module.css";
+import styles from "brancy/components/design/counterDown/counterDown.module.css";
 
 const SVGCircle = (prob: { radius: number; constRadius: number; color: string }) => {
   return (

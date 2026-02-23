@@ -1,9 +1,9 @@
 import { ChangeEvent, useState } from "react";
-import CheckBoxButton from "../../design/checkBoxButton";
-import InputText from "../../design/inputText";
-import TextArea from "../../design/textArea/textArea";
-import { IPropmt } from "../../../models/messages/properies";
-import styles from "./properties.module.css";
+import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import InputText from "brancy/components/design/inputText";
+import TextArea from "brancy/components/design/textArea/textArea";
+import { IPropmt } from "brancy/models/messages/properies";
+import styles from "brancy/components/messages/properties/properties.module.css";
 
 function Prompt(props: { data: IPropmt; propmptNumber: number }) {
   const [inputText, setInputText] = useState<string>(props.data.incomeMsg);

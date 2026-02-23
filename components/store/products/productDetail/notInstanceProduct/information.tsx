@@ -1,12 +1,12 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import TextArea from "../../../../design/textArea/textArea";
-import { handleCompress, handleDecompress } from "../../../../../helper/pako";
-import { LanguageKey } from "../../../../../i18n";
-import { IProduct_Information } from "../../../../../models/store/IProduct";
-import CustomTable from "./customtable";
-import styles from "./information.module.css";
+import TextArea from "brancy/components/design/textArea/textArea";
+import { handleCompress, handleDecompress } from "brancy/helper/pako";
+import { LanguageKey } from "brancy/i18n";
+import { IProduct_Information } from "brancy/models/store/IProduct";
+import CustomTable from "brancy/components/store/products/productDetail/notInstanceProduct/customtable";
+import styles from "brancy/components/store/products/productDetail/notInstanceProduct/information.module.css";
 
 const ReactQuill = dynamic(() => import("react-quill-ver2"), { ssr: false });
 

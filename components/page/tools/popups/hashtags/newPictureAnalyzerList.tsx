@@ -2,12 +2,12 @@ import { useSession } from "next-auth/react";
 import router from "next/router";
 import { ChangeEvent, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import ProgressBar from "../../../../design/progressBar/progressBar";
-import { convertHeicToJpeg } from "../../../../../helper/convertHeicToJPEG";
-import { LanguageKey } from "../../../../../i18n";
-import { MethodType } from "../../../../../helper/api";
-import styles from "./newPictureAnalyzerList.module.css";
-import { clientFetchApi } from "../../../../../helper/clientFetchApi";
+import ProgressBar from "brancy/components/design/progressBar/progressBar";
+import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import styles from "brancy/components/page/tools/popups/hashtags/newPictureAnalyzerList.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 interface IHashtagPicture {
   media: string;

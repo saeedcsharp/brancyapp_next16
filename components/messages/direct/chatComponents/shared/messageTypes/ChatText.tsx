@@ -1,14 +1,14 @@
 import React, { useCallback, useMemo } from "react";
-import Dotmenu from "../../../../../design/dotMenu/dotMenu";
-import MediaDetector from "../../../../shared/utils/MediaDetector";
-import LinkifyText from "../../../../../../context/LinkifyText";
-import { ItemType } from "../../../../../../models/messages/enum";
-import { BaseChatProps } from "../../types";
-import { ChatDate } from "../utils/ChatDate";
-import { MessageStatus } from "../utils/ChatDateandseen";
-import ReactionEmoji from "../utils/ReactionEmoji";
-import { RepliedMessage } from "../utils/RepliedMessage";
-import styles from "./messageTypes.module.css";
+import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
+import MediaDetector from "brancy/components/messages/shared/utils/MediaDetector";
+import LinkifyText from "brancy/context/LinkifyText";
+import { ItemType } from "brancy/models/messages/enum";
+import { BaseChatProps } from "brancy/components/messages/direct/chatComponents/types";
+import { ChatDate } from "brancy/components/messages/direct/chatComponents/shared/utils/ChatDate";
+import { MessageStatus } from "brancy/components/messages/direct/chatComponents/shared/utils/ChatDateandseen";
+import ReactionEmoji from "brancy/components/messages/direct/chatComponents/shared/utils/ReactionEmoji";
+import { RepliedMessage } from "brancy/components/messages/direct/chatComponents/shared/utils/RepliedMessage";
+import styles from "brancy/components/messages/direct/chatComponents/shared/messageTypes/messageTypes.module.css";
 
 const ChatTextComponent: React.FC<BaseChatProps> = ({
   item,

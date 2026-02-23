@@ -1,10 +1,10 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import PriceFormater, { PriceFormaterClassName, PriceType } from "../../priceFormater";
-import useHideDiv from "../../../hook/useHide";
-import { LanguageKey } from "../../../i18n";
-import { ITariff } from "../../../models/advertise/peoperties";
-import styles from "./propertiesComponent.module.css";
+import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
+import useHideDiv from "brancy/hook/useHide";
+import { LanguageKey } from "brancy/i18n";
+import { ITariff } from "brancy/models/advertise/peoperties";
+import styles from "brancy/components/advertise/properties/propertiesComponent.module.css";
 function Tariff(props: { setShowTariffPopup: (showTarifPopup: boolean) => void; tariif: ITariff }) {
   const { t } = useTranslation();
   const { hidePage, gridSpan, toggle } = useHideDiv(true, 82);

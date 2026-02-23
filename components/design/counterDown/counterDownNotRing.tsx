@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "./counterDownNotRing.module.css";
+import styles from "brancy/components/design/counterDown/counterDownNotRing.module.css";
 interface IDaily {
   intDays: number;
   intHours: number;

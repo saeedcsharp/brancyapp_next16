@@ -4,15 +4,15 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { MouseEvent, use, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { InstaInfoContext } from "../../context/instaInfoContext";
-import formatTimeAgo from "../../helper/formatTimeAgo";
-import { getEnumValue } from "../../helper/handleItemTypeEnum";
-import { LanguageKey } from "../../i18n";
-import { PushNotif, PushResponseExplanation, PushResponseTitle, PushResponseType } from "../../models/push/pushNotif";
-import { OrderStep } from "../../models/store/enum";
-import { IOrderPushNotifExtended } from "../../models/store/orders";
-import { ITicketPushNotif } from "../../models/userPanel/message";
-import styles from "./hammenu.module.css";
+import { InstaInfoContext } from "brancy/context/instaInfoContext";
+import formatTimeAgo from "brancy/helper/formatTimeAgo";
+import { getEnumValue } from "brancy/helper/handleItemTypeEnum";
+import { LanguageKey } from "brancy/i18n";
+import { PushNotif, PushResponseExplanation, PushResponseTitle, PushResponseType } from "brancy/models/push/pushNotif";
+import { OrderStep } from "brancy/models/store/enum";
+import { IOrderPushNotifExtended } from "brancy/models/store/orders";
+import { ITicketPushNotif } from "brancy/models/userPanel/message";
+import styles from "brancy/components/hambergurMenu/hammenu.module.css";
 
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const menuItems = [

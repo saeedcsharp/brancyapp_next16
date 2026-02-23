@@ -2,8 +2,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { LoginStatus } from "../../helper/loadingStatus";
-import styles from "./notPackage.module.css";
+import { LoginStatus } from "brancy/helper/loadingStatus";
+import styles from "brancy/components/notOk/notPackage.module.css";
 function NotPackage(props: { removeMask: () => void }) {
   const router = useRouter();
   const { data: session } = useSession();

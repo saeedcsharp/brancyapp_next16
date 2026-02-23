@@ -1,6 +1,6 @@
 import { format, formatDistanceToNow, fromUnixTime, Locale } from "date-fns";
 import { ar, az, el, enUS, faIR, fr, ru, tr } from "date-fns/locale";
-import i18n from "../i18n";
+import i18n from "brancy/i18n";
 const localeMap: { [key: string]: Locale } = {
   en: enUS,
   ar: ar,

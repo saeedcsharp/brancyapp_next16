@@ -1,16 +1,16 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import FlexibleToggleButton from "../../design/toggleButton/flexibleToggleButton";
-import { ToggleOrder } from "../../design/toggleButton/types";
-import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
-import Loading from "../../notOk/loading";
-import { LoginStatus, RoleAccess } from "../../../helper/loadingStatus";
-import { LanguageKey } from "../../../i18n";
-import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
-import { IAutoReply } from "../../../models/messages/properies";
-import Prompt from "./prompt";
-import styles from "./properties.module.css";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import { ToggleOrder } from "brancy/components/design/toggleButton/types";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import Loading from "brancy/components/notOk/loading";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { IAutoReply } from "brancy/models/messages/properies";
+import Prompt from "brancy/components/messages/properties/prompt";
+import styles from "brancy/components/messages/properties/properties.module.css";
 
 function AutomaticReply() {
   // تابع استفاده از ترجمه برای چندزبانه بودن

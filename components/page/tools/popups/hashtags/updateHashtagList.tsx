@@ -1,8 +1,8 @@
 import { ChangeEvent, KeyboardEvent, useCallback, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "../../../../design/inputText";
-import { LanguageKey } from "../../../../../i18n";
-import styles from "./newHashtagList.module.css";
+import InputText from "brancy/components/design/inputText";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/page/tools/popups/hashtags/newHashtagList.module.css";
 interface HashtagState {
   hashtagSourceImg: string;
   inputListName: string;

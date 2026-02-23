@@ -4,18 +4,18 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "../../../../components/design/dragDrop/dragDrop";
-import RingLoader from "../../../../components/design/loader/ringLoder";
-import PriceSlider from "../../../../components/design/sliders/priceSlider";
-import Loading from "../../../../components/notOk/loading";
-import { NotifType, notify, ResponseType } from "../../../../components/notifications/notificationBox";
-import PriceFormater, { PriceFormaterClassName } from "../../../../components/priceFormater";
-import SignIn, { RedirectType, SignInType } from "../../../../components/signIn/signIn";
-import SignInPage1 from "../../../../components/signIn/signInPage1";
-import findSystemLanguage from "../../../../helper/findSystemLanguage";
-import { LanguageKey } from "../../../../i18n";
-import { MethodType } from "../../../../helper/api";
-import { AvailabilityStatus } from "../../../../models/store/enum";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import PriceSlider from "brancy/components/design/sliders/priceSlider";
+import Loading from "brancy/components/notOk/loading";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
+import SignIn, { RedirectType, SignInType } from "brancy/components/signIn/signIn";
+import SignInPage1 from "brancy/components/signIn/signInPage1";
+import findSystemLanguage from "brancy/helper/findSystemLanguage";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { AvailabilityStatus } from "brancy/models/store/enum";
 import {
   IFilter,
   IFilterInfo,
@@ -24,9 +24,9 @@ import {
   IProductCard,
   ITopHashtags,
   ProductSortType,
-} from "../../../../models/userPanel/shop";
+} from "brancy/models/userPanel/shop";
 import styles from "./products.module.css";
-import { clientFetchApi } from "../../../../helper/clientFetchApi";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const ProductsPage = () => {
   const router = useRouter();

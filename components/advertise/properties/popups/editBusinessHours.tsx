@@ -1,12 +1,12 @@
 import Head from "next/head";
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import TimerSlider from "../../../design/sliders/timerSlider";
-import ToggleCheckBoxButton from "../../../design/toggleCheckBoxButton";
-import { findDayName, findDayNumber } from "../../../../helper/findDayName";
-import { LanguageKey } from "../../../../i18n";
-import { BusinessDay, IActiveBusinessHour, IBusinessHour } from "../../../../models/advertise/peoperties";
-import styles from "./businessHours.module.css";
+import TimerSlider from "brancy/components/design/sliders/timerSlider";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import { findDayName, findDayNumber } from "brancy/helper/findDayName";
+import { LanguageKey } from "brancy/i18n";
+import { BusinessDay, IActiveBusinessHour, IBusinessHour } from "brancy/models/advertise/peoperties";
+import styles from "brancy/components/advertise/properties/popups/businessHours.module.css";
 
 const EditBusinessHours = (props: {
   businessInfo: IBusinessHour[];

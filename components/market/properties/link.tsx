@@ -17,12 +17,12 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Dotmenu from "../../design/dotMenu/dotMenu";
-import Loading from "../../notOk/loading";
-import useHideDiv from "../../../hook/useHide";
-import { LanguageKey } from "../../../i18n";
-import { ILink, IUpdateOrderLink } from "../../../models/market/properties";
-import styles from "./link.module.css";
+import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
+import Loading from "brancy/components/notOk/loading";
+import useHideDiv from "brancy/hook/useHide";
+import { LanguageKey } from "brancy/i18n";
+import { ILink, IUpdateOrderLink } from "brancy/models/market/properties";
+import styles from "brancy/components/market/properties/link.module.css";
 
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 

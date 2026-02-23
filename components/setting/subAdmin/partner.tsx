@@ -2,13 +2,13 @@ import { useSession } from "next-auth/react";
 import { useEffect, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import Dotmenu from "../../design/dotMenu/dotMenu";
-import Loading from "../../notOk/loading";
-import { LoginStatus, RoleAccess } from "../../../helper/loadingStatus";
-import initialzedTime from "../../../helper/manageTimer";
-import { LanguageKey } from "../../../i18n";
-import { ILoadingStatus, IPartner } from "../../../models/_AccountInfo/InstagramerAccountInfo";
-import styles from "./general.module.css";
+import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
+import Loading from "brancy/components/notOk/loading";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import initialzedTime from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { ILoadingStatus, IPartner } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import styles from "brancy/components/setting/subAdmin/general.module.css";
 
 export default function Partners({
   partners,

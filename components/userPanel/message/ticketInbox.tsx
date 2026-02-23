@@ -4,28 +4,28 @@ import { useSession } from "next-auth/react";
 import router from "next/router";
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
-import InputText from "../../design/inputText";
-import RingLoader from "../../design/loader/ringLoder";
-import Modal from "../../design/modal";
-import SendFile from "../../messages/popups/sendFile";
-import { MediaModal, useMediaModal } from "../../messages/shared/utils";
-import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
-import Loading from "../../notOk/loading";
-import initialzedTime from "../../../helper/manageTimer";
-import { LanguageKey } from "../../../i18n";
-import { MethodType, UploadFile } from "../../../helper/api";
-import { IIsSendingMessage } from "../../../models/messages/IMessage";
+import InputText from "brancy/components/design/inputText";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import Modal from "brancy/components/design/modal";
+import SendFile from "brancy/components/messages/popups/sendFile";
+import { MediaModal, useMediaModal } from "brancy/components/messages/shared/utils";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import initialzedTime from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType, UploadFile } from "brancy/helper/api";
+import { IIsSendingMessage } from "brancy/models/messages/IMessage";
 import {
   IItem,
   ISendTicketMessage,
   ITicket,
   ITicketMediaType,
   IUserPanelMessage,
-} from "../../../models/userPanel/message";
-import ReportModal from "./popup/reportModal";
-import UserPanelDirectChatBox from "./ticketChatBox";
-import styles from "./ticketInbox.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+} from "brancy/models/userPanel/message";
+import ReportModal from "brancy/components/userPanel/message/popup/reportModal";
+import UserPanelDirectChatBox from "brancy/components/userPanel/message/ticketChatBox";
+import styles from "brancy/components/userPanel/message/ticketInbox.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 let firstTime = 0;
 let touchMove = 0;

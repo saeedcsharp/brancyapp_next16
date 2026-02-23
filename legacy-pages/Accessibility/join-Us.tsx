@@ -11,9 +11,9 @@ import React, {
 } from "react";
 import { useTranslation } from "react-i18next";
 
-import SignIn, { RedirectType, SignInType } from "../../components/signIn/signIn";
-import { LanguageKey } from "../../i18n";
-import AccessibilityHeader from "../../components/Accessibility/AccessibilityHeader";
+import SignIn, { RedirectType, SignInType } from "brancy/components/signIn/signIn";
+import { LanguageKey } from "brancy/i18n";
+import AccessibilityHeader from "brancy/components/Accessibility/AccessibilityHeader";
 import styles from "./join-Us.module.css";
 
 interface Position {

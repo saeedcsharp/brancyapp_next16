@@ -1,13 +1,13 @@
 import Head from "next/head";
 import { ChangeEvent, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
-import AdsTypeComp from "../../advertise/adsType";
-import TimeTypeComp from "../../advertise/timeType";
-import InputText from "../../design/inputText";
-import PriceFormater, { PriceFormaterClassName, PriceType } from "../../priceFormater";
-import initialzedTime from "../../../helper/manageTimer";
-import { AdvertiserStatus, ICustomer } from "../../../models/customerAds/customerAd";
-import styles from "./progress.module.css";
+import AdsTypeComp from "brancy/components/advertise/adsType";
+import TimeTypeComp from "brancy/components/advertise/timeType";
+import InputText from "brancy/components/design/inputText";
+import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
+import initialzedTime from "brancy/helper/manageTimer";
+import { AdvertiserStatus, ICustomer } from "brancy/models/customerAds/customerAd";
+import styles from "brancy/components/customerAds/progress/progress.module.css";
 const taxFactor = 10;
 function Payment(props: { customerAd: ICustomer }) {
   const [inputBox, setInputBox] = useState<string>("");

@@ -1,4 +1,4 @@
-import { IItem, IOwnerInbox, IThread } from "../../../../models/messages/IMessage";
+import { IItem, IOwnerInbox, IThread } from "brancy/models/messages/IMessage";
 export type ChatDirection = "left" | "right";
 export interface ImageClickInfo {
   url: string;

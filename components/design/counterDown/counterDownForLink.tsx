@@ -1,7 +1,7 @@
 import { memo, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { TimeRemaining, calculateTimeRemaining, formatTime } from "../../../helper/counterDownHelper";
-import { LanguageKey } from "../../../i18n";
+import { TimeRemaining, calculateTimeRemaining, formatTime } from "brancy/helper/counterDownHelper";
+import { LanguageKey } from "brancy/i18n";
 
 interface CountdownTimerProps {
   expireTime: number;

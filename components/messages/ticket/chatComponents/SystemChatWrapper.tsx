@@ -1,9 +1,9 @@
 import React, { useMemo } from "react";
-import { IItem, IOwnerInbox, ITicket, ITicketMediaType } from "../../../../models/userPanel/message";
-import styles from "../ticketChatBox.module.css";
-import { SystemChatImage } from "./shared/messageTypes/SystemChatImage";
-import { SystemChatText } from "./shared/messageTypes/SystemChatText";
-import { ImageClickInfo, VideoClickInfo } from "./types";
+import { IItem, IOwnerInbox, ITicket, ITicketMediaType } from "brancy/models/userPanel/message";
+import styles from "brancy/components/messages/ticket/ticketChatBox.module.css";
+import { SystemChatImage } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/SystemChatImage";
+import { SystemChatText } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/SystemChatText";
+import { ImageClickInfo, VideoClickInfo } from "brancy/components/messages/ticket/chatComponents/types";
 
 interface SystemChatWrapperProps {
   item: IItem;

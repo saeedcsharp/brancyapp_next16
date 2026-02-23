@@ -3,16 +3,16 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import AdReport from "../../components/advertise/adList/popups/adreport";
-import TotalAdsReport from "../../components/advertise/statistics/totalAdsReport";
-import TotalAds from "../../components/advertise/statistics/totalAdsStatistics";
-import TwoMonth from "../../components/advertise/statistics/twoMonth";
-import { StatusType } from "../../components/confirmationStatus/confirmationStatus";
-import Modal from "../../components/design/modal";
-import NotAdvertiser from "../../components/notOk/notAdvertiser";
-import { LanguageKey } from "../../i18n";
-import { AdsType } from "../../models/advertise/AdEnums";
-import { IAdMonth, IAdShortMonth, IStatisticsInfo, ITotalAdsReport } from "../../models/advertise/statistics";
+import AdReport from "brancy/components/advertise/adList/popups/adreport";
+import TotalAdsReport from "brancy/components/advertise/statistics/totalAdsReport";
+import TotalAds from "brancy/components/advertise/statistics/totalAdsStatistics";
+import TwoMonth from "brancy/components/advertise/statistics/twoMonth";
+import { StatusType } from "brancy/components/confirmationStatus/confirmationStatus";
+import Modal from "brancy/components/design/modal";
+import NotAdvertiser from "brancy/components/notOk/notAdvertiser";
+import { LanguageKey } from "brancy/i18n";
+import { AdsType } from "brancy/models/advertise/AdEnums";
+import { IAdMonth, IAdShortMonth, IStatisticsInfo, ITotalAdsReport } from "brancy/models/advertise/statistics";
 import styles from "./statistics.module.css";
 
 const Statistics = () => {

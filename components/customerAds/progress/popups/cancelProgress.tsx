@@ -1,5 +1,5 @@
 import router from "next/router";
-import styles from "./cancelProgress.module.css";
+import styles from "brancy/components/customerAds/progress/popups/cancelProgress.module.css";
 const CancelProgress = (props: { customerAdId: number; removeMask: () => void }) => {
   const handleCancelCustomerAd = async () => {
     //Api to cancel customer ad bades on <<props.customerAdId>>

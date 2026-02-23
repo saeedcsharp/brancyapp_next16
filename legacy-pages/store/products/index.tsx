@@ -2,9 +2,9 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
-import NotShopper from "../../../components/notOk/notShopper";
-import ProductList from "../../../components/store/products/productList";
-import { LanguageKey } from "../../../i18n";
+import NotShopper from "brancy/components/notOk/notShopper";
+import ProductList from "brancy/components/store/products/productList";
+import { LanguageKey } from "brancy/i18n";
 const Products = () => {
   // return (
   //   <>

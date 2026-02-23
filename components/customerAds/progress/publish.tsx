@@ -1,6 +1,6 @@
 import Head from "next/head";
-import { IPaymentInfo } from "../../../models/customerAds/customerAd";
-import styles from "./progress.module.css";
+import { IPaymentInfo } from "brancy/models/customerAds/customerAd";
+import styles from "brancy/components/customerAds/progress/progress.module.css";
 
 function Publish(props: { paymentInfo: IPaymentInfo }) {
   const pageTitle = props.paymentInfo.success ? "Bran.cy ▸ ✅ Payment Successful" : "Bran.cy ▸ ❎ Payment Failed";

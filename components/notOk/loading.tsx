@@ -1,4 +1,4 @@
-import styles from "./loading.module.css";
+import styles from "brancy/components/notOk/loading.module.css";
 
 const Loading = () => {
   return (

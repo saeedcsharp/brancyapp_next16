@@ -3,8 +3,8 @@ import { useSession } from "next-auth/react";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import Dotmenu from "../../design/dotMenu/dotMenu";
-import Tooltip from "../../design/tooltip/tooltip";
+import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
 import {
   GenericItemNode,
   GenericNode,
@@ -30,20 +30,20 @@ import {
   textNodeClassName,
   voiceNodeClassName,
   weblinkNodeClassName,
-} from "./flowNode";
+} from "brancy/components/messages/aiflow/flowNode";
 import {
   InternalResponseType,
   NotifType,
   ResponseType,
   internalNotify,
   notify,
-} from "../../notifications/notificationBox";
-import Loading from "../../notOk/loading";
-import { LanguageKey } from "../../../i18n";
-import { MethodType } from "../../../helper/api";
-import { ITotalMasterFlow } from "../../../models/messages/properies";
-import styles from "./Flow.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+} from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { ITotalMasterFlow } from "brancy/models/messages/properies";
+import styles from "brancy/components/messages/aiflow/Flow.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 // #endregion IMPORTS AND EXPORTS
 
 // #region INTERFACES & TYPE DEFINITIONS

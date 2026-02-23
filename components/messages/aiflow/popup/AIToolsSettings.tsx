@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../../i18n/languageKeys";
-import styles from "./popup.module.css";
+import { LanguageKey } from "brancy/i18n/languageKeys";
+import styles from "brancy/components/messages/aiflow/popup/popup.module.css";
 interface AIToolParameter {
   name: string;
   description: string;

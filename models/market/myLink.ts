@@ -1,4 +1,4 @@
-import { BusinessDay, FeatureType } from "./enums";
+import { BusinessDay, FeatureType } from "brancy/models/market/enums";
 export interface IFeatureInfo {
   featureType: FeatureType;
   orderId: number;

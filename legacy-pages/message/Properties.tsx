@@ -3,38 +3,38 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Modal from "../../components/design/modal";
-import EditAutoReply from "../../components/messages/popups/editAutoReply";
-import SpecialPayLoadComp from "../../components/messages/popups/specialPayLoad";
-import AutoReply from "../../components/messages/properties/autoreply";
-import IceBreaker from "../../components/messages/properties/iceBreaker";
-import MessagePanel from "../../components/messages/properties/messagePanel";
-import PersistentMenu from "../../components/messages/properties/persistentMnue";
-import PopupComment from "../../components/messages/properties/popupComment";
-import PopupDirect from "../../components/messages/properties/popupDirect";
+import Modal from "brancy/components/design/modal";
+import EditAutoReply from "brancy/components/messages/popups/editAutoReply";
+import SpecialPayLoadComp from "brancy/components/messages/popups/specialPayLoad";
+import AutoReply from "brancy/components/messages/properties/autoreply";
+import IceBreaker from "brancy/components/messages/properties/iceBreaker";
+import MessagePanel from "brancy/components/messages/properties/messagePanel";
+import PersistentMenu from "brancy/components/messages/properties/persistentMnue";
+import PopupComment from "brancy/components/messages/properties/popupComment";
+import PopupDirect from "brancy/components/messages/properties/popupDirect";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "../../components/notifications/notificationBox";
-import Loading from "../../components/notOk/loading";
-import NotAllowed from "../../components/notOk/notAllowed";
-import NotPermission, { PermissionType } from "../../components/notOk/notPermission";
-import { changePositionToFixed, changePositionToRelative } from "../../helper/changeMarketAdsStyle";
-import { LoginStatus, packageStatus, RoleAccess } from "../../helper/loadingStatus";
-import { LanguageKey } from "../../i18n";
-import { PartnerRole } from "../../models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "../../helper/api";
+} from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import NotAllowed from "brancy/components/notOk/notAllowed";
+import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
+import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
+import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { MethodType } from "brancy/helper/api";
 import {
   AutoReplyPayLoadType,
   IceOrPersistent,
   Language,
   MediaProductType,
   SpecialPayLoad,
-} from "../../models/messages/enum";
-import { clientFetchApi } from "../../helper/clientFetchApi";
+} from "brancy/models/messages/enum";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   IAutoReplySetting,
   ICreateGeneralAutoReply,
@@ -44,7 +44,7 @@ import {
   IProfileButtons,
   ISpecialPayload,
   IUpdateProfileButton,
-} from "../../models/messages/properies";
+} from "brancy/models/messages/properies";
 const Properties = () => {
   const { t } = useTranslation();
   const router = useRouter();

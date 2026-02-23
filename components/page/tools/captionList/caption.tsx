@@ -1,10 +1,10 @@
 import { MouseEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import Dotmenu from "../../../design/dotMenu/dotMenu";
-import Slider, { SliderSlide } from "../../../design/slider/slider";
-import Loading from "../../../notOk/loading";
-import { IHashtag } from "../../../../models/page/tools/tools";
-import styles from "./caption.module.css";
+import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
+import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
+import Loading from "brancy/components/notOk/loading";
+import { IHashtag } from "brancy/models/page/tools/tools";
+import styles from "brancy/components/page/tools/captionList/caption.module.css";
 const Caption = (props: {
   data: IHashtag | null;
   showSetting: string;

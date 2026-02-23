@@ -1,7 +1,7 @@
 import { ChangeEvent } from "react";
-import TextArea from "../../design/textArea/textArea";
-import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
-import styles from "./properties.module.css";
+import TextArea from "brancy/components/design/textArea/textArea";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import styles from "brancy/components/messages/properties/properties.module.css";
 function GhostFollower() {
   return (
     <div className="bigcard">

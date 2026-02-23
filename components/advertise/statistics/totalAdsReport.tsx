@@ -1,18 +1,18 @@
 import { useEffect, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
-import PriceFormater, { PriceFormaterClassName, PriceType } from "../../priceFormater";
-import useHideDiv from "../../../hook/useHide";
-import { ITotalAdsReport } from "../../../models/advertise/statistics";
-import ConfirmationStatus, { StatusType } from "../../confirmationStatus/confirmationStatus";
-import AdsTypeComp from "../adsType";
-import styles from "./statistics.module.css";
+import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
+import useHideDiv from "brancy/hook/useHide";
+import { ITotalAdsReport } from "brancy/models/advertise/statistics";
+import ConfirmationStatus, { StatusType } from "brancy/components/confirmationStatus/confirmationStatus";
+import AdsTypeComp from "brancy/components/advertise/adsType";
+import styles from "brancy/components/advertise/statistics/statistics.module.css";
 
 import { useTranslation } from "react-i18next";
-import RingLoader from "../../design/loader/ringLoder";
-import Loading from "../../notOk/loading";
-import initialzedTime from "../../../helper/manageTimer";
-import { useInfiniteScroll } from "../../../helper/useInfiniteScroll";
-import { LanguageKey } from "../../../i18n";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import Loading from "brancy/components/notOk/loading";
+import initialzedTime from "brancy/helper/manageTimer";
+import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
+import { LanguageKey } from "brancy/i18n";
 
 const TotalAdsReport = (props: {
   adsReports: ITotalAdsReport[] | null;

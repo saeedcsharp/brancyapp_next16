@@ -2,14 +2,14 @@ import ImageCompressor from "compressorjs";
 import { useSession } from "next-auth/react";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { _arrayBufferToBase64 } from "../../../helper/arrayBufferToBase64";
-import { LanguageKey } from "../../../i18n";
-import { MethodType, UploadFile } from "../../../helper/api";
-import { BusinessBankAccountType } from "../../../models/store/enum";
-import RingLoader from "../../design/loader/ringLoder";
-import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
-import styles from "./nationalCard.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import { _arrayBufferToBase64 } from "brancy/helper/arrayBufferToBase64";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType, UploadFile } from "brancy/helper/api";
+import { BusinessBankAccountType } from "brancy/models/store/enum";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import styles from "brancy/components/store/countryType/nationalCard.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 export default function NationalCard({
   handleShowCredit,

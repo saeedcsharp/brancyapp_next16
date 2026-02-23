@@ -1,5 +1,5 @@
 // Tutorial exports for easier importing
-export { useTutorial } from "./hooks/useTutorial";
+export { useTutorial } from "brancy/components/tutorial/hooks/useTutorial";
 export {
   getTutorialState,
   saveTutorialState,
@@ -11,7 +11,7 @@ export {
   getCompletedTutorialsCount,
   isFirstTimeUser,
   useTutorialState,
-} from "./helpers/tutorialStorage";
+} from "brancy/components/tutorial/helpers/tutorialStorage";
 export {
   validateSelector,
   findTargetElement,
@@ -19,10 +19,10 @@ export {
   highlightElement,
   disableBodyScroll,
   enableBodyScroll,
-} from "./helpers/tutorialTargeting";
-export type { TutorialPageKey } from "./tutorialConfigs";
-export { default as TutorialManager } from "./TutorialManager";
-export { default as TutorialWrapper } from "./tutorialWrapper";
-export { default as TutorialMobile } from "./tutorialMobile";
-export { default as TutorialDesktop } from "./tutorialDesktop";
-export { default as InitialSetup } from "./initialSetup/initialSetup";
+} from "brancy/components/tutorial/helpers/tutorialTargeting";
+export type { TutorialPageKey } from "brancy/components/tutorial/tutorialConfigs";
+export { default as TutorialManager } from "brancy/components/tutorial/TutorialManager";
+export { default as TutorialWrapper } from "brancy/components/tutorial/tutorialWrapper";
+export { default as TutorialMobile } from "brancy/components/tutorial/tutorialMobile";
+export { default as TutorialDesktop } from "brancy/components/tutorial/tutorialDesktop";
+export { default as InitialSetup } from "brancy/components/tutorial/initialSetup/initialSetup";

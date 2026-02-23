@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import FiveStar from "../../fiveStar";
-import { LanguageKey } from "../../../i18n";
-import styles from "./page10.module.css";
+import FiveStar from "brancy/components/fiveStar";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/website/landing/page10.module.css";
 const reviews = [
   {
     title: "مدیریت شبکه های اجتماعی کامل ترین ابزار",

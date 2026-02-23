@@ -1,14 +1,14 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../i18n";
+import { LanguageKey } from "brancy/i18n";
 import {
   clearHighlights,
   disableBodyScroll,
   enableBodyScroll,
   findTargetElement,
   highlightElement,
-} from "./helpers/tutorialTargeting";
-import styles from "./tutorialMobile.module.css";
+} from "brancy/components/tutorial/helpers/tutorialTargeting";
+import styles from "brancy/components/tutorial/tutorialMobile.module.css";
 interface TutorialStep {
   title: string;
   content: string;

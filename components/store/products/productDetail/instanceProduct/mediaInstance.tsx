@@ -18,12 +18,12 @@ import { CSS } from "@dnd-kit/utilities";
 import ImageCompressor from "compressorjs";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { internalNotify, InternalResponseType, NotifType } from "../../../../notifications/notificationBox";
-import { convertHeicToJpeg } from "../../../../../helper/convertHeicToJPEG";
-import { LanguageKey } from "../../../../../i18n";
-import { MediaType } from "../../../../../models/page/post/preposts";
-import { IMediaInstanceInfo, ISuggestedMedia } from "../../../../../models/store/IProduct";
-import styles from "./media.module.css";
+import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
+import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
+import { LanguageKey } from "brancy/i18n";
+import { MediaType } from "brancy/models/page/post/preposts";
+import { IMediaInstanceInfo, ISuggestedMedia } from "brancy/models/store/IProduct";
+import styles from "brancy/components/store/products/productDetail/instanceProduct/media.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
 // Sortable item component

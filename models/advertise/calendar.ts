@@ -1,5 +1,5 @@
-import { AdsType } from "./AdEnums";
-import { IBaseAds } from "./adList";
+import { AdsType } from "brancy/models/advertise/AdEnums";
+import { IBaseAds } from "brancy/models/advertise/adList";
 
 export interface ICaledarAds extends IBaseAds {
   date: number;

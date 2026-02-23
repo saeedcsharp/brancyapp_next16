@@ -1,4 +1,4 @@
-import { PlatformTicketItemType } from "../setting/enums";
+import { PlatformTicketItemType } from "brancy/models/setting/enums";
 
 export interface IOwnerInbox {
   userId: string;

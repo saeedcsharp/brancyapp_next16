@@ -1,4 +1,4 @@
-import { IPostContent } from "../../../post/posts";
+import { IPostContent } from "brancy/models/page/post/posts";
 
 export interface IIngageBox {
   postCount: number;

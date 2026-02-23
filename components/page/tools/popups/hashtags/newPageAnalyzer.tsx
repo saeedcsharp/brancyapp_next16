@@ -2,20 +2,20 @@ import { useSession } from "next-auth/react";
 import router from "next/router";
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "../../../../design/inputText";
-import RingLoader from "../../../../design/loader/ringLoder";
+import InputText from "brancy/components/design/inputText";
+import RingLoader from "brancy/components/design/loader/ringLoder";
 import {
   InternalResponseType,
   NotifType,
   internalNotify,
   notify,
-} from "../../../../notifications/notificationBox";
-import { LanguageKey } from "../../../../../i18n";
-import { MethodType } from "../../../../../helper/api";
-import { IPageInfo } from "../../../../../models/page/post/preposts";
-import { IPageAnalysisHashtags } from "../../../../../models/page/tools/tools";
-import styles from "./newPageAnalyzer.module.css";
-import { clientFetchApi } from "../../../../../helper/clientFetchApi";
+} from "brancy/components/notifications/notificationBox";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { IPageInfo } from "brancy/models/page/post/preposts";
+import { IPageAnalysisHashtags } from "brancy/models/page/tools/tools";
+import styles from "brancy/components/page/tools/popups/hashtags/newPageAnalyzer.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 interface IPageHashtagAnalysisInfo {

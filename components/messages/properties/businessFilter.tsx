@@ -1,19 +1,19 @@
 import { useSession } from "next-auth/react";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import RadioButton from "../../design/radioButton";
-import TextArea from "../../design/textArea/textArea";
-import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
-import Loading from "../../notOk/loading";
-import { LoginStatus, RoleAccess } from "../../../helper/loadingStatus";
-import { LanguageKey } from "../../../i18n";
-import { PartnerRole } from "../../../models/_AccountInfo/InstagramerAccountInfo";
+import RadioButton from "brancy/components/design/radioButton";
+import TextArea from "brancy/components/design/textArea/textArea";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import Loading from "brancy/components/notOk/loading";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import {
   BusinessFilterMsgType,
   BusinessFilterNumberType,
   IBusinessMessageFilter,
-} from "../../../models/messages/properies";
-import styles from "./properties.module.css";
+} from "brancy/models/messages/properies";
+import styles from "brancy/components/messages/properties/properties.module.css";
 
 function BusinessFilter() {
   const { t } = useTranslation();

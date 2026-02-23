@@ -1,7 +1,7 @@
-import { StatusType } from "../../components/confirmationStatus/confirmationStatus";
-import { MediaType } from "../ApiModels/Instagramer/Page/FirstPostPage";
-import { AdsTimeType, AdsType, RejectedType } from "./AdEnums";
-import { IAdvertisingTerms } from "./peoperties";
+import { StatusType } from "brancy/components/confirmationStatus/confirmationStatus";
+import { MediaType } from "brancy/models/ApiModels/Instagramer/Page/FirstPostPage";
+import { AdsTimeType, AdsType, RejectedType } from "brancy/models/advertise/AdEnums";
+import { IAdvertisingTerms } from "brancy/models/advertise/peoperties";
 
 export interface IWatingAds {
   advertiseId: number;

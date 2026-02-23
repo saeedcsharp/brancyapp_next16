@@ -4,37 +4,37 @@ import router from "next/router";
 import React, { ChangeEvent, useCallback, useEffect, useId, useMemo, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
-import CheckBoxButton from "../../design/checkBoxButton";
-import DragDrop from "../../design/dragDrop/dragDrop";
-import InputText from "../../design/inputText";
-import RingLoader from "../../design/loader/ringLoder";
-import RadioButton from "../../design/radioButton";
-import TextArea from "../../design/textArea/textArea";
-import FlexibleToggleButton from "../../design/toggleButton/flexibleToggleButton";
-import ToggleCheckBoxButton from "../../design/toggleCheckBoxButton";
-import Tooltip from "../../design/tooltip/tooltip";
-import Loading from "../../notOk/loading";
+import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import InputText from "brancy/components/design/inputText";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import RadioButton from "brancy/components/design/radioButton";
+import TextArea from "brancy/components/design/textArea/textArea";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
+import Loading from "brancy/components/notOk/loading";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
   ResponseType,
-} from "../../notifications/notificationBox";
+} from "brancy/components/notifications/notificationBox";
 
-import { LanguageKey } from "../../../i18n";
-import { IDetailPrompt, IPrompts } from "../../../models/AI/prompt";
-import { MethodType } from "../../../helper/api";
-import { AutoReplyPayLoadType, MediaProductType } from "../../../models/messages/enum";
+import { LanguageKey } from "brancy/i18n";
+import { IDetailPrompt, IPrompts } from "brancy/models/AI/prompt";
+import { MethodType } from "brancy/helper/api";
+import { AutoReplyPayLoadType, MediaProductType } from "brancy/models/messages/enum";
 import {
   ICreateGeneralAutoReply,
   IGeneralAutoReply,
   IMasterFlow,
   ITotalMasterFlow,
-} from "../../../models/messages/properies";
+} from "brancy/models/messages/properies";
 
-import styles from "./editAutoReply.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import styles from "brancy/components/messages/popups/editAutoReply.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 type CheckBoxState = {
   Custom: boolean;
   Flow: boolean;

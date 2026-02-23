@@ -1,5 +1,5 @@
 import { CSSProperties } from "react";
-import style from "./ringLoder.module.css";
+import style from "brancy/components/design/loader/ringLoder.module.css";
 
 interface RingLoaderProps {
   style?: CSSProperties;

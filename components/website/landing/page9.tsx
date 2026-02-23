@@ -1,9 +1,9 @@
 import React, { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "../../../i18n";
-import PriceFormater, { PriceFormaterClassName, PriceType } from "../../priceFormater";
-import FeatureList from "./featurelist";
-import styles from "./page9.module.css";
+import { LanguageKey } from "brancy/i18n";
+import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
+import FeatureList from "brancy/components/website/landing/featurelist";
+import styles from "brancy/components/website/landing/page9.module.css";
 
 // تعریف انواع پلن‌ها
 interface PlanTier {

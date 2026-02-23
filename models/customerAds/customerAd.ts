@@ -1,8 +1,8 @@
-import { AdsTimeType, AdsType } from "../advertise/AdEnums";
-import { IBusinessHour } from "../advertise/peoperties";
-import { IReview } from "../market/myLink";
-import { IPostContent } from "../page/post/posts";
-import { IImageMedia, MediaType } from "../page/post/preposts";
+import { AdsTimeType, AdsType } from "brancy/models/advertise/AdEnums";
+import { IBusinessHour } from "brancy/models/advertise/peoperties";
+import { IReview } from "brancy/models/market/myLink";
+import { IPostContent } from "brancy/models/page/post/posts";
+import { IImageMedia, MediaType } from "brancy/models/page/post/preposts";
 
 export interface FilterProps {
   title: FilterNames;

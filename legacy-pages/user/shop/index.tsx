@@ -3,16 +3,16 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NotifType, notify, ResponseType } from "../../../components/notifications/notificationBox";
-import Loading from "../../../components/notOk/loading";
-import ShopPage from "../../../components/userPanel/shop/shop";
-import findSystemLanguage from "../../../helper/findSystemLanguage";
-import { LanguageKey } from "../../../i18n";
-import { MethodType } from "../../../helper/api";
-import { SelectedMarketType } from "../../../models/market/enums";
-import { IFullShop } from "../../../models/userPanel/shop";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import ShopPage from "brancy/components/userPanel/shop/shop";
+import findSystemLanguage from "brancy/helper/findSystemLanguage";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
+import { SelectedMarketType } from "brancy/models/market/enums";
+import { IFullShop } from "brancy/models/userPanel/shop";
 import styles from "./shop.module.css";
-import { clientFetchApi } from "../../../helper/clientFetchApi";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
 const StorePage = () => {

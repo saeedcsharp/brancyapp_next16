@@ -1,5 +1,5 @@
 import { FontWeight } from "next/dist/compiled/@vercel/og/satori";
-import { TermsType } from "../models/page/tools/tools";
+import { TermsType } from "brancy/models/page/tools/tools";
 import satori from "satori";
 
 export async function SvgGenerator(htmldata: React.ReactNode, width: number, height: number, fontWeight: FontWeight) {

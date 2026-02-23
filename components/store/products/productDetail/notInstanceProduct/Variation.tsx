@@ -1,13 +1,13 @@
 import { useSession } from "next-auth/react";
 import { ChangeEvent, CSSProperties, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "../../../../design/dragDrop/dragDrop";
-import InputText from "../../../../design/inputText";
-import { NotifType, notify, ResponseType } from "../../../../notifications/notificationBox";
-import Loading from "../../../../notOk/loading";
-import priceFormatter from "../../../../../helper/priceFormater";
-import { LanguageKey } from "../../../../../i18n";
-import { MethodType } from "../../../../../helper/api";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import InputText from "brancy/components/design/inputText";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import priceFormatter from "brancy/helper/priceFormater";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
 import {
   ICreateInstance_ForVariation,
   IDisCount,
@@ -17,11 +17,11 @@ import {
   IProduct_Variation,
   ISubProduct_Create,
   IVariation_Create,
-} from "../../../../../models/store/IProduct";
-import Discount from "./popups/discount";
-import NewVariation from "./popups/newVariation";
-import styles from "./Variation.module.css";
-import { clientFetchApi } from "../../../../../helper/clientFetchApi";
+} from "brancy/models/store/IProduct";
+import Discount from "brancy/components/store/products/productDetail/notInstanceProduct/popups/discount";
+import NewVariation from "brancy/components/store/products/productDetail/notInstanceProduct/popups/newVariation";
+import styles from "brancy/components/store/products/productDetail/notInstanceProduct/Variation.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 export interface IAddNewVariation {
   val1: INewVariation | null;
   val2: INewVariation | null;

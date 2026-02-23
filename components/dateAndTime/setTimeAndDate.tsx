@@ -9,8 +9,8 @@ import persian_fa from "react-date-object/locales/persian_fa";
 import { useTranslation } from "react-i18next";
 import { Calendar, DateObject, Value } from "react-multi-date-picker";
 import TimePicker from "react-multi-date-picker/plugins/time_picker";
-import { LanguageKey } from "../../i18n";
-import styles from "./setTimeAndDate.module.css";
+import { LanguageKey } from "brancy/i18n";
+import styles from "brancy/components/dateAndTime/setTimeAndDate.module.css";
 
 var dayes: number[] = [];
 var mounths: number[] = [];

@@ -1,8 +1,8 @@
 import { useState } from "react";
 import Slider from "react-slider";
-import { numbTo24HourTime, numbToAmAndPmTime } from "../../../helper/numberFormater";
-import { IBusinessHour } from "../../../models/advertise/peoperties";
-import styles from "./slider.module.css";
+import { numbTo24HourTime, numbToAmAndPmTime } from "brancy/helper/numberFormater";
+import { IBusinessHour } from "brancy/models/advertise/peoperties";
+import styles from "brancy/components/design/sliders/slider.module.css";
 
 const TimerSlider = (props: {
   info: IBusinessHour;

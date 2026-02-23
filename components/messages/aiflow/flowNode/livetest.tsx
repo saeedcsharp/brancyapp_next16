@@ -7,10 +7,10 @@ import React, {
   useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "../../../design/inputText";
-import { LanguageKey } from "../../../../i18n/languageKeys";
-import styles from "./livetest.module.css";
-import { NodeData } from "./types";
+import InputText from "brancy/components/design/inputText";
+import { LanguageKey } from "brancy/i18n/languageKeys";
+import styles from "brancy/components/messages/aiflow/flowNode/livetest.module.css";
+import { NodeData } from "brancy/components/messages/aiflow/flowNode/types";
 
 // Define baseMediaUrl or import it from a config file
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL || "";

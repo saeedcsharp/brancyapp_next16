@@ -1,12 +1,12 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import HourLineChart, { GetHourAmPM } from "../../../design/chart/hourLineChart";
-import DragDrop from "../../../design/dragDrop/dragDrop";
-import FlexibleToggleButton from "../../../design/toggleButton/flexibleToggleButton";
-import { LanguageKey } from "../../../../i18n";
-import { IBestTime } from "../../../../models/page/statistics/statisticsContent/GraphIngageBoxes/cardBestWorst";
-import { HourCountUnix } from "../../../../models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
-import styles from "./postTimeAnalalysis.module.css";
+import HourLineChart, { GetHourAmPM } from "brancy/components/design/chart/hourLineChart";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import { LanguageKey } from "brancy/i18n";
+import { IBestTime } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/cardBestWorst";
+import { HourCountUnix } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
+import styles from "brancy/components/page/statistics/popups/postTimeAnalalysis.module.css";
 
 type ViewMode = "heatmap";
 

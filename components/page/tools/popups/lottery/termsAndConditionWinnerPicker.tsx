@@ -4,24 +4,24 @@ import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { HuePicker } from "react-color";
 import { useTranslation } from "react-i18next";
 import Slider from "react-slider";
-import RingLoader from "../../../../design/loader/ringLoder";
-import ToggleCheckBoxButton from "../../../../design/toggleCheckBoxButton";
-import { NotifType, notify, ResponseType } from "../../../../notifications/notificationBox";
-import Loading from "../../../../notOk/loading";
-import rgbaToHex from "../../../../../helper/rgbaToHex";
-import { BackgrounCssTodStr, SvgGenerator } from "../../../../../helper/svgGenerator";
-import { svgToFile, svgToJpgFile } from "../../../../../helper/svgtojpeg";
-import { LanguageKey } from "../../../../../i18n";
-import { MethodType } from "../../../../../helper/api";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import rgbaToHex from "brancy/helper/rgbaToHex";
+import { BackgrounCssTodStr, SvgGenerator } from "brancy/helper/svgGenerator";
+import { svgToFile, svgToJpgFile } from "brancy/helper/svgtojpeg";
+import { LanguageKey } from "brancy/i18n";
+import { MethodType } from "brancy/helper/api";
 import {
   ICreateTermsAndConditionInfo,
   IGetLastTermsUi,
   IGetTermsAndConditionInfo,
   ILotteryInfo,
   TermsType,
-} from "../../../../../models/page/tools/tools";
-import styles from "./termsAndConditionWinnerPicker.module.css";
-import { clientFetchApi } from "../../../../../helper/clientFetchApi";
+} from "brancy/models/page/tools/tools";
+import styles from "brancy/components/page/tools/popups/lottery/termsAndConditionWinnerPicker.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 function filterTypeSlide(backgrounds: IGetTermsAndConditionInfo, type: TermsType) {
   const result = backgrounds.background.filter((x) => x.type === type);

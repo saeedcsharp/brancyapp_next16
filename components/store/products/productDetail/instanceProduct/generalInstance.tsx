@@ -1,11 +1,11 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "../../../../design/inputText";
-import Loading from "../../../../notOk/loading";
-import { LanguageKey } from "../../../../../i18n";
-import { IProductInstance } from "../../../../../models/store/IProduct";
-import styles from "./general.module.css";
+import InputText from "brancy/components/design/inputText";
+import Loading from "brancy/components/notOk/loading";
+import { LanguageKey } from "brancy/i18n";
+import { IProductInstance } from "brancy/models/store/IProduct";
+import styles from "brancy/components/store/products/productDetail/instanceProduct/general.module.css";
 function GeneralInstance({
   productInstance,
   upadteCteateFromgeneral,

@@ -3,9 +3,9 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { ResponseType } from "../../components/notifications/notificationBox";
-import { LoginStatus, packageStatus } from "../../helper/loadingStatus";
-import { IError } from "../../models/_AccountInfo/InstagramerAccountInfo";
+import { ResponseType } from "brancy/components/notifications/notificationBox";
+import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import { IError } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import {
   IDemographicInsight,
   IInstagramerHomeTiles,
@@ -15,20 +15,20 @@ import {
   ILastOrder,
   ILastTransaction,
   IPageSummary,
-} from "../../models/homeIndex/home";
-import { MethodType } from "../../helper/api";
-import { IPostContent } from "../../models/page/post/posts";
-import { IStoryContent } from "../../models/page/story/stories";
-import AccountSummary from "../../components/homeIndex/accountSummary";
-import IngageInfo from "../../components/homeIndex/ingageInfo";
-import InstagramerUpgrade from "../../components/homeIndex/instagramerupgrade";
-import LastMessage from "../../components/homeIndex/lastMessage";
-import LastOrder from "../../components/homeIndex/lastOrder";
-import PageDetail from "../../components/homeIndex/pageDetail";
-import PostSummary from "../../components/homeIndex/postSummary";
-import TutorialWrapper from "../../components/tutorial/tutorialWrapper";
+} from "brancy/models/homeIndex/home";
+import { MethodType } from "brancy/helper/api";
+import { IPostContent } from "brancy/models/page/post/posts";
+import { IStoryContent } from "brancy/models/page/story/stories";
+import AccountSummary from "brancy/components/homeIndex/accountSummary";
+import IngageInfo from "brancy/components/homeIndex/ingageInfo";
+import InstagramerUpgrade from "brancy/components/homeIndex/instagramerupgrade";
+import LastMessage from "brancy/components/homeIndex/lastMessage";
+import LastOrder from "brancy/components/homeIndex/lastOrder";
+import PageDetail from "brancy/components/homeIndex/pageDetail";
+import PostSummary from "brancy/components/homeIndex/postSummary";
+import TutorialWrapper from "brancy/components/tutorial/tutorialWrapper";
 import styles from "./homeIndex.module.css";
-import { clientFetchApi } from "../../helper/clientFetchApi";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 const initialState = {
   error: { message: null } as IError,
