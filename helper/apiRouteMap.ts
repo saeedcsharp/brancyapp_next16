@@ -2,6 +2,8 @@
  * Maps local API paths (/api/{scope}/{action}) to backend sub-URLs on https://api.brancy.app/
  * Used by clientFetchApi to call the backend directly (bypassing Next.js API proxy)
  * for all routes EXCEPT /api/user/*.
+ *
+ * These paths are the NORMALIZED output of toLocalApiPath() — always lowercase scope, lowerFirst action.
  */
 export const API_ROUTE_MAP: Record<string, string> = {
   // ── account ───────────────────────────────────────────
@@ -26,8 +28,16 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/ai/getTools": "Instagramer/AI/GetTools",
   "/api/ai/sendTestMessage": "Instagramer/AI/SendTestMessage",
 
+  // ── autoacceptfollower ────────────────────────────────
+  "/api/autoacceptfollower/checkAvailability": "Instagramer/AutoAcceptFollower/CheckAvailability",
+  "/api/autoacceptfollower/getAcceptedFollowers": "Instagramer/AutoAcceptFollower/GetAcceptedFollowers",
+  "/api/autoacceptfollower/getCondition": "Instagramer/AutoAcceptFollower/GetCondition",
+  "/api/autoacceptfollower/getFigure": "Instagramer/AutoAcceptFollower/GetFigure",
+  "/api/autoacceptfollower/updateCondition": "Instagramer/AutoAcceptFollower/UpdateCondition",
+
   // ── authorize ─────────────────────────────────────────
   "/api/authorize/authorizeInstagramerByCardNumber": "Business/Authorize/AuthorizeInstagramerByCardNumber",
+  "/api/authorize/createAdvertiser": "Business/Authorize/CreateAdvertiser",
   "/api/authorize/createShopper": "Business/Authorize/CreateShopper",
   "/api/authorize/getAuthorizeLevel": "Business/Authorize/GetAuthorizeLevel",
   "/api/authorize/getAuthorizeUserType": "Business/Authorize/GetAuthorizeUserType",
@@ -39,8 +49,10 @@ export const API_ROUTE_MAP: Record<string, string> = {
 
   // ── bio ───────────────────────────────────────────────
   "/api/bio/getAnnouncement": "Instagramer/bio/GetAnnouncement",
+  "/api/bio/getChannels": "Instagramer/Bio/GetChannels",
   "/api/bio/getContact": "Instagramer/bio/GetContact",
   "/api/bio/getCustomBanners": "Instagramer/Bio/GetCustomBanners",
+  "/api/bio/getCustomDomain": "Instagramer/Bio/GetCustomDomain",
   "/api/bio/getCustomProfile": "Instagramer/Bio/GetCustomProfile",
   "/api/bio/getFaqs": "Instagramer/bio/GetFaqs",
   "/api/bio/getMyLink": "Instagramer/Bio/GetMyLink",
@@ -48,19 +60,26 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/bio/getTotalInsight": "Instagramer/Bio/GetTotalInsight",
   "/api/bio/getTotalInsightFigures": "Instagramer/Bio/GetTotalInsightFigures",
   "/api/bio/getVideoInsight": "Instagramer/Bio/GetVideoInsight",
-  "/api/bio/saveAparatPage": "instagramer/Bio/SaveAparatPage",
-  "/api/bio/saveYoutubePage": "instagramer/Bio/SaveYoutubePage",
+  "/api/bio/saveAparatPage": "Instagramer/Bio/SaveAparatPage",
+  "/api/bio/saveYoutubePage": "Instagramer/Bio/SaveYoutubePage",
+  "/api/bio/toggleCustomDomain": "Instagramer/Bio/ToggleCustomDomain",
   "/api/bio/toggleFeatureBox": "Instagramer/Bio/ToggleFeatureBox",
+  "/api/bio/updateAnnouncement": "Instagramer/bio/UpdateAnnouncement",
   "/api/bio/updateContact": "Instagramer/bio/UpdateContact",
   "/api/bio/updateCustomBanners": "Instagramer/Bio/UpdateCustomBanners",
+  "/api/bio/updateCustomDomain": "Instagramer/Bio/UpdateCustomDomain",
   "/api/bio/updateCustomProfile": "Instagramer/Bio/UpdateCustomProfile",
   "/api/bio/updateFaqs": "Instagramer/bio/UpdateFaqs",
   "/api/bio/updateOrderItems": "Instagramer/Bio/UpdateOrderItems",
 
   // ── comment ───────────────────────────────────────────
+  "/api/comment/createExportLiveComment": "Instagramer/Comment/CreateExportLiveComment",
   "/api/comment/generateCommentBaseAI": "Instagramer/Comment/GenerateCommentBaseAI",
+  "/api/comment/getExportLiveComments": "Instagramer/Comment/GetExportLiveComments",
   "/api/comment/getInbox": "Instagramer/Comment/GetInbox",
   "/api/comment/getMediaComments": "Instagramer/Comment/GetMediaComments",
+  "/api/comment/pauseLiveAutoReply": "Instagramer/Comment/PauseLiveAutoReply",
+  "/api/comment/resumeLiveAutoReply": "Instagramer/Comment/ResumeLiveAutoReply",
   "/api/comment/updateLiveAutoReply": "Instagramer/Comment/UpdateLiveAutoReply",
 
   // ── dayevent ──────────────────────────────────────────
@@ -73,11 +92,14 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/flow/getShortMasterFlow": "Instagramer/Flow/GetShortMasterFlow",
 
   // ── hashtag ───────────────────────────────────────────
+  "/api/hashtag/analysisPageHashtags": "Instagramer/hashtag/AnalysisPageHashtags",
   "/api/hashtag/createHashtagList": "Instagramer/hashtag/createHashtagList",
   "/api/hashtag/deleteHashtagList": "Instagramer/hashtag/DeleteHashtagList",
   "/api/hashtag/getHashtagList": "Instagramer/hashtag/GetHashtagList",
   "/api/hashtag/getHashtagsByImage": "Instagramer/hashtag/GetHashtagsByImage",
   "/api/hashtag/getTrendHashtag": "Instagramer/hashtag/GetTrendHashtag",
+  "/api/hashtag/hidePageAnalysisHashtag": "Instagramer/hashtag/HidePageAnalysisHashtag",
+  "/api/hashtag/hidePictureAnalysisHashtag": "Instagramer/hashtag/HidePictureAnalysisHashtag",
   "/api/hashtag/searchHashtag": "Instagramer/hashtag/searchHashtag",
   "/api/hashtag/updateHashtagList": "Instagramer/hashtag/UpdateHashtagList",
 
@@ -87,8 +109,24 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/home/getPageSummary": "Instagramer/Home/GetPageSummary",
   "/api/home/getTiles": "Instagramer/Home/GetTiles",
 
-  // ── instagramer ───────────────────────────────────────
-  "/api/instagramer/searchPeople": "instagramer/searchPeople",
+  // ── instagramer (direct search endpoints) ─────────────
+  "/api/instagramer/searchLocations": "Instagramer/searchLocations",
+  "/api/instagramer/searchPeople": "Instagramer/searchPeople",
+  "/api/users/searchPeople": "Instagramer/Users/searchPeople",
+
+  // ── likecomment ───────────────────────────────────────
+  "/api/likecomment/checkAvailability": "Instagramer/LikeComment/CheckAvailability",
+  "/api/likecomment/getCondition": "Instagramer/LikeComment/GetCondition",
+  "/api/likecomment/getFigure": "Instagramer/LikeComment/GetFigure",
+  "/api/likecomment/getLikedComments": "Instagramer/LikeComment/GetLikedComments",
+  "/api/likecomment/updateCondition": "Instagramer/LikeComment/UpdateCondition",
+
+  // ── likelastpostfollower ──────────────────────────────
+  "/api/likelastpostfollower/checkAvailability": "Instagramer/LikeLastPostFollower/CheckAvailability",
+  "/api/likelastpostfollower/getCondition": "Instagramer/LikeLastPostFollower/GetCondition",
+  "/api/likelastpostfollower/getFigure": "Instagramer/LikeLastPostFollower/GetFigure",
+  "/api/likelastpostfollower/getLikedFollowers": "Instagramer/LikeLastPostFollower/GetLikedFollowers",
+  "/api/likelastpostfollower/updateCondition": "Instagramer/LikeLastPostFollower/UpdateCondition",
 
   // ── link ──────────────────────────────────────────────
   "/api/link/createLink": "Instagramer/link/CreateLink",
@@ -111,6 +149,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/lottery/rejectLottery": "Instagramer/Lottery/RejectLottery",
 
   // ── message ───────────────────────────────────────────
+  "/api/message/changeCategory": "Instagramer/Message/ChangeCategory",
   "/api/message/createGeneralAutoReply": "Instagramer/Message/CreateGeneralAutoReply",
   "/api/message/getAutoReplySetting": "Instagramer/Message/GetAutoReplySetting",
   "/api/message/getDirectInbox": "Instagramer/Message/GetDirectInbox",
@@ -119,6 +158,15 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/message/getIceBreaker": "Instagramer/Message/GetIceBreaker",
   "/api/message/getPersistentMenu": "Instagramer/Message/GetPersistentMenu",
   "/api/message/getThread": "Instagramer/Message/GetThread",
+  "/api/message/pauseAllAutoReplies": "Instagramer/Message/PauseAllAutoReplies",
+  "/api/message/pauseAllGeneralAutoReplies": "Instagramer/Message/PauseAllGeneralAutoReplies",
+  "/api/message/pauseGeneralAutoReply": "Instagramer/Message/PauseGeneralAutoReply",
+  "/api/message/pinThread": "Instagramer/Message/PinThread",
+  "/api/message/resumeAllAutoReplies": "Instagramer/Message/ResumeAllAutoReplies",
+  "/api/message/resumeAllGeneralAutoReplies": "Instagramer/Message/ResumeAllGeneralAutoReplies",
+  "/api/message/resumeGeneralAutoReply": "Instagramer/Message/ResumeGeneralAutoReply",
+  "/api/message/sendReaction": "Instagramer/Message/SendReaction",
+  "/api/message/sendUnReaction": "Instagramer/Message/SendUnReaction",
   "/api/message/setDefaultLanguage": "Instagramer/Message/SetDefaultLanguage",
   "/api/message/toggleCheckFollowerTemplate": "Instagramer/Message/ToggleCheckFollowerTemplate",
   "/api/message/toggleHideCommentAutoReply": "Instagramer/Message/ToggleHideCommentAutoReply",
@@ -145,21 +193,29 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/order/setNonTrackingIdOrderDelivered": "Shopper/Order/SetNonTrackingIdOrderDelivered",
 
   // ── post ──────────────────────────────────────────────
+  "/api/post/changeCommentingStatus": "Instagramer/post/ChangeCommentingStatus",
+  "/api/post/createExportComments": "Instagramer/Post/CreateExportComments",
   "/api/post/deleteDraft": "Instagramer/Post/deleteDraft",
   "/api/post/deletePrePost": "Instagramer/Post/deletePrePost",
   "/api/post/generateCaptionWithAI": "Instagramer/Post/GenerateCaptionWithAI",
   "/api/post/getBestPublishTime": "Instagramer/Post/GetBestPublishTime",
   "/api/post/getCaptionPromptExamples": "Instagramer/Post/GetCaptionPromptExamples",
   "/api/post/getDraft": "Instagramer/Post/GetDraft",
+  "/api/post/getExportComments": "Instagramer/Post/GetExportComments",
   "/api/post/getPostByGuid": "Instagramer/Post/GetPostByGuid",
   "/api/post/getPostByScrollingDown": "Instagramer/Post/GetPostByScrollingDown",
   "/api/post/getPostCards": "Instagramer/Post/GetPostCards",
   "/api/post/getPostInfo": "Instagramer/Post/GetPostInfo",
   "/api/post/getPostInsightInfo": "Instagramer/Post/GetPostInsightInfo",
   "/api/post/getPosts": "Instagramer/Post/GetPosts",
+  "/api/post/getPrePost": "Instagramer/Post/GetPrePost",
   "/api/post/getPublishLimitContent": "Instagramer/Post/GetPublishLimitContent",
   "/api/post/getShortPost": "Instagramer/Post/GetShortPost",
+  "/api/post/pauseAutoReply": "Instagramer/Post/PauseAutoReply",
   "/api/post/publishCarousel": "Instagramer/Post/PublishCarousel",
+  "/api/post/publishImageFeed": "Instagramer/Post/PublishImageFeed",
+  "/api/post/publishReels": "Instagramer/Post/PublishReels",
+  "/api/post/resumeAutoReply": "Instagramer/Post/ResumeAutoReply",
   "/api/post/updateAutoReply": "Instagramer/Post/UpdateAutoReply",
 
   // ── preinstagramer ────────────────────────────────────
@@ -169,13 +225,27 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/preinstagramer/verifyCode": "PreInstagramer/VerifyCode",
 
   // ── product ───────────────────────────────────────────
+  "/api/product/changeAvailableProduct": "shopper/Product/ChangeAvailableProduct",
+  "/api/product/createProductInstance": "shopper/Product/CreateProductInstance",
+  "/api/product/createProducts": "shopper/Product/CreateProducts",
   "/api/product/createSubProducts": "shopper/Product/CreateSubProducts",
+  "/api/product/getFullProduct": "shopper/Product/GetFullProduct",
   "/api/product/getFullProductList": "shopper/Product/GetFullProductList",
+  "/api/product/getLastCategory": "shopper/Product/GetLastCategory",
+  "/api/product/getLastProductSpecification": "shopper/Product/GetLastProductSpecification",
   "/api/product/getLastTempIdAndNonProductsCount": "shopper/Product/GetLastTempIdAndNonProductsCount",
+  "/api/product/getMainCategoryList": "shopper/Product/GetMainCategoryList",
   "/api/product/getMaxSize": "Shopper/Product/GetMaxSize",
   "/api/product/getMediaSuggestion": "shopper/Product/GetMediaSuggestion",
+  "/api/product/getNextProduct": "shopper/Product/GetNextProduct",
+  "/api/product/getPreviousProduct": "shopper/Product/GetPreviousProduct",
   "/api/product/getProductByTempId": "shopper/Product/GetProductByTempId",
+  "/api/product/getProductCandidates": "shopper/Product/GetProductCandidates",
   "/api/product/getProductList": "shopper/Product/GetProductList",
+  "/api/product/getSeconderyCategoryList": "shopper/Product/GetSeconderyCategoryList",
+  "/api/product/getSuggestedPrice": "shopper/Product/GetSuggestedPrice",
+  "/api/product/getSuggestedPriceV2": "shopper/Product/GetSuggestedPriceV2",
+  "/api/product/getVariations": "shopper/Product/GetVariations",
   "/api/product/insertProductMedia": "shopper/Product/InsertProductMedia",
   "/api/product/saveProductSuggestion": "shopper/Product/SaveProductSuggestion",
   "/api/product/searchProducts": "shopper/Product/SearchProducts",
@@ -188,6 +258,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   // ── psg ───────────────────────────────────────────────
   "/api/psg/getPackageFeatureDetails": "Instagramer/PSG/GetPackageFeatureDetails",
   "/api/psg/getPackagePrices": "Instagramer/PSG/GetPackagePrices",
+  "/api/psg/getPackageRedirectUrl": "Instagramer/PSG/GetPackageRedirectUrl",
   "/api/psg/getRedirectReserveFeaturePrice": "Instagramer/PSG/GetRedirectReserveFeaturePrice",
   "/api/psg/getReserveFeaturePrices": "Instagramer/PSG/GetReserveFeaturePrices",
 
@@ -227,6 +298,11 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/statistics/getTimeAnalysis": "Instagramer/Statistics/GetTimeAnalysis",
 
   // ── story ─────────────────────────────────────────────
+  "/api/story/createExportReplies": "Instagramer/Story/CreateExportReplies",
+  "/api/story/deleteDraft": "Instagramer/Story/deleteDraft",
+  "/api/story/deletePreStory": "Instagramer/Story/DeletePreStory",
+  "/api/story/getDraft": "Instagramer/Story/GetDraft",
+  "/api/story/getExportReplies": "Instagramer/Story/GetExportReplies",
   "/api/story/getLastActiveStories": "Instagramer/Story/GetLastActiveStories",
   "/api/story/getNextStories": "Instagramer/Story/GetNextStories",
   "/api/story/getPreStory": "Instagramer/Story/GetPreStory",
@@ -234,6 +310,10 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/story/getStoryInsight": "Instagramer/Story/GetStoryInsight",
   "/api/story/getStoryReplies": "Instagramer/Story/GetStoryReplies",
   "/api/story/loadingStoryPage": "Instagramer/Story/LoadingStoryPage",
+  "/api/story/pauseAutoReply": "Instagramer/Story/PauseAutoReply",
+  "/api/story/publishImage": "Instagramer/Story/PublishImage",
+  "/api/story/publishVideo": "Instagramer/Story/PublishVideo",
+  "/api/story/resumeAutoReply": "Instagramer/Story/ResumeAutoReply",
   "/api/story/searchViewers": "Instagramer/Story/SearchViewers",
   "/api/story/updateAutoReply": "Instagramer/Story/UpdateAutoReply",
 
@@ -253,6 +333,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/ticket/closePlatformTicket": "Instagramer/Ticket/ClosePlatformTicket",
   "/api/ticket/createPlatformTicket": "Instagramer/Ticket/CreatePlatformTicket",
   "/api/ticket/getFbInbox": "Instagramer/Ticket/GetFbInbox",
+  "/api/ticket/getFbTicket": "Instagramer/Ticket/GetFbTicket",
   "/api/ticket/getFbTicketItems": "Instagramer/Ticket/GetFbTicketItems",
   "/api/ticket/getPlatformTicket": "Instagramer/Ticket/GetPlatformTicket",
   "/api/ticket/getPlatformTicketInbox": "Instagramer/Ticket/GetPlatformTicketInbox",
@@ -262,6 +343,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/ticket/readFbTicket": "Instagramer/Ticket/ReadFbTicket",
   "/api/ticket/seenPlatformTicket": "Instagramer/Ticket/SeenPlatformTicket",
   "/api/ticket/seenSystemTicket": "Instagramer/Ticket/SeenSystemTicket",
+  "/api/ticket/updateFbTicketHiddenStatus": "Instagramer/Ticket/UpdateFbTicketHiddenStatus",
   "/api/ticket/updateFbTicketItems": "Instagramer/Ticket/UpdateFbTicketItems",
   "/api/ticket/updatePlatformTicket": "Instagramer/Ticket/UpdatePlatformTicket",
   "/api/ticket/updatePlatformTicketPinStatus": "Instagramer/Ticket/UpdatePlatformTicketPinStatus",
@@ -271,6 +353,13 @@ export const API_ROUTE_MAP: Record<string, string> = {
   // ── uisetting ─────────────────────────────────────────
   "/api/uisetting/get": "Instagramer/UiSetting/Get",
   "/api/uisetting/update": "Instagramer/UiSetting/Update",
+
+  // ── unfollowallfollowing ──────────────────────────────
+  "/api/unfollowallfollowing/checkAvailability": "Instagramer/UnfollowAllFollowing/CheckAvailability",
+  "/api/unfollowallfollowing/getCondition": "Instagramer/UnfollowAllFollowing/GetCondition",
+  "/api/unfollowallfollowing/getFigure": "Instagramer/UnfollowAllFollowing/GetFigure",
+  "/api/unfollowallfollowing/getUnFollowings": "Instagramer/UnfollowAllFollowing/GetUnFollowings",
+  "/api/unfollowallfollowing/updateCondition": "Instagramer/UnfollowAllFollowing/UpdateCondition",
 };
 
 /**
@@ -278,7 +367,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
  * Returns null if the path is not found (caller should fall back to proxy or dynamic catch-all).
  */
 export function resolveBackendSubUrl(localPath: string): string | null {
-  // Normalize: remove query string, lowercase for lookup
+  // Normalize: remove query string
   const clean = localPath.split("?")[0];
   // Try exact match first
   if (API_ROUTE_MAP[clean]) return API_ROUTE_MAP[clean];

@@ -226,10 +226,51 @@ export async function clientFetchApi<TReq, TRes>(
     );
   }
 
-  // Fallback: if route not found in map, derive sub-URL from path segments (like [scope]/[action] catch-all)
+  // Fallback: if route not found in map, try to infer the correct backend path
+  // based on the scope prefix patterns used in the codebase.
   const parts = localPath.split("?")[0].split("/").filter(Boolean);
   if (parts.length >= 3) {
-    const fallbackSubUrl = `${parts[1]}/${parts[2]}`;
+    const scope = parts[1].toLowerCase();
+    const action = parts[2];
+
+    // Map scope to the correct backend service prefix
+    const SCOPE_PREFIX_MAP: Record<string, string> = {
+      account: "Instagramer/Account",
+      address: "User/Address",
+      ai: "Instagramer/AI",
+      autoacceptfollower: "Instagramer/AutoAcceptFollower",
+      authorize: "Business/Authorize",
+      bio: "Instagramer/Bio",
+      comment: "Instagramer/Comment",
+      dayevent: "Instagramer/DayEvent",
+      flow: "Instagramer/Flow",
+      hashtag: "Instagramer/hashtag",
+      home: "Instagramer/Home",
+      instagramer: "Instagramer",
+      likecomment: "Instagramer/LikeComment",
+      likelastpostfollower: "Instagramer/LikeLastPostFollower",
+      link: "Instagramer/Link",
+      lottery: "Instagramer/Lottery",
+      message: "Instagramer/Message",
+      order: "Shopper/Order",
+      post: "Instagramer/Post",
+      preinstagramer: "PreInstagramer",
+      product: "shopper/Product",
+      psg: "Instagramer/PSG",
+      session: "User/Session",
+      shop: "user/shop",
+      statistics: "Instagramer/Statistics",
+      story: "Instagramer/Story",
+      systemticket: "User/SystemTicket",
+      ticket: "Instagramer/Ticket",
+      uisetting: "Instagramer/UiSetting",
+      unfollowallfollowing: "Instagramer/UnfollowAllFollowing",
+      users: "Instagramer/Users",
+    };
+
+    const prefix = SCOPE_PREFIX_MAP[scope];
+    const fallbackSubUrl = prefix ? `${prefix}/${action}` : `${scope}/${action}`;
+
     return fetchDirect<TRes>(
       fallbackSubUrl,
       methodType,

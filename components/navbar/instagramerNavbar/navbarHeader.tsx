@@ -1,3 +1,4 @@
+"use client";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { MouseEvent, use, useEffect, useRef, useState } from "react";
@@ -33,6 +34,8 @@ const NavbarHeader = (props: {
   const [gooli, setGooli] = useState(false);
   const fullscreenButtonRef = useRef(null);
   const { data: session } = useSession();
+  const sessionRef = useRef(session);
+  sessionRef.current = session;
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
@@ -50,7 +53,7 @@ const NavbarHeader = (props: {
     if (notifObj.IsNavbar && notifObj.InstagramerId) {
       console.log("decombNotif in navbar header", notifObj);
       // setNavbarNotifs((prev) => [notifObj, ...prev]);
-      if (setValue && session!.user.currentIndex > -1) setValue((prev) => [notifObj, ...prev]);
+      if (setValue && sessionRef.current!.user.currentIndex > -1) setValue((prev) => [notifObj, ...prev]);
       if (!props.showNotifBar) setGooli(true);
     } else if (!notifObj.IsNavbar && notifObj.ResponseType === PushResponseType.DeauthorizedInstaAccount) {
       console.log("not isNvabar AND DeauthorizedInstaAccount");
@@ -65,7 +68,10 @@ const NavbarHeader = (props: {
   useEffect(() => {
     console.log("Setting up SignalR connection for notifications");
     const intervalId = setInterval(() => {
-      if (!isFirstLoad || !LoginStatus(session) || !packageStatus(session)) return;
+      const s = sessionRef.current;
+      console.log("interval check:", { isFirstLoad, LoginStatus: LoginStatus(s), packageStatus: packageStatus(s) });
+      if (!isFirstLoad || !LoginStatus(s) || !packageStatus(s)) return;
+      console.log("Attempting to set up SignalR connection for notifications");
       const hubConnection = getHubConnection();
       if (hubConnection) {
         hubConnection.off("Instagramer socket on", handleGetNotif);
