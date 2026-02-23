@@ -15,7 +15,7 @@ export const LineChart = (props: {
   chartId: string;
   items: IMonthGraph[] | DayCountUnix[] | HourCountUnix[];
   chartxType: chartxType;
-  anonation?: ApexAnnotations;
+  anonation?: ApexOptions["annotations"];
   maxY?: number;
   maxX?: number;
   minX?: number;
@@ -228,8 +228,10 @@ export const LineChart = (props: {
   }
   if (props.maxX && ChartInfo.options.xaxis) ChartInfo.options.xaxis.max = props.maxX;
   if (props.minX && ChartInfo.options.xaxis) ChartInfo.options.xaxis.min = props.minX;
-  if (props.maxY && ChartInfo.options.yaxis) (ChartInfo.options.yaxis as ApexYAxis).max = props.maxY;
-  if (props.minY && ChartInfo.options.yaxis) (ChartInfo.options.yaxis as ApexYAxis).min = props.minY;
+  if (props.maxY && ChartInfo.options.yaxis)
+    (ChartInfo.options.yaxis as { max?: number; min?: number }).max = props.maxY;
+  if (props.minY && ChartInfo.options.yaxis)
+    (ChartInfo.options.yaxis as { max?: number; min?: number }).min = props.minY;
   return (
     <div className="app" style={{ width: "100%" }}>
       {/* <div className={styles.chart}> */}
