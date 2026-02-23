@@ -44,41 +44,41 @@ function ErrorDraft(props: { data: IErrorPrePostInfo; removeMask: () => void }) 
       <div className="headerandinput" style={{ alignItems: "center" }}>
         <div className="title">{t(LanguageKey.errorDraft_title)}:</div>
 
-        {props.data.ErrorType === ErrorPrePostType.ConfigFailed && (
+        {props.data?.ErrorType === ErrorPrePostType.ConfigFailed && (
           <div className="explain">{t(LanguageKey.errorDraft_configFailed)}</div>
         )}
-        {props.data.ErrorType === ErrorPrePostType.InvalidTags && (
+        {props.data?.ErrorType === ErrorPrePostType.InvalidTags && (
           <div className="explain">
             {t(LanguageKey.errorDraft_invalidTags)}
             <br />
             <br />
-            {props.data.InvalidTags.map((v, i) => (
+            {props.data?.InvalidTags?.map((v, i) => (
               <div className="explain" key={i}>
                 {v}
               </div>
             ))}
           </div>
         )}
-        {props.data.ErrorType === ErrorPrePostType.Unknown && <div className="explain">{props.data.Message}</div>}
-        {props.data.ErrorType === ErrorPrePostType.UploadError && (
+        {props.data?.ErrorType === ErrorPrePostType.Unknown && <div className="explain">{props.data?.Message}</div>}
+        {props.data?.ErrorType === ErrorPrePostType.UploadError && (
           <div className="explain">{t(LanguageKey.errorDraft_uploadError)}</div>
         )}
-        {props.data.ErrorType === ErrorPrePostType.UserCancel && (
+        {props.data?.ErrorType === ErrorPrePostType.UserCancel && (
           <div className="explain">{t(LanguageKey.errorDraft_userCancel)}</div>
         )}
-        {props.data.ErrorType === ErrorPrePostType.InvalidAspectRatio && (
+        {props.data?.ErrorType === ErrorPrePostType.InvalidAspectRatio && (
           <div className="explain">{t(LanguageKey.InvalidAspectRatio)}</div>
         )}
-        {props.data.ErrorType === ErrorPrePostType.SizeLimitExceed && (
+        {props.data?.ErrorType === ErrorPrePostType.SizeLimitExceed && (
           <div className="explain">{t(LanguageKey.SizeLimitExceed)}</div>
         )}
-        {props.data.ErrorType === ErrorPrePostType.UnSupportMediaType && (
+        {props.data?.ErrorType === ErrorPrePostType.UnSupportMediaType && (
           <div className="explain">{t(LanguageKey.UnSupportMediaType)}</div>
         )}
-        {props.data.ErrorType === ErrorPrePostType.NotPublishedAtTheTime && (
+        {props.data?.ErrorType === ErrorPrePostType.NotPublishedAtTheTime && (
           <div className="explain">{t(LanguageKey.NotPublishedAtTheTime)}</div>
         )}
-        {props.data.ErrorType === ErrorPrePostType.NotSuccessLogin && (
+        {props.data?.ErrorType === ErrorPrePostType.NotSuccessLogin && (
           <div className="explain">{t(LanguageKey.NotSuccessLogin)}</div>
         )}
       </div>
