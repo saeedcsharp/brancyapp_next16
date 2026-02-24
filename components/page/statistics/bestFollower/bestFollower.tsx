@@ -16,7 +16,7 @@ const FollowerCard = memo(
   ({ follower, onImageClick }: { follower: IBestFollowers; onImageClick: (url: string, username: string) => void }) => {
     const imageUrl = basePictureUrl + follower.profileUrl;
     return (
-      <div className="headerparent">
+      <div className="headerparent" style={{ padding: "1px" }}>
         <div className="instagramprofile">
           <img
             className="instagramimage"

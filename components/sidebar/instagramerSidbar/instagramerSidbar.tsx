@@ -363,7 +363,7 @@ function InstagramerSidebar(props: { newRoute: string; router?: any }) {
                 itemRefs.current[index] = el;
               }}
               className={styles[`${item.id}button`]}>
-              <Link href={item.route} aria-label={t(item.translationKey)}>
+              <Link href={item.route} aria-label={t(item.translationKey)} suppressHydrationWarning>
                 {React.cloneElement(item.svgContent, {
                   width: "30px",
                   height: "30px",
@@ -374,7 +374,9 @@ function InstagramerSidebar(props: { newRoute: string; router?: any }) {
                   },
                 })}
               </Link>
-              <div className={styles.buttonName}>{t(item.translationKey)}</div>
+              <div className={styles.buttonName} suppressHydrationWarning>
+                {t(item.translationKey)}
+              </div>
             </div>
           ))}
           <div className={indicatorClass}></div>

@@ -698,7 +698,7 @@ const Slider: React.FC<SliderProps> = ({
               aria-roledescription="slide"
               aria-label={`Slide ${index + 1} of ${totalSlides}`}
               aria-hidden={!isCurrent}
-              {...(!isCurrent && { inert: "" as any })}>
+              inert={!isCurrent ? true : undefined}>
               {isVisible ? slide : <div className={styles.slidePlaceholder} aria-hidden="true" />}
             </div>
           );

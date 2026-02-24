@@ -24,9 +24,16 @@ const resources = {
   gr,
   az,
 };
+const getInitialLanguage = (): string => {
+  if (typeof window !== "undefined") {
+    return window.localStorage.getItem("language") || "en";
+  }
+  return "en";
+};
+
 i18n.use(initReactI18next).init({
   resources,
-  lng: "en",
+  lng: getInitialLanguage(),
   fallbackLng: "en",
   interpolation: {
     escapeValue: false,

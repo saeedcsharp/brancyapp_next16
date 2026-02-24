@@ -261,6 +261,7 @@ function System() {
     let theme = window.localStorage.getItem("theme");
     let lng = window.localStorage.getItem("language");
     let calendar = window.localStorage.getItem("calendar");
+    if (lng) changeLanguage(lng);
     setDarkTheme(theme === "dark" ? true : false);
     setThemeMode(theme === "dark" ? "Dark mode" : "light mode");
     setLanguage({
