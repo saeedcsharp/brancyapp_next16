@@ -37,6 +37,12 @@ const setThemeAndManifestScript = `(function () {
   if (metaTheme) {
     metaTheme.setAttribute("content", theme === "dark" ? "#161d1f" : "#edf4ff");
   }
+
+  // Apply language direction before React hydration to prevent layout flash
+  var lng = window.localStorage.getItem("language") || "en";
+  var rtlLangs = ["fa", "ar"];
+  document.documentElement.dir = rtlLangs.indexOf(lng) !== -1 ? "rtl" : "ltr";
+  document.documentElement.lang = lng;
 })();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {

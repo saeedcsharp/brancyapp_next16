@@ -18,23 +18,37 @@ function System() {
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
   };
-  const [language, setLanguage] = useState<ILangauge>({
-    arabic: false,
-    english: true,
-    french: false,
-    german: false,
-    persian: false,
-    russian: false,
-    turkey: false,
-    azerbaijani: false,
+  const [language, setLanguage] = useState<ILangauge>(() => {
+    const lng = typeof window !== "undefined" ? window.localStorage.getItem("language") : null;
+    const effectiveLng = lng || "en";
+    return {
+      arabic: effectiveLng === "ar",
+      english: effectiveLng === "en",
+      french: effectiveLng === "fr",
+      german: effectiveLng === "gr",
+      persian: effectiveLng === "fa",
+      russian: effectiveLng === "ru",
+      turkey: effectiveLng === "tr",
+      azerbaijani: effectiveLng === "az",
+    };
   });
-  const [themeMode, setThemeMode] = useState<string>("light mode");
-  const [darkTheme, setDarkTheme] = useState<boolean | undefined>(undefined);
-  const [calendar, setCalendar] = useState<ICalendar>({
-    Gregorian: true,
-    Hijri: false,
-    Hindi: false,
-    shamsi: false,
+  const [themeMode, setThemeMode] = useState<string>(() => {
+    const theme = typeof window !== "undefined" ? window.localStorage.getItem("theme") : null;
+    return theme === "dark" ? "Dark mode" : "light mode";
+  });
+  const [darkTheme, setDarkTheme] = useState<boolean | undefined>(() => {
+    const theme = typeof window !== "undefined" ? window.localStorage.getItem("theme") : null;
+    return theme === "dark" ? true : false;
+  });
+  const [calendar, setCalendar] = useState<ICalendar>(() => {
+    const cal = typeof window !== "undefined" ? window.localStorage.getItem("calendar") : null;
+    const effectiveCal = cal || "Gregorian";
+    return {
+      Gregorian: effectiveCal === "Gregorian",
+      Hijri: effectiveCal === "Hijri",
+      Hindi: effectiveCal === "Hindi",
+      shamsi: effectiveCal === "shamsi",
+    };
   });
   // Track initial theme application to avoid firing update on first mount
   const themeInitializedRef = useRef(false);
@@ -258,28 +272,11 @@ function System() {
     setIsHidden(!isHidden); // Toggle visibility and grid-row-end state
   };
   useEffect(() => {
-    let theme = window.localStorage.getItem("theme");
-    let lng = window.localStorage.getItem("language");
-    let calendar = window.localStorage.getItem("calendar");
-    if (lng) changeLanguage(lng);
-    setDarkTheme(theme === "dark" ? true : false);
-    setThemeMode(theme === "dark" ? "Dark mode" : "light mode");
-    setLanguage({
-      arabic: lng === "ar",
-      english: lng === "en",
-      french: lng === "fr",
-      german: lng === "gr",
-      persian: lng === "fa",
-      russian: lng === "ru",
-      turkey: lng === "tr",
-      azerbaijani: lng === "az",
-    });
-    setCalendar({
-      Gregorian: calendar === "Gregorian",
-      Hijri: calendar === "Hijri",
-      Hindi: calendar === "Hindi",
-      shamsi: calendar === "shamsi",
-    });
+    const lng = window.localStorage.getItem("language");
+    // Sync i18n instance with the stored language (i18n.ts already reads it on init,
+    // but this covers cases where the instance was created before localStorage was set)
+    const effectiveLng = lng || "en";
+    changeLanguage(effectiveLng);
   }, []);
   return (
     <>
