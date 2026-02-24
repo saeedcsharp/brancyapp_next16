@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/website/landing/page4.module.css";
+import styles from "./page4.module.css";
 
 const SLIDE_DURATION = 5000;
 const ANIMATION_DURATION = 300;
@@ -77,7 +77,7 @@ const Page4 = () => {
         LanguageKey.page4_menu_page_statistics,
         LanguageKey.page4_menu_professional_messaging,
       ] as const,
-    []
+    [],
   );
 
   const contentDataKeys = useMemo(
@@ -134,7 +134,7 @@ const Page4 = () => {
           image: "brancy/components/website/landing/path-to-your-image9.svg",
         },
       ] as const,
-    []
+    [],
   );
   // Convert menu items using translation
   const menuItems = useMemo(() => menuItemKeys.map((key) => t(key)), [t, menuItemKeys, ready]);
@@ -147,7 +147,7 @@ const Page4 = () => {
         text: t(item.textKey),
         image: item.image,
       })),
-    [t, contentDataKeys, ready]
+    [t, contentDataKeys, ready],
   );
 
   const getVisibleItems = useCallback(() => {
@@ -213,7 +213,7 @@ const Page4 = () => {
         });
       }
     },
-    [state.isAnimating, state.activeIndex, handleAnimation]
+    [state.isAnimating, state.activeIndex, handleAnimation],
   );
 
   const togglePlayPause = useCallback(() => {

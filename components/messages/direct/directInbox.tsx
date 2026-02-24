@@ -37,7 +37,7 @@ import SendFile from "brancy/components/messages/popups/sendFile";
 import SendVideoFile from "brancy/components/messages/popups/sendVideoFile";
 import { MediaModal, useMediaModal } from "brancy/components/messages/shared/utils";
 import DirectChatBox from "brancy/components/messages/direct/directChatBox";
-import styles from "brancy/components/messages/direct/directInbox.module.css";
+import styles from "./directInbox.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 let firstTime = 0;
 let touchMove = 0;

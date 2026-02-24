@@ -18,7 +18,7 @@ import NationalCard from "brancy/components/store/countryType/nationaCard";
 import Logistic from "brancy/components/store/logistic/logistic";
 import TermsAndCondition from "brancy/components/store/termsandcondition/termsandcondition";
 import Loading from "brancy/components/notOk/loading";
-import styles from "brancy/components/notOk/notShopper.module.css";
+import styles from "./notShopper.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 export default function NotShopper() {
@@ -35,7 +35,13 @@ export default function NotShopper() {
 
   async function getAuthorizeUserType() {
     try {
-      const res = await clientFetchApi<boolean, IdentityVerifyType>("/api/authorize/GetAuthorizeUserType", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IdentityVerifyType>("/api/authorize/GetAuthorizeUserType", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
       else {
         setVerifyType(res.value);
@@ -49,7 +55,13 @@ export default function NotShopper() {
   }
   async function getInstagramerAuthorizeType() {
     try {
-      const res = await clientFetchApi<boolean, BusinessBankAccountType>("/api/authorize/GetInstagramerAuthorizeType", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, BusinessBankAccountType>("/api/authorize/GetInstagramerAuthorizeType", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
       else {
         setBankAccountType(res.value);
@@ -63,7 +75,13 @@ export default function NotShopper() {
   }
   async function handleGetAddressInputType() {
     try {
-      const res = await clientFetchApi<boolean, InputTypeAddress>("/api/address/GetAddressInputType", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, InputTypeAddress>("/api/address/GetAddressInputType", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setInputTypeAddress(res.value);
         setSteps(CreateShopperSteps.Address);
@@ -76,7 +94,13 @@ export default function NotShopper() {
   }
   async function getShopLogistic() {
     try {
-      const res = await clientFetchApi<boolean, ILogistic[]>("/api/authorize/GetShopLogestics", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, ILogistic[]>("/api/authorize/GetShopLogestics", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setLogistic(res.value);
         setSteps(CreateShopperSteps.Shipping);
@@ -89,7 +113,13 @@ export default function NotShopper() {
   }
   async function getAuthorizeLevel() {
     try {
-      const res = await clientFetchApi<boolean, number>("/api/authorize/GetAuthorizeLevel", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "isShopper", value: "0" }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, number>("/api/authorize/GetAuthorizeLevel", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "isShopper", value: "0" }],
+        onUploadProgress: undefined,
+      });
       console.log("AddShopperAddress", res.value);
 
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
@@ -110,7 +140,13 @@ export default function NotShopper() {
   async function handleCreateShopper() {
     setFinalLoading(true);
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/authorize/CreateShopper", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/authorize/CreateShopper", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
       else {
         await update({

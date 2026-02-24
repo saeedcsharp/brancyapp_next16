@@ -12,7 +12,7 @@ import React, {
   useRef,
   useTransition,
 } from "react";
-import styles from "brancy/components/design/slider/slider.module.css";
+import styles from "./slider.module.css";
 
 //#region Types & Interfaces
 interface SliderProps {
@@ -108,8 +108,8 @@ const NavigationButton = memo<{
         ? styles.navigationNext
         : styles.navigationPrev
       : isPrev
-      ? styles.navigationPrev
-      : styles.navigationNext
+        ? styles.navigationPrev
+        : styles.navigationNext
   } ${!canNavigate ? styles.navigationDisabled : ""} ${isAnimating ? styles.navigationAnimating : ""}`;
   // Workaround: some build/type systems may not expose generated CSS module typings
   // for compound selectors. Use a safe any-cast when referencing navigationAnimating.
@@ -119,8 +119,8 @@ const NavigationButton = memo<{
         ? styles.navigationNext
         : styles.navigationPrev
       : isPrev
-      ? styles.navigationPrev
-      : styles.navigationNext
+        ? styles.navigationPrev
+        : styles.navigationNext
   } ${!canNavigate ? styles.navigationDisabled : ""} ${isAnimating ? (styles as any).navigationAnimating : ""}`;
 
   return (
@@ -264,7 +264,7 @@ const Slider: React.FC<SliderProps> = ({
               // height: "100%",
             }}>
             {group}
-          </div>
+          </div>,
         );
       }
       return grouped;
@@ -287,7 +287,7 @@ const Slider: React.FC<SliderProps> = ({
 
   const currentTranslate = useMemo(
     () => -(currentIndex * (slideSize + spaceBetween)),
-    [currentIndex, slideSize, spaceBetween]
+    [currentIndex, slideSize, spaceBetween],
   );
 
   const canGoPrev = currentIndex > 0;
@@ -302,7 +302,7 @@ const Slider: React.FC<SliderProps> = ({
       cursor: isDragging ? "grabbing" : "default",
       willChange: isDragging ? "transform" : "auto",
     }),
-    [currentTranslate, currentTranslateOffset, isDragging]
+    [currentTranslate, currentTranslateOffset, isDragging],
   );
 
   const slideStyle = useMemo<CSSProperties>(
@@ -310,7 +310,7 @@ const Slider: React.FC<SliderProps> = ({
       minWidth: `${slideSize}px`,
       marginRight: `${spaceBetween}px`,
     }),
-    [slideSize, spaceBetween]
+    [slideSize, spaceBetween],
   );
   //#endregion
 
@@ -396,7 +396,7 @@ const Slider: React.FC<SliderProps> = ({
         });
       }
     },
-    [currentIndex, maxIndex, onSlideChange, startTransition]
+    [currentIndex, maxIndex, onSlideChange, startTransition],
   );
 
   const handleKeyDown = useCallback(
@@ -438,7 +438,7 @@ const Slider: React.FC<SliderProps> = ({
           return;
       }
     },
-    [currentIndex, maxIndex, goToSlide, slidesPerView, triggerNavigationAnimation]
+    [currentIndex, maxIndex, goToSlide, slidesPerView, triggerNavigationAnimation],
   );
   //#endregion
 
@@ -477,7 +477,7 @@ const Slider: React.FC<SliderProps> = ({
     (index: number, isKeyboard: boolean = false) => {
       if (pagination?.clickable) goToSlide(index);
     },
-    [pagination, goToSlide]
+    [pagination, goToSlide],
   );
 
   const handleBulletKeyDown = useCallback(
@@ -504,7 +504,7 @@ const Slider: React.FC<SliderProps> = ({
           break;
       }
     },
-    [pagination, goToSlide, maxIndex]
+    [pagination, goToSlide, maxIndex],
   );
 
   const renderPagination = useMemo(() => {
@@ -545,7 +545,7 @@ const Slider: React.FC<SliderProps> = ({
         goToSlide(currentIndex + 1);
       }
     },
-    [canGoPrev, canGoNext, currentIndex, goToSlide]
+    [canGoPrev, canGoNext, currentIndex, goToSlide],
   );
 
   const handleNavigationKeyDown = useCallback(
@@ -555,7 +555,7 @@ const Slider: React.FC<SliderProps> = ({
         handleNavigationClick(direction);
       }
     },
-    [handleNavigationClick]
+    [handleNavigationClick],
   );
   //#endregion
 
@@ -567,7 +567,7 @@ const Slider: React.FC<SliderProps> = ({
       dispatch({ type: "RESET_TRANSLATE_OFFSET" });
       dragStartIndexRef.current = currentIndex;
     },
-    [currentIndex]
+    [currentIndex],
   );
 
   const handleDragMove = useCallback(
@@ -586,7 +586,7 @@ const Slider: React.FC<SliderProps> = ({
         dispatch({ type: "SET_TRANSLATE_OFFSET", payload: offset });
       }
     },
-    [slideSize, spaceBetween, maxIndex]
+    [slideSize, spaceBetween, maxIndex],
   );
 
   const handleDragEnd = useCallback(() => {
@@ -614,14 +614,14 @@ const Slider: React.FC<SliderProps> = ({
       e.preventDefault();
       handleDragStart(e.clientX);
     },
-    [handleDragStart]
+    [handleDragStart],
   );
 
   const handleTouchStart = useCallback(
     (e: React.TouchEvent) => {
       handleDragStart(e.touches[0].clientX);
     },
-    [handleDragStart]
+    [handleDragStart],
   );
 
   useEffect(() => {

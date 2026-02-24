@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import styles from "brancy/components/design/inputBox.module.css";
+import styles from "./inputBox.module.css";
 
 const BlurInputText = (props: {
   className: string;

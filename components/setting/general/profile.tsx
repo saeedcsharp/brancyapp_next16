@@ -6,7 +6,7 @@ import InputText from "brancy/components/design/inputText";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n";
 
-import styles from "brancy/components/setting/general/general.module.css";
+import styles from "./general.module.css";
 function Profile() {
   const { t } = useTranslation();
   const { data: session } = useSession();
@@ -21,7 +21,7 @@ function Profile() {
       username: session?.user?.username || "",
       biography: session?.user?.biography || "",
     }),
-    [session?.user]
+    [session?.user],
   );
 
   const handleCircleClick = useCallback(() => {

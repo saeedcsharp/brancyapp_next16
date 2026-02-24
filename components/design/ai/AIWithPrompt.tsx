@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { AIButton } from "brancy/components/design/ai/AIButton";
 import AiPrompt from "brancy/components/design/ai/aiPrompt";
-import styles from "brancy/components/design/ai/aiPrompt.module.css";
+import styles from "./aiPrompt.module.css";
 
 interface AIWithPromptProps {
   aiLoading: boolean;

@@ -9,7 +9,7 @@ import { MethodType } from "brancy/helper/api";
 import { ShippingRequestType } from "brancy/models/store/enum";
 import { IFullProduct, IOrderDetail } from "brancy/models/store/orders";
 import OrderDetailContent from "brancy/components/store/order/popup/OrderDetail-Content";
-import styles from "brancy/components/store/order/popup/orderstep.module.css";
+import styles from "./orderstep.module.css";
 
 import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
@@ -120,7 +120,7 @@ const OrderPickup: FC<OrderDetailProps> = ({
         removeMask();
       }
     },
-    [removeMask]
+    [removeMask],
   );
 
   useLayoutEffect(() => {
@@ -141,14 +141,20 @@ const OrderPickup: FC<OrderDetailProps> = ({
         setActiveFullProduct(true);
         setLoadingFullProduct(true);
         try {
-          const res = await clientFetchApi<IOrderDetail, IFullProduct>("/api/order/GetFullOrder", { methodType: MethodType.get, session: session, data: null, queries: [
+          const res = await clientFetchApi<IOrderDetail, IFullProduct>("/api/order/GetFullOrder", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
               { key: "orderId", value: orderDetail.orderId },
               {
                 key: "userId",
                 value: orderDetail.userId ? orderDetail.userId.toString() : "",
               },
               { key: "language", value: findSystemLanguage().toString() },
-            ], onUploadProgress: undefined });
+            ],
+            onUploadProgress: undefined,
+          });
           if (res.succeeded) {
             setFullProduct(res.value);
             setActiveFullProduct(true);

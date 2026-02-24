@@ -9,7 +9,7 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { IAddress, InputTypeAddress, IUpdateUserAddress } from "brancy/models/userPanel/orders";
-import styles from "brancy/components/userPanel/orders/popups/addresses.module.css";
+import styles from "./addresses.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 enum CreateAddresStep {
   PostalCode,
@@ -46,7 +46,13 @@ export default function CreateAddresses({
   async function handleCreatePostByPostalCode() {
     setLoadingCreateAddress(true);
     try {
-      const res = await clientFetchApi<IAddress, IAddress>("/api/address/CreateAddressByPostalCode", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "postalCode", value: postalCode }], onUploadProgress: undefined });
+      const res = await clientFetchApi<IAddress, IAddress>("/api/address/CreateAddressByPostalCode", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "postalCode", value: postalCode }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setAddress(res.value);
         setUpdateAddress((prev) => ({
@@ -70,7 +76,13 @@ export default function CreateAddresses({
     console.log("updateAddress", updateAddress);
     updateUserAddress(newAddress);
     try {
-      const res = await clientFetchApi<IUpdateUserAddress, boolean>("/api/address/UpdateUserAddress", { methodType: MethodType.post, session: session, data: updateAddress, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<IUpdateUserAddress, boolean>("/api/address/UpdateUserAddress", {
+        methodType: MethodType.post,
+        session: session,
+        data: updateAddress,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         // setAddress(newAddress);
         updateUserAddress(newAddress);

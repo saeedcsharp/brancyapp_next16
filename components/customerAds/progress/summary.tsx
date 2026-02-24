@@ -6,7 +6,7 @@ import TimeTypeComp from "brancy/components/advertise/timeType";
 import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
 import initialzedTime from "brancy/helper/manageTimer";
 import { ICustomer } from "brancy/models/customerAds/customerAd";
-import styles from "brancy/components/customerAds/progress/progress.module.css";
+import styles from "./progress.module.css";
 function Summary(prop: { customer: ICustomer; handleShowSummaryTerms: (terms: string) => void }) {
   const [customerAd, setCustomerAd] = useState<ICustomer>(prop.customer);
   return (

@@ -13,7 +13,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { A11y, Navigation, Pagination, Scrollbar } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import styles from "brancy/components/page/highLights_story/highLight.module.css";
+import styles from "./highLight.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const HighLight = ({ data }: { data: IHighLight[] | null }) => {
   const { data: session } = useSession();

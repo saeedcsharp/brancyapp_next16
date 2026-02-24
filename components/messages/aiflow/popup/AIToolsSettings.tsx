@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n/languageKeys";
-import styles from "brancy/components/messages/aiflow/popup/popup.module.css";
+import styles from "./popup.module.css";
 interface AIToolParameter {
   name: string;
   description: string;
@@ -30,12 +30,7 @@ interface CustomFields {
   };
 }
 
-const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
-  onClose,
-  aiTools,
-  selectedAITool,
-  onAddToPrompt,
-}) => {
+const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({ onClose, aiTools, selectedAITool, onAddToPrompt }) => {
   const { t } = useTranslation();
   const [customFields, setCustomFields] = useState<CustomFields>({});
   // اضافه کردن آیتم username به لیست ابزارها
@@ -47,15 +42,9 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
     parameters: [],
   };
   // اگر ابزار خاصی انتخاب شده باشد، فقط آن را نمایش بده
-  const toolsToDisplay = selectedAITool
-    ? [selectedAITool]
-    : [usernameItem, ...aiTools];
+  const toolsToDisplay = selectedAITool ? [selectedAITool] : [usernameItem, ...aiTools];
 
-  const handleFieldChange = (
-    itemName: string,
-    fieldName: string,
-    value: string
-  ) => {
+  const handleFieldChange = (itemName: string, fieldName: string, value: string) => {
     setCustomFields((prev) => ({
       ...prev,
       [itemName]: {
@@ -72,11 +61,7 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
     if (fields) {
       if (item.name === "send_sms_ir_code" && fields.token && fields.message) {
         promptText = `${item.name} token:${fields.token} message:${fields.message}`;
-      } else if (
-        item.name === "send_to_telegram" &&
-        fields.token &&
-        fields.channelname
-      ) {
+      } else if (item.name === "send_to_telegram" && fields.token && fields.channelname) {
         promptText = `${item.name} token:${fields.token} channelname:${fields.channelname}`;
       }
     }
@@ -175,10 +160,7 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
               aria-label="Save quick reply settings">
               {t(LanguageKey.usethisPrompt)}
             </button> */}
-            <button
-              className="cancelButton"
-              onClick={onClose}
-              aria-label="Cancel and close quick reply settings">
+            <button className="cancelButton" onClick={onClose} aria-label="Cancel and close quick reply settings">
               {t(LanguageKey.close)}
             </button>
           </div>

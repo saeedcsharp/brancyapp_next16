@@ -9,7 +9,7 @@ import { specifyLogistic } from "brancy/helper/specifyLogistic";
 import { LanguageKey } from "brancy/i18n";
 import { OrderStepStatus } from "brancy/models/store/enum";
 import { IOrderByStatus, IOrderByStatusItem } from "brancy/models/store/orders";
-import styles from "brancy/components/store/order/1-Queue.module.css";
+import styles from "./1-Queue.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const MemoizedCheckBoxButton = React.memo(CheckBoxButton);
 

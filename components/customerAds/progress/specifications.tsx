@@ -5,7 +5,7 @@ import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
 import initialzedTime from "brancy/helper/manageTimer";
 import { AdsTimeType, AdsType } from "brancy/models/advertise/AdEnums";
 import { ISpecification } from "../../../legacy-pages/customerads/progress";
-import styles from "brancy/components/customerAds/progress/progress.module.css";
+import styles from "./progress.module.css";
 function Specifications(props: {
   specification: ISpecification;
   handleUpdateSpecification: (spec: ISpecification) => void;

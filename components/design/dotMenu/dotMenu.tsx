@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
-import styles from "brancy/components/design/dotMenu/dotMenu.module.css";
+import styles from "./dotMenu.module.css";
 
 type MenuPosition = "topLeft" | "topRight" | "bottomLeft" | "bottomRight";
 
@@ -97,7 +97,7 @@ const Dotmenu: React.FC<DotmenuProps> = ({ data, showSetting, onToggle, handleCl
         }, 300);
       }
     },
-    [isOpen, onToggle]
+    [isOpen, onToggle],
   );
   const handleOptionClick = useCallback(
     (option: DotMenuOption, e: React.MouseEvent) => {
@@ -118,7 +118,7 @@ const Dotmenu: React.FC<DotmenuProps> = ({ data, showSetting, onToggle, handleCl
         closeTimerRef.current = null;
       }, 300);
     },
-    [handleClickOnIcon, onToggle]
+    [handleClickOnIcon, onToggle],
   );
   return (
     <div ref={menuRef} style={{ position: "relative" }}>

@@ -13,7 +13,7 @@ import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { ICantactMap, IUpdateContactMap } from "brancy/models/market/properties";
-import styles from "brancy/components/market/properties/popups/featureBoxPU.module.css";
+import styles from "./featureBoxPU.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 const OpenStreetMap = dynamic(() => import("brancy/components/mainLeaftlet"), {
@@ -53,7 +53,13 @@ const ContactForm = (props: { removeMask: () => void }) => {
       showMap: contactAndMap.showMap,
     };
     try {
-      var res = await clientFetchApi<IUpdateContactMap, boolean>("/api/bio/UpdateContact", { methodType: MethodType.post, session: session, data: updateContactMap, queries: undefined, onUploadProgress: undefined });
+      var res = await clientFetchApi<IUpdateContactMap, boolean>("/api/bio/UpdateContact", {
+        methodType: MethodType.post,
+        session: session,
+        data: updateContactMap,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
       else props.removeMask();
     } catch (error) {
@@ -83,7 +89,13 @@ const ContactForm = (props: { removeMask: () => void }) => {
     setEmailError(!emailRegex.test(e.target.value));
   }
   async function fetchData() {
-    var res = await clientFetchApi<string, ICantactMap>("/api/bio/GetContact", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+    var res = await clientFetchApi<string, ICantactMap>("/api/bio/GetContact", {
+      methodType: MethodType.get,
+      session: session,
+      data: undefined,
+      queries: undefined,
+      onUploadProgress: undefined,
+    });
     if (res.succeeded) {
       setContactAndMap(res.value);
       setLoading(false);

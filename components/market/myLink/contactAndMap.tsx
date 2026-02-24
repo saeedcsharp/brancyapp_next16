@@ -3,7 +3,7 @@ import { memo, useCallback, useEffect, useId, useMemo, useRef, useState } from "
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { IContactAndMap } from "brancy/models/market/myLink";
-import styles from "brancy/components/market/myLink/contactAndMap.module.css";
+import styles from "./contactAndMap.module.css";
 
 const MapWrapper = memo(({ mapProps }: { mapProps: any }) => {
   const [shouldRender, setShouldRender] = useState(false);
@@ -43,7 +43,7 @@ const MapWrapper = memo(({ mapProps }: { mapProps: any }) => {
         </div>
       </div>
     ),
-    []
+    [],
   );
 
   if (!shouldRender) {
@@ -92,7 +92,7 @@ const ContactAndMap = memo(({ data }: { data: IContactAndMap | null }) => {
         toggleContentVisibility();
       }
     },
-    [toggleContentVisibility]
+    [toggleContentVisibility],
   );
 
   useEffect(() => {
@@ -243,7 +243,7 @@ const ContactAndMap = memo(({ data }: { data: IContactAndMap | null }) => {
                   {contactInfo.address !== contactInfo.emptyText ? (
                     <a
                       href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                        contactInfo.address
+                        contactInfo.address,
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"

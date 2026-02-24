@@ -1,5 +1,5 @@
 import { MouseEvent } from "react";
-import styles from "brancy/components/navbar/userPanelNavbar/notificationBar.module.css";
+import styles from "./notificationBar.module.css";
 const MobileNotificationBar = (props: { data: string; removeMask: () => void }) => {
   return (
     <>

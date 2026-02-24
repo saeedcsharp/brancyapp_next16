@@ -20,7 +20,7 @@ import { useTranslation } from "react-i18next";
 import InputText from "brancy/components/design/inputText";
 import { LanguageKey } from "brancy/i18n";
 import { ISpecification } from "brancy/models/store/IProduct";
-import styles from "brancy/components/store/products/productDetail/instanceProduct/specifications.module.css";
+import styles from "./specifications.module.css";
 
 function SortableItem({ item, index }: { item: ISpecification; index: number }) {
   const { t } = useTranslation();
@@ -136,7 +136,7 @@ function SpecificationsInstance({
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   function handleDragEnd(event: DragEndEvent) {

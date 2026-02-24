@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import CheckBoxButton from "brancy/components/design/checkBoxButton";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/advertise/calendar/timeline.module.css";
+import styles from "./timeline.module.css";
 
 // import RangeBar from "brancy/components/graphs/rangeBar";
 const Timeline = () => {

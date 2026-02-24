@@ -8,7 +8,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import styles from "brancy/components/page/posts/insightChart.module.css";
+import styles from "./insightChart.module.css";
 import SecondSwiper from "brancy/components/page/posts/secondSwiper";
 
 function InsightChart(props: { superFigur: SuperFigure; toggleOrder?: ToggleOrder }) {

@@ -2,7 +2,7 @@ import { KeyboardEvent, memo, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { IClientBanner } from "brancy/models/market/myLink";
-import styles from "brancy/components/market/myLink/abouts.module.css";
+import styles from "./abouts.module.css";
 
 const CURRENT_YEAR = new Date().getFullYear();
 const BRANCY_URL = "https://www.brancy.app";

@@ -4,7 +4,7 @@ import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
 import { IAdMonth } from "brancy/models/advertise/statistics";
 import { chartxType, NumToMonth } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
-import styles from "brancy/components/advertise/statistics/statistics.module.css";
+import styles from "./statistics.module.css";
 const TwoMonth = (props: { data: IAdMonth[] }) => {
   const { hidePage, gridSpan, toggle } = useHideDiv(true, 47);
   const numberToFormattedString = (number: { toLocaleString: () => any }) => {

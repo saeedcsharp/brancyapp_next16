@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo } from "react";
-import styles from "brancy/components/messages/direct/directChatBox.module.css";
+import styles from "./components/messages/direct/directChatBox.module.css";
 import { ReactionEmojiProps } from "brancy/components/messages/direct/chatComponents/types";
 const ReactionEmoji: React.FC<ReactionEmojiProps> = ({ item, direction, chatBox, baseMediaUrl }) => {
   const isLeft = useMemo(() => direction === "left", [direction]);
   const profileSrc = useMemo(
     () => (chatBox?.recp?.profilePic ? `${baseMediaUrl}${chatBox.recp.profilePic}` : "/no-profile.svg"),
-    [baseMediaUrl, chatBox?.recp?.profilePic]
+    [baseMediaUrl, chatBox?.recp?.profilePic],
   );
   const handleImageError = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
     e.currentTarget.src = "/no-profile.svg";

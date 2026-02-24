@@ -3,7 +3,7 @@ import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/messages/aiflow/flowTest.module.scss";
+import styles from "./flowTest.module.scss";
 
 interface FlowMessage {
   id: string;
@@ -60,7 +60,7 @@ const FlowTest: React.FC<FlowTestProps> = ({ isOpen, onClose, flowData, nodes, c
       (node) =>
         node.label === "OnMessage" ||
         (node as any).nodeType === "onmessage" ||
-        node.label?.toLowerCase().includes("onmessage")
+        node.label?.toLowerCase().includes("onmessage"),
     );
   };
   const findConnectedNode = (fromNodeId: string, outputKey: string = "output") => {
@@ -80,7 +80,7 @@ const FlowTest: React.FC<FlowTestProps> = ({ isOpen, onClose, flowData, nodes, c
     setWaitingForInput(false);
     console.log(
       "Available nodes:",
-      nodes.map((n) => ({ id: n.id, label: n.label, nodeType: (n as any).nodeType }))
+      nodes.map((n) => ({ id: n.id, label: n.label, nodeType: (n as any).nodeType })),
     );
     console.log("Available connections:", connections);
 

@@ -10,7 +10,7 @@ import { MethodType } from "brancy/helper/api";
 import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { IBestTime } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/cardBestWorst";
 import { HourCountUnix } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
-import styles from "brancy/components/page/statistics/cardBestWorst/cardBestWorst.module.css";
+import styles from "./cardBestWorst.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const formatTime = (hourValue: number): string => {
   let hour = Math.floor(hourValue);
@@ -74,7 +74,13 @@ const CardBestWorst = (props: {
     if (isFetchingRef.current) return;
     isFetchingRef.current = true;
     try {
-      const res = await clientFetchApi<boolean, IBestTime>("/api/statistics/GetTimeAnalysis", { methodType: MethodType.get, session: session, data: null, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IBestTime>("/api/statistics/GetTimeAnalysis", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (!isMountedRef.current) return;
       if (res.succeeded) {
         setLoadingStatus(false);
@@ -140,7 +146,7 @@ const CardBestWorst = (props: {
       { days: 90, id: "nintyDays", title: "Best & worst time in last 90 days" },
       { days: 120, id: "oneTwoODays", title: "Best & worst time in last 120 days" },
     ],
-    []
+    [],
   );
   const handleKeyDown = (e: React.KeyboardEvent, days: number) => {
     if (e.key === "Enter" || e.key === " ") {

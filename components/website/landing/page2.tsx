@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useId, useMemo, useReducer, useRef, useTransition } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/website/landing/page2.module.css";
+import styles from "./page2.module.css";
 
 interface Service {
   id: string;
@@ -333,14 +333,14 @@ const Page2 = () => {
       // { id: "jobs" as TabType, label: t(LanguageKey.jobs) },
       { id: "ids" as TabType, label: t(LanguageKey.IDstore) },
     ],
-    [t]
+    [t],
   );
 
   const currentServices = useMemo(() => servicesMap.get(state.activeTab) || [], [servicesMap, state.activeTab]);
 
   const currentService = useMemo(
     () => currentServices.find((s) => s.id === state.displayedService),
-    [currentServices, state.displayedService]
+    [currentServices, state.displayedService],
   );
 
   const titleContent = useMemo(() => {
@@ -411,7 +411,7 @@ const Page2 = () => {
         });
       });
     },
-    [currentServices, state.selectedService]
+    [currentServices, state.selectedService],
   );
 
   const handleKeyDown = useCallback(
@@ -466,7 +466,7 @@ const Page2 = () => {
         }
       }
     },
-    [state.focusedTabIndex, tabsConfig, handleTabClick, navigateSlide]
+    [state.focusedTabIndex, tabsConfig, handleTabClick, navigateSlide],
   );
 
   const handleMouseEnter = useCallback(() => {

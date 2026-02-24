@@ -29,7 +29,7 @@ import VoiceRecorder from "brancy/components/messages/popups/voiceRecorder";
 import { LeftChatWrapper } from "brancy/components/messages/ticket/chatComponents/LeftChatWrapper";
 import { RightChatWrapper } from "brancy/components/messages/ticket/chatComponents/RightChatWrapper";
 import { TicketPendingMessages } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/TicketPendingMessages";
-import styles from "brancy/components/messages/ticket/ticketChatBox.module.css";
+import styles from "./ticketChatBox.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 //#endregion
 

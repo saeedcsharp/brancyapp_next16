@@ -9,7 +9,7 @@ import { specifyLogistic } from "brancy/helper/specifyLogistic";
 import { LanguageKey } from "brancy/i18n";
 import { OrderStep, OrderStepStatus } from "brancy/models/store/enum";
 import { IOrderByStatus } from "brancy/models/store/orders";
-import styles from "brancy/components/store/order/6-Failed.module.css";
+import styles from "./6-Failed.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const MemoizedCheckBoxButton = React.memo(CheckBoxButton);
 interface SelectionState {
@@ -285,12 +285,12 @@ export default function Failed({
                     order.status === OrderStep.Failed
                       ? styles.failed
                       : order.status === OrderStep.InstagramerCanceled
-                      ? styles.canceled
-                      : order.status === OrderStep.UserCanceled
-                      ? styles.usercanceled
-                      : order.status === OrderStep.ShippingFailed
-                      ? styles.returned
-                      : ""
+                        ? styles.canceled
+                        : order.status === OrderStep.UserCanceled
+                          ? styles.usercanceled
+                          : order.status === OrderStep.ShippingFailed
+                            ? styles.returned
+                            : ""
                   }`}>
                   {order.status === OrderStep.Failed ? (
                     <span>{t(LanguageKey.Storeproduct_failed)}</span>

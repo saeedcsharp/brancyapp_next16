@@ -14,7 +14,7 @@ import { MethodType } from "brancy/helper/api";
 import { IScheduledStoryClient, IScheduledStoryServer } from "brancy/models/page/story/preStories";
 import { ShowRings } from "brancy/components/design/counterDown/counterDown";
 import DeletePrePost from "brancy/components/page/scheduledPost/deletePrePost";
-import styles from "brancy/components/page/scheduledStory/scheduledStory.module.css";
+import styles from "./scheduledStory.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 let unixNow = Date.now();

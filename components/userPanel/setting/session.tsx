@@ -10,7 +10,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import styles from "brancy/components/userPanel/setting/general.module.css";
+import styles from "./general.module.css";
 export default function Session({
   sessions,
   handleShowDeleteSession,

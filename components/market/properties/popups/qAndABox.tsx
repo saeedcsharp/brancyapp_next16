@@ -7,7 +7,7 @@ import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { IQuestion, IUpdateFAQ } from "brancy/models/market/properties";
-import styles from "brancy/components/market/properties/popups/featureBoxPU.module.css";
+import styles from "./featureBoxPU.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const QAndABox = (props: { removeMask: () => void }) => {
   const { data: session } = useSession();
@@ -17,7 +17,7 @@ const QAndABox = (props: { removeMask: () => void }) => {
   const maxFAQItems = 4;
   const currentInstagramerId = useMemo(
     () => session?.user.instagramerIds[session.user.currentIndex],
-    [session?.user.instagramerIds, session?.user.currentIndex]
+    [session?.user.instagramerIds, session?.user.currentIndex],
   );
   const canAddMoreFAQ = useMemo(() => qABoxes.length < maxFAQItems, [qABoxes.length]);
   const handleChangeQuestionTextArea = useCallback((e: ChangeEvent<HTMLTextAreaElement>, id: string) => {
@@ -52,12 +52,24 @@ const QAndABox = (props: { removeMask: () => void }) => {
         question: item.question,
       })),
     };
-    const res = await clientFetchApi<IUpdateFAQ, boolean>("/api/bio/UpdateFaqs", { methodType: MethodType.post, session: session, data: updateFAQ, queries: undefined, onUploadProgress: undefined });
+    const res = await clientFetchApi<IUpdateFAQ, boolean>("/api/bio/UpdateFaqs", {
+      methodType: MethodType.post,
+      session: session,
+      data: updateFAQ,
+      queries: undefined,
+      onUploadProgress: undefined,
+    });
     if (res.value) props.removeMask();
   }, [currentInstagramerId, qABoxes, session, props.removeMask]);
   const fetchData = useCallback(async () => {
     if (!currentInstagramerId) return;
-    const res = await clientFetchApi<string, IQuestion[]>("/api/bio/GetFaqs", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+    const res = await clientFetchApi<string, IQuestion[]>("/api/bio/GetFaqs", {
+      methodType: MethodType.get,
+      session: session,
+      data: undefined,
+      queries: undefined,
+      onUploadProgress: undefined,
+    });
     if (res.succeeded) {
       setQABoxes(res.value);
     }

@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/website/landing/page6.module.css";
+import styles from "./page6.module.css";
 
 interface UserData {
   name: string;

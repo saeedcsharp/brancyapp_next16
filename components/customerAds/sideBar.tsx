@@ -13,7 +13,7 @@ import RadioButton from "brancy/components/design/radioButton";
 import FollowerSlider from "brancy/components/design/sliders/followerSlider";
 import PriceSlider from "brancy/components/design/sliders/priceSlider";
 import RatingSlider from "brancy/components/design/sliders/ratingSlider";
-import styles from "brancy/components/customerAds/customerAds.module.css";
+import styles from "./customerAds.module.css";
 
 function SideBar(props: {
   handleApplyFilter: (info: ISideBar) => void;

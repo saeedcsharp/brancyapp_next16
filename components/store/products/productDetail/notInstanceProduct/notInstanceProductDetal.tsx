@@ -46,7 +46,7 @@ import {
 import General from "brancy/components/store/products/productDetail/notInstanceProduct/general";
 import Information from "brancy/components/store/products/productDetail/notInstanceProduct/information";
 import Media from "brancy/components/store/products/productDetail/notInstanceProduct/media";
-import styles from "brancy/components/store/products/productDetail/notInstanceProduct/notinstanceproduct.module.css";
+import styles from "./notinstanceproduct.module.css";
 import Setting from "brancy/components/store/products/productDetail/notInstanceProduct/setting";
 import Specifications from "brancy/components/store/products/productDetail/notInstanceProduct/specifications";
 import Variation from "brancy/components/store/products/productDetail/notInstanceProduct/Variation";
@@ -218,16 +218,31 @@ export default function NotInstanceProductDetail({
   }
   async function handleSaveProductSuggestion(key: string | null) {
     console.log("keyyyyyyyyyy", key);
-    var res = await clientFetchApi<boolean, boolean>("/api/product/SaveProductSuggestion", { methodType: MethodType.get, session: session, data: null, queries: [
+    var res = await clientFetchApi<boolean, boolean>("/api/product/SaveProductSuggestion", {
+      methodType: MethodType.get,
+      session: session,
+      data: null,
+      queries: [
         { key: "productId", value: productId.toString() },
         {
           key: "key",
           value: key ? key : undefined,
         },
-      ], onUploadProgress: undefined });
+      ],
+      onUploadProgress: undefined,
+    });
     if (res.succeeded) {
       try {
-        var res2 = await clientFetchApi<boolean, { medias: { url: string; key: string }[] }>("/api/product/GetMediaSuggestion", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "productId", value: productId.toString() }], onUploadProgress: undefined });
+        var res2 = await clientFetchApi<boolean, { medias: { url: string; key: string }[] }>(
+          "/api/product/GetMediaSuggestion",
+          {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [{ key: "productId", value: productId.toString() }],
+            onUploadProgress: undefined,
+          },
+        );
         if (res2.succeeded) {
           if (res2.value.medias.length === 0) return;
           setSuggestedMediaList(res2.value);
@@ -278,7 +293,7 @@ export default function NotInstanceProductDetail({
     createInstanceForVariation: ICreateInstance_ForVariation,
     variation: IProduct_Variation,
     subProducts: ISubProduct_Create[],
-    isNext: boolean
+    isNext: boolean,
   ) {
     console.log("variation", variation);
     console.log("subProducts", subProducts);
@@ -334,7 +349,7 @@ export default function NotInstanceProductDetail({
     specificationItems: {
       customSpecification: ICustomSpecificationItem | null;
       defaultSpecification: ISpecificationItem | null;
-    }[]
+    }[],
   ) {
     console.log("specificationItems", specificationItems);
     for (let spec of specificationItems) {
@@ -370,7 +385,7 @@ export default function NotInstanceProductDetail({
         .map((x) => ({
           index: x.index,
           key: x.key!,
-        }))
+        })),
     );
     setCustomMedia(
       media
@@ -380,7 +395,7 @@ export default function NotInstanceProductDetail({
           index: x.index,
           mediaType: x.mediaType,
           thumbnailMediaUrl: x.thumbnailMediaUrl,
-        }))
+        })),
     );
     setDefaultMedia({
       items: media
@@ -448,12 +463,18 @@ export default function NotInstanceProductDetail({
   async function handleUploadMedia() {
     if (customMedia.length > 0) {
       const mediaUploadPromises = customMedia.map(async (media) =>
-        clientFetchApi<IUploadMedia, boolean>("shopper" + "" + "/Product/InsertProductMedia", { methodType: MethodType.post, session: session, data: media, queries: [
+        clientFetchApi<IUploadMedia, boolean>("shopper" + "" + "/Product/InsertProductMedia", {
+          methodType: MethodType.post,
+          session: session,
+          data: media,
+          queries: [
             {
               key: "productId",
               value: productId.toString(),
             },
-          ], onUploadProgress: undefined })
+          ],
+          onUploadProgress: undefined,
+        }),
       );
       return await Promise.all(mediaUploadPromises);
     }
@@ -462,14 +483,20 @@ export default function NotInstanceProductDetail({
   async function handleUploadSuggestedMedia() {
     if (customMedia.length > 0) {
       const mediaUploadPromises = suggestedMedia.map(async (media) =>
-        clientFetchApi<boolean, boolean>("shopper" + "" + "/Product/InsertProductMedia", { methodType: MethodType.get, session: session, data: null, queries: [
+        clientFetchApi<boolean, boolean>("shopper" + "" + "/Product/InsertProductMedia", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             {
               key: "productId",
               value: productId.toString(),
             },
             { key: "key", value: media.key },
             { key: "index", value: media.index.toString() },
-          ], onUploadProgress: undefined })
+          ],
+          onUploadProgress: undefined,
+        }),
       );
       return await Promise.all(mediaUploadPromises);
     }
@@ -490,12 +517,21 @@ export default function NotInstanceProductDetail({
       value: true,
     };
     if (defaultMedia.items.length > 0) {
-      result = await clientFetchApi<IProduct_UpdateChildrenMedia, boolean>("shopper" + "" + "/Product/UpdateChildrenMediaStatus", { methodType: MethodType.post, session: session, data: defaultMedia, queries: [
-          {
-            key: "productId",
-            value: productId.toString(),
-          },
-        ], onUploadProgress: undefined });
+      result = await clientFetchApi<IProduct_UpdateChildrenMedia, boolean>(
+        "shopper" + "" + "/Product/UpdateChildrenMediaStatus",
+        {
+          methodType: MethodType.post,
+          session: session,
+          data: defaultMedia,
+          queries: [
+            {
+              key: "productId",
+              value: productId.toString(),
+            },
+          ],
+          onUploadProgress: undefined,
+        },
+      );
     }
     return result;
   }
@@ -532,11 +568,17 @@ export default function NotInstanceProductDetail({
       })),
     }));
     console.log("newSubProduct", newSubProducts);
-    result = await clientFetchApi<IProduct_CreateSubProduct, boolean>("shopper" + "" + "/Product/CreateSubProducts", { methodType: MethodType.post, session: session, data: {
+    result = await clientFetchApi<IProduct_CreateSubProduct, boolean>("shopper" + "" + "/Product/CreateSubProducts", {
+      methodType: MethodType.post,
+      session: session,
+      data: {
         productId: productId,
         subProducts: newSubProducts,
         deActiveSubProducts: [],
-      }, queries: undefined, onUploadProgress: undefined });
+      },
+      queries: undefined,
+      onUploadProgress: undefined,
+    });
     console.log("fffffffffffffffffffff", result);
     return result;
   }
@@ -570,12 +612,21 @@ export default function NotInstanceProductDetail({
     if (isUpdateing) return;
     setIsUpdateing(true);
     try {
-      const res = await clientFetchApi<IProduct_CreateInstance, boolean>("shopper" + "" + "/Product/CreateProductInstance", { methodType: MethodType.post, session: session, data: createInstance, queries: [
-          {
-            key: "shouldOverride",
-            value: "true",
-          },
-        ], onUploadProgress: undefined });
+      const res = await clientFetchApi<IProduct_CreateInstance, boolean>(
+        "shopper" + "" + "/Product/CreateProductInstance",
+        {
+          methodType: MethodType.post,
+          session: session,
+          data: createInstance,
+          queries: [
+            {
+              key: "shouldOverride",
+              value: "true",
+            },
+          ],
+          onUploadProgress: undefined,
+        },
+      );
       console.log("CreateProductInstance", res);
       if (res.succeeded) {
         createSubProductAndMedia();
@@ -666,7 +717,13 @@ export default function NotInstanceProductDetail({
   }
   async function getSuggestedPrice() {
     try {
-      const res = await clientFetchApi<boolean, ISuggestedPrice[]>("shopper" + "" + "/Product/GetSuggestedPrice", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "productId", value: productId.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, ISuggestedPrice[]>("shopper" + "" + "/Product/GetSuggestedPrice", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "productId", value: productId.toString() }],
+        onUploadProgress: undefined,
+      });
       console.log("GetSuggestedPrice", res);
       if (res.succeeded && res.value.length > 0) {
         setSuggestedPrice(res.value);
@@ -698,8 +755,8 @@ export default function NotInstanceProductDetail({
                     currentStep === step
                       ? styles[`step${step}Active`]
                       : currentStep > step
-                      ? styles[`step${step}Done`]
-                      : styles[`step${step}`]
+                        ? styles[`step${step}Done`]
+                        : styles[`step${step}`]
                   }>
                   <div className={styles.mobilecircle}> </div>
                   <div className={styles.stepprogressmobileinfo}>
@@ -709,8 +766,8 @@ export default function NotInstanceProductDetail({
                           currentStep > step
                             ? styles[`status${step}Done`]
                             : currentStep === step
-                            ? styles[`status${step}Active`]
-                            : styles.status
+                              ? styles[`status${step}Active`]
+                              : styles.status
                         }>
                         {currentStep > step ? "✔" : step}
                       </div>
@@ -739,16 +796,16 @@ export default function NotInstanceProductDetail({
                     currentStep === step
                       ? styles[`step${step}Active`]
                       : currentStep > step
-                      ? styles[`step${step}Done`]
-                      : styles[`step${step}`]
+                        ? styles[`step${step}Done`]
+                        : styles[`step${step}`]
                   }>
                   <div
                     className={
                       currentStep > step
                         ? styles[`status${step}Done`]
                         : currentStep === step
-                        ? styles[`status${step}Active`]
-                        : styles.status
+                          ? styles[`status${step}Active`]
+                          : styles.status
                     }>
                     {currentStep > step ? "✔" : step}
                   </div>

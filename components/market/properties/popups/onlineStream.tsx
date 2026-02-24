@@ -17,7 +17,7 @@ import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { IChannel, IChannelBox, IChannelInfo, ISearchChannel, IUpdateChannel } from "brancy/models/market/properties";
-import styles from "brancy/components/market/properties/popups/featureBoxPU.module.css";
+import styles from "./featureBoxPU.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const initialChannelSearchState: ISearchChannel = {
   searchAparatPage: "",

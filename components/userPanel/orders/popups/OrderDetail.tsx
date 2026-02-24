@@ -10,7 +10,7 @@ import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { OrderStep } from "brancy/models/store/enum";
 import { IFullProduct, IOrderDetail } from "brancy/models/store/orders";
-import styles from "brancy/components/userPanel/orders/popups/OrderDetail.module.css";
+import styles from "./OrderDetail.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 interface OrderDetailProps {
@@ -40,7 +40,13 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
 
   const handleAcceptOrder = useCallback(async () => {
     try {
-      const res = await clientFetchApi<string, string>("/api/order/GetOrderPaymentLink", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "orderId", value: orderDetail.orderId }], onUploadProgress: undefined });
+      const res = await clientFetchApi<string, string>("/api/order/GetOrderPaymentLink", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "orderId", value: orderDetail.orderId }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) router.replace(res.value);
       else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
@@ -55,7 +61,7 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
         removeMask();
       }
     },
-    [removeMask]
+    [removeMask],
   );
   function handleCancel() {
     if (!handleRejectOrder) return;
@@ -75,14 +81,23 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
   }, []);
   async function fetchData() {
     try {
-      const res = await clientFetchApi<IOrderDetail, IFullProduct>(orderDetail.instagramerId !== undefined ? "User/Order/GetFullOrder" : "", { methodType: MethodType.get, session: session, data: null, queries: [
-          { key: "orderId", value: orderDetail.orderId },
-          {
-            key: "instagramerId",
-            value: orderDetail.instagramerId !== undefined ? orderDetail.instagramerId!.toString() : "",
-          },
-          { key: "language", value: findSystemLanguage().toString() },
-        ], onUploadProgress: undefined });
+      const res = await clientFetchApi<IOrderDetail, IFullProduct>(
+        orderDetail.instagramerId !== undefined ? "User/Order/GetFullOrder" : "",
+        {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
+            { key: "orderId", value: orderDetail.orderId },
+            {
+              key: "instagramerId",
+              value: orderDetail.instagramerId !== undefined ? orderDetail.instagramerId!.toString() : "",
+            },
+            { key: "language", value: findSystemLanguage().toString() },
+          ],
+          onUploadProgress: undefined,
+        },
+      );
       if (res.succeeded) setFullProduct(res.value);
       else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {

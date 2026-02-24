@@ -3,7 +3,7 @@ import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import MediaDetector from "brancy/components/messages/shared/utils/MediaDetector";
 import { TicketBaseChatProps } from "brancy/components/messages/ticket/chatComponents/types";
 import { TicketChatDate, TicketReactionEmoji } from "brancy/components/messages/ticket/chatComponents/shared/utils";
-import styles from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/messageTypes.module.css";
+import styles from "./messageTypes.module.css";
 // #endregion
 // #region تعریف کامپوننت - اشتراک رسانه
 // این کامپوننت محتوای به اشتراک‌گذاشته‌شده را نمایش می‌دهد و رویداد کلیک/کیبورد را هندل می‌کند.
@@ -46,7 +46,7 @@ const TicketChatMediaShareComponent: React.FC<TicketBaseChatProps> = ({
         value: item.ownerEmojiReaction ? "UnReact" : "React",
       },
     ],
-    [item.ownerEmojiReaction]
+    [item.ownerEmojiReaction],
   );
   const handleVideoClick = useCallback(() => {
     if (videoData) onVideoContainerClick?.(videoData);
@@ -58,13 +58,13 @@ const TicketChatMediaShareComponent: React.FC<TicketBaseChatProps> = ({
         handleVideoClick();
       }
     },
-    [handleVideoClick]
+    [handleVideoClick],
   );
   const handleDotMenuClick = useCallback(
     (iconId: string) => {
       onClickSubIcon(iconId, item.itemId);
     },
-    [onClickSubIcon, item.itemId]
+    [onClickSubIcon, item.itemId],
   );
   // #endregion
 

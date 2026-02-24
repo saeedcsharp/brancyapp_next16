@@ -1,6 +1,6 @@
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styles from "brancy/components/design/chart/inlineBarChart.module.css";
+import styles from "./inlineBarChart.module.css";
 
 export interface IShortMonth {
   month: number;
@@ -97,7 +97,7 @@ export const InlineBarChart = ({ chartId, items, height }: InlineBarChartProps) 
       const d = new Date(year || new Date().getFullYear(), month - 1, 1);
       return monthFormatter.format(d);
     },
-    [monthFormatter]
+    [monthFormatter],
   );
 
   const maxNumber = useMemo(() => {
@@ -149,14 +149,14 @@ export const InlineBarChart = ({ chartId, items, height }: InlineBarChartProps) 
       const availableHeight = chartHeight - padding.top - padding.bottom;
       return Math.round(chartHeight - padding.bottom - (value / maxNumber) * availableHeight);
     },
-    [maxNumber, padding.top, padding.bottom]
+    [maxNumber, padding.top, padding.bottom],
   );
 
   const getXPosition = useCallback(
     (index: number) => {
       return Math.round(padding.left + index * (barWidth + barGap) + barGap / 2);
     },
-    [padding.left]
+    [padding.left],
   );
 
   const handleBarClick = useCallback((index: number) => {
@@ -181,7 +181,7 @@ export const InlineBarChart = ({ chartId, items, height }: InlineBarChartProps) 
         setFocusedBarIndex(prevIndex);
       }
     },
-    [handleBarClick]
+    [handleBarClick],
   );
 
   const avgLineElement = useMemo(() => {

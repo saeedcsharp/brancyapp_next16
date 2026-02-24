@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react";
-import styles from "brancy/components/messages/ticket/ticketChatBox.module.css";
+import styles from "./components/messages/ticket/ticketChatBox.module.css";
 export interface TicketChatDateProps {
   createdTime: number;
   itemId: string;
@@ -21,11 +21,11 @@ export const TicketChatDate: React.FC<TicketChatDateProps> = React.memo(
           onToggle(itemId);
         }
       },
-      [onToggle, itemId]
+      [onToggle, itemId],
     );
     const textAlignStyle = useMemo(
       () => (direction === "right" ? { textAlign: "right" as const } : undefined),
-      [direction]
+      [direction],
     );
     return (
       <button
@@ -40,6 +40,6 @@ export const TicketChatDate: React.FC<TicketChatDateProps> = React.memo(
         {formatDate(formattedTimestamp, itemId)}
       </button>
     );
-  }
+  },
 );
 TicketChatDate.displayName = "TicketChatDate";

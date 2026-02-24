@@ -18,7 +18,7 @@ import { LanguageKey } from "brancy/i18n";
 import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType } from "brancy/helper/api";
 import { IShortHashtag, ITrendHashtag } from "brancy/models/page/tools/tools";
-import styles from "brancy/components/page/tools/trendhashtag/trendHashtags.module.css";
+import styles from "./trendHashtags.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 // Using constants outside the component to avoid recreations

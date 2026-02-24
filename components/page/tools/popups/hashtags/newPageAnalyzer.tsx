@@ -14,7 +14,7 @@ import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { IPageInfo } from "brancy/models/page/post/preposts";
 import { IPageAnalysisHashtags } from "brancy/models/page/tools/tools";
-import styles from "brancy/components/page/tools/popups/hashtags/newPageAnalyzer.module.css";
+import styles from "./newPageAnalyzer.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
@@ -57,7 +57,10 @@ const NewPageAnalyzer = (props: {
         pk: 0,
         username: SelectedPeaple.username,
       };
-      var res = await clientFetchApi<IPageHashtagAnalysisInfo, IPageAnalysisHashtags>("Instagramer" + "/hashtag/AnalysisPageHashtags", { methodType: MethodType.post, session: session, data: info, queries: undefined, onUploadProgress: undefined });
+      var res = await clientFetchApi<IPageHashtagAnalysisInfo, IPageAnalysisHashtags>(
+        "Instagramer" + "/hashtag/AnalysisPageHashtags",
+        { methodType: MethodType.post, session: session, data: info, queries: undefined, onUploadProgress: undefined },
+      );
       if (res.succeeded) {
         setHashtags(res.value.hashtags);
       } else {
@@ -75,7 +78,13 @@ const NewPageAnalyzer = (props: {
     try {
       var instagramerId = session?.user.instagramerIds[session.user.currentIndex];
       console.log("start searched people ", query);
-      var res = await clientFetchApi<boolean, IPageInfo[]>("Instagramer" + "/searchPeople", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "query", value: query }], onUploadProgress: undefined });
+      var res = await clientFetchApi<boolean, IPageInfo[]>("Instagramer" + "/searchPeople", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "query", value: query }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) setPageInfo(res.value);
       else notify(res.info.responseType, NotifType.Error);
     } catch {

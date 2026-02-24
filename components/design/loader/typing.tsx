@@ -1,4 +1,4 @@
-import styles from "brancy/components/design/loader/typing.module.css";
+import styles from "./typing.module.css";
 const Typing = () => {
   return (
     <div className={styles.dotContainer}>

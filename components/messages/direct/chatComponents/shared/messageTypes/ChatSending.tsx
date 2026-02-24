@@ -6,7 +6,7 @@ import { getMessageDirectionClass } from "brancy/helper/checkRtl";
 import { detectEmojiOnly } from "brancy/helper/emojiDetector";
 import { IIsSendingMessage } from "brancy/models/messages/IMessage";
 import { ItemType, MediaType } from "brancy/models/messages/enum";
-import styles from "brancy/components/messages/direct/chatComponents/shared/messageTypes/messageTypes.module.css";
+import styles from "./messageTypes.module.css";
 
 // #region تایپ‌ها — تعریف تایپ‌های ورودی برای کامپوننت ChatSending
 interface ChatSendingProps {

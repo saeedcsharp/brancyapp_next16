@@ -2,7 +2,7 @@ import React from "react";
 import { useTranslation } from "react-i18next";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/messages/aiflow/flowNode/TextNode.module.css";
+import styles from "./TextNode.module.css";
 import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
 export const TextNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) => {
   const { t } = useTranslation();

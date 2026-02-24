@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import { LanguageKey } from "brancy/i18n";
 import { UploadFile } from "brancy/helper/api";
-import styles from "brancy/components/messages/aiflow/flowNode/ImageNode.module.css";
+import styles from "./ImageNode.module.css";
 import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL || "";
 interface ImageNodeProps extends BaseNodeProps {

@@ -1,6 +1,6 @@
 import Head from "next/head";
 import { useEffect, useState } from "react";
-import styles from "brancy/components/customerAds/customerAds.module.css";
+import styles from "./components/customerAds/customerAds.module.css";
 import HeaderTitle from "brancy/components/headerTitle/headerTitle";
 import { BusinessDay } from "brancy/models/advertise/peoperties";
 import { IAdvertiseSummary, IFullAdvertiser, SelectedCardContent } from "brancy/models/customerAds/customerAd";

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react";
-import styles from "brancy/components/messages/direct/directChatBox.module.css";
+import styles from "./components/messages/direct/directChatBox.module.css";
 import { MessageStatusProps } from "brancy/components/messages/direct/chatComponents/types";
 const CheckmarkIcon: React.FC<{ className?: string }> = React.memo(({ className }) => (
   <svg width="10" height="10" viewBox="0 0 10 7" className={className} aria-hidden="true" focusable="false">
@@ -22,7 +22,7 @@ export const MessageStatus: React.FC<MessageStatusProps> = React.memo(
           toggleDateFormat(itemId);
         }
       },
-      [itemId, toggleDateFormat]
+      [itemId, toggleDateFormat],
     );
     const formattedDate = useMemo(() => formatDate(createdTime / 1000, itemId), [createdTime, itemId, formatDate]);
     const isMessageSeen = useMemo(() => recpLastSeenUnix >= createdTime, [recpLastSeenUnix, createdTime]);
@@ -55,6 +55,6 @@ export const MessageStatus: React.FC<MessageStatusProps> = React.memo(
         <div className={styles.sent}>{renderSeenStatus}</div>
       </div>
     );
-  }
+  },
 );
 MessageStatus.displayName = "MessageStatus";

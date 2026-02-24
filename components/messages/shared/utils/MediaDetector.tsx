@@ -1,6 +1,6 @@
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import styles from "brancy/components/messages/shared/utils/MediaDetector.module.css";
+import styles from "./MediaDetector.module.css";
 // استاندارد ابعاد پیش‌فرض برای تمام رسانه‌ها
 const DEFAULT_MEDIA_WIDTH = 200;
 const DEFAULT_MEDIA_HEIGHT = 200;
@@ -94,7 +94,7 @@ export function MediaDetector({
         onImageClick();
       }
     },
-    [onImageClick]
+    [onImageClick],
   );
   const handleVideoKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
@@ -103,7 +103,7 @@ export function MediaDetector({
         onVideoClick();
       }
     },
-    [onVideoClick]
+    [onVideoClick],
   );
   const containerStyle = useMemo(() => {
     if (mediaType === "loading" || mediaType === "error") {

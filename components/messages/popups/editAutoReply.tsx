@@ -33,7 +33,7 @@ import {
   ITotalMasterFlow,
 } from "brancy/models/messages/properies";
 
-import styles from "brancy/components/messages/popups/editAutoReply.module.css";
+import styles from "./editAutoReply.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 type CheckBoxState = {
   Custom: boolean;

@@ -14,7 +14,7 @@ import { IDetailPrompt } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
 import { IceOrPersistent, PayloadType, SpecialPayLoad } from "brancy/models/messages/enum";
 import { IIceBreaker } from "brancy/models/messages/properies";
-import styles from "brancy/components/messages/properties/properties.module.css";
+import styles from "./properties.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 // function PersistentMenu
 const PersistentMenu = React.memo(

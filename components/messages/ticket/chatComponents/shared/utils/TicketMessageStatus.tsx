@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react";
-import styles from "brancy/components/messages/ticket/ticketChatBox.module.css";
+import styles from "./components/messages/ticket/ticketChatBox.module.css";
 export interface TicketMessageStatusProps {
   createdTime: number;
   recpLastSeenUnix?: number;
@@ -24,7 +24,7 @@ const CheckmarkIcon: React.FC<{ className?: string; style?: React.CSSProperties 
         d="M10.2.7 4 6.5a1 1 0 0 1-.9 0L.5 4a1 1 0 0 1 0-.9 1 1 0 0 1 1 0l2 2.1L9.4-.2a1 1 0 0 1 .9 0 1 1 0 0 1 0 .9"
       />
     </svg>
-  )
+  ),
 );
 CheckmarkIcon.displayName = "CheckmarkIcon";
 export const TicketMessageStatus: React.FC<TicketMessageStatusProps> = React.memo(
@@ -39,7 +39,7 @@ export const TicketMessageStatus: React.FC<TicketMessageStatusProps> = React.mem
           toggleDateFormat(itemId);
         }
       },
-      [itemId, toggleDateFormat]
+      [itemId, toggleDateFormat],
     );
     const formattedDate = useMemo(() => formatDate(createdTime / 1000, itemId), [createdTime, itemId, formatDate]);
     const isMessageSeen = useMemo(() => {
@@ -74,6 +74,6 @@ export const TicketMessageStatus: React.FC<TicketMessageStatusProps> = React.mem
         </div>
       </div>
     );
-  }
+  },
 );
 TicketMessageStatus.displayName = "TicketMessageStatus";

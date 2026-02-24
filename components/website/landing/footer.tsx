@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import Link from "next/link";
-import styles from "brancy/components/website/landing/footer.module.css";
+import styles from "./footer.module.css";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 
@@ -86,7 +86,7 @@ const Footer: React.FC = () => {
         ],
       },
     ],
-    [t]
+    [t],
   );
 
   return (

@@ -1,13 +1,5 @@
 // React core
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useReducer,
-  useRef,
-  type ChangeEvent,
-  type KeyboardEvent,
-} from "react";
+import { useCallback, useEffect, useMemo, useReducer, useRef, type ChangeEvent, type KeyboardEvent } from "react";
 
 // Next.js
 import { useSession } from "next-auth/react";
@@ -17,24 +9,16 @@ import { t } from "i18next";
 
 // Local components
 import InputText from "brancy/components/design/inputText";
-import {
-  NotifType,
-  notify,
-  ResponseType,
-} from "brancy/components/notifications/notificationBox";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 
 // Local types & models
 import { LanguageKey } from "brancy/i18n";
-import {
-  ICreateLiveChat,
-  ICreatePrompt,
-  ILiveChat,
-} from "brancy/models/AI/prompt";
+import { ICreateLiveChat, ICreatePrompt, ILiveChat } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
 import { ItemType } from "brancy/models/messages/enum";
 
 // Styles
-import styles from "brancy/components/messages/aiflow/popup/AI_liveChat.module.css";
+import styles from "./AI_liveChat.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 type ChatState = {
@@ -80,11 +64,7 @@ const initialState: ChatState = {
   userInput: "",
 };
 
-export default function LiveChat({
-  promptInfo,
-}: {
-  promptInfo: ICreatePrompt;
-}) {
+export default function LiveChat({ promptInfo }: { promptInfo: ICreatePrompt }) {
   const { data: session } = useSession();
   const [state, dispatch] = useReducer(chatReducer, initialState);
   const messagesEndRef = useRef<HTMLDivElement>(null);
@@ -93,7 +73,7 @@ export default function LiveChat({
 
   const username = useMemo(
     () => session?.user.fullName || session?.user.username || "User",
-    [session?.user.fullName, session?.user.username]
+    [session?.user.fullName, session?.user.username],
   );
 
   const scrollToBottom = useCallback(() => {
@@ -131,7 +111,7 @@ export default function LiveChat({
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [cleanupAudio]
+    [cleanupAudio],
   );
 
   const handleUserInput = useCallback(async () => {
@@ -162,7 +142,13 @@ export default function LiveChat({
         username,
       };
 
-      const res = await clientFetchApi<ICreateLiveChat, ILiveChat>("/api/ai/SendTestMessage", { methodType: MethodType.post, session: session, data: createPromptInfo, queries: [{ key: "isStart", value: state.isFirstMessage ? "true" : "false" }], onUploadProgress: undefined });
+      const res = await clientFetchApi<ICreateLiveChat, ILiveChat>("/api/ai/SendTestMessage", {
+        methodType: MethodType.post,
+        session: session,
+        data: createPromptInfo,
+        queries: [{ key: "isStart", value: state.isFirstMessage ? "true" : "false" }],
+        onUploadProgress: undefined,
+      });
       console.log("LiveChat response:", res);
       if (res.succeeded) {
         dispatch({ type: "ADD_MESSAGE", payload: res.value });
@@ -177,14 +163,7 @@ export default function LiveChat({
     } finally {
       dispatch({ type: "SET_LOADING", payload: false });
     }
-  }, [
-    state.userInput,
-    state.isLoading,
-    state.isFirstMessage,
-    promptInfo,
-    username,
-    session,
-  ]);
+  }, [state.userInput, state.isLoading, state.isFirstMessage, promptInfo, username, session]);
 
   const handleReset = useCallback(() => {
     cleanupAudio();
@@ -206,7 +185,7 @@ export default function LiveChat({
         (e.target as HTMLInputElement).blur();
       }
     },
-    [state.isLoading, handleUserInput]
+    [state.isLoading, handleUserInput],
   );
 
   const handleResetKeyDown = useCallback(
@@ -216,7 +195,7 @@ export default function LiveChat({
         handleReset();
       }
     },
-    [handleReset]
+    [handleReset],
   );
 
   const renderMessage = useCallback(
@@ -225,20 +204,13 @@ export default function LiveChat({
         key={index}
         className={`${styles.flowTestMessage} ${styles[message.type]}`}
         role="article"
-        aria-label={`${
-          message.type === "user" ? "پیام کاربر" : "پیام سیستم"
-        }: ${message.text || "رسانه"}`}>
+        aria-label={`${message.type === "user" ? "پیام کاربر" : "پیام سیستم"}: ${message.text || "رسانه"}`}>
         <div className={styles.messageContent}>
           {message.itemType === ItemType.Text && message.text && (
             <div className={styles.textMessage}>{message.text}</div>
           )}
           {message.itemType === ItemType.Media && message.imageUrl && (
-            <img
-              src={message.imageUrl}
-              alt="تصویر پیام"
-              className={styles.messageImage}
-              loading="lazy"
-            />
+            <img src={message.imageUrl} alt="تصویر پیام" className={styles.messageImage} loading="lazy" />
           )}
           {message.itemType === ItemType.AudioShare && message.voiceUrl && (
             <button
@@ -252,7 +224,7 @@ export default function LiveChat({
         </div>
       </div>
     ),
-    [playVoiceMessage]
+    [playVoiceMessage],
   );
 
   useEffect(() => {
@@ -300,23 +272,14 @@ export default function LiveChat({
         </div>
       </header>
 
-      <main
-        className={`${styles.flowTestMessages} translate`}
-        role="log"
-        aria-live="polite"
-        aria-atomic="false">
+      <main className={`${styles.flowTestMessages} translate`} role="log" aria-live="polite" aria-atomic="false">
         {state.messages.map(renderMessage)}
         <div ref={messagesEndRef} aria-hidden="true" />
       </main>
 
-      <footer
-        className="headerandinput"
-        style={{ paddingBlock: "var(--padding-10)" }}>
+      <footer className="headerandinput" style={{ paddingBlock: "var(--padding-10)" }}>
         {state.isLoading && (
-          <div
-            className={styles.typingIndicator}
-            role="status"
-            aria-label="در حال تایپ">
+          <div className={styles.typingIndicator} role="status" aria-label="در حال تایپ">
             <span className={styles.dot1} aria-hidden="true">
               ●
             </span>
@@ -329,10 +292,7 @@ export default function LiveChat({
           </div>
         )}
 
-        <div
-          className={`${styles.flowTestInput} ${
-            state.isLoading ? "fadeDiv" : ""
-          }`}>
+        <div className={`${styles.flowTestInput} ${state.isLoading ? "fadeDiv" : ""}`}>
           <InputText
             value={state.userInput}
             handleInputChange={handleInputChange}

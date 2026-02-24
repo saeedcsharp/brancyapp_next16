@@ -12,7 +12,7 @@ import { LanguageKey } from "brancy/i18n";
 import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { IHashtag } from "brancy/models/page/tools/tools";
 
-import styles from "brancy/components/page/tools/hashtaglist/hashtags.module.css";
+import styles from "./hashtags.module.css";
 
 interface HashtagListItem {
   listId: number;
@@ -62,7 +62,7 @@ const Hashtags = (props: {
         handleCircleClick();
       }
     },
-    [handleCircleClick]
+    [handleCircleClick],
   );
 
   const handleMenuClick = useCallback(
@@ -81,36 +81,35 @@ const Hashtags = (props: {
           break;
       }
     },
-    [t, onCopyHashtags, onDeleteClick, onEditClick]
+    [t, onCopyHashtags, onDeleteClick, onEditClick],
   );
 
   const menuData = useMemo(
-    () => (listItem: HashtagListItem) =>
-      [
-        {
-          icon: "/edit-1.svg",
-          value: t(LanguageKey.edit),
-          onClick: () => handleMenuClick(t(LanguageKey.edit), listItem),
-        },
-        {
-          icon: "/copy.svg",
-          value: t(LanguageKey.copylist),
-          onClick: () => handleMenuClick(t(LanguageKey.copylist), listItem),
-        },
-        {
-          icon: "/delete.svg",
-          value: t(LanguageKey.delete),
-          onClick: () => handleMenuClick(t(LanguageKey.delete), listItem),
-        },
-      ],
-    [t, handleMenuClick]
+    () => (listItem: HashtagListItem) => [
+      {
+        icon: "/edit-1.svg",
+        value: t(LanguageKey.edit),
+        onClick: () => handleMenuClick(t(LanguageKey.edit), listItem),
+      },
+      {
+        icon: "/copy.svg",
+        value: t(LanguageKey.copylist),
+        onClick: () => handleMenuClick(t(LanguageKey.copylist), listItem),
+      },
+      {
+        icon: "/delete.svg",
+        value: t(LanguageKey.delete),
+        onClick: () => handleMenuClick(t(LanguageKey.delete), listItem),
+      },
+    ],
+    [t, handleMenuClick],
   );
 
   const cardHeightStyle = useMemo(
     () => ({
       gridRowEnd: isHidden ? "span 10" : "span 82",
     }),
-    [isHidden]
+    [isHidden],
   );
 
   const renderHashtagListItem = useCallback(
@@ -146,7 +145,7 @@ const Hashtags = (props: {
         </section>
       </article>
     ),
-    [menuData]
+    [menuData],
   );
 
   const handleNewListClick = useCallback(
@@ -154,7 +153,7 @@ const Hashtags = (props: {
       if (!isLoggedIn) return;
       displayNewList(e);
     },
-    [isLoggedIn, displayNewList]
+    [isLoggedIn, displayNewList],
   );
 
   const handleNewListKeyDown = useCallback(
@@ -164,7 +163,7 @@ const Hashtags = (props: {
         displayNewList(e as unknown as MouseEvent);
       }
     },
-    [isLoggedIn, displayNewList]
+    [isLoggedIn, displayNewList],
   );
 
   if (loadingStatus) {

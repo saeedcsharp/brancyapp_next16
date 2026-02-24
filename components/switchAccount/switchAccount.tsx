@@ -16,7 +16,7 @@ import {
   notify,
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
-import styles from "brancy/components/switchAccount/switchAccount.module.css";
+import styles from "./switchAccount.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 function SwitchAccount(props: { removeMask: () => void }) {

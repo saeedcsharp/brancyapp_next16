@@ -12,7 +12,7 @@ import { EngagmentStatistics } from "brancy/models/page/statistics/totalStatisti
 import { IFollowerStatistics } from "brancy/models/page/statistics/totalStatistics/FollowerStatistics";
 import MultiChart from "brancy/components/design/chart/Chart_month";
 import InlineBarChart from "brancy/components/design/chart/inlineBarChart";
-import styles from "brancy/components/page/statistics/engagementStatistics/engagementStatistics.module.css";
+import styles from "./engagementStatistics.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 type StatsState = {
   likes: IMonthGraph[] | null;
@@ -128,7 +128,7 @@ function loadingReducer(state: any, action: { type: any; payload: any }) {
 }
 const getAdvancedTrendFromPoints = (points: any[]) => {
   if (!points || points.length === 0) return "neutral";
-  const values = points.map((p) => (typeof p.totalCount === "number" ? p.totalCount : p.plusCount ?? 0));
+  const values = points.map((p) => (typeof p.totalCount === "number" ? p.totalCount : (p.plusCount ?? 0)));
   const n = values.length;
   if (values.every((v) => v === 0)) return "zero";
   let weightedSum = 0;
@@ -237,7 +237,7 @@ const MounthViews = (props: { data: IShortMonth[] | null; id?: string; name: str
   const [isPending, startTransition] = useTransition();
   const [loadingStatus, dispatchLoading] = useReducer(
     loadingReducer,
-    LoginStatus(session) && RoleAccess(session, PartnerRole.PageView)
+    LoginStatus(session) && RoleAccess(session, PartnerRole.PageView),
   );
   useEffect(() => {
     if (props.data && LoginStatus(session)) {
@@ -327,8 +327,20 @@ const EngageMentStatistics = () => {
     isFetchingRef.current = true;
     try {
       const [engagementRes, followerRes] = await Promise.all([
-        clientFetchApi<string, EngagmentStatistics>("/api/statistics/GetEngagmentStatistics", { methodType: MethodType.get, session: session, data: null, queries: [], onUploadProgress: undefined }),
-        clientFetchApi<string, IFollowerStatistics>("/api/statistics/GetFollowerStatistics", { methodType: MethodType.get, session: session, data: null, queries: [], onUploadProgress: undefined }),
+        clientFetchApi<string, EngagmentStatistics>("/api/statistics/GetEngagmentStatistics", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [],
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<string, IFollowerStatistics>("/api/statistics/GetFollowerStatistics", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [],
+          onUploadProgress: undefined,
+        }),
       ]);
       if (engagementRes && engagementRes.value) {
         dispatch({ type: "SET_ENGAGEMENT_DATA", payload: engagementRes.value });
@@ -455,7 +467,7 @@ const EngageMentStatistics = () => {
         isMonth: true,
       },
     ],
-    [statsState, t]
+    [statsState, t],
   );
   const suggestionsMap = useMemo<Record<string, SuggestionSet>>(
     () => ({
@@ -1254,14 +1266,14 @@ const EngageMentStatistics = () => {
         },
       },
     }),
-    [t]
+    [t],
   );
   const getSuggestionFor = useCallback(
     (id: string, points: any[], isOpen?: boolean, onToggle?: () => void): React.ReactNode => {
       if (!points || points.length === 0)
         return <SuggestionCard item={{ message: t(LanguageKey.pageStatistics_EmptyList) }} />;
       const values = points.map((p) =>
-        typeof p.totalCount === "number" ? p.totalCount : typeof p.plusCount === "number" ? p.plusCount : 0
+        typeof p.totalCount === "number" ? p.totalCount : typeof p.plusCount === "number" ? p.plusCount : 0,
       );
       const allZero = values.every((v) => v === 0);
       const map = suggestionsMap[id];
@@ -1271,7 +1283,7 @@ const EngageMentStatistics = () => {
       const chosen = trend === "up" ? map.up : trend === "down" ? map.down : map.neutral;
       return <SuggestionCard item={chosen} isOpen={isOpen} onToggle={onToggle} />;
     },
-    [suggestionsMap, t]
+    [suggestionsMap, t],
   );
   const [collapsedIds, setCollapsedIds] = useState<string[]>([]);
   const [openSuggestionIds, setOpenSuggestionIds] = useState<string[]>([]);
@@ -1299,10 +1311,10 @@ const EngageMentStatistics = () => {
             ? 60
             : 67
           : isCollapsed
-          ? 10
-          : (config as any).isMonth
-          ? 49
-          : 52;
+            ? 10
+            : (config as any).isMonth
+              ? 49
+              : 52;
         return (
           <div
             key={config.id}

@@ -10,7 +10,7 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { ILoadingStatus, ISession } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { BrowserType, BrowserTypeStr, DeviceType, DeviceTypeStr, OsType, OsTypeStr } from "brancy/models/setting/enums";
-import styles from "brancy/components/setting/subAdmin/general.module.css";
+import styles from "./general.module.css";
 
 export default function ActivityHistory({
   sessions,

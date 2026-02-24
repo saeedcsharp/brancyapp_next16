@@ -5,7 +5,7 @@ import "react-phone-input-2/lib/style.css";
 import { getCountryCodeFromTimezone } from "brancy/helper/detectLocaleFromTimezone";
 import { LanguageKey } from "brancy/i18n";
 import RingLoader from "brancy/components/design/loader/ringLoder";
-import styles from "brancy/components/signIn/reactPhoneInput.module.css";
+import styles from "./reactPhoneInput.module.css";
 
 const ReactPhoneInput = (prop: {
   natinalNumber: string;

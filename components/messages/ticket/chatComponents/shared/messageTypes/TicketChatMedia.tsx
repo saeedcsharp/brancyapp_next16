@@ -2,8 +2,12 @@ import React, { useCallback, useMemo } from "react";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import MediaDetector from "brancy/components/messages/shared/utils/MediaDetector";
 import { TicketBaseChatProps } from "brancy/components/messages/ticket/chatComponents/types";
-import { TicketChatDate, TicketMessageStatus, TicketReactionEmoji } from "brancy/components/messages/ticket/chatComponents/shared/utils";
-import styles from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/messageTypes.module.css";
+import {
+  TicketChatDate,
+  TicketMessageStatus,
+  TicketReactionEmoji,
+} from "brancy/components/messages/ticket/chatComponents/shared/utils";
+import styles from "./messageTypes.module.css";
 // #region تعریف کامپوننت - نمایش رسانه‌ها
 // این کامپوننت تصاویر یا ویدیوهای پیام را بسته به جهت، نمایش می‌دهد و منو/رویدادها را هندل می‌کند.
 const TicketChatMediaComponent: React.FC<TicketBaseChatProps> = ({
@@ -27,7 +31,7 @@ const TicketChatMediaComponent: React.FC<TicketBaseChatProps> = ({
     (previewUrl: { url: string; externalUrl: string }) => {
       return useExternalUrl ? previewUrl.externalUrl : baseMediaUrl + previewUrl.url;
     },
-    [useExternalUrl, baseMediaUrl]
+    [useExternalUrl, baseMediaUrl],
   );
   // #endregion
 
@@ -49,7 +53,7 @@ const TicketChatMediaComponent: React.FC<TicketBaseChatProps> = ({
         });
       }
     },
-    [onImageContainerClick, onVideoContainerClick, getMediaUrl, item.createdTime]
+    [onImageContainerClick, onVideoContainerClick, getMediaUrl, item.createdTime],
   );
   // #endregion
 
@@ -61,13 +65,13 @@ const TicketChatMediaComponent: React.FC<TicketBaseChatProps> = ({
         handleMediaClick(item.medias[0], isImage);
       }
     },
-    [handleMediaClick, item.medias]
+    [handleMediaClick, item.medias],
   );
   const handleDotMenuClick = useCallback(
     (iconId: string) => {
       onClickSubIcon(iconId, item.itemId);
     },
-    [item.itemId, onClickSubIcon]
+    [item.itemId, onClickSubIcon],
   );
   const dotMenuData = useMemo(
     () => [
@@ -77,7 +81,7 @@ const TicketChatMediaComponent: React.FC<TicketBaseChatProps> = ({
         value: item.ownerEmojiReaction ? "UnReact" : "React",
       },
     ],
-    [item.ownerEmojiReaction]
+    [item.ownerEmojiReaction],
   );
   // #endregion
 

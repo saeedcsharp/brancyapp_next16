@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/page/tools/customFont/customFont.module.css";
+import styles from "./customFont.module.css";
 interface FontMap {
   [key: string]: {
     [key: string]: string;
@@ -1096,7 +1096,7 @@ export default function FontSelector() {
         M: "M͓̽",
       },
     }),
-    []
+    [],
   );
   const initialState: FontState = {
     isHidden: false,
@@ -1164,7 +1164,7 @@ export default function FontSelector() {
       "₶",
       "৻",
     ],
-    []
+    [],
   );
   const customEmoticons = useMemo(
     () => [
@@ -1214,7 +1214,7 @@ export default function FontSelector() {
       "(○|￣|_=3)",
       "¯\\(°_o)/¯",
     ],
-    []
+    [],
   );
   const geometricSymbols = useMemo(
     () => [
@@ -1361,7 +1361,7 @@ export default function FontSelector() {
       "□",
       "◪",
     ],
-    []
+    [],
   );
   const generalSymbols = useMemo(
     () => [
@@ -1442,7 +1442,7 @@ export default function FontSelector() {
       "⏔",
       "⏕",
     ],
-    []
+    [],
   );
   const fontOptions = useMemo(
     () =>
@@ -1459,7 +1459,7 @@ export default function FontSelector() {
           </div>
         );
       }),
-    [fontMap, convertText]
+    [fontMap, convertText],
   );
   useEffect(() => {
     const newConvertedText = convertText(inputText, selectedFont, fontMap);
@@ -1492,7 +1492,7 @@ export default function FontSelector() {
     (symbol: string) => {
       dispatch({ type: "SET_INPUT_TEXT", payload: inputText + symbol });
     },
-    [inputText]
+    [inputText],
   );
   const SymbolPool = useCallback(
     ({ title, symbols }: { title: string; symbols: string[] }) => (
@@ -1507,7 +1507,7 @@ export default function FontSelector() {
         </div>
       </div>
     ),
-    [appendSymbol]
+    [appendSymbol],
   );
 
   return (
@@ -1544,8 +1544,8 @@ export default function FontSelector() {
             {convertedText.trim() === ""
               ? t(LanguageKey.CopyText)
               : copied === convertedText
-              ? t(LanguageKey.successfulCopy)
-              : t(LanguageKey.CopyText)}
+                ? t(LanguageKey.successfulCopy)
+                : t(LanguageKey.CopyText)}
           </button>
         </main>
       </div>

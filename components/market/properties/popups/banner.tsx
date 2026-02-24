@@ -31,7 +31,7 @@ import {
   IUpdateBanner,
   IUpdateProfileBanner,
 } from "brancy/models/market/properties";
-import styles from "brancy/components/market/properties/popups/featureBoxPU.module.css";
+import styles from "./featureBoxPU.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "image/tiff", "image/gif"];

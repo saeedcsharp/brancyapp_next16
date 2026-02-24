@@ -1,7 +1,7 @@
 import { ChangeEvent, MouseEvent, useState } from "react";
 import CheckBoxButton from "brancy/components/design/checkBoxButton";
 import InputText from "brancy/components/design/inputText";
-import styles from "brancy/components/search/searchBar.module.css";
+import styles from "./searchBar.module.css";
 import SearchContent from "brancy/components/search/searchContent";
 
 const SearchBar = (prop: { removeMask: (e: MouseEvent) => void }) => {
@@ -20,13 +20,13 @@ const SearchBar = (prop: { removeMask: (e: MouseEvent) => void }) => {
 
   const handleOnChange = (id: string) => {
     setFilterList((prevList) =>
-      prevList.map((item) => (item.value === id ? { ...item, checked: !item.checked } : item))
+      prevList.map((item) => (item.value === id ? { ...item, checked: !item.checked } : item)),
     );
   };
 
   const toggleFilterIcon = () => {
     setFilter((prevFilter) =>
-      prevFilter === "/iconbox-filter.svg" ? "/iconbox-filterselected.svg" : "/iconbox-filter.svg"
+      prevFilter === "/iconbox-filter.svg" ? "/iconbox-filterselected.svg" : "/iconbox-filter.svg",
     );
     setShowPopup((prevShowPopup) => !prevShowPopup);
   };

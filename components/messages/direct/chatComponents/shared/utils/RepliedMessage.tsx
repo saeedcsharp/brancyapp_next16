@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react";
-import styles from "brancy/components/messages/direct/directChatBox.module.css";
+import styles from "./components/messages/direct/directChatBox.module.css";
 import { RepliedMessageProps } from "brancy/components/messages/direct/chatComponents/types";
 export const RepliedMessage: React.FC<RepliedMessageProps> = React.memo(
   ({ repliedToItemId, repliedToItem, direction, handleSpecifyRepliedItemFullName, handleSpecifyRepliedItemType }) => {
@@ -7,15 +7,15 @@ export const RepliedMessage: React.FC<RepliedMessageProps> = React.memo(
     const repliedMsgClass = useMemo(() => (isLeft ? styles.leftrepliedmsg : styles.rightrepliedmsg), [isLeft]);
     const repliedMsgDiscriptionClass = useMemo(
       () => (isLeft ? styles.leftrepliedmsgdiscription : styles.rightrepliedmsgdiscription),
-      [isLeft]
+      [isLeft],
     );
     const fullName = useMemo(
       () => handleSpecifyRepliedItemFullName(repliedToItemId, repliedToItem),
-      [repliedToItemId, repliedToItem, handleSpecifyRepliedItemFullName]
+      [repliedToItemId, repliedToItem, handleSpecifyRepliedItemFullName],
     );
     const itemType = useMemo(
       () => handleSpecifyRepliedItemType(repliedToItemId, repliedToItem),
-      [repliedToItemId, repliedToItem, handleSpecifyRepliedItemType]
+      [repliedToItemId, repliedToItem, handleSpecifyRepliedItemType],
     );
     const handleJumpToReplied = useCallback(() => {
       if (!repliedToItemId) return;
@@ -89,6 +89,6 @@ export const RepliedMessage: React.FC<RepliedMessageProps> = React.memo(
       prevProps.direction === nextProps.direction &&
       prevProps.repliedToItem === nextProps.repliedToItem
     );
-  }
+  },
 );
 RepliedMessage.displayName = "RepliedMessage";

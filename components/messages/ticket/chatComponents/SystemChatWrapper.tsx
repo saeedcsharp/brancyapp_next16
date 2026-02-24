@@ -1,6 +1,6 @@
 import React, { useMemo } from "react";
 import { IItem, IOwnerInbox, ITicket, ITicketMediaType } from "brancy/models/userPanel/message";
-import styles from "brancy/components/messages/ticket/ticketChatBox.module.css";
+import styles from "./components/messages/ticket/ticketChatBox.module.css";
 import { SystemChatImage } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/SystemChatImage";
 import { SystemChatText } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/SystemChatText";
 import { ImageClickInfo, VideoClickInfo } from "brancy/components/messages/ticket/chatComponents/types";
@@ -46,7 +46,7 @@ export const SystemChatWrapper: React.FC<SystemChatWrapperProps> = React.memo((p
       props.toggleDateFormat,
       props.formatDate,
       props.handleFindEmoji,
-    ]
+    ],
   );
 
   const renderMessage = useMemo(() => {

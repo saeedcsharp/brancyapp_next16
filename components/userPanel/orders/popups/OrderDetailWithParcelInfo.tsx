@@ -13,7 +13,7 @@ import { specifyLogistic } from "brancy/helper/specifyLogistic";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { IFullProduct, IOrderDetail, IParcelInfo } from "brancy/models/store/orders";
-import styles from "brancy/components/userPanel/orders/popups/OrderDetailWithParcelInfo.module.css";
+import styles from "./OrderDetailWithParcelInfo.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 interface OrderDetailProps {
@@ -49,7 +49,7 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
         removeMask();
       }
     },
-    [removeMask]
+    [removeMask],
   );
   useLayoutEffect(() => {
     if (popupRef.current) {
@@ -67,14 +67,23 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
     else {
       try {
         setLoadingFullProduct(true);
-        const res = await clientFetchApi<boolean, IFullProduct>(orderDetail.instagramerId !== undefined ? "User/Order/GetFullOrder" : "", { methodType: MethodType.get, session: session, data: null, queries: [
-            { key: "orderId", value: orderDetail.orderId },
-            {
-              key: "instagramerId",
-              value: orderDetail.instagramerId !== undefined ? orderDetail.instagramerId!.toString() : "",
-            },
-            { key: "language", value: findSystemLanguage().toString() },
-          ], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, IFullProduct>(
+          orderDetail.instagramerId !== undefined ? "User/Order/GetFullOrder" : "",
+          {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
+              { key: "orderId", value: orderDetail.orderId },
+              {
+                key: "instagramerId",
+                value: orderDetail.instagramerId !== undefined ? orderDetail.instagramerId!.toString() : "",
+              },
+              { key: "language", value: findSystemLanguage().toString() },
+            ],
+            onUploadProgress: undefined,
+          },
+        );
         if (res.succeeded) {
           setFullProduct(res.value);
           setActiveFullProduct(true);
@@ -89,7 +98,13 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
   async function handleGetParcelInfo() {
     setLoading(true);
     try {
-      const res = await clientFetchApi<boolean, IParcelInfo>("/api/order/GetParcelInfo", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "orderId", value: orderDetail.orderId }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IParcelInfo>("/api/order/GetParcelInfo", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "orderId", value: orderDetail.orderId }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) setParcelInfo(res.value);
       else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {

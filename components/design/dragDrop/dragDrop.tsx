@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
-import styles from "brancy/components/design/dragDrop/dragDrop.module.css";
+import styles from "./dragDrop.module.css";
 const DragDrop = (props: {
   data: React.JSX.Element[];
   handleOptionSelect: (id: any) => void;

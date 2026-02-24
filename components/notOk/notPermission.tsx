@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
-import styles from "brancy/components/notOk/notpermission.module.css";
+import styles from "./notpermission.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 export enum PermissionType {
@@ -49,7 +49,13 @@ export default function NotPermission({ permissionType }: NotPermissionProps) {
 
   async function redirectToInstagram() {
     try {
-      const response = await clientFetchApi<boolean, string>("/api/preinstagramer/GetInstagramRedirect", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const response = await clientFetchApi<boolean, string>("/api/preinstagramer/GetInstagramRedirect", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (response.succeeded) {
         router.push(response.value);
       } else {

@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import InputText from "brancy/components/design/inputText";
 import { IProducts } from "brancy/models/market/myLink";
-import styles from "brancy/components/market/myLink/mylink.module.css";
+import styles from "./mylink.module.css";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const Products = (props: { data: IProducts | null }) => {

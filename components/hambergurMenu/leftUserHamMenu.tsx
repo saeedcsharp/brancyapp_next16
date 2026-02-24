@@ -12,7 +12,7 @@ import { PushNotif, PushResponseExplanation, PushResponseTitle, PushResponseType
 import { OrderStep } from "brancy/models/store/enum";
 import { IOrderPushNotifExtended } from "brancy/models/store/orders";
 import { ITicketPushNotif } from "brancy/models/userPanel/message";
-import styles from "brancy/components/hambergurMenu/hammenu.module.css";
+import styles from "./hammenu.module.css";
 
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const menuItems = [

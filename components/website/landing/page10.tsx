@@ -2,7 +2,7 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import FiveStar from "brancy/components/fiveStar";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/website/landing/page10.module.css";
+import styles from "./page10.module.css";
 const reviews = [
   {
     title: "مدیریت شبکه های اجتماعی کامل ترین ابزار",
@@ -75,7 +75,7 @@ const Page10 = () => {
         setScrollPos(
           isRTL
             ? { isAtStart: Math.abs(scrollLeft) >= scrollWidth - clientWidth, isAtEnd: scrollLeft === 0 }
-            : { isAtStart: scrollLeft === 0, isAtEnd: scrollLeft + clientWidth >= scrollWidth }
+            : { isAtStart: scrollLeft === 0, isAtEnd: scrollLeft + clientWidth >= scrollWidth },
         );
         isScrolling.current = false;
       });
@@ -97,7 +97,7 @@ const Page10 = () => {
       ([entry]) => {
         setWavesInView(entry.isIntersecting);
       },
-      { threshold: 0 }
+      { threshold: 0 },
     );
     observer.observe(wavesRef.current);
     return () => observer.disconnect();

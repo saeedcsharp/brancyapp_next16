@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { IShareremainingTime } from "brancy/models/page/tools/tools";
-import styles from "brancy/components/page/tools/popups/lottery/shareRemainingTime.module.css";
+import styles from "./shareRemainingTime.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 function convertUnixtimeToDHM(unixTime: number) {
   let unixNow = Date.now();

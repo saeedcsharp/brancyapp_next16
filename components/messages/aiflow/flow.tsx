@@ -42,7 +42,7 @@ import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { ITotalMasterFlow } from "brancy/models/messages/properies";
-import styles from "brancy/components/messages/aiflow/Flow.module.css";
+import styles from "./Flow.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 // #endregion IMPORTS AND EXPORTS
 
@@ -419,7 +419,7 @@ const validateAllBlocksHaveInput = (flow: EditorState, flowPropsId: string): boo
 const validateConnection = (
   sourceNodeType: NodeData["type"],
   targetNodeType: NodeData["type"],
-  connectionType: ConnectionType = "default"
+  connectionType: ConnectionType = "default",
 ): boolean => {
   if (targetNodeType === "weblink") {
     if (sourceNodeType == "genericitem") {
@@ -611,7 +611,7 @@ const findNearestInputSocket = (
   point: Position,
   nodes: NodeData[],
   excludeNodeId: string,
-  threshold: number = 120
+  threshold: number = 120,
 ): { nodeId: string; socketId: string; distance: number } | null => {
   let nearest: { nodeId: string; socketId: string; distance: number } | null = null;
   let minDistance = threshold;
@@ -931,7 +931,7 @@ export default function Flow({
         y: clampValue(pan.y, minPanY, maxPanY),
       };
     },
-    [panningBoundaryEnabled, editorState.nodes]
+    [panningBoundaryEnabled, editorState.nodes],
   );
   // #endregion panning boundary
 
@@ -990,7 +990,7 @@ export default function Flow({
       });
       setHistoryIndex((prev) => Math.min(prev + 1, MAX_HISTORY - 1));
     },
-    [historyIndex]
+    [historyIndex],
   );
 
   /**
@@ -1024,7 +1024,7 @@ export default function Flow({
         return newState;
       });
     },
-    [addToHistory]
+    [addToHistory],
   );
 
   // #endregion HISTORY MANAGEMENT
@@ -1048,7 +1048,7 @@ export default function Flow({
           (node) =>
             (node.outputs && node.outputs.length > 0) ||
             (node.buttonOutputs && node.buttonOutputs.length > 0) ||
-            (node.genericItemOutputs && node.genericItemOutputs.length > 0)
+            (node.genericItemOutputs && node.genericItemOutputs.length > 0),
         );
 
         // پیدا کردن نودهایی که هیچ output متصلی ندارند
@@ -1119,7 +1119,7 @@ export default function Flow({
         }, 100);
       }
     },
-    [editorState.nodes, editorState.pan, editorState.scale, snapToGridEnabled, updateStateWithHistory]
+    [editorState.nodes, editorState.pan, editorState.scale, snapToGridEnabled, updateStateWithHistory],
   );
 
   /**
@@ -1167,7 +1167,7 @@ export default function Flow({
                       return {
                         ...n,
                         genericItemOutputs: (n.genericItemOutputs || []).filter(
-                          (o) => o.id !== parentConnection.sourceSocketId
+                          (o) => o.id !== parentConnection.sourceSocketId,
                         ),
                         data: {
                           ...n.data,
@@ -1178,7 +1178,7 @@ export default function Flow({
                     return n;
                   }),
                 connections: prev.connections.filter(
-                  (c) => !nodesToDelete.includes(c.sourceNodeId) && !nodesToDelete.includes(c.targetNodeId)
+                  (c) => !nodesToDelete.includes(c.sourceNodeId) && !nodesToDelete.includes(c.targetNodeId),
                 ),
               };
             }
@@ -1189,12 +1189,12 @@ export default function Flow({
           ...prev,
           nodes: prev.nodes.filter((n) => !nodesToDelete.includes(n.id)),
           connections: prev.connections.filter(
-            (c) => !nodesToDelete.includes(c.sourceNodeId) && !nodesToDelete.includes(c.targetNodeId)
+            (c) => !nodesToDelete.includes(c.sourceNodeId) && !nodesToDelete.includes(c.targetNodeId),
           ),
         };
       });
     },
-    [editorState.nodes, updateStateWithHistory]
+    [editorState.nodes, updateStateWithHistory],
   );
 
   /**
@@ -1227,7 +1227,7 @@ export default function Flow({
         ...prev,
         nodes: prev.nodes.filter((n) => !nodesToDeleteIds.includes(n.id)),
         connections: prev.connections.filter(
-          (c) => !nodesToDeleteIds.includes(c.sourceNodeId) && !nodesToDeleteIds.includes(c.targetNodeId)
+          (c) => !nodesToDeleteIds.includes(c.sourceNodeId) && !nodesToDeleteIds.includes(c.targetNodeId),
         ),
       };
     });
@@ -1281,7 +1281,7 @@ export default function Flow({
     if (selectedNodes.length === 0) return;
     const selectedIds = selectedNodes.map((n) => n.id);
     const selectedConnections = editorState.connections.filter(
-      (c) => selectedIds.includes(c.sourceNodeId) && selectedIds.includes(c.targetNodeId)
+      (c) => selectedIds.includes(c.sourceNodeId) && selectedIds.includes(c.targetNodeId),
     );
     setClipboard({ nodes: selectedNodes, connections: selectedConnections });
   }, [editorState.nodes, editorState.connections]);
@@ -1366,7 +1366,7 @@ export default function Flow({
         }));
       }
     },
-    [editorState.nodes, editorState.scale, editorState.pan]
+    [editorState.nodes, editorState.scale, editorState.pan],
   );
 
   /**
@@ -1404,7 +1404,7 @@ export default function Flow({
         }
       }
     },
-    [editorState.pan, editorState.scale]
+    [editorState.pan, editorState.scale],
   );
 
   /**
@@ -1419,12 +1419,12 @@ export default function Flow({
         const newX = snapToGrid(
           (e.clientX - editorState.pan.x) / editorState.scale - dragOffset.x,
           GRID_SIZE,
-          snapToGridEnabled
+          snapToGridEnabled,
         );
         const newY = snapToGrid(
           (e.clientY - editorState.pan.y) / editorState.scale - dragOffset.y,
           GRID_SIZE,
-          snapToGridEnabled
+          snapToGridEnabled,
         );
         const deltaX = newX - draggedNodeData.position.x;
         const deltaY = newY - draggedNodeData.position.y;
@@ -1503,7 +1503,7 @@ export default function Flow({
         }
       }
     },
-    [draggedNode, isPanning, selectionBox, connectingSocket, editorState, dragOffset, panStart, snapToGridEnabled]
+    [draggedNode, isPanning, selectionBox, connectingSocket, editorState, dragOffset, panStart, snapToGridEnabled],
   );
 
   /**
@@ -1530,7 +1530,7 @@ export default function Flow({
             c.sourceNodeId === connectingSocket.nodeId &&
             c.sourceSocketId === connectingSocket.socketId &&
             c.targetNodeId === nearestSocket.nodeId &&
-            c.targetSocketId === nearestSocket.socketId
+            c.targetSocketId === nearestSocket.socketId,
         );
 
         if (!exists) {
@@ -1539,7 +1539,7 @@ export default function Flow({
 
           // بررسی که socket خروجی قبلاً اتصال نداشته باشد
           const existingOutputFromSocket = editorState.connections.find(
-            (c) => c.sourceNodeId === connectingSocket.nodeId && c.sourceSocketId === connectingSocket.socketId
+            (c) => c.sourceNodeId === connectingSocket.nodeId && c.sourceSocketId === connectingSocket.socketId,
           );
 
           if (!existingOutputFromSocket) {
@@ -1608,7 +1608,7 @@ export default function Flow({
         },
       });
     },
-    [editorState.nodes, editorState.pan, editorState.scale]
+    [editorState.nodes, editorState.pan, editorState.scale],
   );
 
   /**
@@ -1655,7 +1655,7 @@ export default function Flow({
       // برای quickreply: هر دکمه (socket) می‌تواند مستقلاً به هر بلوکی وصل شود
       // اما هر socket فقط یک اتصال دارد
       const existingOutputFromSocket = editorState.connections.find(
-        (c) => c.sourceNodeId === connectingSocket.nodeId && c.sourceSocketId === connectingSocket.socketId
+        (c) => c.sourceNodeId === connectingSocket.nodeId && c.sourceSocketId === connectingSocket.socketId,
       );
 
       if (existingOutputFromSocket) {
@@ -1670,7 +1670,7 @@ export default function Flow({
           c.sourceNodeId === connectingSocket.nodeId &&
           c.sourceSocketId === connectingSocket.socketId &&
           c.targetNodeId === nodeId &&
-          c.targetSocketId === socketId
+          c.targetSocketId === socketId,
       );
       if (exists) {
         setConnectingSocket(null);
@@ -1699,7 +1699,7 @@ export default function Flow({
       setConnectingSocket(null);
       setTempConnectionEnd(null);
     },
-    [connectingSocket, editorState.connections, editorState.nodes, updateStateWithHistory, t]
+    [connectingSocket, editorState.connections, editorState.nodes, updateStateWithHistory, t],
   );
 
   /**
@@ -1721,7 +1721,7 @@ export default function Flow({
         };
       });
     },
-    [updateStateWithHistory]
+    [updateStateWithHistory],
   );
 
   // #endregion SOCKET & CONNECTION
@@ -1760,7 +1760,7 @@ export default function Flow({
         setForceConnectionUpdate((prev) => prev + 1);
       }, 0);
     },
-    [editorState.scale, editorState.pan, clampPan]
+    [editorState.scale, editorState.pan, clampPan],
   );
 
   /**
@@ -1941,7 +1941,7 @@ export default function Flow({
 
       handleContextMenu(e, undefined, connectionId);
     },
-    [handleContextMenu, editorState.connections]
+    [handleContextMenu, editorState.connections],
   );
 
   //#endregion CONTEXT MENU
@@ -2007,7 +2007,7 @@ export default function Flow({
             clientX: touch.clientX,
             clientY: touch.clientY,
           } as any,
-          nodeId
+          nodeId,
         );
         setLongPressTimer(null);
       }, 500);
@@ -2027,7 +2027,7 @@ export default function Flow({
         }));
       }
     },
-    [editorState.nodes, editorState.scale, editorState.pan, handleContextMenu]
+    [editorState.nodes, editorState.scale, editorState.pan, handleContextMenu],
   );
 
   /**
@@ -2091,7 +2091,7 @@ export default function Flow({
         setLastTouchScale(editorState.scale);
       }
     },
-    [editorState.pan, editorState.scale, longPressTimer, handleContextMenu]
+    [editorState.pan, editorState.scale, longPressTimer, handleContextMenu],
   );
 
   /**
@@ -2133,12 +2133,12 @@ export default function Flow({
           const newX = snapToGrid(
             (touch.clientX - editorState.pan.x) / editorState.scale - dragOffset.x,
             GRID_SIZE,
-            snapToGridEnabled
+            snapToGridEnabled,
           );
           const newY = snapToGrid(
             (touch.clientY - editorState.pan.y) / editorState.scale - dragOffset.y,
             GRID_SIZE,
-            snapToGridEnabled
+            snapToGridEnabled,
           );
           const deltaX = newX - draggedNodeData.position.x;
           const deltaY = newY - draggedNodeData.position.y;
@@ -2248,7 +2248,7 @@ export default function Flow({
       clampPan,
       touchStartPos,
       longPressTimer,
-    ]
+    ],
   );
 
   /**
@@ -2275,18 +2275,18 @@ export default function Flow({
                 c.sourceNodeId === connectingSocket.nodeId &&
                 c.sourceSocketId === connectingSocket.socketId &&
                 c.targetNodeId === nearestSocket.nodeId &&
-                c.targetSocketId === nearestSocket.socketId
+                c.targetSocketId === nearestSocket.socketId,
             );
 
             if (!exists) {
               // حذف اتصال ورودی قبلی target node (اگر وجود داشته باشد)
               const existingInputConnection = editorState.connections.find(
-                (c) => c.targetNodeId === nearestSocket.nodeId
+                (c) => c.targetNodeId === nearestSocket.nodeId,
               );
 
               // بررسی که socket خروجی قبلاً اتصال نداشته باشد
               const existingOutputFromSocket = editorState.connections.find(
-                (c) => c.sourceNodeId === connectingSocket.nodeId && c.sourceSocketId === connectingSocket.socketId
+                (c) => c.sourceNodeId === connectingSocket.nodeId && c.sourceSocketId === connectingSocket.socketId,
               );
 
               if (!existingOutputFromSocket) {
@@ -2343,7 +2343,7 @@ export default function Flow({
                     c.sourceNodeId === connectingSocket.nodeId &&
                     c.sourceSocketId === connectingSocket.socketId &&
                     c.targetNodeId === targetNodeId &&
-                    c.targetSocketId === targetSocketId
+                    c.targetSocketId === targetSocketId,
                 );
 
                 if (!exists) {
@@ -2398,7 +2398,7 @@ export default function Flow({
       nearestSocket,
       updateStateWithHistory,
       validateConnection,
-    ]
+    ],
   );
 
   /**
@@ -2452,7 +2452,7 @@ export default function Flow({
       setDraggedNode(null);
       setIsTouchMoving(false);
     },
-    [editorState.nodes, editorState.pan, editorState.scale, longPressTimer]
+    [editorState.nodes, editorState.pan, editorState.scale, longPressTimer],
   );
 
   /**
@@ -2497,7 +2497,7 @@ export default function Flow({
           c.sourceNodeId === connectingSocket.nodeId &&
           c.sourceSocketId === connectingSocket.socketId &&
           c.targetNodeId === nodeId &&
-          c.targetSocketId === socketId
+          c.targetSocketId === socketId,
       );
 
       if (exists) {
@@ -2523,7 +2523,7 @@ export default function Flow({
       setConnectingSocket(null);
       setTempConnectionEnd(null);
     },
-    [connectingSocket, editorState.connections, editorState.nodes, updateStateWithHistory]
+    [connectingSocket, editorState.connections, editorState.nodes, updateStateWithHistory],
   );
 
   // #endregion TOUCH
@@ -2630,7 +2630,7 @@ export default function Flow({
         y: node.position.y + socketY,
       };
     },
-    [editorState.nodes, editorState.pan, editorState.scale, forceConnectionUpdate]
+    [editorState.nodes, editorState.pan, editorState.scale, forceConnectionUpdate],
   );
 
   /**
@@ -2960,7 +2960,7 @@ export default function Flow({
                 ...node,
                 position: { ...node.position, y: node.position.y - 3 },
               }
-            : node
+            : node,
         ),
       }));
       // بعد از 100ms دوباره 1 پیکسل به پایین برگردانیم (برای اینکه تغییری در ظاهر نباشد)
@@ -2973,7 +2973,7 @@ export default function Flow({
                   ...node,
                   position: { ...node.position, y: node.position.y + 3 },
                 }
-              : node
+              : node,
           ),
         }));
       }, 100);
@@ -3233,7 +3233,7 @@ export default function Flow({
         node.label.toLowerCase().includes(query) ||
         node.type.toLowerCase().includes(query) ||
         node.data?.text?.toLowerCase().includes(query) ||
-        node.data?.url?.toLowerCase().includes(query)
+        node.data?.url?.toLowerCase().includes(query),
     );
   }, [editorState.nodes, searchQuery]);
 
@@ -3410,13 +3410,13 @@ export default function Flow({
             onClick: () => {
               deleteNode(nodeId);
             },
-          }
+          },
         );
       }
 
       return baseOptions;
     },
-    [copySelectedNodes, duplicateSelectedNodes, deleteNode]
+    [copySelectedNodes, duplicateSelectedNodes, deleteNode],
   );
   // #endregion CONTEXT MENU OPTIONS
   /**
@@ -3430,7 +3430,7 @@ export default function Flow({
   const compareFlowWithLocalAutoSave = useCallback(
     (
       input: any,
-      id: string
+      id: string,
     ): null | {
       hasDifference: boolean;
       addedNodes?: Array<{ type: string; label: string; data: any }>;
@@ -3584,13 +3584,19 @@ export default function Flow({
         return null;
       }
     },
-    []
+    [],
   );
   const [loading, setLoading] = useState<boolean>(true);
   const reloadFlow = useCallback(
     async (useLocalStorage: boolean = false) => {
       try {
-        const res = await clientFetchApi<boolean, IGetFlow>("/api/flow/GetMasterFlow", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "id", value: flowPropsId }], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, IGetFlow>("/api/flow/GetMasterFlow", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "id", value: flowPropsId }],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) {
           const rawNodes = res.value.flowModel.nodes || [];
           const normalizedNodes = rawNodes.map((node: any) => {
@@ -3648,12 +3654,18 @@ export default function Flow({
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [flowPropsId, session]
+    [flowPropsId, session],
   );
 
   async function getFlow() {
     try {
-      const res = await clientFetchApi<boolean, IGetFlow>("/api/flow/GetMasterFlow", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "id", value: flowPropsId }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IGetFlow>("/api/flow/GetMasterFlow", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "id", value: flowPropsId }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         const rawNodes = res.value.flowModel.nodes || [];
         const normalizedNodes = rawNodes.map((node: any) => {
@@ -3804,14 +3816,20 @@ export default function Flow({
 
   const handleServerSave = async () => {
     try {
-      const res = await clientFetchApi<any, ITotalMasterFlow>("/api/flow/CreateMasterFlow", { methodType: MethodType.post, session: session, data: editorState, queries: [
+      const res = await clientFetchApi<any, ITotalMasterFlow>("/api/flow/CreateMasterFlow", {
+        methodType: MethodType.post,
+        session: session,
+        data: editorState,
+        queries: [
           { key: "checkFollower", value: checkFollower.toString() },
           { key: "title", value: flowTitle },
           {
             key: "masterFlowId",
             value: flowPropsId !== "newFlow" ? flowPropsId : undefined,
           },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (!res.succeeded) {
         notify(res.info.responseType, NotifType.Warning);
       } else {
@@ -4775,7 +4793,7 @@ export default function Flow({
                           <div
                             className={`${styles.socketDot} ${
                               editorState.connections.some(
-                                (c) => c.targetNodeId === node.id && c.targetSocketId === socket.id
+                                (c) => c.targetNodeId === node.id && c.targetSocketId === socket.id,
                               )
                                 ? styles.connected
                                 : ""
@@ -4822,7 +4840,7 @@ export default function Flow({
                             <div
                               className={`${styles.socketDot} ${
                                 editorState.connections.some(
-                                  (c) => c.sourceNodeId === node.id && c.sourceSocketId === socket.id
+                                  (c) => c.sourceNodeId === node.id && c.sourceSocketId === socket.id,
                                 )
                                   ? styles.connected
                                   : ""
@@ -4868,7 +4886,7 @@ export default function Flow({
                               <div
                                 className={`${styles.socketDot} ${
                                   editorState.connections.some(
-                                    (c) => c.sourceNodeId === node.id && c.sourceSocketId === socket.id
+                                    (c) => c.sourceNodeId === node.id && c.sourceSocketId === socket.id,
                                   )
                                     ? styles.connected
                                     : ""
@@ -4902,7 +4920,7 @@ export default function Flow({
                               <div
                                 className={`${styles.socketDot} ${
                                   editorState.connections.some(
-                                    (c) => c.sourceNodeId === node.id && c.sourceSocketId === socket.id
+                                    (c) => c.sourceNodeId === node.id && c.sourceSocketId === socket.id,
                                   )
                                     ? styles.connected
                                     : ""

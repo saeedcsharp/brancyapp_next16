@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import CheckBoxButton from "brancy/components/design/checkBoxButton";
 import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/store/order/7-InCart.module.css";
+import styles from "./7-InCart.module.css";
 
 const MemoizedCheckBoxButton = React.memo(CheckBoxButton);
 

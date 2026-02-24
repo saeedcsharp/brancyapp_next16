@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import { MouseEvent, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/navbar/instagramerNavbar/profile.module.css";
+import styles from "./profile.module.css";
 
 const Profile = (props: {
   data: string;
@@ -33,17 +33,11 @@ const Profile = (props: {
   };
 
   const remainingDays = useMemo(() => {
-    return session?.user.packageExpireTime
-      ? getRemainingTime(session.user.packageExpireTime).days
-      : 0;
+    return session?.user.packageExpireTime ? getRemainingTime(session.user.packageExpireTime).days : 0;
   }, [session?.user.packageExpireTime]);
 
   const timeClass = useMemo(() => {
-    return remainingDays < 3
-      ? styles.blinkRed
-      : remainingDays < 10
-      ? styles.blinkYellow
-      : "";
+    return remainingDays < 3 ? styles.blinkRed : remainingDays < 10 ? styles.blinkYellow : "";
   }, [remainingDays]);
 
   const handleUpgradeClick = (e: MouseEvent) => {
@@ -72,11 +66,7 @@ const Profile = (props: {
             alt="Your Instagram profile picture"
             aria-label="Open profile menu"
             role="button"
-            src={
-              session?.user.profileUrl
-                ? baseMediaUrl + session.user.profileUrl
-                : "/no-profile.svg"
-            }
+            src={session?.user.profileUrl ? baseMediaUrl + session.user.profileUrl : "/no-profile.svg"}
           />
 
           <div className="headerandinput" style={{ gap: "3px" }}>
@@ -91,16 +81,13 @@ const Profile = (props: {
                 ID:{" "}
                 {session?.user.instagramerIds
                   ? session?.user.instagramerIds[session.user.currentIndex]
-                  : session?.user.instagramerIds ?? "N/A"}
+                  : (session?.user.instagramerIds ?? "N/A")}
               </span>
             </div>
           </div>
         </div>
 
-        <div
-          onClick={handleUpgradeClick}
-          className={styles.menuchild}
-          role="menuitem">
+        <div onClick={handleUpgradeClick} className={styles.menuchild} role="menuitem">
           <svg
             className={styles.icon}
             xmlns="http://www.w3.org/2000/svg"
@@ -122,10 +109,7 @@ const Profile = (props: {
           </div>
         </div>
 
-        <div
-          onClick={props.handleShowSwitch}
-          className={styles.menuchild}
-          role="menuitem">
+        <div onClick={props.handleShowSwitch} className={styles.menuchild} role="menuitem">
           <svg
             aria-hidden="true"
             className={styles.icon}
@@ -147,10 +131,7 @@ const Profile = (props: {
             <div className="explain"></div>
           </div>{" "}
         </div>
-        <div
-          className={styles.menuchild}
-          onClick={props.handleShowSignOut}
-          role="menuitem">
+        <div className={styles.menuchild} onClick={props.handleShowSignOut} role="menuitem">
           <svg
             className={styles.icon}
             aria-hidden="true"

@@ -16,7 +16,7 @@ import {
   SortByNum,
   SortUp,
 } from "brancy/models/customerAds/customerAd";
-import styles from "brancy/components/market/home/filter.module.css";
+import styles from "./filter.module.css";
 
 function Filter(props: {
   handleApplyFilter: (info: ISideBar) => void;

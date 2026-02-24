@@ -15,7 +15,7 @@ import { MethodType } from "brancy/helper/api";
 import { IItem, IOwnerInbox, ISendTicketMessage, ITicket } from "brancy/models/userPanel/message";
 import { SystemSendingMessages } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/SystemSendingMessages";
 import { SystemChatWrapper } from "brancy/components/messages/ticket/chatComponents/SystemChatWrapper";
-import styles from "brancy/components/messages/ticket/ticketChatBox.module.css";
+import styles from "./ticketChatBox.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 //#endregion
 
@@ -75,7 +75,7 @@ const SystemChatBox = (props: {
           }).format("hh:mm a - dddd - DD/MM/YYYY")
         : formatTimeAgo(timestamp);
     },
-    [dateFormatToggle]
+    [dateFormatToggle],
   );
   //#endregion
 
@@ -122,7 +122,7 @@ const SystemChatBox = (props: {
         });
       }
     },
-    [props.chatBox.ticketId, props.onSendFile]
+    [props.chatBox.ticketId, props.onSendFile],
   );
 
   const handleDragOver = useCallback((event: React.DragEvent) => {
@@ -158,7 +158,7 @@ const SystemChatBox = (props: {
 
       e.target.value = "";
     },
-    [props.chatBox.ticketId, props.onSendFile]
+    [props.chatBox.ticketId, props.onSendFile],
   );
   //#endregion
 
@@ -206,7 +206,13 @@ const SystemChatBox = (props: {
     abortControllerRef.current = new AbortController();
 
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/ticket/SeenSystemTicket", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "ticketId", value: props.chatBox.ticketId.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/ticket/SeenSystemTicket", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "ticketId", value: props.chatBox.ticketId.toString() }],
+        onUploadProgress: undefined,
+      });
 
       if (isMountedRef.current && !res.succeeded) {
         notify(res.info.responseType, NotifType.Warning);

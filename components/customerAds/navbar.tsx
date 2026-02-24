@@ -1,6 +1,6 @@
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import InputText from "brancy/components/design/inputText";
-import styles from "brancy/components/customerAds/customerAds.module.css";
+import styles from "./customerAds.module.css";
 function Navbar(props: {
   handleShowSelectAdmins: (e: MouseEvent) => void;
   selectedIds: number[];

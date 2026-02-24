@@ -29,7 +29,7 @@ import "swiper/css/navigation";
 import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
-import styles from "brancy/components/messages/comment/commentChatBox.module.css";
+import styles from "./commentChatBox.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const CommentChatBox = (props: {
   userSelectId: string | null;
@@ -244,7 +244,7 @@ const CommentChatBox = (props: {
           mediaId: comment.mediaId,
           sign: comment.sign,
           signTime: comment.signTime,
-        }).toString()
+        }).toString(),
       );
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error, "socket error");
@@ -320,11 +320,17 @@ const CommentChatBox = (props: {
       setAiLoading(true);
 
       // Call AI service to generate reply based on the comment
-      const response = await clientFetchApi<boolean, string>("/api/comment/GenerateCommentBaseAI", { methodType: MethodType.get, session: session, data: null, queries: [
+      const response = await clientFetchApi<boolean, string>("/api/comment/GenerateCommentBaseAI", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "comment", value: replyBox.comment.text },
           { key: "username", value: replyBox.comment.username },
           { key: "postId", value: props.chatBox.postId?.toString() },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
 
       if (response.succeeded) {
         const aiReply = response.value;
@@ -373,11 +379,17 @@ const CommentChatBox = (props: {
       aiButton.style.pointerEvents = "none";
 
       // Call AI service to generate reply based on the comment
-      const response = await clientFetchApi<boolean, string>("/api/comment/GenerateCommentBaseAI", { methodType: MethodType.get, session: session, data: null, queries: [
+      const response = await clientFetchApi<boolean, string>("/api/comment/GenerateCommentBaseAI", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "comment", value: replyBox.comment.text },
           { key: "username", value: replyBox.comment.username },
           { key: "postId", value: props.chatBox.postId?.toString() },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
 
       if (response.succeeded) {
         const aiReply = response.value;
@@ -437,7 +449,7 @@ const CommentChatBox = (props: {
       props.handleReplyLiveComment(
         props.chatBox.comments.filter((x) => !x.sentByOwner)[0],
         replyBox.comment,
-        answerBox
+        answerBox,
       );
     }
     setReplyBox(null);
@@ -480,13 +492,13 @@ const CommentChatBox = (props: {
     if (!props.hub) return;
     if (props.chatBox.vanishMode) {
       const replyComment = props.chatBox.comments.filter(
-        (x) => !x.sentByOwner && x.replys?.length === 0 && !x.isHide && !x.privateReply
+        (x) => !x.sentByOwner && x.replys?.length === 0 && !x.isHide && !x.privateReply,
       );
       console.log("vanish modeeeeeeeeeeeeee", replyComment);
       if (replyComment.length > 0) {
         setReplyBox({
           comment: props.chatBox.comments.filter(
-            (x) => !x.sentByOwner && x.replys?.length === 0 && !x.isHide && !x.privateReply
+            (x) => !x.sentByOwner && x.replys?.length === 0 && !x.isHide && !x.privateReply,
           )[0],
           private: false,
         });
@@ -520,13 +532,13 @@ const CommentChatBox = (props: {
     console.log("new commenttttttttttttttttttt");
     if (props.chatBox.vanishMode) {
       const replyComment = props.chatBox.comments.filter(
-        (x) => !x.sentByOwner && x.replys?.length === 0 && !x.isHide && !x.privateReply
+        (x) => !x.sentByOwner && x.replys?.length === 0 && !x.isHide && !x.privateReply,
       );
       console.log("vanish modeeeeeeeeeeeeee", replyComment);
       if (replyComment.length > 0) {
         if (!replyBox || replyComment.filter((x) => x.id == replyBox.comment.id).length == 0) {
           var comment = props.chatBox.comments.filter(
-            (x) => !x.sentByOwner && x.replys?.length === 0 && !x.isHide && !x.privateReply
+            (x) => !x.sentByOwner && x.replys?.length === 0 && !x.isHide && !x.privateReply,
           )[0];
           if (comment != replyBox?.comment) {
             setReplyBox({
@@ -841,7 +853,7 @@ const CommentChatBox = (props: {
                                             onClick={() =>
                                               props.onImageClick(
                                                 baseMediaUrl +
-                                                  (p.sentByOwner ? props.ownerInbox.profilePic : p.profileUrl)
+                                                  (p.sentByOwner ? props.ownerInbox.profilePic : p.profileUrl),
                                               )
                                             }
                                             loading="lazy"
@@ -994,7 +1006,7 @@ const CommentChatBox = (props: {
                   onClick={() =>
                     props.onImageClick(
                       baseMediaUrl +
-                        (replyBox.comment.sentByOwner ? props.ownerInbox.profilePic : replyBox.comment.profileUrl)
+                        (replyBox.comment.sentByOwner ? props.ownerInbox.profilePic : replyBox.comment.profileUrl),
                     )
                   }
                   loading="lazy"

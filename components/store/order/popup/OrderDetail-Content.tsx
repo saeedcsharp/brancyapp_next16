@@ -8,7 +8,7 @@ import { specifyLogistic } from "brancy/helper/specifyLogistic";
 import { LanguageKey } from "brancy/i18n";
 import { IFullProduct } from "brancy/models/store/orders";
 import { ColorStr } from "brancy/models/userPanel/shop";
-import styles from "brancy/components/store/order/popup/OrderDetail-Content.module.css";
+import styles from "./OrderDetail-Content.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const toggleReducer = (state: boolean) => !state;
 
@@ -293,7 +293,7 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
                                 internalNotify(
                                   InternalResponseType.Success,
                                   NotifType.Success,
-                                  "Your data is copied successfully"
+                                  "Your data is copied successfully",
                                 );
                               }}
                               style={{

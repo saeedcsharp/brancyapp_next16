@@ -1,6 +1,6 @@
 import { ChangeEvent, useCallback, useId, useMemo, useRef } from "react";
 import { isRTL } from "brancy/helper/checkRtl";
-import styles from "brancy/components/design/inputBox.module.css";
+import styles from "./inputBox.module.css";
 const persianNumbers = "۰۱۲۳۴۵۶۷۸۹";
 const arabicNumbers = "٠١٢٣٤٥٦٧٨٩";
 const thaiNumbers = "๐๑๒๓๔๕๖๗๘๙";
@@ -79,7 +79,7 @@ const InputText = (props: InputTextProps) => {
         target: { ...e.target, value: convertedValue },
       });
     },
-    [fadeTextArea, handleInputChange]
+    [fadeTextArea, handleInputChange],
   );
   const handleClearInput = useCallback(() => {
     if (inputRef.current) {
@@ -102,7 +102,7 @@ const InputText = (props: InputTextProps) => {
         onKeyDown(e);
       }
     },
-    [value, disabled, handleClearInput, onKeyDown]
+    [value, disabled, handleClearInput, onKeyDown],
   );
   const handleClearKeyDown = useCallback(
     (e: React.KeyboardEvent<HTMLDivElement>) => {
@@ -111,7 +111,7 @@ const InputText = (props: InputTextProps) => {
         e.preventDefault();
       }
     },
-    [handleClearInput]
+    [handleClearInput],
   );
   const isEmpty = !value || value.trim() === "";
   const activeRTL = value ? isValueRTL : isPlaceholderRTL;

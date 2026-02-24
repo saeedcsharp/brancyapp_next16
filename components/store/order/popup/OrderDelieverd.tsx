@@ -12,7 +12,7 @@ import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { IFullProduct, IOrderDetail, IParcelInfo } from "brancy/models/store/orders";
 import OrderDetailContent from "brancy/components/store/order/popup/OrderDetail-Content";
-import styles from "brancy/components/store/order/popup/orderstep.module.css";
+import styles from "./orderstep.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 interface OrderDetailProps {
@@ -49,7 +49,7 @@ const OrderDelivered: FC<OrderDetailProps> = ({ removeMask, orderDetail }) => {
         removeMask();
       }
     },
-    [removeMask]
+    [removeMask],
   );
 
   useLayoutEffect(() => {
@@ -69,14 +69,20 @@ const OrderDelivered: FC<OrderDetailProps> = ({ removeMask, orderDetail }) => {
       setActiveFullProduct(true);
       setLoadingFullProduct(true);
       try {
-        const res = await clientFetchApi<IOrderDetail, IFullProduct>("/api/order/GetFullOrder", { methodType: MethodType.get, session: session, data: null, queries: [
+        const res = await clientFetchApi<IOrderDetail, IFullProduct>("/api/order/GetFullOrder", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "orderId", value: orderDetail.orderId },
             {
               key: "userId",
               value: orderDetail.userId ? orderDetail.userId.toString() : "",
             },
             { key: "language", value: findSystemLanguage().toString() },
-          ], onUploadProgress: undefined });
+          ],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) {
           setFullProduct(res.value);
           setActiveFullProduct(true);
@@ -91,7 +97,13 @@ const OrderDelivered: FC<OrderDetailProps> = ({ removeMask, orderDetail }) => {
   async function handleGetParcelInfo() {
     setLoading(true);
     try {
-      const res = await clientFetchApi<boolean, IParcelInfo>("/api/order/GetParcelInfo", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "orderId", value: orderDetail.orderId }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IParcelInfo>("/api/order/GetParcelInfo", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "orderId", value: orderDetail.orderId }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setParcelInfo(res.value);
         setLoading(false);

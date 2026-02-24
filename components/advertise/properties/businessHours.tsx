@@ -4,7 +4,7 @@ import { numbToAmAndPmTime } from "brancy/helper/numberFormater";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
 import { IBusinessHour } from "brancy/models/advertise/peoperties";
-import styles from "brancy/components/advertise/properties/propertiesComponent.module.css";
+import styles from "./propertiesComponent.module.css";
 function BusinessHours(props: {
   businessInfo: IBusinessHour[];
   setShowBusinessHoursPopup: (showPopup: boolean) => void;

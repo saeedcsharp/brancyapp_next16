@@ -9,7 +9,7 @@ import { LanguageKey } from "brancy/i18n";
 import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType } from "brancy/helper/api";
 import { IBestFollowers } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/bestFollower";
-import styles from "brancy/components/page/statistics/bestFollower/bestFollower.module.css";
+import styles from "./bestFollower.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const FollowerCard = memo(
@@ -47,7 +47,7 @@ const FollowerCard = memo(
         </div>
       </div>
     );
-  }
+  },
 );
 FollowerCard.displayName = "FollowerCard";
 const ImagePopup = memo(
@@ -68,7 +68,7 @@ const ImagePopup = memo(
         />
       </div>
     </>
-  )
+  ),
 );
 ImagePopup.displayName = "ImagePopup";
 const BestFollowers = (props: { largSizeForIngage: () => void }) => {
@@ -138,7 +138,13 @@ const BestFollowers = (props: { largSizeForIngage: () => void }) => {
     isFetchingRef.current = true;
     try {
       setLoadingStatus(true);
-      const res = await clientFetchApi<string, IBestFollowers[]>("/api/statistics/GetBestFollowers", { methodType: MethodType.get, session: session, data: null, queries: [], onUploadProgress: undefined });
+      const res = await clientFetchApi<string, IBestFollowers[]>("/api/statistics/GetBestFollowers", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         const sortedFollowers = [...res.value].sort((a, b) => b.count - a.count);
         setBestFollowers(sortedFollowers);

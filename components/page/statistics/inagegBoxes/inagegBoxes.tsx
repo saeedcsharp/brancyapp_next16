@@ -12,7 +12,7 @@ import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { IPostContent } from "brancy/models/page/post/posts";
 import { IIngageBox } from "brancy/models/page/statistics/statisticsContent/ingageBoxes/ingageBox";
 
-import styles from "brancy/components/page/statistics/inagegBoxes/ingageBoxes.module.css";
+import styles from "./ingageBoxes.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
@@ -89,7 +89,7 @@ const IngageBoxModel = (props: {
 
   const isAuthenticated = useMemo(
     () => session && LoginStatus(session) && RoleAccess(session, PartnerRole.PageView),
-    [session]
+    [session],
   );
 
   const imageUrls = useMemo(() => {
@@ -109,7 +109,7 @@ const IngageBoxModel = (props: {
       props.showMaxPopups(e);
       props.sendMaxReachPopup(state.maxReachPopup);
     },
-    [props, state.maxReachPopup]
+    [props, state.maxReachPopup],
   );
 
   const handleClickOnMinView = useCallback(
@@ -117,7 +117,7 @@ const IngageBoxModel = (props: {
       props.showMinPopups(e);
       props.sendMinReachPopup(state.minReachPopup);
     },
-    [props, state.minReachPopup]
+    [props, state.minReachPopup],
   );
 
   const handleClickOnMaxComment = useCallback(
@@ -125,7 +125,7 @@ const IngageBoxModel = (props: {
       props.showMaxLikeCommentPopups(e);
       props.sendMaxCommentPopup(state.maxLikeCommentPopup);
     },
-    [props, state.maxLikeCommentPopup]
+    [props, state.maxLikeCommentPopup],
   );
 
   const handleClickOnMinComment = useCallback(
@@ -133,7 +133,7 @@ const IngageBoxModel = (props: {
       props.showMinLikeCommentPopups(e);
       props.sendMinCommentPopup(state.minLikeCommentPopup);
     },
-    [props, state.minLikeCommentPopup]
+    [props, state.minLikeCommentPopup],
   );
 
   const handleKeyDown = useCallback(
@@ -143,7 +143,7 @@ const IngageBoxModel = (props: {
         handler(e as any);
       }
     },
-    []
+    [],
   );
 
   useEffect(() => {
@@ -160,7 +160,13 @@ const IngageBoxModel = (props: {
 
       const fetchData = async () => {
         try {
-          const res = await clientFetchApi<string, IIngageBox>("/api/statistics/GetOverview", { methodType: MethodType.get, session: session, data: null, queries: [], onUploadProgress: undefined });
+          const res = await clientFetchApi<string, IIngageBox>("/api/statistics/GetOverview", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [],
+            onUploadProgress: undefined,
+          });
 
           if (controller.signal.aborted) return;
 
@@ -237,7 +243,10 @@ const IngageBoxModel = (props: {
 
   return (
     <>
-      <Link href="brancy/components/page/statistics/inagegBoxes/posts" style={{ textDecoration: "none", color: "inherit" }} aria-label="View all posts">
+      <Link
+        href="brancy/components/page/statistics/inagegBoxes/posts"
+        style={{ textDecoration: "none", color: "inherit" }}
+        aria-label="View all posts">
         <div
           className={styles.box}
           role="button"
@@ -265,7 +274,10 @@ const IngageBoxModel = (props: {
         </div>
       </Link>
 
-      <Link href="brancy/components/page/statistics/inagegBoxes/stories" style={{ textDecoration: "none", color: "inherit" }} aria-label="View all stories">
+      <Link
+        href="brancy/components/page/statistics/inagegBoxes/stories"
+        style={{ textDecoration: "none", color: "inherit" }}
+        aria-label="View all stories">
         <div
           className={styles.box}
           role="button"

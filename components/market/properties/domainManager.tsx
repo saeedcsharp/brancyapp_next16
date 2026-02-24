@@ -12,7 +12,7 @@ import { InstagramerAccountInfo } from "brancy/models/_AccountInfo/InstagramerAc
 import { MethodType } from "brancy/helper/api";
 import { CustomDomainStatus } from "brancy/models/market/enums";
 import { DomainType, ICustomeDomainInfo } from "brancy/models/market/properties";
-import styles from "brancy/components/market/properties/domainManager.module.css";
+import styles from "./domainManager.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const baseShortUrl = process.env.NEXT_PUBLIC_SHORT_LINK;
 const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccountInfo | null }) => {
@@ -33,7 +33,13 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
   async function getCustomerInfo() {
     const instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     if (!instagramerId) return;
-    const res = await clientFetchApi<boolean, ICustomeDomainInfo>("Instagramer" + "/Bio/GetCustomDomain", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+    const res = await clientFetchApi<boolean, ICustomeDomainInfo>("Instagramer" + "/Bio/GetCustomDomain", {
+      methodType: MethodType.get,
+      session: session,
+      data: undefined,
+      queries: undefined,
+      onUploadProgress: undefined,
+    });
 
     if (res.succeeded) {
       setCustomeDomain(res.value);
@@ -48,7 +54,13 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
     const query = type === DomainType.BrancyDefault ? "false" : "true";
     const instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     if (!instagramerId) return;
-    const res = await clientFetchApi<boolean, boolean>("Instagramer" + "/Bio/ToggleCustomDomain", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "enabled", value: query }], onUploadProgress: undefined });
+    const res = await clientFetchApi<boolean, boolean>("Instagramer" + "/Bio/ToggleCustomDomain", {
+      methodType: MethodType.get,
+      session: session,
+      data: null,
+      queries: [{ key: "enabled", value: query }],
+      onUploadProgress: undefined,
+    });
     if (res.succeeded) {
     }
   }
@@ -56,7 +68,13 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
     if (!handleCheckRequest()) return;
     const instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     if (!instagramerId) return;
-    const res = await clientFetchApi<boolean, { url: string }>("Instagramer" + "/Bio/UpdateCustomDomain", { methodType: MethodType.post, session: session, data: { url: inputText }, queries: undefined, onUploadProgress: undefined });
+    const res = await clientFetchApi<boolean, { url: string }>("Instagramer" + "/Bio/UpdateCustomDomain", {
+      methodType: MethodType.post,
+      session: session,
+      data: { url: inputText },
+      queries: undefined,
+      onUploadProgress: undefined,
+    });
     if (res.succeeded) {
     }
   }

@@ -10,7 +10,7 @@ import { LanguageKey } from "brancy/i18n";
 import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { IAutoReply } from "brancy/models/messages/properies";
 import Prompt from "brancy/components/messages/properties/prompt";
-import styles from "brancy/components/messages/properties/properties.module.css";
+import styles from "./properties.module.css";
 
 function AutomaticReply() {
   // تابع استفاده از ترجمه برای چندزبانه بودن

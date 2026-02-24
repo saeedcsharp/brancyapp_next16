@@ -7,7 +7,7 @@ import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { IFullLottery } from "brancy/models/page/tools/tools";
 import ConstantCounterDown from "brancy/components/design/counterDown/constantCounterDown";
-import styles from "brancy/components/page/tools/popups/lottery/lotteryRunning.module.css";
+import styles from "./lotteryRunning.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const LotteryRunning = (props: {
   removeMask: () => void;
@@ -25,12 +25,18 @@ const LotteryRunning = (props: {
   const [fullLottery, setFullLottery] = useState<IFullLottery>();
   async function fetchData() {
     try {
-      var res = await clientFetchApi<boolean, IFullLottery>("/api/lottery/GetFullLottery", { methodType: MethodType.get, session: session, data: null, queries: [
+      var res = await clientFetchApi<boolean, IFullLottery>("/api/lottery/GetFullLottery", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           {
             key: "id",
             value: props.lotteryId.toString(),
           },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setLoading(false);
         setFullLottery(res.value);

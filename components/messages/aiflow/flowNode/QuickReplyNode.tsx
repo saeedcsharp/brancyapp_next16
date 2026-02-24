@@ -2,7 +2,7 @@ import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import InputText from "brancy/components/design/inputText";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/messages/aiflow/flowNode/QuickReplyNode.module.css";
+import styles from "./QuickReplyNode.module.css";
 import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
 interface QuickReplyNodeProps extends BaseNodeProps {
   setEditorState: React.Dispatch<React.SetStateAction<any>>;
@@ -81,12 +81,12 @@ export const QuickReplyNode: React.FC<QuickReplyNodeProps> = ({
             return n;
           }),
           connections: prev.connections.filter(
-            (c: any) => !(c.sourceNodeId === node.id && c.sourceSocketId === outputId)
+            (c: any) => !(c.sourceNodeId === node.id && c.sourceSocketId === outputId),
           ),
         };
       });
     },
-    [node.id, updateStateWithHistory]
+    [node.id, updateStateWithHistory],
   );
 
   // Initialize title with default placeholder if empty

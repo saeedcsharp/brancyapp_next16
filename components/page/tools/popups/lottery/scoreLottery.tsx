@@ -32,7 +32,7 @@ import {
   lotterySpecificationType,
 } from "brancy/models/page/tools/tools";
 import { FeatureType, IFeatureInfo } from "brancy/models/psg/psg";
-import styles from "brancy/components/page/tools/popups/lottery/scoreLottery.module.css";
+import styles from "./scoreLottery.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const ScoreLottery = (props: {
@@ -170,7 +170,13 @@ const ScoreLottery = (props: {
   }
   async function handleGetPostInfo(postInfo: number) {
     try {
-      const res = await clientFetchApi<boolean, IShortPostInfo>("/api/post/GetShortPost", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "postId", value: postInfo.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IShortPostInfo>("/api/post/GetShortPost", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "postId", value: postInfo.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) setThumbnailUrl(res.value.thumbnailMediaUrl);
       else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
@@ -180,9 +186,13 @@ const ScoreLottery = (props: {
   async function handleApiPeopleSearch(query: string) {
     try {
       console.log("start searched people ", query);
-      var res = await clientFetchApi<boolean, IPageInfo[]>("/api/instagramer/searchPeople", { methodType: MethodType.get, session: session, data: null, queries: [
-        { key: "query", value: query },
-      ], onUploadProgress: undefined });
+      var res = await clientFetchApi<boolean, IPageInfo[]>("/api/instagramer/searchPeople", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "query", value: query }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded && res.value.length > 0) {
         let pages: IPageInfo[] = [];
         for (let i = 0; i < res.value.length; i++) {
@@ -237,7 +247,13 @@ const ScoreLottery = (props: {
   async function handleGetLotteryInfo() {
     try {
       console.log("props.showScoreLottery", props.showScoreLottery);
-      const res = await clientFetchApi<boolean, ILotteryInfo>("/api/lottery/GetLotteryInfo", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "id", value: props.lotteryInfo.lotteryId! }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, ILotteryInfo>("/api/lottery/GetLotteryInfo", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "id", value: props.lotteryInfo.lotteryId! }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setLotteryInfo(res.value);
         await handleGetPostInfo(res.value.postId);

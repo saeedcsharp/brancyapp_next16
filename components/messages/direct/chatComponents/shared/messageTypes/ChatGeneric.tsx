@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { BaseChatProps } from "brancy/components/messages/direct/chatComponents/types";
 import { ChatDate } from "brancy/components/messages/direct/chatComponents/shared/utils/ChatDate";
-import styles from "brancy/components/messages/direct/chatComponents/shared/messageTypes/messageTypes.module.css";
+import styles from "./messageTypes.module.css";
 // #region کامپوننت — تعریف کامپوننت ساده برای پیام‌های غیرقابل‌شناسایی
 export const ChatGeneric: React.FC<BaseChatProps> = React.memo(
   ({ item, direction, dateFormatToggle, toggleDateFormat, formatDate, getMessageDirectionClass }) => {
@@ -11,7 +11,7 @@ export const ChatGeneric: React.FC<BaseChatProps> = React.memo(
     const msgClass = useMemo(() => (isLeft ? styles.leftchatMSG : styles.rightchatMSG), [isLeft]);
     const messageContent = useMemo(
       () => getMessageDirectionClass("Unsupported media", msgClass),
-      [getMessageDirectionClass, msgClass]
+      [getMessageDirectionClass, msgClass],
     );
     // #endregion
     // #region رندر چپ — JSX مربوط به نمایش پیام‌های دریافتی (سمت چپ)
@@ -30,7 +30,7 @@ export const ChatGeneric: React.FC<BaseChatProps> = React.memo(
         />
       </>
     );
-  }
+  },
 );
 ChatGeneric.displayName = "ChatGeneric";
 // #endregion

@@ -21,7 +21,7 @@ import { MethodType } from "brancy/helper/api";
 import { IPost, IPostContent } from "brancy/models/page/post/posts";
 import { IUploadPost, UploadPostSteps } from "brancy/models/page/socketPage";
 import ScheduledPost from "brancy/components/page/scheduledPost/scheduledPost";
-import styles from "brancy/components/page/posts/postContent.module.css";
+import styles from "./postContent.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 type PostState = {

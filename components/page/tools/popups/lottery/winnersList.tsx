@@ -15,7 +15,7 @@ import initialzedTime, { convertToMilliseconds } from "brancy/helper/manageTimer
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { IFullLottery } from "brancy/models/page/tools/tools";
-import styles from "brancy/components/page/tools/popups/lottery/winnersList.module.css";
+import styles from "./winnersList.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const WinnersList = (props: { removeMask: () => void; lotteryId: string; handleBackToLotteryHistory: () => void }) => {
@@ -30,12 +30,18 @@ const WinnersList = (props: { removeMask: () => void; lotteryId: string; handleB
   const [loading, setLoading] = useState(true);
   async function shareBanner() {
     try {
-      var res = await clientFetchApi<boolean, IFullLottery>("/api/lottery/PublishBanner", { methodType: MethodType.get, session: session, data: null, queries: [
+      var res = await clientFetchApi<boolean, IFullLottery>("/api/lottery/PublishBanner", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           {
             key: "lotteryId",
             value: fullLottery!.id,
           },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         internalNotify(InternalResponseType.Ok, NotifType.Success, ", Banner is stored successfully");
       } else {
@@ -49,12 +55,18 @@ const WinnersList = (props: { removeMask: () => void; lotteryId: string; handleB
   }
   async function fetchData() {
     try {
-      var res = await clientFetchApi<boolean, IFullLottery>("/api/lottery/GetFullLottery", { methodType: MethodType.get, session: session, data: null, queries: [
+      var res = await clientFetchApi<boolean, IFullLottery>("/api/lottery/GetFullLottery", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           {
             key: "id",
             value: props.lotteryId.toString(),
           },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setFullLottery(res.value);
         setLoading(false);

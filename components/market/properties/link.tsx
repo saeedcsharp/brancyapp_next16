@@ -22,7 +22,7 @@ import Loading from "brancy/components/notOk/loading";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
 import { ILink, IUpdateOrderLink } from "brancy/models/market/properties";
-import styles from "brancy/components/market/properties/link.module.css";
+import styles from "./link.module.css";
 
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
@@ -52,7 +52,7 @@ function SortableItem({
       transform: CSS.Transform.toString(transform),
       transition,
     }),
-    [transform, transition]
+    [transform, transition],
   );
 
   const handleKeyDown = useCallback(
@@ -65,7 +65,7 @@ function SortableItem({
         onToggleMenu();
       }
     },
-    [isMenuOpen, onToggleMenu]
+    [isMenuOpen, onToggleMenu],
   );
 
   const handleImageError = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
@@ -181,7 +181,7 @@ function SortableItem({
                   },
                 },
               ],
-              [t, handleClickOnIcon, onToggleMenu]
+              [t, handleClickOnIcon, onToggleMenu],
             )}
           />
         </div>
@@ -209,7 +209,7 @@ const Link = (props: {
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   const handleDragEnd = useCallback(
@@ -232,7 +232,7 @@ const Link = (props: {
         });
       }
     },
-    [props.handleUpdateOrderLinks]
+    [props.handleUpdateOrderLinks],
   );
 
   useEffect(() => {
@@ -259,7 +259,7 @@ const Link = (props: {
         props.handleShowDotIcons(fakeEvent);
       }
     },
-    [openMenuLinkId, props.handleShowDotIcons]
+    [openMenuLinkId, props.handleShowDotIcons],
   );
 
   const handleAddNewLinkKeyDown = useCallback(
@@ -269,7 +269,7 @@ const Link = (props: {
         props.addNewLink();
       }
     },
-    [props.addNewLink]
+    [props.addNewLink],
   );
 
   const sortableItems = useMemo(() => linkInfo.map((_, i) => i.toString()), [linkInfo]);

@@ -4,8 +4,12 @@ import LinkifyText from "brancy/context/LinkifyText";
 import { getMessageDirectionClass } from "brancy/helper/checkRtl";
 import { detectEmojiOnly } from "brancy/helper/emojiDetector";
 import { TicketBaseChatProps } from "brancy/components/messages/ticket/chatComponents/types";
-import { TicketChatDate, TicketMessageStatus, TicketReactionEmoji } from "brancy/components/messages/ticket/chatComponents/shared/utils";
-import styles from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/messageTypes.module.css";
+import {
+  TicketChatDate,
+  TicketMessageStatus,
+  TicketReactionEmoji,
+} from "brancy/components/messages/ticket/chatComponents/shared/utils";
+import styles from "./messageTypes.module.css";
 // #region تعریف کامپوننت - نمایش متن بلیت
 // این کامپوننت پیام متنی را برای هر دو جهت نمایش می‌دهد و منو/ایموجی را مدیریت می‌کند.
 const TicketChatTextComponent: React.FC<TicketBaseChatProps> = ({
@@ -26,11 +30,11 @@ const TicketChatTextComponent: React.FC<TicketBaseChatProps> = ({
       chat: isLeft ? styles.leftchat : styles.rightchat,
       msg: isLeft ? styles.leftchatMSG : styles.rightchatMSG,
     }),
-    [isLeft]
+    [isLeft],
   );
   const emojiStyle = useMemo(
     () => (isEmojiOnly ? { background: isLeft ? "var(--color-light-blue)" : "var(--color-dark-blue)" } : {}),
-    [isEmojiOnly, isLeft]
+    [isEmojiOnly, isLeft],
   );
   // #endregion
 
@@ -39,7 +43,7 @@ const TicketChatTextComponent: React.FC<TicketBaseChatProps> = ({
     (iconId: string) => {
       onClickSubIcon(iconId, item.itemId);
     },
-    [item.itemId, onClickSubIcon]
+    [item.itemId, onClickSubIcon],
   );
   const dotMenuData = useMemo(
     () => [
@@ -49,7 +53,7 @@ const TicketChatTextComponent: React.FC<TicketBaseChatProps> = ({
         value: item.ownerEmojiReaction ? "UnReact" : "React",
       },
     ],
-    [item.ownerEmojiReaction]
+    [item.ownerEmojiReaction],
   );
   // #endregion
 

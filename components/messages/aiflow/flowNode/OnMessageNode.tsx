@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/messages/aiflow/flowNode/OnMessageNode.module.css";
+import styles from "./OnMessageNode.module.css";
 import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
 export const OnMessageNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) => {
   const { t } = useTranslation();

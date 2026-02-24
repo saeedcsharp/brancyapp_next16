@@ -6,7 +6,7 @@ import ProgressBar from "brancy/components/design/progressBar/progressBar";
 import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import styles from "brancy/components/page/tools/popups/hashtags/newPictureAnalyzerList.module.css";
+import styles from "./newPictureAnalyzerList.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 interface IHashtagPicture {
@@ -78,7 +78,13 @@ const NewPictureAnalyzerList = (props: {
         let info: IHashtagPicture = {
           media: (await toBase64(file)) as string,
         };
-        const serverResult = await clientFetchApi<IHashtagPicture, string[]>("/api/hashtag/GetHashtagsByImage", { methodType: MethodType.post, session: session, data: info, queries: [], onUploadProgress: setProgress });
+        const serverResult = await clientFetchApi<IHashtagPicture, string[]>("/api/hashtag/GetHashtagsByImage", {
+          methodType: MethodType.post,
+          session: session,
+          data: info,
+          queries: [],
+          onUploadProgress: setProgress,
+        });
         if (serverResult.statusCode == 200) {
           console.log("Image uploaded successfully");
           setHashtags(serverResult.value);

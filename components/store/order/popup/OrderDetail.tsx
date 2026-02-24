@@ -9,7 +9,7 @@ import { MethodType } from "brancy/helper/api";
 import { OrderStep } from "brancy/models/store/enum";
 import { IFullProduct, IOrderDetail } from "brancy/models/store/orders";
 import OrderDetailContent from "brancy/components/store/order/popup/OrderDetail-Content";
-import styles from "brancy/components/store/order/popup/OrderDetail.module.css";
+import styles from "./OrderDetail.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 interface OrderDetailProps {
   removeMask: () => void;
@@ -44,7 +44,7 @@ const OrderDetail: FC<OrderDetailProps> = ({
         removeMask();
       }
     },
-    [removeMask]
+    [removeMask],
   );
   useLayoutEffect(() => {
     if (popupRef.current) {
@@ -58,14 +58,20 @@ const OrderDetail: FC<OrderDetailProps> = ({
   }, []);
   async function fetchData() {
     try {
-      const res = await clientFetchApi<IOrderDetail, IFullProduct>("/api/order/GetFullOrder", { methodType: MethodType.get, session: session, data: null, queries: [
+      const res = await clientFetchApi<IOrderDetail, IFullProduct>("/api/order/GetFullOrder", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "orderId", value: orderDetail.orderId },
           {
             key: "userId",
             value: orderDetail.userId ? orderDetail.userId.toString() : "",
           },
           { key: "language", value: findSystemLanguage().toString() },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) setFullProduct(res.value);
       else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {

@@ -18,7 +18,7 @@ import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { Language } from "brancy/models/messages/enum";
 import { IMessagePanel } from "brancy/models/messages/properies";
-import styles from "brancy/components/messages/properties/properties.module.css";
+import styles from "./properties.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 function MessagePanel({
@@ -64,7 +64,16 @@ function MessagePanel({
       // Wrapped in useCallback
       if (!LoginStatus(session)) return;
       try {
-        const res = await clientFetchApi<boolean, boolean>("Instagramer" + "" + `/Message${on ? "/ResumeAllAutoReplies" : "/PauseAllAutoReplies"}`, { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, boolean>(
+          "Instagramer" + "" + `/Message${on ? "/ResumeAllAutoReplies" : "/PauseAllAutoReplies"}`,
+          {
+            methodType: MethodType.get,
+            session: session,
+            data: undefined,
+            queries: undefined,
+            onUploadProgress: undefined,
+          },
+        );
         if (res.succeeded)
           internalNotify(on ? InternalResponseType.AutoReplyOn : InternalResponseType.AutoReplyOff, NotifType.Success);
         else notify(res.info.responseType, NotifType.Warning);
@@ -72,7 +81,7 @@ function MessagePanel({
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session]
+    [session],
   ); // Added session dependency
 
   const [selectedLanguage, setSelectedLanguage] = useState<number | null>(null);
@@ -99,7 +108,7 @@ function MessagePanel({
           break;
       }
     },
-    [AutoreplyPerPost, t] // Added dependencies
+    [AutoreplyPerPost, t], // Added dependencies
   );
 
   useEffect(() => {

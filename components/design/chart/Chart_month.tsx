@@ -16,7 +16,7 @@ import Loading from "brancy/components/notOk/loading";
 import { LoginStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { DayCountUnix, IMonthGraph } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
-import multiStyles from "brancy/components/design/chart/Chart_month.module.css";
+import multiStyles from "./Chart_month.module.css";
 interface ISeriesData {
   name: string;
   color: string;
@@ -289,11 +289,11 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
           break;
       }
     },
-    [state.indexValue]
+    [state.indexValue],
   );
   useEffect(() => {
     try {
-      const cal = typeof window !== "undefined" ? window.localStorage.getItem("calendar") ?? undefined : undefined;
+      const cal = typeof window !== "undefined" ? (window.localStorage.getItem("calendar") ?? undefined) : undefined;
       setCalendarId(mapCalendarNameToId(cal));
     } catch {}
     const onCalendarChanged = (e: Event) => {
@@ -394,7 +394,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
         year: yearFormatter.format(d),
       };
     },
-    [monthFormatter, yearFormatter]
+    [monthFormatter, yearFormatter],
   );
   const monthYearLabels = useMemo(() => {
     return allMonthsData?.map((v) => getMonthYearLabels(v.year, v.month)) ?? [];
@@ -509,7 +509,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
   const chartData = useMemo(() => {
     if (!visibleSeriesData || visibleSeriesData.length === 0) return null;
     const seriesMaps: Map<number, number>[] = visibleSeriesData.map(
-      (s) => new Map(s.items.map((it) => [it.createdTime * 1000, it.count]))
+      (s) => new Map(s.items.map((it) => [it.createdTime * 1000, it.count])),
     );
     const tsSet = new Set<number>();
     for (let i = 0; i < seriesMaps.length; i++) {
@@ -703,7 +703,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
         dispatch({ type: "SET_TOOLTIP", payload: null });
       }
     },
-    [chartData]
+    [chartData],
   );
   const handleMouseLeave = useCallback(() => {
     if (pendingRaf.current) cancelAnimationFrame(pendingRaf.current);
@@ -751,7 +751,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
         dispatch({ type: "SET_TOOLTIP", payload: null });
       }
     },
-    [chartData]
+    [chartData],
   );
   const handleTouchEnd = useCallback(() => {
     if (pendingRaf.current) cancelAnimationFrame(pendingRaf.current);
@@ -794,7 +794,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
         });
       }
     },
-    [chartData]
+    [chartData],
   );
   const setFromEdge = useCallback(() => {
     dispatch({ type: "SET_REACH_FLAGS", payload: { begin: false, end: false } });
@@ -822,7 +822,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
         return next;
       });
     },
-    [props.objectNavigators]
+    [props.objectNavigators],
   );
   const objectNavNext = useCallback(
     (navIdx: number) => {
@@ -840,7 +840,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
         return next;
       });
     },
-    [props.objectNavigators]
+    [props.objectNavigators],
   );
   useEffect(() => {
     dispatch({
@@ -863,7 +863,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
       }
       touchStartX.current = null;
     },
-    [goNext, goPrev]
+    [goNext, goPrev],
   );
   const exportChartAsJpeg = useCallback(async () => {
     try {
@@ -904,7 +904,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
               URL.revokeObjectURL(objectUrl);
             },
             "image/jpeg",
-            0.92
+            0.92,
           );
         } finally {
           try {
@@ -954,7 +954,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
         if (el) el.classList.remove(multiStyles.dragging || "");
       } catch {}
     },
-    [goNext, goPrev]
+    [goNext, goPrev],
   );
   const toggleLinkVisibility = useCallback(
     (seriesId: string) => {
@@ -968,7 +968,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
         dispatch({ type: "TOGGLE_LINK", payload: seriesId });
       }
     },
-    [props.seriesData.length, state.hiddenLinks]
+    [props.seriesData.length, state.hiddenLinks],
   );
   const unshowContent = props.unshowContent !== undefined ? props.unshowContent : true;
   const hasData = allMonthsData && allMonthsData.length > 0;
@@ -982,7 +982,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
   useEffect(() => {
     if (!props.objectNavigators) return;
     setObjectNavState(
-      props.objectNavigators.map((n) => ({ firstIndex: n.initialFirstIndex ?? 0, secondIndex: n.initialSecondIndex }))
+      props.objectNavigators.map((n) => ({ firstIndex: n.initialFirstIndex ?? 0, secondIndex: n.initialSecondIndex })),
     );
   }, [props.objectNavigators]);
   // Ensure animations run when the chart is first rendered or when visible series change.
@@ -1008,7 +1008,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
         props.onObjectNavigatorChange?.(navIdx, firstIdx, secondIdx);
       } catch {}
     },
-    [props]
+    [props],
   );
   return (
     <>
@@ -1327,7 +1327,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
                         chartData.seriesPaths.reduce((sum: number, series: any) => {
                           const point = series.points[state.hoveredPoint!.dataIndex];
                           return sum + (point?.value || 0);
-                        }, 0)
+                        }, 0),
                       ).toLocaleString()}
                     </span>
                   </div>

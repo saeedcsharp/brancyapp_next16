@@ -9,7 +9,7 @@ import { LanguageKey } from "brancy/i18n";
 import { InitialSetupState } from "brancy/models/homeIndex/home";
 import { MethodType } from "brancy/helper/api";
 import { ICalendar, ILangauge } from "brancy/models/setting/general";
-import styles from "brancy/components/setting/general/general.module.css";
+import styles from "./general.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 function System() {
@@ -223,7 +223,13 @@ function System() {
         language: window.localStorage.getItem("language") || "en",
         theme: window.localStorage.getItem("theme") || "light",
       };
-      const res = await clientFetchApi<InitialSetupState, boolean>("/api/uisetting/Update", { methodType: MethodType.post, session: session, data: settingUiUpdate, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<InitialSetupState, boolean>("/api/uisetting/Update", {
+        methodType: MethodType.post,
+        session: session,
+        data: settingUiUpdate,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
 
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
     } catch (error) {

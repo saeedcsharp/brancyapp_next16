@@ -16,8 +16,8 @@ import { IAdContent, IAdReport } from "brancy/models/advertise/adList";
 import { MediaType } from "brancy/models/ApiModels/Instagramer/Page/FirstPostPage";
 import AdsTypeComp from "brancy/components/advertise/adsType";
 import TimeTypeComp from "brancy/components/advertise/timeType";
-import styles from "brancy/components/advertise/adList/popups/adDetails.module.css";
-import styles2 from "brancy/components/advertise/adList/popups/detailContent.module.css";
+import styles from "./adDetails.module.css";
+import styles2 from "./components/advertise/adList/popups/detailContent.module.css";
 
 const AdReport = (props: { removeMask: () => void; advertiseId: number }) => {
   const { t } = useTranslation();
@@ -391,8 +391,8 @@ const AdReport = (props: { removeMask: () => void; advertiseId: number }) => {
                       alt=" post"
                       src={
                         adContent.medias[showMediaIndex].mediaType == MediaType.Image
-                          ? adContent.medias[showMediaIndex].mediaUri ?? adContent.medias[showMediaIndex].media
-                          : adContent.medias[showMediaIndex].coverUri ?? adContent.medias[showMediaIndex].cover
+                          ? (adContent.medias[showMediaIndex].mediaUri ?? adContent.medias[showMediaIndex].media)
+                          : (adContent.medias[showMediaIndex].coverUri ?? adContent.medias[showMediaIndex].cover)
                       }
                     />
                   ) : (

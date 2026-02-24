@@ -6,7 +6,7 @@ import { ChatDate } from "brancy/components/messages/direct/chatComponents/share
 import { MessageStatus } from "brancy/components/messages/direct/chatComponents/shared/utils/ChatDateandseen";
 import ReactionEmoji from "brancy/components/messages/direct/chatComponents/shared/utils/ReactionEmoji";
 import { RepliedMessage } from "brancy/components/messages/direct/chatComponents/shared/utils/RepliedMessage";
-import styles from "brancy/components/messages/direct/chatComponents/shared/messageTypes/messageTypes.module.css";
+import styles from "./messageTypes.module.css";
 
 // #region کامپوننت اصلی
 export const ChatMediaShare: React.FC<BaseChatProps> = memo(
@@ -29,7 +29,7 @@ export const ChatMediaShare: React.FC<BaseChatProps> = memo(
     const shares = item.mediaShares || [];
     const mediaSrcs = useMemo(
       () => shares.map((s) => (useExternalUrl ? s.externalUrl : baseMediaUrl + s.url)),
-      [shares, useExternalUrl, baseMediaUrl]
+      [shares, useExternalUrl, baseMediaUrl],
     );
     // #endregion
 
@@ -46,7 +46,7 @@ export const ChatMediaShare: React.FC<BaseChatProps> = memo(
           isExpired: currentTimeNanos > (item.createdTime || 0) + 259200000000,
         };
       },
-      [item.medias, item.createdTime, useExternalUrl, baseMediaUrl]
+      [item.medias, item.createdTime, useExternalUrl, baseMediaUrl],
     );
     // #endregion
 
@@ -62,7 +62,7 @@ export const ChatMediaShare: React.FC<BaseChatProps> = memo(
           value: "Download",
         },
       ],
-      [item.ownerEmojiReaction]
+      [item.ownerEmojiReaction],
     );
     // #endregion
 
@@ -77,7 +77,7 @@ export const ChatMediaShare: React.FC<BaseChatProps> = memo(
         const src = mediaSrcs[index];
         if (src) window.open(src, "_blank");
       },
-      [mediaSrcs, onVideoContainerClick, videoDataFor]
+      [mediaSrcs, onVideoContainerClick, videoDataFor],
     );
     const handleShareKeyDown = useCallback(
       (e: React.KeyboardEvent, index: number) => {
@@ -105,7 +105,7 @@ export const ChatMediaShare: React.FC<BaseChatProps> = memo(
           (e.currentTarget as HTMLElement).blur();
         }
       },
-      [mediaSrcs.length, handleShareClick]
+      [mediaSrcs.length, handleShareClick],
     );
     const handleDotMenuClick = useCallback(
       (iconId: string, index?: number) => {
@@ -115,7 +115,7 @@ export const ChatMediaShare: React.FC<BaseChatProps> = memo(
         }
         onClickSubIcon?.(iconId, item.itemId);
       },
-      [mediaSrcs, onClickSubIcon, item.itemId]
+      [mediaSrcs, onClickSubIcon, item.itemId],
     );
     const handleImageError = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
       e.currentTarget.src = "/no-profile.svg";
@@ -136,7 +136,7 @@ export const ChatMediaShare: React.FC<BaseChatProps> = memo(
           <MediaDetector src={mediaSrcs[index]} />
         </div>
       ),
-      [mediaSrcs, handleShareClick, handleShareKeyDown]
+      [mediaSrcs, handleShareClick, handleShareKeyDown],
     );
 
     const mediaWithReply = useCallback(
@@ -159,7 +159,7 @@ export const ChatMediaShare: React.FC<BaseChatProps> = memo(
         handleSpecifyRepliedItemFullName,
         handleSpecifyRepliedItemType,
         mediaSrcs,
-      ]
+      ],
     );
     // #endregion
 
@@ -223,5 +223,5 @@ export const ChatMediaShare: React.FC<BaseChatProps> = memo(
         )}
       </>
     );
-  }
+  },
 );

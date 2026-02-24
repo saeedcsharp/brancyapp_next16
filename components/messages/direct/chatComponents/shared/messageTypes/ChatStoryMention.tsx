@@ -6,7 +6,7 @@ import { ChatDate } from "brancy/components/messages/direct/chatComponents/share
 import { MessageStatus } from "brancy/components/messages/direct/chatComponents/shared/utils/ChatDateandseen";
 import ReactionEmoji from "brancy/components/messages/direct/chatComponents/shared/utils/ReactionEmoji";
 import { RepliedMessage } from "brancy/components/messages/direct/chatComponents/shared/utils/RepliedMessage";
-import styles from "brancy/components/messages/direct/chatComponents/shared/messageTypes/messageTypes.module.css";
+import styles from "./messageTypes.module.css";
 
 export const ChatStoryMention: React.FC<BaseChatProps> = memo(
   ({
@@ -53,7 +53,7 @@ export const ChatStoryMention: React.FC<BaseChatProps> = memo(
           value: "Download",
         },
       ],
-      [item.ownerEmojiReaction]
+      [item.ownerEmojiReaction],
     );
     // #endregion
 
@@ -66,7 +66,7 @@ export const ChatStoryMention: React.FC<BaseChatProps> = memo(
         if (iconId === "Download" && storySrc) window.open(storySrc, "_blank");
         onClickSubIcon?.(iconId, item.itemId);
       },
-      [storySrc, onClickSubIcon, item.itemId]
+      [storySrc, onClickSubIcon, item.itemId],
     );
     const handleKeyDown = useCallback(
       (e: React.KeyboardEvent) => {
@@ -91,7 +91,7 @@ export const ChatStoryMention: React.FC<BaseChatProps> = memo(
           el?.focus();
         }
       },
-      [handleVideoClick]
+      [handleVideoClick],
     );
     const handleImageError = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
       e.currentTarget.src = "/no-profile.svg";
@@ -174,5 +174,5 @@ export const ChatStoryMention: React.FC<BaseChatProps> = memo(
       </>
     );
     // #endregion
-  }
+  },
 );

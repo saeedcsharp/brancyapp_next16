@@ -4,7 +4,7 @@ import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/compone
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
 import { ITariff } from "brancy/models/advertise/peoperties";
-import styles from "brancy/components/advertise/properties/propertiesComponent.module.css";
+import styles from "./propertiesComponent.module.css";
 function Tariff(props: { setShowTariffPopup: (showTarifPopup: boolean) => void; tariif: ITariff }) {
   const { t } = useTranslation();
   const { hidePage, gridSpan, toggle } = useHideDiv(true, 82);

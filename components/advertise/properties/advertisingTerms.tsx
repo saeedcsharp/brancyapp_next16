@@ -5,7 +5,7 @@ import TextArea from "brancy/components/design/textArea/textArea";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
 import { IAdvertisingTerms } from "brancy/models/advertise/peoperties";
-import styles from "brancy/components/advertise/properties/propertiesComponent.module.css";
+import styles from "./propertiesComponent.module.css";
 
 function AdvertisingTerms(props: { advertisinfTerms: IAdvertisingTerms }) {
   const { t } = useTranslation();

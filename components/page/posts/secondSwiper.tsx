@@ -7,7 +7,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import styles from "brancy/components/page/posts/insightChart.module.css";
+import styles from "./insightChart.module.css";
 function SecondSwiper(props: {
   superFigur: SuperFigure;
   indexValue: number;

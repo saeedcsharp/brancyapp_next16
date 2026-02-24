@@ -18,7 +18,7 @@ import {
   IUpdatePartner,
   PartnerRole,
 } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import styles from "brancy/components/setting/general/popup/addPartner.module.css";
+import styles from "./addPartner.module.css";
 const AddPartner = React.memo(
   ({
     partner,
@@ -53,7 +53,7 @@ const AddPartner = React.memo(
     const [activeTab, setActiveTab] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
     const handleOptionChanged = useCallback((e: ChangeEvent<HTMLInputElement>) => {
       setCheckBox(
-        e.target.name === "Permanent" ? { permanent: true, periodic: false } : { permanent: false, periodic: true }
+        e.target.name === "Permanent" ? { permanent: true, periodic: false } : { permanent: false, periodic: true },
       );
     }, []);
     const handleSaveNewPartner = useCallback(() => {
@@ -455,7 +455,7 @@ const AddPartner = React.memo(
         )}
       </>
     );
-  }
+  },
 );
 
 export default AddPartner;

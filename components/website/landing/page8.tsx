@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import useMousePosition from "brancy/helper/useMousePosition";
-import styles from "brancy/components/website/landing/page8.module.css";
+import styles from "./page8.module.css";
 
 const Page8 = () => {
   const { t } = useTranslation();

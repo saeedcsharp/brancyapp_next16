@@ -6,7 +6,7 @@ import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton"
 import { findDayName, findDayNumber } from "brancy/helper/findDayName";
 import { LanguageKey } from "brancy/i18n";
 import { BusinessDay, IActiveBusinessHour, IBusinessHour } from "brancy/models/advertise/peoperties";
-import styles from "brancy/components/advertise/properties/popups/businessHours.module.css";
+import styles from "./businessHours.module.css";
 
 const EditBusinessHours = (props: {
   businessInfo: IBusinessHour[];
@@ -42,8 +42,8 @@ const EditBusinessHours = (props: {
     }));
     setBusinessHours((prev) =>
       prev.map((x) =>
-        x.dayName === findDayNumber(e.target.name) ? { ...x, timerInfo: e.target.checked ? x.timerInfo : null } : x
-      )
+        x.dayName === findDayNumber(e.target.name) ? { ...x, timerInfo: e.target.checked ? x.timerInfo : null } : x,
+      ),
     );
   }
 

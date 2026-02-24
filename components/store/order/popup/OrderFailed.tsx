@@ -8,7 +8,7 @@ import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { IFullProduct, IOrderDetail } from "brancy/models/store/orders";
 import OrderDetailContent from "brancy/components/store/order/popup/OrderDetail-Content";
-import styles from "brancy/components/store/order/popup/orderstep.module.css";
+import styles from "./orderstep.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 interface OrderDetailProps {
   removeMask: () => void;
@@ -38,7 +38,7 @@ const OrderFailed: FC<OrderDetailProps> = ({ removeMask, orderDetail }) => {
         removeMask();
       }
     },
-    [removeMask]
+    [removeMask],
   );
 
   useLayoutEffect(() => {
@@ -53,14 +53,20 @@ const OrderFailed: FC<OrderDetailProps> = ({ removeMask, orderDetail }) => {
   }, []);
   async function handleGetFullOrder() {
     try {
-      const res = await clientFetchApi<IOrderDetail, IFullProduct>("/api/order/GetFullOrder", { methodType: MethodType.get, session: session, data: null, queries: [
+      const res = await clientFetchApi<IOrderDetail, IFullProduct>("/api/order/GetFullOrder", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "orderId", value: orderDetail.orderId },
           {
             key: "userId",
             value: orderDetail.userId ? orderDetail.userId.toString() : "",
           },
           { key: "language", value: findSystemLanguage().toString() },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setFullProduct(res.value);
         setLoading(false);

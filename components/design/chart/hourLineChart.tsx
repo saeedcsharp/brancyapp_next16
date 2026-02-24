@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import styles from "brancy/components/design/chart/hourLineChart.module.css";
+import styles from "./hourLineChart.module.css";
 
 interface HourCountUnix {
   hourValue: number;

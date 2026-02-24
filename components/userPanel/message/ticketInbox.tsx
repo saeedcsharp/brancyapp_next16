@@ -24,7 +24,7 @@ import {
 } from "brancy/models/userPanel/message";
 import ReportModal from "brancy/components/userPanel/message/popup/reportModal";
 import UserPanelDirectChatBox from "brancy/components/userPanel/message/ticketChatBox";
-import styles from "brancy/components/userPanel/message/ticketInbox.module.css";
+import styles from "./ticketInbox.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 let firstTime = 0;

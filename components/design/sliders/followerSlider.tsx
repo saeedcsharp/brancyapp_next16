@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import Slider from "react-slider";
 import { calculateSummary } from "brancy/helper/numberFormater";
-import styles from "brancy/components/design/sliders/slider.module.css";
+import styles from "./slider.module.css";
 
 function FollowerSlider(props: {
   handleChangePrice: (minValue: number, maxValue: number) => void;

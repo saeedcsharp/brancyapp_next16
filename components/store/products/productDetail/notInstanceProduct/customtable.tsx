@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import CheckBoxButton from "brancy/components/design/checkBoxButton";
 import InputText from "brancy/components/design/inputText";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/store/products/productDetail/notInstanceProduct/customtable.module.css";
+import styles from "./customtable.module.css";
 interface TableCell {
   value: string;
 }
@@ -31,7 +31,7 @@ export default function CustomTable({ onClose, onInsertTable, initialTable, init
     const ensureTableDimensions = (
       parsedRows: TableRow[],
       parsedCols: number,
-      parsedIsHeader: boolean
+      parsedIsHeader: boolean,
     ): { finalRows: TableRow[]; finalCols: number; finalIsHeader: boolean } => {
       let finalRows = [...parsedRows];
       let finalCols = parsedCols;
@@ -150,7 +150,7 @@ export default function CustomTable({ onClose, onInsertTable, initialTable, init
         const newCells = [...row.cells];
         newCells.splice(insertIndex, 0, { value: "" });
         return { cells: newCells };
-      })
+      }),
     );
   };
   const removeColumn = (colIndex: number) => {
@@ -163,7 +163,7 @@ export default function CustomTable({ onClose, onInsertTable, initialTable, init
         const newCells = [...row.cells];
         newCells.splice(colIndex, 1);
         return { cells: newCells };
-      })
+      }),
     );
   };
   const updateCell = (rowIndex: number, colIndex: number, value: string) => {

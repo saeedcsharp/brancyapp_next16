@@ -8,7 +8,7 @@ import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { ILoadingStatus, IPartner } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import styles from "brancy/components/setting/subAdmin/general.module.css";
+import styles from "./general.module.css";
 
 export default function Partners({
   partners,
@@ -246,7 +246,7 @@ export default function Partners({
                       <span className="translate">
                         {sess.phoneNumber
                           ? `${sess.phoneNumber.replace(/(\d{1,2})(\d{3})(\d{3})(\d{4})?/, (m, c, a, b, d) =>
-                              d ? `+${c} ${a} ${b} ${d}` : `+${c} ${a} ${b}`
+                              d ? `+${c} ${a} ${b} ${d}` : `+${c} ${a} ${b}`,
                             )} - ${getCountryFlag(sess.countryCode)}`
                           : "-"}
                       </span>

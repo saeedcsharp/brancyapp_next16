@@ -6,7 +6,7 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { InputTypeAddress } from "brancy/models/userPanel/orders";
-import styles from "brancy/components/store/bankAccountType/bankAccountType.module.css";
+import styles from "./bankAccountType.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 export default function CardNumber({
   handleShowAddress,
@@ -69,7 +69,13 @@ export default function CardNumber({
   };
   async function handleGetAddressInputType() {
     try {
-      const res = await clientFetchApi<boolean, InputTypeAddress>("/api/address/GetAddressInputType", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, InputTypeAddress>("/api/address/GetAddressInputType", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setUploadStatusCredit("ok");
         handleShowAddress(res.value);
@@ -80,7 +86,13 @@ export default function CardNumber({
   }
   async function authorizeInstagramerByCardNumber(cardNumber: string) {
     try {
-      const res = await clientFetchApi<boolean, number>("/api/authorize/AuthorizeInstagramerByCardNumber", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "cardNumber", value: cardNumber }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, number>("/api/authorize/AuthorizeInstagramerByCardNumber", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "cardNumber", value: cardNumber }],
+        onUploadProgress: undefined,
+      });
       if (!res.succeeded) {
         setUploadStatusCredit("fail");
         notify(res.info.responseType, NotifType.Warning);
@@ -97,8 +109,8 @@ export default function CardNumber({
         uploadStatusCredit === "ok"
           ? `${styles.progressStep} ${styles.progressStepSuccess}`
           : uploadStatusCredit === "fail"
-          ? `${styles.progressStep} ${styles.progressStepFail}`
-          : styles.progressStep
+            ? `${styles.progressStep} ${styles.progressStepFail}`
+            : styles.progressStep
       }>
       <div className="headerparent">
         <div className="instagramprofile">

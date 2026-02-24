@@ -5,7 +5,7 @@ import { MethodType } from "brancy/helper/api";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
-import styles from "brancy/components/upgrade/upgrade.module.css";
+import styles from "./upgrade.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 export interface PaymentInfo {
   accountType: number;
@@ -24,7 +24,13 @@ function Upgrade(props: { removeMask: () => void }) {
   const [loading, setLoading] = useState(true);
   async function getPSGInfo() {
     try {
-      const res = await clientFetchApi<boolean, PaymentInfo[]>("Instagramer" + "/PSG/GetPackagePrices", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, PaymentInfo[]>("Instagramer" + "/PSG/GetPackagePrices", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setPackages(res.value);
         setLoading(false);
@@ -35,7 +41,13 @@ function Upgrade(props: { removeMask: () => void }) {
   }
   async function handleRedirectToPayment(month: number) {
     try {
-      const res = await clientFetchApi<boolean, string>("Instagramer" + "/PSG/GetPackageRedirectUrl", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "monthCount", value: month.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, string>("Instagramer" + "/PSG/GetPackageRedirectUrl", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "monthCount", value: month.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         router.push(res.value);
       } else notify(res.info.responseType, NotifType.Warning);

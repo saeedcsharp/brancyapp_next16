@@ -1,15 +1,9 @@
 import { useSession } from "next-auth/react";
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import InputText from "brancy/components/design/inputText";
 import { LanguageKey } from "brancy/i18n/languageKeys";
-import styles from "brancy/components/messages/aiflow/flowNode/livetest.module.css";
+import styles from "./livetest.module.css";
 import { NodeData } from "brancy/components/messages/aiflow/flowNode/types";
 
 // Define baseMediaUrl or import it from a config file
@@ -29,15 +23,7 @@ interface EditorStateLite {
   connections: Connection[];
 }
 
-type MessageKind =
-  | "text"
-  | "image"
-  | "video"
-  | "audio"
-  | "weblink"
-  | "quickreply"
-  | "generic"
-  | "genericitem";
+type MessageKind = "text" | "image" | "video" | "audio" | "weblink" | "quickreply" | "generic" | "genericitem";
 
 interface ChatMessageBase {
   id: string;
@@ -113,31 +99,16 @@ function getOutgoing(conns: Connection[], nodeId: string) {
   return conns.filter((c) => c.sourceNodeId === nodeId);
 }
 
-function getConnectionForOutput(
-  conns: Connection[],
-  nodeId: string,
-  socketId: string,
-) {
-  return conns.find(
-    (c) => c.sourceNodeId === nodeId && c.sourceSocketId === socketId,
-  );
+function getConnectionForOutput(conns: Connection[], nodeId: string, socketId: string) {
+  return conns.find((c) => c.sourceNodeId === nodeId && c.sourceSocketId === socketId);
 }
 
 function isVideoUrl(url?: string | null) {
   if (!url) return false;
-  return (
-    /(\.mp4|\.webm|\.ogg|\.mov|\.avi|\.mkv)($|\?)/i.test(url) ||
-    url.startsWith("data:video/")
-  );
+  return /(\.mp4|\.webm|\.ogg|\.mov|\.avi|\.mkv)($|\?)/i.test(url) || url.startsWith("data:video/");
 }
 
-export const LiveTestModal: React.FC<LiveTestModalProps> = ({
-  isOpen,
-  onClose,
-  editorState,
-  title,
-  avatarUrl,
-}) => {
+export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, editorState, title, avatarUrl }) => {
   const { t } = useTranslation();
   const { data: session, status } = useSession();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -146,19 +117,14 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({
   const lastUserIdRef = useRef<string | null>(null);
   const [seenUserId, setSeenUserId] = useState<string | null>(null);
   const [deliveredUserId, setDeliveredUserId] = useState<string | null>(null);
-  const [clickedQuickReplies, setClickedQuickReplies] = useState<Set<string>>(
-    new Set(),
-  );
-  const [clickedGenericButtons, setClickedGenericButtons] = useState<
-    Set<string>
-  >(new Set());
+  const [clickedQuickReplies, setClickedQuickReplies] = useState<Set<string>>(new Set());
+  const [clickedGenericButtons, setClickedGenericButtons] = useState<Set<string>>(new Set());
   const seenTimerRef = useRef<NodeJS.Timeout | null>(null);
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const nodes = editorState?.nodes || [];
   const connections = editorState?.connections || [];
 
-  const userAvatar =
-    avatarUrl || session?.user?.profileUrl || "/default-avatar.png";
+  const userAvatar = avatarUrl || session?.user?.profileUrl || "/default-avatar.png";
   useEffect(() => {
     if (!isOpen) return;
     // Reset on open
@@ -178,10 +144,7 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({
     bottomRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages, typing]);
 
-  const startNode = useMemo(
-    () => nodes.find((n) => n.type === "onmessage"),
-    [nodes],
-  );
+  const startNode = useMemo(() => nodes.find((n) => n.type === "onmessage"), [nodes]);
 
   // Accept a payload matching any bot message variant without base fields
   type BotPayload =
@@ -217,10 +180,7 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({
     const id = `${Date.now()}_${Math.random()}`;
     lastUserIdRef.current = id;
     setSeenUserId(null);
-    setMessages((prev) => [
-      ...prev,
-      { id, role: "user", timestamp: Date.now(), kind: "text", text },
-    ]);
+    setMessages((prev) => [...prev, { id, role: "user", timestamp: Date.now(), kind: "text", text }]);
   }, []);
 
   const runFromNode = useCallback(
@@ -231,8 +191,7 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({
       visited.add(node.id);
 
       // Small delay to simulate typing
-      const delay = async (ms: number) =>
-        new Promise((res) => setTimeout(res, ms));
+      const delay = async (ms: number) => new Promise((res) => setTimeout(res, ms));
 
       const cont = async () => {
         const outs = getOutgoing(connections, node.id);
@@ -272,8 +231,7 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({
           break;
         }
         case "voice": {
-          const url =
-            node.data?.tempVoiceUrl || baseMediaUrl + node.data.voiceUrl;
+          const url = node.data?.tempVoiceUrl || baseMediaUrl + node.data.voiceUrl;
           if (url) {
             setTyping(true);
             await delay(400);
@@ -320,9 +278,7 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({
             nodeId: n!.id,
             title: n!.data?.title,
             subtitle: n!.data?.subtitle,
-            image:
-              n!.data?.tempUrl ||
-              (n!.data.imageUrl ? baseMediaUrl + n!.data.imageUrl : null),
+            image: n!.data?.tempUrl || (n!.data.imageUrl ? baseMediaUrl + n!.data.imageUrl : null),
             weblink: n!.data?.weblink,
             buttons: n!.data?.buttons || ["Button 1"],
           }));
@@ -404,9 +360,7 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({
       console.log("Node found:", node);
 
       // Get all connections from this node
-      const allConnsFromNode = connections.filter(
-        (c) => c.sourceNodeId === nodeId,
-      );
+      const allConnsFromNode = connections.filter((c) => c.sourceNodeId === nodeId);
       console.log("All connections from this node:", allConnsFromNode);
 
       // Try to find connection by index
@@ -419,10 +373,7 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({
         await runFromNode(conn.targetNodeId);
         console.log("✅ Finished running from target node:", conn.targetNodeId);
       } else {
-        console.warn(
-          "❌ No connection found for quickreply button index",
-          index,
-        );
+        console.warn("❌ No connection found for quickreply button index", index);
         console.warn("Total connections from node:", allConnsFromNode.length);
         console.warn("All connections:", allConnsFromNode);
       }
@@ -431,12 +382,7 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({
   );
 
   const handlePickGenericButton = useCallback(
-    async (
-      itemNodeId: string,
-      btnIndex: number,
-      label: string,
-      messageId: string,
-    ) => {
+    async (itemNodeId: string, btnIndex: number, label: string, messageId: string) => {
       console.log("=== GENERIC BUTTON CLICKED ===");
       console.log("Button label:", label);
       console.log("Button index:", btnIndex);
@@ -449,9 +395,7 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({
       console.log("Node found:", node);
 
       // Get all connections from this node
-      const allConnsFromNode = connections.filter(
-        (c) => c.sourceNodeId === itemNodeId,
-      );
+      const allConnsFromNode = connections.filter((c) => c.sourceNodeId === itemNodeId);
       console.log("All connections from this node:", allConnsFromNode);
 
       // Use index directly
@@ -463,10 +407,7 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({
         await runFromNode(conn.targetNodeId);
         console.log("✅ Finished running from target node:", conn.targetNodeId);
       } else {
-        console.warn(
-          "❌ No connection found for generic button index",
-          btnIndex,
-        );
+        console.warn("❌ No connection found for generic button index", btnIndex);
         console.warn("Total connections from node:", allConnsFromNode.length);
       }
     },
@@ -494,11 +435,7 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({
           <div className="instagramprofile">
             <img
               className="instagramimage"
-              src={
-                session?.user.profileUrl
-                  ? baseMediaUrl + session.user.profileUrl
-                  : "/no-profile.svg"
-              }
+              src={session?.user.profileUrl ? baseMediaUrl + session.user.profileUrl : "/no-profile.svg"}
               alt="avatar"
               width="28"
               height="28"
@@ -548,106 +485,69 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({
                   minute: "2-digit",
                 });
               const prev = messages[idx - 1];
-              const sameDay =
-                prev &&
-                new Date(prev.timestamp).toDateString() ===
-                  new Date(m.timestamp).toDateString();
+              const sameDay = prev && new Date(prev.timestamp).toDateString() === new Date(m.timestamp).toDateString();
               return (
                 <>
                   {!sameDay && (
                     <div className={styles.daySeparator}>
-                      <span className={styles.dayText}>
-                        {new Date(m.timestamp).toLocaleDateString()}
-                      </span>
+                      <span className={styles.dayText}>{new Date(m.timestamp).toLocaleDateString()}</span>
                     </div>
                   )}
-                  {m.kind === "quickreply" &&
-                    !clickedQuickReplies.has(m.id) && (
-                      <div
-                        key={m.id}
-                        className={`${styles.row} ${
-                          isUser ? styles.right : ""
-                        }`}>
-                        <div style={{ width: "100%", padding: "8px 0" }}>
-                          <div
-                            style={{
-                              display: "flex",
-                              flexWrap: "wrap",
-                              gap: "8px",
-                              justifyContent: "flex-start",
-                            }}>
-                            {(m as ChatMessageQuickReply).options.map(
-                              (opt, i) => {
-                                console.log(`Rendering button ${i}: ${opt}`);
-                                return (
-                                  <button
-                                    key={`qr_${i}`}
-                                    className={styles.chip}
-                                    style={{
-                                      padding: "8px 16px",
-                                      backgroundColor: "#007bff",
-                                      color: "white",
-                                      border: "none",
-                                      borderRadius: "20px",
-                                      cursor: "pointer",
-                                      fontSize: "14px",
-                                      fontWeight: "500",
-                                    }}
-                                    onClick={() =>
-                                      handlePickQuickReply(
-                                        (m as ChatMessageQuickReply).nodeId,
-                                        i,
-                                        opt,
-                                        m.id,
-                                      )
-                                    }>
-                                    {opt}
-                                  </button>
-                                );
-                              },
-                            )}
-                          </div>
+                  {m.kind === "quickreply" && !clickedQuickReplies.has(m.id) && (
+                    <div key={m.id} className={`${styles.row} ${isUser ? styles.right : ""}`}>
+                      <div style={{ width: "100%", padding: "8px 0" }}>
+                        <div
+                          style={{
+                            display: "flex",
+                            flexWrap: "wrap",
+                            gap: "8px",
+                            justifyContent: "flex-start",
+                          }}>
+                          {(m as ChatMessageQuickReply).options.map((opt, i) => {
+                            console.log(`Rendering button ${i}: ${opt}`);
+                            return (
+                              <button
+                                key={`qr_${i}`}
+                                className={styles.chip}
+                                style={{
+                                  padding: "8px 16px",
+                                  backgroundColor: "#007bff",
+                                  color: "white",
+                                  border: "none",
+                                  borderRadius: "20px",
+                                  cursor: "pointer",
+                                  fontSize: "14px",
+                                  fontWeight: "500",
+                                }}
+                                onClick={() => handlePickQuickReply((m as ChatMessageQuickReply).nodeId, i, opt, m.id)}>
+                                {opt}
+                              </button>
+                            );
+                          })}
                         </div>
                       </div>
-                    )}
+                    </div>
+                  )}
                   {m.kind !== "quickreply" && (
-                    <div
-                      key={m.id}
-                      className={`${styles.row} ${isUser ? styles.right : ""}`}>
+                    <div key={m.id} className={`${styles.row} ${isUser ? styles.right : ""}`}>
                       <div
                         className={`${styles.bubble} ${
                           isUser ? styles.user : styles.bot
                         } ${m.kind === "generic" ? styles.fullWidth : ""}`}>
-                        {m.kind === "text" && "text" in m && (
-                          <span>{(m as ChatMessageText).text}</span>
-                        )}
+                        {m.kind === "text" && "text" in m && <span>{(m as ChatMessageText).text}</span>}
                         {(m.kind === "image" || m.kind === "video") &&
                           (m.kind === "video" ? (
-                            <video
-                              className={styles.media}
-                              controls
-                              src={(m as ChatMessageImage).url}
-                            />
+                            <video className={styles.media} controls src={(m as ChatMessageImage).url} />
                           ) : (
-                            <img
-                              className={styles.media}
-                              src={(m as ChatMessageImage).url}
-                              alt="image"
-                            />
+                            <img className={styles.media} src={(m as ChatMessageImage).url} alt="image" />
                           ))}
                         {m.kind === "audio" && (
-                          <audio
-                            controls
-                            src={(m as ChatMessageAudio).url}
-                            style={{ maxWidth: 260 }}
-                          />
+                          <audio controls src={(m as ChatMessageAudio).url} style={{ maxWidth: 260 }} />
                         )}
                         {m.kind === "weblink" && (
                           <div className={styles.linkCard}>
                             {(m as ChatMessageWeblink).title && (
-                              <div className={styles.linkTitle}>
-                                {(m as ChatMessageWeblink).title}
-                              </div>
+                              <div className={styles.linkTitle}>{(m as ChatMessageWeblink).title}</div>
                             )}
                             <a
                               href={(m as ChatMessageWeblink).url}
@@ -664,42 +564,19 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({
                               <div key={it.id} className={styles.card}>
                                 {it.image &&
                                   (isVideoUrl(it.image) ? (
-                                    <video
-                                      className={styles.media}
-                                      controls
-                                      src={it.image}
-                                    />
+                                    <video className={styles.media} controls src={it.image} />
                                   ) : (
-                                    <img
-                                      className={styles.media}
-                                      src={it.image}
-                                      alt={it.title || "item"}
-                                    />
+                                    <img className={styles.media} src={it.image} alt={it.title || "item"} />
                                   ))}
                                 <div className={styles.cardBody}>
-                                  {it.title && (
-                                    <div className={styles.cardTitle}>
-                                      {it.title}
-                                    </div>
-                                  )}
-                                  {it.subtitle && (
-                                    <div className={styles.cardSubtitle}>
-                                      {it.subtitle}
-                                    </div>
-                                  )}
+                                  {it.title && <div className={styles.cardTitle}>{it.title}</div>}
+                                  {it.subtitle && <div className={styles.cardSubtitle}>{it.subtitle}</div>}
                                   <div className={styles.cardButtons}>
                                     {(it.buttons || []).map((b, idx) => (
                                       <button
                                         key={`btn_${it.id}_${idx}`}
                                         className={styles.btn}
-                                        onClick={() =>
-                                          handlePickGenericButton(
-                                            it.nodeId,
-                                            idx,
-                                            b,
-                                            m.id,
-                                          )
-                                        }>
+                                        onClick={() => handlePickGenericButton(it.nodeId, idx, b, m.id)}>
                                         {b}
                                       </button>
                                     ))}
@@ -723,10 +600,7 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({
                   )}
                   {/* Meta row */}
                   {m.kind !== "quickreply" && (
-                    <div
-                      className={`${styles.meta} ${
-                        isUser ? styles.metaRight : styles.metaLeft
-                      }`}>
+                    <div className={`${styles.meta} ${isUser ? styles.metaRight : styles.metaLeft}`}>
                       {isLastUser
                         ? seenUserId === m.id
                           ? "Seen"
@@ -762,10 +636,7 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({
               handleInputChange={(e) => setInput(e.target.value)}
             />
           </div>
-          <button
-            className="saveButton"
-            style={{ width: "fit-content" }}
-            onClick={handleSend}>
+          <button className="saveButton" style={{ width: "fit-content" }} onClick={handleSend}>
             {t(LanguageKey.send)}
           </button>
         </div>

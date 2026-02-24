@@ -2,7 +2,7 @@ import React, { useCallback, useMemo } from "react";
 import MediaDetector from "brancy/components/messages/shared/utils/MediaDetector";
 import { IItem, ITicket } from "brancy/models/userPanel/message";
 import { TicketChatDate, TicketMessageStatus } from "brancy/components/messages/ticket/chatComponents/shared/utils";
-import styles from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/messageTypes.module.css";
+import styles from "./messageTypes.module.css";
 // #region تعریف اینترفیس‌ها - انواع پراپس
 interface SystemChatImageProps {
   item: IItem;
@@ -49,7 +49,7 @@ const SystemChatImageComponent: React.FC<SystemChatImageProps> = ({
         handleImageClick();
       }
     },
-    [handleImageClick]
+    [handleImageClick],
   );
   // #endregion
 

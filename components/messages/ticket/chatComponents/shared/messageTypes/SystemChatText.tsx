@@ -4,7 +4,7 @@ import { getMessageDirectionClass } from "brancy/helper/checkRtl";
 import { detectEmojiOnly } from "brancy/helper/emojiDetector";
 import { IItem, ITicket } from "brancy/models/userPanel/message";
 import { TicketChatDate, TicketMessageStatus } from "brancy/components/messages/ticket/chatComponents/shared/utils";
-import styles from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/messageTypes.module.css";
+import styles from "./messageTypes.module.css";
 // #region تعریف اینترفیس - انواع پراپس
 // تعریف `SystemChatTextProps` که ورودی‌های کامپوننت متن سیستم را مشخص می‌کند.
 interface SystemChatTextProps {
@@ -32,7 +32,7 @@ const SystemChatTextComponent: React.FC<SystemChatTextProps> = ({
   const directionClass = useMemo(() => getMessageDirectionClass(item.text, messageClass), [item.text, messageClass]);
   const emojiStyle = useMemo(
     () => (isEmojiOnly ? { background: isSentByFb ? "var(--color-dark-blue)" : "var(--color-light-blue)" } : {}),
-    [isEmojiOnly, isSentByFb]
+    [isEmojiOnly, isSentByFb],
   );
   // #endregion
 

@@ -15,9 +15,9 @@ import { DetailType, IAdContent, IAdDetail, IRejectTerms } from "brancy/models/a
 import { MediaType } from "brancy/models/ApiModels/Instagramer/Page/FirstPostPage";
 import AdsTypeComp from "brancy/components/advertise/adsType";
 import TimeTypeComp from "brancy/components/advertise/timeType";
-import styles from "brancy/components/advertise/adList/popups/adDetails.module.css";
+import styles from "./adDetails.module.css";
 import AdReject from "brancy/components/advertise/adList/popups/adreject";
-import styles2 from "brancy/components/advertise/adList/popups/detailContent.module.css";
+import styles2 from "./components/advertise/adList/popups/detailContent.module.css";
 const AdDetails = (props: {
   removeMask: () => void;
   acceptAdvertise: () => void;
@@ -292,8 +292,8 @@ const AdDetails = (props: {
                       alt="post picture"
                       src={
                         adContent.medias[showMediaIndex].mediaType == MediaType.Image
-                          ? adContent.medias[showMediaIndex].mediaUri ?? adContent.medias[showMediaIndex].media
-                          : adContent.medias[showMediaIndex].coverUri ?? adContent.medias[showMediaIndex].cover
+                          ? (adContent.medias[showMediaIndex].mediaUri ?? adContent.medias[showMediaIndex].media)
+                          : (adContent.medias[showMediaIndex].coverUri ?? adContent.medias[showMediaIndex].cover)
                       }
                     />
                   ) : (

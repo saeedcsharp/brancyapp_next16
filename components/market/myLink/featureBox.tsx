@@ -5,7 +5,7 @@ import FiveStar from "brancy/components/fiveStar";
 import { calculateSummary } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
 import { IFeatureBox } from "brancy/models/market/myLink";
-import styles from "brancy/components/market/myLink/featureBox.module.css";
+import styles from "./featureBox.module.css";
 interface FeatureBoxProps {
   data: IFeatureBox | null;
   handleShowTerms: () => void;
@@ -238,7 +238,7 @@ const FeatureBox = memo<FeatureBoxProps>(({ data, handleShowTerms, handleShowHou
         }
       }
     },
-    [tileData]
+    [tileData],
   );
   const handleModalTileClick = useCallback(
     (trackingName: "workHour" | "terms" | "tariff") => {
@@ -254,7 +254,7 @@ const FeatureBox = memo<FeatureBoxProps>(({ data, handleShowTerms, handleShowHou
           break;
       }
     },
-    [handleShowHours, handleShowTerms, handleShowTerif]
+    [handleShowHours, handleShowTerms, handleShowTerif],
   );
   if (!data) return null;
   return (

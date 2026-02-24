@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import InputText from "brancy/components/design/inputText";
 import { InternalResponseType, NotifType, internalNotify } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/page/tools/popups/hashtags/newHashtagList.module.css";
+import styles from "./newHashtagList.module.css";
 
 // Reducer for hashtag management
 type HashtagState = {
@@ -48,7 +48,7 @@ const NewHashtagList = (props: {
   const inputHashtagRef = useRef<HTMLDivElement>(null);
 
   const [inputListName, setInputListName] = useState(
-    t(LanguageKey.pageTools_hashtagList) + " " + props.hashtagTitleName
+    t(LanguageKey.pageTools_hashtagList) + " " + props.hashtagTitleName,
   );
   const [inputHashtag, setInputHashtag] = useState("");
   const [isShaking, setIsShaking] = useState(false);
@@ -111,7 +111,7 @@ const NewHashtagList = (props: {
         handleAddHashtag();
       }
     },
-    [handleAddHashtag]
+    [handleAddHashtag],
   );
 
   const pasteFromClipboard = useCallback(async () => {

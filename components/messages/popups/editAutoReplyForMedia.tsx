@@ -26,7 +26,7 @@ import { MethodType } from "brancy/helper/api";
 import { AutoReplyPayLoadType, MediaProductType } from "brancy/models/messages/enum";
 import { IMasterFlow, ITotalMasterFlow } from "brancy/models/messages/properies";
 import { IAutomaticReply, IMediaUpdateAutoReply } from "brancy/models/page/post/posts";
-import styles from "brancy/components/messages/popups/editAutoReply.module.css";
+import styles from "./editAutoReply.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 type CheckBoxState = {
   Custom: boolean;
@@ -315,7 +315,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
 
       return null;
     },
-    [activeAutoReply, productType, replyMethod, t]
+    [activeAutoReply, productType, replyMethod, t],
   );
   const handleOptionChanged = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     switch (e.target.name) {
@@ -382,7 +382,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
         </div>
       )),
     ],
-    [prompts, t]
+    [prompts, t],
   );
   const AISearchTitles = useMemo(
     () => [
@@ -395,7 +395,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
         </div>
       )),
     ],
-    [searchPrompts, t]
+    [searchPrompts, t],
   );
   const flowTitles = useMemo(
     () => [
@@ -408,7 +408,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
         </div>
       )),
     ],
-    [masterFlows, t]
+    [masterFlows, t],
   );
   const flowSearchTitles = useMemo(
     () => [
@@ -421,7 +421,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
         </div>
       )),
     ],
-    [masterSearchFlows, t]
+    [masterSearchFlows, t],
   );
   const handleExternalAISearch = useCallback(
     async (searchTerm: string) => {
@@ -441,10 +441,16 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
           payload: true,
         });
         try {
-          const res = await clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", { methodType: MethodType.get, session: session, data: null, queries: [
+          const res = await clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
               { key: "query", value: searchTerm },
               { key: "nextMaxId", value: "" },
-            ], onUploadProgress: undefined });
+            ],
+            onUploadProgress: undefined,
+          });
           if (!isMountedRef.current) return;
           if (res.succeeded) {
             setSearchPrompts(res.value);
@@ -465,7 +471,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
         }
       }, 500);
     },
-    [session]
+    [session],
   );
 
   const handleExternalFlowSearch = useCallback(
@@ -486,7 +492,13 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
           payload: true,
         });
         try {
-          const res = await clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "query", value: searchTerm }], onUploadProgress: undefined });
+          const res = await clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [{ key: "query", value: searchTerm }],
+            onUploadProgress: undefined,
+          });
           if (!isMountedRef.current) return;
           if (res.succeeded) {
             setMasterSearchFlows(res.value);
@@ -507,13 +519,19 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
         }
       }, 500);
     },
-    [session]
+    [session],
   );
 
   const getMasterFlow = useCallback(
     async (masterFlowId: string) => {
       try {
-        const res = await clientFetchApi<boolean, ITotalMasterFlow>("/api/flow/GetShortMasterFlow", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "id", value: masterFlowId }], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, ITotalMasterFlow>("/api/flow/GetShortMasterFlow", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "id", value: masterFlowId }],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) return res.value;
         notify(res.info.responseType, NotifType.Warning);
       } catch (error) {
@@ -521,13 +539,19 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       }
       return null;
     },
-    [session]
+    [session],
   );
 
   const getPrompt = useCallback(
     async (promptId: string) => {
       try {
-        const res = await clientFetchApi<boolean, ITotalPrompt>("/api/ai/GetPrompt", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "promptId", value: promptId }], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, ITotalPrompt>("/api/ai/GetPrompt", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "promptId", value: promptId }],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) return res.value;
         notify(res.info.responseType, NotifType.Warning);
       } catch (error) {
@@ -535,7 +559,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       }
       return null;
     },
-    [session]
+    [session],
   );
 
   const fetchData = useCallback(async () => {
@@ -575,15 +599,27 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       }
 
       const [promptRes, flowRes] = await Promise.all([
-        clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", { methodType: MethodType.get, session: session, data: null, queries: [
-          { key: "query", value: "" },
-          { key: "nextMaxId", value: "" },
-        ], onUploadProgress: undefined }),
-        clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", { methodType: MethodType.get, session: session, data: null, queries: [
-          { key: "query", value: "" },
-          { key: "privateReply", value: "true" },
-          { key: "nextMaxId", value: "" },
-        ], onUploadProgress: undefined }),
+        clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
+            { key: "query", value: "" },
+            { key: "nextMaxId", value: "" },
+          ],
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
+            { key: "query", value: "" },
+            { key: "privateReply", value: "true" },
+            { key: "nextMaxId", value: "" },
+          ],
+          onUploadProgress: undefined,
+        }),
       ]);
 
       if (!isMountedRef.current) return;
@@ -607,10 +643,16 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       if (!nextMaxId || searchAIMode || !isMountedRef.current) return;
       setDispatchLoading({ type: "SET_LOADING_MORE_AI_ITEMS", payload: true });
       try {
-        const res = await clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", { methodType: MethodType.get, session: session, data: null, queries: [
+        const res = await clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "query", value: "" },
             { key: "nextMaxId", value: nextMaxId },
-          ], onUploadProgress: undefined });
+          ],
+          onUploadProgress: undefined,
+        });
         if (!isMountedRef.current) return;
         if (res.succeeded)
           setPrompts((prev) => ({
@@ -632,7 +674,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
         }
       }
     },
-    [searchAIMode, session]
+    [searchAIMode, session],
   );
 
   const getPromptById = useCallback(
@@ -644,7 +686,13 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       if (!isMountedRef.current) return;
       setDispatchLoading({ type: "SET_LOADING_PROMPT", payload: true });
       try {
-        const res = await clientFetchApi<boolean, IDetailPrompt>(`/api/ai/GetPrompt`, { methodType: MethodType.get, session: session, data: null, queries: [{ key: "promptId", value: promptId }], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, IDetailPrompt>(`/api/ai/GetPrompt`, {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "promptId", value: promptId }],
+          onUploadProgress: undefined,
+        });
         if (!isMountedRef.current) return;
         if (res.succeeded) setSelectedPrompt(res.value);
         else {
@@ -660,7 +708,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
         }
       }
     },
-    [session]
+    [session],
   );
 
   const handleGetMoreFlows = useCallback(async () => {
@@ -670,11 +718,17 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
         type: "SET_LOADING_MORE_FLOW_ITEMS",
         payload: true,
       });
-      const res = await clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", { methodType: MethodType.get, session: session, data: null, queries: [
+      const res = await clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "query", value: "" },
           { key: "privateReply", value: "true" },
           { key: "nextMaxId", value: masterFlows.nextMaxId },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (!isMountedRef.current || !res.value) return;
       if (res.succeeded) {
         setMasterFlows((prev) => ({
@@ -1047,7 +1101,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                           </>
                         )}
 
-                        {(searchAIMode ? searchPrompts?.items?.length ?? 0 : prompts?.items?.length ?? 0) > 0 ? (
+                        {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : (prompts?.items?.length ?? 0)) > 0 ? (
                           <DragDrop
                             externalSearchMod={true}
                             data={searchAIMode ? AISearchTitles : AITitles}
@@ -1064,7 +1118,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                           />
                         ) : null}
 
-                        {(searchAIMode ? searchPrompts?.items?.length ?? 0 : prompts?.items?.length ?? 0) === 0 ? (
+                        {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : (prompts?.items?.length ?? 0)) === 0 ? (
                           <div className="headerandinput">
                             <div className="explain">{t(LanguageKey.messagesetting_NoPromptsFound)}</div>
                             <button
@@ -1131,8 +1185,9 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                           </>
                         )}
 
-                        {(searchFlowMode ? masterSearchFlows?.items?.length ?? 0 : masterFlows?.items?.length ?? 0) >
-                        0 ? (
+                        {(searchFlowMode
+                          ? (masterSearchFlows?.items?.length ?? 0)
+                          : (masterFlows?.items?.length ?? 0)) > 0 ? (
                           <DragDrop
                             externalSearchMod={true}
                             data={searchFlowMode ? flowSearchTitles : flowTitles}
@@ -1150,8 +1205,9 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                           />
                         ) : null}
 
-                        {(searchFlowMode ? masterSearchFlows?.items?.length ?? 0 : masterFlows?.items?.length ?? 0) ===
-                        0 ? (
+                        {(searchFlowMode
+                          ? (masterSearchFlows?.items?.length ?? 0)
+                          : (masterFlows?.items?.length ?? 0)) === 0 ? (
                           <div className="headerandinput">
                             <div className="explain">{t(LanguageKey.messagesetting_NoFlowsFound)}</div>
                             <button
@@ -1299,8 +1355,8 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                 ? "saveButton"
                 : "disableButton"
               : hasChanges
-              ? "saveButton"
-              : "disableButton"
+                ? "saveButton"
+                : "disableButton"
           }
           onClick={() => {
             handleUpdateAutoReply();

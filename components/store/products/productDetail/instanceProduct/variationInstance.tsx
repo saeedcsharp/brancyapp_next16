@@ -27,7 +27,7 @@ import {
   ITitleVariationVariation,
 } from "brancy/models/store/IProduct";
 import Discount from "brancy/components/store/products/productDetail/notInstanceProduct/popups/discount";
-import styles from "brancy/components/store/products/productDetail/instanceProduct/Variation.module.css";
+import styles from "./Variation.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 export interface IAddNewVariation {
@@ -56,7 +56,7 @@ function IntanceVariation({
   upadteCteateFromVariation: (
     deActiveSubProducts: number[],
     subProducts: ISubProduct_CreateForInstance[],
-    isNext: boolean
+    isNext: boolean,
   ) => void;
 }) {
   const { t } = useTranslation();
@@ -105,8 +105,8 @@ function IntanceVariation({
                       maxTime: null,
                       value: 15,
                     },
-            }
-      )
+            },
+      ),
     );
   }
   function handleChangeStock(e: ChangeEvent<HTMLInputElement>, index: number) {
@@ -118,7 +118,7 @@ function IntanceVariation({
     subProductInfo.map((x) => ({
       index: subProductInfo.indexOf(x),
       price: priceFormatter(shortProduct.priceType)(x.price),
-    }))
+    })),
   ); // Raw input value
   const handleChangePrice = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const value = e.target.value.replace(/[^\d.]/g, ""); // Remove non-numeric chars
@@ -139,8 +139,8 @@ function IntanceVariation({
             : {
                 ...x,
                 price: numericValue,
-              }
-        )
+              },
+        ),
       );
       setRawValue((prev) => prev.map((x) => (prev.indexOf(x) !== index ? x : { ...x, price: value }))); // Update raw value for input
     } else {
@@ -164,8 +164,8 @@ function IntanceVariation({
             : {
                 ...x,
                 price: numericValue,
-              }
-        )
+              },
+        ),
       );
       setRawValue((prev) =>
         prev.map((x) =>
@@ -174,8 +174,8 @@ function IntanceVariation({
             : {
                 ...x,
                 price: priceFormatter(shortProduct.priceType)(numericValue),
-              }
-        )
+              },
+        ),
       ); // Format the price on blur
     }
   };
@@ -190,10 +190,16 @@ function IntanceVariation({
   };
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, IProduct_Variation>("shopper" + "" + "/Product/GetVariations", { methodType: MethodType.get, session: session, data: null, queries: [
+      const res = await clientFetchApi<boolean, IProduct_Variation>("shopper" + "" + "/Product/GetVariations", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "categoryId", value: productInstance.categoryId.toString() },
           { key: "language", value: "1" },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         console.log("ssssssssssssssssssssssssssss", res.value);
         setVariation(res.value);
@@ -217,8 +223,8 @@ function IntanceVariation({
                 maxTime: dis.maxTime,
                 value: dis.value,
               },
-            }
-      )
+            },
+      ),
     );
     setShowDiscount(false);
   }
@@ -261,7 +267,7 @@ function IntanceVariation({
       // <div id="0">Not Set</div>
       <div className={styles.namesection} id="0">
         <div>{t(LanguageKey.Pleaseselect)}</div>
-      </div>
+      </div>,
     );
     return data;
   }
@@ -281,10 +287,10 @@ function IntanceVariation({
           : {
               ...x,
               variations: x.variations.map((c) =>
-                c.variationTitleId !== variationTitleId ? c : { ...c, variationId: parseInt(id) }
+                c.variationTitleId !== variationTitleId ? c : { ...c, variationId: parseInt(id) },
               ),
-            }
-      )
+            },
+      ),
     );
   }
   function handleDeleteSubProduct(index: number, id: number | null) {
@@ -316,7 +322,7 @@ function IntanceVariation({
   }
   function handleChangeCustomeVariation(e: ChangeEvent<HTMLInputElement>, index: number) {
     setCreateSubProducts((prev) =>
-      prev.map((x) => (prev.indexOf(x) !== index ? x : { ...x, customVariation: e.target.value }))
+      prev.map((x) => (prev.indexOf(x) !== index ? x : { ...x, customVariation: e.target.value })),
     );
   }
   function specifyColorData() {
@@ -325,7 +331,7 @@ function IntanceVariation({
       // <div id="0">Not Set</div>
       <div className={styles.namesection} id="0">
         <div>{t(LanguageKey.Pleaseselect)}</div>
-      </div>
+      </div>,
     );
     return data;
   }
@@ -415,12 +421,12 @@ function IntanceVariation({
     }
     if (remainingHours > 0) {
       parts.push(
-        `${remainingHours} ${t(remainingHours > 1 ? LanguageKey.countdown_Hours : LanguageKey.countdown_Hours)}`
+        `${remainingHours} ${t(remainingHours > 1 ? LanguageKey.countdown_Hours : LanguageKey.countdown_Hours)}`,
       ); // "hour(s)"
     }
     if (days === 0 && remainingHours === 0 && remainingMinutes > 0) {
       parts.push(
-        `${remainingMinutes} ${t(remainingMinutes > 1 ? LanguageKey.countdown_Minutes : LanguageKey.countdown_Minutes)}`
+        `${remainingMinutes} ${t(remainingMinutes > 1 ? LanguageKey.countdown_Minutes : LanguageKey.countdown_Minutes)}`,
       ); // "minute(s)"
     }
     if (days === 0 && remainingHours === 0 && remainingMinutes === 0 && seconds > 0) {

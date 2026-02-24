@@ -8,7 +8,7 @@ import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { chartxType, SuperFigure } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
-import styles from "brancy/components/userPanel/shop/popups/priceHistory.module.css";
+import styles from "./priceHistory.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 export default function PriceHistory({
   removeMask,
@@ -41,10 +41,16 @@ export default function PriceHistory({
   };
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, SuperFigure>("/api/shop/GetPriceHistory", { methodType: MethodType.get, session: session, data: null, queries: [
+      const res = await clientFetchApi<boolean, SuperFigure>("/api/shop/GetPriceHistory", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "productId", value: productId },
           { key: "instagramerId", value: instagramerId },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setPriceHistory(res.value);
       } else notify(res.info.responseType, NotifType.Warning);

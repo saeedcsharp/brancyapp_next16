@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { LanguageKey } from "brancy/i18n";
 import { UploadFile } from "brancy/helper/api";
 import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
-import styles from "brancy/components/messages/aiflow/flowNode/VoiceNode.module.css";
+import styles from "./VoiceNode.module.css";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL || "";
 interface VoiceNodeProps extends BaseNodeProps {
   setEditorState: React.Dispatch<React.SetStateAction<any>>;

@@ -9,7 +9,7 @@ import {
 } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
 import { IEditTariff, ITariff } from "brancy/models/advertise/peoperties";
-import styles from "brancy/components/advertise/properties/popups/tariff.module.css";
+import styles from "./tariff.module.css";
 const EditTariff = (props: { removeMask: () => void; saveTariift: (tariif: ITariff) => void; tariif: ITariff }) => {
   const { t } = useTranslation();
   const [editTariff, setEditTarrif] = useState<IEditTariff>({

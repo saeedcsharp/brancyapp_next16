@@ -2,7 +2,7 @@ import Head from "next/head";
 import { MouseEvent, useEffect, useState } from "react";
 import { calculateSummary } from "brancy/helper/numberFormater";
 import { IAdvertiseSummary, ICardAdvertiser } from "brancy/models/customerAds/customerAd";
-import styles from "brancy/components/customerAds/customerAds.module.css";
+import styles from "./customerAds.module.css";
 
 function Content(props: {
   showCard: (e: MouseEvent, adId: number) => void;

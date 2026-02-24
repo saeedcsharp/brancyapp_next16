@@ -20,7 +20,7 @@ import {
   ILotteryInfo,
   TermsType,
 } from "brancy/models/page/tools/tools";
-import styles from "brancy/components/page/tools/popups/lottery/termsAndConditionWinnerPicker.module.css";
+import styles from "./termsAndConditionWinnerPicker.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 function filterTypeSlide(backgrounds: IGetTermsAndConditionInfo, type: TermsType) {
@@ -34,7 +34,7 @@ const TermsAndConditionWinnerPicker = (props: {
   saveTermsAndCondition: (
     termsAndCondostions: ILotteryInfo,
     termsBackgroundFile: File | null,
-    termsUrlFile: File | null
+    termsUrlFile: File | null,
   ) => void;
   data: ILotteryInfo;
   loadingToSave: boolean;
@@ -317,7 +317,7 @@ const TermsAndConditionWinnerPicker = (props: {
       secondHexBackgroung.hex,
       firstPercentageColor,
       secondPercentageColor,
-      deg
+      deg,
     );
     const backgroundSvg = await SvgGenerator(
       <div
@@ -329,7 +329,7 @@ const TermsAndConditionWinnerPicker = (props: {
         }}></div>,
       32,
       56,
-      500
+      500,
     );
     const termsUrlSvg = await GetSvg();
     const termsUrlJpeg = await svgToJpgFile(termsUrlSvg);
@@ -367,7 +367,7 @@ const TermsAndConditionWinnerPicker = (props: {
       secondHexBackgroung.hex,
       firstPercentageColor,
       secondPercentageColor,
-      deg
+      deg,
     );
     const termsAndConditionSvg = await SvgGenerator(
       /* background */
@@ -463,7 +463,7 @@ const TermsAndConditionWinnerPicker = (props: {
                       ) : (
                         //  v2.length < 27 ?
                         <div style={{}}>{v2}</div>
-                      )
+                      ),
                     //  : chunkSubstr(v2, 26).map((v3, i3) => (
                     //   <div>{v3}</div>
                     // )
@@ -471,20 +471,26 @@ const TermsAndConditionWinnerPicker = (props: {
                   )}
                 </div>
               </>
-            )
+            ),
           )}
         </div>
       </div>,
       1080,
       1920,
-      500
+      500,
     );
     return termsAndConditionSvg;
   };
 
   async function handleGetLastTermsUri() {
     try {
-      var res = await clientFetchApi<boolean, IGetLastTermsUi[]>("/api/lottery/GetLastTermsUis", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      var res = await clientFetchApi<boolean, IGetLastTermsUi[]>("/api/lottery/GetLastTermsUis", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         console.log("dataaaaaaaaa", data);
         if (res.value.length > 0) {
@@ -492,7 +498,7 @@ const TermsAndConditionWinnerPicker = (props: {
           res.value.forEach((element) => {
             const terms: ICreateTermsAndConditionInfo = JSON.parse(element.info);
             const existedBackgroundTerms = defaultBanner.background.find(
-              (x) => x.backgroundId === terms.background.backgroundId
+              (x) => x.backgroundId === terms.background.backgroundId,
             );
             if (
               existedBackgroundTerms &&
@@ -1009,12 +1015,12 @@ const TermsAndConditionWinnerPicker = (props: {
                         !reverseThumb ? secondHexBackgroung?.hex : firstHexBackgroung.hex
                       } ${!reverseThumb ? secondPercentageColor + "%" : firstPercentageColor + "%"})`
                     : activeType === TermsType.Radial
-                    ? `radial-gradient(circle,${!reverseThumb ? firstHexBackgroung.hex : secondHexBackgroung?.hex} ${
-                        !reverseThumb ? firstPercentageColor + "%" : secondPercentageColor + "%"
-                      },${!reverseThumb ? secondHexBackgroung?.hex : firstHexBackgroung.hex} ${
-                        !reverseThumb ? secondPercentageColor + "%" : firstPercentageColor + "%"
-                      })`
-                    : `${firstHexBackgroung.hex}`,
+                      ? `radial-gradient(circle,${!reverseThumb ? firstHexBackgroung.hex : secondHexBackgroung?.hex} ${
+                          !reverseThumb ? firstPercentageColor + "%" : secondPercentageColor + "%"
+                        },${!reverseThumb ? secondHexBackgroung?.hex : firstHexBackgroung.hex} ${
+                          !reverseThumb ? secondPercentageColor + "%" : firstPercentageColor + "%"
+                        })`
+                      : `${firstHexBackgroung.hex}`,
               }}>
               <div className={styles.storytitle}>{t(LanguageKey.pageLottery_Termsconditions)}</div>
 

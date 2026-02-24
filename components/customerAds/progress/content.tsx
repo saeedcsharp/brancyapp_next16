@@ -4,8 +4,8 @@ import DragComponent, { positionType } from "brancy/components/design/dragCompon
 import InputText from "brancy/components/design/inputText";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { MethodType } from "brancy/helper/api";
-import styles from "brancy/components/customerAds/progress/progress.module.css";
-import styles2 from "brancy/components/customerAds/progress/uploadContent.module.css";
+import styles from "./progress.module.css";
+import styles2 from "./components/customerAds/progress/uploadContent.module.css";
 
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -48,7 +48,13 @@ function Content(props: {
     try {
       var instagramerId = session?.user.instagramerIds[session.user.currentIndex];
       console.log("start searched people ", query);
-      var res = await clientFetchApi<boolean, IPageInfo[]>("Instagramer" + "/searchPeople", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "query", value: query }], onUploadProgress: undefined });
+      var res = await clientFetchApi<boolean, IPageInfo[]>("Instagramer" + "/searchPeople", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "query", value: query }],
+        onUploadProgress: undefined,
+      });
       console.log(res);
       if (res.succeeded) setPageInfo(res.value);
     } catch {}
@@ -532,8 +538,8 @@ function Content(props: {
                     alt="post"
                     src={
                       showMedias[showMediaIndex].mediaType == MediaType.Image
-                        ? showMedias[showMediaIndex].mediaUri ?? showMedias[showMediaIndex].media
-                        : showMedias[showMediaIndex].coverUri ?? showMedias[showMediaIndex].cover
+                        ? (showMedias[showMediaIndex].mediaUri ?? showMedias[showMediaIndex].media)
+                        : (showMedias[showMediaIndex].coverUri ?? showMedias[showMediaIndex].cover)
                     }
                   />
                 ) : (
@@ -699,7 +705,7 @@ function Content(props: {
                           key={i}
                           className={styles2.postpicture}
                           alt="post picture"
-                          src={v.mediaType == MediaType.Image ? v.mediaUri ?? v.media : v.coverUri ?? v.cover}
+                          src={v.mediaType == MediaType.Image ? (v.mediaUri ?? v.media) : (v.coverUri ?? v.cover)}
                         />
                       ) : (
                         <video
@@ -710,7 +716,7 @@ function Content(props: {
                           className={styles2.postpicture}
                           src={v.mediaUri ?? v.media}
                         />
-                      )
+                      ),
                     )}
                     {showMedias.length === 0 && (
                       <div onClick={handleUploadImage} className={styles2.addnew}>

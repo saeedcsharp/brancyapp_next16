@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import InputText from "brancy/components/design/inputText";
 import { LanguageKey } from "brancy/i18n/languageKeys";
 import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
-import styles from "brancy/components/messages/aiflow/flowNode/WeblinkNode.module.css";
+import styles from "./WeblinkNode.module.css";
 export const WeblinkNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) => {
   const [displayTitle, setDisplayTitle] = React.useState<string>("");
   const [shouldShake, setShouldShake] = React.useState<boolean>(false);

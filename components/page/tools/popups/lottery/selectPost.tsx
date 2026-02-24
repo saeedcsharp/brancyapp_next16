@@ -14,7 +14,7 @@ import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { IShortPostInfo } from "brancy/models/page/tools/tools";
-import styles from "brancy/components/page/tools/popups/lottery/selectPost.module.css";
+import styles from "./selectPost.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const SelectPost = (props: {
@@ -39,12 +39,18 @@ const SelectPost = (props: {
     hasMore,
     fetchMore: async () => {
       try {
-        const result = await clientFetchApi<string, IShortPostInfo[]>("/api/post/GetPostCards", { methodType: MethodType.get, session: session, data: null, queries: [
+        const result = await clientFetchApi<string, IShortPostInfo[]>("/api/post/GetPostCards", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             {
               key: "nextTimeUnix",
               value: nextTime.toString(),
             },
-          ], onUploadProgress: undefined });
+          ],
+          onUploadProgress: undefined,
+        });
         return result.succeeded ? result.value : [];
       } catch (error) {
         console.log("error from loader:", error);
@@ -65,7 +71,13 @@ const SelectPost = (props: {
 
   async function getPost() {
     try {
-      var res = await clientFetchApi<string, IShortPostInfo[]>("/api/post/GetPostCards", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      var res = await clientFetchApi<string, IShortPostInfo[]>("/api/post/GetPostCards", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setPost(res.value);
         if (res.value.length > 0) {

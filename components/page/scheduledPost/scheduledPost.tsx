@@ -14,7 +14,7 @@ import { MethodType } from "brancy/helper/api";
 import { IPrePost, IScheduledPost } from "brancy/models/page/post/preposts";
 import { ShowRings } from "brancy/components/design/counterDown/counterDown";
 import DeletePrePost from "brancy/components/page/scheduledPost/deletePrePost";
-import styles from "brancy/components/page/scheduledPost/schedulePost.module.css";
+import styles from "./schedulePost.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const ScheduledPost = (props: { data: IPrePost[] | null }) => {

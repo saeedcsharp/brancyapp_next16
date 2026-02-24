@@ -1,4 +1,4 @@
-import styles from "brancy/components/advertise/popups/adPopupStyle.module.css";
+import styles from "./adPopupStyle.module.css";
 export default function AdvertisingTermsPopup(props: { removeMask: () => void; data: string[] }) {
   return (
     <>

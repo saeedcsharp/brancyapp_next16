@@ -9,7 +9,7 @@ import { OrderStep } from "brancy/models/store/enum";
 import { IOrderPushNotifExtended } from "brancy/models/store/orders";
 import { ITicketPushNotif } from "brancy/models/userPanel/message";
 
-import styles from "brancy/components/navbar/instagramerNavbar/notificationBar.module.css";
+import styles from "./notificationBar.module.css";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const NotificationBar = ({
@@ -97,7 +97,7 @@ const NotificationBar = ({
       e.stopPropagation();
       handleDeleteNotif(index);
     },
-    [handleDeleteNotif]
+    [handleDeleteNotif],
   );
   const handleNotifClick = useCallback((e: MouseEvent<HTMLDivElement>, decodedUrl: string) => {
     const target = e.target as HTMLElement;

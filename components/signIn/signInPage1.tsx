@@ -12,7 +12,7 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/signIn/signInPage1.module.css";
+import styles from "./signInPage1.module.css";
 const LandingSignIn = lazy(() => import("brancy/components/signIn/landingSignIn"));
 const SignInPage1 = (props: { handleShowVerification: (preUserToken: string) => void }) => {
   const { t, i18n } = useTranslation();
@@ -33,7 +33,7 @@ const SignInPage1 = (props: { handleShowVerification: (preUserToken: string) => 
       t(LanguageKey.page1_tools),
       t(LanguageKey.page1_advertises),
     ],
-    [i18n.language]
+    [i18n.language],
   );
   const deferredText = useDeferredValue(rotatingTexts[currentIndex]);
   const rotatingContainerStyle = useMemo<React.CSSProperties>(
@@ -43,7 +43,7 @@ const SignInPage1 = (props: { handleShowVerification: (preUserToken: string) => 
       position: "relative",
       overflow: "hidden",
     }),
-    []
+    [],
   );
   useEffect(() => {
     const interval = setInterval(() => {
@@ -59,7 +59,7 @@ const SignInPage1 = (props: { handleShowVerification: (preUserToken: string) => 
         });
       });
     },
-    [startTransition]
+    [startTransition],
   );
   useEffect(() => {
     if (!sectionRef.current) return;

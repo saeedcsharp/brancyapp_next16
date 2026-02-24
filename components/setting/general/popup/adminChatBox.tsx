@@ -14,7 +14,7 @@ import { StatusReplied } from "brancy/models/messages/enum";
 import { PlatformTicketItemType, PlatformTicketType } from "brancy/models/setting/enums";
 import { IPlatformTicket } from "brancy/models/setting/general";
 import { IItem, IOwnerInbox, ISendTicketMessage, ITicketMediaType } from "brancy/models/userPanel/message";
-import styles from "brancy/components/setting/general/popup/adminChatBox.module.css";
+import styles from "./adminChatBox.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 const TicketTypeIcon = memo(({ type, size = 16 }: { type: string; size?: number }) => {
@@ -421,7 +421,13 @@ const AdminChatBox = (props: {
   };
   async function handleSendRead() {
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/ticket/SeenPlatformTicket", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "ticketId", value: props.chatBox.ticketId.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/ticket/SeenPlatformTicket", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "ticketId", value: props.chatBox.ticketId.toString() }],
+        onUploadProgress: undefined,
+      });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);

@@ -6,7 +6,7 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { IAddress, ILogistic } from "brancy/models/userPanel/orders";
-import styles from "brancy/components/store/addressType/postalCode.module.css";
+import styles from "./postalCode.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
@@ -42,7 +42,13 @@ export default function PostalCode({ handleShowLogestic }: { handleShowLogestic:
 
   async function getShopLogistic() {
     try {
-      const res = await clientFetchApi<boolean, ILogistic[]>("/api/authorize/GetShopLogestics", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, ILogistic[]>("/api/authorize/GetShopLogestics", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setPostalStatus("ok");
         setShowAddress(false);
@@ -55,7 +61,13 @@ export default function PostalCode({ handleShowLogestic }: { handleShowLogestic:
   async function handleVerifyAddress() {
     setPostalStatus("pending");
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/authorize/SetShopAddress", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "addressId", value: address?.id.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/authorize/SetShopAddress", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "addressId", value: address?.id.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         getShopLogistic();
       } else {
@@ -68,7 +80,13 @@ export default function PostalCode({ handleShowLogestic }: { handleShowLogestic:
   }
   async function handleCreatePostByPostalCode(code: string) {
     try {
-      const res = await clientFetchApi<boolean, IAddress>("/api/address/CreateAddressByPostalCode", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "postalCode", value: code }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IAddress>("/api/address/CreateAddressByPostalCode", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "postalCode", value: code }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setPostalStatus("verify");
         setAddress(res.value);
@@ -87,8 +105,8 @@ export default function PostalCode({ handleShowLogestic }: { handleShowLogestic:
         postalStatus === "ok"
           ? `${styles.progressStep} ${styles.progressStepSuccess}`
           : postalStatus === "fail"
-          ? `${styles.progressStep} ${styles.progressStepFail}`
-          : styles.progressStep
+            ? `${styles.progressStep} ${styles.progressStepFail}`
+            : styles.progressStep
       }>
       <div className="headerparent">
         <div className="instagramprofile">

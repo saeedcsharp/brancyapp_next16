@@ -9,7 +9,7 @@ import { LanguageKey } from "brancy/i18n";
 import { AdsType } from "brancy/models/advertise/AdEnums";
 import { ICaledarAds } from "brancy/models/advertise/calendar";
 import AdsTypeComp from "brancy/components/advertise/adsType";
-import styles from "brancy/components/advertise/calendar/calendarComponent.module.css";
+import styles from "./calendarComponent.module.css";
 const CalendarComponent = (props: { totalAds: ICaledarAds[]; showReject: (adId: number) => void }) => {
   const { t } = useTranslation();
   const { hidePage, gridSpan, toggle } = useHideDiv(true, 82);

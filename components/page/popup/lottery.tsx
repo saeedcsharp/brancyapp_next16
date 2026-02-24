@@ -18,7 +18,7 @@ import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { ILotteryPost } from "brancy/models/page/post/posts";
-import styles from "brancy/components/page/popup/postLottery.module.css";
+import styles from "./postLottery.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 export enum LotteryPopupType {
   PostLottery,
@@ -82,7 +82,11 @@ export default function LotteryPopup({
 
     setIsCreating(true);
     try {
-      const response = await clientFetchApi<boolean, ILotteryPost>("Instagramer" + apiConfig.createUrl, { methodType: MethodType.get, session: session, data: null, queries: [
+      const response = await clientFetchApi<boolean, ILotteryPost>("Instagramer" + apiConfig.createUrl, {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: apiConfig.keyId, value: id ? id.toString() : liveId },
           { key: "filterText", value: filterText },
           { key: "randomCount", value: winnerNumber },
@@ -90,7 +94,9 @@ export default function LotteryPopup({
             key: "timezoneOffset",
             value: (-1 * new Date().getTimezoneOffset() * 60).toString(),
           },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (response.succeeded) {
         setCreatedTime(response.value.createdTime * 1000);
         setWinnerNumber(response.value.randomCount.toString());
@@ -106,7 +112,13 @@ export default function LotteryPopup({
   }, [createdTime, session, apiConfig, id, liveId, filterText, winnerNumber, basePictureUrl]);
   const getLottery = useCallback(async () => {
     try {
-      const response = await clientFetchApi<boolean, ILotteryPost>("Instagramer" + apiConfig.getUrl, { methodType: MethodType.get, session: session, data: null, queries: [{ key: apiConfig.keyId, value: id ? id.toString() : liveId }], onUploadProgress: undefined });
+      const response = await clientFetchApi<boolean, ILotteryPost>("Instagramer" + apiConfig.getUrl, {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: apiConfig.keyId, value: id ? id.toString() : liveId }],
+        onUploadProgress: undefined,
+      });
       if (response.succeeded) {
         setCreatedTime(response.value.createdTime * 1000);
         setWinnerNumber(response.value.randomCount.toString());
@@ -157,7 +169,7 @@ export default function LotteryPopup({
         CreateLottery();
       }
     },
-    [setShowLotteryPopup, isCreating, CreateLottery]
+    [setShowLotteryPopup, isCreating, CreateLottery],
   );
 
   useEffect(() => {

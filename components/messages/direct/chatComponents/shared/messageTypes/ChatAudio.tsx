@@ -5,7 +5,7 @@ import { ChatDate } from "brancy/components/messages/direct/chatComponents/share
 import { MessageStatus } from "brancy/components/messages/direct/chatComponents/shared/utils/ChatDateandseen";
 import ReactionEmoji from "brancy/components/messages/direct/chatComponents/shared/utils/ReactionEmoji";
 import { RepliedMessage } from "brancy/components/messages/direct/chatComponents/shared/utils/RepliedMessage";
-import styles from "brancy/components/messages/direct/chatComponents/shared/messageTypes/messageTypes.module.css";
+import styles from "./messageTypes.module.css";
 const ChatAudioComponent: React.FC<BaseChatProps> = ({
   item,
   direction,
@@ -23,7 +23,7 @@ const ChatAudioComponent: React.FC<BaseChatProps> = ({
   const isLeft = useMemo(() => direction === "left", [direction]);
   const audioSrc = useMemo(
     () => (item.audio && baseMediaUrl ? (useExternalUrl ? item.audio.externalUrl : baseMediaUrl + item.audio.url) : ""),
-    [item.audio, baseMediaUrl, useExternalUrl]
+    [item.audio, baseMediaUrl, useExternalUrl],
   );
   const classes = useMemo(
     () => ({
@@ -32,7 +32,7 @@ const ChatAudioComponent: React.FC<BaseChatProps> = ({
       voice: styles.chatvoice,
       menuPosition: isLeft ? "topRight" : "topLeft",
     }),
-    [isLeft]
+    [isLeft],
   );
   // #endregion
 
@@ -44,7 +44,7 @@ const ChatAudioComponent: React.FC<BaseChatProps> = ({
       }
       onClickSubIcon(iconId, item.itemId);
     },
-    [audioSrc, item.itemId, onClickSubIcon]
+    [audioSrc, item.itemId, onClickSubIcon],
   );
   const menuData = useMemo(
     () => [
@@ -57,7 +57,7 @@ const ChatAudioComponent: React.FC<BaseChatProps> = ({
         value: "Download",
       },
     ],
-    [item.ownerEmojiReaction]
+    [item.ownerEmojiReaction],
   );
   if (!item.audio || !baseMediaUrl || !audioSrc) return null;
   // #endregion

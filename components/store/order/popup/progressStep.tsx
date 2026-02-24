@@ -2,9 +2,13 @@ import { FC, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 
-import styles from "brancy/components/store/order/popup/progressStep.module.css";
+import styles from "./progressStep.module.css";
 
-import { orderDetailConfig, ordersBuyerInfoData, ordersProductInfoData } from "brancy/components/store/order/popup/order.enum";
+import {
+  orderDetailConfig,
+  ordersBuyerInfoData,
+  ordersProductInfoData,
+} from "brancy/components/store/order/popup/order.enum";
 
 const toggleReducer = (state: boolean) => !state;
 interface OrderDetailProps {
@@ -120,12 +124,12 @@ const ProgressStep: FC<OrderDetailProps> = ({ removeMask, orderId: string }) => 
               {activeTab === "orderinfo"
                 ? t(LanguageKey.Storeorder_orderDetailsStep)
                 : activeTab === "orderprogress"
-                ? t(LanguageKey.Storeorder_orderconfirmStep)
-                : activeTab === "orderpickup"
-                ? "pickup request"
-                : activeTab === "ordersend"
-                ? "sending"
-                : /* fallback text */ ""}
+                  ? t(LanguageKey.Storeorder_orderconfirmStep)
+                  : activeTab === "orderpickup"
+                    ? "pickup request"
+                    : activeTab === "ordersend"
+                      ? "sending"
+                      : /* fallback text */ ""}
             </div>
             <div className={styles.ordernumber}>{orderDetailConfig.orderId}</div>
           </div>

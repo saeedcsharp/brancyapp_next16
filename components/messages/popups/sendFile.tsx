@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { ItemType, MediaType } from "brancy/models/messages/enum";
 import { IIsSendingMessage } from "brancy/models/messages/IMessage";
-import styles from "brancy/components/messages/popups/sendFile.module.css";
+import styles from "./sendFile.module.css";
 
 function _arrayBufferToBase64(buffer: ArrayBuffer) {
   var binary = "";

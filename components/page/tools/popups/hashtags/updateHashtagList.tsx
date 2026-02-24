@@ -2,7 +2,7 @@ import { ChangeEvent, KeyboardEvent, useCallback, useMemo, useReducer } from "re
 import { useTranslation } from "react-i18next";
 import InputText from "brancy/components/design/inputText";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/page/tools/popups/hashtags/newHashtagList.module.css";
+import styles from "./newHashtagList.module.css";
 interface HashtagState {
   hashtagSourceImg: string;
   inputListName: string;
@@ -74,7 +74,7 @@ const UpdateHashtagList = (props: {
         addHashtag();
       }
     },
-    [inputHashtag, addHashtag]
+    [inputHashtag, addHashtag],
   );
   const handleMouseOver = useCallback((id: string) => {
     dispatch({ type: "SET_HASHTAG_SOURCE_IMG", payload: id });
@@ -100,7 +100,7 @@ const UpdateHashtagList = (props: {
           {v}
         </div>
       )),
-    [hashtags, hashtagSourceImg, handleDeleteHashtag, handleMouseOver, handleMouseLeave]
+    [hashtags, hashtagSourceImg, handleDeleteHashtag, handleMouseOver, handleMouseLeave],
   );
   return (
     <>

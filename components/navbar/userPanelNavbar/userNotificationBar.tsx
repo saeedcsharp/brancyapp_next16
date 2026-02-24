@@ -8,7 +8,7 @@ import { PushNotif, PushResponseExplanation, PushResponseTitle, PushResponseType
 import { OrderStep } from "brancy/models/store/enum";
 import { IOrderPushNotifExtended } from "brancy/models/store/orders";
 import { ITicketPushNotif } from "brancy/models/userPanel/message";
-import styles from "brancy/components/navbar/userPanelNavbar/userNotificationBar.module.css";
+import styles from "./userNotificationBar.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const UserNotificationBar = (props: { data: PushNotif[]; handleDeleteNotif: (index: number) => void }) => {
   const { t } = useTranslation();

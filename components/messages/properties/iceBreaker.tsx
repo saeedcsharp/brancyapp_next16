@@ -12,7 +12,7 @@ import { IDetailPrompt } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
 import { IceOrPersistent, PayloadType, SpecialPayLoad } from "brancy/models/messages/enum";
 import { IIceBreaker } from "brancy/models/messages/properies";
-import styles from "brancy/components/messages/properties/properties.module.css";
+import styles from "./properties.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 // Wrap component with React.memo for performance
 const IceBreaker = React.memo(
@@ -77,7 +77,13 @@ const IceBreaker = React.memo(
           return newState;
         });
         if (selectedPrompt.find((x) => x.promptId === promptId)) return;
-        const res = await clientFetchApi<boolean, IDetailPrompt>(`/api/ai/GetPrompt`, { methodType: MethodType.get, session: session, data: null, queries: [{ key: "promptId", value: promptId }], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, IDetailPrompt>(`/api/ai/GetPrompt`, {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "promptId", value: promptId }],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) setSelectedPrompt((prev) => [...prev, res.value]);
         else {
           notify(res.info.responseType, NotifType.Warning);
@@ -145,7 +151,7 @@ const IceBreaker = React.memo(
           fadeTimeoutRef.current = null; // Clear the ref after timeout executes
         }, 3000);
       },
-      [originalHandleActiveIceBreaker]
+      [originalHandleActiveIceBreaker],
     );
 
     // Cleanup timeout on component unmount
@@ -440,6 +446,6 @@ const IceBreaker = React.memo(
         </div>
       </>
     );
-  }
+  },
 );
 export default IceBreaker;

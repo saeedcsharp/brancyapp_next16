@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
 import { LanguageKey } from "brancy/i18n";
 import { IPostContent } from "brancy/models/page/post/posts";
-import styles from "brancy/components/page/statistics/popups/PostStatsViewer.module.css";
+import styles from "./PostStatsViewer.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const POSTS_PER_PAGE = 50;
 export type SortType = "maxView" | "minView" | "maxEngagement" | "minEngagement";

@@ -6,7 +6,7 @@ import { SendCodeResult } from "brancy/models/ApiModels/User/SendCodeResult";
 import { MethodType } from "brancy/helper/api";
 import GoogleLoginButton from "brancy/components/signIn/googleLoginPopup";
 import ReactPhoneInput from "brancy/components/signIn/reactPhoneInput";
-import styles from "brancy/components/signIn/signIn.module.css";
+import styles from "./signIn.module.css";
 import VerificationForm from "brancy/components/signIn/verificationForm";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 export enum SignInType {
@@ -45,24 +45,30 @@ export default function SignIn(props: {
     setLoading(true);
     try {
       console.log("hello", nationalNumber);
-      var res = await clientFetchApi<boolean, SendCodeResult>("/api/user/signIn", { methodType: MethodType.get, session: null, data: null, queries: [
-        {
-          key: "phoneNumber",
-          value: nationalNumber,
-        },
-        {
-          key: "timezoneOffset",
-          value: (new Date().getTimezoneOffset() * 60 * -1).toString(),
-        },
-        {
-          key: "countryCOde",
-          value: countryCode,
-        },
-        {
-          key: "sessionId",
-          value: sessionId ?? undefined,
-        },
-      ], onUploadProgress: undefined });
+      var res = await clientFetchApi<boolean, SendCodeResult>("/api/user/signIn", {
+        methodType: MethodType.get,
+        session: null,
+        data: null,
+        queries: [
+          {
+            key: "phoneNumber",
+            value: nationalNumber,
+          },
+          {
+            key: "timezoneOffset",
+            value: (new Date().getTimezoneOffset() * 60 * -1).toString(),
+          },
+          {
+            key: "countryCOde",
+            value: countryCode,
+          },
+          {
+            key: "sessionId",
+            value: sessionId ?? undefined,
+          },
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setPreUserToken(res.value.token);
         setSignInType(SignInType.VerificaionCode);
@@ -160,9 +166,9 @@ export default function SignIn(props: {
                   googleAuthUrl={`https://accounts.google.com/o/oauth2/v2/auth?client_id=${
                     process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
                   }&redirect_uri=${encodeURIComponent(
-                    `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}googleoauth`
+                    `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}googleoauth`,
                   )}&response_type=code&scope=${encodeURIComponent(
-                    "openid email profile"
+                    "openid email profile",
                   )}&access_type=offline&prompt=consent`}
                   onSuccess={() => {
                     console.log("Google login successful");

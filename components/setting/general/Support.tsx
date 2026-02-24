@@ -8,7 +8,7 @@ import { LanguageKey } from "brancy/i18n";
 import { StatusReplied } from "brancy/models/messages/enum";
 import { PlatformTicketType } from "brancy/models/setting/enums";
 import { IPlatform, ITicketInsights } from "brancy/models/setting/general";
-import styles from "brancy/components/setting/general/general.module.css";
+import styles from "./general.module.css";
 
 interface SupportProps {
   isDataLoaded: boolean;

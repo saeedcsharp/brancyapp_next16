@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { IItem, IOwnerInbox, IThread_Ticket } from "brancy/models/messages/IMessage";
 import { ItemType } from "brancy/models/messages/enum";
-import styles from "brancy/components/messages/ticket/ticketChatBox.module.css";
+import styles from "./components/messages/ticket/ticketChatBox.module.css";
 import { TicketChatAudio } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/TicketChatAudio";
 import { TicketChatMedia } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/TicketChatMedia";
 import { TicketChatMediaShare } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/TicketChatMediaShare";
@@ -61,7 +61,7 @@ export const RightChatWrapper: React.FC<RightChatWrapperProps> = React.memo((pro
       props.handleFindEmoji,
       props.handleSpecifyRepliedItemFullName,
       props.handleSpecifyRepliedItemType,
-    ]
+    ],
   );
 
   const renderMessage = useMemo(() => {

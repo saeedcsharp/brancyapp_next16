@@ -16,7 +16,7 @@ import { LanguageKey } from "brancy/i18n";
 import { TitleType } from "brancy/models/market/enums";
 import { ILink, IUpdateLink } from "brancy/models/market/properties";
 
-import styles from "brancy/components/market/properties/popups/addNewLink.module.css";
+import styles from "./addNewLink.module.css";
 
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
@@ -88,7 +88,7 @@ const Editlink = (props: { info: ILink; removeMask: () => void; handleUpdateLink
       if (name === "title" && linkData.type !== TitleType.GeneralLink && linkData.type !== TitleType.Custome) return;
       dispatch({ type: "SET_FIELD", field: name as keyof ILink, value });
     },
-    [linkData.type]
+    [linkData.type],
   );
 
   const handleCkeckBoxChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
@@ -162,7 +162,7 @@ const Editlink = (props: { info: ILink; removeMask: () => void; handleUpdateLink
 
   const imageSrc = useMemo(
     () => selectedImage || (linkData.iconUrl ? baseMediaUrl + linkData.iconUrl : ""),
-    [selectedImage, linkData.iconUrl]
+    [selectedImage, linkData.iconUrl],
   );
 
   const formattedDate = useMemo(
@@ -172,7 +172,7 @@ const Editlink = (props: { info: ILink; removeMask: () => void; handleUpdateLink
         calendar: timeConfig.calendar,
         locale: timeConfig.locale,
       }).format("YYYY/MM/DD"),
-    [linkData.expireTime, timeConfig]
+    [linkData.expireTime, timeConfig],
   );
 
   const formattedTime = useMemo(
@@ -182,7 +182,7 @@ const Editlink = (props: { info: ILink; removeMask: () => void; handleUpdateLink
         calendar: timeConfig.calendar,
         locale: timeConfig.locale,
       }).format("hh:mm"),
-    [linkData.expireTime, timeConfig]
+    [linkData.expireTime, timeConfig],
   );
 
   const formattedPeriod = useMemo(
@@ -192,7 +192,7 @@ const Editlink = (props: { info: ILink; removeMask: () => void; handleUpdateLink
         calendar: timeConfig.calendar,
         locale: timeConfig.locale,
       }).format("A"),
-    [linkData.expireTime, timeConfig]
+    [linkData.expireTime, timeConfig],
   );
 
   useEffect(() => {

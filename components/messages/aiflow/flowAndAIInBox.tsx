@@ -21,7 +21,7 @@ import { MethodType } from "brancy/helper/api";
 import { IMasterFlow, ITotalMasterFlow } from "brancy/models/messages/properies";
 import AIPromptBox from "brancy/components/messages/aiflow/aiPromptBox";
 import Flow from "brancy/components/messages/aiflow/flow";
-import styles from "brancy/components/messages/aiflow/flowAndAIIBox.module.css";
+import styles from "./flowAndAIIBox.module.css";
 import { LiveTestModal } from "brancy/components/messages/aiflow/flowNode";
 import { TutorialModalContent } from "brancy/components/messages/aiflow/flowNode/NodeTutorials";
 import { SettingModal } from "brancy/components/messages/aiflow/flowNode/settingmodal";
@@ -231,13 +231,19 @@ const FlowAndAIInbox = () => {
   const fetchData = async (ticketType: ToggleOrder, nextMaxId: string | null, query: string | null) => {
     if (ticketType === ToggleOrder.FirstToggle) {
       try {
-        let flowRes = await clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", { methodType: MethodType.get, session: session, data: null, queries: [
+        let flowRes = await clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "query", value: query ? query : undefined },
             {
               key: "nextMaxId",
               value: nextMaxId ? nextMaxId : undefined,
             },
-          ], onUploadProgress: undefined });
+          ],
+          onUploadProgress: undefined,
+        });
         console.log("flow boxxxxxxxx", flowRes);
         if (flowRes.succeeded && !query) {
           setMasterFlow((prev) => ({
@@ -268,13 +274,19 @@ const FlowAndAIInbox = () => {
       }
     } else if (ticketType === ToggleOrder.SecondToggle) {
       try {
-        let promptRes = await clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", { methodType: MethodType.get, session: session, data: null, queries: [
+        let promptRes = await clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "query", value: query ? query : undefined },
             {
               key: "nextMaxId",
               value: nextMaxId ? nextMaxId : undefined,
             },
-          ], onUploadProgress: undefined });
+          ],
+          onUploadProgress: undefined,
+        });
         console.log("promptRes ", promptRes.value);
         if (promptRes.succeeded && !query) {
           setPromptInbox((prev) => ({
@@ -362,9 +374,27 @@ const FlowAndAIInbox = () => {
   async function fetchFirstData() {
     try {
       const [flowRes, promptRes, aiToolRes] = await Promise.all([
-        clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", { methodType: MethodType.get, session: session, data: null, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<boolean, IAITools[]>("/api/ai/GetTools", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IAITools[]>("/api/ai/GetTools", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
       ]);
       if (!flowRes.succeeded) notify(flowRes.info.responseType, NotifType.Warning);
       if (flowRes.succeeded) setMasterFlow(flowRes.value);

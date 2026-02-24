@@ -4,7 +4,7 @@ import CheckBoxButton from "brancy/components/design/checkBoxButton";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import InputText from "brancy/components/design/inputText";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/store/order/popup/OrderProgress.module.css";
+import styles from "./OrderProgress.module.css";
 
 const OrderProgress = () => {
   const { t } = useTranslation();
@@ -80,7 +80,7 @@ const OrderProgress = () => {
   shippingselect.push(
     <div id="10" style={{ fontWeight: "var(--weight-700)" }}>
       {t(LanguageKey.Storeproduct_OutOfStandardSize)}
-    </div>
+    </div>,
   );
 
   function handleshippingselect(id: number) {

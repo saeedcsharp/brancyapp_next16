@@ -5,7 +5,7 @@ import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import RadioButton from "brancy/components/design/radioButton";
 import { LanguageKey } from "brancy/i18n";
 import { IAddress } from "brancy/models/userPanel/orders";
-import styles from "brancy/components/userPanel/orders/popups/addresses.module.css";
+import styles from "./addresses.module.css";
 
 export default function Addresses({
   removeMask,
@@ -41,7 +41,7 @@ export default function Addresses({
         console.error("Error exporting chart:", error);
       }
     },
-    [showSetting, t]
+    [showSetting, t],
   );
   return (
     <>

@@ -8,7 +8,7 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { ILoadingStatus } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { IPartner_User } from "brancy/models/userPanel/setting";
-import styles from "brancy/components/userPanel/setting/general.module.css";
+import styles from "./general.module.css";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 export default function UserPartners({
   partners,

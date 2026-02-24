@@ -8,7 +8,7 @@ import {
   findTargetElement,
   highlightElement,
 } from "brancy/components/tutorial/helpers/tutorialTargeting";
-import styles from "brancy/components/tutorial/tutorialDesktop.module.css";
+import styles from "./tutorialDesktop.module.css";
 interface TutorialDesktopProps {
   onComplete: () => void;
   tutorialSteps: Array<{

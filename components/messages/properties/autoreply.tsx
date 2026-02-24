@@ -12,7 +12,7 @@ import { IDetailPrompt } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
 import { AutoReplyPayLoadType, MediaProductType } from "brancy/models/messages/enum";
 import { IGeneralAutoReply } from "brancy/models/messages/properies";
-import styles from "brancy/components/messages/properties/properties.module.css";
+import styles from "./properties.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const containsFarsiOrArabic = (text: string): boolean => {
   const farsiArabicRegex = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
@@ -68,7 +68,7 @@ function AutoReply({
       [MediaProductType.Unknow]: t(LanguageKey.Unknown),
       [MediaProductType.Live]: t(LanguageKey.navbar_Live),
     }),
-    [t]
+    [t],
   );
   const [state, dispatch] = useReducer(autoReplyReducer, {
     isHidden: false,
@@ -107,14 +107,14 @@ function AutoReply({
           break;
       }
     },
-    [t, handleGeneralActiveAutoreply]
+    [t, handleGeneralActiveAutoreply],
   );
   const handleShowEditAutoreplyCallback = useCallback(
     (id: string | null) => {
       console.log("handleShowEditAutoreplyCallback", id);
       handleShowEditAutoreply(id);
     },
-    [handleShowEditAutoreply]
+    [handleShowEditAutoreply],
   );
   const handleSliderReachEnd = useCallback(() => {
     if (autoReplies && autoReplies.length > 0) {
@@ -135,7 +135,13 @@ function AutoReply({
           }
         });
         if (selectedPrompt.find((p) => p.promptId === promptId)) return;
-        const res = await clientFetchApi<boolean, IDetailPrompt>(`/api/ai/GetPrompt`, { methodType: MethodType.get, session: session, data: null, queries: [{ key: "promptId", value: promptId }], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, IDetailPrompt>(`/api/ai/GetPrompt`, {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "promptId", value: promptId }],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) {
           setSelectedPrompt((prev) => [...prev, res.value]);
         } else {
@@ -147,7 +153,7 @@ function AutoReply({
         setPromptLoading(null);
       }
     },
-    [session, selectedPrompt]
+    [session, selectedPrompt],
   );
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {

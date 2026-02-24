@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import styles from "brancy/components/design/radioButton.module.css";
+import styles from "./radioButton.module.css";
 const RadioButton = (props: {
   name: string;
   checked: boolean;

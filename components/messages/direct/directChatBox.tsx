@@ -29,7 +29,7 @@ import VoiceRecorder from "brancy/components/messages/popups/voiceRecorder";
 import { LeftChatWrapper } from "brancy/components/messages/direct/chatComponents/LeftChatWrapper";
 import { RightChatWrapper } from "brancy/components/messages/direct/chatComponents/RightChatWrapper";
 import { ChatSending } from "brancy/components/messages/direct/chatComponents/shared/messageTypes/ChatSending";
-import styles from "brancy/components/messages/direct/directChatBox.module.css";
+import styles from "./directChatBox.module.css";
 //#endregion
 
 //#region تعریف کامپوننت و Props

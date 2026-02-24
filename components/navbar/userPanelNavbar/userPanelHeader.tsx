@@ -9,7 +9,7 @@ import { PushNotif } from "brancy/models/push/pushNotif";
 import { IUserInfo } from "brancy/models/userPanel/login";
 import NavbarUserMobile from "brancy/components/navbar/instagramerNavbar/navbar_user_mobile";
 import UserNotificationBar from "brancy/components/navbar/userPanelNavbar/userNotificationBar";
-import styles from "brancy/components/navbar/userPanelNavbar/userPanelHeader.module.css";
+import styles from "./userPanelHeader.module.css";
 import UserProfile from "brancy/components/navbar/userPanelNavbar/userProfile";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;

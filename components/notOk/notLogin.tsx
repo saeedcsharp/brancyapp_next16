@@ -16,7 +16,7 @@ import { SendCodeResult } from "brancy/models/ApiModels/User/SendCodeResult";
 import { MethodType } from "brancy/helper/api";
 import { InstagramerAccountInfo } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { IIpCondition } from "brancy/models/userPanel/login";
-import styles from "brancy/components/notOk/notLogin.module.css";
+import styles from "./notLogin.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 export default function NotLogin({ removeMask }: { removeMask: () => void }) {

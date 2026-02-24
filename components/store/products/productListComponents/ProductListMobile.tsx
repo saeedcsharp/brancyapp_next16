@@ -9,7 +9,7 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { AvailabilityStatus } from "brancy/models/store/enum";
 import { IProduct_ShortProduct } from "brancy/models/store/IProduct";
-import styles from "brancy/components/store/products/productListComponents/productListMobile.module.css";
+import styles from "./productListMobile.module.css";
 
 interface ProductListMobileProps {
   products: IProduct_ShortProduct[];

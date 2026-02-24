@@ -21,7 +21,7 @@ import {
   IProduct_SecondaryCategory,
   ISuggestedPrice,
 } from "brancy/models/store/IProduct";
-import styles from "brancy/components/store/products/productDetail/notInstanceProduct/general.module.css";
+import styles from "./general.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 function General({
   productId,
@@ -45,7 +45,7 @@ function General({
         <div>{t(LanguageKey.Pleaseselect)}</div>
       </div>,
     ],
-    [t]
+    [t],
   );
   const [mainCategoryElements, setmainCategoryElements] = useState([
     { element: initialMainCategoryElements, selectIndex: 0 },
@@ -56,7 +56,7 @@ function General({
         <div>{t(LanguageKey.Pleaseselect)}</div>
       </div>
     ),
-    [t]
+    [t],
   );
   const [brandCategoryElements, setBrandCategoryElements] = useState({
     element: [initialBrandCategoryElement],
@@ -68,7 +68,7 @@ function General({
         <div>{t(LanguageKey.Pleaseselect)}</div>
       </div>
     ),
-    [t]
+    [t],
   );
   const [dependentCategoryElements, setDependentCategoryElemets] = useState({
     element: [initialDependentElement],
@@ -128,7 +128,7 @@ function General({
             <div className={`${styles.namesection} translate`} id={cat.id.toString()}>
               <div className={styles.nameenglish}>{cat.name}</div>
               <div className={styles.namepersian}>{cat.langValue}</div>
-            </div>
+            </div>,
           );
         }
         setmainCategoryElements((prev) => {
@@ -145,7 +145,7 @@ function General({
               <div className={`${styles.namesection} translate`} id={cat.id.toString()}>
                 <div className={styles.nameenglish}> {cat.name}</div>
                 <div className={styles.namepersian}> {cat.langValue}</div>
-              </div>
+              </div>,
             );
             newArrayState[index + 1].selectIndex = 0;
           }
@@ -154,7 +154,7 @@ function General({
         });
       }
     },
-    [generalInfo.mainCategory, mainCategoryElements, t]
+    [generalInfo.mainCategory, mainCategoryElements, t],
   );
   const handleBrandselect = useCallback((id: any) => {
     setGeneralInfo((prev) => ({
@@ -192,7 +192,7 @@ function General({
         },
       }));
     },
-    [suggestedPriceMap]
+    [suggestedPriceMap],
   );
 
   function findCategoryById(mainCat: IProduct_MainCategory[], targetId: number): IProduct_MainCategory | undefined {
@@ -211,7 +211,7 @@ function General({
   }
   function findIdPathWithIndexAndSiblingsInArray(
     categories: IProduct_MainCategory[],
-    targetId: number
+    targetId: number,
   ): { id: number; index: number; siblings: IProduct_MainCategory[] }[] | null {
     for (let i = 0; i < categories.length; i++) {
       const category = categories[i];
@@ -227,7 +227,7 @@ function General({
   }
   function findIdPathWithIndexAndSiblingsInCategory(
     category: IProduct_MainCategory,
-    targetId: number
+    targetId: number,
   ): { id: number; index: number; siblings: IProduct_MainCategory[] }[] | null {
     if (category.id === targetId) {
       return [{ id: category.id, index: -1, siblings: [] }];
@@ -246,10 +246,19 @@ function General({
   }
   async function getSecondaryCategory(categoryId: number, dependId?: number, brandId?: number) {
     try {
-      const res = await clientFetchApi<boolean, IProduct_SecondaryCategory>("shopper" + "" + "/Product/GetSeconderyCategoryList", { methodType: MethodType.get, session: session, data: null, queries: [
-          { key: "language", value: "1" },
-          { key: "categoryId", value: categoryId.toString() },
-        ], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IProduct_SecondaryCategory>(
+        "shopper" + "" + "/Product/GetSeconderyCategoryList",
+        {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
+            { key: "language", value: "1" },
+            { key: "categoryId", value: categoryId.toString() },
+          ],
+          onUploadProgress: undefined,
+        },
+      );
       if (res.succeeded) {
         setDependentCategoryElemets({ element: [], selectIndex: 0 });
         setBrandCategoryElements({ element: [], selectIndex: 0 });
@@ -283,7 +292,7 @@ function General({
                 <div className={`${styles.namesection} translate`} id={brand.brandId.toString()}>
                   <div className={styles.nameenglish}>{brand.name}</div>
                   <div className={styles.namepersian}> {brand.langValue}</div>
-                </div>
+                </div>,
               );
             }
             return newBrand;
@@ -307,7 +316,7 @@ function General({
                 <div className={`${styles.namesection} translate`} id={depend.id.toString()}>
                   <div className={styles.nameenglish}>{depend.name}</div>
                   <div className={styles.namepersian}>{depend.langValue} </div>
-                </div>
+                </div>,
               );
             }
             return newDepend;
@@ -336,12 +345,12 @@ function General({
           getSecondaryCategory(
             generalInfoParam.createInstance.categoryId,
             generalInfoParam.createInstance.subcategoryId!,
-            generalInfoParam.createInstance.brandId!
+            generalInfoParam.createInstance.brandId!,
           );
           newArrayState = [];
           const catInfos = findIdPathWithIndexAndSiblingsInArray(
             generalInfoParam.mainCategory,
-            generalInfoParam.createInstance.categoryId
+            generalInfoParam.createInstance.categoryId,
           );
           if (!catInfos) return newArrayState;
           setCurrentIndex(catInfos.length - 1);
@@ -356,7 +365,7 @@ function General({
                 <div className={`${styles.namesection} translate`} id={sibling.id.toString()}>
                   <div className={styles.nameenglish}>{sibling.name}</div>
                   <div className={styles.namepersian}>{sibling.langValue}</div>
-                </div>
+                </div>,
               );
             }
             newArrayState.push({
@@ -368,7 +377,7 @@ function General({
         return newArrayState;
       });
     },
-    [t]
+    [t],
   );
   const fetchData = useCallback(async () => {
     if (info) {
@@ -378,8 +387,20 @@ function General({
     }
     try {
       const [mainCat, lastCat] = await Promise.all([
-        clientFetchApi<boolean, IProduct_MainCategory[]>("shopper" + "" + "/Product/GetMainCategoryList", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "language", value: "1" }], onUploadProgress: undefined }),
-        clientFetchApi<boolean, ILastCategory>("shopper" + "" + "/Product/GetLastCategory", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, IProduct_MainCategory[]>("shopper" + "" + "/Product/GetMainCategoryList", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "language", value: "1" }],
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, ILastCategory>("shopper" + "" + "/Product/GetLastCategory", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
       ]);
       if (mainCat.succeeded && lastCat.succeeded) {
         setGeneralInfo((prev) => ({ ...prev, mainCategory: mainCat.value }));
@@ -391,7 +412,7 @@ function General({
                 <div className={`${styles.namesection} translate`} id={cat.id.toString()}>
                   <div className={styles.nameenglish}>{cat.name}</div>
                   <div className={styles.namepersian}>{cat.langValue} </div>
-                </div>
+                </div>,
               );
             }
           } else if (lastCat.value.categoryId) {
@@ -420,7 +441,7 @@ function General({
                   <div className={`${styles.namesection} translate`} id={sibling.id.toString()}>
                     <div className={styles.nameenglish}>{sibling.name}</div>
                     <div className={styles.namepersian}>{sibling.langValue}</div>
-                  </div>
+                  </div>,
                 );
               }
               newArrayState.push({

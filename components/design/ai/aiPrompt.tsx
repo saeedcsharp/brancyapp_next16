@@ -2,7 +2,7 @@ import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/design/ai/aiPrompt.module.css";
+import styles from "./aiPrompt.module.css";
 
 export default function AiPrompt({
   aiLoading,
@@ -33,7 +33,7 @@ export default function AiPrompt({
         onClose?.();
       }
     },
-    [handleAIPromptSubmit, aiLoading, onClose]
+    [handleAIPromptSubmit, aiLoading, onClose],
   );
   const handleSubmit = useCallback(() => {
     const value = aiPrompt.trim();
@@ -49,7 +49,7 @@ export default function AiPrompt({
         return trimmedPrompt ? `${trimmedPrompt} ${tagText}` : tagText;
       });
     },
-    [aiLoading]
+    [aiLoading],
   );
   // Handle clicks outside the popup to close it
   useEffect(() => {

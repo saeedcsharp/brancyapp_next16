@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "brancy/components/headerTitle/headerTitle.module.css";
+import styles from "./headerTitle.module.css";
 
 interface HeaderTitleProps {
   indexItem: number;

@@ -6,7 +6,7 @@ import { handleCompress, handleDecompress } from "brancy/helper/pako";
 import { LanguageKey } from "brancy/i18n";
 import { IProduct_Information } from "brancy/models/store/IProduct";
 import CustomTable from "brancy/components/store/products/productDetail/notInstanceProduct/customtable";
-import styles from "brancy/components/store/products/productDetail/notInstanceProduct/information.module.css";
+import styles from "./information.module.css";
 
 const ReactQuill = dynamic(() => import("react-quill-ver2"), { ssr: false });
 
@@ -22,11 +22,11 @@ export default function Information({
   const { t } = useTranslation();
   const [loading, setLoading] = useState<boolean>(true);
   const [description, setDescription] = useState(
-    data.description !== "" ? JSON.parse(data.description).description : ""
+    data.description !== "" ? JSON.parse(data.description).description : "",
   );
   const [showTableModal, setShowTableModal] = useState(false);
   const [tableHtml, setTableHtml] = useState<string>(
-    data.description !== "" ? handleDecompress(JSON.parse(data.description).sizeTable)! : ""
+    data.description !== "" ? handleDecompress(JSON.parse(data.description).sizeTable)! : "",
   );
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [tableTitle, setTableTitle] = useState<string>(data.description ? JSON.parse(data.description).tableTitle : "");
@@ -89,7 +89,7 @@ export default function Information({
         sizeTable: tableHtml,
         tableTitle: tableTitle,
       },
-      toggleNext.isNext
+      toggleNext.isNext,
     );
   }, [toggleNext.toggle]);
 

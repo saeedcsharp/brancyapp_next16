@@ -16,7 +16,7 @@ import Loading from "brancy/components/notOk/loading";
 import { LoginStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { DayCountUnix, IMonthGraph } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
-import multiStyles from "brancy/components/design/chart/Chart_day.module.css";
+import multiStyles from "./Chart_day.module.css";
 interface ISeriesData {
   name: string;
   color: string;
@@ -280,11 +280,11 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
           break;
       }
     },
-    [state.indexValue]
+    [state.indexValue],
   );
   useEffect(() => {
     try {
-      const cal = typeof window !== "undefined" ? window.localStorage.getItem("calendar") ?? undefined : undefined;
+      const cal = typeof window !== "undefined" ? (window.localStorage.getItem("calendar") ?? undefined) : undefined;
       setCalendarId(mapCalendarNameToId(cal));
     } catch {}
     const onCalendarChanged = (e: Event) => {
@@ -408,7 +408,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
         year: yearFormatter.format(d),
       };
     },
-    [monthFormatter, yearFormatter, dayFormatter]
+    [monthFormatter, yearFormatter, dayFormatter],
   );
   const monthYearLabels = useMemo(() => {
     return allMonthsData?.map((v) => getMonthYearLabels(v.year, v.month, (v as any).day)) ?? [];
@@ -460,7 +460,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
     if (!currentMonthData || state.indexValue === 0) return 0;
     // Prefer server-provided "previous" series if present (series id or name contains 'prev'/'previous')
     const prevSeriesCandidates = props.seriesData.filter(
-      (s) => /prev(ious)?/i.test(s.id) || /prev(ious)?/i.test(s.name)
+      (s) => /prev(ious)?/i.test(s.id) || /prev(ious)?/i.test(s.name),
     );
     if (prevSeriesCandidates.length > 0) {
       // Sum totals for candidate series in the same day entry if available
@@ -760,7 +760,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
         dispatch({ type: "SET_TOOLTIP", payload: null });
       }
     },
-    [chartData]
+    [chartData],
   );
   const handleMouseLeave = useCallback(() => {
     if (pendingRaf.current) cancelAnimationFrame(pendingRaf.current);
@@ -808,7 +808,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
         dispatch({ type: "SET_TOOLTIP", payload: null });
       }
     },
-    [chartData]
+    [chartData],
   );
   const handleTouchEnd = useCallback(() => {
     if (pendingRaf.current) cancelAnimationFrame(pendingRaf.current);
@@ -851,7 +851,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
         });
       }
     },
-    [chartData]
+    [chartData],
   );
   const setFromEdge = useCallback(() => {
     dispatch({ type: "SET_REACH_FLAGS", payload: { begin: false, end: false } });
@@ -879,7 +879,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
         return next;
       });
     },
-    [props.objectNavigators]
+    [props.objectNavigators],
   );
   const objectNavNext = useCallback(
     (navIdx: number) => {
@@ -897,7 +897,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
         return next;
       });
     },
-    [props.objectNavigators]
+    [props.objectNavigators],
   );
   useEffect(() => {
     dispatch({
@@ -920,7 +920,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
       }
       touchStartX.current = null;
     },
-    [goNext, goPrev]
+    [goNext, goPrev],
   );
   const exportChartAsJpeg = useCallback(async () => {
     try {
@@ -961,7 +961,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
               URL.revokeObjectURL(objectUrl);
             },
             "image/jpeg",
-            0.92
+            0.92,
           );
         } finally {
           try {
@@ -1011,7 +1011,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
         if (el) el.classList.remove(multiStyles.dragging || "");
       } catch {}
     },
-    [goNext, goPrev]
+    [goNext, goPrev],
   );
   const toggleLinkVisibility = useCallback(
     (seriesId: string) => {
@@ -1025,7 +1025,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
         dispatch({ type: "TOGGLE_LINK", payload: seriesId });
       }
     },
-    [props.seriesData.length, state.hiddenLinks]
+    [props.seriesData.length, state.hiddenLinks],
   );
   const unshowContent = props.unshowContent !== undefined ? props.unshowContent : true;
   const hasData = allMonthsData && allMonthsData.length > 0;
@@ -1039,7 +1039,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
   useEffect(() => {
     if (!props.objectNavigators) return;
     setObjectNavState(
-      props.objectNavigators.map((n) => ({ firstIndex: n.initialFirstIndex ?? 0, secondIndex: n.initialSecondIndex }))
+      props.objectNavigators.map((n) => ({ firstIndex: n.initialFirstIndex ?? 0, secondIndex: n.initialSecondIndex })),
     );
   }, [props.objectNavigators]);
   useEffect(() => {
@@ -1058,7 +1058,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
         props.onObjectNavigatorChange?.(navIdx, firstIdx, secondIdx);
       } catch {}
     },
-    [props]
+    [props],
   );
   return (
     <>
@@ -1343,7 +1343,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
                         chartData.seriesPaths.reduce((sum: number, series: any) => {
                           const point = series.points[state.hoveredPoint!.dataIndex];
                           return sum + (point?.value || 0);
-                        }, 0)
+                        }, 0),
                       ).toLocaleString()}
                     </span>
                   </div>
@@ -1508,7 +1508,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
                     const base = new Date(
                       (currentMonthData as any).year,
                       Math.max(0, (currentMonthData as any).month - 1),
-                      (currentMonthData as any).day || 1
+                      (currentMonthData as any).day || 1,
                     );
                     const prev = new Date(base.getFullYear(), base.getMonth(), base.getDate() - 1);
                     return (

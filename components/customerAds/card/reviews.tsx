@@ -1,6 +1,6 @@
 import FiveStar from "brancy/components/fiveStar";
 import { IReview } from "brancy/models/market/myLink";
-import styles from "brancy/components/customerAds/card/reviews.module.css";
+import styles from "./reviews.module.css";
 function Reviews({ reviews }: { reviews: IReview[] }) {
   const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 

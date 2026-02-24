@@ -14,7 +14,7 @@ import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { FeatureType } from "brancy/models/market/enums";
 import { IFeatureInfo } from "brancy/models/market/myLink";
-import styles from "brancy/components/market/myLink/menubar.module.css";
+import styles from "./menubar.module.css";
 
 interface MenubarProps {
   data: IFeatureInfo[];
@@ -65,7 +65,7 @@ const Menubar = memo(({ data, featureType, onFeatureChange }: MenubarProps) => {
       const languageKey = FEATURE_LANGUAGE_KEY_MAP.get(featureType);
       return languageKey ? t(languageKey) : `Feature ${featureType}`;
     },
-    [t]
+    [t],
   );
   const updateActiveFeature = useCallback(
     (newFeatureId: number) => {
@@ -74,7 +74,7 @@ const Menubar = memo(({ data, featureType, onFeatureChange }: MenubarProps) => {
         onFeatureChange?.(newFeatureId);
       }
     },
-    [featureId, onFeatureChange]
+    [featureId, onFeatureChange],
   );
   const handleSlideToFeature = useCallback((elementId: string) => {
     isScrollingRef.current = true;
@@ -95,7 +95,7 @@ const Menubar = memo(({ data, featureType, onFeatureChange }: MenubarProps) => {
         handleSlideToFeature(elementId);
       }
     },
-    [updateActiveFeature, handleSlideToFeature]
+    [updateActiveFeature, handleSlideToFeature],
   );
 
   const handleKeyboardNavigation = useCallback(
@@ -141,7 +141,7 @@ const Menubar = memo(({ data, featureType, onFeatureChange }: MenubarProps) => {
         }, 0);
       }
     },
-    [data, featureId, handleSelectFeature, menuId]
+    [data, featureId, handleSelectFeature, menuId],
   );
   const setupIntersectionObserver = useCallback(() => {
     if (observerRef.current) {
@@ -227,7 +227,7 @@ const Menubar = memo(({ data, featureType, onFeatureChange }: MenubarProps) => {
           </button>
         );
       }),
-    [data, deferredFeatureId, loaderStyle, handleSelectFeature, handleKeyboardNavigation, menuId, getMenuTitle]
+    [data, deferredFeatureId, loaderStyle, handleSelectFeature, handleKeyboardNavigation, menuId, getMenuTitle],
   );
   return (
     <nav

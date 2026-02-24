@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/messages/aiflow/flowNode/GenericNode.module.css";
+import styles from "./GenericNode.module.css";
 import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
 
 interface GenericNodeProps extends BaseNodeProps {

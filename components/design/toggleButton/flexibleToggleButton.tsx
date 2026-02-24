@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "brancy/components/design/toggleButton/flexibleToggleButton.module.css";
+import styles from "./flexibleToggleButton.module.css";
 import { FlexibleToggleButtonProps } from "brancy/components/design/toggleButton/types";
 
 const FlexibleToggleButton: React.FC<FlexibleToggleButtonProps> = ({

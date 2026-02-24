@@ -9,7 +9,7 @@ import { LoginStatus } from "brancy/helper/loadingStatus";
 import { calculateSummary } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
 import { IFullShop } from "brancy/models/userPanel/shop";
-import styles from "brancy/components/userPanel/shop/shop.module.css";
+import styles from "./shop.module.css";
 
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
@@ -56,7 +56,7 @@ function ShopPage(props: { data: IFullShop[] | undefined; fetchStorewData: (pagi
       data = [...data].sort((a, b) =>
         sortOrder === "asc"
           ? a.shortShop.followerCount - b.shortShop.followerCount
-          : b.shortShop.followerCount - a.shortShop.followerCount
+          : b.shortShop.followerCount - a.shortShop.followerCount,
       );
     }
     // سرچ
@@ -66,7 +66,7 @@ function ShopPage(props: { data: IFullShop[] | undefined; fetchStorewData: (pagi
         (shop) =>
           (shop.shortShop.fullName && shop.shortShop.fullName.toLowerCase().includes(s)) ||
           (shop.shortShop.username && shop.shortShop.username.toLowerCase().includes(s)) ||
-          shop.categories.some((cat) => cat.langValue && cat.langValue.toLowerCase().includes(s))
+          shop.categories.some((cat) => cat.langValue && cat.langValue.toLowerCase().includes(s)),
       );
     }
     return data;

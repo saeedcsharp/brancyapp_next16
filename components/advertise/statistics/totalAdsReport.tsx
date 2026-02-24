@@ -5,7 +5,7 @@ import useHideDiv from "brancy/hook/useHide";
 import { ITotalAdsReport } from "brancy/models/advertise/statistics";
 import ConfirmationStatus, { StatusType } from "brancy/components/confirmationStatus/confirmationStatus";
 import AdsTypeComp from "brancy/components/advertise/adsType";
-import styles from "brancy/components/advertise/statistics/statistics.module.css";
+import styles from "./statistics.module.css";
 
 import { useTranslation } from "react-i18next";
 import RingLoader from "brancy/components/design/loader/ringLoder";

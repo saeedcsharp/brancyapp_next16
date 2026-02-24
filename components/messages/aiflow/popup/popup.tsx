@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/messages/aiflow/popup/popup.module.css";
+import styles from "./popup.module.css";
 
 export type PopupType = "info" | "success" | "error" | "warning";
 interface PopupProps {

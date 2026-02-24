@@ -20,7 +20,7 @@ import {
 } from "brancy/models/store/IProduct";
 import Discount from "brancy/components/store/products/productDetail/notInstanceProduct/popups/discount";
 import NewVariation from "brancy/components/store/products/productDetail/notInstanceProduct/popups/newVariation";
-import styles from "brancy/components/store/products/productDetail/notInstanceProduct/Variation.module.css";
+import styles from "./Variation.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 export interface IAddNewVariation {
   val1: INewVariation | null;
@@ -48,7 +48,7 @@ function Variation({
     createInstanceForVariation: ICreateInstance_ForVariation,
     variation: IProduct_Variation,
     subProducts: ISubProduct_Create[],
-    isNext: boolean
+    isNext: boolean,
   ) => void;
   shortProduct: IProduct_ShortProduct;
 }) {
@@ -77,7 +77,7 @@ function Variation({
               variationTitleId: x,
             })),
           },
-        ]
+        ],
   );
   const [customeTitleVar, setCustomeTitleVar] = useState<string | null>(createInstance.customTitleVariation);
   const [variation, setVariation] = useState<IProduct_Variation>({
@@ -274,10 +274,10 @@ function Variation({
           : {
               ...x,
               variations: x.variations.map((c) =>
-                c.variationTitleId !== variationTitleId ? c : { ...c, variationId: parseInt(id) }
+                c.variationTitleId !== variationTitleId ? c : { ...c, variationId: parseInt(id) },
               ),
-            }
-      )
+            },
+      ),
     );
   }
   function handleSelectDiscout(id: any, index: number) {
@@ -295,8 +295,8 @@ function Variation({
                       maxTime: null,
                       value: 15,
                     },
-            }
-      )
+            },
+      ),
     );
   }
   const compareVariations = (a: IVariation_Create[], b: IVariation_Create[]): boolean => {
@@ -338,7 +338,7 @@ function Variation({
   };
   function handleChangeCustomeVariation(e: ChangeEvent<HTMLInputElement>, index: number) {
     setSubProducts((prev) =>
-      prev.map((x) => (prev.indexOf(x) !== index ? x : { ...x, customVariation: e.target.value }))
+      prev.map((x) => (prev.indexOf(x) !== index ? x : { ...x, customVariation: e.target.value })),
     );
   }
   function handleChangeStock(e: ChangeEvent<HTMLInputElement>, index: number) {
@@ -368,7 +368,7 @@ function Variation({
             price: "0",
             index: 0,
           },
-        ]
+        ],
   ); // Raw input value
   const handleChangePrice = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const value = e.target.value.replace(/[^\d.]/g, ""); // Remove non-numeric chars
@@ -385,8 +385,8 @@ function Variation({
             : {
                 ...x,
                 price: 0,
-              }
-        )
+              },
+        ),
       );
     } else {
       const numericValue = parseFloat(value); // Parse to number
@@ -398,8 +398,8 @@ function Variation({
               : {
                   ...x,
                   price: numericValue,
-                }
-          )
+                },
+          ),
         );
       }
     }
@@ -413,8 +413,8 @@ function Variation({
           : {
               ...x,
               price: priceFormatter(shortProduct.priceType)(value),
-            }
-      )
+            },
+      ),
     ); // Format the price on blur
   };
   const handleFocus = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
@@ -423,10 +423,16 @@ function Variation({
   };
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, IProduct_Variation>("shopper" + "" + "/Product/GetVariations", { methodType: MethodType.get, session: session, data: null, queries: [
+      const res = await clientFetchApi<boolean, IProduct_Variation>("shopper" + "" + "/Product/GetVariations", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "categoryId", value: categoryId.toString() },
           { key: "language", value: "1" },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setVariation(res.value);
         InitilaizedAddNew();
@@ -438,7 +444,13 @@ function Variation({
       notify(ResponseType.Unexpected, NotifType.Error);
     }
     try {
-      const res = await clientFetchApi<boolean, IGetSuggestedPrice>("shopper" + "" + "/Product/GetSuggestedPriceV2", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "productId", value: shortProduct.productId.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IGetSuggestedPrice>("shopper" + "" + "/Product/GetSuggestedPriceV2", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "productId", value: shortProduct.productId.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setSuggestedPriceV2(res.value);
         console.log("suggestedPriceV2", res.value);
@@ -497,7 +509,7 @@ function Variation({
       // <div id="0">Not Set</div>
       <div className={styles.namesection} id="0">
         <div>{t(LanguageKey.Pleaseselect)}</div>
-      </div>
+      </div>,
     );
     return data;
   }
@@ -507,7 +519,7 @@ function Variation({
       // <div id="0">Not Set</div>
       <div className={styles.namesection} id="0">
         <div>{t(LanguageKey.Pleaseselect)}</div>
-      </div>
+      </div>,
     );
     return data;
   }
@@ -580,7 +592,7 @@ function Variation({
         prev.map((x) => ({
           ...x,
           variations: x.variations.filter((c) => c.variationTitleId !== newVariation.variationTitleId),
-        }))
+        })),
       );
       setCreateInstance((prev) => ({
         ...prev,
@@ -615,8 +627,8 @@ function Variation({
                 maxTime: dis.maxTime,
                 value: dis.value,
               },
-            }
-      )
+            },
+      ),
     );
     setShowDiscount(false);
   }
@@ -675,12 +687,12 @@ function Variation({
     }
     if (remainingHours > 0) {
       parts.push(
-        `${remainingHours} ${t(remainingHours > 1 ? LanguageKey.countdown_Hours : LanguageKey.countdown_Hours)}`
+        `${remainingHours} ${t(remainingHours > 1 ? LanguageKey.countdown_Hours : LanguageKey.countdown_Hours)}`,
       ); // "hour(s)"
     }
     if (days === 0 && remainingHours === 0 && remainingMinutes > 0) {
       parts.push(
-        `${remainingMinutes} ${t(remainingMinutes > 1 ? LanguageKey.countdown_Minutes : LanguageKey.countdown_Minutes)}`
+        `${remainingMinutes} ${t(remainingMinutes > 1 ? LanguageKey.countdown_Minutes : LanguageKey.countdown_Minutes)}`,
       ); // "minute(s)"
     }
     if (days === 0 && remainingHours === 0 && remainingMinutes === 0 && seconds > 0) {
@@ -922,7 +934,7 @@ function Variation({
                               className={styles.stockplus}
                               onClick={() =>
                                 setSubProducts((prev) =>
-                                  prev.map((x, idx) => (idx === i ? { ...x, stock: x.stock + 5 } : x))
+                                  prev.map((x, idx) => (idx === i ? { ...x, stock: x.stock + 5 } : x)),
                                 )
                               }>
                               +5
@@ -932,7 +944,7 @@ function Variation({
                               className={styles.stockplus}
                               onClick={() =>
                                 setSubProducts((prev) =>
-                                  prev.map((x, idx) => (idx === i ? { ...x, stock: x.stock + 10 } : x))
+                                  prev.map((x, idx) => (idx === i ? { ...x, stock: x.stock + 10 } : x)),
                                 )
                               }>
                               +10
@@ -942,7 +954,7 @@ function Variation({
                               className={styles.stockplus}
                               onClick={() =>
                                 setSubProducts((prev) =>
-                                  prev.map((x, idx) => (idx === i ? { ...x, stock: x.stock + 50 } : x))
+                                  prev.map((x, idx) => (idx === i ? { ...x, stock: x.stock + 50 } : x)),
                                 )
                               }>
                               +50
@@ -1017,11 +1029,11 @@ function Variation({
                                               ? {
                                                   ...x,
                                                   price: priceFormatter(shortProduct.priceType)(
-                                                    suggestedPriceV2?.minPrice || 0
+                                                    suggestedPriceV2?.minPrice || 0,
                                                   ),
                                                 }
-                                              : x
-                                          )
+                                              : x,
+                                          ),
                                         );
                                         setSubProducts((prev) =>
                                           prev.map((x, idx) =>
@@ -1030,8 +1042,8 @@ function Variation({
                                                   ...x,
                                                   price: suggestedPriceV2?.minPrice || 0,
                                                 }
-                                              : x
-                                          )
+                                              : x,
+                                          ),
                                         );
                                       }}>
                                       <div className={styles.pricePopupdetail}>
@@ -1070,11 +1082,11 @@ function Variation({
                                               ? {
                                                   ...x,
                                                   price: priceFormatter(shortProduct.priceType)(
-                                                    suggestedPriceV2?.averagePrice || 0
+                                                    suggestedPriceV2?.averagePrice || 0,
                                                   ),
                                                 }
-                                              : x
-                                          )
+                                              : x,
+                                          ),
                                         );
                                         setSubProducts((prev) =>
                                           prev.map((x, idx) =>
@@ -1083,8 +1095,8 @@ function Variation({
                                                   ...x,
                                                   price: suggestedPriceV2?.averagePrice || 0,
                                                 }
-                                              : x
-                                          )
+                                              : x,
+                                          ),
                                         );
                                       }}>
                                       <div className={styles.pricePopupdetail}>
@@ -1123,11 +1135,11 @@ function Variation({
                                               ? {
                                                   ...x,
                                                   price: priceFormatter(shortProduct.priceType)(
-                                                    suggestedPriceV2?.maxPrice || 0
+                                                    suggestedPriceV2?.maxPrice || 0,
                                                   ),
                                                 }
-                                              : x
-                                          )
+                                              : x,
+                                          ),
                                         );
                                         setSubProducts((prev) =>
                                           prev.map((x, idx) =>
@@ -1136,8 +1148,8 @@ function Variation({
                                                   ...x,
                                                   price: suggestedPriceV2?.maxPrice || 0,
                                                 }
-                                              : x
-                                          )
+                                              : x,
+                                          ),
                                         );
                                       }}>
                                       <div className={styles.pricePopupdetail}>

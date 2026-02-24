@@ -1,5 +1,5 @@
 import React from "react";
-import styles from "brancy/components/design/ai/AIButton.module.css";
+import styles from "./AIButton.module.css";
 
 interface AIButtonProps {
   onClick: () => void;

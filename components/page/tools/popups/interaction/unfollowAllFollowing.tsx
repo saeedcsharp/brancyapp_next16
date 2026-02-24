@@ -26,7 +26,7 @@ import {
 } from "brancy/models/page/tools/tools";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import styles from "brancy/components/page/tools/popups/interaction/autointeraction.module.css";
+import styles from "./autointeraction.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const UnFollowAllFollowing = (props: {
@@ -52,10 +52,40 @@ const UnFollowAllFollowing = (props: {
     let instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     try {
       const [checkRes, conditionRes, figureRes, acceptedFollowersRes] = await Promise.all([
-        clientFetchApi<boolean, boolean>("Instagramer" + instagramerId + "/UnfollowAllFollowing/CheckAvailability", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<boolean, IUnFollowAllFollowing_Server_Condotion>("Instagramer" + instagramerId + "/UnfollowAllFollowing/GetCondition", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<boolean, IUnFollowAllFollowing_Figure>("Instagramer" + "/UnfollowAllFollowing/GetFigure", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<boolean, IUnFollowAllFollowing_GetUnFollowing[]>("Instagramer" + instagramerId + "/UnfollowAllFollowing/GetUnFollowings", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, boolean>("Instagramer" + instagramerId + "/UnfollowAllFollowing/CheckAvailability", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IUnFollowAllFollowing_Server_Condotion>(
+          "Instagramer" + instagramerId + "/UnfollowAllFollowing/GetCondition",
+          {
+            methodType: MethodType.get,
+            session: session,
+            data: undefined,
+            queries: undefined,
+            onUploadProgress: undefined,
+          },
+        ),
+        clientFetchApi<boolean, IUnFollowAllFollowing_Figure>("Instagramer" + "/UnfollowAllFollowing/GetFigure", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IUnFollowAllFollowing_GetUnFollowing[]>(
+          "Instagramer" + instagramerId + "/UnfollowAllFollowing/GetUnFollowings",
+          {
+            methodType: MethodType.get,
+            session: session,
+            data: undefined,
+            queries: undefined,
+            onUploadProgress: undefined,
+          },
+        ),
       ]);
       if (checkRes.value) {
         setLoadingStatus(false);
@@ -81,12 +111,21 @@ const UnFollowAllFollowing = (props: {
     if (unfollowAllFollowing?.length === 0) return;
     let instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     try {
-      var res = await clientFetchApi<boolean, IUnFollowAllFollowing_GetUnFollowing[]>("Instagramer" + instagramerId + "/AutoAcceptFollower/GetAcceptedFollowers", { methodType: MethodType.get, session: session, data: [
-          {
-            key: "nextId",
-            value: unfollowAllFollowing![unfollowAllFollowing!.length - 1].id.toString(),
-          },
-        ], queries: undefined, onUploadProgress: undefined });
+      var res = await clientFetchApi<boolean, IUnFollowAllFollowing_GetUnFollowing[]>(
+        "Instagramer" + instagramerId + "/AutoAcceptFollower/GetAcceptedFollowers",
+        {
+          methodType: MethodType.get,
+          session: session,
+          data: [
+            {
+              key: "nextId",
+              value: unfollowAllFollowing![unfollowAllFollowing!.length - 1].id.toString(),
+            },
+          ],
+          queries: undefined,
+          onUploadProgress: undefined,
+        },
+      );
       if (res.succeeded) {
         setUnfollowAllFollowing((prev) => [...prev!, ...res.value]);
       } else notify(res.info.responseType, NotifType.Error);
@@ -99,10 +138,19 @@ const UnFollowAllFollowing = (props: {
     if (!condition?.isPaused) {
       let instagramerId = session?.user.instagramerIds[session.user.currentIndex];
       try {
-        var res = await clientFetchApi<IUnFollowAllFollowing_UpdateCondotion, boolean>("Instagramer" + instagramerId + "/UnfollowAllFollowing/UpdateCondition", { methodType: MethodType.post, session: session, data: {
-            isPaused: true,
-            waitSeconds: condition!.waitDays * 86400,
-          }, queries: undefined, onUploadProgress: undefined });
+        var res = await clientFetchApi<IUnFollowAllFollowing_UpdateCondotion, boolean>(
+          "Instagramer" + instagramerId + "/UnfollowAllFollowing/UpdateCondition",
+          {
+            methodType: MethodType.post,
+            session: session,
+            data: {
+              isPaused: true,
+              waitSeconds: condition!.waitDays * 86400,
+            },
+            queries: undefined,
+            onUploadProgress: undefined,
+          },
+        );
         if (res.succeeded) {
           internalNotify(InternalResponseType.Ok, NotifType.Success);
           props.removeMask();

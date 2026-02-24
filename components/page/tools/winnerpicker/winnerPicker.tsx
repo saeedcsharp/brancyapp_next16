@@ -15,7 +15,7 @@ import {
   IShortLotteriesInfo,
   LotteryStatus,
 } from "brancy/models/page/tools/tools";
-import styles from "brancy/components/page/tools/winnerpicker/winnerPicker.module.css";
+import styles from "./winnerPicker.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 const WinnerPicker = (props: {
@@ -72,18 +72,36 @@ const WinnerPicker = (props: {
   async function fetchData() {
     try {
       const [doneRes, pendingRes, rejectRes] = await Promise.all([
-        clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", { methodType: MethodType.get, session: session, data: null, queries: [
+        clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "lotteryStatus", value: LotteryStatus.Ended.toString() },
             { key: "nextMaxId", value: "" },
-          ], onUploadProgress: undefined }),
-        clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", { methodType: MethodType.get, session: session, data: null, queries: [
+          ],
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "lotteryStatus", value: LotteryStatus.Upcoming.toString() },
             { key: "nextMaxId", value: "" },
-          ], onUploadProgress: undefined }),
-        clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", { methodType: MethodType.get, session: session, data: null, queries: [
+          ],
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "lotteryStatus", value: LotteryStatus.Failed.toString() },
             { key: "nextMaxId", value: "" },
-          ], onUploadProgress: undefined }),
+          ],
+          onUploadProgress: undefined,
+        }),
       ]);
       if (doneRes.succeeded) {
         setDoneLotteries({
@@ -122,10 +140,16 @@ const WinnerPicker = (props: {
 
       if (hasMorePending && pendingLotteries.nextMaxId) {
         requests.push(
-          clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", { methodType: MethodType.get, session: session, data: null, queries: [
+          clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
               { key: "lotteryStatus", value: LotteryStatus.Upcoming.toString() },
               { key: "nextMaxId", value: pendingLotteries.nextMaxId },
-            ], onUploadProgress: undefined })
+            ],
+            onUploadProgress: undefined,
+          }),
         );
         applyFns.push((value) => {
           const newItems = value.items.filter((x) => x.status === LotteryStatus.Upcoming);
@@ -136,10 +160,16 @@ const WinnerPicker = (props: {
 
       if (hasMoreDone && doneLotteries.nextMaxId) {
         requests.push(
-          clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", { methodType: MethodType.get, session: session, data: null, queries: [
+          clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
               { key: "lotteryStatus", value: LotteryStatus.Ended.toString() },
               { key: "nextMaxId", value: doneLotteries.nextMaxId },
-            ], onUploadProgress: undefined })
+            ],
+            onUploadProgress: undefined,
+          }),
         );
         applyFns.push((value) => {
           const newItems = value.items.filter((x) => x.status === LotteryStatus.Ended);
@@ -150,10 +180,16 @@ const WinnerPicker = (props: {
 
       if (hasMoreAbort && abortLotteries.nextMaxId) {
         requests.push(
-          clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", { methodType: MethodType.get, session: session, data: null, queries: [
+          clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
               { key: "lotteryStatus", value: LotteryStatus.Failed.toString() },
               { key: "nextMaxId", value: abortLotteries.nextMaxId },
-            ], onUploadProgress: undefined })
+            ],
+            onUploadProgress: undefined,
+          }),
         );
         applyFns.push((value) => {
           const newItems = value.items.filter((x) => x.status === LotteryStatus.Failed);

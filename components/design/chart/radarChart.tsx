@@ -1,5 +1,5 @@
 import { useMemo, useRef, useState } from "react";
-import styles from "brancy/components/design/chart/radarChart.module.css";
+import styles from "./radarChart.module.css";
 
 export interface IPlatformData {
   name: string;
@@ -123,7 +123,7 @@ export const RadarChart = (props: IRadarChartProps) => {
                   );
                 })}
               </g>
-            )
+            ),
         )}
 
         {/* Category labels */}

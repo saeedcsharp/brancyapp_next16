@@ -2,7 +2,7 @@ import React, { KeyboardEvent, memo, useCallback, useId, useMemo, useReducer } f
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { IClientAnnouncement } from "brancy/models/market/myLink";
-import styles from "brancy/components/market/myLink/announcement.module.css";
+import styles from "./announcement.module.css";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 type AnnouncementProps = {
   data: IClientAnnouncement | null;

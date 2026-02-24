@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import RadioButton from "brancy/components/design/radioButton";
-import styles from "brancy/components/Accessibility/AccessibilityHeader.module.css";
+import styles from "./AccessibilityHeader.module.css";
 
 type ThemeState = {
   themeMode: string;
@@ -108,7 +108,7 @@ const AccessibilityHeader: React.FC<AccessibilityHeaderProps> = ({ themeState, d
         checked: themeState.themeMode === "light mode",
       },
     ],
-    [themeState.themeMode, t]
+    [themeState.themeMode, t],
   );
 
   const languageOptions = useMemo(
@@ -155,7 +155,7 @@ const AccessibilityHeader: React.FC<AccessibilityHeaderProps> = ({ themeState, d
         checked: themeState.language === "az",
       },
     ],
-    [themeState.language]
+    [themeState.language],
   );
 
   // Force rerender when settings dropdown is opened
@@ -184,7 +184,7 @@ const AccessibilityHeader: React.FC<AccessibilityHeaderProps> = ({ themeState, d
         },
       });
     },
-    [dispatch]
+    [dispatch],
   );
 
   const handleChangeLanguage = useCallback(
@@ -196,7 +196,7 @@ const AccessibilityHeader: React.FC<AccessibilityHeaderProps> = ({ themeState, d
       i18n.changeLanguage(langCode);
       window.localStorage.setItem("language", langCode);
     },
-    [i18n, dispatch]
+    [i18n, dispatch],
   );
 
   const handleClickOutside = useCallback(
@@ -208,7 +208,7 @@ const AccessibilityHeader: React.FC<AccessibilityHeaderProps> = ({ themeState, d
         setIsSettingsOpen(false);
       }
     },
-    [isMenuOpen, isSettingsOpen]
+    [isMenuOpen, isSettingsOpen],
   );
 
   useEffect(() => {

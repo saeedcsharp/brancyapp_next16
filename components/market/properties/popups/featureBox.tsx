@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useTranslation } from "react-i18next";
 import FiveStar from "brancy/components/fiveStar";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/market/properties/popups/featureBoxPU.module.css";
+import styles from "./featureBoxPU.module.css";
 const FeatureBox = (props: { removeMask: () => void }) => {
   const { t } = useTranslation();
   return (

@@ -16,7 +16,7 @@ import { MethodType } from "brancy/helper/api";
 import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { IStory, IStoryContent } from "brancy/models/page/story/stories";
 import ScheduledStory from "brancy/components/page/scheduledStory/scheduledStory";
-import styles from "brancy/components/page/storyContent/storyContent.module.css";
+import styles from "./storyContent.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;

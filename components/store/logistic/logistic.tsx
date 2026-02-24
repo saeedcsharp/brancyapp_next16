@@ -7,7 +7,7 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { ILogistic } from "brancy/models/userPanel/orders";
-import styles from "brancy/components/store/logistic/logistic.module.css";
+import styles from "./logistic.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 export default function Logistic({
@@ -31,7 +31,13 @@ export default function Logistic({
   async function saveSupportLogistics() {
     setVerifyLoading(true);
     try {
-      const res = await clientFetchApi<number[], boolean>("/api/authorize/SaveSupportLogestic", { methodType: MethodType.post, session: session, data: selectedShippings, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<number[], boolean>("/api/authorize/SaveSupportLogestic", {
+        methodType: MethodType.post,
+        session: session,
+        data: selectedShippings,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (!res.succeeded) {
         notify(res.info.responseType, NotifType.Warning);
         setSelectedShippings([]);

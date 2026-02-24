@@ -1,6 +1,6 @@
 import { ChangeEvent, CSSProperties, KeyboardEvent, memo, useMemo } from "react";
 import { isRTL } from "brancy/helper/checkRtl";
-import styles from "brancy/components/design/textArea/textArea.module.css";
+import styles from "./textArea.module.css";
 
 interface TextAreaProps {
   name?: string;
@@ -63,7 +63,7 @@ function TextArea(props: TextAreaProps) {
       WebkitAppearance: "none" as const,
       MozAppearance: "none" as const,
     }),
-    [style, isPlaceholderRTL]
+    [style, isPlaceholderRTL],
   );
 
   const handleKeyDownInternal = (e: KeyboardEvent<HTMLTextAreaElement>) => {

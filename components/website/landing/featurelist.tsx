@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/website/landing/featurelist.module.css";
+import styles from "./featurelist.module.css";
 interface FeatureListProps {
   isPopupOpen: boolean;
   isAnimatingOut: boolean;

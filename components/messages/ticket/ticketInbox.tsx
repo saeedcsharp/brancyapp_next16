@@ -48,7 +48,7 @@ import SendVideoFile from "brancy/components/messages/popups/sendVideoFile";
 import { MediaModal, useMediaModal } from "brancy/components/messages/shared/utils";
 import DirectChatBox from "brancy/components/messages/ticket/directChatBox";
 import SystemChatBox from "brancy/components/messages/ticket/systemChatBox";
-import styles from "brancy/components/messages/ticket/ticketInbox.module.css";
+import styles from "./ticketInbox.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 let firstTime = 0;
 let touchMove = 0;

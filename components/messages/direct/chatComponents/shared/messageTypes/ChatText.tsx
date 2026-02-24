@@ -8,7 +8,7 @@ import { ChatDate } from "brancy/components/messages/direct/chatComponents/share
 import { MessageStatus } from "brancy/components/messages/direct/chatComponents/shared/utils/ChatDateandseen";
 import ReactionEmoji from "brancy/components/messages/direct/chatComponents/shared/utils/ReactionEmoji";
 import { RepliedMessage } from "brancy/components/messages/direct/chatComponents/shared/utils/RepliedMessage";
-import styles from "brancy/components/messages/direct/chatComponents/shared/messageTypes/messageTypes.module.css";
+import styles from "./messageTypes.module.css";
 
 const ChatTextComponent: React.FC<BaseChatProps> = ({
   item,
@@ -37,7 +37,7 @@ const ChatTextComponent: React.FC<BaseChatProps> = ({
       repliedMsg: isLeft ? styles.leftrepliedmsg : styles.rightrepliedmsg,
       repliedMsgDescription: isLeft ? styles.leftrepliedmsgdiscription : styles.rightrepliedmsgdiscription,
     }),
-    [isLeft]
+    [isLeft],
   );
 
   // #endregion
@@ -57,7 +57,7 @@ const ChatTextComponent: React.FC<BaseChatProps> = ({
         onClickSubIcon(iconId, item.itemId);
       }
     },
-    [item.itemId, item.text, onClickSubIcon]
+    [item.itemId, item.text, onClickSubIcon],
   );
   const dotMenuData = useMemo(
     () => [
@@ -70,7 +70,7 @@ const ChatTextComponent: React.FC<BaseChatProps> = ({
         value: "Copy",
       },
     ],
-    [item.ownerEmojiReaction]
+    [item.ownerEmojiReaction],
   );
   // #endregion
 
@@ -101,7 +101,7 @@ const ChatTextComponent: React.FC<BaseChatProps> = ({
         <LinkifyText text={item.text} />
       </div>
     ),
-    [getMessageDirectionClass, item.text, classes.msg]
+    [getMessageDirectionClass, item.text, classes.msg],
   );
   // #endregion
 

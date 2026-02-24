@@ -8,7 +8,7 @@ import { LanguageKey } from "brancy/i18n";
 import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { CategorySection } from "brancy/models/market/enums";
 import { IMarketInfo } from "brancy/models/market/home";
-import styles from "brancy/components/market/home/homeComponent.module.css";
+import styles from "./homeComponent.module.css";
 function Advertise(props: { data: IMarketInfo[] | undefined; fetchAdvertiseData: (pagination: string) => void }) {
   const { data: session } = useSession();
   const userRef = useRef<HTMLDivElement>(null);

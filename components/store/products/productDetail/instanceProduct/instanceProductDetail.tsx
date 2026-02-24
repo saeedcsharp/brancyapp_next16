@@ -38,7 +38,7 @@ import {
 } from "brancy/models/store/IProduct";
 import GeneralInstance from "brancy/components/store/products/productDetail/instanceProduct/generalInstance";
 import InformationInstance from "brancy/components/store/products/productDetail/instanceProduct/informationInstance";
-import styles from "brancy/components/store/products/productDetail/instanceProduct/instanceProductDetail.module.css";
+import styles from "./instanceProductDetail.module.css";
 import MediaInstance from "brancy/components/store/products/productDetail/instanceProduct/mediaInstance";
 import SettingInstance from "brancy/components/store/products/productDetail/instanceProduct/settingInstance";
 import SpecificationsInstance from "brancy/components/store/products/productDetail/instanceProduct/specificationInstance";
@@ -107,7 +107,7 @@ export default function InstanceProductDetail({
         variationId: u.variation.variationId,
         variationTitleId: u.variation.variationTitleId,
       })),
-    }))
+    })),
   );
   const [deActiveSubProducts, setDeActiveSubProducts] = useState<number[]>([]);
   const [specificationInfo, setSpecificationInfo] = useState(fullProduct.specifications);
@@ -122,7 +122,7 @@ export default function InstanceProductDetail({
         mediaType: x.mediaType,
         uploadMedia: null,
         key: null,
-      }))
+      })),
   );
   const [suggestedMediaList, setSuggestedMediaList] = useState<ISuggestedMedia>({ medias: [] });
   const [setting, setSetting] = useState<IProduct_Setting>({
@@ -188,7 +188,7 @@ export default function InstanceProductDetail({
   function upadteCteateFromVariation(
     deActiveSubProducts: number[],
     subProducts: ISubProduct_CreateForInstance[],
-    isNext: boolean
+    isNext: boolean,
   ) {
     console.log("subProducts", subProducts);
     console.log("deActiveSubProducts", deActiveSubProducts);
@@ -241,12 +241,18 @@ export default function InstanceProductDetail({
   async function handleUploadMedia(uploadMedias: IUploadMedia[]) {
     if (uploadMedias.length > 0) {
       const mediaUploadPromises = uploadMedias.map(async (media) =>
-        clientFetchApi<IUploadMedia, boolean>("/api/product/InsertProductMedia", { methodType: MethodType.post, session: session, data: media, queries: [
-          {
-            key: "productId",
-            value: fullProduct.productInstance.productId.toString(),
-          },
-        ], onUploadProgress: undefined })
+        clientFetchApi<IUploadMedia, boolean>("/api/product/InsertProductMedia", {
+          methodType: MethodType.post,
+          session: session,
+          data: media,
+          queries: [
+            {
+              key: "productId",
+              value: fullProduct.productInstance.productId.toString(),
+            },
+          ],
+          onUploadProgress: undefined,
+        }),
       );
       return await Promise.all(mediaUploadPromises);
     }
@@ -267,12 +273,18 @@ export default function InstanceProductDetail({
       value: true,
     };
     if (customMedias.length > 0) {
-      result = await clientFetchApi<{ items: ICustomMedia[] }, boolean>("/api/product/UpdateSelfMediaStatus", { methodType: MethodType.post, session: session, data: { items: customMedias }, queries: [
+      result = await clientFetchApi<{ items: ICustomMedia[] }, boolean>("/api/product/UpdateSelfMediaStatus", {
+        methodType: MethodType.post,
+        session: session,
+        data: { items: customMedias },
+        queries: [
           {
             key: "productId",
             value: fullProduct.productInstance.productId.toString(),
           },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
     }
     return result;
   }
@@ -291,7 +303,13 @@ export default function InstanceProductDetail({
       value: true,
     };
     if (specs.items.length > 0) {
-      result = await clientFetchApi<ISpecificationOrder, boolean>("/api/product/UpdateSpecificationOrder", { methodType: MethodType.post, session: session, data: specs, queries: undefined, onUploadProgress: undefined });
+      result = await clientFetchApi<ISpecificationOrder, boolean>("/api/product/UpdateSpecificationOrder", {
+        methodType: MethodType.post,
+        session: session,
+        data: specs,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
     }
     return result;
   }
@@ -310,12 +328,18 @@ export default function InstanceProductDetail({
       value: true,
     };
     if (defaultMedias.length > 0) {
-      result = await clientFetchApi<IProduct_UpdateChildrenMedia, boolean>("/api/product/UpdateChildrenMediaStatus", { methodType: MethodType.post, session: session, data: { items: defaultMedias }, queries: [
+      result = await clientFetchApi<IProduct_UpdateChildrenMedia, boolean>("/api/product/UpdateChildrenMediaStatus", {
+        methodType: MethodType.post,
+        session: session,
+        data: { items: defaultMedias },
+        queries: [
           {
             key: "productId",
             value: fullProduct.productInstance.productId.toString(),
           },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
     }
     return result;
   }
@@ -431,17 +455,29 @@ export default function InstanceProductDetail({
         suggestedMediaRes,
       ] = await Promise.all([
         // First API call
-        clientFetchApi<IProduct_CreateSubProduct, boolean>("/api/product/CreateSubProducts", { methodType: MethodType.post, session: session, data: {
+        clientFetchApi<IProduct_CreateSubProduct, boolean>("/api/product/CreateSubProducts", {
+          methodType: MethodType.post,
+          session: session,
+          data: {
             productId: fullProduct.productInstance.productId,
             subProducts: updatedSubProducts,
             deActiveSubProducts: deActiveSubProducts,
-          }, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<IProduct_SettingUpdate, boolean>("/api/product/UpdateSecondaryProductDetails", { methodType: MethodType.post, session: session, data: updatedSetting, queries: [
+          },
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<IProduct_SettingUpdate, boolean>("/api/product/UpdateSecondaryProductDetails", {
+          methodType: MethodType.post,
+          session: session,
+          data: updatedSetting,
+          queries: [
             {
               key: "productId",
               value: fullProduct.productInstance.productId.toString(),
             },
-          ], onUploadProgress: undefined }),
+          ],
+          onUploadProgress: undefined,
+        }),
         handleUpdateSpecification(specificationOrder),
         handleUploadMedia(uploadMedias),
         handleUpdateChildrenMedia(defaultMedias),
@@ -468,14 +504,20 @@ export default function InstanceProductDetail({
   }
   async function handleUploadSuggestedMedia(suggestedMedia: { key: string; index: number }[]) {
     const mediaUploadPromises = suggestedMedia.map(async (media) =>
-      clientFetchApi<boolean, boolean>("/api/product/InsertProductMedia", { methodType: MethodType.get, session: session, data: null, queries: [
-        {
-          key: "productId",
-          value: shortProduct.productId.toString(),
-        },
-        { key: "key", value: media.key },
-        { key: "index", value: media.index.toString() },
-      ], onUploadProgress: undefined })
+      clientFetchApi<boolean, boolean>("/api/product/InsertProductMedia", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
+          {
+            key: "productId",
+            value: shortProduct.productId.toString(),
+          },
+          { key: "key", value: media.key },
+          { key: "index", value: media.index.toString() },
+        ],
+        onUploadProgress: undefined,
+      }),
     );
     return mediaUploadPromises;
   }
@@ -495,7 +537,13 @@ export default function InstanceProductDetail({
       });
     }
     try {
-      var res2 = await clientFetchApi<boolean, ISuggestedMedia>("/api/product/GetMediaSuggestion", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "productId", value: shortProduct.productId.toString() }], onUploadProgress: undefined });
+      var res2 = await clientFetchApi<boolean, ISuggestedMedia>("/api/product/GetMediaSuggestion", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "productId", value: shortProduct.productId.toString() }],
+        onUploadProgress: undefined,
+      });
       console.log("GetMediaSuggestion", res2);
       if (res2.succeeded) {
         if (res2.value.medias.length === 0) return;
@@ -585,8 +633,8 @@ export default function InstanceProductDetail({
                   currentStep === step
                     ? styles[`step${step}Active`]
                     : currentStep > step
-                    ? styles[`step${step}Done`]
-                    : styles[`step${step}`]
+                      ? styles[`step${step}Done`]
+                      : styles[`step${step}`]
                 }>
                 <div className={styles.mobilecircle}> </div>
                 <div className={styles.stepprogressmobileinfo}>
@@ -596,8 +644,8 @@ export default function InstanceProductDetail({
                         currentStep > step
                           ? styles[`status${step}Done`]
                           : currentStep === step
-                          ? styles[`status${step}Active`]
-                          : styles.status
+                            ? styles[`status${step}Active`]
+                            : styles.status
                       }>
                       {currentStep > step ? "✔" : step}
                     </div>
@@ -626,16 +674,16 @@ export default function InstanceProductDetail({
                   currentStep === step
                     ? styles[`step${step}Active`]
                     : currentStep > step
-                    ? styles[`step${step}Done`]
-                    : styles[`step${step}`]
+                      ? styles[`step${step}Done`]
+                      : styles[`step${step}`]
                 }>
                 <div
                   className={
                     currentStep > step
                       ? styles[`status${step}Done`]
                       : currentStep === step
-                      ? styles[`status${step}Active`]
-                      : styles.status
+                        ? styles[`status${step}Active`]
+                        : styles.status
                   }>
                   {currentStep > step ? "✔" : step}
                 </div>

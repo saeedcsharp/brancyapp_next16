@@ -21,7 +21,7 @@ import {
   ITotalMasterFlow,
   IUpdateProfileButton,
 } from "brancy/models/messages/properies";
-import styles from "brancy/components/messages/popups/specialPayLoad.module.css";
+import styles from "./specialPayLoad.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 // Reducer for checkbox state
 type CheckBoxState = {
@@ -222,7 +222,7 @@ const SpecialPayLoadComp = React.memo(
           explain: t(LanguageKey.messagesetting_SearchforproductsExplain),
         },
       }),
-      [t]
+      [t],
     );
     const getDefaultSpecialPayload = useCallback(
       () => [
@@ -235,7 +235,7 @@ const SpecialPayLoadComp = React.memo(
           </div>
         )),
       ],
-      [specialPayloads, t, specialPayloadTextMap]
+      [specialPayloads, t, specialPayloadTextMap],
     );
     const getAITitles = useCallback(
       () => [
@@ -248,7 +248,7 @@ const SpecialPayLoadComp = React.memo(
           </div>
         )),
       ],
-      [prompts, t]
+      [prompts, t],
     );
     const getAISearchTitles = useCallback(
       () => [
@@ -261,7 +261,7 @@ const SpecialPayLoadComp = React.memo(
           </div>
         )),
       ],
-      [searchPrompts, t]
+      [searchPrompts, t],
     );
     const getFlowTitles = useCallback(
       () => [
@@ -274,7 +274,7 @@ const SpecialPayLoadComp = React.memo(
           </div>
         )),
       ],
-      [masterFlows, t]
+      [masterFlows, t],
     );
     const getFlowSearchTitles = useCallback(
       () => [
@@ -287,7 +287,7 @@ const SpecialPayLoadComp = React.memo(
           </div>
         )),
       ],
-      [masterSearchFlows, t]
+      [masterSearchFlows, t],
     );
     const checkCondition = useCallback(() => {
       const isCustomValid =
@@ -366,10 +366,16 @@ const SpecialPayLoadComp = React.memo(
             payload: true,
           });
           try {
-            const res = await clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", { methodType: MethodType.get, session: session, data: null, queries: [
+            const res = await clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", {
+              methodType: MethodType.get,
+              session: session,
+              data: null,
+              queries: [
                 { key: "query", value: searchTerm },
                 { key: "nextMaxId", value: "" },
-              ], onUploadProgress: undefined });
+              ],
+              onUploadProgress: undefined,
+            });
             if (!isMountedRef.current) return;
             if (res.succeeded) {
               setSearchPrompts(res.value);
@@ -390,7 +396,7 @@ const SpecialPayLoadComp = React.memo(
           }
         }, 500);
       },
-      [session]
+      [session],
     );
     const handleExternalFlowSearch = useCallback(
       async (searchTerm: string) => {
@@ -409,7 +415,13 @@ const SpecialPayLoadComp = React.memo(
             payload: true,
           });
           try {
-            const res = await clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "query", value: searchTerm }], onUploadProgress: undefined });
+            const res = await clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", {
+              methodType: MethodType.get,
+              session: session,
+              data: null,
+              queries: [{ key: "query", value: searchTerm }],
+              onUploadProgress: undefined,
+            });
             if (!isMountedRef.current) return;
             if (res.succeeded) {
               setMasterSearchFlows(res.value);
@@ -430,22 +442,34 @@ const SpecialPayLoadComp = React.memo(
           }
         }, 500);
       },
-      [session]
+      [session],
     );
     const fetchData = useCallback(async () => {
       if (!isMountedRef.current) return;
       setDispatchLoading({ type: "SET_LOADING", payload: true });
       try {
         const [promptRes, flowRes] = await Promise.all([
-          clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", { methodType: MethodType.get, session: session, data: null, queries: [
-            { key: "query", value: "" },
-            { key: "nextMaxId", value: "" },
-          ], onUploadProgress: undefined }),
-          clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", { methodType: MethodType.get, session: session, data: null, queries: [
-            { key: "query", value: "" },
-            { key: "privateReply", value: "" },
-            { key: "nextMaxId", value: "" },
-          ], onUploadProgress: undefined }),
+          clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
+              { key: "query", value: "" },
+              { key: "nextMaxId", value: "" },
+            ],
+            onUploadProgress: undefined,
+          }),
+          clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
+              { key: "query", value: "" },
+              { key: "privateReply", value: "" },
+              { key: "nextMaxId", value: "" },
+            ],
+            onUploadProgress: undefined,
+          }),
         ]);
         if (!isMountedRef.current) return;
         if (promptRes.succeeded) setPrompts(promptRes.value);
@@ -467,10 +491,16 @@ const SpecialPayLoadComp = React.memo(
         if (!nextMaxId || searchAIMode || !isMountedRef.current) return;
         setDispatchLoading({ type: "SET_LOADING_MORE_AI_ITEMS", payload: true });
         try {
-          const res = await clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", { methodType: MethodType.get, session: session, data: null, queries: [
+          const res = await clientFetchApi<boolean, IPrompts>("/api/ai/GetPrompts", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
               { key: "query", value: "" },
               { key: "nextMaxId", value: nextMaxId },
-            ], onUploadProgress: undefined });
+            ],
+            onUploadProgress: undefined,
+          });
           if (!isMountedRef.current) return;
           if (res.succeeded) {
             setPrompts((prev) => ({
@@ -494,7 +524,7 @@ const SpecialPayLoadComp = React.memo(
           }
         }
       },
-      [session, searchAIMode]
+      [session, searchAIMode],
     );
     const getPromptById = useCallback(
       async (promptId: string) => {
@@ -506,7 +536,13 @@ const SpecialPayLoadComp = React.memo(
         if (!isMountedRef.current) return;
         setDispatchLoading({ type: "SET_LOADING_PROMPT", payload: true });
         try {
-          const res = await clientFetchApi<boolean, IDetailPrompt>("/api/ai/GetPrompt", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "promptId", value: promptId }], onUploadProgress: undefined });
+          const res = await clientFetchApi<boolean, IDetailPrompt>("/api/ai/GetPrompt", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [{ key: "promptId", value: promptId }],
+            onUploadProgress: undefined,
+          });
           if (!isMountedRef.current) return;
           if (res.succeeded) {
             setSelectedPrompt(res.value);
@@ -524,7 +560,7 @@ const SpecialPayLoadComp = React.memo(
           }
         }
       },
-      [session]
+      [session],
     );
     useEffect(() => {
       if (checkBox.AI) {
@@ -544,7 +580,7 @@ const SpecialPayLoadComp = React.memo(
           }
         }
       },
-      [removeMask, checkCondition, handleSaveNewVariation]
+      [removeMask, checkCondition, handleSaveNewVariation],
     );
     useEffect(() => {
       document.addEventListener("keydown", handleKeyDown);
@@ -559,11 +595,17 @@ const SpecialPayLoadComp = React.memo(
         payload: true,
       });
       try {
-        const res = await clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", { methodType: MethodType.get, session: session, data: null, queries: [
+        const res = await clientFetchApi<boolean, IMasterFlow>("/api/flow/GetMasterFlows", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "query", value: "" },
             { key: "privateReply", value: "" },
             { key: "nextMaxId", value: masterFlows.nextMaxId },
-          ], onUploadProgress: undefined });
+          ],
+          onUploadProgress: undefined,
+        });
         if (!isMountedRef.current || !res.value) return;
         if (res.succeeded) {
           setMasterFlows((prev) => ({
@@ -688,7 +730,7 @@ const SpecialPayLoadComp = React.memo(
                       />
                     </div>
 
-                    {(searchAIMode ? searchPrompts?.items?.length ?? 0 : prompts?.items?.length ?? 0) === 0 ? (
+                    {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : (prompts?.items?.length ?? 0)) === 0 ? (
                       <div className="headerandinput">
                         <div className="explain">{t(LanguageKey.messagesetting_NoPromptsFound)}</div>
                         <button
@@ -830,7 +872,7 @@ const SpecialPayLoadComp = React.memo(
                       />
                     </div>
 
-                    {(searchFlowMode ? masterSearchFlows?.items?.length ?? 0 : masterFlows?.items?.length ?? 0) ===
+                    {(searchFlowMode ? (masterSearchFlows?.items?.length ?? 0) : (masterFlows?.items?.length ?? 0)) ===
                     0 ? (
                       <div className="headerandinput">
                         <div className="explain">{t(LanguageKey.messagesetting_NoFlowsFound)}</div>
@@ -875,7 +917,7 @@ const SpecialPayLoadComp = React.memo(
                             return;
                           }
                           const found = masterFlows.items.find(
-                            (flow) => flow.masterFlowId === id || flow.masterFlowId?.toString() === id
+                            (flow) => flow.masterFlowId === id || flow.masterFlowId?.toString() === id,
                           );
                           setSelectedFlow(found || null);
                           setProfileButton((prev) => ({ ...prev, masterFlowId: found?.masterFlowId || null }));
@@ -963,7 +1005,7 @@ const SpecialPayLoadComp = React.memo(
         )}
       </>
     );
-  }
+  },
 );
 
 export default SpecialPayLoadComp;

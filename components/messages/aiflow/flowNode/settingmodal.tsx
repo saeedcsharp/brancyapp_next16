@@ -17,7 +17,7 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { ITotalMasterFlow } from "brancy/models/messages/properies";
-import styles from "brancy/components/messages/aiflow/flowNode/settingmodal.module.css";
+import styles from "./settingmodal.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 interface SettingModalProps {
   masterFlowId: string;
@@ -96,25 +96,27 @@ export const SettingModal: React.FC<SettingModalProps> = ({
     { id: 0, label: t(LanguageKey.product_Properties) },
     { id: 1, label: t(LanguageKey.shortcuts) },
   ];
-  const [snapToGridEnabledState, setSnapToGridEnabledState] =
-    useState(snapToGridEnabled);
-  const [panningBoundaryEnabledState, setPanningBoundaryEnabledState] =
-    useState(panningBoundaryEnabled);
-  const handleCreateFlow = async (
-    event: React.MouseEvent<HTMLButtonElement, MouseEvent>,
-  ) => {
+  const [snapToGridEnabledState, setSnapToGridEnabledState] = useState(snapToGridEnabled);
+  const [panningBoundaryEnabledState, setPanningBoundaryEnabledState] = useState(panningBoundaryEnabled);
+  const handleCreateFlow = async (event: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
     12;
     event.preventDefault();
     setUploading(true);
     try {
-      const res = await clientFetchApi<any, ITotalMasterFlow>("/api/flow/CreateMasterFlow", { methodType: MethodType.post, session: session, data: editorState, queries: [
+      const res = await clientFetchApi<any, ITotalMasterFlow>("/api/flow/CreateMasterFlow", {
+        methodType: MethodType.post,
+        session: session,
+        data: editorState,
+        queries: [
           { key: "checkFollower", value: checkFollower.toString() },
           { key: "title", value: flowTitleState },
           {
             key: "masterFlowId",
             value: masterFlowId !== "newFlow" ? masterFlowId : undefined,
           },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (!res.succeeded) {
         notify(res.info.responseType, NotifType.Warning);
       } else {
@@ -133,11 +135,7 @@ export const SettingModal: React.FC<SettingModalProps> = ({
     <>
       {!isAutoSaving && (
         <div className={styles.tabContainer}>
-          <FlexibleToggleButton
-            options={tabOptions}
-            selectedValue={selectedTab}
-            onChange={setSelectedTab}
-          />
+          <FlexibleToggleButton options={tabOptions} selectedValue={selectedTab} onChange={setSelectedTab} />
         </div>
       )}
       {selectedTab === 0 && (
@@ -165,92 +163,65 @@ export const SettingModal: React.FC<SettingModalProps> = ({
             </div>
           </div>
           {isAutoSaving && (
-            <div
-              className="headerandinput"
-              style={{ height: "100%", overflowY: "auto" }}>
-              <div className="title">
-                {t(LanguageKey.New_Flow_unsavedChanges)}
-              </div>
+            <div className="headerandinput" style={{ height: "100%", overflowY: "auto" }}>
+              <div className="title">{t(LanguageKey.New_Flow_unsavedChanges)}</div>
               {unsavedChanges && (
-                <div
-                  className="headerandinput"
-                  style={{ marginTop: "10px", alignItems: "flex-start" }}>
-                  {unsavedChanges.addedNodes &&
-                    unsavedChanges.addedNodes.length > 0 && (
-                      <div
-                        className="headerandinput"
-                        style={{ marginTop: "10px", alignItems: "flex-start" }}>
-                        <div className="title2" style={{ marginTop: "10px" }}>
-                          {t(LanguageKey.New_Flow_addedNodes)} (
-                          {unsavedChanges.addedNodes.length}):
-                        </div>
-                        <ul style={{ paddingLeft: "20px" }}>
-                          {unsavedChanges.addedNodes.map((node, idx) => (
+                <div className="headerandinput" style={{ marginTop: "10px", alignItems: "flex-start" }}>
+                  {unsavedChanges.addedNodes && unsavedChanges.addedNodes.length > 0 && (
+                    <div className="headerandinput" style={{ marginTop: "10px", alignItems: "flex-start" }}>
+                      <div className="title2" style={{ marginTop: "10px" }}>
+                        {t(LanguageKey.New_Flow_addedNodes)} ({unsavedChanges.addedNodes.length}):
+                      </div>
+                      <ul style={{ paddingLeft: "20px" }}>
+                        {unsavedChanges.addedNodes.map((node, idx) => (
+                          <span className="explain" key={idx}>
+                            {node.label} ({node.type})
+                          </span>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {unsavedChanges.removedNodes && unsavedChanges.removedNodes.length > 0 && (
+                    <div className="headerandinput" style={{ marginTop: "10px", alignItems: "flex-start" }}>
+                      <div className="title2" style={{ marginTop: "10px" }}>
+                        {t(LanguageKey.New_Flow_removedNodes)} ({unsavedChanges.removedNodes.length}):
+                      </div>
+                      <ul>
+                        {unsavedChanges.removedNodes.map((node, idx) => (
+                          <span className="explain" key={idx}>
+                            {node.label} ({node.type})
+                          </span>
+                        ))}
+                      </ul>
+                    </div>
+                  )}
+
+                  {unsavedChanges.modifiedNodes && unsavedChanges.modifiedNodes.length > 0 && (
+                    <div className="headerandinput" style={{ marginTop: "10px", alignItems: "flex-start" }}>
+                      <div className="title2" style={{ marginTop: "10px" }}>
+                        {t(LanguageKey.New_Flow_modifiedNodes)} ({unsavedChanges.modifiedNodes.length})
+                      </div>
+                      <ul>
+                        {unsavedChanges.modifiedNodes.map((node, idx) => {
+                          const changedProps = node.changedProperties.filter((prop) => {
+                            const isLocalEmpty =
+                              prop.localValue === undefined || prop.localValue === null || prop.localValue === "";
+                            const isApiEmpty =
+                              prop.apiValue === undefined || prop.apiValue === null || prop.apiValue === "";
+                            if (isLocalEmpty && isApiEmpty) return false;
+                            return JSON.stringify(prop.apiValue) !== JSON.stringify(prop.localValue);
+                          });
+                          if (changedProps.length === 0) return null;
+                          return (
                             <span className="explain" key={idx}>
                               {node.label} ({node.type})
                             </span>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                  {unsavedChanges.removedNodes &&
-                    unsavedChanges.removedNodes.length > 0 && (
-                      <div
-                        className="headerandinput"
-                        style={{ marginTop: "10px", alignItems: "flex-start" }}>
-                        <div className="title2" style={{ marginTop: "10px" }}>
-                          {t(LanguageKey.New_Flow_removedNodes)} (
-                          {unsavedChanges.removedNodes.length}):
-                        </div>
-                        <ul>
-                          {unsavedChanges.removedNodes.map((node, idx) => (
-                            <span className="explain" key={idx}>
-                              {node.label} ({node.type})
-                            </span>
-                          ))}
-                        </ul>
-                      </div>
-                    )}
-
-                  {unsavedChanges.modifiedNodes &&
-                    unsavedChanges.modifiedNodes.length > 0 && (
-                      <div
-                        className="headerandinput"
-                        style={{ marginTop: "10px", alignItems: "flex-start" }}>
-                        <div className="title2" style={{ marginTop: "10px" }}>
-                          {t(LanguageKey.New_Flow_modifiedNodes)} (
-                          {unsavedChanges.modifiedNodes.length})
-                        </div>
-                        <ul>
-                          {unsavedChanges.modifiedNodes.map((node, idx) => {
-                            const changedProps = node.changedProperties.filter(
-                              (prop) => {
-                                const isLocalEmpty =
-                                  prop.localValue === undefined ||
-                                  prop.localValue === null ||
-                                  prop.localValue === "";
-                                const isApiEmpty =
-                                  prop.apiValue === undefined ||
-                                  prop.apiValue === null ||
-                                  prop.apiValue === "";
-                                if (isLocalEmpty && isApiEmpty) return false;
-                                return (
-                                  JSON.stringify(prop.apiValue) !==
-                                  JSON.stringify(prop.localValue)
-                                );
-                              },
-                            );
-                            if (changedProps.length === 0) return null;
-                            return (
-                              <span className="explain" key={idx}>
-                                {node.label} ({node.type})
-                              </span>
-                            );
-                          })}
-                        </ul>
-                      </div>
-                    )}
+                          );
+                        })}
+                      </ul>
+                    </div>
+                  )}
                 </div>
               )}
             </div>
@@ -268,17 +239,13 @@ export const SettingModal: React.FC<SettingModalProps> = ({
                   title="Check Follower"
                   name="checkFollower"
                   role="switch"
-                  handleToggle={(e) =>
-                    setCheckFollower(e.currentTarget.checked)
-                  }
+                  handleToggle={(e) => setCheckFollower(e.currentTarget.checked)}
                   checked={checkFollower}
                 />
               </div>
 
               {!privateReplyCompability && (
-                <div
-                  className="explain"
-                  style={{ color: "var(--color-dark-yellow)" }}>
+                <div className="explain" style={{ color: "var(--color-dark-yellow)" }}>
                   {t(LanguageKey.flowProperties_notworking_privateReply)}
                 </div>
               )}
@@ -301,9 +268,7 @@ export const SettingModal: React.FC<SettingModalProps> = ({
                   value={panningBoundaryEnabledState}
                   handleToggle={() => {
                     setPanningBoundaryEnabled(!panningBoundaryEnabled);
-                    setPanningBoundaryEnabledState(
-                      !panningBoundaryEnabledState,
-                    );
+                    setPanningBoundaryEnabledState(!panningBoundaryEnabledState);
                   }}
                   textlabel={t(LanguageKey.PanningBoundary)}
                   name="panningBoundary"
@@ -312,9 +277,7 @@ export const SettingModal: React.FC<SettingModalProps> = ({
               </div>
               <div className="headerandinput">
                 <div className="title">{t(LanguageKey.Data_Management)}</div>
-                <div className="explain">
-                  {t(LanguageKey.Data_Management_explain)}
-                </div>
+                <div className="explain">{t(LanguageKey.Data_Management_explain)}</div>
                 <div className="ButtonContainer">
                   <button className="cancelButton" onClick={exportFlow}>
                     {t(LanguageKey.exportJSON)}
@@ -329,29 +292,20 @@ export const SettingModal: React.FC<SettingModalProps> = ({
           <div className="headerandinput">
             <div className="ButtonContainer">
               <button
-                disabled={
-                  isValidFlow !== undefined && !isValidFlow && uploading
-                }
-                className={`saveButton ${
-                  isValidFlow !== undefined && !isValidFlow && "disableButton"
-                } `}
+                disabled={isValidFlow !== undefined && !isValidFlow && uploading}
+                className={`saveButton ${isValidFlow !== undefined && !isValidFlow && "disableButton"} `}
                 onClick={handleCreateFlow}
                 title="Save Changes">
                 {uploading ? <RingLoader /> : t(LanguageKey.save)}
               </button>
               {isAutoSaving && (
-                <button
-                  className={`cancelButton `}
-                  onClick={cancelSave}
-                  title="cancel Changes">
+                <button className={`cancelButton `} onClick={cancelSave} title="cancel Changes">
                   {t(LanguageKey.cancel)}
                 </button>
               )}
               {!isAutoSaving && (
                 <button
-                  className={`stopButton ${
-                    showDeleteConfirm ? styles.deleteConfirm : ""
-                  }`}
+                  className={`stopButton ${showDeleteConfirm ? styles.deleteConfirm : ""}`}
                   onClick={() => {
                     if (showDeleteConfirm) {
                       deleteAllNodes();
@@ -361,9 +315,7 @@ export const SettingModal: React.FC<SettingModalProps> = ({
                     }
                   }}
                   title="Clear All">
-                  {showDeleteConfirm
-                    ? t(LanguageKey.areyousure)
-                    : t(LanguageKey.New_Flow_delete_all_blocks)}
+                  {showDeleteConfirm ? t(LanguageKey.areyousure) : t(LanguageKey.New_Flow_delete_all_blocks)}
                 </button>
               )}
             </div>
@@ -375,9 +327,7 @@ export const SettingModal: React.FC<SettingModalProps> = ({
         <div className={`${styles.settingModal} ${styles.shortcutsTab}`}>
           <div className="headerandinput">
             <div className="title">{t(LanguageKey.shortcuts)}</div>
-            <div className="explain">
-              {t(LanguageKey.New_Flow_shortcuts_explain)}
-            </div>
+            <div className="explain">{t(LanguageKey.New_Flow_shortcuts_explain)}</div>
             <table className={`${styles.shortcutsTable} translate`}>
               <tbody>
                 <tr>

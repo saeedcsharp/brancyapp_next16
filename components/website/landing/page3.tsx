@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/website/landing/page3.module.css";
+import styles from "./page3.module.css";
 
 type TabData = {
   title: string;
@@ -73,28 +73,108 @@ const tabData: TabData[] = [
 
 const cardImages = [
   [
-    ["brancy/components/website/landing/qwer.png", "brancy/components/website/landing/tyui.png", "brancy/components/website/landing/asdf.png", "brancy/components/website/landing/ghjk.png"],
-    ["brancy/components/website/landing/ewrt.png", "brancy/components/website/landing/yuio.png", "brancy/components/website/landing/sdfg.png", "brancy/components/website/landing/hjkl.png"],
-    ["brancy/components/website/landing/erty.png", "brancy/components/website/landing/uiop.png", "brancy/components/website/landing/dfgh.png", "brancy/components/website/landing/jkl;.png"],
-    ["brancy/components/website/landing/rtyu.png", "brancy/components/website/landing/iop[].png", "brancy/components/website/landing/fghj.png", "brancy/components/website/landing/kldf.png"],
+    [
+      "brancy/components/website/landing/qwer.png",
+      "brancy/components/website/landing/tyui.png",
+      "brancy/components/website/landing/asdf.png",
+      "brancy/components/website/landing/ghjk.png",
+    ],
+    [
+      "brancy/components/website/landing/ewrt.png",
+      "brancy/components/website/landing/yuio.png",
+      "brancy/components/website/landing/sdfg.png",
+      "brancy/components/website/landing/hjkl.png",
+    ],
+    [
+      "brancy/components/website/landing/erty.png",
+      "brancy/components/website/landing/uiop.png",
+      "brancy/components/website/landing/dfgh.png",
+      "brancy/components/website/landing/jkl;.png",
+    ],
+    [
+      "brancy/components/website/landing/rtyu.png",
+      "brancy/components/website/landing/iop[].png",
+      "brancy/components/website/landing/fghj.png",
+      "brancy/components/website/landing/kldf.png",
+    ],
   ],
   [
-    ["brancy/components/website/landing/q.png", "brancy/components/website/landing/w.png", "brancy/components/website/landing/e.png", "brancy/components/website/landing/r.png"],
-    ["brancy/components/website/landing/t.png", "brancy/components/website/landing/y.png", "brancy/components/website/landing/u.png", "brancy/components/website/landing/i.png"],
-    ["brancy/components/website/landing/o.png", "brancy/components/website/landing/p.png", "brancy/components/website/landing/a.png", "brancy/components/website/landing/s.png"],
-    ["brancy/components/website/landing/d.png", "brancy/components/website/landing/f.png", "brancy/components/website/landing/g.png", "brancy/components/website/landing/h.png"],
+    [
+      "brancy/components/website/landing/q.png",
+      "brancy/components/website/landing/w.png",
+      "brancy/components/website/landing/e.png",
+      "brancy/components/website/landing/r.png",
+    ],
+    [
+      "brancy/components/website/landing/t.png",
+      "brancy/components/website/landing/y.png",
+      "brancy/components/website/landing/u.png",
+      "brancy/components/website/landing/i.png",
+    ],
+    [
+      "brancy/components/website/landing/o.png",
+      "brancy/components/website/landing/p.png",
+      "brancy/components/website/landing/a.png",
+      "brancy/components/website/landing/s.png",
+    ],
+    [
+      "brancy/components/website/landing/d.png",
+      "brancy/components/website/landing/f.png",
+      "brancy/components/website/landing/g.png",
+      "brancy/components/website/landing/h.png",
+    ],
   ],
   [
-    ["brancy/components/website/landing/j.png", "brancy/components/website/landing/k.png", "brancy/components/website/landing/l.png", "brancy/components/website/landing/z.png"],
-    ["brancy/components/website/landing/x.png", "brancy/components/website/landing/c.png", "brancy/components/website/landing/v.png", "brancy/components/website/landing/b.png"],
-    ["brancy/components/website/landing/n.png", "brancy/components/website/landing/m", "brancy/components/website/landing/qw.png", "brancy/components/website/landing/er.png"],
-    ["brancy/components/website/landing/ty.png", "brancy/components/website/landing/ui.png", "brancy/components/website/landing/op.png", "brancy/components/website/landing/as.png"],
+    [
+      "brancy/components/website/landing/j.png",
+      "brancy/components/website/landing/k.png",
+      "brancy/components/website/landing/l.png",
+      "brancy/components/website/landing/z.png",
+    ],
+    [
+      "brancy/components/website/landing/x.png",
+      "brancy/components/website/landing/c.png",
+      "brancy/components/website/landing/v.png",
+      "brancy/components/website/landing/b.png",
+    ],
+    [
+      "brancy/components/website/landing/n.png",
+      "brancy/components/website/landing/m",
+      "brancy/components/website/landing/qw.png",
+      "brancy/components/website/landing/er.png",
+    ],
+    [
+      "brancy/components/website/landing/ty.png",
+      "brancy/components/website/landing/ui.png",
+      "brancy/components/website/landing/op.png",
+      "brancy/components/website/landing/as.png",
+    ],
   ],
   [
-    ["brancy/components/website/landing/df.png", "brancy/components/website/landing/gh.png", "brancy/components/website/landing/jk.png", "brancy/components/website/landing/zx.png"],
-    ["brancy/components/website/landing/cv.png", "brancy/components/website/landing/bn.png", "brancy/components/website/landing/qaz.png", "brancy/components/website/landing/wsx.png"],
-    ["brancy/components/website/landing/edc.png", "brancy/components/website/landing/rfv.png", "brancy/components/website/landing/tgb.png", "brancy/components/website/landing/yhn.png"],
-    ["brancy/components/website/landing/ujm.png", "brancy/components/website/landing/ikl.png", "brancy/components/website/landing/qa.png", "brancy/components/website/landing/ws.png"],
+    [
+      "brancy/components/website/landing/df.png",
+      "brancy/components/website/landing/gh.png",
+      "brancy/components/website/landing/jk.png",
+      "brancy/components/website/landing/zx.png",
+    ],
+    [
+      "brancy/components/website/landing/cv.png",
+      "brancy/components/website/landing/bn.png",
+      "brancy/components/website/landing/qaz.png",
+      "brancy/components/website/landing/wsx.png",
+    ],
+    [
+      "brancy/components/website/landing/edc.png",
+      "brancy/components/website/landing/rfv.png",
+      "brancy/components/website/landing/tgb.png",
+      "brancy/components/website/landing/yhn.png",
+    ],
+    [
+      "brancy/components/website/landing/ujm.png",
+      "brancy/components/website/landing/ikl.png",
+      "brancy/components/website/landing/qa.png",
+      "brancy/components/website/landing/ws.png",
+    ],
   ],
 ];
 

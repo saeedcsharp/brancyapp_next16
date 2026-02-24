@@ -1,5 +1,5 @@
 import { ChangeEvent, CSSProperties } from "react";
-import styles from "brancy/components/design/checkBoxButton.module.css";
+import styles from "./checkBoxButton.module.css";
 
 const CheckBoxButton = (props: {
   handleToggle: (e: ChangeEvent<HTMLInputElement>) => void;

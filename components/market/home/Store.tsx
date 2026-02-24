@@ -7,7 +7,7 @@ import { calculateSummary } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
 import { CategorySection } from "brancy/models/market/enums";
 import { IMarketInfo } from "brancy/models/market/home";
-import styles from "brancy/components/market/home/homeComponent.module.css";
+import styles from "./homeComponent.module.css";
 function Store(props: { data: IMarketInfo[] | undefined; fetchStorewData: (pagination: string) => void }) {
   const { data: session } = useSession();
   const userRef = useRef<HTMLDivElement>(null);

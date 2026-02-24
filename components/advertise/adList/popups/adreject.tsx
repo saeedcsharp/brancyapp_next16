@@ -6,7 +6,7 @@ import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n";
 import { DetailType, IRejectTerms } from "brancy/models/advertise/adList";
 import { IAdvertisingTerms } from "brancy/models/advertise/peoperties";
-import styles from "brancy/components/advertise/adList/popups/adDetails.module.css";
+import styles from "./adDetails.module.css";
 const AdReject = (props: {
   data: IAdvertisingTerms;
   detailType: DetailType;

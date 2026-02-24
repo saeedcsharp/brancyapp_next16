@@ -30,7 +30,7 @@ import {
   IProduct_Variation,
   ISpecificationItem,
 } from "brancy/models/store/IProduct";
-import styles from "brancy/components/store/products/productDetail/notInstanceProduct/specifications.module.css";
+import styles from "./specifications.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 function SortableItem({

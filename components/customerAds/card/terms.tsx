@@ -1,4 +1,4 @@
-import styles from "brancy/components/customerAds/customerAds.module.css";
+import styles from "./components/customerAds/customerAds.module.css";
 function Terms(props: { terms: string[] }) {
   return (
     <>

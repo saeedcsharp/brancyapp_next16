@@ -9,7 +9,7 @@ import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { IProduct_Setting } from "brancy/models/store/IProduct";
 import { GauranteeLength, GauranteeStatus, OrginalityStatus, ParcelPocketDeliveryType } from "brancy/models/store/enum";
-import styles from "brancy/components/store/products/productDetail/instanceProduct/setting.module.css";
+import styles from "./setting.module.css";
 
 function SettingInstance({
   setting,
@@ -166,7 +166,7 @@ function SettingInstance({
   shippingselect.push(
     <div id="10" style={{ fontWeight: "var(--weight-700)" }}>
       {t(LanguageKey.Storeproduct_OutOfStandardSize)}
-    </div>
+    </div>,
   );
   const router = useRouter();
   const { query } = router;

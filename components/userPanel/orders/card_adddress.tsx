@@ -20,7 +20,7 @@ import IUserCoupon, {
   InputTypeAddress,
 } from "brancy/models/userPanel/orders";
 
-import styles from "brancy/components/userPanel/orders/card_address.module.css";
+import styles from "./card_address.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
@@ -114,7 +114,7 @@ export default function CardAddress({
   const totalPrice = useMemo(() => {
     return products.reduce(
       (total, product) => total + product.subProducts.reduce((sum, sub) => sum + sub.mainPrice * sub.cardCount, 0),
-      0
+      0,
     );
   }, [products]);
 
@@ -122,7 +122,7 @@ export default function CardAddress({
     return products.reduce(
       (total, product) =>
         total + product.subProducts.reduce((sum, sub) => sum + (sub.mainPrice - sub.price) * sub.cardCount, 0),
-      0
+      0,
     );
   }, [products]);
 
@@ -160,13 +160,19 @@ export default function CardAddress({
     dispatch({ type: "SET_LOADING_COUPON", payload: true });
 
     try {
-      const res = await clientFetchApi<boolean, IUserCoupon>("/api/shop/GetProductCoupon", { methodType: MethodType.get, session: session, data: null, queries: [
+      const res = await clientFetchApi<boolean, IUserCoupon>("/api/shop/GetProductCoupon", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "code", value: state.couponCode },
           {
             key: "instagramerId",
             value: products[0].shortProduct.instagramerId.toString(),
           },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         dispatch({ type: "SET_COUPON", payload: res.value });
       } else {
@@ -186,12 +192,18 @@ export default function CardAddress({
   const handleGetOrderPaymentLink = useCallback(
     async (id: string) => {
       try {
-        const res = await clientFetchApi<string, string>("/api/order/GetOrderPaymentLink", { methodType: MethodType.get, session: session, data: null, queries: [
+        const res = await clientFetchApi<string, string>("/api/order/GetOrderPaymentLink", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             {
               key: "orderId",
               value: id,
             },
-          ], onUploadProgress: undefined });
+          ],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) router.replace(res.value);
         else {
           notify(res.info.responseType, NotifType.Warning);
@@ -202,7 +214,7 @@ export default function CardAddress({
         dispatch({ type: "SET_LOADING_CREATE_ORDER", payload: false });
       }
     },
-    [session, router]
+    [session, router],
   );
 
   const handleCreateOrder = useCallback(async () => {
@@ -211,7 +223,7 @@ export default function CardAddress({
       product.subProducts.map((sub) => ({
         subProductId: sub.subProductId,
         cardCount: sub.cardCount,
-      }))
+      })),
     );
     const order: ICreateOrder = {
       addressId: addresses.find((x) => x.isDefault)!.id,
@@ -221,12 +233,18 @@ export default function CardAddress({
     };
 
     try {
-      const res = await clientFetchApi<ICreateOrder, string>("/api/order/CreateOrder", { methodType: MethodType.post, session: session, data: order, queries: [
+      const res = await clientFetchApi<ICreateOrder, string>("/api/order/CreateOrder", {
+        methodType: MethodType.post,
+        session: session,
+        data: order,
+        queries: [
           {
             key: "instagramerId",
             value: products[0].shortProduct.instagramerId.toString(),
           },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         handleGetOrderPaymentLink(res.value);
         return;
@@ -270,7 +288,7 @@ export default function CardAddress({
         setShowAddress(false);
       }
     },
-    [setShowAddress]
+    [setShowAddress],
   );
 
   useLayoutEffect(() => {

@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import styles from "brancy/components/design/incrementStepper.module.css";
+import styles from "./incrementStepper.module.css";
 
 const IncrementStepper = (prop: { id: string; data: number; increment: () => void; decrement: () => void }) => {
   const [isShaking, setIsShaking] = useState(false);

@@ -5,7 +5,7 @@ import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton"
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
 import { IAdsOption } from "brancy/models/advertise/peoperties";
-import styles from "brancy/components/advertise/properties/propertiesComponent.module.css";
+import styles from "./propertiesComponent.module.css";
 const numbersRegex = /^[0-9]+$/;
 function AdsOption(props: { adsOption: IAdsOption }) {
   const { t } = useTranslation();

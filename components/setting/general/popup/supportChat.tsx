@@ -8,7 +8,7 @@ import { LanguageKey } from "brancy/i18n";
 import { ICreateLiveChat, ICreatePrompt, ILiveChat } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
 import { ItemType } from "brancy/models/messages/enum";
-import styles from "brancy/components/setting/general/popup/supportChat.module.scss";
+import styles from "./supportChat.module.scss";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 export default function SupportChat({
   promptInfo,
@@ -53,7 +53,13 @@ export default function SupportChat({
         username: username,
       };
       console.log("createPromptInfo", createPromptInfo);
-      const res = await clientFetchApi<ICreateLiveChat, ILiveChat>("/api/ai/SendTestMessage", { methodType: MethodType.post, session: session, data: createPromptInfo, queries: [{ key: "isStart", value: "true" }], onUploadProgress: undefined });
+      const res = await clientFetchApi<ICreateLiveChat, ILiveChat>("/api/ai/SendTestMessage", {
+        methodType: MethodType.post,
+        session: session,
+        data: createPromptInfo,
+        queries: [{ key: "isStart", value: "true" }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setMessages((prev) => [...prev, res.value]);
       } else notify(res.info.responseType, NotifType.Warning);
@@ -72,7 +78,13 @@ export default function SupportChat({
         username: username,
       };
       console.log("resume chat", createPromptInfo);
-      const res = await clientFetchApi<ICreateLiveChat, ILiveChat>("/api/ai/SendTestMessage", { methodType: MethodType.post, session: session, data: createPromptInfo, queries: [{ key: "isStart", value: "false" }], onUploadProgress: undefined });
+      const res = await clientFetchApi<ICreateLiveChat, ILiveChat>("/api/ai/SendTestMessage", {
+        methodType: MethodType.post,
+        session: session,
+        data: createPromptInfo,
+        queries: [{ key: "isStart", value: "false" }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) setMessages((prev) => [...prev, res.value]);
       else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react";
-import styles from "brancy/components/messages/direct/directChatBox.module.css";
+import styles from "./components/messages/direct/directChatBox.module.css";
 import { ChatDateProps } from "brancy/components/messages/direct/chatComponents/types";
 export const ChatDate: React.FC<ChatDateProps> = React.memo(
   ({ createdTime, itemId, direction, isToggled, onToggle, formatDate }) => {
@@ -14,11 +14,11 @@ export const ChatDate: React.FC<ChatDateProps> = React.memo(
           onToggle(itemId);
         }
       },
-      [onToggle, itemId]
+      [onToggle, itemId],
     );
     const textAlignStyle = useMemo(
       () => (direction === "right" ? { textAlign: "right" as const } : undefined),
-      [direction]
+      [direction],
     );
     return (
       <button
@@ -33,6 +33,6 @@ export const ChatDate: React.FC<ChatDateProps> = React.memo(
         {formatDate(formattedTimestamp, itemId)}
       </button>
     );
-  }
+  },
 );
 ChatDate.displayName = "ChatDate";

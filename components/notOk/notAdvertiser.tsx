@@ -15,7 +15,7 @@ import CardNumber from "brancy/components/store/bankAccountType/cardNumber";
 import NationalCard from "brancy/components/store/countryType/nationaCard";
 import TermsAndCondition from "brancy/components/store/termsandcondition/termsandcondition";
 import Loading from "brancy/components/notOk/loading";
-import styles from "brancy/components/notOk/notAdvertiser.module.css";
+import styles from "./notAdvertiser.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 export default function NotAdvertiser() {
@@ -33,7 +33,13 @@ export default function NotAdvertiser() {
 
   async function getAuthorizeUserType() {
     try {
-      const res = await clientFetchApi<boolean, IdentityVerifyType>("/api/authorize/GetAuthorizeUserType", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IdentityVerifyType>("/api/authorize/GetAuthorizeUserType", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
       else {
         setVerifyType(res.value);
@@ -48,7 +54,13 @@ export default function NotAdvertiser() {
 
   async function getInstagramerAuthorizeType() {
     try {
-      const res = await clientFetchApi<boolean, BusinessBankAccountType>("/api/authorize/GetInstagramerAuthorizeType", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, BusinessBankAccountType>("/api/authorize/GetInstagramerAuthorizeType", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
       else {
         setBankAccountType(res.value);
@@ -67,7 +79,13 @@ export default function NotAdvertiser() {
 
   async function getAuthorizeLevel() {
     try {
-      const res = await clientFetchApi<boolean, number>("/api/authorize/GetAuthorizeLevel", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "isShopper", value: "1" }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, number>("/api/authorize/GetAuthorizeLevel", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "isShopper", value: "1" }],
+        onUploadProgress: undefined,
+      });
       console.log("AddAdvertiserAddress", res.value);
 
       if (!res.succeeded) {
@@ -96,7 +114,13 @@ export default function NotAdvertiser() {
   async function handleCreateAdvertiser() {
     setFinalLoading(true);
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/authorize/CreateAdvertiser", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/authorize/CreateAdvertiser", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
       else {
         await update({

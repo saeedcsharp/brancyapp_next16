@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
 import FeatureList from "brancy/components/website/landing/featurelist";
-import styles from "brancy/components/website/landing/page9.module.css";
+import styles from "./page9.module.css";
 
 // تعریف انواع پلن‌ها
 interface PlanTier {

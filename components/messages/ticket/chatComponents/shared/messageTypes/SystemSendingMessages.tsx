@@ -4,7 +4,7 @@ import LinkifyText from "brancy/context/LinkifyText";
 import { getMessageDirectionClass } from "brancy/helper/checkRtl";
 import { detectEmojiOnly } from "brancy/helper/emojiDetector";
 import { ISendTicketMessage, ITicketMediaType } from "brancy/models/userPanel/message";
-import styles from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/messageTypes.module.css";
+import styles from "./messageTypes.module.css";
 // #region تعریف اینترفیس‌ها
 // انواع پراپس برای لیست پیام‌های در حال ارسال و آیتم‌های آن.
 interface SystemSendingMessagesProps {
@@ -71,7 +71,7 @@ const SystemSendingMessagesComponent: React.FC<SystemSendingMessagesProps> = ({ 
           index={index}
         />
       )),
-    [sendingMessages]
+    [sendingMessages],
   );
   if (sendingMessages.length === 0) return null;
   return <>{renderedMessages}</>;

@@ -17,7 +17,7 @@ import {
   IShortLotteriesInfo,
   LotteryStatus,
 } from "brancy/models/page/tools/tools";
-import styles from "brancy/components/page/tools/popups/lottery/lotteryHistory.module.css";
+import styles from "./lotteryHistory.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const LotteryHistory = (props: {
   removeMask: () => void;
@@ -50,18 +50,36 @@ const LotteryHistory = (props: {
   async function fetchData() {
     try {
       var [doneRes, pendingRes, rejectRes] = await Promise.all([
-        clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", { methodType: MethodType.get, session: session, data: null, queries: [
+        clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "lotteryStatus", value: LotteryStatus.Ended.toString() },
             { key: "nextMaxId", value: "" },
-          ], onUploadProgress: undefined }),
-        clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", { methodType: MethodType.get, session: session, data: null, queries: [
+          ],
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "lotteryStatus", value: LotteryStatus.Upcoming.toString() },
             { key: "nextMaxId", value: "" },
-          ], onUploadProgress: undefined }),
-        clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", { methodType: MethodType.get, session: session, data: null, queries: [
+          ],
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "lotteryStatus", value: LotteryStatus.Failed.toString() },
             { key: "nextMaxId", value: "" },
-          ], onUploadProgress: undefined }),
+          ],
+          onUploadProgress: undefined,
+        }),
       ]);
       if (doneRes.succeeded) {
         // const id = res.value.items.find((x) => x.id === props.lotteryId);
@@ -135,10 +153,16 @@ const LotteryHistory = (props: {
 
       console.log("Making API call with nextMaxId:", nextMaxId, "lotteryStatus:", lotteryStatus);
 
-      const response = await clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", { methodType: MethodType.get, session: session, data: null, queries: [
+      const response = await clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "lotteryStatus", value: lotteryStatus.toString() },
           { key: "nextMaxId", value: nextMaxId },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
 
       console.log("API response:", response);
 

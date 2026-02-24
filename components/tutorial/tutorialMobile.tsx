@@ -8,7 +8,7 @@ import {
   findTargetElement,
   highlightElement,
 } from "brancy/components/tutorial/helpers/tutorialTargeting";
-import styles from "brancy/components/tutorial/tutorialMobile.module.css";
+import styles from "./tutorialMobile.module.css";
 interface TutorialStep {
   title: string;
   content: string;

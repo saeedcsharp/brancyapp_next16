@@ -30,7 +30,7 @@ import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
 import { LanguageKey } from "brancy/i18n";
 import { MediaType } from "brancy/models/page/post/preposts";
 import { IProduct_Media, ISuggestedMedia } from "brancy/models/store/IProduct";
-import styles from "brancy/components/store/products/productDetail/notInstanceProduct/media.module.css";
+import styles from "./media.module.css";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const MAX_UPLOADS = 5;
@@ -110,7 +110,7 @@ function SortableItem({
                 src="/icon-view.svg"
                 onClick={() =>
                   onView(
-                    media.thumbnailMediaUrl.length > 0 ? basePictureUrl + media.thumbnailMediaUrl : media.base64Url
+                    media.thumbnailMediaUrl.length > 0 ? basePictureUrl + media.thumbnailMediaUrl : media.base64Url,
                   )
                 }
               />
@@ -177,7 +177,7 @@ export default function Media({
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   // const _arrayBufferToBase64 = useCallback((buffer: ArrayBuffer): string => {
@@ -239,14 +239,14 @@ export default function Media({
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [selectedIndex, _arrayBufferToBase64]
+    [selectedIndex, _arrayBufferToBase64],
   );
 
   const handleFileDrop = useCallback(
     (file: File) => {
       compressAndUpload(file);
     },
-    [compressAndUpload]
+    [compressAndUpload],
   );
 
   const isSupportedExtension = useCallback((file: File) => {

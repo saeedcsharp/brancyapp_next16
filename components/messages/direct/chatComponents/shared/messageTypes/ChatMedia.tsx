@@ -6,7 +6,7 @@ import { ChatDate } from "brancy/components/messages/direct/chatComponents/share
 import { MessageStatus } from "brancy/components/messages/direct/chatComponents/shared/utils/ChatDateandseen";
 import ReactionEmoji from "brancy/components/messages/direct/chatComponents/shared/utils/ReactionEmoji";
 import { RepliedMessage } from "brancy/components/messages/direct/chatComponents/shared/utils/RepliedMessage";
-import styles from "brancy/components/messages/direct/chatComponents/shared/messageTypes/messageTypes.module.css";
+import styles from "./messageTypes.module.css";
 // #region ثابت‌ها — مقادیر ثابت برای تصویر جایگزین و اندازه‌های پیش‌فرض
 const FALLBACK_IMAGE = "/cover.svg";
 const FALLBACK_SIZE = "50px";
@@ -37,7 +37,7 @@ export const ChatMedia: React.FC<BaseChatProps> = ({
     (previewUrl: { url: string; externalUrl: string }) => {
       return useExternalUrl ? previewUrl.externalUrl : baseMediaUrl + previewUrl.url;
     },
-    [useExternalUrl, baseMediaUrl]
+    [useExternalUrl, baseMediaUrl],
   );
   const handleImageError = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
     const target = e.currentTarget;
@@ -83,7 +83,7 @@ export const ChatMedia: React.FC<BaseChatProps> = ({
         });
       }
     },
-    [onImageContainerClick, onVideoContainerClick, getMediaUrl]
+    [onImageContainerClick, onVideoContainerClick, getMediaUrl],
   );
   // #endregion
   // #region هندلر کلیدها — پشتیبانی از ناوبری صفحه‌کلید بین رسانه‌ها
@@ -114,7 +114,7 @@ export const ChatMedia: React.FC<BaseChatProps> = ({
         (e.currentTarget as HTMLElement).blur();
       }
     },
-    [handleMediaClick, item.medias]
+    [handleMediaClick, item.medias],
   );
   // #endregion
   // #region هندلر آیکن — عملکرد دکمه‌های منوی دانلود و ارسال آیکن‌ها
@@ -136,7 +136,7 @@ export const ChatMedia: React.FC<BaseChatProps> = ({
         onClickSubIcon(iconId, item.itemId);
       }
     },
-    [item.itemId, item.medias, onClickSubIcon, getMediaUrl]
+    [item.itemId, item.medias, onClickSubIcon, getMediaUrl],
   );
   // #endregion
   // #region منوی سه‌نقطه — تعریف آیتم‌های منو برای واکنش و دانلود
@@ -151,7 +151,7 @@ export const ChatMedia: React.FC<BaseChatProps> = ({
         value: "Download",
       },
     ],
-    [item.ownerEmojiReaction]
+    [item.ownerEmojiReaction],
   );
   // #endregion
   // #region رندر رسانه‌ها (عکس/ویدیو) — کامپوننت‌های کمکی برای رندر عکس و ویدیو
@@ -167,7 +167,7 @@ export const ChatMedia: React.FC<BaseChatProps> = ({
         />
       );
     },
-    [getMediaUrl]
+    [getMediaUrl],
   );
   const renderVideo = useCallback(
     (media: any, index: number) => {
@@ -175,7 +175,7 @@ export const ChatMedia: React.FC<BaseChatProps> = ({
 
       return <MediaDetector src={videoUrl} alt={`Video message ${index + 1}`} mediaType="video" />;
     },
-    [getMediaUrl]
+    [getMediaUrl],
   );
   const renderMediaContent = useCallback(
     (media: any, index: number, hasReply: boolean) => {
@@ -183,7 +183,7 @@ export const ChatMedia: React.FC<BaseChatProps> = ({
       if (media.video) return renderVideo(media, index);
       return null;
     },
-    [renderImage, renderVideo]
+    [renderImage, renderVideo],
   );
   // #endregion
 

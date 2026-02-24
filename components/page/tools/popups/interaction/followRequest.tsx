@@ -22,7 +22,7 @@ import {
   IFollowRequest_Figure,
   IFollowRequest_UpdateCondotion,
 } from "brancy/models/page/tools/tools";
-import styles from "brancy/components/page/tools/popups/interaction/autointeraction.module.css";
+import styles from "./autointeraction.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const Followrequests = (props: { removeMask: () => void }) => {
@@ -38,10 +38,19 @@ const Followrequests = (props: { removeMask: () => void }) => {
     let instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     try {
       console.log("condition,", condition);
-      var res = await clientFetchApi<IFollowRequest_UpdateCondotion, boolean>("Instagramer" + "/AutoAcceptFollower/UpdateCondition", { methodType: MethodType.post, session: session, data: {
-          isPaused: !condition?.isPaused,
-          reAcceptFollower: condition?.reAcceptFollower,
-        }, queries: undefined, onUploadProgress: undefined });
+      var res = await clientFetchApi<IFollowRequest_UpdateCondotion, boolean>(
+        "Instagramer" + "/AutoAcceptFollower/UpdateCondition",
+        {
+          methodType: MethodType.post,
+          session: session,
+          data: {
+            isPaused: !condition?.isPaused,
+            reAcceptFollower: condition?.reAcceptFollower,
+          },
+          queries: undefined,
+          onUploadProgress: undefined,
+        },
+      );
       if (res.succeeded) {
         internalNotify(InternalResponseType.Ok, NotifType.Success);
         props.removeMask();
@@ -57,10 +66,37 @@ const Followrequests = (props: { removeMask: () => void }) => {
   async function fetchData() {
     try {
       const [checkRes, conditionRes, figureRes, acceptedFollowersRes] = await Promise.all([
-        clientFetchApi<boolean, boolean>("Instagramer" + "/AutoAcceptFollower/CheckAvailability", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<boolean, IFollowRequest_Condotion>("Instagramer" + "/AutoAcceptFollower/GetCondition", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<boolean, IFollowRequest_Figure>("Instagramer" + "/AutoAcceptFollower/GetFigure", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<boolean, IFollowRequest_AcceptedFollower[]>("Instagramer" + "/AutoAcceptFollower/GetAcceptedFollowers", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, boolean>("Instagramer" + "/AutoAcceptFollower/CheckAvailability", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IFollowRequest_Condotion>("Instagramer" + "/AutoAcceptFollower/GetCondition", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IFollowRequest_Figure>("Instagramer" + "/AutoAcceptFollower/GetFigure", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IFollowRequest_AcceptedFollower[]>(
+          "Instagramer" + "/AutoAcceptFollower/GetAcceptedFollowers",
+          {
+            methodType: MethodType.get,
+            session: session,
+            data: undefined,
+            queries: undefined,
+            onUploadProgress: undefined,
+          },
+        ),
       ]);
       if (checkRes.value) {
         setLoadingStatus(true);
@@ -105,12 +141,21 @@ const Followrequests = (props: { removeMask: () => void }) => {
     if (acceptedFollowers?.length === 0) return;
     let instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     try {
-      var res = await clientFetchApi<boolean, IFollowRequest_AcceptedFollower[]>("Instagramer" + instagramerId + "/AutoAcceptFollower/GetAcceptedFollowers", { methodType: MethodType.get, session: session, data: [
-          {
-            key: "nextId",
-            value: acceptedFollowers![acceptedFollowers!.length - 1].acceptedFollowerId.toString(),
-          },
-        ], queries: undefined, onUploadProgress: undefined });
+      var res = await clientFetchApi<boolean, IFollowRequest_AcceptedFollower[]>(
+        "Instagramer" + instagramerId + "/AutoAcceptFollower/GetAcceptedFollowers",
+        {
+          methodType: MethodType.get,
+          session: session,
+          data: [
+            {
+              key: "nextId",
+              value: acceptedFollowers![acceptedFollowers!.length - 1].acceptedFollowerId.toString(),
+            },
+          ],
+          queries: undefined,
+          onUploadProgress: undefined,
+        },
+      );
       if (res.succeeded) {
         setAcceptedFollowers((prev) => [...prev!, ...res.value]);
       } else notify(res.info.responseType, NotifType.Error);

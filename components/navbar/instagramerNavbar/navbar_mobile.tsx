@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { InstagramerRoute } from "brancy/components/sidebar/sidebar";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/navbar/instagramerNavbar/navbarheader.module.css";
+import styles from "./navbarheader.module.css";
 
 const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: boolean }) => {
   const { t } = useTranslation();

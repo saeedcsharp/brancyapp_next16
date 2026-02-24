@@ -1,4 +1,4 @@
-import styles from "brancy/components/search/searchPage.module.css";
+import styles from "./searchPage.module.css";
 const SearchPage = () => {
   return (
     <>

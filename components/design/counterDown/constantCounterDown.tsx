@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/design/counterDown/counterDown.module.css";
+import styles from "./counterDown.module.css";
 import SVGCircle from "brancy/components/design/counterDown/svgCircle";
 // Stackoverflow: https://stackoverflow.com/questions/10756313/javascript-jquery-map-a-range-of-numbers-to-another-range-of-numbers
 function mapNumber(number: number, in_min: number, in_max: number, out_min: number, out_max: number) {

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { LoginStatus } from "brancy/helper/loadingStatus";
-import styles from "brancy/components/notOk/notPackage.module.css";
+import styles from "./notPackage.module.css";
 function NotPackage(props: { removeMask: () => void }) {
   const router = useRouter();
   const { data: session } = useSession();
@@ -48,7 +48,7 @@ function NotPackage(props: { removeMask: () => void }) {
 
             <svg
               onClick={() => {
-                props.removeMask(), router.push("/upgrade");
+                (props.removeMask(), router.push("/upgrade"));
               }}
               fill="none"
               height="100px"

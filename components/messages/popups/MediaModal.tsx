@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/messages/popups/MediaModal.module.css";
+import styles from "./MediaModal.module.css";
 
 // #region تایپ‌ها و اینترفیس‌ها
 export interface ImageMediaData {

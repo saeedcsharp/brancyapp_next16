@@ -7,7 +7,7 @@ import InputText from "brancy/components/design/inputText";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n/languageKeys";
 import { UploadFile } from "brancy/helper/api";
-import styles from "brancy/components/messages/aiflow/flowNode/GenericItemNode.module.css";
+import styles from "./GenericItemNode.module.css";
 import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL || "";
 

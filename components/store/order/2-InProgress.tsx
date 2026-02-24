@@ -9,7 +9,7 @@ import { specifyLogistic } from "brancy/helper/specifyLogistic";
 import { LanguageKey } from "brancy/i18n";
 import { OrderStepStatus } from "brancy/models/store/enum";
 import { IOrderByStatus, IOrderByStatusItem } from "brancy/models/store/orders";
-import styles from "brancy/components/store/order/2-InProgress.module.css";
+import styles from "./2-InProgress.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const MemoizedCheckBoxButton = React.memo(CheckBoxButton);
 interface SelectionState {
@@ -331,7 +331,7 @@ export default function InProgress({
                       {order.city ?? "--"}
                     </td>
                   </tr>
-                )
+                ),
             )}
             {loadingMoreItem && <RingLoader />}
           </tbody>

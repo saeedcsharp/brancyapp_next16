@@ -1,8 +1,12 @@
 import React, { useCallback, useMemo } from "react";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import { TicketBaseChatProps } from "brancy/components/messages/ticket/chatComponents/types";
-import { TicketChatDate, TicketMessageStatus, TicketReactionEmoji } from "brancy/components/messages/ticket/chatComponents/shared/utils";
-import styles from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/messageTypes.module.css";
+import {
+  TicketChatDate,
+  TicketMessageStatus,
+  TicketReactionEmoji,
+} from "brancy/components/messages/ticket/chatComponents/shared/utils";
+import styles from "./messageTypes.module.css";
 // #region تعریف کامپوننت - نمایش پیام صوتی
 // کامپوننتی که پیام‌های صوتی را بسته به جهت (چپ/راست) رندر می‌کند.
 const TicketChatAudioComponent: React.FC<TicketBaseChatProps> = ({
@@ -20,7 +24,7 @@ const TicketChatAudioComponent: React.FC<TicketBaseChatProps> = ({
   const isLeft = direction === "left";
   const audioSrc = useMemo(
     () => (item.audio && baseMediaUrl ? (useExternalUrl ? item.audio.externalUrl : baseMediaUrl + item.audio.url) : ""),
-    [item.audio, baseMediaUrl, useExternalUrl]
+    [item.audio, baseMediaUrl, useExternalUrl],
   );
   const classes = useMemo(
     () => ({
@@ -28,7 +32,7 @@ const TicketChatAudioComponent: React.FC<TicketBaseChatProps> = ({
       voice: isLeft ? styles.leftchatvoice : styles.rightchatvoice,
       menuPosition: isLeft ? "topRight" : "topLeft",
     }),
-    [isLeft]
+    [isLeft],
   );
   // #endregion
 
@@ -37,7 +41,7 @@ const TicketChatAudioComponent: React.FC<TicketBaseChatProps> = ({
     (iconId: string) => {
       onClickSubIcon(iconId, item.itemId);
     },
-    [item.itemId, onClickSubIcon]
+    [item.itemId, onClickSubIcon],
   );
   const menuData = useMemo(
     () => [
@@ -47,7 +51,7 @@ const TicketChatAudioComponent: React.FC<TicketBaseChatProps> = ({
         value: item.ownerEmojiReaction ? "UnReact" : "React",
       },
     ],
-    [item.ownerEmojiReaction]
+    [item.ownerEmojiReaction],
   );
   // #endregion
 

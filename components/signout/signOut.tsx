@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import styles from "brancy/components/signout/signOut.module.css";
+import styles from "./signOut.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 function SignOut(props: { removeMask: () => void }) {
   const router = useRouter();
@@ -14,9 +14,13 @@ function SignOut(props: { removeMask: () => void }) {
     window.localStorage.setItem("sessionId", session!.user.sessionId);
     const deleteSession = false;
 
-    await clientFetchApi<boolean, boolean>("/api/user/signout", { methodType: MethodType.get, session: session, data: null, queries: [
-      { key: "deleteSession", value: deleteSession.toString() },
-    ], onUploadProgress: undefined });
+    await clientFetchApi<boolean, boolean>("/api/user/signout", {
+      methodType: MethodType.get,
+      session: session,
+      data: null,
+      queries: [{ key: "deleteSession", value: deleteSession.toString() }],
+      onUploadProgress: undefined,
+    });
   }
 
   const signOut2 = async () => {

@@ -13,7 +13,7 @@ import {
   BusinessFilterNumberType,
   IBusinessMessageFilter,
 } from "brancy/models/messages/properies";
-import styles from "brancy/components/messages/properties/properties.module.css";
+import styles from "./properties.module.css";
 
 function BusinessFilter() {
   const { t } = useTranslation();

@@ -6,7 +6,7 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import { LanguageKey } from "brancy/i18n";
 import { InitialSetupState } from "brancy/models/homeIndex/home";
 import { MethodType } from "brancy/helper/api";
-import styles from "brancy/components/tutorial/initialSetup/initialSetup.module.css";
+import styles from "./initialSetup.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 interface InitialSetupProps {
   onComplete: () => void;
@@ -170,7 +170,13 @@ const InitialSetup: React.FC<InitialSetupProps> = ({ onComplete }) => {
         language: window.localStorage.getItem("language") || "en",
         theme: window.localStorage.getItem("theme") || "light",
       };
-      const res = await clientFetchApi<InitialSetupState, boolean>("/api/uisetting/Update", { methodType: MethodType.post, session: session, data: settingUiUpdate, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<InitialSetupState, boolean>("/api/uisetting/Update", {
+        methodType: MethodType.post,
+        session: session,
+        data: settingUiUpdate,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
 
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
     } catch (error) {

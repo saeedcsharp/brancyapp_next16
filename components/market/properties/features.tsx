@@ -26,7 +26,7 @@ import { MethodType } from "brancy/helper/api";
 import { FeatureType } from "brancy/models/market/enums";
 import { IFeatureItem, IOrderFeatures, IUpdateFeatureOrder } from "brancy/models/market/properties";
 import CheckBoxButton from "brancy/components/design/checkBoxButton";
-import styles from "brancy/components/market/properties/features.module.css";
+import styles from "./features.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
 const getFeatureClassName = (featureType: FeatureType): string => {
@@ -78,13 +78,13 @@ const SortableFeatureItem = memo(
         transform: CSS.Transform.toString(transform),
         transition,
       }),
-      [transform, transition]
+      [transform, transition],
     );
     const handleToggleChange = useCallback(
       (e: ChangeEvent<HTMLInputElement>) => {
         onToggle(feature.featureType, e);
       },
-      [feature.featureType, onToggle]
+      [feature.featureType, onToggle],
     );
     const handleEditClick = useCallback(() => {
       onEdit(feature.featureType);
@@ -96,15 +96,15 @@ const SortableFeatureItem = memo(
           onEdit(feature.featureType);
         }
       },
-      [feature.featureType, onEdit]
+      [feature.featureType, onEdit],
     );
     const featureTitle = useMemo(
       () => handleFeatureTitle(feature.featureType),
-      [feature.featureType, handleFeatureTitle]
+      [feature.featureType, handleFeatureTitle],
     );
     const className = useMemo(
       () => styles[getFeatureClassName(feature.featureType)] || styles.featurebox,
-      [feature.featureType]
+      [feature.featureType],
     );
     return (
       <div ref={setNodeRef} style={style} className={className}>
@@ -150,7 +150,7 @@ const SortableFeatureItem = memo(
         </div>
       </div>
     );
-  }
+  },
 );
 const Features = (props: {
   showMask: (featureId: number) => void;
@@ -173,7 +173,7 @@ const Features = (props: {
     }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
   const handleFeatureTitle = useCallback(
     (featureType: FeatureType): string => {
@@ -200,7 +200,7 @@ const Features = (props: {
           return t(LanguageKey.marketPropertiesFeaturebox);
       }
     },
-    [t]
+    [t],
   );
   const handleToggleCheckBox = useCallback(
     async (e: ChangeEvent<HTMLInputElement>) => {
@@ -209,16 +209,20 @@ const Features = (props: {
       const instagramerId = session?.user?.instagramerIds?.[session.user.currentIndex];
       if (!instagramerId) return;
       try {
-        await clientFetchApi<string, boolean>("/api/bio/ToggleFeatureBox", { methodType: MethodType.get, session: session, data: null, queries: [
-          { key: "enabled", value: checked.toString() },
-        ], onUploadProgress: undefined });
+        await clientFetchApi<string, boolean>("/api/bio/ToggleFeatureBox", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "enabled", value: checked.toString() }],
+          onUploadProgress: undefined,
+        });
       } catch (error) {
         if (isMountedRef.current) {
           setCheckbox(!checked);
         }
       }
     },
-    [session]
+    [session],
   );
   const handleDragEnd = useCallback(
     (event: DragEndEvent) => {
@@ -234,7 +238,7 @@ const Features = (props: {
         return reordered;
       });
     },
-    [props]
+    [props],
   );
   const handleCheckBox = useCallback(
     (id: number, e: ChangeEvent<HTMLInputElement>) => {
@@ -246,7 +250,7 @@ const Features = (props: {
         return updated;
       });
     },
-    [props]
+    [props],
   );
   const filteredFeatures = useMemo(
     () =>
@@ -260,16 +264,16 @@ const Features = (props: {
           x.featureType === FeatureType.ContactAndMap ||
           x.featureType === FeatureType.AdsTimeline ||
           x.featureType === FeatureType.Reviews ||
-          x.featureType === FeatureType.Products
+          x.featureType === FeatureType.Products,
       ),
-    [featuresItem]
+    [featuresItem],
   );
   const sortableIds = useMemo(() => filteredFeatures.map((item) => item.featureType.toString()), [filteredFeatures]);
   const handleBannerEdit = useCallback(
     (featureId: number) => {
       props.showMask(featureId);
     },
-    [props]
+    [props],
   );
   const handleBannerKeyDown = useCallback(
     (e: React.KeyboardEvent, featureId: number) => {
@@ -278,7 +282,7 @@ const Features = (props: {
         props.showMask(featureId);
       }
     },
-    [props]
+    [props],
   );
   useEffect(() => {
     isMountedRef.current = true;

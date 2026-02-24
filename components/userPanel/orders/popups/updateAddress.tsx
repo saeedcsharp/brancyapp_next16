@@ -7,7 +7,7 @@ import RingLoader from "brancy/components/design/loader/ringLoder";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n";
 import { IAddress } from "brancy/models/userPanel/orders";
-import styles from "brancy/components/userPanel/orders/popups/addresses.module.css";
+import styles from "./addresses.module.css";
 export default function UpdateAddresses({
   address,
   removeMask,

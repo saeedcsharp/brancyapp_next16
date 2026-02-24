@@ -23,7 +23,7 @@ import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
 import { LanguageKey } from "brancy/i18n";
 import { MediaType } from "brancy/models/page/post/preposts";
 import { IMediaInstanceInfo, ISuggestedMedia } from "brancy/models/store/IProduct";
-import styles from "brancy/components/store/products/productDetail/instanceProduct/media.module.css";
+import styles from "./media.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
 // Sortable item component
@@ -105,8 +105,8 @@ function SortableItem({
                     item.uploadMedia
                       ? item.uploadMedia.base64Url
                       : item.childMedia
-                      ? basePictureUrl + item.childMedia.thumbnailMediaUrl
-                      : basePictureUrl + item.customMedia!.thumbnailMediaUrl
+                        ? basePictureUrl + item.childMedia.thumbnailMediaUrl
+                        : basePictureUrl + item.customMedia!.thumbnailMediaUrl,
                   )
                 }
               />
@@ -179,7 +179,7 @@ export default function MediaInstance({
   const [selectedSuggestions, setSelectedSuggestions] = useState<{ id: number | null; key: string }[]>(
     productMedia
       .filter((x) => x.customMedia && x.customMedia.isSuggested)
-      .map((z) => ({ id: z.customMedia!.id, key: z.customMedia!.key! }))
+      .map((z) => ({ id: z.customMedia!.id, key: z.customMedia!.key! })),
   );
   const [productMediaInfo, setProductMediaInfo] = useState<IMediaInstanceInfo[]>(productMedia);
   const [popupImage, setPopupImage] = useState<string | null>(null);
@@ -189,7 +189,7 @@ export default function MediaInstance({
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   function _arrayBufferToBase64(buffer: ArrayBuffer) {
@@ -240,8 +240,8 @@ export default function MediaInstance({
                         ...x.uploadMedia!,
                         base64Url: "data:image/jpeg;base64," + arrayToString,
                       },
-                    }
-              )
+                    },
+              ),
             );
           } else {
             const newArray = [

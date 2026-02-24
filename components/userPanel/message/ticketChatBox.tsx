@@ -7,7 +7,7 @@ import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
 import initialzedTime from "brancy/helper/manageTimer";
 import { IOwnerInbox, ISendTicketMessage, ITicket, ITicketMediaType } from "brancy/models/userPanel/message";
 import LinkifyText from "brancy/context/LinkifyText";
-import styles from "brancy/components/userPanel/message/ticketChatBox.module.css";
+import styles from "./ticketChatBox.module.css";
 const UserPanelDirectChatBox = (props: {
   userSelectId: number | null;
   chatBox: ITicket;
@@ -29,7 +29,7 @@ const UserPanelDirectChatBox = (props: {
       | ((prev: { title: string; message: string }) => {
           title: string;
           message: string;
-        })
+        }),
   ) => void;
 }) => {
   const [dateFormatToggle, setDateFormatToggle] = useState("");

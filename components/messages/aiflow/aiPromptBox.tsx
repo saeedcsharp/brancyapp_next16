@@ -21,7 +21,7 @@ import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n/languageKeys";
 import { IAITools, IAnalysisPrompt, ICreatePrompt, IDetailPrompt, ITotalPrompt } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
-import styles from "brancy/components/messages/aiflow/aiPromptBox.module.css";
+import styles from "./aiPromptBox.module.css";
 import LiveChat from "brancy/components/messages/aiflow/popup/liveChat";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const AIPromptBox = ({
@@ -102,7 +102,7 @@ const AIPromptBox = ({
           return name;
       }
     },
-    [t]
+    [t],
   );
 
   useEffect(() => {
@@ -116,7 +116,13 @@ const AIPromptBox = ({
       try {
         setLoading(true);
         setDetailedPrompt((prev) => ({ ...prev, customPromptAnalysis: null }));
-        const res = await clientFetchApi<boolean, IDetailPrompt>("/api/ai/GetPrompt", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "promptId", value: userSelectId! }], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, IDetailPrompt>("/api/ai/GetPrompt", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "promptId", value: userSelectId! }],
+          onUploadProgress: undefined,
+        });
         if (!signal?.aborted) {
           if (res.succeeded) {
             setDetailedPrompt(res.value);
@@ -135,7 +141,7 @@ const AIPromptBox = ({
         }
       }
     },
-    [session, userSelectId]
+    [session, userSelectId],
   );
   const checkCondition = useMemo(() => {
     return detailedPrompt.title.length > 0 && detailedPrompt.promptStr.length > 20 && !updateLoading;
@@ -146,13 +152,19 @@ const AIPromptBox = ({
   const handleCreateAIPrompt = useCallback(async () => {
     try {
       setUpdateLoading(true);
-      const res = await clientFetchApi<ICreatePrompt, ITotalPrompt>("/api/ai/CreatePrompt", { methodType: MethodType.post, session: session, data: {
+      const res = await clientFetchApi<ICreatePrompt, ITotalPrompt>("/api/ai/CreatePrompt", {
+        methodType: MethodType.post,
+        session: session,
+        data: {
           prompt: detailedPrompt.promptStr,
           title: detailedPrompt.title,
           reNewForThread: detailedPrompt.reNewForThread,
           shouldFollower: detailedPrompt.shouldFollower,
           promptAnalysis: advancePrompt ? detailedPrompt.customPromptAnalysis : null,
-        }, queries: [{ key: "promptId", value: userSelectId ? userSelectId : undefined }], onUploadProgress: undefined });
+        },
+        queries: [{ key: "promptId", value: userSelectId ? userSelectId : undefined }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         updateAIPrompt(res.value);
         internalNotify(InternalResponseType.Ok, NotifType.Success);
@@ -169,7 +181,13 @@ const AIPromptBox = ({
     setLoadingPromptAnalysis(true);
     startTransition(async () => {
       try {
-        const res = await clientFetchApi<string, IAnalysisPrompt>("/api/ai/GetPromptAnalysis", { methodType: MethodType.post, session: session, data: { str: detailedPrompt.promptStr }, queries: undefined, onUploadProgress: undefined });
+        const res = await clientFetchApi<string, IAnalysisPrompt>("/api/ai/GetPromptAnalysis", {
+          methodType: MethodType.post,
+          session: session,
+          data: { str: detailedPrompt.promptStr },
+          queries: undefined,
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) {
           setDetailedPrompt((prev) => ({
             ...prev,
@@ -236,7 +254,7 @@ const AIPromptBox = ({
       },
       ...aiTools,
     ],
-    [aiTools]
+    [aiTools],
   );
 
   const handleKeyDown = useCallback(
@@ -250,7 +268,7 @@ const AIPromptBox = ({
         showUserList();
       }
     },
-    [checkCondition, handleCreateAIPrompt, showUserList]
+    [checkCondition, handleCreateAIPrompt, showUserList],
   );
 
   return (
