@@ -1,4 +1,4 @@
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import "quill/dist/quill.snow.css";
 import "brancy/components/page/statistics/sliderToFourBox.css";
 import "brancy/app/globals.scss";
@@ -7,6 +7,13 @@ import Providers from "brancy/app/providers";
 export const metadata: Metadata = {
   title: "Brancy",
   description: "Brancy application",
+};
+
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
 };
 
 const setThemeAndManifestScript = `(function () {

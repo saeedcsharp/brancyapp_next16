@@ -1,6 +1,26 @@
 @import "../scss/main.scss";
 //@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@100;200;300;400;500;600;700;800;900&display=swap");
 
+/* Prevent iOS/mobile auto-zoom on input focus (requires font-size >= 16px) */
+@media screen and (max-width: 768px) {
+  input,
+  input[type="text"],
+  input[type="number"],
+  input[type="email"],
+  input[type="password"],
+  input[type="search"],
+  input[type="tel"],
+  input[type="url"],
+  input[type="date"],
+  input[type="time"],
+  input[type="datetime-local"],
+  select,
+  textarea {
+    font-size: 16px !important;
+    touch-action: manipulation;
+  }
+}
+
 *,
 body {
   /* Reordered so Persian/Arabic (fa/ar) will pick Lahzeh first when applied via language/dir selectors */
