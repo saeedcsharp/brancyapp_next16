@@ -34,16 +34,16 @@ interface IEventIdea {
   items: IEventIdeaItem[];
 }
 
-const LANGUAGE_OPTIONS = [
-  { id: 0, code: "en", label: "English" },
-  { id: 1, code: "fa", label: "فارسی" },
-  { id: 2, code: "ar", label: "العربية" },
-  { id: 3, code: "fr", label: "Français" },
-  { id: 4, code: "ru", label: "Русский" },
-  { id: 5, code: "tr", label: "Türkçe" },
-  { id: 6, code: "gr", label: "Ελληνικά" },
-  { id: 7, code: "az", label: "Azərbaycan" },
-];
+const LANGUAGE_CODE_TO_ID: Record<string, number> = {
+  en: 0,
+  fa: 1,
+  ar: 2,
+  fr: 3,
+  ru: 4,
+  tr: 5,
+  gr: 6,
+  az: 7,
+};
 
 interface IEventIdeaResponse {
   items: IEventIdea[];
@@ -51,14 +51,13 @@ interface IEventIdeaResponse {
 }
 
 const EventIdea = (props: { handleOpenCreate: () => void }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data: session } = useSession();
 
   const [isHidden, setIsHidden] = useState(false);
   const [loading, setLoading] = useState(false);
   const [loadingMore, setLoadingMore] = useState(false);
   const [ideas, setIdeas] = useState<IEventIdea[]>([]);
-  const [selectedLanguageId, setSelectedLanguageId] = useState(0);
   const [hasSearched, setHasSearched] = useState(false);
   const [nextMaxId, setNextMaxId] = useState<number | null>(null);
   const [hasMore, setHasMore] = useState(false);
@@ -87,7 +86,9 @@ const EventIdea = (props: { handleOpenCreate: () => void }) => {
       }
 
       try {
-        const queries: { key: string; value: string }[] = [{ key: "language", value: selectedLanguageId.toString() }];
+        const queries: { key: string; value: string }[] = [
+          { key: "language", value: (LANGUAGE_CODE_TO_ID[i18n.language] ?? 0).toString() },
+        ];
         if (maxId !== null) {
           queries.push({ key: "nextMaxId", value: maxId.toString() });
         }
@@ -120,7 +121,7 @@ const EventIdea = (props: { handleOpenCreate: () => void }) => {
         setLoadingMore(false);
       }
     },
-    [session, selectedLanguageId],
+    [session, i18n.language],
   );
 
   const handleLoadMore = useCallback(() => {
@@ -173,21 +174,6 @@ const EventIdea = (props: { handleOpenCreate: () => void }) => {
           </div>
         </div>
         <div className={styles.controls}>
-          {/* Language Selection */}
-          <div className={styles.row}>
-            <span className={styles.label}>{t(LanguageKey.pageTools_EventIdeasLanguage)}:</span>
-            <select
-              className={styles.languageSelect}
-              value={selectedLanguageId}
-              onChange={(e) => setSelectedLanguageId(Number(e.target.value))}>
-              {LANGUAGE_OPTIONS.map((lang) => (
-                <option key={lang.id} value={lang.id}>
-                  {lang.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
           {/* Fetch Button */}
           <div className={styles.row}>
             <button className={styles.searchBtn} onClick={() => fetchIdeas(false)} disabled={loading}>

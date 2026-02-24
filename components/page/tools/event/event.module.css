@@ -309,8 +309,13 @@
 /* ── EventIdea specific ───────────────────── */
 
 .ideaSlider {
-  height: 520px;
+  height: 560px;
   width: 100%;
+}
+
+/* Shrink sliderWrapper to leave room for 30px pagination overlay */
+.ideaSlider > div:first-child {
+  height: calc(100% - 50px);
 }
 
 .ideaSlide {
