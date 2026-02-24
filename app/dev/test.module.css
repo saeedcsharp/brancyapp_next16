@@ -133,6 +133,14 @@
   background: rgba(248, 113, 113, 0.1);
 }
 
+/* standalone class for CSS modules typing */
+.highlightRow {
+  background: rgba(248, 113, 113, 0.06);
+}
+.highlightRow:hover {
+  background: rgba(248, 113, 113, 0.1);
+}
+
 /* ========== BADGES ========== */
 .badge {
   display: inline-block;
