@@ -653,6 +653,7 @@ export default {
     navbar_Comments: "Comments",
     navbar_Ticket: "Tickets",
     navbar_AI: "AI",
+    navbar_ContentCreator: "Content Creator",
     navbar_Properties: "properties",
     navbar_AIAndFlow: "AI & Agent",
     navbar_Payment: "Payments",

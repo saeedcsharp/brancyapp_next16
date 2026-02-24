@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/navbar/instagramerNavbar/navbar.module.css";
+import styles from "./navbar.module.css";
 
 interface INavbar {
   id: string;
@@ -439,7 +439,7 @@ const NavbarTabs = () => {
   const labelMapping: { [key: string]: string } = {
     posts: t(LanguageKey.navbar_Post),
     stories: t(LanguageKey.navbar_Story),
-    ai: t(LanguageKey.navbar_AI),
+    ai: t(LanguageKey.navbar_ContentCreator),
     statistics: t(LanguageKey.navbar_Statistics),
     direct: t(LanguageKey.navbar_Direct),
     comments: t(LanguageKey.navbar_Comments),

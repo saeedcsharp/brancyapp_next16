@@ -662,6 +662,7 @@ export default {
     navbar_Comments: "کامنت‌",
     navbar_Ticket: "تیکت‌",
     navbar_AI: "هوش مصنوعی",
+    navbar_ContentCreator: "تولید محتوا",
     navbar_Properties: "تنظیمات",
     navbar_AIAndFlow: "هوش مصنوعی و ایجنت",
     navbar_Payment: "پرداخت‌ها",

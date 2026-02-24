@@ -656,6 +656,7 @@ export default {
     navbar_Comments: "Şərhlər",
     navbar_Ticket: "Bilet",
     navbar_AI: "Süni İntellekt",
+    navbar_ContentCreator: "Məzmun Yaratıcı",
     navbar_Properties: "Ayarlar",
     navbar_AIAndFlow: "AI və Agent",
     navbar_Payment: "Ödənişlər",

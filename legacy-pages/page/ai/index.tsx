@@ -4,9 +4,9 @@ import Head from "next/head";
 import router from "next/router";
 import { useEffect, useState } from "react";
 import Soon from "brancy/components/notOk/soon";
-import AIPage from "brancy/components/page/ai/AI_Img_Video";
 import { LoginStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
+import AI_Img_Video from "brancy/components/page/ai/AI_Img_Video";
 
 export default function PageAI() {
   const { data: session } = useSession({
@@ -53,6 +53,7 @@ export default function PageAI() {
         <meta name="twitter:description" content="Manage your Bran.cy account settings and preferences" />
         <meta name="twitter:image:alt" content="Bran.cy Settings Page" />
       </Head>
+      {/* {!loading && <AI_Img_Video />} */}
       {!loading && <Soon />}
     </>
   );

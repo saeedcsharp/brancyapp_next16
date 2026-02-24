@@ -6,7 +6,7 @@ import FlexibleToggleButton from "brancy/components/design/toggleButton/flexible
 import { LanguageKey } from "brancy/i18n";
 import { IBestTime } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/cardBestWorst";
 import { HourCountUnix } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
-import styles from "brancy/components/page/statistics/popups/postTimeAnalalysis.module.css";
+import styles from "./postTimeAnalalysis.module.css";
 
 type ViewMode = "heatmap";
 
@@ -61,12 +61,12 @@ const PostTimeAnalysis: React.FC<PostTimeAnalysisProps> = ({ bestTimeSeries, rem
 
       setCurrentTimeSeries(timeSeriesMap[index] || bestTimeSeries.day30CountUnixes);
     },
-    [bestTimeSeries]
+    [bestTimeSeries],
   );
 
   const timeSeriesData = useMemo(
     () => currentTimeSeries || bestTimeSeries.day30CountUnixes,
-    [currentTimeSeries, bestTimeSeries.day30CountUnixes]
+    [currentTimeSeries, bestTimeSeries.day30CountUnixes],
   );
 
   // Removed chartAnnotations: best/worst automatic annotations not needed
@@ -86,7 +86,7 @@ const PostTimeAnalysis: React.FC<PostTimeAnalysisProps> = ({ bestTimeSeries, rem
         {t(LanguageKey.pageStatistics_120Days)}
       </div>,
     ],
-    [t]
+    [t],
   );
 
   const getHourDetails = (hour: number) => {
@@ -301,7 +301,7 @@ const PostTimeAnalysis: React.FC<PostTimeAnalysisProps> = ({ bestTimeSeries, rem
                                   <span className="explain">
                                     {t(LanguageKey.pageStatistics_HourAverageLevel, {
                                       difference: Math.round(
-                                        ((details.maxCount - details.count) / details.maxCount) * 100
+                                        ((details.maxCount - details.count) / details.maxCount) * 100,
                                       ),
                                     })}
                                   </span>
@@ -386,7 +386,7 @@ const PostTimeAnalysis: React.FC<PostTimeAnalysisProps> = ({ bestTimeSeries, rem
                                             {t(LanguageKey.pageStatistics_MinuteTopDescription, {
                                               hour: hour,
                                               difference: Math.round(
-                                                ((minuteInfo.count - minInHour) / minInHour) * 100
+                                                ((minuteInfo.count - minInHour) / minInHour) * 100,
                                               ),
                                             })}
                                           </span>
@@ -394,7 +394,7 @@ const PostTimeAnalysis: React.FC<PostTimeAnalysisProps> = ({ bestTimeSeries, rem
                                           <span className="explain">
                                             {t(LanguageKey.pageStatistics_MinuteWeakDescription, {
                                               difference: Math.round(
-                                                ((maxInHour - minuteInfo.count) / maxInHour) * 100
+                                                ((maxInHour - minuteInfo.count) / maxInHour) * 100,
                                               ),
                                             })}
                                           </span>
@@ -683,8 +683,8 @@ const PostTimeAnalysis: React.FC<PostTimeAnalysisProps> = ({ bestTimeSeries, rem
                       {time.type === "peak"
                         ? t(LanguageKey.pageStatistics_PeakTimeDescription)
                         : time.type === "stable"
-                        ? t(LanguageKey.pageStatistics_StableTimeDescription)
-                        : t(LanguageKey.pageStatistics_SecondaryTimeDescription)}
+                          ? t(LanguageKey.pageStatistics_StableTimeDescription)
+                          : t(LanguageKey.pageStatistics_SecondaryTimeDescription)}
                     </div>
                   </div>
                 ))}
@@ -692,32 +692,30 @@ const PostTimeAnalysis: React.FC<PostTimeAnalysisProps> = ({ bestTimeSeries, rem
               {/* Worst 3 Times */}
               {recommendationType === 1 &&
                 getRecommendedTimes.worst.map((time, idx) => (
-                  <>
-                    <div key={time.rank} className={styles.avoidCard}>
-                      <div className="frameParent">
-                        <span className="title2">
-                          {time.type === "lowest" ? "❌" : time.type === "sustained-low" ? "📉" : "⚠️"} {time.label}
-                        </span>
-                        <div className="title">
-                          {time.hour}:{time.minute}
-                        </div>
-                      </div>
-
-                      <div className="explain">
-                        {time.type === "lowest"
-                          ? t(LanguageKey.pageStatistics_LowestTimeDescription, {
-                              percentage: Math.round(
-                                ((getRecommendedTimes.recommended[0].count - time.count) /
-                                  getRecommendedTimes.recommended[0].count) *
-                                  100
-                              ),
-                            })
-                          : time.type === "sustained-low"
-                          ? t(LanguageKey.pageStatistics_SustainedLowTimeDescription)
-                          : t(LanguageKey.pageStatistics_SecondaryLowTimeDescription)}
+                  <div key={time.rank} className={styles.avoidCard}>
+                    <div className="frameParent">
+                      <span className="title2">
+                        {time.type === "lowest" ? "❌" : time.type === "sustained-low" ? "📉" : "⚠️"} {time.label}
+                      </span>
+                      <div className="title">
+                        {time.hour}:{time.minute}
                       </div>
                     </div>
-                  </>
+
+                    <div className="explain">
+                      {time.type === "lowest"
+                        ? t(LanguageKey.pageStatistics_LowestTimeDescription, {
+                            percentage: Math.round(
+                              ((getRecommendedTimes.recommended[0].count - time.count) /
+                                getRecommendedTimes.recommended[0].count) *
+                                100,
+                            ),
+                          })
+                        : time.type === "sustained-low"
+                          ? t(LanguageKey.pageStatistics_SustainedLowTimeDescription)
+                          : t(LanguageKey.pageStatistics_SecondaryLowTimeDescription)}
+                    </div>
+                  </div>
                 ))}
             </div>
           </div>

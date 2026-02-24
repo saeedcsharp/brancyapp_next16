@@ -244,6 +244,7 @@ export enum LanguageKey {
   navbar_Comments = "navbar_Comments",
   navbar_Ticket = "navbar_Ticket",
   navbar_AI = "navbar_AI",
+  navbar_ContentCreator = "navbar_ContentCreator",
   navbar_Payment = "navbar_Payment",
   navbar_Title = "navbar_Title",
   navbar_Home = "navbar_Home",

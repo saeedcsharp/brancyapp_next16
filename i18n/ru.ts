@@ -653,6 +653,7 @@ export default {
     navbar_Comments: "Комментарии",
     navbar_Ticket: "Тикеты",
     navbar_AI: "ИИ",
+    navbar_ContentCreator: "Создатель контента",
     navbar_Properties: "Свойства",
     navbar_AIAndFlow: "ИИ и Agent",
     navbar_Payment: "Платежи",

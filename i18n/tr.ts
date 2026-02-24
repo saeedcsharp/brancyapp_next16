@@ -655,6 +655,7 @@ export default {
     navbar_Comments: "Yorumlar",
     navbar_Ticket: "Biletler",
     navbar_AI: "Yapay Zeka",
+    navbar_ContentCreator: "İçerik Oluşturucu",
     navbar_Properties: "Özellikler",
     navbar_AIAndFlow: "AI ve Agent",
     navbar_Payment: "Ödemeler",

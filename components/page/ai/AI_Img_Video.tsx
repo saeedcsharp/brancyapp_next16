@@ -10,7 +10,7 @@ import Loading from "brancy/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n/languageKeys";
 import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import styles from "brancy/components/page/ai/AI_Img_Video.module.css";
+import styles from "./AI_Img_Video.module.css";
 let firstTime = 0;
 let touchMove = 0;
 let touchStart = 0;

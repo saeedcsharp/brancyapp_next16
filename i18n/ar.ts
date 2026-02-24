@@ -641,6 +641,7 @@ export default {
     navbar_Comments: "تعليقات",
     navbar_Ticket: "تذاكر",
     navbar_AI: "الذكاء الاصطناعي",
+    navbar_ContentCreator: "صانع المحتوى",
     navbar_Properties: "الخصائص",
     navbar_AIAndFlow: "الذكاء الاصطناعي و ایجنت",
     navbar_Payment: "المدفوعات",
