@@ -6,10 +6,12 @@ import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { useSession } from "next-auth/react";
-import { useCallback, useMemo, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
+import modalStyles from "./createEventIdea.module.css";
 import styles from "./event.module.css";
+import Loading from "brancy/components/notOk/loading";
 
 interface IDayEvent {
   languageId: number;
@@ -21,60 +23,38 @@ interface IDayEvent {
   isReligious: boolean;
 }
 
-const LANGUAGE_OPTIONS = [
-  { id: 0, code: "en", label: "English" },
-  { id: 1, code: "fa", label: "فارسی" },
-  { id: 2, code: "ar", label: "العربية" },
-  { id: 3, code: "fr", label: "Français" },
-  { id: 4, code: "ru", label: "Русский" },
-  { id: 5, code: "tr", label: "Türkçe" },
-  { id: 6, code: "gr", label: "Ελληνικά" },
-  { id: 7, code: "az", label: "Azərbaycan" },
-];
+const ONE_MONTH_MS = 30 * 24 * 60 * 60 * 1000;
 
-const MAX_RANGE_MS = 30 * 24 * 60 * 60 * 1000; // 1 month
-const FIVE_MINUTES_MS = 5 * 60 * 1000;
+const LANGUAGE_CODE_TO_ID: Record<string, number> = {
+  en: 0,
+  fa: 1,
+  ar: 2,
+  fr: 3,
+  ru: 4,
+  tr: 5,
+  gr: 6,
+  az: 7,
+};
 
-const DayEvents = (props: { handleShowDatePicker: () => void; startUnix: number | null; endUnix: number | null }) => {
-  const { t } = useTranslation();
+const DayEvents = (props: { removeMask: () => void; backButton?: () => void }) => {
+  const { t, i18n } = useTranslation();
   const { data: session } = useSession();
 
-  const [isHidden, setIsHidden] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [loading, setLoading] = useState(true);
   const [events, setEvents] = useState<IDayEvent[]>([]);
-  const [selectedLanguageId, setSelectedLanguageId] = useState(0);
   const [hasSearched, setHasSearched] = useState(false);
-
-  const toggleHidden = useCallback(() => {
-    setIsHidden((prev) => !prev);
-  }, []);
 
   const formatDate = useCallback((unix: number) => {
     const { locale, calendar } = initialzedTime();
     return new DateObject({ date: new Date(unix), calendar, locale }).format("YYYY/MM/DD");
   }, []);
 
-  const dateRangeLabel = useMemo(() => {
-    if (!props.startUnix || !props.endUnix) {
-      return t(LanguageKey.pageTools_EventSelectDate);
-    }
-    return `${formatDate(props.startUnix)} - ${formatDate(props.endUnix)}`;
-  }, [props.startUnix, props.endUnix, formatDate, t]);
-
   const fetchEvents = useCallback(async () => {
     if (!session) return;
-    if (!props.startUnix || !props.endUnix) {
-      notify(ResponseType.Unexpected, NotifType.Warning);
-      return;
-    }
 
-    const minTime = props.startUnix + FIVE_MINUTES_MS;
-    const maxTime = props.endUnix;
-
-    if (maxTime <= minTime) {
-      notify(ResponseType.Unexpected, NotifType.Warning);
-      return;
-    }
+    const minTime = Date.now();
+    const maxTime = Date.now() + ONE_MONTH_MS;
+    const languageId = LANGUAGE_CODE_TO_ID[i18n.language] ?? 0;
 
     setLoading(true);
     setHasSearched(true);
@@ -86,7 +66,7 @@ const DayEvents = (props: { handleShowDatePicker: () => void; startUnix: number 
         queries: [
           { key: "minTime", value: Math.floor(minTime / 1000).toString() },
           { key: "maxTime", value: Math.floor(maxTime / 1000).toString() },
-          { key: "language", value: selectedLanguageId.toString() },
+          { key: "language", value: languageId.toString() },
         ],
         onUploadProgress: undefined,
       });
@@ -101,69 +81,46 @@ const DayEvents = (props: { handleShowDatePicker: () => void; startUnix: number 
     } finally {
       setLoading(false);
     }
-  }, [session, props.startUnix, props.endUnix, selectedLanguageId]);
+  }, [session, i18n.language]);
 
-  const canSearch = useMemo(() => {
-    return !!props.startUnix && !!props.endUnix;
-  }, [props.startUnix, props.endUnix]);
+  useEffect(() => {
+    fetchEvents();
+  }, [fetchEvents]);
 
   return (
-    <div className="tooBigCard" style={{ gridRowEnd: isHidden ? "span 10" : "span 82" }}>
-      <div className="headerChild" onClick={toggleHidden}>
-        <div className="circle"></div>
-        <div className="Title">{t(LanguageKey.pageTools_DayEvents)}</div>
+    <div className={modalStyles.modal}>
+      {/* Header */}
+      <div className={modalStyles.header}>
+        <svg
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="var(--color-light-blue)"
+          strokeWidth="1.8"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className={modalStyles.icon}>
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+          <line x1="16" y1="2" x2="16" y2="6" />
+          <line x1="8" y1="2" x2="8" y2="6" />
+          <line x1="3" y1="10" x2="21" y2="10" />
+        </svg>
+        <div className={modalStyles.title}>{t(LanguageKey.pageTools_DayEvents)}</div>
       </div>
 
-      <div className={`${styles.eventCard} ${isHidden ? "" : styles.show}`}>
-        <div className={styles.controls}>
-          {/* Date Range Selection */}
-          <div className={styles.row}>
-            <span className={styles.label}>{t(LanguageKey.pageTools_EventDateRange)}:</span>
-            <button className={styles.dateBtn} onClick={props.handleShowDatePicker}>
-              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-                <line x1="16" y1="2" x2="16" y2="6" />
-                <line x1="8" y1="2" x2="8" y2="6" />
-                <line x1="3" y1="10" x2="21" y2="10" />
-              </svg>
-              {dateRangeLabel}
-            </button>
-          </div>
-
-          {/* Language Selection */}
-          <div className={styles.row}>
-            <span className={styles.label}>{t(LanguageKey.pageTools_EventLanguage)}:</span>
-            <select
-              className={styles.languageSelect}
-              value={selectedLanguageId}
-              onChange={(e) => setSelectedLanguageId(Number(e.target.value))}>
-              {LANGUAGE_OPTIONS.map((lang) => (
-                <option key={lang.id} value={lang.id}>
-                  {lang.label}
-                </option>
-              ))}
-            </select>
-          </div>
-
-          {/* Search Button */}
-          <div className={styles.row}>
-            <button className={styles.searchBtn} onClick={fetchEvents} disabled={!canSearch || loading}>
-              {t(LanguageKey.pageTools_EventSearch)}
-            </button>
-          </div>
-        </div>
-
-        {/* Results */}
+      <div className={modalStyles.wrapper}>
+        {/* Loading */}
         {loading && (
           <div className={styles.loaderContainer}>
-            <RingLoader />
+            <Loading />
           </div>
         )}
 
+        {/* Empty State */}
         {!loading && hasSearched && events.length === 0 && (
           <div className={styles.emptyState}>{t(LanguageKey.pageTools_EventEmpty)}</div>
         )}
 
+        {/* Results */}
         {!loading && events.length > 0 && (
           <Slider
             slidesPerView={1}
@@ -193,6 +150,18 @@ const DayEvents = (props: { handleShowDatePicker: () => void; startUnix: number 
             ))}
           </Slider>
         )}
+      </div>
+
+      {/* Footer */}
+      <div className={modalStyles.footer}>
+        {props.backButton && (
+          <button className={modalStyles.cancelBtn} onClick={props.backButton}>
+            {t(LanguageKey.back)}
+          </button>
+        )}
+        <button className={modalStyles.cancelBtn} onClick={props.removeMask}>
+          {t(LanguageKey.pageTools_CreateEventIdeaCancel)}
+        </button>
       </div>
     </div>
   );

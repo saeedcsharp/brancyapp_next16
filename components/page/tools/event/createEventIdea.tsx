@@ -9,12 +9,10 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { useSession } from "next-auth/react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { DateObject } from "react-multi-date-picker";
 import styles from "./createEventIdea.module.css";
 
 const LANGUAGE_OPTIONS = [
@@ -34,11 +32,11 @@ interface ICreateEventIdeaBody {
   maxTime: number;
 }
 
+const ONE_MONTH_MS = 30 * 24 * 60 * 60 * 1000;
+
 const CreateEventIdea = (props: {
   removeMask: () => void;
-  handleShowDatePicker: () => void;
-  startUnix: number | null;
-  endUnix: number | null;
+  handleShowDayEvents: () => void;
   onSuccess?: () => void;
 }) => {
   const { t } = useTranslation();
@@ -48,29 +46,15 @@ const CreateEventIdea = (props: {
   const [selectedLanguageId, setSelectedLanguageId] = useState(0);
   const [loading, setLoading] = useState(false);
 
-  const formatDate = useCallback((unix: number) => {
-    const { locale, calendar } = initialzedTime();
-    return new DateObject({ date: new Date(unix), calendar, locale }).format("YYYY/MM/DD");
-  }, []);
-
-  const dateRangeLabel = (() => {
-    if (!props.startUnix || !props.endUnix) return t(LanguageKey.pageTools_EventSelectDate);
-    return `${formatDate(props.startUnix)} - ${formatDate(props.endUnix)}`;
-  })();
-
-  const canSubmit = !!props.startUnix && !!props.endUnix && !loading;
+  const canSubmit = !loading;
 
   const handleSubmit = useCallback(async () => {
     if (!session) return;
-    if (!props.startUnix || !props.endUnix) {
-      notify(ResponseType.Unexpected, NotifType.Warning);
-      return;
-    }
 
     const body: ICreateEventIdeaBody = {
       prompt: prompt.trim(),
-      minTime: Math.floor(props.startUnix / 1000),
-      maxTime: Math.floor(props.endUnix / 1000),
+      minTime: Math.floor(Date.now() / 1000),
+      maxTime: Math.floor((Date.now() + ONE_MONTH_MS) / 1000),
     };
 
     setLoading(true);
@@ -95,7 +79,7 @@ const CreateEventIdea = (props: {
     } finally {
       setLoading(false);
     }
-  }, [session, prompt, selectedLanguageId, props]);
+  }, [session, prompt, selectedLanguageId, props.onSuccess, props.removeMask]);
 
   return (
     <div className={styles.modal}>
@@ -135,17 +119,16 @@ const CreateEventIdea = (props: {
           </select>
         </div>
 
-        {/* Date Range */}
+        {/* Day Events */}
         <div className={styles.field}>
-          <label className={styles.label}>{t(LanguageKey.pageTools_EventDateRange)}</label>
-          <button className={styles.dateBtn} onClick={props.handleShowDatePicker}>
+          <button className={styles.dateBtn} onClick={props.handleShowDayEvents}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
               <line x1="16" y1="2" x2="16" y2="6" />
               <line x1="8" y1="2" x2="8" y2="6" />
               <line x1="3" y1="10" x2="21" y2="10" />
             </svg>
-            {dateRangeLabel}
+            {t(LanguageKey.pageTools_DayEvents)}
           </button>
         </div>
 

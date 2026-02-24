@@ -132,13 +132,9 @@ const Tools = () => {
   const [showTermsAndConditionWinnerPicker, setShowTermsAndConditionWinnerPicker] = useState(false);
   const [showWinnerAnnounceAndBanner, setshowWinnerAnnounceAndBanner] = useState(false);
   const [showSetTimeAndDate, setshowSetTimeAndDate] = useState(false);
-  const [showDayEventDatePicker, setShowDayEventDatePicker] = useState(false);
-  const [dayEventStartUnix, setDayEventStartUnix] = useState<number | null>(null);
-  const [dayEventEndUnix, setDayEventEndUnix] = useState<number | null>(null);
+  const [showDayEvents, setShowDayEvents] = useState(false);
+  const [showDayEventsFromCreateEvent, setShowDayEventsFromCreateEvent] = useState(false);
   const [showCreateEventIdea, setShowCreateEventIdea] = useState(false);
-  const [showCreateEventDatePicker, setShowCreateEventDatePicker] = useState(false);
-  const [createEventStartUnix, setCreateEventStartUnix] = useState<number | null>(null);
-  const [createEventEndUnix, setCreateEventEndUnix] = useState<number | null>(null);
   const [showLotteryRunning, setShowLotteryRunning] = useState(false);
   const [showShareTermsAndCondition, setShowShareTermsAndCondition] = useState(false);
   const [showRemainingTime, setshowRemainingTime] = useState(false);
@@ -383,9 +379,9 @@ const Tools = () => {
     setShowTermsAndConditionWinnerPicker(false);
     setshowWinnerAnnounceAndBanner(false);
     setshowSetTimeAndDate(false);
-    setShowDayEventDatePicker(false);
+    setShowDayEvents(false);
+    setShowDayEventsFromCreateEvent(false);
     setShowCreateEventIdea(false);
-    setShowCreateEventDatePicker(false);
     setShowLotteryRunning(false);
     setShowShareTermsAndCondition(false);
     setshowRemainingTime(false);
@@ -1095,14 +1091,6 @@ const Tools = () => {
               showWinnersList={handleShowWinnersList}
               // handleShowActiveWinnerPicker={handleShowActiveWinnerPicker}
             />
-            <DayEvents
-              handleShowDatePicker={() => {
-                changePositionToFixed();
-                setShowDayEventDatePicker(true);
-              }}
-              startUnix={dayEventStartUnix}
-              endUnix={dayEventEndUnix}
-            />
             <EventIdea
               handleOpenCreate={() => {
                 changePositionToFixed();
@@ -1220,61 +1208,30 @@ const Tools = () => {
               }
             />
           </Modal>
-          <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showDayEventDatePicker}>
-            <SetTimeAndDate
+          <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showDayEvents}>
+            <DayEvents
               removeMask={removeMask}
-              saveDateAndTime={() => {}}
-              backToNormalPicker={removeMask}
-              fromUnix={Date.now() + 300000}
-              endUnix={Date.now() + 2592000000}
-              range
-              onSaveRange={(start, end) => {
-                setDayEventStartUnix(start);
-                setDayEventEndUnix(end);
-                removeMask();
-              }}
-              title={t(LanguageKey.pageTools_EventSelectDate)}
+              backButton={
+                showDayEventsFromCreateEvent
+                  ? () => {
+                      setShowDayEvents(false);
+                      setShowDayEventsFromCreateEvent(false);
+                      setShowCreateEventIdea(true);
+                    }
+                  : undefined
+              }
             />
           </Modal>
           <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showCreateEventIdea}>
             <CreateEventIdea
               removeMask={removeMask}
-              handleShowDatePicker={() => {
+              handleShowDayEvents={() => {
                 setShowCreateEventIdea(false);
-                setShowCreateEventDatePicker(true);
+                setShowDayEventsFromCreateEvent(true);
+                changePositionToFixed();
+                setShowDayEvents(true);
               }}
-              startUnix={createEventStartUnix}
-              endUnix={createEventEndUnix}
               onSuccess={() => {}}
-            />
-          </Modal>
-          <Modal
-            closePopup={() => {
-              setShowCreateEventDatePicker(false);
-              setShowCreateEventIdea(true);
-            }}
-            classNamePopup={"popup"}
-            showContent={showCreateEventDatePicker}>
-            <SetTimeAndDate
-              removeMask={() => {
-                setShowCreateEventDatePicker(false);
-                setShowCreateEventIdea(true);
-              }}
-              saveDateAndTime={() => {}}
-              backToNormalPicker={() => {
-                setShowCreateEventDatePicker(false);
-                setShowCreateEventIdea(true);
-              }}
-              fromUnix={Date.now() + 300000}
-              endUnix={Date.now() + 2592000000}
-              range
-              onSaveRange={(start, end) => {
-                setCreateEventStartUnix(start);
-                setCreateEventEndUnix(end);
-                setShowCreateEventDatePicker(false);
-                setShowCreateEventIdea(true);
-              }}
-              title={t(LanguageKey.pageTools_EventSelectDate)}
             />
           </Modal>
           <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showLotteryRunning}>
