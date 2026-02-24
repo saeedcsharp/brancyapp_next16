@@ -250,10 +250,10 @@ const Support: React.FC = () => {
                     {channel.title === "Live Chat"
                       ? "Start Chat"
                       : channel.title === "Email Support"
-                      ? "Send Email"
-                      : channel.title === "Phone Support"
-                      ? "Call Now"
-                      : "Visit Forum"}
+                        ? "Send Email"
+                        : channel.title === "Phone Support"
+                          ? "Call Now"
+                          : "Visit Forum"}
                   </button>
                 </div>
               ))}

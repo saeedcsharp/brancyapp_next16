@@ -46,7 +46,7 @@ const PendingMessageItem: React.FC<PendingMessageItemProps> = React.memo(
           action === "edit" ? handleEdit() : handleDelete();
         }
       },
-      [handleEdit, handleDelete]
+      [handleEdit, handleDelete],
     );
     if (message.itemType === ItemType.Text) {
       return (
@@ -167,7 +167,7 @@ const PendingMessageItem: React.FC<PendingMessageItemProps> = React.memo(
     }
 
     return null;
-  }
+  },
 );
 
 PendingMessageItem.displayName = "PendingMessageItem";
@@ -191,7 +191,7 @@ export const TicketPendingMessages: React.FC<TicketPendingMessagesProps> = ({
 
   const buttonText = useMemo(
     () => (replyLoading ? t(LanguageKey.sending) : `${t(LanguageKey.sendreplyticket)} (${replyItems.length})`),
-    [replyLoading, t, replyItems.length]
+    [replyLoading, t, replyItems.length],
   );
 
   const reversedItems = useMemo(() => [...replyItems].reverse(), [replyItems]);

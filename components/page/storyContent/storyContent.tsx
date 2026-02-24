@@ -123,12 +123,18 @@ const StoryContent = (props: {
     hasMore,
     fetchMore: async () => {
       if (nextTime <= 0) return [];
-      const res = await clientFetchApi<boolean, IStoryContent[]>("/api/story/GetNextStories", { methodType: MethodType.get, session: session, data: undefined, queries: [
+      const res = await clientFetchApi<boolean, IStoryContent[]>("/api/story/GetNextStories", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: [
           {
             key: "lastStoryCreatedTime",
             value: nextTime.toString(),
           },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
 
       if (!res.succeeded || !res.value || !Array.isArray(res.value)) {
         return [];

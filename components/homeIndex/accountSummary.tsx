@@ -97,7 +97,9 @@ const AccountSummary = memo(({ data }: AccountSummaryProps) => {
               <div key={index} className="headerandinput">
                 <div className="headerChild">
                   <img src={paragraphIcons[index] || "/adticket.svg"} alt="" style={{ width: "20px" }} />
-                  <span className="title2">{paragraphTitles[index] || `${t(LanguageKey.pageSummary)} ${index + 1}`}</span>
+                  <span className="title2">
+                    {paragraphTitles[index] || `${t(LanguageKey.pageSummary)} ${index + 1}`}
+                  </span>
                 </div>
                 <span className="explain">{paragraph}</span>
               </div>

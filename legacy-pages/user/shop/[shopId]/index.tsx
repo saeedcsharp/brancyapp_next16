@@ -137,23 +137,41 @@ const ProductsPage = () => {
       setLoading(true);
       try {
         const [res, res2, res3] = await Promise.all([
-          clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", { methodType: MethodType.get, session: session, data: null, queries: [
-            { key: "instagramerId", value: shopId.toString() },
-            { key: "nextMaxId", value: undefined },
-            { key: "includeUnavailable", value: "true" },
-            { key: "categoryId", value: undefined },
-            { key: "maxPrice", value: undefined },
-            { key: "minPrice", value: undefined },
-            { key: "hashtagId", value: undefined },
-          ], onUploadProgress: undefined }),
-          clientFetchApi<boolean, IFullShop>("/api/shop/getfullshop", { methodType: MethodType.get, session: session, data: null, queries: [
-            { key: "instagramerId", value: shopId.toString() },
-            { key: "language", value: findSystemLanguage().toString() },
-          ], onUploadProgress: undefined }),
-          clientFetchApi<boolean, IFilterInfo>("/api/shop/getfilters", { methodType: MethodType.get, session: session, data: null, queries: [
-            { key: "instagramerId", value: shopId.toString() },
-            { key: "categoryId", value: undefined },
-          ], onUploadProgress: undefined }),
+          clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
+              { key: "instagramerId", value: shopId.toString() },
+              { key: "nextMaxId", value: undefined },
+              { key: "includeUnavailable", value: "true" },
+              { key: "categoryId", value: undefined },
+              { key: "maxPrice", value: undefined },
+              { key: "minPrice", value: undefined },
+              { key: "hashtagId", value: undefined },
+            ],
+            onUploadProgress: undefined,
+          }),
+          clientFetchApi<boolean, IFullShop>("/api/shop/getfullshop", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
+              { key: "instagramerId", value: shopId.toString() },
+              { key: "language", value: findSystemLanguage().toString() },
+            ],
+            onUploadProgress: undefined,
+          }),
+          clientFetchApi<boolean, IFilterInfo>("/api/shop/getfilters", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
+              { key: "instagramerId", value: shopId.toString() },
+              { key: "categoryId", value: undefined },
+            ],
+            onUploadProgress: undefined,
+          }),
         ]);
         if (res3.succeeded && res3.value.priceRange) {
           setPriceRange([Math.ceil(res3.value.priceRange.minPrice), Math.ceil(res3.value.priceRange.maxPrice)]);
@@ -251,15 +269,21 @@ const ProductsPage = () => {
   async function getAllProducts() {
     setProductsLoading(true);
     try {
-      const res = await clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", { methodType: MethodType.get, session: session, data: null, queries: [
-        { key: "instagramerId", value: shopId!.toString() },
-        { key: "nextMaxId", value: undefined },
-        { key: "includeUnavailable", value: "true" },
-        { key: "categoryId", value: undefined },
-        { key: "maxPrice", value: undefined },
-        { key: "minPrice", value: undefined },
-        { key: "hashtagId", value: undefined },
-      ], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
+          { key: "instagramerId", value: shopId!.toString() },
+          { key: "nextMaxId", value: undefined },
+          { key: "includeUnavailable", value: "true" },
+          { key: "categoryId", value: undefined },
+          { key: "maxPrice", value: undefined },
+          { key: "minPrice", value: undefined },
+          { key: "hashtagId", value: undefined },
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setIsFiltersActive(false);
         setProducts(res.value);
@@ -279,31 +303,43 @@ const ProductsPage = () => {
     if (categoryId !== undefined) setCategory(categoryId);
     try {
       const [res, res2] = await Promise.all([
-        clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", { methodType: MethodType.get, session: session, data: null, queries: [
-          {
-            key: "instagramerId",
-            value: fullShop?.shortShop.instagramerId.toString(),
-          },
-          { key: "nextMaxId", value: undefined },
-          { key: "includeUnavailable", value: "true" },
-          {
-            key: "categoryId",
-            value: categoryId === -1 ? undefined : categoryId.toString(),
-          },
-          { key: "maxPrice", value: undefined },
-          { key: "minPrice", value: undefined },
-          { key: "hashtagId", value: undefined },
-        ], onUploadProgress: undefined }),
-        clientFetchApi<boolean, IFilterInfo>("/api/shop/getfilters", { methodType: MethodType.get, session: session, data: null, queries: [
-          {
-            key: "instagramerId",
-            value: fullShop?.shortShop.instagramerId.toString(),
-          },
-          {
-            key: "categoryId",
-            value: categoryId === -1 ? undefined : categoryId.toString(),
-          },
-        ], onUploadProgress: undefined }),
+        clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
+            {
+              key: "instagramerId",
+              value: fullShop?.shortShop.instagramerId.toString(),
+            },
+            { key: "nextMaxId", value: undefined },
+            { key: "includeUnavailable", value: "true" },
+            {
+              key: "categoryId",
+              value: categoryId === -1 ? undefined : categoryId.toString(),
+            },
+            { key: "maxPrice", value: undefined },
+            { key: "minPrice", value: undefined },
+            { key: "hashtagId", value: undefined },
+          ],
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IFilterInfo>("/api/shop/getfilters", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
+            {
+              key: "instagramerId",
+              value: fullShop?.shortShop.instagramerId.toString(),
+            },
+            {
+              key: "categoryId",
+              value: categoryId === -1 ? undefined : categoryId.toString(),
+            },
+          ],
+          onUploadProgress: undefined,
+        }),
       ]);
       console.log("res2.value.priceRange", res2.value.priceRange);
       if (res.succeeded) {
@@ -369,7 +405,13 @@ const ProductsPage = () => {
       const validParams = params.filter((p) => p.value !== undefined);
       console.log("API Params for loading more:", validParams);
 
-      const res = await clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", { methodType: MethodType.get, session: session, data: null, queries: validParams, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: validParams,
+        onUploadProgress: undefined,
+      });
 
       if (res.succeeded) {
         console.log(`Received ${res.value.products.length} more products.`);
@@ -436,7 +478,7 @@ const ProductsPage = () => {
         root: null,
         rootMargin: "100px",
         threshold: 0.1,
-      }
+      },
     );
 
     const currentRef = loaderRef.current;
@@ -481,15 +523,21 @@ const ProductsPage = () => {
     setIsFiltersActive(false);
     setProductsLoading(true);
     try {
-      const res = await clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", { methodType: MethodType.get, session: session, data: null, queries: [
-        { key: "instagramerId", value: shopId!.toString() },
-        { key: "nextMaxId", value: undefined },
-        { key: "includeUnavailable", value: "true" },
-        { key: "categoryId", value: undefined },
-        { key: "maxPrice", value: undefined },
-        { key: "minPrice", value: undefined },
-        { key: "hashtagId", value: hashtagId },
-      ], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
+          { key: "instagramerId", value: shopId!.toString() },
+          { key: "nextMaxId", value: undefined },
+          { key: "includeUnavailable", value: "true" },
+          { key: "categoryId", value: undefined },
+          { key: "maxPrice", value: undefined },
+          { key: "minPrice", value: undefined },
+          { key: "hashtagId", value: hashtagId },
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setProducts(res.value);
       } else notify(res.info.responseType, NotifType.Warning);
@@ -541,7 +589,13 @@ const ProductsPage = () => {
       } else {
         params.push({ key: "productSortBy", value: sortProduct.toString() });
       }
-      const res = await clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", { methodType: MethodType.get, session: session, data: null, queries: params, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IProduct>("/api/shop/getshopproducts", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: params,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setProducts(res.value);
       } else notify(res.info.responseType, NotifType.Warning);
@@ -558,14 +612,20 @@ const ProductsPage = () => {
       return;
     }
     try {
-      const res = await clientFetchApi<boolean, IProductCard[]>("/api/shop/searchshopproducts", { methodType: MethodType.get, session: session, data: null, queries: [
+      const res = await clientFetchApi<boolean, IProductCard[]>("/api/shop/searchshopproducts", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           {
             key: "instagramerId",
             value: fullShop?.shortShop.instagramerId.toString(),
           },
           { key: "query", value: query },
           { key: "languageId", value: findSystemLanguage().toString() },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
 
       if (res.succeeded) {
         setSearchResults(res.value);
@@ -675,14 +735,24 @@ const ProductsPage = () => {
       case AvailabilityStatus.Available:
         return (
           <div className={styles.status_child}>
-            <img height="22" alt={t(LanguageKey.product_Available)} title={t(LanguageKey.product_Available)} src="/product_Available.svg" />
+            <img
+              height="22"
+              alt={t(LanguageKey.product_Available)}
+              title={t(LanguageKey.product_Available)}
+              src="/product_Available.svg"
+            />
             {/* <div className={styles.status_available}>{t("product_Available")}</div> */}
           </div>
         );
       case AvailabilityStatus.Restocking:
         return (
           <div className={styles.status_child}>
-            <img height="22" alt={t(LanguageKey.product_supplying)} title={t(LanguageKey.product_supplying)} src="/product_supplying.svg" />
+            <img
+              height="22"
+              alt={t(LanguageKey.product_supplying)}
+              title={t(LanguageKey.product_supplying)}
+              src="/product_supplying.svg"
+            />
             {/* <div className={styles.status_restocking}>{t("product_supplying")}</div> */}
           </div>
         );
@@ -1511,7 +1581,7 @@ const ProductsPage = () => {
                                     key={product.shortProduct.productId}
                                     onClick={() =>
                                       router.push(
-                                        `/user/shop/${product.shortProduct.instagramerId}/product/${product.shortProduct.productId}`
+                                        `/user/shop/${product.shortProduct.instagramerId}/product/${product.shortProduct.productId}`,
                                       )
                                     }>
                                     <img
@@ -1557,7 +1627,7 @@ const ProductsPage = () => {
                                                     product.shortProduct.maxDiscountPrice) /
                                                     product.shortProduct.maxPrice) *
                                                     100 *
-                                                    100
+                                                    100,
                                                 ) / 100}
                                                 %
                                               </span>
@@ -1651,7 +1721,7 @@ const ProductsPage = () => {
                           key={product.shortProduct.productId}
                           onClick={() =>
                             router.push(
-                              `/user/shop/${product.shortProduct.instagramerId}/product/${product.shortProduct.productId}`
+                              `/user/shop/${product.shortProduct.instagramerId}/product/${product.shortProduct.productId}`,
                             )
                           }>
                           <img
@@ -1695,7 +1765,7 @@ const ProductsPage = () => {
                                         ((product.shortProduct.maxPrice - product.shortProduct.maxDiscountPrice) /
                                           product.shortProduct.maxPrice) *
                                           100 *
-                                          100
+                                          100,
                                       ) / 100}
                                       %
                                     </span>

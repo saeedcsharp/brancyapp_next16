@@ -141,7 +141,8 @@ const FAQ = () => {
     {
       id: "financial-4",
       category: "financial",
-      question: t(LanguageKey.faq_q4) || "How do consumers assess and compare different options during the shopping process?",
+      question:
+        t(LanguageKey.faq_q4) || "How do consumers assess and compare different options during the shopping process?",
       answer:
         t(LanguageKey.faq_a4) ||
         "Consumers typically evaluate products based on price, quality, features, brand reputation, and reviews from other customers.",
@@ -149,7 +150,9 @@ const FAQ = () => {
     {
       id: "financial-5",
       category: "financial",
-      question: t(LanguageKey.faq_q5) || "What is the post-purchase evaluation and how does it influence future buying behavior?",
+      question:
+        t(LanguageKey.faq_q5) ||
+        "What is the post-purchase evaluation and how does it influence future buying behavior?",
       answer:
         t(LanguageKey.faq_a5) ||
         "Post-purchase evaluation involves assessing satisfaction with the purchase, which directly impacts brand loyalty and future purchasing decisions.",
@@ -336,7 +339,8 @@ const FAQ = () => {
         <div className={styles.contactSection}>
           <h2 className={styles.contactTitle}>{t(LanguageKey.stillHaveQuestions) || "Still have questions?"}</h2>
           <p className={styles.contactDescription}>
-            {t(LanguageKey.supportTeamHelp) || "Our support team is here to help you with any questions not covered in our FAQ."}
+            {t(LanguageKey.supportTeamHelp) ||
+              "Our support team is here to help you with any questions not covered in our FAQ."}
           </p>
           <div className={styles.contactButtons}>
             <button className={styles.contactButton}>
