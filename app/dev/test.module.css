@@ -1,6 +1,6 @@
 /* ========== RESET & BASE ========== */
 .root {
-  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
   background: #0f1117;
   color: #e2e8f0;
   min-height: 100vh;
@@ -68,12 +68,24 @@
   color: #64748b;
   font-weight: 500;
 }
-.colorPurple { color: #a78bfa; }
-.colorGreen  { color: #4ade80; }
-.colorRed    { color: #f87171; }
-.colorYellow { color: #fbbf24; }
-.colorBlue   { color: #60a5fa; }
-.colorOrange { color: #fb923c; }
+.colorPurple {
+  color: #a78bfa;
+}
+.colorGreen {
+  color: #4ade80;
+}
+.colorRed {
+  color: #f87171;
+}
+.colorYellow {
+  color: #fbbf24;
+}
+.colorBlue {
+  color: #60a5fa;
+}
+.colorOrange {
+  color: #fb923c;
+}
 
 /* ========== SECTION ========== */
 .section {
@@ -150,13 +162,34 @@
   border-radius: 20px;
   white-space: nowrap;
 }
-.badgeGreen  { background: #064e3b; color: #4ade80; }
-.badgeRed    { background: #450a0a; color: #f87171; }
-.badgeYellow { background: #451a03; color: #fbbf24; }
-.badgeBlue   { background: #1e3a5f; color: #60a5fa; }
-.badgePurple { background: #2e1065; color: #c4b5fd; }
-.badgeGray   { background: #1e293b; color: #94a3b8; }
-.badgeOrange { background: #431407; color: #fb923c; }
+.badgeGreen {
+  background: #064e3b;
+  color: #4ade80;
+}
+.badgeRed {
+  background: #450a0a;
+  color: #f87171;
+}
+.badgeYellow {
+  background: #451a03;
+  color: #fbbf24;
+}
+.badgeBlue {
+  background: #1e3a5f;
+  color: #60a5fa;
+}
+.badgePurple {
+  background: #2e1065;
+  color: #c4b5fd;
+}
+.badgeGray {
+  background: #1e293b;
+  color: #94a3b8;
+}
+.badgeOrange {
+  background: #431407;
+  color: #fb923c;
+}
 
 /* ========== TIER BADGE ========== */
 .tierBadge {
@@ -169,16 +202,41 @@
   font-weight: 800;
   font-size: 12px;
 }
-.tier1 { background: #450a0a; color: #f87171; }
-.tier2 { background: #451a03; color: #fb923c; }
-.tier3 { background: #1e3a5f; color: #60a5fa; }
-.tier4 { background: #1a2e1a; color: #4ade80; }
-.tier5 { background: #2e1065; color: #c4b5fd; }
-.tier6 { background: #1e293b; color: #94a3b8; }
-.tier7 { background: #3d1515; color: #fca5a5; }
+.tier1 {
+  background: #450a0a;
+  color: #f87171;
+}
+.tier2 {
+  background: #451a03;
+  color: #fb923c;
+}
+.tier3 {
+  background: #1e3a5f;
+  color: #60a5fa;
+}
+.tier4 {
+  background: #1a2e1a;
+  color: #4ade80;
+}
+.tier5 {
+  background: #2e1065;
+  color: #c4b5fd;
+}
+.tier6 {
+  background: #1e293b;
+  color: #94a3b8;
+}
+.tier7 {
+  background: #3d1515;
+  color: #fca5a5;
+}
 
 /* ========== STARS ========== */
-.stars { color: #fbbf24; letter-spacing: 1px; font-size: 12px; }
+.stars {
+  color: #fbbf24;
+  letter-spacing: 1px;
+  font-size: 12px;
+}
 
 /* ========== ORPHAN CARDS ========== */
 .orphanGrid {
@@ -250,22 +308,42 @@
   border-radius: 100px;
   transition: width 0.6s ease;
 }
-.bundleBarDanger  { background: linear-gradient(90deg, #f87171, #ef4444); }
-.bundleBarWarn    { background: linear-gradient(90deg, #fbbf24, #f59e0b); }
-.bundleBarOk      { background: linear-gradient(90deg, #60a5fa, #3b82f6); }
-.bundleBarLazy    { background: linear-gradient(90deg, #4ade80, #22c55e); }
-.bundleBarGray    { background: linear-gradient(90deg, #94a3b8, #64748b); }
+.bundleBarDanger {
+  background: linear-gradient(90deg, #f87171, #ef4444);
+}
+.bundleBarWarn {
+  background: linear-gradient(90deg, #fbbf24, #f59e0b);
+}
+.bundleBarOk {
+  background: linear-gradient(90deg, #60a5fa, #3b82f6);
+}
+.bundleBarLazy {
+  background: linear-gradient(90deg, #4ade80, #22c55e);
+}
+.bundleBarGray {
+  background: linear-gradient(90deg, #94a3b8, #64748b);
+}
 .bundleSize {
   font-size: 12px;
   font-weight: 700;
   text-align: left;
   white-space: nowrap;
 }
-.bundleSizeDanger  { color: #f87171; }
-.bundleSizeWarn    { color: #fbbf24; }
-.bundleSizeOk      { color: #60a5fa; }
-.bundleSizeLazy    { color: #4ade80; }
-.bundleSizeGray    { color: #94a3b8; }
+.bundleSizeDanger {
+  color: #f87171;
+}
+.bundleSizeWarn {
+  color: #fbbf24;
+}
+.bundleSizeOk {
+  color: #60a5fa;
+}
+.bundleSizeLazy {
+  color: #4ade80;
+}
+.bundleSizeGray {
+  color: #94a3b8;
+}
 
 /* ========== RISK CARDS ========== */
 .riskGrid {
@@ -279,9 +357,15 @@
   padding: 16px;
   border-left: 4px solid;
 }
-.riskCardRed    { border-color: #f87171; }
-.riskCardYellow { border-color: #fbbf24; }
-.riskCardGreen  { border-color: #4ade80; }
+.riskCardRed {
+  border-color: #f87171;
+}
+.riskCardYellow {
+  border-color: #fbbf24;
+}
+.riskCardGreen {
+  border-color: #4ade80;
+}
 .riskTitle {
   font-size: 13px;
   font-weight: 700;
@@ -312,9 +396,15 @@
   gap: 24px;
 }
 @media (max-width: 640px) {
-  .finalBox { grid-template-columns: 1fr; }
-  .bundleRow { grid-template-columns: 1fr 1fr; }
-  .bundleName { display: none; }
+  .finalBox {
+    grid-template-columns: 1fr;
+  }
+  .bundleRow {
+    grid-template-columns: 1fr 1fr;
+  }
+  .bundleName {
+    display: none;
+  }
 }
 .finalBoxTitle {
   font-size: 14px;
@@ -345,18 +435,29 @@
   margin-top: 6px;
   flex-shrink: 0;
 }
-.dotGreen  { background: #4ade80; }
-.dotRed    { background: #f87171; }
-.dotYellow { background: #fbbf24; }
-.dotBlue   { background: #60a5fa; }
+.dotGreen {
+  background: #4ade80;
+}
+.dotRed {
+  background: #f87171;
+}
+.dotYellow {
+  background: #fbbf24;
+}
+.dotBlue {
+  background: #60a5fa;
+}
 
 /* ========== MISC ========== */
 .mono {
-  font-family: 'Courier New', monospace;
+  font-family: "Courier New", monospace;
   font-size: 12px;
   direction: ltr;
 }
-.dimText { color: #64748b; font-size: 12px; }
+.dimText {
+  color: #64748b;
+  font-size: 12px;
+}
 .tag {
   display: inline-block;
   font-size: 10px;
@@ -365,7 +466,19 @@
   margin-right: 4px;
   font-weight: 600;
 }
-.tagLazy    { background: #064e3b40; color: #4ade80; }
-.tagDynamic { background: #1e3a5f40; color: #60a5fa; }
-.tagBuild   { background: #2e106540; color: #c4b5fd; }
-.tagServer  { background: #17255440; color: #93c5fd; }
+.tagLazy {
+  background: #064e3b40;
+  color: #4ade80;
+}
+.tagDynamic {
+  background: #1e3a5f40;
+  color: #60a5fa;
+}
+.tagBuild {
+  background: #2e106540;
+  color: #c4b5fd;
+}
+.tagServer {
+  background: #17255440;
+  color: #93c5fd;
+}
