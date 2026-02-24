@@ -32,6 +32,8 @@ import WinnersList from "brancy/components/page/tools/popups/lottery/winnersList
 import TrendHashtags from "brancy/components/page/tools/trendhashtag/trendHashtags";
 import WinnerPicker from "brancy/components/page/tools/winnerpicker/winnerPicker";
 import DayEvents from "brancy/components/page/tools/event/dayEvents";
+import EventIdea from "brancy/components/page/tools/event/eventIdea";
+import CreateEventIdea from "brancy/components/page/tools/event/createEventIdea";
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
 import { checkRemainingTimeFeature } from "brancy/helper/checkFeature";
 import { LoginStatus, RoleAccess, packageStatus } from "brancy/helper/loadingStatus";
@@ -130,9 +132,9 @@ const Tools = () => {
   const [showTermsAndConditionWinnerPicker, setShowTermsAndConditionWinnerPicker] = useState(false);
   const [showWinnerAnnounceAndBanner, setshowWinnerAnnounceAndBanner] = useState(false);
   const [showSetTimeAndDate, setshowSetTimeAndDate] = useState(false);
-  const [showDayEventDatePicker, setShowDayEventDatePicker] = useState(false);
-  const [dayEventStartUnix, setDayEventStartUnix] = useState<number | null>(null);
-  const [dayEventEndUnix, setDayEventEndUnix] = useState<number | null>(null);
+  const [showDayEvents, setShowDayEvents] = useState(false);
+  const [showDayEventsFromCreateEvent, setShowDayEventsFromCreateEvent] = useState(false);
+  const [showCreateEventIdea, setShowCreateEventIdea] = useState(false);
   const [showLotteryRunning, setShowLotteryRunning] = useState(false);
   const [showShareTermsAndCondition, setShowShareTermsAndCondition] = useState(false);
   const [showRemainingTime, setshowRemainingTime] = useState(false);
@@ -377,7 +379,9 @@ const Tools = () => {
     setShowTermsAndConditionWinnerPicker(false);
     setshowWinnerAnnounceAndBanner(false);
     setshowSetTimeAndDate(false);
-    setShowDayEventDatePicker(false);
+    setShowDayEvents(false);
+    setShowDayEventsFromCreateEvent(false);
+    setShowCreateEventIdea(false);
     setShowLotteryRunning(false);
     setShowShareTermsAndCondition(false);
     setshowRemainingTime(false);
@@ -1087,13 +1091,11 @@ const Tools = () => {
               showWinnersList={handleShowWinnersList}
               // handleShowActiveWinnerPicker={handleShowActiveWinnerPicker}
             />
-            <DayEvents
-              handleShowDatePicker={() => {
+            <EventIdea
+              handleOpenCreate={() => {
                 changePositionToFixed();
-                setShowDayEventDatePicker(true);
+                setShowCreateEventIdea(true);
               }}
-              startUnix={dayEventStartUnix}
-              endUnix={dayEventEndUnix}
             />
           </div>
 
@@ -1206,20 +1208,30 @@ const Tools = () => {
               }
             />
           </Modal>
-          <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showDayEventDatePicker}>
-            <SetTimeAndDate
+          <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showDayEvents}>
+            <DayEvents
               removeMask={removeMask}
-              saveDateAndTime={() => {}}
-              backToNormalPicker={removeMask}
-              fromUnix={Date.now() + 300000}
-              endUnix={Date.now() + 2592000000}
-              range
-              onSaveRange={(start, end) => {
-                setDayEventStartUnix(start);
-                setDayEventEndUnix(end);
-                removeMask();
+              backButton={
+                showDayEventsFromCreateEvent
+                  ? () => {
+                      setShowDayEvents(false);
+                      setShowDayEventsFromCreateEvent(false);
+                      setShowCreateEventIdea(true);
+                    }
+                  : undefined
+              }
+            />
+          </Modal>
+          <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showCreateEventIdea}>
+            <CreateEventIdea
+              removeMask={removeMask}
+              handleShowDayEvents={() => {
+                setShowCreateEventIdea(false);
+                setShowDayEventsFromCreateEvent(true);
+                changePositionToFixed();
+                setShowDayEvents(true);
               }}
-              title={t(LanguageKey.pageTools_EventSelectDate)}
+              onSuccess={() => {}}
             />
           </Modal>
           <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showLotteryRunning}>
