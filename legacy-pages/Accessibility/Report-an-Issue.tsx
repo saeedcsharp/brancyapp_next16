@@ -2,6 +2,7 @@ import Head from "next/head";
 import React, { useCallback, useEffect, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AccessibilityHeader from "brancy/components/Accessibility/AccessibilityHeader";
+import { LanguageKey } from "brancy/i18n";
 import SignIn, { RedirectType, SignInType } from "brancy/components/signIn/signIn";
 import styles from "./Report-an-Issue.module.css";
 
@@ -273,9 +274,9 @@ const ReportAnIssue = () => {
   return (
     <>
       <Head>
-        <title>{t("reportIssue")} - Brancy</title>
-        <meta name="description" content={t("reportIssueDescription")} />
-        <meta name="keywords" content={t("reportIssueKeywords")} />
+        <title>{t(LanguageKey.reportIssue)} - Brancy</title>
+        <meta name="description" content={t(LanguageKey.reportIssueDescription)} />
+        <meta name="keywords" content={t(LanguageKey.reportIssueKeywords)} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

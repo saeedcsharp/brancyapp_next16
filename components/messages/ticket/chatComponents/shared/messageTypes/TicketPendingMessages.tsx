@@ -1,5 +1,6 @@
 import React, { useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
+import { LanguageKey } from "brancy/i18n";
 import MediaDetector from "brancy/components/messages/shared/utils/MediaDetector";
 import LinkifyText from "brancy/context/LinkifyText";
 import { detectEmojiOnly } from "brancy/helper/emojiDetector";
@@ -189,7 +190,7 @@ export const TicketPendingMessages: React.FC<TicketPendingMessagesProps> = ({
   }, [ticketId, handleSendReplies]);
 
   const buttonText = useMemo(
-    () => (replyLoading ? t("sending") : `${t("sendreplyticket")} (${replyItems.length})`),
+    () => (replyLoading ? t(LanguageKey.sending) : `${t(LanguageKey.sendreplyticket)} (${replyItems.length})`),
     [replyLoading, t, replyItems.length]
   );
 

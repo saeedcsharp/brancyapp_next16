@@ -11,6 +11,7 @@ import NotAllowed from "brancy/components/notOk/notAllowed";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { calculateSummary } from "brancy/helper/numberFormater";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
+import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { IStory, IStoryContent } from "brancy/models/page/story/stories";
@@ -225,7 +226,7 @@ const StoryContent = (props: {
                       d="M458 80c-6-46-45-80-91-80H92C42 0 0 41 0 92v275c0 42 30 80 70 90v3c0 52 43 95 95 95h286c52 0 95-43 95-95V174c0-50-39-91-88-95ZM92 425a60 60 0 0 1-60-60V93a60 60 0 0 1 60-60h275a60 60 0 0 1 60 60v275a60 60 0 0 1-60 60H92Zm421 35c0 34-28 62-62 62H165a62 62 0 0 1-62-62v-1h264c50 0 92-41 92-92V112c30 4 54 30 54 62zM358 230c0 10-8 17-17 17h-94v94a18 18 0 1 1-35 0v-94h-94a18 18 0 1 1 0-35h94v-94a18 18 0 1 1 35 0v94h94c10 0 17 8 17 17Z"
                     />
                   </svg>
-                  {t("pageStory_CreateNewStory")}
+                  {t(LanguageKey.pageStory_CreateNewStory)}
                   <div className={styles.createpostid}>{0}</div>
                 </div>
               </div>
@@ -242,7 +243,7 @@ const StoryContent = (props: {
                 <div className={styles.draftinfo}>
                   <div className={styles.newstory}>
                     <div className={styles.drafttitle}>
-                      {t("publishError")} ({errorDraftsToRender.length})
+                      {t(LanguageKey.publishError)} ({errorDraftsToRender.length})
                     </div>
                     <div className={styles.draftpreviewall} role="list" aria-label="Error drafts list">
                       {errorDraftsToRender.map((draft, index) => renderDraftItem(draft, index, true))}
@@ -257,7 +258,7 @@ const StoryContent = (props: {
                 <div className={styles.draftinfo}>
                   <div className={styles.newstory}>
                     <div className={styles.drafttitle}>
-                      {t("StoryDraft")} ({draftsToRender.length}/6)
+                      {t(LanguageKey.StoryDraft)} ({draftsToRender.length}/6)
                     </div>
                     <div className={styles.draftpreviewall} role="list" aria-label="Drafts list">
                       {draftsToRender.map((draft, index) => renderDraftItem(draft, index, false))}
@@ -282,7 +283,7 @@ const StoryContent = (props: {
                       d="M458 80c-6-46-45-80-91-80H92C42 0 0 41 0 92v275c0 42 30 80 70 90v3c0 52 43 95 95 95h286c52 0 95-43 95-95V174c0-50-39-91-88-95ZM92 425a60 60 0 0 1-60-60V93a60 60 0 0 1 60-60h275a60 60 0 0 1 60 60v275a60 60 0 0 1-60 60H92Zm421 35c0 34-28 62-62 62H165a62 62 0 0 1-62-62v-1h264c50 0 92-41 92-92V112c30 4 54 30 54 62zM358 230c0 10-8 17-17 17h-94v94a18 18 0 1 1-35 0v-94h-94a18 18 0 1 1 0-35h94v-94a18 18 0 1 1 35 0v94h94c10 0 17 8 17 17Z"
                     />
                   </svg>
-                  {t("pageStory_CreateNewStory")}
+                  {t(LanguageKey.pageStory_CreateNewStory)}
                   <div className={styles.createpostid}>{stories.length > 0 ? stories[0].tempId + 1 : ""}</div>
                 </div>
               </div>
@@ -321,12 +322,12 @@ const StoryContent = (props: {
                             data={[
                               {
                                 icon: "/share.svg",
-                                value: t("linkURL"),
+                                value: t(LanguageKey.linkURL),
                                 onClick: () => {
                                   const fakeEvent = {
                                     stopPropagation: () => {},
                                     preventDefault: () => {},
-                                    currentTarget: { id: t("linkURL") },
+                                    currentTarget: { id: t(LanguageKey.linkURL) },
                                   } as unknown as MouseEvent;
                                   props.handleClickOnIcon(fakeEvent, v.instaShareLink);
                                   setOpenMenuStoryId(null);

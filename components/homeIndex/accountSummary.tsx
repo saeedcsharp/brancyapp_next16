@@ -1,6 +1,7 @@
 import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
+import { LanguageKey } from "brancy/i18n";
 import { IPageSummary } from "brancy/models/homeIndex/home";
 import styles from "./accountSummary.module.css";
 
@@ -33,11 +34,11 @@ const AccountSummary = memo(({ data }: AccountSummaryProps) => {
 
   // Define titles for each paragraph
   const paragraphTitles = [
-    t("summaryGeneralIntro"),
-    t("summaryUserEngagement"),
-    t("summaryContentStrategy"),
-    t("summaryPostingSchedule"),
-    t("summaryImprovementSuggestions"),
+    t(LanguageKey.summaryGeneralIntro),
+    t(LanguageKey.summaryUserEngagement),
+    t(LanguageKey.summaryContentStrategy),
+    t(LanguageKey.summaryPostingSchedule),
+    t(LanguageKey.summaryImprovementSuggestions),
   ];
 
   // Define icons for each paragraph
@@ -59,7 +60,7 @@ const AccountSummary = memo(({ data }: AccountSummaryProps) => {
           <div className={styles.backdropfade} />
           <img style={{ height: "50px" }} src="/home-summary.svg" alt="Summary icon" title="↕ Resize the Card" />
           <div className="headerandinput">
-            <span className="title">{t("pageSummary")}</span>
+            <span className="title">{t(LanguageKey.pageSummary)}</span>
             <span className="explain">{timeAgo}</span>
           </div>
         </header>
@@ -76,7 +77,7 @@ const AccountSummary = memo(({ data }: AccountSummaryProps) => {
                 gap: "8px",
               }}>
               <img src="/home-summary.svg" alt="" style={{ width: "48px", opacity: 0.5 }} />
-              {t("Notify_PageSummaryNotGenerated")
+              {t(LanguageKey.Notify_PageSummaryNotGenerated)
                 .split("\n")
                 .map((line, i) => (
                   <p
@@ -96,7 +97,7 @@ const AccountSummary = memo(({ data }: AccountSummaryProps) => {
               <div key={index} className="headerandinput">
                 <div className="headerChild">
                   <img src={paragraphIcons[index] || "/adticket.svg"} alt="" style={{ width: "20px" }} />
-                  <span className="title2">{paragraphTitles[index] || `${t("pageSummary")} ${index + 1}`}</span>
+                  <span className="title2">{paragraphTitles[index] || `${t(LanguageKey.pageSummary)} ${index + 1}`}</span>
                 </div>
                 <span className="explain">{paragraph}</span>
               </div>

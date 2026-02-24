@@ -201,9 +201,9 @@ const Support: React.FC = () => {
   return (
     <>
       <Head>
-        <title>{t("support")} - Brancy</title>
-        <meta name="description" content={t("supportDescription")} />
-        <meta name="keywords" content={t("supportKeywords")} />
+        <title>{t(LanguageKey.support)} - Brancy</title>
+        <meta name="description" content={t(LanguageKey.supportDescription)} />
+        <meta name="keywords" content={t(LanguageKey.supportKeywords)} />
         <meta name="viewport" content="width=device-width, initial-scale=1" />
         <link rel="icon" href="/favicon.ico" />
       </Head>

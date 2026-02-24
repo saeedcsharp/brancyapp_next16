@@ -675,14 +675,14 @@ const ProductsPage = () => {
       case AvailabilityStatus.Available:
         return (
           <div className={styles.status_child}>
-            <img height="22" alt={t("product_Available")} title={t("product_Available")} src="/product_Available.svg" />
+            <img height="22" alt={t(LanguageKey.product_Available)} title={t(LanguageKey.product_Available)} src="/product_Available.svg" />
             {/* <div className={styles.status_available}>{t("product_Available")}</div> */}
           </div>
         );
       case AvailabilityStatus.Restocking:
         return (
           <div className={styles.status_child}>
-            <img height="22" alt={t("product_supplying")} title={t("product_supplying")} src="/product_supplying.svg" />
+            <img height="22" alt={t(LanguageKey.product_supplying)} title={t(LanguageKey.product_supplying)} src="/product_supplying.svg" />
             {/* <div className={styles.status_restocking}>{t("product_supplying")}</div> */}
           </div>
         );
@@ -691,8 +691,8 @@ const ProductsPage = () => {
           <div className={styles.status_child}>
             <img
               height="22"
-              alt={t("product_OutOfStock")}
-              title={t("product_OutOfStock")}
+              alt={t(LanguageKey.product_OutOfStock)}
+              title={t(LanguageKey.product_OutOfStock)}
               src="/product_OutOfStock.svg"
             />
             {/* <div className={styles.status_outofstock}>{t("product_OutOfStock")}</div> */}
@@ -703,8 +703,8 @@ const ProductsPage = () => {
           <div className={styles.status_child}>
             <img
               height="22"
-              alt={t("product_Stoppedsale")}
-              title={t("product_Stoppedsale")}
+              alt={t(LanguageKey.product_Stoppedsale)}
+              title={t(LanguageKey.product_Stoppedsale)}
               src="/product_Stoppedsale.svg"
             />
             {/* <div className={styles.status_stopped}>{t("product_Stoppedsale")}</div> */}

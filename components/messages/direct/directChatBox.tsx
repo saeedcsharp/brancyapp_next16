@@ -392,7 +392,7 @@ const DirectChatBox = memo(
           <button
             onClick={props.showUserList}
             className={styles.backicon}
-            aria-label={t("Back to user list")}
+            aria-label={t(LanguageKey.backToUserList)}
             type="button">
             <svg fill="none" viewBox="0 0 14 11" aria-hidden="true">
               <path
@@ -430,7 +430,7 @@ const DirectChatBox = memo(
           className={styles.chat}
           role="log"
           aria-live="polite"
-          aria-label={t("Chat messages")}>
+          aria-label={t(LanguageKey.chatMessages)}>
           {sortedSendingMessages.length > 0 && (
             <>
               {sortedSendingMessages.map((v, i) => (
@@ -491,7 +491,7 @@ const DirectChatBox = memo(
           <button
             onClick={handleBackToButton}
             className={styles.goend}
-            aria-label={t("Go to latest message")}
+            aria-label={t(LanguageKey.goToLatestMessage)}
             type="button">
             <svg width="11" height="13" viewBox="0 0 11 13" aria-hidden="true">
               <path
@@ -525,13 +525,13 @@ const DirectChatBox = memo(
                       keepOpened={true}
                       onEnter={handleSendText}
                       shouldConvertEmojiToImage={false}
-                      placeholder={t("Type a message")}
+                      placeholder={t(LanguageKey.typeAMessage)}
                     />
                     <button
                       type="button"
                       className={styles.uploadbtn}
                       onClick={handleUploadImage}
-                      aria-label={t("Upload file")}>
+                      aria-label={t(LanguageKey.uploadFile)}>
                       <svg viewBox="0 0 15 24" aria-hidden="true">
                         <path d="M2.8 22.3a4 4 0 0 1-3-1.4 4 4 0 0 1-1.5-3 5 5 0 0 1 1.4-3.4l7.7-7.7a4 4 0 0 1 1.6-1 4 4 0 0 1 3.7 1 .7.7 0 1 1-1 1 2 2 0 0 0-2.2-.6l-1 .6-7.8 7.8a4 4 0 0 0-1 2.2 3 3 0 0 0 1 2 3 3 0 0 0 3 .8L5 20l8.3-8.4a4 4 0 0 0 1.3-3.1 5 5 0 0 0-1.4-3.1 4.5 4.5 0 0 0-6.3 0l-8.3 8.2a1 1 0 0 1-1 0 1 1 0 0 1 0-1L5.9 4A6 6 0 0 1 10 2.5a6 6 0 0 1 4.2 1.7 6 6 0 0 1 1.9 4.2 6 6 0 0 1-1.8 4.2l-8.2 8.3a5 5 0 0 1-2 1.2z" />
                       </svg>
@@ -548,7 +548,7 @@ const DirectChatBox = memo(
                       type="button"
                       onClick={handleClickOnVoiceIcon}
                       className={styles.voicebtn}
-                      aria-label={t("Record voice message")}>
+                      aria-label={t(LanguageKey.recordVoiceMessage)}>
                       <svg viewBox="0 0 15 22" aria-hidden="true">
                         <path d="M8 15.4a4.3 4.3 0 0 0 4.3-4.3V4.3a4.2 4.2 0 1 0-8.5 0v6.8a4.3 4.3 0 0 0 4.3 4.3m-2.8-11a2.9 2.9 0 0 1 5.8 0V11a2.9 2.9 0 0 1-5.8 0Zm10.4 6.3v.4A7.5 7.5 0 0 1 9 18.6h-.1v2h3.5l.5.3a.7.7 0 0 1-.5 1.2H3.8a.7.7 0 0 1 0-1.5h3.6v-2h-.2a7.5 7.5 0 0 1-6.6-7.5v-.4l.2-.5.5-.3.5.3.2.5v.4a6 6 0 1 0 12.2 0v-.4l.2-.5a1 1 0 0 1 1 0z" />
                       </svg>
@@ -557,7 +557,7 @@ const DirectChatBox = memo(
                       type="submit"
                       onClick={handleSendText}
                       className={styles.sendbtn}
-                      aria-label={t("Send message")}>
+                      aria-label={t(LanguageKey.sendMessage)}>
                       <svg viewBox="-5 -2 25 25" aria-hidden="true">
                         <path
                           fill="var(--color-ffffff)"

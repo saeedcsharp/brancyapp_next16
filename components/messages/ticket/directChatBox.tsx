@@ -492,7 +492,7 @@ const DirectChatBox = (props: {
                     onChange={handleInputOnChange}
                     keepOpened={true}
                     onEnter={handleSendText}
-                    placeholder={t("Type a message")}
+                    placeholder={t(LanguageKey.typeAMessage)}
                     shouldConvertEmojiToImage={false}
                   />
                   <button

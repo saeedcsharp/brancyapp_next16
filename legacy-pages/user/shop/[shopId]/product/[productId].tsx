@@ -617,8 +617,8 @@ export default function Product() {
             <div className={styles.status_child}>
               <img
                 height="22"
-                alt={t("product_Available")}
-                title={t("product_Available")}
+                alt={t(LanguageKey.product_Available)}
+                title={t(LanguageKey.product_Available)}
                 src="/product_Available.svg"
               />
             </div>
@@ -628,8 +628,8 @@ export default function Product() {
             <div className={styles.status_child}>
               <img
                 height="22"
-                alt={t("product_supplying")}
-                title={t("product_supplying")}
+                alt={t(LanguageKey.product_supplying)}
+                title={t(LanguageKey.product_supplying)}
                 src="/product_supplying.svg"
               />
             </div>
@@ -639,8 +639,8 @@ export default function Product() {
             <div className={styles.status_child}>
               <img
                 height="22"
-                alt={t("product_OutOfStock")}
-                title={t("product_OutOfStock")}
+                alt={t(LanguageKey.product_OutOfStock)}
+                title={t(LanguageKey.product_OutOfStock)}
                 src="/product_OutOfStock.svg"
               />
             </div>
@@ -650,8 +650,8 @@ export default function Product() {
             <div className={styles.status_child}>
               <img
                 height="22"
-                alt={t("product_Stoppedsale")}
-                title={t("product_Stoppedsale")}
+                alt={t(LanguageKey.product_Stoppedsale)}
+                title={t(LanguageKey.product_Stoppedsale)}
                 src="/product_Stoppedsale.svg"
               />
             </div>
