@@ -32,6 +32,7 @@ import WinnersList from "brancy/components/page/tools/popups/lottery/winnersList
 import TrendHashtags from "brancy/components/page/tools/trendhashtag/trendHashtags";
 import WinnerPicker from "brancy/components/page/tools/winnerpicker/winnerPicker";
 import DayEvents from "brancy/components/page/tools/event/dayEvents";
+import EventIdea from "brancy/components/page/tools/event/eventIdea";
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
 import { checkRemainingTimeFeature } from "brancy/helper/checkFeature";
 import { LoginStatus, RoleAccess, packageStatus } from "brancy/helper/loadingStatus";
@@ -1095,6 +1096,7 @@ const Tools = () => {
               startUnix={dayEventStartUnix}
               endUnix={dayEventEndUnix}
             />
+            <EventIdea />
           </div>
 
           <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showNewList}>

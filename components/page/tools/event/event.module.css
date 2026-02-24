@@ -305,3 +305,115 @@
   flex-direction: column;
   align-items: flex-start;
 }
+
+/* ── EventIdea specific ───────────────────── */
+
+.ideaSlider {
+  height: 520px;
+  width: 100%;
+}
+
+.ideaSlide {
+  height: 100%;
+  padding: var(--padding-14);
+  border-radius: var(--br8);
+  background-color: var(--content-box);
+  border: 1px solid var(--color-gray20);
+  border-left: 3px solid var(--color-light-blue);
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-8);
+  transition: var(--transition2);
+  box-sizing: border-box;
+  overflow: hidden;
+}
+
+.ideaSlide:hover {
+  border-color: var(--color-light-blue);
+  border-left-color: var(--color-dark-blue);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.08);
+}
+
+.ideaHeader {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-4);
+  flex-shrink: 0;
+}
+
+.ideaTextBlock {
+  font-size: var(--font-13);
+  line-height: 1.8;
+  color: var(--text-h1);
+  padding: var(--padding-8) 0;
+  border-top: 1px dashed var(--color-gray30);
+  overflow-y: auto;
+  flex: 1;
+  min-height: 0;
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-gray30) transparent;
+}
+
+.ideaTextBlock::-webkit-scrollbar {
+  width: 4px;
+}
+
+.ideaTextBlock::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.ideaTextBlock::-webkit-scrollbar-thumb {
+  background-color: var(--color-gray30);
+  border-radius: 4px;
+}
+
+.ideaMeta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-8);
+  flex-wrap: wrap;
+  flex-shrink: 0;
+  padding-top: var(--padding-6);
+  border-top: 1px solid var(--color-gray10);
+}
+
+.ideaInfoList {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-6);
+  flex-shrink: 0;
+  padding: var(--padding-10) 0;
+  border-top: 1px solid var(--color-gray10);
+}
+
+.ideaInfoRow {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-8);
+  font-size: var(--font-13);
+}
+
+.ideaInfoLabel {
+  font-size: var(--font-11);
+  font-weight: var(--weight-600);
+  color: var(--text-h3);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  min-width: 72px;
+  flex-shrink: 0;
+}
+
+.ideaInfoValue {
+  font-size: var(--font-13);
+  font-weight: var(--weight-500);
+  color: var(--text-h1);
+  background-color: var(--color-gray10);
+  border: 1px solid var(--color-gray20);
+  padding: 2px 10px;
+  border-radius: 20px;
+  white-space: nowrap;
+  max-width: 200px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
