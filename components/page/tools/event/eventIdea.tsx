@@ -50,7 +50,7 @@ interface IEventIdeaResponse {
   nextMaxId: number | null;
 }
 
-const EventIdea = () => {
+const EventIdea = (props: { handleOpenCreate: () => void }) => {
   const { t } = useTranslation();
   const { data: session } = useSession();
 
@@ -150,6 +150,28 @@ const EventIdea = () => {
       </div>
 
       <div className={`${styles.eventCard} ${isHidden ? "" : styles.show}`}>
+        <div id="score" onClick={props.handleOpenCreate} className={styles.score}>
+          <svg
+            className={styles.icon}
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="var(--color-light-blue)"
+            strokeWidth="1.8"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            style={{ color: "var(--color-light-blue)" }}>
+            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+            <line x1="16" y1="2" x2="16" y2="6" />
+            <line x1="8" y1="2" x2="8" y2="6" />
+            <line x1="3" y1="10" x2="21" y2="10" />
+            <line x1="12" y1="13" x2="12" y2="19" />
+            <line x1="9" y1="16" x2="15" y2="16" />
+          </svg>
+          <div className={styles.frame}>
+            <div className={styles.title}>{t(LanguageKey.pageTools_IdeaCreate)}</div>
+            <div className="explain">{t(LanguageKey.pageTools_IdeaExplain)}</div>
+          </div>
+        </div>
         <div className={styles.controls}>
           {/* Language Selection */}
           <div className={styles.row}>

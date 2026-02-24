@@ -33,6 +33,7 @@ import TrendHashtags from "brancy/components/page/tools/trendhashtag/trendHashta
 import WinnerPicker from "brancy/components/page/tools/winnerpicker/winnerPicker";
 import DayEvents from "brancy/components/page/tools/event/dayEvents";
 import EventIdea from "brancy/components/page/tools/event/eventIdea";
+import CreateEventIdea from "brancy/components/page/tools/event/createEventIdea";
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
 import { checkRemainingTimeFeature } from "brancy/helper/checkFeature";
 import { LoginStatus, RoleAccess, packageStatus } from "brancy/helper/loadingStatus";
@@ -134,6 +135,10 @@ const Tools = () => {
   const [showDayEventDatePicker, setShowDayEventDatePicker] = useState(false);
   const [dayEventStartUnix, setDayEventStartUnix] = useState<number | null>(null);
   const [dayEventEndUnix, setDayEventEndUnix] = useState<number | null>(null);
+  const [showCreateEventIdea, setShowCreateEventIdea] = useState(false);
+  const [showCreateEventDatePicker, setShowCreateEventDatePicker] = useState(false);
+  const [createEventStartUnix, setCreateEventStartUnix] = useState<number | null>(null);
+  const [createEventEndUnix, setCreateEventEndUnix] = useState<number | null>(null);
   const [showLotteryRunning, setShowLotteryRunning] = useState(false);
   const [showShareTermsAndCondition, setShowShareTermsAndCondition] = useState(false);
   const [showRemainingTime, setshowRemainingTime] = useState(false);
@@ -379,6 +384,8 @@ const Tools = () => {
     setshowWinnerAnnounceAndBanner(false);
     setshowSetTimeAndDate(false);
     setShowDayEventDatePicker(false);
+    setShowCreateEventIdea(false);
+    setShowCreateEventDatePicker(false);
     setShowLotteryRunning(false);
     setShowShareTermsAndCondition(false);
     setshowRemainingTime(false);
@@ -1096,7 +1103,12 @@ const Tools = () => {
               startUnix={dayEventStartUnix}
               endUnix={dayEventEndUnix}
             />
-            <EventIdea />
+            <EventIdea
+              handleOpenCreate={() => {
+                changePositionToFixed();
+                setShowCreateEventIdea(true);
+              }}
+            />
           </div>
 
           <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showNewList}>
@@ -1220,6 +1232,47 @@ const Tools = () => {
                 setDayEventStartUnix(start);
                 setDayEventEndUnix(end);
                 removeMask();
+              }}
+              title={t(LanguageKey.pageTools_EventSelectDate)}
+            />
+          </Modal>
+          <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showCreateEventIdea}>
+            <CreateEventIdea
+              removeMask={removeMask}
+              handleShowDatePicker={() => {
+                setShowCreateEventIdea(false);
+                setShowCreateEventDatePicker(true);
+              }}
+              startUnix={createEventStartUnix}
+              endUnix={createEventEndUnix}
+              onSuccess={() => {}}
+            />
+          </Modal>
+          <Modal
+            closePopup={() => {
+              setShowCreateEventDatePicker(false);
+              setShowCreateEventIdea(true);
+            }}
+            classNamePopup={"popup"}
+            showContent={showCreateEventDatePicker}>
+            <SetTimeAndDate
+              removeMask={() => {
+                setShowCreateEventDatePicker(false);
+                setShowCreateEventIdea(true);
+              }}
+              saveDateAndTime={() => {}}
+              backToNormalPicker={() => {
+                setShowCreateEventDatePicker(false);
+                setShowCreateEventIdea(true);
+              }}
+              fromUnix={Date.now() + 300000}
+              endUnix={Date.now() + 2592000000}
+              range
+              onSaveRange={(start, end) => {
+                setCreateEventStartUnix(start);
+                setCreateEventEndUnix(end);
+                setShowCreateEventDatePicker(false);
+                setShowCreateEventIdea(true);
               }}
               title={t(LanguageKey.pageTools_EventSelectDate)}
             />
