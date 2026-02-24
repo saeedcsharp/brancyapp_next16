@@ -481,19 +481,20 @@ const NavbarTabs = () => {
               key={i}
               className={styles.pageTitle}
               aria-current={v === navbar2.id ? "page" : undefined}
-              title={labelMapping[v]}>
+              title={labelMapping[v]}
+              suppressHydrationWarning>
               {v === navbar2.id ? (
                 <>
                   <b className={styles.title1}>
                     {svgMapping[v]}
-                    <span>{labelMapping[v]}</span>
+                    <span suppressHydrationWarning>{labelMapping[v]}</span>
                   </b>
                 </>
               ) : (
                 <>
                   <div className={styles.title2}>
                     {svgMapping[v]}
-                    <span>{labelMapping[v]}</span>
+                    <span suppressHydrationWarning>{labelMapping[v]}</span>
                   </div>
                 </>
               )}
