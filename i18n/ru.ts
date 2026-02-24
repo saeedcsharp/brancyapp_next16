@@ -3069,7 +3069,8 @@ export default {
     Notify_LotteryWinnerBannerIsNull: "Баннер победителя лотереи не существует",
     Notify_InvalidCustomPromptSigniture: "Недопустимая подпись пользовательского промпта",
     Notify_ServiceTemporarilyUnavailable: "Сервис временно недоступен",
-    Notify_PageSummaryNotGenerated: "Резюме страницы не было создано",
+    Notify_PageSummaryNotGenerated:
+      "Brancy нуждается в большем количестве данных для анализа вашей страницы.\nПожалуйста, будьте терпеливы.",
     InternalNotify_Ok: "Операция успешно завершена",
     InternalNotify_RepetitiveHashtagInput: "Введенный хэштег повторяется",
     InternalNotify_NotFoundDevice: "Устройство не найдено",

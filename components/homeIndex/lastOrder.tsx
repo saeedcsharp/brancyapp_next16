@@ -5,7 +5,7 @@ import { LoginStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { ILastOrder } from "brancy/models/homeIndex/home";
 import Loading from "brancy/components/notOk/loading";
-import styles from "brancy/components/homeIndex/lastOrder.module.css";
+import styles from "./lastOrder.module.css";
 
 // const LastOrder = () => {
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
@@ -26,7 +26,7 @@ const LastOrder = (props: { data: ILastOrder[] | null }) => {
   return (
     <section className={`${styles.tooBigCard} ${isHidden ? styles.toobigcardclose : ""} tooBigCard`}>
       <div className={styles.contactBox}>
-        <div className={styles.headersection} onClick={handleCircleClick}>
+        <div className={styles.headersection} onClick={handleCircleClick} style={{ cursor: "pointer" }}>
           <div className={styles.backdropfade} />
           <img style={{ height: "50px" }} src="/home-lastorder.svg" title="↕ Resize the Card" />
           <div className={styles.headerandinput}>

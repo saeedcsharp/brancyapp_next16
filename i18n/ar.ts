@@ -2949,7 +2949,7 @@ export default {
     Notify_LotteryWinnerBannerIsNull: "بانر الفائز في اليانصيب غير موجود",
     Notify_InvalidCustomPromptSigniture: "توقيع المطالبة المخصصة غير صالح",
     Notify_ServiceTemporarilyUnavailable: "الخدمة غير متاحة مؤقتاً",
-    Notify_PageSummaryNotGenerated: "لم يتم إنشاء ملخص الصفحة",
+    Notify_PageSummaryNotGenerated: "يحتاج برنسي إلى مزيد من البيانات لتحليل صفحتك.\nيُرجى التحلي بالصبر.",
     InternalNotify_Ok: "تمت العملية بنجاح",
     InternalNotify_RepetitiveHashtagInput: "الهاشتاغ المدخل مكرر",
     InternalNotify_NotFoundDevice: "لم يتم العثور على الجهاز",

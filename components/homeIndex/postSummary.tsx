@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { IInstagramerHomeTiles } from "brancy/models/homeIndex/home";
 import { IPostContent } from "brancy/models/page/post/posts";
-import styles from "brancy/components/homeIndex/postSummary.module.css";
+import styles from "./postSummary.module.css";
 
 // Cache for posts data
 // const postsCache = new Map<
@@ -292,6 +292,7 @@ const PostSummary = memo((props: { data: IInstagramerHomeTiles | null; posts: IP
       <div className={styles.contactBox}>
         <header
           className={styles.headersection}
+          style={{ cursor: "pointer" }}
           onClick={handleCircleClick}
           role="button"
           tabIndex={0}

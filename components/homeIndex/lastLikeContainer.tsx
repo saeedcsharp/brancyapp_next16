@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { ILastLike } from "brancy/models/homeIndex/home";
 import Loading from "brancy/components/notOk/loading";
-import styles from "brancy/components/homeIndex/lastLikeContainer.module.css";
+import styles from "./lastLikeContainer.module.css";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const LastLikeContainer = (props: { data: ILastLike[] | null }) => {
@@ -35,7 +35,7 @@ const LastLikeContainer = (props: { data: ILastLike[] | null }) => {
     <section className="tooBigCard" style={{ gridRowEnd: isHidden ? "span 10" : "span 62" }}>
       <div className={styles.contactBox}>
         <div className="frameParent" title="↕ Resize the Card">
-          <div className="headerChild" onClick={handleCircleClick}>
+          <div className="headerChild" onClick={handleCircleClick} style={{ cursor: "pointer" }}>
             <div className="circle"></div>
             <h2 className="Title">{t(LanguageKey.lastLike)}</h2>
           </div>

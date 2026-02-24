@@ -2990,7 +2990,8 @@ export default {
     Notify_LotteryWinnerBannerIsNull: "Lotereya qalibi banneri mövcud deyil",
     Notify_InvalidCustomPromptSigniture: "Fərdi sorğu imzası etibarsızdır",
     Notify_ServiceTemporarilyUnavailable: "Xidmət müvəqqəti olaraq əlçatmazdır",
-    Notify_PageSummaryNotGenerated: "Səhifə xülasəsi yaradılmayıb",
+    Notify_PageSummaryNotGenerated:
+      "Brancy səhifənizi təhlil etmək üçün daha çox məlumata ehtiyac duyur.\nZəhmət olmasa, səbrli olun.",
     InternalNotify_Ok: "Əməliyyat uğurla tamamlandı",
     InternalNotify_RepetitiveHashtagInput: "Daxil edilmiş hashtag təkrarlıdır",
     InternalNotify_NotFoundDevice: "Cihaz tapılmadı",

@@ -3039,7 +3039,7 @@ export default {
     Notify_LotteryWinnerBannerIsNull: "بنر برنده قرعه‌کشی وجود ندارد",
     Notify_InvalidCustomPromptSigniture: "امضای پرامپت سفارشی نامعتبر است",
     Notify_ServiceTemporarilyUnavailable: "سرویس به طور موقت در دسترس نیست",
-    Notify_PageSummaryNotGenerated: "خلاصه صفحه تولید نشده است",
+    Notify_PageSummaryNotGenerated: "برنسی به داده‌های بیشتری نیاز دارد تا صفحه شما را تحلیل کند.\nلطفاً شکیبا باشید.",
 
     // Internal Notifications
     InternalNotify_Ok: "عملیات با موفقیت انجام شد",

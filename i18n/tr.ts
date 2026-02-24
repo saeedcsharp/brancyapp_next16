@@ -3034,7 +3034,8 @@ export default {
     Notify_LotteryWinnerBannerIsNull: "Piyango kazanan banner'ı mevcut değil",
     Notify_InvalidCustomPromptSigniture: "Geçersiz özel istem imzası",
     Notify_ServiceTemporarilyUnavailable: "Hizmet geçici olarak kullanılamıyor",
-    Notify_PageSummaryNotGenerated: "Sayfa özeti oluşturulmadı",
+    Notify_PageSummaryNotGenerated:
+      "Brancy, sayfanızı analiz etmek için daha fazla veriye ihtiyaç duyuyor.\nLütfen sabırlı olun.",
     InternalNotify_Ok: "İşlem başarıyla tamamlandı",
     InternalNotify_RepetitiveHashtagInput: "Girilen hashtag tekrar ediyor",
     InternalNotify_NotFoundDevice: "Cihaz bulunamadı",

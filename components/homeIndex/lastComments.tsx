@@ -7,7 +7,8 @@ import { LanguageKey } from "brancy/i18n";
 import entryTypeToStr, { ILastMessage } from "brancy/models/homeIndex/home";
 import { ItemType } from "brancy/models/messages/enum";
 import Loading from "brancy/components/notOk/loading";
-import styles from "brancy/components/homeIndex/lastComments.module.css";
+import styles from "./lastComments.module.css";
+import Cursor from "quill/blots/cursor";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const isRTL = (text: string) => {
@@ -72,7 +73,7 @@ const LastComments = (props: { data: ILastMessage[] | null }) => {
     <section className="tooBigCard" style={{ gridRowEnd: isHidden ? "span 10" : "span 62" }}>
       <div className={styles.contactBox}>
         <div className="frameParent" title="↕ Resize the Card">
-          <div className="headerChild" onClick={handleCircleClick}>
+          <div className="headerChild" onClick={handleCircleClick} style={{ cursor: "pointer" }}>
             <div className="circle"></div>
             <h2 className="Title">{"Last comment"}</h2>
           </div>
@@ -113,10 +114,10 @@ const LastComments = (props: { data: ILastMessage[] | null }) => {
                         entryTypeToStr(v.entryType) === t(LanguageKey.navbar_Ticket)
                           ? styles.ticket
                           : entryTypeToStr(v.entryType) === t(LanguageKey.navbar_Direct)
-                          ? styles.direct
-                          : entryTypeToStr(v.entryType) === t(LanguageKey.navbar_Comments)
-                          ? styles.comment
-                          : styles.unknown
+                            ? styles.direct
+                            : entryTypeToStr(v.entryType) === t(LanguageKey.navbar_Comments)
+                              ? styles.comment
+                              : styles.unknown
                       }
                       title="ℹ️ message type">
                       {entryTypeToStr(v.entryType)}

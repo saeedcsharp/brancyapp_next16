@@ -344,9 +344,8 @@ const Home = () => {
 
           <div
             className="pinContainer"
-            style={{
-              maxWidth: "calc(3 * 395px + 2 * var(--gap-20))",
-            }}>
+            // style={{  maxWidth: "calc(3 * 395px + 2 * var(--gap-20))",}}
+          >
             {state.pageSummary && <AccountSummary data={state.pageSummary} />}
 
             {session.user.messagePermission && state.hometiles && (

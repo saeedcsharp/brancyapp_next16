@@ -3103,7 +3103,8 @@ export default {
     Notify_LotteryWinnerBannerIsNull: "Lotterie-Gewinner-Banner existiert nicht",
     Notify_InvalidCustomPromptSigniture: "Ungültige benutzerdefinierte Prompt-Signatur",
     Notify_ServiceTemporarilyUnavailable: "Service ist vorübergehend nicht verfügbar",
-    Notify_PageSummaryNotGenerated: "Seitenzusammenfassung wurde nicht generiert",
+    Notify_PageSummaryNotGenerated:
+      "Brancy benötigt mehr Daten, um Ihre Seite zu analysieren.\nBitte haben Sie etwas Geduld.",
     InternalNotify_Ok: "Vorgang erfolgreich abgeschlossen",
     InternalNotify_RepetitiveHashtagInput: "Eingegebener Hashtag ist wiederholt",
     InternalNotify_NotFoundDevice: "Gerät nicht gefunden",

@@ -2,7 +2,7 @@ import { memo, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { IPageSummary } from "brancy/models/homeIndex/home";
-import styles from "brancy/components/homeIndex/accountSummary.module.css";
+import styles from "./accountSummary.module.css";
 
 interface AccountSummaryProps {
   data: IPageSummary | null;
@@ -65,8 +65,31 @@ const AccountSummary = memo(({ data }: AccountSummaryProps) => {
         </header>
         <div className={isHidden ? styles.frameContainer : styles.frameContainerShow} style={containerStyle}>
           {paragraphs.length === 0 ? (
-            <div style={{ textAlign: "center", padding: "20px", color: "var(--text-h2)" }}>
-              <p>{t("Notify_PageSummaryNotGenerated")}</p>
+            <div
+              style={{
+                textAlign: "center",
+                padding: "28px 20px",
+                color: "var(--text-h2)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: "8px",
+              }}>
+              <img src="/home-summary.svg" alt="" style={{ width: "48px", opacity: 0.5 }} />
+              {t("Notify_PageSummaryNotGenerated")
+                .split("\n")
+                .map((line, i) => (
+                  <p
+                    key={i}
+                    style={{
+                      margin: 0,
+                      fontSize: i === 0 ? "0.95rem" : "0.82rem",
+                      fontWeight: i === 0 ? 600 : 400,
+                      opacity: i === 0 ? 1 : 0.7,
+                    }}>
+                    {line}
+                  </p>
+                ))}
             </div>
           ) : (
             paragraphs.map((paragraph, index) => (

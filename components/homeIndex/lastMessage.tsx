@@ -7,7 +7,7 @@ import { LanguageKey } from "brancy/i18n";
 import entryTypeToStr, { ILastMessage } from "brancy/models/homeIndex/home";
 import { ItemType } from "brancy/models/messages/enum";
 import Loading from "brancy/components/notOk/loading";
-import styles from "brancy/components/homeIndex/lastMessage.module.css";
+import styles from "./lastMessage.module.css";
 
 interface LastMessageState {
   isLoading: boolean;
@@ -124,7 +124,7 @@ const MessageItem = memo(
         </div>
       </div>
     </div>
-  )
+  ),
 );
 
 MessageItem.displayName = "MessageItem";
@@ -203,7 +203,7 @@ const LastMessage = memo(({ data, repliesData, unreadComments }: LastMessageProp
         }
         return counts;
       },
-      { direct: 0, ticket: 0, comments: 0 }
+      { direct: 0, ticket: 0, comments: 0 },
     );
   }, [data, repliesData, t]);
 
@@ -244,7 +244,7 @@ const LastMessage = memo(({ data, repliesData, unreadComments }: LastMessageProp
           return "❓" + t(LanguageKey.Unknown);
       }
     },
-    [t]
+    [t],
   );
 
   const handleCircleClick = useCallback(() => {
@@ -279,14 +279,14 @@ const LastMessage = memo(({ data, repliesData, unreadComments }: LastMessageProp
 
       return item.isReply ? `${baseClass} ${styles.reply}` : baseClass;
     },
-    [t]
+    [t],
   );
 
   const getEntryTypeLabel = useCallback(
     (item: ILastMessage & { isReply: boolean }) => {
       return item.isReply ? t(LanguageKey.reply) : entryTypeToStr(item.entryType);
     },
-    [t]
+    [t],
   );
 
   const containerStyle = useMemo(
@@ -294,7 +294,7 @@ const LastMessage = memo(({ data, repliesData, unreadComments }: LastMessageProp
       maxHeight: state.isHidden ? "0" : "100%",
       opacity: state.isHidden ? 0 : 1,
     }),
-    [state.isHidden]
+    [state.isHidden],
   );
 
   useEffect(() => {
@@ -310,6 +310,7 @@ const LastMessage = memo(({ data, repliesData, unreadComments }: LastMessageProp
       aria-label="Last Messages">
       <div className={styles.contactBox}>
         <header
+          style={{ cursor: "pointer" }}
           className={styles.headersection}
           onClick={handleCircleClick}
           role="button"

@@ -3,7 +3,7 @@ import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import FeatureListModal from "brancy/components/homeIndex/FeatureListModal";
-import styles from "brancy/components/homeIndex/instagramerupgrade.module.css";
+import styles from "./instagramerupgrade.module.css";
 const SKIP_KEY = "instagramer-upgrade-skip";
 const FIRST_LOGIN_KEY = "first-login-date";
 
@@ -141,7 +141,7 @@ const InstagramerUpgrade = () => {
         router.push("/advertise");
       }
     },
-    [router]
+    [router],
   );
 
   const cards = useMemo(
@@ -164,7 +164,7 @@ const InstagramerUpgrade = () => {
           </button>
         </div>
       )),
-    [t, handleCardUpgrade]
+    [t, handleCardUpgrade],
   );
 
   if (!show) return null;

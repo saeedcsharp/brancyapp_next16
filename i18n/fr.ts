@@ -3121,7 +3121,7 @@ export default {
     Notify_LotteryWinnerBannerIsNull: "La bannière du gagnant de la loterie n'existe pas",
     Notify_InvalidCustomPromptSigniture: "Signature de prompt personnalisée invalide",
     Notify_ServiceTemporarilyUnavailable: "Le service est temporairement indisponible",
-    Notify_PageSummaryNotGenerated: "Le résumé de la page n'a pas été généré",
+    Notify_PageSummaryNotGenerated: "Brancy a besoin de plus de données pour analyser votre page.\nVeuillez patienter.",
     InternalNotify_Ok: "Opération réussie",
     InternalNotify_RepetitiveHashtagInput: "Le hashtag saisi est répétitif",
     InternalNotify_NotFoundDevice: "Appareil non trouvé",

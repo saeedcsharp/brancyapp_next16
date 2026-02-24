@@ -9,7 +9,7 @@ import { TopTileType } from "brancy/models/homeIndex/enum";
 import { IInstagramerHomeTiles } from "brancy/models/homeIndex/home";
 import { IStoryContent } from "brancy/models/page/story/stories";
 import Loading from "brancy/components/notOk/loading";
-import styles from "brancy/components/homeIndex/ingageInfo.module.css";
+import styles from "./ingageInfo.module.css";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const IngageInfo = (props: {
   data: IInstagramerHomeTiles | null;

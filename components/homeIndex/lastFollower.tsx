@@ -4,7 +4,7 @@ import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { LanguageKey } from "brancy/i18n";
 import { ILastFollower } from "brancy/models/homeIndex/home";
 import Loading from "brancy/components/notOk/loading";
-import styles from "brancy/components/homeIndex/lastFollower.module.css";
+import styles from "./lastFollower.module.css";
 
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const LastFollower = (props: { data: ILastFollower[] | null }) => {
@@ -37,7 +37,7 @@ const LastFollower = (props: { data: ILastFollower[] | null }) => {
   return (
     <section className="tooBigCard" style={{ gridRowEnd: isHidden ? "span 10" : "span 62" }}>
       <div className="frameParent" title="↕ Resize the Card">
-        <div className="headerChild" onClick={handleCircleClick}>
+        <div className="headerChild" onClick={handleCircleClick} style={{ cursor: "pointer" }}>
           <div className="circle"></div>
           <h2 className="Title">{t(LanguageKey.LastFollowers)}</h2>
         </div>

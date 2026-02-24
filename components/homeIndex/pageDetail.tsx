@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { TopTileType } from "brancy/models/homeIndex/enum";
 import { IDemographicInsight, IInstagramerHomeTileItem } from "brancy/models/homeIndex/home";
-import styles from "brancy/components/homeIndex/pageDetail.module.css";
+import styles from "./pageDetail.module.css";
 const PageDetail = (props: { data: IDemographicInsight; items: IInstagramerHomeTileItem[] | [] }) => {
   const { t } = useTranslation();
   const [isHidden, setIsHidden] = useState(false);
@@ -174,7 +174,7 @@ const PageDetail = (props: { data: IDemographicInsight; items: IInstagramerHomeT
   return (
     <div className={`${styles.tooBigCard} ${isHidden ? styles.toobigcardclose : ""} tooBigCard`}>
       <div className={styles.contactBox}>
-        <div className={styles.headersection} onClick={handleCircleClick}>
+        <div className={styles.headersection} onClick={handleCircleClick} style={{ cursor: "pointer" }}>
           <div className={styles.backdropfade} />
           <img style={{ height: "50px" }} src="/home-follower.svg" title="↕ Resize the Card" />
           <div className={styles.headerandinput}>
