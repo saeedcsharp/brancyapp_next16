@@ -35,12 +35,14 @@ export const ChatSending: React.FC<ChatSendingProps> = ({ sendingMessage }) => {
       return (
         <div>
           <div className={styles.rightchat}>
-            <MediaDetector
-              src={sendingMessage.imageBase64 || ""}
-              alt="Sending image"
-              mediaType="image"
-              isBase64={isActualBase64}
-            />
+            {sendingMessage.imageBase64 && (
+              <MediaDetector
+                src={sendingMessage.imageBase64}
+                alt="Sending image"
+                mediaType="image"
+                isBase64={isActualBase64}
+              />
+            )}
             <RingLoader style={{ width: "15px", height: "15px" }} />
           </div>
         </div>
@@ -51,12 +53,14 @@ export const ChatSending: React.FC<ChatSendingProps> = ({ sendingMessage }) => {
       return (
         <div>
           <div className={styles.rightchat}>
-            <MediaDetector
-              src={sendingMessage.imageBase64 || ""}
-              alt="Sending video"
-              mediaType="video"
-              isBase64={isActualBase64}
-            />
+            {sendingMessage.imageBase64 && (
+              <MediaDetector
+                src={sendingMessage.imageBase64}
+                alt="Sending video"
+                mediaType="video"
+                isBase64={isActualBase64}
+              />
+            )}
             <RingLoader style={{ width: "15px", height: "15px" }} />
           </div>
         </div>

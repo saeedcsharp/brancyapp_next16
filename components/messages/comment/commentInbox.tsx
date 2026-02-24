@@ -2447,14 +2447,16 @@ const CommentInbox = () => {
           title="ℹ️ close"
           src="/close-box.svg"
         />
-        <img
-          draggable={false}
-          className={styles.pictureprofile}
-          loading="lazy"
-          decoding="async"
-          src={popupImageUrl}
-          alt="Popup profile"
-        />
+        {popupImageUrl && (
+          <img
+            draggable={false}
+            className={styles.pictureprofile}
+            loading="lazy"
+            decoding="async"
+            src={popupImageUrl}
+            alt="Popup profile"
+          />
+        )}
       </Modal>
 
       {/* Lottery Popup Modal */}

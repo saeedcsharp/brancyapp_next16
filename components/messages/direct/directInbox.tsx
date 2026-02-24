@@ -2585,7 +2585,9 @@ const DirectInbox = () => {
           title="ℹ️ close"
           src="/close-box.svg"
         />
-        <img className={styles.pictureprofile} loading="lazy" decoding="async" src={popupImage} alt="Popup profile" />
+        {popupImage && (
+          <img className={styles.pictureprofile} loading="lazy" decoding="async" src={popupImage} alt="Popup profile" />
+        )}
       </Modal>
 
       <Modal
