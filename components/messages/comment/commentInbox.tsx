@@ -49,7 +49,7 @@ import CommentStatistics from "brancy/components/messages/popups/commentStatisti
 import EditAutoReplyForMedia from "brancy/components/messages/popups/editAutoReplyForMedia";
 import CommentChatBox from "brancy/components/messages/comment/commentChatBox";
 import chatBoxStyles from "./commentChatBox.module.css";
-import styles from "./components/messages/comment/commentInbox.module.css";
+import styles from "brancy/components/messages/comment/commentInbox.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 let firstTime = 0;
 let touchMove = 0;

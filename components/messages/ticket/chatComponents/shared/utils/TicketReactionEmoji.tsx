@@ -1,7 +1,7 @@
 import React, { useCallback, useMemo } from "react";
 import { IItem, IThread_Ticket } from "brancy/models/messages/IMessage";
 import { ITicket } from "brancy/models/userPanel/message";
-import styles from "./components/messages/ticket/ticketChatBox.module.css";
+import styles from "brancy/components/messages/ticket/ticketChatBox.module.css";
 export interface TicketReactionEmojiProps {
   item: IItem;
   direction: "left" | "right" | "system";

@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react";
-import styles from "./components/messages/direct/directChatBox.module.css";
+import styles from "brancy/components/messages/direct/directChatBox.module.css";
 import { RepliedMessageProps } from "brancy/components/messages/direct/chatComponents/types";
 export const RepliedMessage: React.FC<RepliedMessageProps> = React.memo(
   ({ repliedToItemId, repliedToItem, direction, handleSpecifyRepliedItemFullName, handleSpecifyRepliedItemType }) => {

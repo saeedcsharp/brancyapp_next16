@@ -1,5 +1,5 @@
 import React, { useCallback, useMemo } from "react";
-import styles from "./components/messages/ticket/ticketChatBox.module.css";
+import styles from "brancy/components/messages/ticket/ticketChatBox.module.css";
 export interface TicketChatDateProps {
   createdTime: number;
   itemId: string;

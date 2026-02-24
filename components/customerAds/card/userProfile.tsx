@@ -1,4 +1,4 @@
-import styles from "./components/customerAds/customerAds.module.css";
+import styles from "brancy/components/customerAds/customerAds.module.css";
 import { calculateSummary } from "brancy/helper/numberFormater";
 import { ICardAdvertiser } from "brancy/models/customerAds/customerAd";
 function UserProfile(prop: { data: ICardAdvertiser }) {

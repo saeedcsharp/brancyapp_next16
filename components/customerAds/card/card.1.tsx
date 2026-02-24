@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import styles from "./components/customerAds/customerAds.module.css";
+import styles from "brancy/components/customerAds/customerAds.module.css";
 import HeaderTitle from "brancy/components/headerTitle/headerTitle";
 import { IFullAdvertiser, SelectedCardContent } from "brancy/models/customerAds/customerAd";
 import Terms from "brancy/components/customerAds/card/terms";

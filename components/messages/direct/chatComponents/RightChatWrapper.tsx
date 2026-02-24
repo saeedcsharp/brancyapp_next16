@@ -1,7 +1,7 @@
 import React from "react";
 import { IItem, IOwnerInbox, IThread } from "brancy/models/messages/IMessage";
 import { ItemType } from "brancy/models/messages/enum";
-import styles from "./components/messages/direct/directChatBox.module.css";
+import styles from "brancy/components/messages/direct/directChatBox.module.css";
 import { ChatAudio } from "brancy/components/messages/direct/chatComponents/shared/messageTypes/ChatAudio";
 import { ChatGeneric } from "brancy/components/messages/direct/chatComponents/shared/messageTypes/ChatGeneric";
 import { ChatMedia } from "brancy/components/messages/direct/chatComponents/shared/messageTypes/ChatMedia";

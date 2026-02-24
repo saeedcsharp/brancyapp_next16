@@ -3,7 +3,7 @@ import React, { useMemo } from "react";
 import { LanguageKey } from "brancy/i18n";
 import { IItem, IOwnerInbox, IThread_Ticket } from "brancy/models/messages/IMessage";
 import { ItemType } from "brancy/models/messages/enum";
-import styles from "./components/messages/ticket/ticketChatBox.module.css";
+import styles from "brancy/components/messages/ticket/ticketChatBox.module.css";
 import { TicketChatAudio } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/TicketChatAudio";
 import { TicketChatMedia } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/TicketChatMedia";
 import { TicketChatMediaShare } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/TicketChatMediaShare";
