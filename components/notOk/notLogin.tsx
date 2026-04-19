@@ -121,6 +121,7 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
         queries: undefined,
         onUploadProgress: undefined,
       });
+      console.log("response", response);
       if (response.succeeded) {
         if (!response.value.isInstagramAuthorize) {
           console.log("User IP does not have Instagram authorization. Prompting to turn on proxy.");
