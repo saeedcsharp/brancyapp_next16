@@ -4,7 +4,7 @@ import { MethodType, IResult, StringDitionaryItem } from "brancy/helper/api";
 import { ResponseType } from "brancy/components/notifications/notificationBox";
 import { resolveBackendSubUrl } from "brancy/helper/apiRouteMap";
 
-const API_BASE_URL = "https://api.brancy.app/";
+const API_BASE_URL = "https://api.patran.ir/";
 
 function normalizeResult<J>(raw: any, statusCode = 500, errorMessage = ""): IResult<J> {
   return {

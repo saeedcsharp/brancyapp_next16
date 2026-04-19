@@ -9,9 +9,7 @@ function getSecret(): string {
     return readFileSync("/run/secrets/brancyapp_jwt_token", "utf8").trim();
   } catch {
     // اگر secret file نبود، از environment variable استفاده می‌کنیم
-    return (
-      process.env.NEXTAUTH_SECRET || "9feJvapw9jpevAe9p8phvpaivIaWehv89paHVewf"
-    );
+    return process.env.NEXTAUTH_SECRET || "9feJvapw9jpevAe9p8phvpaivIaWehv89paHVewf";
   }
 }
 
@@ -34,7 +32,7 @@ export default NextAuth({
 
         try {
           // ارسال code به API سرور برای وریفای و دریافت token
-          const res = await fetch("https://api.brancy.app/user/GoogleLogin", {
+          const res = await fetch("https://api.patran.ir/user/GoogleLogin", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -55,8 +53,7 @@ export default NextAuth({
           const userRoll = loginResultInfo["role"];
           const instagramerIds: number[] = userRoll["instagramerIds"];
           const fbIds: string[] = userRoll["fbIds"];
-          const currntIndex =
-            instagramerIds != null && instagramerIds.length > 0 ? 0 : -1;
+          const currntIndex = instagramerIds != null && instagramerIds.length > 0 ? 0 : -1;
 
           const user = {
             id: loginResultInfo.id,
@@ -86,15 +83,11 @@ export default NextAuth({
       async authorize(credentials, req) {
         const myVerificationCode = credentials?.verificationCode ?? "";
         const Authorization = credentials?.preuserToken ?? "";
-        var res = await fetch(
-          "https://api.brancy.app/user/UserLoginVerifyCode?verificationCode=" +
-            myVerificationCode,
-          {
-            headers: {
-              Authorization: Authorization,
-            },
-          }
-        );
+        var res = await fetch("https://api.patran.ir/user/UserLoginVerifyCode?verificationCode=" + myVerificationCode, {
+          headers: {
+            Authorization: Authorization,
+          },
+        });
         if (res.status != 200) {
           let errorMessage = await res.json();
           const err = errorMessage["info"];
@@ -112,8 +105,7 @@ export default NextAuth({
         console.log("isntagramerIds", instagramerIds);
         const fbIds: string[] = userRoll["fbIds"];
         console.log("fbids", fbIds);
-        const currntIndex =
-          instagramerIds != null && instagramerIds.length > 0 ? 0 : -1;
+        const currntIndex = instagramerIds != null && instagramerIds.length > 0 ? 0 : -1;
         const user = {
           id: loginResultInfo.id,
           instagramerIds: instagramerIds,

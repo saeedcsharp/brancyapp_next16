@@ -309,8 +309,8 @@ const ProductList = () => {
         ],
         onUploadProgress: undefined,
       });
-
       if (res.succeeded) {
+        if (res.value.length === 0) setHasMoreData(false);
         // بررسی و تغییر وضعیت محصولات بیشتر دریافت شده
         checkAndUpdateProductStatus(res.value);
         return res.value || [];

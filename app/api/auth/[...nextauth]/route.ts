@@ -64,7 +64,7 @@ const handler = NextAuth({
         if (!googleCode) throw new Error("Google authorization code is required");
 
         try {
-          const res = await fetch("https://api.brancy.app/user/GoogleLogin", {
+          const res = await fetch("https://api.patran.ir/user/GoogleLogin", {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -88,7 +88,7 @@ const handler = NextAuth({
           let instagramerData: any = {};
           if (currntIndex >= 0) {
             try {
-              const acctRes = await fetch("https://api.brancy.app/user/GetMyInstagramers", {
+              const acctRes = await fetch("https://api.patran.ir/user/GetMyInstagramers", {
                 headers: {
                   Authorization: loginResultInfo.token,
                   instagramerId: String(instagramerIds[currntIndex]),
@@ -133,7 +133,7 @@ const handler = NextAuth({
         const Authorization = credentials?.preuserToken ?? "";
 
         const res = await fetch(
-          "https://api.brancy.app/user/UserLoginVerifyCode?verificationCode=" + myVerificationCode,
+          "https://api.patran.ir/user/UserLoginVerifyCode?verificationCode=" + myVerificationCode,
           {
             headers: {
               Authorization,
@@ -157,7 +157,7 @@ const handler = NextAuth({
         let instagramerData: any = {};
         if (currntIndex >= 0) {
           try {
-            const acctRes = await fetch("https://api.brancy.app/user/GetMyInstagramers", {
+            const acctRes = await fetch("https://api.patran.ir/user/GetMyInstagramers", {
               headers: {
                 Authorization: loginResultInfo.token,
                 instagramerId: String(instagramerIds[currntIndex]),

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 
-const API_BASE_URL = "https://api.brancy.app/";
+const API_BASE_URL = "https://api.patran.ir/";
 
 interface StringDitionaryItem {
   key: string;

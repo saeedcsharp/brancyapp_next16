@@ -61,11 +61,23 @@ const ProductDetail = () => {
     async (productId: number, postId: number) => {
       try {
         const [res1, res2] = await Promise.all([
-          clientFetchApi<boolean, IProduct_FullProduct>("shopper" + "" + "/Product/GetFullProduct", { methodType: MethodType.get, session: session, data: null, queries: [
+          clientFetchApi<boolean, IProduct_FullProduct>("shopper" + "" + "/Product/GetFullProduct", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
               { key: "language", value: "1" },
               { key: "productId", value: productId.toString() },
-            ], onUploadProgress: undefined }),
-          clientFetchApi<boolean, IDetailsPost>("Instagramer" + "" + "/Post/GetPostInfo", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "postId", value: postId.toString() }], onUploadProgress: undefined }),
+            ],
+            onUploadProgress: undefined,
+          }),
+          clientFetchApi<boolean, IDetailsPost>("Instagramer" + "" + "/Post/GetPostInfo", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [{ key: "postId", value: postId.toString() }],
+            onUploadProgress: undefined,
+          }),
         ]);
 
         if (res1.succeeded && res2.succeeded) {
@@ -94,12 +106,18 @@ const ProductDetail = () => {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session]
+    [session],
   );
   const getPostInfo = useCallback(
     async (postId: number) => {
       try {
-        const res = await clientFetchApi<boolean, IDetailsPost>("/api/post/GetPostInfo", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "postId", value: postId.toString() }], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, IDetailsPost>("/api/post/GetPostInfo", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "postId", value: postId.toString() }],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) {
           console.log("setPostInfo", res);
           setState((prev) => ({
@@ -126,14 +144,32 @@ const ProductDetail = () => {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session]
+    [session],
   );
   const getShortProduct = useCallback(async () => {
     try {
       const [res1, res2, res3] = await Promise.all([
-        clientFetchApi<boolean, IProduct_ShortProduct>("/api/product/GetProductByTempId", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "tempId", value: query.tempId as string }], onUploadProgress: undefined }),
-        clientFetchApi<boolean, ITempIdAndNonProductCount>("/api/product/GetLastTempIdAndNonProductsCount", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<boolean, IMaxSize>("/api/product/GetMaxSize", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, IProduct_ShortProduct>("/api/product/GetProductByTempId", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "tempId", value: query.tempId as string }],
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, ITempIdAndNonProductCount>("/api/product/GetLastTempIdAndNonProductsCount", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IMaxSize>("/api/product/GetMaxSize", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
       ]);
 
       if (res1.succeeded && res2.succeeded) {
@@ -185,12 +221,18 @@ const ProductDetail = () => {
   const handleNextProduct = useCallback(
     async (tempId: number) => {
       try {
-        const res = await clientFetchApi<boolean, IProduct_ShortProduct>("shopper" + "" + "/Product/GetNextProduct", { methodType: MethodType.get, session: session, data: null, queries: [
+        const res = await clientFetchApi<boolean, IProduct_ShortProduct>("shopper" + "" + "/Product/GetNextProduct", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             {
               key: "productId",
               value: state.shortProduct!.productId.toString(),
             },
-          ], onUploadProgress: undefined });
+          ],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) {
           router.push(`/store/products/productDetail?tempId=${res.value.tempId}`);
           setState((prev) => ({
@@ -221,17 +263,26 @@ const ProductDetail = () => {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session, state.shortProduct, state.lastTempId, getFullProductAndPostInfo, getPostInfo]
+    [session, state.shortProduct, state.lastTempId, getFullProductAndPostInfo, getPostInfo],
   );
   const handlePreviousProduct = useCallback(
     async (tempId: number) => {
       try {
-        const res = await clientFetchApi<boolean, IProduct_ShortProduct>("shopper" + "" + "/Product/GetPreviousProduct", { methodType: MethodType.get, session: session, data: null, queries: [
-            {
-              key: "productId",
-              value: state.shortProduct!.productId.toString(),
-            },
-          ], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, IProduct_ShortProduct>(
+          "shopper" + "" + "/Product/GetPreviousProduct",
+          {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
+              {
+                key: "productId",
+                value: state.shortProduct!.productId.toString(),
+              },
+            ],
+            onUploadProgress: undefined,
+          },
+        );
         if (res.succeeded) {
           router.push(`/store/products/productDetail?tempId=${res.value.tempId}`);
           setState((prev) => ({
@@ -268,7 +319,7 @@ const ProductDetail = () => {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session, state.shortProduct, getFullProductAndPostInfo, getPostInfo]
+    [session, state.shortProduct, getFullProductAndPostInfo, getPostInfo],
   );
   useEffect(() => {
     if (!session || session!.user.currentIndex === -1) return;
