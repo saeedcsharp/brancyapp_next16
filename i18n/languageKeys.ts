@@ -2749,6 +2749,17 @@ export enum LanguageKey {
   Notify_NoEventsFoundForThisPrompt = "Notify_NoEventsFoundForThisPrompt",
   Notify_PageAnalysisNotExist = "Notify_PageAnalysisNotExist",
   Notify_NoEventIdeaGenerated = "Notify_NoEventIdeaGenerated",
+  Notify_ThisCustomDomainCreatedBefore = "Notify_ThisCustomDomainCreatedBefore",
+  Notify_ThisCustomDomainBelongsToAnother = "Notify_ThisCustomDomainBelongsToAnother",
+  Notify_YouCustomDomainRequestedBeforeWaitATimeToRequestAgain = "Notify_YouCustomDomainRequestedBeforeWaitATimeToRequestAgain",
+  Notify_LetsEncryptError = "Notify_LetsEncryptError",
+  Notify_NoPendingCustomDomain = "Notify_NoPendingCustomDomain",
+  Notify_YouCustomDomainCheckedBeforeWaitATimeToCheckAgain = "Notify_YouCustomDomainCheckedBeforeWaitATimeToCheckAgain",
+  Notify_CustomDomainVerificationNotPassed = "Notify_CustomDomainVerificationNotPassed",
+  Notify_InvalidProductTempId = "Notify_InvalidProductTempId",
+  Notify_InvalidPriceType = "Notify_InvalidPriceType",
+  Notify_AuthorizeCountryRequired = "Notify_AuthorizeCountryRequired",
+  Notify_ProperyMustBeNumeric = "Notify_ProperyMustBeNumeric",
 
   // Internal Notifications
   InternalNotify_Ok = "InternalNotify_Ok",

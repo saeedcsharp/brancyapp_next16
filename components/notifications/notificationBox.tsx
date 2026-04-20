@@ -291,6 +291,19 @@ const getResponseTextLegacy = (responseType: ResponseType): string => {
     [ResponseType.NoEventsFoundForThisPrompt]: LanguageKey.Notify_NoEventsFoundForThisPrompt,
     [ResponseType.PageAnalysisNotExist]: LanguageKey.Notify_PageAnalysisNotExist,
     [ResponseType.NoEventIdeaGenerated]: LanguageKey.Notify_NoEventIdeaGenerated,
+    [ResponseType.ThisCustomDomainCreatedBefore]: LanguageKey.Notify_ThisCustomDomainCreatedBefore,
+    [ResponseType.ThisCustomDomainBelongsToAnother]: LanguageKey.Notify_ThisCustomDomainBelongsToAnother,
+    [ResponseType.YouCustomDomainRequestedBeforeWaitATimeToRequestAgain]:
+      LanguageKey.Notify_YouCustomDomainRequestedBeforeWaitATimeToRequestAgain,
+    [ResponseType.LetsEncryptError]: LanguageKey.Notify_LetsEncryptError,
+    [ResponseType.NoPendingCustomDomain]: LanguageKey.Notify_NoPendingCustomDomain,
+    [ResponseType.YouCustomDomainCheckedBeforeWaitATimeToCheckAgain]:
+      LanguageKey.Notify_YouCustomDomainCheckedBeforeWaitATimeToCheckAgain,
+    [ResponseType.CustomDomainVerificationNotPassed]: LanguageKey.Notify_CustomDomainVerificationNotPassed,
+    [ResponseType.InvalidProductTempId]: LanguageKey.Notify_InvalidProductTempId,
+    [ResponseType.InvalidPriceType]: LanguageKey.Notify_InvalidPriceType,
+    [ResponseType.AuthorizeCountryRequired]: LanguageKey.Notify_AuthorizeCountryRequired,
+    [ResponseType.ProperyMustBeNumeric]: LanguageKey.Notify_ProperyMustBeNumeric,
   };
 
   const languageKey = responseTextMap[responseType];
@@ -683,6 +696,19 @@ const getResponseText = (responseType: ResponseType, t: (key: LanguageKey) => st
     [ResponseType.NoEventsFoundForThisPrompt]: LanguageKey.Notify_NoEventsFoundForThisPrompt,
     [ResponseType.PageAnalysisNotExist]: LanguageKey.Notify_PageAnalysisNotExist,
     [ResponseType.NoEventIdeaGenerated]: LanguageKey.Notify_NoEventIdeaGenerated,
+    [ResponseType.ThisCustomDomainCreatedBefore]: LanguageKey.Notify_ThisCustomDomainCreatedBefore,
+    [ResponseType.ThisCustomDomainBelongsToAnother]: LanguageKey.Notify_ThisCustomDomainBelongsToAnother,
+    [ResponseType.YouCustomDomainRequestedBeforeWaitATimeToRequestAgain]:
+      LanguageKey.Notify_YouCustomDomainRequestedBeforeWaitATimeToRequestAgain,
+    [ResponseType.LetsEncryptError]: LanguageKey.Notify_LetsEncryptError,
+    [ResponseType.NoPendingCustomDomain]: LanguageKey.Notify_NoPendingCustomDomain,
+    [ResponseType.YouCustomDomainCheckedBeforeWaitATimeToCheckAgain]:
+      LanguageKey.Notify_YouCustomDomainCheckedBeforeWaitATimeToCheckAgain,
+    [ResponseType.CustomDomainVerificationNotPassed]: LanguageKey.Notify_CustomDomainVerificationNotPassed,
+    [ResponseType.InvalidProductTempId]: LanguageKey.Notify_InvalidProductTempId,
+    [ResponseType.InvalidPriceType]: LanguageKey.Notify_InvalidPriceType,
+    [ResponseType.AuthorizeCountryRequired]: LanguageKey.Notify_AuthorizeCountryRequired,
+    [ResponseType.ProperyMustBeNumeric]: LanguageKey.Notify_ProperyMustBeNumeric,
   };
 
   const languageKey = responseTextMap[responseType];
@@ -1175,6 +1201,17 @@ export enum ResponseType {
   NoEventsFoundForThisPrompt,
   PageAnalysisNotExist,
   NoEventIdeaGenerated,
+  ThisCustomDomainCreatedBefore,
+  ThisCustomDomainBelongsToAnother,
+  YouCustomDomainRequestedBeforeWaitATimeToRequestAgain,
+  LetsEncryptError,
+  NoPendingCustomDomain,
+  YouCustomDomainCheckedBeforeWaitATimeToCheckAgain,
+  CustomDomainVerificationNotPassed,
+  InvalidProductTempId,
+  InvalidPriceType,
+  AuthorizeCountryRequired,
+  ProperyMustBeNumeric,
 }
 export enum InternalResponseType {
   Ok = 0,
