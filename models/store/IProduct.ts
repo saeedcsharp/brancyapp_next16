@@ -441,6 +441,8 @@ export interface IMeidaInstance {
 }
 export interface IMediaInstanceInfo extends IMeidaInstance {
   uploadMedia: IUploadMedia | null;
+  isUploading?: boolean;
+  uploadProgress?: number; // 0 - 100
 }
 export interface ICustomeMediaInstance {
   createdTime: number;
