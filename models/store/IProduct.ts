@@ -507,10 +507,9 @@ export interface IProduct_SettingUpdate {
   };
 }
 export interface ISpecificationOrder {
-  productId: number;
   items: {
     index: number;
-    defaultSpecificationId: number | null;
+    variationId: number | null;
     customSpecificationId: number | null;
   }[];
 }

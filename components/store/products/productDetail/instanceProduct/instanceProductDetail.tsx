@@ -207,6 +207,7 @@ export default function InstanceProductDetail({
     else setCurrentStep(Steps.Information);
   }
   function upadteCteateFromSpecifications(isNext: boolean, specificationInfo: ISpecification[]) {
+    console.log("specificationInfoooooooo", specificationInfo);
     setSpecificationInfo(specificationInfo);
     if (isNext) setCurrentStep(Steps.Media);
     else setCurrentStep(Steps.Properties);
@@ -307,7 +308,12 @@ export default function InstanceProductDetail({
         methodType: MethodType.post,
         session: session,
         data: specs,
-        queries: undefined,
+        queries: [
+          {
+            key: "productId",
+            value: fullProduct.productInstance.productId.toString(),
+          },
+        ],
         onUploadProgress: undefined,
       });
     }
@@ -389,11 +395,11 @@ export default function InstanceProductDetail({
       },
       readyForShipDayLong: setting.readyForShipDayLong,
     };
+    console.log("specificationOrderrrrrrr", specificationInfo);
     const specificationOrder: ISpecificationOrder = {
-      productId: fullProduct.productInstance.productId,
       items: specificationInfo.map((x) => ({
         customSpecificationId: x.customSpecification !== null ? x.customSpecification.id : null,
-        defaultSpecificationId: x.defaultSpecification !== null ? x.defaultSpecification.id : null,
+        variationId: x.defaultSpecification !== null ? x.defaultSpecification.variationId : null,
         index: specificationInfo.indexOf(x),
       })),
     };
@@ -463,7 +469,12 @@ export default function InstanceProductDetail({
             subProducts: updatedSubProducts,
             deActiveSubProducts: deActiveSubProducts,
           },
-          queries: undefined,
+          queries: [
+            {
+              key: "productId",
+              value: fullProduct.productInstance.productId.toString(),
+            },
+          ],
           onUploadProgress: undefined,
         }),
         clientFetchApi<IProduct_SettingUpdate, boolean>("/api/product/UpdateSecondaryProductDetails", {

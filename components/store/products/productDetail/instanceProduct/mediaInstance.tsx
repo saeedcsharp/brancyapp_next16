@@ -24,6 +24,9 @@ import { LanguageKey } from "brancy/i18n";
 import { MediaType } from "brancy/models/page/post/preposts";
 import { IMediaInstanceInfo, ISuggestedMedia } from "brancy/models/store/IProduct";
 import styles from "./media.module.css";
+import Compressor from "compressorjs";
+import { UploadFile } from "brancy/helper/api";
+import { useSession } from "next-auth/react";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
 // Sortable item component
@@ -171,6 +174,7 @@ export default function MediaInstance({
   suggestedMedias: ISuggestedMedia;
   upadteCteateFromMeida: (isNext: boolean, media: IMediaInstanceInfo[]) => void;
 }) {
+  const { data: session } = useSession();
   const [loading, setLoading] = useState<boolean>(true);
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -219,60 +223,62 @@ export default function MediaInstance({
     );
   }
 
-  function compressAndUpload(file: File) {
-    new ImageCompressor(file, {
-      quality: 0.95,
-      maxWidth: 700,
-      maxHeight: 700,
-      mimeType: "jpeg",
-      success(result) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const arrayToString = _arrayBufferToBase64(reader.result as ArrayBuffer);
-          if (selectedIndex !== null) {
-            setProductMediaInfo((prev) =>
-              prev.map((x) =>
-                x.index !== selectedIndex
-                  ? x
-                  : {
-                      ...x,
-                      uploadMedia: {
-                        ...x.uploadMedia!,
-                        base64Url: "data:image/jpeg;base64," + arrayToString,
-                      },
-                    },
-              ),
-            );
-          } else {
-            const newArray = [
-              {
-                uploadMedia: {
-                  base64Url: "data:image/jpeg;base64," + arrayToString,
-                  mediaType: MediaType.Image,
-                  thumbnailMediaUrl: "",
-                  index: 0,
+  async function compressAndUpload(file: File) {
+    try {
+      const compressedFile = await new Promise<File>((resolve, reject) => {
+        new Compressor(file!, {
+          quality: 0.95,
+          maxWidth: 700,
+          maxHeight: 700,
+          success(result) {
+            resolve(new File([result], file!.name, { type: result.type }));
+          },
+          error(err) {
+            reject(err);
+          },
+        });
+      });
+      console.log("compressedFileeeeeee", compressedFile);
+      const upload = await UploadFile(session, compressedFile);
+      console.log("uploadfileeeeee", upload);
+      if (selectedIndex !== null) {
+        setProductMediaInfo((prev) =>
+          prev.map((x) =>
+            x.index !== selectedIndex
+              ? x
+              : {
+                  ...x,
+                  uploadMedia: {
+                    ...x.uploadMedia!,
+                    base64Url: upload.showUrl,
+                  },
                 },
-                key: null,
-                childMedia: null,
-                customMedia: null,
-                index: 0,
-                isHidden: false,
-                mediaType: MediaType.Image,
-              },
-              ...productMediaInfo,
-            ];
-            for (let arr of newArray) {
-              arr.index = newArray.indexOf(arr);
-            }
-            setProductMediaInfo(newArray);
-          }
-        };
-        reader.readAsArrayBuffer(result);
-      },
-      error(error) {
-        console.error(error.message);
-      },
-    });
+          ),
+        );
+      } else {
+        const newArray = [
+          {
+            uploadMedia: {
+              base64Url: upload.showUrl,
+              mediaType: MediaType.Image,
+              thumbnailMediaUrl: upload.fileName,
+              index: 0,
+            },
+            key: null,
+            childMedia: null,
+            customMedia: null,
+            index: 0,
+            isHidden: false,
+            mediaType: MediaType.Image,
+          },
+          ...productMediaInfo,
+        ];
+        for (let arr of newArray) {
+          arr.index = newArray.indexOf(arr);
+        }
+        setProductMediaInfo(newArray);
+      }
+    } catch (error) {}
   }
 
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
