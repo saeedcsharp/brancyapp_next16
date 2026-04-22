@@ -15,7 +15,6 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import ImageCompressor from "compressorjs";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";

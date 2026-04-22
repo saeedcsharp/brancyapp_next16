@@ -196,7 +196,6 @@ export default function Media({
 
   const compressAndUpload = useCallback(
     async (file: File) => {
-      console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
       try {
         const compressedFile = await new Promise<File>((resolve, reject) => {
           new Compressor(file!, {
@@ -218,7 +217,6 @@ export default function Media({
           if (selectedIndex !== null) {
             return prev.map((x) => (x.index !== selectedIndex ? x : { ...x, base64Url: upload.showUrl }));
           }
-
           const newMedia: IProduct_Media = {
             base64Url: upload.showUrl,
             childrenId: null,
