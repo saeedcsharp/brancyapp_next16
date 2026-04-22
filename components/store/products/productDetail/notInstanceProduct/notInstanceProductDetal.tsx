@@ -713,6 +713,8 @@ export default function NotInstanceProductDetail({
         base64Url: "",
         isDefault: true,
         key: null,
+        isUploading: false,
+        uploadProgress: 0,
       });
     }
     setProductMedia(medias);

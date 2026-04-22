@@ -368,32 +368,6 @@ export default function MediaInstance({
       setProductMediaInfo((prev) => prev.filter((x) => !x.isUploading));
     }
   }
-
-  function ProgressBar({ value }: { value: number }) {
-    return (
-      <div style={{ width: "100%", padding: "8px" }}>
-        <div
-          style={{
-            width: "100%",
-            height: "6px",
-            borderRadius: "4px",
-            background: "rgba(0,0,0,0.1)",
-            overflow: "hidden",
-          }}>
-          <div
-            style={{
-              width: `${value}%`,
-              height: "100%",
-              background: "var(--color-dark-blue)",
-              transition: "width 0.2s ease",
-            }}
-          />
-        </div>
-        <div style={{ fontSize: "11px", marginTop: "4px", textAlign: "center" }}>{value}%</div>
-      </div>
-    );
-  }
-
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     let file = await convertHeicToJpeg(e.target.files?.[0]!);

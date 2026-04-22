@@ -425,6 +425,8 @@ export interface IProduct_Media extends IUploadMedia {
   fromSuggestion?: boolean;
   key: string | null;
   suggestedIndex?: number; // Add this new property
+  isUploading: boolean;
+  uploadProgress: number;
 }
 export interface IUploadMedia {
   base64Url: string;
