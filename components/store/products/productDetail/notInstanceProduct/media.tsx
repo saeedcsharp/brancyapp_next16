@@ -31,7 +31,8 @@ import { LanguageKey } from "brancy/i18n";
 import { MediaType } from "brancy/models/page/post/preposts";
 import { IProduct_Media, ISuggestedMedia } from "brancy/models/store/IProduct";
 import styles from "./media.module.css";
-
+import { UploadFile } from "brancy/helper/api";
+import Compressor from "compressorjs";
 const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const MAX_UPLOADS = 5;
 const SUPPORTED_IMAGE_TYPES = ["image/jpeg", "image/png"];
@@ -94,7 +95,7 @@ function SortableItem({
           className={`${styles.thumbnailmediapicture} ${media.isHidden && "fadeDiv"}`}
           role="button"
           title="ℹ️ media picture"
-          src={media.thumbnailMediaUrl.length > 0 ? basePictureUrl + media.thumbnailMediaUrl : media.base64Url}
+          src={media.base64Url}
         />
         <div className={`${styles.thumbnailmediasetting} ${media.isHidden && "fadeDiv"}`}>
           <img
@@ -108,11 +109,7 @@ function SortableItem({
                 className={styles.thumbnailiconstg}
                 title="ℹ️ view large"
                 src="/icon-view.svg"
-                onClick={() =>
-                  onView(
-                    media.thumbnailMediaUrl.length > 0 ? basePictureUrl + media.thumbnailMediaUrl : media.base64Url,
-                  )
-                }
+                onClick={() => onView(media.base64Url)}
               />
               {!media.key && !media.fromSuggestion && (
                 <img
@@ -201,31 +198,35 @@ export default function Media({
     async (file: File) => {
       console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
       try {
-        const result = await new Promise<Blob>((resolve, reject) => {
-          new ImageCompressor(file, {
-            ...IMAGE_COMPRESSION_OPTIONS,
-            success: resolve,
-            error: reject,
+        const compressedFile = await new Promise<File>((resolve, reject) => {
+          new Compressor(file!, {
+            quality: 0.95,
+            maxWidth: 700,
+            maxHeight: 700,
+            success(result) {
+              resolve(new File([result], file!.name, { type: result.type }));
+            },
+            error(err) {
+              reject(err);
+            },
           });
         });
-
-        const arrayBuffer = await result.arrayBuffer();
-        const arrayToString = _arrayBufferToBase64(arrayBuffer as ArrayBuffer);
-        const base64Url = `data:image/jpeg;base64,${arrayToString}`;
-
+        console.log("compressedFileeeeeee", compressedFile);
+        const upload = await UploadFile(session, compressedFile);
+        console.log("uploadfileeeeee", upload);
         setProductMediaInfo((prev) => {
           if (selectedIndex !== null) {
-            return prev.map((x) => (x.index !== selectedIndex ? x : { ...x, base64Url }));
+            return prev.map((x) => (x.index !== selectedIndex ? x : { ...x, base64Url: upload.showUrl }));
           }
 
           const newMedia: IProduct_Media = {
-            base64Url,
+            base64Url: upload.showUrl,
             childrenId: null,
             index: 0,
             isDefault: false,
             isHidden: false,
             mediaType: MediaType.Image,
-            thumbnailMediaUrl: "",
+            thumbnailMediaUrl: upload.fileName,
             key: null,
           };
 
