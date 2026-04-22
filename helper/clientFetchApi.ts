@@ -192,7 +192,7 @@ export async function clientFetchApi<TReq, TRes>(
   options: FetchOptions<TReq> = {},
 ): Promise<IResult<TRes>> {
   const { session, methodType = MethodType.get, data, queries = [], onUploadProgress } = options;
-
+  console.log("queriessssss", queries);
   const accessToken = options.accessToken ?? getSessionAccessToken(session);
   const instagramerId = session ? getSessionInstagramerId(session) : "-1";
   const localPath = toLocalApiPath(path);

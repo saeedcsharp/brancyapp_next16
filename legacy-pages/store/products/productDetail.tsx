@@ -1,3 +1,4 @@
+"use client";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -23,6 +24,7 @@ import {
 } from "brancy/models/store/IProduct";
 import styles from "./productDetail.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { useSearchParams } from "next/navigation";
 const ProductDetail = () => {
   //  return <Soon />;
   const router = useRouter();
@@ -32,7 +34,8 @@ const ProductDetail = () => {
       router.push("/");
     },
   });
-  const { query } = router;
+  const searchParams = useSearchParams();
+  const tempId = searchParams.get("tempId");
   const { t } = useTranslation();
 
   // Consolidate multiple useState hooks into a single state object
@@ -148,12 +151,13 @@ const ProductDetail = () => {
   );
   const getShortProduct = useCallback(async () => {
     try {
+      console.log("tempIddddd", tempId);
       const [res1, res2, res3] = await Promise.all([
         clientFetchApi<boolean, IProduct_ShortProduct>("/api/product/GetProductByTempId", {
           methodType: MethodType.get,
           session: session,
           data: null,
-          queries: [{ key: "tempId", value: query.tempId as string }],
+          queries: [{ key: "tempId", value: tempId as string }],
           onUploadProgress: undefined,
         }),
         clientFetchApi<boolean, ITempIdAndNonProductCount>("/api/product/GetLastTempIdAndNonProductsCount", {
@@ -187,7 +191,7 @@ const ProductDetail = () => {
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
     }
-  }, [session, query.tempId, getFullProductAndPostInfo, getPostInfo]);
+  }, [session, tempId, getFullProductAndPostInfo, getPostInfo]);
   const fetchData = useCallback(async () => {
     console.log("ggggggggggg");
     if (!session?.user.isShopper)
@@ -324,12 +328,12 @@ const ProductDetail = () => {
   useEffect(() => {
     if (!session || session!.user.currentIndex === -1) return;
     if (router.isReady && session) {
-      if (query.tempId === undefined || query.tempId === "") {
+      if (tempId === undefined || tempId === "") {
         router.push("/store/products");
       }
       fetchData();
     }
-  }, [router.isReady, session, query.tempId, fetchData]);
+  }, [router.isReady, session, tempId, fetchData]);
 
   const memoizedDeleteHandler = useCallback(() => {
     setState((prev) => ({
@@ -353,7 +357,7 @@ const ProductDetail = () => {
     if (!session || !packageStatus(session)) router.push("/upgrade");
   }, [session]);
 
-  if (!session || !query.tempId) {
+  if (!session || !tempId) {
     return null;
   }
   return (
@@ -388,7 +392,7 @@ const ProductDetail = () => {
               onClick={() => {
                 // تغییر ID به پست قبلی
                 if (state.deactiveBackTemp) return;
-                const previousProductId = Number(query.tempId) - 1;
+                const previousProductId = Number(tempId) - 1;
                 if (previousProductId > 0) {
                   setState((prev) => ({
                     ...prev,
@@ -398,10 +402,10 @@ const ProductDetail = () => {
                 }
               }}
             />
-            {t(LanguageKey.navbar_Post)} #{query.tempId}
+            {t(LanguageKey.navbar_Post)} #{tempId}
             <img
               className={`${styles.Togglebtn} ${
-                state.lastTempId === (Number(query.tempId) || state.deactiveNextTemp) && "fadeDiv"
+                state.lastTempId === (Number(tempId) || state.deactiveNextTemp) && "fadeDiv"
               }`}
               src="/next-white.svg"
               title="Next Product"
@@ -413,8 +417,8 @@ const ProductDetail = () => {
                   ...prev,
                   deactiveBackTemp: false,
                 }));
-                if (state.lastTempId === Number(query.tempId) || state.deactiveNextTemp) return;
-                const nextProductId = Number(query.tempId) + 1;
+                if (state.lastTempId === Number(tempId) || state.deactiveNextTemp) return;
+                const nextProductId = Number(tempId) + 1;
                 handleNextProduct(nextProductId);
               }}
             />

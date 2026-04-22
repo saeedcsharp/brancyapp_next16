@@ -463,7 +463,7 @@ export default function NotInstanceProductDetail({
   async function handleUploadMedia() {
     if (customMedia.length > 0) {
       const mediaUploadPromises = customMedia.map(async (media) =>
-        clientFetchApi<IUploadMedia, boolean>("shopper" + "" + "/Product/InsertProductMedia", {
+        clientFetchApi<IUploadMedia, boolean>("shopper/Product/InsertProductMedia", {
           methodType: MethodType.post,
           session: session,
           data: media,
@@ -483,7 +483,7 @@ export default function NotInstanceProductDetail({
   async function handleUploadSuggestedMedia() {
     if (customMedia.length > 0) {
       const mediaUploadPromises = suggestedMedia.map(async (media) =>
-        clientFetchApi<boolean, boolean>("shopper" + "" + "/Product/InsertProductMedia", {
+        clientFetchApi<boolean, boolean>("shopper/Product/InsertProductMedia", {
           methodType: MethodType.get,
           session: session,
           data: null,
@@ -568,7 +568,7 @@ export default function NotInstanceProductDetail({
       })),
     }));
     console.log("newSubProduct", newSubProducts);
-    result = await clientFetchApi<IProduct_CreateSubProduct, boolean>("shopper" + "" + "/Product/CreateSubProducts", {
+    result = await clientFetchApi<IProduct_CreateSubProduct, boolean>("shopper/Product/CreateSubProducts", {
       methodType: MethodType.post,
       session: session,
       data: {
@@ -576,7 +576,12 @@ export default function NotInstanceProductDetail({
         subProducts: newSubProducts,
         deActiveSubProducts: [],
       },
-      queries: undefined,
+      queries: [
+        {
+          key: "productId",
+          value: createInstance.productId.toString(),
+        },
+      ],
       onUploadProgress: undefined,
     });
     console.log("fffffffffffffffffffff", result);
@@ -612,21 +617,18 @@ export default function NotInstanceProductDetail({
     if (isUpdateing) return;
     setIsUpdateing(true);
     try {
-      const res = await clientFetchApi<IProduct_CreateInstance, boolean>(
-        "shopper" + "" + "/Product/CreateProductInstance",
-        {
-          methodType: MethodType.post,
-          session: session,
-          data: createInstance,
-          queries: [
-            {
-              key: "shouldOverride",
-              value: "true",
-            },
-          ],
-          onUploadProgress: undefined,
-        },
-      );
+      const res = await clientFetchApi<IProduct_CreateInstance, boolean>("shopper/Product/CreateProductInstance", {
+        methodType: MethodType.post,
+        session: session,
+        data: createInstance,
+        queries: [
+          {
+            key: "productId",
+            value: createInstance.productId.toString(),
+          },
+        ],
+        onUploadProgress: undefined,
+      });
       console.log("CreateProductInstance", res);
       if (res.succeeded) {
         createSubProductAndMedia();
