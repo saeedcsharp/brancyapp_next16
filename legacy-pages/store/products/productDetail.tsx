@@ -24,9 +24,10 @@ import {
 } from "brancy/models/store/IProduct";
 import styles from "./productDetail.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { useSearchParams } from "next/navigation";
-const ProductDetail = () => {
+
+const ProductDetail = ({ tempId }: { tempId: string }) => {
   //  return <Soon />;
+  console.log("tempIddddd", tempId);
   const router = useRouter();
   const { data: session } = useSession({
     required: true,
@@ -34,8 +35,7 @@ const ProductDetail = () => {
       router.push("/");
     },
   });
-  const searchParams = useSearchParams();
-  const tempId = searchParams.get("tempId");
+
   const { t } = useTranslation();
 
   // Consolidate multiple useState hooks into a single state object
@@ -151,7 +151,6 @@ const ProductDetail = () => {
   );
   const getShortProduct = useCallback(async () => {
     try {
-      console.log("tempIddddd", tempId);
       const [res1, res2, res3] = await Promise.all([
         clientFetchApi<boolean, IProduct_ShortProduct>("/api/product/GetProductByTempId", {
           methodType: MethodType.get,
