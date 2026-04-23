@@ -545,6 +545,8 @@ export default function InstanceProductDetail({
         base64Url: "",
         isDefault: true,
         key: null,
+        isUploading: false,
+        uploadProgress: 0,
       });
     }
     try {

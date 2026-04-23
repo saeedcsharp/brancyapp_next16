@@ -5,7 +5,7 @@ import InputText from "brancy/components/design/inputText";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { MethodType } from "brancy/helper/api";
 import styles from "./progress.module.css";
-import styles2 from "./components/customerAds/progress/uploadContent.module.css";
+import styles2 from "./uploadContent.module.css";
 
 import { useSession } from "next-auth/react";
 import Head from "next/head";
