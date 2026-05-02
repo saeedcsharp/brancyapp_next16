@@ -72,7 +72,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     isUpdatingRef.current = true;
 
     try {
-      let res = await clientFetchApi<boolean, InstagramerAccountInfo>("Instagramer" + "/Account/GetInfo", {
+      let res = await clientFetchApi<boolean, InstagramerAccountInfo>("Instagramer/Account/GetInfo", {
         methodType: MethodType.get,
         session: session,
         data: undefined,
