@@ -214,7 +214,7 @@ export default function Card() {
                 style={{ maxWidth: "300px" }}
                 className="saveButton"
                 onClick={() => {
-                  router.push("/user/shop");
+                  router.push("/user/business");
                 }}>
                 {t(LanguageKey.Startshoping)}
               </button>

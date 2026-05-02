@@ -644,6 +644,7 @@ export default {
     sidebar_Advertise: "Publicités",
     sidebar_Store: "Boutique",
     sidebar_Stores: "Boutiques",
+    sidebar_Business: "Entreprise",
     sidebar_Setting: "Paramètres",
     //0️⃣ General -> navbar
     navbar_Post: "Posts",

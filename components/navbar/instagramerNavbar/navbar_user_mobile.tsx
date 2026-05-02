@@ -23,6 +23,7 @@ const NavbarUserMobile = (prop: { handleShowHamMenu: (ham: string) => void }) =>
     )
       setNavbarRout("orders");
     else if (newRoute === UserPanelRoute.UserPanelShop) setNavbarRout("shop");
+    else if (newRoute === UserPanelRoute.UserPanelBusiness) setNavbarRout("business");
     else if (newRoute === UserPanelRoute.UserPanelWallet) setNavbarRout("wallet");
     else if (newRoute === UserPanelRoute.UserPanelMessage) setNavbarRout("message");
     else if (newRoute === UserPanelRoute.UserPanelSetting) setNavbarRout("setting");
@@ -38,6 +39,8 @@ const NavbarUserMobile = (prop: { handleShowHamMenu: (ham: string) => void }) =>
         return t(LanguageKey.sidebar_Market);
       case "shop":
         return t(LanguageKey.sidebar_Stores);
+      case "business":
+        return t(LanguageKey.sidebar_Business);
       case "message":
         return t(LanguageKey.sidebar_Message);
       case "setting":
@@ -101,6 +104,20 @@ const NavbarUserMobile = (prop: { handleShowHamMenu: (ham: string) => void }) =>
             <path
               fill="var(--color-ffffff)"
               d="M15 24c-1.6 0-3 1.2-3 2.7v2.9q0 .3.5.4h5q.5 0 .5-.4v-2.9c0-1.5-1.3-2.7-3-2.7M30 8.4a33 33 0 0 0-1.5-5.2A5 5 0 0 0 24.1 0H5.9a5 5 0 0 0-4.5 3.2A35 35 0 0 0 0 8.4 4 4 0 0 0 1.2 12a6 6 0 0 0 4.4 2q2.6-.1 4.2-2a.6.6 0 0 1 1 0 5.5 5.5 0 0 0 8.5 0 1 1 0 0 1 .9 0 6 6 0 0 0 4.3 2 6 6 0 0 0 4.3-2A4 4 0 0 0 30 8.4"></path>
+          </>
+        );
+      case "business":
+        return (
+          <>
+            <path
+              opacity=".4"
+              fill="var(--color-ffffff)"
+              d="M27.5 10H2.5A2.5 2.5 0 0 0 0 12.5v13A2.5 2.5 0 0 0 2.5 28h25A2.5 2.5 0 0 0 30 25.5v-13A2.5 2.5 0 0 0 27.5 10"
+            />
+            <path
+              fill="var(--color-ffffff)"
+              d="M20 10V7.5A2.5 2.5 0 0 0 17.5 5h-5A2.5 2.5 0 0 0 10 7.5V10h2.5V7.5h5V10zm-5 10a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"
+            />
           </>
         );
       case "message":

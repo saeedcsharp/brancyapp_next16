@@ -649,6 +649,7 @@ export default {
     sidebar_Advertise: "تبلیغات",
     sidebar_Store: "فروشگاه",
     sidebar_Stores: "فروشگاه‌ها",
+    sidebar_Business: "کسب‌وکار",
     sidebar_Setting: "تنظیمات",
     //0️⃣ General -> navbar
     navbar_Post: "پست",

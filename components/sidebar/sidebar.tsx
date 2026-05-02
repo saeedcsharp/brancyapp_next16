@@ -24,6 +24,7 @@ const SideBar = () => {
         newRoute !== UserPanelRoute.UserPanelMessage &&
         newRoute !== UserPanelRoute.UserPanelOrders &&
         newRoute !== UserPanelRoute.UserPanelHome &&
+        newRoute !== UserPanelRoute.UserPanelBusiness &&
         newRoute !== UserPanelRoute.UserPanelSetting &&
         newRoute !== "404" &&
         !newRoute.includes(UserPanelRoute.UserPanelShop) &&
@@ -35,6 +36,7 @@ const SideBar = () => {
         (newRoute === UserPanelRoute.UserPanelMessage ||
           newRoute === UserPanelRoute.UserPanelOrders ||
           newRoute === UserPanelRoute.UserPanelHome ||
+          newRoute === UserPanelRoute.UserPanelBusiness ||
           newRoute === UserPanelRoute.UserPanelSetting ||
           newRoute === UserPanelRoute.UserPanelWallet ||
           newRoute === UserPanelRoute.UserPanelOrdersFailed ||
@@ -111,4 +113,5 @@ export enum UserPanelRoute {
   UserPanelOrdersInQueue = "userordersinQueue",
   UserPanelOrdersCart = "userorderscart",
   UserPanelShop = "usershop",
+  UserPanelBusiness = "userbusiness",
 }

@@ -78,6 +78,21 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
         },
       },
       {
+        id: "business",
+        route: "/user/business",
+        svgContent: (
+          <svg fill="none" viewBox="0 0 30 30">
+            <path
+              opacity=".4"
+              d="M27.5 10H2.5A2.5 2.5 0 0 0 0 12.5v13A2.5 2.5 0 0 0 2.5 28h25A2.5 2.5 0 0 0 30 25.5v-13A2.5 2.5 0 0 0 27.5 10"
+            />
+            <path d="M20 10V7.5A2.5 2.5 0 0 0 17.5 5h-5A2.5 2.5 0 0 0 10 7.5V10h2.5V7.5h5V10zm-5 10a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
+          </svg>
+        ),
+        translationKey: LanguageKey.sidebar_Business,
+        isActive: (route: string) => route === "userbusiness",
+      },
+      {
         id: "shop",
         route: "/user/shop",
         svgContent: (
@@ -268,6 +283,7 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
       userhome: UserPanelRoute.UserPanelHome,
       userorders: UserPanelRoute.UserPanelOrders,
       usershop: UserPanelRoute.UserPanelShop,
+      userbusiness: UserPanelRoute.UserPanelBusiness,
       userorderscart: UserPanelRoute.UserPanelOrdersCart,
       userordersfailed: UserPanelRoute.UserPanelOrdersFailed,
       userordersinqueue: UserPanelRoute.UserPanelOrdersInQueue,

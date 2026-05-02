@@ -230,6 +230,7 @@ export enum LanguageKey {
   sidebar_Advertise = "sidebar_Advertise",
   sidebar_Store = "sidebar_Store",
   sidebar_Stores = "sidebar_Stores",
+  sidebar_Business = "sidebar_Business",
   sidebar_Setting = "sidebar_Setting",
   //0️⃣ General -> navbar
 

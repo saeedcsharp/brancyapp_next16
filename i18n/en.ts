@@ -640,6 +640,7 @@ export default {
     sidebar_Advertise: "Advertises",
     sidebar_Store: "Store",
     sidebar_Stores: "Stores",
+    sidebar_Business: "Business",
     sidebar_Setting: "Settings",
     //0️⃣ General -> navbar
     navbar_Post: "Post",

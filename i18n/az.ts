@@ -643,6 +643,7 @@ export default {
     sidebar_Advertise: "Reklamlar",
     sidebar_Store: "Mağaza",
     sidebar_Stores: "Mağazalar",
+    sidebar_Business: "Biznes",
     sidebar_Setting: "Ayarlar",
 
     navbar_Post: "Post",

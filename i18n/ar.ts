@@ -628,6 +628,7 @@ export default {
     sidebar_Advertise: "إعلانات",
     sidebar_Store: "متجر",
     sidebar_Stores: "المتاجر",
+    sidebar_Business: "الأعمال",
     sidebar_Setting: "الإعدادات",
     //0️⃣ General -> navbar
     navbar_Post: "منشور",

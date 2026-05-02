@@ -642,6 +642,7 @@ export default {
     sidebar_Advertise: "Reklamlar",
     sidebar_Store: "Mağaza",
     sidebar_Stores: "Mağazalar",
+    sidebar_Business: "İşletme",
     sidebar_Setting: "Ayarlar",
     //0️⃣ General -> navbar
     navbar_Post: "Gönderi",

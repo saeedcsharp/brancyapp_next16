@@ -35,10 +35,16 @@ const StorePage = () => {
   }
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, IFullShop[]>("/api/shop/searchshop", { methodType: MethodType.get, session: session, data: null, queries: [
-        { key: "query", value: undefined },
-        { key: "languageId", value: findSystemLanguage().toString() },
-      ], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IFullShop[]>("/api/shop/searchshopProducts", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
+          { key: "query", value: undefined },
+          { key: "languageId", value: findSystemLanguage().toString() },
+        ],
+        onUploadProgress: undefined,
+      });
       console.log("shop", res.value);
       if (res.succeeded) {
         setStoreMarkets(res.value);

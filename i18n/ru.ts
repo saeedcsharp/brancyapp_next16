@@ -640,6 +640,7 @@ export default {
     sidebar_Advertise: "Рекламы",
     sidebar_Store: "Магазин",
     sidebar_Stores: "Магазины",
+    sidebar_Business: "Бизнес",
     sidebar_Setting: "Настройки",
     //0️⃣ General -> navbar
     navbar_Post: "Пост",

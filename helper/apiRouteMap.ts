@@ -28,6 +28,9 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/ai/getTools": "Instagramer/AI/GetTools",
   "/api/ai/sendTestMessage": "Instagramer/AI/SendTestMessage",
 
+  // ── business ─────────────────────────────────────────
+  "/api/business/search": "User/Business/Search",
+
   // ── autoacceptfollower ────────────────────────────────
   "/api/autoacceptfollower/checkAvailability": "Instagramer/AutoAcceptFollower/CheckAvailability",
   "/api/autoacceptfollower/getAcceptedFollowers": "Instagramer/AutoAcceptFollower/GetAcceptedFollowers",
