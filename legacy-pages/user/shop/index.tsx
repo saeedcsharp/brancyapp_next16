@@ -13,6 +13,7 @@ import { SelectedMarketType } from "brancy/models/market/enums";
 import { IFullShop } from "brancy/models/userPanel/shop";
 import styles from "./shop.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { BusinessType, IBusiness, IBusinessResponse } from "brancy/models/userPanel/business";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 
 const StorePage = () => {
@@ -27,7 +28,7 @@ const StorePage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [showFilter, setShowFilter] = useState(false);
-  const [storeMarkets, setStoreMarkets] = useState<IFullShop[]>([]);
+  const [storeMarkets, setStoreMarkets] = useState<IBusiness[]>([]);
   const [marketType, setMarketType] = useState<SelectedMarketType>(SelectedMarketType.All);
   function fetchStorewData(pagination: string) {
     //push data to storeMarkets
@@ -35,19 +36,16 @@ const StorePage = () => {
   }
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, IFullShop[]>("/api/shop/searchshopProducts", {
+      const res = await clientFetchApi<boolean, IBusinessResponse>("/api/business/search", {
         methodType: MethodType.get,
         session: session,
         data: null,
-        queries: [
-          { key: "query", value: undefined },
-          { key: "languageId", value: findSystemLanguage().toString() },
-        ],
+        queries: [{ key: "businessType", value: BusinessType.Shop.toString() }],
         onUploadProgress: undefined,
       });
       console.log("shop", res.value);
       if (res.succeeded) {
-        setStoreMarkets(res.value);
+        setStoreMarkets(res.value.items);
         setLoading(false);
       } else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {

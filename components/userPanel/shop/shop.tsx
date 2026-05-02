@@ -10,10 +10,11 @@ import { calculateSummary } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
 import { IFullShop } from "brancy/models/userPanel/shop";
 import styles from "./shop.module.css";
+import { IBusiness } from "brancy/models/userPanel/business";
 
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL ?? "";
 
-function ShopPage(props: { data: IFullShop[] | undefined; fetchStorewData: (pagination: string) => void }) {
+function ShopPage(props: { data: IBusiness[] | undefined; fetchStorewData: (pagination: string) => void }) {
   const { data: session } = useSession();
   const userRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation();
@@ -41,7 +42,7 @@ function ShopPage(props: { data: IFullShop[] | undefined; fetchStorewData: (pagi
   // استخراج دسته‌بندی‌ها از داده‌ها
   const categories = useMemo(() => {
     if (!props.data) return [];
-    const allCats = props.data.flatMap((v) => v.categories);
+    const allCats = props.data.flatMap((v) => v.fullShop?.categories || []);
     const unique = Array.from(new Map(allCats.map((c) => [c.categoryId, c])).values());
     return unique;
   }, [props.data]);
@@ -50,13 +51,13 @@ function ShopPage(props: { data: IFullShop[] | undefined; fetchStorewData: (pagi
   const filteredData = useMemo(() => {
     let data = props.data || [];
     if (selectedCategory) {
-      data = data.filter((shop) => shop.categories.some((cat) => String(cat.categoryId) === selectedCategory));
+      data = data.filter((shop) =>
+        shop.fullShop?.categories.some((cat) => String(cat.categoryId) === selectedCategory),
+      );
     }
     if (sortBy === "followers") {
       data = [...data].sort((a, b) =>
-        sortOrder === "asc"
-          ? a.shortShop.followerCount - b.shortShop.followerCount
-          : b.shortShop.followerCount - a.shortShop.followerCount,
+        sortOrder === "asc" ? a.followerCount - b.followerCount : b.followerCount - a.followerCount,
       );
     }
     // سرچ
@@ -64,9 +65,9 @@ function ShopPage(props: { data: IFullShop[] | undefined; fetchStorewData: (pagi
       const s = search.trim().toLowerCase();
       data = data.filter(
         (shop) =>
-          (shop.shortShop.fullName && shop.shortShop.fullName.toLowerCase().includes(s)) ||
-          (shop.shortShop.username && shop.shortShop.username.toLowerCase().includes(s)) ||
-          shop.categories.some((cat) => cat.langValue && cat.langValue.toLowerCase().includes(s)),
+          (shop.fullName && shop.fullName.toLowerCase().includes(s)) ||
+          (shop.username && shop.username.toLowerCase().includes(s)) ||
+          shop.fullShop?.categories.some((cat) => cat.langValue && cat.langValue.toLowerCase().includes(s)),
       );
     }
     return data;
@@ -461,14 +462,11 @@ function ShopPage(props: { data: IFullShop[] | undefined; fetchStorewData: (pagi
       {loadingStatus && <Loading />}
       {!loadingStatus &&
         filteredData.map((v) => (
-          <Link
-            href={`/user/shop/${v.shortShop.instagramerId}`}
-            key={v.shortShop.instagramerId}
-            className={styles.page}>
+          <Link href={`/user/shop/${v.instagramerId}`} key={v.instagramerId} className={styles.page}>
             <div className={styles.background}>
               <img
                 className={styles.backgroundImage}
-                src={baseMediaUrl + v.shortShop.bannerUrl}
+                src={baseMediaUrl + v.bannerUrl}
                 loading="lazy"
                 decoding="async"
                 alt="background image"
@@ -478,7 +476,7 @@ function ShopPage(props: { data: IFullShop[] | undefined; fetchStorewData: (pagi
             <div className={styles.profile}>
               <img
                 className={styles.instagramimage}
-                src={baseMediaUrl + v.shortShop.profileUrl}
+                src={baseMediaUrl + v.profileUrl}
                 alt="instagram profile picture"
                 loading="lazy"
                 decoding="async"
@@ -488,8 +486,8 @@ function ShopPage(props: { data: IFullShop[] | undefined; fetchStorewData: (pagi
               />
 
               <div className={styles.instagramprofiledetail}>
-                {v.shortShop.fullName && <div className={styles.instagramusername}>{v.shortShop.fullName}</div>}
-                <div className={`${styles.instagramid} ${styles.translate}`}>@{v.shortShop.username}</div>
+                {v.fullName && <div className={styles.instagramusername}>{v.fullName}</div>}
+                <div className={`${styles.instagramid} ${styles.translate}`}>@{v.username}</div>
               </div>
             </div>
 
@@ -499,17 +497,17 @@ function ShopPage(props: { data: IFullShop[] | undefined; fetchStorewData: (pagi
                 {t(LanguageKey.markethomerating)}
               </div>
               <div className={styles.summarydata}>
-                <div className={styles.follower}>{calculateSummary(v.shortShop.followerCount)}</div>
+                <div className={styles.follower}>{calculateSummary(v.followerCount)}</div>
                 {t(LanguageKey.markethomefollower)}
               </div>
               <div className={styles.summarydata}>
-                <div className={styles.post}>{v.shortShop.productCount}</div>
+                <div className={styles.post}>{v.fullShop?.shortShop.productCount}</div>
                 {t(LanguageKey.marketPropertiesProduct)}
               </div>
             </div>
 
             <div className={styles.categorysection}>
-              {v.categories.map((u) => (
+              {v.fullShop?.categories.map((u) => (
                 <div key={u.categoryId} className={styles.category}>
                   {u.langValue}
                 </div>

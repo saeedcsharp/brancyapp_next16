@@ -44,14 +44,10 @@ export interface IProduct {
   totalCount: number;
 }
 export interface IShortShop {
+  isSuspend: boolean;
   instagramerId: number;
-  username: string;
-  fullName: string | null;
-  priceType: number;
-  profileUrl: string;
+  priceType: PriceType;
   productCount: number;
-  followerCount: number;
-  bannerUrl: string;
 }
 
 export interface IBanner {

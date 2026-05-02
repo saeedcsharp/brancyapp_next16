@@ -1,4 +1,5 @@
 import { PriceType } from "brancy/components/priceFormater";
+import { IFullShop } from "./shop";
 
 export interface IBusiness {
   isSuspend: boolean;
@@ -8,20 +9,7 @@ export interface IBusiness {
   followerCount: number;
   countryId: number;
   bannerUrl: string | null;
-  fullShop: {
-    shortShop: {
-      isSuspend: boolean;
-      fbId: number;
-      productCount: number;
-      instagramerId: number;
-      priceType: number;
-    };
-    categories: {
-      categoryId: number;
-      langValue: string;
-      count: number;
-    }[];
-  } | null;
+  fullShop: IFullShop | null;
   fullAdvertise: [] | null;
   fullVShop: [] | null;
   instagramerId: number;
