@@ -10,6 +10,7 @@ import { LanguageKey } from "brancy/i18n";
 import { AvailabilityStatus } from "brancy/models/store/enum";
 import { IProduct_ShortProduct } from "brancy/models/store/IProduct";
 import styles from "./productListDesktop.module.css";
+import { hashProductId } from "brancy/helper/hashProductId";
 
 interface ProductListDesktopProps {
   products: IProduct_ShortProduct[];
@@ -31,7 +32,6 @@ const ProductListDesktop: React.FC<ProductListDesktopProps> = ({
   getStockClass,
 }) => {
   const { t } = useTranslation();
-
   return (
     <>
       {products.map((v) => (
@@ -58,7 +58,7 @@ const ProductListDesktop: React.FC<ProductListDesktopProps> = ({
                 {v.title || "--"}
               </div>
               <div className="explain" style={{ display: "flex" }}>
-                {v.productId}
+                {hashProductId(v.productId)}
               </div>
               <div className={styles.productidlite} style={{ filter: v.productInId ? "none" : "grayscale(1)" }}>
                 <div className="explain">PID:</div>#{v.tempId}

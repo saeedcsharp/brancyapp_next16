@@ -173,7 +173,7 @@ const ProductList = () => {
           hasChanges = true;
 
           // ارسال درخواست به سرور بدون انتظار برای پاسخ
-          clientFetchApi<boolean, IProduct_ShortProduct[]>("shopper" + "" + "/Product/ChangeAvailableProduct", {
+          clientFetchApi<boolean, IProduct_ShortProduct[]>("shopper/Product/ChangeAvailableProduct", {
             methodType: MethodType.get,
             session: session,
             data: null,
@@ -194,7 +194,7 @@ const ProductList = () => {
           hasChanges = true;
 
           // ارسال درخواست به سرور بدون انتظار برای پاسخ
-          clientFetchApi<boolean, IProduct_ShortProduct[]>("shopper" + "" + "/Product/ChangeAvailableProduct", {
+          clientFetchApi<boolean, IProduct_ShortProduct[]>("shopper/Product/ChangeAvailableProduct", {
             methodType: MethodType.get,
             session: session,
             data: null,
