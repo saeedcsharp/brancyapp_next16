@@ -70,7 +70,7 @@ const menuItems = [
       </svg>
     ),
     textKey: LanguageKey.sidebar_Business,
-    activeRoutes: ["userbusiness"],
+    activeRoutes: ["userbusiness", "userbusinessshop", "userbusinessadvertise", "userbusinessvshop"],
   },
   {
     href: "/user/shop",

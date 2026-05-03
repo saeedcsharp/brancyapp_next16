@@ -114,4 +114,7 @@ export enum UserPanelRoute {
   UserPanelOrdersCart = "userorderscart",
   UserPanelShop = "usershop",
   UserPanelBusiness = "userbusiness",
+  UserPanelBusinessShop = "userbusinessshop",
+  UserPanelBusinessAdvertise = "userbusinessadvertise",
+  UserPanelBusinessVShop = "userbusinessvshop",
 }

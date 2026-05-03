@@ -90,7 +90,11 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
           </svg>
         ),
         translationKey: LanguageKey.sidebar_Business,
-        isActive: (route: string) => route === "userbusiness",
+        isActive: (route: string) =>
+          route === "userbusiness" ||
+          route === "userbusinessshop" ||
+          route === "userbusinessadvertise" ||
+          route === "userbusinessvshop",
       },
       {
         id: "shop",
@@ -284,6 +288,9 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
       userorders: UserPanelRoute.UserPanelOrders,
       usershop: UserPanelRoute.UserPanelShop,
       userbusiness: UserPanelRoute.UserPanelBusiness,
+      userbusinessshop: UserPanelRoute.UserPanelBusiness,
+      userbusinessadvertise: UserPanelRoute.UserPanelBusiness,
+      userbusinessvshop: UserPanelRoute.UserPanelBusiness,
       userorderscart: UserPanelRoute.UserPanelOrdersCart,
       userordersfailed: UserPanelRoute.UserPanelOrdersFailed,
       userordersinqueue: UserPanelRoute.UserPanelOrdersInQueue,

@@ -28,11 +28,22 @@ const StorePage = () => {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [showFilter, setShowFilter] = useState(false);
-  const [storeMarkets, setStoreMarkets] = useState<IBusiness[]>([]);
+  const [storeMarkets, setStoreMarkets] = useState<IBusinessResponse>({ items: [], nextMaxId: "" });
   const [marketType, setMarketType] = useState<SelectedMarketType>(SelectedMarketType.All);
-  function fetchStorewData(pagination: string) {
-    //push data to storeMarkets
-    console.log("updateStoreMarket");
+  async function fetchStorewData(pagination: string): Promise<IBusinessResponse> {
+    const res = await clientFetchApi<boolean, IBusinessResponse>("/api/business/search", {
+      methodType: MethodType.get,
+      session: session,
+      data: null,
+      queries: [
+        { key: "businessType", value: BusinessType.Shop.toString() },
+        { key: "nextMaxId", value: pagination },
+      ],
+      onUploadProgress: undefined,
+    });
+    if (res.succeeded) return res.value;
+    notify(res.info.responseType, NotifType.Warning);
+    return { items: [], nextMaxId: "" };
   }
   async function fetchData() {
     try {
@@ -45,7 +56,7 @@ const StorePage = () => {
       });
       console.log("shop", res.value);
       if (res.succeeded) {
-        setStoreMarkets(res.value.items);
+        setStoreMarkets(res.value);
         setLoading(false);
       } else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {

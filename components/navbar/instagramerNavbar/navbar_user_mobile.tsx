@@ -23,7 +23,13 @@ const NavbarUserMobile = (prop: { handleShowHamMenu: (ham: string) => void }) =>
     )
       setNavbarRout("orders");
     else if (newRoute === UserPanelRoute.UserPanelShop) setNavbarRout("shop");
-    else if (newRoute === UserPanelRoute.UserPanelBusiness) setNavbarRout("business");
+    else if (
+      newRoute === UserPanelRoute.UserPanelBusiness ||
+      newRoute === UserPanelRoute.UserPanelBusinessShop ||
+      newRoute === UserPanelRoute.UserPanelBusinessAdvertise ||
+      newRoute === UserPanelRoute.UserPanelBusinessVShop
+    )
+      setNavbarRout("business");
     else if (newRoute === UserPanelRoute.UserPanelWallet) setNavbarRout("wallet");
     else if (newRoute === UserPanelRoute.UserPanelMessage) setNavbarRout("message");
     else if (newRoute === UserPanelRoute.UserPanelSetting) setNavbarRout("setting");
