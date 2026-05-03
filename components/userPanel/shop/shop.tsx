@@ -490,7 +490,7 @@ function ShopPage(props: {
       {loadingStatus && <Loading />}
       {!loadingStatus &&
         filteredData.map((v) => (
-          <Link href={`/user/shop/${v.instagramerId}`} key={v.instagramerId} className={styles.page}>
+          <Link href={`/user/business/shop/${v.instagramerId}`} key={v.instagramerId} className={styles.page}>
             <div className={styles.background}>
               <img
                 className={styles.backgroundImage}

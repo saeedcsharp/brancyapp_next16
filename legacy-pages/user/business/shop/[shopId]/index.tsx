@@ -27,6 +27,7 @@ import {
 } from "brancy/models/userPanel/shop";
 import styles from "./products.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { BusinessType } from "brancy/models/userPanel/business";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const ProductsPage = () => {
   const router = useRouter();
@@ -152,14 +153,11 @@ const ProductsPage = () => {
             ],
             onUploadProgress: undefined,
           }),
-          clientFetchApi<boolean, IFullShop>("/api/shop/getfullshop", {
+          clientFetchApi<boolean, IFullShop>("/api/business/search", {
             methodType: MethodType.get,
             session: session,
             data: null,
-            queries: [
-              { key: "instagramerId", value: shopId.toString() },
-              { key: "language", value: findSystemLanguage().toString() },
-            ],
+            queries: [{ key: "businessType", value: BusinessType.Shop.toString() }],
             onUploadProgress: undefined,
           }),
           clientFetchApi<boolean, IFilterInfo>("/api/shop/getfilters", {
