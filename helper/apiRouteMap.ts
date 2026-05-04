@@ -30,6 +30,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
 
   // ── business ─────────────────────────────────────────
   "/api/business/get": "User/Business/Get",
+  "/api/business/getshort": "User/Business/GetShort",
   "/api/business/search": "User/Business/Search",
 
   // ── autoacceptfollower ────────────────────────────────

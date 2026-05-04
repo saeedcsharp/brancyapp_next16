@@ -56,6 +56,7 @@ import {
 import Modal from "brancy/components/design/modal";
 import styles from "./product.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IBusiness } from "brancy/models/userPanel/business";
 
 // Constants
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
@@ -78,6 +79,7 @@ interface ProductState {
   hashtags: string[];
   similarProducts: IProductCard[];
   shop: IShortShop | null;
+  short: IBusiness | null;
   constantVar: IVariationComparison[];
   diffrentVar: IVariationComparison[];
   constColor: number | null;
@@ -115,6 +117,7 @@ type ProductAction =
   | { type: "SET_HASHTAGS"; payload: string[] }
   | { type: "SET_SIMILAR_PRODUCTS"; payload: IProductCard[] }
   | { type: "SET_SHOP"; payload: IShortShop | null }
+  | { type: "SET_SHORT"; payload: IBusiness | null }
   | { type: "SET_CONSTANT_VAR"; payload: IVariationComparison[] }
   | { type: "SET_DIFFRENT_VAR"; payload: IVariationComparison[] }
   | { type: "SET_CONST_COLOR"; payload: number | null }
@@ -178,6 +181,8 @@ const productReducer = (state: ProductState, action: ProductAction): ProductStat
       return { ...state, similarProducts: action.payload };
     case "SET_SHOP":
       return { ...state, shop: action.payload };
+    case "SET_SHORT":
+      return { ...state, short: action.payload };
     case "SET_CONSTANT_VAR":
       return { ...state, constantVar: action.payload };
     case "SET_DIFFRENT_VAR":
@@ -276,6 +281,7 @@ export default function Product() {
     hashtags: [],
     similarProducts: [],
     shop: null,
+    short: null,
     constantVar: [],
     diffrentVar: [],
     constColor: null,
@@ -317,6 +323,7 @@ export default function Product() {
     hashtags,
     similarProducts,
     shop,
+    short,
     constantVar,
     diffrentVar,
     constColor,
@@ -696,33 +703,12 @@ export default function Product() {
     [session, shopId, productId],
   );
 
-  const fetchShop = useCallback(
-    async (instagramerId: number) => {
-      if (!session) return;
-      try {
-        const res = await clientFetchApi<boolean, IFullShop>("/api/shop/getfullshop", {
-          methodType: MethodType.get,
-          session: session,
-          data: null,
-          queries: [{ key: "instagramerId", value: instagramerId.toString() }],
-          onUploadProgress: undefined,
-        });
-        if (res.succeeded) {
-          productDispatch({ type: "SET_SHOP", payload: res.value.shortShop });
-        }
-      } catch {
-        // ignore error
-      }
-    },
-    [session],
-  );
-
   const fetchData = useCallback(async () => {
     if (!shopId || !productId || !session) return;
     productDispatch({ type: "SET_LOADING", payload: true });
 
     try {
-      const [res, commentRes, hashtagRes] = await Promise.all([
+      const [res, commentRes, hashtagRes, short] = await Promise.all([
         clientFetchApi<boolean, IFullProduct>("/api/shop/getfullproduct", {
           methodType: MethodType.get,
           session: session,
@@ -766,6 +752,19 @@ export default function Product() {
             return { succeeded: false, value: [] } as any;
           }
         })(),
+        (async () => {
+          try {
+            return await clientFetchApi<boolean, IBusiness>("/api/business/getshort", {
+              methodType: MethodType.get,
+              session: session,
+              data: null,
+              queries: [{ key: "instagramerId", value: shopId.toString() }],
+              onUploadProgress: undefined,
+            });
+          } catch {
+            return { succeeded: false, value: [] } as any;
+          }
+        })(),
       ]);
 
       if (res.succeeded) {
@@ -794,8 +793,6 @@ export default function Product() {
         getCustomVariationStatus(res.value.subProducts);
         handleInitialedSelectedProduct(res.value);
         productDispatch({ type: "SET_LOADING", payload: false });
-
-        fetchShop(res.value.shortProduct.instagramerId);
       } else {
         notify(res.info.responseType, NotifType.Warning);
       }
@@ -806,6 +803,9 @@ export default function Product() {
 
       if (hashtagRes.succeeded) {
         productDispatch({ type: "SET_HASHTAGS", payload: hashtagRes.value });
+      }
+      if (short.succeeded) {
+        productDispatch({ type: "SET_SHORT", payload: short.value });
       }
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -821,7 +821,6 @@ export default function Product() {
     getColorIdStatus,
     getCustomVariationStatus,
     handleInitialedSelectedProduct,
-    fetchShop,
   ]);
   const handleSaveProduct = useCallback(async () => {
     try {
@@ -1204,8 +1203,8 @@ export default function Product() {
                   className="instagramprofile"
                   style={{ cursor: "pointer" }}
                   onClick={() => {
-                    if (shop?.instagramerId) {
-                      router.push(`/user/shop/${shop.instagramerId}`);
+                    if (shopId) {
+                      router.push(`/user/business/shop/${shopId}`);
                     }
                   }}>
                   <svg className={styles.BacktoProductList} width="45" height="45" viewBox="0 0 22 22" fill="none">
@@ -1217,7 +1216,7 @@ export default function Product() {
                   </svg>
                   <div className="instagramprofiledetail">
                     <div className="instagramusername">{t(LanguageKey.BacktoProductList)}</div>
-                    <div className="instagramid">{shop?.username}</div>
+                    <div className="instagramid">{short?.username}</div>
                   </div>
                 </div>
               </div>

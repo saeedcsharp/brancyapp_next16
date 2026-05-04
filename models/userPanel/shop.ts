@@ -33,7 +33,6 @@ export interface IFavoriteCardCount {
 export interface IProductCard {
   shortProduct: IShortProduct;
   favoriteCardCount: IFavoriteCardCount;
-  shopInfo: IShortShop;
 }
 export interface IFavoriteProduct {
   favoriteProducts: IProductCard[];

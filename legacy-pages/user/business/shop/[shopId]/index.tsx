@@ -1,9 +1,3 @@
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import PriceSlider from "brancy/components/design/sliders/priceSlider";
@@ -12,23 +6,27 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
 import SignIn, { RedirectType, SignInType } from "brancy/components/signIn/signIn";
 import SignInPage1 from "brancy/components/signIn/signInPage1";
+import { MethodType } from "brancy/helper/api";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import findSystemLanguage from "brancy/helper/findSystemLanguage";
 import { LanguageKey } from "brancy/i18n";
-import { MethodType } from "brancy/helper/api";
 import { AvailabilityStatus } from "brancy/models/store/enum";
+import { IBusiness } from "brancy/models/userPanel/business";
 import {
   IFilter,
   IFilterInfo,
-  IFullShop,
   IProduct,
   IProductCard,
   ITopHashtags,
   ProductSortType,
 } from "brancy/models/userPanel/shop";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import styles from "./products.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { BusinessType, IBusiness, IBusinessResponse } from "brancy/models/userPanel/business";
-import business from "../..";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const ProductsPage = () => {
   const router = useRouter();
@@ -176,6 +174,8 @@ const ProductsPage = () => {
           }),
         ]);
         // if (!res3.succeeded) notify(res3.info.responseType, NotifType.Warning);
+        // if (!res2.succeeded) notify(res2.info.responseType, NotifType.Warning);
+        // if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
         if (res3.succeeded && res3.value.priceRange) {
           setPriceRange([Math.ceil(res3.value.priceRange.minPrice), Math.ceil(res3.value.priceRange.maxPrice)]);
           setMaxPriceRange(res3.value.priceRange.maxPrice);
@@ -187,7 +187,8 @@ const ProductsPage = () => {
         }
         if (res.succeeded) {
           setProducts(res.value);
-          if (res.value.products.length > 0) {
+          console.log("Initial products loaded:", res.value.products);
+          if (res.value.products?.length > 0) {
             const lastProduct = res.value.products[res.value.products.length - 1];
             setNextMaxId(lastProduct.shortProduct.productId.toString());
             setHasMoreProducts(true);
@@ -201,6 +202,7 @@ const ProductsPage = () => {
           setHasMoreProducts(false);
         }
       } catch (error) {
+        console.log("Error fetching products:", error);
         notify(ResponseType.Unexpected, NotifType.Error);
         setHasMoreProducts(false);
       }
@@ -1288,7 +1290,7 @@ const ProductsPage = () => {
                           )}
                         </div>
                       </div>
-                      {!showSearch.searchMode && filter!.topHashtags.length > 0 && (
+                      {!showSearch.searchMode && (filter?.topHashtags?.length ?? 0) > 0 && (
                         <div className={styles.hashtagListContainer}>
                           <div
                             className={`${styles.hashtagList} ${isHashtagsExpanded ? styles.expanded : ""}`}
@@ -1541,7 +1543,7 @@ const ProductsPage = () => {
                         </div>
                       </div> */}
 
-                          {filteredProducts.products.length === 0 ? (
+                          {(filteredProducts.products?.length ?? 0) === 0 ? (
                             <div className={styles.noSearchResults}>
                               <svg
                                 fill="none"
@@ -1586,7 +1588,7 @@ const ProductsPage = () => {
                                     key={product.shortProduct.productId}
                                     onClick={() =>
                                       router.push(
-                                        `/user/shop/${product.shortProduct.instagramerId}/product/${product.shortProduct.productId}`,
+                                        `/user/business/shop/${shopId}/product/${product.shortProduct.productId}`,
                                       )
                                     }>
                                     <img
@@ -1725,9 +1727,7 @@ const ProductsPage = () => {
                           className={styles.productCard}
                           key={product.shortProduct.productId}
                           onClick={() =>
-                            router.push(
-                              `/user/shop/${product.shortProduct.instagramerId}/product/${product.shortProduct.productId}`,
-                            )
+                            router.push(`/user/business/shop/${shopId}/product/${product.shortProduct.productId}`)
                           }>
                           <img
                             title={product.shortProduct.title}

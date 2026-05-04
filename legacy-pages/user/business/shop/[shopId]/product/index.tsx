@@ -9,7 +9,7 @@ const ProductPage: React.FC<ProductProps> = () => {
   const { shopId } = router.query;
   useEffect(() => {
     if (shopId) {
-      router.push(`/user/shop/${shopId}`);
+      router.push(`/user/business/shop/${shopId}`);
     }
   }, [shopId, router]);
 
