@@ -27,7 +27,8 @@ const NavbarUserMobile = (prop: { handleShowHamMenu: (ham: string) => void }) =>
       newRoute === UserPanelRoute.UserPanelBusiness ||
       newRoute === UserPanelRoute.UserPanelBusinessShop ||
       newRoute === UserPanelRoute.UserPanelBusinessAdvertise ||
-      newRoute === UserPanelRoute.UserPanelBusinessVShop
+      newRoute === UserPanelRoute.UserPanelBusinessVShop ||
+      newRoute.includes(UserPanelRoute.UserPanelBusinessShop)
     )
       setNavbarRout("business");
     else if (newRoute === UserPanelRoute.UserPanelWallet) setNavbarRout("wallet");

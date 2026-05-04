@@ -180,17 +180,14 @@ html[dir="rtl"] .menuCategoriesChild {
 .indicator-userbusiness {
   transform: translateY(118px) !important;
 }
-.indicator-usershop {
+.indicator-userwallet {
   transform: translateY(180px) !important;
 }
-.indicator-userwallet {
+.indicator-usermessage {
   transform: translateY(240px) !important;
 }
-.indicator-usermessage {
-  transform: translateY(300px) !important;
-}
 .indicator-usersetting {
-  transform: translateY(360px) !important;
+  transform: translateY(300px) !important;
 }
 
 .advertisebutton,

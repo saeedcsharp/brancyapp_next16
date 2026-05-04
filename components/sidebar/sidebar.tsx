@@ -46,7 +46,8 @@ const SideBar = () => {
           newRoute === UserPanelRoute.UserPanelOrdersInProgress ||
           newRoute === UserPanelRoute.UserPanelOrdersInQueue ||
           newRoute === UserPanelRoute.UserPanelShop ||
-          newRoute.includes(UserPanelRoute.UserPanelOrdersCart)) &&
+          newRoute.includes(UserPanelRoute.UserPanelOrdersCart) ||
+          newRoute.includes(UserPanelRoute.UserPanelBusinessShop)) &&
         newRoute !== "404" && <UserSidebar newRouth={newRoute} router={router} />}
     </>
   );
