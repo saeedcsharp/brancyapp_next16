@@ -72,7 +72,6 @@ export interface ITopHashtags {
 }
 export interface IFullShop {
   shortShop: IShortShop;
-  banners: IBanner[];
   categories: ICategory[];
 }
 export interface IFilterInfo {

@@ -27,7 +27,8 @@ import {
 } from "brancy/models/userPanel/shop";
 import styles from "./products.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { BusinessType } from "brancy/models/userPanel/business";
+import { BusinessType, IBusiness, IBusinessResponse } from "brancy/models/userPanel/business";
+import business from "../..";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 const ProductsPage = () => {
   const router = useRouter();
@@ -47,7 +48,7 @@ const ProductsPage = () => {
   const [loading, setLoading] = useState(true);
   const [productsLoading, setProductsLoading] = useState(false);
   const [category, setCategory] = useState<number | null>(null);
-  const [fullShop, setFullShop] = useState<IFullShop | null>(null);
+  const [business, setBusiness] = useState<IBusiness | null>(null);
   const [activeCategory, setActiveCategory] = useState("all");
   const [priceRange, setPriceRange] = useState<number[] | null>(null);
   const [maxPriceRange, setMaxPriceRange] = useState(0);
@@ -153,11 +154,14 @@ const ProductsPage = () => {
             ],
             onUploadProgress: undefined,
           }),
-          clientFetchApi<boolean, IFullShop>("/api/business/search", {
+          clientFetchApi<boolean, IBusiness>("/api/business/get", {
             methodType: MethodType.get,
             session: session,
             data: null,
-            queries: [{ key: "businessType", value: BusinessType.Shop.toString() }],
+            queries: [
+              { key: "instagramerId", value: shopId.toString() },
+              { key: "language", value: findSystemLanguage().toString() },
+            ],
             onUploadProgress: undefined,
           }),
           clientFetchApi<boolean, IFilterInfo>("/api/shop/getfilters", {
@@ -171,6 +175,7 @@ const ProductsPage = () => {
             onUploadProgress: undefined,
           }),
         ]);
+        // if (!res3.succeeded) notify(res3.info.responseType, NotifType.Warning);
         if (res3.succeeded && res3.value.priceRange) {
           setPriceRange([Math.ceil(res3.value.priceRange.minPrice), Math.ceil(res3.value.priceRange.maxPrice)]);
           setMaxPriceRange(res3.value.priceRange.maxPrice);
@@ -178,7 +183,7 @@ const ProductsPage = () => {
           setFilter(res3.value);
         }
         if (res2.succeeded) {
-          setFullShop(res2.value);
+          setBusiness(res2.value);
         }
         if (res.succeeded) {
           setProducts(res.value);
@@ -204,22 +209,24 @@ const ProductsPage = () => {
     fetchProducts();
   }, [shopId, session]);
   useEffect(() => {
-    if (isBannerAutoplay && fullShop?.banners && fullShop.banners.length > 1) {
+    if (isBannerAutoplay && business?.banners && business.banners.length > 1) {
       const interval = setInterval(() => {
-        setActiveBannerIndex((prevIndex) => (prevIndex + 1) % fullShop.banners.length);
+        setActiveBannerIndex((prevIndex) => (prevIndex + 1) % (business.banners?.length ?? 1));
       }, 5000);
       return () => clearInterval(interval);
     }
-  }, [isBannerAutoplay, fullShop?.banners]);
+  }, [isBannerAutoplay, business?.banners]);
   const prevBanner = useCallback(() => {
-    if (!fullShop?.banners || fullShop.banners.length <= 1) return;
-    setActiveBannerIndex((prevIndex) => (prevIndex - 1 + fullShop.banners.length) % fullShop.banners.length);
-  }, [fullShop?.banners]);
+    if (!business?.banners || business.banners.length <= 1) return;
+    setActiveBannerIndex(
+      (prevIndex) => (prevIndex - 1 + (business.banners?.length ?? 1)) % (business.banners?.length ?? 1),
+    );
+  }, [business?.banners]);
 
   const nextBanner = useCallback(() => {
-    if (!fullShop?.banners || fullShop.banners.length <= 1) return;
-    setActiveBannerIndex((prevIndex) => (prevIndex + 1) % fullShop.banners.length);
-  }, [fullShop?.banners]);
+    if (!business?.banners || business.banners.length <= 1) return;
+    setActiveBannerIndex((prevIndex) => (prevIndex + 1) % (business.banners?.length ?? 1));
+  }, [business?.banners]);
 
   const toggleBannerAutoplay = useCallback(() => {
     setIsBannerAutoplay((prev) => !prev);
@@ -245,15 +252,15 @@ const ProductsPage = () => {
     const isLeftSwipe = distance > 50;
     const isRightSwipe = distance < -50;
 
-    if (isLeftSwipe && fullShop?.banners) {
+    if (isLeftSwipe && business?.banners) {
       // Swipe left - next banner
       nextBanner();
     }
-    if (isRightSwipe && fullShop?.banners) {
+    if (isRightSwipe && business?.banners) {
       // Swipe right - previous banner
       prevBanner();
     }
-  }, [touchStartX, touchEndX, fullShop?.banners, nextBanner, prevBanner]);
+  }, [touchStartX, touchEndX, business?.banners, nextBanner, prevBanner]);
   // const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
   //   console.log("Scroll event triggered");
   //   const target = e.target as HTMLDivElement;
@@ -308,7 +315,7 @@ const ProductsPage = () => {
           queries: [
             {
               key: "instagramerId",
-              value: fullShop?.shortShop.instagramerId.toString(),
+              value: business?.instagramerId.toString(),
             },
             { key: "nextMaxId", value: undefined },
             { key: "includeUnavailable", value: "true" },
@@ -329,7 +336,7 @@ const ProductsPage = () => {
           queries: [
             {
               key: "instagramerId",
-              value: fullShop?.shortShop.instagramerId.toString(),
+              value: business?.instagramerId.toString(),
             },
             {
               key: "categoryId",
@@ -552,7 +559,7 @@ const ProductsPage = () => {
       const params = [
         {
           key: "instagramerId",
-          value: fullShop?.shortShop.instagramerId.toString(),
+          value: business?.instagramerId.toString(),
         },
         { key: "nextMaxId", value: undefined },
         {
@@ -617,7 +624,7 @@ const ProductsPage = () => {
         queries: [
           {
             key: "instagramerId",
-            value: fullShop?.shortShop.instagramerId.toString(),
+            value: business?.instagramerId.toString(),
           },
           { key: "query", value: query },
           { key: "languageId", value: findSystemLanguage().toString() },
@@ -1016,26 +1023,26 @@ const ProductsPage = () => {
                       decoding="async"
                       className="instagramimage"
                       alt="instagram profile picture"
-                      src={baseMediaUrl + fullShop!.shortShop.profileUrl}
+                      src={baseMediaUrl + business!.profileUrl}
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = "/no-profile.svg";
                       }}
                     />
                     <div className="instagramprofiledetail" style={{ gap: "0px" }}>
-                      <span className="instagramusername translate">@{fullShop?.shortShop.username}</span>
-                      <span className="instagramname">{fullShop?.shortShop.fullName}</span>
+                      <span className="instagramusername translate">@{business?.username}</span>
+                      <span className="instagramname">{business?.fullName}</span>
                     </div>
                   </div>
                 </div>
                 <div className={styles.container}>
                   <div className={styles.PageHeader}>
                     <div className={styles.bannerSlider}>
-                      {fullShop?.banners && fullShop.banners.length > 0 && (
+                      {business?.banners && business.banners.length > 0 && (
                         <div className={styles.bannerContainer}>
                           {/* Desktop/Tablet Advanced Carousel (>720px) */}
                           <div className={styles.bannerAdvancedCarousel}>
-                            <ul className={styles.bannerCarouselList} data-count={fullShop.banners.length}>
-                              {fullShop.banners.map((banner, index) => (
+                            <ul className={styles.bannerCarouselList} data-count={business.banners.length}>
+                              {business.banners.map((banner, index) => (
                                 <li
                                   key={banner.orderId}
                                   className={styles.bannerCarouselItem}
@@ -1052,7 +1059,7 @@ const ProductsPage = () => {
                               ))}
                             </ul>
 
-                            {fullShop.banners.length > 1 && (
+                            {business?.banners.length > 1 && (
                               <div className={styles.bannerCarouselNav}>
                                 <button className={styles.bannerPrev} onClick={prevBanner} aria-label="Previous Banner">
                                   <svg width="24" height="24" viewBox="0 0 24 24">
@@ -1096,7 +1103,7 @@ const ProductsPage = () => {
                                   transform: `translateX(-${activeBannerIndex * 100}%)`,
                                   transition: "transform 0.3s ease-in-out",
                                 }}>
-                                {fullShop.banners.map((banner, index) => (
+                                {business?.banners.map((banner, index) => (
                                   <div key={banner.orderId} className={styles.bannerSlide}>
                                     <img
                                       className={styles.bannerImageSimple}
@@ -1110,7 +1117,7 @@ const ProductsPage = () => {
                               </div>
                             </div>
 
-                            {fullShop.banners.length > 1 && (
+                            {business?.banners.length > 1 && (
                               <>
                                 <button
                                   className={styles.bannerSimplePrev}
@@ -1131,7 +1138,7 @@ const ProductsPage = () => {
 
                                 {/* Dots indicator for mobile */}
                                 <div className={styles.bannerDots}>
-                                  {fullShop.banners.map((_, index) => (
+                                  {business.banners.map((_, index) => (
                                     <button
                                       key={index}
                                       className={`${styles.bannerDot} ${
@@ -1177,10 +1184,10 @@ const ProductsPage = () => {
                         onClick={() => handleCategoryClick(-1)}>
                         {t(LanguageKey.AllProducts)}
                         <div className={styles.featurecount}>
-                          {fullShop?.categories.reduce((sum, category) => sum + category.count, 0) || 0}
+                          {business?.fullShop?.categories.reduce((sum, category) => sum + category.count, 0) || 0}
                         </div>
                       </div>
-                      {fullShop?.categories.map((feature) => (
+                      {business?.fullShop?.categories.map((feature) => (
                         <div
                           key={feature.categoryId}
                           className={category === feature.categoryId ? styles.activeFeature : styles.featureCard}
