@@ -176,9 +176,9 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
                 subProducts: product.subProducts.map((sub) =>
                   sub.subProductId !== action.payload.subProductId
                     ? sub
-                    : { ...sub, cardCount: action.payload.quantity }
+                    : { ...sub, cardCount: action.payload.quantity },
                 ),
-              }
+              },
         ),
       };
 
@@ -192,7 +192,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
               : {
                   ...product,
                   subProducts: product.subProducts.filter((sub) => sub.subProductId !== action.payload.subProductId),
-                }
+                },
           )
           .filter((product) => product.subProducts.length > 0),
       };
@@ -206,7 +206,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
             : {
                 ...product,
                 subProducts: [...product.subProducts, action.payload.sub],
-              }
+              },
         ),
       };
 
@@ -322,7 +322,7 @@ const OrdersCart = () => {
     return state.stores.reduce(
       (total: number, product: ICompleteProduct) =>
         total + product.subProducts.reduce((sum: number, sub: ISubProduct) => sum + sub.mainPrice * sub.cardCount, 0),
-      0
+      0,
     );
   }, [state.stores]);
 
@@ -332,9 +332,9 @@ const OrdersCart = () => {
         total +
         product.subProducts.reduce(
           (sum: number, sub: ISubProduct) => sum + (sub.mainPrice - sub.price) * sub.cardCount,
-          0
+          0,
         ),
-      0
+      0,
     );
   }, [state.stores]);
 
@@ -411,7 +411,7 @@ const OrdersCart = () => {
       state.copiedAddresses,
       state.showAddress,
       state.stores.length,
-    ]
+    ],
   );
 
   // Optimized callbacks with proper cleanup
@@ -437,12 +437,18 @@ const OrdersCart = () => {
 
       const timeout = setTimeout(async () => {
         try {
-          const res = await clientFetchApi<boolean, boolean>("/api/shop/AddCard", { methodType: MethodType.get, session: session, data: null, queries: [
-            { key: "instagramerId", value: cardId!.toString() },
-            { key: "productId", value: productId.toString() },
-            { key: "subProductId", value: subProductId.toString() },
-            { key: "count", value: "0" },
-          ], onUploadProgress: undefined });
+          const res = await clientFetchApi<boolean, boolean>("/api/shop/AddCard", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
+              { key: "instagramerId", value: cardId!.toString() },
+              { key: "productId", value: productId.toString() },
+              { key: "subProductId", value: subProductId.toString() },
+              { key: "count", value: "0" },
+            ],
+            onUploadProgress: undefined,
+          });
 
           if (res.succeeded) {
             dispatch({ type: "REMOVE_DELETED_PRODUCT", payload: subProductId });
@@ -459,13 +465,13 @@ const OrdersCart = () => {
       timeoutRefs.current.set(subProductId, timeout);
       dispatch({ type: "SET_UNDO_TIMEOUT", payload: { id: subProductId, timeout } });
     },
-    [state.stores, session, cardId]
+    [state.stores, session, cardId],
   );
 
   const undoDelete = useCallback(
     (productId: number, subProductId: number) => {
       const deletedProduct = state.deletedProducts.find(
-        (p) => p.sub.subProductId === subProductId && p.productId === productId
+        (p) => p.sub.subProductId === subProductId && p.productId === productId,
       );
 
       if (deletedProduct) {
@@ -480,7 +486,7 @@ const OrdersCart = () => {
         dispatch({ type: "CLEAR_UNDO_TIMEOUT", payload: subProductId });
       }
     },
-    [state.deletedProducts]
+    [state.deletedProducts],
   );
 
   const updateQuantity = useCallback(
@@ -494,12 +500,18 @@ const OrdersCart = () => {
         try {
           dispatch({ type: "SET_ADD_CART_LOADING", payload: subProductId });
 
-          const res = await clientFetchApi<boolean, boolean>("/api/shop/AddCard", { methodType: MethodType.get, session: session, data: null, queries: [
-            { key: "instagramerId", value: cardId!.toString() },
-            { key: "productId", value: productId.toString() },
-            { key: "subProductId", value: subProductId.toString() },
-            { key: "count", value: newQuantity.toString() },
-          ], onUploadProgress: undefined });
+          const res = await clientFetchApi<boolean, boolean>("/api/shop/AddCard", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
+              { key: "instagramerId", value: cardId!.toString() },
+              { key: "productId", value: productId.toString() },
+              { key: "subProductId", value: subProductId.toString() },
+              { key: "count", value: newQuantity.toString() },
+            ],
+            onUploadProgress: undefined,
+          });
 
           if (res.succeeded) {
             dispatch({ type: "UPDATE_QUANTITY", payload: { productId, subProductId, quantity: newQuantity } });
@@ -513,7 +525,7 @@ const OrdersCart = () => {
         }
       });
     },
-    [session, cardId, deleteProduct, startTransition]
+    [session, cardId, deleteProduct, startTransition],
   );
   // API functions with improved error handling and abort control
   const fetchData = useCallback(async () => {
@@ -523,10 +535,16 @@ const OrdersCart = () => {
     abortControllerRef.current = new AbortController();
 
     try {
-      const res = await clientFetchApi<boolean, ICompleteProduct[]>("/api/shop/GetInstagramerCard", { methodType: MethodType.get, session: session, data: null, queries: [
+      const res = await clientFetchApi<boolean, ICompleteProduct[]>("/api/shop/GetInstagramerCard", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "instagramerId", value: cardId?.toString() },
           { key: "language", value: findSystemLanguage().toString() },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
 
       if (res.succeeded) {
         const filteredProducts = res.value.map((product: ICompleteProduct) => ({
@@ -555,11 +573,17 @@ const OrdersCart = () => {
   const getLogisticPrice = useCallback(
     async (addressId: number) => {
       try {
-        const res = await clientFetchApi<boolean, ILogistic[]>("/api/shop/GetLogesticPrice", { methodType: MethodType.get, session: session, data: null, queries: [
+        const res = await clientFetchApi<boolean, ILogistic[]>("/api/shop/GetLogesticPrice", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             { key: "instagramerId", value: cardId as string },
             { key: "addressId", value: addressId.toString() },
             { key: "language", value: findSystemLanguage().toString() },
-          ], onUploadProgress: undefined });
+          ],
+          onUploadProgress: undefined,
+        });
 
         if (res.succeeded) {
           dispatch({ type: "SET_LOGISTIC_PRICE", payload: res.value });
@@ -573,7 +597,7 @@ const OrdersCart = () => {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session, cardId]
+    [session, cardId],
   );
 
   const fetchAddresses = useCallback(async () => {
@@ -584,7 +608,13 @@ const OrdersCart = () => {
 
     dispatch({ type: "SET_LOADING", payload: true });
     try {
-      const res = await clientFetchApi<boolean, IAddress[]>("/api/address/GetAddresses", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IAddress[]>("/api/address/GetAddresses", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         if (res.value.length > 0) {
           const defaultAddress = res.value.find((x: IAddress) => x.isDefault);
@@ -606,7 +636,13 @@ const OrdersCart = () => {
 
   const handleGetAddressInputType = useCallback(async () => {
     try {
-      const res = await clientFetchApi<boolean, InputTypeAddress>("/api/address/GetAddressInputType", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, InputTypeAddress>("/api/address/GetAddressInputType", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         dispatch({ type: "SET_INPUT_TYPE_ADDRESS", payload: res.value });
       } else {
@@ -640,17 +676,17 @@ const OrdersCart = () => {
         dispatch({ type: "SET_SHOW_ADDRESS", payload: true });
       }
     },
-    [state.addresses]
+    [state.addresses],
   );
 
   const handleSelectLogistic = useCallback(
     (id: number) => {
       const updatedLogistics = state.logisticPrice.map((x: ILogistic) =>
-        x.id !== id ? { ...x, selectedId: null } : { ...x, selectedId: id }
+        x.id !== id ? { ...x, selectedId: null } : { ...x, selectedId: id },
       );
       dispatch({ type: "SET_LOGISTIC_PRICE", payload: updatedLogistics });
     },
-    [state.logisticPrice]
+    [state.logisticPrice],
   );
 
   const handleUpdateDefaultAddress = useCallback(async () => {
@@ -668,7 +704,13 @@ const OrdersCart = () => {
     };
 
     try {
-      const res = await clientFetchApi<boolean, IUpdateUserAddress>("/api/address/UpdateUserAddress", { methodType: MethodType.post, session: session, data: updatedAddress, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IUpdateUserAddress>("/api/address/UpdateUserAddress", {
+        methodType: MethodType.post,
+        session: session,
+        data: updatedAddress,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
 
       if (res.succeeded) {
         dispatch({ type: "SET_PREV_ADDRESS_ID", payload: null });
@@ -691,7 +733,7 @@ const OrdersCart = () => {
       const filteredAddresses = state.addresses.filter((x: IAddress) => x !== address);
       dispatch({ type: "SET_ADDRESSES", payload: filteredAddresses });
     },
-    [state.addresses]
+    [state.addresses],
   );
 
   // Effects with proper cleanup
@@ -826,13 +868,13 @@ const OrdersCart = () => {
                                 (sum, product) =>
                                   sum +
                                   product.subProducts.reduce((subSum, subProduct) => subSum + subProduct.cardCount, 0),
-                                0
+                                0,
                               )} items in this shop`}>
                               {shop.products.reduce(
                                 (sum, product) =>
                                   sum +
                                   product.subProducts.reduce((subSum, subProduct) => subSum + subProduct.cardCount, 0),
-                                0
+                                0,
                               )}
                               X
                             </span>
@@ -896,7 +938,7 @@ const OrdersCart = () => {
                                   <button
                                     onClick={() => {
                                       router.push(
-                                        `/user/shop/${product.shortProduct.instagramerId}/product/${product.productId}?subProductId=${sub.subProductId}`
+                                        `/user/business/${product.shortProduct.instagramerId}/product/${product.productId}?subProductId=${sub.subProductId}`,
                                       );
                                     }}
                                     className={styles.productimage}
@@ -978,7 +1020,7 @@ const OrdersCart = () => {
                                             updateQuantity(
                                               product.shortProduct.productId,
                                               sub.subProductId,
-                                              newQuantity
+                                              newQuantity,
                                             );
                                           }
                                         }}
@@ -995,8 +1037,8 @@ const OrdersCart = () => {
                                           sub.stock <= 3
                                             ? styles.lowStock
                                             : sub.stock <= 9
-                                            ? styles.mediumStock
-                                            : styles.highStock
+                                              ? styles.mediumStock
+                                              : styles.highStock
                                         }`}>
                                         {sub.stock}
                                       </span>
@@ -1023,7 +1065,7 @@ const OrdersCart = () => {
                                   </div>
                                 </div>
                               </div>
-                            ))
+                            )),
                           )}
                         </div>
 
@@ -1090,7 +1132,7 @@ const OrdersCart = () => {
                     <button
                       style={{ maxWidth: "300px" }}
                       className="saveButton"
-                      onClick={() => router.push("/user/shop")}
+                      onClick={() => router.push("/user/business")}
                       type="button">
                       {t(LanguageKey.Startshoping)}
                     </button>
@@ -1135,7 +1177,7 @@ const OrdersCart = () => {
                             (sum, product) =>
                               sum +
                               product.subProducts.reduce((subSum, subProduct) => subSum + subProduct.cardCount, 0),
-                            0
+                            0,
                           )}{" "}
                           {t(LanguageKey.Storeorder_ITEM)}{" "}
                           {state.stores[0]?.shortShop?.fullName || state.stores[0]?.shortProduct?.username}
