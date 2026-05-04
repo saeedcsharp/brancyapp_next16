@@ -179,7 +179,7 @@ export default function Card() {
                           alt={`${product.shortProduct.title} image`}
                           onClick={() => {
                             router.push(
-                              `/user/shop/${product.shortProduct.instagramerId}/product/${product.productId}`,
+                              `/user/business/${product.shortProduct.instagramerId}/product/${product.productId}`,
                             );
                           }}
                         />
