@@ -32,6 +32,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/business/get": "User/Business/Get",
   "/api/business/getshort": "User/Business/GetShort",
   "/api/business/search": "User/Business/Search",
+  "/api/business/getExplorer": "user/business/GetExplorer",
 
   // ── autoacceptfollower ────────────────────────────────
   "/api/autoacceptfollower/checkAvailability": "Instagramer/AutoAcceptFollower/CheckAvailability",
@@ -279,7 +280,6 @@ export const API_ROUTE_MAP: Record<string, string> = {
   // ── shop ──────────────────────────────────────────────
   "/api/shop/addCard": "user/shop/AddCard",
   "/api/shop/getAllCard": "user/shop/GetAllCard",
-  "/api/shop/getExplorer": "user/shop/GetExplorer",
   "/api/shop/getFavoriteProducts": "user/shop/GetFavoriteProducts",
   "/api/shop/getfilters": "user/shop/getfilters",
   "/api/shop/getfullproduct": "user/shop/getfullproduct",

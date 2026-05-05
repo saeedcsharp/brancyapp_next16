@@ -155,7 +155,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       refreshToken();
     }
     // Check if account info needs update (20 seconds since last update)
-    else if (currentTime - lastUpdate > 20000 && session.user.id > -1) {
+    else if (currentTime - lastUpdate > 20000 && session.user.currentIndex > -1) {
       GetAccountInfo();
     }
   }, [session, GetAccountInfo, refreshToken]);

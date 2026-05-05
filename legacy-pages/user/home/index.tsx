@@ -125,49 +125,49 @@ function Markets() {
       condition: (hour: number) => hour >= 4 && hour < 8,
       message: () =>
         `${t(LanguageKey.greeting1)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext1
+          LanguageKey.greetingtext1,
         )}`,
     },
     {
       condition: (hour: number) => hour >= 8 && hour < 10,
       message: () =>
         `${t(LanguageKey.greeting2)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext2
+          LanguageKey.greetingtext2,
         )}`,
     },
     {
       condition: (hour: number) => hour >= 10 && hour < 12,
       message: () =>
         `${t(LanguageKey.greeting3)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext3
+          LanguageKey.greetingtext3,
         )}`,
     },
     {
       condition: (hour: number) => hour >= 12 && hour < 15,
       message: () =>
         `${t(LanguageKey.greeting4)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext4
+          LanguageKey.greetingtext4,
         )}`,
     },
     {
       condition: (hour: number) => hour >= 15 && hour < 19,
       message: () =>
         `${t(LanguageKey.greeting5)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext5
+          LanguageKey.greetingtext5,
         )}`,
     },
     {
       condition: (hour: number) => hour >= 19 && hour < 23,
       message: () =>
         `${t(LanguageKey.greeting6)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext6
+          LanguageKey.greetingtext6,
         )}`,
     },
     {
       condition: (hour: number) => hour >= 23 || hour < 4,
       message: () =>
         `${t(LanguageKey.greeting7)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext7
+          LanguageKey.greetingtext7,
         )}`,
     },
   ];
@@ -177,9 +177,27 @@ function Markets() {
   async function fetchData() {
     try {
       const [res, saveRes, explorRes] = await Promise.all([
-        clientFetchApi<boolean, IUserInfo>("/api/account/GetTitleInfo", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<boolean, IFavoriteProduct>("/api/shop/GetFavoriteProducts", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<boolean, IShortShop[]>("/api/shop/GetExplorer", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, IUserInfo>("/api/account/GetTitleInfo", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IFavoriteProduct>("/api/shop/GetFavoriteProducts", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IShortShop[]>("/api/business/GetExplorer", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
       ]);
       if (res.succeeded) {
         setUserInfo(res.value);
@@ -269,7 +287,7 @@ function Markets() {
                                 ID:{" "}
                                 {Array.isArray(session?.user.instagramerIds)
                                   ? session?.user.instagramerIds.join(", ")
-                                  : session?.user.instagramerIds ?? "N/A"}
+                                  : (session?.user.instagramerIds ?? "N/A")}
                               </span>
                             </div>
                             <div className={`${styles.explain} translate`}>+{userInfo?.phoneNumber}</div>
@@ -300,7 +318,7 @@ function Markets() {
                             <SwiperSlide
                               onClick={() => {
                                 router.push(
-                                  `/user/shop/${saved.shortProduct.instagramerId}/product/${saved.favoriteCardCount.productId}`
+                                  `/user/shop/${saved.shortProduct.instagramerId}/product/${saved.favoriteCardCount.productId}`,
                                 );
                               }}
                               key={index}
