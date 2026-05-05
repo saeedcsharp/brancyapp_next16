@@ -1,5 +1,6 @@
 import { PriceType } from "brancy/components/priceFormater";
 import { AvailabilityStatus, GauranteeLength } from "brancy/models/store/enum";
+import { IBusiness } from "./business";
 
 export interface IShortProduct {
   maxInEachCard: number;
@@ -34,10 +35,7 @@ export interface IProductCard {
   shortProduct: IShortProduct;
   favoriteCardCount: IFavoriteCardCount;
 }
-export interface IFavoriteProduct {
-  favoriteProducts: IProductCard[];
-  nextMaxId: number | null;
-}
+
 export interface IProduct {
   products: IProductCard[];
   totalCount: number;

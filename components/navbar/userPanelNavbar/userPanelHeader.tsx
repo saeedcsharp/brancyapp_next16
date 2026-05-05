@@ -1,17 +1,13 @@
 import { useSession } from "next-auth/react";
 import { MouseEvent, use, useEffect, useRef, useState } from "react";
-import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { InstaInfoContext } from "brancy/context/instaInfoContext";
 import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
-import { MethodType } from "brancy/helper/api";
 import { PushNotif } from "brancy/models/push/pushNotif";
-import { IUserInfo } from "brancy/models/userPanel/login";
 import NavbarUserMobile from "brancy/components/navbar/instagramerNavbar/navbar_user_mobile";
 import UserNotificationBar from "brancy/components/navbar/userPanelNavbar/userNotificationBar";
 import styles from "./userPanelHeader.module.css";
 import UserProfile from "brancy/components/navbar/userPanelNavbar/userProfile";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
 interface UserPanelHeaderProps {
   handleShowHamMenu: (ham: string) => void;
@@ -37,7 +33,6 @@ const UserPanelHeader: React.FC<UserPanelHeaderProps> = ({
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [gooli, setGooli] = useState(false);
   const fullscreenButtonRef = useRef<HTMLDivElement>(null);
-  const [userProfile, setUserProfile] = useState<string | null>(null);
   const toggleFullscreen = () => {
     if (!document.fullscreenElement) {
       document.documentElement.requestFullscreen();
@@ -48,7 +43,7 @@ const UserPanelHeader: React.FC<UserPanelHeaderProps> = ({
     }
   };
   // const [navbarNotifs, setNavbarNotifs] = useState<PushNotif[]>([]);
-  const { value, setValue } = use(InstaInfoContext) ?? {};
+  const { value, setValue, userInfo } = use(InstaInfoContext) ?? {};
   function handleGetNotif(notif: string) {
     console.log("Notif in user navbar header", notif);
     const decombNotif = handleDecompress(notif);
@@ -77,26 +72,7 @@ const UserPanelHeader: React.FC<UserPanelHeaderProps> = ({
       }
     }, 500);
   }, []);
-  async function fetchData() {
-    try {
-      const res = await clientFetchApi<boolean, IUserInfo>("/api/account/GetTitleInfo", {
-        methodType: MethodType.get,
-        session: session,
-        data: undefined,
-        queries: undefined,
-        onUploadProgress: undefined,
-      });
-      if (res.succeeded) {
-        setUserProfile(res.value.profileUrl);
-      } else notify(res.info.responseType, NotifType.Warning);
-    } catch (error) {
-      notify(ResponseType.Unexpected, NotifType.Error);
-    }
-  }
-  useEffect(() => {
-    if (!session) return;
-    fetchData();
-  }, [session]);
+
   return (
     <>
       <nav className={styles.pageheadersmobile}>
@@ -160,7 +136,7 @@ const UserPanelHeader: React.FC<UserPanelHeaderProps> = ({
             onClick={handleShowProfile}
             className={styles.ProfileIcon}
             alt="instagram profile picture"
-            src={userProfile ? baseMediaUrl + userProfile : "/no-profile.svg"}
+            src={userInfo?.profileUrl ? baseMediaUrl + userInfo.profileUrl : "/no-profile.svg"}
           />
         </div>
         {/* {props.showSearchBar && (

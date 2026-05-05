@@ -1,5 +1,5 @@
 import { PriceType } from "brancy/components/priceFormater";
-import { IBanner, IFullShop } from "./shop";
+import { IBanner, IFullShop, IProductCard } from "./shop";
 
 export interface IBusiness {
   isSuspend: boolean;
@@ -18,7 +18,10 @@ export interface IBusiness {
   priceType: PriceType;
   businessType: BusinessType;
 }
-
+export interface IFavoriteBusiness {
+  items: { product: IProductCard | null; businessProfile: IBusiness }[];
+  nextMaxId: number | null;
+}
 export interface IBusinessResponse {
   items: IBusiness[];
   nextMaxId: string;
