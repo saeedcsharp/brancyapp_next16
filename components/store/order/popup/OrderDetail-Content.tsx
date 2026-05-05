@@ -368,14 +368,18 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
                       className="instagramimage"
                       title="ℹ️ Profile image"
                       alt="profile image"
-                      src={basePictureUrl + ordersProductInfo.order.shortShop.profileUrl}
+                      src={basePictureUrl + (ordersProductInfo.order.shortShop as any).profileUrl}
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = "/no-profile.svg";
                       }}
                     />
                     <div className="instagramprofiledetail" style={{ maxWidth: "100%" }}>
-                      <div className="instagramusername">{ordersProductInfo.order.shortShop.fullName || ""}</div>
-                      <div className="instagramid">{"@" + ordersProductInfo.order.shortShop.username || ""}</div>
+                      <div className="instagramusername">
+                        {(ordersProductInfo.order.shortShop as any).fullName || ""}
+                      </div>
+                      <div className="instagramid">
+                        {"@" + (ordersProductInfo.order.shortShop as any).username || ""}
+                      </div>
                     </div>
                   </div>
                 </div>

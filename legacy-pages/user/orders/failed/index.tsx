@@ -135,13 +135,19 @@ export default function Failed() {
     if (orders.nextMaxId === null) return;
     setLoadingMore(true);
     try {
-      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", { methodType: MethodType.post, session: session, data: [
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", {
+        methodType: MethodType.post,
+        session: session,
+        data: [
           OrderStep.UserCanceled,
           OrderStep.InstagramerCanceled,
           OrderStep.Failed,
           OrderStep.ShippingFailed,
           OrderStep.Expired,
-        ], queries: [{ key: "nextMaxId", value: orders.nextMaxId }], onUploadProgress: undefined });
+        ],
+        queries: [{ key: "nextMaxId", value: orders.nextMaxId }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         console.log("GetOrdersByStatus more item res", res.value);
         setOrders((prev) => ({
@@ -157,13 +163,19 @@ export default function Failed() {
   }
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", { methodType: MethodType.post, session: session, data: [
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", {
+        methodType: MethodType.post,
+        session: session,
+        data: [
           OrderStep.UserCanceled,
           OrderStep.InstagramerCanceled,
           OrderStep.Failed,
           OrderStep.ShippingFailed,
           OrderStep.Expired,
-        ], queries: undefined, onUploadProgress: undefined });
+        ],
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         console.log("GetOrdersByStatus res", res.value);
         setOrders(res.value);
@@ -238,14 +250,10 @@ export default function Failed() {
         state: order.ShortOrder.State,
         userId: order.ShortOrder.UserId,
         shortShop: {
-          bannerUrl: order.ShortOrder.ShortShop!.BannerUrl,
-          followerCount: order.ShortOrder.ShortShop!.FollowerCount,
-          fullName: order.ShortOrder.ShortShop!.FullName,
           instagramerId: order.ShortOrder.ShortShop!.InstagramerId,
-          profileUrl: order.ShortOrder.ShortShop!.ProfileUrl,
-          username: order.ShortOrder.ShortShop!.Username,
           priceType: order.ShortOrder.ShortShop!.PriceType,
           productCount: order.ShortOrder.ShortShop!.ProductCount,
+          isSuspend: true,
         },
         status: order.NewStatus,
         statusUpdateTime: order.ShortOrder.StatusUpdateTime,
@@ -394,7 +402,7 @@ export default function Failed() {
                       <img
                         loading="lazy"
                         decoding="async"
-                        src={basePictureUrl + order.shortShop!.profileUrl}
+                        src={basePictureUrl + (order.shortShop! as any).profileUrl}
                         alt="profile"
                         className="instagramimage"
                         onError={(e) => {
@@ -403,10 +411,10 @@ export default function Failed() {
                       />
                       <div className="instagramprofiledetail">
                         <div className="instagramusername">
-                          {order.shortShop!.fullName ? order.shortShop!.fullName : ""}
+                          {(order.shortShop! as any).fullName ? (order.shortShop! as any).fullName : ""}
                         </div>
                         <div className="instagramid translate">
-                          {order.shortShop!.username ? "@" + order.shortShop!.username : ""}
+                          {(order.shortShop! as any).username ? "@" + (order.shortShop! as any).username : ""}
                         </div>
                       </div>
                     </td>
@@ -416,14 +424,14 @@ export default function Failed() {
                         order.status === OrderStep.Failed
                           ? styles.failed
                           : order.status === OrderStep.InstagramerCanceled
-                          ? styles.canceled
-                          : order.status === OrderStep.UserCanceled
-                          ? styles.usercanceled
-                          : order.status === OrderStep.ShippingFailed
-                          ? styles.returned
-                          : order.status === OrderStep.Expired
-                          ? styles.expired
-                          : ""
+                            ? styles.canceled
+                            : order.status === OrderStep.UserCanceled
+                              ? styles.usercanceled
+                              : order.status === OrderStep.ShippingFailed
+                                ? styles.returned
+                                : order.status === OrderStep.Expired
+                                  ? styles.expired
+                                  : ""
                       }`}>
                       {order.status === OrderStep.Failed ? (
                         <>

@@ -198,10 +198,14 @@ const InProgress = () => {
     if (orderIds.size === 0) return;
     const results = await Promise.all(
       Array.from(orderIds).map((orderId) =>
-        clientFetchApi<boolean, boolean>("/api/order/RejectOrder", { methodType: MethodType.get, session: session, data: null, queries: [
-          { key: "orderId", value: orderId },
-        ], onUploadProgress: undefined })
-      )
+        clientFetchApi<boolean, boolean>("/api/order/RejectOrder", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "orderId", value: orderId }],
+          onUploadProgress: undefined,
+        }),
+      ),
     );
     const successfulOrderIds = new Set<string>();
     const failedResults: any[] = [];
@@ -229,7 +233,13 @@ const InProgress = () => {
     if (orders.nextMaxId === null) return;
     setLoadingMore(true);
     try {
-      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", { methodType: MethodType.post, session: session, data: [OrderStep.Paid, OrderStep.InstagramerAccepted], queries: [{ key: "nextMaxId", value: orders.nextMaxId }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", {
+        methodType: MethodType.post,
+        session: session,
+        data: [OrderStep.Paid, OrderStep.InstagramerAccepted],
+        queries: [{ key: "nextMaxId", value: orders.nextMaxId }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         console.log("GetOrdersByStatus more item res", res.value);
         setOrders((prev) => ({
@@ -245,7 +255,13 @@ const InProgress = () => {
   }
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", { methodType: MethodType.post, session: session, data: [OrderStep.Paid, OrderStep.InstagramerAccepted], queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", {
+        methodType: MethodType.post,
+        session: session,
+        data: [OrderStep.Paid, OrderStep.InstagramerAccepted],
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         console.log("GetOrdersByStatus res", res.value);
         setOrders(res.value);
@@ -291,14 +307,10 @@ const InProgress = () => {
         state: order.ShortOrder.State,
         userId: order.ShortOrder.UserId,
         shortShop: {
-          bannerUrl: order.ShortOrder.ShortShop!.BannerUrl,
-          followerCount: order.ShortOrder.ShortShop!.FollowerCount,
-          fullName: order.ShortOrder.ShortShop!.FullName,
           instagramerId: order.ShortOrder.ShortShop!.InstagramerId,
-          profileUrl: order.ShortOrder.ShortShop!.ProfileUrl,
-          username: order.ShortOrder.ShortShop!.Username,
           priceType: order.ShortOrder.ShortShop!.PriceType,
           productCount: order.ShortOrder.ShortShop!.ProductCount,
+          isSuspend: true,
         },
         status: order.NewStatus,
         statusUpdateTime: order.ShortOrder.StatusUpdateTime,
@@ -428,7 +440,7 @@ const InProgress = () => {
                         <img
                           loading="lazy"
                           decoding="async"
-                          src={order.shortShop ? basePictureUrl + order.shortShop!.profileUrl : ""}
+                          src={order.shortShop ? basePictureUrl + (order.shortShop! as any).profileUrl : ""}
                           alt="profile"
                           className="instagramimage"
                           onError={(e) => {
@@ -436,9 +448,11 @@ const InProgress = () => {
                           }}
                         />
                         <div className="instagramprofiledetail">
-                          <div className="instagramusername">{order.shortShop ? order.shortShop!.fullName : ""}</div>
+                          <div className="instagramusername">
+                            {order.shortShop ? (order.shortShop! as any).fullName : ""}
+                          </div>
                           <div className="instagramid translate">
-                            {order.shortShop ? "@" + order.shortShop!.username : ""}
+                            {order.shortShop ? "@" + (order.shortShop! as any).username : ""}
                           </div>
                         </div>
                       </td>
@@ -448,8 +462,8 @@ const InProgress = () => {
                           order.status === OrderStep.Paid
                             ? styles.pickupRequest
                             : order.status === OrderStep.InstagramerAccepted
-                            ? styles.pickedup
-                            : ""
+                              ? styles.pickedup
+                              : ""
                         }`}>
                         {order.status === OrderStep.Paid && (
                           <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 25">
@@ -477,8 +491,8 @@ const InProgress = () => {
                           {order.status === OrderStep.Paid
                             ? t(LanguageKey.Storeorder_requestedpickup)
                             : order.status === OrderStep.InstagramerAccepted
-                            ? t(LanguageKey.Storeorder_Pickedup)
-                            : ""}
+                              ? t(LanguageKey.Storeorder_Pickedup)
+                              : ""}
                         </span>
                       </td>
                       <td style={{ minWidth: "50px" }} className={styles.items}>

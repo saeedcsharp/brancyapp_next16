@@ -194,7 +194,13 @@ const Delivered = () => {
   const isAllSelected = state.selectedOrders.size === orders.items.length;
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatus", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "status", value: OrderStep.Delivered.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatus", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "status", value: OrderStep.Delivered.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         console.log("GetOrdersByStatus InstagramerAccepted res", res.value);
         setOrders(res.value);
@@ -234,14 +240,10 @@ const Delivered = () => {
         state: order.ShortOrder.State,
         userId: order.ShortOrder.UserId,
         shortShop: {
-          bannerUrl: order.ShortOrder.ShortShop!.BannerUrl,
-          followerCount: order.ShortOrder.ShortShop!.FollowerCount,
-          fullName: order.ShortOrder.ShortShop!.FullName,
           instagramerId: order.ShortOrder.ShortShop!.InstagramerId,
-          profileUrl: order.ShortOrder.ShortShop!.ProfileUrl,
-          username: order.ShortOrder.ShortShop!.Username,
           priceType: order.ShortOrder.ShortShop!.PriceType,
           productCount: order.ShortOrder.ShortShop!.ProductCount,
+          isSuspend: true,
         },
         status: order.NewStatus,
         statusUpdateTime: order.ShortOrder.StatusUpdateTime,
@@ -386,7 +388,7 @@ const Delivered = () => {
                       <img
                         loading="lazy"
                         decoding="async"
-                        src={order.shortShop ? basePictureUrl + order.shortShop!.profileUrl : ""}
+                        src={order.shortShop ? basePictureUrl + (order.shortShop! as any).profileUrl : ""}
                         alt="profile"
                         className="instagramimage"
                         onError={(e) => {
@@ -395,10 +397,14 @@ const Delivered = () => {
                       />
                       <div className="instagramprofiledetail">
                         <div className="instagramusername">
-                          {order.shortShop ? (order.shortShop!.fullName ? order.shortShop!.fullName : "") : ""}
+                          {order.shortShop
+                            ? (order.shortShop! as any).fullName
+                              ? (order.shortShop! as any).fullName
+                              : ""
+                            : ""}
                         </div>
                         <div className="instagramid translate">
-                          {order.shortShop ? "@" + order.shortShop!.username : ""}
+                          {order.shortShop ? "@" + (order.shortShop! as any).username : ""}
                         </div>
                       </div>
                     </td>
