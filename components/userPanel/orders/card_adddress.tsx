@@ -275,6 +275,12 @@ export default function CardAddress({
     router,
   ]);
 
+  useEffect(() => {
+    if (logisticPrice.length === 0) {
+      dispatch({ type: "SET_ACTIVE_BUTTON", payload: true });
+    } else dispatch({ type: "SET_ACTIVE_BUTTON", payload: false });
+  }, [logisticPrice]);
+
   const handleResize = useCallback(() => {
     dispatch({
       type: "SET_IS_MOBILE",

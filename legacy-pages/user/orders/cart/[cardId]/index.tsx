@@ -591,6 +591,7 @@ const OrdersCart = () => {
             dispatch({ type: "SET_SELECTED_LOGISTIC_ID", payload: res.value[0].id });
           }
         } else {
+          dispatch({ type: "SET_LOGISTIC_PRICE", payload: [] });
           notify(res.info.responseType, NotifType.Warning);
         }
       } catch (error) {
@@ -714,6 +715,7 @@ const OrdersCart = () => {
 
       if (res.succeeded) {
         dispatch({ type: "SET_PREV_ADDRESS_ID", payload: null });
+        await getLogisticPrice(address.id);
       } else {
         notify(res.info.responseType, NotifType.Warning);
       }
