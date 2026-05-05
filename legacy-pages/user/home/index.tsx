@@ -414,6 +414,7 @@ function Markets() {
                               width: "150px",
                               borderRadius: "var(--br15)",
                               objectFit: "cover",
+                              display: "block",
                             }}
                             title={`ℹ️ ${explore.username}`}
                             src={explore.bannerUrl ? baseMediaUrl + explore.bannerUrl : "/no-profile.svg"}
@@ -428,10 +429,41 @@ function Markets() {
                                 title={""}
                                 src={baseMediaUrl + explore.profileUrl}
                                 alt={"Store"}
+                                style={{ border: "1.5px solid var(--color-gray30)" }}
                               />
-                              {explore.fullName && <div className="title">{explore.fullName}</div>}
+                              {explore.fullName && (
+                                <div
+                                  className="title"
+                                  style={{
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                    maxWidth: "110px",
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                  }}>
+                                  {explore.fullName}
+                                </div>
+                              )}
                             </div>
-                            <div className="explain">{explore.fullShop?.shortShop.productCount}</div>
+                            {explore.fullShop?.shortShop.productCount != null && (
+                              <span
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: "4px",
+                                  fontSize: "11px",
+                                  fontWeight: 600,
+                                  color: "var(--text-h2)",
+                                  background: "var(--color-gray10)",
+                                  borderRadius: "20px",
+                                  padding: "3px 10px",
+                                  alignSelf: "center",
+                                  whiteSpace: "nowrap",
+                                }}>
+                                🛍 {explore.fullShop.shortShop.productCount} {t(LanguageKey.navbar_Products)}
+                              </span>
+                            )}
                           </div>
                         </SwiperSlide>
                       ))}
