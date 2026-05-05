@@ -1003,7 +1003,7 @@ const ProductsPage = () => {
             {!loading && (
               <>
                 <div className={styles.stickyNavigation}>
-                  <Link href="/user/shop">
+                  <Link href="/user/business" className={styles.businessLink}>
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
                       fill="none"
