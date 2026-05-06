@@ -4,7 +4,6 @@ import CredentialsProvider from "next-auth/providers/credentials";
 
 function normalizeUser(input: any) {
   const normalizedId = Number(input?.Id ?? input?.id ?? 0);
-  const now = Date.now();
   const rawPackageExpireTime = input?.packageExpireTime;
   const normalizedPackageExpireTime =
     typeof rawPackageExpireTime === "number" && rawPackageExpireTime > 0 ? rawPackageExpireTime : undefined;
@@ -18,7 +17,7 @@ function normalizeUser(input: any) {
     accessToken: input?.accessToken ?? "",
     socketAccessToken: input?.socketAccessToken ?? "",
     currentIndex: input?.currentIndex ?? -1,
-    lastUpdate: input?.lastUpdate ?? now,
+    lastUpdate: input?.lastUpdate ?? 0,
     isShopperOrInfluencer: input?.isShopperOrInfluencer ?? false,
     pk: input?.pk ?? 0,
     isShopper: input?.isShopper ?? false,
