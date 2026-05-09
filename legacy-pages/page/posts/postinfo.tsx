@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -40,7 +41,7 @@ import { IAutomaticReply, IDetailsPost, IInsightPost, IMediaUpdateAutoReply } fr
 import { MediaType } from "brancy/models/page/post/preposts";
 import styles from "./showPost.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 function convertMillisecondsToTime(ms: number) {
   if (ms <= 0) {
     return { hours: 0, minutes: 0, seconds: 0 };

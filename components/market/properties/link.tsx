@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import {
   closestCenter,
   DndContext,
@@ -24,7 +25,7 @@ import { LanguageKey } from "brancy/i18n";
 import { ILink, IUpdateOrderLink } from "brancy/models/market/properties";
 import styles from "./link.module.css";
 
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = getClientMediaBaseUrl();
 
 // Sortable item component
 function SortableItem({

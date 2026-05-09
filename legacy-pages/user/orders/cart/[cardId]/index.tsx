@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { t } from "i18next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -274,7 +275,7 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
   }
 };
 
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 
 const OrdersCart = () => {
   const router = useRouter();

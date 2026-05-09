@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
@@ -6,7 +7,7 @@ import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import { LanguageKey } from "brancy/i18n";
 import { IFullPageInfo } from "brancy/models/page/post/preposts";
 import styles from "./followers&NonFollowers.module.css";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 const FollowersNonFollowers = (props: { removeMask: () => void }) => {
   const [toggleValue, setToggleValue] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
   const [followers, setFollowers] = useState<IFullPageInfo[]>([]);

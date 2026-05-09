@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import { KeyboardEvent, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -12,7 +13,7 @@ function Profile() {
   const { data: session } = useSession();
   const [isHidden, setIsHidden] = useState(false);
 
-  const basePictureUrl = useMemo(() => process.env.NEXT_PUBLIC_BASE_MEDIA_URL, []);
+  const basePictureUrl = useMemo(() => getClientMediaBaseUrl(), []);
 
   const userData = useMemo(
     () => ({

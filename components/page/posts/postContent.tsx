@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
@@ -23,7 +24,7 @@ import { IUploadPost, UploadPostSteps } from "brancy/models/page/socketPage";
 import ScheduledPost from "brancy/components/page/scheduledPost/scheduledPost";
 import styles from "./postContent.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 type PostState = {
   posts: IPostContent[] | null;
   hasMore: boolean;

@@ -6,8 +6,9 @@ import {
   notify,
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
+import { getClientUploadBaseUrl } from "brancy/helper/apiBaseUrl";
 
-const UPLOAD_BASE_URL = process.env.NEXT_PUBLIC_UPLOAD_BASE_URL;
+const UPLOAD_BASE_URL = getClientUploadBaseUrl();
 
 export interface IResult<T> {
   succeeded: boolean;

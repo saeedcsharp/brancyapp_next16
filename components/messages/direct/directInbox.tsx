@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
 import { useSession } from "next-auth/react";
 import router from "next/router";
@@ -57,7 +58,7 @@ const DirectInbox = () => {
   const { t } = useTranslation();
   const { query } = router;
   let instagramerId = session?.user.instagramerIds[session?.user.currentIndex];
-  const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+  const basePictureUrl = getClientMediaBaseUrl();
   const [generalInbox, setGeneralInbox] = useState<IInbox>();
   const [searchGeneralInbox, setSearchGeneralInbox] = useState<IInbox>();
   const [searchBusinessInbox, setSearchBusinessInbox] = useState<IInbox>();

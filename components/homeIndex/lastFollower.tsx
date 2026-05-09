@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
@@ -6,7 +7,7 @@ import { ILastFollower } from "brancy/models/homeIndex/home";
 import Loading from "brancy/components/notOk/loading";
 import styles from "./lastFollower.module.css";
 
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 const LastFollower = (props: { data: ILastFollower[] | null }) => {
   const { t } = useTranslation();
   const [loadingStatus, setLoadingStaus] = useState(true);

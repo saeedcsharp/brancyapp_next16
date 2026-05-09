@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import PriceSlider from "brancy/components/design/sliders/priceSlider";
@@ -27,7 +28,7 @@ import { useRouter } from "next/router";
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./products.module.css";
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = getClientMediaBaseUrl();
 const ProductsPage = () => {
   const router = useRouter();
   const { data: session } = useSession();

@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { t } from "i18next";
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useState } from "react";
@@ -9,7 +10,7 @@ import { MethodType } from "brancy/helper/api";
 import { ILogistic } from "brancy/models/userPanel/orders";
 import styles from "./logistic.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = getClientMediaBaseUrl();
 export default function Logistic({
   shippingList,
   handleAddLogistic,

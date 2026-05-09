@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { HubConnection } from "@microsoft/signalr";
 import { t } from "i18next";
 import { useSession } from "next-auth/react";
@@ -82,7 +83,7 @@ const CommentChatBox = (props: {
           locale: initialzedTime().locale,
         }).format("hh:mm A - ddd");
   };
-  const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+  const baseMediaUrl = getClientMediaBaseUrl();
   var unixTypingTime = 0;
   const [foldedChats, setFoldedChats] = useState<{ [key: string]: boolean }>({});
   const toggleFold = (commentId: string) => {

@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import ImageCompressor from "compressorjs";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -363,7 +364,7 @@ const CreatePost = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const { t } = useTranslation();
-  const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+  const basePictureUrl = getClientMediaBaseUrl();
   const { query } = router;
 
   // Handle authentication check

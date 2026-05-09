@@ -1,33 +1,79 @@
-/**
- * Resolves the correct backend API base URL based on the current host.
- *
- * Routing rules:
- *   brancy.ir  (or any *.brancy.ir subdomain)  →  https://api.brancy.ir/
- *   brancy.app (default / fallback)              →  https://api.brancy.app/
- */
+// =============================================================================
+// ✏️  ONLY EDIT THIS SECTION — everything else updates automatically
+// =============================================================================
+
+const CONFIG = {
+  // ── brancy.ir (داخل ایران) ───────────────────────────────────────────────
+  ir: {
+    api: "https://api.brancy.ir/",
+    media: "https://ilink.brancy.ir/",
+    upload: "https://uupload.brancy.ir/file",
+    socket: "https://minisocket.brancy.ir",
+  },
+
+  // ── brancy.app (پیش‌فرض / خارج از ایران) ────────────────────────────────
+  app: {
+    api: "https://api.patran.ir/",
+    media: "https://ilink.patran.ir/",
+    upload: "https://uupload.patran.ir/file",
+    socket: "https://minisocket.patran.ir",
+  },
+};
+
+// =============================================================================
+// ⚙️  Implementation — do not edit below this line
+// =============================================================================
 
 const IR_HOST = "brancy.ir";
-const IR_API = "https://api.brancy.ir/";
-const APP_API = "https://api.patran.ir/";
+
+function isIrHost(hostname: string): boolean {
+  const h = hostname.toLowerCase().split(":")[0];
+  return h === IR_HOST || h.endsWith(`.${IR_HOST}`);
+}
+
+// ── Server-side ───────────────────────────────────────────────────────────────
 
 /**
- * Server-side resolver — pass the value of the `host` request header.
+ * Server-side API base URL resolver — pass the value of the `host` request header.
  * Safe to call from Next.js API routes, middleware, and NextAuth handlers.
- *
- * @param host  e.g. "brancy.ir", "www.brancy.ir", "brancy.app"
  */
 export function getServerApiBaseUrl(host: string | null | undefined): string {
-  if (!host) return APP_API;
-  const h = host.toLowerCase().split(":")[0]; // strip port
-  return h === IR_HOST || h.endsWith(`.${IR_HOST}`) ? IR_API : APP_API;
+  if (!host) return CONFIG.app.api;
+  return isIrHost(host) ? CONFIG.ir.api : CONFIG.app.api;
+}
+
+// ── Client-side ───────────────────────────────────────────────────────────────
+
+function clientIsIr(): boolean {
+  if (typeof window === "undefined") return false;
+  return isIrHost(window.location.hostname);
+}
+
+/** Direct browser → backend API base URL. */
+export function getClientApiBaseUrl(): string {
+  return clientIsIr() ? CONFIG.ir.api : CONFIG.app.api;
+}
+
+/** Media/image CDN base URL (replaces NEXT_PUBLIC_BASE_MEDIA_URL at runtime). */
+export function getClientMediaBaseUrl(): string {
+  return clientIsIr() ? CONFIG.ir.media : CONFIG.app.media;
+}
+
+/** Upload endpoint URL (replaces NEXT_PUBLIC_UPLOAD_BASE_URL at runtime). */
+export function getClientUploadBaseUrl(): string {
+  return clientIsIr() ? CONFIG.ir.upload : CONFIG.app.upload;
+}
+
+/** SignalR socket base URL. */
+export function getClientSocketBaseUrl(): string {
+  return clientIsIr() ? CONFIG.ir.socket : CONFIG.app.socket;
 }
 
 /**
- * Client-side resolver — reads window.location.hostname.
- * Must only be called in browser contexts (useEffect, event handlers, etc.).
+ * Returns true only when the selected API base URL supports direct
+ * browser → backend calls (i.e. CORS is configured on that server).
+ * When false, all calls should be routed through the Next.js proxy.
  */
-export function getClientApiBaseUrl(): string {
-  if (typeof window === "undefined") return APP_API;
-  const h = window.location.hostname.toLowerCase();
-  return h === IR_HOST || h.endsWith(`.${IR_HOST}`) ? IR_API : APP_API;
+export function supportsDirectCalls(): boolean {
+  return clientIsIr();
 }

@@ -1,4 +1,5 @@
 // #region function Section
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import router from "next/router";
@@ -73,7 +74,7 @@ const ProductList = () => {
     },
   });
   const userRef = useRef<HTMLDivElement>(null);
-  const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+  const basePictureUrl = getClientMediaBaseUrl();
   const [products, setProducts] = useState<IProduct_ShortProduct[]>([]);
   const [loadingStatus, setLoadingStatus] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.Orders));
   const [hasMoreData, setHasMoreData] = useState(true);

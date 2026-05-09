@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import React, { useCallback, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -6,7 +7,7 @@ import { LanguageKey } from "brancy/i18n";
 import { UploadFile } from "brancy/helper/api";
 import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
 import styles from "./VoiceNode.module.css";
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL || "";
+const baseMediaUrl = getClientMediaBaseUrl();
 interface VoiceNodeProps extends BaseNodeProps {
   setEditorState: React.Dispatch<React.SetStateAction<any>>;
 }

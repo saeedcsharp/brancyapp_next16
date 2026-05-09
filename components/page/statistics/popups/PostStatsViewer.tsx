@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import router from "next/router";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -5,7 +6,7 @@ import DotLoaders from "brancy/components/design/loader/dotLoaders";
 import { LanguageKey } from "brancy/i18n";
 import { IPostContent } from "brancy/models/page/post/posts";
 import styles from "./PostStatsViewer.module.css";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 const POSTS_PER_PAGE = 50;
 export type SortType = "maxView" | "minView" | "maxEngagement" | "minEngagement";
 interface PostStatsViewerProps {

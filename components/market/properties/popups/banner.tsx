@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import {
@@ -226,7 +227,7 @@ const Banner = memo((props: BannerProps) => {
   const [loading, setLoading] = useState(true);
   const [analizeProcessing, setAnalizeProcessing] = useState(false);
   const [progress, setProgress] = useState(0);
-  const baseMediaUrl = useMemo(() => process.env.NEXT_PUBLIC_BASE_MEDIA_URL, []);
+  const baseMediaUrl = useMemo(() => getClientMediaBaseUrl(), []);
   const pageTitle = useMemo(() => {
     return profileandbannerToggle === ToggleOrder.FirstToggle ? "Bran.cy ▸ Edit Profile Info" : "Bran.cy ▸ Edit Banner";
   }, [profileandbannerToggle]);

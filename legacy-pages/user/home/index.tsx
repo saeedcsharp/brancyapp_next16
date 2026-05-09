@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { LanguageKey } from "brancy/i18n";
 import Head from "next/head";
 import router, { useRouter } from "next/router"; // Add this import
@@ -19,7 +20,7 @@ import { use } from "react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import styles from "./index.module.css";
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = getClientMediaBaseUrl();
 
 const orderSteps = [
   {

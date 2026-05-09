@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import InputText from "brancy/components/design/inputText";
 import Loading from "brancy/components/notOk/loading";
@@ -12,7 +13,7 @@ import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./shop.module.css";
 
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL ?? "";
+const baseMediaUrl = getClientMediaBaseUrl();
 
 function ShopPage(props: {
   data: IBusinessResponse | undefined;

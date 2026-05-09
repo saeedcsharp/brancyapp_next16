@@ -1,7 +1,8 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./shareWinnerPickerTerms.module.css";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 const ShareTermsAndCondition = (props: {
   // data: ITermsAndConditionProps;
   shareTermsInfo: { lotteryId: string; backgroundUrl: string };

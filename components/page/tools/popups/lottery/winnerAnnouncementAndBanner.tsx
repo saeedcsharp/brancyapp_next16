@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import ImageCompressor from "compressorjs";
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useEffect, useMemo, useRef, useState } from "react";
@@ -15,7 +16,7 @@ import { MethodType, UploadFile } from "brancy/helper/api";
 import { IGetLastBanner, ILotteryInfo, LotteryType } from "brancy/models/page/tools/tools";
 import styles from "./winnerAnnouncementAndBanner.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 
 // Function to get current Persian date and time
 const getCurrentPersianDateTime = (): string => {

@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -75,7 +76,7 @@ const searchReducer = (state: SearchState, action: SearchAction): SearchState =>
       return state;
   }
 };
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 const ShowStory = () => {
   const componentId = useId();
   const { t } = useTranslation();

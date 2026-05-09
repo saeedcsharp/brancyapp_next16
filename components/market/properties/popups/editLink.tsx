@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import Head from "next/head";
 import { ChangeEvent, useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,7 +19,7 @@ import { ILink, IUpdateLink } from "brancy/models/market/properties";
 
 import styles from "./addNewLink.module.css";
 
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = getClientMediaBaseUrl();
 
 type LinkState = {
   linkData: ILink;

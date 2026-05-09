@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { memo, useCallback, useEffect, useMemo, useReducer } from "react";
@@ -64,7 +65,7 @@ const lastMessageReducer = (state: LastMessageState, action: LastMessageAction):
   }
 };
 
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL || "";
+const basePictureUrl = getClientMediaBaseUrl();
 
 const isRTL = (text: string): boolean => {
   const rtlChars = /[\u0590-\u05FF\u0600-\u06FF\u0750-\u077F]/;

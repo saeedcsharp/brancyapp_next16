@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import { MouseEvent, use, useEffect, useRef, useState } from "react";
 import { InstaInfoContext } from "brancy/context/instaInfoContext";
@@ -8,7 +9,7 @@ import NavbarUserMobile from "brancy/components/navbar/instagramerNavbar/navbar_
 import UserNotificationBar from "brancy/components/navbar/userPanelNavbar/userNotificationBar";
 import styles from "./userPanelHeader.module.css";
 import UserProfile from "brancy/components/navbar/userPanelNavbar/userProfile";
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = getClientMediaBaseUrl();
 interface UserPanelHeaderProps {
   handleShowHamMenu: (ham: string) => void;
   handleShowNotifBar: (e: MouseEvent) => void;

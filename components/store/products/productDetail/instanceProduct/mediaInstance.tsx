@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import {
   closestCenter,
   DndContext,
@@ -27,7 +28,7 @@ import Compressor from "compressorjs";
 import { UploadFile } from "brancy/helper/api";
 import { useSession } from "next-auth/react";
 import ProgressBar from "brancy/components/design/progressBar/progressBar";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 
 // Sortable item component
 function SortableItem({

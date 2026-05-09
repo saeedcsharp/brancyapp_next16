@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
@@ -14,7 +15,7 @@ import { IOrderPushNotifExtended } from "brancy/models/store/orders";
 import { ITicketPushNotif } from "brancy/models/userPanel/message";
 import styles from "./hammenu.module.css";
 
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = getClientMediaBaseUrl();
 const menuItems = [
   {
     href: "/user/home",

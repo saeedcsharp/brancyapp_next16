@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -9,7 +10,7 @@ import { IBusiness, IBusinessResponse, BusinessType } from "brancy/models/userPa
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import styles from "../business.module.css";
 
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = getClientMediaBaseUrl();
 
 function BusinessCard({ item }: { item: IBusiness }) {
   return (

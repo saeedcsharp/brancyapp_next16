@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
@@ -20,7 +21,7 @@ import { IIpCondition } from "brancy/models/userPanel/login";
 import styles from "./instagramerLogin.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = getClientMediaBaseUrl();
 
 export default function InstaLogin(props: { removeMask: () => void }) {
   const { t } = useTranslation();

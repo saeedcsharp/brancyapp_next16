@@ -1,4 +1,5 @@
 // React & Next.js Core
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -59,7 +60,7 @@ import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { IBusiness } from "brancy/models/userPanel/business";
 
 // Constants
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = getClientMediaBaseUrl();
 const baseUrl = process.env.NEXT_PUBLIC_NEXTAUTH_URL;
 
 // Types and Interfaces

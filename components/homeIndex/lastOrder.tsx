@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -8,7 +9,7 @@ import Loading from "brancy/components/notOk/loading";
 import styles from "./lastOrder.module.css";
 
 // const LastOrder = () => {
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 
 const LastOrder = (props: { data: ILastOrder[] | null }) => {
   const { t } = useTranslation();

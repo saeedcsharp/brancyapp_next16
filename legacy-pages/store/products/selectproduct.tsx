@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
@@ -15,7 +16,7 @@ import { MethodType } from "brancy/helper/api";
 import { IProduct_Candidate } from "brancy/models/store/IProduct";
 import styles from "./selectProduct.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 const SelectProduct = () => {
   //  //  return <Soon />;
   const router = useRouter();

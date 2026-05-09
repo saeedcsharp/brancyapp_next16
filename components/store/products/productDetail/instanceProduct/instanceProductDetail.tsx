@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import router from "next/router";
 import { useEffect, useState } from "react";
@@ -56,7 +57,7 @@ export default function InstanceProductDetail({
   shortProduct: IProduct_ShortProduct;
 }) {
   const { data: session } = useSession();
-  const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+  const basePictureUrl = getClientMediaBaseUrl();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [isUpdateing, setIsUpdateing] = useState(false);

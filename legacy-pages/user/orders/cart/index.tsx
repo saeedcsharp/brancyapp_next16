@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -16,7 +17,7 @@ import { IOrderByStatus, IOrderDetail } from "brancy/models/store/orders";
 import { IUserOrder } from "brancy/models/userPanel/orders";
 import styles from "./cart.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = getClientMediaBaseUrl();
 export default function Card() {
   const { value, setValue } = React.use(InstaInfoContext) ?? {};
   const { data: session } = useSession();

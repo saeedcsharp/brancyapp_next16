@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import {
   closestCenter,
   DndContext,
@@ -34,7 +35,7 @@ import styles from "./media.module.css";
 import { UploadFile } from "brancy/helper/api";
 import Compressor from "compressorjs";
 import ProgressBar from "brancy/components/design/progressBar/progressBar";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 const MAX_UPLOADS = 5;
 const SUPPORTED_IMAGE_TYPES = ["image/jpeg", "image/png"];
 const IMAGE_COMPRESSION_OPTIONS = {

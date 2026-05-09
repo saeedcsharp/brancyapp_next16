@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import { MouseEvent, useMemo } from "react";
 import { useTranslation } from "react-i18next";
@@ -10,7 +11,7 @@ const Profile = (props: {
   handleShowUpgrade: (e: MouseEvent) => void;
   handleShowSwitch: (e: MouseEvent) => void;
 }) => {
-  const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+  const baseMediaUrl = getClientMediaBaseUrl();
   const { t } = useTranslation();
   const { data: session } = useSession();
 

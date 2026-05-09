@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useRouter } from "next/router";
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import DragComponent, { positionType } from "brancy/components/design/dragComponent/dragComponent";
@@ -25,7 +26,7 @@ function Content(props: {
       router.push("/");
     },
   });
-  const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+  const basePictureUrl = getClientMediaBaseUrl();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const inputCoverRef = useRef<HTMLInputElement | null>(null);
   const inputReplaceRef = useRef<HTMLInputElement | null>(null);

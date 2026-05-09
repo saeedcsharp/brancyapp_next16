@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import IncrementStepper from "brancy/components/design/incrementStepper";
@@ -34,7 +35,7 @@ import {
 import { FeatureType, IFeatureInfo } from "brancy/models/psg/psg";
 import styles from "./scoreLottery.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 const ScoreLottery = (props: {
   removeMask: () => void;
   showScoreLottery: ShowScoreLotteryType;
