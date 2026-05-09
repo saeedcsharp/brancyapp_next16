@@ -1,5 +1,8 @@
 /**
- * Maps local API paths (/api/{scope}/{action}) to backend sub-URLs on https://api.patran.ir/
+ * Maps local API paths (/api/{scope}/{action}) to backend sub-URLs.
+ * The base URL is resolved dynamically:
+ *   brancy.ir  →  https://api.brancy.ir/
+ *   brancy.app →  https://api.brancy.app/  (default)
  * Used by clientFetchApi to call the backend directly (bypassing Next.js API proxy)
  * for all routes EXCEPT /api/user/*.
  *

@@ -3,8 +3,7 @@ import { signOut } from "next-auth/react";
 import { MethodType, IResult, StringDitionaryItem } from "brancy/helper/api";
 import { ResponseType } from "brancy/components/notifications/notificationBox";
 import { resolveBackendSubUrl } from "brancy/helper/apiRouteMap";
-
-const API_BASE_URL = "https://api.patran.ir/";
+import { getClientApiBaseUrl } from "brancy/helper/apiBaseUrl";
 
 function normalizeResult<J>(raw: any, statusCode = 500, errorMessage = ""): IResult<J> {
   return {
@@ -87,7 +86,7 @@ function isUserRoute(localPath: string): boolean {
  * Build the direct backend URL for a given backend sub-URL and query parameters.
  */
 function buildDirectUrl(subUrl: string, queries: StringDitionaryItem[] = []): string {
-  const url = new URL(subUrl, API_BASE_URL);
+  const url = new URL(subUrl, getClientApiBaseUrl());
   for (const item of queries) {
     if (item?.value !== undefined) {
       url.searchParams.append(item.key, item.value);

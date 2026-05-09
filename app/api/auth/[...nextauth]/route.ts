@@ -1,5 +1,7 @@
 import { readFileSync } from "fs";
+import { headers } from "next/headers";
 import NextAuth from "next-auth";
+import { getServerApiBaseUrl } from "brancy/helper/apiBaseUrl";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 function normalizeUser(input: any) {
@@ -63,7 +65,8 @@ const handler = NextAuth({
         if (!googleCode) throw new Error("Google authorization code is required");
 
         try {
-          const res = await fetch("https://api.patran.ir/user/GoogleLogin", {
+          const apiBase = getServerApiBaseUrl((await headers()).get("host"));
+          const res = await fetch(`${apiBase}user/GoogleLogin`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -87,7 +90,7 @@ const handler = NextAuth({
           let instagramerData: any = {};
           if (currntIndex >= 0) {
             try {
-              const acctRes = await fetch("https://api.patran.ir/user/GetMyInstagramers", {
+              const acctRes = await fetch(`${apiBase}user/GetMyInstagramers`, {
                 headers: {
                   Authorization: loginResultInfo.token,
                   instagramerId: String(instagramerIds[currntIndex]),
@@ -130,15 +133,13 @@ const handler = NextAuth({
       async authorize(credentials) {
         const myVerificationCode = credentials?.verificationCode ?? "";
         const Authorization = credentials?.preuserToken ?? "";
+        const apiBase = getServerApiBaseUrl((await headers()).get("host"));
 
-        const res = await fetch(
-          "https://api.patran.ir/user/UserLoginVerifyCode?verificationCode=" + myVerificationCode,
-          {
-            headers: {
-              Authorization,
-            },
+        const res = await fetch(`${apiBase}user/UserLoginVerifyCode?verificationCode=` + myVerificationCode, {
+          headers: {
+            Authorization,
           },
-        );
+        });
 
         if (res.status !== 200) {
           const errorMessage = await res.json();
@@ -156,7 +157,7 @@ const handler = NextAuth({
         let instagramerData: any = {};
         if (currntIndex >= 0) {
           try {
-            const acctRes = await fetch("https://api.patran.ir/user/GetMyInstagramers", {
+            const acctRes = await fetch(`${apiBase}user/GetMyInstagramers`, {
               headers: {
                 Authorization: loginResultInfo.token,
                 instagramerId: String(instagramerIds[currntIndex]),
