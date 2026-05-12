@@ -1,22 +1,23 @@
 // =============================================================================
 // ✏️  ONLY EDIT THIS SECTION — everything else updates automatically
 // =============================================================================
-
+const baseIRUrl = "brancy.ir";
+const baseAppUrl = "brancy.ir";
 const CONFIG = {
   // ── brancy.ir (داخل ایران) ───────────────────────────────────────────────
   ir: {
-    api: "https://api.brancy.ir/",
-    media: "https://ilink.brancy.ir/",
-    upload: "https://uupload.brancy.ir/file",
-    socket: "https://minisocket.brancy.ir",
+    api: `https://api.${baseIRUrl}/`,
+    media: `https://ilink.${baseIRUrl}/`,
+    upload: `https://uupload.${baseIRUrl}/file`,
+    socket: `https://minisocket.${baseIRUrl}`,
   },
 
   // ── brancy.app (پیش‌فرض / خارج از ایران) ────────────────────────────────
   app: {
-    api: "https://api.brancy.app/",
-    media: "https://ilink.brancy.app/",
-    upload: "https://uupload.brancy.app/file",
-    socket: "https://minisocket.brancy.app",
+    api: `https://api.${baseAppUrl}/`,
+    media: `https://ilink.${baseAppUrl}/`,
+    upload: `https://uupload.${baseAppUrl}/file`,
+    socket: `https://minisocket.${baseAppUrl}`,
   },
 };
 

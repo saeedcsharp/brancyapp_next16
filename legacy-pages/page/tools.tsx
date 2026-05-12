@@ -32,7 +32,7 @@ import WinnersList from "brancy/components/page/tools/popups/lottery/winnersList
 import TrendHashtags from "brancy/components/page/tools/trendhashtag/trendHashtags";
 import WinnerPicker from "brancy/components/page/tools/winnerpicker/winnerPicker";
 import DayEvents from "brancy/components/page/tools/event/dayEvents";
-import EventIdea from "brancy/components/page/tools/event/eventIdea";
+import EventIdea, { EventIdeaHandle } from "brancy/components/page/tools/event/eventIdea";
 import CreateEventIdea from "brancy/components/page/tools/event/createEventIdea";
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
 import { checkRemainingTimeFeature } from "brancy/helper/checkFeature";
@@ -135,6 +135,7 @@ const Tools = () => {
   const [showDayEvents, setShowDayEvents] = useState(false);
   const [showDayEventsFromCreateEvent, setShowDayEventsFromCreateEvent] = useState(false);
   const [showCreateEventIdea, setShowCreateEventIdea] = useState(false);
+  const eventIdeaRef = useRef<EventIdeaHandle>(null);
   const [showLotteryRunning, setShowLotteryRunning] = useState(false);
   const [showShareTermsAndCondition, setShowShareTermsAndCondition] = useState(false);
   const [showRemainingTime, setshowRemainingTime] = useState(false);
@@ -1092,6 +1093,7 @@ const Tools = () => {
               // handleShowActiveWinnerPicker={handleShowActiveWinnerPicker}
             />
             <EventIdea
+              ref={eventIdeaRef}
               handleOpenCreate={() => {
                 changePositionToFixed();
                 setShowCreateEventIdea(true);
@@ -1231,7 +1233,9 @@ const Tools = () => {
                 changePositionToFixed();
                 setShowDayEvents(true);
               }}
-              onSuccess={() => {}}
+              onSuccess={(languageId) => {
+                eventIdeaRef.current?.fetchWithLanguage(languageId);
+              }}
             />
           </Modal>
           <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showLotteryRunning}>

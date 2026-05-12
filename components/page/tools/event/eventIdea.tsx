@@ -6,7 +6,7 @@ import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { useSession } from "next-auth/react";
-import { useCallback, useMemo, useState } from "react";
+import { forwardRef, useCallback, useImperativeHandle, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import styles from "./event.module.css";
@@ -50,7 +50,11 @@ interface IEventIdeaResponse {
   nextMaxId: number | null;
 }
 
-const EventIdea = (props: { handleOpenCreate: () => void }) => {
+export interface EventIdeaHandle {
+  fetchWithLanguage: (languageId: number) => void;
+}
+
+const EventIdea = forwardRef<EventIdeaHandle, { handleOpenCreate: () => void }>(function EventIdea(props, ref) {
   const { t, i18n } = useTranslation();
   const { data: session } = useSession();
 
@@ -62,6 +66,9 @@ const EventIdea = (props: { handleOpenCreate: () => void }) => {
   const [nextMaxId, setNextMaxId] = useState<number | null>(null);
   const [hasMore, setHasMore] = useState(false);
 
+  const sessionRef = useRef(session);
+  sessionRef.current = session;
+
   const toggleHidden = useCallback(() => {
     setIsHidden((prev) => !prev);
   }, []);
@@ -72,8 +79,9 @@ const EventIdea = (props: { handleOpenCreate: () => void }) => {
   }, []);
 
   const fetchIdeas = useCallback(
-    async (append = false, maxId: number | null = null) => {
-      if (!session) return;
+    async (append = false, maxId: number | null = null, languageIdOverride?: number) => {
+      const currentSession = sessionRef.current;
+      if (!currentSession) return;
 
       if (append) {
         setLoadingMore(true);
@@ -86,16 +94,16 @@ const EventIdea = (props: { handleOpenCreate: () => void }) => {
       }
 
       try {
-        const queries: { key: string; value: string }[] = [
-          { key: "language", value: (LANGUAGE_CODE_TO_ID[i18n.language] ?? 0).toString() },
-        ];
+        const langId =
+          languageIdOverride !== undefined ? languageIdOverride : (LANGUAGE_CODE_TO_ID[i18n.language] ?? 0);
+        const queries: { key: string; value: string }[] = [{ key: "language", value: langId.toString() }];
         if (maxId !== null) {
           queries.push({ key: "nextMaxId", value: maxId.toString() });
         }
 
         const res = await clientFetchApi<null, IEventIdeaResponse>("/api/dayevent/getEventIdeas", {
           methodType: MethodType.get,
-          session: session,
+          session: currentSession,
           data: null,
           queries,
           onUploadProgress: undefined,
@@ -121,7 +129,17 @@ const EventIdea = (props: { handleOpenCreate: () => void }) => {
         setLoadingMore(false);
       }
     },
-    [session, i18n.language],
+    [i18n.language],
+  );
+
+  useImperativeHandle(
+    ref,
+    () => ({
+      fetchWithLanguage: (languageId: number) => {
+        fetchIdeas(false, null, languageId);
+      },
+    }),
+    [fetchIdeas],
   );
 
   const handleLoadMore = useCallback(() => {
@@ -256,6 +274,6 @@ const EventIdea = (props: { handleOpenCreate: () => void }) => {
       </div>
     </div>
   );
-};
+});
 
 export default EventIdea;

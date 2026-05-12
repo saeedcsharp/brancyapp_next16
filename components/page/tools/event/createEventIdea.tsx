@@ -37,7 +37,7 @@ const ONE_MONTH_MS = 30 * 24 * 60 * 60 * 1000;
 const CreateEventIdea = (props: {
   removeMask: () => void;
   handleShowDayEvents: () => void;
-  onSuccess?: () => void;
+  onSuccess?: (languageId: number) => void;
 }) => {
   const { t } = useTranslation();
   const { data: session } = useSession();
@@ -69,7 +69,7 @@ const CreateEventIdea = (props: {
 
       if (res.succeeded) {
         internalNotify(InternalResponseType.Ok, NotifType.Success);
-        props.onSuccess?.();
+        props.onSuccess?.(selectedLanguageId);
         props.removeMask();
       } else {
         notify(res.info.responseType, NotifType.Warning);
