@@ -13,10 +13,10 @@ const CONFIG = {
 
   // ── brancy.app (پیش‌فرض / خارج از ایران) ────────────────────────────────
   app: {
-    api: "https://api.patran.ir/",
-    media: "https://ilink.patran.ir/",
-    upload: "https://uupload.patran.ir/file",
-    socket: "https://minisocket.patran.ir",
+    api: "https://api.brancy.app/",
+    media: "https://ilink.brancy.app/",
+    upload: "https://uupload.brancy.app/file",
+    socket: "https://minisocket.brancy.app",
   },
 };
 
