@@ -2,7 +2,8 @@
 // ✏️  ONLY EDIT THIS SECTION — everything else updates automatically
 // =============================================================================
 const baseIRUrl = "brancy.ir";
-const baseAppUrl = "brancy.ir";
+const baseAppUrl = "brancy.app";
+const baseLocalUrl = "patran.ir";
 const CONFIG = {
   // ── brancy.ir (داخل ایران) ───────────────────────────────────────────────
   ir: {
@@ -19,6 +20,14 @@ const CONFIG = {
     upload: `https://uupload.${baseAppUrl}/file`,
     socket: `https://minisocket.${baseAppUrl}`,
   },
+
+  // ── patran.ir (localhost / محیط توسعه) ───────────────────────────────────
+  local: {
+    api: `https://api.${baseLocalUrl}/`,
+    media: `https://ilink.${baseLocalUrl}/`,
+    upload: `https://uupload.${baseLocalUrl}/file`,
+    socket: `https://minisocket.${baseLocalUrl}`,
+  },
 };
 
 // =============================================================================
@@ -32,6 +41,11 @@ function isIrHost(hostname: string): boolean {
   return h === IR_HOST || h.endsWith(`.${IR_HOST}`);
 }
 
+function isLocalHost(hostname: string): boolean {
+  const h = hostname.toLowerCase().split(":")[0];
+  return h === "localhost" || h === "127.0.0.1" || h === "::1";
+}
+
 // ── Server-side ───────────────────────────────────────────────────────────────
 
 /**
@@ -40,6 +54,7 @@ function isIrHost(hostname: string): boolean {
  */
 export function getServerApiBaseUrl(host: string | null | undefined): string {
   if (!host) return CONFIG.app.api;
+  if (isLocalHost(host)) return CONFIG.local.api;
   return isIrHost(host) ? CONFIG.ir.api : CONFIG.app.api;
 }
 
@@ -50,24 +65,35 @@ function clientIsIr(): boolean {
   return isIrHost(window.location.hostname);
 }
 
+function clientIsLocal(): boolean {
+  if (typeof window === "undefined") return false;
+  return isLocalHost(window.location.hostname);
+}
+
+function getClientConfig() {
+  if (clientIsLocal()) return CONFIG.local;
+  if (clientIsIr()) return CONFIG.ir;
+  return CONFIG.app;
+}
+
 /** Direct browser → backend API base URL. */
 export function getClientApiBaseUrl(): string {
-  return clientIsIr() ? CONFIG.ir.api : CONFIG.app.api;
+  return getClientConfig().api;
 }
 
 /** Media/image CDN base URL (replaces NEXT_PUBLIC_BASE_MEDIA_URL at runtime). */
 export function getClientMediaBaseUrl(): string {
-  return clientIsIr() ? CONFIG.ir.media : CONFIG.app.media;
+  return getClientConfig().media;
 }
 
 /** Upload endpoint URL (replaces NEXT_PUBLIC_UPLOAD_BASE_URL at runtime). */
 export function getClientUploadBaseUrl(): string {
-  return clientIsIr() ? CONFIG.ir.upload : CONFIG.app.upload;
+  return getClientConfig().upload;
 }
 
 /** SignalR socket base URL. */
 export function getClientSocketBaseUrl(): string {
-  return clientIsIr() ? CONFIG.ir.socket : CONFIG.app.socket;
+  return getClientConfig().socket;
 }
 
 /**
@@ -76,5 +102,5 @@ export function getClientSocketBaseUrl(): string {
  * When false, all calls should be routed through the Next.js proxy.
  */
 export function supportsDirectCalls(): boolean {
-  return clientIsIr();
+  return clientIsIr() || clientIsLocal();
 }
