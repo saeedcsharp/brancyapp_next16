@@ -132,6 +132,7 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
                     value={paramValues[item.name]?.[des.name] ?? ""}
                     handleInputChange={(e) => handleParamChange(item.name, des.name, e.target.value)}
                     required
+                    dangerOnEmpty
                   />
                 )}
               </div>
