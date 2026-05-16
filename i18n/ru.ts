@@ -2653,6 +2653,7 @@ export default {
     sendsms: "Отправить SMS пользователю",
     sendtotelegram: "Перенаправить пользователя в Telegram",
     senderusername: "Обратиться к пользователю по имени",
+    addtools: "Добавить инструмент",
 
     //tutorials
 

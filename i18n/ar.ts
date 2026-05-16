@@ -2543,6 +2543,7 @@ export default {
     sendsms: "إرسال رسالة SMS إلى المستخدم",
     sendtotelegram: "توجيه المستخدم إلى تيليغرام",
     senderusername: "مناداة اسم المستخدم",
+    addtools: "إضافة أداة",
 
     //tutorials
 

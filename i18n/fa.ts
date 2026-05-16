@@ -2606,6 +2606,7 @@ export default {
     sendsms: "ارسال پیامک به کاربر",
     sendtotelegram: "هدایت کاربر به تلگرام",
     senderusername: "صدا زدن نام کاربر",
+    addtools: "افزودن ابزار",
 
     //tutorials
     // ============================

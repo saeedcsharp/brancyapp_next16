@@ -19,11 +19,12 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n/languageKeys";
-import { IAITools, IAnalysisPrompt, ICreatePrompt, IDetailPrompt, ITotalPrompt } from "brancy/models/AI/prompt";
+import { IAITools, IAnalysisPrompt, ICreatePrompt, IDetailPrompt, ITool, ITotalPrompt } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
 import styles from "./aiPromptBox.module.css";
 import LiveChat from "brancy/components/messages/aiflow/popup/liveChat";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { PromptType, ToolType } from "brancy/models/AI/enum";
 const AIPromptBox = ({
   aiTools,
   userSelectId,
@@ -34,6 +35,7 @@ const AIPromptBox = ({
   selectedAITool,
   setSelectedAITool,
   onAddToPromptRef,
+  onAddToolRef,
   showLiveChatPopup,
   setShowLiveChatPopup,
   promptInfo,
@@ -48,6 +50,7 @@ const AIPromptBox = ({
   selectedAITool: IAITools | null;
   setSelectedAITool: (tool: IAITools | null) => void;
   onAddToPromptRef: React.MutableRefObject<((text: string) => void) | null>;
+  onAddToolRef: React.MutableRefObject<((tool: ITool) => void) | null>;
   showLiveChatPopup: boolean;
   setShowLiveChatPopup: (value: boolean) => void;
   promptInfo: ICreatePrompt | null;
@@ -82,6 +85,20 @@ const AIPromptBox = ({
   const [activeTab, setActiveTab] = useState(0);
   const [isWideScreen, setIsWideScreen] = useState(true);
   const [promptMode, setPromptMode] = useState<"manual" | "analysis">("manual");
+  const [tools, setTools] = useState<ITool[]>([]);
+
+  const handleAddTool = useCallback((tool: ITool) => {
+    setTools((prev) => {
+      const exists = prev.findIndex((t) => t.toolId === tool.toolId);
+      if (exists !== -1) {
+        const updated = [...prev];
+        updated[exists] = tool;
+        return updated;
+      }
+      return [...prev, tool];
+    });
+  }, []);
+
   const handleAddToPrompt = useCallback((text: string) => {
     setDetailedPrompt((prev) => ({
       ...prev,
@@ -110,6 +127,12 @@ const AIPromptBox = ({
       onAddToPromptRef.current = handleAddToPrompt;
     }
   }, [onAddToPromptRef, handleAddToPrompt]);
+
+  useEffect(() => {
+    if (onAddToolRef) {
+      onAddToolRef.current = handleAddTool;
+    }
+  }, [onAddToolRef, handleAddTool]);
 
   const fetchData = useCallback(
     async (signal?: AbortSignal) => {
@@ -161,6 +184,7 @@ const AIPromptBox = ({
           reNewForThread: detailedPrompt.reNewForThread,
           shouldFollower: detailedPrompt.shouldFollower,
           promptAnalysis: advancePrompt ? detailedPrompt.customPromptAnalysis : null,
+          tools: tools,
         },
         queries: [{ key: "promptId", value: userSelectId ? userSelectId : undefined }],
         onUploadProgress: undefined,
@@ -175,7 +199,7 @@ const AIPromptBox = ({
     } finally {
       setUpdateLoading(false);
     }
-  }, [session, detailedPrompt, advancePrompt, userSelectId, updateAIPrompt, setShowAIToolsSettings]);
+  }, [session, detailedPrompt, advancePrompt, userSelectId, updateAIPrompt, setShowAIToolsSettings, tools]);
   const handleGetPromptAnalysis = useCallback(async () => {
     setDetailedPrompt((prev) => ({ ...prev, customPromptAnalysis: null }));
     setLoadingPromptAnalysis(true);
@@ -251,6 +275,7 @@ const AIPromptBox = ({
         completeDescription: "Use username in your prompt",
         tokenUsage: 0,
         parameters: [],
+        toolType: ToolType.SendTelegramMessage,
       },
       ...aiTools,
     ],
@@ -420,6 +445,27 @@ const AIPromptBox = ({
                         role={""}
                         title={""}
                       />
+                      {tools.length > 0 && (
+                        <div className={styles.toolsList} role="list" aria-label="Added tools">
+                          {tools.map((tool, index) => (
+                            <div key={`added-tool-${index}`} className={styles.toolsItem} role="listitem">
+                              <span className={styles.toolsItemName}>{tool.toolId}</span>
+                              {tool.parameters.map((param, pi) => (
+                                <span key={pi} className={styles.toolsItemParam}>
+                                  {param.name}: {param.value}
+                                </span>
+                              ))}
+                              <button
+                                type="button"
+                                className={styles.toolsItemRemove}
+                                aria-label={`Remove tool ${tool.toolId}`}
+                                onClick={() => setTools((prev) => prev.filter((_, i) => i !== index))}>
+                                ✕
+                              </button>
+                            </div>
+                          ))}
+                        </div>
+                      )}
                       <div className={styles.promptModeoptionlist} role="list">
                         {mergedAITools.map((tool, index) => (
                           <div
@@ -594,6 +640,9 @@ const AIPromptBox = ({
                       reNewForThread: detailedPrompt.reNewForThread,
                       shouldFollower: detailedPrompt.shouldFollower,
                       title: detailedPrompt.title,
+                      promptImageGen: null,
+                      tools: [],
+                      promptType: PromptType.General,
                     }}
                   />
                 ) : (

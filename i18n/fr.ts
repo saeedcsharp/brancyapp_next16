@@ -2699,6 +2699,7 @@ export default {
     sendsms: "Envoyer un SMS à l’utilisateur",
     sendtotelegram: "Rediriger l’utilisateur vers Telegram",
     senderusername: "Mentionner le nom de l’utilisateur",
+    addtools: "Ajouter un outil",
 
     //tutorials
 

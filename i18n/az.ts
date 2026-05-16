@@ -2577,6 +2577,7 @@ export default {
     sendsms: "İstifadəçiyə SMS göndər",
     sendtotelegram: "İstifadəçini Telegram-a yönləndir",
     senderusername: "İstifadəçinin adını səsləndir",
+    addtools: "Alət əlavə et",
 
     //tutorials
 

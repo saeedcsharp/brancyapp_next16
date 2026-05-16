@@ -2622,6 +2622,7 @@ export default {
     sendsms: "Kullanıcıya SMS gönder",
     sendtotelegram: "Kullanıcıyı Telegram’a yönlendir",
     senderusername: "Kullanıcının adını kullanarak seslen",
+    addtools: "Araç Ekle",
 
     //tutorials
 

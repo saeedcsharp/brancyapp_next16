@@ -2316,6 +2316,7 @@ export enum LanguageKey {
   sendsms = "sendsms",
   sendtotelegram = "sendtotelegram",
   senderusername = "senderusername",
+  addtools = "addtools",
 
   //tutorials
   New_Flow_Tutorials_onmessage_title = "New_Flow_Tutorials_onmessage_title",
