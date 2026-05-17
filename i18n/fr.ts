@@ -2700,6 +2700,7 @@ export default {
     sendtotelegram: "Rediriger l’utilisateur vers Telegram",
     senderusername: "Mentionner le nom de l’utilisateur",
     addtools: "Ajouter un outil",
+    generatebyai: "Générer par IA",
 
     //tutorials
 

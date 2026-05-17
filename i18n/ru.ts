@@ -2654,6 +2654,7 @@ export default {
     sendtotelegram: "Перенаправить пользователя в Telegram",
     senderusername: "Обратиться к пользователю по имени",
     addtools: "Добавить инструмент",
+    generatebyai: "Создать с помощью ИИ",
 
     //tutorials
 

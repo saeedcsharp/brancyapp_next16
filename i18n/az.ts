@@ -2578,6 +2578,7 @@ export default {
     sendtotelegram: "İstifadəçini Telegram-a yönləndir",
     senderusername: "İstifadəçinin adını səsləndir",
     addtools: "Alət əlavə et",
+    generatebyai: "AI ilə yarat",
 
     //tutorials
 

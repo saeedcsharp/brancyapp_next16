@@ -2544,6 +2544,7 @@ export default {
     sendtotelegram: "توجيه المستخدم إلى تيليغرام",
     senderusername: "مناداة اسم المستخدم",
     addtools: "إضافة أداة",
+    generatebyai: "توليد بواسطة الذكاء الاصطناعي",
 
     //tutorials
 

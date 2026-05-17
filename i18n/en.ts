@@ -2625,6 +2625,7 @@ export default {
     sendtotelegram: "Redirect User to Telegram",
     senderusername: "Mention User by Name",
     addtools: "Add Tool",
+    generatebyai: "Generate by AI",
 
     //tutorials
     New_Flow_Tutorials_onmessage_title: "Your Flow Starting Point",

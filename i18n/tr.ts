@@ -2623,6 +2623,7 @@ export default {
     sendtotelegram: "Kullanıcıyı Telegram’a yönlendir",
     senderusername: "Kullanıcının adını kullanarak seslen",
     addtools: "Araç Ekle",
+    generatebyai: "Yapay Zeka ile Oluştur",
 
     //tutorials
 

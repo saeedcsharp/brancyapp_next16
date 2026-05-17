@@ -2683,6 +2683,7 @@ export default {
     sendtotelegram: "Benutzer zu Telegram weiterleiten",
     senderusername: "Benutzer mit Namen ansprechen",
     addtools: "Werkzeug hinzufügen",
+    generatebyai: "Von KI generieren",
 
     //tutorials
 

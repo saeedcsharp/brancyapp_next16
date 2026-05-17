@@ -2607,6 +2607,7 @@ export default {
     sendtotelegram: "هدایت کاربر به تلگرام",
     senderusername: "صدا زدن نام کاربر",
     addtools: "افزودن ابزار",
+    generatebyai: "تولید توسط هوش مصنوعی",
 
     //tutorials
     // ============================

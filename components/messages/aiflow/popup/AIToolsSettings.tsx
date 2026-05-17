@@ -122,7 +122,14 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
             </div>
             {item.parameters.map((des, i) => (
               <div key={i} className="headerandinput">
-                <div className="title2">{des.name}</div>
+                <div className="title2">
+                  {des.name}
+                  {des.generateWithAI && (
+                    <span style={{ marginInlineStart: 8, fontSize: "0.75em", color: "#7c3aed", fontWeight: 600 }}>
+                      {t(LanguageKey.generatebyai)}
+                    </span>
+                  )}
+                </div>
                 <div className="explain">{des.description}</div>
                 {des.isRequired && !des.generateWithAI && (
                   <TextArea
