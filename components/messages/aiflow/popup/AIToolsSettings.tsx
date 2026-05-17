@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n/languageKeys";
 import TextArea from "brancy/components/design/textArea/textArea";
@@ -26,6 +26,9 @@ interface AIToolsSettingsProps {
   selectedAITool: AITool | null;
   onAddToPrompt: (text: string) => void;
   onAddTool: (tool: ITool) => void;
+  existingTools?: ITool[];
+  paramValues: ParamValues;
+  setParamValues: React.Dispatch<React.SetStateAction<ParamValues>>;
 }
 
 interface ParamValues {
@@ -40,9 +43,35 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
   selectedAITool,
   onAddToPrompt,
   onAddTool,
+  existingTools = [],
+  paramValues,
+  setParamValues,
 }) => {
   const { t } = useTranslation();
-  const [paramValues, setParamValues] = useState<ParamValues>({});
+
+  const buildParamValues = (tools: ITool[], allAITools: AITool[]): ParamValues => {
+    const initial: ParamValues = {};
+    tools.forEach((existingTool) => {
+      const matchingTool = allAITools.find((t) => String(t.toolType) === existingTool.toolId);
+      const key = matchingTool ? matchingTool.name : existingTool.toolId;
+      initial[key] = {};
+      existingTool.parameters.forEach((p) => {
+        initial[key][p.name] = p.value;
+      });
+    });
+    return initial;
+  };
+
+  useEffect(() => {
+    setParamValues((prev) => {
+      const merged = { ...prev };
+      const incoming = buildParamValues(existingTools, aiTools);
+      Object.entries(incoming).forEach(([toolName, params]) => {
+        merged[toolName] = { ...(merged[toolName] ?? {}), ...params };
+      });
+      return merged;
+    });
+  }, [existingTools]);
   // اضافه کردن آیتم username به لیست ابزارها
   const usernameItem: AITool = {
     name: "{SENDER_USERNAME}",

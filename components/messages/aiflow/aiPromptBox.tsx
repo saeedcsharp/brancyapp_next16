@@ -40,6 +40,8 @@ const AIPromptBox = ({
   setShowLiveChatPopup,
   promptInfo,
   setPromptInfo,
+  tools,
+  setTools,
 }: {
   aiTools: IAITools[];
   userSelectId: string | null;
@@ -55,6 +57,8 @@ const AIPromptBox = ({
   setShowLiveChatPopup: (value: boolean) => void;
   promptInfo: ICreatePrompt | null;
   setPromptInfo: React.Dispatch<React.SetStateAction<ICreatePrompt | null>>;
+  tools: ITool[];
+  setTools: React.Dispatch<React.SetStateAction<ITool[]>>;
 }) => {
   const { data: session } = useSession({
     required: true,
@@ -85,19 +89,22 @@ const AIPromptBox = ({
   const [activeTab, setActiveTab] = useState(0);
   const [isWideScreen, setIsWideScreen] = useState(true);
   const [promptMode, setPromptMode] = useState<"manual" | "analysis">("manual");
-  const [tools, setTools] = useState<ITool[]>([]);
+  // tools state is managed by parent (flowAndAIInBox)
 
-  const handleAddTool = useCallback((tool: ITool) => {
-    setTools((prev) => {
-      const exists = prev.findIndex((t) => t.toolId === tool.toolId);
-      if (exists !== -1) {
-        const updated = [...prev];
-        updated[exists] = tool;
-        return updated;
-      }
-      return [...prev, tool];
-    });
-  }, []);
+  const handleAddTool = useCallback(
+    (tool: ITool) => {
+      setTools((prev) => {
+        const exists = prev.findIndex((t) => t.toolId === tool.toolId);
+        if (exists !== -1) {
+          const updated = [...prev];
+          updated[exists] = tool;
+          return updated;
+        }
+        return [...prev, tool];
+      });
+    },
+    [setTools],
+  );
 
   const handleAddToPrompt = useCallback((text: string) => {
     setDetailedPrompt((prev) => ({
@@ -185,6 +192,8 @@ const AIPromptBox = ({
           shouldFollower: detailedPrompt.shouldFollower,
           promptAnalysis: advancePrompt ? detailedPrompt.customPromptAnalysis : null,
           tools: tools,
+          promptImageGen: null,
+          promptType: promptMode === "analysis" ? PromptType.Structured : PromptType.General,
         },
         queries: [{ key: "promptId", value: userSelectId ? userSelectId : undefined }],
         onUploadProgress: undefined,
@@ -452,7 +461,14 @@ const AIPromptBox = ({
                               <span className={styles.toolsItemName}>{tool.toolId}</span>
                               {tool.parameters.map((param, pi) => (
                                 <span key={pi} className={styles.toolsItemParam}>
-                                  {param.name}: {param.value}
+                                  {param.name}
+                                  {": "}
+                                  <span
+                                    style={{ cursor: "copy" }}
+                                    title="Copy value"
+                                    onClick={() => navigator.clipboard.writeText(param.value)}>
+                                    {param.value}
+                                  </span>
                                 </span>
                               ))}
                               <button
@@ -561,18 +577,70 @@ const AIPromptBox = ({
                           ))}
                         </div>
                       )}
-
-                      {detailedPrompt.customPromptAnalysis.detectedCredentials.length > 0 && (
-                        <div className="headerandinput">
-                          <div className="title2">Detected Credentials:</div>
-                          {detailedPrompt.customPromptAnalysis.detectedCredentials.map((item, index) => (
-                            <div key={index} className="explain" style={{ lineHeight: "16px" }}>
-                              <strong>{index + 1}.</strong> {item.type}: {item.value}
+                    </div>
+                  )}
+                  {promptMode === "analysis" && !loadingPromptAnalysis && (
+                    <>
+                      {tools.length > 0 && (
+                        <div className={styles.toolsList} role="list" aria-label="Added tools">
+                          {tools.map((tool, index) => (
+                            <div key={`added-tool-analysis-${index}`} className={styles.toolsItem} role="listitem">
+                              <span className={styles.toolsItemName}>{tool.toolId}</span>
+                              {tool.parameters.map((param, pi) => (
+                                <span key={pi} className={styles.toolsItemParam}>
+                                  {param.name}
+                                  {": "}
+                                  <span
+                                    style={{ cursor: "copy" }}
+                                    title="Copy value"
+                                    onClick={() => navigator.clipboard.writeText(param.value)}>
+                                    {param.value}
+                                  </span>
+                                </span>
+                              ))}
+                              <button
+                                type="button"
+                                className={styles.toolsItemRemove}
+                                aria-label={`Remove tool ${tool.toolId}`}
+                                onClick={() => setTools((prev) => prev.filter((_, i) => i !== index))}>
+                                ✕
+                              </button>
                             </div>
                           ))}
                         </div>
                       )}
-                    </div>
+                      <div className={styles.promptModeoptionlist} role="list">
+                        {mergedAITools.map((tool, index) => (
+                          <div
+                            key={`tool-analysis-${index}-${tool.name}`}
+                            className={styles.promptModeoption}
+                            onClick={() => {
+                              setSelectedAITool(tool);
+                              setShowAIToolsSettings(true);
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === "Enter" || e.key === " ") {
+                                e.preventDefault();
+                                setSelectedAITool(tool);
+                                setShowAIToolsSettings(true);
+                              }
+                            }}
+                            role="button"
+                            tabIndex={0}
+                            aria-label={`Add ${getDisplayName(tool.name)} to prompt`}
+                            style={{ cursor: "pointer" }}>
+                            <img
+                              style={{ cursor: "pointer", width: "20px", height: "20px" }}
+                              alt="Add"
+                              title={tool.description}
+                              src="/icon-plus.svg"
+                              aria-hidden="true"
+                            />
+                            {getDisplayName(tool.name)}
+                          </div>
+                        ))}
+                      </div>
+                    </>
                   )}
                 </div>
 

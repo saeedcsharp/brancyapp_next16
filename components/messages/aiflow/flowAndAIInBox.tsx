@@ -66,6 +66,8 @@ const FlowAndAIInbox = () => {
   // AIToolsSettings related states
   const [showAIToolsSettings, setShowAIToolsSettings] = useState(false);
   const [selectedAITool, setSelectedAITool] = useState<IAITools | null>(null);
+  const [aiPromptTools, setAIPromptTools] = useState<ITool[]>([]);
+  const [aiToolParamValues, setAIToolParamValues] = useState<Record<string, Record<string, string>>>({});
 
   // LiveChat related states
   const [showLiveChatPopup, setShowLiveChatPopup] = useState(false);
@@ -815,6 +817,8 @@ const FlowAndAIInbox = () => {
                 setShowLiveChatPopup={setShowLiveChatPopup}
                 promptInfo={promptInfo}
                 setPromptInfo={setPromptInfo}
+                tools={aiPromptTools}
+                setTools={setAIPromptTools}
               />
             </div>
           )}
@@ -838,6 +842,9 @@ const FlowAndAIInbox = () => {
             onClose={() => setShowAIToolsSettings(false)}
             aiTools={aiTools}
             selectedAITool={selectedAITool}
+            existingTools={aiPromptTools}
+            paramValues={aiToolParamValues}
+            setParamValues={setAIToolParamValues}
             onAddToPrompt={(text: string) => {
               if (addToPromptRef.current) {
                 addToPromptRef.current(text);

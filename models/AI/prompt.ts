@@ -32,7 +32,6 @@ export interface IAnalysisPrompt {
   description: string;
   tasks: string[];
   rules: string[];
-  detectedCredentials: { type: string; value: string }[];
   signature: string;
 }
 export interface IPromptImageGen {
