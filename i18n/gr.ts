@@ -1545,6 +1545,7 @@ export default {
     pageTools_EventIdeasCountry: "Land",
     pageTools_EventIdeasPrompt: "Thema",
     pageTools_EventIdeasCreatedTime: "Erstellt Am",
+    pageTools_CustomEvent: "Benutzerdefiniertes Ereignis",
     pageTools_exportcomments:
       "Alle Kommentare werden als Excel-Datei exportiert und können heruntergeladen und geteilt werden",
 

@@ -1455,6 +1455,7 @@ export default {
     pageTools_EventIdeasCountry: "البلد",
     pageTools_EventIdeasPrompt: "الموضوع",
     pageTools_EventIdeasCreatedTime: "تاريخ الإنشاء",
+    pageTools_CustomEvent: "حدث مخصص",
     pageTools_exportcomments: "يتم تصدير جميع التعليقات كملف Excel ويمكن تنزيله ومشاركته",
 
     pageTools_Lottery: "إنشاء قرعة بالنقاط",

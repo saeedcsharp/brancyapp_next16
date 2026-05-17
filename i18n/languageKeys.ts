@@ -885,6 +885,7 @@ export enum LanguageKey {
   pageTools_EventIdeasCountry = "pageTools_EventIdeasCountry",
   pageTools_EventIdeasPrompt = "pageTools_EventIdeasPrompt",
   pageTools_EventIdeasCreatedTime = "pageTools_EventIdeasCreatedTime",
+  pageTools_CustomEvent = "pageTools_CustomEvent",
   pageTools_exportcomments = "pageTools_exportcomments",
   pageTools_Lottery = "pageTools_Lottery",
   pageTools_emptylotteryList = "pageTools_emptylotteryList",

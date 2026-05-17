@@ -1497,6 +1497,7 @@ export default {
     pageTools_EventIdeasCountry: "Country",
     pageTools_EventIdeasPrompt: "Topic",
     pageTools_EventIdeasCreatedTime: "Created At",
+    pageTools_CustomEvent: "Custom Event",
     pageTools_exportcomments: "All comments are exported as an Excel file and can be downloaded and shared",
 
     pageTools_Lottery: "Create a Score Lottery",

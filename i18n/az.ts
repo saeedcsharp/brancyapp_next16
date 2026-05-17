@@ -1470,6 +1470,7 @@ export default {
     pageTools_EventIdeasCountry: "Ölkə",
     pageTools_EventIdeasPrompt: "Mövzu",
     pageTools_EventIdeasCreatedTime: "Yaradılma Tarixi",
+    pageTools_CustomEvent: "Xüsusi Hadisə",
     pageTools_exportcomments: "Bütün comment-lər Excel faylı kimi ixrac olunur və yüklənə, həmçinin paylaşıla bilər",
 
     pageTools_Lottery: "Bal Lotereyası Yarat",

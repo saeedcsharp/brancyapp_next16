@@ -96,6 +96,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/dayevent/getEvents": "Instagramer/DayEvent/GetEvents",
   "/api/dayevent/getEventIdeas": "Instagramer/DayEvent/GetEventIdeas",
   "/api/dayevent/createEventIdea": "Instagramer/DayEvent/CreateEventIdea",
+  "/api/dayevent/getCustomEventIdeas": "Instagramer/DayEvent/GetCustomEventIdeas",
 
   // ── flow ──────────────────────────────────────────────
   "/api/flow/createMasterFlow": "Instagramer/Flow/CreateMasterFlow",

@@ -1468,6 +1468,7 @@ export default {
     pageTools_EventIdeasCountry: "کشور",
     pageTools_EventIdeasPrompt: "موضوع",
     pageTools_EventIdeasCreatedTime: "تاریخ ساخت",
+    pageTools_CustomEvent: "رویداد سفارشی",
     pageTools_exportcomments: "خروجی کل کامنت‌ها به‌صورت فایل اکسل گرفته می‌شود و قابل دانلود و اشتراک‌گذاری است",
     pageTools_Lottery: "قرعه‌کشی امتیازی",
     pageTools_emptylotteryList: "هنوز هیچ قرعه‌کشی‌ای ایجاد نکرده‌اید",

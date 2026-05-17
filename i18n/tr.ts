@@ -1504,6 +1504,7 @@ export default {
     pageTools_EventIdeasCountry: "Ülke",
     pageTools_EventIdeasPrompt: "Konu",
     pageTools_EventIdeasCreatedTime: "Oluşturulma Tarihi",
+    pageTools_CustomEvent: "Özel Etkinlik",
     pageTools_exportcomments:
       "Tüm comment’ler Excel dosyası olarak dışa aktarılır ve indirilebilir veya paylaşılabilir",
 

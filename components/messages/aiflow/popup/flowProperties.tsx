@@ -81,6 +81,14 @@ export default function FlowProperties({
             placeHolder={t(LanguageKey.pageToolspopup_typehere)}
             dangerOnEmpty
           />
+
+          {!checkFollower && !privateReplyCompability && (
+            <div className="explain" style={{ color: "var(--color-dark-yellow)" }}>
+              {t(LanguageKey.flowProperties_notworking_privateReply)}
+            </div>
+          )}
+        </div>
+        <div className="headerandinput">
           <div className="headerparent" style={{ marginBlock: "var(--gap-10)" }}>
             <div className="title2">{t(LanguageKey.shouldFollower)}</div>
             <ToggleCheckBoxButton
@@ -91,11 +99,6 @@ export default function FlowProperties({
               role="switch"
             />
           </div>
-          {!checkFollower && !privateReplyCompability && (
-            <div className="explain" style={{ color: "var(--color-dark-yellow)" }}>
-              {t(LanguageKey.flowProperties_notworking_privateReply)}
-            </div>
-          )}
         </div>
         <div className="popup-content">
           {!isNewFlow && (

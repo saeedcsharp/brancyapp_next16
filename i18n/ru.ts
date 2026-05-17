@@ -1526,6 +1526,7 @@ export default {
     pageTools_EventIdeasCountry: "Страна",
     pageTools_EventIdeasPrompt: "Тема",
     pageTools_EventIdeasCreatedTime: "Дата Создания",
+    pageTools_CustomEvent: "Пользовательское Событие",
     pageTools_exportcomments: "Все комментарии экспортируются в файл Excel и доступны для скачивания и обмена",
 
     pageTools_Lottery: "Создать Балльную Лотерею",

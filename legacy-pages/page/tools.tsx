@@ -1233,8 +1233,12 @@ const Tools = () => {
                 changePositionToFixed();
                 setShowDayEvents(true);
               }}
-              onSuccess={(languageId) => {
-                eventIdeaRef.current?.fetchWithLanguage(languageId);
+              onSuccess={(languageId, isCustomEvent) => {
+                if (isCustomEvent) {
+                  eventIdeaRef.current?.fetchCustomWithLanguage(languageId);
+                } else {
+                  eventIdeaRef.current?.fetchWithLanguage(languageId);
+                }
               }}
             />
           </Modal>
