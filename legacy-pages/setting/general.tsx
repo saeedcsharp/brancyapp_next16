@@ -8,6 +8,7 @@ import Modal from "brancy/components/design/modal";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import AdminChatBox from "brancy/components/setting/general/popup/adminChatBox";
 import CreateTicket from "brancy/components/setting/general/popup/createTicket";
+import AiModels from "brancy/components/setting/general/AiModels";
 import Profile from "brancy/components/setting/general/profile";
 import Support from "brancy/components/setting/general/Support";
 import System from "brancy/components/setting/general/system";
@@ -383,6 +384,7 @@ const General = () => {
       <div className="pinContainer">
         <Profile />
         <System />
+        <AiModels />
         <Support
           platform={platform}
           ticketInsights={ticketInsights}

@@ -30,6 +30,8 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/ai/getPrompts": "Instagramer/AI/GetPrompts",
   "/api/ai/getTools": "Instagramer/AI/GetTools",
   "/api/ai/sendTestMessage": "Instagramer/AI/SendTestMessage",
+  "/api/ai/getAllAiModels": "Instagramer/AI/GetAllAiModels",
+  "/api/ai/updateModel": "Instagramer/AI/UpdateModel",
 
   // ── business ─────────────────────────────────────────
   "/api/business/get": "User/Business/Get",
