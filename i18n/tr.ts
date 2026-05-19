@@ -2286,6 +2286,10 @@ export default {
     SettingGeneralSystempound: "Sterlin",
     SettingGeneralSystemrial: "Riyal",
     SettingGeneralSystemtoman: "Tümen",
+    SettingGeneralAiModelsTitle: "Yapay Zeka Modelleri",
+    SettingGeneralAiModelsTextModels: "Metin Modelleri",
+    SettingGeneralAiModelsVoiceModels: "Ses Modelleri",
+    SettingGeneralAiModelsDirectVoiceSupport: "Doğrudan Ses Desteği",
     // Setting -> General -> Profile
     SettingGeneralProfileTitle: "Profil",
     SettingGeneral_activedevice: "Aktif Cihazlar",

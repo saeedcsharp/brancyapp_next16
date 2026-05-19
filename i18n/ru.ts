@@ -2311,6 +2311,10 @@ export default {
     SettingGeneralSystempound: "Фунт",
     SettingGeneralSystemrial: "Риал",
     SettingGeneralSystemtoman: "Томан",
+    SettingGeneralAiModelsTitle: "Модели ИИ",
+    SettingGeneralAiModelsTextModels: "Текстовые модели",
+    SettingGeneralAiModelsVoiceModels: "Голосовые модели",
+    SettingGeneralAiModelsDirectVoiceSupport: "Прямая голосовая поддержка",
     // Setting -> General -> Profile
     SettingGeneralProfileTitle: "Профиль",
     SettingGeneral_activedevice: "Активные устройства",

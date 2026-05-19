@@ -2236,6 +2236,10 @@ export default {
     SettingGeneralSystempound: "Funt",
     SettingGeneralSystemrial: "Rial",
     SettingGeneralSystemtoman: "Toman",
+    SettingGeneralAiModelsTitle: "AI Modelləri",
+    SettingGeneralAiModelsTextModels: "Mətn Modelləri",
+    SettingGeneralAiModelsVoiceModels: "Səs Modelləri",
+    SettingGeneralAiModelsDirectVoiceSupport: "Birbaşa Səs Dəstəyi",
 
     SettingGeneralProfileTitle: "Profil",
     SettingGeneral_activedevice: "Aktiv cihazlar",

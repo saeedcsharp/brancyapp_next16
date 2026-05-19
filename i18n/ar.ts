@@ -2211,6 +2211,10 @@ export default {
     SettingGeneralSystempound: "جنيه",
     SettingGeneralSystemrial: "ريال",
     SettingGeneralSystemtoman: "تومان",
+    SettingGeneralAiModelsTitle: "نماذج الذكاء الاصطناعي",
+    SettingGeneralAiModelsTextModels: "نماذج النص",
+    SettingGeneralAiModelsVoiceModels: "نماذج الصوت",
+    SettingGeneralAiModelsDirectVoiceSupport: "دعم الصوت المباشر",
     // Setting -> General -> Profile
     SettingGeneralProfileTitle: "ملف شخصي",
     SettingGeneral_activedevice: "الأجهزة النشطة",

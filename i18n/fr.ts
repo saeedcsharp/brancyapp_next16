@@ -2353,8 +2353,10 @@ export default {
     SettingGeneralSystempound: "Livre",
     SettingGeneralSystemrial: "Rial",
     SettingGeneralSystemtoman: "Toman",
-    // Setting -> General -> Profile
-    SettingGeneralProfileTitle: "Profil",
+    SettingGeneralAiModelsTitle: "Modèles IA",
+    SettingGeneralAiModelsTextModels: "Modèles de texte",
+    SettingGeneralAiModelsVoiceModels: "Modèles vocaux",
+    SettingGeneralAiModelsDirectVoiceSupport: "Support vocal direct",
     SettingGeneral_activedevice: "Appareils actifs",
     SettingGeneral_leatestentery: "Historique d'activité de l'utilisateur",
     SettingGeneral_cantdeletesession: "Les sessions créées il y a moins de 24 heures ne peuvent pas être supprimées.",

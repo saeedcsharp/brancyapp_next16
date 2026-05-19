@@ -2337,8 +2337,10 @@ export default {
     SettingGeneralSystempound: "Pfund",
     SettingGeneralSystemrial: "Rial",
     SettingGeneralSystemtoman: "Toman",
-    // Setting -> General -> Profile
-    SettingGeneralProfileTitle: "Profil",
+    SettingGeneralAiModelsTitle: "AI-Modelle",
+    SettingGeneralAiModelsTextModels: "Textmodelle",
+    SettingGeneralAiModelsVoiceModels: "Sprachmodelle",
+    SettingGeneralAiModelsDirectVoiceSupport: "Direkte Sprachunterstützung",
     SettingGeneral_activedevice: "Aktive Geräte",
     SettingGeneral_leatestentery: "Benutzeraktivitätsverlauf",
     SettingGeneral_cantdeletesession:

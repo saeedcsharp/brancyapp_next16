@@ -1,18 +1,23 @@
-import { useSession } from "next-auth/react";
-import { ChangeEvent, useEffect, useState } from "react";
+import RingLoader from "brancy/components/design/loader/ringLoder";
 import RadioButton from "brancy/components/design/radioButton";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
-import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import {
+  internalNotify,
+  InternalResponseType,
+  NotifType,
+  notify,
+  ResponseType,
+} from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { AiTextModel, AiVoiceModel } from "brancy/models/setting/enums";
-import { IAiModels, IGeneralAiModels } from "brancy/models/setting/general";
-import styles from "./general.module.css";
-import { Language } from "brancy/models/messages/enum";
 import { LanguageKey } from "brancy/i18n";
+import { AiTextModel, AiVoiceModel } from "brancy/models/setting/enums";
+import { IAiModels, IGeneralAiModels, IGetAiModel } from "brancy/models/setting/general";
+import { useSession } from "next-auth/react";
+import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import RingLoader from "brancy/components/design/loader/ringLoder";
-import Loading from "brancy/components/notOk/loading";
+import styles from "./general.module.css";
 
 function AiModels() {
   const { data: session } = useSession();
@@ -37,31 +42,43 @@ function AiModels() {
   async function fetchAiModels() {
     try {
       setIsLoading(true);
-      const res = await clientFetchApi<boolean, IAiModels>("/api/ai/getAllAiModels", {
-        methodType: MethodType.get,
-        session: session,
-        data: null,
-        queries: undefined,
-        onUploadProgress: undefined,
-      });
-      if (res.succeeded) {
-        const raw = res.value as any;
-        console.log("[AiModels] API response keys:", raw ? Object.keys(raw) : raw);
+      const [modelsRes, currentRes] = await Promise.all([
+        clientFetchApi<boolean, IAiModels>("/api/ai/getAllAiModels", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IGetAiModel>("/api/ai/getAiModels", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+      ]);
 
-        // case-insensitive key finder
+      if (modelsRes.succeeded) {
+        const raw = modelsRes.value as any;
         const findKey = (obj: any, key: string) => {
           if (!obj) return undefined;
           const lower = key.toLowerCase();
           const found = Object.keys(obj).find((k) => k.toLowerCase() === lower);
           return found ? obj[found] : undefined;
         };
-
         setAiModels({
           texModels: findKey(raw, "texModels") ?? findKey(raw, "textModels") ?? [],
           voiceModels: findKey(raw, "voiceModels") ?? [],
         });
       } else {
-        notify(res.info.responseType, NotifType.Warning);
+        notify(modelsRes.info.responseType, NotifType.Warning);
+      }
+
+      if (currentRes.succeeded) {
+        setSelectedTextModel(currentRes.value.aiTextModel);
+        setSelectedVoiceModel(currentRes.value.aiVoice2TextModel);
+        setIsDirectVoiceSupport(currentRes.value.isDirectVoiceSupport);
       }
     } catch {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -87,6 +104,8 @@ function AiModels() {
       });
       if (!res.succeeded) {
         notify(res.info.responseType, NotifType.Warning);
+      } else {
+        internalNotify(InternalResponseType.Ok, NotifType.Success);
       }
     } catch {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -121,7 +140,7 @@ function AiModels() {
         }}>
         <div className="circle" aria-hidden="true"></div>
         <div className="Title" role="heading" aria-level={2}>
-          AI Models
+          {t(LanguageKey.SettingGeneralAiModelsTitle)}
         </div>
       </div>
 
@@ -134,11 +153,14 @@ function AiModels() {
               {/* Text Models */}
               <div className="headerandinput">
                 <div className="title" role="heading" aria-level={3}>
-                  Text Models
+                  {t(LanguageKey.SettingGeneralAiModelsTextModels)}
                 </div>
-                <div className={styles.options} role="radiogroup" aria-label="Text Models">
+                <div
+                  role="radiogroup"
+                  aria-label="Text Models"
+                  style={{ display: "flex", flexDirection: "column", width: "100%" }}>
                   {aiModels.texModels.map((model) => (
-                    <div className={styles.radiobtn} key={model.id}>
+                    <div className={styles.modelRow} key={model.id}>
                       <RadioButton
                         name={`textModel_${model.id}`}
                         id={`textModel_${model.id}`}
@@ -147,6 +169,10 @@ function AiModels() {
                         textlabel={model.name}
                         title={model.name}
                       />
+                      <div className={styles.modelBadges}>
+                        <span className={styles.modelBadge}>in ×{model.input}</span>
+                        <span className={styles.modelBadge}>out ×{model.output}</span>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -155,11 +181,14 @@ function AiModels() {
               {/* Voice Models */}
               <div className="headerandinput">
                 <div className="title" role="heading" aria-level={3}>
-                  Voice Models
+                  {t(LanguageKey.SettingGeneralAiModelsVoiceModels)}
                 </div>
-                <div className={styles.options} role="radiogroup" aria-label="Voice Models">
+                <div
+                  role="radiogroup"
+                  aria-label="Voice Models"
+                  style={{ display: "flex", flexDirection: "column", width: "100%" }}>
                   {aiModels.voiceModels.map((model) => (
-                    <div className={styles.radiobtn} key={model.id}>
+                    <div className={styles.modelRow} key={model.id}>
                       <RadioButton
                         name={`voiceModel_${model.id}`}
                         id={`voiceModel_${model.id}`}
@@ -168,6 +197,10 @@ function AiModels() {
                         textlabel={model.name}
                         title={model.name}
                       />
+                      <div className={styles.modelBadges}>
+                        <span className={styles.modelBadge}>in ×{model.input}</span>
+                        <span className={styles.modelBadge}>out ×{model.output}</span>
+                      </div>
                     </div>
                   ))}
                 </div>
@@ -176,7 +209,7 @@ function AiModels() {
               {/* Direct Voice Support toggle */}
               <div className="headerandinput">
                 <div className="headerparent">
-                  <div className="title">Direct Voice Support</div>
+                  <div className="title">{t(LanguageKey.SettingGeneralAiModelsDirectVoiceSupport)}</div>
                   <ToggleCheckBoxButton
                     handleToggle={(e: ChangeEvent<HTMLInputElement>) => setIsDirectVoiceSupport(e.target.checked)}
                     checked={isDirectVoiceSupport}

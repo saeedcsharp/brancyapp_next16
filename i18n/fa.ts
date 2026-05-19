@@ -2260,6 +2260,11 @@ export default {
     SettingGeneralSystempound: "پوند",
     SettingGeneralSystemrial: "ریال",
     SettingGeneralSystemtoman: "تومان",
+    // Setting -> General -> AI Models
+    SettingGeneralAiModelsTitle: "مدل‌های هوش مصنوعی",
+    SettingGeneralAiModelsTextModels: "مدل‌های متنی",
+    SettingGeneralAiModelsVoiceModels: "مدل‌های صوتی",
+    SettingGeneralAiModelsDirectVoiceSupport: "پشتیبانی مستقیم صوتی",
     // Setting -> General -> Profile
     SettingGeneralProfileTitle: "پروفایل",
     SettingGeneral_activedevice: "دستگاه‌های فعال",

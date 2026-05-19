@@ -1409,6 +1409,11 @@ export enum LanguageKey {
   SettingGeneralSystempound = "SettingGeneralSystempound",
   SettingGeneralSystemrial = "SettingGeneralSystemrial",
   SettingGeneralSystemtoman = "SettingGeneralSystemtoman",
+  // Setting -> General -> AI Models
+  SettingGeneralAiModelsTitle = "SettingGeneralAiModelsTitle",
+  SettingGeneralAiModelsTextModels = "SettingGeneralAiModelsTextModels",
+  SettingGeneralAiModelsVoiceModels = "SettingGeneralAiModelsVoiceModels",
+  SettingGeneralAiModelsDirectVoiceSupport = "SettingGeneralAiModelsDirectVoiceSupport",
   // Setting -> General -> Profile
   SettingGeneralProfileTitle = "SettingGeneralProfileTitle",
   SettingGeneral_activedevice = "SettingGeneral_activedevice",
