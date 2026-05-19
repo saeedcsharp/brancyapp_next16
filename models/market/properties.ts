@@ -1,4 +1,4 @@
-import { CustomDomainStatus, FeatureType } from "brancy/models/market/enums";
+import { CustomDomainStatus, FeatureType, RegisterType } from "brancy/models/market/enums";
 import { IBanner, IBaseProfile } from "brancy/models/market/myLink";
 
 export interface INewLink {
@@ -202,4 +202,27 @@ export interface ICustomeDomainInfo {
   url: string;
   isActive: boolean;
   status: CustomDomainStatus;
+}
+export interface IAcceptDomain {
+  uri: string;
+  fbId: number;
+  isActive: boolean;
+  createdTime: number;
+  isSubDomain: boolean;
+  status: number;
+  registerType: RegisterType;
+}
+export interface IPendingDomain {
+  fbId: number;
+  uri: string;
+  isSubDomain: boolean;
+  createdTime: number;
+  lastCheckTime: number;
+  nameServers: string[];
+  nameServerCompletedTime: number | null;
+  registerType: RegisterType;
+}
+export interface IGetCustomDomain {
+  acceptDomain: IAcceptDomain | null;
+  pendingDomain: IPendingDomain | null;
 }

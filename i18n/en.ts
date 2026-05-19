@@ -1837,7 +1837,16 @@ export default {
 
     marketProperties_explain: "When the Instagram username is changed, this link will automatically update.",
     marketProperties_rejected: "Your domain has been rejected (please contact with us)",
+    customDomain_inactive_title: "Custom domain is inactive",
+    customDomain_inactive_desc:
+      "Your domain is currently inactive. Please submit a support ticket to get it activated.",
+    customDomain_rule_notEmpty: "Domain must not be empty",
+    customDomain_rule_validChars: "Only letters and numbers are allowed",
+    customDomain_rule_noUnderscore: "Underscore (_) and hyphen (-) are not allowed",
+    customDomain_rule_noSubdomain: "Subdomains are not allowed (only one dot)",
+    customDomain_rule_notBrancy: "brancy.app and bran.cy are not allowed",
     marketProperties_Request: "Request",
+    marketProperties_Connect: "Connect",
     marketProperties_Requested: "Requested",
     marketProperties_Checking: "Checking",
     marketProperties_yourstore: "Store (your store link)",

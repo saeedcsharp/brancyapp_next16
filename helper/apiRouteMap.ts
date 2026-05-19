@@ -76,6 +76,8 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/bio/saveAparatPage": "Instagramer/Bio/SaveAparatPage",
   "/api/bio/saveYoutubePage": "Instagramer/Bio/SaveYoutubePage",
   "/api/bio/toggleCustomDomain": "Instagramer/Bio/ToggleCustomDomain",
+  "/api/bio/connectCustomDomain": "Instagramer/Bio/ConnectCustomDomain",
+  "/api/bio/verifyCustomDomainDns": "Instagramer/Bio/VerifyCustomDomainDns",
   "/api/bio/toggleFeatureBox": "Instagramer/Bio/ToggleFeatureBox",
   "/api/bio/updateAnnouncement": "Instagramer/bio/UpdateAnnouncement",
   "/api/bio/updateContact": "Instagramer/bio/UpdateContact",
