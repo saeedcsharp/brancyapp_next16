@@ -316,28 +316,30 @@ function Support({
           <div className="circle" />
           <div className="Title">{t(LanguageKey.SettingGeneral_Support)}</div>
         </div>
-        <svg
-          fill="none"
-          strokeWidth="1.5"
-          strokeLinecap="round"
-          strokeLinejoin="round"
-          stroke="var(--text-h2)"
-          width="24px"
-          xmlns="http://www.w3.org/2000/svg"
-          viewBox="0 0 24 24"
-          style={{ cursor: "pointer" }}
-          onClick={onOpenCreateTicket}
-          role="button"
-          tabIndex={0}
-          aria-label={`${t(LanguageKey.SettingGeneral_Support)} - ایجاد تیکت جدید`}
-          onKeyDown={(e) => {
-            if (e.key === "Enter" || e.key === " ") {
-              e.preventDefault();
-              onOpenCreateTicket();
-            }
-          }}>
-          <path d="M16.7 2H7.3C4 2 2 4.3 2 7.6v8.8C2 19.7 4 22 7.3 22h9.4c3.3 0 5.3-2.3 5.3-5.6V7.6C22 4.3 20 2 16.7 2 M12 8.3v7.4m3.7-3.7H8.3" />
-        </svg>
+        {RoleAccess(session, PartnerRole.Automatics) && (
+          <svg
+            fill="none"
+            strokeWidth="1.5"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            stroke="var(--text-h2)"
+            width="24px"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 24 24"
+            style={{ cursor: "pointer" }}
+            onClick={onOpenCreateTicket}
+            role="button"
+            tabIndex={0}
+            aria-label={`${t(LanguageKey.SettingGeneral_Support)} - ایجاد تیکت جدید`}
+            onKeyDown={(e) => {
+              if (e.key === "Enter" || e.key === " ") {
+                e.preventDefault();
+                onOpenCreateTicket();
+              }
+            }}>
+            <path d="M16.7 2H7.3C4 2 2 4.3 2 7.6v8.8C2 19.7 4 22 7.3 22h9.4c3.3 0 5.3-2.3 5.3-5.6V7.6C22 4.3 20 2 16.7 2 M12 8.3v7.4m3.7-3.7H8.3" />
+          </svg>
+        )}
       </div>
       <div className={`${styles.all} ${isHidden ? "" : styles.show}`}>
         {!RoleAccess(session, PartnerRole.Automatics) && <NotAllowedCard />}
