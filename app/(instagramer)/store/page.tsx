@@ -1,7 +1,5 @@
-"use client";
-
-import PageComponent from "../../../legacy-pages/store/index";
+import { redirect } from "next/navigation";
 
 export default function Page() {
-  return <PageComponent />;
+  redirect("/store/products");
 }

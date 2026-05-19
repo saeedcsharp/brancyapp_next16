@@ -25,6 +25,7 @@ import ProductListDesktop from "brancy/components/store/products/productListComp
 import ProductListMobile from "brancy/components/store/products/productListComponents/ProductListMobile";
 import UpdateProduct from "brancy/components/store/products/updateProduct";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import NotAllowed from "brancy/components/notOk/notAllowed";
 function debounce(func: (...args: any[]) => void, delay: number) {
   let timer: NodeJS.Timeout;
   return function (...args: any[]) {
@@ -76,7 +77,7 @@ const ProductList = () => {
   const userRef = useRef<HTMLDivElement>(null);
   const basePictureUrl = getClientMediaBaseUrl();
   const [products, setProducts] = useState<IProduct_ShortProduct[]>([]);
-  const [loadingStatus, setLoadingStatus] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.Orders));
+  const [loadingStatus, setLoadingStatus] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.Products));
   const [hasMoreData, setHasMoreData] = useState(true);
   const [productIds, setProductIds] = useState<number[]>([]);
   const [selectAllProduct, setSelectAllProduct] = useState(false);
@@ -119,25 +120,22 @@ const ProductList = () => {
       }
 
       // ارسال درخواست به سرور برای تغییر وضعیت
-      const res = await clientFetchApi<boolean, IProduct_ShortProduct[]>(
-        "shopper" + "" + "/Product/ChangeAvailableProduct",
-        {
-          methodType: MethodType.get,
-          session: session,
-          data: null,
-          queries: [
-            {
-              key: "productId",
-              value: productId.toString(),
-            },
-            {
-              key: "value",
-              value: statusId,
-            },
-          ],
-          onUploadProgress: undefined,
-        },
-      );
+      const res = await clientFetchApi<boolean, IProduct_ShortProduct[]>("shopper/Product/ChangeAvailableProduct", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
+          {
+            key: "productId",
+            value: productId.toString(),
+          },
+          {
+            key: "value",
+            value: statusId,
+          },
+        ],
+        onUploadProgress: undefined,
+      });
 
       if (res.succeeded) {
         setProducts(newArray);
@@ -519,7 +517,8 @@ const ProductList = () => {
   //مپ محصول
   useEffect(() => {
     if (!session) return;
-    fetchData(false);
+    if (RoleAccess(session, PartnerRole.Products)) fetchData(false);
+
     window.addEventListener("resize", handleResize);
     handleResize();
     return () => {
@@ -799,13 +798,19 @@ const ProductList = () => {
                     src="/addnewproduct.png"
                   />
                   <div className={styles.noproducttextdiscription}>{t(LanguageKey.Storeproduct_notyet)}</div>
-                  <Link href="/store/products/selectproduct" className="saveButton" style={{ textDecoration: "none" }}>
-                    {t(LanguageKey.Storeproduct_addnow)}
-                  </Link>
+                  {RoleAccess(session, PartnerRole.Products) && (
+                    <Link
+                      href="/store/products/selectproduct"
+                      className="saveButton"
+                      style={{ textDecoration: "none" }}>
+                      {t(LanguageKey.Storeproduct_addnow)}
+                    </Link>
+                  )}
                 </main>
               </div>
             </>
           )}
+          {!RoleAccess(session, PartnerRole.Products) && <NotAllowed />}
         </>
       )}
       <Modal

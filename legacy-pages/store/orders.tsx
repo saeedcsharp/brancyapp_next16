@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Loading from "brancy/components/notOk/loading";
+import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotShopper from "brancy/components/notOk/notShopper";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Queue from "brancy/components/store/order/1-Queue";
@@ -17,7 +18,7 @@ import OrderDetail from "brancy/components/store/order/popup/OrderDetail";
 import OrderFailed from "brancy/components/store/order/popup/OrderFailed";
 import OrderPickup from "brancy/components/store/order/popup/OrderPickup";
 import OrderSend from "brancy/components/store/order/popup/OrderSend";
-import { packageStatus } from "brancy/helper/loadingStatus";
+import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { LanguageKey } from "brancy/i18n";
@@ -25,6 +26,7 @@ import { MethodType } from "brancy/helper/api";
 import { PushNotif, PushResponseType } from "brancy/models/push/pushNotif";
 import { OrderStep, OrderStepStatus, ShippingRequestType } from "brancy/models/store/enum";
 import { IOrderByStatus, IOrderByStatusItem, IOrderDetail, IOrderPushNotifExtended } from "brancy/models/store/orders";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import "swiper/css";
 import "swiper/css/free-mode";
 import { FreeMode } from "swiper/modules";
@@ -163,7 +165,13 @@ const Orders = () => {
     if (loadingMoreItem.faileds && orderStep === OrderStepStatus.Failed) return;
     setLoadingMoreItem((prev) => ({ ...prev, faileds: true }));
     try {
-      const res = await clientFetchApi<number[], IOrderByStatus>("/api/order/GetOrdersByStatuses", { methodType: MethodType.post, session: session, data: [OrderStep.UserCanceled, OrderStep.InstagramerCanceled, OrderStep.ShippingFailed, OrderStep.Failed], queries: [{ key: "nextMaxId", value: nextMaxId?.toString() || "" }], onUploadProgress: undefined });
+      const res = await clientFetchApi<number[], IOrderByStatus>("/api/order/GetOrdersByStatuses", {
+        methodType: MethodType.post,
+        session: session,
+        data: [OrderStep.UserCanceled, OrderStep.InstagramerCanceled, OrderStep.ShippingFailed, OrderStep.Failed],
+        queries: [{ key: "nextMaxId", value: nextMaxId?.toString() || "" }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setOrders((prev) => ({
           ...prev,
@@ -208,10 +216,16 @@ const Orders = () => {
         break;
     }
     try {
-      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatus", { methodType: MethodType.get, session: session, data: null, queries: [
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatus", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "status", value: orderStep.toString() },
           { key: "nextMaxId", value: nextMaxId.toString() },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         switch (orderStep) {
           case OrderStepStatus.Pending:
@@ -287,27 +301,48 @@ const Orders = () => {
     setFirstLoading(false);
     try {
       const [pending, inprogress, pickingup, sent, delivered, failed] = await Promise.all([
-        clientFetchApi<number[], IOrderByStatus>("/api/order/GetOrdersByStatus", { methodType: MethodType.get, session: session, data: null, queries: [
-          { key: "status", value: OrderStep.Paid.toString() },
-        ], onUploadProgress: undefined }),
-        clientFetchApi<number[], IOrderByStatus>("/api/order/GetOrdersByStatus", { methodType: MethodType.get, session: session, data: null, queries: [
-          { key: "status", value: OrderStep.InstagramerAccepted.toString() },
-        ], onUploadProgress: undefined }),
-        clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatus", { methodType: MethodType.get, session: session, data: null, queries: [
-          { key: "status", value: OrderStep.ShippingRequest.toString() },
-        ], onUploadProgress: undefined }),
-        clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatus", { methodType: MethodType.get, session: session, data: null, queries: [
-          { key: "status", value: OrderStep.InShipping.toString() },
-        ], onUploadProgress: undefined }),
-        clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatus", { methodType: MethodType.get, session: session, data: null, queries: [
-          { key: "status", value: OrderStep.Delivered.toString() },
-        ], onUploadProgress: undefined }),
-        clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", { methodType: MethodType.post, session: session, data: [
-          OrderStep.UserCanceled,
-          OrderStep.InstagramerCanceled,
-          OrderStep.ShippingFailed,
-          OrderStep.Failed,
-        ], queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<number[], IOrderByStatus>("/api/order/GetOrdersByStatus", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "status", value: OrderStep.Paid.toString() }],
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<number[], IOrderByStatus>("/api/order/GetOrdersByStatus", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "status", value: OrderStep.InstagramerAccepted.toString() }],
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatus", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "status", value: OrderStep.ShippingRequest.toString() }],
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatus", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "status", value: OrderStep.InShipping.toString() }],
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatus", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "status", value: OrderStep.Delivered.toString() }],
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", {
+          methodType: MethodType.post,
+          session: session,
+          data: [OrderStep.UserCanceled, OrderStep.InstagramerCanceled, OrderStep.ShippingFailed, OrderStep.Failed],
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
       ]);
       console.log("inprogresssssssss", inprogress);
       console.log("faileddddddd", failed);
@@ -352,10 +387,14 @@ const Orders = () => {
       setOrdersInprocess((prev) => [...prev, ...Array.from(orderIds)]);
       const results = await Promise.all(
         Array.from(orderIds).map((orderId) =>
-          clientFetchApi<boolean, boolean>("/api/order/AcceptOrder", { methodType: MethodType.get, session: session, data: null, queries: [
-            { key: "orderId", value: orderId },
-          ], onUploadProgress: undefined })
-        )
+          clientFetchApi<boolean, boolean>("/api/order/AcceptOrder", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [{ key: "orderId", value: orderId }],
+            onUploadProgress: undefined,
+          }),
+        ),
       );
 
       // Check if all requests succeeded
@@ -406,10 +445,14 @@ const Orders = () => {
       setOrdersInprocess((prev) => [...prev, ...Array.from(orderIds)]);
       const results = await Promise.all(
         Array.from(orderIds).map((orderId) =>
-          clientFetchApi<boolean, boolean>("/api/order/ReadyOrderForShipping", { methodType: MethodType.get, session: session, data: null, queries: [
-            { key: "orderId", value: orderId },
-          ], onUploadProgress: undefined })
-        )
+          clientFetchApi<boolean, boolean>("/api/order/ReadyOrderForShipping", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [{ key: "orderId", value: orderId }],
+            onUploadProgress: undefined,
+          }),
+        ),
       );
 
       // Check if all requests succeeded
@@ -463,7 +506,13 @@ const Orders = () => {
         userId: userId,
         shippingRequestType: undefined,
       });
-      const res = await clientFetchApi<boolean, ShippingRequestType>("/api/order/GetShippingRequestType", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "orderId", value: orderId }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, ShippingRequestType>("/api/order/GetShippingRequestType", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "orderId", value: orderId }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setOrderDetailIdForPickingUp((prev) => ({
           ...prev!,
@@ -682,10 +731,16 @@ const Orders = () => {
   async function handleSendCodeByParcelId(orderId: string, parcelId: string) {
     setOrdersInprocess((prev) => [...prev, orderId]);
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/order/SentOrderByParcelId", { methodType: MethodType.get, session: session, data: null, queries: [
+      const res = await clientFetchApi<boolean, boolean>("/api/order/SentOrderByParcelId", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "orderId", value: orderId },
           { key: "parcelId", value: parcelId },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -696,7 +751,13 @@ const Orders = () => {
   async function handleSendOrderByNonRequestType(orderId: string) {
     setOrdersInprocess((prev) => [...prev, orderId]);
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/order/SentOrderByNonRequestType", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "orderId", value: orderId }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/order/SentOrderByNonRequestType", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "orderId", value: orderId }],
+        onUploadProgress: undefined,
+      });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -707,7 +768,13 @@ const Orders = () => {
   async function handleSendOrderByNonTrackingIdOrderDeliverd(orderId: string) {
     setOrdersInprocess((prev) => [...prev, orderId]);
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/order/SetNonTrackingIdOrderDelivered", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "orderId", value: orderId }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/order/SetNonTrackingIdOrderDelivered", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "orderId", value: orderId }],
+        onUploadProgress: undefined,
+      });
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -718,9 +785,13 @@ const Orders = () => {
   async function handleRejectOrder(orderId: string) {
     setOrdersInprocess((prev) => [...prev, orderId]);
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/order/RejectOrder", { methodType: MethodType.get, session: session, data: null, queries: [
-        { key: "orderId", value: orderId },
-      ], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/order/RejectOrder", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "orderId", value: orderId }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
       } else {
         notify(res.info.responseType, NotifType.Warning);
@@ -732,14 +803,15 @@ const Orders = () => {
     }
   }
   useEffect(() => {
-    if (session && firstLoading) fetchData();
+    if (session && firstLoading && RoleAccess(session, PartnerRole.Orders)) fetchData();
   }, [session]);
 
   useEffect(() => {
-    if (session?.user.currentIndex === -1) {
+    if (!session) return;
+    if (session.user.currentIndex === -1) {
       router.push("/user");
     }
-    if (!session || !packageStatus(session)) router.push("/upgrade");
+    if (!packageStatus(session)) router.push("/upgrade");
   }, [session?.user.currentIndex, router]);
   useEffect(() => {
     const intervalId = setInterval(() => {
@@ -753,6 +825,7 @@ const Orders = () => {
     }, 500);
   }, []);
   if (!session?.user.isShopper) return <NotShopper />;
+  if (!RoleAccess(session, PartnerRole.Orders)) return <NotAllowed />;
 
   return (
     session &&
@@ -904,7 +977,6 @@ const Orders = () => {
             </div>
           </section>
         )}
-
         {orderDetail && (
           <OrderDetail
             removeMask={() => setOrderDetail(null)}

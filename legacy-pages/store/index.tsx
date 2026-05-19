@@ -3,6 +3,9 @@ import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useEffect } from "react";
+import NotAllowed from "brancy/components/notOk/notAllowed";
+import { RoleAccess } from "brancy/helper/loadingStatus";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 
 const Store = () => {
   //  return <Soon />;
@@ -14,6 +17,7 @@ const Store = () => {
     },
   });
   let route = router.route;
+  if (session && !RoleAccess(session, PartnerRole.Products)) return <NotAllowed />;
   useEffect(() => {
     if (route === "/store") router.push("/store/products");
     <Link href={"/store/products"}></Link>;

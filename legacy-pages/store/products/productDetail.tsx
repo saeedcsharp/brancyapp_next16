@@ -7,12 +7,13 @@ import { useTranslation } from "react-i18next";
 import Modal from "brancy/components/design/modal";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
+import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotBasePackage from "brancy/components/notOk/notBasePackage";
 import NotShopper from "brancy/components/notOk/notShopper";
 import InstanceProductDetail from "brancy/components/store/products/productDetail/instanceProduct/instanceProductDetail";
 import NotInstanceProductDetail from "brancy/components/store/products/productDetail/notInstanceProduct/notInstanceProductDetal";
 import DeleteProduct from "brancy/components/store/products/productDetail/notInstanceProduct/popups/deleteProduct";
-import { packageStatus } from "brancy/helper/loadingStatus";
+import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { IDetailsPost } from "brancy/models/page/post/posts";
@@ -22,6 +23,7 @@ import {
   IProduct_ShortProduct,
   ITempIdAndNonProductCount,
 } from "brancy/models/store/IProduct";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import styles from "./productDetail.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
@@ -359,6 +361,7 @@ const ProductDetail = ({ tempId }: { tempId: string }) => {
   if (!session || !tempId) {
     return null;
   }
+  if (!RoleAccess(session, PartnerRole.Products)) return <NotAllowed />;
   return (
     session &&
     session!.user.currentIndex !== -1 && (

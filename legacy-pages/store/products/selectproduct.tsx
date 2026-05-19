@@ -8,12 +8,14 @@ import { useTranslation } from "react-i18next";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
+import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotShopper from "brancy/components/notOk/notShopper";
-import { packageStatus } from "brancy/helper/loadingStatus";
+import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { calculateSummary } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { IProduct_Candidate } from "brancy/models/store/IProduct";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import styles from "./selectProduct.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = getClientMediaBaseUrl();
@@ -37,7 +39,13 @@ const SelectProduct = () => {
   const [hasMore, setHasMore] = useState(false);
   async function fetchData(includeProduct: boolean) {
     try {
-      const res = await clientFetchApi<boolean, IProduct_Candidate[]>("shopper" + "" + "/Product/GetProductCandidates", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "includeProduct", value: includeProduct + "" }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IProduct_Candidate[]>("shopper/Product/GetProductCandidates", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "includeProduct", value: includeProduct + "" }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         const container = userRef.current;
         if (container) {
@@ -56,13 +64,19 @@ const SelectProduct = () => {
   }
   async function getMoreData() {
     try {
-      const res = await clientFetchApi<boolean, IProduct_Candidate[]>("shopper" + "" + "/Product/GetProductCandidates", { methodType: MethodType.get, session: session, data: null, queries: [
+      const res = await clientFetchApi<boolean, IProduct_Candidate[]>("shopper/Product/GetProductCandidates", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           { key: "includeProduct", value: "true" },
           {
             key: "nextMaxCreatedTime",
             value: products![products!.length - 1].createdTime.toString(),
           },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setProducts((prev) => [...prev!, ...res.value]);
         setHasMore(false);
@@ -102,7 +116,13 @@ const SelectProduct = () => {
   }
   async function handleSaveCandidateProduct() {
     try {
-      const res = await clientFetchApi<{ postIds: number[] }, boolean>("shopper" + "" + "/Product/CreateProducts", { methodType: MethodType.post, session: session, data: { postIds: selectedPosts }, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<{ postIds: number[] }, boolean>("shopper" + "" + "/Product/CreateProducts", {
+        methodType: MethodType.post,
+        session: session,
+        data: { postIds: selectedPosts },
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         router.push("/store/products");
       } else {
@@ -129,9 +149,10 @@ const SelectProduct = () => {
   };
   useEffect(() => {
     if (!session || session?.user.currentIndex === -1) return;
-    fetchData(true);
+    if (RoleAccess(session, PartnerRole.Products)) fetchData(true);
   }, [session]);
   if (!session?.user.isShopper) return <NotShopper />;
+  if (!RoleAccess(session, PartnerRole.Products)) return <NotAllowed />;
   // if (!session?.user.hasPackage) return <NotBasePackage />;
   if (session?.user.currentIndex === -1) router.push("/user");
   if (!session || !packageStatus(session)) router.push("/upgrade");
@@ -304,7 +325,7 @@ const SelectProduct = () => {
                           <div className={styles.postid}>{v.productTempId ? "#" + v.productTempId : v.postTempId}</div>
                         </div>
                       </div>
-                    )
+                    ),
                 )}
             </div>
             {hasMore && <DotLoaders />}
