@@ -1,17 +1,16 @@
-import React, { memo, useCallback, useEffect, useId, useMemo, useReducer, useRef, useTransition } from "react";
-import { useSession } from "next-auth/react";
-import { useTranslation } from "react-i18next";
-import NotAllowedCard from "brancy/components/notOk/notAllowedCard";
-import { RoleAccess } from "brancy/helper/loadingStatus";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import RingLoader from "brancy/components/design/loader/ringLoder";
+import NotAllowedCard from "brancy/components/notOk/notAllowedCard";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
+import { RoleAccess } from "brancy/helper/loadingStatus";
 import { convertToSeconds } from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { StatusReplied } from "brancy/models/messages/enum";
 import { PlatformTicketType } from "brancy/models/setting/enums";
 import { IPlatform, ITicketInsights } from "brancy/models/setting/general";
+import { useSession } from "next-auth/react";
+import React, { memo, useCallback, useEffect, useId, useMemo, useReducer, useRef, useTransition } from "react";
+import { useTranslation } from "react-i18next";
 import styles from "./general.module.css";
 
 interface SupportProps {
@@ -316,7 +315,7 @@ function Support({
           <div className="circle" />
           <div className="Title">{t(LanguageKey.SettingGeneral_Support)}</div>
         </div>
-        {RoleAccess(session, PartnerRole.Automatics) && (
+        {RoleAccess(session) && (
           <svg
             fill="none"
             strokeWidth="1.5"
@@ -342,8 +341,8 @@ function Support({
         )}
       </div>
       <div className={`${styles.all} ${isHidden ? "" : styles.show}`}>
-        {!RoleAccess(session, PartnerRole.Automatics) && <NotAllowedCard />}
-        {RoleAccess(session, PartnerRole.Automatics) && (
+        {!RoleAccess(session) && <NotAllowedCard />}
+        {RoleAccess(session) && (
           <>
             <div className={styles.headersection}>
               <img style={{ height: "50px" }} src="/systemticket.svg" alt="system ticket" />

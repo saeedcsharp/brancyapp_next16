@@ -4,27 +4,18 @@ import { useRouter } from "next/router";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import MultiChart from "brancy/components/design/chart/Chart_month";
-import RadarChart, {
-  IPlatformData,
-} from "brancy/components/design/chart/radarChart";
-import {
-  NotifType,
-  notify,
-  ResponseType,
-} from "brancy/components/notifications/notificationBox";
+import RadarChart, { IPlatformData } from "brancy/components/design/chart/radarChart";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
-import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import NotAllowed from "brancy/components/notOk/notAllowed";
+import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { InsightPeriod } from "brancy/models/market/enums";
-import {
-  ILinkInsight,
-  ITotalInsight,
-  ITotalInsightFigures,
-  IVideoInsight,
-} from "brancy/models/market/statistics";
+import { ILinkInsight, ITotalInsight, ITotalInsightFigures, IVideoInsight } from "brancy/models/market/statistics";
 import styles from "./statistics.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 const Statistics = () => {
   //  return <Soon />;
   const { t } = useTranslation();
@@ -50,8 +41,7 @@ const Statistics = () => {
     nbVisitsConverted: 0,
     sumVisitLength: 0,
   });
-  const [totalInsightFigures, setTotalInsightFigures] =
-    useState<ITotalInsightFigures>({ nbVisit: [] });
+  const [totalInsightFigures, setTotalInsightFigures] = useState<ITotalInsightFigures>({ nbVisit: [] });
   const [allLinkInsight, setAllLinkInsight] = useState<ILinkInsight[]>([]);
   const [lastVideo, setLastVideo] = useState<IVideoInsight>({
     lastPlayAparat: null,
@@ -73,22 +63,15 @@ const Statistics = () => {
     ];
 
     const aparatData = [
-      lastVideo.lastRedirectAparat &&
-      !Array.isArray(lastVideo.lastRedirectAparat)
+      lastVideo.lastRedirectAparat && !Array.isArray(lastVideo.lastRedirectAparat)
         ? lastVideo.lastRedirectAparat.nbVisits
         : 0,
-      lastVideo.lastRedirectAparat &&
-      !Array.isArray(lastVideo.lastRedirectAparat)
+      lastVideo.lastRedirectAparat && !Array.isArray(lastVideo.lastRedirectAparat)
         ? lastVideo.lastRedirectAparat.nbEvents
         : 0,
-      lastVideo.lastPlayAparat && !Array.isArray(lastVideo.lastPlayAparat)
-        ? lastVideo.lastPlayAparat.nbVisits
-        : 0,
-      lastVideo.lastPlayAparat && !Array.isArray(lastVideo.lastPlayAparat)
-        ? lastVideo.lastPlayAparat.nbEvents
-        : 0,
-      lastVideo.lastRedirectAparat &&
-      !Array.isArray(lastVideo.lastRedirectAparat)
+      lastVideo.lastPlayAparat && !Array.isArray(lastVideo.lastPlayAparat) ? lastVideo.lastPlayAparat.nbVisits : 0,
+      lastVideo.lastPlayAparat && !Array.isArray(lastVideo.lastPlayAparat) ? lastVideo.lastPlayAparat.nbEvents : 0,
+      lastVideo.lastRedirectAparat && !Array.isArray(lastVideo.lastRedirectAparat)
         ? lastVideo.lastRedirectAparat.sumDailyNbUniqVisitors
         : 0,
     ];
@@ -108,13 +91,7 @@ const Statistics = () => {
     ];
   }, [lastVideo]);
 
-  const radarCategories = [
-    " ورود به پلتفرم ",
-    "رویداد هدایت",
-    "پخش ویدیو",
-    "رویداد پخش",
-    "بازدید یکتا",
-  ];
+  const radarCategories = [" ورود به پلتفرم ", "رویداد هدایت", "پخش ویدیو", "رویداد پخش", "بازدید یکتا"];
 
   // فرمت ثانیه به HH:MM:SS
   const formatSeconds = (seconds?: number | null) => {
@@ -129,14 +106,36 @@ const Statistics = () => {
 
   async function fetchData() {
     try {
-      const [tiRes, tiFiguresRes, allLinkRes, lastVideoRes] = await Promise.all(
-        [
-          clientFetchApi<boolean, ITotalInsight>("/api/bio/GetTotalInsight", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "period", value: InsightPeriod.Daily.toString() }], onUploadProgress: undefined }),
-          clientFetchApi<boolean, ITotalInsightFigures>("/api/bio/GetTotalInsightFigures", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-          clientFetchApi<boolean, ILinkInsight[]>("/api/link/GetAllLinkInsight", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-          clientFetchApi<boolean, IVideoInsight>("/api/bio/GetVideoInsight", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-        ],
-      );
+      const [tiRes, tiFiguresRes, allLinkRes, lastVideoRes] = await Promise.all([
+        clientFetchApi<boolean, ITotalInsight>("/api/bio/GetTotalInsight", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "period", value: InsightPeriod.Daily.toString() }],
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, ITotalInsightFigures>("/api/bio/GetTotalInsightFigures", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, ILinkInsight[]>("/api/link/GetAllLinkInsight", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IVideoInsight>("/api/bio/GetVideoInsight", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+      ]);
       if (tiRes.succeeded) setTotalInsight(tiRes.value);
       else notify(tiRes.info.responseType, NotifType.Warning);
       if (tiFiguresRes.succeeded) setTotalInsightFigures(tiFiguresRes.value);
@@ -152,7 +151,8 @@ const Statistics = () => {
     if (!session) return;
     if (session && !packageStatus(session)) router.push("/upgrade");
     if (!LoginStatus(session)) router.push("/");
-    fetchData();
+    if (RoleAccess(session, PartnerRole.Bio)) fetchData();
+    else setLoadingStatus(false);
   }, [session]);
   if (session?.user.currentIndex === -1) router.push("/user");
   return (
@@ -162,15 +162,9 @@ const Statistics = () => {
         {/* head for SEO */}
         <Head>
           {" "}
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-          />
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
           <title>Bran.cy ▸ {t(LanguageKey.navbar_Statistics)}</title>
-          <meta
-            name="description"
-            content="Advanced Instagram post management tool"
-          />
+          <meta name="description" content="Advanced Instagram post management tool" />
           <meta name="theme-color"></meta>
           <meta
             name="keywords"
@@ -184,7 +178,8 @@ const Statistics = () => {
         {/* <Soon /> */}
         <main>
           {loadingStatus && <Loading />}
-          {!loadingStatus && (
+          {!loadingStatus && !RoleAccess(session, PartnerRole.Bio) && <NotAllowed />}
+          {!loadingStatus && RoleAccess(session, PartnerRole.Bio) && (
             <>
               <div className={styles.inboxContainer}>
                 <div className={styles.followers}>
@@ -217,9 +212,7 @@ const Statistics = () => {
                   <div className="title" style={{ textAlign: "center" }}>
                     بازدیدهای منجر به کلیک
                   </div>
-                  <div className={styles.div}>
-                    {totalInsight!.nbVisitsConverted}
-                  </div>
+                  <div className={styles.div}>{totalInsight!.nbVisitsConverted}</div>
                 </div>
 
                 <div className={styles.newCommnet}>
@@ -249,18 +242,14 @@ const Statistics = () => {
                     میانگین کلیک و تعامل هر بازدیدکننده
                   </div>
 
-                  <div className={styles.div}>
-                    {totalInsight!.nbActionsPerVisit}
-                  </div>
+                  <div className={styles.div}>{totalInsight!.nbActionsPerVisit}</div>
                 </div>
                 <div className={styles.postrequest}>
                   <div className="title" style={{ textAlign: "center" }}>
                     مجموع زمان بازدید کاربران
                   </div>
 
-                  <div className={styles.div}>
-                    {formatSeconds(totalInsight!.sumVisitLength)}
-                  </div>
+                  <div className={styles.div}>{formatSeconds(totalInsight!.sumVisitLength)}</div>
                 </div>
 
                 <div className={styles.postrequest}>
@@ -268,9 +257,7 @@ const Statistics = () => {
                     میانگین زمان حضور یک بازدیدکننده
                   </div>
 
-                  <div className={styles.div}>
-                    {formatSeconds(totalInsight!.avgTimeOnSite)}
-                  </div>
+                  <div className={styles.div}>{formatSeconds(totalInsight!.avgTimeOnSite)}</div>
                 </div>
               </div>
               <div className="pinContainer">
@@ -320,9 +307,7 @@ const Statistics = () => {
                     <div className="frameParent">
                       <div className="headerChild">
                         <div className="circle"></div>
-                        <div className="Title">
-                          نمودار ترکیبی بازدید لینک‌ها
-                        </div>
+                        <div className="Title">نمودار ترکیبی بازدید لینک‌ها</div>
                       </div>
                     </div>
                     <MultiChart

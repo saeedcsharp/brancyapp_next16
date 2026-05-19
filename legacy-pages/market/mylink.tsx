@@ -20,15 +20,13 @@ import Menubar from "brancy/components/market/myLink/menubar";
 import OnlineStreaming from "brancy/components/market/myLink/onlinestreaming";
 import Reviews from "brancy/components/market/myLink/reviews";
 import Loading from "brancy/components/notOk/loading";
-import {
-  NotifType,
-  notify,
-  ResponseType,
-} from "brancy/components/notifications/notificationBox";
-import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import NotAllowed from "brancy/components/notOk/notAllowed";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { FeatureType } from "brancy/models/market/enums";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import {
   IBusinessHour,
   IChannel,
@@ -84,10 +82,7 @@ function handleFeatureInfo(mediaLink: IMyLink) {
       isActive: mediaLink.link.isActive,
     });
   }
-  if (
-    mediaLink.onlineStreaming.onlineStream &&
-    mediaLink.onlineStreaming.isActive
-  ) {
+  if (mediaLink.onlineStreaming.onlineStream && mediaLink.onlineStreaming.isActive) {
     featureArray.push({
       orderId: mediaLink.onlineStreaming.orderId,
       title: mediaLink.onlineStreaming.title,
@@ -142,12 +137,7 @@ function workHourCast(params: IWorkHourItem[] | null): IBusinessHour[] | null {
 }
 function lastVideCast(params: IChannel | null) {
   if (!params) return null;
-  if (
-    !params.aparatChannel?.video &&
-    !params.twitchChannel?.video &&
-    !params.youtubeChannel?.video
-  )
-    return null;
+  if (!params.aparatChannel?.video && !params.twitchChannel?.video && !params.youtubeChannel?.video) return null;
   const lastVideo: IVideoChannel = {
     aparatChannel: params.aparatChannel
       ? {
@@ -172,12 +162,7 @@ function lastVideCast(params: IChannel | null) {
 }
 function onlineStreamCast(params: IChannel | null) {
   if (!params) return null;
-  if (
-    !params.aparatChannel?.live &&
-    !params.twitchChannel?.live &&
-    !params.youtubeChannel?.live
-  )
-    return null;
+  if (!params.aparatChannel?.live && !params.twitchChannel?.live && !params.youtubeChannel?.live) return null;
   const onlineStream: ILiveChannel = {
     aparatChannel: params.aparatChannel
       ? {
@@ -225,11 +210,21 @@ const MyLink = () => {
     const fetchData = async () => {
       // Don't fetch if already loaded or if session is not available
       if (myLink || !session || status !== "authenticated") return;
+      if (!RoleAccess(session, PartnerRole.Bio)) {
+        setLoading(false);
+        return;
+      }
 
       setLoading(true);
       setError(null);
       try {
-        const info = await clientFetchApi<string, ISmartLink>("/api/bio/GetMyLink", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+        const info = await clientFetchApi<string, ISmartLink>("/api/bio/GetMyLink", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        });
         if (info.succeeded) {
           let data: IMyLink = {
             announcement: info.value.announcement
@@ -237,101 +232,81 @@ const MyLink = () => {
                   profileUrl: info.value.instagramer.profileUrl,
                   text: info.value.announcement.str,
                   featureType: FeatureType.Announcements,
-                  orderId: info.value.featureOrders.orderItems.find(
-                    (x) => x.featureType === FeatureType.Announcements
-                  )!.orderId,
+                  orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Announcements)!
+                    .orderId,
                   title: "announcement",
                   name: info.value.instagramer.username,
                   isActive: info.value.featureOrders.orderItems.find(
-                    (x) => x.featureType === FeatureType.Announcements
+                    (x) => x.featureType === FeatureType.Announcements,
                   )!.isActive,
                 }
               : null,
             reviews: {
               featureType: FeatureType.Reviews,
-              orderId: info.value.featureOrders.orderItems.find(
-                (x) => x.featureType === FeatureType.Reviews
-              )!.orderId,
+              orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Reviews)!.orderId,
               title: "reviews",
               reviews: info.value.reviews,
-              isActive: info.value.featureOrders.orderItems.find(
-                (x) => x.featureType === FeatureType.Reviews
-              )!.isActive,
+              isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Reviews)!
+                .isActive,
             },
             onlineStreaming: {
               onlineStream: onlineStreamCast(info.value.channel),
               featureType: FeatureType.OnlineStream,
-              orderId: info.value.featureOrders.orderItems.find(
-                (x) => x.featureType === FeatureType.OnlineStream
-              )!.orderId,
+              orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.OnlineStream)!
+                .orderId,
               title: "onlineStreaming",
-              isActive: info.value.featureOrders.orderItems.find(
-                (x) => x.featureType === FeatureType.OnlineStream
-              )!.isActive,
+              isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.OnlineStream)!
+                .isActive,
             },
             lastVideo: {
               lastVideo: lastVideCast(info.value.channel),
               featureType: FeatureType.LastVideo,
-              orderId: info.value.featureOrders.orderItems.find(
-                (x) => x.featureType === FeatureType.LastVideo
-              )!.orderId,
+              orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.LastVideo)!
+                .orderId,
               title: "lastVideo",
-              isActive: info.value.featureOrders.orderItems.find(
-                (x) => x.featureType === FeatureType.LastVideo
-              )!.isActive,
+              isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.LastVideo)!
+                .isActive,
             },
             products: {
               featureType: FeatureType.Products,
-              orderId: info.value.featureOrders.orderItems.find(
-                (x) => x.featureType === FeatureType.Products
-              )!.orderId,
+              orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Products)!.orderId,
               title: "products",
-              isActive: info.value.featureOrders.orderItems.find(
-                (x) => x.featureType === FeatureType.Products
-              )!.isActive,
+              isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Products)!
+                .isActive,
             },
             timeline: {
               featureType: FeatureType.AdsTimeline,
-              orderId: info.value.featureOrders.orderItems.find(
-                (x) => x.featureType === FeatureType.AdsTimeline
-              )!.orderId,
+              orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.AdsTimeline)!
+                .orderId,
               title: "timeline",
-              isActive: info.value.featureOrders.orderItems.find(
-                (x) => x.featureType === FeatureType.AdsTimeline
-              )!.isActive,
+              isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.AdsTimeline)!
+                .isActive,
             },
             faq: {
               featureType: FeatureType.QandABox,
-              orderId: info.value.featureOrders.orderItems.find(
-                (x) => x.featureType === FeatureType.QandABox
-              )!.orderId,
+              orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.QandABox)!.orderId,
               title: "faq",
               faqs: info.value.faqs,
-              isActive: info.value.featureOrders.orderItems.find(
-                (x) => x.featureType === FeatureType.QandABox
-              )!.isActive,
+              isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.QandABox)!
+                .isActive,
             },
             link: {
               featureType: FeatureType.LinkShortcut,
-              orderId: info.value.featureOrders.orderItems.find(
-                (x) => x.featureType === FeatureType.LinkShortcut
-              )!.orderId,
+              orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.LinkShortcut)!
+                .orderId,
               title: "link",
               links: info.value.links,
-              isActive: info.value.featureOrders.orderItems.find(
-                (x) => x.featureType === FeatureType.LinkShortcut
-              )!.isActive,
+              isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.LinkShortcut)!
+                .isActive,
             },
             contactAndMap: {
               contact: info.value.contact,
               featureType: FeatureType.ContactAndMap,
-              orderId: info.value.featureOrders.orderItems.find(
-                (x) => x.featureType === FeatureType.ContactAndMap
-              )!.orderId,
+              orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.ContactAndMap)!
+                .orderId,
               title: "contactAndMap",
-              isActive: info.value.featureOrders.orderItems.find(
-                (x) => x.featureType === FeatureType.ContactAndMap
-              )!.isActive,
+              isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.ContactAndMap)!
+                .isActive,
             },
             orderItems: info.value.featureOrders,
           };
@@ -372,9 +347,7 @@ const MyLink = () => {
     if (!myLink) return [];
     return [
       {
-        reactNode: (
-          <Announcement data={myLink.data.announcement} key={"announcement"} />
-        ),
+        reactNode: <Announcement data={myLink.data.announcement} key={"announcement"} />,
         featureType: FeatureType.Announcements,
       },
       {
@@ -382,12 +355,7 @@ const MyLink = () => {
         featureType: FeatureType.Reviews,
       },
       {
-        reactNode: (
-          <OnlineStreaming
-            data={myLink.data.onlineStreaming}
-            key={"OnlineStreaming"}
-          />
-        ),
+        reactNode: <OnlineStreaming data={myLink.data.onlineStreaming} key={"OnlineStreaming"} />,
         featureType: FeatureType.OnlineStream,
       },
       {
@@ -403,12 +371,7 @@ const MyLink = () => {
         featureType: FeatureType.LinkShortcut,
       },
       {
-        reactNode: (
-          <ContactAndMap
-            data={myLink.data.contactAndMap}
-            key={"ContactAndMap"}
-          />
-        ),
+        reactNode: <ContactAndMap data={myLink.data.contactAndMap} key={"ContactAndMap"} />,
         featureType: FeatureType.ContactAndMap,
       },
     ];
@@ -422,9 +385,7 @@ const MyLink = () => {
     const tempArrayDiv: ReactNode[] = [];
     for (let index = 0; index < featurInfos.length; index++) {
       const element = featurInfos[index];
-      const element1 = arrayDiv.find(
-        (x) => x.featureType === element.featureType
-      );
+      const element1 = arrayDiv.find((x) => x.featureType === element.featureType);
       if (element1) {
         tempArrayDiv.push(element1.reactNode);
       }
@@ -448,10 +409,10 @@ const MyLink = () => {
   }
 
   if (status === "loading" || loading) return <Loading />;
+  if (!RoleAccess(session, PartnerRole.Bio)) return <NotAllowed />;
 
   if (error) return <h1 style={{ color: "red" }}>{error}</h1>;
-  if (!myLink)
-    return <h1 className="title">{t(LanguageKey.pageStatistics_EmptyList)}</h1>;
+  if (!myLink) return <h1 className="title">{t(LanguageKey.pageStatistics_EmptyList)}</h1>;
   if (session?.user.currentIndex === -1) router.push("/user");
   return (
     session &&
@@ -460,15 +421,9 @@ const MyLink = () => {
         {/* head for SEO */}
         <Head>
           {" "}
-          <meta
-            name="viewport"
-            content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no"
-          />
+          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
           <title>Bran.cy ▸ {t(LanguageKey.navbar_MyLink)}</title>
-          <meta
-            name="description"
-            content="Advanced Instagram post management tool"
-          />
+          <meta name="description" content="Advanced Instagram post management tool" />
           <meta name="theme-color"></meta>
           <meta
             name="keywords"
@@ -480,12 +435,7 @@ const MyLink = () => {
         </Head>
         {/* head for SEO */}
         <main className={styles.pincontainer}>
-          {initialzeFeatureDiv.length > 0 && (
-            <Menubar
-              data={featurInfos}
-              featureType={featurInfos[0].featureType}
-            />
-          )}
+          {initialzeFeatureDiv.length > 0 && <Menubar data={featurInfos} featureType={featurInfos[0].featureType} />}
           <Banner data={myLink.bannerInfo} />
           {myLink.data.orderItems.isActiveFeatureBox && (
             <FeatureBox
@@ -496,37 +446,18 @@ const MyLink = () => {
               handleShowTerif={handleShowTerif}
             />
           )}
-          {initialzeFeatureDiv.length > 0 && (
-            <DynamicFeatures reactNodes={initialzeFeatureDiv} />
-          )}
+          {initialzeFeatureDiv.length > 0 && <DynamicFeatures reactNodes={initialzeFeatureDiv} />}
           <Aboutus data={myLink.bannerInfo} />
         </main>
-        <Modal
-          closePopup={removeMask}
-          classNamePopup={"popup"}
-          showContent={showTerms}>
-          <AdvertisingTermsPopup
-            removeMask={removeMask}
-            data={(myLink.featureBox && myLink.featureBox.terms) || []}
-          />
+        <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showTerms}>
+          <AdvertisingTermsPopup removeMask={removeMask} data={(myLink.featureBox && myLink.featureBox.terms) || []} />
         </Modal>
-        <Modal
-          closePopup={removeMask}
-          classNamePopup={"popup"}
-          showContent={showTerrif}>
-          <TarrifPopup
-            teriif={myLink.featureBox && myLink.featureBox.teriif}
-            removeMask={removeMask}
-          />
+        <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showTerrif}>
+          <TarrifPopup teriif={myLink.featureBox && myLink.featureBox.teriif} removeMask={removeMask} />
         </Modal>
-        <Modal
-          closePopup={removeMask}
-          classNamePopup={"popup"}
-          showContent={showHours}>
+        <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showHours}>
           <BusinessHourPopup
-            businessInfo={
-              (myLink.featureBox && myLink.featureBox.workHours) || []
-            }
+            businessInfo={(myLink.featureBox && myLink.featureBox.workHours) || []}
             removeMask={removeMask}
           />
         </Modal>
