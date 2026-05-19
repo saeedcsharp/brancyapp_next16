@@ -5,9 +5,12 @@ import { DateObject } from "react-multi-date-picker";
 import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
+import NotAllowedCard from "brancy/components/notOk/notAllowedCard";
 import { getEnumValue } from "brancy/helper/handleItemTypeEnum";
+import { RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType } from "brancy/helper/api";
 import {
   FailLotteryStatus,
@@ -212,9 +215,10 @@ const WinnerPicker = (props: {
   }
 
   useEffect(() => {
+    if (!session || !RoleAccess(session, PartnerRole.PageView)) return;
     fetchData();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [session]);
 
   return (
     <>
@@ -224,117 +228,123 @@ const WinnerPicker = (props: {
           <div className="Title">{t(LanguageKey.pageTools_WinnerPicker)}</div>
         </div>
         <div className={`${styles.all} ${isHidden ? "" : styles.show}`}>
-          <div id="score" onClick={handleOuterClick} className={styles.score}>
-            <img className={styles.icon} alt="lottery" src="/icon-lottery.svg" />
-            <div className={styles.frame}>
-              <div className={styles.title}>{t(LanguageKey.pageTools_Lottery)}</div>
-              <div className="explain">{t(LanguageKey.pageTools_LotteryExplain)}</div>
-            </div>
-          </div>
-          <div className={styles.lotteryresult}>
-            {loading && (
-              <div style={{ padding: "20px", textAlign: "center" }}>
-                <Loading />
+          {!RoleAccess(session, PartnerRole.PageView) && <NotAllowedCard />}
+          {RoleAccess(session, PartnerRole.PageView) && (
+            <>
+              <div id="score" onClick={handleOuterClick} className={styles.score}>
+                <img className={styles.icon} alt="lottery" src="/icon-lottery.svg" />
+                <div className={styles.frame}>
+                  <div className={styles.title}>{t(LanguageKey.pageTools_Lottery)}</div>
+                  <div className="explain">{t(LanguageKey.pageTools_LotteryExplain)}</div>
+                </div>
               </div>
-            )}
+              <div className={styles.lotteryresult}>
+                {loading && (
+                  <div style={{ padding: "20px", textAlign: "center" }}>
+                    <Loading />
+                  </div>
+                )}
 
-            {!loading && mergedItems.length === 0 && (
-              <div
-                style={{
-                  padding: "40px",
-                  textAlign: "center",
-                  display: "flex",
-                  justifyContent: "center",
-                  alignItems: "center",
-                  color: "var(--text-h2)",
-                  fontSize: "var(--font-16)",
-                }}>
-                {t(LanguageKey.pageTools_emptylotteryList)}
-              </div>
-            )}
+                {!loading && mergedItems.length === 0 && (
+                  <div
+                    style={{
+                      padding: "40px",
+                      textAlign: "center",
+                      display: "flex",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      color: "var(--text-h2)",
+                      fontSize: "var(--font-16)",
+                    }}>
+                    {t(LanguageKey.pageTools_emptylotteryList)}
+                  </div>
+                )}
 
-            {!loading && mergedItems.length > 0 && (
-              <div className={styles.activeWinnerPickerlist}>
-                <Slider
-                  itemsPerSlide={6}
-                  onReachEnd={hasMoreData && !loadingMore ? loadMoreData : undefined}
-                  isLoading={loadingMore && hasMoreData}>
-                  {mergedItems.map((v) => (
-                    <SliderSlide key={v.id}>
-                      <div className={styles.innerContainer}>
-                        <div className={styles.winnerInfoContainer}>
-                          <div className={styles.winnerTimeContainer}>
-                            <img
-                              style={{ cursor: "pointer", width: "18px", height: "18px" }}
-                              title="ℹ️ order number"
-                              src="/adticket.svg"
-                            />
-                            <div className="title"> #{v.id}</div>
-                          </div>
+                {!loading && mergedItems.length > 0 && (
+                  <div className={styles.activeWinnerPickerlist}>
+                    <Slider
+                      itemsPerSlide={6}
+                      onReachEnd={hasMoreData && !loadingMore ? loadMoreData : undefined}
+                      isLoading={loadingMore && hasMoreData}>
+                      {mergedItems.map((v) => (
+                        <SliderSlide key={v.id}>
+                          <div className={styles.innerContainer}>
+                            <div className={styles.winnerInfoContainer}>
+                              <div className={styles.winnerTimeContainer}>
+                                <img
+                                  style={{ cursor: "pointer", width: "18px", height: "18px" }}
+                                  title="ℹ️ order number"
+                                  src="/adticket.svg"
+                                />
+                                <div className="title"> #{v.id}</div>
+                              </div>
 
-                          <div className={styles.winnerTimeContainer}>
-                            <div className="counter">
-                              <span className={styles.day}>
-                                {new DateObject({
-                                  date: v.startTime * 1000,
-                                  locale: initialzedTime().locale,
-                                  calendar: initialzedTime().calendar,
-                                }).format("YYYY/MM/DD")}
-                                -
-                              </span>
-                              <span className={styles.hour}>
-                                {new DateObject({
-                                  date: v.startTime * 1000,
-                                  locale: initialzedTime().locale,
-                                  calendar: initialzedTime().calendar,
-                                }).format("hh:mm A")}
-                              </span>
+                              <div className={styles.winnerTimeContainer}>
+                                <div className="counter">
+                                  <span className={styles.day}>
+                                    {new DateObject({
+                                      date: v.startTime * 1000,
+                                      locale: initialzedTime().locale,
+                                      calendar: initialzedTime().calendar,
+                                    }).format("YYYY/MM/DD")}
+                                    -
+                                  </span>
+                                  <span className={styles.hour}>
+                                    {new DateObject({
+                                      date: v.startTime * 1000,
+                                      locale: initialzedTime().locale,
+                                      calendar: initialzedTime().calendar,
+                                    }).format("hh:mm A")}
+                                  </span>
+                                </div>
+                              </div>
+                            </div>
+                            <div className={styles.winnermoreContainer}>
+                              <>
+                                {v.status === LotteryStatus.Ended && (
+                                  <div className={styles.success}>{t(LanguageKey.Finished)}</div>
+                                )}
+                                {v.status === LotteryStatus.Failed && (
+                                  <div className={styles.error}>
+                                    {v.failStatus &&
+                                      getEnumValue(FailLotteryStatus, FailLotteryStatusStr, v.failStatus)}
+                                  </div>
+                                )}
+                                {v.status === LotteryStatus.Upcoming && (
+                                  <div className={styles.pending}>{t(LanguageKey.Pending)}</div>
+                                )}
+                              </>
+                              <>
+                                {v.status === LotteryStatus.Upcoming && (
+                                  <div className={styles.arrow} onClick={() => props.showLotteryRunning(v.id)}>
+                                    <img
+                                      style={{ cursor: "pointer", width: "30px", height: "30px" }}
+                                      title="ℹ️ more"
+                                      src="/3dots.svg"
+                                    />
+                                  </div>
+                                )}
+                                {v.status === LotteryStatus.Ended && (
+                                  <div className={styles.arrow} onClick={() => props.showWinnersList(v.id)}>
+                                    <img
+                                      style={{ cursor: "pointer", width: "30px", height: "30px" }}
+                                      title="ℹ️ more"
+                                      src="/3dots.svg"
+                                    />
+                                  </div>
+                                )}
+                                {v.status === LotteryStatus.Failed && <div className={styles.notarrow} />}
+                              </>
                             </div>
                           </div>
-                        </div>
-                        <div className={styles.winnermoreContainer}>
-                          <>
-                            {v.status === LotteryStatus.Ended && (
-                              <div className={styles.success}>{t(LanguageKey.Finished)}</div>
-                            )}
-                            {v.status === LotteryStatus.Failed && (
-                              <div className={styles.error}>
-                                {v.failStatus && getEnumValue(FailLotteryStatus, FailLotteryStatusStr, v.failStatus)}
-                              </div>
-                            )}
-                            {v.status === LotteryStatus.Upcoming && (
-                              <div className={styles.pending}>{t(LanguageKey.Pending)}</div>
-                            )}
-                          </>
-                          <>
-                            {v.status === LotteryStatus.Upcoming && (
-                              <div className={styles.arrow} onClick={() => props.showLotteryRunning(v.id)}>
-                                <img
-                                  style={{ cursor: "pointer", width: "30px", height: "30px" }}
-                                  title="ℹ️ more"
-                                  src="/3dots.svg"
-                                />
-                              </div>
-                            )}
-                            {v.status === LotteryStatus.Ended && (
-                              <div className={styles.arrow} onClick={() => props.showWinnersList(v.id)}>
-                                <img
-                                  style={{ cursor: "pointer", width: "30px", height: "30px" }}
-                                  title="ℹ️ more"
-                                  src="/3dots.svg"
-                                />
-                              </div>
-                            )}
-                            {v.status === LotteryStatus.Failed && <div className={styles.notarrow} />}
-                          </>
-                        </div>
-                      </div>
-                    </SliderSlide>
-                  ))}
-                </Slider>
+                        </SliderSlide>
+                      ))}
+                    </Slider>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
+            </>
+          )}
         </div>
       </div>
     </>

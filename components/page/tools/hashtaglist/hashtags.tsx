@@ -5,6 +5,7 @@ import { useTranslation } from "react-i18next";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
 import Loading from "brancy/components/notOk/loading";
+import NotAllowedCard from "brancy/components/notOk/notAllowedCard";
 
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 
@@ -45,7 +46,7 @@ const Hashtags = (props: {
   const hasAccess = useMemo(() => RoleAccess(session, PartnerRole.PageView), [session]);
 
   const loadingStatus = useMemo(() => {
-    if (!isLoggedIn || !hasAccess) return true;
+    if (!isLoggedIn || !hasAccess) return false;
     return !props.data;
   }, [isLoggedIn, hasAccess, props.data]);
 
@@ -165,6 +166,14 @@ const Hashtags = (props: {
     },
     [isLoggedIn, displayNewList],
   );
+
+  if (!hasAccess) {
+    return (
+      <section className="tooBigCard" style={cardHeightStyle}>
+        <NotAllowedCard />
+      </section>
+    );
+  }
 
   if (loadingStatus) {
     return (

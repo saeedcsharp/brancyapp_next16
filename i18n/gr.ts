@@ -490,6 +490,7 @@ export default {
     logout: "Abmelden",
     notallowed: "Nicht erlaubt",
     notallowedExplain: "Sie dürfen auf diese Funktion nicht zugreifen",
+    notallowedExplainPage: "Sie dürfen auf diese Seite nicht zugreifen",
     CreateAutomationFlow: "Automatisierungsablauf erstellen",
     CreateAutomationFlowExplain: "Automatisiere Instagram-Interaktionen mit einem visuellen Workflow-Builder.",
     CreateAutomationAI: "KI-Automatisierung erstellen",

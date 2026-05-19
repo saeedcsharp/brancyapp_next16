@@ -297,6 +297,8 @@ const PostContent = (props: PostContentProps) => {
           nextTime: mappedPosts.length > 0 ? mappedPosts[mappedPosts.length - 1].createdTime : -1,
         },
       });
+    } else if (!isAuthorized) {
+      dispatch({ type: "SET_LOADING", payload: false });
     }
   }, [props.data.posts, isAuthorized, normalizePost]);
 

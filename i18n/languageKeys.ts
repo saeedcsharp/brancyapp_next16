@@ -78,6 +78,7 @@ export enum LanguageKey {
   logout = "logout",
   notallowed = "notallowed",
   notallowedExplain = "notallowedExplain",
+  notallowedExplainPage = "notallowedExplainPage",
   max = "max",
   logoutExplain = "logoutExplain",
   sending = "sending",

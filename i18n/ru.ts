@@ -488,6 +488,7 @@ export default {
     logout: "Выйти",
     notallowed: "Не разрешено",
     notallowedExplain: "У вас нет доступа к этой функции",
+    notallowedExplainPage: "У вас нет доступа к этой странице",
     CreateAutomationFlow: "Создать поток автоматизации",
     CreateAutomationFlowExplain:
       "Автоматизируйте взаимодействия в Instagram с помощью визуального конструктора рабочих процессов.",

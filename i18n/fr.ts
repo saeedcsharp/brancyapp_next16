@@ -493,6 +493,7 @@ export default {
     logout: "Déconnexion",
     notallowed: "Non autorisé",
     notallowedExplain: "Vous n'êtes pas autorisé à accéder à cette fonctionnalité",
+    notallowedExplainPage: "Vous n'êtes pas autorisé à accéder à cette page",
     CreateAutomationFlow: "Créer un flux d'automatisation",
     CreateAutomationFlowExplain: "Automatisez les interactions Instagram avec un créateur de flux visuel.",
     CreateAutomationAI: "Créer une IA d'automatisation",

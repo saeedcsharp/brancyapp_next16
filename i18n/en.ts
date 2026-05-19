@@ -480,6 +480,7 @@ export default {
     logout: "Log Out",
     notallowed: "Not Allowed",
     notallowedExplain: "You are not allowed to access this feature",
+    notallowedExplainPage: "You are not allowed to access this page",
 
     CreateAutomationFlow: "Create Automation Flow",
     CreateAutomationFlowExplain: "Automate Instagram interactions with a visual workflow builder.",

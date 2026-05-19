@@ -490,6 +490,7 @@ export default {
     logout: "Çıkış Yap",
     notallowed: "İzin Verilmedi",
     notallowedExplain: "Bu özelliğe erişim izniniz yok",
+    notallowedExplainPage: "Bu sayfaya erişim izniniz yok",
     CollaboratorExplain: "Post veya Reels'i Birden Fazla Instagram Sayfası Arasında Ortak Paylaşın",
     CreateAutomationFlow: "Otomasyon Akışı Oluştur",
     CreateAutomationFlowExplain: "Görsel iş akışı oluşturucu ile Instagram etkileşimlerini otomatikleştir.",

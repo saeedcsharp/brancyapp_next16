@@ -1,8 +1,12 @@
+import { useSession } from "next-auth/react";
 import { ChangeEvent, useCallback, useEffect, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import TextArea from "brancy/components/design/textArea/textArea";
+import NotAllowedCard from "brancy/components/notOk/notAllowedCard";
+import { RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import styles from "./customFont.module.css";
 interface FontMap {
   [key: string]: {
@@ -52,6 +56,8 @@ const convertTextHelper = (text: string, style: string, map: FontMap): string =>
 
 export default function FontSelector() {
   const { t } = useTranslation();
+  const { data: session } = useSession();
+  const hasAccess = useMemo(() => RoleAccess(session, PartnerRole.PageView), [session]);
 
   const fontMap: FontMap = useMemo(
     () => ({
@@ -1518,35 +1524,40 @@ export default function FontSelector() {
           <div className="Title">{t(LanguageKey.pageTools_CustomFont)}</div>
         </div>
         <main className={`${styles.all} ${isHidden ? "" : styles.show}`}>
-          <DragDrop data={fontOptions} handleOptionSelect={handleFontSelect} />
-          <TextArea
-            className="captiontextarea"
-            placeHolder={t(LanguageKey.EnterYourText)}
-            value={convertedText}
-            handleInputChange={handleInputChange}
-            role={"textbox"}
-            title={"Type your text here"}
-            style={{ height: "200px", fontSize: "16px" }}
-            id="customFontInput"
-            name="customFontInput"
-          />
-          <div className={`${styles.symbolpoollistparent} translate`}>
-            <SymbolPool title="Custom Emoticons" symbols={customEmoticons} />
-            <SymbolPool title="General Symbols" symbols={generalSymbols} />
-            <SymbolPool title="Currency Symbols" symbols={currencySymbols} />
-            <SymbolPool title="Geometric Symbols" symbols={geometricSymbols} />
-          </div>
-          <button
-            style={{ minHeight: "48px" }}
-            onClick={() => copyToClipboard(convertedText)}
-            className={convertedText.trim() === "" ? "disableButton" : "saveButton"}
-            disabled={convertedText.trim() === ""}>
-            {convertedText.trim() === ""
-              ? t(LanguageKey.CopyText)
-              : copied === convertedText
-                ? t(LanguageKey.successfulCopy)
-                : t(LanguageKey.CopyText)}
-          </button>
+          {!hasAccess && <NotAllowedCard />}
+          {hasAccess && (
+            <>
+              <DragDrop data={fontOptions} handleOptionSelect={handleFontSelect} />
+              <TextArea
+                className="captiontextarea"
+                placeHolder={t(LanguageKey.EnterYourText)}
+                value={convertedText}
+                handleInputChange={handleInputChange}
+                role={"textbox"}
+                title={"Type your text here"}
+                style={{ height: "200px", fontSize: "16px" }}
+                id="customFontInput"
+                name="customFontInput"
+              />
+              <div className={`${styles.symbolpoollistparent} translate`}>
+                <SymbolPool title="Custom Emoticons" symbols={customEmoticons} />
+                <SymbolPool title="General Symbols" symbols={generalSymbols} />
+                <SymbolPool title="Currency Symbols" symbols={currencySymbols} />
+                <SymbolPool title="Geometric Symbols" symbols={geometricSymbols} />
+              </div>
+              <button
+                style={{ minHeight: "48px" }}
+                onClick={() => copyToClipboard(convertedText)}
+                className={convertedText.trim() === "" ? "disableButton" : "saveButton"}
+                disabled={convertedText.trim() === ""}>
+                {convertedText.trim() === ""
+                  ? t(LanguageKey.CopyText)
+                  : copied === convertedText
+                    ? t(LanguageKey.successfulCopy)
+                    : t(LanguageKey.CopyText)}
+              </button>
+            </>
+          )}
         </main>
       </div>
     </>

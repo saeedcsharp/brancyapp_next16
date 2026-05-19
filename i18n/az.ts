@@ -485,6 +485,7 @@ export default {
     logout: "Çıxış",
     notallowed: "İcazə verilmir",
     notallowedExplain: "Bu funksiyaya daxil olmaq icazəniz yoxdur",
+    notallowedExplainPage: "Bu səhifəyə daxil olmaq icazəniz yoxdur",
     CreateAutomationFlow: "Avtomatlaşdırma Axını Yarat",
     CreateAutomationFlowExplain: "Vizual iş axını qurucusu ilə Instagram qarşılıqlı əlaqələrini avtomatlaşdır.",
     CreateAutomationAI: "AI Avtomatlaşdırması Yarat",

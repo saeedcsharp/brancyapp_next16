@@ -3,9 +3,12 @@ import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import NotAllowedCard from "brancy/components/notOk/notAllowedCard";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { LanguageKey } from "brancy/i18n";
 import { useSession } from "next-auth/react";
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
@@ -241,12 +244,13 @@ const EventIdea = forwardRef<EventIdeaHandle, { handleOpenCreate: () => void }>(
 
   // Auto-fetch on tab switch
   useEffect(() => {
+    if (!session || !RoleAccess(session, PartnerRole.PageView)) return;
     if (activeTab === ToggleOrder.FirstToggle && !hasSearched) {
       fetchIdeas(false, null);
     } else if (activeTab === ToggleOrder.SecondToggle && !customHasSearched) {
       fetchCustomIdeas(false, null);
     }
-  }, [activeTab, hasSearched, customHasSearched, fetchIdeas, fetchCustomIdeas]);
+  }, [session, activeTab, hasSearched, customHasSearched, fetchIdeas, fetchCustomIdeas]);
 
   // Flatten all idea items from all idea groups into one list for the slider
   const flatItems = useMemo(
@@ -339,145 +343,154 @@ const EventIdea = forwardRef<EventIdeaHandle, { handleOpenCreate: () => void }>(
       </div>
 
       <div className={`${styles.eventCard} ${isHidden ? "" : styles.show}`}>
-        <div id="score" onClick={props.handleOpenCreate} className={styles.score}>
-          <svg
-            className={styles.icon}
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="var(--color-light-blue)"
-            strokeWidth="1.8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            style={{ color: "var(--color-light-blue)" }}>
-            <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
-            <line x1="16" y1="2" x2="16" y2="6" />
-            <line x1="8" y1="2" x2="8" y2="6" />
-            <line x1="3" y1="10" x2="21" y2="10" />
-            <line x1="12" y1="13" x2="12" y2="19" />
-            <line x1="9" y1="16" x2="15" y2="16" />
-          </svg>
-          <div className={styles.frame}>
-            <div className={styles.title}>{t(LanguageKey.pageTools_IdeaCreate)}</div>
-            <div className="explain">{t(LanguageKey.pageTools_IdeaExplain)}</div>
-          </div>
-        </div>
-
-        <IconToggleButton
-          data={{
-            firstToggle: t(LanguageKey.pageTools_EventIdeas),
-            secondToggle: t(LanguageKey.pageTools_CustomEvent),
-          }}
-          values={{
-            firstToggle: t(LanguageKey.pageTools_EventIdeas),
-            secondToggle: t(LanguageKey.pageTools_CustomEvent),
-          }}
-          dataIcon={{ firstIcon: eventIdeasIcon, secondIcon: customEventIcon }}
-          toggleValue={activeTab}
-          setChangeToggle={setActiveTab}
-        />
-
-        {/* ---- Event Ideas Tab ---- */}
-        {activeTab === ToggleOrder.FirstToggle && (
+        {!RoleAccess(session, PartnerRole.PageView) && <NotAllowedCard />}
+        {RoleAccess(session, PartnerRole.PageView) && (
           <>
-            {loading && (
-              <div className={styles.loaderContainer}>
-                <RingLoader />
+            <div id="score" onClick={props.handleOpenCreate} className={styles.score}>
+              <svg
+                className={styles.icon}
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--color-light-blue)"
+                strokeWidth="1.8"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                style={{ color: "var(--color-light-blue)" }}>
+                <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
+                <line x1="16" y1="2" x2="16" y2="6" />
+                <line x1="8" y1="2" x2="8" y2="6" />
+                <line x1="3" y1="10" x2="21" y2="10" />
+                <line x1="12" y1="13" x2="12" y2="19" />
+                <line x1="9" y1="16" x2="15" y2="16" />
+              </svg>
+              <div className={styles.frame}>
+                <div className={styles.title}>{t(LanguageKey.pageTools_IdeaCreate)}</div>
+                <div className="explain">{t(LanguageKey.pageTools_IdeaExplain)}</div>
               </div>
-            )}
-            {!loading && hasSearched && flatItems.length === 0 && (
-              <div className={styles.emptyState}>{t(LanguageKey.pageTools_EventIdeasEmpty)}</div>
-            )}
-            {!loading && flatItems.length > 0 && (
-              <Slider
-                slidesPerView={1}
-                spaceBetween={12}
-                itemsPerSlide={1}
-                navigation={true}
-                pagination={{ clickable: true, dynamicBullets: true }}
-                className={styles.ideaSlider}
-                onReachEnd={hasMore ? handleLoadMore : undefined}
-                isLoading={loadingMore}>
-                {flatItems.map((item) => (
-                  <SliderSlide key={`${item.id}-${item.ideaId}`} className={styles.ideaSlide}>
-                    <div className={styles.ideaHeader}>
-                      <div className={styles.eventTitle}>{item.title}</div>
-                      <div className={styles.eventDescription}>{item.description}</div>
-                    </div>
-                    <div className={styles.ideaTextBlock}>{item.idea}</div>
-                    <div className={styles.ideaInfoList}>
-                      {item.prompt && (
-                        <div className={styles.ideaInfoRow}>
-                          <span className={styles.ideaInfoLabel}>{t(LanguageKey.pageTools_EventIdeasPrompt)}</span>
-                          <span className={styles.ideaInfoValue}>{item.prompt.trim()}</span>
-                        </div>
-                      )}
-                      {item.countryCode && item.countryCode !== "--" && (
-                        <div className={styles.ideaInfoRow}>
-                          <span className={styles.ideaInfoLabel}>{t(LanguageKey.pageTools_EventIdeasCountry)}</span>
-                          <span className={styles.ideaInfoValue}>{item.countryCode.toUpperCase()}</span>
-                        </div>
-                      )}
-                      <div className={styles.ideaInfoRow}>
-                        <span className={styles.ideaInfoLabel}>{t(LanguageKey.pageTools_EventIdeasCreatedTime)}</span>
-                        <span className={styles.ideaInfoValue}>{formatDate(item.createdTime)}</span>
-                      </div>
-                    </div>
-                    <div className={styles.ideaMeta}>
-                      <span className={styles.eventDate}>{formatDate(item.date)}</span>
-                      <div className={styles.eventTags}>
-                        {item.isReligious && (
-                          <span className={`${styles.tag} ${styles.tagReligious}`}>
-                            {t(LanguageKey.pageTools_EventReligious)}
-                          </span>
-                        )}
-                      </div>
-                    </div>
-                  </SliderSlide>
-                ))}
-              </Slider>
-            )}
-          </>
-        )}
+            </div>
 
-        {/* ---- Custom Event Tab ---- */}
-        {activeTab === ToggleOrder.SecondToggle && (
-          <>
-            {customLoading && (
-              <div className={styles.loaderContainer}>
-                <RingLoader />
-              </div>
-            )}
-            {!customLoading && customHasSearched && customFlatItems.length === 0 && (
-              <div className={styles.emptyState}>{t(LanguageKey.pageTools_EventIdeasEmpty)}</div>
-            )}
-            {!customLoading && customFlatItems.length > 0 && (
-              <Slider
-                slidesPerView={1}
-                spaceBetween={12}
-                itemsPerSlide={1}
-                navigation={true}
-                pagination={{ clickable: true, dynamicBullets: true }}
-                className={styles.ideaSlider}
-                onReachEnd={customHasMore ? handleCustomLoadMore : undefined}
-                isLoading={customLoadingMore}>
-                {customFlatItems.map((item) => (
-                  <SliderSlide key={`custom-${item.id}`} className={styles.ideaSlide}>
-                    <div className={styles.ideaTextBlock}>{item.idea}</div>
-                    <div className={styles.ideaInfoList}>
-                      {item.prompt && (
-                        <div className={styles.ideaInfoRow}>
-                          <span className={styles.ideaInfoLabel}>{t(LanguageKey.pageTools_EventIdeasPrompt)}</span>
-                          <span className={styles.ideaInfoValue}>{item.prompt.trim()}</span>
+            <IconToggleButton
+              data={{
+                firstToggle: t(LanguageKey.pageTools_EventIdeas),
+                secondToggle: t(LanguageKey.pageTools_CustomEvent),
+              }}
+              values={{
+                firstToggle: t(LanguageKey.pageTools_EventIdeas),
+                secondToggle: t(LanguageKey.pageTools_CustomEvent),
+              }}
+              dataIcon={{ firstIcon: eventIdeasIcon, secondIcon: customEventIcon }}
+              toggleValue={activeTab}
+              setChangeToggle={setActiveTab}
+            />
+
+            {/* ---- Event Ideas Tab ---- */}
+            {activeTab === ToggleOrder.FirstToggle && (
+              <>
+                {loading && (
+                  <div className={styles.loaderContainer}>
+                    <RingLoader />
+                  </div>
+                )}
+                {!loading && hasSearched && flatItems.length === 0 && (
+                  <div className={styles.emptyState}>{t(LanguageKey.pageTools_EventIdeasEmpty)}</div>
+                )}
+                {!loading && flatItems.length > 0 && (
+                  <Slider
+                    slidesPerView={1}
+                    spaceBetween={12}
+                    itemsPerSlide={1}
+                    navigation={true}
+                    pagination={{ clickable: true, dynamicBullets: true }}
+                    className={styles.ideaSlider}
+                    onReachEnd={hasMore ? handleLoadMore : undefined}
+                    isLoading={loadingMore}>
+                    {flatItems.map((item) => (
+                      <SliderSlide key={`${item.id}-${item.ideaId}`} className={styles.ideaSlide}>
+                        <div className={styles.ideaHeader}>
+                          <div className={styles.eventTitle}>{item.title}</div>
+                          <div className={styles.eventDescription}>{item.description}</div>
                         </div>
-                      )}
-                      <div className={styles.ideaInfoRow}>
-                        <span className={styles.ideaInfoLabel}>{t(LanguageKey.pageTools_EventIdeasCreatedTime)}</span>
-                        <span className={styles.ideaInfoValue}>{formatDate(item.createdTime)}</span>
-                      </div>
-                    </div>
-                  </SliderSlide>
-                ))}
-              </Slider>
+                        <div className={styles.ideaTextBlock}>{item.idea}</div>
+                        <div className={styles.ideaInfoList}>
+                          {item.prompt && (
+                            <div className={styles.ideaInfoRow}>
+                              <span className={styles.ideaInfoLabel}>{t(LanguageKey.pageTools_EventIdeasPrompt)}</span>
+                              <span className={styles.ideaInfoValue}>{item.prompt.trim()}</span>
+                            </div>
+                          )}
+                          {item.countryCode && item.countryCode !== "--" && (
+                            <div className={styles.ideaInfoRow}>
+                              <span className={styles.ideaInfoLabel}>{t(LanguageKey.pageTools_EventIdeasCountry)}</span>
+                              <span className={styles.ideaInfoValue}>{item.countryCode.toUpperCase()}</span>
+                            </div>
+                          )}
+                          <div className={styles.ideaInfoRow}>
+                            <span className={styles.ideaInfoLabel}>
+                              {t(LanguageKey.pageTools_EventIdeasCreatedTime)}
+                            </span>
+                            <span className={styles.ideaInfoValue}>{formatDate(item.createdTime)}</span>
+                          </div>
+                        </div>
+                        <div className={styles.ideaMeta}>
+                          <span className={styles.eventDate}>{formatDate(item.date)}</span>
+                          <div className={styles.eventTags}>
+                            {item.isReligious && (
+                              <span className={`${styles.tag} ${styles.tagReligious}`}>
+                                {t(LanguageKey.pageTools_EventReligious)}
+                              </span>
+                            )}
+                          </div>
+                        </div>
+                      </SliderSlide>
+                    ))}
+                  </Slider>
+                )}
+              </>
+            )}
+
+            {/* ---- Custom Event Tab ---- */}
+            {activeTab === ToggleOrder.SecondToggle && (
+              <>
+                {customLoading && (
+                  <div className={styles.loaderContainer}>
+                    <RingLoader />
+                  </div>
+                )}
+                {!customLoading && customHasSearched && customFlatItems.length === 0 && (
+                  <div className={styles.emptyState}>{t(LanguageKey.pageTools_EventIdeasEmpty)}</div>
+                )}
+                {!customLoading && customFlatItems.length > 0 && (
+                  <Slider
+                    slidesPerView={1}
+                    spaceBetween={12}
+                    itemsPerSlide={1}
+                    navigation={true}
+                    pagination={{ clickable: true, dynamicBullets: true }}
+                    className={styles.ideaSlider}
+                    onReachEnd={customHasMore ? handleCustomLoadMore : undefined}
+                    isLoading={customLoadingMore}>
+                    {customFlatItems.map((item) => (
+                      <SliderSlide key={`custom-${item.id}`} className={styles.ideaSlide}>
+                        <div className={styles.ideaTextBlock}>{item.idea}</div>
+                        <div className={styles.ideaInfoList}>
+                          {item.prompt && (
+                            <div className={styles.ideaInfoRow}>
+                              <span className={styles.ideaInfoLabel}>{t(LanguageKey.pageTools_EventIdeasPrompt)}</span>
+                              <span className={styles.ideaInfoValue}>{item.prompt.trim()}</span>
+                            </div>
+                          )}
+                          <div className={styles.ideaInfoRow}>
+                            <span className={styles.ideaInfoLabel}>
+                              {t(LanguageKey.pageTools_EventIdeasCreatedTime)}
+                            </span>
+                            <span className={styles.ideaInfoValue}>{formatDate(item.createdTime)}</span>
+                          </div>
+                        </div>
+                      </SliderSlide>
+                    ))}
+                  </Slider>
+                )}
+              </>
             )}
           </>
         )}

@@ -475,6 +475,7 @@ export default {
     logout: "تسجيل الخروج",
     notallowed: "غير مسموح",
     notallowedExplain: "غير مسموح لك بالوصول إلى هذه الميزة",
+    notallowedExplainPage: "غير مسموح لك بالوصول إلى هذه الصفحة",
     CreateAutomationFlow: "إنشاء تدفق الأتمتة",
     CreateAutomationFlowExplain: "قم بأتمتة تفاعلات إنستغرام باستخدام مُنشئ سير عمل مرئي.",
     CreateAutomationAI: "إنشاء ذكاء اصطناعي للأتمتة",

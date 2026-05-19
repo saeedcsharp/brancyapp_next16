@@ -490,6 +490,7 @@ export default {
     logout: "خروج",
     notallowed: "مجاز نیست",
     notallowedExplain: "شما اجازه دسترسی به این قابلیت را ندارید",
+    notallowedExplainPage: "شما اجازه دسترسی به این صفحه را ندارید",
     CreateAutomationFlow: "ساخت اتوماسیون با فلو",
     CreateAutomationFlowExplain: "خودکارسازی تمامی تعاملات اینستاگرام با استفاده از سازنده‌ی جریان کاری بصری",
     CreateAutomationAI: "ساخت اتوماسیون هوشمند",

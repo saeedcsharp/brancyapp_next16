@@ -182,6 +182,8 @@ const StoryContent = (props: {
           nextTime: stories.length > 0 ? stories[stories.length - 1].createdTime : -1,
         },
       });
+    } else if (!hasAccess) {
+      dispatch({ type: "SET_LOADING", payload: false });
     }
   }, [props.data.storyContents, hasAccess]);
 
