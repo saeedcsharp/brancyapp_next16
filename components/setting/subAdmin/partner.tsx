@@ -9,6 +9,7 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { ILoadingStatus, IPartner } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import styles from "./general.module.css";
+import NotAllowedCard from "brancy/components/notOk/notAllowedCard";
 
 export default function Partners({
   partners,
@@ -393,23 +394,7 @@ export default function Partners({
             </section>
           </>
         )}
-        {!loading && !RoleAccess(session) && (
-          <div
-            className="headerandinput"
-            style={{
-              alignItems: "center",
-              justifyContent: "center",
-              height: "100%",
-            }}>
-            <img
-              style={{ width: "60px", height: "60px", padding: "5px" }}
-              title="ℹ️ not allowed"
-              src="/Icon_NonFollower.svg"
-            />
-
-            <div className="headertext">{t(LanguageKey.notallowedExplain)}</div>
-          </div>
-        )}
+        {!loading && !RoleAccess(session) && <NotAllowedCard />}
       </main>
     </div>
   );

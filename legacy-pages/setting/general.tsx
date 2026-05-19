@@ -12,8 +12,9 @@ import AiModels from "brancy/components/setting/general/AiModels";
 import Profile from "brancy/components/setting/general/profile";
 import Support from "brancy/components/setting/general/Support";
 import System from "brancy/components/setting/general/system";
-import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType, UploadFile } from "brancy/helper/api";
 import { StatusReplied } from "brancy/models/messages/enum";
 import { PlatformTicketItemType } from "brancy/models/setting/enums";
@@ -342,6 +343,7 @@ const General = () => {
     if (session?.user.currentIndex === -1) router.push("/user");
     if (!session || !LoginStatus(session)) router.push("/");
     if (!session || !packageStatus(session)) router.push("/upgrade");
+    if (!RoleAccess(session, PartnerRole.Automatics)) return;
     fetchData([StatusReplied.UserReplied]);
   }, [session]);
 

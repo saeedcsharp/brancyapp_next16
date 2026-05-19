@@ -9,9 +9,12 @@ import {
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
+import NotAllowedCard from "brancy/components/notOk/notAllowedCard";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { AiTextModel, AiVoiceModel } from "brancy/models/setting/enums";
 import { IAiModels, IGeneralAiModels, IGetAiModel } from "brancy/models/setting/general";
 import { useSession } from "next-auth/react";
@@ -116,6 +119,10 @@ function AiModels() {
 
   useEffect(() => {
     if (!session) return;
+    if (!RoleAccess(session, PartnerRole.Automatics)) {
+      setIsLoading(false);
+      return;
+    }
     fetchAiModels();
   }, [session]);
 
@@ -146,9 +153,8 @@ function AiModels() {
 
       <div className={`${styles.all} ${isHidden ? "" : styles.show}`} aria-hidden={isHidden}>
         <div className={styles.content} role="group">
-          {isLoading ? (
-            <Loading />
-          ) : (
+          {isLoading && <Loading />}
+          {!isLoading && RoleAccess(session, PartnerRole.Automatics) && (
             <>
               {/* Text Models */}
               <div className="headerandinput">
@@ -228,6 +234,7 @@ function AiModels() {
               </div>
             </>
           )}
+          {!isLoading && !RoleAccess(session, PartnerRole.Automatics) && <NotAllowedCard />}
         </div>
       </div>
     </div>
