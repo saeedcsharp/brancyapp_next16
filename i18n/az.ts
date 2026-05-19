@@ -2238,7 +2238,7 @@ export default {
     SettingGeneralSystemtoman: "Toman",
     SettingGeneralAiModelsTitle: "AI Modelləri",
     SettingGeneralAiModelsTextModels: "Mətn Modelləri",
-    SettingGeneralAiModelsVoiceModels: "Səs Modelləri",
+    SettingGeneralAiModelsVoiceModels: "Səsdən Mətnə Modellər",
     SettingGeneralAiModelsDirectVoiceSupport: "Birbaşa Səs Dəstəyi",
 
     SettingGeneralProfileTitle: "Profil",

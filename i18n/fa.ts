@@ -2263,7 +2263,7 @@ export default {
     // Setting -> General -> AI Models
     SettingGeneralAiModelsTitle: "مدل‌های هوش مصنوعی",
     SettingGeneralAiModelsTextModels: "مدل‌های متنی",
-    SettingGeneralAiModelsVoiceModels: "مدل‌های صوتی",
+    SettingGeneralAiModelsVoiceModels: "مدل‌های تبدیل صدا به متن",
     SettingGeneralAiModelsDirectVoiceSupport: "پشتیبانی مستقیم صوتی",
     // Setting -> General -> Profile
     SettingGeneralProfileTitle: "پروفایل",

@@ -2213,7 +2213,7 @@ export default {
     SettingGeneralSystemtoman: "تومان",
     SettingGeneralAiModelsTitle: "نماذج الذكاء الاصطناعي",
     SettingGeneralAiModelsTextModels: "نماذج النص",
-    SettingGeneralAiModelsVoiceModels: "نماذج الصوت",
+    SettingGeneralAiModelsVoiceModels: "نماذج تحويل الصوت إلى نص",
     SettingGeneralAiModelsDirectVoiceSupport: "دعم الصوت المباشر",
     // Setting -> General -> Profile
     SettingGeneralProfileTitle: "ملف شخصي",

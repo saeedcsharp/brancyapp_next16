@@ -2313,7 +2313,7 @@ export default {
     SettingGeneralSystemtoman: "Томан",
     SettingGeneralAiModelsTitle: "Модели ИИ",
     SettingGeneralAiModelsTextModels: "Текстовые модели",
-    SettingGeneralAiModelsVoiceModels: "Голосовые модели",
+    SettingGeneralAiModelsVoiceModels: "Модели голос в текст",
     SettingGeneralAiModelsDirectVoiceSupport: "Прямая голосовая поддержка",
     // Setting -> General -> Profile
     SettingGeneralProfileTitle: "Профиль",

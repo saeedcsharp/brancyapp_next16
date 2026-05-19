@@ -2275,7 +2275,7 @@ export default {
     // Setting -> General -> AI Models
     SettingGeneralAiModelsTitle: "AI Models",
     SettingGeneralAiModelsTextModels: "Text Models",
-    SettingGeneralAiModelsVoiceModels: "Voice Models",
+    SettingGeneralAiModelsVoiceModels: "Voice to Text Models",
     SettingGeneralAiModelsDirectVoiceSupport: "Direct Voice Support",
     // Setting -> General -> Profile
     SettingGeneralProfileTitle: "profile",

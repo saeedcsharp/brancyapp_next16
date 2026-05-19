@@ -2355,7 +2355,7 @@ export default {
     SettingGeneralSystemtoman: "Toman",
     SettingGeneralAiModelsTitle: "Modèles IA",
     SettingGeneralAiModelsTextModels: "Modèles de texte",
-    SettingGeneralAiModelsVoiceModels: "Modèles vocaux",
+    SettingGeneralAiModelsVoiceModels: "Modèles voix-vers-texte",
     SettingGeneralAiModelsDirectVoiceSupport: "Support vocal direct",
     SettingGeneral_activedevice: "Appareils actifs",
     SettingGeneral_leatestentery: "Historique d'activité de l'utilisateur",

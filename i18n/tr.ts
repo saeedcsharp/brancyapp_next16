@@ -2288,7 +2288,7 @@ export default {
     SettingGeneralSystemtoman: "Tümen",
     SettingGeneralAiModelsTitle: "Yapay Zeka Modelleri",
     SettingGeneralAiModelsTextModels: "Metin Modelleri",
-    SettingGeneralAiModelsVoiceModels: "Ses Modelleri",
+    SettingGeneralAiModelsVoiceModels: "Sesten Metne Modeller",
     SettingGeneralAiModelsDirectVoiceSupport: "Doğrudan Ses Desteği",
     // Setting -> General -> Profile
     SettingGeneralProfileTitle: "Profil",

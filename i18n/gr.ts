@@ -2339,7 +2339,7 @@ export default {
     SettingGeneralSystemtoman: "Toman",
     SettingGeneralAiModelsTitle: "AI-Modelle",
     SettingGeneralAiModelsTextModels: "Textmodelle",
-    SettingGeneralAiModelsVoiceModels: "Sprachmodelle",
+    SettingGeneralAiModelsVoiceModels: "Sprache-zu-Text-Modelle",
     SettingGeneralAiModelsDirectVoiceSupport: "Direkte Sprachunterstützung",
     SettingGeneral_activedevice: "Aktive Geräte",
     SettingGeneral_leatestentery: "Benutzeraktivitätsverlauf",
