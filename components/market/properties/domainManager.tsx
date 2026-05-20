@@ -34,8 +34,6 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
     }
   }, [instagramerInfo]);
   async function getCustomerInfo() {
-    const instagramerId = session?.user.instagramerIds[session.user.currentIndex];
-    if (!instagramerId) return;
     const res = await clientFetchApi<boolean, IGetCustomDomain>("Instagramer/Bio/GetCustomDomain", {
       methodType: MethodType.get,
       session: session,

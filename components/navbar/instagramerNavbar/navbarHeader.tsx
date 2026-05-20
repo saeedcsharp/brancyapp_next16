@@ -70,6 +70,10 @@ const NavbarHeader = (props: {
     console.log("Setting up SignalR connection for notifications");
     const intervalId = setInterval(() => {
       const s = sessionRef.current;
+      if (!s) {
+        clearInterval(intervalId);
+        return;
+      }
       console.log("interval check:", { isFirstLoad, LoginStatus: LoginStatus(s), packageStatus: packageStatus(s) });
       if (!isFirstLoad || !LoginStatus(s) || !packageStatus(s)) return;
       console.log("Attempting to set up SignalR connection for notifications");

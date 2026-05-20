@@ -30,6 +30,8 @@ const UserPanelHeader: React.FC<UserPanelHeaderProps> = ({
   showProfile,
 }) => {
   const { data: session } = useSession();
+  const sessionRef = useRef(session);
+  sessionRef.current = session;
   const [isFirstLoad, setIsFirstLoad] = useState(true);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [gooli, setGooli] = useState(false);
@@ -62,6 +64,10 @@ const UserPanelHeader: React.FC<UserPanelHeaderProps> = ({
   }
   useEffect(() => {
     const intervalId = setInterval(() => {
+      if (!sessionRef.current) {
+        clearInterval(intervalId);
+        return;
+      }
       if (!isFirstLoad) return;
       const hubConnection = getHubConnection();
       if (hubConnection) {
