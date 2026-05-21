@@ -479,10 +479,16 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                           <div
                             className={styles.defaultdomain}
                             onClick={() =>
-                              window.open(`https://${instaInfo.username}.${baseShortUrl}/Shopping`, "_blank")
+                              window.open(
+                                !customeDomain.acceptDomain
+                                  ? `https://${instaInfo.username}.${baseShortUrl}/Shopping`
+                                  : `https://${customeDomain.acceptDomain.uri}/Shopping`,
+                                "_blank",
+                              )
                             }
                             style={{ cursor: "pointer" }}>
-                            {instaInfo.username}.{baseShortUrl}/Shopping
+                            {!customeDomain.acceptDomain && `${instaInfo.username}.${baseShortUrl}/Shopping`}
+                            {customeDomain.acceptDomain && `${customeDomain.acceptDomain.uri}/Shopping`}
                           </div>
                           <img
                             style={{
@@ -509,10 +515,16 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                           <div
                             className={styles.defaultdomain}
                             onClick={() =>
-                              window.open(`https://${instaInfo.username}.${baseShortUrl}/Advertise`, "_blank")
+                              window.open(
+                                !customeDomain.acceptDomain
+                                  ? `https://${instaInfo.username}.${baseShortUrl}/Advertise`
+                                  : `https://${customeDomain.acceptDomain.uri}/Advertise`,
+                                "_blank",
+                              )
                             }
                             style={{ cursor: "pointer" }}>
-                            {instaInfo.username}.{baseShortUrl}/Advertise
+                            {!customeDomain.acceptDomain && `${instaInfo.username}.${baseShortUrl}/Advertise`}
+                            {customeDomain.acceptDomain && `${customeDomain.acceptDomain.uri}/Advertise`}
                           </div>
                           <img
                             style={{
@@ -537,9 +549,17 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                     <div className={`${styles.defaultaddress} translate`}>
                       <div
                         className={styles.defaultdomain}
-                        onClick={() => window.open(`https://${instaInfo.username}.${baseShortUrl}/Tariff`, "_blank")}
+                        onClick={() =>
+                          window.open(
+                            !customeDomain.acceptDomain
+                              ? `https://${instaInfo.username}.${baseShortUrl}/Tariff`
+                              : `https://${customeDomain.acceptDomain.uri}/Tariff`,
+                            "_blank",
+                          )
+                        }
                         style={{ cursor: "pointer" }}>
-                        {instaInfo.username}.{baseShortUrl}/Tariff
+                        {!customeDomain.acceptDomain && `${instaInfo.username}.${baseShortUrl}/Tariff`}
+                        {customeDomain.acceptDomain && `${customeDomain.acceptDomain.uri}/Tariff`}
                       </div>
                       <img
                         style={{
@@ -562,9 +582,17 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                     <div className={`${styles.defaultaddress} translate`}>
                       <div
                         className={styles.defaultdomain}
-                        onClick={() => window.open(`https://${instaInfo.username}.${baseShortUrl}/workHour`, "_blank")}
+                        onClick={() =>
+                          window.open(
+                            !customeDomain.acceptDomain
+                              ? `https://${instaInfo.username}.${baseShortUrl}/workHour`
+                              : `https://${customeDomain.acceptDomain.uri}/workHour`,
+                            "_blank",
+                          )
+                        }
                         style={{ cursor: "pointer" }}>
-                        {instaInfo.username}.{baseShortUrl}/workHour
+                        {!customeDomain.acceptDomain && `${instaInfo.username}.${baseShortUrl}/workHour`}
+                        {customeDomain.acceptDomain && `${customeDomain.acceptDomain.uri}/workHour`}
                       </div>
                       <img
                         style={{
@@ -586,9 +614,17 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                     <div className={`${styles.defaultaddress} translate`}>
                       <div
                         className={styles.defaultdomain}
-                        onClick={() => window.open(`https://${instaInfo.username}.${baseShortUrl}/Terms`, "_blank")}
+                        onClick={() =>
+                          window.open(
+                            !customeDomain.acceptDomain
+                              ? `https://${instaInfo.username}.${baseShortUrl}/Terms`
+                              : `https://${customeDomain.acceptDomain.uri}/Terms`,
+                            "_blank",
+                          )
+                        }
                         style={{ cursor: "pointer" }}>
-                        {instaInfo.username}.{baseShortUrl}/Terms
+                        {!customeDomain.acceptDomain && `${instaInfo.username}.${baseShortUrl}/Terms`}
+                        {customeDomain.acceptDomain && `${customeDomain.acceptDomain.uri}/Terms`}
                       </div>
                       <img
                         loading="lazy"
