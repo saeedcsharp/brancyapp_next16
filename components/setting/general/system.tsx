@@ -15,6 +15,9 @@ import { clientFetchApi } from "brancy/helper/clientFetchApi";
 function System() {
   const { i18n, t } = useTranslation();
   const { data: session } = useSession();
+  const isIranDomain =
+    typeof window !== "undefined" &&
+    (window.location.hostname.includes("brancy.ir") || window.location.hostname === "localhost");
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
   };
@@ -351,16 +354,18 @@ function System() {
                   />
                 </div>
 
-                <div className={styles.radiobtn}>
-                  <RadioButton
-                    name={"persian"}
-                    id={"فارسی "}
-                    checked={language.persian}
-                    handleOptionChanged={handleChnageLanguage}
-                    textlabel={"فارسی"}
-                    title={"فارسی"}
-                  />
-                </div>
+                {isIranDomain && (
+                  <div className={styles.radiobtn}>
+                    <RadioButton
+                      name={"persian"}
+                      id={"فارسی "}
+                      checked={language.persian}
+                      handleOptionChanged={handleChnageLanguage}
+                      textlabel={"فارسی"}
+                      title={"فارسی"}
+                    />
+                  </div>
+                )}
 
                 <div className={styles.radiobtn}>
                   <RadioButton
