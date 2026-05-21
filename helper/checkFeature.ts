@@ -1,6 +1,27 @@
+import { Session } from "next-auth";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { FeatureType, IFeatureInfo } from "brancy/models/psg/psg";
 import { convertToMilliseconds } from "brancy/helper/manageTimer";
+import { MethodType } from "brancy/helper/api";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+
+export async function getPackageFeatureDetails(session: Session | null | undefined): Promise<IFeatureInfo | null> {
+  try {
+    const res = await clientFetchApi<boolean, IFeatureInfo>("/api/psg/GetPackageFeatureDetails", {
+      methodType: MethodType.get,
+      session: session,
+      data: undefined,
+      queries: undefined,
+      onUploadProgress: undefined,
+    });
+    if (res.succeeded) return res.value;
+    notify(res.info.responseType, NotifType.Warning);
+    return null;
+  } catch {
+    notify(ResponseType.Unexpected, NotifType.Error);
+    return null;
+  }
+}
 
 // Helper function to check if current time is within time range
 function isTimeInRange(beginUnix: number, endUnix: number, timeUnix: number): boolean {
@@ -10,6 +31,15 @@ function isTimeInRange(beginUnix: number, endUnix: number, timeUnix: number): bo
 // Helper function to check count limits
 function isWithinCountLimit(count: number, maxCount: number): boolean {
   return count < maxCount;
+}
+
+export async function fetchAndCheckFeature(
+  featureId: FeatureType,
+  session: Session | null | undefined,
+): Promise<boolean> {
+  const featureInfo = await getPackageFeatureDetails(session);
+  if (!featureInfo) return false;
+  return checkFeature(featureId, featureInfo);
 }
 
 export default function checkFeature(featureId: FeatureType, featureInfo: IFeatureInfo): boolean {
@@ -47,7 +77,7 @@ export default function checkFeature(featureId: FeatureType, featureInfo: IFeatu
 export function checkRemainingTimeFeature(
   featureId: FeatureType,
   unixTime: number,
-  featureInfo: IFeatureInfo
+  featureInfo: IFeatureInfo,
 ): boolean {
   try {
     const { basePackage: baseFeature } = featureInfo;

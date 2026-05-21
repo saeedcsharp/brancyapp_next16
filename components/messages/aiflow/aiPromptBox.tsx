@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import router from "next/router";
+import { useRouter } from "next/router";
 import { useCallback, useEffect, useId, useMemo, useRef, useState, useTransition } from "react";
 import { useTranslation } from "react-i18next";
 import AIButton from "brancy/components/design/ai/AIButton";
@@ -24,6 +24,8 @@ import { MethodType } from "brancy/helper/api";
 import styles from "./aiPromptBox.module.css";
 import LiveChat from "brancy/components/messages/aiflow/popup/liveChat";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
+import { FeatureType } from "brancy/models/psg/psg";
 import { PromptType, ToolType } from "brancy/models/AI/enum";
 const AIPromptBox = ({
   aiTools,
@@ -66,6 +68,7 @@ const AIPromptBox = ({
       router.push("/");
     },
   });
+  const router = useRouter();
   const chatBoxRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation();
   const manualModeId = useId();
@@ -180,6 +183,11 @@ const AIPromptBox = ({
     return detailedPrompt.promptStr.length > 0 && !loadingPromptAnalysis && advancePrompt;
   }, [detailedPrompt.promptStr, loadingPromptAnalysis, advancePrompt]);
   const handleCreateAIPrompt = useCallback(async () => {
+    const hasAccess = await fetchAndCheckFeature(FeatureType.AI, session);
+    if (!hasAccess) {
+      router.push("/upgrade");
+      return;
+    }
     try {
       setUpdateLoading(true);
       const res = await clientFetchApi<ICreatePrompt, ITotalPrompt>("/api/ai/CreatePrompt", {
@@ -210,6 +218,11 @@ const AIPromptBox = ({
     }
   }, [session, detailedPrompt, advancePrompt, userSelectId, updateAIPrompt, setShowAIToolsSettings, tools]);
   const handleGetPromptAnalysis = useCallback(async () => {
+    const hasAccess = await fetchAndCheckFeature(FeatureType.AI, session);
+    if (!hasAccess) {
+      router.push("/upgrade");
+      return;
+    }
     setDetailedPrompt((prev) => ({ ...prev, customPromptAnalysis: null }));
     setLoadingPromptAnalysis(true);
     startTransition(async () => {

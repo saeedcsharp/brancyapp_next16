@@ -35,7 +35,7 @@ import DayEvents from "brancy/components/page/tools/event/dayEvents";
 import EventIdea, { EventIdeaHandle } from "brancy/components/page/tools/event/eventIdea";
 import CreateEventIdea from "brancy/components/page/tools/event/createEventIdea";
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
-import { checkRemainingTimeFeature } from "brancy/helper/checkFeature";
+import { checkRemainingTimeFeature, getPackageFeatureDetails } from "brancy/helper/checkFeature";
 import { LoginStatus, RoleAccess, packageStatus } from "brancy/helper/loadingStatus";
 import { convertToMilliseconds, convertToSeconds } from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
@@ -66,6 +66,7 @@ import {
 } from "brancy/models/page/tools/tools";
 import { FeatureType, IFeatureInfo } from "brancy/models/psg/psg";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+
 function addHashPrefixOrSuffix(list: string[]) {
   const result = [];
 
@@ -996,21 +997,6 @@ const Tools = () => {
     setShowUnfollowAllFollowing(true);
   }
   const [featureInfo, setFeatureInfo] = useState<IFeatureInfo | null>(null);
-  async function handleGetFeature() {
-    try {
-      const res = await clientFetchApi<boolean, IFeatureInfo>("/api/psg/GetPackageFeatureDetails", {
-        methodType: MethodType.get,
-        session: session,
-        data: undefined,
-        queries: undefined,
-        onUploadProgress: undefined,
-      });
-      if (res.succeeded) setFeatureInfo(res.value);
-      else notify(res.info.responseType, NotifType.Warning);
-    } catch (error) {
-      notify(ResponseType.Unexpected, NotifType.Error);
-    }
-  }
   useEffect(() => {
     if (session && LoginStatus(session) && RoleAccess(session, PartnerRole.PageView) && !isDataLoaded) {
       GetHashtagList();
@@ -1018,7 +1004,9 @@ const Tools = () => {
   }, [session, GetHashtagList, isDataLoaded]);
   useEffect(() => {
     if (session && LoginStatus(session) && RoleAccess(session, PartnerRole.PageView) && !isDataLoaded) {
-      handleGetFeature();
+      getPackageFeatureDetails(session).then((result) => {
+        if (result) setFeatureInfo(result);
+      });
     }
   }, [session, isDataLoaded]);
 
