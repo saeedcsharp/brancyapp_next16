@@ -1873,6 +1873,12 @@ export default {
 
     marketProperties_explain: "Когда имя пользователя Instagram изменяется, эта ссылка автоматически обновляется.",
     marketProperties_rejected: "Ваш домен был отклонен (пожалуйста, свяжитесь с нами)",
+    customDomain_inactive_title: "Пользовательский домен неактивен",
+    customDomain_inactive_desc:
+      "Ваш домен в настоящее время неактивен. Пожалуйста, отправьте заявку в поддержку для его активации.",
+    customDomain_noPackage_title: "Пакет пользовательского домена не найден",
+    customDomain_noPackage_desc:
+      "Ваш текущий пакет не включает поддержку пользовательского домена. Пожалуйста, обновите пакет для использования этой функции.",
     marketProperties_Request: "Запрос",
     marketProperties_Requested: "Запрошено",
     marketProperties_Checking: "Проверка",

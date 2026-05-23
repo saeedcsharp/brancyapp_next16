@@ -1781,6 +1781,10 @@ export default {
 
     marketProperties_explain: "عند تغيير اسم المستخدم في إنستغرام، سيتم تحديث هذا الرابط تلقائيًا.",
     marketProperties_rejected: "تم رفض النطاق الخاص بك (يرجى الاتصال بنا)",
+    customDomain_inactive_title: "النطاق المخصص غير نشط",
+    customDomain_inactive_desc: "نطاقك غير نشط حالياً. يرجى إرسال تذكرة دعم لتفعيله.",
+    customDomain_noPackage_title: "لم يتم العثور على حزمة النطاق المخصص",
+    customDomain_noPackage_desc: "حزمتك الحالية لا تدعم النطاق المخصص. يرجى ترقية حزمتك لاستخدام هذه الميزة.",
     marketProperties_Request: "طلب",
     marketProperties_Requested: "تم الطلب",
     marketProperties_Checking: "جارٍ التحقق",

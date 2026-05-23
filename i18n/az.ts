@@ -1805,6 +1805,11 @@ export default {
 
     marketProperties_explain: "Instagram istifadəçi adı dəyişsə, link avtomatik yenilənəcək",
     marketProperties_rejected: "Domeniniz rədd edildi (Zəhmət olmasa bizimlə əlaqə saxlayın)",
+    customDomain_inactive_title: "Xüsusi domen aktiv deyil",
+    customDomain_inactive_desc: "Domeniniz hal-hazırda aktiv deyil. Aktivləşdirmək üçün dəstək biletini göndərin.",
+    customDomain_noPackage_title: "Xüsusi domen paketi tapılmadı",
+    customDomain_noPackage_desc:
+      "Cari paketiniz xüsusi domen dəstəyini əhatə etmir. Bu xüsusiyyətdən istifadə etmək üçün paketinizi yüksəldin.",
     marketProperties_Request: "Tələb",
     marketProperties_Requested: "Tələb edildi",
     marketProperties_Checking: "Yoxlanılır",

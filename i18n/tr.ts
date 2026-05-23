@@ -1852,6 +1852,11 @@ export default {
     marketProperties_explain:
       "Instagram kullanıcı adı değiştirildiğinde, bu bağlantı otomatik olarak güncellenecektir.",
     marketProperties_rejected: "Alan adınız reddedildi (lütfen bizimle iletişime geçin)",
+    customDomain_inactive_title: "Özel alan adı etkin değil",
+    customDomain_inactive_desc: "Alan adınız şu anda etkin değil. Etkinleştirmek için bir destek bileti gönderin.",
+    customDomain_noPackage_title: "Özel alan adı paketi bulunamadı",
+    customDomain_noPackage_desc:
+      "Mevcut paketiniz özel alan adı desteği içermiyor. Bu özelliği kullanmak için paketinizi yükseltin.",
     marketProperties_Request: "Talep",
     marketProperties_Requested: "Talep Edildi",
     marketProperties_Checking: "Kontrol Ediliyor",

@@ -1,24 +1,28 @@
+import CounterDownNotRing, { CounterDownColor } from "brancy/components/design/counterDown/counterDownNotRing";
 import InputText from "brancy/components/design/inputText";
+import RingLoader from "brancy/components/design/loader/ringLoder";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
+import { NotifType, notify } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { handleCopyLink } from "brancy/helper/copyLink";
+import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
 import { InstagramerAccountInfo } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { IGetCustomDomain } from "brancy/models/market/properties";
+import { FeatureType } from "brancy/models/psg/psg";
 import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./domainManager.module.css";
-import RingLoader from "brancy/components/design/loader/ringLoder";
-import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
-import CounterDownNotRing, { CounterDownColor } from "brancy/components/design/counterDown/counterDownNotRing";
 const baseShortUrl = process.env.NEXT_PUBLIC_SHORT_LINK;
 const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccountInfo | null }) => {
   const { t } = useTranslation();
   const { data: session } = useSession();
+  const router = useRouter();
   const { gridSpan, hidePage, toggle } = useHideDiv(true, 82);
   const [loading, setLoading] = useState(true);
   const [instaInfo, setInstaInfo] = useState<InstagramerAccountInfo>();
@@ -27,6 +31,11 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
   const [isVerifying, setIsVerifying] = useState(false);
   const [verifyCooldownUntil, setVerifyCooldownUntil] = useState<number>(0);
   const [inputText, setInputText] = useState("");
+  const [hasCustomDomainFeature, setHasCustomDomainFeature] = useState<boolean | null>(null);
+  const isCustomDomainActive =
+    !!customeDomain.acceptDomain &&
+    hasCustomDomainFeature === true &&
+    customeDomain.acceptDomain.status === 0;
   useEffect(() => {
     if (instagramerInfo) {
       setInstaInfo(instagramerInfo);
@@ -56,6 +65,11 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
   }
   async function handleRequestCustomAddress() {
     if (isUpdating) return; // Prevent multiple clicks
+    const hasFeature = await fetchAndCheckFeature(FeatureType.CustomDomain, session);
+    if (!hasFeature) {
+      router.push("/upgrade");
+      return;
+    }
     setIsUpdating(true);
     const res = await clientFetchApi<boolean, { url: string }>("Instagramer/Bio/UpdateCustomDomain", {
       methodType: MethodType.post,
@@ -91,6 +105,11 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
 
   async function handleVerifyCustomAddress() {
     if (isVerifying) return; // Prevent multiple clicks
+    const hasFeature = await fetchAndCheckFeature(FeatureType.CustomDomain, session);
+    if (!hasFeature) {
+      router.push("/upgrade");
+      return;
+    }
     setIsVerifying(true);
     const res = await clientFetchApi<boolean, boolean>("api/bio/verifyCustomDomainDns", {
       methodType: MethodType.get,
@@ -108,6 +127,11 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
   }
 
   async function handleConnectCustomAddress() {
+    const hasFeature = await fetchAndCheckFeature(FeatureType.CustomDomain, session);
+    if (!hasFeature) {
+      router.push("/upgrade");
+      return;
+    }
     const res = await clientFetchApi<boolean, boolean>("api/bio/connectCustomDomain", {
       methodType: MethodType.get,
       session: session,
@@ -122,6 +146,7 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
 
   useEffect(() => {
     getCustomerInfo();
+    fetchAndCheckFeature(FeatureType.CustomDomain, session).then(setHasCustomDomainFeature);
   }, []);
   return (
     <div className="tooBigCard" style={gridSpan}>
@@ -373,7 +398,8 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                       )}
                       {customeDomain.acceptDomain && (
                         <>
-                          <div className={`headerparent ${customeDomain.acceptDomain.status !== 0 ? "fadeDiv" : ""}`}>
+                          <div
+                            className={`headerparent ${!isCustomDomainActive ? "fadeDiv" : ""}`}>
                             <div className={styles.defaultdomain}>
                               {customeDomain.acceptDomain.uri}
                               <Tooltip
@@ -410,7 +436,7 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                               }}
                             />
                           </div>
-                          {customeDomain.acceptDomain.status !== 0 && (
+                          {customeDomain.acceptDomain.status !== 0 && hasCustomDomainFeature === true && !isCustomDomainActive && (
                             <div
                               style={{
                                 display: "flex",
@@ -430,6 +456,32 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                                 </span>
                                 <span style={{ color: "var(--subText-color)", fontSize: "12px" }}>
                                   {t(LanguageKey.customDomain_inactive_desc)}
+                                </span>
+                              </div>
+                            </div>
+                          )}
+                          {hasCustomDomainFeature === false && (
+                            <div
+                              style={{
+                                display: "flex",
+                                alignItems: "center",
+                                gap: "8px",
+                                background: "var(--card-background)",
+                                border: "1px solid var(--border-color)",
+                                borderRadius: "10px",
+                                padding: "10px 14px",
+                                marginTop: "8px",
+                                width: "100%",
+                                cursor: "pointer",
+                              }}
+                              onClick={() => router.push("/upgrade")}>
+                              <img src="/attention.svg" style={{ width: "18px", height: "18px", flexShrink: 0 }} />
+                              <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                                <span style={{ fontWeight: 600, color: "var(--text-color)", fontSize: "13px" }}>
+                                  {t(LanguageKey.customDomain_noPackage_title)}
+                                </span>
+                                <span style={{ color: "var(--subText-color)", fontSize: "12px" }}>
+                                  {t(LanguageKey.customDomain_noPackage_desc)}
                                 </span>
                               </div>
                             </div>
@@ -480,15 +532,15 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                             className={styles.defaultdomain}
                             onClick={() =>
                               window.open(
-                                !customeDomain.acceptDomain
-                                  ? `https://${instaInfo.username}.${baseShortUrl}/Shopping`
-                                  : `https://${customeDomain.acceptDomain.uri}/Shopping`,
+                                isCustomDomainActive
+                                  ? `https://${customeDomain.acceptDomain!.uri}/Shopping`
+                                  : `https://${instaInfo.username}.${baseShortUrl}/Shopping`,
                                 "_blank",
                               )
                             }
                             style={{ cursor: "pointer" }}>
-                            {!customeDomain.acceptDomain && `${instaInfo.username}.${baseShortUrl}/Shopping`}
-                            {customeDomain.acceptDomain && `${customeDomain.acceptDomain.uri}/Shopping`}
+                            {!isCustomDomainActive && `${instaInfo.username}.${baseShortUrl}/Shopping`}
+                            {isCustomDomainActive && `${customeDomain.acceptDomain!.uri}/Shopping`}
                           </div>
                           <img
                             style={{
@@ -516,15 +568,15 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                             className={styles.defaultdomain}
                             onClick={() =>
                               window.open(
-                                !customeDomain.acceptDomain
-                                  ? `https://${instaInfo.username}.${baseShortUrl}/Advertise`
-                                  : `https://${customeDomain.acceptDomain.uri}/Advertise`,
+                                isCustomDomainActive
+                                  ? `https://${customeDomain.acceptDomain!.uri}/Advertise`
+                                  : `https://${instaInfo.username}.${baseShortUrl}/Advertise`,
                                 "_blank",
                               )
                             }
                             style={{ cursor: "pointer" }}>
-                            {!customeDomain.acceptDomain && `${instaInfo.username}.${baseShortUrl}/Advertise`}
-                            {customeDomain.acceptDomain && `${customeDomain.acceptDomain.uri}/Advertise`}
+                            {!isCustomDomainActive && `${instaInfo.username}.${baseShortUrl}/Advertise`}
+                            {isCustomDomainActive && `${customeDomain.acceptDomain!.uri}/Advertise`}
                           </div>
                           <img
                             style={{
@@ -551,15 +603,15 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                         className={styles.defaultdomain}
                         onClick={() =>
                           window.open(
-                            !customeDomain.acceptDomain
-                              ? `https://${instaInfo.username}.${baseShortUrl}/Tariff`
-                              : `https://${customeDomain.acceptDomain.uri}/Tariff`,
+                            isCustomDomainActive
+                              ? `https://${customeDomain.acceptDomain!.uri}/Tariff`
+                              : `https://${instaInfo.username}.${baseShortUrl}/Tariff`,
                             "_blank",
                           )
                         }
                         style={{ cursor: "pointer" }}>
-                        {!customeDomain.acceptDomain && `${instaInfo.username}.${baseShortUrl}/Tariff`}
-                        {customeDomain.acceptDomain && `${customeDomain.acceptDomain.uri}/Tariff`}
+                        {!isCustomDomainActive && `${instaInfo.username}.${baseShortUrl}/Tariff`}
+                        {isCustomDomainActive && `${customeDomain.acceptDomain!.uri}/Tariff`}
                       </div>
                       <img
                         style={{
@@ -584,15 +636,15 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                         className={styles.defaultdomain}
                         onClick={() =>
                           window.open(
-                            !customeDomain.acceptDomain
-                              ? `https://${instaInfo.username}.${baseShortUrl}/workHour`
-                              : `https://${customeDomain.acceptDomain.uri}/workHour`,
+                            isCustomDomainActive
+                              ? `https://${customeDomain.acceptDomain!.uri}/workHour`
+                              : `https://${instaInfo.username}.${baseShortUrl}/workHour`,
                             "_blank",
                           )
                         }
                         style={{ cursor: "pointer" }}>
-                        {!customeDomain.acceptDomain && `${instaInfo.username}.${baseShortUrl}/workHour`}
-                        {customeDomain.acceptDomain && `${customeDomain.acceptDomain.uri}/workHour`}
+                        {!isCustomDomainActive && `${instaInfo.username}.${baseShortUrl}/workHour`}
+                        {isCustomDomainActive && `${customeDomain.acceptDomain!.uri}/workHour`}
                       </div>
                       <img
                         style={{
@@ -616,15 +668,15 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                         className={styles.defaultdomain}
                         onClick={() =>
                           window.open(
-                            !customeDomain.acceptDomain
-                              ? `https://${instaInfo.username}.${baseShortUrl}/Terms`
-                              : `https://${customeDomain.acceptDomain.uri}/Terms`,
+                            isCustomDomainActive
+                              ? `https://${customeDomain.acceptDomain!.uri}/Terms`
+                              : `https://${instaInfo.username}.${baseShortUrl}/Terms`,
                             "_blank",
                           )
                         }
                         style={{ cursor: "pointer" }}>
-                        {!customeDomain.acceptDomain && `${instaInfo.username}.${baseShortUrl}/Terms`}
-                        {customeDomain.acceptDomain && `${customeDomain.acceptDomain.uri}/Terms`}
+                        {!isCustomDomainActive && `${instaInfo.username}.${baseShortUrl}/Terms`}
+                        {isCustomDomainActive && `${customeDomain.acceptDomain!.uri}/Terms`}
                       </div>
                       <img
                         loading="lazy"

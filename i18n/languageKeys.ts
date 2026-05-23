@@ -1612,6 +1612,8 @@ export enum LanguageKey {
   marketProperties_rejected = "marketProperties_rejected",
   customDomain_inactive_title = "customDomain_inactive_title",
   customDomain_inactive_desc = "customDomain_inactive_desc",
+  customDomain_noPackage_title = "customDomain_noPackage_title",
+  customDomain_noPackage_desc = "customDomain_noPackage_desc",
   customDomain_rule_notEmpty = "customDomain_rule_notEmpty",
   customDomain_rule_validChars = "customDomain_rule_validChars",
   customDomain_rule_noUnderscore = "customDomain_rule_noUnderscore",

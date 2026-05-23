@@ -1900,6 +1900,12 @@ export default {
 
     marketProperties_explain: "Wenn sich der Instagram-Benutzername ändert, wird dieser Link automatisch aktualisiert.",
     marketProperties_rejected: "Ihre Domain wurde abgelehnt (bitte kontaktieren Sie uns)",
+    customDomain_inactive_title: "Benutzerdefinierte Domain ist inaktiv",
+    customDomain_inactive_desc:
+      "Ihre Domain ist derzeit inaktiv. Bitte senden Sie ein Support-Ticket, um sie zu aktivieren.",
+    customDomain_noPackage_title: "Benutzerdefiniertes Domain-Paket nicht gefunden",
+    customDomain_noPackage_desc:
+      "Ihr aktuelles Paket beinhaltet keine Unterstützung für benutzerdefinierte Domains. Bitte upgraden Sie Ihr Paket, um diese Funktion zu nutzen.",
     marketProperties_Request: "Anfrage",
     marketProperties_Requested: "Angefordert",
     marketProperties_Checking: "Überprüfung",

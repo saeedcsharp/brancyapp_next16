@@ -1915,6 +1915,12 @@ export default {
     marketProperties_explain:
       "Lorsque le nom d'utilisateur Instagram est modifié, ce lien sera mis à jour automatiquement.",
     marketProperties_rejected: "Votre domaine a été rejeté (veuillez nous contacter)",
+    customDomain_inactive_title: "Le domaine personnalisé est inactif",
+    customDomain_inactive_desc:
+      "Votre domaine est actuellement inactif. Veuillez soumettre un ticket d'assistance pour l'activer.",
+    customDomain_noPackage_title: "Forfait domaine personnalisé introuvable",
+    customDomain_noPackage_desc:
+      "Votre forfait actuel n'inclut pas la prise en charge des domaines personnalisés. Veuillez mettre à niveau votre forfait pour utiliser cette fonctionnalité.",
     marketProperties_Request: "Demande",
     marketProperties_Requested: "Demandé",
     marketProperties_Checking: "Vérification",

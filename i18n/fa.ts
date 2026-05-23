@@ -1811,6 +1811,9 @@ export default {
     marketProperties_rejected: "دامنه شما رد شده است (لطفاً با ما تماس بگیرید)",
     customDomain_inactive_title: "دامنه اختصاصی غیرفعال است",
     customDomain_inactive_desc: "دامنه شما در حال حاضر غیرفعال است. لطفاً برای فعال‌سازی با پشتیبانی تیکت ارسال کنید.",
+    customDomain_noPackage_title: "پکیج دامنه اختصاصی یافت نشد",
+    customDomain_noPackage_desc:
+      "پکیج فعلی شما شامل دامنه اختصاصی نمی‌شود. برای استفاده از این قابلیت، پکیج خود را ارتقا دهید.",
     customDomain_rule_notEmpty: "دامنه نباید خالی باشد",
     customDomain_rule_validChars: "فقط حروف و اعداد مجاز است",
     customDomain_rule_noUnderscore: "زیرخط (_) و خط تیره (-) مجاز نیست",
