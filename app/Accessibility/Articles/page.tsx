@@ -1,6 +1,6 @@
 "use client";
 
-import PageComponent from "../../../../legacy-pages/Accessibility/Contact-Us";
+import PageComponent from "../../../legacy-pages/Accessibility/Articles";
 
 export default function Page() {
   return <PageComponent />;

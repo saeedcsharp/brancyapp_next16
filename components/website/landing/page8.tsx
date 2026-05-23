@@ -22,7 +22,7 @@ const Page8 = () => {
             decoding="async"
             className={styles.helpcardimage}
             alt="community"
-            src="brancy/components/website/landing/landing/page8_community.png"
+            src="/landing/page8_community.png"
           />
           <div className={styles.helpcardcontent}>
             <div className={styles.helpcardtitle}> {t(LanguageKey.page8_Community)}</div>
@@ -55,7 +55,7 @@ const Page8 = () => {
             decoding="async"
             className={styles.helpcardimage}
             alt="learn"
-            src="brancy/components/website/landing/landing/page8_learn.png"
+            src="/landing/page8_learn.png"
           />
         </div>
       </div>
@@ -66,7 +66,7 @@ const Page8 = () => {
             decoding="async"
             className={styles.helpcardimage}
             alt="blog"
-            src="brancy/components/website/landing/landing/page8_blog.png"
+            src="/landing/page8_blog.png"
           />
           <div className={styles.helpcardcontent}>
             <div className={styles.helpcardtitle}>{t(LanguageKey.page8_Blog)}</div>
@@ -96,7 +96,7 @@ const Page8 = () => {
             decoding="async"
             className={styles.helpcardimage}
             alt="faq"
-            src="brancy/components/website/landing/landing/page8_faq.png"
+            src="/landing/page8_faq.png"
           />
         </div>
       </div>
@@ -107,7 +107,7 @@ const Page8 = () => {
             decoding="async"
             className={styles.helpcardimage}
             alt="support"
-            src="brancy/components/website/landing/landing/page8_support.png"
+            src="/landing/page8_support.png"
           />
           <div className={styles.helpcardcontent}>
             <div className={styles.helpcardtitle}>{t(LanguageKey.page8_Support)}</div>
