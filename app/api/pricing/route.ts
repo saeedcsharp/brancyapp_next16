@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerApiBaseUrl } from "brancy/helper/apiBaseUrl";
+import { getInternalApiBaseUrl, getServerApiBaseUrl } from "brancy/helper/apiBaseUrl";
 
 function detectCountryCode(request: NextRequest, apiBase: string): string {
   // Arvan Cloud header (Iran)
@@ -19,7 +19,7 @@ function detectCountryCode(request: NextRequest, apiBase: string): string {
 
 export async function GET(request: NextRequest) {
   const host = request.headers.get("host");
-  const apiBase = getServerApiBaseUrl(host);
+  const apiBase = getInternalApiBaseUrl(host);
   const countryCode = detectCountryCode(request, apiBase);
 
   try {
