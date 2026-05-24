@@ -58,6 +58,16 @@ export function getServerApiBaseUrl(host: string | null | undefined): string {
   return isIrHost(host) ? CONFIG.ir.api : CONFIG.app.api;
 }
 
+/**
+ * Internal (server-to-server) API base URL resolver for use inside Docker.
+ * On localhost returns the dev API, otherwise returns the internal Docker service URL.
+ */
+export function getInternalApiBaseUrl(host: string | null | undefined): string {
+  if (!host) return "http://api:8080/";
+  if (isLocalHost(host)) return CONFIG.local.api;
+  return "http://api:8080/";
+}
+
 // ── Client-side ───────────────────────────────────────────────────────────────
 
 function clientIsIr(): boolean {

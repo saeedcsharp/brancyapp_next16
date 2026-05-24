@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { getServerApiBaseUrl } from "brancy/helper/apiBaseUrl";
+import { getInternalApiBaseUrl } from "brancy/helper/apiBaseUrl";
 
 interface StringDitionaryItem {
   key: string;
@@ -7,7 +7,7 @@ interface StringDitionaryItem {
 }
 
 function buildExternalUrl(subUrl: string, queries: StringDitionaryItem[] = [], host?: string | null): string {
-  const url = new URL(subUrl, getServerApiBaseUrl(host));
+  const url = new URL(subUrl, getInternalApiBaseUrl(host));
   for (const item of queries) {
     if (item?.value !== undefined) {
       url.searchParams.append(item.key, item.value);

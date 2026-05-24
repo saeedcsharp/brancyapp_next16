@@ -1,7 +1,7 @@
 import { readFileSync } from "fs";
 import { headers } from "next/headers";
 import NextAuth from "next-auth";
-import { getServerApiBaseUrl } from "brancy/helper/apiBaseUrl";
+import { getInternalApiBaseUrl } from "brancy/helper/apiBaseUrl";
 import CredentialsProvider from "next-auth/providers/credentials";
 
 function normalizeUser(input: any) {
@@ -65,8 +65,11 @@ const handler = NextAuth({
         if (!googleCode) throw new Error("Google authorization code is required");
 
         try {
-          const apiBase = getServerApiBaseUrl((await headers()).get("host"));
-          const res = await fetch(`${apiBase}user/GoogleLogin`, {
+          const reqHeaders = await headers();
+          const apiBase = getInternalApiBaseUrl(reqHeaders.get("host"));
+          const clientIp = reqHeaders.get("cf-connecting-ip") || reqHeaders.get("x-real-ip") || "";
+          const ipQuery = clientIp ? `?ip=${encodeURIComponent(clientIp)}` : "";
+          const res = await fetch(`${apiBase}sso/GoogleLogin${ipQuery}`, {
             method: "POST",
             headers: {
               "Content-Type": "application/json",
@@ -133,9 +136,12 @@ const handler = NextAuth({
       async authorize(credentials) {
         const myVerificationCode = credentials?.verificationCode ?? "";
         const Authorization = credentials?.preuserToken ?? "";
-        const apiBase = getServerApiBaseUrl((await headers()).get("host"));
-
-        const res = await fetch(`${apiBase}user/UserLoginVerifyCode?verificationCode=` + myVerificationCode, {
+        const reqHeaders = await headers();
+        const apiBase = getInternalApiBaseUrl(reqHeaders.get("host"));
+        const clientIp = reqHeaders.get("cf-connecting-ip") || reqHeaders.get("x-real-ip") || "";
+        const ipQuery = clientIp ? `&ip=${encodeURIComponent(clientIp)}` : "";
+        console.log("Verifying code with API:", { apiBase, myVerificationCode, Authorization, ipQuery });
+        const res = await fetch(`${apiBase}sso/UserLoginVerifyCode?verificationCode=${myVerificationCode}${ipQuery}`, {
           headers: {
             Authorization,
           },
@@ -144,6 +150,7 @@ const handler = NextAuth({
         if (res.status !== 200) {
           const errorMessage = await res.json();
           const err = errorMessage["info"];
+          console.log("Google OAuth error:", err.responseType);
           throw new Error(err.responseType);
         }
 
@@ -157,7 +164,7 @@ const handler = NextAuth({
         let instagramerData: any = {};
         if (currntIndex >= 0) {
           try {
-            const acctRes = await fetch(`${apiBase}user/GetMyInstagramers`, {
+            const acctRes = await fetch(`${apiBase}sso/GetMyInstagramers`, {
               headers: {
                 Authorization: loginResultInfo.token,
                 instagramerId: String(instagramerIds[currntIndex]),
