@@ -47,17 +47,6 @@ function isLocalHost(hostname: string): boolean {
 }
 
 // ── Server-side ───────────────────────────────────────────────────────────────
-
-/**
- * Server-side API base URL resolver — pass the value of the `host` request header.
- * Safe to call from Next.js API routes, middleware, and NextAuth handlers.
- */
-export function getServerApiBaseUrl(host: string | null | undefined): string {
-  if (!host) return CONFIG.app.api;
-  if (isLocalHost(host)) return CONFIG.local.api;
-  return isIrHost(host) ? CONFIG.ir.api : CONFIG.app.api;
-}
-
 /**
  * Internal (server-to-server) API base URL resolver for use inside Docker.
  * On localhost returns the dev API, otherwise returns the internal Docker service URL.
