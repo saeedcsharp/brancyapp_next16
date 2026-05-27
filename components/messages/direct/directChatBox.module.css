@@ -354,18 +354,120 @@ html[dir="rtl"] .backicon {
   }
 }
 /* ------------------------------------ */
+.answercontainer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  min-height: 50px;
+  height: max-content;
+  max-height: 200px;
+  gap: var(--gap-5);
+  border: 1px solid var(--color-gray60);
+  border-radius: var(--br25);
+  padding: var(--padding-3) var(--padding-5);
+}
+.answeruploadbtn {
+  margin-inline: 5px;
+  width: 24px;
+  height: 24px;
+  padding: var(--padding-1);
+  stroke-width: 2px;
+  stroke: var(--color-gray);
+  transition: var(--transition2);
+  cursor: pointer;
+}
+.answeruploadbtn:hover {
+  stroke: var(--color-dark-blue);
+}
+.answersendbtn {
+  width: 36px;
+  height: 36px;
+  padding: var(--padding-1);
+  cursor: pointer;
+}
+/* ---- Textarea + Emoji Picker ---- */
+.textareaWrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.chatTextarea {
+  flex: 1;
+  resize: none;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 16px;
+  line-height: 1.4;
+  max-height: 80px;
+  overflow-y: auto;
+  color: var(--text-h1);
+  padding: 4px 2px;
+  font-family: inherit;
+}
+
+.chatTextarea::placeholder {
+  color: var(--text-h2);
+}
+
+.emojiPickerPopup {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 0;
+  z-index: 9999;
+
+  transition: var(--transition3);
+  animation: var(--bottom08);
+  overflow: hidden;
+  @media (max-width: 500px) {
+    display: none !important;
+  }
+}
+.emojiPickerPopup :global(aside.EmojiPickerReact) {
+  --epr-emoji-size: 20px;
+  --epr-category-navigation-button-size: 20px;
+  --epr-category-icon-active-color: #2977ff;
+  --epr-category-label-height: 25px;
+}
+.emojiPickerPopup :global(.epr-emoji-category-label) {
+  font-size: 12px !important;
+  font-weight: var(--weight-400) !important;
+}
+/*
+.chatTextarea::-webkit-scrollbar {
+  width: 3px;
+} */
+
+/* .emojiToggleBtn {
+  flex-shrink: 0;
+  width: 22px;
+  height: 22px;
+  padding: 1px;
+  color: var(--color-gray);
+  cursor: pointer;
+  transition: var(--transition2);
+  margin-inline-start: 4px;
+}
+
+.emojiToggleBtn:hover {
+  color: var(--color-dark-blue);
+} */
 /* ------------------------------------ */
 /* ------------------------------------ */
 /* ------------------------------------ */
-.answer {
+/* .answer {
   position: relative;
   width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
 }
-
-/* جلوگیری از زوم خودکار در موبایل */
 .answer input,
 .answer textarea,
 .answer [contenteditable="true"] {
@@ -379,7 +481,6 @@ html[dir="rtl"] .backicon {
   width: 32px;
   height: 32px;
   padding: var(--padding-8);
-
   fill: var(--color-gray);
   transition: var(--transition2);
   cursor: pointer;
@@ -392,7 +493,6 @@ html[dir="rtl"] .backicon {
   width: 30px;
   height: 30px;
   padding: var(--padding-5);
-
   fill: var(--color-gray);
   transition: var(--transition2);
   cursor: pointer;
@@ -414,7 +514,6 @@ html[dir="rtl"] .backicon {
   width: 21px !important;
   height: 21px !important;
   padding: var(--padding-5) !important;
-
   background-image: url("/emoji.svg");
   background-size: contain;
   background-position: center;
@@ -468,11 +567,7 @@ html[dir="rtl"] .backicon {
     width: calc(100% - 110px);
     font-size: 16px !important;
   }
-}
-/* ------------------------------------ */
-/* ------------------------------------ */
-/* ------------------------------------ */
-/* ------------------------------------ */
+} */
 
 /* ___end___ */
 

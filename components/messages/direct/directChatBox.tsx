@@ -2,9 +2,11 @@
 import { HubConnection, HubConnectionState } from "@microsoft/signalr";
 import { t } from "i18next";
 import { useSession } from "next-auth/react";
+import dynamic from "next/dynamic";
 import router from "next/router";
 import { ChangeEvent, memo, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import InputEmoji from "react-input-emoji";
+import type { EmojiClickData } from "emoji-picker-react";
+const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 import { DateObject } from "react-multi-date-picker";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import {
@@ -69,10 +71,13 @@ const DirectChatBox = memo(
     const [answerBox, setAnswerBox] = useState<string>("");
     const [backToButton, setBackToButton] = useState<boolean>(true);
     const [showVoiceRecorder, setShowVoiceRecorder] = useState<boolean>(false);
+    const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
     const [lock, setLock] = useState(false);
     const [seenItem, setSeenItem] = useState<IItem | null>(null);
     const [dateFormatToggle, setDateFormatToggle] = useState("");
     const prevUserSelectIdRef = useRef<string | null>(null);
+    const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+    const emojiPickerContainerRef = useRef<HTMLDivElement | null>(null);
     //#endregion
 
     //#region توابع فرمت‌دهی تاریخ
@@ -146,6 +151,28 @@ const DirectChatBox = memo(
       if (container) container.scrollTop = 0;
       setBackToButton(true);
     }, []);
+
+    const handleEmojiClick = useCallback(
+      (emojiData: EmojiClickData) => {
+        const emoji = emojiData.emoji;
+        const textarea = textareaRef.current;
+        if (textarea) {
+          const start = textarea.selectionStart ?? answerBox.length;
+          const end = textarea.selectionEnd ?? answerBox.length;
+          const newValue = answerBox.slice(0, start) + emoji + answerBox.slice(end);
+          handleInputOnChange(newValue);
+          // restore cursor after emoji insertion
+          requestAnimationFrame(() => {
+            textarea.focus();
+            const newPos = start + emoji.length;
+            textarea.setSelectionRange(newPos, newPos);
+          });
+        } else {
+          handleInputOnChange(answerBox + emoji);
+        }
+      },
+      [answerBox, handleInputOnChange],
+    );
     //#endregion
 
     //#region توابع مدیریت پیام و رویدادها
@@ -272,6 +299,16 @@ const DirectChatBox = memo(
         notify(ResponseType.Unexpected, NotifType.Error, "socket error");
       }
     }, [answerBox, props.handleSendMessage, props.chatBox.threadId, props.chatBox.recp.igId, props.hub]);
+
+    const handleTextareaKeyDown = useCallback(
+      (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+        if (e.key === "Enter" && !e.shiftKey) {
+          e.preventDefault();
+          handleSendText();
+        }
+      },
+      [handleSendText],
+    );
     //#endregion
 
     //#region توابع کمکی پاسخ و خواندن پیام
@@ -365,14 +402,29 @@ const DirectChatBox = memo(
     useEffect(() => {
       const handleKeyDown = (event: KeyboardEvent) => {
         if (event.key === "Escape") {
-          props.showUserList();
+          if (showEmojiPicker) {
+            setShowEmojiPicker(false);
+          } else {
+            props.showUserList();
+          }
         }
       };
       window.addEventListener("keydown", handleKeyDown);
       return () => {
         window.removeEventListener("keydown", handleKeyDown);
       };
-    }, [props.showUserList]);
+    }, [props.showUserList, showEmojiPicker]);
+
+    useEffect(() => {
+      if (!showEmojiPicker) return;
+      const handleClickOutside = (event: MouseEvent) => {
+        if (emojiPickerContainerRef.current && !emojiPickerContainerRef.current.contains(event.target as Node)) {
+          setShowEmojiPicker(false);
+        }
+      };
+      document.addEventListener("mousedown", handleClickOutside);
+      return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, [showEmojiPicker]);
     //#endregion
 
     const sortedSendingMessages = useMemo(() => {
@@ -510,62 +562,153 @@ const DirectChatBox = memo(
             {!showVoiceRecorder && (
               <>
                 {/* active message */}
-                {props.chatBox.isActive && props.hub?.state === HubConnectionState.Connected && (
-                  <form
-                    className={styles.answer}
-                    onSubmit={(e) => {
-                      e.preventDefault();
-                      handleSendText();
-                    }}>
-                    <InputEmoji
-                      value={answerBox}
-                      theme="auto"
-                      shouldReturn={true}
-                      onChange={handleInputOnChange}
-                      keepOpened={true}
-                      onEnter={handleSendText}
-                      shouldConvertEmojiToImage={false}
-                      placeholder={t(LanguageKey.typeAMessage)}
-                    />
-                    <button
-                      type="button"
-                      className={styles.uploadbtn}
-                      onClick={handleUploadImage}
-                      aria-label={t(LanguageKey.uploadFile)}>
-                      <svg viewBox="0 0 15 24" aria-hidden="true">
-                        <path d="M2.8 22.3a4 4 0 0 1-3-1.4 4 4 0 0 1-1.5-3 5 5 0 0 1 1.4-3.4l7.7-7.7a4 4 0 0 1 1.6-1 4 4 0 0 1 3.7 1 .7.7 0 1 1-1 1 2 2 0 0 0-2.2-.6l-1 .6-7.8 7.8a4 4 0 0 0-1 2.2 3 3 0 0 0 1 2 3 3 0 0 0 3 .8L5 20l8.3-8.4a4 4 0 0 0 1.3-3.1 5 5 0 0 0-1.4-3.1 4.5 4.5 0 0 0-6.3 0l-8.3 8.2a1 1 0 0 1-1 0 1 1 0 0 1 0-1L5.9 4A6 6 0 0 1 10 2.5a6 6 0 0 1 4.2 1.7 6 6 0 0 1 1.9 4.2 6 6 0 0 1-1.8 4.2l-8.2 8.3a5 5 0 0 1-2 1.2z" />
-                      </svg>
-                    </button>
-                    <input
-                      type="file"
-                      accept="image/jpeg,video/mp4"
-                      onChange={handleImageChange}
-                      ref={inputRef}
-                      style={{ display: "none" }}
-                      aria-hidden="true"
-                    />
-                    <button
-                      type="button"
-                      onClick={handleClickOnVoiceIcon}
-                      className={styles.voicebtn}
-                      aria-label={t(LanguageKey.recordVoiceMessage)}>
-                      <svg viewBox="0 0 15 22" aria-hidden="true">
-                        <path d="M8 15.4a4.3 4.3 0 0 0 4.3-4.3V4.3a4.2 4.2 0 1 0-8.5 0v6.8a4.3 4.3 0 0 0 4.3 4.3m-2.8-11a2.9 2.9 0 0 1 5.8 0V11a2.9 2.9 0 0 1-5.8 0Zm10.4 6.3v.4A7.5 7.5 0 0 1 9 18.6h-.1v2h3.5l.5.3a.7.7 0 0 1-.5 1.2H3.8a.7.7 0 0 1 0-1.5h3.6v-2h-.2a7.5 7.5 0 0 1-6.6-7.5v-.4l.2-.5.5-.3.5.3.2.5v.4a6 6 0 1 0 12.2 0v-.4l.2-.5a1 1 0 0 1 1 0z" />
-                      </svg>
-                    </button>
-                    <button
-                      type="submit"
-                      onClick={handleSendText}
-                      className={styles.sendbtn}
-                      aria-label={t(LanguageKey.sendMessage)}>
-                      <svg viewBox="-5 -2 25 25" aria-hidden="true">
+                {/* {props.chatBox.isActive && props.hub?.state === HubConnectionState.Connected && ( */}
+                {props.hub?.state !== HubConnectionState.Connected && (
+                  <>
+                    <div
+                      className={styles.answercontainer}
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        handleSendText();
+                      }}>
+                      <button
+                        type="button"
+                        className={styles.answeruploadbtn}
+                        onClick={handleUploadImage}
+                        aria-label={t(LanguageKey.uploadFile)}>
+                        <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+                          <path d="M29.1 4.4a10 10 0 0 1 2.8 6.2v.4a9 9 0 0 1-2.8 6.7L15 31.8q-1.5 1.3-3.1 1.9l-1.8.3H10a7 7 0 0 1-4.8-2.1A7 7 0 0 1 2.8 27a8 8 0 0 1 2.3-5L18.3 8.8q1-.8 2.2-1.4l.3-.1a5 5 0 0 1 5.7 1.4.7.7 0 0 1-.2 1.3 1 1 0 0 1-.9-.2 4 4 0 0 0-3.7-1.2h-.3q-1.1.4-2 1.2L6.2 23a7 7 0 0 0-1.8 4.1 5 5 0 0 0 1.8 3.7 5 5 0 0 0 5.3 1.4 7 7 0 0 0 2.5-1.4l14-14.2a8 8 0 0 0 2.4-5.6v-.4a8 8 0 0 0-13.6-5.2l-14 14.1a.7.7 0 0 1-1.1-1l14-14.1a9.5 9.5 0 0 1 13.4 0Z" />
+                        </svg>
+                      </button>
+                      <input
+                        type="file"
+                        accept="image/jpeg,video/mp4"
+                        onChange={handleImageChange}
+                        ref={inputRef}
+                        style={{ display: "none" }}
+                        aria-hidden="true"
+                      />
+                      <div className={styles.textareaWrapper} ref={emojiPickerContainerRef}>
+                        {showEmojiPicker && (
+                          <div className={styles.emojiPickerPopup}>
+                            <EmojiPicker
+                              onEmojiClick={handleEmojiClick}
+                              theme={"auto" as any}
+                              lazyLoadEmojis
+                              reactionsDefaultOpen
+                              allowExpandReactions
+                              previewConfig={{ showPreview: false }}
+                              height={350}
+                              width={300}
+                            />
+                          </div>
+                        )}
+                        <textarea
+                          ref={textareaRef}
+                          value={answerBox}
+                          onChange={(e) => handleInputOnChange(e.target.value)}
+                          onKeyDown={handleTextareaKeyDown}
+                          placeholder={t(LanguageKey.typeAMessage)}
+                          className={styles.chatTextarea}
+                          rows={1}
+                          aria-label={t(LanguageKey.typeAMessage)}
+                        />
+                        <button
+                          type="button"
+                          className={styles.answeruploadbtn}
+                          onClick={() => setShowEmojiPicker((prev) => !prev)}
+                          aria-label="emoji picker">
+                          <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+                            <path
+                              d="M10.45 21.32s2.82 3.29 6.58 3.29 6.58-3.3 6.58-3.3m-1.88-6.57a.47.47 0 1 1-.94 0 .47.47 0 0 1 .94 0Zm-8.46 0a.47.47 0 1 1-.94 0 .47.47 0 0 1 .94 0ZM33 18.5a15.5 15.5 0 1 1-31 0 15.5 15.5 0 0 1 31 0Z"
+                              strokeLinecap="round"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+
+                      <button
+                        type="button"
+                        onClick={handleClickOnVoiceIcon}
+                        className={styles.answeruploadbtn}
+                        aria-label={t(LanguageKey.recordVoiceMessage)}>
+                        <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+                          <path d="M29 16q0 5.1-3.4 8.7-3.3 3.7-8.1 3.7m0 0c-3 0-6-1.3-8.1-3.7A13 13 0 0 1 6 16m11.5 12.4V33m0 0h4.3m-4.3 0h-4.3M25 10.5v6a7.5 7.5 0 0 1-15 0v-6a7.5 7.5 0 0 1 15 0Z" />
+                        </svg>
+                      </button>
+
+                      <svg
+                        type="submit"
+                        onClick={handleSendText}
+                        className={styles.answersendbtn}
+                        aria-label={t(LanguageKey.sendMessage)}
+                        xmlns="http://www.w3.org/2000/svg"
+                        fill="none"
+                        viewBox="0 0 36 36">
+                        <path d="M18 36a18 18 0 1 0 0-36 18 18 0 0 0 0 36" fill="var(--color-dark-blue)" />
                         <path
-                          fill="var(--color-ffffff)"
-                          d="M19.3 11.2 2 20a1.4 1.4 0 0 1-2-2s2.2-4.3 2.8-5.4 1.2-1.4 7.5-2.2a.4.4 0 0 0 0-.8c-6.3-.8-7-1-7.5-2.2L0 2a1.4 1.4 0 0 1 2-2l17.3 8.7a1.3 1.3 0 0 1 0 2.4"
+                          d="m26.4 18.97-13.84 6.92a1.08 1.08 0 0 1-1.45-1.45l2.19-4.37c.47-.91 1.01-1.07 6.03-1.72a.35.35 0 0 0 0-.7c-5.02-.65-5.56-.8-6.03-1.71l-2.19-4.38a1.08 1.08 0 0 1 1.45-1.45l13.84 6.93a1.08 1.08 0 0 1 0 1.93"
+                          fill="#fff"
                         />
                       </svg>
-                    </button>
-                  </form>
+                    </div>
+                    {/* ----------------------------------------------- */}
+                    {/* <form
+                      className={styles.answer}
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        handleSendText();
+                      }}>
+                      <InputEmoji
+                        value={answerBox}
+                        theme="auto"
+                        shouldReturn={true}
+                        onChange={handleInputOnChange}
+                        keepOpened={true}
+                        onEnter={handleSendText}
+                        shouldConvertEmojiToImage={false}
+                        placeholder={t(LanguageKey.typeAMessage)}
+                      />
+                    <button
+                        type="button"
+                        className={styles.uploadbtn}
+                        onClick={handleUploadImage}
+                        aria-label={t(LanguageKey.uploadFile)}>
+                        <svg viewBox="0 0 15 24" aria-hidden="true">
+                          <path d="M2.8 22.3a4 4 0 0 1-3-1.4 4 4 0 0 1-1.5-3 5 5 0 0 1 1.4-3.4l7.7-7.7a4 4 0 0 1 1.6-1 4 4 0 0 1 3.7 1 .7.7 0 1 1-1 1 2 2 0 0 0-2.2-.6l-1 .6-7.8 7.8a4 4 0 0 0-1 2.2 3 3 0 0 0 1 2 3 3 0 0 0 3 .8L5 20l8.3-8.4a4 4 0 0 0 1.3-3.1 5 5 0 0 0-1.4-3.1 4.5 4.5 0 0 0-6.3 0l-8.3 8.2a1 1 0 0 1-1 0 1 1 0 0 1 0-1L5.9 4A6 6 0 0 1 10 2.5a6 6 0 0 1 4.2 1.7 6 6 0 0 1 1.9 4.2 6 6 0 0 1-1.8 4.2l-8.2 8.3a5 5 0 0 1-2 1.2z" />
+                        </svg>
+                      </button>
+                     <input
+                        type="file"
+                        accept="image/jpeg,video/mp4"
+                        onChange={handleImageChange}
+                        ref={inputRef}
+                        style={{ display: "none" }}
+                        aria-hidden="true"
+                      />
+                     <button
+                        type="button"
+                        onClick={handleClickOnVoiceIcon}
+                        className={styles.voicebtn}
+                        aria-label={t(LanguageKey.recordVoiceMessage)}>
+                        <svg viewBox="0 0 15 22" aria-hidden="true">
+                          <path d="M8 15.4a4.3 4.3 0 0 0 4.3-4.3V4.3a4.2 4.2 0 1 0-8.5 0v6.8a4.3 4.3 0 0 0 4.3 4.3m-2.8-11a2.9 2.9 0 0 1 5.8 0V11a2.9 2.9 0 0 1-5.8 0Zm10.4 6.3v.4A7.5 7.5 0 0 1 9 18.6h-.1v2h3.5l.5.3a.7.7 0 0 1-.5 1.2H3.8a.7.7 0 0 1 0-1.5h3.6v-2h-.2a7.5 7.5 0 0 1-6.6-7.5v-.4l.2-.5.5-.3.5.3.2.5v.4a6 6 0 1 0 12.2 0v-.4l.2-.5a1 1 0 0 1 1 0z" />
+                        </svg>
+                      </button>
+                     <button
+                        type="submit"
+                        onClick={handleSendText}
+                        className={styles.sendbtn}
+                        aria-label={t(LanguageKey.sendMessage)}>
+                        <svg viewBox="-5 -2 25 25" aria-hidden="true">
+                          <path
+                            fill="var(--color-ffffff)"
+                            d="M19.3 11.2 2 20a1.4 1.4 0 0 1-2-2s2.2-4.3 2.8-5.4 1.2-1.4 7.5-2.2a.4.4 0 0 0 0-.8c-6.3-.8-7-1-7.5-2.2L0 2a1.4 1.4 0 0 1 2-2l17.3 8.7a1.3 1.3 0 0 1 0 2.4"
+                          />
+                        </svg>
+                      </button>
+                    </form> */}
+                  </>
                 )}
                 {/* waiting for connection */}
                 {props.hub?.state !== HubConnectionState.Connected && (
