@@ -57,6 +57,16 @@ const CreateEventIdea = (props: {
 
   const canSubmit = !loading && prompt.trim().length > 0;
 
+  const handleShowDayEventsWithCheck = useCallback(async () => {
+    if (!session) return;
+    const hasAccess = await fetchAndCheckFeature(FeatureType.AI, session);
+    if (!hasAccess) {
+      router.push("/upgrade");
+      return;
+    }
+    props.handleShowDayEvents();
+  }, [session, props.handleShowDayEvents]);
+
   const handleSubmit = useCallback(async () => {
     if (!session) return;
 
@@ -153,7 +163,7 @@ const CreateEventIdea = (props: {
 
         {/* Day Events */}
         <div className={`${styles.field} ${isCustomEvent ? "fadeDiv" : ""}`}>
-          <button className={styles.dateBtn} onClick={props.handleShowDayEvents}>
+          <button className={styles.dateBtn} onClick={handleShowDayEventsWithCheck}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
               <line x1="16" y1="2" x2="16" y2="6" />
