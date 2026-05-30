@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useEffect, useState } from "react";
@@ -10,7 +11,7 @@ import { IInstagramerHomeTiles } from "brancy/models/homeIndex/home";
 import { IStoryContent } from "brancy/models/page/story/stories";
 import Loading from "brancy/components/notOk/loading";
 import styles from "./ingageInfo.module.css";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 const IngageInfo = (props: {
   data: IInstagramerHomeTiles | null;
   collaboratePostNumber: number;

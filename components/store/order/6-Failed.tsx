@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import React, { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
@@ -10,7 +11,7 @@ import { LanguageKey } from "brancy/i18n";
 import { OrderStep, OrderStepStatus } from "brancy/models/store/enum";
 import { IOrderByStatus } from "brancy/models/store/orders";
 import styles from "./6-Failed.module.css";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 const MemoizedCheckBoxButton = React.memo(CheckBoxButton);
 interface SelectionState {
   selectedOrders: Set<string>;

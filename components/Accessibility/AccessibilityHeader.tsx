@@ -68,7 +68,7 @@ const AccessibilityHeader: React.FC<AccessibilityHeaderProps> = ({ themeState, d
     "/Accessibility/About-Us",
     "/Accessibility/Contact-Us",
     "/Accessibility/join-Us",
-    "/Accessibility/OrgChart",
+    // "/Accessibility/OrgChart",
   ].includes(currentPath);
 
   const isSupportPage = [
@@ -273,14 +273,14 @@ const AccessibilityHeader: React.FC<AccessibilityHeaderProps> = ({ themeState, d
             onClick={handleMenuItemClick}>
             {t(LanguageKey.footer_JoinUs)}
           </a>
-          <a
+          {/* <a
             href="/Accessibility/OrgChart"
             className={`${styles.headermenulistmobile} ${
               currentPath === "/Accessibility/OrgChart" ? styles.headermenulistmobileactive : ""
             }`}
             onClick={handleMenuItemClick}>
             {t(LanguageKey.footer_OrgChart)}
-          </a>
+          </a> */}
         </>
       );
     } else if (isSupportPage) {
@@ -414,14 +414,14 @@ const AccessibilityHeader: React.FC<AccessibilityHeaderProps> = ({ themeState, d
           onClick={handleMenuItemClick}>
           {t(LanguageKey.footer_JoinUs)}
         </a>
-        <a
+        {/* <a
           href="/Accessibility/OrgChart"
           className={`${styles.headermenulistmobile} ${
             currentPath === "/Accessibility/OrgChart" ? styles.headermenulistmobileactive : ""
           }`}
           onClick={handleMenuItemClick}>
           {t(LanguageKey.footer_OrgChart)}
-        </a>
+        </a> */}
       </>
     );
   };
@@ -451,13 +451,13 @@ const AccessibilityHeader: React.FC<AccessibilityHeaderProps> = ({ themeState, d
             }`}>
             {t(LanguageKey.footer_JoinUs)}
           </a>
-          <a
+          {/* <a
             href="/Accessibility/OrgChart"
             className={`${styles.headermenulist} ${
               currentPath === "/Accessibility/OrgChart" ? styles.headermenulistactive : ""
             }`}>
             {t(LanguageKey.footer_OrgChart)}
-          </a>
+          </a> */}
         </>
       );
     } else if (isSupportPage) {
@@ -577,13 +577,13 @@ const AccessibilityHeader: React.FC<AccessibilityHeaderProps> = ({ themeState, d
           }`}>
           {t(LanguageKey.footer_JoinUs)}
         </a>
-        <a
+        {/* <a
           href="/Accessibility/OrgChart"
           className={`${styles.headermenulist} ${
             currentPath === "/Accessibility/OrgChart" ? styles.headermenulistactive : ""
           }`}>
           {t(LanguageKey.footer_OrgChart)}
-        </a>
+        </a> */}
       </>
     );
   };

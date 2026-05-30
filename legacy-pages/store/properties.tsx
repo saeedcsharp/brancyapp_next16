@@ -7,13 +7,15 @@ import { useTranslation } from "react-i18next";
 import EditBusinessHours from "brancy/components/advertise/properties/popups/editBusinessHours";
 import Modal from "brancy/components/design/modal";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotShopper from "brancy/components/notOk/notShopper";
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
 import { findDayName } from "brancy/helper/findDayName";
-import { packageStatus } from "brancy/helper/loadingStatus";
+import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { numbToAmAndPmTime } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
 import { BusinessDay, IBusinessHour } from "brancy/models/advertise/peoperties";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import styles from "./properties.module.css";
 
 const MapComponent = dynamic(() => import("brancy/components/mainLeaftlet"), {
@@ -244,6 +246,7 @@ const Properties = () => {
   };
 
   if (!session?.user.isShopper) return <NotShopper />;
+  if (!RoleAccess(session, PartnerRole.Products)) return <NotAllowed />;
   if (session?.user.currentIndex === -1) router.push("/user");
   if (!session || !packageStatus(session)) router.push("/upgrade");
   return (

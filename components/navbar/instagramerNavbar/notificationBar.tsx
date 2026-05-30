@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { MouseEvent, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -11,7 +12,7 @@ import { ITicketPushNotif } from "brancy/models/userPanel/message";
 
 import styles from "./notificationBar.module.css";
 
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 const NotificationBar = ({
   notifs,
   handleDeleteNotif,

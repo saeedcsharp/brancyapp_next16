@@ -6,8 +6,9 @@ import {
   notify,
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
+import { getClientUploadBaseUrl } from "brancy/helper/apiBaseUrl";
 
-const UPLOAD_BASE_URL = "https://uupload.brancy.app/file";
+const UPLOAD_BASE_URL = getClientUploadBaseUrl();
 
 export interface IResult<T> {
   succeeded: boolean;
@@ -86,13 +87,13 @@ export async function UploadFile(
           reject(new Error("Upload failed"));
         });
 
-        xhr.open("POST", UPLOAD_BASE_URL);
+        xhr.open("POST", UPLOAD_BASE_URL!);
         xhr.setRequestHeader("Authorization", getSessionAccessToken(accessToken));
         xhr.send(formData);
       });
     }
 
-    const response = await fetch(UPLOAD_BASE_URL, {
+    const response = await fetch(UPLOAD_BASE_URL!, {
       method: "POST",
       body: formData,
       headers: {

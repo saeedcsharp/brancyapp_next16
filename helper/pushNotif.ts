@@ -2,6 +2,7 @@ import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@micros
 import { Session } from "next-auth";
 import { PushNotif } from "brancy/models/push/pushNotif";
 import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import { getClientSocketBaseUrl } from "brancy/helper/apiBaseUrl";
 var hubConnection: HubConnection | null = null;
 let sessionVar: Session | null = null;
 var objsVar: OnInstance[] = [];
@@ -76,7 +77,7 @@ export default function startSignalR(session: Session | null) {
   console.log("start signalr");
   let str = JSON.stringify(session.user.currentIndex === -1 ? userSession : instagramerSession);
   hubConnection = new HubConnectionBuilder()
-    .withUrl("https://minisocket.brancy.app/Hubs/PushClient?access_token=" + str)
+    .withUrl(getClientSocketBaseUrl() + "/Hubs/PushClient?access_token=" + str)
     .withAutomaticReconnect({
       nextRetryDelayInMilliseconds: (retryContext) => {
         return 5000;
@@ -157,7 +158,7 @@ export function addSignalRMethod(objs: OnInstance[]) {
 }
 export function removeSignalRMethod(objs: OnInstance[]) {
   objsVar = objsVar.filter(
-    (item1) => !objs.some((item2) => item2.callBack === item1.callBack && item2.functionName === item1.functionName)
+    (item1) => !objs.some((item2) => item2.callBack === item1.callBack && item2.functionName === item1.functionName),
   );
   stopSignalRMethod(objs);
 }

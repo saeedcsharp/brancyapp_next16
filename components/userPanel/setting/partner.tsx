@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import { useEffect, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -9,7 +10,7 @@ import { LanguageKey } from "brancy/i18n";
 import { ILoadingStatus } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { IPartner_User } from "brancy/models/userPanel/setting";
 import styles from "./general.module.css";
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = getClientMediaBaseUrl();
 export default function UserPartners({
   partners,
   handleRejectPartner,

@@ -485,6 +485,7 @@ export default {
     logout: "Çıxış",
     notallowed: "İcazə verilmir",
     notallowedExplain: "Bu funksiyaya daxil olmaq icazəniz yoxdur",
+    notallowedExplainPage: "Bu səhifəyə daxil olmaq icazəniz yoxdur",
     CreateAutomationFlow: "Avtomatlaşdırma Axını Yarat",
     CreateAutomationFlowExplain: "Vizual iş axını qurucusu ilə Instagram qarşılıqlı əlaqələrini avtomatlaşdır.",
     CreateAutomationAI: "AI Avtomatlaşdırması Yarat",
@@ -643,6 +644,7 @@ export default {
     sidebar_Advertise: "Reklamlar",
     sidebar_Store: "Mağaza",
     sidebar_Stores: "Mağazalar",
+    sidebar_Business: "Biznes",
     sidebar_Setting: "Ayarlar",
 
     navbar_Post: "Post",
@@ -1469,6 +1471,7 @@ export default {
     pageTools_EventIdeasCountry: "Ölkə",
     pageTools_EventIdeasPrompt: "Mövzu",
     pageTools_EventIdeasCreatedTime: "Yaradılma Tarixi",
+    pageTools_CustomEvent: "Xüsusi Hadisə",
     pageTools_exportcomments: "Bütün comment-lər Excel faylı kimi ixrac olunur və yüklənə, həmçinin paylaşıla bilər",
 
     pageTools_Lottery: "Bal Lotereyası Yarat",
@@ -1802,6 +1805,11 @@ export default {
 
     marketProperties_explain: "Instagram istifadəçi adı dəyişsə, link avtomatik yenilənəcək",
     marketProperties_rejected: "Domeniniz rədd edildi (Zəhmət olmasa bizimlə əlaqə saxlayın)",
+    customDomain_inactive_title: "Xüsusi domen aktiv deyil",
+    customDomain_inactive_desc: "Domeniniz hal-hazırda aktiv deyil. Aktivləşdirmək üçün dəstək biletini göndərin.",
+    customDomain_noPackage_title: "Xüsusi domen paketi tapılmadı",
+    customDomain_noPackage_desc:
+      "Cari paketiniz xüsusi domen dəstəyini əhatə etmir. Bu xüsusiyyətdən istifadə etmək üçün paketinizi yüksəldin.",
     marketProperties_Request: "Tələb",
     marketProperties_Requested: "Tələb edildi",
     marketProperties_Checking: "Yoxlanılır",
@@ -2234,6 +2242,10 @@ export default {
     SettingGeneralSystempound: "Funt",
     SettingGeneralSystemrial: "Rial",
     SettingGeneralSystemtoman: "Toman",
+    SettingGeneralAiModelsTitle: "AI Modelləri",
+    SettingGeneralAiModelsTextModels: "Mətn Modelləri",
+    SettingGeneralAiModelsVoiceModels: "Səsdən Mətnə Modellər",
+    SettingGeneralAiModelsDirectVoiceSupport: "Birbaşa Səs Dəstəyi",
 
     SettingGeneralProfileTitle: "Profil",
     SettingGeneral_activedevice: "Aktiv cihazlar",
@@ -2576,6 +2588,8 @@ export default {
     sendsms: "İstifadəçiyə SMS göndər",
     sendtotelegram: "İstifadəçini Telegram-a yönləndir",
     senderusername: "İstifadəçinin adını səsləndir",
+    addtools: "Alət əlavə et",
+    generatebyai: "AI ilə yarat",
 
     //tutorials
 

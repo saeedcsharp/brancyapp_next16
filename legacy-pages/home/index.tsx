@@ -275,6 +275,12 @@ const Home = () => {
       return;
     }
 
+    // Wait for GetAccountInfo() to complete (lastUpdate is set to 0 on sign-in and updated after GetAccountInfo)
+    if (session.user.lastUpdate === 0) {
+      console.log("Waiting for GetAccountInfo to complete...");
+      return;
+    }
+
     if (!isDataLoaded && LoginStatus(session) && status === "authenticated") {
       fetchData();
     }

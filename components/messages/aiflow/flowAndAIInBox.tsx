@@ -16,7 +16,7 @@ import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime, { convertToMilliseconds } from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IAITools, ICreatePrompt, IPrompts, ITotalPrompt } from "brancy/models/AI/prompt";
+import { IAITools, ICreatePrompt, IPrompts, ITool, ITotalPrompt } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
 import { IMasterFlow, ITotalMasterFlow } from "brancy/models/messages/properies";
 import AIPromptBox from "brancy/components/messages/aiflow/aiPromptBox";
@@ -66,6 +66,8 @@ const FlowAndAIInbox = () => {
   // AIToolsSettings related states
   const [showAIToolsSettings, setShowAIToolsSettings] = useState(false);
   const [selectedAITool, setSelectedAITool] = useState<IAITools | null>(null);
+  const [aiPromptTools, setAIPromptTools] = useState<ITool[]>([]);
+  const [aiToolParamValues, setAIToolParamValues] = useState<Record<string, Record<string, string>>>({});
 
   // LiveChat related states
   const [showLiveChatPopup, setShowLiveChatPopup] = useState(false);
@@ -109,6 +111,7 @@ const FlowAndAIInbox = () => {
 
   // Callback refs to be set by Editor component
   const addToPromptRef = useRef<((text: string) => void) | null>(null);
+  const addToolRef = useRef<((tool: ITool) => void) | null>(null);
   const reloadFlowRef = useRef<((useLocalStorage: boolean) => void) | null>(null);
   const handleRegisterReload = (fn: (useLocalStorage: boolean) => void) => {
     reloadFlowRef.current = fn;
@@ -809,10 +812,13 @@ const FlowAndAIInbox = () => {
                 selectedAITool={selectedAITool}
                 setSelectedAITool={setSelectedAITool}
                 onAddToPromptRef={addToPromptRef}
+                onAddToolRef={addToolRef}
                 showLiveChatPopup={showLiveChatPopup}
                 setShowLiveChatPopup={setShowLiveChatPopup}
                 promptInfo={promptInfo}
                 setPromptInfo={setPromptInfo}
+                tools={aiPromptTools}
+                setTools={setAIPromptTools}
               />
             </div>
           )}
@@ -836,9 +842,17 @@ const FlowAndAIInbox = () => {
             onClose={() => setShowAIToolsSettings(false)}
             aiTools={aiTools}
             selectedAITool={selectedAITool}
+            existingTools={aiPromptTools}
+            paramValues={aiToolParamValues}
+            setParamValues={setAIToolParamValues}
             onAddToPrompt={(text: string) => {
               if (addToPromptRef.current) {
                 addToPromptRef.current(text);
+              }
+            }}
+            onAddTool={(tool: ITool) => {
+              if (addToolRef.current) {
+                addToolRef.current(tool);
               }
             }}
           />

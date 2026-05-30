@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import Link from "next/link";
 import { MouseEvent, useEffect } from "react";
 import { useTranslation } from "react-i18next";
@@ -9,7 +10,7 @@ import { OrderStep } from "brancy/models/store/enum";
 import { IOrderPushNotifExtended } from "brancy/models/store/orders";
 import { ITicketPushNotif } from "brancy/models/userPanel/message";
 import styles from "./userNotificationBar.module.css";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 const UserNotificationBar = (props: { data: PushNotif[]; handleDeleteNotif: (index: number) => void }) => {
   const { t } = useTranslation();
   useEffect(() => {

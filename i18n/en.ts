@@ -480,6 +480,7 @@ export default {
     logout: "Log Out",
     notallowed: "Not Allowed",
     notallowedExplain: "You are not allowed to access this feature",
+    notallowedExplainPage: "You are not allowed to access this page",
 
     CreateAutomationFlow: "Create Automation Flow",
     CreateAutomationFlowExplain: "Automate Instagram interactions with a visual workflow builder.",
@@ -640,6 +641,7 @@ export default {
     sidebar_Advertise: "Advertises",
     sidebar_Store: "Store",
     sidebar_Stores: "Stores",
+    sidebar_Business: "Business",
     sidebar_Setting: "Settings",
     //0️⃣ General -> navbar
     navbar_Post: "Post",
@@ -1496,6 +1498,7 @@ export default {
     pageTools_EventIdeasCountry: "Country",
     pageTools_EventIdeasPrompt: "Topic",
     pageTools_EventIdeasCreatedTime: "Created At",
+    pageTools_CustomEvent: "Custom Event",
     pageTools_exportcomments: "All comments are exported as an Excel file and can be downloaded and shared",
 
     pageTools_Lottery: "Create a Score Lottery",
@@ -1834,7 +1837,19 @@ export default {
 
     marketProperties_explain: "When the Instagram username is changed, this link will automatically update.",
     marketProperties_rejected: "Your domain has been rejected (please contact with us)",
+    customDomain_inactive_title: "Custom domain is inactive",
+    customDomain_inactive_desc:
+      "Your domain is currently inactive. Please submit a support ticket to get it activated.",
+    customDomain_noPackage_title: "Custom domain package not found",
+    customDomain_noPackage_desc:
+      "Your current package does not include custom domain support. Please upgrade your package to use this feature.",
+    customDomain_rule_notEmpty: "Domain must not be empty",
+    customDomain_rule_validChars: "Only letters and numbers are allowed",
+    customDomain_rule_noUnderscore: "Underscore (_) and hyphen (-) are not allowed",
+    customDomain_rule_noSubdomain: "Subdomains are not allowed (only one dot)",
+    customDomain_rule_notBrancy: "brancy.app and bran.cy are not allowed",
     marketProperties_Request: "Request",
+    marketProperties_Connect: "Connect",
     marketProperties_Requested: "Requested",
     marketProperties_Checking: "Checking",
     marketProperties_yourstore: "Store (your store link)",
@@ -2270,6 +2285,11 @@ export default {
     SettingGeneralSystempound: "Pound",
     SettingGeneralSystemrial: "Rial",
     SettingGeneralSystemtoman: "Toman",
+    // Setting -> General -> AI Models
+    SettingGeneralAiModelsTitle: "AI Models",
+    SettingGeneralAiModelsTextModels: "Text Models",
+    SettingGeneralAiModelsVoiceModels: "Voice to Text Models",
+    SettingGeneralAiModelsDirectVoiceSupport: "Direct Voice Support",
     // Setting -> General -> Profile
     SettingGeneralProfileTitle: "profile",
     SettingGeneral_activedevice: "Active Devices",
@@ -2623,6 +2643,8 @@ export default {
     sendsms: "Send SMS to User",
     sendtotelegram: "Redirect User to Telegram",
     senderusername: "Mention User by Name",
+    addtools: "Add Tool",
+    generatebyai: "Generate by AI",
 
     //tutorials
     New_Flow_Tutorials_onmessage_title: "Your Flow Starting Point",

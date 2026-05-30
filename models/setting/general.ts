@@ -1,6 +1,7 @@
 import { StatusReplied } from "brancy/models/messages/enum";
 import { IOwnerInbox } from "brancy/models/messages/IMessage";
-import { PlatformTicketItemType, PlatformTicketType } from "brancy/models/setting/enums";
+import { AiTextModel, AiVoiceModel, PlatformTicketItemType, PlatformTicketType } from "brancy/models/setting/enums";
+import { BusinessType } from "../userPanel/business";
 
 export interface ILangauge {
   english: boolean;
@@ -80,4 +81,36 @@ export interface ICreateMedia {
   itemType: PlatformTicketItemType;
   text: string;
   imageUrl: string;
+}
+export interface IAiModels {
+  texModels: {
+    name: string;
+    id: AiTextModel;
+    input: number;
+    output: number;
+  }[];
+  voiceModels: {
+    name: string;
+    id: AiVoiceModel;
+    input: number;
+    output: number;
+  }[];
+}
+export interface IGetAiModel {
+  fbId: number;
+  aiTextModel: AiTextModel;
+  aiImageModel: number;
+  aiVoice2TextModel: AiVoiceModel;
+  aiText2VoiceModel: AiVoiceModel;
+  aiVideoModel: number;
+  aiVectorGenModel: number;
+  isDirectImageSupport: boolean;
+  isDirectVoiceSupport: boolean;
+  businessType: BusinessType;
+  countryCode: string;
+}
+export interface IGeneralAiModels {
+  aiTextModel: AiTextModel;
+  aiVoice2TextModel: AiVoiceModel;
+  isDirectVoiceSupport: boolean;
 }

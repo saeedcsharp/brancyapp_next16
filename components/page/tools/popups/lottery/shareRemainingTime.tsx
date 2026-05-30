@@ -1,8 +1,9 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { IShareremainingTime } from "brancy/models/page/tools/tools";
 import styles from "./shareRemainingTime.module.css";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 function convertUnixtimeToDHM(unixTime: number) {
   let unixNow = Date.now();
   const diffTime = Math.abs(unixTime - unixNow);

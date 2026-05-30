@@ -23,6 +23,7 @@ import {
 } from "brancy/models/store/IProduct";
 import styles from "./general.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { hashProductId } from "brancy/helper/hashProductId";
 function General({
   productId,
   suggestedPrice,
@@ -514,7 +515,7 @@ function General({
                     className="textinputbox"
                     placeHolder="Product id"
                     handleInputChange={() => {}}
-                    value={productId.toString()}
+                    value={hashProductId(productId)}
                   />
                 </div>
                 <div className="headerandinput">

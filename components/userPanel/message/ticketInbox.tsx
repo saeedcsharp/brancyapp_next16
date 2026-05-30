@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { HubConnection } from "@microsoft/signalr";
 import { t } from "i18next";
 import { useSession } from "next-auth/react";
@@ -43,7 +44,7 @@ const UserPanelDirectInbox = () => {
     },
   });
   const { query } = router;
-  const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+  const basePictureUrl = getClientMediaBaseUrl();
   const [ticketInbox, setTicketInbox] = useState<IUserPanelMessage>();
   const [searchTicketInbox, setSearchTicketInbox] = useState<IUserPanelMessage>();
   const tInbox = useRef(ticketInbox);

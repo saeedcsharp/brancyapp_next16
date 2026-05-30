@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -7,7 +8,7 @@ import { MethodType } from "brancy/helper/api";
 import { IProduct_FullProduct } from "brancy/models/store/IProduct";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 
 const UpdateProduct = (props: { data: number[]; removeMask: () => void }) => {
   const { data: session } = useSession();

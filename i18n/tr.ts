@@ -490,6 +490,7 @@ export default {
     logout: "Çıkış Yap",
     notallowed: "İzin Verilmedi",
     notallowedExplain: "Bu özelliğe erişim izniniz yok",
+    notallowedExplainPage: "Bu sayfaya erişim izniniz yok",
     CollaboratorExplain: "Post veya Reels'i Birden Fazla Instagram Sayfası Arasında Ortak Paylaşın",
     CreateAutomationFlow: "Otomasyon Akışı Oluştur",
     CreateAutomationFlowExplain: "Görsel iş akışı oluşturucu ile Instagram etkileşimlerini otomatikleştir.",
@@ -642,6 +643,7 @@ export default {
     sidebar_Advertise: "Reklamlar",
     sidebar_Store: "Mağaza",
     sidebar_Stores: "Mağazalar",
+    sidebar_Business: "İşletme",
     sidebar_Setting: "Ayarlar",
     //0️⃣ General -> navbar
     navbar_Post: "Gönderi",
@@ -1503,6 +1505,7 @@ export default {
     pageTools_EventIdeasCountry: "Ülke",
     pageTools_EventIdeasPrompt: "Konu",
     pageTools_EventIdeasCreatedTime: "Oluşturulma Tarihi",
+    pageTools_CustomEvent: "Özel Etkinlik",
     pageTools_exportcomments:
       "Tüm comment’ler Excel dosyası olarak dışa aktarılır ve indirilebilir veya paylaşılabilir",
 
@@ -1849,6 +1852,11 @@ export default {
     marketProperties_explain:
       "Instagram kullanıcı adı değiştirildiğinde, bu bağlantı otomatik olarak güncellenecektir.",
     marketProperties_rejected: "Alan adınız reddedildi (lütfen bizimle iletişime geçin)",
+    customDomain_inactive_title: "Özel alan adı etkin değil",
+    customDomain_inactive_desc: "Alan adınız şu anda etkin değil. Etkinleştirmek için bir destek bileti gönderin.",
+    customDomain_noPackage_title: "Özel alan adı paketi bulunamadı",
+    customDomain_noPackage_desc:
+      "Mevcut paketiniz özel alan adı desteği içermiyor. Bu özelliği kullanmak için paketinizi yükseltin.",
     marketProperties_Request: "Talep",
     marketProperties_Requested: "Talep Edildi",
     marketProperties_Checking: "Kontrol Ediliyor",
@@ -2284,6 +2292,10 @@ export default {
     SettingGeneralSystempound: "Sterlin",
     SettingGeneralSystemrial: "Riyal",
     SettingGeneralSystemtoman: "Tümen",
+    SettingGeneralAiModelsTitle: "Yapay Zeka Modelleri",
+    SettingGeneralAiModelsTextModels: "Metin Modelleri",
+    SettingGeneralAiModelsVoiceModels: "Sesten Metne Modeller",
+    SettingGeneralAiModelsDirectVoiceSupport: "Doğrudan Ses Desteği",
     // Setting -> General -> Profile
     SettingGeneralProfileTitle: "Profil",
     SettingGeneral_activedevice: "Aktif Cihazlar",
@@ -2621,6 +2633,8 @@ export default {
     sendsms: "Kullanıcıya SMS gönder",
     sendtotelegram: "Kullanıcıyı Telegram’a yönlendir",
     senderusername: "Kullanıcının adını kullanarak seslen",
+    addtools: "Araç Ekle",
+    generatebyai: "Yapay Zeka ile Oluştur",
 
     //tutorials
 

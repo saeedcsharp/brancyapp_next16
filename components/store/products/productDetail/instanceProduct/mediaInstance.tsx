@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import {
   closestCenter,
   DndContext,
@@ -15,7 +16,6 @@ import {
   useSortable,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import ImageCompressor from "compressorjs";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
@@ -24,7 +24,11 @@ import { LanguageKey } from "brancy/i18n";
 import { MediaType } from "brancy/models/page/post/preposts";
 import { IMediaInstanceInfo, ISuggestedMedia } from "brancy/models/store/IProduct";
 import styles from "./media.module.css";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+import Compressor from "compressorjs";
+import { UploadFile } from "brancy/helper/api";
+import { useSession } from "next-auth/react";
+import ProgressBar from "brancy/components/design/progressBar/progressBar";
+const basePictureUrl = getClientMediaBaseUrl();
 
 // Sortable item component
 function SortableItem({
@@ -53,105 +57,135 @@ function SortableItem({
     transition,
   };
 
+  const isUploading = item.isUploading;
+  const progress = item.uploadProgress ?? 0;
+
   return (
     <div ref={setNodeRef} style={style}>
       <div className={styles.thumbnailmedia}>
-        {item.childMedia && (
-          <img
-            className={`${styles.thumbnailmediapicture} ${item.isHidden && "fadeDiv"}`}
-            role="button"
-            title="ℹ️ media picture"
-            src={basePictureUrl + item.childMedia.thumbnailMediaUrl}
-          />
+        {/* اگر در حال آپلود است: ProgressBar */}
+        {isUploading ? (
+          <div
+            className={styles.thumbnailmediapicture}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              padding: "8px",
+            }}>
+            <span style={{ fontSize: "12px", marginBottom: "6px" }}>Uploading...</span>
+            <ProgressBar width={progress} />
+          </div>
+        ) : (
+          <>
+            {item.childMedia && (
+              <img
+                className={`${styles.thumbnailmediapicture} ${item.isHidden && "fadeDiv"}`}
+                role="button"
+                title="ℹ️ media picture"
+                src={basePictureUrl + item.childMedia.thumbnailMediaUrl}
+              />
+            )}
+            {item.customMedia && !item.customMedia.isSuggested && (
+              <img
+                className={`${styles.thumbnailmediapicture} ${item.isHidden && "fadeDiv"}`}
+                role="button"
+                title="ℹ️ media picture"
+                src={basePictureUrl + item.customMedia.thumbnailMediaUrl}
+              />
+            )}
+            {item.customMedia && item.customMedia.isSuggested && (
+              <img
+                className={`${styles.thumbnailmediapicture} ${item.isHidden && "fadeDiv"}`}
+                role="button"
+                title="ℹ️ media picture"
+                src={basePictureUrl + item.customMedia.mediaUrl}
+              />
+            )}
+            {item.uploadMedia && (
+              <img
+                className={`${styles.thumbnailmediapicture} ${item.isHidden && "fadeDiv"}`}
+                role="button"
+                title="ℹ️ media picture"
+                src={item.uploadMedia.base64Url}
+              />
+            )}
+          </>
         )}
-        {item.customMedia && !item.customMedia.isSuggested && (
-          <img
-            className={`${styles.thumbnailmediapicture} ${item.isHidden && "fadeDiv"}`}
-            role="button"
-            title="ℹ️ media picture"
-            src={basePictureUrl + item.customMedia.thumbnailMediaUrl}
-          />
-        )}
-        {item.customMedia && item.customMedia.isSuggested && (
-          <img
-            className={`${styles.thumbnailmediapicture} ${item.isHidden && "fadeDiv"}`}
-            role="button"
-            title="ℹ️ media picture"
-            src={basePictureUrl + item.customMedia.mediaUrl}
-          />
-        )}
-        {item.uploadMedia && (
-          <img
-            className={`${styles.thumbnailmediapicture} ${item.isHidden && "fadeDiv"}`}
-            role="button"
-            title="ℹ️ media picture"
-            src={item.uploadMedia.base64Url}
-          />
-        )}
+
+        {/* تنظیمات thumbnail */}
         <div className={`${styles.thumbnailmediasetting} ${item.isHidden && "fadeDiv"}`}>
           <img
             className={styles.thumbnailicon}
             title="ℹ️ photo type"
             src={item.mediaType === MediaType.Image ? "/mediapicture.svg" : "/mediavideo.svg"}
           />
-          {
-            <div className={styles.thumbnailmediabtn}>
-              <img
-                className={styles.thumbnailiconstg}
-                title="ℹ️ view large"
-                src="/icon-view.svg"
-                onClick={() =>
-                  onView(
-                    item.uploadMedia
-                      ? item.uploadMedia.base64Url
-                      : item.childMedia
-                        ? basePictureUrl + item.childMedia.thumbnailMediaUrl
-                        : basePictureUrl + item.customMedia!.thumbnailMediaUrl,
-                  )
-                }
-              />
-              {item.uploadMedia && (
-                <>
-                  <img
-                    onClick={() => onReplace(item.index)}
-                    className={styles.thumbnailiconstg}
-                    title="ℹ️ replace"
-                    src="/replacemedia.svg"
-                  />
-                  <img
-                    className={styles.thumbnailiconstg}
-                    onClick={() => onDelete(item.index)}
-                    title="ℹ️ delete"
-                    src="/deletemedia.svg"
-                  />
-                </>
-              )}
-              {item.customMedia && item.customMedia.isSuggested && item.customMedia.key && (
-                <>
+          <div className={styles.thumbnailmediabtn}>
+            {/* اگر در حال آپلود است، دکمه‌ها را نمایش نده */}
+            {!isUploading && (
+              <>
+                <img
+                  className={styles.thumbnailiconstg}
+                  title="ℹ️ view large"
+                  src="/icon-view.svg"
+                  onClick={() =>
+                    onView(
+                      item.uploadMedia
+                        ? item.uploadMedia.base64Url
+                        : item.childMedia
+                          ? basePictureUrl + item.childMedia.thumbnailMediaUrl
+                          : basePictureUrl + item.customMedia!.thumbnailMediaUrl,
+                    )
+                  }
+                />
+                {item.uploadMedia && (
+                  <>
+                    <img
+                      onClick={() => onReplace(item.index)}
+                      className={styles.thumbnailiconstg}
+                      title="ℹ️ replace"
+                      src="/replacemedia.svg"
+                    />
+                    <img
+                      className={styles.thumbnailiconstg}
+                      onClick={() => onDelete(item.index)}
+                      title="ℹ️ delete"
+                      src="/deletemedia.svg"
+                    />
+                  </>
+                )}
+                {item.customMedia && item.customMedia.isSuggested && item.customMedia.key && (
                   <img
                     className={styles.thumbnailiconstg}
                     onClick={() => onDeleteSuggestion(item.customMedia!.key!)}
                     title="ℹ️ delete"
                     src="/deletemedia.svg"
                   />
-                </>
-              )}
-            </div>
-          }
+                )}
+              </>
+            )}
+          </div>
         </div>
+
         <div className={styles.thumbnailmediainfo}>
-          <img style={{ width: "35px" }} title="ℹ️ Drag to Move" src="/draginline.svg" {...attributes} {...listeners} />
+          <img
+            style={{ width: "35px", opacity: isUploading ? 0.3 : 1 }}
+            title="ℹ️ Drag to Move"
+            src="/draginline.svg"
+            {...(!isUploading ? { ...attributes, ...listeners } : {})}
+          />
           <div
             className={`${styles.pictureorder} ${!item.isHidden ? styles.pictureorderfalse : ""}`}
             title={`ℹ️ show or hide ${index + 2}`}
             onClick={() => {
-              if (item.uploadMedia) return;
+              if (item.uploadMedia || isUploading) return;
               onToggleVisibility(item.index);
             }}>
             {index + 2}
           </div>
 
-          <img style={{ width: "35px" }} title="ℹ️ Recently Uploaded" src="/new.svg" />
+          {!isUploading && <img style={{ width: "35px" }} title="ℹ️ Recently Uploaded" src="/new.svg" />}
         </div>
       </div>
     </div>
@@ -171,6 +205,7 @@ export default function MediaInstance({
   suggestedMedias: ISuggestedMedia;
   upadteCteateFromMeida: (isNext: boolean, media: IMediaInstanceInfo[]) => void;
 }) {
+  const { data: session } = useSession();
   const [loading, setLoading] = useState<boolean>(true);
   const { t } = useTranslation();
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -192,16 +227,6 @@ export default function MediaInstance({
     }),
   );
 
-  function _arrayBufferToBase64(buffer: ArrayBuffer) {
-    let binary = "";
-    const bytes = new Uint8Array(buffer);
-    const len = bytes.byteLength;
-    for (let i = 0; i < len; i++) {
-      binary += String.fromCharCode(bytes[i]);
-    }
-    return window.btoa(binary);
-  }
-
   function handleSpanClick(index: number) {
     setProductMediaInfo((prev) => prev.map((x) => (x.index !== index ? x : { ...x, isHidden: !x.isHidden })));
   }
@@ -219,62 +244,131 @@ export default function MediaInstance({
     );
   }
 
-  function compressAndUpload(file: File) {
-    new ImageCompressor(file, {
-      quality: 0.95,
-      maxWidth: 700,
-      maxHeight: 700,
-      mimeType: "jpeg",
-      success(result) {
-        const reader = new FileReader();
-        reader.onload = () => {
-          const arrayToString = _arrayBufferToBase64(reader.result as ArrayBuffer);
-          if (selectedIndex !== null) {
-            setProductMediaInfo((prev) =>
-              prev.map((x) =>
-                x.index !== selectedIndex
-                  ? x
-                  : {
-                      ...x,
-                      uploadMedia: {
-                        ...x.uploadMedia!,
-                        base64Url: "data:image/jpeg;base64," + arrayToString,
-                      },
-                    },
-              ),
-            );
-          } else {
-            const newArray = [
-              {
-                uploadMedia: {
-                  base64Url: "data:image/jpeg;base64," + arrayToString,
-                  mediaType: MediaType.Image,
-                  thumbnailMediaUrl: "",
-                  index: 0,
-                },
-                key: null,
-                childMedia: null,
-                customMedia: null,
-                index: 0,
-                isHidden: false,
-                mediaType: MediaType.Image,
-              },
-              ...productMediaInfo,
-            ];
-            for (let arr of newArray) {
-              arr.index = newArray.indexOf(arr);
-            }
-            setProductMediaInfo(newArray);
-          }
-        };
-        reader.readAsArrayBuffer(result);
-      },
-      error(error) {
-        console.error(error.message);
-      },
-    });
-  }
+  async function compressAndUpload(file: File) {
+    try {
+      const compressedFile = await new Promise<File>((resolve, reject) => {
+        new Compressor(file!, {
+          quality: 0.95,
+          maxWidth: 700,
+          maxHeight: 700,
+          success(result) {
+            resolve(new File([result], file!.name, { type: result.type }));
+          },
+          error(err) {
+            reject(err);
+          },
+        });
+      });
 
+      // اگر در حالت Replace هستیم:
+      if (selectedIndex !== null) {
+        // ابتدا آیتم انتخاب شده را isUploading کنیم و progress را صفر قرار دهیم
+        setProductMediaInfo((prev) =>
+          prev.map((x) =>
+            x.index !== selectedIndex
+              ? x
+              : {
+                  ...x,
+                  isUploading: true,
+                  uploadProgress: 0,
+                },
+          ),
+        );
+
+        const upload = await UploadFile(session, compressedFile, (progress) => {
+          // آپدیت progress برای آیتم مورد نظر
+          setProductMediaInfo((prev) =>
+            prev.map((x) =>
+              x.index !== selectedIndex
+                ? x
+                : {
+                    ...x,
+                    uploadProgress: progress,
+                  },
+            ),
+          );
+        });
+
+        setProductMediaInfo((prev) =>
+          prev.map((x) =>
+            x.index !== selectedIndex
+              ? x
+              : {
+                  ...x,
+                  isUploading: false,
+                  uploadMedia: {
+                    ...(x.uploadMedia || {}),
+                    base64Url: upload.showUrl,
+                    mediaType: MediaType.Image,
+                    thumbnailMediaUrl: upload.fileName,
+                    index: x.index,
+                  },
+                },
+          ),
+        );
+      } else {
+        // حالت افزودن عکس جدید (در ابتدای لیست)
+        let newIndex = 0; // چون در ابتدای آرایه قرار می‌گیرد
+
+        // 1) آیتم موقت در حال آپلود را در ابتدا قرار بده
+        const tempItem: IMediaInstanceInfo = {
+          uploadMedia: null, // فعلاً خالی
+          childMedia: null,
+          customMedia: null,
+
+          index: 0, // موقت، بعداً همه را رینامبر می‌کنیم
+          isHidden: false,
+          mediaType: MediaType.Image,
+          isUploading: true,
+          uploadProgress: 0,
+        };
+
+        setProductMediaInfo((prev) => {
+          const newArray = [tempItem, ...prev];
+          newArray.forEach((x, i) => (x.index = i));
+          return [...newArray];
+        });
+
+        // 2) آپلود با progress
+        const upload = await UploadFile(session, compressedFile, (progress) => {
+          setProductMediaInfo((prev) => {
+            const newArray = prev.map((x, i) =>
+              i === 0
+                ? {
+                    ...x,
+                    uploadProgress: progress,
+                  }
+                : x,
+            );
+            return newArray;
+          });
+        });
+
+        // 3) بعد از پایان آپلود، آیتم اول را آپدیت کن
+        setProductMediaInfo((prev) => {
+          const newArray = prev.map((x, i) =>
+            i === 0
+              ? {
+                  ...x,
+                  isUploading: false,
+                  uploadMedia: {
+                    base64Url: upload.showUrl,
+                    mediaType: MediaType.Image,
+                    thumbnailMediaUrl: upload.fileName,
+                    index: 0,
+                  },
+                }
+              : x,
+          );
+          newArray.forEach((x, i) => (x.index = i));
+          return [...newArray];
+        });
+      }
+    } catch (error) {
+      // اگر هنگام آپلود خطا شد بهتر است آیتم موقت را حذف کنیم
+      setProductMediaInfo((prev) => prev.filter((x) => !x.isUploading));
+    }
+  }
   const handleImageChange = async (e: ChangeEvent<HTMLInputElement>) => {
     e.preventDefault();
     let file = await convertHeicToJpeg(e.target.files?.[0]!);

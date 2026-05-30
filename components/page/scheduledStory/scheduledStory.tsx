@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import router from "next/router";
@@ -16,7 +17,7 @@ import { ShowRings } from "brancy/components/design/counterDown/counterDown";
 import DeletePrePost from "brancy/components/page/scheduledPost/deletePrePost";
 import styles from "./scheduledStory.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 let unixNow = Date.now();
 const ScheduledStory = (props: { data: IScheduledStoryServer[] | null; totalCount: number }) => {
   const context = use(InstaInfoContext);

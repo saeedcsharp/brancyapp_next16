@@ -6,16 +6,20 @@ import { InstagramerAccountInfo, IRefreshToken } from "brancy/models/_AccountInf
 import { MethodType } from "brancy/helper/api";
 import { PushNotif } from "brancy/models/push/pushNotif";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IUserInfo } from "brancy/models/userPanel/login";
 type SharedStateContextType = {
   value: PushNotif[];
   setValue: React.Dispatch<React.SetStateAction<PushNotif[]>>;
+  userInfo: IUserInfo | null;
+  setUserInfo: React.Dispatch<React.SetStateAction<IUserInfo | null>>;
 };
 export const InstaInfoContext = React.createContext<SharedStateContextType | undefined>(undefined);
 export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { data: session, update } = useSession();
   const router = useRouter();
   const [value, setValue] = React.useState<PushNotif[]>([]);
-  const contextValue = useMemo(() => ({ value, setValue }), [value]);
+  const [userInfo, setUserInfo] = React.useState<IUserInfo | null>(null);
+  const contextValue = useMemo(() => ({ value, setValue, userInfo, setUserInfo }), [value, userInfo]);
   const lastUpdateRef = useRef<number>(0);
   const isUpdatingRef = useRef<boolean>(false);
 
@@ -67,12 +71,28 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
     [session, update, router],
   );
 
+  const fetchTitleInfo = useCallback(async () => {
+    if (isUpdatingRef.current) return;
+    try {
+      const res = await clientFetchApi<boolean, IUserInfo>("/api/account/GetTitleInfo", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
+      if (res.succeeded) {
+        setUserInfo(res.value);
+      }
+    } catch (_) {}
+  }, [session]);
+
   const GetAccountInfo = useCallback(async () => {
     if (isUpdatingRef.current) return;
     isUpdatingRef.current = true;
 
     try {
-      let res = await clientFetchApi<boolean, InstagramerAccountInfo>("Instagramer" + "/Account/GetInfo", {
+      let res = await clientFetchApi<boolean, InstagramerAccountInfo>("Instagramer/Account/GetInfo", {
         methodType: MethodType.get,
         session: session,
         data: undefined,
@@ -155,10 +175,14 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       refreshToken();
     }
     // Check if account info needs update (20 seconds since last update)
-    else if (currentTime - lastUpdate > 20000) {
+    else if (currentTime - lastUpdate > 20000 && session.user.currentIndex > -1) {
       GetAccountInfo();
     }
-  }, [session, GetAccountInfo, refreshToken]);
+    // Fetch user title info when in user panel (currentIndex === -1)
+    if (session.user.currentIndex === -1 && !userInfo) {
+      fetchTitleInfo();
+    }
+  }, [session, GetAccountInfo, refreshToken, fetchTitleInfo, userInfo]);
 
   return <InstaInfoContext value={contextValue}>{children}</InstaInfoContext>;
 };

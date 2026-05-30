@@ -1,4 +1,5 @@
 //#region واردات کتابخانه‌ها و کامپوننت‌ها
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { HubConnection } from "@microsoft/signalr";
 import { useSession } from "next-auth/react";
 import router from "next/router";
@@ -64,7 +65,7 @@ const DirectChatBox = (props: {
       router.push("/");
     },
   });
-  const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+  const baseMediaUrl = getClientMediaBaseUrl();
   const useExternalUrl = process.env.NEXT_PUBLIC_USE_EXTERNAL_MESSAGE_URL === "true";
   const { t } = useTranslation();
   //#endregion
@@ -153,19 +154,17 @@ const DirectChatBox = (props: {
         case "Download":
           let mediaUrl = "";
           if (item.audio) {
-            mediaUrl = item.audio.externalUrl || `https://ilink.influe.ir${item.audio.url}`;
+            mediaUrl = item.audio.externalUrl || `${baseMediaUrl}${item.audio.url}`;
           } else if (item.medias && item.medias.length > 0) {
             if (item.medias[0].image) {
               mediaUrl =
-                item.medias[0].image.previewUrl.externalUrl ||
-                `https://ilink.influe.ir${item.medias[0].image.previewUrl.url}`;
+                item.medias[0].image.previewUrl.externalUrl || `${baseMediaUrl}${item.medias[0].image.previewUrl.url}`;
             } else if (item.medias[0].video) {
               mediaUrl =
-                item.medias[0].video.previewUrl.externalUrl ||
-                `https://ilink.influe.ir${item.medias[0].video.previewUrl.url}`;
+                item.medias[0].video.previewUrl.externalUrl || `${baseMediaUrl}${item.medias[0].video.previewUrl.url}`;
             }
           } else if (item.mediaShares && item.mediaShares.length > 0) {
-            mediaUrl = item.mediaShares[0].externalUrl || `https://ilink.influe.ir${item.mediaShares[0].url}`;
+            mediaUrl = item.mediaShares[0].externalUrl || `${baseMediaUrl}${item.mediaShares[0].url}`;
           }
           if (mediaUrl) {
             window.open(mediaUrl, "_blank");

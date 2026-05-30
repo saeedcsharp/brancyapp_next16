@@ -12,6 +12,7 @@ import DeleteLink from "brancy/components/market/properties/popups/deletLink";
 import EditLink from "brancy/components/market/properties/popups/editLink";
 import FeaturePopUp from "brancy/components/market/properties/popups/featurePopup";
 import StatisticsLinks from "brancy/components/market/properties/popups/statisticsLink";
+import NotAllowed from "brancy/components/notOk/notAllowed";
 import {
   internalNotify,
   InternalResponseType,
@@ -20,9 +21,9 @@ import {
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
-import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { InstagramerAccountInfo } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { InstagramerAccountInfo, PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
@@ -205,6 +206,7 @@ const Properties = () => {
     if (!session) return;
     if (session && !packageStatus(session)) router.push("/upgrade");
     if (!LoginStatus(session)) router.push("/");
+    if (!RoleAccess(session, PartnerRole.Bio)) return;
     fetchData();
   }, [session]);
   if (session?.user.currentIndex === -1) router.push("/user");
@@ -229,44 +231,53 @@ const Properties = () => {
         </Head>
         {/* head for SEO */}
 
-        <div onClick={() => setLinkId(1000)} className="pinContainer">
-          <DomainManager instagramerInfo={instagramerInfo} />
-          <Features showMask={handleShowFeatureBox} features={features} handleUpdateFeature={handleUpdatefeatures} />
-          <Link
-            data={linkInfos}
-            addNewLink={() => {
-              setShowAddNewLink(true);
-              changePositionToFixed();
-            }}
-            handleShowDotIcons={handleShowDotIcons}
-            handleClickOnIcon={handleClickOnIcon}
-            handleUpdateOrderLinks={handleUpdateOrderLinks}
-            dotIconIndex={linkId}
-          />
-        </div>
-        <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showFeatureBox}>
-          <FeaturePopUp removeMask={handleRemoveMask} featureId={featureId} handleAddNewLink={handleAddNewLink} />
-        </Modal>
+        {!RoleAccess(session, PartnerRole.Bio) && <NotAllowed />}
+        {RoleAccess(session, PartnerRole.Bio) && (
+          <>
+            <div onClick={() => setLinkId(1000)} className="pinContainer">
+              <DomainManager instagramerInfo={instagramerInfo} />
+              <Features
+                showMask={handleShowFeatureBox}
+                features={features}
+                handleUpdateFeature={handleUpdatefeatures}
+              />
+              <Link
+                data={linkInfos}
+                addNewLink={() => {
+                  setShowAddNewLink(true);
+                  changePositionToFixed();
+                }}
+                handleShowDotIcons={handleShowDotIcons}
+                handleClickOnIcon={handleClickOnIcon}
+                handleUpdateOrderLinks={handleUpdateOrderLinks}
+                dotIconIndex={linkId}
+              />
+            </div>
+            <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showFeatureBox}>
+              <FeaturePopUp removeMask={handleRemoveMask} featureId={featureId} handleAddNewLink={handleAddNewLink} />
+            </Modal>
 
-        <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showAddNewLink}>
-          <AddNewLink removeMask={handleRemoveMask} handleAddNewLink={handleAddNewLink} />
-        </Modal>
+            <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showAddNewLink}>
+              <AddNewLink removeMask={handleRemoveMask} handleAddNewLink={handleAddNewLink} />
+            </Modal>
 
-        <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showLinkBox}>
-          <StatisticsLinks removeMask={handleRemoveMask} linkId={linkId} />
-        </Modal>
+            <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showLinkBox}>
+              <StatisticsLinks removeMask={handleRemoveMask} linkId={linkId} />
+            </Modal>
 
-        <Modal closePopup={handleRemoveMask} classNamePopup={"popupSendFile"} showContent={showDeleteLink}>
-          <DeleteLink linkId={linkId} removeMask={handleRemoveMask} handleDeleteLink={handleDeleteLink} />
-        </Modal>
+            <Modal closePopup={handleRemoveMask} classNamePopup={"popupSendFile"} showContent={showDeleteLink}>
+              <DeleteLink linkId={linkId} removeMask={handleRemoveMask} handleDeleteLink={handleDeleteLink} />
+            </Modal>
 
-        <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showEditLink}>
-          <EditLink
-            removeMask={handleRemoveMask}
-            handleUpdateLink={handleUpdateLink}
-            info={linkInfos?.find((x) => x.id === linkId)!}
-          />
-        </Modal>
+            <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showEditLink}>
+              <EditLink
+                removeMask={handleRemoveMask}
+                handleUpdateLink={handleUpdateLink}
+                info={linkInfos?.find((x) => x.id === linkId)!}
+              />
+            </Modal>
+          </>
+        )}
       </>
     )
   );

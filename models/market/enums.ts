@@ -191,6 +191,10 @@ export enum CustomDomainStatus {
   Approved = 2,
   Rejected = 3,
 }
+export enum RegisterType {
+  CloudFlare = 0,
+  ArvanCloud = 1,
+}
 export enum InsightPeriod {
   Daily,
   Weekly,

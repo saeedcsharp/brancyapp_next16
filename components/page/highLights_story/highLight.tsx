@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import React, { use, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -14,7 +15,7 @@ import "swiper/css/scrollbar";
 import { A11y, Navigation, Pagination, Scrollbar } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "./highLight.module.css";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 const HighLight = ({ data }: { data: IHighLight[] | null }) => {
   const { data: session } = useSession();
   const { t } = useTranslation();

@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -15,7 +16,7 @@ import { IIngageBox } from "brancy/models/page/statistics/statisticsContent/inga
 import styles from "./ingageBoxes.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 
 interface StatsState {
   postCount: number;

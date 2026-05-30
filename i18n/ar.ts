@@ -475,6 +475,7 @@ export default {
     logout: "تسجيل الخروج",
     notallowed: "غير مسموح",
     notallowedExplain: "غير مسموح لك بالوصول إلى هذه الميزة",
+    notallowedExplainPage: "غير مسموح لك بالوصول إلى هذه الصفحة",
     CreateAutomationFlow: "إنشاء تدفق الأتمتة",
     CreateAutomationFlowExplain: "قم بأتمتة تفاعلات إنستغرام باستخدام مُنشئ سير عمل مرئي.",
     CreateAutomationAI: "إنشاء ذكاء اصطناعي للأتمتة",
@@ -628,6 +629,7 @@ export default {
     sidebar_Advertise: "إعلانات",
     sidebar_Store: "متجر",
     sidebar_Stores: "المتاجر",
+    sidebar_Business: "الأعمال",
     sidebar_Setting: "الإعدادات",
     //0️⃣ General -> navbar
     navbar_Post: "منشور",
@@ -1454,6 +1456,7 @@ export default {
     pageTools_EventIdeasCountry: "البلد",
     pageTools_EventIdeasPrompt: "الموضوع",
     pageTools_EventIdeasCreatedTime: "تاريخ الإنشاء",
+    pageTools_CustomEvent: "حدث مخصص",
     pageTools_exportcomments: "يتم تصدير جميع التعليقات كملف Excel ويمكن تنزيله ومشاركته",
 
     pageTools_Lottery: "إنشاء قرعة بالنقاط",
@@ -1778,6 +1781,10 @@ export default {
 
     marketProperties_explain: "عند تغيير اسم المستخدم في إنستغرام، سيتم تحديث هذا الرابط تلقائيًا.",
     marketProperties_rejected: "تم رفض النطاق الخاص بك (يرجى الاتصال بنا)",
+    customDomain_inactive_title: "النطاق المخصص غير نشط",
+    customDomain_inactive_desc: "نطاقك غير نشط حالياً. يرجى إرسال تذكرة دعم لتفعيله.",
+    customDomain_noPackage_title: "لم يتم العثور على حزمة النطاق المخصص",
+    customDomain_noPackage_desc: "حزمتك الحالية لا تدعم النطاق المخصص. يرجى ترقية حزمتك لاستخدام هذه الميزة.",
     marketProperties_Request: "طلب",
     marketProperties_Requested: "تم الطلب",
     marketProperties_Checking: "جارٍ التحقق",
@@ -2209,6 +2216,10 @@ export default {
     SettingGeneralSystempound: "جنيه",
     SettingGeneralSystemrial: "ريال",
     SettingGeneralSystemtoman: "تومان",
+    SettingGeneralAiModelsTitle: "نماذج الذكاء الاصطناعي",
+    SettingGeneralAiModelsTextModels: "نماذج النص",
+    SettingGeneralAiModelsVoiceModels: "نماذج تحويل الصوت إلى نص",
+    SettingGeneralAiModelsDirectVoiceSupport: "دعم الصوت المباشر",
     // Setting -> General -> Profile
     SettingGeneralProfileTitle: "ملف شخصي",
     SettingGeneral_activedevice: "الأجهزة النشطة",
@@ -2542,6 +2553,8 @@ export default {
     sendsms: "إرسال رسالة SMS إلى المستخدم",
     sendtotelegram: "توجيه المستخدم إلى تيليغرام",
     senderusername: "مناداة اسم المستخدم",
+    addtools: "إضافة أداة",
+    generatebyai: "توليد بواسطة الذكاء الاصطناعي",
 
     //tutorials
 

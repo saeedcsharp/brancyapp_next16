@@ -17,7 +17,7 @@ import { MediaType } from "brancy/models/ApiModels/Instagramer/Page/FirstPostPag
 import AdsTypeComp from "brancy/components/advertise/adsType";
 import TimeTypeComp from "brancy/components/advertise/timeType";
 import styles from "./adDetails.module.css";
-import styles2 from "./components/advertise/adList/popups/detailContent.module.css";
+import styles2 from "./detailContent.module.css";
 
 const AdReport = (props: { removeMask: () => void; advertiseId: number }) => {
   const { t } = useTranslation();

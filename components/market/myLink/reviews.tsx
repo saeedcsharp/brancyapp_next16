@@ -1,9 +1,10 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useState } from "react";
 import FiveStar from "brancy/components/fiveStar";
 import { IReviews } from "brancy/models/market/myLink";
 import styles from "./mylink.module.css";
 const Reviews = ({ data }: { data: IReviews | null }) => {
-  const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+  const baseMediaUrl = getClientMediaBaseUrl();
   const [isContentVisible, setIsContentVisible] = useState(true);
   const toggleContentVisibility = () => {
     setIsContentVisible((prev) => !prev);

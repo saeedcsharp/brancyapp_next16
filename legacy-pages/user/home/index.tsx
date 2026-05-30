@@ -1,24 +1,26 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { LanguageKey } from "brancy/i18n";
 import Head from "next/head";
 import router, { useRouter } from "next/router"; // Add this import
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "brancy/i18n";
 import { Swiper, SwiperSlide } from "swiper/react";
 // Import Swiper styles
-import { useSession } from "next-auth/react";
-import Link from "next/link";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
+import { InstaInfoContext } from "brancy/context/instaInfoContext";
 import { MethodType } from "brancy/helper/api";
-import { IUserInfo } from "brancy/models/userPanel/login";
-import { IShortShop } from "brancy/models/userPanel/orders";
-import { IFavoriteProduct } from "brancy/models/userPanel/shop";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IBusiness, IFavoriteBusiness } from "brancy/models/userPanel/business";
+
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { use } from "react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import styles from "./index.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = getClientMediaBaseUrl();
 
 const orderSteps = [
   {
@@ -112,62 +114,62 @@ function Markets() {
   const [loading, setLoading] = useState(true);
   const [isNewUser, setIsNewUser] = useState<boolean | null>(null);
   const [greetingMessage, setGreetingMessage] = useState("");
-  const [userInfo, setUserInfo] = useState<IUserInfo | null>(null);
+  const { userInfo } = use(InstaInfoContext) ?? {};
   const [instagramUsername, setInstagramUsername] = useState<string>("");
-  const [saved, setSaved] = useState<IFavoriteProduct>({
-    favoriteProducts: [],
+  const [saved, setSaved] = useState<IFavoriteBusiness>({
+    items: [],
     nextMaxId: null,
   });
-  const [explore, setExplore] = useState<IShortShop[]>([]);
+  const [explore, setExplore] = useState<IBusiness[]>([]);
   // پیام‌های خوشامدگویی بر اساس ساعت
   const greetings = [
     {
       condition: (hour: number) => hour >= 4 && hour < 8,
       message: () =>
         `${t(LanguageKey.greeting1)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext1
+          LanguageKey.greetingtext1,
         )}`,
     },
     {
       condition: (hour: number) => hour >= 8 && hour < 10,
       message: () =>
         `${t(LanguageKey.greeting2)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext2
+          LanguageKey.greetingtext2,
         )}`,
     },
     {
       condition: (hour: number) => hour >= 10 && hour < 12,
       message: () =>
         `${t(LanguageKey.greeting3)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext3
+          LanguageKey.greetingtext3,
         )}`,
     },
     {
       condition: (hour: number) => hour >= 12 && hour < 15,
       message: () =>
         `${t(LanguageKey.greeting4)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext4
+          LanguageKey.greetingtext4,
         )}`,
     },
     {
       condition: (hour: number) => hour >= 15 && hour < 19,
       message: () =>
         `${t(LanguageKey.greeting5)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext5
+          LanguageKey.greetingtext5,
         )}`,
     },
     {
       condition: (hour: number) => hour >= 19 && hour < 23,
       message: () =>
         `${t(LanguageKey.greeting6)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext6
+          LanguageKey.greetingtext6,
         )}`,
     },
     {
       condition: (hour: number) => hour >= 23 || hour < 4,
       message: () =>
         `${t(LanguageKey.greeting7)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext7
+          LanguageKey.greetingtext7,
         )}`,
     },
   ];
@@ -176,16 +178,24 @@ function Markets() {
   };
   async function fetchData() {
     try {
-      const [res, saveRes, explorRes] = await Promise.all([
-        clientFetchApi<boolean, IUserInfo>("/api/account/GetTitleInfo", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<boolean, IFavoriteProduct>("/api/shop/GetFavoriteProducts", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<boolean, IShortShop[]>("/api/shop/GetExplorer", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+      const [saveRes, explorRes] = await Promise.all([
+        clientFetchApi<boolean, IFavoriteBusiness>("/api/business/GetFavorites", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IBusiness[]>("/api/business/GetExplorer", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
       ]);
-      if (res.succeeded) {
-        setUserInfo(res.value);
-        setLoading(false);
-        setInstagramUsername(res.value.username);
-      } else notify(res.info.responseType, NotifType.Warning);
+      setLoading(false);
+      if (userInfo?.username) setInstagramUsername(userInfo.username);
       if (saveRes.succeeded) {
         console.log("Saved Products:", saveRes.value);
         setSaved(saveRes.value);
@@ -269,7 +279,7 @@ function Markets() {
                                 ID:{" "}
                                 {Array.isArray(session?.user.instagramerIds)
                                   ? session?.user.instagramerIds.join(", ")
-                                  : session?.user.instagramerIds ?? "N/A"}
+                                  : (session?.user.instagramerIds ?? "N/A")}
                               </span>
                             </div>
                             <div className={`${styles.explain} translate`}>+{userInfo?.phoneNumber}</div>
@@ -294,13 +304,13 @@ function Markets() {
                     </div>
                     <div className={styles.savedItems}>
                       <div className="explain">{t(LanguageKey.userpanel_SavedProducts)}</div>
-                      {saved.favoriteProducts.length > 0 ? (
+                      {saved.items.length > 0 ? (
                         <Swiper className={styles.swiper} slidesPerView="auto" spaceBetween={15} freeMode>
-                          {saved.favoriteProducts.map((saved, index) => (
+                          {saved.items.map((saved, index) => (
                             <SwiperSlide
                               onClick={() => {
                                 router.push(
-                                  `/user/shop/${saved.shortProduct.instagramerId}/product/${saved.favoriteCardCount.productId}`
+                                  `/user/business/shop/${saved.businessProfile.instagramerId}/product/${saved.product?.favoriteCardCount?.productId}`,
                                 );
                               }}
                               key={index}
@@ -308,22 +318,28 @@ function Markets() {
                               <img
                                 loading="lazy"
                                 decoding="async"
-                                title={`ℹ️ ${saved.shortProduct.title}`}
-                                src={baseMediaUrl + saved.shortProduct.thumbnailMediaUrl}
-                                alt={saved.shortProduct.title}
+                                title={`ℹ️ ${saved.product?.shortProduct.title}`}
+                                src={
+                                  saved.product?.shortProduct.thumbnailMediaUrl
+                                    ? baseMediaUrl + saved.product.shortProduct.thumbnailMediaUrl
+                                    : "/no-profile.svg"
+                                }
+                                alt={saved.product?.shortProduct.title}
                               />
                               <div className={styles.productdetail}>
                                 <div className="headerandinput">
                                   <div className="title" style={{ fontSize: "var(--font-14)" }}>
-                                    {saved.shortProduct.title}
+                                    {saved.product?.shortProduct.title}
                                   </div>
 
                                   <span className={styles.step}>
-                                    <PriceFormater
-                                      pricetype={saved.shortProduct.priceType}
-                                      fee={saved.shortProduct.minDiscountPrice}
-                                      className={PriceFormaterClassName.PostPrice}
-                                    />
+                                    {saved.product?.shortProduct.priceType !== undefined && (
+                                      <PriceFormater
+                                        pricetype={saved.product.shortProduct.priceType}
+                                        fee={saved.product?.shortProduct.minDiscountPrice}
+                                        className={PriceFormaterClassName.PostPrice}
+                                      />
+                                    )}
                                   </span>
                                 </div>
                                 <div className={styles.store}>
@@ -332,10 +348,10 @@ function Markets() {
                                     decoding="async"
                                     className={styles.storepicture}
                                     title={""}
-                                    src={baseMediaUrl + saved.shopInfo.profileUrl}
+                                    src={baseMediaUrl + saved.businessProfile.profileUrl}
                                     alt={"Store"}
                                   />
-                                  <div className="explain">{saved.shopInfo.username}</div>
+                                  <div className="explain">{saved.businessProfile.username}</div>
                                   {/* {saved.shopInfo.fullName && (
                                     <div className="explain">
                                       {saved.shopInfo.fullName}
@@ -360,7 +376,7 @@ function Markets() {
                       </div>
                       <div
                         onClick={() => {
-                          router.push("/user/shop");
+                          router.push("/user/business");
                         }}
                         className={styles.uiverse}>
                         <div className={styles.wrapper}>
@@ -387,7 +403,7 @@ function Markets() {
                     <Swiper className={styles.swiper} slidesPerView="auto" spaceBetween={10} freeMode>
                       {explore.map((explore, index) => (
                         <SwiperSlide
-                          onClick={() => router.push(`/user/shop/${explore.instagramerId}`)}
+                          onClick={() => router.push(`/user/business/shop/${explore.instagramerId}`)}
                           key={index}
                           className={styles.exploreitem}>
                           <img
@@ -399,9 +415,10 @@ function Markets() {
                               width: "150px",
                               borderRadius: "var(--br15)",
                               objectFit: "cover",
+                              display: "block",
                             }}
                             title={`ℹ️ ${explore.username}`}
-                            src={baseMediaUrl + explore.bannerUrl}
+                            src={explore.bannerUrl ? baseMediaUrl + explore.bannerUrl : "/no-profile.svg"}
                             alt={explore.username}
                           />
                           <div className={styles.productdetail}>
@@ -413,10 +430,41 @@ function Markets() {
                                 title={""}
                                 src={baseMediaUrl + explore.profileUrl}
                                 alt={"Store"}
+                                style={{ border: "1.5px solid var(--color-gray30)" }}
                               />
-                              {explore.fullName && <div className="title">{explore.fullName}</div>}
+                              {explore.fullName && (
+                                <div
+                                  className="title"
+                                  style={{
+                                    overflow: "hidden",
+                                    textOverflow: "ellipsis",
+                                    whiteSpace: "nowrap",
+                                    maxWidth: "110px",
+                                    fontSize: "13px",
+                                    fontWeight: 600,
+                                  }}>
+                                  {explore.fullName}
+                                </div>
+                              )}
                             </div>
-                            <div className="explain">{explore.productCount}</div>
+                            {explore.fullShop?.shortShop.productCount != null && (
+                              <span
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: "4px",
+                                  fontSize: "11px",
+                                  fontWeight: 600,
+                                  color: "var(--text-h2)",
+                                  background: "var(--color-gray10)",
+                                  borderRadius: "20px",
+                                  padding: "3px 10px",
+                                  alignSelf: "center",
+                                  whiteSpace: "nowrap",
+                                }}>
+                                🛍 {explore.fullShop.shortShop.productCount} {t(LanguageKey.navbar_Products)}
+                              </span>
+                            )}
                           </div>
                         </SwiperSlide>
                       ))}

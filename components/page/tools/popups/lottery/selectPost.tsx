@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import router from "next/router";
 import { useEffect, useState } from "react";
@@ -16,7 +17,7 @@ import { MethodType } from "brancy/helper/api";
 import { IShortPostInfo } from "brancy/models/page/tools/tools";
 import styles from "./selectPost.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 const SelectPost = (props: {
   removeMask: () => void;
   saveSelectPost: (post: IShortPostInfo) => void;

@@ -54,6 +54,15 @@ export enum PlatformTicketType {
   LinkMarket,
   Other,
 }
+export enum AiTextModel {
+  Chatgpt4oMini = 0,
+  Gemeni25Pro = 2,
+}
+export enum AiVoiceModel {
+  ChatgptWhisper1 = 0,
+  Chatgpt4oTranscrib = 1,
+  Chatgpt4ominiTranscrib = 2,
+}
 // export enum ActionStatus {
 //   Pending,
 //   Responded,

@@ -1,4 +1,5 @@
 //#region واردات کتابخانه‌ها و کامپوننت‌ها
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { HubConnection, HubConnectionState } from "@microsoft/signalr";
 import { t } from "i18next";
 import { useSession } from "next-auth/react";
@@ -63,7 +64,7 @@ const DirectChatBox = memo(
     //#endregion
 
     //#region متغیرهای State و Ref
-    const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+    const baseMediaUrl = getClientMediaBaseUrl();
     const useExternalUrl = process.env.NEXT_PUBLIC_USE_EXTERNAL_MESSAGE_URL === "true";
     const unixTypingTimeRef = useRef<number>(0);
     const chatBoxRef = useRef<HTMLDivElement>(null);

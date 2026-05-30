@@ -425,6 +425,8 @@ export interface IProduct_Media extends IUploadMedia {
   fromSuggestion?: boolean;
   key: string | null;
   suggestedIndex?: number; // Add this new property
+  isUploading: boolean;
+  uploadProgress: number;
 }
 export interface IUploadMedia {
   base64Url: string;
@@ -441,6 +443,8 @@ export interface IMeidaInstance {
 }
 export interface IMediaInstanceInfo extends IMeidaInstance {
   uploadMedia: IUploadMedia | null;
+  isUploading?: boolean;
+  uploadProgress?: number; // 0 - 100
 }
 export interface ICustomeMediaInstance {
   createdTime: number;
@@ -507,10 +511,9 @@ export interface IProduct_SettingUpdate {
   };
 }
 export interface ISpecificationOrder {
-  productId: number;
   items: {
     index: number;
-    defaultSpecificationId: number | null;
+    variationId: number | null;
     customSpecificationId: number | null;
   }[];
 }

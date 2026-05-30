@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -19,7 +20,7 @@ import ScheduledStory from "brancy/components/page/scheduledStory/scheduledStory
 import styles from "./storyContent.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 
 type StoryState = {
   stories: IStoryContent[] | null;
@@ -181,6 +182,8 @@ const StoryContent = (props: {
           nextTime: stories.length > 0 ? stories[stories.length - 1].createdTime : -1,
         },
       });
+    } else if (!hasAccess) {
+      dispatch({ type: "SET_LOADING", payload: false });
     }
   }, [props.data.storyContents, hasAccess]);
 

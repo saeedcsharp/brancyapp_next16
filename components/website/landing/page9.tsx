@@ -1,9 +1,22 @@
-import React, { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useRef } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
 import FeatureList from "brancy/components/website/landing/featurelist";
 import styles from "./page9.module.css";
+
+// مدل دریافتی از سرور برای قیمت‌گذاری
+interface PackagePrice {
+  accountType: number;
+  price: number;
+  id: number;
+  packageMonthDuration: 1 | 3 | 6 | 9 | 12;
+  priceType: PriceType;
+  description: string;
+  minFollowerCount: number;
+  maxFollowerCount: number;
+  features: null | unknown;
+}
 
 // تعریف انواع پلن‌ها
 interface PlanTier {
@@ -52,7 +65,6 @@ type PlanState = {
   selectedFollowers: number;
   selectedDuration: keyof typeof discounts;
   tooltipPosition: number;
-  isInitialLoad: boolean;
   sliderValue: number;
 };
 
@@ -62,7 +74,6 @@ type PlanAction =
   | { type: "SET_SELECTED_FOLLOWERS"; payload: number }
   | { type: "SET_SELECTED_DURATION"; payload: keyof typeof discounts }
   | { type: "SET_TOOLTIP_POSITION"; payload: number }
-  | { type: "SET_INITIAL_LOAD"; payload: boolean }
   | { type: "SET_SLIDER_VALUE"; payload: number };
 
 const planReducer = (state: PlanState, action: PlanAction): PlanState => {
@@ -77,8 +88,6 @@ const planReducer = (state: PlanState, action: PlanAction): PlanState => {
       return { ...state, selectedDuration: action.payload };
     case "SET_TOOLTIP_POSITION":
       return { ...state, tooltipPosition: action.payload };
-    case "SET_INITIAL_LOAD":
-      return { ...state, isInitialLoad: action.payload };
     case "SET_SLIDER_VALUE":
       return { ...state, sliderValue: action.payload };
     default:
@@ -93,6 +102,19 @@ interface Page9Props {
 const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
   const { t, i18n } = useTranslation();
 
+  // قیمت‌های دریافتی از سرور
+  const [packagePrices, setPackagePrices] = useState<PackagePrice[]>([]);
+
+  // دریافت قیمت‌ها از API
+  useEffect(() => {
+    fetch("/api/pricing")
+      .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
+      .then((data: PackagePrice[]) => setPackagePrices(data))
+      .catch(() => {
+        // در صورت خطا، قیمت‌های پیش‌فرض (صفر) باقی می‌مانند
+      });
+  }, []);
+
   // ریف‌ها برای مدیریت فوکوس و DOM
   const planCardsRef = useRef<HTMLDivElement>(null);
   const sliderRef = useRef<HTMLInputElement>(null);
@@ -101,30 +123,38 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
   const startXRef = useRef(0);
   const scrollLeftRef = useRef(0);
 
-  // تشخیص زبان فعلی و انتخاب نوع قیمت و واحد پول
+  // تشخیص زبان فعلی
   const currentLanguage = i18n.language;
   const isPersian = currentLanguage === "fa";
-  const priceType = isPersian ? PriceType.Toman : PriceType.Dollar;
 
-  // انتخاب قیمت‌های مناسب بر اساس زبان
+  // تشخیص نوع ارز: اگر سرور قیمت تومانی داده → تومان، وگرنه از زبان تشخیص بده
+  const priceType = useMemo(() => {
+    if (packagePrices.length === 0) return isPersian ? PriceType.Toman : PriceType.Dollar;
+    const hasToman = packagePrices.some((p) => p.priceType === PriceType.Toman);
+    const hasDollar = packagePrices.some((p) => p.priceType === PriceType.Dollar);
+    if (hasToman && !hasDollar) return PriceType.Toman;
+    if (hasDollar && !hasToman) return PriceType.Dollar;
+    return isPersian ? PriceType.Toman : PriceType.Dollar;
+  }, [packagePrices, isPersian]);
+
+  // انتخاب قیمت‌های مناسب بر اساس نوع ارز
   const getPriceForPlan = useCallback(
     (plan: PlanTier, duration: keyof typeof discounts) => {
-      return isPersian ? plan.prices[duration] : plan.pricesUsd[duration];
+      return priceType === PriceType.Toman ? plan.prices[duration] : plan.pricesUsd[duration];
     },
-    [isPersian],
+    [priceType],
   );
 
-  // تعریف پلن‌ها با استفاده از translation - memoized برای بهینه‌سازی رندر
-  const pricingPlans: PlanTier[] = useMemo(
+  // اطلاعات پایه پلن‌ها (ویژگی‌ها، رنج فالوور، نام) - بدون قیمت
+  const basePlans = useMemo(
     () => [
       {
         model: t(LanguageKey.Beginner),
         level: 1,
+        accountType: 0,
         followerRange: "100 – 1K",
-        minFollowers: 100,
-        maxFollowers: 999,
-        prices: { month1: 470000, month3: 0, month6: 0, month9: 0, month12: 0 },
-        pricesUsd: { month1: 15, month3: 0, month6: 0, month9: 0, month12: 0 },
+        minFollowers: 0,
+        maxFollowers: 1000,
         features: {
           hasBusiness: false,
           hasAI: true,
@@ -139,11 +169,10 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
       {
         model: t(LanguageKey.Basic),
         level: 2,
+        accountType: 1,
         followerRange: "1K – 10K",
         minFollowers: 1000,
-        maxFollowers: 9999,
-        prices: { month1: 680000, month3: 2040000, month6: 0, month9: 0, month12: 0 },
-        pricesUsd: { month1: 25, month3: 70, month6: 0, month9: 0, month12: 0 },
+        maxFollowers: 10000,
         features: {
           hasBusiness: true,
           hasAI: true,
@@ -158,11 +187,10 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
       {
         model: t(LanguageKey.Growing),
         level: 3,
+        accountType: 2,
         followerRange: "10K – 50K",
         minFollowers: 10000,
-        maxFollowers: 49999,
-        prices: { month1: 1260000, month3: 3780000, month6: 0, month9: 0, month12: 0 },
-        pricesUsd: { month1: 39, month3: 110, month6: 0, month9: 0, month12: 0 },
+        maxFollowers: 50000,
         features: {
           hasBusiness: true,
           hasAI: true,
@@ -177,11 +205,10 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
       {
         model: t(LanguageKey.Advanced),
         level: 4,
+        accountType: 3,
         followerRange: "50K – 100K",
         minFollowers: 50000,
-        maxFollowers: 99999,
-        prices: { month1: 1650000, month3: 4950000, month6: 9900000, month9: 14850000, month12: 19800000 },
-        pricesUsd: { month1: 59, month3: 165, month6: 320, month9: 460, month12: 590 },
+        maxFollowers: 100000,
         features: {
           hasBusiness: true,
           hasAI: true,
@@ -196,11 +223,10 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
       {
         model: t(LanguageKey.Professional),
         level: 5,
+        accountType: 4,
         followerRange: "100K–500K",
         minFollowers: 100000,
-        maxFollowers: 499999,
-        prices: { month1: 2100000, month3: 6300000, month6: 12600000, month9: 18900000, month12: 25200000 },
-        pricesUsd: { month1: 79, month3: 225, month6: 430, month9: 620, month12: 790 },
+        maxFollowers: 500000,
         features: {
           hasBusiness: true,
           hasAI: true,
@@ -215,11 +241,10 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
       {
         model: t(LanguageKey.Special),
         level: 6,
+        accountType: 5,
         followerRange: "+500K",
         minFollowers: 500000,
         maxFollowers: 1000000,
-        prices: { month1: 2950000, month3: 8850000, month6: 17700000, month9: 26550000, month12: 35400000 },
-        pricesUsd: { month1: 109, month3: 310, month6: 590, month9: 850, month12: 1100 },
         features: {
           hasBusiness: true,
           hasAI: true,
@@ -235,13 +260,43 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
     [t],
   );
 
+  // تعریف پلن‌ها با استفاده از translation + قیمت‌های دریافتی از سرور
+  const pricingPlans: PlanTier[] = useMemo(() => {
+    const emptyPrices = { month1: 0, month3: 0, month6: 0, month9: 0, month12: 0 };
+
+    // پیدا کردن قیمت‌های یک پلن بر اساس بازه فالوور و نوع ارز
+    const getPricesForRange = (minFollowers: number, maxFollowers: number, targetPriceType: PriceType) => {
+      const prices = { ...emptyPrices };
+      packagePrices
+        .filter(
+          (p) =>
+            p.priceType === targetPriceType && p.minFollowerCount < maxFollowers && p.maxFollowerCount >= minFollowers,
+        )
+        .forEach((p) => {
+          const key = `month${p.packageMonthDuration}` as keyof typeof prices;
+          prices[key] = p.price;
+        });
+      return prices;
+    };
+
+    return basePlans.map((base) => ({
+      model: base.model,
+      level: base.level,
+      followerRange: base.followerRange,
+      minFollowers: base.minFollowers,
+      maxFollowers: base.maxFollowers,
+      prices: getPricesForRange(base.minFollowers, base.maxFollowers, PriceType.Toman),
+      pricesUsd: getPricesForRange(base.minFollowers, base.maxFollowers, PriceType.Dollar),
+      features: base.features,
+    }));
+  }, [basePlans, packagePrices]);
+
   const [state, dispatch] = useReducer(planReducer, {
     isPopupOpen: false,
     isAnimatingOut: false,
     selectedFollowers: 5000,
     selectedDuration: "month1" as keyof typeof discounts,
     tooltipPosition: 0,
-    isInitialLoad: true,
     sliderValue: 16.67, // تقریباً موقعیت 500 فالوور
   });
   // این قسمت برای مدیریت وضعیت نمایش پلن‌ها و انیمیشن‌های مربوط به آن‌ها استفاده می‌شود
@@ -281,29 +336,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
       }
     }
   }, [currentPlan, state.selectedDuration, getPriceForPlan]);
-  // اسکرول خودکار به پلن فعال
-  useEffect(() => {
-    // در بارگذاری اولیه اسکرول نکن
-    if (state.isInitialLoad) {
-      dispatch({ type: "SET_INITIAL_LOAD", payload: false });
-      return;
-    }
-    if (planCardsRef.current) {
-      const currentPlanIndex = pricingPlans.findIndex(
-        (plan) => state.selectedFollowers >= plan.minFollowers && state.selectedFollowers <= plan.maxFollowers,
-      );
-      if (currentPlanIndex !== -1) {
-        const cardElement = planCardsRef.current.children[currentPlanIndex] as HTMLElement;
-        if (cardElement) {
-          cardElement.scrollIntoView({
-            behavior: "smooth",
-            block: "nearest",
-            inline: "center",
-          });
-        }
-      }
-    }
-  }, [state.selectedFollowers, state.selectedDuration, pricingPlans]);
+
   // Constants memoized برای بهبود عملکرد
   const followerSteps = useMemo(() => [100, 1000, 10000, 50000, 100000, 500000, 1000000], []);
   // تبدیل موقعیت اسلایدر به مقدار واقعی فالوور - optimized

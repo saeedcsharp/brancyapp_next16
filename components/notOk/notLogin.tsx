@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
@@ -18,7 +19,7 @@ import { InstagramerAccountInfo } from "brancy/models/_AccountInfo/InstagramerAc
 import { IIpCondition } from "brancy/models/userPanel/login";
 import styles from "./notLogin.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = getClientMediaBaseUrl();
 export default function NotLogin({ removeMask }: { removeMask: () => void }) {
   const { t } = useTranslation();
   const router = useRouter();
@@ -121,6 +122,7 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
         queries: undefined,
         onUploadProgress: undefined,
       });
+      console.log("response", response);
       if (response.succeeded) {
         if (!response.value.isInstagramAuthorize) {
           console.log("User IP does not have Instagram authorization. Prompting to turn on proxy.");

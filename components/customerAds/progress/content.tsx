@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useRouter } from "next/router";
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import DragComponent, { positionType } from "brancy/components/design/dragComponent/dragComponent";
@@ -5,7 +6,7 @@ import InputText from "brancy/components/design/inputText";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { MethodType } from "brancy/helper/api";
 import styles from "./progress.module.css";
-import styles2 from "./components/customerAds/progress/uploadContent.module.css";
+import styles2 from "./uploadContent.module.css";
 
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -25,7 +26,7 @@ function Content(props: {
       router.push("/");
     },
   });
-  const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+  const basePictureUrl = getClientMediaBaseUrl();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const inputCoverRef = useRef<HTMLInputElement | null>(null);
   const inputReplaceRef = useRef<HTMLInputElement | null>(null);

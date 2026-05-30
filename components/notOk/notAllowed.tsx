@@ -20,7 +20,7 @@ export default function NotAllowed() {
             />
           </svg>
 
-          <span>{t(LanguageKey.needPassExplain)} </span>
+          <span>{t(LanguageKey.notallowedExplainPage)} </span>
         </div>
       </div>
     </>

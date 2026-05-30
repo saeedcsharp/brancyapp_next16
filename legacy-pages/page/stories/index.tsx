@@ -8,7 +8,7 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import StoryContent from "brancy/components/page/storyContent/storyContent";
 import convertFirstLetterToLowerCase from "brancy/helper/convertFirstLetterToLowerCase";
 import { handleCopyLink } from "brancy/helper/copyLink";
-import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { LanguageKey } from "brancy/i18n";
@@ -85,7 +85,7 @@ const Stories = () => {
         handleCopyLink(value);
       }
     },
-    [t]
+    [t],
   );
 
   const fetchData = useCallback(async () => {
@@ -104,7 +104,13 @@ const Stories = () => {
     isFetchingRef.current = true;
 
     try {
-      const res = await clientFetchApi<string, IStory>("/api/story/LoadingStoryPage", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<string, IStory>("/api/story/LoadingStoryPage", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
 
       if (!isMountedRef.current || abortControllerRef.current?.signal.aborted) return;
 
@@ -171,7 +177,7 @@ const Stories = () => {
       return;
     }
 
-    if (!isDataLoaded && session && LoginStatus(session)) {
+    if (!isDataLoaded && session && LoginStatus(session) && RoleAccess(session)) {
       fetchData();
     }
 
@@ -232,7 +238,7 @@ const Stories = () => {
       handleClickOnIcon,
       showDotIcons: showDotIcon ?? -1,
     }),
-    [story, handleStoryShowDotIcons, handleClickOnIcon, showDotIcon]
+    [story, handleStoryShowDotIcons, handleClickOnIcon, showDotIcon],
   );
 
   if (session?.user.currentIndex === -1) {

@@ -488,6 +488,7 @@ export default {
     logout: "Выйти",
     notallowed: "Не разрешено",
     notallowedExplain: "У вас нет доступа к этой функции",
+    notallowedExplainPage: "У вас нет доступа к этой странице",
     CreateAutomationFlow: "Создать поток автоматизации",
     CreateAutomationFlowExplain:
       "Автоматизируйте взаимодействия в Instagram с помощью визуального конструктора рабочих процессов.",
@@ -640,6 +641,7 @@ export default {
     sidebar_Advertise: "Рекламы",
     sidebar_Store: "Магазин",
     sidebar_Stores: "Магазины",
+    sidebar_Business: "Бизнес",
     sidebar_Setting: "Настройки",
     //0️⃣ General -> navbar
     navbar_Post: "Пост",
@@ -1525,6 +1527,7 @@ export default {
     pageTools_EventIdeasCountry: "Страна",
     pageTools_EventIdeasPrompt: "Тема",
     pageTools_EventIdeasCreatedTime: "Дата Создания",
+    pageTools_CustomEvent: "Пользовательское Событие",
     pageTools_exportcomments: "Все комментарии экспортируются в файл Excel и доступны для скачивания и обмена",
 
     pageTools_Lottery: "Создать Балльную Лотерею",
@@ -1870,6 +1873,12 @@ export default {
 
     marketProperties_explain: "Когда имя пользователя Instagram изменяется, эта ссылка автоматически обновляется.",
     marketProperties_rejected: "Ваш домен был отклонен (пожалуйста, свяжитесь с нами)",
+    customDomain_inactive_title: "Пользовательский домен неактивен",
+    customDomain_inactive_desc:
+      "Ваш домен в настоящее время неактивен. Пожалуйста, отправьте заявку в поддержку для его активации.",
+    customDomain_noPackage_title: "Пакет пользовательского домена не найден",
+    customDomain_noPackage_desc:
+      "Ваш текущий пакет не включает поддержку пользовательского домена. Пожалуйста, обновите пакет для использования этой функции.",
     marketProperties_Request: "Запрос",
     marketProperties_Requested: "Запрошено",
     marketProperties_Checking: "Проверка",
@@ -2309,6 +2318,10 @@ export default {
     SettingGeneralSystempound: "Фунт",
     SettingGeneralSystemrial: "Риал",
     SettingGeneralSystemtoman: "Томан",
+    SettingGeneralAiModelsTitle: "Модели ИИ",
+    SettingGeneralAiModelsTextModels: "Текстовые модели",
+    SettingGeneralAiModelsVoiceModels: "Модели голос в текст",
+    SettingGeneralAiModelsDirectVoiceSupport: "Прямая голосовая поддержка",
     // Setting -> General -> Profile
     SettingGeneralProfileTitle: "Профиль",
     SettingGeneral_activedevice: "Активные устройства",
@@ -2652,6 +2665,8 @@ export default {
     sendsms: "Отправить SMS пользователю",
     sendtotelegram: "Перенаправить пользователя в Telegram",
     senderusername: "Обратиться к пользователю по имени",
+    addtools: "Добавить инструмент",
+    generatebyai: "Создать с помощью ИИ",
 
     //tutorials
 

@@ -15,6 +15,7 @@
     "@dnd-kit/sortable": "^10.0.0",
     "@dnd-kit/utilities": "^3.2.2",
     "@microsoft/signalr": "^8.0.0",
+    "@next/third-parties": "^16.2.6",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@types/wavesurfer.js": "^6.0.12",

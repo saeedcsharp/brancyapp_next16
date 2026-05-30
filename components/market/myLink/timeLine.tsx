@@ -1,8 +1,9 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useState } from "react";
 import { ITimeline } from "brancy/models/market/myLink";
 import styles from "./mylink.module.css";
 
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 const Timeline = (props: { data: ITimeline | null }) => {
   const [isContentVisible, setIsContentVisible] = useState(true);
 

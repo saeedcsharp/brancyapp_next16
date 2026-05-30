@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -36,7 +37,7 @@ import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFo
 
 import styles from "./upgrade.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 type UpgradeState = {
   packageExtensions: IBasePackagePrice[];
   tokenPackages: IReserveFeaturePrices[];

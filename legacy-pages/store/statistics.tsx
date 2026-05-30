@@ -6,15 +6,17 @@ import { useTranslation } from "react-i18next";
 import AdReport from "brancy/components/advertise/adList/popups/adreport";
 import { StatusType } from "brancy/components/confirmationStatus/confirmationStatus";
 import Modal from "brancy/components/design/modal";
+import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotShopper from "brancy/components/notOk/notShopper";
 import SaleDetail from "brancy/components/store/statistics/SaleDetail";
 import TotalSalesReport from "brancy/components/store/statistics/totalSalesReport";
 import TotalSales from "brancy/components/store/statistics/totalSalesStatistics";
 import TwoMonth from "brancy/components/store/statistics/twoMonth";
-import { packageStatus } from "brancy/helper/loadingStatus";
+import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { AdsType } from "brancy/models/advertise/AdEnums";
 import { ISaleMonth, ISaleShortMonth, IStatisticsInfo, ITotalSalesReport } from "brancy/models/store/statistics";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import styles from "./statistics.module.css";
 
 const Statistics = () => {
@@ -26,9 +28,6 @@ const Statistics = () => {
     },
   });
   const { t } = useTranslation();
-  const [refresh, setRefresh] = useState(false);
-  const [onReachEnd, setOnReachEnd] = useState(true);
-  const [onReachBegin, setOnReachBegin] = useState(true);
   const [hasTotalMore, setHasTotalMore] = useState(false);
   const [advertiseId, setAdvertiseId] = useState(0);
   const [showReport, setShowReport] = useState(false);
@@ -251,6 +250,7 @@ const Statistics = () => {
   }, [session]);
 
   if (!session?.user.isShopper) return <NotShopper />;
+  if (!RoleAccess(session, PartnerRole.Products) && !RoleAccess(session, PartnerRole.Orders)) return <NotAllowed />;
   return (
     session &&
     session!.user.currentIndex !== -1 && (

@@ -1,4 +1,5 @@
 //#region واردات کتابخانه‌ها و کامپوننت‌ها
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { HubConnection } from "@microsoft/signalr";
 import { useSession } from "next-auth/react";
 import router from "next/router";
@@ -46,7 +47,7 @@ const SystemChatBox = (props: {
     },
   });
 
-  const baseMediaUrl = useMemo(() => process.env.NEXT_PUBLIC_BASE_MEDIA_URL, []);
+  const baseMediaUrl = useMemo(() => getClientMediaBaseUrl(), []);
   const isMountedRef = useRef(true);
   const abortControllerRef = useRef<AbortController | null>(null);
   //#endregion
