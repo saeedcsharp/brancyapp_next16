@@ -44,18 +44,18 @@ export default function initialzedTime() {
   };
 }
 export function convertToMilliseconds(timestamp: number): number {
-  // If the timestamp is less than 10 billion, it's likely in seconds (before year 2286)
+  // If the timestamp is less than 1 trillion, it's likely in seconds
+  // (covers up to year ~33658 in seconds; current ms timestamps are ~1.7 trillion)
   // Convert seconds to milliseconds by multiplying by 1000
-  if (timestamp < 10000000000) {
+  if (timestamp < 1000000000000) {
     return timestamp * 1000;
   }
   // If it's already in milliseconds, return as is
   return timestamp;
 }
 export function convertToSeconds(timestamp: number): number {
-  // If the timestamp is less than 10 billion, it's likely in seconds (before year 2286)
-  // Return as seconds
-  if (timestamp < 10000000000) {
+  // If the timestamp is less than 1 trillion, it's likely in seconds
+  if (timestamp < 1000000000000) {
     return Math.round(timestamp);
   }
   // If it's in milliseconds, convert to seconds by dividing by 1000

@@ -32,10 +32,9 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
   const [verifyCooldownUntil, setVerifyCooldownUntil] = useState<number>(0);
   const [inputText, setInputText] = useState("");
   const [hasCustomDomainFeature, setHasCustomDomainFeature] = useState<boolean | null>(null);
+  const [isDevMode, setIsDevMode] = useState(false);
   const isCustomDomainActive =
-    !!customeDomain.acceptDomain &&
-    hasCustomDomainFeature === true &&
-    customeDomain.acceptDomain.status === 0;
+    !!customeDomain.acceptDomain && hasCustomDomainFeature === true && customeDomain.acceptDomain.status === 0;
   useEffect(() => {
     if (instagramerInfo) {
       setInstaInfo(instagramerInfo);
@@ -126,6 +125,19 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
     setIsVerifying(false);
   }
 
+  async function handleDeleteCustomDomain() {
+    const res = await clientFetchApi<boolean, boolean>("api/bio/deleteCustomDomain", {
+      methodType: MethodType.get,
+      session: session,
+      data: undefined,
+      queries: undefined,
+      onUploadProgress: undefined,
+    });
+    if (res.succeeded) {
+      await getCustomerInfo();
+    } else notify(res.info.responseType, NotifType.Warning);
+  }
+
   async function handleConnectCustomAddress() {
     const hasFeature = await fetchAndCheckFeature(FeatureType.CustomDomain, session);
     if (!hasFeature) {
@@ -147,6 +159,8 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
   useEffect(() => {
     getCustomerInfo();
     fetchAndCheckFeature(FeatureType.CustomDomain, session).then(setHasCustomDomainFeature);
+    const host = window.location.hostname;
+    setIsDevMode(host.includes("patran.ir") || host === "localhost" || host === "127.0.0.1");
   }, []);
   return (
     <div className="tooBigCard" style={gridSpan}>
@@ -398,8 +412,7 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                       )}
                       {customeDomain.acceptDomain && (
                         <>
-                          <div
-                            className={`headerparent ${!isCustomDomainActive ? "fadeDiv" : ""}`}>
+                          <div className={`headerparent ${!isCustomDomainActive ? "fadeDiv" : ""}`}>
                             <div className={styles.defaultdomain}>
                               {customeDomain.acceptDomain.uri}
                               <Tooltip
@@ -436,30 +449,32 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                               }}
                             />
                           </div>
-                          {customeDomain.acceptDomain.status !== 0 && hasCustomDomainFeature === true && !isCustomDomainActive && (
-                            <div
-                              style={{
-                                display: "flex",
-                                alignItems: "center",
-                                gap: "8px",
-                                background: "var(--card-background)",
-                                border: "1px solid var(--border-color)",
-                                borderRadius: "10px",
-                                padding: "10px 14px",
-                                marginTop: "8px",
-                                width: "100%",
-                              }}>
-                              <img src="/attention.svg" style={{ width: "18px", height: "18px", flexShrink: 0 }} />
-                              <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
-                                <span style={{ fontWeight: 600, color: "var(--text-color)", fontSize: "13px" }}>
-                                  {t(LanguageKey.customDomain_inactive_title)}
-                                </span>
-                                <span style={{ color: "var(--subText-color)", fontSize: "12px" }}>
-                                  {t(LanguageKey.customDomain_inactive_desc)}
-                                </span>
+                          {customeDomain.acceptDomain.status !== 0 &&
+                            hasCustomDomainFeature === true &&
+                            !isCustomDomainActive && (
+                              <div
+                                style={{
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: "8px",
+                                  background: "var(--card-background)",
+                                  border: "1px solid var(--border-color)",
+                                  borderRadius: "10px",
+                                  padding: "10px 14px",
+                                  marginTop: "8px",
+                                  width: "100%",
+                                }}>
+                                <img src="/attention.svg" style={{ width: "18px", height: "18px", flexShrink: 0 }} />
+                                <div style={{ display: "flex", flexDirection: "column", gap: "4px" }}>
+                                  <span style={{ fontWeight: 600, color: "var(--text-color)", fontSize: "13px" }}>
+                                    {t(LanguageKey.customDomain_inactive_title)}
+                                  </span>
+                                  <span style={{ color: "var(--subText-color)", fontSize: "12px" }}>
+                                    {t(LanguageKey.customDomain_inactive_desc)}
+                                  </span>
+                                </div>
                               </div>
-                            </div>
-                          )}
+                            )}
                           {hasCustomDomainFeature === false && (
                             <div
                               style={{
@@ -488,37 +503,23 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                           )}
                         </>
                       )}
-
-                      {/* {customeDomain &&
-                        customeDomain.status ===
-                          CustomDomainStatus.Requested && <div>Requested</div>} */}
-                      {/* {customeDomain && customeDomain.status === CustomDomainStatus.Approved && (
-                        <>
-                          <div className={styles.defaultdomain}>{customeDomain.url}</div>
-                          <img
-                            style={{
-                              width: "30px",
-                              cursor: "pointer",
-                              height: "30px",
-                              padding: "var(--padding-5)",
-                            }}
-                            title="ℹ️ copy Domain"
-                            alt="Copy Domain"
-                            src="/copy.svg"
-                            role="button"
-                            aria-label="Copy custom domain"
-                            onClick={() => {
-                              handleCopyLink(customeDomain.url);
-                            }}
-                          />
-                        </>
-                      )} */}
-                      {/* {customeDomain &&
-                        customeDomain.status ===
-                          CustomDomainStatus.Checking && <div>Checking</div>} */}
-                      {/* {customeDomain && customeDomain.status === CustomDomainStatus.Rejected && (
-                        <div style={{ color: "red" }}>{t(LanguageKey.marketProperties_rejected)}</div>
-                      )} */}
+                      {isDevMode && (
+                        <button
+                          onClick={handleDeleteCustomDomain}
+                          className="disableButton"
+                          style={{
+                            height: "34px",
+                            maxWidth: "80px",
+                            background: "var(--danger-color, #e53935)",
+                            color: "#fff",
+                            border: "none",
+                            borderRadius: "8px",
+                            cursor: "pointer",
+                            marginTop: "8px",
+                          }}>
+                          Delete
+                        </button>
+                      )}
                     </div>
                   </div>
                 </div>
