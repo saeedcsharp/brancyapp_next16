@@ -2,7 +2,7 @@ import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { MouseEvent, useCallback, useEffect, useId, useMemo, useReducer, useState } from "react";
+import { MouseEvent, SyntheticEvent, useCallback, useEffect, useId, useMemo, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
@@ -120,6 +120,13 @@ const StoryContent = (props: {
     }
   }, []);
 
+  const handleImageError = useCallback((e: SyntheticEvent<HTMLImageElement>) => {
+    const img = e.currentTarget as HTMLImageElement;
+    if (!img) return;
+    if (img.src && img.src.indexOf("attention.svg") !== -1) return;
+    img.src = "/attention.svg";
+  }, []);
+
   const { containerRef, isLoadingMore } = useInfiniteScroll<IStoryContent>({
     hasMore,
     fetchMore: async () => {
@@ -191,7 +198,7 @@ const StoryContent = (props: {
     const draftItemStyle =
       isError && draft.statusCreatedTime > index
         ? {
-            border: "1px solid var(--color-dark-red)",
+            // border: "1px solid var(--color-dark-red)",
             borderRadius: "var(--br10)",
             cursor: "pointer",
           }
@@ -207,6 +214,7 @@ const StoryContent = (props: {
             <img
               className={styles.draftpreviewimage}
               src={basePictureUrl + draft.thumbnailMediaUrl}
+              onError={handleImageError}
               alt={`Draft preview ${index + 1}`}
             />
           </div>

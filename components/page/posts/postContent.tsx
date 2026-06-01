@@ -3,7 +3,17 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { MouseEvent, useCallback, useEffect, useMemo, useReducer, useRef, useState, useTransition } from "react";
+import {
+  MouseEvent,
+  SyntheticEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+  useTransition,
+} from "react";
 import { useTranslation } from "react-i18next";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
@@ -270,6 +280,13 @@ const PostContent = (props: PostContentProps) => {
     }
   }, []);
 
+  const handleImageError = useCallback((e: SyntheticEvent<HTMLImageElement>) => {
+    const img = e.currentTarget as HTMLImageElement;
+    if (!img) return;
+    if (img.src && img.src.indexOf("attention.svg") !== -1) return;
+    img.src = "/attention.svg";
+  }, []);
+
   useEffect(() => {
     addSignalRMethod(oninstance);
     return () => {
@@ -519,7 +536,7 @@ const PostContent = (props: PostContentProps) => {
                             style={
                               draft.statusCreatedTime > index
                                 ? {
-                                    border: "1px solid var(--color-dark-red)",
+                                    // border: "1px solid var(--color-dark-red)",
                                     borderRadius: "var(--br15)",
                                     cursor: "pointer",
                                     objectFit: "cover",
@@ -528,6 +545,7 @@ const PostContent = (props: PostContentProps) => {
                             }
                             className={styles.draftpreviewimage}
                             src={basePictureUrl + draft.thumbnailMediaUrl}
+                            onError={handleImageError}
                             alt="Draft preview"
                             width={60}
                             height={60}
@@ -559,6 +577,7 @@ const PostContent = (props: PostContentProps) => {
                           <img
                             className={styles.draftpreviewimage}
                             src={basePictureUrl + draft.thumbnailMediaUrl}
+                            onError={handleImageError}
                             alt="Draft preview"
                             width={60}
                             height={60}
@@ -594,7 +613,6 @@ const PostContent = (props: PostContentProps) => {
                 }}
                 key={post.postId}>
                 <div className={styles.cardbackground} />
-
                 <div className={styles.postinfo}>
                   <img
                     className={`${styles.postimage} ${post.isDeleted ? styles.deleted : ""}`}
