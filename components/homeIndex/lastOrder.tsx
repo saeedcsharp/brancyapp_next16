@@ -30,19 +30,19 @@ const LastOrder = (props: { data: ILastOrder[] | null }) => {
         <div className={styles.headersection} onClick={handleCircleClick} style={{ cursor: "pointer" }}>
           <div className={styles.backdropfade} />
           <img style={{ height: "50px" }} src="/home-lastorder.svg" title="↕ Resize the Card" />
-          <div className={styles.headerandinput}>
+          <div className={styles.headerandinput} style={{ width: "auto" }}>
             <span className="title">---</span>
             <span className="explain" style={{ textAlign: "center" }}>
               {t(LanguageKey.navbar_Orders)}
             </span>
           </div>
-          <div className={styles.headerandinput}>
+          <div className={styles.headerandinput} style={{ width: "auto" }}>
             <span className="title">---</span>
             <span className="explain" style={{ textAlign: "center" }}>
               {t(LanguageKey.Storeproduct_inQueue)}
             </span>
           </div>
-          <div className={styles.headerandinput}>
+          <div className={styles.headerandinput} style={{ width: "auto" }}>
             <span className="title">---</span>
             <span className="explain" style={{ textAlign: "center" }}>
               {t(LanguageKey.lastTransaction)}

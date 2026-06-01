@@ -4,6 +4,7 @@ import { LanguageKey } from "brancy/i18n";
 import { TopTileType } from "brancy/models/homeIndex/enum";
 import { IDemographicInsight, IInstagramerHomeTileItem } from "brancy/models/homeIndex/home";
 import styles from "./pageDetail.module.css";
+import Tooltip from "../design/tooltip/tooltip";
 const PageDetail = (props: { data: IDemographicInsight; items: IInstagramerHomeTileItem[] | [] }) => {
   const { t } = useTranslation();
   const [isHidden, setIsHidden] = useState(false);
@@ -179,10 +180,11 @@ const PageDetail = (props: { data: IDemographicInsight; items: IInstagramerHomeT
           <img style={{ height: "50px" }} src="/home-follower.svg" title="↕ Resize the Card" />
           <div className={styles.headerandinput}>
             <span className="title">{newFollowers === "0" ? "0" : newFollowers + "+"}</span>
+
             <span className="explain" style={{ textAlign: "center" }}>
-              {t(LanguageKey.pageStatistics_NewFollowers)}
-              <br />
-              <span>({t(LanguageKey.home_Last24H)})</span>
+              <Tooltip tooltipValue={t(LanguageKey.home_Last24H)} onClick={true} position="top">
+                {t(LanguageKey.pageStatistics_NewFollowers)}
+              </Tooltip>
             </span>
           </div>
           <div className={styles.headerandinput}>
@@ -213,29 +215,33 @@ const PageDetail = (props: { data: IDemographicInsight; items: IInstagramerHomeT
             <div className={total === 0 ? styles.GenderDataEmpty : styles.GenderData}>
               <div className={`${styles.genderBar} ${styles.barMale}`} style={{ width: `${malePercentage}%` }}>
                 <div className={styles.genderLabelMale}>
-                  <svg fill="none" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 24">
-                    <path
-                      d="m16.1 15-1.4 3.5q-.7 2-1.1 2.2-1 .6-2 0-.3-.4-1-2.2L9 15.1q-.6-1.3-.5-1.6 0-1 .9-1.4.4-.2 1.7-.2H14q1.3 0 1.6.2 1 .4 1 1.4 0 .4-.6 1.6M9.8 5.8a2.8 2.8 0 1 0 5.6 0 2.8 2.8 0 0 0-5.6 0"
-                      stroke="var(--color-light-blue)"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  {malePercentage >= 10 && (
+                    <svg fill="none" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 25 24">
+                      <path
+                        d="m16.1 15-1.4 3.5q-.7 2-1.1 2.2-1 .6-2 0-.3-.4-1-2.2L9 15.1q-.6-1.3-.5-1.6 0-1 .9-1.4.4-.2 1.7-.2H14q1.3 0 1.6.2 1 .4 1 1.4 0 .4-.6 1.6M9.8 5.8a2.8 2.8 0 1 0 5.6 0 2.8 2.8 0 0 0-5.6 0"
+                        stroke="var(--color-light-blue)"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
                   {Math.round(malePercentage)}%
                 </div>
               </div>
               <div className={`${styles.genderBar} ${styles.barFemale}`} style={{ width: `${femalePercentage}%` }}>
                 <div className={styles.genderLabelFemale}>
-                  <svg fill="none" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                    <path
-                      d="M15.5 17.9 14 14.4q-.8-1.8-1.2-2.1-1-.7-2 0-.5.3-1.3 2.1L8 17.9q-.6 1.1-.6 1.6.1 1 1 1.4l1.8.1h3.1l1.8-.1q1-.5 1-1.4 0-.5-.6-1.6M8.8 5.8c0 1.5 1.3 2.8 3 2.8s3-1.3 3-2.8c0-1.6-1.4-2.8-3-2.8s-3 1.2-3 2.8"
-                      stroke="var(--color-light-red)"
-                      strokeWidth="2"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
+                  {femalePercentage >= 10 && (
+                    <svg fill="none" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                      <path
+                        d="M15.5 17.9 14 14.4q-.8-1.8-1.2-2.1-1-.7-2 0-.5.3-1.3 2.1L8 17.9q-.6 1.1-.6 1.6.1 1 1 1.4l1.8.1h3.1l1.8-.1q1-.5 1-1.4 0-.5-.6-1.6M8.8 5.8c0 1.5 1.3 2.8 3 2.8s3-1.3 3-2.8c0-1.6-1.4-2.8-3-2.8s-3 1.2-3 2.8"
+                        stroke="var(--color-light-red)"
+                        strokeWidth="2"
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                      />
+                    </svg>
+                  )}
                   {Math.round(femalePercentage)}%
                 </div>
               </div>

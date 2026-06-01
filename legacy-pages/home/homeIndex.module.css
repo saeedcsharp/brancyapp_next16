@@ -26,5 +26,5 @@
   gap: var(--gap-20);
   flex-wrap: wrap;
   animation: var(--bottom08);
-  margin-bottom: 20px;
+  margin-bottom: 5px;
 }
