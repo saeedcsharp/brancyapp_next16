@@ -1028,7 +1028,8 @@ const CreateStory = () => {
         <main className="fullScreenPupup_bg">
           <div className="fullScreenPupup_header">
             <div className={styles.titlecontainer} title={`ℹ️ Story no. ${tempId}`}>
-              {t(LanguageKey.CreateNewStrory)} <span style={{ fontSize: "--font-12" }}>({tempId})</span>
+              {t(LanguageKey.CreateNewStrory)}
+              {/* <span style={{ fontSize: "--font-12" }}>({tempId})</span> */}
             </div>
 
             <div className={styles.titleCard}>

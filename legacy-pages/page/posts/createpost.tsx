@@ -2426,8 +2426,8 @@ const CreatePost = () => {
             {!session.user.publishPermission && <NotPermission permissionType={PermissionType.Content} />}
             {RoleAccess(session, PartnerRole.PageView) && session.user.publishPermission && (
               <>
-                <div className={`${styles.container} ${loadingUpload && "fadeDiv"}`}>
-                  <div className={`${styles.cardPost} translate`}>
+                <div className={styles.container}>
+                  <div className={`${styles.cardPost} ${loadingUpload && "fadeDiv"} translate`}>
                     {showMedias.length === 0 ? (
                       <>
                         <div
@@ -3000,7 +3000,7 @@ const CreatePost = () => {
                           </div>
                         )}
                         <div
-                          style={{ height: "40px" }}
+                          style={{ height: "40px", maxWidth: "max-content", padding: "0 20px" }}
                           onClick={(e) => handleTagPeaple(e)}
                           className={showMedias.length > 0 && selectedTagPeaple ? "cancelButton" : "disableButton"}>
                           {t(LanguageKey.add)}
@@ -3052,24 +3052,26 @@ const CreatePost = () => {
                         </div>
                       )}
                     </div>
-                    <div className={styles.wordpool}>
-                      {collabratorPages.map((word, index) => (
-                        <div key={index} className={styles.specificword}>
-                          {word}
-                          <img
-                            onClick={() => setCollabratorPages((prev) => prev.filter((x) => x !== word))}
-                            aria-label={`Remove ${word}`}
-                            style={{
-                              cursor: "pointer",
-                              width: "15px",
-                              height: "15px",
-                            }}
-                            title="ℹ️ Remove keyword from list "
-                            src="/deleteHashtag.svg"
-                          />
-                        </div>
-                      ))}
-                    </div>
+                    {collabratorPages.length > 0 && (
+                      <div className={styles.wordpool}>
+                        {collabratorPages.map((word, index) => (
+                          <div key={index} className={styles.specificword}>
+                            {word}
+                            <img
+                              onClick={() => setCollabratorPages((prev) => prev.filter((x) => x !== word))}
+                              aria-label={`Remove ${word}`}
+                              style={{
+                                cursor: "pointer",
+                                width: "15px",
+                                height: "15px",
+                              }}
+                              title="ℹ️ Remove keyword from list "
+                              src="/deleteHashtag.svg"
+                            />
+                          </div>
+                        ))}
+                      </div>
+                    )}
                   </div>
                   <div className="headerandinput" style={{ minHeight: "300px" }}>
                     <div className="headerparent">
@@ -3082,8 +3084,7 @@ const CreatePost = () => {
                             {" "}
                             <img className={styles.hashtagicon} alt="Character Count" src={"/T.svg"} />
                           </div>
-                          (<strong style={{ minWidth: "20px" }}>{captionTextArea.length}</strong> /<strong>2200</strong>
-                          )
+                          (<strong>{captionTextArea.length}</strong> /<strong>2200</strong>)
                         </div>
                         <div className="counter" role="status" aria-label="Hashtag count">
                           <img
@@ -3205,7 +3206,7 @@ const CreatePost = () => {
                 <div className={styles.container}>
                   <div className="title">{t(LanguageKey.AdvanceSettings)}</div>
 
-                  <div className="headerandinput">
+                  <div className="headerandinput" style={{ paddingBottom: "20px" }}>
                     <div className="headerparent" role="group" aria-label="Product settings">
                       <div className="title2" role="heading" aria-level={3}>
                         {t(LanguageKey.autocommentReply)}
@@ -3241,7 +3242,7 @@ const CreatePost = () => {
 
                   {showMedias.length == 1 && showMedias[0].mediaType == MediaType.Video && (
                     <>
-                      <div className="headerandinput">
+                      <div className="headerandinput" style={{ paddingBottom: "20px" }}>
                         <div className="headerparent" role="group" aria-label="Share preview settings">
                           <div className="title2" title="Share preview to feed setting">
                             {t(LanguageKey.sharepreviewtofeed)}
@@ -3291,7 +3292,7 @@ const CreatePost = () => {
                   )}
                   {/* add to product Section */}
                   {session.user.isShopper && (
-                    <div className="headerandinput">
+                    <div className="headerandinput" style={{ paddingBottom: "20px" }}>
                       <div className="headerparent" role="group" aria-label="Product settings">
                         <div className="title2" role="heading" aria-level={3}>
                           {t(LanguageKey.addtoproduct)}
@@ -3313,7 +3314,7 @@ const CreatePost = () => {
                     </div>
                   )}
                   {/* Turn off Commenting Section */}
-                  <div className="headerandinput">
+                  <div className="headerandinput" style={{ paddingBottom: "20px" }}>
                     <div className="headerparent" role="group" aria-label="Comment settings">
                       <div className="title2" role="heading" aria-level={3}>
                         {t(LanguageKey.pageToolspopup_TurnoffCommenting)}
@@ -3355,6 +3356,7 @@ const CreatePost = () => {
                     </div>
                     <div
                       className={`headerparent ${!automaticPost ? "fadeDiv" : ""}`}
+                      style={{ paddingBottom: "20px" }}
                       role="group"
                       aria-label="Date and time selection">
                       <div className={styles.input} role="presentation">
@@ -3414,7 +3416,7 @@ const CreatePost = () => {
                           className={`${styles.setting} ${!automaticPost && "fadeDiv"}`}
                           role="region"
                           aria-label="Recommended posting times">
-                          <div className="headerandinput">
+                          <div className="headerandinput" style={{ paddingBottom: "20px" }}>
                             <div className="title" role="heading" aria-level={3}>
                               {t(LanguageKey.RecommendedDateTime)}
                             </div>

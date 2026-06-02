@@ -1,9 +1,9 @@
 .lableToggle {
   position: relative;
   display: inline-block;
-  width: 50px;
-  min-width: 50px;
-  height: 26px;
+  width: 51px;
+  min-width: 51px;
+  height: 24px;
 }
 
 .inputToggle {
@@ -11,6 +11,7 @@
   width: 0;
   height: 0;
 }
+
 .spanToggle {
   position: absolute;
   cursor: pointer;
@@ -18,50 +19,38 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: var(--color-gray);
+  background-color: var(--color-gray);
   transition: var(--transition3);
-  border-radius: var(--br8);
+  border-radius: 31px;
 }
+
 .spanToggle:before {
   position: absolute;
   content: "";
-  height: 18px;
-  width: 18px;
-  left: 6px;
-  bottom: 4px;
+  height: 20px;
+  width: 27px;
+  left: 2px;
+  top: 2px;
   background-color: var(--color-white);
-  border-radius: var(--br5);
+  border-radius: 10px;
   transition: var(--transition3);
+  /* box-shadow:
+    0 3px 1px 0 rgba(0, 0, 0, 0.04),
+    0 3px 8px 0 rgba(0, 0, 0, 0.12); */
 }
 
 .inputToggle:checked + .spanToggle {
-  background-color: var(--color-dark-green);
+  background-color: #34c759;
 }
 
 .inputToggle:checked + .spanToggle:before {
-  transform: translateX(21px);
+  transform: translateX(20px);
 }
 
-.disablCheckBox {
-  transition: var(--transition3);
-  position: absolute;
-  width: 11px;
-  height: 11px;
-  right: 8px;
-  transform: translateY(-50%);
-  top: 50%;
+/* .spanToggle:hover {
+  box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.05);
 }
-.enableCheckBox {
-  transition: var(--transition3);
-  position: absolute;
-  width: 12px;
-  left: 8px;
-  transform: translateY(-50%);
-  top: 50%;
-}
-.spanToggle:hover {
-  box-shadow: 0 0 0 4px var(--color-gray30);
-}
+
 .inputToggle:checked + .spanToggle:hover {
-  box-shadow: 0 0 0 4px var(--color-dark-green30);
-}
+  box-shadow: 0 0 20px 5px rgba(0, 0, 0, 0.05);
+} */
