@@ -15,12 +15,11 @@
   animation: var(--bottom14);
   will-change: transform;
   contain: layout style paint;
-  flex-wrap: wrap;
-  flex-direction: row;
-  justify-content: space-evenly;
   overflow: hidden;
   position: relative;
-  display: flex;
+  justify-items: center;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
   gap: var(--gap-20);
   opacity: 0;
 }
@@ -96,6 +95,13 @@ html[dir="rtl"] .frameContainer {
     width: 50px !important;
     font-weight: var(--weight-400) !important;
     font-size: var(--font-12) !important;
+  }
+  /* Ensure at most 2 cards per row on small screens */
+  .frameContainer {
+    grid-template-columns: repeat(2, 1fr) !important;
+    width: calc(100% - 10px) !important;
+    margin-inline: 5px !important;
+    justify-items: center;
   }
 }
 .story,
@@ -252,7 +258,8 @@ html[dir="rtl"] .storyidandmenu {
   display: flex;
   align-content: center;
   justify-content: center;
-  gap: var(--gap-20);
+  text-align: center;
+  gap: var(--gap-10);
   align-items: center;
   flex-direction: column;
 }
@@ -266,6 +273,7 @@ html[dir="rtl"] .storyidandmenu {
   background-color: var(--color-white);
   text-wrap: nowrap;
   min-width: 35px;
+  max-width: fit-content;
   line-height: 1;
   border-radius: var(--br8);
   font-weight: var(--weight-400);
@@ -313,7 +321,7 @@ html[dir="rtl"] .storyidandmenu {
   color: var(--text-h1);
 }
 .draftpreview {
-  background-color: var(--color-gray60);
+  background-color: var(--color-gray10);
   border-radius: var(--br10);
   position: relative;
   width: 33%;

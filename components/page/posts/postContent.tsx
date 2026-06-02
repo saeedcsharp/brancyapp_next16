@@ -283,8 +283,16 @@ const PostContent = (props: PostContentProps) => {
   const handleImageError = useCallback((e: SyntheticEvent<HTMLImageElement>) => {
     const img = e.currentTarget as HTMLImageElement;
     if (!img) return;
-    if (img.src && img.src.indexOf("attention.svg") !== -1) return;
+    // Avoid infinite loop: if fallback already applied, stop
+    if (img.dataset.fallback === "true") return;
+    img.dataset.fallback = "true";
+    // Use the local attention svg as the explicit fallback image (no alt text)
+    img.alt = "";
     img.src = "/attention.svg";
+    // remove any srcset to prevent browser choosing other sources
+    try {
+      img.removeAttribute("srcset");
+    } catch {}
   }, []);
 
   useEffect(() => {
@@ -441,10 +449,6 @@ const PostContent = (props: PostContentProps) => {
             height={0}
             sizes="20px"
             aria-label={`Post ${metric.type}s`}
-            style={{
-              width: "20px",
-              height: "auto",
-            }}
           />
           {metric.showNew && <div className={styles.newcomment} />}
           {metric.count}
@@ -523,36 +527,47 @@ const PostContent = (props: PostContentProps) => {
                 <div className={styles.draftinfo}>
                   <div className={styles.newpost}>
                     <div className={styles.drafttitle}>
-                      {t(LanguageKey.publishError)} ( <strong>{props.data.errorDrafts.length}</strong> )
+                      {t(LanguageKey.publishError)}
+                      {/* ( <strong>{props.data.errorDrafts.length}</strong> ) */}
                     </div>
                     <div className={styles.draftpreviewall}>
-                      {props.data.errorDrafts.map((draft, index) => (
-                        <Link
-                          className={styles.draftpreview}
-                          key={draft.draftId}
-                          href={"/page/posts/createpost?newschedulepost=false&draftId=" + draft.draftId}
-                          aria-label={`Edit draft ${draft.draftId}`}>
-                          <img
-                            style={
-                              draft.statusCreatedTime > index
-                                ? {
-                                    // border: "1px solid var(--color-dark-red)",
-                                    borderRadius: "var(--br15)",
-                                    cursor: "pointer",
-                                    objectFit: "cover",
-                                  }
-                                : { border: "" }
-                            }
-                            className={styles.draftpreviewimage}
-                            src={basePictureUrl + draft.thumbnailMediaUrl}
-                            onError={handleImageError}
-                            alt="Draft preview"
-                            width={60}
-                            height={60}
-                            sizes="60px"
-                          />
-                        </Link>
-                      ))}
+                      {Array.from({ length: 6 }).map((_, idx) => {
+                        const draft = props.data.errorDrafts[idx];
+                        if (draft) {
+                          return (
+                            <Link
+                              className={styles.draftpreview}
+                              key={draft.draftId}
+                              href={"/page/posts/createpost?newschedulepost=false&draftId=" + draft.draftId}
+                              aria-label={`Edit draft ${draft.draftId}`}>
+                              <img
+                                style={
+                                  draft.statusCreatedTime > idx
+                                    ? {
+                                        borderRadius: "var(--br15)",
+                                        cursor: "pointer",
+                                        objectFit: "cover",
+                                      }
+                                    : { border: "" }
+                                }
+                                className={styles.draftpreviewimage}
+                                src={basePictureUrl + draft.thumbnailMediaUrl}
+                                onError={handleImageError}
+                                alt="Draft preview"
+                                width={60}
+                                height={60}
+                                sizes="60px"
+                              />
+                            </Link>
+                          );
+                        }
+
+                        return (
+                          <div className={styles.draftpreview} key={`empty-error-${idx}`} aria-hidden="true">
+                            <div className={styles.draftpreviewimage} />
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
@@ -564,30 +579,40 @@ const PostContent = (props: PostContentProps) => {
                 <div className={styles.draftinfo}>
                   <div className={styles.newpost}>
                     <div className={styles.drafttitle}>
-                      {t(LanguageKey.PostDraft)} ({props.data.nonErrorDrafts.length}/6)
+                      {t(LanguageKey.PostDraft)}
+                      {/* ({props.data.nonErrorDrafts.length}/6) */}
                     </div>
                     <div className={styles.draftpreviewall}>
-                      {props.data.nonErrorDrafts.map((draft, index) => (
-                        <Link
-                          className={styles.draftpreview}
-                          title={`🔗 Draft No.${index + 1}`}
-                          key={draft.draftId}
-                          href={`/page/posts/createpost?newschedulepost=false&draftId=${draft.draftId}`}
-                          aria-label={`Edit draft ${draft.draftId}`}>
-                          <img
-                            className={styles.draftpreviewimage}
-                            src={basePictureUrl + draft.thumbnailMediaUrl}
-                            onError={handleImageError}
-                            alt="Draft preview"
-                            width={60}
-                            height={60}
-                            sizes="60px"
-                            style={{
-                              objectFit: "cover",
-                            }}
-                          />
-                        </Link>
-                      ))}
+                      {Array.from({ length: 6 }).map((_, idx) => {
+                        const draft = props.data.nonErrorDrafts[idx];
+                        if (draft) {
+                          return (
+                            <Link
+                              className={styles.draftpreview}
+                              title={`🔗 Draft No.${idx + 1}`}
+                              key={draft.draftId}
+                              href={`/page/posts/createpost?newschedulepost=false&draftId=${draft.draftId}`}
+                              aria-label={`Edit draft ${draft.draftId}`}>
+                              <img
+                                className={styles.draftpreviewimage}
+                                src={basePictureUrl + draft.thumbnailMediaUrl}
+                                onError={handleImageError}
+                                alt="Draft preview"
+                                width={60}
+                                height={60}
+                                sizes="60px"
+                                style={{ objectFit: "cover" }}
+                              />
+                            </Link>
+                          );
+                        }
+
+                        return (
+                          <div className={styles.draftpreview} key={`empty-nonerror-${idx}`} aria-hidden="true">
+                            <div className={styles.draftpreviewimage} />
+                          </div>
+                        );
+                      })}
                     </div>
                   </div>
                 </div>
