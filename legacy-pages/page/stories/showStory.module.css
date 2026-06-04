@@ -75,15 +75,33 @@
 .container {
   position: relative;
   display: flex;
-  min-width: 250px;
+  flex: 1 1 300px;
+  min-width: 280px;
   width: 100%;
-  max-width: 395px;
+  max-width: 420px;
   min-height: max-content;
-  max-height: 730px;
   gap: var(--gap-30);
   flex-direction: column;
   justify-content: space-between;
   animation: var(--top04);
+}
+
+/* tablet: stretch cards to fill 2-column layout */
+@media (min-width: 721px) and (max-width: 1100px) {
+  .container {
+    flex: 1 1 calc(50% - 60px);
+    max-width: 540px;
+  }
+}
+
+/* mobile: single column, full width */
+@media (max-width: 650px) {
+  .container {
+    flex: 1 1 100%;
+    min-width: unset;
+    max-width: 100%;
+    width: 100%;
+  }
 }
 
 .Section {
@@ -121,7 +139,7 @@
 
 .picture {
   position: relative;
-  width: 340px;
+  width: min(340px, 100%);
   aspect-ratio: 9/16;
   object-fit: contain;
   border: 1px solid var(--content-box);
@@ -310,9 +328,16 @@
   border: 1px solid var(--content-box);
   border-radius: 0 var(--br15) var(--br15) var(--br15);
   width: 100%;
-  height: 700px;
+  height: clamp(700px, 55vh, 700px);
   flex-direction: column;
   transition: var(--transition3);
+}
+
+@media (max-width: 720px) {
+  .commentbox {
+    height: clamp(260px, 50vh, 480px);
+    padding: var(--padding-10);
+  }
 }
 html[dir="rtl"] .commentbox {
   border-radius: var(--br15) 0 var(--br15) var(--br15);
@@ -626,16 +651,33 @@ html[dir="rtl"] .commentbox {
 .containergraph {
   position: relative;
   display: flex;
-  min-width: 250px;
+  flex: 1 1 300px;
+  min-width: 280px;
   width: 100%;
-  max-width: 395px;
-  min-height: -moz-max-content;
+  max-width: 420px;
   min-height: max-content;
-  max-height: 700px;
   gap: var(--gap-20);
   flex-direction: column;
   justify-content: space-between;
   animation: var(--top04);
+}
+
+/* tablet */
+@media (min-width: 721px) and (max-width: 1100px) {
+  .containergraph {
+    flex: 1 1 calc(50% - 60px);
+    max-width: 540px;
+  }
+}
+
+/* mobile */
+@media (max-width: 720px) {
+  .containergraph {
+    flex: 1 1 100%;
+    min-width: unset;
+    max-width: 100%;
+    width: 100%;
+  }
 }
 
 /* Popup & comment replies (copied from showPost.module.css) */

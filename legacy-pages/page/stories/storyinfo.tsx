@@ -745,6 +745,29 @@ const ShowStory = () => {
                         <span className={styles.number} title={`ℹ️ Story no. ${storyContent.tempId}`}>
                           (<strong>{storyContent.tempId}</strong>)
                         </span>
+                        {!(
+                          storyContent.mediaType === MediaType.Video &&
+                          storyContent.createdTime * 1e3 + 48 * 60 * 60 * 1000 < Date.now()
+                        ) && (
+                          <a
+                            href={basePictureUrl + storyContent.mediaUrl + "/download"}
+                            download
+                            title="Download media">
+                            <svg fill="none" xmlns="http://www.w3.org/2000/svg" width="22" viewBox="0 0 36 36">
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M19.5 19.9a1.5 1.5 0 0 0-3 0v6.7h-1.7a2 2 0 0 0-1.5 1c-.4.9 0 1.6.1 1.8l.5.7 1.7 2 1 .8q.4.4 1.4.5 1-.1 1.5-.5l1-.9 1.5-1.8V30l.6-.7c0-.2.5-.9.1-1.8a2 2 0 0 0-1.5-1h-1.7z"
+                                fill="var(--color-gray)"
+                              />
+                              <path
+                                opacity=".4"
+                                d="M1.9 18.8a9 9 0 0 1 6.3-8.3l.5-.3.2-.5A9.4 9.4 0 0 1 27.3 11q0 .5.2.6l.6.3a7.9 7.9 0 0 1-1.9 15.5l-.6-.1q-.2 0-.4-.6a4 4 0 0 0-2.6-2.2l-.8-.3v-4.3a3.8 3.8 0 0 0-7.6 0v4.3l-.9.3a4 4 0 0 0-2.6 2.2q-.1.5-.4.6h-.5a8.6 8.6 0 0 1-8-8.5"
+                                fill="var(--color-gray)"
+                              />
+                            </svg>
+                          </a>
+                        )}
                       </div>
 
                       {(() => {
@@ -781,40 +804,6 @@ const ShowStory = () => {
                       alt="instagram Story picture"
                       src={basePictureUrl + storyContent.thumbnailMediaUrl}
                     />
-                    {!(
-                      storyContent.mediaType === MediaType.Video &&
-                      storyContent.createdTime * 1e3 + 48 * 60 * 60 * 1000 < Date.now()
-                    ) && (
-                      <a
-                        href={basePictureUrl + storyContent.mediaUrl + "/download"}
-                        download
-                        style={{
-                          position: "absolute",
-                          top: "50px",
-                          right: "50px",
-                          padding: "4px 6px",
-                          color: "white",
-                          fontSize: "12px",
-                          borderRadius: "15px",
-                          textDecoration: "none",
-                          zIndex: 10,
-                        }}
-                        title="Download media">
-                        <svg fill="none" xmlns="http://www.w3.org/2000/svg" width="22" viewBox="0 0 36 36">
-                          <path
-                            fillRule="evenodd"
-                            clipRule="evenodd"
-                            d="M19.5 19.9a1.5 1.5 0 0 0-3 0v6.7h-1.7a2 2 0 0 0-1.5 1c-.4.9 0 1.6.1 1.8l.5.7 1.7 2 1 .8q.4.4 1.4.5 1-.1 1.5-.5l1-.9 1.5-1.8V30l.6-.7c0-.2.5-.9.1-1.8a2 2 0 0 0-1.5-1h-1.7z"
-                            fill="var(--color-gray)"
-                          />
-                          <path
-                            opacity=".4"
-                            d="M1.9 18.8a9 9 0 0 1 6.3-8.3l.5-.3.2-.5A9.4 9.4 0 0 1 27.3 11q0 .5.2.6l.6.3a7.9 7.9 0 0 1-1.9 15.5l-.6-.1q-.2 0-.4-.6a4 4 0 0 0-2.6-2.2l-.8-.3v-4.3a3.8 3.8 0 0 0-7.6 0v4.3l-.9.3a4 4 0 0 0-2.6 2.2q-.1.5-.4.6h-.5a8.6 8.6 0 0 1-8-8.5"
-                            fill="var(--color-gray)"
-                          />
-                        </svg>
-                      </a>
-                    )}
 
                     <div className={styles.postpreview}>
                       <div className={storyContent.replyCount > 0 ? styles.postdetail : `${styles.postdetail} fadeDiv`}>

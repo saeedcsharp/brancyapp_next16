@@ -1434,13 +1434,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
               onMouseUp={handleMouseUpNav}
               onMouseLeave={handleMouseUpNav}>
               <div className={multiStyles.textWrapper} style={{ color: "var(--color-light-blue)" }}>
-                <strong>{monthYearLabels[state.indexValue]?.month ?? allMonthsData[state.indexValue]?.month}</strong>
-                <span className="explain" style={{ color: "inherit" }}>
-                  {monthYearLabels[state.indexValue]?.year ?? allMonthsData[state.indexValue]?.year}
-                </span>
-
-                {/*
-                  {state.showAll ? (
+                {state.showAll ? (
                   <strong>{t(LanguageKey.toggleShowAll)}</strong>
                 ) : (
                   <>
@@ -1452,7 +1446,6 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
                     </span>
                   </>
                 )}
-  */}
               </div>
               {/* <div className={multiStyles.monthDots}>
                   {allMonthsData.map((_, i) => (
@@ -1478,10 +1471,16 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
           {/* Statistics */}
           <div className="headerparent">
             <div className="headerandinput" style={{ alignItems: "center" }}>
-              <span className="title">{totalCount.toLocaleString()}</span>
+              <span className="title">
+                {state.showAll
+                  ? allMonthsData
+                      .reduce((sum, m) => sum + Array.from(m.data.values()).reduce((s, d) => s + d.totalCount, 0), 0)
+                      .toLocaleString()
+                  : totalCount.toLocaleString()}
+              </span>
               <span className={`${multiStyles.totalcounter} translate`}>{t(LanguageKey.total)}</span>
             </div>
-            {state.indexValue > 0 && (
+            {!state.showAll && state.indexValue > 0 && (
               <div className="headerandinput" style={{ alignItems: "center" }}>
                 <span className="title" style={{ color: "var(--color-dark-blue)" }}>
                   {plusCount === 0 ? "0" : (plusCount > 0 ? "+" : "") + plusCount.toLocaleString()}

@@ -70,16 +70,70 @@ html[dir="rtl"] .shortcut {
 
 .container {
   position: relative;
+  transition: var(--transition3);
   display: flex;
-  min-width: 250px;
+  min-width: 260px;
   width: 100%;
-  max-width: 395px;
+  flex: 1 1 300px;
+  max-width: 420px;
   min-height: max-content;
-  max-height: 730px;
   gap: var(--gap-30);
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   animation: var(--top04);
+}
+
+/* Container variant: post media (image + stats) — fixed base width, does not grow */
+.containerMedia {
+  flex: 0 1 320px;
+  max-width: 400px;
+}
+
+/* Container variant: caption & hashtags panel */
+.containerMeta {
+  flex: 1 1 340px;
+  max-width: 420px;
+}
+
+/* Container variant: full comments list — gets the most horizontal space */
+.containerComments {
+  flex: 2 1 380px;
+  max-width: 420px;
+}
+
+/* Container variant: insights engagement / reach data */
+.containerInsight {
+  flex: 1 1 290px;
+  max-width: 420px;
+}
+
+/* Tablet: comments wrap to full width so the comment box is fully usable
+@media (max-width: 1100px) {
+  .containerMedia {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+  .containerComments {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+  .containerInsight {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+} */
+
+/* Small tablet / large phone: all columns stack */
+@media (max-width: 650px) {
+  .container,
+  .containerMedia,
+  .containerMeta,
+  .containerComments,
+  .containerInsight {
+    flex: 1 1 100%;
+    max-width: 100%;
+    min-width: unset;
+  }
 }
 
 .Section {
@@ -527,15 +581,20 @@ html[dir="rtl"] .shortcut {
 .containergraph {
   position: relative;
   display: flex;
-  min-width: 250px;
-  width: 100%;
-  max-width: 395px;
+  flex: 1 1 300px;
+  min-width: 260px;
+  max-width: 420px;
   min-height: max-content;
-  max-height: 700px;
   gap: var(--gap-20);
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   animation: var(--top04);
+
+  @media (max-width: 720px) {
+    flex: 1 1 100%;
+    max-width: 100%;
+    min-width: unset;
+  }
 }
 
 .containergraph:nth-child(2) > div > div > div:nth-child(3),
