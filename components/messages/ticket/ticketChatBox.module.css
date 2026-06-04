@@ -610,6 +610,9 @@ html[dir="rtl"] .backicon {
   color: var(--text-h1) !important;
   border-color: var(--color-gray60) !important;
   transition: var(--transition2);
+  /* height: auto !important;
+  min-height: 44px !important;
+  max-height: none !important; */
 }
 
 .answer > div > div:hover {
@@ -624,6 +627,8 @@ html[dir="rtl"] .backicon {
   padding: var(--padding-10) 0px var(--padding-10) 0px !important;
   color: var(--text-h1) !important;
   font-size: var(--font-12);
+  /* max-height: 112px;
+  overflow-y: auto; */
 }
 @media (max-width: 500px) {
   .answer > div > button {

@@ -361,9 +361,7 @@ html[dir="rtl"] .backicon {
   align-items: center;
   flex-wrap: nowrap;
   justify-content: space-between;
-  min-height: 50px;
   height: max-content;
-  max-height: 200px;
   gap: var(--gap-5);
   border: 1px solid var(--color-gray60);
   border-radius: var(--br25);
@@ -380,6 +378,23 @@ html[dir="rtl"] .backicon {
   cursor: pointer;
 }
 .answeruploadbtn:hover {
+  stroke: var(--color-dark-blue);
+}
+.Emojiuploadbtn {
+  margin-inline: 5px;
+  width: 24px;
+  height: 24px;
+  padding: var(--padding-1);
+  stroke-width: 2px;
+  stroke: var(--color-gray);
+  transition: var(--transition2);
+  animation: var(--fadeIn2);
+  cursor: pointer;
+  @media (max-width: 500px) {
+    display: none !important;
+  }
+}
+.Emojiuploadbtn:hover {
   stroke: var(--color-dark-blue);
 }
 .answersendbtn {
@@ -405,7 +420,8 @@ html[dir="rtl"] .backicon {
   outline: none;
   font-size: 16px;
   line-height: 1.4;
-  max-height: 80px;
+  min-height: 22px;
+  max-height: 120px; /* ~5 lines: 5 × 1.4 × 16px + padding */
   overflow-y: auto;
   color: var(--text-h1);
   padding: 4px 2px;

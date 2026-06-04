@@ -426,6 +426,13 @@ const DirectChatBox = memo(
       document.addEventListener("mousedown", handleClickOutside);
       return () => document.removeEventListener("mousedown", handleClickOutside);
     }, [showEmojiPicker]);
+
+    useEffect(() => {
+      const textarea = textareaRef.current;
+      if (!textarea) return;
+      textarea.style.height = "auto";
+      textarea.style.height = `${textarea.scrollHeight}px`;
+    }, [answerBox]);
     //#endregion
 
     const sortedSendingMessages = useMemo(() => {
@@ -616,7 +623,7 @@ const DirectChatBox = memo(
                         />
                         <button
                           type="button"
-                          className={styles.answeruploadbtn}
+                          className={styles.Emojiuploadbtn}
                           onClick={() => setShowEmojiPicker((prev) => !prev)}
                           aria-label="emoji picker">
                           <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">

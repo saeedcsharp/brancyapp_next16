@@ -839,6 +839,9 @@ html[dir="rtl"] .aibtn {
   color: var(--text-h1) !important;
   border-color: var(--color-gray60) !important;
   transition: var(--transition2);
+  /* height: auto !important;
+  min-height: 44px !important;
+  max-height: none !important; */
 }
 
 .answer > div > div:hover {
@@ -853,6 +856,8 @@ html[dir="rtl"] .aibtn {
   width: calc(100% - 150px);
   padding: var(--padding-10) 0px 10px 0px !important;
   font-size: var(--font-12);
+  /* max-height: 112px; /* ~5 lines: 5 × 16px × 1.4 */
+  /*  overflow-y: auto; */
 }
 @media (max-width: 500px) {
   .answer > div > button {
