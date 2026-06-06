@@ -16,7 +16,7 @@ import { LanguageKey } from "brancy/i18n";
 import { SendCodeResult } from "brancy/models/ApiModels/User/SendCodeResult";
 import { MethodType } from "brancy/helper/api";
 import { InstagramerAccountInfo } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IIpCondition } from "brancy/models/userPanel/login";
+
 import styles from "./notLogin.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const baseMediaUrl = getClientMediaBaseUrl();
@@ -112,31 +112,18 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
   }, [session, router]);
 
   const handleRedirectToInstagram = useCallback(async () => {
-    if (!session) return;
-
     try {
-      const response = await clientFetchApi<boolean, IIpCondition>("/api/user/ip", {
-        methodType: MethodType.get,
-        session: session,
-        data: undefined,
-        queries: undefined,
-        onUploadProgress: undefined,
-      });
-      console.log("response", response);
-      if (response.succeeded) {
-        if (!response.value.isInstagramAuthorize) {
-          console.log("User IP does not have Instagram authorization. Prompting to turn on proxy.");
-          internalNotify(InternalResponseType.TurnOnProxy, NotifType.Warning);
-        } else {
-          await redirectToInstagram();
-        }
-      } else {
-        notify(response.info.responseType, NotifType.Warning);
+      const res = await fetch("/api/user/ip");
+      const data = await res.json();
+      if (data.countryCode === "ir") {
+        internalNotify(InternalResponseType.TurnOnProxy, NotifType.Warning);
+        return;
       }
-    } catch (error) {
-      notify(ResponseType.Unexpected, NotifType.Error);
+    } catch {
+      // ignore; proceed to redirect
     }
-  }, [session, redirectToInstagram]);
+    await redirectToInstagram();
+  }, [redirectToInstagram]);
 
   const getInstagramers = useCallback(async () => {
     if (!session) return;
