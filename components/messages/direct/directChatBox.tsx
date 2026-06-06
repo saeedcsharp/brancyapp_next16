@@ -571,7 +571,7 @@ const DirectChatBox = memo(
               <>
                 {/* active message */}
                 {/* {props.chatBox.isActive && props.hub?.state === HubConnectionState.Connected && ( */}
-                {props.hub?.state !== HubConnectionState.Connected && (
+                {props.hub?.state === HubConnectionState.Connected && props.chatBox.isActive && (
                   <>
                     <div
                       className={styles.answercontainer}
@@ -725,7 +725,7 @@ const DirectChatBox = memo(
                   </div>
                 )}
                 {/* not active message */}
-                {!props.chatBox.isActive && (
+                {props.hub?.state === HubConnectionState.Connected && !props.chatBox.isActive && (
                   <div className={styles.blockeduser}>
                     <div className={styles.blockeduserbtn}>{t(LanguageKey.notactivemessage)}</div>
                     <Tooltip tooltipValue={t(LanguageKey.notactivemessageexplain)} position="top" onClick>
