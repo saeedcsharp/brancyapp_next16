@@ -558,7 +558,7 @@ const CreatePost = () => {
   // Memoized hashtag dropdown data for DragDrop component
   const hashtagDropdownData = useMemo(() => {
     const defaultOption = (
-      <div key="-1" id="-1" className={styles.option}>
+      <div key="0" id="0" className={styles.option}>
         {t(LanguageKey.Pleaseselect)}
       </div>
     );
@@ -568,7 +568,10 @@ const CreatePost = () => {
     }
 
     const options = hashtags.map((v, index) => (
-      <div key={v.listId} className={`${styles.option} ${selectedOptions === index ? "selected" : ""}`}>
+      <div
+        key={v.listId}
+        id={(index + 1).toString()}
+        className={`${styles.option} ${selectedOptions === index ? "selected" : ""}`}>
         {v.listName}
       </div>
     ));
@@ -638,8 +641,6 @@ const CreatePost = () => {
       if (res.succeeded) {
         console.log("hashtagssssssssssssssssssssssssssssss", res);
         setHashtags(res.value.hashtagList);
-        if (res.value.hashtagList && res.value.hashtagList.length > 0)
-          uiDispatch({ type: "SET_SELECTED_OPTIONS", payload: 0 });
       }
     } catch (error) {
       console.error("Error fetching hashtags:", error);
@@ -726,7 +727,7 @@ const CreatePost = () => {
           uiDispatch({
             type: "SET_ADD_PEOPLE_BOX",
             payload: {
-              ...showAddPeapleBox,
+              active: true,
               loading: false,
               noresult: res.value.length === 0,
             },
@@ -746,7 +747,7 @@ const CreatePost = () => {
           uiDispatch({
             type: "SET_ADD_TAG_PEOPLE_BOX",
             payload: {
-              ...showAddTagPeapleBox,
+              active: true,
               loading: false,
               noresult: res.value.length === 0,
             },
