@@ -2,6 +2,7 @@ import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useRouter as useAppRouter } from "next/navigation";
 import { MouseEvent, SyntheticEvent, useCallback, useEffect, useId, useMemo, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
@@ -82,6 +83,7 @@ const StoryContent = (props: {
 }) => {
   const { t } = useTranslation();
   const router = useRouter();
+  const appRouter = useAppRouter();
   const uniqueId = useId();
 
   const { data: session } = useSession({
@@ -110,8 +112,8 @@ const StoryContent = (props: {
   );
 
   const handleCreateStory = useCallback(() => {
-    router.push("/page/stories/createstory?newschedulestory=false");
-  }, [router]);
+    appRouter.push("/page/stories/createstory?newschedulestory=false");
+  }, [appRouter]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent, callback: () => void) => {
     if (e.key === "Enter" || e.key === " ") {

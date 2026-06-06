@@ -3,6 +3,7 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
 import { useRouter } from "next/router";
+import { useRouter as useAppRouter } from "next/navigation";
 import {
   MouseEvent,
   SyntheticEvent,
@@ -218,9 +219,11 @@ const PostContent = (props: PostContentProps) => {
     [session, normalizePost],
   );
 
+  const appRouter = useAppRouter();
+
   const navigateToCreatePost = useCallback(() => {
-    router.push("/page/posts/createpost?newschedulepost=false");
-  }, [router]);
+    appRouter.push("/page/posts/createpost?newschedulepost=false");
+  }, [appRouter]);
 
   const navigateToPostInfo = useCallback(
     (postId: number) => {

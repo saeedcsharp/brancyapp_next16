@@ -20,15 +20,18 @@ export default function InterceptedRouteModal({ children, fallbackPath }: Interc
   }, [fallbackPath, router]);
 
   useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
+    const originalBodyOverflow = document.body.style.overflow;
+    const originalHtmlOverflow = document.documentElement.style.overflow;
     const modalWindow = window as Window & { __closeInterceptedModal?: () => void };
     const previousCloseHandler = modalWindow.__closeInterceptedModal;
 
     document.body.style.overflow = "hidden";
+    document.documentElement.style.overflow = "hidden";
     modalWindow.__closeInterceptedModal = close;
 
     return () => {
-      document.body.style.overflow = originalOverflow;
+      document.body.style.overflow = originalBodyOverflow;
+      document.documentElement.style.overflow = originalHtmlOverflow;
       modalWindow.__closeInterceptedModal = previousCloseHandler;
     };
   }, [close]);
