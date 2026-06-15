@@ -1,7 +1,7 @@
 import { findDayName } from "brancy/helper/findDayName";
 import { numbToAmAndPmTime } from "brancy/helper/numberFormater";
-import { IBusinessHour } from "brancy/models/advertise/peoperties";
 import styles from "./adPopupStyle.module.css";
+import { IBusinessHour } from "brancy/models/interfaces";
 export default function BusinessHourPopup(props: { businessInfo: IBusinessHour[]; removeMask: () => void }) {
   return (
     <>

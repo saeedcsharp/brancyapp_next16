@@ -21,13 +21,13 @@ import { useTranslation } from "react-i18next";
 import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
 import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
 import { LanguageKey } from "brancy/i18n";
-import { MediaType } from "brancy/models/page/post/preposts";
-import { IMediaInstanceInfo, ISuggestedMedia } from "brancy/models/store/IProduct";
 import styles from "./media.module.css";
 import Compressor from "compressorjs";
 import { UploadFile } from "brancy/helper/api";
 import { useSession } from "next-auth/react";
 import ProgressBar from "brancy/components/design/progressBar/progressBar";
+import { MediaType } from "brancy/models/enums";
+import { IMediaInstanceInfo, ISuggestedMedia } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 
 // Sortable item component

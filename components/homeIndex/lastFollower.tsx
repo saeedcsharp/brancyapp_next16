@@ -3,9 +3,9 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { LanguageKey } from "brancy/i18n";
-import { ILastFollower } from "brancy/models/homeIndex/home";
 import Loading from "brancy/components/notOk/loading";
 import styles from "./lastFollower.module.css";
+import { ILastFollower } from "brancy/models/interfaces";
 
 const basePictureUrl = getClientMediaBaseUrl();
 const LastFollower = (props: { data: ILastFollower[] | null }) => {

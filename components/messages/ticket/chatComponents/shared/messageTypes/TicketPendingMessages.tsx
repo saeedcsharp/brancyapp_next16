@@ -4,9 +4,9 @@ import { LanguageKey } from "brancy/i18n";
 import MediaDetector from "brancy/components/messages/shared/utils/MediaDetector";
 import LinkifyText from "brancy/context/LinkifyText";
 import { detectEmojiOnly } from "brancy/helper/emojiDetector";
-import { ItemType, MediaType } from "brancy/models/messages/enum";
-import { IReplyTicket_Media } from "brancy/models/messages/IMessage";
 import styles from "./messageTypes.module.css";
+import { ItemType, MediaType } from "brancy/models/enums";
+import { IReplyTicket_Media } from "brancy/models/interfaces";
 // #region اینترفیس‌ها - ورودی‌های کامپوننت
 // تعریف انواع پراپس برای پیام‌های در انتظار ارسال و آیتم‌های آن.
 interface TicketPendingMessagesProps {

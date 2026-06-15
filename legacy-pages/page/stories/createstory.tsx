@@ -9,7 +9,6 @@ import { DateObject } from "react-multi-date-picker";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
 import ConstantCounterDown from "brancy/components/design/counterDown/constantCounterDown";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
-
 import Modal from "brancy/components/design/modal";
 import ProgressBar from "brancy/components/design/progressBar/progressBar";
 import {
@@ -30,20 +29,22 @@ import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
 import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType, UploadFile } from "brancy/helper/api";
-import { AutoReplyPayLoadType, MediaProductType } from "brancy/models/messages/enum";
-import { IAutomaticReply, IMediaUpdateAutoReply, IPublishLimit } from "brancy/models/page/post/posts";
-import { IErrorPrePostInfo, IPostImageInfo, MediaType } from "brancy/models/page/post/preposts";
+import styles from "./createStory.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { AutoReplyPayLoadType, MediaProductType, MediaType, PartnerRole } from "brancy/models/enums";
 import {
+  IAutomaticReply,
+  IErrorPrePostInfo,
+  IMediaUpdateAutoReply,
+  IPostImageInfo,
   IPreStory,
   IPreStoryInfo,
+  IPublishLimit,
   IStoryDraftInfo,
   IStoryImageInfo,
   IStoryVideoInfo,
-} from "brancy/models/page/story/preStories";
-import styles from "./createStory.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+} from "brancy/models/interfaces";
 const CreateStory = () => {
   const router = useRouter();
   const { data: session } = useSession();

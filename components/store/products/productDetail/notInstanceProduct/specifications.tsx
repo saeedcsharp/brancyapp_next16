@@ -23,15 +23,15 @@ import InputText from "brancy/components/design/inputText";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
+import styles from "./specifications.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   ICreateInstance_ForSpecification,
   ICustomSpecificationItem,
   IProduct_LastSpecification,
   IProduct_Variation,
   ISpecificationItem,
-} from "brancy/models/store/IProduct";
-import styles from "./specifications.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+} from "brancy/models/interfaces";
 
 function SortableItem({
   item,

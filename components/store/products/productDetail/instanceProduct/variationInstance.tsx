@@ -15,7 +15,10 @@ import Loading from "brancy/components/notOk/loading";
 import priceFormatter from "brancy/helper/priceFormater";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { Language } from "brancy/models/store/enum";
+
+import Discount from "brancy/components/store/products/productDetail/notInstanceProduct/popups/discount";
+import styles from "./Variation.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   IDisCount,
   IDiscount_ForClient,
@@ -25,10 +28,8 @@ import {
   ISubProduct_CreateForInstance,
   ITitleVariation_WithVarition,
   ITitleVariationVariation,
-} from "brancy/models/store/IProduct";
-import Discount from "brancy/components/store/products/productDetail/notInstanceProduct/popups/discount";
-import styles from "./Variation.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+} from "brancy/models/interfaces";
+import { StoreLanguage } from "brancy/models/enums";
 
 export interface IAddNewVariation {
   val1: INewVariation | null;
@@ -244,7 +245,7 @@ function IntanceVariation({
       productInId: null,
       variations: titleVariation.map((x) => ({
         categoryId: 0,
-        language: Language.English,
+        language: StoreLanguage.English,
         langValue: "",
         variationId: 0,
         variationTitleId: x.variationTitleId,

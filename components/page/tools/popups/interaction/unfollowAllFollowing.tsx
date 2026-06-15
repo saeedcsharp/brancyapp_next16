@@ -18,17 +18,17 @@ import { convertArrayToLarray } from "brancy/helper/chunkArray";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import {
-  IUnFollowAllFollowing_Client_Condotion,
-  IUnFollowAllFollowing_Figure,
-  IUnFollowAllFollowing_GetUnFollowing,
-  IUnFollowAllFollowing_Server_Condotion,
-  IUnFollowAllFollowing_UpdateCondotion,
-} from "brancy/models/page/tools/tools";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "./autointeraction.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import {
+  IUnFollowAllFollowing_UpdateCondotion,
+  IUnFollowAllFollowing_Client_Condotion,
+  IUnFollowAllFollowing_Figure,
+  IUnFollowAllFollowing_GetUnFollowing,
+  IUnFollowAllFollowing_Server_Condotion,
+} from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 const UnFollowAllFollowing = (props: {
   handleRemoveFollowing: (removeFollowing: IUnFollowAllFollowing_UpdateCondotion) => void;

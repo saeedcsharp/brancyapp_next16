@@ -9,13 +9,11 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import Loading from "brancy/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IDetailPrompt } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
-import { IceOrPersistent, PayloadType, SpecialPayLoad } from "brancy/models/messages/enum";
-import { IIceBreaker } from "brancy/models/messages/properies";
 import styles from "./properties.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IceOrPersistent, PartnerRole, SpecialPayLoad, PayloadType } from "brancy/models/enums";
+import { IIceBreaker, IDetailPrompt } from "brancy/models/interfaces";
 // function PersistentMenu
 const PersistentMenu = React.memo(
   ({

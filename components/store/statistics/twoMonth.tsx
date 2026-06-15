@@ -2,38 +2,15 @@ import { useTranslation } from "react-i18next";
 import LineChart from "brancy/components/graphs/lineChart";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
-import { chartxType, NumToMonth } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
-import { ISaleMonth } from "brancy/models/store/statistics";
 import styles from "./statistics.module.css";
+import { NumToMonth } from "brancy/helper/numberFormater";
+import { ISaleMonth } from "brancy/models/interfaces";
+import { chartxType } from "brancy/models/enums";
 const TwoMonth = (props: { data: ISaleMonth[] }) => {
   const { hidePage, gridSpan, toggle } = useHideDiv(true, 47);
   const numberToFormattedString = (number: { toLocaleString: () => any }) => {
     return number.toLocaleString();
   };
-  // const [data, setData] = useState<IAdMonth[]>([
-  //   {
-  //     monthGraph: {
-  //       dayList: [],
-  //       month: 0,
-  //       plusCount: 0,
-  //       totalCount: 3800,
-  //       users: [],
-  //       year: 2024,
-  //     },
-  //     totalIncom: 18500,
-  //   },
-  //   {
-  //     monthGraph: {
-  //       dayList: [],
-  //       month: 1,
-  //       plusCount: 0,
-  //       totalCount: 3699,
-  //       users: [],
-  //       year: 2024,
-  //     },
-  //     totalIncom: 900000000,
-  //   },
-  // ]);
   const roundToDecimal = (number: number, decimalPlaces: number) => {
     const factor = Math.pow(10, decimalPlaces);
     return Math.round(number * factor) / factor;

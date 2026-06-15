@@ -8,11 +8,10 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import System from "brancy/components/setting/general/system";
 import UserPartners from "brancy/components/userPanel/setting/partner";
 import { LanguageKey } from "brancy/i18n";
-import { IRefreshToken } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType } from "brancy/helper/api";
-import { IPartner_User } from "brancy/models/userPanel/setting";
 import styles from "./setting.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IPartner_User, IRefreshToken } from "brancy/models/interfaces";
 function InputField({
   label,
   placeholder,
@@ -304,7 +303,13 @@ function Setting() {
 
   async function handleGetNextPartners(id: string) {
     try {
-      const res = await clientFetchApi<boolean, IPartner_User[]>("/api/session/GetPartners", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "nextMaxId", value: id }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IPartner_User[]>("/api/session/GetPartners", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "nextMaxId", value: id }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setPartners((prev) => [...prev!, ...res.value]);
       } else notify(res.info.responseType, NotifType.Warning);
@@ -314,7 +319,13 @@ function Setting() {
   }
   async function refreshToken(id: number) {
     try {
-      const res = await clientFetchApi<boolean, IRefreshToken>("/api/user/RefreshToken", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IRefreshToken>("/api/user/RefreshToken", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         const instagramerIds = res.value.role.instagramerIds;
         const newCurrentIndex = instagramerIds.indexOf(id);
@@ -339,7 +350,13 @@ function Setting() {
   }
   async function handleApprovePartner(id: number) {
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/session/ApprovePartnerRequest", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "instagramerId", value: id.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/session/ApprovePartnerRequest", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "instagramerId", value: id.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setPartners((prev) => prev!.map((x) => (x.instagramerId === id ? { ...x, approved: true } : x)));
         await refreshToken(id);
@@ -350,7 +367,13 @@ function Setting() {
   }
   async function handleRejectPartner(id: number) {
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/session/RejectPartnerRequest", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "instagramerId", value: id.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/session/RejectPartnerRequest", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "instagramerId", value: id.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setPartners((prev) => prev!.filter((x) => x.instagramerId !== id));
       } else notify(res.info.responseType, NotifType.Warning);
@@ -360,7 +383,13 @@ function Setting() {
   }
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, IPartner_User[]>("/api/session/GetPartners", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, IPartner_User[]>("/api/session/GetPartners", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setPartners(res.value);
       } else notify(res.info.responseType, NotifType.Warning);

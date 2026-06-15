@@ -9,8 +9,8 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IUnFollowAllFollowing_UpdateCondotion } from "brancy/models/page/tools/tools";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IUnFollowAllFollowing_UpdateCondotion } from "brancy/models/interfaces";
 const RemoveFollowing = (props: {
   condition: IUnFollowAllFollowing_UpdateCondotion;
   handleBackToUnfollowFollowing: () => void;
@@ -26,7 +26,16 @@ const RemoveFollowing = (props: {
   async function removeFollowing() {
     let instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     try {
-      var res = await clientFetchApi<IUnFollowAllFollowing_UpdateCondotion, boolean>("Instagramer" + instagramerId + "/UnfollowAllFollowing/UpdateCondition", { methodType: MethodType.post, session: session, data: props.condition, queries: undefined, onUploadProgress: undefined });
+      var res = await clientFetchApi<IUnFollowAllFollowing_UpdateCondotion, boolean>(
+        "Instagramer" + instagramerId + "/UnfollowAllFollowing/UpdateCondition",
+        {
+          methodType: MethodType.post,
+          session: session,
+          data: props.condition,
+          queries: undefined,
+          onUploadProgress: undefined,
+        },
+      );
       if (res.succeeded) {
         internalNotify(InternalResponseType.Ok, NotifType.Success);
         props.removeMask();

@@ -2,13 +2,13 @@ import React, { useMemo } from "react";
 import LinkifyText from "brancy/context/LinkifyText";
 import { getMessageDirectionClass } from "brancy/helper/checkRtl";
 import { detectEmojiOnly } from "brancy/helper/emojiDetector";
-import { IItem, ITicket } from "brancy/models/userPanel/message";
 import { TicketChatDate, TicketMessageStatus } from "brancy/components/messages/ticket/chatComponents/shared/utils";
 import styles from "./messageTypes.module.css";
+import { IUserTicketItem, ITicket } from "brancy/models/interfaces";
 // #region تعریف اینترفیس - انواع پراپس
 // تعریف `SystemChatTextProps` که ورودی‌های کامپوننت متن سیستم را مشخص می‌کند.
 interface SystemChatTextProps {
-  item: IItem;
+  item: IUserTicketItem;
   chatBox: ITicket;
   dateFormatToggle: string;
   toggleDateFormat: (itemId: string) => void;

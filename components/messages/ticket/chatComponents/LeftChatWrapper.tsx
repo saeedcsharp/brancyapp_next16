@@ -1,20 +1,20 @@
 import { t } from "i18next";
 import React, { useMemo } from "react";
 import { LanguageKey } from "brancy/i18n";
-import { IItem, IOwnerInbox, IThread_Ticket } from "brancy/models/messages/IMessage";
-import { ItemType } from "brancy/models/messages/enum";
 import styles from "brancy/components/messages/ticket/ticketChatBox.module.css";
 import { TicketChatAudio } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/TicketChatAudio";
 import { TicketChatMedia } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/TicketChatMedia";
 import { TicketChatMediaShare } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/TicketChatMediaShare";
 import { TicketChatText } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/TicketChatText";
 import { ImageClickInfo, VideoClickInfo } from "brancy/components/messages/ticket/chatComponents/types";
+import { ItemType } from "brancy/models/enums";
+import { IDirectMessageItem, IDirectOwnerInbox, IThread_Ticket } from "brancy/models/interfaces";
 
 interface LeftChatWrapperProps {
-  item: IItem;
+  item: IDirectMessageItem;
   chatBox: IThread_Ticket;
-  ownerInbox: IOwnerInbox;
-  seenItem: IItem | null;
+  ownerInbox: IDirectOwnerInbox;
+  seenItem: IDirectMessageItem | null;
   lock: boolean;
   baseMediaUrl: string;
   useExternalUrl: boolean;
@@ -25,8 +25,8 @@ interface LeftChatWrapperProps {
   toggleDateFormat: (itemId: string) => void;
   formatDate: (timestamp: number, itemId: string | null) => string;
   handleFindEmoji: (text: string | null) => string | null;
-  handleSpecifyRepliedItemFullName: (itemId: string, repItem: IItem | null) => string;
-  handleSpecifyRepliedItemType: (repItemId: string, repItem: IItem | null) => string;
+  handleSpecifyRepliedItemFullName: (itemId: string, repItem: IDirectMessageItem | null) => string;
+  handleSpecifyRepliedItemType: (repItemId: string, repItem: IDirectMessageItem | null) => string;
 }
 
 export const LeftChatWrapper: React.FC<LeftChatWrapperProps> = React.memo((props) => {

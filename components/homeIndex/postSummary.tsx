@@ -4,9 +4,8 @@ import { useRouter } from "next/router";
 import { memo, useCallback, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import { IInstagramerHomeTiles } from "brancy/models/homeIndex/home";
-import { IPostContent } from "brancy/models/page/post/posts";
 import styles from "./postSummary.module.css";
+import { IPostContent, IInstagramerHomeTiles } from "brancy/models/interfaces";
 
 // Cache for posts data
 // const postsCache = new Map<

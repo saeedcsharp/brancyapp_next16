@@ -14,20 +14,19 @@ import {
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { IResult, MethodType } from "brancy/helper/api";
-import { IDetailsPost } from "brancy/models/page/post/posts";
-import { MediaType } from "brancy/models/page/post/preposts";
-import {
-  AvailabilityStatus,
-  GauranteeLength,
-  GauranteeStatus,
-  OrginalityStatus,
-  ParcelPocketDeliveryType,
-  Steps,
-} from "brancy/models/store/enum";
+import General from "brancy/components/store/products/productDetail/notInstanceProduct/general";
+import Information from "brancy/components/store/products/productDetail/notInstanceProduct/information";
+import Media from "brancy/components/store/products/productDetail/notInstanceProduct/media";
+import styles from "./notinstanceproduct.module.css";
+import Setting from "brancy/components/store/products/productDetail/notInstanceProduct/setting";
+import Specifications from "brancy/components/store/products/productDetail/notInstanceProduct/specifications";
+import Variation from "brancy/components/store/products/productDetail/notInstanceProduct/Variation";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   ICreateInstance_ForSpecification,
   ICreateInstance_ForVariation,
   ICustomSpecificationItem,
+  IDetailsPost,
   IGeneralInfo,
   IMaxSize,
   IProduct_CreateInstance,
@@ -43,15 +42,16 @@ import {
   ISuggestedPrice,
   IUploadMedia,
   IVariation_Create,
-} from "brancy/models/store/IProduct";
-import General from "brancy/components/store/products/productDetail/notInstanceProduct/general";
-import Information from "brancy/components/store/products/productDetail/notInstanceProduct/information";
-import Media from "brancy/components/store/products/productDetail/notInstanceProduct/media";
-import styles from "./notinstanceproduct.module.css";
-import Setting from "brancy/components/store/products/productDetail/notInstanceProduct/setting";
-import Specifications from "brancy/components/store/products/productDetail/notInstanceProduct/specifications";
-import Variation from "brancy/components/store/products/productDetail/notInstanceProduct/Variation";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+} from "brancy/models/interfaces";
+import {
+  AvailabilityStatus,
+  GauranteeLength,
+  GauranteeStatus,
+  MediaType,
+  OrginalityStatus,
+  ParcelPocketDeliveryType,
+  Steps,
+} from "brancy/models/enums";
 
 export default function NotInstanceProductDetail({
   maxSize,

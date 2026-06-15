@@ -8,8 +8,9 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
-import { ITotalSalesReport } from "brancy/models/store/statistics";
+
 import styles from "./statistics.module.css";
+import { ITotalSalesReport } from "brancy/models/interfaces";
 
 const TotalSalesReport = (props: {
   salesReports: ITotalSalesReport[] | null;

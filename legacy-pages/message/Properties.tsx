@@ -25,26 +25,27 @@ import NotPermission, { PermissionType } from "brancy/components/notOk/notPermis
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
 import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType } from "brancy/helper/api";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   AutoReplyPayLoadType,
   IceOrPersistent,
   Language,
   MediaProductType,
+  PartnerRole,
   SpecialPayLoad,
-} from "brancy/models/messages/enum";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+} from "brancy/models/enums";
 import {
-  IAutoReplySetting,
-  ICreateGeneralAutoReply,
-  IGeneralAutoReply,
-  IIceBreaker,
-  IMessagePanel,
-  IProfileButtons,
   ISpecialPayload,
+  IIceBreaker,
+  IProfileButtons,
+  IMessagePanel,
+  IGeneralAutoReply,
+  ICreateGeneralAutoReply,
+  IAutoReplySetting,
   IUpdateProfileButton,
-} from "brancy/models/messages/properies";
+} from "brancy/models/interfaces";
+
 const Properties = () => {
   const { t } = useTranslation();
   const router = useRouter();

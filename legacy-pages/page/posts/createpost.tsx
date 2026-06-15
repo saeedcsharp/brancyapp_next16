@@ -45,28 +45,28 @@ import DeletePrePost from "brancy/components/page/scheduledPost/deletePrePost";
 import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType, UploadFile } from "brancy/helper/api";
-import { AutoReplyPayLoadType, MediaProductType } from "brancy/models/messages/enum";
-import { IAutomaticReply, IMediaUpdateAutoReply, IPublishLimit } from "brancy/models/page/post/posts";
+import styles from "./createPost.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
+  HashtagListItem,
+  IAutomaticReply,
   IDraftInfo,
   IErrorPrePostInfo,
+  IHashtag,
   ILocation,
+  IMediaUpdateAutoReply,
   IPageInfo,
   IPostAlbumInfo,
   IPostAlbumItem,
   IPostImageInfo,
   IPostVideoInfo,
   IPrePostInfo,
+  IPublishLimit,
   IShowMedia,
   IUiParameter,
-  MediaType,
-  PostType,
-} from "brancy/models/page/post/preposts";
-import { HashtagListItem, IHashtag } from "brancy/models/page/tools/tools";
-import styles from "./createPost.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+} from "brancy/models/interfaces";
+import { AutoReplyPayLoadType, MediaProductType, MediaType, PartnerRole, PostType } from "brancy/models/enums";
 
 enum SearchType {
   CollaboratePeople,

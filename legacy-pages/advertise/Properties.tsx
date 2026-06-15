@@ -15,14 +15,9 @@ import Modal from "brancy/components/design/modal";
 import NotAdvertiser from "brancy/components/notOk/notAdvertiser";
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
 import { LanguageKey } from "brancy/i18n";
-import {
-  BusinessDay,
-  IAdsOption,
-  IAdvertisingTerms,
-  IBusinessHour,
-  INotifications,
-  ITariff,
-} from "brancy/models/advertise/peoperties";
+import { IAdsOption, IAdvertisingTerms, IBusinessHour, INotifications, ITariff } from "brancy/models/interfaces";
+import { BusinessDay } from "brancy/models/enums";
+
 const Properties = () => {
   //  return <Soon />;
   const router = useRouter();

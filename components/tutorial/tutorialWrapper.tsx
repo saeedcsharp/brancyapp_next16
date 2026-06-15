@@ -2,7 +2,6 @@ import type { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
-import { InitialSetupState } from "brancy/models/homeIndex/home";
 import { MethodType } from "brancy/helper/api";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { useTutorial } from "brancy/components/tutorial/hooks/useTutorial";
@@ -11,6 +10,7 @@ import { tutorialConfigs, TutorialPageKey } from "brancy/components/tutorial/tut
 import TutorialDesktop from "brancy/components/tutorial/tutorialDesktop";
 import TutorialMobile from "brancy/components/tutorial/tutorialMobile";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { InitialSetupState } from "brancy/models/interfaces";
 
 interface TutorialWrapperProps {
   pageKey: TutorialPageKey;
@@ -29,7 +29,13 @@ const TutorialWrapper: React.FC<TutorialWrapperProps> = ({ pageKey }) => {
   const fetchInitialSetupFromApi = async (currentSession: Session | null): Promise<InitialSetupState | null> => {
     if (!currentSession) return null;
     try {
-      const res = await clientFetchApi<boolean, string>("/api/uisetting/Get", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, string>("/api/uisetting/Get", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
 
       if (!res.statusCode) {
         notify(res.info.responseType, NotifType.Warning);

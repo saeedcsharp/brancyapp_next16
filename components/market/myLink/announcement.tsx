@@ -2,8 +2,8 @@ import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import React, { KeyboardEvent, memo, useCallback, useId, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import { IClientAnnouncement } from "brancy/models/market/myLink";
 import styles from "./announcement.module.css";
+import { IClientAnnouncement } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
 type AnnouncementProps = {
   data: IClientAnnouncement | null;

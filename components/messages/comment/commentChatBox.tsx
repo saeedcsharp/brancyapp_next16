@@ -24,9 +24,6 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { ActionType, MediaProductType } from "brancy/models/messages/enum";
-import { IComment, IMedia, IOwnerInbox } from "brancy/models/messages/IMessage";
-import { IMediaUpdateAutoReply } from "brancy/models/page/post/posts";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -34,12 +31,14 @@ import "swiper/css/scrollbar";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import styles from "./commentChatBox.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { MediaProductType, ActionType } from "brancy/models/enums";
+import { IMedia, IComment, IMediaUpdateAutoReply, IDirectOwnerInbox } from "brancy/models/interfaces";
 const CommentChatBox = (props: {
   userSelectId: string | null;
   hub: HubConnection | null;
   chatBox: IMedia;
   showIcon: string;
-  ownerInbox: IOwnerInbox;
+  ownerInbox: IDirectOwnerInbox;
   replyLoading: boolean;
   vanishLoading: boolean;
   newComment: boolean;
@@ -1135,8 +1134,7 @@ const CommentChatBox = (props: {
                             setAnswerBox("");
                             clearMessageSelection();
                           }}
-                          aria-label="Remove reply target"
-                        >
+                          aria-label="Remove reply target">
                           ×
                         </button>
                       </span>

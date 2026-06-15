@@ -16,16 +16,16 @@ import NotShopper from "brancy/components/notOk/notShopper";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "brancy/helper/api";
-import { AvailabilityStatus } from "brancy/models/store/enum";
-import { IProduct_ShortProduct, ITempIdAndNonProductCount } from "brancy/models/store/IProduct";
+
 import styles from "./productList.module.css";
 import ProductListDesktop from "brancy/components/store/products/productListComponents/ProductListDesktop";
 import ProductListMobile from "brancy/components/store/products/productListComponents/ProductListMobile";
 import UpdateProduct from "brancy/components/store/products/updateProduct";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import NotAllowed from "brancy/components/notOk/notAllowed";
+import { AvailabilityStatus, PartnerRole } from "brancy/models/enums";
+import { MethodType } from "brancy/helper/api";
+import { IProduct_ShortProduct, ITempIdAndNonProductCount } from "brancy/models/interfaces";
 function debounce(func: (...args: any[]) => void, delay: number) {
   let timer: NodeJS.Timeout;
   return function (...args: any[]) {

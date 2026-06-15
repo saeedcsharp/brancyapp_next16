@@ -11,13 +11,13 @@ import Loading from "brancy/components/notOk/loading";
 import { InstaInfoContext } from "brancy/context/instaInfoContext";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "brancy/helper/api";
-import { IPrePost, IScheduledPost } from "brancy/models/page/post/preposts";
 import { ShowRings } from "brancy/components/design/counterDown/counterDown";
 import DeletePrePost from "brancy/components/page/scheduledPost/deletePrePost";
 import styles from "./schedulePost.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { MethodType } from "brancy/helper/api";
+import { PartnerRole } from "brancy/models/enums";
+import { IPrePost, IScheduledPost } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 const ScheduledPost = (props: { data: IPrePost[] | null }) => {
   const { data: session } = useSession();

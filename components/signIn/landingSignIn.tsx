@@ -4,12 +4,12 @@ import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 import { getCountryCodeFromTimezone } from "brancy/helper/detectLocaleFromTimezone";
 import { LanguageKey } from "brancy/i18n";
-import { SendCodeResult } from "brancy/models/ApiModels/User/SendCodeResult";
 import { MethodType } from "brancy/helper/api";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import styles from "./landingSignIn.module.css";
 import { clientFetchApiWithAccessToken } from "brancy/helper/clientFetchApi";
+import { SendCodeResult } from "brancy/models/interfaces";
 
 const LandingSignIn = (prop: { handleShowVerification: (preUserToken: string) => void }) => {
   const { t } = useTranslation();

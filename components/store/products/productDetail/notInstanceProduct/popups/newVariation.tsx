@@ -5,9 +5,12 @@ import InputText from "brancy/components/design/inputText";
 import RadioButton from "brancy/components/design/radioButton";
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
-import { ICreateInstance_ForVariation, IProduct_Variation } from "brancy/models/store/IProduct";
-import { IAddNewVariation, INewVariation } from "brancy/components/store/products/productDetail/notInstanceProduct/Variation";
+import {
+  IAddNewVariation,
+  INewVariation,
+} from "brancy/components/store/products/productDetail/notInstanceProduct/Variation";
 import styles from "brancy/components/store/products/productDetail/notInstanceProduct/popups/newVariation.module.css";
+import { ICreateInstance_ForVariation, IProduct_Variation } from "brancy/models/interfaces";
 const NewVariation = (props: {
   createInstance: ICreateInstance_ForVariation;
   variation: IProduct_Variation;

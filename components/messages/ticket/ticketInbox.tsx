@@ -24,26 +24,7 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { handleDecompress } from "brancy/helper/pako";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType, UploadFile } from "brancy/helper/api";
-import { ItemType, MediaType, StatusReplied, TicketType } from "brancy/models/messages/enum";
-import {
-  IFbTicketInfo,
-  IGetDirectInbox,
-  IIsSendingMessage,
-  IReplyTicket,
-  IReplyTicket_Media,
-  IReplyTicket_Media_Server,
-  IThread_Ticket,
-  ITicketInbox,
-} from "brancy/models/messages/IMessage";
-import {
-  ISendTicketMessage,
-  ITicket,
-  ITicketMediaType,
-  IUserPanelMessage,
-  IItem as userItem,
-} from "brancy/models/userPanel/message";
 import SendFile from "brancy/components/messages/popups/sendFile";
 import SendVideoFile from "brancy/components/messages/popups/sendVideoFile";
 import { MediaModal, useMediaModal } from "brancy/components/messages/shared/utils";
@@ -51,6 +32,21 @@ import DirectChatBox from "brancy/components/messages/ticket/directChatBox";
 import SystemChatBox from "brancy/components/messages/ticket/systemChatBox";
 import styles from "./ticketInbox.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { ItemType, ITicketMediaType, MediaType, PartnerRole, StatusReplied, TicketType } from "brancy/models/enums";
+import {
+  ITicketInbox,
+  IUserPanelMessage,
+  ISendTicketMessage,
+  IReplyTicket,
+  IThread_Ticket,
+  ITicket,
+  IIsSendingMessage,
+  IFbTicketInfo,
+  IReplyTicket_Media,
+  IReplyTicket_Media_Server,
+  IGetDirectInbox,
+  IUserTicketItem as userItem,
+} from "brancy/models/interfaces";
 let firstTime = 0;
 let touchMove = 0;
 let touchStart = 0;

@@ -14,16 +14,16 @@ import {
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
+import styles from "./general.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { hashProductId } from "brancy/helper/hashProductId";
 import {
   IGeneralInfo,
   ILastCategory,
   IProduct_MainCategory,
   IProduct_SecondaryCategory,
   ISuggestedPrice,
-} from "brancy/models/store/IProduct";
-import styles from "./general.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { hashProductId } from "brancy/helper/hashProductId";
+} from "brancy/models/interfaces";
 function General({
   productId,
   suggestedPrice,

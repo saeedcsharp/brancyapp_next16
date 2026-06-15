@@ -3,8 +3,8 @@ import InlineBarChart from "brancy/components/design/chart/inlineBarChart";
 import { numberToFormattedString } from "brancy/helper/numberFormater";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
-import { IAdShortMonth } from "brancy/models/advertise/statistics";
 import styles from "./statistics.module.css";
+import { IAdShortMonth } from "brancy/models/interfaces";
 const TotalAdsStatistics = (props: { data: IAdShortMonth[] }) => {
   const { hidePage, gridSpan, toggle } = useHideDiv(true, 47);
   const { t } = useTranslation();

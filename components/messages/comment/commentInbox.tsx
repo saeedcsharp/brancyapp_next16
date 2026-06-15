@@ -28,30 +28,29 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { handleDecompress } from "brancy/helper/pako";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType } from "brancy/helper/api";
-import { ActionType, CommentType, ItemType, MediaProductType } from "brancy/models/messages/enum";
-import {
-  IComment,
-  ICommetInbox,
-  IGetCommentBoxInfo,
-  IGetDirectInbox,
-  IGetMediaCommentInfo,
-  IHookAction,
-  IHookComment,
-  IHookPrivateReply,
-  IMedia,
-  IReplyCommentInfo,
-  IReplyLiveCommentInfo,
-  IReplyTicket,
-} from "brancy/models/messages/IMessage";
-import { IAutomaticReply, IMediaUpdateAutoReply } from "brancy/models/page/post/posts";
 import CommentStatistics from "brancy/components/messages/popups/commentStatistics";
 import EditAutoReplyForMedia from "brancy/components/messages/popups/editAutoReplyForMedia";
 import CommentChatBox from "brancy/components/messages/comment/commentChatBox";
 import chatBoxStyles from "./commentChatBox.module.css";
 import styles from "brancy/components/messages/comment/commentInbox.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { PartnerRole, CommentType, MediaProductType, ActionType, ItemType } from "brancy/models/enums";
+import {
+  ICommetInbox,
+  IReplyTicket,
+  IMedia,
+  IGetCommentBoxInfo,
+  IGetMediaCommentInfo,
+  IComment,
+  IReplyCommentInfo,
+  IReplyLiveCommentInfo,
+  IMediaUpdateAutoReply,
+  IHookComment,
+  IHookAction,
+  IHookPrivateReply,
+  IAutomaticReply,
+} from "brancy/models/interfaces";
 let firstTime = 0;
 let touchMove = 0;
 let touchStart = 0;

@@ -7,13 +7,9 @@ import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton"
 import Loading from "brancy/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import {
-  BusinessFilterMsgType,
-  BusinessFilterNumberType,
-  IBusinessMessageFilter,
-} from "brancy/models/messages/properies";
 import styles from "./properties.module.css";
+import { PartnerRole, BusinessFilterNumberType, BusinessFilterMsgType } from "brancy/models/enums";
+import { IBusinessMessageFilter } from "brancy/models/interfaces";
 
 function BusinessFilter() {
   const { t } = useTranslation();

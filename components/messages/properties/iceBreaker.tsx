@@ -8,12 +8,11 @@ import Tooltip from "brancy/components/design/tooltip/tooltip";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
-import { IDetailPrompt } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
-import { IceOrPersistent, PayloadType, SpecialPayLoad } from "brancy/models/messages/enum";
-import { IIceBreaker } from "brancy/models/messages/properies";
 import styles from "./properties.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IceOrPersistent, SpecialPayLoad, PayloadType } from "brancy/models/enums";
+import { IIceBreaker, IDetailPrompt } from "brancy/models/interfaces";
 // Wrap component with React.memo for performance
 const IceBreaker = React.memo(
   ({

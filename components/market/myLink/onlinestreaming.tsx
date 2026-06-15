@@ -3,8 +3,8 @@ import React, { memo, useCallback, useEffect, useMemo, useReducer, useRef } from
 import ReactDOM from "react-dom";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import { IOnlineStreaming } from "brancy/models/market/myLink";
 import styles from "./onlinestreaming.module.css";
+import { IOnlineStreaming } from "brancy/models/interfaces";
 
 const basePictureUrl = getClientMediaBaseUrl();
 interface StreamState {

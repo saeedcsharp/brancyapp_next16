@@ -11,13 +11,13 @@ import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/compone
 import initialzedTime from "brancy/helper/manageTimer";
 import { numberToFormattedString } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
-import { AdsTimeType, AdsType } from "brancy/models/advertise/AdEnums";
-import { IAdContent, IAdReport } from "brancy/models/advertise/adList";
-import { MediaType } from "brancy/models/ApiModels/Instagramer/Page/FirstPostPage";
+
 import AdsTypeComp from "brancy/components/advertise/adsType";
 import TimeTypeComp from "brancy/components/advertise/timeType";
 import styles from "./adDetails.module.css";
 import styles2 from "./detailContent.module.css";
+import { IAdContent, IAdReport } from "brancy/models/interfaces";
+import { AdsType, AdsTimeType, MediaType } from "brancy/models/enums";
 
 const AdReport = (props: { removeMask: () => void; advertiseId: number }) => {
   const { t } = useTranslation();

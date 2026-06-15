@@ -5,8 +5,8 @@ import { useTranslation } from "react-i18next";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import { MethodType } from "brancy/helper/api";
-import { IProduct_FullProduct } from "brancy/models/store/IProduct";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IProduct_FullProduct } from "brancy/models/interfaces";
 
 const basePictureUrl = getClientMediaBaseUrl();
 
@@ -17,12 +17,21 @@ const UpdateProduct = (props: { data: number[]; removeMask: () => void }) => {
   const [fullProducts, setFullProducts] = useState<IProduct_FullProduct[]>([]);
   async function fetchData() {
     try {
-      const res = await clientFetchApi<{ productIds: number[] }, IProduct_FullProduct[]>("/api/product/GetFullProductList", { methodType: MethodType.post, session: session, data: { productIds: props.data }, queries: [
-          {
-            key: "language",
-            value: "1",
-          },
-        ], onUploadProgress: undefined });
+      const res = await clientFetchApi<{ productIds: number[] }, IProduct_FullProduct[]>(
+        "/api/product/GetFullProductList",
+        {
+          methodType: MethodType.post,
+          session: session,
+          data: { productIds: props.data },
+          queries: [
+            {
+              key: "language",
+              value: "1",
+            },
+          ],
+          onUploadProgress: undefined,
+        },
+      );
       if (res.succeeded) {
         setFullProducts(res.value);
         setLoading(false);

@@ -1,6 +1,4 @@
 import { useRef, useState } from "react";
-import { numberToFormattedString } from "brancy/helper/numberFormater";
-import { SuperFigure } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -8,6 +6,8 @@ import "swiper/css/scrollbar";
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "./insightChart.module.css";
+import { numberToFormattedString } from "brancy/helper/numberFormater";
+import { SuperFigure } from "brancy/models/interfaces";
 function SecondSwiper(props: {
   superFigur: SuperFigure;
   indexValue: number;

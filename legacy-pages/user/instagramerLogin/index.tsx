@@ -14,12 +14,10 @@ import {
 import FaceBook from "brancy/components/signIn/faceBook";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { LanguageKey } from "brancy/i18n";
-import { SendCodeResult } from "brancy/models/ApiModels/User/SendCodeResult";
 import { MethodType } from "brancy/helper/api";
-import { InstagramerAccountInfo } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-
 import styles from "./instagramerLogin.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { InstagramerAccountInfo, SendCodeResult } from "brancy/models/interfaces";
 
 const baseMediaUrl = getClientMediaBaseUrl();
 

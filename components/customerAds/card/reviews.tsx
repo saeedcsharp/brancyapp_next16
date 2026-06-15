@@ -1,7 +1,7 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import FiveStar from "brancy/components/fiveStar";
-import { IReview } from "brancy/models/market/myLink";
 import styles from "./reviews.module.css";
+import { IReview } from "brancy/models/interfaces";
 function Reviews({ reviews }: { reviews: IReview[] }) {
   const baseMediaUrl = getClientMediaBaseUrl();
 

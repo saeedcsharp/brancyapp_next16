@@ -4,8 +4,8 @@ import { AIButton } from "brancy/components/design/ai/AIButton";
 import AiPrompt from "brancy/components/design/ai/aiPrompt";
 import styles from "./aiPrompt.module.css";
 import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
-import { FeatureType } from "brancy/models/psg/psg";
 import router from "next/router";
+import { PsgFeatureType } from "brancy/models/enums";
 
 interface AIWithPromptProps {
   aiLoading: boolean;
@@ -19,7 +19,7 @@ export default function AIWithPrompt({ aiLoading, handleAIPromptSubmit, buttonPr
   const [showAIInput, setShowAIInput] = useState(false);
 
   const handleAIIconClick = async () => {
-    const featureIsCheck = await fetchAndCheckFeature(FeatureType.AI, session);
+    const featureIsCheck = await fetchAndCheckFeature(PsgFeatureType.AI, session);
     if (!featureIsCheck) router.push("/upgrade");
     setShowAIInput(!showAIInput);
   };

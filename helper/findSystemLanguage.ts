@@ -1,4 +1,4 @@
-import { Language } from "brancy/models/messages/enum";
+import { Language } from "brancy/models/enums";
 
 export default function findSystemLanguage(): Language {
   const language = window.localStorage.getItem("language");

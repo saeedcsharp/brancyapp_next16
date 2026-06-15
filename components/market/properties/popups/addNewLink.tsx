@@ -14,9 +14,9 @@ import { getEnumValue } from "brancy/helper/handleItemTypeEnum";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { KeyValueStore } from "brancy/models/keyValueStore";
-import { TitleName, TitleType } from "brancy/models/market/enums";
-import { INewLink, ISaveLink } from "brancy/models/market/properties";
 import styles from "./addNewLink.module.css";
+import { TitleName, TitleType } from "brancy/models/enums";
+import { ISaveLink, INewLink } from "brancy/models/interfaces";
 
 const AddNewLink = (props: { removeMask: () => void; handleAddNewLink: (newLink: ISaveLink) => void }) => {
   const { t } = useTranslation();

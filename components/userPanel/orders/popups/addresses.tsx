@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import RadioButton from "brancy/components/design/radioButton";
 import { LanguageKey } from "brancy/i18n";
-import { IAddress } from "brancy/models/userPanel/orders";
 import styles from "./addresses.module.css";
+import { IAddress } from "brancy/models/interfaces";
 
 export default function Addresses({
   removeMask,

@@ -7,12 +7,12 @@ import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
 import Loading from "brancy/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "brancy/helper/api";
-import { IBestFollowers } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/bestFollower";
 import styles from "./bestFollower.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { t } from "i18next";
+import { MethodType } from "brancy/helper/api";
+import { PartnerRole } from "brancy/models/enums";
+import { IBestFollowers } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 const FollowerCard = memo(
   ({ follower, onImageClick }: { follower: IBestFollowers; onImageClick: (url: string, username: string) => void }) => {

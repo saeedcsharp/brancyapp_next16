@@ -16,16 +16,17 @@ import DeleteProduct from "brancy/components/store/products/productDetail/notIns
 import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IDetailsPost } from "brancy/models/page/post/posts";
+
+import styles from "./productDetail.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
+  IDetailsPost,
   IMaxSize,
   IProduct_FullProduct,
   IProduct_ShortProduct,
   ITempIdAndNonProductCount,
-} from "brancy/models/store/IProduct";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import styles from "./productDetail.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+} from "brancy/models/interfaces";
+import { PartnerRole } from "brancy/models/enums";
 
 const ProductDetail = ({ tempId }: { tempId: string }) => {
   //  return <Soon />;

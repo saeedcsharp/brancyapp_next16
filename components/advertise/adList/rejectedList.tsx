@@ -4,11 +4,11 @@ import { DateObject } from "react-multi-date-picker";
 import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { RejectedType } from "brancy/models/advertise/AdEnums";
-import { IRejectedAds } from "brancy/models/advertise/adList";
 import styles from "../../../legacy-pages/advertise/adlist.module.css";
 import AdsTypeComp from "brancy/components/advertise/adsType";
 import TimeTypeComp from "brancy/components/advertise/timeType";
+import { IRejectedAds } from "brancy/models/interfaces";
+import { RejectedType } from "brancy/models/enums";
 const RejectedList = (props: { data: IRejectedAds[] }) => {
   const { t } = useTranslation();
   const [isHidden, setIsHidden] = useState(false);

@@ -6,10 +6,10 @@ import { Calendar, DateObject, Value } from "react-multi-date-picker";
 import initialzedTime from "brancy/helper/manageTimer";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
-import { AdsType } from "brancy/models/advertise/AdEnums";
-import { ICaledarAds } from "brancy/models/advertise/calendar";
 import AdsTypeComp from "brancy/components/advertise/adsType";
 import styles from "./calendarComponent.module.css";
+import { AdsType } from "brancy/models/enums";
+import { ICaledarAds } from "brancy/models/interfaces";
 const CalendarComponent = (props: { totalAds: ICaledarAds[]; showReject: (adId: number) => void }) => {
   const { t } = useTranslation();
   const { hidePage, gridSpan, toggle } = useHideDiv(true, 82);

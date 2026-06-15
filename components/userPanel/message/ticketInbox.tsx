@@ -15,18 +15,18 @@ import Loading from "brancy/components/notOk/loading";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType, UploadFile } from "brancy/helper/api";
-import { IIsSendingMessage } from "brancy/models/messages/IMessage";
-import {
-  IItem,
-  ISendTicketMessage,
-  ITicket,
-  ITicketMediaType,
-  IUserPanelMessage,
-} from "brancy/models/userPanel/message";
 import ReportModal from "brancy/components/userPanel/message/popup/reportModal";
 import UserPanelDirectChatBox from "brancy/components/userPanel/message/ticketChatBox";
 import styles from "./ticketInbox.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { ITicketMediaType } from "brancy/models/enums";
+import {
+  IUserPanelMessage,
+  ISendTicketMessage,
+  ITicket,
+  IIsSendingMessage,
+  IUserTicketItem,
+} from "brancy/models/interfaces";
 
 let firstTime = 0;
 let touchMove = 0;
@@ -465,7 +465,7 @@ const UserPanelDirectInbox = () => {
       uploadId = res1.fileName;
     }
     try {
-      const res = await clientFetchApi<ISendTicketMessage, IItem>("/api/systemticket/AddSystemTicketItem", {
+      const res = await clientFetchApi<ISendTicketMessage, IUserTicketItem>("/api/systemticket/AddSystemTicketItem", {
         methodType: MethodType.post,
         session: session,
         data: {
@@ -596,7 +596,7 @@ const UserPanelDirectInbox = () => {
       notify(ResponseType.Unexpected, NotifType.Error);
     }
   }
-  const handleLastMessage = (item: IItem) => {
+  const handleLastMessage = (item: IUserTicketItem) => {
     var response: string | null = "";
     switch (item.itemType) {
       case ITicketMediaType.Text:
@@ -660,7 +660,7 @@ const UserPanelDirectInbox = () => {
     console.log("tempThreadIds", tempTicketIds);
     refTempTicket.current = tempTicketIds;
   }, [tempTicketIds]);
-  function handleSpecifyUnread(items: IItem[], ticket: ITicket) {
+  function handleSpecifyUnread(items: IUserTicketItem[], ticket: ITicket) {
     let unSeenDiv = <></>;
     const newItems = items
       .filter((item) => item.timeStampUnix > ticket.userLastSeenUnix && item.sentByFb)

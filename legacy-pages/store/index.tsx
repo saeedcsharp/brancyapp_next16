@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import NotAllowed from "brancy/components/notOk/notAllowed";
 import { RoleAccess } from "brancy/helper/loadingStatus";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { PartnerRole } from "brancy/models/enums";
 
 const Store = () => {
   //  return <Soon />;

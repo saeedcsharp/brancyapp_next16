@@ -11,12 +11,10 @@ import LinkifyText from "brancy/context/LinkifyText";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { StatusReplied } from "brancy/models/messages/enum";
-import { PlatformTicketItemType, PlatformTicketType } from "brancy/models/setting/enums";
-import { IPlatformTicket } from "brancy/models/setting/general";
-import { IItem, IOwnerInbox, ISendTicketMessage, ITicketMediaType } from "brancy/models/userPanel/message";
+import { IUserTicketItem, ITicketOwnerInbox, ISendTicketMessage, IPlatformTicket } from "brancy/models/interfaces";
 import styles from "./adminChatBox.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { PlatformTicketItemType, PlatformTicketType, StatusReplied, ITicketMediaType } from "brancy/models/enums";
 
 const TicketTypeIcon = memo(({ type, size = 16 }: { type: string; size?: number }) => {
   const { t } = useTranslation();
@@ -218,7 +216,7 @@ const TicketTypeIcon = memo(({ type, size = 16 }: { type: string; size?: number 
 const AdminChatBox = (props: {
   sendingMessages: ISendTicketMessage[];
   chatBox: IPlatformTicket;
-  ownerInbox: IOwnerInbox;
+  ownerInbox: ITicketOwnerInbox;
   fetchItemData: (ticketId: number, nextMaxId: string | null) => Promise<void>;
   handleSendTicketMessage: (message: ISendTicketMessage) => Promise<void>;
   handleCloseTicket: (ticketId: number) => Promise<void>;
@@ -435,7 +433,7 @@ const AdminChatBox = (props: {
     }
   }
   const [lock, setLock] = useState(false);
-  const [seenItem, setSeenItem] = useState<IItem | null>(null);
+  const [seenItem, setSeenItem] = useState<IUserTicketItem | null>(null);
   useEffect(() => {
     setLock(false);
     setMoreItemLoading(false);

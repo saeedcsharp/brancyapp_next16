@@ -7,16 +7,15 @@ import TextArea from "brancy/components/design/textArea/textArea";
 import { MethodType } from "brancy/helper/api";
 import styles from "./progress.module.css";
 import styles2 from "./uploadContent.module.css";
-
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
-import { IPageInfo, IShowMedia } from "brancy/models/customerAds/customerAd";
-import { MediaType, PostType } from "brancy/models/page/post/preposts";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { ICustomerAdPageInfo, ICustomerAdShowMedia } from "brancy/models/interfaces";
+import { PostType, MediaType } from "brancy/models/enums";
 function Content(props: {
-  handleUpdateContent: (content: IShowMedia[], caption: string) => void;
-  data: IShowMedia[];
+  handleUpdateContent: (content: ICustomerAdShowMedia[], caption: string) => void;
+  data: ICustomerAdShowMedia[];
   caption: string;
 }) {
   const router = useRouter();
@@ -33,13 +32,13 @@ function Content(props: {
   const [renderWidthSize, setRenderwidthSize] = useState(333);
   const [captionTextArea, setCaptionTextArea] = useState(props.caption);
   const [hashtagsWord, setHashtagsWord] = useState<string[]>([]);
-  const [showMedias, setShowMedias] = useState<IShowMedia[]>(props.data);
+  const [showMedias, setShowMedias] = useState<ICustomerAdShowMedia[]>(props.data);
   const [postType, setPostType] = useState<PostType>(props.data.length > 0 ? PostType.Album : PostType.Single);
   const [showMediaIndex, setShowMediaIndex] = useState(0);
   const [searchPeaple, setSearchPeaple] = useState("");
-  const [pageInfo, setPageInfo] = useState<IPageInfo[]>([]);
+  const [pageInfo, setPageInfo] = useState<ICustomerAdPageInfo[]>([]);
   const [showAddPeapleBox, setShowAddPeapleBox] = useState(true);
-  const [selectedPeaple, setSelectedPeaple] = useState<IPageInfo | null>(null);
+  const [selectedPeaple, setSelectedPeaple] = useState<ICustomerAdPageInfo | null>(null);
   const [peopleTimeOutId, setPeopleTimeOutId] = useState<any>();
   const [peopleLocked, setPeopleLocked] = useState(false);
   const [refresh, setRefresh] = useState(true);
@@ -49,7 +48,7 @@ function Content(props: {
     try {
       var instagramerId = session?.user.instagramerIds[session.user.currentIndex];
       console.log("start searched people ", query);
-      var res = await clientFetchApi<boolean, IPageInfo[]>("Instagramer" + "/searchPeople", {
+      var res = await clientFetchApi<boolean, ICustomerAdPageInfo[]>("Instagramer" + "/searchPeople", {
         methodType: MethodType.get,
         session: session,
         data: null,
@@ -115,7 +114,7 @@ function Content(props: {
       reader.onload = () => {
         var selectedMedia1 = reader.result as string;
         //Api to upload media with selectedMedia
-        //get response as IShowMedia type
+        //get response as ICustomerAdShowMedia type
         var medias = showMedias;
 
         var medias = showMedias;
@@ -182,7 +181,7 @@ function Content(props: {
       reader.onload = () => {
         var selectedMedia1 = reader.result as string;
         //Api to upload media with selectedMedia
-        //get response as IShowMedia type
+        //get response as ICustomerAdShowMedia type
         var medias = showMedias;
         let mediaType: MediaType;
         if (file === undefined) return;
@@ -246,7 +245,7 @@ function Content(props: {
       reader.onload = () => {
         var selectedMedia1 = reader.result as string;
         //Api to upload media with selectedMedia
-        //get response as IShowMedia type
+        //get response as ICustomerAdShowMedia type
         var medias = showMedias;
         medias[showMediaIndex].cover = selectedMedia1;
         setShowMedias(medias);
@@ -265,7 +264,7 @@ function Content(props: {
       reader.onload = () => {
         var selectedMedia1 = reader.result as string;
         //Api to upload media with selectedMedia
-        //get response as IShowMedia type
+        //get response as ICustomerAdShowMedia type
         var medias = showMedias;
         let mediaType: MediaType;
         if (file === undefined) return;
@@ -351,7 +350,7 @@ function Content(props: {
     setShowMediaIndex(showMedias.length - 1);
     setRefresh(!refresh);
   };
-  const handleSelectPage = (page: IPageInfo) => {
+  const handleSelectPage = (page: ICustomerAdPageInfo) => {
     setSelectedPeaple(page);
     setSearchPeaple(page.userName);
     setShowAddPeapleBox(false);

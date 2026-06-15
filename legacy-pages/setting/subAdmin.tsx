@@ -12,9 +12,10 @@ import ActivityHistory from "brancy/components/setting/subAdmin/activityHistory"
 import Partners from "brancy/components/setting/subAdmin/partner";
 import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { ICreatePartner, IPartner, ISession, IUpdatePartner } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { ICreatePartner, IPartner, ISession, IUpdatePartner } from "brancy/models/interfaces";
 
 const SubAdmin = () => {
   const router = useRouter();
@@ -56,9 +57,21 @@ const SubAdmin = () => {
 
     try {
       const [sessionRes, partnerRes] = await Promise.all([
-        clientFetchApi<boolean, ISession[]>("/api/session/GetSessions", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, ISession[]>("/api/session/GetSessions", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
         RoleAccess(session)
-          ? clientFetchApi<boolean, IPartner[]>("/api/account/GetPartners", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined })
+          ? clientFetchApi<boolean, IPartner[]>("/api/account/GetPartners", {
+              methodType: MethodType.get,
+              session: session,
+              data: undefined,
+              queries: undefined,
+              onUploadProgress: undefined,
+            })
           : Promise.resolve({
               succeeded: false,
               value: null,
@@ -80,7 +93,13 @@ const SubAdmin = () => {
 
   async function handleGetNextSession(nextMaxId: number) {
     try {
-      const res = await clientFetchApi<boolean, ISession[]>("/api/session/GetSessions", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "nextMaxId", value: nextMaxId.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, ISession[]>("/api/session/GetSessions", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "nextMaxId", value: nextMaxId.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded && nextMaxId === undefined) setSessions(res.value);
       else if (res.succeeded && nextMaxId !== undefined) {
         setSessions((prev) => [...prev!, ...res.value]);
@@ -92,9 +111,13 @@ const SubAdmin = () => {
 
   async function handleDeleteSession(sessionId: string) {
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/session/DeleteSession", { methodType: MethodType.get, session: session, data: null, queries: [
-        { key: "sessionId", value: sessionId },
-      ], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/session/DeleteSession", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "sessionId", value: sessionId }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setSessions(sessions!.filter((x) => x.sessionId !== sessionId));
       } else notify(res.info.responseType, NotifType.Warning);
@@ -107,7 +130,13 @@ const SubAdmin = () => {
 
   async function handleSavePartner(addNewObj: ICreatePartner): Promise<void> {
     try {
-      const res = await clientFetchApi<ICreatePartner, IPartner>("/api/account/CreatePartner", { methodType: MethodType.post, session: session, data: addNewObj, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<ICreatePartner, IPartner>("/api/account/CreatePartner", {
+        methodType: MethodType.post,
+        session: session,
+        data: addNewObj,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
 
       if (res.succeeded) {
         console.log("create partner", res.value);
@@ -124,7 +153,13 @@ const SubAdmin = () => {
 
   async function handleUpdatePartner(addNewObj: IUpdatePartner): Promise<void> {
     try {
-      const res = await clientFetchApi<ICreatePartner, IPartner>("/api/account/UpdatePartner", { methodType: MethodType.post, session: session, data: addNewObj, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<ICreatePartner, IPartner>("/api/account/UpdatePartner", {
+        methodType: MethodType.post,
+        session: session,
+        data: addNewObj,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setPartners((prev) => prev!.map((x) => (x.userId === res.value.userId ? res.value : x)));
       } else {
@@ -139,7 +174,13 @@ const SubAdmin = () => {
 
   async function handleDeletePartner(userId: number) {
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/account/RemovePartner", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "userId", value: userId.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/account/RemovePartner", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "userId", value: userId.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setPartners((prev) => prev!.filter((x) => x.userId !== userId));
       } else notify(res.info.responseType, NotifType.Warning);

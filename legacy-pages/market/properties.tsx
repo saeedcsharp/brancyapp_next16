@@ -23,17 +23,18 @@ import {
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
 import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { InstagramerAccountInfo, PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   ILink,
+  InstagramerAccountInfo,
   IOrderFeatures,
   ISaveLink,
   IUpdateFeatureOrder,
   IUpdateLink,
   IUpdateOrderLink,
-} from "brancy/models/market/properties";
+} from "brancy/models/interfaces";
+import { PartnerRole } from "brancy/models/enums";
 
 const Properties = () => {
   //  return <Soon />;

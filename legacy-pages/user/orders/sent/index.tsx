@@ -15,11 +15,16 @@ import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { PushNotif, PushResponseType } from "brancy/models/push/pushNotif";
-import { LogisticType, OrderStep } from "brancy/models/store/enum";
-import { IOrderByStatus, IOrderByStatusItem, IOrderDetail, IOrderPushNotifExtended } from "brancy/models/store/orders";
 import styles from "./sent.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import {
+  IOrderByStatus,
+  IOrderByStatusItem,
+  IOrderDetail,
+  IOrderPushNotifExtended,
+  PushNotif,
+} from "brancy/models/interfaces";
+import { LogisticType, OrderStep, PushResponseType } from "brancy/models/enums";
 const basePictureUrl = getClientMediaBaseUrl();
 const MemoizedCheckBoxButton = React.memo(CheckBoxButton);
 interface SelectionState {

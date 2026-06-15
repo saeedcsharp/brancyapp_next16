@@ -1,8 +1,8 @@
 import { useEffect, useRef, useState } from "react";
-import { IUploadVoice } from "brancy/models/messages/IMessage";
-import MessageTockenGenerator from "brancy/models/messages/messageTockenGenerator";
 import WaveSurfer from "wavesurfer.js";
 import styles from "./voiceRecorder.module.css";
+import MessageTockenGenerator from "brancy/helper/messageTokenGenerator";
+import { IUploadVoice } from "brancy/models/interfaces";
 var audioBase64: string | null = "";
 var durMs: number = 0;
 var maxLenth: number = 0;

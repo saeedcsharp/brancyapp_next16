@@ -14,10 +14,10 @@ import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { calculateSummary } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IProduct_Candidate } from "brancy/models/store/IProduct";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import styles from "./selectProduct.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IProduct_Candidate } from "brancy/models/interfaces";
+import { PartnerRole } from "brancy/models/enums";
 const basePictureUrl = getClientMediaBaseUrl();
 const SelectProduct = () => {
   //  //  return <Soon />;

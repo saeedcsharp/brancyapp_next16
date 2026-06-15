@@ -8,6 +8,10 @@ import Loading from "brancy/components/notOk/loading";
 import priceFormatter from "brancy/helper/priceFormater";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
+import Discount from "brancy/components/store/products/productDetail/notInstanceProduct/popups/discount";
+import NewVariation from "brancy/components/store/products/productDetail/notInstanceProduct/popups/newVariation";
+import styles from "./Variation.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   ICreateInstance_ForVariation,
   IDisCount,
@@ -17,11 +21,7 @@ import {
   IProduct_Variation,
   ISubProduct_Create,
   IVariation_Create,
-} from "brancy/models/store/IProduct";
-import Discount from "brancy/components/store/products/productDetail/notInstanceProduct/popups/discount";
-import NewVariation from "brancy/components/store/products/productDetail/notInstanceProduct/popups/newVariation";
-import styles from "./Variation.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+} from "brancy/models/interfaces";
 export interface IAddNewVariation {
   val1: INewVariation | null;
   val2: INewVariation | null;

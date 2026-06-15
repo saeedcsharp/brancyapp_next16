@@ -11,18 +11,19 @@ import TextArea from "brancy/components/design/textArea/textArea";
 import Loading from "brancy/components/notOk/loading";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";
-import { IDetailPrompt, IPrompts } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
-import { PayloadType, SpecialPayLoad } from "brancy/models/messages/enum";
-import {
-  IMasterFlow,
-  IProfileButtons,
-  ISpecialPayload,
-  ITotalMasterFlow,
-  IUpdateProfileButton,
-} from "brancy/models/messages/properies";
 import styles from "./specialPayLoad.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { PayloadType, SpecialPayLoad } from "brancy/models/enums";
+import {
+  ISpecialPayload,
+  IUpdateProfileButton,
+  IProfileButtons,
+  IMasterFlow,
+  IPrompts,
+  IDetailPrompt,
+  ITotalMasterFlow,
+} from "brancy/models/interfaces";
 // Reducer for checkbox state
 type CheckBoxState = {
   custom: boolean;

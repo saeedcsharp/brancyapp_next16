@@ -8,13 +8,13 @@ import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton"
 import Loading from "brancy/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import {
-  IWelcomingMessage_Figure,
-  IWelcomingMessage_GetCondition,
-  IWelcomingMessage_GetSentMessage,
-} from "brancy/models/messages/properies";
 import styles from "brancy/components/messages/properties/properties.module.css";
+import { PartnerRole } from "brancy/models/enums";
+import {
+  IWelcomingMessage_GetCondition,
+  IWelcomingMessage_Figure,
+  IWelcomingMessage_GetSentMessage,
+} from "brancy/models/interfaces";
 function WelcomeMessage() {
   const [icebreakerToggle, seticebreakerToggle] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
   const { data: session } = useSession();

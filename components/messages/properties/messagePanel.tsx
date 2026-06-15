@@ -16,10 +16,10 @@ import {
 import { LoginStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { Language } from "brancy/models/messages/enum";
-import { IMessagePanel } from "brancy/models/messages/properies";
 import styles from "./properties.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IMessagePanel } from "brancy/models/interfaces";
+import { Language } from "brancy/models/enums";
 
 function MessagePanel({
   messagePanel,

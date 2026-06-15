@@ -4,11 +4,11 @@ import { MouseEvent, use, useEffect, useRef, useState } from "react";
 import { InstaInfoContext } from "brancy/context/instaInfoContext";
 import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
-import { PushNotif } from "brancy/models/push/pushNotif";
 import NavbarUserMobile from "brancy/components/navbar/instagramerNavbar/navbar_user_mobile";
 import UserNotificationBar from "brancy/components/navbar/userPanelNavbar/userNotificationBar";
 import styles from "./userPanelHeader.module.css";
 import UserProfile from "brancy/components/navbar/userPanelNavbar/userProfile";
+import { PushNotif } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
 interface UserPanelHeaderProps {
   handleShowHamMenu: (ham: string) => void;

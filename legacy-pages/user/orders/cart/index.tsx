@@ -13,10 +13,10 @@ import { InstaInfoContext } from "brancy/context/instaInfoContext";
 import findSystemLanguage from "brancy/helper/findSystemLanguage";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IOrderByStatus, IOrderDetail } from "brancy/models/store/orders";
-import { IUserOrder } from "brancy/models/userPanel/orders";
+
 import styles from "./cart.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IOrderByStatus, IOrderDetail, IUserOrder } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
 export default function Card() {
   const { value, setValue } = React.use(InstaInfoContext) ?? {};

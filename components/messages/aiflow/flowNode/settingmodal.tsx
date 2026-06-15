@@ -16,9 +16,9 @@ import {
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { ITotalMasterFlow } from "brancy/models/messages/properies";
 import styles from "./settingmodal.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { ITotalMasterFlow } from "brancy/models/interfaces";
 interface SettingModalProps {
   masterFlowId: string;
   snapToGridEnabled: boolean;

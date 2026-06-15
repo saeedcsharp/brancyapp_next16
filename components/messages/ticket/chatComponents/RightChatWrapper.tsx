@@ -1,17 +1,17 @@
 import React, { useMemo } from "react";
-import { IItem, IOwnerInbox, IThread_Ticket } from "brancy/models/messages/IMessage";
-import { ItemType } from "brancy/models/messages/enum";
 import styles from "brancy/components/messages/ticket/ticketChatBox.module.css";
 import { TicketChatAudio } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/TicketChatAudio";
 import { TicketChatMedia } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/TicketChatMedia";
 import { TicketChatMediaShare } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/TicketChatMediaShare";
 import { TicketChatText } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/TicketChatText";
 import { ImageClickInfo, VideoClickInfo } from "brancy/components/messages/ticket/chatComponents/types";
+import { IDirectMessageItem, IDirectOwnerInbox, IThread_Ticket } from "brancy/models/interfaces";
+import { ItemType } from "brancy/models/enums";
 
 interface RightChatWrapperProps {
-  item: IItem;
+  item: IDirectMessageItem;
   chatBox: IThread_Ticket;
-  ownerInbox: IOwnerInbox;
+  ownerInbox: IDirectOwnerInbox;
   baseMediaUrl: string;
   useExternalUrl: boolean;
   onClickSubIcon: (iconId: string, itemId: string) => void;
@@ -21,8 +21,8 @@ interface RightChatWrapperProps {
   toggleDateFormat: (itemId: string) => void;
   formatDate: (timestamp: number, itemId: string | null) => string;
   handleFindEmoji: (text: string | null) => string | null;
-  handleSpecifyRepliedItemFullName: (itemId: string, repItem: IItem | null) => string;
-  handleSpecifyRepliedItemType: (repItemId: string, repItem: IItem | null) => string;
+  handleSpecifyRepliedItemFullName: (itemId: string, repItem: IDirectMessageItem | null) => string;
+  handleSpecifyRepliedItemType: (repItemId: string, repItem: IDirectMessageItem | null) => string;
 }
 
 export const RightChatWrapper: React.FC<RightChatWrapperProps> = React.memo((props) => {

@@ -8,8 +8,10 @@ import Loading from "brancy/components/notOk/loading";
 import ShopPage from "brancy/components/userPanel/shop/shop";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { BusinessType, IBusinessResponse } from "brancy/models/userPanel/business";
+
 import styles from "../business.module.css";
+import { IBusinessResponse } from "brancy/models/interfaces";
+import { BusinessType } from "brancy/models/enums";
 
 export default function BusinessShop() {
   const router = useRouter();

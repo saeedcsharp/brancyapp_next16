@@ -32,13 +32,14 @@ import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType } from "brancy/helper/api";
-import { AutoReplyPayLoadType, MediaProductType } from "brancy/models/messages/enum";
-import { IItem } from "brancy/models/messages/IMessage";
-import { IAutomaticReply, IMediaUpdateAutoReply } from "brancy/models/page/post/posts";
-import { MediaType } from "brancy/models/page/post/preposts";
+import MultiChart from "brancy/components/design/chart/Chart_month";
+import styles from "./showStory.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
+  IAutomaticReply,
+  IDirectMessageItem,
+  IMediaUpdateAutoReply,
   IReaction,
   ISendStoryAutomaticReply,
   IStory_Viewers,
@@ -47,10 +48,8 @@ import {
   IStoryInsight,
   IStoryReply,
   IStoryViewer,
-} from "brancy/models/page/story/stories";
-import MultiChart from "brancy/components/design/chart/Chart_month";
-import styles from "./showStory.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+} from "brancy/models/interfaces";
+import { AutoReplyPayLoadType, MediaProductType, MediaType, PartnerRole } from "brancy/models/enums";
 
 type SearchState = {
   searchMode: boolean;
@@ -533,7 +532,7 @@ const ShowStory = () => {
   );
 
   const handleReaction = useCallback(
-    async (item: IItem, threadId: string) => {
+    async (item: IDirectMessageItem, threadId: string) => {
       try {
         const res = await clientFetchApi<boolean, boolean>(
           "Instagramer" + "" + `/Message/${item.ownerEmojiReaction ? "SendUnReaction" : "SendReaction"}`,

@@ -14,15 +14,16 @@ import { BackgrounCssTodStr, SvgGenerator } from "brancy/helper/svgGenerator";
 import { svgToFile, svgToJpgFile } from "brancy/helper/svgtojpeg";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
+
+import styles from "./termsAndConditionWinnerPicker.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   ICreateTermsAndConditionInfo,
   IGetLastTermsUi,
   IGetTermsAndConditionInfo,
   ILotteryInfo,
-  TermsType,
-} from "brancy/models/page/tools/tools";
-import styles from "./termsAndConditionWinnerPicker.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+} from "brancy/models/interfaces";
+import { TermsType } from "brancy/models/enums";
 const basePictureUrl = getClientMediaBaseUrl();
 function filterTypeSlide(backgrounds: IGetTermsAndConditionInfo, type: TermsType) {
   const result = backgrounds.background.filter((x) => x.type === type);

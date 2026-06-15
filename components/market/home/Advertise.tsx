@@ -5,10 +5,9 @@ import Loading from "brancy/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { calculateSummary } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { CategorySection } from "brancy/models/market/enums";
-import { IMarketInfo } from "brancy/models/market/home";
 import styles from "./homeComponent.module.css";
+import { PartnerRole, CategorySection } from "brancy/models/enums";
+import { IMarketInfo } from "brancy/models/interfaces";
 function Advertise(props: { data: IMarketInfo[] | undefined; fetchAdvertiseData: (pagination: string) => void }) {
   const { data: session } = useSession();
   const userRef = useRef<HTMLDivElement>(null);

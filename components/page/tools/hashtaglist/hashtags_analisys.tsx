@@ -9,8 +9,8 @@ import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import Loading from "brancy/components/notOk/loading";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { IHashtag } from "brancy/models/page/tools/tools";
 import styles from "./hashtags.module.css";
+import { IHashtag } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
 const Hashtags = (props: {
   data: IHashtag | null;

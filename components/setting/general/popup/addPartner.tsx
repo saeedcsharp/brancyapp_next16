@@ -12,13 +12,9 @@ import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton"
 import { getCountryCodeFromTimezone } from "brancy/helper/detectLocaleFromTimezone";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import {
-  ICreatePartner,
-  IPartner,
-  IUpdatePartner,
-  PartnerRole,
-} from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import styles from "./addPartner.module.css";
+import { PartnerRole } from "brancy/models/enums";
+import { IPartner, ICreatePartner, IUpdatePartner } from "brancy/models/interfaces";
 const AddPartner = React.memo(
   ({
     partner,

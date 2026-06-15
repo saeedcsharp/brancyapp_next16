@@ -1,21 +1,8 @@
 import { useEffect, useRef } from "react";
-import { Map, View, Overlay, Feature } from "@neshan-maps-platform/ol";
-
-import dynamic from "next/dynamic";
-import BaseLayer from "@neshan-maps-platform/ol/layer/Base";
 import { NeshanMapRef } from "@neshan-maps-platform/react-openlayers";
-import { Coordinate } from "@neshan-maps-platform/ol/coordinate";
-
-import Style from "@neshan-maps-platform/ol/style/Style";
-import Icon from "@neshan-maps-platform/ol/style/Icon";
-
-import VectorSource from "@neshan-maps-platform/ol/source/Vector";
-import VectorLayer from "@neshan-maps-platform/ol/layer/Vector";
-import Point from "@neshan-maps-platform/ol/geom/Point";
+import dynamic from "next/dynamic";
 import addMarker from "../akbar";
-
 const NeshanMap = dynamic(() => import("@neshan-maps-platform/react-openlayers"), { ssr: false });
-
 const onInit = (map) => {
   map.setMapType("osm-bright");
   map.switchTrafficLayer(true);

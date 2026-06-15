@@ -1,7 +1,7 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { memo, useCallback, useEffect, useId, useLayoutEffect, useMemo, useReducer, useRef } from "react";
-import { IClientBanner } from "brancy/models/market/myLink";
 import styles from "./banner.module.css";
+import { IClientBanner } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
 interface BannerState {
   currentSlide: number;

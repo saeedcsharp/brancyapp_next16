@@ -7,9 +7,9 @@ import Loading from "brancy/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { ILoadingStatus, IPartner } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import styles from "./general.module.css";
 import NotAllowedCard from "brancy/components/notOk/notAllowedCard";
+import { IPartner, ILoadingStatus } from "brancy/models/interfaces";
 
 export default function Partners({
   partners,

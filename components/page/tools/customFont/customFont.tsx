@@ -6,8 +6,8 @@ import TextArea from "brancy/components/design/textArea/textArea";
 import NotAllowedCard from "brancy/components/notOk/notAllowedCard";
 import { RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import styles from "./customFont.module.css";
+import { PartnerRole } from "brancy/models/enums";
 interface FontMap {
   [key: string]: {
     [key: string]: string;

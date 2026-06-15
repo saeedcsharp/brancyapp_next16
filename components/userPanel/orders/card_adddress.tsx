@@ -3,7 +3,6 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { ChangeEvent, useCallback, useEffect, useId, useLayoutEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
-
 import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import RadioButton from "brancy/components/design/radioButton";
@@ -13,16 +12,10 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import IUserCoupon, {
-  IAddress,
-  ICompleteProduct,
-  ICreateOrder,
-  ILogistic,
-  InputTypeAddress,
-} from "brancy/models/userPanel/orders";
-
 import styles from "./card_address.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import IUserCoupon, { IAddress, ICreateOrder, ILogistic, IUserCompleteProduct } from "brancy/models/interfaces";
+import { InputTypeAddress } from "brancy/models/enums";
 
 const basePictureUrl = getClientMediaBaseUrl();
 const MOBILE_BREAKPOINT = 1024;
@@ -79,7 +72,7 @@ export default function CardAddress({
   handleShowCreateAddress,
   handleSelectLogistic,
 }: {
-  products: ICompleteProduct[];
+  products: IUserCompleteProduct[];
   addresses: IAddress[];
   inputTypeAddress: InputTypeAddress | null;
   loadingCard: boolean;

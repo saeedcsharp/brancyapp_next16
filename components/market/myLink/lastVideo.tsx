@@ -3,8 +3,8 @@ import { memo, useCallback, useEffect, useMemo, useReducer, useRef } from "react
 import ReactDOM from "react-dom";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import { ILastVideo } from "brancy/models/market/myLink";
 import styles from "./lastVideo.module.css";
+import { ILastVideo } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 interface StreamState {
   isContentVisible: boolean;

@@ -1,4 +1,23 @@
+import ProgressBar from "brancy/components/design/progressBar/progressBar";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
+import { MethodType } from "brancy/helper/api";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { RoleAccess } from "brancy/helper/loadingStatus";
+import { convertMillisecondsToDays, convertToMilliseconds } from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { PsgFeatureType } from "brancy/models/enums";
+import {
+  IBasePackagePrice,
+  IPsgFeatureInfo,
+  IReserveFeaturePrices,
+  PlanTier,
+  UserPackageInfo,
+} from "brancy/models/interfaces";
+import { generateMockFeaturesList, generateMockUserPackageInfo, getMockCurrentUserPlan } from "brancy/models/mockData";
 import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -15,28 +34,7 @@ import {
   useTransition,
 } from "react";
 import { useTranslation } from "react-i18next";
-
-import { RoleAccess } from "brancy/helper/loadingStatus";
-import { convertMillisecondsToDays, convertToMilliseconds } from "brancy/helper/manageTimer";
-import { LanguageKey } from "brancy/i18n";
-import { MethodType } from "brancy/helper/api";
-import {
-  generateMockFeaturesList,
-  generateMockUserPackageInfo,
-  getMockCurrentUserPlan,
-  PlanTier,
-  UserPackageInfo,
-} from "brancy/models/mockData";
-import { FeatureType, IBasePackagePrice, IFeatureInfo, IReserveFeaturePrices } from "brancy/models/psg/psg";
-
-import ProgressBar from "brancy/components/design/progressBar/progressBar";
-import Tooltip from "brancy/components/design/tooltip/tooltip";
-import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
-import Loading from "brancy/components/notOk/loading";
-import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
-
 import styles from "./upgrade.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const basePictureUrl = getClientMediaBaseUrl();
 type UpgradeState = {
   packageExtensions: IBasePackagePrice[];
@@ -154,7 +152,7 @@ const Upgrade = memo(function Upgrade() {
 
   const getUserPackageInfo = useCallback(async () => {
     try {
-      const res = await clientFetchApi<boolean, IFeatureInfo>("/api/psg/GetPackageFeatureDetails", {
+      const res = await clientFetchApi<boolean, IPsgFeatureInfo>("/api/psg/GetPackageFeatureDetails", {
         methodType: MethodType.get,
         session: session,
         data: undefined,
@@ -182,9 +180,9 @@ const Upgrade = memo(function Upgrade() {
         onUploadProgress: undefined,
       });
       if (res.succeeded) {
-        const aiPackages = res.value.filter((x) => x.featureId === FeatureType.AI);
-        const customPackage = res.value.filter((x) => x.featureId === FeatureType.CustomDomain);
-        const lotteryPackage = res.value.filter((x) => x.featureId === FeatureType.Lottery);
+        const aiPackages = res.value.filter((x) => x.featureId === PsgFeatureType.AI);
+        const customPackage = res.value.filter((x) => x.featureId === PsgFeatureType.CustomDomain);
+        const lotteryPackage = res.value.filter((x) => x.featureId === PsgFeatureType.Lottery);
         dispatch({ type: "SET_TOKEN_PACKAGES", payload: aiPackages });
         dispatch({ type: "SET_DOMAIN_PACKAGES", payload: customPackage });
         dispatch({

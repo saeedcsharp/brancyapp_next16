@@ -8,10 +8,10 @@ import {
   notify,
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
-import { IRefreshToken } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType } from "brancy/helper/api";
 import styles from "./metaDirect.module.css";
 import { clientFetchApi, clientFetchApiWithAccessToken } from "brancy/helper/clientFetchApi";
+import { IRefreshToken } from "brancy/models/interfaces";
 
 export default function MetaRedirect() {
   const { data: session, update } = useSession();
@@ -26,7 +26,13 @@ export default function MetaRedirect() {
   async function createInstagramerAccount() {
     console.log("createInstagramerAccount");
     try {
-      const response = await clientFetchApiWithAccessToken<boolean, number>("/api/preinstagramer/VerifyCode", { methodType: MethodType.get, accessToken: "Bearer" + " " + query.state, data: null, queries: [{ key: "code", value: query.code as string }], onUploadProgress: undefined });
+      const response = await clientFetchApiWithAccessToken<boolean, number>("/api/preinstagramer/VerifyCode", {
+        methodType: MethodType.get,
+        accessToken: "Bearer" + " " + query.state,
+        data: null,
+        queries: [{ key: "code", value: query.code as string }],
+        onUploadProgress: undefined,
+      });
       if (response.succeeded && session != null) {
         try {
           if (
@@ -54,7 +60,13 @@ export default function MetaRedirect() {
           } else {
             {
               try {
-                const res = await clientFetchApi<boolean, IRefreshToken>("/api/user/RefreshToken", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+                const res = await clientFetchApi<boolean, IRefreshToken>("/api/user/RefreshToken", {
+                  methodType: MethodType.get,
+                  session: session,
+                  data: undefined,
+                  queries: undefined,
+                  onUploadProgress: undefined,
+                });
                 if (res.succeeded) {
                   await update({
                     ...session,

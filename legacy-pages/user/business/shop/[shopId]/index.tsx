@@ -11,16 +11,6 @@ import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import findSystemLanguage from "brancy/helper/findSystemLanguage";
 import { LanguageKey } from "brancy/i18n";
-import { AvailabilityStatus } from "brancy/models/store/enum";
-import { IBusiness } from "brancy/models/userPanel/business";
-import {
-  IFilter,
-  IFilterInfo,
-  IProduct,
-  IProductCard,
-  ITopHashtags,
-  ProductSortType,
-} from "brancy/models/userPanel/shop";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
@@ -28,6 +18,8 @@ import { useRouter } from "next/router";
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./products.module.css";
+import { ProductSortType, AvailabilityStatus } from "brancy/models/enums";
+import { IProduct, IBusiness, IFilterInfo, IProductCard, ITopHashtags, IFilter } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
 const ProductsPage = () => {
   const router = useRouter();

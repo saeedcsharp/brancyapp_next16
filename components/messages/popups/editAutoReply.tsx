@@ -21,20 +21,20 @@ import {
   notify,
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
-
 import { LanguageKey } from "brancy/i18n";
-import { IDetailPrompt, IPrompts } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
-import { AutoReplyPayLoadType, MediaProductType } from "brancy/models/messages/enum";
-import {
-  ICreateGeneralAutoReply,
-  IGeneralAutoReply,
-  IMasterFlow,
-  ITotalMasterFlow,
-} from "brancy/models/messages/properies";
 
 import styles from "./editAutoReply.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { MediaProductType, AutoReplyPayLoadType } from "brancy/models/enums";
+import {
+  ICreateGeneralAutoReply,
+  IGeneralAutoReply,
+  IPrompts,
+  IDetailPrompt,
+  IMasterFlow,
+  ITotalMasterFlow,
+} from "brancy/models/interfaces";
 type CheckBoxState = {
   Custom: boolean;
   Flow: boolean;

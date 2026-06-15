@@ -14,9 +14,9 @@ import Loading from "brancy/components/notOk/loading";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IShortPostInfo } from "brancy/models/page/tools/tools";
 import styles from "./selectPost.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IShortPostInfo } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 const SelectPost = (props: {
   removeMask: () => void;

@@ -17,14 +17,14 @@ import InsightChart from "brancy/components/page/posts/insightChart";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import {
-  IFollowRequest_AcceptedFollower,
-  IFollowRequest_Condotion,
-  IFollowRequest_Figure,
-  IFollowRequest_UpdateCondotion,
-} from "brancy/models/page/tools/tools";
 import styles from "./autointeraction.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import {
+  IFollowRequest_Condotion,
+  IFollowRequest_Figure,
+  IFollowRequest_AcceptedFollower,
+  IFollowRequest_UpdateCondotion,
+} from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 const Followrequests = (props: { removeMask: () => void }) => {
   const { data: session } = useSession();

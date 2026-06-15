@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import InputText from "brancy/components/design/inputText";
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
-import { IProductInstance } from "brancy/models/store/IProduct";
 import styles from "./general.module.css";
+import { IProductInstance } from "brancy/models/interfaces";
 function GeneralInstance({
   productInstance,
   upadteCteateFromgeneral,

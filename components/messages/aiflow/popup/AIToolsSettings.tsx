@@ -2,9 +2,9 @@ import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n/languageKeys";
 import TextArea from "brancy/components/design/textArea/textArea";
-import { ITool } from "brancy/models/AI/prompt";
-import { ToolType } from "brancy/models/AI/enum";
 import styles from "./popup.module.css";
+import { ToolType } from "brancy/models/enums";
+import { ITool } from "brancy/models/interfaces";
 interface AIToolParameter {
   name: string;
   description: string;

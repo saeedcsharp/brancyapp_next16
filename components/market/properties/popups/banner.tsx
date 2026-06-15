@@ -23,17 +23,17 @@ import Loading from "brancy/components/notOk/loading";
 import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType, UploadFile } from "brancy/helper/api";
-import {
-  IBannerSelectedImage,
-  ICustomeBannerInfo,
-  IProfileBanner,
-  IProfileBannerCustomCaption,
-  IProfileBannerCustomeFullName,
-  IUpdateBanner,
-  IUpdateProfileBanner,
-} from "brancy/models/market/properties";
 import styles from "./featureBoxPU.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import {
+  IProfileBannerCustomeFullName,
+  IProfileBannerCustomCaption,
+  IBannerSelectedImage,
+  IProfileBanner,
+  ICustomeBannerInfo,
+  IUpdateBanner,
+  IUpdateProfileBanner,
+} from "brancy/models/interfaces";
 const MAX_FILE_SIZE = 5 * 1024 * 1024; // 5MB
 const ALLOWED_FILE_TYPES = ["image/jpeg", "image/png", "image/tiff", "image/gif"];
 const MAX_CAPTION_LENGTH = 150;

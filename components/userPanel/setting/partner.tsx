@@ -7,9 +7,8 @@ import Loading from "brancy/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { ILoadingStatus } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IPartner_User } from "brancy/models/userPanel/setting";
 import styles from "./general.module.css";
+import { ILoadingStatus, IPartner_User } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
 export default function UserPartners({
   partners,

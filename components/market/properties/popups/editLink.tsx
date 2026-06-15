@@ -3,21 +3,17 @@ import Head from "next/head";
 import { ChangeEvent, useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
 import CheckBoxButton from "brancy/components/design/checkBoxButton";
 import InputText from "brancy/components/design/inputText";
 import Loading from "brancy/components/notOk/loading";
 import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
-
 import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
 import initialzedTime from "brancy/helper/manageTimer";
-
 import { LanguageKey } from "brancy/i18n";
-import { TitleType } from "brancy/models/market/enums";
-import { ILink, IUpdateLink } from "brancy/models/market/properties";
-
 import styles from "./addNewLink.module.css";
+import { TitleType } from "brancy/models/enums";
+import { ILink, IUpdateLink } from "brancy/models/interfaces";
 
 const baseMediaUrl = getClientMediaBaseUrl();
 

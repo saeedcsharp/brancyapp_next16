@@ -1,14 +1,15 @@
-import React, { useMemo } from "react";
-import { IItem, IOwnerInbox, ITicket, ITicketMediaType } from "brancy/models/userPanel/message";
-import styles from "brancy/components/messages/ticket/ticketChatBox.module.css";
 import { SystemChatImage } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/SystemChatImage";
 import { SystemChatText } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/SystemChatText";
 import { ImageClickInfo, VideoClickInfo } from "brancy/components/messages/ticket/chatComponents/types";
+import styles from "brancy/components/messages/ticket/ticketChatBox.module.css";
+import { ITicketMediaType } from "brancy/models/enums";
+import { ITicket, ITicketOwnerInbox, IUserTicketItem } from "brancy/models/interfaces";
+import React, { useMemo } from "react";
 
 interface SystemChatWrapperProps {
-  item: IItem;
+  item: IUserTicketItem;
   chatBox: ITicket;
-  ownerInbox: IOwnerInbox;
+  ownerInbox: ITicketOwnerInbox;
   baseMediaUrl: string;
   onImageContainerClick?: (info: ImageClickInfo) => void;
   onVideoContainerClick?: (info: VideoClickInfo) => void;

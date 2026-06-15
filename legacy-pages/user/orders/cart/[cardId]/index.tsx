@@ -4,7 +4,6 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useId, useMemo, useReducer, useRef, useTransition } from "react";
-
 import {
   internalNotify,
   InternalResponseType,
@@ -14,17 +13,6 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import {
-  IAddress,
-  ICompleteProduct,
-  ILogistic,
-  InputTypeAddress,
-  IShortShop,
-  ISubProduct,
-  IUpdateUserAddress,
-} from "brancy/models/userPanel/orders";
-import { ColorStr } from "brancy/models/userPanel/shop";
-
 import IncrementStepper from "brancy/components/design/incrementStepper";
 import Loading from "brancy/components/notOk/loading";
 import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
@@ -33,24 +21,32 @@ import Addresses from "brancy/components/userPanel/orders/popups/addresses";
 import CreateAddresses from "brancy/components/userPanel/orders/popups/createAddress";
 import UpdateAddresses from "brancy/components/userPanel/orders/popups/updateAddress";
 import findSystemLanguage from "brancy/helper/findSystemLanguage";
-
 import styles from "./cardId.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import {
+  IAddress,
+  ILogistic,
+  IOrderShortShop,
+  IUpdateUserAddress,
+  IUserCompleteProduct,
+  IUserSubProduct,
+} from "brancy/models/interfaces";
+import { ColorStr, InputTypeAddress } from "brancy/models/enums";
 
 // Interface for grouped shop data
 interface IGroupedShop {
   instagramerId: number;
-  shopInfo: IShortShop;
-  products: ICompleteProduct[];
+  shopInfo: IOrderShortShop;
+  products: IUserCompleteProduct[];
   totalPrice: number;
   totalDiscount: number;
 }
 
 // State management types
 interface CartState {
-  stores: ICompleteProduct[];
+  stores: IUserCompleteProduct[];
   expandedStores: number[];
-  deletedProducts: { sub: ISubProduct; productId: number }[];
+  deletedProducts: { sub: IUserSubProduct; productId: number }[];
   undoTimeouts: Record<number, NodeJS.Timeout>;
   timers: Record<number, number>;
   addCartLoading: number | null;
@@ -73,10 +69,10 @@ interface CartState {
 }
 
 type CartAction =
-  | { type: "SET_STORES"; payload: ICompleteProduct[] }
+  | { type: "SET_STORES"; payload: IUserCompleteProduct[] }
   | { type: "SET_EXPANDED_STORES"; payload: number[] }
   | { type: "TOGGLE_STORE"; payload: number }
-  | { type: "ADD_DELETED_PRODUCT"; payload: { sub: ISubProduct; productId: number } }
+  | { type: "ADD_DELETED_PRODUCT"; payload: { sub: IUserSubProduct; productId: number } }
   | { type: "REMOVE_DELETED_PRODUCT"; payload: number }
   | { type: "SET_UNDO_TIMEOUT"; payload: { id: number; timeout: NodeJS.Timeout } }
   | { type: "CLEAR_UNDO_TIMEOUT"; payload: number }
@@ -85,7 +81,7 @@ type CartAction =
   | { type: "SET_ADD_CART_LOADING"; payload: number | null }
   | { type: "UPDATE_QUANTITY"; payload: { productId: number; subProductId: number; quantity: number } }
   | { type: "REMOVE_PRODUCT"; payload: { productId: number; subProductId: number } }
-  | { type: "RESTORE_PRODUCT"; payload: { productId: number; sub: ISubProduct } }
+  | { type: "RESTORE_PRODUCT"; payload: { productId: number; sub: IUserSubProduct } }
   | { type: "SET_ADDRESSES"; payload: IAddress[] }
   | { type: "SET_COPIED_ADDRESSES"; payload: IAddress[] }
   | { type: "SET_INPUT_TYPE_ADDRESS"; payload: InputTypeAddress | null }
@@ -321,18 +317,19 @@ const OrdersCart = () => {
   // Memoized calculations with better performance
   const totalPrice = useMemo(() => {
     return state.stores.reduce(
-      (total: number, product: ICompleteProduct) =>
-        total + product.subProducts.reduce((sum: number, sub: ISubProduct) => sum + sub.mainPrice * sub.cardCount, 0),
+      (total: number, product: IUserCompleteProduct) =>
+        total +
+        product.subProducts.reduce((sum: number, sub: IUserSubProduct) => sum + sub.mainPrice * sub.cardCount, 0),
       0,
     );
   }, [state.stores]);
 
   const totalDiscount = useMemo(() => {
     return state.stores.reduce(
-      (total: number, product: ICompleteProduct) =>
+      (total: number, product: IUserCompleteProduct) =>
         total +
         product.subProducts.reduce(
-          (sum: number, sub: ISubProduct) => sum + (sub.mainPrice - sub.price) * sub.cardCount,
+          (sum: number, sub: IUserSubProduct) => sum + (sub.mainPrice - sub.price) * sub.cardCount,
           0,
         ),
       0,
@@ -343,11 +340,11 @@ const OrdersCart = () => {
   const groupedShops = useMemo((): IGroupedShop[] => {
     const shopMap = new Map<number, IGroupedShop>();
 
-    state.stores.forEach((product: ICompleteProduct) => {
+    state.stores.forEach((product: IUserCompleteProduct) => {
       const instagramerId = product.shortProduct.instagramerId;
 
       if (!shopMap.has(instagramerId)) {
-        const shopInfo: IShortShop = product.shortShop || {
+        const shopInfo: IOrderShortShop = product.shortShop || {
           lastUpdate: 0,
           instagramerId: instagramerId,
           username: `Shop ${instagramerId}`,
@@ -371,7 +368,7 @@ const OrdersCart = () => {
       const shopGroup = shopMap.get(instagramerId)!;
       shopGroup.products.push(product);
 
-      product.subProducts.forEach((sub: ISubProduct) => {
+      product.subProducts.forEach((sub: IUserSubProduct) => {
         shopGroup.totalPrice += sub.price * sub.cardCount;
         shopGroup.totalDiscount += (sub.mainPrice - sub.price) * sub.cardCount;
       });
@@ -422,8 +419,8 @@ const OrdersCart = () => {
 
   const deleteProduct = useCallback(
     async (productId: number, subProductId: number) => {
-      const product = state.stores.find((p: ICompleteProduct) => p.productId === productId);
-      const subProduct = product?.subProducts.find((x: ISubProduct) => x.subProductId === subProductId);
+      const product = state.stores.find((p: IUserCompleteProduct) => p.productId === productId);
+      const subProduct = product?.subProducts.find((x: IUserSubProduct) => x.subProductId === subProductId);
 
       if (!subProduct) return;
 
@@ -536,7 +533,7 @@ const OrdersCart = () => {
     abortControllerRef.current = new AbortController();
 
     try {
-      const res = await clientFetchApi<boolean, ICompleteProduct[]>("/api/shop/GetInstagramerCard", {
+      const res = await clientFetchApi<boolean, IUserCompleteProduct[]>("/api/shop/GetInstagramerCard", {
         methodType: MethodType.get,
         session: session,
         data: null,
@@ -548,15 +545,15 @@ const OrdersCart = () => {
       });
 
       if (res.succeeded) {
-        const filteredProducts = res.value.map((product: ICompleteProduct) => ({
+        const filteredProducts = res.value.map((product: IUserCompleteProduct) => ({
           ...product,
-          subProducts: product.subProducts.filter((sub: ISubProduct) => sub.cardCount > 0),
+          subProducts: product.subProducts.filter((sub: IUserSubProduct) => sub.cardCount > 0),
         }));
 
         dispatch({ type: "SET_STORES", payload: filteredProducts });
 
         const uniqueInstagramerIds = [
-          ...new Set(res.value.map((store: ICompleteProduct) => store.shortProduct.instagramerId)),
+          ...new Set(res.value.map((store: IUserCompleteProduct) => store.shortProduct.instagramerId)),
         ];
         dispatch({ type: "SET_EXPANDED_STORES", payload: uniqueInstagramerIds });
       } else {

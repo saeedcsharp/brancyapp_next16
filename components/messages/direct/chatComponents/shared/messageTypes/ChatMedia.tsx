@@ -1,12 +1,12 @@
 import React, { useCallback, useId, useMemo } from "react";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import MediaDetector from "brancy/components/messages/shared/utils/MediaDetector";
-import { BaseChatProps } from "brancy/components/messages/direct/chatComponents/types";
 import { ChatDate } from "brancy/components/messages/direct/chatComponents/shared/utils/ChatDate";
 import { MessageStatus } from "brancy/components/messages/direct/chatComponents/shared/utils/ChatDateandseen";
 import ReactionEmoji from "brancy/components/messages/direct/chatComponents/shared/utils/ReactionEmoji";
 import { RepliedMessage } from "brancy/components/messages/direct/chatComponents/shared/utils/RepliedMessage";
 import styles from "./messageTypes.module.css";
+import { BaseChatProps } from "brancy/models/interfaces";
 // #region ثابت‌ها — مقادیر ثابت برای تصویر جایگزین و اندازه‌های پیش‌فرض
 const FALLBACK_IMAGE = "/cover.svg";
 const FALLBACK_SIZE = "50px";

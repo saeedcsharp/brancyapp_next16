@@ -4,9 +4,8 @@ import HourLineChart, { GetHourAmPM } from "brancy/components/design/chart/hourL
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
 import { LanguageKey } from "brancy/i18n";
-import { IBestTime } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/cardBestWorst";
-import { HourCountUnix } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import styles from "./postTimeAnalalysis.module.css";
+import { IBestTime, HourCountUnix } from "brancy/models/interfaces";
 
 type ViewMode = "heatmap";
 

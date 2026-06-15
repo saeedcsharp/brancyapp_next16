@@ -17,14 +17,14 @@ import InsightChart from "brancy/components/page/posts/insightChart";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
+import styles from "./autointeraction.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   ILikeComment_Condotion,
   ILikeComment_Figure,
   ILikeComment_GetLikeComments,
   ILikeComment_UpdateCondotion,
-} from "brancy/models/page/tools/tools";
-import styles from "./autointeraction.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+} from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 const LikeAllComments = (props: { removeMask: () => void }) => {
   const { data: session } = useSession();

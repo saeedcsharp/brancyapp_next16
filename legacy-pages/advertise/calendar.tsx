@@ -9,10 +9,9 @@ import Timeline from "brancy/components/advertise/calendar/timeLine";
 import Modal from "brancy/components/design/modal";
 import NotAdvertiser from "brancy/components/notOk/notAdvertiser";
 import { LanguageKey } from "brancy/i18n";
-import { AdsTimeType, AdsType } from "brancy/models/advertise/AdEnums";
-import { DetailType, IRejectTerms } from "brancy/models/advertise/adList";
-import { ICaledarAds } from "brancy/models/advertise/calendar";
 import styles from "./calendar.module.css";
+import { ICaledarAds, IRejectTerms } from "brancy/models/interfaces";
+import { AdsType, AdsTimeType, DetailType } from "brancy/models/enums";
 const AdCalendar = () => {
   //  return <Soon />;
   const router = useRouter();

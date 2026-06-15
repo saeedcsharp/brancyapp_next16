@@ -5,10 +5,10 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IFullLottery } from "brancy/models/page/tools/tools";
 import ConstantCounterDown from "brancy/components/design/counterDown/constantCounterDown";
 import styles from "./lotteryRunning.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IFullLottery } from "brancy/models/interfaces";
 const LotteryRunning = (props: {
   removeMask: () => void;
   handleBachFromLotteryRunning: () => void;

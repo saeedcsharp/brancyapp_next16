@@ -15,11 +15,11 @@ import { calculateSummary } from "brancy/helper/numberFormater";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IStory, IStoryContent } from "brancy/models/page/story/stories";
 import ScheduledStory from "brancy/components/page/scheduledStory/scheduledStory";
 import styles from "./storyContent.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { PartnerRole } from "brancy/models/enums";
+import { IStoryContent, IStory } from "brancy/models/interfaces";
 
 const basePictureUrl = getClientMediaBaseUrl();
 

@@ -4,8 +4,8 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useTranslation } from "react-i18next";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
 import { LanguageKey } from "brancy/i18n";
-import { IPostContent } from "brancy/models/page/post/posts";
 import styles from "./PostStatsViewer.module.css";
+import { IPostContent } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 const POSTS_PER_PAGE = 50;
 export type SortType = "maxView" | "minView" | "maxEngagement" | "minEngagement";
