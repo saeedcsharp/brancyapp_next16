@@ -1,4 +1,5 @@
 import { ItemType } from "brancy/models/messages/enum";
+import { PromptType, ToolType } from "./enum";
 
 export interface ITotalPrompt {
   promptId: string;
@@ -22,14 +23,27 @@ export interface ICreatePrompt {
   reNewForThread: boolean;
   shouldFollower: boolean;
   prompt: string;
+  promptType: PromptType;
   promptAnalysis: IAnalysisPrompt | null;
+  tools: ITool[];
+  promptImageGen: IPromptImageGen | null;
 }
 export interface IAnalysisPrompt {
   description: string;
   tasks: string[];
   rules: string[];
-  detectedCredentials: { type: string; value: string }[];
   signature: string;
+}
+export interface IPromptImageGen {
+  numberOfImage: number;
+  numberOfGeneratePerThread: number;
+}
+export interface ITool {
+  toolId: string;
+  parameters: {
+    name: string;
+    value: string;
+  }[];
 }
 export interface ICreateLiveChat {
   text: string;
@@ -43,10 +57,12 @@ export interface IAITools {
     description: string;
     isRequired: boolean;
     name: string;
+    generateWithAI: boolean;
   }[];
   name: string;
   tokenUsage: number;
   completeDescription: string;
+  toolType: ToolType;
 }
 export interface ILiveChat {
   imageUrl: string | null;

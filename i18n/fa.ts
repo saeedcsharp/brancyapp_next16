@@ -490,6 +490,7 @@ export default {
     logout: "خروج",
     notallowed: "مجاز نیست",
     notallowedExplain: "شما اجازه دسترسی به این قابلیت را ندارید",
+    notallowedExplainPage: "شما اجازه دسترسی به این صفحه را ندارید",
     CreateAutomationFlow: "ساخت اتوماسیون با فلو",
     CreateAutomationFlowExplain: "خودکارسازی تمامی تعاملات اینستاگرام با استفاده از سازنده‌ی جریان کاری بصری",
     CreateAutomationAI: "ساخت اتوماسیون هوشمند",
@@ -649,6 +650,7 @@ export default {
     sidebar_Advertise: "تبلیغات",
     sidebar_Store: "فروشگاه",
     sidebar_Stores: "فروشگاه‌ها",
+    sidebar_Business: "کسب‌وکار",
     sidebar_Setting: "تنظیمات",
     //0️⃣ General -> navbar
     navbar_Post: "پست",
@@ -1467,6 +1469,7 @@ export default {
     pageTools_EventIdeasCountry: "کشور",
     pageTools_EventIdeasPrompt: "موضوع",
     pageTools_EventIdeasCreatedTime: "تاریخ ساخت",
+    pageTools_CustomEvent: "رویداد سفارشی",
     pageTools_exportcomments: "خروجی کل کامنت‌ها به‌صورت فایل اکسل گرفته می‌شود و قابل دانلود و اشتراک‌گذاری است",
     pageTools_Lottery: "قرعه‌کشی امتیازی",
     pageTools_emptylotteryList: "هنوز هیچ قرعه‌کشی‌ای ایجاد نکرده‌اید",
@@ -1806,7 +1809,18 @@ export default {
 
     marketProperties_explain: "در صورتی که نام کاربری اینستاگرام تغییر کند، این لینک به‌طور خودکار به‌روزرسانی می‌شود.",
     marketProperties_rejected: "دامنه شما رد شده است (لطفاً با ما تماس بگیرید)",
+    customDomain_inactive_title: "دامنه اختصاصی غیرفعال است",
+    customDomain_inactive_desc: "دامنه شما در حال حاضر غیرفعال است. لطفاً برای فعال‌سازی با پشتیبانی تیکت ارسال کنید.",
+    customDomain_noPackage_title: "پکیج دامنه اختصاصی یافت نشد",
+    customDomain_noPackage_desc:
+      "پکیج فعلی شما شامل دامنه اختصاصی نمی‌شود. برای استفاده از این قابلیت، پکیج خود را ارتقا دهید.",
+    customDomain_rule_notEmpty: "دامنه نباید خالی باشد",
+    customDomain_rule_validChars: "فقط حروف و اعداد مجاز است",
+    customDomain_rule_noUnderscore: "زیرخط (_) و خط تیره (-) مجاز نیست",
+    customDomain_rule_noSubdomain: "Subdomain مجاز نیست (فقط یک نقطه)",
+    customDomain_rule_notBrancy: "دامنه‌های brancy.app، bran.cy، brncy.ir و brancy.ir مجاز نیستند",
     marketProperties_Request: "درخواست",
+    marketProperties_Connect: "اتصال",
     marketProperties_Requested: "درخواست شده",
     marketProperties_Checking: "در حال بررسی",
     marketProperties_yourstore: "فروشگاه (لینک فروشگاه شما)",
@@ -2258,6 +2272,11 @@ export default {
     SettingGeneralSystempound: "پوند",
     SettingGeneralSystemrial: "ریال",
     SettingGeneralSystemtoman: "تومان",
+    // Setting -> General -> AI Models
+    SettingGeneralAiModelsTitle: "مدل‌های هوش مصنوعی",
+    SettingGeneralAiModelsTextModels: "مدل‌های متنی",
+    SettingGeneralAiModelsVoiceModels: "مدل‌های تبدیل صدا به متن",
+    SettingGeneralAiModelsDirectVoiceSupport: "پشتیبانی مستقیم صوتی",
     // Setting -> General -> Profile
     SettingGeneralProfileTitle: "پروفایل",
     SettingGeneral_activedevice: "دستگاه‌های فعال",
@@ -2605,6 +2624,8 @@ export default {
     sendsms: "ارسال پیامک به کاربر",
     sendtotelegram: "هدایت کاربر به تلگرام",
     senderusername: "صدا زدن نام کاربر",
+    addtools: "افزودن ابزار",
+    generatebyai: "تولید توسط هوش مصنوعی",
 
     //tutorials
     // ============================

@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import router from "next/router";
 import { ChangeEvent, useState } from "react";
@@ -17,7 +18,7 @@ import { IPageAnalysisHashtags } from "brancy/models/page/tools/tools";
 import styles from "./newPageAnalyzer.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 interface IPageHashtagAnalysisInfo {
   pk: number;
   username: string;

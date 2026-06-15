@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import {
   closestCenter,
   DndContext,
@@ -31,8 +32,10 @@ import { LanguageKey } from "brancy/i18n";
 import { MediaType } from "brancy/models/page/post/preposts";
 import { IProduct_Media, ISuggestedMedia } from "brancy/models/store/IProduct";
 import styles from "./media.module.css";
-
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+import { UploadFile } from "brancy/helper/api";
+import Compressor from "compressorjs";
+import ProgressBar from "brancy/components/design/progressBar/progressBar";
+const basePictureUrl = getClientMediaBaseUrl();
 const MAX_UPLOADS = 5;
 const SUPPORTED_IMAGE_TYPES = ["image/jpeg", "image/png"];
 const IMAGE_COMPRESSION_OPTIONS = {
@@ -87,33 +90,51 @@ function SortableItem({
     transition,
   };
 
+  const isUploading = media.isUploading;
+  const progress = media.uploadProgress ?? 0;
+
   return (
     <div ref={setNodeRef} style={style}>
       <div className={styles.thumbnailmedia}>
-        <img
-          className={`${styles.thumbnailmediapicture} ${media.isHidden && "fadeDiv"}`}
-          role="button"
-          title="ℹ️ media picture"
-          src={media.thumbnailMediaUrl.length > 0 ? basePictureUrl + media.thumbnailMediaUrl : media.base64Url}
-        />
+        {/* ✅ IMAGE OR PROGRESS */}
+        {isUploading ? (
+          <div
+            className={styles.thumbnailmediapicture}
+            style={{
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+            }}>
+            <span style={{ fontSize: "12px", marginBottom: "6px" }}>Uploading...</span>
+            <ProgressBar width={progress} />
+          </div>
+        ) : (
+          <img
+            className={`${styles.thumbnailmediapicture} ${media.isHidden && "fadeDiv"}`}
+            role="button"
+            title="ℹ️ media picture"
+            src={media.base64Url}
+          />
+        )}
+
+        {/* ✅ SETTINGS */}
         <div className={`${styles.thumbnailmediasetting} ${media.isHidden && "fadeDiv"}`}>
           <img
             className={styles.thumbnailicon}
             title="ℹ️ photo type"
             src={media.mediaType === MediaType.Image ? "/mediapicture.svg" : "/mediavideo.svg"}
           />
-          {!media.isDefault && (
+
+          {!media.isDefault && !isUploading && (
             <div className={styles.thumbnailmediabtn}>
               <img
                 className={styles.thumbnailiconstg}
                 title="ℹ️ view large"
                 src="/icon-view.svg"
-                onClick={() =>
-                  onView(
-                    media.thumbnailMediaUrl.length > 0 ? basePictureUrl + media.thumbnailMediaUrl : media.base64Url,
-                  )
-                }
+                onClick={() => onView(media.base64Url)}
               />
+
               {!media.key && !media.fromSuggestion && (
                 <img
                   onClick={() => onReplace(media.index)}
@@ -122,6 +143,7 @@ function SortableItem({
                   src="/replacemedia.svg"
                 />
               )}
+
               <img
                 className={styles.thumbnailiconstg}
                 onClick={() => onDelete(media.index)}
@@ -131,16 +153,28 @@ function SortableItem({
             </div>
           )}
         </div>
+
+        {/* ✅ INFO BAR */}
         <div className={styles.thumbnailmediainfo}>
-          <div {...attributes} {...listeners}>
-            <img style={{ width: "35px" }} title="ℹ️ Drag to Move" src="/draginline.svg" />
+          {/* Drag disabled during upload */}
+          <div {...(!isUploading ? { ...attributes, ...listeners } : {})}>
+            <img
+              style={{ width: "35px", opacity: isUploading ? 0.3 : 1 }}
+              title="ℹ️ Drag to Move"
+              src="/draginline.svg"
+            />
           </div>
+
           <div
             className={`${styles.pictureorder} ${!media.isHidden ? styles.pictureorderfalse : ""}`}
             title={`ℹ️ show or hide ${index + 2}`}
-            onClick={() => onToggleVisibility(media.index)}>
+            onClick={() => {
+              if (isUploading) return;
+              onToggleVisibility(media.index);
+            }}>
             {index + 2}
           </div>
+
           {media.isDefault ? (
             <img style={{ width: "35px" }} title="ℹ️ Recently Uploaded" src="/instagram.svg" />
           ) : media.fromSuggestion ? (
@@ -199,47 +233,125 @@ export default function Media({
 
   const compressAndUpload = useCallback(
     async (file: File) => {
-      console.log("hhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhhh");
       try {
-        const result = await new Promise<Blob>((resolve, reject) => {
-          new ImageCompressor(file, {
-            ...IMAGE_COMPRESSION_OPTIONS,
-            success: resolve,
-            error: reject,
+        // 1) Compress image
+        const compressedFile = await new Promise<File>((resolve, reject) => {
+          new Compressor(file!, {
+            quality: 0.95,
+            maxWidth: 700,
+            maxHeight: 700,
+            success(result) {
+              resolve(new File([result], file!.name, { type: result.type }));
+            },
+            error(err) {
+              reject(err);
+            },
           });
         });
 
-        const arrayBuffer = await result.arrayBuffer();
-        const arrayToString = _arrayBufferToBase64(arrayBuffer as ArrayBuffer);
-        const base64Url = `data:image/jpeg;base64,${arrayToString}`;
+        // ------------------------------
+        // CASE 1: Replace existing image
+        // ------------------------------
+        if (selectedIndex !== null) {
+          // Insert temporary uploading state
+          setProductMediaInfo((prev) =>
+            prev.map((x) =>
+              x.index !== selectedIndex
+                ? x
+                : {
+                    ...x,
+                    isUploading: true,
+                    uploadProgress: 0,
+                  },
+            ),
+          );
+
+          // Upload with progress
+          const upload = await UploadFile(session, compressedFile, (progress) => {
+            setProductMediaInfo((prev) =>
+              prev.map((x) =>
+                x.index !== selectedIndex
+                  ? x
+                  : {
+                      ...x,
+                      uploadProgress: progress,
+                    },
+              ),
+            );
+          });
+
+          // Final update after upload finished
+          setProductMediaInfo((prev) =>
+            prev.map((x) =>
+              x.index !== selectedIndex
+                ? x
+                : {
+                    ...x,
+                    isUploading: false,
+                    base64Url: upload.showUrl,
+                    thumbnailMediaUrl: upload.fileName,
+                  },
+            ),
+          );
+
+          return;
+        }
+
+        // ------------------------------
+        // CASE 2: Add a new image at start
+        // ------------------------------
+
+        // Add temp item in uploading state
+        const tempItem: IProduct_Media = {
+          base64Url: "",
+          childrenId: null,
+          index: 0,
+          isDefault: false,
+          isHidden: false,
+          mediaType: MediaType.Image,
+          thumbnailMediaUrl: "",
+          key: null,
+          isUploading: true,
+          uploadProgress: 0,
+        };
 
         setProductMediaInfo((prev) => {
-          if (selectedIndex !== null) {
-            return prev.map((x) => (x.index !== selectedIndex ? x : { ...x, base64Url }));
-          }
+          const arr = [tempItem, ...prev];
+          return arr.map((x, i) => ({ ...x, index: i }));
+        });
 
-          const newMedia: IProduct_Media = {
-            base64Url,
-            childrenId: null,
-            index: 0,
-            isDefault: false,
-            isHidden: false,
-            mediaType: MediaType.Image,
-            thumbnailMediaUrl: "",
-            key: null,
+        // Upload with progress listener
+        const upload = await UploadFile(session, compressedFile, (progress) => {
+          setProductMediaInfo((prev) => {
+            const updated = [...prev];
+            updated[0] = {
+              ...updated[0],
+              uploadProgress: progress,
+            };
+            return updated;
+          });
+        });
+
+        // Replace temp item with real uploaded item
+        setProductMediaInfo((prev) => {
+          const updated = [...prev];
+          updated[0] = {
+            ...updated[0],
+            isUploading: false,
+            base64Url: upload.showUrl,
+            thumbnailMediaUrl: upload.fileName,
           };
-
-          return [newMedia, ...prev].map((arr, idx) => ({
-            ...arr,
-            index: idx,
-          }));
+          return updated.map((x, i) => ({ ...x, index: i }));
         });
       } catch (error) {
         console.error("Image compression failed:", error);
         notify(ResponseType.Unexpected, NotifType.Error);
+
+        // Remove uploading temp item if something fails
+        setProductMediaInfo((prev) => prev.filter((x) => !x.isUploading));
       }
     },
-    [selectedIndex, _arrayBufferToBase64],
+    [selectedIndex, session],
   );
 
   const handleFileDrop = useCallback(
@@ -344,6 +456,8 @@ export default function Media({
         key: key,
         fromSuggestion: true,
         suggestedIndex: 0,
+        isUploading: false,
+        uploadProgress: 0,
       };
       setProductMediaInfo([...productMediaInfo, newMediaItem]);
     }

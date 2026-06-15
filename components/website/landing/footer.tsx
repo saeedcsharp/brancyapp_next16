@@ -13,20 +13,20 @@ const Footer: React.FC = () => {
         links: [
           {
             text: t(LanguageKey.footer_AboutUs),
-            href: "brancy/components/website/landing/Accessibility/About-Us",
+            href: "Accessibility/About-Us",
           },
           {
             text: t(LanguageKey.footer_ContactUs),
-            href: "brancy/components/website/landing/Accessibility/Contact-Us",
+            href: "Accessibility/Contact-Us",
           },
           {
             text: t(LanguageKey.footer_JoinUs),
-            href: "brancy/components/website/landing/Accessibility/join-Us",
+            href: "Accessibility/join-Us",
           },
-          {
-            text: t(LanguageKey.footer_OrgChart),
-            href: "brancy/components/website/landing/Accessibility/OrgChart",
-          },
+          // {
+          //   text: t(LanguageKey.footer_OrgChart),
+          //   href: "Accessibility/OrgChart",
+          // },
         ],
       },
       {
@@ -34,16 +34,16 @@ const Footer: React.FC = () => {
         links: [
           {
             text: t(LanguageKey.footer_HelpCenter),
-            href: "brancy/components/website/landing/Accessibility/Help-Center",
+            href: "Accessibility/Help-Center",
           },
           {
             text: t(LanguageKey.footer_Support),
-            href: "brancy/components/website/landing/Accessibility/Support",
+            href: "Accessibility/Support",
           },
-          { text: t(LanguageKey.footer_FAQ), href: "brancy/components/website/landing/Accessibility/FAQ" },
+          { text: t(LanguageKey.footer_FAQ), href: "Accessibility/FAQ" },
           {
             text: t(LanguageKey.footer_ReportAnIssue),
-            href: "brancy/components/website/landing/Accessibility/Report-an-Issue",
+            href: "Accessibility/Report-an-Issue",
           },
         ],
       },
@@ -52,15 +52,15 @@ const Footer: React.FC = () => {
         links: [
           {
             text: t(LanguageKey.footer_TermsAndConditions),
-            href: "brancy/components/website/landing/Accessibility/Terms-and-conditions",
+            href: "Accessibility/Terms-and-conditions",
           },
           {
             text: t(LanguageKey.footer_PrivacyNotice),
-            href: "brancy/components/website/landing/Accessibility/privacy-policy",
+            href: "Accessibility/privacy-policy",
           },
           {
             text: t(LanguageKey.footer_CookieNotice),
-            href: "brancy/components/website/landing/Accessibility/Cookie-Notice",
+            href: "Accessibility/Cookie-Notice",
           },
         ],
       },
@@ -69,19 +69,19 @@ const Footer: React.FC = () => {
         links: [
           {
             text: t(LanguageKey.footer_ProductUpdates),
-            href: "brancy/components/website/landing/Accessibility/Product-Updates",
+            href: "Accessibility/Product-Updates",
           },
           {
             text: t(LanguageKey.footer_Articles),
-            href: "brancy/components/website/landing/Accessibility/Articles",
+            href: "Accessibility/Articles",
           },
           {
             text: t(LanguageKey.footer_LatestNews),
-            href: "brancy/components/website/landing/Accessibility/Latest-news",
+            href: "Accessibility/Latest-news",
           },
           {
             text: t(LanguageKey.footer_FollowUs),
-            href: "brancy/components/website/landing/Accessibility/Follow-Us",
+            href: "Accessibility/Follow-Us",
           },
         ],
       },

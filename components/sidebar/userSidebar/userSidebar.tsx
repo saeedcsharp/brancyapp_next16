@@ -78,8 +78,8 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
         },
       },
       {
-        id: "shop",
-        route: "/user/shop",
+        id: "business",
+        route: "/user/business",
         svgContent: (
           <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30">
             <path
@@ -88,10 +88,14 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
             <path d="M15 24c-1.6 0-3 1.2-3 2.7v2.9q0 .3.5.4h5q.5 0 .5-.4v-2.9c0-1.5-1.3-2.7-3-2.7M30 8.4a33 33 0 0 0-1.5-5.2A5 5 0 0 0 24.1 0H5.9a5 5 0 0 0-4.5 3.2A35 35 0 0 0 0 8.4 4 4 0 0 0 1.2 12a6 6 0 0 0 4.4 2q2.6-.1 4.2-2a.6.6 0 0 1 1 0 5.5 5.5 0 0 0 8.5 0 1 1 0 0 1 .9 0 6 6 0 0 0 4.3 2 6 6 0 0 0 4.3-2A4 4 0 0 0 30 8.4"></path>
           </svg>
         ),
-        translationKey: LanguageKey.sidebar_Stores,
-        isActive: (route: string) => route === "usershop",
+        translationKey: LanguageKey.sidebar_Business,
+        isActive: (route: string) =>
+          route === "userbusiness" ||
+          route === "userbusinessshop" ||
+          route === "userbusinessadvertise" ||
+          route === "userbusinessvshop" ||
+          route.includes("userbusinessshop"),
       },
-
       {
         id: "wallet",
         route: "/user/wallet",
@@ -267,7 +271,10 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
     const routeToIndicatorMap: Record<string, string> = {
       userhome: UserPanelRoute.UserPanelHome,
       userorders: UserPanelRoute.UserPanelOrders,
-      usershop: UserPanelRoute.UserPanelShop,
+      userbusiness: UserPanelRoute.UserPanelBusiness,
+      userbusinessshop: UserPanelRoute.UserPanelBusiness,
+      userbusinessadvertise: UserPanelRoute.UserPanelBusiness,
+      userbusinessvshop: UserPanelRoute.UserPanelBusiness,
       userorderscart: UserPanelRoute.UserPanelOrdersCart,
       userordersfailed: UserPanelRoute.UserPanelOrdersFailed,
       userordersinqueue: UserPanelRoute.UserPanelOrdersInQueue,
@@ -284,6 +291,10 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
     // Check if the route includes userorderscart
     if (route.includes(UserPanelRoute.UserPanelOrdersCart)) {
       route = UserPanelRoute.UserPanelOrdersCart;
+    }
+    // Check if the route includes userbusinessshop (dynamic shop/product routes)
+    if (route.includes(UserPanelRoute.UserPanelBusinessShop)) {
+      route = UserPanelRoute.UserPanelBusiness;
     }
     const cssClass = routeToIndicatorMap[route];
     return cssClass ? `${styles.menuIndicator} ${styles[`indicator-${cssClass}`]}` : "";

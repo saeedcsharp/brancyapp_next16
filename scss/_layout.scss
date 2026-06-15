@@ -246,6 +246,15 @@ html[dir="rtl"] .marketAdsCart {
   justify-items: center;
   animation: bottom 1.4s both;
   transition: var(--transition6);
+  @media (max-width: 720px) {
+    width: 100%;
+    margin-inline: 0;
+    padding-inline: 12px;
+    grid-template-columns: 1fr;
+    justify-items: stretch;
+    box-sizing: border-box;
+    grid-template-columns: repeat(auto-fill, minmax(min(200px, 100%), 395px));
+  }
 }
 
 .frameGroup {
@@ -407,7 +416,7 @@ html[dir="rtl"] .pincontainerMSG {
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: var(--color-dark-blue);
+  background-color: #060708;
   z-index: 115;
   animation: var(--slide-in);
   flex-direction: column;
@@ -510,5 +519,16 @@ html[dir="rtl"] .pincontainerMSG {
   .bigcard,
   .mediumcard {
     padding: var(--paddingboxmobile) !important;
+  }
+}
+
+@media (max-width: 720px) {
+  .tooBigCard,
+  .bigcard,
+  .mediumcard {
+    width: 100% !important;
+    max-width: 100% !important;
+    box-sizing: border-box;
+    border-radius: var(--br25);
   }
 }

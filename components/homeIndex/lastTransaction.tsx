@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -10,7 +11,7 @@ import Loading from "brancy/components/notOk/loading";
 import styles from "./lastTransaction.module.css";
 
 // const LastTransaction = () => {
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 
 const LastTransaction = (props: { data: ILastTransaction[] | null }) => {
   const { t } = useTranslation();

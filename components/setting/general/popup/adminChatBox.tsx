@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import router from "next/router";
 import { ChangeEvent, memo, useEffect, useRef, useState } from "react";
@@ -264,7 +265,7 @@ const AdminChatBox = (props: {
           locale: initialzedTime().locale,
         }).format("hh:mm A - ddd");
   };
-  const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+  const baseMediaUrl = getClientMediaBaseUrl();
   var unixTypingTime = 0;
   const chatBoxRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);

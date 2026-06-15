@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { memo, useCallback, useEffect, useMemo, useReducer } from "react";
@@ -64,7 +65,7 @@ const lastMessageReducer = (state: LastMessageState, action: LastMessageAction):
   }
 };
 
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL || "";
+const basePictureUrl = getClientMediaBaseUrl();
 
 const isRTL = (text: string): boolean => {
   const rtlChars = /[\u0590-\u05FF\u0600-\u06FF\u0750-\u077F]/;
@@ -83,37 +84,30 @@ interface MessageItemProps {
 const MessageItem = memo(
   ({ item, basePictureUrl, onImageClick, getItemTypeEmoji, entryTypeClass, entryTypeLabel }: MessageItemProps) => (
     <div className={`${styles.groupWrapper} translate`}>
-      <div className={styles.profile}>
-        <img
-          title="◰ resize the picture"
-          className={styles.imageProfile}
-          loading="lazy"
-          alt="instagram profile picture"
-          src={`${basePictureUrl}${item.profileUrl}`}
-          onClick={() => onImageClick(`${basePictureUrl}${item.profileUrl}`, item.username)}
-        />
-        <Link style={{ height: "20px" }} href={item.relativeUrl}>
-          <img
-            loading="lazy"
-            title="🔗 Reply message"
-            className={styles.replyicon}
-            alt="Reply message icon"
-            src={item.isReply ? "/icon-reply.svg" : "/shortcut.svg"}
-            width={20}
-            height={20}
-          />
-        </Link>
-      </div>
+      <img
+        title="◰ resize the picture"
+        className={styles.imageProfile}
+        loading="lazy"
+        alt="instagram profile picture"
+        src={`${basePictureUrl}${item.profileUrl}`}
+        onError={(e) => {
+          const target = e.currentTarget as HTMLImageElement;
+          const fallback = "/no-profile.svg";
+          if (target.src !== fallback) target.src = fallback;
+        }}
+        onClick={() => onImageClick(`${basePictureUrl}${item.profileUrl}`, item.username)}
+      />
+
       <div className="headerandinput">
         <div className="headerparent">
           <div className="instagramusername" title={item.username}>
             {item.username}
           </div>
-          <div className={entryTypeClass} title="ℹ️ message type">
-            {entryTypeLabel}
-          </div>
         </div>
-        <div title={item.message ?? ""} className={`${styles.message} ${isRTL(item.message ?? "") ? "rtl" : "ltr"}`}>
+        <div
+          title={item.message ?? ""}
+          //className={`${styles.message} ${isRTL(item.message ?? "") ? "rtl" : "ltr"}`}
+          className={styles.message}>
           {item.directItemType === ItemType.Text && item.message}
           {item.directItemType !== ItemType.Media &&
             item.directItemType !== ItemType.Text &&
@@ -122,6 +116,31 @@ const MessageItem = memo(
             item.directMediaType !== null &&
             getItemTypeEmoji(item.directItemType)}
         </div>
+      </div>
+      <div className={styles.profile}>
+        <div className={entryTypeClass} title="ℹ️ message type">
+          {entryTypeLabel}
+        </div>
+        <Link className={styles.replyicon} href={item.relativeUrl}>
+          <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path
+              fillRule="evenodd"
+              clipRule="evenodd"
+              d="M2.3.9q0-.8 1-.9h7q.7 0 .8.9v7a.9.9 0 1 1-1.8 0v-5l-7.8 8A.9.9 0 0 1 .3 9.5L8 1.8H3.2a1 1 0 0 1-.9-1"
+              fill="var(--text-h2)"
+            />
+          </svg>
+
+          {/* <img
+            loading="lazy"
+            title="🔗 Reply message"
+            className={styles.replyicon}
+            alt="Reply message icon"
+            src={item.isReply ? "/icon-reply.svg" : "/shortcut.svg"}
+            width={20}
+            height={20}
+          /> */}
+        </Link>
       </div>
     </div>
   ),

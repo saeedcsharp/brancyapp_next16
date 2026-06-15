@@ -490,6 +490,7 @@ export default {
     logout: "Abmelden",
     notallowed: "Nicht erlaubt",
     notallowedExplain: "Sie dürfen auf diese Funktion nicht zugreifen",
+    notallowedExplainPage: "Sie dürfen auf diese Seite nicht zugreifen",
     CreateAutomationFlow: "Automatisierungsablauf erstellen",
     CreateAutomationFlowExplain: "Automatisiere Instagram-Interaktionen mit einem visuellen Workflow-Builder.",
     CreateAutomationAI: "KI-Automatisierung erstellen",
@@ -630,6 +631,7 @@ export default {
     sidebar_Advertise: "Werbungen",
     sidebar_Store: "Geschäft",
     sidebar_Stores: "Geschäfte",
+    sidebar_Business: "Unternehmen",
     sidebar_Setting: "Einstellungen",
     //0️⃣ General -> navbar
     navbar_Post: "Beitrag",
@@ -1544,6 +1546,7 @@ export default {
     pageTools_EventIdeasCountry: "Land",
     pageTools_EventIdeasPrompt: "Thema",
     pageTools_EventIdeasCreatedTime: "Erstellt Am",
+    pageTools_CustomEvent: "Benutzerdefiniertes Ereignis",
     pageTools_exportcomments:
       "Alle Kommentare werden als Excel-Datei exportiert und können heruntergeladen und geteilt werden",
 
@@ -1897,6 +1900,12 @@ export default {
 
     marketProperties_explain: "Wenn sich der Instagram-Benutzername ändert, wird dieser Link automatisch aktualisiert.",
     marketProperties_rejected: "Ihre Domain wurde abgelehnt (bitte kontaktieren Sie uns)",
+    customDomain_inactive_title: "Benutzerdefinierte Domain ist inaktiv",
+    customDomain_inactive_desc:
+      "Ihre Domain ist derzeit inaktiv. Bitte senden Sie ein Support-Ticket, um sie zu aktivieren.",
+    customDomain_noPackage_title: "Benutzerdefiniertes Domain-Paket nicht gefunden",
+    customDomain_noPackage_desc:
+      "Ihr aktuelles Paket beinhaltet keine Unterstützung für benutzerdefinierte Domains. Bitte upgraden Sie Ihr Paket, um diese Funktion zu nutzen.",
     marketProperties_Request: "Anfrage",
     marketProperties_Requested: "Angefordert",
     marketProperties_Checking: "Überprüfung",
@@ -2335,8 +2344,10 @@ export default {
     SettingGeneralSystempound: "Pfund",
     SettingGeneralSystemrial: "Rial",
     SettingGeneralSystemtoman: "Toman",
-    // Setting -> General -> Profile
-    SettingGeneralProfileTitle: "Profil",
+    SettingGeneralAiModelsTitle: "AI-Modelle",
+    SettingGeneralAiModelsTextModels: "Textmodelle",
+    SettingGeneralAiModelsVoiceModels: "Sprache-zu-Text-Modelle",
+    SettingGeneralAiModelsDirectVoiceSupport: "Direkte Sprachunterstützung",
     SettingGeneral_activedevice: "Aktive Geräte",
     SettingGeneral_leatestentery: "Benutzeraktivitätsverlauf",
     SettingGeneral_cantdeletesession:
@@ -2681,6 +2692,8 @@ export default {
     sendsms: "SMS an den Benutzer senden",
     sendtotelegram: "Benutzer zu Telegram weiterleiten",
     senderusername: "Benutzer mit Namen ansprechen",
+    addtools: "Werkzeug hinzufügen",
+    generatebyai: "Von KI generieren",
 
     //tutorials
 

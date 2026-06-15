@@ -1,5 +1,8 @@
 /**
- * Maps local API paths (/api/{scope}/{action}) to backend sub-URLs on https://api.brancy.app/
+ * Maps local API paths (/api/{scope}/{action}) to backend sub-URLs.
+ * The base URL is resolved dynamically:
+ *   brancy.ir  →  https://api.brancy.ir/
+ *   brancy.app →  https://api.brancy.app/  (default)
  * Used by clientFetchApi to call the backend directly (bypassing Next.js API proxy)
  * for all routes EXCEPT /api/user/*.
  *
@@ -27,6 +30,16 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/ai/getPrompts": "Instagramer/AI/GetPrompts",
   "/api/ai/getTools": "Instagramer/AI/GetTools",
   "/api/ai/sendTestMessage": "Instagramer/AI/SendTestMessage",
+  "/api/ai/getAllAiModels": "Instagramer/AI/GetAllAiModels",
+  "/api/ai/updateModel": "Instagramer/AI/UpdateModel",
+  "/api/ai/getAiModels": "Instagramer/AI/GetAiModels",
+
+  // ── business ─────────────────────────────────────────
+  "/api/business/get": "User/Business/Get",
+  "/api/business/getshort": "User/Business/GetShort",
+  "/api/business/search": "User/Business/Search",
+  "/api/business/getExplorer": "User/Business/GetExplorer",
+  "/api/business/getFavorites": "User/Business/GetFavorites",
 
   // ── autoacceptfollower ────────────────────────────────
   "/api/autoacceptfollower/checkAvailability": "Instagramer/AutoAcceptFollower/CheckAvailability",
@@ -63,6 +76,9 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/bio/saveAparatPage": "Instagramer/Bio/SaveAparatPage",
   "/api/bio/saveYoutubePage": "Instagramer/Bio/SaveYoutubePage",
   "/api/bio/toggleCustomDomain": "Instagramer/Bio/ToggleCustomDomain",
+  "/api/bio/connectCustomDomain": "Instagramer/Bio/ConnectCustomDomain",
+  "/api/bio/deleteCustomDomain": "Instagramer/Bio/DeleteCustomDomain",
+  "/api/bio/verifyCustomDomainDns": "Instagramer/Bio/VerifyCustomDomainDns",
   "/api/bio/toggleFeatureBox": "Instagramer/Bio/ToggleFeatureBox",
   "/api/bio/updateAnnouncement": "Instagramer/bio/UpdateAnnouncement",
   "/api/bio/updateContact": "Instagramer/bio/UpdateContact",
@@ -86,6 +102,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/dayevent/getEvents": "Instagramer/DayEvent/GetEvents",
   "/api/dayevent/getEventIdeas": "Instagramer/DayEvent/GetEventIdeas",
   "/api/dayevent/createEventIdea": "Instagramer/DayEvent/CreateEventIdea",
+  "/api/dayevent/getCustomEventIdeas": "Instagramer/DayEvent/GetCustomEventIdeas",
 
   // ── flow ──────────────────────────────────────────────
   "/api/flow/createMasterFlow": "Instagramer/Flow/CreateMasterFlow",
@@ -274,8 +291,6 @@ export const API_ROUTE_MAP: Record<string, string> = {
   // ── shop ──────────────────────────────────────────────
   "/api/shop/addCard": "user/shop/AddCard",
   "/api/shop/getAllCard": "user/shop/GetAllCard",
-  "/api/shop/getExplorer": "user/shop/GetExplorer",
-  "/api/shop/getFavoriteProducts": "user/shop/GetFavoriteProducts",
   "/api/shop/getfilters": "user/shop/getfilters",
   "/api/shop/getfullproduct": "user/shop/getfullproduct",
   "/api/shop/getfullshop": "user/shop/getfullshop",

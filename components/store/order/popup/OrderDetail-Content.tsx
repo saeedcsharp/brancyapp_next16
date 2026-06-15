@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { FC, useCallback, useEffect, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
@@ -9,7 +10,7 @@ import { LanguageKey } from "brancy/i18n";
 import { IFullProduct } from "brancy/models/store/orders";
 import { ColorStr } from "brancy/models/userPanel/shop";
 import styles from "./OrderDetail-Content.module.css";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 const toggleReducer = (state: boolean) => !state;
 
 interface OrderDetailContentProps {
@@ -368,14 +369,18 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
                       className="instagramimage"
                       title="ℹ️ Profile image"
                       alt="profile image"
-                      src={basePictureUrl + ordersProductInfo.order.shortShop.profileUrl}
+                      src={basePictureUrl + (ordersProductInfo.order.shortShop as any).profileUrl}
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = "/no-profile.svg";
                       }}
                     />
                     <div className="instagramprofiledetail" style={{ maxWidth: "100%" }}>
-                      <div className="instagramusername">{ordersProductInfo.order.shortShop.fullName || ""}</div>
-                      <div className="instagramid">{"@" + ordersProductInfo.order.shortShop.username || ""}</div>
+                      <div className="instagramusername">
+                        {(ordersProductInfo.order.shortShop as any).fullName || ""}
+                      </div>
+                      <div className="instagramid">
+                        {"@" + (ordersProductInfo.order.shortShop as any).username || ""}
+                      </div>
                     </div>
                   </div>
                 </div>

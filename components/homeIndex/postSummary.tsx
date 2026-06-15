@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { memo, useCallback, useMemo, useReducer, useRef } from "react";
@@ -120,7 +121,7 @@ const PostSummary = memo((props: { data: IInstagramerHomeTiles | null; posts: IP
   const [state, dispatch] = useReducer(postSummaryReducer, initialState);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const basePictureUrl = useMemo(() => process.env.NEXT_PUBLIC_BASE_MEDIA_URL || "", []);
+  const basePictureUrl = useMemo(() => getClientMediaBaseUrl(), []);
 
   const POSTS_PER_PAGE = useMemo(() => 12, []);
 

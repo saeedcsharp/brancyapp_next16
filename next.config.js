@@ -74,7 +74,11 @@ module.exports = withPWA({
     includePaths: ["brancy/scss"],
   },
   images: {
-    remotePatterns: [{ protocol: "https", hostname: "ilink.influe.ir", pathname: "/**" }],
+    remotePatterns: [
+      { protocol: "https", hostname: "ilink.brancy.ir", pathname: "/**" },
+      { protocol: "https", hostname: "ilink.brancy.app", pathname: "/**" },
+      { protocol: "https", hostname: "ilink.patran.ir", pathname: "/**" },
+    ],
     formats: ["image/webp", "image/avif"],
     minimumCacheTTL: 31536000, // 1 year cache
     deviceSizes: [640, 750, 828, 1080, 1200, 1920, 2048, 3840],

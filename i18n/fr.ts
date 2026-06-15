@@ -493,6 +493,7 @@ export default {
     logout: "Déconnexion",
     notallowed: "Non autorisé",
     notallowedExplain: "Vous n'êtes pas autorisé à accéder à cette fonctionnalité",
+    notallowedExplainPage: "Vous n'êtes pas autorisé à accéder à cette page",
     CreateAutomationFlow: "Créer un flux d'automatisation",
     CreateAutomationFlowExplain: "Automatisez les interactions Instagram avec un créateur de flux visuel.",
     CreateAutomationAI: "Créer une IA d'automatisation",
@@ -644,6 +645,7 @@ export default {
     sidebar_Advertise: "Publicités",
     sidebar_Store: "Boutique",
     sidebar_Stores: "Boutiques",
+    sidebar_Business: "Entreprise",
     sidebar_Setting: "Paramètres",
     //0️⃣ General -> navbar
     navbar_Post: "Posts",
@@ -1560,6 +1562,7 @@ export default {
     pageTools_EventIdeasCountry: "Pays",
     pageTools_EventIdeasPrompt: "Sujet",
     pageTools_EventIdeasCreatedTime: "Date de Création",
+    pageTools_CustomEvent: "Événement Personnalisé",
     pageTools_exportcomments:
       "Tous les commentaires sont exportés sous forme de fichier Excel et peuvent être téléchargés et partagés",
 
@@ -1912,6 +1915,12 @@ export default {
     marketProperties_explain:
       "Lorsque le nom d'utilisateur Instagram est modifié, ce lien sera mis à jour automatiquement.",
     marketProperties_rejected: "Votre domaine a été rejeté (veuillez nous contacter)",
+    customDomain_inactive_title: "Le domaine personnalisé est inactif",
+    customDomain_inactive_desc:
+      "Votre domaine est actuellement inactif. Veuillez soumettre un ticket d'assistance pour l'activer.",
+    customDomain_noPackage_title: "Forfait domaine personnalisé introuvable",
+    customDomain_noPackage_desc:
+      "Votre forfait actuel n'inclut pas la prise en charge des domaines personnalisés. Veuillez mettre à niveau votre forfait pour utiliser cette fonctionnalité.",
     marketProperties_Request: "Demande",
     marketProperties_Requested: "Demandé",
     marketProperties_Checking: "Vérification",
@@ -2351,8 +2360,10 @@ export default {
     SettingGeneralSystempound: "Livre",
     SettingGeneralSystemrial: "Rial",
     SettingGeneralSystemtoman: "Toman",
-    // Setting -> General -> Profile
-    SettingGeneralProfileTitle: "Profil",
+    SettingGeneralAiModelsTitle: "Modèles IA",
+    SettingGeneralAiModelsTextModels: "Modèles de texte",
+    SettingGeneralAiModelsVoiceModels: "Modèles voix-vers-texte",
+    SettingGeneralAiModelsDirectVoiceSupport: "Support vocal direct",
     SettingGeneral_activedevice: "Appareils actifs",
     SettingGeneral_leatestentery: "Historique d'activité de l'utilisateur",
     SettingGeneral_cantdeletesession: "Les sessions créées il y a moins de 24 heures ne peuvent pas être supprimées.",
@@ -2698,6 +2709,8 @@ export default {
     sendsms: "Envoyer un SMS à l’utilisateur",
     sendtotelegram: "Rediriger l’utilisateur vers Telegram",
     senderusername: "Mentionner le nom de l’utilisateur",
+    addtools: "Ajouter un outil",
+    generatebyai: "Générer par IA",
 
     //tutorials
 

@@ -74,6 +74,7 @@ const DragComponent = (props: {
     <div ref={boxRef} className={styles.draglimit}>
       {/* ... other content ... */}
       <Draggable
+        nodeRef={divRef}
         onStop={() => {
           let p = position;
           console.log("P", p);

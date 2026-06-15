@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { memo, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
@@ -104,7 +105,7 @@ LinkItem.displayName = "LinkItem";
 const Link = memo<LinkComponentProps>(({ data }) => {
   const { t } = useTranslation();
   const [isContentVisible, setIsContentVisible] = useState(true);
-  const baseMediaUrl = useMemo(() => process.env.NEXT_PUBLIC_BASE_MEDIA_URL || "", []);
+  const baseMediaUrl = useMemo(() => getClientMediaBaseUrl(), []);
   const toggleContentVisibility = useCallback(() => {
     setIsContentVisible((prev) => !prev);
   }, []);

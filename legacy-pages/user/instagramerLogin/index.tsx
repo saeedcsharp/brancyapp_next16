@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
@@ -16,11 +17,11 @@ import { LanguageKey } from "brancy/i18n";
 import { SendCodeResult } from "brancy/models/ApiModels/User/SendCodeResult";
 import { MethodType } from "brancy/helper/api";
 import { InstagramerAccountInfo } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IIpCondition } from "brancy/models/userPanel/login";
+
 import styles from "./instagramerLogin.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = getClientMediaBaseUrl();
 
 export default function InstaLogin(props: { removeMask: () => void }) {
   const { t } = useTranslation();
@@ -68,7 +69,13 @@ export default function InstaLogin(props: { removeMask: () => void }) {
 
     setLoading(true);
     try {
-      const response = await clientFetchApi<boolean, SendCodeResult>("/api/preinstagramer/SendCode", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "username", value: instaId }], onUploadProgress: undefined });
+      const response = await clientFetchApi<boolean, SendCodeResult>("/api/preinstagramer/SendCode", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "username", value: instaId }],
+        onUploadProgress: undefined,
+      });
 
       if (response.statusCode !== 200) {
         if (response.info.responseType === ResponseType.ExceedLoginAttempt) {
@@ -91,7 +98,13 @@ export default function InstaLogin(props: { removeMask: () => void }) {
     if (!session) return;
 
     try {
-      const response = await clientFetchApi<boolean, string>("/api/preinstagramer/GetInstagramRedirect", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const response = await clientFetchApi<boolean, string>("/api/preinstagramer/GetInstagramRedirect", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
 
       if (response.succeeded) {
         router.push(response.value);
@@ -104,34 +117,36 @@ export default function InstaLogin(props: { removeMask: () => void }) {
   }, [session, router]);
 
   const handleRedirectToInstagram = useCallback(async () => {
-    if (!session) return;
-
     try {
-      const response = await clientFetchApi<boolean, IIpCondition>("/api/user/ip", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
-      if (response.succeeded) {
-        if (!response.value.isInstagramAuthorize) {
-          internalNotify(InternalResponseType.TurnOnProxy, NotifType.Warning);
-        } else {
-          await redirectToInstagram();
-        }
-      } else {
-        notify(response.info.responseType, NotifType.Warning);
+      const res = await fetch("/api/user/ip");
+      const data = await res.json();
+      if (data.countryCode === "ir") {
+        internalNotify(InternalResponseType.TurnOnProxy, NotifType.Warning);
+        return;
       }
-    } catch (error) {
-      notify(ResponseType.Unexpected, NotifType.Error);
+    } catch {
+      // ignore; proceed to redirect
     }
-  }, [session, redirectToInstagram]);
+    await redirectToInstagram();
+  }, [redirectToInstagram]);
 
   const getInstagramers = useCallback(async () => {
     if (!session) return;
 
     try {
-      const res = await clientFetchApi<boolean, InstagramerAccountInfo[]>("/api/user/GetMyInstagramers", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, InstagramerAccountInfo[]>("/api/user/GetMyInstagramers", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
 
       if (res.succeeded && res.value.length > 0) {
         setInstagramers(res.value);
       } else if (res.succeeded && res.value.length === 0) {
-        handleSwitchToUser();
+        // No instagramers yet - stay on page so user can connect their account
+        setInstagramers([]);
       } else {
         notify(res.info.responseType, NotifType.Warning);
       }
@@ -140,7 +155,8 @@ export default function InstaLogin(props: { removeMask: () => void }) {
     } finally {
       setLoading(false);
     }
-  }, [session]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session?.user?.pk]);
 
   const handleSwitchToUser = useCallback(async () => {
     if (!session) return;
@@ -188,7 +204,7 @@ export default function InstaLogin(props: { removeMask: () => void }) {
       props.removeMask();
       router.push("/");
     },
-    [session, update, props, router]
+    [session, update, props, router],
   );
 
   const handleSignOut = useCallback(async () => {
@@ -207,7 +223,7 @@ export default function InstaLogin(props: { removeMask: () => void }) {
       sendInstaId();
       props.removeMask();
     },
-    [sendInstaId, props]
+    [sendInstaId, props],
   );
 
   const handleBackInstaId = useCallback(() => {
@@ -256,7 +272,7 @@ export default function InstaLogin(props: { removeMask: () => void }) {
         }
       }
     },
-    [showTooltip, currentStep, handleCloseTooltip, handleNextStep, handlePrevStep]
+    [showTooltip, currentStep, handleCloseTooltip, handleNextStep, handlePrevStep],
   );
 
   const instagramerItems = useMemo(() => {
@@ -300,7 +316,7 @@ export default function InstaLogin(props: { removeMask: () => void }) {
             <div className="instagramid">
               <span>@{v.username}</span>
               <span className="IDgray">
-                ID: {Array.isArray(v.instagramerIds) ? v.instagramerIds.join(", ") : v.instagramerIds ?? "N/A"}
+                ID: {Array.isArray(v.instagramerIds) ? v.instagramerIds.join(", ") : (v.instagramerIds ?? "N/A")}
               </span>
             </div>
             <div className={`remaining ${timeClass}`}>
@@ -324,11 +340,18 @@ export default function InstaLogin(props: { removeMask: () => void }) {
   useEffect(() => {
     if (!session) return;
     getInstagramers();
-  }, [session, getInstagramers]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session?.user?.pk]);
 
   async function redirectToFacebook() {
     try {
-      const response = await clientFetchApi<boolean, string>("/api/preinstagramer/GetFacebookRedirect", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+      const response = await clientFetchApi<boolean, string>("/api/preinstagramer/GetFacebookRedirect", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
       if (response.succeeded) {
         router.push(response.value);
       } else {
@@ -341,18 +364,16 @@ export default function InstaLogin(props: { removeMask: () => void }) {
 
   async function handleRedirectToFacebook() {
     try {
-      const response = await clientFetchApi<boolean, IIpCondition>("/api/user/ip", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
-      if (response.succeeded) {
-        if (!response.value.isInstagramAuthorize) internalNotify(InternalResponseType.TurnOnProxy, NotifType.Warning);
-        else {
-          await redirectToFacebook();
-        }
-      } else {
-        notify(response.info.responseType, NotifType.Warning);
+      const res = await fetch("/api/user/ip");
+      const data = await res.json();
+      if (data.countryCode === "ir") {
+        internalNotify(InternalResponseType.TurnOnProxy, NotifType.Warning);
+        return;
       }
-    } catch (error) {
-      notify(ResponseType.Unexpected, NotifType.Error);
+    } catch {
+      // ignore; proceed to redirect
     }
+    await redirectToFacebook();
   }
 
   if (!session) return null;

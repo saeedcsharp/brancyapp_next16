@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -40,7 +41,7 @@ import { IAutomaticReply, IDetailsPost, IInsightPost, IMediaUpdateAutoReply } fr
 import { MediaType } from "brancy/models/page/post/preposts";
 import styles from "./showPost.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 function convertMillisecondsToTime(ms: number) {
   if (ms <= 0) {
     return { hours: 0, minutes: 0, seconds: 0 };
@@ -333,7 +334,13 @@ const ShowPost = () => {
           searchInReplys: false,
           searchTerm: null,
         };
-        var newComments = await clientFetchApi<IGetMediaCommentInfo, IMedia>("/api/comment/GetMediaComments", { methodType: MethodType.post, session: session, data: info, queries: undefined, onUploadProgress: undefined });
+        var newComments = await clientFetchApi<IGetMediaCommentInfo, IMedia>("/api/comment/GetMediaComments", {
+          methodType: MethodType.post,
+          session: session,
+          data: info,
+          queries: undefined,
+          onUploadProgress: undefined,
+        });
         if (newComments.succeeded) {
           setComments((prev) => ({
             ...prev!,
@@ -363,7 +370,13 @@ const ShowPost = () => {
       if (isFetchingRef.current || !session) return;
       isFetchingRef.current = true;
       try {
-        var res = await clientFetchApi<Boolean, IDetailsPost>("/api/post/GetPostInfo", { methodType: MethodType.get, session: session, data: undefined, queries: [{ key: "postId", value: postId }], onUploadProgress: undefined });
+        var res = await clientFetchApi<Boolean, IDetailsPost>("/api/post/GetPostInfo", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: [{ key: "postId", value: postId }],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) {
           setDetailPost(res.value);
           setCaptionLength(res.value.caption ? res.value.caption.length : 0);
@@ -399,7 +412,13 @@ const ShowPost = () => {
           setIsDataLoaded(true);
         }
         if (session.user.insightPermission) {
-          var res2 = await clientFetchApi<Boolean, IInsightPost>("/api/post/GetPostInsightInfo", { methodType: MethodType.get, session: session, data: undefined, queries: [{ key: "postId", value: postId }], onUploadProgress: undefined });
+          var res2 = await clientFetchApi<Boolean, IInsightPost>("/api/post/GetPostInsightInfo", {
+            methodType: MethodType.get,
+            session: session,
+            data: undefined,
+            queries: [{ key: "postId", value: postId }],
+            onUploadProgress: undefined,
+          });
           if (res2.succeeded) {
             setInsight(res2.value);
           }
@@ -445,7 +464,13 @@ const ShowPost = () => {
           searchInReplys: false,
           searchTerm: searchQuery,
         };
-        var res = await clientFetchApi<IGetMediaCommentInfo, IMedia>("Instagramer" + "/Comment/GetMediaComments", { methodType: MethodType.post, session: session, data: info, queries: undefined, onUploadProgress: undefined });
+        var res = await clientFetchApi<IGetMediaCommentInfo, IMedia>("Instagramer" + "/Comment/GetMediaComments", {
+          methodType: MethodType.post,
+          session: session,
+          data: info,
+          queries: undefined,
+          onUploadProgress: undefined,
+        });
         if (searchQuery !== lastSearchQuery.current) return;
         console.log(res);
         if (res.succeeded) {
@@ -481,7 +506,13 @@ const ShowPost = () => {
   const handleUpdateAtuoReply = useCallback(
     async (sendReply: IMediaUpdateAutoReply) => {
       try {
-        const res = await clientFetchApi<IMediaUpdateAutoReply, IAutomaticReply>("/api/post/UpdateAutoReply", { methodType: MethodType.post, session: session, data: sendReply, queries: [{ key: "postId", value: detailPost.postId.toString() }], onUploadProgress: undefined });
+        const res = await clientFetchApi<IMediaUpdateAutoReply, IAutomaticReply>("/api/post/UpdateAutoReply", {
+          methodType: MethodType.post,
+          session: session,
+          data: sendReply,
+          queries: [{ key: "postId", value: detailPost.postId.toString() }],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) {
           setAutoReply(res.value);
           if (!comments?.automaticCommentReply) {
@@ -501,12 +532,21 @@ const ShowPost = () => {
   async function handleResumeFeedAutoReply(e: ChangeEvent<HTMLInputElement>) {
     try {
       const activeAutoReply = e.target.checked;
-      var res = await clientFetchApi<boolean, boolean>("Instagramer" + `/Post/${!activeAutoReply ? "PauseAutoReply" : "ResumeAutoReply"}`, { methodType: MethodType.get, session: session, data: undefined, queries: [
-          {
-            key: "postId",
-            value: postIdParam ?? "-1",
-          },
-        ], onUploadProgress: undefined });
+      var res = await clientFetchApi<boolean, boolean>(
+        "Instagramer" + `/Post/${!activeAutoReply ? "PauseAutoReply" : "ResumeAutoReply"}`,
+        {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: [
+            {
+              key: "postId",
+              value: postIdParam ?? "-1",
+            },
+          ],
+          onUploadProgress: undefined,
+        },
+      );
       if (res.succeeded)
         setAutoReply((prev) => ({
           ...prev,
@@ -611,7 +651,7 @@ const ShowPost = () => {
                 {loading && <Loading />}
                 {!loading && comments && (
                   <>
-                    <div className={styles.container}>
+                    <div className={`${styles.container} ${styles.containerMedia}`}>
                       <div className="headerparent">
                         <div className="title">
                           {t(LanguageKey.navbar_Post)}
@@ -621,6 +661,21 @@ const ShowPost = () => {
                             title={`ℹ️ Post no. ${detailPost.tempId}`}>
                             (<strong>{Number(detailPost.tempId).toLocaleString()}</strong>)
                           </span>
+                          <a href={basePictureUrl + detailPost.mediaUrl + "/download"} download title="Download media">
+                            <svg fill="none" xmlns="http://www.w3.org/2000/svg" width="22" viewBox="0 0 36 36">
+                              <path
+                                fillRule="evenodd"
+                                clipRule="evenodd"
+                                d="M19.5 19.9a1.5 1.5 0 0 0-3 0v6.7h-1.7a2 2 0 0 0-1.5 1c-.4.9 0 1.6.1 1.8l.5.7 1.7 2 1 .8q.4.4 1.4.5 1-.1 1.5-.5l1-.9 1.5-1.8V30l.6-.7c0-.2.5-.9.1-1.8a2 2 0 0 0-1.5-1h-1.7z"
+                                fill="var(--color-gray)"
+                              />
+                              <path
+                                opacity=".4"
+                                d="M1.9 18.8a9 9 0 0 1 6.3-8.3l.5-.3.2-.5A9.4 9.4 0 0 1 27.3 11q0 .5.2.6l.6.3a7.9 7.9 0 0 1-1.9 15.5l-.6-.1q-.2 0-.4-.6a4 4 0 0 0-2.6-2.2l-.8-.3v-4.3a3.8 3.8 0 0 0-7.6 0v4.3l-.9.3a4 4 0 0 0-2.6 2.2q-.1.5-.4.6h-.5a8.6 8.6 0 0 1-8-8.5"
+                                fill="var(--color-gray)"
+                              />
+                            </svg>
+                          </a>
                         </div>
                         {(() => {
                           const t = initialzedTime();
@@ -845,35 +900,7 @@ const ShowPost = () => {
                             </video>
                           </>
                         )}
-                        <a
-                          href={basePictureUrl + detailPost.mediaUrl + "/download"}
-                          download
-                          style={{
-                            position: "absolute",
-                            top: "10px",
-                            right: "10px",
-                            padding: "4px 6px",
-                            color: "white",
-                            fontSize: "12px",
-                            borderRadius: "15px",
-                            textDecoration: "none",
-                            zIndex: 10,
-                          }}
-                          title="Download media">
-                          <svg fill="none" xmlns="http://www.w3.org/2000/svg" width="22" viewBox="0 0 36 36">
-                            <path
-                              fillRule="evenodd"
-                              clipRule="evenodd"
-                              d="M19.5 19.9a1.5 1.5 0 0 0-3 0v6.7h-1.7a2 2 0 0 0-1.5 1c-.4.9 0 1.6.1 1.8l.5.7 1.7 2 1 .8q.4.4 1.4.5 1-.1 1.5-.5l1-.9 1.5-1.8V30l.6-.7c0-.2.5-.9.1-1.8a2 2 0 0 0-1.5-1h-1.7z"
-                              fill="var(--color-gray)"
-                            />
-                            <path
-                              opacity=".4"
-                              d="M1.9 18.8a9 9 0 0 1 6.3-8.3l.5-.3.2-.5A9.4 9.4 0 0 1 27.3 11q0 .5.2.6l.6.3a7.9 7.9 0 0 1-1.9 15.5l-.6-.1q-.2 0-.4-.6a4 4 0 0 0-2.6-2.2l-.8-.3v-4.3a3.8 3.8 0 0 0-7.6 0v4.3l-.9.3a4 4 0 0 0-2.6 2.2q-.1.5-.4.6h-.5a8.6 8.6 0 0 1-8-8.5"
-                              fill="var(--color-gray)"
-                            />
-                          </svg>
-                        </a>
+
                         {detailPost.children.length > 0 && (
                           <div className={styles.postpreview}>
                             {detailPost.children.map((v, i) => (
@@ -924,7 +951,7 @@ const ShowPost = () => {
                         </div>
                       </div>
                     </div>
-                    <div className={styles.container}>
+                    <div className={`${styles.container} ${styles.containerMeta}`}>
                       {session.user.commentPermission && (
                         <>
                           <div className="headerandinput">
@@ -933,16 +960,25 @@ const ShowPost = () => {
                               <ToggleCheckBoxButton
                                 name=" TurnoffCommenting"
                                 handleToggle={async (e) => {
-                                  await clientFetchApi<boolean, boolean>("Instagramer" + "/post/ChangeCommentingStatus", { methodType: MethodType.get, session: session, data: undefined, queries: [
-                                      {
-                                        key: "postId",
-                                        value: detailPost.postId.toString(),
-                                      },
-                                      {
-                                        key: "isEnable",
-                                        value: !e.target.checked ? "true" : "false",
-                                      },
-                                    ], onUploadProgress: undefined });
+                                  await clientFetchApi<boolean, boolean>(
+                                    "Instagramer" + "/post/ChangeCommentingStatus",
+                                    {
+                                      methodType: MethodType.get,
+                                      session: session,
+                                      data: undefined,
+                                      queries: [
+                                        {
+                                          key: "postId",
+                                          value: detailPost.postId.toString(),
+                                        },
+                                        {
+                                          key: "isEnable",
+                                          value: !e.target.checked ? "true" : "false",
+                                        },
+                                      ],
+                                      onUploadProgress: undefined,
+                                    },
+                                  );
                                   setDetailPost((prev) => ({
                                     ...prev,
                                     commentEnabled: e.target.checked,
@@ -1044,7 +1080,7 @@ const ShowPost = () => {
                       </div>
                     </div>
                     {session.user.commentPermission && (
-                      <div className={styles.container}>
+                      <div className={`${styles.container} ${styles.containerComments}`}>
                         <div className="headerandinput">
                           <div className="headerparent">
                             <div className="title" style={{ gap: "var(--gap-5)" }}>
@@ -1423,7 +1459,7 @@ const ShowPost = () => {
                     {loading && <Loading />}
                     {!loading && insight && (
                       <>
-                        <div className={`${styles.container} translate`}>
+                        <div className={`${styles.container} ${styles.containerInsight} translate`}>
                           {/* <div className={"headerparent"}>
                           {insight.engagmentFollowerType && (
                           <>

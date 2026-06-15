@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import Compressor from "compressorjs";
 import { useSession } from "next-auth/react";
 import React, { useCallback, useState } from "react";
@@ -9,7 +10,7 @@ import { LanguageKey } from "brancy/i18n/languageKeys";
 import { UploadFile } from "brancy/helper/api";
 import styles from "./GenericItemNode.module.css";
 import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL || "";
+const baseMediaUrl = getClientMediaBaseUrl();
 
 interface GenericItemNodeProps extends BaseNodeProps {
   setEditorState: React.Dispatch<React.SetStateAction<any>>;

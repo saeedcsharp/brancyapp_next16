@@ -1,9 +1,12 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { HubConnection } from "@microsoft/signalr";
 import { t } from "i18next";
 import { useSession } from "next-auth/react";
 import router from "next/router";
 import { MouseEvent, useEffect, useRef, useState } from "react";
-import InputEmoji from "react-input-emoji";
+import dynamic from "next/dynamic";
+import type { EmojiClickData } from "emoji-picker-react";
+const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 import { DateObject } from "react-multi-date-picker";
 import { AIButton } from "brancy/components/design/ai/AIButton";
 import RingLoader from "brancy/components/design/loader/ringLoder";
@@ -61,7 +64,9 @@ const CommentChatBox = (props: {
       router.push("/");
     },
   });
-  const inputRef = useRef<any>(null);
+  const inputRef = useRef<HTMLTextAreaElement | HTMLDivElement | any>(null);
+  const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
+  const emojiPickerContainerRef = useRef<HTMLDivElement | null>(null);
   const [apiLoading, setAiLoading] = useState(false);
   const [dateFormatToggle, setDateFormatToggle] = useState("");
   const toggleDateFormat = (itemId: string | null) => {
@@ -82,7 +87,7 @@ const CommentChatBox = (props: {
           locale: initialzedTime().locale,
         }).format("hh:mm A - ddd");
   };
-  const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+  const baseMediaUrl = getClientMediaBaseUrl();
   var unixTypingTime = 0;
   const [foldedChats, setFoldedChats] = useState<{ [key: string]: boolean }>({});
   const toggleFold = (commentId: string) => {
@@ -174,7 +179,32 @@ const CommentChatBox = (props: {
       });
     }
     setAnswerBox(value);
+    // adjust textarea height to grow with content up to a max (approx 5 lines)
+    requestAnimationFrame(() => {
+      try {
+        const ta = inputRef.current as HTMLTextAreaElement | null;
+        if (!ta || ta.tagName !== "TEXTAREA") return;
+        ta.style.height = "auto";
+        const MAX_TEXTAREA_HEIGHT = 120; // px, ~5 lines at 16px font
+        const newHeight = Math.min(ta.scrollHeight, MAX_TEXTAREA_HEIGHT);
+        ta.style.height = `${newHeight}px`;
+        ta.style.overflowY = ta.scrollHeight > MAX_TEXTAREA_HEIGHT ? "auto" : "hidden";
+      } catch (e) {
+        /* ignore */
+      }
+    });
   };
+
+  // keep textarea height in sync when answerBox changes from elsewhere (emoji, programmatic)
+  useEffect(() => {
+    const ta = inputRef.current as HTMLTextAreaElement | null;
+    if (!ta || ta.tagName !== "TEXTAREA") return;
+    ta.style.height = "auto";
+    const MAX_TEXTAREA_HEIGHT = 120;
+    const newHeight = Math.min(ta.scrollHeight, MAX_TEXTAREA_HEIGHT);
+    ta.style.height = `${newHeight}px`;
+    ta.style.overflowY = ta.scrollHeight > MAX_TEXTAREA_HEIGHT ? "auto" : "hidden";
+  }, [answerBox]);
 
   // مدیریت backToButton با scroll
   useEffect(() => {
@@ -579,6 +609,12 @@ const CommentChatBox = (props: {
       }, 50);
     }
   }, [replyBox, answerBox]);
+
+  // Chip: extract @username prefix so it renders as an atomic chip
+  const chipMatch = replyBox && !replyBox.private ? answerBox.match(/^(@\S+)\s/) : null;
+  const chipText = chipMatch ? chipMatch[1] : null; // e.g. "@username"
+  const chipPrefix = chipText ? chipText + " " : "";
+  const bodyText = chipPrefix ? answerBox.slice(chipPrefix.length) : answerBox;
 
   return (
     <>
@@ -1048,32 +1084,163 @@ const CommentChatBox = (props: {
             {(props.replyLoading || apiLoading) && <RingLoader />}
             {!props.replyLoading && !apiLoading && replyBox && (
               <>
-                <InputEmoji
-                  theme="auto"
-                  ref={inputRef}
-                  value={answerBox}
-                  shouldReturn={true}
-                  onChange={handleInputOnChange}
-                  onEnter={handleSendText}
-                  placeholder="Type a message"
-                  searchMention={async (text) => {
-                    return [];
-                  }}
-                  shouldConvertEmojiToImage={false}
-                />
-                <AIButton
-                  className={styles.aibtn}
-                  onClick={handleAIButtonClick}
-                  loading={apiLoading}
-                  title="AI Caption Generator"
-                  ariaLabel="AI Caption Generator"
-                />
-                <svg onClick={handleSendText} className={styles.sendbtn} viewBox="-5 -2 25 25">
-                  <path
-                    fill="var(--color-ffffff)"
-                    d="M19.3 11.2 2 20a1.4 1.4 0 0 1-2-2s2.2-4.3 2.8-5.4 1.2-1.4 7.5-2.2a.4.4 0 0 0 0-.8c-6.3-.8-7-1-7.5-2.2L0 2a1.4 1.4 0 0 1 2-2l17.3 8.7a1.3 1.3 0 0 1 0 2.4"
+                <div
+                  className={styles.answercontainer}
+                  onSubmit={(e) => {
+                    e.preventDefault();
+                    handleSendText();
+                  }}>
+                  <div className={styles.textareaWrapper} ref={emojiPickerContainerRef}>
+                    {showEmojiPicker && (
+                      <>
+                        <div className={styles.emojiPickerPopup}>
+                          <EmojiPicker
+                            onEmojiClick={(emojiData: any) => {
+                              const emoji = (emojiData && (emojiData as any).emoji) || "";
+                              const textarea = inputRef.current as HTMLTextAreaElement | null;
+                              if (textarea && typeof textarea.selectionStart === "number") {
+                                const start = textarea.selectionStart ?? bodyText.length;
+                                const end = textarea.selectionEnd ?? bodyText.length;
+                                const newBody = bodyText.slice(0, start) + emoji + bodyText.slice(end);
+                                handleInputOnChange(chipPrefix + newBody);
+                                requestAnimationFrame(() => {
+                                  textarea.focus();
+                                  const newPos = start + emoji.length;
+                                  textarea.setSelectionRange(newPos, newPos);
+                                });
+                              } else {
+                                handleInputOnChange(chipPrefix + bodyText + emoji);
+                              }
+                              setShowEmojiPicker(false);
+                            }}
+                            theme={"auto" as any}
+                            lazyLoadEmojis
+                            reactionsDefaultOpen
+                            allowExpandReactions
+                            previewConfig={{ showPreview: false }}
+                            height={350}
+                            width={300}
+                          />
+                        </div>
+                      </>
+                    )}
+                    {chipText && (
+                      <span className={styles.chip}>
+                        {chipText}
+                        <button
+                          type="button"
+                          className={styles.chipClose}
+                          onClick={() => {
+                            setReplyBox(null);
+                            setAnswerBox("");
+                            clearMessageSelection();
+                          }}
+                          aria-label="Remove reply target"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    )}
+                    <textarea
+                      ref={inputRef}
+                      value={bodyText}
+                      onChange={(e) => handleInputOnChange(chipPrefix + e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter" && !e.shiftKey) {
+                          e.preventDefault();
+                          handleSendText();
+                        }
+                      }}
+                      placeholder={chipText ? "" : t(LanguageKey.typeAMessage)}
+                      className={styles.chatTextarea}
+                      rows={1}
+                      aria-label={t(LanguageKey.typeAMessage)}
+                    />
+                    <AIButton
+                      className={styles.aibtn}
+                      onClick={handleAIButtonClick}
+                      loading={apiLoading}
+                      title="AI Caption Generator"
+                      ariaLabel="AI Caption Generator"
+                    />
+                    <button
+                      className={styles.Emojiuploadbtn}
+                      type="button"
+                      onClick={() => setShowEmojiPicker((prev) => !prev)}
+                      aria-label="emoji picker">
+                      <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+                        <path
+                          d="M10.45 21.32s2.82 3.29 6.58 3.29 6.58-3.3 6.58-3.3m-1.88-6.57a.47.47 0 1 1-.94 0 .47.47 0 0 1 .94 0Zm-8.46 0a.47.47 0 1 1-.94 0 .47.47 0 0 1 .94 0ZM33 18.5a15.5 15.5 0 1 1-31 0 15.5 15.5 0 0 1 31 0Z"
+                          strokeLinecap="round"
+                        />
+                      </svg>
+                    </button>
+                  </div>
+
+                  {/* answer button */}
+                  <svg
+                    className={styles.answersendbtn}
+                    type="submit"
+                    onClick={handleSendText}
+                    aria-label={t(LanguageKey.sendMessage)}
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 36 36">
+                    <path d="M18 36a18 18 0 1 0 0-36 18 18 0 0 0 0 36" fill="var(--color-dark-blue)" />
+                    <path
+                      d="m26.4 18.97-13.84 6.92a1.08 1.08 0 0 1-1.45-1.45l2.19-4.37c.47-.91 1.01-1.07 6.03-1.72a.35.35 0 0 0 0-.7c-5.02-.65-5.56-.8-6.03-1.71l-2.19-4.38a1.08 1.08 0 0 1 1.45-1.45l13.84 6.93a1.08 1.08 0 0 1 0 1.93"
+                      fill="#fff"
+                    />
+                  </svg>
+                </div>
+
+                {/* <div className={styles.inputRow}>
+                  <textarea
+                    ref={inputRef}
+                    className={styles.textarea}
+                    value={answerBox}
+                    placeholder="Type a message"
+                    onChange={(e) => handleInputOnChange(e.target.value)}
+                    onKeyDown={(e) => {
+                      if (e.key === "Enter" && !e.shiftKey) {
+                        e.preventDefault();
+                        handleSendText();
+                      }
+                    }}
+                    rows={1}
                   />
-                </svg>
+                  <button
+                    type="button"
+                    aria-label="Open emoji picker"
+                    className={styles.emojiBtn}
+                    onClick={() => setShowEmojiPicker((s) => !s)}>
+                    😊
+                  </button>
+                  {showEmojiPicker && (
+                    <div ref={emojiPickerContainerRef} className={styles.emojiPickerContainer}>
+                      <EmojiPicker
+                        onEmojiClick={(emojiData: EmojiClickData) => {
+                          const emoji = (emojiData as any).emoji ?? "";
+                          const textarea = inputRef.current as HTMLTextAreaElement | null;
+                          if (textarea && typeof textarea.selectionStart === "number") {
+                            const start = textarea.selectionStart ?? answerBox.length;
+                            const end = textarea.selectionEnd ?? answerBox.length;
+                            const newValue = answerBox.slice(0, start) + emoji + answerBox.slice(end);
+                            handleInputOnChange(newValue);
+                            requestAnimationFrame(() => {
+                              textarea.focus();
+                              const newPos = start + emoji.length;
+                              textarea.setSelectionRange(newPos, newPos);
+                            });
+                          } else {
+                            handleInputOnChange(answerBox + emoji);
+                          }
+                          setShowEmojiPicker(false);
+                        }}
+                      />
+                    </div>
+                  )}
+                </div> */}
               </>
             )}
           </div>

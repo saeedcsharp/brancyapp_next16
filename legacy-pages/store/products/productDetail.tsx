@@ -1,3 +1,4 @@
+"use client";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -6,12 +7,13 @@ import { useTranslation } from "react-i18next";
 import Modal from "brancy/components/design/modal";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
+import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotBasePackage from "brancy/components/notOk/notBasePackage";
 import NotShopper from "brancy/components/notOk/notShopper";
 import InstanceProductDetail from "brancy/components/store/products/productDetail/instanceProduct/instanceProductDetail";
 import NotInstanceProductDetail from "brancy/components/store/products/productDetail/notInstanceProduct/notInstanceProductDetal";
 import DeleteProduct from "brancy/components/store/products/productDetail/notInstanceProduct/popups/deleteProduct";
-import { packageStatus } from "brancy/helper/loadingStatus";
+import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { IDetailsPost } from "brancy/models/page/post/posts";
@@ -21,10 +23,13 @@ import {
   IProduct_ShortProduct,
   ITempIdAndNonProductCount,
 } from "brancy/models/store/IProduct";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import styles from "./productDetail.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const ProductDetail = () => {
+
+const ProductDetail = ({ tempId }: { tempId: string }) => {
   //  return <Soon />;
+  console.log("tempIddddd", tempId);
   const router = useRouter();
   const { data: session } = useSession({
     required: true,
@@ -32,7 +37,7 @@ const ProductDetail = () => {
       router.push("/");
     },
   });
-  const { query } = router;
+
   const { t } = useTranslation();
 
   // Consolidate multiple useState hooks into a single state object
@@ -61,11 +66,23 @@ const ProductDetail = () => {
     async (productId: number, postId: number) => {
       try {
         const [res1, res2] = await Promise.all([
-          clientFetchApi<boolean, IProduct_FullProduct>("shopper" + "" + "/Product/GetFullProduct", { methodType: MethodType.get, session: session, data: null, queries: [
+          clientFetchApi<boolean, IProduct_FullProduct>("shopper" + "" + "/Product/GetFullProduct", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
               { key: "language", value: "1" },
               { key: "productId", value: productId.toString() },
-            ], onUploadProgress: undefined }),
-          clientFetchApi<boolean, IDetailsPost>("Instagramer" + "" + "/Post/GetPostInfo", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "postId", value: postId.toString() }], onUploadProgress: undefined }),
+            ],
+            onUploadProgress: undefined,
+          }),
+          clientFetchApi<boolean, IDetailsPost>("Instagramer" + "" + "/Post/GetPostInfo", {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [{ key: "postId", value: postId.toString() }],
+            onUploadProgress: undefined,
+          }),
         ]);
 
         if (res1.succeeded && res2.succeeded) {
@@ -94,12 +111,18 @@ const ProductDetail = () => {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session]
+    [session],
   );
   const getPostInfo = useCallback(
     async (postId: number) => {
       try {
-        const res = await clientFetchApi<boolean, IDetailsPost>("/api/post/GetPostInfo", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "postId", value: postId.toString() }], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, IDetailsPost>("/api/post/GetPostInfo", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "postId", value: postId.toString() }],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) {
           console.log("setPostInfo", res);
           setState((prev) => ({
@@ -126,14 +149,32 @@ const ProductDetail = () => {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session]
+    [session],
   );
   const getShortProduct = useCallback(async () => {
     try {
       const [res1, res2, res3] = await Promise.all([
-        clientFetchApi<boolean, IProduct_ShortProduct>("/api/product/GetProductByTempId", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "tempId", value: query.tempId as string }], onUploadProgress: undefined }),
-        clientFetchApi<boolean, ITempIdAndNonProductCount>("/api/product/GetLastTempIdAndNonProductsCount", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
-        clientFetchApi<boolean, IMaxSize>("/api/product/GetMaxSize", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined }),
+        clientFetchApi<boolean, IProduct_ShortProduct>("/api/product/GetProductByTempId", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [{ key: "tempId", value: tempId as string }],
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, ITempIdAndNonProductCount>("/api/product/GetLastTempIdAndNonProductsCount", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
+        clientFetchApi<boolean, IMaxSize>("/api/product/GetMaxSize", {
+          methodType: MethodType.get,
+          session: session,
+          data: undefined,
+          queries: undefined,
+          onUploadProgress: undefined,
+        }),
       ]);
 
       if (res1.succeeded && res2.succeeded) {
@@ -151,7 +192,7 @@ const ProductDetail = () => {
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
     }
-  }, [session, query.tempId, getFullProductAndPostInfo, getPostInfo]);
+  }, [session, tempId, getFullProductAndPostInfo, getPostInfo]);
   const fetchData = useCallback(async () => {
     console.log("ggggggggggg");
     if (!session?.user.isShopper)
@@ -185,12 +226,18 @@ const ProductDetail = () => {
   const handleNextProduct = useCallback(
     async (tempId: number) => {
       try {
-        const res = await clientFetchApi<boolean, IProduct_ShortProduct>("shopper" + "" + "/Product/GetNextProduct", { methodType: MethodType.get, session: session, data: null, queries: [
+        const res = await clientFetchApi<boolean, IProduct_ShortProduct>("shopper" + "" + "/Product/GetNextProduct", {
+          methodType: MethodType.get,
+          session: session,
+          data: null,
+          queries: [
             {
               key: "productId",
               value: state.shortProduct!.productId.toString(),
             },
-          ], onUploadProgress: undefined });
+          ],
+          onUploadProgress: undefined,
+        });
         if (res.succeeded) {
           router.push(`/store/products/productDetail?tempId=${res.value.tempId}`);
           setState((prev) => ({
@@ -221,17 +268,26 @@ const ProductDetail = () => {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session, state.shortProduct, state.lastTempId, getFullProductAndPostInfo, getPostInfo]
+    [session, state.shortProduct, state.lastTempId, getFullProductAndPostInfo, getPostInfo],
   );
   const handlePreviousProduct = useCallback(
     async (tempId: number) => {
       try {
-        const res = await clientFetchApi<boolean, IProduct_ShortProduct>("shopper" + "" + "/Product/GetPreviousProduct", { methodType: MethodType.get, session: session, data: null, queries: [
-            {
-              key: "productId",
-              value: state.shortProduct!.productId.toString(),
-            },
-          ], onUploadProgress: undefined });
+        const res = await clientFetchApi<boolean, IProduct_ShortProduct>(
+          "shopper" + "" + "/Product/GetPreviousProduct",
+          {
+            methodType: MethodType.get,
+            session: session,
+            data: null,
+            queries: [
+              {
+                key: "productId",
+                value: state.shortProduct!.productId.toString(),
+              },
+            ],
+            onUploadProgress: undefined,
+          },
+        );
         if (res.succeeded) {
           router.push(`/store/products/productDetail?tempId=${res.value.tempId}`);
           setState((prev) => ({
@@ -268,17 +324,17 @@ const ProductDetail = () => {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session, state.shortProduct, getFullProductAndPostInfo, getPostInfo]
+    [session, state.shortProduct, getFullProductAndPostInfo, getPostInfo],
   );
   useEffect(() => {
     if (!session || session!.user.currentIndex === -1) return;
     if (router.isReady && session) {
-      if (query.tempId === undefined || query.tempId === "") {
+      if (tempId === undefined || tempId === "") {
         router.push("/store/products");
       }
       fetchData();
     }
-  }, [router.isReady, session, query.tempId, fetchData]);
+  }, [router.isReady, session, tempId, fetchData]);
 
   const memoizedDeleteHandler = useCallback(() => {
     setState((prev) => ({
@@ -302,9 +358,10 @@ const ProductDetail = () => {
     if (!session || !packageStatus(session)) router.push("/upgrade");
   }, [session]);
 
-  if (!session || !query.tempId) {
+  if (!session || !tempId) {
     return null;
   }
+  if (!RoleAccess(session, PartnerRole.Products)) return <NotAllowed />;
   return (
     session &&
     session!.user.currentIndex !== -1 && (
@@ -337,7 +394,7 @@ const ProductDetail = () => {
               onClick={() => {
                 // تغییر ID به پست قبلی
                 if (state.deactiveBackTemp) return;
-                const previousProductId = Number(query.tempId) - 1;
+                const previousProductId = Number(tempId) - 1;
                 if (previousProductId > 0) {
                   setState((prev) => ({
                     ...prev,
@@ -347,10 +404,10 @@ const ProductDetail = () => {
                 }
               }}
             />
-            {t(LanguageKey.navbar_Post)} #{query.tempId}
+            {t(LanguageKey.navbar_Post)} #{tempId}
             <img
               className={`${styles.Togglebtn} ${
-                state.lastTempId === (Number(query.tempId) || state.deactiveNextTemp) && "fadeDiv"
+                state.lastTempId === (Number(tempId) || state.deactiveNextTemp) && "fadeDiv"
               }`}
               src="/next-white.svg"
               title="Next Product"
@@ -362,8 +419,8 @@ const ProductDetail = () => {
                   ...prev,
                   deactiveBackTemp: false,
                 }));
-                if (state.lastTempId === Number(query.tempId) || state.deactiveNextTemp) return;
-                const nextProductId = Number(query.tempId) + 1;
+                if (state.lastTempId === Number(tempId) || state.deactiveNextTemp) return;
+                const nextProductId = Number(tempId) + 1;
                 handleNextProduct(nextProductId);
               }}
             />

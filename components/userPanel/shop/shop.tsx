@@ -1,35 +1,65 @@
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { useEffect, useMemo, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import InputText from "brancy/components/design/inputText";
 import Loading from "brancy/components/notOk/loading";
 import { LoginStatus } from "brancy/helper/loadingStatus";
 import { calculateSummary } from "brancy/helper/numberFormater";
+import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
-import { IFullShop } from "brancy/models/userPanel/shop";
+import { IBusiness, IBusinessResponse } from "brancy/models/userPanel/business";
+import { useSession } from "next-auth/react";
+import Link from "next/link";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 import styles from "./shop.module.css";
 
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = getClientMediaBaseUrl();
 
-function ShopPage(props: { data: IFullShop[] | undefined; fetchStorewData: (pagination: string) => void }) {
+function ShopPage(props: {
+  data: IBusinessResponse | undefined;
+  fetchStorewData: (pagination: string) => Promise<IBusinessResponse>;
+}) {
   const { data: session } = useSession();
   const userRef = useRef<HTMLDivElement>(null);
   const { t } = useTranslation();
   const [loadingStatus, setLoadingStatus] = useState(LoginStatus(session));
-  const handleScroll = () => {
-    const container = userRef.current;
-    if (container && container.scrollHeight - container.scrollTop === container.clientHeight) {
-      props.fetchStorewData("");
-    }
-  };
+
+  // Local state for accumulated items and pagination cursor
+  const [items, setItems] = useState<IBusiness[]>(props.data?.items || []);
+  const nextMaxIdRef = useRef(props.data?.nextMaxId || "");
+  const [nextMaxId, setNextMaxId] = useState(props.data?.nextMaxId || "");
+
   useEffect(() => {
-    // if (props.data.length < 10) props.fetchAllData("");
     if (props.data) {
+      setItems(props.data.items);
+      setNextMaxId(props.data.nextMaxId);
+      nextMaxIdRef.current = props.data.nextMaxId;
       setLoadingStatus(false);
     }
   }, [props.data]);
+
+  const fetchMoreCb = useCallback(async () => {
+    const result = await props.fetchStorewData(nextMaxIdRef.current);
+    nextMaxIdRef.current = result.nextMaxId;
+    setNextMaxId(result.nextMaxId);
+    return result.items;
+  }, [props.fetchStorewData]);
+
+  const onDataFetchedCb = useCallback((newData: IBusiness[]) => {
+    setItems((prev) => [...prev, ...newData]);
+  }, []);
+
+  const { containerRef: scrollRef, isLoadingMore } = useInfiniteScroll<IBusiness>({
+    hasMore: !!nextMaxId,
+    fetchMore: fetchMoreCb,
+    onDataFetched: onDataFetchedCb,
+    getItemId: (item) => item.instagramerId,
+    currentData: items,
+    useContainerScroll: true,
+    containerRef: userRef,
+    threshold: 200,
+    enableAutoLoad: false,
+  });
 
   // فیلترها
   const [sortBy, setSortBy] = useState<"followers" | "rating" | null>(null);
@@ -40,23 +70,23 @@ function ShopPage(props: { data: IFullShop[] | undefined; fetchStorewData: (pagi
 
   // استخراج دسته‌بندی‌ها از داده‌ها
   const categories = useMemo(() => {
-    if (!props.data) return [];
-    const allCats = props.data.flatMap((v) => v.categories);
+    if (!items.length) return [];
+    const allCats = items.flatMap((v) => v.fullShop?.categories || []);
     const unique = Array.from(new Map(allCats.map((c) => [c.categoryId, c])).values());
     return unique;
-  }, [props.data]);
+  }, [items]);
 
   // فیلتر و مرتب‌سازی داده‌ها
   const filteredData = useMemo(() => {
-    let data = props.data || [];
+    let data = items;
     if (selectedCategory) {
-      data = data.filter((shop) => shop.categories.some((cat) => String(cat.categoryId) === selectedCategory));
+      data = data.filter((shop) =>
+        shop.fullShop?.categories.some((cat) => String(cat.categoryId) === selectedCategory),
+      );
     }
     if (sortBy === "followers") {
       data = [...data].sort((a, b) =>
-        sortOrder === "asc"
-          ? a.shortShop.followerCount - b.shortShop.followerCount
-          : b.shortShop.followerCount - a.shortShop.followerCount,
+        sortOrder === "asc" ? a.followerCount - b.followerCount : b.followerCount - a.followerCount,
       );
     }
     // سرچ
@@ -64,19 +94,19 @@ function ShopPage(props: { data: IFullShop[] | undefined; fetchStorewData: (pagi
       const s = search.trim().toLowerCase();
       data = data.filter(
         (shop) =>
-          (shop.shortShop.fullName && shop.shortShop.fullName.toLowerCase().includes(s)) ||
-          (shop.shortShop.username && shop.shortShop.username.toLowerCase().includes(s)) ||
-          shop.categories.some((cat) => cat.langValue && cat.langValue.toLowerCase().includes(s)),
+          (shop.fullName && shop.fullName.toLowerCase().includes(s)) ||
+          (shop.username && shop.username.toLowerCase().includes(s)) ||
+          shop.fullShop?.categories.some((cat) => cat.langValue && cat.langValue.toLowerCase().includes(s)),
       );
     }
     return data;
-  }, [props.data, sortBy, sortOrder, selectedCategory, search]);
+  }, [items, sortBy, sortOrder, selectedCategory, search]);
 
   // آیا فیلتری فعال است؟
   const isFiltered = sortBy || selectedCategory || search.trim();
 
   return (
-    <div ref={userRef} onScroll={handleScroll} className={styles.swiper}>
+    <div ref={userRef} className={styles.swiper}>
       {/* فیلترها */}
 
       <div className={styles.newfilter}>
@@ -461,14 +491,11 @@ function ShopPage(props: { data: IFullShop[] | undefined; fetchStorewData: (pagi
       {loadingStatus && <Loading />}
       {!loadingStatus &&
         filteredData.map((v) => (
-          <Link
-            href={`/user/shop/${v.shortShop.instagramerId}`}
-            key={v.shortShop.instagramerId}
-            className={styles.page}>
+          <Link href={`/user/business/shop/${v.instagramerId}`} key={v.instagramerId} className={styles.page}>
             <div className={styles.background}>
               <img
                 className={styles.backgroundImage}
-                src={baseMediaUrl + v.shortShop.bannerUrl}
+                src={baseMediaUrl + v.bannerUrl}
                 loading="lazy"
                 decoding="async"
                 alt="background image"
@@ -478,7 +505,7 @@ function ShopPage(props: { data: IFullShop[] | undefined; fetchStorewData: (pagi
             <div className={styles.profile}>
               <img
                 className={styles.instagramimage}
-                src={baseMediaUrl + v.shortShop.profileUrl}
+                src={baseMediaUrl + v.profileUrl}
                 alt="instagram profile picture"
                 loading="lazy"
                 decoding="async"
@@ -488,8 +515,8 @@ function ShopPage(props: { data: IFullShop[] | undefined; fetchStorewData: (pagi
               />
 
               <div className={styles.instagramprofiledetail}>
-                {v.shortShop.fullName && <div className={styles.instagramusername}>{v.shortShop.fullName}</div>}
-                <div className={`${styles.instagramid} ${styles.translate}`}>@{v.shortShop.username}</div>
+                {v.fullName && <div className={styles.instagramusername}>{v.fullName}</div>}
+                <div className={`${styles.instagramid} ${styles.translate}`}>@{v.username}</div>
               </div>
             </div>
 
@@ -499,17 +526,17 @@ function ShopPage(props: { data: IFullShop[] | undefined; fetchStorewData: (pagi
                 {t(LanguageKey.markethomerating)}
               </div>
               <div className={styles.summarydata}>
-                <div className={styles.follower}>{calculateSummary(v.shortShop.followerCount)}</div>
+                <div className={styles.follower}>{calculateSummary(v.followerCount)}</div>
                 {t(LanguageKey.markethomefollower)}
               </div>
               <div className={styles.summarydata}>
-                <div className={styles.post}>{v.shortShop.productCount}</div>
+                <div className={styles.post}>{v.fullShop?.shortShop.productCount}</div>
                 {t(LanguageKey.marketPropertiesProduct)}
               </div>
             </div>
 
             <div className={styles.categorysection}>
-              {v.categories.map((u) => (
+              {v.fullShop?.categories.map((u) => (
                 <div key={u.categoryId} className={styles.category}>
                   {u.langValue}
                 </div>
@@ -526,6 +553,7 @@ function ShopPage(props: { data: IFullShop[] | undefined; fetchStorewData: (pagi
             </div> */}
           </Link>
         ))}
+      {isLoadingMore && <Loading />}
     </div>
   );
 }

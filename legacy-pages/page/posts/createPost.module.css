@@ -1,3 +1,10 @@
+@media (max-width: 1100px) {
+  .container {
+    flex: 1 1 100%;
+    max-width: 640px;
+  }
+}
+
 @media (max-width: 480px) {
   .disablePosts1,
   .posts1,
@@ -12,7 +19,10 @@
     font-size: var(--font-10) !important;
   }
   .selectedTime {
-    font-size: var(--font-12) !important;
+    font-size: var(--font-10) !important;
+  }
+  .timeButtons {
+    width: 100% !important;
   }
 }
 
@@ -58,14 +68,13 @@
 .container {
   position: relative;
   display: flex;
-  min-width: 250px;
-  width: 100%;
-  max-width: 395px;
+  flex: 1 1 300px;
+  min-width: 0;
+  max-width: 390px;
   min-height: max-content;
-  max-height: 700px;
-  gap: var(--gap-20);
+  gap: var(--gap-30);
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   animation: var(--top04);
 }
 
@@ -245,7 +254,8 @@
 .cardPost {
   display: flex;
   align-self: center;
-  width: 335px;
+  width: 100%;
+  /* max-width: 395px; */
   aspect-ratio: 1/1;
   position: relative;
   align-items: center;
@@ -423,7 +433,7 @@
 }
 .postoptionicon {
   position: relative;
-
+  width: auto;
   height: 25px;
 }
 .new {
@@ -547,11 +557,9 @@
   background-color: var(--color-light-blue);
   border-radius: var(--br5);
   cursor: pointer;
-
   transition: var(--transition6);
   justify-content: space-evenly;
   align-items: center;
-  left: 314px;
   opacity: 0.4;
   pointer-events: none;
 }
@@ -571,9 +579,10 @@
   border-radius: 0 var(--br15) var(--br15) var(--br15);
   border: 1px solid var(--content-box);
   background-color: var(--color-disable);
-
   width: 100%;
-  height: 100%;
+  min-height: 180px;
+  max-height: 300px;
+  height: auto;
   overflow-y: scroll;
   overflow-x: hidden;
   flex-direction: row;
@@ -592,8 +601,11 @@ html[dir="rtl"] .hashtagField {
   display: flex;
   flex-wrap: wrap;
   gap: var(--gap-10);
-  min-height: 60px;
-  height: 60px;
+  transition: var(--transition3);
+  animation: var(--fadeIn3);
+  min-height: 30px;
+  height: auto;
+  max-height: 150px;
 }
 .specificword {
   color: var(--text-h1);
@@ -618,10 +630,10 @@ html[dir="rtl"] .hashtagField {
   border-radius: var(--br10);
   border: 1px solid var(--content-box);
   background-color: var(--color-disable);
-
   color: var(--text-h1);
   width: 100%;
-  height: 100%;
+  height: auto;
+  min-height: 100px;
   overflow-y: auto;
   overflow-x: hidden;
   flex-direction: row;
@@ -632,11 +644,11 @@ html[dir="rtl"] .hashtagField {
 .setting {
   position: relative;
   width: 100%;
-  height: 100%;
+  height: auto;
   gap: var(--gap-20);
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   align-items: flex-start;
   flex-wrap: nowrap;
   transition: var(--transition3);
@@ -669,7 +681,8 @@ html[dir="rtl"] .hashtagField {
 .hashtagSection {
   position: relative;
   width: 100%;
-  height: 270px;
+  min-height: 220px;
+  height: auto;
 }
 .postscale {
   display: flex;
@@ -708,6 +721,9 @@ html[dir="rtl"] .hashtagField {
   transform: translateY(-60%);
   animation: var(--fadeIn3);
   z-index: 10;
+  max-width: min(280px, 80vw);
+  word-wrap: break-word;
+  white-space: normal;
 }
 .tooltip::after {
   content: "";
@@ -815,20 +831,20 @@ html[dir="rtl"] .tooltip::after {
   color: var(--text-h1);
   font-weight: var(--weight-400);
   font-size: var(--font-14);
-  height: 100%;
-  padding-inline: var(--padding-20);
-  overflow-y: auto;
-  overflow-x: hidden;
+  height: 40px;
+  padding-inline: var(--padding-5);
+  overflow: hidden;
   flex-direction: row;
-  text-wrap: nowrap;
+  white-space: nowrap;
   align-content: center;
-  align-items: flex-start;
   justify-content: center;
   align-items: center;
-  flex-shrink: 0;
+  flex: 1 1 auto;
+  min-width: 0;
   transition: var(--transition3);
   @media (max-width: 470px) {
     padding-inline: var(--padding-10) !important;
+    font-size: var(--font-12) !important;
   }
 }
 
@@ -887,6 +903,9 @@ html[dir="rtl"] .tooltip::after {
   font-size: var(--font-12);
   font-weight: var(--weight-400);
   cursor: pointer;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 .time:hover {
   border: 1px solid var(--color-dark-blue);
@@ -905,8 +924,10 @@ html[dir="rtl"] .tooltip::after {
   transition: var(--transition3);
   text-align: center;
   font-size: var(--font-12);
-
   font-weight: var(--weight-400);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .postTimer {

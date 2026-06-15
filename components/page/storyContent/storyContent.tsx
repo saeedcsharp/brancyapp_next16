@@ -1,7 +1,9 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import { MouseEvent, useCallback, useEffect, useId, useMemo, useReducer, useState } from "react";
+import { useRouter as useAppRouter } from "next/navigation";
+import { MouseEvent, SyntheticEvent, useCallback, useEffect, useId, useMemo, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
@@ -19,7 +21,7 @@ import ScheduledStory from "brancy/components/page/scheduledStory/scheduledStory
 import styles from "./storyContent.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 
 type StoryState = {
   stories: IStoryContent[] | null;
@@ -81,6 +83,7 @@ const StoryContent = (props: {
 }) => {
   const { t } = useTranslation();
   const router = useRouter();
+  const appRouter = useAppRouter();
   const uniqueId = useId();
 
   const { data: session } = useSession({
@@ -109,14 +112,25 @@ const StoryContent = (props: {
   );
 
   const handleCreateStory = useCallback(() => {
-    router.push("/page/stories/createstory?newschedulestory=false");
-  }, [router]);
+    appRouter.push("/page/stories/createstory?newschedulestory=false");
+  }, [appRouter]);
 
   const handleKeyDown = useCallback((e: React.KeyboardEvent, callback: () => void) => {
     if (e.key === "Enter" || e.key === " ") {
       e.preventDefault();
       callback();
     }
+  }, []);
+
+  const handleImageError = useCallback((e: SyntheticEvent<HTMLImageElement>) => {
+    const img = e.currentTarget as HTMLImageElement;
+    if (!img) return;
+    // prevent retry loop
+    img.onerror = null;
+    // use attention.svg as definitive fallback and show it contained
+    img.src = "/attention.svg";
+    img.style.objectFit = "contain";
+    img.style.backgroundColor = "var(--color-gray30)";
   }, []);
 
   const { containerRef, isLoadingMore } = useInfiniteScroll<IStoryContent>({
@@ -181,36 +195,58 @@ const StoryContent = (props: {
           nextTime: stories.length > 0 ? stories[stories.length - 1].createdTime : -1,
         },
       });
+    } else if (!hasAccess) {
+      dispatch({ type: "SET_LOADING", payload: false });
     }
   }, [props.data.storyContents, hasAccess]);
 
-  const renderDraftItem = useCallback((draft: any, index: number, isError: boolean = false) => {
-    const draftItemStyle =
-      isError && draft.statusCreatedTime > index
-        ? {
-            border: "1px solid var(--color-dark-red)",
-            borderRadius: "var(--br10)",
-            cursor: "pointer",
-          }
-        : {};
+  const renderDraftItem = useCallback(
+    (draft: any, index: number, isError: boolean = false, isPlaceholder: boolean = false) => {
+      const draftItemStyle =
+        isError && draft && draft.statusCreatedTime > index
+          ? {
+              borderRadius: "var(--br10)",
+              cursor: "pointer",
+            }
+          : {};
 
-    return (
-      <div className={styles.draftpreview} key={draft.draftId} title={`🔗 Draft No.${index + 1}`}>
-        <Link
-          href={`/page/stories/createstory?newschedulestory=false&draftId=${draft.draftId}`}
-          aria-label={`Edit draft ${draft.draftId}`}
-          tabIndex={0}>
-          <div style={draftItemStyle}>
-            <img
-              className={styles.draftpreviewimage}
-              src={basePictureUrl + draft.thumbnailMediaUrl}
-              alt={`Draft preview ${index + 1}`}
-            />
-          </div>
-        </Link>
-      </div>
-    );
-  }, []);
+      const key = draft ? `draft-${draft.draftId}` : `placeholder-${index}`;
+
+      if (isPlaceholder || !draft) {
+        return <div className={styles.draftpreview} key={key} title={`🔗 Draft No.${index + 1}`}></div>;
+      }
+
+      return (
+        <div className={styles.draftpreview} key={key} title={`🔗 Draft No.${index + 1}`}>
+          <Link
+            href={`/page/stories/createstory?newschedulestory=false&draftId=${draft.draftId}`}
+            aria-label={`Edit draft ${draft.draftId}`}
+            tabIndex={0}>
+            <div style={draftItemStyle}>
+              <img
+                className={styles.draftpreviewimage}
+                src={basePictureUrl + draft.thumbnailMediaUrl}
+                onError={handleImageError}
+                alt={`Draft preview ${index + 1}`}
+              />
+            </div>
+          </Link>
+        </div>
+      );
+    },
+    [handleImageError],
+  );
+
+  const renderSixSlots = useCallback(
+    (arr: any[] = [], isError = false) => {
+      const slots = new Array(6).fill(null).map((_, i) => {
+        const item = arr && arr.length > i ? arr[i] : null;
+        return renderDraftItem(item, i, isError, !item);
+      });
+      return slots;
+    },
+    [renderDraftItem],
+  );
 
   const errorDraftsToRender = useMemo(() => props.data.errorDrafts.slice(0, 6), [props.data.errorDrafts]);
   const draftsToRender = useMemo(() => props.data.drafts?.slice(0, 6) || [], [props.data.drafts]);
@@ -249,10 +285,11 @@ const StoryContent = (props: {
                 <div className={styles.draftinfo}>
                   <div className={styles.newstory}>
                     <div className={styles.drafttitle}>
-                      {t(LanguageKey.publishError)} ({errorDraftsToRender.length})
+                      {t(LanguageKey.publishError)}
+                      {/* ({errorDraftsToRender.length}) */}
                     </div>
                     <div className={styles.draftpreviewall} role="list" aria-label="Error drafts list">
-                      {errorDraftsToRender.map((draft, index) => renderDraftItem(draft, index, true))}
+                      {renderSixSlots(errorDraftsToRender, true)}
                     </div>
                   </div>
                 </div>
@@ -264,10 +301,11 @@ const StoryContent = (props: {
                 <div className={styles.draftinfo}>
                   <div className={styles.newstory}>
                     <div className={styles.drafttitle}>
-                      {t(LanguageKey.StoryDraft)} ({draftsToRender.length}/6)
+                      {t(LanguageKey.StoryDraft)}
+                      {/* ({draftsToRender.length}/6) */}
                     </div>
                     <div className={styles.draftpreviewall} role="list" aria-label="Drafts list">
-                      {draftsToRender.map((draft, index) => renderDraftItem(draft, index, false))}
+                      {renderSixSlots(draftsToRender, false)}
                     </div>
                   </div>
                 </div>

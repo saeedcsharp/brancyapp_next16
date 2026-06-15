@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import "quill/dist/quill.snow.css";
 import "brancy/components/page/statistics/sliderToFourBox.css";
 import "brancy/app/globals.scss";
@@ -37,6 +38,12 @@ const setThemeAndManifestScript = `(function () {
   if (metaTheme) {
     metaTheme.setAttribute("content", theme === "dark" ? "#161d1f" : "#edf4ff");
   }
+
+  // Apply language direction before React hydration to prevent layout flash
+  var lng = window.localStorage.getItem("language") || "en";
+  var rtlLangs = ["fa", "ar"];
+  document.documentElement.dir = rtlLangs.indexOf(lng) !== -1 ? "rtl" : "ltr";
+  document.documentElement.lang = lng;
 })();`;
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
@@ -47,6 +54,15 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="apple-touch-icon" href="/icons/icon-152x152.png" />
       </head>
       <body>
+        <GoogleTagManager gtmId="GTM-PLFD6SZ4" />
+        <GoogleAnalytics gaId="G-BSQ8WGVTN1" />
+        <noscript>
+          <iframe
+            src="https://www.googletagmanager.com/ns.html?id=GTM-PLFD6SZ4"
+            height="0"
+            width="0"
+            style={{ display: "none", visibility: "hidden" }}></iframe>
+        </noscript>
         <script dangerouslySetInnerHTML={{ __html: setThemeAndManifestScript }} />
         <Providers>{children}</Providers>
       </body>

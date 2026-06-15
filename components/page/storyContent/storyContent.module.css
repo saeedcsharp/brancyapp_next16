@@ -9,10 +9,12 @@
   justify-content: center;
   gap: var(--gap-20);
 }
-
+html[dir="rtl"] .frameContainer {
+  flex-direction: row-reverse !important;
+}
 .frameContainer {
-  padding-top: var(--padding-5);
   animation: var(--bottom14);
+  padding-top: var(--padding-5);
   will-change: transform;
   contain: layout style paint;
   flex-wrap: wrap;
@@ -23,9 +25,6 @@
   display: flex;
   gap: var(--gap-20);
   opacity: 0;
-}
-html[dir="rtl"] .frameContainer {
-  flex-direction: row-reverse !important;
 }
 
 @media (max-width: 768px) {
@@ -70,7 +69,10 @@ html[dir="rtl"] .frameContainer {
 @media (max-width: 500px) {
   .story,
   .draft {
-    max-width: 165px !important;
+    flex: 0 0 calc(50% - 12px) !important;
+    width: calc(50% - 12px) !important;
+    max-width: calc(50% - 12px) !important;
+    min-width: 0;
   }
 
   .storyinfo,
@@ -96,6 +98,12 @@ html[dir="rtl"] .frameContainer {
     width: 50px !important;
     font-weight: var(--weight-400) !important;
     font-size: var(--font-12) !important;
+  }
+  /* Ensure exactly 2 cards per row on small screens */
+  .frameContainer {
+    width: calc(100% - 10px) !important;
+    margin-inline: 5px !important;
+    gap: var(--gap-10) !important;
   }
 }
 .story,
@@ -252,7 +260,8 @@ html[dir="rtl"] .storyidandmenu {
   display: flex;
   align-content: center;
   justify-content: center;
-  gap: var(--gap-20);
+  text-align: center;
+  gap: var(--gap-10);
   align-items: center;
   flex-direction: column;
 }
@@ -266,6 +275,7 @@ html[dir="rtl"] .storyidandmenu {
   background-color: var(--color-white);
   text-wrap: nowrap;
   min-width: 35px;
+  max-width: fit-content;
   line-height: 1;
   border-radius: var(--br8);
   font-weight: var(--weight-400);
@@ -286,17 +296,17 @@ html[dir="rtl"] .storyidandmenu {
 }
 .draftpreviewall {
   position: relative;
-  width: 80%;
+  width: 100%;
   height: 80%;
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+  padding: var(--padding-10);
   -moz-column-gap: var(--gap-10);
   column-gap: var(--gap-10);
   row-gap: var(--gap-8);
-  align-items: center;
-  align-content: space-evenly;
   justify-content: space-evenly;
+  align-content: flex-start;
 }
 .createpostid {
   padding-block: 2px;
@@ -313,7 +323,7 @@ html[dir="rtl"] .storyidandmenu {
   color: var(--text-h1);
 }
 .draftpreview {
-  background-color: var(--color-gray60);
+  background-color: var(--color-gray10);
   border-radius: var(--br10);
   position: relative;
   width: 33%;

@@ -17,7 +17,7 @@ import AdsTypeComp from "brancy/components/advertise/adsType";
 import TimeTypeComp from "brancy/components/advertise/timeType";
 import styles from "./adDetails.module.css";
 import AdReject from "brancy/components/advertise/adList/popups/adreject";
-import styles2 from "./components/advertise/adList/popups/detailContent.module.css";
+import styles2 from "./detailContent.module.css";
 const AdDetails = (props: {
   removeMask: () => void;
   acceptAdvertise: () => void;

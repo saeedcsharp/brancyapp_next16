@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -36,7 +37,7 @@ import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFo
 
 import styles from "./upgrade.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 type UpgradeState = {
   packageExtensions: IBasePackagePrice[];
   tokenPackages: IReserveFeaturePrices[];
@@ -779,16 +780,17 @@ const Upgrade = memo(function Upgrade() {
                       }}
                       role="button">
                       <div className={styles.titlebody}>
-                        <div className="title" id={`${componentId}-packages-title`}>
-                          <div className={getSectionIconClass(packageTimeProgressPercentage)} />
-
-                          {state.userPackageInfo.packageType}
+                        <div className="headerandinput">
+                          <div className="title" id={`${componentId}-packages-title`}>
+                            <div className={getSectionIconClass(packageTimeProgressPercentage)} />
+                            {state.userPackageInfo.packageType}
+                          </div>
+                          {getWarningMessage(packageTimeProgressPercentage) && (
+                            <span className={getWarningStyle(packageTimeProgressPercentage)}>
+                              {getWarningMessage(packageTimeProgressPercentage)}
+                            </span>
+                          )}
                         </div>
-                        {getWarningMessage(packageTimeProgressPercentage) && (
-                          <span className={getWarningStyle(packageTimeProgressPercentage)}>
-                            {getWarningMessage(packageTimeProgressPercentage)}
-                          </span>
-                        )}
                       </div>
                       <svg
                         className={getExpandIconClass(state.expandedSections.packages)}
@@ -934,24 +936,25 @@ const Upgrade = memo(function Upgrade() {
                           <div className="title" id={`${componentId}-tokens-title`}>
                             <div className={getSectionIconClass(effectiveAiPercentage)} />
                             {t(LanguageKey.AIAssisment)}
+                            <Tooltip tooltipValue={t(LanguageKey.tokenExplain)} onClick={true} position="bottom">
+                              <img
+                                style={{
+                                  marginInline: "5px",
+                                  cursor: "pointer",
+                                  width: "15px",
+                                  height: "15px",
+                                }}
+                                alt="ℹ️ tooltip"
+                                src="/tooltip.svg"
+                              />
+                            </Tooltip>
                           </div>
-                          <div className="explain" style={{ display: "flex", alignItems: "center" }}>
-                            <img
-                              src="/info.svg"
-                              alt="Token information"
-                              title="Token information"
-                              width="15"
-                              height="15"
-                              style={{ marginInline: "5px", cursor: "pointer" }}
-                            />
-                            {t(LanguageKey.tokenExplain)}
-                          </div>
+                          {getWarningMessage(effectiveAiPercentage, "ai") && (
+                            <span className={getWarningStyle(effectiveAiPercentage)}>
+                              {getWarningMessage(effectiveAiPercentage, "ai")}
+                            </span>
+                          )}
                         </div>
-                        {getWarningMessage(effectiveAiPercentage, "ai") && (
-                          <span className={getWarningStyle(effectiveAiPercentage)}>
-                            {getWarningMessage(effectiveAiPercentage, "ai")}
-                          </span>
-                        )}
                       </div>
 
                       <svg
@@ -1166,16 +1169,18 @@ const Upgrade = memo(function Upgrade() {
                         }
                       }}>
                       <div className={styles.titlebody}>
-                        <div className="title" id={`${componentId}-domain-title`}>
-                          <div className={getSectionIconClass(effectiveDomainPercentage)} />
+                        <div className="headerandinput">
+                          <div className="title" id={`${componentId}-domain-title`}>
+                            <div className={getSectionIconClass(effectiveDomainPercentage)} />
 
-                          {t(LanguageKey.CustomDomain)}
+                            {t(LanguageKey.CustomDomain)}
+                          </div>
+                          {getWarningMessage(effectiveDomainPercentage) && (
+                            <span className={getWarningStyle(effectiveDomainPercentage)}>
+                              {getWarningMessage(effectiveDomainPercentage)}
+                            </span>
+                          )}
                         </div>
-                        {getWarningMessage(effectiveDomainPercentage) && (
-                          <span className={getWarningStyle(effectiveDomainPercentage)}>
-                            {getWarningMessage(effectiveDomainPercentage)}
-                          </span>
-                        )}
                       </div>
 
                       <svg
@@ -1354,16 +1359,18 @@ const Upgrade = memo(function Upgrade() {
                       }}
                       role="button">
                       <div className={styles.titlebody}>
-                        <div className="title" id={`${componentId}-winnerpicker-title`}>
-                          <div className={getSectionIconClass(effectiveLotteryPercentage)} />
+                        <div className="headerandinput">
+                          <div className="title" id={`${componentId}-winnerpicker-title`}>
+                            <div className={getSectionIconClass(effectiveLotteryPercentage)} />
 
-                          {t(LanguageKey.WinnerPicker)}
+                            {t(LanguageKey.WinnerPicker)}
+                          </div>
+                          {getWarningMessage(effectiveLotteryPercentage, "winnerpicker") && (
+                            <span className={getWarningStyle(effectiveLotteryPercentage)}>
+                              {getWarningMessage(effectiveLotteryPercentage, "winnerpicker")}
+                            </span>
+                          )}
                         </div>
-                        {getWarningMessage(effectiveLotteryPercentage, "winnerpicker") && (
-                          <span className={getWarningStyle(effectiveLotteryPercentage)}>
-                            {getWarningMessage(effectiveLotteryPercentage, "winnerpicker")}
-                          </span>
-                        )}
                       </div>
 
                       <svg

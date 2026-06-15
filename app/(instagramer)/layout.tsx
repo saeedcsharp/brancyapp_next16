@@ -32,13 +32,21 @@ export default function InstagramerGroupLayout({ children }: { children: React.R
 
   const handleShowNotifBar = (event: MouseEvent) => {
     event.stopPropagation();
-    setShowNotifBar((prev) => !prev);
+    setShowNotifBar((prev) => {
+      const next = !prev;
+      if (next) setShowProfile(false);
+      return next;
+    });
   };
 
   const handleShowProfile = (event: MouseEvent) => {
     console.log("show profile");
     event.stopPropagation();
-    setShowProfile((prev) => !prev);
+    setShowProfile((prev) => {
+      const next = !prev;
+      if (next) setShowNotifBar(false);
+      return next;
+    });
   };
 
   const handleShowHamMenu = (ham: string) => {

@@ -1,14 +1,13 @@
 import { NextRequest, NextResponse } from "next/server";
-
-const API_BASE_URL = "https://api.brancy.app/";
+import { getInternalApiBaseUrl } from "brancy/helper/apiBaseUrl";
 
 interface StringDitionaryItem {
   key: string;
   value?: string;
 }
 
-function buildExternalUrl(subUrl: string, queries: StringDitionaryItem[] = []): string {
-  const url = new URL(subUrl, API_BASE_URL);
+function buildExternalUrl(subUrl: string, queries: StringDitionaryItem[] = [], host?: string | null): string {
+  const url = new URL(subUrl, getInternalApiBaseUrl(host));
   for (const item of queries) {
     if (item?.value !== undefined) {
       url.searchParams.append(item.key, item.value);
@@ -41,7 +40,7 @@ export async function proxyToBrancy(request: NextRequest, fixedSubUrl: string) {
     const data = payload?.data;
     const queries: StringDitionaryItem[] = Array.isArray(payload?.queries) ? payload.queries : [];
 
-    const targetUrl = buildExternalUrl(subUrl, queries);
+    const targetUrl = buildExternalUrl(subUrl, queries, request.headers.get("host"));
 
     const upstreamResponse = await fetch(targetUrl, {
       method: methodType === 1 ? "POST" : "GET",
@@ -66,6 +65,7 @@ export async function proxyToBrancy(request: NextRequest, fixedSubUrl: string) {
       status: upstreamResponse.status,
       headers: {
         "Content-Type": upstreamResponse.headers.get("Content-Type") ?? "application/json",
+        "X-Upstream-URL": targetUrl,
       },
     });
   } catch (error: any) {

@@ -25,6 +25,21 @@ const AccountSummary = memo(({ data }: AccountSummaryProps) => {
     setIsHidden(!isHidden);
   };
 
+  // Track which paragraph is open (index). Default to first paragraph open.
+  const [openIndex, setOpenIndex] = useState<number>(0);
+
+  const handleHeaderParentClick = (index: number) => {
+    if (index === openIndex) {
+      // If there's more than one paragraph, open a different one
+      if (paragraphs.length > 1) {
+        setOpenIndex((prev) => (prev === 0 ? 1 : 0));
+      }
+      // If only one paragraph, do nothing (must remain open)
+    } else {
+      setOpenIndex(index);
+    }
+  };
+
   if (!data || !data.summary) return null;
 
   const timeAgo = formatTimeAgo(data.createdTime * 1000, i18n.language);
@@ -93,17 +108,50 @@ const AccountSummary = memo(({ data }: AccountSummaryProps) => {
                 ))}
             </div>
           ) : (
-            paragraphs.map((paragraph, index) => (
-              <div key={index} className="headerandinput">
-                <div className="headerChild">
-                  <img src={paragraphIcons[index] || "/adticket.svg"} alt="" style={{ width: "20px" }} />
-                  <span className="title2">
-                    {paragraphTitles[index] || `${t(LanguageKey.pageSummary)} ${index + 1}`}
+            paragraphs.map((paragraph, index) => {
+              const isOpen = index === openIndex;
+              return (
+                <div key={index} className="headerandinput">
+                  <div
+                    style={{ cursor: "pointer" }}
+                    className="headerparent"
+                    role="button"
+                    tabIndex={0}
+                    onClick={() => handleHeaderParentClick(index)}
+                    onKeyDown={(e) => e.key === "Enter" && handleHeaderParentClick(index)}>
+                    <div className="headerChild">
+                      <img src={paragraphIcons[index]} alt="" style={{ height: "20px", width: "20px" }} />
+                      <span className="title2">
+                        {paragraphTitles[index] || `${t(LanguageKey.pageSummary)} ${index + 1}`}
+                      </span>
+                    </div>
+                    <img
+                      src="/backwardAD.svg"
+                      alt=""
+                      style={{
+                        height: "14px",
+                        width: "14px",
+                        transform: isOpen ? "rotate(-90deg)" : "rotate(90deg)",
+                        transition: "var(--transition3)",
+                      }}
+                    />
+                  </div>
+
+                  <span
+                    className="explain"
+                    style={{
+                      lineHeight: "normal",
+                      maxHeight: isOpen ? "250px" : "0",
+                      opacity: isOpen ? 1 : 0,
+                      overflow: "hidden",
+                      transition: "var(--transition3)",
+                      display: "block",
+                    }}>
+                    {paragraph}
                   </span>
                 </div>
-                <span className="explain">{paragraph}</span>
-              </div>
-            ))
+              );
+            })
           )}
         </div>
       </div>

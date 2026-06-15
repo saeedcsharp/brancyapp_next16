@@ -1,3 +1,4 @@
+import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import TextArea from "brancy/components/design/textArea/textArea";
 import {
@@ -9,7 +10,10 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
+import { FeatureType } from "brancy/models/psg/psg";
 import { LanguageKey } from "brancy/i18n";
+import router from "next/router";
 import { useSession } from "next-auth/react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -32,12 +36,16 @@ interface ICreateEventIdeaBody {
   maxTime: number;
 }
 
+interface ICreateCustomEventIdeaBody {
+  prompt: string;
+}
+
 const ONE_MONTH_MS = 30 * 24 * 60 * 60 * 1000;
 
 const CreateEventIdea = (props: {
   removeMask: () => void;
   handleShowDayEvents: () => void;
-  onSuccess?: () => void;
+  onSuccess?: (languageId: number, isCustomEvent: boolean) => void;
 }) => {
   const { t } = useTranslation();
   const { data: session } = useSession();
@@ -45,31 +53,54 @@ const CreateEventIdea = (props: {
   const [prompt, setPrompt] = useState("");
   const [selectedLanguageId, setSelectedLanguageId] = useState(0);
   const [loading, setLoading] = useState(false);
+  const [isCustomEvent, setIsCustomEvent] = useState(false);
 
-  const canSubmit = !loading;
+  const canSubmit = !loading && prompt.trim().length > 0;
+
+  const handleShowDayEventsWithCheck = useCallback(async () => {
+    if (!session) return;
+    const hasAccess = await fetchAndCheckFeature(FeatureType.AI, session);
+    if (!hasAccess) {
+      router.push("/upgrade");
+      return;
+    }
+    props.handleShowDayEvents();
+  }, [session, props.handleShowDayEvents]);
 
   const handleSubmit = useCallback(async () => {
     if (!session) return;
 
-    const body: ICreateEventIdeaBody = {
-      prompt: prompt.trim(),
-      minTime: Math.floor(Date.now() / 1000),
-      maxTime: Math.floor((Date.now() + ONE_MONTH_MS) / 1000),
-    };
+    const hasAccess = await fetchAndCheckFeature(FeatureType.AI, session);
+    if (!hasAccess) {
+      router.push("/upgrade");
+      return;
+    }
 
     setLoading(true);
     try {
-      const res = await clientFetchApi<ICreateEventIdeaBody, boolean>("/api/dayevent/createEventIdea", {
-        methodType: MethodType.post,
-        session,
-        data: body,
-        queries: [{ key: "language", value: selectedLanguageId.toString() }],
-        onUploadProgress: undefined,
-      });
+      const res = isCustomEvent
+        ? await clientFetchApi<ICreateCustomEventIdeaBody, boolean>("/api/dayevent/createCustomEventIdea", {
+            methodType: MethodType.post,
+            session,
+            data: { prompt: prompt.trim() },
+            queries: [{ key: "language", value: selectedLanguageId.toString() }],
+            onUploadProgress: undefined,
+          })
+        : await clientFetchApi<ICreateEventIdeaBody, boolean>("/api/dayevent/createEventIdea", {
+            methodType: MethodType.post,
+            session,
+            data: {
+              prompt: prompt.trim(),
+              minTime: Math.floor(Date.now() / 1000),
+              maxTime: Math.floor((Date.now() + ONE_MONTH_MS) / 1000),
+            },
+            queries: [{ key: "language", value: selectedLanguageId.toString() }],
+            onUploadProgress: undefined,
+          });
 
       if (res.succeeded) {
         internalNotify(InternalResponseType.Ok, NotifType.Success);
-        props.onSuccess?.();
+        props.onSuccess?.(selectedLanguageId, isCustomEvent);
         props.removeMask();
       } else {
         notify(res.info.responseType, NotifType.Warning);
@@ -79,7 +110,7 @@ const CreateEventIdea = (props: {
     } finally {
       setLoading(false);
     }
-  }, [session, prompt, selectedLanguageId, props.onSuccess, props.removeMask]);
+  }, [session, prompt, selectedLanguageId, isCustomEvent, props.onSuccess, props.removeMask]);
 
   return (
     <div className={styles.modal}>
@@ -104,6 +135,17 @@ const CreateEventIdea = (props: {
       </div>
 
       <div className={styles.wrapper}>
+        {/* Custom Event Toggle */}
+        <div className="headerparent">
+          <div className="title2">{t(LanguageKey.pageTools_CustomEvent)}</div>
+          <ToggleCheckBoxButton
+            checked={isCustomEvent}
+            handleToggle={(e) => setIsCustomEvent(e.target.checked)}
+            name="customEvent"
+            title="Custom Event"
+            role="switch"
+          />
+        </div>
         {/* Language */}
         <div className={styles.field}>
           <label className={styles.label}>{t(LanguageKey.pageTools_EventIdeasLanguage)}</label>
@@ -120,8 +162,8 @@ const CreateEventIdea = (props: {
         </div>
 
         {/* Day Events */}
-        <div className={styles.field}>
-          <button className={styles.dateBtn} onClick={props.handleShowDayEvents}>
+        <div className={`${styles.field} ${isCustomEvent ? "fadeDiv" : ""}`}>
+          <button className={styles.dateBtn} onClick={handleShowDayEventsWithCheck}>
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
               <rect x="3" y="4" width="18" height="18" rx="2" ry="2" />
               <line x1="16" y1="2" x2="16" y2="6" />
@@ -146,6 +188,7 @@ const CreateEventIdea = (props: {
               placeHolder={t(LanguageKey.pageTools_CreateEventIdeaPromptPlaceholder)}
               role="textbox"
               title={t(LanguageKey.pageTools_CreateEventIdeaPrompt)}
+              dangerOnEmpty
               style={{
                 minHeight: 90,
                 height: "auto",

@@ -23,8 +23,6 @@ interface IDayEvent {
   isReligious: boolean;
 }
 
-const ONE_MONTH_MS = 30 * 24 * 60 * 60 * 1000;
-
 const LANGUAGE_CODE_TO_ID: Record<string, number> = {
   en: 0,
   fa: 1,
@@ -51,7 +49,7 @@ const DayEvents = (props: { removeMask: () => void; backButton?: () => void }) =
 
   const fetchEvents = useCallback(async () => {
     if (!session) return;
-
+    const ONE_MONTH_MS = 30 * 24 * 60 * 60 * 1000;
     const minTime = Date.now();
     const maxTime = Date.now() + ONE_MONTH_MS;
     const languageId = LANGUAGE_CODE_TO_ID[i18n.language] ?? 0;
@@ -59,6 +57,7 @@ const DayEvents = (props: { removeMask: () => void; backButton?: () => void }) =
     setLoading(true);
     setHasSearched(true);
     try {
+      console.log("Fetching events with params:", { minTime, maxTime, languageId });
       const res = await clientFetchApi<null, IDayEvent[]>("/api/dayevent/getEvents", {
         methodType: MethodType.get,
         session: session,

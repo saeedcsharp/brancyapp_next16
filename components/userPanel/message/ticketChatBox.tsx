@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import InputEmoji from "react-input-emoji";
 import { DateObject } from "react-multi-date-picker";
@@ -64,7 +65,7 @@ const UserPanelDirectChatBox = (props: {
           locale: initialzedTime().locale,
         }).format("hh:mm A - ddd");
   };
-  const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+  const baseMediaUrl = getClientMediaBaseUrl();
   var unixTypingTime = 0;
   const chatBoxRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement | null>(null);

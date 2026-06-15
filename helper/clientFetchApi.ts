@@ -3,8 +3,7 @@ import { signOut } from "next-auth/react";
 import { MethodType, IResult, StringDitionaryItem } from "brancy/helper/api";
 import { ResponseType } from "brancy/components/notifications/notificationBox";
 import { resolveBackendSubUrl } from "brancy/helper/apiRouteMap";
-
-const API_BASE_URL = "https://api.brancy.app/";
+import { getClientApiBaseUrl } from "brancy/helper/apiBaseUrl";
 
 function normalizeResult<J>(raw: any, statusCode = 500, errorMessage = ""): IResult<J> {
   return {
@@ -87,7 +86,7 @@ function isUserRoute(localPath: string): boolean {
  * Build the direct backend URL for a given backend sub-URL and query parameters.
  */
 function buildDirectUrl(subUrl: string, queries: StringDitionaryItem[] = []): string {
-  const url = new URL(subUrl, API_BASE_URL);
+  const url = new URL(subUrl, getClientApiBaseUrl());
   for (const item of queries) {
     if (item?.value !== undefined) {
       url.searchParams.append(item.key, item.value);
@@ -192,7 +191,7 @@ export async function clientFetchApi<TReq, TRes>(
   options: FetchOptions<TReq> = {},
 ): Promise<IResult<TRes>> {
   const { session, methodType = MethodType.get, data, queries = [], onUploadProgress } = options;
-
+  console.log("queriessssss", queries);
   const accessToken = options.accessToken ?? getSessionAccessToken(session);
   const instagramerId = session ? getSessionInstagramerId(session) : "-1";
   const localPath = toLocalApiPath(path);

@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import Head from "next/head";
 import React, { useEffect, useRef, useState } from "react";
 import { createPortal } from "react-dom";
@@ -43,7 +44,7 @@ const FlowTest: React.FC<FlowTestProps> = ({ isOpen, onClose, flowData, nodes, c
   const [waitingForInput, setWaitingForInput] = useState(false);
   const [isClient, setIsClient] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+  const basePictureUrl = getClientMediaBaseUrl();
   const scrollToBottom = () => {
     messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
   };

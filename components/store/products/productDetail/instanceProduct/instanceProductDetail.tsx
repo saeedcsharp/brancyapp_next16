@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import router from "next/router";
 import { useEffect, useState } from "react";
@@ -56,7 +57,7 @@ export default function InstanceProductDetail({
   shortProduct: IProduct_ShortProduct;
 }) {
   const { data: session } = useSession();
-  const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+  const basePictureUrl = getClientMediaBaseUrl();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
   const [isUpdateing, setIsUpdateing] = useState(false);
@@ -207,6 +208,7 @@ export default function InstanceProductDetail({
     else setCurrentStep(Steps.Information);
   }
   function upadteCteateFromSpecifications(isNext: boolean, specificationInfo: ISpecification[]) {
+    console.log("specificationInfoooooooo", specificationInfo);
     setSpecificationInfo(specificationInfo);
     if (isNext) setCurrentStep(Steps.Media);
     else setCurrentStep(Steps.Properties);
@@ -307,7 +309,12 @@ export default function InstanceProductDetail({
         methodType: MethodType.post,
         session: session,
         data: specs,
-        queries: undefined,
+        queries: [
+          {
+            key: "productId",
+            value: fullProduct.productInstance.productId.toString(),
+          },
+        ],
         onUploadProgress: undefined,
       });
     }
@@ -389,11 +396,11 @@ export default function InstanceProductDetail({
       },
       readyForShipDayLong: setting.readyForShipDayLong,
     };
+    console.log("specificationOrderrrrrrr", specificationInfo);
     const specificationOrder: ISpecificationOrder = {
-      productId: fullProduct.productInstance.productId,
       items: specificationInfo.map((x) => ({
         customSpecificationId: x.customSpecification !== null ? x.customSpecification.id : null,
-        defaultSpecificationId: x.defaultSpecification !== null ? x.defaultSpecification.id : null,
+        variationId: x.defaultSpecification !== null ? x.defaultSpecification.variationId : null,
         index: specificationInfo.indexOf(x),
       })),
     };
@@ -463,7 +470,12 @@ export default function InstanceProductDetail({
             subProducts: updatedSubProducts,
             deActiveSubProducts: deActiveSubProducts,
           },
-          queries: undefined,
+          queries: [
+            {
+              key: "productId",
+              value: fullProduct.productInstance.productId.toString(),
+            },
+          ],
           onUploadProgress: undefined,
         }),
         clientFetchApi<IProduct_SettingUpdate, boolean>("/api/product/UpdateSecondaryProductDetails", {
@@ -534,6 +546,8 @@ export default function InstanceProductDetail({
         base64Url: "",
         isDefault: true,
         key: null,
+        isUploading: false,
+        uploadProgress: 0,
       });
     }
     try {

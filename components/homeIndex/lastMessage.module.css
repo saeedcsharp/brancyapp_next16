@@ -21,7 +21,9 @@
   color: var(--text-h1);
   max-height: 0;
   opacity: 0;
-  transition: max-height 0.5s ease, opacity 0.5s ease;
+  transition:
+    max-height 0.5s ease,
+    opacity 0.5s ease;
   will-change: max-height, opacity;
   contain: layout style;
 }
@@ -101,12 +103,12 @@ html[dir="rtl"] .backdropfade {
 }
 
 .profile {
-  width: 40px;
   display: flex;
   row-gap: var(--gap-8);
   flex-direction: column;
-  align-items: center;
+  align-items: flex-end;
   justify-content: space-between;
+  height: 100%;
 }
 .imageProfile {
   background-color: var(--color-gray10);
@@ -121,8 +123,6 @@ html[dir="rtl"] .backdropfade {
   background-image: url("/no-profile.svg");
 }
 .replyicon {
-  width: 20px;
-  height: 20px;
   cursor: pointer;
   transition: var(--transition2);
 }
@@ -175,8 +175,8 @@ html[dir="rtl"] .backdropfade {
   max-width: 265px;
   width: 100%;
   height: 100%;
-  -webkit-line-clamp: 2;
-  line-clamp: 2;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
   -webkit-box-orient: vertical;
   box-orient: vertical;
   display: -webkit-box;
@@ -187,13 +187,17 @@ html[dir="rtl"] .backdropfade {
 .unknown,
 .reply {
   padding: var(--paddingtag);
-  border-radius: var(--br5);
+  text-transform: capitalize;
+  border-radius: var(--br8);
   font-size: var(--font-12);
-  font-weight: var(--weight-500);
+  font-weight: var(--weight-400);
   text-wrap: nowrap;
   text-align: center;
+  color: var(--color-gray);
+  background-color: var(--color-gray30);
 }
-.ticket {
+
+/* .ticket {
   color: var(--color-purple);
   background-color: var(--color-purple30);
 }
@@ -212,7 +216,7 @@ html[dir="rtl"] .backdropfade {
 .reply {
   color: var(--color-light-blue);
   background-color: var(--color-light-blue30);
-}
+} */
 
 .closebtn {
   position: relative;

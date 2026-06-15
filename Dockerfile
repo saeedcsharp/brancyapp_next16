@@ -1,4 +1,7 @@
-FROM --platform=linux/amd64 node:22-alpine AS base
+FROM --platform=linux/amd64 hub.hamdocker.ir/library/node:22-alpine AS base
+RUN npm config set registry https://repo.hmirror.ir/npm
+RUN echo "https://repo.hmirror.ir/apk/v$(cat /etc/alpine-release | cut -d'.' -f1,2)/main" > /etc/apk/repositories && \
+    echo "https://repo.hmirror.ir/apk/v$(cat /etc/alpine-release | cut -d'.' -f1,2)/community" >> /etc/apk/repositories
 
 FROM base AS deps
 RUN apk add --no-cache libc6-compat

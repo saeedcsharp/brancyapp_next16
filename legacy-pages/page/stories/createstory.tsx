@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import ImageCompressor from "compressorjs";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -47,7 +48,7 @@ const CreateStory = () => {
   const router = useRouter();
   const { data: session } = useSession();
   const { t } = useTranslation();
-  const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+  const basePictureUrl = getClientMediaBaseUrl();
   const { query } = router;
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [isDragging, setIsDragging] = useState(false);
@@ -1027,7 +1028,8 @@ const CreateStory = () => {
         <main className="fullScreenPupup_bg">
           <div className="fullScreenPupup_header">
             <div className={styles.titlecontainer} title={`ℹ️ Story no. ${tempId}`}>
-              {t(LanguageKey.CreateNewStrory)} <span style={{ fontSize: "--font-12" }}>({tempId})</span>
+              {t(LanguageKey.CreateNewStrory)}
+              {/* <span style={{ fontSize: "--font-12" }}>({tempId})</span> */}
             </div>
 
             <div className={styles.titleCard}>

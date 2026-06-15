@@ -36,11 +36,15 @@ html[dir="rtl"] .frameContainer {
   .post,
   .draft,
   .error {
-    max-width: 200px !important;
-    height: 260px !important;
+    flex: 0 1 200px !important;
+    width: 200px !important;
+    max-width: 100% !important;
+    aspect-ratio: 4 / 5 !important;
+    height: auto !important;
   }
   .icon {
-    height: 15px !important;
+    max-height: 15px !important;
+    max-width: 15px !important;
   }
   .postinfo,
   .draftinfo {
@@ -91,8 +95,12 @@ html[dir="rtl"] .frameContainer {
   .post,
   .draft,
   .error {
-    max-width: 165px !important;
-    height: 220px !important;
+    flex: 0 0 calc(50% - 12px) !important;
+    width: calc(50% - 12px) !important;
+    max-width: calc(50% - 12px) !important;
+    aspect-ratio: 4 / 5 !important;
+    height: auto !important;
+    min-width: 0;
   }
   .postinfo,
   .draftinfo {
@@ -118,7 +126,9 @@ html[dir="rtl"] .frameContainer {
     row-gap: var(--gap-10) !important;
   }
   .postimage {
-    min-height: 145px !important;
+    min-height: 0 !important;
+    height: auto !important;
+    aspect-ratio: 1 / 1 !important;
   }
   .cardbackground {
     border-radius: var(--br20) !important;
@@ -128,14 +138,18 @@ html[dir="rtl"] .frameContainer {
 .draft,
 .error {
   position: relative;
-  max-width: 250px;
   display: flex;
-  width: 100%;
-  height: 320px;
+  box-sizing: border-box;
   justify-content: center;
   transition: var(--transition3);
+  animation: var(--fadeIn4);
   will-change: transform;
   contain: layout style paint;
+  flex: 0 1 256px;
+  width: 256px;
+  max-width: 100%;
+  aspect-ratio: 4 / 5;
+  height: auto;
 }
 
 .cardbackground {
@@ -148,6 +162,10 @@ html[dir="rtl"] .frameContainer {
   will-change: transform;
   backface-visibility: hidden;
 }
+.post:hover .cardbackground {
+  transform: scale(1.02);
+}
+
 .newpost {
   position: relative;
   height: 100%;
@@ -157,8 +175,9 @@ html[dir="rtl"] .frameContainer {
   display: flex;
   align-content: center;
   justify-content: center;
-  gap: var(--gap-10);
+  gap: var(--gap-5);
   align-items: center;
+  text-align: center;
   flex-direction: column;
 }
 .postidandmenu {
@@ -189,14 +208,11 @@ html[dir="rtl"] .postidandmenu {
   color: var(--text-h2);
   font-size: var(--font-16);
 }
-.post:hover .cardbackground {
-  transform: scale(1.02);
-}
 
 .engagmentinfo {
   position: relative;
   display: flex;
-  row-gap: var(--gap-15);
+  row-gap: var(--gap-10);
   width: 100%;
   flex-wrap: wrap;
   flex-direction: row;
@@ -234,7 +250,7 @@ html[dir="rtl"] .postidandmenu {
   height: 5px;
   width: 5px;
   border-radius: 50%;
-  background-color: var(--color-dark-red);
+  /* background-color: var(--color-dark-red); */
 }
 .postimage {
   position: relative;
@@ -249,6 +265,31 @@ html[dir="rtl"] .postidandmenu {
   contain: layout style paint;
   transform: translateZ(0);
   object-fit: cover;
+}
+
+/* Fallback style when image failed to load: show a simple colored block with centered icon */
+.postimage.fallback {
+  background-color: var(--color-gray30) !important;
+  background-image: url("/attention.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 36% auto;
+  object-fit: contain !important;
+  filter: none !important;
+}
+.fallbackImage {
+  display: block !important;
+  width: 100% !important;
+  height: 100% !important;
+  box-sizing: border-box !important;
+  border-radius: inherit !important;
+  background-color: var(--color-gray30) !important;
+  background-image: url("/attention.svg");
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 50% auto !important;
+  object-fit: contain !important;
+  filter: none !important;
 }
 
 .counterpopup {
@@ -322,15 +363,16 @@ html[dir="rtl"] .postidandmenu {
   display: flex;
   flex-wrap: wrap;
   flex-direction: row;
+  padding: var(--padding-10);
+  -moz-column-gap: var(--gap-10);
   column-gap: var(--gap-10);
   row-gap: var(--gap-8);
-  justify-content: center;
-  align-items: center;
-  align-content: center;
+  justify-content: space-evenly;
+  align-content: flex-start;
 }
 
 .draftpreview {
-  background-color: var(--color-gray60);
+  background-color: var(--color-gray10);
   border-radius: var(--br15);
   position: relative;
   width: 33%;
@@ -344,6 +386,7 @@ html[dir="rtl"] .postidandmenu {
 .draftpreviewimage {
   width: 100% !important;
   height: 100% !important;
+
   aspect-ratio: 1 / 1;
   position: relative;
   border-radius: var(--br15);

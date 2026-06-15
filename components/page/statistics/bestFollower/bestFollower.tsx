@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { memo, useCallback, useEffect, useRef, useState } from "react";
@@ -11,10 +12,34 @@ import { MethodType } from "brancy/helper/api";
 import { IBestFollowers } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/bestFollower";
 import styles from "./bestFollower.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+import { t } from "i18next";
+const basePictureUrl = getClientMediaBaseUrl();
 const FollowerCard = memo(
   ({ follower, onImageClick }: { follower: IBestFollowers; onImageClick: (url: string, username: string) => void }) => {
     const imageUrl = basePictureUrl + follower.profileUrl;
+    const [copied, setCopied] = useState(false);
+    const timeoutRef = useRef<number | null>(null);
+
+    useEffect(() => {
+      return () => {
+        if (timeoutRef.current) {
+          clearTimeout(timeoutRef.current);
+        }
+      };
+    }, []);
+
+    const handleUsernameClick = useCallback(async () => {
+      try {
+        await navigator.clipboard.writeText(`@${follower.username}`);
+        setCopied(true);
+        timeoutRef.current = window.setTimeout(() => {
+          setCopied(false);
+        }, 1500);
+      } catch (err) {
+        console.error("Clipboard write failed:", err);
+      }
+    }, [follower.username]);
+
     return (
       <div className="headerparent" style={{ padding: "1px" }}>
         <div className="instagramprofile">
@@ -29,13 +54,13 @@ const FollowerCard = memo(
               (e.target as HTMLImageElement).src = "/no-profile.svg";
             }}
           />
-          <div className="instagramprofiledetail">
+          <div className={`${styles.instagramprofiledetail} instagramprofiledetail`}>
             <div
               style={{ cursor: "pointer" }}
               className="instagramusername"
-              title={`@${follower.username}`}
-              onClick={() => navigator.clipboard.writeText(`@${follower.username}`)}>
-              @{follower.username}
+              title={copied ? t(LanguageKey.successfulCopy) : `@${follower.username}`}
+              onClick={handleUsernameClick}>
+              {copied ? t(LanguageKey.successfulCopy) : `@${follower.username}`}
             </div>
             <div className="instagramid" title={follower.fullName}>
               {follower.fullName}
@@ -53,6 +78,7 @@ FollowerCard.displayName = "FollowerCard";
 const ImagePopup = memo(
   ({ imageUrl, onClose, username }: { imageUrl: string; onClose: () => void; username: string }) => (
     <>
+      <div className="dialogBg" role="presentation"></div>
       <div className={styles.popupContent}>
         <div className="headerparent" style={{ paddingInline: "10px" }}>
           <img className={styles.closebtn} onClick={onClose} src="/close-box.svg" alt="Close" title="close" />

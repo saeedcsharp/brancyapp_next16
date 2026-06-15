@@ -7,7 +7,7 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import PostContent from "brancy/components/page/posts/postContent";
 import convertFirstLetterToLowerCase from "brancy/helper/convertFirstLetterToLowerCase";
 import { handleCopyLink } from "brancy/helper/copyLink";
-import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { LanguageKey } from "brancy/i18n";
@@ -15,6 +15,7 @@ import { MethodType } from "brancy/helper/api";
 import { IPost, IPostContent, IShortDraft } from "brancy/models/page/post/posts";
 import { PushNotif, PushResponseType } from "brancy/models/push/pushNotif";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 
 const Posts = () => {
   const router = useRouter();
@@ -44,7 +45,13 @@ const Posts = () => {
 
     isFetchingRef.current = true;
     try {
-      const res = await clientFetchApi<string, IPost>("/api/post/GetPosts", { methodType: MethodType.get, session: session, data: undefined, queries: [], onUploadProgress: undefined });
+      const res = await clientFetchApi<string, IPost>("/api/post/GetPosts", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: [],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setPost(res.value);
         setIsDataLoaded(true);
@@ -117,7 +124,7 @@ const Posts = () => {
   );
   useEffect(() => {
     // Only fetch data if not already loaded and session is available
-    if (!isDataLoaded && session && LoginStatus(session) && status === "authenticated") {
+    if (!isDataLoaded && session && LoginStatus(session) && status === "authenticated" && RoleAccess(session)) {
       fetchData();
     }
   }, [session, status, isDataLoaded, fetchData]);

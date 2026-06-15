@@ -1,5 +1,7 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter as useAppRouter } from "next/navigation";
 import router from "next/router";
 import { use, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,9 +18,10 @@ import { ShowRings } from "brancy/components/design/counterDown/counterDown";
 import DeletePrePost from "brancy/components/page/scheduledPost/deletePrePost";
 import styles from "./schedulePost.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 const ScheduledPost = (props: { data: IPrePost[] | null }) => {
   const { data: session } = useSession();
+  const appRouter = useAppRouter();
   const { t } = useTranslation();
   const context = use(InstaInfoContext);
   const [loadingStatus, setLoadingStaus] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.PageView));
@@ -271,7 +274,7 @@ const ScheduledPost = (props: { data: IPrePost[] | null }) => {
                 {t(LanguageKey.thereAreNoPost)}
                 <button
                   title="🔗 New Scheduled Post"
-                  onClick={() => router.push("/page/posts/createpost?newschedulepost=true")}
+                  onClick={() => appRouter.push("/page/posts/createpost?newschedulepost=true")}
                   role="button"
                   className="saveButton">
                   <svg viewBox="0 0 550 560" width="20px" height="20px" xmlns="http://www.w3.org/2000/svg">

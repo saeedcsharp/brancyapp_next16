@@ -1,5 +1,6 @@
 import { PriceType } from "brancy/components/priceFormater";
 import { AvailabilityStatus, GauranteeLength } from "brancy/models/store/enum";
+import { IBusiness } from "./business";
 
 export interface IShortProduct {
   maxInEachCard: number;
@@ -33,25 +34,17 @@ export interface IFavoriteCardCount {
 export interface IProductCard {
   shortProduct: IShortProduct;
   favoriteCardCount: IFavoriteCardCount;
-  shopInfo: IShortShop;
 }
-export interface IFavoriteProduct {
-  favoriteProducts: IProductCard[];
-  nextMaxId: number | null;
-}
+
 export interface IProduct {
   products: IProductCard[];
   totalCount: number;
 }
 export interface IShortShop {
+  isSuspend: boolean;
   instagramerId: number;
-  username: string;
-  fullName: string | null;
-  priceType: number;
-  profileUrl: string;
+  priceType: PriceType;
   productCount: number;
-  followerCount: number;
-  bannerUrl: string;
 }
 
 export interface IBanner {
@@ -76,7 +69,6 @@ export interface ITopHashtags {
 }
 export interface IFullShop {
   shortShop: IShortShop;
-  banners: IBanner[];
   categories: ICategory[];
 }
 export interface IFilterInfo {

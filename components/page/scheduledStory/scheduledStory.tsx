@@ -1,5 +1,7 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
+import { useRouter as useAppRouter } from "next/navigation";
 import router from "next/router";
 import { use, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -16,11 +18,12 @@ import { ShowRings } from "brancy/components/design/counterDown/counterDown";
 import DeletePrePost from "brancy/components/page/scheduledPost/deletePrePost";
 import styles from "./scheduledStory.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 let unixNow = Date.now();
 const ScheduledStory = (props: { data: IScheduledStoryServer[] | null; totalCount: number }) => {
   const context = use(InstaInfoContext);
   const { data: session, update } = useSession();
+  const appRouter = useAppRouter();
   const { t } = useTranslation();
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const [loadingStatus, setLoadingStaus] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.PageView));
@@ -271,7 +274,7 @@ const ScheduledStory = (props: { data: IScheduledStoryServer[] | null; totalCoun
               <div className={styles.thereAreNostoryParent}>
                 {t(LanguageKey.pageStory_thereAreNoStories)}
                 <button
-                  onClick={() => router.push("/page/stories/createstory?newschedulestory=true")}
+                  onClick={() => appRouter.push("/page/stories/createstory?newschedulestory=true")}
                   title="🔗 New Scheduled Story"
                   role="button"
                   className="saveButton"

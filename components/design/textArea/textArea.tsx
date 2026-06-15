@@ -21,6 +21,7 @@ interface TextAreaProps {
   autoFocus?: boolean;
   required?: boolean;
   invalid?: boolean;
+  dangerOnEmpty?: boolean;
 }
 
 function TextArea(props: TextAreaProps) {
@@ -43,7 +44,10 @@ function TextArea(props: TextAreaProps) {
     autoFocus = false,
     required = false,
     invalid = false,
+    dangerOnEmpty = false,
   } = props;
+
+  const isEmpty = !value || value.trim() === "";
 
   const isValueRTL = useMemo(() => isRTL(value), [value]);
   const isPlaceholderRTL = useMemo(() => isRTL(placeHolder || ""), [placeHolder]);
@@ -92,7 +96,7 @@ function TextArea(props: TextAreaProps) {
       onFocus={handleInputonFocus}
       onBlur={handleInputBlur}
       placeholder={placeHolder}
-      className={`${styles[className]} ${isValueRTL ? "rtl" : "ltr"} ${fadeTextArea ? "fadeDiv" : ""}`}
+      className={`${styles[className]} ${dangerOnEmpty && isEmpty ? (styles[`${className}danger`] ?? "") : ""} ${isValueRTL ? "rtl" : "ltr"} ${fadeTextArea ? "fadeDiv" : ""}`}
       value={value}
       readOnly={readOnly}
       autoFocus={autoFocus}

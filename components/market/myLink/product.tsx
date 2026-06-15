@@ -1,9 +1,10 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { ChangeEvent, useState } from "react";
 import InputText from "brancy/components/design/inputText";
 import { IProducts } from "brancy/models/market/myLink";
 import styles from "./mylink.module.css";
 
-const basePictureUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const basePictureUrl = getClientMediaBaseUrl();
 const Products = (props: { data: IProducts | null }) => {
   const [isContentVisible, setIsContentVisible] = useState(true);
 

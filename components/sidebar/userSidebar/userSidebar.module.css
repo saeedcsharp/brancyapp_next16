@@ -177,7 +177,7 @@ html[dir="rtl"] .menuCategoriesChild {
 .indicator-userordersfailed {
   transform: translateY(63px) !important;
 }
-.indicator-usershop {
+.indicator-userbusiness {
   transform: translateY(118px) !important;
 }
 .indicator-userwallet {
@@ -191,6 +191,7 @@ html[dir="rtl"] .menuCategoriesChild {
 }
 
 .advertisebutton,
+.businessbutton,
 .homebutton,
 .marketbutton,
 .messagingbutton,
@@ -235,7 +236,10 @@ html[dir="rtl"] .navSidebar > div {
   box-shadow: var(--box-shadow);
   text-transform: capitalize;
   text-wrap: nowrap;
-  transition: opacity 0.5s ease, visibility 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.5s ease,
+    visibility 0.3s ease,
+    transform 0.3s ease;
 }
 
 /* Unified hover state instead of repeating per button class */
@@ -257,7 +261,9 @@ html[dir="rtl"] .navSidebar > div {
   border-radius: 2px;
   transform: translateY(-50%) rotate(45deg) scale(0.7);
   opacity: 0;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
   z-index: -1; /* stay behind tooltip panel */
   pointer-events: none;
 }

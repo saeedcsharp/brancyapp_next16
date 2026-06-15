@@ -1,7 +1,8 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { memo, useCallback, useEffect, useId, useLayoutEffect, useMemo, useReducer, useRef } from "react";
 import { IClientBanner } from "brancy/models/market/myLink";
 import styles from "./banner.module.css";
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = getClientMediaBaseUrl();
 interface BannerState {
   currentSlide: number;
   isAutoPlay: boolean;

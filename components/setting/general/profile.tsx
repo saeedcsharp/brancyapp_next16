@@ -1,5 +1,6 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
-import { KeyboardEvent, useCallback, useMemo, useState } from "react";
+import { KeyboardEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import InputText from "brancy/components/design/inputText";
@@ -11,8 +12,11 @@ function Profile() {
   const { t } = useTranslation();
   const { data: session } = useSession();
   const [isHidden, setIsHidden] = useState(false);
+  const [basePictureUrl, setBasePictureUrl] = useState("");
 
-  const basePictureUrl = useMemo(() => process.env.NEXT_PUBLIC_BASE_MEDIA_URL, []);
+  useEffect(() => {
+    setBasePictureUrl(getClientMediaBaseUrl());
+  }, []);
 
   const userData = useMemo(
     () => ({
@@ -54,7 +58,7 @@ function Profile() {
         <div className={`headerandinput ${styles.profileHeader}`}>
           <img
             className={`instagramimage ${styles.profileImage}`}
-            src={basePictureUrl + userData.profileUrl}
+            src={basePictureUrl ? basePictureUrl + userData.profileUrl : undefined}
             alt={`${userData.fullName} profile picture`}
             loading="lazy"
           />

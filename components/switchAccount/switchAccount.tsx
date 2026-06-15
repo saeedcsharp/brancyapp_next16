@@ -1,3 +1,4 @@
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -6,7 +7,7 @@ import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { InstagramerAccountInfo } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IIpCondition } from "brancy/models/userPanel/login";
+
 import { IPartner_User } from "brancy/models/userPanel/setting";
 import Loading from "brancy/components/notOk/loading";
 import {
@@ -18,7 +19,7 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import styles from "./switchAccount.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const baseMediaUrl = process.env.NEXT_PUBLIC_BASE_MEDIA_URL;
+const baseMediaUrl = getClientMediaBaseUrl();
 function SwitchAccount(props: { removeMask: () => void }) {
   const { t } = useTranslation();
   const router = useRouter();
@@ -155,24 +156,16 @@ function SwitchAccount(props: { removeMask: () => void }) {
 
   async function handleRedirectToInstagram() {
     try {
-      const response = await clientFetchApi<boolean, IIpCondition>("/api/user/ip", {
-        methodType: MethodType.get,
-        session: session,
-        data: undefined,
-        queries: undefined,
-        onUploadProgress: undefined,
-      });
-      if (response.succeeded) {
-        if (!response.value.isInstagramAuthorize) internalNotify(InternalResponseType.TurnOnProxy, NotifType.Warning);
-        else {
-          await redirectToInstagram();
-        }
-      } else {
-        notify(response.info.responseType, NotifType.Warning);
+      const res = await fetch("/api/user/ip");
+      const data = await res.json();
+      if (data.countryCode === "ir") {
+        internalNotify(InternalResponseType.TurnOnProxy, NotifType.Warning);
+        return;
       }
-    } catch (error) {
-      notify(ResponseType.Unexpected, NotifType.Error);
+    } catch {
+      // ignore; proceed to redirect
     }
+    await redirectToInstagram();
   }
 
   async function redirectToInstagram() {
