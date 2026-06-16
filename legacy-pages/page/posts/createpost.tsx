@@ -1390,6 +1390,7 @@ const CreatePost = () => {
                           type: "SET_LOADING_UPLOAD",
                           payload: false,
                         });
+                        if (res.fileName === "") return;
                         mediaDispatch({
                           type: "ADD_MEDIA",
                           payload: {
@@ -1432,6 +1433,7 @@ const CreatePost = () => {
                     }),
                   );
                   mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
+                  if (res.fileName === "") return;
                   mediaDispatch({
                     type: "ADD_MEDIA",
                     payload: {
@@ -1489,6 +1491,7 @@ const CreatePost = () => {
               }),
             );
             mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
+            if (res.fileName === "") return;
             mediaDispatch({
               type: "ADD_MEDIA",
               payload: {
@@ -1544,6 +1547,7 @@ const CreatePost = () => {
         }),
       );
       mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
+      if (res.fileName === "") return;
       console.log("coverrrrrrrrrrrrr", res);
       // You can display a preview of the selected image if needed.
       const reader = new FileReader();
@@ -1660,6 +1664,7 @@ const CreatePost = () => {
                           type: "SET_LOADING_UPLOAD",
                           payload: false,
                         });
+                        if (res.fileName === "") return;
                         mediaDispatch({
                           type: "UPDATE_MEDIA",
                           payload: {
@@ -1697,6 +1702,7 @@ const CreatePost = () => {
                     }),
                   );
                   mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
+                  if (res.fileName === "") return;
                   mediaDispatch({
                     type: "UPDATE_MEDIA",
                     payload: {
@@ -1746,6 +1752,7 @@ const CreatePost = () => {
               }),
             );
             mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
+            if (res.fileName === "") return;
             mediaDispatch({
               type: "UPDATE_MEDIA",
               payload: {
