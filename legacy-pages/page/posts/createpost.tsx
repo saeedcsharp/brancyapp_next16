@@ -549,11 +549,15 @@ const CreatePost = () => {
     const currentMedia = showMedias[showMediaIndex];
     return {
       canUploadCover:
-        currentMedia.mediaType === MediaType.Video && showMediaIndex === 0 && postType === PostType.Single,
-      isVideo: currentMedia.mediaType === MediaType.Video,
-      isImage: currentMedia.mediaType === MediaType.Image,
+        currentMedia?.mediaType === MediaType.Video && showMediaIndex === 0 && postType === PostType.Single,
+      isVideo: currentMedia?.mediaType === MediaType.Video,
+      isImage: currentMedia?.mediaType === MediaType.Image,
     };
   }, [showMedias, showMediaIndex, postType]);
+
+  // Safe current media access to avoid out-of-bounds when showMedias changes
+  const safeShowMediaIndex = showMedias && showMedias.length > 0 ? Math.min(showMediaIndex, showMedias.length - 1) : -1;
+  const currentMedia = safeShowMediaIndex >= 0 ? showMedias[safeShowMediaIndex] : null;
 
   // Memoized hashtag dropdown data for DragDrop component
   const hashtagDropdownData = useMemo(() => {
@@ -1368,11 +1372,20 @@ const CreatePost = () => {
                           type: "SET_LOADING_UPLOAD",
                           payload: true,
                         });
+                        mediaDispatch({
+                          type: "SET_PROGRESS",
+                          payload: 0,
+                        });
                         if (!file) return;
                         const croppedFile = new File([blob], file.name, {
                           type: "image/jpeg",
                         });
-                        const res = await UploadFile(session, croppedFile);
+                        const res = await UploadFile(session, croppedFile, (progress) =>
+                          mediaDispatch({
+                            type: "SET_PROGRESS",
+                            payload: progress,
+                          }),
+                        );
                         mediaDispatch({
                           type: "SET_LOADING_UPLOAD",
                           payload: false,
@@ -1404,7 +1417,20 @@ const CreatePost = () => {
                     return;
                   }
                   mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: true });
-                  const res = await UploadFile(session, file!);
+                  mediaDispatch({
+                    type: "SET_PROGRESS",
+                    payload: 0,
+                  });
+                  mediaDispatch({
+                    type: "SET_PROGRESS",
+                    payload: 0,
+                  });
+                  const res = await UploadFile(session, file!, (progress) =>
+                    mediaDispatch({
+                      type: "SET_PROGRESS",
+                      payload: progress,
+                    }),
+                  );
                   mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
                   mediaDispatch({
                     type: "ADD_MEDIA",
@@ -1451,8 +1477,17 @@ const CreatePost = () => {
             if (file === undefined) return;
             if (!checkSpecVideo(width, height, video.duration, file.size)) return;
             mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: true });
+            mediaDispatch({
+              type: "SET_PROGRESS",
+              payload: 0,
+            });
             // console.log("video file", file);
-            const res = await UploadFile(session, file!);
+            const res = await UploadFile(session, file!, (progress) =>
+              mediaDispatch({
+                type: "SET_PROGRESS",
+                payload: progress,
+              }),
+            );
             mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
             mediaDispatch({
               type: "ADD_MEDIA",
@@ -1498,7 +1533,16 @@ const CreatePost = () => {
         return;
       }
       mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: true });
-      const res = await UploadFile(session, file);
+      mediaDispatch({
+        type: "SET_PROGRESS",
+        payload: 0,
+      });
+      const res = await UploadFile(session, file, (progress) =>
+        mediaDispatch({
+          type: "SET_PROGRESS",
+          payload: progress,
+        }),
+      );
       mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
       console.log("coverrrrrrrrrrrrr", res);
       // You can display a preview of the selected image if needed.
@@ -1598,11 +1642,20 @@ const CreatePost = () => {
                           type: "SET_LOADING_UPLOAD",
                           payload: true,
                         });
+                        mediaDispatch({
+                          type: "SET_PROGRESS",
+                          payload: 0,
+                        });
                         if (!file) return;
                         const croppedFile = new File([blob], file.name, {
                           type: "image/jpeg",
                         });
-                        const res = await UploadFile(session, croppedFile);
+                        const res = await UploadFile(session, croppedFile, (progress) =>
+                          mediaDispatch({
+                            type: "SET_PROGRESS",
+                            payload: progress,
+                          }),
+                        );
                         mediaDispatch({
                           type: "SET_LOADING_UPLOAD",
                           payload: false,
@@ -1633,7 +1686,16 @@ const CreatePost = () => {
                     return;
                   }
                   mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: true });
-                  const res = await UploadFile(session, file!);
+                  mediaDispatch({
+                    type: "SET_PROGRESS",
+                    payload: 0,
+                  });
+                  const res = await UploadFile(session, file!, (progress) =>
+                    mediaDispatch({
+                      type: "SET_PROGRESS",
+                      payload: progress,
+                    }),
+                  );
                   mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
                   mediaDispatch({
                     type: "UPDATE_MEDIA",
@@ -1673,7 +1735,16 @@ const CreatePost = () => {
             const height = video.videoHeight;
             if (!checkSpecVideo(width, height, video.duration, file.size)) return;
             mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: true });
-            const res = await UploadFile(session, file!);
+            mediaDispatch({
+              type: "SET_PROGRESS",
+              payload: 0,
+            });
+            const res = await UploadFile(session, file!, (progress) =>
+              mediaDispatch({
+                type: "SET_PROGRESS",
+                payload: progress,
+              }),
+            );
             mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
             mediaDispatch({
               type: "UPDATE_MEDIA",
@@ -1800,11 +1871,13 @@ const CreatePost = () => {
         type: "UPDATE_MEDIA_TAGS",
         payload: {
           index: showMediaIndex,
-          tags:
-            selectedTagPeaple &&
-            !showMedias[showMediaIndex].tagPeaple.find((z) => z.username === selectedTagPeaple.username)
-              ? [...showMedias[showMediaIndex].tagPeaple, { username: selectedTagPeaple.username, x: 0.5, y: 0.5 }]
-              : showMedias[showMediaIndex].tagPeaple,
+          tags: (() => {
+            const existing = currentMedia?.tagPeaple ?? [];
+            if (selectedTagPeaple && !existing.find((z) => z.username === selectedTagPeaple.username)) {
+              return [...existing, { username: selectedTagPeaple.username, x: 0.5, y: 0.5 }];
+            }
+            return existing;
+          })(),
         },
       });
     },
@@ -1814,26 +1887,17 @@ const CreatePost = () => {
     (username: string, position: { x: number; y: number }, deltaX: number, deltaY: number) => {
       if (prePostId > 0) return;
       var nShowMedias = [...showMedias];
-      var currentShowMedia = showMedias[showMediaIndex];
+      var currentShowMedia = currentMedia;
+      if (!currentShowMedia) return;
       var indexCurrentTag = currentShowMedia.tagPeaple?.findIndex((x) => x.username === username);
       var currentTag = currentShowMedia.tagPeaple?.find((x) => x.username === username);
       if (currentTag && indexCurrentTag !== undefined && indexCurrentTag >= 0) {
-        let minX =
-          showMedias[showMediaIndex].width < showMedias[showMediaIndex].height
-            ? renderWidthSize * (0.5 - (0.5 * showMedias[showMediaIndex].width) / showMedias[showMediaIndex].height)
-            : 0;
-        let maxX =
-          showMedias[showMediaIndex].width < showMedias[showMediaIndex].height
-            ? renderWidthSize * (0.5 + (0.5 * showMedias[showMediaIndex].width) / showMedias[showMediaIndex].height)
-            : renderWidthSize;
-        let minY =
-          showMedias[showMediaIndex].height < showMedias[showMediaIndex].width
-            ? renderWidthSize * (0.5 - (0.5 * showMedias[showMediaIndex].height) / showMedias[showMediaIndex].width)
-            : 0;
-        let maxY =
-          showMedias[showMediaIndex].height < showMedias[showMediaIndex].width
-            ? renderWidthSize * (0.5 + (0.5 * showMedias[showMediaIndex].height) / showMedias[showMediaIndex].width)
-            : renderWidthSize;
+        const w = currentShowMedia.width ?? 0;
+        const h = currentShowMedia.height ?? 0;
+        let minX = w < h ? renderWidthSize * (0.5 - (0.5 * w) / (h || 1)) : 0;
+        let maxX = w < h ? renderWidthSize * (0.5 + (0.5 * w) / (h || 1)) : renderWidthSize;
+        let minY = h < w ? renderWidthSize * (0.5 - (0.5 * h) / (w || 1)) : 0;
+        let maxY = h < w ? renderWidthSize * (0.5 + (0.5 * h) / (w || 1)) : renderWidthSize;
         console.log("maxY-MinY", maxY - minY);
         console.log("Position", position);
         let _x = (position.x + deltaX - minX) / (maxX - minX);
@@ -1858,7 +1922,7 @@ const CreatePost = () => {
   const handleChangeAlbumChildren = useCallback(
     (index: number) => {
       mediaDispatch({ type: "SET_MEDIA_INDEX", payload: index });
-      var nTagPeaples = showMedias[index].tagPeaple;
+      var nTagPeaples = showMedias[index]?.tagPeaple ?? [];
       // Removed setRefresh call as it's no longer needed
     },
     [showMedias],
@@ -1867,7 +1931,7 @@ const CreatePost = () => {
   const handleDeleteTag = useCallback(
     (username: string) => {
       if (prePostId > 0) return;
-      const newTags = showMedias[showMediaIndex].tagPeaple?.filter((x) => x.username !== username) || [];
+      const newTags = (currentMedia?.tagPeaple || []).filter((x) => x.username !== username) || [];
       mediaDispatch({
         type: "UPDATE_MEDIA_TAGS",
         payload: {
@@ -2170,38 +2234,6 @@ const CreatePost = () => {
       notify(ResponseType.Unexpected, NotifType.Error);
     }
   }
-  // function initialzedTime() {
-  //   const lng = window.localStorage.getItem("language");
-  //   const calendar = window.localStorage.getItem("calendar");
-  //   switch (lng) {
-  //     case "en":
-  //       setLocale(english);
-  //       break;
-  //     case "fa":
-  //       setLocale(persian_fa);
-  //       break;
-  //     case "ar":
-  //       setLocale(arabic_ar);
-  //       break;
-  //     default:
-  //       setLocale(english);
-  //       break;
-  //   }
-  //   switch (calendar) {
-  //     case "Gregorian":
-  //       setCalendar(gregorian);
-  //       break;
-  //     case "shamsi":
-  //       setCalendar(persian);
-  //       break;
-  //     case "Hijri":
-  //       setCalendar(arabic);
-  //       break;
-  //     case "Hindi":
-  //       setCalendar(indian);
-  //       break;
-  //   }
-  // }
   const getPublishLimitContent = useCallback(async () => {
     if (!session) return;
     try {
@@ -2242,7 +2274,6 @@ const CreatePost = () => {
     },
     [collabratorPages, selectedPeaple],
   );
-
   const handleVerifyDeleteReels = useCallback((): void => {
     mediaDispatch({ type: "CLEAR_MEDIAS" });
     uiDispatch({ type: "TOGGLE_CHANGE_POST_TO_ALBUM", payload: false });
@@ -2568,59 +2599,123 @@ const CreatePost = () => {
                       </>
                     ) : (
                       <>
-                        {showMedias[showMediaIndex].mediaType == MediaType.Image ||
-                        showMedias[showMediaIndex].coverUri ||
-                        showMedias[showMediaIndex].cover.length != 0 ? (
-                          <img
-                            className={styles.pictureMaskIcon}
-                            alt="added media"
-                            src={
-                              showMedias[showMediaIndex].mediaType == MediaType.Image
-                                ? (showMedias[showMediaIndex].mediaUri ?? showMedias[showMediaIndex].media)
-                                : (showMedias[showMediaIndex].coverUri ?? showMedias[showMediaIndex].cover)
-                            }
-                          />
-                        ) : (
-                          <video className={styles.pictureMaskIcon} src={showMedias[showMediaIndex].media} />
-                        )}
+                        {!loadingUpload ? (
+                          <>
+                            {currentMedia?.mediaType == MediaType.Image ||
+                            currentMedia?.coverUri ||
+                            (currentMedia?.cover?.length ?? 0) != 0 ? (
+                              <img
+                                className={styles.pictureMaskIcon}
+                                alt="added media"
+                                src={
+                                  currentMedia?.mediaType == MediaType.Image
+                                    ? (currentMedia?.mediaUri ?? currentMedia?.media)
+                                    : (currentMedia?.coverUri ?? currentMedia?.cover)
+                                }
+                              />
+                            ) : (
+                              <video className={styles.pictureMaskIcon} src={currentMedia?.media} />
+                            )}
 
-                        <div className={styles.filter} />
-                        {showMedias[showMediaIndex].tagPeaple?.map((v, i) => (
-                          <div key={showMediaIndex * 1e20 + i + v.username}>
-                            <DragComponent
-                              key={i + "_" + v.username}
-                              handleStopDrag={handleStopDrag}
-                              handleDeleteTag={handleDeleteTag}
-                              username={v.username}
-                              x={v.x * renderWidthSize}
-                              y={renderWidthSize * v.y}
-                              minX={
-                                showMedias[showMediaIndex].width < showMedias[showMediaIndex].height
-                                  ? renderWidthSize *
-                                    (0.5 - (0.5 * showMedias[showMediaIndex].width) / showMedias[showMediaIndex].height)
-                                  : 0
-                              }
-                              maxX={
-                                showMedias[showMediaIndex].width < showMedias[showMediaIndex].height
-                                  ? renderWidthSize *
-                                    (0.5 + (0.5 * showMedias[showMediaIndex].width) / showMedias[showMediaIndex].height)
-                                  : renderWidthSize
-                              }
-                              minY={
-                                showMedias[showMediaIndex].height < showMedias[showMediaIndex].width
-                                  ? renderWidthSize *
-                                    (0.5 - (0.5 * showMedias[showMediaIndex].height) / showMedias[showMediaIndex].width)
-                                  : 0
-                              }
-                              maxY={
-                                showMedias[showMediaIndex].height < showMedias[showMediaIndex].width
-                                  ? renderWidthSize *
-                                    (0.5 + (0.5 * showMedias[showMediaIndex].height) / showMedias[showMediaIndex].width)
-                                  : renderWidthSize
-                              }
-                            />
-                          </div>
-                        ))}
+                            <div className={styles.filter} />
+                            {(currentMedia?.tagPeaple || []).map((v, i) => (
+                              <div key={(safeShowMediaIndex >= 0 ? safeShowMediaIndex : 0) * 1e20 + i + v.username}>
+                                <DragComponent
+                                  key={i + "_" + v.username}
+                                  handleStopDrag={handleStopDrag}
+                                  handleDeleteTag={handleDeleteTag}
+                                  username={v.username}
+                                  x={v.x * renderWidthSize}
+                                  y={renderWidthSize * v.y}
+                                  minX={
+                                    (currentMedia?.width ?? 0) < (currentMedia?.height ?? 0)
+                                      ? renderWidthSize *
+                                        (0.5 - (0.5 * (currentMedia?.width ?? 0)) / (currentMedia?.height ?? 1))
+                                      : 0
+                                  }
+                                  maxX={
+                                    (currentMedia?.width ?? 0) < (currentMedia?.height ?? 0)
+                                      ? renderWidthSize *
+                                        (0.5 + (0.5 * (currentMedia?.width ?? 0)) / (currentMedia?.height ?? 1))
+                                      : renderWidthSize
+                                  }
+                                  minY={
+                                    (currentMedia?.height ?? 0) < (currentMedia?.width ?? 0)
+                                      ? renderWidthSize *
+                                        (0.5 - (0.5 * (currentMedia?.height ?? 0)) / (currentMedia?.width ?? 1))
+                                      : 0
+                                  }
+                                  maxY={
+                                    (currentMedia?.height ?? 0) < (currentMedia?.width ?? 0)
+                                      ? renderWidthSize *
+                                        (0.5 + (0.5 * (currentMedia?.height ?? 0)) / (currentMedia?.width ?? 1))
+                                      : renderWidthSize
+                                  }
+                                />
+                              </div>
+                            ))}
+                          </>
+                        ) : (
+                          <>
+                            <div
+                              style={{
+                                position: "relative",
+                                width: "120px",
+                                height: "120px",
+                              }}>
+                              <svg
+                                style={{ transform: "rotate(-90deg)" }}
+                                width="120"
+                                height="120"
+                                viewBox="0 0 120 120">
+                                {/* Background circle */}
+                                <circle
+                                  cx="60"
+                                  cy="60"
+                                  r="50"
+                                  fill="none"
+                                  stroke="var(--content-box)"
+                                  strokeWidth="8"
+                                />
+                                {/* Progress circle */}
+                                <circle
+                                  cx="60"
+                                  cy="60"
+                                  r="50"
+                                  fill="none"
+                                  stroke="var(--color-dark-blue)"
+                                  strokeWidth="8"
+                                  strokeDasharray={`${2 * Math.PI * 50}`}
+                                  strokeDashoffset={`${2 * Math.PI * 50 * (1 - progress / 100)}`}
+                                  strokeLinecap="round"
+                                  style={{
+                                    transition: "stroke-dashoffset 0.3s ease",
+                                  }}
+                                />
+                              </svg>
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  top: "50%",
+                                  left: "50%",
+                                  transform: "translate(-50%, -50%)",
+                                  fontSize: "24px",
+                                  fontWeight: "bold",
+                                  color: "var(--color-dark-blue)",
+                                }}>
+                                {Math.round(progress)}%
+                              </div>
+                            </div>
+                            <div
+                              className="explain"
+                              style={{
+                                textAlign: "center",
+                                marginTop: "20px",
+                              }}>
+                              {t(LanguageKey.loading) || "Uploading..."}
+                            </div>
+                          </>
+                        )}
                       </>
                     )}
                     {automaticPost && (
@@ -2676,8 +2771,8 @@ const CreatePost = () => {
                           className={`${styles.postoption} ${
                             ((showMedias.length > 0 &&
                               showMediaIndex !== 0 &&
-                              showMedias[showMediaIndex].mediaType === MediaType.Video) ||
-                              (showMedias.length > 0 && showMedias[showMediaIndex].mediaType === MediaType.Image) ||
+                              currentMedia?.mediaType === MediaType.Video) ||
+                              (showMedias.length > 0 && currentMedia?.mediaType === MediaType.Image) ||
                               postType === PostType.Album ||
                               prePostId > 0) &&
                             "fadeDiv"
