@@ -6,8 +6,9 @@ import TimeTypeComp from "brancy/components/advertise/timeType";
 import InputText from "brancy/components/design/inputText";
 import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
 import initialzedTime from "brancy/helper/manageTimer";
-import { AdvertiserStatus, ICustomer } from "brancy/models/customerAds/customerAd";
 import styles from "./progress.module.css";
+import { AdvertiserStatus } from "brancy/models/enums";
+import { ICustomer } from "brancy/models/interfaces";
 const taxFactor = 10;
 function Payment(props: { customerAd: ICustomer }) {
   const [inputBox, setInputBox] = useState<string>("");

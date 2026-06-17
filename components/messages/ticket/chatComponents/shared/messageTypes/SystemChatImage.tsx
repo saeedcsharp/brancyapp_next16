@@ -1,11 +1,11 @@
 import React, { useCallback, useMemo } from "react";
 import MediaDetector from "brancy/components/messages/shared/utils/MediaDetector";
-import { IItem, ITicket } from "brancy/models/userPanel/message";
 import { TicketChatDate, TicketMessageStatus } from "brancy/components/messages/ticket/chatComponents/shared/utils";
 import styles from "./messageTypes.module.css";
+import { ITicket, IUserTicketItem } from "brancy/models/interfaces";
 // #region تعریف اینترفیس‌ها - انواع پراپس
 interface SystemChatImageProps {
-  item: IItem;
+  item: IUserTicketItem;
   chatBox: ITicket;
   baseMediaUrl: string;
   onImageContainerClick?: (info: { url: string; height: number; width: number }) => void;

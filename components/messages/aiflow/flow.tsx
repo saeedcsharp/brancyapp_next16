@@ -41,9 +41,9 @@ import {
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { ITotalMasterFlow } from "brancy/models/messages/properies";
 import styles from "./Flow.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { ITotalMasterFlow } from "brancy/models/interfaces";
 // #endregion IMPORTS AND EXPORTS
 
 // #region INTERFACES & TYPE DEFINITIONS

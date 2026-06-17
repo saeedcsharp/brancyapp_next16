@@ -7,14 +7,14 @@ import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFo
 import initialzedTime from "brancy/helper/manageTimer";
 import { specifyLogistic } from "brancy/helper/specifyLogistic";
 import { LanguageKey } from "brancy/i18n";
-import { IFullProduct } from "brancy/models/store/orders";
-import { ColorStr } from "brancy/models/userPanel/shop";
 import styles from "./OrderDetail-Content.module.css";
+import { IOrderFullProduct } from "brancy/models/interfaces";
+import { ColorStr } from "brancy/models/enums";
 const basePictureUrl = getClientMediaBaseUrl();
 const toggleReducer = (state: boolean) => !state;
 
 interface OrderDetailContentProps {
-  ordersProductInfo: IFullProduct;
+  ordersProductInfo: IOrderFullProduct;
 }
 
 const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) => {

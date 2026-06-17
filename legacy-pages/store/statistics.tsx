@@ -1,8 +1,3 @@
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import AdReport from "brancy/components/advertise/adList/popups/adreport";
 import { StatusType } from "brancy/components/confirmationStatus/confirmationStatus";
 import Modal from "brancy/components/design/modal";
@@ -14,9 +9,13 @@ import TotalSales from "brancy/components/store/statistics/totalSalesStatistics"
 import TwoMonth from "brancy/components/store/statistics/twoMonth";
 import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { AdsType } from "brancy/models/advertise/AdEnums";
-import { ISaleMonth, ISaleShortMonth, IStatisticsInfo, ITotalSalesReport } from "brancy/models/store/statistics";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { MarketAdsType, PartnerRole } from "brancy/models/enums";
+import { ISaleMonth, ISaleShortMonth, IStoreStatisticsInfo, ITotalSalesReport } from "brancy/models/interfaces";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import styles from "./statistics.module.css";
 
 const Statistics = () => {
@@ -61,7 +60,7 @@ const Statistics = () => {
           profileUrl: "/no-profile.svg",
           username: "@user6",
         },
-        saleType: AdsType.PostAd,
+        saleType: MarketAdsType.PostAd,
         date: Date.now(),
         fee: 888999777,
         statusType: StatusType.Active,
@@ -73,7 +72,7 @@ const Statistics = () => {
           profileUrl: "/no-profile.svg",
           username: "@user7",
         },
-        saleType: AdsType.PostAd,
+        saleType: MarketAdsType.PostAd,
         date: Date.now(),
         fee: 888999777,
         statusType: StatusType.Active,
@@ -85,7 +84,7 @@ const Statistics = () => {
           profileUrl: "/no-profile.svg",
           username: "@user8",
         },
-        saleType: AdsType.PostAd,
+        saleType: MarketAdsType.PostAd,
         date: Date.now(),
         fee: 888999777,
         statusType: StatusType.Active,
@@ -97,7 +96,7 @@ const Statistics = () => {
           profileUrl: "/no-profile.svg",
           username: "@user9",
         },
-        saleType: AdsType.PostAd,
+        saleType: MarketAdsType.PostAd,
         date: Date.now(),
         fee: 888999777,
         statusType: StatusType.Active,
@@ -111,7 +110,7 @@ const Statistics = () => {
   }
   useEffect(() => {
     //Api to get last two month and total sales statistics
-    var response: IStatisticsInfo = {
+    var response: IStoreStatisticsInfo = {
       totalSalesStatistics: [
         {
           month: 0,
@@ -159,7 +158,7 @@ const Statistics = () => {
           year: 2024,
           totalIncom: 18500,
           previousPlusCount: undefined,
-          lastUpdate: (lastUpdate) => <div></div>,
+          lastUpdate: 0,
         },
         {
           dayList: [],
@@ -170,7 +169,7 @@ const Statistics = () => {
           year: 2024,
           totalIncom: 25000,
           previousPlusCount: undefined,
-          lastUpdate: (lastUpdate) => <div></div>,
+          lastUpdate: 0,
         },
       ],
       totalSalesReport: [
@@ -181,7 +180,7 @@ const Statistics = () => {
             profileUrl: "/no-profile.svg",
             username: "@user1",
           },
-          saleType: AdsType.CampaignAd,
+          saleType: MarketAdsType.CampaignAd,
           date: Date.now(),
           fee: 888999777,
           statusType: StatusType.Active,
@@ -193,7 +192,7 @@ const Statistics = () => {
             profileUrl: "/no-profile.svg",
             username: "@user2",
           },
-          saleType: AdsType.PostAd,
+          saleType: MarketAdsType.PostAd,
           date: Date.now(),
           fee: 888999777,
           statusType: StatusType.Active,
@@ -205,7 +204,7 @@ const Statistics = () => {
             profileUrl: "/no-profile.svg",
             username: "@user3",
           },
-          saleType: AdsType.PostAd,
+          saleType: MarketAdsType.PostAd,
           date: Date.now(),
           fee: 888999777,
           statusType: StatusType.Fisnished,
@@ -217,7 +216,7 @@ const Statistics = () => {
             profileUrl: "/no-profile.svg",
             username: "@user4",
           },
-          saleType: AdsType.StoryAd,
+          saleType: MarketAdsType.StoryAd,
           date: Date.now(),
           fee: 888999777,
           statusType: StatusType.Canceled,
@@ -229,7 +228,7 @@ const Statistics = () => {
             profileUrl: "/no-profile.svg",
             username: "@user5",
           },
-          saleType: AdsType.CampaignAd,
+          saleType: MarketAdsType.CampaignAd,
           date: Date.now(),
           fee: 888999777,
           statusType: StatusType.Active,

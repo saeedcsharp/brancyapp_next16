@@ -1,13 +1,15 @@
 import { Session } from "next-auth";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
-import { FeatureType, IFeatureInfo } from "brancy/models/psg/psg";
+
+import { PsgFeatureType } from "brancy/models/enums";
 import { convertToMilliseconds } from "brancy/helper/manageTimer";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IPsgFeatureInfo } from "brancy/models/interfaces";
 
-export async function getPackageFeatureDetails(session: Session | null | undefined): Promise<IFeatureInfo | null> {
+export async function getPackageFeatureDetails(session: Session | null | undefined): Promise<IPsgFeatureInfo | null> {
   try {
-    const res = await clientFetchApi<boolean, IFeatureInfo>("/api/psg/GetPackageFeatureDetails", {
+    const res = await clientFetchApi<boolean, IPsgFeatureInfo>("/api/psg/GetPackageFeatureDetails", {
       methodType: MethodType.get,
       session: session,
       data: undefined,
@@ -34,7 +36,7 @@ function isWithinCountLimit(count: number, maxCount: number): boolean {
 }
 
 export async function fetchAndCheckFeature(
-  featureId: FeatureType,
+  featureId: PsgFeatureType,
   session: Session | null | undefined,
 ): Promise<boolean> {
   const featureInfo = await getPackageFeatureDetails(session);
@@ -42,7 +44,7 @@ export async function fetchAndCheckFeature(
   return checkFeature(featureId, featureInfo);
 }
 
-export default function checkFeature(featureId: FeatureType, featureInfo: IFeatureInfo): boolean {
+export default function checkFeature(featureId: PsgFeatureType, featureInfo: IPsgFeatureInfo): boolean {
   try {
     const { basePackage: baseFeature, features } = featureInfo;
     const feature = features.find((x) => x.featureId === featureId);
@@ -75,9 +77,9 @@ export default function checkFeature(featureId: FeatureType, featureInfo: IFeatu
   }
 }
 export function checkRemainingTimeFeature(
-  featureId: FeatureType,
+  featureId: PsgFeatureType,
   unixTime: number,
-  featureInfo: IFeatureInfo,
+  featureInfo: IPsgFeatureInfo,
 ): boolean {
   try {
     const { basePackage: baseFeature } = featureInfo;

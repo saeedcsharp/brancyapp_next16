@@ -16,9 +16,16 @@ import {
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IChannel, IChannelBox, IChannelInfo, ISearchChannel, IUpdateChannel } from "brancy/models/market/properties";
 import styles from "./featureBoxPU.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import {
+  ISearchChannel,
+  IUpdateChannel,
+  IChannelBox,
+  IChannelInfo,
+  IMyLinkChannel,
+  IPropertiesChannel,
+} from "brancy/models/interfaces";
 const initialChannelSearchState: ISearchChannel = {
   searchAparatPage: "",
   searchYoutubePage: "",
@@ -358,7 +365,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
 
   const fetchChannelData = useCallback(async () => {
     try {
-      const res = await clientFetchApi<boolean, IChannel>(`/api/bio/GetChannels`, {
+      const res = await clientFetchApi<boolean, IPropertiesChannel>(`/api/bio/GetChannels`, {
         methodType: MethodType.get,
         session: session,
         data: undefined,

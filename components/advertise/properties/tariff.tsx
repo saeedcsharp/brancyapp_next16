@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
-import { ITariff } from "brancy/models/advertise/peoperties";
 import styles from "./propertiesComponent.module.css";
+import { ITariff } from "brancy/models/interfaces";
 function Tariff(props: { setShowTariffPopup: (showTarifPopup: boolean) => void; tariif: ITariff }) {
   const { t } = useTranslation();
   const { hidePage, gridSpan, toggle } = useHideDiv(true, 82);

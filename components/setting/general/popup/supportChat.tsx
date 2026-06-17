@@ -6,11 +6,11 @@ import RingLoader from "brancy/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
-import { ICreateLiveChat, ICreatePrompt, ILiveChat } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
-import { ItemType } from "brancy/models/messages/enum";
 import styles from "./supportChat.module.scss";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { ItemType } from "brancy/models/enums";
+import { ICreatePrompt, ILiveChat, ICreateLiveChat } from "brancy/models/interfaces";
 export default function SupportChat({
   promptInfo,
   setShowLiveChatPopup,

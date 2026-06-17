@@ -7,10 +7,10 @@ import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton"
 import Loading from "brancy/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IAutoReply } from "brancy/models/messages/properies";
 import Prompt from "brancy/components/messages/properties/prompt";
 import styles from "./properties.module.css";
+import { PartnerRole } from "brancy/models/enums";
+import { IAutoReply } from "brancy/models/interfaces";
 
 function AutomaticReply() {
   // تابع استفاده از ترجمه برای چندزبانه بودن

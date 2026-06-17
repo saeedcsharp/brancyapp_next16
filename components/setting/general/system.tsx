@@ -6,11 +6,10 @@ import RadioButton from "brancy/components/design/radioButton";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";
-import { InitialSetupState } from "brancy/models/homeIndex/home";
 import { MethodType } from "brancy/helper/api";
-import { ICalendar, ILangauge } from "brancy/models/setting/general";
 import styles from "./general.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { ILangauge, ICalendar, InitialSetupState } from "brancy/models/interfaces";
 
 function System() {
   const { i18n, t } = useTranslation();

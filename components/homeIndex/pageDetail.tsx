@@ -1,10 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import { TopTileType } from "brancy/models/homeIndex/enum";
-import { IDemographicInsight, IInstagramerHomeTileItem } from "brancy/models/homeIndex/home";
 import styles from "./pageDetail.module.css";
 import Tooltip from "../design/tooltip/tooltip";
+import { TopTileType } from "brancy/models/enums";
+import { IDemographicInsight, IInstagramerHomeTileItem } from "brancy/models/interfaces";
 const PageDetail = (props: { data: IDemographicInsight; items: IInstagramerHomeTileItem[] | [] }) => {
   const { t } = useTranslation();
   const [isHidden, setIsHidden] = useState(false);

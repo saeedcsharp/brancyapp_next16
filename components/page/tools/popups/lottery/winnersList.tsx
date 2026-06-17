@@ -15,9 +15,9 @@ import Loading from "brancy/components/notOk/loading";
 import initialzedTime, { convertToMilliseconds } from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IFullLottery } from "brancy/models/page/tools/tools";
 import styles from "./winnersList.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IFullLottery } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 const WinnersList = (props: { removeMask: () => void; lotteryId: string; handleBackToLotteryHistory: () => void }) => {
   const { data: session } = useSession({

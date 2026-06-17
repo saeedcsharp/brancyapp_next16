@@ -6,10 +6,10 @@ import Loading from "brancy/components/notOk/loading";
 import findSystemLanguage from "brancy/helper/findSystemLanguage";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IFullProduct, IOrderDetail } from "brancy/models/store/orders";
 import OrderDetailContent from "brancy/components/store/order/popup/OrderDetail-Content";
 import styles from "./orderstep.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IOrderDetail, IOrderFullProduct } from "brancy/models/interfaces";
 interface OrderDetailProps {
   removeMask: () => void;
   orderDetail: IOrderDetail;
@@ -21,7 +21,7 @@ const OrderFailed: FC<OrderDetailProps> = ({ removeMask, orderDetail }) => {
   const popupRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
   const [loaderCount, setLoaderCount] = useState(7);
-  const [fullProduct, setFullProduct] = useState<IFullProduct>();
+  const [fullProduct, setFullProduct] = useState<IOrderFullProduct>();
   useEffect(() => {
     const handleResize = () => {
       setLoaderCount(window.innerWidth < 500 ? 5 : 7);
@@ -53,7 +53,7 @@ const OrderFailed: FC<OrderDetailProps> = ({ removeMask, orderDetail }) => {
   }, []);
   async function handleGetFullOrder() {
     try {
-      const res = await clientFetchApi<IOrderDetail, IFullProduct>("/api/order/GetFullOrder", {
+      const res = await clientFetchApi<IOrderDetail, IOrderFullProduct>("/api/order/GetFullOrder", {
         methodType: MethodType.get,
         session: session,
         data: null,

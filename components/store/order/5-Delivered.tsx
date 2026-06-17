@@ -9,9 +9,9 @@ import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFo
 import initialzedTime from "brancy/helper/manageTimer";
 import { specifyLogistic } from "brancy/helper/specifyLogistic";
 import { LanguageKey } from "brancy/i18n";
-import { OrderStepStatus } from "brancy/models/store/enum";
-import { IOrderByStatus, IOrderByStatusItem } from "brancy/models/store/orders";
 import styles from "./5-Delivered.module.css";
+import { OrderStepStatus } from "brancy/models/enums";
+import { IOrderByStatus, IOrderByStatusItem } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 const MemoizedCheckBoxButton = React.memo(CheckBoxButton);
 interface SelectionState {

@@ -4,9 +4,9 @@ import MediaDetector from "brancy/components/messages/shared/utils/MediaDetector
 import LinkifyText from "brancy/context/LinkifyText";
 import { getMessageDirectionClass } from "brancy/helper/checkRtl";
 import { detectEmojiOnly } from "brancy/helper/emojiDetector";
-import { IIsSendingMessage } from "brancy/models/messages/IMessage";
-import { ItemType, MediaType } from "brancy/models/messages/enum";
 import styles from "./messageTypes.module.css";
+import { ItemType, MediaType } from "brancy/models/enums";
+import { IIsSendingMessage } from "brancy/models/interfaces";
 
 // #region تایپ‌ها — تعریف تایپ‌های ورودی برای کامپوننت ChatSending
 interface ChatSendingProps {

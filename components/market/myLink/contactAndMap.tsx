@@ -2,8 +2,8 @@ import dynamic from "next/dynamic";
 import { memo, useCallback, useEffect, useId, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import { IContactAndMap } from "brancy/models/market/myLink";
 import styles from "./contactAndMap.module.css";
+import { IContactAndMap } from "brancy/models/interfaces";
 
 const MapWrapper = memo(({ mapProps }: { mapProps: any }) => {
   const [shouldRender, setShouldRender] = useState(false);

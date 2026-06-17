@@ -9,7 +9,6 @@ import { DateObject } from "react-multi-date-picker";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
 import ConstantCounterDown from "brancy/components/design/counterDown/constantCounterDown";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
-
 import Modal from "brancy/components/design/modal";
 import ProgressBar from "brancy/components/design/progressBar/progressBar";
 import {
@@ -30,20 +29,22 @@ import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
 import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType, UploadFile } from "brancy/helper/api";
-import { AutoReplyPayLoadType, MediaProductType } from "brancy/models/messages/enum";
-import { IAutomaticReply, IMediaUpdateAutoReply, IPublishLimit } from "brancy/models/page/post/posts";
-import { IErrorPrePostInfo, IPostImageInfo, MediaType } from "brancy/models/page/post/preposts";
+import styles from "./createStory.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { AutoReplyPayLoadType, MediaProductType, MediaType, PartnerRole } from "brancy/models/enums";
 import {
+  IAutomaticReply,
+  IErrorPrePostInfo,
+  IMediaUpdateAutoReply,
+  IPostImageInfo,
   IPreStory,
   IPreStoryInfo,
+  IPublishLimit,
   IStoryDraftInfo,
   IStoryImageInfo,
   IStoryVideoInfo,
-} from "brancy/models/page/story/preStories";
-import styles from "./createStory.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+} from "brancy/models/interfaces";
 const CreateStory = () => {
   const router = useRouter();
   const { data: session } = useSession();
@@ -325,27 +326,30 @@ const CreateStory = () => {
                       canvas.toBlob(async (blob) => {
                         if (!blob) return;
                         setLoadingUpload(true);
+                        setProgress(0);
                         const croppedFile = new File([blob], file.name, {
                           type: "image/jpeg",
                         });
-                        const res = await UploadFile(session, croppedFile);
-                        setLoadingUpload(false);
-                        setShowMedias({
-                          mediaUri: null,
-                          error: "",
-                          mediaType: MediaType.Image,
-                          media: croppedDataUrl,
-                          cover: "",
-                          mediaUploadId: res ? res.fileName : "",
-                          coverId: "",
-                          coverUri: null,
-                        });
+                        // const res = await UploadFile(session, croppedFile, (progress) => setProgress(progress));
+                        // setLoadingUpload(false);
+                        // setShowMedias({
+                        //   mediaUri: null,
+                        //   error: "",
+                        //   mediaType: MediaType.Image,
+                        //   media: croppedDataUrl,
+                        //   cover: "",
+                        //   mediaUploadId: res ? res.fileName : "",
+                        //   coverId: "",
+                        //   coverUri: null,
+                        // });
                       }, "image/jpeg");
                     }
                     return;
                   }
                   setLoadingUpload(true);
-                  const res = await UploadFile(session, file!);
+                  setProgress(0);
+                  const res = await UploadFile(session, file!, (progress) => setProgress(progress));
+
                   setLoadingUpload(false);
                   if (!res) return;
                   setShowMedias({
@@ -385,7 +389,8 @@ const CreateStory = () => {
               if (!file) return;
               if (!checkSpecVideo(width, height, video.duration, file.size)) return;
               setLoadingUpload(true);
-              const res = await UploadFile(session, file!);
+              setProgress(0);
+              const res = await UploadFile(session, file!, (progress) => setProgress(progress));
               setLoadingUpload(false);
               setShowMedias({
                 mediaUri: null,
@@ -490,6 +495,11 @@ const CreateStory = () => {
             maxHeight: 700,
             mimeType: "image/jpeg",
             success(result) {
+              // Ensure we use the compressed result (Blob/File) for upload so UploadFile's XHR progress works
+              const compressedFile =
+                result instanceof File
+                  ? result
+                  : new File([result], file.name, { type: (result as any).type || "image/jpeg" });
               const reader = new FileReader();
               reader.onload = () => {
                 const selectedMedia1 = reader.result as string;
@@ -497,7 +507,7 @@ const CreateStory = () => {
                 img.onload = async () => {
                   const width = img.width;
                   const height = img.height;
-                  if (!checkSpecImage(width, height, file!.size)) return;
+                  if (!checkSpecImage(width, height, compressedFile.size)) return;
                   if (width / height < 0.8 || width / height > 1.91) {
                     // Crop the image to the allowed aspect ratio (0.8 - 1.91)
                     // We'll use a canvas to crop the image in the browser
@@ -532,10 +542,11 @@ const CreateStory = () => {
                       canvas.toBlob(async (blob) => {
                         if (!blob) return;
                         setLoadingUpload(true);
+                        setProgress(0);
                         const croppedFile = new File([blob], file.name, {
                           type: "image/jpeg",
                         });
-                        const res = await UploadFile(session, croppedFile);
+                        const res = await UploadFile(session, croppedFile, (progress) => setProgress(progress));
                         setLoadingUpload(false);
                         setShowMedias({
                           mediaUri: null,
@@ -552,7 +563,8 @@ const CreateStory = () => {
                     return;
                   }
                   setLoadingUpload(true);
-                  const res = await UploadFile(session, file!);
+                  setProgress(0);
+                  const res = await UploadFile(session, compressedFile, (progress) => setProgress(progress));
                   setLoadingUpload(false);
                   setShowMedias({
                     error: "",
@@ -584,7 +596,8 @@ const CreateStory = () => {
               const height = video.videoHeight;
               if (!checkSpecVideo(width, height, video.duration, file!.size)) return;
               setLoadingUpload(true);
-              const res = await UploadFile(session, file!);
+              setProgress(0);
+              const res = await UploadFile(session, file!, (progress) => setProgress(progress));
               setLoadingUpload(false);
               setShowMedias({
                 error: "",
@@ -1215,6 +1228,59 @@ const CreateStory = () => {
                           <video className={styles.pictureMaskIcon} src={showMedias.media} />
                         )}
                         <div className={styles.filter} />
+                        {loadingUpload && (
+                          <div
+                            style={{
+                              position: "absolute",
+                              top: 0,
+                              left: 0,
+                              right: 0,
+                              bottom: 0,
+                              display: "flex",
+                              alignItems: "center",
+                              justifyContent: "center",
+                              background: "rgba(255,255,255,0.6)",
+                              zIndex: 40,
+                            }}>
+                            <div style={{ textAlign: "center" }}>
+                              <svg
+                                style={{ transform: "rotate(-90deg)" }}
+                                width="120"
+                                height="120"
+                                viewBox="0 0 120 120">
+                                <circle
+                                  cx="60"
+                                  cy="60"
+                                  r="50"
+                                  fill="none"
+                                  stroke="var(--content-box)"
+                                  strokeWidth="8"
+                                />
+                                <circle
+                                  cx="60"
+                                  cy="60"
+                                  r="50"
+                                  fill="none"
+                                  stroke="var(--color-dark-blue)"
+                                  strokeWidth="8"
+                                  strokeDasharray={`${2 * Math.PI * 50}`}
+                                  strokeDashoffset={`${2 * Math.PI * 50 * (1 - progress / 100)}`}
+                                  strokeLinecap="round"
+                                  style={{ transition: "stroke-dashoffset 0.3s ease" }}
+                                />
+                              </svg>
+                              <div
+                                style={{
+                                  marginTop: 8,
+                                  fontSize: 18,
+                                  fontWeight: 700,
+                                  color: "var(--color-dark-blue)",
+                                }}>
+                                {Math.round(progress)}%
+                              </div>
+                            </div>
+                          </div>
+                        )}
                       </>
                     )}
                     {automaticPost && (

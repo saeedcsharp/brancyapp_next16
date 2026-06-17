@@ -1,7 +1,8 @@
 import { convertToMilliseconds } from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { PriceType } from "brancy/components/priceFormater";
-import { FeatureType, IFeatureInfo } from "brancy/models/psg/psg";
+import { IPsgFeatureInfo } from "./interfaces";
+import { PsgFeatureType } from "./enums";
 
 // ============================================
 // INTERFACES
@@ -399,24 +400,29 @@ export const generateMockFeaturesList = (t: (key: string) => string): PlanFeatur
 //     winnerPickerTotal: 5, // 5 total purchased
 //   };
 // };
-export const generateMockUserPackageInfo = (t: (key: string) => string, featureInfo: IFeatureInfo): UserPackageInfo => {
+export const generateMockUserPackageInfo = (
+  t: (key: string) => string,
+  featureInfo: IPsgFeatureInfo,
+): UserPackageInfo => {
   // Domain: 365 days purchased, 10 days remaining
   const totalDomainDays = convertToMilliseconds(
-    featureInfo.basePackage ? featureInfo.basePackage.endUnix - featureInfo.basePackage!.beginUnix : 0
+    featureInfo.basePackage ? featureInfo.basePackage.endUnix - featureInfo.basePackage!.beginUnix : 0,
   );
   const domainDaysRemaining =
     convertToMilliseconds(featureInfo.basePackage ? featureInfo.basePackage.endUnix : Date.now()) - 0;
   const domainDaysPassed = totalDomainDays - domainDaysRemaining;
-  const aiPackage = featureInfo.features.find((x) => x.featureId === FeatureType.AI)?.packageFeature;
-  const aiReservePackage = featureInfo.features.find((x) => x.featureId === FeatureType.AI)?.reserveFeature;
+  const aiPackage = featureInfo.features.find((x) => x.featureId === PsgFeatureType.AI)?.packageFeature;
+  const aiReservePackage = featureInfo.features.find((x) => x.featureId === PsgFeatureType.AI)?.reserveFeature;
   const customDomainPackage = featureInfo.features.find(
-    (x) => x.featureId === FeatureType.CustomDomain
+    (x) => x.featureId === PsgFeatureType.CustomDomain,
   )?.packageFeature;
   const customDomainReservePackage = featureInfo.features.find(
-    (x) => x.featureId === FeatureType.CustomDomain
+    (x) => x.featureId === PsgFeatureType.CustomDomain,
   )?.reserveFeature;
-  const lotteryPackage = featureInfo.features.find((x) => x.featureId === FeatureType.Lottery)?.packageFeature;
-  const lotteryReservePackage = featureInfo.features.find((x) => x.featureId === FeatureType.Lottery)?.reserveFeature;
+  const lotteryPackage = featureInfo.features.find((x) => x.featureId === PsgFeatureType.Lottery)?.packageFeature;
+  const lotteryReservePackage = featureInfo.features.find(
+    (x) => x.featureId === PsgFeatureType.Lottery,
+  )?.reserveFeature;
   return {
     followerCount: featureInfo.followerCount,
     packageRemainingTime: domainDaysRemaining,
@@ -458,8 +464,8 @@ export const generateMockUserPackageInfo = (t: (key: string) => string, featureI
           remainingTime: aiReservePackage.unExpired
             ? null
             : convertToMilliseconds(aiReservePackage.endUnix) - Date.now() > 0
-            ? convertToMilliseconds(aiReservePackage.endUnix) - Date.now()
-            : 0,
+              ? convertToMilliseconds(aiReservePackage.endUnix) - Date.now()
+              : 0,
           sliderRemainingValue: aiReservePackage.unLimited
             ? aiReservePackage.maxCount
             : aiReservePackage.maxCount - aiReservePackage.count,
@@ -471,15 +477,15 @@ export const generateMockUserPackageInfo = (t: (key: string) => string, featureI
           remainingTime: customDomainReservePackage.unExpired
             ? null
             : convertToMilliseconds(customDomainReservePackage.endUnix) - Date.now() > 0
-            ? convertToMilliseconds(customDomainReservePackage.endUnix) - Date.now()
-            : 0,
+              ? convertToMilliseconds(customDomainReservePackage.endUnix) - Date.now()
+              : 0,
           sliderRemainingValue: customDomainReservePackage.unLimited
             ? convertToMilliseconds(customDomainReservePackage.endUnix - customDomainReservePackage.beginUnix)
             : convertToMilliseconds(customDomainReservePackage.endUnix) - Date.now() > 0
-            ? convertToMilliseconds(customDomainReservePackage.endUnix) - Date.now()
-            : 0,
+              ? convertToMilliseconds(customDomainReservePackage.endUnix) - Date.now()
+              : 0,
           sliderTotalValue: convertToMilliseconds(
-            customDomainReservePackage.endUnix - customDomainReservePackage.beginUnix
+            customDomainReservePackage.endUnix - customDomainReservePackage.beginUnix,
           ),
         }
       : null,
@@ -488,8 +494,8 @@ export const generateMockUserPackageInfo = (t: (key: string) => string, featureI
           remainingTime: lotteryReservePackage.unExpired
             ? null
             : convertToMilliseconds(lotteryReservePackage.endUnix) - Date.now() > 0
-            ? convertToMilliseconds(lotteryReservePackage.endUnix) - Date.now()
-            : 0,
+              ? convertToMilliseconds(lotteryReservePackage.endUnix) - Date.now()
+              : 0,
           sliderRemainingValue: lotteryReservePackage.unLimited
             ? lotteryReservePackage.maxCount
             : lotteryReservePackage.maxCount - lotteryReservePackage.count,
@@ -613,7 +619,7 @@ export const generateMockWinnerPickerPackages = (t: (key: string) => string): Wi
 
 export const generateMockPackageExtensions = (
   t: (key: string) => string,
-  followerCount?: number
+  followerCount?: number,
 ): PackageExtension[] => {
   const currentUserPlan = getMockCurrentUserPlan(t, followerCount);
 
@@ -662,7 +668,7 @@ export const getMockCurrentUserPlan = (t: (key: string) => string, followerCount
   if (followerCount !== undefined) {
     // Find matching plan
     let matchingPlan = mockPricingPlans.find(
-      (plan) => followerCount >= plan.minFollowers && followerCount <= plan.maxFollowers
+      (plan) => followerCount >= plan.minFollowers && followerCount <= plan.maxFollowers,
     );
 
     // If no exact match and follower count is very high, return the highest tier

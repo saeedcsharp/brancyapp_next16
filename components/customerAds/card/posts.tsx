@@ -1,4 +1,4 @@
-import { IPostContent } from "brancy/models/page/post/posts";
+import { IPostContent } from "brancy/models/interfaces";
 
 function Posts(prop: { posts: IPostContent[] }) {
   return <></>;

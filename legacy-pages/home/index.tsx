@@ -5,20 +5,7 @@ import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ResponseType } from "brancy/components/notifications/notificationBox";
 import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
-import { IError } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import {
-  IDemographicInsight,
-  IInstagramerHomeTiles,
-  ILastFollower,
-  ILastLike,
-  ILastMessage,
-  ILastOrder,
-  ILastTransaction,
-  IPageSummary,
-} from "brancy/models/homeIndex/home";
-import { MethodType } from "brancy/helper/api";
-import { IPostContent } from "brancy/models/page/post/posts";
-import { IStoryContent } from "brancy/models/page/story/stories";
+
 import AccountSummary from "brancy/components/homeIndex/accountSummary";
 import IngageInfo from "brancy/components/homeIndex/ingageInfo";
 import InstagramerUpgrade from "brancy/components/homeIndex/instagramerupgrade";
@@ -29,6 +16,20 @@ import PostSummary from "brancy/components/homeIndex/postSummary";
 import TutorialWrapper from "brancy/components/tutorial/tutorialWrapper";
 import styles from "./homeIndex.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import {
+  IDemographicInsight,
+  IError,
+  IInstagramerHomeTiles,
+  ILastFollower,
+  ILastLike,
+  ILastMessage,
+  ILastOrder,
+  ILastTransaction,
+  IPageSummary,
+  IPostContent,
+  IStoryContent,
+} from "brancy/models/interfaces";
+import { MethodType } from "brancy/helper/api";
 
 const initialState = {
   error: { message: null } as IError,

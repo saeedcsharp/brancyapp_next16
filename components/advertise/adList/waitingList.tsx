@@ -4,9 +4,9 @@ import { DateObject } from "react-multi-date-picker";
 import MultipleColorCounterDown from "brancy/components/design/counterDown/multipleColorCounterDown";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { IWatingAds } from "brancy/models/advertise/adList";
 import styles from "../../../legacy-pages/advertise/adlist.module.css";
 import AdsTypeComp from "brancy/components/advertise/adsType";
+import { IWatingAds } from "brancy/models/interfaces";
 
 const WaitingList = (props: {
   handleShowDetailAds: (advertiseId: number) => void;

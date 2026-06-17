@@ -6,14 +6,14 @@ import Loading from "brancy/components/notOk/loading";
 import findSystemLanguage from "brancy/helper/findSystemLanguage";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { ShippingRequestType } from "brancy/models/store/enum";
-import { IFullProduct, IOrderDetail } from "brancy/models/store/orders";
 import OrderDetailContent from "brancy/components/store/order/popup/OrderDetail-Content";
 import styles from "./orderstep.module.css";
 
 import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { ShippingRequestType } from "brancy/models/enums";
+import { IOrderDetail, IOrderFullProduct } from "brancy/models/interfaces";
 
 interface OrderDetailProps {
   removeMask: () => void;
@@ -37,7 +37,7 @@ const OrderPickup: FC<OrderDetailProps> = ({
   const [loadingFullProduct, setLoadingFullProduct] = useState(false);
   const [loadingRequset, setLoadingRequest] = useState(false);
   const [loaderCount, setLoaderCount] = useState(7);
-  const [fullProduct, setFullProduct] = useState<IFullProduct>();
+  const [fullProduct, setFullProduct] = useState<IOrderFullProduct>();
   const [activeFullProduct, setActiveFullProduct] = useState(false);
   const [parcelId, setParcelId] = useState("");
   const [showRejectOrder, setShowRejectOrder] = useState<string | null>(null);
@@ -141,7 +141,7 @@ const OrderPickup: FC<OrderDetailProps> = ({
         setActiveFullProduct(true);
         setLoadingFullProduct(true);
         try {
-          const res = await clientFetchApi<IOrderDetail, IFullProduct>("/api/order/GetFullOrder", {
+          const res = await clientFetchApi<IOrderDetail, IOrderFullProduct>("/api/order/GetFullOrder", {
             methodType: MethodType.get,
             session: session,
             data: null,

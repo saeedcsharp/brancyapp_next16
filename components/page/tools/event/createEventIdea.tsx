@@ -11,13 +11,13 @@ import {
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
-import { FeatureType } from "brancy/models/psg/psg";
 import { LanguageKey } from "brancy/i18n";
 import router from "next/router";
 import { useSession } from "next-auth/react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./createEventIdea.module.css";
+import { PsgFeatureType } from "brancy/models/enums";
 
 const LANGUAGE_OPTIONS = [
   { id: 0, code: "en", label: "English" },
@@ -59,7 +59,7 @@ const CreateEventIdea = (props: {
 
   const handleShowDayEventsWithCheck = useCallback(async () => {
     if (!session) return;
-    const hasAccess = await fetchAndCheckFeature(FeatureType.AI, session);
+    const hasAccess = await fetchAndCheckFeature(PsgFeatureType.AI, session);
     if (!hasAccess) {
       router.push("/upgrade");
       return;
@@ -70,7 +70,7 @@ const CreateEventIdea = (props: {
   const handleSubmit = useCallback(async () => {
     if (!session) return;
 
-    const hasAccess = await fetchAndCheckFeature(FeatureType.AI, session);
+    const hasAccess = await fetchAndCheckFeature(PsgFeatureType.AI, session);
     if (!hasAccess) {
       router.push("/upgrade");
       return;

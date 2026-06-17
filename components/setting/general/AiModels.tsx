@@ -14,13 +14,12 @@ import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { AiTextModel, AiVoiceModel } from "brancy/models/setting/enums";
-import { IAiModels, IGeneralAiModels, IGetAiModel } from "brancy/models/setting/general";
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./general.module.css";
+import { AiTextModel, AiVoiceModel, PartnerRole } from "brancy/models/enums";
+import { IAiModels, IGetAiModel, IGeneralAiModels } from "brancy/models/interfaces";
 
 function AiModels() {
   const { data: session } = useSession();

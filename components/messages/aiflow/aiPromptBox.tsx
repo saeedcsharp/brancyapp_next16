@@ -1,7 +1,3 @@
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useCallback, useEffect, useId, useMemo, useRef, useState, useTransition } from "react";
-import { useTranslation } from "react-i18next";
 import AIButton from "brancy/components/design/ai/AIButton";
 import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
@@ -10,6 +6,7 @@ import TextArea from "brancy/components/design/textArea/textArea";
 import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
+import LiveChat from "brancy/components/messages/aiflow/popup/liveChat";
 import {
   internalNotify,
   InternalResponseType,
@@ -18,15 +15,17 @@ import {
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
-import { LanguageKey } from "brancy/i18n/languageKeys";
-import { IAITools, IAnalysisPrompt, ICreatePrompt, IDetailPrompt, ITool, ITotalPrompt } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
-import styles from "./aiPromptBox.module.css";
-import LiveChat from "brancy/components/messages/aiflow/popup/liveChat";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
-import { FeatureType } from "brancy/models/psg/psg";
-import { PromptType, ToolType } from "brancy/models/AI/enum";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { LanguageKey } from "brancy/i18n/languageKeys";
+import { PromptType, PsgFeatureType, ToolType } from "brancy/models/enums";
+import { IAITools, IAnalysisPrompt, ICreatePrompt, IDetailPrompt, ITool, ITotalPrompt } from "brancy/models/interfaces";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useId, useMemo, useRef, useState, useTransition } from "react";
+import { useTranslation } from "react-i18next";
+import styles from "./aiPromptBox.module.css";
 const AIPromptBox = ({
   aiTools,
   userSelectId,
@@ -183,7 +182,7 @@ const AIPromptBox = ({
     return detailedPrompt.promptStr.length > 0 && !loadingPromptAnalysis && advancePrompt;
   }, [detailedPrompt.promptStr, loadingPromptAnalysis, advancePrompt]);
   const handleCreateAIPrompt = useCallback(async () => {
-    const hasAccess = await fetchAndCheckFeature(FeatureType.AI, session);
+    const hasAccess = await fetchAndCheckFeature(PsgFeatureType.AI, session);
     if (!hasAccess) {
       router.push("/upgrade");
       return;
@@ -218,7 +217,7 @@ const AIPromptBox = ({
     }
   }, [session, detailedPrompt, advancePrompt, userSelectId, updateAIPrompt, setShowAIToolsSettings, tools]);
   const handleGetPromptAnalysis = useCallback(async () => {
-    const hasAccess = await fetchAndCheckFeature(FeatureType.AI, session);
+    const hasAccess = await fetchAndCheckFeature(PsgFeatureType.AI, session);
     if (!hasAccess) {
       router.push("/upgrade");
       return;

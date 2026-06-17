@@ -14,21 +14,18 @@ import Support from "brancy/components/setting/general/Support";
 import System from "brancy/components/setting/general/system";
 import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType, UploadFile } from "brancy/helper/api";
-import { StatusReplied } from "brancy/models/messages/enum";
-import { PlatformTicketItemType } from "brancy/models/setting/enums";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   ICreateMedia,
   ICreatePlatform,
   IPlatform,
   IPlatformItem,
   IPlatformTicket,
+  ISendTicketMessage,
   ITicketInsights,
-} from "brancy/models/setting/general";
-import { ISendTicketMessage } from "brancy/models/userPanel/message";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
-
+} from "brancy/models/interfaces";
+import { StatusReplied, PlatformTicketItemType, PartnerRole } from "brancy/models/enums";
 const General = () => {
   const { t } = useTranslation();
 

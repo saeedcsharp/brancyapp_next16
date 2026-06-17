@@ -10,7 +10,7 @@ import { useRouter } from "next/router";
 import Card from "brancy/components/customerAds/card/card";
 import { NotifType, ResponseType, notify } from "brancy/components/notifications/notificationBox";
 import SignIn, { RedirectType, SignInType } from "brancy/components/signIn/signIn";
-import { IAdvertiseSummary, IAdvertiserInfo, ISideBar } from "brancy/models/customerAds/customerAd";
+import { IAdvertiserInfo, IAdvertiseSummary, ISideBar } from "brancy/models/interfaces";
 
 const CustomerAds = () => {
   //  return <Soon />;

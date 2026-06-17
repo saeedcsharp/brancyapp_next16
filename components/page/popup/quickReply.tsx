@@ -3,8 +3,8 @@ import React, { ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
 import EditAutoReplyForMedia from "brancy/components/messages/popups/editAutoReplyForMedia";
 import { LanguageKey } from "brancy/i18n";
-import { MediaProductType } from "brancy/models/messages/enum";
-import { IAutomaticReply, IMediaUpdateAutoReply } from "brancy/models/page/post/posts";
+import { MediaProductType } from "brancy/models/enums";
+import { IMediaUpdateAutoReply, IAutomaticReply } from "brancy/models/interfaces";
 
 interface QuickReplyPopupProps {
   setShowQuickReplyPopup: (show: boolean) => void;

@@ -1,8 +1,8 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n/languageKeys";
-import { IMedia } from "brancy/models/messages/IMessage";
 import chatBoxStyles from "brancy/components/messages/comment/commentChatBox.module.css";
+import { IMedia } from "brancy/models/interfaces";
 
 interface CommentStatisticsProps {
   currentChatBox: IMedia;

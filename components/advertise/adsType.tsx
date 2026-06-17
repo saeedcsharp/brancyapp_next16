@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import { AdsType } from "brancy/models/advertise/AdEnums";
 import styles from "./adsType.module.css";
+import { AdsType } from "brancy/models/enums";
 const AdsTypeComp = (props: { adType: AdsType }) => {
   const { t } = useTranslation();
   return (

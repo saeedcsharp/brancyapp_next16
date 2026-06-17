@@ -3,7 +3,6 @@ import { useEffect, useReducer, useRef, useState } from "react";
 import Loading from "brancy/components/notOk/loading";
 import { convertArrayToLarray } from "brancy/helper/chunkArray";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
-import { ILoadingStatus, ISession } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -11,6 +10,7 @@ import "swiper/css/scrollbar";
 import { Navigation, Pagination } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "./general.module.css";
+import { ISession, ILoadingStatus } from "brancy/models/interfaces";
 export default function Session({
   sessions,
   handleShowDeleteSession,

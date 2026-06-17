@@ -23,11 +23,11 @@ import Loading from "brancy/components/notOk/loading";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { FeatureType } from "brancy/models/market/enums";
-import { IFeatureItem, IOrderFeatures, IUpdateFeatureOrder } from "brancy/models/market/properties";
 import CheckBoxButton from "brancy/components/design/checkBoxButton";
 import styles from "./features.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { FeatureType } from "brancy/models/enums";
+import { IMarketFeatureItem, IOrderFeatures, IUpdateFeatureOrder } from "brancy/models/interfaces";
 
 const getFeatureClassName = (featureType: FeatureType): string => {
   switch (featureType) {
@@ -65,7 +65,7 @@ const SortableFeatureItem = memo(
     onEdit,
     handleFeatureTitle,
   }: {
-    feature: IFeatureItem;
+    feature: IMarketFeatureItem;
     onToggle: (featureType: FeatureType, e: ChangeEvent<HTMLInputElement>) => void;
     onEdit: (featureType: FeatureType) => void;
     handleFeatureTitle: (featureType: FeatureType) => string;
@@ -162,7 +162,7 @@ const Features = (props: {
   const { gridSpan, hidePage, toggle } = useHideDiv(true, 82);
   const [loading, setLoading] = useState(true);
   const [checkbox, setCheckbox] = useState(true);
-  const [featuresItem, setFeaturesItem] = useState<IFeatureItem[]>([]);
+  const [featuresItem, setFeaturesItem] = useState<IMarketFeatureItem[]>([]);
   const isMountedRef = useRef(true);
   const sensors = useSensors(
     useSensor(TouchSensor),

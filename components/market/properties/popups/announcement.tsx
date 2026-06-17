@@ -6,8 +6,8 @@ import TextArea from "brancy/components/design/textArea/textArea";
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IAnnouncementInfo } from "brancy/models/market/properties";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IAnnouncementInfo } from "brancy/models/interfaces";
 
 const Announcement = (props: { removeMask: () => void }) => {
   const { t } = useTranslation();
@@ -21,7 +21,13 @@ const Announcement = (props: { removeMask: () => void }) => {
     //Api to save Announcement decsription
     const instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     if (!instagramerId) return;
-    var res = await clientFetchApi<{ str: string }, boolean>("Instagramer" + "/bio/UpdateAnnouncement", { methodType: MethodType.post, session: session, data: { str: announcement?.str }, queries: undefined, onUploadProgress: undefined });
+    var res = await clientFetchApi<{ str: string }, boolean>("Instagramer" + "/bio/UpdateAnnouncement", {
+      methodType: MethodType.post,
+      session: session,
+      data: { str: announcement?.str },
+      queries: undefined,
+      onUploadProgress: undefined,
+    });
     if (res.succeeded) {
       props.removeMask();
     }
@@ -29,7 +35,13 @@ const Announcement = (props: { removeMask: () => void }) => {
   async function fetchData() {
     const instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     if (!instagramerId) return;
-    var res = await clientFetchApi<string, IAnnouncementInfo>("/api/bio/GetAnnouncement", { methodType: MethodType.get, session: session, data: undefined, queries: undefined, onUploadProgress: undefined });
+    var res = await clientFetchApi<string, IAnnouncementInfo>("/api/bio/GetAnnouncement", {
+      methodType: MethodType.get,
+      session: session,
+      data: undefined,
+      queries: undefined,
+      onUploadProgress: undefined,
+    });
     if (res.succeeded) {
       setAnnouncement(res.value);
       setLoading(false);

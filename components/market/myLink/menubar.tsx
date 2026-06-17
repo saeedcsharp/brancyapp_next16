@@ -12,9 +12,9 @@ import {
 
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import { FeatureType } from "brancy/models/market/enums";
-import { IFeatureInfo } from "brancy/models/market/myLink";
 import styles from "./menubar.module.css";
+import { FeatureType } from "brancy/models/enums";
+import { IFeatureInfo } from "brancy/models/interfaces";
 
 interface MenubarProps {
   data: IFeatureInfo[];

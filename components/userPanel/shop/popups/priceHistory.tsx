@@ -7,9 +7,10 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { chartxType, SuperFigure } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import styles from "./priceHistory.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { chartxType } from "brancy/models/enums";
+import { SuperFigure } from "brancy/models/interfaces";
 export default function PriceHistory({
   removeMask,
   productId,

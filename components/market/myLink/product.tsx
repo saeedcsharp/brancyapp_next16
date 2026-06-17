@@ -1,8 +1,8 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { ChangeEvent, useState } from "react";
 import InputText from "brancy/components/design/inputText";
-import { IProducts } from "brancy/models/market/myLink";
 import styles from "./mylink.module.css";
+import { IProducts } from "brancy/models/interfaces";
 
 const basePictureUrl = getClientMediaBaseUrl();
 const Products = (props: { data: IProducts | null }) => {

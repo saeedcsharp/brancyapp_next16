@@ -6,9 +6,9 @@ import { DateObject } from "react-multi-date-picker";
 import { LoginStatus } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { ILastTransaction } from "brancy/models/homeIndex/home";
 import Loading from "brancy/components/notOk/loading";
 import styles from "./lastTransaction.module.css";
+import { ILastTransaction } from "brancy/models/interfaces";
 
 // const LastTransaction = () => {
 const basePictureUrl = getClientMediaBaseUrl();

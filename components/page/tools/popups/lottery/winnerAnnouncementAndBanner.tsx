@@ -13,9 +13,10 @@ import Loading from "brancy/components/notOk/loading";
 import { hexToRgb, rgbToHex } from "brancy/helper/rgbaToHex";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType, UploadFile } from "brancy/helper/api";
-import { IGetLastBanner, ILotteryInfo, LotteryType } from "brancy/models/page/tools/tools";
 import styles from "./winnerAnnouncementAndBanner.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IGetLastBanner, ILotteryInfo } from "brancy/models/interfaces";
+import { LotteryType } from "brancy/models/enums";
 const basePictureUrl = getClientMediaBaseUrl();
 
 // Function to get current Persian date and time

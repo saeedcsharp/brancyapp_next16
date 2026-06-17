@@ -2,9 +2,9 @@ import { useSession } from "next-auth/react";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import { ItemType, MediaType } from "brancy/models/messages/enum";
-import { IIsSendingMessage } from "brancy/models/messages/IMessage";
 import styles from "./sendFile.module.css";
+import { ItemType, MediaType } from "brancy/models/enums";
+import { IIsSendingMessage } from "brancy/models/interfaces";
 
 function _arrayBufferToBase64(buffer: ArrayBuffer) {
   var binary = "";

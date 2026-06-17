@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import FiveStar from "brancy/components/fiveStar";
 import { calculateSummary } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
-import { IFeatureBox } from "brancy/models/market/myLink";
 import styles from "./featureBox.module.css";
+import { IFeatureBox } from "brancy/models/interfaces";
 interface FeatureBoxProps {
   data: IFeatureBox | null;
   handleShowTerms: () => void;

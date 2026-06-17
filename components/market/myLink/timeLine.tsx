@@ -1,7 +1,7 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useState } from "react";
-import { ITimeline } from "brancy/models/market/myLink";
 import styles from "./mylink.module.css";
+import { ITimeline } from "brancy/models/interfaces";
 
 const basePictureUrl = getClientMediaBaseUrl();
 const Timeline = (props: { data: ITimeline | null }) => {

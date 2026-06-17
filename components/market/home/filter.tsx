@@ -7,16 +7,9 @@ import FollowerSlider from "brancy/components/design/sliders/followerSlider";
 import PriceSlider from "brancy/components/design/sliders/priceSlider";
 import RatingSlider from "brancy/components/design/sliders/ratingSlider";
 import { LanguageKey } from "brancy/i18n";
-import {
-  CategoryType,
-  FilterNames,
-  ICategory,
-  ISideBar,
-  SortBy,
-  SortByNum,
-  SortUp,
-} from "brancy/models/customerAds/customerAd";
 import styles from "./filter.module.css";
+import { SortUp, SortBy, SortByNum, CustomerAdCategoryType } from "brancy/models/enums";
+import { ISideBar, FilterNames, ICustomerAdCategory } from "brancy/models/interfaces";
 
 function Filter(props: {
   handleApplyFilter: (info: ISideBar) => void;
@@ -46,7 +39,7 @@ function Filter(props: {
   });
 
   const [sortby, setSortby] = useState<SortBy>(SortBy.All);
-  const [category, setCategory] = useState<ICategory>({
+  const [category, setCategory] = useState<ICustomerAdCategory>({
     fashion: false,
     game: false,
     life: false,
@@ -145,23 +138,23 @@ function Filter(props: {
     setSortbyFilterNotif(newSideBarInfo.sortBy !== SortByNum.All);
     props.handleApplyFilter(sideBarInfo);
   };
-  const handleSelectCategory = (value: CategoryType) => {
+  const handleSelectCategory = (value: CustomerAdCategoryType) => {
     var newSideBarInfo = sideBarInfo;
     let newCategory = category;
     switch (value) {
-      case CategoryType.Tech:
+      case CustomerAdCategoryType.Tech:
         newCategory.teck = !newCategory.teck;
         newSideBarInfo.category.teck = newCategory.teck;
         break;
-      case CategoryType.Fashion:
+      case CustomerAdCategoryType.Fashion:
         newCategory.fashion = !newCategory.fashion;
         newSideBarInfo.category.fashion = newCategory.fashion;
         break;
-      case CategoryType.Game:
+      case CustomerAdCategoryType.Game:
         newCategory.game = !newCategory.game;
         newSideBarInfo.category.game = newCategory.game;
         break;
-      case CategoryType.Life:
+      case CustomerAdCategoryType.Life:
         newCategory.life = !newCategory.life;
         newSideBarInfo.category.life = newCategory.life;
         break;
@@ -449,7 +442,7 @@ function Filter(props: {
           <div className={`${styles.filteroption} ${activeFilterOptions.filter2 ? styles.active : ""}`}>
             <div className={styles.filtercategory}>
               <CheckBoxButton
-                handleToggle={() => handleSelectCategory(CategoryType.Tech)}
+                handleToggle={() => handleSelectCategory(CustomerAdCategoryType.Tech)}
                 value={category.teck}
                 textlabel={"tech"}
                 name="tech-category"
@@ -460,7 +453,7 @@ function Filter(props: {
 
             <div className={styles.filtercategory}>
               <CheckBoxButton
-                handleToggle={() => handleSelectCategory(CategoryType.Life)}
+                handleToggle={() => handleSelectCategory(CustomerAdCategoryType.Life)}
                 value={category.life}
                 textlabel={"life"}
                 name="life-category"
@@ -470,7 +463,7 @@ function Filter(props: {
             </div>
             <div className={styles.filtercategory}>
               <CheckBoxButton
-                handleToggle={() => handleSelectCategory(CategoryType.Game)}
+                handleToggle={() => handleSelectCategory(CustomerAdCategoryType.Game)}
                 value={category.game}
                 textlabel={"game"}
                 name="game-category"
@@ -481,7 +474,7 @@ function Filter(props: {
 
             <div className={styles.filtercategory}>
               <CheckBoxButton
-                handleToggle={() => handleSelectCategory(CategoryType.Fashion)}
+                handleToggle={() => handleSelectCategory(CustomerAdCategoryType.Fashion)}
                 value={category.fashion}
                 textlabel={"fashion"}
                 name="fashion-category"

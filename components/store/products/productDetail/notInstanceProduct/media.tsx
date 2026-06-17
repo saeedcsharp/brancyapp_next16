@@ -29,12 +29,12 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
 import { LanguageKey } from "brancy/i18n";
-import { MediaType } from "brancy/models/page/post/preposts";
-import { IProduct_Media, ISuggestedMedia } from "brancy/models/store/IProduct";
 import styles from "./media.module.css";
 import { UploadFile } from "brancy/helper/api";
 import Compressor from "compressorjs";
 import ProgressBar from "brancy/components/design/progressBar/progressBar";
+import { IProduct_Media, ISuggestedMedia } from "brancy/models/interfaces";
+import { MediaType } from "brancy/models/enums";
 const basePictureUrl = getClientMediaBaseUrl();
 const MAX_UPLOADS = 5;
 const SUPPORTED_IMAGE_TYPES = ["image/jpeg", "image/png"];

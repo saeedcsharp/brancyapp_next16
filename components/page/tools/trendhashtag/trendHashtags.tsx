@@ -16,11 +16,11 @@ import NotAllowedCard from "brancy/components/notOk/notAllowedCard";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { calculateSummary } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "brancy/helper/api";
-import { IShortHashtag, ITrendHashtag } from "brancy/models/page/tools/tools";
 import styles from "./trendHashtags.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { MethodType } from "brancy/helper/api";
+import { PartnerRole } from "brancy/models/enums";
+import { ITrendHashtag, IShortHashtag } from "brancy/models/interfaces";
 
 // Using constants outside the component to avoid recreations
 const INITIAL_LANGUAGE_ITEM = 0;

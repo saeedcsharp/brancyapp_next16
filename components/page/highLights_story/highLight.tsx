@@ -6,8 +6,6 @@ import Loading from "brancy/components/notOk/loading";
 import { InstaInfoContext } from "brancy/context/instaInfoContext";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IHighLight } from "brancy/models/page/story/hightLight";
 import "swiper/css";
 import "swiper/css/navigation";
 import "swiper/css/pagination";
@@ -15,6 +13,8 @@ import "swiper/css/scrollbar";
 import { A11y, Navigation, Pagination, Scrollbar } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "./highLight.module.css";
+import { PartnerRole } from "brancy/models/enums";
+import { IHighLight } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 const HighLight = ({ data }: { data: IHighLight[] | null }) => {
   const { data: session } = useSession();

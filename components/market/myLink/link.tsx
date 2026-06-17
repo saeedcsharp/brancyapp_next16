@@ -4,10 +4,10 @@ import { useTranslation } from "react-i18next";
 
 import CountdownTimerForLink from "brancy/components/design/counterDown/counterDownForLink";
 import { LanguageKey } from "brancy/i18n";
-import { ILink, IServerLink } from "brancy/models/market/myLink";
 import styles from "./link.module.css";
+import { IMyLinkFeatureSection, IServerLink } from "brancy/models/interfaces";
 interface LinkComponentProps {
-  data: ILink | null;
+  data: IMyLinkFeatureSection | null;
 }
 interface LinkItemProps {
   link: IServerLink;

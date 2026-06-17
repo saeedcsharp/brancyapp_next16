@@ -1,6 +1,5 @@
 import { LanguageKey } from "brancy/i18n";
-import { BusinessDay } from "brancy/models/advertise/peoperties";
-
+import { BusinessDay } from "brancy/models/enums";
 export function findDayName(id: number): LanguageKey {
   var dayName: LanguageKey = LanguageKey.SettingGeneralSystemmonday;
   switch (id) {

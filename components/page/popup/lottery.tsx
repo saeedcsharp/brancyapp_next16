@@ -18,9 +18,9 @@ import {
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { ILotteryPost } from "brancy/models/page/post/posts";
 import styles from "./postLottery.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { ILotteryPost } from "brancy/models/interfaces";
 export enum LotteryPopupType {
   PostLottery,
   StoryLottery,

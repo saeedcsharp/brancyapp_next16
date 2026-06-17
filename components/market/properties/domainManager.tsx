@@ -10,14 +10,13 @@ import { handleCopyLink } from "brancy/helper/copyLink";
 import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
-import { InstagramerAccountInfo } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IGetCustomDomain } from "brancy/models/market/properties";
-import { FeatureType } from "brancy/models/psg/psg";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./domainManager.module.css";
+import { PsgFeatureType } from "brancy/models/enums";
+import { InstagramerAccountInfo, IGetCustomDomain } from "brancy/models/interfaces";
 const baseShortUrl = process.env.NEXT_PUBLIC_SHORT_LINK;
 const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccountInfo | null }) => {
   const { t } = useTranslation();
@@ -64,7 +63,7 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
   }
   async function handleRequestCustomAddress() {
     if (isUpdating) return; // Prevent multiple clicks
-    const hasFeature = await fetchAndCheckFeature(FeatureType.CustomDomain, session);
+    const hasFeature = await fetchAndCheckFeature(PsgFeatureType.CustomDomain, session);
     if (!hasFeature) {
       router.push("/upgrade");
       return;
@@ -104,7 +103,7 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
 
   async function handleVerifyCustomAddress() {
     if (isVerifying) return; // Prevent multiple clicks
-    const hasFeature = await fetchAndCheckFeature(FeatureType.CustomDomain, session);
+    const hasFeature = await fetchAndCheckFeature(PsgFeatureType.CustomDomain, session);
     if (!hasFeature) {
       router.push("/upgrade");
       return;
@@ -139,7 +138,7 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
   }
 
   async function handleConnectCustomAddress() {
-    const hasFeature = await fetchAndCheckFeature(FeatureType.CustomDomain, session);
+    const hasFeature = await fetchAndCheckFeature(PsgFeatureType.CustomDomain, session);
     if (!hasFeature) {
       router.push("/upgrade");
       return;
@@ -158,7 +157,7 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
 
   useEffect(() => {
     getCustomerInfo();
-    fetchAndCheckFeature(FeatureType.CustomDomain, session).then(setHasCustomDomainFeature);
+    fetchAndCheckFeature(PsgFeatureType.CustomDomain, session).then(setHasCustomDomainFeature);
     const host = window.location.hostname;
     setIsDevMode(host.includes("patran.ir") || host === "localhost" || host === "127.0.0.1");
   }, []);

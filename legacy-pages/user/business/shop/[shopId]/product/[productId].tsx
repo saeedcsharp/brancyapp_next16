@@ -38,26 +38,22 @@ import { LanguageKey } from "brancy/i18n";
 
 // Models & Types
 import { MethodType } from "brancy/helper/api";
-import { IComment } from "brancy/models/messages/IMessage";
-import { AvailabilityStatus } from "brancy/models/store/enum";
-import {
-  ColorStr,
-  IAddToCard,
-  IFullProduct,
-  IFullShop,
-  IProduct,
-  IProductCard,
-  ISelectedProduct,
-  IShortShop,
-  ISubProduct,
-  IVariationComparison,
-} from "brancy/models/userPanel/shop";
-
 // Styles
 import Modal from "brancy/components/design/modal";
 import styles from "./product.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { IBusiness } from "brancy/models/userPanel/business";
+import { AvailabilityStatus, ColorStr } from "brancy/models/enums";
+import {
+  IComment,
+  IBusiness,
+  IShopFullProduct,
+  IAddToCard,
+  IProduct,
+  IProductCard,
+  ISelectedProduct,
+  IVariationComparison,
+  IShopSubProduct,
+} from "brancy/models/interfaces";
 
 // Constants
 const baseMediaUrl = getClientMediaBaseUrl();
@@ -65,13 +61,13 @@ const baseUrl = process.env.NEXT_PUBLIC_NEXTAUTH_URL;
 
 // Types and Interfaces
 interface ProductState {
-  product: IFullProduct | undefined;
+  product: IShopFullProduct | undefined;
   media: string;
   medias: string[];
   loading: boolean;
   loadingQuery: boolean;
   selectedProduct: ISelectedProduct;
-  showProduct: ISubProduct | null;
+  showProduct: IShopSubProduct | null;
   selectedVars: IVariationComparison[];
   activeLeftTab: string;
   activeRightTab: string;
@@ -79,7 +75,7 @@ interface ProductState {
   comments: { comments: IComment[]; users: string[] };
   hashtags: string[];
   similarProducts: IProductCard[];
-  shop: IShortShop | null;
+  shop: IShopSubProduct | null;
   short: IBusiness | null;
   constantVar: IVariationComparison[];
   diffrentVar: IVariationComparison[];
@@ -103,13 +99,13 @@ interface UIState {
 }
 
 type ProductAction =
-  | { type: "SET_PRODUCT"; payload: IFullProduct }
+  | { type: "SET_PRODUCT"; payload: IShopFullProduct }
   | { type: "SET_MEDIA"; payload: string }
   | { type: "SET_MEDIAS"; payload: string[] }
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "SET_LOADING_QUERY"; payload: boolean }
   | { type: "SET_SELECTED_PRODUCT"; payload: Partial<ISelectedProduct> }
-  | { type: "SET_SHOW_PRODUCT"; payload: ISubProduct | null }
+  | { type: "SET_SHOW_PRODUCT"; payload: IShopSubProduct | null }
   | { type: "SET_SELECTED_VARS"; payload: IVariationComparison[] }
   | { type: "SET_ACTIVE_LEFT_TAB"; payload: string }
   | { type: "SET_ACTIVE_RIGHT_TAB"; payload: string }
@@ -117,7 +113,7 @@ type ProductAction =
   | { type: "SET_COMMENTS"; payload: { comments: IComment[]; users: string[] } }
   | { type: "SET_HASHTAGS"; payload: string[] }
   | { type: "SET_SIMILAR_PRODUCTS"; payload: IProductCard[] }
-  | { type: "SET_SHOP"; payload: IShortShop | null }
+  | { type: "SET_SHOP"; payload: IShopSubProduct | null }
   | { type: "SET_SHORT"; payload: IBusiness | null }
   | { type: "SET_CONSTANT_VAR"; payload: IVariationComparison[] }
   | { type: "SET_DIFFRENT_VAR"; payload: IVariationComparison[] }
@@ -393,7 +389,7 @@ export default function Product() {
 
   // Memoized functions for performance optimization
   const getColorIdStatus = useCallback(
-    (subProducts: ISubProduct[]) => {
+    (subProducts: IShopSubProduct[]) => {
       if (product?.isColorVariation === false) {
         productDispatch({ type: "SET_CONST_COLOR", payload: null });
         productDispatch({ type: "SET_DIFF_COLOR", payload: [] });
@@ -417,7 +413,7 @@ export default function Product() {
   );
 
   const getCustomVariationStatus = useCallback(
-    (subProducts: ISubProduct[]) => {
+    (subProducts: IShopSubProduct[]) => {
       if (product?.customVariation === null) {
         productDispatch({ type: "SET_CONST_CUSTOM", payload: null });
         productDispatch({ type: "SET_DIFF_CUSTOM", payload: [] });
@@ -440,7 +436,7 @@ export default function Product() {
     [product?.customVariation],
   );
 
-  const compareVariations = useCallback((subProducts: ISubProduct[]) => {
+  const compareVariations = useCallback((subProducts: IShopSubProduct[]) => {
     const variationLength = Math.max(...subProducts.map((p) => p.variations.length));
     const same: IVariationComparison[] = [];
     const different: IVariationComparison[] = [];
@@ -481,7 +477,7 @@ export default function Product() {
   );
 
   const handleIncrement = useCallback(
-    (subProduct: ISubProduct): void => {
+    (subProduct: IShopSubProduct): void => {
       const card = addCard.find((x) => x.subProductId === subProduct.subProductId);
       const totalStock = addCard.reduce((total, item) => total + item.stock, 0);
       if (!card) return;
@@ -515,7 +511,7 @@ export default function Product() {
   );
 
   const handleDecrement = useCallback(
-    (subProduct: ISubProduct): void => {
+    (subProduct: IShopSubProduct): void => {
       const card = addCard.find((x) => x.subProductId === subProduct.subProductId);
       if (!card) return;
 
@@ -540,7 +536,7 @@ export default function Product() {
   );
 
   const handleInitialedSelectedProduct = useCallback(
-    (product: IFullProduct) => {
+    (product: IShopFullProduct) => {
       if (!router.query.subProductId) {
         const cheapestSubProduct = [...product.subProducts].sort((a, b) => a.price - b.price)[0];
         if (cheapestSubProduct) {
@@ -710,7 +706,7 @@ export default function Product() {
 
     try {
       const [res, commentRes, hashtagRes, short] = await Promise.all([
-        clientFetchApi<boolean, IFullProduct>("/api/shop/getfullproduct", {
+        clientFetchApi<boolean, IShopFullProduct>("/api/shop/getfullproduct", {
           methodType: MethodType.get,
           session: session,
           data: null,

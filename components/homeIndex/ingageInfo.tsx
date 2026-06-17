@@ -6,11 +6,10 @@ import { useTranslation } from "react-i18next";
 import { LoginStatus } from "brancy/helper/loadingStatus";
 import { numberToFormattedString } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
-import { TopTileType } from "brancy/models/homeIndex/enum";
-import { IInstagramerHomeTiles } from "brancy/models/homeIndex/home";
-import { IStoryContent } from "brancy/models/page/story/stories";
 import Loading from "brancy/components/notOk/loading";
 import styles from "./ingageInfo.module.css";
+import { TopTileType } from "brancy/models/enums";
+import { IInstagramerHomeTiles, IStoryContent } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 const IngageInfo = (props: {
   data: IInstagramerHomeTiles | null;

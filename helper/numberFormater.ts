@@ -1,3 +1,5 @@
+import { MonthName } from "brancy/models/enums";
+
 export function calculateSummary(num: number): string {
   let summary: string = "";
   if (num === -1) summary = "--";
@@ -57,4 +59,35 @@ export function numbToAmAndPmTime(number: number | undefined): string {
 export function numbTo24HourTime(number: number | undefined): number {
   if (!number) return 0;
   return parseFloat((number / 3600).toFixed(1));
+}
+export function NumToMonth(value: number): MonthName {
+  switch (value % 12) {
+    case 1:
+      return MonthName.January;
+    case 2:
+      return MonthName.February;
+    case 3:
+      return MonthName.March;
+    case 4:
+      return MonthName.April;
+    case 5:
+      return MonthName.May;
+    case 6:
+      return MonthName.June;
+    case 7:
+      return MonthName.July;
+    case 8:
+      return MonthName.August;
+    case 9:
+      return MonthName.September;
+    case 10:
+      return MonthName.October;
+    case 11:
+      return MonthName.November;
+    case 0:
+      return MonthName.December;
+    //alaki
+    default:
+      return MonthName.April;
+  }
 }

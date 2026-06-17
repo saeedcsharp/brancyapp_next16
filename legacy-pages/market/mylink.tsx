@@ -25,11 +25,10 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { FeatureType } from "brancy/models/market/enums";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import styles from "./myLink.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   IBusinessHour,
-  IChannel,
   IFeatureBox,
   IFeatureInfo,
   ILiveChannel,
@@ -37,9 +36,9 @@ import {
   ISmartLink,
   IVideoChannel,
   IWorkHourItem,
-} from "brancy/models/market/myLink";
-import styles from "./myLink.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+} from "brancy/models/interfaces";
+import { FeatureType, PartnerRole } from "brancy/models/enums";
+import { IMyLinkChannel } from "brancy/models/interfaces";
 function handleFeatureInfo(mediaLink: IMyLink) {
   var featureArray: IFeatureInfo[] = [];
   if (mediaLink.announcement && mediaLink.announcement.isActive) {
@@ -135,7 +134,7 @@ function workHourCast(params: IWorkHourItem[] | null): IBusinessHour[] | null {
   }
   return workOurs;
 }
-function lastVideCast(params: IChannel | null) {
+function lastVideCast(params: IMyLinkChannel | null) {
   if (!params) return null;
   if (!params.aparatChannel?.video && !params.twitchChannel?.video && !params.youtubeChannel?.video) return null;
   const lastVideo: IVideoChannel = {
@@ -160,7 +159,7 @@ function lastVideCast(params: IChannel | null) {
   };
   return lastVideo;
 }
-function onlineStreamCast(params: IChannel | null) {
+function onlineStreamCast(params: IMyLinkChannel | null) {
   if (!params) return null;
   if (!params.aparatChannel?.live && !params.twitchChannel?.live && !params.youtubeChannel?.live) return null;
   const onlineStream: ILiveChannel = {

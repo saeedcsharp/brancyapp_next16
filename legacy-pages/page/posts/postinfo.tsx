@@ -33,14 +33,18 @@ import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType } from "brancy/helper/api";
-import { MediaProductType } from "brancy/models/messages/enum";
-import { IGetMediaCommentInfo, IMedia } from "brancy/models/messages/IMessage";
-import { IAutomaticReply, IDetailsPost, IInsightPost, IMediaUpdateAutoReply } from "brancy/models/page/post/posts";
-import { MediaType } from "brancy/models/page/post/preposts";
 import styles from "./showPost.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { MediaProductType, MediaType, PartnerRole } from "brancy/models/enums";
+import {
+  IAutomaticReply,
+  IDetailsPost,
+  IGetMediaCommentInfo,
+  IInsightPost,
+  IMedia,
+  IMediaUpdateAutoReply,
+} from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 function convertMillisecondsToTime(ms: number) {
   if (ms <= 0) {

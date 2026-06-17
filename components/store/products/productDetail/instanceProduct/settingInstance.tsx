@@ -7,9 +7,9 @@ import InputText from "brancy/components/design/inputText";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
-import { IProduct_Setting } from "brancy/models/store/IProduct";
-import { GauranteeLength, GauranteeStatus, OrginalityStatus, ParcelPocketDeliveryType } from "brancy/models/store/enum";
 import styles from "./setting.module.css";
+import { IProduct_Setting } from "brancy/models/interfaces";
+import { GauranteeLength, GauranteeStatus, OrginalityStatus, ParcelPocketDeliveryType } from "brancy/models/enums";
 
 function SettingInstance({
   setting,

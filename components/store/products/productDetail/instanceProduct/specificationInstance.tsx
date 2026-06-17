@@ -19,10 +19,10 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import InputText from "brancy/components/design/inputText";
 import { LanguageKey } from "brancy/i18n";
-import { ISpecification } from "brancy/models/store/IProduct";
 import styles from "./specifications.module.css";
+import { IProductSpecification } from "brancy/models/interfaces";
 
-function SortableItem({ item, index }: { item: ISpecification; index: number }) {
+function SortableItem({ item, index }: { item: IProductSpecification; index: number }) {
   const { t } = useTranslation();
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id: index.toString(),
@@ -123,9 +123,9 @@ function SpecificationsInstance({
   upadteCteateFromSpecifications,
   toggleNext,
 }: {
-  specificationInfo: ISpecification[];
+  specificationInfo: IProductSpecification[];
   toggleNext: { toggle: boolean; isNext: boolean };
-  upadteCteateFromSpecifications: (isNext: boolean, specificationInfo: ISpecification[]) => void;
+  upadteCteateFromSpecifications: (isNext: boolean, specificationInfo: IProductSpecification[]) => void;
 }) {
   const { t } = useTranslation();
   const [loading, setLoading] = useState<boolean>(true);

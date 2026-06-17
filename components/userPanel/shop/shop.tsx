@@ -6,12 +6,12 @@ import { LoginStatus } from "brancy/helper/loadingStatus";
 import { calculateSummary } from "brancy/helper/numberFormater";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
-import { IBusiness, IBusinessResponse } from "brancy/models/userPanel/business";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./shop.module.css";
+import { IBusiness, IBusinessResponse } from "brancy/models/interfaces";
 
 const baseMediaUrl = getClientMediaBaseUrl();
 

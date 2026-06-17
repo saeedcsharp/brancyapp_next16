@@ -13,13 +13,13 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 
 // Local types & models
 import { LanguageKey } from "brancy/i18n";
-import { ICreateLiveChat, ICreatePrompt, ILiveChat } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
-import { ItemType } from "brancy/models/messages/enum";
 
 // Styles
 import styles from "./AI_liveChat.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { ItemType } from "brancy/models/enums";
+import { ILiveChat, ICreatePrompt, ICreateLiveChat } from "brancy/models/interfaces";
 
 type ChatState = {
   messages: ILiveChat[];

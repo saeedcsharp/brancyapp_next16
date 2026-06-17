@@ -7,11 +7,12 @@ import { InstaInfoContext } from "brancy/context/instaInfoContext";
 import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
 import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
-import { PushNotif, PushResponseType } from "brancy/models/push/pushNotif";
 import NavbarMobile from "brancy/components/navbar/instagramerNavbar/navbar_mobile";
 import styles from "./navbarheader.module.css";
 import NotificationBar from "brancy/components/navbar/instagramerNavbar/notificationBar";
 import Profile from "brancy/components/navbar/instagramerNavbar/profile";
+import { PushResponseType } from "brancy/models/enums";
+import { PushNotif } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
 
 const NavbarHeader = (props: {

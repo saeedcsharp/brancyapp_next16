@@ -18,14 +18,14 @@ import InsightChart from "brancy/components/page/posts/insightChart";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
+import styles from "./autointeraction.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   ILastPost_Condotion,
   ILastPost_Figure,
-  ILastPost_UpdateCondotion,
   ILikeComment_GetLikeFollowers,
-} from "brancy/models/page/tools/tools";
-import styles from "./autointeraction.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+  ILastPost_UpdateCondotion,
+} from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 const LikeFollowerPost = (props: { removeMask: () => void; data: number; id: string; name: string }) => {
   const { data: session } = useSession();

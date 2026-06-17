@@ -11,10 +11,10 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { specifyLogistic } from "brancy/helper/specifyLogistic";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IFullProduct, IOrderDetail, IParcelInfo } from "brancy/models/store/orders";
 import OrderDetailContent from "brancy/components/store/order/popup/OrderDetail-Content";
 import styles from "./orderstep.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IOrderDetail, IOrderFullProduct, IParcelInfo } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 interface OrderDetailProps {
   removeMask: () => void;
@@ -29,7 +29,7 @@ const OrderDelivered: FC<OrderDetailProps> = ({ removeMask, orderDetail }) => {
   const [loadingFullProduct, setLoadingFullProduct] = useState(false);
   const [loadingRequset, setLoadingRequest] = useState(false);
   const [loaderCount, setLoaderCount] = useState(7);
-  const [fullProduct, setFullProduct] = useState<IFullProduct>();
+  const [fullProduct, setFullProduct] = useState<IOrderFullProduct>();
   const [activeFullProduct, setActiveFullProduct] = useState(false);
   const [parcelInfo, setParcelInfo] = useState<IParcelInfo>();
   const [activeTab, setActiveTab] = useState<"content" | "maincontent">("maincontent");
@@ -70,7 +70,7 @@ const OrderDelivered: FC<OrderDetailProps> = ({ removeMask, orderDetail }) => {
       setActiveFullProduct(true);
       setLoadingFullProduct(true);
       try {
-        const res = await clientFetchApi<IOrderDetail, IFullProduct>("/api/order/GetFullOrder", {
+        const res = await clientFetchApi<IOrderDetail, IOrderFullProduct>("/api/order/GetFullOrder", {
           methodType: MethodType.get,
           session: session,
           data: null,

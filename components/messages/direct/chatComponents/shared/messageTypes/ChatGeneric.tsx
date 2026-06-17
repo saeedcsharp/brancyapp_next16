@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
-import { BaseChatProps } from "brancy/components/messages/direct/chatComponents/types";
 import { ChatDate } from "brancy/components/messages/direct/chatComponents/shared/utils/ChatDate";
 import styles from "./messageTypes.module.css";
+import { BaseChatProps } from "brancy/models/interfaces";
 // #region کامپوننت — تعریف کامپوننت ساده برای پیام‌های غیرقابل‌شناسایی
 export const ChatGeneric: React.FC<BaseChatProps> = React.memo(
   ({ item, direction, dateFormatToggle, toggleDateFormat, formatDate, getMessageDirectionClass }) => {

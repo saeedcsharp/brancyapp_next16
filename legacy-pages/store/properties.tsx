@@ -14,9 +14,9 @@ import { findDayName } from "brancy/helper/findDayName";
 import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { numbToAmAndPmTime } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
-import { BusinessDay, IBusinessHour } from "brancy/models/advertise/peoperties";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import styles from "./properties.module.css";
+import { BusinessDay, PartnerRole } from "brancy/models/enums";
+import { IBusinessHour } from "brancy/models/interfaces";
 
 const MapComponent = dynamic(() => import("brancy/components/mainLeaftlet"), {
   ssr: false,

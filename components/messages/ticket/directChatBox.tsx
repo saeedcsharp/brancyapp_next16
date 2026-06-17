@@ -19,21 +19,21 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType, UploadFile } from "brancy/helper/api";
-import { ItemType, StatusReplied } from "brancy/models/messages/enum";
-import {
-  IItem,
-  IOwnerInbox,
-  IReplyTicket,
-  IReplyTicket_Media,
-  IThread_Ticket,
-  IUploadVoice,
-} from "brancy/models/messages/IMessage";
 import VoiceRecorder from "brancy/components/messages/popups/voiceRecorder";
 import { LeftChatWrapper } from "brancy/components/messages/ticket/chatComponents/LeftChatWrapper";
 import { RightChatWrapper } from "brancy/components/messages/ticket/chatComponents/RightChatWrapper";
 import { TicketPendingMessages } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/TicketPendingMessages";
 import styles from "./ticketChatBox.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import {
+  IDirectMessageItem,
+  IDirectOwnerInbox,
+  IReplyTicket,
+  IReplyTicket_Media,
+  IThread_Ticket,
+  IUploadVoice,
+} from "brancy/models/interfaces";
+import { ItemType, StatusReplied } from "brancy/models/enums";
 //#endregion
 
 //#region تعریف کامپوننت و Props
@@ -43,7 +43,7 @@ const DirectChatBox = (props: {
   chatBox: IThread_Ticket;
   replyItems: IReplyTicket;
   showIcon: string;
-  ownerInbox: IOwnerInbox;
+  ownerInbox: IDirectOwnerInbox;
   replyLoading: boolean;
   showUserList: () => void;
   handleShowIcon: (e: MouseEvent) => void;
@@ -80,7 +80,7 @@ const DirectChatBox = (props: {
   const [backToButton, setBackToButton] = useState<boolean>(true);
   const [showVoiceRecorder, setShowVoiceRecorder] = useState<boolean>(false);
   const [lock, setLock] = useState(false);
-  const [seenItem, setSeenItem] = useState<IItem | null>(null);
+  const [seenItem, setSeenItem] = useState<IDirectMessageItem | null>(null);
   const [editText, setEditText] = useState<{
     ticketId: number;
     index: number;
@@ -112,7 +112,7 @@ const DirectChatBox = (props: {
   //#endregion
 
   //#region تنظیمات Infinite Scroll
-  const { isLoadingMore } = useInfiniteScroll<IItem>({
+  const { isLoadingMore } = useInfiniteScroll<IDirectMessageItem>({
     hasMore: !!props.chatBox.nextMaxId,
     fetchMore: async () => {
       await props.fetchItemData(props.chatBox);
@@ -323,7 +323,7 @@ const DirectChatBox = (props: {
   };
 
   const handleSpecifyRepliedItemFullName = useMemo(
-    () => (itemId: string, repItem: IItem | null) => {
+    () => (itemId: string, repItem: IDirectMessageItem | null) => {
       const item = repItem || props.chatBox.items.find((x) => x.itemId === itemId);
       if (!item) return "";
       return item.sentByOwner ? props.ownerInbox.username!! : props.chatBox.recp.username!!;
@@ -332,7 +332,7 @@ const DirectChatBox = (props: {
   );
 
   const handleSpecifyRepliedItemType = useMemo(
-    () => (repItemId: string, repItem: IItem | null) => {
+    () => (repItemId: string, repItem: IDirectMessageItem | null) => {
       const item = repItem || props.chatBox.items.find((x) => x.itemId === repItemId);
       if (!item) return "";
       return item.itemType === ItemType.Text ? item.text : ItemType[item.itemType];

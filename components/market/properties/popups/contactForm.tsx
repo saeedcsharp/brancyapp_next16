@@ -12,9 +12,9 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { ICantactMap, IUpdateContactMap } from "brancy/models/market/properties";
 import styles from "./featureBoxPU.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { ICantactMap, IUpdateContactMap } from "brancy/models/interfaces";
 
 const OpenStreetMap = dynamic(() => import("brancy/components/mainLeaftlet"), {
   ssr: false,

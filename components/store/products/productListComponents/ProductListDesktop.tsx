@@ -7,10 +7,10 @@ import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { AvailabilityStatus } from "brancy/models/store/enum";
-import { IProduct_ShortProduct } from "brancy/models/store/IProduct";
 import styles from "./productListDesktop.module.css";
 import { hashProductId } from "brancy/helper/hashProductId";
+import { IProduct_ShortProduct } from "brancy/models/interfaces";
+import { AvailabilityStatus } from "brancy/models/enums";
 
 interface ProductListDesktopProps {
   products: IProduct_ShortProduct[];

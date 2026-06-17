@@ -1,14 +1,10 @@
 import { ApexOptions } from "apexcharts";
+import { chartxType } from "brancy/models/enums";
+import { DayCountUnix, HourCountUnix, IMonthGraph } from "brancy/models/interfaces";
 import dynamic from "next/dynamic";
 import { renderToStaticMarkup } from "react-dom/server";
 // import styles from "brancy/components/advertise/statistics/statistics.module.css";
 
-import {
-  DayCountUnix,
-  HourCountUnix,
-  IMonthGraph,
-  chartxType,
-} from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 export const LineChart = (props: {

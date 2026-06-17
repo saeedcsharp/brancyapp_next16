@@ -10,16 +10,11 @@ import { getEnumValue } from "brancy/helper/handleItemTypeEnum";
 import { RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType } from "brancy/helper/api";
-import {
-  FailLotteryStatus,
-  FailLotteryStatusStr,
-  IShortLotteriesInfo,
-  LotteryStatus,
-} from "brancy/models/page/tools/tools";
 import styles from "./winnerPicker.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { LotteryStatus, PartnerRole, FailLotteryStatus, FailLotteryStatusStr } from "brancy/models/enums";
+import { IShortLotteriesInfo } from "brancy/models/interfaces";
 
 const WinnerPicker = (props: {
   handleShowWinnerPickerPopup: (e: MouseEvent) => void;

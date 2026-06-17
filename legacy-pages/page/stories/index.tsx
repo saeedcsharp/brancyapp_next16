@@ -13,10 +13,9 @@ import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IStoryDraft } from "brancy/models/page/story/preStories";
-import { IStory, IStoryContent } from "brancy/models/page/story/stories";
-import { PushNotif, PushResponseType } from "brancy/models/push/pushNotif";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IStory, IStoryContent, IStoryDraft, PushNotif } from "brancy/models/interfaces";
+import { PushResponseType } from "brancy/models/enums";
 
 type StoryAction =
   | { type: "SET_STORY"; payload: IStory }

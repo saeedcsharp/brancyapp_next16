@@ -10,9 +10,9 @@ import Filter from "brancy/components/market/home/filter";
 import Store from "brancy/components/market/home/Store";
 import { packageStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { MarketType, SelectedMarketType } from "brancy/models/market/enums";
-import { IMarketInfo } from "brancy/models/market/home";
 import styles from "./home.module.css";
+import { IMarketInfo } from "brancy/models/interfaces";
+import { SelectedMarketType, MarketType } from "brancy/models/enums";
 
 const MarketHome = () => {
   //  return <Soon />;

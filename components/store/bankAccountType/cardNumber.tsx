@@ -5,9 +5,9 @@ import RingLoader from "brancy/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { InputTypeAddress } from "brancy/models/userPanel/orders";
 import styles from "./bankAccountType.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { InputTypeAddress } from "brancy/models/enums";
 export default function CardNumber({
   handleShowAddress,
 }: {

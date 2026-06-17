@@ -12,7 +12,7 @@ import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFo
 import { InstaInfoContext } from "brancy/context/instaInfoContext";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { IBusiness, IFavoriteBusiness } from "brancy/models/userPanel/business";
+import { IBusiness, IFavoriteBusiness } from "brancy/models/interfaces";
 
 import { useSession } from "next-auth/react";
 import Link from "next/link";

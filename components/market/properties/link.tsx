@@ -22,8 +22,8 @@ import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import Loading from "brancy/components/notOk/loading";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
-import { ILink, IUpdateOrderLink } from "brancy/models/market/properties";
 import styles from "./link.module.css";
+import { ILink, IUpdateOrderLink } from "brancy/models/interfaces";
 
 const baseMediaUrl = getClientMediaBaseUrl();
 

@@ -11,8 +11,8 @@ import RadioButton from "brancy/components/design/radioButton";
 import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { IDiscount_ForClient } from "brancy/models/store/IProduct";
 import styles from "brancy/components/store/products/productDetail/notInstanceProduct/popups/discount.module.css";
+import { IDiscount_ForClient } from "brancy/models/interfaces";
 
 const Discount = (props: {
   data: IDiscount_ForClient;

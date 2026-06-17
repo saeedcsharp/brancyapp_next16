@@ -23,16 +23,20 @@ import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { PushNotif, PushResponseType } from "brancy/models/push/pushNotif";
-import { OrderStep, OrderStepStatus, ShippingRequestType } from "brancy/models/store/enum";
-import { IOrderByStatus, IOrderByStatusItem, IOrderDetail, IOrderPushNotifExtended } from "brancy/models/store/orders";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import "swiper/css";
 import "swiper/css/free-mode";
 import { FreeMode } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "./ordernew.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { OrderStep, OrderStepStatus, PartnerRole, PushResponseType, ShippingRequestType } from "brancy/models/enums";
+import {
+  IOrderDetail,
+  IOrderByStatus,
+  IOrderByStatusItem,
+  PushNotif,
+  IOrderPushNotifExtended,
+} from "brancy/models/interfaces";
 
 const Orders = () => {
   //  return <Soon />;
