@@ -685,3 +685,104 @@ html[dir="rtl"] .backicon {
   width: 100%;
   aspect-ratio: 1/1;
 }
+
+.answercontainer {
+  position: relative;
+  width: 100%;
+  display: flex;
+  align-items: center;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  height: max-content;
+  gap: var(--gap-5);
+  border: 1px solid var(--color-gray60);
+  border-radius: var(--br25);
+  padding: var(--padding-3) var(--padding-5);
+}
+.answeruploadbtn {
+  margin-inline: 5px;
+  width: 24px;
+  height: 24px;
+  padding: var(--padding-1);
+  stroke-width: 2px;
+  stroke: var(--color-gray);
+  transition: var(--transition2);
+  cursor: pointer;
+}
+.answeruploadbtn:hover {
+  stroke: var(--color-dark-blue);
+}
+.Emojiuploadbtn {
+  margin-inline: 5px;
+  width: 24px;
+  height: 24px;
+  padding: var(--padding-1);
+  stroke-width: 2px;
+  stroke: var(--color-gray);
+  transition: var(--transition2);
+  animation: var(--fadeIn2);
+  cursor: pointer;
+  @media (max-width: 500px) {
+    display: none !important;
+  }
+}
+.Emojiuploadbtn:hover {
+  stroke: var(--color-dark-blue);
+}
+.answersendbtn {
+  width: 36px;
+  height: 36px;
+  cursor: pointer;
+}
+/* ---- Textarea + Emoji Picker ---- */
+.textareaWrapper {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  min-width: 0;
+}
+
+.chatTextarea {
+  flex: 1;
+  resize: none;
+  border: none;
+  background: transparent;
+  outline: none;
+  font-size: 16px;
+  line-height: 1.4;
+  min-height: 22px;
+  max-height: 120px; /* ~5 lines: 5 × 1.4 × 16px + padding */
+  overflow-y: auto;
+  color: var(--text-h1);
+  padding: 4px 2px;
+  font-family: inherit;
+}
+
+.chatTextarea::placeholder {
+  color: var(--text-h2);
+}
+
+.emojiPickerPopup {
+  position: absolute;
+  bottom: calc(100% + 10px);
+  right: 0;
+  z-index: 9999;
+
+  transition: var(--transition3);
+  animation: var(--bottom08);
+  overflow: hidden;
+  @media (max-width: 500px) {
+    display: none !important;
+  }
+}
+.emojiPickerPopup :global(aside.EmojiPickerReact) {
+  --epr-emoji-size: 20px;
+  --epr-category-navigation-button-size: 20px;
+  --epr-category-icon-active-color: #2977ff;
+  --epr-category-label-height: 25px;
+}
+.emojiPickerPopup :global(.epr-emoji-category-label) {
+  font-size: 12px !important;
+  font-weight: var(--weight-400) !important;
+}
