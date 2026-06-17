@@ -465,6 +465,8 @@ const AIPromptBox = ({
                         value={detailedPrompt.promptStr}
                         role={""}
                         title={""}
+                        autoExpandOnFocus
+                        initialHeight={120}
                       />
                       {tools.length > 0 && (
                         <div className={styles.toolsList} role="list" aria-label="Added tools">

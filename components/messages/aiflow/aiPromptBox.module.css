@@ -5,8 +5,11 @@
   gap: var(--gap-30);
   width: 100%;
   height: 100%;
-  align-items: flex-start;
+  align-items: stretch;
   overflow-y: auto;
+  overflow-x: hidden;
+  flex-wrap: nowrap;
+  min-width: 0;
 }
 html[dir="rtl"] .aiPromptContainer {
   flex-direction: row-reverse;
@@ -21,6 +24,11 @@ html[dir="rtl"] .aiPromptContainer {
   justify-content: space-between;
   transition: var(--transition3);
   animation: var(--top04);
+  flex: 1 1 auto;
+  min-width: 0;
+  max-width: calc(100% - 360px);
+  overflow-x: hidden;
+  overflow-y: auto;
   @media (max-width: 1024px) {
     max-height: calc(100% - 20px);
   }
@@ -69,8 +77,14 @@ html[dir="rtl"] .headerprompt {
   flex-direction: column;
   transition: var(--transition3);
   animation: var(--top04);
+  flex: 0 0 360px;
+  max-width: 420px;
+  min-width: 280px;
+  box-sizing: border-box;
   @media (max-width: 1024px) {
     max-height: calc(100% - 20px);
+    flex: 1 1 auto;
+    width: 100%;
   }
 }
 .reanalize {
@@ -107,13 +121,16 @@ html[dir="rtl"] .headerprompt {
   flex-direction: column;
   align-items: center;
   height: 100%;
-  max-height: 200px;
-  min-height: 200px;
+  max-height: 100%;
+  min-height: 160px;
   justify-content: center;
   background-color: var(--color-gray30);
   transition: var(--transition3);
   animation: var(--fadeIn4);
   border-radius: var(--br15);
+  padding: var(--padding-10);
+  overflow-y: auto;
+  box-sizing: border-box;
   @media (max-width: 600px) {
     max-height: 160px;
     min-height: 160px;
@@ -124,13 +141,16 @@ html[dir="rtl"] .headerprompt {
   flex-direction: column;
   align-items: center;
   height: 100%;
-  max-height: 200px;
+  max-height: 100%;
   transition: var(--transition3);
   animation: var(--fadeIn4);
-  min-height: 200px;
+  min-height: 160px;
   justify-content: center;
   background-color: var(--color-gray30);
   border-radius: var(--br15);
+  padding: var(--padding-10);
+  overflow-y: auto;
+  box-sizing: border-box;
   @media (max-width: 600px) {
     max-height: 160px;
     min-height: 160px;
@@ -142,8 +162,8 @@ html[dir="rtl"] .headerprompt {
   align-items: flex-start;
   height: 100%;
   animation: var(--fadeIn4);
-  max-height: 200px;
-  min-height: 200px;
+  max-height: 160px;
+  min-height: 120px;
   justify-content: flex-start;
   background-color: var(--color-gray10);
   border: 1px solid var(--color-gray60);
@@ -153,6 +173,7 @@ html[dir="rtl"] .headerprompt {
   padding: var(--padding-10);
   overflow-y: auto;
   overflow-x: hidden;
+  box-sizing: border-box;
   @media (max-width: 600px) {
     max-height: 160px;
     min-height: 160px;
@@ -233,7 +254,7 @@ html[dir="rtl"] .backicon {
   flex-wrap: wrap;
   padding: 6px 10px;
   border-radius: 8px;
-  background: var(--color-bg-secondary, rgba(0,0,0,0.05));
+  background: var(--color-bg-secondary, rgba(0, 0, 0, 0.05));
   font-size: 12px;
 }
 
@@ -244,7 +265,7 @@ html[dir="rtl"] .backicon {
 
 .toolsItemParam {
   color: var(--text-h2);
-  background: var(--color-bg-primary, rgba(0,0,0,0.06));
+  background: var(--color-bg-primary, rgba(0, 0, 0, 0.06));
   border-radius: 4px;
   padding: 2px 6px;
   font-size: 11px;
@@ -265,4 +286,29 @@ html[dir="rtl"] .backicon {
 
 .toolsItemRemove:hover {
   background: rgba(229, 62, 62, 0.12);
+}
+
+@media (max-width: 1440px) {
+  .aiPromptContainer {
+    flex-direction: column;
+    align-items: stretch;
+    gap: var(--gap-16);
+    flex-wrap: wrap;
+  }
+
+  .AIgeneral {
+    max-width: none;
+    width: 100%;
+    flex: 1 1 auto;
+    min-width: 0;
+    overflow: visible;
+  }
+
+  .AIlab {
+    flex: 1 1 auto;
+    width: 100%;
+    max-width: none;
+    min-width: 0;
+    box-sizing: border-box;
+  }
 }

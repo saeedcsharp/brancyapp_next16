@@ -1,4 +1,4 @@
-import { ChangeEvent, CSSProperties, KeyboardEvent, memo, useMemo } from "react";
+import { ChangeEvent, CSSProperties, KeyboardEvent, memo, useMemo, useRef, useEffect, useCallback } from "react";
 import { isRTL } from "brancy/helper/checkRtl";
 import styles from "./textArea.module.css";
 
@@ -22,6 +22,10 @@ interface TextAreaProps {
   required?: boolean;
   invalid?: boolean;
   dangerOnEmpty?: boolean;
+  /** When true, textarea will expand while focused to fit content and collapse back on blur */
+  autoExpandOnFocus?: boolean;
+  /** Initial height in pixels when not expanded or when collapsed on blur */
+  initialHeight?: number;
 }
 
 function TextArea(props: TextAreaProps) {
@@ -70,6 +74,31 @@ function TextArea(props: TextAreaProps) {
     [style, isPlaceholderRTL],
   );
 
+  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const initialH = props.initialHeight ?? 180;
+
+  const adjustHeight = useCallback(() => {
+    const el = textareaRef.current;
+    if (!el) return;
+    el.style.height = "auto";
+    const newH = Math.max(initialH, el.scrollHeight);
+    el.style.height = `${newH}px`;
+  }, [initialH]);
+
+  useEffect(() => {
+    const el = textareaRef.current;
+    if (!el) return;
+    // set initial height
+    if (!props.autoExpandOnFocus) {
+      el.style.height = `${initialH}px`;
+    } else {
+      // ensure at least initial height
+      el.style.minHeight = `${initialH}px`;
+      // when not focused, keep initial height
+      if (document.activeElement !== el) el.style.height = `${initialH}px`;
+    }
+  }, [initialH, props.autoExpandOnFocus]);
+
   const handleKeyDownInternal = (e: KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === "Escape") {
       e.currentTarget.blur();
@@ -77,7 +106,14 @@ function TextArea(props: TextAreaProps) {
     handleKeyDown?.(e);
   };
 
-  const handleChange = fadeTextArea ? undefined : handleInputChange;
+  const handleChange = fadeTextArea
+    ? undefined
+    : (e: ChangeEvent<HTMLTextAreaElement>) => {
+        handleInputChange?.(e);
+        if (props.autoExpandOnFocus && document.activeElement === textareaRef.current) {
+          adjustHeight();
+        }
+      };
 
   const ariaLabel = title || placeHolder || "Text area input";
 
@@ -93,9 +129,21 @@ function TextArea(props: TextAreaProps) {
       maxLength={maxLength}
       onChange={handleChange}
       onKeyDown={handleKeyDownInternal}
-      onFocus={handleInputonFocus}
-      onBlur={handleInputBlur}
+      onFocus={(e) => {
+        handleInputonFocus?.();
+        if (props.autoExpandOnFocus) {
+          // expand to fit content
+          adjustHeight();
+        }
+      }}
+      onBlur={(e) => {
+        handleInputBlur?.();
+        if (props.autoExpandOnFocus && textareaRef.current) {
+          textareaRef.current.style.height = `${initialH}px`;
+        }
+      }}
       placeholder={placeHolder}
+      ref={textareaRef}
       className={`${styles[className]} ${dangerOnEmpty && isEmpty ? (styles[`${className}danger`] ?? "") : ""} ${isValueRTL ? "rtl" : "ltr"} ${fadeTextArea ? "fadeDiv" : ""}`}
       value={value}
       readOnly={readOnly}
