@@ -1557,6 +1557,7 @@ export interface ReplyStory {
 }
 
 export interface IRecp {
+  isActive: any;
   name: string | null;
   profilePic: string;
   followerCount: number;

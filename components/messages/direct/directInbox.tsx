@@ -1796,8 +1796,9 @@ const DirectInbox = () => {
                         className={
                           v.threadId === userSelectedId ? styles.selectedUserbackground : styles.userbackground
                         }>
-                        <div className={styles.user} style={!v.isActive ? { opacity: "0.3" } : {}}>
+                        <div className={styles.user}>
                           <img
+                            style={!v.isActive ? { opacity: "0.3", filter: "grayscale(100%)" } : {}}
                             decoding="async"
                             loading="lazy"
                             draggable={false}
@@ -1979,8 +1980,9 @@ const DirectInbox = () => {
                         className={
                           v.threadId === userSelectedId ? styles.selectedUserbackground : styles.userbackground
                         }>
-                        <div className={styles.user} style={!v.isActive ? { opacity: "0.3" } : {}}>
+                        <div className={styles.user}>
                           <img
+                            style={!v.isActive ? { opacity: "0.3", filter: "grayscale(100%)" } : {}}
                             decoding="async"
                             loading="lazy"
                             draggable={false}
@@ -2186,8 +2188,9 @@ const DirectInbox = () => {
                             className={
                               v.threadId === userSelectedId ? styles.selectedUserbackground : styles.userbackground
                             }>
-                            <div className={styles.user} style={!v.isActive ? { opacity: "0.3" } : {}}>
+                            <div className={styles.user}>
                               <img
+                                style={!v.isActive ? { opacity: "0.3", filter: "grayscale(100%)" } : {}}
                                 decoding="async"
                                 loading="lazy"
                                 draggable={false}
@@ -2305,8 +2308,9 @@ const DirectInbox = () => {
                             className={
                               v.threadId === userSelectedId ? styles.selectedUserbackground : styles.userbackground
                             }>
-                            <div className={styles.user} style={!v.isActive ? { opacity: "0.3" } : {}}>
+                            <div className={styles.user}>
                               <img
+                                style={!v.isActive ? { opacity: "0.3", filter: "grayscale(100%)" } : {}}
                                 decoding="async"
                                 loading="lazy"
                                 draggable={false}
@@ -2367,8 +2371,9 @@ const DirectInbox = () => {
                             className={
                               v.threadId === userSelectedId ? styles.selectedUserbackground : styles.userbackground
                             }>
-                            <div className={styles.user} style={!v.isActive ? { opacity: "0.3" } : {}}>
+                            <div className={styles.user}>
                               <img
+                                style={!v.isActive ? { opacity: "0.3", filter: "grayscale(100%)" } : {}}
                                 decoding="async"
                                 loading="lazy"
                                 draggable={false}
@@ -2520,8 +2525,9 @@ const DirectInbox = () => {
                             className={
                               v.threadId === userSelectedId ? styles.selectedUserbackground : styles.userbackground
                             }>
-                            <div key={v.threadId} className={styles.user} style={!v.isActive ? { opacity: "0.3" } : {}}>
+                            <div key={v.threadId} className={styles.user}>
                               <img
+                                style={!v.isActive ? { opacity: "0.3", filter: "grayscale(100%)" } : {}}
                                 decoding="async"
                                 loading="lazy"
                                 draggable={false}

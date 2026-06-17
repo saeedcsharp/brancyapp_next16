@@ -504,6 +504,11 @@ const DirectChatBox = memo(
             <div className="instagramprofiledetail">
               <div className="instagramusername">{props.chatBox.recp.name || ""}</div>
               <div className="instagramid">@{props.chatBox.recp.username}</div>
+              {!props.chatBox.recp.isActive && (
+                <span className="IDgray" title="ℹ️ Inactive user">
+                  {t(LanguageKey.deactive)}
+                </span>
+              )}
             </div>
           </div>
         </header>
