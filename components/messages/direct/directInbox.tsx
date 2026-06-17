@@ -27,6 +27,7 @@ import { MediaModal, useMediaModal } from "brancy/components/messages/shared/uti
 import DirectChatBox from "brancy/components/messages/direct/directChatBox";
 import styles from "./directInbox.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { draftKey, getDraftPreview } from "brancy/helper/draftStorage";
 import { PartnerRole, ItemType, MediaType, MessageCategoryType } from "brancy/models/enums";
 import {
   IInbox,
@@ -1813,17 +1814,28 @@ const DirectInbox = () => {
                             <div className={styles.username} title={v.recp.name ? v.recp.name : ""}>
                               {v.recp.username}
                             </div>
-                            <div
-                              className={getMessageDirectionClass(
+                            {(() => {
+                              const draftPreview =
+                                (typeof window !== "undefined" && getDraftPreview(draftKey(v.threadId))) || null;
+                              const lastText =
                                 v.items.length > 0
                                   ? handleLastMessage(v.items.sort((a, b) => b.createdTime - a.createdTime)[0])
-                                  : "",
-                                styles.messagetext,
-                              )}>
-                              {v.items.length > 0
-                                ? handleLastMessage(v.items.sort((a, b) => b.createdTime - a.createdTime)[0])
-                                : ""}
-                            </div>
+                                  : "";
+                              return (
+                                <div
+                                  className={getMessageDirectionClass(lastText, styles.messagetext)}
+                                  title={draftPreview || lastText}>
+                                  {draftPreview ? (
+                                    <>
+                                      <span className="IDpurple">{t(LanguageKey.product_draft)}</span>
+                                      {draftPreview}
+                                    </>
+                                  ) : (
+                                    lastText
+                                  )}
+                                </div>
+                              );
+                            })()}
                           </div>
                           <div className={styles.notifbox} title="ℹ️ Slide to more">
                             <div className={styles.settingbox}>

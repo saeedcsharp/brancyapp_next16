@@ -31,6 +31,7 @@ import { MediaModal, useMediaModal } from "brancy/components/messages/shared/uti
 import DirectChatBox from "brancy/components/messages/ticket/directChatBox";
 import SystemChatBox from "brancy/components/messages/ticket/systemChatBox";
 import styles from "./ticketInbox.module.css";
+import { getDraft, draftKey, getDraftPreview } from "../../../helper/draftStorage";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { ItemType, ITicketMediaType, MediaType, PartnerRole, StatusReplied, TicketType } from "brancy/models/enums";
 import {
@@ -1721,9 +1722,23 @@ const TicketInbox = () => {
                               @{v.recp.username}
                             </div>
 
-                            <div className={styles.messagetext} title={v.subject}>
-                              {v.subject}
-                            </div>
+                            {(() => {
+                              const draftPreview =
+                                (typeof window !== "undefined" && getDraftPreview(draftKey(v.ticketId))) || null;
+                              const text = v.items?.[0]?.text || v.subject;
+                              return (
+                                <div className={styles.messagetext} title={draftPreview || text}>
+                                  {draftPreview ? (
+                                    <>
+                                      <span className="IDpurple">{t(LanguageKey.product_draft)}</span>
+                                      {draftPreview}
+                                    </>
+                                  ) : (
+                                    text
+                                  )}
+                                </div>
+                              );
+                            })()}
                             <div className={styles.ticketdetails}>
                               <div className={styles.closed}>
                                 {(v.status === StatusReplied.InstagramerClosed ||
@@ -2056,7 +2071,23 @@ const TicketInbox = () => {
                                 <div className={styles.username} title={v.username ? v.username : ""}>
                                   {v.username}
                                 </div>
-                                <div className={styles.messagetext}>{v.items[0].text}</div>
+                                {(() => {
+                                  const draftPreview =
+                                    (typeof window !== "undefined" && getDraftPreview(draftKey(v.ticketId))) || null;
+                                  const text = v.items?.[0]?.text || v.subject;
+                                  return (
+                                    <div className={styles.messagetext} title={draftPreview || text}>
+                                      {draftPreview ? (
+                                        <>
+                                          <span className="IDpurple">{t(LanguageKey.product_draft)}</span>
+                                          {draftPreview}
+                                        </>
+                                      ) : (
+                                        text
+                                      )}
+                                    </div>
+                                  );
+                                })()}
                               </div>
                               <div className={styles.notifbox} title="ℹ️ Slide to more">
                                 {/* <div className={styles.new}>{v.unSeenCount}</div> */}
@@ -2327,7 +2358,23 @@ const TicketInbox = () => {
                                   <div className={styles.username} title={v.recp.username}>
                                     {v.recp.username}
                                   </div>
-                                  <div className={styles.messagetext}>{v.items[0].text}</div>
+                                  {(() => {
+                                    const draftPreview =
+                                      (typeof window !== "undefined" && getDraftPreview(draftKey(v.ticketId))) || null;
+                                    const text = v.items?.[0]?.text || v.subject;
+                                    return (
+                                      <div className={styles.messagetext} title={draftPreview || text}>
+                                        {draftPreview ? (
+                                          <>
+                                            <span className="IDpurple">{t(LanguageKey.product_draft)}</span>
+                                            {draftPreview}
+                                          </>
+                                        ) : (
+                                          text
+                                        )}
+                                      </div>
+                                    );
+                                  })()}
                                 </div>
                                 <div className={styles.notifbox} title="ℹ️ Slide to more">
                                   {handleSpecifyUnread(v)}
@@ -2419,7 +2466,23 @@ const TicketInbox = () => {
                                 <div className={styles.username} title={v.username ? v.username : v.phoneNumber}>
                                   {v.username ? v.username : v.phoneNumber}
                                 </div>
-                                <div className={styles.messagetext}>{v.items[0].text}</div>
+                                {(() => {
+                                  const draftPreview =
+                                    (typeof window !== "undefined" && getDraftPreview(draftKey(v.ticketId))) || null;
+                                  const text = v.items?.[0]?.text || v.subject;
+                                  return (
+                                    <div className={styles.messagetext} title={draftPreview || text}>
+                                      {draftPreview ? (
+                                        <>
+                                          <span className="IDpurple">{t(LanguageKey.product_draft)}</span>
+                                          {draftPreview}
+                                        </>
+                                      ) : (
+                                        text
+                                      )}
+                                    </div>
+                                  );
+                                })()}
                               </div>
                               <div className={styles.notifbox} title="ℹ️ Slide to more">
                                 {handleSpecifySystemUnread(v)}

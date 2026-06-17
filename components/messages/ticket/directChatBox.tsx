@@ -34,6 +34,7 @@ import {
   IUploadVoice,
 } from "brancy/models/interfaces";
 import { ItemType, StatusReplied } from "brancy/models/enums";
+import { setDraft, getDraft, removeDraft, draftKey } from "../../../helper/draftStorage";
 //#endregion
 
 //#region تعریف کامپوننت و Props
@@ -444,6 +445,25 @@ const DirectChatBox = (props: {
     textarea.style.height = "auto";
     textarea.style.height = `${textarea.scrollHeight}px`;
   }, [answerBox]);
+  // localStorage-based draft storage
+  useEffect(() => {
+    if (!props.chatBox) return;
+    const key = draftKey(props.chatBox.ticketId);
+    const draft = getDraft(key);
+    if (draft) setAnswerBox(draft.text);
+  }, [props.chatBox?.ticketId]);
+  useEffect(() => {
+    if (!props.chatBox) return;
+    const key = draftKey(props.chatBox.ticketId);
+    const t = setTimeout(() => {
+      if (answerBox?.trim()) {
+        setDraft(key, answerBox);
+      } else {
+        removeDraft(key);
+      }
+    }, 800);
+    return () => clearTimeout(t);
+  }, [answerBox, props.chatBox?.ticketId]);
 
   //#endregion
 
@@ -569,8 +589,7 @@ const DirectChatBox = (props: {
       <>
         {!showVoiceRecorder && (
           <>
-            {/* {props.chatBox.isActive && */}
-            {!props.chatBox.isActive &&
+            {props.chatBox.isActive &&
               (props.chatBox.status === StatusReplied.JustCreated ||
                 props.chatBox.status === StatusReplied.UserReplied) && (
                 <>
@@ -669,8 +688,7 @@ const DirectChatBox = (props: {
                 <div className={styles.blockeduserbtn}>{t(LanguageKey.waitingforuserresponse)}</div>
               </div>
             )}
-            {/* {!props.chatBox.isActive && */}
-            {props.chatBox.isActive &&
+            {!props.chatBox.isActive &&
               props.chatBox.status !== StatusReplied.InstagramerClosed &&
               props.chatBox.status !== StatusReplied.UserClosed && (
                 <div className={styles.blockeduser}>

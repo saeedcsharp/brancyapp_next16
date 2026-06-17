@@ -9,6 +9,7 @@ import { ChangeEvent, memo, useCallback, useEffect, useMemo, useRef, useState } 
 import type { EmojiClickData } from "emoji-picker-react";
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 import { DateObject } from "react-multi-date-picker";
+import { draftKey, getDraft, setDraft, removeDraft } from "brancy/helper/draftStorage";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import {
   internalNotify,
@@ -85,6 +86,27 @@ const DirectChatBox = memo(
     const prevUserSelectIdRef = useRef<string | null>(null);
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
     const emojiPickerContainerRef = useRef<HTMLDivElement | null>(null);
+    // load draft for this thread when selected
+    useEffect(() => {
+      if (!props.chatBox) return;
+      const key = draftKey(props.chatBox.threadId);
+      const draft = getDraft(key);
+      if (draft) setAnswerBox(draft.text);
+    }, [props.chatBox?.threadId]);
+
+    // save draft to localStorage with debounce
+    useEffect(() => {
+      if (!props.chatBox) return;
+      const key = draftKey(props.chatBox.threadId);
+      const t = setTimeout(() => {
+        if (answerBox?.trim()) {
+          setDraft(key, answerBox);
+        } else {
+          removeDraft(key);
+        }
+      }, 800);
+      return () => clearTimeout(t);
+    }, [answerBox, props.chatBox?.threadId]);
     //#endregion
 
     //#region توابع فرمت‌دهی تاریخ
