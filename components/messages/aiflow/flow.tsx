@@ -527,11 +527,11 @@ const getNodeTypeTranslationKey = (nodeType: string): LanguageKey => {
  */
 const getBezierPath = (start: Position, end: Position): string => {
   const dx = end.x - start.x;
-  const dy = end.y - start.y;
   const controlPointOffset = Math.abs(dx) / 2;
-  return `M ${start.x} ${start.y} C ${start.x + controlPointOffset} ${start.y}, ${end.x - controlPointOffset} ${
-    end.y
-  }, ${end.x} ${end.y}`;
+  const fmt = (n: number) => n.toFixed(0);
+  return `M ${fmt(start.x)} ${fmt(start.y)} C ${fmt(start.x + controlPointOffset)} ${fmt(start.y)}, ${fmt(
+    end.x - controlPointOffset,
+  )} ${fmt(end.y)}, ${fmt(end.x)} ${fmt(end.y)}`;
 };
 
 /**

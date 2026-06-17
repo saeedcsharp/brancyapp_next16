@@ -33,7 +33,7 @@ import CommentStatistics from "brancy/components/messages/popups/commentStatisti
 import EditAutoReplyForMedia from "brancy/components/messages/popups/editAutoReplyForMedia";
 import CommentChatBox from "brancy/components/messages/comment/commentChatBox";
 import chatBoxStyles from "./commentChatBox.module.css";
-import styles from "brancy/components/messages/comment/commentInbox.module.css";
+import styles from "./commentInbox.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { PartnerRole, CommentType, MediaProductType, ActionType, ItemType } from "brancy/models/enums";
 import {

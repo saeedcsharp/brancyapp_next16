@@ -17,8 +17,8 @@
 }
 .Toastify__close-button {
   position: relative !important;
-  top: 0px;
-  right: 0px;
+  top: 0px !important;
+  right: 0px !important;
   background: transparent;
   outline: none;
   border: none;

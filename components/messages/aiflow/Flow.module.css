@@ -148,11 +148,13 @@
   padding: 4px !important;
   border-block: var(--r) solid rgba(0, 0, 0, 0);
   border-radius: var(--r) 0 0 var(--r) / calc(2 * var(--r));
-  -webkit-mask: radial-gradient(var(--r) at 0 var(--r), rgba(0, 0, 0, 0) 98%, #000 101%) 100% calc(-1 * var(--r)) /
-      var(--r) 100% repeat-y,
+  -webkit-mask:
+    radial-gradient(var(--r) at 0 var(--r), rgba(0, 0, 0, 0) 98%, #000 101%) 100% calc(-1 * var(--r)) / var(--r) 100%
+      repeat-y,
     conic-gradient(#000 0 0) padding-box;
-  mask: radial-gradient(var(--r) at 0 var(--r), rgba(0, 0, 0, 0) 98%, #000 101%) 100% calc(-1 * var(--r)) / var(--r)
-      100% repeat-y,
+  mask:
+    radial-gradient(var(--r) at 0 var(--r), rgba(0, 0, 0, 0) 98%, #000 101%) 100% calc(-1 * var(--r)) / var(--r) 100%
+      repeat-y,
     conic-gradient(#000 0 0) padding-box;
   background: #4e535b border-box;
   width: -moz-fit-content;
@@ -185,11 +187,13 @@
   padding: 4px !important;
   border-block: var(--r) solid rgba(0, 0, 0, 0) !important;
   border-radius: 0 var(--r) var(--r) 0 / calc(2 * var(--r)) !important;
-  -webkit-mask: radial-gradient(var(--r) at 100% var(--r), rgba(0, 0, 0, 0) 98%, #000 101%) 0 calc(-1 * var(--r)) /
-      var(--r) 100% repeat-y,
+  -webkit-mask:
+    radial-gradient(var(--r) at 100% var(--r), rgba(0, 0, 0, 0) 98%, #000 101%) 0 calc(-1 * var(--r)) / var(--r) 100%
+      repeat-y,
     conic-gradient(#000 0 0) padding-box !important;
-  mask: radial-gradient(var(--r) at 100% var(--r), rgba(0, 0, 0, 0) 98%, #000 101%) 0 calc(-1 * var(--r)) / var(--r)
-      100% repeat-y,
+  mask:
+    radial-gradient(var(--r) at 100% var(--r), rgba(0, 0, 0, 0) 98%, #000 101%) 0 calc(-1 * var(--r)) / var(--r) 100%
+      repeat-y,
     conic-gradient(#000 0 0) padding-box !important;
   background: #4e535b border-box !important;
   width: -moz-fit-content !important;
@@ -247,11 +251,13 @@
   padding: 4px !important;
   border-block: var(--r) solid rgba(0, 0, 0, 0) !important;
   border-radius: 0 var(--r) var(--r) 0 / calc(2 * var(--r)) !important;
-  -webkit-mask: radial-gradient(var(--r) at 100% var(--r), rgba(0, 0, 0, 0) 98%, #000 101%) 0 calc(-1 * var(--r)) /
-      var(--r) 100% repeat-y,
+  -webkit-mask:
+    radial-gradient(var(--r) at 100% var(--r), rgba(0, 0, 0, 0) 98%, #000 101%) 0 calc(-1 * var(--r)) / var(--r) 100%
+      repeat-y,
     conic-gradient(#000 0 0) padding-box !important;
-  mask: radial-gradient(var(--r) at 100% var(--r), rgba(0, 0, 0, 0) 98%, #000 101%) 0 calc(-1 * var(--r)) / var(--r)
-      100% repeat-y,
+  mask:
+    radial-gradient(var(--r) at 100% var(--r), rgba(0, 0, 0, 0) 98%, #000 101%) 0 calc(-1 * var(--r)) / var(--r) 100%
+      repeat-y,
     conic-gradient(#000 0 0) padding-box !important;
   background: #4e535b border-box !important;
   width: -moz-fit-content !important;
