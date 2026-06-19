@@ -219,7 +219,10 @@ const StoryContent = (props: {
       return (
         <div className={styles.draftpreview} key={key} title={`🔗 Draft No.${index + 1}`}>
           <Link
-            href={`/page/stories/createstory?newschedulestory=false&draftId=${draft.draftId}`}
+            href={{
+              pathname: "/page/stories/createstory",
+              query: { newschedulestory: "false", draftId: String(draft.draftId) },
+            }}
             aria-label={`Edit draft ${draft.draftId}`}
             tabIndex={0}>
             <div style={draftItemStyle}>

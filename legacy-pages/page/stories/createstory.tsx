@@ -231,6 +231,12 @@ const CreateStory = () => {
       setAnalizeProcessing(false);
       try {
         if (typeof window !== "undefined") {
+          try {
+            localStorage.setItem(
+              "brancy:refreshStories",
+              JSON.stringify({ action: isDraft ? "draftSaved" : "storyChanged", ts: Date.now() }),
+            );
+          } catch (e) {}
           (window as any).dispatchEvent(
             new CustomEvent("brancy:refreshStories", { detail: { action: isDraft ? "draftSaved" : "storyChanged" } }),
           );
@@ -256,6 +262,12 @@ const CreateStory = () => {
           console.log("deleteDraft succeeded for id", draftId);
           try {
             if (typeof window !== "undefined") {
+              try {
+                localStorage.setItem(
+                  "brancy:refreshStories",
+                  JSON.stringify({ action: "draftDeleted", ts: Date.now() }),
+                );
+              } catch (e) {}
               (window as any).dispatchEvent(
                 new CustomEvent("brancy:refreshStories", { detail: { action: "draftDeleted" } }),
               );
@@ -713,7 +725,7 @@ const CreateStory = () => {
     async (draftId: string) => {
       try {
         console.log("draftId", draftId);
-        let res = await clientFetchApi<boolean, IStoryDraftInfo>("api/Story/GetDraft", {
+        let res = await clientFetchApi<boolean, IStoryDraftInfo>("/api/Story/GetDraft", {
           methodType: MethodType.get,
           session: session,
           data: null,
@@ -1031,6 +1043,14 @@ const CreateStory = () => {
     handleGetPreStory,
     getPublishLimitContent,
   ]);
+
+  // Ensure we react to route query changes (e.g., client-side Link navigation)
+  useEffect(() => {
+    if (router.isReady && session && LoginStatus(session) && query.draftId !== undefined && draftId <= 0) {
+      console.log("Detected draftId in query (effect):", query.draftId);
+      handleGetDraftStory(query.draftId as string);
+    }
+  }, [router.isReady, query.draftId, session, handleGetDraftStory, draftId]);
 
   if (session?.user.currentIndex === -1) router.push("/user");
   if (session && !packageStatus(session)) router.push("/upgrade");

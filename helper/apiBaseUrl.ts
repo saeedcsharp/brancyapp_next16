@@ -26,7 +26,7 @@ const CONFIG = {
   // ── patran.ir (localhost / محیط توسعه) ───────────────────────────────────
   local: {
     api: `https://api.${baseLocalUrl}/`,
-    media: `https://ilink.${baseIRUrl}/`,
+    media: `https://ilink.${baseLocalUrl}/`,
     upload: `https://uupload.${baseLocalUrl}/file`,
     socket: `https://minisocket.${baseLocalUrl}`,
     graph: `https://socket.${baseLocalUrl}`,
