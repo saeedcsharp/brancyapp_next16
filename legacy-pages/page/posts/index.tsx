@@ -127,22 +127,6 @@ const Posts = () => {
       fetchData();
     }
   }, [session, status, isDataLoaded, fetchData]);
-
-  useEffect(() => {
-    const onRefresh = (e: Event) => {
-      try {
-        if (!session || !LoginStatus(session)) return;
-        // call fetchData to refresh drafts/posts without full reload
-        fetchData();
-      } catch (err) {}
-    };
-
-    if (typeof window !== "undefined") {
-      window.addEventListener("brancy:refreshPosts", onRefresh as EventListener);
-      return () => window.removeEventListener("brancy:refreshPosts", onRefresh as EventListener);
-    }
-  }, [fetchData, session]);
-
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
 

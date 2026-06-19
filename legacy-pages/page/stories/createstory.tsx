@@ -100,13 +100,6 @@ const CreateStory = () => {
   const [showDraftError, setshowDraftError] = useState<IErrorPrePostInfo | null>(null);
 
   const closeCreateStory = useCallback(() => {
-    if (typeof window !== "undefined") {
-      const modalWindow = window as Window & { __closeInterceptedModal?: () => void };
-      if (typeof modalWindow.__closeInterceptedModal === "function") {
-        modalWindow.__closeInterceptedModal();
-        return;
-      }
-    }
     router.push("/page/stories");
   }, [router]);
 
@@ -229,19 +222,6 @@ const CreateStory = () => {
         }
       }
       setAnalizeProcessing(false);
-      try {
-        if (typeof window !== "undefined") {
-          try {
-            localStorage.setItem(
-              "brancy:refreshStories",
-              JSON.stringify({ action: isDraft ? "draftSaved" : "storyChanged", ts: Date.now() }),
-            );
-          } catch (e) {}
-          (window as any).dispatchEvent(
-            new CustomEvent("brancy:refreshStories", { detail: { action: isDraft ? "draftSaved" : "storyChanged" } }),
-          );
-        }
-      } catch (e) {}
       closeCreateStory();
     },
     [session, showMedias, QuickReply, autoReply, draftId, preStoryId, automaticPost, dateAndTime, closeCreateStory],
@@ -260,19 +240,6 @@ const CreateStory = () => {
         console.log("deleteDraft response:", res);
         if (res.succeeded) {
           console.log("deleteDraft succeeded for id", draftId);
-          try {
-            if (typeof window !== "undefined") {
-              try {
-                localStorage.setItem(
-                  "brancy:refreshStories",
-                  JSON.stringify({ action: "draftDeleted", ts: Date.now() }),
-                );
-              } catch (e) {}
-              (window as any).dispatchEvent(
-                new CustomEvent("brancy:refreshStories", { detail: { action: "draftDeleted" } }),
-              );
-            }
-          } catch (e) {}
           closeCreateStory();
         } else {
           console.log("deleteDraft failed:", res);

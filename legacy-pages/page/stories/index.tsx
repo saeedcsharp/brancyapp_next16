@@ -213,45 +213,6 @@ const Stories = () => {
       }
     };
   }, [session, router, isDataLoaded, fetchData, handleGetNotif]);
-
-  useEffect(() => {
-    const onRefresh = (e: Event) => {
-      try {
-        console.log("brancy:refreshStories event received", e);
-        if (!session || !LoginStatus(session)) {
-          console.log("Ignoring refresh: no session or not logged in");
-          return;
-        }
-        console.log("Calling fetchData due to refresh event");
-        fetchData();
-      } catch (err) {}
-    };
-
-    if (typeof window !== "undefined") {
-      window.addEventListener("brancy:refreshStories", onRefresh as EventListener);
-      console.log("Added listener for brancy:refreshStories");
-      // Also check localStorage flag in case the event fired before this component mounted
-      try {
-        const raw = localStorage.getItem("brancy:refreshStories");
-        if (raw) {
-          const parsed = JSON.parse(raw);
-          // if the flag is recent, trigger a fetch
-          if (parsed && parsed.ts && Date.now() - parsed.ts < 5 * 60 * 1000) {
-            console.log("Detected recent brancy:refreshStories in localStorage, fetching data");
-            fetchData();
-            try {
-              localStorage.removeItem("brancy:refreshStories");
-            } catch (e) {}
-          }
-        }
-      } catch (e) {}
-
-      return () => {
-        window.removeEventListener("brancy:refreshStories", onRefresh as EventListener);
-        console.log("Removed listener for brancy:refreshStories");
-      };
-    }
-  }, [fetchData, session]);
   const handleMainClick = useCallback(() => {
     setShowDotIcon(null);
   }, []);
