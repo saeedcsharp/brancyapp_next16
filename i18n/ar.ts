@@ -1710,7 +1710,35 @@ export default {
     messagesetting_SelectFlow: "اختر الفلو",
     messagesetting_ViewFlow: "عرض الفلو",
     messagesetting_UseGeneralAIExplain: "استخدام الذكاء الاصطناعي العام للتفاعل الحر وغير المقيّد مع المستخدمين",
+    tool_token_usage_guide: "الاستهلاك التقريبي للتوكن عند تشغيل هذه الأداة",
+    tool_how_use: "طريقة استخدام الأداة",
+    tool_how_work: "طريقة عمل الأداة",
+    send_sms_ir_code_description: "إرسال رسالة SMS إلى هاتف المستخدم عبر منصة SMS.ir",
+    send_sms_ir_code_completeDescription:
+      "تُستخدم هذه الأداة لإرسال رسائل SMS إلى المستخدمين مثل أكواد التحقق والتسجيل والإشعارات. تتيح لك استقبال أرقام الهواتف واستخدامها في خدمة الرسائل النصية.",
+    send_sms_ir_code_howUse: `1- احصل على ApiKey من منصة SMS.ir وأدخله.
+2- أدخل قالب الرسالة في حقل TemplateId.
+3- أينما يظهر {CODE} في القالب سيتم استبداله تلقائيًا برمز OTP.
+`,
+    send_sms_ir_code_howWork: `1- يرسل المستخدم رقم هاتفه في الدایرکت.
+2- يتم إرسال SMS إلى المستخدم، وإذا احتوى على {CODE} يتم استبداله برمز OTP.
+3- يرسل المستخدم الرمز إلى الذكاء الاصطناعي.
+4- يقوم الذكاء الاصطناعي بالتحقق من الرمز وتأكيد رقم الهاتف.
+`,
 
+    send_to_telegram_description: "إرسال رسالة إلى تيليغرام عبر بوت",
+    send_to_telegram_completeDescription:
+      "تُستخدم هذه الأداة لإرسال رسائل إلى تيليغرام باستخدام بوت. يتم الإرسال عبر Bot Token إلى قناة أو محادثة محددة ويُستخدم للإشعارات والتنبيهات.",
+    send_to_telegram_howUse: "1- أدخل Token البوت.\n2- أدخل معرف القناة أو الدردشة.\n3- شغّل الأداة لإرسال الرسالة.",
+    send_to_telegram_howWork:
+      "1- يقوم المستخدم بإدخال Token وChannel.\n2- النظام يجهز طلب عبر Telegram Bot API.\n3- يتم إرسال الرسالة إلى القناة أو الدردشة.",
+
+    sender_username_description: "استخدام اسم المستخدم المرسل في البرومبت",
+    sender_username_completeDescription:
+      "تتيح هذه الأداة استخدام اسم المستخدم المرسل داخل برومبتات الذكاء الاصطناعي. عند إضافة {SENDER_USERNAME} يتم استبداله تلقائيًا باسم المستخدم.",
+    sender_username_howUse: "1- ضع {SENDER_USERNAME} في البرومبت.\n2- يتم استبداله تلقائيًا باسم المستخدم عند التنفيذ.",
+    sender_username_howWork:
+      "1- يضع المستخدم {SENDER_USERNAME} في البرومبت.\n2- يتم استبداله باسم المستخدم أثناء المعالجة.\n3- يتم توليد الرد باستخدام اسم المستخدم.",
     // #endregion Message Section
     // #region 5️⃣market Section
     // 5️⃣ Market -> home
@@ -2274,6 +2302,7 @@ export default {
     startbusiness: "بدء عمل تجاري",
     AI: "ذكاء اصطناعي",
     ExtraTokens: "رموز إضافية",
+    TokenUsage: "استخدام التوكن",
     AdvancedAnalytics: "تحليل متقدم",
     AIResponse: "رد ذكي لإنستغرام",
     CustomSupport: "دعم مخصص",

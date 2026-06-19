@@ -1764,7 +1764,37 @@ export default {
     messagesetting_SelectFlow: "Select Flow",
     messagesetting_ViewFlow: "View Flow",
     messagesetting_UseGeneralAIExplain: "Use general AI for open and unrestricted interaction with users",
+    tool_token_usage_guide: "Approximate token usage when running this tool",
+    tool_how_use: "How to use the tool",
+    tool_how_work: "How the tool works",
+    send_sms_ir_code_description: "Send SMS to the user's mobile via SMS.ir platform",
+    send_sms_ir_code_completeDescription:
+      "This tool is used to send SMS messages to users, such as verification codes, registration, or notifications. It allows you to receive users’ mobile numbers and use them in your SMS service.",
+    send_sms_ir_code_howUse: `1- Get your ApiKey from SMS.ir platform and enter it.
+2- Enter your SMS template in TemplateId field.
+3- Wherever {CODE} appears in the template, the system will automatically replace it with a one-time OTP code.
+`,
+    send_sms_ir_code_howWork: `1- The user sends their mobile number in Direct.
+2- SMS is sent to the user's mobile. If the message contains {CODE}, the system automatically replaces it with a one-time OTP code.
+3- The user sends the code back to the AI.
+4- The AI verifies the code and confirms the mobile number.
+`,
 
+    send_to_telegram_description: "Send message to Telegram via bot",
+    send_to_telegram_completeDescription:
+      "This tool is used to send messages to Telegram using a Telegram bot. Messages are sent via Bot Token to a specific channel or chat and are useful for notifications, alerts, and data delivery.",
+    send_to_telegram_howUse:
+      "1- Enter your Telegram bot Token.\n2- Enter chat ID or channel ID.\n3- Run the tool to send the message.",
+    send_to_telegram_howWork:
+      "1- User enters Token and Channel.\n2- System prepares request using Telegram Bot API.\n3- Message is sent to the specified chat or channel via bot.",
+
+    sender_username_description: "Use sender username in prompt",
+    sender_username_completeDescription:
+      "This tool allows you to use the sender's username inside your AI prompts. By adding {SENDER_USERNAME}, the system automatically replaces it with the username of the message sender.",
+    sender_username_howUse:
+      "1- Insert {SENDER_USERNAME} anywhere in your prompt where you want the sender username to appear.\n2- During execution, the system replaces it with the actual username and uses it in AI responses.",
+    sender_username_howWork:
+      "1- User places {SENDER_USERNAME} in prompt.\n2- System detects and replaces it with sender username during processing.\n3- AI generates responses using the sender’s username.",
     // #endregion Message Section
     // #region 5️⃣market Section
     // 5️⃣ Market -> home
@@ -2350,6 +2380,7 @@ export default {
     startbusiness: "Start Business",
     AI: "AI",
     ExtraTokens: "Extra Tokens",
+    TokenUsage: "Token Usage",
     AdvancedAnalytics: "Advanced Analytics",
     AIResponse: "AI IG Replies",
     CustomSupport: "Custom Support",

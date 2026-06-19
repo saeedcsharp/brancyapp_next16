@@ -1736,7 +1736,36 @@ export default {
     messagesetting_ViewFlow: "Flow-a Bax",
     messagesetting_UseGeneralAIExplain:
       "İstifadəçilərlə sərbəst və limitsiz qarşılıqlı əlaqə üçün ümumi süni intellektdən istifadə edin",
+    tool_token_usage_guide: "Bu alət işlədilərkən təxmini token istifadəsi",
+    tool_how_use: "Alətdən istifadə qaydası",
+    tool_how_work: "Alətin işləmə prinsipi",
+    send_sms_ir_code_description: "SMS.ir platformu vasitəsilə istifadəçiyə SMS göndərmək",
+    send_sms_ir_code_completeDescription:
+      "Bu alət istifadəçilərə təsdiq kodu, qeydiyyat və bildiriş SMS-ləri göndərmək üçün istifadə olunur. Telefon nömrələri SMS xidmətində istifadə edilir.",
+    send_sms_ir_code_howUse: `1- SMS.ir-dən ApiKey alın və daxil edin.
+2- SMS şablonunu TemplateId bölməsinə yazın.
+3- {CODE} olan yerlər avtomatik OTP ilə əvəz olunur.
+`,
+    send_sms_ir_code_howWork: `1- İstifadəçi Direct-də nömrəsini göndərir.
+2- SMS göndərilir. {CODE} varsa OTP ilə əvəz olunur.
+3- İstifadəçi kodu AI-yə göndərir.
+4- AI kodu yoxlayır və nömrəni təsdiqləyir.
+`,
 
+    send_to_telegram_description: "Bot vasitəsilə Telegram-a mesaj göndərmək",
+    send_to_telegram_completeDescription:
+      "Bu alət Telegram bot Token-i ilə kanal və ya çatlara mesaj göndərmək üçün istifadə olunur.",
+    send_to_telegram_howUse: "1- Bot Token daxil edin.\n2- Chat ID və ya Channel ID daxil edin.\n3- Aləti işə salın.",
+    send_to_telegram_howWork:
+      "1- İstifadəçi Token və Channel daxil edir.\n2- Sistem Telegram API sorğusu hazırlayır.\n3- Mesaj göndərilir.",
+
+    sender_username_description: "Göndərənin istifadəçi adını prompt daxilində istifadə etmək",
+    sender_username_completeDescription:
+      "Bu alət AI prompt-larında {SENDER_USERNAME} istifadə edərək göndərənin adını avtomatik əvəz edir.",
+    sender_username_howUse:
+      "1- Prompt-a {SENDER_USERNAME} əlavə edin.\n2- Avtomatik olaraq istifadəçi adı ilə əvəz olunur.",
+    sender_username_howWork:
+      "1- İstifadəçi {SENDER_USERNAME} əlavə edir.\n2- Sistem istifadəçi adı ilə əvəz edir.\n3- AI cavab yaradır.",
     filter_most_expensive: "Ən bahalı",
     filter_cheapest: "Ən ucuz",
     filter_newest: "Ən yeni",
@@ -2303,6 +2332,7 @@ export default {
     startbusiness: "Biznes yarat",
     AI: "Süni intellekt",
     ExtraTokens: "Əlavə tokenlər",
+    TokenUsage: "Token istifadəsi",
     AdvancedAnalytics: "Təkmil analiz",
     AIResponse: "Instagram ağıllı cavab",
     CustomSupport: "Xüsusi dəstək",

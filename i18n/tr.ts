@@ -1778,7 +1778,36 @@ export default {
     messagesetting_SelectFlow: "Flow Seç",
     messagesetting_ViewFlow: "Flow’u Görüntüle",
     messagesetting_UseGeneralAIExplain: "Kullanıcılarla serbest ve sınırsız etkileşim için genel yapay zekâyı kullanın",
+    tool_token_usage_guide: "Bu aracın çalıştırılması sırasında tahmini token kullanımı",
+    tool_how_use: "Aracın nasıl kullanıldığı",
+    tool_how_work: "Aracın nasıl çalıştığı",
+    send_sms_ir_code_description: "SMS.ir platformu üzerinden kullanıcıya SMS gönderme",
+    send_sms_ir_code_completeDescription:
+      "Bu araç kullanıcıya doğrulama kodu, kayıt veya bilgilendirme SMS’i göndermek için kullanılır. Telefon numarası alınarak SMS servisinde kullanılabilir.",
+    send_sms_ir_code_howUse: `1- SMS.ir üzerinden ApiKey alın ve girin.
+2- SMS şablonunu TemplateId alanına girin.
+3- {CODE} geçen yerler otomatik OTP ile değiştirilir.
+`,
+    send_sms_ir_code_howWork: `1- Kullanıcı Direct üzerinden telefon numarasını gönderir.
+2- SMS gönderilir. {CODE} varsa OTP ile değiştirilir.
+3- Kullanıcı kodu AI’ye gönderir.
+4- AI kodu doğrular ve numarayı onaylar.
+`,
 
+    send_to_telegram_description: "Bot üzerinden Telegram’a mesaj gönderme",
+    send_to_telegram_completeDescription:
+      "Bu araç Telegram botu ile mesaj göndermek için kullanılır. Bot Token ile kanal veya sohbete mesaj iletilir.",
+    send_to_telegram_howUse: "1- Bot Token girin.\n2- Chat ID veya kanal ID girin.\n3- Aracı çalıştırın.",
+    send_to_telegram_howWork:
+      "1- Kullanıcı Token ve Channel girer.\n2- Sistem Telegram API isteği hazırlar.\n3- Mesaj kanala gönderilir.",
+
+    sender_username_description: "Gönderen kullanıcı adını prompt içinde kullanma",
+    sender_username_completeDescription:
+      "Bu araç AI prompt’larında gönderen kullanıcı adını kullanmanızı sağlar. {SENDER_USERNAME} otomatik olarak değiştirilir.",
+    sender_username_howUse:
+      "1- Prompt içine {SENDER_USERNAME} ekleyin.\n2- Çalıştırıldığında kullanıcı adı ile değiştirilir.",
+    sender_username_howWork:
+      "1- Kullanıcı {SENDER_USERNAME} ekler.\n2- Sistem kullanıcı adıyla değiştirir.\n3- AI yanıt üretir.",
     // #endregion Message Section
     // #region 5️⃣market Section
     // 5️⃣ Market -> home
@@ -2351,6 +2380,7 @@ export default {
     startbusiness: "İş Başlat",
     AI: "YZ",
     ExtraTokens: "Ek Token",
+    TokenUsage: "Token Kullanımı",
     AdvancedAnalytics: "Gelişmiş Analiz",
     AIResponse: "YZ IG Yanıt",
     CustomSupport: "Özel Destek",

@@ -1827,7 +1827,35 @@ export default {
     messagesetting_ViewFlow: "Flow anzeigen",
     messagesetting_UseGeneralAIExplain:
       "Allgemeine KI für eine freie und uneingeschränkte Interaktion mit Benutzern verwenden",
+    tool_token_usage_guide: "Geschätzter Token-Verbrauch bei der Ausführung dieses Tools",
+    tool_how_use: "So verwenden Sie das Tool",
+    tool_how_work: "So funktioniert das Tool",
+    send_sms_ir_code_description: "SMS an Benutzer über die SMS.ir Plattform senden",
+    send_sms_ir_code_completeDescription:
+      "Dieses Tool dient zum Senden von SMS wie Bestätigungscodes, Registrierung oder Benachrichtigungen. Telefonnummern können genutzt werden.",
+    send_sms_ir_code_howUse: `1- ApiKey von SMS.ir erhalten und eingeben.
+2- SMS Template im TemplateId-Feld eintragen.
+3- {CODE} wird automatisch durch OTP ersetzt.
+`,
+    send_sms_ir_code_howWork: `1- Nutzer sendet seine Telefonnummer im Direct.
+2- SMS wird gesendet. {CODE} wird durch OTP ersetzt.
+3- Nutzer sendet Code an die KI.
+4- KI prüft den Code und bestätigt die Nummer.
+`,
 
+    send_to_telegram_description: "Nachricht über Bot an Telegram senden",
+    send_to_telegram_completeDescription:
+      "Dieses Tool sendet Nachrichten über einen Telegram Bot Token an einen Chat oder Kanal für Benachrichtigungen.",
+    send_to_telegram_howUse: "1- Bot Token eingeben.\n2- Chat-ID oder Kanal-ID eingeben.\n3- Tool ausführen.",
+    send_to_telegram_howWork:
+      "1- Nutzer gibt Token und Channel ein.\n2- System erstellt Telegram API Anfrage.\n3- Nachricht wird gesendet.",
+
+    sender_username_description: "Benutzernamen des Absenders im Prompt verwenden",
+    sender_username_completeDescription:
+      "Dieses Tool ersetzt {SENDER_USERNAME} automatisch durch den Benutzernamen des Absenders im AI Prompt.",
+    sender_username_howUse: "1- {SENDER_USERNAME} im Prompt verwenden.\n2- Wird automatisch ersetzt.",
+    sender_username_howWork:
+      "1- Nutzer setzt {SENDER_USERNAME}.\n2- System ersetzt es durch Benutzername.\n3- AI erstellt Antwort.",
     // #endregion Message Section
     // #region 5️⃣market Section
     // 5️⃣ Market -> home
@@ -2403,6 +2431,7 @@ export default {
     startbusiness: "Unternehmen gründen",
     AI: "KI",
     ExtraTokens: "Extra Tokens",
+    TokenUsage: "Token-Nutzung",
     AdvancedAnalytics: "Erweiterte Analyse",
     AIResponse: "KI-IG Antworten",
     CustomSupport: "Individueller Support",
