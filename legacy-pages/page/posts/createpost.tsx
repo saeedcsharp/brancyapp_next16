@@ -990,6 +990,14 @@ const CreatePost = () => {
         }
       }
       uiDispatch({ type: "SET_ANALIZE_PROCESSING", payload: false });
+      try {
+        // notify parent posts page to refresh drafts/posts without full reload
+        if (typeof window !== "undefined") {
+          (window as any).dispatchEvent(
+            new CustomEvent("brancy:refreshPosts", { detail: { action: isDraft ? "draftSaved" : "postChanged" } }),
+          );
+        }
+      } catch (e) {}
       closeCreatePost();
     },
     [
@@ -1019,8 +1027,14 @@ const CreatePost = () => {
           queries: [{ key: "draftId", value: draftId.toString() }],
           onUploadProgress: undefined,
         });
-        if (res.succeeded) closeCreatePost();
-        else notify(res.info.responseType, NotifType.Warning);
+        if (res.succeeded) {
+          if (typeof window !== "undefined") {
+            (window as any).dispatchEvent(
+              new CustomEvent("brancy:refreshPosts", { detail: { action: "draftDeleted" } }),
+            );
+          }
+          closeCreatePost();
+        } else notify(res.info.responseType, NotifType.Warning);
       } else if (prePostId > 0) {
         var res = await clientFetchApi<boolean, boolean>("/api/post/deletePrePost", {
           methodType: MethodType.get,
