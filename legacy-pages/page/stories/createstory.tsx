@@ -1562,7 +1562,7 @@ const CreateStory = () => {
                       )}
                     </div>
                   )}
-                  {preStoryId < 0 && (
+                  {preStoryId === 0 && (
                     <>
                       {showMedias ? (
                         <>
