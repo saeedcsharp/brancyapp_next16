@@ -1177,6 +1177,7 @@ const CommentChatBox = (props: {
                       </span>
                     )}
                     <textarea
+                      className={styles.chatTextarea}
                       ref={inputRef}
                       value={bodyText}
                       onChange={(e) => handleInputOnChange(chipPrefix + e.target.value)}
@@ -1187,7 +1188,6 @@ const CommentChatBox = (props: {
                         }
                       }}
                       placeholder={chipText ? "" : t(LanguageKey.typeAMessage)}
-                      className={styles.chatTextarea}
                       rows={1}
                       aria-label={t(LanguageKey.typeAMessage)}
                     />

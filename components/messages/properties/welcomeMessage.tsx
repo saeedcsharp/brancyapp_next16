@@ -201,7 +201,7 @@ function WelcomeMessage() {
                       </div>
                     </div>
                     <TextArea
-                      className={"message"}
+                      className="message"
                       placeHolder={""}
                       fadeTextArea={false}
                       handleInputChange={handleChangeWelcomeMessage}
@@ -272,7 +272,7 @@ function WelcomeMessage() {
                       </div>
                     </div>
                     <TextArea
-                      className={"message"}
+                      className="message"
                       placeHolder={""}
                       fadeTextArea={false}
                       handleInputChange={handleChangeGoodbyMessage}

@@ -1529,7 +1529,7 @@ export default function FontSelector() {
             <>
               <DragDrop data={fontOptions} handleOptionSelect={handleFontSelect} />
               <TextArea
-                className="captiontextarea"
+                className="TextArea"
                 placeHolder={t(LanguageKey.EnterYourText)}
                 value={convertedText}
                 handleInputChange={handleInputChange}

@@ -281,11 +281,11 @@ const CreateTicket = React.memo(({ removeMask, handleCreateTicket }: ICreateTick
             <div className="counter">{formData.item.text?.length || 0}/6000</div>
           </div>
           <TextArea
+            className="TextArea"
             id="description"
             style={{ height: "100%" }}
             name="description"
             value={formData.item.text || ""}
-            className="captiontextarea"
             maxLength={6000}
             role=""
             title=""

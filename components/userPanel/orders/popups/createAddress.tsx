@@ -166,7 +166,7 @@ export default function CreateAddresses({
           <div className="headerandinput">
             <div className="headertext">{t(LanguageKey.userpanel_Address)}</div>
             <TextArea
-              className={"message"}
+              className="message"
               readOnly={true}
               value={address ? address.address : ""}
               handleKeyDown={undefined}
@@ -211,7 +211,7 @@ export default function CreateAddresses({
           <div className="headerandinput">
             <div className="headertext">{t(LanguageKey.note)}</div>
             <TextArea
-              className={"message"}
+              className="message"
               value={updateAddress ? updateAddress.note : ""}
               handleInputChange={(e) => {
                 setUpdateAddress((prev) => ({

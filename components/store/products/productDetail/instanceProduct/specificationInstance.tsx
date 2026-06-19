@@ -100,13 +100,13 @@ function SortableItem({ item, index }: { item: IProductSpecification; index: num
               <div className="headerandinput">
                 <div className="headertext">{t(LanguageKey.Value)}</div>
                 <textarea
+                  className={item.customSpecification.value.length > 0 ? styles.message : styles.dangermessage}
                   style={{
                     cursor: "no-drop",
                     backgroundColor: "var(--color-disable)",
                     pointerEvents: "none",
                   }}
                   value={item.customSpecification.value}
-                  className={item.customSpecification.value.length > 0 ? styles.message : styles.dangermessage}
                   placeholder={t(LanguageKey.Value)}
                 />
               </div>

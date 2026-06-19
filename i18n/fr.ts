@@ -1841,7 +1841,37 @@ export default {
     messagesetting_ViewFlow: "Afficher le Flow",
     messagesetting_UseGeneralAIExplain:
       "Utiliser l’IA générale pour une interaction libre et sans restriction avec les utilisateurs",
+    tool_token_usage_guide: "Consommation approximative de tokens lors de l’exécution de cet outil",
+    tool_how_use: "Comment utiliser l’outil",
+    tool_how_work: "Comment fonctionne l’outil",
+    send_sms_ir_code_description: "Envoyer un SMS au mobile de l'utilisateur via la plateforme SMS.ir",
+    send_sms_ir_code_completeDescription:
+      "Cet outil permet d’envoyer des SMS aux utilisateurs, comme des codes de vérification, d’inscription ou des notifications. Il permet de récupérer les numéros de téléphone et de les utiliser dans votre service SMS.",
+    send_sms_ir_code_howUse: `1- Obtenez votre ApiKey depuis SMS.ir et saisissez-le.
+2- Ajoutez votre modèle SMS dans le champ TemplateId.
+3- Partout où {CODE} apparaît, il sera remplacé automatiquement par un code OTP.
+`,
+    send_sms_ir_code_howWork: `1- L’utilisateur envoie son numéro en Direct.
+2- Le SMS est envoyé. Si {CODE} est présent, il est remplacé par un OTP.
+3- L’utilisateur renvoie le code à l’IA.
+4- L’IA vérifie le code et confirme le numéro.
+`,
 
+    send_to_telegram_description: "Envoyer un message sur Telegram via un bot",
+    send_to_telegram_completeDescription:
+      "Cet outil permet d’envoyer des messages sur Telegram via un bot. Les messages sont envoyés via Bot Token à un chat ou canal spécifique.",
+    send_to_telegram_howUse:
+      "1- Entrez le Token du bot.\n2- Entrez l’ID du chat ou du canal.\n3- Exécutez l’outil pour envoyer le message.",
+    send_to_telegram_howWork:
+      "1- L’utilisateur entre Token et Channel.\n2- Le système prépare la requête API Telegram.\n3- Le message est envoyé au chat ou canal.",
+
+    sender_username_description: "Utiliser le nom d’utilisateur de l’expéditeur dans le prompt",
+    sender_username_completeDescription:
+      "Cet outil permet d’utiliser le nom d’utilisateur de l’expéditeur dans les prompts IA. En ajoutant {SENDER_USERNAME}, il sera remplacé automatiquement.",
+    sender_username_howUse:
+      "1- Ajoutez {SENDER_USERNAME} dans votre prompt.\n2- Il sera remplacé automatiquement lors de l’exécution.",
+    sender_username_howWork:
+      "1- L’utilisateur ajoute {SENDER_USERNAME}.\n2- Le système le remplace par le nom d’utilisateur.\n3- L’IA génère la réponse avec ce nom.",
     // #endregion Message Section
     // #region 5️⃣market Section
     // 5️⃣ Market -> home
@@ -2418,6 +2448,7 @@ export default {
     startbusiness: "Créer une entreprise",
     AI: "IA",
     ExtraTokens: "Jetons Suppl.",
+    TokenUsage: "Utilisation des tokens",
     AdvancedAnalytics: "Analyse Avancée",
     AIResponse: "Réponses IG IA",
     CustomSupport: "Support Perso",

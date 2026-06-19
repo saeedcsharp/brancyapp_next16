@@ -129,7 +129,6 @@ html[dir="rtl"] .headerprompt {
   animation: var(--fadeIn4);
   border-radius: var(--br15);
   padding: var(--padding-10);
-  overflow-y: auto;
   box-sizing: border-box;
   @media (max-width: 600px) {
     max-height: 160px;
@@ -187,12 +186,27 @@ html[dir="rtl"] .headerprompt {
   align-items: center;
   justify-content: flex-start;
   width: 100%;
-  padding: var(--padding-10) var(--padding-14);
-  margin: var(--padding-8) var(--padding-10);
+  padding-block: var(--padding-8);
   transition: var(--transition3);
   animation: var(--top04);
-  overflow-x: auto;
   overflow-y: hidden;
+  overflow-x: auto;
+  white-space: nowrap;
+}
+/* اسکرول بار کلی */
+.promptModeoptionlist::-webkit-scrollbar {
+  height: 5px;
+}
+
+/* خود دکمه اسکرول */
+.promptModeoptionlist::-webkit-scrollbar-thumb {
+  background: var(--color-gray60);
+  border-radius: 10px;
+}
+
+/* هاور */
+.promptModeoptionlist::-webkit-scrollbar-thumb:hover {
+  background: var(--color-gray);
 }
 .promptModeoption {
   display: flex;

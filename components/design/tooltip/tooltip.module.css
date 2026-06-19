@@ -22,7 +22,7 @@
   padding: var(--padding-8);
   color: var(--text-h1);
   font-size: var(--font-12);
-  font-weight: var(--weight-500);
+  font-weight: var(--weight-400);
   transition: var(--transition3);
   box-shadow: var(--small-shadow);
 }

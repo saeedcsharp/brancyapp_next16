@@ -82,7 +82,7 @@ const Announcement = (props: { removeMask: () => void }) => {
               </div>
             </div>
             <TextArea
-              className={"captiontextarea"}
+              className="TextArea"
               placeHolder={""}
               fadeTextArea={false}
               handleInputChange={handleChangeTextArea}

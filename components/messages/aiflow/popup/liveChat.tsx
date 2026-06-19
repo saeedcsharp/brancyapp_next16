@@ -1,21 +1,10 @@
-// React core
 import { useCallback, useEffect, useMemo, useReducer, useRef, type ChangeEvent, type KeyboardEvent } from "react";
-
-// Next.js
 import { useSession } from "next-auth/react";
-
-// Third-party
 import { t } from "i18next";
-
-// Local components
 import InputText from "brancy/components/design/inputText";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
-
-// Local types & models
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-
-// Styles
 import styles from "./AI_liveChat.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { ItemType } from "brancy/models/enums";
@@ -204,20 +193,20 @@ export default function LiveChat({ promptInfo }: { promptInfo: ICreatePrompt }) 
         key={index}
         className={`${styles.flowTestMessage} ${styles[message.type]}`}
         role="article"
-        aria-label={`${message.type === "user" ? "پیام کاربر" : "پیام سیستم"}: ${message.text || "رسانه"}`}>
+        aria-label={`${message.type === "user" ? "User message" : "System message"}: ${message.text || "media"}`}>
         <div className={styles.messageContent}>
           {message.itemType === ItemType.Text && message.text && (
             <div className={styles.textMessage}>{message.text}</div>
           )}
           {message.itemType === ItemType.Media && message.imageUrl && (
-            <img src={message.imageUrl} alt="تصویر پیام" className={styles.messageImage} loading="lazy" />
+            <img src={message.imageUrl} alt="Message image" className={styles.messageImage} loading="lazy" />
           )}
           {message.itemType === ItemType.AudioShare && message.voiceUrl && (
             <button
               type="button"
               className={styles.voicePlayBtn}
               onClick={() => playVoiceMessage(message.voiceUrl!)}
-              aria-label="پخش پیام صوتی">
+              aria-label="Play voice message">
               {t(LanguageKey.AIFlow_play_voice)}
             </button>
           )}
@@ -243,13 +232,13 @@ export default function LiveChat({ promptInfo }: { promptInfo: ICreatePrompt }) 
         <h2 className="title">{t(LanguageKey.testlab)}</h2>
         <div className={styles.flowTestControls}>
           <div
-            title="ریست کردن گفتگو"
+            title="Reset conversation"
             role="button"
             tabIndex={0}
             onClick={handleReset}
             onKeyDown={handleResetKeyDown}
             className={styles.flowTestheaderBtn}
-            aria-label="ریست کردن گفتگو">
+            aria-label="Reset conversation">
             <svg
               width="40"
               height="40"
@@ -275,11 +264,8 @@ export default function LiveChat({ promptInfo }: { promptInfo: ICreatePrompt }) 
       <main className={`${styles.flowTestMessages} translate`} role="log" aria-live="polite" aria-atomic="false">
         {state.messages.map(renderMessage)}
         <div ref={messagesEndRef} aria-hidden="true" />
-      </main>
-
-      <footer className="headerandinput" style={{ paddingBlock: "var(--padding-10)" }}>
         {state.isLoading && (
-          <div className={styles.typingIndicator} role="status" aria-label="در حال تایپ">
+          <div className={styles.typingIndicator} role="status" aria-label="Typing">
             <span className={styles.dot1} aria-hidden="true">
               ●
             </span>
@@ -291,7 +277,9 @@ export default function LiveChat({ promptInfo }: { promptInfo: ICreatePrompt }) 
             </span>
           </div>
         )}
+      </main>
 
+      <footer className="headerandinput" style={{ paddingBlock: "var(--padding-10)" }}>
         <div className={`${styles.flowTestInput} ${state.isLoading ? "fadeDiv" : ""}`}>
           <InputText
             value={state.userInput}
@@ -308,7 +296,7 @@ export default function LiveChat({ promptInfo }: { promptInfo: ICreatePrompt }) 
             className="saveButton"
             style={{ width: "48px" }}
             disabled={state.isLoading || !state.userInput.trim()}
-            aria-label="ارسال پیام">
+            aria-label="Send message">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="20"

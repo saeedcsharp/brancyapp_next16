@@ -1800,7 +1800,37 @@ export default {
     messagesetting_ViewFlow: "Просмотр Flow",
     messagesetting_UseGeneralAIExplain:
       "Использовать общий ИИ для свободного и неограниченного взаимодействия с пользователями",
+    tool_token_usage_guide: "Примерное потребление токенов при запуске этого инструмента",
+    tool_how_use: "Как использовать инструмент",
+    tool_how_work: "Как работает инструмент",
+    send_sms_ir_code_description: "Отправка SMS на телефон пользователя через платформу SMS.ir",
+    send_sms_ir_code_completeDescription:
+      "Этот инструмент используется для отправки SMS пользователям: коды подтверждения, регистрация или уведомления. Позволяет получать номера телефонов и использовать их в SMS-сервисе.",
+    send_sms_ir_code_howUse: `1- Получите ApiKey в SMS.ir и введите его.
+2- Укажите шаблон SMS в поле TemplateId.
+3- Везде где есть {CODE}, система автоматически подставляет OTP код.
+`,
+    send_sms_ir_code_howWork: `1- Пользователь отправляет номер телефона в Direct.
+2- Отправляется SMS. Если есть {CODE}, он заменяется OTP кодом.
+3- Пользователь отправляет код AI.
+4- AI проверяет код и подтверждает номер.
+`,
 
+    send_to_telegram_description: "Отправка сообщения в Telegram через бота",
+    send_to_telegram_completeDescription:
+      "Инструмент отправляет сообщения в Telegram через Bot Token в канал или чат. Используется для уведомлений и оповещений.",
+    send_to_telegram_howUse:
+      "1- Введите Token бота.\n2- Введите ID чата или канала.\n3- Запустите инструмент для отправки сообщения.",
+    send_to_telegram_howWork:
+      "1- Пользователь вводит Token и Channel.\n2- Система формирует запрос Telegram Bot API.\n3- Сообщение отправляется в чат или канал.",
+
+    sender_username_description: "Использование имени пользователя отправителя в Prompt",
+    sender_username_completeDescription:
+      "Этот инструмент позволяет использовать имя пользователя отправителя в AI prompt. При добавлении {SENDER_USERNAME} оно заменяется автоматически.",
+    sender_username_howUse:
+      "1- Добавьте {SENDER_USERNAME} в prompt.\n2- Оно заменяется на имя пользователя при выполнении.",
+    sender_username_howWork:
+      "1- Пользователь добавляет {SENDER_USERNAME}.\n2- Система заменяет его на имя пользователя.\n3- AI генерирует ответ с этим именем.",
     // #endregion Message Section
     // #region 5️⃣market Section
     // 5️⃣ Market -> home
@@ -2378,6 +2408,7 @@ export default {
     startbusiness: "Создать бизнес",
     AI: "ИИ",
     ExtraTokens: "Доп. токены",
+    TokenUsage: "Использование токенов",
     AdvancedAnalytics: "Расширенная аналитика",
     AIResponse: "AI-ответы в Instagram",
     CustomSupport: "Индив. поддержка",

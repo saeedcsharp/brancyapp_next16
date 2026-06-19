@@ -103,10 +103,10 @@ function Profile() {
           </label>
           <div className={styles.biographyContainer}>
             <TextArea
+              className="TextArea"
               id="user-biography"
               name="biography"
               placeHolder="bio"
-              className="captiontextarea"
               maxLength={2200}
               value={userData.biography}
               readOnly={true}

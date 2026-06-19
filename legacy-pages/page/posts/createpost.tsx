@@ -3220,7 +3220,7 @@ const CreatePost = () => {
                     {/* AI Caption Generator Input */}
 
                     <TextArea
-                      className="captiontextarea"
+                      className="TextArea"
                       placeHolder={""}
                       fadeTextArea={prePostId > 0 || aiLoading}
                       handleInputChange={(e) => {
@@ -3299,8 +3299,9 @@ const CreatePost = () => {
                   </div>
 
                   <TextArea
+                    className="TextArea"
                   name="first-comment-textarea"
-                  className={"captiontextarea"}
+
                   fadeTextArea={!firstComment}
                   placeHolder={""}
                   handleInputChange={handleChangeFirstCommentTextarea}

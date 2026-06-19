@@ -86,7 +86,7 @@ function AdvertisingTerms(props: { advertisinfTerms: IAdvertisingTerms }) {
                   />
                 </div>
                 <TextArea
-                  className={"message"}
+                  className="message"
                   placeHolder={""}
                   fadeTextArea={!advertisinfTerms.activeTerm1}
                   value={advertisinfTerms.term1}
@@ -110,9 +110,9 @@ function AdvertisingTerms(props: { advertisinfTerms: IAdvertisingTerms }) {
                   />
                 </div>
                 <TextArea
+                  className="message"
                   value={advertisinfTerms.term2}
                   fadeTextArea={!advertisinfTerms.activeTerm2}
-                  className={"message"}
                   placeHolder={""}
                   handleInputChange={handleInputChange}
                   handleKeyDown={undefined}
@@ -134,8 +134,8 @@ function AdvertisingTerms(props: { advertisinfTerms: IAdvertisingTerms }) {
                   />
                 </div>
                 <TextArea
+                  className="message"
                   value={advertisinfTerms.term3}
-                  className={"message"}
                   placeHolder={""}
                   fadeTextArea={!advertisinfTerms.activeTerm3}
                   handleKeyDown={undefined}
@@ -158,8 +158,8 @@ function AdvertisingTerms(props: { advertisinfTerms: IAdvertisingTerms }) {
                   />
                 </div>
                 <TextArea
+                  className="message"
                   value={advertisinfTerms.term4}
-                  className={"message"}
                   placeHolder={""}
                   fadeTextArea={!advertisinfTerms.activeTerm4}
                   handleKeyDown={undefined}

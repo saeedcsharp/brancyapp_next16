@@ -1178,7 +1178,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                           </div>
                         </div>
                         <TextArea
-                          className={"captiontextarea"}
+                          className="TextArea"
                           placeHolder={t(LanguageKey.pageToolspopup_typehere)}
                           fadeTextArea={false}
                           handleInputChange={(e) => {

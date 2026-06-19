@@ -151,8 +151,8 @@ function BusinessFilter() {
               aria-label="Specific words input section">
               <div className="explain" role="note"></div>
               <TextArea
+              className="message"
                 style={{ maxHeight: "200px" }}
-                className={"message"}
                 placeHolder={t(LanguageKey.pageToolspopup_typehere)}
                 fadeTextArea={radioButton === BusinessFilterNumberType.AI}
                 handleInputChange={handleChangeMessage}

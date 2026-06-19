@@ -7,6 +7,7 @@
   align-items: center;
   width: 100%;
   padding-bottom: var(--padding-10);
+  margin-block-end: var(--padding-8);
   border-bottom: 1px solid var(--color-gray30);
 }
 
@@ -33,7 +34,7 @@ html[dir="rtl"] .flowTestHeader {
 .flowTestInput {
   display: flex;
   width: 100%;
-
+  align-items: center;
   gap: var(--gap-10);
 }
 .userInput {
@@ -60,11 +61,11 @@ html[dir="rtl"] .flowTestHeader {
 .flowTestMessage.user {
   background: linear-gradient(150deg, var(--color-light-blue30) 30%, var(--color-light-blue60) 100%);
   color: var(--text-h1);
-  font-size: var(--font-14);
+  font-size: var(--font-12);
   font-weight: var(--weight-400);
-  border-radius: 18px 18px 4px 18px;
+  border-radius: 10px 10px 4px 10px;
   align-self: flex-end;
-  padding: var(--padding-8);
+  padding: var(--padding-5) var(--padding-8);
 }
 
 .flowTestMessage {
@@ -72,11 +73,11 @@ html[dir="rtl"] .flowTestHeader {
   color: var(--text-h1);
   animation: var(--bottom08);
   transition: var(--transition3);
-  font-size: var(--font-14);
+  font-size: var(--font-12);
   font-weight: var(--weight-400);
   align-self: flex-start;
-  border-radius: 18px 18px 18px 4px;
-  padding: var(--padding-8);
+  border-radius: 10px 10px 10px 4px;
+  padding: var(--padding-5) var(--padding-8);
 }
 
 .messageImage {
@@ -117,7 +118,7 @@ html[dir="rtl"] .flowTestHeader {
 
 .typingIndicator span {
   display: inline-block;
-  animation: bounce 1.4s infinite ease-in-out both;
+  animation: bounce 0.8s infinite ease-in-out both;
 }
 
 .typingIndicator .dot1 {
@@ -125,11 +126,11 @@ html[dir="rtl"] .flowTestHeader {
 }
 
 .typingIndicator .dot2 {
-  animation-delay: 0.15s;
+  animation-delay: 0.1s;
 }
 
 .typingIndicator .dot3 {
-  animation-delay: 0.3s;
+  animation-delay: 0.2s;
 }
 
 @keyframes bounce {

@@ -825,7 +825,7 @@ const SpecialPayLoadComp = React.memo(
                         </div>
                       </div>
                       <TextArea
-                        className="captiontextarea"
+                        className="TextArea"
                         style={{ height: "200px" }}
                         handleInputChange={(e) =>
                           setProfileButton((prev) => ({

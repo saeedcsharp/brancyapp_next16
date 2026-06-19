@@ -402,9 +402,9 @@ const WinnerAnnouncementAndBanner = (props: {
                 </div>
               </div>
               <TextArea
+                className="TextArea"
                 style={{ minHeight: "120px" }}
                 value={textArea}
-                className="captiontextarea"
                 handleInputChange={handleChangeTextArea}
                 maxLength={120}
                 role="textbox"

@@ -769,7 +769,7 @@ const Banner = memo((props: BannerProps) => {
                           )
                         </div>
                         <TextArea
-                          className={"captiontextarea"}
+                          className="TextArea"
                           placeHolder={""}
                           fadeTextArea={false}
                           handleInputChange={(e) => {
