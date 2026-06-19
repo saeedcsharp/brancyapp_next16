@@ -81,8 +81,8 @@ const CreateStory = () => {
   });
   const [totalPrePostCount, settotalPrePostCount] = useState(0);
   const [tempId, setTempId] = useState(0);
-  const [draftId, setDraftId] = useState(-1);
-  const [preStoryId, setpreStoryId] = useState(-1);
+  const [draftId, setDraftId] = useState(0);
+  const [preStoryId, setpreStoryId] = useState(0);
   const [automaticPost, setAutomaticPost] = useState(query.newschedulestory === "true");
   const [showSetDateAndTime, setShowSetDateAndTime] = useState(false);
   const [dateAndTime, setDateAndTime] = useState<number>(Date.now() + 86400000);
@@ -154,7 +154,7 @@ const CreateStory = () => {
             uiParameters: null,
           };
           console.log("dataImage", data);
-          var res = await clientFetchApi<IStoryImageInfo, number>("Instagramer" + `/Story/PublishImage`, {
+          var res = await clientFetchApi<IStoryImageInfo, number>("/api/Story/PublishImage", {
             methodType: MethodType.post,
             session: session,
             data: data,
@@ -167,8 +167,12 @@ const CreateStory = () => {
             ],
             onUploadProgress: undefined,
           });
+          console.log("PublishImage response:", res);
           if (res.succeeded && res.value > 0) {
             setDraftId(res.value);
+            console.log("PublishImage succeeded, draftId:", res.value);
+          } else {
+            console.log("PublishImage failed:", res);
           }
         } else {
           var vData: IStoryVideoInfo = {
@@ -202,7 +206,7 @@ const CreateStory = () => {
           };
 
           console.log("dataVideo", vData);
-          var res = await clientFetchApi<IPostImageInfo, number>("Instagramer" + `/Story/PublishVideo`, {
+          var res = await clientFetchApi<IPostImageInfo, number>("/api/Story/PublishVideo", {
             methodType: MethodType.post,
             session: session,
             data: vData,
@@ -215,36 +219,62 @@ const CreateStory = () => {
             ],
             onUploadProgress: undefined,
           });
+          console.log("PublishVideo response:", res);
           if (res.succeeded && res.value > 0) {
             setDraftId(res.value);
+            console.log("PublishVideo succeeded, draftId:", res.value);
+          } else {
+            console.log("PublishVideo failed:", res);
           }
         }
       }
       setAnalizeProcessing(false);
+      try {
+        if (typeof window !== "undefined") {
+          (window as any).dispatchEvent(
+            new CustomEvent("brancy:refreshStories", { detail: { action: isDraft ? "draftSaved" : "storyChanged" } }),
+          );
+        }
+      } catch (e) {}
       closeCreateStory();
     },
     [session, showMedias, QuickReply, autoReply, draftId, preStoryId, automaticPost, dateAndTime, closeCreateStory],
   );
   const HandleDelete = useCallback(async () => {
     try {
+      console.log("HandleDelete called", { draftId, preStoryId });
       if (draftId > 0) {
-        var res = await clientFetchApi<boolean, boolean>("Instagramer" + "/Story/deleteDraft", {
+        var res = await clientFetchApi<boolean, boolean>("/api/story/deleteDraft", {
           methodType: MethodType.get,
           session: session,
           data: null,
           queries: [{ key: "id", value: draftId.toString() }],
           onUploadProgress: undefined,
         });
-        if (res.succeeded) closeCreateStory();
-        else notify(res.info.responseType, NotifType.Warning);
+        console.log("deleteDraft response:", res);
+        if (res.succeeded) {
+          console.log("deleteDraft succeeded for id", draftId);
+          try {
+            if (typeof window !== "undefined") {
+              (window as any).dispatchEvent(
+                new CustomEvent("brancy:refreshStories", { detail: { action: "draftDeleted" } }),
+              );
+            }
+          } catch (e) {}
+          closeCreateStory();
+        } else {
+          console.log("deleteDraft failed:", res);
+          notify(res.info.responseType, NotifType.Warning);
+        }
       } else if (preStoryId > 0) {
-        var res = await clientFetchApi<boolean, boolean>("Instagramer" + "/story/deletePreStory", {
+        var res = await clientFetchApi<boolean, boolean>("/api/Story/DeletePreStory", {
           methodType: MethodType.get,
           session: session,
           data: null,
           queries: [{ key: "preStoryId", value: preStoryId.toString() }],
           onUploadProgress: undefined,
         });
+        console.log("deletePreStory response:", res);
         if (res.succeeded) closeCreateStory();
         else notify(res.info.responseType, NotifType.Warning);
       }
@@ -254,7 +284,7 @@ const CreateStory = () => {
   }, [session, draftId, preStoryId, closeCreateStory]);
   const handleDeletePreStory = useCallback(async () => {
     try {
-      const res = await clientFetchApi<boolean, boolean>("Instagramer" + "" + "/Story/DeletePreStory", {
+      const res = await clientFetchApi<boolean, boolean>("/api/Story/DeletePreStory", {
         methodType: MethodType.get,
         session: session,
         data: null,
@@ -683,7 +713,7 @@ const CreateStory = () => {
     async (draftId: string) => {
       try {
         console.log("draftId", draftId);
-        let res = await clientFetchApi<boolean, IStoryDraftInfo>("Instagramer" + "/Story/GetDraft", {
+        let res = await clientFetchApi<boolean, IStoryDraftInfo>("api/Story/GetDraft", {
           methodType: MethodType.get,
           session: session,
           data: null,
@@ -980,6 +1010,7 @@ const CreateStory = () => {
   // Data fetching
   useEffect(() => {
     if (!isDataLoaded && session && LoginStatus(session) && router.isReady) {
+      console.log("Fetching data for Create Story", { draftId: query.draftId, preStoryId: query.preStoryId });
       if (query.draftId !== undefined) {
         handleGetDraftStory(query.draftId as string);
       } else if (query.preStoryId !== undefined) {

@@ -615,7 +615,7 @@ const CreatePost = () => {
   const GetNextBestTimes = useCallback(async () => {
     if (!session) return;
     try {
-      var res = await clientFetchApi<boolean, number[]>("Instagramer" + "/Post/GetBestPublishTime", {
+      var res = await clientFetchApi<boolean, number[]>("api/Post/GetBestPublishTime", {
         methodType: MethodType.get,
         session: session,
         data: undefined,
@@ -673,7 +673,7 @@ const CreatePost = () => {
       if (!session) return;
       try {
         console.log("start searched location ", query);
-        var res = await clientFetchApi<boolean, ILocation[]>("Instagramer" + "/searchLocations", {
+        var res = await clientFetchApi<boolean, ILocation[]>("api/searchLocations", {
           methodType: MethodType.get,
           session: session,
           data: undefined,
@@ -709,7 +709,7 @@ const CreatePost = () => {
       if (!session) return;
       try {
         console.log("start searched people ", query);
-        var res = await clientFetchApi<boolean, IPageInfo[]>("Instagramer" + "/Users/searchPeople", {
+        var res = await clientFetchApi<boolean, IPageInfo[]>("api/Users/searchPeople", {
           methodType: MethodType.get,
           session: session,
           data: undefined,
@@ -2129,7 +2129,7 @@ const CreatePost = () => {
   };
   async function handleGetPrePost(prePostId: string) {
     try {
-      const res = await clientFetchApi<boolean, IPrePostInfo>("Instagramer" + "" + "/Post/GetPrePost", {
+      const res = await clientFetchApi<boolean, IPrePostInfo>("/api/Post/GetPrePost", {
         methodType: MethodType.get,
         session: session,
         data: undefined,

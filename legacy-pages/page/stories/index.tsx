@@ -213,6 +213,29 @@ const Stories = () => {
       }
     };
   }, [session, router, isDataLoaded, fetchData, handleGetNotif]);
+
+  useEffect(() => {
+    const onRefresh = (e: Event) => {
+      try {
+        console.log("brancy:refreshStories event received", e);
+        if (!session || !LoginStatus(session)) {
+          console.log("Ignoring refresh: no session or not logged in");
+          return;
+        }
+        console.log("Calling fetchData due to refresh event");
+        fetchData();
+      } catch (err) {}
+    };
+
+    if (typeof window !== "undefined") {
+      window.addEventListener("brancy:refreshStories", onRefresh as EventListener);
+      console.log("Added listener for brancy:refreshStories");
+      return () => {
+        window.removeEventListener("brancy:refreshStories", onRefresh as EventListener);
+        console.log("Removed listener for brancy:refreshStories");
+      };
+    }
+  }, [fetchData, session]);
   const handleMainClick = useCallback(() => {
     setShowDotIcon(null);
   }, []);
