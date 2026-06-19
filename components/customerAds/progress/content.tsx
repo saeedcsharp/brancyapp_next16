@@ -801,8 +801,8 @@ function Content(props: {
               </div>
             </div>
             <TextArea
+              className="TextArea"
               style={{ height: "300px" }}
-              className={"captiontextarea"}
               placeHolder={""}
               fadeTextArea={false}
               handleInputChange={handleChangeCaptionTextarea}

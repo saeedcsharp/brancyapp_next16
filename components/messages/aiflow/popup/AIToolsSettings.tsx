@@ -226,9 +226,9 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
                     {des.isRequired && (
                       <>
                         <TextArea
+                          className="TextArea"
                           role="textbox"
                           title={des.name}
-                          className="captiontextarea"
                           placeHolder={des.description}
                           style={{ maxHeight: "80px" }}
                           value={paramValues[item.name]?.[des.name] ?? ""}

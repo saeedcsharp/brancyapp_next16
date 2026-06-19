@@ -157,8 +157,8 @@ function SortableItem({
                 <div className={styles.headerandinput}>
                   <div className={styles.headertext}>{t(LanguageKey.Value)}</div>
                   <textarea
-                    value={item.customSpecification.value}
                     className={item.customSpecification.value.length > 0 ? styles.message : styles.dangermessage}
+                    value={item.customSpecification.value}
                     maxLength={1000}
                     placeholder={t(LanguageKey.Value)}
                     onChange={(e) => handleChangeValueCustom(e, index)}

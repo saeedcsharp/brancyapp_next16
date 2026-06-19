@@ -465,7 +465,7 @@ const AIPromptBox = ({
                     {promptMode === "manual" && (
                       <>
                         <TextArea
-                          className="captiontextarea"
+                          className="TextArea"
                           handleInputChange={(e) => {
                             setDetailedPrompt((prev) => ({
                               ...prev,

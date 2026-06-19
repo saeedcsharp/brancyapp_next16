@@ -320,8 +320,8 @@ const AdDetails = (props: {
                 {divArray}
               </div>
               <TextArea
+                className="TextArea"
                 style={{ minHeight: "150px" }}
-                className={"captiontextarea"}
                 value={adContent.caption}
                 name="ad-caption"
                 role="textbox"

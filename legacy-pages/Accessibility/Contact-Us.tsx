@@ -260,12 +260,12 @@ const ContactUs: React.FC = () => {
               </div>
 
               <textarea
+                className={styles.textarea}
                 id="message"
                 name="message"
                 placeholder="Message"
                 value={formData.message}
                 onChange={handleInputChange}
-                className={styles.textarea}
                 rows={6}
                 required
               />

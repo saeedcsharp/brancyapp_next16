@@ -116,7 +116,7 @@ export default function Information({
             </div>
           </div>
           <TextArea
-            className={"message"}
+            className="message"
             value={data.caption}
             title="Product Instagram Caption"
             role="textbox"

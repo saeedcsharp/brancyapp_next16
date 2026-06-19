@@ -123,7 +123,7 @@ export default function InformationInstance({
             </div>
           </div>
           <TextArea
-            className={"message"}
+            className="message"
             value={info.caption}
             title="Product Instagram Caption"
             role="textbox"

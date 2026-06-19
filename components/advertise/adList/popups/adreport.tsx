@@ -421,8 +421,8 @@ const AdReport = (props: { removeMask: () => void; advertiseId: number }) => {
               </div>
 
               <TextArea
+                className="TextArea"
                 style={{ minHeight: "150px" }}
-                className={"captiontextarea"}
                 value={adContent.caption}
                 role={" textbox"}
                 title={" Post Caption"}

@@ -25,7 +25,6 @@ html[dir="rtl"] .captiontextarea {
   background-position: 15px center;
   transition: var(--transition3);
 }
-
 .hover {
   position: absolute;
   width: 236px;
@@ -36,7 +35,6 @@ html[dir="rtl"] .captiontextarea {
   background-color: var(--color-disable);
   transition: var(--transition3);
 }
-
 .disable {
   position: absolute;
   width: 236px;
@@ -139,60 +137,7 @@ html[dir="rtl"] .captiontextarea {
   line-height: 30px;
   text-decoration: none;
 }
-
 /* ___textArea___*/
-.captiontextarea {
-  display: flex;
-  padding: var(--padding-10);
-  position: relative;
-  background-color: var(--color-white);
-  border: 1px solid var(--content-box);
-  /* border-radius: 0 var(--br15) var(--br15) var(--br15); */
-  border-radius: var(--br15);
-  width: 100%;
-  height: 100%;
-  overflow-x: hidden;
-  flex-direction: row;
-  flex-wrap: wrap;
-  align-content: flex-start;
-  align-items: flex-start;
-  overflow-y: auto;
-  transition: var(--transition2);
-  resize: none;
-  font-size: var(--font-14);
-  transition: var(--transition3);
-  font-weight: var(--weight-400);
-  color: var(--text-h1);
-}
-
-.captiontextarea:hover {
-  border-color: var(--color-dark-blue);
-}
-.captiontextareadanger {
-  border-color: var(--color-dark-red) !important;
-}
-.captiontextarea:focus {
-  transform: scale(0.99);
-  border-color: var(--color-dark-blue);
-  box-shadow: 0 0 0 5px var(--color-dark-blue30);
-
-  color: var(--text-h1);
-}
-.captiontextarea:focus-visible {
-  transform: scale(0.99);
-  border: 1px solid var(--color-dark-blue) !important;
-  box-shadow: 0 0 0 5px var(--color-dark-blue30);
-
-  color: var(--text-h1);
-}
-.captiontextarea::placeholder {
-  color: var(--text-h1);
-}
-
-.captiontextarea:focus::placeholder {
-  color: var(--text-h1);
-  transition: var(--transition3);
-}
 
 .message {
   min-height: 100px;
@@ -202,7 +147,6 @@ html[dir="rtl"] .captiontextarea {
   background-color: var(--color-white);
   border: 1px solid var(--content-box);
   border-radius: 0 var(--br10) var(--br10) var(--br10);
-
   width: 100%;
   height: 100%;
   overflow-x: hidden;
@@ -213,9 +157,7 @@ html[dir="rtl"] .captiontextarea {
   overflow-y: scroll;
   transition: var(--transition3);
   resize: none;
-
   font-size: var(--font-14);
-
   font-weight: var(--weight-400);
   color: var(--text-h1);
 }
@@ -228,7 +170,6 @@ html[dir="rtl"] .captiontextarea {
   transform: scale(0.99);
   border-color: var(--color-dark-blue);
   box-shadow: 0 0 0 5px var(--color-dark-blue30);
-
   color: var(--text-h1);
 }
 .message:focus-visible {
@@ -241,7 +182,6 @@ html[dir="rtl"] .captiontextarea {
 .message::placeholder {
   color: var(--text-h1);
 }
-
 .message:focus::placeholder {
   color: var(--text-h1);
   transition: var(--transition3);
@@ -260,7 +200,6 @@ html[dir="rtl"] .captiontextarea {
   outline: none;
   transition: var(--transition3);
   font-size: var(--font-14);
-
   font-weight: var(--weight-400);
   line-height: 20px;
   width: -webkit-fill-available;
@@ -269,7 +208,6 @@ html[dir="rtl"] .captiontextarea {
   background-image: url("/icon-search.svg");
   background-repeat: no-repeat;
   background-position: 15px center;
-
   text-decoration: none;
 }
 .serachMenuBar:hover {
@@ -311,3 +249,53 @@ html[dir="rtl"] .captiontextarea {
 }
 
 /* ___serachMenuBar___*/
+
+/* clean code */
+/* Danger variant for caption textarea (used when dangerOnEmpty is true) */
+.TextArea {
+  display: flex;
+  padding: var(--padding-10);
+  position: relative;
+  background-color: var(--color-white);
+  border: 1px solid var(--content-box);
+  border-radius: var(--br15);
+  width: 100%;
+  height: 100%;
+  overflow-x: hidden;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  align-items: flex-start;
+  overflow-y: auto;
+  transition: var(--transition2);
+  resize: none;
+  font-size: var(--font-14);
+  transition: var(--transition3);
+  font-weight: var(--weight-400);
+  color: var(--text-h1);
+}
+.TextArea:hover {
+  border-color: var(--color-dark-blue);
+}
+.TextAreaDangerOnEmpty {
+  border-color: var(--color-dark-red) !important;
+}
+.TextArea:focus {
+  transform: scale(0.99);
+  border-color: var(--color-dark-blue);
+  box-shadow: 0 0 0 5px var(--color-dark-blue30);
+  color: var(--text-h1);
+}
+.TextArea:focus-visible {
+  transform: scale(0.99);
+  border: 1px solid var(--color-dark-blue) !important;
+  box-shadow: 0 0 0 5px var(--color-dark-blue30);
+  color: var(--text-h1);
+}
+.TextArea::placeholder {
+  color: var(--text-h1);
+}
+.TextArea:focus::placeholder {
+  color: var(--text-h1);
+  transition: var(--transition3);
+}

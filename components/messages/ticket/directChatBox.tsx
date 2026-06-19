@@ -632,12 +632,12 @@ const DirectChatBox = (props: {
                         </div>
                       )}
                       <textarea
+                        className={styles.chatTextarea}
                         ref={textareaRef}
                         value={answerBox}
                         onChange={(e) => handleInputOnChange(e.target.value)}
                         onKeyDown={handleTextareaKeyDown}
                         placeholder={t(LanguageKey.typeAMessage)}
-                        className={styles.chatTextarea}
                         rows={1}
                         aria-label={t(LanguageKey.typeAMessage)}
                       />

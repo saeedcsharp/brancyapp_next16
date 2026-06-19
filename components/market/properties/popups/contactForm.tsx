@@ -248,7 +248,7 @@ const ContactForm = (props: { removeMask: () => void }) => {
               <div className="headerandinput" style={{ height: "100%" }}>
                 <div className="headertext">{t(LanguageKey.Address)}</div>
                 <TextArea
-                  className={"captiontextarea"}
+                  className="TextArea"
                   placeHolder={""}
                   fadeTextArea={false}
                   handleInputChange={handleChangeQuestionTextArea}

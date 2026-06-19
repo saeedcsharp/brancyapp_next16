@@ -173,7 +173,7 @@ function TextArea(props: TextAreaProps) {
       className={clsx(
         styles.base,
         styles[className],
-        dangerOnEmpty && isEmpty && styles.danger,
+        dangerOnEmpty && isEmpty && styles.TextAreaDangerOnEmpty,
         isValueRTL ? styles.rtl : styles.ltr,
         fadeTextArea && styles.fade,
       )}

@@ -182,7 +182,7 @@ const CreateEventIdea = (props: {
           </label>
           <div className={styles.textarea}>
             <TextArea
-              className="captiontextarea"
+              className="TextArea"
               value={prompt}
               handleInputChange={(e) => setPrompt(e.target.value)}
               placeHolder={t(LanguageKey.pageTools_CreateEventIdeaPromptPlaceholder)}

@@ -155,7 +155,7 @@ const QAndABox = (props: { removeMask: () => void }) => {
                     </span>
                   </div>
                   <TextArea
-                    className={"captiontextarea"}
+                    className="TextArea"
                     placeHolder={""}
                     fadeTextArea={false}
                     handleInputChange={(e) => handleChangeQuestionTextArea(e, v.id)}
@@ -176,7 +176,7 @@ const QAndABox = (props: { removeMask: () => void }) => {
                     </div>
                   </div>
                   <TextArea
-                    className={"captiontextarea"}
+                    className="TextArea"
                     placeHolder={"Answer"}
                     fadeTextArea={false}
                     handleInputChange={(e) => handleChangeAnswerTextArea(e, v.id)}
