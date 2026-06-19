@@ -1,4 +1,4 @@
-import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { getClientGraphBaseUrl, getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
 import { useSession } from "next-auth/react";
 import router from "next/router";
@@ -957,7 +957,7 @@ const CommentInbox = () => {
       };
       let str = JSON.stringify(userSession);
       var s = new HubConnectionBuilder()
-        .withUrl("https://socket.brancy.app/Hubs/GraphClient?access_token=" + str)
+        .withUrl(`${getClientGraphBaseUrl()}/Hubs/GraphClient?access_token=` + str)
         .build();
       s.start().catch((error) => {
         console.log(error);

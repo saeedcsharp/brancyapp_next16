@@ -5,6 +5,7 @@ import { LanguageKey } from "brancy/i18n";
 import styles from "./sendFile.module.css";
 import { ItemType, MediaType } from "brancy/models/enums";
 import { IIsSendingMessage } from "brancy/models/interfaces";
+import { getClientUploadBaseUrl } from "brancy/helper/apiBaseUrl";
 
 function _arrayBufferToBase64(buffer: ArrayBuffer) {
   var binary = "";
@@ -66,7 +67,7 @@ const SendVideoFile = (props: {
       try {
         const id = await new Promise<any | null>((resolve) => {
           const xhr = new XMLHttpRequest();
-          const url = "https://uupload.brancy.app/file";
+          const url = `${getClientUploadBaseUrl()}`;
           const fd = new FormData();
           fd.append("file", preparedFile as File);
           xhr.open("POST", url, true);

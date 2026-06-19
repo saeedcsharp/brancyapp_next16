@@ -11,6 +11,7 @@ const CONFIG = {
     media: `https://ilink.${baseIRUrl}/`,
     upload: `https://uupload.${baseIRUrl}/file`,
     socket: `https://minisocket.${baseIRUrl}`,
+    graph: `https://socket.${baseIRUrl}`,
   },
 
   // ── brancy.app (پیش‌فرض / خارج از ایران) ────────────────────────────────
@@ -19,6 +20,7 @@ const CONFIG = {
     media: `https://ilink.${baseAppUrl}/`,
     upload: `https://uupload.${baseAppUrl}/file`,
     socket: `https://minisocket.${baseAppUrl}`,
+    graph: `https://socket.${baseAppUrl}`,
   },
 
   // ── patran.ir (localhost / محیط توسعه) ───────────────────────────────────
@@ -27,6 +29,7 @@ const CONFIG = {
     media: `https://ilink.${baseIRUrl}/`,
     upload: `https://uupload.${baseLocalUrl}/file`,
     socket: `https://minisocket.${baseLocalUrl}`,
+    graph: `https://socket.${baseLocalUrl}`,
   },
 };
 
@@ -93,6 +96,11 @@ export function getClientUploadBaseUrl(): string {
 /** SignalR socket base URL. */
 export function getClientSocketBaseUrl(): string {
   return getClientConfig().socket;
+}
+
+/** SignalR graph base URL. */
+export function getClientGraphBaseUrl(): string {
+  return getClientConfig().graph;
 }
 
 /**
