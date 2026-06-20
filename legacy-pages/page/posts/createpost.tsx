@@ -2020,6 +2020,7 @@ const CreatePost = () => {
           const errorMsg: IErrorPrePostInfo = JSON.parse(draft.errorMessage);
           uiDispatch({ type: "SET_DRAFT_ERROR", payload: errorMsg });
         }
+        console.log("draft from server", draftRes.value);
         formDispatch({
           type: "TOGGLE_QUICK_REPLY",
           payload: draft.automaticMediaReply ? true : false,
@@ -2035,19 +2036,19 @@ const CreatePost = () => {
           replySuccessfullyDirected: draft.automaticMediaReply
             ? draft.automaticMediaReply.replySuccessfullyDirected
             : false,
-          response: draft.automaticMediaReply ? draft.automaticMediaReply.response : "",
+          response: draft.automaticMediaReply ? draft.automaticMediaReply.response : null,
           sendPr: draft.automaticMediaReply ? draft.automaticMediaReply.sendPr : false,
           shouldFollower: draft.automaticMediaReply ? draft.automaticMediaReply.shouldFollower : false,
           automaticType: draft.automaticMediaReply
             ? draft.automaticMediaReply.automaticType
             : AutoReplyPayLoadType.KeyWord,
           masterFlow: null,
-          masterFlowId: draft.automaticMediaReply ? draft.automaticMediaReply.masterFlowId : "",
+          masterFlowId: draft.automaticMediaReply ? draft.automaticMediaReply.masterFlowId : null,
           mediaId: "",
           pauseTime: Date.now(),
           productType: MediaProductType.Feed,
           prompt: null,
-          promptId: draft.automaticMediaReply ? draft.automaticMediaReply.promptId : "",
+          promptId: draft.automaticMediaReply ? draft.automaticMediaReply.promptId : null,
           sendCount: 0,
         });
         setCollabratorPages(draft.collaborators);
@@ -3352,6 +3353,7 @@ const CreatePost = () => {
                         name="quick-reply"
                         handleToggle={() => {
                           if (prePostId > 0) return;
+                          console.log("toggling quick reply popup", handlePermissionShowQuickReply);
                           formDispatch({ type: "TOGGLE_QUICK_REPLY" });
                           if (handlePermissionShowQuickReply) {
                             uiDispatch({ type: "TOGGLE_QUICK_REPLY_POPUP", payload: true });
