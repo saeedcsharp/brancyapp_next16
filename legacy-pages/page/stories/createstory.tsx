@@ -3,7 +3,7 @@ import ImageCompressor from "compressorjs";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
+import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
@@ -65,7 +65,7 @@ const CreateStory = () => {
   ]);
   const [autoReply, setAutoReply] = useState<IAutomaticReply>({
     items: [],
-    response: "",
+    response: null,
     shouldFollower: false,
     automaticType: AutoReplyPayLoadType.KeyWord,
     masterFlow: null,
@@ -131,7 +131,7 @@ const CreateStory = () => {
               uploadImageUrl: !showMedias.mediaUri ? showMedias.mediaUploadId : null,
               userTags: [],
             },
-            automaticMediaReply: QuickReply
+            automaticMediaReply: handleActiveAutoComment
               ? {
                   automaticType: autoReply.automaticType,
                   keys: autoReply.items.map((x) => x.text),
@@ -183,7 +183,7 @@ const CreateStory = () => {
                     uploadImageUrl: !showMedias.coverUri ? showMedias.coverId : null,
                   }
                 : null,
-            automaticDirectReply: QuickReply
+            automaticDirectReply: handleActiveAutoComment
               ? {
                   automaticType: autoReply.automaticType,
                   keys: autoReply.items.map((x) => x.text),
@@ -978,6 +978,7 @@ const CreateStory = () => {
       replySuccessfullyDirected: sendAutoReply.replySuccessfullyDirected,
     });
     setShowQuickReplyPopup(false);
+    if (!QuickReply) setQuickReply(true);
   }
   // Authentication check
   useEffect(() => {
@@ -1018,6 +1019,14 @@ const CreateStory = () => {
       handleGetDraftStory(query.draftId as string);
     }
   }, [router.isReady, query.draftId, session, handleGetDraftStory, draftId]);
+  const handleActiveAutoComment = useMemo(() => {
+    return (
+      QuickReply && (autoReply.promptId !== null || autoReply.masterFlowId !== null || autoReply.response !== null)
+    );
+  }, [QuickReply, autoReply.promptId, autoReply.masterFlowId, autoReply.response]);
+  const handlePermissionShowQuickReply = useMemo(() => {
+    return autoReply.promptId === null && autoReply.masterFlowId === null && autoReply.response === null;
+  }, [QuickReply, autoReply.promptId, autoReply.masterFlowId, autoReply.response]);
 
   if (session?.user.currentIndex === -1) router.push("/user");
   if (session && !packageStatus(session)) router.push("/upgrade");
@@ -1364,23 +1373,26 @@ const CreateStory = () => {
                           handleToggle={() => {
                             if (preStoryId > 0) return;
                             setQuickReply(!QuickReply);
+                            if (handlePermissionShowQuickReply) {
+                              setShowQuickReplyPopup(true);
+                            }
                           }}
-                          checked={QuickReply}
+                          checked={handleActiveAutoComment}
                           title="Toggle quick reply"
                           role="switch"
-                          aria-checked={QuickReply}
+                          aria-checked={handleActiveAutoComment}
                           aria-label="Quick reply toggle"
                         />
                       </div>
                       <div className="explain">{t(LanguageKey.QuickReplyexplain)}</div>
                       <button
-                        className={`cancelButton ${QuickReply ? "" : "fadeDiv"}`}
+                        className={`cancelButton ${handleActiveAutoComment ? "" : "fadeDiv"}`}
                         onClick={() => {
-                          if (QuickReply) {
+                          if (handleActiveAutoComment) {
                             setShowQuickReplyPopup(true);
                           }
                         }}
-                        disabled={!QuickReply}>
+                        disabled={!handleActiveAutoComment}>
                         {t(LanguageKey.marketstatisticsfeatures)}
                       </button>
                     </div>

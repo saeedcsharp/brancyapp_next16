@@ -332,8 +332,10 @@ const formReducer = (state: FormState, action: FormAction): FormState => {
       };
     case "SET_REC_TIME_SELECT":
       return { ...state, recTimeSelect: action.payload };
-    case "TOGGLE_QUICK_REPLY":
+    case "TOGGLE_QUICK_REPLY": {
       return { ...state, QuickReply: action.payload ?? !state.QuickReply };
+    }
+
     case "SET_SEARCH_LOCATION":
       return { ...state, searchLocation: action.payload };
     case "SET_SEARCH_PEOPLE":
@@ -483,7 +485,7 @@ const CreatePost = () => {
   const [collabratorPages, setCollabratorPages] = useState<string[]>([]);
   const [autoReply, setAutoReply] = useState<IAutomaticReply>({
     items: [],
-    response: "",
+    response: null,
     sendPr: false,
     shouldFollower: false,
     automaticType: AutoReplyPayLoadType.AI,
@@ -582,7 +584,14 @@ const CreatePost = () => {
 
     return [defaultOption, ...options];
   }, [hashtags, selectedOptions, styles.option, t]);
-
+  const handleActiveAutoComment = useMemo(() => {
+    return (
+      QuickReply && (autoReply.promptId !== null || autoReply.masterFlowId !== null || autoReply.response !== null)
+    );
+  }, [QuickReply, autoReply.promptId, autoReply.masterFlowId, autoReply.response]);
+  const handlePermissionShowQuickReply = useMemo(() => {
+    return autoReply.promptId === null && autoReply.masterFlowId === null && autoReply.response === null;
+  }, [QuickReply, autoReply.promptId, autoReply.masterFlowId, autoReply.response]);
   // Update hashtagList when hashtags change
   useEffect(() => {
     if (hashtags && hashtags.length > 0 && selectedOptions >= 0) {
@@ -791,6 +800,7 @@ const CreatePost = () => {
       replySuccessfullyDirected: false,
     });
     uiDispatch({ type: "TOGGLE_QUICK_REPLY_POPUP", payload: false });
+    if (!QuickReply) formDispatch({ type: "TOGGLE_QUICK_REPLY" });
   }
 
   const closeCreatePost = useCallback(() => {
@@ -832,7 +842,7 @@ const CreatePost = () => {
               uploadImageUrl: !media.mediaUri ? media.mediaUploadId : null,
               userTags: media.tagPeaple,
             },
-            automaticMediaReply: QuickReply
+            automaticMediaReply: handleActiveAutoComment
               ? {
                   automaticType: autoReply.automaticType,
                   keys: autoReply.items.map((x) => x.text),
@@ -884,7 +894,7 @@ const CreatePost = () => {
                     uploadImageUrl: !media.coverUri ? media.coverId : null,
                   }
                 : null,
-            automaticMediaReply: QuickReply
+            automaticMediaReply: handleActiveAutoComment
               ? {
                   automaticType: autoReply.automaticType,
                   keys: autoReply.items.map((x) => x.text),
@@ -953,7 +963,7 @@ const CreatePost = () => {
           draftId: draftId,
           caption: captionTextArea,
           albumItems: items,
-          automaticMediaReply: QuickReply
+          automaticMediaReply: handleActiveAutoComment
             ? {
                 automaticType: autoReply.automaticType,
                 keys: autoReply.items.map((x) => x.text),
@@ -2258,7 +2268,7 @@ const CreatePost = () => {
   const getPublishLimitContent = useCallback(async () => {
     if (!session) return;
     try {
-      var res = await clientFetchApi<boolean, IPublishLimit>("Instagramer" + "" + "/Post/GetPublishLimitContent", {
+      var res = await clientFetchApi<boolean, IPublishLimit>("api/Post/GetPublishLimitContent", {
         methodType: MethodType.get,
         session: session,
         data: undefined,
@@ -2307,7 +2317,7 @@ const CreatePost = () => {
 
   const handleDeletePrePost = useCallback(async () => {
     try {
-      const res = await clientFetchApi<boolean, boolean>("Instagramer" + "" + "/Post/DeletePrePost", {
+      const res = await clientFetchApi<boolean, boolean>("api/Post/DeletePrePost", {
         methodType: MethodType.get,
         session: session,
         data: undefined,
@@ -2325,6 +2335,7 @@ const CreatePost = () => {
     if (!session || status !== "authenticated") return;
     if (!isDataLoaded && router.isReady) {
       // checkCanCreatePrePost();
+      console.log("query", query);
       if (query.draftId !== undefined) {
         handleGetDraftPost(query.draftId as string);
       } else if (query.prePostId !== undefined) handleGetPrePost(query.prePostId as string);
@@ -2345,6 +2356,14 @@ const CreatePost = () => {
     GetNextBestTimes,
     getPublishLimitContent,
   ]);
+
+  // Ensure we react to route query changes (e.g., client-side Link navigation)
+  useEffect(() => {
+    if (router.isReady && session && query.draftId !== undefined && draftId <= 0) {
+      console.log("Detected draftId in query (effect):", query.draftId);
+      handleGetDraftPost(query.draftId as string);
+    }
+  }, [router.isReady, query.draftId, session, handleGetDraftPost, draftId]);
   const handleMainContentClick = useCallback(() => {
     uiDispatch({
       type: "SET_ADD_PEOPLE_BOX",
@@ -3334,26 +3353,29 @@ const CreatePost = () => {
                         handleToggle={() => {
                           if (prePostId > 0) return;
                           formDispatch({ type: "TOGGLE_QUICK_REPLY" });
+                          if (handlePermissionShowQuickReply) {
+                            uiDispatch({ type: "TOGGLE_QUICK_REPLY_POPUP", payload: true });
+                          }
                         }}
-                        checked={QuickReply}
+                        checked={handleActiveAutoComment}
                         title="Toggle quick reply"
                         role="switch"
-                        aria-checked={QuickReply}
+                        aria-checked={handleActiveAutoComment}
                         aria-label="Quick reply toggle"
                       />
                     </div>
                     <div className="explain">{t(LanguageKey.QuickReplyexplain)}</div>
                     <button
-                      className={`cancelButton ${QuickReply ? "" : "fadeDiv"}`}
+                      className={`cancelButton ${handleActiveAutoComment ? "" : "fadeDiv"}`}
                       onClick={() => {
-                        if (QuickReply) {
+                        if (handleActiveAutoComment) {
                           uiDispatch({
                             type: "TOGGLE_QUICK_REPLY_POPUP",
                             payload: true,
                           });
                         }
                       }}
-                      disabled={!QuickReply}>
+                      disabled={!handleActiveAutoComment}>
                       {t(LanguageKey.marketstatisticsfeatures)}
                     </button>
                   </div>
