@@ -83,7 +83,7 @@ export default function ReportProduct({
         <div className="headerandinput" style={{ height: "100%" }}>
           <div className="headertext">{t(LanguageKey.message)}</div>
           <TextArea
-            className="message"
+            className="TextArea"
             placeHolder={""}
             handleInputChange={handleTextAreaChange}
             value={textArea}

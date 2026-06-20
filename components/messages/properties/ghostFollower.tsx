@@ -51,7 +51,7 @@ function GhostFollower() {
           </div>
 
           <TextArea
-          className="message"
+            className="TextArea"
             name="ghost-visitor-message"
             placeHolder={"Enter message for ghost visitors"}
             fadeTextArea={false}

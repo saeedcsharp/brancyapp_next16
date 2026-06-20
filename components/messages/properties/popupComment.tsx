@@ -34,8 +34,8 @@ const PopupComment: React.FC<PopupCommentProps> = ({ onClose }) => {
                 textlabel: COMMENTinputText,
                 promptanswer: COMMENTtextAreaText,
               }
-            : prompt
-        )
+            : prompt,
+        ),
       );
       setEditIndexCOMMENT(null); // پاک کردن ایندکس ویرایش پس از ذخیره
     } else {
@@ -92,7 +92,7 @@ const PopupComment: React.FC<PopupCommentProps> = ({ onClose }) => {
           </div>
         </div>
         <TextArea
-          className="message"
+          className="TextArea"
           placeHolder={t(LanguageKey.pageToolspopup_typehere)}
           handleInputChange={(e) => setCOMMENTTextAreaText(e.target.value)}
           value={COMMENTtextAreaText}

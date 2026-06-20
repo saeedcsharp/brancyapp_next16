@@ -60,7 +60,7 @@ function Prompt(props: { data: IPropmt; propmptNumber: number }) {
             </div>
           </div>
           <TextArea
-            className="message"
+            className="TextArea"
             placeHolder={""}
             fadeTextArea={false}
             handleInputChange={handleChangeTextArea}
