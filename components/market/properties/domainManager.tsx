@@ -158,6 +158,7 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
   useEffect(() => {
     getCustomerInfo();
     fetchAndCheckFeature(PsgFeatureType.CustomDomain, session).then(setHasCustomDomainFeature);
+    if (typeof window === "undefined") return; // برای SSR ایمن
     const host = window.location.hostname;
     setIsDevMode(host.includes("patran.ir") || host === "localhost" || host === "127.0.0.1");
   }, []);

@@ -63,7 +63,41 @@
   z-index: -1;
   filter: blur(5px);
 }
-
+.enemad {
+  padding: var(--padding-30);
+  background-color: var(--color-gray10);
+  border: 1px solid var(--color-gray30);
+  border-radius: var(--br25);
+  min-width: 250px;
+  min-height: 250px;
+  position: relative;
+  gap: var(--gap-20);
+  display: flex;
+  flex-direction: column;
+  align-items: center; /* ← این رو اضافه کن */
+  justify-content: center; /* اختیاری: اگه می‌خوای عمودی هم وسط باشه */
+  text-align: start;
+  color: var(--text-h1);
+  font-weight: var(--weight-600);
+  font-size: clamp(14px, 2vw, 18px);
+  transition: var(--transition3);
+}
+.enemad:hover {
+  transform: translateY(-5px);
+  box-shadow: var(--box-shadow);
+}
+.enemad:before {
+  content: "";
+  position: absolute;
+  top: 20px;
+  margin-inline-start: -10px;
+  width: 30px;
+  height: 30px;
+  background-color: var(--color-dark-blue60);
+  border-radius: var(--br8);
+  z-index: -1;
+  filter: blur(5px);
+}
 .footerbody {
   position: relative;
   display: flex;
@@ -128,6 +162,16 @@ html[dir="rtl"] .link::before {
     border-radius: var(--br20);
   }
   .footersectiontable:before {
+    top: 8px;
+  }
+  .enemad {
+    min-width: 45%;
+    max-width: 45%;
+    min-height: 200px;
+    padding: var(--padding-14) var(--padding-16);
+    border-radius: var(--br20);
+  }
+  .enemad:before {
     top: 8px;
   }
 }

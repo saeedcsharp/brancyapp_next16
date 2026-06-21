@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import styles from "./footer.module.css";
 import { useTranslation } from "react-i18next";
@@ -6,6 +6,7 @@ import { LanguageKey } from "brancy/i18n";
 
 const Footer: React.FC = () => {
   const { t } = useTranslation();
+  const [isIR, serIsIr] = useState(false);
   const sections = useMemo(
     () => [
       {
@@ -88,26 +89,34 @@ const Footer: React.FC = () => {
     ],
     [t],
   );
-
+  useEffect(() => {
+    if (typeof window === "undefined") return; // برای SSR ایمن
+    const host = window.location.hostname;
+    serIsIr(host.includes("brancy.ir") || host === "localhost" || host === "127.0.0.1");
+  }, []);
   return (
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
-        {/* <div
-          className={styles.trustBadge}
-          style={{ width: "100px", display: "flex", justifyContent: "center" }}>
-          <a
-            href="https://trustseal.enamad.ir/?id=592240&Code=ZPK5gEE42sC9NZ0pyv75KtihnZtZJUmG"
-            target="_blank"
-            referrerPolicy="origin"
-            aria-label="eNamad Trust Badge">
-            <img
+        {isIR && (
+          <div className={styles.enemad}>
+            <a
+              href="https://trustseal.enamad.ir/?id=745725&Code=4jzLwvZYKySIQKV7TZv1oleWBHSAyBzv"
+              target="_blank"
               referrerPolicy="origin"
-              src="https://trustseal.enamad.ir/logo.aspx?id=592240&Code=ZPK5gEE42sC9NZ0pyv75KtihnZtZJUmG"
-              alt=""
-              style={{ cursor: "pointer" }}
-              data-code="ZPK5gEE42sC9NZ0pyv75KtihnZtZJUmG"></img>
-          </a>
-        </div> */}
+              aria-label="eNamad Trust Badge">
+              <img
+                referrerPolicy="origin"
+                src="https://trustseal.enamad.ir/logo.aspx?id=745725&Code=4jzLwvZYKySIQKV7TZv1oleWBHSAyBzv"
+                alt=""
+                style={{
+                  cursor: "pointer",
+                  width: "100px",
+                  height: "100px",
+                }}
+                data-code="4jzLwvZYKySIQKV7TZv1oleWBHSAyBzv'"></img>
+            </a>
+          </div>
+        )}
         {sections.map((section, idx) => (
           <div key={idx} className={styles.footersectiontable}>
             {section.title}
