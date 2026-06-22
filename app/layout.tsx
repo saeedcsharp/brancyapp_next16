@@ -4,6 +4,7 @@ import "quill/dist/quill.snow.css";
 import "brancy/components/page/statistics/sliderToFourBox.css";
 import "brancy/app/globals.scss";
 import Providers from "brancy/app/providers";
+import { ThemeScript } from "brancy/components/themeScript";
 
 export const metadata: Metadata = {
   title: "Brancy",
@@ -54,6 +55,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="apple-touch-icon" href="/icons/icon-152x152.png" />
       </head>
       <body>
+        <ThemeScript />
         <GoogleTagManager gtmId="GTM-PLFD6SZ4" />
         <GoogleAnalytics gaId="G-BSQ8WGVTN1" />
         <noscript>
@@ -63,7 +65,6 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             width="0"
             style={{ display: "none", visibility: "hidden" }}></iframe>
         </noscript>
-        <script dangerouslySetInnerHTML={{ __html: setThemeAndManifestScript }} />
         <Providers>{children}</Providers>
       </body>
     </html>

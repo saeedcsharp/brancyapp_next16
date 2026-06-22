@@ -43,7 +43,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           const updatedSession = await update({
             ...session,
             user: {
-              ...session?.user,
+              //...session?.user,
               expireTime: res.value.expireTime,
               id: res.value.id,
               instagramerIds: res.value.role.instagramerIds,
@@ -123,7 +123,6 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         const updatedSession = await update({
           ...session,
           user: {
-            ...session?.user,
             loginStatus: res.value.loginStatus,
             lastUpdate: Date.now(),
             profileUrl: res.value.profileUrl,
