@@ -210,13 +210,19 @@ const handler = NextAuth({
         // (چون قبلاً توی page.tsx گرفتیش، فقط باید به اینجا پاسش بدی)
         if (!credentials?.token) throw new Error("Token is required");
         console.log("CredentialsProvider", credentials);
+        let instagramerIds: number[] = [];
+        try {
+          instagramerIds = JSON.parse(credentials.instagramerIds ?? "[]");
+        } catch {
+          instagramerIds = [];
+        }
         return normalizeUser({
           accessToken: credentials.token,
           expireTime: Number(credentials.expireTime),
           socketAccessToken: credentials.socketAccessToken,
           currentIndex: Number(credentials.currentIndex),
           lastUpdate: 0,
-          instagramerIds: [Number(credentials.instagramerIds)],
+          instagramerIds,
           // بقیه فیلدها (roles, username, ...) رو هم باید از یه fetch جدا بگیری
           // مثلاً همون GetMyInstagramers یا یه endpoint مشابه با همین token
         });

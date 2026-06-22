@@ -19,7 +19,7 @@ export default function DirectLoginClient({ res, redirectUrl, currentIndex }: an
         expireTime: res.value.expireTime,
         socketAccessToken: res.value.socketAccessToken,
         currentIndex: currentIndex,
-        instagramerIds: res.value.role.instagramerIds,
+        instagramerIds: JSON.stringify(res.value.role.instagramerIds), // ← تبدیل به رشته
         redirect: false,
       });
 
