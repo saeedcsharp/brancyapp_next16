@@ -10,6 +10,9 @@ export default async function DirectLoginPage({
   searchParams: Promise<{ bearer?: string; redirectUrl?: string; currentIndex?: string }>;
 }) {
   const { bearer, redirectUrl, currentIndex } = await searchParams;
+  if (!bearer || !redirectUrl || !currentIndex) {
+    redirect("/");
+  }
   const reqHeaders = await headers();
   const apiBase = getInternalApiBaseUrl(reqHeaders.get("host"));
   const res = await fetch(`${apiBase}SSO/RefreshToken`, {
