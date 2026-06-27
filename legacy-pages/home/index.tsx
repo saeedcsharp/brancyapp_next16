@@ -5,7 +5,6 @@ import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ResponseType } from "brancy/components/notifications/notificationBox";
 import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
-
 import AccountSummary from "brancy/components/homeIndex/accountSummary";
 import IngageInfo from "brancy/components/homeIndex/ingageInfo";
 import InstagramerUpgrade from "brancy/components/homeIndex/instagramerupgrade";

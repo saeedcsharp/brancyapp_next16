@@ -12,6 +12,7 @@ import { MethodType } from "brancy/helper/api";
 import styles from "./metaDirect.module.css";
 import { clientFetchApi, clientFetchApiWithAccessToken } from "brancy/helper/clientFetchApi";
 import { IRefreshToken } from "brancy/models/interfaces";
+import DirectLoginClient from "brancy/components/signIn/directLoginClient";
 
 export default function MetaRedirect() {
   const { data: session, update } = useSession();
@@ -26,77 +27,31 @@ export default function MetaRedirect() {
   async function createInstagramerAccount() {
     console.log("createInstagramerAccount");
     try {
-      const response = await clientFetchApiWithAccessToken<boolean, number>("/api/preinstagramer/VerifyCode", {
+      const verifyCodeRes = await clientFetchApiWithAccessToken<boolean, number>("/api/preinstagramer/VerifyCode", {
         methodType: MethodType.get,
         accessToken: "Bearer" + " " + query.state,
         data: null,
         queries: [{ key: "code", value: query.code as string }],
         onUploadProgress: undefined,
       });
-      if (response.succeeded && session != null) {
+      if (verifyCodeRes.succeeded && session != null) {
         try {
-          if (
-            session.user.currentIndex > -1 &&
-            session?.user.instagramerIds[session.user.currentIndex] == response.value
-          ) {
-            await update({
-              ...session,
-              user: {
-                ...session.user,
-                loginByInsta: true,
-                lastUpdate: null,
-              },
-            });
-          } else if (session.user.instagramerIds.indexOf(response.value) != -1) {
-            await update({
-              ...session,
-              user: {
-                ...session.user,
-                currentIndex: session.user.instagramerIds.indexOf(response.value),
-                lastUpdate: 0,
-                loginByInsta: true,
-              },
-            });
-          } else {
-            {
-              try {
-                const res = await clientFetchApi<boolean, IRefreshToken>("/api/user/RefreshToken", {
-                  methodType: MethodType.get,
-                  session: session,
-                  data: undefined,
-                  queries: undefined,
-                  onUploadProgress: undefined,
-                });
-                if (res.succeeded) {
-                  await update({
-                    ...session,
-                    user: {
-                      // ...session?.user,
-                      expireTime: res.value.expireTime,
-                      id: res.value.id,
-                      instagramerIds: res.value.role.instagramerIds,
-                      accessToken: res.value.token,
-                      socketAccessToken: res.value.socketAccessToken,
-                      currentIndex: res.value.role.instagramerIds.indexOf(response.value),
-                      lastUpdate: 0,
-                    },
-                  });
-                  internalNotify(InternalResponseType.FetchingYourData, NotifType.Success);
-
-                  // Add 5 second delay
-                  await new Promise((resolve) => setTimeout(resolve, 5000));
-                }
-              } catch (error) {
-                console.log(error);
-              }
-            }
+          const refreshRes = await clientFetchApi<boolean, IRefreshToken>("/api/user/RefreshToken", {
+            methodType: MethodType.get,
+            session: session,
+            data: undefined,
+            queries: undefined,
+            onUploadProgress: undefined,
+          });
+          if (refreshRes.succeeded) {
+            <DirectLoginClient res={refreshRes.value} redirectUrl={"/home"} instagramerId={verifyCodeRes.value} />;
           }
           router.replace("/");
         } catch (error) {
           console.log("error on redirect", error);
         }
       } else {
-        notify(response.info.responseType, NotifType.Warning);
+        notify(verifyCodeRes.info.responseType, NotifType.Warning);
       }
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);

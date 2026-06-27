@@ -4,7 +4,6 @@ import { IRefreshToken } from "brancy/models/interfaces";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 
-// app/directlogin/page.tsx  (Server Component - فقط دیتا میگیره)
 export default async function DirectLoginPage({
   searchParams,
 }: {
