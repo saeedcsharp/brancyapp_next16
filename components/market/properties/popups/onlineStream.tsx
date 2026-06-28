@@ -60,6 +60,7 @@ type StateAction =
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "SET_CHANNEL_SEARCH"; payload: Partial<ISearchChannel> }
   | { type: "SET_UPDATE_YOUTUBE"; payload: Partial<IUpdateChannel> }
+  | { type: "SET_UPDATE_TWITCH"; payload: Partial<IUpdateChannel> }
   | { type: "SET_UPDATE_APARAT"; payload: Partial<IUpdateChannel> }
   | { type: "SET_SELECTED_EMBED"; payload: string }
   | { type: "SET_CHANNEL_BOX"; payload: Partial<IChannelBox> }
@@ -69,6 +70,7 @@ type StateAction =
       payload: {
         channelSearch: ISearchChannel;
         updateYoutube: IUpdateChannel;
+        updateTwitch: IUpdateChannel;
         updateAparat: IUpdateChannel;
       };
     };
@@ -106,6 +108,7 @@ const stateReducer = (state: any, action: StateAction) => {
         ...state,
         channelSearch: action.payload.channelSearch,
         updateYoutube: action.payload.updateYoutube,
+        updateTwitch: action.payload.updateTwitch,
         updateAparat: action.payload.updateAparat,
         loading: false,
       };
@@ -344,6 +347,23 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
     });
     dispatch({ type: "SET_UPDATE_YOUTUBE", payload: { embedVideo } });
   }, []);
+  const handleActiveTwitch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const isActive = e.target.checked;
+    dispatch({
+      type: "SET_CHANNEL_SEARCH",
+      payload: { activeTwitch: isActive },
+    });
+    dispatch({ type: "SET_UPDATE_TWITCH", payload: { isActive } });
+  }, []);
+
+  const handleEmbedTwitch = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    const embedVideo = e.target.checked;
+    dispatch({
+      type: "SET_CHANNEL_SEARCH",
+      payload: { embedTwitch: embedVideo },
+    });
+    dispatch({ type: "SET_UPDATE_TWITCH", payload: { embedVideo } });
+  }, []);
 
   const handleActiveAparat = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     const isActive = e.target.checked;
@@ -402,6 +422,12 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
           isActive: res.value.aparatChannel?.isActive || false,
           username: res.value.aparatChannel?.video?.channelTitle || null,
         };
+        const twitchData: IUpdateChannel = {
+          embedVideo: res.value.twitchChannel?.embedVideo || false,
+          id: res.value.twitchChannel?.id || null,
+          isActive: res.value.twitchChannel?.isActive || false,
+          username: res.value.twitchChannel?.video?.channelTitle || null,
+        };
 
         dispatch({
           type: "SET_INITIAL_DATA",
@@ -409,6 +435,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
             channelSearch: channelSearchData,
             updateYoutube: youtubeData,
             updateAparat: aparatData,
+            updateTwitch: twitchData,
           },
         });
       }
@@ -683,15 +710,22 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
             </div>
           )}
           {selectedEmbed === "twitchEmbed" && (
-            <div className={`${styles.all} fadeDiv `}>
+            <div className={`${styles.all} `}>
               <div className="headerandinput">
                 <div className="headerparent">
                   <div className="title">{t(LanguageKey.activate)}</div>
-                  <ToggleCheckBoxButton name="" handleToggle={() => " "} checked={false} title={""} role={""} />
+                  <ToggleCheckBoxButton
+                    name="twitchToggle"
+                    handleToggle={handleActiveTwitch}
+                    checked={channelSearch.activeTwitch}
+                    title={"Toggle Twitch Channel"}
+                    aria-label={"Toggle Twitch Channel"}
+                    role={"switch"}
+                  />
                 </div>
               </div>
 
-              <div className="headerandinput">
+              <div className={`headerandinput ${!channelSearch.activeTwitch && "fadeDiv"}`}>
                 <div className="headerandinput">
                   <div className="title2">{t(LanguageKey.searchID)}</div>
                   <div className="explain">{t(LanguageKey.searchIDexplain)}</div>
@@ -701,10 +735,8 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
                     className={"textinputbox"}
                     placeHolder={t(LanguageKey.pageToolspopup_typehere)}
                     name={"searchTwitchPage"}
-                    handleInputChange={function (e: ChangeEvent<HTMLInputElement>): void {
-                      throw new Error("Function not implemented.");
-                    }}
-                    value={""}
+                    handleInputChange={handleSearchChannel}
+                    value={channelSearch.searchTwitchPage || ""}
                   />
                   <img
                     style={{
@@ -720,14 +752,12 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
 
                 <img loading="lazy" decoding="async" alt="thumbnail" src="/soon.svg" className={styles.searchresult} />
               </div>
-              <div className="headerandinput">
+              <div className={`headerandinput ${!channelSearch.activeTwitch && "fadeDiv"}`}>
                 <CheckBoxButton
                   name="embedTwitchToggle"
                   title="Toggle Twitch Embedding"
-                  handleToggle={function (e: ChangeEvent<HTMLInputElement>): void {
-                    throw new Error("Function not implemented.");
-                  }}
-                  value={false}
+                  handleToggle={handleEmbedTwitch}
+                  value={channelSearch.embedTwitch || false}
                   textlabel={t(LanguageKey.Embed)}
                 />
 
