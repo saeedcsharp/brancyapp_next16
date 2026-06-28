@@ -8,10 +8,10 @@ import { MethodType } from "brancy/helper/api";
 import styles from "./AI_liveChat.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { ItemType } from "brancy/models/enums";
-import { ILiveChat, ICreatePrompt, ICreateLiveChat } from "brancy/models/interfaces";
+import { ILiveChat, ICreatePrompt, ICreateLiveChat, ILiveChatClient } from "brancy/models/interfaces";
 
 type ChatState = {
-  messages: ILiveChat[];
+  messages: ILiveChatClient[];
   isLoading: boolean;
   isFirstMessage: boolean;
   userInput: string;
@@ -19,7 +19,7 @@ type ChatState = {
 
 type ChatAction =
   | { type: "SET_USER_INPUT"; payload: string }
-  | { type: "ADD_MESSAGE"; payload: ILiveChat }
+  | { type: "ADD_MESSAGE"; payload: ILiveChatClient }
   | { type: "SET_LOADING"; payload: boolean }
   | { type: "SET_FIRST_MESSAGE"; payload: boolean }
   | { type: "RESET" };
@@ -140,7 +140,18 @@ export default function LiveChat({ promptInfo }: { promptInfo: ICreatePrompt }) 
       });
       console.log("LiveChat response:", res);
       if (res.succeeded) {
-        dispatch({ type: "ADD_MESSAGE", payload: res.value });
+        dispatch({
+          type: "ADD_MESSAGE",
+          payload: {
+            imageUrl: null,
+            isStopped: res.value.isStopped,
+            itemType: res.value.items[0].itemType,
+            quickReplies: [],
+            text: res.value.items[0].text,
+            type: "",
+            voiceUrl: null,
+          },
+        });
         if (state.isFirstMessage) {
           dispatch({ type: "SET_FIRST_MESSAGE", payload: false });
         }
@@ -188,7 +199,7 @@ export default function LiveChat({ promptInfo }: { promptInfo: ICreatePrompt }) 
   );
 
   const renderMessage = useCallback(
-    (message: ILiveChat, index: number) => (
+    (message: ILiveChatClient, index: number) => (
       <div
         key={index}
         className={`${styles.flowTestMessage} ${styles[message.type]}`}
