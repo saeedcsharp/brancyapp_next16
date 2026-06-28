@@ -40,7 +40,7 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
 
   const handleAcceptOrder = useCallback(async () => {
     try {
-      const res = await clientFetchApi<string, string>("/api/order/GetOrderPaymentLink", {
+      const res = await clientFetchApi<string, string>("/api/userorder/GetOrderPaymentLink", {
         methodType: MethodType.get,
         session: session,
         data: null,

@@ -199,7 +199,7 @@ const PickingUp = () => {
   const isAllSelected = state.selectedOrders.size === orders.items.length;
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/user/GetOrdersByStatus", {
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/userorder/GetOrdersByStatus", {
         methodType: MethodType.get,
         session: session,
         data: null,

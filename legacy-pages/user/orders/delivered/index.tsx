@@ -200,7 +200,7 @@ const Delivered = () => {
   const isAllSelected = state.selectedOrders.size === orders.items.length;
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/user/getOrdersByStatus", {
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/userorder/getOrdersByStatus", {
         methodType: MethodType.get,
         session: session,
         data: null,
