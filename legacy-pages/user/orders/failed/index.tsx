@@ -141,7 +141,7 @@ export default function Failed() {
     if (orders.nextMaxId === null) return;
     setLoadingMore(true);
     try {
-      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", {
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/user/GetOrdersByStatuses", {
         methodType: MethodType.post,
         session: session,
         data: [
@@ -169,7 +169,7 @@ export default function Failed() {
   }
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", {
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/user/GetOrdersByStatuses", {
         methodType: MethodType.post,
         session: session,
         data: [

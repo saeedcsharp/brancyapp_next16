@@ -204,7 +204,7 @@ const InProgress = () => {
     if (orderIds.size === 0) return;
     const results = await Promise.all(
       Array.from(orderIds).map((orderId) =>
-        clientFetchApi<boolean, boolean>("/api/order/RejectOrder", {
+        clientFetchApi<boolean, boolean>("/api/order/user/rejectOrder", {
           methodType: MethodType.get,
           session: session,
           data: null,
@@ -239,7 +239,7 @@ const InProgress = () => {
     if (orders.nextMaxId === null) return;
     setLoadingMore(true);
     try {
-      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", {
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/user/GetOrdersByStatuses", {
         methodType: MethodType.post,
         session: session,
         data: [OrderStep.Paid, OrderStep.InstagramerAccepted],
@@ -261,7 +261,7 @@ const InProgress = () => {
   }
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", {
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/user/GetOrdersByStatuses", {
         methodType: MethodType.post,
         session: session,
         data: [OrderStep.Paid, OrderStep.InstagramerAccepted],
