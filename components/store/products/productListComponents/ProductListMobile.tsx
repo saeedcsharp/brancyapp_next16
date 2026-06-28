@@ -59,7 +59,7 @@ const ProductListMobile: React.FC<ProductListMobileProps> = ({
               <div className={styles.productname}>{v.title || "--"}</div>
               <div className={styles.productpidstock}>
                 <div className={styles.productidlitemobile} style={{ filter: v.productInId ? "none" : "grayscale(1)" }}>
-                  <div className="explain">PID:</div>#{v.tempId}
+                  <div className="explain">PID</div>#{v.tempId}
                 </div>
                 <div className={`${styles.Stockparent} translate`}>
                   <img width="20px" title="ℹ️ search products" alt="search products" src="/stock.svg" />
@@ -124,7 +124,15 @@ const ProductListMobile: React.FC<ProductListMobileProps> = ({
                           date: v.lastUpdate * 1000,
                           calendar: initialzedTime().calendar,
                           locale: initialzedTime().locale,
-                        }).format("mm A")}
+                        }).format("mm")}
+                      </span>
+                       
+                      <span className={styles.hourmobile}>
+                        {new DateObject({
+                          date: v.lastUpdate * 1000,
+                          calendar: initialzedTime().calendar,
+                          locale: initialzedTime().locale,
+                        }).format("a")}
                       </span>
                     </div>
                   </>

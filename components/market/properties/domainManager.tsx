@@ -12,11 +12,12 @@ import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./domainManager.module.css";
 import { PsgFeatureType } from "brancy/models/enums";
 import { InstagramerAccountInfo, IGetCustomDomain } from "brancy/models/interfaces";
+
 const baseShortUrl = process.env.NEXT_PUBLIC_SHORT_LINK;
 const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccountInfo | null }) => {
   const { t } = useTranslation();

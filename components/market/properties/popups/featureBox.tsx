@@ -1,181 +1,133 @@
 import Head from "next/head";
 import { useTranslation } from "react-i18next";
-import FiveStar from "brancy/components/fiveStar";
 import { LanguageKey } from "brancy/i18n";
+import CheckBoxButton from "brancy/components/design/checkBoxButton";
 import styles from "./featureBoxPU.module.css";
+import { useState, ReactNode } from "react";
+type FeatureItem = {
+  id: string;
+  img: string;
+  alt: string;
+  title: ReactNode;
+  explain?: ReactNode;
+};
 const FeatureBox = (props: { removeMask: () => void }) => {
   const { t } = useTranslation();
+  const features: FeatureItem[] = [
+    {
+      id: "followers",
+      img: "/marketlink/market-follower.webp",
+      alt: "follower",
+      title: t(LanguageKey.marketProperties_followersrate),
+      explain: t(LanguageKey.marketProperties_followersrateExplain),
+    },
+    {
+      id: "rating",
+      img: "/marketlink/market-rate.webp",
+      alt: "review rate",
+      title: t(LanguageKey.marketProperties_successRating),
+      explain: t(LanguageKey.marketProperties_successRatingExplain),
+    },
+    {
+      id: "work_hours",
+      img: "/marketlink/icon-work.webp",
+      alt: "work hours",
+      title: t(LanguageKey.marketProperties_bussinessHours),
+      explain: t(LanguageKey.marketProperties_bussinessHoursExplain),
+    },
+    {
+      id: "verified",
+      img: "/marketlink/market-enamad.webp",
+      alt: "verified",
+      title: t(LanguageKey.marketProperties_Enamadverified),
+      explain: t(LanguageKey.marketProperties_EnamadverifiedExplain),
+    },
+    {
+      id: "terms",
+      img: "/marketlink/icon-terms.webp",
+      alt: "terms",
+      title: t(LanguageKey.marketProperties_BusinessTerms),
+      explain: t(LanguageKey.marketProperties_BusinessTermsExplain),
+    },
+    {
+      id: "price",
+      img: "/marketlink/icon-price.webp",
+      alt: "price",
+      title: t(LanguageKey.marketProperties_tariff),
+      explain: t(LanguageKey.marketProperties_TariffExplain),
+    },
+    {
+      id: "ads",
+      img: "/marketlink/icon-ads.webp",
+      alt: "ads",
+      title: t(LanguageKey.marketProperties_StartADS),
+      explain: t(LanguageKey.marketProperties_StartADSExplain),
+    },
+    {
+      id: "sales",
+      img: "/marketlink/icon-successful.webp",
+      alt: "successful sale",
+      title: t(LanguageKey.marketProperties_StartSALES),
+      explain: t(LanguageKey.marketProperties_StartSALESExplain),
+    },
+  ];
+  const [selected, setSelected] = useState<string[]>([]);
+  const toggleSelect = (id: string) => {
+    setSelected((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+  };
+  const handleSave = async () => {
+    const payload = {
+      selectedFeatures: selected,
+    };
+    console.log("SEND TO SERVER:", payload);
+  };
   return (
     <>
-      {/* head for SEO */}
       <Head>
-        {" "}
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
         <title>Bran.cy ▸ {t(LanguageKey.marketPropertiesFeaturebox)}</title>
-        <meta name="description" content="Advanced Instagram post management tool" />
-        <meta
-          name="keywords"
-          content="instagram, manage, tools, Brancy,post create , story create , Lottery , insight , Graph , like , share, comment , view , tag , hashtag , "
-        />
-        <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://www.Brancy.app/page/posts" />
-        {/* Add other meta tags as needed */}
       </Head>
-      {/* head for SEO */}
-      <div className="title">{t(LanguageKey.marketPropertiesFeaturebox)}</div>
-
-      <div className={styles.features}>
-        <div className={styles.tile}>
-          <img
-            loading="lazy"
-            decoding="async"
-            className={styles.tileimage}
-            alt="follower"
-            src="/marketlink/market-follower.webp"
-          />
-          <div className={styles.tiledescription}>
-            <div className={styles.tiletitleblue}>1.1 M</div>
-            <div className={styles.tileexplainblue}>{t(LanguageKey.home_Followers)}</div>
-          </div>
-        </div>
-
-        {/* tile rating */}
-        <div className={styles.tile}>
-          <img
-            loading="lazy"
-            decoding="async"
-            className={styles.tileimage}
-            alt="review rate"
-            src="/marketlink/market-rate.webp"
-          />
-          <div className={styles.tiledescription}>
-            <div className={styles.tileexplainyellow}>732</div>
-            <FiveStar rating={4.5} />
-          </div>
-        </div>
-
-        {/* WORK HOURS */}
-        <div className={styles.tile}>
-          <img
-            loading="lazy"
-            decoding="async"
-            className={styles.tileimage}
-            alt="work hours"
-            src="/marketlink/icon-work.webp"
-          />
-          <div className={styles.tiledescription}>
-            <div className={styles.tileexplainred}>{t(LanguageKey.marketProperties_yourBusinesshours)}</div>
-          </div>
-        </div>
-
-        {/* verified */}
-        <div className={styles.tile}>
-          <img
-            loading="lazy"
-            decoding="async"
-            className={styles.tileimage}
-            alt="verified"
-            src="/marketlink/market-enamad.webp"
-          />
-          <div className={styles.tiledescription}>
-            <div className={styles.tileexplaingreen}>
-              {" "}
-              <img
-                className={styles.verfiedicon}
-                style={{ height: "16px" }}
-                alt="badge-verified"
-                src="/badge-verified1.svg"
-              />{" "}
-              {t(LanguageKey.VERFIED)}
-            </div>
-          </div>
-        </div>
-
-        {/* terms */}
-        <div className={styles.tile}>
-          <img
-            loading="lazy"
-            decoding="async"
-            className={styles.tileimage}
-            alt="terms"
-            src="/marketlink/icon-terms.webp"
-          />
-          <div className={styles.tiledescription}>
-            <div className={styles.tileexplainred}>{t(LanguageKey.marketProperties_yourBusinessTerms)}</div>
-          </div>
-        </div>
-
-        {/* tariff and price */}
-        <div className={styles.tile}>
-          <img
-            loading="lazy"
-            decoding="async"
-            className={styles.tileimage}
-            alt="price"
-            src="/marketlink/icon-price.webp"
-          />
-          <div className={styles.tiledescription}>
-            <div className={styles.tileexplainblue}>{t(LanguageKey.marketProperties_yourtariff)}</div>
-          </div>
-        </div>
-
-        {/* ads */}
-        <div className={styles.tile}>
-          <img loading="lazy" decoding="async" className={styles.tileimage} alt="ads" src="/marketlink/icon-ads.webp" />
-          <div className={styles.tiledescription}>
-            <div className={styles.tiletitlered}>1.2 K</div>
-            <div className={styles.tileexplainred}>{t(LanguageKey.SuccessADS)}</div>
-          </div>
-        </div>
-
-        {/* successful */}
-        <div className={styles.tile}>
-          <img
-            loading="lazy"
-            decoding="async"
-            className={styles.tileimage}
-            alt="successful sale"
-            src="/marketlink/icon-successful.webp"
-          />
-          <div className={styles.tiledescription}>
-            <div className={styles.tiletitlegreen}>1.2 K</div>
-            <div className={styles.tileexplaingreen}>{t(LanguageKey.SuccessSALES)}</div>
-          </div>
-        </div>
-
-        {/* start ads */}
-        <div className={styles.tile}>
-          <img
-            loading="lazy"
-            decoding="async"
-            className={styles.tileimage}
-            alt="start ads"
-            src="/marketlink/market-startorder.webp"
-          />
-          <div className={styles.tiledescription}>
-            <div className={styles.btn}>{t(LanguageKey.StartOrder)}</div>
-          </div>
-        </div>
-        {/* start shop */}
-        <div className={styles.tile}>
-          <img
-            loading="lazy"
-            decoding="async"
-            className={styles.tileimage}
-            alt="start shop"
-            src="/marketlink/market-startorder.webp"
-          />
-          <div className={styles.tiledescription}>
-            <div className={styles.btn}>{t(LanguageKey.Startshoping)}</div>
-          </div>
-        </div>
+      <div className="headerandinput">
+        <div className="title">{t(LanguageKey.marketPropertiesFeaturebox)}</div>
+        <div className="explain">{t(LanguageKey.marketPropertiesFeatureboxexplain)}</div>
       </div>
+      <div className={styles.features}>
+        {features.map((item) => {
+          const isChecked = selected.includes(item.id);
+          return (
+            <div
+              key={item.id}
+              className={`${styles.tile} ${isChecked ? styles.checked : ""}`}
+              onClick={() => toggleSelect(item.id)}>
+              <CheckBoxButton
+                value={isChecked}
+                name={item.id}
+                title=""
+                handleToggle={(e) => {
+                  e.stopPropagation();
+                  toggleSelect(item.id);
+                }}
+                className={styles.checkbox}
+              />
 
+              <div className={styles.tileimage}>
+                <img loading="lazy" decoding="async" className={styles.idimage} alt={item.alt} src={item.img} />
+              </div>
+
+              <div className="headerandinput">
+                <div className="title2">{item.title}</div>
+                <div className="explain">{item.explain}</div>
+              </div>
+            </div>
+          );
+        })}
+      </div>
       <div className="ButtonContainer">
         <div className="cancelButton" onClick={props.removeMask}>
           {t(LanguageKey.cancel)}
         </div>
-        <div className="saveButton"> {t(LanguageKey.save)}</div>
+        <div className="saveButton" onClick={handleSave}>
+          {t(LanguageKey.save)}
+        </div>
       </div>
     </>
   );

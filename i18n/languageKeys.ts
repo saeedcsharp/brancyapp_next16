@@ -1602,6 +1602,7 @@ export enum LanguageKey {
   marketPropertiesfeatures = "marketPropertiesfeatures",
   marketPropertiesProfileInfoBanner = "marketPropertiesProfileInfoBanner",
   marketPropertiesFeaturebox = "marketPropertiesFeaturebox",
+  marketPropertiesFeatureboxexplain = "marketPropertiesFeatureboxexplain",
   marketPropertiesBanner = "marketPropertiesBanner",
   marketPropertiesFeaturesBox = "marketPropertiesFeaturesBox",
   marketPropertiesReviews = "marketPropertiesReviews",
@@ -2985,6 +2986,22 @@ export enum LanguageKey {
   summaryPostingSchedule = "summaryPostingSchedule",
   summaryImprovementSuggestions = "summaryImprovementSuggestions",
 
+  marketProperties_followersrate = "marketProperties_followersrate",
+  marketProperties_followersrateExplain = "marketProperties_followersrateExplain",
+  marketProperties_successRating = "marketProperties_successRating",
+  marketProperties_successRatingExplain = "marketProperties_successRatingExplain",
+  marketProperties_bussinessHours = "marketProperties_bussinessHours",
+  marketProperties_bussinessHoursExplain = "marketProperties_bussinessHoursExplain",
+  marketProperties_Enamadverified = "marketProperties_Enamadverified",
+  marketProperties_EnamadverifiedExplain = "marketProperties_EnamadverifiedExplain",
+  marketProperties_BusinessTerms = "marketProperties_BusinessTerms",
+  marketProperties_BusinessTermsExplain = "marketProperties_BusinessTermsExplain",
+  marketProperties_tariff = "marketProperties_tariff",
+  marketProperties_TariffExplain = "marketProperties_TariffExplain",
+  marketProperties_StartADS = "marketProperties_StartADS",
+  marketProperties_StartADSExplain = "marketProperties_StartADSExplain",
+  marketProperties_StartSALES = "marketProperties_StartSALES",
+  marketProperties_StartSALESExplain = "marketProperties_StartSALESExplain",
   // #endregion General Section
   // 1️⃣ Home -> cards
 

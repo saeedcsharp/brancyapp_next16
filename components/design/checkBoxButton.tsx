@@ -9,7 +9,7 @@ const CheckBoxButton = (props: {
   labelStyle?: CSSProperties;
   checkmarkStyle?: CSSProperties;
   textLabelStyle?: CSSProperties;
-
+  className?: string;
   name?: string;
   title: string;
 }) => {

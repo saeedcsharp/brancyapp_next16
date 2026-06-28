@@ -172,13 +172,16 @@
 .productname {
   padding-bottom: 5px;
   color: var(--text-h1);
-  text-align: start;
+  text-align: left;
   font-size: var(--font-14);
   font-weight: var(--weight-400);
   white-space: nowrap;
   width: 100%;
   overflow: hidden;
   text-overflow: ellipsis;
+}
+html[dir="rtl"] .productname {
+  text-align: right;
 }
 
 /* Stock classes */
@@ -247,6 +250,7 @@
   flex-direction: column;
   gap: var(--gap-10);
   top: 40px;
+  font-size: var(--font-12);
   padding: var(--padding-8) 0px var(--padding-2) 0px;
   border-radius: var(--br5) var(--br5) var(--br15) var(--br15);
   background-color: var(--background-root);
@@ -291,7 +295,7 @@
   padding: var(--padding-5);
   font-weight: var(--weight-400);
   text-align: center;
-  font-size: var(--font-14);
+  font-size: var(--font-12);
   border-radius: var(--br8);
   text-wrap: nowrap;
   line-height: 20px;
