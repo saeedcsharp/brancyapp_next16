@@ -1,21 +1,15 @@
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import DirectLoginClient from "brancy/components/signIn/directLoginClient";
+import { MethodType } from "brancy/helper/api";
+import { clientFetchApi, clientFetchApiWithAccessToken } from "brancy/helper/clientFetchApi";
+import { IRefreshToken } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
-import {
-  internalNotify,
-  InternalResponseType,
-  NotifType,
-  notify,
-  ResponseType,
-} from "brancy/components/notifications/notificationBox";
-import { MethodType } from "brancy/helper/api";
 import styles from "./metaDirect.module.css";
-import { clientFetchApi, clientFetchApiWithAccessToken } from "brancy/helper/clientFetchApi";
-import { IRefreshToken } from "brancy/models/interfaces";
-import DirectLoginClient from "brancy/components/signIn/directLoginClient";
 
 export default function MetaRedirect() {
-  const { data: session, update } = useSession();
+  const { data: session } = useSession();
   const router = useRouter();
   const { query } = router;
   const [onLogin, setOnLogin] = useState(false);
