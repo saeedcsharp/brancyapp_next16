@@ -10,16 +10,8 @@ export default function FailedPaymentPage() {
       <div className={styles.loader}>
         <div className={styles.box}>
           <div className={styles.logo}>
-            <svg
-              height="25"
-              className={styles.svg}
-              width="25"
-              viewBox="0 0 35 35">
-              <path
-                stroke="#fff"
-                strokeLinecap="round"
-                strokeWidth="8"
-                d="m4.7 4.7 25.6 25.6M30.3 4.7 4.7 30.3"></path>
+            <svg height="25" className={styles.svg} width="25" viewBox="0 0 35 35">
+              <path stroke="#fff" strokeLinecap="round" strokeWidth="8" d="m4.7 4.7 25.6 25.6M30.3 4.7 4.7 30.3"></path>
             </svg>
           </div>
         </div>
@@ -29,16 +21,9 @@ export default function FailedPaymentPage() {
         <div className={styles.box}></div>
       </div>
       <div className={styles.content}>
-        <div className={styles.paymentfailedtext}>
-          {t(LanguageKey.wearesorry)}
-        </div>
-        <div className={styles.paymentfailedtitle}>
-          {t(LanguageKey.PaymentFailed)}
-        </div>
-        <button
-          onClick={() => router.push(`/upgrade`)}
-          className="saveButton"
-          style={{ marginTop: "20px" }}>
+        <div className={styles.paymentfailedtext}>{t(LanguageKey.wearesorry)}</div>
+        <div className={styles.paymentfailedtitle}>{t(LanguageKey.PaymentFailed)}</div>
+        <button onClick={() => router.push(`/`)} className="saveButton" style={{ marginTop: "20px" }}>
           {t(LanguageKey.back)}
         </button>
       </div>

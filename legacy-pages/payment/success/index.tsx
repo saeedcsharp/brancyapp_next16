@@ -21,11 +21,7 @@ export default function SuccessfulPaymentPage() {
               width="25"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 38 38">
-              <path
-                d="m5.64 18.97 8.72 8.55a1 1 0 0 0 1.4 0L33.4 10.03"
-                strokeWidth="8"
-                strokeLinecap="round"
-              />
+              <path d="m5.64 18.97 8.72 8.55a1 1 0 0 0 1.4 0L33.4 10.03" strokeWidth="8" strokeLinecap="round" />
             </svg>
           </div>
         </div>
@@ -35,12 +31,8 @@ export default function SuccessfulPaymentPage() {
         <div className={styles.box}></div>
       </div>
       <div className={styles.content}>
-        <div className={styles.paymentsuccesstext}>
-          {t(LanguageKey.thankyou)}
-        </div>
-        <div className={styles.paymentsuccesstitle}>
-          {t(LanguageKey.Paymentsuccess)}
-        </div>
+        <div className={styles.paymentsuccesstext}>{t(LanguageKey.thankyou)}</div>
+        <div className={styles.paymentsuccesstitle}>{t(LanguageKey.Paymentsuccess)}</div>
         <div className="title" style={{ marginTop: "10px", fontWeight: "500" }}>
           {t(LanguageKey.TransactionNumber)}: {transactionIdFromQuery}
         </div>
@@ -52,7 +44,7 @@ export default function SuccessfulPaymentPage() {
         <button
           className="saveButton"
           style={{ marginTop: "20px" }}
-          onClick={() => router.push(`/${redirectUrl || "upgrade"}`)}>
+          onClick={() => router.push(`/${redirectUrl || "/"}`)}>
           {t(LanguageKey.back)}
         </button>
       </div>
