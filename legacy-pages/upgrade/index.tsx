@@ -36,6 +36,7 @@ import {
 import { useTranslation } from "react-i18next";
 import styles from "./upgrade.module.css";
 const basePictureUrl = getClientMediaBaseUrl();
+const host = typeof window !== "undefined" ? window.location.host : "";
 type UpgradeState = {
   packageExtensions: IBasePackagePrice[];
   tokenPackages: IReserveFeaturePrices[];
@@ -222,13 +223,17 @@ const Upgrade = memo(function Upgrade() {
           onUploadProgress: undefined,
         });
         if (res.succeeded) {
-          router.push(res.value);
-        } else notify(res.info.responseType, NotifType.Warning);
+          if (host.includes("brancy.app")) {
+            router.push(res.value);
+          } else {
+            window.location.href = `https://www.brancy.app/redirectInterface?redirectUrl=${encodeURIComponent(res.value)}`;
+          }
+        }
       } catch (error) {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session, router],
+    [session, router, host],
   );
   const handlePackageExtension = useCallback(
     async (monthCount: number) => {
@@ -240,13 +245,18 @@ const Upgrade = memo(function Upgrade() {
           queries: [{ key: "monthCount", value: monthCount.toString() }],
           onUploadProgress: undefined,
         });
-        if (res.succeeded) router.push(res.value);
-        else notify(res.info.responseType, NotifType.Warning);
+        if (res.succeeded) {
+          if (host.includes("brancy.app")) {
+            router.push(res.value);
+          } else {
+            window.location.href = `https://www.brancy.app/redirectInterface?redirectUrl=${encodeURIComponent(res.value)}`;
+          }
+        } else notify(res.info.responseType, NotifType.Warning);
       } catch (error) {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session, router],
+    [session, router, host],
   );
   const winnerPickerWarningLevel = useMemo(() => {
     if (!state.userPackageInfo) return "normal";

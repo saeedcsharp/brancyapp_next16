@@ -485,7 +485,7 @@ export interface IAITools {
   toolType: ToolType;
 }
 
-export interface ILiveChat {
+export interface ILiveChatClient {
   imageUrl: string | null;
   isStopped: boolean;
   itemType: ItemType;
@@ -493,6 +493,19 @@ export interface ILiveChat {
   text: string | null;
   voiceUrl: string | null;
   type: string;
+}
+export interface ILiveChat {
+  items: {
+    text: string;
+    mediaId: null;
+    buttons: null;
+    itemType: ItemType;
+    mediaType: null;
+    itemId: null;
+    templates: [];
+    type: string;
+  }[];
+  isStopped: boolean;
 }
 
 export type MessageMap = {

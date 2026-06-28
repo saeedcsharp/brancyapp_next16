@@ -3,11 +3,16 @@ import { signOut, signIn } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect, useRef } from "react";
 import Loading from "../notOk/loading";
-
-export default function DirectLoginClient({ res, redirectUrl, currentIndex }: any) {
+import { IRefreshToken } from "brancy/models/interfaces";
+type DirectLogin = {
+  res: IRefreshToken;
+  redirectUrl: string;
+  instagramerId: number;
+};
+export default function DirectLoginClient({ res, redirectUrl, instagramerId }: DirectLogin) {
   const router = useRouter();
   const hasRun = useRef(false);
-
+  const currentIndex = res.role.instagramerIds.indexOf(instagramerId);
   useEffect(() => {
     if (hasRun.current) return;
     hasRun.current = true;
@@ -15,11 +20,11 @@ export default function DirectLoginClient({ res, redirectUrl, currentIndex }: an
     (async () => {
       await signOut({ redirect: false });
       const result = await signIn("direct-token", {
-        token: res.value.token,
-        expireTime: res.value.expireTime,
-        socketAccessToken: res.value.socketAccessToken,
+        token: res.token,
+        expireTime: res.expireTime,
+        socketAccessToken: res.socketAccessToken,
         currentIndex: currentIndex,
-        instagramerIds: JSON.stringify(res.value.role.instagramerIds), // ← تبدیل به رشته
+        instagramerIds: JSON.stringify(res.role.instagramerIds),
         redirect: false,
       });
 

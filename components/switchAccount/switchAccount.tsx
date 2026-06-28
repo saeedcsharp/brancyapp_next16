@@ -18,6 +18,7 @@ import styles from "./switchAccount.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { InstagramerAccountInfo, IPartner_User } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
+const host = typeof window !== "undefined" ? window.location.host : "";
 function SwitchAccount(props: { removeMask: () => void }) {
   const { t } = useTranslation();
   const router = useRouter();
@@ -176,7 +177,11 @@ function SwitchAccount(props: { removeMask: () => void }) {
         onUploadProgress: undefined,
       });
       if (response.succeeded) {
-        router.push(response.value);
+        if (host.includes("brancy.app")) {
+          router.push(response.value);
+        } else {
+          window.location.href = `https://www.brancy.app/redirectInterface?redirectUrl=${encodeURIComponent(response.value)}`;
+        }
       } else {
         notify(response.info.responseType, NotifType.Warning);
       }
