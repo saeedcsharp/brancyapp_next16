@@ -1,6 +1,6 @@
 import { redirect, notFound } from "next/navigation";
 
-const ALLOWED_DOMAINS = ["zarinpal.com", "podgetway.pod.ir", "stripe.com"];
+const ALLOWED_DOMAINS = ["zarinpal.com", "podgetway.pod.ir", "stripe.com", "sandbox.zarinpal.com"];
 
 function isAllowedRedirectUrl(redirectUrl: string): boolean {
   try {
