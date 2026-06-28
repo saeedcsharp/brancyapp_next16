@@ -201,6 +201,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/order/acceptOrder": "Shopper/Order/AcceptOrder",
   "/api/order/createOrder": "User/Order/CreateOrder",
   "/api/order/getFullOrder": "Shopper/Order/GetFullOrder",
+  "/api/userorder/getFullOrder": "User/Order/GetFullOrder",
   "/api/order/getOrderPaymentLink": "User/Order/GetOrderPaymentLink",
   "/api/order/getOrdersByStatus": "Shopper/Order/GetOrdersByStatus",
   "/api/userorder/getOrdersByStatus": "User/Order/GetOrdersByStatus",

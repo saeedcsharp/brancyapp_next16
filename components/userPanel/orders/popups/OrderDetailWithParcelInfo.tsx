@@ -69,7 +69,7 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
       try {
         setLoadingFullProduct(true);
         const res = await clientFetchApi<boolean, IOrderFullProduct>(
-          orderDetail.instagramerId !== undefined ? "User/Order/GetFullOrder" : "",
+          orderDetail.instagramerId !== undefined ? "/api/userorder/getFullOrder" : "",
           {
             methodType: MethodType.get,
             session: session,
