@@ -418,7 +418,7 @@ export default function CardAddress({
                 <span>{t(LanguageKey.note)}</span>
               </div>
               <TextArea
-                className="message"
+                className="TextArea"
                 value={state.note}
                 role={""}
                 title={""}

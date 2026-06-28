@@ -100,7 +100,7 @@ export default function UpdateAddresses({
           <div className="headerandinput">
             <div className="headertext">{t(LanguageKey.userpanel_Address)}</div>
             <TextArea
-              className="message"
+              className="TextArea"
               fadeTextArea={true}
               value={address ? address.address : ""}
               handleKeyDown={undefined}
@@ -122,7 +122,7 @@ export default function UpdateAddresses({
           <div className="headerandinput">
             <div className="headertext">{t(LanguageKey.note)}</div>
             <TextArea
-              className="message"
+              className="TextArea"
               value={note}
               handleInputChange={(e) => {
                 setNote(e.currentTarget.value);

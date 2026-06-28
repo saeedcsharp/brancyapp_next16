@@ -63,7 +63,7 @@ const ReportModal: React.FC<ReportModalProps> = ({ report, setReport, onClose, o
       <div className="headerandinput">
         <div className="title">{"message"}</div>
         <TextArea
-          className="message"
+          className="TextArea"
           handleInputChange={(e: any) =>
             setReport((prev) => ({
               ...prev,

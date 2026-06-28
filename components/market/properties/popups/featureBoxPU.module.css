@@ -1,3 +1,59 @@
+/* ___features___ */
+.features {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  height: 100%;
+  gap: var(--gap-10);
+  overflow-y: auto;
+  justify-content: flex-start;
+  align-items: flex-start;
+}
+.tile {
+  position: relative;
+  width: 100%;
+  padding: var(--padding-10);
+  display: flex;
+  justify-content: space-between;
+  gap: var(--gap-10);
+  border-radius: var(--br25);
+  flex-direction: row;
+  align-items: center;
+  cursor: pointer;
+  transition: var(--transition3);
+  border: 3px solid transparent;
+  background-color: var(--background-root);
+}
+.tileimage {
+  padding: var(--padding-5);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  aspect-ratio: auto;
+  min-height: 50px;
+  min-width: 50px;
+  max-height: 50px;
+  max-width: 50px;
+}
+.idimage {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.checked {
+  border: 3px solid var(--color-light-green);
+  border-radius: var(--br20);
+}
+
+.tile:hover {
+  border: 3px solid var(--color-dark-blue60);
+}
+/* -------------------------------- */
+
 .addnewlink {
   position: relative;
   width: 100%;
@@ -55,39 +111,6 @@
   color: var(--text-h2);
 }
 
-/* ___features___ */
-.features {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  width: 100%;
-  height: 100%;
-  gap: var(--gap-10);
-  overflow-y: auto;
-  justify-content: flex-start;
-  align-items: flex-start;
-}
-.tile {
-  position: relative;
-  width: 100%;
-
-  padding: var(--padding-10);
-  display: flex;
-  justify-content: space-between;
-  gap: var(--gap-10);
-  border-radius: var(--br25);
-  flex-direction: row;
-  align-items: center;
-  cursor: pointer;
-  transition: var(--transition3);
-  border: 3px solid transparent;
-  background-color: var(--background-root);
-}
-.tile img {
-  max-width: 50px;
-  max-height: 50px;
-  min-height: 50px;
-}
 .tiledescription {
   position: relative;
   display: flex;
@@ -130,12 +153,7 @@
     font-weight: var(--weight-400);
   }
 }
-.tile:hover {
-  border: 3px solid var(--color-dark-blue);
-}
-.tile:active {
-  border: 3px solid var(--color-light-green);
-}
+
 .tiletitleyellow,
 .tileexplainyellow {
   color: var(--color-light-yellow);
