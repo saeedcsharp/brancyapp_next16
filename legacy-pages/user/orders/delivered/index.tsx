@@ -73,7 +73,7 @@ function selectionReducer(state: SelectionState, action: SelectionAction): Selec
     case "SELECT_ALL":
       return {
         ...state,
-        selectedOrders: new Set(action.payload?.orders?.items.map((o: IOrderByStatusItem) => o.id) || []),
+        selectedOrders: new Set(action.payload?.orders?.items.map((o: IOrderByStatusItem) => o.order.id) || []),
         selectedMenu: true,
         selectAll: true,
       };
@@ -183,7 +183,7 @@ const Delivered = () => {
     });
   };
 
-  const handleRowClick = (orderId: string, instagramerId: number, trackingId: string | null) => {
+  const handleRowClick = (orderId: string, trackingId: string | null, instagramerId?: number) => {
     // if (!state.clickedOrders.has(orderId)) {
     //   dispatch({ type: "ROW_CLICK", payload: { id: orderId } });
     // }
@@ -226,7 +226,7 @@ const Delivered = () => {
       order.NewStatus === OrderStep.ShippingFailed
     ) {
       setOrders((prevOrders) => {
-        const updatedItems = prevOrders.items.filter((item) => item.id !== order.ShortOrder.Id);
+        const updatedItems = prevOrders.items.filter((item) => item.order.id !== order.ShortOrder.Id);
         return { ...prevOrders, items: updatedItems };
       });
       return;
@@ -278,10 +278,10 @@ const Delivered = () => {
       console.error("Error parsing notification:", error);
     }
   }
-  function handleClickOnTicket(order: IOrderByStatusItem): void {
-    if (order.systemTicketId) router.push(`/user/message?id=${order.systemTicketId}`);
-    else setTicketTitle(order.id);
-  }
+  // function handleClickOnTicket(order: IOrderByStatusItem): void {
+  //   if (order.systemTicketId) router.push(`/user/message?id=${order.systemTicketId}`);
+  //   else setTicketTitle(order.id);
+  // }
   useEffect(() => {
     if (!session) return;
     fetchData();
@@ -366,7 +366,9 @@ const Delivered = () => {
               <tbody>
                 {orders.items.map((order, index) => (
                   <tr
-                    onClick={() => handleRowClick(order.id, order.shortShop!.instagramerId, order.trackingId)}
+                    onClick={() =>
+                      handleRowClick(order.order.id, order.order.trackingId, order.businessProfile?.instagramerId)
+                    }
                     key={index}
                     className={styles.row}>
                     <td
@@ -385,8 +387,10 @@ const Delivered = () => {
                     </td>
                     <td
                       style={{ minWidth: "90px" }}
-                      className={state.clickedOrders.has(order.id) ? styles.ordernumberviewed : styles.ordernumber}>
-                      {order.id}
+                      className={
+                        state.clickedOrders.has(order.order.id) ? styles.ordernumberviewed : styles.ordernumber
+                      }>
+                      {order.order.id}
                       {/* {clickedOrders.has(order.id) && <span> ✓</span>} */}
                     </td>
 
@@ -394,7 +398,7 @@ const Delivered = () => {
                       <img
                         loading="lazy"
                         decoding="async"
-                        src={order.shortShop ? basePictureUrl + (order.shortShop! as any).profileUrl : ""}
+                        src={order.businessProfile ? basePictureUrl + order.businessProfile!.profileUrl : ""}
                         alt="profile"
                         className="instagramimage"
                         onError={(e) => {
@@ -403,37 +407,37 @@ const Delivered = () => {
                       />
                       <div className="instagramprofiledetail">
                         <div className="instagramusername">
-                          {order.shortShop
-                            ? (order.shortShop! as any).fullName
-                              ? (order.shortShop! as any).fullName
+                          {order.businessProfile
+                            ? order.businessProfile!.fullName
+                              ? order.businessProfile!.fullName
                               : ""
                             : ""}
                         </div>
                         <div className="instagramid translate">
-                          {order.shortShop ? "@" + (order.shortShop! as any).username : ""}
+                          {order.businessProfile ? "@" + order.businessProfile!.username : ""}
                         </div>
                       </div>
                     </td>
                     <td style={{ minWidth: "50px" }} className={styles.items}>
-                      {order.itemCount}
+                      {order.order.itemCount}
                     </td>
 
                     <td style={{ minWidth: "100px" }} className={styles.fee}>
                       <PriceFormater
-                        fee={order.totalPrice}
-                        pricetype={order.priceType}
+                        fee={order.order.totalPrice}
+                        pricetype={order.order.priceType}
                         className={PriceFormaterClassName.PostPrice}
                       />
                     </td>
                     <td style={{ minWidth: "85px" }} className={styles.date}>
                       {new DateObject({
-                        date: order.createdTime * 1000,
+                        date: order.order.createdTime * 1000,
                         calendar: initialzedTime().calendar,
                         locale: initialzedTime().locale,
                       }).format("MM/DD/YYYY ")}
                       <br />
                       {new DateObject({
-                        date: order.createdTime * 1000,
+                        date: order.order.createdTime * 1000,
                         calendar: initialzedTime().calendar,
                         locale: initialzedTime().locale,
                       }).format(" hh:mm A")}
@@ -460,11 +464,11 @@ const Delivered = () => {
 
                     <td
                       style={{ minWidth: "75px" }}
-                      className={`${styles.delivery} ${styles[specifyLogistic(order.logesticId)]}`}>
-                      {specifyLogistic(order.logesticId)}
+                      className={`${styles.delivery} ${styles[specifyLogistic(order.order.logesticId)]}`}>
+                      {specifyLogistic(order.order.logesticId)}
                     </td>
                     <td style={{ minWidth: "110px" }} className={styles.destination}>
-                      {order.city ? order.city : "--"}
+                      {order.order.city ? order.order.city : "--"}
                     </td>
                   </tr>
                 ))}

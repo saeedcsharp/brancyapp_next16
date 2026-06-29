@@ -226,7 +226,7 @@ export default function Failed() {
   //   });
   // };
 
-  const handleRowClick = (orderId: string, instagramerId: number) => {
+  const handleRowClick = (orderId: string, instagramerId?: number) => {
     setOrderDetail({ orderId: orderId, instagramerId: instagramerId });
   };
 
@@ -288,10 +288,10 @@ export default function Failed() {
       console.error("Error parsing notification:", error);
     }
   }
-  function handleClickOnTicket(order: IOrderByStatusItem): void {
-    if (order.systemTicketId) router.push(`/user/message?id=${order.systemTicketId}`);
-    else setTicketTitle(order.id);
-  }
+  // function handleClickOnTicket(order: IOrderByStatusItem): void {
+  //   if (order.systemTicketId) router.push(`/user/message?id=${order.systemTicketId}`);
+  //   else setTicketTitle(order.id);
+  // }
   useEffect(() => {
     if (!session) return;
     fetchData();
@@ -384,7 +384,10 @@ export default function Failed() {
               </thead>
               <tbody>
                 {orders.items.map((order, index) => (
-                  <tr onClick={() => handleRowClick(order.id, order.instagramerId)} key={index} className={styles.row}>
+                  <tr
+                    onClick={() => handleRowClick(order.order.id, order.businessProfile?.instagramerId)}
+                    key={index}
+                    className={styles.row}>
                     <td
                       onClick={(e) => {
                         e.stopPropagation();
@@ -400,7 +403,7 @@ export default function Failed() {
                       {index + 1}
                     </td>
                     <td style={{ minWidth: "100px" }} className={styles.ordernumberviewed}>
-                      {order.id}
+                      {order.order.id}
                       {/* {clickedOrders.has(order.id) && <span> ✓</span>} */}
                     </td>
 
@@ -408,7 +411,7 @@ export default function Failed() {
                       <img
                         loading="lazy"
                         decoding="async"
-                        src={basePictureUrl + (order.shortShop! as any).profileUrl}
+                        src={order.businessProfile ? basePictureUrl + order.businessProfile.profileUrl : ""}
                         alt="profile"
                         className="instagramimage"
                         onError={(e) => {
@@ -417,29 +420,29 @@ export default function Failed() {
                       />
                       <div className="instagramprofiledetail">
                         <div className="instagramusername">
-                          {(order.shortShop! as any).fullName ? (order.shortShop! as any).fullName : ""}
+                          {order.businessProfile!.fullName ? order.businessProfile!.fullName : ""}
                         </div>
                         <div className="instagramid translate">
-                          {(order.shortShop! as any).username ? "@" + (order.shortShop! as any).username : ""}
+                          {order.businessProfile!.username ? "@" + order.businessProfile!.username : ""}
                         </div>
                       </div>
                     </td>
                     <td
                       style={{ minWidth: "100px" }}
                       className={`${styles.status} ${
-                        order.status === OrderStep.Failed
+                        order.order.status === OrderStep.Failed
                           ? styles.failed
-                          : order.status === OrderStep.InstagramerCanceled
+                          : order.order.status === OrderStep.InstagramerCanceled
                             ? styles.canceled
-                            : order.status === OrderStep.UserCanceled
+                            : order.order.status === OrderStep.UserCanceled
                               ? styles.usercanceled
-                              : order.status === OrderStep.ShippingFailed
+                              : order.order.status === OrderStep.ShippingFailed
                                 ? styles.returned
-                                : order.status === OrderStep.Expired
+                                : order.order.status === OrderStep.Expired
                                   ? styles.expired
                                   : ""
                       }`}>
-                      {order.status === OrderStep.Failed ? (
+                      {order.order.status === OrderStep.Failed ? (
                         <>
                           <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 20">
                             <path
@@ -453,7 +456,7 @@ export default function Failed() {
 
                           <span>{t(LanguageKey.Storeproduct_failed)}</span>
                         </>
-                      ) : order.status === OrderStep.InstagramerCanceled ? (
+                      ) : order.order.status === OrderStep.InstagramerCanceled ? (
                         <>
                           <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path
@@ -467,7 +470,7 @@ export default function Failed() {
 
                           <span>{"Instagramer cancelded"}</span>
                         </>
-                      ) : order.status === OrderStep.UserCanceled ? (
+                      ) : order.order.status === OrderStep.UserCanceled ? (
                         <>
                           <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path
@@ -481,7 +484,7 @@ export default function Failed() {
 
                           <span>{"User canceled"}</span>
                         </>
-                      ) : order.status === OrderStep.ShippingRequest ? (
+                      ) : order.order.status === OrderStep.ShippingRequest ? (
                         <>
                           <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path
@@ -495,7 +498,7 @@ export default function Failed() {
 
                           <span>{t(LanguageKey.Storeproduct_returned)}</span>
                         </>
-                      ) : order.status === OrderStep.Expired ? (
+                      ) : order.order.status === OrderStep.Expired ? (
                         <>
                           <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path
@@ -517,14 +520,14 @@ export default function Failed() {
 
                     <td style={{ minWidth: "100px" }} className={styles.fee}>
                       <PriceFormater
-                        fee={order.totalPrice}
-                        pricetype={order.priceType}
+                        fee={order.order.totalPrice}
+                        pricetype={order.order.priceType}
                         className={PriceFormaterClassName.PostPrice}
                       />
                     </td>
                     <td style={{ minWidth: "85px" }} className={styles.date}>
                       {new DateObject({
-                        date: order.createdTime * 1000,
+                        date: order.order.createdTime * 1000,
                         calendar: initialzedTime().calendar,
                         locale: initialzedTime().locale,
                       }).format("MM/DD/YYYY")}
@@ -551,11 +554,11 @@ export default function Failed() {
 
                     <td
                       style={{ minWidth: "75px" }}
-                      className={`${styles.delivery} ${styles[specifyLogistic(order.logesticId)]}`}>
-                      {specifyLogistic(order.logesticId)}
+                      className={`${styles.delivery} ${styles[specifyLogistic(order.order.logesticId)]}`}>
+                      {specifyLogistic(order.order.logesticId)}
                     </td>
                     <td style={{ minWidth: "110px" }} className={styles.destination}>
-                      {order.city ?? "--"}
+                      {order.order.city ?? "--"}
                     </td>
                   </tr>
                 ))}

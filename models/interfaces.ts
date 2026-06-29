@@ -4532,24 +4532,39 @@ export interface IOrderByStatus {
 }
 
 export interface IOrderByStatusItem {
-  id: string;
-  invoiceId: string;
-  createdTime: number;
-  instagramerId: number;
-  userId: number;
-  shortShop: IShopShortShop | null;
-  userInfo: IOrderUserInfo | null;
-  status: OrderStep;
-  statusUpdateTime: number;
-  systemTicketId: string | null;
+  order: IOrderByStatusItemOrder;
+  businessProfile: IBusiness | null;
+  userProfile: IUserProfile | null;
+}
+export interface IUserProfile {
+  phoneNumber: string;
+  username: string;
+  fullName: string;
+  profileUrl: string;
+  googleProfile: string | null;
+  googleEmail: string | null;
+  googleName: string | null;
+}
+export interface IOrderByStatusItemOrder {
+  itemCount: number;
+  shopAddressId: number;
+  trackingId: string | null;
   state: string | null;
   city: string | null;
   logesticId: LogisticType | null;
   deliveryType: ParcelPocketDeliveryType;
+  shortShop: IShopShortShop | null;
+  id: string;
+  invoiceId: string;
+  createdTime: number;
+  fbId: number;
+  userId: number;
+  status: OrderStep;
+  statusUpdateTime: number;
   totalPrice: number;
+  expireTime: number;
   priceType: PriceType;
-  itemCount: number;
-  trackingId: string | null;
+  source: number;
 }
 
 /** Was IUserInfo in store/orders.ts */

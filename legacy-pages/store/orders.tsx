@@ -509,6 +509,7 @@ const Orders = () => {
         orderId: orderId,
         userId: userId,
         shippingRequestType: undefined,
+        fbId: 0,
       });
       const res = await clientFetchApi<boolean, ShippingRequestType>("/api/order/GetShippingRequestType", {
         methodType: MethodType.get,
@@ -573,7 +574,7 @@ const Orders = () => {
           nextMaxId: prev.inprogresses.nextMaxId,
         },
         pending: {
-          items: prev.pending.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.pending.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.pending.nextMaxId,
         },
       }));
@@ -585,7 +586,7 @@ const Orders = () => {
           nextMaxId: prev.pickingups.nextMaxId,
         },
         inprogresses: {
-          items: prev.inprogresses.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.inprogresses.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.inprogresses.nextMaxId,
         },
       }));
@@ -597,7 +598,7 @@ const Orders = () => {
           nextMaxId: prev.sents.nextMaxId,
         },
         pickingups: {
-          items: prev.pickingups.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.pickingups.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.pickingups.nextMaxId,
         },
       }));
@@ -609,7 +610,7 @@ const Orders = () => {
           nextMaxId: prev.delivereds.nextMaxId,
         },
         sents: {
-          items: prev.sents.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.sents.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.sents.nextMaxId,
         },
       }));
@@ -626,15 +627,15 @@ const Orders = () => {
           nextMaxId: prev.faileds.nextMaxId,
         },
         inprogresses: {
-          items: prev.inprogresses.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.inprogresses.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.inprogresses.nextMaxId,
         },
         pickingups: {
-          items: prev.pickingups.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.pickingups.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.pickingups.nextMaxId,
         },
         sents: {
-          items: prev.sents.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.sents.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.sents.nextMaxId,
         },
       }));
