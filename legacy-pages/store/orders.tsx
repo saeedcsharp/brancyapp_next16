@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Loading from "brancy/components/notOk/loading";
 import NotAllowed from "brancy/components/notOk/notAllowed";
@@ -509,7 +509,6 @@ const Orders = () => {
         orderId: orderId,
         userId: userId,
         shippingRequestType: undefined,
-        fbId: 0,
       });
       const res = await clientFetchApi<boolean, ShippingRequestType>("/api/order/GetShippingRequestType", {
         methodType: MethodType.get,
@@ -807,8 +806,13 @@ const Orders = () => {
       setOrdersInprocess((prev) => prev.filter((x) => x !== orderId));
     }
   }
+  const hasFetchedRef = useRef(false);
+
   useEffect(() => {
-    if (session && firstLoading && RoleAccess(session, PartnerRole.Orders)) fetchData();
+    if (session && !hasFetchedRef.current && RoleAccess(session, PartnerRole.Orders)) {
+      hasFetchedRef.current = true;
+      fetchData();
+    }
   }, [session]);
 
   useEffect(() => {
