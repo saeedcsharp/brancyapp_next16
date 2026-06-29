@@ -349,21 +349,21 @@ const InProgress = () => {
   //   if (order.order.systemTicketId) router.push(`/user/message?id=${order.systemTicketId}`);
   //   else setTicketTitle(order.id);
   // }
-  // useEffect(() => {
-  //   if (!session) return;
-  //   fetchData();
-  // }, [session]);
-  // useEffect(() => {
-  //   const intervalId = setInterval(() => {
-  //     const hubConnection = getHubConnection();
-  //     if (hubConnection) {
-  //       console.log("hubConnection in order");
-  //       hubConnection.off("User", handleGetNotif);
-  //       hubConnection.on("User", handleGetNotif);
-  //       clearInterval(intervalId);
-  //     }
-  //   }, 500);
-  // }, []);
+  useEffect(() => {
+    if (!session) return;
+    fetchData();
+  }, [session]);
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      const hubConnection = getHubConnection();
+      if (hubConnection) {
+        console.log("hubConnection in order");
+        hubConnection.off("User", handleGetNotif);
+        hubConnection.on("User", handleGetNotif);
+        clearInterval(intervalId);
+      }
+    }, 500);
+  }, []);
 
   return (
     session?.user.currentIndex === -1 && (
