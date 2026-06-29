@@ -240,15 +240,24 @@
 
 /* ---------------------------------- */
 html[dir="rtl"] .modal {
-  left: 250px !important;
+  left: 180px !important;
   right: auto !important;
   border-radius: 0 var(--br15) var(--br15) var(--br15) !important;
   animation: scale-in-rtl 0.3s cubic-bezier(0.25, 0.46, 0.45, 0.94) both !important;
-  @media (max-width: 480px) {
-    left: 160px !important;
-    top: 65px !important;
+}
+@media (max-width: 720px) {
+  html[dir="rtl"] .modal {
+    left: 155px !important;
+    top: 50px !important;
   }
 }
+@media (max-width: 600px) {
+  html[dir="rtl"] .modal {
+    left: 135px !important;
+    top: 50px !important;
+  }
+}
+
 @keyframes scale-in-rtl {
   0% {
     transform: scale(0);
@@ -268,12 +277,12 @@ html[dir="rtl"] .modal {
   flex-direction: column;
   align-items: flex-start;
   position: absolute;
-  top: 25px;
-  right: 250px;
+  top: 65px;
+  right: 180px;
   padding: var(--padding-10);
   width: fit-content;
   gap: var(--gap-5);
-  border-radius: var(--br15) 0 var(--br15) var(--br15);
+  border-radius: var(--br15) var(--br5) var(--br15) var(--br15);
   background-color: var(--color-white);
   box-shadow: var(--dropdown-shadow);
   border: 1px solid var(--box-border);
@@ -281,11 +290,19 @@ html[dir="rtl"] .modal {
   height: fit-content;
   z-index: 117;
   animation: scale-in-ltr 0.5s cubic-bezier(0.19, 1, 0.22, 1) both;
-  @media (max-width: 480px) {
-    right: 160px !important;
-    top: 65px !important;
+}
+@media (max-width: 720px) {
+  .modal {
+    right: 150px !important;
+    top: 50px !important;
   }
 }
+@media (max-width: 600px) {
+  .modal {
+    right: 130px !important;
+  }
+}
+
 @keyframes scale-in-ltr {
   0% {
     transform: scale(0);
