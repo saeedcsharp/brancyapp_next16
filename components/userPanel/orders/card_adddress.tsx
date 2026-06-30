@@ -61,6 +61,8 @@ const orderReducer = (state: OrderState, action: OrderAction): OrderState => {
 };
 
 export default function CardAddress({
+  isNotSupported,
+  instagramerId,
   products,
   addresses,
   inputTypeAddress,
@@ -72,6 +74,8 @@ export default function CardAddress({
   handleShowCreateAddress,
   handleSelectLogistic,
 }: {
+  isNotSupported: boolean;
+  instagramerId: number;
   products: IUserCompleteProduct[];
   addresses: IAddress[];
   inputTypeAddress: InputTypeAddress | null;
@@ -163,7 +167,7 @@ export default function CardAddress({
           { key: "code", value: state.couponCode },
           {
             key: "instagramerId",
-            value: products[0].shortProduct.instagramerId.toString(),
+            value: instagramerId.toString(),
           },
         ],
         onUploadProgress: undefined,
@@ -199,7 +203,8 @@ export default function CardAddress({
           ],
           onUploadProgress: undefined,
         });
-        if (res.succeeded) router.replace(res.value);
+        if (res.succeeded)
+          window.location.href = `https://patran.ir/redirectInterface?redirectUrl=${encodeURIComponent(res.value)}`;
         else {
           notify(res.info.responseType, NotifType.Warning);
           dispatch({ type: "SET_LOADING_CREATE_ORDER", payload: false });
@@ -266,16 +271,18 @@ export default function CardAddress({
     addresses,
     state.couponCode,
     selectedLogisticId,
+    isNotSupported,
     handleGetOrderPaymentLink,
     handleShowAddresses,
     router,
   ]);
 
   useEffect(() => {
-    if (logisticPrice.length === 0) {
+    console.log("notSupportedLogistic", isNotSupported);
+    if (isNotSupported) {
       dispatch({ type: "SET_ACTIVE_BUTTON", payload: true });
     } else dispatch({ type: "SET_ACTIVE_BUTTON", payload: false });
-  }, [logisticPrice]);
+  }, [isNotSupported]);
 
   const handleResize = useCallback(() => {
     dispatch({
@@ -481,6 +488,12 @@ export default function CardAddress({
                     {v.langName}
                   </div>
                 ))}
+              </div>
+            )}
+            {isNotSupported && (
+              <div className="headerandinput">
+                <img width="20" height="20" src="/failed.svg" />
+                {t(LanguageKey.Notify_NotSupportedLogestic)}
               </div>
             )}
             <div className="headerandinput">
@@ -762,7 +775,7 @@ export default function CardAddress({
               height: "40px",
             }}
             className={state.activeButton ? "disableButton" : "saveButton"}
-            disabled={state.activeButton || state.loadingCreateOrder}
+            // disabled={state.activeButton || state.loadingCreateOrder}
             onClick={handleCreateOrder}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {
