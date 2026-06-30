@@ -265,7 +265,7 @@ const PickingUp = () => {
           shortShop: order.Order.ShortShop,
           source: order.Order.Source,
           state: order.Order.State,
-          status: order.Order.Status,
+          status: order.NewStatus,
           statusUpdateTime: order.Order.StatusUpdateTime,
           userId: order.Order.UserId,
         },
