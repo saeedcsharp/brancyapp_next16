@@ -1,3 +1,4 @@
+// #region
 import { useSession } from "next-auth/react";
 import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -9,7 +10,7 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import styles from "./properties.module.css";
+import styles from "./persistent_icebreaker.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { IceOrPersistent, SpecialPayLoad, PayloadType } from "brancy/models/enums";
 import { IIceBreaker, IDetailPrompt } from "brancy/models/interfaces";
@@ -163,284 +164,252 @@ const IceBreaker = React.memo(
     }, []);
 
     return (
+      // #endregion
       <>
         <div className="tooBigCard" style={{ gridRowEnd: isHidden ? "span 10" : "span 82" }}>
           <div className="headerChild" onClick={handleCircleClick}>
             <div className="circle"></div>
             <div className="Title">{t(LanguageKey.messagesetting_icebreaker)}</div>
           </div>
-
           <div className={`${styles.all} ${isHidden ? "" : styles.show}`}>
-            <div className="headerandinput">
-              <div className="headerparent">
-                <div className="title">
-                  {t(LanguageKey.activate)}
-                  <Tooltip
-                    tooltipValue={
-                      <div>
-                        <div className="headerparent" style={{ marginBottom: "10px" }}>
-                          {t(LanguageKey.messagesetting_icebreaker)}
-                        </div>
-                        <img
-                          style={{ borderRadius: "var(--br10)", width: "100%" }}
-                          loading="lazy"
-                          decoding="async"
-                          title="ℹ️ Persistent Menu"
-                          src="/ice-Breaker.png"
-                        />
+            <div className="headerparent">
+              <div className="title">
+                {t(LanguageKey.activate)}
+                <Tooltip
+                  tooltipValue={
+                    <div>
+                      <div className="headerparent" style={{ marginBottom: "10px" }}>
+                        {t(LanguageKey.messagesetting_icebreaker)}
                       </div>
-                    }
-                    onClick={true}
-                    position="bottom">
-                    <img
-                      style={{
-                        marginInline: "5px",
-                        cursor: "pointer",
-                        width: "18px",
-                        height: "18px",
-                      }}
-                      title="ℹ️ tooltip"
-                      src="/tooltip.svg"
-                    />
-                  </Tooltip>
-                </div>
-                {/* Apply fadeDiv class conditionally to the parent div */}
-                <div className={isFading ? "fadeDiv" : ""}>
-                  <ToggleCheckBoxButton
-                    handleToggle={handleActiveIceBreaker}
-                    checked={iceBreakers.isActive}
-                    name=" iceBreaker"
-                    title={" iceBreaker"}
-                    role={" switch"}
+                      <img
+                        style={{ borderRadius: "var(--br10)", width: "100%" }}
+                        loading="lazy"
+                        decoding="async"
+                        title="ℹ️ Persistent Menu"
+                        src="/ice-Breaker.png"
+                      />
+                    </div>
+                  }
+                  onClick={true}
+                  position="bottom">
+                  <img
+                    style={{
+                      marginInline: "5px",
+                      cursor: "pointer",
+                      width: "18px",
+                      height: "18px",
+                    }}
+                    title="ℹ️ tooltip"
+                    src="/tooltip.svg"
                   />
-                </div>
+                </Tooltip>
               </div>
-              <div className="explain">{t(LanguageKey.messagesetting_icebreakerexplain)}</div>
+              {/* Apply fadeDiv class conditionally to the parent div */}
+              <div className={isFading ? "fadeDiv" : ""}>
+                <ToggleCheckBoxButton
+                  handleToggle={handleActiveIceBreaker}
+                  checked={iceBreakers.isActive}
+                  name=" iceBreaker"
+                  title={" iceBreaker"}
+                  role={" switch"}
+                />
+              </div>
+            </div>
+            <div className="explain">{t(LanguageKey.messagesetting_icebreakerexplain)}</div>
+            <div
+              className={`${styles.addnewlink} ${iceBreakers.profileButtons.items.length === 4 ? "fadeDiv" : ""}`}
+              onClick={() => handleShowSpecialPayLoad(IceOrPersistent.IceBreaker)}
+              title="◰ create new Ice Breaker">
+              <div className={styles.addnewicon}>
+                <svg width="22" height="22" viewBox="0 0 22 22">
+                  <path
+                    d="M22 11q-.1 1.5-1.6 1.6h-7.8v7.8a1.6 1.6 0 1 1-3.2 0v-7.8H1.6a1.6 1.6 0 1 1 0-3.2h7.8V1.6a1.6 1.6 0 1 1 3.2 0v7.8h7.8q1.5.1 1.6 1.6"
+                    fill="var(--color-dark-blue)"
+                  />
+                </svg>
+              </div>
+              <div className={styles.addnewcontent}>
+                <div className={styles.addnewheader}>
+                  {t(LanguageKey.messagesetting_addNewButton)}
+                  <div className="explain">({iceBreakers.profileButtons.items.length}/4)</div>
+                </div>
+                <div className="explain">{t(LanguageKey.messagesetting_addicebreakerexplain)}</div>
+              </div>
             </div>
 
-            <div className={`${styles.contenticebraker} ${!iceBreakers.isActive && "fadeDiv"}`}>
-              <div
-                className={`${styles.addnewlink} ${iceBreakers.profileButtons.items.length === 4 ? "fadeDiv" : ""}`}
-                onClick={() => handleShowSpecialPayLoad(IceOrPersistent.IceBreaker)}
-                title="◰ create new Ice Breaker">
-                <div className={styles.addnewicon}>
-                  <svg width="22" height="22" viewBox="0 0 22 22">
-                    <path
-                      d="M22 11q-.1 1.5-1.6 1.6h-7.8v7.8a1.6 1.6 0 1 1-3.2 0v-7.8H1.6a1.6 1.6 0 1 1 0-3.2h7.8V1.6a1.6 1.6 0 1 1 3.2 0v7.8h7.8q1.5.1 1.6 1.6"
-                      fill="var(--color-dark-blue)"
-                    />
-                  </svg>
-                </div>
-                <div className={styles.addnewcontent}>
-                  <div className={styles.addnewheader}>
-                    {t(LanguageKey.messagesetting_addNewButton)}
-                    <div className="explain">({iceBreakers.profileButtons.items.length}/4)</div>
-                  </div>
-                  <div className="explain">{t(LanguageKey.messagesetting_addicebreakerexplain)}</div>
-                </div>
-              </div>
+            <div className={`${styles.contentArea} ${!iceBreakers.isActive && "fadeDiv"}`}>
               {iceBeakerUpdateLoading && <Loading />}
               {!iceBeakerUpdateLoading && (
                 <>
-                  <div className={styles.qanda}>
-                    {iceBreakers.profileButtons.items.map((v, i) => (
-                      <div key={i} className={styles.qasection}>
-                        <div className="headerandinput">
-                          {v.payloadType === PayloadType.Special && (
-                            <>
-                              <div className="headerparent">
-                                <div className={styles.headertitle}>
-                                  {specialPayloadTextMap[v.specialPayload!]?.title}
-                                </div>
-                                <img
-                                  onClick={() => {
-                                    handleDeletePrompt(i);
-                                  }}
-                                  style={{
-                                    cursor: "pointer",
-                                    width: "20px",
-                                    height: "20px",
-                                  }}
-                                  title="ℹ️ delete button"
-                                  src="/delete.svg"
-                                  role="button"
-                                />
+                  {iceBreakers.profileButtons.items.map((v, i) => (
+                    <div key={i} className="headerandinput">
+                      {v.payloadType === PayloadType.Special && (
+                        <>
+                          <div className="headerparent">
+                            <div className="title2">{specialPayloadTextMap[v.specialPayload!]?.title}</div>
+                            <img
+                              onClick={() => {
+                                handleDeletePrompt(i);
+                              }}
+                              style={{
+                                cursor: "pointer",
+                                width: "20px",
+                                height: "20px",
+                              }}
+                              title="ℹ️ delete button"
+                              src="/delete.svg"
+                              role="button"
+                            />
+                          </div>
+                          <div className={styles.qasection}>
+                            <div className={styles.seeanswer} onClick={() => toggleExplanation(i)}>
+                              {explanationsVisible[i] ? (
+                                <> </>
+                              ) : (
+                                // <span>{t(LanguageKey.Hide)} </span>
+                                <span> {t(LanguageKey.show)}</span>
+                              )}
+                              {t(LanguageKey.Efficiency)}
+                            </div>
+                            {explanationsVisible[i] && (
+                              <div className="explain" role="textbox" aria-label={`Answer for prompt ${i + 1}`}>
+                                {specialPayloadTextMap[v.specialPayload!]?.explain}
                               </div>
-                              <div className="headerandinput">
-                                <div className={styles.seeanswer} onClick={() => toggleExplanation(i)}>
-                                  {explanationsVisible[i] ? (
-                                    <span>{t(LanguageKey.Hide)}</span>
-                                  ) : (
-                                    <span> {t(LanguageKey.show)}</span>
-                                  )}
-                                  {t(LanguageKey.Efficiency)}
-                                </div>
-                                {explanationsVisible[i] && (
-                                  <div className="explain" role="textbox" aria-label={`Answer for prompt ${i + 1}`}>
-                                    {specialPayloadTextMap[v.specialPayload!]?.explain}
-                                  </div>
-                                )}
+                            )}
+                          </div>
+                        </>
+                      )}
+                      {v.payloadType === PayloadType.Custom && (
+                        <>
+                          <div className="headerparent">
+                            <div className="title2">{v.title}</div>
+
+                            <img
+                              onClick={() => {
+                                handleDeletePrompt(i);
+                              }}
+                              style={{
+                                cursor: "pointer",
+                                width: "20px",
+                                height: "20px",
+                              }}
+                              title="ℹ️ delete button"
+                              src="/delete.svg"
+                              role="button"
+                            />
+                          </div>
+                          <div className={styles.qasection}>
+                            <div className={styles.seeanswer} onClick={() => toggleExplanation(i)}>
+                              {explanationsVisible[i] ? <> </> : <span> {t(LanguageKey.show)}</span>}
+                              {t(LanguageKey.AIFlow_quick_reply)}
+                            </div>
+                            {explanationsVisible[i] && (
+                              <div className="explain" role="textbox" aria-label={`Answer for prompt ${i + 1}`}>
+                                {v.response}
                               </div>
-                            </>
-                          )}
-                          {v.payloadType === PayloadType.Custom && (
-                            <>
-                              <div className="headerparent">
-                                <div className={styles.headertitle}>{v.title}</div>
-                                <img
-                                  onClick={() => {
-                                    handleDeletePrompt(i);
-                                  }}
-                                  style={{
-                                    cursor: "pointer",
-                                    width: "20px",
-                                    height: "20px",
-                                  }}
-                                  title="ℹ️ delete button"
-                                  src="/delete.svg"
-                                  role="button"
-                                />
-                              </div>
-                              <div className="headerandinput">
-                                <div className={styles.seeanswer} onClick={() => toggleExplanation(i)}>
-                                  {explanationsVisible[i] ? (
-                                    <span>{t(LanguageKey.Hide)}</span>
-                                  ) : (
-                                    <span> {t(LanguageKey.show)}</span>
-                                  )}
-                                  {t(LanguageKey.Efficiency)}
-                                </div>
-                                {explanationsVisible[i] && (
-                                  <div className="explain" role="textbox" aria-label={`Answer for prompt ${i + 1}`}>
-                                    {v.response}
-                                  </div>
-                                )}
-                              </div>
-                            </>
-                          )}
-                          {v.payloadType === PayloadType.AI && (
-                            <>
-                              <div className="headerparent">
-                                {v.prompt && (
-                                  <div className="headerandinput">
-                                    <div className="headertext">{"Button " + t(LanguageKey.SettingGeneral_Title)}</div>
-                                    <div className="headerparent">
-                                      <div className={styles.headertitle}>{v.title}</div>
-                                    </div>
-                                    <div className="headertext">{"AI " + t(LanguageKey.SettingGeneral_Title)}</div>
-                                    <InputText
-                                      className={"textinputbox"}
-                                      handleInputChange={() => {}}
-                                      value={v.prompt.title}
-                                    />
-                                  </div>
-                                )}
-                                <img
-                                  onClick={() => {
-                                    handleDeletePrompt(i);
-                                  }}
-                                  style={{
-                                    cursor: "pointer",
-                                    width: "20px",
-                                    height: "20px",
-                                  }}
-                                  title="ℹ️ delete button"
-                                  src="/delete.svg"
-                                  role="button"
-                                />
-                              </div>
-                              <div className="headerandinput">
-                                <div className={styles.seeanswer} onClick={() => toggleExplanationForAI(i, v.promptId)}>
-                                  {explanationsVisible[i] ? (
-                                    <span>{t(LanguageKey.Hide)}</span>
-                                  ) : (
-                                    <span> {t(LanguageKey.show)}</span>
-                                  )}
-                                  {t(LanguageKey.Answer)}
-                                </div>
-                                {explanationsVisible[i] && (
-                                  <div className="explain" role="textbox" aria-label={`Answer for prompt ${i + 1}`}>
-                                    {promptLoading && <RingLoader />}
-                                    {!promptLoading &&
-                                      selectedPrompt.length > 0 &&
-                                      selectedPrompt.find((x) => x.promptId === v.promptId)?.promptStr}
-                                  </div>
-                                )}
-                              </div>
-                            </>
-                          )}
-                          {v.payloadType === PayloadType.Flow && (
-                            <>
-                              <div className="headerparent">
-                                {v.masterFlow && (
-                                  <div className="headerandinput">
-                                    <div className="headertext">{"Button " + t(LanguageKey.SettingGeneral_Title)}</div>
-                                    <div className="headerparent">
-                                      <div className={styles.headertitle}>{v.title}</div>
-                                    </div>
-                                    <div className="headertext">{"Flow " + t(LanguageKey.SettingGeneral_Title)}</div>
-                                    <InputText
-                                      className={"textinputbox"}
-                                      handleInputChange={() => {}}
-                                      value={v.masterFlow.title}
-                                    />
-                                  </div>
-                                )}
-                                <img
-                                  onClick={() => {
-                                    handleDeletePrompt(i);
-                                  }}
-                                  style={{
-                                    cursor: "pointer",
-                                    width: "20px",
-                                    height: "20px",
-                                  }}
-                                  title="ℹ️ delete button"
-                                  src="/delete.svg"
-                                  role="button"
-                                />
-                              </div>
-                              <div className="headerandinput">
-                                <div className={styles.seeanswer} onClick={() => toggleExplanation(i)}>
+                            )}
+                          </div>
+                        </>
+                      )}
+                      {v.payloadType === PayloadType.AI && (
+                        <>
+                          <div className="headerparent">
+                            {v.prompt && <div className="title2">{v.title}</div>}
+
+                            <img
+                              onClick={() => {
+                                handleDeletePrompt(i);
+                              }}
+                              style={{
+                                cursor: "pointer",
+                                width: "20px",
+                                height: "20px",
+                              }}
+                              title="ℹ️ delete button"
+                              src="/delete.svg"
+                              role="button"
+                            />
+                          </div>
+
+                          <div className={styles.qasection}>
+                            {v.prompt && <div className="headertext">{v.prompt.title}</div>}
+                            <div className="headerandinput">
+                              <div className={styles.seeanswer} onClick={() => toggleExplanationForAI(i, v.promptId)}>
+                                {explanationsVisible[i] ? (
+                                  <> </>
+                                ) : (
+                                  // <span>{t(LanguageKey.Hide)} </span>
                                   <span> {t(LanguageKey.show)}</span>
-                                  {t(LanguageKey.Efficiency)}
+                                )}
+                                {t(LanguageKey.Answer)} {t(LanguageKey.AI)}
+                              </div>
+                              {explanationsVisible[i] && (
+                                <div className="explain" role="textbox" aria-label={`Answer for prompt ${i + 1}`}>
+                                  {promptLoading && <RingLoader />}
+                                  {!promptLoading &&
+                                    selectedPrompt.length > 0 &&
+                                    selectedPrompt.find((p) => p.promptId === v.promptId)?.promptStr}
                                 </div>
-                              </div>
-                            </>
-                          )}
-                          {v.payloadType === PayloadType.GeneralAI && (
-                            <>
-                              <div className="headerparent">
-                                <div className={styles.headertitle}>{v.title}</div>
-                                <img
-                                  onClick={() => {
-                                    handleDeletePrompt(i);
-                                  }}
-                                  style={{
-                                    cursor: "pointer",
-                                    width: "20px",
-                                    height: "20px",
-                                  }}
-                                  title="ℹ️ delete button"
-                                  src="/delete.svg"
-                                  role="button"
-                                />
-                              </div>
-                            </>
-                          )}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
+                              )}
+                            </div>
+                          </div>
+                        </>
+                      )}
+                      {v.payloadType === PayloadType.Flow && (
+                        <>
+                          <div className="headerparent">
+                            <div className="title2">
+                              {" "}
+                              {v.masterFlow && <strong className="title2">{v.title}</strong>}
+                            </div>
+                            <img
+                              onClick={() => {
+                                handleDeletePrompt(i);
+                              }}
+                              style={{
+                                cursor: "pointer",
+                                width: "20px",
+                                height: "20px",
+                              }}
+                              title="ℹ️ delete button"
+                              src="/delete.svg"
+                              role="button"
+                            />
+                          </div>
+                          <div className={styles.qasection}>
+                            {v.masterFlow && <div className="headertext">{v.masterFlow.title}</div>}
+                            <div className={styles.seeanswer} onClick={() => toggleExplanation(i)}>
+                              <span> {t(LanguageKey.show)}</span>
+                              {t(LanguageKey.Answer)} {t(LanguageKey.Flow)}
+                            </div>
+                          </div>
+                        </>
+                      )}
+                      {v.payloadType === PayloadType.GeneralAI && (
+                        <>
+                          <div className="headerparent">
+                            <div className="title2">{v.title}</div>
+                            <img
+                              onClick={() => {
+                                handleDeletePrompt(i);
+                              }}
+                              style={{
+                                cursor: "pointer",
+                                width: "20px",
+                                height: "20px",
+                              }}
+                              title="ℹ️ delete button"
+                              src="/delete.svg"
+                              role="button"
+                            />
+                          </div>
+                        </>
+                      )}
+                    </div>
+                  ))}
                 </>
               )}
             </div>
-            {/* <div
-                  onClick={handleSaveIceBreaker}
-                  style={{ minHeight: "50px" }}
-                  className={handleCheck() ? "disableButton" : "saveButton"}>
-                  {t(LanguageKey.save)}
-                </div> */}
           </div>
         </div>
       </>

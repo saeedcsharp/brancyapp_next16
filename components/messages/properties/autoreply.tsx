@@ -8,7 +8,7 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import styles from "./properties.module.css";
+import styles from "./autoreply.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { MediaProductType, AutoReplyPayLoadType } from "brancy/models/enums";
 import { ILoadingStatus, IGeneralAutoReply, IDetailPrompt } from "brancy/models/interfaces";
