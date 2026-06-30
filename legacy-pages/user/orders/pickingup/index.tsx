@@ -218,44 +218,60 @@ const PickingUp = () => {
   }
   function handleManageOrderBySocket(order: IOrderPushNotifExtended) {
     if (
-      order.NewStatus === OrderStep.UserCanceled ||
-      order.NewStatus === OrderStep.InstagramerCanceled ||
-      order.NewStatus === OrderStep.Failed ||
-      order.NewStatus === OrderStep.Expired ||
-      order.NewStatus === OrderStep.ShippingFailed
+      order.Order.NewStatus === OrderStep.UserCanceled ||
+      order.Order.NewStatus === OrderStep.InstagramerCanceled ||
+      order.Order.NewStatus === OrderStep.Failed ||
+      order.Order.NewStatus === OrderStep.Expired ||
+      order.Order.NewStatus === OrderStep.ShippingFailed
     ) {
       setOrders((prevOrders) => {
-        const updatedItems = prevOrders.items.filter((item) => item.order.id !== order.ShortOrder.Id);
+        const updatedItems = prevOrders.items.filter((item) => item.order.id !== order.Order.Id);
         return { ...prevOrders, items: updatedItems };
       });
       return;
-    } else if (order.NewStatus === OrderStep.ShippingRequest) {
+    } else if (order.Order.NewStatus === OrderStep.ShippingRequest) {
       const orderStatus: IOrderByStatusItem = {
-        systemTicketId: order.ShortOrder.SystemTicketId,
-        trackingId: order.ShortOrder.TrackingId,
-        city: order.ShortOrder.City,
-        createdTime: order.ShortOrder.CreatedTime,
-        deliveryType: order.ShortOrder.DeliveryType,
-        id: order.ShortOrder.Id,
-        instagramerId: order.ShortOrder.InstagramerId,
-        invoiceId: order.ShortOrder.InvoiceId,
-        itemCount: order.ShortOrder.ItemCount,
-        logesticId: order.ShortOrder.LogesticId,
-        priceType: order.ShortOrder.PriceType,
-        state: order.ShortOrder.State,
-        userId: order.ShortOrder.UserId,
-        shortShop: {
-          instagramerId: order.ShortOrder.ShortShop!.InstagramerId,
-          priceType: order.ShortOrder.ShortShop!.PriceType,
-          productCount: order.ShortOrder.ShortShop!.ProductCount,
-          isSuspend: true,
+        businessProfile: {
+          instagramerId: order.BusinessProfile?.InstagramerId,
+          priceType: order.BusinessProfile?.PriceType,
+          banners: order.BusinessProfile?.Banners,
+          isSuspend: order.BusinessProfile?.IsSuspend,
+          bannerUrl: order.BusinessProfile?.BannerUrl,
+          businessType: order.BusinessProfile?.BusinessType,
+          countryId: order.BusinessProfile?.CountryId,
+          fbId: order.BusinessProfile?.FbId,
+          fullName: order.BusinessProfile?.FullName,
+          followerCount: order.BusinessProfile?.FollowerCount,
+          profileUrl: order.BusinessProfile?.ProfileUrl,
+          username: order.BusinessProfile?.Username,
+          fullAdvertise: order.BusinessProfile?.FullAdvertise,
+          fullShop: order.BusinessProfile?.FullShop,
+          fullVShop: order.BusinessProfile?.FullVShop,
         },
-        status: order.NewStatus,
-        statusUpdateTime: order.ShortOrder.StatusUpdateTime,
-        totalPrice: order.ShortOrder.TotalPrice,
-        userInfo: null,
+        order: {
+          id: order.Order.Id,
+          trackingId: order.Order.TrackingId,
+          itemCount: order.Order.ItemCount,
+          totalPrice: order.Order.TotalPrice,
+          priceType: order.Order.PriceType,
+          createdTime: order.Order.CreatedTime,
+          logesticId: order.Order.LogesticId,
+          city: order.Order.City,
+          deliveryType: order.Order.DeliveryType,
+          expireTime: order.Order.ExpireTime,
+          fbId: order.Order.FbId,
+          invoiceId: order.Order.InvoiceId,
+          shopAddressId: order.Order.ShopAddressId,
+          shortShop: order.Order.ShortShop,
+          source: order.Order.Source,
+          state: order.Order.State,
+          status: order.Order.NewStatus,
+          statusUpdateTime: order.Order.StatusUpdateTime,
+          userId: order.Order.UserId,
+        },
+        userProfile: null,
       };
-      console.log("Order initialized in picking up in user", order.ShortOrder);
+      console.log("Order initialized in picking up in user", order.Order);
       setOrders((prevOrders) => ({
         ...prevOrders,
         items: [orderStatus, ...prevOrders.items],

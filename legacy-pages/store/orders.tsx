@@ -529,35 +529,41 @@ const Orders = () => {
   }
   function handleManageOrderBySocket(order: IOrderPushNotifExtended) {
     const orderStatus: IOrderByStatusItem = {
-      systemTicketId: order.ShortOrder.SystemTicketId,
-      trackingId: order.ShortOrder.TrackingId,
-      city: order.ShortOrder.City,
-      createdTime: order.ShortOrder.CreatedTime,
-      deliveryType: order.ShortOrder.DeliveryType,
-      id: order.ShortOrder.Id,
-      instagramerId: order.ShortOrder.InstagramerId,
-      invoiceId: order.ShortOrder.InvoiceId,
-      itemCount: order.ShortOrder.ItemCount,
-      logesticId: order.ShortOrder.LogesticId,
-      priceType: order.ShortOrder.PriceType,
-      state: order.ShortOrder.State,
-      userId: order.ShortOrder.UserId,
-      shortShop: null,
-      status: order.NewStatus,
-      statusUpdateTime: order.ShortOrder.StatusUpdateTime,
-      totalPrice: order.ShortOrder.TotalPrice,
-      userInfo: order.ShortOrder.UserInfo
-        ? {
-            fullName: order.ShortOrder.UserInfo.FullName,
-            phoneNumber: order.ShortOrder.UserInfo.PhoneNumber,
-            profileUrl: order.ShortOrder.UserInfo.ProfileUrl,
-            username: order.ShortOrder.UserInfo.Username,
-          }
-        : null,
+      businessProfile: null,
+      order: {
+        id: order.Order.Id,
+        trackingId: order.Order.TrackingId,
+        itemCount: order.Order.ItemCount,
+        totalPrice: order.Order.TotalPrice,
+        priceType: order.Order.PriceType,
+        createdTime: order.Order.CreatedTime,
+        logesticId: order.Order.LogesticId,
+        city: order.Order.City,
+        deliveryType: order.Order.DeliveryType,
+        expireTime: order.Order.ExpireTime,
+        fbId: order.Order.FbId,
+        invoiceId: order.Order.InvoiceId,
+        shopAddressId: order.Order.ShopAddressId,
+        shortShop: order.Order.ShortShop,
+        source: order.Order.Source,
+        state: order.Order.State,
+        status: order.Order.NewStatus,
+        statusUpdateTime: order.Order.StatusUpdateTime,
+        userId: order.Order.UserId,
+      },
+      userProfile: {
+        fullName: order.UserProfile.FullName,
+        googleEmail: order.UserProfile.GoogleEmail,
+        googleName: order.UserProfile.GoogleName,
+        googleProfile: order.UserProfile.GoogleProfile,
+        phoneNumber: order.UserProfile.PhoneNumber,
+        profileUrl: order.UserProfile.ProfileUrl,
+        username: order.UserProfile.Username,
+      },
     };
 
-    console.log("Order initialized", order.ShortOrder);
-    if (order.NewStatus === OrderStep.Paid) {
+    console.log("Order initialized", order.Order);
+    if (order.Order.NewStatus === OrderStep.Paid) {
       setOrders((prev) => ({
         ...prev,
         pending: {
@@ -565,7 +571,7 @@ const Orders = () => {
           nextMaxId: prev.pending.nextMaxId,
         },
       }));
-    } else if (order.NewStatus === OrderStep.InstagramerAccepted) {
+    } else if (order.Order.NewStatus === OrderStep.InstagramerAccepted) {
       setOrders((prev) => ({
         ...prev,
         inprogresses: {
@@ -577,7 +583,7 @@ const Orders = () => {
           nextMaxId: prev.pending.nextMaxId,
         },
       }));
-    } else if (order.NewStatus === OrderStep.ShippingRequest) {
+    } else if (order.Order.NewStatus === OrderStep.ShippingRequest) {
       setOrders((prev) => ({
         ...prev,
         pickingups: {
@@ -589,7 +595,7 @@ const Orders = () => {
           nextMaxId: prev.inprogresses.nextMaxId,
         },
       }));
-    } else if (order.NewStatus === OrderStep.InShipping) {
+    } else if (order.Order.NewStatus === OrderStep.InShipping) {
       setOrders((prev) => ({
         ...prev,
         sents: {
@@ -601,7 +607,7 @@ const Orders = () => {
           nextMaxId: prev.pickingups.nextMaxId,
         },
       }));
-    } else if (order.NewStatus === OrderStep.Delivered) {
+    } else if (order.Order.NewStatus === OrderStep.Delivered) {
       setOrders((prev) => ({
         ...prev,
         delivereds: {
@@ -614,10 +620,10 @@ const Orders = () => {
         },
       }));
     } else if (
-      order.NewStatus === OrderStep.Failed ||
-      order.NewStatus === OrderStep.UserCanceled ||
-      order.NewStatus === OrderStep.InstagramerCanceled ||
-      order.NewStatus === OrderStep.ShippingFailed
+      order.Order.NewStatus === OrderStep.Failed ||
+      order.Order.NewStatus === OrderStep.UserCanceled ||
+      order.Order.NewStatus === OrderStep.InstagramerCanceled ||
+      order.Order.NewStatus === OrderStep.ShippingFailed
     ) {
       setOrders((prev) => ({
         ...prev,

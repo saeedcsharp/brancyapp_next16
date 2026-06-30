@@ -3895,43 +3895,56 @@ export interface IGeneralAiModels {
 
 // #region Store
 export interface IOrderPushNotifExtended {
-  ShortOrder: {
-    TrackingId: string | null;
-    CouponId: string | null;
-    ItemCount: number;
-    ShortShop: {
-      InstagramerId: number;
-      Username: string;
-      FullName: string | null;
-      PriceType: number;
-      ProfileUrl: string;
-      ProductCount: number;
-      FollowerCount: number;
-      BannerUrl: string;
-    } | null;
-    UserInfo: {
-      PhoneNumber: string;
-      Username: string;
-      FullName: string;
-      ProfileUrl: string;
-    } | null;
-    State: string;
-    City: string;
-    LogesticId: number;
-    DeliveryType: number;
-    Id: string;
-    InvoiceId: string;
-    CreatedTime: number;
-    InstagramerId: number;
-    UserId: number;
-    Status: number; // Using number instead of OrderStep to match your JSON
-    StatusUpdateTime: number;
-    TotalPrice: number;
-    ExpireTime: number;
-    PriceType: number; // Using number instead of PriceType enum
-    SystemTicketId: string | null;
-  };
+  Order: IOrderPushNotifByStatusItemOrder;
+  UserProfile: IPushNotifUserProfile;
+  BusinessProfile: IPushNotiBusiness;
+}
+export interface IPushNotifUserProfile {
+  PhoneNumber: string;
+  Username: string;
+  FullName: string;
+  ProfileUrl: string;
+  GoogleProfile: string | null;
+  GoogleEmail: string | null;
+  GoogleName: string | null;
+}
+export interface IPushNotiBusiness {
+  IsSuspend: boolean;
+  Username: string;
+  ProfileUrl: string;
+  FullName: string;
+  FollowerCount: number;
+  CountryId: number;
+  BannerUrl: string | null;
+  FullShop: IFullShop | null;
+  Banners: IBanner[] | null;
+  FullAdvertise: [] | null;
+  FullVShop: [] | null;
+  InstagramerId: number;
+  FbId: number;
+  PriceType: PriceType;
+  BusinessType: BusinessType;
+}
+export interface IOrderPushNotifByStatusItemOrder {
+  ItemCount: number;
+  ShopAddressId: number;
+  TrackingId: string | null;
+  State: string | null;
+  City: string | null;
+  LogesticId: LogisticType | null;
+  DeliveryType: ParcelPocketDeliveryType;
+  ShortShop: IShopShortShop | null;
+  Id: string;
+  InvoiceId: string;
+  CreatedTime: number;
+  FbId: number;
+  UserId: number;
   NewStatus: number; // Using number instead of OrderStep enum
+  StatusUpdateTime: number;
+  TotalPrice: number;
+  ExpireTime: number;
+  PriceType: PriceType;
+  Source: number;
 }
 
 export interface ILog {
