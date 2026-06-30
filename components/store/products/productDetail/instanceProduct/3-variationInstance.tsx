@@ -16,8 +16,8 @@ import priceFormatter from "brancy/helper/priceFormater";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 
-import Discount from "brancy/components/store/products/productDetail/notInstanceProduct/popups/discount";
-import styles from "./Variation.module.css";
+import Discount from "brancy/components/store/products/productDetail/popups/discount";
+import styles from "./3-Variation.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   IDisCount,

@@ -4,8 +4,8 @@ import { useTranslation } from "react-i18next";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { handleCompress, handleDecompress } from "brancy/helper/pako";
 import { LanguageKey } from "brancy/i18n";
-import CustomTable from "brancy/components/store/products/productDetail/notInstanceProduct/customtable";
-import styles from "./information.module.css";
+import CustomTable from "brancy/components/store/products/productDetail/popups/customtable";
+import styles from "./2-information.module.css";
 import { IProduct_Information } from "brancy/models/interfaces";
 
 const ReactQuill = dynamic(() => import("react-quill-ver2"), { ssr: false });

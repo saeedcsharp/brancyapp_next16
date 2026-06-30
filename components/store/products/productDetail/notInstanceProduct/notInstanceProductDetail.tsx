@@ -14,13 +14,13 @@ import {
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { IResult, MethodType } from "brancy/helper/api";
-import General from "brancy/components/store/products/productDetail/notInstanceProduct/general";
-import Information from "brancy/components/store/products/productDetail/notInstanceProduct/information";
-import Media from "brancy/components/store/products/productDetail/notInstanceProduct/media";
+import General from "brancy/components/store/products/productDetail/notInstanceProduct/1-general";
+import Information from "brancy/components/store/products/productDetail/notInstanceProduct/2-information";
+import Media from "brancy/components/store/products/productDetail/notInstanceProduct/5-media";
 import styles from "./notinstanceproduct.module.css";
-import Setting from "brancy/components/store/products/productDetail/notInstanceProduct/setting";
-import Specifications from "brancy/components/store/products/productDetail/notInstanceProduct/specifications";
-import Variation from "brancy/components/store/products/productDetail/notInstanceProduct/Variation";
+import Setting from "brancy/components/store/products/productDetail/notInstanceProduct/6-setting";
+import Specifications from "brancy/components/store/products/productDetail/notInstanceProduct/4-specifications";
+import Variation from "brancy/components/store/products/productDetail/notInstanceProduct/3-Variation";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   ICreateInstance_ForSpecification,
