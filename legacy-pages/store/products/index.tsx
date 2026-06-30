@@ -1,5 +1,5 @@
 import NotShopper from "brancy/components/notOk/notShopper";
-import ProductList from "brancy/components/store/products/productList";
+import ProductList from "brancy/components/store/products/productList/productList";
 import { LanguageKey } from "brancy/i18n";
 import { useSession } from "next-auth/react";
 import Head from "next/head";

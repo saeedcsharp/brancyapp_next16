@@ -14,13 +14,13 @@ import {
 import { LanguageKey } from "brancy/i18n";
 import { IResult, MethodType } from "brancy/helper/api";
 
-import GeneralInstance from "brancy/components/store/products/productDetail/instanceProduct/generalInstance";
-import InformationInstance from "brancy/components/store/products/productDetail/instanceProduct/informationInstance";
+import GeneralInstance from "brancy/components/store/products/productDetail/instanceProduct/1-generalInstance";
+import InformationInstance from "brancy/components/store/products/productDetail/instanceProduct/2-informationInstance";
 import styles from "./instanceProductDetail.module.css";
-import MediaInstance from "brancy/components/store/products/productDetail/instanceProduct/mediaInstance";
-import SettingInstance from "brancy/components/store/products/productDetail/instanceProduct/settingInstance";
-import SpecificationsInstance from "brancy/components/store/products/productDetail/instanceProduct/specificationInstance";
-import InstanceVariation from "brancy/components/store/products/productDetail/instanceProduct/variationInstance";
+import MediaInstance from "brancy/components/store/products/productDetail/instanceProduct/5-mediaInstance";
+import SettingInstance from "brancy/components/store/products/productDetail/instanceProduct/6-settingInstance";
+import SpecificationsInstance from "brancy/components/store/products/productDetail/instanceProduct/4-specificationInstance";
+import InstanceVariation from "brancy/components/store/products/productDetail/instanceProduct/3-variationInstance";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   ICustomMedia,

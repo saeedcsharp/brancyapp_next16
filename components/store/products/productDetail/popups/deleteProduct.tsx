@@ -4,14 +4,20 @@ import { useTranslation } from "react-i18next";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import styles from "brancy/components/store/products/productDetail/notInstanceProduct/popups/deleteProduct.module.css";
+import styles from "./deleteProduct.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 const DeleteProduct = (props: { productId: number; removeMask: () => void }) => {
   const { t } = useTranslation();
   const { data: session } = useSession();
   async function handleDeleteProduct() {
     try {
-      const res = await clientFetchApi<boolean, boolean>("/api/product/UnLoadProduct", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "productId", value: props.productId.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, boolean>("/api/product/UnLoadProduct", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "productId", value: props.productId.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         router.push("/store/products");
       } else {

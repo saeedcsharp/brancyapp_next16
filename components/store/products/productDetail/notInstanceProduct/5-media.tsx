@@ -29,7 +29,7 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
 import { LanguageKey } from "brancy/i18n";
-import styles from "./media.module.css";
+import styles from "./5-media.module.css";
 import { UploadFile } from "brancy/helper/api";
 import Compressor from "compressorjs";
 import ProgressBar from "brancy/components/design/progressBar/progressBar";

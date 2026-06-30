@@ -8,8 +8,8 @@ import { LanguageKey } from "brancy/i18n";
 import {
   IAddNewVariation,
   INewVariation,
-} from "brancy/components/store/products/productDetail/notInstanceProduct/Variation";
-import styles from "brancy/components/store/products/productDetail/notInstanceProduct/popups/newVariation.module.css";
+} from "brancy/components/store/products/productDetail/notInstanceProduct/3-Variation";
+import styles from "./newVariation.module.css";
 import { ICreateInstance_ForVariation, IProduct_Variation } from "brancy/models/interfaces";
 const NewVariation = (props: {
   createInstance: ICreateInstance_ForVariation;

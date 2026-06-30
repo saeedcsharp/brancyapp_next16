@@ -8,9 +8,9 @@ import Loading from "brancy/components/notOk/loading";
 import priceFormatter from "brancy/helper/priceFormater";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import Discount from "brancy/components/store/products/productDetail/notInstanceProduct/popups/discount";
-import NewVariation from "brancy/components/store/products/productDetail/notInstanceProduct/popups/newVariation";
-import styles from "./Variation.module.css";
+import Discount from "brancy/components/store/products/productDetail/popups/discount";
+import NewVariation from "brancy/components/store/products/productDetail/popups/newVariation";
+import styles from "./3-Variation.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   ICreateInstance_ForVariation,

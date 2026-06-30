@@ -18,9 +18,9 @@ import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 
 import styles from "./productList.module.css";
-import ProductListDesktop from "brancy/components/store/products/productListComponents/ProductListDesktop";
-import ProductListMobile from "brancy/components/store/products/productListComponents/ProductListMobile";
-import UpdateProduct from "brancy/components/store/products/updateProduct";
+import ProductListDesktop from "brancy/components/store/products/productList/productListComponents/ProductListDesktop";
+import ProductListMobile from "brancy/components/store/products/productList/productListComponents/ProductListMobile";
+import UpdateProduct from "brancy/components/store/products/productDetail/popups/updateProduct";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import NotAllowed from "brancy/components/notOk/notAllowed";
 import { AvailabilityStatus, PartnerRole } from "brancy/models/enums";

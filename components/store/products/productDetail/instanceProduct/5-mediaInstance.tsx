@@ -21,7 +21,7 @@ import { useTranslation } from "react-i18next";
 import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
 import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
 import { LanguageKey } from "brancy/i18n";
-import styles from "./media.module.css";
+import styles from "./5-media.module.css";
 import Compressor from "compressorjs";
 import { UploadFile } from "brancy/helper/api";
 import { useSession } from "next-auth/react";

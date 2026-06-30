@@ -7,11 +7,11 @@ import InputText from "brancy/components/design/inputText";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
-import styles from "./setting.module.css";
+import styles from "./6-setting.module.css";
 import { IProduct_Setting } from "brancy/models/interfaces";
-import { GauranteeLength, GauranteeStatus, ParcelPocketDeliveryType } from "brancy/models/enums";
+import { GauranteeLength, GauranteeStatus, OrginalityStatus, ParcelPocketDeliveryType } from "brancy/models/enums";
 
-function Setting({
+function SettingInstance({
   setting,
   toggleNext,
   upadteCteateFromSetting,
@@ -21,13 +21,6 @@ function Setting({
   upadteCteateFromSetting: (isNext: boolean, setting: IProduct_Setting) => void;
 }) {
   const { t } = useTranslation();
-  const originalityselect = [
-    <div id="0">{t(LanguageKey.product_original)}</div>,
-    <div id="1">{t(LanguageKey.product_HighCopy)}</div>,
-    <div id="2">{t(LanguageKey.product_notoriginal)}</div>,
-    <div id="3">{t(LanguageKey.product_Miscellaneous)}</div>,
-    <div id="4">{t(LanguageKey.product_fake)}</div>,
-  ];
   const preperingselect = [
     <div id="1">{t(LanguageKey.tomorrow)}</div>,
     <div id="2">2 {t(LanguageKey.pageTools_Day)}</div>,
@@ -38,15 +31,15 @@ function Setting({
     <div id="7">1 {t(LanguageKey.pageTools_Week)}</div>,
   ];
   const shippingData = [
-    { id: 0, size: 1, dimensions: [15, 10, 10], weight: 46 },
-    { id: 1, size: 2, dimensions: [20, 15, 10], weight: 80 },
-    { id: 2, size: 3, dimensions: [20, 20, 15], weight: 132 },
-    { id: 3, size: 4, dimensions: [30, 20, 20], weight: 175 },
-    { id: 4, size: 5, dimensions: [35, 25, 20], weight: 502 },
-    { id: 5, size: 6, dimensions: [40, 30, 25], weight: 612 },
-    { id: 6, size: 7, dimensions: [45, 25, 20], weight: 519 },
-    { id: 7, size: 8, dimensions: [45, 40, 30], weight: 926 },
-    { id: 8, size: 9, dimensions: [55, 45, 35], weight: 1239 },
+    { id: 1, dimensions: [15, 10, 10], weight: 46 },
+    { id: 2, dimensions: [20, 15, 10], weight: 80 },
+    { id: 3, dimensions: [20, 20, 15], weight: 132 },
+    { id: 4, dimensions: [30, 20, 20], weight: 175 },
+    { id: 5, dimensions: [35, 25, 20], weight: 502 },
+    { id: 6, dimensions: [40, 30, 25], weight: 612 },
+    { id: 7, dimensions: [45, 25, 20], weight: 519 },
+    { id: 8, dimensions: [45, 40, 30], weight: 926 },
+    { id: 9, dimensions: [55, 45, 35], weight: 1239 },
   ];
 
   const Availablityselect = [
@@ -150,33 +143,20 @@ function Setting({
       {t(LanguageKey.product_box)}
       <div
         style={{
-          justifyContent: "center",
-          width: "10px",
           fontWeight: "var(--weight-700)",
           display: "flex",
           gap: "var(--gap-5)",
         }}>
-        {item.id + 1}
+        {item.id}
       </div>
       <div style={{ fontWeight: "var(--weight-300)", color: "var(--color-gray)" }}>|</div>
-      <div
-        style={{
-          justifyContent: "center",
-          width: "70px",
-          display: "flex",
-          gap: "var(--gap-1)",
-          alignItems: "flex-end",
-        }}>
-        {renderDimensions(item.dimensions)}
-      </div>
+      <div style={{ display: "flex", gap: "1px", alignItems: "flex-end" }}>{renderDimensions(item.dimensions)}</div>
       <div style={{ fontWeight: "var(--weight-300)", color: "var(--color-gray)" }}>/</div>
       <div
         style={{
-          width: "35px",
           fontWeight: "var(--weight-700)",
           display: "flex",
           gap: "var(--gap-5)",
-          justifyContent: "center",
         }}>
         {item.weight}
       </div>
@@ -207,338 +187,6 @@ function Setting({
     weight: "weight",
   });
   const [refreshEvat, setRefresfEvat] = useState(false);
-  function togglePopup() {
-    setIsPopupOpen(!isPopupOpen);
-  }
-  function handleMouseEnter(size: any, width: any, length: any, height: any, weight: any) {
-    setHoverData({ size, width, length, height, weight });
-  }
-  function handleMouseLeave() {
-    setHoverData({
-      size: "Box",
-      width: "W",
-      length: "L",
-      height: "H",
-      weight: "weight",
-    });
-  }
-  function handleAvailablityselect(id: any) {
-    setSettingInfo((prev) => ({ ...prev, availabilityStatus: Number(id) }));
-  }
-  function handleoriginalityselect(id: any) {
-    setSettingInfo((prev) => ({ ...prev, orginalityStatus: Number(id) }));
-  }
-  function handlemaxincart(id: any) {
-    setSettingInfo((prev) => ({ ...prev, maxInEachCard: Number(id) }));
-  }
-  function handlebreakable(id: any) {
-    setSettingInfo((prev) => ({ ...prev, breakable: id == 0 }));
-  }
-  function handleIsLiquid(id: any) {
-    setSettingInfo((prev) => ({ ...prev, isLiquid: id == 0 }));
-  }
-  function handleSackSelect(id: any) {
-    setSettingInfo((prev) => ({
-      ...prev,
-      productBox: {
-        ...prev.productBox!,
-        isSack: id == 0,
-      },
-    }));
-  }
-  function handleEnvelopCountChange(e: ChangeEvent<HTMLInputElement>) {
-    setSettingInfo((prev) => ({
-      ...prev,
-      envelopeAvailableCount: Number(e.target.value),
-    }));
-  }
-  function handleNetWeightChange(e: ChangeEvent<HTMLInputElement>) {
-    const inputValue = e.target.value;
-    if (/^\d*$/.test(inputValue)) {
-      setSettingInfo((prev) => ({
-        ...prev,
-        weight: inputValue.length > 0 ? parseInt(inputValue) : 60,
-      }));
-    }
-  }
-  function handleGuaranteelength(id: any) {
-    setSettingInfo((prev) => ({ ...prev, guaranteeLenght: Number(id) }));
-  }
-  function handleGuaranteeselect(id: any) {
-    setSettingInfo((prev) => ({
-      ...prev,
-      gauranteeStatus: Number(id),
-      guaranteeLenght: id == 0 || id == 2 ? 0 : GauranteeLength.ThreeDays,
-    }));
-  }
-  function handlepreperingselect(id: any) {
-    setSettingInfo((prev) => ({ ...prev, readyForShipDayLong: Number(id) }));
-  }
-  // function handleshippingselect(id: number) {
-  //   if (id == 10) {
-  //     setSettingInfo((prev) => ({
-  //       ...prev,
-  //       productBox: {
-  //         height: 10,
-  //         length: 15,
-  //         weight: 46,
-  //         width: 10,
-  //       },
-  //       defaultShippingId: null,
-  //     }));
-  //   } else {
-  //     setSettingInfo((prev) => ({
-  //       ...prev,
-  //       defaultShippingId: id,
-  //       productBox: {
-  //         length: shippingData.find((x) => x.id == id)!.dimensions[0],
-  //         width: shippingData.find((x) => x.id == id)!.dimensions[1],
-  //         height: shippingData.find((x) => x.id == id)!.dimensions[2],
-  //         weight: shippingData.find((x) => x.id == id)!.weight,
-  //       },
-  //       minWeight: null,
-  //     }));
-  //   }
-  // }
-  const handleSelectDeliveryType = (id: any) => {
-    setSettingInfo((prev) => ({
-      ...prev,
-      deliveryType: Number(id),
-    }));
-  };
-  // function handleChangeBoxWeight(e: ChangeEvent<HTMLInputElement>) {
-  //   if (settingInfo.defaultShippingId !== null) return;
-  //   const inputValue = e.target.value;
-  //   if (/^\d*$/.test(inputValue)) {
-  //     setSettingInfo((prev) => ({
-  //       ...prev,
-  //       productBox: {
-  //         ...prev.productBox,
-  //         weight: parseFloat(inputValue),
-  //         // parseFloat(inputValue) > prev.minWeight!
-  //         //   ? parseFloat(inputValue)
-  //         //   : prev.minWeight!,
-  //       },
-  //     }));
-  //   }
-  // }
-  function handleChangeCustomWeight(e: ChangeEvent<HTMLInputElement>) {
-    const inputValue = e.target.value;
-    if (/^\d*$/.test(inputValue)) {
-      console.log("inputValue", inputValue);
-      const numValue = inputValue.length > 0 ? parseInt(inputValue) : 0;
-      // Only update if value is within range
-      setSettingInfo((prev) => ({
-        ...prev,
-        productBox: {
-          ...prev.productBox!,
-          [e.currentTarget.name]: numValue,
-        },
-      }));
-    }
-  }
-  function getBoxWeight(length: number, width: number, height: number) {
-    if (length === 0 || width === 0 || height === 0) return 0;
-    // Sort the dimensions so that length is the largest, width is the middle, and height is the smallest
-    let dimensions = [length, width, height];
-    dimensions.sort((a, b) => b - a);
-
-    // Assign sorted values
-    [length, width, height] = dimensions;
-
-    // Now proceed with calculations
-    const volume = length * width * height;
-    const area = 2 * length * width + 2 * width * height + 2 * length * height;
-
-    if (length <= 15) {
-      return Math.floor(0.0575 * area);
-    }
-
-    if (length <= 20) {
-      if (width <= 15) {
-        return Math.floor(0.062307692 * area);
-      } else {
-        return Math.floor(0.066 * area);
-      }
-    }
-
-    if (length <= 30) {
-      return Math.floor(0.0546875 * area);
-    }
-
-    if (length <= 35) {
-      return Math.floor(0.121204819 * area);
-    }
-
-    if (length <= 40) {
-      return Math.floor(0.103728814 * area);
-    }
-
-    if (length <= 45) {
-      if (width <= 25) {
-        return Math.floor(0.102970297 * area);
-      } else {
-        return Math.floor(0.106551724 * area);
-      }
-    }
-
-    return Math.floor(0.10376569 * area);
-  }
-  function handleSpcefiyMaxCartItem() {
-    switch (settingInfo.maxInEachCard) {
-      case 1:
-        return maxincart.findIndex((x) => x.props.id == 1);
-      case 2:
-        return maxincart.findIndex((x) => x.props.id == 2);
-      case 3:
-        return maxincart.findIndex((x) => x.props.id == 3);
-      case 4:
-        return maxincart.findIndex((x) => x.props.id == 4);
-      case 5:
-        return maxincart.findIndex((x) => x.props.id == 5);
-      case 10:
-        return maxincart.findIndex((x) => x.props.id == 10);
-      case 20:
-        return maxincart.findIndex((x) => x.props.id == 25);
-      case 75:
-        return maxincart.findIndex((x) => x.props.id == 75);
-      case 100:
-        return maxincart.findIndex((x) => x.props.id == 100);
-    }
-  }
-  function handleSpcefiyForShipItem() {
-    switch (settingInfo.readyForShipDayLong) {
-      case 1:
-        return preperingselect.findIndex((x) => x.props.id == "1");
-      case 2:
-        return preperingselect.findIndex((x) => x.props.id == "2");
-      case 3:
-        return preperingselect.findIndex((x) => x.props.id == "3");
-      case 4:
-        return preperingselect.findIndex((x) => x.props.id == "4");
-      case 5:
-        return preperingselect.findIndex((x) => x.props.id == "5");
-      case 6:
-        return preperingselect.findIndex((x) => x.props.id == "6");
-      case 7:
-        return preperingselect.findIndex((x) => x.props.id == "7");
-    }
-  }
-  function handleSpcefiyForGuarateeLenght() {
-    switch (settingInfo.guaranteeLenght) {
-      case 3:
-        return Guaranteelength.findIndex((x) => x.props.id == "3");
-      case 7:
-        return Guaranteelength.findIndex((x) => x.props.id == "7");
-      case 14:
-        return Guaranteelength.findIndex((x) => x.props.id == "14");
-      case 30:
-        return Guaranteelength.findIndex((x) => x.props.id == "30");
-      case 60:
-        return Guaranteelength.findIndex((x) => x.props.id == "60");
-      case 90:
-        return Guaranteelength.findIndex((x) => x.props.id == "90");
-      case 120:
-        return Guaranteelength.findIndex((x) => x.props.id == "120");
-      case 150:
-        return Guaranteelength.findIndex((x) => x.props.id == "150");
-      case 180:
-        return Guaranteelength.findIndex((x) => x.props.id == "180");
-      case 360:
-        return Guaranteelength.findIndex((x) => x.props.id == "360");
-      case 540:
-        return Guaranteelength.findIndex((x) => x.props.id == "730");
-      case 730:
-        return Guaranteelength.findIndex((x) => x.props.id == "360");
-      case 1080:
-        return Guaranteelength.findIndex((x) => x.props.id == "1080");
-      case 1440:
-        return Guaranteelength.findIndex((x) => x.props.id == "1440");
-      case 1800:
-        return Guaranteelength.findIndex((x) => x.props.id == "1800");
-    }
-  }
-  function handleSpecifyForShipping() {
-    console.log("settingInfo.deliveryType", settingInfo.deliveryType);
-    if (
-      settingInfo.deliveryType === undefined ||
-      settingInfo.deliveryType === null ||
-      settingInfo.deliveryType === ParcelPocketDeliveryType.NotSet
-    )
-      return deliveryTypes.findIndex((x) => x.props.id == "-1");
-    switch (settingInfo.deliveryType) {
-      case ParcelPocketDeliveryType.None:
-        return deliveryTypes.findIndex((x) => x.props.id == "0");
-      case ParcelPocketDeliveryType.PostEnvelope:
-        return deliveryTypes.findIndex((x) => x.props.id == "1");
-      case ParcelPocketDeliveryType.PostBox:
-        return deliveryTypes.findIndex((x) => x.props.id == "2");
-    }
-  }
-  function handleEvatSelecteselect(id: any) {
-    let newEvat = -1;
-    if (id == "0") newEvat = 0;
-    else if (id == "1") newEvat = 1;
-    setSettingInfo((prev) => ({
-      ...prev,
-      evat: newEvat,
-    }));
-  }
-  function handleChangeEVat(e: ChangeEvent<HTMLInputElement>) {
-    const inputValue = e.target.value;
-    if (inputValue === "0" || inputValue.length === 0) setRefresfEvat(!refreshEvat);
-    if (/^\d*\.?\d*$/.test(inputValue)) {
-      setSettingInfo((prev) => ({
-        ...prev,
-        evat: inputValue.length > 0 ? parseFloat(inputValue) : 0,
-      }));
-    }
-  }
-
-  // useEffect(() => {
-  //   if (loading) return;
-  //   setSettingInfo((prev) => ({
-  //     ...prev,
-  //     productBox: {
-  //       ...prev.productBox,
-  //       weight: getBoxWeight(
-  //         settingInfo.productBox.length,
-  //         settingInfo.productBox.width,
-  //         settingInfo.productBox.height
-  //       ),
-  //     },
-  //     minWeight: getBoxWeight(
-  //       settingInfo.productBox.length,
-  //       settingInfo.productBox.width,
-  //       settingInfo.productBox.height
-  //     ),
-  //   }));
-  // }, [
-  //   settingInfo.productBox.height,
-  //   settingInfo.productBox.length,
-  //   settingInfo.productBox.width,
-  // ]);
-  useEffect(() => {
-    if (loading) {
-      setLoading(false);
-      return;
-    }
-    // اگر deliveryType انتخاب نشده اجازه رفتن به مرحله بعد را نده
-    if (
-      settingInfo.deliveryType === undefined ||
-      settingInfo.deliveryType === null ||
-      settingInfo.deliveryType === -1
-    ) {
-      return;
-    }
-    upadteCteateFromSetting(toggleNext.isNext, settingInfo);
-  }, [toggleNext.toggle]);
-
-  // Add useEffect to monitor productBox dimension changes
-  useEffect(() => {
-    // This will trigger re-render when productBox dimensions change
-    // The Box3D component will automatically receive updated props
-  }, [settingInfo.productBox?.length, settingInfo.productBox?.width, settingInfo.productBox?.height]);
 
   const Box3D = ({ width, length, height }: { width: number; length: number; height: number }) => {
     // Calculate scale based on maximum dimension
@@ -656,6 +304,213 @@ function Setting({
       </>
     );
   };
+
+  function togglePopup() {
+    setIsPopupOpen(!isPopupOpen);
+  }
+
+  function handleMouseEnter(size: any, width: any, length: any, height: any, weight: any) {
+    setHoverData({ size, width, length, height, weight });
+  }
+
+  function handleMouseLeave() {
+    setHoverData({
+      size: "Box",
+      width: "W",
+      length: "L",
+      height: "H",
+      weight: "weight",
+    });
+  }
+
+  function handleAvailablityselect(id: any) {
+    setSettingInfo((prev) => ({ ...prev, availabilityStatus: Number(id) }));
+  }
+
+  function handlemaxincart(id: any) {
+    setSettingInfo((prev) => ({ ...prev, maxInEachCard: Number(id) }));
+  }
+
+  function handlebreakable(id: any) {
+    setSettingInfo((prev) => ({ ...prev, breakable: id == 0 }));
+  }
+
+  function handleIsLiquid(id: any) {
+    setSettingInfo((prev) => ({ ...prev, isLiquid: id == 0 }));
+  }
+
+  function handleSackSelect(id: any) {
+    setSettingInfo((prev) => ({
+      ...prev,
+      productBox: {
+        ...prev.productBox!,
+        isSack: id == 0,
+      },
+    }));
+  }
+
+  function handleEnvelopCountChange(e: ChangeEvent<HTMLInputElement>) {
+    setSettingInfo((prev) => ({
+      ...prev,
+      envelopeAvailableCount: Number(e.target.value),
+    }));
+  }
+
+  function handleNetWeightChange(e: ChangeEvent<HTMLInputElement>) {
+    const inputValue = e.target.value;
+    if (/^\d*$/.test(inputValue)) {
+      setSettingInfo((prev) => ({
+        ...prev,
+        weight: inputValue.length > 0 ? parseInt(inputValue) : 60,
+      }));
+    }
+  }
+
+  function handleGuaranteelength(id: any) {
+    setSettingInfo((prev) => ({ ...prev, guaranteeLenght: Number(id) }));
+  }
+
+  function handleGuaranteeselect(id: any) {
+    setSettingInfo((prev) => ({
+      ...prev,
+      gauranteeStatus: Number(id),
+      guaranteeLenght: id == 0 || id == 2 ? 0 : GauranteeLength.ThreeDays,
+    }));
+  }
+
+  function handlepreperingselect(id: any) {
+    setSettingInfo((prev) => ({ ...prev, readyForShipDayLong: Number(id) }));
+  }
+
+  const handleSelectDeliveryType = (id: any) => {
+    setSettingInfo((prev) => ({
+      ...prev,
+      deliveryType: Number(id),
+      productBox:
+        Number(id) === ParcelPocketDeliveryType.PostBox
+          ? { height: 0, length: 0, width: 0, weight: 0, isSack: false }
+          : null,
+      envelopeAvailableCount: Number(id) === ParcelPocketDeliveryType.PostEnvelope ? 0 : null,
+      weight: Number(id) !== ParcelPocketDeliveryType.None ? 0 : prev.weight,
+    }));
+  };
+
+  function handleChangeCustomWeight(e: ChangeEvent<HTMLInputElement>) {
+    const inputValue = e.target.value;
+    if (/^\d*$/.test(inputValue)) {
+      console.log("inputValue", inputValue);
+      const numValue = inputValue.length > 0 ? parseInt(inputValue) : 0;
+      setSettingInfo((prev) => ({
+        ...prev,
+        productBox: {
+          ...prev.productBox!,
+          [e.currentTarget.name]: numValue,
+        },
+      }));
+    }
+  }
+
+  function handleSpcefiyMaxCartItem() {
+    switch (settingInfo.maxInEachCard) {
+      case 1:
+        return maxincart.findIndex((x) => x.props.id == 1);
+      case 2:
+        return maxincart.findIndex((x) => x.props.id == 2);
+      case 3:
+        return maxincart.findIndex((x) => x.props.id == 3);
+      case 4:
+        return maxincart.findIndex((x) => x.props.id == 4);
+      case 5:
+        return maxincart.findIndex((x) => x.props.id == 5);
+      case 10:
+        return maxincart.findIndex((x) => x.props.id == 10);
+      case 20:
+        return maxincart.findIndex((x) => x.props.id == 25);
+      case 75:
+        return maxincart.findIndex((x) => x.props.id == 75);
+      case 100:
+        return maxincart.findIndex((x) => x.props.id == 100);
+    }
+  }
+
+  function handleSpcefiyForShipItem() {
+    switch (settingInfo.readyForShipDayLong) {
+      case 1:
+        return preperingselect.findIndex((x) => x.props.id == "1");
+      case 2:
+        return preperingselect.findIndex((x) => x.props.id == "2");
+      case 3:
+        return preperingselect.findIndex((x) => x.props.id == "3");
+      case 4:
+        return preperingselect.findIndex((x) => x.props.id == "4");
+      case 5:
+        return preperingselect.findIndex((x) => x.props.id == "5");
+      case 6:
+        return preperingselect.findIndex((x) => x.props.id == "6");
+      case 7:
+        return preperingselect.findIndex((x) => x.props.id == "7");
+    }
+  }
+
+  function handleSpcefiyForGuarateeLenght() {
+    switch (settingInfo.guaranteeLenght) {
+      case 3:
+        return Guaranteelength.findIndex((x) => x.props.id == "3");
+      case 7:
+        return Guaranteelength.findIndex((x) => x.props.id == "7");
+      case 14:
+        return Guaranteelength.findIndex((x) => x.props.id == "14");
+      case 30:
+        return Guaranteelength.findIndex((x) => x.props.id == "30");
+      case 60:
+        return Guaranteelength.findIndex((x) => x.props.id == "60");
+      case 90:
+        return Guaranteelength.findIndex((x) => x.props.id == "90");
+      case 120:
+        return Guaranteelength.findIndex((x) => x.props.id == "120");
+      case 150:
+        return Guaranteelength.findIndex((x) => x.props.id == "150");
+      case 180:
+        return Guaranteelength.findIndex((x) => x.props.id == "180");
+      case 360:
+        return Guaranteelength.findIndex((x) => x.props.id == "360");
+      case 540:
+        return Guaranteelength.findIndex((x) => x.props.id == "730");
+      case 730:
+        return Guaranteelength.findIndex((x) => x.props.id == "360");
+      case 1080:
+        return Guaranteelength.findIndex((x) => x.props.id == "1080");
+      case 1440:
+        return Guaranteelength.findIndex((x) => x.props.id == "1440");
+      case 1800:
+        return Guaranteelength.findIndex((x) => x.props.id == "1800");
+    }
+  }
+  function handleSpecifyForShipping() {
+    console.log("settingInfo.deliveryType", settingInfo.deliveryType);
+    if (
+      settingInfo.deliveryType === undefined ||
+      settingInfo.deliveryType === null ||
+      settingInfo.deliveryType === ParcelPocketDeliveryType.NotSet
+    )
+      return deliveryTypes.findIndex((x) => x.props.id == "-1");
+    switch (settingInfo.deliveryType) {
+      case ParcelPocketDeliveryType.None:
+        return deliveryTypes.findIndex((x) => x.props.id == "0");
+      case ParcelPocketDeliveryType.PostEnvelope:
+        return deliveryTypes.findIndex((x) => x.props.id == "1");
+      case ParcelPocketDeliveryType.PostBox:
+        return deliveryTypes.findIndex((x) => x.props.id == "2");
+    }
+  }
+  useEffect(() => {
+    if (loading) {
+      setLoading(false);
+      return;
+    }
+    upadteCteateFromSetting(toggleNext.isNext, settingInfo);
+  }, [toggleNext.toggle]);
+
   return (
     <>
       <div className={styles.setting}>
@@ -682,10 +537,15 @@ function Setting({
                 </div>
                 <div className="headerandinput">
                   <div className="headertext">{t(LanguageKey.Product_originality)}</div>
-                  <DragDrop
-                    data={originalityselect}
-                    handleOptionSelect={handleoriginalityselect}
-                    item={settingInfo.orginalityStatus}
+                  <InputText
+                    style={{
+                      cursor: "no-drop",
+                      backgroundColor: "var(--color-disable)",
+                      pointerEvents: "none",
+                    }}
+                    className={"textinputbox"}
+                    handleInputChange={() => {}}
+                    value={OrginalityStatus[settingInfo.orginalityStatus]}
                   />
                 </div>
                 <div className="headerandinput">
@@ -696,6 +556,7 @@ function Setting({
                     item={handleSpcefiyForShipItem()}
                   />
                 </div>
+
                 <div className={styles.headerandinputhalf}>
                   <div className="headerandinput">
                     <div className="headertext">{t(LanguageKey.Product_Guarantee)}</div>
@@ -716,11 +577,10 @@ function Setting({
                     </div>
                   )}
                 </div>
-
                 <div className="headerandinput">
                   <div className="headertext">
                     {t(LanguageKey.Product_packageshipping)}
-                    <Tooltip tooltipValue={t(LanguageKey.Product_packageshippingexplain)} position="top" onClick={true}>
+                    <Tooltip tooltipValue={t(LanguageKey.Product_packageshippingexplain)} onClick>
                       <img
                         style={{
                           marginInline: "5px",
@@ -728,7 +588,7 @@ function Setting({
                           width: "15px",
                           height: "15px",
                         }}
-                        title="ℹ️ tooltip"
+                        alt="ℹ️ tooltip"
                         src="/tooltip.svg"
                       />
                     </Tooltip>
@@ -746,6 +606,7 @@ function Setting({
                 </div>
               </div>
             </div>
+
             {/* ___shipping___*/}
             {settingInfo.deliveryType !== ParcelPocketDeliveryType.None &&
               settingInfo.deliveryType !== ParcelPocketDeliveryType.NotSet && (
@@ -754,7 +615,7 @@ function Setting({
 
                   {settingInfo.deliveryType === ParcelPocketDeliveryType.PostBox && (
                     <>
-                      <div className={styles.basic1}>
+                      <div className={styles.basic}>
                         <div className={styles.customsize}>
                           <div className="headerandinput">
                             <div className="headertext">{t(LanguageKey.Product_Breakable)}</div>
@@ -777,7 +638,7 @@ function Setting({
                           <div className="headerandinput">
                             <div className="headertext">
                               {t(LanguageKey.Product_sack)}
-                              <Tooltip tooltipValue={t(LanguageKey.Product_sackExplain)} position="top" onClick={true}>
+                              <Tooltip tooltipValue={t(LanguageKey.Product_sackExplain)} onClick>
                                 <img
                                   style={{
                                     marginInline: "5px",
@@ -785,7 +646,7 @@ function Setting({
                                     width: "15px",
                                     height: "15px",
                                   }}
-                                  title="ℹ️ tooltip"
+                                  alt="ℹ️ tooltip"
                                   src="/tooltip.svg"
                                 />
                               </Tooltip>
@@ -799,10 +660,7 @@ function Setting({
                           <div className="headerandinput">
                             <div className="headertext">
                               {t(LanguageKey.Product_Productweights)}
-                              <Tooltip
-                                tooltipValue={t(LanguageKey.Product_Productweightsexplian)}
-                                position="top"
-                                onClick={true}>
+                              <Tooltip tooltipValue={t(LanguageKey.Product_Productweightsexplian)} onClick>
                                 <img
                                   style={{
                                     marginInline: "5px",
@@ -810,7 +668,7 @@ function Setting({
                                     width: "15px",
                                     height: "15px",
                                   }}
-                                  title="ℹ️ tooltip"
+                                  alt="ℹ️ tooltip"
                                   src="/tooltip.svg"
                                 />
                               </Tooltip>
@@ -827,7 +685,7 @@ function Setting({
                                   }
                                   placeHolder="Net Weight "
                                   handleInputChange={handleNetWeightChange}
-                                  value={settingInfo.weight!.toString()}
+                                  value={settingInfo.weight ? settingInfo.weight.toString() : "0"}
                                   numberType={true}
                                 />
                               </div>
@@ -948,10 +806,7 @@ function Setting({
                       <div className="headerandinput">
                         <div className="headertext">
                           {t(LanguageKey.Product_Productweights)}
-                          <Tooltip
-                            tooltipValue={t(LanguageKey.Product_Productweightsexplian)}
-                            position="top"
-                            onClick={true}>
+                          <Tooltip tooltipValue={t(LanguageKey.Product_Productweightsexplian)} onClick>
                             <img
                               style={{
                                 marginInline: "5px",
@@ -959,7 +814,7 @@ function Setting({
                                 width: "15px",
                                 height: "15px",
                               }}
-                              title="ℹ️ tooltip"
+                              alt="ℹ️ tooltip"
                               src="/tooltip.svg"
                             />
                           </Tooltip>
@@ -985,10 +840,7 @@ function Setting({
                       <div className="headerandinput">
                         <div className="headertext">
                           {t(LanguageKey.Storeorder_pocketenveloptitle)}
-                          <Tooltip
-                            tooltipValue={t(LanguageKey.Storeorder_pocketenveloptitleExplain)}
-                            position="top"
-                            onClick={true}>
+                          <Tooltip tooltipValue={t(LanguageKey.Storeorder_pocketenveloptitleExplain)} onClick>
                             <img
                               style={{
                                 marginInline: "5px",
@@ -996,7 +848,7 @@ function Setting({
                                 width: "15px",
                                 height: "15px",
                               }}
-                              title="ℹ️ tooltip"
+                              alt="ℹ️ tooltip"
                               src="/tooltip.svg"
                             />
                           </Tooltip>
@@ -1025,9 +877,12 @@ function Setting({
                   )}
                 </div>
               )}
+
+            {/* ___box size___*/}
           </>
         )}
       </div>
+
       {/* ___size box popup ___*/}
       {isPopupOpen && (
         <>
@@ -1166,4 +1021,4 @@ function Setting({
   );
 }
 
-export default Setting;
+export default SettingInstance;

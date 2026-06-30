@@ -19,7 +19,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import InputText from "brancy/components/design/inputText";
 import { LanguageKey } from "brancy/i18n";
-import styles from "./specifications.module.css";
+import styles from "./4-specifications.module.css";
 import { IProductSpecification } from "brancy/models/interfaces";
 
 function SortableItem({ item, index }: { item: IProductSpecification; index: number }) {
