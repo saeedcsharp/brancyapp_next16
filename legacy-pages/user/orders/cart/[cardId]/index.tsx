@@ -56,6 +56,7 @@ interface CartState {
   prevAddressId: number | null;
   deletedAddress: IAddress | null;
   logisticPrice: ILogistic[];
+  notSupportedLogistic: boolean;
   selectedLogisticId: number | null;
   isMobile: boolean;
   hoveredOrder: number | null;
@@ -98,7 +99,8 @@ type CartAction =
   | { type: "SET_SHOW_ADDRESSES"; payload: boolean }
   | { type: "SET_SHOW_CREATE_ADDRESS"; payload: InputTypeAddress | null }
   | { type: "SET_SHOW_UPDATE_ADDRESS"; payload: IAddress | null }
-  | { type: "SET_SHOW_SETTING"; payload: number | null };
+  | { type: "SET_SHOW_SETTING"; payload: number | null }
+  | { type: "SET_NOT_SUPPORTED_LOGISTIC"; payload: boolean };
 
 const cartReducer = (state: CartState, action: CartAction): CartState => {
   switch (action.type) {
@@ -206,7 +208,6 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
               },
         ),
       };
-
     case "SET_ADDRESSES":
       return { ...state, addresses: action.payload };
 
@@ -221,13 +222,12 @@ const cartReducer = (state: CartState, action: CartAction): CartState => {
 
     case "SET_DELETED_ADDRESS":
       return { ...state, deletedAddress: action.payload };
-
     case "SET_LOGISTIC_PRICE":
       return { ...state, logisticPrice: action.payload };
-
+    case "SET_NOT_SUPPORTED_LOGISTIC":
+      return { ...state, notSupportedLogistic: action.payload };
     case "SET_SELECTED_LOGISTIC_ID":
       return { ...state, selectedLogisticId: action.payload };
-
     case "UPDATE_DEFAULT_ADDRESS":
       const prevDefault = state.addresses.find((addr) => addr.isDefault);
       return {
@@ -310,6 +310,7 @@ const OrdersCart = () => {
     showCreateAddress: null,
     showUpdateAddress: null,
     showSetting: null,
+    notSupportedLogistic: false,
   };
 
   const [state, dispatch] = useReducer(cartReducer, initialState);
@@ -589,7 +590,7 @@ const OrdersCart = () => {
             dispatch({ type: "SET_SELECTED_LOGISTIC_ID", payload: res.value[0].id });
           }
         } else {
-          dispatch({ type: "SET_LOGISTIC_PRICE", payload: [] });
+          dispatch({ type: "SET_NOT_SUPPORTED_LOGISTIC", payload: true });
           notify(res.info.responseType, NotifType.Warning);
         }
       } catch (error) {
@@ -1225,6 +1226,8 @@ const OrdersCart = () => {
 
           {!state.loading && state.showAddress && (
             <CardAddress
+              isNotSupported={state.notSupportedLogistic}
+              instagramerId={cardId as unknown as number}
               inputTypeAddress={state.inputTypeAddress}
               products={state.stores}
               addresses={state.addresses}

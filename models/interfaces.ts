@@ -4799,6 +4799,9 @@ export interface IOrderFullProduct {
   productCoupon?: string;
   invoice: IInvoice;
   box?: IBoxSize;
+  systemTicketId: string | null;
+  businessProfile: IBusiness | null;
+  userProfile: IUserProfile | null;
 }
 
 export interface ILog {
