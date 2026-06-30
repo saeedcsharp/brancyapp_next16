@@ -76,9 +76,7 @@ const NotificationBar = ({
       if (message.NewStatus === OrderStep.Paid) {
         return (
           "You have new order from " +
-          (message.ShortOrder.UserInfo?.FullName ||
-            message.ShortOrder.UserInfo?.Username ||
-            message.ShortOrder.UserInfo?.PhoneNumber)
+          (message.UserProfile?.FullName || message.UserProfile?.Username || message.UserProfile?.PhoneNumber)
         );
       }
       return "";

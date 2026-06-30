@@ -219,18 +219,18 @@ const Delivered = () => {
   }
   function handleManageOrderBySocket(order: IOrderPushNotifExtended) {
     if (
-      order.Order.NewStatus === OrderStep.UserCanceled ||
-      order.Order.NewStatus === OrderStep.InstagramerCanceled ||
-      order.Order.NewStatus === OrderStep.Failed ||
-      order.Order.NewStatus === OrderStep.Expired ||
-      order.Order.NewStatus === OrderStep.ShippingFailed
+      order.NewStatus === OrderStep.UserCanceled ||
+      order.NewStatus === OrderStep.InstagramerCanceled ||
+      order.NewStatus === OrderStep.Failed ||
+      order.NewStatus === OrderStep.Expired ||
+      order.NewStatus === OrderStep.ShippingFailed
     ) {
       setOrders((prevOrders) => {
         const updatedItems = prevOrders.items.filter((item) => item.order.id !== order.Order.Id);
         return { ...prevOrders, items: updatedItems };
       });
       return;
-    } else if (order.Order.NewStatus === OrderStep.Delivered) {
+    } else if (order.NewStatus === OrderStep.Delivered) {
       const orderStatus: IOrderByStatusItem = {
         businessProfile: {
           instagramerId: order.BusinessProfile?.InstagramerId,
@@ -266,7 +266,7 @@ const Delivered = () => {
           shortShop: order.Order.ShortShop,
           source: order.Order.Source,
           state: order.Order.State,
-          status: order.Order.NewStatus,
+          status: order.Order.Status,
           statusUpdateTime: order.Order.StatusUpdateTime,
           userId: order.Order.UserId,
         },

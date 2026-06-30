@@ -292,9 +292,7 @@ const LeftHamMenue = ({
       if (message.NewStatus === OrderStep.Paid) {
         return (
           "You have new order from " +
-          (message.ShortOrder.UserInfo?.FullName ||
-            message.ShortOrder.UserInfo?.Username ||
-            message.ShortOrder.UserInfo?.PhoneNumber)
+          (message.UserProfile?.FullName || message.UserProfile?.Username || message.UserProfile?.PhoneNumber)
         );
       }
       return "";
@@ -312,7 +310,7 @@ const LeftHamMenue = ({
 
     if (notif.ResponseType === PushResponseType.ChangeOrderStatus && notif.Message) {
       const message = JSON.parse(notif.Message) as IOrderPushNotifExtended;
-      return baseMediaUrl + message.ShortOrder.UserInfo!.ProfileUrl;
+      return baseMediaUrl + message.UserProfile!.ProfileUrl;
     }
 
     return baseMediaUrl + fullyDecodeURIComponent(notif.ProfileUrl);

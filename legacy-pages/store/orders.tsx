@@ -547,7 +547,7 @@ const Orders = () => {
         shortShop: order.Order.ShortShop,
         source: order.Order.Source,
         state: order.Order.State,
-        status: order.Order.NewStatus,
+        status: order.Order.Status,
         statusUpdateTime: order.Order.StatusUpdateTime,
         userId: order.Order.UserId,
       },
@@ -563,7 +563,7 @@ const Orders = () => {
     };
 
     console.log("Order initialized", order.Order);
-    if (order.Order.NewStatus === OrderStep.Paid) {
+    if (order.NewStatus === OrderStep.Paid) {
       setOrders((prev) => ({
         ...prev,
         pending: {
@@ -571,7 +571,7 @@ const Orders = () => {
           nextMaxId: prev.pending.nextMaxId,
         },
       }));
-    } else if (order.Order.NewStatus === OrderStep.InstagramerAccepted) {
+    } else if (order.NewStatus === OrderStep.InstagramerAccepted) {
       setOrders((prev) => ({
         ...prev,
         inprogresses: {
@@ -583,7 +583,7 @@ const Orders = () => {
           nextMaxId: prev.pending.nextMaxId,
         },
       }));
-    } else if (order.Order.NewStatus === OrderStep.ShippingRequest) {
+    } else if (order.NewStatus === OrderStep.ShippingRequest) {
       setOrders((prev) => ({
         ...prev,
         pickingups: {
@@ -595,7 +595,7 @@ const Orders = () => {
           nextMaxId: prev.inprogresses.nextMaxId,
         },
       }));
-    } else if (order.Order.NewStatus === OrderStep.InShipping) {
+    } else if (order.NewStatus === OrderStep.InShipping) {
       setOrders((prev) => ({
         ...prev,
         sents: {
@@ -607,7 +607,7 @@ const Orders = () => {
           nextMaxId: prev.pickingups.nextMaxId,
         },
       }));
-    } else if (order.Order.NewStatus === OrderStep.Delivered) {
+    } else if (order.NewStatus === OrderStep.Delivered) {
       setOrders((prev) => ({
         ...prev,
         delivereds: {
@@ -620,10 +620,10 @@ const Orders = () => {
         },
       }));
     } else if (
-      order.Order.NewStatus === OrderStep.Failed ||
-      order.Order.NewStatus === OrderStep.UserCanceled ||
-      order.Order.NewStatus === OrderStep.InstagramerCanceled ||
-      order.Order.NewStatus === OrderStep.ShippingFailed
+      order.NewStatus === OrderStep.Failed ||
+      order.NewStatus === OrderStep.UserCanceled ||
+      order.NewStatus === OrderStep.InstagramerCanceled ||
+      order.NewStatus === OrderStep.ShippingFailed
     ) {
       setOrders((prev) => ({
         ...prev,

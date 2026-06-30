@@ -3898,6 +3898,7 @@ export interface IOrderPushNotifExtended {
   Order: IOrderPushNotifByStatusItemOrder;
   UserProfile: IPushNotifUserProfile;
   BusinessProfile: IPushNotiBusiness;
+  NewStatus: number; // Using number instead of OrderStep enum
 }
 export interface IPushNotifUserProfile {
   PhoneNumber: string;
@@ -3939,7 +3940,7 @@ export interface IOrderPushNotifByStatusItemOrder {
   CreatedTime: number;
   FbId: number;
   UserId: number;
-  NewStatus: number; // Using number instead of OrderStep enum
+  Status: number;
   StatusUpdateTime: number;
   TotalPrice: number;
   ExpireTime: number;

@@ -213,7 +213,7 @@ const InQueue = () => {
     }
   }
   function handleManageOrderBySocket(order: IOrderPushNotifExtended) {
-    if (order.Order.NewStatus === OrderStep.Intialized) {
+    if (order.NewStatus === OrderStep.Intialized) {
       const orderStatus: IOrderByStatusItem = {
         businessProfile: {
           instagramerId: order.BusinessProfile?.InstagramerId,
@@ -249,7 +249,7 @@ const InQueue = () => {
           shortShop: order.Order.ShortShop,
           source: order.Order.Source,
           state: order.Order.State,
-          status: order.Order.NewStatus,
+          status: order.Order.Status,
           statusUpdateTime: order.Order.StatusUpdateTime,
           userId: order.Order.UserId,
         },

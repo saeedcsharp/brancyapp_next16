@@ -235,11 +235,11 @@ export default function Failed() {
   // const isAllSelected = state.selectedOrders.size === orders.length;
   function handleManageOrderBySocket(order: IOrderPushNotifExtended) {
     if (
-      order.Order.NewStatus === OrderStep.UserCanceled ||
-      order.Order.NewStatus === OrderStep.InstagramerCanceled ||
-      order.Order.NewStatus === OrderStep.Failed ||
-      order.Order.NewStatus === OrderStep.Expired ||
-      order.Order.NewStatus === OrderStep.ShippingFailed
+      order.NewStatus === OrderStep.UserCanceled ||
+      order.NewStatus === OrderStep.InstagramerCanceled ||
+      order.NewStatus === OrderStep.Failed ||
+      order.NewStatus === OrderStep.Expired ||
+      order.NewStatus === OrderStep.ShippingFailed
     ) {
       const orderStatus: IOrderByStatusItem = {
         businessProfile: {
@@ -276,7 +276,7 @@ export default function Failed() {
           shortShop: order.Order.ShortShop,
           source: order.Order.Source,
           state: order.Order.State,
-          status: order.Order.NewStatus,
+          status: order.Order.Status,
           statusUpdateTime: order.Order.StatusUpdateTime,
           userId: order.Order.UserId,
         },
