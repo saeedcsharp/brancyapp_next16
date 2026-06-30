@@ -1715,27 +1715,33 @@ export default {
     messagesetting_SearchforproductsExplain:
       "Пользователи могут отправить название продукта, номер поста или часть подписи, чтобы получить полные сведения о товаре и, при желании, сразу совершить покупку. Эта функция положительно влияет на рост продаж.",
     messagesetting_addautomaticreplysystemsystem: "Единый системный ответ для всех разделов страницы",
-    messagesetting_HideRobotReply: "Скрыть ответ робота",
+    messagesetting_HideRobotReply: "Скрывать автоматические сообщения и сообщения ботов",
     messagesetting_HideRobotReplyExplain:
-      "При включении этой опции будут отображаться только реальные сообщения, а роботизированные и системные комментарии и сообщения будут скрыты.",
-    messagesetting_LikeRobotReply: "Лайкать все ответы на комментарии",
-    messagesetting_LikeRobotReplyExplain: "Ответы в истории будут автоматически лайкнуты роботом.",
+      "Автоматические сообщения ботов скрываются, а в Direct отображаются только реальные сообщения",
+    messagesetting_LikeRobotReply: "Автоматический лайк комментариев Story",
+    messagesetting_HideRobotReplytooltip:
+      "Сообщения не удаляются, а только скрываются, чтобы упростить управление Direct",
+    messagesetting_LikeRobotReplyExplain: "Комментарии Story автоматически получают like для повышения вовлеченности",
+    messagesetting_automaticreplysystem: "Управление автоматическими ответами",
+    messagesetting_automaticreplysystemforallpost:
+      "Включить или отключить автоматические ответы на комментарии для всех Post",
+    messagesetting_automaticreplysystemforallposttooltip:
+      "Если для разных Post настроены автоматические ответы на комментарии, с помощью этой опции их можно включить или отключить сразу. Для настройки необходимо открыть страницу каждого Post отдельно",
+
     messagesetting_messagePanellanguage: "Язык по умолчанию для Direct",
     messagesetting_messagePanellanguageExplain: "Язык бота Direct по умолчанию для ответа на сообщения.",
-    messagesetting_AutoReplyPerFollow: "Автоответ после подписки",
+    messagesetting_AutoReplyPerFollow: "Автоответ после Follow",
     messagesetting_AutoReplyPerFollowExplain:
-      "Системный ответ будет отправляться только подписчикам, а не подписчики сначала получат запрос на подписку.",
+      "Пользователь должен сначала follow вашу страницу, чтобы получить автоматические сообщения",
+    messagesetting_AutoReplyPerFollowtooltip:
+      "Пользователи, которые не follow вас, сначала получат запрос на Follow. После этого им автоматически будет отправлено сообщение",
     messagesetting_AutoReplyPerFollowtitle: "Текст сообщения",
-    messagesetting_AutoReplyPerFollowtitlesample:
-      "Örnek: Пример: Подпишитесь на нашу страницу, чтобы получить первое сообщение",
+    messagesetting_AutoReplyPerFollowtitlesample: "Пример: Чтобы получить сообщение, сначала Follow нашу страницу",
     messagesetting_AutoReplyPerFollowbtn: "Текст кнопки",
-    messagesetting_AutoReplyPerFollowbtnsample: "Örnek: Пример: Я подписался, пожалуйста, отправьте мне сообщение",
-    messagesetting_automaticreplysystem: "Система Автоматического Ответа",
+    messagesetting_AutoReplyPerFollowbtnsample: "Пример: Я Follow, отправьте сообщение",
     messagesetting_automaticreplysystemexplain:
       "Система автоматически отвечает заданным текстом при получении любого сообщения или комментария в любом разделе страницы (Лента, История, Рилс, Прямой эфир и т. д.).",
-    messagesetting_automaticreplysystemforallpost: "Включить или отключить все автоответы для постов",
-    messagesetting_automaticreplysystemforallposttooltip:
-      "Эта настройка применяется к роботизированным ответам для постов, и ее изменение повлияет на все автоответы для каждого поста. Чтобы добавить ответы, необходимо посетить каждый пост отдельно.",
+
     messagesetting_KeywordSensitive: "Чувствительность к слову",
     messagesetting_KeywordsSensitive: "Чувствительность к словам",
     sendreplydirectedsuccessfully: "Подтверждающее сообщение отправлено в comment после Direct",

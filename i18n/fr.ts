@@ -1755,27 +1755,34 @@ export default {
     messagesetting_SearchforproductsExplain:
       "Les utilisateurs peuvent envoyer le nom du produit, le numéro du post ou une partie de la légende pour obtenir les détails complets du produit et, s'ils le souhaitent, effectuer leur achat directement. Cette fonctionnalité a un impact positif sur la croissance des ventes.",
     messagesetting_addautomaticreplysystemsystem: "Une réponse système unifiée pour toutes les sections de la page",
-    messagesetting_HideRobotReply: "Masquer la réponse du robot",
+    messagesetting_HideRobotReply: "Masquer les messages automatiques et les bots",
     messagesetting_HideRobotReplyExplain:
-      "En activant cette option, seuls les vrais messages seront affichés, et les commentaires et messages automatisés ou générés par le système seront masqués.",
-    messagesetting_LikeRobotReply: "Aimer toutes les réponses aux commentaires",
-    messagesetting_LikeRobotReplyExplain: "Les réponses dans la Story seront automatiquement aimées par le robot.",
+      "Les messages automatiques des bots sont masqués et seuls les vrais messages sont affichés dans le Direct",
+    messagesetting_LikeRobotReply: "Like automatique des commentaires Story",
+    messagesetting_HideRobotReplytooltip:
+      "Les messages ne sont pas supprimés, ils sont uniquement masqués afin de faciliter la gestion des Direct",
+    messagesetting_LikeRobotReplyExplain:
+      "Les commentaires Story sont automatiquement likés pour améliorer l'engagement plus rapidement",
+    messagesetting_automaticreplysystem: "Contrôle des réponses automatiques",
+    messagesetting_automaticreplysystemforallpost:
+      "Activer ou désactiver les réponses automatiques aux commentaires pour tous les Post",
+    messagesetting_automaticreplysystemforallposttooltip:
+      "Si vous avez configuré des réponses automatiques pour différents Post, cette option vous permet de toutes les activer ou désactiver en une seule fois. Pour modifier les réponses, vous devez ouvrir la page de chaque Post séparément",
+
     messagesetting_messagePanellanguage: "Langue par défaut du Direct",
     messagesetting_messagePanellanguageExplain: "La langue par défaut du bot Direct pour répondre aux messages.",
-    messagesetting_AutoReplyPerFollow: "Réponse automatique après suivi",
+    messagesetting_AutoReplyPerFollow: "Réponse automatique après le Follow",
     messagesetting_AutoReplyPerFollowExplain:
-      "La réponse automatique sera envoyée uniquement aux abonnés, et les non-abonnés recevront d'abord une demande de suivi.",
+      "Les utilisateurs doivent d'abord follow votre page pour recevoir les messages automatiques",
+    messagesetting_AutoReplyPerFollowtooltip:
+      "Les utilisateurs qui ne vous follow pas recevront d'abord une demande de Follow. Après avoir follow votre page, le message automatique leur sera envoyé",
     messagesetting_AutoReplyPerFollowtitle: "Texte du message",
-    messagesetting_AutoReplyPerFollowtitlesample: "Exemple : Suivez notre page pour recevoir le premier message",
+    messagesetting_AutoReplyPerFollowtitlesample: "Exemple : Follow notre page pour recevoir le message",
     messagesetting_AutoReplyPerFollowbtn: "Texte du bouton",
-    messagesetting_AutoReplyPerFollowbtnsample: "Exemple : J'ai suivi, veuillez m'envoyer le message",
-    messagesetting_automaticreplysystem: "Système de Réponse Automatique",
+    messagesetting_AutoReplyPerFollowbtnsample: "Exemple : J'ai Follow, envoyez le message",
     messagesetting_automaticreplysystemexplain:
       "Le système répond automatiquement avec un message prédéfini à chaque message ou commentaire reçu dans n'importe quelle section de la page (Feed, Story, Reels, Live, etc.).",
-    messagesetting_automaticreplysystemforallpost:
-      "Activer ou désactiver toutes les réponses automatiques pour les publications",
-    messagesetting_automaticreplysystemforallposttooltip:
-      "Ce paramètre s'applique aux réponses robotiques pour les publications et son changement affectera toutes les réponses automatiques de chaque publication. Pour ajouter des réponses, vous devez visiter chaque publication individuellement.",
+
     messagesetting_KeywordSensitive: "Sensible aux mots-clés",
     messagesetting_KeywordsSensitive: "Sensible aux mots-clés",
     sendreplydirectedsuccessfully: "Message de confirmation envoyé dans le comment après le Direct",

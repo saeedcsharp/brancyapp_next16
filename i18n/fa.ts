@@ -1655,30 +1655,34 @@ export default {
     messagesetting_SearchforproductsExplain:
       "کاربران می‌توانند با ارسال نام محصول، شماره پست یا بخشی از کپشن، مشخصات کامل محصول را دریافت کرده و در صورت تمایل، خرید خود را مستقیماً انجام دهند. این قابلیت تأثیر مثبتی بر افزایش فروش خواهد داشت.",
     messagesetting_addautomaticreplysystemsystem: "پاسخ سیستمی واحد برای تمامی قسمت‌های پیج",
-    messagesetting_HideRobotReply: "مخفی کردن ریپلای ربات",
+    //
+    messagesetting_HideRobotReply: "فیلتر پیام‌های خودکار و رباتی",
     messagesetting_HideRobotReplyExplain:
-      "با فعال‌سازی این گزینه، فقط پیام‌های واقعی نمایش داده می‌شوند و کامنت‌ها و پیام‌های رباتیک و سیستمی مخفی می‌شوند.",
-    messagesetting_LikeRobotReply: "لایک کردن تمامی پاسخ‌های کامنت",
-    messagesetting_LikeRobotReplyExplain: "ریپلای ها در استوری به‌صورت خودکار توسط ربات لایک خواهند شد.",
+      "پیام‌های خودکار و رباتی مخفی می‌شوند و فقط پیام‌های واقعی در دایرکت نمایش داده می‌شوند",
+    messagesetting_LikeRobotReply: "لایک خودکار کامنت‌های استوری",
+    messagesetting_HideRobotReplytooltip: "پیام‌ها حذف نمی‌شوند و فقط مخفی می‌شوند تا مدیریت دایرکت ساده‌تر شود",
+    messagesetting_LikeRobotReplyExplain:
+      "کامنت‌های استوری به‌صورت خودکار لایک می‌شوند تا تعامل بیشتر و سریع‌تر انجام شود",
+    messagesetting_automaticreplysystem: "کنترل پاسخ‌های خودکار",
+    messagesetting_automaticreplysystemforallpost:
+      "مدیریت کلی فعال یا غیرفعال بودن پاسخ‌های خودکار کامنت‌ها در همه پست‌ها",
+    messagesetting_automaticreplysystemforallposttooltip:
+      "اگر برای پست‌های مختلف پاسخ خودکار کامنت تنظیم کرده باشید، با این گزینه می‌توانید همه آن‌ها را یک‌جا فعال یا غیرفعال کنید. برای تنظیم پاسخ‌ها باید به صفحه هر پست به‌صورت جداگانه مراجعه کنید",
     messagesetting_messagePanellanguage: "زبان پیش‌فرض دایرکت",
     messagesetting_messagePanellanguageExplain: "زبان پیش‌فرض ربات دایرکت برای پاسخ‌دهی به پیام‌ها",
     messagesetting_AutoReplyPerFollow: "پاسخ خودکار پس از فالو",
-    messagesetting_AutoReplyPerFollowExplain:
-      "پاسخ سیستمی تنها برای فالورها ارسال خواهد شد و کاربران غیر‌فالور ابتدا درخواست فالو دریافت می‌کنند",
+    messagesetting_AutoReplyPerFollowExplain: "کاربران برای دریافت پیام‌های خودکار باید ابتدا صفحه شما را فالو کنند",
+    messagesetting_AutoReplyPerFollowtooltip:
+      "کاربرانی که شما را فالو نکرده‌اند، ابتدا درخواست فالو دریافت می‌کنند و پس از فالو کردن، پیام خودکار برای آن‌ها ارسال می‌شود",
     messagesetting_AutoReplyPerFollowtitle: "متن پیام",
-    messagesetting_AutoReplyPerFollowtitlesample: "مثال: برای دریافت پیام اول صفحه ی مارا فالو کنید",
+    messagesetting_AutoReplyPerFollowtitlesample: "مثال: برای دریافت پیام، ابتدا صفحه ما را فالو کنید",
     messagesetting_AutoReplyPerFollowbtn: "متن دکمه",
-    messagesetting_AutoReplyPerFollowbtnsample: "مثال: فالو کردم، لطفا پیام را برای من ارسال کنید",
-    messagesetting_automaticreplysystem: "سیستم پاسخگویی خودکار",
+    messagesetting_AutoReplyPerFollowbtnsample: "مثال: فالو کردم، پیام را ارسال کنید",
     messagesetting_automaticreplysystemexplain:
       "با دریافت هر پیام یا کامنت، در هر بخش پیج (فید، استوری، ریلز، لایو و غیره)، سیستم به‌طور خودکار با متنی که تنظیم می‌کنید پاسخ می‌دهد.",
-    messagesetting_automaticreplysystemforallpost: "فعال و یا غیر فعال سازی کلیه پاسخ‌های خودکار برای پست‌ها",
-    messagesetting_automaticreplysystemforallposttooltip:
-      "این تنظیمات برای پاسخ‌های رباتی پست‌ها اعمال می‌شود و تغییر آن بر تمامی پاسخ‌های خودکار هر پست تاثیر می‌گذارد. برای اضافه کردن پاسخ‌ها، باید به‌طور جداگانه به هر پست مراجعه کنید",
     messagesetting_KeywordSensitive: "حساس به کلمه",
     messagesetting_KeywordsSensitive: "حساس به کلمات",
     sendreplydirectedsuccessfully: "ارسال پیام تأییدیه در کامنت پس از دایرکت",
-
     autoReplyFor: "پاسخ خودکار در",
     messagesetting_selectedwords: "موارد انتخاب‌شده",
     autocommentReplyExplain: "با دریافت یک کامنت یا پیام، سیستم به‌طور خودکار پاسخ می‌دهد.",

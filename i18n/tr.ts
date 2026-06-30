@@ -1716,27 +1716,32 @@ export default {
     messagesetting_SearchforproductsExplain:
       "Bu seçenekle kullanıcılar, ürünlerinizi adlarına, kategorilerine veya fiyatlarına göre arayabilir ve filtreleyebilir.",
     messagesetting_addautomaticreplysystemsystem: "Tüm Sayfa Bölümleri İçin Tek Bir Sistem Yanıtı",
-    messagesetting_HideRobotReply: "Robot Yanıtını Gizle",
+    messagesetting_HideRobotReply: "Otomatik ve Bot Mesajlarını Gizle",
     messagesetting_HideRobotReplyExplain:
-      "Bu seçeneği etkinleştirdiğinizde, yalnızca gerçek mesajlar görüntülenecek ve robotik veya sistem tarafından oluşturulan yorumlar ve mesajlar gizlenecektir.",
-    messagesetting_LikeRobotReply: "Tüm Yorum Yanıtlarını Beğen",
-    messagesetting_LikeRobotReplyExplain: "Story'deki yanıtlar robot tarafından otomatik olarak beğenilecektir.",
+      "Otomatik bot mesajları gizlenir ve Direct'te yalnızca gerçek mesajlar gösterilir",
+    messagesetting_LikeRobotReply: "Story Comment'lerini Otomatik Beğen",
+    messagesetting_HideRobotReplytooltip: "Mesajlar silinmez, yalnızca Direct yönetimini kolaylaştırmak için gizlenir",
+    messagesetting_LikeRobotReplyExplain: "Story comment'leri etkileşimi artırmak için otomatik olarak beğenilir",
+    messagesetting_automaticreplysystem: "Otomatik Yanıt Kontrolü",
+    messagesetting_automaticreplysystemforallpost:
+      "Tüm Post'lar için otomatik comment yanıtlarını etkinleştir veya devre dışı bırak",
+    messagesetting_automaticreplysystemforallposttooltip:
+      "Farklı Post'lar için otomatik comment yanıtları ayarladıysanız, bu seçenekle hepsini tek seferde etkinleştirebilir veya devre dışı bırakabilirsiniz. Yanıtları düzenlemek için her Post'un sayfasını ayrı ayrı açmanız gerekir",
+
     messagesetting_messagePanellanguage: "Varsayılan Direkt Dili",
     messagesetting_messagePanellanguageExplain: "Mesajlara yanıt vermek için direkt botun varsayılan dili.",
-    messagesetting_AutoReplyPerFollow: "Takipten Sonra Otomatik Yanıt",
+    messagesetting_AutoReplyPerFollow: "Follow Sonrası Otomatik Yanıt",
     messagesetting_AutoReplyPerFollowExplain:
-      "Sistem yanıtı yalnızca takipçilere gönderilecektir ve takip etmeyen kullanıcılar önce takip isteği alacaktır.",
+      "Kullanıcıların otomatik mesaj alabilmesi için önce sayfanızı follow etmesi gerekir",
+    messagesetting_AutoReplyPerFollowtooltip:
+      "Sizi follow etmeyen kullanıcılar önce bir follow isteği alır. Sayfanızı follow ettikten sonra otomatik mesaj gönderilir",
     messagesetting_AutoReplyPerFollowtitle: "Mesaj Metni",
-    messagesetting_AutoReplyPerFollowtitlesample: "Beispiel: İlk mesajı almak için sayfamızı takip edin",
+    messagesetting_AutoReplyPerFollowtitlesample: "Örnek: Mesajı almak için önce sayfamızı follow edin",
     messagesetting_AutoReplyPerFollowbtn: "Buton Metni",
-    messagesetting_AutoReplyPerFollowbtnsample: "Beispiel: Takip ettim, lütfen mesajı bana gönderin",
-    messagesetting_automaticreplysystem: "Otomatik Yanıt Sistemi",
+    messagesetting_AutoReplyPerFollowbtnsample: "Örnek: Follow Ettim, Mesajı Gönder",
     messagesetting_automaticreplysystemexplain:
       "Sayfanın herhangi bir bölümünde (Feed, Story, Reels, Canlı vb.) bir mesaj veya yorum alındığında, sistem belirlediğiniz metinle otomatik olarak yanıt verir.",
-    messagesetting_automaticreplysystemforallpost:
-      "Tüm Gönderiler İçin Tüm Otomatik Yanıtları Etkinleştir veya Devre Dışı Bırak",
-    messagesetting_automaticreplysystemforallposttooltip:
-      "Bu ayar, gönderiler için robotik yanıtları uygular ve bunu değiştirmek, her gönderi için tüm otomatik yanıtları etkiler. Yanıt eklemek için her gönderiye ayrı ayrı gitmeniz gerekir.",
+
     messagesetting_KeywordSensitive: "Anahtar Kelimeler Duyarlı",
     messagesetting_KeywordsSensitive: "Anahtar Kelimeler Duyarlı",
     sendreplydirectedsuccessfully: "Direct sonrası comment içinde onay mesajı gönderildi",

@@ -1651,26 +1651,34 @@ export default {
     messagesetting_SearchforproductsExplain:
       "İstifadəçilər məhsul adını, post nömrəsini və ya caption hissəsini göndərərək məhsul haqqında məlumat əldə edib birbaşa ala bilərlər. Bu satışları artıracaq.",
     messagesetting_addautomaticreplysystemsystem: "Bütün səhifə üçün vahid sistem cavabı",
-    messagesetting_HideRobotReply: "Robot cavabını gizlət",
+    messagesetting_HideRobotReply: "Avtomatik və Bot Mesajlarını Gizlət",
     messagesetting_HideRobotReplyExplain:
-      "Bu seçimi aktivləşdirərək yalnız real mesajlar göstəriləcək, robot və sistem mesajları gizlədiləcək.",
-    messagesetting_LikeRobotReply: "Bütün şərh cavablarını bəyən",
-    messagesetting_LikeRobotReplyExplain: "Reply-lər story-də avtomatik olaraq robot tərəfindən bəyəniləcək.",
+      "Avtomatik bot mesajları gizlədilir və Direct-də yalnız real mesajlar göstərilir",
+    messagesetting_LikeRobotReply: "Story Comment-lərini Avtomatik Bəyən",
+    messagesetting_HideRobotReplytooltip:
+      "Mesajlar silinmir, yalnız Direct idarəetməsini asanlaşdırmaq üçün gizlədilir",
+    messagesetting_LikeRobotReplyExplain:
+      "Story comment-ləri daha çox qarşılıqlı əlaqə yaratmaq üçün avtomatik bəyənilir",
+    messagesetting_automaticreplysystem: "Avtomatik Cavabların İdarə Edilməsi",
+    messagesetting_automaticreplysystemforallpost:
+      "Bütün Post-lar üçün avtomatik comment cavablarını aktiv və ya deaktiv et",
+    messagesetting_automaticreplysystemforallposttooltip:
+      "Əgər müxtəlif Post-lar üçün avtomatik comment cavabları təyin etmisinizsə, bu seçimlə onların hamısını eyni anda aktiv və ya deaktiv edə bilərsiniz. Cavabları tənzimləmək üçün hər Post-un səhifəsinə ayrıca daxil olmalısınız",
+
     messagesetting_messagePanellanguage: "Default Direct dili",
     messagesetting_messagePanellanguageExplain: "Direct robotunun mesajlara cavab üçün default dili",
-    messagesetting_AutoReplyPerFollow: "Follow sonrası avtomatik cavab",
+    messagesetting_AutoReplyPerFollow: "Follow-dan Sonra Avtomatik Cavab",
     messagesetting_AutoReplyPerFollowExplain:
-      "Sistem cavab yalnız izləyicilərə göndəriləcək, qeyri-izləyicilər əvvəl follow sorğusu alacaq",
-    messagesetting_AutoReplyPerFollowtitle: "Mesaj mətni",
-    messagesetting_AutoReplyPerFollowtitlesample: "Nümunə: İlk mesajı almaq üçün səhifəmizi follow edin",
-    messagesetting_AutoReplyPerFollowbtn: "Düymə mətni",
-    messagesetting_AutoReplyPerFollowbtnsample: "Nümunə: Follow etdim, zəhmət olmasa mesajı göndərin",
-    messagesetting_automaticreplysystem: "Avtomatik cavab sistemi",
+      "İstifadəçilər avtomatik mesaj almaq üçün əvvəlcə səhifənizi follow etməlidirlər",
+    messagesetting_AutoReplyPerFollowtooltip:
+      "Sizi follow etməyən istifadəçilər əvvəlcə follow sorğusu alacaqlar. Səhifənizi follow etdikdən sonra avtomatik mesaj göndəriləcək",
+    messagesetting_AutoReplyPerFollowtitle: "Mesaj Mətni",
+    messagesetting_AutoReplyPerFollowtitlesample: "Nümunə: Mesajı almaq üçün əvvəlcə səhifəmizi follow edin",
+    messagesetting_AutoReplyPerFollowbtn: "Düymə Mətni",
+    messagesetting_AutoReplyPerFollowbtnsample: "Nümunə: Follow etdim, Mesajı Göndərin",
     messagesetting_automaticreplysystemexplain:
       "Hər mesaj və ya şərh alındıqda, səhifənin hər yerində (feed, story, reels, live və s.) sistem avtomatik olaraq təyin etdiyiniz mətnlə cavab verir.",
-    messagesetting_automaticreplysystemforallpost: "Bütün postlar üçün avtomatik cavabları aktiv/deaktiv et",
-    messagesetting_automaticreplysystemforallposttooltip:
-      "Bu ayarlar postlardakı robot cavabları üçün tətbiq olunur və bütün postlardakı cavablara təsir edir. Cavab əlavə etmək üçün hər posta ayrıca baxmaq lazımdır",
+
     messagesetting_KeywordSensitive: "Sözə həssas",
     messagesetting_KeywordsSensitive: "Sözlərə həssas",
     sendreplydirectedsuccessfully: "Direct-dən sonra comment daxilində təsdiq mesajı göndərildi",

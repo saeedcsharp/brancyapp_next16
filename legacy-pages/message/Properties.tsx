@@ -9,7 +9,7 @@ import SpecialPayLoadComp from "brancy/components/messages/popups/specialPayLoad
 import AutoReply from "brancy/components/messages/properties/autoreply";
 import IceBreaker from "brancy/components/messages/properties/iceBreaker";
 import MessagePanel from "brancy/components/messages/properties/messagePanel";
-import PersistentMenu from "brancy/components/messages/properties/persistentMnue";
+import PersistentMenu from "brancy/components/messages/properties/persistentMenu";
 import PopupComment from "brancy/components/messages/properties/popupComment";
 import PopupDirect from "brancy/components/messages/properties/popupDirect";
 import {

@@ -1632,26 +1632,28 @@ export default {
     messagesetting_SearchforproductsExplain:
       "يمكن للمستخدمين إرسال اسم المنتج أو رقم المنشور أو جزء من التسمية التوضيحية للحصول على تفاصيل المنتج الكاملة وإتمام عملية الشراء مباشرة. هذا الخيار يعزز نمو المبيعات.",
     messagesetting_addautomaticreplysystemsystem: "رد تلقائي موحد لجميع أقسام الصفحة",
-    messagesetting_HideRobotReply: "إخفاء رد الروبوت",
-    messagesetting_HideRobotReplyExplain:
-      "بتفعيل هذا الخيار، ستُعرض فقط الرسائل الحقيقية، وسيتم إخفاء التعليقات والرسائل الروبوتية والنظامية.",
-    messagesetting_LikeRobotReply: "الإعجاب بجميع ردود التعليقات",
-    messagesetting_LikeRobotReplyExplain: "سيقوم الروبوت بالإعجاب تلقائيًا بالردود في الاستوري.",
+    messagesetting_HideRobotReply: "إخفاء الرسائل التلقائية ورسائل البوت",
+    messagesetting_HideRobotReplyExplain: "يتم إخفاء رسائل البوت التلقائية، ويتم عرض الرسائل الحقيقية فقط في الدایرکت",
+    messagesetting_LikeRobotReply: "إعجاب تلقائي بتعليقات Story",
+    messagesetting_HideRobotReplytooltip: "لا يتم حذف الرسائل، وإنما يتم إخفاؤها فقط لتسهيل إدارة الدایرکت",
+    messagesetting_LikeRobotReplyExplain: "يتم عمل لايك تلقائيًا على تعليقات Story لزيادة التفاعل بشكل أسرع",
+    messagesetting_automaticreplysystem: "التحكم في الردود التلقائية",
+    messagesetting_automaticreplysystemforallpost: "تفعيل أو تعطيل الردود التلقائية على التعليقات لجميع Post",
+    messagesetting_automaticreplysystemforallposttooltip:
+      "إذا قمت بإعداد ردود تلقائية للتعليقات في عدة Post، يمكنك تفعيلها أو تعطيلها جميعًا دفعة واحدة من خلال هذا الخيار. ولتعديل الردود، يجب الدخول إلى صفحة كل Post بشكل منفصل",
+
     messagesetting_messagePanellanguage: "اللغة الافتراضية للدایرکت",
     messagesetting_messagePanellanguageExplain: "اللغة الافتراضية لروبوت الدایرکت للرد على الرسائل.",
     messagesetting_AutoReplyPerFollow: "الرد التلقائي بعد المتابعة",
-    messagesetting_AutoReplyPerFollowExplain:
-      "سيتم إرسال الرد النظامي فقط للمتابعين، وسيحصل المستخدمون غير المتابعين أولاً على طلب متابعة.",
+    messagesetting_AutoReplyPerFollowExplain: "يجب على المستخدمين follow صفحتك أولاً للحصول على الرسائل التلقائية",
+    messagesetting_AutoReplyPerFollowtooltip:
+      "المستخدمون الذين لا follow صفحتك سيتلقون أولاً طلب follow، وبعد المتابعة سيتم إرسال الرسالة التلقائية إليهم",
     messagesetting_AutoReplyPerFollowtitle: "نص الرسالة",
-    messagesetting_AutoReplyPerFollowtitlesample: "مثال: تابع صفحتنا لتلقي الرسالة الأولى",
+    messagesetting_AutoReplyPerFollowtitlesample: "مثال: للحصول على الرسالة، يرجى follow صفحتنا أولاً",
     messagesetting_AutoReplyPerFollowbtn: "نص الزر",
-    messagesetting_AutoReplyPerFollowbtnsample: "مثال: لقد تابعت، من فضلك أرسل لي الرسالة",
-    messagesetting_automaticreplysystem: "نظام الرد التلقائي",
+    messagesetting_AutoReplyPerFollowbtnsample: "مثال: لقد قمت بـ follow، أرسل الرسالة",
     messagesetting_automaticreplysystemexplain:
       "عند استلام أي رسالة أو تعليق في أي قسم من الصفحة (الخلاصة، الاستوري، الريلز، البث المباشر، إلخ)، يرد النظام تلقائيًا بالنص الذي تحدده.",
-    messagesetting_automaticreplysystemforallpost: "تمكين أو تعطيل جميع الردود التلقائية على المنشورات",
-    messagesetting_automaticreplysystemforallposttooltip:
-      "ينطبق هذا الإعداد على الردود الآلية للمنشورات وتغييرها سيؤثر على جميع الردود الآلية لكل منشور. لإضافة الردود، يجب زيارة كل منشور على حدة.",
     messagesetting_KeywordSensitive: "حساس للكلمة",
     messagesetting_KeywordsSensitive: "حساس للكلمات",
     sendreplydirectedsuccessfully: "تم إرسال رسالة تأكيد في الكومنت بعد الدایرکت",

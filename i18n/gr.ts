@@ -1763,28 +1763,36 @@ export default {
     messagesetting_SearchforproductsExplain:
       "Benutzer können den Produktnamen, die Post-Nummer oder einen Teil der Bildunterschrift senden, um vollständige Produktinformationen zu erhalten und bei Interesse direkt einen Kauf abzuschließen. Diese Funktion wirkt sich positiv auf das Umsatzwachstum aus.",
     messagesetting_addautomaticreplysystemsystem: "Eine einheitliche Systemantwort für alle Bereiche der Seite",
-    messagesetting_HideRobotReply: "Roboterantwort ausblenden",
+    messagesetting_HideRobotReply: "Automatische Nachrichten und Bot-Nachrichten ausblenden",
     messagesetting_HideRobotReplyExplain:
-      "Durch Aktivieren dieser Option werden nur echte Nachrichten angezeigt, während robotergenerierte und systembedingte Kommentare und Nachrichten ausgeblendet werden.",
-    messagesetting_LikeRobotReply: "Alle Kommentarantworten liken",
-    messagesetting_LikeRobotReplyExplain: "Antworten in der Story werden vom Roboter automatisch geliked.",
+      "Automatische Bot-Nachrichten werden ausgeblendet und im Direct werden nur echte Nachrichten angezeigt",
+    messagesetting_LikeRobotReply: "Story-Kommentare automatisch liken",
+    messagesetting_HideRobotReplytooltip:
+      "Nachrichten werden nicht gelöscht, sondern nur ausgeblendet, um die Direct-Verwaltung zu vereinfachen",
+    messagesetting_LikeRobotReplyExplain:
+      "Story-Kommentare werden automatisch gelikt, um die Interaktion schneller zu erhöhen",
+    messagesetting_automaticreplysystem: "Automatische Antworten verwalten",
+    messagesetting_automaticreplysystemforallpost:
+      "Automatische Kommentarantworten für alle Post aktivieren oder deaktivieren",
+    messagesetting_automaticreplysystemforallposttooltip:
+      "Wenn Sie automatische Kommentarantworten für verschiedene Post eingerichtet haben, können Sie diese mit dieser Option alle gleichzeitig aktivieren oder deaktivieren. Um Antworten anzupassen, müssen Sie die Seite jedes Post einzeln öffnen",
+
     messagesetting_messagePanellanguage: "Standard-Direktsprache",
     messagesetting_messagePanellanguageExplain:
       "Die Standardsprache des Direct-Bots für die Beantwortung von Nachrichten.",
-    messagesetting_AutoReplyPerFollow: "Automatische Antwort nach dem Folgen",
+    messagesetting_AutoReplyPerFollow: "Automatische Antwort nach dem Follow",
     messagesetting_AutoReplyPerFollowExplain:
-      "Die automatische Antwort wird nur an Follower gesendet, und Nicht-Follower erhalten zunächst eine Follow-Anfrage.",
+      "Benutzer müssen zuerst Ihrer Seite follow, bevor sie automatische Nachrichten erhalten",
+    messagesetting_AutoReplyPerFollowtooltip:
+      "Benutzer, die Ihnen noch nicht follow, erhalten zunächst eine Follow-Aufforderung. Nach dem Follow wird die automatische Nachricht gesendet",
     messagesetting_AutoReplyPerFollowtitle: "Nachrichtentext",
-    messagesetting_AutoReplyPerFollowtitlesample: "Folge unserer Seite, um die erste Nachricht zu erhalten",
-    messagesetting_AutoReplyPerFollowbtn: "Text des Buttons",
-    messagesetting_AutoReplyPerFollowbtnsample: "Ich habe gefolgt, bitte sende mir die Nachricht",
-    messagesetting_automaticreplysystem: "Automatisches Antwortsystem",
+    messagesetting_AutoReplyPerFollowtitlesample:
+      "Beispiel: Follow Sie zuerst unserer Seite, um die Nachricht zu erhalten",
+    messagesetting_AutoReplyPerFollowbtn: "Button-Text",
+    messagesetting_AutoReplyPerFollowbtnsample: "Beispiel: Ich habe Follow, Nachricht senden",
     messagesetting_automaticreplysystemexplain:
       "Das System antwortet automatisch mit einer voreingestellten Nachricht, wenn eine Nachricht oder ein Kommentar in einem beliebigen Bereich der Seite (Feed, Story, Reels, Live usw.) empfangen wird.",
-    messagesetting_automaticreplysystemforallpost:
-      "Alle automatischen Antworten für Posts aktivieren oder deaktivieren",
-    messagesetting_automaticreplysystemforallposttooltip:
-      "Diese Einstellung gilt für automatische Antworten auf Posts und eine Änderung wirkt sich auf alle automatischen Antworten jedes Posts aus. Um Antworten hinzuzufügen, müssen Sie jeden Post einzeln aufrufen.",
+
     messagesetting_KeywordSensitive: "Wortempfindlich",
     messagesetting_KeywordsSensitive: "Wörterempfindlich",
     sendreplydirectedsuccessfully: "Bestätigungsnachricht im Comment nach dem Direct gesendet",

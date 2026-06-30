@@ -1682,26 +1682,31 @@ export default {
     messagesetting_SearchforproductsExplain:
       "Users can send the product name, post number, or part of a caption to receive full product details and, if interested, make a direct purchase. This feature positively impacts sales growth.",
     messagesetting_addautomaticreplysystemsystem: "A Unified System Reply for All Sections of the Page",
-    messagesetting_HideRobotReply: "Hide Robot Reply",
+    messagesetting_HideRobotReply: "Hide Automated and Bot Messages",
     messagesetting_HideRobotReplyExplain:
-      "By enabling this option, only real messages will be displayed, and robotic and system-generated comments and messages will be hidden.",
-    messagesetting_LikeRobotReply: "Like all comment replies",
-    messagesetting_LikeRobotReplyExplain: "Replies in the Story will be liked by the robot automatically.",
+      "Automated bot messages are hidden, and only real messages are displayed in Direct",
+    messagesetting_LikeRobotReply: "Auto Like Story Comments",
+    messagesetting_HideRobotReplytooltip:
+      "Messages are not deleted; they are only hidden to make Direct management easier",
+    messagesetting_LikeRobotReplyExplain:
+      "Story comments are automatically liked to increase engagement and respond faster",
+    messagesetting_automaticreplysystem: "Automatic Reply Control",
+    messagesetting_automaticreplysystemforallpost: "Enable or disable automatic comment replies for all posts",
+    messagesetting_automaticreplysystemforallposttooltip:
+      "If you have configured automatic comment replies for different posts, you can enable or disable them all at once with this option. To configure replies, you must visit each post's page individually",
+
     messagesetting_messagePanellanguage: "Default Direct Language",
     messagesetting_messagePanellanguageExplain: "The default language of the direct bot for replying to messages.",
     messagesetting_AutoReplyPerFollow: "Auto Reply After Follow",
-    messagesetting_AutoReplyPerFollowExplain:
-      "The system reply will only be sent to followers, and non-followers will first receive a follow request.",
+    messagesetting_AutoReplyPerFollowExplain: "Users must follow your page before receiving automatic messages",
+    messagesetting_AutoReplyPerFollowtooltip:
+      "Users who do not follow you will first receive a follow request. After following your page, the automatic message will be sent to them",
     messagesetting_AutoReplyPerFollowtitle: "Message Text",
-    messagesetting_AutoReplyPerFollowtitlesample: "Example: Follow our page to receive the first message",
+    messagesetting_AutoReplyPerFollowtitlesample: "Example: Follow our page first to receive the message",
     messagesetting_AutoReplyPerFollowbtn: "Button Text",
-    messagesetting_AutoReplyPerFollowbtnsample: "Example: I followed, please send me the message",
-    messagesetting_automaticreplysystem: "Automatic Reply System",
+    messagesetting_AutoReplyPerFollowbtnsample: "Example: I Followed, Send the Message",
     messagesetting_automaticreplysystemexplain:
       "The system automatically responds with a preset message whenever a message or comment is received in any section of the page (Feed, Story, Reels, Live, etc.).",
-    messagesetting_automaticreplysystemforallpost: "Enable or Disable All Auto Replies for Posts",
-    messagesetting_automaticreplysystemforallposttooltip:
-      "This setting applies to robotic replies for posts and changing it will affect all auto-replies for each post. To add replies, you need to visit each post individually.",
     messagesetting_KeywordSensitive: "Keyword Sensitive",
     messagesetting_KeywordsSensitive: "Keywords Sensitive",
     sendreplydirectedsuccessfully: "Confirmation message sent in the comment after Direct",
