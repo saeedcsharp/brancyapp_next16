@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Loading from "brancy/components/notOk/loading";
 import NotAllowed from "brancy/components/notOk/notAllowed";
@@ -573,7 +573,7 @@ const Orders = () => {
           nextMaxId: prev.inprogresses.nextMaxId,
         },
         pending: {
-          items: prev.pending.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.pending.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.pending.nextMaxId,
         },
       }));
@@ -585,7 +585,7 @@ const Orders = () => {
           nextMaxId: prev.pickingups.nextMaxId,
         },
         inprogresses: {
-          items: prev.inprogresses.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.inprogresses.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.inprogresses.nextMaxId,
         },
       }));
@@ -597,7 +597,7 @@ const Orders = () => {
           nextMaxId: prev.sents.nextMaxId,
         },
         pickingups: {
-          items: prev.pickingups.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.pickingups.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.pickingups.nextMaxId,
         },
       }));
@@ -609,7 +609,7 @@ const Orders = () => {
           nextMaxId: prev.delivereds.nextMaxId,
         },
         sents: {
-          items: prev.sents.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.sents.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.sents.nextMaxId,
         },
       }));
@@ -626,15 +626,15 @@ const Orders = () => {
           nextMaxId: prev.faileds.nextMaxId,
         },
         inprogresses: {
-          items: prev.inprogresses.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.inprogresses.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.inprogresses.nextMaxId,
         },
         pickingups: {
-          items: prev.pickingups.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.pickingups.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.pickingups.nextMaxId,
         },
         sents: {
-          items: prev.sents.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.sents.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.sents.nextMaxId,
         },
       }));
@@ -806,8 +806,13 @@ const Orders = () => {
       setOrdersInprocess((prev) => prev.filter((x) => x !== orderId));
     }
   }
+  const hasFetchedRef = useRef(false);
+
   useEffect(() => {
-    if (session && firstLoading && RoleAccess(session, PartnerRole.Orders)) fetchData();
+    if (session && !hasFetchedRef.current && RoleAccess(session, PartnerRole.Orders)) {
+      hasFetchedRef.current = true;
+      fetchData();
+    }
   }, [session]);
 
   useEffect(() => {

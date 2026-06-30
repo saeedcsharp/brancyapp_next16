@@ -86,6 +86,7 @@ export default function CardAddress({
   const { data: session } = useSession();
   const { t } = useTranslation();
   const router = useRouter();
+  const { cardId } = router.query;
   const couponInputRef = useRef<HTMLInputElement>(null);
   const noteTextAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -213,6 +214,7 @@ export default function CardAddress({
 
   const handleCreateOrder = useCallback(async () => {
     dispatch({ type: "SET_LOADING_CREATE_ORDER", payload: true });
+    console.log("productssss", products);
     const items: ICreateOrder["items"] = products.flatMap((product) =>
       product.subProducts.map((sub) => ({
         subProductId: sub.subProductId,
@@ -234,7 +236,7 @@ export default function CardAddress({
         queries: [
           {
             key: "instagramerId",
-            value: products[0].shortProduct.instagramerId.toString(),
+            value: cardId!.toString(),
           },
         ],
         onUploadProgress: undefined,

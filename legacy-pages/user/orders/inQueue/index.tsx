@@ -71,7 +71,7 @@ function selectionReducer(state: SelectionState, action: SelectionAction): Selec
     case "SELECT_ALL":
       return {
         ...state,
-        selectedOrders: new Set(action.payload?.orders?.items.map((o: IOrderByStatusItem) => o.id) || []),
+        selectedOrders: new Set(action.payload?.orders?.items.map((o: IOrderByStatusItem) => o.order.id) || []),
         selectedMenu: true,
         selectAll: true,
       };
@@ -179,7 +179,7 @@ const InQueue = () => {
     });
   };
 
-  const handleRowClick = (orderId: string, instagramerId: number) => {
+  const handleRowClick = (orderId: string, instagramerId?: number) => {
     // if (!state.clickedOrders.has(orderId)) {
     //   dispatch({ type: "ROW_CLICK", payload: { id: orderId } });
     // }
@@ -195,7 +195,7 @@ const InQueue = () => {
   const isAllSelected = state.selectedOrders.size === orders.items.length;
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatus", {
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/userorder/GetOrdersByStatus", {
         methodType: MethodType.get,
         session: session,
         data: null,
@@ -336,7 +336,7 @@ const InQueue = () => {
               <tbody>
                 {orders.items.map((order, index) => (
                   <tr
-                    onClick={() => handleRowClick(order.id, order.shortShop!.instagramerId)}
+                    onClick={() => handleRowClick(order.order.id, order.businessProfile?.instagramerId)}
                     key={index}
                     className={styles.row}>
                     <td
@@ -344,19 +344,21 @@ const InQueue = () => {
                         e.stopPropagation();
                       }}
                       style={{ minWidth: "50px" }}
-                      title={`order-${order.id}`}>
+                      title={`order-${order.order.id}`}>
                       {`${index + 1}`}
                     </td>
                     <td
                       style={{ minWidth: "90px" }}
-                      className={state.clickedOrders.has(order.id) ? styles.ordernumberviewed : styles.ordernumber}>
-                      {order.id}
+                      className={
+                        state.clickedOrders.has(order.order.id) ? styles.ordernumberviewed : styles.ordernumber
+                      }>
+                      {order.order.id}
                       {/* {clickedOrders.has(order.id) && <span> ✓</span>} */}
                     </td>
 
                     <td style={{ minWidth: "160px" }} className={styles.customer}>
                       <img
-                        src={order.shortShop ? ((basePictureUrl + order.shortShop!) as any).profileUrl : ""}
+                        src={order.order.shortShop ? basePictureUrl + order.businessProfile!.profileUrl : ""}
                         alt="profile"
                         className="instagramimage"
                         onError={(e) => {
@@ -365,37 +367,37 @@ const InQueue = () => {
                       />
                       <div className="instagramprofiledetail">
                         <div className="instagramusername">
-                          {order.shortShop
-                            ? (order.shortShop! as any).fullName
-                              ? (order.shortShop! as any).fullName
+                          {order.businessProfile
+                            ? order.businessProfile!.fullName
+                              ? order.businessProfile!.fullName
                               : ""
                             : ""}
                         </div>
                         <div className="instagramid translate">
-                          {order.shortShop ? "@" + (order.shortShop! as any).username : ""}
+                          {order.businessProfile ? "@" + order.businessProfile!.username : ""}
                         </div>
                       </div>
                     </td>
                     <td style={{ minWidth: "50px" }} className={styles.items}>
-                      {order.itemCount}
+                      {order.order.itemCount}
                     </td>
 
                     <td style={{ minWidth: "100px" }} className={styles.fee}>
                       <PriceFormater
-                        fee={order.totalPrice}
-                        pricetype={order.priceType}
+                        fee={order.order.totalPrice}
+                        pricetype={order.order.priceType}
                         className={PriceFormaterClassName.PostPrice}
                       />
                     </td>
                     <td style={{ minWidth: "85px" }} className={styles.date}>
                       {new DateObject({
-                        date: order.createdTime * 1000,
+                        date: order.order.createdTime * 1000,
                         calendar: initialzedTime().calendar,
                         locale: initialzedTime().locale,
                       }).format("MM/DD/YYYY ")}
                       <br />
                       {new DateObject({
-                        date: order.createdTime * 1000,
+                        date: order.order.createdTime * 1000,
                         calendar: initialzedTime().calendar,
                         locale: initialzedTime().locale,
                       }).format(" hh:mm A")}
@@ -422,11 +424,11 @@ const InQueue = () => {
 
                     <td
                       style={{ minWidth: "75px" }}
-                      className={`${styles.delivery} ${styles[specifyLogistic(order.logesticId)]}`}>
-                      {specifyLogistic(order.logesticId)}
+                      className={`${styles.delivery} ${styles[specifyLogistic(order.order.logesticId)]}`}>
+                      {specifyLogistic(order.order.logesticId)}
                     </td>
                     <td style={{ minWidth: "110px" }} className={styles.destination}>
-                      {order.city ? order.city : "--"}
+                      {order.order.city ? order.order.city : "--"}
                     </td>
                   </tr>
                 ))}

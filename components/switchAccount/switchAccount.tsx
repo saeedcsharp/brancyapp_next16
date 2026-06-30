@@ -177,10 +177,10 @@ function SwitchAccount(props: { removeMask: () => void }) {
         onUploadProgress: undefined,
       });
       if (response.succeeded) {
-        if (host.includes("brancy.app")) {
+        if (host.includes("patran.ir")) {
           router.push(response.value);
         } else {
-          window.location.href = `https://www.brancy.app/redirectInterface?redirectUrl=${encodeURIComponent(response.value)}`;
+          window.location.href = `https://patran.ir/redirectInterface?redirectUrl=${encodeURIComponent(response.value)}`;
         }
       } else {
         notify(response.info.responseType, NotifType.Warning);

@@ -46,7 +46,7 @@ function selectionReducer(state: SelectionState, action: SelectionAction): Selec
     case "SELECT_ALL":
       return {
         ...state,
-        selectedOrders: new Set(action.payload?.orders?.items.map((o: IOrderByStatusItem) => o.id) || []),
+        selectedOrders: new Set(action.payload?.orders?.items.map((o: IOrderByStatusItem) => o.order.id) || []),
         selectedMenu: true,
         selectAll: true,
       };
@@ -236,36 +236,41 @@ export default function InProgress({
           <tbody>
             {orders.items.map(
               (order, index) =>
-                order.userInfo && (
-                  <tr onClick={() => handleRowClick(order.id, order.userId)} key={order.id} className={styles.row}>
+                order.userProfile && (
+                  <tr
+                    onClick={() => handleRowClick(order.order.id, order.order.userId)}
+                    key={order.order.id}
+                    className={styles.row}>
                     <td
                       onClick={(e) => {
                         e.stopPropagation();
                       }}
                       style={{ minWidth: "50px" }}>
-                      {orderInProcess.find((x) => x === order.id) ? (
+                      {orderInProcess.find((x) => x === order.order.id) ? (
                         "inprocess"
                       ) : (
                         <MemoizedCheckBoxButton
-                          handleToggle={(e) => handleToggleOrder(e, order.id)}
-                          value={state.selectedOrders.has(order.id)}
+                          handleToggle={(e) => handleToggleOrder(e, order.order.id)}
+                          value={state.selectedOrders.has(order.order.id)}
                           textlabel={`${index + 1}`}
-                          name={`order-${order.id}`}
+                          name={`order-${order.order.id}`}
                           title={"Select order"}
                         />
                       )}
                     </td>
                     <td
                       style={{ minWidth: "100px" }}
-                      className={state.clickedOrders.has(order.id) ? styles.ordernumberviewed : styles.ordernumber}>
-                      {order.id}
+                      className={
+                        state.clickedOrders.has(order.order.id) ? styles.ordernumberviewed : styles.ordernumber
+                      }>
+                      {order.order.id}
                       {/* {clickedOrders.has(order.id) && <span> ✓</span>} */}
                     </td>
                     <td style={{ minWidth: "160px" }} className={`${styles.customer} translate`}>
                       <img
                         loading="lazy"
                         decoding="async"
-                        src={basePictureUrl + order.userInfo!.profileUrl}
+                        src={basePictureUrl + order.userProfile!.profileUrl}
                         alt="profile"
                         className="instagramimage"
                         onError={(e) => {
@@ -274,32 +279,32 @@ export default function InProgress({
                       />
                       <div className={`${styles.instagramprofiledetail} translate`}>
                         <div className="instagramusername">
-                          {order.userInfo!.fullName ? order.userInfo!.fullName : order.userInfo?.phoneNumber}
+                          {order.userProfile!.fullName ? order.userProfile!.fullName : order.userProfile?.phoneNumber}
                         </div>
                         <div className="instagramid">
-                          {order.userInfo!.username ? "@" + order.userInfo!.username : ""}
+                          {order.userProfile!.username ? "@" + order.userProfile!.username : ""}
                         </div>
                       </div>
                     </td>
                     <td style={{ minWidth: "50px" }} className={styles.items}>
-                      {order.itemCount}
+                      {order.order.itemCount}
                     </td>
                     <td style={{ minWidth: "100px" }} className={styles.fee}>
                       <PriceFormater
-                        fee={order.totalPrice}
-                        pricetype={order.priceType}
+                        fee={order.order.totalPrice}
+                        pricetype={order.order.priceType}
                         className={PriceFormaterClassName.PostPrice}
                       />
                     </td>
                     <td style={{ minWidth: "85px" }} className={styles.date}>
                       {new DateObject({
-                        date: order.createdTime * 1000,
+                        date: order.order.createdTime * 1000,
                         calendar: initialzedTime().calendar,
                         locale: initialzedTime().locale,
                       }).format("YYYY/MM/DD")}
                       <br />
                       {new DateObject({
-                        date: order.createdTime * 1000,
+                        date: order.order.createdTime * 1000,
                         calendar: initialzedTime().calendar,
                         locale: initialzedTime().locale,
                       }).format("HH:mm:ss")}
@@ -325,11 +330,11 @@ export default function InProgress({
                     </td>
                     <td
                       style={{ minWidth: "75px" }}
-                      className={`${styles.delivery} ${styles[specifyLogistic(order.logesticId)]}`}>
-                      {specifyLogistic(order.logesticId)}
+                      className={`${styles.delivery} ${styles[specifyLogistic(order.order.logesticId)]}`}>
+                      {specifyLogistic(order.order.logesticId)}
                     </td>
                     <td style={{ minWidth: "110px" }} className={styles.destination}>
-                      {order.city ?? "--"}
+                      {order.order.city ?? "--"}
                     </td>
                   </tr>
                 ),

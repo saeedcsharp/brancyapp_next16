@@ -48,7 +48,7 @@ function selectionReducer(state: SelectionState, action: SelectionAction): Selec
     case "SELECT_ALL":
       return {
         ...state,
-        selectedOrders: new Set(action.payload?.orders?.items.map((o: IOrderByStatusItem) => o.id) || []),
+        selectedOrders: new Set(action.payload?.orders?.items.map((o: IOrderByStatusItem) => o.order.id) || []),
         selectedMenu: true,
         selectAll: true,
       };
@@ -235,7 +235,7 @@ export default function Sent({
           <tbody>
             {orders.items.map((order, index) => (
               <tr
-                onClick={() => handleRowClick(order.id, order.userId, order.trackingId)}
+                onClick={() => handleRowClick(order.order.id, order.order.userId, order.order.trackingId)}
                 key={index}
                 className={styles.row}>
                 <td
@@ -250,12 +250,12 @@ export default function Sent({
                     name={`order-${order.id}`}
                     title={"Select order"}
                   /> */}
-                  {orderInProcess.find((x) => x === order.id) ? "InProcees" : index + 1}
+                  {orderInProcess.find((x) => x === order.order.id) ? "InProcees" : index + 1}
                 </td>
                 <td
                   style={{ minWidth: "100px" }}
-                  className={state.clickedOrders.has(order.id) ? styles.ordernumberviewed : styles.ordernumber}>
-                  {order.id}
+                  className={state.clickedOrders.has(order.order.id) ? styles.ordernumberviewed : styles.ordernumber}>
+                  {order.order.id}
                   {/* {clickedOrders.has(order.id) && <span> ✓</span>} */}
                 </td>
 
@@ -263,7 +263,7 @@ export default function Sent({
                   <img
                     loading="lazy"
                     decoding="async"
-                    src={basePictureUrl + order.userInfo!.profileUrl}
+                    src={basePictureUrl + order.userProfile!.profileUrl}
                     alt="profile"
                     className="instagramimage"
                     onError={(e) => {
@@ -272,9 +272,11 @@ export default function Sent({
                   />
                   <div className={`${styles.instagramprofiledetail} translate`}>
                     <div className="instagramusername">
-                      {order.userInfo!.fullName ? order.userInfo!.fullName : order.userInfo?.phoneNumber}
+                      {order.userProfile!.fullName ? order.userProfile!.fullName : order.userProfile?.phoneNumber}
                     </div>
-                    <div className="instagramid">{order.userInfo!.username ? "@" + order.userInfo!.username : ""}</div>
+                    <div className="instagramid">
+                      {order.userProfile!.username ? "@" + order.userProfile!.username : ""}
+                    </div>
                   </div>
                 </td>
                 {/* <td
@@ -337,20 +339,20 @@ export default function Sent({
 
                 <td style={{ minWidth: "100px" }} className={styles.fee}>
                   <PriceFormater
-                    fee={order.totalPrice}
-                    pricetype={order.priceType}
+                    fee={order.order.totalPrice}
+                    pricetype={order.order.priceType}
                     className={PriceFormaterClassName.PostPrice}
                   />
                 </td>
                 <td style={{ minWidth: "85px" }} className={styles.date}>
                   {new DateObject({
-                    date: order.createdTime * 1000,
+                    date: order.order.createdTime * 1000,
                     calendar: initialzedTime().calendar,
                     locale: initialzedTime().locale,
                   }).format("YYYY/MM/DD")}
                   <br />
                   {new DateObject({
-                    date: order.createdTime * 1000,
+                    date: order.order.createdTime * 1000,
                     calendar: initialzedTime().calendar,
                     locale: initialzedTime().locale,
                   }).format("HH:mm:ss")}
@@ -377,11 +379,11 @@ export default function Sent({
 
                 <td
                   style={{ minWidth: "75px" }}
-                  className={`${styles.delivery} ${styles[specifyLogistic(order.logesticId)]}`}>
-                  {specifyLogistic(order.logesticId)}
+                  className={`${styles.delivery} ${styles[specifyLogistic(order.order.logesticId)]}`}>
+                  {specifyLogistic(order.order.logesticId)}
                 </td>
                 <td style={{ minWidth: "110px" }} className={styles.destination}>
-                  {order.city ?? "--"}
+                  {order.order.city ?? "--"}
                 </td>
               </tr>
             ))}

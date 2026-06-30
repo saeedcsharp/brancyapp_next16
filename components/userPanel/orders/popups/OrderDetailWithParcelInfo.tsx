@@ -69,7 +69,7 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
       try {
         setLoadingFullProduct(true);
         const res = await clientFetchApi<boolean, IOrderFullProduct>(
-          orderDetail.instagramerId !== undefined ? "User/Order/GetFullOrder" : "",
+          orderDetail.instagramerId !== undefined ? "/api/userorder/getFullOrder" : "",
           {
             methodType: MethodType.get,
             session: session,
@@ -99,7 +99,7 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
   async function handleGetParcelInfo() {
     setLoading(true);
     try {
-      const res = await clientFetchApi<boolean, IParcelInfo>("/api/order/GetParcelInfo", {
+      const res = await clientFetchApi<boolean, IParcelInfo>("/api/userorder/GetParcelInfo", {
         methodType: MethodType.get,
         session: session,
         data: null,
