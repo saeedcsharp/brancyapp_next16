@@ -1,0 +1,206 @@
+.all {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  gap: var(--gap-20);
+  flex-direction: column;
+  justify-content: flex-start;
+  max-height: 0;
+  overflow-y: auto;
+  opacity: 0;
+  transition:
+    max-height 1s ease,
+    opacity 0.2s ease;
+}
+
+.all.show {
+  max-height: 100%;
+  opacity: 1;
+}
+.addnewlink {
+  position: relative;
+  width: 100%;
+  min-height: 70px;
+  border: 1px solid var(--content-box);
+  border-radius: var(--br15);
+  gap: var(--gap-10);
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: space-between;
+  padding: var(--padding-10);
+  transition: var(--transition2);
+  cursor: pointer;
+}
+.addnewlink:hover {
+  border: 1px solid var(--color-dark-blue);
+}
+.addnewicon {
+  position: relative;
+  width: 100%;
+  max-width: 50px;
+  aspect-ratio: 1/1;
+  background-color: var(--background-root);
+  display: flex;
+  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
+  align-content: center;
+  box-shadow: var(--box-shadow);
+  cursor: pointer;
+}
+.addnewcontent {
+  position: relative;
+  width: 100%;
+  display: flex;
+  gap: var(--gap-5);
+  flex-direction: column;
+  align-items: flex-start;
+}
+.addnewheader {
+  text-align: start;
+  align-items: center;
+  display: flex;
+  gap: var(--gap-5);
+  position: relative;
+  font-size: var(--font-16);
+  font-weight: var(--weight-600);
+  color: var(--color-dark-blue);
+}
+.addnewheader > div:nth-child(1) {
+  color: var(--color-dark-blue) !important;
+}
+.autoreplycontainer {
+  min-height: 250px;
+  max-height: 250px;
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-8);
+  transition: var(--transition3);
+}
+
+.autoreply {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  gap: var(--gap-15);
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition3);
+}
+.swiperContent {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+}
+html[dir="rtl"] .swiperContent {
+  align-items: flex-end;
+}
+.swiperContent > div:last-child {
+  top: 0px !important;
+}
+.headermenu {
+  display: flex;
+  gap: var(--gap-20);
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  cursor: pointer;
+  width: 26px;
+  height: 12px;
+  border-radius: var(--br5);
+  position: relative;
+}
+.responseparent {
+  height: 100%;
+  padding: var(--padding-8) var(--padding-10);
+  width: 100%;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-15);
+  border-radius: var(--br15);
+  transition: var(--transition3);
+  background-color: var(--color-gray10);
+  border: 1px solid transparent;
+}
+
+.headertitle2 {
+  position: relative;
+  text-align: start;
+  color: var(--text-h1);
+  font-weight: var(--weight-400);
+  font-size: var(--font-12);
+  text-transform: capitalize;
+}
+.wordpool {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-5);
+  overflow-y: auto;
+  align-items: center;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-content: flex-start;
+}
+
+.specificword {
+  color: var(--text-h2);
+  font-weight: var(--weight-400);
+  font-size: var(--font-12);
+  transition: var(--transition3);
+  border-radius: var(--br8);
+  padding: var(--paddingtag);
+  display: flex;
+  align-items: center;
+  gap: var(--gap-5);
+  background-color: var(--color-gray10);
+  border: 1px solid var(--color-gray30);
+}
+.responsetext {
+  border: 1px solid var(--color-gray30);
+  border-radius: 0 var(--br10) var(--br10) var(--br10);
+  padding: var(--padding-5);
+  height: 42px;
+  max-height: 42px;
+  position: relative;
+  color: var(--text-h2);
+  font-weight: var(--weight-400);
+  font-size: var(--font-12);
+  text-transform: capitalize;
+  overflow: hidden;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+  text-overflow: ellipsis;
+}
+@media (max-width: 480px) {
+  .responsetext {
+    -webkit-line-clamp: 3;
+    height: 58px;
+    max-height: 58px;
+  }
+}
+html[dir="rtl"] .responsetext {
+  border-radius: var(--br10) 0 var(--br10) var(--br10);
+}
+.seeanswer {
+  display: flex;
+  gap: var(--gap-3);
+  color: var(--text-h2);
+  text-transform: uppercase;
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  transition: var(--transition3);
+  cursor: pointer;
+}
+.seeanswer > span {
+  color: var(--color-dark-blue);
+}

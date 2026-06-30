@@ -16,7 +16,7 @@ import {
 import { LoginStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import styles from "./properties.module.css";
+import styles from "./messagePanel.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { IMessagePanel } from "brancy/models/interfaces";
 import { Language } from "brancy/models/enums";
@@ -155,7 +155,24 @@ function MessagePanel({
             <div className={`${styles.all} ${isHidden ? "" : styles.show}`}>
               <div className="headerandinput">
                 <div className="headerparent">
-                  <div className="title2">{t(LanguageKey.messagesetting_HideRobotReply)}</div>
+                  <div className="title2">
+                    {t(LanguageKey.messagesetting_HideRobotReply)}
+                    <Tooltip
+                      tooltipValue={t(LanguageKey.messagesetting_HideRobotReplytooltip)}
+                      onClick={true}
+                      position="bottom">
+                      <img
+                        style={{
+                          marginInline: "5px",
+                          cursor: "pointer",
+                          width: "15px",
+                          height: "15px",
+                        }}
+                        alt="ℹ️ tooltip"
+                        src="/tooltip.svg"
+                      />
+                    </Tooltip>
+                  </div>
                   <ToggleCheckBoxButton
                     handleToggle={handleHideRobotReply}
                     checked={messagePanel.robotReply}
@@ -164,12 +181,12 @@ function MessagePanel({
                     role={" switch"}
                   />
                 </div>
-                <div className="explain">{t(LanguageKey.messagesetting_HideRobotReplyExplain)}</div>
+                <div className="explain"> {t(LanguageKey.messagesetting_HideRobotReplyExplain)}</div>
               </div>
 
               <div className="headerandinput">
                 <div className="headerparent">
-                  <div className="title2">{t(LanguageKey.messagesetting_LikeRobotReply)}</div>
+                  <div className="title2">{t(LanguageKey.messagesetting_LikeRobotReply)} </div>
                   <ToggleCheckBoxButton
                     handleToggle={handleLikeRobotReply}
                     checked={messagePanel.likeReplyStory}
@@ -178,7 +195,7 @@ function MessagePanel({
                     role={" switch"}
                   />
                 </div>
-                <div className="explain">{t(LanguageKey.messagesetting_LikeRobotReplyExplain)}</div>
+                <div className="explain"> {t(LanguageKey.messagesetting_LikeRobotReplyExplain)} </div>
               </div>
               <div className="headerandinput">
                 <div className="headerparent">
@@ -218,13 +235,13 @@ function MessagePanel({
                   />
                   {/* END: Replace 3-dot button and popup with 2-dot button and menu */}
                 </div>
-                <div className="explain">{t(LanguageKey.messagesetting_automaticreplysystemforallpost)}</div>
+                <div className="explain"> {t(LanguageKey.messagesetting_automaticreplysystemforallpost)} </div>
               </div>
 
-              <div className="headerandinput" style={{ gap: "1px" }}>
+              <div className="headerandinput">
                 <div className="headerparent">
                   <div className="title2">{t(LanguageKey.messagesetting_messagePanellanguage)}</div>
-                  <div style={{ minWidth: "40%" }} className={messagePanel.language === 1e6 ? "fadeDiv" : ""}>
+                  <div style={{ minWidth: "100px" }} className={messagePanel.language === 1e6 ? "fadeDiv" : ""}>
                     <DragDrop
                       data={languageArr}
                       handleOptionSelect={(id) => {
@@ -237,18 +254,27 @@ function MessagePanel({
                 </div>
                 <div className="explain">{t(LanguageKey.messagesetting_messagePanellanguageExplain)}</div>
               </div>
-              <div
-                className="headerandinput"
-                style={{
-                  padding: "var(--padding-10) var(--padding-14)",
-                  width: "calc(100% + 24px)",
-                  alignSelf: "center",
-                  backgroundColor: "var(--color-gray10)",
-                  borderRadius: "var(--br15)",
-                }}>
+              <div className={styles.answercontainer}>
                 <div className="headerandinput">
                   <div className="headerparent">
-                    <div className="title2">{t(LanguageKey.messagesetting_AutoReplyPerFollow)}</div>
+                    <div className="title2">
+                      {t(LanguageKey.messagesetting_AutoReplyPerFollow)}
+                      <Tooltip
+                        tooltipValue={t(LanguageKey.messagesetting_AutoReplyPerFollowtooltip)}
+                        onClick={true}
+                        position="bottom">
+                        <img
+                          style={{
+                            marginInline: "5px",
+                            cursor: "pointer",
+                            width: "15px",
+                            height: "15px",
+                          }}
+                          alt="ℹ️ tooltip"
+                          src="/tooltip.svg"
+                        />
+                      </Tooltip>
+                    </div>
 
                     <ToggleCheckBoxButton
                       handleToggle={handleToggleFollowTemplate}
@@ -266,7 +292,7 @@ function MessagePanel({
                     <div className="headerparent">
                       <div className="headertext">{t(LanguageKey.messagesetting_AutoReplyPerFollowtitle)}</div>
                       <div className="counter">
-                        <strong>{messagePanel.followTemplate.title.length}</strong>/ <strong>50</strong>
+                        <>{messagePanel.followTemplate.title.length}/50</>
                       </div>
                     </div>
                     <InputText
@@ -283,7 +309,7 @@ function MessagePanel({
                     <div className="headerparent">
                       <div className="headertext">{t(LanguageKey.messagesetting_AutoReplyPerFollowbtn)}</div>
                       <div className="counter">
-                        <strong>{messagePanel.followTemplate.content.length}</strong>/ <strong>15</strong>
+                        <>{messagePanel.followTemplate.content.length}/15</>
                       </div>
                     </div>
                     <InputText

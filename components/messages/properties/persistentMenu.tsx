@@ -8,57 +8,42 @@ import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton"
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import styles from "./persistent_icebreaker.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { IceOrPersistent, SpecialPayLoad, PayloadType } from "brancy/models/enums";
+import { IceOrPersistent, PartnerRole, SpecialPayLoad, PayloadType } from "brancy/models/enums";
 import { IIceBreaker, IDetailPrompt } from "brancy/models/interfaces";
-// Wrap component with React.memo for performance
-const IceBreaker = React.memo(
+const PersistentMenu = React.memo(
   ({
-    iceBeakerUpdateLoading,
-    iceBreakers,
+    updateLoading,
+    persiatantMenus,
     handleDeletePrompt,
-    handleActiveIceBreaker: originalHandleActiveIceBreaker, // Rename prop
+    handleActivePersistentMenu: originalHandleActivePersistentMenu,
     handleShowSpecialPayLoad,
   }: {
-    iceBeakerUpdateLoading: boolean;
-    iceBreakers: IIceBreaker;
+    updateLoading: boolean;
+    persiatantMenus: IIceBreaker;
     handleDeletePrompt: (id: number) => void;
-    handleActiveIceBreaker: (e: ChangeEvent<HTMLInputElement>) => void;
+    handleActivePersistentMenu: (e: ChangeEvent<HTMLInputElement>) => void;
     handleShowSpecialPayLoad: (type: IceOrPersistent) => void;
   }) => {
-    const { t } = useTranslation();
     const { data: session } = useSession();
+    const [loadingStatus, setLoadingStaus] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.Message));
+    const { t } = useTranslation();
     const [isHidden, setIsHidden] = useState(false);
-    // Add a state to track visibility of each explanation
     const [explanationsVisible, setExplanationsVisible] = useState<boolean[]>([]);
-    // Add state for fading effect
     const [isFading, setIsFading] = useState(false);
     const [promptLoading, setPromptLoading] = useState(false);
     const [selectedPrompt, setSelectedPrompt] = useState<IDetailPrompt[]>([]);
-    const fadeTimeoutRef = useRef<NodeJS.Timeout | null>(null); // Ref to store timeout ID
-
-    // Initialize the visibility state when iceBreakers changes
-    useEffect(() => {
-      if (iceBreakers && iceBreakers.profileButtons) {
-        setExplanationsVisible(Array(iceBreakers.profileButtons.items.length).fill(false));
-      }
-    }, [iceBreakers]);
-
-    // Toggle function to show/hide explanations
+    const fadeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
     const toggleExplanation = (index: number) => {
       setExplanationsVisible((prev) => {
-        // Create a new array with all values set to false (all closed)
         const newState = Array(prev.length).fill(false);
-
-        // If the clicked item was already open, leave all closed
-        // Otherwise, set only the clicked index to true
         if (!prev[index]) {
           newState[index] = true;
         }
-
         return newState;
       });
     };
@@ -67,16 +52,13 @@ const IceBreaker = React.memo(
       try {
         setPromptLoading(true);
         setExplanationsVisible((prev) => {
-          // Create a new array with all values set to false (all closed)
           const newState = Array(prev.length).fill(false);
-          // If the clicked item was already open, leave all closed
-          // Otherwise, set only the clicked index to true
           if (!prev[index]) {
             newState[index] = true;
           }
           return newState;
         });
-        if (selectedPrompt.find((x) => x.promptId === promptId)) return;
+        if (selectedPrompt.find((p) => p.promptId === promptId)) return;
         const res = await clientFetchApi<boolean, IDetailPrompt>(`/api/ai/GetPrompt`, {
           methodType: MethodType.get,
           session: session,
@@ -97,7 +79,6 @@ const IceBreaker = React.memo(
     const handleCircleClick = useCallback(() => {
       setIsHidden((prev) => !prev);
     }, []);
-
     const specialPayloadTextMap = {
       [SpecialPayLoad.CreateTicket]: {
         title: t(LanguageKey.messagesetting_Createanewsupportticket),
@@ -132,29 +113,20 @@ const IceBreaker = React.memo(
         explain: t(LanguageKey.messagesetting_SearchforproductsExplain),
       },
     };
-
-    // Wrapper function to handle toggle and fading effect
-    const handleActiveIceBreaker = useCallback(
+    const handleActivePersistentMenu = useCallback(
       (e: ChangeEvent<HTMLInputElement>) => {
-        originalHandleActiveIceBreaker(e); // Call the original handler passed via props
-
-        setIsFading(true); // Start fading
-
-        // Clear any existing timeout to prevent conflicts
+        originalHandleActivePersistentMenu(e);
+        setIsFading(true);
         if (fadeTimeoutRef.current) {
           clearTimeout(fadeTimeoutRef.current);
         }
-
-        // Set a new timeout to stop fading after 3 seconds
         fadeTimeoutRef.current = setTimeout(() => {
           setIsFading(false);
-          fadeTimeoutRef.current = null; // Clear the ref after timeout executes
+          fadeTimeoutRef.current = null;
         }, 3000);
       },
-      [originalHandleActiveIceBreaker],
+      [originalHandleActivePersistentMenu],
     );
-
-    // Cleanup timeout on component unmount
     useEffect(() => {
       return () => {
         if (fadeTimeoutRef.current) {
@@ -162,14 +134,19 @@ const IceBreaker = React.memo(
         }
       };
     }, []);
-
+    useEffect(() => {
+      if (persiatantMenus && persiatantMenus.profileButtons) {
+        setExplanationsVisible(Array(persiatantMenus.profileButtons.items.length).fill(false));
+        setLoadingStaus(false);
+      }
+    }, [persiatantMenus]);
     return (
       // #endregion
       <>
         <div className="tooBigCard" style={{ gridRowEnd: isHidden ? "span 10" : "span 82" }}>
           <div className="headerChild" onClick={handleCircleClick}>
             <div className="circle"></div>
-            <div className="Title">{t(LanguageKey.messagesetting_icebreaker)}</div>
+            <div className="Title">{t(LanguageKey.messagesetting_PersistentMenu)}</div>
           </div>
           <div className={`${styles.all} ${isHidden ? "" : styles.show}`}>
             <div className="headerparent">
@@ -179,14 +156,14 @@ const IceBreaker = React.memo(
                   tooltipValue={
                     <div>
                       <div className="headerparent" style={{ marginBottom: "10px" }}>
-                        {t(LanguageKey.messagesetting_icebreaker)}
+                        {t(LanguageKey.messagesetting_PersistentMenu)}
                       </div>
                       <img
                         style={{ borderRadius: "var(--br10)", width: "100%" }}
                         loading="lazy"
                         decoding="async"
                         title="ℹ️ Persistent Menu"
-                        src="/ice-Breaker.png"
+                        src="/Persistent-Menu.png"
                       />
                     </div>
                   }
@@ -204,22 +181,21 @@ const IceBreaker = React.memo(
                   />
                 </Tooltip>
               </div>
-              {/* Apply fadeDiv class conditionally to the parent div */}
               <div className={isFading ? "fadeDiv" : ""}>
                 <ToggleCheckBoxButton
-                  handleToggle={handleActiveIceBreaker}
-                  checked={iceBreakers.isActive}
-                  name=" iceBreaker"
-                  title={" iceBreaker"}
-                  role={" switch"}
+                  handleToggle={handleActivePersistentMenu}
+                  checked={persiatantMenus.isActive}
+                  name="Persistent Menu"
+                  title={"Persistent Menu"}
+                  role={"switch"}
                 />
               </div>
             </div>
-            <div className="explain">{t(LanguageKey.messagesetting_icebreakerexplain)}</div>
+            <div className="explain">{t(LanguageKey.messagesetting_PersistentMenuexplain)}</div>
             <div
-              className={`${styles.addnewlink} ${iceBreakers.profileButtons.items.length === 4 ? "fadeDiv" : ""}`}
-              onClick={() => handleShowSpecialPayLoad(IceOrPersistent.IceBreaker)}
-              title="◰ create new Ice Breaker">
+              className={`${styles.addnewlink} ${persiatantMenus.profileButtons.items.length === 5 ? "fadeDiv" : ""}`}
+              onClick={() => handleShowSpecialPayLoad(IceOrPersistent.PersistentMenu)}
+              title="◰ create new persiatant Menu">
               <div className={styles.addnewicon}>
                 <svg width="22" height="22" viewBox="0 0 22 22">
                   <path
@@ -231,17 +207,16 @@ const IceBreaker = React.memo(
               <div className={styles.addnewcontent}>
                 <div className={styles.addnewheader}>
                   {t(LanguageKey.messagesetting_addNewButton)}
-                  <div className="explain">({iceBreakers.profileButtons.items.length}/4)</div>
+                  <div className="explain">({persiatantMenus.profileButtons.items.length}/5)</div>
                 </div>
-                <div className="explain">{t(LanguageKey.messagesetting_addicebreakerexplain)}</div>
+                <div className="explain">{t(LanguageKey.messagesetting_addPersistentMenuexplain)}</div>
               </div>
             </div>
-
-            <div className={`${styles.contentArea} ${!iceBreakers.isActive && "fadeDiv"}`}>
-              {iceBeakerUpdateLoading && <Loading />}
-              {!iceBeakerUpdateLoading && (
+            <div className={`${styles.contentArea} ${!persiatantMenus.isActive && "fadeDiv"}`}>
+              {(loadingStatus || updateLoading) && <Loading />}
+              {!loadingStatus && !updateLoading && (
                 <>
-                  {iceBreakers.profileButtons.items.map((v, i) => (
+                  {persiatantMenus.profileButtons.items.map((v, i) => (
                     <div key={i} className="headerandinput">
                       {v.payloadType === PayloadType.Special && (
                         <>
@@ -416,4 +391,4 @@ const IceBreaker = React.memo(
     );
   },
 );
-export default IceBreaker;
+export default PersistentMenu;
