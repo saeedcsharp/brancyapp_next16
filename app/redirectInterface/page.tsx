@@ -29,7 +29,7 @@ function isIranOnlyDomain(redirectUrl: string): boolean {
 async function getCountryCode(): Promise<string | null> {
   const headersList = await headers();
   const cloudflareCountry = headersList.get("cf-ipcountry");
-  const arvanCountry = headersList.get("ar-country-code");
+  const arvanCountry = headersList.get("X-Country-Code") || headersList.get("ar-real-ip-country");
   return (cloudflareCountry || arvanCountry)?.toUpperCase() || null;
 }
 

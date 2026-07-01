@@ -47,7 +47,8 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
         queries: [{ key: "orderId", value: orderDetail.orderId }],
         onUploadProgress: undefined,
       });
-      if (res.succeeded) router.replace(res.value);
+      if (res.succeeded)
+        window.location.href = `https://patran.ir/redirectInterface?redirectUrl=${encodeURIComponent(res.value)}`;
       else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);

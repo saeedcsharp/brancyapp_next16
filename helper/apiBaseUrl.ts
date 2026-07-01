@@ -2,7 +2,7 @@
 // ✏️  ONLY EDIT THIS SECTION — everything else updates automatically
 // =============================================================================
 const baseIRUrl = "brancy.ir";
-const baseAppUrl = "brancy.app";
+const baseAppUrl = "patran.ir";
 const baseLocalUrl = "patran.ir";
 const CONFIG = {
   // ── brancy.ir (داخل ایران) ───────────────────────────────────────────────
