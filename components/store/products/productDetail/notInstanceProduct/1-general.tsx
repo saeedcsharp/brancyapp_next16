@@ -22,9 +22,13 @@ import {
   ILastCategory,
   IProduct_MainCategory,
   IProduct_SecondaryCategory,
+  ISuggestedCategory,
   ISuggestedPrice,
 } from "brancy/models/interfaces";
 import AIButton from "brancy/components/design/ai/AIButton";
+import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
+import { PsgFeatureType } from "brancy/models/enums";
+import router from "next/router";
 function General({
   productId,
   suggestedPrice,
@@ -274,18 +278,17 @@ function General({
     return null;
   }
   async function handleGetSuggestedCategory(productId: number) {
+    const featureIsCheck = await fetchAndCheckFeature(PsgFeatureType.AI, session);
+    if (!featureIsCheck) router.push("/upgrade");
     setCategoryLoading(true);
     try {
-      const res = await clientFetchApi<boolean, { categoryId: number; subCategoryId: number | null }>(
-        "shopper/Product/GetSuggestedCategory",
-        {
-          methodType: MethodType.get,
-          session: session,
-          data: null,
-          queries: [{ key: "productId", value: productId.toString() }],
-          onUploadProgress: undefined,
-        },
-      );
+      const res = await clientFetchApi<boolean, ISuggestedCategory>("/api/product/getSuggestedCategory", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "productId", value: productId.toString() }],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded && res.value) {
         const categoryId = res.value.categoryId;
         const subCategoryId = res.value.subCategoryId ?? null;
@@ -476,14 +479,14 @@ function General({
     }
     try {
       const [mainCat, lastCat] = await Promise.all([
-        clientFetchApi<boolean, IProduct_MainCategory[]>("shopper" + "" + "/Product/GetMainCategoryList", {
+        clientFetchApi<boolean, IProduct_MainCategory[]>("api/Product/getMainCategoryList", {
           methodType: MethodType.get,
           session: session,
           data: null,
           queries: [{ key: "language", value: "1" }],
           onUploadProgress: undefined,
         }),
-        clientFetchApi<boolean, ILastCategory>("shopper" + "" + "/Product/GetLastCategory", {
+        clientFetchApi<boolean, ILastCategory>("api/Product/getLastCategory", {
           methodType: MethodType.get,
           session: session,
           data: undefined,
@@ -621,7 +624,6 @@ function General({
                         src="/tooltip.svg"
                       />
                     </Tooltip>
-                    <AIButton onClick={() => handleGetSuggestedCategory(productId)} />
                   </div>
                   <div className="headerparent">
                     <div
@@ -684,7 +686,9 @@ function General({
               </div>
             </div>
             <div className="headerandinput">
+              <div className="headerparant"></div>
               <div className="title">{t(LanguageKey.product_Categories)}</div>
+              <AIButton onClick={() => handleGetSuggestedCategory(productId)} />
               <div className={styles.Category}>
                 {categoryLoading && (
                   <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>

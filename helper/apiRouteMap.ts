@@ -251,6 +251,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/preinstagramer/verifyCode": "PreInstagramer/VerifyCode",
 
   // ── product ───────────────────────────────────────────
+  "api/product/getSuggestedCategory": "shopper/Product/GetSuggestedCategory",
   "/api/product/changeAvailableProduct": "shopper/Product/ChangeAvailableProduct",
   "/api/product/createProductInstance": "shopper/Product/CreateProductInstance",
   "/api/product/createProducts": "shopper/Product/CreateProducts",

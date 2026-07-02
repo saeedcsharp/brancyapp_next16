@@ -4263,6 +4263,10 @@ export interface IProduct_FullProduct {
 }
 
 /** Was ISpecification in store/IProduct.ts */
+export interface ISuggestedCategory {
+  categoryId: number;
+  subCategoryId: number | null;
+}
 export interface IProductSpecification {
   id: string;
   index: number;
