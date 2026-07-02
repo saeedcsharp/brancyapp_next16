@@ -178,3 +178,10 @@
 .customtitleitem:hover {
   color: var(--color-light-blue);
 }
+
+/* Suggested/highlighted category */
+.suggested {
+  background-color: rgba(6, 108, 255, 0.06);
+  border: 1px solid rgba(6, 108, 255, 0.12);
+  border-radius: var(--br6);
+}
