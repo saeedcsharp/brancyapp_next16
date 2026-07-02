@@ -1,5 +1,5 @@
 import { useSession } from "next-auth/react";
-import { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState, cloneElement } from "react";
 import { useTranslation } from "react-i18next";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import InputText from "brancy/components/design/inputText";
@@ -24,6 +24,7 @@ import {
   IProduct_SecondaryCategory,
   ISuggestedPrice,
 } from "brancy/models/interfaces";
+import AIButton from "brancy/components/design/ai/AIButton";
 function General({
   productId,
   suggestedPrice,
@@ -78,6 +79,9 @@ function General({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [enableNext, setEnableNext] = useState(false);
   const [hasNotif, setHasNotif] = useState(false);
+  const [categoryLoading, setCategoryLoading] = useState(false);
+  const [suggestedMainId, setSuggestedMainId] = useState<number | null>(null);
+  const [suggestedDependentId, setSuggestedDependentId] = useState<number | null>(null);
   const [generalInfo, setGeneralInfo] = useState<IGeneralInfo>({
     createInstance: {
       brandId: null,
@@ -107,6 +111,9 @@ function General({
   }, [showCustomTitleTooltip]);
   const handlecategoryselect = useCallback(
     (id: any, index: number) => {
+      // clear AI highlights on manual selection
+      setSuggestedMainId(null);
+      setSuggestedDependentId(null);
       setEnableNext(false);
       setCurrentIndex(index);
       const category = findCategoryById(generalInfo.mainCategory, id);
@@ -158,6 +165,9 @@ function General({
     [generalInfo.mainCategory, mainCategoryElements, t],
   );
   const handleBrandselect = useCallback((id: any) => {
+    // clear AI highlights on manual selection
+    setSuggestedMainId(null);
+    setSuggestedDependentId(null);
     setGeneralInfo((prev) => ({
       ...prev,
       createInstance: {
@@ -167,6 +177,9 @@ function General({
     }));
   }, []);
   const handleDependencySelect = useCallback((id: any) => {
+    // clear AI highlights on manual selection
+    setSuggestedDependentId(null);
+    setSuggestedMainId(null);
     setGeneralInfo((prev) => ({
       ...prev,
       createInstance: {
@@ -175,6 +188,21 @@ function General({
       },
     }));
   }, []);
+
+  // helper to clone elements and add suggested class when id matches
+  function highlightElements(elements: any[], id: number | null) {
+    if (!id) return elements;
+    return elements.map((el) => {
+      try {
+        if (el && el.props && el.props.id === String(id)) {
+          const existing = el.props.className || "";
+          const newClass = [existing, styles.suggested].filter(Boolean).join(" ");
+          return cloneElement(el, { className: newClass });
+        }
+      } catch (e) {}
+      return el;
+    });
+  }
 
   const suggestedPriceMap = useMemo(() => {
     const map = new Map();
@@ -245,21 +273,81 @@ function General({
     }
     return null;
   }
-  async function getSecondaryCategory(categoryId: number, dependId?: number, brandId?: number) {
+  async function handleGetSuggestedCategory(productId: number) {
+    setCategoryLoading(true);
     try {
-      const res = await clientFetchApi<boolean, IProduct_SecondaryCategory>(
-        "shopper" + "" + "/Product/GetSeconderyCategoryList",
+      const res = await clientFetchApi<boolean, { categoryId: number; subCategoryId: number | null }>(
+        "shopper/Product/GetSuggestedCategory",
         {
           methodType: MethodType.get,
           session: session,
           data: null,
-          queries: [
-            { key: "language", value: "1" },
-            { key: "categoryId", value: categoryId.toString() },
-          ],
+          queries: [{ key: "productId", value: productId.toString() }],
           onUploadProgress: undefined,
         },
       );
+      if (res.succeeded && res.value) {
+        const categoryId = res.value.categoryId;
+        const subCategoryId = res.value.subCategoryId ?? null;
+        setSuggestedMainId(categoryId);
+        setSuggestedDependentId(subCategoryId);
+        // update main category elements to show path
+        const catInfos = findIdPathWithIndexAndSiblingsInArray(generalInfo.mainCategory, categoryId);
+        if (catInfos) {
+          setmainCategoryElements(() => {
+            const newArrayState: { element: any[]; selectIndex: number }[] = [];
+            for (let info of catInfos) {
+              const tempArray = [
+                <div className={styles.namesection} id={`notfind${info.id}`}>
+                  <div>{t(LanguageKey.Pleaseselect)}</div>
+                </div>,
+              ];
+              for (let sibling of info.siblings) {
+                tempArray.push(
+                  <div className={`${styles.namesection} translate`} id={sibling.id.toString()}>
+                    <div className={styles.nameenglish}>{sibling.name}</div>
+                    <div className={styles.namepersian}>{sibling.langValue}</div>
+                  </div>,
+                );
+              }
+              newArrayState.push({ element: tempArray, selectIndex: info.index + 1 });
+            }
+            return newArrayState;
+          });
+          setCurrentIndex(catInfos.length - 1);
+          setGeneralInfo((prev) => ({
+            ...prev,
+            createInstance: {
+              ...prev.createInstance,
+              categoryId: categoryId,
+              subcategoryId: subCategoryId,
+            },
+          }));
+          await getSecondaryCategory(categoryId, subCategoryId ?? undefined, undefined);
+        } else {
+          notify(ResponseType.Unexpected, NotifType.Warning);
+        }
+      } else if (res.info) {
+        notify(res.info.responseType, NotifType.Warning);
+      }
+    } catch (error) {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    } finally {
+      setCategoryLoading(false);
+    }
+  }
+  async function getSecondaryCategory(categoryId: number, dependId?: number, brandId?: number) {
+    try {
+      const res = await clientFetchApi<boolean, IProduct_SecondaryCategory>("/api/product/getSeconderyCategoryList", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
+          { key: "language", value: "1" },
+          { key: "categoryId", value: categoryId.toString() },
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         setDependentCategoryElemets({ element: [], selectIndex: 0 });
         setBrandCategoryElements({ element: [], selectIndex: 0 });
@@ -533,6 +621,7 @@ function General({
                         src="/tooltip.svg"
                       />
                     </Tooltip>
+                    <AIButton onClick={() => handleGetSuggestedCategory(productId)} />
                   </div>
                   <div className="headerparent">
                     <div
@@ -597,6 +686,11 @@ function General({
             <div className="headerandinput">
               <div className="title">{t(LanguageKey.product_Categories)}</div>
               <div className={styles.Category}>
+                {categoryLoading && (
+                  <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
+                    <Loading />
+                  </div>
+                )}
                 {mainCategoryElements.map((v, i) => {
                   const categoryLevels = [
                     t(LanguageKey.product_MainCategory),
@@ -619,7 +713,7 @@ function General({
 
                       {/* Using the appropriate name for each depth level */}
                       <DragDrop
-                        data={v.element}
+                        data={highlightElements(v.element, suggestedMainId)}
                         handleOptionSelect={(id) => handlecategoryselect(id, i)}
                         item={v.selectIndex}
                         resetItemValue={currentIndex < i}
@@ -638,7 +732,7 @@ function General({
                     }}>
                     <div className="headertext">{t(LanguageKey.product_Dependency)}</div>
                     <DragDrop
-                      data={dependentCategoryElements.element}
+                      data={highlightElements(dependentCategoryElements.element, suggestedDependentId)}
                       handleOptionSelect={handleDependencySelect}
                       item={dependentCategoryElements.selectIndex}
                     />
