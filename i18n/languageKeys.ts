@@ -110,6 +110,11 @@ export enum LanguageKey {
   total = "total",
   Unknown = "Unknown",
   close = "close",
+  installPromptMessage = "installPromptMessage",
+  install = "install",
+  installStep1 = "installStep1",
+  installStep2 = "installStep2",
+  installStep3 = "installStep3",
   closed = "closed",
 
   admin = "admin",

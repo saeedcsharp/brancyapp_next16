@@ -311,6 +311,11 @@ export default {
     footer_ProductUpdates: "Dernières mises à jour",
     footer_Articles: "Articles",
     footer_LatestNews: "Dernières nouvelles",
+    installPromptMessage: "Installer l'application web Brancy",
+    install: "Installer",
+    installStep1: "Appuyez sur le bouton de partage en bas.",
+    installStep2: "Faites défiler le menu vers le haut et choisissez 'Add to Home Screen'.",
+    installStep3: "Appuyez sur 'Add' en haut de l'écran.",
 
     joinUs_subtitle: "Rejoignez Brancy; Là Où L'Innovation Et Un Avenir Durable Prennent Forme.",
     joinUs_whyWorkWithUs: "Pourquoi Brancy?",
