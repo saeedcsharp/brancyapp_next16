@@ -39,22 +39,9 @@ function General({
   toggleNext: boolean;
   upadteCteateFromgeneral: (general: IGeneralInfo) => void;
 }) {
-  //#endregion
-
-  //#region Hooks اولیه (Session و Translation)
-  // گرفتن سشن کاربر برای استفاده در درخواست‌های API و
-  // گرفتن تابع ترجمه برای چندزبانه بودن متن‌ها.
   const { data: session } = useSession();
-  const { t } = useTranslation();
-  //#endregion
-
-  //#region State: وضعیت لودینگ صفحه
   const [loading, setLoading] = useState<boolean>(true);
-  //#endregion
-
-  //#region State: عناصر اولیه دراپ‌داون دسته‌بندی اصلی (Main Category)
-  // مقدار اولیه‌ای که در دراپ‌داون دسته‌بندی اصلی نمایش داده می‌شود
-  // (مثلاً گزینه "لطفاً انتخاب کنید").
+  const { t } = useTranslation();
   const initialMainCategoryElements = useMemo(
     () => [
       <div id="0">
@@ -66,9 +53,6 @@ function General({
   const [mainCategoryElements, setmainCategoryElements] = useState([
     { element: initialMainCategoryElements, selectIndex: 0 },
   ]);
-  //#endregion
-
-  //#region State: عناصر اولیه دراپ‌داون برند (Brand Category)
   const initialBrandCategoryElement = useMemo(
     () => (
       <div id="0">
@@ -81,9 +65,6 @@ function General({
     element: [initialBrandCategoryElement],
     selectIndex: 0,
   });
-  //#endregion
-
-  //#region State: عناصر اولیه دراپ‌داون دسته‌بندی وابسته (Dependent Category)
   const initialDependentElement = useMemo(
     () => (
       <div id="0">
@@ -96,12 +77,6 @@ function General({
     element: [initialDependentElement],
     selectIndex: 0,
   });
-  //#endregion
-
-  //#region State: متغیرهای کنترلی فرم
-  // currentIndex: سطح فعلی دسته‌بندی که کاربر در حال انتخاب آن است.
-  // enableNext: مشخص می‌کند آیا دکمه "بعدی" فعال شود یا نه.
-  // hasNotif: مشخص می‌کند آیا باید فیلدهای خالی با حاشیه قرمز نمایش داده شوند.
   const [currentIndex, setCurrentIndex] = useState(0);
   const [enableNext, setEnableNext] = useState(false);
   const [hasNotif, setHasNotif] = useState(false);
@@ -120,10 +95,6 @@ function General({
     secondaryCategory: { brandCategories: [], dependentCategories: [] },
     suggestionKey: suggestedPrice.length > 0 ? suggestedPrice[0].key : null,
   });
-  //#endregion
-
-  //#region State و Effect: تولتیپ عنوان سفارشی (Custom Title Tooltip)
-  // مدیریت نمایش/مخفی شدن باکس پیشنهاد عنوان و بستن آن با کلیک بیرون از باکس.
   const [showCustomTitleTooltip, setShowCustomTitleTooltip] = useState(false);
   const customTitleRef = useRef<HTMLDivElement>(null);
   useEffect(() => {
@@ -139,13 +110,6 @@ function General({
       document.removeEventListener("mousedown", handleClickOutside);
     };
   }, [showCustomTitleTooltip]);
-  //#endregion
-
-  //#region Handler: انتخاب دسته‌بندی اصلی (handlecategoryselect)
-  // این تابع زمانی اجرا می‌شود که کاربر یک گزینه از دراپ‌داون دسته‌بندی
-  // (در هر سطحی) انتخاب می‌کند. وظیفه آن:
-  // ۱) مدیریت سطوح بعدی دسته‌بندی (اضافه/حذف سطح جدید)
-  // ۲) فراخوانی دسته‌بندی فرعی در صورت رسیدن به آخرین سطح
   const handlecategoryselect = useCallback(
     (id: any, index: number) => {
       // clear AI highlights on manual selection
@@ -201,10 +165,6 @@ function General({
     },
     [generalInfo.mainCategory, mainCategoryElements, t],
   );
-  //#endregion
-
-  //#region Handler: انتخاب برند (handleBrandselect)
-  // مقدار brandId را در state اصلی به‌روزرسانی می‌کند.
   const handleBrandselect = useCallback((id: any) => {
     // clear AI highlights on manual selection
     setSuggestedMainId(null);
@@ -217,10 +177,6 @@ function General({
       },
     }));
   }, []);
-  //#endregion
-
-  //#region Handler: انتخاب دسته‌بندی وابسته (handleDependencySelect)
-  // مقدار subcategoryId را در state اصلی به‌روزرسانی می‌کند.
   const handleDependencySelect = useCallback((id: any) => {
     // clear AI highlights on manual selection
     setSuggestedDependentId(null);
@@ -249,10 +205,6 @@ function General({
     });
   }
 
-  //#region Handler: عنوان‌های پیشنهادی (Suggested Title)
-  // suggestedPriceMap: یک Map از کلید به عنوان برای دسترسی سریع‌تر.
-  // handleSelectTitle: زمانی که کاربر یکی از عنوان‌های پیشنهادی را انتخاب می‌کند
-  // یا حالت "عنوان دلخواه (custom)" را انتخاب می‌کند، این تابع اجرا می‌شود.
   const suggestedPriceMap = useMemo(() => {
     const map = new Map();
     suggestedPrice.forEach((item) => map.set(item.key, item.title));
@@ -272,11 +224,7 @@ function General({
     },
     [suggestedPriceMap],
   );
-  //#endregion
 
-  //#region Helper: جستجوی دسته‌بندی بر اساس آیدی (findCategoryById)
-  // به صورت بازگشتی در درخت دسته‌بندی‌ها (mainCategory) جستجو کرده و
-  // دسته‌بندی‌ای با آیدی موردنظر را برمی‌گرداند.
   function findCategoryById(mainCat: IProduct_MainCategory[], targetId: number): IProduct_MainCategory | undefined {
     for (const category of mainCat) {
       if (category.id == targetId) {
@@ -291,12 +239,6 @@ function General({
     }
     return undefined;
   }
-  //#endregion
-
-  //#region Helper: یافتن مسیر کامل یک دسته‌بندی در آرایه اصلی (findIdPathWithIndexAndSiblingsInArray)
-  // برای زمانی که اطلاعات قبلی محصول وجود دارد (ویرایش محصول)، این تابع
-  // مسیر کامل از ریشه تا دسته‌بندی هدف را به همراه ایندکس و خواهر و برادرهای
-  // (siblings) هر سطح برمی‌گرداند تا دراپ‌داون‌های هر سطح به درستی پر شوند.
   function findIdPathWithIndexAndSiblingsInArray(
     categories: IProduct_MainCategory[],
     targetId: number,
@@ -313,11 +255,6 @@ function General({
     }
     return null;
   }
-  //#endregion
-
-  //#region Helper: یافتن مسیر در زیرشاخه‌های یک دسته‌بندی (findIdPathWithIndexAndSiblingsInCategory)
-  // نسخه کمکی تابع بالا که به صورت بازگشتی روی فرزندان (children) یک
-  // دسته‌بندی خاص حرکت می‌کند.
   function findIdPathWithIndexAndSiblingsInCategory(
     category: IProduct_MainCategory,
     targetId: number,
@@ -477,12 +414,6 @@ function General({
       notify(ResponseType.Unexpected, NotifType.Error);
     }
   }
-  //#endregion
-
-  //#region Handler: بازسازی فرم از اطلاعات موجود (handleExistedGeneralInfo)
-  // وقتی محصول از قبل اطلاعات دارد (حالت ویرایش)، این تابع state اصلی را
-  // با اطلاعات موجود پر می‌کند و دراپ‌داون‌های دسته‌بندی را بر اساس
-  // مسیر ذخیره‌شده، مرحله به مرحله بازسازی می‌کند.
   const handleExistedGeneralInfo = useCallback(
     (generalInfoParam: IGeneralInfo) => {
       setGeneralInfo(generalInfoParam);
@@ -535,13 +466,6 @@ function General({
     },
     [t],
   );
-  //#endregion
-
-  //#region Data Fetching: دریافت اطلاعات اولیه صفحه (fetchData)
-  // اگر اطلاعات قبلی (info) وجود داشته باشد، از همان استفاده می‌کند (حالت ویرایش).
-  // در غیر این صورت، لیست دسته‌بندی اصلی (GetMainCategoryList) و آخرین
-  // دسته‌بندی استفاده‌شده توسط کاربر (GetLastCategory) را همزمان از سرور
-  // می‌گیرد و دراپ‌داون‌ها را بر همان اساس می‌سازد.
   const fetchData = useCallback(async () => {
     if (info) {
       handleExistedGeneralInfo(info);
@@ -621,21 +545,9 @@ function General({
       notify(ResponseType.Unexpected, NotifType.Error);
     }
   }, [session, info, handleExistedGeneralInfo, t]);
-  //#endregion
-
-  //#region Effect: فراخوانی fetchData در زمان بارگذاری و تغییر sessione
-  // این افکت‌ها مسئول اجرای fetchData هستند: یکی هنگام تغییر session/fetchData
-  // و دیگری به صورت مجزا فقط با تغییر session (برای اطمینان بیشتر).
   useEffect(() => {
     fetchData();
   }, [session, fetchData]);
-
-  useEffect(() => {
-    fetchData();
-  }, [session]);
-  //#endregion
-
-  //#region Memo: لیست عنوان‌های پیشنهادی برای نمایش در تولتیپ (titleList)
   const titleList = useMemo(() => {
     return suggestedPrice.map((p) => (
       <div key={p.key} id={p.key}>
@@ -643,9 +555,6 @@ function General({
       </div>
     ));
   }, [suggestedPrice]);
-  //#endregion
-
-  //#region Handler: تغییر دستی عنوان توسط کاربر (handleInputChange)
   const handleInputChange = useCallback((e: { target: { value: any } }) => {
     const value = e.target.value;
     setGeneralInfo((prev) => ({
@@ -653,24 +562,15 @@ function General({
       createInstance: { ...prev.createInstance, title: value },
     }));
   }, []);
-  //#endregion
-
-  //#region Helper: تعیین آیتم انتخاب‌شده اولیه در لیست عنوان‌ها (handleSelectFirstTitleIndex)
-  // مشخص می‌کند کدام آیتم در لیست عنوان‌های پیشنهادی باید به صورت
-  // پیش‌فرض انتخاب‌شده نمایش داده شود (در صورت استفاده در UI).
   function handleSelectFirstTitleIndex() {
     const index = suggestedPrice.findIndex((x) => x.title === generalInfo.createInstance.title);
     if (index !== -1) return index + 1;
     else if (index === -1 && generalInfo.createInstance.title) return 0;
     else if (index === -1 && !generalInfo.createInstance.title) return 1;
   }
-  //#endregion
-
-  //#region Effect: اعتبارسنجی و ارسال اطلاعات به والد هنگام کلیک روی "بعدی" (toggleNext)
-  // هرگاه مقدار toggleNext از کامپوننت والد تغییر کند (یعنی کاربر دکمه
-  // بعدی را زده)، اگر فرم معتبر باشد (enableNext و عنوان پر شده باشد)
-  // اطلاعات به والد ارسال می‌شود؛ در غیر این صورت پیام خطا و حاشیه قرمز
-  // برای فیلدهای خالی نمایش داده می‌شود.
+  useEffect(() => {
+    fetchData();
+  }, [session]);
   useEffect(() => {
     if (loading) return;
     if (enableNext && generalInfo.createInstance.title) {
@@ -680,21 +580,15 @@ function General({
       internalNotify(InternalResponseType.FillRedBorderFields, NotifType.Warning);
     }
   }, [toggleNext]);
-  //#endregion
-
-  //#region Render: خروجی JSX کامپوننت
   return (
     <>
-      {/* در صورت در حال بارگذاری بودن داده‌ها، اسپینر لودینگ نمایش داده می‌شود */}
       {loading && <Loading />}
       {!loading && (
         <>
           <div className={styles.general}>
-            {/* #region بخش: شناسه و عنوان محصول */}
             <div className="headerandinput">
               <div className="title">{t(LanguageKey.product_BasicDetail)}</div>
               <div className="headerparent">
-                {/* نمایش شناسه (Product ID) به صورت فقط خواندنی */}
                 <div className="headerandinput" style={{ maxWidth: "150px", minWidth: "100px" }}>
                   <div className="headertext">{t(LanguageKey.product_ProductID)} (PID) </div>
                   <InputText
@@ -710,7 +604,6 @@ function General({
                     value={hashProductId(productId)}
                   />
                 </div>
-                {/* فیلد ورودی عنوان محصول به همراه تولتیپ راهنما و لیست عنوان‌های پیشنهادی */}
                 <div className="headerandinput">
                   <div className="headertext">
                     {t(LanguageKey.product_Producttitle)}
@@ -734,7 +627,6 @@ function General({
                       onClick={() => setShowCustomTitleTooltip(true)}>
                       <InputText
                         name=""
-                        dangerOnEmpty
                         className={
                           generalInfo.createInstance.title.length === 0 && hasNotif ? "danger" : "textinputbox"
                         }
@@ -743,7 +635,6 @@ function General({
                         value={generalInfo.createInstance.title}
                         maxLength={200}
                       />
-                      {/* باکس کشویی نمایش لیست عنوان‌های پیشنهادی برای انتخاب سریع */}
                       {showCustomTitleTooltip && (
                         <div className={styles.customtitletooltip}>
                           {titleList.map((item, idx) => (
@@ -761,7 +652,6 @@ function General({
                         </div>
                       )}
                     </div>
-                    {/* دکمه کپی/پیست عنوان از کلیپ‌بورد */}
                     <img
                       style={{
                         cursor: "pointer",
@@ -790,9 +680,6 @@ function General({
                 </div>
               </div>
             </div>
-            {/* #endregion بخش: شناسه و عنوان محصول */}
-
-            {/* #region بخش: دسته‌بندی‌ها (Categories) و برند */}
             <div className="headerandinput">
               <div className="headerparant"></div>
               <div className="title">{t(LanguageKey.product_Categories)}</div>
@@ -835,7 +722,6 @@ function General({
                   );
                 })}
                 {enableNext && <div style={{ display: "none" }}></div>}
-                {/* دراپ‌داون دسته‌بندی وابسته، فقط وقتی گزینه‌ای موجود باشد نمایش داده می‌شود */}
                 {dependentCategoryElements.element.length > 1 && enableNext && (
                   <div
                     className="headerandinput"
@@ -852,7 +738,6 @@ function General({
                   </div>
                 )}
               </div>
-              {/* دراپ‌داون انتخاب برند، فقط وقتی گزینه‌ای موجود باشد نمایش داده می‌شود */}
               <div className={styles.brand}>
                 {brandCategoryElements.element.length > 1 && enableNext && (
                   <div className="headerandinput">
@@ -867,14 +752,11 @@ function General({
                 )}
               </div>
             </div>
-            {/* #endregion بخش: دسته‌بندی‌ها (Categories) و برند */}
           </div>
         </>
       )}
     </>
   );
-  //#endregion
 }
 
 export default General;
-//#endregion
