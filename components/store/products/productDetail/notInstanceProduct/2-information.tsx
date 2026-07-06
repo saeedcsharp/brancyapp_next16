@@ -7,9 +7,7 @@ import { LanguageKey } from "brancy/i18n";
 import CustomTable from "brancy/components/store/products/productDetail/popups/customtable";
 import styles from "./2-information.module.css";
 import { IProduct_Information } from "brancy/models/interfaces";
-
 const ReactQuill = dynamic(() => import("react-quill-ver2"), { ssr: false });
-
 export default function Information({
   data,
   upadteCteateFromInformation,
@@ -72,7 +70,6 @@ export default function Information({
       ["clean"],
     ],
   };
-
   useEffect(() => {
     if (loading) {
       setLoading(false);
@@ -92,19 +89,16 @@ export default function Information({
       toggleNext.isNext,
     );
   }, [toggleNext.toggle]);
-
   const handleInsertTable = (html: string, tableTitle: string) => {
     setTableHtml(html);
     setTableTitle(tableTitle);
     console.log("create table", html);
     console.log("create title table", tableTitle);
   };
-
   const handleDeleteTable = () => {
     setTableHtml("");
     console.log("جدول حذف شد");
   };
-
   return (
     <>
       <div className={styles.information}>
@@ -170,7 +164,6 @@ export default function Information({
           </div>
         </div>
       </div>
-
       {showTableModal && (
         <CustomTable
           onClose={() => setShowTableModal(false)}
@@ -179,7 +172,6 @@ export default function Information({
           initialTableTitle={tableTitle}
         />
       )}
-
       {showPreviewModal && (
         <>
           <div className="dialogBg" onClick={() => setShowPreviewModal(false)} />
@@ -201,7 +193,6 @@ export default function Information({
               title="ℹ️ close"
               src="/close-box.svg"
             />
-
             {tableHtml && <div className={styles.tablePreview} dangerouslySetInnerHTML={{ __html: tableHtml }} />}
           </div>
         </>
