@@ -204,7 +204,7 @@ export default function CardAddress({
           onUploadProgress: undefined,
         });
         if (res.succeeded)
-          window.location.href = `https://${redirectHostUrl}/redirectInterface?redirectUrl=${encodeURIComponent(res.value)}`;
+          window.location.href = `https://${redirectHostUrl()}/redirectInterface?redirectUrl=${encodeURIComponent(res.value)}`;
         else {
           notify(res.info.responseType, NotifType.Warning);
           dispatch({ type: "SET_LOADING_CREATE_ORDER", payload: false });

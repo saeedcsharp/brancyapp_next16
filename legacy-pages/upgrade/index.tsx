@@ -226,7 +226,7 @@ const Upgrade = memo(function Upgrade() {
           if (host.includes(redirectHostUrl())) {
             router.push(res.value);
           } else {
-            window.location.href = `https://${redirectHostUrl}/redirectInterface?redirectUrl=${encodeURIComponent(res.value)}`;
+            window.location.href = `https://${redirectHostUrl()}/redirectInterface?redirectUrl=${encodeURIComponent(res.value)}`;
           }
         }
       } catch (error) {
@@ -249,7 +249,7 @@ const Upgrade = memo(function Upgrade() {
           if (host.includes(redirectHostUrl())) {
             router.push(res.value);
           } else {
-            window.location.href = `https://${redirectHostUrl}/redirectInterface?redirectUrl=${encodeURIComponent(res.value)}`;
+            window.location.href = `https://${redirectHostUrl()}/redirectInterface?redirectUrl=${encodeURIComponent(res.value)}`;
           }
         } else notify(res.info.responseType, NotifType.Warning);
       } catch (error) {

@@ -180,7 +180,7 @@ function SwitchAccount(props: { removeMask: () => void }) {
         if (host.includes(redirectHostUrl())) {
           router.push(response.value);
         } else {
-          window.location.href = `https://${redirectHostUrl}/redirectInterface?redirectUrl=${encodeURIComponent(response.value)}`;
+          window.location.href = `https://${redirectHostUrl()}/redirectInterface?redirectUrl=${encodeURIComponent(response.value)}`;
         }
       } else {
         notify(response.info.responseType, NotifType.Warning);
