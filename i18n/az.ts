@@ -310,6 +310,11 @@ export default {
     footer_ProductUpdates: "Ən son yeniliklər",
     footer_Articles: "Məqalələr",
     footer_LatestNews: "Ən son xəbərlər",
+    installPromptMessage: "Brancy veb tətbiqini quraşdırın",
+    install: "Quraşdır",
+    installStep1: "Aşağıdaki paylaşım düyməsinə toxunun.",
+    installStep2: "Açılan menyunu yuxarı sürüşdürün və 'Add to Home Screen' seçin.",
+    installStep3: "Ekranın yuxarısında 'Add' düyməsini seçin.",
     joinUs_subtitle: "Brancy'ə Qoşulun; İnnovasiya Və Davamlı Gələcək Burada Formalaşır.",
     joinUs_whyWorkWithUs: "Niyə Brancy?",
     joinUs_whyWorkWithUsDescription:

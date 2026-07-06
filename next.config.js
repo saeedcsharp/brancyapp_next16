@@ -67,6 +67,7 @@ const withPWA = require("next-pwa")({
 
 /** @type {import('next').NextConfig} */
 module.exports = withPWA({
+  allowedDevOrigins: ["192.168.43.103"],
   output: "standalone",
   reactStrictMode: true,
   productionBrowserSourceMaps: true, // Enable source maps in production

@@ -304,6 +304,11 @@ export default {
     footer_ProductUpdates: "أحدث التحديثات",
     footer_Articles: "مقالات",
     footer_LatestNews: "آخر الأخبار",
+    installPromptMessage: "تثبيت تطبيق Brancy على الويب",
+    install: "تثبيت",
+    installStep1: "اضغط زر المشاركة في شريط الأسفل.",
+    installStep2: "قم بتمرير القائمة المفتوحة للأعلى واختر 'Add to Home Screen'.",
+    installStep3: "اضغط 'Add' في أعلى الصفحة.",
     joinUs_subtitle: "انضم إلى برنسی؛ حيث تتشكل الابتكارات والمستقبل المستدام.",
     joinUs_whyWorkWithUs: "لماذا برنسی؟",
     joinUs_whyWorkWithUsDescription:

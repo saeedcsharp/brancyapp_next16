@@ -1,7 +1,4 @@
-//#region Imports
-import { useSession } from "next-auth/react";
-import { useCallback, useEffect, useMemo, useRef, useState, cloneElement } from "react";
-import { useTranslation } from "react-i18next";
+import AIButton from "brancy/components/design/ai/AIButton";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import InputText from "brancy/components/design/inputText";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
@@ -13,11 +10,10 @@ import {
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
-import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import styles from "./1-general.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { hashProductId } from "brancy/helper/hashProductId";
+import { LanguageKey } from "brancy/i18n";
 import {
   IGeneralInfo,
   ILastCategory,
@@ -26,10 +22,10 @@ import {
   ISuggestedCategory,
   ISuggestedPrice,
 } from "brancy/models/interfaces";
-import AIButton from "brancy/components/design/ai/AIButton";
-import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
-import { PsgFeatureType } from "brancy/models/enums";
-import router from "next/router";
+import { useSession } from "next-auth/react";
+import { cloneElement, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styles from "./1-general.module.css";
 function General({
   productId,
   suggestedPrice,
@@ -342,8 +338,6 @@ function General({
     return null;
   }
   async function handleGetSuggestedCategory(productId: number) {
-    const featureIsCheck = await fetchAndCheckFeature(PsgFeatureType.AI, session);
-    if (!featureIsCheck) router.push("/upgrade");
     setCategoryLoading(true);
     try {
       const res = await clientFetchApi<boolean, ISuggestedCategory>("/api/product/getSuggestedCategory", {

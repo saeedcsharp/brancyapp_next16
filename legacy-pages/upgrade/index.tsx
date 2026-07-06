@@ -4,7 +4,7 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import Loading from "brancy/components/notOk/loading";
 import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
 import { MethodType } from "brancy/helper/api";
-import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { getClientMediaBaseUrl, redirectHostUrl } from "brancy/helper/apiBaseUrl";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { RoleAccess } from "brancy/helper/loadingStatus";
 import { convertMillisecondsToDays, convertToMilliseconds } from "brancy/helper/manageTimer";
@@ -223,10 +223,10 @@ const Upgrade = memo(function Upgrade() {
           onUploadProgress: undefined,
         });
         if (res.succeeded) {
-          if (host.includes("patran.ir")) {
+          if (host.includes(redirectHostUrl())) {
             router.push(res.value);
           } else {
-            window.location.href = `https://patran.ir/redirectInterface?redirectUrl=${encodeURIComponent(res.value)}`;
+            window.location.href = `https://${redirectHostUrl()}/redirectInterface?redirectUrl=${encodeURIComponent(res.value)}`;
           }
         }
       } catch (error) {
@@ -246,10 +246,10 @@ const Upgrade = memo(function Upgrade() {
           onUploadProgress: undefined,
         });
         if (res.succeeded) {
-          if (host.includes("patran.ir")) {
+          if (host.includes(redirectHostUrl())) {
             router.push(res.value);
           } else {
-            window.location.href = `https://patran.ir/redirectInterface?redirectUrl=${encodeURIComponent(res.value)}`;
+            window.location.href = `https://${redirectHostUrl()}/redirectInterface?redirectUrl=${encodeURIComponent(res.value)}`;
           }
         } else notify(res.info.responseType, NotifType.Warning);
       } catch (error) {

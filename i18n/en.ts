@@ -287,6 +287,11 @@ export default {
     page8_SupportBTN: "We're Here to Help",
     footer_Brancy: "Brancy",
     footer_AboutUs: "About Us",
+    installPromptMessage: "Install the Brancy web app",
+    install: "Install",
+    installStep1: "Tap the share button in the bottom bar.",
+    installStep2: "Scroll the opened menu up and choose 'Add to Home Screen'.",
+    installStep3: "Tap 'Add' at the top of the screen.",
     // About Us Page
 
     aboutUs_pageTitle: "About Brancy",

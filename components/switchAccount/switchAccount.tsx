@@ -1,4 +1,4 @@
-import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { getClientMediaBaseUrl, redirectHostUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -177,10 +177,10 @@ function SwitchAccount(props: { removeMask: () => void }) {
         onUploadProgress: undefined,
       });
       if (response.succeeded) {
-        if (host.includes("patran.ir")) {
+        if (host.includes(redirectHostUrl())) {
           router.push(response.value);
         } else {
-          window.location.href = `https://patran.ir/redirectInterface?redirectUrl=${encodeURIComponent(response.value)}`;
+          window.location.href = `https://${redirectHostUrl()}/redirectInterface?redirectUrl=${encodeURIComponent(response.value)}`;
         }
       } else {
         notify(response.info.responseType, NotifType.Warning);
