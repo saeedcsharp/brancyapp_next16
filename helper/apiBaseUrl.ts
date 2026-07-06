@@ -111,3 +111,6 @@ export function getClientGraphBaseUrl(): string {
 export function supportsDirectCalls(): boolean {
   return clientIsIr() || clientIsLocal();
 }
+export function redirectHostUrl() {
+  return "patran.ir";
+}
