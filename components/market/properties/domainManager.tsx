@@ -183,19 +183,12 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                   <div className="headerandinput">
                     <div className="title2">
                       <span>{t(LanguageKey.marketProperties_defaultAddress)}</span>
-                      <Tooltip tooltipValue={t(LanguageKey.marketProperties_explain)} position="bottom" onClick={true}>
-                        <img
-                          loading="lazy"
-                          decoding="async"
-                          style={{
-                            marginInline: "5px",
-                            cursor: "pointer",
-                            width: "15px",
-                            height: "15px",
-                          }}
-                          src="/attention.svg"
-                        />
-                      </Tooltip>
+                      <Tooltip
+                        triggerType="attention"
+                        tooltipValue={t(LanguageKey.marketProperties_explain)}
+                        position="bottom"
+                        onClick={true}
+                      />
                     </div>
                     <div className={`${styles.defaultaddress} translate`}>
                       <div
@@ -287,19 +280,7 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                           <div className="headerparent">
                             <div className={styles.defaultdomain}>
                               {customeDomain.pendingDomain.uri}{" "}
-                              <Tooltip tooltipValue={""} position="bottom" onClick={true}>
-                                <img
-                                  loading="lazy"
-                                  decoding="async"
-                                  style={{
-                                    marginInline: "5px",
-                                    cursor: "pointer",
-                                    width: "15px",
-                                    height: "15px",
-                                  }}
-                                  src="/attention.svg"
-                                />
-                              </Tooltip>
+                              <Tooltip triggerType="attention" tooltipValue={""} position="bottom" onClick={true} />
                             </div>
                             {verifyCooldownUntil > Date.now() / 1000 && (
                               <CounterDownNotRing
@@ -355,19 +336,7 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                           <div className="headerparent">
                             <div className={styles.defaultdomain}>
                               {customeDomain.pendingDomain.uri}{" "}
-                              <Tooltip tooltipValue={""} position="bottom" onClick={true}>
-                                <img
-                                  loading="lazy"
-                                  decoding="async"
-                                  style={{
-                                    marginInline: "5px",
-                                    cursor: "pointer",
-                                    width: "15px",
-                                    height: "15px",
-                                  }}
-                                  src="/attention.svg"
-                                />
-                              </Tooltip>
+                              <Tooltip triggerType="tooltip" tooltipValue={""} position="bottom" onClick={true} />
                             </div>
 
                             <button
@@ -417,21 +386,11 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                             <div className={styles.defaultdomain}>
                               {customeDomain.acceptDomain.uri}
                               <Tooltip
+                                triggerType="tooltip"
                                 tooltipValue={t(LanguageKey.marketProperties_explain)}
                                 position="bottom"
-                                onClick={true}>
-                                <img
-                                  loading="lazy"
-                                  decoding="async"
-                                  style={{
-                                    marginInline: "5px",
-                                    cursor: "pointer",
-                                    width: "15px",
-                                    height: "15px",
-                                  }}
-                                  src="/attention.svg"
-                                />
-                              </Tooltip>
+                                onClick={true}
+                              />
                             </div>
                             <img
                               style={{

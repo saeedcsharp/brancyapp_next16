@@ -349,15 +349,12 @@ const AIPromptBox = ({
               </svg>
 
               <h1 className="title">{t(LanguageKey.AIAssisment)}</h1>
-              <Tooltip position="bottom" onHover tooltipValue={t(LanguageKey.AIAssismentexplain)}>
-                <img
-                  style={{ cursor: "pointer", width: "15px" }}
-                  alt="Information"
-                  src="/tooltip.svg"
-                  role="img"
-                  aria-label="AI Assisment Information"
-                />
-              </Tooltip>
+              <Tooltip
+                triggerType="tooltip"
+                position="bottom"
+                onHover
+                tooltipValue={t(LanguageKey.AIAssismentexplain)}
+              />
             </div>
 
             {!isWideScreen && (
@@ -450,15 +447,12 @@ const AIPromptBox = ({
                           }}
                         />
                       </div>
-                      <Tooltip position="bottom" onHover tooltipValue={t(LanguageKey.promptanalysisexplain)}>
-                        <img
-                          style={{ cursor: "pointer", width: "15px" }}
-                          alt="Information"
-                          src="/tooltip.svg"
-                          role="img"
-                          aria-label="Prompt Analysis Information"
-                        />
-                      </Tooltip>
+                      <Tooltip
+                        triggerType="tooltip"
+                        position="bottom"
+                        onHover
+                        tooltipValue={t(LanguageKey.promptanalysisexplain)}
+                      />
                     </fieldset>
                   </div>
                   <div className={styles.promptModecontent}>

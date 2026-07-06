@@ -234,20 +234,11 @@ export default function LotteryPopup({
                 {t(LanguageKey.pageTools_WinnerPicker)}
 
                 <Tooltip
+                  triggerType="tooltip"
                   tooltipValue={t(LanguageKey.pageTools_WinnerPickertooltip24hour)}
                   position="bottom"
-                  onClick={true}>
-                  <img
-                    style={{
-                      marginInline: "5px",
-                      cursor: "pointer",
-                      width: "15px",
-                      height: "15px",
-                    }}
-                    alt="ℹ️ tooltip"
-                    src="/tooltip.svg"
-                  />
-                </Tooltip>
+                  onClick={true}
+                />
               </div>
               <div className="explain"> {t(LanguageKey.pageTools_exportcomments)}</div>
             </div>
@@ -256,18 +247,12 @@ export default function LotteryPopup({
               <div className="headerparent">
                 <div className="title2">
                   {t(LanguageKey.specifickeywords)}
-                  <Tooltip tooltipValue={t(LanguageKey.specifickeywordstooltip)} position="bottom" onClick={true}>
-                    <img
-                      style={{
-                        marginInline: "5px",
-                        cursor: "pointer",
-                        width: "15px",
-                        height: "15px",
-                      }}
-                      alt="ℹ️ tooltip"
-                      src="/tooltip.svg"
-                    />
-                  </Tooltip>
+                  <Tooltip
+                    triggerType="tooltip"
+                    tooltipValue={t(LanguageKey.specifickeywordstooltip)}
+                    position="bottom"
+                    onClick={true}
+                  />
                 </div>
                 <ToggleCheckBoxButton
                   handleToggle={handleToggleFilter}
@@ -328,20 +313,11 @@ export default function LotteryPopup({
                   {t(LanguageKey.pageLottery_RandomFollowersWinners)}
 
                   <Tooltip
+                    triggerType="tooltip"
                     tooltipValue={t(LanguageKey.pageLottery_permanentlinktooltip)}
                     position="bottom"
-                    onClick={true}>
-                    <img
-                      style={{
-                        marginInline: "5px",
-                        cursor: "pointer",
-                        width: "15px",
-                        height: "15px",
-                      }}
-                      alt="ℹ️ tooltip"
-                      src="/tooltip.svg"
-                    />
-                  </Tooltip>
+                    onClick={true}
+                  />
                 </div>
                 <div className="explain">{t(LanguageKey.pageLottery_permanentlinkexplain)}</div>
               </div>

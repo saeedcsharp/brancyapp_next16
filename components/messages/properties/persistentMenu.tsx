@@ -153,6 +153,9 @@ const PersistentMenu = React.memo(
               <div className="title">
                 {t(LanguageKey.activate)}
                 <Tooltip
+                  triggerType="tooltip"
+                  onClick={true}
+                  position="bottom"
                   tooltipValue={
                     <div>
                       <div className="headerparent" style={{ marginBottom: "10px" }}>
@@ -166,20 +169,7 @@ const PersistentMenu = React.memo(
                         src="/Persistent-Menu.png"
                       />
                     </div>
-                  }
-                  onClick={true}
-                  position="bottom">
-                  <img
-                    style={{
-                      marginInline: "5px",
-                      cursor: "pointer",
-                      width: "18px",
-                      height: "18px",
-                    }}
-                    title="ℹ️ tooltip"
-                    src="/tooltip.svg"
-                  />
-                </Tooltip>
+                  }></Tooltip>
               </div>
               <div className={isFading ? "fadeDiv" : ""}>
                 <ToggleCheckBoxButton

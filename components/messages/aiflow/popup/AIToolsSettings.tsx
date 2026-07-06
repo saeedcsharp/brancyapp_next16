@@ -246,15 +246,12 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
             <div className="headerparent">
               <div className="title2">
                 {t(LanguageKey.TokenUsage)}
-                <Tooltip position="bottom" onHover tooltipValue={t(LanguageKey.tool_token_usage_guide)}>
-                  <img
-                    style={{ cursor: "pointer", width: "15px" }}
-                    alt="Information"
-                    src="/tooltip.svg"
-                    role="img"
-                    aria-label="AI Assisment Information"
-                  />
-                </Tooltip>
+                <Tooltip
+                  triggerType="tooltip"
+                  position="bottom"
+                  onHover
+                  tooltipValue={t(LanguageKey.tool_token_usage_guide)}
+                />
               </div>
               <div className="IDblue" style={{ fontSize: "var(--font-14)" }}>
                 {item.tokenUsage}

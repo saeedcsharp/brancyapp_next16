@@ -97,18 +97,12 @@ export default function InformationInstance({
           <div className="headerparent">
             <div className="title">
               {t(LanguageKey.product_productDescription)}
-              <Tooltip tooltipValue={t(LanguageKey.product_Informationplaceholder)} position="bottom" onClick={true}>
-                <img
-                  style={{
-                    marginInline: "5px",
-                    cursor: "pointer",
-                    width: "15px",
-                    height: "15px",
-                  }}
-                  alt="ℹ️ tooltip"
-                  src="/tooltip.svg"
-                />
-              </Tooltip>
+              <Tooltip
+                triggerType="tooltip"
+                tooltipValue={t(LanguageKey.product_Informationplaceholder)}
+                position="bottom"
+                onClick={true}
+              />
             </div>
             <div className="counter" role="status" aria-label="description character count">
               <div className={styles.icon}>T</div>(

@@ -720,18 +720,12 @@ function Setting({
                 <div className="headerandinput">
                   <div className="headertext">
                     {t(LanguageKey.Product_packageshipping)}
-                    <Tooltip tooltipValue={t(LanguageKey.Product_packageshippingexplain)} position="top" onClick={true}>
-                      <img
-                        style={{
-                          marginInline: "5px",
-                          cursor: "pointer",
-                          width: "15px",
-                          height: "15px",
-                        }}
-                        title="ℹ️ tooltip"
-                        src="/tooltip.svg"
-                      />
-                    </Tooltip>
+                    <Tooltip
+                      triggerType="tooltip"
+                      tooltipValue={t(LanguageKey.Product_packageshippingexplain)}
+                      position="top"
+                      onClick={true}
+                    />
                   </div>
                   <DragDrop
                     data={deliveryTypes}
@@ -777,18 +771,12 @@ function Setting({
                           <div className="headerandinput">
                             <div className="headertext">
                               {t(LanguageKey.Product_sack)}
-                              <Tooltip tooltipValue={t(LanguageKey.Product_sackExplain)} position="top" onClick={true}>
-                                <img
-                                  style={{
-                                    marginInline: "5px",
-                                    cursor: "pointer",
-                                    width: "15px",
-                                    height: "15px",
-                                  }}
-                                  title="ℹ️ tooltip"
-                                  src="/tooltip.svg"
-                                />
-                              </Tooltip>
+                              <Tooltip
+                                triggerType="tooltip"
+                                tooltipValue={t(LanguageKey.Product_sackExplain)}
+                                position="top"
+                                onClick={true}
+                              />
                             </div>
                             <DragDrop
                               data={sackOptions}
@@ -800,20 +788,11 @@ function Setting({
                             <div className="headertext">
                               {t(LanguageKey.Product_Productweights)}
                               <Tooltip
+                                triggerType="tooltip"
                                 tooltipValue={t(LanguageKey.Product_Productweightsexplian)}
                                 position="top"
-                                onClick={true}>
-                                <img
-                                  style={{
-                                    marginInline: "5px",
-                                    cursor: "pointer",
-                                    width: "15px",
-                                    height: "15px",
-                                  }}
-                                  title="ℹ️ tooltip"
-                                  src="/tooltip.svg"
-                                />
-                              </Tooltip>
+                                onClick={true}
+                              />
                             </div>
                             {
                               <div className={styles.inputandsub}>
@@ -949,20 +928,11 @@ function Setting({
                         <div className="headertext">
                           {t(LanguageKey.Product_Productweights)}
                           <Tooltip
+                            triggerType="tooltip"
                             tooltipValue={t(LanguageKey.Product_Productweightsexplian)}
                             position="top"
-                            onClick={true}>
-                            <img
-                              style={{
-                                marginInline: "5px",
-                                cursor: "pointer",
-                                width: "15px",
-                                height: "15px",
-                              }}
-                              title="ℹ️ tooltip"
-                              src="/tooltip.svg"
-                            />
-                          </Tooltip>
+                            onClick={true}
+                          />
                         </div>
                         {
                           <div className={styles.inputandsub}>
@@ -986,20 +956,11 @@ function Setting({
                         <div className="headertext">
                           {t(LanguageKey.Storeorder_pocketenveloptitle)}
                           <Tooltip
+                            triggerType="tooltip"
                             tooltipValue={t(LanguageKey.Storeorder_pocketenveloptitleExplain)}
                             position="top"
-                            onClick={true}>
-                            <img
-                              style={{
-                                marginInline: "5px",
-                                cursor: "pointer",
-                                width: "15px",
-                                height: "15px",
-                              }}
-                              title="ℹ️ tooltip"
-                              src="/tooltip.svg"
-                            />
-                          </Tooltip>
+                            onClick={true}
+                          />
                         </div>
                         {
                           <div className={styles.inputandsub}>
