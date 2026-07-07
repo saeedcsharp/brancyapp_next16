@@ -125,7 +125,7 @@ export function ContextMenu() {
           <div className={s.contextMenuSubHeader}>
             <AIIcon size={12} /> AI Assistant
           </div>
-          {["Rewrite", "Continue Writing", "Summarize", "Translate", "Fix Grammar"].map((op) => (
+          {["Rewrite"].map((op) => (
             <button
               key={op}
               className={[s.contextMenuItem, s.contextMenuItemIndent].join(" ")}

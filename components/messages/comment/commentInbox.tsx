@@ -344,7 +344,7 @@ const CommentInbox = () => {
           productType: MediaProductType.Feed,
           searchTerm: query,
         };
-        let postComments = await clientFetchApi<IGetCommentBoxInfo, ICommetInbox>("Instagramer" + "/Comment/GetInbox", {
+        let postComments = await clientFetchApi<IGetCommentBoxInfo, ICommetInbox>("api/Comment/GetInbox", {
           methodType: MethodType.post,
           session: session,
           data: info,
@@ -396,7 +396,7 @@ const CommentInbox = () => {
           productType: MediaProductType.Live,
           searchTerm: query,
         };
-        let businessRes = await clientFetchApi<IGetCommentBoxInfo, ICommetInbox>("Instagramer" + "/Comment/GetInbox", {
+        let businessRes = await clientFetchApi<IGetCommentBoxInfo, ICommetInbox>("api/Comment/GetInbox", {
           methodType: MethodType.post,
           session: session,
           data: info,
@@ -433,7 +433,7 @@ const CommentInbox = () => {
       }
     } else if (ticketType === CommentType.Post && activeHideInbox) {
       try {
-        let hideFb = await clientFetchApi<boolean, ICommetInbox>("Instagramer" + "/Comment/GetInbox", {
+        let hideFb = await clientFetchApi<boolean, ICommetInbox>("api/Comment/GetInbox", {
           methodType: MethodType.post,
           session: session,
           data: undefined,
@@ -477,7 +477,7 @@ const CommentInbox = () => {
         productType: MediaProductType.Live,
         searchTerm: null,
       };
-      let postComments = await clientFetchApi<IGetCommentBoxInfo, ICommetInbox>("Instagramer" + "/Comment/GetInbox", {
+      let postComments = await clientFetchApi<IGetCommentBoxInfo, ICommetInbox>("api/Comment/GetInbox", {
         methodType: MethodType.post,
         session: session,
         data: info,
@@ -551,16 +551,13 @@ const CommentInbox = () => {
               searchInReplys: false,
               searchTerm: null,
             };
-            let newThread = await clientFetchApi<IGetMediaCommentInfo, IMedia>(
-              "Instagramer" + "/Comment/GetMediaComments",
-              {
-                methodType: MethodType.post,
-                session: session,
-                data: info,
-                queries: undefined,
-                onUploadProgress: undefined,
-              },
-            );
+            let newThread = await clientFetchApi<IGetMediaCommentInfo, IMedia>("api/Comment/GetMediaComments", {
+              methodType: MethodType.post,
+              session: session,
+              data: info,
+              queries: undefined,
+              onUploadProgress: undefined,
+            });
             if (newThread.succeeded) {
               setUserSelectedId(newThread.value.mediaId);
               setPostCommentInbox((prev) => ({
@@ -581,7 +578,7 @@ const CommentInbox = () => {
   };
   async function fetchHides() {
     try {
-      let res = await clientFetchApi<boolean, ICommetInbox>("Instagramer" + "/Comment/GetInbox", {
+      let res = await clientFetchApi<boolean, ICommetInbox>("api/Comment/GetInbox", {
         methodType: MethodType.post,
         session: session,
         data: undefined,
@@ -610,7 +607,7 @@ const CommentInbox = () => {
         searchInReplys: false,
         searchTerm: null,
       };
-      let newThread = await clientFetchApi<IGetMediaCommentInfo, IMedia>("Instagramer" + "/Comment/GetMediaComments", {
+      let newThread = await clientFetchApi<IGetMediaCommentInfo, IMedia>("api/Comment/GetMediaComments", {
         methodType: MethodType.post,
         session: session,
         data: info,
@@ -693,16 +690,13 @@ const CommentInbox = () => {
           searchInReplys: false,
           searchTerm: null,
         };
-        let newThread = await clientFetchApi<IGetMediaCommentInfo, IMedia>(
-          "Instagramer" + "/Comment/GetMediaComments",
-          {
-            methodType: MethodType.post,
-            session: session,
-            data: info,
-            queries: undefined,
-            onUploadProgress: undefined,
-          },
-        );
+        let newThread = await clientFetchApi<IGetMediaCommentInfo, IMedia>("api/Comment/GetMediaComments", {
+          methodType: MethodType.post,
+          session: session,
+          data: info,
+          queries: undefined,
+          onUploadProgress: undefined,
+        });
         console.log("newThreadFetch", newThread);
         if (newThread.succeeded) {
           if (
@@ -780,7 +774,7 @@ const CommentInbox = () => {
   }
   async function handleTurnOnCommenting(postId: number) {
     try {
-      const res = await clientFetchApi<boolean, boolean>("Instagramer" + "/post/ChangeCommentingStatus", {
+      const res = await clientFetchApi<boolean, boolean>("api/post/ChangeCommentingStatus", {
         methodType: MethodType.get,
         session: session,
         data: undefined,
@@ -1449,7 +1443,7 @@ const CommentInbox = () => {
   async function handleResumeFeedAutoReply(activeAutoReply: boolean, postId: number) {
     try {
       var res = await clientFetchApi<boolean, boolean>(
-        "Instagramer" + `/Post/${!activeAutoReply ? "PauseAutoReply" : "ResumeAutoReply"}`,
+        `api/Post/${!activeAutoReply ? "PauseAutoReply" : "ResumeAutoReply"}`,
         {
           methodType: MethodType.get,
           session: session,
@@ -1503,7 +1497,7 @@ const CommentInbox = () => {
   async function handleResumeLiveAutoReply(activeAutoReply: boolean, mediaId: string) {
     try {
       var res = await clientFetchApi<boolean, boolean>(
-        "Instagramer" + `/Comment/${!activeAutoReply ? "PauseLiveAutoReply" : "ResumeLiveAutoReply"}`,
+        `api/Comment/${!activeAutoReply ? "PauseLiveAutoReply" : "ResumeLiveAutoReply"}`,
         {
           methodType: MethodType.get,
           session: session,

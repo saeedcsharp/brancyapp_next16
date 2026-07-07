@@ -48,6 +48,7 @@ import {
   OutdentIcon,
 } from "../icons";
 import s from "../TextEditor.module.css";
+import RingLoader from "brancy/components/design/loader/ringLoder";
 
 interface FormatState {
   bold: boolean;
@@ -1122,12 +1123,20 @@ export function Toolbar() {
 
     setIsSendingAiPrompt(true);
     try {
-      await config.onAIRequest("write", prompt);
+      const result = await config.onAIRequest("write", prompt);
       setAiPrompt("");
+      if (result) {
+        const newBlock = {
+          id: generateId(),
+          type: "paragraph" as const,
+          content: [{ type: "text" as const, text: result }],
+        };
+        dispatch({ type: "INSERT_BLOCK", block: newBlock, afterId: state.activeBlockId ?? undefined });
+      }
     } finally {
       setIsSendingAiPrompt(false);
     }
-  }, [aiPrompt, config, isSendingAiPrompt]);
+  }, [aiPrompt, config, dispatch, isSendingAiPrompt, state.activeBlockId]);
 
   useLayoutEffect(() => {
     const el = aiPromptRef.current;
@@ -1167,7 +1176,7 @@ export function Toolbar() {
             type="button"
             onClick={() => void handleSendAiPrompt()}
             disabled={!aiPrompt.trim() || config.aiEnabled === false || !config.onAIRequest || isSendingAiPrompt}>
-            Send
+            {isSendingAiPrompt ? <RingLoader width={16} height={16} color="white" /> : "Send"}
           </button>
         </div>
       </div>

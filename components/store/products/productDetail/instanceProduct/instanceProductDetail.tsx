@@ -747,6 +747,8 @@ export default function InstanceProductDetail({
             info={information}
             toggleNext={toggleNextButton.information}
             upadteCteateFromInformation={upadteCteateFromInformation}
+            productId={fullProduct.productInstance.productId}
+            categoryId={fullProduct.productInstance.categoryId}
           />
         )}
         {currentStep === Steps.Properties && (

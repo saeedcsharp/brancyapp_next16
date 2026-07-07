@@ -1,6 +1,7 @@
 import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useSession } from "next-auth/react";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { handleCompress, handleDecompress } from "brancy/helper/pako";
 import { LanguageKey } from "brancy/i18n";
@@ -10,17 +11,25 @@ import { IProduct_Information } from "brancy/models/interfaces";
 import { importHTML, exportDocHTML } from "brancy/components/design/textEditor/utils/serializer";
 import type { EditorDoc } from "brancy/components/design/textEditor/types";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { MethodType } from "brancy/helper/api";
+import { notify, NotifType, ResponseType } from "brancy/components/notifications/notificationBox";
 const TextEditor = dynamic(() => import("brancy/components/design/textEditor/TextEditor"), { ssr: false });
 export default function Information({
   data,
   upadteCteateFromInformation,
   toggleNext,
+  productId,
+  categoryId,
 }: {
   data: IProduct_Information;
   toggleNext: { toggle: boolean; isNext: boolean };
   upadteCteateFromInformation: (info: IProduct_Information, isNext: boolean) => void;
+  productId: number;
+  categoryId: number;
 }) {
   const { t } = useTranslation();
+  const { data: session } = useSession();
   const [loading, setLoading] = useState<boolean>(true);
   const [description, setDescription] = useState(
     data.description !== "" ? JSON.parse(data.description).description : "",
@@ -104,6 +113,32 @@ export default function Information({
               autoSave: false,
               theme: "light",
               onChange: (doc: EditorDoc) => setDescription(exportDocHTML(doc)),
+              onAIRequest: async (op, content) => {
+                try {
+                  const res = await clientFetchApi<{ contentDescription: string }, string>(
+                    "/api/product/getSuggestedDescription",
+                    {
+                      methodType: MethodType.post,
+                      session: session,
+                      data: { contentDescription: content },
+                      queries: [
+                        { key: "productId", value: productId.toString() },
+                        { key: "categoryId", value: categoryId.toString() },
+                      ],
+                      onUploadProgress: undefined,
+                    },
+                  );
+                  if (res.succeeded) {
+                    return res.value ?? "";
+                  } else {
+                    notify(res.info.responseType, NotifType.Warning);
+                    return "";
+                  }
+                } catch {
+                  notify(ResponseType.Unexpected, NotifType.Error);
+                  return "";
+                }
+              },
             }}
           />
           <div className="headerandinput" style={{ marginTop: "10px" }}>

@@ -881,6 +881,8 @@ export default function NotInstanceProductDetail({
               upadteCteateFromInformation={upadteCteateFromInformation}
               toggleNext={toggleNextButton.information}
               data={information}
+              productId={createInstance.productId}
+              categoryId={createInstance.categoryId}
             />
           )}
           {currentStep === Steps.Properties && (
