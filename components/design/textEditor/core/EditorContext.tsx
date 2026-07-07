@@ -25,6 +25,7 @@ import {
   exportDocHTML,
   exportDocMarkdown,
   exportDocPlainText,
+  extractInlineNodes,
 } from "../utils/serializer";
 import { getBlockPlainText } from "../utils/textUtils";
 import { generateId } from "../utils/idGenerator";
@@ -491,7 +492,26 @@ export function EditorProvider({ children, config }: { children: React.ReactNode
   );
 
   const applyFormat = useCallback((command: string, value?: string) => {
-    if (typeof document !== "undefined") document.execCommand(command, false, value);
+    if (typeof document === "undefined") return;
+    // Capture the focused contenteditable BEFORE execCommand changes the selection.
+    const activeContentEditable = document.activeElement as HTMLElement | null;
+    document.execCommand(command, false, value);
+    // execCommand does not always fire the `input` event, so we manually
+    // dispatch it on the focused contenteditable. This covers list items and
+    // all other block types without needing blockRefs.
+    requestAnimationFrame(() => {
+      if (activeContentEditable && activeContentEditable.isContentEditable) {
+        activeContentEditable.dispatchEvent(new Event("input", { bubbles: true }));
+      } else {
+        // Fallback: read directly from blockRefs for simple blocks.
+        const activeId = stateRef.current.activeBlockId;
+        if (!activeId) return;
+        const el = blockRefs.current.get(activeId);
+        if (!el) return;
+        dispatch({ type: "SET_CONTENT", blockId: activeId, content: extractInlineNodes(el) });
+        if (stateRef.current.settings.autoSave) autoSaveRef.current?.trigger();
+      }
+    });
   }, []);
 
   const undo = useCallback(() => {

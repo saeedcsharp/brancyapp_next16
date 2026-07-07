@@ -143,7 +143,9 @@ export default function InformationInstance({
             className={`${styles.quillEditor} message`}
             theme="snow"
             value={description ? description : ""}
-            onChange={setDescription}
+            onChange={(e) => {
+              (console.log("text editor", e), setDescription);
+            }}
             modules={modules}
             placeholder={t(LanguageKey.product_Informationplaceholder)}
           />

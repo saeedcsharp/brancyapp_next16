@@ -274,6 +274,7 @@ export function Toolbar() {
     redo,
     canUndo,
     canRedo,
+    blockRefs,
   } = useEditor();
   const [formatState, setFormatState] = useState<FormatState>({
     bold: false,
@@ -855,7 +856,16 @@ export function Toolbar() {
           ? (range.commonAncestorContainer as HTMLElement)
           : range.commonAncestorContainer.parentElement;
       const blockEl = ancestor?.closest?.("[data-block-id]") as HTMLElement | null;
-      if (!blockEl) return;
+      const blockId = blockEl?.getAttribute("data-block-id");
+      if (!blockEl || !blockId) return;
+
+      // Find the specific contenteditable that holds the selection.
+      // This handles list items correctly (they don't appear in blockRefs).
+      const contentEditableEl = (
+        range.startContainer.nodeType === Node.ELEMENT_NODE
+          ? (range.startContainer as HTMLElement)
+          : range.startContainer.parentElement
+      )?.closest?.("[contenteditable]") as HTMLElement | null;
 
       if (!range.collapsed) {
         const wrapper = document.createElement("span");
@@ -877,9 +887,21 @@ export function Toolbar() {
         });
       }
 
-      blockEl.dispatchEvent(new Event("input", { bubbles: true }));
+      // Dispatch input on the actual contenteditable so React's onInput handler fires.
+      // Falls back to blockRefs for simple blocks if contenteditable isn't found via range.
+      requestAnimationFrame(() => {
+        if (contentEditableEl) {
+          contentEditableEl.dispatchEvent(new Event("input", { bubbles: true }));
+        } else {
+          const el = blockRefs.current.get(blockId);
+          if (el) {
+            dispatch({ type: "SET_CONTENT", blockId, content: extractInlineNodes(el) });
+            triggerAutoSave();
+          }
+        }
+      });
     },
-    [restoreSelection],
+    [restoreSelection, blockRefs, dispatch, triggerAutoSave],
   );
 
   const applyFontFamily = useCallback(

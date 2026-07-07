@@ -209,14 +209,59 @@ function EditorInner({ config }: { config: EditorConfig }) {
 interface TextEditorProps {
   config?: EditorConfig;
   className?: string;
+  value?: EditorDoc | string;
 }
 
-export default function TextEditor({ config = {}, className }: TextEditorProps) {
+function parseValue(value: EditorDoc | string | undefined | null): EditorDoc | null {
+  if (value === undefined || value === null) return null;
+  if (typeof value === "string") {
+    try {
+      return JSON.parse(value) as EditorDoc;
+    } catch {
+      return null;
+    }
+  }
+  return value;
+}
+
+export default function TextEditor({ config = {}, className, value }: TextEditorProps) {
+  const parsedValue = React.useMemo(() => parseValue(value), [value]);
+
+  // Build config with initialDoc so EditorProvider initialises correctly on first mount.
+  // We memoise against parsedValue (not the raw config object) to keep the reference stable.
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  const baseConfig = React.useMemo<EditorConfig>(
+    () => ({ ...config, ...(parsedValue ? { initialDoc: parsedValue } : {}) }),
+    // intentionally exclude `config` – it's usually an inline literal that changes every render
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [parsedValue],
+  );
+
   return (
-    <EditorProvider config={config}>
+    <EditorProvider config={baseConfig}>
+      <ValueSyncer value={parsedValue} />
       <div className={`${[s.editorWrapper, className].filter(Boolean).join(" ")} translate`}>
-        <EditorInner config={config} />
+        <EditorInner config={baseConfig} />
       </div>
     </EditorProvider>
   );
+}
+
+// Syncs an externally supplied value into the editor after the initial mount.
+// Handles the async case where value arrives after the editor has already mounted.
+function ValueSyncer({ value }: { value: EditorDoc | null }) {
+  const { dispatch } = useEditor();
+  const appliedKeyRef = React.useRef<string | null>(null);
+
+  React.useEffect(() => {
+    if (!value) return;
+    // Use the first block id + block count as a lightweight "identity" key.
+    // This avoids re-applying the same doc on every render when value is an inline literal.
+    const key = `${value.blocks.length}:${value.blocks[0]?.id ?? ""}`;
+    if (appliedKeyRef.current === key) return;
+    appliedKeyRef.current = key;
+    dispatch({ type: "SET_DOC", doc: value });
+  }, [value, dispatch]);
+
+  return null;
 }
