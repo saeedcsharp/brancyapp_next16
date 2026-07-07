@@ -136,7 +136,11 @@ export function ContextMenu() {
               {op}
             </button>
           ))}
+        </>
+      )}
 
+      {blockId && (
+        <>
           <div className={s.contextMenuDivider} />
           <button
             className={[s.contextMenuItem, s.contextMenuItemDanger].join(" ")}
@@ -144,7 +148,7 @@ export function ContextMenu() {
               deleteBlock(blockId);
               close();
             }}>
-            <TrashIcon size={13} /> Delete Block
+            <TrashIcon size={13} /> {hasMultipleBlocks ? "Delete Block" : "Clear Content"}
           </button>
         </>
       )}

@@ -390,9 +390,43 @@ export function EditorProvider({ children, config }: { children: React.ReactNode
   const deleteBlock = useCallback(
     (id: string) => {
       pushHistory();
+      const doc = stateRef.current.doc;
+      // If only one block remains and it has content, clear its content instead of deleting
+      if (doc.blocks.length === 1 && doc.blocks[0].id === id) {
+        const block = doc.blocks[0];
+        if ("content" in block && (block as any).content?.length > 0) {
+          dispatch({ type: "SET_CONTENT", blockId: id, content: [] });
+          // Also reset block-level formatting attributes
+          dispatch({
+            type: "UPDATE_BLOCK",
+            id,
+            updates: { align: undefined, direction: undefined, indent: undefined, lineHeight: undefined } as any,
+          });
+          // Reset browser execCommand formatting state (bold, italic, etc.)
+          requestAnimationFrame(() => {
+            const el = blockRefs.current.get(id);
+            if (!el) return;
+            // Directly clear innerHTML — bypasses the isFocusedRef guard in useLayoutEffect
+            el.innerHTML = "";
+            el.focus();
+            try {
+              document.execCommand("removeFormat");
+            } catch {}
+            // Place cursor at start of empty block
+            const sel = window.getSelection();
+            const range = document.createRange();
+            range.setStart(el, 0);
+            range.collapse(true);
+            sel?.removeAllRanges();
+            sel?.addRange(range);
+          });
+        }
+        // Already empty — do nothing
+        return;
+      }
       dispatch({ type: "DELETE_BLOCK", id });
     },
-    [pushHistory],
+    [pushHistory, blockRefs],
   );
 
   const moveBlock = useCallback(

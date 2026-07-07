@@ -104,19 +104,15 @@ export function BlockMenu() {
         </button>
       ))}
 
-      {hasMultipleBlocks && (
-        <>
-          <div className={s.contextMenuDivider} />
-          <button
-            className={[s.contextMenuItem, s.contextMenuItemDanger].join(" ")}
-            onClick={() => {
-              deleteBlock(blockId);
-              dispatch({ type: "HIDE_BLOCK_MENU" });
-            }}>
-            <TrashIcon size={14} /> Delete Block
-          </button>
-        </>
-      )}
+      <div className={s.contextMenuDivider} />
+      <button
+        className={[s.contextMenuItem, s.contextMenuItemDanger].join(" ")}
+        onClick={() => {
+          deleteBlock(blockId);
+          dispatch({ type: "HIDE_BLOCK_MENU" });
+        }}>
+        <TrashIcon size={14} /> {hasMultipleBlocks ? "Delete Block" : "Clear Content"}
+      </button>
     </div>
   );
 }
