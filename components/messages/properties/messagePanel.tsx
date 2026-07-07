@@ -158,20 +158,11 @@ function MessagePanel({
                   <div className="title2">
                     {t(LanguageKey.messagesetting_HideRobotReply)}
                     <Tooltip
+                      triggerType="tooltip"
                       tooltipValue={t(LanguageKey.messagesetting_HideRobotReplytooltip)}
                       onClick={true}
-                      position="bottom">
-                      <img
-                        style={{
-                          marginInline: "5px",
-                          cursor: "pointer",
-                          width: "15px",
-                          height: "15px",
-                        }}
-                        alt="ℹ️ tooltip"
-                        src="/tooltip.svg"
-                      />
-                    </Tooltip>
+                      position="bottom"
+                    />
                   </div>
                   <ToggleCheckBoxButton
                     handleToggle={handleHideRobotReply}
@@ -202,20 +193,11 @@ function MessagePanel({
                   <div className="title2">
                     {t(LanguageKey.messagesetting_automaticreplysystem)}
                     <Tooltip
+                      triggerType="tooltip"
                       tooltipValue={t(LanguageKey.messagesetting_automaticreplysystemforallposttooltip)}
                       onClick={true}
-                      position="bottom">
-                      <img
-                        style={{
-                          marginInline: "5px",
-                          cursor: "pointer",
-                          width: "15px",
-                          height: "15px",
-                        }}
-                        alt="ℹ️ tooltip"
-                        src="/tooltip.svg"
-                      />
-                    </Tooltip>
+                      position="bottom"
+                    />
                   </div>
                   {/* START: Replace 3-dot button and popup with 2-dot button and menu */}
                   <Dotmenu
@@ -260,20 +242,11 @@ function MessagePanel({
                     <div className="title2">
                       {t(LanguageKey.messagesetting_AutoReplyPerFollow)}
                       <Tooltip
+                        triggerType="tooltip"
                         tooltipValue={t(LanguageKey.messagesetting_AutoReplyPerFollowtooltip)}
                         onClick={true}
-                        position="bottom">
-                        <img
-                          style={{
-                            marginInline: "5px",
-                            cursor: "pointer",
-                            width: "15px",
-                            height: "15px",
-                          }}
-                          alt="ℹ️ tooltip"
-                          src="/tooltip.svg"
-                        />
-                      </Tooltip>
+                        position="bottom"
+                      />
                     </div>
 
                     <ToggleCheckBoxButton

@@ -944,18 +944,12 @@ const Upgrade = memo(function Upgrade() {
                           <div className="title" id={`${componentId}-tokens-title`}>
                             <div className={getSectionIconClass(effectiveAiPercentage)} />
                             {t(LanguageKey.AIAssisment)}
-                            <Tooltip tooltipValue={t(LanguageKey.tokenExplain)} onClick={true} position="bottom">
-                              <img
-                                style={{
-                                  marginInline: "5px",
-                                  cursor: "pointer",
-                                  width: "15px",
-                                  height: "15px",
-                                }}
-                                alt="ℹ️ tooltip"
-                                src="/tooltip.svg"
-                              />
-                            </Tooltip>
+                            <Tooltip
+                              triggerType="tooltip"
+                              tooltipValue={t(LanguageKey.tokenExplain)}
+                              onClick={true}
+                              position="bottom"
+                            />
                           </div>
                           {getWarningMessage(effectiveAiPercentage, "ai") && (
                             <span className={getWarningStyle(effectiveAiPercentage)}>
@@ -989,15 +983,12 @@ const Upgrade = memo(function Upgrade() {
                                 alignItems: "center",
                               }}>
                               <span className={styles.progressLabel}>{t(LanguageKey.Tokens)} </span>
-                              <Tooltip tooltipValue={t(LanguageKey.packageTokenExplain)} position="top" onClick={true}>
-                                <img
-                                  src="/tooltip.svg"
-                                  alt="Token information"
-                                  width="15"
-                                  height="15"
-                                  style={{ marginInline: "5px", cursor: "pointer" }}
-                                />
-                              </Tooltip>
+                              <Tooltip
+                                triggerType="tooltip"
+                                tooltipValue={t(LanguageKey.packageTokenExplain)}
+                                position="top"
+                                onClick={true}
+                              />
                             </div>
                             <div className={styles.progressContainer}>
                               <ProgressBar
@@ -1025,15 +1016,12 @@ const Upgrade = memo(function Upgrade() {
                           <div className={styles.progressbody}>
                             <div style={{ display: "flex", alignItems: "center" }}>
                               <span className={styles.progressLabel}>{t(LanguageKey.ReserveToken)} </span>
-                              <Tooltip tooltipValue={t(LanguageKey.ReserveTokenExplain)} position="top" onClick={true}>
-                                <img
-                                  src="/tooltip.svg"
-                                  alt="Reserve token information"
-                                  width="15"
-                                  height="15"
-                                  style={{ marginInline: "5px", cursor: "pointer" }}
-                                />
-                              </Tooltip>
+                              <Tooltip
+                                triggerType="tooltip"
+                                tooltipValue={t(LanguageKey.ReserveTokenExplain)}
+                                position="top"
+                                onClick={true}
+                              />
                             </div>
                             <div className={styles.progressContainer}>
                               <ProgressBar

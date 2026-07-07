@@ -171,25 +171,6 @@ const DEPS: DepRow[] = [
     safe: "no",
     bundleLabel: "~250KB (treeshaked)",
   },
-  {
-    name: "quill",
-    tier: 4,
-    used: true,
-    usedLabel: "Indirect",
-    stars: 3,
-    safe: "no",
-    bundleLabel: "~450KB (dynamic✅)",
-  },
-  {
-    name: "react-quill-ver2",
-    tier: 4,
-    used: true,
-    usedLabel: "Production",
-    stars: 3,
-    safe: "no",
-    bundleLabel: "با quill",
-    note: "پچ رسمی دارد",
-  },
   { name: "react-toastify", tier: 4, used: true, usedLabel: "Production", stars: 4, safe: "no", bundleLabel: "~40KB" },
   { name: "leaflet", tier: 4, used: true, usedLabel: "Production", stars: 3, safe: "no", bundleLabel: "~150KB" },
   { name: "wavesurfer.js", tier: 4, used: true, usedLabel: "Production", stars: 3, safe: "no", bundleLabel: "~150KB" },
@@ -345,7 +326,7 @@ const DEV_DEPS = [
   { name: "@types/react-i18next", used: true, note: "لازم — type-only" },
   { name: "@types/react-slider", used: true, note: "لازم — type-only" },
   { name: "next-router-mock", used: true, note: "لازم — compat layer" },
-  { name: "patch-package", used: true, note: "لازم — پچ react-quill" },
+  { name: "patch-package", used: false, note: "🔴 دیگر لازم نیست — پچ react-quill حذف شد" },
   { name: "@types/react-beautiful-dnd", used: false, note: "🔴 یتیم — پکیج اصلی نصب نیست" },
 ];
 
@@ -391,7 +372,6 @@ interface BundleBar {
 const BUNDLE_BARS: BundleBar[] = [
   { name: "heic2any", kb: 2500, maxKb: 3000, label: "~2.5MB", type: "warn", tag: "lazy" },
   { name: "apexcharts", kb: 1000, maxKb: 3000, label: "~1MB", type: "warn", tag: "dynamic" },
-  { name: "quill (editor)", kb: 450, maxKb: 3000, label: "~450KB", type: "warn", tag: "dynamic" },
   { name: "pdf-lib (UNUSED)", kb: 450, maxKb: 3000, label: "~450KB", type: "danger", tag: undefined },
   { name: "@microsoft/signalr", kb: 110, maxKb: 3000, label: "~110KB", type: "ok", tag: undefined },
   { name: "swiper", kb: 250, maxKb: 3000, label: "~250KB", type: "ok", tag: undefined },
@@ -410,11 +390,6 @@ const BUNDLE_BARS: BundleBar[] = [
 ];
 
 const RISKS = [
-  {
-    title: "react-quill-ver2 + quill",
-    level: "yellow",
-    desc: "پچ رسمی در /patches/ اعمال شده است. بدون patch-package در postinstall، اجرا نمی‌شود.",
-  },
   {
     title: "pako × 3 نسخه",
     level: "yellow",
@@ -453,7 +428,7 @@ const RISKS = [
   {
     title: "dynamic import صحیح",
     level: "green",
-    desc: "apexcharts، react-quill-ver2 و heic2any همه با dynamic import یا lazy load صحیح استفاده می‌شوند.",
+    desc: "apexcharts و heic2any با dynamic import یا lazy load صحیح استفاده می‌شوند.",
   },
   {
     title: "PWA پیکربندی صحیح",
@@ -514,8 +489,6 @@ const PKG_DESC: Record<string, string> = {
   apexcharts: "کتابخانهٔ رسم چارت‌های تعاملی در جاوااسکریپت.",
   "react-apexcharts": "بایندینگ React برای ApexCharts.",
   swiper: "اسلایدر/کاروسل مدرن و سبک برای وب.",
-  quill: "ادیتور متن غنی (Rich text editor).",
-  "react-quill-ver2": "ورژن سازگار React از Quill برای ادیتور متن.",
   "react-toastify": "نمایش نوتیفیکیشن‌های Toast در رابط کاربری.",
   leaflet: "کتابخانهٔ نقشه‌بری سبک برای مرورگرها.",
   "wavesurfer.js": "کتابخانهٔ نمایش و پخش ویوفرم‌های صوتی.",
@@ -850,10 +823,6 @@ export default function DependencyReport() {
               <li>
                 <span className={`${styles.dot} ${styles.dotGreen}`} />
                 heic2any با lazy import — بارگذاری درست
-              </li>
-              <li>
-                <span className={`${styles.dot} ${styles.dotGreen}`} />
-                react-quill-ver2 با ssr:false + پچ رسمی
               </li>
               <li>
                 <span className={`${styles.dot} ${styles.dotGreen}`} />

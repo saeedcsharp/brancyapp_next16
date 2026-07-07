@@ -5,6 +5,15 @@
   justify-content: center;
 }
 
+.triggerIcon {
+  display: inline-flex;
+  width: 18px;
+  height: 18px;
+  margin-inline: 5px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
 .tooltip {
   position: absolute;
   z-index: 9999;

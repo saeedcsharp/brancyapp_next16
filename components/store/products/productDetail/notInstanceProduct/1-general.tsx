@@ -607,18 +607,12 @@ function General({
                 <div className="headerandinput">
                   <div className="headertext">
                     {t(LanguageKey.product_Producttitle)}
-                    <Tooltip tooltipValue={t(LanguageKey.Product_titleExplain)} position="bottom" onClick={true}>
-                      <img
-                        style={{
-                          marginInline: "5px",
-                          cursor: "pointer",
-                          width: "15px",
-                          height: "15px",
-                        }}
-                        title="ℹ️ tooltip"
-                        src="/tooltip.svg"
-                      />
-                    </Tooltip>
+                    <Tooltip
+                      triggerType="tooltip"
+                      tooltipValue={t(LanguageKey.Product_titleExplain)}
+                      position="bottom"
+                      onClick={true}
+                    />
                   </div>
                   <div className="headerparent">
                     <div

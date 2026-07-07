@@ -176,6 +176,9 @@ const IceBreaker = React.memo(
               <div className="title">
                 {t(LanguageKey.activate)}
                 <Tooltip
+                  triggerType="tooltip"
+                  onClick={true}
+                  position="bottom"
                   tooltipValue={
                     <div>
                       <div className="headerparent" style={{ marginBottom: "10px" }}>
@@ -189,20 +192,7 @@ const IceBreaker = React.memo(
                         src="/ice-Breaker.png"
                       />
                     </div>
-                  }
-                  onClick={true}
-                  position="bottom">
-                  <img
-                    style={{
-                      marginInline: "5px",
-                      cursor: "pointer",
-                      width: "18px",
-                      height: "18px",
-                    }}
-                    title="ℹ️ tooltip"
-                    src="/tooltip.svg"
-                  />
-                </Tooltip>
+                  }></Tooltip>
               </div>
               {/* Apply fadeDiv class conditionally to the parent div */}
               <div className={isFading ? "fadeDiv" : ""}>

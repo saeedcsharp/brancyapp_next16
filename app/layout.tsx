@@ -1,6 +1,5 @@
 import type { Metadata, Viewport } from "next";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
-import "quill/dist/quill.snow.css";
 import "brancy/components/page/statistics/sliderToFourBox.css";
 import "brancy/app/globals.scss";
 import Providers from "brancy/app/providers";

@@ -2,13 +2,16 @@ import { ReactNode, use, useEffect, useRef, useState } from "react";
 import { DirectionContext } from "brancy/context/directionContext";
 import styles from "./tooltip.module.css";
 
+type TooltipTriggerType = "attention" | "tooltip";
+
 interface TooltipProps {
-  children: ReactNode;
+  children?: ReactNode;
   tooltipValue: string | ReactNode;
   position?: "top" | "bottom" | "left" | "right" | "LTR" | "RTL";
   onHover?: boolean;
   onClick?: boolean;
   className?: string;
+  triggerType?: TooltipTriggerType;
   style?: React.CSSProperties;
   delay?: number; // Delay in milliseconds before showing tooltip on hover
   forceShow?: boolean; // Force tooltip to be visible
@@ -22,9 +25,11 @@ const Tooltip = ({
   onHover,
   onClick,
   className = "",
+  triggerType,
   delay = 200,
   forceShow = false,
   forceShowDuration = 3000,
+  style,
 }: TooltipProps) => {
   // Convert undefined to default values: onHover defaults to true if neither is set
   const hoverEnabled = onHover !== undefined ? onHover : !onClick;
@@ -35,6 +40,7 @@ const Tooltip = ({
   const forceShowTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const tooltipRef = useRef<HTMLDivElement>(null);
   const direction = use(DirectionContext);
+  const triggerIconSrc = triggerType === "attention" ? "/attention.svg" : "/tooltip.svg";
 
   // Update visibility when forceShow changes
   useEffect(() => {
@@ -133,10 +139,22 @@ const Tooltip = ({
     <div
       ref={tooltipRef}
       className={`${styles.tooltipContainer} ${className}`}
+      style={style}
       onMouseEnter={handleMouseEnter}
       onMouseLeave={handleMouseLeave}
       onClick={handleClick}>
-      {children}
+      {triggerType ? (
+        <img
+          className={styles.triggerIcon}
+          src={triggerIconSrc}
+          alt=""
+          aria-hidden="true"
+          loading="lazy"
+          decoding="async"
+        />
+      ) : (
+        children
+      )}
       <div
         className={`${styles.tooltip} ${styles[actualPosition]} ${
           isVisible ? (styles as any).visible || "visible" : ""

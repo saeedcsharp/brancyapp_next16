@@ -876,20 +876,11 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
           <div className="title" id="quick-reply-title" role="heading" aria-level={1}>
             {t(LanguageKey.messagesetting_automaticreplysystem)}
             <Tooltip
+              triggerType="tooltip"
               tooltipValue={t(LanguageKey.messagesetting_automaticreplysystemexplain)}
               position="bottom"
-              onClick={true}>
-              <img
-                style={{
-                  marginInline: "5px",
-                  cursor: "pointer",
-                  width: "15px",
-                  height: "15px",
-                }}
-                alt="ℹ️ tooltip"
-                src="/tooltip.svg"
-              />
-            </Tooltip>
+              onClick={true}
+            />
           </div>
           {showActiveAutoreply && (
             <ToggleCheckBoxButton
@@ -952,20 +943,11 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                             <div className="headertext">
                               {t(LanguageKey.messagesetting_KeywordsSensitive)}
                               <Tooltip
+                                triggerType="tooltip"
                                 tooltipValue={t(LanguageKey.sensitiveToSpecificKeywordsExplain)}
                                 position="bottom"
-                                onClick={true}>
-                                <img
-                                  style={{
-                                    marginInline: "5px",
-                                    cursor: "pointer",
-                                    width: "15px",
-                                    height: "15px",
-                                  }}
-                                  alt="ℹ️ tooltip"
-                                  src="/tooltip.svg"
-                                />
-                              </Tooltip>
+                                onClick={true}
+                              />
                             </div>
                             <div className="counter" aria-live="polite">
                               ({replyMethod?.items.length ?? 0}/10)

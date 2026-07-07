@@ -580,18 +580,11 @@ function SettingInstance({
                 <div className="headerandinput">
                   <div className="headertext">
                     {t(LanguageKey.Product_packageshipping)}
-                    <Tooltip tooltipValue={t(LanguageKey.Product_packageshippingexplain)} onClick>
-                      <img
-                        style={{
-                          marginInline: "5px",
-                          cursor: "pointer",
-                          width: "15px",
-                          height: "15px",
-                        }}
-                        alt="ℹ️ tooltip"
-                        src="/tooltip.svg"
-                      />
-                    </Tooltip>
+                    <Tooltip
+                      triggerType="tooltip"
+                      tooltipValue={t(LanguageKey.Product_packageshippingexplain)}
+                      onClick
+                    />
                   </div>
                   <DragDrop
                     data={deliveryTypes}
@@ -638,18 +631,11 @@ function SettingInstance({
                           <div className="headerandinput">
                             <div className="headertext">
                               {t(LanguageKey.Product_sack)}
-                              <Tooltip tooltipValue={t(LanguageKey.Product_sackExplain)} onClick>
-                                <img
-                                  style={{
-                                    marginInline: "5px",
-                                    cursor: "pointer",
-                                    width: "15px",
-                                    height: "15px",
-                                  }}
-                                  alt="ℹ️ tooltip"
-                                  src="/tooltip.svg"
-                                />
-                              </Tooltip>
+                              <Tooltip
+                                triggerType="tooltip"
+                                tooltipValue={t(LanguageKey.Product_sackExplain)}
+                                onClick
+                              />
                             </div>
                             <DragDrop
                               data={sackOptions}
@@ -660,18 +646,11 @@ function SettingInstance({
                           <div className="headerandinput">
                             <div className="headertext">
                               {t(LanguageKey.Product_Productweights)}
-                              <Tooltip tooltipValue={t(LanguageKey.Product_Productweightsexplian)} onClick>
-                                <img
-                                  style={{
-                                    marginInline: "5px",
-                                    cursor: "pointer",
-                                    width: "15px",
-                                    height: "15px",
-                                  }}
-                                  alt="ℹ️ tooltip"
-                                  src="/tooltip.svg"
-                                />
-                              </Tooltip>
+                              <Tooltip
+                                triggerType="tooltip"
+                                tooltipValue={t(LanguageKey.Product_Productweightsexplian)}
+                                onClick
+                              />
                             </div>
                             {
                               <div className={styles.inputandsub}>
@@ -806,18 +785,11 @@ function SettingInstance({
                       <div className="headerandinput">
                         <div className="headertext">
                           {t(LanguageKey.Product_Productweights)}
-                          <Tooltip tooltipValue={t(LanguageKey.Product_Productweightsexplian)} onClick>
-                            <img
-                              style={{
-                                marginInline: "5px",
-                                cursor: "pointer",
-                                width: "15px",
-                                height: "15px",
-                              }}
-                              alt="ℹ️ tooltip"
-                              src="/tooltip.svg"
-                            />
-                          </Tooltip>
+                          <Tooltip
+                            triggerType="tooltip"
+                            tooltipValue={t(LanguageKey.Product_Productweightsexplian)}
+                            onClick
+                          />
                         </div>
                         {
                           <div className={styles.inputandsub}>
@@ -840,18 +812,11 @@ function SettingInstance({
                       <div className="headerandinput">
                         <div className="headertext">
                           {t(LanguageKey.Storeorder_pocketenveloptitle)}
-                          <Tooltip tooltipValue={t(LanguageKey.Storeorder_pocketenveloptitleExplain)} onClick>
-                            <img
-                              style={{
-                                marginInline: "5px",
-                                cursor: "pointer",
-                                width: "15px",
-                                height: "15px",
-                              }}
-                              alt="ℹ️ tooltip"
-                              src="/tooltip.svg"
-                            />
-                          </Tooltip>
+                          <Tooltip
+                            triggerType="tooltip"
+                            tooltipValue={t(LanguageKey.Storeorder_pocketenveloptitleExplain)}
+                            onClick
+                          />
                         </div>
                         {
                           <div className={styles.inputandsub}>

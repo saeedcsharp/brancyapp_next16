@@ -7,8 +7,11 @@ import { LanguageKey } from "brancy/i18n";
 import CustomTable from "brancy/components/store/products/productDetail/popups/customtable";
 import styles from "./2-information.module.css";
 import { IProduct_Information } from "brancy/models/interfaces";
+import { importHTML, exportDocHTML } from "brancy/components/design/textEditor/utils/serializer";
+import type { EditorDoc } from "brancy/components/design/textEditor/types";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
 
-const ReactQuill = dynamic(() => import("react-quill-ver2"), { ssr: false });
+const TextEditor = dynamic(() => import("brancy/components/design/textEditor/TextEditor"), { ssr: false });
 
 export default function InformationInstance({
   info,
@@ -20,48 +23,6 @@ export default function InformationInstance({
   upadteCteateFromInformation: (info: IProduct_Information, isNext: boolean) => void;
 }) {
   const { t } = useTranslation();
-  const modules = {
-    toolbar: [
-      [
-        {
-          color: [
-            "var(--text-h1)",
-            "var(--text-h2)",
-            "var(--text-h3)",
-            "var(--color-gray)",
-            "var(--color-dark-yellow)",
-            "var(--color-dark-red)",
-            "var(--color-purple)",
-            "var(--color-dark-green)",
-            "var(--color-firoze)",
-            "var(--color-light-blue)",
-            "var(--color-dark-blue)",
-          ],
-        },
-        {
-          background: [
-            "var(--text-h1)",
-            "var(--text-h2)",
-            "var(--text-h3)",
-            "var(--color-gray30)",
-            "var(--color-light-yellow30)",
-            "var(--color-light-red30)",
-            "var(--color-purple30)",
-            "var(--color-light-green30)",
-            "var(--color-firoze30)",
-            "var(--color-light-blue30)",
-            "var(--color-light-blue30)",
-          ],
-        },
-      ],
-      [{ header: "1" }, { header: "2" }],
-      [{ align: [] }],
-      ["bold", "italic", "underline", "strike"],
-      ["link"],
-      [{ list: "ordered" }, { list: "bullet" }],
-      ["clean"],
-    ],
-  };
   const [loading, setLoading] = useState<boolean>(true);
   const [description, setDescription] = useState(
     info.description !== ""
@@ -79,6 +40,7 @@ export default function InformationInstance({
   );
   const [tableTitle, setTableTitle] = useState<string>(info.description ? JSON.parse(info.description).tableTitle : "");
   const [showPreviewModal, setShowPreviewModal] = useState(false);
+  const [initialDoc] = useState<EditorDoc>(() => importHTML(description || ""));
 
   const handleInsertTable = (html: string, tableTitle: string) => {
     setTableHtml(html);
@@ -133,21 +95,29 @@ export default function InformationInstance({
         </div>
         <div className="headerandinput" style={{ maxWidth: "70%", minWidth: "200px" }}>
           <div className="headerparent">
-            <div className="title">{t(LanguageKey.product_productDescription)}</div>
+            <div className="title">
+              {t(LanguageKey.product_productDescription)}
+              <Tooltip
+                triggerType="tooltip"
+                tooltipValue={t(LanguageKey.product_Informationplaceholder)}
+                position="bottom"
+                onClick={true}
+              />
+            </div>
             <div className="counter" role="status" aria-label="description character count">
               <div className={styles.icon}>T</div>(
               <strong>{description ? description.replace(/<[^>]*>?/gm, "").length : 0}</strong> /<strong>1500</strong>)
             </div>
           </div>
-          <ReactQuill
-            className={`${styles.quillEditor} message`}
-            theme="snow"
-            value={description ? description : ""}
-            onChange={(e) => {
-              (console.log("text editor", e), setDescription);
+          <TextEditor
+            className={styles.textEditorWrap}
+            config={{
+              placeholder: t(LanguageKey.pageToolspopup_typehere),
+              initialDoc,
+              autoSave: false,
+              theme: "light",
+              onChange: (doc: EditorDoc) => setDescription(exportDocHTML(doc)),
             }}
-            modules={modules}
-            placeholder={t(LanguageKey.product_Informationplaceholder)}
           />
           <div className="headerandinput" style={{ marginTop: "10px" }}>
             <div className="title">{t(LanguageKey.product_addtable)}</div>
