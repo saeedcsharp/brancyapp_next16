@@ -8,6 +8,7 @@ import { StatusBar } from "./statusbar/StatusBar";
 import { BlockMenu } from "./menus/BlockMenu";
 import { ContextMenu } from "./menus/ContextMenu";
 import type { EditorConfig, EditorDoc } from "./types";
+import { importHTML } from "./utils/serializer";
 import { CloseIcon } from "./icons";
 import s from "./TextEditor.module.css";
 
@@ -142,10 +143,22 @@ function EditorInner({ config }: { config: EditorConfig }) {
     return () => root?.removeEventListener("keydown", handleKeyDown, true);
   }, [undo, redo]);
 
-  // Close menus on editor area click
+  // Close menus on editor area click + open links on Ctrl+Click or when readOnly
   const handleEditorClick = useCallback(
     (e: React.MouseEvent) => {
       const target = e.target as HTMLElement;
+
+      // Open hyperlinks: Ctrl+Click in edit mode, or any click in readOnly mode
+      const linkEl = target.closest("a.textedit-link") as HTMLAnchorElement | null;
+      if (linkEl) {
+        if (config.readOnly || e.ctrlKey || e.metaKey) {
+          e.preventDefault();
+          const href = linkEl.getAttribute("href");
+          if (href) window.open(href, "_blank", "noopener,noreferrer");
+          return;
+        }
+      }
+
       if (!target.closest(`.${s.blockMenuPopup}`) && !target.closest(`.${s.contextMenuPopup}`)) {
         if (state.blockMenu) dispatch({ type: "HIDE_BLOCK_MENU" });
         if (state.contextMenu) dispatch({ type: "HIDE_CONTEXT_MENU" });
@@ -156,7 +169,7 @@ function EditorInner({ config }: { config: EditorConfig }) {
         }
       }
     },
-    [state.blockMenu, state.contextMenu, state.showSettings, dispatch],
+    [state.blockMenu, state.contextMenu, state.showSettings, dispatch, config.readOnly],
   );
 
   // Context menu on editor background
@@ -215,11 +228,16 @@ interface TextEditorProps {
 function parseValue(value: EditorDoc | string | undefined | null): EditorDoc | null {
   if (value === undefined || value === null) return null;
   if (typeof value === "string") {
+    // Try EditorDoc JSON first
     try {
-      return JSON.parse(value) as EditorDoc;
+      const parsed = JSON.parse(value) as EditorDoc;
+      if (parsed && parsed.version && Array.isArray(parsed.blocks)) return parsed;
     } catch {
-      return null;
+      // not JSON
     }
+    // Fallback: treat as legacy HTML (e.g. old ReactQuill output)
+    if (value.trim()) return importHTML(value);
+    return null;
   }
   return value;
 }

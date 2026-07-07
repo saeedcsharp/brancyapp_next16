@@ -25,15 +25,11 @@ export default function InformationInstance({
   const { t } = useTranslation();
   const [loading, setLoading] = useState<boolean>(true);
   const [description, setDescription] = useState(
-    info.description !== ""
-      ? (
-          JSON.parse(info.description) as {
-            description: string;
-            sizeTable: string;
-          }
-        ).description
-      : "",
+    info.description !== "" ? JSON.parse(info.description).description : "",
   );
+  useEffect(() => {
+    console.log("description", description);
+  }, [description]);
   const [showTableModal, setShowTableModal] = useState(false);
   const [tableHtml, setTableHtml] = useState<string>(
     info.description !== "" ? handleDecompress(JSON.parse(info.description).sizeTable)! : "",

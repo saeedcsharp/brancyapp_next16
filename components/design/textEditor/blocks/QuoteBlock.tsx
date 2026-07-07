@@ -102,6 +102,7 @@ export function QuoteBlockComponent({ block }: Props) {
           direction: quoteDirection,
           ...getIndentStyle(block.indent),
         }}
+        dir={quoteDirection}
         data-block-id={block.id}
         spellCheck={state.settings.spellCheck}
         onPaste={handlePlainTextPaste}

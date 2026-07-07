@@ -132,6 +132,7 @@ export function HeadingBlockComponent({ block }: Props) {
       contentEditable={!config.readOnly}
       suppressContentEditableWarning
       style={blockStyle}
+      dir={block.direction && block.direction !== "auto" ? block.direction : undefined}
       onInput={handleInput}
       onFocus={handleFocus}
       onBlur={handleBlur}

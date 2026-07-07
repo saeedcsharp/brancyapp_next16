@@ -138,7 +138,7 @@ function collectMarks(el: HTMLElement, inherited: TextMark[]): TextMark[] {
   if (tag === "strong" || tag === "b") marks.push({ type: "bold" });
   if (tag === "em" || tag === "i") marks.push({ type: "italic" });
   if (tag === "u") marks.push({ type: "underline" });
-  if (tag === "s" || tag === "del") marks.push({ type: "strike" });
+  if (tag === "s" || tag === "del" || tag === "strike") marks.push({ type: "strike" });
   if (tag === "sup") marks.push({ type: "superscript" });
   if (tag === "sub") marks.push({ type: "subscript" });
   if (tag === "span" || tag === "code" || tag === "font") {
@@ -392,12 +392,15 @@ export function importHTML(html: string): EditorDoc {
 
     switch (tag) {
       case "p":
+        const indentPx = parseFloat(el.style.paddingInlineStart || el.style.paddingLeft || "0");
+        const indent = indentPx > 0 ? Math.round(indentPx / 24) || 1 : undefined;
         blocks.push({
           id: generateId(),
           type: "paragraph",
           content: extractInlineNodes(el),
           align: (el.style.textAlign as any) || undefined,
           direction: (el.dir as any) || undefined,
+          indent,
         });
         break;
       case "h1":

@@ -302,6 +302,7 @@ export function Toolbar() {
   const [aiPrompt, setAiPrompt] = useState("");
   const [isSendingAiPrompt, setIsSendingAiPrompt] = useState(false);
   const savedSelectionRef = useRef<Range | null>(null);
+  const savedBlockIdRef = useRef<string | null>(null);
   const aiPromptRef = useRef<HTMLTextAreaElement>(null);
 
   // Track active formatting from browser selection
@@ -425,8 +426,13 @@ export function Toolbar() {
   // Save selection before toolbar interaction
   const saveSelection = useCallback(() => {
     const sel = window.getSelection();
-    if (sel && sel.rangeCount > 0) savedSelectionRef.current = sel.getRangeAt(0).cloneRange();
-  }, []);
+    if (sel && sel.rangeCount > 0) {
+      savedSelectionRef.current = sel.getRangeAt(0).cloneRange();
+      // Also save the active block ID so we can find the contenteditable
+      // even after blur invalidates the range's DOM nodes.
+      savedBlockIdRef.current = state.activeBlockId;
+    }
+  }, [state.activeBlockId]);
 
   const restoreSelection = useCallback(() => {
     if (!savedSelectionRef.current) return;
@@ -822,16 +828,91 @@ export function Toolbar() {
 
   // Insert link
   const handleInsertLink = useCallback(() => {
-    restoreSelection();
     if (!linkHref) return;
-    const text = linkText || linkHref;
     const sanitizedHref = linkHref.startsWith("http") ? linkHref : `https://${linkHref}`;
-    const html = `<a class="textedit-link" href="${sanitizedHref}" target="_blank" rel="noopener noreferrer" data-type="link">${text}</a>`;
-    document.execCommand("insertHTML", false, html);
+    const selectedText = linkText.trim();
+    const blockId = savedBlockIdRef.current || state.activeBlockId;
+    if (!blockId) return;
+
+    const block = state.doc.blocks.find((b) => b.id === blockId);
+
+    // If we have selected text and a block with inline content, update model directly
+    if (selectedText && block && "content" in block) {
+      const content = (block as any).content as ReturnType<typeof extractInlineNodes>;
+      const linkNode = { type: "link" as const, text: selectedText, href: sanitizedHref, target: "_blank" as const };
+
+      // Replace the first occurrence of selectedText in the content nodes with a link
+      const newContent: ReturnType<typeof extractInlineNodes> = [];
+      let replaced = false;
+      for (const node of content) {
+        if (!replaced && node.type === "text" && node.text.includes(selectedText)) {
+          const idx = node.text.indexOf(selectedText);
+          if (idx > 0) newContent.push({ ...node, text: node.text.slice(0, idx) });
+          newContent.push(linkNode);
+          const after = node.text.slice(idx + selectedText.length);
+          if (after) newContent.push({ ...node, text: after });
+          replaced = true;
+        } else {
+          newContent.push(node);
+        }
+      }
+
+      if (replaced) {
+        pushHistory();
+        dispatch({ type: "SET_CONTENT", blockId, content: newContent });
+        triggerAutoSave();
+
+        // Also update the DOM so the contenteditable reflects the new state
+        requestAnimationFrame(() => {
+          const el = blockRefs.current.get(blockId);
+          if (el) el.dispatchEvent(new Event("input", { bubbles: true }));
+        });
+
+        setShowLinkDialog(false);
+        setLinkHref("");
+        setLinkText("");
+        return;
+      }
+    }
+
+    // Fallback: insert link at cursor using DOM Range API
+    const contentEditable = blockId ? (blockRefs.current.get(blockId) as HTMLElement | null) : null;
+    if (!contentEditable) return;
+
+    contentEditable.focus();
+    const aEl = document.createElement("a");
+    aEl.className = "textedit-link";
+    aEl.href = sanitizedHref;
+    aEl.target = "_blank";
+    aEl.rel = "noopener noreferrer";
+    aEl.dataset.type = "link";
+    aEl.textContent = selectedText || sanitizedHref;
+
+    const range = savedSelectionRef.current;
+    const sel = window.getSelection();
+    if (range) {
+      try {
+        sel?.removeAllRanges();
+        sel?.addRange(range);
+        if (!range.collapsed) range.deleteContents();
+        range.insertNode(aEl);
+        const newRange = document.createRange();
+        newRange.setStartAfter(aEl);
+        newRange.collapse(true);
+        sel?.removeAllRanges();
+        sel?.addRange(newRange);
+      } catch {
+        contentEditable.appendChild(aEl);
+      }
+    } else {
+      contentEditable.appendChild(aEl);
+    }
+
+    contentEditable.dispatchEvent(new Event("input", { bubbles: true }));
     setShowLinkDialog(false);
     setLinkHref("");
     setLinkText("");
-  }, [linkHref, linkText, restoreSelection]);
+  }, [linkHref, linkText, state.activeBlockId, state.doc.blocks, blockRefs, dispatch, pushHistory, triggerAutoSave]);
 
   // Insert emoji
   const insertEmoji = useCallback(

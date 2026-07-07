@@ -1366,11 +1366,28 @@
   cursor: pointer;
   transition: var(--transition3);
   word-break: break-all;
+  position: relative;
 }
 
 .editorRoot :global(.textedit-link:hover) {
   background: rgba(74, 144, 226, 0.15);
   border-color: rgba(74, 144, 226, 0.6);
+}
+
+.editorRoot :global(.textedit-link:hover::after) {
+  content: "Ctrl+Click to open";
+  position: absolute;
+  bottom: calc(100% + 4px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: #333;
+  color: #fff;
+  font-size: 11px;
+  padding: 3px 7px;
+  border-radius: 4px;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 999;
 }
 
 .editorRoot :global(.textedit-hashtag) {
