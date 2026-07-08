@@ -10,7 +10,7 @@ export default async function DirectLoginPage({
   searchParams: Promise<{ bearer?: string; redirectUrl?: string; instagramerId?: string }>;
 }) {
   const { bearer, redirectUrl, instagramerId } = await searchParams;
-  if (!bearer || !redirectUrl || !instagramerId) {
+  if (!bearer || !redirectUrl) {
     redirect("/");
   }
   const reqHeaders = await headers();
