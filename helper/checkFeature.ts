@@ -24,6 +24,26 @@ export async function getPackageFeatureDetails(session: Session | null | undefin
     return null;
   }
 }
+export async function checkPackageFeature(
+  session: Session | null | undefined,
+  featureId: PsgFeatureType,
+): Promise<boolean> {
+  try {
+    const res = await clientFetchApi<boolean, boolean>("/api/feature/hasFeature", {
+      methodType: MethodType.get,
+      session: session,
+      data: undefined,
+      queries: [{ key: "featureId", value: featureId.toString() }],
+      onUploadProgress: undefined,
+    });
+    if (res.succeeded) return res.value;
+    notify(res.info.responseType, NotifType.Warning);
+    return false;
+  } catch {
+    notify(ResponseType.Unexpected, NotifType.Error);
+    return false;
+  }
+}
 
 // Helper function to check if current time is within time range
 function isTimeInRange(beginUnix: number, endUnix: number, timeUnix: number): boolean {
@@ -39,9 +59,8 @@ export async function fetchAndCheckFeature(
   featureId: PsgFeatureType,
   session: Session | null | undefined,
 ): Promise<boolean> {
-  const featureInfo = await getPackageFeatureDetails(session);
-  if (!featureInfo) return false;
-  return checkFeature(featureId, featureInfo);
+  const hasFeature = await checkPackageFeature(session, featureId);
+  return hasFeature;
 }
 
 export default function checkFeature(featureId: PsgFeatureType, featureInfo: IPsgFeatureInfo): boolean {

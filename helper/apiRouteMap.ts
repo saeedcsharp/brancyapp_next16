@@ -111,6 +111,9 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/flow/getMasterFlows": "Instagramer/Flow/GetMasterFlows",
   "/api/flow/getShortMasterFlow": "Instagramer/Flow/GetShortMasterFlow",
 
+  // ── feature ──────────────────────────────────────────
+  "api/feature/hasFeature": "Instagramer/Feature/HasFeature",
+
   // ── hashtag ───────────────────────────────────────────
   "/api/hashtag/analysisPageHashtags": "Instagramer/hashtag/AnalysisPageHashtags",
   "/api/hashtag/createHashtagList": "Instagramer/hashtag/createHashtagList",
