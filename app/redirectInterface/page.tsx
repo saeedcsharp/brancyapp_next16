@@ -1,8 +1,8 @@
 import { redirect, notFound } from "next/navigation";
 import { headers } from "next/headers";
 
-const ALLOWED_DOMAINS = ["zarinpal.com", "pod.ir", "stripe.com", "instagram.com", "instagramer.com"];
-const IRAN_ONLY_DOMAINS = ["zarinpal.com", "pod.ir"];
+const ALLOWED_DOMAINS = ["zarinpal.com", "pod.ir", "stripe.com", "instagram.com", "instagramer.com", "zibal.ir"];
+const IRAN_ONLY_DOMAINS = ["zarinpal.com", "pod.ir", "zibal.ir"];
 
 function matchesDomainList(hostname: string, domainList: string[]): boolean {
   return domainList.some((domain) => hostname === domain || hostname.endsWith(`.${domain}`));

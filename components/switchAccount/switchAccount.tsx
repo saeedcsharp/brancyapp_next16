@@ -349,6 +349,7 @@ function SwitchAccount(props: { removeMask: () => void }) {
         <section className={styles.content}>
           <div className="headerparent">
             <div> </div>
+
             <div className={styles.addnewaccount} onClick={() => handleRedirectToInstagram()}>
               <svg
                 width="24"

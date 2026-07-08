@@ -2,7 +2,7 @@
 // ✏️  ONLY EDIT THIS SECTION — everything else updates automatically
 // =============================================================================
 const baseIRUrl = "brancy.ir";
-const baseAppUrl = "patran.ir";
+const baseAppUrl = "brancy.app";
 const baseLocalUrl = "patran.ir";
 const CONFIG = {
   // ── brancy.ir (داخل ایران) ───────────────────────────────────────────────
@@ -112,5 +112,5 @@ export function supportsDirectCalls(): boolean {
   return clientIsIr() || clientIsLocal();
 }
 export function redirectHostUrl() {
-  return "patran.ir";
+  return "brancy.app";
 }

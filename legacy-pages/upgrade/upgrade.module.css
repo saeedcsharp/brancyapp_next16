@@ -40,6 +40,19 @@
   cursor: pointer;
   transition: var(--transition3);
 }
+.switchAccount {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  background-color: var(--color-white30);
+  width: 40px;
+  height: 40px;
+  padding: var(--padding-8);
+  border-radius: var(--br10);
+  align-items: center;
+  cursor: pointer;
+  transition: var(--transition3);
+}
 
 .contentArea {
   width: calc(100% - 350px);
@@ -192,7 +205,12 @@ html[dir="rtl"] .sidebarcontent:before {
   max-height: 500px;
   opacity: 1;
   transform: translateY(0);
-  transition: max-height 0.4s ease, opacity 0.3s ease, transform 0.3s ease, margin-top 0.3s ease, padding-top 0.3s ease;
+  transition:
+    max-height 0.4s ease,
+    opacity 0.3s ease,
+    transform 0.3s ease,
+    margin-top 0.3s ease,
+    padding-top 0.3s ease;
   display: flex;
   flex-direction: column;
   gap: var(--gap-5);
