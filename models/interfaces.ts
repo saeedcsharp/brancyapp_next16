@@ -100,6 +100,11 @@ export interface InstagramerAccountInfo {
   biography: string | null;
 }
 
+export interface IVerifyCode {
+  instagramerId: number;
+  origin: string;
+}
+
 export interface IRefreshToken {
   id: number;
   role: {

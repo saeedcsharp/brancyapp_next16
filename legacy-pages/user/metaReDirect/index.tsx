@@ -1,71 +1,86 @@
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
-import DirectLoginClient from "brancy/components/signIn/directLoginClient";
 import { MethodType } from "brancy/helper/api";
-import { clientFetchApi, clientFetchApiWithAccessToken } from "brancy/helper/clientFetchApi";
-import { IRefreshToken } from "brancy/models/interfaces";
-import { useSession } from "next-auth/react";
+import { clientFetchApiWithAccessToken } from "brancy/helper/clientFetchApi";
+import { IRefreshToken, IVerifyCode } from "brancy/models/interfaces";
+import { signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import styles from "./metaDirect.module.css";
 
 export default function MetaRedirect() {
-  const { data: session } = useSession();
   const router = useRouter();
   const { query } = router;
-  const [onLogin, setOnLogin] = useState(false);
-  const onLoginRef = useRef(onLogin);
-  useEffect(() => {
-    onLoginRef.current = onLogin;
-  }, [onLogin]);
-
+  const hasRun = useRef(false);
   async function createInstagramerAccount() {
     console.log("createInstagramerAccount");
     try {
-      const verifyCodeRes = await clientFetchApiWithAccessToken<boolean, number>("/api/preinstagramer/VerifyCode", {
-        methodType: MethodType.get,
-        accessToken: "Bearer" + " " + query.state,
-        data: null,
-        queries: [{ key: "code", value: query.code as string }],
-        onUploadProgress: undefined,
-      });
-      if (verifyCodeRes.succeeded && session != null) {
-        try {
-          const refreshRes = await clientFetchApi<boolean, IRefreshToken>("/api/user/RefreshToken", {
-            methodType: MethodType.get,
-            session: session,
-            data: undefined,
-            queries: undefined,
-            onUploadProgress: undefined,
-          });
-          if (refreshRes.succeeded) {
-            <DirectLoginClient res={refreshRes.value} redirectUrl={"/home"} instagramerId={verifyCodeRes.value} />;
-          }
-          router.replace("/");
-        } catch (error) {
-          console.log("error on redirect", error);
+      const verifyCodeRes = await clientFetchApiWithAccessToken<boolean, IVerifyCode>(
+        "/api/preinstagramer/VerifyCode",
+        {
+          methodType: MethodType.get,
+          accessToken: "Bearer" + " " + query.state,
+          data: null,
+          queries: [{ key: "code", value: query.code as string }],
+          onUploadProgress: undefined,
+        },
+      );
+      if (verifyCodeRes.succeeded) {
+        const token: IRefreshToken = {
+          token: "Bearer" + " " + query.state,
+          expireTime: Date.now() + 1000 * 60 * 60,
+          socketAccessToken: "",
+          role: {
+            instagramerIds: [verifyCodeRes.value.instagramerId],
+            isInstagramer: false,
+            isPartners: [false],
+            userId: 0,
+          },
+          id: 0,
+        };
+        console.log("verifyCodeRes", verifyCodeRes);
+        console.log("refresh token", token);
+
+        const redirectUrl = verifyCodeRes.value.origin;
+        const instagramerId = verifyCodeRes.value.instagramerId;
+        const currentIndex = token.role.instagramerIds.indexOf(instagramerId);
+
+        if (hasRun.current) return;
+        hasRun.current = true;
+
+        await signOut({ redirect: false });
+        console.log("Direct login with token:", token, "redirectUrl:", redirectUrl, "instagramerId:", instagramerId);
+        const result = await signIn("direct-token", {
+          token: token.token,
+          expireTime: token.expireTime,
+          socketAccessToken: token.socketAccessToken,
+          currentIndex: currentIndex,
+          instagramerIds: JSON.stringify(token.role.instagramerIds),
+          redirect: false,
+        });
+        if (result?.ok) {
+          router.replace(redirectUrl || "/");
+        } else {
+          console.error("Direct login failed:", result?.error);
+          router.push("/");
         }
       } else {
+        console.log("verifyCodeRes.info.responseType", verifyCodeRes.info.responseType);
         notify(verifyCodeRes.info.responseType, NotifType.Warning);
       }
     } catch (error) {
+      console.error("Error in createInstagramerAccount:", error);
       notify(ResponseType.Unexpected, NotifType.Error);
-    } finally {
-      router.push("/");
     }
   }
   useEffect(() => {
-    console.log("OnLogin", onLoginRef);
-    console.log("session", session);
-    if (!session || onLoginRef.current) return;
-    console.log("after sesionnnnnnnnnnn", session);
     if (router.isReady) {
       if (query.state === undefined || query.code === undefined) router.push("/");
       else {
-        setOnLogin(true);
         createInstagramerAccount();
       }
     }
-  }, [router.isReady, session]);
+  }, [router.isReady]);
+
   return (
     <div
       className="dialogBg"

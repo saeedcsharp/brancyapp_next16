@@ -19,6 +19,7 @@ export default function DirectLoginClient({ res, redirectUrl, instagramerId }: D
 
     (async () => {
       await signOut({ redirect: false });
+      console.log("Direct login with token:", res, "redirectUrl:", redirectUrl, "instagramerId:", instagramerId);
       const result = await signIn("direct-token", {
         token: res.token,
         expireTime: res.expireTime,
@@ -27,7 +28,6 @@ export default function DirectLoginClient({ res, redirectUrl, instagramerId }: D
         instagramerIds: JSON.stringify(res.role.instagramerIds),
         redirect: false,
       });
-
       if (result?.ok) {
         console.log("instagrameridssssssssssssss", result);
         router.push(redirectUrl || "/");

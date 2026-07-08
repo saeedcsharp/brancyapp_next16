@@ -40,7 +40,7 @@ export default async function RedirectInterfacePage({
 }) {
   const { redirectUrl } = await searchParams;
   const countryCode = await getCountryCode();
-  const isIran = countryCode === "IR";
+  const isIran = countryCode === "IR" || countryCode === "AZ";
 
   if (!redirectUrl || !isAllowedRedirectUrl(redirectUrl)) {
     notFound();
