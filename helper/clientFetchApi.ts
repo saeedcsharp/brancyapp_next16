@@ -266,6 +266,7 @@ export async function clientFetchApi<TReq, TRes>(
       uisetting: "Instagramer/UiSetting",
       unfollowallfollowing: "Instagramer/UnfollowAllFollowing",
       users: "Instagramer/Users",
+      feature: "Instagramer/Feature",
     };
 
     const prefix = SCOPE_PREFIX_MAP[scope];
