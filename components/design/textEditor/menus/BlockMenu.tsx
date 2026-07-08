@@ -1,8 +1,12 @@
 "use client";
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { useEditor } from "../core/EditorContext";
 import { TrashIcon, DuplicateIcon, MoveUpIcon, MoveDownIcon, AIIcon, CopyIcon } from "../icons";
+import { getBlockPlainText } from "../utils/textUtils";
+import { generateId } from "../utils/idGenerator";
+import { renderInlineHTML } from "../utils/serializer";
 import s from "../TextEditor.module.css";
+import RingLoader from "brancy/components/design/loader/ringLoder";
 
 const AI_OPS = [
   { id: "rewrite", label: "Rewrite" },
@@ -13,10 +17,11 @@ const AI_OPS = [
 ];
 
 export function BlockMenu() {
-  const { state, dispatch, deleteBlock, moveBlock, duplicateBlock } = useEditor();
+  const { state, dispatch, deleteBlock, moveBlock, duplicateBlock, config, pushHistory, blockRefs } = useEditor();
   const { blockMenu } = state;
   const menuRef = useRef<HTMLDivElement>(null);
   const hasMultipleBlocks = state.doc.blocks.length > 1;
+  const [isRewriting, setIsRewriting] = useState(false);
 
   useEffect(() => {
     if (!blockMenu) return;
@@ -32,6 +37,8 @@ export function BlockMenu() {
   if (!blockMenu) return null;
 
   const { blockId, x, y } = blockMenu;
+  const activeBlock = state.doc.blocks.find((b) => b.id === blockId);
+  const isParagraph = activeBlock?.type === "paragraph";
 
   // Position logic: clamp to viewport
   const adjustedY = Math.min(y, (typeof window !== "undefined" ? window.innerHeight : 800) - 280);
@@ -45,11 +52,31 @@ export function BlockMenu() {
     dispatch({ type: "HIDE_BLOCK_MENU" });
   };
 
-  const handleAI = (op: string) => {
-    dispatch({ type: "HIDE_BLOCK_MENU" });
-    console.log("[AI]", op, "for block", blockId);
-    // AI integration point - currently logs to console
-    alert(`AI ${op} — AI backend not connected. This will call onAIRequest(op, content) when configured.`);
+  const handleAI = async (op: string) => {
+    if (!config.onAIRequest || isRewriting) return;
+    const block = state.doc.blocks.find((b) => b.id === blockId);
+    if (!block || block.type !== "paragraph") return;
+
+    const plainText = getBlockPlainText(block);
+    if (!plainText.trim()) return;
+
+    setIsRewriting(true);
+    try {
+      const result = await config.onAIRequest(op as any, plainText);
+      if (result) {
+        const newContent: [{ type: "text"; text: string }] = [{ type: "text", text: result }];
+        pushHistory();
+        dispatch({ type: "SET_CONTENT", blockId, content: newContent });
+        // Force-update DOM in case the block is still focused
+        requestAnimationFrame(() => {
+          const el = blockRefs.current.get(blockId);
+          if (el) el.innerHTML = renderInlineHTML(newContent);
+        });
+      }
+    } finally {
+      setIsRewriting(false);
+      dispatch({ type: "HIDE_BLOCK_MENU" });
+    }
   };
 
   return (
@@ -91,20 +118,24 @@ export function BlockMenu() {
       </button>
       {hasMultipleBlocks && <div className={s.contextMenuDivider} />}
 
-      {/* AI Section */}
-      <div className={s.contextMenuSubHeader}>
-        <AIIcon size={13} /> AI Assistant
-      </div>
-      {AI_OPS.map((op) => (
-        <button
-          key={op.id}
-          className={[s.contextMenuItem, s.contextMenuItemIndent].join(" ")}
-          onClick={() => handleAI(op.id)}>
-          {op.label}
-        </button>
-      ))}
-
-      <div className={s.contextMenuDivider} />
+      {/* AI Section — only for paragraph blocks */}
+      {isParagraph && config.onAIRequest && (
+        <>
+          <div className={s.contextMenuSubHeader}>
+            <AIIcon size={13} /> AI Assistant
+          </div>
+          {AI_OPS.map((op) => (
+            <button
+              key={op.id}
+              className={[s.contextMenuItem, s.contextMenuItemIndent].join(" ")}
+              onClick={() => void handleAI(op.id)}
+              disabled={isRewriting}>
+              {isRewriting ? <RingLoader width={14} height={14} color="blue" /> : op.label}
+            </button>
+          ))}
+          <div className={s.contextMenuDivider} />
+        </>
+      )}
       <button
         className={[s.contextMenuItem, s.contextMenuItemDanger].join(" ")}
         onClick={() => {

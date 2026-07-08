@@ -41,6 +41,29 @@ export default function Information({
   const [showPreviewModal, setShowPreviewModal] = useState(false);
   const [tableTitle, setTableTitle] = useState<string>(data.description ? JSON.parse(data.description).tableTitle : "");
   const [initialDoc] = useState<EditorDoc>(() => importHTML(description || ""));
+  const handleSuggestedDescription = async (content: string) => {
+    try {
+      const res = await clientFetchApi<{ contentDescription: string }, string>("/api/product/getSuggestedDescription", {
+        methodType: MethodType.post,
+        session: session,
+        data: { contentDescription: content },
+        queries: [
+          { key: "productId", value: productId.toString() },
+          { key: "categoryId", value: categoryId.toString() },
+        ],
+        onUploadProgress: undefined,
+      });
+      if (res.succeeded) {
+        return res.value ?? "";
+      } else {
+        notify(res.info.responseType, NotifType.Warning);
+        return "";
+      }
+    } catch {
+      notify(ResponseType.Unexpected, NotifType.Error);
+      return "";
+    }
+  };
   useEffect(() => {
     if (loading) {
       setLoading(false);
@@ -113,31 +136,8 @@ export default function Information({
               autoSave: false,
               theme: "light",
               onChange: (doc: EditorDoc) => setDescription(exportDocHTML(doc)),
-              onAIRequest: async (op, content) => {
-                try {
-                  const res = await clientFetchApi<{ contentDescription: string }, string>(
-                    "/api/product/getSuggestedDescription",
-                    {
-                      methodType: MethodType.post,
-                      session: session,
-                      data: { contentDescription: content },
-                      queries: [
-                        { key: "productId", value: productId.toString() },
-                        { key: "categoryId", value: categoryId.toString() },
-                      ],
-                      onUploadProgress: undefined,
-                    },
-                  );
-                  if (res.succeeded) {
-                    return res.value ?? "";
-                  } else {
-                    notify(res.info.responseType, NotifType.Warning);
-                    return "";
-                  }
-                } catch {
-                  notify(ResponseType.Unexpected, NotifType.Error);
-                  return "";
-                }
+              onAIRequest: async (_op, content) => {
+                return await handleSuggestedDescription(content);
               },
             }}
           />
