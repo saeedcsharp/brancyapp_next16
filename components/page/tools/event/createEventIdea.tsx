@@ -70,8 +70,6 @@ const CreateEventIdea = (props: {
     }
     props.handleShowDayEvents();
   }, [session, props.handleShowDayEvents]);
-  const [showNotFeature, setShowNotFeature] = useState(false);
-
   const handleSubmit = useCallback(async () => {
     if (!session) return;
 
