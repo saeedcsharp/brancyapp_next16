@@ -4,9 +4,8 @@ import Head from "next/head";
 import router, { useRouter } from "next/router"; // Add this import
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Swiper, SwiperSlide } from "swiper/react";
-// Import Swiper styles
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Slider from "brancy/components/design/slider/slider";
 import Loading from "brancy/components/notOk/loading";
 import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
 import { InstaInfoContext } from "brancy/context/instaInfoContext";
@@ -17,8 +16,6 @@ import { IBusiness, IFavoriteBusiness } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { use } from "react";
-import "swiper/css";
-import "swiper/css/free-mode";
 import styles from "./index.module.css";
 const baseMediaUrl = getClientMediaBaseUrl();
 
@@ -289,32 +286,32 @@ function Markets() {
                       <div className={styles.quickmenu}>
                         <div className={styles.path}></div>
                         <div className="explain">{t(LanguageKey.userpanel_yourorders)}</div>
-                        <Swiper className={styles.swiper} slidesPerView="auto" spaceBetween={30} freeMode>
+                        <Slider className={styles.swiper} freeMode spaceBetween={30} navigation={false}>
                           {orderSteps.map((step, index) => (
-                            <SwiperSlide key={index} className={styles.orderstep} onClick={step.onClick}>
+                            <div key={index} className={styles.orderstep} onClick={step.onClick}>
                               {step.icon}
                               <div className="headerandinput">
                                 <span className={styles.step}>{t(step.label)}</span>
                                 <div className="title">{step.count}</div>
                               </div>
-                            </SwiperSlide>
+                            </div>
                           ))}
-                        </Swiper>
+                        </Slider>
                       </div>
                     </div>
                     <div className={styles.savedItems}>
                       <div className="explain">{t(LanguageKey.userpanel_SavedProducts)}</div>
                       {saved.items.length > 0 ? (
-                        <Swiper className={styles.swiper} slidesPerView="auto" spaceBetween={15} freeMode>
+                        <Slider className={styles.swiper} freeMode spaceBetween={15} navigation={false}>
                           {saved.items.map((saved, index) => (
-                            <SwiperSlide
+                            <div
+                              key={index}
+                              className={styles.saved}
                               onClick={() => {
                                 router.push(
                                   `/user/business/shop/${saved.businessProfile.instagramerId}/product/${saved.product?.favoriteCardCount?.productId}`,
                                 );
-                              }}
-                              key={index}
-                              className={styles.saved}>
+                              }}>
                               <img
                                 loading="lazy"
                                 decoding="async"
@@ -359,9 +356,9 @@ function Markets() {
                                   )} */}
                                 </div>
                               </div>
-                            </SwiperSlide>
+                            </div>
                           ))}
-                        </Swiper>
+                        </Slider>
                       ) : (
                         <div className={styles.emptySwiper}>{t(LanguageKey.userpanel_NoSavedProducts)}</div>
                       )}
@@ -400,12 +397,12 @@ function Markets() {
                         </div>
                       </div>
                     </div>
-                    <Swiper className={styles.swiper} slidesPerView="auto" spaceBetween={10} freeMode>
+                    <Slider className={styles.swiper} freeMode spaceBetween={10} navigation={false}>
                       {explore.map((explore, index) => (
-                        <SwiperSlide
-                          onClick={() => router.push(`/user/business/shop/${explore.instagramerId}`)}
+                        <div
                           key={index}
-                          className={styles.exploreitem}>
+                          className={styles.exploreitem}
+                          onClick={() => router.push(`/user/business/shop/${explore.instagramerId}`)}>
                           <img
                             loading="lazy"
                             decoding="async"
@@ -466,9 +463,9 @@ function Markets() {
                               </span>
                             )}
                           </div>
-                        </SwiperSlide>
+                        </div>
                       ))}
-                    </Swiper>
+                    </Slider>
                   </div>
                 </div>
                 <aside className={styles.upgradeBox} aria-label="Upgrade Options">

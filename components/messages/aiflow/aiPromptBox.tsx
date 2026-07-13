@@ -43,6 +43,7 @@ const AIPromptBox = ({
   setPromptInfo,
   tools,
   setTools,
+  setShowNotFeature,
 }: {
   aiTools: IAITools[];
   userSelectId: string | null;
@@ -60,6 +61,7 @@ const AIPromptBox = ({
   setPromptInfo: React.Dispatch<React.SetStateAction<ICreatePrompt | null>>;
   tools: ITool[];
   setTools: React.Dispatch<React.SetStateAction<ITool[]>>;
+  setShowNotFeature: (value: boolean) => void;
 }) => {
   const { data: session } = useSession({
     required: true,
@@ -186,7 +188,7 @@ const AIPromptBox = ({
   const handleCreateAIPrompt = useCallback(async () => {
     const hasAccess = await fetchAndCheckFeature(PsgFeatureType.AI, session);
     if (!hasAccess) {
-      router.push("/upgrade");
+      setShowNotFeature(true);
       return;
     }
     try {
@@ -221,7 +223,7 @@ const AIPromptBox = ({
   const handleGetPromptAnalysis = useCallback(async () => {
     const hasAccess = await fetchAndCheckFeature(PsgFeatureType.AI, session);
     if (!hasAccess) {
-      router.push("/upgrade");
+      setShowNotFeature(true);
       return;
     }
     setDetailedPrompt((prev) => ({ ...prev, customPromptAnalysis: null }));

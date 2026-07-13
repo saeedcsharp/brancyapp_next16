@@ -59,6 +59,8 @@ export default {
     minutesAgo: "Несколько минут назад",
     justNow: "Только что",
     upgradeyouraccount: "Обновите свой аккаунт",
+    featureNotAvailable: "Эта функция недоступна",
+    featureNotAvailableDesc: "Обновите аккаунт, чтобы воспользоваться этой функцией.",
     likeaprouser: "Начните настоящий бизнес",
     followerrate: "Темп роста подписчиков",
     shoppertitle: "Всё готово к продаже 👌",

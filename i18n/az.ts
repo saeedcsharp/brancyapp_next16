@@ -54,6 +54,8 @@ export default {
     level: "Səviyyə",
     bestposts: "Ən yaxşı postlar",
     upgradeyouraccount: "Hesabınızı yüksəldin",
+    featureNotAvailable: "Bu xüsusiyyət mövcud deyil",
+    featureNotAvailableDesc: "Bu xüsusiyyətdən istifadə etmək üçün hesabınızı yüksəldin.",
     likeaprouser: "Həqiqi bir biznes qurun",
     followerrate: "Follower artım dərəcəsi",
 

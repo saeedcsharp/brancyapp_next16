@@ -2093,6 +2093,8 @@ export enum LanguageKey {
   chooseCalendarExplain = "chooseCalendarExplain",
   setupchooseexplain = "setupchooseexplain",
   upgradeyouraccount = "upgradeyouraccount",
+  featureNotAvailable = "featureNotAvailable",
+  featureNotAvailableDesc = "featureNotAvailableDesc",
   likeaprouser = "likeaprouser",
   followerrate = "followerrate",
   bestposts = "bestposts",
