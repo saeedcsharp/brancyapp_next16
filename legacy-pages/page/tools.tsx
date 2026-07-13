@@ -72,6 +72,7 @@ import {
   IUnFollowAllFollowing_UpdateCondotion,
 } from "brancy/models/interfaces";
 import { lotterySpecificationType } from "brancy/models/enums";
+import NotFeature from "brancy/components/notOk/notFeature";
 
 function addHashPrefixOrSuffix(list: string[]) {
   const result = [];
@@ -142,6 +143,7 @@ const Tools = () => {
   const [showDayEvents, setShowDayEvents] = useState(false);
   const [showDayEventsFromCreateEvent, setShowDayEventsFromCreateEvent] = useState(false);
   const [showCreateEventIdea, setShowCreateEventIdea] = useState(false);
+  const [showNotFeature, setShowNotFeature] = useState(false);
   const eventIdeaRef = useRef<EventIdeaHandle>(null);
   const [showLotteryRunning, setShowLotteryRunning] = useState(false);
   const [showShareTermsAndCondition, setShowShareTermsAndCondition] = useState(false);
@@ -405,6 +407,7 @@ const Tools = () => {
     setSelectedHashtagList(null);
     setPreSaveHashtagList([]);
     changePositionToRelative();
+    setShowNotFeature(false);
   };
   const handleSaveHashtagList = async (hashtags: string[], hashtagsTitle: string) => {
     let hashtagListItem: CreateHashtagListItem = {
@@ -1202,6 +1205,10 @@ const Tools = () => {
           <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showCreateEventIdea}>
             <CreateEventIdea
               removeMask={removeMask}
+              handleShowNotFeature={() => {
+                setShowCreateEventIdea(false);
+                setShowNotFeature(true);
+              }}
               handleShowDayEvents={() => {
                 setShowCreateEventIdea(false);
                 setShowDayEventsFromCreateEvent(true);
@@ -1216,6 +1223,9 @@ const Tools = () => {
                 }
               }}
             />
+          </Modal>
+          <Modal closePopup={removeMask} classNamePopup="popupSendFile" showContent={showNotFeature}>
+            <NotFeature onClose={() => setShowNotFeature(false)} />
           </Modal>
           <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showLotteryRunning}>
             <LotteryRunning

@@ -54,6 +54,8 @@ export default {
     justNow: "الآن",
     bestposts: "أفضل المشاركات",
     upgradeyouraccount: "قم بترقية حسابك",
+    featureNotAvailable: "هذه الميزة غير متاحة",
+    featureNotAvailableDesc: "قم بترقية حسابك للاستفادة من هذه الميزة.",
     likeaprouser: "ابدأ مشروعًا حقيقيًا",
     followerrate: "معدل نمو المتابعين",
     shoppertitle: "كل شيء جاهز للبيع 👌",

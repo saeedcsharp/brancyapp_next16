@@ -59,6 +59,8 @@ export default {
     minutesAgo: "Vor ein paar Minuten",
     justNow: "Gerade eben",
     upgradeyouraccount: "Aktualisieren Sie Ihr Konto",
+    featureNotAvailable: "Diese Funktion ist nicht verfügbar",
+    featureNotAvailableDesc: "Upgraden Sie Ihr Konto, um diese Funktion zu nutzen.",
     likeaprouser: "Starten Sie ein echtes Geschäft",
     followerrate: "Wachstumsrate der Follower",
     shoppertitle: "Alles bereit zum Verkauf 👌",

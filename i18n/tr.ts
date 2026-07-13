@@ -58,6 +58,8 @@ export default {
     minutesAgo: "Dakikalar önce",
     justNow: "Şimdi",
     upgradeyouraccount: "Hesabınızı yükseltin",
+    featureNotAvailable: "Bu özellik mevcut değil",
+    featureNotAvailableDesc: "Bu özelliği kullanmak için hesabınızı yükseltin.",
     likeaprouser: "Gerçek bir iş kurun",
     followerrate: "Takipçi büyüme oranı",
     shoppertitle: "Her şey satışa hazır 👌",

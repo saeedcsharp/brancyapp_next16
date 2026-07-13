@@ -52,6 +52,8 @@ export default {
     level: "سطح",
     bestposts: "بهترین پست‌ها",
     upgradeyouraccount: "حساب خود را ارتقاء دهید",
+    featureNotAvailable: "این ویژگی در دسترس نیست",
+    featureNotAvailableDesc: "برای استفاده از این امکان، حساب خود را ارتقا دهید.",
     likeaprouser: "یک کسب‌وکار واقعی راه‌اندازی کنید",
     followerrate: "نرخ رشد فالور",
     usersettingexplain: "اطلاعات حساب اینستاگرام فقط در خود اینستاگرام تغییر می‌کند و اینجا خودکار به‌روزرسانی می‌شود.",

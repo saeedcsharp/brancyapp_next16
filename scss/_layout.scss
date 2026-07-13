@@ -130,6 +130,7 @@ html[dir="rtl"] .marketAdsCart {
 }
 .popupMini {
   position: fixed;
+  align-items: center;
   max-width: 400px;
   width: calc(100% - 40px);
   max-height: 400px;

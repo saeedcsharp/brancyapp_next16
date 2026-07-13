@@ -60,7 +60,7 @@ export async function fetchAndCheckFeature(
   session: Session | null | undefined,
 ): Promise<boolean> {
   const hasFeature = await checkPackageFeature(session, featureId);
-  return hasFeature;
+  return !hasFeature;
 }
 
 export default function checkFeature(featureId: PsgFeatureType, featureInfo: IPsgFeatureInfo): boolean {
