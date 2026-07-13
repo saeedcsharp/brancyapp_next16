@@ -3,12 +3,7 @@ import { useEffect, useReducer, useRef, useState } from "react";
 import Loading from "brancy/components/notOk/loading";
 import { convertArrayToLarray } from "brancy/helper/chunkArray";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-import { Navigation, Pagination } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
+import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
 import styles from "./general.module.css";
 import { ISession, ILoadingStatus } from "brancy/models/interfaces";
 export default function Session({
@@ -33,8 +28,6 @@ export default function Session({
     | { type: "SET_AUTO_DIRECT"; payload: boolean }
     | { type: "SET_LOADING_STATUS"; payload: Partial<ILoadingStatus> }
     | { type: "TOGGLE_SWIPER_LOADING" };
-  let navigationUnReactionPrevRef = useRef(null);
-  let navigationUnReactionNextRef = useRef(null);
   const { data: session } = useSession();
   const [isHidden, setIsHidden] = useState(false); // New state to toggle visibility and grid-row-end
   const [state, dispatch] = useReducer(autoReplyReducer, {
@@ -97,35 +90,15 @@ export default function Session({
         {!loading && sessions && RoleAccess(session) && (
           <div className={styles.autoreply}>
             <ul style={{ listStyleType: "none", margin: 0, padding: 0 }}>
-              <Swiper
+              <Slider
                 className={styles.swiperContent}
-                onUpdate={(a) => {
-                  let d = document.getElementsByClassName("swiper");
-                  let classes = d[0].classList;
-                  if (!classes.contains("swiper-backface-hidden")) {
-                    classes.add("swiper-backface-hidden");
-                  }
-                }}
-                onInit={() => {
-                  dispatch({ type: "TOGGLE_SWIPER_LOADING" });
-                }}
                 slidesPerView={1}
                 spaceBetween={1}
-                modules={[Navigation, Pagination]}
-                navigation={{
-                  prevEl: navigationUnReactionPrevRef.current,
-                  nextEl: navigationUnReactionNextRef.current,
-                }}
-                pagination={{
-                  clickable: true,
-                  dynamicBullets: true,
-                  renderBullet: function (index, className) {
-                    return '<span class="' + className + '">' + (index + 1) + "</span>";
-                  },
-                }}
+                navigation={true}
+                pagination={{ clickable: true, dynamicBullets: true }}
                 onReachEnd={handleSwiperReachEnd}>
                 {convertArrayToLarray(sessions, 4).map((v, i) => (
-                  <SwiperSlide
+                  <SliderSlide
                     key={i}
                     style={{
                       gap: "var(--gap-10)",
@@ -184,9 +157,9 @@ export default function Session({
                         </div>
                       </div>
                     ))}
-                  </SwiperSlide>
+                  </SliderSlide>
                 ))}
-              </Swiper>
+              </Slider>
             </ul>
           </div>
         )}
