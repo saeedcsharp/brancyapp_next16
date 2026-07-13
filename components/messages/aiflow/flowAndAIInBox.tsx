@@ -35,6 +35,7 @@ import {
   ITotalPrompt,
   ITotalMasterFlow,
 } from "brancy/models/interfaces";
+import NotFeature from "brancy/components/notOk/notFeature";
 
 let firstTime = 0;
 let touchMove = 0;
@@ -107,7 +108,7 @@ const FlowAndAIInbox = () => {
     visible: false,
     nodeType: null,
   });
-
+  const [showNotFeature, setShowNotFeature] = useState(false);
   const handleOpenLiveTest = () => {
     setLiveTestVisible(true);
   };
@@ -826,6 +827,7 @@ const FlowAndAIInbox = () => {
                 setPromptInfo={setPromptInfo}
                 tools={aiPromptTools}
                 setTools={setAIPromptTools}
+                setShowNotFeature={setShowNotFeature}
               />
             </div>
           )}
@@ -940,6 +942,9 @@ const FlowAndAIInbox = () => {
           />
         </Modal>
       )}
+      <Modal closePopup={() => setShowNotFeature(false)} classNamePopup="popupSendFile" showContent={showNotFeature}>
+        <NotFeature onClose={() => setShowNotFeature(false)} />
+      </Modal>
     </>
   );
 };

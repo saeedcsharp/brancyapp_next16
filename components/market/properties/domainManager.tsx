@@ -19,7 +19,13 @@ import { PsgFeatureType } from "brancy/models/enums";
 import { InstagramerAccountInfo, IGetCustomDomain } from "brancy/models/interfaces";
 
 const baseShortUrl = process.env.NEXT_PUBLIC_SHORT_LINK;
-const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccountInfo | null }) => {
+const DomainManager = ({
+  instagramerInfo,
+  setShowNotFeature,
+}: {
+  instagramerInfo: InstagramerAccountInfo | null;
+  setShowNotFeature: (value: boolean) => void;
+}) => {
   const { t } = useTranslation();
   const { data: session } = useSession();
   const router = useRouter();
@@ -66,7 +72,7 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
     if (isUpdating) return; // Prevent multiple clicks
     const hasFeature = await fetchAndCheckFeature(PsgFeatureType.CustomDomain, session);
     if (!hasFeature) {
-      router.push("/upgrade");
+      setShowNotFeature(true);
       return;
     }
     setIsUpdating(true);
@@ -106,7 +112,7 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
     if (isVerifying) return; // Prevent multiple clicks
     const hasFeature = await fetchAndCheckFeature(PsgFeatureType.CustomDomain, session);
     if (!hasFeature) {
-      router.push("/upgrade");
+      setShowNotFeature(true);
       return;
     }
     setIsVerifying(true);
@@ -141,7 +147,7 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
   async function handleConnectCustomAddress() {
     const hasFeature = await fetchAndCheckFeature(PsgFeatureType.CustomDomain, session);
     if (!hasFeature) {
-      router.push("/upgrade");
+      setShowNotFeature(true);
       return;
     }
     const res = await clientFetchApi<boolean, boolean>("api/bio/connectCustomDomain", {
