@@ -41,7 +41,6 @@
     "react-dom": "^19.2.6",
     "react-draggable": "^4.6.0",
     "react-i18next": "^16.5.4",
-    "react-infinite-scroll-component": "^6.1.0",
     "react-input-emoji": "^5.9.0",
     "react-leaflet": "^5.0.0",
     "react-multi-date-picker": "^4.3.2",
