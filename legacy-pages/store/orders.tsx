@@ -22,11 +22,8 @@ import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { LanguageKey } from "brancy/i18n";
+import Slider from "brancy/components/design/slider/slider";
 import { MethodType } from "brancy/helper/api";
-import "swiper/css";
-import "swiper/css/free-mode";
-import { FreeMode } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "./ordernew.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { OrderStep, OrderStepStatus, PartnerRole, PushResponseType, ShippingRequestType } from "brancy/models/enums";
@@ -870,9 +867,9 @@ const Orders = () => {
         {loading && <Loading />}
         {!loading && (
           <section className={styles.pincontainer} role="main" aria-label="Orders Management">
-            <Swiper freeMode slidesPerView="auto" modules={[FreeMode]} className={styles.orderstep}>
+            <Slider freeMode spaceBetween={0} navigation={false} className={styles.orderstep}>
               {steps.map((step, index) => (
-                <SwiperSlide
+                <div
                   key={index}
                   className={`${styles.step} ${
                     selectedStep === index ? `${styles.activeStep} ${styles[`activeStep${index}`]}` : ""
@@ -898,9 +895,9 @@ const Orders = () => {
                     <span>{t(step.label)}</span>
                     <span className={styles.menucounter}>{step.counter}</span>
                   </div>
-                </SwiperSlide>
+                </div>
               ))}
-            </Swiper>
+            </Slider>
 
             <div className={styles.orderstepcontent}>
               {selectedStep === OrderStepStatus.Pending && (
