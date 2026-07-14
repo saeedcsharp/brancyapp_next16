@@ -1,14 +1,11 @@
-import { ApexOptions } from "apexcharts";
 import { useSession } from "next-auth/react";
-import dynamic from "next/dynamic";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Soon from "brancy/components/notOk/soon";
 import { packageStatus } from "brancy/helper/loadingStatus";
+import ChartDay, { IChartSeries as IChartSeriesDay } from "brancy/components/design/chart/Chart_day";
 import styles from "./statistics.module.css";
-
-const Chart = dynamic(() => import("react-apexcharts"), { ssr: false });
 
 // صفحه آمار مالی — نسخه نمایشی فارسی برای پرزنت سرمایه‌گذار
 // تمام داده‌ها و فرآیندها Mock هستند و صرفاً سناریوهای قدرت سیستم را نمایش می‌دهند.
@@ -35,7 +32,6 @@ const Statistics = () => {
 
   // داده‌های نمودار نمایشی - حجم تراکنش 7 روز اخیر
   const chartData = {
-    categories: ["شنبه", "یکشنبه", "دوشنبه", "سه‌شنبه", "چهارشنبه", "پنجشنبه", "جمعه"],
     series: [
       {
         name: "واریز",
@@ -48,79 +44,37 @@ const Statistics = () => {
     ],
   };
 
-  const chartOptions: ApexOptions = {
-    chart: {
-      type: "bar",
-      height: 230,
-      toolbar: {
-        show: false,
-      },
-      fontFamily: "inherit",
-    },
-    plotOptions: {
-      bar: {
-        horizontal: false,
-        columnWidth: "55%",
-        borderRadius: 4,
-      },
-    },
-    dataLabels: {
-      enabled: false,
-    },
-    stroke: {
-      show: true,
-      width: 2,
-      colors: ["transparent"],
-    },
-    xaxis: {
-      categories: chartData.categories,
-      labels: {
-        style: {
-          colors: "var(--text-h2)",
-          fontSize: "11px",
+  const now = new Date();
+  const weekSeriesData: IChartSeriesDay[] = chartData.series.map((s, si) => {
+    const dayList = s.data.map((count, i) => {
+      const d = new Date(now);
+      d.setDate(d.getDate() - (6 - i));
+      d.setHours(12, 0, 0, 0);
+      return {
+        day: d.getDate(),
+        month: d.getMonth() + 1,
+        year: d.getFullYear(),
+        createdTime: Math.floor(d.getTime() / 1000),
+        count,
+      };
+    });
+    return {
+      id: String(si),
+      name: s.name,
+      data: [
+        {
+          month: now.getMonth() + 1,
+          year: now.getFullYear(),
+          totalCount: s.data.reduce((a, b) => a + b, 0),
+          plusCount: 0,
+          lastUpdate: null,
+          previousPlusCount: undefined,
+          users: [],
+          dayList,
         },
-      },
-      axisBorder: {
-        show: false,
-      },
-      axisTicks: {
-        show: false,
-      },
-    },
-    yaxis: {
-      labels: {
-        style: {
-          colors: "var(--text-h2)",
-          fontSize: "11px",
-        },
-        formatter: (val) => {
-          return (val / 1000000).toFixed(0) + "م";
-        },
-      },
-    },
-    fill: {
-      opacity: 1,
-    },
-    colors: ["#4CAF50", "#F44336"],
-    tooltip: {
-      y: {
-        formatter: (val) => {
-          return val.toLocaleString("fa-IR") + " ریال";
-        },
-      },
-    },
-    legend: {
-      position: "top",
-      horizontalAlign: "right",
-      labels: {
-        colors: "var(--text-h2)",
-      },
-    },
-    grid: {
-      borderColor: "var(--color-gray30)",
-      strokeDashArray: 2,
-    },
-  };
+      ],
+    };
+  });
 
   useEffect(() => {
     if (!session) return;
@@ -229,8 +183,7 @@ const Statistics = () => {
                   </div>
                   <div className={styles.section3}>
                     <div className={styles.totalchart}>
-                      {/* نمودار حجم تراکنش 7 روز اخیر */}
-                      <Chart options={chartOptions} series={chartData.series} type="bar" height={230} width="100%" />
+                      <ChartDay id="wallet-stats" name="wallet-stats" seriesData={weekSeriesData} showAverage={false} />
                     </div>
                   </div>
                   <div className={styles.section3}>

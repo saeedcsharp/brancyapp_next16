@@ -481,7 +481,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
     return totalCount - prevTotal;
   }, [currentMonthData, state.indexValue, allMonthsData, totalCount]);
   useEffect(() => {
-    if (props.seriesData && LoginStatus(session)) {
+    if (props.seriesData && (LoginStatus(session) || session !== undefined)) {
       dispatch({ type: "SET_LOADING", payload: false });
     }
   }, [props.seriesData, session]);
