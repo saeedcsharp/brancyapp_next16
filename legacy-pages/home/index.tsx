@@ -264,8 +264,9 @@ const Home = () => {
     // Only fetch data if not already loaded and session is authenticated
     if (!session) return;
 
-    // Wait until session is fully loaded with packageExpireTime
-    if (session.user.packageExpireTime === undefined) {
+    // Wait until session is fully loaded with packageExpireTime (set after GetAccountInfo completes)
+    // Also guard against lastUpdate === 0 which means GetAccountInfo hasn't run yet
+    if (session.user.packageExpireTime === undefined || session.user.lastUpdate === 0) {
       console.log("Waiting for session to be fully loaded...");
       return;
     }
@@ -276,10 +277,6 @@ const Home = () => {
     }
 
     // Wait for GetAccountInfo() to complete (lastUpdate is set to 0 on sign-in and updated after GetAccountInfo)
-    if (session.user.lastUpdate === 0) {
-      console.log("Waiting for GetAccountInfo to complete...");
-      return;
-    }
 
     if (!isDataLoaded && LoginStatus(session) && status === "authenticated") {
       fetchData();

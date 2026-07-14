@@ -114,6 +114,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             loginStatus: res.value.loginStatus,
             lastUpdate: Date.now(),
             profileUrl: res.value.profileUrl,
+            packageExpireTime: res.value.packageExpireTime ?? session?.user?.packageExpireTime ?? 0,
           },
         });
         // setUser(res.value);
