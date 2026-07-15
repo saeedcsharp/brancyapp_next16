@@ -60,7 +60,7 @@
   }
 }
 .Togglebtn {
-  background-color: var(--color-white30);
+  background-color: var(--color-gray60);
   border-radius: var(--br8);
   display: flex;
   align-content: center;
@@ -119,8 +119,8 @@
   }
 }
 .headermenudelete:hover {
-  background-color: var(--color-dark-blue60);
-  box-shadow: 0 0 0 4px var(--color-ffffff30);
+  background-color: var(--color-dark-red30);
+  border: 2px solid var(--color-dark-red60);
 }
 
 .headermenucancel {
@@ -144,8 +144,8 @@
   }
 }
 .headermenucancel:hover {
-  background-color: var(--color-dark-blue60);
-  box-shadow: 0 0 0 4px var(--color-ffffff30);
+  background-color: var(--color-gray30);
+  border: 2px solid var(--color-gray60);
 }
 /* ___content___ */
 .productedit {
