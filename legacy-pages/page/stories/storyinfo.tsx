@@ -33,7 +33,7 @@ import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingSta
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import MultiChart from "brancy/components/design/chart/Chart_month";
+import ChartHour from "brancy/components/design/chart/Chart_hour";
 import styles from "./showStory.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
@@ -247,54 +247,18 @@ const ShowStory = () => {
   useEffect(() => {
     setMultiSelections(initialMultiSelections);
   }, [initialMultiSelections]);
-  const buildMultiChartProps = useMemo(
-    () => (sfIndex: number) => {
-      if (!storyInsight || !storyInsight.superFigures || !storyInsight.superFigures[sfIndex]) return null;
+  const getHourItems = useCallback(
+    (sfIndex: number) => {
+      if (!storyInsight?.superFigures?.[sfIndex]) return [];
       const sf = storyInsight.superFigures[sfIndex];
       const sel = multiSelections[sfIndex] || { first: 0, second: 0 };
       const firstKey = sf.firstIndexes?.[sel.first];
-      const secondKey =
-        sf.secondIndexes && sf.secondIndexes[sel.first] ? sf.secondIndexes[sel.first][sel.second ?? 0] : undefined;
+      const secondKey = sf.secondIndexes?.[sel.first]?.[sel.second ?? 0];
       let targetFig = sf.figures?.find(
-        (f) => f.firstIndex == firstKey && (secondKey === undefined || f.secondIndex == secondKey),
+        (f) => f.firstIndex === firstKey && (secondKey === undefined || f.secondIndex === secondKey),
       );
-      if (!targetFig) targetFig = sf.figures && sf.figures.length > 0 ? sf.figures[0] : undefined;
-      const dayList = (targetFig && (targetFig.days ?? targetFig.hours)) || [];
-      // derive month/year from first timestamp if available
-      let year = new Date().getFullYear();
-      let month = new Date().getMonth() + 1;
-      if (dayList && dayList.length > 0 && (dayList[0] as any).createdTime) {
-        const ts = (dayList[0] as any).createdTime * 1000;
-        const d = new Date(ts);
-        year = d.getFullYear();
-        month = d.getMonth() + 1;
-      }
-      const totalCount = (dayList || []).reduce((s: number, it: any) => s + (it.count || 0), 0);
-      const seriesData = [
-        {
-          id: `${sfIndex}-0`,
-          name: sf.title ?? `series-${sfIndex}`,
-          data: [
-            {
-              year,
-              month,
-              dayList: dayList,
-              totalCount,
-            },
-          ],
-        },
-      ];
-      const objectNavigators = [
-        {
-          title: sf.title,
-          firstIndexes: sf.firstIndexes || [],
-          secondIndexes: sf.secondIndexes || [],
-          initialFirstIndex: sel.first,
-          initialSecondIndex: sel.second,
-        },
-      ];
-
-      return { seriesData, objectNavigators };
+      if (!targetFig) targetFig = sf.figures?.[0];
+      return (targetFig?.hours ?? []) as { hourValue: number; count: number; createdTime: number }[];
     },
     [storyInsight, multiSelections],
   );
@@ -1357,30 +1321,31 @@ const ShowStory = () => {
                               ? storyInsight.superFigures[0].title
                               : ""}
                           </div>
-                          {storyInsight.superFigures &&
-                            storyInsight.superFigures[0] &&
-                            (() => {
-                              const propsMulti = buildMultiChartProps(0);
-                              if (!propsMulti) return null;
-                              return (
-                                <MultiChart
-                                  id={`insight-0`}
-                                  name={propsMulti.objectNavigators[0].title || `insight-0`}
-                                  seriesData={propsMulti.seriesData as any}
-                                  objectNavigators={propsMulti.objectNavigators as any}
-                                  onObjectNavigatorChange={(navIndex, firstIndex, secondIndex) => {
-                                    setMultiSelections((prev) => {
-                                      const next = prev.slice();
-                                      next[0] = {
-                                        first: firstIndex,
-                                        second: secondIndex,
-                                      };
-                                      return next;
-                                    });
-                                  }}
-                                />
-                              );
-                            })()}
+                          {storyInsight.superFigures?.[0] && (
+                            <ChartHour
+                              id="story-insight-0"
+                              name={storyInsight.superFigures[0].title ?? ""}
+                              seriesData={[
+                                { id: "sf-0", name: storyInsight.superFigures[0].title ?? "", hours: getHourItems(0) },
+                              ]}
+                              objectNavigators={[
+                                {
+                                  title: storyInsight.superFigures[0].title,
+                                  firstIndexes: storyInsight.superFigures[0].firstIndexes ?? [],
+                                  secondIndexes: storyInsight.superFigures[0].secondIndexes,
+                                  initialFirstIndex: multiSelections[0]?.first ?? 0,
+                                  initialSecondIndex: multiSelections[0]?.second ?? 0,
+                                },
+                              ]}
+                              onObjectNavigatorChange={(_navIdx, firstIdx, secondIdx) => {
+                                setMultiSelections((prev) => {
+                                  const next = prev.slice();
+                                  next[0] = { first: firstIdx, second: secondIdx ?? 0 };
+                                  return next;
+                                });
+                              }}
+                            />
+                          )}
                         </div>
                         <div className="headerandinput">
                           <div className="title">
@@ -1388,30 +1353,31 @@ const ShowStory = () => {
                               ? storyInsight.superFigures[1].title
                               : ""}
                           </div>
-                          {storyInsight.superFigures &&
-                            storyInsight.superFigures[1] &&
-                            (() => {
-                              const propsMulti = buildMultiChartProps(1);
-                              if (!propsMulti) return null;
-                              return (
-                                <MultiChart
-                                  id={`insight-1`}
-                                  name={propsMulti.objectNavigators[0].title || `insight-1`}
-                                  seriesData={propsMulti.seriesData as any}
-                                  objectNavigators={propsMulti.objectNavigators as any}
-                                  onObjectNavigatorChange={(navIndex, firstIndex, secondIndex) => {
-                                    setMultiSelections((prev) => {
-                                      const next = prev.slice();
-                                      next[1] = {
-                                        first: firstIndex,
-                                        second: secondIndex,
-                                      };
-                                      return next;
-                                    });
-                                  }}
-                                />
-                              );
-                            })()}
+                          {storyInsight.superFigures?.[1] && (
+                            <ChartHour
+                              id="story-insight-1"
+                              name={storyInsight.superFigures[1].title ?? ""}
+                              seriesData={[
+                                { id: "sf-1", name: storyInsight.superFigures[1].title ?? "", hours: getHourItems(1) },
+                              ]}
+                              objectNavigators={[
+                                {
+                                  title: storyInsight.superFigures[1].title,
+                                  firstIndexes: storyInsight.superFigures[1].firstIndexes ?? [],
+                                  secondIndexes: storyInsight.superFigures[1].secondIndexes,
+                                  initialFirstIndex: multiSelections[1]?.first ?? 0,
+                                  initialSecondIndex: multiSelections[1]?.second ?? 0,
+                                },
+                              ]}
+                              onObjectNavigatorChange={(_navIdx, firstIdx, secondIdx) => {
+                                setMultiSelections((prev) => {
+                                  const next = prev.slice();
+                                  next[1] = { first: firstIdx, second: secondIdx ?? 0 };
+                                  return next;
+                                });
+                              }}
+                            />
+                          )}
                         </div>
                       </div>
                       {/* {session.user.loginStatus !== 0 && <NotPassword />} */}
@@ -1423,29 +1389,35 @@ const ShowStory = () => {
                                 ? storyInsight.superFigures[2].title
                                 : ""}
                             </div>
-                            {storyInsight.superFigures[2] &&
-                              (() => {
-                                const propsMulti = buildMultiChartProps(2);
-                                if (!propsMulti) return null;
-                                return (
-                                  <MultiChart
-                                    id={`insight-2`}
-                                    name={propsMulti.objectNavigators[0].title || `insight-2`}
-                                    seriesData={propsMulti.seriesData as any}
-                                    objectNavigators={propsMulti.objectNavigators as any}
-                                    onObjectNavigatorChange={(navIndex, firstIndex, secondIndex) => {
-                                      setMultiSelections((prev) => {
-                                        const next = prev.slice();
-                                        next[2] = {
-                                          first: firstIndex,
-                                          second: secondIndex,
-                                        };
-                                        return next;
-                                      });
-                                    }}
-                                  />
-                                );
-                              })()}
+                            {storyInsight.superFigures[2] && (
+                              <ChartHour
+                                id="story-insight-2"
+                                name={storyInsight.superFigures[2].title ?? ""}
+                                seriesData={[
+                                  {
+                                    id: "sf-2",
+                                    name: storyInsight.superFigures[2].title ?? "",
+                                    hours: getHourItems(2),
+                                  },
+                                ]}
+                                objectNavigators={[
+                                  {
+                                    title: storyInsight.superFigures[2].title,
+                                    firstIndexes: storyInsight.superFigures[2].firstIndexes ?? [],
+                                    secondIndexes: storyInsight.superFigures[2].secondIndexes,
+                                    initialFirstIndex: multiSelections[2]?.first ?? 0,
+                                    initialSecondIndex: multiSelections[2]?.second ?? 0,
+                                  },
+                                ]}
+                                onObjectNavigatorChange={(_navIdx, firstIdx, secondIdx) => {
+                                  setMultiSelections((prev) => {
+                                    const next = prev.slice();
+                                    next[2] = { first: firstIdx, second: secondIdx ?? 0 };
+                                    return next;
+                                  });
+                                }}
+                              />
+                            )}
                           </div>
                           <div className="headerandinput">
                             <div className="title">
@@ -1453,29 +1425,35 @@ const ShowStory = () => {
                                 ? storyInsight.superFigures[3].title
                                 : ""}
                             </div>
-                            {storyInsight.superFigures[3] &&
-                              (() => {
-                                const propsMulti = buildMultiChartProps(3);
-                                if (!propsMulti) return null;
-                                return (
-                                  <MultiChart
-                                    id={`insight-3`}
-                                    name={propsMulti.objectNavigators[0].title || `insight-3`}
-                                    seriesData={propsMulti.seriesData as any}
-                                    objectNavigators={propsMulti.objectNavigators as any}
-                                    onObjectNavigatorChange={(navIndex, firstIndex, secondIndex) => {
-                                      setMultiSelections((prev) => {
-                                        const next = prev.slice();
-                                        next[3] = {
-                                          first: firstIndex,
-                                          second: secondIndex,
-                                        };
-                                        return next;
-                                      });
-                                    }}
-                                  />
-                                );
-                              })()}
+                            {storyInsight.superFigures[3] && (
+                              <ChartHour
+                                id="story-insight-3"
+                                name={storyInsight.superFigures[3].title ?? ""}
+                                seriesData={[
+                                  {
+                                    id: "sf-3",
+                                    name: storyInsight.superFigures[3].title ?? "",
+                                    hours: getHourItems(3),
+                                  },
+                                ]}
+                                objectNavigators={[
+                                  {
+                                    title: storyInsight.superFigures[3].title,
+                                    firstIndexes: storyInsight.superFigures[3].firstIndexes ?? [],
+                                    secondIndexes: storyInsight.superFigures[3].secondIndexes,
+                                    initialFirstIndex: multiSelections[3]?.first ?? 0,
+                                    initialSecondIndex: multiSelections[3]?.second ?? 0,
+                                  },
+                                ]}
+                                onObjectNavigatorChange={(_navIdx, firstIdx, secondIdx) => {
+                                  setMultiSelections((prev) => {
+                                    const next = prev.slice();
+                                    next[3] = { first: firstIdx, second: secondIdx ?? 0 };
+                                    return next;
+                                  });
+                                }}
+                              />
+                            )}
                           </div>
                         </div>
                       )}
