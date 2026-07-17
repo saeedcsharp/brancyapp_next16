@@ -80,7 +80,7 @@ const ShowStory = () => {
   const componentId = useId();
   const { t } = useTranslation();
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status: sessionStatus } = useSession();
   const { query } = router;
   const storyIdParam = useMemo(() => {
     const rawStoryId = query.storyid;
@@ -299,10 +299,11 @@ const ShowStory = () => {
     [storyInsight, multiSelections],
   );
   useEffect(() => {
+    if (sessionStatus === "loading") return;
     if (!isAuthenticated) {
       router.push("/");
     }
-  }, [isAuthenticated, router]);
+  }, [isAuthenticated, sessionStatus, router]);
   useEffect(() => {
     return () => {
       if (timeoutRef.current) clearTimeout(timeoutRef.current);
@@ -653,7 +654,7 @@ const ShowStory = () => {
 
   const canonicalUrl = useMemo(() => `https://www.Brancy.app/page/stories/storyinfo/${storyIdParam}`, [storyIdParam]);
 
-  if (!session || !isValidIndex || !storyIdParam) return null;
+  if (sessionStatus === "loading" || !session || !isValidIndex || !storyIdParam) return null;
 
   return (
     <>
