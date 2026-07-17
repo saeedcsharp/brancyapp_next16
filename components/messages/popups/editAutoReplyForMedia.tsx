@@ -350,6 +350,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       replySuccessfullyDirected: replyMethod?.replySuccessfullyDirected ?? false,
       shouldFollower: replyMethod !== null && replyMethod.shouldFollower,
     };
+    console.log("sendAutoooooo", sendAuto);
     if (checkBox.AI) {
       sendAuto = {
         ...sendAuto,
@@ -919,6 +920,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                     checked={autoReplyAll}
                     handleOptionChanged={() => {
                       setAutoReplyAll(true);
+                      setReplyMethod((prev) => ({ ...prev!, items: [] }));
                     }}
                     textlabel={t(LanguageKey.respondToAllComments)}
                     aria-checked={autoReplyAll}
