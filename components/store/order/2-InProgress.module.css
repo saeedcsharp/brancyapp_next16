@@ -50,9 +50,7 @@
   background-color: var(--color-gray30) !important;
 }
 .table tr {
-  top: -1px;
   text-transform: uppercase;
-
   padding-inline: 20px;
   position: relative;
   width: 100%;

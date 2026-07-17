@@ -325,7 +325,7 @@ export default function InCart({
           <tbody>
             {orders.map((order, index) => (
               <tr key={index} className={styles.row}>
-                <td style={{ minWidth: "160px" }} className={`${styles.customer} translate`}>
+                <td style={{ minWidth: "160px" }} className={styles.customer}>
                   <img
                     loading="lazy"
                     decoding="async"
@@ -336,7 +336,7 @@ export default function InCart({
                       (e.target as HTMLImageElement).src = "/no-profile.svg";
                     }}
                   />
-                  <div className={`${styles.instagramprofiledetail} translate`}>
+                  <div className="instagramprofiledetail">
                     <div className="instagramusername">{order.customer.name}</div>
                     <div className="instagramid">{order.customer.username}</div>
                   </div>
