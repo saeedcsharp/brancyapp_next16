@@ -3,7 +3,6 @@ import Head from "next/head";
 import router from "next/router";
 import React, { ChangeEvent, useCallback, useEffect, useId, useMemo, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-
 import CheckBoxButton from "brancy/components/design/checkBoxButton";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import InputText from "brancy/components/design/inputText";
@@ -1232,27 +1231,46 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
       <div className="ButtonContainer" role="group" aria-label="Form actions">
         <button
           type="submit"
-          disabled={activeAutoReply ? !isFormValid : !hasChanges}
+          disabled={
+            !(
+              activeAutoReply &&
+              specificKeywordsList.length > 0 &&
+              (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI) &&
+              (isFormValid || hasChanges)
+            )
+          }
           className={
-            activeAutoReply
-              ? isFormValid
-                ? "saveButton"
-                : "disableButton"
-              : hasChanges
-                ? "saveButton"
-                : "disableButton"
+            activeAutoReply &&
+            specificKeywordsList.length > 0 &&
+            (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI) &&
+            (isFormValid || hasChanges)
+              ? "saveButton"
+              : "disableButton"
           }
           onClick={() => {
             handleUpdateAutoReply();
           }}
           onKeyDown={(e) => {
-            if (e.key === "Enter" && (activeAutoReply ? isFormValid : hasChanges)) {
+            if (
+              e.key === "Enter" &&
+              activeAutoReply &&
+              specificKeywordsList.length > 0 &&
+              (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI) &&
+              (isFormValid || hasChanges)
+            ) {
               e.preventDefault();
               handleUpdateAutoReply();
             }
           }}
           aria-label="Save auto-reply settings"
-          aria-disabled={activeAutoReply ? !isFormValid : !hasChanges}>
+          aria-disabled={
+            !(
+              activeAutoReply &&
+              specificKeywordsList.length > 0 &&
+              (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI) &&
+              (isFormValid || hasChanges)
+            )
+          }>
           {t(LanguageKey.save)}
         </button>
         <button
