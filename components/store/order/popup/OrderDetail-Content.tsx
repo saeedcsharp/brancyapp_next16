@@ -128,64 +128,67 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
                     </div>
                   </div>
                   <div className={styles.subproductlist}>
-                    {product.completeProduct.subProducts.map((subProduct) => {
-                      const orderLine = product.items.find((item) => item.subProductId == subProduct.id);
+                    {product.completeProduct.subProducts
+                      .filter((subProduct) => product.items.some((item) => item.subProductId == subProduct.id))
+                      .map((subProduct) => {
+                        const orderLine = product.items.find((item) => item.subProductId == subProduct.id)!;
 
-                      return (
-                        <div className={styles.subproduct} key={subProduct.id}>
-                          <div className={styles.subproductHeader}>
-                            <PriceFormater
-                              pricetype={subProduct.priceType}
-                              fee={subProduct.price}
-                              className={PriceFormaterClassName.PostPrice}
-                            />
-                            <div className={styles.productquantity}>
-                              <span>{t(LanguageKey.Storeorder_quantityorder)}</span>
-                              <strong>× {orderLine?.count ?? 0}</strong>
+                        return (
+                          <div className={styles.subproduct} key={subProduct.id}>
+                            <div className={styles.subproductHeader}>
+                              <PriceFormater
+                                pricetype={subProduct.priceType}
+                                fee={subProduct.price}
+                                className={PriceFormaterClassName.PostPrice}
+                              />
+                              <div className={styles.productquantity}>
+                                <span>{t(LanguageKey.Storeorder_quantityorder)}</span>
+                                <strong>× {orderLine.count}</strong>
+                              </div>
+                            </div>
+                            <div className={styles.producttaglist}>
+                              {subProduct.variations.map((variation) => (
+                                <div className={styles.producttag} key={variation.id}>
+                                  <span>{variation.titleVariation.langValue}:</span>
+                                  <strong>{variation.variation.langValue}</strong>
+                                </div>
+                              ))}
+                              {subProduct.colorId != null && (
+                                <div className={styles.producttag}>
+                                  <span>{t(LanguageKey.color)}:</span>
+                                  <div
+                                    className={styles.tagcolor}
+                                    style={{ backgroundColor: ColorStr[subProduct.colorId] }}
+                                  />
+                                </div>
+                              )}
+                              {product.completeProduct.productInstance.customVariation &&
+                                subProduct.customVariation && (
+                                  <div className={styles.producttag}>
+                                    <span>{product.completeProduct.productInstance.customVariation}:</span>
+                                    <strong>{subProduct.customVariation}</strong>
+                                  </div>
+                                )}
+                              <div className={styles.producttag}>
+                                <span>{t(LanguageKey.Storeproduct_stock)}:</span>
+                                <strong>{subProduct.stock}</strong>
+                              </div>
+                              <div className={styles.producttag}>
+                                <span>{t(LanguageKey.Product_Availablity)}:</span>
+                                <strong>
+                                  {getAvailabilityLabel(product.completeProduct.shortProduct.availabilityStatus)}
+                                </strong>
+                              </div>
+                              {subProduct.disCount?.isActive && subProduct.disCount.value > 0 && (
+                                <div className={styles.discounttag}>
+                                  <span>{t(LanguageKey.product_Discount)}:</span>
+                                  <strong>{subProduct.disCount.value}%</strong>
+                                </div>
+                              )}
                             </div>
                           </div>
-                          <div className={styles.producttaglist}>
-                            {subProduct.variations.map((variation) => (
-                              <div className={styles.producttag} key={variation.id}>
-                                <span>{variation.titleVariation.langValue}:</span>
-                                <strong>{variation.variation.langValue}</strong>
-                              </div>
-                            ))}
-                            {subProduct.colorId != null && (
-                              <div className={styles.producttag}>
-                                <span>{t(LanguageKey.color)}:</span>
-                                <div
-                                  className={styles.tagcolor}
-                                  style={{ backgroundColor: ColorStr[subProduct.colorId] }}
-                                />
-                              </div>
-                            )}
-                            {product.completeProduct.productInstance.customVariation && subProduct.customVariation && (
-                              <div className={styles.producttag}>
-                                <span>{product.completeProduct.productInstance.customVariation}:</span>
-                                <strong>{subProduct.customVariation}</strong>
-                              </div>
-                            )}
-                            <div className={styles.producttag}>
-                              <span>{t(LanguageKey.Storeproduct_stock)}:</span>
-                              <strong>{subProduct.stock}</strong>
-                            </div>
-                            <div className={styles.producttag}>
-                              <span>{t(LanguageKey.Product_Availablity)}:</span>
-                              <strong>
-                                {getAvailabilityLabel(product.completeProduct.shortProduct.availabilityStatus)}
-                              </strong>
-                            </div>
-                            {subProduct.disCount?.isActive && subProduct.disCount.value > 0 && (
-                              <div className={styles.discounttag}>
-                                <span>{t(LanguageKey.product_Discount)}:</span>
-                                <strong>{subProduct.disCount.value}%</strong>
-                              </div>
-                            )}
-                          </div>
-                        </div>
-                      );
-                    })}
+                        );
+                      })}
                   </div>
                   <div className={styles.productmetagrid}>
                     {product.completeProduct.productInstance.categoryLangValue && (
