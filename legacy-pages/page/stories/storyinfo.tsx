@@ -1325,6 +1325,7 @@ const ShowStory = () => {
                             <ChartHour
                               id="story-insight-0"
                               name={storyInsight.superFigures[0].title ?? ""}
+                              splitByDay
                               seriesData={[
                                 { id: "sf-0", name: storyInsight.superFigures[0].title ?? "", hours: getHourItems(0) },
                               ]}
@@ -1357,6 +1358,7 @@ const ShowStory = () => {
                             <ChartHour
                               id="story-insight-1"
                               name={storyInsight.superFigures[1].title ?? ""}
+                              splitByDay
                               seriesData={[
                                 { id: "sf-1", name: storyInsight.superFigures[1].title ?? "", hours: getHourItems(1) },
                               ]}
@@ -1393,6 +1395,7 @@ const ShowStory = () => {
                               <ChartHour
                                 id="story-insight-2"
                                 name={storyInsight.superFigures[2].title ?? ""}
+                                splitByDay
                                 seriesData={[
                                   {
                                     id: "sf-2",
@@ -1429,6 +1432,7 @@ const ShowStory = () => {
                               <ChartHour
                                 id="story-insight-3"
                                 name={storyInsight.superFigures[3].title ?? ""}
+                                splitByDay
                                 seriesData={[
                                   {
                                     id: "sf-3",
