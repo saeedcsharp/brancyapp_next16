@@ -239,7 +239,7 @@
   flex-direction: column;
   gap: var(--gap-40);
   animation: var(--top04);
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 .productcontent {
@@ -482,10 +482,10 @@
   width: 100%;
   flex-direction: column;
   gap: var(--gap-8);
-  padding: var(--padding-10);
-  border: 1px solid var(--color-gray30);
+  padding: var(--padding-5);
+  /* border: 1px solid var(--color-gray30); */
   border-radius: var(--br10);
-  background-color: var(--color-white);
+  /* background-color: var(--color-white); */
 }
 .subproductHeader {
   display: flex;

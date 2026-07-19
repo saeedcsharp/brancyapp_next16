@@ -1,5 +1,5 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import CheckBoxButton from "brancy/components/design/checkBoxButton";
@@ -13,6 +13,8 @@ import { OrderStepStatus, OrderStep } from "brancy/models/enums";
 import { IOrderByStatus } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 const MemoizedCheckBoxButton = React.memo(CheckBoxButton);
+type SortField = "orderId" | "customer" | "status" | "price" | "orderDate" | "delivery" | "destination";
+type SortDirection = "asc" | "desc";
 interface SelectionState {
   selectedOrders: Set<string>;
   clickedOrders: Set<string>;
@@ -112,10 +114,16 @@ export default function Failed({
     comment: t(LanguageKey.comments),
   };
   // const [state, dispatch] = useReducer(selectionReducer, initialState);
+  const [sortField, setSortField] = useState<SortField | null>(null);
+  const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const [clickedOrder, setClickedOrder] = useState<string | null>(null); // شناسه سفارشی که کلیک شده است
   const tableContainerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const position = useRef({ startX: 0, scrollLeft: 0 });
+  const handleCopyMobileNumber = (phoneNumber?: string | null) => {
+    if (!phoneNumber) return;
+    navigator.clipboard.writeText(phoneNumber);
+  };
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!tableContainerRef.current) return;
@@ -164,6 +172,81 @@ export default function Failed({
     showOrder(orderId, userId);
   };
 
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortDirection((currentDirection) => (currentDirection === "asc" ? "desc" : "asc"));
+      return;
+    }
+
+    setSortField(field);
+    setSortDirection("asc");
+  };
+
+  const sortedOrders = useMemo(() => {
+    if (!sortField) return orders.items;
+
+    const sorted = [...orders.items];
+    sorted.sort((leftOrder, rightOrder) => {
+      let compareValue = 0;
+
+      switch (sortField) {
+        case "orderId":
+          compareValue = (leftOrder.order.id || "").localeCompare(rightOrder.order.id || "", undefined, {
+            numeric: true,
+            sensitivity: "base",
+          });
+          break;
+        case "customer":
+          compareValue = (
+            leftOrder.userProfile?.fullName ||
+            leftOrder.userProfile?.username ||
+            leftOrder.userProfile?.phoneNumber ||
+            ""
+          ).localeCompare(
+            rightOrder.userProfile?.fullName ||
+              rightOrder.userProfile?.username ||
+              rightOrder.userProfile?.phoneNumber ||
+              "",
+            undefined,
+            { sensitivity: "base" },
+          );
+          break;
+        case "status":
+          compareValue = String(leftOrder.order.status || "").localeCompare(
+            String(rightOrder.order.status || ""),
+            undefined,
+            { sensitivity: "base" },
+          );
+          break;
+        case "price":
+          compareValue = (leftOrder.order.totalPrice || 0) - (rightOrder.order.totalPrice || 0);
+          break;
+        case "orderDate":
+          compareValue = (leftOrder.order.createdTime || 0) - (rightOrder.order.createdTime || 0);
+          break;
+        case "delivery":
+          compareValue = specifyLogistic(leftOrder.order.logesticId).localeCompare(
+            specifyLogistic(rightOrder.order.logesticId),
+            undefined,
+            { sensitivity: "base" },
+          );
+          break;
+        case "destination":
+          compareValue = (leftOrder.order.city || "").localeCompare(rightOrder.order.city || "", undefined, {
+            sensitivity: "base",
+          });
+          break;
+      }
+
+      return sortDirection === "asc" ? compareValue : -compareValue;
+    });
+
+    return sorted;
+  }, [orders.items, sortDirection, sortField]);
+
+  const renderSortIndicator = (field: SortField) =>
+    sortField === field ? <span style={{ marginInlineStart: 4 }}>{sortDirection === "asc" ? "↑" : "↓"}</span> : null;
+
   // کنترل نمایش یا عدم نمایش پاپ‌آپ
   // const isSomeSelected = state.selectedOrders.size > 0;
   // const isAllSelected = state.selectedOrders.size === orders.length;
@@ -182,7 +265,7 @@ export default function Failed({
         <table className={styles.table}>
           <thead className={styles.headertable}>
             <tr>
-              <th style={{ minWidth: "50px" }}>
+              <th style={{ minWidth: "50px", maxWidth: "50px" }}>
                 {/* <MemoizedCheckBoxButton
                   name={"select-all"}
                   handleToggle={handleSelectAll}
@@ -192,8 +275,11 @@ export default function Failed({
                 /> */}
                 #
               </th>
-              <th style={{ minWidth: "100px" }}>
-                {labels.orderId}
+              <th
+                onClick={() => handleSort("orderId")}
+                aria-sort={sortField === "orderId" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+                style={{ minWidth: "100px", maxWidth: "100px", cursor: "pointer", userSelect: "none" }}>
+                {labels.orderId} {renderSortIndicator("orderId")}
                 {/* {isSomeSelected && (
                   <div className={styles.selectedmenu}>
                     <p>
@@ -228,26 +314,58 @@ export default function Failed({
                   </div>
                 )} */}
               </th>
-              <th style={{ minWidth: "160px" }}>{labels.customer}</th>
-              <th style={{ minWidth: "150px", maxWidth: "150px" }}>{labels.status}</th>
+              <th
+                onClick={() => handleSort("customer")}
+                aria-sort={sortField === "customer" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+                style={{ minWidth: "210px", maxWidth: "210px", cursor: "pointer", userSelect: "none" }}>
+                {labels.customer} {renderSortIndicator("customer")}
+              </th>
+              <th
+                onClick={() => handleSort("status")}
+                aria-sort={sortField === "status" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+                style={{ minWidth: "150px", maxWidth: "150px", cursor: "pointer", userSelect: "none" }}>
+                {labels.status} {renderSortIndicator("status")}
+              </th>
               {/* <th style={{ minWidth: "50px" }}>
                 {labels.items}
               </th> */}
-              <th style={{ minWidth: "100px" }}>{labels.price}</th>
-              <th style={{ minWidth: "85px" }}>{labels.orderDate}</th>
+              <th
+                onClick={() => handleSort("price")}
+                aria-sort={sortField === "price" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+                style={{ minWidth: "100px", maxWidth: "100px", cursor: "pointer", userSelect: "none" }}>
+                {labels.price} {renderSortIndicator("price")}
+              </th>
+              <th
+                onClick={() => handleSort("orderDate")}
+                aria-sort={sortField === "orderDate" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+                style={{ minWidth: "85px", maxWidth: "85px", cursor: "pointer", userSelect: "none" }}>
+                {labels.orderDate} {renderSortIndicator("orderDate")}
+              </th>
 
-              <th style={{ minWidth: "75px" }}>{labels.delivery}</th>
-              <th style={{ minWidth: "110px" }}>{labels.destination}</th>
+              <th
+                onClick={() => handleSort("delivery")}
+                aria-sort={sortField === "delivery" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+                style={{ minWidth: "75px", maxWidth: "75px", cursor: "pointer", userSelect: "none" }}>
+                {labels.delivery} {renderSortIndicator("delivery")}
+              </th>
+              <th
+                onClick={() => handleSort("destination")}
+                aria-sort={
+                  sortField === "destination" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"
+                }
+                style={{ minWidth: "110px", maxWidth: "110px", cursor: "pointer", userSelect: "none" }}>
+                {labels.destination} {renderSortIndicator("destination")}
+              </th>
             </tr>
           </thead>
           <tbody>
-            {orders.items.map((order, index) => (
+            {sortedOrders.map((order, index) => (
               <tr onClick={() => handleRowClick(order.order.id, order.order.userId)} key={index} className={styles.row}>
                 <td
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
-                  style={{ minWidth: "50px" }}>
+                  style={{ minWidth: "50px", maxWidth: "50px" }}>
                   {/* <MemoizedCheckBoxButton
                     handleToggle={(e) => handleToggleOrder(e, order.id)}
                     value={state.selectedOrders.has(order.id)}
@@ -257,12 +375,12 @@ export default function Failed({
                   /> */}
                   {index + 1}
                 </td>
-                <td style={{ minWidth: "100px" }} className={styles.ordernumberviewed}>
+                <td style={{ minWidth: "100px", maxWidth: "100px" }} className={styles.ordernumberviewed}>
                   {order.order.id}
                   {/* {clickedOrders.has(order.id) && <span> ✓</span>} */}
                 </td>
 
-                <td style={{ minWidth: "160px" }} className={styles.customer}>
+                <td style={{ minWidth: "210px", maxWidth: "210px" }} className={styles.customer}>
                   <img
                     loading="lazy"
                     decoding="async"
@@ -274,12 +392,37 @@ export default function Failed({
                     }}
                   />
                   <div className="instagramprofiledetail">
-                    <div className="instagramusername">
-                      {order.userProfile!.fullName ? order.userProfile!.fullName : order.userProfile?.phoneNumber}
-                    </div>
-                    <div className="instagramid">
-                      {order.userProfile!.username ? "@" + order.userProfile!.username : ""}
-                    </div>
+                    {order.userProfile!.fullName ? (
+                      <>
+                        <div className="instagramusername">{order.userProfile!.fullName}</div>
+                        <div className="instagramid">
+                          {order.userProfile!.username
+                            ? "@" + order.userProfile!.username
+                            : order.userProfile?.phoneNumber}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div
+                          className="instagramusername"
+                          style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                          <span>{t(LanguageKey.userpanel_MobileNumber)}</span>
+                        </div>
+                        <div className="instagramid">
+                          {order.userProfile?.phoneNumber ? `+${order.userProfile.phoneNumber}` : "--"}
+                          <img
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleCopyMobileNumber(order.userProfile?.phoneNumber || null);
+                            }}
+                            style={{ cursor: "pointer", width: "15px", height: "15px" }}
+                            title="ℹ️ copy mobile number"
+                            src="/copy.svg"
+                            alt="copy mobile number"
+                          />
+                        </div>
+                      </>
+                    )}
                   </div>
                 </td>
                 <td
@@ -309,14 +452,14 @@ export default function Failed({
                   {order.items}
                 </td> */}
 
-                <td style={{ minWidth: "100px" }} className={styles.fee}>
+                <td style={{ minWidth: "100px", maxWidth: "100px" }} className={styles.items}>
                   <PriceFormater
                     fee={order.order.totalPrice}
                     pricetype={order.order.priceType}
                     className={PriceFormaterClassName.PostPrice}
                   />
                 </td>
-                <td style={{ minWidth: "85px" }} className={styles.date}>
+                <td style={{ minWidth: "85px", maxWidth: "85px" }} className={styles.date}>
                   {new DateObject({
                     date: order.order.createdTime * 1000,
                     calendar: initialzedTime().calendar,
@@ -350,11 +493,11 @@ export default function Failed({
                 </td>
 
                 <td
-                  style={{ minWidth: "75px" }}
+                  style={{ minWidth: "75px", maxWidth: "75px" }}
                   className={`${styles.delivery} ${styles[specifyLogistic(order.order.logesticId)]}`}>
                   {specifyLogistic(order.order.logesticId)}
                 </td>
-                <td style={{ minWidth: "110px" }} className={styles.destination}>
+                <td style={{ minWidth: "110px", maxWidth: "110px" }} className={styles.destination}>
                   {order.order.city ?? "--"}
                 </td>
               </tr>

@@ -146,6 +146,14 @@
   text-transform: uppercase;
   transition: var(--transition3);
 }
+.fee {
+  color: var(--text-h2);
+  position: relative;
+  text-align: center;
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+  transition: var(--transition3);
+}
 .date {
   color: var(--text-h2);
   font-weight: var(--weight-400);
