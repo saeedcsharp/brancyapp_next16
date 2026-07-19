@@ -157,7 +157,9 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
                             </div> */}
                             <div className={styles.producttaglist}>
                               {subProduct.variations.map((variation) => (
-                                <div className={styles.producttag} key={variation.id}>
+                                <div
+                                  className={styles.producttag}
+                                  key={`${subProduct.id}-${variation.titleVariation.id}-${variation.variationId}`}>
                                   <span>{variation.titleVariation.langValue}:</span>
                                   <strong>{variation.variation.langValue}</strong>
                                 </div>
