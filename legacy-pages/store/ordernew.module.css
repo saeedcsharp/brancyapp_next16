@@ -45,20 +45,26 @@
   display: flex !important;
   flex-direction: row !important;
   position: relative !important;
-  width: calc(100% - 40px);
+  width: calc(100% - 40px) !important;
   overflow-x: auto !important;
+  overflow-y: hidden !important;
   justify-content: flex-start !important;
   flex-wrap: nowrap !important;
   animation: var(--bottom08) !important;
   padding-block: 10px !important;
 }
+.orderstep > div {
+  padding-bottom: 20px !important;
+  overflow: hidden !important;
+}
 .step {
   min-width: 170px !important;
   max-width: max-content !important;
   margin-inline: 10px !important;
+  padding-inline: var(--padding-10) !important;
+  padding-block: var(--padding-14) !important;
   border: 1px solid transparent;
   border-radius: var(--br20) !important;
-  padding: var(--padding-30) var(--padding-16) !important;
   display: flex !important;
   gap: var(--gap-15) !important;
   align-content: center !important;

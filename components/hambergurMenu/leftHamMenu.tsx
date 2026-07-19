@@ -10,7 +10,7 @@ import { InstaInfoContext } from "brancy/context/instaInfoContext";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { getEnumValue } from "brancy/helper/handleItemTypeEnum";
 import { LanguageKey } from "brancy/i18n";
-import TutorialWrapper from "brancy/components/tutorial/tutorialWrapper";
+
 import styles from "./hammenu.module.css";
 import { PushResponseType, OrderStep, PushResponseExplanation, PushResponseTitle } from "brancy/models/enums";
 import { PushNotif, ITicketPushNotif, IOrderPushNotifExtended } from "brancy/models/interfaces";
@@ -626,7 +626,6 @@ const LeftHamMenue = ({
           </div>
         </aside>
       </div>
-      <TutorialWrapper pageKey="header" />
     </>
   );
 };

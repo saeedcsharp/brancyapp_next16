@@ -1,0 +1,33 @@
+# TODO
+
+## Pending Documentation Tasks
+
+- Enrich module docs when touching each feature area.
+- Add endpoint-specific request and response examples from backend contracts.
+- Document exact environment variable names from deployment manifests without exposing secret values.
+- Add testing strategy once test tooling exists.
+
+## Technical Debt Ideas
+
+- Audit hard-coded external keys/secrets.
+- Validate `next lint` compatibility with Next 16.
+- Consider separating generated PWA artifacts from hand-maintained assets.
+
+---
+
+# AI Maintenance Policy
+
+This document is part of the project knowledge base.
+
+Before modifying related code:
+
+- Read this document.
+- Understand the documented architecture and rules.
+
+After modifying related code:
+
+- Update this document if information changed.
+
+Keep documentation synchronized with the implementation.
+
+---

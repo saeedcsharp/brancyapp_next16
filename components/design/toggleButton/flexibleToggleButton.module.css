@@ -68,6 +68,7 @@
 .title {
   text-transform: capitalize;
   font-size: var(--font-14);
+  line-height: normal;
   font-weight: var(--weight-400);
   white-space: nowrap;
   overflow: hidden;

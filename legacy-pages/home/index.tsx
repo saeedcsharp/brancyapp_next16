@@ -12,7 +12,7 @@ import LastMessage from "brancy/components/homeIndex/lastMessage";
 import LastOrder from "brancy/components/homeIndex/lastOrder";
 import PageDetail from "brancy/components/homeIndex/pageDetail";
 import PostSummary from "brancy/components/homeIndex/postSummary";
-import TutorialWrapper from "brancy/components/tutorial/tutorialWrapper";
+
 import styles from "./homeIndex.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
@@ -376,9 +376,6 @@ const Home = () => {
             {/* <LastFollower data={state.lastFollowers} /> */}
           </div>
         </main>
-
-        {/* نمایش توتریال برای کاربران جدید */}
-        <TutorialWrapper pageKey="home" />
       </>
     )
   );

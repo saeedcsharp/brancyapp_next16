@@ -279,7 +279,7 @@ export default function Queue({
                   {/* {clickedOrders.has(order.id) && <span> ✓</span>} */}
                 </td>
 
-                <td style={{ minWidth: "160px" }} className={`${styles.customer} translate`}>
+                <td style={{ minWidth: "160px" }} className={styles.customer}>
                   <img
                     loading="lazy"
                     decoding="async"
@@ -290,7 +290,7 @@ export default function Queue({
                       (e.target as HTMLImageElement).src = "/no-profile.svg";
                     }}
                   />
-                  <div className={`${styles.instagramprofiledetail} translate`}>
+                  <div className="instagramprofiledetail">
                     <div className="instagramusername">
                       {order.userProfile!.fullName ? order.userProfile!.fullName : order.userProfile?.phoneNumber}
                     </div>
