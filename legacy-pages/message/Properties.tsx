@@ -106,14 +106,18 @@ const Properties = () => {
     //   specialPayload: SpecialPayLoad.ViewRole,
     //   description: "ViewRole",
     // },
-    // {
-    //   specialPayload: SpecialPayLoad.ViewShop,
-    //   description: "ViewShop",
-    // },
     {
-      specialPayload: SpecialPayLoad.ViewWebsite,
-      description: "ViewWebsite",
+      specialPayload: SpecialPayLoad.ViewShop,
+      description: "ViewShop",
     },
+    ...(session?.user.isShopper
+      ? [
+          {
+            specialPayload: SpecialPayLoad.ViewWebsite,
+            description: "ViewWebsite",
+          },
+        ]
+      : []),
   ];
   const [showSpecialPayLoad, setShowSpecialPayLoad] = useState(false);
   const [specialPayloadInfoForIce, setSpecialPayloadInfoForIce] = useState<ISpecialPayload[]>(specialPayLoadArr);
