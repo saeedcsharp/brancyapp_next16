@@ -48,6 +48,7 @@ interface HourChartProps {
   id: string;
   name: string;
   seriesData: IHourChartSeries[];
+  splitByDay?: boolean;
   objectNavigators?: Array<{
     title?: string;
     firstIndexes: string[];
@@ -84,6 +85,27 @@ const generateColor = (index: number): string => {
   return colors[index % colors.length];
 };
 
+const getLocalDayKey = (timestamp: number): string => {
+  const date = new Date(timestamp);
+  return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+};
+
+type CalendarId = "gregory" | "persian" | "islamic" | "indian";
+
+const mapCalendarNameToId = (name?: string | null): CalendarId => {
+  switch (name) {
+    case "shamsi":
+      return "persian";
+    case "Hijri":
+      return "islamic";
+    case "Hindi":
+      return "indian";
+    case "Gregorian":
+    default:
+      return "gregory";
+  }
+};
+
 const getSmoothPath = (points: Point[]): string => {
   if (points.length < 2) return "";
   const fmt = (n: number) => {
@@ -107,7 +129,7 @@ const getSmoothPath = (points: Point[]): string => {
 
 const HourChartComponent: React.FC<HourChartProps> = (props) => {
   const { data: session } = useSession();
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const svgRef = useRef<SVGSVGElement>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -164,6 +186,60 @@ const HourChartComponent: React.FC<HourChartProps> = (props) => {
   const [state, dispatch] = useReducer(reducer, initialState);
   const pendingRaf = useRef<number | null>(null);
   const measuredLabelCache = useRef<Map<string, number>>(new Map());
+  const [selectedDayIndex, setSelectedDayIndex] = useState(0);
+  const [calendarId, setCalendarId] = useState<CalendarId>("gregory");
+
+  useEffect(() => {
+    const updateCalendar = (calendarName?: string | null) => {
+      setCalendarId(mapCalendarNameToId(calendarName));
+    };
+    const onCalendarChanged = (event: Event) => {
+      updateCalendar((event as CustomEvent<string>).detail);
+    };
+    const onStorage = (event: StorageEvent) => {
+      if (event.key === "calendar") updateCalendar(event.newValue);
+    };
+
+    updateCalendar(window.localStorage.getItem("calendar"));
+    window.addEventListener("brancy:calendar-changed", onCalendarChanged as EventListener);
+    window.addEventListener("storage", onStorage);
+    return () => {
+      window.removeEventListener("brancy:calendar-changed", onCalendarChanged as EventListener);
+      window.removeEventListener("storage", onStorage);
+    };
+  }, []);
+
+  const dayLabelFormatter = useMemo(() => {
+    const locale = i18n.language || "en";
+    try {
+      return new Intl.DateTimeFormat(`${locale}-u-ca-${calendarId}`, { dateStyle: "medium" });
+    } catch {
+      return new Intl.DateTimeFormat(locale, { dateStyle: "medium" });
+    }
+  }, [calendarId, i18n.language]);
+
+  const availableDays = useMemo(() => {
+    if (!props.splitByDay) return [];
+    const days = new Map<string, number>();
+    props.seriesData.forEach((series) => {
+      series.hours.forEach((item) => {
+        const timestamp = item.createdTime * 1000;
+        const key = getLocalDayKey(timestamp);
+        if (!days.has(key)) {
+          const date = new Date(timestamp);
+          days.set(key, new Date(date.getFullYear(), date.getMonth(), date.getDate()).getTime());
+        }
+      });
+    });
+    return Array.from(days, ([key, timestamp]) => ({ key, timestamp })).sort((a, b) => a.timestamp - b.timestamp);
+  }, [props.seriesData, props.splitByDay]);
+  const availableDayKeys = availableDays.map((day) => day.key).join("|");
+
+  useEffect(() => {
+    setSelectedDayIndex(Math.max(0, availableDays.length - 1));
+  }, [availableDayKeys, availableDays.length]);
+
+  const selectedDayKey = props.splitByDay ? availableDays[selectedDayIndex]?.key : undefined;
 
   const [objectNavState, setObjectNavState] = useState<{ firstIndex: number; secondIndex?: number }[]>(() => {
     if (!props.objectNavigators) return [];
@@ -224,13 +300,25 @@ const HourChartComponent: React.FC<HourChartProps> = (props) => {
       .map((s, i) => ({
         name: s.name,
         color: generateColor(i),
-        items: s.hours,
+        items: selectedDayKey
+          ? s.hours.filter((item) => getLocalDayKey(item.createdTime * 1000) === selectedDayKey)
+          : s.hours,
       }));
-  }, [props.seriesData, state.hiddenSeries]);
+  }, [props.seriesData, selectedDayKey, state.hiddenSeries]);
 
   const totalCount = useMemo(() => {
-    return props.seriesData.reduce((sum, s) => sum + s.hours.reduce((a, h) => a + h.count, 0), 0);
-  }, [props.seriesData]);
+    return props.seriesData.reduce(
+      (sum, series) =>
+        sum +
+        series.hours.reduce(
+          (seriesSum, item) =>
+            seriesSum +
+            (!selectedDayKey || getLocalDayKey(item.createdTime * 1000) === selectedDayKey ? item.count : 0),
+          0,
+        ),
+      0,
+    );
+  }, [props.seriesData, selectedDayKey]);
 
   const chartData = useMemo(() => {
     if (!visibleSeriesData || visibleSeriesData.length === 0) return null;
@@ -807,6 +895,34 @@ const HourChartComponent: React.FC<HourChartProps> = (props) => {
               </div>
             )}
           </div>
+
+          {props.splitByDay && availableDays.length > 1 && (
+            <div className={multiStyles.objectDatenavigator}>
+              <div className={multiStyles.firstList}>
+                <img
+                  alt="Previous day"
+                  src="/back-forward.svg"
+                  className={`${multiStyles.backForwardIcon} ${selectedDayIndex === 0 ? multiStyles.disabledNav : ""}`}
+                  onClick={() => setSelectedDayIndex((current) => Math.max(0, current - 1))}
+                />
+                <div className={multiStyles.inlineNavigator}>
+                  <div className={multiStyles.textWrapper} style={{ color: "var(--color-light-blue)" }}>
+                    <strong style={{ fontWeight: 600 }}>
+                      {dayLabelFormatter.format(new Date(availableDays[selectedDayIndex].timestamp))}
+                    </strong>
+                  </div>
+                </div>
+                <img
+                  alt="Next day"
+                  src="/back-forward1.svg"
+                  className={`${multiStyles.forwardIcon} ${
+                    selectedDayIndex === availableDays.length - 1 ? multiStyles.disabledNav : ""
+                  }`}
+                  onClick={() => setSelectedDayIndex((current) => Math.min(availableDays.length - 1, current + 1))}
+                />
+              </div>
+            </div>
+          )}
 
           {/* Object Navigators (firstIndexes / secondIndexes) */}
           {props.objectNavigators &&
