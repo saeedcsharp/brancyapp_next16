@@ -50,6 +50,7 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Updated `legacy-pages/wallet/payment.tsx` to load and render Instagramer bank cards as responsive standalone tiles, with a separate add-card toolbar and form.
 - AI Knowledge Base initialized on 2026-07-19.
 - Added a collapsible vertical shipment-details timeline to the store order popup (`components/store/order/popup/OrderSend.tsx`) using `parcelInfo.logs` from `/api/order/GetParcelInfo`.
 

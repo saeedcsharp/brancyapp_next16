@@ -38,3 +38,5 @@ Changing this feature may affect balance presentation, payment results, user-pan
 ## Notes
 
 Wallet behavior often overlaps with payment and user-panel identity flows.
+
+The Instagramer payment page obtains registered bank cards with `/api/wallet/getInstagramerBankCards`. It presents each card as an individual responsive grid tile; a card-sized add-card tile remains in the collection and is centered when no bank card exists.

@@ -107,8 +107,8 @@ const Statistics = () => {
           />
           <meta name="robots" content="noindex, nofollow" />
         </Head>
-        {!session.user.isPartner && <Soon />}
-        {session.user.isPartner && (
+        {/* {!session.user.isPartner && <Soon />} */}
+        {
           <main>
             {/* کارت‌های خلاصه بالای صفحه */}
             <div className={styles.inboxContainer}>
@@ -261,7 +261,7 @@ const Statistics = () => {
               </div>
             </div>
           </main>
-        )}
+        }
       </>
     )
   );
