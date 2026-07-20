@@ -817,10 +817,16 @@ const ProductList = () => {
         closePopup={() => {
           setshowUpdateProduct(false);
         }}
-        classNamePopup={"popupSendFile"}
+        classNamePopup={"popup"}
+        // style={{ width: "90%", maxWidth: "1000px" }}
         showContent={showUpdateProduct}>
         <UpdateProduct
           data={productIds}
+          onSaved={() => {
+            setProductIds([]);
+            setSelectAllProduct(false);
+            fetchData(notInstanceFilter);
+          }}
           removeMask={() => {
             setshowUpdateProduct(false);
           }}

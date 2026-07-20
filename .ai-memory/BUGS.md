@@ -2,13 +2,15 @@
 
 ## Known Bugs
 
-No confirmed runtime bugs were fixed or introduced during knowledge base initialization.
+No confirmed runtime bugs remain from the chart navigation issue addressed on 2026-07-20.
 
 ## Watchlist
 
+- Bulk product saves issue one `/api/product/CreateSubProducts` request per selected product. The backend map exposes no atomic bulk-update endpoint, so a later request can fail after earlier products have already been updated; the UI reports the failed response and refreshes only after complete success.
 - Mixed legacy router and App Router behavior can regress redirects or query handling.
 - API map casing or missing entries can break direct backend calls.
 - Generated PWA service worker files can become stale if not regenerated after build changes.
+- Chart containers whose parent remains hidden or has zero size until a later interaction should continue to be monitored; the brush chart now ignores zero-size measurements and relies on `ResizeObserver` for the transition to a usable size.
 
 ---
 

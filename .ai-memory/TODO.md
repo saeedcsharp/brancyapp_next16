@@ -13,6 +13,14 @@
 - Validate `next lint` compatibility with Next 16.
 - Consider separating generated PWA artifacts from hand-maintained assets.
 
+## Recent Review Notes
+
+- Validate bulk product price and discount saves against the live backend, including products with multiple active/inactive variants and discount expiry/count limits; the frontend uses the existing `/api/product/CreateSubProducts` update contract because no atomic bulk-update endpoint is mapped.
+- No new follow-up TODOs were identified for the brush line chart implementation on 2026-07-19.
+- The brush line chart navigation-rendering fix was validated at the component/type level on 2026-07-20; browser coverage for route transitions remains desirable once UI test tooling is available.
+- Validate the total sales statistics month comparison against a live API response, especially when the response contains multiple daily records per month and a non-Gregorian configured calendar.
+- Confirm the live store statistics endpoint returns `IBuyerPurchaseReport` rows, or update the adapter when the backend CRM response is available.
+
 ---
 
 # AI Maintenance Policy

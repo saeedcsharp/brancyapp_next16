@@ -4857,7 +4857,7 @@ export interface IParcelInfo {
 export interface IStoreStatisticsInfo {
   totalSalesStatistics: ISaleShortMonth[];
   twoMonth: ISaleMonth[];
-  totalSalesReport: ITotalSalesReport[];
+  totalSalesReport: IBuyerPurchaseReport[];
 }
 
 export interface ISaleMonth {
@@ -4873,6 +4873,7 @@ export interface ISaleMonth {
 }
 
 export interface ISaleShortMonth {
+  day: number;
   month: number;
   plusCount: number;
   totalCount: number;
@@ -4880,17 +4881,15 @@ export interface ISaleShortMonth {
   totalIncome: number;
 }
 
-export interface ITotalSalesReport {
-  saleId: number;
-  seller: {
+export interface IBuyerPurchaseReport {
+  buyer: {
     fullname: string;
     profileUrl: string;
     username: string;
   };
-  saleType: MarketAdsType;
-  date: number;
-  fee: number;
-  statusType: StatusType;
+  totalPurchases: number;
+  totalAmount: number;
+  lastPurchase: number;
 }
 
 export interface INewOrder {

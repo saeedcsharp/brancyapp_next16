@@ -58,7 +58,12 @@ React components are present when the folder contains `.tsx` UI files.
 
 ## Recent UI Notes
 
+- The selected-products edit action opens a bulk price and discount manager. It loads full products through `/api/product/GetFullProductList`, displays selected counts, product thumbnails, PID values, current price ranges, and existing discount ranges, and supports shared or per-product adjustments in percentage or fixed-amount modes. Both scopes use percentage/amount radio controls; the percentage option shows `IncrementStepper`, while the amount option shows a numeric input. Price adjustments support increase/decrease. Saving maps every product variant back to `IProduct_CreateSubProduct`, preserves stock, variation values, discount limits, and inactive variant IDs, then posts each product to `/api/product/CreateSubProducts` and refreshes the list.
+- The bulk product modal collapses the inactive shared or individual editor to zero height, removing its padding and border while animating the active editor back into the layout.
 - The order send popup now includes a collapsible shipment details section that renders `parcelInfo.logs` as a vertical timeline beneath the tracking code row.
+- The store total sales statistics card now renders a brush-style multi-line chart from `ISaleShortMonth` data, with adaptive year/month/day grouping driven by the selected range, and derives total sales/income counters from the same data instead of placeholder values.
+- The total sales statistics counters show the latest available report month, use the latest daily record from the previous month in the user's configured calendar for comparison, and render separate month-over-month rates with directional inline SVG icons. Calendar changes from `localStorage["calendar"]`, the `brancy:calendar-changed` event, or the browser `storage` event update the month label and comparison grouping. Missing or zero comparison values render `--`.
+- The total sales report card is a buyer CRM table. Its `IBuyerPurchaseReport` rows are aggregated by buyer and contain buyer profile details, total purchase count, total purchase amount, and the latest purchase timestamp. Rows no longer open an individual sale detail popup.
 
 ## Hooks
 
@@ -150,7 +155,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-07-20
 
 ---
 

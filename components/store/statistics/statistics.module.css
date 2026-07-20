@@ -1,3 +1,5 @@
+/*  */
+
 .pinContainer {
   width: calc(100% - 40px);
   left: 20px;
@@ -111,6 +113,9 @@
   flex-direction: column;
   height: 100%;
   justify-content: space-between;
+}
+.part > div {
+  position: absolute;
 }
 .section1 {
   height: 100%;
@@ -248,22 +253,6 @@
   line-height: normal;
 }
 
-.section3 {
-  position: relative;
-  width: 100%;
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap-20);
-
-  justify-content: space-between;
-}
-
-.totalchart {
-  position: relative;
-  width: 100%;
-  height: 100%;
-}
-
 .sorting {
   gap: var(--gap-20);
 
@@ -288,60 +277,6 @@
 }
 
 /* ___total sales statistics___*/
-.statistics {
-  position: relative;
-  display: flex;
-  width: 100%;
-  gap: var(--gap-30);
-  margin: 10px 0;
-  padding: var(--paddingbox);
-  border-radius: var(--br25);
-  background-color: var(--color-white);
-
-  font-size: var(--font-12);
-  transition: var(--transition3);
-  color: var(--text-h1);
-  flex-direction: column;
-  justify-content: space-between;
-}
-.statistics:hover {
-  box-shadow: var(--box-shadow);
-}
-.totalsummery {
-  position: relative;
-  width: 100%;
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  justify-content: space-evenly;
-}
-
-.totalsummerychild {
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap-5);
-}
-
-.totalcounter {
-  position: relative;
-  text-align: center;
-
-  line-height: normal;
-  color: var(--text-h1);
-  font-size: var(--font-16);
-  font-weight: var(--weight-600);
-}
-
-.totalabel {
-  position: relative;
-  text-align: center;
-
-  line-height: normal;
-  color: var(--text-h2);
-  font-size: var(--font-14);
-  font-weight: var(--weight-400);
-}
 
 /* ___total sales report___*/
 .salesreport {

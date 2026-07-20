@@ -50,8 +50,17 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Added a localized bulk product management modal for selected store products. Sellers can apply percentage or fixed-amount discounts, or increase/decrease prices by percentage or amount, either across all selected products or per product. Existing price ranges and discounts are shown, all variants are updated through `/api/product/CreateSubProducts`, inactive variants are preserved, and the product list refreshes after saving.
 - AI Knowledge Base initialized on 2026-07-19.
 - Added a collapsible vertical shipment-details timeline to the store order popup (`components/store/order/popup/OrderSend.tsx`) using `parcelInfo.logs` from `/api/order/GetParcelInfo`.
+- Added a reusable multi-series brush line chart in `components/design/chart/brushLineChart.tsx` and wired it into total store sales statistics.
+- The brush line chart now switches its visible aggregation between year, month, and day based on the selected range.
+- Hover selection, vertical guide lines, and tooltips now share the same aggregated bucket coordinates.
+- The main brush chart line remains rendered for the full timeline while the selected range controls the visible x-domain; the overview brush still shows all data.
+- Chart paths now replay a smooth draw animation when the data, selected range, or displayed granularity changes, and the brush selection animates between ranges.
+- Brush chart sizing now measures after navigation layout settles and ignores zero-size measurements, preventing an incorrectly sized SVG when entering the statistics page from another route.
+- Hover zones now cover the full interval around each vertical guide line, so tooltips activate before the pointer reaches the exact line.
+- The store statistics report table now uses an aggregated buyer CRM contract (`IBuyerPurchaseReport`) and displays buyer details, total purchases, total purchase amount, and last purchase time.
 
 ---
 

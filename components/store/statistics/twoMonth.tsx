@@ -6,6 +6,7 @@ import styles from "./statistics.module.css";
 import { NumToMonth } from "brancy/helper/numberFormater";
 import { ISaleMonth } from "brancy/models/interfaces";
 import { chartxType } from "brancy/models/enums";
+import Soon from "brancy/components/notOk/soon";
 const TwoMonth = (props: { data: ISaleMonth[] }) => {
   const { hidePage, gridSpan, toggle } = useHideDiv(true, 47);
   const numberToFormattedString = (number: { toLocaleString: () => any }) => {
@@ -30,11 +31,12 @@ const TwoMonth = (props: { data: ISaleMonth[] }) => {
     <section className={styles.twomonth} style={gridSpan}>
       <div onClick={toggle} className="headerChild" title="↕ Resize the Card">
         <div className="circle"></div>
-        <h2 className="Title">{t(LanguageKey.storestatistics_lasttwomonth)}</h2>
+        <h2 className="Title">کمپین فروش (مشتریان وفادار)</h2>
       </div>
       {hidePage && (
         <div className={styles.part}>
-          {/* ___section1___*/}
+          <Soon />
+          {/*
 
           <div className={styles.section1}>
             <div className={styles.header}>
@@ -61,12 +63,8 @@ const TwoMonth = (props: { data: ISaleMonth[] }) => {
                 </div>
               </div>
             </div>
-
-            <div className={`${styles.chart} translate`}>
-              <LineChart chartId={""} items={[props.data[0], props.data[1]]} chartxType={chartxType.month} />
-            </div>
           </div>
-          {/* ___section2___*/}
+
 
           <div className={styles.section2}>
             <div className={styles.detail}>
@@ -161,7 +159,7 @@ const TwoMonth = (props: { data: ISaleMonth[] }) => {
                 )}
               </div>
             </div>
-          </div>
+          </div> */}
         </div>
       )}
     </section>

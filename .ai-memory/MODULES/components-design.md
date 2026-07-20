@@ -40,6 +40,8 @@ Used by routes, components, helpers, or build tooling where imported.
 
 Exports are defined by source files in the module.
 
+- `components/design/chart/brushLineChart.tsx` exports `BrushLineChart`, a reusable SVG multi-series line chart with a draggable brush range selector, adaptive year/month/day aggregation, count-based vertical axis, legend toggles, and hover tooltips.
+
 ## Internal APIs
 
 Local helpers and non-exported functions stay module-private.
@@ -55,6 +57,12 @@ See related source files for exported functions and local helpers.
 ## Components
 
 React components are present when the folder contains `.tsx` UI files.
+
+## Recent UI Notes
+
+- The chart design folder now includes a brush-style line chart for date/count series. It keeps the full main line rendered while the selected range controls its visible x-domain, accepts multiple series, auto-aggregates by year/month/day, aligns hover guides/tooltips to displayed buckets, animates path redraws and brush movement, and stays dependency-free.
+- Each displayed vertical guide has a transparent hover zone spanning the midpoint to adjacent guides, allowing near-line tooltip activation.
+- The brush chart measures its container after the first layout paint and once more on the next animation frame, while `ResizeObserver` continues to handle route/layout changes where the card initially has no usable size.
 
 ## Hooks
 
@@ -155,13 +163,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-
