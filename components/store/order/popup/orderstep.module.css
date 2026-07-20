@@ -304,8 +304,10 @@
   align-items: flex-start;
   align-content: flex-start;
   flex-wrap: nowrap;
+  transition: var(--transition2);
 }
 .infoTable > tbody > tr {
+  display: flex;
   padding: var(--padding-10) var(--padding-5);
   padding-block: 10px;
   border-radius: var(--br10);
@@ -337,6 +339,96 @@
   flex-direction: row;
   gap: var(--gap-10);
   align-items: center;
+}
+.shipmentToggleChevron {
+  font-size: var(--font-14);
+  line-height: 1;
+}
+.shipmentTimeline {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-14);
+  padding: 4px 0 2px;
+}
+.shipmentTimelineItem {
+  display: flex;
+  align-items: stretch;
+  gap: var(--gap-12);
+}
+.shipmentTimelineMarkerWrap {
+  position: relative;
+  width: 16px;
+  min-width: 16px;
+  display: flex;
+  justify-content: center;
+}
+.shipmentTimelineMarker {
+  width: 12px;
+  height: 12px;
+  margin-top: 4px;
+  border-radius: 50%;
+  background: var(--color-dark-blue);
+  box-shadow: 0 0 0 4px var(--color-dark-blue10);
+  z-index: 1;
+}
+.shipmentTimelineLine {
+  position: absolute;
+  top: 18px;
+  bottom: -12px;
+  width: 2px;
+  border-radius: 999px;
+  background: var(--color-gray30);
+}
+.shipmentTimelineCard {
+  flex: 1;
+  padding: var(--padding-12) var(--padding-14);
+  border: 1px solid var(--color-gray30);
+  border-radius: var(--br15);
+  background: var(--color-white);
+  text-align: start;
+  box-shadow: 0 6px 18px rgba(15, 23, 42, 0.04);
+}
+.shipmentTimelineHeader {
+  display: flex;
+  justify-content: space-between;
+  gap: var(--gap-10);
+  align-items: center;
+  margin-bottom: 8px;
+}
+.shipmentTimelineTime {
+  color: var(--text-h2);
+  font-size: var(--font-12);
+  font-weight: var(--weight-500);
+}
+.shipmentTimelineLevel {
+  padding: 4px 10px;
+  border-radius: 999px;
+  background: var(--color-dark-blue10);
+  color: var(--color-dark-blue);
+  font-size: var(--font-12);
+  font-weight: var(--weight-600);
+  white-space: nowrap;
+}
+.shipmentTimelineLocation {
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-500);
+  line-height: 1.8;
+}
+.shipmentTimelinePostman {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-8);
+  margin-top: 10px;
+  color: var(--text-h2);
+  font-size: var(--font-13);
+}
+.shipmentTimelineAvatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid var(--color-gray30);
 }
 /* ----------------------------------delivered--------------------------------- */
 .Stepdelivered_orderprogressStep,

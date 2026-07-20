@@ -314,7 +314,7 @@ export default function InCart({
         <table className={styles.table}>
           <thead className={styles.headertable}>
             <tr>
-              <th style={{ minWidth: "160px" }}>{labels.customer}</th>
+              <th style={{ minWidth: "210px" }}>{labels.customer}</th>
 
               <th style={{ minWidth: "50px" }}>{labels.items}</th>
 
@@ -325,7 +325,7 @@ export default function InCart({
           <tbody>
             {orders.map((order, index) => (
               <tr key={index} className={styles.row}>
-                <td style={{ minWidth: "160px" }} className={styles.customer}>
+                <td style={{ minWidth: "210px" }} className={styles.customer}>
                   <img
                     loading="lazy"
                     decoding="async"

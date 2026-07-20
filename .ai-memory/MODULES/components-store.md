@@ -56,6 +56,10 @@ See related source files for exported functions and local helpers.
 
 React components are present when the folder contains `.tsx` UI files.
 
+## Recent UI Notes
+
+- The order send popup now includes a collapsible shipment details section that renders `parcelInfo.logs` as a vertical timeline beneath the tracking code row.
+
 ## Hooks
 
 React hooks are present when named `use*` functions/files exist.
@@ -155,13 +159,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

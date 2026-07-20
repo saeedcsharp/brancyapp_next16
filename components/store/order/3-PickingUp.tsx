@@ -1,5 +1,5 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
-import React, { useEffect, useReducer, useRef, useState } from "react";
+import React, { useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import CheckBoxButton from "brancy/components/design/checkBoxButton";
@@ -13,6 +13,8 @@ import { OrderStepStatus } from "brancy/models/enums";
 import { IOrderByStatus, IOrderByStatusItem } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 const MemoizedCheckBoxButton = React.memo(CheckBoxButton);
+type SortField = "orderId" | "customer" | "items" | "price" | "orderDate" | "delivery" | "destination";
+type SortDirection = "asc" | "desc";
 interface SelectionState {
   selectedOrders: Set<string>;
   clickedOrders: Set<string>;
@@ -126,10 +128,16 @@ export default function PickingUp({
     comment: t(LanguageKey.comments),
   };
   const [state, dispatch] = useReducer(selectionReducer, initialState);
+  const [sortField, setSortField] = useState<SortField | null>(null);
+  const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const [clickedOrder, setClickedOrder] = useState<string | null>(null); // شناسه سفارشی که کلیک شده است
   const tableContainerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const position = useRef({ startX: 0, scrollLeft: 0 });
+  const handleCopyMobileNumber = (phoneNumber?: string | null) => {
+    if (!phoneNumber) return;
+    navigator.clipboard.writeText(phoneNumber);
+  };
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!tableContainerRef.current) return;
@@ -178,6 +186,77 @@ export default function PickingUp({
     }
     handleGetShippingRequestType(orderId, userId);
   };
+
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortDirection((currentDirection) => (currentDirection === "asc" ? "desc" : "asc"));
+      return;
+    }
+
+    setSortField(field);
+    setSortDirection("asc");
+  };
+
+  const sortedOrders = useMemo(() => {
+    if (!sortField) return orders.items;
+
+    const sorted = [...orders.items];
+    sorted.sort((leftOrder, rightOrder) => {
+      let compareValue = 0;
+
+      switch (sortField) {
+        case "orderId":
+          compareValue = (leftOrder.order.id || "").localeCompare(rightOrder.order.id || "", undefined, {
+            numeric: true,
+            sensitivity: "base",
+          });
+          break;
+        case "customer":
+          compareValue = (
+            leftOrder.userProfile?.fullName ||
+            leftOrder.userProfile?.username ||
+            leftOrder.userProfile?.phoneNumber ||
+            ""
+          ).localeCompare(
+            rightOrder.userProfile?.fullName ||
+              rightOrder.userProfile?.username ||
+              rightOrder.userProfile?.phoneNumber ||
+              "",
+            undefined,
+            { sensitivity: "base" },
+          );
+          break;
+        case "items":
+          compareValue = (leftOrder.order.itemCount || 0) - (rightOrder.order.itemCount || 0);
+          break;
+        case "price":
+          compareValue = (leftOrder.order.totalPrice || 0) - (rightOrder.order.totalPrice || 0);
+          break;
+        case "orderDate":
+          compareValue = (leftOrder.order.createdTime || 0) - (rightOrder.order.createdTime || 0);
+          break;
+        case "delivery":
+          compareValue = specifyLogistic(leftOrder.order.logesticId).localeCompare(
+            specifyLogistic(rightOrder.order.logesticId),
+            undefined,
+            { sensitivity: "base" },
+          );
+          break;
+        case "destination":
+          compareValue = (leftOrder.order.city || "").localeCompare(rightOrder.order.city || "", undefined, {
+            sensitivity: "base",
+          });
+          break;
+      }
+
+      return sortDirection === "asc" ? compareValue : -compareValue;
+    });
+
+    return sorted;
+  }, [orders.items, sortDirection, sortField]);
+
+  const renderSortIndicator = (field: SortField) =>
+    sortField === field ? <span style={{ marginInlineStart: 4 }}>{sortDirection === "asc" ? "↑" : "↓"}</span> : null;
   const handleScroll = () => {
     const container = tableContainerRef.current;
     if (container && container.scrollHeight - container.scrollTop === container.clientHeight) {
@@ -201,7 +280,7 @@ export default function PickingUp({
         <table className={styles.table}>
           <thead className={styles.headertable}>
             <tr>
-              <th style={{ minWidth: "50px" }}>
+              <th style={{ minWidth: "50px", maxWidth: "50px" }}>
                 {/* <MemoizedCheckBoxButton
                   name={"select-all"}
                   handleToggle={handleSelectAll}
@@ -211,8 +290,11 @@ export default function PickingUp({
                 /> */}
                 #
               </th>
-              <th style={{ minWidth: "100px" }}>
-                {labels.orderId}
+              <th
+                onClick={() => handleSort("orderId")}
+                aria-sort={sortField === "orderId" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+                style={{ minWidth: "90px", maxWidth: "90px", cursor: "pointer", userSelect: "none" }}>
+                {labels.orderId} {renderSortIndicator("orderId")}
                 {/* {isSomeSelected && (
                   <div className={styles.selectedmenu}>
                     <p>
@@ -251,22 +333,54 @@ export default function PickingUp({
                   </div>
                 )} */}
               </th>
-              <th style={{ minWidth: "160px" }}>{labels.customer}</th>
-              <th style={{ minWidth: "50px" }}>{labels.items}</th>
-              <th style={{ minWidth: "100px" }}>{labels.price}</th>
-              <th style={{ minWidth: "85px" }}>{labels.orderDate}</th>
-              <th style={{ minWidth: "75px" }}>{labels.delivery}</th>
-              <th style={{ minWidth: "110px" }}>{labels.destination}</th>
+              <th
+                onClick={() => handleSort("customer")}
+                aria-sort={sortField === "customer" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+                style={{ minWidth: "210px", maxWidth: "210px", cursor: "pointer", userSelect: "none" }}>
+                {labels.customer} {renderSortIndicator("customer")}
+              </th>
+              <th
+                onClick={() => handleSort("items")}
+                aria-sort={sortField === "items" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+                style={{ minWidth: "50px", maxWidth: "50px", cursor: "pointer", userSelect: "none" }}>
+                {labels.items} {renderSortIndicator("items")}
+              </th>
+              <th
+                onClick={() => handleSort("price")}
+                aria-sort={sortField === "price" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+                style={{ minWidth: "100px", maxWidth: "100px", cursor: "pointer", userSelect: "none" }}>
+                {labels.price} {renderSortIndicator("price")}
+              </th>
+              <th
+                onClick={() => handleSort("orderDate")}
+                aria-sort={sortField === "orderDate" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+                style={{ minWidth: "85px", maxWidth: "85px", cursor: "pointer", userSelect: "none" }}>
+                {labels.orderDate} {renderSortIndicator("orderDate")}
+              </th>
+              <th
+                onClick={() => handleSort("delivery")}
+                aria-sort={sortField === "delivery" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+                style={{ minWidth: "75px", maxWidth: "75px", cursor: "pointer", userSelect: "none" }}>
+                {labels.delivery} {renderSortIndicator("delivery")}
+              </th>
+              <th
+                onClick={() => handleSort("destination")}
+                aria-sort={
+                  sortField === "destination" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"
+                }
+                style={{ minWidth: "110px", maxWidth: "110px", cursor: "pointer", userSelect: "none" }}>
+                {labels.destination} {renderSortIndicator("destination")}
+              </th>
             </tr>
           </thead>
           <tbody>
-            {orders.items.map((order, index) => (
+            {sortedOrders.map((order, index) => (
               <tr onClick={() => handleRowClick(order.order.id, order.order.userId)} key={index} className={styles.row}>
                 <td
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
-                  style={{ minWidth: "50px" }}>
+                  style={{ minWidth: "50px", maxWidth: "50px" }}>
                   {/* <MemoizedCheckBoxButton
                     handleToggle={(e) => handleToggleOrder(e, order.id)}
                     value={state.selectedOrders.has(order.id)}
@@ -277,13 +391,13 @@ export default function PickingUp({
                   {orderInProcess.find((x) => x === order.order.id) ? "InProcess" : index + 1}
                 </td>
                 <td
-                  style={{ minWidth: "100px" }}
+                  style={{ minWidth: "90px", maxWidth: "90px" }}
                   className={state.clickedOrders.has(order.order.id) ? styles.ordernumberviewed : styles.ordernumber}>
                   {order.order.id}
                   {/* {clickedOrders.has(order.id) && <span> ✓</span>} */}
                 </td>
 
-                <td style={{ minWidth: "160px" }} className={styles.customer}>
+                <td style={{ minWidth: "210px", maxWidth: "210px" }} className={styles.customer}>
                   <img
                     loading="lazy"
                     decoding="async"
@@ -295,44 +409,69 @@ export default function PickingUp({
                     }}
                   />
                   <div className="instagramprofiledetail">
-                    <div className="instagramusername">
-                      {order.userProfile!.fullName ? order.userProfile!.fullName : order.userProfile?.phoneNumber}
-                    </div>
-                    <div className="instagramid">
-                      {" "}
-                      {order.userProfile!.username ? "@" + order.userProfile!.username : ""}
-                    </div>
+                    {order.userProfile!.fullName ? (
+                      <>
+                        <div className="instagramusername">{order.userProfile!.fullName}</div>
+                        <div className="instagramid">
+                          {order.userProfile!.username
+                            ? "@" + order.userProfile!.username
+                            : order.userProfile?.phoneNumber}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div
+                          className="instagramusername"
+                          style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                          <span>{t(LanguageKey.userpanel_MobileNumber)}</span>
+                        </div>
+                        <div className="instagramid">
+                          {order.userProfile?.phoneNumber ? `+${order.userProfile.phoneNumber}` : "--"}
+                          <img
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleCopyMobileNumber(order.userProfile?.phoneNumber || null);
+                            }}
+                            style={{ cursor: "pointer", width: "15px", height: "15px" }}
+                            title="ℹ️ copy mobile number"
+                            src="/copy.svg"
+                            alt="copy mobile number"
+                          />
+                        </div>
+                      </>
+                    )}
                   </div>
                 </td>
                 {/* <td
-                  style={{ minWidth: "150px" }}
-                  className={`${styles.status} ${
-                    order.status === OrderStatus.RequestedPickup
-                      ? styles.requestsent
-                      : order.status === OrderStatus.PickedUp
-                      ? styles.pickedup
-                      : ""
-                  }`}>
-                  {order.status === OrderStatus.RequestedPickup && (
-                    <svg
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 21 20">
-                      <path
-                        d="m3.74 5.62 1.74.5 3.77 9.33m1.48.56 6.66-2.66m-6.58 3.04a1.1 1.1 0 0 0-1.12-1.05 1.08 1.08 0 1 0 1.12 1.05m3.87-3.98-2.24.87c-.78.3-1.5-.06-1.8-.84l-.53-1.4c-.3-.78-.03-1.51.76-1.82l2.24-.86c.78-.3 1.48.06 1.78.84l.54 1.4c.3.78.03 1.5-.75 1.8m-2.33-5.75-2.24.87c-.78.3-1.5-.06-1.8-.84l-.52-1.4c-.3-.78-.04-1.52.75-1.82l2.24-.86c.78-.3 1.48.06 1.79.83l.53 1.4c.3.78.03 1.52-.75 1.82"
-                        stroke="var(--color-gray)"
-                        strokeWidth="1.2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  )}
-                  {order.status === OrderStatus.PickedUp && (
-                    <svg
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 21 20">
-                      <path
+                  style={{ minWidth: "150px", maxWidth: "150px" }}
+                    {order.userProfile!.fullName ? (
+                      <>
+                        <div className="instagramusername">{order.userProfile!.fullName}</div>
+                        <div className="instagramid">
+                          {order.userProfile!.username ? "@" + order.userProfile!.username : order.userProfile?.phoneNumber}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div className="instagramusername" style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                          <span>mobile number</span>
+                          <img
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleCopyMobileNumber(order.userProfile?.phoneNumber || null);
+                            }}
+                            style={{ cursor: "pointer", width: "15px", height: "15px" }}
+                            title="ℹ️ copy mobile number"
+                            src="/copy.svg"
+                            alt="copy mobile number"
+                          />
+                        </div>
+                        <div className="instagramid">{order.userProfile?.phoneNumber ? `+${order.userProfile.phoneNumber}` : "--"}</div>
+                      </>
+                    )}
+                  </div>
+                </td>
+                {/* <td
                         d="m6.78 4.7 6.48 3.75v2.28m-9.98-4 6.48 3.74 6.47-3.75M9.76 18v-7.54m6.76-2.7v5.46c0 .73-.39 1.4-1.01 1.76l-4.74 2.73c-.62.36-1.4.36-2.02 0L4 14.98a2 2 0 0 1-1-1.76V7.76c0-.73.39-1.4 1.01-1.76l4.74-2.73c.62-.36 1.4-.36 2.02 0L15.51 6a2 2 0 0 1 1.01 1.76"
                         stroke="var(--color-firoze)"
                         strokeWidth="1.5"
@@ -349,18 +488,18 @@ export default function PickingUp({
                       : ""}
                   </span>
                 </td> */}
-                <td style={{ minWidth: "50px" }} className={styles.items}>
+                <td style={{ minWidth: "50px", maxWidth: "50px" }} className={styles.items}>
                   {order.order.itemCount}
                 </td>
 
-                <td style={{ minWidth: "100px" }} className={styles.fee}>
+                <td style={{ minWidth: "100px", maxWidth: "100px" }} className={styles.items}>
                   <PriceFormater
                     fee={order.order.totalPrice}
                     pricetype={PriceType.Toman}
                     className={PriceFormaterClassName.PostPrice}
                   />
                 </td>
-                <td style={{ minWidth: "85px" }} className={styles.date}>
+                <td style={{ minWidth: "85px", maxWidth: "85px" }} className={styles.date}>
                   {new DateObject({
                     date: order.order.createdTime * 1000,
                     calendar: initialzedTime().calendar,
@@ -394,11 +533,11 @@ export default function PickingUp({
                 </td>
 
                 <td
-                  style={{ minWidth: "75px" }}
+                  style={{ minWidth: "75px", maxWidth: "75px" }}
                   className={`${styles.delivery} ${styles[specifyLogistic(order.order.logesticId)]}`}>
                   {specifyLogistic(order.order.logesticId)}
                 </td>
-                <td style={{ minWidth: "110px" }} className={styles.destination}>
+                <td style={{ minWidth: "110px", maxWidth: "110px" }} className={styles.destination}>
                   {order.order.city ?? "--"}
                 </td>
               </tr>

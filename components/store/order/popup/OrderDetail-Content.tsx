@@ -1,4 +1,5 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import Link from "next/link";
 import { FC, useCallback, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
@@ -20,7 +21,7 @@ interface OrderDetailContentProps {
 const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) => {
   const { t } = useTranslation();
   const [isExpanded, dispatchToggle] = useReducer(toggleReducer, false);
-  const [isExpandedproduct, setIsExpandedProduct] = useState(false);
+  const [isExpandedproduct, setIsExpandedProduct] = useState(ordersProductInfo.orderItems.length < 2);
 
   const handleToggleExpansion = useCallback(() => {
     dispatchToggle();
@@ -71,24 +72,30 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
               </>
             )}
           </div>
-          <div className={styles.loadmore} onClick={handleToggleProductExpansion}>
-            <svg
-              className={styles.loadmoreIcon}
-              style={{
-                transform: `rotate(${isExpandedproduct ? "90deg" : "-90deg"})`,
-              }}
-              width="21"
-              height="21"
-              viewBox="0 0 22 22"
-              fill="none">
-              <path stroke="var(--color-dark-blue60)" d="M11 21a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z" strokeWidth="1.5" />
-              <path
-                fill="var(--color-dark-blue)"
-                d="m12.2 7 .6.2q.3.6 0 1l-2.2 2.2-.1.4.1.4 2.2 2.1q.3.6 0 1-.6.5-1 0l-2.2-2a2 2 0 0 1 0-2.9l2.1-2.2z"
-              />
-            </svg>
-            {isExpandedproduct ? <span>{t(LanguageKey.close)}</span> : <span>{t(LanguageKey.Showmore)}</span>}
-          </div>
+          {ordersProductInfo.orderItems.length >= 2 && (
+            <div className={styles.loadmore} onClick={handleToggleProductExpansion}>
+              <svg
+                className={styles.loadmoreIcon}
+                style={{
+                  transform: `rotate(${isExpandedproduct ? "90deg" : "-90deg"})`,
+                }}
+                width="21"
+                height="21"
+                viewBox="0 0 22 22"
+                fill="none">
+                <path
+                  stroke="var(--color-dark-blue60)"
+                  d="M11 21a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z"
+                  strokeWidth="1.5"
+                />
+                <path
+                  fill="var(--color-dark-blue)"
+                  d="m12.2 7 .6.2q.3.6 0 1l-2.2 2.2-.1.4.1.4 2.2 2.1q.3.6 0 1-.6.5-1 0l-2.2-2a2 2 0 0 1 0-2.9l2.1-2.2z"
+                />
+              </svg>
+              {isExpandedproduct ? <span>{t(LanguageKey.close)}</span> : <span>{t(LanguageKey.Showmore)}</span>}
+            </div>
+          )}
         </div>
 
         <div
@@ -103,17 +110,19 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
                 </div>
                 <div className={styles.productdetails}>
                   <div className={styles.productContainer}>
-                    <img
-                      loading="lazy"
-                      decoding="async"
-                      className={styles.productimage}
-                      title="ℹ️ Profile image"
-                      alt="profile image"
-                      src={basePictureUrl + product.completeProduct.shortProduct.thumbnailMediaUrl}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = "/no-profile.svg";
-                      }}
-                    />
+                    <Link href={`/store/products/productDetail?tempId=${product.completeProduct.shortProduct.tempId}`}>
+                      <img
+                        loading="lazy"
+                        decoding="async"
+                        className={styles.productimage}
+                        title="ℹ️ Profile image"
+                        alt="profile image"
+                        src={basePictureUrl + product.completeProduct.shortProduct.thumbnailMediaUrl}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = "/no-profile.svg";
+                        }}
+                      />
+                    </Link>
                     <div className="instagramprofiledetail" style={{ maxWidth: "100%" }}>
                       <div className="instagramusername">{product.completeProduct.shortProduct.title}</div>
                       <PriceFormater
@@ -122,7 +131,7 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
                         className={PriceFormaterClassName.PostPrice}
                       />
                       <div className={styles.quantitytag}>
-                        <span>{t(LanguageKey.Storeorder_quantityorder)}</span>:{" "}
+                        <span>{t(LanguageKey.Storeorder_quantityorder)}:</span>{" "}
                         {product.items.reduce((total, item) => total + item.count, 0)}
                       </div>
                     </div>
@@ -135,7 +144,7 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
 
                         return (
                           <div className={styles.subproduct} key={subProduct.id}>
-                            <div className={styles.subproductHeader}>
+                            {/* <div className={styles.subproductHeader}>
                               <PriceFormater
                                 pricetype={subProduct.priceType}
                                 fee={subProduct.price}
@@ -145,10 +154,12 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
                                 <span>{t(LanguageKey.Storeorder_quantityorder)}</span>
                                 <strong>× {orderLine.count}</strong>
                               </div>
-                            </div>
+                            </div> */}
                             <div className={styles.producttaglist}>
                               {subProduct.variations.map((variation) => (
-                                <div className={styles.producttag} key={variation.id}>
+                                <div
+                                  className={styles.producttag}
+                                  key={`${subProduct.id}-${variation.titleVariation.id}-${variation.variationId}`}>
                                   <span>{variation.titleVariation.langValue}:</span>
                                   <strong>{variation.variation.langValue}</strong>
                                 </div>
@@ -190,7 +201,7 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
                         );
                       })}
                   </div>
-                  <div className={styles.productmetagrid}>
+                  {/* <div className={styles.productmetagrid}>
                     {product.completeProduct.productInstance.categoryLangValue && (
                       <div className={styles.productmeta}>
                         <span>{t(LanguageKey.product_MainCategory)}</span>
@@ -251,7 +262,7 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
                         )}
                       </div>
                     </div>
-                  )}
+                  )} */}
                 </div>
               </div>
             </div>

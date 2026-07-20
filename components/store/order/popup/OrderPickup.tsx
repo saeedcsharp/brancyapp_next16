@@ -435,8 +435,7 @@ const OrderPickup: FC<OrderDetailProps> = ({
                               onClick={async () => {
                                 try {
                                   const clipboardText = await navigator.clipboard.readText();
-                                  // You need to update the InputText value state here
-                                  // For example: setTrackingCode(clipboardText);
+                                  setParcelId(clipboardText);
                                 } catch (error) {
                                   console.error("Failed to read clipboard:", error);
                                 }

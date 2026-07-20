@@ -6,7 +6,6 @@
   --c4: #2151af;
   --c5: #244483;
   --c6: #103071;
-
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -80,7 +79,7 @@
 .oops {
   width: 100%;
   text-align: center;
-  font-size: 2.25vmin;
+  font-size: 50px;
   transform: rotateX(21deg);
   transform-origin: 100% 50%;
   top: 10%;
@@ -93,7 +92,7 @@
   transform-origin: 100% 50%;
   transform: rotateY(-60deg) scaleX(1.5);
   margin: -5vmin 0 0 -5vmin;
-  font-size: 14vmin;
+  font-size: 50px;
   width: 50%;
 
   text-shadow:
@@ -127,7 +126,7 @@
   transform: rotateY(60deg) scaleX(1.5);
   margin-top: -4vmin;
   margin-right: -2vmin;
-  font-size: 5vmin;
+  font-size: 50px;
   max-width: 50vmin;
   width: 50%;
   text-shadow:
