@@ -88,8 +88,8 @@ const Payment = () => {
           />
           <meta name="robots" content="noindex, nofollow" />
         </Head>
-        {/* {!session.user.isPartner && <Soon />} */}
-        {
+        {!session.user.isPartner && <Soon />}
+        {session.user.isPartner && (
           <main className="pinContainer">
             {/* Hero Section */}
 
@@ -279,7 +279,7 @@ const Payment = () => {
 
             {/* خلاصه کلیدی - کارت عریض */}
           </main>
-        }
+        )}
       </>
     )
   );

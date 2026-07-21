@@ -101,9 +101,10 @@ const Statistics = () => {
         </Head>
         {
           <main>
-            <div>
-              {/* آمار تجمیعی تراکنش */}
-              {balanceHistorySeries.map((item) => (
+            {/* آمار تجمیعی تراکنش */}
+
+            {balanceHistorySeries.map((item) => (
+              <div className={styles.pinContainer1}>
                 <div className="bigcard">
                   <div key={item.id} className="headerChild">
                     <div className="circle"></div>
@@ -131,7 +132,57 @@ const Statistics = () => {
                     </div>
                   </div>
                 </div>
-              ))}
+              </div>
+            ))}
+            {/* تاریخچه تراکنش‌ها */}
+            <div className={styles.pinContainer1}>
+              <div className="tooBigCard">
+                <div className="headerChild">
+                  <div className="circle"></div>
+                  <div className="Title">تاریخچه تراکنش نمایشی</div>
+                </div>
+                <div className={styles.section4}>
+                  <div className={styles.sorting}>
+                    <div className={styles.calendar}>از تاریخ</div>
+                    <div className={styles.calendar}>تا تاریخ</div>
+                  </div>
+                </div>
+                <div className={styles.section5}>
+                  <div className={styles.table}>
+                    <div className={styles.tableheader}>
+                      <div className={styles.header1}>#</div>
+                      <div className={styles.header2}>کد تراکنش</div>
+                      <div className={styles.header3}>شماره پرداخت</div>
+                      <div className={styles.header4}>نوع</div>
+                      <div className={styles.header5}>مبلغ (ریال)</div>
+                      <div className={styles.header6}>وضعیت</div>
+                      <div className={styles.header7}>زمان</div>
+                      <div className={styles.header8}>اشتراک</div>
+                    </div>
+                    {[1, 2, 3, 4, 5, 6].map((i) => (
+                      <div key={i} className={styles.tableheader1}>
+                        <div className={styles.tablecounter}>{i}</div>
+                        <div className={styles.orcernumber}>TRX{i}9824</div>
+                        <div className={styles.orcernumber}>PMT{i}4561</div>
+                        <div className={styles.viwes}>{i % 2 === 0 ? "برداشت" : "واریز"}</div>
+                        <div className={styles.viwes}>{formatMoney(1200000 + i * 350000)}</div>
+                        <div className={styles.confirmedstatus}>{i % 3 === 0 ? "تسویه شد" : "در انتظار"}</div>
+                        <div className={styles.date}>
+                          <div className={styles.day}>1404/08/2{i}</div>
+                          <div className={styles.hour}>12:{40 + i} ق.ظ</div>
+                        </div>
+                        <div className={styles.share}>
+                          <img className={styles.sharetype} src="/pdf.svg" />
+                          <img className={styles.sharetype} src="/jpg.svg" />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+                <div className={styles.section4}>
+                  <div className={styles.calendar}>فیلتر پیشرفته</div>
+                </div>
+              </div>
             </div>
           </main>
         }
