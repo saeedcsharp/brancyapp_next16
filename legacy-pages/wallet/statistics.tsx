@@ -205,7 +205,7 @@ const Statistics = () => {
                         <div className={styles.tablecounter}>{i}</div>
                         <div className={styles.orcernumber}>{item.cardNumber}</div>
                         <div className={styles.share}>
-                          {cards.find((card) => card.cardNumber === item.cardNumber)?.bankName ?? ""}
+                          {cards.find((card) => card.cardNumber === item.cardNumber)?.bankName ?? "--"}
                         </div>
                         <div className={styles.viwes}>
                           {
@@ -228,9 +228,6 @@ const Statistics = () => {
                       </div>
                     ))}
                   </div>
-                </div>
-                <div className={styles.section4}>
-                  <div className={styles.calendar}>فیلتر پیشرفته</div>
                 </div>
               </div>
             </div>
