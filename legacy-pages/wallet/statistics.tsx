@@ -1,5 +1,6 @@
 import MultiChart from "brancy/components/design/chart/Chart_month";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
 import PriceFormater from "brancy/components/priceFormater";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
@@ -18,8 +19,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import styles from "./statistics.module.css";
-import Loading from "brancy/components/notOk/loading";
-import BankCard from "brancy/components/wallet/bankCard";
 
 const Statistics = () => {
   const router = useRouter();

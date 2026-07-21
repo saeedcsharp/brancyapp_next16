@@ -10,13 +10,7 @@ type Platform = "android" | "ios" | "other";
  * force the URL open in the real system browser (Chrome on Android, Safari on
  * iOS) instead of the embedded WebView.
  */
-export default function EscapeInAppBrowser({
-  openUrl,
-  platform,
-}: {
-  openUrl: string;
-  platform: Platform;
-}) {
+export default function EscapeInAppBrowser({ openUrl, platform }: { openUrl: string; platform: Platform }) {
   const [showManualHint, setShowManualHint] = useState(false);
 
   useEffect(() => {
@@ -57,19 +51,17 @@ export default function EscapeInAppBrowser({
         padding: "1.5rem",
         direction: "rtl",
       }}>
-      <p style={{ fontSize: "1.1rem", fontWeight: 600, margin: 0 }}>
-        برای ادامه، لطفاً این صفحه را در مرورگر باز کنید
-      </p>
+      <p style={{ fontSize: "1.1rem", fontWeight: 600, margin: 0 }}>برای ادامه، لطفاً این صفحه را در مرورگر باز کنید</p>
 
       {platform === "ios" ? (
         <p style={{ margin: 0, lineHeight: 1.8 }}>
-          روی دکمهٔ منو (سه نقطه <span aria-hidden>•••</span> در گوشهٔ پایین) بزنید و گزینهٔ
-          «Open in Safari / باز کردن در سافاری» را انتخاب کنید.
+          روی دکمهٔ منو (سه نقطه <span aria-hidden>•••</span> در گوشهٔ بالا) بزنید و گزینهٔ «Open in external browser را
+          انتخاب کنید.
         </p>
       ) : (
         <p style={{ margin: 0, lineHeight: 1.8 }}>
-          در حال انتقال به مرورگر... اگر به‌صورت خودکار باز نشد، از منوی مرورگر داخلی گزینهٔ
-          «Open in Chrome / باز کردن در مرورگر» را انتخاب کنید.
+          در حال انتقال به مرورگر... اگر به‌صورت خودکار باز نشد، از منوی مرورگر داخلی گزینهٔ «Open in Chrome / باز کردن
+          در مرورگر» را انتخاب کنید.
         </p>
       )}
 
