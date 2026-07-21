@@ -1,24 +1,25 @@
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useEffect, useMemo, useState } from "react";
-import { packageStatus } from "brancy/helper/loadingStatus";
 import MultiChart from "brancy/components/design/chart/Chart_month";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import PriceFormater from "brancy/components/priceFormater";
+import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { packageStatus } from "brancy/helper/loadingStatus";
+import { PriceFormaterClassName, SubInvoiceStatus } from "brancy/models/enums";
 import {
+  IBankCard,
   IGeneralBalance,
   IMonthGraph,
   IWallentBalanceHistoryGraph,
   IWalletBalanceHistoryResponse,
 } from "brancy/models/interfaces";
-import styles from "./statistics.module.css";
-import { notify, NotifType, ResponseType } from "brancy/components/notifications/notificationBox";
-import { LanguageKey } from "brancy/i18n";
 import { t } from "i18next";
-import { config } from "process";
-import { PriceFormaterClassName, SubInvoiceStatus } from "brancy/models/enums";
-import { MethodType } from "brancy/helper/api";
-import PriceFormater from "brancy/components/priceFormater";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import styles from "./statistics.module.css";
+import Loading from "brancy/components/notOk/loading";
+import BankCard from "brancy/components/wallet/bankCard";
 
 const Statistics = () => {
   const router = useRouter();
@@ -30,17 +31,10 @@ const Statistics = () => {
   });
 
   // وضعیت‌های نمایشی
-  const [generalBalance, setGeneralBalance] = useState<IGeneralBalance[]>([]); // ریال
-  const [monthIncome, setMonthIncome] = useState(325150000); // ریال
-  const [monthWithdraw, setMonthWithdraw] = useState(25125000); // ریال
-  const [transactionsUp, setTransactionsUp] = useState(150); // صعودی
-  const [transactionsDown, setTransactionsDown] = useState(50); // نزولی / برگشتی
-  const [unsettledCount, setUnsettledCount] = useState(18);
-  const [unsettledValue, setUnsettledValue] = useState(145700000); // ریال
-  const [cryptoConvertedMonth, setCryptoConvertedMonth] = useState(87000000); // ریال تبدیل شده به رمزارز
-  const [autoSettlementEnabled] = useState(true);
+  const [generalBalance, setGeneralBalance] = useState<IGeneralBalance[]>([]);
+  const [loading, setLoading] = useState<boolean>(true);
   const [balanceHistorySeries, setBalanceHistorySeries] = useState<IWallentBalanceHistoryGraph[]>([]);
-
+  const [cards, setCards] = useState<IBankCard[]>([]);
   useEffect(() => {
     if (!session) return;
     if (session?.user.currentIndex === -1) router.push("/user");
@@ -51,6 +45,8 @@ const Statistics = () => {
     if (!session || session.user.currentIndex === -1) return;
     fetchBalanceHistory();
     fetchGeneralBalance();
+    fetchCards();
+    setLoading(false);
   }, [session]);
   const fetchGeneralBalance = async () => {
     try {
@@ -83,6 +79,33 @@ const Statistics = () => {
       notify(ResponseType.Unexpected, NotifType.Error);
     }
   };
+  async function fetchCards() {
+    try {
+      const res = await clientFetchApi<null, IBankCard[]>("/api/wallet/getInstagramerBankCards", { session });
+      if (res && res.succeeded) {
+        const v: any = res.value;
+        if (Array.isArray(v)) {
+          setCards(v);
+        } else if (v && Array.isArray(v.value)) {
+          setCards(v.value);
+        } else if (v && Array.isArray(v.cards)) {
+          setCards(v.cards);
+        } else if (v && typeof v === "object") {
+          // single object returned — wrap into array
+          setCards([v]);
+        } else {
+          setCards([]);
+        }
+      } else {
+        notify(res.info.responseType, NotifType.Warning);
+        setCards([]);
+      }
+    } catch (err) {
+      console.error("fetchCards error", err);
+      notify(ResponseType.Unexpected, NotifType.Error);
+      setCards([]);
+    }
+  }
   const handleCastWallentBalanceHistory = (data: IWalletBalanceHistoryResponse[]) => {
     const statusMap: Partial<Record<SubInvoiceStatus, { id: string; name: string }>> = {
       [SubInvoiceStatus.None]: { id: "Statistics-Unsettled", name: t("Unsettled") },
@@ -119,7 +142,8 @@ const Statistics = () => {
           />
           <meta name="robots" content="noindex, nofollow" />
         </Head>
-        {
+        {loading && <Loading />}
+        {!loading && (
           <main>
             {/* آمار تجمیعی تراکنش */}
 
@@ -171,15 +195,18 @@ const Statistics = () => {
                   <div className={styles.table}>
                     <div className={styles.tableheader}>
                       <div className={styles.header1}>#</div>
-                      <div className={styles.header3}>شماره کارت</div>
-                      <div className={styles.header5}>مبلغ (ریال)</div>
-                      <div className={styles.header6}>وضعیت</div>
-                      <div className={styles.header8}>اشتراک</div>
+                      <div className={styles.header3}>{t("Card Number")}</div>
+                      <div className={styles.header8}>{t("bank name")}</div>
+                      <div className={styles.header5}>{t("Price")}</div>
+                      <div className={styles.header6}>{t("Status")}</div>
                     </div>
                     {generalBalance.map((item, i) => (
                       <div key={i} className={styles.tableheader1}>
                         <div className={styles.tablecounter}>{i}</div>
                         <div className={styles.orcernumber}>{item.cardNumber}</div>
+                        <div className={styles.share}>
+                          {cards.find((card) => card.cardNumber === item.cardNumber)?.bankName ?? ""}
+                        </div>
                         <div className={styles.viwes}>
                           {
                             <PriceFormater
@@ -198,10 +225,6 @@ const Statistics = () => {
                                 ? t("AwaitingSettled")
                                 : t("Unsettled")}
                         </div>
-                        <div className={styles.share}>
-                          <img className={styles.sharetype} src="/pdf.svg" />
-                          <img className={styles.sharetype} src="/jpg.svg" />
-                        </div>
                       </div>
                     ))}
                   </div>
@@ -212,7 +235,7 @@ const Statistics = () => {
               </div>
             </div>
           </main>
-        }
+        )}
       </>
     )
   );
