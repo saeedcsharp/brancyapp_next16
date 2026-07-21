@@ -55,21 +55,22 @@ const Statistics = () => {
     fetchBalanceHistory();
   }, [session]);
   const handleCastWallentBalanceHistory = (data: IWalletBalanceHistoryResponse[]) => {
-    const statusMap: Record<SubInvoiceStatus, { id: string; name: string }> = {
+    const statusMap: Partial<Record<SubInvoiceStatus, { id: string; name: string }>> = {
       [SubInvoiceStatus.None]: { id: "Statistics-Unsettled", name: t("Unsettled") },
-      [SubInvoiceStatus.AwaitingSettled]: { id: "Statistics-AwaitingSettled", name: t("AwaitingSettled") },
       [SubInvoiceStatus.Settled]: { id: "Statistics-Settled", name: t("Settled") },
       [SubInvoiceStatus.Failed]: { id: "Statistics-Failed", name: t("Failed") },
     };
 
-    const series: IWallentBalanceHistoryGraph[] = data.map((item) => {
-      const mapped = statusMap[item.status];
-      return {
-        id: mapped.id,
-        name: mapped.name,
-        data: item.statistics,
-      };
-    });
+    const series: IWallentBalanceHistoryGraph[] = data
+      .filter((item) => statusMap[item.status] !== undefined)
+      .map((item) => {
+        const mapped = statusMap[item.status]!;
+        return {
+          id: mapped.id,
+          name: mapped.name,
+          data: item.statistics,
+        };
+      });
 
     setBalanceHistorySeries(series);
   };
