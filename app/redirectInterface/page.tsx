@@ -1,6 +1,7 @@
 import { redirect, notFound } from "next/navigation";
 import { headers } from "next/headers";
 import ReloadTimer from "./ReloadTimer";
+import EscapeInAppBrowser from "./EscapeInAppBrowser";
 
 const ALLOWED_DOMAINS = ["zarinpal.com", "pod.ir", "stripe.com", "instagram.com", "instagramer.com", "zibal.ir"];
 const IRAN_ONLY_DOMAINS = ["zarinpal.com", "pod.ir", "zibal.ir"];
@@ -34,18 +35,53 @@ async function getCountryCode(): Promise<string | null> {
   return (cloudflareCountry || arvanCountry)?.toUpperCase() || null;
 }
 
+type InAppBrowserInfo = {
+  isInAppBrowser: boolean;
+  platform: "android" | "ios" | "other";
+};
+
+/**
+ * Detect whether the request comes from an in-app browser (WebView) such as
+ * the Instagram / Facebook embedded browser, which breaks payment and OAuth
+ * flows. Detection is based on the User-Agent header.
+ */
+async function getInAppBrowserInfo(): Promise<InAppBrowserInfo> {
+  const headersList = await headers();
+  const ua = headersList.get("user-agent") || "";
+
+  const isInAppBrowser = /Instagram|FBAN|FBAV|FB_IAB|FBIOS/i.test(ua);
+
+  let platform: "android" | "ios" | "other" = "other";
+  if (/Android/i.test(ua)) {
+    platform = "android";
+  } else if (/iPhone|iPad|iPod/i.test(ua)) {
+    platform = "ios";
+  }
+
+  return { isInAppBrowser, platform };
+}
+
 export default async function RedirectInterfacePage({
   searchParams,
 }: {
   searchParams: Promise<{ redirectUrl?: string }>;
 }) {
   const { redirectUrl } = await searchParams;
-  const countryCode = await getCountryCode();
-  const isIran = countryCode === "IR" || countryCode === "AZ";
 
   if (!redirectUrl || !isAllowedRedirectUrl(redirectUrl)) {
     notFound();
   }
+
+  // If opened inside the Instagram/Facebook in-app browser, force the link to
+  // open in the real system browser (Chrome / Safari). This must run AFTER the
+  // domain check and BEFORE the country check.
+  const { isInAppBrowser, platform } = await getInAppBrowserInfo();
+  if (isInAppBrowser) {
+    return <EscapeInAppBrowser redirectUrl={redirectUrl} platform={platform} />;
+  }
+
+  const countryCode = await getCountryCode();
+  const isIran = countryCode === "IR" || countryCode === "AZ";
 
   if (!isIran && isIranOnlyDomain(redirectUrl)) {
     return (
