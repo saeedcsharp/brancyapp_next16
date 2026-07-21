@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-07-21
+
+- Added a simple client timer that reloads the blocked IR/AZ-only redirect page every second.
+- Connected the wallet statistics `ChartDay` to monthly data from `/api/wallet/getBallanceHistory` and registered its backend route mapping.
+
 ## 2026-07-20
 
 - Updated the legacy Instagramer payment page to load wallet bank cards through `clientFetchApi` and display each card as a responsive standalone tile.

@@ -68,6 +68,8 @@ Utility functions live in local files where applicable.
 
 Service integration happens through helper APIs or route handlers when applicable.
 
+Wallet mappings include `/api/wallet/getBallanceHistory` to `Business/Wallet/GetBallanceHistory`; the backend contract intentionally uses the `Ballance` spelling.
+
 ## Providers
 
 Providers are documented where the module defines React providers.
@@ -146,7 +148,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-07-21
 
 ---
 
@@ -155,13 +157,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

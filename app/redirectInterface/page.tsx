@@ -1,5 +1,6 @@
 import { redirect, notFound } from "next/navigation";
 import { headers } from "next/headers";
+import ReloadTimer from "./ReloadTimer";
 
 const ALLOWED_DOMAINS = ["zarinpal.com", "pod.ir", "stripe.com", "instagram.com", "instagramer.com", "zibal.ir"];
 const IRAN_ONLY_DOMAINS = ["zarinpal.com", "pod.ir", "zibal.ir"];
@@ -57,6 +58,7 @@ export default async function RedirectInterfacePage({
           textAlign: "center",
           padding: "1rem",
         }}>
+        <ReloadTimer />
         <p>لطفاً فیلترشکن خود را خاموش کنید و دوباره تلاش کنید.</p>
       </div>
     );

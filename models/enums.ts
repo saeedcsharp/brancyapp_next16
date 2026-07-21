@@ -1030,3 +1030,11 @@ export enum InputTypeAddress {
   PostalCode,
 }
 // #endregion UserPanel
+
+//#region Wallet
+export enum SubInvoiceStatus {
+  None = 0,
+  AwaitingSettled = 1,
+  Settled = 2,
+  Failed = 3,
+}

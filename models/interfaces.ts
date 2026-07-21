@@ -63,6 +63,7 @@ import {
   SpecialPayLoad,
   StatusReplied,
   StoreLanguage,
+  SubInvoiceStatus,
   TermsType,
   ToolType,
   TopTileType,
@@ -5570,3 +5571,13 @@ export interface IBankCard {
   isActive: boolean;
   bankBranchSwiftBIC: string | null;
 }
+export interface IWalletBalanceHistoryResponse {
+  statistics: IMonthGraph[];
+  status: SubInvoiceStatus;
+}
+export interface IWallentBalanceHistoryGraph {
+  id: string;
+  name: string;
+  data: IMonthGraph[];
+}
+// #endregion Wallet

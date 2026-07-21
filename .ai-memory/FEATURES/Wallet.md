@@ -40,3 +40,5 @@ Changing this feature may affect balance presentation, payment results, user-pan
 Wallet behavior often overlaps with payment and user-panel identity flows.
 
 The Instagramer payment page obtains registered bank cards with `/api/wallet/getInstagramerBankCards`. It presents each card as an individual responsive grid tile; a card-sized add-card tile remains in the collection and is centered when no bank card exists.
+
+The Instagramer wallet statistics page obtains monthly balance history with `/api/wallet/getBallanceHistory`. The response `statistics` array is normalized to the `IMonthGraph` series contract and rendered by `ChartDay`.
