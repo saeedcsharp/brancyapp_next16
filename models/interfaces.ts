@@ -5580,4 +5580,10 @@ export interface IWallentBalanceHistoryGraph {
   name: string;
   data: IMonthGraph[];
 }
+export interface IGeneralBalance {
+  cardNumber: string;
+  status: SubInvoiceStatus;
+  priceType: PriceType;
+  totalPrice: number;
+}
 // #endregion Wallet

@@ -394,6 +394,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/wallet/getBallanceHistory": "/Business/Wallet/GetBallanceHistory",
   "/api/wallet/getInstagramerBankCards": "/Business/Wallet/GetInstagramerBankCards",
   "/api/wallet/settleRequest": "/Business/Wallet/SettleRequest",
+  "/api/wallet/getGenerallBallance": "/Business/Wallet/GetGeneralBallance",
 };
 
 /**
