@@ -61,6 +61,21 @@ async function getInAppBrowserInfo(): Promise<InAppBrowserInfo> {
   return { isInAppBrowser, platform };
 }
 
+/**
+ * Reconstruct the full URL of THIS redirect page (including its query string)
+ * from the incoming request headers. This is the URI we want the real system
+ * browser to open, so the whole flow re-runs there instead of jumping straight
+ * to the payment/OAuth redirect target.
+ */
+async function getCurrentPageUrl(search: string): Promise<string | null> {
+  const headersList = await headers();
+  const host = headersList.get("x-forwarded-host") || headersList.get("host");
+  if (!host) return null;
+  const proto = headersList.get("x-forwarded-proto") || "https";
+  const query = search ? `?${search}` : "";
+  return `${proto}://${host}/redirectInterface${query}`;
+}
+
 export default async function RedirectInterfacePage({
   searchParams,
 }: {
@@ -77,7 +92,12 @@ export default async function RedirectInterfacePage({
   // domain check and BEFORE the country check.
   const { isInAppBrowser, platform } = await getInAppBrowserInfo();
   if (isInAppBrowser) {
-    return <EscapeInAppBrowser redirectUrl={redirectUrl} platform={platform} />;
+    // Open the ORIGINAL page URI (this redirect interface) in the real browser,
+    // not the final redirectUrl, so the full check flow runs again outside the
+    // Instagram in-app browser. Fall back to redirectUrl if we cannot rebuild it.
+    const search = new URLSearchParams({ redirectUrl }).toString();
+    const currentPageUrl = (await getCurrentPageUrl(search)) || redirectUrl;
+    return <EscapeInAppBrowser openUrl={currentPageUrl} platform={platform} />;
   }
 
   const countryCode = await getCountryCode();

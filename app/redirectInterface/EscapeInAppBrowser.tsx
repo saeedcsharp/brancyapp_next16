@@ -11,10 +11,10 @@ type Platform = "android" | "ios" | "other";
  * iOS) instead of the embedded WebView.
  */
 export default function EscapeInAppBrowser({
-  redirectUrl,
+  openUrl,
   platform,
 }: {
-  redirectUrl: string;
+  openUrl: string;
   platform: Platform;
 }) {
   const [showManualHint, setShowManualHint] = useState(false);
@@ -23,7 +23,7 @@ export default function EscapeInAppBrowser({
     try {
       if (platform === "android") {
         // Build an Android intent URL that forces Chrome to handle the link.
-        const url = new URL(redirectUrl);
+        const url = new URL(openUrl);
         const scheme = url.protocol.replace(":", "");
         const withoutScheme = `${url.host}${url.pathname}${url.search}${url.hash}`;
         const intentUrl = `intent://${withoutScheme}#Intent;scheme=${scheme};package=com.android.chrome;end`;
@@ -42,7 +42,7 @@ export default function EscapeInAppBrowser({
     } catch {
       setShowManualHint(true);
     }
-  }, [redirectUrl, platform]);
+  }, [openUrl, platform]);
 
   return (
     <div
@@ -75,7 +75,7 @@ export default function EscapeInAppBrowser({
 
       {showManualHint && (
         <a
-          href={redirectUrl}
+          href={openUrl}
           target="_blank"
           rel="noopener noreferrer"
           style={{
