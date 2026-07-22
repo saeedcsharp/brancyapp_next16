@@ -14,7 +14,7 @@ Partner accounts are restricted by `PartnerRole`; non-partner users are broadly 
 
 ## Country And Payments
 
-Pricing and redirect behavior use country headers. Iranian-only payment domains are blocked for non-IR/AZ visitors in `app/redirectInterface/page.tsx`.
+Pricing and redirect behavior use country headers. Iranian-only payment domains are blocked for non-IR/AZ visitors in `app/redirectInterface/page.tsx`; a client timer reloads the blocked page every second.
 
 ---
 

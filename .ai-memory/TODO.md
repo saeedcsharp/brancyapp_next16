@@ -6,11 +6,13 @@
 - Add endpoint-specific request and response examples from backend contracts.
 - Document exact environment variable names from deployment manifests without exposing secret values.
 - Add testing strategy once test tooling exists.
+- Add integration coverage for wallet balance-history loading and unsuccessful backend responses when test infrastructure is introduced.
 
 ## Technical Debt Ideas
 
 - Audit hard-coded external keys/secrets.
 - Validate `next lint` compatibility with Next 16.
+- Add integration coverage for country-gated external redirects when test infrastructure is introduced.
 - Consider separating generated PWA artifacts from hand-maintained assets.
 
 ## Recent Review Notes

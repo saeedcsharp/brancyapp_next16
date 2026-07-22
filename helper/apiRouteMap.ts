@@ -389,6 +389,12 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/unfollowallfollowing/getFigure": "Instagramer/UnfollowAllFollowing/GetFigure",
   "/api/unfollowallfollowing/getUnFollowings": "Instagramer/UnfollowAllFollowing/GetUnFollowings",
   "/api/unfollowallfollowing/updateCondition": "Instagramer/UnfollowAllFollowing/UpdateCondition",
+
+  // ── Wallet ──────────────────────────────
+  "/api/wallet/getBallanceHistory": "/Business/Wallet/GetBallanceHistory",
+  "/api/wallet/getInstagramerBankCards": "/Business/Wallet/GetInstagramerBankCards",
+  "/api/wallet/settleRequest": "/Business/Wallet/SettleRequest",
+  "/api/wallet/getGenerallBallance": "/Business/Wallet/GetGeneralBallance",
 };
 
 /**

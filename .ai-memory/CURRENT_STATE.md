@@ -18,7 +18,7 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 - App Router wrappers exist for 102 app pages.
 - 9 route handler files exist, including auth, pricing, user proxy endpoints, IP country detection, and a text-file route.
-- API map contains 317 mapped backend entries.
+- API map contains 320 mapped backend entries.
 - Docker standalone build path exists.
 - IIS `web.config` exists for server.js hosting.
 
@@ -51,6 +51,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 ## Recent Changes
 
 - Added a localized bulk product management modal for selected store products. Sellers can apply percentage or fixed-amount discounts, or increase/decrease prices by percentage or amount, either across all selected products or per product. Existing price ranges and discounts are shown, all variants are updated through `/api/product/CreateSubProducts`, inactive variants are preserved, and the product list refreshes after saving.
+- Connected the Instagramer wallet statistics chart to `/api/wallet/getBallanceHistory` and its monthly balance-history response.
+- Updated `legacy-pages/wallet/payment.tsx` to load and render Instagramer bank cards as responsive standalone tiles, with a separate add-card toolbar and form.
 - AI Knowledge Base initialized on 2026-07-19.
 - Added a collapsible vertical shipment-details timeline to the store order popup (`components/store/order/popup/OrderSend.tsx`) using `parcelInfo.logs` from `/api/order/GetParcelInfo`.
 - Added a reusable multi-series brush line chart in `components/design/chart/brushLineChart.tsx` and wired it into total store sales statistics.

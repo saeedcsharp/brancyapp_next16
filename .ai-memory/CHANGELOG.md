@@ -1,10 +1,32 @@
 # Changelog
 
+## 2026-07-21
+
+- Added a simple client timer that reloads the blocked IR/AZ-only redirect page every second.
+- Connected the wallet statistics `ChartDay` to monthly data from `/api/wallet/getBallanceHistory` and registered its backend route mapping.
+
+## 2026-07-20
+
+- Updated the legacy Instagramer payment page to load wallet bank cards through `clientFetchApi` and display each card as a responsive standalone tile.
+- Moved the bank-card add action into a distinct toolbar and responsive form outside the card collection.
+- Revised the wallet card layout to remove the enclosing panel and use a centered, card-sized add tile in the bank-card grid.
+
+=======
+
+## 2026-07-21
+
+- Added a simple client timer that reloads the blocked IR/AZ-only redirect page every second.
+- Connected the wallet statistics `ChartDay` to monthly data from `/api/wallet/getBallanceHistory` and registered its backend route mapping.
+
 ## 2026-07-20
 
 - Added a responsive bulk product price and discount modal for selected store products, with shared and individual edit modes, percentage and fixed-amount values, price increase/decrease controls, existing price/discount visibility, localized copy, backend persistence, and list refresh after save.
 - Updated both shared and individual bulk-product editors to use isolated percentage/amount radio groups that switch between the percentage stepper and fixed-amount input.
 - Updated bulk product editor switching to collapse the inactive editor to zero height and animate the active editor's return to the layout.
+- Updated the legacy Instagramer payment page to load wallet bank cards through `clientFetchApi` and display each card as a responsive standalone tile.
+- Moved the bank-card add action into a distinct toolbar and responsive form outside the card collection.
+- Revised the wallet card layout to remove the enclosing panel and use a centered, card-sized add tile in the bank-card grid.
+  > > > > > > > fa1690d501349a13f10de01b52613d1aef728d56
 
 ## 2026-07-19
 

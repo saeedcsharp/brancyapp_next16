@@ -56,6 +56,10 @@ See related source files for exported functions and local helpers.
 
 React components are present when the folder contains `.tsx` UI files.
 
+`payment.tsx` renders Instagramer bank cards as independent responsive tiles. It loads cards through `clientFetchApi` from `/api/wallet/getInstagramerBankCards`, normalizes supported backend response shapes to an array, and keeps a card-sized add-card tile in the centered collection grid.
+
+`statistics.tsx` loads `/api/wallet/getBallanceHistory` after the Instagramer session is ready. It maps the response `statistics` months to one wallet-balance `ChartDay` series while the remaining presentation metrics stay mocked.
+
 ## Hooks
 
 React hooks are present when named `use*` functions/files exist.
@@ -146,7 +150,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-07-20
 
 ---
 
@@ -155,13 +159,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-
