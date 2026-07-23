@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-07-23
+
+- Added 16 new backend `ResponseType` notification mappings and localized their messages in all eight supported languages.
+- Updated the wallet summary balance to total every general-balance entry with `SubInvoiceStatus.None` instead of using only the first match.
+- Added a Persian start-date filter that refreshes `/api/wallet/getGenerallBallance` through the current time.
+- Replaced the general-balance transaction table with responsive per-card summaries for unsettled, awaiting settlement, settled, and failed totals.
+- Connected the bank-card registration form to `/Business/Wallet/AddCardNumber` and reloads all registered cards after a successful response.
+
 ## 2026-07-21
 
 - Added a simple client timer that reloads the blocked IR/AZ-only redirect page every second.

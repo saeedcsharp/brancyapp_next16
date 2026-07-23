@@ -56,9 +56,9 @@ See related source files for exported functions and local helpers.
 
 React components are present when the folder contains `.tsx` UI files.
 
-`payment.tsx` renders Instagramer bank cards as independent responsive tiles. It loads cards through `clientFetchApi` from `/api/wallet/getInstagramerBankCards`, normalizes supported backend response shapes to an array, and keeps a card-sized add-card tile in the centered collection grid.
+`payment.tsx` renders Instagramer bank cards as independent responsive tiles. It loads cards through `clientFetchApi` from `/api/wallet/getInstagramerBankCards`, normalizes supported backend response shapes to an array, and keeps a card-sized add-card tile in the centered collection grid. The tile opens a 16-digit card-number form that posts `{ cardNumber }` to `/api/wallet/addCardNumber`; after success, the page reloads the complete card collection from the backend.
 
-`statistics.tsx` loads `/api/wallet/getBallanceHistory` after the Instagramer session is ready. It maps the response `statistics` months to one wallet-balance `ChartDay` series while the remaining presentation metrics stay mocked.
+`statistics.tsx` loads `/api/wallet/getBallanceHistory` after the Instagramer session is ready. It maps the response `statistics` months to one wallet-balance `ChartDay` series. It also owns the `/api/wallet/getGenerallBallance` date-range request and reloads general balances when the child card summary changes its start-date filter.
 
 ## Hooks
 
@@ -150,7 +150,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-20
+2026-07-23
 
 ---
 

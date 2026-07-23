@@ -5579,7 +5579,7 @@ export interface IWallentBalanceHistoryGraph {
   name: string;
   data: IMonthGraph[];
 }
-export interface IGeneralBalance {
+export interface IGeneralBallance {
   cardNumber: string;
   status: SubInvoiceStatus;
   priceType: PriceType;

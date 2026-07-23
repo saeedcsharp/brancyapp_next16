@@ -11,6 +11,7 @@ Translations exist for `en`, `fa`, `ar`, `fr`, `ru`, `tr`, `gr`, and `az`.
 ## Rules
 
 Add keys to `i18n/languageKeys.ts` only when enum-based usage is needed. Keep translation objects aligned across languages.
+Backend `ResponseType` notifications are mapped to `Notify_*` language keys in `components/notifications/notificationBox.tsx`; every mapped key must exist in all eight locale files.
 
 ---
 

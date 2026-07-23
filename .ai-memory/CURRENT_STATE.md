@@ -50,7 +50,9 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
-- Added a localized bulk product management modal for selected store products. Sellers can apply percentage or fixed-amount discounts, or increase/decrease prices by percentage or amount, either across all selected products or per product. Existing price ranges and discounts are shown, all variants are updated through `/api/product/CreateSubProducts`, inactive variants are preserved, and the product list refreshes after saving.
+- Added localized notification mappings for 16 new backend response types across all eight supported languages.
+- Connected Instagramer bank-card registration to `/Business/Wallet/AddCardNumber` and refreshes the complete backend card list after successful registration.
+- Added a Persian start-date filter to the Instagramer general-balance request and redesigned its results as per-card totals across all four sub-invoice statuses.
 - Connected the Instagramer wallet statistics chart to `/api/wallet/getBallanceHistory` and its monthly balance-history response.
 - Updated `legacy-pages/wallet/payment.tsx` to load and render Instagramer bank cards as responsive standalone tiles, with a separate add-card toolbar and form.
 - AI Knowledge Base initialized on 2026-07-19.
