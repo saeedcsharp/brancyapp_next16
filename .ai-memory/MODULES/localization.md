@@ -11,6 +11,7 @@ Supports multilingual and RTL/LTR product usage.
 ## Responsibilities
 
 Owns the folder/module concerns described by its file tree and exports.
+Maintains aligned `Notify_*` translations for backend response notifications across `en`, `fa`, `ar`, `fr`, `ru`, `tr`, `gr`, and `az`.
 
 ## Architecture
 
@@ -146,7 +147,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-07-23
 
 ---
 
@@ -155,13 +156,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

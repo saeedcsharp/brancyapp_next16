@@ -50,6 +50,7 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Added localized notification mappings for 16 new backend response types across all eight supported languages.
 - Connected Instagramer bank-card registration to `/Business/Wallet/AddCardNumber` and refreshes the complete backend card list after successful registration.
 - Added a Persian start-date filter to the Instagramer general-balance request and redesigned its results as per-card totals across all four sub-invoice statuses.
 - Connected the Instagramer wallet statistics chart to `/api/wallet/getBallanceHistory` and its monthly balance-history response.

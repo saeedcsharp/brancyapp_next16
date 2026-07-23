@@ -10,6 +10,7 @@
 - Add unit coverage for wallet summary aggregation across multiple `SubInvoiceStatus.None` entries when test infrastructure is introduced.
 - Add integration coverage for general-balance date filtering and per-card status aggregation when test infrastructure is introduced.
 - Add integration coverage for successful and rejected bank-card registration responses when test infrastructure is introduced.
+- Add an automated locale-alignment check for `LanguageKey.Notify_*` response notification keys when test infrastructure is introduced.
 
 ## Technical Debt Ideas
 

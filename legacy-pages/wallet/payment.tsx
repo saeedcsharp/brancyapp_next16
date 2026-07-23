@@ -68,7 +68,7 @@ const Payment = () => {
       const response = await clientFetchApi<{ cardNumber: string }, boolean>("/api/wallet/addCardNumber", {
         session,
         methodType: MethodType.get,
-        data: [{ cardNumber: newCardNumber }],
+        queries: [{ key: "cardNumber", value: newCardNumber }],
       });
 
       if (!response.succeeded) {

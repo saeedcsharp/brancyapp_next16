@@ -38,3 +38,4 @@ Changing this feature may affect directionality, translations, menu labels, page
 ## Notes
 
 Keep language files and direction handling aligned so AI does not treat translation keys as isolated text.
+Notification response keys use the same `Notify_*` identifier in `LanguageKey` and every locale object.
