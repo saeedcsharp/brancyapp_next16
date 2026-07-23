@@ -50,6 +50,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Connected Instagramer bank-card registration to `/Business/Wallet/AddCardNumber` and refreshes the complete backend card list after successful registration.
+- Added a Persian start-date filter to the Instagramer general-balance request and redesigned its results as per-card totals across all four sub-invoice statuses.
 - Connected the Instagramer wallet statistics chart to `/api/wallet/getBallanceHistory` and its monthly balance-history response.
 - Updated `legacy-pages/wallet/payment.tsx` to load and render Instagramer bank cards as responsive standalone tiles, with a separate add-card toolbar and form.
 - AI Knowledge Base initialized on 2026-07-19.

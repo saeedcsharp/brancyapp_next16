@@ -4,6 +4,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { packageStatus } from "brancy/helper/loadingStatus";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { MethodType } from "brancy/helper/api";
 import styles from "./payment.module.css";
 import { IBankCard } from "brancy/models/interfaces";
 import Loading from "brancy/components/notOk/loading";
@@ -11,9 +12,6 @@ import { notify, NotifType, ResponseType } from "brancy/components/notifications
 import BankCard from "brancy/components/wallet/bankCard";
 import Modal from "brancy/components/design/modal";
 import SettlePopup from "brancy/components/wallet/settlePopup";
-
-// توجه: همه متون این صفحه به صورت ایستا و فارسی برای پرزنت سرمایه‌گذار هستند.
-// این صفحه نمونه‌ی نمایشی (Mock) است و به سرویس‌های واقعی متصل نشده است.
 
 const Payment = () => {
   const router = useRouter();
@@ -38,16 +36,10 @@ const Payment = () => {
   const [gatewayAdded, setGatewayAdded] = useState(false);
   const [cards, setCards] = useState<IBankCard[]>([]);
   const [cardsLoading, setCardsLoading] = useState(true);
+  const [addCardLoading, setAddCardLoading] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
   const [showSettlePopup, setShowSettlePopup] = useState<string | null>(null);
-  const [newCard, setNewCard] = useState<Partial<IBankCard>>({
-    cardNumber: "",
-    accountHolderName: "",
-    bankName: "",
-    iban: "",
-    isDefault: false,
-    isActive: true,
-  });
+  const [newCardNumber, setNewCardNumber] = useState("");
 
   useEffect(() => {
     if (!session) return;
@@ -63,36 +55,36 @@ const Payment = () => {
 
   const handleToggleAdd = () => setShowAdd((s) => !s);
 
-  const handleAddCard = (e: React.FormEvent) => {
+  const handleCardNumberChange = (value: string) => {
+    setNewCardNumber(value.replace(/\D/g, "").slice(0, 16));
+  };
+
+  const handleAddCard = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!newCard.cardNumber || !newCard.accountHolderName || !newCard.bankName) return;
-    const added: IBankCard = {
-      cardNumber: newCard.cardNumber!.trim(),
-      accountHolderName: newCard.accountHolderName!.trim(),
-      accountNumber: newCard.accountNumber ?? null,
-      iban: newCard.iban ?? "",
-      swiftBIC: newCard.swiftBIC ?? null,
-      routingNumber: newCard.routingNumber ?? null,
-      bin: newCard.bin ?? 0,
-      accountType: newCard.accountType ?? null,
-      createdTime: Date.now(),
-      suspendReasonId: null,
-      suspendTime: null,
-      unSuspendTime: null,
-      suspendMessage: null,
-      bankName: newCard.bankName!.trim(),
-      bankCountryCode: newCard.bankCountryCode ?? "IR",
-      bankReasonId: null,
-      bankSuspendMessage: null,
-      fbId: newCard.fbId ?? 0,
-      isDefault: !!newCard.isDefault,
-      isActive: newCard.isActive ?? true,
-      bankBranchSwiftBIC: newCard.bankBranchSwiftBIC ?? null,
-    };
-    // در این صفحه نمایشی فقط در حالت کلاینت به لیست اضافه می‌کنیم
-    setCards((c) => (added.isDefault ? [added, ...c.map((x) => ({ ...x, isDefault: false }))] : [...c, added]));
-    setNewCard({ cardNumber: "", accountHolderName: "", bankName: "", iban: "", isDefault: false, isActive: true });
-    setShowAdd(false);
+    if (newCardNumber.length !== 16 || addCardLoading) return;
+
+    setAddCardLoading(true);
+    try {
+      const response = await clientFetchApi<{ cardNumber: string }, boolean>("/api/wallet/addCardNumber", {
+        session,
+        methodType: MethodType.get,
+        data: [{ cardNumber: newCardNumber }],
+      });
+
+      if (!response.succeeded) {
+        notify(response.info.responseType, NotifType.Warning);
+        return;
+      }
+
+      notify(ResponseType.Ok, NotifType.Success);
+      setNewCardNumber("");
+      setShowAdd(false);
+      await fetchCards();
+    } catch {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    } finally {
+      setAddCardLoading(false);
+    }
   };
   const formatMoney = (v: number) => v.toLocaleString("fa-IR");
 
@@ -181,11 +173,49 @@ const Payment = () => {
           <div className={styles.sectionHeading}>
             <h2 className={styles.cardTitle}>کارت‌ها و حساب‌های بانکی</h2>
           </div>
+          {showAdd && (
+            <div className={styles.addCardPanel}>
+              <form className={styles.addCardForm} onSubmit={handleAddCard}>
+                <label className={styles.label} htmlFor="wallet-card-number">
+                  شماره کارت بانکی
+                  <input
+                    id="wallet-card-number"
+                    className={styles.input}
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="cc-number"
+                    value={newCardNumber.replace(/(.{4})/g, "$1 ").trim()}
+                    onChange={(event) => handleCardNumberChange(event.target.value)}
+                    placeholder="۶۰۳۷ ۹۹۱۲ ۳۴۵۶ ۷۸۹۰"
+                    aria-invalid={newCardNumber.length > 0 && newCardNumber.length !== 16}
+                    disabled={addCardLoading}
+                    autoFocus
+                  />
+                  <small className={styles.inputHint}>شماره ۱۶ رقمی کارت را وارد کنید.</small>
+                </label>
+                <div className={styles.formActions}>
+                  <button
+                    className={styles.cancelButton}
+                    type="button"
+                    onClick={() => setShowAdd(false)}
+                    disabled={addCardLoading}>
+                    انصراف
+                  </button>
+                  <button
+                    className={styles.button}
+                    type="submit"
+                    disabled={newCardNumber.length !== 16 || addCardLoading}>
+                    {addCardLoading ? "در حال ثبت..." : "ثبت کارت بانکی"}
+                  </button>
+                </div>
+              </form>
+            </div>
+          )}
           {cardsLoading ? (
             <Loading />
           ) : (
             <div className={styles.cardList}>
-              <button className={styles.addCardTile} type="button" onClick={handleToggleAdd}>
+              <button className={styles.addCardTile} type="button" onClick={handleToggleAdd} aria-expanded={showAdd}>
                 <span className={styles.addCardIcon} aria-hidden="true">
                   +
                 </span>

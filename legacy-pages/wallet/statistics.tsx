@@ -1,15 +1,15 @@
-import MultiChart from "brancy/components/design/chart/Chart_month";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
-import PriceFormater from "brancy/components/priceFormater";
+import BallanceHistory from "brancy/components/wallet/ballanceHistory";
+import GeneralBalance from "brancy/components/wallet/generalBallance";
+import InboxContainer from "brancy/components/wallet/inboxContainer";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { packageStatus } from "brancy/helper/loadingStatus";
-import { PriceFormaterClassName, SubInvoiceStatus } from "brancy/models/enums";
+import { SubInvoiceStatus } from "brancy/models/enums";
 import {
   IBankCard,
-  IGeneralBalance,
-  IMonthGraph,
+  IGeneralBallance,
   IWallentBalanceHistoryGraph,
   IWalletBalanceHistoryResponse,
 } from "brancy/models/interfaces";
@@ -18,7 +18,6 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import styles from "./statistics.module.css";
 
 const Statistics = () => {
   const router = useRouter();
@@ -30,8 +29,9 @@ const Statistics = () => {
   });
 
   // وضعیت‌های نمایشی
-  const [generalBalance, setGeneralBalance] = useState<IGeneralBalance[]>([]);
+  const [generalBalance, setGeneralBalance] = useState<IGeneralBallance[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
+  const [generalBalanceLoading, setGeneralBalanceLoading] = useState<boolean>(false);
   const [balanceHistorySeries, setBalanceHistorySeries] = useState<IWallentBalanceHistoryGraph[]>([]);
   const [cards, setCards] = useState<IBankCard[]>([]);
   useEffect(() => {
@@ -47,13 +47,14 @@ const Statistics = () => {
     fetchCards();
     setLoading(false);
   }, [session]);
-  const fetchGeneralBalance = async () => {
+  const fetchGeneralBalance = async (from = 0) => {
+    setGeneralBalanceLoading(true);
     try {
-      const response = await clientFetchApi<null, IGeneralBalance[]>("/api/wallet/getGenerallBallance", {
+      const response = await clientFetchApi<null, IGeneralBallance[]>("/api/wallet/getGenerallBallance", {
         session,
         methodType: MethodType.get,
         queries: [
-          { key: "from", value: "0" },
+          { key: "from", value: from.toString() },
           { key: "end", value: Date.now().toString() },
         ],
       });
@@ -63,6 +64,8 @@ const Statistics = () => {
       } else notify(response.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
+    } finally {
+      setGeneralBalanceLoading(false);
     }
   };
   const fetchBalanceHistory = async () => {
@@ -126,8 +129,6 @@ const Statistics = () => {
     setBalanceHistorySeries(series);
   };
 
-  const formatMoney = (v: number) => v.toLocaleString("fa-IR");
-
   return (
     session &&
     session!.user.currentIndex !== -1 && (
@@ -144,92 +145,16 @@ const Statistics = () => {
         {loading && <Loading />}
         {!loading && (
           <main>
+            <InboxContainer generalBalance={generalBalance} cards={cards} />
             {/* آمار تجمیعی تراکنش */}
-
-            {balanceHistorySeries.map((item) => (
-              <div className={styles.pinContainer1}>
-                <div className="bigcard">
-                  <div key={item.id} className="headerChild">
-                    <div className="circle"></div>
-                    <div className="Title"> {item.name} </div>
-                  </div>
-                  <div className={styles.section3}>
-                    <div className={styles.totalchart}>
-                      <MultiChart
-                        id={item.id}
-                        name={item.name}
-                        allowShowAll={true}
-                        showAverage={true}
-                        seriesData={
-                          Array.isArray(item.data) && item.data.length > 0
-                            ? [
-                                {
-                                  id: item.id,
-                                  name: item.name,
-                                  data: item.data as IMonthGraph[],
-                                },
-                              ]
-                            : []
-                        }
-                      />
-                    </div>
-                  </div>
-                </div>
-              </div>
-            ))}
+            <BallanceHistory balanceHistorySeries={balanceHistorySeries} />
             {/* تاریخچه تراکنش‌ها */}
-            <div className={styles.pinContainer1}>
-              <div className="tooBigCard">
-                <div className="headerChild">
-                  <div className="circle"></div>
-                  <div className="Title">تاریخچه تراکنش نمایشی</div>
-                </div>
-                {/* <div className={styles.section4}>
-                  <div className={styles.sorting}>
-                    <div className={styles.calendar}>از تاریخ</div>
-                    <div className={styles.calendar}>تا تاریخ</div>
-                  </div>
-                </div> */}
-                <div className={styles.section5}>
-                  <div className={styles.table}>
-                    <div className={styles.tableheader}>
-                      <div className={styles.header1}>#</div>
-                      <div className={styles.header3}>{t("Card Number")}</div>
-                      <div className={styles.header8}>{t("bank name")}</div>
-                      <div className={styles.header5}>{t("Price")}</div>
-                      <div className={styles.header6}>{t("Status")}</div>
-                    </div>
-                    {generalBalance.map((item, i) => (
-                      <div key={i} className={styles.tableheader1}>
-                        <div className={styles.tablecounter}>{i}</div>
-                        <div className={styles.orcernumber}>{item.cardNumber}</div>
-                        <div className={styles.share}>
-                          {cards.find((card) => card.cardNumber === item.cardNumber)?.bankName ?? "--"}
-                        </div>
-                        <div className={styles.viwes}>
-                          {
-                            <PriceFormater
-                              pricetype={item.priceType}
-                              fee={item.totalPrice}
-                              className={PriceFormaterClassName.PostPrice}
-                            />
-                          }
-                        </div>
-                        <div className={styles.confirmedstatus}>
-                          {item.status === SubInvoiceStatus.Settled
-                            ? t("Settled")
-                            : item.status === SubInvoiceStatus.Failed
-                              ? t("Failed")
-                              : item.status === SubInvoiceStatus.AwaitingSettled
-                                ? t("AwaitingSettled")
-                                : t("Unsettled")}
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
+            <GeneralBalance
+              generalBalance={generalBalance}
+              cards={cards}
+              loading={generalBalanceLoading}
+              onFromDateChange={fetchGeneralBalance}
+            />
           </main>
         )}
       </>

@@ -535,8 +535,41 @@
 }
 .addCardPanel {
   margin-bottom: var(--gap-16);
-  padding: 0 0 var(--padding-20);
-  border-bottom: 1px solid var(--content-box);
+  padding: var(--padding-20);
+  border: 1px solid var(--content-box);
+  border-radius: var(--br10);
+  background: var(--color-white);
+}
+.addCardForm {
+  display: grid;
+  grid-template-columns: minmax(240px, 480px) auto;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--gap-20);
+}
+.inputHint {
+  color: var(--text-h2);
+  font-size: var(--font-11);
+  font-weight: var(--weight-400);
+}
+.cancelButton {
+  height: 45px;
+  padding: 0 var(--padding-20);
+  border: 1px solid var(--content-box);
+  border-radius: var(--br10);
+  background: transparent;
+  color: var(--text-h1);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-14);
+  transition: var(--transition3);
+}
+.cancelButton:hover {
+  border-color: var(--color-light-blue);
+}
+.cancelButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
 }
 .formInline {
   display: grid;
@@ -560,6 +593,9 @@
 }
 
 @media (max-width: 900px) {
+  .addCardForm {
+    grid-template-columns: 1fr;
+  }
   .formInline {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }

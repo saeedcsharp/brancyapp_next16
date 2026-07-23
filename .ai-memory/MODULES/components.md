@@ -72,6 +72,10 @@ See related source files for exported functions and local helpers.
 
 React components are present when the folder contains `.tsx` UI files.
 
+`components/wallet/inboxContainer.tsx` displays the wallet summary balance by summing `totalPrice` for all general-balance entries with `SubInvoiceStatus.None`.
+
+`components/wallet/generalBallance.tsx` renders a responsive card grid for wallet balances. It groups balances by card number, totals all four `SubInvoiceStatus` values independently, and exposes a Persian start-date picker that asks the parent page to refresh general-balance data.
+
 ## Hooks
 
 React hooks are present when named `use*` functions/files exist.
