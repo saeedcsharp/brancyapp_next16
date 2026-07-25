@@ -6,7 +6,12 @@ import { useEffect, useState } from "react";
 import Soon from "brancy/components/notOk/soon";
 import { LoginStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import AI_Img_Video from "brancy/components/page/ai/AI_Img_Video";
+import styles from "./pageAI.module.css";
+import Link from "next/link";
+import Modal from "brancy/components/design/modal";
+import NotFeature from "brancy/components/notOk/notFeature";
+import { checkPackageFeature, fetchAndCheckFeature } from "brancy/helper/checkFeature";
+import { PsgFeatureType } from "brancy/models/enums";
 
 export default function PageAI() {
   const { data: session } = useSession({
@@ -16,12 +21,31 @@ export default function PageAI() {
     },
   });
   const [loading, setLoading] = useState(true);
+  const [showPopup, setShowPopup] = useState(false);
   useEffect(() => {
     if (!session) return;
     if (session.user.currentIndex === -1) router.push("/user");
     if (!LoginStatus(session)) router.push("/");
     setLoading(false);
   }, [session]);
+  const typeCards = [
+    {
+      slug: "createImage",
+      label: "Create Image",
+      description: "Generate images using AI.",
+      icon: " 🖼️",
+      cardClass: styles.typeCardShop,
+      iconClass: styles.typeCardIconShop,
+    },
+    {
+      slug: "createVideo",
+      label: "Create Video",
+      description: "Generate videos using AI.",
+      icon: "🎥",
+      cardClass: styles.typeCardVShop,
+      iconClass: styles.typeCardIconVShop,
+    },
+  ];
   return (
     <>
       <Head>
@@ -53,8 +77,40 @@ export default function PageAI() {
         <meta name="twitter:description" content="Manage your Bran.cy account settings and preferences" />
         <meta name="twitter:image:alt" content="Bran.cy Settings Page" />
       </Head>
-      {/* {!loading && <AI_Img_Video />} */}
-      {!loading && <Soon />}
+      {/* {!loading && <Soon />} */}
+      <div className={styles.container}>
+        <div className={styles.typeGrid}>
+          {typeCards.map((card) => (
+            <button
+              key={card.slug}
+              onClick={async () => {
+                if (!(await fetchAndCheckFeature(PsgFeatureType.AI, session))) {
+                  setShowPopup(true);
+                  return;
+                }
+                window.location.href = `/page/ai/${card.slug}`;
+              }}
+              className={`${styles.typeCard} ${card.cardClass}`}>
+              <div className={`${styles.typeCardIcon} ${card.iconClass}`}>{card.icon}</div>
+              <p className={styles.typeCardTitle}>{card.label}</p>
+              <p className={styles.typeCardDesc}>{card.description}</p>
+              <span className={styles.typeCardArrow}>→</span>
+            </button>
+          ))}
+        </div>
+      </div>
+      <Modal
+        closePopup={function (): void {
+          setShowPopup(false);
+        }}
+        classNamePopup={"popupSendFile"}
+        showContent={showPopup}>
+        <NotFeature
+          onClose={function (): void {
+            setShowPopup(false);
+          }}
+        />
+      </Modal>
     </>
   );
 }
