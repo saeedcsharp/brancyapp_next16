@@ -2,7 +2,7 @@
 
 ## Known Bugs
 
-No confirmed runtime bugs remain from the chart navigation issue addressed on 2026-07-20 or the mobile AI-route Page logo issue addressed on 2026-07-25.
+No confirmed runtime bugs remain from the chart navigation issue addressed on 2026-07-20 or the AI-route navbar/sidebar logo issues addressed on 2026-07-25.
 
 ## Watchlist
 

@@ -2,7 +2,8 @@
 
 ## 2026-07-25
 
-- Fixed the mobile Instagramer navbar Page logo on `/page/ai` and its image/video creation subroutes after direct reloads.
+- Fixed the Instagramer sidebar Page logo active color on `/page/ai/createImage` and `/page/ai/createVideo` so it stays synchronized with the active indicator.
+- Fixed the mobile Page and desktop Content Creator navbar logos on `/page/ai` and its image/video creation subroutes after direct reloads.
 - Added desktop and mobile Instagramer navbar search controls for discovering dashboard capabilities.
 - Added a multilingual internal route index with Persian/Arabic normalization and aliases such as lottery, winner picker, and قرعه کشی mapped to `/page/tools`.
 - Added keyboard support for submitting the first result, closing with Escape, and navigating through focusable results.
