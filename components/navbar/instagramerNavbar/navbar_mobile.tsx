@@ -1,5 +1,4 @@
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { InstagramerRoute } from "brancy/components/sidebar/sidebar";
 import { LanguageKey } from "brancy/i18n";
@@ -7,18 +6,19 @@ import styles from "./navbarheader.module.css";
 
 const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: boolean }) => {
   const { t } = useTranslation();
-  const router = useRouter();
-  let newRoute = router.route.replaceAll("/", "");
-  const [navbarRout, setNavbarRout] = useState("");
-  useEffect(() => {
-    if (newRoute === InstagramerRoute.Home) setNavbarRout("home");
+  const pathname = usePathname();
+  const newRoute = (pathname || "").replaceAll("/", "");
+
+  const getNavbarRoute = () => {
+    if (newRoute === InstagramerRoute.Home) return "home";
     else if (
       newRoute === InstagramerRoute.PagePost ||
       newRoute === InstagramerRoute.PageStories ||
+      newRoute.startsWith(InstagramerRoute.PageAI) ||
       newRoute === InstagramerRoute.PageStatistics ||
       newRoute === InstagramerRoute.PageTools
     )
-      setNavbarRout("page");
+      return "page";
     else if (
       newRoute === InstagramerRoute.MessageDirect ||
       newRoute === InstagramerRoute.MessageComments ||
@@ -28,27 +28,27 @@ const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: b
       // newRoute === "messagetelegram" ||
       newRoute === InstagramerRoute.MessageProperties
     )
-      setNavbarRout("message");
+      return "message";
     else if (
       newRoute === InstagramerRoute.WalletStatistics ||
       newRoute === InstagramerRoute.WalletPayment ||
       newRoute === InstagramerRoute.WalletTitle
     )
-      setNavbarRout("wallet");
+      return "wallet";
     else if (
       newRoute === InstagramerRoute.MarketHome ||
       newRoute === InstagramerRoute.MarketmyLink ||
       newRoute === InstagramerRoute.MarketStatistics ||
       newRoute === InstagramerRoute.MarketProperties
     )
-      setNavbarRout("market");
+      return "market";
     else if (
       newRoute === InstagramerRoute.AdvertiseCalendar ||
       newRoute === InstagramerRoute.AdvertiseStatistics ||
       newRoute === InstagramerRoute.AdvertiseAdlist ||
       newRoute === InstagramerRoute.AdvertiseProperties
     )
-      setNavbarRout("advertise");
+      return "advertise";
     else if (
       newRoute === InstagramerRoute.StoreProducts ||
       newRoute === InstagramerRoute.StoreOrders ||
@@ -56,14 +56,16 @@ const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: b
       newRoute === InstagramerRoute.StoreProperties ||
       newRoute === InstagramerRoute.StorePost
     )
-      setNavbarRout("store");
+      return "store";
     else if (
       newRoute === InstagramerRoute.Setting ||
       newRoute === InstagramerRoute.SettingGeneral ||
       newRoute === InstagramerRoute.SettingSubAdmin
     )
-      setNavbarRout("setting");
-  }, [router]);
+      return "setting";
+    return "";
+  };
+  const navbarRout = getNavbarRoute();
   const getTranslatedText = () => {
     switch (navbarRout) {
       case "home":

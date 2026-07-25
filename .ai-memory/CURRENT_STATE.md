@@ -50,6 +50,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Fixed the Instagramer mobile Page logo on `/page/ai`, `/page/ai/createImage`, and `/page/ai/createVideo`, including direct reloads, by deriving the active navbar section from the App Router pathname.
+- Added responsive internal feature search to the Instagramer navbar using translated feature/section labels for all eight configured locales; searches such as Persian lottery terms resolve to `/page/tools`.
 - Added localized notification mappings for 16 new backend response types across all eight supported languages.
 - Connected Instagramer bank-card registration to `/Business/Wallet/AddCardNumber` and refreshes the complete backend card list after successful registration.
 - Added a Persian start-date filter to the Instagramer general-balance request and redesigned its results as per-card totals across all four sub-invoice statuses.

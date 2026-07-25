@@ -1,5 +1,15 @@
 # Changelog
 
+## 2026-07-25
+
+- Fixed the mobile Instagramer navbar Page logo on `/page/ai` and its image/video creation subroutes after direct reloads.
+- Added desktop and mobile Instagramer navbar search controls for discovering dashboard capabilities.
+- Added a multilingual internal route index with Persian/Arabic normalization and aliases such as lottery, winner picker, and قرعه کشی mapped to `/page/tools`.
+- Added keyboard support for submitting the first result, closing with Escape, and navigating through focusable results.
+- Moved mobile search out of the route tabs and into its own collapsible hamburger-menu section alongside notifications and profile, with results rendered inside that section.
+- Extended feature search across all eight configured locales by indexing translated parent-section labels and making Unicode matching accent-insensitive.
+- Added multilingual image-creation and video-creation aliases that resolve internal AI capability searches such as `ایجاد عکس` to `/page/ai`.
+
 ## 2026-07-23
 
 - Added 16 new backend `ResponseType` notification mappings and localized their messages in all eight supported languages.
