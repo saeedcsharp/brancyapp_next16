@@ -84,7 +84,7 @@ Types are in local files or shared `models/` and `types/`.
 
 Interfaces are in local files or shared `models/interfaces.ts`.
 
-The image-creator API contract uses `IImageCreator`, `IImageCreatorModel`, and `IImageCreatorInput`.
+The image-creator API contract uses `IImageCreator`, `IImageCreatorModel`, and `IImageCreatorInput`. Token estimation uses `IGetImageUsageRequest` and `IImageUsageInput`; every dynamic value is serialized to a string, including JSON-stringified media filename arrays.
 
 ## Enums
 

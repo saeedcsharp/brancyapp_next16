@@ -345,6 +345,22 @@ html[dir="rtl"] .modelActive {
   font-weight: var(--weight-600);
 }
 
+.uploadProgress {
+  width: min(180px, 70%);
+  height: 4px;
+  overflow: hidden;
+  border-radius: var(--br5);
+  background: var(--color-gray30);
+}
+
+.uploadProgress span {
+  display: block;
+  height: 100%;
+  border-radius: inherit;
+  background: var(--color-dark-blue);
+  transition: width 0.2s ease;
+}
+
 .visuallyHidden {
   position: absolute;
   width: 1px;
@@ -356,39 +372,49 @@ html[dir="rtl"] .modelActive {
 
 .fileList {
   display: flex;
-  flex-direction: column;
-  gap: 5px;
-  margin-top: 7px;
+  flex-flow: row wrap;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .fileItem {
-  min-width: 0;
-  display: flex;
+  position: relative;
+  width: fit-content;
+  flex: 0 0 auto;
+  display: inline-flex;
   align-items: center;
-  justify-content: space-between;
-  gap: 8px;
-  padding: 7px 10px;
+  padding: 3px;
   border-radius: var(--br8);
   background: var(--color-gray10);
-  font-size: var(--font-10);
 }
 
-.fileItem span {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
+.mediaPreview {
+  width: 48px;
+  height: 48px;
+  flex: 0 0 48px;
+  border-radius: var(--br8);
+  object-fit: cover;
+  background: var(--color-gray30);
 }
 
 .fileItem button {
-  width: 26px;
-  height: 26px;
-  flex: 0 0 26px;
+  position: absolute;
+  top: -7px;
+  right: -7px;
+  width: 22px;
+  height: 22px;
   border: 0;
   border-radius: 50%;
-  color: var(--color-dark-red);
-  background: transparent;
+  color: var(--color-white);
+  background: var(--color-dark-red);
   cursor: pointer;
-  font-size: var(--font-18);
+  font-size: var(--font-16);
+  line-height: 1;
+}
+
+html[dir="rtl"] .fileItem button {
+  right: auto;
+  left: -7px;
 }
 
 .actionBar {
@@ -405,6 +431,12 @@ html[dir="rtl"] .modelActive {
   display: flex;
   flex-direction: column;
   gap: 3px;
+}
+
+.tokenUsage {
+  color: var(--color-dark-green) !important;
+  font-size: var(--font-14) !important;
+  font-weight: var(--weight-600);
 }
 
 .actionBar button,

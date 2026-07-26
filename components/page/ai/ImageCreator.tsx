@@ -1,16 +1,31 @@
 import { ChangeEvent, useEffect, useState } from "react";
+import { Session } from "next-auth";
+import { useSession } from "next-auth/react";
 import { useTranslation } from "react-i18next";
+import {
+  internalNotify,
+  InternalResponseType,
+  NotifType,
+  notify,
+} from "brancy/components/notifications/notificationBox";
+import { MethodType, UploadFile } from "brancy/helper/api";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { InputType } from "brancy/models/enums";
-import { IImageCreator, IImageCreatorInput, IImageCreatorModel } from "brancy/models/interfaces";
+import { IGetImageUsageRequest, IImageCreator, IImageCreatorInput, IImageCreatorModel } from "brancy/models/interfaces";
 import styles from "./ImageCreator.module.css";
 
-type InputValue = string | number | boolean | File[];
+type InputValue = string | number | boolean | string[];
+
+interface UploadedMediaPreview {
+  fileName: string;
+  showUrl: string;
+}
 
 interface ImageCreatorProps {
   creators: IImageCreator[];
   error?: string;
   onRetry?: () => void;
-  onGenerate?: (selection: ImageCreatorSelection) => void;
+  onCreateImage?: (selection: ImageCreatorSelection) => void;
 }
 
 export interface ImageCreatorSelection {
@@ -53,21 +68,55 @@ function FileInput({
   input,
   value,
   title,
+  session,
   onChange,
 }: {
   input: IImageCreatorInput;
-  value: File[];
+  value: string[];
   title: string;
-  onChange: (value: File[]) => void;
+  session: Session | null;
+  onChange: (value: string[]) => void;
 }) {
+  const [uploading, setUploading] = useState(false);
+  const [uploadProgress, setUploadProgress] = useState(0);
+  const [previews, setPreviews] = useState<UploadedMediaPreview[]>([]);
   const isVideo = input.inputType === InputType.VideoArray;
   const accept = input.fileTypes?.map((type) => `.${type}`).join(",") || (isVideo ? "video/*" : "image/*");
   const maximum = input.maxArrayLength || 1;
 
-  const handleFiles = (event: ChangeEvent<HTMLInputElement>) => {
-    const selectedFiles = Array.from(event.target.files ?? []).slice(0, Math.max(0, maximum - value.length));
-    onChange([...value, ...selectedFiles]);
+  useEffect(() => {
+    setPreviews((current) => current.filter((preview) => value.includes(preview.fileName)));
+  }, [value]);
+
+  const handleFiles = async (event: ChangeEvent<HTMLInputElement>) => {
+    const requestedFiles = Array.from(event.target.files ?? []);
+    const remainingCapacity = Math.max(0, maximum - value.length);
     event.target.value = "";
+
+    if (requestedFiles.length > remainingCapacity) {
+      internalNotify(InternalResponseType.ExceedPermittedUploadMedia, NotifType.Warning);
+    }
+
+    const selectedFiles = requestedFiles.slice(0, remainingCapacity);
+    if (!session || selectedFiles.length === 0) return;
+
+    setUploading(true);
+    setUploadProgress(0);
+    const uploadedFileNames = [...value];
+
+    for (const file of selectedFiles) {
+      const response = await UploadFile(session, file, setUploadProgress);
+      if (response.fileName) {
+        uploadedFileNames.push(response.fileName);
+        if (response.showUrl) {
+          setPreviews((current) => [...current, { fileName: response.fileName, showUrl: response.showUrl }]);
+        }
+        onChange([...uploadedFileNames]);
+      }
+      setUploadProgress(0);
+    }
+
+    setUploading(false);
   };
 
   return (
@@ -77,32 +126,47 @@ function FileInput({
       </legend>
       <label className={styles.uploadBox}>
         <span className={styles.uploadIcon}>{isVideo ? "▶" : "+"}</span>
-        <span className={styles.uploadTitle}>{isVideo ? "Add video" : "Add reference image"}</span>
+        <span className={styles.uploadTitle}>
+          {uploading ? `Uploading ${uploadProgress}%` : isVideo ? "Add video" : "Add reference image"}
+        </span>
         <span className={styles.hint}>
           {value.length} / {maximum} {input.fileTypes?.join(", ") || (isVideo ? "video" : "image")}
         </span>
+        {uploading && (
+          <span className={styles.uploadProgress}>
+            <span style={{ width: `${uploadProgress}%` }} />
+          </span>
+        )}
         <input
           className={styles.visuallyHidden}
           type="file"
           accept={accept}
           multiple={maximum > 1}
-          disabled={value.length >= maximum}
+          disabled={uploading || !session}
           onChange={handleFiles}
         />
       </label>
       {value.length > 0 && (
         <div className={styles.fileList}>
-          {value.map((file, index) => (
-            <div className={styles.fileItem} key={`${file.name}-${file.lastModified}`}>
-              <span title={file.name}>{file.name}</span>
-              <button
-                type="button"
-                aria-label={`Remove ${file.name}`}
-                onClick={() => onChange(value.filter((_, itemIndex) => itemIndex !== index))}>
-                ×
-              </button>
-            </div>
-          ))}
+          {value.map((fileName, index) => {
+            const previewUrl = previews.find((preview) => preview.fileName === fileName)?.showUrl;
+            return (
+              <div className={styles.fileItem} key={fileName}>
+                {previewUrl &&
+                  (isVideo ? (
+                    <video className={styles.mediaPreview} src={previewUrl} muted />
+                  ) : (
+                    <img className={styles.mediaPreview} src={previewUrl} alt={fileName} />
+                  ))}
+                <button
+                  type="button"
+                  aria-label={`Remove ${fileName}`}
+                  onClick={() => onChange(value.filter((_, itemIndex) => itemIndex !== index))}>
+                  ×
+                </button>
+              </div>
+            );
+          })}
         </div>
       )}
     </fieldset>
@@ -113,18 +177,28 @@ function DynamicInput({
   input,
   value,
   language,
+  session,
   onChange,
 }: {
   input: IImageCreatorInput;
   value: InputValue;
   language: string;
+  session: Session | null;
   onChange: (value: InputValue) => void;
 }) {
   const title = getInputTitle(input, language);
   const options = input.enumValues ?? [];
 
   if (input.inputType === InputType.ImageArray || input.inputType === InputType.VideoArray) {
-    return <FileInput input={input} value={Array.isArray(value) ? value : []} title={title} onChange={onChange} />;
+    return (
+      <FileInput
+        input={input}
+        value={Array.isArray(value) ? value : []}
+        title={title}
+        session={session}
+        onChange={onChange}
+      />
+    );
   }
 
   if (input.inputType === InputType.Boolean) {
@@ -223,7 +297,12 @@ function DynamicInput({
   );
 }
 
-export default function ImageCreator({ creators, error, onRetry, onGenerate }: ImageCreatorProps) {
+function serializeInputValue(value: InputValue): string {
+  return Array.isArray(value) ? JSON.stringify(value) : String(value ?? "");
+}
+
+export default function ImageCreator({ creators, error, onRetry, onCreateImage }: ImageCreatorProps) {
+  const { data: session } = useSession();
   const { i18n } = useTranslation();
   const [creatorKey, setCreatorKey] = useState(creators[0]?.key ?? "");
   const creator = creators.find((item) => item.key === creatorKey) ?? creators[0];
@@ -231,6 +310,8 @@ export default function ImageCreator({ creators, error, onRetry, onGenerate }: I
   const model = creator?.inputModels.find((item) => item.name === modelName) ?? creator?.inputModels[0];
   const [prompt, setPrompt] = useState("");
   const [values, setValues] = useState<Record<string, InputValue>>(() => getInitialValues(model));
+  const [tokenUsage, setTokenUsage] = useState<number | null>(null);
+  const [usageLoading, setUsageLoading] = useState(false);
 
   useEffect(() => {
     const nextCreator = creators.find((item) => item.key === creatorKey) ?? creators[0];
@@ -243,6 +324,7 @@ export default function ImageCreator({ creators, error, onRetry, onGenerate }: I
   useEffect(() => {
     setPrompt("");
     setValues(getInitialValues(model));
+    setTokenUsage(null);
   }, [model?.name]);
 
   if (error) {
@@ -274,6 +356,37 @@ export default function ImageCreator({ creators, error, onRetry, onGenerate }: I
     const value = values[input.key];
     return Array.isArray(value) ? value.length >= input.minArrayLength : value !== "" && value !== undefined;
   });
+
+  const getImageUsage = async () => {
+    if (!session || !promptIsValid || !requiredInputsAreValid) return;
+
+    const request: IGetImageUsageRequest = {
+      creatorKey: creator.key,
+      version: model.name,
+      inputs: model.inputModelTypes.map((input) => ({
+        key: input.key,
+        value: serializeInputValue(values[input.key]),
+      })),
+      prompt,
+    };
+
+    setUsageLoading(true);
+    const response = await clientFetchApi<IGetImageUsageRequest, number>("/api/mediaai/GetImageUsage", {
+      session,
+      methodType: MethodType.post,
+      data: request,
+    });
+    setUsageLoading(false);
+
+    if (response.succeeded && typeof response.value === "number") {
+      setTokenUsage(response.value);
+      return;
+    }
+
+    notify(response.info?.responseType, NotifType.Error, response.info?.message || response.errorMessage);
+  };
+
+  const invalidateUsage = () => setTokenUsage(null);
 
   return (
     <main className={styles.page}>
@@ -330,8 +443,10 @@ export default function ImageCreator({ creators, error, onRetry, onGenerate }: I
           className={styles.settingsPanel}
           onSubmit={(event) => {
             event.preventDefault();
-            if (onGenerate && promptIsValid && requiredInputsAreValid) {
-              onGenerate({ creatorKey: creator.key, modelName: model.name, prompt, values });
+            if (tokenUsage === null) {
+              getImageUsage();
+            } else if (onCreateImage) {
+              onCreateImage({ creatorKey: creator.key, modelName: model.name, prompt, values });
             }
           }}>
           <div className={styles.sectionHeading}>
@@ -354,7 +469,10 @@ export default function ImageCreator({ creators, error, onRetry, onGenerate }: I
               minLength={model.minPromptLength}
               maxLength={model.maxPromptLength}
               placeholder="Describe the subject, setting, light, composition, and style..."
-              onChange={(event) => setPrompt(event.target.value)}
+              onChange={(event) => {
+                setPrompt(event.target.value);
+                invalidateUsage();
+              }}
             />
             {prompt.length > 0 && prompt.length < model.minPromptLength && (
               <span className={styles.validation}>Use at least {model.minPromptLength} characters.</span>
@@ -370,22 +488,28 @@ export default function ImageCreator({ creators, error, onRetry, onGenerate }: I
                   input={input}
                   value={values[input.key]}
                   language={i18n.language || "en"}
-                  onChange={(value) => setValues((current) => ({ ...current, [input.key]: value }))}
+                  session={session}
+                  onChange={(value) => {
+                    setValues((current) => ({ ...current, [input.key]: value }));
+                    invalidateUsage();
+                  }}
                 />
               ))}
           </div>
 
-          {onGenerate && (
-            <footer className={styles.actionBar}>
-              <div>
-                <strong>{model.displayName}</strong>
-                <span>Review the selected options before generating</span>
-              </div>
-              <button type="submit" disabled={!promptIsValid || !requiredInputsAreValid}>
-                Generate image
-              </button>
-            </footer>
-          )}
+          <footer className={styles.actionBar}>
+            <div>
+              <strong>{model.displayName}</strong>
+              {tokenUsage === null ? (
+                <span>Check token usage before creating the image</span>
+              ) : (
+                <span className={styles.tokenUsage}>{tokenUsage.toLocaleString()} tokens</span>
+              )}
+            </div>
+            <button type="submit" disabled={usageLoading || !promptIsValid || !requiredInputsAreValid}>
+              {usageLoading ? "Calculating..." : tokenUsage === null ? "Check usage" : "Create image"}
+            </button>
+          </footer>
         </form>
       </div>
     </main>

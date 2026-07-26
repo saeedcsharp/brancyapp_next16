@@ -36,6 +36,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
 
   // ── mediaai ───────────────────────────────────────────
   "/api/mediaai/getImageCreators": "Instagramer/MediaAi/GetImageCreators",
+  "/api/mediaai/getImageUsage": "Instagramer/MediaAi/GetImageUsage",
 
   // ── business ─────────────────────────────────────────
   "/api/business/get": "User/Business/Get",

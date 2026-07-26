@@ -5,6 +5,9 @@
 - Added the `InputType` backend enum and image creator DTO contracts to the centralized models.
 - Registered `/api/mediaai/GetImageCreators` and connected the authenticated image creation page to its backend response.
 - Added a responsive image creator workspace with provider/model selection, localized dynamic option titles, prompt limits, and controls for text, enum, number, range, boolean, image-array, and video-array inputs.
+- Connected reference image and video selection to `UploadFile`, added upload progress, and store only successful response `fileName` values in the dynamic input arrays.
+- Added media thumbnails from upload `showUrl` responses and a localized `ExceedPermittedUploadMedia` warning when a selection exceeds the model's `maxArrayLength`.
+- Registered `GetImageUsage`, added its typed POST payload with JSON-stringified media arrays, and introduced a two-stage action that shows token usage before offering `Create image`.
 
 ## 2026-07-25
 

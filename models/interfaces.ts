@@ -504,6 +504,18 @@ export interface IImageCreatorInput {
   isRequiredForToken: boolean;
 }
 
+export interface IImageUsageInput {
+  key: string;
+  value: string;
+}
+
+export interface IGetImageUsageRequest {
+  creatorKey: string;
+  version: string;
+  inputs: IImageUsageInput[];
+  prompt: string;
+}
+
 export interface ITool {
   toolId: string;
   parameters: {
