@@ -56,6 +56,8 @@ See related source files for exported functions and local helpers.
 
 React components are present when the folder contains `.tsx` UI files.
 
+`components/page/ai/ImageCreator.tsx` renders the image-creation workspace. It lists providers and models returned by the backend and dynamically renders text, enum, number, range, boolean, image-array, and video-array controls from each model's `inputModelTypes` contract.
+
 ## Hooks
 
 React hooks are present when named `use*` functions/files exist.
@@ -146,7 +148,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-07-26
 
 ---
 
@@ -155,13 +157,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

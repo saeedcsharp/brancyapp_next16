@@ -28,6 +28,8 @@ Execution starts from imports, route rendering, or helper calls depending on the
 
 Data enters through props, Next route params, session state, browser state, or backend API responses.
 
+The `/page/ai/createImage` implementation loads available image creators from `/api/mediaai/GetImageCreators` after the NextAuth session is ready, then passes the response to the shared image creator component. Failed requests expose a retry state.
+
 ## Dependencies
 
 See imports in related files and dependency docs.
@@ -146,7 +148,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-07-26
 
 ---
 
@@ -155,13 +157,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

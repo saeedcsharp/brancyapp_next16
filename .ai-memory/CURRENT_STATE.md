@@ -50,6 +50,7 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Added the authenticated image-creator workspace with backend-driven provider/model selection and dynamic controls for all eight MediaAi input types.
 - Synchronized the Instagramer sidebar Page indicator and SVG active color on nested AI creation routes by using prefix matching for both states.
 - Fixed the Instagramer mobile Page and desktop Content Creator logos on `/page/ai`, `/page/ai/createImage`, and `/page/ai/createVideo`, including direct reloads, by deriving active navbar sections from the App Router pathname.
 - Added responsive internal feature search to the Instagramer navbar using translated feature/section labels for all eight configured locales; searches such as Persian lottery terms resolve to `/page/tools`.

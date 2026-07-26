@@ -1,5 +1,11 @@
 # Changelog
 
+## 2026-07-26
+
+- Added the `InputType` backend enum and image creator DTO contracts to the centralized models.
+- Registered `/api/mediaai/GetImageCreators` and connected the authenticated image creation page to its backend response.
+- Added a responsive image creator workspace with provider/model selection, localized dynamic option titles, prompt limits, and controls for text, enum, number, range, boolean, image-array, and video-array inputs.
+
 ## 2026-07-25
 
 - Fixed the Instagramer sidebar Page logo active color on `/page/ai/createImage` and `/page/ai/createVideo` so it stays synchronized with the active indicator.

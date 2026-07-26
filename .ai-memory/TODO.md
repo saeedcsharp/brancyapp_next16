@@ -12,6 +12,7 @@
 - Add integration coverage for successful and rejected bank-card registration responses when test infrastructure is introduced.
 - Add an automated locale-alignment check for `LanguageKey.Notify_*` response notification keys when test infrastructure is introduced.
 - Add unit coverage for feature-search normalization and route matching, plus browser coverage for desktop/mobile popup interaction, when test infrastructure is introduced.
+- Connect the image creator form to the MediaAi generation endpoint when its request and response contract is available, then add integration coverage for generated payloads and upload limits.
 
 ## Technical Debt Ideas
 

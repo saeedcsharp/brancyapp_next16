@@ -70,6 +70,8 @@ Service integration happens through helper APIs or route handlers when applicabl
 
 Wallet mappings include `/api/wallet/getBallanceHistory` to `Business/Wallet/GetBallanceHistory`; the backend contract intentionally uses the `Ballance` spelling.
 
+Image creator discovery maps `/api/mediaai/getImageCreators` to `Instagramer/MediaAi/GetImageCreators` and is called directly by `clientFetchApi` with the active Instagramer session headers.
+
 ## Providers
 
 Providers are documented where the module defines React providers.
@@ -148,7 +150,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-21
+2026-07-26
 
 ---
 

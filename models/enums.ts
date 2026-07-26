@@ -81,6 +81,17 @@ export enum PromptType {
   Structured,
   ImageGenerator,
 }
+
+export enum InputType {
+  Text,
+  EnumV1,
+  Number,
+  Range,
+  EnumV2,
+  Boolean,
+  ImageArray,
+  VideoArray,
+}
 // #endregion AI
 
 // #region ApiModels

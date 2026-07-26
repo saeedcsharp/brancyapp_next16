@@ -1,0 +1,488 @@
+.page {
+  width: 100%;
+  min-height: 100%;
+  padding: clamp(18px, 3vw, 38px);
+  color: var(--text-h1);
+  background:
+    linear-gradient(120deg, color-mix(in srgb, var(--color-light-blue) 8%, transparent), transparent 36%),
+    radial-gradient(circle at 90% 4%, color-mix(in srgb, var(--color-light-green) 14%, transparent), transparent 30%),
+    var(--color-gray10);
+}
+
+.header {
+  width: min(1180px, 100%);
+  margin: 0 auto 24px;
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.header h1 {
+  margin: 5px 0 8px;
+  font-size: clamp(28px, 4vw, 44px);
+  line-height: 1.08;
+  letter-spacing: 0;
+}
+
+.header p,
+.sectionHeading p,
+.stateBox p {
+  margin: 0;
+  color: var(--text-h2);
+  line-height: 1.6;
+}
+
+.eyebrow {
+  color: var(--color-light-blue);
+  font-size: var(--font-12);
+  font-weight: var(--weight-600);
+  text-transform: uppercase;
+}
+
+.creatorSelect,
+.field,
+.promptField {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.creatorSelect {
+  min-width: 210px;
+  font-size: var(--font-12);
+  color: var(--text-h2);
+}
+
+.creatorSelect select,
+.field select,
+.field input,
+.promptField textarea {
+  width: 100%;
+  border: 1px solid var(--color-gray60);
+  border-radius: var(--br10);
+  color: var(--text-h1);
+  background: var(--color-white);
+  outline: none;
+  transition: var(--transition2);
+}
+
+.creatorSelect select,
+.field select,
+.field input {
+  min-height: 46px;
+  padding: 0 12px;
+}
+
+.creatorSelect select:focus,
+.field select:focus,
+.field input:focus,
+.promptField textarea:focus {
+  border-color: var(--color-light-blue);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-light-blue) 18%, transparent);
+}
+
+.workspace {
+  width: min(1180px, 100%);
+  margin: auto;
+  display: grid;
+  grid-template-columns: minmax(250px, 340px) minmax(0, 1fr);
+  align-items: start;
+  gap: 18px;
+}
+
+.modelPanel,
+.settingsPanel,
+.stateBox {
+  border: 1px solid var(--content-box);
+  border-radius: var(--br15);
+  background: var(--color-white);
+  box-shadow: 0 12px 40px color-mix(in srgb, var(--color-dark-blue) 8%, transparent);
+}
+
+.modelPanel,
+.settingsPanel {
+  padding: clamp(16px, 2.5vw, 26px);
+}
+
+.modelPanel {
+  position: sticky;
+  top: 20px;
+}
+
+.sectionHeading {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 20px;
+}
+
+.sectionHeading h2 {
+  margin: 0 0 2px;
+  font-size: var(--font-18);
+  letter-spacing: 0;
+}
+
+.sectionHeading p {
+  font-size: var(--font-12);
+}
+
+.step {
+  width: 34px;
+  height: 34px;
+  flex: 0 0 34px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--color-white);
+  background: var(--color-dark-blue);
+  font-weight: var(--weight-600);
+}
+
+.modelList {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+}
+
+.model,
+.modelActive {
+  width: 100%;
+  min-height: 72px;
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  border: 1px solid var(--color-gray30);
+  border-radius: var(--br10);
+  color: var(--text-h1);
+  background: transparent;
+  text-align: start;
+  cursor: pointer;
+  transition: var(--transition2);
+}
+
+.model:hover,
+.modelActive {
+  border-color: var(--color-light-blue);
+  background: color-mix(in srgb, var(--color-light-blue) 7%, var(--color-white));
+}
+
+.modelActive {
+  box-shadow: inset 3px 0 0 var(--color-light-blue);
+}
+
+html[dir="rtl"] .modelActive {
+  box-shadow: inset -3px 0 0 var(--color-light-blue);
+}
+
+.modelMark {
+  width: 40px;
+  height: 40px;
+  display: grid;
+  place-items: center;
+  border-radius: var(--br10);
+  color: var(--color-dark-blue);
+  background: color-mix(in srgb, var(--color-light-green) 22%, var(--color-white));
+  font-size: var(--font-18);
+  font-weight: var(--weight-800);
+}
+
+.modelText {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.modelText strong,
+.modelText small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modelText small,
+.cost,
+.hint,
+.labelRow > span:last-child,
+.actionBar span {
+  color: var(--text-h2);
+  font-size: var(--font-10);
+}
+
+.cost {
+  color: var(--color-light-green);
+  font-weight: var(--weight-600);
+}
+
+.settingsPanel {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+.promptField textarea {
+  min-height: 145px;
+  resize: vertical;
+  padding: 14px;
+  line-height: 1.6;
+}
+
+.label,
+.booleanField strong {
+  color: var(--text-h1);
+  font-size: var(--font-12);
+  font-weight: var(--weight-600);
+}
+
+.labelRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.required,
+.validation {
+  color: var(--color-dark-red);
+}
+
+.validation {
+  font-size: var(--font-10);
+}
+
+.dynamicFields {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.fieldset {
+  min-width: 0;
+  margin: 0;
+  padding: 0;
+  border: 0;
+}
+
+.fieldset .label {
+  margin-bottom: 8px;
+}
+
+.optionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(64px, 1fr));
+  gap: 7px;
+}
+
+.option,
+.optionActive {
+  min-height: 42px;
+  padding: 6px 9px;
+  border: 1px solid var(--color-gray60);
+  border-radius: var(--br8);
+  color: var(--text-h1);
+  background: transparent;
+  cursor: pointer;
+}
+
+.option:hover,
+.optionActive {
+  border-color: var(--color-light-blue);
+  color: var(--color-dark-blue);
+  background: color-mix(in srgb, var(--color-light-blue) 10%, var(--color-white));
+}
+
+.booleanField {
+  min-height: 52px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 0 14px;
+  border: 1px solid var(--color-gray60);
+  border-radius: var(--br10);
+}
+
+.booleanField input {
+  width: 42px;
+  height: 22px;
+  accent-color: var(--color-light-blue);
+}
+
+.uploadBox {
+  min-height: 112px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  border: 1px dashed var(--color-gray60);
+  border-radius: var(--br10);
+  background: var(--color-gray10);
+  cursor: pointer;
+  transition: var(--transition2);
+}
+
+.uploadBox:hover {
+  border-color: var(--color-light-blue);
+  background: color-mix(in srgb, var(--color-light-blue) 6%, var(--color-white));
+}
+
+.uploadIcon {
+  width: 30px;
+  height: 30px;
+  display: grid;
+  place-items: center;
+  border-radius: 50%;
+  color: var(--color-white);
+  background: var(--color-dark-blue);
+}
+
+.uploadTitle {
+  font-size: var(--font-12);
+  font-weight: var(--weight-600);
+}
+
+.visuallyHidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
+}
+
+.fileList {
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+  margin-top: 7px;
+}
+
+.fileItem {
+  min-width: 0;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 7px 10px;
+  border-radius: var(--br8);
+  background: var(--color-gray10);
+  font-size: var(--font-10);
+}
+
+.fileItem span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.fileItem button {
+  width: 26px;
+  height: 26px;
+  flex: 0 0 26px;
+  border: 0;
+  border-radius: 50%;
+  color: var(--color-dark-red);
+  background: transparent;
+  cursor: pointer;
+  font-size: var(--font-18);
+}
+
+.actionBar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 18px;
+  padding-top: 18px;
+  border-top: 1px solid var(--content-box);
+}
+
+.actionBar div {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.actionBar button,
+.stateBox button {
+  min-width: 150px;
+  min-height: 46px;
+  padding: 0 18px;
+  border: 0;
+  border-radius: var(--br10);
+  color: var(--color-white);
+  background: var(--color-dark-blue);
+  cursor: pointer;
+  font-weight: var(--weight-600);
+}
+
+.actionBar button:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.stateBox {
+  width: min(620px, calc(100% - 36px));
+  margin: 40px auto;
+  padding: 40px;
+  text-align: center;
+}
+
+.stateBox h1 {
+  margin-top: 0;
+  font-size: 24px;
+  letter-spacing: 0;
+}
+
+.stateBox button {
+  margin-top: 20px;
+}
+
+@media (max-width: 800px) {
+  .header,
+  .actionBar {
+    align-items: stretch;
+    flex-direction: column;
+  }
+
+  .workspace {
+    grid-template-columns: 1fr;
+  }
+
+  .modelPanel {
+    position: static;
+  }
+
+  .modelList {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  }
+
+  .actionBar button {
+    width: 100%;
+  }
+}
+
+@media (max-width: 520px) {
+  .page {
+    padding: 14px;
+  }
+
+  .dynamicFields {
+    grid-template-columns: 1fr;
+  }
+
+  .model,
+  .modelActive {
+    grid-template-columns: 36px minmax(0, 1fr) auto;
+  }
+
+  .modelMark {
+    width: 36px;
+    height: 36px;
+  }
+}
