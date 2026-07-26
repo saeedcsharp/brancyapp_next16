@@ -25,7 +25,7 @@ interface ImageCreatorProps {
   creators: IImageCreator[];
   error?: string;
   onRetry?: () => void;
-  onCreateImage?: (selection: ImageCreatorSelection) => void;
+  onCreateImage?: (request: IGetImageUsageRequest, count: number) => void;
 }
 
 export interface ImageCreatorSelection {
@@ -446,7 +446,18 @@ export default function ImageCreator({ creators, error, onRetry, onCreateImage }
             if (tokenUsage === null) {
               getImageUsage();
             } else if (onCreateImage) {
-              onCreateImage({ creatorKey: creator.key, modelName: model.name, prompt, values });
+              onCreateImage(
+                {
+                  creatorKey: creator.key,
+                  version: model.name,
+                  inputs: model.inputModelTypes.map((input) => ({
+                    key: input.key,
+                    value: serializeInputValue(values[input.key]),
+                  })),
+                  prompt,
+                },
+                tokenUsage,
+              );
             }
           }}>
           <div className={styles.sectionHeading}>
