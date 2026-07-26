@@ -4,6 +4,8 @@
 
 No confirmed runtime bugs remain from the chart navigation issue addressed on 2026-07-20 or the AI-route navbar/sidebar logo issues addressed on 2026-07-25.
 
+The stale-state `clientContext` mismatch in AI image generation was fixed on 2026-07-26 by sending the locally generated value with the request and retaining it for SignalR notification filtering.
+
 ## Watchlist
 
 - Bulk product saves issue one `/api/product/CreateSubProducts` request per selected product. The backend map exposes no atomic bulk-update endpoint, so a later request can fail after earlier products have already been updated; the UI reports the failed response and refreshes only after complete success.

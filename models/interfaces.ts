@@ -469,7 +469,19 @@ export interface IImageCreator {
   logo: string | null;
   inputModels: IImageCreatorModel[];
 }
-
+export interface IGetImage {
+  id: number;
+  fbId: number;
+  clientContext: string;
+  createdTime: number;
+  creatorKey: string;
+  version: string;
+  status: number;
+  jobId: string | null;
+  imageUrl: string;
+  metadata: string;
+  prompt: string;
+}
 export interface IImageCreatorModel {
   name: string;
   displayName: string;

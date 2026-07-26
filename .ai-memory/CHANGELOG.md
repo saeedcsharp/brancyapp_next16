@@ -2,6 +2,8 @@
 
 ## 2026-07-26
 
+- Added responsive `GeneratedImageModal` content for successful AI image generation notifications with image preview, prompt, metadata, creator/model details, identifiers, and a full-image link; the creation page owns its shared `Modal` wrapper and visibility state.
+- Fixed `CreateImage` request/notification matching by passing the newly generated `clientContext` directly to the request and using it for SignalR response correlation.
 - Added the `InputType` backend enum and image creator DTO contracts to the centralized models.
 - Registered `/api/mediaai/GetImageCreators` and connected the authenticated image creation page to its backend response.
 - Added a responsive image creator workspace with provider/model selection, localized dynamic option titles, prompt limits, and controls for text, enum, number, range, boolean, image-array, and video-array inputs.

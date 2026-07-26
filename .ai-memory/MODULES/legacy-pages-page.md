@@ -28,7 +28,7 @@ Execution starts from imports, route rendering, or helper calls depending on the
 
 Data enters through props, Next route params, session state, browser state, or backend API responses.
 
-The `/page/ai/createImage` implementation loads available image creators from `/api/mediaai/GetImageCreators` after the NextAuth session is ready, then passes the response to the shared image creator component. Failed requests expose a retry state.
+The `/page/ai/createImage` implementation loads available image creators from `/api/mediaai/GetImageCreators` after the NextAuth session is ready, then passes the response to the shared image creator component. Failed requests expose a retry state. Generation requests create and send a stable `clientContext`; matching successful SignalR notifications open the page-owned shared `Modal` with `GeneratedImageModal` as its content, while matching failures use the notification system.
 
 ## Dependencies
 

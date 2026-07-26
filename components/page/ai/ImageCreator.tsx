@@ -13,6 +13,7 @@ import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { InputType } from "brancy/models/enums";
 import { IGetImageUsageRequest, IImageCreator, IImageCreatorInput, IImageCreatorModel } from "brancy/models/interfaces";
 import styles from "./ImageCreator.module.css";
+import RingLoader from "brancy/components/design/loader/ringLoder";
 
 type InputValue = string | number | boolean | string[];
 
@@ -26,6 +27,7 @@ interface ImageCreatorProps {
   error?: string;
   onRetry?: () => void;
   onCreateImage?: (request: IGetImageUsageRequest, count: number) => void;
+  createImageLoading?: boolean;
 }
 
 export interface ImageCreatorSelection {
@@ -301,7 +303,13 @@ function serializeInputValue(value: InputValue): string {
   return Array.isArray(value) ? JSON.stringify(value) : String(value ?? "");
 }
 
-export default function ImageCreator({ creators, error, onRetry, onCreateImage }: ImageCreatorProps) {
+export default function ImageCreator({
+  creators,
+  error,
+  onRetry,
+  onCreateImage,
+  createImageLoading,
+}: ImageCreatorProps) {
   const { data: session } = useSession();
   const { i18n } = useTranslation();
   const [creatorKey, setCreatorKey] = useState(creators[0]?.key ?? "");
@@ -517,8 +525,18 @@ export default function ImageCreator({ creators, error, onRetry, onCreateImage }
                 <span className={styles.tokenUsage}>{tokenUsage.toLocaleString()} tokens</span>
               )}
             </div>
-            <button type="submit" disabled={usageLoading || !promptIsValid || !requiredInputsAreValid}>
-              {usageLoading ? "Calculating..." : tokenUsage === null ? "Check usage" : "Create image"}
+            <button
+              type="submit"
+              disabled={usageLoading || !promptIsValid || !requiredInputsAreValid || createImageLoading}>
+              {createImageLoading ? (
+                <RingLoader />
+              ) : usageLoading ? (
+                "Calculating..."
+              ) : tokenUsage === null ? (
+                "Check usage"
+              ) : (
+                "Create image"
+              )}
             </button>
           </footer>
         </form>

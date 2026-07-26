@@ -58,6 +58,8 @@ React components are present when the folder contains `.tsx` UI files.
 
 `components/page/ai/ImageCreator.tsx` renders the image-creation workspace. It lists providers and models returned by the backend and dynamically renders text, enum, number, range, boolean, image-array, and video-array controls from each model's `inputModelTypes` contract. Media-array controls upload selected files through `UploadFile`; only successful backend `fileName` values are retained in each input's string-array state, while `showUrl` is kept separately for image/video previews. Sequential upload progress is shown, and selections beyond the model's `maxArrayLength` trigger `InternalResponseType.ExceedPermittedUploadMedia`. The primary action first posts the selected creator key, model name, prompt, and serialized option values to `GetImageUsage`; after displaying the returned token count it changes to the pending `Create image` action. Any input change invalidates the previous estimate.
 
+`components/page/ai/GeneratedImageModal.tsx` provides the generated-image result content, including the preview, prompt, metadata, technical details, close action, and full-image action. It does not own the shared modal wrapper or visibility state; `/page/ai/createImage` renders it inside `components/design/modal` following the same page-owned modal pattern as `NotFeature`. Its responsive styles remain in `ImageCreator.module.css`.
+
 ## Hooks
 
 React hooks are present when named `use*` functions/files exist.

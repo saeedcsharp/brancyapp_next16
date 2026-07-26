@@ -50,6 +50,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Added a responsive generated-image result modal that opens after a matching successful MediaAi SignalR notification and displays the image, prompt, metadata, creator, version, status, image ID, and job ID.
+- Fixed image-generation notification correlation by sending the newly generated `clientContext` directly with the `CreateImage` request instead of reading stale React state.
 - Connected image creation settings to `GetImageUsage`, displaying the returned token estimate before changing the primary action to `Create image`.
 - Added `showUrl` previews for uploaded image-creator references and a localized warning when selection exceeds the active model's media limit.
 - Connected image-creator reference media controls to the shared upload service and now retain successful server `fileName` values as input arrays.
