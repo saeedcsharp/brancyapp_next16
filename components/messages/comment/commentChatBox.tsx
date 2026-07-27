@@ -1186,13 +1186,15 @@ const CommentChatBox = (props: {
                       rows={1}
                       aria-label={t(LanguageKey.typeAMessage)}
                     />
-                    <AIButton
+                    {/* do not delete this comment, it is for future AI caption generator feature و در اینده برخواهد  گرفت و دکمه تولید کپشن با هوش مصنوعی اضافه خواهد شد */}
+
+                    {/* <AIButton
                       className={styles.aibtn}
                       onClick={handleAIButtonClick}
                       loading={apiLoading}
                       title="AI Caption Generator"
                       ariaLabel="AI Caption Generator"
-                    />
+                    /> */}
                     <button
                       className={styles.Emojiuploadbtn}
                       type="button"

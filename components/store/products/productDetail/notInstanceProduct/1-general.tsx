@@ -676,8 +676,10 @@ function General({
             </div>
             <div className="headerandinput">
               <div className="headerparant"></div>
-              <div className="title">{t(LanguageKey.product_Categories)}</div>
-              <AIButton onClick={() => handleGetSuggestedCategory(productId)} />
+              <div className="title">
+                {t(LanguageKey.product_Categories)} <AIButton onClick={() => handleGetSuggestedCategory(productId)} />
+              </div>
+
               <div className={styles.Category}>
                 {categoryLoading && (
                   <div style={{ width: "100%", display: "flex", justifyContent: "center" }}>
