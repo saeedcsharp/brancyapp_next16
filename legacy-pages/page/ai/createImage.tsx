@@ -19,7 +19,7 @@ import NotFeature from "brancy/components/notOk/notFeature";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import convertFirstLetterToLowerCase from "brancy/helper/convertFirstLetterToLowerCase";
 import { handleDecompress } from "brancy/helper/pako";
-import GeneratedImageModal from "brancy/components/page/ai/GeneratedImageModal";
+import GeneratedImageModal from "brancy/components/page/ai/generatedImageModal";
 
 export default function CreateImage() {
   const { data: session } = useSession({

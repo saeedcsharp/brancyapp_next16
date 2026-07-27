@@ -1,5 +1,6 @@
 import { IGetImage } from "brancy/models/interfaces";
 import styles from "./ImageCreator.module.css";
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 
 interface GeneratedImageModalProps {
   image: IGetImage;
@@ -21,7 +22,7 @@ export default function GeneratedImageModal({ image, onClose }: GeneratedImageMo
 
       <div className={styles.resultContent}>
         <div className={styles.resultPreview}>
-          <img src={image.imageUrl} alt={image.prompt || "Generated AI image"} />
+          <img src={getClientMediaBaseUrl() + image.imageUrl} alt={image.prompt || "Generated AI image"} />
         </div>
 
         <div className={styles.resultDetails}>
