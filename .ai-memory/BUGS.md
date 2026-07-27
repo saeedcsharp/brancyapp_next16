@@ -2,7 +2,9 @@
 
 ## Known Bugs
 
-No confirmed runtime bugs remain from the chart navigation issue addressed on 2026-07-20.
+No confirmed runtime bugs remain from the chart navigation issue addressed on 2026-07-20 or the AI-route navbar/sidebar logo issues addressed on 2026-07-25.
+
+The stale-state `clientContext` mismatch in AI image generation was fixed on 2026-07-26 by sending the locally generated value with the request and retaining it for SignalR notification filtering.
 
 ## Watchlist
 

@@ -30,6 +30,7 @@ import {
   GauranteeLength,
   GauranteeStatus,
   ITicketMediaType,
+  InputType,
   ItemType,
   LoginStatus,
   LogisticType,
@@ -460,6 +461,75 @@ export interface IAnalysisPrompt {
 export interface IPromptImageGen {
   numberOfImage: number;
   numberOfGeneratePerThread: number;
+}
+
+export interface IImageCreator {
+  key: string;
+  displayName: string;
+  logo: string | null;
+  inputModels: IImageCreatorModel[];
+}
+export interface IGetImage {
+  id: number;
+  fbId: number;
+  clientContext: string;
+  createdTime: number;
+  creatorKey: string;
+  version: string;
+  status: number;
+  jobId: string | null;
+  imageUrl: string;
+  metadata: string;
+  prompt: string;
+}
+export interface IGetImages {
+  items: IGetImage[];
+  nextMaxId: string | null;
+}
+export interface IImageCreatorModel {
+  name: string;
+  displayName: string;
+  minPromptLength: number;
+  maxPromptLength: number;
+  inputModelTypes: IImageCreatorInput[];
+  expensiveType: number;
+  canContinue: boolean;
+  expireContinue: number | null;
+}
+
+export interface IImageCreatorInput {
+  orderId: number;
+  key: string;
+  titleEn: string;
+  titleFa: string;
+  titleTr: string;
+  titleAr: string;
+  titleFr: string;
+  titleDe: string;
+  titleAz: string;
+  isRequired: boolean;
+  inputType: InputType;
+  max: number;
+  min: number;
+  enumValues: string[] | null;
+  maxTextLength: number;
+  minTextLength: number;
+  maxArrayLength: number;
+  minArrayLength: number;
+  fileTypes: string[] | null;
+  isRequiredForToken: boolean;
+}
+
+export interface IImageUsageInput {
+  key: string;
+  value: string;
+}
+
+export interface IGetImageUsageRequest {
+  creatorKey: string;
+  version: string;
+  inputs: IImageUsageInput[];
+  prompt: string;
 }
 
 export interface ITool {

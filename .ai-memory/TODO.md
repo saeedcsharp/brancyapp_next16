@@ -11,6 +11,9 @@
 - Add integration coverage for general-balance date filtering and per-card status aggregation when test infrastructure is introduced.
 - Add integration coverage for successful and rejected bank-card registration responses when test infrastructure is introduced.
 - Add an automated locale-alignment check for `LanguageKey.Notify_*` response notification keys when test infrastructure is introduced.
+- Add unit coverage for feature-search normalization and route matching, plus browser coverage for desktop/mobile popup interaction, when test infrastructure is introduced.
+- Add integration coverage for image-generation payloads, upload limits, `clientContext` notification correlation, and successful result-modal rendering when test infrastructure is introduced.
+- Add integration coverage for `GetImages` status filtering, `nextMaxId` pagination, duplicate prevention, empty responses, and failed history requests when test infrastructure is introduced.
 
 ## Technical Debt Ideas
 
@@ -21,6 +24,8 @@
 
 ## Recent Review Notes
 
+- Verified after desktop reloads that the sidebar Page SVG uses the active dark-blue color and inactive items remain gray on both AI creation routes.
+- Verified the mobile Page logo at 390x844 and desktop Content Creator logo at 1440x900 after direct reloads of `/page/ai`, `/page/ai/createImage`, and `/page/ai/createVideo`; no follow-up task remains for this issue.
 - Validate bulk product price and discount saves against the live backend, including products with multiple active/inactive variants and discount expiry/count limits; the frontend uses the existing `/api/product/CreateSubProducts` update contract because no atomic bulk-update endpoint is mapped.
 - No new follow-up TODOs were identified for the brush line chart implementation on 2026-07-19.
 - The brush line chart navigation-rendering fix was validated at the component/type level on 2026-07-20; browser coverage for route transitions remains desirable once UI test tooling is available.

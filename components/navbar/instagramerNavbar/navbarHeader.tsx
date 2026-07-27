@@ -11,6 +11,7 @@ import NavbarMobile from "brancy/components/navbar/instagramerNavbar/navbar_mobi
 import styles from "./navbarheader.module.css";
 import NotificationBar from "brancy/components/navbar/instagramerNavbar/notificationBar";
 import Profile from "brancy/components/navbar/instagramerNavbar/profile";
+import FeatureSearch from "brancy/components/search/featureSearch";
 import { PushResponseType } from "brancy/models/enums";
 import { PushNotif } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
@@ -97,6 +98,21 @@ const NavbarHeader = (props: {
       </nav>
       <div id="navbarheader" className={styles.pageheaders}>
         <div className={styles.pageHeaderIcons}>
+          <button
+            type="button"
+            className={styles.search}
+            onClick={(event) => {
+              event.stopPropagation();
+              props.handleShowSearchBar(event);
+            }}
+            aria-label="Search features"
+            aria-expanded={props.showSearchBar}
+            title="Search features">
+            <svg className={styles.icon} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" stroke="var(--color-light-blue)" strokeWidth="2.5" />
+              <path d="m16.5 16.5 4 4" stroke="var(--color-light-blue)" strokeWidth="2.5" strokeLinecap="round" />
+            </svg>
+          </button>
           <div
             className={styles.fullscreen}
             onClick={toggleFullscreen}
@@ -176,7 +192,7 @@ const NavbarHeader = (props: {
             role="button"
           />
         </div>
-        {/* {props.showSearchBar && <SearchBar removeMask={props.handleShowSearchBar} />} */}
+        {props.showSearchBar && <FeatureSearch onClose={props.removeMask} />}
         {props.showNotifBar && (
           <NotificationBar
             notifs={value && session!.user.currentIndex > -1 ? value : []}

@@ -34,6 +34,12 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/ai/updateModel": "Instagramer/AI/UpdateModel",
   "/api/ai/getAiModels": "Instagramer/AI/GetAiModels",
 
+  // ── mediaai ───────────────────────────────────────────
+  "/api/mediaai/getImages": "Instagramer/MediaAi/GetImages",
+  "/api/mediaai/getImageCreators": "Instagramer/MediaAi/GetImageCreators",
+  "/api/mediaai/getImageUsage": "Instagramer/MediaAi/GetImageUsage",
+  "/api/mediaai/createImage": "Instagramer/MediaAi/CreateImage",
+
   // ── business ─────────────────────────────────────────
   "/api/business/get": "User/Business/Get",
   "/api/business/getshort": "User/Business/GetShort",
@@ -113,6 +119,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
 
   // ── feature ──────────────────────────────────────────
   "api/feature/hasFeature": "Instagramer/Feature/HasFeature",
+  "api/feature/hasFeatureCount": "Instagramer/Feature/HasFeatureCount",
 
   // ── hashtag ───────────────────────────────────────────
   "/api/hashtag/analysisPageHashtags": "Instagramer/hashtag/AnalysisPageHashtags",

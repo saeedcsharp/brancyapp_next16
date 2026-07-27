@@ -56,6 +56,10 @@ See related source files for exported functions and local helpers.
 
 React components are present when the folder contains `.tsx` UI files.
 
+`components/page/ai/ImageCreator.tsx` renders the image-creation workspace and provides an internal back link to the `/page/ai` creations library. Its hierarchy is `IImageCreator[]` providers, each provider's `inputModels`, and each model's `inputModelTypes`. Multiple providers are presented as responsive logo cards with model counts; selecting one atomically selects its first model, and changing either provider or model resets prompt, dynamic values, and token usage even when different providers reuse the same model name. Providers without models are excluded from selection. The component dynamically renders text, enum, number, range, boolean, image-array, and video-array controls from the selected model contract. Media-array controls upload selected files through `UploadFile`; only successful backend `fileName` values are retained in each input's string-array state, while `showUrl` is kept separately for image/video previews. Sequential upload progress is shown, and selections beyond the model's `maxArrayLength` trigger `InternalResponseType.ExceedPermittedUploadMedia`. The primary action first posts the selected creator key, model name, prompt, and serialized option values to `GetImageUsage`; after displaying the returned token count it changes to the pending `Create image` action. Any input change invalidates the previous estimate.
+
+`components/page/ai/GeneratedImageModal.tsx` provides the generated-image result content, including the preview, prompt, metadata, technical details, close action, and image download action. Its exported `parseImageMetadata` converts JSON-object metadata strings into reusable, human-readable key/value items; invalid JSON and non-object values retain the modal's plain-text fallback. The `/page/ai` history cards reuse this parser so summary and detail metadata stay consistent. Downloads use the resolved client media URL and the shared blob-based `DownloadImage` helper. The component does not own the shared modal wrapper or visibility state; page owners render it inside `components/design/modal` following the same page-owned modal pattern as `NotFeature`. Its responsive styles remain in `ImageCreator.module.css`.
+
 ## Hooks
 
 React hooks are present when named `use*` functions/files exist.
@@ -146,7 +150,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-07-26
 
 ---
 
@@ -155,13 +159,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

@@ -6,15 +6,15 @@ Component module for search UI and feature concerns.
 
 ## Business Purpose
 
-Supports Brancy search workflows or shared UI.
+Supports Brancy search workflows, including fast navigation to Instagramer dashboard capabilities.
 
 ## Responsibilities
 
-Owns the folder/module concerns described by its file tree and exports.
+Owns the internal feature-search popup, query normalization, keyword matching, and the centralized route index used to discover dashboard capabilities.
 
 ## Architecture
 
-Follows existing Next/React/TypeScript project conventions.
+`featureSearchIndex.ts` is a static client-side index of route, translated label key, translated parent-section context keys, and multilingual aliases. `featureSearch.tsx` filters that index locally and navigates with the App Router. Page `Head` metadata is not used as the search source because metadata for routes that are not currently rendered is unavailable in the browser DOM.
 
 ## Folder Structure
 
@@ -22,11 +22,11 @@ components/search/.
 
 ## Execution Flow
 
-Execution starts from imports, route rendering, or helper calls depending on the module.
+The Instagramer desktop navbar opens `FeatureSearch` as a header popup. Mobile renders the same component in embedded mode inside a collapsible `LeftHamMenue` section alongside notification and profile. Opening either presentation focuses its input. Searchable text combines the active locale's feature title and parent-section title, so all eight configured locales are covered without duplicating every translation in the route index. Queries are normalized for case, Unicode accents/diacritics, Persian/Arabic character variants, and zero-width non-joiners. Matching results show a translated title and route; click or Enter navigates to the selected route, while Escape closes the active search presentation.
 
 ## Data Flow
 
-Data enters through props, Next route params, session state, browser state, or backend API responses.
+The query remains in local component state. Labels come from existing i18n keys and aliases/routes come from `featureSearchIndex`; no backend request is required.
 
 ## Dependencies
 
@@ -38,7 +38,9 @@ Used by routes, components, helpers, or build tooling where imported.
 
 ## Public APIs
 
-Exports are defined by source files in the module.
+- `FeatureSearch`: internal dashboard capability search UI.
+- `featureSearchIndex`: searchable route definitions.
+- `normalizeFeatureSearch` and `filterFeatureSearch`: reusable matching helpers.
 
 ## Internal APIs
 
@@ -114,7 +116,7 @@ Use `RoleAccess`, session permission flags, and backend authorization where rele
 
 ## Performance
 
-Keep renders and network calls scoped; avoid unnecessary broad fetches.
+Filtering is synchronous over the small static feature index and has no network or route-prefetch cost.
 
 ## Caching
 
@@ -126,7 +128,9 @@ No module-specific env vars documented unless related files read them.
 
 ## Related Files
 
-components/search/.
+- `components/search/featureSearch.tsx`
+- `components/search/featureSearch.module.css`
+- `components/search/featureSearchIndex.ts`
 
 ## Related Modules
 
@@ -134,7 +138,9 @@ Parent module: `components`.
 
 ## Known Issues
 
-No confirmed module-specific issue recorded at initialization.
+Search aliases are curated manually; new dashboard capabilities must be added to `featureSearchIndex.ts`.
+
+The `/page/ai` entry includes multilingual aliases for its image-creation and video-creation capabilities while intentionally returning the parent AI route.
 
 ## Technical Debt
 
@@ -146,7 +152,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-07-25
 
 ---
 
@@ -155,13 +161,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

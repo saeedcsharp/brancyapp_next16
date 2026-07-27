@@ -1,5 +1,38 @@
 # Changelog
 
+## 2026-07-27
+
+- Added an RTL-aware `Back to creations` link from the image creator to `/page/ai`.
+- Replaced the AI landing cards with a responsive Image/Video segmented workspace and feature-aware create actions.
+- Registered `Instagramer/MediaAi/GetImages`, added its typed `items`/`nextMaxId` response, and load successful image history with `mediaCreationStatus=2`.
+- Added cursor-based infinite scrolling, deduplication, shared metadata summaries, and full generated-image detail modals to the AI image library.
+- Rendered generated-image JSON metadata as a responsive key/value grid with readable camel-case labels and a safe plain-text fallback.
+- Reworked image creator selection around the full provider/model hierarchy with responsive provider cards, logos, model counts, atomic model selection, and provider-aware form resets.
+- Excluded providers with no available models from the image creator picker so an unusable provider cannot replace the workspace with an empty state.
+- Replaced the generated-image modal's full-image link with a blob-backed `Download image` action using the resolved media URL.
+
+## 2026-07-26
+
+- Added responsive `GeneratedImageModal` content for successful AI image generation notifications with image preview, prompt, metadata, creator/model details, identifiers, and a full-image link; the creation page owns its shared `Modal` wrapper and visibility state.
+- Fixed `CreateImage` request/notification matching by passing the newly generated `clientContext` directly to the request and using it for SignalR response correlation.
+- Added the `InputType` backend enum and image creator DTO contracts to the centralized models.
+- Registered `/api/mediaai/GetImageCreators` and connected the authenticated image creation page to its backend response.
+- Added a responsive image creator workspace with provider/model selection, localized dynamic option titles, prompt limits, and controls for text, enum, number, range, boolean, image-array, and video-array inputs.
+- Connected reference image and video selection to `UploadFile`, added upload progress, and store only successful response `fileName` values in the dynamic input arrays.
+- Added media thumbnails from upload `showUrl` responses and a localized `ExceedPermittedUploadMedia` warning when a selection exceeds the model's `maxArrayLength`.
+- Registered `GetImageUsage`, added its typed POST payload with JSON-stringified media arrays, and introduced a two-stage action that shows token usage before offering `Create image`.
+
+## 2026-07-25
+
+- Fixed the Instagramer sidebar Page logo active color on `/page/ai/createImage` and `/page/ai/createVideo` so it stays synchronized with the active indicator.
+- Fixed the mobile Page and desktop Content Creator navbar logos on `/page/ai` and its image/video creation subroutes after direct reloads.
+- Added desktop and mobile Instagramer navbar search controls for discovering dashboard capabilities.
+- Added a multilingual internal route index with Persian/Arabic normalization and aliases such as lottery, winner picker, and قرعه کشی mapped to `/page/tools`.
+- Added keyboard support for submitting the first result, closing with Escape, and navigating through focusable results.
+- Moved mobile search out of the route tabs and into its own collapsible hamburger-menu section alongside notifications and profile, with results rendered inside that section.
+- Extended feature search across all eight configured locales by indexing translated parent-section labels and making Unicode matching accent-insensitive.
+- Added multilingual image-creation and video-creation aliases that resolve internal AI capability searches such as `ایجاد عکس` to `/page/ai`.
+
 ## 2026-07-23
 
 - Added 16 new backend `ResponseType` notification mappings and localized their messages in all eight supported languages.

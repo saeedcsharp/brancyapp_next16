@@ -10,7 +10,7 @@ Supports Brancy navbar workflows or shared UI.
 
 ## Responsibilities
 
-Owns the folder/module concerns described by its file tree and exports.
+Owns dashboard header navigation, profile and notification controls, fullscreen behavior, and desktop/mobile entry points for internal feature search.
 
 ## Architecture
 
@@ -22,7 +22,9 @@ components/navbar/.
 
 ## Execution Flow
 
-Execution starts from imports, route rendering, or helper calls depending on the module.
+The Instagramer layout owns desktop popup visibility. Desktop uses a search button in the header. Mobile search is a locally controlled accordion section inside `LeftHamMenue`, positioned with the notification and profile sections rather than beside the route tabs. Opening search closes notification and profile accordions; selecting a result closes the complete mobile menu before navigation.
+
+`NavbarMobile` and desktop `NavbarTabs` derive their active sections directly from App Router `usePathname()`. The `/page/ai` route family, including image and video creation subroutes, maps to the Page section on mobile and the Content Creator tab on desktop so both navigation logos are available on client navigation and direct reload.
 
 ## Data Flow
 
@@ -126,7 +128,10 @@ No module-specific env vars documented unless related files read them.
 
 ## Related Files
 
-components/navbar/.
+- `components/navbar/instagramerNavbar/navbarHeader.tsx`
+- `components/navbar/instagramerNavbar/navbarTabs.tsx`
+- `components/navbar/instagramerNavbar/navbar_mobile.tsx`
+- `components/navbar/instagramerNavbar/navbarheader.module.css`
 
 ## Related Modules
 
@@ -134,7 +139,7 @@ Parent module: `components`.
 
 ## Known Issues
 
-No confirmed module-specific issue recorded at initialization.
+No confirmed module-specific issue remains after fixing the missing mobile Page and desktop Content Creator logos on direct reloads of AI routes.
 
 ## Technical Debt
 
@@ -146,7 +151,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-07-25
 
 ---
 
@@ -155,13 +160,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

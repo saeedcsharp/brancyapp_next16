@@ -84,9 +84,13 @@ Types are in local files or shared `models/` and `types/`.
 
 Interfaces are in local files or shared `models/interfaces.ts`.
 
+The image-creator API contract uses `IImageCreator`, `IImageCreatorModel`, and `IImageCreatorInput`. Generated images use `IGetImage`; paginated image history uses `IGetImages` with `items: IGetImage[]` and a nullable string `nextMaxId`. Token estimation uses `IGetImageUsageRequest` and `IImageUsageInput`; every dynamic value is serialized to a string, including JSON-stringified media filename arrays.
+
 ## Enums
 
 Enums are in local files or shared `models/enums.ts`.
+
+`InputType` mirrors the backend values in order: `Text`, `EnumV1`, `Number`, `Range`, `EnumV2`, `Boolean`, `ImageArray`, and `VideoArray`.
 
 ## Configuration
 
@@ -146,7 +150,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-07-26
 
 ---
 
@@ -155,13 +159,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

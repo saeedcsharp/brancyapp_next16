@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { useRouter } from "next/router";
+import { usePathname } from "next/navigation";
 import React, { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
@@ -252,8 +252,8 @@ const svgMapping: { [key: string]: React.JSX.Element } = {
 
 const NavbarTabs = () => {
   const { t } = useTranslation();
-  const router = useRouter();
-  const newRoute = router.route.replaceAll("/", "");
+  const pathname = usePathname();
+  const newRoute = (pathname || "").replaceAll("/", "");
 
   const navbarMapping: { [key: string]: INavbar } = {
     pageposts: {
@@ -434,7 +434,8 @@ const NavbarTabs = () => {
     },
   };
 
-  const navbar2 = navbarMapping[newRoute] || null;
+  const navbarRoute = newRoute.startsWith("pageai") ? "pageai" : newRoute;
+  const navbar2 = navbarMapping[navbarRoute] || null;
 
   const labelMapping: { [key: string]: string } = {
     posts: t(LanguageKey.navbar_Post),

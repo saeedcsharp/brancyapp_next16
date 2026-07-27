@@ -22,7 +22,7 @@ components/sidebar/.
 
 ## Execution Flow
 
-Execution starts from imports, route rendering, or helper calls depending on the module.
+The Instagramer layout passes a slash-free current route to `InstagramerSidebar`. Sidebar parent items match both their direct routes and nested `subRoutes` by prefix, keeping the parent indicator and SVG active color synchronized on child pages such as `/page/ai/createImage` and `/page/ai/createVideo`.
 
 ## Data Flow
 
@@ -126,7 +126,8 @@ No module-specific env vars documented unless related files read them.
 
 ## Related Files
 
-components/sidebar/.
+- `components/sidebar/instagramerSidbar/instagramerSidbar.tsx`
+- `components/sidebar/instagramerSidbar/sidebar.module.css`
 
 ## Related Modules
 
@@ -134,7 +135,7 @@ Parent module: `components`.
 
 ## Known Issues
 
-No confirmed module-specific issue recorded at initialization.
+No confirmed module-specific issue remains after synchronizing active indicator and icon-color matching for nested routes.
 
 ## Technical Debt
 
@@ -146,7 +147,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-07-25
 
 ---
 
@@ -155,13 +156,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

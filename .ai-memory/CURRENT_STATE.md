@@ -50,6 +50,20 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Added a styled internal back link from the image creation workspace to `/page/ai`.
+- Rebuilt `/page/ai` as a segmented Image/Video media workspace; Image mode loads successful generated images from `GetImages`, renders responsive metadata cards, opens shared result details, and appends cursor-based pages on infinite scroll.
+- Parsed generated-image JSON metadata strings into a responsive labeled value grid while preserving a plain-text fallback for malformed metadata.
+- Made AI image provider selection explicitly support multiple provider families and their model collections with responsive logo cards, atomic provider/model switching, and provider-aware form resets.
+- Replaced the generated-image modal's full-image link with a direct download action that uses the resolved media URL.
+- Added a responsive generated-image result modal that opens after a matching successful MediaAi SignalR notification and displays the image, prompt, metadata, creator, version, status, image ID, and job ID.
+- Fixed image-generation notification correlation by sending the newly generated `clientContext` directly with the `CreateImage` request instead of reading stale React state.
+- Connected image creation settings to `GetImageUsage`, displaying the returned token estimate before changing the primary action to `Create image`.
+- Added `showUrl` previews for uploaded image-creator references and a localized warning when selection exceeds the active model's media limit.
+- Connected image-creator reference media controls to the shared upload service and now retain successful server `fileName` values as input arrays.
+- Added the authenticated image-creator workspace with backend-driven provider/model selection and dynamic controls for all eight MediaAi input types.
+- Synchronized the Instagramer sidebar Page indicator and SVG active color on nested AI creation routes by using prefix matching for both states.
+- Fixed the Instagramer mobile Page and desktop Content Creator logos on `/page/ai`, `/page/ai/createImage`, and `/page/ai/createVideo`, including direct reloads, by deriving active navbar sections from the App Router pathname.
+- Added responsive internal feature search to the Instagramer navbar using translated feature/section labels for all eight configured locales; searches such as Persian lottery terms resolve to `/page/tools`.
 - Added localized notification mappings for 16 new backend response types across all eight supported languages.
 - Connected Instagramer bank-card registration to `/Business/Wallet/AddCardNumber` and refreshes the complete backend card list after successful registration.
 - Added a Persian start-date filter to the Instagramer general-balance request and redesigned its results as per-card totals across all four sub-invoice statuses.
