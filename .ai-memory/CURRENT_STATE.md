@@ -50,6 +50,11 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Added a styled internal back link from the image creation workspace to `/page/ai`.
+- Rebuilt `/page/ai` as a segmented Image/Video media workspace; Image mode loads successful generated images from `GetImages`, renders responsive metadata cards, opens shared result details, and appends cursor-based pages on infinite scroll.
+- Parsed generated-image JSON metadata strings into a responsive labeled value grid while preserving a plain-text fallback for malformed metadata.
+- Made AI image provider selection explicitly support multiple provider families and their model collections with responsive logo cards, atomic provider/model switching, and provider-aware form resets.
+- Replaced the generated-image modal's full-image link with a direct download action that uses the resolved media URL.
 - Added a responsive generated-image result modal that opens after a matching successful MediaAi SignalR notification and displays the image, prompt, metadata, creator, version, status, image ID, and job ID.
 - Fixed image-generation notification correlation by sending the newly generated `clientContext` directly with the `CreateImage` request instead of reading stale React state.
 - Connected image creation settings to `GetImageUsage`, displaying the returned token estimate before changing the primary action to `Create image`.

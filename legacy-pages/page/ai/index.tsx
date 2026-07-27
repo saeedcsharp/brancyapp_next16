@@ -2,16 +2,34 @@ import { t } from "i18next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import router from "next/router";
-import { useEffect, useState } from "react";
-import Soon from "brancy/components/notOk/soon";
-import { LoginStatus } from "brancy/helper/loadingStatus";
-import { LanguageKey } from "brancy/i18n";
-import styles from "./pageAI.module.css";
-import Link from "next/link";
+import { useCallback, useEffect, useState } from "react";
+import GeneratedImageModal, { parseImageMetadata } from "brancy/components/page/ai/generatedImageModal";
 import Modal from "brancy/components/design/modal";
+import RingLoader from "brancy/components/design/loader/ringLoder";
 import NotFeature from "brancy/components/notOk/notFeature";
-import { checkPackageFeature, fetchAndCheckFeature } from "brancy/helper/checkFeature";
+import { notify, NotifType, ResponseType } from "brancy/components/notifications/notificationBox";
+import { MethodType } from "brancy/helper/api";
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
+import { LoginStatus } from "brancy/helper/loadingStatus";
+import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
+import { LanguageKey } from "brancy/i18n";
 import { PsgFeatureType } from "brancy/models/enums";
+import { IGetImage, IGetImages } from "brancy/models/interfaces";
+import styles from "./pageAI.module.css";
+
+type MediaTab = "image" | "video";
+
+const SUCCESS_MEDIA_STATUS = 2;
+
+function formatCreatedTime(timestamp: number): string {
+  return new Intl.DateTimeFormat(undefined, {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  }).format(new Date(timestamp * 1000));
+}
 
 export default function PageAI() {
   const { data: session } = useSession({
@@ -20,96 +38,216 @@ export default function PageAI() {
       router.push("/");
     },
   });
+  const [activeTab, setActiveTab] = useState<MediaTab>("image");
+  const [images, setImages] = useState<IGetImage[]>([]);
+  const [nextMaxId, setNextMaxId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
-  const [showPopup, setShowPopup] = useState(false);
+  const [loadedImages, setLoadedImages] = useState(false);
+  const [showFeaturePopup, setShowFeaturePopup] = useState(false);
+  const [selectedImage, setSelectedImage] = useState<IGetImage | null>(null);
+
+  const fetchImages = useCallback(
+    async (cursor: string | null): Promise<IGetImage[]> => {
+      if (!session) return [];
+
+      const response = await clientFetchApi<null, IGetImages>("/api/mediaai/GetImages", {
+        session,
+        methodType: MethodType.get,
+        queries: [
+          { key: "mediaCreationStatus", value: SUCCESS_MEDIA_STATUS.toString() },
+          { key: "nextMaxId", value: cursor ?? "" },
+        ],
+      });
+
+      if (!response.succeeded) {
+        notify(response.info?.responseType ?? ResponseType.Unexpected, NotifType.Error, response.errorMessage);
+        return [];
+      }
+
+      const items = Array.isArray(response.value?.items) ? response.value.items : [];
+      setNextMaxId(response.value?.nextMaxId || null);
+      return items;
+    },
+    [session],
+  );
+
   useEffect(() => {
     if (!session) return;
-    if (session.user.currentIndex === -1) router.push("/user");
-    if (!LoginStatus(session)) router.push("/");
-    setLoading(false);
-  }, [session]);
-  const typeCards = [
-    {
-      slug: "createImage",
-      label: "Create Image",
-      description: "Generate images using AI.",
-      icon: " 🖼️",
-      cardClass: styles.typeCardShop,
-      iconClass: styles.typeCardIconShop,
-    },
-    {
-      slug: "createVideo",
-      label: "Create Video",
-      description: "Generate videos using AI.",
-      icon: "🎥",
-      cardClass: styles.typeCardVShop,
-      iconClass: styles.typeCardIconVShop,
-    },
-  ];
+    if (session.user.currentIndex === -1) {
+      router.push("/user");
+      return;
+    }
+    if (!LoginStatus(session)) {
+      router.push("/");
+      return;
+    }
+    if (loadedImages) return;
+
+    setLoadedImages(true);
+    setLoading(true);
+    fetchImages(null)
+      .then(setImages)
+      .finally(() => setLoading(false));
+  }, [fetchImages, loadedImages, session]);
+
+  const fetchMoreImages = useCallback(() => fetchImages(nextMaxId), [fetchImages, nextMaxId]);
+  const handleImagesFetched = useCallback((newImages: IGetImage[]) => {
+    setImages((current) => [...current, ...newImages]);
+  }, []);
+
+  const { containerRef, isLoadingMore } = useInfiniteScroll<IGetImage>({
+    hasMore: Boolean(nextMaxId),
+    fetchMore: fetchMoreImages,
+    onDataFetched: handleImagesFetched,
+    getItemId: (image) => image.id,
+    currentData: images,
+    isLoading: loading,
+    enabled: activeTab === "image",
+    fetchDelay: 0,
+  });
+
+  const openCreator = async () => {
+    if (!(await fetchAndCheckFeature(PsgFeatureType.AI, session))) {
+      setShowFeaturePopup(true);
+      return;
+    }
+    window.location.href = `/page/ai/${activeTab === "image" ? "createImage" : "createVideo"}`;
+  };
+
   return (
     <>
       <Head>
-        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
         <title>Bran.cy ▸ {t(LanguageKey.navbar_AI)}</title>
-        <meta charSet="utf-8" />
-        <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
-        <meta name="description" content="Manage your Bran.cy account settings, preferences, and profile information" />
-        <meta name="theme-color" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0" />
-        <meta
-          name="keywords"
-          content="brancy settings, account settings, profile settings, instagram management, user preferences"
-        />
-        <meta name="author" content="Bran.cy Team" />
-        <meta name="robots" content="index, follow" />
-        <link rel="canonical" href="https://www.brancy.app/setting/general" aria-label="Canonical link" />
-        <meta property="og:type" content="website" />
-        <meta property="og:title" content="Bran.cy Settings" />
-        <meta property="og:description" content="Manage your Bran.cy account settings and preferences" />
-        <meta property="og:site_name" content="Bran.cy" />
-        <meta property="og:url" content="https://www.brancy.app/setting/general" />
-        <meta property="og:locale" content="en_US" />
-        <meta property="og:image:alt" content="Bran.cy Settings Page" />
-        {/* Twitter Card Meta Tags */}
-        <meta name="twitter:card" content="summary" />
-        <meta name="twitter:title" content="Bran.cy Settings" />
-        <meta name="twitter:site" content="@brancyapp" />
-        <meta name="twitter:description" content="Manage your Bran.cy account settings and preferences" />
-        <meta name="twitter:image:alt" content="Bran.cy Settings Page" />
+        <meta name="description" content="Create and manage AI-generated images and videos." />
       </Head>
-      {/* {!loading && <Soon />} */}
-      <div className={styles.container}>
-        <div className={styles.typeGrid}>
-          {typeCards.map((card) => (
-            <button
-              key={card.slug}
-              onClick={async () => {
-                if (!(await fetchAndCheckFeature(PsgFeatureType.AI, session))) {
-                  setShowPopup(true);
-                  return;
-                }
-                window.location.href = `/page/ai/${card.slug}`;
-              }}
-              className={`${styles.typeCard} ${card.cardClass}`}>
-              <div className={`${styles.typeCardIcon} ${card.iconClass}`}>{card.icon}</div>
-              <p className={styles.typeCardTitle}>{card.label}</p>
-              <p className={styles.typeCardDesc}>{card.description}</p>
-              <span className={styles.typeCardArrow}>→</span>
-            </button>
-          ))}
+
+      <main className={styles.aiWorkspace} ref={containerRef}>
+        <header className={styles.aiHeader}>
+          <div>
+            <span className={styles.eyebrow}>AI media studio</span>
+            <h1>Your creations</h1>
+            <p>Browse previous generations or start a new creative project.</p>
+          </div>
+          <button className={styles.createButton} type="button" onClick={openCreator}>
+            <span aria-hidden="true">+</span>
+            Create {activeTab}
+          </button>
+        </header>
+
+        <div className={styles.mediaTabs} role="tablist" aria-label="Media type">
+          <button
+            className={activeTab === "image" ? styles.mediaTabActive : styles.mediaTab}
+            type="button"
+            role="tab"
+            aria-selected={activeTab === "image"}
+            onClick={() => setActiveTab("image")}>
+            <span className={styles.tabIcon} aria-hidden="true">
+              ▧
+            </span>
+            <span>
+              <strong>Images</strong>
+              <small>Generated artwork and visuals</small>
+            </span>
+          </button>
+          <button
+            className={activeTab === "video" ? styles.mediaTabActive : styles.mediaTab}
+            type="button"
+            role="tab"
+            aria-selected={activeTab === "video"}
+            onClick={() => setActiveTab("video")}>
+            <span className={styles.tabIcon} aria-hidden="true">
+              ▶
+            </span>
+            <span>
+              <strong>Videos</strong>
+              <small>AI motion and clips</small>
+            </span>
+          </button>
         </div>
-      </div>
+
+        {activeTab === "image" ? (
+          <section className={styles.library} aria-label="Generated images">
+            <div className={styles.libraryHeading}>
+              <div>
+                <h2>Image library</h2>
+                <p>{images.length} creations loaded</p>
+              </div>
+            </div>
+
+            {loading ? (
+              <div className={styles.loadingState}>
+                <RingLoader width={42} height={42} />
+              </div>
+            ) : images.length > 0 ? (
+              <div className={styles.imageGrid}>
+                {images.map((image) => {
+                  const metadata = image.metadata ? parseImageMetadata(image.metadata) : null;
+                  return (
+                    <article className={styles.imageCard} key={image.id}>
+                      <button className={styles.imagePreview} type="button" onClick={() => setSelectedImage(image)}>
+                        <img src={getClientMediaBaseUrl() + image.imageUrl} alt={image.prompt || "Generated image"} />
+                        <span>View details</span>
+                      </button>
+                      <div className={styles.imageInfo}>
+                        <div className={styles.imageMetaLine}>
+                          <span>{image.creatorKey}</span>
+                          <time>{formatCreatedTime(image.createdTime)}</time>
+                        </div>
+                        <h3>{image.prompt || "Untitled generation"}</h3>
+                        <p>{image.version}</p>
+                        {metadata?.length ? (
+                          <dl className={styles.cardMetadata}>
+                            {metadata.slice(0, 3).map((item) => (
+                              <div key={item.key}>
+                                <dt>{item.label}</dt>
+                                <dd>{item.value}</dd>
+                              </div>
+                            ))}
+                          </dl>
+                        ) : null}
+                      </div>
+                    </article>
+                  );
+                })}
+              </div>
+            ) : (
+              <div className={styles.emptyLibrary}>
+                <span aria-hidden="true">▧</span>
+                <h2>No images yet</h2>
+                <p>Your successful image generations will appear here.</p>
+                <button type="button" onClick={openCreator}>
+                  Create your first image
+                </button>
+              </div>
+            )}
+            {isLoadingMore && (
+              <div className={styles.loadMore}>
+                <RingLoader width={30} height={30} />
+              </div>
+            )}
+          </section>
+        ) : (
+          <section className={styles.videoLibrary}>
+            <div>
+              <span aria-hidden="true">▶</span>
+              <h2>Video studio</h2>
+              <p>Create a new AI video. Your video library will appear here when history is available.</p>
+            </div>
+            <button type="button" onClick={openCreator}>
+              Create video
+            </button>
+          </section>
+        )}
+      </main>
+
+      <Modal closePopup={() => setSelectedImage(null)} classNamePopup="popupLarge" showContent={selectedImage !== null}>
+        {selectedImage && <GeneratedImageModal image={selectedImage} onClose={() => setSelectedImage(null)} />}
+      </Modal>
       <Modal
-        closePopup={function (): void {
-          setShowPopup(false);
-        }}
-        classNamePopup={"popupSendFile"}
-        showContent={showPopup}>
-        <NotFeature
-          onClose={function (): void {
-            setShowPopup(false);
-          }}
-        />
+        closePopup={() => setShowFeaturePopup(false)}
+        classNamePopup="popupSendFile"
+        showContent={showFeaturePopup}>
+        <NotFeature onClose={() => setShowFeaturePopup(false)} />
       </Modal>
     </>
   );

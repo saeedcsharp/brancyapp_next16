@@ -482,6 +482,10 @@ export interface IGetImage {
   metadata: string;
   prompt: string;
 }
+export interface IGetImages {
+  items: IGetImage[];
+  nextMaxId: string | null;
+}
 export interface IImageCreatorModel {
   name: string;
   displayName: string;

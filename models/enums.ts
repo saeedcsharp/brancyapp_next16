@@ -720,8 +720,8 @@ export enum PushResponseType {
   UpdateSystemTicket,
   CreateSystemTicket,
   ChangeOrderStatus,
-  AiImageSuccess,
   AiImageFail,
+  AiImageSuccess,
   TransferThread,
 }
 

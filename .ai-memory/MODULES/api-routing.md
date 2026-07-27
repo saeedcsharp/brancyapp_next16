@@ -70,7 +70,7 @@ Service integration happens through helper APIs or route handlers when applicabl
 
 Wallet mappings include `/api/wallet/getBallanceHistory` to `Business/Wallet/GetBallanceHistory`; the backend contract intentionally uses the `Ballance` spelling.
 
-Image creator discovery maps `/api/mediaai/getImageCreators` to `Instagramer/MediaAi/GetImageCreators` and is called directly by `clientFetchApi` with the active Instagramer session headers. Token estimation maps `/api/mediaai/getImageUsage` to `Instagramer/MediaAi/GetImageUsage` and uses a POST body with `creatorKey`, model `version`, serialized dynamic `inputs`, and `prompt`; its successful value is the numeric token usage.
+Image history maps `/api/mediaai/getImages` to `Instagramer/MediaAi/GetImages`. The AI landing page calls it with `mediaCreationStatus=2` for successful creations and an initially empty `nextMaxId`; subsequent infinite-scroll requests send the cursor returned by the previous response. Image creator discovery maps `/api/mediaai/getImageCreators` to `Instagramer/MediaAi/GetImageCreators` and is called directly by `clientFetchApi` with the active Instagramer session headers. Token estimation maps `/api/mediaai/getImageUsage` to `Instagramer/MediaAi/GetImageUsage` and uses a POST body with `creatorKey`, model `version`, serialized dynamic `inputs`, and `prompt`; its successful value is the numeric token usage.
 
 ## Providers
 

@@ -92,15 +92,15 @@ export default function CreateImage() {
       try {
         const decombNotif = handleDecompress(notif);
         if (!decombNotif) return;
-
         const notifObj = JSON.parse(decombNotif) as PushNotif;
-        if (!notifObj.Message || !notifObj.InstagramerId) return;
-
+        if (!notifObj.Message) return;
         const newPostPush = convertFirstLetterToLowerCase(JSON.parse(notifObj.Message));
         const generatedImage = newPostPush as IGetImage;
         if (generatedImage.clientContext !== clientContext) return;
-        if (notifObj.ResponseType === PushResponseType.AiImageSuccess) setNewImage(generatedImage);
-        else if (notifObj.ResponseType === PushResponseType.AiImageFail) {
+        if (notifObj.ResponseType === PushResponseType.AiImageSuccess) {
+          console.log("generatedImage", generatedImage);
+          setNewImage(generatedImage);
+        } else if (notifObj.ResponseType === PushResponseType.AiImageFail) {
           internalNotify(
             InternalResponseType.InvalidMetaData,
             NotifType.Warning,
@@ -118,7 +118,6 @@ export default function CreateImage() {
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
-
     const setupSignalR = () => {
       const hubConnection = getHubConnection();
       if (hubConnection) {

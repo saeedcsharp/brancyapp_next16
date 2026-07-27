@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-07-27
+
+- Added an RTL-aware `Back to creations` link from the image creator to `/page/ai`.
+- Replaced the AI landing cards with a responsive Image/Video segmented workspace and feature-aware create actions.
+- Registered `Instagramer/MediaAi/GetImages`, added its typed `items`/`nextMaxId` response, and load successful image history with `mediaCreationStatus=2`.
+- Added cursor-based infinite scrolling, deduplication, shared metadata summaries, and full generated-image detail modals to the AI image library.
+- Rendered generated-image JSON metadata as a responsive key/value grid with readable camel-case labels and a safe plain-text fallback.
+- Reworked image creator selection around the full provider/model hierarchy with responsive provider cards, logos, model counts, atomic model selection, and provider-aware form resets.
+- Excluded providers with no available models from the image creator picker so an unusable provider cannot replace the workspace with an empty state.
+- Replaced the generated-image modal's full-image link with a blob-backed `Download image` action using the resolved media URL.
+
 ## 2026-07-26
 
 - Added responsive `GeneratedImageModal` content for successful AI image generation notifications with image preview, prompt, metadata, creator/model details, identifiers, and a full-image link; the creation page owns its shared `Modal` wrapper and visibility state.

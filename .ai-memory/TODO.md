@@ -13,6 +13,7 @@
 - Add an automated locale-alignment check for `LanguageKey.Notify_*` response notification keys when test infrastructure is introduced.
 - Add unit coverage for feature-search normalization and route matching, plus browser coverage for desktop/mobile popup interaction, when test infrastructure is introduced.
 - Add integration coverage for image-generation payloads, upload limits, `clientContext` notification correlation, and successful result-modal rendering when test infrastructure is introduced.
+- Add integration coverage for `GetImages` status filtering, `nextMaxId` pagination, duplicate prevention, empty responses, and failed history requests when test infrastructure is introduced.
 
 ## Technical Debt Ideas
 

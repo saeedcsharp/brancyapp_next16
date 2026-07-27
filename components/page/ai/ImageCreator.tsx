@@ -1,6 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
+import Link from "next/link";
 import { useTranslation } from "react-i18next";
 import {
   internalNotify,
@@ -10,6 +11,7 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import { MethodType, UploadFile } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { InputType } from "brancy/models/enums";
 import { IGetImageUsageRequest, IImageCreator, IImageCreatorInput, IImageCreatorModel } from "brancy/models/interfaces";
 import styles from "./ImageCreator.module.css";
@@ -312,8 +314,9 @@ export default function ImageCreator({
 }: ImageCreatorProps) {
   const { data: session } = useSession();
   const { i18n } = useTranslation();
-  const [creatorKey, setCreatorKey] = useState(creators[0]?.key ?? "");
-  const creator = creators.find((item) => item.key === creatorKey) ?? creators[0];
+  const availableCreators = creators.filter((item) => item.inputModels.length > 0);
+  const [creatorKey, setCreatorKey] = useState(availableCreators[0]?.key ?? "");
+  const creator = availableCreators.find((item) => item.key === creatorKey) ?? availableCreators[0];
   const [modelName, setModelName] = useState(creator?.inputModels[0]?.name ?? "");
   const model = creator?.inputModels.find((item) => item.name === modelName) ?? creator?.inputModels[0];
   const [prompt, setPrompt] = useState("");
@@ -322,18 +325,20 @@ export default function ImageCreator({
   const [usageLoading, setUsageLoading] = useState(false);
 
   useEffect(() => {
-    const nextCreator = creators.find((item) => item.key === creatorKey) ?? creators[0];
+    const nextCreator = availableCreators.find((item) => item.key === creatorKey) ?? availableCreators[0];
     if (!nextCreator) return;
-    if (!creatorKey) setCreatorKey(nextCreator.key);
-    if (!nextCreator.inputModels.some((item) => item.name === modelName))
-      setModelName(nextCreator.inputModels[0]?.name ?? "");
+    const nextModelName = nextCreator.inputModels.some((item) => item.name === modelName)
+      ? modelName
+      : nextCreator.inputModels[0].name;
+    if (creatorKey !== nextCreator.key) setCreatorKey(nextCreator.key);
+    if (modelName !== nextModelName) setModelName(nextModelName);
   }, [creators, creatorKey, modelName]);
 
   useEffect(() => {
     setPrompt("");
     setValues(getInitialValues(model));
     setTokenUsage(null);
-  }, [model?.name]);
+  }, [creator?.key, model?.name]);
 
   if (error) {
     return (
@@ -396,27 +401,67 @@ export default function ImageCreator({
 
   const invalidateUsage = () => setTokenUsage(null);
 
+  const selectCreator = (nextCreatorKey: string) => {
+    const nextCreator = availableCreators.find((item) => item.key === nextCreatorKey);
+    if (!nextCreator || nextCreator.key === creator.key) return;
+    setCreatorKey(nextCreator.key);
+    setModelName(nextCreator.inputModels[0].name);
+  };
+
   return (
     <main className={styles.page}>
+      <div className={styles.backRow}>
+        <Link className={styles.backLink} href="/page/ai">
+          <span aria-hidden="true">←</span>
+          Back to creations
+        </Link>
+      </div>
       <header className={styles.header}>
         <div>
           <span className={styles.eyebrow}>AI studio</span>
           <h1>Create an image</h1>
           <p>Choose a model, tune its settings, and describe the image you want.</p>
         </div>
-        {creators.length > 1 && (
-          <label className={styles.creatorSelect}>
-            <span>Provider</span>
-            <select value={creator.key} onChange={(event) => setCreatorKey(event.target.value)}>
-              {creators.map((item) => (
-                <option value={item.key} key={item.key}>
-                  {item.displayName}
-                </option>
-              ))}
-            </select>
-          </label>
-        )}
       </header>
+
+      {availableCreators.length > 1 && (
+        <section className={styles.creatorPanel} aria-labelledby="creator-heading">
+          <div className={styles.creatorHeading}>
+            <span id="creator-heading">AI provider</span>
+            <small>Choose a provider to see its available models</small>
+          </div>
+          <div className={styles.creatorList}>
+            {availableCreators.map((item) => {
+              const isActive = item.key === creator.key;
+              return (
+                <button
+                  className={isActive ? styles.creatorActive : styles.creator}
+                  type="button"
+                  aria-pressed={isActive}
+                  key={item.key}
+                  onClick={() => selectCreator(item.key)}>
+                  <span className={styles.creatorLogo}>
+                    {item.logo ? (
+                      <img src={getClientMediaBaseUrl() + item.logo} alt="" />
+                    ) : (
+                      item.displayName.slice(0, 1).toUpperCase()
+                    )}
+                  </span>
+                  <span className={styles.creatorText}>
+                    <strong>{item.displayName}</strong>
+                    <small>
+                      {item.inputModels.length} {item.inputModels.length === 1 ? "model" : "models"}
+                    </small>
+                  </span>
+                  <span className={styles.creatorCheck} aria-hidden="true">
+                    {isActive ? "✓" : ""}
+                  </span>
+                </button>
+              );
+            })}
+          </div>
+        </section>
+      )}
 
       <div className={styles.workspace}>
         <section className={styles.modelPanel} aria-label="Image models">
