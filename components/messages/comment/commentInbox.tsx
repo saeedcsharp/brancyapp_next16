@@ -1566,7 +1566,8 @@ const CommentInbox = () => {
     return unSeenDiv;
   }
   const isUnreadThread = (thread: IMedia) =>
-    !activeReadState || thread.comments.some((comment) => !comment.sentByOwner && comment.createdTime > thread.lastSeenUnix);
+    !activeReadState ||
+    thread.comments.some((comment) => !comment.sentByOwner && comment.createdTime > thread.lastSeenUnix);
   /* ___SingnalR start ___ */
   useEffect(() => {
     console.log(" ✅ Console ⋙ Session", session, session?.user.username);
@@ -1790,72 +1791,72 @@ const CommentInbox = () => {
                       className={styles.user}
                       // style={!v.isActive ? { opacity: "0.3" } : {}}
                     >
-                        <img
-                          loading="lazy"
-                          decoding="async"
-                          className={styles.pictureIcon}
-                          title={"🔗 View Post Details"}
-                          alt="instagram profile picture"
-                          src={basePictureUrl + v.thumbnailMediaUrl!}
-                        />
+                      <img
+                        loading="lazy"
+                        decoding="async"
+                        className={styles.pictureIcon}
+                        title={"🔗 View Post Details"}
+                        alt="instagram profile picture"
+                        src={basePictureUrl + v.thumbnailMediaUrl!}
+                      />
 
-                        <div className={styles.profile}>
-                          <div className={styles.username} title={""}>
-                            <img
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                router.push(`/page/posts/postinfo/${v.postId}`);
-                              }}
-                              title="🔗 View Post Details"
-                              className={styles.shortcut}
-                              alt="View post details icon"
-                              src="/shortcut.svg"
-                            />
-                            {t(LanguageKey.navbar_Post)} #{v.tempId?.toLocaleString()}
-                          </div>
-
-                          <div className={styles.messagetext}>
-                            {v.commentCount > 0
-                              ? `${v.commentCount.toLocaleString()} ${t(LanguageKey.comment)}`
-                              : t(LanguageKey.nocomment)}
-                          </div>
+                      <div className={styles.profile}>
+                        <div className={styles.username} title={""}>
+                          <img
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              router.push(`/page/posts/postinfo/${v.postId}`);
+                            }}
+                            title="🔗 View Post Details"
+                            className={styles.shortcut}
+                            alt="View post details icon"
+                            src="/shortcut.svg"
+                          />
+                          {t(LanguageKey.navbar_Post)} #{v.tempId?.toLocaleString()}
                         </div>
 
-                        <div className={styles.notifbox} title="ℹ️ Slide to more">
-                          <div className={styles.settingbox}>
-                            {v.unSeenCount > 0 && (
-                              <div className={styles.new} title={`ℹ️ ${v.unSeenCount} Unread message`}>
-                                {v.unSeenCount}
-                              </div>
-                            )}
+                        <div className={styles.messagetext}>
+                          {v.commentCount > 0
+                            ? `${v.commentCount.toLocaleString()} ${t(LanguageKey.comment)}`
+                            : t(LanguageKey.nocomment)}
+                        </div>
+                      </div>
 
-                            {v.isPin && (
-                              <svg
-                                className={styles.dragicon}
-                                width="18"
-                                height="20"
-                                fill="none"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 36 36">
-                                <path d="M26.56 3.83a9.3 9.3 0 0 1 5.61 5.6c.16.45.35.97.42 1.43.08.55.03 1.06-.18 1.63-.43 1.21-1.41 1.75-2.5 2.35l-2.12 1.19c-.77.43-1.28.71-1.64.96s-.45.38-.5.46c-.01.05-.08.25-.06.93.01.63.1 1.5.21 2.72a9 9 0 0 1-1.27 5.76c-.2.3-.44.7-.71.98q-.47.51-1.16.78-.7.29-1.4.25c-.4-.02-.86-.12-1.25-.21a17 17 0 0 1-8.04-4.63 17 17 0 0 1-4.63-8.04 8 8 0 0 1-.21-1.25 3 3 0 0 1 .25-1.4q.29-.7.78-1.16a9 9 0 0 1 6.69-2c1.25.1 2.13.19 2.78.2.32 0 .73.03.94-.08.08-.04.22-.14.46-.5.25-.35.54-.86.97-1.63l1.16-2.09c.6-1.08 1.14-2.06 2.35-2.5.57-.2 1.08-.25 1.63-.17.46.07.98.26 1.42.42" />
-                                <path
-                                  opacity=".6"
-                                  d="M10.96 22.92 3.8 30.06a1.5 1.5 0 1 0 2.13 2.12l7.14-7.14a19 19 0 0 1-2.12-2.12"
-                                />
-                              </svg>
-                            )}
-                          </div>
+                      <div className={styles.notifbox} title="ℹ️ Slide to more">
+                        <div className={styles.settingbox}>
+                          {v.unSeenCount > 0 && (
+                            <div className={styles.new} title={`ℹ️ ${v.unSeenCount} Unread message`}>
+                              {v.unSeenCount}
+                            </div>
+                          )}
 
-                          <div className={styles.chattime}>
-                            {v.comments.length > 0 && v.comments[0].createdTime
-                              ? new DateObject({
-                                  date: v.comments[0].createdTime / 1e3,
-                                  calendar: initialzedTime().calendar,
-                                  locale: initialzedTime().locale,
-                                }).format("h:mm a")
-                              : ""}
-                          </div>
-                          {/* {(v.status === StatusReplied.InstagramerClosed ||
+                          {v.isPin && (
+                            <svg
+                              className={styles.dragicon}
+                              width="18"
+                              height="20"
+                              fill="none"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 36 36">
+                              <path d="M26.56 3.83a9.3 9.3 0 0 1 5.61 5.6c.16.45.35.97.42 1.43.08.55.03 1.06-.18 1.63-.43 1.21-1.41 1.75-2.5 2.35l-2.12 1.19c-.77.43-1.28.71-1.64.96s-.45.38-.5.46c-.01.05-.08.25-.06.93.01.63.1 1.5.21 2.72a9 9 0 0 1-1.27 5.76c-.2.3-.44.7-.71.98q-.47.51-1.16.78-.7.29-1.4.25c-.4-.02-.86-.12-1.25-.21a17 17 0 0 1-8.04-4.63 17 17 0 0 1-4.63-8.04 8 8 0 0 1-.21-1.25 3 3 0 0 1 .25-1.4q.29-.7.78-1.16a9 9 0 0 1 6.69-2c1.25.1 2.13.19 2.78.2.32 0 .73.03.94-.08.08-.04.22-.14.46-.5.25-.35.54-.86.97-1.63l1.16-2.09c.6-1.08 1.14-2.06 2.35-2.5.57-.2 1.08-.25 1.63-.17.46.07.98.26 1.42.42" />
+                              <path
+                                opacity=".6"
+                                d="M10.96 22.92 3.8 30.06a1.5 1.5 0 1 0 2.13 2.12l7.14-7.14a19 19 0 0 1-2.12-2.12"
+                              />
+                            </svg>
+                          )}
+                        </div>
+
+                        <div className={styles.chattime}>
+                          {v.comments.length > 0 && v.comments[0].createdTime
+                            ? new DateObject({
+                                date: v.comments[0].createdTime / 1e3,
+                                calendar: initialzedTime().calendar,
+                                locale: initialzedTime().locale,
+                              }).format("h:mm a")
+                            : ""}
+                        </div>
+                        {/* {(v.status === StatusReplied.InstagramerClosed ||
                                 v.status === StatusReplied.UserClosed) && (
                                 <div className={styles.chattime}>
                                   {`Ticket is closed by ${
@@ -1871,7 +1872,7 @@ const CommentInbox = () => {
                                   {`watting for user answer`}
                                 </div>
                               )} */}
-                        </div>
+                      </div>
                     </div>
                   </div>
                 ))}
@@ -2015,56 +2016,57 @@ const CommentInbox = () => {
                   {!showSearchThread.loading &&
                     !showSearchThread.noResult &&
                     searchPostCommentInbox &&
-                    searchPostCommentInbox.medias.filter(isUnreadThread).map(
-                      (v) =>
+                    searchPostCommentInbox.medias.filter(isUnreadThread).map((v) => (
+                      <div
+                        style={{ cursor: "pointer" }}
+                        key={v.mediaId}
+                        onMouseDown={() => handleMouseDown()}
+                        onMouseUp={() => handleMouseUp()}
+                        onMouseMove={() => handleMouseMove(v.mediaId)}
+                        onTouchEnd={() => handleTouchEnd(v.mediaId)}
+                        onClick={() => handleSelectSearch(v, toggleOrder)}
+                        className={
+                          v.mediaId === userSelectedId ? styles.selectedUserbackground : styles.userbackground
+                        }>
                         <div
-                          style={{ cursor: "pointer" }}
-                          key={v.mediaId}
-                          onMouseDown={() => handleMouseDown()}
-                          onMouseUp={() => handleMouseUp()}
-                          onMouseMove={() => handleMouseMove(v.mediaId)}
-                          onTouchEnd={() => handleTouchEnd(v.mediaId)}
-                          onClick={() => handleSelectSearch(v, toggleOrder)}
-                          className={v.mediaId === userSelectedId ? styles.selectedUserbackground : styles.userbackground}>
-                          <div
-                            className={styles.user}
-                            // style={!v.isActive ? { opacity: "0.3" } : {}}
-                          >
-                              <div className={styles.onlinering}>
-                                <img
-                                  draggable={false}
-                                  loading="lazy"
-                                  decoding="async"
-                                  className={styles.pictureIcon}
-                                  title={" 📸 View Post Details"}
-                                  alt="instagram profile picture"
-                                  src={basePictureUrl + v.thumbnailMediaUrl!}
-                                />
-                              </div>
-                              <div className={styles.profile}>
-                                <div className={styles.username} title={""}>
-                                  {t(LanguageKey.navbar_Post)} #{v.tempId?.toLocaleString()}
-                                </div>
-                              </div>
-                              <div className={styles.notifbox} title="ℹ️ Slide to more">
-                                {v.unSeenCount > 0 && (
-                                  <div className={styles.new} title={`ℹ️ ${v.unSeenCount} Unread message`}>
-                                    {v.unSeenCount}
-                                  </div>
-                                )}
-                                <div className={styles.chattime}>
-                                  {v.comments.length > 0 && v.comments[0].createdTime
-                                    ? new DateObject({
-                                        date: v.comments[0].createdTime / 1e3,
-                                        calendar: initialzedTime().calendar,
-                                        locale: initialzedTime().locale,
-                                      }).format("h:mm a")
-                                    : ""}
-                                </div>
-                              </div>
+                          className={styles.user}
+                          // style={!v.isActive ? { opacity: "0.3" } : {}}
+                        >
+                          <div className={styles.onlinering}>
+                            <img
+                              draggable={false}
+                              loading="lazy"
+                              decoding="async"
+                              className={styles.pictureIcon}
+                              title={" 📸 View Post Details"}
+                              alt="instagram profile picture"
+                              src={basePictureUrl + v.thumbnailMediaUrl!}
+                            />
+                          </div>
+                          <div className={styles.profile}>
+                            <div className={styles.username} title={""}>
+                              {t(LanguageKey.navbar_Post)} #{v.tempId?.toLocaleString()}
                             </div>
-                        </div>,
-                    )}
+                          </div>
+                          <div className={styles.notifbox} title="ℹ️ Slide to more">
+                            {v.unSeenCount > 0 && (
+                              <div className={styles.new} title={`ℹ️ ${v.unSeenCount} Unread message`}>
+                                {v.unSeenCount}
+                              </div>
+                            )}
+                            <div className={styles.chattime}>
+                              {v.comments.length > 0 && v.comments[0].createdTime
+                                ? new DateObject({
+                                    date: v.comments[0].createdTime / 1e3,
+                                    calendar: initialzedTime().calendar,
+                                    locale: initialzedTime().locale,
+                                  }).format("h:mm a")
+                                : ""}
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    ))}
                 </>
               )}
               {showSearchThread.searchMode && !activeHideInbox && toggleOrder === CommentType.Story && (
