@@ -1565,6 +1565,8 @@ const CommentInbox = () => {
     }
     return unSeenDiv;
   }
+  const isUnreadThread = (thread: IMedia) =>
+    !activeReadState || thread.comments.some((comment) => !comment.sentByOwner && comment.createdTime > thread.lastSeenUnix);
   /* ___SingnalR start ___ */
   useEffect(() => {
     console.log(" ✅ Console ⋙ Session", session, session?.user.username);
@@ -1772,7 +1774,7 @@ const CommentInbox = () => {
                 !activeHideInbox &&
                 postCommentInbox &&
                 postCommentInbox.medias.length > 0 &&
-                postCommentInbox.medias.map((v) => (
+                postCommentInbox.medias.filter(isUnreadThread).map((v) => (
                   <div
                     style={{ cursor: "pointer" }}
                     key={v.mediaId}
@@ -1784,15 +1786,10 @@ const CommentInbox = () => {
                       handleGetGeneralChats(v);
                     }}
                     className={v.mediaId === userSelectedId ? styles.selectedUserbackground : styles.userbackground}>
-                    {((activeReadState &&
-                      v.comments
-                        .filter((item) => item.createdTime > v.lastCommentUnix)
-                        .sort((a, b) => a.createdTime - b.createdTime).length > 0) ||
-                      !activeReadState) && (
-                      <div
-                        className={styles.user}
-                        // style={!v.isActive ? { opacity: "0.3" } : {}}
-                      >
+                    <div
+                      className={styles.user}
+                      // style={!v.isActive ? { opacity: "0.3" } : {}}
+                    >
                         <img
                           loading="lazy"
                           decoding="async"
@@ -1875,8 +1872,7 @@ const CommentInbox = () => {
                                 </div>
                               )} */}
                         </div>
-                      </div>
-                    )}
+                    </div>
                   </div>
                 ))}
               {toggleOrder === CommentType.Story &&
@@ -2019,28 +2015,21 @@ const CommentInbox = () => {
                   {!showSearchThread.loading &&
                     !showSearchThread.noResult &&
                     searchPostCommentInbox &&
-                    searchPostCommentInbox.medias.map(
+                    searchPostCommentInbox.medias.filter(isUnreadThread).map(
                       (v) =>
-                        ((activeReadState &&
-                          v.comments
-                            .filter((item) => item.createdTime > v.lastSeenUnix)
-                            .sort((a, b) => a.createdTime - b.createdTime).length > 0) ||
-                          !activeReadState) && (
+                        <div
+                          style={{ cursor: "pointer" }}
+                          key={v.mediaId}
+                          onMouseDown={() => handleMouseDown()}
+                          onMouseUp={() => handleMouseUp()}
+                          onMouseMove={() => handleMouseMove(v.mediaId)}
+                          onTouchEnd={() => handleTouchEnd(v.mediaId)}
+                          onClick={() => handleSelectSearch(v, toggleOrder)}
+                          className={v.mediaId === userSelectedId ? styles.selectedUserbackground : styles.userbackground}>
                           <div
-                            style={{ cursor: "pointer" }}
-                            key={v.mediaId}
-                            onMouseDown={() => handleMouseDown()}
-                            onMouseUp={() => handleMouseUp()}
-                            onMouseMove={() => handleMouseMove(v.mediaId)}
-                            onTouchEnd={() => handleTouchEnd(v.mediaId)}
-                            onClick={() => handleSelectSearch(v, toggleOrder)}
-                            className={
-                              v.mediaId === userSelectedId ? styles.selectedUserbackground : styles.userbackground
-                            }>
-                            <div
-                              className={styles.user}
-                              // style={!v.isActive ? { opacity: "0.3" } : {}}
-                            >
+                            className={styles.user}
+                            // style={!v.isActive ? { opacity: "0.3" } : {}}
+                          >
                               <div className={styles.onlinering}>
                                 <img
                                   draggable={false}
@@ -2074,8 +2063,7 @@ const CommentInbox = () => {
                                 </div>
                               </div>
                             </div>
-                          </div>
-                        ),
+                        </div>,
                     )}
                 </>
               )}
