@@ -251,7 +251,7 @@ html[dir="rtl"] .test > li {
 
 .linksvg {
   position: relative;
-  border-radius: 50%;
+
   max-width: 35px;
   max-height: 35px;
   min-width: 35px;
