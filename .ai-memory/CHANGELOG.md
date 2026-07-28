@@ -2,7 +2,8 @@
 
 ## 2026-07-28
 
-- Added reusable, type-checked semantic keyword groups for all 30 internal feature-search entries, requiring aliases in all eight locales while preserving official translated labels and curated aliases; French `Intelligence artificielle` resolves to Event Ideas at `/page/tools`.
+- Replaced Unicode country flag emojis in setting activity-history cards and partner phone details with the matching SVG assets from `public/Flag`.
+- Rendered the shared Tooltip through `document.body` with viewport-fixed trigger-relative positioning and scroll/resize tracking so ancestor stacking contexts cannot clip it.
 - Rendered the PhoneInput country dropdown through `document.body` with viewport-fixed positioning and scroll/resize tracking so ancestor stacking contexts cannot clip it.
 - Kept portalled dropdown option clicks from being mistaken for outside clicks.
 
