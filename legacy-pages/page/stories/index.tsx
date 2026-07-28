@@ -138,7 +138,7 @@ const Stories = () => {
       if (!decombNotif) return;
 
       const notifObj = JSON.parse(decombNotif) as PushNotif;
-      if (!notifObj.Message || !notifObj.InstagramerId) return;
+      if (!notifObj.Message) return;
 
       const newStoryPush = convertFirstLetterToLowerCase(JSON.parse(notifObj.Message));
 
