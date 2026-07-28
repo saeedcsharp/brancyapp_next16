@@ -50,6 +50,9 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Hardened the sign-in verification form so WebOTP only fills the code and a single guarded submit path prevents duplicate credentials requests from WebOTP, code completion, or repeated Enter/click actions. Added shared Persian/Arabic-Indic digit normalization, ref-based focus navigation, paste focus, accessibility state, `finally` loading cleanup, and unmount cleanup for WebOTP/animation resources without changing the incorrect-code shake and input-reset behavior.
+- Refined the verification form with functional digit updates, memoized code validation, stable regex/duration constants, typed WebOTP data, multi-digit autofill, select-on-focus, first-input focus after errors, timer/error ARIA relationships, and history-replacing success navigation. Removed unused verification props from the form and its only call site.
+
 - Updated setting activity-history cards and partner phone details to render country-code SVG flags from `public/Flag` instead of Unicode flag emojis.
 - Rendered the shared Tooltip through `document.body` with viewport-fixed positioning derived from its trigger, while preserving top/bottom/left/right/LTR/RTL placement and updating on scroll/resize so ancestor clipping and stacking contexts cannot hide it.
 

@@ -30,11 +30,12 @@ Data enters through props, Next route params, session state, browser state, or b
 
 Phone sign-in requests send the phone number in E.164 format (`+<dialCode><nationalNumber>`), for example `+989138664066`.
 
-The verification form uses the Web OTP API when available. Its request is aborted on unmount, and expected `AbortError` cancellations are ignored instead of being logged as application errors.
+The verification form uses the Web OTP API when available. Its request is aborted on unmount, and expected `AbortError` cancellations are ignored instead of being logged as application errors. WebOTP only populates the six inputs; the shared complete-code effect performs the guarded submit so WebOTP and manual input cannot create duplicate Login requests.
 
-## Dependencies
+The verification form normalizes Persian and Arabic-Indic digits, manages all input focus through refs, supports Backspace and arrow-key navigation, focuses the last input after a valid paste, and exposes per-input accessible labels and invalid state. Verification uses a single in-flight guard, validates a complete numeric six-digit code before calling NextAuth, clears loading in `finally`, and cleans up shake/error timers on unmount. Incorrect codes still clear the inputs, trigger the existing shake/error styling, and show the backend notification.
 
-See imports in related files and dependency docs.
+The form uses functional state updates for digit editing, a memoized joined code/completion check, stable regex and duration constants, typed WebOTP credentials, multi-digit autofill support, select-on-focus behavior, and `router.replace("/home")` after success. The timer is referenced by `aria-describedby`, while the input group announces error state through `aria-live`. `verificationCode` and `removeMask` are not part of the form props because the form does not use them.
+related files and dependency docs.
 
 ## Reverse Dependencies
 
@@ -154,7 +155,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-07-28
 
 ---
 

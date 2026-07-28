@@ -17,6 +17,8 @@
 - Add component coverage for country search, dial-code selection, controlled E.164 values, formatting, and keyboard navigation when a UI test harness is introduced.
 - Add component coverage for the PhoneInput portalled dropdown, including viewport positioning, scroll/resize updates, and option clicks outside the component root when a UI test harness is introduced.
 - Add component coverage for the Tooltip portal, directional viewport positioning, scroll/resize updates, and click-outside behavior when a UI test harness is introduced.
+- Add component/browser coverage for OTP verification, including one-request submission under WebOTP/manual overlap, repeated Enter/click protection, Persian/Arabic-Indic paste, incorrect-code shake and reset, timer expiry, and unmount cleanup when a UI test harness is introduced.
+- Add focused coverage for multi-digit autofill, select-on-focus behavior, first-input focus after errors, ARIA timer/error relationships, and history replacement after successful verification when a UI test harness is introduced.
 
 ## Technical Debt Ideas
 

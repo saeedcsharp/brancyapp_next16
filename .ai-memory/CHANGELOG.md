@@ -2,6 +2,9 @@
 
 ## 2026-07-28
 
+- Hardened phone verification against duplicate Login requests by routing WebOTP and manual completion through one in-flight-guarded submit path.
+- Normalized Persian and Arabic-Indic OTP digits across typing, paste, and WebOTP; added ref-based focus navigation, arrow keys, paste focus, accessible input state, `finally` loading cleanup, and animation cleanup on unmount while preserving incorrect-code shake and input reset behavior.
+- Refined OTP state updates with functional setters and memoized validation, added typed WebOTP/autofill handling, select-on-focus, first-input focus after errors, timer/error ARIA links, stable duration constants, and `router.replace` success navigation; removed unused verification props.
 - Replaced Unicode country flag emojis in setting activity-history cards and partner phone details with the matching SVG assets from `public/Flag`.
 - Rendered the shared Tooltip through `document.body` with viewport-fixed trigger-relative positioning and scroll/resize tracking so ancestor stacking contexts cannot clip it.
 - Rendered the PhoneInput country dropdown through `document.body` with viewport-fixed positioning and scroll/resize tracking so ancestor stacking contexts cannot clip it.

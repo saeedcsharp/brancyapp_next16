@@ -198,9 +198,7 @@ export default function SignIn(props: {
             nationalNumber={nationalNumber}
             countryCode={countryCode}
             preuserToken={preUserToken}
-            verificationCode={""}
             backToPhone={handleBackClickToPhonenumber}
-            removeMask={props.removeMask}
             sendPhonenumber={sendPhonenumber}
           />
         )}
