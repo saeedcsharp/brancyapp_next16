@@ -251,8 +251,10 @@ const PhoneInput = (props: PhoneInputProps) => {
     onChange?.(getPhoneValue(nextCountry, nextNumber, format));
   const handleNumberChange = (next: string) => {
     const digits = normalizeDigits(next);
-    setNationalNumber(digits);
-    if (selected) emit(selected, digits);
+    const maxLen = selected?.format?.match(/[_.]/g)?.length ?? 15;
+    const limited = digits.slice(0, maxLen);
+    setNationalNumber(limited);
+    if (selected) emit(selected, limited);
   };
   const handleDialChange = (next: string) => {
     const digits = normalizeDigits(next);

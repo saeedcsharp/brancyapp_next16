@@ -85,6 +85,7 @@ export default function SignIn(props: {
     console.log(error);
   }
   const handleBackClickToPhonenumber = (nationalNumber: string, countryCode: string) => {
+    console.log("Back to phone number input", nationalNumber, countryCode);
     setCountryCode(countryCode);
     setNationalNumber(nationalNumber);
     setSignInType(SignInType.Phonenumber);
@@ -154,6 +155,7 @@ export default function SignIn(props: {
                   natinalNumber={nationalNumber}
                   handlePhoneChange={handlePhoneChange}
                   onDetectedCountry={handleDetectedCountry}
+                  countryCode={countryCode}
                 />
               </form>
             ) : (
@@ -184,6 +186,7 @@ export default function SignIn(props: {
                     natinalNumber={nationalNumber}
                     handlePhoneChange={handlePhoneChange}
                     onDetectedCountry={handleDetectedCountry}
+                    countryCode={countryCode}
                   />
                 </form>
               </>
