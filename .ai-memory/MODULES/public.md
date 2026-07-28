@@ -128,6 +128,8 @@ No module-specific env vars documented unless related files read them.
 
 `public/` contains 407 files including fonts, icons, images, manifests, `sw.js`, and Workbox files.
 
+The `public/Flag/` directory provides two-letter country-code SVG assets consumed by the setting activity-history cards.
+
 ## Related Modules
 
 See `MODULE_INDEX.md`.
@@ -146,7 +148,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-07-28
 
 ---
 

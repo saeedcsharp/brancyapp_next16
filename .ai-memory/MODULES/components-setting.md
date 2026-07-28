@@ -128,6 +128,8 @@ No module-specific env vars documented unless related files read them.
 
 components/setting/.
 
+The sub-admin activity history and partner phone details render country flags from the existing `/public/Flag/{COUNTRY_CODE}.svg` assets, using normalized two-letter country codes and alternative text on the image.
+
 ## Related Modules
 
 Parent module: `components`.
@@ -146,7 +148,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-07-28
 
 ---
 

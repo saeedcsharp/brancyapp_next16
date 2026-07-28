@@ -50,7 +50,9 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
-- Added type-checked eight-locale semantic keyword groups to all 30 internal feature-search entries, covering concepts such as analytics, support, finance, advertising, sales, settings, and automation while preserving existing aliases; Event Ideas matches French `Intelligence artificielle` and routes to `/page/tools`.
+- Updated setting activity-history cards and partner phone details to render country-code SVG flags from `public/Flag` instead of Unicode flag emojis.
+- Rendered the shared Tooltip through `document.body` with viewport-fixed positioning derived from its trigger, while preserving top/bottom/left/right/LTR/RTL placement and updating on scroll/resize so ancestor clipping and stacking contexts cannot hide it.
+
 - Added the dependency-free local phone input package at `components/design/phoneInput/`, migrated landing sign-in, sign-in verification, and partner creation consumers, and removed runtime usage of `react-phone-input-2` from application source.
 - Phone country masks now use `_` for digit positions, and phone values are normalized before formatting and validation so typed and pasted numbers behave consistently.
 - Phone country auto-detection now prioritizes the centralized timezone mapping and keeps the dial code synchronized when an IP response selects a country.

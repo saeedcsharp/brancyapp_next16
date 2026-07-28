@@ -16,6 +16,7 @@ import { LanguageKey } from "brancy/i18n";
 import styles from "./addPartner.module.css";
 import { PartnerRole } from "brancy/models/enums";
 import { IPartner, ICreatePartner, IUpdatePartner } from "brancy/models/interfaces";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
 const AddPartner = React.memo(
   ({
     partner,
@@ -252,7 +253,15 @@ const AddPartner = React.memo(
                 <>
                   <div className="headerandinput">
                     <div className="frameParent">
-                      <div className="title">{t(LanguageKey.content)}</div>
+                      <div className="title">
+                        {t(LanguageKey.content)}{" "}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="Posts - Stories - Reels - IGTV - Carousels - Scheduling and ..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.Publish)}
@@ -261,12 +270,19 @@ const AddPartner = React.memo(
                         role={"switch"}
                       />
                     </div>
-                    <div className="explain">Posts - Stories - Reels - IGTV - Carousels - Scheduling and ...</div>
                   </div>
 
                   <div className="headerandinput">
                     <div className="frameParent">
-                      <div className="title">{t(LanguageKey.navbar_Statistics)}</div>
+                      <div className="title">
+                        {t(LanguageKey.navbar_Statistics)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="Page Views - Tools and ..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.PageView)}
@@ -275,12 +291,19 @@ const AddPartner = React.memo(
                         role={"switch"}
                       />
                     </div>
-                    <div className="explain">Page Views - Tools and ...</div>
                   </div>
 
                   <div className="headerandinput">
                     <div className="frameParent">
-                      <div className="title">{t(LanguageKey.navbar_Direct)}</div>
+                      <div className="title">
+                        {t(LanguageKey.navbar_Direct)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="Instagram Directs - Internal message - Tools and ..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.Message)}
@@ -289,12 +312,19 @@ const AddPartner = React.memo(
                         role={"switch"}
                       />
                     </div>
-                    <div className="explain">Instagram Directs - Internal message - Tools and ...</div>
                   </div>
 
                   <div className="headerandinput">
                     <div className="frameParent">
-                      <div className="title">{t(LanguageKey.comment)}</div>
+                      <div className="title">
+                        {t(LanguageKey.comment)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="Comments and Replies - Tools and ..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.Comment)}
@@ -303,12 +333,19 @@ const AddPartner = React.memo(
                         role={"switch"}
                       />
                     </div>
-                    <div className="explain">Comments and Replies - Tools and ...</div>
                   </div>
 
                   <div className="headerandinput">
                     <div className="frameParent">
-                      <div className="title">{t(LanguageKey.navbar_Payment)}</div>
+                      <div className="title">
+                        {t(LanguageKey.navbar_Payment)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="Payment Account Managing - Transactions Wallet - Tools and ..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.Transaction)}
@@ -317,12 +354,19 @@ const AddPartner = React.memo(
                         role={"switch"}
                       />
                     </div>
-                    <div className="explain">Payment Account Managing - Transactions Wallet - Tools and ...</div>
                   </div>
 
                   <div className="headerandinput">
                     <div className="frameParent">
-                      <div className="title">{t(LanguageKey.SettingGeneral_Advertise)}</div>
+                      <div className="title">
+                        {t(LanguageKey.SettingGeneral_Advertise)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="  Calendar managing - Advertisers Managing Reject and Accept Ads - Pricing -Tools and ..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.Ads)}
@@ -331,14 +375,19 @@ const AddPartner = React.memo(
                         role={"switch"}
                       />
                     </div>
-                    <div className="explain">
-                      Calendar managing - Advertisers Managing Reject and Accept Ads - Pricing -Tools and ...
-                    </div>
                   </div>
 
                   <div className="headerandinput">
                     <div className="frameParent">
-                      <div className="title">{t(LanguageKey.navbar_Orders)}</div>
+                      <div className="title">
+                        {t(LanguageKey.navbar_Orders)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="  List of products - Product Price - warehouse stock - Orders and WayBill - Tools and ..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.Orders)}
@@ -347,14 +396,19 @@ const AddPartner = React.memo(
                         role={"switch"}
                       />
                     </div>
-                    <div className="explain">
-                      List of products - Product Price - warehouse stock - Orders and WayBill - Tools and ...
-                    </div>
                   </div>
 
                   <div className="headerandinput">
                     <div className="frameParent">
-                      <div className="title">{t(LanguageKey.SettingGeneral_Marketlink)}</div>
+                      <div className="title">
+                        {t(LanguageKey.SettingGeneral_Marketlink)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="  Content and arrangement - Links and Third Party Content Shotcuts and ..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.Bio)}
@@ -363,14 +417,19 @@ const AddPartner = React.memo(
                         role={"switch"}
                       />
                     </div>
-                    <div className="explain">
-                      Content and arrangement - Links and Third Party Content Shotcuts and ...
-                    </div>
                   </div>
 
                   <div className="headerandinput">
                     <div className="frameParent">
-                      <div className="title">{t(LanguageKey.navbar_Ticket)}</div>
+                      <div className="title">
+                        {t(LanguageKey.navbar_Ticket)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="CRM - System Ticket - Support and ..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.SystemTicket)}
@@ -379,7 +438,6 @@ const AddPartner = React.memo(
                         role={"switch"}
                       />
                     </div>
-                    <div className="explain">CRM - System Ticket - Support and ...</div>
                   </div>
                 </>
               )}
