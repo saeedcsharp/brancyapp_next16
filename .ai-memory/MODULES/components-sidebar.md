@@ -22,7 +22,7 @@ components/sidebar/.
 
 ## Execution Flow
 
-The Instagramer layout passes a slash-free current route to `InstagramerSidebar`. Sidebar parent items match both their direct routes and nested `subRoutes` by prefix, keeping the parent indicator and SVG active color synchronized on child pages such as `/page/ai/createImage` and `/page/ai/createVideo`.
+The Instagramer layout passes a slash-free current route to `InstagramerSidebar`. Sidebar parent items match both their direct routes and nested `subRoutes` by prefix, keeping the parent indicator and SVG active color synchronized for AI-related pages such as `/page/ai`.
 
 ## Data Flow
 
