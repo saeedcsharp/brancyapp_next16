@@ -35,7 +35,8 @@
   line-height: normal;
   color: var(--text-h1);
   scroll-snap-align: start;
-  background-image: linear-gradient(to bottom, var(--color-gray30) 1px, transparent 1px),
+  background-image:
+    linear-gradient(to bottom, var(--color-gray30) 1px, transparent 1px),
     linear-gradient(to right, var(--color-gray30) 1px, transparent 1px);
   background-size: 80px 80px;
   --scroll-fade: 1;
@@ -275,6 +276,13 @@
   width: 100%;
 }
 
+.twowaysignin > * {
+  flex: 1 1 0;
+  min-width: 0;
+}
+.googlesigninbutton:hover {
+  transform: scale(1.02);
+}
 .googlesigninbutton {
   animation: var(--fadeIn3);
   height: 50px;
@@ -856,7 +864,9 @@
     .svgimg1 {
       animation: moveToCenter1 2s cubic-bezier(0.215, 0.61, 0.355, 1) both;
       animation-timeline: scroll();
-      animation-range: 0 600px, 1000px 300px;
+      animation-range:
+        0 600px,
+        1000px 300px;
       will-change: transform;
       transition: all 1s ease-in-out;
     }
@@ -864,7 +874,9 @@
     .svgimg2 {
       animation: moveToCenter2 2s cubic-bezier(0.25, 1, 0.5, 1) both;
       animation-timeline: scroll();
-      animation-range: 0 600px, 1000px 300px;
+      animation-range:
+        0 600px,
+        1000px 300px;
       will-change: transform;
       transition: all 1s ease-in-out;
     }
@@ -872,7 +884,9 @@
     .svgimg3 {
       animation: moveToCenter3 2s cubic-bezier(0.25, 1, 0.5, 1) both;
       animation-timeline: scroll();
-      animation-range: 0 600px, 1000px 300px;
+      animation-range:
+        0 600px,
+        1000px 300px;
       will-change: transform;
       transition: all 1s ease-in-out;
     }
@@ -880,7 +894,9 @@
     .svgimg4 {
       animation: moveToCenter4 2s cubic-bezier(0.25, 1, 0.5, 1) both;
       animation-timeline: scroll();
-      animation-range: 0 600px, 1000px 300px;
+      animation-range:
+        0 600px,
+        1000px 300px;
       will-change: transform;
       transition: all 1s ease-in-out;
     }
@@ -888,7 +904,9 @@
     .svgimg5 {
       animation: moveToCenter5 2s cubic-bezier(0.25, 1, 0.5, 1) both;
       animation-timeline: scroll();
-      animation-range: 0 600px, 1000px 300px;
+      animation-range:
+        0 600px,
+        1000px 300px;
       will-change: transform;
       transition: all 1s ease-in-out;
     }
@@ -1142,7 +1160,9 @@
     html.scrolled-100 .element3,
     html.scrolled-100 .element4,
     html.scrolled-100 .element5 {
-      transition: transform 0.5s ease-out, opacity 0.5s ease-out;
+      transition:
+        transform 0.5s ease-out,
+        opacity 0.5s ease-out;
       transform: translate(calc(50vw - 50%), calc(50vh - 50%));
     }
 
@@ -1151,7 +1171,9 @@
     html.scrolled-300 .element3,
     html.scrolled-300 .element4,
     html.scrolled-300 .element5 {
-      transition: transform 0.8s ease-in, opacity 0.8s ease-in;
+      transition:
+        transform 0.8s ease-in,
+        opacity 0.8s ease-in;
       transform: translate(calc(50vw - 50%), calc(100vh + 100px));
       opacity: 0;
     }
@@ -1187,7 +1209,9 @@
     html.scrolled-300 .element3,
     html.scrolled-300 .element4,
     html.scrolled-300 .element5 {
-      transition: transform 0.8s ease-in, opacity 0.8s ease-in;
+      transition:
+        transform 0.8s ease-in,
+        opacity 0.8s ease-in;
       opacity: 0;
     }
 

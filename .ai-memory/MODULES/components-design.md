@@ -41,6 +41,7 @@ Used by routes, components, helpers, or build tooling where imported.
 Exports are defined by source files in the module.
 
 - `components/design/chart/brushLineChart.tsx` exports `BrushLineChart`, a reusable SVG multi-series line chart with a draggable brush range selector, adaptive year/month/day aggregation, count-based vertical axis, legend toggles, and hover tooltips.
+- `components/design/phoneInput/` exports a dependency-free two-input phone selector with local SVG flags, country search, recent/preferred countries, formatting, validation, RTL support, and structured E.164/international/national output.
 
 ## Internal APIs
 

@@ -1,7 +1,7 @@
-import { useEffect, useState } from "react";
+import { useLayoutEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
+import PhoneInput from "brancy/components/design/phoneInput";
+import type { PhoneValue } from "brancy/components/design/phoneInput";
 import { getCountryCodeFromTimezone } from "brancy/helper/detectLocaleFromTimezone";
 import { LanguageKey } from "brancy/i18n";
 import RingLoader from "brancy/components/design/loader/ringLoder";
@@ -11,6 +11,7 @@ const ReactPhoneInput = (prop: {
   natinalNumber: string;
   loading: boolean;
   handlePhoneChange: (value: string, country: { dialCode: string; countryCode: string }) => void;
+  onDetectedCountry?: (countryCode: string) => void;
 }) => {
   const { t } = useTranslation();
   const [defaultCountry, setDefaultCountry] = useState("gb");
@@ -22,60 +23,27 @@ const ReactPhoneInput = (prop: {
     }
   };
 
-  const handlePhoneChangeWrapper = (value: string, country: { dialCode: string; countryCode: string }) => {
-    // Normalize Persian (۰-۹) and Arabic-Indic (٠-٩) digits to English (0-9)
-    const normalizedValue = value
-      .replace(/[٠-٩]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x0660 + 48))
-      .replace(/[۰-۹]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x06f0 + 48));
-
-    prop.handlePhoneChange(normalizedValue, country);
-  };
-  useEffect(() => {
+  const handlePhoneChangeWrapper = (value: PhoneValue) =>
+    prop.handlePhoneChange(value.nationalNumber, { dialCode: value.dialCode, countryCode: value.countryCode });
+  useLayoutEffect(() => {
     // Use centralized timezone detection
     const detectedCountry = getCountryCodeFromTimezone();
     setDefaultCountry(detectedCountry);
+    prop.onDetectedCountry?.(detectedCountry);
   }, []);
   return (
     <div className={styles.inputcodesection}>
       <PhoneInput
-        key={preferredCountries ? preferredCountries.join(",") : "default"}
-        inputClass={styles.inputtelsection}
-        dropdownClass={styles.dropdown}
-        buttonClass={styles.country}
-        inputProps={{
-          name: "phone",
-          required: true,
-          autoFocus: true,
-          onInput: (event: React.FormEvent<HTMLInputElement>) => {
-            const input = event.currentTarget;
-            const start = input.selectionStart;
-            const end = input.selectionEnd;
-            // Normalize Persian (۰-۹) and Arabic-Indic (٠-٩) digits to English (0-9)
-            const normalized = input.value
-              .replace(/[٠-٩]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x0660 + 48))
-              .replace(/[۰-۹]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x06f0 + 48));
-            if (input.value !== normalized) {
-              input.value = normalized;
-              input.setSelectionRange(start, end);
-            }
-          },
-          onKeyDown: handleKeyDown,
-        }}
-        country={defaultCountry}
-        placeholder="Enter phone number"
+        numberInputName="phone"
+        numberInputClassName={styles.inputtelsection}
+        defaultCountry={defaultCountry}
         preferredCountries={preferredCountries || []}
-        autoFormat={true}
+        enableFormatting={true}
         enableSearch={true}
-        searchNotFound="Country not found"
-        searchPlaceholder="🔍 Search"
         value={prop.natinalNumber}
         onChange={handlePhoneChangeWrapper}
-        isValid={(value: string) => {
-          const normalizedValue = value
-            .replace(/[٠-٩]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x0660))
-            .replace(/[۰-۹]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x06f0));
-          return /^\d+$/.test(normalizedValue);
-        }}
+        validate={(value: PhoneValue) => value.nationalNumber.length > 0 && value.isValid}
+        autoFocus
       />
 
       <button

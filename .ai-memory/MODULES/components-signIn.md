@@ -28,6 +28,10 @@ Execution starts from imports, route rendering, or helper calls depending on the
 
 Data enters through props, Next route params, session state, browser state, or backend API responses.
 
+Phone sign-in requests send the phone number in E.164 format (`+<dialCode><nationalNumber>`), for example `+989138664066`.
+
+The verification form uses the Web OTP API when available. Its request is aborted on unmount, and expected `AbortError` cancellations are ignored instead of being logged as application errors.
+
 ## Dependencies
 
 See imports in related files and dependency docs.
@@ -136,6 +140,10 @@ Parent module: `components`.
 
 No confirmed module-specific issue recorded at initialization.
 
+The landing sign-in phone input defaults to Iran for local Iranian mobile entry; the country selector remains available for international users.
+
+The sign-in phone wrapper keeps the local phone input state and forwards normalized phone changes to `SignIn`; it does not feed the E.164 callback back through the input's `value` prop on every keystroke.
+
 ## Technical Debt
 
 Needs deeper per-feature enrichment during future work.
@@ -155,13 +163,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

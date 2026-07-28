@@ -1,6 +1,5 @@
 import { FormEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { detectLocaleFromTimezone } from "brancy/helper/detectLocaleFromTimezone";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import GoogleLoginButton from "brancy/components/signIn/googleLoginPopup";
@@ -36,7 +35,7 @@ export default function SignIn(props: {
   const [error, setError] = useState("");
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const [isIranTimezone, setIsIranTimezone] = useState(false);
+  const [isIranCountry, setIsIranCountry] = useState(false);
   function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     sendPhonenumber();
@@ -44,7 +43,6 @@ export default function SignIn(props: {
   async function sendPhonenumber() {
     setLoading(true);
     try {
-      console.log("hello", nationalNumber);
       var res = await clientFetchApi<boolean, SendCodeResult>("/api/user/signIn", {
         methodType: MethodType.get,
         session: null,
@@ -99,20 +97,17 @@ export default function SignIn(props: {
     }
   };
   const handlePhoneChange = (value: string, country: { dialCode: string; countryCode: string }) => {
-    // setPhone(value);
-    console.log("countryCode", dialCode);
     setDialCode(`${country.dialCode}`);
     setCountryCode(country.countryCode);
-    setNationalNumber(value);
+    setNationalNumber(`+${country.dialCode}${value}`);
+  };
+  const handleDetectedCountry = (countryCode: string) => {
+    setIsIranCountry(countryCode === "ir");
   };
   useEffect(() => {
     console.log("signinnnnnnnnnnnnnnnnnnnnnnnnnn");
     let session = window.localStorage.getItem("sessionId");
     setSessionId(session);
-
-    // Check if user is in Iran timezone
-    const localeSettings = detectLocaleFromTimezone();
-    setIsIranTimezone(localeSettings.countryCode === "ir");
   }, []);
   return (
     <>
@@ -152,12 +147,13 @@ export default function SignIn(props: {
             </div>
 
             {/* نمایش بر اساس timezone */}
-            {isIranTimezone ? (
+            {isIranCountry ? (
               <form onSubmit={handleSubmit}>
                 <ReactPhoneInput
                   loading={loading}
                   natinalNumber={nationalNumber}
                   handlePhoneChange={handlePhoneChange}
+                  onDetectedCountry={handleDetectedCountry}
                 />
               </form>
             ) : (
@@ -187,6 +183,7 @@ export default function SignIn(props: {
                     loading={loading}
                     natinalNumber={nationalNumber}
                     handlePhoneChange={handlePhoneChange}
+                    onDetectedCountry={handleDetectedCountry}
                   />
                 </form>
               </>

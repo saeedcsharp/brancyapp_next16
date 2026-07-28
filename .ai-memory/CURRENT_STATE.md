@@ -50,6 +50,12 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Added the dependency-free local phone input package at `components/design/phoneInput/`, migrated landing sign-in, sign-in verification, and partner creation consumers, and removed runtime usage of `react-phone-input-2` from application source.
+- Phone country masks now use `_` for digit positions, and phone values are normalized before formatting and validation so typed and pasted numbers behave consistently.
+- Phone country auto-detection now prioritizes the centralized timezone mapping and keeps the dial code synchronized when an IP response selects a country.
+- PhoneInput uses the internal `/api/user/ip` endpoint for client-side IP detection by default, with timezone and `defaultCountry` as immediate fallbacks.
+- PhoneInput shows the warning icon instead of a flag whenever the dial code is empty, unknown, or incomplete.
+
 - Added a styled internal back link from the image creation workspace to `/page/ai`.
 - Rebuilt `/page/ai` as a segmented Image/Video media workspace; Image mode loads successful generated images from `GetImages`, renders responsive metadata cards, opens shared result details, and appends cursor-based pages on infinite scroll.
 - Parsed generated-image JSON metadata strings into a responsive labeled value grid while preserving a plain-text fallback for malformed metadata.
