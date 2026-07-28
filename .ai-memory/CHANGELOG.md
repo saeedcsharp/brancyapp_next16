@@ -1,7 +1,19 @@
 # Changelog
 
+## 2026-07-28
+
+- Rendered the PhoneInput country dropdown through `document.body` with viewport-fixed positioning and scroll/resize tracking so ancestor stacking contexts cannot clip it.
+- Kept portalled dropdown option clicks from being mistaken for outside clicks.
+
 ## 2026-07-27
 
+- Added a dependency-free local phone input package with local SVG flags, two-input country/number layout, search, preferred/recent suggestions, digit normalization, formatting, validation, RTL, accessibility, and structured phone outputs.
+- Updated phone input consumers to use each selected country's `placeholder` metadata instead of hard-coded phone-number placeholder text.
+- Replaced country phone masks' dot placeholders with underscores and normalized phone values before validation so typed numbers are handled like pasted numbers.
+- Fixed phone country auto-detection priority and synchronized the dial code after IP-based country detection.
+- Enabled the application-owned `/api/user/ip` endpoint as the default client-side IP detection source for PhoneInput.
+- Updated the phone country selector to replace the flag with a warning icon for empty, unknown, or incomplete dial codes.
+- Migrated landing sign-in, sign-in verification, and partner creation away from `react-phone-input-2`.
 - Added an RTL-aware `Back to creations` link from the image creator to `/page/ai`.
 - Replaced the AI landing cards with a responsive Image/Video segmented workspace and feature-aware create actions.
 - Registered `Instagramer/MediaAi/GetImages`, added its typed `items`/`nextMaxId` response, and load successful image history with `mediaCreationStatus=2`.

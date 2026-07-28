@@ -127,8 +127,9 @@ export default function VerificationForm(props: {
 
   useEffect(() => {
     if ("OTPCredential" in window) {
+      const controller = new AbortController();
       navigator.credentials
-        .get({ otp: { transport: ["sms"] } } as any)
+        .get({ otp: { transport: ["sms"] }, signal: controller.signal } as any)
         .then((otp) => {
           if (otp) {
             const otpCode = (otp as any).code.split("");
@@ -140,7 +141,12 @@ export default function VerificationForm(props: {
             }
           }
         })
-        .catch((err) => console.error("WebOTP API error:", err));
+        .catch((err: unknown) => {
+          if (err instanceof Error && err.name === "AbortError") return;
+          console.error("WebOTP API error:", err);
+        });
+
+      return () => controller.abort();
     }
   }, []);
 

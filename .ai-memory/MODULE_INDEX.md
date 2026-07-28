@@ -36,6 +36,7 @@ The module catalog is the source of truth for reading priority and impact triage
 - [components-customerAds](MODULES/components-customerAds.md)
 - [components-dateAndTime](MODULES/components-dateAndTime.md)
 - [components-design](MODULES/components-design.md)
+- [components-design-phoneInput](MODULES/components-design-phoneInput.md)
 - [components-graphs](MODULES/components-graphs.md)
 - [components-hambergurMenu](MODULES/components-hambergurMenu.md)
 - [components-headerTitle](MODULES/components-headerTitle.md)
