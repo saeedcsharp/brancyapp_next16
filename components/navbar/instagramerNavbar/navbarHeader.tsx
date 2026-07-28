@@ -53,7 +53,8 @@ const NavbarHeader = (props: {
   async function handleGetNotif(notif: string) {
     const decombNotif = handleDecompress(notif);
     const notifObj = JSON.parse(decombNotif!) as PushNotif;
-    if (notifObj.IsNavbar && notifObj.InstagramerId) {
+    console.log("Received notification in navbar header", notifObj);
+    if (notifObj.IsNavbar) {
       console.log("decombNotif in navbar header", notifObj);
       // setNavbarNotifs((prev) => [notifObj, ...prev]);
       if (setValue && sessionRef.current!.user.currentIndex > -1) setValue((prev) => [notifObj, ...prev]);
@@ -76,18 +77,23 @@ const NavbarHeader = (props: {
         clearInterval(intervalId);
         return;
       }
-      console.log("interval check:", { isFirstLoad, LoginStatus: LoginStatus(s), packageStatus: packageStatus(s) });
+      // console.log("interval check:", { isFirstLoad, LoginStatus: LoginStatus(s), packageStatus: packageStatus(s) });
       if (!isFirstLoad || !LoginStatus(s) || !packageStatus(s)) return;
       console.log("Attempting to set up SignalR connection for notifications");
       const hubConnection = getHubConnection();
       if (hubConnection) {
-        hubConnection.off("Instagramer socket on", handleGetNotif);
+        hubConnection.off("Instagramer ", handleGetNotif);
         hubConnection.on("Instagramer", handleGetNotif);
         clearInterval(intervalId);
         setIsFirstLoad(false);
       }
     }, 500);
-  }, []);
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [handleGetNotif]);
   useEffect(() => {
     setGooli(false);
   }, [props.toggleNotif]);

@@ -30,7 +30,6 @@ export default function CreateImage() {
   });
   const [creators, setCreators] = useState<IImageCreator[]>([]);
   const [loading, setLoading] = useState(true);
-  const [createImageLoading, setCreateImageLoading] = useState(false);
   const [error, setError] = useState("");
   const [showPopup, setShowPopup] = useState(false);
   const [clientContext, setClientContext] = useState<string | null>(null);
@@ -53,7 +52,6 @@ export default function CreateImage() {
       setShowPopup(true);
       return;
     }
-    setCreateImageLoading(true);
     setNewImage(null);
     const requestClientContext = crypto.randomUUID();
     setClientContext(requestClientContext);
@@ -65,8 +63,9 @@ export default function CreateImage() {
     });
     if (!response.succeeded) {
       notify(response.info?.responseType, NotifType.Warning);
-      setCreateImageLoading(false);
+      return;
     }
+    internalNotify(InternalResponseType.Success, NotifType.Success, "Image generation request sent.");
   };
   const loadCreators = useCallback(async () => {
     if (!session) return;
@@ -101,16 +100,15 @@ export default function CreateImage() {
           console.log("generatedImage", generatedImage);
           setNewImage(generatedImage);
         } else if (notifObj.ResponseType === PushResponseType.AiImageFail) {
+          console.log("generatedImagefailed", generatedImage);
           internalNotify(
             InternalResponseType.InvalidMetaData,
             NotifType.Warning,
-            generatedImage.metadata || "Image generation failed.",
+            generatedImage.metadata || ", Image generation failed.",
           );
         }
       } catch (error) {
         notify(ResponseType.Unexpected, NotifType.Error);
-      } finally {
-        setCreateImageLoading(false);
       }
     },
     [clientContext],
@@ -148,13 +146,7 @@ export default function CreateImage() {
 
   return (
     <>
-      <ImageCreator
-        creators={creators}
-        error={error}
-        onRetry={loadCreators}
-        onCreateImage={onCreateImage}
-        createImageLoading={createImageLoading}
-      />
+      <ImageCreator creators={creators} error={error} onRetry={loadCreators} onCreateImage={onCreateImage} />
       <Modal closePopup={() => setNewImage(null)} classNamePopup="popupLarge" showContent={newImage !== null}>
         {newImage && <GeneratedImageModal image={newImage} onClose={() => setNewImage(null)} />}
       </Modal>
