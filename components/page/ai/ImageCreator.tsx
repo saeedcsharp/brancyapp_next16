@@ -1,4 +1,4 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
@@ -18,7 +18,7 @@ import styles from "./ImageCreator.module.css";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 
 type InputValue = string | number | boolean | string[];
-
+type MediaTab = "image" | "video" | "createimage" | "createvideo";
 interface UploadedMediaPreview {
   fileName: string;
   showUrl: string;
@@ -30,6 +30,7 @@ interface ImageCreatorProps {
   onRetry?: () => void;
   onCreateImage?: (request: IGetImageUsageRequest, count: number) => void;
   createImageLoading?: boolean;
+  setActiveTab?: Dispatch<SetStateAction<MediaTab>>;
 }
 
 export interface ImageCreatorSelection {
@@ -306,6 +307,7 @@ function serializeInputValue(value: InputValue): string {
 }
 
 export default function ImageCreator({
+  setActiveTab,
   creators,
   error,
   onRetry,
@@ -411,10 +413,14 @@ export default function ImageCreator({
   return (
     <main className={styles.page}>
       <div className={styles.backRow}>
-        <Link className={styles.backLink} href="/page/ai">
+        <div
+          className={styles.backLink}
+          onClick={() => setActiveTab && setActiveTab("image")}
+          role="button"
+          tabIndex={0}>
           <span aria-hidden="true">←</span>
-          Back to creations
-        </Link>
+          Back to images
+        </div>
       </div>
       <header className={styles.header}>
         <div>

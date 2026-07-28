@@ -14,7 +14,7 @@ import FeatureSearch from "brancy/components/search/featureSearch";
 
 import styles from "./hammenu.module.css";
 import { PushResponseType, OrderStep, PushResponseExplanation, PushResponseTitle } from "brancy/models/enums";
-import { PushNotif, ITicketPushNotif, IOrderPushNotifExtended } from "brancy/models/interfaces";
+import { PushNotif, ITicketPushNotif, IOrderPushNotifExtended, IGetImage } from "brancy/models/interfaces";
 
 const baseMediaUrl = getClientMediaBaseUrl();
 
@@ -247,7 +247,11 @@ const LeftHamMenue = ({
 
   const newRoute = useMemo(() => router.route.replaceAll("/", ""), [router.route]);
   const getNotifLogo = useCallback((responseType: PushResponseType) => {
-    if (responseType === PushResponseType.UploadPostSuccess || responseType === PushResponseType.UploadStorySuccess) {
+    if (
+      responseType === PushResponseType.UploadPostSuccess ||
+      responseType === PushResponseType.UploadStorySuccess ||
+      responseType === PushResponseType.AiImageSuccess
+    ) {
       return (
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" aria-hidden="true">
           <path
@@ -269,7 +273,11 @@ const LeftHamMenue = ({
       );
     }
 
-    if (responseType === PushResponseType.UploadPostFailed || responseType === PushResponseType.UploadStoryFailed) {
+    if (
+      responseType === PushResponseType.UploadPostFailed ||
+      responseType === PushResponseType.UploadStoryFailed ||
+      responseType === PushResponseType.AiImageFail
+    ) {
       return (
         <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true">
           <path
@@ -287,9 +295,7 @@ const LeftHamMenue = ({
     if (notif.ResponseType === PushResponseType.UpdateSystemTicket && notif.Message) {
       const message = JSON.parse(notif.Message) as ITicketPushNotif;
       return `You have a new message from ${message.Username !== null ? message.Username : "+" + message.PhoneNumber}`;
-    }
-
-    if (notif.ResponseType === PushResponseType.ChangeOrderStatus && notif.Message) {
+    } else if (notif.ResponseType === PushResponseType.ChangeOrderStatus && notif.Message) {
       const message = JSON.parse(notif.Message) as IOrderPushNotifExtended;
       if (message.NewStatus === OrderStep.Paid) {
         return (
@@ -298,6 +304,12 @@ const LeftHamMenue = ({
         );
       }
       return "";
+    } else if (notif.ResponseType === PushResponseType.AiImageSuccess && notif.Message) {
+      const message = JSON.parse(notif.Message) as IGetImage;
+      return "Your images successfully created by, " + message.version + " model.";
+    } else if (notif.ResponseType === PushResponseType.AiImageFail && notif.Message) {
+      const message = JSON.parse(notif.Message) as IGetImage;
+      return `Your images failed to be created by " + message.version + " model : ${message.metadata || "Image generation failed."}`;
     }
 
     const explanation = getEnumValue(PushResponseType, PushResponseExplanation, notif.ResponseType);
