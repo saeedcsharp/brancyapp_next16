@@ -14,7 +14,7 @@ Owns the internal feature-search popup, query normalization, keyword matching, a
 
 ## Architecture
 
-`featureSearchIndex.ts` is a static client-side index of route, translated label key, translated parent-section context keys, and multilingual aliases. `featureSearch.tsx` filters that index locally and navigates with the App Router. Page `Head` metadata is not used as the search source because metadata for routes that are not currently rendered is unavailable in the browser DOM.
+`featureSearchIndex.ts` is a static client-side index of route, translated label key, translated parent-section context keys, optional translated synonym keys, curated aliases, and reusable semantic keyword groups. Every route declares at least one semantic group, and each group is type-checked to contain aliases for all eight configured locales. At module initialization, every entry's keyword list is enriched with its translated labels and grouped aliases. `featureSearch.tsx` filters that index locally and navigates with the App Router. Page `Head` metadata is not used as the search source because metadata for routes that are not currently rendered is unavailable in the browser DOM.
 
 ## Folder Structure
 
@@ -26,7 +26,7 @@ The Instagramer desktop navbar opens `FeatureSearch` as a header popup. Mobile r
 
 ## Data Flow
 
-The query remains in local component state. Labels come from existing i18n keys and aliases/routes come from `featureSearchIndex`; no backend request is required.
+The query remains in local component state. Labels and locale-derived keywords come from existing i18n resources, while curated aliases and routes come from `featureSearchIndex`; no backend request is required.
 
 ## Dependencies
 
@@ -138,9 +138,11 @@ Parent module: `components`.
 
 ## Known Issues
 
-Search aliases are curated manually; new dashboard capabilities must be added to `featureSearchIndex.ts`.
+Search aliases and semantic keyword groups are curated manually, while official feature, section, and configured synonym labels are indexed automatically from every locale. New dashboard capabilities must still be added to `featureSearchIndex.ts` with at least one relevant keyword group.
 
 The `/page/ai` entry includes multilingual aliases for its image-creation and video-creation capabilities while intentionally returning the parent AI route.
+
+The `/page/tools` Event Ideas entry uses the translated `page1_artificial_intelligence` synonym key, so queries such as French `Intelligence artificielle` resolve to the tools route alongside the curated `ai` and Persian aliases.
 
 ## Technical Debt
 
@@ -152,7 +154,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-25
+2026-07-28
 
 ---
 
