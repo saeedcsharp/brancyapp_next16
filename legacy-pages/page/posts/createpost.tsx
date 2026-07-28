@@ -391,7 +391,6 @@ const CreatePost = () => {
     showDraft: false,
     showDeleteDraft: false,
     showDeletePrepost: false,
-    showTooltip: false,
     showQuickReplyPopup: false,
     showChangePostToAlbum: false,
     showDraftError: null,
