@@ -12,6 +12,7 @@ const ReactPhoneInput = (prop: {
   loading: boolean;
   handlePhoneChange: (value: string, country: { dialCode: string; countryCode: string }) => void;
   onDetectedCountry?: (countryCode: string) => void;
+  countryCode?: string;
 }) => {
   const { t } = useTranslation();
   const [defaultCountry, setDefaultCountry] = useState("gb");
@@ -28,6 +29,7 @@ const ReactPhoneInput = (prop: {
   useLayoutEffect(() => {
     // Use centralized timezone detection
     const detectedCountry = getCountryCodeFromTimezone();
+    console.log("prop.countryCode", prop.countryCode);
     setDefaultCountry(detectedCountry);
     prop.onDetectedCountry?.(detectedCountry);
   }, []);
@@ -43,7 +45,7 @@ const ReactPhoneInput = (prop: {
         value={prop.natinalNumber}
         onChange={handlePhoneChangeWrapper}
         validate={(value: PhoneValue) => value.nationalNumber.length > 0 && value.isValid}
-        autoFocus
+        country={prop.countryCode}
       />
 
       <button
