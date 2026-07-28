@@ -79,14 +79,9 @@ export default function Partners({
     if (!partners || !LoginStatus(session) || !RoleAccess(session)) return;
     setLoading(false);
   }, [partners]);
-  // Function to convert country code to flag emoji
-  const getCountryFlag = (countryCode: string) => {
-    if (!countryCode || countryCode.length !== 2) return "";
-    return countryCode
-      .toUpperCase()
-      .split("")
-      .map((char) => String.fromCodePoint(127397 + char.charCodeAt(0)))
-      .join("");
+  const getCountryFlagPath = (countryCode: string): string | null => {
+    const normalizedCountryCode = countryCode?.trim().toUpperCase();
+    return normalizedCountryCode?.length === 2 ? `/Flag/${normalizedCountryCode}.svg` : null;
   };
   // Calculate time difference in a readable format
   const getTimeDifference = (timestamp: number, isPast: boolean): string => {
@@ -245,11 +240,24 @@ export default function Partners({
                     <div className={styles.subadmindata}>
                       <span>{t(LanguageKey.userpanel_MobileNumber)}</span>
                       <span className="translate">
-                        {sess.phoneNumber
-                          ? `${sess.phoneNumber.replace(/(\d{1,2})(\d{3})(\d{3})(\d{4})?/, (m, c, a, b, d) =>
+                        {sess.phoneNumber ? (
+                          <>
+                            {getCountryFlagPath(sess.countryCode) && (
+                              <img
+                                src={getCountryFlagPath(sess.countryCode) ?? undefined}
+                                alt={sess.countryCode}
+                                width="16"
+                                height="14"
+                              />
+                            )}
+
+                            {sess.phoneNumber.replace(/(\d{1,2})(\d{3})(\d{3})(\d{4})?/, (m, c, a, b, d) =>
                               d ? `+${c} ${a} ${b} ${d}` : `+${c} ${a} ${b}`,
-                            )} - ${getCountryFlag(sess.countryCode)}`
-                          : "-"}
+                            )}
+                          </>
+                        ) : (
+                          "-"
+                        )}
                       </span>
                     </div>
                     <div className={styles.subadmindata}>

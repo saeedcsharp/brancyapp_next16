@@ -15,7 +15,7 @@
 }
 
 .tooltip {
-  position: absolute;
+  position: fixed;
   z-index: 9999;
   line-height: 1.4;
   white-space: nowrap;
@@ -30,16 +30,16 @@
   width: max-content;
   background-color: var(--background-root);
   border-radius: var(--br8);
+  animation: var(--fadeIn3);
   padding: var(--padding-8);
   color: var(--text-h1);
   font-size: var(--font-12);
   font-weight: var(--weight-400);
-  transition: var(--transition3);
+
   box-shadow: var(--small-shadow);
 }
 
-/* Show tooltip on hover or when parent is active */
-.tooltipContainer:hover .tooltip,
+/* Show the body-level tooltip when the trigger is active. */
 .tooltip.visible {
   opacity: 1;
   visibility: visible;
