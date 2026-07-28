@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-07-28
+
+- Rendered the PhoneInput country dropdown through `document.body` with viewport-fixed positioning and scroll/resize tracking so ancestor stacking contexts cannot clip it.
+- Kept portalled dropdown option clicks from being mistaken for outside clicks.
+
 ## 2026-07-27
 
 - Added a dependency-free local phone input package with local SVG flags, two-input country/number layout, search, preferred/recent suggestions, digit normalization, formatting, validation, RTL, accessibility, and structured phone outputs.

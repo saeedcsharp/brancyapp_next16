@@ -24,6 +24,7 @@ Dependency-free, SSR-compatible React phone input with a country selector and a 
 - An unknown or incomplete dial code also replaces the country flag with the warning icon; the flag is shown only after a complete dial code from the country catalog is entered.
 - The callback returns E.164, international, and national representations without requiring a formatting dependency.
 - `validate`, `error`, `success`, `loading`, `readOnly`, `disabled`, `autoFocus`, RTL direction, and mobile telephone input mode are supported.
+- The country dropdown is rendered through a React portal into `document.body`, uses viewport-fixed positioning, and recalculates its position on resize and scroll so ancestor stacking contexts cannot clip it.
 
 ## Integration
 
@@ -38,4 +39,4 @@ The repository currently has no automated component test harness. TypeScript val
 
 ## Last Updated
 
-2026-07-27
+2026-07-28

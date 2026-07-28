@@ -1,7 +1,8 @@
 "use client";
 
-import { useEffect, useId, useMemo, useRef, useState } from "react";
+import { useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from "react";
 import type { KeyboardEvent, MouseEvent } from "react";
+import { createPortal } from "react-dom";
 import { PHONE_COUNTRIES, countryFlagUrl } from "./countries";
 import type { PhoneCountry, PhoneFormat, PhoneInputProps, PhoneValue } from "./types";
 import { getCountryCodeFromTimezone } from "brancy/helper/detectLocaleFromTimezone";
@@ -121,6 +122,8 @@ const PhoneInput = (props: PhoneInputProps) => {
   } = props;
   const id = useId();
   const rootRef = useRef<HTMLDivElement>(null);
+  const countryFieldRef = useRef<HTMLDivElement>(null);
+  const dropdownRef = useRef<HTMLDivElement>(null);
   const [selectedIso, setSelectedIso] = useState(cleanIso(controlledCountry || defaultCountry));
   const [dialCodeInput, setDialCodeInput] = useState("");
   const [nationalNumber, setNationalNumber] = useState("");
@@ -128,6 +131,7 @@ const PhoneInput = (props: PhoneInputProps) => {
   const [open, setOpen] = useState(false);
   const [detected, setDetected] = useState<PhoneCountry | null>(null);
   const [recentCountries, setRecentCountries] = useState<string[]>([]);
+  const [dropdownPosition, setDropdownPosition] = useState({ top: 0, left: 0 });
   const allCountries: PhoneCountry[] = props.countries || PHONE_COUNTRIES;
   const countries: PhoneCountry[] = useMemo(
     () =>
@@ -196,11 +200,33 @@ const PhoneInput = (props: PhoneInputProps) => {
   }, [controlledCountry, enableAutoDetect]);
   useEffect(() => {
     const close = (event: globalThis.MouseEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) setOpen(false);
+      const target = event.target as Node;
+      if (!rootRef.current?.contains(target) && !dropdownRef.current?.contains(target)) setOpen(false);
     };
     document.addEventListener("mousedown", close);
     return () => document.removeEventListener("mousedown", close);
   }, []);
+  useLayoutEffect(() => {
+    if (!open) return;
+
+    const updateDropdownPosition = () => {
+      const field = countryFieldRef.current;
+      if (!field) return;
+
+      const rect = field.getBoundingClientRect();
+      const dropdownWidth = Math.min(320, window.innerWidth - 24);
+      const left = Math.min(Math.max(12, rect.left), Math.max(12, window.innerWidth - dropdownWidth - 12));
+      setDropdownPosition({ top: rect.bottom + 6, left });
+    };
+
+    updateDropdownPosition();
+    window.addEventListener("resize", updateDropdownPosition);
+    window.addEventListener("scroll", updateDropdownPosition, true);
+    return () => {
+      window.removeEventListener("resize", updateDropdownPosition);
+      window.removeEventListener("scroll", updateDropdownPosition, true);
+    };
+  }, [open]);
   const resolvedDirection =
     direction === "auto" ? (locale.startsWith("fa") || locale.startsWith("ar") ? "rtl" : "ltr") : direction;
   const useLocalizedCountryNames = locale.startsWith("fa") || locale.startsWith("ar");
@@ -311,6 +337,7 @@ const PhoneInput = (props: PhoneInputProps) => {
           </label>
         )}
         <div
+          ref={countryFieldRef}
           className={`${styles.countryField} ${showDialCodeWarning ? styles.countryFieldError : ""} ${countrySelectorClassName}`}>
           <button
             type="button"
@@ -346,27 +373,30 @@ const PhoneInput = (props: PhoneInputProps) => {
             aria-invalid={invalidDialCode}
           />
         </div>
-        {open && enableCountrySelector && (
-          <div
-            className={`${styles.dropdown} ${countryListClassName}`}
-            role="dialog"
-            aria-label="Country list"
-            onClick={stopClick}>
-            {enableSearch && (
-              <input
-                className={styles.search}
-                autoFocus
-                placeholder="Search country, ISO or dial code"
-                value={countryQuery}
-                onChange={(event) => setCountryQuery(event.target.value)}
-                aria-label="Search country"
-              />
-            )}
+        {open &&
+          enableCountrySelector &&
+          typeof document !== "undefined" &&
+          createPortal(
+            <div
+              ref={dropdownRef}
+              className={`${styles.dropdown} ${countryListClassName}`}
+              role="dialog"
+              aria-label="Country list"
+              onClick={stopClick}
+              style={{ top: dropdownPosition.top, left: dropdownPosition.left }}>
+              {enableSearch && (
+                <input
+                  className={styles.search}
+                  autoFocus
+                  placeholder="Search country, ISO or dial code"
+                  value={countryQuery}
+                  onChange={(event) => setCountryQuery(event.target.value)}
+                  aria-label="Search country"
+                />
+              )}
 
-            <ul className={styles.list} role="listbox">
-              {topResults.length > 0 && (
-                <>
-                  {/* <div className={styles.groupTitle}>Suggested</div> */}
+              <ul className={styles.list} role="listbox">
+                {topResults.length > 0 && (
                   <ul className={styles.list} role="listbox">
                     {topResults.map((item) => (
                       <li key={item.iso2}>
@@ -378,41 +408,35 @@ const PhoneInput = (props: PhoneInputProps) => {
                           onClick={() => selectCountry(item)}>
                           <img className={styles.flag} src={countryFlagUrl(item.iso2)} alt="" aria-hidden="true" />
                           <span className={styles.countryName}>{getCountryName(item)}</span>
-                          <span className={styles.iso}>
-                            +{item.dialCode}
-                            {/* · {item.iso2.toUpperCase()} */}
-                          </span>
+                          <span className={styles.iso}>+{item.dialCode}</span>
                         </button>
                       </li>
                     ))}
                   </ul>
-                </>
-              )}
-              {showSuggestedSeparator && <div className={styles.separator} role="separator" />}
-              {list.length ? (
-                list.map((item) => (
-                  <li key={item.iso2}>
-                    <button
-                      type="button"
-                      className={styles.countryOption}
-                      role="option"
-                      aria-selected={item.iso2 === selected?.iso2}
-                      onClick={() => selectCountry(item)}>
-                      <img className={styles.flag} src={countryFlagUrl(item.iso2)} alt="" aria-hidden="true" />
-                      <span className={styles.countryName}>{getCountryName(item)}</span>
-                      <span className={styles.iso}>
-                        +{item.dialCode}
-                        {/* · {item.iso2.toUpperCase()} */}
-                      </span>
-                    </button>
-                  </li>
-                ))
-              ) : (
-                <li className={styles.empty}>No country found</li>
-              )}
-            </ul>
-          </div>
-        )}
+                )}
+                {showSuggestedSeparator && <div className={styles.separator} role="separator" />}
+                {list.length ? (
+                  list.map((item) => (
+                    <li key={item.iso2}>
+                      <button
+                        type="button"
+                        className={styles.countryOption}
+                        role="option"
+                        aria-selected={item.iso2 === selected?.iso2}
+                        onClick={() => selectCountry(item)}>
+                        <img className={styles.flag} src={countryFlagUrl(item.iso2)} alt="" aria-hidden="true" />
+                        <span className={styles.countryName}>{getCountryName(item)}</span>
+                        <span className={styles.iso}>+{item.dialCode}</span>
+                      </button>
+                    </li>
+                  ))
+                ) : (
+                  <li className={styles.empty}>No country found</li>
+                )}
+              </ul>
+            </div>,
+            document.body,
+          )}
       </div>
       <div className={styles.field}>
         {props.numberLabel && (

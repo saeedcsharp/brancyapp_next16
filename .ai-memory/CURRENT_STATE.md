@@ -53,6 +53,7 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 - Added the dependency-free local phone input package at `components/design/phoneInput/`, migrated landing sign-in, sign-in verification, and partner creation consumers, and removed runtime usage of `react-phone-input-2` from application source.
 - Phone country masks now use `_` for digit positions, and phone values are normalized before formatting and validation so typed and pasted numbers behave consistently.
 - Phone country auto-detection now prioritizes the centralized timezone mapping and keeps the dial code synchronized when an IP response selects a country.
+- PhoneInput renders its country dropdown through `document.body` with viewport-fixed positioning, preventing ancestor stacking contexts from clipping the list.
 - PhoneInput uses the internal `/api/user/ip` endpoint for client-side IP detection by default, with timezone and `defaultCountry` as immediate fallbacks.
 - PhoneInput shows the warning icon instead of a flag whenever the dial code is empty, unknown, or incomplete.
 
