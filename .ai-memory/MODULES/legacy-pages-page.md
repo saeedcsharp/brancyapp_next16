@@ -140,6 +140,8 @@ Parent module: `legacy-pages`.
 
 No confirmed module-specific issue recorded at initialization.
 
+The create-post page no longer includes the duplicate local content-size tooltip; the shared `Tooltip` component remains the source for that information.
+
 ## Technical Debt
 
 Needs deeper per-feature enrichment during future work.
@@ -150,7 +152,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-26
+2026-07-28
 
 ---
 

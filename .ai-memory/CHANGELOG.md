@@ -2,6 +2,7 @@
 
 ## 2026-07-28
 
+- Removed the duplicate local content-size tooltip from the legacy create-post page and cleaned up its unused reducer state and CSS.
 - Hardened phone verification against duplicate Login requests by routing WebOTP and manual completion through one in-flight-guarded submit path.
 - Normalized Persian and Arabic-Indic OTP digits across typing, paste, and WebOTP; added ref-based focus navigation, arrow keys, paste focus, accessible input state, `finally` loading cleanup, and animation cleanup on unmount while preserving incorrect-code shake and input reset behavior.
 - Refined OTP state updates with functional setters and memoized validation, added typed WebOTP/autofill handling, select-on-focus, first-input focus after errors, timer/error ARIA links, stable duration constants, and `router.replace` success navigation; removed unused verification props.

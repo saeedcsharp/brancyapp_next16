@@ -67,6 +67,7 @@ import {
   IUiParameter,
 } from "brancy/models/interfaces";
 import { AutoReplyPayLoadType, MediaProductType, MediaType, PartnerRole, PostType } from "brancy/models/enums";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
 
 enum SearchType {
   CollaboratePeople,
@@ -157,7 +158,6 @@ type UIState = {
   showDraft: boolean;
   showDeleteDraft: boolean;
   showDeletePrepost: boolean;
-  showTooltip: boolean;
   showQuickReplyPopup: boolean;
   showChangePostToAlbum: boolean;
   showDraftError: IErrorPrePostInfo | null;
@@ -175,7 +175,6 @@ type UIAction =
   | { type: "TOGGLE_DRAFT"; payload?: boolean }
   | { type: "TOGGLE_DELETE_DRAFT"; payload?: boolean }
   | { type: "TOGGLE_DELETE_PREPOST"; payload?: boolean }
-  | { type: "TOGGLE_TOOLTIP"; payload?: boolean }
   | { type: "TOGGLE_QUICK_REPLY_POPUP"; payload?: boolean }
   | { type: "TOGGLE_CHANGE_POST_TO_ALBUM"; payload?: boolean }
   | { type: "SET_DRAFT_ERROR"; payload: IErrorPrePostInfo | null }
@@ -219,8 +218,6 @@ const uiReducer = (state: UIState, action: UIAction): UIState => {
         ...state,
         showDeletePrepost: action.payload ?? !state.showDeletePrepost,
       };
-    case "TOGGLE_TOOLTIP":
-      return { ...state, showTooltip: action.payload ?? !state.showTooltip };
     case "TOGGLE_QUICK_REPLY_POPUP":
       return {
         ...state,
@@ -250,7 +247,6 @@ const uiReducer = (state: UIState, action: UIAction): UIState => {
         showDraft: false,
         showDeleteDraft: false,
         showDeletePrepost: false,
-        showTooltip: false,
         showQuickReplyPopup: false,
         showChangePostToAlbum: false,
         showDraftError: null,
@@ -430,7 +426,6 @@ const CreatePost = () => {
     showDraft,
     showDeleteDraft,
     showDeletePrepost,
-    showTooltip,
     showQuickReplyPopup,
     showChangePostToAlbum,
     showDraftError,
@@ -2860,14 +2855,10 @@ const CreatePost = () => {
                     <div className="headerparent">
                       <div className="title">
                         {t(LanguageKey.pageLottery_model)}
-                        <div className={styles.tooltipContainer}>
-                          <img
-                            title="ℹ️ size of content"
-                            src="/tooltip.svg"
-                            onClick={() => uiDispatch({ type: "TOGGLE_TOOLTIP" })}
-                          />
-                          {showTooltip && (
-                            <div className={styles.tooltip}>
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue={
+                            <>
                               <div className={styles.postscalechild}>
                                 <div className={styles.postscalebutton3}>16:9</div>
                                 <div className={styles.postscaleheader}>
@@ -2889,9 +2880,11 @@ const CreatePost = () => {
                                   <br></br>(1080x1350)
                                 </div>
                               </div>
-                            </div>
-                          )}
-                        </div>
+                            </>
+                          }
+                          position="left"
+                          onClick={true}
+                        />
                       </div>
 
                       <div className={styles.typeparent}>
@@ -3344,7 +3337,7 @@ const CreatePost = () => {
                 <div className={styles.container}>
                   <div className="title">{t(LanguageKey.AdvanceSettings)}</div>
 
-                  <div className="headerandinput" style={{ paddingBottom: "20px" }}>
+                  <div className="headerandinput" style={{ paddingBottom: "12px" }}>
                     <div className="headerparent" role="group" aria-label="Product settings">
                       <div className="title2" role="heading" aria-level={3}>
                         {t(LanguageKey.autocommentReply)}
@@ -3384,7 +3377,7 @@ const CreatePost = () => {
 
                   {showMedias.length == 1 && showMedias[0].mediaType == MediaType.Video && (
                     <>
-                      <div className="headerandinput" style={{ paddingBottom: "20px" }}>
+                      <div className="headerandinput" style={{ paddingBottom: "12px" }}>
                         <div className="headerparent" role="group" aria-label="Share preview settings">
                           <div className="title2" title="Share preview to feed setting">
                             {t(LanguageKey.sharepreviewtofeed)}
@@ -3434,7 +3427,7 @@ const CreatePost = () => {
                   )}
                   {/* add to product Section */}
                   {session.user.isShopper && (
-                    <div className="headerandinput" style={{ paddingBottom: "20px" }}>
+                    <div className="headerandinput" style={{ paddingBottom: "12px" }}>
                       <div className="headerparent" role="group" aria-label="Product settings">
                         <div className="title2" role="heading" aria-level={3}>
                           {t(LanguageKey.addtoproduct)}
@@ -3456,7 +3449,7 @@ const CreatePost = () => {
                     </div>
                   )}
                   {/* Turn off Commenting Section */}
-                  <div className="headerandinput" style={{ paddingBottom: "20px" }}>
+                  <div className="headerandinput" style={{ paddingBottom: "12px" }}>
                     <div className="headerparent" role="group" aria-label="Comment settings">
                       <div className="title2" role="heading" aria-level={3}>
                         {t(LanguageKey.pageToolspopup_TurnoffCommenting)}
@@ -3498,7 +3491,7 @@ const CreatePost = () => {
                     </div>
                     <div
                       className={`headerparent ${!automaticPost ? "fadeDiv" : ""}`}
-                      style={{ paddingBottom: "20px" }}
+                      style={{ paddingBottom: "12px" }}
                       role="group"
                       aria-label="Date and time selection">
                       <div className={styles.input} role="presentation">
@@ -3558,7 +3551,7 @@ const CreatePost = () => {
                           className={`${styles.setting} ${!automaticPost && "fadeDiv"}`}
                           role="region"
                           aria-label="Recommended posting times">
-                          <div className="headerandinput" style={{ paddingBottom: "20px" }}>
+                          <div className="headerandinput">
                             <div className="title" role="heading" aria-level={3}>
                               {t(LanguageKey.RecommendedDateTime)}
                             </div>
