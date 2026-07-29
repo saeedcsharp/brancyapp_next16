@@ -314,8 +314,8 @@ export default {
     installPromptMessage: "Brancy web uygulamasını yükleyin",
     install: "Yükle",
     installStep1: "Alt çubuktaki paylaş düğmesine dokunun.",
-    installStep2: "Açılan menüyü yukarı kaydırın ve 'Add to Home Screen' seçeneğini seçin.",
-    installStep3: "Ekranın üstündeki 'Add' düğmesine dokunun.",
+    installStep2: "Açılan menüyü yukarı kaydırın ve Add to Home Screen seçeneğini seçin.",
+    installStep3: "Ekranın üstündeki Add düğmesine dokunun.",
 
     joinUs_subtitle: "Brancy'e Katılın; Yenilik Ve Sürdürülebilir Gelecek Burada Şekillenir.",
     joinUs_whyWorkWithUs: "Neden Brancy?",

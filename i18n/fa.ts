@@ -313,11 +313,11 @@ export default {
     footer_Articles: "مقالات",
     footer_LatestNews: "جدیدترین اخبار",
 
-    installPromptMessage: "نصب وب اپلیکیشن brancy",
+    installPromptMessage: "نصب وب اپلیکیشن برنسی",
     install: "نصب",
     installStep1: "در نوار پایین، دکمهٔ اشتراک‌گذاری را انتخاب کنید.",
-    installStep2: "منوی باز شده را به بالا اسکرول کنید و 'Add to Home Screen' را انتخاب کنید.",
-    installStep3: "در بالای صفحه، دکمهٔ 'Add' را انتخاب کنید.",
+    installStep2: "منوی باز شده را به بالا اسکرول کنید و Add to Home Screen را انتخاب کنید.",
+    installStep3: "در بالای صفحه، دکمهٔ Add را انتخاب کنید.",
 
     joinUs_subtitle: "به برنسی بپیوندید؛ جایی که نوآوری و آینده‌ای پایدار شکل می‌گیرد.",
     joinUs_whyWorkWithUs: "چرا برنسی؟",

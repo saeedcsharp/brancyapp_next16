@@ -50,6 +50,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Migrated `components/website/installPrompt.tsx` presentation styles, including SVG icon styling and RTL layout variants, into `installPrompt.module.css` without changing install-prompt behavior.
+
 - Hardened the sign-in verification form so WebOTP only fills the code and a single guarded submit path prevents duplicate credentials requests from WebOTP, code completion, or repeated Enter/click actions. Added shared Persian/Arabic-Indic digit normalization, ref-based focus navigation, paste focus, accessibility state, `finally` loading cleanup, and unmount cleanup for WebOTP/animation resources without changing the incorrect-code shake and input-reset behavior.
 - Refined the verification form with functional digit updates, memoized code validation, stable regex/duration constants, typed WebOTP data, multi-digit autofill, select-on-focus, first-input focus after errors, timer/error ARIA relationships, and history-replacing success navigation. Removed unused verification props from the form and its only call site.
 

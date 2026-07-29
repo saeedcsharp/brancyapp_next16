@@ -1,0 +1,172 @@
+.container {
+  position: fixed;
+  bottom: 10px;
+  justify-self: center;
+  display: flex;
+  justify-content: center;
+  z-index: 9999;
+  box-sizing: border-box;
+  animation: var(--bottom08);
+  background: var(--background-root);
+  border-radius: var(--br30);
+  border: 1px solid var(--color-gray);
+  padding: 20px;
+  width: calc(100% - 32px);
+  max-width: 420px;
+  box-shadow: var(--box-shadow);
+  text-align: center;
+  box-sizing: border-box;
+  text-align: center;
+  box-sizing: border-box;
+  flex-direction: column;
+  align-items: center;
+  flex-wrap: nowrap;
+}
+
+.box {
+  background: var(--background-root);
+  color: #111;
+  padding: 12px 14px;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+  max-width: 420px;
+  box-sizing: border-box;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+}
+
+.logo {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  flex-shrink: 0;
+}
+
+.text {
+  flex: 1;
+  min-width: 0;
+  font-size: 14px;
+  line-height: 1.35;
+  overflow-wrap: break-word;
+}
+
+.closeIconBtn,
+.iosCloseBtn {
+  background: transparent;
+  border: none;
+  cursor: pointer;
+}
+
+.closeIconBtn {
+  font-size: 20px;
+  line-height: 1;
+  color: #888;
+  padding: 4px;
+  flex-shrink: 0;
+}
+
+.installBtn {
+  background: #0b75ff;
+  color: #fff;
+  border: none;
+  padding: 10px 12px;
+  border-radius: 8px;
+  font-size: 14px;
+  font-weight: 600;
+  width: 100%;
+  cursor: pointer;
+}
+
+.iosCard {
+  border-radius: 16px;
+  padding: 20px;
+}
+
+.iosCloseRow {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.iosCloseBtn {
+  font-size: 22px;
+  line-height: 1;
+  padding: 4px 8px;
+  color: #666;
+}
+
+.iosIconWrap {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 12px;
+}
+
+.iosIconImg {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+}
+
+.iosTitle {
+  margin: 6px 0 8px;
+  font-size: 20px;
+  color: var(--text-h1);
+  font-weight: var(--weight-600);
+}
+
+.iosList {
+  list-style-type: decimal;
+  list-style-position: outside;
+  padding: 0 0 0 20px;
+  margin-top: 8px;
+  margin-bottom: 18px;
+  line-height: 1.6;
+  font-size: 14px;
+  color: var(--text-h1);
+}
+
+.iosList.rtlText {
+  padding: 0 20px 0 0;
+}
+
+.iosList li {
+  margin-bottom: 8px;
+}
+
+.rtlText {
+  text-align: right;
+}
+
+.ltrText {
+  text-align: left;
+}
+
+.addIconLine {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 2px;
+}
+
+.addIconGroup {
+  display: inline-flex;
+  white-space: nowrap;
+  gap: 2px;
+  align-items: flex-start;
+}
+
+.shareIcon {
+  display: inline-block;
+  width: 18px;
+  height: 18px;
+  vertical-align: -4px;
+  margin-right: 2px;
+}

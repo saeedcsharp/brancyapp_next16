@@ -314,8 +314,8 @@ export default {
     installPromptMessage: "Установите веб‑приложение Brancy",
     install: "Установить",
     installStep1: "Нажмите кнопку «Поделиться» на нижней панели.",
-    installStep2: "Прокрутите открывшееся меню вверх и выберите 'Add to Home Screen'.",
-    installStep3: "Нажмите 'Add' в верхней части экрана.",
+    installStep2: "Прокрутите открывшееся меню вверх и выберите Add to Home Screen.",
+    installStep3: "Нажмите Add в верхней части экрана.",
     joinUs_subtitle: "Присоединяйтесь К Brancy; Здесь Формируются Инновации И Устойчивое Будущее.",
     joinUs_whyWorkWithUs: "Почему Brancy?",
     joinUs_whyWorkWithUsDescription:

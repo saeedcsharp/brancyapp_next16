@@ -314,8 +314,8 @@ export default {
     installPromptMessage: "Installieren Sie die Brancy Web-App",
     install: "Installieren",
     installStep1: "Tippen Sie auf die Freigabe-Schaltfläche unten.",
-    installStep2: "Scrollen Sie das geöffnete Menü nach oben und wählen Sie 'Add to Home Screen'.",
-    installStep3: "Tippen Sie oben auf dem Bildschirm auf 'Add'.",
+    installStep2: "Scrollen Sie das geöffnete Menü nach oben und wählen Sie Add to Home Screen.",
+    installStep3: "Tippen Sie oben auf dem Bildschirm auf Add.",
     joinUs_subtitle: "Treten Sie Brancy Bei; Wo Innovation Und Eine Nachhaltige Zukunft Gestaltet Werden.",
     joinUs_whyWorkWithUs: "Warum Brancy?",
     joinUs_whyWorkWithUsDescription:

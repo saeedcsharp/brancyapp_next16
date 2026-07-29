@@ -7,6 +7,9 @@ import { LanguageKey } from "brancy/i18n";
 const Footer: React.FC = () => {
   const { t } = useTranslation();
   const [isIR, serIsIr] = useState(false);
+  const [enemadImageSrc, setEnemadImageSrc] = useState(
+    "https://trustseal.enamad.ir/logo.aspx?id=745725&Code=4jzLwvZYKySIQKV7TZv1oleWBHSAyBzv",
+  );
   const sections = useMemo(
     () => [
       {
@@ -106,8 +109,13 @@ const Footer: React.FC = () => {
               aria-label="eNamad Trust Badge">
               <img
                 referrerPolicy="origin"
-                src="https://trustseal.enamad.ir/logo.aspx?id=745725&Code=4jzLwvZYKySIQKV7TZv1oleWBHSAyBzv"
-                alt=""
+                src={enemadImageSrc}
+                onError={() => {
+                  if (enemadImageSrc !== "/landing/icon-verified.png") {
+                    setEnemadImageSrc("/landing/icon-verified.png");
+                  }
+                }}
+                alt="نماد اعتماد الکترونیکی"
                 style={{
                   cursor: "pointer",
                   width: "100px",
