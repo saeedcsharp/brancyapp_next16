@@ -1,8 +1,4 @@
-import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
-import { Session } from "next-auth";
-import { useSession } from "next-auth/react";
-import Link from "next/link";
-import { useTranslation } from "react-i18next";
+import RingLoader from "brancy/components/design/loader/ringLoder";
 import {
   internalNotify,
   InternalResponseType,
@@ -10,12 +6,15 @@ import {
   notify,
 } from "brancy/components/notifications/notificationBox";
 import { MethodType, UploadFile } from "brancy/helper/api";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { InputType } from "brancy/models/enums";
 import { IGetImageUsageRequest, IImageCreator, IImageCreatorInput, IImageCreatorModel } from "brancy/models/interfaces";
+import { Session } from "next-auth";
+import { useSession } from "next-auth/react";
+import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import styles from "./ImageCreator.module.css";
-import RingLoader from "brancy/components/design/loader/ringLoder";
 
 type InputValue = string | number | boolean | string[];
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
@@ -315,7 +314,7 @@ export default function ImageCreator({
   createImageLoading,
 }: ImageCreatorProps) {
   const { data: session } = useSession();
-  const { i18n } = useTranslation();
+  const { t, i18n } = useTranslation();
   const availableCreators = creators.filter((item) => item.inputModels.length > 0);
   const [creatorKey, setCreatorKey] = useState(availableCreators[0]?.key ?? "");
   const creator = availableCreators.find((item) => item.key === creatorKey) ?? availableCreators[0];
@@ -345,11 +344,11 @@ export default function ImageCreator({
   if (error) {
     return (
       <main className={styles.stateBox}>
-        <h1>Image creator is unavailable</h1>
+        <h1>{t("Image creator is unavailable")}</h1>
         <p>{error}</p>
         {onRetry && (
           <button type="button" onClick={onRetry}>
-            Try again
+            {t("Try again")}
           </button>
         )}
       </main>
@@ -359,8 +358,8 @@ export default function ImageCreator({
   if (!creator || !model) {
     return (
       <main className={styles.stateBox}>
-        <h1>No image models found</h1>
-        <p>There are no image generation models available for this account.</p>
+        <h1>{t("No image models found")}</h1>
+        <p>{t("There are no image generation models available for this account.")}</p>
       </main>
     );
   }
@@ -419,22 +418,22 @@ export default function ImageCreator({
           role="button"
           tabIndex={0}>
           <span aria-hidden="true">←</span>
-          Back to images
+          {t("Back to images")}
         </div>
       </div>
       <header className={styles.header}>
         <div>
           <span className={styles.eyebrow}>AI studio</span>
-          <h1>Create an image</h1>
-          <p>Choose a model, tune its settings, and describe the image you want.</p>
+          <h1>{t("Create an image")}</h1>
+          <p>{t("Choose a model, tune its settings, and describe the image you want.")}</p>
         </div>
       </header>
 
       {availableCreators.length > 1 && (
         <section className={styles.creatorPanel} aria-labelledby="creator-heading">
           <div className={styles.creatorHeading}>
-            <span id="creator-heading">AI provider</span>
-            <small>Choose a provider to see its available models</small>
+            <span id="creator-heading">{t("AI provider")}</span>
+            <small>{t("Choose a provider to see its available models")}</small>
           </div>
           <div className={styles.creatorList}>
             {availableCreators.map((item) => {
@@ -474,7 +473,7 @@ export default function ImageCreator({
           <div className={styles.sectionHeading}>
             <span className={styles.step}>1</span>
             <div>
-              <h2>Choose a model</h2>
+              <h2>{t("Choose a model")}</h2>
               <p>{creator.displayName}</p>
             </div>
           </div>
@@ -522,14 +521,14 @@ export default function ImageCreator({
           <div className={styles.sectionHeading}>
             <span className={styles.step}>2</span>
             <div>
-              <h2>Describe and customize</h2>
+              <h2>{t("Describe and customize")}</h2>
               <p>{model.displayName}</p>
             </div>
           </div>
 
           <label className={styles.promptField}>
             <span className={styles.labelRow}>
-              <span className={styles.label}>Prompt</span>
+              <span className={styles.label}>{t("Prompt")}</span>
               <span>
                 {prompt.length} / {model.maxPromptLength}
               </span>
@@ -538,14 +537,16 @@ export default function ImageCreator({
               value={prompt}
               minLength={model.minPromptLength}
               maxLength={model.maxPromptLength}
-              placeholder="Describe the subject, setting, light, composition, and style..."
+              placeholder={t("Describe the subject, setting, light, composition, and style...")}
               onChange={(event) => {
                 setPrompt(event.target.value);
                 invalidateUsage();
               }}
             />
             {prompt.length > 0 && prompt.length < model.minPromptLength && (
-              <span className={styles.validation}>Use at least {model.minPromptLength} characters.</span>
+              <span className={styles.validation}>
+                {t("Use at least {count} characters.", { count: model.minPromptLength })}
+              </span>
             )}
           </label>
 
@@ -571,7 +572,7 @@ export default function ImageCreator({
             <div>
               <strong>{model.displayName}</strong>
               {tokenUsage === null ? (
-                <span>Check token usage before creating the image</span>
+                <span>{t("Check token usage before creating the image")}</span>
               ) : (
                 <span className={styles.tokenUsage}>{tokenUsage.toLocaleString()} tokens</span>
               )}

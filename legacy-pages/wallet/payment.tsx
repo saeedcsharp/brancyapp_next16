@@ -12,8 +12,9 @@ import { notify, NotifType, ResponseType } from "brancy/components/notifications
 import BankCard from "brancy/components/wallet/bankCard";
 import Modal from "brancy/components/design/modal";
 import SettlePopup from "brancy/components/wallet/settlePopup";
-
+import { useTranslation } from "react-i18next";
 const Payment = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const { data: session } = useSession({
     required: true,
@@ -171,13 +172,13 @@ const Payment = () => {
       <main className={styles.paymentPage}>
         <section className={styles.walletSection}>
           <div className={styles.sectionHeading}>
-            <h2 className={styles.cardTitle}>کارت‌ها و حساب‌های بانکی</h2>
+            <h2 className={styles.cardTitle}>{t("Cards and Bank Accounts")}</h2>
           </div>
           {showAdd && (
             <div className={styles.addCardPanel}>
               <form className={styles.addCardForm} onSubmit={handleAddCard}>
                 <label className={styles.label} htmlFor="wallet-card-number">
-                  شماره کارت بانکی
+                  {t("Card Number")}
                   <input
                     id="wallet-card-number"
                     className={styles.input}
@@ -186,12 +187,11 @@ const Payment = () => {
                     autoComplete="cc-number"
                     value={newCardNumber.replace(/(.{4})/g, "$1 ").trim()}
                     onChange={(event) => handleCardNumberChange(event.target.value)}
-                    placeholder="۶۰۳۷ ۹۹۱۲ ۳۴۵۶ ۷۸۹۰"
                     aria-invalid={newCardNumber.length > 0 && newCardNumber.length !== 16}
                     disabled={addCardLoading}
                     autoFocus
                   />
-                  <small className={styles.inputHint}>شماره ۱۶ رقمی کارت را وارد کنید.</small>
+                  <small className={styles.inputHint}> {t("Insert your card number")}.</small>
                 </label>
                 <div className={styles.formActions}>
                   <button
@@ -199,13 +199,13 @@ const Payment = () => {
                     type="button"
                     onClick={() => setShowAdd(false)}
                     disabled={addCardLoading}>
-                    انصراف
+                    {t("Cancel")}
                   </button>
                   <button
                     className={styles.button}
                     type="submit"
                     disabled={newCardNumber.length !== 16 || addCardLoading}>
-                    {addCardLoading ? "در حال ثبت..." : "ثبت کارت بانکی"}
+                    {addCardLoading ? t("Registering...") : t("Register Bank Card")}
                   </button>
                 </div>
               </form>
@@ -219,8 +219,8 @@ const Payment = () => {
                 <span className={styles.addCardIcon} aria-hidden="true">
                   +
                 </span>
-                <span>{"افزودن کارت بانکی"}</span>
-                <small>ثبت کارت جدید</small>
+                <span>{t("Add Bank Card")}</span>
+                <small>{t("Register a new card")}</small>
               </button>
               {cards.map((c, idx) => (
                 <BankCard

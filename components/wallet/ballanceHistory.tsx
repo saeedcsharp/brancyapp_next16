@@ -12,7 +12,7 @@ export default function BallanceHistory({
   return (
     <>
       {balanceHistorySeries.map((item) => (
-        <div className={styles.pinContainer1}>
+        <div key={item.id} className={styles.pinContainer1}>
           <div className="bigcard">
             <div key={item.id} className="headerChild">
               <div className="circle"></div>

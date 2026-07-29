@@ -1,6 +1,7 @@
 import { IGeneralBallance, IBankCard } from "brancy/models/interfaces";
 import styles from "./inboxContainer.module.css";
 import { SubInvoiceStatus } from "brancy/models/enums";
+import { useTranslation } from "react-i18next";
 export default function InboxContainer({
   generalBalance,
   cards,
@@ -8,7 +9,8 @@ export default function InboxContainer({
   generalBalance: IGeneralBallance[];
   cards: IBankCard[];
 }) {
-  const formatMoney = (v: number) => v.toLocaleString("fa-IR");
+  const { t } = useTranslation();
+  const formatMoney = (v: number) => v.toLocaleString("en-US");
   const totalBalance = generalBalance
     .filter((item) => item.status === SubInvoiceStatus.None)
     .reduce((total, item) => total + item.totalPrice, 0);
@@ -24,7 +26,7 @@ export default function InboxContainer({
   return (
     <div className={styles.inboxContainer}>
       <div className={styles.followers}>
-        <div className={styles.title}>موجودی کیف پول</div>
+        <div className={styles.title}>{t("Wallet balance")}</div>
         <div className={styles.div}>{formatMoney(totalBalance)}</div>
       </div>
       {/* <div className={styles.lastPost}>
@@ -34,9 +36,9 @@ export default function InboxContainer({
         <div className={styles.title}>رشد لحظه‌ای</div>
       </div> */}
       <div className={styles.newlikes}>
-        <div className={styles.title}>برداشت کل موجودی</div>
+        <div className={styles.title}>{t("Total withdrawn balance")}</div>
         <div className={styles.div}>{formatMoney(totalSettledBalance)}</div>
-        <div className={styles.title}>ثبت شده</div>
+        <div className={styles.title}>{t("Settled")}</div>
       </div>
       {/* <div className={styles.newCommnet}>
         <div className={styles.title}>تراکنش‌های موفق</div>
@@ -44,9 +46,9 @@ export default function InboxContainer({
         <div className={styles.title}>این ماه</div>
       </div> */}
       <div className={styles.postrequest}>
-        <div className={styles.title}>تراکنش‌های برگشتی</div>
+        <div className={styles.title}>{t("Failed transactions")}</div>
         <div className={styles.div}>{formatMoney(totalFailedBalance)}</div>
-        <div className={styles.title}>کنترل ریسک</div>
+        <div className={styles.title}>{t("Risk control")}</div>
       </div>
       {/* <div className={styles.followers}>
         <div className={styles.title}>تبدیل به رمزارز</div>
@@ -60,9 +62,9 @@ export default function InboxContainer({
       </div> */}
       <div className={styles.lastPost}>
         <div className={styles.rectangleImage}></div>
-        <div className={styles.title}>در حال تسویه</div>
+        <div className={styles.title}>{t("Awaiting settlement")}</div>
         <div className={styles.div}>{formatMoney(totalAwaitingSettleBalance)}</div>
-        <div className={styles.title}>چرخه تجمیع</div>
+        <div className={styles.title}>{t("Aggregation cycle")}</div>
       </div>
     </div>
   );

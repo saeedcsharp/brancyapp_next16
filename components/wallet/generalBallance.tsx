@@ -46,11 +46,13 @@ export default function GeneralBalance({
       <section className={styles.balanceSection}>
         <div className={styles.sectionHeader}>
           <div>
-            <h2 className={styles.sectionTitle}>وضعیت مالی کارت‌ها</h2>
-            <p className={styles.sectionDescription}>مجموع تراکنش‌ها از تاریخ انتخابی تا همین لحظه</p>
+            <h2 className={styles.sectionTitle}>{t("Financial status of cards")}</h2>
+            <p className={styles.sectionDescription}>
+              {t("Total transactions from the selected date to the present moment")}
+            </p>
           </div>
           <div className={styles.dateFilter}>
-            <span className={styles.dateLabel}>از تاریخ</span>
+            <span className={styles.dateLabel}>{t("From date")}</span>
             <DatePicker
               calendar={persian}
               locale={persianFa}
@@ -58,12 +60,12 @@ export default function GeneralBalance({
               format="YYYY/MM/DD"
               maxDate={new Date()}
               onChange={handleDateChange}
-              placeholder="همه زمان‌ها"
+              placeholder={t("All times")}
               inputClass={styles.dateInput}
               containerClassName={styles.datePickerContainer}
               disabled={loading}
             />
-            {loading && <span className={styles.loadingLabel}>در حال به‌روزرسانی...</span>}
+            {loading && <span className={styles.loadingLabel}>{t("Updating...")}</span>}
           </div>
         </div>
 
@@ -77,10 +79,10 @@ export default function GeneralBalance({
               <article key={cardNumber} className={styles.balanceCard}>
                 <header className={styles.cardHeader}>
                   <div>
-                    <div className={styles.bankName}>{card?.bankName || t("bank name")}</div>
+                    <div className={styles.bankName}>{card?.bankName || t("Bank name")}</div>
                     <div className={styles.cardHolder}>{card?.accountHolderName || "--"}</div>
                   </div>
-                  {card?.isDefault && <span className={styles.defaultBadge}>پیش‌فرض</span>}
+                  {card?.isDefault && <span className={styles.defaultBadge}>{t("Default")}</span>}
                 </header>
 
                 <div className={styles.cardNumber} dir="ltr">
@@ -106,7 +108,9 @@ export default function GeneralBalance({
           })}
 
           {!loading && cardNumbers.length === 0 && (
-            <div className={styles.emptyState}>در بازه انتخاب‌شده اطلاعاتی برای کارت‌ها ثبت نشده است.</div>
+            <div className={styles.emptyState}>
+              {t("No information has been recorded for the cards in the selected date range.")}
+            </div>
           )}
         </div>
       </section>

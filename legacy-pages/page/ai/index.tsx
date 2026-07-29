@@ -1,4 +1,3 @@
-import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
 import NotFeature from "brancy/components/notOk/notFeature";
 import {
@@ -9,9 +8,10 @@ import {
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
 import ImageCreator from "brancy/components/page/ai/ImageCreator";
-import GeneratedImageModal, { parseImageMetadata } from "brancy/components/page/ai/generatedImageModal";
+import GeneratedImageModal from "brancy/components/page/ai/generatedImageModal";
+import ImageList from "brancy/components/page/ai/imageList";
+import VideoList from "brancy/components/page/ai/videoList";
 import { MethodType } from "brancy/helper/api";
-import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import convertFirstLetterToLowerCase from "brancy/helper/convertFirstLetterToLowerCase";
@@ -30,6 +30,7 @@ import router from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import styles from "./pageAI.module.css";
+import ContentCreatorHeader from "brancy/components/page/ai/contentCreatorHeader";
 
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
 
@@ -246,127 +247,23 @@ export default function PageAI() {
       </Head>
       <main className={styles.aiWorkspace} ref={containerRef}>
         {(activeTab === "image" || activeTab === "video") && (
-          <>
-            <header className={styles.aiHeader}>
-              <div>
-                <span className={styles.eyebrow}>AI media studio</span>
-                <h1>Your creations</h1>
-                <p>Browse previous generations or start a new creative project.</p>
-              </div>
-              <button
-                className={styles.createButton}
-                type="button"
-                onClick={activeTab === "image" ? openImageCreator : openVideoCreator}>
-                <span aria-hidden="true">+</span>
-                Create {activeTab === "image" ? "image" : "video"}
-              </button>
-            </header>
-            <div className={styles.mediaTabs} role="tablist" aria-label="Media type">
-              <button
-                className={activeTab === "image" ? styles.mediaTabActive : styles.mediaTab}
-                type="button"
-                role="tab"
-                aria-selected={activeTab === "image"}
-                onClick={() => setActiveTab("image")}>
-                <span className={styles.tabIcon} aria-hidden="true">
-                  ▧
-                </span>
-                <span>
-                  <strong>Images</strong>
-                  <small>Generated artwork and visuals</small>
-                </span>
-              </button>
-              <button
-                className={activeTab === "video" ? styles.mediaTabActive : styles.mediaTab}
-                type="button"
-                role="tab"
-                aria-selected={activeTab === "video"}
-                onClick={() => setActiveTab("video")}>
-                <span className={styles.tabIcon} aria-hidden="true">
-                  ▶
-                </span>
-                <span>
-                  <strong>Videos</strong>
-                  <small>AI motion and clips</small>
-                </span>
-              </button>
-            </div>
-          </>
+          <ContentCreatorHeader
+            activeTab={activeTab}
+            setActiveTab={setActiveTab}
+            openImageCreator={openImageCreator}
+            openVideoCreator={openVideoCreator}
+          />
         )}
         {activeTab === "image" && (
-          <section className={styles.library} aria-label="Generated images">
-            <div className={styles.libraryHeading}>
-              <div>
-                <h2>Image library</h2>
-                <p>{images.length} creations loaded</p>
-              </div>
-            </div>
-
-            {loading ? (
-              <div className={styles.loadingState}>
-                <RingLoader width={42} height={42} />
-              </div>
-            ) : images.length > 0 ? (
-              <div className={styles.imageGrid}>
-                {images.map((image) => {
-                  const metadata = image.metadata ? parseImageMetadata(image.metadata) : null;
-                  return (
-                    <article className={styles.imageCard} key={image.id}>
-                      <button className={styles.imagePreview} type="button" onClick={() => setSelectedImage(image)}>
-                        <img src={getClientMediaBaseUrl() + image.imageUrl} alt={image.prompt || "Generated image"} />
-                        <span>View details</span>
-                      </button>
-                      <div className={styles.imageInfo}>
-                        <div className={styles.imageMetaLine}>
-                          <span>{image.creatorKey}</span>
-                          <time>{formatCreatedTime(image.createdTime)}</time>
-                        </div>
-                        <h3>{image.prompt || "Untitled generation"}</h3>
-                        <p>{image.version}</p>
-                        {metadata?.length ? (
-                          <dl className={styles.cardMetadata}>
-                            {metadata.slice(0, 3).map((item) => (
-                              <div key={item.key}>
-                                <dt>{item.label}</dt>
-                                <dd>{item.value}</dd>
-                              </div>
-                            ))}
-                          </dl>
-                        ) : null}
-                      </div>
-                    </article>
-                  );
-                })}
-              </div>
-            ) : (
-              <div className={styles.emptyLibrary}>
-                <span aria-hidden="true">▧</span>
-                <h2>No images yet</h2>
-                <p>Your successful image generations will appear here.</p>
-                <button type="button" onClick={openImageCreator}>
-                  Create your first image
-                </button>
-              </div>
-            )}
-            {isLoadingMore && (
-              <div className={styles.loadMore}>
-                <RingLoader width={30} height={30} />
-              </div>
-            )}
-          </section>
+          <ImageList
+            images={images}
+            loading={loading}
+            isLoadingMore={isLoadingMore}
+            setSelectedImage={setSelectedImage}
+            openImageCreator={openImageCreator}
+          />
         )}
-        {activeTab === "video" && (
-          <section className={styles.videoLibrary}>
-            <div>
-              <span aria-hidden="true">▶</span>
-              <h2>Video studio</h2>
-              <p>Create a new AI video. Your video library will appear here when history is available.</p>
-            </div>
-            <button type="button" onClick={openVideoCreator}>
-              Create video
-            </button>
-          </section>
-        )}
+        {activeTab === "video" && <VideoList openVideoCreator={openVideoCreator} />}
         {activeTab === "createimage" && (
           <ImageCreator
             creators={creators}
