@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-07-29
+
+- Updated the dependency audit page at `app/dev/test.tsx` to cover all 50 direct packages from `package.json` (41 runtime and 9 development dependencies).
+- Added the missing `@next/third-parties` and `emoji-picker-react` entries, refreshed package counts and the report date, and corrected stale Quill/pako recommendations.
+
 ## 2026-07-28
 
 - Removed the duplicate local content-size tooltip from the legacy create-post page and cleaned up its unused reducer state and CSS.
@@ -19,7 +24,7 @@
 - Fixed phone country auto-detection priority and synchronized the dial code after IP-based country detection.
 - Enabled the application-owned `/api/user/ip` endpoint as the default client-side IP detection source for PhoneInput.
 - Updated the phone country selector to replace the flag with a warning icon for empty, unknown, or incomplete dial codes.
-- Migrated landing sign-in, sign-in verification, and partner creation away from `react-phone-input-2`.
+- Migrated landing sign-in, sign-in verification, and partner creation away from the legacy phone-input dependency.
 - Added an RTL-aware `Back to creations` link from the image creator to `/page/ai`.
 - Replaced the AI landing cards with a responsive Image/Video segmented workspace and feature-aware create actions.
 - Registered `Instagramer/MediaAi/GetImages`, added its typed `items`/`nextMaxId` response, and load successful image history with `mediaCreationStatus=2`.

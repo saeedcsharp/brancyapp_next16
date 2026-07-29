@@ -2,11 +2,13 @@
 
 ## Runtime Dependencies
 
-Key packages include Next 16, React 19, NextAuth, next-pwa, react-i18next, SignalR, dnd-kit, date-fns, leaflet/react-leaflet, pako, pdf-lib, wavesurfer.js, react-select, react-toastify, react-multi-date-picker, compressorjs, heic2any, and Sass.
+As of 2026-07-29, `package.json` contains 41 direct runtime dependencies. The complete package inventory and current usage classification are maintained in [app/dev/test.tsx](../app/dev/test.tsx), including the recently added `@next/third-parties` and `emoji-picker-react` packages.
+
+The report currently identifies 34 runtime dependencies as used and 7 as unused or requiring final verification. These classifications are source-audit findings, not automated dependency metadata; confirm candidates with `npm ls`, `npm audit`, and a production build before removal.
 
 ## Development Dependencies
 
-Type packages, next-router-mock, and patch-package are present.
+As of 2026-07-29, 9 development dependencies are present: type packages, `next-router-mock`, and `patch-package`. `@types/react-beautiful-dnd` is currently orphaned because the application uses `@dnd-kit`; `patch-package` remains in the manifest because the `postinstall` script still invokes it, although its old Quill patch was removed.
 
 ## Install Note
 

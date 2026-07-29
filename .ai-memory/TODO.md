@@ -2,6 +2,7 @@
 
 ## Pending Documentation Tasks
 
+- Keep `app/dev/test.tsx` package counts and classifications synchronized with `package.json` after dependency changes; verify removal candidates with `npm ls`, `npm audit`, and a production build.
 - Enrich module docs when touching each feature area.
 - Add endpoint-specific request and response examples from backend contracts.
 - Document exact environment variable names from deployment manifests without exposing secret values.

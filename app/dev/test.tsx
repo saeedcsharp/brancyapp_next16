@@ -7,12 +7,12 @@ import styles from "./test.module.css";
 // ============================================================
 
 const STATS = [
-  { label: "کل وابستگی مستقیم", value: "46", color: "colorPurple" },
-  { label: "استفاده می‌شوند", value: "37", color: "colorGreen" },
-  { label: "یتیم (Unused)", value: "7", color: "colorRed" },
-  { label: "تأثیر bundle (حذف)", value: "~550KB", color: "colorOrange" },
-  { label: "devDependencies", value: "8", color: "colorBlue" },
-  { label: "نسخه تکراری (pako)", value: "3×", color: "colorYellow" },
+  { label: "کل وابستگی مستقیم", value: "41", color: "colorPurple" },
+  { label: "استفاده می‌شوند", value: "34", color: "colorGreen" },
+  { label: "یتیم یا نیازمند بررسی", value: "7", color: "colorRed" },
+  { label: "تأثیر bundle (حذف تخمینی)", value: "~675KB+", color: "colorOrange" },
+  { label: "devDependencies", value: "9", color: "colorBlue" },
+  { label: "کل پکیج‌های manifest", value: "50", color: "colorYellow" },
 ];
 
 type TierKey = 1 | 2 | 3 | 4 | 5 | 6 | 7;
@@ -34,6 +34,15 @@ const DEPS: DepRow[] = [
   { name: "react", tier: 1, used: true, usedLabel: "Production", stars: 5, safe: "no", bundleLabel: "پایه" },
   { name: "react-dom", tier: 1, used: true, usedLabel: "Production", stars: 5, safe: "no", bundleLabel: "پایه" },
   { name: "next", tier: 1, used: true, usedLabel: "Production", stars: 5, safe: "no", bundleLabel: "پایه" },
+  {
+    name: "@next/third-parties",
+    tier: 1,
+    used: true,
+    usedLabel: "Production",
+    stars: 4,
+    safe: "no",
+    bundleLabel: "Google tags",
+  },
   {
     name: "typescript",
     tier: 1,
@@ -108,6 +117,15 @@ const DEPS: DepRow[] = [
     note: "⚠️ 3 نسخه در bundle",
   },
   {
+    name: "react-input-emoji",
+    tier: 3,
+    used: true,
+    usedLabel: "Production",
+    stars: 4,
+    safe: "no",
+    bundleLabel: "~45KB",
+  },
+  {
     name: "date-fns",
     tier: 3,
     used: true,
@@ -117,13 +135,14 @@ const DEPS: DepRow[] = [
     bundleLabel: "~60KB (treeshaked)",
   },
   {
-    name: "react-input-emoji",
+    name: "emoji-picker-react",
     tier: 3,
     used: true,
     usedLabel: "Production",
     stars: 4,
     safe: "no",
-    bundleLabel: "~45KB",
+    bundleLabel: "dynamic",
+    note: "⚠️ فقط در چت بارگذاری می‌شود",
   },
   {
     name: "satori",
@@ -144,33 +163,6 @@ const DEPS: DepRow[] = [
     bundleLabel: "~2.5MB (lazy✅)",
   },
   // Tier 4
-  {
-    name: "apexcharts",
-    tier: 4,
-    used: true,
-    usedLabel: "Production",
-    stars: 4,
-    safe: "no",
-    bundleLabel: "~1MB (dynamic✅)",
-  },
-  {
-    name: "react-apexcharts",
-    tier: 4,
-    used: true,
-    usedLabel: "Production",
-    stars: 4,
-    safe: "no",
-    bundleLabel: "با apexcharts",
-  },
-  {
-    name: "swiper",
-    tier: 4,
-    used: true,
-    usedLabel: "Production",
-    stars: 4,
-    safe: "no",
-    bundleLabel: "~250KB (treeshaked)",
-  },
   { name: "react-toastify", tier: 4, used: true, usedLabel: "Production", stars: 4, safe: "no", bundleLabel: "~40KB" },
   { name: "leaflet", tier: 4, used: true, usedLabel: "Production", stars: 3, safe: "no", bundleLabel: "~150KB" },
   { name: "wavesurfer.js", tier: 4, used: true, usedLabel: "Production", stars: 3, safe: "no", bundleLabel: "~150KB" },
@@ -203,15 +195,6 @@ const DEPS: DepRow[] = [
   },
   { name: "react-draggable", tier: 4, used: true, usedLabel: "Production", stars: 2, safe: "no", bundleLabel: "~15KB" },
   { name: "react-color", tier: 4, used: true, usedLabel: "Production", stars: 2, safe: "no", bundleLabel: "~55KB" },
-  {
-    name: "react-phone-input-2",
-    tier: 4,
-    used: true,
-    usedLabel: "Production",
-    stars: 3,
-    safe: "no",
-    bundleLabel: "~60KB",
-  },
   {
     name: "react-simple-star-rating",
     tier: 4,
@@ -254,16 +237,6 @@ const DEPS: DepRow[] = [
     note: "⚠️ باید devDeps باشد",
   },
   {
-    name: "patch-package",
-    tier: 5,
-    used: true,
-    usedLabel: "Build-time",
-    stars: 3,
-    safe: "no",
-    bundleLabel: "build-only",
-  },
-  { name: "next-router-mock", tier: 5, used: true, usedLabel: "Compat", stars: 3, safe: "no", bundleLabel: "compat" },
-  {
     name: "braces",
     tier: 5,
     used: true,
@@ -286,16 +259,6 @@ const DEPS: DepRow[] = [
     note: "🔴 بیشترین بار اضافه",
   },
   { name: "react-select", tier: 7, used: false, usedLabel: "Unused", stars: 1, safe: "yes", bundleLabel: "~28KB" },
-  {
-    name: "react-infinite-scroll-component",
-    tier: 7,
-    used: false,
-    usedLabel: "Unused",
-    stars: 1,
-    safe: "yes",
-    bundleLabel: "~12KB",
-    note: "جایگزین: custom hook",
-  },
   {
     name: "lodash.throttle",
     tier: 7,
@@ -326,7 +289,7 @@ const DEV_DEPS = [
   { name: "@types/react-i18next", used: true, note: "لازم — type-only" },
   { name: "@types/react-slider", used: true, note: "لازم — type-only" },
   { name: "next-router-mock", used: true, note: "لازم — compat layer" },
-  { name: "patch-package", used: false, note: "🔴 دیگر لازم نیست — پچ react-quill حذف شد" },
+  { name: "patch-package", used: true, note: "postinstall آن را اجرا می‌کند؛ با حذف کامل پچ‌ها قابل حذف است" },
   { name: "@types/react-beautiful-dnd", used: false, note: "🔴 یتیم — پکیج اصلی نصب نیست" },
 ];
 
@@ -337,11 +300,6 @@ const ORPHANS = [
     name: "react-select",
     reason: "هیچ import در کدبیس یافت نشد. Select پیشرفته بلااستفاده.",
     saving: "صرفه‌جویی ~28KB",
-  },
-  {
-    name: "react-infinite-scroll-component",
-    reason: "یک custom hook (useInfiniteScroll.ts) جایگزین آن شده.",
-    saving: "صرفه‌جویی ~12KB",
   },
   {
     name: "lodash.throttle",
@@ -371,10 +329,8 @@ interface BundleBar {
 
 const BUNDLE_BARS: BundleBar[] = [
   { name: "heic2any", kb: 2500, maxKb: 3000, label: "~2.5MB", type: "warn", tag: "lazy" },
-  { name: "apexcharts", kb: 1000, maxKb: 3000, label: "~1MB", type: "warn", tag: "dynamic" },
   { name: "pdf-lib (UNUSED)", kb: 450, maxKb: 3000, label: "~450KB", type: "danger", tag: undefined },
   { name: "@microsoft/signalr", kb: 110, maxKb: 3000, label: "~110KB", type: "ok", tag: undefined },
-  { name: "swiper", kb: 250, maxKb: 3000, label: "~250KB", type: "ok", tag: undefined },
   { name: "leaflet", kb: 150, maxKb: 3000, label: "~150KB", type: "ok", tag: undefined },
   { name: "wavesurfer.js", kb: 150, maxKb: 3000, label: "~150KB", type: "ok", tag: undefined },
   { name: "ws (UNUSED)", kb: 150, maxKb: 3000, label: "~150KB", type: "danger", tag: undefined },
@@ -383,7 +339,6 @@ const BUNDLE_BARS: BundleBar[] = [
   { name: "satori", kb: 100, maxKb: 3000, label: "~100KB", type: "gray", tag: "server" },
   { name: "react-color", kb: 55, maxKb: 3000, label: "~55KB", type: "ok", tag: undefined },
   { name: "react-i18next", kb: 55, maxKb: 3000, label: "~55KB", type: "ok", tag: undefined },
-  { name: "react-phone-input-2", kb: 60, maxKb: 3000, label: "~60KB", type: "ok", tag: undefined },
   { name: "date-fns", kb: 60, maxKb: 3000, label: "~60KB", type: "lazy", tag: "lazy" },
   { name: "react-select (UNUSED)", kb: 28, maxKb: 3000, label: "~28KB", type: "danger", tag: undefined },
   { name: "jotai (UNUSED)", kb: 8, maxKb: 3000, label: "~8KB", type: "danger", tag: undefined },
@@ -393,7 +348,7 @@ const RISKS = [
   {
     title: "pako × 3 نسخه",
     level: "yellow",
-    desc: "pdf-lib نسخه‌های v0.2، v1.x و v2.x از pako را به bundle اضافه می‌کند. حذف pdf-lib این مشکل را کاهش می‌دهد.",
+    desc: "چند نسخهٔ pako در درخت transitive دیده می‌شود. ابتدا با npm ls pako علت و مسیرهای واقعی را بررسی کنید؛ گزارش فعلی آن را به pdf-lib نسبت نمی‌دهد.",
   },
   {
     title: "@types/react-beautiful-dnd یتیم",
@@ -403,7 +358,7 @@ const RISKS = [
   {
     title: "ws override",
     level: "yellow",
-    desc: "ws در dependencies احتمالاً برای override نسخه آسیب‌پذیر داخل @microsoft/signalr اضافه شده. بررسی npm audit لازم است.",
+    desc: "ws در dependencies مستقیم است اما import مستقیمی در سورس گزارش پیدا نشد. حذف آن فقط پس از npm ls ws و npm audit انجام شود.",
   },
   {
     title: "react-leaflet بدون استفاده",
@@ -418,7 +373,7 @@ const RISKS = [
   {
     title: "@types/* در dependencies",
     level: "yellow",
-    desc: "@types/react، @types/react-dom، @types/wavesurfer.js و typescript در dependencies هستند نه devDependencies. با --production ممکن است مشکل ایجاد شود.",
+    desc: "@types/react، @types/react-dom، @types/wavesurfer.js و typescript در dependencies هستند نه devDependencies. انتقال به devDependencies باید با pipeline build بررسی شود.",
   },
   {
     title: "react-color قدیمی",
@@ -428,7 +383,7 @@ const RISKS = [
   {
     title: "dynamic import صحیح",
     level: "green",
-    desc: "apexcharts و heic2any با dynamic import یا lazy load صحیح استفاده می‌شوند.",
+    desc: "heic2any با dynamic import یا lazy load صحیح استفاده می‌شود.",
   },
   {
     title: "PWA پیکربندی صحیح",
@@ -460,7 +415,7 @@ const DUPLICATES = [
 
 // راه‌حل پیشنهادی برای نسخه‌های تکراری
 const DUPLICATE_SOLUTIONS: Record<string, string> = {
-  pako: "حذف یا جایگزینی pdf-lib، یا یکسان‌سازی نسخه‌ها با استفاده از overrides/resolutions در package.json و سپس نصب مجدد.",
+  pako: "ابتدا با npm ls pako مسیرهای واقعی نسخه‌ها را مشخص کنید؛ سپس فقط در صورت سازگاری، نسخه‌ها را با overrides در package.json یکسان کنید.",
   ws: "حذف dependency مستقیم ws یا تعیین نسخهٔ موردنظر در overrides؛ در صورت نیاز از نسخه‌ای که signalr انتظار دارد استفاده کنید.",
   ajv: "این نسخه‌ها مربوط به build-time هستند—آنها را در devDependencies نگه دارید یا با یک override نسخه‌ها را یکسان کنید.",
 };
@@ -474,6 +429,7 @@ const PKG_DESC: Record<string, string> = {
   "next-auth": "احراز هویت و مدیریت سشن‌ها در Next.js.",
   "react-i18next": "کتابخانهٔ بین‌المللی‌سازی (i18n) برای React.",
   "@microsoft/signalr": "کلاینت real-time برای اتصال به سرویس‌های SignalR.",
+  "@next/third-parties": "کامپوننت‌های رسمی Next.js برای اتصال سرویس‌هایی مثل Google Analytics و Tag Manager.",
   sass: "پردازش فایل‌های SCSS/SASS در زمان build.",
   "next-pwa": "افزودن PWA و service worker به اپ Next.js.",
   "terser-webpack-plugin": "مینیمایز کردن کد جاوااسکریپت در فرایند build.",
@@ -484,10 +440,9 @@ const PKG_DESC: Record<string, string> = {
   pako: "فشرده‌سازی/decompression (zlib) در مرورگر — مورد استفاده در چند بسته.",
   "date-fns": "توابع کمکی کار با تاریخ به صورت ماژولار و tree-shakable.",
   "react-input-emoji": "کامپوننت ورودی متن با پشتیبانی از ایموجی‌ها.",
+  "emoji-picker-react": "انتخاب‌گر ایموجی برای چت؛ در مسیرهای چت به‌صورت dynamic بارگذاری می‌شود.",
   satori: "کتابخانهٔ رندر گرافیکی برای تولید تصاویر (سرور-side).",
   heic2any: "تبدیل تصاویر HEIC به فرمت‌های وب مثل JPEG در مرورگر.",
-  apexcharts: "کتابخانهٔ رسم چارت‌های تعاملی در جاوااسکریپت.",
-  "react-apexcharts": "بایندینگ React برای ApexCharts.",
   swiper: "اسلایدر/کاروسل مدرن و سبک برای وب.",
   "react-toastify": "نمایش نوتیفیکیشن‌های Toast در رابط کاربری.",
   leaflet: "کتابخانهٔ نقشه‌بری سبک برای مرورگرها.",
@@ -497,7 +452,6 @@ const PKG_DESC: Record<string, string> = {
   "@dnd-kit/utilities": "ابزارهای کمکی برای dnd-kit.",
   "react-draggable": "درگ کردن سادهٔ کامپوننت‌ها در React.",
   "react-color": "پالت و اجزای انتخاب رنگ برای React.",
-  "react-phone-input-2": "فیلد ورودی شماره تلفن با فرمتینگ و پرچم‌ها.",
   "react-simple-star-rating": "کامپوننت رتبه‌دهی ستاره‌ای ساده.",
   "react-slider": "اسلایدر عددی/مقداری برای رابط‌های کاربری.",
   "@types/react": "تعاریف TypeScript برای React (type-only).",
@@ -588,7 +542,7 @@ export default function DependencyReport() {
       <div className={styles.header}>
         <div className={styles.headerBadge}>Dependency Analysis Report</div>
         <h1 className={styles.headerTitle}>گزارش تحلیل وابستگی‌های پروژه</h1>
-        <p className={styles.headerSub}>brancyui-next-app · Next.js 16 · تاریخ: ۲۳ فوریه ۲۰۲۶</p>
+        <p className={styles.headerSub}>brancyui-next-app · Next.js 16 · تاریخ: ۲۹ ژوئیه ۲۰۲۶</p>
       </div>
 
       {/* STATS */}
@@ -688,11 +642,6 @@ export default function DependencyReport() {
                       </td>
                       <td>
                         <UsedBadge used={d.used} label={d.usedLabel} />
-                      </td>
-                      <td>
-                        <Stars n={d.stars} />
-                      </td>
-                      <td>
                         <SafeBadge safe={d.safe} />
                       </td>
                       <td className={styles.dimText}>{d.bundleLabel}</td>
@@ -707,7 +656,6 @@ export default function DependencyReport() {
         ))}
       </div>
 
-      {/* DEVDEPS TABLE */}
       <div className={styles.section}>
         <div className={styles.sectionTitle}>
           <span className={styles.sectionIcon}>🛠</span>
@@ -818,7 +766,7 @@ export default function DependencyReport() {
             <ul className={styles.finalBoxList}>
               <li>
                 <span className={`${styles.dot} ${styles.dotGreen}`} />
-                apexcharts با dynamic import — bundle تمیز
+                chart bundle با dynamic import — bundle تمیز
               </li>
               <li>
                 <span className={`${styles.dot} ${styles.dotGreen}`} />
@@ -852,10 +800,6 @@ export default function DependencyReport() {
               <li>
                 <span className={`${styles.dot} ${styles.dotRed}`} />
                 <strong>react-select</strong> — هیچ import ندارد
-              </li>
-              <li>
-                <span className={`${styles.dot} ${styles.dotRed}`} />
-                <strong>react-infinite-scroll-component</strong> — custom hook جایگزین شده
               </li>
               <li>
                 <span className={`${styles.dot} ${styles.dotRed}`} />
@@ -901,7 +845,7 @@ export default function DependencyReport() {
               </li>
               <li>
                 <span className={`${styles.dot} ${styles.dotBlue}`} />
-                حذف pdf-lib → مشکل پاکو سه‌نسخه‌ای را برطرف می‌کند
+                بررسی مسیرهای pako با npm ls و یکسان‌سازی فقط در صورت تأیید سازگاری
               </li>
             </ul>
           </div>
