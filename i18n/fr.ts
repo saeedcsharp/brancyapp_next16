@@ -61,6 +61,8 @@ export default {
     minutesAgo: "Il y a quelques minutes",
     justNow: "À l’instant",
     upgradeyouraccount: "Améliorez votre compte",
+    featureNotAvailable: "Cette fonctionnalité n'est pas disponible",
+    featureNotAvailableDesc: "Améliorez votre compte pour utiliser cette fonctionnalité.",
     likeaprouser: "Lancez une vraie entreprise",
     followerrate: "Taux de croissance des abonnés",
     shoppertitle: "Tout est prêt à la vente 👌",
@@ -311,6 +313,11 @@ export default {
     footer_ProductUpdates: "Dernières mises à jour",
     footer_Articles: "Articles",
     footer_LatestNews: "Dernières nouvelles",
+    installPromptMessage: "Installer l'application web Brancy",
+    install: "Installer",
+    installStep1: "Appuyez sur le bouton de partage en bas.",
+    installStep2: "Faites défiler le menu vers le haut et choisissez 'Add to Home Screen'.",
+    installStep3: "Appuyez sur 'Add' en haut de l'écran.",
 
     joinUs_subtitle: "Rejoignez Brancy; Là Où L'Innovation Et Un Avenir Durable Prennent Forme.",
     joinUs_whyWorkWithUs: "Pourquoi Brancy?",
@@ -1755,27 +1762,34 @@ export default {
     messagesetting_SearchforproductsExplain:
       "Les utilisateurs peuvent envoyer le nom du produit, le numéro du post ou une partie de la légende pour obtenir les détails complets du produit et, s'ils le souhaitent, effectuer leur achat directement. Cette fonctionnalité a un impact positif sur la croissance des ventes.",
     messagesetting_addautomaticreplysystemsystem: "Une réponse système unifiée pour toutes les sections de la page",
-    messagesetting_HideRobotReply: "Masquer la réponse du robot",
+    messagesetting_HideRobotReply: "Masquer les messages automatiques et les bots",
     messagesetting_HideRobotReplyExplain:
-      "En activant cette option, seuls les vrais messages seront affichés, et les commentaires et messages automatisés ou générés par le système seront masqués.",
-    messagesetting_LikeRobotReply: "Aimer toutes les réponses aux commentaires",
-    messagesetting_LikeRobotReplyExplain: "Les réponses dans la Story seront automatiquement aimées par le robot.",
+      "Les messages automatiques des bots sont masqués et seuls les vrais messages sont affichés dans le Direct",
+    messagesetting_LikeRobotReply: "Like automatique des commentaires Story",
+    messagesetting_HideRobotReplytooltip:
+      "Les messages ne sont pas supprimés, ils sont uniquement masqués afin de faciliter la gestion des Direct",
+    messagesetting_LikeRobotReplyExplain:
+      "Les commentaires Story sont automatiquement likés pour améliorer l'engagement plus rapidement",
+    messagesetting_automaticreplysystem: "Contrôle des réponses automatiques",
+    messagesetting_automaticreplysystemforallpost:
+      "Activer ou désactiver les réponses automatiques aux commentaires pour tous les Post",
+    messagesetting_automaticreplysystemforallposttooltip:
+      "Si vous avez configuré des réponses automatiques pour différents Post, cette option vous permet de toutes les activer ou désactiver en une seule fois. Pour modifier les réponses, vous devez ouvrir la page de chaque Post séparément",
+
     messagesetting_messagePanellanguage: "Langue par défaut du Direct",
     messagesetting_messagePanellanguageExplain: "La langue par défaut du bot Direct pour répondre aux messages.",
-    messagesetting_AutoReplyPerFollow: "Réponse automatique après suivi",
+    messagesetting_AutoReplyPerFollow: "Réponse automatique après le Follow",
     messagesetting_AutoReplyPerFollowExplain:
-      "La réponse automatique sera envoyée uniquement aux abonnés, et les non-abonnés recevront d'abord une demande de suivi.",
+      "Les utilisateurs doivent d'abord follow votre page pour recevoir les messages automatiques",
+    messagesetting_AutoReplyPerFollowtooltip:
+      "Les utilisateurs qui ne vous follow pas recevront d'abord une demande de Follow. Après avoir follow votre page, le message automatique leur sera envoyé",
     messagesetting_AutoReplyPerFollowtitle: "Texte du message",
-    messagesetting_AutoReplyPerFollowtitlesample: "Exemple : Suivez notre page pour recevoir le premier message",
+    messagesetting_AutoReplyPerFollowtitlesample: "Exemple : Follow notre page pour recevoir le message",
     messagesetting_AutoReplyPerFollowbtn: "Texte du bouton",
-    messagesetting_AutoReplyPerFollowbtnsample: "Exemple : J'ai suivi, veuillez m'envoyer le message",
-    messagesetting_automaticreplysystem: "Système de Réponse Automatique",
+    messagesetting_AutoReplyPerFollowbtnsample: "Exemple : J'ai Follow, envoyez le message",
     messagesetting_automaticreplysystemexplain:
       "Le système répond automatiquement avec un message prédéfini à chaque message ou commentaire reçu dans n'importe quelle section de la page (Feed, Story, Reels, Live, etc.).",
-    messagesetting_automaticreplysystemforallpost:
-      "Activer ou désactiver toutes les réponses automatiques pour les publications",
-    messagesetting_automaticreplysystemforallposttooltip:
-      "Ce paramètre s'applique aux réponses robotiques pour les publications et son changement affectera toutes les réponses automatiques de chaque publication. Pour ajouter des réponses, vous devez visiter chaque publication individuellement.",
+
     messagesetting_KeywordSensitive: "Sensible aux mots-clés",
     messagesetting_KeywordsSensitive: "Sensible aux mots-clés",
     sendreplydirectedsuccessfully: "Message de confirmation envoyé dans le comment après le Direct",
@@ -1841,7 +1855,37 @@ export default {
     messagesetting_ViewFlow: "Afficher le Flow",
     messagesetting_UseGeneralAIExplain:
       "Utiliser l’IA générale pour une interaction libre et sans restriction avec les utilisateurs",
+    tool_token_usage_guide: "Consommation approximative de tokens lors de l’exécution de cet outil",
+    tool_how_use: "Comment utiliser l’outil",
+    tool_how_work: "Comment fonctionne l’outil",
+    send_sms_ir_code_description: "Envoyer un SMS au mobile de l'utilisateur via la plateforme SMS.ir",
+    send_sms_ir_code_completeDescription:
+      "Cet outil permet d’envoyer des SMS aux utilisateurs, comme des codes de vérification, d’inscription ou des notifications. Il permet de récupérer les numéros de téléphone et de les utiliser dans votre service SMS.",
+    send_sms_ir_code_howUse: `1- Obtenez votre ApiKey depuis SMS.ir et saisissez-le.
+2- Ajoutez votre modèle SMS dans le champ TemplateId.
+3- Partout où {CODE} apparaît, il sera remplacé automatiquement par un code OTP.
+`,
+    send_sms_ir_code_howWork: `1- L’utilisateur envoie son numéro en Direct.
+2- Le SMS est envoyé. Si {CODE} est présent, il est remplacé par un OTP.
+3- L’utilisateur renvoie le code à l’IA.
+4- L’IA vérifie le code et confirme le numéro.
+`,
 
+    send_to_telegram_description: "Envoyer un message sur Telegram via un bot",
+    send_to_telegram_completeDescription:
+      "Cet outil permet d’envoyer des messages sur Telegram via un bot. Les messages sont envoyés via Bot Token à un chat ou canal spécifique.",
+    send_to_telegram_howUse:
+      "1- Entrez le Token du bot.\n2- Entrez l’ID du chat ou du canal.\n3- Exécutez l’outil pour envoyer le message.",
+    send_to_telegram_howWork:
+      "1- L’utilisateur entre Token et Channel.\n2- Le système prépare la requête API Telegram.\n3- Le message est envoyé au chat ou canal.",
+
+    sender_username_description: "Utiliser le nom d’utilisateur de l’expéditeur dans le prompt",
+    sender_username_completeDescription:
+      "Cet outil permet d’utiliser le nom d’utilisateur de l’expéditeur dans les prompts IA. En ajoutant {SENDER_USERNAME}, il sera remplacé automatiquement.",
+    sender_username_howUse:
+      "1- Ajoutez {SENDER_USERNAME} dans votre prompt.\n2- Il sera remplacé automatiquement lors de l’exécution.",
+    sender_username_howWork:
+      "1- L’utilisateur ajoute {SENDER_USERNAME}.\n2- Le système le remplace par le nom d’utilisateur.\n3- L’IA génère la réponse avec ce nom.",
     // #endregion Message Section
     // #region 5️⃣market Section
     // 5️⃣ Market -> home
@@ -1877,10 +1921,32 @@ export default {
     marketstatisticslastupdate: "dernière mise à jour",
     marketstatisticsAllsearches: "toutes les recherches",
     marketstatisticsfeatures: "fonctionnalités",
+    marketstatisticsVisits: "Visites",
+    marketstatisticsClicksAndInteractions: "Clics et interactions",
+    marketstatisticsVisitsConverted: "Visites converties en clics",
+    marketstatisticsQuickUserExitAfterEntry: "Sortie rapide des utilisateurs après l'entrée",
+    marketstatisticsNoInteractionExit: "Sortie sans interaction",
+    marketstatisticsMaxClicksPerVisit: "Nombre maximal de clics par utilisateur en une visite",
+    marketstatisticsAvgClicksAndInteractionsPerVisitor: "Moyenne de clics et d'interactions par visiteur",
+    marketstatisticsTotalVisitTime: "Temps total de visite",
+    marketstatisticsAvgVisitTime: "Durée moyenne de visite",
+    marketstatisticsVideoPlatformsComparison: "Comparaison des plateformes vidéo",
+    marketstatisticsYoutube: "YouTube",
+    marketstatisticsAparat: "Aparat",
+    marketstatisticsTwitch: "Twitch",
+    marketstatisticsPlatformEntry: "Entrée sur la plateforme",
+    marketstatisticsRedirectEvent: "Événement de redirection",
+    marketstatisticsPlayVideo: "Lecture de vidéo",
+    marketstatisticsPlayEvent: "Événement de lecture",
+    marketstatisticsUniqueVisit: "Visite unique",
+    marketstatisticsDedicatedLinkVisits: "Visites du lien dédié",
+    marketstatisticsCombinedLinkVisits: "Graphique combiné des visites de liens",
     // 5️⃣ Market -> Properties
     marketPropertiesfeatures: "Fonctionnalités",
     marketPropertiesProfileInfoBanner: "Informations de Profil & Bannière",
     marketPropertiesFeaturebox: "Boîte de Fonctionnalités",
+    marketPropertiesFeatureboxexplain:
+      "En activant chaque fonctionnalité, vous pouvez afficher des informations importantes aux visiteurs de votre page de lien",
     marketPropertiesBanner: "Bannière",
     marketPropertiesFeaturesBox: "Boîte de Fonctionnalités",
     marketPropertiesReviews: "Avis",
@@ -1936,6 +2002,22 @@ export default {
     marketPropertiespopup_mediastream: "Média et streaming",
     marketPropertiespopup_clouddrivecontent: "Contenu du cloud",
     marketPropertiespopup_Finance: "Finance",
+    marketProperties_followersrate: "Nombre de followers",
+    marketProperties_followersrateExplain: "Affiche le nombre de followers de votre page Instagram",
+    marketProperties_successRating: "Taux de réussite",
+    marketProperties_successRatingExplain: "Affiche votre score de réussite dans l’exécution des commandes",
+    marketProperties_bussinessHours: "Heures d’activité",
+    marketProperties_bussinessHoursExplain: "Affiche les horaires d’ouverture de votre entreprise",
+    marketProperties_Enamadverified: "Vérification E-Namad",
+    marketProperties_EnamadverifiedExplain: "Affiche le statut de vérification de votre badge de confiance E-Namad",
+    marketProperties_BusinessTerms: "Conditions d’utilisation",
+    marketProperties_BusinessTermsExplain: "Affiche les termes et conditions de votre activité",
+    marketProperties_tariff: "Tarifs",
+    marketProperties_TariffExplain: "Affiche vos tarifs de services",
+    marketProperties_StartADS: "Démarrer une demande de publicité",
+    marketProperties_StartADSExplain: "Les utilisateurs peuvent lancer leur publicité selon vos tarifs",
+    marketProperties_StartSALES: "Démarrer un achat",
+    marketProperties_StartSALESExplain: "Les utilisateurs peuvent commencer leurs achats selon vos produits",
     linkURL: "URL du lien",
     searchID: "Ajouter une chaîne",
     searchIDexplain: "Entrez l’identifiant ou le nom de la chaîne souhaitée",
@@ -2114,8 +2196,44 @@ export default {
     Storeproduct_price: "Prix",
     Storeproduct_active: "Actif",
     Storeproduct_gram: "Gramme",
+    bulkProduct: {
+      title: "Gérer les produits sélectionnés",
+      selectedCount: "{{count}} produits sélectionnés",
+      priceChange: "Modifier le prix",
+      valueType: "Type de valeur",
+      amount: "Montant",
+      increase: "Augmenter",
+      decrease: "Réduire",
+      applyAll: "Appliquer la même modification à tous",
+      applyIndividual: "Régler chaque produit séparément",
+      allProducts: "Appliquer aux {{count}} produits",
+      discountAllHint: "Définissez un pourcentage ou un montant de remise fixe pour tous les produits sélectionnés.",
+      priceAllHint: "Augmentez ou réduisez tous les prix par pourcentage ou montant fixe.",
+      currentDiscount: "Remise actuelle",
+      saving: "Enregistrement...",
+    },
     loadingmoreproducts: "Chargement de plus de produits...",
     noMoreProducts: "Aucun produit trouvé",
+    storestatistics_lasttwomonth: "Deux Derniers Mois",
+    storestatistics_lastmonth: "Mois Dernier",
+    storestatistics_thismonth: "Ce Mois-ci",
+    storestatistics_sales: "Ventes",
+    storestatistics_fromlast: "% par rapport au mois dernier",
+    storestatistics_totalSalesstatistics: "Statistiques Globales des Ventes",
+    storestatistics_TotalSales: "Ventes Totales",
+    storestatistics_TotalIncome: "Revenus Totaux",
+    storestatistics_totalsalesreport: "Meilleurs Acheteurs",
+    storestatistics_buyer: "Informations sur l'Acheteur",
+    storestatistics_totalPurchases: "Nombre Total d'Achats",
+    storestatistics_totalAmount: "Montant Total des Achats",
+    storestatistics_lastPurchase: "Date du Dernier Achat",
+    storestatistics_saleno: "Numéro de Vente",
+    storestatistics_seller: "Vendeur",
+    storestatistics_type: "Type",
+    storestatistics_status: "Statut",
+    storestatistics_price: "Prix",
+    storestatistics_date: "Date",
+    storestatistics_share: "Partager",
     // Store -> order
     incartcount: "Dans le panier",
     addtocart: "Ajouter au Panier",
@@ -2418,6 +2536,7 @@ export default {
     startbusiness: "Créer une entreprise",
     AI: "IA",
     ExtraTokens: "Jetons Suppl.",
+    TokenUsage: "Utilisation des tokens",
     AdvancedAnalytics: "Analyse Avancée",
     AIResponse: "Réponses IG IA",
     CustomSupport: "Support Perso",
@@ -3185,6 +3304,22 @@ export default {
     Notify_NoEventsFoundForThisPrompt: "Aucun événement trouvé pour cette invite",
     Notify_PageAnalysisNotExist: "L'analyse de page n'existe pas",
     Notify_NoEventIdeaGenerated: "Aucune idée d'événement générée",
+    Notify_PhoneNumberAddedBefore: "Ce numéro de téléphone a déjà été ajouté",
+    Notify_WhatsAppCodeSendedBeforeAndWait1Day: "Un code WhatsApp a déjà été envoyé. Veuillez attendre un jour",
+    Notify_WhatsAppCodeNotRequested: "Aucun code de vérification WhatsApp n'a été demandé",
+    Notify_WhatsAppCodeMaxInvalidCountReach: "Le nombre maximal de tentatives de code WhatsApp incorrect a été atteint",
+    Notify_UserWithThisPhoneNumberAlreadyExist: "Un utilisateur avec ce numéro de téléphone existe déjà",
+    Notify_InvalidAIToolId: "Identifiant d'outil d'IA non valide",
+    Notify_AIToolParameterRequired: "Le paramètre de l'outil d'IA est requis",
+    Notify_AIToolParameterNotRequired: "Cet outil d'IA n'accepte aucun paramètre",
+    Notify_ExceedDailyLimit: "La limite quotidienne a été dépassée",
+    Notify_CannotGetTwitchRightNow: "Impossible de récupérer les données Twitch pour le moment",
+    Notify_InvalidTwitchChannelId: "Identifiant de chaîne Twitch non valide",
+    Notify_PhoneNumberRequired: "Le numéro de téléphone est requis",
+    Notify_NotVerifiedHost: "L'hôte n'est pas vérifié",
+    Notify_NotBusinesser: "Cet utilisateur n'est pas un professionnel",
+    Notify_NotFoundAnySuggestedCategory: "Aucune catégorie suggérée n'a été trouvée",
+    Notify_NoInvoiceExist: "Aucune facture n'existe",
     InternalNotify_Ok: "Opération réussie",
     InternalNotify_RepetitiveHashtagInput: "Le hashtag saisi est répétitif",
     InternalNotify_NotFoundDevice: "Appareil non trouvé",

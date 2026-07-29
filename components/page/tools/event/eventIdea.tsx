@@ -8,13 +8,13 @@ import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { LanguageKey } from "brancy/i18n";
 import { useSession } from "next-auth/react";
 import { forwardRef, useCallback, useEffect, useImperativeHandle, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import styles from "./event.module.css";
+import { PartnerRole } from "brancy/models/enums";
 
 interface IEventIdeaItem {
   ideaId: number;

@@ -21,13 +21,19 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
-import { IDetailPrompt, IPrompts, ITotalPrompt } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
-import { AutoReplyPayLoadType, MediaProductType } from "brancy/models/messages/enum";
-import { IMasterFlow, ITotalMasterFlow } from "brancy/models/messages/properies";
-import { IAutomaticReply, IMediaUpdateAutoReply } from "brancy/models/page/post/posts";
 import styles from "./editAutoReply.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { MediaProductType, AutoReplyPayLoadType } from "brancy/models/enums";
+import {
+  IMediaUpdateAutoReply,
+  IAutomaticReply,
+  IPrompts,
+  IDetailPrompt,
+  IMasterFlow,
+  ITotalMasterFlow,
+  ITotalPrompt,
+} from "brancy/models/interfaces";
 type CheckBoxState = {
   Custom: boolean;
   Flow: boolean;
@@ -344,6 +350,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       replySuccessfullyDirected: replyMethod?.replySuccessfullyDirected ?? false,
       shouldFollower: replyMethod !== null && replyMethod.shouldFollower,
     };
+    console.log("sendAutoooooo", sendAuto);
     if (checkBox.AI) {
       sendAuto = {
         ...sendAuto,
@@ -870,20 +877,11 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
           <div className="title" id="quick-reply-title" role="heading" aria-level={1}>
             {t(LanguageKey.messagesetting_automaticreplysystem)}
             <Tooltip
+              triggerType="tooltip"
               tooltipValue={t(LanguageKey.messagesetting_automaticreplysystemexplain)}
               position="bottom"
-              onClick={true}>
-              <img
-                style={{
-                  marginInline: "5px",
-                  cursor: "pointer",
-                  width: "15px",
-                  height: "15px",
-                }}
-                alt="ℹ️ tooltip"
-                src="/tooltip.svg"
-              />
-            </Tooltip>
+              onClick={true}
+            />
           </div>
           {showActiveAutoreply && (
             <ToggleCheckBoxButton
@@ -922,6 +920,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                     checked={autoReplyAll}
                     handleOptionChanged={() => {
                       setAutoReplyAll(true);
+                      setReplyMethod((prev) => ({ ...prev!, items: [] }));
                     }}
                     textlabel={t(LanguageKey.respondToAllComments)}
                     aria-checked={autoReplyAll}
@@ -946,20 +945,11 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                             <div className="headertext">
                               {t(LanguageKey.messagesetting_KeywordsSensitive)}
                               <Tooltip
+                                triggerType="tooltip"
                                 tooltipValue={t(LanguageKey.sensitiveToSpecificKeywordsExplain)}
                                 position="bottom"
-                                onClick={true}>
-                                <img
-                                  style={{
-                                    marginInline: "5px",
-                                    cursor: "pointer",
-                                    width: "15px",
-                                    height: "15px",
-                                  }}
-                                  alt="ℹ️ tooltip"
-                                  src="/tooltip.svg"
-                                />
-                              </Tooltip>
+                                onClick={true}
+                              />
                             </div>
                             <div className="counter" aria-live="polite">
                               ({replyMethod?.items.length ?? 0}/10)
@@ -1317,7 +1307,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                           </div>
                         </div>
                         <TextArea
-                          className={"captiontextarea"}
+                          className="TextArea"
                           placeHolder={t(LanguageKey.pageToolspopup_typehere)}
                           fadeTextArea={false}
                           handleInputChange={(e) => {

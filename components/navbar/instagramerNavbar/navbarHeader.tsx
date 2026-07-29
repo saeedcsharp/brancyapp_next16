@@ -7,11 +7,13 @@ import { InstaInfoContext } from "brancy/context/instaInfoContext";
 import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
 import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
-import { PushNotif, PushResponseType } from "brancy/models/push/pushNotif";
 import NavbarMobile from "brancy/components/navbar/instagramerNavbar/navbar_mobile";
 import styles from "./navbarheader.module.css";
 import NotificationBar from "brancy/components/navbar/instagramerNavbar/notificationBar";
 import Profile from "brancy/components/navbar/instagramerNavbar/profile";
+import FeatureSearch from "brancy/components/search/featureSearch";
+import { PushResponseType } from "brancy/models/enums";
+import { PushNotif } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
 
 const NavbarHeader = (props: {
@@ -51,7 +53,8 @@ const NavbarHeader = (props: {
   async function handleGetNotif(notif: string) {
     const decombNotif = handleDecompress(notif);
     const notifObj = JSON.parse(decombNotif!) as PushNotif;
-    if (notifObj.IsNavbar && notifObj.InstagramerId) {
+    console.log("Received notification in navbar header", notifObj);
+    if (notifObj.IsNavbar) {
       console.log("decombNotif in navbar header", notifObj);
       // setNavbarNotifs((prev) => [notifObj, ...prev]);
       if (setValue && sessionRef.current!.user.currentIndex > -1) setValue((prev) => [notifObj, ...prev]);
@@ -74,18 +77,23 @@ const NavbarHeader = (props: {
         clearInterval(intervalId);
         return;
       }
-      console.log("interval check:", { isFirstLoad, LoginStatus: LoginStatus(s), packageStatus: packageStatus(s) });
+      // console.log("interval check:", { isFirstLoad, LoginStatus: LoginStatus(s), packageStatus: packageStatus(s) });
       if (!isFirstLoad || !LoginStatus(s) || !packageStatus(s)) return;
       console.log("Attempting to set up SignalR connection for notifications");
       const hubConnection = getHubConnection();
       if (hubConnection) {
-        hubConnection.off("Instagramer socket on", handleGetNotif);
+        hubConnection.off("Instagramer ", handleGetNotif);
         hubConnection.on("Instagramer", handleGetNotif);
         clearInterval(intervalId);
         setIsFirstLoad(false);
       }
     }, 500);
-  }, []);
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId);
+      }
+    };
+  }, [handleGetNotif]);
   useEffect(() => {
     setGooli(false);
   }, [props.toggleNotif]);
@@ -96,6 +104,21 @@ const NavbarHeader = (props: {
       </nav>
       <div id="navbarheader" className={styles.pageheaders}>
         <div className={styles.pageHeaderIcons}>
+          <button
+            type="button"
+            className={styles.search}
+            onClick={(event) => {
+              event.stopPropagation();
+              props.handleShowSearchBar(event);
+            }}
+            aria-label="Search features"
+            aria-expanded={props.showSearchBar}
+            title="Search features">
+            <svg className={styles.icon} viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <circle cx="11" cy="11" r="7" stroke="var(--color-light-blue)" strokeWidth="2.5" />
+              <path d="m16.5 16.5 4 4" stroke="var(--color-light-blue)" strokeWidth="2.5" strokeLinecap="round" />
+            </svg>
+          </button>
           <div
             className={styles.fullscreen}
             onClick={toggleFullscreen}
@@ -175,7 +198,7 @@ const NavbarHeader = (props: {
             role="button"
           />
         </div>
-        {/* {props.showSearchBar && <SearchBar removeMask={props.handleShowSearchBar} />} */}
+        {props.showSearchBar && <FeatureSearch onClose={props.removeMask} />}
         {props.showNotifBar && (
           <NotificationBar
             notifs={value && session!.user.currentIndex > -1 ? value : []}

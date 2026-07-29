@@ -6,15 +6,16 @@ import RingLoader from "brancy/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
 import initialzedTime from "brancy/helper/manageTimer";
-import { IOwnerInbox, ISendTicketMessage, ITicket, ITicketMediaType } from "brancy/models/userPanel/message";
 import LinkifyText from "brancy/context/LinkifyText";
 import styles from "./ticketChatBox.module.css";
+import { ITicketMediaType } from "brancy/models/enums";
+import { ITicket, ISendTicketMessage, ITicketOwnerInbox } from "brancy/models/interfaces";
 const UserPanelDirectChatBox = (props: {
   userSelectId: number | null;
   chatBox: ITicket;
   sendingMessages: ISendTicketMessage[];
   showIcon: string;
-  ownerInbox: IOwnerInbox;
+  ownerInbox: ITicketOwnerInbox;
   showUserList: () => void;
   handleShowIcon: (e: MouseEvent) => void;
   handleSendMessage: (message: ISendTicketMessage) => void;

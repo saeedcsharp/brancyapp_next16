@@ -9,7 +9,7 @@ import SpecialPayLoadComp from "brancy/components/messages/popups/specialPayLoad
 import AutoReply from "brancy/components/messages/properties/autoreply";
 import IceBreaker from "brancy/components/messages/properties/iceBreaker";
 import MessagePanel from "brancy/components/messages/properties/messagePanel";
-import PersistentMenu from "brancy/components/messages/properties/persistentMnue";
+import PersistentMenu from "brancy/components/messages/properties/persistentMenu";
 import PopupComment from "brancy/components/messages/properties/popupComment";
 import PopupDirect from "brancy/components/messages/properties/popupDirect";
 import {
@@ -25,26 +25,27 @@ import NotPermission, { PermissionType } from "brancy/components/notOk/notPermis
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
 import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType } from "brancy/helper/api";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   AutoReplyPayLoadType,
   IceOrPersistent,
   Language,
   MediaProductType,
+  PartnerRole,
   SpecialPayLoad,
-} from "brancy/models/messages/enum";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+} from "brancy/models/enums";
 import {
-  IAutoReplySetting,
-  ICreateGeneralAutoReply,
-  IGeneralAutoReply,
-  IIceBreaker,
-  IMessagePanel,
-  IProfileButtons,
   ISpecialPayload,
+  IIceBreaker,
+  IProfileButtons,
+  IMessagePanel,
+  IGeneralAutoReply,
+  ICreateGeneralAutoReply,
+  IAutoReplySetting,
   IUpdateProfileButton,
-} from "brancy/models/messages/properies";
+} from "brancy/models/interfaces";
+
 const Properties = () => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -105,14 +106,18 @@ const Properties = () => {
     //   specialPayload: SpecialPayLoad.ViewRole,
     //   description: "ViewRole",
     // },
-    // {
-    //   specialPayload: SpecialPayLoad.ViewShop,
-    //   description: "ViewShop",
-    // },
     {
-      specialPayload: SpecialPayLoad.ViewWebsite,
-      description: "ViewWebsite",
+      specialPayload: SpecialPayLoad.ViewShop,
+      description: "ViewShop",
     },
+    ...(session?.user.isShopper
+      ? [
+          {
+            specialPayload: SpecialPayLoad.ViewWebsite,
+            description: "ViewWebsite",
+          },
+        ]
+      : []),
   ];
   const [showSpecialPayLoad, setShowSpecialPayLoad] = useState(false);
   const [specialPayloadInfoForIce, setSpecialPayloadInfoForIce] = useState<ISpecialPayload[]>(specialPayLoadArr);

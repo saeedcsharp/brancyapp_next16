@@ -221,6 +221,7 @@
   border-radius: 50%;
   background-color: var(--color-white);
   width: 50px;
+  min-width: 50px;
   z-index: 1;
   height: 50px;
 }
@@ -276,15 +277,24 @@
   position: relative;
   color: var(--text-h2);
   text-align: center;
+  gap: var(--gap-5);
   font-size: var(--font-12);
   font-weight: var(--weight-400);
+  animation: var(--top04);
+  transition: var(--transition2);
   text-overflow: ellipsis;
+  display: flex;
   max-width: 180px;
   width: 100%;
   min-height: 18px;
   white-space: nowrap;
   text-align: left;
   overflow: hidden;
+  align-content: center;
+  align-items: center;
+  justify-content: flex-start;
+  flex-direction: row;
+  flex-wrap: nowrap;
 }
 .ticketid {
   position: relative;

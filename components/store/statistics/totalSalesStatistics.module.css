@@ -1,0 +1,113 @@
+.statistics {
+  position: relative;
+  display: flex;
+  width: 100%;
+  gap: var(--gap-20);
+  margin: 10px 0;
+  padding: var(--paddingbox);
+  border-radius: var(--br25);
+  background-color: var(--color-white);
+  font-size: var(--font-12);
+  transition: var(--transition3);
+  color: var(--text-h1);
+  flex-direction: column;
+  justify-content: space-between;
+}
+.statistics:hover {
+  box-shadow: var(--box-shadow);
+}
+@media (max-width: 480px) {
+  .statistics {
+    padding: var(--paddingboxmobile) !important;
+  }
+}
+
+.main {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.totalsummery {
+  position: relative;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.totalsummerychild {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-5);
+}
+
+.totalcounter {
+  position: relative;
+  text-align: center;
+  line-height: normal;
+  color: var(--text-h1);
+  font-size: var(--font-16);
+  font-weight: var(--weight-600);
+}
+
+.totalabel {
+  position: relative;
+  text-align: center;
+  line-height: normal;
+  color: var(--text-h2);
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
+}
+.totalchart {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+/*  */
+.totalcounterparent {
+  width: 100%;
+  background-color: var(--color-gray30);
+  border-radius: var(--br20);
+  padding: 2px;
+  display: flex;
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+}
+.totalcounterrate {
+  background-color: var(--color-white);
+  border-radius: var(--br20);
+  padding: var(--padding-3) var(--padding-8);
+  display: flex;
+  gap: var(--gap-10);
+  align-items: center;
+  flex-direction: row;
+  flex-wrap: nowrap;
+  justify-content: center;
+  font-size: var(--font-12);
+  font-weight: var(--weight-600);
+}
+.totalcounterrate svg {
+  flex: 0 0 auto;
+}
+.totalcountercount {
+  color: var(--text-h1);
+  font-size: var(--font-12);
+  font-weight: var(--weight-500);
+  padding-inline: var(--padding-8);
+}
+.totalabel {
+  font-size: var(--font-16);
+  font-weight: var(--weight-400);
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-10);
+}

@@ -23,18 +23,18 @@ import checkFeature from "brancy/helper/checkFeature";
 import { RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime, { convertToMilliseconds } from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IPageInfo } from "brancy/models/customerAds/customerAd";
-import {
-  ILotteryInfo,
-  IShortPostInfo,
-  LotteryType,
-  ShowScoreLotteryType,
-  lotterySpecificationType,
-} from "brancy/models/page/tools/tools";
-import { FeatureType, IFeatureInfo } from "brancy/models/psg/psg";
+
 import styles from "./scoreLottery.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { ILotteryInfo, IPageInfo, IPsgFeatureInfo, IShortPostInfo } from "brancy/models/interfaces";
+import {
+  ShowScoreLotteryType,
+  lotterySpecificationType,
+  LotteryType,
+  PartnerRole,
+  PsgFeatureType,
+} from "brancy/models/enums";
+
 const basePictureUrl = getClientMediaBaseUrl();
 const ScoreLottery = (props: {
   removeMask: () => void;
@@ -42,7 +42,7 @@ const ScoreLottery = (props: {
   lotteryInfo: ILotteryInfo;
   shortPost: IShortPostInfo | null;
   unixData: number | null;
-  featureInfo: IFeatureInfo | null;
+  featureInfo: IPsgFeatureInfo | null;
   saveScoreLottery: (scoreLottery: ILotteryInfo) => Promise<void>;
   showSpecification: (scoreLottery: ILotteryInfo, lotterySpecification: lotterySpecificationType) => void;
 }) => {
@@ -206,7 +206,7 @@ const ScoreLottery = (props: {
           //       break;
           //     }
           //   }
-          if (item.pk != session?.user.pk && !existed) {
+          if (item.username != session?.user.username && !existed) {
             pages.push(item);
           }
         }
@@ -231,7 +231,7 @@ const ScoreLottery = (props: {
       props.removeMask();
       return;
     }
-    const featureIsCheck = checkFeature(FeatureType.Lottery, props.featureInfo);
+    const featureIsCheck = checkFeature(PsgFeatureType.Lottery, props.featureInfo);
     if (!featureIsCheck) router.push("/upgrade");
     if (props.showScoreLottery === ShowScoreLotteryType.Back) {
       console.log("props.showScoreLottery", props.lotteryInfo);

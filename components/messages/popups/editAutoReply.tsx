@@ -3,7 +3,6 @@ import Head from "next/head";
 import router from "next/router";
 import React, { ChangeEvent, useCallback, useEffect, useId, useMemo, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-
 import CheckBoxButton from "brancy/components/design/checkBoxButton";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import InputText from "brancy/components/design/inputText";
@@ -21,20 +20,20 @@ import {
   notify,
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
-
 import { LanguageKey } from "brancy/i18n";
-import { IDetailPrompt, IPrompts } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
-import { AutoReplyPayLoadType, MediaProductType } from "brancy/models/messages/enum";
-import {
-  ICreateGeneralAutoReply,
-  IGeneralAutoReply,
-  IMasterFlow,
-  ITotalMasterFlow,
-} from "brancy/models/messages/properies";
 
 import styles from "./editAutoReply.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { MediaProductType, AutoReplyPayLoadType } from "brancy/models/enums";
+import {
+  ICreateGeneralAutoReply,
+  IGeneralAutoReply,
+  IPrompts,
+  IDetailPrompt,
+  IMasterFlow,
+  ITotalMasterFlow,
+} from "brancy/models/interfaces";
 type CheckBoxState = {
   Custom: boolean;
   Flow: boolean;
@@ -749,20 +748,11 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
           <div className="title" id="quick-reply-title" role="heading" aria-level={1}>
             {t(LanguageKey.messagesetting_automaticreplysystem)}
             <Tooltip
+              triggerType="tooltip"
               tooltipValue={t(LanguageKey.messagesetting_automaticreplysystemexplain)}
               position="bottom"
-              onClick={true}>
-              <img
-                style={{
-                  marginInline: "5px",
-                  cursor: "pointer",
-                  width: "15px",
-                  height: "15px",
-                }}
-                alt="ℹ️ tooltip"
-                src="/tooltip.svg"
-              />
-            </Tooltip>
+              onClick={true}
+            />
           </div>
           {autoReply.id !== null && autoReply.id !== "" && (
             <ToggleCheckBoxButton
@@ -826,20 +816,11 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                     <div className="headertext">
                       {t(LanguageKey.messagesetting_KeywordsSensitive)}
                       <Tooltip
+                        triggerType="tooltip"
                         tooltipValue={t(LanguageKey.sensitiveToSpecificKeywordsExplain)}
                         position="bottom"
-                        onClick={true}>
-                        <img
-                          style={{
-                            marginInline: "5px",
-                            cursor: "pointer",
-                            width: "15px",
-                            height: "15px",
-                          }}
-                          alt="ℹ️ tooltip"
-                          src="/tooltip.svg"
-                        />
-                      </Tooltip>
+                        onClick={true}
+                      />
                     </div>
                     <div className="counter" aria-live="polite">
                       ({specificKeywordsList.length}/10)
@@ -1178,7 +1159,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                           </div>
                         </div>
                         <TextArea
-                          className={"captiontextarea"}
+                          className="TextArea"
                           placeHolder={t(LanguageKey.pageToolspopup_typehere)}
                           fadeTextArea={false}
                           handleInputChange={(e) => {
@@ -1250,27 +1231,46 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
       <div className="ButtonContainer" role="group" aria-label="Form actions">
         <button
           type="submit"
-          disabled={activeAutoReply ? !isFormValid : !hasChanges}
+          disabled={
+            !(
+              activeAutoReply &&
+              specificKeywordsList.length > 0 &&
+              (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI) &&
+              (isFormValid || hasChanges)
+            )
+          }
           className={
-            activeAutoReply
-              ? isFormValid
-                ? "saveButton"
-                : "disableButton"
-              : hasChanges
-                ? "saveButton"
-                : "disableButton"
+            activeAutoReply &&
+            specificKeywordsList.length > 0 &&
+            (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI) &&
+            (isFormValid || hasChanges)
+              ? "saveButton"
+              : "disableButton"
           }
           onClick={() => {
             handleUpdateAutoReply();
           }}
           onKeyDown={(e) => {
-            if (e.key === "Enter" && (activeAutoReply ? isFormValid : hasChanges)) {
+            if (
+              e.key === "Enter" &&
+              activeAutoReply &&
+              specificKeywordsList.length > 0 &&
+              (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI) &&
+              (isFormValid || hasChanges)
+            ) {
               e.preventDefault();
               handleUpdateAutoReply();
             }
           }}
           aria-label="Save auto-reply settings"
-          aria-disabled={activeAutoReply ? !isFormValid : !hasChanges}>
+          aria-disabled={
+            !(
+              activeAutoReply &&
+              specificKeywordsList.length > 0 &&
+              (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI) &&
+              (isFormValid || hasChanges)
+            )
+          }>
           {t(LanguageKey.save)}
         </button>
         <button

@@ -15,11 +15,16 @@ import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { PushNotif, PushResponseType } from "brancy/models/push/pushNotif";
-import { LogisticType, OrderStep } from "brancy/models/store/enum";
-import { IOrderByStatus, IOrderByStatusItem, IOrderDetail, IOrderPushNotifExtended } from "brancy/models/store/orders";
 import styles from "./sent.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import {
+  IOrderByStatus,
+  IOrderByStatusItem,
+  IOrderDetail,
+  IOrderPushNotifExtended,
+  PushNotif,
+} from "brancy/models/interfaces";
+import { LogisticType, OrderStep, PushResponseType } from "brancy/models/enums";
 const basePictureUrl = getClientMediaBaseUrl();
 const MemoizedCheckBoxButton = React.memo(CheckBoxButton);
 interface SelectionState {
@@ -68,7 +73,7 @@ function selectionReducer(state: SelectionState, action: SelectionAction): Selec
     case "SELECT_ALL":
       return {
         ...state,
-        selectedOrders: new Set(action.payload?.orders?.items.map((o: IOrderByStatusItem) => o.id) || []),
+        selectedOrders: new Set(action.payload?.orders?.items.map((o: IOrderByStatusItem) => o.order.id) || []),
         selectedMenu: true,
         selectAll: true,
       };
@@ -181,7 +186,7 @@ const Sent = () => {
   //   });
   // };
 
-  const handleRowClick = (orderId: string, instagramerId: number, trackingId: string | null) => {
+  const handleRowClick = (orderId: string, trackingId: string | null, instagramerId?: number) => {
     // if (!state.clickedOrders.has(orderId)) {
     //   dispatch({ type: "ROW_CLICK", payload: { id: orderId } });
     // }
@@ -198,7 +203,7 @@ const Sent = () => {
   // const isAllSelected = state.selectedOrders.size === orders.items.length;
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatus", {
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/userorder/GetOrdersByStatus", {
         methodType: MethodType.get,
         session: session,
         data: null,
@@ -224,37 +229,53 @@ const Sent = () => {
       order.NewStatus === OrderStep.ShippingFailed
     ) {
       setOrders((prevOrders) => {
-        const updatedItems = prevOrders.items.filter((item) => item.id !== order.ShortOrder.Id);
+        const updatedItems = prevOrders.items.filter((item) => item.order.id !== order.Order.Id);
         return { ...prevOrders, items: updatedItems };
       });
       return;
     } else if (order.NewStatus === OrderStep.InShipping) {
       const orderStatus: IOrderByStatusItem = {
-        systemTicketId: order.ShortOrder.SystemTicketId,
-        trackingId: order.ShortOrder.TrackingId,
-        city: order.ShortOrder.City,
-        createdTime: order.ShortOrder.CreatedTime,
-        deliveryType: order.ShortOrder.DeliveryType,
-        id: order.ShortOrder.Id,
-        instagramerId: order.ShortOrder.InstagramerId,
-        invoiceId: order.ShortOrder.InvoiceId,
-        itemCount: order.ShortOrder.ItemCount,
-        logesticId: order.ShortOrder.LogesticId,
-        priceType: order.ShortOrder.PriceType,
-        state: order.ShortOrder.State,
-        userId: order.ShortOrder.UserId,
-        shortShop: {
-          instagramerId: order.ShortOrder.ShortShop!.InstagramerId,
-          priceType: order.ShortOrder.ShortShop!.PriceType,
-          productCount: order.ShortOrder.ShortShop!.ProductCount,
-          isSuspend: true,
+        businessProfile: {
+          instagramerId: order.BusinessProfile?.InstagramerId,
+          priceType: order.BusinessProfile?.PriceType,
+          banners: order.BusinessProfile?.Banners,
+          isSuspend: order.BusinessProfile?.IsSuspend,
+          bannerUrl: order.BusinessProfile?.BannerUrl,
+          businessType: order.BusinessProfile?.BusinessType,
+          countryId: order.BusinessProfile?.CountryId,
+          fbId: order.BusinessProfile?.FbId,
+          fullName: order.BusinessProfile?.FullName,
+          followerCount: order.BusinessProfile?.FollowerCount,
+          profileUrl: order.BusinessProfile?.ProfileUrl,
+          username: order.BusinessProfile?.Username,
+          fullAdvertise: order.BusinessProfile?.FullAdvertise,
+          fullShop: order.BusinessProfile?.FullShop,
+          fullVShop: order.BusinessProfile?.FullVShop,
         },
-        status: order.NewStatus,
-        statusUpdateTime: order.ShortOrder.StatusUpdateTime,
-        totalPrice: order.ShortOrder.TotalPrice,
-        userInfo: null,
+        order: {
+          id: order.Order.Id,
+          trackingId: order.Order.TrackingId,
+          itemCount: order.Order.ItemCount,
+          totalPrice: order.Order.TotalPrice,
+          priceType: order.Order.PriceType,
+          createdTime: order.Order.CreatedTime,
+          logesticId: order.Order.LogesticId,
+          city: order.Order.City,
+          deliveryType: order.Order.DeliveryType,
+          expireTime: order.Order.ExpireTime,
+          fbId: order.Order.FbId,
+          invoiceId: order.Order.InvoiceId,
+          shopAddressId: order.Order.ShopAddressId,
+          shortShop: order.Order.ShortShop,
+          source: order.Order.Source,
+          state: order.Order.State,
+          status: order.NewStatus,
+          statusUpdateTime: order.Order.StatusUpdateTime,
+          userId: order.Order.UserId,
+        },
+        userProfile: null,
       };
-      console.log("Order initialized in sent in user", order.ShortOrder);
+      console.log("Order initialized in sent in user", order.Order);
       setOrders((prevOrders) => ({
         ...prevOrders,
         items: [orderStatus, ...prevOrders.items],
@@ -276,10 +297,10 @@ const Sent = () => {
       console.error("Error parsing notification:", error);
     }
   }
-  function handleClickOnTicket(order: IOrderByStatusItem): void {
-    if (order.systemTicketId) router.push(`/user/message?id=${order.systemTicketId}`);
-    else setTicketTitle(order.id);
-  }
+  // function handleClickOnTicket(order: IOrderByStatusItem): void {
+  //   if (order.systemTicketId) router.push(`/user/message?id=${order.systemTicketId}`);
+  //   else setTicketTitle(order.id);
+  // }
   useEffect(() => {
     if (!session) return;
     fetchData();
@@ -364,7 +385,9 @@ const Sent = () => {
               <tbody>
                 {orders.items.map((order, index) => (
                   <tr
-                    onClick={() => handleRowClick(order.id, order.shortShop!.instagramerId, order.trackingId)}
+                    onClick={() =>
+                      handleRowClick(order.order.id, order.order.trackingId, order.businessProfile?.instagramerId)
+                    }
                     key={index}
                     className={styles.row}>
                     <td
@@ -383,8 +406,10 @@ const Sent = () => {
                     </td>
                     <td
                       style={{ minWidth: "90px" }}
-                      className={state.clickedOrders.has(order.id) ? styles.ordernumberviewed : styles.ordernumber}>
-                      {order.id}
+                      className={
+                        state.clickedOrders.has(order.order.id) ? styles.ordernumberviewed : styles.ordernumber
+                      }>
+                      {order.order.id}
                       {/* {clickedOrders.has(order.id) && <span> ✓</span>} */}
                     </td>
 
@@ -392,7 +417,7 @@ const Sent = () => {
                       <img
                         loading="lazy"
                         decoding="async"
-                        src={order.shortShop ? basePictureUrl + (order.shortShop! as any).profileUrl : ""}
+                        src={order.businessProfile ? basePictureUrl + order.businessProfile!.profileUrl : ""}
                         alt="profile"
                         className="instagramimage"
                         onError={(e) => {
@@ -401,37 +426,37 @@ const Sent = () => {
                       />
                       <div className="instagramprofiledetail">
                         <div className="instagramusername">
-                          {order.shortShop
-                            ? (order.shortShop! as any).fullName
-                              ? (order.shortShop! as any).fullName
+                          {order.businessProfile
+                            ? order.businessProfile!.fullName
+                              ? order.businessProfile!.fullName
                               : ""
                             : ""}
                         </div>
                         <div className="instagramid translate">
-                          {order.shortShop ? "@" + (order.shortShop! as any).username : ""}
+                          {order.businessProfile ? "@" + order.businessProfile!.username : ""}
                         </div>
                       </div>
                     </td>
                     <td style={{ minWidth: "50px" }} className={styles.items}>
-                      {order.itemCount}
+                      {order.order.itemCount}
                     </td>
 
                     <td style={{ minWidth: "100px" }} className={styles.fee}>
                       <PriceFormater
-                        fee={order.totalPrice}
-                        pricetype={order.priceType}
+                        fee={order.order.totalPrice}
+                        pricetype={order.order.priceType}
                         className={PriceFormaterClassName.PostPrice}
                       />
                     </td>
                     <td style={{ minWidth: "85px" }} className={styles.date}>
                       {new DateObject({
-                        date: order.createdTime * 1000,
+                        date: order.order.createdTime * 1000,
                         calendar: initialzedTime().calendar,
                         locale: initialzedTime().locale,
                       }).format("MM/DD/YYYY ")}
                       <br />
                       {new DateObject({
-                        date: order.createdTime * 1000,
+                        date: order.order.createdTime * 1000,
                         calendar: initialzedTime().calendar,
                         locale: initialzedTime().locale,
                       }).format(" hh:mm A")}
@@ -458,11 +483,11 @@ const Sent = () => {
 
                     <td
                       style={{ minWidth: "75px" }}
-                      className={`${styles.delivery} ${styles[specifyLogistic(order.logesticId)]}`}>
-                      {specifyLogistic(order.logesticId)}
+                      className={`${styles.delivery} ${styles[specifyLogistic(order.order.logesticId)]}`}>
+                      {specifyLogistic(order.order.logesticId)}
                     </td>
                     <td style={{ minWidth: "110px" }} className={styles.destination}>
-                      {order.city ? order.city : "--"}
+                      {order.order.city ? order.order.city : "--"}
                     </td>
                   </tr>
                 ))}

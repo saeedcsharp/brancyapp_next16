@@ -5,8 +5,8 @@ import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
 import IconToggleButton from "brancy/components/design/toggleButton/iconToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import { LanguageKey } from "brancy/i18n";
-import { IFullPageInfo } from "brancy/models/page/post/preposts";
 import styles from "./followers&NonFollowers.module.css";
+import { IFullPageInfo } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 const FollowersNonFollowers = (props: { removeMask: () => void }) => {
   const [toggleValue, setToggleValue] = useState<ToggleOrder>(ToggleOrder.FirstToggle);

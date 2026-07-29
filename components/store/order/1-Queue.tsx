@@ -1,5 +1,5 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
-import React, { ChangeEvent, useEffect, useReducer, useRef, useState } from "react";
+import React, { ChangeEvent, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import CheckBoxButton from "brancy/components/design/checkBoxButton";
@@ -8,11 +8,14 @@ import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFo
 import initialzedTime from "brancy/helper/manageTimer";
 import { specifyLogistic } from "brancy/helper/specifyLogistic";
 import { LanguageKey } from "brancy/i18n";
-import { OrderStepStatus } from "brancy/models/store/enum";
-import { IOrderByStatus, IOrderByStatusItem } from "brancy/models/store/orders";
 import styles from "./1-Queue.module.css";
+import { OrderStepStatus } from "brancy/models/enums";
+import { IOrderByStatus, IOrderByStatusItem } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 const MemoizedCheckBoxButton = React.memo(CheckBoxButton);
+
+type SortField = "orderId" | "customer" | "items" | "price" | "orderDate" | "delivery" | "destination";
+type SortDirection = "asc" | "desc";
 
 interface SelectionState {
   selectedOrders: Set<string>;
@@ -48,7 +51,7 @@ function selectionReducer(state: SelectionState, action: SelectionAction): Selec
     case "SELECT_ALL":
       return {
         ...state,
-        selectedOrders: new Set(action.payload?.orders?.items.map((o: IOrderByStatusItem) => o.id) || []),
+        selectedOrders: new Set(action.payload?.orders?.items.map((o: IOrderByStatusItem) => o.order.id) || []),
         selectedMenu: true,
         selectAll: true,
       };
@@ -117,9 +120,15 @@ export default function Queue({
   };
 
   const [state, dispatch] = useReducer(selectionReducer, initialState);
+  const [sortField, setSortField] = useState<SortField | null>(null);
+  const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   const tableContainerRef = useRef<HTMLDivElement>(null);
   const [isDragging, setIsDragging] = useState(false);
   const position = useRef({ startX: 0, scrollLeft: 0 });
+  const handleCopyMobileNumber = (phoneNumber?: string | null) => {
+    if (!phoneNumber) return;
+    navigator.clipboard.writeText(phoneNumber);
+  };
 
   const handleMouseDown = (e: React.MouseEvent) => {
     if (!tableContainerRef.current) return;
@@ -172,6 +181,81 @@ export default function Queue({
     }
     showOrder(orderId, userId);
   };
+
+  const handleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortDirection((currentDirection) => (currentDirection === "asc" ? "desc" : "asc"));
+      return;
+    }
+
+    setSortField(field);
+    setSortDirection("asc");
+  };
+
+  const sortedOrders = useMemo(() => {
+    if (!sortField) return orders.items;
+
+    const sorted = [...orders.items];
+
+    sorted.sort((leftOrder, rightOrder) => {
+      let compareValue = 0;
+
+      switch (sortField) {
+        case "orderId":
+          compareValue = (leftOrder.order.id || "").localeCompare(rightOrder.order.id || "", undefined, {
+            numeric: true,
+            sensitivity: "base",
+          });
+          break;
+        case "customer":
+          compareValue = (
+            leftOrder.userProfile?.fullName ||
+            leftOrder.userProfile?.username ||
+            leftOrder.userProfile?.phoneNumber ||
+            ""
+          ).localeCompare(
+            rightOrder.userProfile?.fullName ||
+              rightOrder.userProfile?.username ||
+              rightOrder.userProfile?.phoneNumber ||
+              "",
+            undefined,
+            { sensitivity: "base" },
+          );
+          break;
+        case "items":
+          compareValue = (leftOrder.order.itemCount || 0) - (rightOrder.order.itemCount || 0);
+          break;
+        case "price":
+          compareValue = (leftOrder.order.totalPrice || 0) - (rightOrder.order.totalPrice || 0);
+          break;
+        case "orderDate":
+          compareValue = (leftOrder.order.createdTime || 0) - (rightOrder.order.createdTime || 0);
+          break;
+        case "delivery":
+          compareValue = specifyLogistic(leftOrder.order.logesticId).localeCompare(
+            specifyLogistic(rightOrder.order.logesticId),
+            undefined,
+            {
+              sensitivity: "base",
+            },
+          );
+          break;
+        case "destination":
+          compareValue = (leftOrder.order.city || "").localeCompare(rightOrder.order.city || "", undefined, {
+            sensitivity: "base",
+          });
+          break;
+      }
+
+      return sortDirection === "asc" ? compareValue : -compareValue;
+    });
+
+    return sorted;
+  }, [orders.items, sortDirection, sortField]);
+
+  const renderSortIndicator = (field: SortField) =>
+    sortField === field ? <span style={{ marginInlineStart: 4 }}>{sortDirection === "asc" ? "↑" : "↓"}</span> : null;
+
   const handleScroll = () => {
     const container = tableContainerRef.current;
     if (container && container.scrollHeight - container.scrollTop === container.clientHeight) {
@@ -195,7 +279,7 @@ export default function Queue({
         <table className={styles.table}>
           <thead className={styles.headertable}>
             <tr>
-              <th style={{ minWidth: "50px" }}>
+              <th style={{ minWidth: "50px", maxWidth: "50px" }}>
                 <MemoizedCheckBoxButton
                   name={"select-all"}
                   handleToggle={handleSelectAll}
@@ -206,7 +290,7 @@ export default function Queue({
                 {isSomeSelected && (
                   <div className={styles.selectedmenu}>
                     <div className="title">
-                      {t(LanguageKey.messagesetting_selectedwords)} ( <strong>{state.selectedOrders.size}</strong> )
+                      {t(LanguageKey.messagesetting_selectedwords)} <strong>({state.selectedOrders.size})</strong>
                     </div>
                     <div className={styles.action}>
                       <img
@@ -240,80 +324,147 @@ export default function Queue({
                   </div>
                 )}
               </th>
-              <th style={{ minWidth: "95px" }}>{labels.orderId}</th>
-              <th style={{ minWidth: "160px" }}>{labels.customer}</th>
-              <th style={{ minWidth: "50px" }}>{labels.items}</th>
-              <th style={{ minWidth: "100px" }}>{labels.price}</th>
-              <th style={{ minWidth: "85px" }}>{labels.orderDate}</th>
-              <th style={{ minWidth: "75px" }}>{labels.delivery}</th>
-              <th style={{ minWidth: "110px" }}>{labels.destination}</th>
+              <th
+                onClick={() => handleSort("orderId")}
+                aria-sort={sortField === "orderId" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+                style={{ minWidth: "90px", maxWidth: "90px", cursor: "pointer", userSelect: "none" }}>
+                {labels.orderId} {renderSortIndicator("orderId")}
+              </th>
+              <th
+                onClick={() => handleSort("customer")}
+                aria-sort={sortField === "customer" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+                style={{ minWidth: "210px", maxWidth: "210px", cursor: "pointer", userSelect: "none" }}>
+                {labels.customer} {renderSortIndicator("customer")}
+              </th>
+              <th
+                onClick={() => handleSort("items")}
+                aria-sort={sortField === "items" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+                style={{ minWidth: "50px", maxWidth: "50px", cursor: "pointer", userSelect: "none" }}>
+                {labels.items} {renderSortIndicator("items")}
+              </th>
+              <th
+                onClick={() => handleSort("price")}
+                aria-sort={sortField === "price" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+                style={{ minWidth: "100px", maxWidth: "100px", cursor: "pointer", userSelect: "none" }}>
+                {labels.price} {renderSortIndicator("price")}
+              </th>
+              <th
+                onClick={() => handleSort("orderDate")}
+                aria-sort={sortField === "orderDate" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+                style={{ minWidth: "85px", maxWidth: "85px", cursor: "pointer", userSelect: "none" }}>
+                {labels.orderDate} {renderSortIndicator("orderDate")}
+              </th>
+              <th
+                onClick={() => handleSort("delivery")}
+                aria-sort={sortField === "delivery" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"}
+                style={{ minWidth: "75px", maxWidth: "75px", cursor: "pointer", userSelect: "none" }}>
+                {labels.delivery} {renderSortIndicator("delivery")}
+              </th>
+              <th
+                onClick={() => handleSort("destination")}
+                aria-sort={
+                  sortField === "destination" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"
+                }
+                style={{ minWidth: "110px", maxWidth: "110px", cursor: "pointer", userSelect: "none" }}>
+                {labels.destination} {renderSortIndicator("destination")}
+              </th>
             </tr>
           </thead>
           <tbody>
-            {orders.items.map((order, index) => (
-              <tr onClick={() => handleRowClick(order.id, order.userId)} key={order.id} className={styles.row}>
+            {sortedOrders.map((order, index) => (
+              <tr
+                onClick={() => handleRowClick(order.order.id, order.order.userId)}
+                key={order.order.id}
+                className={styles.row}>
                 <td
                   onClick={(e) => {
                     e.stopPropagation();
                   }}
-                  style={{ minWidth: "50px" }}>
-                  {orderInProcess.find((x) => x === order.id) ? (
+                  style={{ minWidth: "50px", maxWidth: "50px" }}>
+                  {orderInProcess.find((x) => x === order.order.id) ? (
                     "inprocess"
                   ) : (
                     <MemoizedCheckBoxButton
-                      handleToggle={(e) => handleToggleOrder(e, order.id)}
-                      value={state.selectedOrders.has(order.id)}
+                      handleToggle={(e) => handleToggleOrder(e, order.order.id)}
+                      value={state.selectedOrders.has(order.order.id)}
                       textlabel={`${index + 1}`}
-                      name={`order-${order.id}`}
+                      name={`order-${order.order.id}`}
                       title={"Select order"}
                     />
                   )}
                 </td>
                 <td
-                  style={{ minWidth: "90px" }}
-                  className={state.clickedOrders.has(order.id) ? styles.ordernumberviewed : styles.ordernumber}>
-                  {order.id}
+                  style={{ minWidth: "90px", maxWidth: "90px" }}
+                  className={state.clickedOrders.has(order.order.id) ? styles.ordernumberviewed : styles.ordernumber}>
+                  {order.order.id}
                   {/* {clickedOrders.has(order.id) && <span> ✓</span>} */}
                 </td>
 
-                <td style={{ minWidth: "160px" }} className={`${styles.customer} translate`}>
+                <td style={{ minWidth: "210px", maxWidth: "210px" }} className={styles.customer}>
                   <img
                     loading="lazy"
                     decoding="async"
-                    src={basePictureUrl + order.userInfo!.profileUrl}
+                    src={basePictureUrl + order.userProfile!.profileUrl}
                     alt="profile"
                     className="instagramimage"
                     onError={(e) => {
                       (e.target as HTMLImageElement).src = "/no-profile.svg";
                     }}
                   />
-                  <div className={`${styles.instagramprofiledetail} translate`}>
-                    <div className="instagramusername">
-                      {order.userInfo!.fullName ? order.userInfo!.fullName : order.userInfo?.phoneNumber}
-                    </div>
-                    <div className="instagramid">{order.userInfo!.username ? "@" + order.userInfo!.username : ""}</div>
+                  <div className="instagramprofiledetail">
+                    {order.userProfile!.fullName ? (
+                      <>
+                        <div className="instagramusername">{order.userProfile!.fullName}</div>
+                        <div className="instagramid">
+                          {order.userProfile!.username
+                            ? "@" + order.userProfile!.username
+                            : order.userProfile?.phoneNumber}
+                        </div>
+                      </>
+                    ) : (
+                      <>
+                        <div
+                          className="instagramusername"
+                          style={{ display: "flex", alignItems: "center", gap: "6px" }}>
+                          <span>{t(LanguageKey.userpanel_MobileNumber)}</span>
+                        </div>
+                        <div className="instagramid">
+                          {order.userProfile?.phoneNumber ? `+${order.userProfile.phoneNumber}` : "--"}
+                          <img
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              handleCopyMobileNumber(order.userProfile?.phoneNumber || null);
+                            }}
+                            style={{ cursor: "pointer", width: "15px", height: "15px" }}
+                            title="ℹ️ copy mobile number"
+                            src="/copy.svg"
+                            alt="copy mobile number"
+                          />
+                        </div>
+                      </>
+                    )}
                   </div>
                 </td>
-                <td style={{ minWidth: "50px" }} className={styles.items}>
-                  {order.itemCount}
+                <td style={{ minWidth: "50px", maxWidth: "50px" }} className={styles.items}>
+                  {order.order.itemCount}
                 </td>
 
-                <td style={{ minWidth: "100px" }} className={styles.fee}>
+                <td style={{ minWidth: "100px", maxWidth: "100px" }} className={styles.fee}>
                   <PriceFormater
-                    fee={order.totalPrice}
-                    pricetype={order.priceType}
+                    fee={order.order.totalPrice}
+                    pricetype={order.order.priceType}
                     className={PriceFormaterClassName.PostPrice}
                   />
                 </td>
-                <td style={{ minWidth: "85px" }} className={styles.date}>
+                <td style={{ minWidth: "85px", maxWidth: "85px" }} className={styles.date}>
                   {new DateObject({
-                    date: order.createdTime * 1000,
+                    date: order.order.createdTime * 1000,
                     calendar: initialzedTime().calendar,
                     locale: initialzedTime().locale,
                   }).format("YYYY/MM/DD")}
                   <br />
                   {new DateObject({
-                    date: order.createdTime * 1000,
+                    date: order.order.createdTime * 1000,
                     calendar: initialzedTime().calendar,
                     locale: initialzedTime().locale,
                   }).format("HH:mm:ss")}
@@ -339,12 +490,12 @@ export default function Queue({
                 </td>
 
                 <td
-                  style={{ minWidth: "75px" }}
-                  className={`${styles.delivery} ${styles[specifyLogistic(order.logesticId)]}`}>
-                  {specifyLogistic(order.logesticId)}
+                  style={{ minWidth: "75px", maxWidth: "75px" }}
+                  className={`${styles.delivery} ${styles[specifyLogistic(order.order.logesticId)]}`}>
+                  {specifyLogistic(order.order.logesticId)}
                 </td>
-                <td style={{ minWidth: "110px" }} className={styles.destination}>
-                  {order.city ?? "--"}
+                <td style={{ minWidth: "110px", maxWidth: "110px" }} className={styles.destination}>
+                  {order.order.city ?? "--"}
                 </td>
               </tr>
             ))}

@@ -3,13 +3,6 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import {
-  BusinessBankAccountType,
-  CreateShopperSteps,
-  CreateShopStep,
-  IdentityVerifyType,
-} from "brancy/models/store/enum";
-import { ILogistic, InputTypeAddress } from "brancy/models/userPanel/orders";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import PostalCode from "brancy/components/store/addressType/postalCode";
@@ -20,6 +13,14 @@ import TermsAndCondition from "brancy/components/store/termsandcondition/termsan
 import Loading from "brancy/components/notOk/loading";
 import styles from "./notShopper.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import {
+  IdentityVerifyType,
+  BusinessBankAccountType,
+  CreateShopperSteps,
+  InputTypeAddress,
+  CreateShopStep,
+} from "brancy/models/enums";
+import { ILogistic } from "brancy/models/interfaces";
 
 export default function NotShopper() {
   const { data: session, update } = useSession();

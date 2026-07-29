@@ -1,4 +1,4 @@
-import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { getClientMediaBaseUrl, redirectHostUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -6,9 +6,6 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { InstagramerAccountInfo } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-
-import { IPartner_User } from "brancy/models/userPanel/setting";
 import Loading from "brancy/components/notOk/loading";
 import {
   internalNotify,
@@ -19,7 +16,9 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import styles from "./switchAccount.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { InstagramerAccountInfo, IPartner_User } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
+const host = typeof window !== "undefined" ? window.location.host : "";
 function SwitchAccount(props: { removeMask: () => void }) {
   const { t } = useTranslation();
   const router = useRouter();
@@ -178,7 +177,11 @@ function SwitchAccount(props: { removeMask: () => void }) {
         onUploadProgress: undefined,
       });
       if (response.succeeded) {
-        router.push(response.value);
+        if (host.includes(redirectHostUrl())) {
+          router.push(response.value);
+        } else {
+          window.location.href = `https://${redirectHostUrl()}/redirectInterface?redirectUrl=${encodeURIComponent(response.value)}`;
+        }
       } else {
         notify(response.info.responseType, NotifType.Warning);
       }
@@ -346,6 +349,7 @@ function SwitchAccount(props: { removeMask: () => void }) {
         <section className={styles.content}>
           <div className="headerparent">
             <div> </div>
+
             <div className={styles.addnewaccount} onClick={() => handleRedirectToInstagram()}>
               <svg
                 width="24"

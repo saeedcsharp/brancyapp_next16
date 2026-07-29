@@ -11,13 +11,15 @@ import {
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
-import { FeatureType } from "brancy/models/psg/psg";
 import { LanguageKey } from "brancy/i18n";
 import router from "next/router";
 import { useSession } from "next-auth/react";
 import { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./createEventIdea.module.css";
+import { PsgFeatureType } from "brancy/models/enums";
+import Modal from "brancy/components/design/modal";
+import NotFeature from "brancy/components/notOk/notFeature";
 
 const LANGUAGE_OPTIONS = [
   { id: 0, code: "en", label: "English" },
@@ -45,6 +47,7 @@ const ONE_MONTH_MS = 30 * 24 * 60 * 60 * 1000;
 const CreateEventIdea = (props: {
   removeMask: () => void;
   handleShowDayEvents: () => void;
+  handleShowNotFeature: () => void;
   onSuccess?: (languageId: number, isCustomEvent: boolean) => void;
 }) => {
   const { t } = useTranslation();
@@ -59,20 +62,21 @@ const CreateEventIdea = (props: {
 
   const handleShowDayEventsWithCheck = useCallback(async () => {
     if (!session) return;
-    const hasAccess = await fetchAndCheckFeature(FeatureType.AI, session);
+    const hasAccess = await fetchAndCheckFeature(PsgFeatureType.AI, session);
     if (!hasAccess) {
-      router.push("/upgrade");
+      props.removeMask();
+      props.handleShowNotFeature();
       return;
     }
     props.handleShowDayEvents();
   }, [session, props.handleShowDayEvents]);
-
   const handleSubmit = useCallback(async () => {
     if (!session) return;
 
-    const hasAccess = await fetchAndCheckFeature(FeatureType.AI, session);
+    const hasAccess = await fetchAndCheckFeature(PsgFeatureType.AI, session);
     if (!hasAccess) {
-      router.push("/upgrade");
+      props.removeMask();
+      props.handleShowNotFeature();
       return;
     }
 
@@ -133,7 +137,6 @@ const CreateEventIdea = (props: {
         </svg>
         <div className={styles.title}>{t(LanguageKey.pageTools_CreateEventIdea)}</div>
       </div>
-
       <div className={styles.wrapper}>
         {/* Custom Event Toggle */}
         <div className="headerparent">
@@ -182,7 +185,7 @@ const CreateEventIdea = (props: {
           </label>
           <div className={styles.textarea}>
             <TextArea
-              className="captiontextarea"
+              className="TextArea"
               value={prompt}
               handleInputChange={(e) => setPrompt(e.target.value)}
               placeHolder={t(LanguageKey.pageTools_CreateEventIdeaPromptPlaceholder)}
@@ -199,7 +202,6 @@ const CreateEventIdea = (props: {
           </div>
         </div>
       </div>
-
       {/* Footer */}
       <div className={styles.footer}>
         <button className={styles.submitBtn} onClick={handleSubmit} disabled={!canSubmit}>

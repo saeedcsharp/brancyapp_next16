@@ -50,9 +50,7 @@
   background-color: var(--color-gray30) !important;
 }
 .table tr {
-  top: -1px;
   text-transform: uppercase;
-
   padding-inline: 20px;
   position: relative;
   width: 100%;
@@ -115,6 +113,15 @@
 
   font-weight: var(--weight-400);
 
+  text-transform: uppercase;
+  transition: var(--transition3);
+}
+.fee {
+  color: var(--text-h2);
+  position: relative;
+  text-align: center;
+  font-size: var(--font-14);
+  font-weight: var(--weight-400);
   text-transform: uppercase;
   transition: var(--transition3);
 }
@@ -218,6 +225,7 @@ html[dir="rtl"] .selectedmenu {
   padding: var(--padding-10);
   z-index: 100;
   color: var(--text-h1);
+  cursor: default;
   font-size: var(--font-12);
   font-weight: var(--weight-400);
   display: flex;

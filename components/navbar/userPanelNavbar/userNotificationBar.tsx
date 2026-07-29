@@ -5,11 +5,9 @@ import { useTranslation } from "react-i18next";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { getEnumValue } from "brancy/helper/handleItemTypeEnum";
 import { LanguageKey } from "brancy/i18n";
-import { PushNotif, PushResponseExplanation, PushResponseTitle, PushResponseType } from "brancy/models/push/pushNotif";
-import { OrderStep } from "brancy/models/store/enum";
-import { IOrderPushNotifExtended } from "brancy/models/store/orders";
-import { ITicketPushNotif } from "brancy/models/userPanel/message";
 import styles from "./userNotificationBar.module.css";
+import { PushResponseType, OrderStep, PushResponseExplanation, PushResponseTitle } from "brancy/models/enums";
+import { PushNotif, ITicketPushNotif, IOrderPushNotifExtended } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 const UserNotificationBar = (props: { data: PushNotif[]; handleDeleteNotif: (index: number) => void }) => {
   const { t } = useTranslation();
@@ -88,35 +86,29 @@ const UserNotificationBar = (props: { data: PushNotif[]; handleDeleteNotif: (ind
       const message = JSON.parse(notif.Message) as IOrderPushNotifExtended;
       if (message.NewStatus === OrderStep.ShippingRequest) {
         return (
-          `Your order with orderId ${message.ShortOrder.Id} is accepted by` +
-          (message.ShortOrder.ShortShop?.FullName ||
-            message.ShortOrder.ShortShop?.FullName ||
-            message.ShortOrder.ShortShop?.Username)
+          `Your order with orderId ${message.Order.Id} is accepted by` +
+          (message.BusinessProfile?.FullName || message.BusinessProfile?.FullName || message.BusinessProfile?.Username)
         );
       } else if (message.NewStatus === OrderStep.InShipping) {
-        return `Your order with orderId ${message.ShortOrder.Id} is sent`;
+        return `Your order with orderId ${message.Order.Id} is sent`;
       } else if (message.NewStatus === OrderStep.Delivered) {
-        return `Your order with orderId ${message.ShortOrder.Id} is Delivered`;
+        return `Your order with orderId ${message.Order.Id} is Delivered`;
       } else if (message.NewStatus === OrderStep.InstagramerCanceled) {
         return (
-          `Your order with orderId ${message.ShortOrder.Id} is canceled by  ` +
-          (message.ShortOrder.ShortShop?.FullName ||
-            message.ShortOrder.ShortShop?.FullName ||
-            message.ShortOrder.ShortShop?.Username)
+          `Your order with orderId ${message.Order.Id} is canceled by  ` +
+          (message.BusinessProfile?.FullName || message.BusinessProfile?.FullName || message.BusinessProfile?.Username)
         );
       } else if (message.NewStatus === OrderStep.UserCanceled) {
         return (
-          `Your order with orderId ${message.ShortOrder.Id} is canceled by  ` +
-          (message.ShortOrder.UserInfo?.FullName ||
-            message.ShortOrder.UserInfo?.Username ||
-            message.ShortOrder.UserInfo?.PhoneNumber)
+          `Your order with orderId ${message.Order.Id} is canceled by  ` +
+          (message.UserProfile?.FullName || message.UserProfile?.Username || message.UserProfile?.PhoneNumber)
         );
       } else if (message.NewStatus === OrderStep.Expired) {
-        return `Your order with orderId ${message.ShortOrder.Id} is canceled because it is expired`;
+        return `Your order with orderId ${message.Order.Id} is canceled because it is expired`;
       } else if (message.NewStatus === OrderStep.Failed) {
-        return `Your order with orderId ${message.ShortOrder.Id} is canceled because it is failed`;
+        return `Your order with orderId ${message.Order.Id} is canceled because it is failed`;
       } else if (message.NewStatus === OrderStep.ShippingFailed) {
-        return `Your order with orderId ${message.ShortOrder.Id} is canceled because of shipping failed`;
+        return `Your order with orderId ${message.Order.Id} is canceled because of shipping failed`;
       } else {
         const explaination = getEnumValue(PushResponseType, PushResponseExplanation, notif.ResponseType);
         return `${explaination} `;
@@ -132,7 +124,7 @@ const UserNotificationBar = (props: { data: PushNotif[]; handleDeleteNotif: (ind
       return basePictureUrl + message.ProfileUrl;
     } else if (notif.ResponseType === PushResponseType.ChangeOrderStatus && notif.Message) {
       const message = JSON.parse(notif.Message) as IOrderPushNotifExtended;
-      return message.ShortOrder?.ShortShop ? basePictureUrl + message.ShortOrder?.ShortShop?.ProfileUrl : "";
+      return message.BusinessProfile ? basePictureUrl + message.BusinessProfile?.ProfileUrl : "";
     } else {
       console.log("fffffffffffffffffffffffff", basePictureUrl + fullyDecodeURIComponent(notif.ProfileUrl));
       basePictureUrl + fullyDecodeURIComponent(notif.ProfileUrl);

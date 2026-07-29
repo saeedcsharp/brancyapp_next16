@@ -7,13 +7,11 @@ import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
-import { ILoadingStatus } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IDetailPrompt } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
-import { AutoReplyPayLoadType, MediaProductType } from "brancy/models/messages/enum";
-import { IGeneralAutoReply } from "brancy/models/messages/properies";
-import styles from "./properties.module.css";
+import styles from "./autoreply.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { MediaProductType, AutoReplyPayLoadType } from "brancy/models/enums";
+import { ILoadingStatus, IGeneralAutoReply, IDetailPrompt } from "brancy/models/interfaces";
 const containsFarsiOrArabic = (text: string): boolean => {
   const farsiArabicRegex = /[\u0600-\u06FF\u0750-\u077F\u08A0-\u08FF\uFB50-\uFDFF\uFE70-\uFEFF]/;
   return farsiArabicRegex.test(text);

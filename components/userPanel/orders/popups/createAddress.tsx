@@ -8,9 +8,10 @@ import TextArea from "brancy/components/design/textArea/textArea";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IAddress, InputTypeAddress, IUpdateUserAddress } from "brancy/models/userPanel/orders";
 import styles from "./addresses.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { InputTypeAddress } from "brancy/models/enums";
+import { IAddress, IUpdateUserAddress } from "brancy/models/interfaces";
 enum CreateAddresStep {
   PostalCode,
   VerifyAddress,
@@ -165,7 +166,7 @@ export default function CreateAddresses({
           <div className="headerandinput">
             <div className="headertext">{t(LanguageKey.userpanel_Address)}</div>
             <TextArea
-              className={"message"}
+              className="TextArea"
               readOnly={true}
               value={address ? address.address : ""}
               handleKeyDown={undefined}
@@ -210,7 +211,7 @@ export default function CreateAddresses({
           <div className="headerandinput">
             <div className="headertext">{t(LanguageKey.note)}</div>
             <TextArea
-              className={"message"}
+              className="TextArea"
               value={updateAddress ? updateAddress.note : ""}
               handleInputChange={(e) => {
                 setUpdateAddress((prev) => ({

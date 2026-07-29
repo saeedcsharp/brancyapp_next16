@@ -1,3 +1,37 @@
+/* FreeMode */
+.freeMode {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-behavior: smooth;
+  -webkit-overflow-scrolling: touch;
+  width: 100%;
+}
+
+.freeMode::-webkit-scrollbar {
+  display: none;
+}
+
+html[dir="rtl"] .freeMode {
+  flex-direction: row-reverse;
+}
+
+.freeMode .sliderSlide {
+  width: auto;
+  flex-shrink: 0;
+}
+
+.freeMode > * {
+  flex-shrink: 0;
+}
+
+.freeModeSlide {
+  flex-shrink: 0;
+}
+
 /* Slider Container */
 .slider {
   position: relative;

@@ -12,17 +12,9 @@ import WaitingList from "brancy/components/advertise/adList/waitingList";
 import NotAdvertiser from "brancy/components/notOk/notAdvertiser";
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
 import { LanguageKey } from "brancy/i18n";
-
 import Modal from "brancy/components/design/modal";
-import { AdsTimeType, AdsType, RejectedType } from "brancy/models/advertise/AdEnums";
-import {
-  DetailType,
-  IActiveAds,
-  IRejectedAds,
-  IRejectTerms,
-  IUpcomingAds,
-  IWatingAds,
-} from "brancy/models/advertise/adList";
+import { IActiveAds, IRejectedAds, IRejectTerms, IUpcomingAds, IWatingAds } from "brancy/models/interfaces";
+import { DetailType, AdsType, AdsTimeType, RejectedType } from "brancy/models/enums";
 const AdList = () => {
   //  return <Soon />;
   const router = useRouter();

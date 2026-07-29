@@ -19,12 +19,12 @@ export interface PaymentInfo {
 }
 function Upgrade(props: { removeMask: () => void }) {
   const router = useRouter();
-  const { data: session, update } = useSession();
+  const { data: session } = useSession();
   const [packages, setPackages] = useState<PaymentInfo[]>([]);
   const [loading, setLoading] = useState(true);
   async function getPSGInfo() {
     try {
-      const res = await clientFetchApi<boolean, PaymentInfo[]>("Instagramer" + "/PSG/GetPackagePrices", {
+      const res = await clientFetchApi<boolean, PaymentInfo[]>("/api/psg/getPackagePrices", {
         methodType: MethodType.get,
         session: session,
         data: undefined,
@@ -41,7 +41,7 @@ function Upgrade(props: { removeMask: () => void }) {
   }
   async function handleRedirectToPayment(month: number) {
     try {
-      const res = await clientFetchApi<boolean, string>("Instagramer" + "/PSG/GetPackageRedirectUrl", {
+      const res = await clientFetchApi<boolean, string>("/api/psg/getPackageRedirectUrl", {
         methodType: MethodType.get,
         session: session,
         data: null,

@@ -15,8 +15,8 @@ import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import Loading from "brancy/components/notOk/loading";
 import { LoginStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { DayCountUnix, IMonthGraph } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import multiStyles from "./Chart_day.module.css";
+import { DayCountUnix, IMonthGraph } from "brancy/models/interfaces";
 interface ISeriesData {
   name: string;
   color: string;
@@ -481,7 +481,7 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
     return totalCount - prevTotal;
   }, [currentMonthData, state.indexValue, allMonthsData, totalCount]);
   useEffect(() => {
-    if (props.seriesData && LoginStatus(session)) {
+    if (props.seriesData && (LoginStatus(session) || session !== undefined)) {
       dispatch({ type: "SET_LOADING", payload: false });
     }
   }, [props.seriesData, session]);

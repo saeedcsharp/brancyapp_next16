@@ -32,13 +32,19 @@ export default function ReportProduct({
   const isFormValid = inputText.trim() !== "" && textArea.trim() !== "";
   async function handleReportProduct() {
     try {
-      const res = await clientFetchApi<{ subject: "string"; message: "string" }, boolean>("/api/shop/ReportProduct", { methodType: MethodType.post, session: session, data: {
+      const res = await clientFetchApi<{ subject: "string"; message: "string" }, boolean>("/api/shop/ReportProduct", {
+        methodType: MethodType.post,
+        session: session,
+        data: {
           subject: inputText,
           message: textArea,
-        }, queries: [
+        },
+        queries: [
           { key: "instagramerId", value: instagramerId },
           { key: "productId", value: productId },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
       } else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
@@ -77,7 +83,7 @@ export default function ReportProduct({
         <div className="headerandinput" style={{ height: "100%" }}>
           <div className="headertext">{t(LanguageKey.message)}</div>
           <TextArea
-            className={"message"}
+            className="TextArea"
             placeHolder={""}
             handleInputChange={handleTextAreaChange}
             value={textArea}

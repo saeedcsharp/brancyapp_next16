@@ -10,16 +10,22 @@ import { handleCopyLink } from "brancy/helper/copyLink";
 import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
-import { InstagramerAccountInfo } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IGetCustomDomain } from "brancy/models/market/properties";
-import { FeatureType } from "brancy/models/psg/psg";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
-import { useEffect, useState } from "react";
+import { useEffect, useState, useMemo } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./domainManager.module.css";
+import { PsgFeatureType } from "brancy/models/enums";
+import { InstagramerAccountInfo, IGetCustomDomain } from "brancy/models/interfaces";
+
 const baseShortUrl = process.env.NEXT_PUBLIC_SHORT_LINK;
-const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccountInfo | null }) => {
+const DomainManager = ({
+  instagramerInfo,
+  setShowNotFeature,
+}: {
+  instagramerInfo: InstagramerAccountInfo | null;
+  setShowNotFeature: (value: boolean) => void;
+}) => {
   const { t } = useTranslation();
   const { data: session } = useSession();
   const router = useRouter();
@@ -64,9 +70,9 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
   }
   async function handleRequestCustomAddress() {
     if (isUpdating) return; // Prevent multiple clicks
-    const hasFeature = await fetchAndCheckFeature(FeatureType.CustomDomain, session);
+    const hasFeature = await fetchAndCheckFeature(PsgFeatureType.CustomDomain, session);
     if (!hasFeature) {
-      router.push("/upgrade");
+      setShowNotFeature(true);
       return;
     }
     setIsUpdating(true);
@@ -104,9 +110,9 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
 
   async function handleVerifyCustomAddress() {
     if (isVerifying) return; // Prevent multiple clicks
-    const hasFeature = await fetchAndCheckFeature(FeatureType.CustomDomain, session);
+    const hasFeature = await fetchAndCheckFeature(PsgFeatureType.CustomDomain, session);
     if (!hasFeature) {
-      router.push("/upgrade");
+      setShowNotFeature(true);
       return;
     }
     setIsVerifying(true);
@@ -139,9 +145,9 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
   }
 
   async function handleConnectCustomAddress() {
-    const hasFeature = await fetchAndCheckFeature(FeatureType.CustomDomain, session);
+    const hasFeature = await fetchAndCheckFeature(PsgFeatureType.CustomDomain, session);
     if (!hasFeature) {
-      router.push("/upgrade");
+      setShowNotFeature(true);
       return;
     }
     const res = await clientFetchApi<boolean, boolean>("api/bio/connectCustomDomain", {
@@ -158,7 +164,8 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
 
   useEffect(() => {
     getCustomerInfo();
-    fetchAndCheckFeature(FeatureType.CustomDomain, session).then(setHasCustomDomainFeature);
+    fetchAndCheckFeature(PsgFeatureType.CustomDomain, session).then(setHasCustomDomainFeature);
+    if (typeof window === "undefined") return; // برای SSR ایمن
     const host = window.location.hostname;
     setIsDevMode(host.includes("patran.ir") || host === "localhost" || host === "127.0.0.1");
   }, []);
@@ -182,19 +189,12 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                   <div className="headerandinput">
                     <div className="title2">
                       <span>{t(LanguageKey.marketProperties_defaultAddress)}</span>
-                      <Tooltip tooltipValue={t(LanguageKey.marketProperties_explain)} position="bottom" onClick={true}>
-                        <img
-                          loading="lazy"
-                          decoding="async"
-                          style={{
-                            marginInline: "5px",
-                            cursor: "pointer",
-                            width: "15px",
-                            height: "15px",
-                          }}
-                          src="/attention.svg"
-                        />
-                      </Tooltip>
+                      <Tooltip
+                        triggerType="attention"
+                        tooltipValue={t(LanguageKey.marketProperties_explain)}
+                        position="bottom"
+                        onClick={true}
+                      />
                     </div>
                     <div className={`${styles.defaultaddress} translate`}>
                       <div
@@ -286,19 +286,7 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                           <div className="headerparent">
                             <div className={styles.defaultdomain}>
                               {customeDomain.pendingDomain.uri}{" "}
-                              <Tooltip tooltipValue={""} position="bottom" onClick={true}>
-                                <img
-                                  loading="lazy"
-                                  decoding="async"
-                                  style={{
-                                    marginInline: "5px",
-                                    cursor: "pointer",
-                                    width: "15px",
-                                    height: "15px",
-                                  }}
-                                  src="/attention.svg"
-                                />
-                              </Tooltip>
+                              <Tooltip triggerType="attention" tooltipValue={""} position="bottom" onClick={true} />
                             </div>
                             {verifyCooldownUntil > Date.now() / 1000 && (
                               <CounterDownNotRing
@@ -354,19 +342,7 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                           <div className="headerparent">
                             <div className={styles.defaultdomain}>
                               {customeDomain.pendingDomain.uri}{" "}
-                              <Tooltip tooltipValue={""} position="bottom" onClick={true}>
-                                <img
-                                  loading="lazy"
-                                  decoding="async"
-                                  style={{
-                                    marginInline: "5px",
-                                    cursor: "pointer",
-                                    width: "15px",
-                                    height: "15px",
-                                  }}
-                                  src="/attention.svg"
-                                />
-                              </Tooltip>
+                              <Tooltip triggerType="tooltip" tooltipValue={""} position="bottom" onClick={true} />
                             </div>
 
                             <button
@@ -416,21 +392,11 @@ const DomainManager = ({ instagramerInfo }: { instagramerInfo: InstagramerAccoun
                             <div className={styles.defaultdomain}>
                               {customeDomain.acceptDomain.uri}
                               <Tooltip
+                                triggerType="tooltip"
                                 tooltipValue={t(LanguageKey.marketProperties_explain)}
                                 position="bottom"
-                                onClick={true}>
-                                <img
-                                  loading="lazy"
-                                  decoding="async"
-                                  style={{
-                                    marginInline: "5px",
-                                    cursor: "pointer",
-                                    width: "15px",
-                                    height: "15px",
-                                  }}
-                                  src="/attention.svg"
-                                />
-                              </Tooltip>
+                                onClick={true}
+                              />
                             </div>
                             <img
                               style={{

@@ -1,6 +1,6 @@
 import { useState } from "react";
-import { IAdvertiseSummary } from "brancy/models/customerAds/customerAd";
 import styles from "./customerAds.module.css";
+import { IAdvertiseSummary } from "brancy/models/interfaces";
 function SelectAdmin(props: {
   selectedAds: IAdvertiseSummary[];
   handleUpdateSelectedAds: (adId: number) => void;

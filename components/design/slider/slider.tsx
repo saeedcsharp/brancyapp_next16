@@ -31,12 +31,14 @@ interface SliderProps {
   onReachEnd?: () => void; // فراخوانی برای درخواست داده‌های بیشتر
   isLoading?: boolean; // نمایش loading در pagination
   itemsPerSlide?: number; // تعداد آیتم‌ها در هر اسلاید (برای گروه‌بندی خودکار)
+  freeMode?: boolean; // اسکرول آزاد افقی بدون snap
 }
 
 interface SliderSlideProps {
   children: ReactNode;
   className?: string;
   style?: CSSProperties;
+  onClick?: () => void;
 }
 
 interface SliderState {
@@ -59,9 +61,9 @@ type SliderAction =
 //#endregion
 
 //#region SliderSlide Component
-export const SliderSlide: React.FC<SliderSlideProps> = memo(({ children, className = "", style }) => {
+export const SliderSlide: React.FC<SliderSlideProps> = memo(({ children, className = "", style, onClick }) => {
   return (
-    <div className={`${styles.sliderSlide} ${className}`} style={style}>
+    <div className={`${styles.sliderSlide} ${className}`} style={style} onClick={onClick}>
       {children}
     </div>
   );
@@ -194,12 +196,85 @@ const PaginationBullet = memo<{
 });
 PaginationBullet.displayName = "PaginationBullet";
 //#endregion
+
+//#region FreeModeSlider Component
+const FreeModeSlider: React.FC<{ children: ReactNode[]; className?: string; spaceBetween?: number }> = ({
+  children,
+  className = "",
+  spaceBetween = 10,
+}) => {
+  const containerRef = useRef<HTMLDivElement>(null);
+  const isDraggingRef = useRef(false);
+  const startXRef = useRef(0);
+  const scrollLeftRef = useRef(0);
+
+  const handleMouseDown = useCallback((e: React.MouseEvent) => {
+    if (!containerRef.current) return;
+    isDraggingRef.current = true;
+    startXRef.current = e.pageX - containerRef.current.offsetLeft;
+    scrollLeftRef.current = containerRef.current.scrollLeft;
+    containerRef.current.style.cursor = "grabbing";
+  }, []);
+
+  const handleMouseUp = useCallback(() => {
+    isDraggingRef.current = false;
+    if (containerRef.current) containerRef.current.style.cursor = "grab";
+  }, []);
+
+  const handleMouseMove = useCallback((e: React.MouseEvent) => {
+    if (!isDraggingRef.current || !containerRef.current) return;
+    e.preventDefault();
+    const x = e.pageX - containerRef.current.offsetLeft;
+    const walk = x - startXRef.current;
+    containerRef.current.scrollLeft = scrollLeftRef.current - walk;
+  }, []);
+
+  const handleMouseLeave = useCallback(() => {
+    isDraggingRef.current = false;
+    if (containerRef.current) containerRef.current.style.cursor = "grab";
+  }, []);
+
+  const childrenArray = React.Children.toArray(children);
+
+  return (
+    <div
+      ref={containerRef}
+      className={`${styles.freeMode} ${className}`}
+      style={{
+        display: "flex",
+        flexDirection: "row",
+        overflowX: "auto",
+        overflowY: "hidden",
+        gap: `${spaceBetween}px`,
+        width: "100%",
+        scrollbarWidth: "none",
+        cursor: "grab",
+        userSelect: "none",
+      }}
+      onMouseDown={handleMouseDown}
+      onMouseUp={handleMouseUp}
+      onMouseMove={handleMouseMove}
+      onMouseLeave={handleMouseLeave}
+      role="region"
+      aria-label="Scrollable list">
+      {childrenArray.map((child, i) => (
+        <div key={i} style={{ flexShrink: 0 }}>
+          {child}
+        </div>
+      ))}
+    </div>
+  );
+};
+FreeModeSlider.displayName = "FreeModeSlider";
+//#endregion
+
 //#region Main Slider Component
 const Slider: React.FC<SliderProps> = ({
   children,
   slidesPerView = 1,
   spaceBetween = 10,
   navigation = true,
+  freeMode = false,
   pagination = {
     clickable: true,
     dynamicBullets: true,
@@ -211,6 +286,15 @@ const Slider: React.FC<SliderProps> = ({
   isLoading = false,
   itemsPerSlide,
 }) => {
+  //#region FreeMode
+  if (freeMode) {
+    return (
+      <FreeModeSlider className={className} spaceBetween={spaceBetween}>
+        {children}
+      </FreeModeSlider>
+    );
+  }
+  //#endregion
   const sliderId = useId();
 
   //#region Refs

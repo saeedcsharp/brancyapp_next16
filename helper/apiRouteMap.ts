@@ -34,6 +34,12 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/ai/updateModel": "Instagramer/AI/UpdateModel",
   "/api/ai/getAiModels": "Instagramer/AI/GetAiModels",
 
+  // ── mediaai ───────────────────────────────────────────
+  "/api/mediaai/getImages": "Instagramer/MediaAi/GetImages",
+  "/api/mediaai/getImageCreators": "Instagramer/MediaAi/GetImageCreators",
+  "/api/mediaai/getImageUsage": "Instagramer/MediaAi/GetImageUsage",
+  "/api/mediaai/createImage": "Instagramer/MediaAi/CreateImage",
+
   // ── business ─────────────────────────────────────────
   "/api/business/get": "User/Business/Get",
   "/api/business/getshort": "User/Business/GetShort",
@@ -75,6 +81,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/bio/getVideoInsight": "Instagramer/Bio/GetVideoInsight",
   "/api/bio/saveAparatPage": "Instagramer/Bio/SaveAparatPage",
   "/api/bio/saveYoutubePage": "Instagramer/Bio/SaveYoutubePage",
+  "/api/bio/saveTwitchPage": "Instagramer/Bio/SaveTwitchPage",
   "/api/bio/toggleCustomDomain": "Instagramer/Bio/ToggleCustomDomain",
   "/api/bio/connectCustomDomain": "Instagramer/Bio/ConnectCustomDomain",
   "/api/bio/deleteCustomDomain": "Instagramer/Bio/DeleteCustomDomain",
@@ -109,6 +116,10 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/flow/getMasterFlow": "Instagramer/Flow/GetMasterFlow",
   "/api/flow/getMasterFlows": "Instagramer/Flow/GetMasterFlows",
   "/api/flow/getShortMasterFlow": "Instagramer/Flow/GetShortMasterFlow",
+
+  // ── feature ──────────────────────────────────────────
+  "api/feature/hasFeature": "Instagramer/Feature/HasFeature",
+  "api/feature/hasFeatureCount": "Instagramer/Feature/HasFeatureCount",
 
   // ── hashtag ───────────────────────────────────────────
   "/api/hashtag/analysisPageHashtags": "Instagramer/hashtag/AnalysisPageHashtags",
@@ -200,13 +211,19 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/order/acceptOrder": "Shopper/Order/AcceptOrder",
   "/api/order/createOrder": "User/Order/CreateOrder",
   "/api/order/getFullOrder": "Shopper/Order/GetFullOrder",
+  "/api/userorder/getFullOrder": "User/Order/GetFullOrder",
   "/api/order/getOrderPaymentLink": "User/Order/GetOrderPaymentLink",
   "/api/order/getOrdersByStatus": "Shopper/Order/GetOrdersByStatus",
+  "/api/userorder/getOrdersByStatus": "User/Order/GetOrdersByStatus",
   "/api/order/getOrdersByStatuses": "Shopper/Order/GetOrdersByStatuses",
+  "/api/userorder/getOrdersByStatuses": "User/Order/GetOrdersByStatuses",
   "/api/order/getParcelInfo": "Shopper/Order/GetParcelInfo",
+  "/api/userorder/getParcelInfo": "User/Order/GetParcelInfo",
+  "/api/userorder/rejectorder": "User/Order/RejectOrder",
   "/api/order/getShippingRequestType": "Shopper/Order/GetShippingRequestType",
   "/api/order/readyOrderForShipping": "Shopper/Order/ReadyOrderForShipping",
   "/api/order/rejectOrder": "Shopper/Order/RejectOrder",
+  "/api/order/sendOrderByNonRequestType": "Shopper/Order/SendOrderByNonRequestType",
   "/api/order/sentOrderByNonRequestType": "Shopper/Order/SentOrderByNonRequestType",
   "/api/order/sentOrderByParcelId": "Shopper/Order/SentOrderByParcelId",
   "/api/order/setNonTrackingIdOrderDelivered": "Shopper/Order/SetNonTrackingIdOrderDelivered",
@@ -244,6 +261,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/preinstagramer/verifyCode": "PreInstagramer/VerifyCode",
 
   // ── product ───────────────────────────────────────────
+  "api/product/getSuggestedCategory": "shopper/Product/GetSuggestedCategory",
   "/api/product/changeAvailableProduct": "shopper/Product/ChangeAvailableProduct",
   "/api/product/createProductInstance": "shopper/Product/CreateProductInstance",
   "/api/product/createProducts": "shopper/Product/CreateProducts",
@@ -262,6 +280,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/product/getProductCandidates": "shopper/Product/GetProductCandidates",
   "/api/product/getProductList": "shopper/Product/GetProductList",
   "/api/product/getSeconderyCategoryList": "shopper/Product/GetSeconderyCategoryList",
+  "/api/product/getSuggestedDescription": "Shopper/Product/GetSuggestedDescription",
   "/api/product/getSuggestedPrice": "shopper/Product/GetSuggestedPrice",
   "/api/product/getSuggestedPriceV2": "shopper/Product/GetSuggestedPriceV2",
   "/api/product/getVariations": "shopper/Product/GetVariations",
@@ -377,6 +396,13 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/unfollowallfollowing/getFigure": "Instagramer/UnfollowAllFollowing/GetFigure",
   "/api/unfollowallfollowing/getUnFollowings": "Instagramer/UnfollowAllFollowing/GetUnFollowings",
   "/api/unfollowallfollowing/updateCondition": "Instagramer/UnfollowAllFollowing/UpdateCondition",
+
+  // ── Wallet ──────────────────────────────
+  "/api/wallet/getBallanceHistory": "/Business/Wallet/GetBallanceHistory",
+  "/api/wallet/getInstagramerBankCards": "/Business/Wallet/GetInstagramerBankCards",
+  "/api/wallet/addCardNumber": "/Business/Wallet/AddCardNumber",
+  "/api/wallet/settleRequest": "/Business/Wallet/SettleRequest",
+  "/api/wallet/getGenerallBallance": "/Business/Wallet/GetGeneralBallance",
 };
 
 /**

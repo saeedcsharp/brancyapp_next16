@@ -6,11 +6,12 @@ import Loading from "brancy/components/notOk/loading";
 import findSystemLanguage from "brancy/helper/findSystemLanguage";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { OrderStep } from "brancy/models/store/enum";
-import { IFullProduct, IOrderDetail } from "brancy/models/store/orders";
 import OrderDetailContent from "brancy/components/store/order/popup/OrderDetail-Content";
 import styles from "./OrderDetail.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { OrderStep } from "brancy/models/enums";
+import { IOrderDetail, IOrderFullProduct } from "brancy/models/interfaces";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
 interface OrderDetailProps {
   removeMask: () => void;
   orderDetail: IOrderDetail;
@@ -28,7 +29,7 @@ const OrderDetail: FC<OrderDetailProps> = ({
   const popupRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
   const [loaderCount, setLoaderCount] = useState(7);
-  const [fullProduct, setFullProduct] = useState<IFullProduct>();
+  const [fullProduct, setFullProduct] = useState<IOrderFullProduct>();
   const [showRejectOrder, setShowRejectOrder] = useState<string | null>(null);
   useEffect(() => {
     const handleResize = () => {
@@ -58,7 +59,7 @@ const OrderDetail: FC<OrderDetailProps> = ({
   }, []);
   async function fetchData() {
     try {
-      const res = await clientFetchApi<IOrderDetail, IFullProduct>("/api/order/GetFullOrder", {
+      const res = await clientFetchApi<IOrderDetail, IOrderFullProduct>("/api/order/GetFullOrder", {
         methodType: MethodType.get,
         session: session,
         data: null,
@@ -94,21 +95,23 @@ const OrderDetail: FC<OrderDetailProps> = ({
             {!showRejectOrder && (
               <>
                 <div className="headerparent">
-                  <div className={styles.orderStepactive} title="Order information">
-                    <svg
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 32 32"
-                      role="img"
-                      aria-label="Order information">
-                      <path
-                        d="M19 8.4h-6.2q-1.7-.2-1.8-1.8v-.8q.2-1.7 1.8-1.8H19q1.7.1 1.8 1.8v.8q-.2 1.7-1.8 1.8M14.5 28H11a5 5 0 0 1-5-5V11.1a5 5 0 0 1 5-5m9.8 0a5 5 0 0 1 5 5v6M24.9 28q-1.3 1.1-3 1.2c-2.6 0-4.7-2-4.7-4.6m1.6-3.5q1.3-1 3-1.1c2.6 0 4.6 2 4.6 4.6"
-                        strokeWidth="2"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </div>
+                  <Tooltip tooltipValue={t(LanguageKey.Storeorder_orderDetailsStep)} position="bottom" onClick={true}>
+                    <div className={styles.orderStepactive}>
+                      <svg
+                        fill="none"
+                        xmlns="http://www.w3.org/2000/svg"
+                        viewBox="0 0 32 32"
+                        role="img"
+                        aria-label="Order information">
+                        <path
+                          d="M19 8.4h-6.2q-1.7-.2-1.8-1.8v-.8q.2-1.7 1.8-1.8H19q1.7.1 1.8 1.8v.8q-.2 1.7-1.8 1.8M14.5 28H11a5 5 0 0 1-5-5V11.1a5 5 0 0 1 5-5m9.8 0a5 5 0 0 1 5 5v6M24.9 28q-1.3 1.1-3 1.2c-2.6 0-4.7-2-4.7-4.6m1.6-3.5q1.3-1 3-1.1c2.6 0 4.6 2 4.6 4.6"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                  </Tooltip>
                   <div className={styles.orderStep}>
                     <div className={styles.orderprogressStep} title="Order in progress">
                       <svg

@@ -11,13 +11,13 @@ import Loading from "brancy/components/notOk/loading";
 import { InstaInfoContext } from "brancy/context/instaInfoContext";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType } from "brancy/helper/api";
-import { IScheduledStoryClient, IScheduledStoryServer } from "brancy/models/page/story/preStories";
 import { ShowRings } from "brancy/components/design/counterDown/counterDown";
 import DeletePrePost from "brancy/components/page/scheduledPost/deletePrePost";
 import styles from "./scheduledStory.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { PartnerRole } from "brancy/models/enums";
+import { IScheduledStoryServer, IScheduledStoryClient } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 let unixNow = Date.now();
 const ScheduledStory = (props: { data: IScheduledStoryServer[] | null; totalCount: number }) => {

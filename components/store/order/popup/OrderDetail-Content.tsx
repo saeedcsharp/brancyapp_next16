@@ -1,5 +1,6 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
-import { FC, useCallback, useEffect, useReducer, useState } from "react";
+import Link from "next/link";
+import { FC, useCallback, useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
@@ -7,20 +8,20 @@ import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFo
 import initialzedTime from "brancy/helper/manageTimer";
 import { specifyLogistic } from "brancy/helper/specifyLogistic";
 import { LanguageKey } from "brancy/i18n";
-import { IFullProduct } from "brancy/models/store/orders";
-import { ColorStr } from "brancy/models/userPanel/shop";
 import styles from "./OrderDetail-Content.module.css";
+import { IOrderFullProduct } from "brancy/models/interfaces";
+import { AvailabilityStatus, ColorStr } from "brancy/models/enums";
 const basePictureUrl = getClientMediaBaseUrl();
 const toggleReducer = (state: boolean) => !state;
 
 interface OrderDetailContentProps {
-  ordersProductInfo: IFullProduct;
+  ordersProductInfo: IOrderFullProduct;
 }
 
 const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) => {
   const { t } = useTranslation();
   const [isExpanded, dispatchToggle] = useReducer(toggleReducer, false);
-  const [isExpandedproduct, setIsExpandedProduct] = useState(false);
+  const [isExpandedproduct, setIsExpandedProduct] = useState(ordersProductInfo.orderItems.length < 2);
 
   const handleToggleExpansion = useCallback(() => {
     dispatchToggle();
@@ -29,9 +30,29 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
   const handleToggleProductExpansion = useCallback(() => {
     setIsExpandedProduct((prev) => !prev);
   }, []);
-  useEffect(() => {
-    console.log("ordersProductInfo", ordersProductInfo);
-  }, []);
+
+  const getAvailabilityLabel = (status: AvailabilityStatus) => {
+    const availabilityLabels = {
+      [AvailabilityStatus.Available]: LanguageKey.product_Available,
+      [AvailabilityStatus.Restocking]: LanguageKey.product_supplying,
+      [AvailabilityStatus.OutOfStock]: LanguageKey.product_OutOfStock,
+      [AvailabilityStatus.Stopped]: LanguageKey.product_Stoppedsale,
+    };
+
+    return t(availabilityLabels[status]);
+  };
+
+  const getProductOrderTotal = (product: IOrderFullProduct["orderItems"][number]) =>
+    product.items.reduce((total, item) => {
+      const subProduct = product.completeProduct.subProducts.find((candidate) => candidate.id == item.subProductId);
+
+      if (!subProduct) return total;
+
+      const discount = subProduct.disCount?.isActive ? Math.min(Math.max(subProduct.disCount.value, 0), 100) : 0;
+      const discountedPrice = subProduct.price * (1 - discount / 100);
+
+      return total + discountedPrice * item.count;
+    }, 0);
 
   if (!ordersProductInfo) {
     return null;
@@ -51,24 +72,30 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
               </>
             )}
           </div>
-          <div className={styles.loadmore} onClick={handleToggleProductExpansion}>
-            <svg
-              className={styles.loadmoreIcon}
-              style={{
-                transform: `rotate(${isExpandedproduct ? "90deg" : "-90deg"})`,
-              }}
-              width="21"
-              height="21"
-              viewBox="0 0 22 22"
-              fill="none">
-              <path stroke="var(--color-dark-blue60)" d="M11 21a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z" strokeWidth="1.5" />
-              <path
-                fill="var(--color-dark-blue)"
-                d="m12.2 7 .6.2q.3.6 0 1l-2.2 2.2-.1.4.1.4 2.2 2.1q.3.6 0 1-.6.5-1 0l-2.2-2a2 2 0 0 1 0-2.9l2.1-2.2z"
-              />
-            </svg>
-            {isExpandedproduct ? <span>{t(LanguageKey.close)}</span> : <span>{t(LanguageKey.Showmore)}</span>}
-          </div>
+          {ordersProductInfo.orderItems.length >= 2 && (
+            <div className={styles.loadmore} onClick={handleToggleProductExpansion}>
+              <svg
+                className={styles.loadmoreIcon}
+                style={{
+                  transform: `rotate(${isExpandedproduct ? "90deg" : "-90deg"})`,
+                }}
+                width="21"
+                height="21"
+                viewBox="0 0 22 22"
+                fill="none">
+                <path
+                  stroke="var(--color-dark-blue60)"
+                  d="M11 21a10 10 0 1 0 0-20 10 10 0 0 0 0 20Z"
+                  strokeWidth="1.5"
+                />
+                <path
+                  fill="var(--color-dark-blue)"
+                  d="m12.2 7 .6.2q.3.6 0 1l-2.2 2.2-.1.4.1.4 2.2 2.1q.3.6 0 1-.6.5-1 0l-2.2-2a2 2 0 0 1 0-2.9l2.1-2.2z"
+                />
+              </svg>
+              {isExpandedproduct ? <span>{t(LanguageKey.close)}</span> : <span>{t(LanguageKey.Showmore)}</span>}
+            </div>
+          )}
         </div>
 
         <div
@@ -76,66 +103,166 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
             styles.productinfo + " " + (isExpandedproduct ? styles.productinfoOpen : styles.productinfoClosed)
           }>
           {ordersProductInfo.orderItems.map((product, index) => (
-            <div key={index} className={styles.productlist}>
+            <div key={`${product.completeProduct.shortProduct.productId}-${index}`} className={styles.productlist}>
               <div className={styles.productcontent}>
                 <div className={styles.productcounter}>
                   <span>{("0" + (index + 1)).slice(-2)}</span>
                 </div>
-                <div className="headerandinput">
+                <div className={styles.productdetails}>
                   <div className={styles.productContainer}>
-                    <img
-                      loading="lazy"
-                      decoding="async"
-                      className={styles.productimage}
-                      title="ℹ️ Profile image"
-                      alt="profile image"
-                      src={basePictureUrl + product.completeProduct.shortProduct.thumbnailMediaUrl}
-                      onError={(e) => {
-                        (e.target as HTMLImageElement).src = "/no-profile.svg";
-                      }}
-                    />
+                    <Link href={`/store/products/productDetail?tempId=${product.completeProduct.shortProduct.tempId}`}>
+                      <img
+                        loading="lazy"
+                        decoding="async"
+                        className={styles.productimage}
+                        title="ℹ️ Profile image"
+                        alt="profile image"
+                        src={basePictureUrl + product.completeProduct.shortProduct.thumbnailMediaUrl}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = "/no-profile.svg";
+                        }}
+                      />
+                    </Link>
                     <div className="instagramprofiledetail" style={{ maxWidth: "100%" }}>
                       <div className="instagramusername">{product.completeProduct.shortProduct.title}</div>
                       <PriceFormater
                         pricetype={product.completeProduct.shortProduct.priceType}
-                        fee={product.completeProduct.shortProduct.maxPrice}
+                        fee={getProductOrderTotal(product)}
                         className={PriceFormaterClassName.PostPrice}
                       />
                       <div className={styles.quantitytag}>
-                        <span>{t(LanguageKey.Storeorder_quantityorder)}</span>:{" "}
-                        {product.completeProduct.subProducts.length}
+                        <span>{t(LanguageKey.Storeorder_quantityorder)}:</span>{" "}
+                        {product.items.reduce((total, item) => total + item.count, 0)}
                       </div>
                     </div>
                   </div>
-                  {product.completeProduct.subProducts.map((tag, idx) => (
-                    <div className={styles.subproduct} key={idx}>
-                      <div className={styles.producttag}>
-                        {tag.variations.map((variation, vIdx) => (
-                          <span key={vIdx}>
-                            <span>{variation.titleVariation.langValue}:</span>
-                            <span>{variation.variation.langValue}</span>
-                          </span>
-                        ))}
+                  <div className={styles.subproductlist}>
+                    {product.completeProduct.subProducts
+                      .filter((subProduct) => product.items.some((item) => item.subProductId == subProduct.id))
+                      .map((subProduct) => {
+                        const orderLine = product.items.find((item) => item.subProductId == subProduct.id)!;
+
+                        return (
+                          <div className={styles.subproduct} key={subProduct.id}>
+                            {/* <div className={styles.subproductHeader}>
+                              <PriceFormater
+                                pricetype={subProduct.priceType}
+                                fee={subProduct.price}
+                                className={PriceFormaterClassName.PostPrice}
+                              />
+                              <div className={styles.productquantity}>
+                                <span>{t(LanguageKey.Storeorder_quantityorder)}</span>
+                                <strong>× {orderLine.count}</strong>
+                              </div>
+                            </div> */}
+                            <div className={styles.producttaglist}>
+                              {subProduct.variations.map((variation) => (
+                                <div
+                                  className={styles.producttag}
+                                  key={`${subProduct.id}-${variation.titleVariation.id}-${variation.variationId}`}>
+                                  <span>{variation.titleVariation.langValue}:</span>
+                                  <strong>{variation.variation.langValue}</strong>
+                                </div>
+                              ))}
+                              {subProduct.colorId != null && (
+                                <div className={styles.producttag}>
+                                  <span>{t(LanguageKey.color)}:</span>
+                                  <div
+                                    className={styles.tagcolor}
+                                    style={{ backgroundColor: ColorStr[subProduct.colorId] }}
+                                  />
+                                </div>
+                              )}
+                              {product.completeProduct.productInstance.customVariation &&
+                                subProduct.customVariation && (
+                                  <div className={styles.producttag}>
+                                    <span>{product.completeProduct.productInstance.customVariation}:</span>
+                                    <strong>{subProduct.customVariation}</strong>
+                                  </div>
+                                )}
+                              <div className={styles.producttag}>
+                                <span>{t(LanguageKey.Storeproduct_stock)}:</span>
+                                <strong>{subProduct.stock}</strong>
+                              </div>
+                              <div className={styles.producttag}>
+                                <span>{t(LanguageKey.Product_Availablity)}:</span>
+                                <strong>
+                                  {getAvailabilityLabel(product.completeProduct.shortProduct.availabilityStatus)}
+                                </strong>
+                              </div>
+                              {subProduct.disCount?.isActive && subProduct.disCount.value > 0 && (
+                                <div className={styles.discounttag}>
+                                  <span>{t(LanguageKey.product_Discount)}:</span>
+                                  <strong>{subProduct.disCount.value}%</strong>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        );
+                      })}
+                  </div>
+                  {/* <div className={styles.productmetagrid}>
+                    {product.completeProduct.productInstance.categoryLangValue && (
+                      <div className={styles.productmeta}>
+                        <span>{t(LanguageKey.product_MainCategory)}</span>
+                        <strong>{product.completeProduct.productInstance.categoryLangValue}</strong>
                       </div>
-                      {tag.colorId !== null && (
-                        <div className={styles.producttag}>
-                          <span>{t(LanguageKey.color)}:</span>
-                          <div
-                            className={styles.tagcolor}
-                            style={{
-                              backgroundColor: ColorStr[tag.colorId!],
-                            }}
-                          />
-                        </div>
-                      )}
-                      {product.completeProduct.productInstance.customVariation !== null && (
-                        <div className={styles.producttag}>
-                          <span>{product.completeProduct.productInstance.customVariation}:</span>
-                          <span>{tag.customVariation}</span>
-                        </div>
-                      )}
+                    )}
+                    {product.completeProduct.productInstance.subCategoryLangValue && (
+                      <div className={styles.productmeta}>
+                        <span>{t(LanguageKey.product_Subcategory)}</span>
+                        <strong>{product.completeProduct.productInstance.subCategoryLangValue}</strong>
+                      </div>
+                    )}
+                    {product.completeProduct.productInstance.brandLangValue && (
+                      <div className={styles.productmeta}>
+                        <span>{t(LanguageKey.product_Brand)}</span>
+                        <strong>{product.completeProduct.productInstance.brandLangValue}</strong>
+                      </div>
+                    )}
+                    {product.completeProduct.secondaryInfo.weight != null && (
+                      <div className={styles.productmeta}>
+                        <span>{t(LanguageKey.Storeproduct_weight)}</span>
+                        <strong>
+                          {product.completeProduct.secondaryInfo.weight} {t(LanguageKey.Storeproduct_gram)}
+                        </strong>
+                      </div>
+                    )}
+                    {product.completeProduct.secondaryInfo.readyForShipDays > 0 && (
+                      <div className={styles.productmeta}>
+                        <span>{t(LanguageKey.Product_preperingforship)}</span>
+                        <strong>{product.completeProduct.secondaryInfo.readyForShipDays}</strong>
+                      </div>
+                    )}
+                    {product.completeProduct.secondaryInfo.isBreakable && (
+                      <div className={styles.productmeta}>
+                        <span>{t(LanguageKey.Product_Breakable)}</span>
+                        <strong>{t(LanguageKey.Yes)}</strong>
+                      </div>
+                    )}
+                    {product.completeProduct.secondaryInfo.isLiquid && (
+                      <div className={styles.productmeta}>
+                        <span>{t(LanguageKey.Product_Luquid)}</span>
+                        <strong>{t(LanguageKey.Yes)}</strong>
+                      </div>
+                    )}
+                  </div>
+                  {product.completeProduct.specifications.some((item) => item.customSpecification) && (
+                    <div className={styles.specificationsection}>
+                      <span className={styles.sectiontitle}>{t(LanguageKey.product_Specifications)}</span>
+                      <div className={styles.producttaglist}>
+                        {product.completeProduct.specifications.map(
+                          (specification) =>
+                            specification.customSpecification && (
+                              <div className={styles.producttag} key={specification.id}>
+                                <span>{specification.customSpecification.key}:</span>
+                                <strong>{specification.customSpecification.value}</strong>
+                              </div>
+                            ),
+                        )}
+                      </div>
                     </div>
-                  ))}
+                  )} */}
                 </div>
               </div>
             </div>
@@ -192,7 +319,7 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
                       <div className="instagramusername">
                         {ordersProductInfo.order.userInfo?.fullName || ordersProductInfo.order.userInfo?.phoneNumber}
                       </div>
-                      <div className="instagramid">{"@" + ordersProductInfo.order.userInfo?.username || ""}</div>
+                      <div className="instagramid">{"@" + (ordersProductInfo.order.userInfo?.username || "")}</div>
                     </div>
                   </div>
                 </div>
@@ -282,7 +409,7 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
                         <th className={styles.tableheader}>{t(LanguageKey.userpanel_MobileNumber)}</th>
                         <td className={styles.tablecontent}>
                           <div className={styles.mobileparent}>
-                            {"+" + ordersProductInfo.order.userInfo?.phoneNumber || ""}
+                            {"+" + (ordersProductInfo.order.userInfo?.phoneNumber || "")}
                             <img
                               onClick={() => {
                                 const tempEl = document.createElement("textarea");
@@ -313,6 +440,10 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
                         <td className={styles.tablecontent}>{ordersProductInfo.address.postalCode}</td>
                       </tr>
                       <tr>
+                        <th className={styles.tableheader}>{t(LanguageKey.userpanel_ZipCode)}</th>
+                        <td className={styles.tablecontent}>{ordersProductInfo.address.postalCode}</td>
+                      </tr>
+                      <tr>
                         <th className={styles.tableheader}>{t(LanguageKey.Storeorder_receiver)}</th>
                         <td className={styles.tablecontent}>{ordersProductInfo.address.receiver}</td>
                       </tr>
@@ -328,7 +459,7 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
           </div>
         </div>
       )}
-      {/* unknown */}
+      {/* shortShop */}
       {ordersProductInfo.order.shortShop && (
         <div className="headerandinput">
           <div className="headerparent">
@@ -369,18 +500,14 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
                       className="instagramimage"
                       title="ℹ️ Profile image"
                       alt="profile image"
-                      src={basePictureUrl + (ordersProductInfo.order.shortShop as any).profileUrl}
+                      src={basePictureUrl + ordersProductInfo.order.shortShop.profileUrl}
                       onError={(e) => {
                         (e.target as HTMLImageElement).src = "/no-profile.svg";
                       }}
                     />
                     <div className="instagramprofiledetail" style={{ maxWidth: "100%" }}>
-                      <div className="instagramusername">
-                        {(ordersProductInfo.order.shortShop as any).fullName || ""}
-                      </div>
-                      <div className="instagramid">
-                        {"@" + (ordersProductInfo.order.shortShop as any).username || ""}
-                      </div>
+                      <div className="instagramusername">{ordersProductInfo.order.shortShop.fullName || ""}</div>
+                      <div className="instagramid">{"@" + (ordersProductInfo.order.shortShop.username || "")}</div>
                     </div>
                   </div>
                 </div>
@@ -461,6 +588,10 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
                             locale: initialzedTime().locale,
                           }).format("YYYY/MM/DD - hh:mm:ss A")}
                         </td>
+                      </tr>
+                      <tr>
+                        <th className={styles.tableheader}>{t(LanguageKey.navbar_PaymentNumber)}</th>
+                        <td className={styles.tablecontent}>{ordersProductInfo.invoice.id}</td>
                       </tr>
                       <tr>
                         <th className={styles.tableheader}>{t(LanguageKey.userpanel_ZipCode)}</th>

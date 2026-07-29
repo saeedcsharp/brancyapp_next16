@@ -7,8 +7,9 @@ import RingLoader from "brancy/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType, UploadFile } from "brancy/helper/api";
-import { ICreateSystemTicket, ITicket, ITicketMediaType } from "brancy/models/userPanel/message";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { ITicketMediaType } from "brancy/models/enums";
+import { ICreateSystemTicket, ITicket } from "brancy/models/interfaces";
 interface State {
   selectedImage: string | null;
   imageId: string | null;

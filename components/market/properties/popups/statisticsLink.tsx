@@ -6,9 +6,9 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { ILinkInsight } from "brancy/models/market/statistics";
 import MultiChart from "brancy/components/design/chart/Chart_month";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { ILinkInsight } from "brancy/models/interfaces";
 
 type State = {
   insightGraph: ILinkInsight;
@@ -57,7 +57,13 @@ const StatisticsLinks = (props: { linkId: number; removeMask: () => void }) => {
     dispatch({ type: "FETCH_START" });
 
     try {
-      const res = await clientFetchApi<boolean, ILinkInsight>("/api/link/GetLinkInsight", { methodType: MethodType.get, session: session, data: null, queries: [{ key: "linkId", value: props.linkId.toString() }], onUploadProgress: undefined });
+      const res = await clientFetchApi<boolean, ILinkInsight>("/api/link/GetLinkInsight", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [{ key: "linkId", value: props.linkId.toString() }],
+        onUploadProgress: undefined,
+      });
 
       if (abortControllerRef.current?.signal.aborted) return;
 
@@ -101,7 +107,7 @@ const StatisticsLinks = (props: { linkId: number; removeMask: () => void }) => {
         props.removeMask();
       }
     },
-    [props.removeMask]
+    [props.removeMask],
   );
 
   const { t } = useTranslation();

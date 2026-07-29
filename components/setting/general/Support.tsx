@@ -5,13 +5,12 @@ import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { RoleAccess } from "brancy/helper/loadingStatus";
 import { convertToSeconds } from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { StatusReplied } from "brancy/models/messages/enum";
-import { PlatformTicketType } from "brancy/models/setting/enums";
-import { IPlatform, ITicketInsights } from "brancy/models/setting/general";
 import { useSession } from "next-auth/react";
 import React, { memo, useCallback, useEffect, useId, useMemo, useReducer, useRef, useTransition } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./general.module.css";
+import { StatusReplied, PlatformTicketType } from "brancy/models/enums";
+import { IPlatform, ITicketInsights } from "brancy/models/interfaces";
 
 interface SupportProps {
   isDataLoaded: boolean;

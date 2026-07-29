@@ -1,16 +1,12 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { MouseEvent, useCallback, useMemo } from "react";
 import { useTranslation } from "react-i18next";
-
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { getEnumValue } from "brancy/helper/handleItemTypeEnum";
 import { LanguageKey } from "brancy/i18n";
-import { PushNotif, PushResponseExplanation, PushResponseTitle, PushResponseType } from "brancy/models/push/pushNotif";
-import { OrderStep } from "brancy/models/store/enum";
-import { IOrderPushNotifExtended } from "brancy/models/store/orders";
-import { ITicketPushNotif } from "brancy/models/userPanel/message";
-
 import styles from "./notificationBar.module.css";
+import { PushResponseType, OrderStep, PushResponseExplanation, PushResponseTitle } from "brancy/models/enums";
+import { PushNotif, ITicketPushNotif, IOrderPushNotifExtended, IGetImage } from "brancy/models/interfaces";
 
 const basePictureUrl = getClientMediaBaseUrl();
 const NotificationBar = ({
@@ -22,7 +18,11 @@ const NotificationBar = ({
 }) => {
   const { t } = useTranslation();
   const getNotifLogo = useCallback((responseType: PushResponseType) => {
-    if (responseType === PushResponseType.UploadPostSuccess || responseType === PushResponseType.UploadStorySuccess)
+    if (
+      responseType === PushResponseType.UploadPostSuccess ||
+      responseType === PushResponseType.UploadStorySuccess ||
+      responseType === PushResponseType.AiImageSuccess
+    )
       return (
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" aria-hidden="true">
           <path
@@ -45,7 +45,8 @@ const NotificationBar = ({
       );
     } else if (
       responseType === PushResponseType.UploadPostFailed ||
-      responseType === PushResponseType.UploadStoryFailed
+      responseType === PushResponseType.UploadStoryFailed ||
+      responseType === PushResponseType.AiImageFail
     )
       return (
         <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true">
@@ -80,12 +81,16 @@ const NotificationBar = ({
       if (message.NewStatus === OrderStep.Paid) {
         return (
           "You have new order from " +
-          (message.ShortOrder.UserInfo?.FullName ||
-            message.ShortOrder.UserInfo?.Username ||
-            message.ShortOrder.UserInfo?.PhoneNumber)
+          (message.UserProfile?.FullName || message.UserProfile?.Username || message.UserProfile?.PhoneNumber)
         );
       }
       return "";
+    } else if (notif.ResponseType === PushResponseType.AiImageSuccess && notif.Message) {
+      const message = JSON.parse(notif.Message) as IGetImage;
+      return "Your images successfully created by, " + message.version + " model.";
+    } else if (notif.ResponseType === PushResponseType.AiImageFail && notif.Message) {
+      const message = JSON.parse(notif.Message) as IGetImage;
+      return `Your images failed to be created by " + message.version + " model : ${message.metadata || "Image generation failed."}`;
     } else {
       const explaination = getEnumValue(PushResponseType, PushResponseExplanation, notif.ResponseType);
       return `${explaination} `;

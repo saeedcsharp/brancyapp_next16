@@ -1,7 +1,8 @@
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import { ErrorPrePostType, IErrorPrePostInfo } from "brancy/models/page/post/preposts";
+import { ErrorPrePostType } from "brancy/models/enums";
+import { IErrorPrePostInfo } from "brancy/models/interfaces";
 function ErrorDraft(props: { data: IErrorPrePostInfo; removeMask: () => void }) {
   useEffect(() => {
     console.log("draft", props.data);

@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Loading from "brancy/components/notOk/loading";
 import NotAllowed from "brancy/components/notOk/notAllowed";
@@ -22,17 +22,18 @@ import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { LanguageKey } from "brancy/i18n";
+import Slider from "brancy/components/design/slider/slider";
 import { MethodType } from "brancy/helper/api";
-import { PushNotif, PushResponseType } from "brancy/models/push/pushNotif";
-import { OrderStep, OrderStepStatus, ShippingRequestType } from "brancy/models/store/enum";
-import { IOrderByStatus, IOrderByStatusItem, IOrderDetail, IOrderPushNotifExtended } from "brancy/models/store/orders";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import "swiper/css";
-import "swiper/css/free-mode";
-import { FreeMode } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
 import styles from "./ordernew.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { OrderStep, OrderStepStatus, PartnerRole, PushResponseType, ShippingRequestType } from "brancy/models/enums";
+import {
+  IOrderDetail,
+  IOrderByStatus,
+  IOrderByStatusItem,
+  PushNotif,
+  IOrderPushNotifExtended,
+} from "brancy/models/interfaces";
 
 const Orders = () => {
   //  return <Soon />;
@@ -525,34 +526,40 @@ const Orders = () => {
   }
   function handleManageOrderBySocket(order: IOrderPushNotifExtended) {
     const orderStatus: IOrderByStatusItem = {
-      systemTicketId: order.ShortOrder.SystemTicketId,
-      trackingId: order.ShortOrder.TrackingId,
-      city: order.ShortOrder.City,
-      createdTime: order.ShortOrder.CreatedTime,
-      deliveryType: order.ShortOrder.DeliveryType,
-      id: order.ShortOrder.Id,
-      instagramerId: order.ShortOrder.InstagramerId,
-      invoiceId: order.ShortOrder.InvoiceId,
-      itemCount: order.ShortOrder.ItemCount,
-      logesticId: order.ShortOrder.LogesticId,
-      priceType: order.ShortOrder.PriceType,
-      state: order.ShortOrder.State,
-      userId: order.ShortOrder.UserId,
-      shortShop: null,
-      status: order.NewStatus,
-      statusUpdateTime: order.ShortOrder.StatusUpdateTime,
-      totalPrice: order.ShortOrder.TotalPrice,
-      userInfo: order.ShortOrder.UserInfo
-        ? {
-            fullName: order.ShortOrder.UserInfo.FullName,
-            phoneNumber: order.ShortOrder.UserInfo.PhoneNumber,
-            profileUrl: order.ShortOrder.UserInfo.ProfileUrl,
-            username: order.ShortOrder.UserInfo.Username,
-          }
-        : null,
+      businessProfile: null,
+      order: {
+        id: order.Order.Id,
+        trackingId: order.Order.TrackingId,
+        itemCount: order.Order.ItemCount,
+        totalPrice: order.Order.TotalPrice,
+        priceType: order.Order.PriceType,
+        createdTime: order.Order.CreatedTime,
+        logesticId: order.Order.LogesticId,
+        city: order.Order.City,
+        deliveryType: order.Order.DeliveryType,
+        expireTime: order.Order.ExpireTime,
+        fbId: order.Order.FbId,
+        invoiceId: order.Order.InvoiceId,
+        shopAddressId: order.Order.ShopAddressId,
+        shortShop: order.Order.ShortShop,
+        source: order.Order.Source,
+        state: order.Order.State,
+        status: order.NewStatus,
+        statusUpdateTime: order.Order.StatusUpdateTime,
+        userId: order.Order.UserId,
+      },
+      userProfile: {
+        fullName: order.UserProfile.FullName,
+        googleEmail: order.UserProfile.GoogleEmail,
+        googleName: order.UserProfile.GoogleName,
+        googleProfile: order.UserProfile.GoogleProfile,
+        phoneNumber: order.UserProfile.PhoneNumber,
+        profileUrl: order.UserProfile.ProfileUrl,
+        username: order.UserProfile.Username,
+      },
     };
 
-    console.log("Order initialized", order.ShortOrder);
+    console.log("Order initialized", order.Order);
     if (order.NewStatus === OrderStep.Paid) {
       setOrders((prev) => ({
         ...prev,
@@ -569,7 +576,7 @@ const Orders = () => {
           nextMaxId: prev.inprogresses.nextMaxId,
         },
         pending: {
-          items: prev.pending.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.pending.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.pending.nextMaxId,
         },
       }));
@@ -581,7 +588,7 @@ const Orders = () => {
           nextMaxId: prev.pickingups.nextMaxId,
         },
         inprogresses: {
-          items: prev.inprogresses.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.inprogresses.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.inprogresses.nextMaxId,
         },
       }));
@@ -593,7 +600,7 @@ const Orders = () => {
           nextMaxId: prev.sents.nextMaxId,
         },
         pickingups: {
-          items: prev.pickingups.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.pickingups.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.pickingups.nextMaxId,
         },
       }));
@@ -605,7 +612,7 @@ const Orders = () => {
           nextMaxId: prev.delivereds.nextMaxId,
         },
         sents: {
-          items: prev.sents.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.sents.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.sents.nextMaxId,
         },
       }));
@@ -622,15 +629,15 @@ const Orders = () => {
           nextMaxId: prev.faileds.nextMaxId,
         },
         inprogresses: {
-          items: prev.inprogresses.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.inprogresses.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.inprogresses.nextMaxId,
         },
         pickingups: {
-          items: prev.pickingups.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.pickingups.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.pickingups.nextMaxId,
         },
         sents: {
-          items: prev.sents.items.filter((o) => o.id !== orderStatus.id),
+          items: prev.sents.items.filter((o) => o.order.id !== orderStatus.order.id),
           nextMaxId: prev.sents.nextMaxId,
         },
       }));
@@ -802,8 +809,13 @@ const Orders = () => {
       setOrdersInprocess((prev) => prev.filter((x) => x !== orderId));
     }
   }
+  const hasFetchedRef = useRef(false);
+
   useEffect(() => {
-    if (session && firstLoading && RoleAccess(session, PartnerRole.Orders)) fetchData();
+    if (session && !hasFetchedRef.current && RoleAccess(session, PartnerRole.Orders)) {
+      hasFetchedRef.current = true;
+      fetchData();
+    }
   }, [session]);
 
   useEffect(() => {
@@ -855,9 +867,9 @@ const Orders = () => {
         {loading && <Loading />}
         {!loading && (
           <section className={styles.pincontainer} role="main" aria-label="Orders Management">
-            <Swiper freeMode slidesPerView="auto" modules={[FreeMode]} className={styles.orderstep}>
+            <Slider freeMode spaceBetween={0} navigation={false} className={styles.orderstep}>
               {steps.map((step, index) => (
-                <SwiperSlide
+                <div
                   key={index}
                   className={`${styles.step} ${
                     selectedStep === index ? `${styles.activeStep} ${styles[`activeStep${index}`]}` : ""
@@ -883,9 +895,9 @@ const Orders = () => {
                     <span>{t(step.label)}</span>
                     <span className={styles.menucounter}>{step.counter}</span>
                   </div>
-                </SwiperSlide>
+                </div>
               ))}
-            </Swiper>
+            </Slider>
 
             <div className={styles.orderstepcontent}>
               {selectedStep === OrderStepStatus.Pending && (

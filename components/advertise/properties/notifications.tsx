@@ -3,8 +3,8 @@ import { useTranslation } from "react-i18next";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
-import { INotifications } from "brancy/models/advertise/peoperties";
 import styles from "./propertiesComponent.module.css";
+import { INotifications } from "brancy/models/interfaces";
 function notifications(props: { data: INotifications }) {
   const { t } = useTranslation();
   const { hidePage, gridSpan, toggle } = useHideDiv(true, 36);

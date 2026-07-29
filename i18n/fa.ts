@@ -52,6 +52,8 @@ export default {
     level: "سطح",
     bestposts: "بهترین پست‌ها",
     upgradeyouraccount: "حساب خود را ارتقاء دهید",
+    featureNotAvailable: "این ویژگی در دسترس نیست",
+    featureNotAvailableDesc: "برای استفاده از این امکان، حساب خود را ارتقا دهید.",
     likeaprouser: "یک کسب‌وکار واقعی راه‌اندازی کنید",
     followerrate: "نرخ رشد فالور",
     usersettingexplain: "اطلاعات حساب اینستاگرام فقط در خود اینستاگرام تغییر می‌کند و اینجا خودکار به‌روزرسانی می‌شود.",
@@ -310,6 +312,12 @@ export default {
     footer_ProductUpdates: "آخرین بروزرسانی‌ها",
     footer_Articles: "مقالات",
     footer_LatestNews: "جدیدترین اخبار",
+
+    installPromptMessage: "نصب وب اپلیکیشن brancy",
+    install: "نصب",
+    installStep1: "در نوار پایین، دکمهٔ اشتراک‌گذاری را انتخاب کنید.",
+    installStep2: "منوی باز شده را به بالا اسکرول کنید و 'Add to Home Screen' را انتخاب کنید.",
+    installStep3: "در بالای صفحه، دکمهٔ 'Add' را انتخاب کنید.",
 
     joinUs_subtitle: "به برنسی بپیوندید؛ جایی که نوآوری و آینده‌ای پایدار شکل می‌گیرد.",
     joinUs_whyWorkWithUs: "چرا برنسی؟",
@@ -1655,30 +1663,34 @@ export default {
     messagesetting_SearchforproductsExplain:
       "کاربران می‌توانند با ارسال نام محصول، شماره پست یا بخشی از کپشن، مشخصات کامل محصول را دریافت کرده و در صورت تمایل، خرید خود را مستقیماً انجام دهند. این قابلیت تأثیر مثبتی بر افزایش فروش خواهد داشت.",
     messagesetting_addautomaticreplysystemsystem: "پاسخ سیستمی واحد برای تمامی قسمت‌های پیج",
-    messagesetting_HideRobotReply: "مخفی کردن ریپلای ربات",
+    //
+    messagesetting_HideRobotReply: "فیلتر پیام‌های خودکار و رباتی",
     messagesetting_HideRobotReplyExplain:
-      "با فعال‌سازی این گزینه، فقط پیام‌های واقعی نمایش داده می‌شوند و کامنت‌ها و پیام‌های رباتیک و سیستمی مخفی می‌شوند.",
-    messagesetting_LikeRobotReply: "لایک کردن تمامی پاسخ‌های کامنت",
-    messagesetting_LikeRobotReplyExplain: "ریپلای ها در استوری به‌صورت خودکار توسط ربات لایک خواهند شد.",
+      "پیام‌های خودکار و رباتی مخفی می‌شوند و فقط پیام‌های واقعی در دایرکت نمایش داده می‌شوند",
+    messagesetting_LikeRobotReply: "لایک خودکار کامنت‌های استوری",
+    messagesetting_HideRobotReplytooltip: "پیام‌ها حذف نمی‌شوند و فقط مخفی می‌شوند تا مدیریت دایرکت ساده‌تر شود",
+    messagesetting_LikeRobotReplyExplain:
+      "کامنت‌های استوری به‌صورت خودکار لایک می‌شوند تا تعامل بیشتر و سریع‌تر انجام شود",
+    messagesetting_automaticreplysystem: "کنترل پاسخ‌های خودکار",
+    messagesetting_automaticreplysystemforallpost:
+      "مدیریت کلی فعال یا غیرفعال بودن پاسخ‌های خودکار کامنت‌ها در همه پست‌ها",
+    messagesetting_automaticreplysystemforallposttooltip:
+      "اگر برای پست‌های مختلف پاسخ خودکار کامنت تنظیم کرده باشید، با این گزینه می‌توانید همه آن‌ها را یک‌جا فعال یا غیرفعال کنید. برای تنظیم پاسخ‌ها باید به صفحه هر پست به‌صورت جداگانه مراجعه کنید",
     messagesetting_messagePanellanguage: "زبان پیش‌فرض دایرکت",
     messagesetting_messagePanellanguageExplain: "زبان پیش‌فرض ربات دایرکت برای پاسخ‌دهی به پیام‌ها",
     messagesetting_AutoReplyPerFollow: "پاسخ خودکار پس از فالو",
-    messagesetting_AutoReplyPerFollowExplain:
-      "پاسخ سیستمی تنها برای فالورها ارسال خواهد شد و کاربران غیر‌فالور ابتدا درخواست فالو دریافت می‌کنند",
+    messagesetting_AutoReplyPerFollowExplain: "کاربران برای دریافت پیام‌های خودکار باید ابتدا صفحه شما را فالو کنند",
+    messagesetting_AutoReplyPerFollowtooltip:
+      "کاربرانی که شما را فالو نکرده‌اند، ابتدا درخواست فالو دریافت می‌کنند و پس از فالو کردن، پیام خودکار برای آن‌ها ارسال می‌شود",
     messagesetting_AutoReplyPerFollowtitle: "متن پیام",
-    messagesetting_AutoReplyPerFollowtitlesample: "مثال: برای دریافت پیام اول صفحه ی مارا فالو کنید",
+    messagesetting_AutoReplyPerFollowtitlesample: "مثال: برای دریافت پیام، ابتدا صفحه ما را فالو کنید",
     messagesetting_AutoReplyPerFollowbtn: "متن دکمه",
-    messagesetting_AutoReplyPerFollowbtnsample: "مثال: فالو کردم، لطفا پیام را برای من ارسال کنید",
-    messagesetting_automaticreplysystem: "سیستم پاسخگویی خودکار",
+    messagesetting_AutoReplyPerFollowbtnsample: "مثال: فالو کردم، پیام را ارسال کنید",
     messagesetting_automaticreplysystemexplain:
       "با دریافت هر پیام یا کامنت، در هر بخش پیج (فید، استوری، ریلز، لایو و غیره)، سیستم به‌طور خودکار با متنی که تنظیم می‌کنید پاسخ می‌دهد.",
-    messagesetting_automaticreplysystemforallpost: "فعال و یا غیر فعال سازی کلیه پاسخ‌های خودکار برای پست‌ها",
-    messagesetting_automaticreplysystemforallposttooltip:
-      "این تنظیمات برای پاسخ‌های رباتی پست‌ها اعمال می‌شود و تغییر آن بر تمامی پاسخ‌های خودکار هر پست تاثیر می‌گذارد. برای اضافه کردن پاسخ‌ها، باید به‌طور جداگانه به هر پست مراجعه کنید",
     messagesetting_KeywordSensitive: "حساس به کلمه",
     messagesetting_KeywordsSensitive: "حساس به کلمات",
     sendreplydirectedsuccessfully: "ارسال پیام تأییدیه در کامنت پس از دایرکت",
-
     autoReplyFor: "پاسخ خودکار در",
     messagesetting_selectedwords: "موارد انتخاب‌شده",
     autocommentReplyExplain: "با دریافت یک کامنت یا پیام، سیستم به‌طور خودکار پاسخ می‌دهد.",
@@ -1738,6 +1750,37 @@ export default {
     messagesetting_SelectFlow: "انتخاب فلو",
     messagesetting_ViewFlow: "نمایش فلو",
     messagesetting_UseGeneralAIExplain: "استفاده از هوش مصنوعی عمومی برای تعامل آزاد و بدون محدودیت با کاربران",
+    tool_token_usage_guide: "مقدار تقریبی توکن مصرفی هنگام اجرای این ابزار",
+    tool_how_use: "نحوه استفاده ابزار",
+    tool_how_work: "نحوه عملکرد ابزار",
+    send_sms_ir_code_description: "ارسال پیامک به موبایل کاربر از طریق پلتفرم SMS.ir",
+    send_sms_ir_code_completeDescription:
+      "این ابزار برای ارسال پیامک به کاربران استفاده می‌شود؛ مثل کد احراز هویت، ثبت‌نام یا اطلاع‌رسانی. با استفاده از آن می‌توانید شماره موبایل کاربران را دریافت کرده و در سرویس پیامکی خود استفاده کنید.",
+    send_sms_ir_code_howUse: `1- کد ApiKey را از پلتفرم SMS.ir دریافت و وارد کنید.
+2- قالب پیامک خود را در قسمت TemplateId وارد کنید.
+3- در قالب پیامک هر جا {CODE} باشد، سیستم به صورت خودکار کد یکبار مصرف OTP را جایگزین می‌کند.
+`,
+    send_sms_ir_code_howWork: `1- کاربر شماره موبایل خود را در دایرکت ارسال می‌کند.
+2- پیامک برای موبایل کاربر ارسال می‌شود، اگر کد شامل {CODE} باشد، سیستم آن را با OTP جایگزین می‌کند.
+3- کاربر کد را برای هوش مصنوعی ارسال می‌کند.
+4- هوش مصنوعی کد را بررسی کرده و شماره موبایل را تأیید می‌کند.
+`,
+
+    send_to_telegram_description: "ارسال پیام به تلگرام از طریق ربات",
+    send_to_telegram_completeDescription:
+      "این ابزار برای ارسال پیام به تلگرام با استفاده از ربات تلگرام استفاده می‌شود. پیام از طریق Bot Token به یک کانال یا چت مشخص ارسال می‌گردد و برای اطلاع‌رسانی، هشدارها و ارسال داده‌ها کاربرد دارد.",
+    send_to_telegram_howUse:
+      "1- توکن ربات تلگرام را وارد کنید.\n2- آیدی چت یا کانال را وارد کنید.\n3- ابزار را اجرا کنید تا پیام ارسال شود.",
+    send_to_telegram_howWork:
+      "1- کاربر Token و Channel را وارد می‌کند.\n2- سیستم با Bot API درخواست ارسال پیام را آماده می‌کند.\n3- پیام به کانال یا چت ارسال می‌شود.",
+
+    sender_username_description: "استفاده از نام کاربری فرستنده در پرامپت",
+    sender_username_completeDescription:
+      "این ابزار به شما امکان می‌دهد نام کاربری فرستنده پیام را در پرامپت‌های هوش مصنوعی استفاده کنید. با قرار دادن {SENDER_USERNAME}، سیستم آن را با نام کاربر جایگزین می‌کند.",
+    sender_username_howUse:
+      "1- در پرامپت خود {SENDER_USERNAME} را قرار دهید.\n2- هنگام اجرا، سیستم آن را با نام کاربر جایگزین می‌کند.",
+    sender_username_howWork:
+      "1- کاربر {SENDER_USERNAME} را در پرامپت قرار می‌دهد.\n2- سیستم نام کاربر را جایگزین می‌کند.\n3- AI پاسخ را با استفاده از نام کاربر تولید می‌کند.",
 
     // #endregion Message Section
     // #region 5️⃣market Section
@@ -1773,10 +1816,32 @@ export default {
     marketstatisticslastupdate: "آخرین بروزرسانی",
     marketstatisticsAllsearches: "همه جستجوها",
     marketstatisticsfeatures: "تنظیمات",
+    marketstatisticsVisits: "بازدیدها",
+    marketstatisticsClicksAndInteractions: "کلیک‌ها و تعاملات",
+    marketstatisticsVisitsConverted: "بازدیدهای منجر به کلیک",
+    marketstatisticsQuickUserExitAfterEntry: "خروج سریع کاربران پس از ورود",
+    marketstatisticsNoInteractionExit: "خروج افراد بدون تعامل",
+    marketstatisticsMaxClicksPerVisit: "بیشترین کلیک یک کاربر در یک بازدید",
+    marketstatisticsAvgClicksAndInteractionsPerVisitor: "میانگین کلیک و تعامل هر بازدیدکننده",
+    marketstatisticsTotalVisitTime: "مجموع زمان بازدید کاربران",
+    marketstatisticsAvgVisitTime: "میانگین زمان حضور یک بازدیدکننده",
+    marketstatisticsVideoPlatformsComparison: "مقایسه پلتفرم‌های ویدیویی",
+    marketstatisticsYoutube: "یوتیوب",
+    marketstatisticsAparat: "آپارات",
+    marketstatisticsTwitch: "توییچ",
+    marketstatisticsPlatformEntry: "ورود به پلتفرم",
+    marketstatisticsRedirectEvent: "رویداد هدایت",
+    marketstatisticsPlayVideo: "پخش ویدیو",
+    marketstatisticsPlayEvent: "رویداد پخش",
+    marketstatisticsUniqueVisit: "بازدید یکتا",
+    marketstatisticsDedicatedLinkVisits: "بازدید از لینک اختصاصی",
+    marketstatisticsCombinedLinkVisits: "نمودار ترکیبی بازدید لینک‌ها",
     // 5️⃣ Market -> Properties
     marketPropertiesfeatures: "تنظیمات",
     marketPropertiesProfileInfoBanner: "اطلاعات پروفایل و بنر",
     marketPropertiesFeaturebox: "باکس ویژگی ها",
+    marketPropertiesFeatureboxexplain:
+      "با فعال‌سازی هر ویژگی، می‌توانید اطلاعات مهمی را به بازدیدکنندگان صفحه لینک خود نمایش دهید",
     marketPropertiesBanner: "بنر",
     marketPropertiesFeaturesBox: "باکس ویژگی ها",
     marketPropertiesReviews: "نقد و بررسی‌ها",
@@ -1835,6 +1900,22 @@ export default {
     marketPropertiespopup_mediastream: "رسانه و استریم",
     marketPropertiespopup_clouddrivecontent: "محتوای درایو ابری",
     marketPropertiespopup_Finance: "امور مالی",
+    marketProperties_followersrate: "تعداد فالورها",
+    marketProperties_followersrateExplain: "تعداد فالورهای پیج اینستاگرام شما نمایش داده می‌شود",
+    marketProperties_successRating: "امتیاز موفقیت",
+    marketProperties_successRatingExplain: "امتیاز موفقیت شما در انجام سفارشات نمایش داده می‌شود",
+    marketProperties_bussinessHours: "ساعات کاری فعال",
+    marketProperties_bussinessHoursExplain: "ساعات کاری فعال کسب‌وکار شما نمایش داده می‌شود",
+    marketProperties_Enamadverified: "نماد اعتماد الکترونیکی",
+    marketProperties_EnamadverifiedExplain: "وضعیت تأیید نماد اعتماد الکترونیکی شما نمایش داده می‌شود",
+    marketProperties_BusinessTerms: "شرایط کسب‌وکار",
+    marketProperties_BusinessTermsExplain: "شرایط و قوانین کسب‌وکار شما نمایش داده می‌شود",
+    marketProperties_tariff: "تعرفه",
+    marketProperties_TariffExplain: "تعرفه‌های خدمات شما نمایش داده می‌شود",
+    marketProperties_StartADS: "شروع درخواست تبلیغات",
+    marketProperties_StartADSExplain: "کاربر می‌تواند بر اساس تعرفه‌های شما تبلیغات خود را شروع کند",
+    marketProperties_StartSALES: "شروع درخواست خرید",
+    marketProperties_StartSALESExplain: "کاربر می‌تواند بر اساس محصولات شما خرید خود را شروع کند",
     linkURL: "آدرس لینک",
     searchID: "افزودن کانال",
     searchIDexplain: "ایدی شخص یا اسم کانال مورد نظر را بنویسید",
@@ -2010,6 +2091,22 @@ export default {
     Storeproduct_price: "قیمت",
     Storeproduct_active: "فعال",
     Storeproduct_gram: "گرم",
+    bulkProduct: {
+      title: "مدیریت محصولات انتخاب‌شده",
+      selectedCount: "{{count}} محصول انتخاب شده",
+      priceChange: "تغییر قیمت",
+      valueType: "نوع مقدار",
+      amount: "مبلغ",
+      increase: "افزایش",
+      decrease: "کاهش",
+      applyAll: "اعمال یکسان برای همه محصولات",
+      applyIndividual: "تنظیم جداگانه هر محصول",
+      allProducts: "اعمال روی هر {{count}} محصول",
+      discountAllHint: "یک درصد یا مبلغ ثابت تخفیف برای همه محصولات انتخاب‌شده تعیین کنید.",
+      priceAllHint: "قیمت همه محصولات را به صورت درصدی یا مبلغ ثابت افزایش یا کاهش دهید.",
+      currentDiscount: "تخفیف فعلی",
+      saving: "در حال ذخیره...",
+    },
     loadingmoreproducts: "در حال بارگذاری محصولات بیشتر...",
     noMoreProducts: "محصولات بیشتری وجود ندارد",
 
@@ -2018,11 +2115,15 @@ export default {
     storestatistics_lastmonth: "ماه گذشته",
     storestatistics_thismonth: "این ماه",
     storestatistics_sales: "فروش",
-    storestatistics_fromlast: "% از ماه گذشته",
+    storestatistics_fromlast: "٪ از ماه گذشته",
     storestatistics_totalSalesstatistics: "آمار کل فروش‌ها",
     storestatistics_TotalSales: "کل فروش‌ها",
     storestatistics_TotalIncome: "کل درآمد",
-    storestatistics_totalsalesreport: "گزارش کل فروش‌ها",
+    storestatistics_totalsalesreport: "خریداران برتر",
+    storestatistics_buyer: "مشخصات خریدار",
+    storestatistics_totalPurchases: "تعداد کل خریدها",
+    storestatistics_totalAmount: "مبلغ کل خریدها",
+    storestatistics_lastPurchase: "آخرین زمان خرید",
     storestatistics_saleno: "شماره فروش",
     storestatistics_seller: "فروشنده",
     storestatistics_type: "نوع",
@@ -2335,6 +2436,7 @@ export default {
     startbusiness: "ایجاد کسب و کار",
     AI: "هوش مصنوعی",
     ExtraTokens: "توکن اضافی",
+    TokenUsage: "توکن مصرفی",
     AdvancedAnalytics: "آنالیز پیشرفته",
     AIResponse: "پاسخ هوشمند اینستاگرام",
     CustomSupport: "پشتیبانی ویژه",
@@ -3103,6 +3205,22 @@ export default {
     Notify_NoEventsFoundForThisPrompt: "رویدادی برای این پرامپت یافت نشد",
     Notify_PageAnalysisNotExist: "تحلیل صفحه وجود ندارد",
     Notify_NoEventIdeaGenerated: "هیچ ایده‌ای برای رویداد تولید نشد",
+    Notify_PhoneNumberAddedBefore: "این شماره تلفن قبلاً اضافه شده است",
+    Notify_WhatsAppCodeSendedBeforeAndWait1Day: "کد واتساپ قبلاً ارسال شده است؛ لطفاً یک روز صبر کنید",
+    Notify_WhatsAppCodeNotRequested: "درخواستی برای کد تأیید واتساپ ثبت نشده است",
+    Notify_WhatsAppCodeMaxInvalidCountReach: "حداکثر تعداد تلاش نامعتبر برای کد واتساپ انجام شده است",
+    Notify_UserWithThisPhoneNumberAlreadyExist: "کاربری با این شماره تلفن از قبل وجود دارد",
+    Notify_InvalidAIToolId: "شناسه ابزار هوش مصنوعی نامعتبر است",
+    Notify_AIToolParameterRequired: "پارامتر ابزار هوش مصنوعی الزامی است",
+    Notify_AIToolParameterNotRequired: "این ابزار هوش مصنوعی پارامتر نمی‌پذیرد",
+    Notify_ExceedDailyLimit: "از محدودیت روزانه عبور کرده‌اید",
+    Notify_CannotGetTwitchRightNow: "در حال حاضر دریافت اطلاعات توییچ امکان‌پذیر نیست",
+    Notify_InvalidTwitchChannelId: "شناسه کانال توییچ نامعتبر است",
+    Notify_PhoneNumberRequired: "شماره تلفن الزامی است",
+    Notify_NotVerifiedHost: "میزبان تأیید نشده است",
+    Notify_NotBusinesser: "این کاربر صاحب کسب‌وکار نیست",
+    Notify_NotFoundAnySuggestedCategory: "هیچ دسته‌بندی پیشنهادی یافت نشد",
+    Notify_NoInvoiceExist: "هیچ صورتحسابی وجود ندارد",
 
     // Internal Notifications
     InternalNotify_Ok: "عملیات با موفقیت انجام شد",

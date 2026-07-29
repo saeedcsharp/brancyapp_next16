@@ -6,9 +6,9 @@ import TextArea from "brancy/components/design/textArea/textArea";
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IQuestion, IUpdateFAQ } from "brancy/models/market/properties";
 import styles from "./featureBoxPU.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IQuestion, IUpdateFAQ } from "brancy/models/interfaces";
 const QAndABox = (props: { removeMask: () => void }) => {
   const { data: session } = useSession();
   const { t } = useTranslation();
@@ -155,7 +155,7 @@ const QAndABox = (props: { removeMask: () => void }) => {
                     </span>
                   </div>
                   <TextArea
-                    className={"captiontextarea"}
+                    className="TextArea"
                     placeHolder={""}
                     fadeTextArea={false}
                     handleInputChange={(e) => handleChangeQuestionTextArea(e, v.id)}
@@ -176,7 +176,7 @@ const QAndABox = (props: { removeMask: () => void }) => {
                     </div>
                   </div>
                   <TextArea
-                    className={"captiontextarea"}
+                    className="TextArea"
                     placeHolder={"Answer"}
                     fadeTextArea={false}
                     handleInputChange={(e) => handleChangeAnswerTextArea(e, v.id)}

@@ -1,5 +1,4 @@
-import { IItem, IOwnerInbox, IThread_Ticket } from "brancy/models/messages/IMessage";
-import { ITicket } from "brancy/models/userPanel/message";
+import { IDirectMessageItem, IDirectOwnerInbox, IThread_Ticket, ITicket } from "brancy/models/interfaces";
 export type ChatDirection = "left" | "right" | "system";
 export interface ImageClickInfo {
   url: string;
@@ -13,10 +12,10 @@ export interface VideoClickInfo {
   isExpired: boolean;
 }
 export interface TicketBaseChatProps {
-  item: IItem;
+  item: IDirectMessageItem;
   direction: ChatDirection;
   chatBox: IThread_Ticket | ITicket;
-  ownerInbox: IOwnerInbox;
+  ownerInbox: IDirectOwnerInbox;
   baseMediaUrl: string;
   useExternalUrl: boolean;
   onClickSubIcon: (iconId: string, itemId: string) => void;
@@ -26,8 +25,8 @@ export interface TicketBaseChatProps {
   toggleDateFormat: (itemId: string) => void;
   formatDate: (timestamp: number, itemId: string | null) => string;
   handleFindEmoji: (text: string | null) => string | null;
-  handleSpecifyRepliedItemFullName: (itemId: string, repItem: IItem | null) => string;
-  handleSpecifyRepliedItemType: (repItemId: string, repItem: IItem | null) => string;
+  handleSpecifyRepliedItemFullName: (itemId: string, repItem: IDirectMessageItem | null) => string;
+  handleSpecifyRepliedItemType: (repItemId: string, repItem: IDirectMessageItem | null) => string;
 }
 export interface TicketChatDateProps {
   createdTime: number;
@@ -38,7 +37,7 @@ export interface TicketChatDateProps {
   formatDate: (timestamp: number, itemId: string | null) => string;
 }
 export interface TicketReactionEmojiProps {
-  item: IItem;
+  item: IDirectMessageItem;
   direction: ChatDirection;
   baseMediaUrl: string;
   chatBox: IThread_Ticket | ITicket;
@@ -54,8 +53,8 @@ export interface TicketMessageStatusProps {
 }
 export interface TicketRepliedMessageProps {
   repliedToItemId: string;
-  repliedToItem: IItem | null;
+  repliedToItem: IDirectMessageItem | null;
   direction: ChatDirection;
-  handleSpecifyRepliedItemFullName: (itemId: string, repItem: IItem | null) => string;
-  handleSpecifyRepliedItemType: (repItemId: string, repItem: IItem | null) => string;
+  handleSpecifyRepliedItemFullName: (itemId: string, repItem: IDirectMessageItem | null) => string;
+  handleSpecifyRepliedItemType: (repItemId: string, repItem: IDirectMessageItem | null) => string;
 }

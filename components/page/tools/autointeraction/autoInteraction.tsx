@@ -2,8 +2,8 @@ import { useSession } from "next-auth/react";
 import { MouseEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import { IAutoInterAction } from "brancy/models/page/tools/tools";
 import styles from "./autoInteraction.module.css";
+import { IAutoInterAction } from "brancy/models/interfaces";
 const AutoInteraction = (props: { data: IAutoInterAction; handleShowPopup: (e: MouseEvent) => void }) => {
   const { t } = useTranslation();
   const { data: session } = useSession();

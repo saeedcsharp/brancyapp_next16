@@ -13,9 +13,9 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { specifyLogistic } from "brancy/helper/specifyLogistic";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IFullProduct, IOrderDetail, IParcelInfo } from "brancy/models/store/orders";
 import styles from "./OrderDetailWithParcelInfo.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IOrderDetail, IOrderFullProduct, IParcelInfo } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 interface OrderDetailProps {
   removeMask: () => void;
@@ -32,7 +32,7 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
   const [loadingFullProduct, setLoadingFullProduct] = useState(false);
   const [activeFullProduct, setActiveFullProduct] = useState(false);
   const [loaderCount, setLoaderCount] = useState(7);
-  const [fullProduct, setFullProduct] = useState<IFullProduct>();
+  const [fullProduct, setFullProduct] = useState<IOrderFullProduct>();
   const [parcelInfo, setParcelInfo] = useState<IParcelInfo | null>(null);
   useEffect(() => {
     const handleResize = () => {
@@ -68,8 +68,8 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
     else {
       try {
         setLoadingFullProduct(true);
-        const res = await clientFetchApi<boolean, IFullProduct>(
-          orderDetail.instagramerId !== undefined ? "User/Order/GetFullOrder" : "",
+        const res = await clientFetchApi<boolean, IOrderFullProduct>(
+          orderDetail.instagramerId !== undefined ? "/api/userorder/getFullOrder" : "",
           {
             methodType: MethodType.get,
             session: session,
@@ -99,7 +99,7 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
   async function handleGetParcelInfo() {
     setLoading(true);
     try {
-      const res = await clientFetchApi<boolean, IParcelInfo>("/api/order/GetParcelInfo", {
+      const res = await clientFetchApi<boolean, IParcelInfo>("/api/userorder/GetParcelInfo", {
         methodType: MethodType.get,
         session: session,
         data: null,

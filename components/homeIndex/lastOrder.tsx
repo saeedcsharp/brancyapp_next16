@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LoginStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { ILastOrder } from "brancy/models/homeIndex/home";
 import Loading from "brancy/components/notOk/loading";
 import styles from "./lastOrder.module.css";
+import { ILastOrder } from "brancy/models/interfaces";
 
 // const LastOrder = () => {
 const basePictureUrl = getClientMediaBaseUrl();

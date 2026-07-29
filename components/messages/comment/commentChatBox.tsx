@@ -5,9 +5,9 @@ import { useSession } from "next-auth/react";
 import router from "next/router";
 import { MouseEvent, useEffect, useRef, useState } from "react";
 import dynamic from "next/dynamic";
-import type { EmojiClickData } from "emoji-picker-react";
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 import { DateObject } from "react-multi-date-picker";
+import { draftKey, getDraft, setDraft, removeDraft } from "brancy/helper/draftStorage";
 import { AIButton } from "brancy/components/design/ai/AIButton";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
@@ -24,22 +24,17 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { ActionType, MediaProductType } from "brancy/models/messages/enum";
-import { IComment, IMedia, IOwnerInbox } from "brancy/models/messages/IMessage";
-import { IMediaUpdateAutoReply } from "brancy/models/page/post/posts";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import styles from "./commentChatBox.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { MediaProductType, ActionType } from "brancy/models/enums";
+import { IMedia, IComment, IMediaUpdateAutoReply, IDirectOwnerInbox } from "brancy/models/interfaces";
 const CommentChatBox = (props: {
   userSelectId: string | null;
   hub: HubConnection | null;
   chatBox: IMedia;
   showIcon: string;
-  ownerInbox: IOwnerInbox;
+  ownerInbox: IDirectOwnerInbox;
   replyLoading: boolean;
   vanishLoading: boolean;
   newComment: boolean;
@@ -205,6 +200,42 @@ const CommentChatBox = (props: {
     ta.style.height = `${newHeight}px`;
     ta.style.overflowY = ta.scrollHeight > MAX_TEXTAREA_HEIGHT ? "auto" : "hidden";
   }, [answerBox]);
+
+  // load per-media or per-reply-comment draft when selection changes
+  useEffect(() => {
+    if (!props.chatBox) return;
+    const key = replyBox
+      ? draftKey(`${props.chatBox.mediaId}_reply_${replyBox.comment.id}`)
+      : draftKey(props.chatBox.mediaId);
+    const draft = getDraft(key);
+    if (draft) {
+      setAnswerBox(draft.text);
+    } else if (replyBox) {
+      // no draft for this specific reply: show default mention prefix
+      if (!replyBox.private) setAnswerBox("@" + replyBox.comment.username + " ");
+      else setAnswerBox("");
+    } else {
+      setAnswerBox("");
+    }
+  }, [props.chatBox?.mediaId, replyBox]);
+
+  // save draft to localStorage with debounce; when replying, save per-comment draft
+  useEffect(() => {
+    if (!props.chatBox) return;
+    const key = replyBox
+      ? draftKey(`${props.chatBox.mediaId}_reply_${replyBox.comment.id}`)
+      : draftKey(props.chatBox.mediaId);
+    const usernamePrefix = replyBox && !replyBox.private ? "@" + replyBox.comment.username + " " : "";
+    const bodyText = usernamePrefix ? answerBox.replace(/^@\S+\s*/, "") : answerBox;
+    const t = setTimeout(() => {
+      if (bodyText && bodyText.trim()) {
+        setDraft(key, answerBox);
+      } else {
+        removeDraft(key);
+      }
+    }, 800);
+    return () => clearTimeout(t);
+  }, [answerBox, props.chatBox?.mediaId, replyBox]);
 
   // مدیریت backToButton با scroll
   useEffect(() => {
@@ -1135,13 +1166,13 @@ const CommentChatBox = (props: {
                             setAnswerBox("");
                             clearMessageSelection();
                           }}
-                          aria-label="Remove reply target"
-                        >
+                          aria-label="Remove reply target">
                           ×
                         </button>
                       </span>
                     )}
                     <textarea
+                      className={styles.chatTextarea}
                       ref={inputRef}
                       value={bodyText}
                       onChange={(e) => handleInputOnChange(chipPrefix + e.target.value)}
@@ -1152,17 +1183,18 @@ const CommentChatBox = (props: {
                         }
                       }}
                       placeholder={chipText ? "" : t(LanguageKey.typeAMessage)}
-                      className={styles.chatTextarea}
                       rows={1}
                       aria-label={t(LanguageKey.typeAMessage)}
                     />
-                    <AIButton
+                    {/* do not delete this comment, it is for future AI caption generator feature و در اینده برخواهد  گرفت و دکمه تولید کپشن با هوش مصنوعی اضافه خواهد شد */}
+
+                    {/* <AIButton
                       className={styles.aibtn}
                       onClick={handleAIButtonClick}
                       loading={apiLoading}
                       title="AI Caption Generator"
                       ariaLabel="AI Caption Generator"
-                    />
+                    /> */}
                     <button
                       className={styles.Emojiuploadbtn}
                       type="button"

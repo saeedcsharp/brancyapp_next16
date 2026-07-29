@@ -1,6 +1,4 @@
 import React from "react";
-import { IItem, IOwnerInbox, IThread } from "brancy/models/messages/IMessage";
-import { ItemType } from "brancy/models/messages/enum";
 import styles from "brancy/components/messages/direct/directChatBox.module.css";
 import { ChatAudio } from "brancy/components/messages/direct/chatComponents/shared/messageTypes/ChatAudio";
 import { ChatGeneric } from "brancy/components/messages/direct/chatComponents/shared/messageTypes/ChatGeneric";
@@ -8,11 +6,18 @@ import { ChatMedia } from "brancy/components/messages/direct/chatComponents/shar
 import { ChatMediaShare } from "brancy/components/messages/direct/chatComponents/shared/messageTypes/ChatMediaShare";
 import { ChatStoryMention } from "brancy/components/messages/direct/chatComponents/shared/messageTypes/ChatStoryMention";
 import { ChatText } from "brancy/components/messages/direct/chatComponents/shared/messageTypes/ChatText";
-import { ImageClickInfo, VideoClickInfo } from "brancy/components/messages/direct/chatComponents/types";
+import { ItemType } from "brancy/models/enums";
+import {
+  IDirectMessageItem,
+  IThread,
+  IDirectOwnerInbox,
+  ImageClickInfo,
+  VideoClickInfo,
+} from "brancy/models/interfaces";
 interface RightChatWrapperProps {
-  item: IItem;
+  item: IDirectMessageItem;
   chatBox: IThread;
-  ownerInbox: IOwnerInbox;
+  ownerInbox: IDirectOwnerInbox;
   baseMediaUrl: string;
   useExternalUrl: boolean;
   onClickSubIcon: (iconId: string, itemId: string) => void;
@@ -23,8 +28,8 @@ interface RightChatWrapperProps {
   formatDate: (timestamp: number, itemId: string | null) => string;
   handleFindEmoji: (text: string | null) => string | null;
   getMessageDirectionClass: (text: string | null, baseClass: string) => string;
-  handleSpecifyRepliedItemFullName: (itemId: string, repItem: IItem | null) => string;
-  handleSpecifyRepliedItemType: (repItemId: string, repItem: IItem | null) => string;
+  handleSpecifyRepliedItemFullName: (itemId: string, repItem: IDirectMessageItem | null) => string;
+  handleSpecifyRepliedItemType: (repItemId: string, repItem: IDirectMessageItem | null) => string;
 }
 export const RightChatWrapper: React.FC<RightChatWrapperProps> = (props) => {
   const { item } = props;

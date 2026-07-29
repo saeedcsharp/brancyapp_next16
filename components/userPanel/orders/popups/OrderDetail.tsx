@@ -8,10 +8,10 @@ import OrderDetailContent from "brancy/components/store/order/popup/OrderDetail-
 import findSystemLanguage from "brancy/helper/findSystemLanguage";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { OrderStep } from "brancy/models/store/enum";
-import { IFullProduct, IOrderDetail } from "brancy/models/store/orders";
 import styles from "./OrderDetail.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { OrderStep } from "brancy/models/enums";
+import { IOrderDetail, IOrderFullProduct } from "brancy/models/interfaces";
 
 interface OrderDetailProps {
   removeMask: () => void;
@@ -26,7 +26,7 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
   const popupRef = useRef<HTMLDivElement>(null);
   const [loading, setLoading] = useState(true);
   const [loaderCount, setLoaderCount] = useState(7);
-  const [fullProduct, setFullProduct] = useState<IFullProduct>();
+  const [fullProduct, setFullProduct] = useState<IOrderFullProduct>();
   useEffect(() => {
     const handleResize = () => {
       setLoaderCount(window.innerWidth < 500 ? 5 : 7);
@@ -47,7 +47,8 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
         queries: [{ key: "orderId", value: orderDetail.orderId }],
         onUploadProgress: undefined,
       });
-      if (res.succeeded) router.replace(res.value);
+      if (res.succeeded)
+        window.location.href = `https://patran.ir/redirectInterface?redirectUrl=${encodeURIComponent(res.value)}`;
       else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -81,8 +82,8 @@ const OrderDetail: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleReje
   }, []);
   async function fetchData() {
     try {
-      const res = await clientFetchApi<IOrderDetail, IFullProduct>(
-        orderDetail.instagramerId !== undefined ? "User/Order/GetFullOrder" : "",
+      const res = await clientFetchApi<IOrderDetail, IOrderFullProduct>(
+        orderDetail.instagramerId !== undefined ? "/api/userorder/getFullOrder" : "",
         {
           methodType: MethodType.get,
           session: session,

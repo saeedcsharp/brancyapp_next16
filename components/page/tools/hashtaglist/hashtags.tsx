@@ -6,14 +6,11 @@ import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
 import Loading from "brancy/components/notOk/loading";
 import NotAllowedCard from "brancy/components/notOk/notAllowedCard";
-
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
-
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IHashtag } from "brancy/models/page/tools/tools";
-
 import styles from "./hashtags.module.css";
+import { PartnerRole } from "brancy/models/enums";
+import { IHashtag } from "brancy/models/interfaces";
 
 interface HashtagListItem {
   listId: number;

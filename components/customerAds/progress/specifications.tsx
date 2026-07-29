@@ -3,9 +3,9 @@ import { useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
 import initialzedTime from "brancy/helper/manageTimer";
-import { AdsTimeType, AdsType } from "brancy/models/advertise/AdEnums";
 import { ISpecification } from "../../../legacy-pages/customerads/progress";
 import styles from "./progress.module.css";
+import { AdsType, AdsTimeType } from "brancy/models/enums";
 function Specifications(props: {
   specification: ISpecification;
   handleUpdateSpecification: (spec: ISpecification) => void;

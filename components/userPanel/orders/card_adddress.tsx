@@ -1,9 +1,8 @@
-import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { getClientMediaBaseUrl, redirectHostUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { ChangeEvent, useCallback, useEffect, useId, useLayoutEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
-
 import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import RadioButton from "brancy/components/design/radioButton";
@@ -13,16 +12,10 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import IUserCoupon, {
-  IAddress,
-  ICompleteProduct,
-  ICreateOrder,
-  ILogistic,
-  InputTypeAddress,
-} from "brancy/models/userPanel/orders";
-
 import styles from "./card_address.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import IUserCoupon, { IAddress, ICreateOrder, ILogistic, IUserCompleteProduct } from "brancy/models/interfaces";
+import { InputTypeAddress } from "brancy/models/enums";
 
 const basePictureUrl = getClientMediaBaseUrl();
 const MOBILE_BREAKPOINT = 1024;
@@ -68,6 +61,8 @@ const orderReducer = (state: OrderState, action: OrderAction): OrderState => {
 };
 
 export default function CardAddress({
+  isNotSupported,
+  instagramerId,
   products,
   addresses,
   inputTypeAddress,
@@ -79,7 +74,9 @@ export default function CardAddress({
   handleShowCreateAddress,
   handleSelectLogistic,
 }: {
-  products: ICompleteProduct[];
+  isNotSupported: boolean;
+  instagramerId: number;
+  products: IUserCompleteProduct[];
   addresses: IAddress[];
   inputTypeAddress: InputTypeAddress | null;
   loadingCard: boolean;
@@ -93,6 +90,7 @@ export default function CardAddress({
   const { data: session } = useSession();
   const { t } = useTranslation();
   const router = useRouter();
+  const { cardId } = router.query;
   const couponInputRef = useRef<HTMLInputElement>(null);
   const noteTextAreaRef = useRef<HTMLTextAreaElement>(null);
 
@@ -169,7 +167,7 @@ export default function CardAddress({
           { key: "code", value: state.couponCode },
           {
             key: "instagramerId",
-            value: products[0].shortProduct.instagramerId.toString(),
+            value: instagramerId.toString(),
           },
         ],
         onUploadProgress: undefined,
@@ -205,7 +203,8 @@ export default function CardAddress({
           ],
           onUploadProgress: undefined,
         });
-        if (res.succeeded) router.replace(res.value);
+        if (res.succeeded)
+          window.location.href = `https://${redirectHostUrl()}/redirectInterface?redirectUrl=${encodeURIComponent(res.value)}`;
         else {
           notify(res.info.responseType, NotifType.Warning);
           dispatch({ type: "SET_LOADING_CREATE_ORDER", payload: false });
@@ -220,6 +219,7 @@ export default function CardAddress({
 
   const handleCreateOrder = useCallback(async () => {
     dispatch({ type: "SET_LOADING_CREATE_ORDER", payload: true });
+    console.log("productssss", products);
     const items: ICreateOrder["items"] = products.flatMap((product) =>
       product.subProducts.map((sub) => ({
         subProductId: sub.subProductId,
@@ -241,7 +241,7 @@ export default function CardAddress({
         queries: [
           {
             key: "instagramerId",
-            value: products[0].shortProduct.instagramerId.toString(),
+            value: cardId!.toString(),
           },
         ],
         onUploadProgress: undefined,
@@ -271,16 +271,18 @@ export default function CardAddress({
     addresses,
     state.couponCode,
     selectedLogisticId,
+    isNotSupported,
     handleGetOrderPaymentLink,
     handleShowAddresses,
     router,
   ]);
 
   useEffect(() => {
-    if (logisticPrice.length === 0) {
+    console.log("notSupportedLogistic", isNotSupported);
+    if (isNotSupported) {
       dispatch({ type: "SET_ACTIVE_BUTTON", payload: true });
     } else dispatch({ type: "SET_ACTIVE_BUTTON", payload: false });
-  }, [logisticPrice]);
+  }, [isNotSupported]);
 
   const handleResize = useCallback(() => {
     dispatch({
@@ -423,7 +425,7 @@ export default function CardAddress({
                 <span>{t(LanguageKey.note)}</span>
               </div>
               <TextArea
-                className={"message"}
+                className="TextArea"
                 value={state.note}
                 role={""}
                 title={""}
@@ -486,6 +488,12 @@ export default function CardAddress({
                     {v.langName}
                   </div>
                 ))}
+              </div>
+            )}
+            {isNotSupported && (
+              <div className="headerandinput">
+                <img width="20" height="20" src="/failed.svg" />
+                {t(LanguageKey.Notify_NotSupportedLogestic)}
               </div>
             )}
             <div className="headerandinput">
@@ -767,7 +775,7 @@ export default function CardAddress({
               height: "40px",
             }}
             className={state.activeButton ? "disableButton" : "saveButton"}
-            disabled={state.activeButton || state.loadingCreateOrder}
+            // disabled={state.activeButton || state.loadingCreateOrder}
             onClick={handleCreateOrder}
             onKeyDown={(e) => {
               if (e.key === "Enter" || e.key === " ") {

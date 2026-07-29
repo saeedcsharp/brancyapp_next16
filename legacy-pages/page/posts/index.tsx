@@ -12,10 +12,9 @@ import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IPost, IPostContent, IShortDraft } from "brancy/models/page/post/posts";
-import { PushNotif, PushResponseType } from "brancy/models/push/pushNotif";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { IPost, IPostContent, IShortDraft, PushNotif } from "brancy/models/interfaces";
+import { PushResponseType } from "brancy/models/enums";
 
 const Posts = () => {
   const router = useRouter();
@@ -71,7 +70,7 @@ const Posts = () => {
       if (!decombNotif) return;
 
       const notifObj = JSON.parse(decombNotif) as PushNotif;
-      if (!notifObj.Message || !notifObj.InstagramerId) return;
+      if (!notifObj.Message) return;
 
       const newPostPush = convertFirstLetterToLowerCase(JSON.parse(notifObj.Message));
 
@@ -128,7 +127,6 @@ const Posts = () => {
       fetchData();
     }
   }, [session, status, isDataLoaded, fetchData]);
-
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
 

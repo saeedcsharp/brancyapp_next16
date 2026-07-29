@@ -5,8 +5,9 @@ import TimerSlider from "brancy/components/design/sliders/timerSlider";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 import { findDayName, findDayNumber } from "brancy/helper/findDayName";
 import { LanguageKey } from "brancy/i18n";
-import { BusinessDay, IActiveBusinessHour, IBusinessHour } from "brancy/models/advertise/peoperties";
 import styles from "./businessHours.module.css";
+import { BusinessDay } from "brancy/models/enums";
+import { IBusinessHour, IActiveBusinessHour } from "brancy/models/interfaces";
 
 const EditBusinessHours = (props: {
   businessInfo: IBusinessHour[];

@@ -4,9 +4,9 @@ import { useTranslation } from "react-i18next";
 import CheckBoxButton from "brancy/components/design/checkBoxButton";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n";
-import { DetailType, IRejectTerms } from "brancy/models/advertise/adList";
-import { IAdvertisingTerms } from "brancy/models/advertise/peoperties";
 import styles from "./adDetails.module.css";
+import { IAdvertisingTerms, IRejectTerms } from "brancy/models/interfaces";
+import { DetailType } from "brancy/models/enums";
 const AdReject = (props: {
   data: IAdvertisingTerms;
   detailType: DetailType;
@@ -83,7 +83,7 @@ const AdReject = (props: {
               />
             </div>
             <TextArea
-              className={"captiontextarea"}
+              className="TextArea"
               placeHolder={""}
               fadeTextArea={!advertisinfTerms.activeTerm1}
               value={advertisinfTerms.term1}
@@ -106,9 +106,9 @@ const AdReject = (props: {
               />
             </div>
             <TextArea
+              className="TextArea"
               value={advertisinfTerms.term2}
               fadeTextArea={!advertisinfTerms.activeTerm2}
-              className={"captiontextarea"}
               placeHolder={""}
               handleInputChange={handleDefaultInputChange}
               handleKeyDown={undefined}
@@ -130,8 +130,8 @@ const AdReject = (props: {
               />
             </div>
             <TextArea
+              className="TextArea"
               value={advertisinfTerms.term3}
-              className={"captiontextarea"}
               placeHolder={""}
               fadeTextArea={!advertisinfTerms.activeTerm3}
               handleKeyDown={undefined}
@@ -154,8 +154,8 @@ const AdReject = (props: {
               />
             </div>
             <TextArea
+              className="TextArea"
               value={advertisinfTerms.term4}
-              className={"captiontextarea"}
               placeHolder={""}
               fadeTextArea={!advertisinfTerms.activeTerm4}
               handleKeyDown={undefined}
@@ -178,8 +178,8 @@ const AdReject = (props: {
             </div>
 
             <TextArea
+              className="TextArea"
               style={{ minHeight: "200px" }}
-              className={"captiontextarea"}
               value={customeTerm}
               fadeTextArea={!activeCustomeTerm}
               handleInputChange={handleInputChange}

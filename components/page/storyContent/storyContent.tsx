@@ -15,11 +15,11 @@ import { calculateSummary } from "brancy/helper/numberFormater";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IStory, IStoryContent } from "brancy/models/page/story/stories";
 import ScheduledStory from "brancy/components/page/scheduledStory/scheduledStory";
 import styles from "./storyContent.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { PartnerRole } from "brancy/models/enums";
+import { IStoryContent, IStory } from "brancy/models/interfaces";
 
 const basePictureUrl = getClientMediaBaseUrl();
 
@@ -219,7 +219,10 @@ const StoryContent = (props: {
       return (
         <div className={styles.draftpreview} key={key} title={`🔗 Draft No.${index + 1}`}>
           <Link
-            href={`/page/stories/createstory?newschedulestory=false&draftId=${draft.draftId}`}
+            href={{
+              pathname: "/page/stories/createstory",
+              query: { newschedulestory: "false", draftId: String(draft.draftId) },
+            }}
             aria-label={`Edit draft ${draft.draftId}`}
             tabIndex={0}>
             <div style={draftItemStyle}>

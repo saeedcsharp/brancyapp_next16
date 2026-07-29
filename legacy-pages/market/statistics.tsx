@@ -11,11 +11,10 @@ import NotAllowed from "brancy/components/notOk/notAllowed";
 import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { InsightPeriod } from "brancy/models/market/enums";
-import { ILinkInsight, ITotalInsight, ITotalInsightFigures, IVideoInsight } from "brancy/models/market/statistics";
 import styles from "./statistics.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { InsightPeriod, PartnerRole } from "brancy/models/enums";
+import { ILinkInsight, ITotalInsight, ITotalInsightFigures, IVideoInsight } from "brancy/models/interfaces";
 const Statistics = () => {
   //  return <Soon />;
   const { t } = useTranslation();
@@ -85,13 +84,19 @@ const Statistics = () => {
     ];
 
     return [
-      { name: "یوتیوب", color: "#FF0000", data: youtubeData },
-      { name: "آپارات", color: "#00A8E8", data: aparatData },
-      { name: "توییچ", color: "#9146FF", data: twitchData },
+      { name: t(LanguageKey.marketstatisticsYoutube), color: "#FF0000", data: youtubeData },
+      { name: t(LanguageKey.marketstatisticsAparat), color: "#00A8E8", data: aparatData },
+      { name: t(LanguageKey.marketstatisticsTwitch), color: "#9146FF", data: twitchData },
     ];
-  }, [lastVideo]);
+  }, [lastVideo, t]);
 
-  const radarCategories = [" ورود به پلتفرم ", "رویداد هدایت", "پخش ویدیو", "رویداد پخش", "بازدید یکتا"];
+  const radarCategories = [
+    t(LanguageKey.marketstatisticsPlatformEntry),
+    t(LanguageKey.marketstatisticsRedirectEvent),
+    t(LanguageKey.marketstatisticsPlayVideo),
+    t(LanguageKey.marketstatisticsPlayEvent),
+    t(LanguageKey.marketstatisticsUniqueVisit),
+  ];
 
   // فرمت ثانیه به HH:MM:SS
   const formatSeconds = (seconds?: number | null) => {
@@ -190,7 +195,7 @@ const Statistics = () => {
                     <div className={styles.gooli4}></div>
                   </div>
                   <div className="title" style={{ textAlign: "center" }}>
-                    بازدیدها
+                    {t(LanguageKey.marketstatisticsVisits)}
                   </div>
                   <div className={styles.div}>{totalInsight!.nbVisits}</div>
                 </div>
@@ -203,34 +208,34 @@ const Statistics = () => {
                     <div className={styles.gooli8}></div>
                   </div>
                   <div className="title" style={{ textAlign: "center" }}>
-                    کلیک‌ها و تعاملات
+                    {t(LanguageKey.marketstatisticsClicksAndInteractions)}
                   </div>
                   <div className={styles.div}>{totalInsight!.nbActions}</div>
                 </div>
 
                 <div className={styles.newlikes}>
                   <div className="title" style={{ textAlign: "center" }}>
-                    بازدیدهای منجر به کلیک
+                    {t(LanguageKey.marketstatisticsVisitsConverted)}
                   </div>
                   <div className={styles.div}>{totalInsight!.nbVisitsConverted}</div>
                 </div>
 
                 <div className={styles.newCommnet}>
                   <div className="title" style={{ textAlign: "center" }}>
-                    خروج سریع کاربران پس از ورود
+                    {t(LanguageKey.marketstatisticsQuickUserExitAfterEntry)}
                   </div>
                   <div className={styles.div}>{totalInsight!.bounceCount}</div>
                 </div>
                 <div className={styles.postrequest}>
                   <div className="title" style={{ textAlign: "center" }}>
-                    خروج افراد بدون تعامل
+                    {t(LanguageKey.marketstatisticsNoInteractionExit)}
                   </div>
                   <div className={styles.div}>{totalInsight!.bounceRate}</div>
                 </div>
 
                 <div className={styles.postrequest}>
                   <div className="title" style={{ textAlign: "center" }}>
-                    بیشترین کلیک یک کاربر در یک بازدید
+                    {t(LanguageKey.marketstatisticsMaxClicksPerVisit)}
                   </div>
                   <div className="title2" style={{ textAlign: "center" }}></div>
 
@@ -239,14 +244,14 @@ const Statistics = () => {
 
                 <div className={styles.postrequest}>
                   <div className="title" style={{ textAlign: "center" }}>
-                    میانگین کلیک و تعامل هر بازدیدکننده
+                    {t(LanguageKey.marketstatisticsAvgClicksAndInteractionsPerVisitor)}
                   </div>
 
                   <div className={styles.div}>{totalInsight!.nbActionsPerVisit}</div>
                 </div>
                 <div className={styles.postrequest}>
                   <div className="title" style={{ textAlign: "center" }}>
-                    مجموع زمان بازدید کاربران
+                    {t(LanguageKey.marketstatisticsTotalVisitTime)}
                   </div>
 
                   <div className={styles.div}>{formatSeconds(totalInsight!.sumVisitLength)}</div>
@@ -254,7 +259,7 @@ const Statistics = () => {
 
                 <div className={styles.postrequest}>
                   <div className="title" style={{ textAlign: "center" }}>
-                    میانگین زمان حضور یک بازدیدکننده
+                    {t(LanguageKey.marketstatisticsAvgVisitTime)}
                   </div>
 
                   <div className={styles.div}>{formatSeconds(totalInsight!.avgTimeOnSite)}</div>
@@ -266,7 +271,7 @@ const Statistics = () => {
                   <div className="frameParent">
                     <div className="headerChild">
                       <div className="circle"></div>
-                      <div className="Title">مقایسه پلتفرم‌های ویدیویی</div>
+                      <div className="Title">{t(LanguageKey.marketstatisticsVideoPlatformsComparison)}</div>
                     </div>
                   </div>
                   {/* مقایسه عملکرد یوتیوب، آپارات و توییچ در یک نمودار */}
@@ -283,7 +288,7 @@ const Statistics = () => {
                     <div className="frameParent">
                       <div className="headerChild">
                         <div className="circle"></div>
-                        <div className="Title"> بازدید از لینک اختصاصی</div>
+                        <div className="Title">{t(LanguageKey.marketstatisticsDedicatedLinkVisits)}</div>
                       </div>
                     </div>
                     {/* نمودار تعداد بازدیدها در طول زمان */}
@@ -292,12 +297,12 @@ const Statistics = () => {
                       seriesData={[
                         {
                           id: "nbVisit",
-                          name: "بازدیدها",
+                          name: t(LanguageKey.marketstatisticsVisits),
                           data: totalInsightFigures.nbVisit,
                         },
                       ]}
                       id={"nbVisit-chart"}
-                      name={"بازدیدها"}
+                      name={t(LanguageKey.marketstatisticsVisits)}
                     />
                   </div>
                 )}
@@ -307,7 +312,7 @@ const Statistics = () => {
                     <div className="frameParent">
                       <div className="headerChild">
                         <div className="circle"></div>
-                        <div className="Title">نمودار ترکیبی بازدید لینک‌ها</div>
+                        <div className="Title">{t(LanguageKey.marketstatisticsCombinedLinkVisits)}</div>
                       </div>
                     </div>
                     <MultiChart
@@ -317,7 +322,7 @@ const Statistics = () => {
                         data: link.insight,
                       }))}
                       id={"allLinks-chart"}
-                      name={"نمودار ترکیبی بازدید لینک‌ها"}
+                      name={t(LanguageKey.marketstatisticsCombinedLinkVisits)}
                     />
                   </div>
                 )}

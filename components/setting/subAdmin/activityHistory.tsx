@@ -8,9 +8,9 @@ import { getEnumValue } from "brancy/helper/handleItemTypeEnum";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { ILoadingStatus, ISession } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { BrowserType, BrowserTypeStr, DeviceType, DeviceTypeStr, OsType, OsTypeStr } from "brancy/models/setting/enums";
 import styles from "./general.module.css";
+import { OsType, DeviceType, BrowserType, OsTypeStr, DeviceTypeStr, BrowserTypeStr } from "brancy/models/enums";
+import { ISession, ILoadingStatus } from "brancy/models/interfaces";
 
 export default function ActivityHistory({
   sessions,
@@ -112,13 +112,9 @@ export default function ActivityHistory({
     document.body.removeChild(textArea);
   };
 
-  const getCountryFlag = (countryCode: string): string => {
-    if (!countryCode || countryCode.length !== 2) return "";
-    return countryCode
-      .toUpperCase()
-      .split("")
-      .map((char) => String.fromCodePoint(127397 + char.charCodeAt(0)))
-      .join("");
+  const getCountryFlagPath = (countryCode: string): string | null => {
+    const normalizedCountryCode = countryCode?.trim().toUpperCase();
+    return normalizedCountryCode?.length === 2 ? `/Flag/${normalizedCountryCode}.svg` : null;
   };
 
   const getCountryName = (countryCode: string): string => {
@@ -608,7 +604,15 @@ export default function ActivityHistory({
             <svg fill="var(--color-gray)" width="16" height="16" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 42 42">
               <path d="M33 14c0-7.1-5.4-13-12.5-13S8 6.9 8 14c0 2.3.3 4 1.4 6l10.7 20.6c.4.6.8 0 .8 0L31.6 20q1.4-2.9 1.4-6m-18.2-.5c0-3.3 2.5-6 5.7-6s5.8 2.7 5.8 6-2.6 6-5.8 6a6 6 0 0 1-5.7-6" />
             </svg>
-            {getCountryFlag(sess.countryCode)} {getCountryName(sess.countryCode)}
+            {getCountryFlagPath(sess.countryCode) && (
+              <img
+                src={getCountryFlagPath(sess.countryCode) ?? undefined}
+                alt={getCountryName(sess.countryCode)}
+                width="18"
+                height="14"
+              />
+            )}
+            {getCountryName(sess.countryCode)}
           </div>
 
           <div className={styles.datarow}>

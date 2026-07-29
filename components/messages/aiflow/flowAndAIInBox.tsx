@@ -15,10 +15,7 @@ import { getThumbnailStyle } from "brancy/helper/getThumbnailColor";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime, { convertToMilliseconds } from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IAITools, ICreatePrompt, IPrompts, ITool, ITotalPrompt } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
-import { IMasterFlow, ITotalMasterFlow } from "brancy/models/messages/properies";
 import AIPromptBox from "brancy/components/messages/aiflow/aiPromptBox";
 import Flow from "brancy/components/messages/aiflow/flow";
 import styles from "./flowAndAIIBox.module.css";
@@ -28,6 +25,17 @@ import { SettingModal } from "brancy/components/messages/aiflow/flowNode/setting
 import AIToolsSettings from "brancy/components/messages/aiflow/popup/AIToolsSettings";
 import LiveChat from "brancy/components/messages/aiflow/popup/liveChat";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { PartnerRole } from "brancy/models/enums";
+import {
+  IMasterFlow,
+  IPrompts,
+  IAITools,
+  ITool,
+  ICreatePrompt,
+  ITotalPrompt,
+  ITotalMasterFlow,
+} from "brancy/models/interfaces";
+import NotFeature from "brancy/components/notOk/notFeature";
 
 let firstTime = 0;
 let touchMove = 0;
@@ -100,7 +108,7 @@ const FlowAndAIInbox = () => {
     visible: false,
     nodeType: null,
   });
-
+  const [showNotFeature, setShowNotFeature] = useState(false);
   const handleOpenLiveTest = () => {
     setLiveTestVisible(true);
   };
@@ -819,6 +827,7 @@ const FlowAndAIInbox = () => {
                 setPromptInfo={setPromptInfo}
                 tools={aiPromptTools}
                 setTools={setAIPromptTools}
+                setShowNotFeature={setShowNotFeature}
               />
             </div>
           )}
@@ -933,6 +942,9 @@ const FlowAndAIInbox = () => {
           />
         </Modal>
       )}
+      <Modal closePopup={() => setShowNotFeature(false)} classNamePopup="popupSendFile" showContent={showNotFeature}>
+        <NotFeature onClose={() => setShowNotFeature(false)} />
+      </Modal>
     </>
   );
 };

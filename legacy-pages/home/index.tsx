@@ -5,20 +5,6 @@ import { useCallback, useEffect, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { ResponseType } from "brancy/components/notifications/notificationBox";
 import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
-import { IError } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import {
-  IDemographicInsight,
-  IInstagramerHomeTiles,
-  ILastFollower,
-  ILastLike,
-  ILastMessage,
-  ILastOrder,
-  ILastTransaction,
-  IPageSummary,
-} from "brancy/models/homeIndex/home";
-import { MethodType } from "brancy/helper/api";
-import { IPostContent } from "brancy/models/page/post/posts";
-import { IStoryContent } from "brancy/models/page/story/stories";
 import AccountSummary from "brancy/components/homeIndex/accountSummary";
 import IngageInfo from "brancy/components/homeIndex/ingageInfo";
 import InstagramerUpgrade from "brancy/components/homeIndex/instagramerupgrade";
@@ -26,9 +12,23 @@ import LastMessage from "brancy/components/homeIndex/lastMessage";
 import LastOrder from "brancy/components/homeIndex/lastOrder";
 import PageDetail from "brancy/components/homeIndex/pageDetail";
 import PostSummary from "brancy/components/homeIndex/postSummary";
-import TutorialWrapper from "brancy/components/tutorial/tutorialWrapper";
+
 import styles from "./homeIndex.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import {
+  IDemographicInsight,
+  IError,
+  IInstagramerHomeTiles,
+  ILastFollower,
+  ILastLike,
+  ILastMessage,
+  ILastOrder,
+  ILastTransaction,
+  IPageSummary,
+  IPostContent,
+  IStoryContent,
+} from "brancy/models/interfaces";
+import { MethodType } from "brancy/helper/api";
 
 const initialState = {
   error: { message: null } as IError,
@@ -264,8 +264,9 @@ const Home = () => {
     // Only fetch data if not already loaded and session is authenticated
     if (!session) return;
 
-    // Wait until session is fully loaded with packageExpireTime
-    if (session.user.packageExpireTime === undefined) {
+    // Wait until session is fully loaded with packageExpireTime (set after GetAccountInfo completes)
+    // Also guard against lastUpdate === 0 which means GetAccountInfo hasn't run yet
+    if (session.user.packageExpireTime === undefined || session.user.lastUpdate === 0) {
       console.log("Waiting for session to be fully loaded...");
       return;
     }
@@ -276,10 +277,6 @@ const Home = () => {
     }
 
     // Wait for GetAccountInfo() to complete (lastUpdate is set to 0 on sign-in and updated after GetAccountInfo)
-    if (session.user.lastUpdate === 0) {
-      console.log("Waiting for GetAccountInfo to complete...");
-      return;
-    }
 
     if (!isDataLoaded && LoginStatus(session) && status === "authenticated") {
       fetchData();
@@ -379,9 +376,6 @@ const Home = () => {
             {/* <LastFollower data={state.lastFollowers} /> */}
           </div>
         </main>
-
-        {/* نمایش توتریال برای کاربران جدید */}
-        <TutorialWrapper pageKey="home" />
       </>
     )
   );

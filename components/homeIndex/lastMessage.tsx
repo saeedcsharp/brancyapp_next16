@@ -5,10 +5,11 @@ import { memo, useCallback, useEffect, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
 import { LoginStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import entryTypeToStr, { ILastMessage } from "brancy/models/homeIndex/home";
-import { ItemType } from "brancy/models/messages/enum";
 import Loading from "brancy/components/notOk/loading";
 import styles from "./lastMessage.module.css";
+import entryTypeToStr from "brancy/helper/entryTypeStr";
+import { ItemType } from "brancy/models/enums";
+import { ILastMessage } from "brancy/models/interfaces";
 
 interface LastMessageState {
   isLoading: boolean;

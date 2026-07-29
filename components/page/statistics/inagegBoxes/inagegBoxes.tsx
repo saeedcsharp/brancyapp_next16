@@ -9,12 +9,10 @@ import Loading from "brancy/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IPostContent } from "brancy/models/page/post/posts";
-import { IIngageBox } from "brancy/models/page/statistics/statisticsContent/ingageBoxes/ingageBox";
-
 import styles from "./ingageBoxes.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { PartnerRole } from "brancy/models/enums";
+import { IPostContent, IIngageBox } from "brancy/models/interfaces";
 
 const basePictureUrl = getClientMediaBaseUrl();
 

@@ -13,12 +13,10 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { LanguageKey } from "brancy/i18n";
-import { SendCodeResult } from "brancy/models/ApiModels/User/SendCodeResult";
-import { MethodType } from "brancy/helper/api";
-import { InstagramerAccountInfo } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-
 import styles from "./notLogin.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { MethodType } from "brancy/helper/api";
+import { InstagramerAccountInfo, SendCodeResult } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
 export default function NotLogin({ removeMask }: { removeMask: () => void }) {
   const { t } = useTranslation();

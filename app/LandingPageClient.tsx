@@ -14,6 +14,7 @@ import Page4 from "brancy/components/website/landing/page4";
 import Page5 from "brancy/components/website/landing/page5";
 import Page8 from "brancy/components/website/landing/page8";
 import Page9 from "brancy/components/website/landing/page9";
+import InstallPrompt from "brancy/components/website/installPrompt";
 import { applyDetectedLocale } from "brancy/helper/detectLocaleFromTimezone";
 import styles from "../legacy-pages/index.module.css";
 
@@ -226,6 +227,8 @@ export default function LandingPageClient() {
         </div>
 
         <Footer />
+
+        <InstallPrompt />
 
         {showSignIn && (signInType === SignInType.Phonenumber || signInType === SignInType.VerificaionCode) && (
           <SignIn

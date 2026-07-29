@@ -11,9 +11,10 @@ import { StatusType } from "brancy/components/confirmationStatus/confirmationSta
 import Modal from "brancy/components/design/modal";
 import NotAdvertiser from "brancy/components/notOk/notAdvertiser";
 import { LanguageKey } from "brancy/i18n";
-import { AdsType } from "brancy/models/advertise/AdEnums";
-import { IAdMonth, IAdShortMonth, IStatisticsInfo, ITotalAdsReport } from "brancy/models/advertise/statistics";
 import styles from "./statistics.module.css";
+import { IAdMonth, IAdShortMonth, IAdStatisticsInfo, ITotalAdsReport } from "brancy/models/interfaces";
+
+import { AdsType } from "brancy/models/enums";
 
 const Statistics = () => {
   //  return <Soon />;
@@ -24,9 +25,6 @@ const Statistics = () => {
     },
   });
   const { t } = useTranslation();
-  const [refresh, setRefresh] = useState(false);
-  const [onReachEnd, setOnReachEnd] = useState(true);
-  const [onReachBegin, setOnReachBegin] = useState(true);
   const [hasTotalMore, setHasTotalMore] = useState(false);
   const [advertiseId, setAdvertiseId] = useState(0);
   const [showReport, setShowReport] = useState(false);
@@ -101,7 +99,7 @@ const Statistics = () => {
   }
   useEffect(() => {
     //Api to get last two month and total ads statistics
-    var response: IStatisticsInfo = {
+    var response: IAdStatisticsInfo = {
       totalAdsStatistics: [
         {
           month: 0,
@@ -149,7 +147,7 @@ const Statistics = () => {
           year: 2024,
           totalIncom: 18500,
           previousPlusCount: undefined,
-          lastUpdate: (lastUpdate) => <div></div>,
+          lastUpdate: 0,
         },
         {
           dayList: [],
@@ -160,7 +158,7 @@ const Statistics = () => {
           year: 2024,
           totalIncom: 25000,
           previousPlusCount: undefined,
-          lastUpdate: (lastUpdate) => <div></div>,
+          lastUpdate: 0,
         },
       ],
       totalAdsReport: [

@@ -3,8 +3,9 @@ import MediaDetector from "brancy/components/messages/shared/utils/MediaDetector
 import LinkifyText from "brancy/context/LinkifyText";
 import { getMessageDirectionClass } from "brancy/helper/checkRtl";
 import { detectEmojiOnly } from "brancy/helper/emojiDetector";
-import { ISendTicketMessage, ITicketMediaType } from "brancy/models/userPanel/message";
 import styles from "./messageTypes.module.css";
+import { ITicketMediaType } from "brancy/models/enums";
+import { ISendTicketMessage } from "brancy/models/interfaces";
 // #region تعریف اینترفیس‌ها
 // انواع پراپس برای لیست پیام‌های در حال ارسال و آیتم‌های آن.
 interface SystemSendingMessagesProps {

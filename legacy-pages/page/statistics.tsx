@@ -5,28 +5,24 @@ import React, { useCallback, useReducer } from "react";
 import { useTranslation } from "react-i18next";
 import Modal from "brancy/components/design/modal";
 import NotAllowed from "brancy/components/notOk/notAllowed";
-import NotPermission, {
-  PermissionType,
-} from "brancy/components/notOk/notPermission";
+import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
 import BestFollowers from "brancy/components/page/statistics/bestFollower/bestFollower";
 import CardBestWorst from "brancy/components/page/statistics/cardBestWorst/cardBestWorst";
 import EngageMentStatistics from "brancy/components/page/statistics/engagementStatistics/engagementStatistics";
 import IngageBoxModel from "brancy/components/page/statistics/inagegBoxes/inagegBoxes";
 import PostStatsViewer from "brancy/components/page/statistics/popups/PostStatsViewer";
 import PostTimeAnalysis from "brancy/components/page/statistics/popups/postTimeAnalysis";
-import {
-  LoginStatus,
-  packageStatus,
-  RoleAccess,
-} from "brancy/helper/loadingStatus";
+import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IPostContent } from "brancy/models/page/post/posts";
-import { IBestFollowers } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/bestFollower";
-import { IBestTime } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/cardBestWorst";
-import { GraphGhostViewersModel } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/GraphGhostViewersModel";
-import { GraphViewsFourMonthModel } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/GraphViewsFourMonthModel";
 import styles from "./page.module.css";
+import {
+  GraphGhostViewersModel,
+  GraphViewsFourMonthModel,
+  IBestFollowers,
+  IBestTime,
+  IPostContent,
+} from "brancy/models/interfaces";
+import { PartnerRole } from "brancy/models/enums";
 enum PopupType {
   NONE = "NONE",
   CARD_BEST = "CARD_BEST",
@@ -76,10 +72,7 @@ const initialState: IStatisticsState = {
   ghostViewerChart: null,
   bestFollowers: null,
 };
-const statisticsReducer = (
-  state: IStatisticsState,
-  action: StatisticsAction
-): IStatisticsState => {
+const statisticsReducer = (state: IStatisticsState, action: StatisticsAction): IStatisticsState => {
   switch (action.type) {
     case "SET_POPUP":
       return {
@@ -144,13 +137,10 @@ const Stattistics = (prop: { onComponentClick: () => void }) => {
   }, [session, router]);
   const [state, dispatch] = useReducer(statisticsReducer, initialState);
   const { popups } = state;
-  const handleShowPopup = useCallback(
-    (popupType: PopupType, e?: React.MouseEvent<HTMLElement, MouseEvent>) => {
-      e?.stopPropagation();
-      dispatch({ type: "SET_POPUP", popupType });
-    },
-    []
-  );
+  const handleShowPopup = useCallback((popupType: PopupType, e?: React.MouseEvent<HTMLElement, MouseEvent>) => {
+    e?.stopPropagation();
+    dispatch({ type: "SET_POPUP", popupType });
+  }, []);
   const handleRemoveMask = useCallback(() => {
     dispatch({ type: "SET_POPUP", popupType: PopupType.NONE });
   }, []);
@@ -171,8 +161,7 @@ const Stattistics = (prop: { onComponentClick: () => void }) => {
   }, []);
   const isAnyPopupActive = popups.activePopup !== PopupType.NONE;
   if (session?.user.currentIndex === -1) router.push("/user");
-  if (session && !session?.user.insightPermission)
-    return <NotPermission permissionType={PermissionType.Insights} />;
+  if (session && !session?.user.insightPermission) return <NotPermission permissionType={PermissionType.Insights} />;
   return (
     <>
       {!RoleAccess(session, PartnerRole.PageView) && <NotAllowed />}
@@ -181,15 +170,9 @@ const Stattistics = (prop: { onComponentClick: () => void }) => {
           {/* head for SEO */}
           <Head>
             {" "}
-            <meta
-              name="viewport"
-              content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes"
-            />
+            <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
             <title>Bran.cy ▸ {t(LanguageKey.navbar_Statistics)}</title>
-            <meta
-              name="description"
-              content="Advanced Instagram post management tool"
-            />
+            <meta name="description" content="Advanced Instagram post management tool" />
             <meta name="theme-color"></meta>
             <meta
               name="keywords"
@@ -201,22 +184,14 @@ const Stattistics = (prop: { onComponentClick: () => void }) => {
           </Head>
           {/* head for SEO */}
           <main>
-            <div
-              onClick={handleRemoveMask}
-              className={
-                isAnyPopupActive ? styles.frameGroupFade : styles.frameGroup
-              }>
+            <div onClick={handleRemoveMask} className={isAnyPopupActive ? styles.frameGroupFade : styles.frameGroup}>
               <section className={styles.inboxContainer}>
                 <IngageBoxModel
                   // data={ingageBoxes}
                   showMaxPopups={(e) => handleShowPopup(PopupType.MAX_VIEW, e)}
                   showMinPopups={(e) => handleShowPopup(PopupType.MIN_VIEW, e)}
-                  showMaxLikeCommentPopups={(e) =>
-                    handleShowPopup(PopupType.MAX_LIKE_COMMENT, e)
-                  }
-                  showMinLikeCommentPopups={(e) =>
-                    handleShowPopup(PopupType.MIN_LIKE_COMMENT, e)
-                  }
+                  showMaxLikeCommentPopups={(e) => handleShowPopup(PopupType.MAX_LIKE_COMMENT, e)}
+                  showMinLikeCommentPopups={(e) => handleShowPopup(PopupType.MIN_LIKE_COMMENT, e)}
                   sendMaxReachPopup={handleSetMaxViewPopup}
                   sendMaxCommentPopup={handleSetMaxLikeCommentPopup}
                   sendMinCommentPopup={handleSetMinLikeCommentPopup}
@@ -225,9 +200,7 @@ const Stattistics = (prop: { onComponentClick: () => void }) => {
               </section>
               <section className="pinContainer">
                 <CardBestWorst
-                  handleShowPopups={(e) =>
-                    handleShowPopup(PopupType.CARD_BEST, e)
-                  }
+                  handleShowPopups={(e) => handleShowPopup(PopupType.CARD_BEST, e)}
                   setCardBestTime={handleSetBestTimeSeries}
                 />
                 <EngageMentStatistics />
@@ -239,30 +212,19 @@ const Stattistics = (prop: { onComponentClick: () => void }) => {
               closePopup={handleRemoveMask}
               classNamePopup={"popup"}
               showContent={popups.activePopup === PopupType.CARD_BEST}>
-              <PostTimeAnalysis
-                removeMask={handleRemoveMask}
-                bestTimeSeries={popups.bestTimeSeries}
-              />
+              <PostTimeAnalysis removeMask={handleRemoveMask} bestTimeSeries={popups.bestTimeSeries} />
             </Modal>
             <Modal
               closePopup={handleRemoveMask}
               classNamePopup={"popup"}
               showContent={popups.activePopup === PopupType.MAX_VIEW}>
-              <PostStatsViewer
-                removeMask={handleRemoveMask}
-                data={popups.maxViewPopup}
-                sortType="maxView"
-              />
+              <PostStatsViewer removeMask={handleRemoveMask} data={popups.maxViewPopup} sortType="maxView" />
             </Modal>
             <Modal
               closePopup={handleRemoveMask}
               classNamePopup={"popup"}
               showContent={popups.activePopup === PopupType.MIN_VIEW}>
-              <PostStatsViewer
-                removeMask={handleRemoveMask}
-                data={popups.minViewPopup}
-                sortType="minView"
-              />
+              <PostStatsViewer removeMask={handleRemoveMask} data={popups.minViewPopup} sortType="minView" />
             </Modal>
             <Modal
               closePopup={handleRemoveMask}

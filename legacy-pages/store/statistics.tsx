@@ -1,22 +1,18 @@
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import AdReport from "brancy/components/advertise/adList/popups/adreport";
-import { StatusType } from "brancy/components/confirmationStatus/confirmationStatus";
-import Modal from "brancy/components/design/modal";
 import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotShopper from "brancy/components/notOk/notShopper";
-import SaleDetail from "brancy/components/store/statistics/SaleDetail";
 import TotalSalesReport from "brancy/components/store/statistics/totalSalesReport";
 import TotalSales from "brancy/components/store/statistics/totalSalesStatistics";
 import TwoMonth from "brancy/components/store/statistics/twoMonth";
 import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { AdsType } from "brancy/models/advertise/AdEnums";
-import { ISaleMonth, ISaleShortMonth, IStatisticsInfo, ITotalSalesReport } from "brancy/models/store/statistics";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
+import { PartnerRole } from "brancy/models/enums";
+import { IBuyerPurchaseReport, ISaleMonth, ISaleShortMonth, IStoreStatisticsInfo } from "brancy/models/interfaces";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import styles from "./statistics.module.css";
 
 const Statistics = () => {
@@ -31,12 +27,10 @@ const Statistics = () => {
   const [hasTotalMore, setHasTotalMore] = useState(false);
   const [advertiseId, setAdvertiseId] = useState(0);
   const [showReport, setShowReport] = useState(false);
-  const [saleId, setSaleId] = useState(0);
-  const [showSaleDetail, setShowSaleDetail] = useState(false);
   const router = useRouter();
   const [twoMonth, setTwoMonth] = useState<ISaleMonth[]>([]);
   const [totalSalesStatistics, setTotalSalesStatistics] = useState<ISaleShortMonth[]>([]);
-  const [totalSalesReport, setTotalSalesReport] = useState<ITotalSalesReport[] | null>(null);
+  const [totalSalesReport, setTotalSalesReport] = useState<IBuyerPurchaseReport[] | null>(null);
   function removeMask() {
     setShowReport(false);
   }
@@ -44,63 +38,48 @@ const Statistics = () => {
     setAdvertiseId(advertiseId);
     setShowReport(true);
   }
-  function showSaleReport(saleId: number) {
-    setSaleId(saleId);
-    setShowSaleDetail(true);
-  }
-  function removeSaleDetailMask() {
-    setShowSaleDetail(false);
-  }
   async function handleLoadMore(pagination: number) {
     //Api to get more total sales report based on <<< pagination >>>
-    const res: ITotalSalesReport[] = [
+    const res: IBuyerPurchaseReport[] = [
       {
-        saleId: 600,
-        seller: {
+        buyer: {
           fullname: "user6",
           profileUrl: "/no-profile.svg",
           username: "@user6",
         },
-        saleType: AdsType.PostAd,
-        date: Date.now(),
-        fee: 888999777,
-        statusType: StatusType.Active,
+        totalPurchases: 24,
+        totalAmount: 888999777,
+        lastPurchase: Date.now(),
       },
       {
-        saleId: 700,
-        seller: {
+        buyer: {
           fullname: "user7",
           profileUrl: "/no-profile.svg",
           username: "@user7",
         },
-        saleType: AdsType.PostAd,
-        date: Date.now(),
-        fee: 888999777,
-        statusType: StatusType.Active,
+        totalPurchases: 19,
+        totalAmount: 720000000,
+        lastPurchase: Date.now(),
       },
       {
-        saleId: 800,
-        seller: {
+        buyer: {
           fullname: "user8",
           profileUrl: "/no-profile.svg",
           username: "@user8",
         },
-        saleType: AdsType.PostAd,
-        date: Date.now(),
-        fee: 888999777,
-        statusType: StatusType.Active,
+        totalPurchases: 15,
+        totalAmount: 550000000,
+        lastPurchase: Date.now(),
       },
       {
-        saleId: 900,
-        seller: {
+        buyer: {
           fullname: "user9",
           profileUrl: "/no-profile.svg",
           username: "@user9",
         },
-        saleType: AdsType.PostAd,
-        date: Date.now(),
-        fee: 888999777,
-        statusType: StatusType.Active,
+        totalPurchases: 11,
+        totalAmount: 420000000,
+        lastPurchase: Date.now(),
       },
     ];
     console.log("loadmore");
@@ -111,42 +90,135 @@ const Statistics = () => {
   }
   useEffect(() => {
     //Api to get last two month and total sales statistics
-    var response: IStatisticsInfo = {
+    var response: IStoreStatisticsInfo = {
       totalSalesStatistics: [
         {
+          day: 1,
           month: 0,
-          plusCount: 0,
-          totalCount: 50,
-          year: 2024,
-          totalIncome: 120,
+          plusCount: 12,
+          totalCount: 80,
+          year: 2022,
+          totalIncome: 520,
         },
         {
-          month: 1,
-          plusCount: 0,
-          totalCount: 150,
-          year: 2024,
-          totalIncome: 120,
+          day: 1,
+          month: 5,
+          plusCount: 18,
+          totalCount: 120,
+          year: 2022,
+          totalIncome: 680,
         },
         {
+          day: 1,
           month: 2,
-          plusCount: 0,
-          totalCount: 250,
-          year: 2024,
-          totalIncome: 120,
+          plusCount: 24,
+          totalCount: 170,
+          year: 2023,
+          totalIncome: 920,
         },
         {
-          month: 3,
-          plusCount: 0,
-          totalCount: 70,
-          year: 2024,
-          totalIncome: 120,
+          day: 1,
+          month: 7,
+          plusCount: 30,
+          totalCount: 210,
+          year: 2023,
+          totalIncome: 1110,
         },
         {
+          day: 1,
+          month: 11,
+          plusCount: 36,
+          totalCount: 260,
+          year: 2023,
+          totalIncome: 1430,
+        },
+        {
+          day: 1,
+          month: 1,
+          plusCount: 28,
+          totalCount: 240,
+          year: 2024,
+          totalIncome: 1320,
+        },
+        {
+          day: 1,
           month: 4,
-          plusCount: 0,
-          totalCount: 122,
+          plusCount: 40,
+          totalCount: 320,
           year: 2024,
-          totalIncome: 120,
+          totalIncome: 1720,
+        },
+        {
+          day: 1,
+          month: 7,
+          plusCount: 52,
+          totalCount: 410,
+          year: 2024,
+          totalIncome: 2100,
+        },
+        {
+          day: 1,
+          month: 10,
+          plusCount: 60,
+          totalCount: 460,
+          year: 2024,
+          totalIncome: 2450,
+        },
+        {
+          day: 1,
+          month: 0,
+          plusCount: 22,
+          totalCount: 180,
+          year: 2025,
+          totalIncome: 980,
+        },
+        {
+          day: 2,
+          month: 10,
+          plusCount: 24,
+          totalCount: 195,
+          year: 2025,
+          totalIncome: 1100,
+        },
+        {
+          day: 15,
+          month: 10,
+          plusCount: 28,
+          totalCount: 220,
+          year: 2025,
+          totalIncome: 1250,
+        },
+        {
+          day: 28,
+          month: 10,
+          plusCount: 34,
+          totalCount: 260,
+          year: 2025,
+          totalIncome: 1420,
+        },
+        {
+          day: 3,
+          month: 11,
+          plusCount: 30,
+          totalCount: 240,
+          year: 2025,
+          totalIncome: 1320,
+        },
+        {
+          day: 11,
+          month: 11,
+          plusCount: 36,
+          totalCount: 280,
+          year: 2025,
+          totalIncome: 1500,
+        },
+        {
+          day: 19,
+          month: 11,
+          plusCount: 42,
+          totalCount: 330,
+          year: 2025,
+          totalIncome: 1710,
         },
       ],
       twoMonth: [
@@ -159,80 +231,80 @@ const Statistics = () => {
           year: 2024,
           totalIncom: 18500,
           previousPlusCount: undefined,
-          lastUpdate: (lastUpdate) => <div></div>,
+          lastUpdate: 0,
         },
         {
           dayList: [],
           month: 1,
-          plusCount: 0,
+          plusCount: 14,
           totalCount: 3699,
           users: [],
           year: 2024,
           totalIncom: 25000,
           previousPlusCount: undefined,
-          lastUpdate: (lastUpdate) => <div></div>,
+          lastUpdate: 0,
         },
       ],
       totalSalesReport: [
         {
-          saleId: 100,
-          seller: {
+          buyer: {
             fullname: "user1",
             profileUrl: "/no-profile.svg",
             username: "@user1",
           },
-          saleType: AdsType.CampaignAd,
-          date: Date.now(),
-          fee: 888999777,
-          statusType: StatusType.Active,
+          totalPurchases: 28,
+          totalAmount: 1100000000,
+          lastPurchase: Date.now(),
         },
         {
-          saleId: 200,
-          seller: {
+          buyer: {
             fullname: "user2",
             profileUrl: "/no-profile.svg",
             username: "@user2",
           },
-          saleType: AdsType.PostAd,
-          date: Date.now(),
-          fee: 888999777,
-          statusType: StatusType.Active,
+          totalPurchases: 21,
+          totalAmount: 840000000,
+          lastPurchase: Date.now(),
         },
         {
-          saleId: 300,
-          seller: {
+          buyer: {
             fullname: "user3",
             profileUrl: "/no-profile.svg",
             username: "@user3",
           },
-          saleType: AdsType.PostAd,
-          date: Date.now(),
-          fee: 888999777,
-          statusType: StatusType.Fisnished,
+          totalPurchases: 17,
+          totalAmount: 630000000,
+          lastPurchase: Date.now(),
         },
         {
-          saleId: 400,
-          seller: {
+          buyer: {
             fullname: "user4",
             profileUrl: "/no-profile.svg",
             username: "@user4",
           },
-          saleType: AdsType.StoryAd,
-          date: Date.now(),
-          fee: 888999777,
-          statusType: StatusType.Canceled,
+          totalPurchases: 13,
+          totalAmount: 490000000,
+          lastPurchase: Date.now(),
         },
         {
-          saleId: 500,
-          seller: {
+          buyer: {
             fullname: "user5",
             profileUrl: "/no-profile.svg",
             username: "@user5",
           },
-          saleType: AdsType.CampaignAd,
-          date: Date.now(),
-          fee: 888999777,
-          statusType: StatusType.Active,
+          totalPurchases: 9,
+          totalAmount: 360000000,
+          lastPurchase: Date.now(),
+        },
+        {
+          buyer: {
+            fullname: "user5b",
+            profileUrl: "/no-profile.svg",
+            username: "@user5b",
+          },
+          totalPurchases: 7,
+          totalAmount: 275000000,
+          lastPurchase: Date.now() - 1000 * 60 * 60 * 24 * 20,
         },
       ],
     };
@@ -286,16 +358,12 @@ const Statistics = () => {
           <div className={styles.pinContainer1}>
             <TotalSalesReport
               salesReports={totalSalesReport}
-              showSaleReport={showSaleReport}
               handleLoadMore={handleLoadMore}
               hasTotalMore={hasTotalMore}
             />
           </div>
         </main>
         {showReport && <AdReport removeMask={removeMask} advertiseId={advertiseId} />}
-        <Modal closePopup={removeSaleDetailMask} classNamePopup={"popup"} showContent={showSaleDetail}>
-          <SaleDetail saleId={saleId} onClose={removeSaleDetailMask} />
-        </Modal>
       </>
     )
   );

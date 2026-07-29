@@ -645,7 +645,7 @@ html[dir="rtl"] .hashtagField {
   position: relative;
   width: 100%;
   height: auto;
-  gap: var(--gap-20);
+  gap: var(--gap-10);
   display: flex;
   flex-direction: column;
   justify-content: flex-start;
@@ -695,53 +695,6 @@ html[dir="rtl"] .hashtagField {
   gap: var(--gap-10);
   transition: var(--transition3);
 }
-.tooltipContainer {
-  width: 20px;
-  height: 20px;
-
-  position: relative;
-  cursor: pointer;
-}
-.tooltip {
-  position: absolute;
-  display: flex;
-  gap: var(--gap-10);
-  column-gap: var(--gap-10);
-  flex-direction: column;
-  border-radius: var(--br15);
-  background-color: var(--background-root);
-  color: var(--text-h1);
-  font-size: var(--font-12);
-  font-weight: var(--weight-400);
-  padding: var(--padding-10);
-  align-items: center;
-  justify-content: center;
-  transition: var(--transition3);
-  margin-inline-start: 40px;
-  transform: translateY(-60%);
-  animation: var(--fadeIn3);
-  z-index: 10;
-  max-width: min(280px, 80vw);
-  word-wrap: break-word;
-  white-space: normal;
-}
-.tooltip::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: 100%;
-  margin-top: -5px;
-  border-width: 7px;
-  border-style: solid;
-  border-color: transparent var(--background-root) transparent transparent;
-}
-
-html[dir="rtl"] .tooltip::after {
-  left: 100%;
-  right: auto;
-  border-color: transparent transparent transparent var(--background-root);
-}
-
 .postscalechild {
   position: relative;
   height: 100%;

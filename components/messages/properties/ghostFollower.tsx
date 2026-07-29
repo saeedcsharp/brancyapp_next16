@@ -51,8 +51,8 @@ function GhostFollower() {
           </div>
 
           <TextArea
+            className="TextArea"
             name="ghost-visitor-message"
-            className={"message"}
             placeHolder={"Enter message for ghost visitors"}
             fadeTextArea={false}
             handleInputChange={function (e: ChangeEvent<HTMLTextAreaElement>): void {

@@ -10,12 +10,11 @@ import { InstaInfoContext } from "brancy/context/instaInfoContext";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { getEnumValue } from "brancy/helper/handleItemTypeEnum";
 import { LanguageKey } from "brancy/i18n";
-import { PushNotif, PushResponseExplanation, PushResponseTitle, PushResponseType } from "brancy/models/push/pushNotif";
-import { OrderStep } from "brancy/models/store/enum";
-import { IOrderPushNotifExtended } from "brancy/models/store/orders";
-import { ITicketPushNotif } from "brancy/models/userPanel/message";
-import TutorialWrapper from "brancy/components/tutorial/tutorialWrapper";
+import FeatureSearch from "brancy/components/search/featureSearch";
+
 import styles from "./hammenu.module.css";
+import { PushResponseType, OrderStep, PushResponseExplanation, PushResponseTitle } from "brancy/models/enums";
+import { PushNotif, ITicketPushNotif, IOrderPushNotifExtended, IGetImage } from "brancy/models/interfaces";
 
 const baseMediaUrl = getClientMediaBaseUrl();
 
@@ -239,6 +238,7 @@ const LeftHamMenue = ({
 
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
+  const [isSearchOpen, setIsSearchOpen] = useState(false);
 
   const menuContainerRef = useRef<HTMLDivElement>(null);
   const notificationRef = useRef<HTMLDivElement>(null);
@@ -247,7 +247,11 @@ const LeftHamMenue = ({
 
   const newRoute = useMemo(() => router.route.replaceAll("/", ""), [router.route]);
   const getNotifLogo = useCallback((responseType: PushResponseType) => {
-    if (responseType === PushResponseType.UploadPostSuccess || responseType === PushResponseType.UploadStorySuccess) {
+    if (
+      responseType === PushResponseType.UploadPostSuccess ||
+      responseType === PushResponseType.UploadStorySuccess ||
+      responseType === PushResponseType.AiImageSuccess
+    ) {
       return (
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" aria-hidden="true">
           <path
@@ -269,7 +273,11 @@ const LeftHamMenue = ({
       );
     }
 
-    if (responseType === PushResponseType.UploadPostFailed || responseType === PushResponseType.UploadStoryFailed) {
+    if (
+      responseType === PushResponseType.UploadPostFailed ||
+      responseType === PushResponseType.UploadStoryFailed ||
+      responseType === PushResponseType.AiImageFail
+    ) {
       return (
         <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true">
           <path
@@ -287,19 +295,21 @@ const LeftHamMenue = ({
     if (notif.ResponseType === PushResponseType.UpdateSystemTicket && notif.Message) {
       const message = JSON.parse(notif.Message) as ITicketPushNotif;
       return `You have a new message from ${message.Username !== null ? message.Username : "+" + message.PhoneNumber}`;
-    }
-
-    if (notif.ResponseType === PushResponseType.ChangeOrderStatus && notif.Message) {
+    } else if (notif.ResponseType === PushResponseType.ChangeOrderStatus && notif.Message) {
       const message = JSON.parse(notif.Message) as IOrderPushNotifExtended;
       if (message.NewStatus === OrderStep.Paid) {
         return (
           "You have new order from " +
-          (message.ShortOrder.UserInfo?.FullName ||
-            message.ShortOrder.UserInfo?.Username ||
-            message.ShortOrder.UserInfo?.PhoneNumber)
+          (message.UserProfile?.FullName || message.UserProfile?.Username || message.UserProfile?.PhoneNumber)
         );
       }
       return "";
+    } else if (notif.ResponseType === PushResponseType.AiImageSuccess && notif.Message) {
+      const message = JSON.parse(notif.Message) as IGetImage;
+      return "Your images successfully created by, " + message.version + " model.";
+    } else if (notif.ResponseType === PushResponseType.AiImageFail && notif.Message) {
+      const message = JSON.parse(notif.Message) as IGetImage;
+      return `Your images failed to be created by " + message.version + " model : ${message.metadata || "Image generation failed."}`;
     }
 
     const explanation = getEnumValue(PushResponseType, PushResponseExplanation, notif.ResponseType);
@@ -314,7 +324,7 @@ const LeftHamMenue = ({
 
     if (notif.ResponseType === PushResponseType.ChangeOrderStatus && notif.Message) {
       const message = JSON.parse(notif.Message) as IOrderPushNotifExtended;
-      return baseMediaUrl + message.ShortOrder.UserInfo!.ProfileUrl;
+      return baseMediaUrl + message.UserProfile!.ProfileUrl;
     }
 
     return baseMediaUrl + fullyDecodeURIComponent(notif.ProfileUrl);
@@ -338,7 +348,9 @@ const LeftHamMenue = ({
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {
       if (e.key === "Escape") {
-        if (isNotificationOpen) {
+        if (isSearchOpen) {
+          setIsSearchOpen(false);
+        } else if (isNotificationOpen) {
           setIsNotificationOpen(false);
         } else if (isUserMenuOpen) {
           setIsUserMenuOpen(false);
@@ -347,7 +359,7 @@ const LeftHamMenue = ({
         }
       }
     },
-    [isNotificationOpen, isUserMenuOpen, removeMask],
+    [isNotificationOpen, isSearchOpen, isUserMenuOpen, removeMask],
   );
 
   useEffect(() => {
@@ -364,13 +376,21 @@ const LeftHamMenue = ({
   const toggleUserMenu = useCallback(() => {
     setIsUserMenuOpen((prev) => !prev);
     if (isNotificationOpen) setIsNotificationOpen(false);
-  }, [isNotificationOpen]);
+    if (isSearchOpen) setIsSearchOpen(false);
+  }, [isNotificationOpen, isSearchOpen]);
 
   const toggleNotification = useCallback(() => {
     handleRemoveNotifLogo();
     setIsNotificationOpen((prev) => !prev);
     if (isUserMenuOpen) setIsUserMenuOpen(false);
-  }, [handleRemoveNotifLogo, isUserMenuOpen]);
+    if (isSearchOpen) setIsSearchOpen(false);
+  }, [handleRemoveNotifLogo, isSearchOpen, isUserMenuOpen]);
+
+  const toggleSearch = useCallback(() => {
+    setIsSearchOpen((prev) => !prev);
+    if (isNotificationOpen) setIsNotificationOpen(false);
+    if (isUserMenuOpen) setIsUserMenuOpen(false);
+  }, [isNotificationOpen, isUserMenuOpen]);
 
   const handleRemoveNotification = useCallback(
     (index: number) => (e: MouseEvent) => {
@@ -426,6 +446,45 @@ const LeftHamMenue = ({
             })}
           </div>
         </nav>
+
+        <aside className={styles.searchMenu} aria-label={t(LanguageKey.search)}>
+          <button
+            className="headerparent"
+            onClick={toggleSearch}
+            aria-expanded={isSearchOpen}
+            aria-controls={`${menuId}-search-panel`}
+            type="button">
+            <div className="instagramprofile">
+              <svg width="40" height="40" viewBox="0 0 24 24" fill="none" style={{ padding: "7px" }} aria-hidden="true">
+                <circle cx="11" cy="11" r="7" stroke="var(--text-h1)" strokeWidth="2" />
+                <path d="m16.5 16.5 4 4" stroke="var(--text-h1)" strokeWidth="2" strokeLinecap="round" />
+              </svg>
+              <div className="instagramprofiledetail">
+                <span className="instagramusername" style={{ textAlign: "start" }}>
+                  {t(LanguageKey.search)}
+                </span>
+              </div>
+            </div>
+            <img
+              style={{
+                cursor: "pointer",
+                width: "25px",
+                height: "30px",
+                padding: "5px",
+                transform: isSearchOpen ? "rotate(180deg)" : "rotate(0deg)",
+                transition: "transform 0.3s ease",
+              }}
+              src="/down-arrow.svg"
+              alt={isSearchOpen ? "Collapse search" : "Expand search"}
+              aria-hidden="true"
+            />
+          </button>
+          <div
+            id={`${menuId}-search-panel`}
+            className={`${styles.searchContainer} ${isSearchOpen ? styles.searchOpen : ""}`}>
+            {isSearchOpen && <FeatureSearch embedded onClose={() => setIsSearchOpen(false)} onNavigate={removeMask} />}
+          </div>
+        </aside>
 
         <aside ref={notificationRef} id="notification" className={styles.notification} aria-label="Notifications">
           <button
@@ -630,7 +689,6 @@ const LeftHamMenue = ({
           </div>
         </aside>
       </div>
-      <TutorialWrapper pageKey="header" />
     </>
   );
 };

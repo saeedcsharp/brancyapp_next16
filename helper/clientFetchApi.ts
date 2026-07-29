@@ -29,6 +29,7 @@ function getSessionInstagramerId(session: Session | null | undefined): string {
   const user = session?.user as any;
   const currentIndex = Number(user?.currentIndex ?? -1);
   const instagramerIds = Array.isArray(user?.instagramerIds) ? user.instagramerIds : [];
+  console.log("instagramerIds, currentIndex", instagramerIds, currentIndex);
   if (currentIndex >= 0 && currentIndex < instagramerIds.length) {
     return String(instagramerIds[currentIndex]);
   }
@@ -265,6 +266,8 @@ export async function clientFetchApi<TReq, TRes>(
       uisetting: "Instagramer/UiSetting",
       unfollowallfollowing: "Instagramer/UnfollowAllFollowing",
       users: "Instagramer/Users",
+      feature: "Instagramer/Feature",
+      wallet: "Business/Wallet/",
     };
 
     const prefix = SCOPE_PREFIX_MAP[scope];

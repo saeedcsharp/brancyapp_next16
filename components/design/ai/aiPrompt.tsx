@@ -86,9 +86,9 @@ export default function AiPrompt({
           </div>
         ) : (
           <TextArea
+            className="TextArea"
             id="ai-prompt-textarea"
             name="aiPrompt"
-            className="captiontextarea"
             value={aiPrompt}
             handleInputChange={handleAIPromptChange}
             handleKeyDown={handleAIKeyDown}

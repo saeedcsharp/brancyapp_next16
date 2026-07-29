@@ -13,12 +13,19 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";
 import { IResult, MethodType } from "brancy/helper/api";
-import { IDetailsPost } from "brancy/models/page/post/posts";
-import { MediaType } from "brancy/models/page/post/preposts";
-import { ParcelPocketDeliveryType, Steps } from "brancy/models/store/enum";
+
+import GeneralInstance from "brancy/components/store/products/productDetail/instanceProduct/1-generalInstance";
+import InformationInstance from "brancy/components/store/products/productDetail/instanceProduct/2-informationInstance";
+import styles from "./instanceProductDetail.module.css";
+import MediaInstance from "brancy/components/store/products/productDetail/instanceProduct/5-mediaInstance";
+import SettingInstance from "brancy/components/store/products/productDetail/instanceProduct/6-settingInstance";
+import SpecificationsInstance from "brancy/components/store/products/productDetail/instanceProduct/4-specificationInstance";
+import InstanceVariation from "brancy/components/store/products/productDetail/instanceProduct/3-variationInstance";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   ICustomMedia,
   IDefaultMedia,
+  IDetailsPost,
   IMaxSize,
   IMediaInstanceInfo,
   IProduct_CreateSubProduct,
@@ -29,6 +36,7 @@ import {
   IProduct_SettingUpdate,
   IProduct_ShortProduct,
   IProduct_UpdateChildrenMedia,
+  IProductSpecification,
   ISpecification,
   ISpecificationOrder,
   ISubProduct_Create,
@@ -36,15 +44,8 @@ import {
   ISuggestedMedia,
   ITitleVariationVariation,
   IUploadMedia,
-} from "brancy/models/store/IProduct";
-import GeneralInstance from "brancy/components/store/products/productDetail/instanceProduct/generalInstance";
-import InformationInstance from "brancy/components/store/products/productDetail/instanceProduct/informationInstance";
-import styles from "./instanceProductDetail.module.css";
-import MediaInstance from "brancy/components/store/products/productDetail/instanceProduct/mediaInstance";
-import SettingInstance from "brancy/components/store/products/productDetail/instanceProduct/settingInstance";
-import SpecificationsInstance from "brancy/components/store/products/productDetail/instanceProduct/specificationInstance";
-import InstanceVariation from "brancy/components/store/products/productDetail/instanceProduct/variationInstance";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+} from "brancy/models/interfaces";
+import { MediaType, ParcelPocketDeliveryType, Steps } from "brancy/models/enums";
 export default function InstanceProductDetail({
   fullProduct,
   maxSize,
@@ -207,7 +208,7 @@ export default function InstanceProductDetail({
     if (isNext) setCurrentStep(Steps.Specification);
     else setCurrentStep(Steps.Information);
   }
-  function upadteCteateFromSpecifications(isNext: boolean, specificationInfo: ISpecification[]) {
+  function upadteCteateFromSpecifications(isNext: boolean, specificationInfo: IProductSpecification[]) {
     console.log("specificationInfoooooooo", specificationInfo);
     setSpecificationInfo(specificationInfo);
     if (isNext) setCurrentStep(Steps.Media);
@@ -746,6 +747,8 @@ export default function InstanceProductDetail({
             info={information}
             toggleNext={toggleNextButton.information}
             upadteCteateFromInformation={upadteCteateFromInformation}
+            productId={fullProduct.productInstance.productId}
+            categoryId={fullProduct.productInstance.categoryId}
           />
         )}
         {currentStep === Steps.Properties && (

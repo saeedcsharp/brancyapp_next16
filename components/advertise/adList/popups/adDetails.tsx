@@ -10,14 +10,13 @@ import Loading from "brancy/components/notOk/loading";
 import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { AdsTimeType, AdsType } from "brancy/models/advertise/AdEnums";
-import { DetailType, IAdContent, IAdDetail, IRejectTerms } from "brancy/models/advertise/adList";
-import { MediaType } from "brancy/models/ApiModels/Instagramer/Page/FirstPostPage";
 import AdsTypeComp from "brancy/components/advertise/adsType";
 import TimeTypeComp from "brancy/components/advertise/timeType";
 import styles from "./adDetails.module.css";
 import AdReject from "brancy/components/advertise/adList/popups/adreject";
 import styles2 from "./detailContent.module.css";
+import { IAdContent, IAdDetail, IRejectTerms } from "brancy/models/interfaces";
+import { DetailType, AdsType, AdsTimeType, MediaType } from "brancy/models/enums";
 const AdDetails = (props: {
   removeMask: () => void;
   acceptAdvertise: () => void;
@@ -321,8 +320,8 @@ const AdDetails = (props: {
                 {divArray}
               </div>
               <TextArea
+                className="TextArea"
                 style={{ minHeight: "150px" }}
-                className={"captiontextarea"}
                 value={adContent.caption}
                 name="ad-caption"
                 role="textbox"

@@ -8,16 +8,15 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
-import { ITotalSalesReport } from "brancy/models/store/statistics";
+
 import styles from "./statistics.module.css";
+import { IBuyerPurchaseReport } from "brancy/models/interfaces";
 
 const TotalSalesReport = (props: {
-  salesReports: ITotalSalesReport[] | null;
-  showSaleReport: (saleId: number) => void;
+  salesReports: IBuyerPurchaseReport[] | null;
   handleLoadMore: (pagination: number) => void;
   hasTotalMore: boolean;
 }) => {
-  const [refresh, setRefresh] = useState(false);
   const { hidePage, gridSpan, toggle } = useHideDiv(true, 57);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(0);
@@ -32,7 +31,7 @@ const TotalSalesReport = (props: {
       return [];
     },
     onDataFetched: () => {},
-    getItemId: (item: any) => item?.saleId || Math.random(),
+    getItemId: (item: IBuyerPurchaseReport) => `${item.buyer.username}-${item.lastPurchase}`,
     currentData: props.salesReports || [],
     useContainerScroll: true,
   });
@@ -62,26 +61,17 @@ const TotalSalesReport = (props: {
             <>
               <div className={styles.tableheader}>
                 <div className={styles.header1}>#</div>
-                <div className={styles.header2}>{t(LanguageKey.storestatistics_saleno)}</div>
-                <div className={styles.header3}>{t(LanguageKey.storestatistics_seller)}</div>
-                <div className={styles.header4}>{t(LanguageKey.storestatistics_type)}</div>
-                <div className={styles.header5}>{t(LanguageKey.storestatistics_status)}</div>
-                <div className={styles.header6}>{t(LanguageKey.storestatistics_price)}</div>
-                <div className={styles.header7}>{t(LanguageKey.storestatistics_date)}</div>
-                <div className={styles.header8}>{t(LanguageKey.storestatistics_share)}</div>
+                <div className={styles.header3}>{t(LanguageKey.storestatistics_buyer)}</div>
+                <div className={styles.header4}>{t(LanguageKey.storestatistics_totalPurchases)}</div>
+                <div className={styles.header6}>{t(LanguageKey.storestatistics_totalAmount)}</div>
+                <div className={styles.header7}>{t(LanguageKey.storestatistics_lastPurchase)}</div>
               </div>
               <div ref={containerRef} className={styles.table111} style={{ maxHeight: 600, overflow: "auto" }}>
                 {props.salesReports &&
                   props.salesReports.map((v, i) => (
-                    <div key={i}>
-                      <div
-                        className={styles.tablecolumn}
-                        onClick={() => {
-                          props.showSaleReport(v.saleId);
-                        }}
-                        key={v.saleId}>
+                    <div key={`${v.buyer.username}-${v.lastPurchase}`}>
+                      <div className={styles.tablecolumn}>
                         <div className={styles.tablecounter}>{i + 1}</div>
-                        <div className={styles.salenumber}>{v.saleId}</div>
 
                         <div className={styles.seller}>
                           <img
@@ -90,25 +80,22 @@ const TotalSalesReport = (props: {
                             decoding="async"
                             title="ℹ️ profile image"
                             className={styles.instagramimage}
-                            src={v.seller.profileUrl}
+                            src={v.buyer.profileUrl}
                             onError={(e) => {
                               (e.target as HTMLImageElement).src = "/no-profile.svg";
                             }}
                           />
                           <div className={styles.instagramprofiledetail}>
-                            <div className={styles.instagramusername}>{v.seller.fullname}</div>
-                            <div className={styles.instagramid}>{v.seller.username}</div>
+                            <div className={styles.instagramusername}>{v.buyer.fullname}</div>
+                            <div className={styles.instagramid}>{v.buyer.username}</div>
                           </div>
                         </div>
 
-                        <div className={styles.saletype}>{/* <SaleTypeComp saleType={v.saleType} /> */}</div>
-                        <div className={styles.header5}>
-                          <span className={`status-${v.statusType}`}>{v.statusType}</span>
-                        </div>
+                        <div className={styles.saletype}>{v.totalPurchases}</div>
 
                         <div className={styles.fee}>
                           <PriceFormater
-                            fee={v.fee}
+                            fee={v.totalAmount}
                             pricetype={PriceType.Toman}
                             className={PriceFormaterClassName.PostPrice}
                           />
@@ -117,7 +104,7 @@ const TotalSalesReport = (props: {
                         <div className={styles.date}>
                           <span className={styles.day}>
                             {new DateObject({
-                              date: v.date,
+                              date: v.lastPurchase,
                               calendar: initialzedTime().calendar,
                               locale: initialzedTime().locale,
                             }).format("YYYY")}
@@ -125,7 +112,7 @@ const TotalSalesReport = (props: {
                           /
                           <span className={styles.day}>
                             {new DateObject({
-                              date: v.date,
+                              date: v.lastPurchase,
                               calendar: initialzedTime().calendar,
                               locale: initialzedTime().locale,
                             }).format("MM")}
@@ -133,7 +120,7 @@ const TotalSalesReport = (props: {
                           /
                           <span className={styles.day}>
                             {new DateObject({
-                              date: v.date,
+                              date: v.lastPurchase,
                               calendar: initialzedTime().calendar,
                               locale: initialzedTime().locale,
                             }).format("DD")}
@@ -141,7 +128,7 @@ const TotalSalesReport = (props: {
                           <br></br>
                           <span className={styles.hour}>
                             {new DateObject({
-                              date: v.date,
+                              date: v.lastPurchase,
                               calendar: initialzedTime().calendar,
                               locale: initialzedTime().locale,
                             }).format("hh")}
@@ -149,16 +136,11 @@ const TotalSalesReport = (props: {
                           :
                           <span className={styles.hour}>
                             {new DateObject({
-                              date: v.date,
+                              date: v.lastPurchase,
                               calendar: initialzedTime().calendar,
                               locale: initialzedTime().locale,
                             }).format("mm A")}
                           </span>
-                        </div>
-
-                        <div className={styles.share}>
-                          <img alt="export PDF" title="ℹ️ export PDF" className={styles.sharetype} src="/pdf.svg" />
-                          <img alt="export JPG" title="ℹ️ export JPG" className={styles.sharetype} src="/jpg.svg" />
                         </div>
                       </div>
                     </div>

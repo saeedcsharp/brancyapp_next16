@@ -1,13 +1,15 @@
 import { Session } from "next-auth";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
-import { FeatureType, IFeatureInfo } from "brancy/models/psg/psg";
+
+import { PsgFeatureType } from "brancy/models/enums";
 import { convertToMilliseconds } from "brancy/helper/manageTimer";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IPsgFeatureInfo } from "brancy/models/interfaces";
 
-export async function getPackageFeatureDetails(session: Session | null | undefined): Promise<IFeatureInfo | null> {
+export async function getPackageFeatureDetails(session: Session | null | undefined): Promise<IPsgFeatureInfo | null> {
   try {
-    const res = await clientFetchApi<boolean, IFeatureInfo>("/api/psg/GetPackageFeatureDetails", {
+    const res = await clientFetchApi<boolean, IPsgFeatureInfo>("/api/psg/GetPackageFeatureDetails", {
       methodType: MethodType.get,
       session: session,
       data: undefined,
@@ -22,6 +24,26 @@ export async function getPackageFeatureDetails(session: Session | null | undefin
     return null;
   }
 }
+export async function checkPackageFeature(
+  session: Session | null | undefined,
+  featureId: PsgFeatureType,
+): Promise<boolean> {
+  try {
+    const res = await clientFetchApi<boolean, boolean>("/api/feature/hasFeature", {
+      methodType: MethodType.get,
+      session: session,
+      data: undefined,
+      queries: [{ key: "featureId", value: featureId.toString() }],
+      onUploadProgress: undefined,
+    });
+    if (res.succeeded) return res.value;
+    notify(res.info.responseType, NotifType.Warning);
+    return false;
+  } catch {
+    notify(ResponseType.Unexpected, NotifType.Error);
+    return false;
+  }
+}
 
 // Helper function to check if current time is within time range
 function isTimeInRange(beginUnix: number, endUnix: number, timeUnix: number): boolean {
@@ -34,15 +56,14 @@ function isWithinCountLimit(count: number, maxCount: number): boolean {
 }
 
 export async function fetchAndCheckFeature(
-  featureId: FeatureType,
+  featureId: PsgFeatureType,
   session: Session | null | undefined,
 ): Promise<boolean> {
-  const featureInfo = await getPackageFeatureDetails(session);
-  if (!featureInfo) return false;
-  return checkFeature(featureId, featureInfo);
+  const hasFeature = await checkPackageFeature(session, featureId);
+  return hasFeature;
 }
 
-export default function checkFeature(featureId: FeatureType, featureInfo: IFeatureInfo): boolean {
+export default function checkFeature(featureId: PsgFeatureType, featureInfo: IPsgFeatureInfo): boolean {
   try {
     const { basePackage: baseFeature, features } = featureInfo;
     const feature = features.find((x) => x.featureId === featureId);
@@ -75,9 +96,9 @@ export default function checkFeature(featureId: FeatureType, featureInfo: IFeatu
   }
 }
 export function checkRemainingTimeFeature(
-  featureId: FeatureType,
+  featureId: PsgFeatureType,
   unixTime: number,
-  featureInfo: IFeatureInfo,
+  featureInfo: IPsgFeatureInfo,
 ): boolean {
   try {
     const { basePackage: baseFeature } = featureInfo;

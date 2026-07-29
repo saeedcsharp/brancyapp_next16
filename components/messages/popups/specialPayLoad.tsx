@@ -11,18 +11,19 @@ import TextArea from "brancy/components/design/textArea/textArea";
 import Loading from "brancy/components/notOk/loading";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";
-import { IDetailPrompt, IPrompts } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
-import { PayloadType, SpecialPayLoad } from "brancy/models/messages/enum";
-import {
-  IMasterFlow,
-  IProfileButtons,
-  ISpecialPayload,
-  ITotalMasterFlow,
-  IUpdateProfileButton,
-} from "brancy/models/messages/properies";
 import styles from "./specialPayLoad.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { PayloadType, SpecialPayLoad } from "brancy/models/enums";
+import {
+  ISpecialPayload,
+  IUpdateProfileButton,
+  IProfileButtons,
+  IMasterFlow,
+  IPrompts,
+  IDetailPrompt,
+  ITotalMasterFlow,
+} from "brancy/models/interfaces";
 // Reducer for checkbox state
 type CheckBoxState = {
   custom: boolean;
@@ -702,7 +703,69 @@ const SpecialPayLoadComp = React.memo(
                   </div>
                 )}
               </div>
-
+              {/* custom */}
+              <div className="headerandinput">
+                <div className="headerandinput">
+                  <RadioButton
+                    name="custom"
+                    id={t(LanguageKey.product_Definenew)}
+                    checked={checkBox.custom}
+                    handleOptionChanged={handleOptionChanged}
+                    textlabel={t(LanguageKey.AIFlow_quick_reply)}
+                  />
+                  <div className="explain">{t(LanguageKey.messagesetting_DefineCustomResponseExplain)}</div>
+                </div>
+                {checkBox.custom && (
+                  <div className={styles.optioncontainer}>
+                    <div className="headerandinput">
+                      <div className="headertext">{t(LanguageKey.messagesetting_ButtonTitle)}</div>
+                      <InputText
+                        dangerOnEmpty
+                        className="textinputbox"
+                        handleInputChange={(e) => setTitle(e.target.value)}
+                        value={title}
+                        placeHolder={t(LanguageKey.pageToolspopup_typehere)}
+                        fadeTextArea={checkBox.default}
+                      />
+                    </div>
+                    <div className="headerandinput">
+                      <div className="headerparent">
+                        <div className="headertext">{t(LanguageKey.Answer)}</div>
+                        <div className="counter">
+                          ({profileButton.response?.length || 0}/800 )
+                          <img
+                            style={{
+                              cursor: "pointer",
+                              width: "16px",
+                              height: "16px",
+                            }}
+                            title="ℹ️ paste"
+                            src="/copy.svg"
+                            onClick={handlePasteFromClipboard}
+                          />
+                        </div>
+                      </div>
+                      <TextArea
+                        className="TextArea"
+                        style={{ height: "200px" }}
+                        handleInputChange={(e) =>
+                          setProfileButton((prev) => ({
+                            ...prev,
+                            question: prev.title || "",
+                            response: e.target.value,
+                          }))
+                        }
+                        value={profileButton.response || ""}
+                        placeHolder={t(LanguageKey.pageToolspopup_typehere)}
+                        fadeTextArea={checkBox.default}
+                        role="textbox"
+                        title="Prompt Answer Input"
+                        maxLength={800}
+                      />
+                    </div>
+                  </div>
+                )}
+              </div>
               {/* AI  */}
               <div className="headerandinput">
                 <div className="headerandinput">
@@ -777,70 +840,6 @@ const SpecialPayLoadComp = React.memo(
                     {!loadingState.isLoadingPrompt && selectedPrompt && selectedPromptId && (
                       <div className="explain">{selectedPrompt.promptStr || ""}</div>
                     )}
-                  </div>
-                )}
-              </div>
-
-              {/* custom */}
-              <div className="headerandinput">
-                <div className="headerandinput">
-                  <RadioButton
-                    name="custom"
-                    id={t(LanguageKey.product_Definenew)}
-                    checked={checkBox.custom}
-                    handleOptionChanged={handleOptionChanged}
-                    textlabel={t(LanguageKey.AIFlow_quick_reply)}
-                  />
-                  <div className="explain">{t(LanguageKey.messagesetting_DefineCustomResponseExplain)}</div>
-                </div>
-                {checkBox.custom && (
-                  <div className={styles.optioncontainer}>
-                    <div className="headerandinput">
-                      <div className="headertext">{t(LanguageKey.messagesetting_ButtonTitle)}</div>
-                      <InputText
-                        dangerOnEmpty
-                        className="textinputbox"
-                        handleInputChange={(e) => setTitle(e.target.value)}
-                        value={title}
-                        placeHolder={t(LanguageKey.pageToolspopup_typehere)}
-                        fadeTextArea={checkBox.default}
-                      />
-                    </div>
-                    <div className="headerandinput">
-                      <div className="headerparent">
-                        <div className="headertext">{t(LanguageKey.Answer)}</div>
-                        <div className="counter">
-                          ({profileButton.response?.length || 0}/800 )
-                          <img
-                            style={{
-                              cursor: "pointer",
-                              width: "16px",
-                              height: "16px",
-                            }}
-                            title="ℹ️ paste"
-                            src="/copy.svg"
-                            onClick={handlePasteFromClipboard}
-                          />
-                        </div>
-                      </div>
-                      <TextArea
-                        className="captiontextarea"
-                        style={{ height: "200px" }}
-                        handleInputChange={(e) =>
-                          setProfileButton((prev) => ({
-                            ...prev,
-                            question: prev.title || "",
-                            response: e.target.value,
-                          }))
-                        }
-                        value={profileButton.response || ""}
-                        placeHolder={t(LanguageKey.pageToolspopup_typehere)}
-                        fadeTextArea={checkBox.default}
-                        role="textbox"
-                        title="Prompt Answer Input"
-                        maxLength={800}
-                      />
-                    </div>
                   </div>
                 )}
               </div>

@@ -1,7 +1,3 @@
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/router";
-import { useCallback, useEffect, useId, useMemo, useRef, useState, useTransition } from "react";
-import { useTranslation } from "react-i18next";
 import AIButton from "brancy/components/design/ai/AIButton";
 import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
@@ -10,6 +6,7 @@ import TextArea from "brancy/components/design/textArea/textArea";
 import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
+import LiveChat from "brancy/components/messages/aiflow/popup/liveChat";
 import {
   internalNotify,
   InternalResponseType,
@@ -18,15 +15,17 @@ import {
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
-import { LanguageKey } from "brancy/i18n/languageKeys";
-import { IAITools, IAnalysisPrompt, ICreatePrompt, IDetailPrompt, ITool, ITotalPrompt } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
-import styles from "./aiPromptBox.module.css";
-import LiveChat from "brancy/components/messages/aiflow/popup/liveChat";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
-import { FeatureType } from "brancy/models/psg/psg";
-import { PromptType, ToolType } from "brancy/models/AI/enum";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { LanguageKey } from "brancy/i18n/languageKeys";
+import { PromptType, PsgFeatureType, ToolType } from "brancy/models/enums";
+import { IAITools, IAnalysisPrompt, ICreatePrompt, IDetailPrompt, ITool, ITotalPrompt } from "brancy/models/interfaces";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useId, useMemo, useRef, useState, useTransition } from "react";
+import { useTranslation } from "react-i18next";
+import styles from "./aiPromptBox.module.css";
 const AIPromptBox = ({
   aiTools,
   userSelectId,
@@ -44,6 +43,7 @@ const AIPromptBox = ({
   setPromptInfo,
   tools,
   setTools,
+  setShowNotFeature,
 }: {
   aiTools: IAITools[];
   userSelectId: string | null;
@@ -61,6 +61,7 @@ const AIPromptBox = ({
   setPromptInfo: React.Dispatch<React.SetStateAction<ICreatePrompt | null>>;
   tools: ITool[];
   setTools: React.Dispatch<React.SetStateAction<ITool[]>>;
+  setShowNotFeature: (value: boolean) => void;
 }) => {
   const { data: session } = useSession({
     required: true,
@@ -92,6 +93,7 @@ const AIPromptBox = ({
   const [activeTab, setActiveTab] = useState(0);
   const [isWideScreen, setIsWideScreen] = useState(true);
   const [promptMode, setPromptMode] = useState<"manual" | "analysis">("manual");
+  const [showAnalysisContent, setShowAnalysisContent] = useState(false);
   // tools state is managed by parent (flowAndAIInBox)
 
   const handleAddTool = useCallback(
@@ -162,6 +164,7 @@ const AIPromptBox = ({
             const hasAnalysis = res.value.customPromptAnalysis !== null;
             setAdvancePrompt(hasAnalysis);
             setPromptMode(hasAnalysis ? "analysis" : "manual");
+            setShowAnalysisContent(hasAnalysis);
           } else notify(res.info.responseType, NotifType.Warning);
         }
       } catch (error) {
@@ -183,9 +186,9 @@ const AIPromptBox = ({
     return detailedPrompt.promptStr.length > 0 && !loadingPromptAnalysis && advancePrompt;
   }, [detailedPrompt.promptStr, loadingPromptAnalysis, advancePrompt]);
   const handleCreateAIPrompt = useCallback(async () => {
-    const hasAccess = await fetchAndCheckFeature(FeatureType.AI, session);
+    const hasAccess = await fetchAndCheckFeature(PsgFeatureType.AI, session);
     if (!hasAccess) {
-      router.push("/upgrade");
+      setShowNotFeature(true);
       return;
     }
     try {
@@ -218,13 +221,14 @@ const AIPromptBox = ({
     }
   }, [session, detailedPrompt, advancePrompt, userSelectId, updateAIPrompt, setShowAIToolsSettings, tools]);
   const handleGetPromptAnalysis = useCallback(async () => {
-    const hasAccess = await fetchAndCheckFeature(FeatureType.AI, session);
+    const hasAccess = await fetchAndCheckFeature(PsgFeatureType.AI, session);
     if (!hasAccess) {
-      router.push("/upgrade");
+      setShowNotFeature(true);
       return;
     }
     setDetailedPrompt((prev) => ({ ...prev, customPromptAnalysis: null }));
     setLoadingPromptAnalysis(true);
+    setShowAnalysisContent(false);
     startTransition(async () => {
       try {
         const res = await clientFetchApi<string, IAnalysisPrompt>("/api/ai/GetPromptAnalysis", {
@@ -239,15 +243,19 @@ const AIPromptBox = ({
             ...prev,
             customPromptAnalysis: res.value,
           }));
+          // show content with a tiny delay to allow CSS transitions
+          setTimeout(() => setShowAnalysisContent(true), 5);
         } else {
           notify(res.info.responseType, NotifType.Warning);
           setPromptMode("manual");
           setAdvancePrompt(false);
+          setShowAnalysisContent(false);
         }
       } catch (error) {
         notify(ResponseType.Unexpected, NotifType.Error);
         setPromptMode("manual");
         setAdvancePrompt(false);
+        setShowAnalysisContent(false);
       } finally {
         setLoadingPromptAnalysis(false);
       }
@@ -263,6 +271,7 @@ const AIPromptBox = ({
     } else {
       setAdvancePrompt(false);
       setPromptMode("manual");
+      setShowAnalysisContent(false);
       setDetailedPrompt({
         createdTime: 0,
         fbId: "",
@@ -342,15 +351,12 @@ const AIPromptBox = ({
               </svg>
 
               <h1 className="title">{t(LanguageKey.AIAssisment)}</h1>
-              <Tooltip position="bottom" onHover tooltipValue={t(LanguageKey.AIAssismentexplain)}>
-                <img
-                  style={{ cursor: "pointer", width: "15px" }}
-                  alt="Information"
-                  src="/tooltip.svg"
-                  role="img"
-                  aria-label="AI Assisment Information"
-                />
-              </Tooltip>
+              <Tooltip
+                triggerType="tooltip"
+                position="bottom"
+                onHover
+                tooltipValue={t(LanguageKey.AIAssismentexplain)}
+              />
             </div>
 
             {!isWideScreen && (
@@ -397,11 +403,11 @@ const AIPromptBox = ({
                 </div>
 
                 <div className={styles.promptModeparent}>
-                  <div className={styles.promptheaderleft}>
+                  <div className="headerandinput">
+                    <div id="prompt-mode-label" className="sr-only">
+                      {t(LanguageKey.promptmode)}
+                    </div>
                     <fieldset className={styles.promptMode} role="radiogroup" aria-labelledby="prompt-mode-label">
-                      <legend id="prompt-mode-label" className="sr-only">
-                        {t(LanguageKey.promptmode)}
-                      </legend>
                       <RadioButton
                         name="promptMode"
                         id={manualModeId}
@@ -411,6 +417,7 @@ const AIPromptBox = ({
                           if (e.target.checked) {
                             setPromptMode("manual");
                             setAdvancePrompt(false);
+                            setShowAnalysisContent(false);
                           }
                         }}
                       />
@@ -434,6 +441,7 @@ const AIPromptBox = ({
                             if (e.target.checked) {
                               setPromptMode("analysis");
                               setAdvancePrompt(true);
+                              setShowAnalysisContent(false);
                               if (detailedPrompt.promptStr.length > 0) {
                                 handleGetPromptAnalysis();
                               }
@@ -441,220 +449,226 @@ const AIPromptBox = ({
                           }}
                         />
                       </div>
-                      <Tooltip position="bottom" onHover tooltipValue={t(LanguageKey.promptanalysisexplain)}>
-                        <img
-                          style={{ cursor: "pointer", width: "15px" }}
-                          alt="Information"
-                          src="/tooltip.svg"
-                          role="img"
-                          aria-label="Prompt Analysis Information"
-                        />
-                      </Tooltip>
+                      <Tooltip
+                        triggerType="tooltip"
+                        position="bottom"
+                        onHover
+                        tooltipValue={t(LanguageKey.promptanalysisexplain)}
+                      />
                     </fieldset>
                   </div>
-
-                  {promptMode === "manual" && (
-                    <div className={styles.promptModecontent}>
-                      <TextArea
-                        className="captiontextarea"
-                        handleInputChange={(e) => {
-                          setDetailedPrompt((prev) => ({
-                            ...prev,
-                            promptStr: e.target.value,
-                          }));
-                        }}
-                        value={detailedPrompt.promptStr}
-                        role={""}
-                        title={""}
-                      />
-                      {tools.length > 0 && (
-                        <div className={styles.toolsList} role="list" aria-label="Added tools">
-                          {tools.map((tool, index) => (
-                            <div key={`added-tool-${index}`} className={styles.toolsItem} role="listitem">
-                              <span className={styles.toolsItemName}>{tool.toolId}</span>
-                              {tool.parameters.map((param, pi) => (
-                                <span key={pi} className={styles.toolsItemParam}>
-                                  {param.name}
-                                  {": "}
-                                  <span
-                                    style={{ cursor: "copy" }}
-                                    title="Copy value"
-                                    onClick={() => navigator.clipboard.writeText(param.value)}>
-                                    {param.value}
+                  <div className={styles.promptModecontent}>
+                    {promptMode === "manual" && (
+                      <>
+                        <TextArea
+                          className="TextArea"
+                          handleInputChange={(e) => {
+                            setDetailedPrompt((prev) => ({
+                              ...prev,
+                              promptStr: e.target.value,
+                            }));
+                          }}
+                          value={detailedPrompt.promptStr}
+                          role={""}
+                          title={""}
+                          autoExpandOnFocus
+                          initialHeight={120}
+                        />
+                        {tools.length > 0 && (
+                          <div className={styles.toolsList} role="list" aria-label="Added tools">
+                            {tools.map((tool, index) => (
+                              <div key={`added-tool-${index}`} className={styles.toolsItem} role="listitem">
+                                <span className={styles.toolsItemName}>{tool.toolId}</span>
+                                {tool.parameters.map((param, pi) => (
+                                  <span key={pi} className={styles.toolsItemParam}>
+                                    {param.name}
+                                    {": "}
+                                    <span
+                                      style={{ cursor: "copy" }}
+                                      title="Copy value"
+                                      onClick={() => navigator.clipboard.writeText(param.value)}>
+                                      {param.value}
+                                    </span>
                                   </span>
-                                </span>
-                              ))}
-                              <button
-                                type="button"
-                                className={styles.toolsItemRemove}
-                                aria-label={`Remove tool ${tool.toolId}`}
-                                onClick={() => setTools((prev) => prev.filter((_, i) => i !== index))}>
-                                ✕
-                              </button>
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                      <div className={styles.promptModeoptionlist} role="list">
-                        {mergedAITools.map((tool, index) => (
-                          <div
-                            key={`tool-${index}-${tool.name}`}
-                            className={styles.promptModeoption}
-                            onClick={() => {
-                              setSelectedAITool(tool);
-                              setShowAIToolsSettings(true);
-                            }}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter" || e.key === " ") {
-                                e.preventDefault();
+                                ))}
+                                <button
+                                  type="button"
+                                  className={styles.toolsItemRemove}
+                                  aria-label={`Remove tool ${tool.toolId}`}
+                                  onClick={() => setTools((prev) => prev.filter((_, i) => i !== index))}>
+                                  ✕
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        <div className={styles.promptModeoptionlist} role="list">
+                          {mergedAITools.map((tool, index) => (
+                            <div
+                              key={`tool-${index}-${tool.name}`}
+                              className={styles.promptModeoption}
+                              onClick={() => {
                                 setSelectedAITool(tool);
                                 setShowAIToolsSettings(true);
-                              }
-                            }}
-                            role="button"
-                            tabIndex={0}
-                            aria-label={`Add ${getDisplayName(tool.name)} to prompt`}
-                            style={{ cursor: "pointer" }}>
-                            <img
-                              style={{ cursor: "pointer", width: "20px", height: "20px" }}
-                              alt="Add"
-                              title={tool.description}
-                              src="/icon-plus.svg"
-                              aria-hidden="true"
-                            />
-                            {getDisplayName(tool.name)}
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                  e.preventDefault();
+                                  setSelectedAITool(tool);
+                                  setShowAIToolsSettings(true);
+                                }
+                              }}
+                              role="button"
+                              tabIndex={0}
+                              aria-label={`Add ${getDisplayName(tool.name)} to prompt`}
+                              style={{ cursor: "pointer" }}>
+                              <img
+                                style={{ cursor: "pointer", width: "20px", height: "20px" }}
+                                alt="Add"
+                                title={tool.description}
+                                src="/icon-plus.svg"
+                                aria-hidden="true"
+                              />
+                              {getDisplayName(tool.name)}
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                    {promptMode === "analysis" && loadingPromptAnalysis && (
+                      <>
+                        <AIButton
+                          style={{ cursor: "default" }}
+                          loading
+                          onClick={function (): void {
+                            throw new Error("Function not implemented.");
+                          }}></AIButton>
+                      </>
+                    )}
+                    {promptMode === "analysis" &&
+                      showAnalysisContent &&
+                      detailedPrompt.customPromptAnalysis &&
+                      !loadingPromptAnalysis && (
+                        <div
+                          className={`${styles.promptModecontentAnalysis} translate`}
+                          role="region"
+                          aria-live="polite">
+                          {promptMode === "analysis" && !loadingPromptAnalysis && (
+                            <button
+                              className={styles.reanalize}
+                              onClick={handleGetPromptAnalysis}
+                              onKeyDown={(e) => e.key === "Enter" && handleGetPromptAnalysis()}
+                              aria-label="Reanalyze prompt"
+                              type="button">
+                              <svg
+                                fill="var(--color-dark-blue)"
+                                height="20"
+                                xmlns="http://www.w3.org/2000/svg"
+                                viewBox="0 0 24 24"
+                                aria-hidden="true">
+                                <path
+                                  opacity=".4"
+                                  d="M10 6.3q-.5 0-.7.4l-.5 1.4c-.7 2-1 2.6-1.5 3.2-.6.5-1.3.8-3.2 1.5l-1.4.5a.8.8 0 0 0 0 1.4l1.4.5c2 .7 2.6 1 3.2 1.5.5.6.8 1.3 1.5 3.2l.5 1.4a.8.8 0 0 0 1.4 0l.5-1.4c.7-2 1-2.6 1.5-3.2.6-.5 1.3-.8 3.2-1.5l1.4-.5a.8.8 0 0 0 0-1.4l-1.4-.5c-2-.7-2.6-1-3.2-1.5-.5-.6-.8-1.3-1.5-3.2l-.5-1.4z"
+                                />
+                                <path d="M18 2.3q-.5 0-.7.4l-.2.6c-.3.9-.4 1-.6 1.2q0 .2-1.2.6l-.6.2a.8.8 0 0 0 0 1.4l.6.2c.9.3 1 .4 1.2.6q.2 0 .6 1.2l.2.6a.8.8 0 0 0 1.4 0l.2-.6c.3-.9.4-1 .6-1.2q0-.2 1.2-.6l.6-.2a.8.8 0 0 0 0-1.4l-.6-.2c-.9-.3-1-.4-1.2-.6q-.2 0-.6-1.2l-.2-.6-.7-.5" />
+                              </svg>
+                              <span>{t(LanguageKey.reanalyze)}</span>
+                            </button>
+                          )}
+                          <div className="headerandinput">
+                            <div className="title2">Description:</div>
+                            <div className="explain" style={{ lineHeight: "16px" }}>
+                              {detailedPrompt.customPromptAnalysis.description}
+                            </div>
                           </div>
-                        ))}
-                      </div>
-                    </div>
-                  )}
-                  {promptMode === "analysis" && loadingPromptAnalysis && (
-                    <div className={styles.promptModecontentloading}>
-                      <AIButton
-                        style={{ cursor: "default" }}
-                        loading
-                        onClick={function (): void {
-                          throw new Error("Function not implemented.");
-                        }}></AIButton>
-                    </div>
-                  )}
-                  {promptMode === "analysis" && detailedPrompt.customPromptAnalysis && !loadingPromptAnalysis && (
-                    <div className={`${styles.promptModecontentAnalysis} translate`} role="region" aria-live="polite">
-                      {promptMode === "analysis" && !loadingPromptAnalysis && (
-                        <button
-                          className={styles.reanalize}
-                          onClick={handleGetPromptAnalysis}
-                          onKeyDown={(e) => e.key === "Enter" && handleGetPromptAnalysis()}
-                          aria-label="Reanalyze prompt"
-                          type="button">
-                          <svg
-                            fill="var(--color-dark-blue)"
-                            height="20"
-                            xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 24 24"
-                            aria-hidden="true">
-                            <path
-                              opacity=".4"
-                              d="M10 6.3q-.5 0-.7.4l-.5 1.4c-.7 2-1 2.6-1.5 3.2-.6.5-1.3.8-3.2 1.5l-1.4.5a.8.8 0 0 0 0 1.4l1.4.5c2 .7 2.6 1 3.2 1.5.5.6.8 1.3 1.5 3.2l.5 1.4a.8.8 0 0 0 1.4 0l.5-1.4c.7-2 1-2.6 1.5-3.2.6-.5 1.3-.8 3.2-1.5l1.4-.5a.8.8 0 0 0 0-1.4l-1.4-.5c-2-.7-2.6-1-3.2-1.5-.5-.6-.8-1.3-1.5-3.2l-.5-1.4z"
-                            />
-                            <path d="M18 2.3q-.5 0-.7.4l-.2.6c-.3.9-.4 1-.6 1.2q0 .2-1.2.6l-.6.2a.8.8 0 0 0 0 1.4l.6.2c.9.3 1 .4 1.2.6q.2 0 .6 1.2l.2.6a.8.8 0 0 0 1.4 0l.2-.6c.3-.9.4-1 .6-1.2q0-.2 1.2-.6l.6-.2a.8.8 0 0 0 0-1.4l-.6-.2c-.9-.3-1-.4-1.2-.6q-.2 0-.6-1.2l-.2-.6-.7-.5" />
-                          </svg>
-                          <span>{t(LanguageKey.reanalyze)}</span>
-                        </button>
-                      )}
-                      <div className="headerandinput">
-                        <div className="title2">Description:</div>
-                        <div className="explain" style={{ lineHeight: "16px" }}>
-                          {detailedPrompt.customPromptAnalysis.description}
-                        </div>
-                      </div>
 
-                      {detailedPrompt.customPromptAnalysis.rules.length > 0 && (
-                        <div className="headerandinput">
-                          <div className="title2">Rules:</div>
-                          {detailedPrompt.customPromptAnalysis.rules.map((item, index) => (
-                            <div key={index} className="explain" style={{ lineHeight: "16px" }}>
-                              <strong>{index + 1}.</strong> {item}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-
-                      {detailedPrompt.customPromptAnalysis.tasks.length > 0 && (
-                        <div className="headerandinput">
-                          <div className="title2">Tasks:</div>
-                          {detailedPrompt.customPromptAnalysis.tasks.map((item, index) => (
-                            <div key={index} className="explain" style={{ lineHeight: "16px" }}>
-                              <strong>{index + 1}.</strong> {item}
-                            </div>
-                          ))}
-                        </div>
-                      )}
-                    </div>
-                  )}
-                  {promptMode === "analysis" && !loadingPromptAnalysis && (
-                    <>
-                      {tools.length > 0 && (
-                        <div className={styles.toolsList} role="list" aria-label="Added tools">
-                          {tools.map((tool, index) => (
-                            <div key={`added-tool-analysis-${index}`} className={styles.toolsItem} role="listitem">
-                              <span className={styles.toolsItemName}>{tool.toolId}</span>
-                              {tool.parameters.map((param, pi) => (
-                                <span key={pi} className={styles.toolsItemParam}>
-                                  {param.name}
-                                  {": "}
-                                  <span
-                                    style={{ cursor: "copy" }}
-                                    title="Copy value"
-                                    onClick={() => navigator.clipboard.writeText(param.value)}>
-                                    {param.value}
-                                  </span>
-                                </span>
+                          {detailedPrompt.customPromptAnalysis.rules.length > 0 && (
+                            <div className="headerandinput">
+                              <div className="title2">Rules:</div>
+                              {detailedPrompt.customPromptAnalysis.rules.map((item, index) => (
+                                <div key={index} className="explain" style={{ lineHeight: "16px" }}>
+                                  <strong>{index + 1}.</strong> {item}
+                                </div>
                               ))}
-                              <button
-                                type="button"
-                                className={styles.toolsItemRemove}
-                                aria-label={`Remove tool ${tool.toolId}`}
-                                onClick={() => setTools((prev) => prev.filter((_, i) => i !== index))}>
-                                ✕
-                              </button>
                             </div>
-                          ))}
+                          )}
+
+                          {detailedPrompt.customPromptAnalysis.tasks.length > 0 && (
+                            <div className="headerandinput">
+                              <div className="title2">Tasks:</div>
+                              {detailedPrompt.customPromptAnalysis.tasks.map((item, index) => (
+                                <div key={index} className="explain" style={{ lineHeight: "16px" }}>
+                                  <strong>{index + 1}.</strong> {item}
+                                </div>
+                              ))}
+                            </div>
+                          )}
                         </div>
                       )}
-                      <div className={styles.promptModeoptionlist} role="list">
-                        {mergedAITools.map((tool, index) => (
-                          <div
-                            key={`tool-analysis-${index}-${tool.name}`}
-                            className={styles.promptModeoption}
-                            onClick={() => {
-                              setSelectedAITool(tool);
-                              setShowAIToolsSettings(true);
-                            }}
-                            onKeyDown={(e) => {
-                              if (e.key === "Enter" || e.key === " ") {
-                                e.preventDefault();
+                    {promptMode === "analysis" && !loadingPromptAnalysis && showAnalysisContent && (
+                      <>
+                        {tools.length > 0 && (
+                          <div className={styles.toolsList} role="list" aria-label="Added tools">
+                            {tools.map((tool, index) => (
+                              <div key={`added-tool-analysis-${index}`} className={styles.toolsItem} role="listitem">
+                                <span className={styles.toolsItemName}>{tool.toolId}</span>
+                                {tool.parameters.map((param, pi) => (
+                                  <span key={pi} className={styles.toolsItemParam}>
+                                    {param.name}
+                                    {": "}
+                                    <span
+                                      style={{ cursor: "copy" }}
+                                      title="Copy value"
+                                      onClick={() => navigator.clipboard.writeText(param.value)}>
+                                      {param.value}
+                                    </span>
+                                  </span>
+                                ))}
+                                <button
+                                  type="button"
+                                  className={styles.toolsItemRemove}
+                                  aria-label={`Remove tool ${tool.toolId}`}
+                                  onClick={() => setTools((prev) => prev.filter((_, i) => i !== index))}>
+                                  ✕
+                                </button>
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                        <div className={styles.promptModeoptionlist} role="list">
+                          {mergedAITools.map((tool, index) => (
+                            <div
+                              key={`tool-analysis-${index}-${tool.name}`}
+                              className={styles.promptModeoption}
+                              onClick={() => {
                                 setSelectedAITool(tool);
                                 setShowAIToolsSettings(true);
-                              }
-                            }}
-                            role="button"
-                            tabIndex={0}
-                            aria-label={`Add ${getDisplayName(tool.name)} to prompt`}
-                            style={{ cursor: "pointer" }}>
-                            <img
-                              style={{ cursor: "pointer", width: "20px", height: "20px" }}
-                              alt="Add"
-                              title={tool.description}
-                              src="/icon-plus.svg"
-                              aria-hidden="true"
-                            />
-                            {getDisplayName(tool.name)}
-                          </div>
-                        ))}
-                      </div>
-                    </>
-                  )}
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                  e.preventDefault();
+                                  setSelectedAITool(tool);
+                                  setShowAIToolsSettings(true);
+                                }
+                              }}
+                              role="button"
+                              tabIndex={0}
+                              aria-label={`Add ${getDisplayName(tool.name)} to prompt`}
+                              style={{ cursor: "pointer" }}>
+                              <img
+                                style={{ cursor: "pointer", width: "20px", height: "20px" }}
+                                alt="Add"
+                                title={tool.description}
+                                src="/icon-plus.svg"
+                                aria-hidden="true"
+                              />
+                              {getDisplayName(tool.name)}
+                            </div>
+                          ))}
+                        </div>
+                      </>
+                    )}
+                  </div>
                 </div>
 
                 <div className="headerandinput">
@@ -700,7 +714,7 @@ const AIPromptBox = ({
                 </div>
                 <button
                   type="button"
-                  style={{ minHeight: "48px" }}
+                  style={{ maxHeight: "42px" }}
                   className={`saveButton ${!checkCondition ? "fadeDiv" : ""}`}
                   onClick={handleCreateAIPrompt}
                   disabled={!checkCondition}

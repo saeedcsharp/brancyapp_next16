@@ -2,14 +2,19 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Soon from "brancy/components/notOk/soon";
 import { packageStatus } from "brancy/helper/loadingStatus";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { MethodType } from "brancy/helper/api";
 import styles from "./payment.module.css";
-
-// توجه: همه متون این صفحه به صورت ایستا و فارسی برای پرزنت سرمایه‌گذار هستند.
-// این صفحه نمونه‌ی نمایشی (Mock) است و به سرویس‌های واقعی متصل نشده است.
-
+import { IBankCard } from "brancy/models/interfaces";
+import Loading from "brancy/components/notOk/loading";
+import { notify, NotifType, ResponseType } from "brancy/components/notifications/notificationBox";
+import BankCard from "brancy/components/wallet/bankCard";
+import Modal from "brancy/components/design/modal";
+import SettlePopup from "brancy/components/wallet/settlePopup";
+import { useTranslation } from "react-i18next";
 const Payment = () => {
+  const { t } = useTranslation();
   const router = useRouter();
   const { data: session } = useSession({
     required: true,
@@ -30,6 +35,12 @@ const Payment = () => {
   const [unsettledCount, setUnsettledCount] = useState(12);
   const [unsettledValue, setUnsettledValue] = useState(145000000);
   const [gatewayAdded, setGatewayAdded] = useState(false);
+  const [cards, setCards] = useState<IBankCard[]>([]);
+  const [cardsLoading, setCardsLoading] = useState(true);
+  const [addCardLoading, setAddCardLoading] = useState(false);
+  const [showAdd, setShowAdd] = useState(false);
+  const [showSettlePopup, setShowSettlePopup] = useState<string | null>(null);
+  const [newCardNumber, setNewCardNumber] = useState("");
 
   useEffect(() => {
     if (!session) return;
@@ -37,6 +48,45 @@ const Payment = () => {
     if (!session || !packageStatus(session)) router.push("/upgrade");
   }, [session]);
 
+  useEffect(() => {
+    if (!session) return;
+    fetchCards();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session]);
+
+  const handleToggleAdd = () => setShowAdd((s) => !s);
+
+  const handleCardNumberChange = (value: string) => {
+    setNewCardNumber(value.replace(/\D/g, "").slice(0, 16));
+  };
+
+  const handleAddCard = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (newCardNumber.length !== 16 || addCardLoading) return;
+
+    setAddCardLoading(true);
+    try {
+      const response = await clientFetchApi<{ cardNumber: string }, boolean>("/api/wallet/addCardNumber", {
+        session,
+        methodType: MethodType.get,
+        queries: [{ key: "cardNumber", value: newCardNumber }],
+      });
+
+      if (!response.succeeded) {
+        notify(response.info.responseType, NotifType.Warning);
+        return;
+      }
+
+      notify(ResponseType.Ok, NotifType.Success);
+      setNewCardNumber("");
+      setShowAdd(false);
+      await fetchCards();
+    } catch {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    } finally {
+      setAddCardLoading(false);
+    }
+  };
   const formatMoney = (v: number) => v.toLocaleString("fa-IR");
 
   const handleAddGateway = (e: React.FormEvent) => {
@@ -46,20 +96,20 @@ const Payment = () => {
   const handleCardToCard = (e: React.FormEvent) => {
     e.preventDefault();
     if (!cardDestination || !cardAmount) return;
-    // شبیه‌سازی ثبت تراکنش کارت به کارت
     setUnsettledCount((c) => c + 1);
     setUnsettledValue((v) => v + Number(cardAmount));
     setCardAmount("");
     setCardDestination("");
   };
+
   const handleWithdraw = (e: React.FormEvent) => {
     e.preventDefault();
     if (!withdrawAmount) return;
-    // شبیه‌سازی کاهش مبلغ تسویه‌نشده پس از برداشت
     const num = Number(withdrawAmount);
     setUnsettledValue((v) => (v - num < 0 ? 0 : v - num));
     setWithdrawAmount("");
   };
+
   const handleSettle = () => {
     setSettleLoading(true);
     setTimeout(() => {
@@ -68,220 +118,130 @@ const Payment = () => {
       setSettleLoading(false);
     }, 1200);
   };
+
   const handleConvert = (e: React.FormEvent) => {
     e.preventDefault();
     if (!cryptoAmount) return;
-    // شبیه‌سازی تبدیل به رمزارز بدون منطق واقعی نرخ
     setCryptoAmount("");
   };
 
+  async function fetchCards() {
+    setCardsLoading(true);
+    try {
+      const res = await clientFetchApi<null, IBankCard[]>("/api/wallet/getInstagramerBankCards", { session });
+      if (res && res.succeeded) {
+        const v: any = res.value;
+        if (Array.isArray(v)) {
+          setCards(v);
+        } else if (v && Array.isArray(v.value)) {
+          setCards(v.value);
+        } else if (v && Array.isArray(v.cards)) {
+          setCards(v.cards);
+        } else if (v && typeof v === "object") {
+          // single object returned — wrap into array
+          setCards([v]);
+        } else {
+          setCards([]);
+        }
+      } else {
+        notify(res.info.responseType, NotifType.Warning);
+        setCards([]);
+      }
+    } catch (err) {
+      console.error("fetchCards error", err);
+      notify(ResponseType.Unexpected, NotifType.Error);
+      setCards([]);
+    } finally {
+      setCardsLoading(false);
+    }
+  }
+
+  if (!session || session!.user.currentIndex === -1) return null;
+
   return (
-    session &&
-    session!.user.currentIndex !== -1 && (
-      <>
-        <Head>
-          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
-          <title>برنسی ▸ عملیات پرداخت و کیف پول</title>
-          <meta
-            name="description"
-            content="صفحه نمایشی فرآیندهای مالی، درگاه پرداخت یار، کارت به کارت، برداشت، تسویه و تبدیل به رمزارز در پلتفرم برانسی"
-          />
-          <meta name="robots" content="noindex, nofollow" />
-        </Head>
-        {!session.user.isPartner && <Soon />}
-        {session.user.isPartner && (
-          <main className="pinContainer">
-            {/* Hero Section */}
-
-            {/* بخش افزودن درگاه پرداخت یار */}
-            <div className="tooBigCard " style={{ gridRowEnd: "span 47" }}>
-              <div className={styles.card}>
-                <div className={styles.cardHeader}>
-                  <div className={styles.iconWrapper}>
-                    <div className={styles.iconGradient}>💳</div>
-                  </div>
-                  <div>
-                    <h2 className={styles.cardTitle}>افزودن درگاه پرداخت یار</h2>
-                    <p className={styles.cardSubtitle}>اتصال مستقیم به API یاران</p>
-                  </div>
-                </div>
-                <form onSubmit={handleAddGateway} className={styles.form}>
-                  <label className={styles.label}>
-                    نام درگاه
-                    <input
-                      className={styles.input}
-                      value={gatewayName}
-                      onChange={(e) => setGatewayName(e.target.value)}
-                      placeholder="مثال: پرداخت یار برانسی"
-                    />
-                  </label>
-                  <button className={styles.button} type="submit">
-                    {gatewayAdded ? "✓ درگاه ثبت شد" : "ثبت درگاه"}
-                  </button>
-                  {gatewayAdded && <div className={styles.successNote}>✓ درگاه با موفقیت به کیف پول متصل شد.</div>}
-                  <div className={styles.hint}>پشتیبانی از API پرداخت یاران، تسویه دوره‌ای و کارمزد پویا.</div>
-                </form>
-              </div>
-            </div>
-
-            {/* کارت به کارت */}
-            <div className="tooBigCard " style={{ gridRowEnd: "span 47" }}>
-              <div className={styles.card}>
-                <div className={styles.cardHeader}>
-                  <div className={styles.iconWrapper}>
-                    <div className={styles.iconGradient}>🔄</div>
-                  </div>
-                  <div>
-                    <h2 className={styles.cardTitle}>کارت به کارت هوشمند</h2>
-                    <p className={styles.cardSubtitle}>انتقال سریع با رمزنگاری</p>
-                  </div>
-                </div>
-                <form onSubmit={handleCardToCard} className={styles.form}>
-                  <div className={styles.infoBox}>
-                    <span className={styles.infoLabel}>کارت مبدأ:</span>
-                    <span className={styles.infoValue}>{cardSource}</span>
-                  </div>
-                  <label className={styles.label}>
-                    کارت مقصد
-                    <input
-                      className={styles.input}
-                      value={cardDestination}
-                      onChange={(e) => setCardDestination(e.target.value)}
-                      placeholder="شماره ۱۶ رقمی"
-                    />
-                  </label>
-                  <label className={styles.label}>
-                    مبلغ (ریال)
-                    <input
-                      className={styles.input}
-                      value={cardAmount}
-                      onChange={(e) => setCardAmount(e.target.value)}
-                      placeholder="مثال: 2500000"
-                    />
-                  </label>
-                  <button className={styles.button} type="submit">
-                    انتقال فوری
-                  </button>
-                  <div className={styles.hint}>بر اساس قوانین رمزنگاری و کنترل تقلب داخلی.</div>
-                </form>
-              </div>
-            </div>
-
-            {/* برداشت وجه */}
-            <div className="bigcard">
-              <div className={styles.card}>
-                <div className={styles.cardHeader}>
-                  <div className={styles.iconWrapper}>
-                    <div className={styles.iconGradient}>💰</div>
-                  </div>
-                  <div>
-                    <h2 className={styles.cardTitle}>برداشت از حساب</h2>
-                    <p className={styles.cardSubtitle}>تسویه T+1 با امنیت بالا</p>
-                  </div>
-                </div>
-                <form onSubmit={handleWithdraw} className={styles.form}>
-                  <label className={styles.label}>
-                    مبلغ (ریال)
-                    <input
-                      className={styles.input}
-                      value={withdrawAmount}
-                      onChange={(e) => setWithdrawAmount(e.target.value)}
-                      placeholder="مثال: 1000000"
-                    />
-                  </label>
-                  <button className={styles.button} type="submit">
-                    درخواست برداشت
-                  </button>
-                  <div className={styles.hint}>تسویه به صورت T+1 با کنترل وضعیت حساب.</div>
-                </form>
-              </div>
-            </div>
-
-            {/* تبدیل به رمزارز */}
-            <div className="bigcard">
-              <div className={styles.card}>
-                <div className={styles.cardHeader}>
-                  <div className={styles.iconWrapper}>
-                    <div className={styles.iconGradient}>₿</div>
-                  </div>
-                  <div>
-                    <h2 className={styles.cardTitle}>تبدیل به رمزارز</h2>
-                    <p className={styles.cardSubtitle}>نرخ لحظه‌ای بازار</p>
-                  </div>
-                </div>
-                <form onSubmit={handleConvert} className={styles.form}>
-                  <label className={styles.label}>
-                    مبلغ (ریال)
-                    <input
-                      className={styles.input}
-                      value={cryptoAmount}
-                      onChange={(e) => setCryptoAmount(e.target.value)}
-                      placeholder="مثال: 5000000"
-                    />
-                  </label>
-                  <label className={styles.label}>
-                    نوع رمزارز
-                    <select
-                      className={styles.select}
-                      value={cryptoType}
-                      onChange={(e) => setCryptoType(e.target.value)}>
-                      <option value="USDT">USDT (تتر)</option>
-                      <option value="BTC">BTC (بیت‌کوین)</option>
-                      <option value="ETH">ETH (اتریوم)</option>
-                    </select>
-                  </label>
-                  <button className={styles.button} type="submit">
-                    تبدیل
-                  </button>
-                  <div className={styles.hint}>ماژول نرخ لحظه‌ای و مدیریت ریسک داخلی (نمونه نمایشی).</div>
-                </form>
-              </div>
-            </div>
-
-            {/* تسویه مبالغ - کارت عریض */}
-            <div className="tooBigCard " style={{ gridRowEnd: "span 47" }}>
-              <div className={styles.wideCard}>
-                <div className={styles.cardHeader}>
-                  <div className={styles.iconWrapper}>
-                    <div className={styles.iconGradient}>⚡</div>
-                  </div>
-                  <div>
-                    <h2 className={styles.cardTitle}>تسویه مبالغ نگه‌داری شده</h2>
-                    <p className={styles.cardSubtitle}>الگوریتم زمان‌بندی هوشمند و تجمیع تراکنش</p>
-                  </div>
-                </div>
-                <div className={styles.settleContent}>
-                  <div className={styles.metricsRow}>
-                    <div className={styles.metricBox}>
-                      <div className={styles.metricIcon}>📊</div>
-                      <div>
-                        <div className={styles.metricLabel}>تعداد تسویه‌نشده</div>
-                        <div className={styles.metricValue}>{unsettledCount}</div>
-                      </div>
-                    </div>
-                    <div className={styles.metricBox}>
-                      <div className={styles.metricIcon}>💵</div>
-                      <div>
-                        <div className={styles.metricLabel}>مبلغ تسویه‌نشده (ریال)</div>
-                        <div className={styles.metricValue}>{formatMoney(unsettledValue)}</div>
-                      </div>
-                    </div>
-                  </div>
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
+        <title>برنسی ▸ عملیات پرداخت و کیف پول</title>
+        <meta
+          name="description"
+          content="صفحه نمایشی فرآیندهای مالی، درگاه پرداخت یار، کارت به کارت، برداشت، تسویه و تبدیل به رمزارز در پلتفرم برانسی"
+        />
+        <meta name="robots" content="noindex, nofollow" />
+      </Head>
+      <main className={styles.paymentPage}>
+        <section className={styles.walletSection}>
+          <div className={styles.sectionHeading}>
+            <h2 className={styles.cardTitle}>{t("Cards and Bank Accounts")}</h2>
+          </div>
+          {showAdd && (
+            <div className={styles.addCardPanel}>
+              <form className={styles.addCardForm} onSubmit={handleAddCard}>
+                <label className={styles.label} htmlFor="wallet-card-number">
+                  {t("Card Number")}
+                  <input
+                    id="wallet-card-number"
+                    className={styles.input}
+                    type="text"
+                    inputMode="numeric"
+                    autoComplete="cc-number"
+                    value={newCardNumber.replace(/(.{4})/g, "$1 ").trim()}
+                    onChange={(event) => handleCardNumberChange(event.target.value)}
+                    aria-invalid={newCardNumber.length > 0 && newCardNumber.length !== 16}
+                    disabled={addCardLoading}
+                    autoFocus
+                  />
+                  <small className={styles.inputHint}> {t("Insert your card number")}.</small>
+                </label>
+                <div className={styles.formActions}>
                   <button
-                    className={styles.buttonPrimary}
-                    onClick={handleSettle}
-                    disabled={settleLoading || (!unsettledCount && !unsettledValue)}>
-                    {settleLoading ? "⏳ در حال پردازش..." : "⚡ تسویه فوری"}
+                    className={styles.cancelButton}
+                    type="button"
+                    onClick={() => setShowAdd(false)}
+                    disabled={addCardLoading}>
+                    {t("Cancel")}
+                  </button>
+                  <button
+                    className={styles.button}
+                    type="submit"
+                    disabled={newCardNumber.length !== 16 || addCardLoading}>
+                    {addCardLoading ? t("Registering...") : t("Register Bank Card")}
                   </button>
                 </div>
-              </div>
+              </form>
             </div>
-
-            {/* خلاصه کلیدی - کارت عریض */}
-          </main>
-        )}
-      </>
-    )
+          )}
+          {cardsLoading ? (
+            <Loading />
+          ) : (
+            <div className={styles.cardList}>
+              <button className={styles.addCardTile} type="button" onClick={handleToggleAdd} aria-expanded={showAdd}>
+                <span className={styles.addCardIcon} aria-hidden="true">
+                  +
+                </span>
+                <span>{t("Add Bank Card")}</span>
+                <small>{t("Register a new card")}</small>
+              </button>
+              {cards.map((c, idx) => (
+                <BankCard
+                  key={`${c.cardNumber}-${idx}`}
+                  card={c}
+                  onSettle={() => {
+                    setShowSettlePopup(c.cardNumber);
+                  }}
+                />
+              ))}
+            </div>
+          )}
+        </section>
+      </main>
+      <Modal
+        closePopup={() => setShowSettlePopup(null)}
+        classNamePopup={"popupSendFile"}
+        showContent={showSettlePopup !== null}>
+        <SettlePopup cardNumber={showSettlePopup!} onClose={() => setShowSettlePopup(null)} />
+      </Modal>
+    </>
   );
 };
 

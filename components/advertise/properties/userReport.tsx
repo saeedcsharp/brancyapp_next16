@@ -60,7 +60,7 @@ function UserReport() {
               <div className="headerandinput">
                 <div className="headertext">{t(LanguageKey.SettingGeneral_Description)}</div>
                 <TextArea
-                  className={"message"}
+                  className="TextArea"
                   placeHolder={""}
                   handleInputChange={handleTextAreaChange}
                   value={textArea}

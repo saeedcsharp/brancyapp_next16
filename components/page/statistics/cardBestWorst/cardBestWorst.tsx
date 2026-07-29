@@ -7,11 +7,10 @@ import { GetTimeZoneOffset } from "brancy/helper/formatTimeAgo";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { IBestTime } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/cardBestWorst";
-import { HourCountUnix } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import styles from "./cardBestWorst.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { PartnerRole } from "brancy/models/enums";
+import { HourCountUnix, IBestTime } from "brancy/models/interfaces";
 const formatTime = (hourValue: number): string => {
   let hour = Math.floor(hourValue);
   let minutes = Math.floor((hourValue - hour) * 60).toString();

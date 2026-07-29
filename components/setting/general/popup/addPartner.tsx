@@ -2,23 +2,21 @@ import Head from "next/head";
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import PhoneInput from "react-phone-input-2";
+import PhoneInput from "brancy/components/design/phoneInput";
+import type { PhoneValue } from "brancy/components/design/phoneInput";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
 import InputText from "brancy/components/design/inputText";
 import RadioButton from "brancy/components/design/radioButton";
 import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
-import { getCountryCodeFromTimezone } from "brancy/helper/detectLocaleFromTimezone";
+
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import {
-  ICreatePartner,
-  IPartner,
-  IUpdatePartner,
-  PartnerRole,
-} from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import styles from "./addPartner.module.css";
+import { PartnerRole } from "brancy/models/enums";
+import { IPartner, ICreatePartner, IUpdatePartner } from "brancy/models/interfaces";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
 const AddPartner = React.memo(
   ({
     partner,
@@ -100,16 +98,11 @@ const AddPartner = React.memo(
         setShowSetDateAndTime(false);
       }
     }
-    const handlePhoneChange = (value: string, country: { dialCode: string; countryCode: string }) => {
-      // Normalize Persian (۰-۹) and Arabic-Indic (٠-٩) digits to English (0-9)
-      const normalizedValue = value
-        .replace(/[٠-٩]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x0660 + 48))
-        .replace(/[۰-۹]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x06f0 + 48));
-
+    const handlePhoneChange = (value: PhoneValue) => {
       setCreatePartner((prev) => ({
         ...prev,
-        countryCode: country.countryCode,
-        phoneNumber: normalizedValue,
+        countryCode: value.countryCode,
+        phoneNumber: value.e164,
       }));
     };
 
@@ -120,11 +113,7 @@ const AddPartner = React.memo(
       console.log("Partner name input changed to:", newValue);
       setCreatePartner((prev) => ({ ...prev, name: newValue }));
     }
-    useEffect(() => {
-      // Use centralized timezone detection
-      const detectedCountry = getCountryCodeFromTimezone();
-      setDefaultCountry(detectedCountry);
-    }, []);
+
     return (
       <>
         <Head>
@@ -185,46 +174,17 @@ const AddPartner = React.memo(
                     {partner?.userId === 0 && (
                       <div className="headerandinput">
                         <div className="headertext">{t(LanguageKey.phonenumber)}</div>
-                        <div className={styles.inputsection}>
-                          <PhoneInput
-                            key={preferredCountries ? preferredCountries.join(",") : "default"}
-                            inputClass={styles.inputtelsection}
-                            dropdownClass={styles.dropdown}
-                            buttonClass={styles.country}
-                            inputProps={{
-                              name: "phone",
-                              required: true,
-                              autoFocus: true,
-                              onInput: (event: React.FormEvent<HTMLInputElement>) => {
-                                const input = event.currentTarget;
-                                const start = input.selectionStart;
-                                const end = input.selectionEnd;
-                                // Normalize Persian (۰-۹) and Arabic-Indic (٠-٩) digits to English (0-9)
-                                const normalized = input.value
-                                  .replace(/[٠-٩]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x0660 + 48))
-                                  .replace(/[۰-۹]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x06f0 + 48));
-                                if (input.value !== normalized) {
-                                  input.value = normalized;
-                                  input.setSelectionRange(start, end);
-                                }
-                              },
-                            }}
-                            country={defaultCountry}
-                            placeholder="Enter phone number"
-                            preferredCountries={preferredCountries || []}
-                            autoFormat={true}
-                            enableSearch={true}
-                            searchNotFound="Country not found"
-                            searchPlaceholder="🔍 Search"
-                            onChange={handlePhoneChange}
-                            isValid={(value: string) => {
-                              const normalizedValue = value
-                                .replace(/[٠-٩]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x0660))
-                                .replace(/[۰-۹]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x06f0));
-                              return /^\d+$/.test(normalizedValue);
-                            }}
-                          />
-                        </div>
+
+                        <PhoneInput
+                          numberInputName="phone"
+                          defaultCountry={defaultCountry}
+                          preferredCountries={preferredCountries || []}
+                          enableFormatting={true}
+                          enableSearch={true}
+                          onChange={handlePhoneChange}
+                          validate={(value: PhoneValue) => value.nationalNumber.length > 0 && value.isValid}
+                          autoFocus
+                        />
                       </div>
                     )}
                     <div className="explain">{t(LanguageKey.SettingGeneral_partnernumberexplain)}</div>
@@ -293,7 +253,15 @@ const AddPartner = React.memo(
                 <>
                   <div className="headerandinput">
                     <div className="frameParent">
-                      <div className="title">{t(LanguageKey.content)}</div>
+                      <div className="title">
+                        {t(LanguageKey.content)}{" "}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="Posts - Stories - Reels - IGTV - Carousels - Scheduling and ..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.Publish)}
@@ -302,12 +270,19 @@ const AddPartner = React.memo(
                         role={"switch"}
                       />
                     </div>
-                    <div className="explain">Posts - Stories - Reels - IGTV - Carousels - Scheduling and ...</div>
                   </div>
 
                   <div className="headerandinput">
                     <div className="frameParent">
-                      <div className="title">{t(LanguageKey.navbar_Statistics)}</div>
+                      <div className="title">
+                        {t(LanguageKey.navbar_Statistics)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="Page Views - Tools and ..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.PageView)}
@@ -316,12 +291,19 @@ const AddPartner = React.memo(
                         role={"switch"}
                       />
                     </div>
-                    <div className="explain">Page Views - Tools and ...</div>
                   </div>
 
                   <div className="headerandinput">
                     <div className="frameParent">
-                      <div className="title">{t(LanguageKey.navbar_Direct)}</div>
+                      <div className="title">
+                        {t(LanguageKey.navbar_Direct)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="Instagram Directs - Internal message - Tools and ..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.Message)}
@@ -330,12 +312,19 @@ const AddPartner = React.memo(
                         role={"switch"}
                       />
                     </div>
-                    <div className="explain">Instagram Directs - Internal message - Tools and ...</div>
                   </div>
 
                   <div className="headerandinput">
                     <div className="frameParent">
-                      <div className="title">{t(LanguageKey.comment)}</div>
+                      <div className="title">
+                        {t(LanguageKey.comment)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="Comments and Replies - Tools and ..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.Comment)}
@@ -344,12 +333,19 @@ const AddPartner = React.memo(
                         role={"switch"}
                       />
                     </div>
-                    <div className="explain">Comments and Replies - Tools and ...</div>
                   </div>
 
                   <div className="headerandinput">
                     <div className="frameParent">
-                      <div className="title">{t(LanguageKey.navbar_Payment)}</div>
+                      <div className="title">
+                        {t(LanguageKey.navbar_Payment)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="Payment Account Managing - Transactions Wallet - Tools and ..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.Transaction)}
@@ -358,12 +354,19 @@ const AddPartner = React.memo(
                         role={"switch"}
                       />
                     </div>
-                    <div className="explain">Payment Account Managing - Transactions Wallet - Tools and ...</div>
                   </div>
 
                   <div className="headerandinput">
                     <div className="frameParent">
-                      <div className="title">{t(LanguageKey.SettingGeneral_Advertise)}</div>
+                      <div className="title">
+                        {t(LanguageKey.SettingGeneral_Advertise)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="  Calendar managing - Advertisers Managing Reject and Accept Ads - Pricing -Tools and ..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.Ads)}
@@ -372,14 +375,19 @@ const AddPartner = React.memo(
                         role={"switch"}
                       />
                     </div>
-                    <div className="explain">
-                      Calendar managing - Advertisers Managing Reject and Accept Ads - Pricing -Tools and ...
-                    </div>
                   </div>
 
                   <div className="headerandinput">
                     <div className="frameParent">
-                      <div className="title">{t(LanguageKey.navbar_Orders)}</div>
+                      <div className="title">
+                        {t(LanguageKey.navbar_Orders)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="  List of products - Product Price - warehouse stock - Orders and WayBill - Tools and ..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.Orders)}
@@ -388,14 +396,19 @@ const AddPartner = React.memo(
                         role={"switch"}
                       />
                     </div>
-                    <div className="explain">
-                      List of products - Product Price - warehouse stock - Orders and WayBill - Tools and ...
-                    </div>
                   </div>
 
                   <div className="headerandinput">
                     <div className="frameParent">
-                      <div className="title">{t(LanguageKey.SettingGeneral_Marketlink)}</div>
+                      <div className="title">
+                        {t(LanguageKey.SettingGeneral_Marketlink)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="  Content and arrangement - Links and Third Party Content Shotcuts and ..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.Bio)}
@@ -404,14 +417,19 @@ const AddPartner = React.memo(
                         role={"switch"}
                       />
                     </div>
-                    <div className="explain">
-                      Content and arrangement - Links and Third Party Content Shotcuts and ...
-                    </div>
                   </div>
 
                   <div className="headerandinput">
                     <div className="frameParent">
-                      <div className="title">{t(LanguageKey.navbar_Ticket)}</div>
+                      <div className="title">
+                        {t(LanguageKey.navbar_Ticket)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="CRM - System Ticket - Support and ..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.SystemTicket)}
@@ -420,7 +438,6 @@ const AddPartner = React.memo(
                         role={"switch"}
                       />
                     </div>
-                    <div className="explain">CRM - System Ticket - Support and ...</div>
                   </div>
                 </>
               )}

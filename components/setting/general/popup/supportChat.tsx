@@ -6,11 +6,11 @@ import RingLoader from "brancy/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
-import { ICreateLiveChat, ICreatePrompt, ILiveChat } from "brancy/models/AI/prompt";
 import { MethodType } from "brancy/helper/api";
-import { ItemType } from "brancy/models/messages/enum";
 import styles from "./supportChat.module.scss";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { ItemType } from "brancy/models/enums";
+import { ICreatePrompt, ILiveChat, ICreateLiveChat, ILiveChatClient } from "brancy/models/interfaces";
 export default function SupportChat({
   promptInfo,
   setShowLiveChatPopup,
@@ -21,7 +21,7 @@ export default function SupportChat({
   const { data: session } = useSession();
   const [username, setUsername] = useState("");
   const [firstMessage, setFirstMessage] = useState("");
-  const [messages, setMessages] = useState<ILiveChat[]>([]);
+  const [messages, setMessages] = useState<ILiveChatClient[]>([]);
   const [loadingChat, setLoadingChat] = useState(false);
   const [loadingResumeChat, setLoadingResumeChat] = useState(false);
   const checkStartLiveChat = useCallback(() => {
@@ -62,7 +62,18 @@ export default function SupportChat({
         onUploadProgress: undefined,
       });
       if (res.succeeded) {
-        setMessages((prev) => [...prev, res.value]);
+        setMessages((prev) => [
+          ...prev,
+          {
+            imageUrl: null,
+            isStopped: res.value.isStopped,
+            itemType: res.value.items[0].itemType,
+            quickReplies: [],
+            text: res.value.items[0].text,
+            type: "",
+            voiceUrl: null,
+          },
+        ]);
       } else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -86,7 +97,19 @@ export default function SupportChat({
         queries: [{ key: "isStart", value: "false" }],
         onUploadProgress: undefined,
       });
-      if (res.succeeded) setMessages((prev) => [...prev, res.value]);
+      if (res.succeeded)
+        setMessages((prev) => [
+          ...prev,
+          {
+            imageUrl: null,
+            isStopped: res.value.isStopped,
+            itemType: res.value.items[0].itemType,
+            quickReplies: [],
+            text: res.value.items[0].text,
+            type: "",
+            voiceUrl: null,
+          },
+        ]);
       else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
@@ -102,7 +125,7 @@ export default function SupportChat({
     }
   };
   const addMessage = (type: "user" | "object", content: string, itemType: ItemType) => {
-    const newMessage: ILiveChat = {
+    const newMessage: ILiveChatClient = {
       type,
       imageUrl: "",
       isStopped: false,

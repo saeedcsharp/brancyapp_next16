@@ -16,11 +16,16 @@ import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { PushNotif, PushResponseType } from "brancy/models/push/pushNotif";
-import { LogisticType, OrderStep } from "brancy/models/store/enum";
-import { IOrderByStatus, IOrderByStatusItem, IOrderDetail, IOrderPushNotifExtended } from "brancy/models/store/orders";
 import styles from "./inprogress.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import {
+  IOrderByStatus,
+  IOrderByStatusItem,
+  IOrderDetail,
+  IOrderPushNotifExtended,
+  PushNotif,
+} from "brancy/models/interfaces";
+import { LogisticType, OrderStep, PushResponseType } from "brancy/models/enums";
 const basePictureUrl = getClientMediaBaseUrl();
 const MemoizedCheckBoxButton = React.memo(CheckBoxButton);
 interface SelectionState {
@@ -69,7 +74,7 @@ function selectionReducer(state: SelectionState, action: SelectionAction): Selec
     case "SELECT_ALL":
       return {
         ...state,
-        selectedOrders: new Set(action.payload?.orders?.items.map((o: IOrderByStatusItem) => o.id) || []),
+        selectedOrders: new Set(action.payload?.orders?.items.map((o: IOrderByStatusItem) => o.order.id) || []),
         selectedMenu: true,
         selectAll: true,
       };
@@ -180,7 +185,7 @@ const InProgress = () => {
     });
   };
 
-  const handleRowClick = (orderId: string, instagramerId: number) => {
+  const handleRowClick = (orderId: string, instagramerId?: number) => {
     // if (!state.clickedOrders.has(orderId)) {
     //   dispatch({ type: "ROW_CLICK", payload: { id: orderId } });
     // }
@@ -199,7 +204,7 @@ const InProgress = () => {
     if (orderIds.size === 0) return;
     const results = await Promise.all(
       Array.from(orderIds).map((orderId) =>
-        clientFetchApi<boolean, boolean>("/api/order/RejectOrder", {
+        clientFetchApi<boolean, boolean>("/api/userorder/rejectOrder", {
           methodType: MethodType.get,
           session: session,
           data: null,
@@ -221,7 +226,7 @@ const InProgress = () => {
     if (successfulOrderIds.size > 0) {
       setOrders((prevOrders) => {
         // Find orders that were successfully accepted
-        const ordersToMove = prevOrders.items.filter((order) => !successfulOrderIds.has(order.id));
+        const ordersToMove = prevOrders.items.filter((order) => !successfulOrderIds.has(order.order.id));
 
         return { items: ordersToMove, nextMaxId: prevOrders.nextMaxId };
       });
@@ -234,7 +239,7 @@ const InProgress = () => {
     if (orders.nextMaxId === null) return;
     setLoadingMore(true);
     try {
-      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", {
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/userorder/GetOrdersByStatuses", {
         methodType: MethodType.post,
         session: session,
         data: [OrderStep.Paid, OrderStep.InstagramerAccepted],
@@ -256,7 +261,7 @@ const InProgress = () => {
   }
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", {
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/userorder/GetOrdersByStatuses", {
         methodType: MethodType.post,
         session: session,
         data: [OrderStep.Paid, OrderStep.InstagramerAccepted],
@@ -288,37 +293,53 @@ const InProgress = () => {
       order.NewStatus === OrderStep.ShippingFailed
     ) {
       setOrders((prevOrders) => {
-        const updatedItems = prevOrders.items.filter((item) => item.id !== order.ShortOrder.Id);
+        const updatedItems = prevOrders.items.filter((item) => item.order.id !== order.Order?.Id);
         return { ...prevOrders, items: updatedItems };
       });
       return;
     } else if (order.NewStatus === OrderStep.Paid || order.NewStatus === OrderStep.InstagramerAccepted) {
       const orderStatus: IOrderByStatusItem = {
-        systemTicketId: order.ShortOrder.SystemTicketId,
-        trackingId: order.ShortOrder.TrackingId,
-        city: order.ShortOrder.City,
-        createdTime: order.ShortOrder.CreatedTime,
-        deliveryType: order.ShortOrder.DeliveryType,
-        id: order.ShortOrder.Id,
-        instagramerId: order.ShortOrder.InstagramerId,
-        invoiceId: order.ShortOrder.InvoiceId,
-        itemCount: order.ShortOrder.ItemCount,
-        logesticId: order.ShortOrder.LogesticId,
-        priceType: order.ShortOrder.PriceType,
-        state: order.ShortOrder.State,
-        userId: order.ShortOrder.UserId,
-        shortShop: {
-          instagramerId: order.ShortOrder.ShortShop!.InstagramerId,
-          priceType: order.ShortOrder.ShortShop!.PriceType,
-          productCount: order.ShortOrder.ShortShop!.ProductCount,
-          isSuspend: true,
+        businessProfile: {
+          instagramerId: order.BusinessProfile?.InstagramerId,
+          priceType: order.BusinessProfile?.PriceType,
+          banners: order.BusinessProfile?.Banners,
+          isSuspend: order.BusinessProfile?.IsSuspend,
+          bannerUrl: order.BusinessProfile?.BannerUrl,
+          businessType: order.BusinessProfile?.BusinessType,
+          countryId: order.BusinessProfile?.CountryId,
+          fbId: order.BusinessProfile?.FbId,
+          fullName: order.BusinessProfile?.FullName,
+          followerCount: order.BusinessProfile?.FollowerCount,
+          profileUrl: order.BusinessProfile?.ProfileUrl,
+          username: order.BusinessProfile?.Username,
+          fullAdvertise: order.BusinessProfile?.FullAdvertise,
+          fullShop: order.BusinessProfile?.FullShop,
+          fullVShop: order.BusinessProfile?.FullVShop,
         },
-        status: order.NewStatus,
-        statusUpdateTime: order.ShortOrder.StatusUpdateTime,
-        totalPrice: order.ShortOrder.TotalPrice,
-        userInfo: null,
+        order: {
+          id: order.Order.Id,
+          trackingId: order.Order.TrackingId,
+          itemCount: order.Order.ItemCount,
+          totalPrice: order.Order.TotalPrice,
+          priceType: order.Order.PriceType,
+          createdTime: order.Order.CreatedTime,
+          logesticId: order.Order.LogesticId,
+          city: order.Order.City,
+          deliveryType: order.Order.DeliveryType,
+          expireTime: order.Order.ExpireTime,
+          fbId: order.Order.FbId,
+          invoiceId: order.Order.InvoiceId,
+          shopAddressId: order.Order.ShopAddressId,
+          shortShop: order.Order.ShortShop,
+          source: order.Order.Source,
+          state: order.Order.State,
+          status: order.NewStatus,
+          statusUpdateTime: order.Order.StatusUpdateTime,
+          userId: order.Order.UserId,
+        },
+        userProfile: null,
       };
-      console.log("Order initialized in inprogress in user", order.ShortOrder);
+      console.log("Order initialized in inprogress in user", order.Order);
       setOrders((prevOrders) => ({
         ...prevOrders,
         items: [orderStatus, ...prevOrders.items],
@@ -340,10 +361,10 @@ const InProgress = () => {
       console.error("Error parsing notification:", error);
     }
   }
-  function handleClickOnTicket(order: IOrderByStatusItem): void {
-    if (order.systemTicketId) router.push(`/user/message?id=${order.systemTicketId}`);
-    else setTicketTitle(order.id);
-  }
+  // function handleClickOnTicket(order: IOrderByStatusItem): void {
+  //   if (order.order.systemTicketId) router.push(`/user/message?id=${order.systemTicketId}`);
+  //   else setTicketTitle(order.id);
+  // }
   useEffect(() => {
     if (!session) return;
     fetchData();
@@ -426,14 +447,16 @@ const InProgress = () => {
                 <tbody>
                   {orders.items.map((order, index) => (
                     <tr
-                      onClick={() => handleRowClick(order.id, order.shortShop!.instagramerId)}
+                      onClick={() => handleRowClick(order.order.id, order.businessProfile?.instagramerId)}
                       key={index}
                       className={styles.row}>
-                      <td style={{ minWidth: "50px" }} title={`order-${order.id}`}>{`${index + 1}`}</td>
+                      <td style={{ minWidth: "50px" }} title={`order-${order.order.id}`}>{`${index + 1}`}</td>
                       <td
                         style={{ minWidth: "90px" }}
-                        className={state.clickedOrders.has(order.id) ? styles.ordernumberviewed : styles.ordernumber}>
-                        {order.id}
+                        className={
+                          state.clickedOrders.has(order.order.id) ? styles.ordernumberviewed : styles.ordernumber
+                        }>
+                        {order.order.id}
                         {/* {clickedOrders.has(order.id) && <span> ✓</span>} */}
                       </td>
 
@@ -441,7 +464,7 @@ const InProgress = () => {
                         <img
                           loading="lazy"
                           decoding="async"
-                          src={order.shortShop ? basePictureUrl + (order.shortShop! as any).profileUrl : ""}
+                          src={order.businessProfile ? basePictureUrl + order.businessProfile!.profileUrl : ""}
                           alt="profile"
                           className="instagramimage"
                           onError={(e) => {
@@ -450,23 +473,23 @@ const InProgress = () => {
                         />
                         <div className="instagramprofiledetail">
                           <div className="instagramusername">
-                            {order.shortShop ? (order.shortShop! as any).fullName : ""}
+                            {order.businessProfile ? order.businessProfile!.fullName : ""}
                           </div>
                           <div className="instagramid translate">
-                            {order.shortShop ? "@" + (order.shortShop! as any).username : ""}
+                            {order.businessProfile ? "@" + order.businessProfile!.username : ""}
                           </div>
                         </div>
                       </td>
                       <td
                         style={{ minWidth: "150px" }}
                         className={`${styles.status} ${
-                          order.status === OrderStep.Paid
+                          order.order.status === OrderStep.Paid
                             ? styles.pickupRequest
-                            : order.status === OrderStep.InstagramerAccepted
+                            : order.order.status === OrderStep.InstagramerAccepted
                               ? styles.pickedup
                               : ""
                         }`}>
-                        {order.status === OrderStep.Paid && (
+                        {order.order.status === OrderStep.Paid && (
                           <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 25">
                             <path
                               d="m9 8.94 3-3.01m0 0 3 3m-3-3v8.02m-6 2a19 19 0 0 0 12 0M9 22h6c5 0 7-2 7-7V9c0-5-2-7-7-7H9C4 2 2 4 2 9v6c0 5 2 7 7 7"
@@ -477,7 +500,7 @@ const InProgress = () => {
                             />
                           </svg>
                         )}
-                        {order.status === OrderStep.InstagramerAccepted && (
+                        {order.order.status === OrderStep.InstagramerAccepted && (
                           <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 20">
                             <path
                               d="m6.78 4.7 6.48 3.75v2.28m-9.98-4 6.48 3.74 6.47-3.75M9.76 18v-7.54m6.76-2.7v5.46c0 .73-.39 1.4-1.01 1.76l-4.74 2.73c-.62.36-1.4.36-2.02 0L4 14.98a2 2 0 0 1-1-1.76V7.76c0-.73.39-1.4 1.01-1.76l4.74-2.73c.62-.36 1.4-.36 2.02 0L15.51 6a2 2 0 0 1 1.01 1.76"
@@ -489,33 +512,33 @@ const InProgress = () => {
                           </svg>
                         )}
                         <span>
-                          {order.status === OrderStep.Paid
+                          {order.order.status === OrderStep.Paid
                             ? t(LanguageKey.Storeorder_requestedpickup)
-                            : order.status === OrderStep.InstagramerAccepted
+                            : order.order.status === OrderStep.InstagramerAccepted
                               ? t(LanguageKey.Storeorder_Pickedup)
                               : ""}
                         </span>
                       </td>
                       <td style={{ minWidth: "50px" }} className={styles.items}>
-                        {order.itemCount}
+                        {order.order.itemCount}
                       </td>
 
                       <td style={{ minWidth: "100px" }} className={styles.fee}>
                         <PriceFormater
-                          fee={order.totalPrice}
-                          pricetype={order.priceType}
+                          fee={order.order.totalPrice}
+                          pricetype={order.order.priceType}
                           className={PriceFormaterClassName.PostPrice}
                         />
                       </td>
                       <td style={{ minWidth: "85px" }} className={styles.date}>
                         {new DateObject({
-                          date: order.createdTime * 1000,
+                          date: order.order.createdTime * 1000,
                           calendar: initialzedTime().calendar,
                           locale: initialzedTime().locale,
                         }).format("MM/DD/YYYY ")}
                         <br />
                         {new DateObject({
-                          date: order.createdTime * 1000,
+                          date: order.order.createdTime * 1000,
                           calendar: initialzedTime().calendar,
                           locale: initialzedTime().locale,
                         }).format(" hh:mm A")}
@@ -542,11 +565,11 @@ const InProgress = () => {
 
                       <td
                         style={{ minWidth: "75px" }}
-                        className={`${styles.delivery} ${styles[specifyLogistic(order.logesticId)]}`}>
-                        {specifyLogistic(order.logesticId)}
+                        className={`${styles.delivery} ${styles[specifyLogistic(order.order.logesticId)]}`}>
+                        {specifyLogistic(order.order.logesticId)}
                       </td>
                       <td style={{ minWidth: "110px" }} className={styles.destination}>
-                        {order.city ? order.city : "--"}
+                        {order.order.city ? order.order.city : "--"}
                       </td>
                     </tr>
                   ))}

@@ -1,4 +1,4 @@
-import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { getClientGraphBaseUrl, getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
 import { useSession } from "next-auth/react";
 import router from "next/router";
@@ -20,26 +20,26 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { handleDecompress } from "brancy/helper/pako";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType, UploadFile } from "brancy/helper/api";
-import { CategoryType, ItemType, MediaType } from "brancy/models/messages/enum";
-import {
-  IGetDirectInbox,
-  IGetDirectInboxItems,
-  IHookItem,
-  IHookReact,
-  IHookRead,
-  IInbox,
-  IIsSendingMessage,
-  IItem,
-  IThread,
-} from "brancy/models/messages/IMessage";
 import SendFile from "brancy/components/messages/popups/sendFile";
 import SendVideoFile from "brancy/components/messages/popups/sendVideoFile";
 import { MediaModal, useMediaModal } from "brancy/components/messages/shared/utils";
 import DirectChatBox from "brancy/components/messages/direct/directChatBox";
 import styles from "./directInbox.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { draftKey, getDraftPreview } from "brancy/helper/draftStorage";
+import { PartnerRole, ItemType, MediaType, MessageCategoryType } from "brancy/models/enums";
+import {
+  IInbox,
+  IIsSendingMessage,
+  IThread,
+  IGetDirectInbox,
+  IGetDirectInboxItems,
+  IHookItem,
+  IHookRead,
+  IHookReact,
+  IDirectMessageItem,
+} from "brancy/models/interfaces";
 let firstTime = 0;
 let touchMove = 0;
 let touchStart = 0;
@@ -76,7 +76,7 @@ const DirectInbox = () => {
   const [loading, setLoading] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.Message));
 
   const [searchbox, setSearchbox] = useState("");
-  const [toggleOrder, setToggleOrder] = useState<CategoryType>(CategoryType.General);
+  const [toggleOrder, setToggleOrder] = useState<MessageCategoryType>(MessageCategoryType.General);
   const [userSelectedId, setUserSelectedId] = useState<string | null>(null);
   const refUserSelectId = useRef(userSelectedId);
   useEffect(() => {
@@ -121,7 +121,7 @@ const DirectInbox = () => {
     noResult: false,
   });
   const [sendingMessages, setSendingMessages] = useState<IIsSendingMessage[]>([]);
-  const [tempThreadIds, setTempThreadIds] = useState<{ threadId: string; toggle: CategoryType }[]>([]);
+  const [tempThreadIds, setTempThreadIds] = useState<{ threadId: string; toggle: MessageCategoryType }[]>([]);
   const refTempThread = useRef(tempThreadIds);
 
   // استفاده از useInfiniteScroll برای General inbox
@@ -129,7 +129,7 @@ const DirectInbox = () => {
     hasMore: !!generalInbox?.nextMaxId && !showSearchThread.searchMode,
     fetchMore: async () => {
       if (generalInbox?.nextMaxId) {
-        await fetchData(CategoryType.General, generalInbox.nextMaxId, null);
+        await fetchData(MessageCategoryType.General, generalInbox.nextMaxId, null);
       }
       return [];
     },
@@ -141,7 +141,7 @@ const DirectInbox = () => {
     reverseScroll: false,
     fetchDelay: 300,
     enableAutoLoad: false,
-    enabled: toggleOrder === CategoryType.General,
+    enabled: toggleOrder === MessageCategoryType.General,
     containerRef: userListRef,
   });
 
@@ -150,7 +150,7 @@ const DirectInbox = () => {
     hasMore: !!businessInbox?.nextMaxId && !showSearchThread.searchMode,
     fetchMore: async () => {
       if (businessInbox?.nextMaxId) {
-        await fetchData(CategoryType.Business, businessInbox.nextMaxId, null);
+        await fetchData(MessageCategoryType.Business, businessInbox.nextMaxId, null);
       }
       return [];
     },
@@ -162,11 +162,11 @@ const DirectInbox = () => {
     reverseScroll: false,
     fetchDelay: 300,
     enableAutoLoad: false,
-    enabled: toggleOrder === CategoryType.Business,
+    enabled: toggleOrder === MessageCategoryType.Business,
     containerRef: userListRef,
   });
 
-  const isLoadingMore = toggleOrder === CategoryType.General ? isLoadingMoreGeneral : isLoadingMoreBusiness;
+  const isLoadingMore = toggleOrder === MessageCategoryType.General ? isLoadingMoreGeneral : isLoadingMoreBusiness;
 
   // تابع کمکی برای تشخیص direction متن و اعمال کلاس مناسب
   const getMessageDirectionClass = (text: string | null, baseClass: string) => {
@@ -199,15 +199,15 @@ const DirectInbox = () => {
       if (thread.threadId === userSelectedId) return;
       for (let item of thread.items) {
         if (item.repliedToItemId && !thread.items.find((x) => x.itemId === item.repliedToItemId)) {
-          handleGetRepliedItems(thread, item.repliedToItemId, CategoryType.General);
+          handleGetRepliedItems(thread, item.repliedToItemId, MessageCategoryType.General);
         }
       }
       setUserSelectedId(thread.threadId);
     }
   };
-  async function handleGetRepliedItems(thread: IThread, itemId: string, categoryType: CategoryType) {
+  async function handleGetRepliedItems(thread: IThread, itemId: string, categoryType: MessageCategoryType) {
     try {
-      let res = await clientFetchApi<boolean, IItem>("Instagramer" + "" + "/Message/GetDirectParentItem", {
+      let res = await clientFetchApi<boolean, IDirectMessageItem>("Instagramer" + "" + "/Message/GetDirectParentItem", {
         methodType: MethodType.get,
         session: session,
         data: null,
@@ -217,7 +217,7 @@ const DirectInbox = () => {
         ],
         onUploadProgress: undefined,
       });
-      if (res.succeeded && categoryType === CategoryType.General) {
+      if (res.succeeded && categoryType === MessageCategoryType.General) {
         setGeneralInbox((prev) => ({
           ...prev!,
           threads: prev!.threads.map((x) =>
@@ -231,7 +231,7 @@ const DirectInbox = () => {
                 },
           ),
         }));
-      } else if (res.succeeded && categoryType === CategoryType.Business) {
+      } else if (res.succeeded && categoryType === MessageCategoryType.Business) {
         setBusinessInbox((prev) => ({
           ...prev!,
           threads: prev!.threads.map((x) =>
@@ -245,7 +245,7 @@ const DirectInbox = () => {
                 },
           ),
         }));
-      } else if (res.info.responseType === ResponseType.InvalidItemId && categoryType === CategoryType.General) {
+      } else if (res.info.responseType === ResponseType.InvalidItemId && categoryType === MessageCategoryType.General) {
         setGeneralInbox((prev) => ({
           ...prev!,
           threads: prev!.threads.map((x) =>
@@ -259,7 +259,10 @@ const DirectInbox = () => {
                 },
           ),
         }));
-      } else if (res.info.responseType === ResponseType.InvalidItemId && categoryType === CategoryType.Business) {
+      } else if (
+        res.info.responseType === ResponseType.InvalidItemId &&
+        categoryType === MessageCategoryType.Business
+      ) {
         setBusinessInbox((prev) => ({
           ...prev!,
           threads: prev!.threads.map((x) =>
@@ -400,8 +403,8 @@ const DirectInbox = () => {
   const handleMoveDiv = async (
     threadId: string,
     recpId: string,
-    originCategoryType: CategoryType,
-    destCategoryType: CategoryType,
+    originCategoryType: MessageCategoryType,
+    destCategoryType: MessageCategoryType,
   ) => {
     try {
       let res = await clientFetchApi<boolean, boolean>("Instagramer" + "/Message/ChangeCategory", {
@@ -421,7 +424,7 @@ const DirectInbox = () => {
       if (res.succeeded) {
         setShowDivIndex(null);
         setShowMoreSettingDiv(false);
-        if (originCategoryType === CategoryType.General) {
+        if (originCategoryType === MessageCategoryType.General) {
           var moveThread = generalInbox?.threads.find((x) => x.threadId === threadId);
           if (moveThread) {
             moveThread.isPin = false;
@@ -430,7 +433,7 @@ const DirectInbox = () => {
               ...prev!,
               threads: prev!.threads.filter((x) => x.threadId !== moveThread!.threadId),
             }));
-            if (destCategoryType === CategoryType.Business)
+            if (destCategoryType === MessageCategoryType.Business)
               setBusinessInbox((prev) => ({
                 ...prev!,
                 threads: [moveThread!, ...prev!.threads].sort((a, b) => {
@@ -441,13 +444,13 @@ const DirectInbox = () => {
                   } else return 0;
                 }),
               }));
-            else if (destCategoryType === CategoryType.Hide)
+            else if (destCategoryType === MessageCategoryType.Hide)
               setHideInbox((prev) => ({
                 ...prev!,
                 threads: [...prev!.threads, moveThread!],
               }));
           }
-        } else if (originCategoryType === CategoryType.Business) {
+        } else if (originCategoryType === MessageCategoryType.Business) {
           var moveThread = businessInbox?.threads.find((x) => x.threadId === threadId);
           if (moveThread) {
             moveThread.isPin = false;
@@ -456,7 +459,7 @@ const DirectInbox = () => {
               ...prev!,
               threads: prev!.threads.filter((x) => x.threadId !== moveThread?.threadId),
             }));
-            if (destCategoryType === CategoryType.General)
+            if (destCategoryType === MessageCategoryType.General)
               setGeneralInbox((prev) => ({
                 ...prev!,
                 threads: [moveThread!, ...prev!.threads].sort((a, b) => {
@@ -467,13 +470,13 @@ const DirectInbox = () => {
                   } else return 0;
                 }),
               }));
-            else if (destCategoryType === CategoryType.Hide)
+            else if (destCategoryType === MessageCategoryType.Hide)
               setHideInbox((prev) => ({
                 ...prev!,
                 threads: [...prev!.threads, moveThread!],
               }));
           }
-        } else if (originCategoryType === CategoryType.Hide) {
+        } else if (originCategoryType === MessageCategoryType.Hide) {
           var moveThread = hideInbox?.threads.find((x) => x.threadId === threadId);
           if (moveThread) {
             moveThread.isPin = false;
@@ -523,13 +526,13 @@ const DirectInbox = () => {
       if (thread.threadId === userSelectedId) return;
       for (let item of thread.items) {
         if (item.repliedToItemId && !thread.items.find((x) => x.itemId === item.repliedToItemId)) {
-          handleGetRepliedItems(thread, item.repliedToItemId, CategoryType.Business);
+          handleGetRepliedItems(thread, item.repliedToItemId, MessageCategoryType.Business);
         }
       }
       setUserSelectedId(thread.threadId);
     }
   };
-  const handleToggleChange = (order: CategoryType) => {
+  const handleToggleChange = (order: MessageCategoryType) => {
     const container = userListRef.current;
     if (container) {
       container.scrollTop = 0;
@@ -594,8 +597,8 @@ const DirectInbox = () => {
       await ws.send("SendVideoMessage", sendVideo.igId, sendVideo.imageUrl);
   };
 
-  const fetchData = async (categoryType: CategoryType, oldestCursor: string | null, query: string | null) => {
-    if (categoryType === CategoryType.General) {
+  const fetchData = async (categoryType: MessageCategoryType, oldestCursor: string | null, query: string | null) => {
+    if (categoryType === MessageCategoryType.General) {
       var generalDirectInbox: IGetDirectInbox = {
         categoryId: 0,
         oldCursor: oldestCursor,
@@ -643,7 +646,7 @@ const DirectInbox = () => {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     }
-    if (categoryType === CategoryType.Business) {
+    if (categoryType === MessageCategoryType.Business) {
       var businessDirectInbox: IGetDirectInbox = {
         categoryId: 3,
         oldCursor: oldestCursor,
@@ -691,7 +694,7 @@ const DirectInbox = () => {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     }
-    if (categoryType === CategoryType.Hide) {
+    if (categoryType === MessageCategoryType.Hide) {
       var businessDirectInbox: IGetDirectInbox = {
         categoryId: 2,
         oldCursor: oldestCursor,
@@ -806,7 +809,7 @@ const DirectInbox = () => {
       if (threadIdRouter) {
         var oldGeneral = uniqueGeneralThreads.find((x) => x.threadId === threadIdRouter);
         if (oldGeneral) {
-          setToggleOrder(CategoryType.General);
+          setToggleOrder(MessageCategoryType.General);
           setUserSelectedId(oldGeneral.threadId);
         }
       }
@@ -936,7 +939,7 @@ const DirectInbox = () => {
       };
       let str = JSON.stringify(userSession);
       var s = new HubConnectionBuilder()
-        .withUrl("https://socket.brancy.app/Hubs/GraphClient?access_token=" + str)
+        .withUrl(`${getClientGraphBaseUrl()}/Hubs/GraphClient?access_token=` + str)
         .build();
       s.start().catch((error) => {
         console.log(error);
@@ -977,7 +980,7 @@ const DirectInbox = () => {
       setWs(s);
     }, 1000);
   };
-  const handleLastMessage = (item: IItem) => {
+  const handleLastMessage = (item: IDirectMessageItem) => {
     var response: string | null = "";
     switch (item.itemType) {
       case ItemType.PlaceHolder:
@@ -1167,10 +1170,10 @@ const DirectInbox = () => {
   const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
   async function handleAddMessageHook(item: IHookItem) {
     if (!item.DirectItem) return;
-    let respItem: IItem | null = null;
+    let respItem: IDirectMessageItem | null = null;
     if (item.DirectItem.RepliedToItemId) {
       try {
-        let res = await clientFetchApi<boolean, IItem>("/api/message/GetDirectParentItem", {
+        let res = await clientFetchApi<boolean, IDirectMessageItem>("/api/message/GetDirectParentItem", {
           methodType: MethodType.get,
           session: session,
           data: null,
@@ -1184,7 +1187,7 @@ const DirectInbox = () => {
         else if (res.info.responseType === ResponseType.InvalidItemId) item.DirectItem.RepliedToItemId = null;
       } catch (error) {}
     }
-    const newItem: IItem = {
+    const newItem: IDirectMessageItem = {
       repliedToItem: respItem,
       audio: item.DirectItem.Audio
         ? {
@@ -1207,7 +1210,25 @@ const DirectInbox = () => {
         title: x.Title,
         url: x.Url,
       })),
-      storyMention: item.DirectItem.StoryMention,
+      storyMention: {
+        height: item.DirectItem.StoryMention?.Height || 0,
+        isSticker: item.DirectItem.StoryMention?.IsSticker || false,
+        maxHeight: item.DirectItem.StoryMention?.MaxHeight || 0,
+        maxWidth: item.DirectItem.StoryMention?.MaxWidth || 0,
+        previewUrl: {
+          externalUrl: item.DirectItem.StoryMention?.PreviewUrl.ExternalUrl || "",
+          id: item.DirectItem.StoryMention?.PreviewUrl.Id || "",
+          title: item.DirectItem.StoryMention?.PreviewUrl.Title || "",
+          url: item.DirectItem.StoryMention?.PreviewUrl.Url || "",
+        },
+        url: {
+          externalUrl: item.DirectItem.StoryMention?.Url.ExternalUrl || "",
+          id: item.DirectItem.StoryMention?.Url.Id || "",
+          title: item.DirectItem.StoryMention?.Url.Title || "",
+          url: item.DirectItem.StoryMention?.Url.Url || "",
+        },
+        width: item.DirectItem.StoryMention?.Width || 0,
+      },
       ownerEmojiReaction: null,
       payloadId: item.DirectItem.PayloadId,
       recpEmojiReaction: null,
@@ -1375,7 +1396,7 @@ const DirectInbox = () => {
             setSearchbox("");
             setTempThreadIds((prev) => prev.filter((x) => x.threadId !== newThread.value.threadId));
           }
-          if (newThread.value.categoryId === CategoryType.General) {
+          if (newThread.value.categoryId === MessageCategoryType.General) {
             setGeneralInbox((prev) => {
               // Check if thread already exists to prevent duplicates
               const threadExists = prev!.threads.some((t) => t.threadId === newThread.value.threadId);
@@ -1395,7 +1416,7 @@ const DirectInbox = () => {
                 }),
               };
             });
-          } else if (newThread.value.categoryId === CategoryType.Business) {
+          } else if (newThread.value.categoryId === MessageCategoryType.Business) {
             setBusinessInbox((prev) => {
               // Check if thread already exists to prevent duplicates
               const threadExists = prev!.threads.some((t) => t.threadId === newThread.value.threadId);
@@ -1423,13 +1444,13 @@ const DirectInbox = () => {
     }
   }
   function handleSpecifyChatBox() {
-    if (toggleOrder === CategoryType.General && showSearchThread.searchMode) {
+    if (toggleOrder === MessageCategoryType.General && showSearchThread.searchMode) {
       return searchGeneralInbox?.threads.find((x) => x.threadId === userSelectedId);
-    } else if (toggleOrder === CategoryType.Business && showSearchThread.searchMode) {
+    } else if (toggleOrder === MessageCategoryType.Business && showSearchThread.searchMode) {
       return searchBusinessInbox?.threads.find((x) => x.threadId === userSelectedId);
-    } else if (toggleOrder === CategoryType.General && !showSearchThread.searchMode) {
+    } else if (toggleOrder === MessageCategoryType.General && !showSearchThread.searchMode) {
       return generalInbox?.threads.find((x) => x.threadId === userSelectedId);
-    } else if (toggleOrder === CategoryType.Business && !showSearchThread.searchMode) {
+    } else if (toggleOrder === MessageCategoryType.Business && !showSearchThread.searchMode) {
       return businessInbox?.threads.find((x) => x.threadId === userSelectedId);
     }
   }
@@ -1447,7 +1468,7 @@ const DirectInbox = () => {
           if (searchLocked) return;
           console.log("searchhhchhhhhhh");
           setSearchLocked(true);
-          fetchData(activeHideInbox ? CategoryType.Hide : toggleOrder, null, query);
+          fetchData(activeHideInbox ? MessageCategoryType.Hide : toggleOrder, null, query);
           setTimeout(() => {
             setSearchLocked(false);
           }, 2000);
@@ -1462,7 +1483,7 @@ const DirectInbox = () => {
       });
     }
   };
-  const handleSelectSearch = async (thread: IThread, toggle: CategoryType) => {
+  const handleSelectSearch = async (thread: IThread, toggle: MessageCategoryType) => {
     setUserSelectedId(thread.threadId);
     if (
       generalInbox?.threads.find((x) => x.threadId === thread.threadId) ||
@@ -1476,7 +1497,7 @@ const DirectInbox = () => {
     console.log("tempThreadIds", tempThreadIds);
     refTempThread.current = tempThreadIds;
   }, [tempThreadIds]);
-  function handleSpecifyUnread(items: IItem[], thread: IThread) {
+  function handleSpecifyUnread(items: IDirectMessageItem[], thread: IThread) {
     let unSeenDiv = <></>;
     const newItems = items
       .filter((item) => item.createdTime > thread.ownerLastSeenUnix && !item.sentByOwner)
@@ -1742,7 +1763,7 @@ const DirectInbox = () => {
                 </div>
               )}
               {/* ___users list___*/}
-              {toggleOrder === CategoryType.General &&
+              {toggleOrder === MessageCategoryType.General &&
                 !showSearchThread.searchMode &&
                 generalInbox &&
                 !activeHideInbox &&
@@ -1751,7 +1772,7 @@ const DirectInbox = () => {
                     <div className={styles.emptyStateText}>{t(LanguageKey.emptydirect)}</div>
                   </div>
                 )}
-              {toggleOrder === CategoryType.General &&
+              {toggleOrder === MessageCategoryType.General &&
                 !showSearchThread.searchMode &&
                 generalInbox &&
                 !activeHideInbox &&
@@ -1775,8 +1796,9 @@ const DirectInbox = () => {
                         className={
                           v.threadId === userSelectedId ? styles.selectedUserbackground : styles.userbackground
                         }>
-                        <div className={styles.user} style={!v.isActive ? { opacity: "0.3" } : {}}>
+                        <div className={styles.user}>
                           <img
+                            style={!v.isActive ? { opacity: "0.3", filter: "grayscale(100%)" } : {}}
                             decoding="async"
                             loading="lazy"
                             draggable={false}
@@ -1793,17 +1815,28 @@ const DirectInbox = () => {
                             <div className={styles.username} title={v.recp.name ? v.recp.name : ""}>
                               {v.recp.username}
                             </div>
-                            <div
-                              className={getMessageDirectionClass(
+                            {(() => {
+                              const draftPreview =
+                                (typeof window !== "undefined" && getDraftPreview(draftKey(v.threadId))) || null;
+                              const lastText =
                                 v.items.length > 0
                                   ? handleLastMessage(v.items.sort((a, b) => b.createdTime - a.createdTime)[0])
-                                  : "",
-                                styles.messagetext,
-                              )}>
-                              {v.items.length > 0
-                                ? handleLastMessage(v.items.sort((a, b) => b.createdTime - a.createdTime)[0])
-                                : ""}
-                            </div>
+                                  : "";
+                              return (
+                                <div
+                                  className={getMessageDirectionClass(lastText, styles.messagetext)}
+                                  title={draftPreview || lastText}>
+                                  {draftPreview ? (
+                                    <>
+                                      <span className="IDpurple">{t(LanguageKey.product_draft)}</span>
+                                      {draftPreview}
+                                    </>
+                                  ) : (
+                                    lastText
+                                  )}
+                                </div>
+                              );
+                            })()}
                           </div>
                           <div className={styles.notifbox} title="ℹ️ Slide to more">
                             <div className={styles.settingbox}>
@@ -1842,7 +1875,12 @@ const DirectInbox = () => {
                               <div
                                 title="ℹ️ Archive"
                                 onClick={() =>
-                                  handleMoveDiv(v.threadId, v.recp.igId, CategoryType.General, CategoryType.Hide)
+                                  handleMoveDiv(
+                                    v.threadId,
+                                    v.recp.igId,
+                                    MessageCategoryType.General,
+                                    MessageCategoryType.Hide,
+                                  )
                                 }
                                 className={styles[moreSettingClassName]}>
                                 <svg
@@ -1880,7 +1918,12 @@ const DirectInbox = () => {
                               <div
                                 title="ℹ️ move to"
                                 onClick={() =>
-                                  handleMoveDiv(v.threadId, v.recp.igId, CategoryType.General, CategoryType.Business)
+                                  handleMoveDiv(
+                                    v.threadId,
+                                    v.recp.igId,
+                                    MessageCategoryType.General,
+                                    MessageCategoryType.Business,
+                                  )
                                 }
                                 className={styles[moreSettingClassName]}>
                                 <svg
@@ -1904,7 +1947,7 @@ const DirectInbox = () => {
                     )}
                   </div>
                 ))}
-              {toggleOrder === CategoryType.Business &&
+              {toggleOrder === MessageCategoryType.Business &&
                 !activeHideInbox &&
                 !showSearchThread.searchMode &&
                 businessInbox &&
@@ -1914,7 +1957,7 @@ const DirectInbox = () => {
                     <div className={styles.emptyStateText}>{t(LanguageKey.emptydirect)}</div>
                   </div>
                 )}
-              {toggleOrder === CategoryType.Business &&
+              {toggleOrder === MessageCategoryType.Business &&
                 !activeHideInbox &&
                 !showSearchThread.searchMode &&
                 businessInbox &&
@@ -1937,8 +1980,9 @@ const DirectInbox = () => {
                         className={
                           v.threadId === userSelectedId ? styles.selectedUserbackground : styles.userbackground
                         }>
-                        <div className={styles.user} style={!v.isActive ? { opacity: "0.3" } : {}}>
+                        <div className={styles.user}>
                           <img
+                            style={!v.isActive ? { opacity: "0.3", filter: "grayscale(100%)" } : {}}
                             decoding="async"
                             loading="lazy"
                             draggable={false}
@@ -1996,7 +2040,12 @@ const DirectInbox = () => {
                               <div
                                 title="ℹ️ Archive"
                                 onClick={() =>
-                                  handleMoveDiv(v.threadId, v.recp.igId, CategoryType.Business, CategoryType.Hide)
+                                  handleMoveDiv(
+                                    v.threadId,
+                                    v.recp.igId,
+                                    MessageCategoryType.Business,
+                                    MessageCategoryType.Hide,
+                                  )
                                 }
                                 className={styles[moreSettingClassName]}>
                                 <svg
@@ -2033,7 +2082,12 @@ const DirectInbox = () => {
                               <div
                                 title="ℹ️ Move to"
                                 onClick={() =>
-                                  handleMoveDiv(v.threadId, v.recp.igId, CategoryType.Business, CategoryType.General)
+                                  handleMoveDiv(
+                                    v.threadId,
+                                    v.recp.igId,
+                                    MessageCategoryType.Business,
+                                    MessageCategoryType.General,
+                                  )
                                 }
                                 className={styles[moreSettingClassName]}>
                                 <svg
@@ -2057,7 +2111,7 @@ const DirectInbox = () => {
                     )}
                   </div>
                 ))}
-              {showSearchThread.searchMode && !activeHideInbox && toggleOrder === CategoryType.General && (
+              {showSearchThread.searchMode && !activeHideInbox && toggleOrder === MessageCategoryType.General && (
                 <>
                   {showSearchThread.loading && <RingLoader />}
                   {showSearchThread.noResult && (
@@ -2134,8 +2188,9 @@ const DirectInbox = () => {
                             className={
                               v.threadId === userSelectedId ? styles.selectedUserbackground : styles.userbackground
                             }>
-                            <div className={styles.user} style={!v.isActive ? { opacity: "0.3" } : {}}>
+                            <div className={styles.user}>
                               <img
+                                style={!v.isActive ? { opacity: "0.3", filter: "grayscale(100%)" } : {}}
                                 decoding="async"
                                 loading="lazy"
                                 draggable={false}
@@ -2176,7 +2231,7 @@ const DirectInbox = () => {
                     )}
                 </>
               )}
-              {showSearchThread.searchMode && !activeHideInbox && toggleOrder === CategoryType.Business && (
+              {showSearchThread.searchMode && !activeHideInbox && toggleOrder === MessageCategoryType.Business && (
                 <>
                   {showSearchThread.loading && <RingLoader />}
                   {showSearchThread.noResult && (
@@ -2253,8 +2308,9 @@ const DirectInbox = () => {
                             className={
                               v.threadId === userSelectedId ? styles.selectedUserbackground : styles.userbackground
                             }>
-                            <div className={styles.user} style={!v.isActive ? { opacity: "0.3" } : {}}>
+                            <div className={styles.user}>
                               <img
+                                style={!v.isActive ? { opacity: "0.3", filter: "grayscale(100%)" } : {}}
                                 decoding="async"
                                 loading="lazy"
                                 draggable={false}
@@ -2315,8 +2371,9 @@ const DirectInbox = () => {
                             className={
                               v.threadId === userSelectedId ? styles.selectedUserbackground : styles.userbackground
                             }>
-                            <div className={styles.user} style={!v.isActive ? { opacity: "0.3" } : {}}>
+                            <div className={styles.user}>
                               <img
+                                style={!v.isActive ? { opacity: "0.3", filter: "grayscale(100%)" } : {}}
                                 decoding="async"
                                 loading="lazy"
                                 draggable={false}
@@ -2354,7 +2411,12 @@ const DirectInbox = () => {
                                   <div
                                     title="ℹ️ Unarchive"
                                     onClick={() =>
-                                      handleMoveDiv(v.threadId, v.recp.igId, CategoryType.Hide, CategoryType.General)
+                                      handleMoveDiv(
+                                        v.threadId,
+                                        v.recp.igId,
+                                        MessageCategoryType.Hide,
+                                        MessageCategoryType.General,
+                                      )
                                     }
                                     className={styles[moreSettingClassName]}>
                                     <svg
@@ -2463,8 +2525,9 @@ const DirectInbox = () => {
                             className={
                               v.threadId === userSelectedId ? styles.selectedUserbackground : styles.userbackground
                             }>
-                            <div key={v.threadId} className={styles.user} style={!v.isActive ? { opacity: "0.3" } : {}}>
+                            <div key={v.threadId} className={styles.user}>
                               <img
+                                style={!v.isActive ? { opacity: "0.3", filter: "grayscale(100%)" } : {}}
                                 decoding="async"
                                 loading="lazy"
                                 draggable={false}
@@ -2502,7 +2565,12 @@ const DirectInbox = () => {
                                   <div
                                     title="ℹ️ Unarchive"
                                     onClick={() =>
-                                      handleMoveDiv(v.threadId, v.recp.igId, CategoryType.Hide, CategoryType.General)
+                                      handleMoveDiv(
+                                        v.threadId,
+                                        v.recp.igId,
+                                        MessageCategoryType.Hide,
+                                        MessageCategoryType.General,
+                                      )
                                     }
                                     className={styles[moreSettingClassName]}>
                                     <svg
@@ -2536,14 +2604,14 @@ const DirectInbox = () => {
           </div>
           {/* ___right ___*/}
           {userSelectedId &&
-            ((toggleOrder === CategoryType.General && generalInbox) ||
-              (toggleOrder === CategoryType.Business && businessInbox)) && (
+            ((toggleOrder === MessageCategoryType.General && generalInbox) ||
+              (toggleOrder === MessageCategoryType.Business && businessInbox)) && (
               <div className={styles.right} style={{ display: displayRight }}>
                 <DirectChatBox
                   userSelectId={userSelectedId}
                   chatBox={handleSpecifyChatBox()!}
                   ownerInbox={
-                    toggleOrder === CategoryType.General ? generalInbox!.ownerInbox : businessInbox!.ownerInbox
+                    toggleOrder === MessageCategoryType.General ? generalInbox!.ownerInbox : businessInbox!.ownerInbox
                   }
                   hub={ws}
                   showUserList={showUserList}

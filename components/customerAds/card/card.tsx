@@ -2,12 +2,13 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import styles from "brancy/components/customerAds/customerAds.module.css";
 import HeaderTitle from "brancy/components/headerTitle/headerTitle";
-import { BusinessDay } from "brancy/models/advertise/peoperties";
-import { IAdvertiseSummary, IFullAdvertiser, SelectedCardContent } from "brancy/models/customerAds/customerAd";
+
 import BusinessHour from "brancy/components/customerAds/card/business";
 import Reviews from "brancy/components/customerAds/card/reviews";
 import Terms from "brancy/components/customerAds/card/terms";
 import UserProfile from "brancy/components/customerAds/card/userProfile";
+import { IAdvertiseSummary, IFullAdvertiser } from "brancy/models/interfaces";
+import { SelectedCardContent, BusinessDay } from "brancy/models/enums";
 
 function card(props: {
   selectedAdsId: number[];

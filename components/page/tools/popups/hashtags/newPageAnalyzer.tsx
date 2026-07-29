@@ -13,10 +13,9 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IPageInfo } from "brancy/models/page/post/preposts";
-import { IPageAnalysisHashtags } from "brancy/models/page/tools/tools";
 import styles from "./newPageAnalyzer.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IPageInfo, IPageAnalysisHashtags } from "brancy/models/interfaces";
 
 const basePictureUrl = getClientMediaBaseUrl();
 interface IPageHashtagAnalysisInfo {

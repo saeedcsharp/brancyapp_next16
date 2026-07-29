@@ -27,7 +27,14 @@ export default function InstagramerGroupLayout({ children }: { children: React.R
 
   const handleShowSearchBar = (event: MouseEvent) => {
     event.stopPropagation();
-    setShowSearchBar((prev) => !prev);
+    setShowSearchBar((prev) => {
+      const next = !prev;
+      if (next) {
+        setShowNotifBar(false);
+        setShowProfile(false);
+      }
+      return next;
+    });
   };
 
   const handleShowNotifBar = (event: MouseEvent) => {
@@ -81,6 +88,7 @@ export default function InstagramerGroupLayout({ children }: { children: React.R
   };
 
   const handleOutsideClick = () => {
+    setShowSearchBar(false);
     setShowNotifBar(false);
     setShowProfile(false);
   };

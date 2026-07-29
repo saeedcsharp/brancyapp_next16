@@ -23,17 +23,19 @@ import {
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
 import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { InstagramerAccountInfo, PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   ILink,
+  InstagramerAccountInfo,
   IOrderFeatures,
   ISaveLink,
   IUpdateFeatureOrder,
   IUpdateLink,
   IUpdateOrderLink,
-} from "brancy/models/market/properties";
+} from "brancy/models/interfaces";
+import { PartnerRole } from "brancy/models/enums";
+import NotFeature from "brancy/components/notOk/notFeature";
 
 const Properties = () => {
   //  return <Soon />;
@@ -54,6 +56,7 @@ const Properties = () => {
   const [showEditLink, setSshowEditLink] = useState(false);
   const [linkInfos, setLinkInfos] = useState<ILink[] | null>(null);
   const [features, setFeatures] = useState<IOrderFeatures | null>(null);
+  const [showNotFeature, setShowNotFeature] = useState(false);
   const [instagramerInfo, setInstagramerInfo] = useState<InstagramerAccountInfo | null>(null);
   function handleShowFeatureBox(featureId: number) {
     changePositionToFixed();
@@ -91,6 +94,7 @@ const Properties = () => {
     setShowAddNewLink(false);
     setShowDeleteLink(false);
     setSshowEditLink(false);
+    setShowNotFeature(false);
   }
   async function handleAddNewLink(newLink: ISaveLink) {
     const instagramerId = session?.user.instagramerIds[session.user.currentIndex];
@@ -235,7 +239,7 @@ const Properties = () => {
         {RoleAccess(session, PartnerRole.Bio) && (
           <>
             <div onClick={() => setLinkId(1000)} className="pinContainer">
-              <DomainManager instagramerInfo={instagramerInfo} />
+              <DomainManager instagramerInfo={instagramerInfo} setShowNotFeature={setShowNotFeature} />
               <Features
                 showMask={handleShowFeatureBox}
                 features={features}
@@ -275,6 +279,9 @@ const Properties = () => {
                 handleUpdateLink={handleUpdateLink}
                 info={linkInfos?.find((x) => x.id === linkId)!}
               />
+            </Modal>
+            <Modal closePopup={handleRemoveMask} classNamePopup="popupSendFile" showContent={showNotFeature}>
+              <NotFeature onClose={() => setShowNotFeature(false)} />
             </Modal>
           </>
         )}

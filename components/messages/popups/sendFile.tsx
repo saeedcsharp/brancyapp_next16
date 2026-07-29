@@ -4,9 +4,10 @@ import Head from "next/head";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import { ItemType, MediaType } from "brancy/models/messages/enum";
-import { IIsSendingMessage } from "brancy/models/messages/IMessage";
 import styles from "./sendFile.module.css";
+import { ItemType, MediaType } from "brancy/models/enums";
+import { IIsSendingMessage } from "brancy/models/interfaces";
+import { getClientUploadBaseUrl } from "brancy/helper/apiBaseUrl";
 
 function _arrayBufferToBase64(buffer: ArrayBuffer) {
   var binary = "";
@@ -117,7 +118,7 @@ const SendFile = (props: {
         // upload with progress using XMLHttpRequest
         const id = await new Promise<any | null>((resolve) => {
           const xhr = new XMLHttpRequest();
-          const url = "https://uupload.brancy.app/file";
+          const url = `${getClientUploadBaseUrl()}`;
           const fd = new FormData();
           fd.append("file", compressedFile as File);
           xhr.open("POST", url, true);

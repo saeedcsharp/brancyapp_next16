@@ -1,4 +1,23 @@
-import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import ProgressBar from "brancy/components/design/progressBar/progressBar";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
+import { MethodType } from "brancy/helper/api";
+import { getClientMediaBaseUrl, redirectHostUrl } from "brancy/helper/apiBaseUrl";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { RoleAccess } from "brancy/helper/loadingStatus";
+import { convertMillisecondsToDays, convertToMilliseconds } from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import { PsgFeatureType } from "brancy/models/enums";
+import {
+  IBasePackagePrice,
+  IPsgFeatureInfo,
+  IReserveFeaturePrices,
+  PlanTier,
+  UserPackageInfo,
+} from "brancy/models/interfaces";
+import { generateMockFeaturesList, generateMockUserPackageInfo, getMockCurrentUserPlan } from "brancy/models/mockData";
 import { signOut, useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -12,32 +31,14 @@ import {
   useMemo,
   useReducer,
   useRef,
+  useState,
   useTransition,
 } from "react";
 import { useTranslation } from "react-i18next";
-
-import { RoleAccess } from "brancy/helper/loadingStatus";
-import { convertMillisecondsToDays, convertToMilliseconds } from "brancy/helper/manageTimer";
-import { LanguageKey } from "brancy/i18n";
-import { MethodType } from "brancy/helper/api";
-import {
-  generateMockFeaturesList,
-  generateMockUserPackageInfo,
-  getMockCurrentUserPlan,
-  PlanTier,
-  UserPackageInfo,
-} from "brancy/models/mockData";
-import { FeatureType, IBasePackagePrice, IFeatureInfo, IReserveFeaturePrices } from "brancy/models/psg/psg";
-
-import ProgressBar from "brancy/components/design/progressBar/progressBar";
-import Tooltip from "brancy/components/design/tooltip/tooltip";
-import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
-import Loading from "brancy/components/notOk/loading";
-import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
-
 import styles from "./upgrade.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import SwitchAccount from "brancy/components/switchAccount/switchAccount";
 const basePictureUrl = getClientMediaBaseUrl();
+const host = typeof window !== "undefined" ? window.location.host : "";
 type UpgradeState = {
   packageExtensions: IBasePackagePrice[];
   tokenPackages: IReserveFeaturePrices[];
@@ -154,7 +155,7 @@ const Upgrade = memo(function Upgrade() {
 
   const getUserPackageInfo = useCallback(async () => {
     try {
-      const res = await clientFetchApi<boolean, IFeatureInfo>("/api/psg/GetPackageFeatureDetails", {
+      const res = await clientFetchApi<boolean, IPsgFeatureInfo>("/api/psg/GetPackageFeatureDetails", {
         methodType: MethodType.get,
         session: session,
         data: undefined,
@@ -182,9 +183,9 @@ const Upgrade = memo(function Upgrade() {
         onUploadProgress: undefined,
       });
       if (res.succeeded) {
-        const aiPackages = res.value.filter((x) => x.featureId === FeatureType.AI);
-        const customPackage = res.value.filter((x) => x.featureId === FeatureType.CustomDomain);
-        const lotteryPackage = res.value.filter((x) => x.featureId === FeatureType.Lottery);
+        const aiPackages = res.value.filter((x) => x.featureId === PsgFeatureType.AI);
+        const customPackage = res.value.filter((x) => x.featureId === PsgFeatureType.CustomDomain);
+        const lotteryPackage = res.value.filter((x) => x.featureId === PsgFeatureType.Lottery);
         dispatch({ type: "SET_TOKEN_PACKAGES", payload: aiPackages });
         dispatch({ type: "SET_DOMAIN_PACKAGES", payload: customPackage });
         dispatch({
@@ -224,13 +225,17 @@ const Upgrade = memo(function Upgrade() {
           onUploadProgress: undefined,
         });
         if (res.succeeded) {
-          router.push(res.value);
-        } else notify(res.info.responseType, NotifType.Warning);
+          if (host.includes(redirectHostUrl())) {
+            router.push(res.value);
+          } else {
+            window.location.href = `https://${redirectHostUrl()}/redirectInterface?redirectUrl=${encodeURIComponent(res.value)}`;
+          }
+        }
       } catch (error) {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session, router],
+    [session, router, host],
   );
   const handlePackageExtension = useCallback(
     async (monthCount: number) => {
@@ -242,13 +247,18 @@ const Upgrade = memo(function Upgrade() {
           queries: [{ key: "monthCount", value: monthCount.toString() }],
           onUploadProgress: undefined,
         });
-        if (res.succeeded) router.push(res.value);
-        else notify(res.info.responseType, NotifType.Warning);
+        if (res.succeeded) {
+          if (host.includes(redirectHostUrl())) {
+            router.push(res.value);
+          } else {
+            window.location.href = `https://${redirectHostUrl()}/redirectInterface?redirectUrl=${encodeURIComponent(res.value)}`;
+          }
+        } else notify(res.info.responseType, NotifType.Warning);
       } catch (error) {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session, router],
+    [session, router, host],
   );
   const winnerPickerWarningLevel = useMemo(() => {
     if (!state.userPackageInfo) return "normal";
@@ -555,6 +565,7 @@ const Upgrade = memo(function Upgrade() {
       window.removeEventListener("resize", handleResize);
     };
   }, []);
+  const [showSwitchAccount, setShowSwitchAccount] = useState(false);
   return (
     <>
       <Head>
@@ -605,6 +616,27 @@ const Upgrade = memo(function Upgrade() {
               aria-describedby={`${componentId}-close-description`}>
               <img alt="" src="/close.svg" role="presentation" />
               <span id={`${componentId}-close-description`} className="sr-only"></span>
+            </button>
+            <button
+              className={styles.switchAccount}
+              onClick={() => setShowSwitchAccount(true)}
+              onKeyDown={(e) => setShowSwitchAccount(true)}
+              title={"switchaccount"}
+              aria-label={"switchaccount"}>
+              <svg
+                aria-hidden="true"
+                className={styles.icon}
+                fill="var(--color-gray)"
+                width="20"
+                height="20"
+                xmlns="http://www.w3.org/2000/svg"
+                viewBox="0 0 17 17">
+                <path d="M1.97 3.76a.7.7 0 0 1 0-.96.7.7 0 0 1 .96 0l.52.52v-1.8a.68.68 0 0 1 1.36 0v1.8l.52-.52a.7.7 0 0 1 .96 0 .7.7 0 0 1 0 .96L4.61 5.44a.7.7 0 0 1-.96 0zm11.05 7.92a.7.7 0 0 0-.96 0l-1.68 1.68a.7.7 0 0 0 0 .96.7.7 0 0 0 .96 0l.52-.52v1.8a.68.68 0 0 0 1.36 0v-1.8l.52.52a.7.7 0 0 0 .96 0 .7.7 0 0 0 0-.96z" />
+                <path
+                  opacity=".6"
+                  d="M16.2 8.52a2 2 0 0 1-.63 1.57c-.42.39-.99.6-1.57.58H8.94q-.67 0-1.24-.34l-.06.2q.38.15.68.4.4.34.62.8.22.43.33.9.1.41.15.82v.08q.04.4.04.82a2 2 0 0 1-.63 1.57c-.42.39-.99.6-1.57.57H2.2a2.2 2.2 0 0 1-1.57-.57A2 2 0 0 1 0 14.35q0-.43.03-.82a6 6 0 0 1 .49-1.8q.23-.45.62-.8.3-.25.68-.4A3.13 3.13 0 0 1 3.49 6.6a3.1 3.1 0 0 1 3.36.58 6 6 0 0 1 .4-1.26q.24-.45.62-.8.31-.25.68-.4a3.12 3.12 0 0 1 2.92-4.2 3.1 3.1 0 0 1 2.9 4.2q.38.15.68.4.4.35.62.8.23.43.33.9.1.4.15.82v.08q.05.39.05.8M13.28 3.6a1.8 1.8 0 0 0-3.06-1.3l-.03.02a1.8 1.8 0 0 0 .12 2.66l.06.05A2 2 0 0 0 12.6 5l.04-.03.1-.09a1.7 1.7 0 0 0 .54-1.28m1.6 4.21a5 5 0 0 0-.36-1.33 1 1 0 0 0-.31-.4 1 1 0 0 0-.4-.2h-.07a.4.4 0 0 0-.2.06l-.23.17A3.1 3.1 0 0 1 9.5 6l-.03-.02-.08-.05-.17-.05H9.1a1 1 0 0 0-.37.2q-.2.18-.32.4-.15.3-.22.64a5 5 0 0 0-.15 1.4.8.8 0 0 0 .22.63q.3.25.68.22H14q.4.03.68-.22a.8.8 0 0 0 .22-.63q0-.39-.03-.72M6.53 9.43a1.8 1.8 0 1 0-2.96 1.39l.05.04a2 2 0 0 0 2.23-.02l.04-.04.1-.09a1.7 1.7 0 0 0 .54-1.28m-3.79 2.4-.03-.02-.08-.05-.17-.05h-.1a1 1 0 0 0-.38.2q-.2.18-.32.4-.15.3-.22.63a5 5 0 0 0-.15 1.4.8.8 0 0 0 .22.63q.3.24.68.23h5.06q.4.01.68-.23a.8.8 0 0 0 .22-.63q0-.36-.03-.7a5 5 0 0 0-.35-1.33 1 1 0 0 0-.31-.4 1 1 0 0 0-.41-.2H7a.4.4 0 0 0-.2.06l-.22.17a3.1 3.1 0 0 1-3.83-.1z"
+                />
+              </svg>
             </button>
             <button
               className={styles.exitButton}
@@ -936,18 +968,12 @@ const Upgrade = memo(function Upgrade() {
                           <div className="title" id={`${componentId}-tokens-title`}>
                             <div className={getSectionIconClass(effectiveAiPercentage)} />
                             {t(LanguageKey.AIAssisment)}
-                            <Tooltip tooltipValue={t(LanguageKey.tokenExplain)} onClick={true} position="bottom">
-                              <img
-                                style={{
-                                  marginInline: "5px",
-                                  cursor: "pointer",
-                                  width: "15px",
-                                  height: "15px",
-                                }}
-                                alt="ℹ️ tooltip"
-                                src="/tooltip.svg"
-                              />
-                            </Tooltip>
+                            <Tooltip
+                              triggerType="tooltip"
+                              tooltipValue={t(LanguageKey.tokenExplain)}
+                              onClick={true}
+                              position="bottom"
+                            />
                           </div>
                           {getWarningMessage(effectiveAiPercentage, "ai") && (
                             <span className={getWarningStyle(effectiveAiPercentage)}>
@@ -981,15 +1007,12 @@ const Upgrade = memo(function Upgrade() {
                                 alignItems: "center",
                               }}>
                               <span className={styles.progressLabel}>{t(LanguageKey.Tokens)} </span>
-                              <Tooltip tooltipValue={t(LanguageKey.packageTokenExplain)} position="top" onClick={true}>
-                                <img
-                                  src="/tooltip.svg"
-                                  alt="Token information"
-                                  width="15"
-                                  height="15"
-                                  style={{ marginInline: "5px", cursor: "pointer" }}
-                                />
-                              </Tooltip>
+                              <Tooltip
+                                triggerType="tooltip"
+                                tooltipValue={t(LanguageKey.packageTokenExplain)}
+                                position="top"
+                                onClick={true}
+                              />
                             </div>
                             <div className={styles.progressContainer}>
                               <ProgressBar
@@ -1017,15 +1040,12 @@ const Upgrade = memo(function Upgrade() {
                           <div className={styles.progressbody}>
                             <div style={{ display: "flex", alignItems: "center" }}>
                               <span className={styles.progressLabel}>{t(LanguageKey.ReserveToken)} </span>
-                              <Tooltip tooltipValue={t(LanguageKey.ReserveTokenExplain)} position="top" onClick={true}>
-                                <img
-                                  src="/tooltip.svg"
-                                  alt="Reserve token information"
-                                  width="15"
-                                  height="15"
-                                  style={{ marginInline: "5px", cursor: "pointer" }}
-                                />
-                              </Tooltip>
+                              <Tooltip
+                                triggerType="tooltip"
+                                tooltipValue={t(LanguageKey.ReserveTokenExplain)}
+                                position="top"
+                                onClick={true}
+                              />
                             </div>
                             <div className={styles.progressContainer}>
                               <ProgressBar
@@ -1502,6 +1522,7 @@ const Upgrade = memo(function Upgrade() {
           )}
         </div>
       </div>
+      {showSwitchAccount && <SwitchAccount removeMask={() => setShowSwitchAccount(false)} />}
     </>
   );
 });

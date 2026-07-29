@@ -39,33 +39,40 @@ import { checkRemainingTimeFeature, getPackageFeatureDetails } from "brancy/help
 import { LoginStatus, RoleAccess, packageStatus } from "brancy/helper/loadingStatus";
 import { convertToMilliseconds, convertToSeconds } from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType, UploadFile } from "brancy/helper/api";
+
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import {
+  FeatureType,
+  FollowerLotteryType,
+  LotteryStatus,
+  LotteryType,
+  PartnerRole,
+  PsgFeatureType,
+  ShowScoreLotteryType,
+  TermsType,
+} from "brancy/models/enums";
 import {
   CreateHashtagListItem,
-  FollowerLotteryType,
   HashtagListItem,
   IAutoInterAction,
   ICreateFollowerLottery,
   ICreateTermsAndConditionInfo,
+  IFeatureInfo,
   IFollowerLottery,
   IFullLottery,
   IGetAnnouncementAndBannerInfo,
   IGetTermsAndConditionInfo,
   IHashtag,
   ILotteryInfo,
+  IPsgFeatureInfo,
   IShareremainingTime,
   IShortLottery,
   IShortPostInfo,
   IUnFollowAllFollowing_UpdateCondotion,
-  LotteryStatus,
-  LotteryType,
-  ShowScoreLotteryType,
-  TermsType,
-  lotterySpecificationType,
-} from "brancy/models/page/tools/tools";
-import { FeatureType, IFeatureInfo } from "brancy/models/psg/psg";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+} from "brancy/models/interfaces";
+import { lotterySpecificationType } from "brancy/models/enums";
+import NotFeature from "brancy/components/notOk/notFeature";
 
 function addHashPrefixOrSuffix(list: string[]) {
   const result = [];
@@ -136,6 +143,7 @@ const Tools = () => {
   const [showDayEvents, setShowDayEvents] = useState(false);
   const [showDayEventsFromCreateEvent, setShowDayEventsFromCreateEvent] = useState(false);
   const [showCreateEventIdea, setShowCreateEventIdea] = useState(false);
+  const [showNotFeature, setShowNotFeature] = useState(false);
   const eventIdeaRef = useRef<EventIdeaHandle>(null);
   const [showLotteryRunning, setShowLotteryRunning] = useState(false);
   const [showShareTermsAndCondition, setShowShareTermsAndCondition] = useState(false);
@@ -220,7 +228,7 @@ const Tools = () => {
     textColor: "",
     textOpacity: 0,
   });
-  const [lotteryType, setLotteryType] = useState<LotteryType>(LotteryType.score);
+  const [lotteryType, setLotteryType] = useState<LotteryType>(LotteryType.Score);
   // const [fullLottery, setFullLottery] = useState<IFullLottery>({
   //   addToStory: false,
   //   bannerColor: "",
@@ -399,6 +407,7 @@ const Tools = () => {
     setSelectedHashtagList(null);
     setPreSaveHashtagList([]);
     changePositionToRelative();
+    setShowNotFeature(false);
   };
   const handleSaveHashtagList = async (hashtags: string[], hashtagsTitle: string) => {
     let hashtagListItem: CreateHashtagListItem = {
@@ -687,7 +696,7 @@ const Tools = () => {
     if (date !== undefined) {
       let dateInt = parseInt(date);
       if (!featureInfo) return;
-      const checkRemainingTime = checkRemainingTimeFeature(FeatureType.Lottery, dateInt, featureInfo);
+      const checkRemainingTime = checkRemainingTimeFeature(PsgFeatureType.Lottery, dateInt, featureInfo);
       if (!checkRemainingTime) internalNotify(InternalResponseType.ExceedBasefeatureTime, NotifType.Warning);
       setlotteryInfo((prev) => ({ ...prev!, startTime: dateInt }));
       setUnixDate(dateInt);
@@ -708,25 +717,6 @@ const Tools = () => {
     setShowScoreLottery(ShowScoreLotteryType.None);
     setShowTermsAndConditionWinnerPicker(true);
   };
-  // const saveFollowerLottery = async (followersLottery: IFollowerLottery) => {
-  //   var createLottery = createFollowerLottery;
-  //   createLottery.followerLotteryType = followersLottery.followerLotteryType;
-  //   createLottery.winnerCount = followersLottery.winnerCount;
-  //   setFollowerLottery(followersLottery);
-  //   setCreateFollowerLottery(createLottery);
-  //   setLotteryType(LotteryType.followers);
-  //   setShowFollowersLottery(false);
-  //   if (winnerAnnouncementAndBannerInfo.banners.length == 0) {
-  //     console.log("hello from get banner");
-  //     let res = await GetServerResult<string, IGetAnnouncementAndBannerInfo>(
-  //       MethodType.get,
-  //       session,
-  //       "Instagramer" + "/lottery/GetLotteryBanners"
-  //     );
-  //     if (res.succeeded) setWinnerAnnouncementAndBannerInfo(res.value);
-  //   }
-  //   setshowWinnerAnnounceAndBanner(true);
-  // };
   const backToScoreWinnerPicker = () => {
     setShowTermsAndConditionWinnerPicker(false);
     setshowSetTimeAndDate(false);
@@ -735,8 +725,8 @@ const Tools = () => {
   };
   const backToTermsAndCondition = () => {
     setshowWinnerAnnounceAndBanner(false);
-    if (lotteryType === LotteryType.score) setShowTermsAndConditionWinnerPicker(true);
-    else if (lotteryType === LotteryType.followers) setShowFollowersLottery(true);
+    if (lotteryType === LotteryType.Score) setShowTermsAndConditionWinnerPicker(true);
+    else if (lotteryType === LotteryType.Filter) setShowFollowersLottery(true);
   };
   const handleViewAndDetails = async (lotteryId: string) => {
     setlotteryInfo((prev) => ({ ...prev, lotteryId: lotteryId }));
@@ -996,7 +986,7 @@ const Tools = () => {
     setShowRemoveUnFollowing(false);
     setShowUnfollowAllFollowing(true);
   }
-  const [featureInfo, setFeatureInfo] = useState<IFeatureInfo | null>(null);
+  const [featureInfo, setFeatureInfo] = useState<IPsgFeatureInfo | null>(null);
   useEffect(() => {
     if (session && LoginStatus(session) && RoleAccess(session, PartnerRole.PageView) && !isDataLoaded) {
       GetHashtagList();
@@ -1215,6 +1205,10 @@ const Tools = () => {
           <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showCreateEventIdea}>
             <CreateEventIdea
               removeMask={removeMask}
+              handleShowNotFeature={() => {
+                setShowCreateEventIdea(false);
+                setShowNotFeature(true);
+              }}
               handleShowDayEvents={() => {
                 setShowCreateEventIdea(false);
                 setShowDayEventsFromCreateEvent(true);
@@ -1229,6 +1223,9 @@ const Tools = () => {
                 }
               }}
             />
+          </Modal>
+          <Modal closePopup={removeMask} classNamePopup="popupSendFile" showContent={showNotFeature}>
+            <NotFeature onClose={() => setShowNotFeature(false)} />
           </Modal>
           <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showLotteryRunning}>
             <LotteryRunning

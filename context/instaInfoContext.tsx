@@ -2,23 +2,22 @@ import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { NotifType, notify, notPackageNotify, ResponseType } from "brancy/components/notifications/notificationBox";
-import { InstagramerAccountInfo, IRefreshToken } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType } from "brancy/helper/api";
-import { PushNotif } from "brancy/models/push/pushNotif";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { IUserInfo } from "brancy/models/userPanel/login";
+import { InstagramerAccountInfo, IOrderUserInfo, IRefreshToken, PushNotif } from "brancy/models/interfaces";
+
 type SharedStateContextType = {
   value: PushNotif[];
   setValue: React.Dispatch<React.SetStateAction<PushNotif[]>>;
-  userInfo: IUserInfo | null;
-  setUserInfo: React.Dispatch<React.SetStateAction<IUserInfo | null>>;
+  userInfo: IOrderUserInfo | null;
+  setUserInfo: React.Dispatch<React.SetStateAction<IOrderUserInfo | null>>;
 };
 export const InstaInfoContext = React.createContext<SharedStateContextType | undefined>(undefined);
 export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
   const { data: session, update } = useSession();
   const router = useRouter();
   const [value, setValue] = React.useState<PushNotif[]>([]);
-  const [userInfo, setUserInfo] = React.useState<IUserInfo | null>(null);
+  const [userInfo, setUserInfo] = React.useState<IOrderUserInfo | null>(null);
   const contextValue = useMemo(() => ({ value, setValue, userInfo, setUserInfo }), [value, userInfo]);
   const lastUpdateRef = useRef<number>(0);
   const isUpdatingRef = useRef<boolean>(false);
@@ -44,7 +43,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           const updatedSession = await update({
             ...session,
             user: {
-              ...session?.user,
+              //...session?.user,
               expireTime: res.value.expireTime,
               id: res.value.id,
               instagramerIds: res.value.role.instagramerIds,
@@ -74,7 +73,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
   const fetchTitleInfo = useCallback(async () => {
     if (isUpdatingRef.current) return;
     try {
-      const res = await clientFetchApi<boolean, IUserInfo>("/api/account/GetTitleInfo", {
+      const res = await clientFetchApi<boolean, IOrderUserInfo>("/api/account/GetTitleInfo", {
         methodType: MethodType.get,
         session: session,
         data: undefined,
@@ -115,6 +114,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             loginStatus: res.value.loginStatus,
             lastUpdate: Date.now(),
             profileUrl: res.value.profileUrl,
+            packageExpireTime: res.value.packageExpireTime ?? session?.user?.packageExpireTime ?? 0,
           },
         });
         // setUser(res.value);
@@ -124,7 +124,6 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         const updatedSession = await update({
           ...session,
           user: {
-            ...session?.user,
             loginStatus: res.value.loginStatus,
             lastUpdate: Date.now(),
             profileUrl: res.value.profileUrl,

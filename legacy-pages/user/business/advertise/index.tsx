@@ -6,9 +6,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { MethodType } from "brancy/helper/api";
-import { IBusiness, IBusinessResponse, BusinessType } from "brancy/models/userPanel/business";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import styles from "../business.module.css";
+import { IBusiness, IBusinessResponse } from "brancy/models/interfaces";
+import { BusinessType } from "brancy/models/enums";
 
 const baseMediaUrl = getClientMediaBaseUrl();
 

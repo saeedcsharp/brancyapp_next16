@@ -43,7 +43,7 @@ const Page1 = ({ handleShowVerification }: Page1Props) => {
       t(LanguageKey.page1_tools),
       t(LanguageKey.page1_advertises),
     ],
-    [t, i18n.language]
+    [t, i18n.language],
   );
 
   const rotatingContainerStyle = useMemo<React.CSSProperties>(
@@ -54,7 +54,7 @@ const Page1 = ({ handleShowVerification }: Page1Props) => {
       overflow: "hidden",
       transition: "opacity 0.3s ease-in-out",
     }),
-    []
+    [],
   );
 
   const svgLineElements = useMemo(
@@ -70,7 +70,7 @@ const Page1 = ({ handleShowVerification }: Page1Props) => {
           decoding="async"
         />
       )),
-    []
+    [],
   );
 
   const heroElements = useMemo(() => {
@@ -185,7 +185,7 @@ const Page1 = ({ handleShowVerification }: Page1Props) => {
           break;
       }
     },
-    [currentFocusIndex, heroElements.length]
+    [currentFocusIndex, heroElements.length],
   );
 
   // Effects
@@ -285,9 +285,9 @@ const Page1 = ({ handleShowVerification }: Page1Props) => {
                       googleAuthUrl={`https://accounts.google.com/o/oauth2/v2/auth?client_id=${
                         process.env.NEXT_PUBLIC_GOOGLE_CLIENT_ID
                       }&redirect_uri=${encodeURIComponent(
-                        `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}googleoauth`
+                        `${process.env.NEXT_PUBLIC_NEXTAUTH_URL}googleoauth`,
                       )}&response_type=code&scope=${encodeURIComponent(
-                        "openid email profile"
+                        "openid email profile",
                       )}&access_type=offline&prompt=consent`}
                       onSuccess={() => {
                         console.log("Google login successful");
@@ -312,7 +312,8 @@ const Page1 = ({ handleShowVerification }: Page1Props) => {
                         <svg
                           xmlns="http://www.w3.org/2000/svg"
                           viewBox="0 0 24 24"
-                          width="25"
+                          width="24"
+                          height="24"
                           fill="none"
                           fillRule="evenodd"
                           clipRule="evenodd">

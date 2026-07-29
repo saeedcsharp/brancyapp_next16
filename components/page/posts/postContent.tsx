@@ -28,13 +28,12 @@ import { calculateSummary } from "brancy/helper/numberFormater";
 import { addSignalRMethod, OnInstance, removeSignalRMethod } from "brancy/helper/pushNotif";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import { MethodType } from "brancy/helper/api";
-import { IPost, IPostContent } from "brancy/models/page/post/posts";
-import { IUploadPost, UploadPostSteps } from "brancy/models/page/socketPage";
 import ScheduledPost from "brancy/components/page/scheduledPost/scheduledPost";
 import styles from "./postContent.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { MethodType } from "brancy/helper/api";
+import { PartnerRole, UploadPostSteps } from "brancy/models/enums";
+import { IPostContent, IPost, IUploadPost } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 type PostState = {
   posts: IPostContent[] | null;

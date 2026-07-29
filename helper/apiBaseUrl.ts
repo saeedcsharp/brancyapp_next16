@@ -2,7 +2,7 @@
 // ✏️  ONLY EDIT THIS SECTION — everything else updates automatically
 // =============================================================================
 const baseIRUrl = "brancy.ir";
-const baseAppUrl = "brancy.app";
+const baseAppUrl = "patran.ir";
 const baseLocalUrl = "patran.ir";
 const CONFIG = {
   // ── brancy.ir (داخل ایران) ───────────────────────────────────────────────
@@ -11,6 +11,7 @@ const CONFIG = {
     media: `https://ilink.${baseIRUrl}/`,
     upload: `https://uupload.${baseIRUrl}/file`,
     socket: `https://minisocket.${baseIRUrl}`,
+    graph: `https://socket.${baseIRUrl}`,
   },
 
   // ── brancy.app (پیش‌فرض / خارج از ایران) ────────────────────────────────
@@ -19,6 +20,7 @@ const CONFIG = {
     media: `https://ilink.${baseAppUrl}/`,
     upload: `https://uupload.${baseAppUrl}/file`,
     socket: `https://minisocket.${baseAppUrl}`,
+    graph: `https://socket.${baseAppUrl}`,
   },
 
   // ── patran.ir (localhost / محیط توسعه) ───────────────────────────────────
@@ -27,6 +29,7 @@ const CONFIG = {
     media: `https://ilink.${baseLocalUrl}/`,
     upload: `https://uupload.${baseLocalUrl}/file`,
     socket: `https://minisocket.${baseLocalUrl}`,
+    graph: `https://socket.${baseLocalUrl}`,
   },
 };
 
@@ -95,6 +98,11 @@ export function getClientSocketBaseUrl(): string {
   return getClientConfig().socket;
 }
 
+/** SignalR graph base URL. */
+export function getClientGraphBaseUrl(): string {
+  return getClientConfig().graph;
+}
+
 /**
  * Returns true only when the selected API base URL supports direct
  * browser → backend calls (i.e. CORS is configured on that server).
@@ -102,4 +110,7 @@ export function getClientSocketBaseUrl(): string {
  */
 export function supportsDirectCalls(): boolean {
   return clientIsIr() || clientIsLocal();
+}
+export function redirectHostUrl() {
+  return "patran.ir";
 }

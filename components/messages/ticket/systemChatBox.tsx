@@ -1,23 +1,23 @@
 //#region واردات کتابخانه‌ها و کامپوننت‌ها
-import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { HubConnection } from "@microsoft/signalr";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import { SystemSendingMessages } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/SystemSendingMessages";
+import { SystemChatWrapper } from "brancy/components/messages/ticket/chatComponents/SystemChatWrapper";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { MethodType } from "brancy/helper/api";
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { detectEmojiOnly } from "brancy/helper/emojiDetector";
+import formatTimeAgo from "brancy/helper/formatTimeAgo";
+import initialzedTime from "brancy/helper/manageTimer";
+import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
+import { ISendTicketMessage, ITicket, ITicketOwnerInbox, IUserTicketItem } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
 import router from "next/router";
 import { ChangeEvent, MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import InputEmoji from "react-input-emoji";
 import { DateObject } from "react-multi-date-picker";
-import RingLoader from "brancy/components/design/loader/ringLoder";
-import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
-import { detectEmojiOnly } from "brancy/helper/emojiDetector";
-import formatTimeAgo from "brancy/helper/formatTimeAgo";
-import initialzedTime from "brancy/helper/manageTimer";
-import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
-import { MethodType } from "brancy/helper/api";
-import { IItem, IOwnerInbox, ISendTicketMessage, ITicket } from "brancy/models/userPanel/message";
-import { SystemSendingMessages } from "brancy/components/messages/ticket/chatComponents/shared/messageTypes/SystemSendingMessages";
-import { SystemChatWrapper } from "brancy/components/messages/ticket/chatComponents/SystemChatWrapper";
 import styles from "./ticketChatBox.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
 //#endregion
 
 //#region تعریف کامپوننت و Props
@@ -26,7 +26,7 @@ const SystemChatBox = (props: {
   hub: HubConnection | null;
   chatBox: ITicket;
   showIcon: string;
-  ownerInbox: IOwnerInbox;
+  ownerInbox: ITicketOwnerInbox;
   showUserList: () => void;
   handleShowIcon: (e: MouseEvent) => void;
   fetchItemData: (ticketId: number, nextMaxId: string | null) => Promise<void>;
@@ -81,7 +81,7 @@ const SystemChatBox = (props: {
   //#endregion
 
   //#region تنظیمات Infinite Scroll
-  const { isLoadingMore } = useInfiniteScroll<IItem>({
+  const { isLoadingMore } = useInfiniteScroll<IUserTicketItem>({
     hasMore: !!props.chatBox.nextMaxId,
     fetchMore: async () => {
       await props.fetchItemData(props.chatBox.ticketId, props.chatBox.nextMaxId);

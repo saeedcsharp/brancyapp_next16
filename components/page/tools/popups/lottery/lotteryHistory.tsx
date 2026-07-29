@@ -11,14 +11,10 @@ import { getEnumValue } from "brancy/helper/handleItemTypeEnum";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import {
-  FailLotteryStatus,
-  FailLotteryStatusStr,
-  IShortLotteriesInfo,
-  LotteryStatus,
-} from "brancy/models/page/tools/tools";
 import styles from "./lotteryHistory.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { LotteryStatus, FailLotteryStatus, FailLotteryStatusStr } from "brancy/models/enums";
+import { IShortLotteriesInfo } from "brancy/models/interfaces";
 const LotteryHistory = (props: {
   removeMask: () => void;
   lotteryId: string | null;

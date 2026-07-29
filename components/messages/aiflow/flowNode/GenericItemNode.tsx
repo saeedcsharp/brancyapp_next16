@@ -332,7 +332,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
         </div>
         <div onClick={(e) => e.stopPropagation()} style={{ height: "150px", minHeight: "150px", maxHeight: "150px" }}>
           <TextArea
-            className="captiontextarea"
+            className="TextArea"
             value={node.data?.subtitle || ""}
             maxLength={140}
             handleInputChange={(e: React.ChangeEvent<HTMLTextAreaElement>) =>

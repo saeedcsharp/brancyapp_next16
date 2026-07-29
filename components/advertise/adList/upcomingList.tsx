@@ -3,10 +3,10 @@ import { useTranslation } from "react-i18next";
 import CounterDown2, { ShowRings } from "brancy/components/design/counterDown/counterDown2";
 import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
 import { LanguageKey } from "brancy/i18n";
-import { IUpcomingAds } from "brancy/models/advertise/adList";
 import styles from "../../../legacy-pages/advertise/adlist.module.css";
 import AdsTypeComp from "brancy/components/advertise/adsType";
 import TimeTypeComp from "brancy/components/advertise/timeType";
+import { IUpcomingAds } from "brancy/models/interfaces";
 const UpcomingList = (props: {
   data: IUpcomingAds[];
   handleRemoveUpingItem: (itemId: string) => void;

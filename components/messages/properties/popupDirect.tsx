@@ -35,8 +35,8 @@ const PopupDirect: React.FC<PopupCommentProps> = ({ onClose }) => {
                 textlabel: DIRECTinputText,
                 promptanswer: DIRECTtextAreaText,
               }
-            : prompt
-        )
+            : prompt,
+        ),
       );
       setEditIndexDIRECT(null); // پاک کردن ایندکس ویرایش پس از ذخیره
     } else {
@@ -91,7 +91,7 @@ const PopupDirect: React.FC<PopupCommentProps> = ({ onClose }) => {
           </div>
         </div>
         <TextArea
-          className="message"
+          className="TextArea"
           placeHolder={t(LanguageKey.pageToolspopup_typehere)}
           handleInputChange={(e) => setDIRECTTextAreaText(e.target.value)}
           value={DIRECTtextAreaText}

@@ -45,28 +45,29 @@ import DeletePrePost from "brancy/components/page/scheduledPost/deletePrePost";
 import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
 import { MethodType, UploadFile } from "brancy/helper/api";
-import { AutoReplyPayLoadType, MediaProductType } from "brancy/models/messages/enum";
-import { IAutomaticReply, IMediaUpdateAutoReply, IPublishLimit } from "brancy/models/page/post/posts";
+import styles from "./createPost.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
+  HashtagListItem,
+  IAutomaticReply,
   IDraftInfo,
   IErrorPrePostInfo,
+  IHashtag,
   ILocation,
+  IMediaUpdateAutoReply,
   IPageInfo,
   IPostAlbumInfo,
   IPostAlbumItem,
   IPostImageInfo,
   IPostVideoInfo,
   IPrePostInfo,
+  IPublishLimit,
   IShowMedia,
   IUiParameter,
-  MediaType,
-  PostType,
-} from "brancy/models/page/post/preposts";
-import { HashtagListItem, IHashtag } from "brancy/models/page/tools/tools";
-import styles from "./createPost.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+} from "brancy/models/interfaces";
+import { AutoReplyPayLoadType, MediaProductType, MediaType, PartnerRole, PostType } from "brancy/models/enums";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
 
 enum SearchType {
   CollaboratePeople,
@@ -157,7 +158,6 @@ type UIState = {
   showDraft: boolean;
   showDeleteDraft: boolean;
   showDeletePrepost: boolean;
-  showTooltip: boolean;
   showQuickReplyPopup: boolean;
   showChangePostToAlbum: boolean;
   showDraftError: IErrorPrePostInfo | null;
@@ -175,7 +175,6 @@ type UIAction =
   | { type: "TOGGLE_DRAFT"; payload?: boolean }
   | { type: "TOGGLE_DELETE_DRAFT"; payload?: boolean }
   | { type: "TOGGLE_DELETE_PREPOST"; payload?: boolean }
-  | { type: "TOGGLE_TOOLTIP"; payload?: boolean }
   | { type: "TOGGLE_QUICK_REPLY_POPUP"; payload?: boolean }
   | { type: "TOGGLE_CHANGE_POST_TO_ALBUM"; payload?: boolean }
   | { type: "SET_DRAFT_ERROR"; payload: IErrorPrePostInfo | null }
@@ -219,8 +218,6 @@ const uiReducer = (state: UIState, action: UIAction): UIState => {
         ...state,
         showDeletePrepost: action.payload ?? !state.showDeletePrepost,
       };
-    case "TOGGLE_TOOLTIP":
-      return { ...state, showTooltip: action.payload ?? !state.showTooltip };
     case "TOGGLE_QUICK_REPLY_POPUP":
       return {
         ...state,
@@ -250,7 +247,6 @@ const uiReducer = (state: UIState, action: UIAction): UIState => {
         showDraft: false,
         showDeleteDraft: false,
         showDeletePrepost: false,
-        showTooltip: false,
         showQuickReplyPopup: false,
         showChangePostToAlbum: false,
         showDraftError: null,
@@ -332,8 +328,10 @@ const formReducer = (state: FormState, action: FormAction): FormState => {
       };
     case "SET_REC_TIME_SELECT":
       return { ...state, recTimeSelect: action.payload };
-    case "TOGGLE_QUICK_REPLY":
+    case "TOGGLE_QUICK_REPLY": {
       return { ...state, QuickReply: action.payload ?? !state.QuickReply };
+    }
+
     case "SET_SEARCH_LOCATION":
       return { ...state, searchLocation: action.payload };
     case "SET_SEARCH_PEOPLE":
@@ -393,7 +391,6 @@ const CreatePost = () => {
     showDraft: false,
     showDeleteDraft: false,
     showDeletePrepost: false,
-    showTooltip: false,
     showQuickReplyPopup: false,
     showChangePostToAlbum: false,
     showDraftError: null,
@@ -428,7 +425,6 @@ const CreatePost = () => {
     showDraft,
     showDeleteDraft,
     showDeletePrepost,
-    showTooltip,
     showQuickReplyPopup,
     showChangePostToAlbum,
     showDraftError,
@@ -483,7 +479,7 @@ const CreatePost = () => {
   const [collabratorPages, setCollabratorPages] = useState<string[]>([]);
   const [autoReply, setAutoReply] = useState<IAutomaticReply>({
     items: [],
-    response: "",
+    response: null,
     sendPr: false,
     shouldFollower: false,
     automaticType: AutoReplyPayLoadType.AI,
@@ -549,11 +545,15 @@ const CreatePost = () => {
     const currentMedia = showMedias[showMediaIndex];
     return {
       canUploadCover:
-        currentMedia.mediaType === MediaType.Video && showMediaIndex === 0 && postType === PostType.Single,
-      isVideo: currentMedia.mediaType === MediaType.Video,
-      isImage: currentMedia.mediaType === MediaType.Image,
+        currentMedia?.mediaType === MediaType.Video && showMediaIndex === 0 && postType === PostType.Single,
+      isVideo: currentMedia?.mediaType === MediaType.Video,
+      isImage: currentMedia?.mediaType === MediaType.Image,
     };
   }, [showMedias, showMediaIndex, postType]);
+
+  // Safe current media access to avoid out-of-bounds when showMedias changes
+  const safeShowMediaIndex = showMedias && showMedias.length > 0 ? Math.min(showMediaIndex, showMedias.length - 1) : -1;
+  const currentMedia = safeShowMediaIndex >= 0 ? showMedias[safeShowMediaIndex] : null;
 
   // Memoized hashtag dropdown data for DragDrop component
   const hashtagDropdownData = useMemo(() => {
@@ -578,7 +578,14 @@ const CreatePost = () => {
 
     return [defaultOption, ...options];
   }, [hashtags, selectedOptions, styles.option, t]);
-
+  const handleActiveAutoComment = useMemo(() => {
+    return (
+      QuickReply && (autoReply.promptId !== null || autoReply.masterFlowId !== null || autoReply.response !== null)
+    );
+  }, [QuickReply, autoReply.promptId, autoReply.masterFlowId, autoReply.response]);
+  const handlePermissionShowQuickReply = useMemo(() => {
+    return autoReply.promptId === null && autoReply.masterFlowId === null && autoReply.response === null;
+  }, [QuickReply, autoReply.promptId, autoReply.masterFlowId, autoReply.response]);
   // Update hashtagList when hashtags change
   useEffect(() => {
     if (hashtags && hashtags.length > 0 && selectedOptions >= 0) {
@@ -611,7 +618,7 @@ const CreatePost = () => {
   const GetNextBestTimes = useCallback(async () => {
     if (!session) return;
     try {
-      var res = await clientFetchApi<boolean, number[]>("Instagramer" + "/Post/GetBestPublishTime", {
+      var res = await clientFetchApi<boolean, number[]>("api/Post/GetBestPublishTime", {
         methodType: MethodType.get,
         session: session,
         data: undefined,
@@ -669,7 +676,7 @@ const CreatePost = () => {
       if (!session) return;
       try {
         console.log("start searched location ", query);
-        var res = await clientFetchApi<boolean, ILocation[]>("Instagramer" + "/searchLocations", {
+        var res = await clientFetchApi<boolean, ILocation[]>("api/searchLocations", {
           methodType: MethodType.get,
           session: session,
           data: undefined,
@@ -705,7 +712,7 @@ const CreatePost = () => {
       if (!session) return;
       try {
         console.log("start searched people ", query);
-        var res = await clientFetchApi<boolean, IPageInfo[]>("Instagramer" + "/Users/searchPeople", {
+        var res = await clientFetchApi<boolean, IPageInfo[]>("api/Users/searchPeople", {
           methodType: MethodType.get,
           session: session,
           data: undefined,
@@ -787,6 +794,7 @@ const CreatePost = () => {
       replySuccessfullyDirected: false,
     });
     uiDispatch({ type: "TOGGLE_QUICK_REPLY_POPUP", payload: false });
+    if (!QuickReply) formDispatch({ type: "TOGGLE_QUICK_REPLY" });
   }
 
   const closeCreatePost = useCallback(() => {
@@ -828,7 +836,7 @@ const CreatePost = () => {
               uploadImageUrl: !media.mediaUri ? media.mediaUploadId : null,
               userTags: media.tagPeaple,
             },
-            automaticMediaReply: QuickReply
+            automaticMediaReply: handleActiveAutoComment
               ? {
                   automaticType: autoReply.automaticType,
                   keys: autoReply.items.map((x) => x.text),
@@ -880,7 +888,7 @@ const CreatePost = () => {
                     uploadImageUrl: !media.coverUri ? media.coverId : null,
                   }
                 : null,
-            automaticMediaReply: QuickReply
+            automaticMediaReply: handleActiveAutoComment
               ? {
                   automaticType: autoReply.automaticType,
                   keys: autoReply.items.map((x) => x.text),
@@ -949,7 +957,7 @@ const CreatePost = () => {
           draftId: draftId,
           caption: captionTextArea,
           albumItems: items,
-          automaticMediaReply: QuickReply
+          automaticMediaReply: handleActiveAutoComment
             ? {
                 automaticType: autoReply.automaticType,
                 keys: autoReply.items.map((x) => x.text),
@@ -986,6 +994,14 @@ const CreatePost = () => {
         }
       }
       uiDispatch({ type: "SET_ANALIZE_PROCESSING", payload: false });
+      try {
+        // notify parent posts page to refresh drafts/posts without full reload
+        if (typeof window !== "undefined") {
+          (window as any).dispatchEvent(
+            new CustomEvent("brancy:refreshPosts", { detail: { action: isDraft ? "draftSaved" : "postChanged" } }),
+          );
+        }
+      } catch (e) {}
       closeCreatePost();
     },
     [
@@ -1015,8 +1031,14 @@ const CreatePost = () => {
           queries: [{ key: "draftId", value: draftId.toString() }],
           onUploadProgress: undefined,
         });
-        if (res.succeeded) closeCreatePost();
-        else notify(res.info.responseType, NotifType.Warning);
+        if (res.succeeded) {
+          if (typeof window !== "undefined") {
+            (window as any).dispatchEvent(
+              new CustomEvent("brancy:refreshPosts", { detail: { action: "draftDeleted" } }),
+            );
+          }
+          closeCreatePost();
+        } else notify(res.info.responseType, NotifType.Warning);
       } else if (prePostId > 0) {
         var res = await clientFetchApi<boolean, boolean>("/api/post/deletePrePost", {
           methodType: MethodType.get,
@@ -1368,15 +1390,25 @@ const CreatePost = () => {
                           type: "SET_LOADING_UPLOAD",
                           payload: true,
                         });
+                        mediaDispatch({
+                          type: "SET_PROGRESS",
+                          payload: 0,
+                        });
                         if (!file) return;
                         const croppedFile = new File([blob], file.name, {
                           type: "image/jpeg",
                         });
-                        const res = await UploadFile(session, croppedFile);
+                        const res = await UploadFile(session, croppedFile, (progress) =>
+                          mediaDispatch({
+                            type: "SET_PROGRESS",
+                            payload: progress,
+                          }),
+                        );
                         mediaDispatch({
                           type: "SET_LOADING_UPLOAD",
                           payload: false,
                         });
+                        if (res.fileName === "") return;
                         mediaDispatch({
                           type: "ADD_MEDIA",
                           payload: {
@@ -1404,8 +1436,22 @@ const CreatePost = () => {
                     return;
                   }
                   mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: true });
-                  const res = await UploadFile(session, file!);
+                  mediaDispatch({
+                    type: "SET_PROGRESS",
+                    payload: 0,
+                  });
+                  mediaDispatch({
+                    type: "SET_PROGRESS",
+                    payload: 0,
+                  });
+                  const res = await UploadFile(session, file!, (progress) =>
+                    mediaDispatch({
+                      type: "SET_PROGRESS",
+                      payload: progress,
+                    }),
+                  );
                   mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
+                  if (res.fileName === "") return;
                   mediaDispatch({
                     type: "ADD_MEDIA",
                     payload: {
@@ -1451,9 +1497,19 @@ const CreatePost = () => {
             if (file === undefined) return;
             if (!checkSpecVideo(width, height, video.duration, file.size)) return;
             mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: true });
+            mediaDispatch({
+              type: "SET_PROGRESS",
+              payload: 0,
+            });
             // console.log("video file", file);
-            const res = await UploadFile(session, file!);
+            const res = await UploadFile(session, file!, (progress) =>
+              mediaDispatch({
+                type: "SET_PROGRESS",
+                payload: progress,
+              }),
+            );
             mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
+            if (res.fileName === "") return;
             mediaDispatch({
               type: "ADD_MEDIA",
               payload: {
@@ -1498,8 +1554,18 @@ const CreatePost = () => {
         return;
       }
       mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: true });
-      const res = await UploadFile(session, file);
+      mediaDispatch({
+        type: "SET_PROGRESS",
+        payload: 0,
+      });
+      const res = await UploadFile(session, file, (progress) =>
+        mediaDispatch({
+          type: "SET_PROGRESS",
+          payload: progress,
+        }),
+      );
       mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
+      if (res.fileName === "") return;
       console.log("coverrrrrrrrrrrrr", res);
       // You can display a preview of the selected image if needed.
       const reader = new FileReader();
@@ -1598,15 +1664,25 @@ const CreatePost = () => {
                           type: "SET_LOADING_UPLOAD",
                           payload: true,
                         });
+                        mediaDispatch({
+                          type: "SET_PROGRESS",
+                          payload: 0,
+                        });
                         if (!file) return;
                         const croppedFile = new File([blob], file.name, {
                           type: "image/jpeg",
                         });
-                        const res = await UploadFile(session, croppedFile);
+                        const res = await UploadFile(session, croppedFile, (progress) =>
+                          mediaDispatch({
+                            type: "SET_PROGRESS",
+                            payload: progress,
+                          }),
+                        );
                         mediaDispatch({
                           type: "SET_LOADING_UPLOAD",
                           payload: false,
                         });
+                        if (res.fileName === "") return;
                         mediaDispatch({
                           type: "UPDATE_MEDIA",
                           payload: {
@@ -1633,8 +1709,18 @@ const CreatePost = () => {
                     return;
                   }
                   mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: true });
-                  const res = await UploadFile(session, file!);
+                  mediaDispatch({
+                    type: "SET_PROGRESS",
+                    payload: 0,
+                  });
+                  const res = await UploadFile(session, file!, (progress) =>
+                    mediaDispatch({
+                      type: "SET_PROGRESS",
+                      payload: progress,
+                    }),
+                  );
                   mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
+                  if (res.fileName === "") return;
                   mediaDispatch({
                     type: "UPDATE_MEDIA",
                     payload: {
@@ -1673,8 +1759,18 @@ const CreatePost = () => {
             const height = video.videoHeight;
             if (!checkSpecVideo(width, height, video.duration, file.size)) return;
             mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: true });
-            const res = await UploadFile(session, file!);
+            mediaDispatch({
+              type: "SET_PROGRESS",
+              payload: 0,
+            });
+            const res = await UploadFile(session, file!, (progress) =>
+              mediaDispatch({
+                type: "SET_PROGRESS",
+                payload: progress,
+              }),
+            );
             mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
+            if (res.fileName === "") return;
             mediaDispatch({
               type: "UPDATE_MEDIA",
               payload: {
@@ -1800,11 +1896,13 @@ const CreatePost = () => {
         type: "UPDATE_MEDIA_TAGS",
         payload: {
           index: showMediaIndex,
-          tags:
-            selectedTagPeaple &&
-            !showMedias[showMediaIndex].tagPeaple.find((z) => z.username === selectedTagPeaple.username)
-              ? [...showMedias[showMediaIndex].tagPeaple, { username: selectedTagPeaple.username, x: 0.5, y: 0.5 }]
-              : showMedias[showMediaIndex].tagPeaple,
+          tags: (() => {
+            const existing = currentMedia?.tagPeaple ?? [];
+            if (selectedTagPeaple && !existing.find((z) => z.username === selectedTagPeaple.username)) {
+              return [...existing, { username: selectedTagPeaple.username, x: 0.5, y: 0.5 }];
+            }
+            return existing;
+          })(),
         },
       });
     },
@@ -1814,26 +1912,17 @@ const CreatePost = () => {
     (username: string, position: { x: number; y: number }, deltaX: number, deltaY: number) => {
       if (prePostId > 0) return;
       var nShowMedias = [...showMedias];
-      var currentShowMedia = showMedias[showMediaIndex];
+      var currentShowMedia = currentMedia;
+      if (!currentShowMedia) return;
       var indexCurrentTag = currentShowMedia.tagPeaple?.findIndex((x) => x.username === username);
       var currentTag = currentShowMedia.tagPeaple?.find((x) => x.username === username);
       if (currentTag && indexCurrentTag !== undefined && indexCurrentTag >= 0) {
-        let minX =
-          showMedias[showMediaIndex].width < showMedias[showMediaIndex].height
-            ? renderWidthSize * (0.5 - (0.5 * showMedias[showMediaIndex].width) / showMedias[showMediaIndex].height)
-            : 0;
-        let maxX =
-          showMedias[showMediaIndex].width < showMedias[showMediaIndex].height
-            ? renderWidthSize * (0.5 + (0.5 * showMedias[showMediaIndex].width) / showMedias[showMediaIndex].height)
-            : renderWidthSize;
-        let minY =
-          showMedias[showMediaIndex].height < showMedias[showMediaIndex].width
-            ? renderWidthSize * (0.5 - (0.5 * showMedias[showMediaIndex].height) / showMedias[showMediaIndex].width)
-            : 0;
-        let maxY =
-          showMedias[showMediaIndex].height < showMedias[showMediaIndex].width
-            ? renderWidthSize * (0.5 + (0.5 * showMedias[showMediaIndex].height) / showMedias[showMediaIndex].width)
-            : renderWidthSize;
+        const w = currentShowMedia.width ?? 0;
+        const h = currentShowMedia.height ?? 0;
+        let minX = w < h ? renderWidthSize * (0.5 - (0.5 * w) / (h || 1)) : 0;
+        let maxX = w < h ? renderWidthSize * (0.5 + (0.5 * w) / (h || 1)) : renderWidthSize;
+        let minY = h < w ? renderWidthSize * (0.5 - (0.5 * h) / (w || 1)) : 0;
+        let maxY = h < w ? renderWidthSize * (0.5 + (0.5 * h) / (w || 1)) : renderWidthSize;
         console.log("maxY-MinY", maxY - minY);
         console.log("Position", position);
         let _x = (position.x + deltaX - minX) / (maxX - minX);
@@ -1858,7 +1947,7 @@ const CreatePost = () => {
   const handleChangeAlbumChildren = useCallback(
     (index: number) => {
       mediaDispatch({ type: "SET_MEDIA_INDEX", payload: index });
-      var nTagPeaples = showMedias[index].tagPeaple;
+      var nTagPeaples = showMedias[index]?.tagPeaple ?? [];
       // Removed setRefresh call as it's no longer needed
     },
     [showMedias],
@@ -1867,7 +1956,7 @@ const CreatePost = () => {
   const handleDeleteTag = useCallback(
     (username: string) => {
       if (prePostId > 0) return;
-      const newTags = showMedias[showMediaIndex].tagPeaple?.filter((x) => x.username !== username) || [];
+      const newTags = (currentMedia?.tagPeaple || []).filter((x) => x.username !== username) || [];
       mediaDispatch({
         type: "UPDATE_MEDIA_TAGS",
         payload: {
@@ -1925,6 +2014,7 @@ const CreatePost = () => {
           const errorMsg: IErrorPrePostInfo = JSON.parse(draft.errorMessage);
           uiDispatch({ type: "SET_DRAFT_ERROR", payload: errorMsg });
         }
+        console.log("draft from server", draftRes.value);
         formDispatch({
           type: "TOGGLE_QUICK_REPLY",
           payload: draft.automaticMediaReply ? true : false,
@@ -1940,19 +2030,19 @@ const CreatePost = () => {
           replySuccessfullyDirected: draft.automaticMediaReply
             ? draft.automaticMediaReply.replySuccessfullyDirected
             : false,
-          response: draft.automaticMediaReply ? draft.automaticMediaReply.response : "",
+          response: draft.automaticMediaReply ? draft.automaticMediaReply.response : null,
           sendPr: draft.automaticMediaReply ? draft.automaticMediaReply.sendPr : false,
           shouldFollower: draft.automaticMediaReply ? draft.automaticMediaReply.shouldFollower : false,
           automaticType: draft.automaticMediaReply
             ? draft.automaticMediaReply.automaticType
             : AutoReplyPayLoadType.KeyWord,
           masterFlow: null,
-          masterFlowId: draft.automaticMediaReply ? draft.automaticMediaReply.masterFlowId : "",
+          masterFlowId: draft.automaticMediaReply ? draft.automaticMediaReply.masterFlowId : null,
           mediaId: "",
           pauseTime: Date.now(),
           productType: MediaProductType.Feed,
           prompt: null,
-          promptId: draft.automaticMediaReply ? draft.automaticMediaReply.promptId : "",
+          promptId: draft.automaticMediaReply ? draft.automaticMediaReply.promptId : null,
           sendCount: 0,
         });
         setCollabratorPages(draft.collaborators);
@@ -2044,7 +2134,7 @@ const CreatePost = () => {
   };
   async function handleGetPrePost(prePostId: string) {
     try {
-      const res = await clientFetchApi<boolean, IPrePostInfo>("Instagramer" + "" + "/Post/GetPrePost", {
+      const res = await clientFetchApi<boolean, IPrePostInfo>("/api/Post/GetPrePost", {
         methodType: MethodType.get,
         session: session,
         data: undefined,
@@ -2170,42 +2260,10 @@ const CreatePost = () => {
       notify(ResponseType.Unexpected, NotifType.Error);
     }
   }
-  // function initialzedTime() {
-  //   const lng = window.localStorage.getItem("language");
-  //   const calendar = window.localStorage.getItem("calendar");
-  //   switch (lng) {
-  //     case "en":
-  //       setLocale(english);
-  //       break;
-  //     case "fa":
-  //       setLocale(persian_fa);
-  //       break;
-  //     case "ar":
-  //       setLocale(arabic_ar);
-  //       break;
-  //     default:
-  //       setLocale(english);
-  //       break;
-  //   }
-  //   switch (calendar) {
-  //     case "Gregorian":
-  //       setCalendar(gregorian);
-  //       break;
-  //     case "shamsi":
-  //       setCalendar(persian);
-  //       break;
-  //     case "Hijri":
-  //       setCalendar(arabic);
-  //       break;
-  //     case "Hindi":
-  //       setCalendar(indian);
-  //       break;
-  //   }
-  // }
   const getPublishLimitContent = useCallback(async () => {
     if (!session) return;
     try {
-      var res = await clientFetchApi<boolean, IPublishLimit>("Instagramer" + "" + "/Post/GetPublishLimitContent", {
+      var res = await clientFetchApi<boolean, IPublishLimit>("api/Post/GetPublishLimitContent", {
         methodType: MethodType.get,
         session: session,
         data: undefined,
@@ -2242,7 +2300,6 @@ const CreatePost = () => {
     },
     [collabratorPages, selectedPeaple],
   );
-
   const handleVerifyDeleteReels = useCallback((): void => {
     mediaDispatch({ type: "CLEAR_MEDIAS" });
     uiDispatch({ type: "TOGGLE_CHANGE_POST_TO_ALBUM", payload: false });
@@ -2255,7 +2312,7 @@ const CreatePost = () => {
 
   const handleDeletePrePost = useCallback(async () => {
     try {
-      const res = await clientFetchApi<boolean, boolean>("Instagramer" + "" + "/Post/DeletePrePost", {
+      const res = await clientFetchApi<boolean, boolean>("api/Post/DeletePrePost", {
         methodType: MethodType.get,
         session: session,
         data: undefined,
@@ -2273,6 +2330,7 @@ const CreatePost = () => {
     if (!session || status !== "authenticated") return;
     if (!isDataLoaded && router.isReady) {
       // checkCanCreatePrePost();
+      console.log("query", query);
       if (query.draftId !== undefined) {
         handleGetDraftPost(query.draftId as string);
       } else if (query.prePostId !== undefined) handleGetPrePost(query.prePostId as string);
@@ -2293,6 +2351,14 @@ const CreatePost = () => {
     GetNextBestTimes,
     getPublishLimitContent,
   ]);
+
+  // Ensure we react to route query changes (e.g., client-side Link navigation)
+  useEffect(() => {
+    if (router.isReady && session && query.draftId !== undefined && draftId <= 0) {
+      console.log("Detected draftId in query (effect):", query.draftId);
+      handleGetDraftPost(query.draftId as string);
+    }
+  }, [router.isReady, query.draftId, session, handleGetDraftPost, draftId]);
   const handleMainContentClick = useCallback(() => {
     uiDispatch({
       type: "SET_ADD_PEOPLE_BOX",
@@ -2568,59 +2634,123 @@ const CreatePost = () => {
                       </>
                     ) : (
                       <>
-                        {showMedias[showMediaIndex].mediaType == MediaType.Image ||
-                        showMedias[showMediaIndex].coverUri ||
-                        showMedias[showMediaIndex].cover.length != 0 ? (
-                          <img
-                            className={styles.pictureMaskIcon}
-                            alt="added media"
-                            src={
-                              showMedias[showMediaIndex].mediaType == MediaType.Image
-                                ? (showMedias[showMediaIndex].mediaUri ?? showMedias[showMediaIndex].media)
-                                : (showMedias[showMediaIndex].coverUri ?? showMedias[showMediaIndex].cover)
-                            }
-                          />
-                        ) : (
-                          <video className={styles.pictureMaskIcon} src={showMedias[showMediaIndex].media} />
-                        )}
+                        {!loadingUpload ? (
+                          <>
+                            {currentMedia?.mediaType == MediaType.Image ||
+                            currentMedia?.coverUri ||
+                            (currentMedia?.cover?.length ?? 0) != 0 ? (
+                              <img
+                                className={styles.pictureMaskIcon}
+                                alt="added media"
+                                src={
+                                  currentMedia?.mediaType == MediaType.Image
+                                    ? (currentMedia?.mediaUri ?? currentMedia?.media)
+                                    : (currentMedia?.coverUri ?? currentMedia?.cover)
+                                }
+                              />
+                            ) : (
+                              <video className={styles.pictureMaskIcon} src={currentMedia?.media} />
+                            )}
 
-                        <div className={styles.filter} />
-                        {showMedias[showMediaIndex].tagPeaple?.map((v, i) => (
-                          <div key={showMediaIndex * 1e20 + i + v.username}>
-                            <DragComponent
-                              key={i + "_" + v.username}
-                              handleStopDrag={handleStopDrag}
-                              handleDeleteTag={handleDeleteTag}
-                              username={v.username}
-                              x={v.x * renderWidthSize}
-                              y={renderWidthSize * v.y}
-                              minX={
-                                showMedias[showMediaIndex].width < showMedias[showMediaIndex].height
-                                  ? renderWidthSize *
-                                    (0.5 - (0.5 * showMedias[showMediaIndex].width) / showMedias[showMediaIndex].height)
-                                  : 0
-                              }
-                              maxX={
-                                showMedias[showMediaIndex].width < showMedias[showMediaIndex].height
-                                  ? renderWidthSize *
-                                    (0.5 + (0.5 * showMedias[showMediaIndex].width) / showMedias[showMediaIndex].height)
-                                  : renderWidthSize
-                              }
-                              minY={
-                                showMedias[showMediaIndex].height < showMedias[showMediaIndex].width
-                                  ? renderWidthSize *
-                                    (0.5 - (0.5 * showMedias[showMediaIndex].height) / showMedias[showMediaIndex].width)
-                                  : 0
-                              }
-                              maxY={
-                                showMedias[showMediaIndex].height < showMedias[showMediaIndex].width
-                                  ? renderWidthSize *
-                                    (0.5 + (0.5 * showMedias[showMediaIndex].height) / showMedias[showMediaIndex].width)
-                                  : renderWidthSize
-                              }
-                            />
-                          </div>
-                        ))}
+                            <div className={styles.filter} />
+                            {(currentMedia?.tagPeaple || []).map((v, i) => (
+                              <div key={(safeShowMediaIndex >= 0 ? safeShowMediaIndex : 0) * 1e20 + i + v.username}>
+                                <DragComponent
+                                  key={i + "_" + v.username}
+                                  handleStopDrag={handleStopDrag}
+                                  handleDeleteTag={handleDeleteTag}
+                                  username={v.username}
+                                  x={v.x * renderWidthSize}
+                                  y={renderWidthSize * v.y}
+                                  minX={
+                                    (currentMedia?.width ?? 0) < (currentMedia?.height ?? 0)
+                                      ? renderWidthSize *
+                                        (0.5 - (0.5 * (currentMedia?.width ?? 0)) / (currentMedia?.height ?? 1))
+                                      : 0
+                                  }
+                                  maxX={
+                                    (currentMedia?.width ?? 0) < (currentMedia?.height ?? 0)
+                                      ? renderWidthSize *
+                                        (0.5 + (0.5 * (currentMedia?.width ?? 0)) / (currentMedia?.height ?? 1))
+                                      : renderWidthSize
+                                  }
+                                  minY={
+                                    (currentMedia?.height ?? 0) < (currentMedia?.width ?? 0)
+                                      ? renderWidthSize *
+                                        (0.5 - (0.5 * (currentMedia?.height ?? 0)) / (currentMedia?.width ?? 1))
+                                      : 0
+                                  }
+                                  maxY={
+                                    (currentMedia?.height ?? 0) < (currentMedia?.width ?? 0)
+                                      ? renderWidthSize *
+                                        (0.5 + (0.5 * (currentMedia?.height ?? 0)) / (currentMedia?.width ?? 1))
+                                      : renderWidthSize
+                                  }
+                                />
+                              </div>
+                            ))}
+                          </>
+                        ) : (
+                          <>
+                            <div
+                              style={{
+                                position: "relative",
+                                width: "120px",
+                                height: "120px",
+                              }}>
+                              <svg
+                                style={{ transform: "rotate(-90deg)" }}
+                                width="120"
+                                height="120"
+                                viewBox="0 0 120 120">
+                                {/* Background circle */}
+                                <circle
+                                  cx="60"
+                                  cy="60"
+                                  r="50"
+                                  fill="none"
+                                  stroke="var(--content-box)"
+                                  strokeWidth="8"
+                                />
+                                {/* Progress circle */}
+                                <circle
+                                  cx="60"
+                                  cy="60"
+                                  r="50"
+                                  fill="none"
+                                  stroke="var(--color-dark-blue)"
+                                  strokeWidth="8"
+                                  strokeDasharray={`${2 * Math.PI * 50}`}
+                                  strokeDashoffset={`${2 * Math.PI * 50 * (1 - progress / 100)}`}
+                                  strokeLinecap="round"
+                                  style={{
+                                    transition: "stroke-dashoffset 0.3s ease",
+                                  }}
+                                />
+                              </svg>
+                              <div
+                                style={{
+                                  position: "absolute",
+                                  top: "50%",
+                                  left: "50%",
+                                  transform: "translate(-50%, -50%)",
+                                  fontSize: "24px",
+                                  fontWeight: "bold",
+                                  color: "var(--color-dark-blue)",
+                                }}>
+                                {Math.round(progress)}%
+                              </div>
+                            </div>
+                            <div
+                              className="explain"
+                              style={{
+                                textAlign: "center",
+                                marginTop: "20px",
+                              }}>
+                              {t(LanguageKey.loading) || "Uploading..."}
+                            </div>
+                          </>
+                        )}
                       </>
                     )}
                     {automaticPost && (
@@ -2676,8 +2806,8 @@ const CreatePost = () => {
                           className={`${styles.postoption} ${
                             ((showMedias.length > 0 &&
                               showMediaIndex !== 0 &&
-                              showMedias[showMediaIndex].mediaType === MediaType.Video) ||
-                              (showMedias.length > 0 && showMedias[showMediaIndex].mediaType === MediaType.Image) ||
+                              currentMedia?.mediaType === MediaType.Video) ||
+                              (showMedias.length > 0 && currentMedia?.mediaType === MediaType.Image) ||
                               postType === PostType.Album ||
                               prePostId > 0) &&
                             "fadeDiv"
@@ -2724,14 +2854,10 @@ const CreatePost = () => {
                     <div className="headerparent">
                       <div className="title">
                         {t(LanguageKey.pageLottery_model)}
-                        <div className={styles.tooltipContainer}>
-                          <img
-                            title="ℹ️ size of content"
-                            src="/tooltip.svg"
-                            onClick={() => uiDispatch({ type: "TOGGLE_TOOLTIP" })}
-                          />
-                          {showTooltip && (
-                            <div className={styles.tooltip}>
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue={
+                            <>
                               <div className={styles.postscalechild}>
                                 <div className={styles.postscalebutton3}>16:9</div>
                                 <div className={styles.postscaleheader}>
@@ -2753,9 +2879,11 @@ const CreatePost = () => {
                                   <br></br>(1080x1350)
                                 </div>
                               </div>
-                            </div>
-                          )}
-                        </div>
+                            </>
+                          }
+                          position="left"
+                          onClick={true}
+                        />
                       </div>
 
                       <div className={styles.typeparent}>
@@ -3104,7 +3232,7 @@ const CreatePost = () => {
                     {/* AI Caption Generator Input */}
 
                     <TextArea
-                      className="captiontextarea"
+                      className="TextArea"
                       placeHolder={""}
                       fadeTextArea={prePostId > 0 || aiLoading}
                       handleInputChange={(e) => {
@@ -3183,8 +3311,9 @@ const CreatePost = () => {
                   </div>
 
                   <TextArea
+                    className="TextArea"
                   name="first-comment-textarea"
-                  className={"captiontextarea"}
+
                   fadeTextArea={!firstComment}
                   placeHolder={""}
                   handleInputChange={handleChangeFirstCommentTextarea}
@@ -3207,7 +3336,7 @@ const CreatePost = () => {
                 <div className={styles.container}>
                   <div className="title">{t(LanguageKey.AdvanceSettings)}</div>
 
-                  <div className="headerandinput" style={{ paddingBottom: "20px" }}>
+                  <div className="headerandinput" style={{ paddingBottom: "12px" }}>
                     <div className="headerparent" role="group" aria-label="Product settings">
                       <div className="title2" role="heading" aria-level={3}>
                         {t(LanguageKey.autocommentReply)}
@@ -3216,34 +3345,38 @@ const CreatePost = () => {
                         name="quick-reply"
                         handleToggle={() => {
                           if (prePostId > 0) return;
+                          console.log("toggling quick reply popup", handlePermissionShowQuickReply);
                           formDispatch({ type: "TOGGLE_QUICK_REPLY" });
+                          if (handlePermissionShowQuickReply) {
+                            uiDispatch({ type: "TOGGLE_QUICK_REPLY_POPUP", payload: true });
+                          }
                         }}
-                        checked={QuickReply}
+                        checked={handleActiveAutoComment}
                         title="Toggle quick reply"
                         role="switch"
-                        aria-checked={QuickReply}
+                        aria-checked={handleActiveAutoComment}
                         aria-label="Quick reply toggle"
                       />
                     </div>
                     <div className="explain">{t(LanguageKey.QuickReplyexplain)}</div>
                     <button
-                      className={`cancelButton ${QuickReply ? "" : "fadeDiv"}`}
+                      className={`cancelButton ${handleActiveAutoComment ? "" : "fadeDiv"}`}
                       onClick={() => {
-                        if (QuickReply) {
+                        if (handleActiveAutoComment) {
                           uiDispatch({
                             type: "TOGGLE_QUICK_REPLY_POPUP",
                             payload: true,
                           });
                         }
                       }}
-                      disabled={!QuickReply}>
+                      disabled={!handleActiveAutoComment}>
                       {t(LanguageKey.marketstatisticsfeatures)}
                     </button>
                   </div>
 
                   {showMedias.length == 1 && showMedias[0].mediaType == MediaType.Video && (
                     <>
-                      <div className="headerandinput" style={{ paddingBottom: "20px" }}>
+                      <div className="headerandinput" style={{ paddingBottom: "12px" }}>
                         <div className="headerparent" role="group" aria-label="Share preview settings">
                           <div className="title2" title="Share preview to feed setting">
                             {t(LanguageKey.sharepreviewtofeed)}
@@ -3293,7 +3426,7 @@ const CreatePost = () => {
                   )}
                   {/* add to product Section */}
                   {session.user.isShopper && (
-                    <div className="headerandinput" style={{ paddingBottom: "20px" }}>
+                    <div className="headerandinput" style={{ paddingBottom: "12px" }}>
                       <div className="headerparent" role="group" aria-label="Product settings">
                         <div className="title2" role="heading" aria-level={3}>
                           {t(LanguageKey.addtoproduct)}
@@ -3315,7 +3448,7 @@ const CreatePost = () => {
                     </div>
                   )}
                   {/* Turn off Commenting Section */}
-                  <div className="headerandinput" style={{ paddingBottom: "20px" }}>
+                  <div className="headerandinput" style={{ paddingBottom: "12px" }}>
                     <div className="headerparent" role="group" aria-label="Comment settings">
                       <div className="title2" role="heading" aria-level={3}>
                         {t(LanguageKey.pageToolspopup_TurnoffCommenting)}
@@ -3357,7 +3490,7 @@ const CreatePost = () => {
                     </div>
                     <div
                       className={`headerparent ${!automaticPost ? "fadeDiv" : ""}`}
-                      style={{ paddingBottom: "20px" }}
+                      style={{ paddingBottom: "12px" }}
                       role="group"
                       aria-label="Date and time selection">
                       <div className={styles.input} role="presentation">
@@ -3417,7 +3550,7 @@ const CreatePost = () => {
                           className={`${styles.setting} ${!automaticPost && "fadeDiv"}`}
                           role="region"
                           aria-label="Recommended posting times">
-                          <div className="headerandinput" style={{ paddingBottom: "20px" }}>
+                          <div className="headerandinput">
                             <div className="title" role="heading" aria-level={3}>
                               {t(LanguageKey.RecommendedDateTime)}
                             </div>

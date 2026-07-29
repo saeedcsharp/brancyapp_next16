@@ -17,11 +17,16 @@ import { getHubConnection } from "brancy/helper/pushNotif";
 import { specifyLogistic } from "brancy/helper/specifyLogistic";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { PushNotif, PushResponseType } from "brancy/models/push/pushNotif";
-import { OrderStep } from "brancy/models/store/enum";
-import { IOrderByStatus, IOrderByStatusItem, IOrderDetail, IOrderPushNotifExtended } from "brancy/models/store/orders";
 import styles from "./failed.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import {
+  IOrderByStatus,
+  IOrderByStatusItem,
+  IOrderDetail,
+  IOrderPushNotifExtended,
+  PushNotif,
+} from "brancy/models/interfaces";
+import { OrderStep, PushResponseType } from "brancy/models/enums";
 const basePictureUrl = getClientMediaBaseUrl();
 const MemoizedCheckBoxButton = React.memo(CheckBoxButton);
 interface SelectionState {
@@ -136,7 +141,7 @@ export default function Failed() {
     if (orders.nextMaxId === null) return;
     setLoadingMore(true);
     try {
-      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", {
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/userorder/GetOrdersByStatuses", {
         methodType: MethodType.post,
         session: session,
         data: [
@@ -164,7 +169,7 @@ export default function Failed() {
   }
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/order/GetOrdersByStatuses", {
+      const res = await clientFetchApi<boolean, IOrderByStatus>("/api/userorder/GetOrdersByStatuses", {
         methodType: MethodType.post,
         session: session,
         data: [
@@ -221,7 +226,7 @@ export default function Failed() {
   //   });
   // };
 
-  const handleRowClick = (orderId: string, instagramerId: number) => {
+  const handleRowClick = (orderId: string, instagramerId?: number) => {
     setOrderDetail({ orderId: orderId, instagramerId: instagramerId });
   };
 
@@ -237,31 +242,47 @@ export default function Failed() {
       order.NewStatus === OrderStep.ShippingFailed
     ) {
       const orderStatus: IOrderByStatusItem = {
-        systemTicketId: order.ShortOrder.SystemTicketId,
-        trackingId: order.ShortOrder.TrackingId,
-        city: order.ShortOrder.City,
-        createdTime: order.ShortOrder.CreatedTime,
-        deliveryType: order.ShortOrder.DeliveryType,
-        id: order.ShortOrder.Id,
-        instagramerId: order.ShortOrder.InstagramerId,
-        invoiceId: order.ShortOrder.InvoiceId,
-        itemCount: order.ShortOrder.ItemCount,
-        logesticId: order.ShortOrder.LogesticId,
-        priceType: order.ShortOrder.PriceType,
-        state: order.ShortOrder.State,
-        userId: order.ShortOrder.UserId,
-        shortShop: {
-          instagramerId: order.ShortOrder.ShortShop!.InstagramerId,
-          priceType: order.ShortOrder.ShortShop!.PriceType,
-          productCount: order.ShortOrder.ShortShop!.ProductCount,
-          isSuspend: true,
+        businessProfile: {
+          instagramerId: order.BusinessProfile?.InstagramerId,
+          priceType: order.BusinessProfile?.PriceType,
+          banners: order.BusinessProfile?.Banners,
+          isSuspend: order.BusinessProfile?.IsSuspend,
+          bannerUrl: order.BusinessProfile?.BannerUrl,
+          businessType: order.BusinessProfile?.BusinessType,
+          countryId: order.BusinessProfile?.CountryId,
+          fbId: order.BusinessProfile?.FbId,
+          fullName: order.BusinessProfile?.FullName,
+          followerCount: order.BusinessProfile?.FollowerCount,
+          profileUrl: order.BusinessProfile?.ProfileUrl,
+          username: order.BusinessProfile?.Username,
+          fullAdvertise: order.BusinessProfile?.FullAdvertise,
+          fullShop: order.BusinessProfile?.FullShop,
+          fullVShop: order.BusinessProfile?.FullVShop,
         },
-        status: order.NewStatus,
-        statusUpdateTime: order.ShortOrder.StatusUpdateTime,
-        totalPrice: order.ShortOrder.TotalPrice,
-        userInfo: null,
+        order: {
+          id: order.Order.Id,
+          trackingId: order.Order.TrackingId,
+          itemCount: order.Order.ItemCount,
+          totalPrice: order.Order.TotalPrice,
+          priceType: order.Order.PriceType,
+          createdTime: order.Order.CreatedTime,
+          logesticId: order.Order.LogesticId,
+          city: order.Order.City,
+          deliveryType: order.Order.DeliveryType,
+          expireTime: order.Order.ExpireTime,
+          fbId: order.Order.FbId,
+          invoiceId: order.Order.InvoiceId,
+          shopAddressId: order.Order.ShopAddressId,
+          shortShop: order.Order.ShortShop,
+          source: order.Order.Source,
+          state: order.Order.State,
+          status: order.NewStatus,
+          statusUpdateTime: order.Order.StatusUpdateTime,
+          userId: order.Order.UserId,
+        },
+        userProfile: null,
       };
-      console.log("Order initialized in picking up in user", order.ShortOrder);
+      console.log("Order initialized in picking up in user", order.BusinessProfile);
       setOrders((prevOrders) => ({
         ...prevOrders,
         items: [orderStatus, ...prevOrders.items],
@@ -283,10 +304,10 @@ export default function Failed() {
       console.error("Error parsing notification:", error);
     }
   }
-  function handleClickOnTicket(order: IOrderByStatusItem): void {
-    if (order.systemTicketId) router.push(`/user/message?id=${order.systemTicketId}`);
-    else setTicketTitle(order.id);
-  }
+  // function handleClickOnTicket(order: IOrderByStatusItem): void {
+  //   if (order.systemTicketId) router.push(`/user/message?id=${order.systemTicketId}`);
+  //   else setTicketTitle(order.id);
+  // }
   useEffect(() => {
     if (!session) return;
     fetchData();
@@ -379,7 +400,10 @@ export default function Failed() {
               </thead>
               <tbody>
                 {orders.items.map((order, index) => (
-                  <tr onClick={() => handleRowClick(order.id, order.instagramerId)} key={index} className={styles.row}>
+                  <tr
+                    onClick={() => handleRowClick(order.order.id, order.businessProfile?.instagramerId)}
+                    key={index}
+                    className={styles.row}>
                     <td
                       onClick={(e) => {
                         e.stopPropagation();
@@ -395,7 +419,7 @@ export default function Failed() {
                       {index + 1}
                     </td>
                     <td style={{ minWidth: "100px" }} className={styles.ordernumberviewed}>
-                      {order.id}
+                      {order.order.id}
                       {/* {clickedOrders.has(order.id) && <span> ✓</span>} */}
                     </td>
 
@@ -403,7 +427,7 @@ export default function Failed() {
                       <img
                         loading="lazy"
                         decoding="async"
-                        src={basePictureUrl + (order.shortShop! as any).profileUrl}
+                        src={order.businessProfile ? basePictureUrl + order.businessProfile.profileUrl : ""}
                         alt="profile"
                         className="instagramimage"
                         onError={(e) => {
@@ -412,29 +436,29 @@ export default function Failed() {
                       />
                       <div className="instagramprofiledetail">
                         <div className="instagramusername">
-                          {(order.shortShop! as any).fullName ? (order.shortShop! as any).fullName : ""}
+                          {order.businessProfile!.fullName ? order.businessProfile!.fullName : ""}
                         </div>
                         <div className="instagramid translate">
-                          {(order.shortShop! as any).username ? "@" + (order.shortShop! as any).username : ""}
+                          {order.businessProfile!.username ? "@" + order.businessProfile!.username : ""}
                         </div>
                       </div>
                     </td>
                     <td
                       style={{ minWidth: "100px" }}
                       className={`${styles.status} ${
-                        order.status === OrderStep.Failed
+                        order.order.status === OrderStep.Failed
                           ? styles.failed
-                          : order.status === OrderStep.InstagramerCanceled
+                          : order.order.status === OrderStep.InstagramerCanceled
                             ? styles.canceled
-                            : order.status === OrderStep.UserCanceled
+                            : order.order.status === OrderStep.UserCanceled
                               ? styles.usercanceled
-                              : order.status === OrderStep.ShippingFailed
+                              : order.order.status === OrderStep.ShippingFailed
                                 ? styles.returned
-                                : order.status === OrderStep.Expired
+                                : order.order.status === OrderStep.Expired
                                   ? styles.expired
                                   : ""
                       }`}>
-                      {order.status === OrderStep.Failed ? (
+                      {order.order.status === OrderStep.Failed ? (
                         <>
                           <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 21 20">
                             <path
@@ -448,7 +472,7 @@ export default function Failed() {
 
                           <span>{t(LanguageKey.Storeproduct_failed)}</span>
                         </>
-                      ) : order.status === OrderStep.InstagramerCanceled ? (
+                      ) : order.order.status === OrderStep.InstagramerCanceled ? (
                         <>
                           <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path
@@ -462,7 +486,7 @@ export default function Failed() {
 
                           <span>{"Instagramer cancelded"}</span>
                         </>
-                      ) : order.status === OrderStep.UserCanceled ? (
+                      ) : order.order.status === OrderStep.UserCanceled ? (
                         <>
                           <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path
@@ -476,7 +500,7 @@ export default function Failed() {
 
                           <span>{"User canceled"}</span>
                         </>
-                      ) : order.status === OrderStep.ShippingRequest ? (
+                      ) : order.order.status === OrderStep.ShippingRequest ? (
                         <>
                           <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path
@@ -490,7 +514,7 @@ export default function Failed() {
 
                           <span>{t(LanguageKey.Storeproduct_returned)}</span>
                         </>
-                      ) : order.status === OrderStep.Expired ? (
+                      ) : order.order.status === OrderStep.Expired ? (
                         <>
                           <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
                             <path
@@ -512,14 +536,14 @@ export default function Failed() {
 
                     <td style={{ minWidth: "100px" }} className={styles.fee}>
                       <PriceFormater
-                        fee={order.totalPrice}
-                        pricetype={order.priceType}
+                        fee={order.order.totalPrice}
+                        pricetype={order.order.priceType}
                         className={PriceFormaterClassName.PostPrice}
                       />
                     </td>
                     <td style={{ minWidth: "85px" }} className={styles.date}>
                       {new DateObject({
-                        date: order.createdTime * 1000,
+                        date: order.order.createdTime * 1000,
                         calendar: initialzedTime().calendar,
                         locale: initialzedTime().locale,
                       }).format("MM/DD/YYYY")}
@@ -546,11 +570,11 @@ export default function Failed() {
 
                     <td
                       style={{ minWidth: "75px" }}
-                      className={`${styles.delivery} ${styles[specifyLogistic(order.logesticId)]}`}>
-                      {specifyLogistic(order.logesticId)}
+                      className={`${styles.delivery} ${styles[specifyLogistic(order.order.logesticId)]}`}>
+                      {specifyLogistic(order.order.logesticId)}
                     </td>
                     <td style={{ minWidth: "110px" }} className={styles.destination}>
-                      {order.city ?? "--"}
+                      {order.order.city ?? "--"}
                     </td>
                   </tr>
                 ))}

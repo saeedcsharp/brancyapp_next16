@@ -5,8 +5,9 @@
   height: 100%;
   gap: var(--gap-20);
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: flex-start;
   max-height: 0;
+  overflow-y: auto;
   opacity: 0;
   transition:
     max-height 1s ease,
@@ -89,7 +90,22 @@
   flex-direction: column;
   transition: var(--transition3);
 }
-
+.contentArea {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  max-height: 100%;
+  gap: var(--gap-30);
+  overflow-y: auto;
+  justify-content: flex-start;
+  transition: var(--transition3);
+}
+.deleteiconButton {
+  width: 20px;
+  height: 20px;
+  cursor: pointer;
+}
 .autoreply {
   position: relative;
   width: 100%;
@@ -527,13 +543,3 @@ html[dir="rtl"] .popupOverlay {
 }
 
 /* auto reply */
-.autoreplycontainer {
-  min-height: 250px;
-  max-height: 250px;
-  width: 100%;
-  position: relative;
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap-8);
-  transition: var(--transition3);
-}

@@ -12,18 +12,9 @@ import Publish from "brancy/components/customerAds/progress/publish";
 import Specifications from "brancy/components/customerAds/progress/specifications";
 import Summary from "brancy/components/customerAds/progress/summary";
 import TermsAndCondition from "brancy/components/customerAds/progress/terms";
-import { AdsTimeType, AdsType } from "brancy/models/advertise/AdEnums";
-import {
-  AdvertiserStatus,
-  CheckStatus,
-  ICreateCustomerAdPost,
-  ICustomer,
-  IPaymentInfo,
-  IShowMedia,
-  Steps,
-} from "brancy/models/customerAds/customerAd";
-import { MediaType } from "brancy/models/page/post/preposts";
 import styles from "./stepprogress.module.css";
+import { AdsTimeType, AdsType, AdvertiserStatus, CheckStatus, CustomerAdSteps, MediaType } from "brancy/models/enums";
+import { ICustomerAdShowMedia, ICustomer, IPaymentInfo, ICreateCustomerAdPost } from "brancy/models/interfaces";
 
 export interface ISpecification {
   date: number;
@@ -42,14 +33,14 @@ const MarketAdsProgress = () => {
   const { query } = router;
   const [customerAdId, setCustomerAdId] = useState<number>(0);
   const [activeNextStep, setActiveNextStep] = useState<boolean>(false);
-  const [currentStep, setCurrentStep] = useState<Steps>(Steps.Terms);
+  const [currentStep, setCurrentStep] = useState<CustomerAdSteps>(CustomerAdSteps.Terms);
   const [termsCheckBox, setTermsCheckBox] = useState(false);
   const [specification, setSpecification] = useState<ISpecification>({
     adDuration: null,
     adType: null,
     date: Date.now() + 86400000,
   });
-  const [showMedia, setshowMedia] = useState<IShowMedia[]>([]);
+  const [showMedia, setshowMedia] = useState<ICustomerAdShowMedia[]>([]);
   const [captionTextArea, setCaptionTextArea] = useState("");
   const [mediaUploaded, setMediaUploaded] = useState<boolean>(false);
   const [customerAd, setCustomerAd] = useState<ICustomer>({
@@ -73,37 +64,37 @@ const MarketAdsProgress = () => {
   function handleNextStep() {
     if (!activeNextStep) return;
     switch (currentStep) {
-      case Steps.Terms:
-        setCurrentStep(Steps.Specification);
-        checkActivateButton(Steps.Specification);
+      case CustomerAdSteps.Terms:
+        setCurrentStep(CustomerAdSteps.Specification);
+        checkActivateButton(CustomerAdSteps.Specification);
         break;
-      case Steps.Specification:
-        setCurrentStep(Steps.Content);
-        checkActivateButton(Steps.Content);
+      case CustomerAdSteps.Specification:
+        setCurrentStep(CustomerAdSteps.Content);
+        checkActivateButton(CustomerAdSteps.Content);
         break;
-      case Steps.Content:
+      case CustomerAdSteps.Content:
         if (!showMedia[0]) return;
         if (!mediaUploaded) handleUploadMedia();
         if (mediaUploaded) {
           handleGetCustomer();
         }
         break;
-      case Steps.Summary:
+      case CustomerAdSteps.Summary:
         handleSendConfirmation();
 
         break;
-      case Steps.Confirmation:
-        setCurrentStep(Steps.Payment);
-        checkActivateButton(Steps.Payment);
+      case CustomerAdSteps.Confirmation:
+        setCurrentStep(CustomerAdSteps.Payment);
+        checkActivateButton(CustomerAdSteps.Payment);
         break;
-      case Steps.Payment:
+      case CustomerAdSteps.Payment:
         handlePayment();
-        checkActivateButton(Steps.Publishing);
-        setCurrentStep(Steps.Publishing);
-        checkActivateButton(Steps.Publishing);
+        checkActivateButton(CustomerAdSteps.Publishing);
+        setCurrentStep(CustomerAdSteps.Publishing);
+        checkActivateButton(CustomerAdSteps.Publishing);
         break;
-      case Steps.Publishing:
-        if (paymentInfo.success) setCurrentStep(Steps.Final);
+      case CustomerAdSteps.Publishing:
+        if (paymentInfo.success) setCurrentStep(CustomerAdSteps.Final);
         else router.push("/userPanel");
         break;
     }
@@ -129,17 +120,17 @@ const MarketAdsProgress = () => {
     handleNextText();
   }
   function handlePrevStep() {
-    if (currentStep === Steps.Terms) {
+    if (currentStep === CustomerAdSteps.Terms) {
       router.push("/customerads");
     } else if (
-      (currentStep === Steps.Confirmation && customerAd.checkStatus !== CheckStatus.Rejected) ||
-      (currentStep === Steps.Payment && customerAd.checkStatus !== CheckStatus.Rejected)
+      (currentStep === CustomerAdSteps.Confirmation && customerAd.checkStatus !== CheckStatus.Rejected) ||
+      (currentStep === CustomerAdSteps.Payment && customerAd.checkStatus !== CheckStatus.Rejected)
     ) {
       setShowCancel(true);
       return;
     } else if (
-      (currentStep === Steps.Confirmation && customerAd.checkStatus === CheckStatus.Rejected) ||
-      (currentStep === Steps.Payment && customerAd.checkStatus === CheckStatus.Rejected)
+      (currentStep === CustomerAdSteps.Confirmation && customerAd.checkStatus === CheckStatus.Rejected) ||
+      (currentStep === CustomerAdSteps.Payment && customerAd.checkStatus === CheckStatus.Rejected)
     ) {
       router.push("/userPanel");
     }
@@ -154,7 +145,7 @@ const MarketAdsProgress = () => {
     setSpecification(spec);
     checkActivateButton(currentStep);
   }
-  function handleUpdateContent(content: IShowMedia[], caption: string) {
+  function handleUpdateContent(content: ICustomerAdShowMedia[], caption: string) {
     console.log("handleUpdateContent");
     setMediaUploaded(false);
     if (content.length > 0) {
@@ -175,25 +166,25 @@ const MarketAdsProgress = () => {
     }
   }
   function checkActivateButton(currentStep: number) {
-    if (currentStep === Steps.Terms) {
+    if (currentStep === CustomerAdSteps.Terms) {
       setActiveNextStep(!termsCheckBox);
     } else if (
-      currentStep === Steps.Specification &&
+      currentStep === CustomerAdSteps.Specification &&
       specification.adType !== null &&
       specification.adDuration !== null
     ) {
       setActiveNextStep(true);
-    } else if (currentStep === Steps.Content) {
+    } else if (currentStep === CustomerAdSteps.Content) {
       if (!showMedia[0]) setActiveNextStep(false);
       handleNextText();
-    } else if (currentStep === Steps.Summary) {
+    } else if (currentStep === CustomerAdSteps.Summary) {
       handleNextText();
-    } else if (currentStep === Steps.Confirmation) {
+    } else if (currentStep === CustomerAdSteps.Confirmation) {
       setActiveNextStep(false);
       handleNextText();
-    } else if (currentStep === Steps.Payment) {
+    } else if (currentStep === CustomerAdSteps.Payment) {
       handleNextText();
-    } else if (currentStep === Steps.Publishing) {
+    } else if (currentStep === CustomerAdSteps.Publishing) {
       handleNextText();
     } else {
       setActiveNextStep(false);
@@ -202,23 +193,23 @@ const MarketAdsProgress = () => {
   function handleNextText(): string {
     let stepText = "Accept and continue";
     switch (currentStep) {
-      case Steps.Specification:
+      case CustomerAdSteps.Specification:
         stepText = "Next";
         break;
-      case Steps.Content:
+      case CustomerAdSteps.Content:
         if (mediaUploaded) stepText = "Next";
         else stepText = "Upload Media";
         break;
-      case Steps.Summary:
+      case CustomerAdSteps.Summary:
         stepText = "Next";
         break;
-      case Steps.Confirmation:
+      case CustomerAdSteps.Confirmation:
         stepText = "Submit";
         break;
-      case Steps.Payment:
+      case CustomerAdSteps.Payment:
         stepText = "Pay Now";
         break;
-      case Steps.Publishing:
+      case CustomerAdSteps.Publishing:
         if (paymentInfo.success) stepText = "Next";
         else stepText = "Go to panel";
         break;
@@ -227,13 +218,13 @@ const MarketAdsProgress = () => {
   }
   function handlePreviousText(): string {
     if (
-      (currentStep === Steps.Confirmation && customerAd.checkStatus !== CheckStatus.Rejected) ||
-      (currentStep === Steps.Payment && customerAd.checkStatus !== CheckStatus.Rejected)
+      (currentStep === CustomerAdSteps.Confirmation && customerAd.checkStatus !== CheckStatus.Rejected) ||
+      (currentStep === CustomerAdSteps.Payment && customerAd.checkStatus !== CheckStatus.Rejected)
     )
       return "Cancel";
     else if (
-      (currentStep === Steps.Confirmation && customerAd.checkStatus === CheckStatus.Rejected) ||
-      (currentStep === Steps.Payment && customerAd.checkStatus === CheckStatus.Rejected)
+      (currentStep === CustomerAdSteps.Confirmation && customerAd.checkStatus === CheckStatus.Rejected) ||
+      (currentStep === CustomerAdSteps.Payment && customerAd.checkStatus === CheckStatus.Rejected)
     ) {
       return "Go to panel";
     } else return "Back";
@@ -282,8 +273,8 @@ const MarketAdsProgress = () => {
       isCampaign: true,
     };
     setCustomerAd(rersponse);
-    setCurrentStep(Steps.Summary);
-    checkActivateButton(Steps.Summary);
+    setCurrentStep(CustomerAdSteps.Summary);
+    checkActivateButton(CustomerAdSteps.Summary);
   }
   async function handleSendConfirmation() {
     //Api to send confirmation customerad based on <<customerAdId>>
@@ -327,27 +318,27 @@ const MarketAdsProgress = () => {
       isCampaign: true,
     };
     setCustomerAd(rersponse);
-    setCurrentStep(Steps.Confirmation);
-    checkActivateButton(Steps.Confirmation);
+    setCurrentStep(CustomerAdSteps.Confirmation);
+    checkActivateButton(CustomerAdSteps.Confirmation);
   }
   function renderStepContainer(stepNumber: number) {
     if (stepNumber === currentStep) {
       switch (stepNumber) {
-        case Steps.Terms:
+        case CustomerAdSteps.Terms:
           return <TermsAndCondition checkBox={termsCheckBox} changeCheckBox={handleUpadteTerms} />;
-        case Steps.Specification:
+        case CustomerAdSteps.Specification:
           return <Specifications specification={specification} handleUpdateSpecification={handleUpdateSpecifiction} />;
-        case Steps.Content:
+        case CustomerAdSteps.Content:
           return <Content data={showMedia} caption={captionTextArea} handleUpdateContent={handleUpdateContent} />;
-        case Steps.Summary:
+        case CustomerAdSteps.Summary:
           return <Summary handleShowSummaryTerms={handleShowSummaryTerms} customer={customerAd} />;
-        case Steps.Confirmation:
+        case CustomerAdSteps.Confirmation:
           return <Confirmation customerAd={customerAd} handleUpdateConfirmation={handleUpdateConfirmation} />;
-        case Steps.Payment:
+        case CustomerAdSteps.Payment:
           return <Payment customerAd={customerAd} />;
-        case Steps.Publishing:
+        case CustomerAdSteps.Publishing:
           return <Publish paymentInfo={paymentInfo} />;
-        case Steps.Final:
+        case CustomerAdSteps.Final:
           return (
             <>
               {/* head for SEO */}
@@ -543,7 +534,7 @@ const MarketAdsProgress = () => {
         isCampaign: true,
       };
       setCustomerAd(rersponse2);
-      setCurrentStep(Steps.Confirmation);
+      setCurrentStep(CustomerAdSteps.Confirmation);
     } else if (step === "publish") {
       //Api to get IPaymentInfo <<customerAdId>>
       const response: IPaymentInfo = {
@@ -553,7 +544,7 @@ const MarketAdsProgress = () => {
       };
       setActiveNextStep(true);
       setPaymentInfo(response);
-      setCurrentStep(Steps.Publishing);
+      setCurrentStep(CustomerAdSteps.Publishing);
     }
   }
   function removeMask() {
@@ -608,38 +599,38 @@ const MarketAdsProgress = () => {
                   currentStep === step
                     ? styles[`step${step}Active`]
                     : currentStep > step
-                    ? styles[`step${step}Done`]
-                    : styles[`step${step}`]
+                      ? styles[`step${step}Done`]
+                      : styles[`step${step}`]
                 }>
                 <div
                   className={
                     currentStep > step
                       ? styles[`status${step}Done`]
                       : currentStep === step
-                      ? styles[`status${step}Active`]
-                      : styles.status
+                        ? styles[`status${step}Active`]
+                        : styles.status
                   }>
                   {currentStep > step ? "✔" : step}
                 </div>
-                {step === Steps.Terms && "Terms"}
-                {step === Steps.Specification && "Specifications"}
-                {step === Steps.Content && "Content"}
-                {step === Steps.Summary && "Summary"}
-                {step === Steps.Confirmation && "Confirmation"}
-                {step === Steps.Payment && "Payment"}
-                {step === Steps.Publishing && "Publishing"}
+                {step === CustomerAdSteps.Terms && "Terms"}
+                {step === CustomerAdSteps.Specification && "Specifications"}
+                {step === CustomerAdSteps.Content && "Content"}
+                {step === CustomerAdSteps.Summary && "Summary"}
+                {step === CustomerAdSteps.Confirmation && "Confirmation"}
+                {step === CustomerAdSteps.Payment && "Payment"}
+                {step === CustomerAdSteps.Publishing && "Publishing"}
               </div>
             ))}
           </div>
           <div className={styles.stepcontainer}>
-            {renderStepContainer(Steps.Terms)}
-            {renderStepContainer(Steps.Specification)}
-            {renderStepContainer(Steps.Content)}
-            {renderStepContainer(Steps.Summary)}
-            {renderStepContainer(Steps.Confirmation)}
-            {renderStepContainer(Steps.Payment)}
-            {renderStepContainer(Steps.Publishing)}
-            {renderStepContainer(Steps.Final)}
+            {renderStepContainer(CustomerAdSteps.Terms)}
+            {renderStepContainer(CustomerAdSteps.Specification)}
+            {renderStepContainer(CustomerAdSteps.Content)}
+            {renderStepContainer(CustomerAdSteps.Summary)}
+            {renderStepContainer(CustomerAdSteps.Confirmation)}
+            {renderStepContainer(CustomerAdSteps.Payment)}
+            {renderStepContainer(CustomerAdSteps.Publishing)}
+            {renderStepContainer(CustomerAdSteps.Final)}
           </div>
           <div className={currentStep === 7 || currentStep === 8 ? styles.finalfooter : styles.footer}>
             {currentStep === 7 || currentStep === 8 ? (

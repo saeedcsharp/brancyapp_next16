@@ -9,6 +9,7 @@ import { ChangeEvent, memo, useCallback, useEffect, useMemo, useRef, useState } 
 import type { EmojiClickData } from "emoji-picker-react";
 const EmojiPicker = dynamic(() => import("emoji-picker-react"), { ssr: false });
 import { DateObject } from "react-multi-date-picker";
+import { draftKey, getDraft, setDraft, removeDraft } from "brancy/helper/draftStorage";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import {
   internalNotify,
@@ -25,14 +26,20 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 import { UploadFile } from "brancy/helper/api";
-import { IIsSendingMessage, IItem, IOwnerInbox, IThread, IUploadVoice } from "brancy/models/messages/IMessage";
-import { ItemType } from "brancy/models/messages/enum";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import VoiceRecorder from "brancy/components/messages/popups/voiceRecorder";
 import { LeftChatWrapper } from "brancy/components/messages/direct/chatComponents/LeftChatWrapper";
 import { RightChatWrapper } from "brancy/components/messages/direct/chatComponents/RightChatWrapper";
 import { ChatSending } from "brancy/components/messages/direct/chatComponents/shared/messageTypes/ChatSending";
 import styles from "./directChatBox.module.css";
+import { ItemType } from "brancy/models/enums";
+import {
+  IThread,
+  IIsSendingMessage,
+  IUploadVoice,
+  IDirectOwnerInbox,
+  IDirectMessageItem,
+} from "brancy/models/interfaces";
 //#endregion
 
 //#region تعریف کامپوننت و Props
@@ -42,7 +49,7 @@ const DirectChatBox = memo(
     hub: HubConnection | null;
     chatBox: IThread;
     sendingMessages: IIsSendingMessage[];
-    ownerInbox: IOwnerInbox;
+    ownerInbox: IDirectOwnerInbox;
     showUserList: () => void;
     handleSendMessage: (message: IIsSendingMessage) => void;
     fetchItemData: (chatBox: IThread) => Promise<void>;
@@ -74,11 +81,32 @@ const DirectChatBox = memo(
     const [showVoiceRecorder, setShowVoiceRecorder] = useState<boolean>(false);
     const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
     const [lock, setLock] = useState(false);
-    const [seenItem, setSeenItem] = useState<IItem | null>(null);
+    const [seenItem, setSeenItem] = useState<IDirectMessageItem | null>(null);
     const [dateFormatToggle, setDateFormatToggle] = useState("");
     const prevUserSelectIdRef = useRef<string | null>(null);
     const textareaRef = useRef<HTMLTextAreaElement | null>(null);
     const emojiPickerContainerRef = useRef<HTMLDivElement | null>(null);
+    // load draft for this thread when selected
+    useEffect(() => {
+      if (!props.chatBox) return;
+      const key = draftKey(props.chatBox.threadId);
+      const draft = getDraft(key);
+      if (draft) setAnswerBox(draft.text);
+    }, [props.chatBox?.threadId]);
+
+    // save draft to localStorage with debounce
+    useEffect(() => {
+      if (!props.chatBox) return;
+      const key = draftKey(props.chatBox.threadId);
+      const t = setTimeout(() => {
+        if (answerBox?.trim()) {
+          setDraft(key, answerBox);
+        } else {
+          removeDraft(key);
+        }
+      }, 800);
+      return () => clearTimeout(t);
+    }, [answerBox, props.chatBox?.threadId]);
     //#endregion
 
     //#region توابع فرمت‌دهی تاریخ
@@ -103,7 +131,7 @@ const DirectChatBox = memo(
 
     //#region تنظیمات Infinite Scroll
     // استفاده از useInfiniteScroll برای لود کردن پیام‌های بیشتر
-    const { isLoadingMore } = useInfiniteScroll<IItem>({
+    const { isLoadingMore } = useInfiniteScroll<IDirectMessageItem>({
       hasMore: !!props.chatBox.nextMaxId,
       fetchMore: async () => {
         await props.fetchItemData(props.chatBox);
@@ -314,7 +342,7 @@ const DirectChatBox = memo(
 
     //#region توابع کمکی پاسخ و خواندن پیام
     const handleSpecifyRepliedItemFullName = useCallback(
-      (itemId: string, repItem: IItem | null) => {
+      (itemId: string, repItem: IDirectMessageItem | null) => {
         if (repItem) {
           return repItem.sentByOwner ? (props.ownerInbox.username ?? "") : (props.chatBox.recp.username ?? "");
         }
@@ -328,7 +356,7 @@ const DirectChatBox = memo(
     );
 
     const handleSpecifyRepliedItemType = useCallback(
-      (repItemId: string, repItem: IItem | null) => {
+      (repItemId: string, repItem: IDirectMessageItem | null) => {
         if (repItem) {
           return repItem.itemType === ItemType.Text ? repItem.text : ItemType[repItem.itemType];
         }
@@ -476,6 +504,11 @@ const DirectChatBox = memo(
             <div className="instagramprofiledetail">
               <div className="instagramusername">{props.chatBox.recp.name || ""}</div>
               <div className="instagramid">@{props.chatBox.recp.username}</div>
+              {!props.chatBox.recp.isActive && (
+                <span className="IDgray" title="ℹ️ Inactive user">
+                  {t(LanguageKey.deactive)}
+                </span>
+              )}
             </div>
           </div>
         </header>
@@ -612,12 +645,12 @@ const DirectChatBox = memo(
                           </div>
                         )}
                         <textarea
+                          className={styles.chatTextarea}
                           ref={textareaRef}
                           value={answerBox}
                           onChange={(e) => handleInputOnChange(e.target.value)}
                           onKeyDown={handleTextareaKeyDown}
                           placeholder={t(LanguageKey.typeAMessage)}
-                          className={styles.chatTextarea}
                           rows={1}
                           aria-label={t(LanguageKey.typeAMessage)}
                         />

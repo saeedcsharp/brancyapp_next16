@@ -1,180 +1,254 @@
 import { signIn, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { ChangeEvent, ClipboardEvent, KeyboardEvent, MouseEvent, useEffect, useRef, useState } from "react";
+import {
+  ChangeEvent,
+  ClipboardEvent,
+  KeyboardEvent,
+  MouseEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import { NotifType, notify } from "brancy/components/notifications/notificationBox";
 import styles from "./verificationForm.module.css";
 
+const CODE_LENGTH = 6;
+const RESEND_DELAY_SECONDS = 60;
+const SHAKE_DURATION_MS = 500;
+const ERROR_DISPLAY_DURATION_MS = 2000;
+const CODE_PATTERN = new RegExp(`^\\d{${CODE_LENGTH}}$`);
+
+type WebOtpCredential = Credential & { code: string };
+type WebOtpRequestOptions = CredentialRequestOptions & {
+  otp: { transport: ["sms"] };
+};
+
+function createEmptyCode() {
+  return new Array<string>(CODE_LENGTH).fill("");
+}
+
+function formatTime(time: number) {
+  return String(time);
+}
+
+function normalizeDigits(input: string) {
+  return input
+    .replace(/[۰-۹]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) - 1728))
+    .replace(/[٠-٩]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) - 1584));
+}
+
 export default function VerificationForm(props: {
   nationalNumber: string;
   countryCode: string;
   preuserToken: string;
-  verificationCode: string;
   backToPhone: (nationalNumber: string, countryCode: string) => void;
-  removeMask: () => void;
   sendPhonenumber: () => void;
 }) {
   const router = useRouter();
   const { update: updateSession } = useSession();
-  const [code, setCode] = useState<string[]>(new Array(6).fill(""));
-  const [timeLeft, setTimeLeft] = useState(60);
+  const [code, setCode] = useState<string[]>(new Array(CODE_LENGTH).fill(""));
+  const [timeLeft, setTimeLeft] = useState(RESEND_DELAY_SECONDS);
   const [canResend, setCanResend] = useState(false);
   const { t } = useTranslation();
   const [verifyCodeLoading, setVerifyLoading] = useState(false);
   const [isShaking, setIsShaking] = useState(false);
   const [hasError, setHasError] = useState(false);
-  const firstInputRef = useRef<HTMLInputElement>(null);
+  const inputRefs = useRef<Array<HTMLInputElement | null>>([]);
+  const codeRef = useRef<string[]>(createEmptyCode());
+  const submitInFlightRef = useRef(false);
+  const isMountedRef = useRef(true);
+  const shakeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const errorTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
-  function handleChange(element: HTMLInputElement, index: number) {
-    const value = element.value;
+  const focusInput = useCallback((index: number) => {
+    inputRefs.current[index]?.focus();
+  }, []);
+  const triggerErrorAnimation = useCallback(() => {
+    setIsShaking(true);
+    setHasError(true);
 
-    const convertToEnglishDigits = (input: string) =>
-      input
-        .replace(/[۰-۹]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 1728))
-        .replace(/[٠-٩]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 1584));
+    if (shakeTimeoutRef.current) clearTimeout(shakeTimeoutRef.current);
+    if (errorTimeoutRef.current) clearTimeout(errorTimeoutRef.current);
 
-    const normalizedValue = convertToEnglishDigits(value);
+    shakeTimeoutRef.current = setTimeout(() => {
+      setIsShaking(false);
+    }, SHAKE_DURATION_MS);
 
-    if (/^[0-9]$/.test(normalizedValue)) {
-      const newCode = [...code];
-      newCode[index] = normalizedValue;
-      setCode(newCode);
+    errorTimeoutRef.current = setTimeout(() => {
+      setHasError(false);
+    }, ERROR_DISPLAY_DURATION_MS);
+    focusInput(0);
+  }, [focusInput]);
 
-      // Focus the next input when available
-      if (index < code.length - 1) {
-        const nextInput = document.getElementById(`codeInput-${index + 1}`) as HTMLInputElement;
-        nextInput?.focus();
+  const verificationCode = useMemo(() => code.join(""), [code]);
+  const isCodeComplete = useMemo(() => CODE_PATTERN.test(verificationCode), [verificationCode]);
+
+  codeRef.current = code;
+
+  const handleChange = useCallback(
+    (element: HTMLInputElement, index: number) => {
+      const normalizedValue = normalizeDigits(element.value);
+
+      if (!/^\d+$/.test(normalizedValue)) {
+        return;
       }
-    }
-  }
 
-  // Handle paste event to allow auto complete of OTP SMS code
-  function handlePaste(e: ClipboardEvent<HTMLInputElement>) {
-    e.preventDefault();
-    const pastedData = e.clipboardData.getData("Text").trim();
-    if (/^\d{6}$/.test(pastedData)) {
-      const newCode = pastedData.split("");
-      setCode(newCode);
-    }
-  }
+      const digits = normalizedValue.slice(0, CODE_LENGTH - index).split("");
+      setCode((previousCode) => {
+        const nextCode = [...previousCode];
+        digits.forEach((digit, digitIndex) => {
+          nextCode[index + digitIndex] = digit;
+        });
+        return nextCode;
+      });
+      focusInput(Math.min(index + digits.length, CODE_LENGTH - 1));
+    },
+    [focusInput],
+  );
 
-  function handleKeyDown(event: KeyboardEvent<HTMLInputElement>, index: number) {
-    if (event.key === "Backspace") {
-      const newCode = [...code];
-      if (newCode[index] !== "") {
-        newCode[index] = "";
-        setCode(newCode);
-      } else if (index > 0) {
-        const prevInput = document.getElementById(`codeInput-${index - 1}`) as HTMLInputElement;
-        prevInput?.focus();
-        newCode[index - 1] = "";
-        setCode(newCode);
+  const handlePaste = useCallback(
+    (e: ClipboardEvent<HTMLInputElement>) => {
+      e.preventDefault();
+      const pastedData = normalizeDigits(e.clipboardData.getData("Text").trim());
+      if (CODE_PATTERN.test(pastedData)) {
+        const newCode = pastedData.split("");
+        setCode(() => newCode);
+        focusInput(CODE_LENGTH - 1);
       }
-    }
-  }
+    },
+    [focusInput],
+  );
+
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLInputElement>, index: number) => {
+      if (event.key === "Backspace") {
+        const currentCode = codeRef.current;
+        if (currentCode[index] !== "") {
+          setCode((previousCode) => {
+            const nextCode = [...previousCode];
+            nextCode[index] = "";
+            return nextCode;
+          });
+        } else if (index > 0) {
+          focusInput(index - 1);
+          setCode((previousCode) => {
+            const nextCode = [...previousCode];
+            nextCode[index - 1] = "";
+            return nextCode;
+          });
+        }
+      } else if (event.key === "ArrowLeft" && index > 0) {
+        event.preventDefault();
+        focusInput(index - 1);
+      } else if (event.key === "ArrowRight" && index < CODE_LENGTH - 1) {
+        event.preventDefault();
+        focusInput(index + 1);
+      }
+    },
+    [focusInput],
+  );
 
   function handleResendCode(e: MouseEvent) {
     e.preventDefault();
     props.sendPhonenumber();
-    setCode(new Array(6).fill(""));
-    setTimeLeft(60);
+    setCode(() => createEmptyCode());
+    setTimeLeft(RESEND_DELAY_SECONDS);
     setCanResend(false);
-    console.log("Resending code...");
   }
 
-  function formatTime(time: number) {
-    const minutes = Math.floor(time / 60);
-    const seconds = time % 60;
-    return `${minutes}:${seconds < 10 ? `0${seconds}` : seconds}`;
-  }
+  const handleSubmit = useCallback(async () => {
+    if (timeLeft <= 0 || submitInFlightRef.current || !isCodeComplete) {
+      return;
+    }
 
-  async function handleSubmit() {
+    submitInFlightRef.current = true;
     setVerifyLoading(true);
-    if (timeLeft <= 0) {
-      return;
-    }
 
-    const verificationCode = code.join("");
-    const res = await signIn("credentials", {
-      redirect: false,
-      preuserToken: props.preuserToken,
-      verificationCode,
-    });
+    try {
+      const res = await signIn("credentials", {
+        redirect: false,
+        preuserToken: props.preuserToken,
+        verificationCode,
+      });
 
-    if (res && !res.error) {
-      // Refresh the session so useSession() returns the new token immediately
-      await updateSession();
-      // Navigate to home — hard reload guarantees a fresh session everywhere
-      window.location.href = "/home";
-      return;
-    }
+      if (res && !res.error) {
+        await updateSession();
+        if (isMountedRef.current) {
+          await router.replace("/home");
+        }
+        return;
+      }
 
-    setVerifyLoading(false);
-    if (res && res.error) {
-      setCode(new Array(6).fill(""));
-      triggerErrorAnimation();
-      notify(parseInt(res.error), NotifType.Warning);
+      if (isMountedRef.current && res?.error) {
+        setCode(() => createEmptyCode());
+        triggerErrorAnimation();
+        notify(Number.parseInt(res.error, 10), NotifType.Warning);
+      }
+    } catch (error) {
+      if (isMountedRef.current) {
+        triggerErrorAnimation();
+        notify(0, NotifType.Warning);
+      }
+      console.error("Verification sign-in failed:", error);
+    } finally {
+      submitInFlightRef.current = false;
+      if (isMountedRef.current) {
+        setVerifyLoading(false);
+      }
     }
-  }
+  }, [isCodeComplete, props.preuserToken, router, timeLeft, triggerErrorAnimation, updateSession, verificationCode]);
 
   useEffect(() => {
-    if (code.every((digit) => digit !== "")) {
+    if (isCodeComplete) {
       handleSubmit();
     }
-  }, [code]);
+  }, [handleSubmit, isCodeComplete]);
 
   useEffect(() => {
     if ("OTPCredential" in window) {
+      const controller = new AbortController();
       navigator.credentials
-        .get({ otp: { transport: ["sms"] } } as any)
+        .get({ otp: { transport: ["sms"] }, signal: controller.signal } as WebOtpRequestOptions)
         .then((otp) => {
           if (otp) {
-            const otpCode = (otp as any).code.split("");
-            setCode(otpCode);
-
-            // Automatically submit after filling all inputs
-            if (otpCode.length === 6) {
-              handleSubmit();
+            const otpCode = normalizeDigits((otp as WebOtpCredential).code).split("");
+            if (otpCode.length === CODE_LENGTH && CODE_PATTERN.test(otpCode.join(""))) {
+              setCode(otpCode);
             }
           }
         })
-        .catch((err) => console.error("WebOTP API error:", err));
+        .catch((err: unknown) => {
+          if (err instanceof Error && err.name === "AbortError") return;
+          console.error("WebOTP API error:", err);
+        });
+
+      return () => controller.abort();
     }
   }, []);
 
   useEffect(() => {
     if (timeLeft > 0) {
-      const timerId = setTimeout(() => setTimeLeft(timeLeft - 1), 1000);
+      const timerId = setTimeout(() => setTimeLeft((currentTime) => currentTime - 1), 1000);
       return () => clearTimeout(timerId);
     } else {
       setCanResend(true);
     }
   }, [timeLeft]);
 
-  // Add this new useEffect to focus the first input on component mount
   useEffect(() => {
-    if (firstInputRef.current) {
-      firstInputRef.current.focus();
-    }
-  }, []);
-
-  // Function to trigger error animation
-  const triggerErrorAnimation = () => {
-    setIsShaking(true);
-    setHasError(true);
-
-    // Remove shake animation after 0.5s
-    setTimeout(() => {
-      setIsShaking(false);
-    }, 500);
-
-    // Remove error styling after 2s
-    setTimeout(() => {
-      setHasError(false);
-    }, 2000);
-  };
+    isMountedRef.current = true;
+    focusInput(0);
+    return () => {
+      isMountedRef.current = false;
+      if (shakeTimeoutRef.current) clearTimeout(shakeTimeoutRef.current);
+      if (errorTimeoutRef.current) clearTimeout(errorTimeoutRef.current);
+    };
+  }, [focusInput]);
 
   return (
     <form
@@ -197,14 +271,18 @@ export default function VerificationForm(props: {
         </div>
       </div>
 
-      <div className={`${styles.inputField} ${isShaking ? styles.inputFieldShake : ""} translate`}>
+      <div
+        className={`${styles.inputField} ${isShaking ? styles.inputFieldShake : ""} translate`}
+        aria-live={hasError ? "assertive" : "off"}>
         {code.map((digit, index) => (
           <input
             key={index}
             id={`codeInput-${index}`}
-            ref={index === 0 ? firstInputRef : null}
+            ref={(element) => {
+              inputRefs.current[index] = element;
+            }}
             type="text"
-            maxLength={1}
+            maxLength={CODE_LENGTH}
             value={digit}
             onChange={(e: ChangeEvent<HTMLInputElement>) => handleChange(e.target, index)}
             onKeyDown={(e: KeyboardEvent<HTMLInputElement>) => handleKeyDown(e, index)}
@@ -212,6 +290,10 @@ export default function VerificationForm(props: {
             className={`${styles.input} ${hasError ? styles.inputError : ""}`}
             inputMode="numeric"
             autoComplete="one-time-code"
+            aria-label={`${t(LanguageKey.VerificationCode)} ${index + 1}`}
+            aria-invalid={hasError}
+            aria-describedby="verification-timer"
+            onFocus={(e) => e.currentTarget.select()}
             disabled={timeLeft <= 0}
           />
         ))}
@@ -222,7 +304,7 @@ export default function VerificationForm(props: {
         )} */}
       </div>
 
-      <div className="explain" style={{ alignItems: "center", textAlign: "center" }}>
+      <div id="verification-timer" className="explain" style={{ alignItems: "center", textAlign: "center" }}>
         {t(LanguageKey.remainingTime)} <strong>{formatTime(timeLeft)}</strong>
       </div>
 

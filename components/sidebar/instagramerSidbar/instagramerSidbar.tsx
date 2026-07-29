@@ -208,7 +208,7 @@ function InstagramerSidebar(props: { newRoute: string; router?: any }) {
       return (
         currentRoute === normalizedItemRoute ||
         currentRoute.startsWith(normalizedItemRoute) ||
-        (item.subRoutes && item.subRoutes.some((subRoute) => currentRoute === subRoute.toLowerCase()))
+        (item.subRoutes && item.subRoutes.some((subRoute) => currentRoute.startsWith(subRoute.toLowerCase())))
       );
     });
 
@@ -337,7 +337,7 @@ function InstagramerSidebar(props: { newRoute: string; router?: any }) {
     const normalizedItemRoute = item.route.replaceAll("/", "").toLowerCase();
     return currentRoute === normalizedItemRoute ||
       currentRoute.startsWith(normalizedItemRoute) ||
-      item.subRoutes?.some((subRoute) => subRoute.toLowerCase() === currentRoute)
+      item.subRoutes?.some((subRoute) => currentRoute.startsWith(subRoute.toLowerCase()))
       ? "var(--color-dark-blue)"
       : "var(--color-gray)";
   };

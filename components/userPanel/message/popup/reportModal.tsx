@@ -15,7 +15,7 @@ interface ReportModalProps {
       | ((prev: { title: string; message: string }) => {
           title: string;
           message: string;
-        })
+        }),
   ) => void;
   onClose: () => void;
   onSubmit: (report: { title: string; message: string }) => void;
@@ -63,7 +63,7 @@ const ReportModal: React.FC<ReportModalProps> = ({ report, setReport, onClose, o
       <div className="headerandinput">
         <div className="title">{"message"}</div>
         <TextArea
-          className={"message"}
+          className="TextArea"
           handleInputChange={(e: any) =>
             setReport((prev) => ({
               ...prev,

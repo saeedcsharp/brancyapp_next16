@@ -3,12 +3,6 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import {
-  BusinessBankAccountType,
-  CreateShopperSteps,
-  CreateShopStep,
-  IdentityVerifyType,
-} from "brancy/models/store/enum";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import CardNumber from "brancy/components/store/bankAccountType/cardNumber";
@@ -17,6 +11,7 @@ import TermsAndCondition from "brancy/components/store/termsandcondition/termsan
 import Loading from "brancy/components/notOk/loading";
 import styles from "./notAdvertiser.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IdentityVerifyType, BusinessBankAccountType, CreateShopperSteps, CreateShopStep } from "brancy/models/enums";
 
 export default function NotAdvertiser() {
   const { data: session, update } = useSession();

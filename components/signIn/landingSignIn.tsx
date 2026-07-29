@@ -1,42 +1,25 @@
-import { FormEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import PhoneInput from "react-phone-input-2";
-import "react-phone-input-2/lib/style.css";
-import { getCountryCodeFromTimezone } from "brancy/helper/detectLocaleFromTimezone";
+import PhoneInput from "brancy/components/design/phoneInput";
+import type { PhoneValue } from "brancy/components/design/phoneInput";
 import { LanguageKey } from "brancy/i18n";
-import { SendCodeResult } from "brancy/models/ApiModels/User/SendCodeResult";
 import { MethodType } from "brancy/helper/api";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import styles from "./landingSignIn.module.css";
 import { clientFetchApiWithAccessToken } from "brancy/helper/clientFetchApi";
+import { SendCodeResult } from "brancy/models/interfaces";
 
 const LandingSignIn = (prop: { handleShowVerification: (preUserToken: string) => void }) => {
   const { t } = useTranslation();
-  const [defaultCountry, setDefaultCountry] = useState("gb");
-  const [preferredCountries, setPreferredCountries] = useState<string[] | undefined>(undefined);
-
-  useEffect(() => {
-    // Use centralized timezone detection
-    const detectedCountry = getCountryCodeFromTimezone();
-    setDefaultCountry(detectedCountry);
-  }, []);
+  const [defaultCountry] = useState("gb");
 
   const [countryCode, setCountryCode] = useState("");
   const [nationalNumber, setNationalNumber] = useState("");
+  const [e164PhoneNumber, setE164PhoneNumber] = useState("");
   const [error, setError] = useState("");
   const [sessionId, setSessionId] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
-  const phoneInputRef = useRef<any>(null);
-  const handlePhoneChange = (value: string, country: { dialCode: string; countryCode: string }) => {
-    // Normalize Persian (۰-۹) and Arabic-Indic (٠-٩) digits to English (0-9)
-    const normalizedValue = value
-      .replace(/[٠-٩]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x0660 + 48))
-      .replace(/[۰-۹]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x06f0 + 48));
-
-    setCountryCode(country.countryCode);
-    setNationalNumber(normalizedValue);
-  };
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     setLoading(true);
     event.preventDefault();
@@ -48,7 +31,7 @@ const LandingSignIn = (prop: { handleShowVerification: (preUserToken: string) =>
         queries: [
           {
             key: "phoneNumber",
-            value: nationalNumber,
+            value: e164PhoneNumber,
           },
           {
             key: "countryCode",
@@ -86,71 +69,21 @@ const LandingSignIn = (prop: { handleShowVerification: (preUserToken: string) =>
   useEffect(() => {
     let session = window.localStorage.getItem("sessionId");
     setSessionId(session);
-    // Add custom styles for highlight
-    const style = document.createElement("style");
-    style.textContent = `
-      .react-tel-input .country-list .country.highlight {
-        background-color: var(--color-dark-blue30) !important;
-
-        color: var(--text-h1) !important;
-      }
-      .react-tel-input .country-list .country.highlight:hover {
-        background-color: var(--color-dark-blue60) !important;
-        color: var(--color-ffffff) !important;
-      }
-    `;
-    document.head.appendChild(style);
-
-    return () => {
-      document.head.removeChild(style);
-    };
   }, []);
   return (
     <form className={`${styles.inputcodesection} translate`} onSubmit={handleSubmit}>
       <PhoneInput
-        key={preferredCountries ? preferredCountries.join(",") : "default"}
-        inputClass={styles.inputtelsection}
-        dropdownClass={styles.dropdown}
-        buttonClass={styles.country}
-        inputProps={{
-          name: "phone",
-          required: true,
-          autoFocus: false,
-          ref: phoneInputRef,
-          onInput: (event: React.FormEvent<HTMLInputElement>) => {
-            const input = event.currentTarget;
-            const start = input.selectionStart;
-            const end = input.selectionEnd;
-            // Normalize Persian (۰-۹) and Arabic-Indic (٠-٩) digits to English (0-9)
-            const normalized = input.value
-              .replace(/[٠-٩]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x0660 + 48))
-              .replace(/[۰-۹]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x06f0 + 48));
-            if (input.value !== normalized) {
-              input.value = normalized;
-              input.setSelectionRange(start, end);
-            }
-          },
-          onKeyDown: (event: { key: string; preventDefault: () => void }) => {
-            if (event.key === "Enter") {
-              event.preventDefault();
-              document.querySelector("form")?.dispatchEvent(new Event("submit", { cancelable: true, bubbles: true }));
-            }
-          },
-        }}
-        country={defaultCountry}
-        placeholder={t(LanguageKey.EnterYourphonenumber)}
-        preferredCountries={preferredCountries || []}
-        autoFormat={true}
+        numberInputName="phone"
+        defaultCountry={defaultCountry}
+        enableFormatting={true}
         enableSearch={true}
-        searchNotFound={t(LanguageKey.noresult)}
-        searchPlaceholder={`🔍 ${t(LanguageKey.search)}`}
-        onChange={handlePhoneChange}
-        isValid={(value: string) => {
-          const normalizedValue = value
-            .replace(/[٠-٩]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x0660))
-            .replace(/[۰-۹]/g, (d) => String.fromCharCode(d.charCodeAt(0) - 0x06f0));
-          return /^\d+$/.test(normalizedValue);
+        onChange={(phone: PhoneValue) => {
+          setCountryCode(phone.countryCode);
+          setNationalNumber(phone.nationalNumber);
+          setE164PhoneNumber(phone.e164);
         }}
+        validate={(phone: PhoneValue) => phone.nationalNumber.length > 0 && phone.isValid}
+        autoFocus={false}
       />
       <button
         disabled={loading || nationalNumber.length === 0}

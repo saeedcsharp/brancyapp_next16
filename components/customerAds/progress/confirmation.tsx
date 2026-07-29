@@ -5,9 +5,9 @@ import AdsTypeComp from "brancy/components/advertise/adsType";
 import TimeTypeComp from "brancy/components/advertise/timeType";
 import CounterDownNotRing, { CounterDownColor } from "brancy/components/design/counterDown/counterDownNotRing";
 import initialzedTime from "brancy/helper/manageTimer";
-import { AdsTimeType, AdsType } from "brancy/models/advertise/AdEnums";
-import { AdvertiserStatus, CheckStatus, ICustomer } from "brancy/models/customerAds/customerAd";
 import styles from "./progress.module.css";
+import { CheckStatus, AdvertiserStatus, AdsTimeType, AdsType } from "brancy/models/enums";
+import { ICustomer } from "brancy/models/interfaces";
 
 function Confirmation(props: { customerAd: ICustomer; handleUpdateConfirmation: (customerAd: ICustomer) => void }) {
   const [customerAd, setCustomerAd] = useState<ICustomer>(props.customerAd);

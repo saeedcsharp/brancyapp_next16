@@ -6,8 +6,8 @@ import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n";
-import { IAddress } from "brancy/models/userPanel/orders";
 import styles from "./addresses.module.css";
+import { IAddress } from "brancy/models/interfaces";
 export default function UpdateAddresses({
   address,
   removeMask,
@@ -100,7 +100,7 @@ export default function UpdateAddresses({
           <div className="headerandinput">
             <div className="headertext">{t(LanguageKey.userpanel_Address)}</div>
             <TextArea
-              className={"message"}
+              className="TextArea"
               fadeTextArea={true}
               value={address ? address.address : ""}
               handleKeyDown={undefined}
@@ -122,7 +122,7 @@ export default function UpdateAddresses({
           <div className="headerandinput">
             <div className="headertext">{t(LanguageKey.note)}</div>
             <TextArea
-              className={"message"}
+              className="TextArea"
               value={note}
               handleInputChange={(e) => {
                 setNote(e.currentTarget.value);

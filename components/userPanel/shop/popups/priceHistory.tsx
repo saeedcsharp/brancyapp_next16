@@ -1,15 +1,24 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import LineChart from "brancy/components/graphs/lineChart";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { chartxType, SuperFigure } from "brancy/models/page/statistics/statisticsContent/GraphIngageBoxes/graphLikes";
 import styles from "./priceHistory.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { chartxType } from "brancy/models/enums";
+import { DayCountUnix } from "brancy/models/interfaces";
+
+interface PriceHistoryItem {
+  subProductId: number;
+  createdTime: number;
+  stock: number;
+  price: number;
+  priceType: number;
+}
+
 export default function PriceHistory({
   removeMask,
   productId,
@@ -20,28 +29,13 @@ export default function PriceHistory({
   instagramerId: string;
 }) {
   const { t } = useTranslation();
-  const { data: session } = useSession();
-  const [indexValue, setIndexValue] = useState<number>(0);
-  const [refresh, setRefresh] = useState<boolean>(false);
-  const [priceHistory, setPriceHistory] = useState<SuperFigure>({
-    figures: [],
-    firstIndexes: [],
-    secondIndexes: [],
-    title: "",
-  });
-  const [loading, setLoading] = useState<boolean>(true);
-  const handleGetsuperFigurIndex = (superFigur: SuperFigure, firstIndex: number): number => {
-    const firstIndexStr = superFigur.firstIndexes[firstIndex];
-    for (let i = 0; i < superFigur.figures.length; i++) {
-      if (superFigur.figures[i].firstIndex == firstIndexStr) {
-        return i;
-      }
-    }
-    return 0;
-  };
+  const { data: session, status } = useSession();
+  const [priceHistory, setPriceHistory] = useState<PriceHistoryItem[]>([]);
+  const [loading, setLoading] = useState<boolean>(false);
+
   async function fetchData() {
     try {
-      const res = await clientFetchApi<boolean, SuperFigure>("/api/shop/GetPriceHistory", {
+      const res = await clientFetchApi<boolean, PriceHistoryItem[]>("/api/shop/getPriceHistory", {
         methodType: MethodType.get,
         session: session,
         data: null,
@@ -60,9 +54,24 @@ export default function PriceHistory({
       setLoading(false);
     }
   }
+
   useEffect(() => {
+    if (status === "loading") return;
+    setLoading(true);
     fetchData();
-  }, []);
+  }, [status]);
+
+  const chartItems: DayCountUnix[] = priceHistory.map((item) => {
+    const d = new Date(item.createdTime * 1000);
+    return {
+      day: d.getDate(),
+      month: d.getMonth() + 1,
+      year: d.getFullYear(),
+      createdTime: item.createdTime,
+      count: item.price,
+    };
+  });
+
   return (
     <>
       <div className="frameParent">
@@ -75,49 +84,10 @@ export default function PriceHistory({
         </div>
       </div>
       {loading && <Loading />}
-      {!loading && priceHistory.figures.length > 0 && (
-        <>
-          <div className="headerparent">
-            <div style={{ maxWidth: "300px", width: "100%" }}>
-              <DragDrop
-                data={priceHistory.firstIndexes.map((v, i) => (
-                  <div key={i} id={i.toString()}>
-                    {v.split("\r\n").map((x, j) => (
-                      <span key={j}>
-                        {x}
-                        {j < v.split("\r\n").length - 1 && <br />}
-                      </span>
-                    ))}
-                  </div>
-                ))}
-                handleOptionSelect={(selectedId: string) => {
-                  const selectedIndex = parseInt(selectedId);
-                  setIndexValue(selectedIndex);
-                  setRefresh(!refresh);
-                }}
-                item={indexValue}
-                isRefresh={refresh}
-              />
-            </div>
-          </div>
-          <div className={styles.graph}>
-            {priceHistory.figures.length > 0 && (
-              <LineChart
-                items={
-                  priceHistory.figures[handleGetsuperFigurIndex(priceHistory, indexValue)].days ??
-                  priceHistory.figures[handleGetsuperFigurIndex(priceHistory, indexValue)].hours
-                }
-                chartId={priceHistory.title}
-                chartxType={
-                  priceHistory.figures[handleGetsuperFigurIndex(priceHistory, indexValue)].days != null
-                    ? chartxType.day
-                    : chartxType.hour
-                }
-                key={1}
-              />
-            )}
-          </div>
-        </>
+      {!loading && priceHistory.length > 0 && (
+        <div className={styles.graph}>
+          <LineChart items={chartItems} chartId="priceHistory" chartxType={chartxType.day} />
+        </div>
       )}
     </>
   );

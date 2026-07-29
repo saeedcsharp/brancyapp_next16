@@ -2,7 +2,6 @@ import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import { KeyboardEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-
 import InputText from "brancy/components/design/inputText";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n";
@@ -104,10 +103,10 @@ function Profile() {
           </label>
           <div className={styles.biographyContainer}>
             <TextArea
+              className="TextArea"
               id="user-biography"
               name="biography"
               placeHolder="bio"
-              className="captiontextarea"
               maxLength={2200}
               value={userData.biography}
               readOnly={true}

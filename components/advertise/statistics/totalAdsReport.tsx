@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
 import useHideDiv from "brancy/hook/useHide";
-import { ITotalAdsReport } from "brancy/models/advertise/statistics";
 import ConfirmationStatus, { StatusType } from "brancy/components/confirmationStatus/confirmationStatus";
 import AdsTypeComp from "brancy/components/advertise/adsType";
 import styles from "./statistics.module.css";
@@ -13,6 +12,7 @@ import Loading from "brancy/components/notOk/loading";
 import initialzedTime from "brancy/helper/manageTimer";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
+import { ITotalAdsReport } from "brancy/models/interfaces";
 
 const TotalAdsReport = (props: {
   adsReports: ITotalAdsReport[] | null;

@@ -1,11 +1,11 @@
 import React, { useMemo } from "react";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
-import { BaseChatProps } from "brancy/components/messages/direct/chatComponents/types";
 import { ChatDate } from "brancy/components/messages/direct/chatComponents/shared/utils/ChatDate";
 import { MessageStatus } from "brancy/components/messages/direct/chatComponents/shared/utils/ChatDateandseen";
 import ReactionEmoji from "brancy/components/messages/direct/chatComponents/shared/utils/ReactionEmoji";
 import { RepliedMessage } from "brancy/components/messages/direct/chatComponents/shared/utils/RepliedMessage";
 import styles from "./messageTypes.module.css";
+import { BaseChatProps } from "brancy/models/interfaces";
 const ChatAudioComponent: React.FC<BaseChatProps> = ({
   item,
   direction,

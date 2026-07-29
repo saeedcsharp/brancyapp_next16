@@ -62,7 +62,7 @@ export const TextNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) => {
       </div>
       <div className={styles.textareaWrapper} style={{ height: "150px", minHeight: "150px", maxHeight: "150px" }}>
         <TextArea
-          className="captiontextarea"
+          className="TextArea"
           placeHolder={defaultPlaceholder}
           maxLength={2200}
           value={node.data?.text === defaultPlaceholder ? "" : node.data?.text || ""}

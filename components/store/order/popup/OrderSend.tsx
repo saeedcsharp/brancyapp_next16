@@ -11,11 +11,16 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { specifyLogistic } from "brancy/helper/specifyLogistic";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IFullProduct, IOrderDetail, IParcelInfo } from "brancy/models/store/orders";
 import OrderDetailContent from "brancy/components/store/order/popup/OrderDetail-Content";
 import styles from "./orderstep.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IOrderDetail, IOrderFullProduct, IParcelInfo } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
+const hasDisplayValue = (value: unknown) => {
+  if (value === null || value === undefined) return false;
+  if (typeof value === "string") return value.trim().length > 0;
+  return true;
+};
 interface OrderDetailProps {
   removeMask: () => void;
   orderDetail: IOrderDetail;
@@ -30,10 +35,11 @@ const OrderSend: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleSendOr
   const [loadingFullProduct, setLoadingFullProduct] = useState(false);
   const [loadingRequset, setLoadingRequest] = useState(false);
   const [loaderCount, setLoaderCount] = useState(7);
-  const [fullProduct, setFullProduct] = useState<IFullProduct>();
+  const [fullProduct, setFullProduct] = useState<IOrderFullProduct>();
   const [activeFullProduct, setActiveFullProduct] = useState(false);
   const [parcelInfo, setParcelInfo] = useState<IParcelInfo>();
   const [activeTab, setActiveTab] = useState<"content" | "maincontent">("maincontent");
+  const [showShipmentDetails, setShowShipmentDetails] = useState(false);
 
   useEffect(() => {
     const handleResize = () => {
@@ -71,7 +77,7 @@ const OrderSend: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleSendOr
       setActiveFullProduct(true);
       setLoadingFullProduct(true);
       try {
-        const res = await clientFetchApi<IOrderDetail, IFullProduct>("/api/order/GetFullOrder", {
+        const res = await clientFetchApi<IOrderDetail, IOrderFullProduct>("/api/order/GetFullOrder", {
           methodType: MethodType.get,
           session: session,
           data: null,
@@ -131,6 +137,24 @@ const OrderSend: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleSendOr
     setActiveFullProduct(false);
     setActiveTab("maincontent");
   }, []);
+  const latestParcelLog = parcelInfo ? parcelInfo.logs[parcelInfo.logs.length - 1] : undefined;
+  const parcelLogs = parcelInfo?.logs ?? [];
+  const uniqueParcelLogs = (() => {
+    const seenLocations = new Set<string>();
+    const dedupedLogs = [] as typeof parcelLogs;
+
+    for (let index = parcelLogs.length - 1; index >= 0; index -= 1) {
+      const log = parcelLogs[index];
+      const locationKey = log.location?.trim() ?? "";
+
+      if (seenLocations.has(locationKey)) continue;
+
+      seenLocations.add(locationKey);
+      dedupedLogs.unshift(log);
+    }
+
+    return dedupedLogs;
+  })();
   return (
     <>
       <div className="dialogBg" onClick={handleBackdropClick} />
@@ -263,101 +287,180 @@ const OrderSend: FC<OrderDetailProps> = ({ removeMask, orderDetail, handleSendOr
               <div className={styles.maincontent}>
                 <table className={styles.infoTable}>
                   <tbody>
-                    {parcelInfo.logs[parcelInfo.logs.length - 1].postMan !== null && (
-                      <tr>
-                        <th className={styles.tableheader}>{t(LanguageKey.Storeorder_PostMan)}</th>
-                        <td className={styles.tablecontent}>
-                          <div className="instagramprofile">
-                            <img
-                              className="instagramimage"
-                              title="ℹ️ Profile image"
-                              alt="profile image"
-                              src={basePictureUrl + parcelInfo.logs[parcelInfo.logs.length - 1].postMan!.profileUrl}
-                              onError={(e) => {
-                                (e.target as HTMLImageElement).src = "/no-profile.svg";
-                              }}
-                            />
-                            <div className="instagramprofiledetail" style={{ maxWidth: "100%" }}>
-                              <div className="instagramusername">
-                                {parcelInfo.logs[parcelInfo.logs.length - 1].postMan!.name || ""}
+                    {latestParcelLog?.postMan &&
+                      (hasDisplayValue(latestParcelLog.postMan.profileUrl) ||
+                        hasDisplayValue(latestParcelLog.postMan.name)) && (
+                        <tr>
+                          <th className={styles.tableheader}>{t(LanguageKey.Storeorder_PostMan)}</th>
+                          <td className={styles.tablecontent}>
+                            <div className="instagramprofile">
+                              <img
+                                className="instagramimage"
+                                title="ℹ️ Profile image"
+                                alt="profile image"
+                                src={basePictureUrl + latestParcelLog.postMan.profileUrl}
+                                onError={(e) => {
+                                  (e.target as HTMLImageElement).src = "/no-profile.svg";
+                                }}
+                              />
+                              <div className="instagramprofiledetail" style={{ maxWidth: "100%" }}>
+                                <div className="instagramusername">{latestParcelLog.postMan.name || ""}</div>
                               </div>
                             </div>
+                          </td>
+                        </tr>
+                      )}
+
+                    {hasDisplayValue(parcelInfo.id) && (
+                      <tr>
+                        <th className={styles.tableheader}>{t(LanguageKey.Storeorder_TrackingCode)}</th>
+                        <td className={styles.tablecontent}>
+                          <div className={styles.mobileparent}>
+                            {parcelInfo.id}
+                            <img
+                              style={{ width: "16px", height: "16px", cursor: "pointer" }}
+                              title="ℹ️ Copy"
+                              src="/copy.svg"
+                              alt="Copy"
+                              onClick={() => {
+                                navigator.clipboard.writeText(parcelInfo.id.toString());
+                              }}
+                            />
                           </div>
                         </td>
                       </tr>
                     )}
+                    {hasDisplayValue(parcelInfo.from) && (
+                      <tr>
+                        <th className={styles.tableheader}>{t(LanguageKey.Storeorder_from)}</th>
+                        <td className={styles.tablecontent}>{parcelInfo.from}</td>
+                      </tr>
+                    )}
+                    {hasDisplayValue(parcelInfo.to) && (
+                      <tr>
+                        <th className={styles.tableheader}>{t(LanguageKey.Storeorder_Destination)}</th>
+                        <td className={styles.tablecontent}>{parcelInfo.to}</td>
+                      </tr>
+                    )}
+                    {hasDisplayValue(latestParcelLog?.location) && (
+                      <tr>
+                        <th className={styles.tableheader}>{t(LanguageKey.Storeorder_currentLocation)}</th>
+                        <td className={styles.tablecontent}>{latestParcelLog?.location}</td>
+                      </tr>
+                    )}
+                    {uniqueParcelLogs.length > 0 && (
+                      <tr>
+                        <th
+                          className={styles.tableheader}
+                          onClick={() => setShowShipmentDetails((current) => !current)}
+                          aria-expanded={showShipmentDetails}
+                          aria-controls="shipment-details-timeline">
+                          {showShipmentDetails ? "بستن جزییات" : "مشاهده جزییات"}
+                          {showShipmentDetails ? "▴" : "▾"}
+                        </th>
+                        {showShipmentDetails && uniqueParcelLogs.length > 0 && (
+                          <td className={styles.tablecontent}>
+                            <div id="shipment-details-timeline" className={styles.shipmentTimeline}>
+                              {uniqueParcelLogs.map((log, index) => {
+                                const isLastItem = index === uniqueParcelLogs.length - 1;
+                                const createdTime = new DateObject({
+                                  date: log.createdTime * 1000,
+                                  calendar: initialzedTime().calendar,
+                                  locale: initialzedTime().locale,
+                                }).format("YYYY/MM/DD - HH:mm:ss");
 
-                    <tr>
-                      <th className={styles.tableheader}>{t(LanguageKey.Storeorder_TrackingCode)}</th>
-                      <td className={styles.tablecontent}>
-                        <div
-                          className={styles.mobileparent}
-                          style={{ cursor: "pointer" }}
-                          onClick={() => {
-                            if (parcelInfo.id) {
-                              navigator.clipboard.writeText(parcelInfo.id.toString());
-                            }
-                          }}>
-                          <strong>{parcelInfo.id}</strong>
-                          <img style={{ width: "16px", height: "16px" }} title="ℹ️ Copy" src="/copy.svg" alt="Copy" />
-                        </div>
-                      </td>
-                    </tr>
-                    <tr>
-                      <th className={styles.tableheader}>{t(LanguageKey.Storeorder_from)}</th>
-                      <td className={styles.tablecontent}>{parcelInfo.from}</td>
-                    </tr>
-                    <tr>
-                      <th className={styles.tableheader}>{t(LanguageKey.Storeorder_Destination)}</th>
-                      <td className={styles.tablecontent}>{parcelInfo.to}</td>
-                    </tr>
-                    <tr>
-                      <th className={styles.tableheader}>{t(LanguageKey.Storeorder_currentLocation)}</th>
-                      <td className={styles.tablecontent}>{parcelInfo.logs[parcelInfo.logs.length - 1].location}</td>
-                    </tr>
-                    <tr>
-                      <th className={styles.tableheader}>{t(LanguageKey.Storeorder_DELIVERY)}</th>
-                      <td className={styles.tablecontent}>{specifyLogistic(parcelInfo.logesticType)}</td>
-                    </tr>
-                    <tr>
-                      <th className={styles.tableheader}>{t(LanguageKey.totalprice)}</th>
-                      <td className={styles.tablecontent}>
-                        <PriceFormater
-                          pricetype={parcelInfo.priceType}
-                          fee={parcelInfo.price}
-                          className={PriceFormaterClassName.PostPrice}
-                        />
-                      </td>
-                    </tr>
-                    <tr>
-                      <th className={styles.tableheader}>{t(LanguageKey.Storeorder_AcceptthisOrder)}</th>
-                      <td className={styles.tablecontent}>
-                        {new DateObject({
-                          date: parcelInfo.acceptTime * 1000,
-                          calendar: initialzedTime().calendar,
-                          locale: initialzedTime().locale,
-                        }).format("YYYY/MM/DD - HH:mm:ss")}
-                      </td>
-                    </tr>
-                    <tr>
-                      <th className={styles.tableheader}>{t(LanguageKey.Storeorder_lastUpdateTime)}</th>
-                      <td className={styles.tablecontent}>
-                        {new DateObject({
-                          date: parcelInfo.lastUpdateTime * 1000,
-                          calendar: initialzedTime().calendar,
-                          locale: initialzedTime().locale,
-                        }).format("YYYY/MM/DD - HH:mm:ss")}
-                      </td>
-                    </tr>
+                                return (
+                                  <div key={`${log.createdTime}-${index}`} className={styles.shipmentTimelineItem}>
+                                    <div className={styles.shipmentTimelineMarkerWrap}>
+                                      <span className={styles.shipmentTimelineMarker} />
+                                      {!isLastItem && <span className={styles.shipmentTimelineLine} />}
+                                    </div>
+                                    <div className={styles.shipmentTimelineCard}>
+                                      <div className={styles.shipmentTimelineHeader}>
+                                        <span className={styles.shipmentTimelineTime}>{createdTime}</span>
+                                        <span className={styles.shipmentTimelineLevel}>مرحله {index + 1}</span>
+                                      </div>
+                                      <div className={styles.shipmentTimelineLocation}>{log.location}</div>
+                                      {log.postMan && (
+                                        <div className={styles.shipmentTimelinePostman}>
+                                          {hasDisplayValue(log.postMan.profileUrl) && (
+                                            <img
+                                              className={styles.shipmentTimelineAvatar}
+                                              title="ℹ️ Profile image"
+                                              alt="profile image"
+                                              src={basePictureUrl + log.postMan.profileUrl}
+                                              onError={(e) => {
+                                                (e.target as HTMLImageElement).src = "/no-profile.svg";
+                                              }}
+                                            />
+                                          )}
+                                          <span>{log.postMan.name || "پستچی"}</span>
+                                        </div>
+                                      )}
+                                    </div>
+                                  </div>
+                                );
+                              })}
+                            </div>
+                          </td>
+                        )}
+                      </tr>
+                    )}
+                    {hasDisplayValue(parcelInfo.logesticType) && (
+                      <tr>
+                        <th className={styles.tableheader}>{t(LanguageKey.Storeorder_DELIVERY)}</th>
+                        <td className={styles.tablecontent}>{specifyLogistic(parcelInfo.logesticType)}</td>
+                      </tr>
+                    )}
+                    {hasDisplayValue(parcelInfo.price) && (
+                      <tr>
+                        <th className={styles.tableheader}>{t(LanguageKey.totalprice)}</th>
+                        <td className={styles.tablecontent}>
+                          <PriceFormater
+                            pricetype={parcelInfo.priceType}
+                            fee={parcelInfo.price}
+                            className={PriceFormaterClassName.PostPrice}
+                          />
+                        </td>
+                      </tr>
+                    )}
+                    {hasDisplayValue(parcelInfo.acceptTime) && (
+                      <tr>
+                        <th className={styles.tableheader}>{t(LanguageKey.Storeorder_AcceptthisOrder)}</th>
+                        <td className={styles.tablecontent}>
+                          {new DateObject({
+                            date: parcelInfo.acceptTime * 1000,
+                            calendar: initialzedTime().calendar,
+                            locale: initialzedTime().locale,
+                          }).format("YYYY/MM/DD - HH:mm:ss")}
+                        </td>
+                      </tr>
+                    )}
+                    {hasDisplayValue(parcelInfo.lastUpdateTime) && (
+                      <tr>
+                        <th className={styles.tableheader}>{t(LanguageKey.Storeorder_lastUpdateTime)}</th>
+                        <td className={styles.tablecontent}>
+                          {new DateObject({
+                            date: parcelInfo.lastUpdateTime * 1000,
+                            calendar: initialzedTime().calendar,
+                            locale: initialzedTime().locale,
+                          }).format("YYYY/MM/DD - HH:mm:ss")}
+                        </td>
+                      </tr>
+                    )}
 
-                    <tr>
-                      <th className={styles.tableheader}>{t(LanguageKey.Storeorder_sender)}</th>
-                      <td className={styles.tablecontent}>{parcelInfo.sender}</td>
-                    </tr>
-                    <tr>
-                      <th className={styles.tableheader}>{t(LanguageKey.Storeorder_receiver)}</th>
-                      <td className={styles.tablecontent}>{parcelInfo.receiver}</td>
-                    </tr>
+                    {hasDisplayValue(parcelInfo.sender) && (
+                      <tr>
+                        <th className={styles.tableheader}>{t(LanguageKey.Storeorder_sender)}</th>
+                        <td className={styles.tablecontent}>{parcelInfo.sender}</td>
+                      </tr>
+                    )}
+                    {hasDisplayValue(parcelInfo.receiver) && (
+                      <tr>
+                        <th className={styles.tableheader}>{t(LanguageKey.Storeorder_receiver)}</th>
+                        <td className={styles.tablecontent}>{parcelInfo.receiver}</td>
+                      </tr>
+                    )}
                   </tbody>
                 </table>
                 <div className={styles.attention}>

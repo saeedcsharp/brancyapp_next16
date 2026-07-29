@@ -8,8 +8,8 @@ import {
   numberToFormattedString2,
 } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
-import { IEditTariff, ITariff } from "brancy/models/advertise/peoperties";
 import styles from "./tariff.module.css";
+import { ITariff, IEditTariff } from "brancy/models/interfaces";
 const EditTariff = (props: { removeMask: () => void; saveTariift: (tariif: ITariff) => void; tariif: ITariff }) => {
   const { t } = useTranslation();
   const [editTariff, setEditTarrif] = useState<IEditTariff>({

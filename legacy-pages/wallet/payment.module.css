@@ -384,3 +384,253 @@
     font-size: var(--font-11);
   }
 }
+
+/* Bank-card collection */
+.paymentPage {
+  width: 100%;
+  max-width: 1440px;
+  margin: 0 auto;
+  padding: 24px 32px 48px;
+  box-sizing: border-box;
+}
+.walletSection {
+  width: 100%;
+}
+.sectionHeading {
+  margin-bottom: 32px;
+}
+.sectionHeading .cardTitle {
+  margin: 0 0 var(--gap-5);
+  font-size: var(--font-24);
+  font-weight: var(--weight-800);
+}
+.sectionHeading .cardSubtitle {
+  max-width: 560px;
+}
+.cardList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 340px));
+  justify-content: center;
+  gap: 24px;
+}
+.bankCard {
+  min-width: 0;
+  min-height: 184px;
+  padding: var(--padding-20);
+  border-radius: var(--br10);
+  background: linear-gradient(135deg, var(--color-white), var(--color-light-blue10));
+  border: 1px solid var(--content-box);
+  border-top: 3px solid var(--color-dark-blue);
+  box-shadow: 0 4px 12px rgba(16, 24, 40, 0.07);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: var(--gap-16);
+  transition: var(--transition3);
+}
+.addCardTile {
+  min-height: 184px;
+  padding: var(--padding-20);
+  border: 2px dashed var(--color-light-blue);
+  border-radius: var(--br10);
+  background: var(--color-light-blue10);
+  color: var(--color-dark-blue);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-14);
+  font-weight: var(--weight-700);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-8);
+  transition: var(--transition3);
+}
+.addCardTile:hover {
+  border-style: solid;
+  background: var(--color-light-blue30);
+  transform: translateY(-2px);
+}
+.addCardTile small {
+  color: var(--text-h2);
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+}
+.addCardIcon {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--color-dark-blue);
+  color: var(--color-white);
+  display: grid;
+  place-items: center;
+  font-size: 28px;
+  font-weight: var(--weight-400);
+  line-height: 1;
+}
+.bankCard:hover {
+  border-color: var(--color-light-blue);
+  box-shadow: 0 10px 20px rgba(16, 24, 40, 0.14);
+  transform: translateY(-2px);
+}
+.bankCardHeader,
+.bankCardFooter,
+.formActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-10);
+}
+.bankName {
+  font-size: var(--font-14);
+  font-weight: var(--weight-700);
+  color: var(--text-h1);
+}
+.cardNumber {
+  font-family: "Courier New", monospace;
+  font-size: var(--font-16);
+  font-weight: var(--weight-700);
+  letter-spacing: 1px;
+  color: var(--text-h1);
+  direction: ltr;
+  text-align: left;
+}
+.holder {
+  font-size: var(--font-12);
+  color: var(--text-h2);
+}
+.badges {
+  display: flex;
+  gap: var(--gap-8);
+  flex-wrap: wrap;
+}
+.defaultBadge {
+  background: var(--color-dark-green30);
+  color: var(--color-dark-green);
+  padding: 4px 8px;
+  border-radius: var(--br8);
+  font-size: var(--font-11);
+  font-weight: var(--weight-600);
+}
+.suspendedBadge {
+  background: #fff4e6;
+  color: #b45309;
+  padding: 4px 8px;
+  border-radius: var(--br8);
+  font-size: var(--font-11);
+  font-weight: var(--weight-600);
+}
+.editButton {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  color: var(--color-dark-blue);
+  font: inherit;
+  font-size: var(--font-12);
+  font-weight: var(--weight-600);
+  cursor: pointer;
+}
+.editButton:hover {
+  color: var(--color-light-blue);
+}
+.addCardPanel {
+  margin-bottom: var(--gap-16);
+  padding: var(--padding-20);
+  border: 1px solid var(--content-box);
+  border-radius: var(--br10);
+  background: var(--color-white);
+}
+.addCardForm {
+  display: grid;
+  grid-template-columns: minmax(240px, 480px) auto;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--gap-20);
+}
+.inputHint {
+  color: var(--text-h2);
+  font-size: var(--font-11);
+  font-weight: var(--weight-400);
+}
+.cancelButton {
+  height: 45px;
+  padding: 0 var(--padding-20);
+  border: 1px solid var(--content-box);
+  border-radius: var(--br10);
+  background: transparent;
+  color: var(--text-h1);
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-14);
+  transition: var(--transition3);
+}
+.cancelButton:hover {
+  border-color: var(--color-light-blue);
+}
+.cancelButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.5;
+}
+.formInline {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gap-12);
+  align-items: center;
+}
+.formInline .label {
+  min-width: 0;
+}
+.formActions {
+  grid-column: 1 / -1;
+  justify-content: flex-end;
+}
+.defaultControl {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-8);
+  color: var(--text-h2);
+  font-size: var(--font-12);
+}
+
+@media (max-width: 900px) {
+  .addCardForm {
+    grid-template-columns: 1fr;
+  }
+  .formInline {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (max-width: 768px) {
+  .paymentPage {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 560px) {
+  .paymentPage {
+    padding: 12px;
+  }
+  .cardList,
+  .formInline {
+    grid-template-columns: 1fr;
+  }
+  .bankCard {
+    min-height: 168px;
+    padding: var(--padding-16);
+  }
+  .addCardTile {
+    min-height: 168px;
+  }
+  .cardList {
+    gap: var(--gap-16);
+  }
+  .formActions {
+    align-items: stretch;
+    flex-direction: column;
+  }
+  .formActions .button,
+  .formActions .buttonPrimary {
+    width: 100%;
+  }
+}

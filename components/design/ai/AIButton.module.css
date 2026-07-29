@@ -40,7 +40,9 @@
   right: 0;
   bottom: 0;
   border-radius: var(--br25);
-  box-shadow: inset 0 2px 6px var(--c-shadow-inset-top), inset 0 -2px 3px var(--c-shadow-inset-bottom);
+  box-shadow:
+    inset 0 2px 6px var(--c-shadow-inset-top),
+    inset 0 -2px 3px var(--c-shadow-inset-bottom);
 }
 .AIBtn .wrapper {
   -webkit-mask-image: -webkit-radial-gradient(white, black);
@@ -80,7 +82,7 @@
   animation: var(--animation, none) var(--duration, 15s) var(--easing, ease-in-out) infinite var(--delay, 0s);
 }
 .AIBtn .wrapper .circle1 {
-  --background: #c040ed;
+  --background: #2977ff;
   --x: -25%;
   --y: -25%;
   --animation: circle-1;
@@ -96,7 +98,7 @@
   --delay: 0s;
 }
 .AIBtn .wrapper .circle3 {
-  --background: #b443ff;
+  --background: #2699fb;
   --x: -10%;
   --y: 10%;
   --animation: circle-3;

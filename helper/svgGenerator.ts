@@ -1,5 +1,5 @@
+import { TermsType } from "brancy/models/enums";
 import { FontWeight } from "next/dist/compiled/@vercel/og/satori";
-import { TermsType } from "brancy/models/page/tools/tools";
 import satori from "satori";
 
 export async function SvgGenerator(htmldata: React.ReactNode, width: number, height: number, fontWeight: FontWeight) {
@@ -54,7 +54,7 @@ export function BackgrounCssTodStr(
   secondHexBackgroung: string,
   firstPercentageColor: number,
   secondPercentageColor: number,
-  deg: number
+  deg: number,
 ) {
   let background: string = "";
   if (type === TermsType.Linear) {

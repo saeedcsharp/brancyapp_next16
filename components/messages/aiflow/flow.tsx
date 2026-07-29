@@ -41,9 +41,9 @@ import {
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { ITotalMasterFlow } from "brancy/models/messages/properies";
 import styles from "./Flow.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { ITotalMasterFlow } from "brancy/models/interfaces";
 // #endregion IMPORTS AND EXPORTS
 
 // #region INTERFACES & TYPE DEFINITIONS
@@ -527,11 +527,11 @@ const getNodeTypeTranslationKey = (nodeType: string): LanguageKey => {
  */
 const getBezierPath = (start: Position, end: Position): string => {
   const dx = end.x - start.x;
-  const dy = end.y - start.y;
   const controlPointOffset = Math.abs(dx) / 2;
-  return `M ${start.x} ${start.y} C ${start.x + controlPointOffset} ${start.y}, ${end.x - controlPointOffset} ${
-    end.y
-  }, ${end.x} ${end.y}`;
+  const fmt = (n: number) => n.toFixed(0);
+  return `M ${fmt(start.x)} ${fmt(start.y)} C ${fmt(start.x + controlPointOffset)} ${fmt(start.y)}, ${fmt(
+    end.x - controlPointOffset,
+  )} ${fmt(end.y)}, ${fmt(end.x)} ${fmt(end.y)}`;
 };
 
 /**
@@ -1888,32 +1888,46 @@ export default function Flow({
     const menuWidth = 200;
     const menuHeight = 300;
 
+    // موقعیت نسبت به viewport
+    const clientX = e.clientX;
+    const clientY = e.clientY;
+
     // تشخیص جهت صفحه (RTL یا LTR)
     const isRTL = document.dir === "rtl" || document.documentElement.dir === "rtl";
 
-    // موقعیت اولیه
-    let x = e.clientX;
-    let y = e.clientY;
+    // اگر canvasRef موجود است، مختصات را نسبت به آن محاسبه کن
+    let x = clientX;
+    let y = clientY;
+    if (canvasRef?.current) {
+      const rect = canvasRef.current.getBoundingClientRect();
+      // در حالت RTL، منو از لبهٔ چپ نشانگر باز شود (یعنی سمت راست منو با نشانگر هم‌تراز)
+      x = isRTL ? clientX - rect.left - menuWidth : clientX - rect.left;
+      y = clientY - rect.top;
 
-    if (isRTL) {
-      // در حالت RTL، از سمت راست محاسبه می‌کنیم
-      const rightPosition = window.innerWidth - x;
-
-      // بررسی اینکه منو از لبه چپ خارج نشود
-      if (rightPosition + menuWidth > window.innerWidth) {
-        x = menuWidth + 10;
+      // جلوگیری از بیرون زدن منو از داخل canvas
+      if (x + menuWidth > rect.width) {
+        x = Math.max(10, rect.width - menuWidth - 10);
+      }
+      if (y + menuHeight > rect.height) {
+        y = Math.max(10, rect.height - menuHeight - 10);
+      }
+      // اگر در RTL منو از سمت چپ نشانگر قرار گرفت و از لبهٔ چپ بیرون زد، جلو بیاور
+      if (x < 0) {
+        x = 10;
       }
     } else {
-      // در حالت LTR، از سمت چپ محاسبه می‌کنیم
-      // بررسی اینکه منو از لبه راست خارج نشود
-      if (x + menuWidth > window.innerWidth) {
-        x = window.innerWidth - menuWidth - 10;
+      // fallback: محدودیت نسبت به viewport
+      if (isRTL) {
+        x = clientX - menuWidth;
+        if (x < 0) x = 10;
+      } else {
+        if (x + menuWidth > window.innerWidth) {
+          x = window.innerWidth - menuWidth - 10;
+        }
       }
-    }
-
-    // بررسی اینکه منو از لبه پایین خارج نشود
-    if (y + menuHeight > window.innerHeight) {
-      y = window.innerHeight - menuHeight - 10;
+      if (y + menuHeight > window.innerHeight) {
+        y = window.innerHeight - menuHeight - 10;
+      }
     }
 
     setContextMenu({
@@ -4644,6 +4658,7 @@ export default function Flow({
           <div
             ref={canvasRef}
             className={styles.canvas}
+            style={{ position: "relative" }}
             onMouseDown={handleCanvasMouseDown}
             onMouseMove={handleMouseMove}
             onMouseUp={handleMouseUp}
@@ -4957,8 +4972,8 @@ export default function Flow({
             <div
               className={styles.contextMenu}
               style={{
-                position: "fixed",
-                ...(isRTL ? { right: `${window.innerWidth - contextMenu.x}px` } : { left: `${contextMenu.x}px` }),
+                position: "absolute",
+                left: `${contextMenu.x}px`,
                 top: `${contextMenu.y}px`,
                 zIndex: 10000,
               }}

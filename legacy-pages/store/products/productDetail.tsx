@@ -11,21 +11,22 @@ import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotBasePackage from "brancy/components/notOk/notBasePackage";
 import NotShopper from "brancy/components/notOk/notShopper";
 import InstanceProductDetail from "brancy/components/store/products/productDetail/instanceProduct/instanceProductDetail";
-import NotInstanceProductDetail from "brancy/components/store/products/productDetail/notInstanceProduct/notInstanceProductDetal";
-import DeleteProduct from "brancy/components/store/products/productDetail/notInstanceProduct/popups/deleteProduct";
+import NotInstanceProductDetail from "brancy/components/store/products/productDetail/notInstanceProduct/notInstanceProductDetail";
+import DeleteProduct from "brancy/components/store/products/productDetail/popups/deleteProduct";
 import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { IDetailsPost } from "brancy/models/page/post/posts";
+
+import styles from "./productDetail.module.css";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
+  IDetailsPost,
   IMaxSize,
   IProduct_FullProduct,
   IProduct_ShortProduct,
   ITempIdAndNonProductCount,
-} from "brancy/models/store/IProduct";
-import { PartnerRole } from "brancy/models/_AccountInfo/InstagramerAccountInfo";
-import styles from "./productDetail.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+} from "brancy/models/interfaces";
+import { PartnerRole } from "brancy/models/enums";
 
 const ProductDetail = ({ tempId }: { tempId: string }) => {
   //  return <Soon />;
