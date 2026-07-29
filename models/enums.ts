@@ -1052,3 +1052,20 @@ export enum SubInvoiceStatus {
   Settled = 2,
   Failed = 3,
 }
+export enum InvoiceType {
+  Package,
+  Product,
+  Feature,
+  Custom = 100,
+}
+export enum InvoiceStatus {
+  Pending,
+  Paid,
+  Success,
+  WaitingForRefundRequest,
+  FastRefunding,
+  Refunded,
+  FailedRefaund,
+  Failed,
+}
+// #endregion Wallet

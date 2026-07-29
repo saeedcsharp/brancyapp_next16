@@ -31,6 +31,8 @@ import {
   GauranteeStatus,
   ITicketMediaType,
   InputType,
+  InvoiceStatus,
+  InvoiceType,
   ItemType,
   LoginStatus,
   LogisticType,
@@ -4820,7 +4822,7 @@ export interface IOrder {
   status: number;
   statusUpdateTime: number;
   totalPrice: number;
-  priceType: number;
+  priceType: PriceType;
 }
 
 export interface IAddress {
@@ -4847,11 +4849,12 @@ export interface ISubInvoice {
   invoiceId: string;
   itemType: number;
   price: number;
-  priceType: number;
-  cardNumber?: any;
+  priceType: PriceType;
+  cardNumber?: string;
+  status: SubInvoiceStatus;
 }
 
-export interface OrderInvoice {
+export interface IOrderInvoice {
   orderId: string;
   invoiceId: string;
   instagramerId: number;
@@ -4861,17 +4864,18 @@ export interface OrderInvoice {
 
 export interface IInvoice {
   id: string;
-  priceType: number;
+  priceType: PriceType;
   createdTime: number;
   accountId: number;
   successTransactionId?: number;
   accountType: number;
   expireTime: number;
-  status: number;
-  invoiceType: number;
+  phoneNumber: string;
+  status: InvoiceStatus;
+  invoiceType: InvoiceType;
   amount: number;
   subInvoices: ISubInvoice[];
-  orderInvoice: OrderInvoice;
+  orderInvoice: IOrderInvoice;
   packageInvoice?: any;
   customInvoices?: any;
 }

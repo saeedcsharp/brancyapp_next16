@@ -1,3 +1,4 @@
+import { useTranslation } from "react-i18next";
 import styles from "./contentCreatorHeader.module.css";
 type ContentCreatorHeaderProps = {
   activeTab: "image" | "video";
@@ -11,20 +12,21 @@ export default function ContentCreatorHeader({
   openImageCreator,
   openVideoCreator,
 }: ContentCreatorHeaderProps) {
+  const { t } = useTranslation();
   return (
     <>
       <header className={styles.aiHeader}>
         <div>
-          <span className={styles.eyebrow}>AI media studio</span>
-          <h1>Your creations</h1>
-          <p>Browse previous generations or start a new creative project.</p>
+          <span className={styles.eyebrow}>{t("AI media studio")}</span>
+          <h1>{t("Your creations")}</h1>
+          <p>{t("Browse previous generations or start a new creative project.")}</p>
         </div>
         <button
           className={styles.createButton}
           type="button"
           onClick={activeTab === "image" ? openImageCreator : openVideoCreator}>
           <span aria-hidden="true">+</span>
-          Create {activeTab === "image" ? "image" : "video"}
+          {t("Create")} {activeTab === "image" ? t("image") : t("video")}
         </button>
       </header>
       <div className={styles.mediaTabs} role="tablist" aria-label="Media type">
@@ -38,8 +40,8 @@ export default function ContentCreatorHeader({
             ▧
           </span>
           <span>
-            <strong>Images</strong>
-            <small>Generated artwork and visuals</small>
+            <strong>{t("Images")}</strong>
+            <small>{t("Generated artwork and visuals")}</small>
           </span>
         </button>
         <button
@@ -52,8 +54,8 @@ export default function ContentCreatorHeader({
             ▶
           </span>
           <span>
-            <strong>Videos</strong>
-            <small>AI motion and clips</small>
+            <strong>{t("Videos")}</strong>
+            <small>{t("AI motion and clips")}</small>
           </span>
         </button>
       </div>

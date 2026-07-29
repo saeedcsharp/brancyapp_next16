@@ -5,6 +5,7 @@ import { DateObject } from "react-multi-date-picker";
 import { parseImageMetadata } from "./generatedImageModal";
 import styles from "./imageList.module.css";
 import { IGetImage } from "brancy/models/interfaces";
+import { useTranslation } from "react-i18next";
 function formatCreatedTime(timestamp: number) {
   const t = initialzedTime();
   const d = new DateObject({
@@ -28,12 +29,13 @@ export default function ImageList({
   setSelectedImage,
   openImageCreator,
 }: ImageListProps) {
+  const { t } = useTranslation();
   return (
     <section className={styles.library} aria-label="Generated images">
       <div className={styles.libraryHeading}>
         <div>
-          <h2>Image library</h2>
-          <p>{images.length} creations loaded</p>
+          <h2>{t("Image library")}</h2>
+          <p>{t("{count} creations loaded", { count: images.length })}</p>
         </div>
       </div>
 
@@ -76,10 +78,10 @@ export default function ImageList({
       ) : (
         <div className={styles.emptyLibrary}>
           <span aria-hidden="true">▧</span>
-          <h2>No images yet</h2>
-          <p>Your successful image generations will appear here.</p>
+          <h2>{t("No images yet")}</h2>
+          <p>{t("Your successful image generations will appear here.")}</p>
           <button type="button" onClick={openImageCreator}>
-            Create your first image
+            {t("Create your first image")}
           </button>
         </div>
       )}
