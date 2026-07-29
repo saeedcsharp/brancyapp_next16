@@ -1,11 +1,17 @@
 "use client";
 
-import { FormEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
+import { FormEvent, KeyboardEvent, useContext, useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
+import { DirectionContext } from "../../context/directionContext";
 import { filterFeatureSearch } from "./featureSearchIndex";
 import styles from "./featureSearch.module.css";
+
+const formatRouteDisplay = (route: string, direction: "ltr" | "rtl") => {
+  const routeParts = route.split("/").filter(Boolean);
+  return direction === "rtl" ? routeParts.reverse().join("/") : routeParts.join("/");
+};
 
 const FeatureSearch = ({
   onClose,
@@ -18,6 +24,7 @@ const FeatureSearch = ({
 }) => {
   const { t } = useTranslation();
   const router = useRouter();
+  const direction = useContext(DirectionContext);
   const inputRef = useRef<HTMLInputElement>(null);
   const [query, setQuery] = useState("");
   const results = filterFeatureSearch(query, (key) => t(key));
@@ -79,8 +86,10 @@ const FeatureSearch = ({
                 role="option"
                 onClick={() => navigateTo(result.route)}>
                 <span className={styles.resultText}>
-                  <strong>{t(result.labelKey)}</strong>
-                  <span>{result.route}</span>
+                  <div className="title">{t(result.labelKey)}</div>
+                  <div className="explain" dir="ltr">
+                    {formatRouteDisplay(result.route, direction)}
+                  </div>
                 </span>
                 <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
                   <path

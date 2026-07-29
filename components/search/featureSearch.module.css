@@ -1,9 +1,9 @@
 .searchPanel {
   position: absolute;
-  inset-block-start: 55px;
+  inset-block-start: 70px;
   inset-inline-end: 0;
-  z-index: 1000;
-  width: min(420px, calc(100vw - 32px));
+  z-index: 10000;
+  width: min(360px, calc(100vw - 32px));
   overflow: hidden;
   background: var(--color-white);
   border: 1px solid var(--color-gray30);
@@ -68,21 +68,25 @@
 }
 
 .results {
+  animation: var(--top04);
   display: flex;
-  max-height: 360px;
+  max-height: 300px;
   flex-direction: column;
   overflow-y: auto;
   padding: 6px;
+  gap: var(--gap-5);
 }
 
 .result {
   display: flex;
+  animation: var(--top04);
   width: 100%;
   min-height: 58px;
   align-items: center;
   justify-content: space-between;
   gap: var(--gap-10);
   padding: 9px 10px;
+  transition: var(--transition2);
   border: 0;
   border-radius: var(--br8);
   background: transparent;
@@ -103,20 +107,6 @@
   flex-direction: column;
   gap: 3px;
   letter-spacing: 0;
-}
-
-.resultText strong {
-  overflow: hidden;
-  font-size: var(--font-14);
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-.resultText span {
-  color: var(--text-h2);
-  font-size: var(--font-10);
-  direction: ltr;
-  text-align: start;
 }
 
 .result > svg {
