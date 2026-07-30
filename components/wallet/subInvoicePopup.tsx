@@ -10,7 +10,7 @@ import { DateObject } from "react-multi-date-picker";
 import { NotifType, notify, ResponseType } from "../notifications/notificationBox";
 import Loading from "../notOk/loading";
 import PriceFormater, { PriceFormaterClassName } from "../priceFormater";
-import styles from "./subInvoices.module.css";
+import styles from "./subInvoicePopup.module.css";
 
 export default function SubInvoicesP({ cardNumber }: { cardNumber: string }) {
   const { t } = useTranslation();

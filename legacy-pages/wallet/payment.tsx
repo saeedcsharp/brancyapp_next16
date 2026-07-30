@@ -236,7 +236,6 @@ const Payment = () => {
                   />
                 ))}
               </div>
-              {/* <SubInvoices subInvoices={subInvoices} subInvoicesLoading={subInvoicesLoading} /> */}
             </>
           )}
         </section>

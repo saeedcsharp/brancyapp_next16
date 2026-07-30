@@ -1,6 +1,6 @@
 import { IGetSubInvoice, ISubInvoice } from "brancy/models/interfaces";
 import PriceFormater, { PriceFormaterClassName, PriceType } from "../priceFormater";
-import styles from "./subInvoices.module.css";
+import styles from "./invoices.module.css";
 import Loading from "../notOk/loading";
 type SubInvoicesProps = {
   subInvoices: IGetSubInvoice;
