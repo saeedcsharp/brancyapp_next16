@@ -14,7 +14,7 @@ Owns the folder/module concerns described by its file tree and exports.
 
 ## Architecture
 
-Follows existing Next/React/TypeScript project conventions.
+Follows existing Next/React/TypeScript project conventions. Website component styling is kept in feature-local CSS Modules; `InstallPrompt` uses `installPrompt.module.css` for both banner and iOS fallback presentation.
 
 ## Folder Structure
 
@@ -146,7 +146,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-07-29
 
 ---
 
@@ -155,13 +155,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

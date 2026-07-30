@@ -65,7 +65,7 @@
   padding: var(--padding-16);
   display: flex;
   border: 1px solid var(--color-white);
-  left: 16px;
+
   height: 70px;
   justify-content: space-between;
   align-items: center;

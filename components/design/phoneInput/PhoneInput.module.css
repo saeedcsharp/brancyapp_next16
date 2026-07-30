@@ -9,6 +9,7 @@
   min-width: 0;
 }
 .field:has(.countryField) {
+  min-width: 80px;
   flex: 0 1 30%;
   max-width: 30%;
 }

@@ -2,6 +2,7 @@
 
 ## 2026-07-29
 
+- Moved all `InstallPrompt` inline presentation styles, including Share/Add Home Screen SVG styles and RTL-specific layout rules, into `components/website/installPrompt.module.css`.
 - Updated the dependency audit page at `app/dev/test.tsx` to cover all 50 direct packages from `package.json` (41 runtime and 9 development dependencies).
 - Added the missing `@next/third-parties` and `emoji-picker-react` entries, refreshed package counts and the report date, and corrected stale Quill/pako recommendations.
 

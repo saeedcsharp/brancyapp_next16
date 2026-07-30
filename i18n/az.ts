@@ -315,8 +315,8 @@ export default {
     installPromptMessage: "Brancy veb tətbiqini quraşdırın",
     install: "Quraşdır",
     installStep1: "Aşağıdaki paylaşım düyməsinə toxunun.",
-    installStep2: "Açılan menyunu yuxarı sürüşdürün və 'Add to Home Screen' seçin.",
-    installStep3: "Ekranın yuxarısında 'Add' düyməsini seçin.",
+    installStep2: "Açılan menyunu yuxarı sürüşdürün və Add to Home Screen seçin.",
+    installStep3: "Ekranın yuxarısında Add düyməsini seçin.",
     joinUs_subtitle: "Brancy'ə Qoşulun; İnnovasiya Və Davamlı Gələcək Burada Formalaşır.",
     joinUs_whyWorkWithUs: "Niyə Brancy?",
     joinUs_whyWorkWithUsDescription:
