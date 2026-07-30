@@ -261,7 +261,7 @@ html[dir="rtl"] .button {
 .fadecircle {
   position: absolute;
   z-index: 0;
-  width: 500px;
+  /* width: 500px; */
   height: 500px;
   top: 10%;
   right: 40%;
