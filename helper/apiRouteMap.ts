@@ -404,6 +404,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/wallet/settleRequest": "/Business/Wallet/SettleRequest",
   "/api/wallet/getGenerallBallance": "/Business/Wallet/GetGeneralBallance",
   "/api/wallet/getSubInvoices": "/Business/Wallet/GetSubInvoices",
+  "/api/wallet/getInvoices": "/Business/Wallet/GetInvoices",
 };
 
 /**

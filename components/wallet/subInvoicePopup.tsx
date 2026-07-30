@@ -1,10 +1,11 @@
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import initialzedTime from "brancy/helper/manageTimer";
+import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { SubInvoiceItemType, SubInvoiceStatus } from "brancy/models/enums";
-import { IGetSubInvoice } from "brancy/models/interfaces";
+import { IGetSubInvoice, ISubInvoice } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import { NotifType, notify, ResponseType } from "../notifications/notificationBox";
@@ -12,11 +13,16 @@ import Loading from "../notOk/loading";
 import PriceFormater, { PriceFormaterClassName } from "../priceFormater";
 import styles from "./subInvoicePopup.module.css";
 
-export default function SubInvoicesP({ cardNumber }: { cardNumber: string }) {
+type SubInvoicesPopupProps = {
+  cardNumber: string;
+  subInvoices: IGetSubInvoice | null;
+  onSubInvoicesChange: (subInvoices: IGetSubInvoice) => void;
+};
+
+export default function SubInvoicesP({ cardNumber, subInvoices, onSubInvoicesChange }: SubInvoicesPopupProps) {
   const { t } = useTranslation();
   const { data: session } = useSession();
-  const [subInvoices, setSubInvoices] = useState<IGetSubInvoice | null>(null);
-  const [subInvoicesLoading, setSubInvoicesLoading] = useState(true);
+  const [subInvoicesLoading, setSubInvoicesLoading] = useState(subInvoices === null);
   function manageSubInvoiceType(type: SubInvoiceItemType): string {
     switch (type) {
       case SubInvoiceItemType.InstagramerLogestic:
@@ -49,7 +55,7 @@ export default function SubInvoicesP({ cardNumber }: { cardNumber: string }) {
         return t("Unknown Status");
     }
   }
-  async function getsubInvoices(cardNumber: string, nextMaxId?: number) {
+  async function getSubInvoices(cardNumber: string, nextMaxId?: string) {
     setSubInvoicesLoading(true);
     try {
       const res = await clientFetchApi<null, IGetSubInvoice>("/api/wallet/getSubInvoices", {
@@ -57,36 +63,84 @@ export default function SubInvoicesP({ cardNumber }: { cardNumber: string }) {
         methodType: MethodType.post,
         queries: [
           { key: "cardNumber", value: cardNumber },
-          { key: "nextMaxId", value: nextMaxId?.toString() ?? "" },
+          { key: "nextMaxId", value: nextMaxId ?? "" },
         ],
         data: [0, 1, 2, 3],
       });
       if (res && res.succeeded) {
-        setSubInvoices(res.value);
+        onSubInvoicesChange(res.value ?? { items: [], nextMaxId: null });
       } else {
         notify(res.info.responseType, NotifType.Warning);
-        setSubInvoices({ items: [], nextMaxId: null });
+        onSubInvoicesChange({ items: [], nextMaxId: null });
       }
     } catch (err) {
       console.error("getsubInvoices error", err);
       notify(ResponseType.Unexpected, NotifType.Error);
-      setSubInvoices({ items: [], nextMaxId: null });
+      onSubInvoicesChange({ items: [], nextMaxId: null });
     } finally {
       setSubInvoicesLoading(false);
     }
   }
   useEffect(() => {
-    if (!session) return;
-    getsubInvoices(cardNumber);
-  }, [session]);
+    if (!session || subInvoices) return;
+    getSubInvoices(cardNumber);
+  }, [cardNumber, session, subInvoices]);
+
+  const fetchMoreSubInvoices = useCallback(async (): Promise<ISubInvoice[]> => {
+    const nextMaxId = subInvoices?.nextMaxId;
+    if (!session || !nextMaxId) return [];
+
+    try {
+      const res = await clientFetchApi<null, IGetSubInvoice>("/api/wallet/getSubInvoices", {
+        session,
+        methodType: MethodType.post,
+        queries: [
+          { key: "cardNumber", value: cardNumber },
+          { key: "nextMaxId", value: nextMaxId },
+        ],
+        data: [0, 1, 2, 3],
+      });
+
+      if (!res.succeeded) {
+        notify(res.info.responseType, NotifType.Warning);
+        if (subInvoices) onSubInvoicesChange({ ...subInvoices, nextMaxId: null });
+        return [];
+      }
+
+      const nextPage = res.value ?? { items: [], nextMaxId: null };
+      const nextItems = Array.isArray(nextPage.items) ? nextPage.items : [];
+      if (subInvoices) {
+        onSubInvoicesChange({ ...subInvoices, nextMaxId: nextItems.length > 0 ? nextPage.nextMaxId : null });
+      }
+      return nextItems;
+    } catch (err) {
+      console.error("fetchMoreSubInvoices error", err);
+      notify(ResponseType.Unexpected, NotifType.Error);
+      if (subInvoices) onSubInvoicesChange({ ...subInvoices, nextMaxId: null });
+      return [];
+    }
+  }, [cardNumber, onSubInvoicesChange, session, subInvoices]);
+
+  const { containerRef, isLoadingMore } = useInfiniteScroll<ISubInvoice>({
+    hasMore: Boolean(subInvoices?.nextMaxId),
+    fetchMore: fetchMoreSubInvoices,
+    onDataFetched: (newItems) => {
+      if (subInvoices) onSubInvoicesChange({ ...subInvoices, items: [...subInvoices.items, ...newItems] });
+    },
+    getItemId: (subInvoice) => subInvoice.id,
+    currentData: subInvoices?.items ?? [],
+    isLoading: subInvoicesLoading,
+    enabled: Boolean(session && subInvoices),
+    enableAutoLoad: subInvoices === null,
+  });
 
   return (
     <>
       {/* تاریخچه تراکنش‌ها */}
-      <div className={styles.pinContainer1}>
+      <section ref={containerRef} className={styles.pinContainer1} aria-busy={subInvoicesLoading || isLoadingMore}>
         {subInvoicesLoading && <Loading />}
         {!subInvoicesLoading && (
-          <div className="tooBigCard">
+          <div className={styles.subInvoiceCard}>
             <div className="headerChild">
               <div className="circle"></div>
               <div className="Title">{t("Sub Invoice History")}</div>
@@ -135,10 +189,14 @@ export default function SubInvoicesP({ cardNumber }: { cardNumber: string }) {
                   </div>
                 ))}
               </div>
+              {subInvoices?.items.length === 0 && (
+                <div className={styles.emptyState}>{t("No invoices have been registered yet.")}</div>
+              )}
             </div>
+            {isLoadingMore && <Loading />}
           </div>
         )}
-      </div>
+      </section>
     </>
   );
 }

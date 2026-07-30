@@ -11,6 +11,11 @@
 - Add unit coverage for wallet summary aggregation across multiple `SubInvoiceStatus.None` entries when test infrastructure is introduced.
 - Add integration coverage for general-balance date filtering and per-card status aggregation when test infrastructure is introduced.
 - Add integration coverage for successful and rejected bank-card registration responses when test infrastructure is introduced.
+- Add component coverage for invoice-history loading, successful invoice-card rendering, and empty/error responses when a UI test harness is introduced.
+- Add integration coverage for invoice-history cursor pagination, duplicate invoice IDs, and exhausted `nextMaxId` responses when test infrastructure is introduced.
+- Add integration coverage for sub-invoice popup cursor pagination, duplicate IDs, exhausted `nextMaxId`, and the mobile table overflow behavior when test infrastructure is introduced.
+- Add component coverage confirming that reopening a cached bank-card sub-invoice popup makes no initial API request when a UI test harness is introduced.
+- Add component coverage confirming that a sub-invoice popup close animation cannot send a request with an empty card number when a UI test harness is introduced.
 - Add an automated locale-alignment check for `LanguageKey.Notify_*` response notification keys when test infrastructure is introduced.
 - Add unit coverage for feature-search normalization, all-locale keyword groups, translated-key enrichment, and route matching, plus browser coverage for desktop/mobile popup interaction, when test infrastructure is introduced.
 - Add integration coverage for image-generation payloads, upload limits, `clientContext` notification correlation, and successful result-modal rendering when test infrastructure is introduced.

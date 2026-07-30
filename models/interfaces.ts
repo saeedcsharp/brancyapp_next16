@@ -4886,6 +4886,11 @@ export interface IInvoice {
   customInvoices?: any;
 }
 
+export interface IGetInvoice {
+  items: IInvoice[];
+  nextMaxId: string | null;
+}
+
 export interface IBoxSize {
   orderId: string;
   boxId: string;

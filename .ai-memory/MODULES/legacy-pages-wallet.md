@@ -56,7 +56,9 @@ See related source files for exported functions and local helpers.
 
 React components are present when the folder contains `.tsx` UI files.
 
-`payment.tsx` renders Instagramer bank cards as independent responsive tiles. It loads cards through `clientFetchApi` from `/api/wallet/getInstagramerBankCards`, normalizes supported backend response shapes to an array, and keeps a card-sized add-card tile in the centered collection grid. The tile opens a 16-digit card-number form that posts `{ cardNumber }` to `/api/wallet/addCardNumber`; after success, the page reloads the complete card collection from the backend.
+`payment.tsx` renders Instagramer bank cards as independent responsive tiles. It loads cards through `clientFetchApi` from `/api/wallet/getInstagramerBankCards`, normalizes supported backend response shapes to an array, and keeps a card-sized add-card tile in the centered collection grid. The tile opens a 16-digit card-number form that posts `{ cardNumber }` to `/api/wallet/addCardNumber`; after success, the page reloads the complete card collection from the backend. It independently retrieves `/api/wallet/getInvoices`, then uses its `nextMaxId` cursor with `useInfiniteScroll` to append unique subsequent invoice pages after the card collection through `components/wallet/invoices.tsx`.
+
+Selecting a bank-card tile opens `components/wallet/subInvoicePopup.tsx`. `payment.tsx` caches sub-invoice responses by card number, preventing a repeated initial `/api/wallet/getSubInvoices` request when the same popup is reopened, and conditionally unmounts the child before modal close animation so no empty-card request occurs. The popup appends unique later pages through its `nextMaxId` cursor and `useInfiniteScroll`.
 
 `statistics.tsx` loads `/api/wallet/getBallanceHistory` after the Instagramer session is ready. It maps the response `statistics` months to one wallet-balance `ChartDay` series. It also owns the `/api/wallet/getGenerallBallance` date-range request and reloads general balances when the child card summary changes its start-date filter.
 

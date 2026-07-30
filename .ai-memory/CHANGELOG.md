@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-07-30
+
+- Replaced the bank-card sub-invoice popup's global masonry-card dependency with a local responsive card and horizontally scrollable transaction table.
+- Fixed the sub-invoice popup's collapsed content by replacing its inherited 10px-row masonry container with a flex wrapper that grows with the table.
+- Added duplicate-safe cursor pagination to sub-invoice history through `/api/wallet/getSubInvoices`, `nextMaxId`, and `useInfiniteScroll`.
+- Cached sub-invoice history by bank-card number in the payment page so reopening a popup reuses its loaded pages without repeating the initial API request.
+- Prevented a redundant `GetSubInvoices` call on popup close by unmounting its child before the modal exit animation receives an empty card number.
+- Connected the Instagramer payment page invoice-history request to a responsive invoice card section after the bank-card collection, with status/type labels and loading/empty states.
+- Added `useInfiniteScroll` pagination to the invoice-history section, loading later `/api/wallet/getInvoices` pages from the backend cursor and preserving unique invoice IDs.
+- Refined invoice history into responsive financial cards with status accents, a prominent amount, and a structured invoice-details footer.
+
 ## 2026-07-29
 
 - Moved all `InstallPrompt` inline presentation styles, including Share/Add Home Screen SVG styles and RTL-specific layout rules, into `components/website/installPrompt.module.css`.

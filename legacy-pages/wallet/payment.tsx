@@ -2,16 +2,18 @@ import Modal from "brancy/components/design/modal";
 import Loading from "brancy/components/notOk/loading";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import BankCard from "brancy/components/wallet/bankCard";
+import Invoices from "brancy/components/wallet/invoices";
 import SettlePopup from "brancy/components/wallet/settlePopup";
 import SubInvoicesPopup from "brancy/components/wallet/subInvoicePopup";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { packageStatus } from "brancy/helper/loadingStatus";
-import { IBankCard } from "brancy/models/interfaces";
+import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
+import { IBankCard, IGetInvoice, IGetSubInvoice, IInvoice } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./payment.module.css";
 const Payment = () => {
@@ -37,12 +39,15 @@ const Payment = () => {
   const [unsettledValue, setUnsettledValue] = useState(145000000);
   const [gatewayAdded, setGatewayAdded] = useState(false);
   const [cards, setCards] = useState<IBankCard[]>([]);
-  const [cardsLoading, setCardsLoading] = useState(true);
+  const [invoices, setInvoices] = useState<IGetInvoice | null>(null);
+  const [invoicesLoading, setInvoicesLoading] = useState(true);
+  const [loading, setLoading] = useState(true);
   const [addCardLoading, setAddCardLoading] = useState(false);
   const [showAdd, setShowAdd] = useState(false);
   const [showSettlePopup, setShowSettlePopup] = useState<string | null>(null);
   const [newCardNumber, setNewCardNumber] = useState("");
   const [showSubInvoicesPopup, setShowSubInvoicesPopup] = useState<string | null>(null);
+  const [subInvoicesByCard, setSubInvoicesByCard] = useState<Record<string, IGetSubInvoice>>({});
 
   useEffect(() => {
     if (!session) return;
@@ -53,6 +58,8 @@ const Payment = () => {
   useEffect(() => {
     if (!session) return;
     fetchCards();
+    fetchInvoices();
+    setLoading(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
 
@@ -128,7 +135,6 @@ const Payment = () => {
   };
 
   async function fetchCards() {
-    setCardsLoading(true);
     try {
       const res = await clientFetchApi<null, IBankCard[]>("/api/wallet/getInstagramerBankCards", { session });
       if (res && res.succeeded) {
@@ -153,10 +159,72 @@ const Payment = () => {
       console.error("fetchCards error", err);
       notify(ResponseType.Unexpected, NotifType.Error);
       setCards([]);
-    } finally {
-      setCardsLoading(false);
     }
   }
+
+  async function fetchInvoices() {
+    setInvoicesLoading(true);
+    try {
+      const res = await clientFetchApi<null, IGetInvoice>("/api/wallet/getInvoices", {
+        session,
+        queries: [{ key: "nextMaxId", value: "" }],
+      });
+      if (res && res.succeeded) {
+        setInvoices(res.value);
+      } else {
+        notify(res.info.responseType, NotifType.Warning);
+        setInvoices({ items: [], nextMaxId: null });
+      }
+    } catch (err) {
+      console.error("fetchInvoices error", err);
+      notify(ResponseType.Unexpected, NotifType.Error);
+      setInvoices({ items: [], nextMaxId: null });
+    } finally {
+      setInvoicesLoading(false);
+    }
+  }
+
+  const fetchMoreInvoices = useCallback(async (): Promise<IInvoice[]> => {
+    const nextMaxId = invoices?.nextMaxId;
+    if (!session || !nextMaxId) return [];
+
+    try {
+      const res = await clientFetchApi<null, IGetInvoice>("/api/wallet/getInvoices", {
+        session,
+        queries: [{ key: "nextMaxId", value: nextMaxId }],
+      });
+
+      if (!res.succeeded) {
+        notify(res.info.responseType, NotifType.Warning);
+        setInvoices((current) => (current ? { ...current, nextMaxId: null } : current));
+        return [];
+      }
+
+      const nextPage = res.value ?? { items: [], nextMaxId: null };
+      const nextItems = Array.isArray(nextPage.items) ? nextPage.items : [];
+      setInvoices((current) =>
+        current ? { ...current, nextMaxId: nextItems.length ? nextPage.nextMaxId : null } : current,
+      );
+      return nextItems;
+    } catch (err) {
+      console.error("fetchMoreInvoices error", err);
+      notify(ResponseType.Unexpected, NotifType.Error);
+      setInvoices((current) => (current ? { ...current, nextMaxId: null } : current));
+      return [];
+    }
+  }, [invoices?.nextMaxId, session]);
+
+  const { containerRef: invoicesScrollRef, isLoadingMore: invoicesLoadingMore } = useInfiniteScroll<IInvoice>({
+    hasMore: Boolean(invoices?.nextMaxId),
+    fetchMore: fetchMoreInvoices,
+    onDataFetched: (newInvoices) => {
+      setInvoices((current) => (current ? { ...current, items: [...current.items, ...newInvoices] } : current));
+    },
+    getItemId: (invoice) => invoice.id,
+    currentData: invoices?.items ?? [],
+    isLoading: invoicesLoading,
+    enabled: Boolean(session && invoices),
+  });
 
   if (!session || session!.user.currentIndex === -1) return null;
 
@@ -213,7 +281,7 @@ const Payment = () => {
               </form>
             </div>
           )}
-          {cardsLoading ? (
+          {loading ? (
             <Loading />
           ) : (
             <>
@@ -236,6 +304,13 @@ const Payment = () => {
                   />
                 ))}
               </div>
+              <Invoices
+                invoices={invoices}
+                invoicesLoading={invoicesLoading}
+                invoicesLoadingMore={invoicesLoadingMore}
+                hasMore={Boolean(invoices?.nextMaxId)}
+                containerRef={invoicesScrollRef}
+              />
             </>
           )}
         </section>
@@ -250,7 +325,15 @@ const Payment = () => {
         closePopup={() => setShowSubInvoicesPopup(null)}
         classNamePopup={"popupLarge"}
         showContent={showSubInvoicesPopup !== null}>
-        <SubInvoicesPopup cardNumber={showSubInvoicesPopup ?? ""} />
+        {showSubInvoicesPopup && (
+          <SubInvoicesPopup
+            cardNumber={showSubInvoicesPopup}
+            subInvoices={subInvoicesByCard[showSubInvoicesPopup] ?? null}
+            onSubInvoicesChange={(subInvoices) => {
+              setSubInvoicesByCard((current) => ({ ...current, [showSubInvoicesPopup]: subInvoices }));
+            }}
+          />
+        )}
       </Modal>
     </>
   );

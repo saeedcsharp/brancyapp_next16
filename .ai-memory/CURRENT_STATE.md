@@ -50,6 +50,12 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Updated the bank-card sub-invoice popup to own a responsive card/table layout instead of using the global masonry `tooBigCard` style; the table scrolls horizontally on narrow screens.
+- Corrected the sub-invoice popup container from the legacy 10px-row masonry grid to flex, so the local card expands to its table content instead of being visually collapsed.
+- Added cursor-based infinite scrolling to the bank-card sub-invoice popup, appending unique `/api/wallet/getSubInvoices` pages from `nextMaxId` with initial, additional-loading, and empty states.
+- Cached loaded sub-invoice pages by card number in the wallet payment page, preventing another initial `GetSubInvoices` request after reopening the same popup.
+- Prevented the sub-invoice modal close animation from rendering the child with an empty card number, which had triggered an unnecessary `GetSubInvoices` request.
+
 - Migrated `components/website/installPrompt.tsx` presentation styles, including SVG icon styling and RTL layout variants, into `installPrompt.module.css` without changing install-prompt behavior.
 
 - Hardened the sign-in verification form so WebOTP only fills the code and a single guarded submit path prevents duplicate credentials requests from WebOTP, code completion, or repeated Enter/click actions. Added shared Persian/Arabic-Indic digit normalization, ref-based focus navigation, paste focus, accessibility state, `finally` loading cleanup, and unmount cleanup for WebOTP/animation resources without changing the incorrect-code shake and input-reset behavior.
@@ -81,6 +87,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 - Added responsive internal feature search to the Instagramer navbar using translated feature/section labels for all eight configured locales; searches such as Persian lottery terms resolve to `/page/tools`.
 - Added localized notification mappings for 16 new backend response types across all eight supported languages.
 - Connected Instagramer bank-card registration to `/Business/Wallet/AddCardNumber` and refreshes the complete backend card list after successful registration.
+- Connected the Instagramer payment page invoice-history request to a responsive invoice card section after the bank-card collection, with status/type labels and loading/empty states.
+- Added cursor-based infinite scrolling to Instagramer invoice history, using each `/api/wallet/getInvoices` response's `nextMaxId` to append unique subsequent pages.
 - Added a Persian start-date filter to the Instagramer general-balance request and redesigned its results as per-card totals across all four sub-invoice statuses.
 - Connected the Instagramer wallet statistics chart to `/api/wallet/getBallanceHistory` and its monthly balance-history response.
 - Updated `legacy-pages/wallet/payment.tsx` to load and render Instagramer bank cards as responsive standalone tiles, with a separate add-card toolbar and form.
