@@ -16,6 +16,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./payment.module.css";
+import OrderDetailPopup from "brancy/components/wallet/orderDetailPopup";
 const Payment = () => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -48,7 +49,7 @@ const Payment = () => {
   const [newCardNumber, setNewCardNumber] = useState("");
   const [showSubInvoicesPopup, setShowSubInvoicesPopup] = useState<string | null>(null);
   const [subInvoicesByCard, setSubInvoicesByCard] = useState<Record<string, IGetSubInvoice>>({});
-
+  const [showOrderDetailsPopup, setShowOrderDetailsPopup] = useState<IInvoice | null>(null);
   useEffect(() => {
     if (!session) return;
     if (session?.user.currentIndex === -1) router.push("/user");
@@ -214,6 +215,26 @@ const Payment = () => {
     }
   }, [invoices?.nextMaxId, session]);
 
+  const getInvoice = useCallback(
+    async (invoiceId: string) => {
+      if (!session) return;
+      try {
+        const res = await clientFetchApi<null, IInvoice>("/api/wallet/getInvoice", {
+          session,
+          queries: [{ key: "invoiceId", value: invoiceId }],
+        });
+        if (!res.succeeded) {
+          notify(res.info.responseType, NotifType.Warning);
+          return;
+        }
+        setShowOrderDetailsPopup(res.value);
+      } catch (err) {
+        console.error("getInvoice error", err);
+        notify(ResponseType.Unexpected, NotifType.Error);
+      }
+    },
+    [session],
+  );
   const { containerRef: invoicesScrollRef, isLoadingMore: invoicesLoadingMore } = useInfiniteScroll<IInvoice>({
     hasMore: Boolean(invoices?.nextMaxId),
     fetchMore: fetchMoreInvoices,
@@ -310,6 +331,7 @@ const Payment = () => {
                 invoicesLoadingMore={invoicesLoadingMore}
                 hasMore={Boolean(invoices?.nextMaxId)}
                 containerRef={invoicesScrollRef}
+                openOrderDetails={(invoiceId) => getInvoice(invoiceId)}
               />
             </>
           )}
@@ -335,6 +357,14 @@ const Payment = () => {
           />
         )}
       </Modal>
+      {
+        <Modal
+          closePopup={() => setShowOrderDetailsPopup(null)}
+          classNamePopup={"popupLarge"}
+          showContent={showOrderDetailsPopup !== null}>
+          {showOrderDetailsPopup && <OrderDetailPopup invoice={showOrderDetailsPopup} />}
+        </Modal>
+      }
     </>
   );
 };

@@ -2,6 +2,7 @@
 
 ## 2026-07-30
 
+- Added a read-only wallet invoice order-detail popup that requests `/api/order/GetFullOrder` with `invoiceId`, `userId`, and the current language, then renders the shared store order-detail presentation without order actions.
 - Replaced the bank-card sub-invoice popup's global masonry-card dependency with a local responsive card and horizontally scrollable transaction table.
 - Fixed the sub-invoice popup's collapsed content by replacing its inherited 10px-row masonry container with a flex wrapper that grows with the table.
 - Added duplicate-safe cursor pagination to sub-invoice history through `/api/wallet/getSubInvoices`, `nextMaxId`, and `useInfiniteScroll`.

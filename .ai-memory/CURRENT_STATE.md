@@ -50,6 +50,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Added a read-only invoice order-detail popup to the Instagramer payment page. It loads `/api/order/GetFullOrder` from the selected invoice ID and invoice user ID, then reuses the store order-detail content and presentation without accept/reject actions.
+
 - Updated the bank-card sub-invoice popup to own a responsive card/table layout instead of using the global masonry `tooBigCard` style; the table scrolls horizontally on narrow screens.
 - Corrected the sub-invoice popup container from the legacy 10px-row masonry grid to flex, so the local card expands to its table content instead of being visually collapsed.
 - Added cursor-based infinite scrolling to the bank-card sub-invoice popup, appending unique `/api/wallet/getSubInvoices` pages from `nextMaxId` with initial, additional-loading, and empty states.
