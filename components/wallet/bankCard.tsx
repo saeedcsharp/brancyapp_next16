@@ -2,12 +2,16 @@ import { IBankCard } from "brancy/models/interfaces";
 import styles from "./bankCard.module.css";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-
-export default function BankCard({ card, onSettle }: { card: IBankCard; onSettle: () => void }) {
+type BankCardProps = {
+  card: IBankCard;
+  onSettle: () => void;
+  onSelectCard?: (bamckCrd: string) => void;
+};
+export default function BankCard({ card, onSettle, onSelectCard }: BankCardProps) {
   const { t } = useTranslation();
 
   return (
-    <article className={styles.bankCard}>
+    <article onClick={() => onSelectCard?.(card.cardNumber)} className={styles.bankCard}>
       <div className={styles.bankCardHeader}>
         <div className={styles.bankName}>{card.bankName}</div>
         <div className={styles.badges}>

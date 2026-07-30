@@ -66,6 +66,7 @@ import {
   SpecialPayLoad,
   StatusReplied,
   StoreLanguage,
+  SubInvoiceItemType,
   SubInvoiceStatus,
   TermsType,
   ToolType,
@@ -4847,11 +4848,16 @@ export interface IAddress {
 export interface ISubInvoice {
   id: string;
   invoiceId: string;
-  itemType: number;
+  itemType: SubInvoiceItemType;
   price: number;
   priceType: PriceType;
   cardNumber?: string;
   status: SubInvoiceStatus;
+  createdTime: number;
+}
+export interface IGetSubInvoice {
+  items: ISubInvoice[];
+  nextMaxId: string | null;
 }
 
 export interface IOrderInvoice {

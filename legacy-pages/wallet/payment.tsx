@@ -1,18 +1,19 @@
+import Modal from "brancy/components/design/modal";
+import Loading from "brancy/components/notOk/loading";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import BankCard from "brancy/components/wallet/bankCard";
+import SettlePopup from "brancy/components/wallet/settlePopup";
+import SubInvoicesPopup from "brancy/components/wallet/subInvoicePopup";
+import { MethodType } from "brancy/helper/api";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { packageStatus } from "brancy/helper/loadingStatus";
+import { IBankCard } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import { packageStatus } from "brancy/helper/loadingStatus";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { MethodType } from "brancy/helper/api";
-import styles from "./payment.module.css";
-import { IBankCard } from "brancy/models/interfaces";
-import Loading from "brancy/components/notOk/loading";
-import { notify, NotifType, ResponseType } from "brancy/components/notifications/notificationBox";
-import BankCard from "brancy/components/wallet/bankCard";
-import Modal from "brancy/components/design/modal";
-import SettlePopup from "brancy/components/wallet/settlePopup";
 import { useTranslation } from "react-i18next";
+import styles from "./payment.module.css";
 const Payment = () => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -41,6 +42,7 @@ const Payment = () => {
   const [showAdd, setShowAdd] = useState(false);
   const [showSettlePopup, setShowSettlePopup] = useState<string | null>(null);
   const [newCardNumber, setNewCardNumber] = useState("");
+  const [showSubInvoicesPopup, setShowSubInvoicesPopup] = useState<string | null>(null);
 
   useEffect(() => {
     if (!session) return;
@@ -214,24 +216,28 @@ const Payment = () => {
           {cardsLoading ? (
             <Loading />
           ) : (
-            <div className={styles.cardList}>
-              <button className={styles.addCardTile} type="button" onClick={handleToggleAdd} aria-expanded={showAdd}>
-                <span className={styles.addCardIcon} aria-hidden="true">
-                  +
-                </span>
-                <span>{t("Add Bank Card")}</span>
-                <small>{t("Register a new card")}</small>
-              </button>
-              {cards.map((c, idx) => (
-                <BankCard
-                  key={`${c.cardNumber}-${idx}`}
-                  card={c}
-                  onSettle={() => {
-                    setShowSettlePopup(c.cardNumber);
-                  }}
-                />
-              ))}
-            </div>
+            <>
+              <div className={styles.cardList}>
+                <button className={styles.addCardTile} type="button" onClick={handleToggleAdd} aria-expanded={showAdd}>
+                  <span className={styles.addCardIcon} aria-hidden="true">
+                    +
+                  </span>
+                  <span>{t("Add Bank Card")}</span>
+                  <small>{t("Register a new card")}</small>
+                </button>
+                {cards.map((c, idx) => (
+                  <BankCard
+                    key={`${c.cardNumber}-${idx}`}
+                    card={c}
+                    onSettle={() => {
+                      setShowSettlePopup(c.cardNumber);
+                    }}
+                    onSelectCard={(cardNumber) => setShowSubInvoicesPopup(cardNumber)}
+                  />
+                ))}
+              </div>
+              {/* <SubInvoices subInvoices={subInvoices} subInvoicesLoading={subInvoicesLoading} /> */}
+            </>
           )}
         </section>
       </main>
@@ -240,6 +246,12 @@ const Payment = () => {
         classNamePopup={"popupSendFile"}
         showContent={showSettlePopup !== null}>
         <SettlePopup cardNumber={showSettlePopup!} onClose={() => setShowSettlePopup(null)} />
+      </Modal>
+      <Modal
+        closePopup={() => setShowSubInvoicesPopup(null)}
+        classNamePopup={"popupLarge"}
+        showContent={showSubInvoicesPopup !== null}>
+        <SubInvoicesPopup cardNumber={showSubInvoicesPopup ?? ""} />
       </Modal>
     </>
   );

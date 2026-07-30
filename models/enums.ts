@@ -1068,4 +1068,13 @@ export enum InvoiceStatus {
   FailedRefaund,
   Failed,
 }
+export enum SubInvoiceItemType {
+  InstagramerProduct = 0,
+  PlatformProductFee = 2,
+  InstagramerLogestic = 3,
+  PlatformPackage = 5,
+  PlatformLogestic = 6,
+  PlatformTransferFee = 7,
+  PlatformFeature = 8,
+}
 // #endregion Wallet
