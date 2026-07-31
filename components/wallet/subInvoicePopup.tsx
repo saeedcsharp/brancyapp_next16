@@ -16,10 +16,11 @@ import styles from "./subInvoicePopup.module.css";
 type SubInvoicesPopupProps = {
   cardNumber: string;
   subInvoices: IGetSubInvoice | null;
+  onClose: () => void;
   onSubInvoicesChange: (subInvoices: IGetSubInvoice) => void;
 };
 
-export default function SubInvoicesP({ cardNumber, subInvoices, onSubInvoicesChange }: SubInvoicesPopupProps) {
+export default function SubInvoicesP({ cardNumber, subInvoices, onClose, onSubInvoicesChange }: SubInvoicesPopupProps) {
   const { t } = useTranslation();
   const { data: session } = useSession();
   const [subInvoicesLoading, setSubInvoicesLoading] = useState(subInvoices === null);
@@ -143,6 +144,16 @@ export default function SubInvoicesP({ cardNumber, subInvoices, onSubInvoicesCha
             <div className="headerChild">
               <div className="circle"></div>
               <div className="Title">{t("Sub Invoice History")}</div>
+              <button
+                type="button"
+                className={styles.closeButton}
+                onClick={onClose}
+                aria-label={t("close")}
+                title={t("close")}>
+                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                  <path d="m6 6 12 12M18 6 6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                </svg>
+              </button>
             </div>
             <div className={styles.section5}>
               <div className={styles.table}>

@@ -50,6 +50,12 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Added accessible icon-only close controls to the wallet invoice, bank-card sub-invoice, and order-detail popup headers.
+
+- Made both wallet sub-invoice popups fit desktop modal widths with fluid table-grid columns, while retaining horizontal scrolling for narrow screens.
+
+- Added an accessible SVG order-details action to the selected invoice's sub-invoice popup header. It calls `/api/wallet/getInvoice` through the wallet page and opens the existing read-only order-detail modal on success.
+
 - Added a read-only invoice order-detail popup to the Instagramer payment page. It loads `/api/order/GetFullOrder` from the selected invoice ID and invoice user ID, then reuses the store order-detail content and presentation without accept/reject actions.
 
 - Updated the bank-card sub-invoice popup to own a responsive card/table layout instead of using the global masonry `tooBigCard` style; the table scrolls horizontally on narrow screens.

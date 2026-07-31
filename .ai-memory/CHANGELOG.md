@@ -2,6 +2,10 @@
 
 ## 2026-07-30
 
+- Replaced the unused order-detail status icon with an accessible back action that closes the detail modal and returns to the invoice popup.
+- Added accessible icon-only close controls to the wallet invoice, bank-card sub-invoice, and order-detail popup headers.
+- Made the shared wallet sub-invoice table fluid on desktop modal widths and retained its horizontal-scroll layout below 680px.
+- Added an accessible SVG order-details action to the sub-invoice popup header; it retrieves the selected invoice through `/api/wallet/getInvoice` and opens its read-only order-detail modal.
 - Added a read-only wallet invoice order-detail popup that requests `/api/order/GetFullOrder` with `invoiceId`, `userId`, and the current language, then renders the shared store order-detail presentation without order actions.
 - Replaced the bank-card sub-invoice popup's global masonry-card dependency with a local responsive card and horizontally scrollable transaction table.
 - Fixed the sub-invoice popup's collapsed content by replacing its inherited 10px-row masonry container with a flex wrapper that grows with the table.

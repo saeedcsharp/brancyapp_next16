@@ -13,9 +13,11 @@ import styles from "./orderDetailPopup.module.css";
 
 interface OrderDetailPopupProps {
   invoice: IInvoice;
+  onClose: () => void;
+  backToInvoiceList?: (invoice: IInvoice) => void;
 }
 
-export default function OrderDetailPopup({ invoice }: OrderDetailPopupProps) {
+export default function OrderDetailPopup({ invoice, onClose, backToInvoiceList }: OrderDetailPopupProps) {
   const { data: session } = useSession();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
@@ -67,21 +69,6 @@ export default function OrderDetailPopup({ invoice }: OrderDetailPopupProps) {
   return (
     <div className={styles.popup}>
       <div className="headerparent">
-        <div className={styles.orderStepactive} title={t(LanguageKey.Storeorder_orderDetailsStep)}>
-          <svg
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-            viewBox="0 0 32 32"
-            role="img"
-            aria-label="Order information">
-            <path
-              d="M19 8.4h-6.2q-1.7-.2-1.8-1.8v-.8q.2-1.7 1.8-1.8H19q1.7.1 1.8 1.8v.8q-.2 1.7-1.8 1.8M14.5 28H11a5 5 0 0 1-5-5V11.1a5 5 0 0 1 5-5m9.8 0a5 5 0 0 1 5 5v6M24.9 28q-1.3 1.1-3 1.2c-2.6 0-4.7-2-4.7-4.6m1.6-3.5q1.3-1 3-1.1c2.6 0 4.6 2 4.6 4.6"
-              strokeWidth="2"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-        </div>
         <div className={styles.orderStep}>
           <div className={styles.orderprogressStep} title="Order in progress">
             <svg
@@ -130,6 +117,34 @@ export default function OrderDetailPopup({ invoice }: OrderDetailPopupProps) {
               />
             </svg>
           </div>
+        </div>
+        <div className={styles.headerActions}>
+          <button
+            type="button"
+            className={styles.closeButton}
+            onClick={onClose}
+            aria-label={t("close")}
+            title={t("close")}>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path d="m6 6 12 12M18 6 6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+            </svg>
+          </button>
+          <button
+            type="button"
+            className={styles.backButton}
+            onClick={() => backToInvoiceList?.(invoice)}
+            aria-label={t("Back")}
+            title={t("Back")}>
+            <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+              <path
+                d="M19 12H5m6-6-6 6 6 6"
+                stroke="currentColor"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
         </div>
       </div>
       <div className={styles.headerStyle}>

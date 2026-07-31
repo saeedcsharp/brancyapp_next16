@@ -78,7 +78,9 @@ React components are present when the folder contains `.tsx` UI files.
 
 `components/wallet/invoices.tsx` renders an `IGetInvoice` response as responsive invoice cards, including type, status, amount, identifier, creation time, and initial/loading-more/empty states. It receives the parent-owned infinite-scroll section ref and pagination state.
 
-`components/wallet/subInvoicePopup.tsx` renders one bank card's sub-invoice history in a responsive, horizontally scrollable table. Its flex container lets the local card grow to the table's content height. Its parent retains cache entries by card number, so reopening an already loaded popup does not request its initial page again. It loads later `/api/wallet/getSubInvoices` pages with `useInfiniteScroll`, using `nextMaxId` and duplicate-safe sub-invoice IDs.
+`components/wallet/invoicePopup.tsx` shows the selected invoice's sub-invoice history. Its header SVG action calls the parent-provided invoice-detail callback with that invoice ID so the wallet page can load and display the linked order details, and it exposes a parent-owned close action.
+
+`components/wallet/subInvoicePopup.tsx` renders one bank card's sub-invoice history in a responsive table. Its header exposes a parent-owned close action. The shared popup stylesheet uses fluid desktop grid columns and retains horizontal scrolling for narrow screens. Its flex container lets the local card grow to the table's content height. Its parent retains cache entries by card number, so reopening an already loaded popup does not request its initial page again. It loads later `/api/wallet/getSubInvoices` pages with `useInfiniteScroll`, using `nextMaxId` and duplicate-safe sub-invoice IDs.
 
 ## Hooks
 

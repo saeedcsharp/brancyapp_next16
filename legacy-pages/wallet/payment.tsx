@@ -17,6 +17,7 @@ import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./payment.module.css";
 import OrderDetailPopup from "brancy/components/wallet/orderDetailPopup";
+import InvoicePopup from "brancy/components/wallet/invoicePopup";
 const Payment = () => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -50,6 +51,7 @@ const Payment = () => {
   const [showSubInvoicesPopup, setShowSubInvoicesPopup] = useState<string | null>(null);
   const [subInvoicesByCard, setSubInvoicesByCard] = useState<Record<string, IGetSubInvoice>>({});
   const [showOrderDetailsPopup, setShowOrderDetailsPopup] = useState<IInvoice | null>(null);
+  const [showInvoicePopup, setShowInvoicePopup] = useState<IInvoice | null>(null);
   useEffect(() => {
     if (!session) return;
     if (session?.user.currentIndex === -1) router.push("/user");
@@ -228,6 +230,7 @@ const Payment = () => {
           return;
         }
         setShowOrderDetailsPopup(res.value);
+        setShowInvoicePopup(null);
       } catch (err) {
         console.error("getInvoice error", err);
         notify(ResponseType.Unexpected, NotifType.Error);
@@ -331,7 +334,7 @@ const Payment = () => {
                 invoicesLoadingMore={invoicesLoadingMore}
                 hasMore={Boolean(invoices?.nextMaxId)}
                 containerRef={invoicesScrollRef}
-                openOrderDetails={(invoiceId) => getInvoice(invoiceId)}
+                openInvoicePopup={(invoice) => setShowInvoicePopup(invoice)}
               />
             </>
           )}
@@ -351,9 +354,23 @@ const Payment = () => {
           <SubInvoicesPopup
             cardNumber={showSubInvoicesPopup}
             subInvoices={subInvoicesByCard[showSubInvoicesPopup] ?? null}
+            onClose={() => setShowSubInvoicesPopup(null)}
             onSubInvoicesChange={(subInvoices) => {
               setSubInvoicesByCard((current) => ({ ...current, [showSubInvoicesPopup]: subInvoices }));
             }}
+          />
+        )}
+      </Modal>
+      <Modal
+        closePopup={() => setShowInvoicePopup(null)}
+        classNamePopup={"popupLarge"}
+        showContent={showInvoicePopup !== null}>
+        {showInvoicePopup && (
+          <InvoicePopup
+            invoice={showInvoicePopup}
+            subInvoices={showInvoicePopup.subInvoices}
+            getInvoice={getInvoice}
+            onClose={() => setShowInvoicePopup(null)}
           />
         )}
       </Modal>
@@ -362,7 +379,16 @@ const Payment = () => {
           closePopup={() => setShowOrderDetailsPopup(null)}
           classNamePopup={"popupLarge"}
           showContent={showOrderDetailsPopup !== null}>
-          {showOrderDetailsPopup && <OrderDetailPopup invoice={showOrderDetailsPopup} />}
+          {showOrderDetailsPopup && (
+            <OrderDetailPopup
+              invoice={showOrderDetailsPopup}
+              onClose={() => setShowOrderDetailsPopup(null)}
+              backToInvoiceList={(invoice) => {
+                setShowOrderDetailsPopup(null);
+                setShowInvoicePopup(invoice);
+              }}
+            />
+          )}
         </Modal>
       }
     </>

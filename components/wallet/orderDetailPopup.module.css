@@ -19,6 +19,33 @@
   stroke: var(--color-dark-blue);
 }
 
+.backButton {
+  display: grid;
+  width: 50px;
+  min-width: 50px;
+  height: 50px;
+  place-items: center;
+  padding: var(--padding-10);
+  border: 1px solid transparent;
+  border-radius: var(--br15);
+  background-color: var(--color-dark-blue30);
+  color: var(--color-dark-blue);
+  cursor: pointer;
+  transition: var(--transition3);
+}
+
+.backButton:hover,
+.backButton:focus-visible {
+  border-color: var(--color-light-blue);
+  background-color: var(--color-light-blue10);
+  outline: none;
+}
+
+.backButton svg {
+  width: 26px;
+  height: 26px;
+}
+
 .orderStep {
   display: flex;
   align-items: center;
@@ -29,6 +56,13 @@
   border-radius: var(--br15);
   background-color: var(--color-gray10);
   opacity: 0.4;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-8);
+  margin-inline-start: auto;
 }
 
 .orderprogressStep,
@@ -80,6 +114,34 @@
   color: var(--text-h1);
   font-size: var(--font-14);
   font-weight: var(--weight-600);
+}
+
+.closeButton {
+  display: grid;
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--content-box);
+  border-radius: var(--br8);
+  background: var(--color-white);
+  color: var(--text-h2);
+  cursor: pointer;
+  transition: var(--transition3);
+}
+
+.closeButton:hover,
+.closeButton:focus-visible {
+  border-color: var(--color-dark-red);
+  background: var(--color-dark-red30);
+  color: var(--color-dark-red);
+  outline: none;
+}
+
+.closeButton svg {
+  width: 18px;
+  height: 18px;
 }
 
 @media (max-width: 480px) {

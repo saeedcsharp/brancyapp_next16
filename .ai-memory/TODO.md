@@ -13,6 +13,7 @@
 - Add integration coverage for successful and rejected bank-card registration responses when test infrastructure is introduced.
 - Add component coverage for invoice-history loading, successful invoice-card rendering, and empty/error responses when a UI test harness is introduced.
 - Add component coverage for wallet invoice order details, including `invoiceId`/`userId` query construction, successful full-order rendering, and failed detail responses when a UI test harness is introduced.
+- Add component coverage confirming the sub-invoice popup header action calls `/api/wallet/getInvoice` with the selected invoice ID and opens order details on success when a UI test harness is introduced.
 - Add integration coverage for invoice-history cursor pagination, duplicate invoice IDs, and exhausted `nextMaxId` responses when test infrastructure is introduced.
 - Add integration coverage for sub-invoice popup cursor pagination, duplicate IDs, exhausted `nextMaxId`, and the mobile table overflow behavior when test infrastructure is introduced.
 - Add component coverage confirming that reopening a cached bank-card sub-invoice popup makes no initial API request when a UI test harness is introduced.

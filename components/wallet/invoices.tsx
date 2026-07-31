@@ -13,7 +13,7 @@ type InvoicesProps = {
   invoicesLoadingMore?: boolean;
   hasMore?: boolean;
   containerRef?: RefObject<HTMLDivElement | null>;
-  openOrderDetails?: (invoiceId: string) => void;
+  openInvoicePopup?: (invoice: IInvoice) => void;
 };
 
 const invoiceStatusClassNames: Record<InvoiceStatus, string> = {
@@ -33,7 +33,7 @@ export default function Invoices({
   invoicesLoadingMore = false,
   hasMore = false,
   containerRef,
-  openOrderDetails,
+  openInvoicePopup,
 }: InvoicesProps) {
   const { t } = useTranslation();
   const items = invoices?.items ?? [];
@@ -57,7 +57,7 @@ export default function Invoices({
       ) : items.length > 0 ? (
         <div className={styles.invoiceGrid}>
           {items.map((invoice) => (
-            <InvoiceCard key={invoice.id} invoice={invoice} openOrderDetails={openOrderDetails} />
+            <InvoiceCard key={invoice.id} invoice={invoice} openInvoicePopup={openInvoicePopup} />
           ))}
         </div>
       ) : (
@@ -75,10 +75,10 @@ export default function Invoices({
 
 function InvoiceCard({
   invoice,
-  openOrderDetails,
+  openInvoicePopup,
 }: {
   invoice: IInvoice;
-  openOrderDetails?: (invoiceId: string) => void;
+  openInvoicePopup?: (invoice: IInvoice) => void;
 }) {
   const { t } = useTranslation();
   const status = getInvoiceStatus(invoice.status, t);
@@ -89,7 +89,7 @@ function InvoiceCard({
   }).format("YYYY/MM/DD HH:mm");
   return (
     <article
-      onClick={() => openOrderDetails?.(invoice.id)}
+      onClick={() => openInvoicePopup?.(invoice)}
       className={`${styles.invoiceCard} ${styles[invoiceStatusClassNames[invoice.status]]}`}>
       <div className={styles.invoiceTopRow}>
         <span className={styles.status}>{status}</span>
