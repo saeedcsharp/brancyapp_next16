@@ -133,7 +133,6 @@ export default function SubInvoicesP({ cardNumber, subInvoices, onSubInvoicesCha
     enabled: Boolean(session && subInvoices),
     enableAutoLoad: subInvoices === null,
   });
-
   return (
     <>
       {/* تاریخچه تراکنش‌ها */}

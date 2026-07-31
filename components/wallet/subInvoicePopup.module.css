@@ -236,7 +236,7 @@
 }
 
 .pinContainer1 {
-  width: calc(100% - 40px);
+  width: calc(100%);
   margin-inline: 20px;
   display: flex;
   position: relative;
