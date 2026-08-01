@@ -33,7 +33,9 @@ import {
   IMasterFlow,
   ITotalMasterFlow,
   ITotalPrompt,
+  IStoreOrderShortProduct,
 } from "brancy/models/interfaces";
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 type CheckBoxState = {
   Custom: boolean;
   Flow: boolean;
@@ -71,7 +73,9 @@ interface QuickReplyPopupProps {
   autoReply: IAutomaticReply;
   productType: MediaProductType;
   showActiveAutoreply: boolean;
+  setShowProductPopup?: () => void;
   shopMediaProductType?: ShopMediaProductType;
+  selectedProduct?: IStoreOrderShortProduct | null;
 }
 const checkBoxReducer = (state: CheckBoxState, action: CheckBoxAction): CheckBoxState => {
   switch (action.type) {
@@ -151,6 +155,7 @@ const loadingReducer = (state: LoadingState, action: LoadingAction) => {
       return state;
   }
 };
+const basePictureUrl = getClientMediaBaseUrl();
 const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
   setShowQuickReplyPopup,
   handleSaveAutoReply,
@@ -159,6 +164,8 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
   productType,
   showActiveAutoreply,
   shopMediaProductType,
+  setShowProductPopup,
+  selectedProduct,
 }) => {
   const { t } = useTranslation();
   const { data: session } = useSession();
@@ -425,6 +432,13 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       sendAuto = {
         ...sendAuto,
         automaticType: AutoReplyPayLoadType.Product,
+      };
+    } else if (checkBox.ConnectProduct) {
+      console.log("selectedProduct", selectedProduct);
+      sendAuto = {
+        ...sendAuto,
+        automaticType: AutoReplyPayLoadType.ConnectProduct,
+        productId: selectedProduct?.productId || replyMethod?.productId || null,
       };
     }
     console.log("sendAuto", sendAuto);
@@ -817,8 +831,12 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
     const isGeneralAIValid = checkBox.GeneralAI && keywordValid;
     const isFlowValid = checkBox.Flow && !!(selectedFlow?.masterFlowId || replyMethod?.masterFlowId) && keywordValid;
     const isProductValid = checkBox.Product && keywordValid;
-    return activeAutoReply && (isCustomValid || isAIValid || isGeneralAIValid || isFlowValid || isProductValid);
-  }, [activeAutoReply, autoReplyAll, checkBox, replyMethod, selectedFlow, selectedPrompt]);
+    const isConnectProductValid = checkBox.ConnectProduct && selectedProduct && keywordValid;
+    return (
+      activeAutoReply &&
+      (isCustomValid || isAIValid || isGeneralAIValid || isFlowValid || isProductValid || isConnectProductValid)
+    );
+  }, [activeAutoReply, autoReplyAll, checkBox, replyMethod, selectedFlow, selectedPrompt, selectedProduct]);
 
   const hasChanges = useMemo(() => {
     const originalAll = (autoReply?.items?.length ?? 0) === 0;
@@ -854,7 +872,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       promptChanged ||
       flowChanged
     );
-  }, [autoReply, autoReplyAll, checkBox, replyMethod, selectedFlow, selectedPrompt]);
+  }, [autoReply, autoReplyAll, checkBox, replyMethod, selectedFlow, selectedPrompt, selectedProduct]);
 
   useEffect(() => {
     isMountedRef.current = true;
@@ -1410,6 +1428,23 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                       />
                       <div className="explain">{t(LanguageKey.messagesetting_ConnectProductResponseExplain)}</div>
                     </div>
+                    {checkBox.ConnectProduct && (
+                      <div className={styles.optioncontainer}>
+                        <div className="headerandinput">
+                          <div onClick={() => setShowProductPopup?.()} className="saveButton">
+                            {t(LanguageKey.SelectProduct)}
+                          </div>
+                        </div>
+                        {selectedProduct && (
+                          <div className={styles.thumbnailsContainer}>
+                            <img
+                              className={styles.thumbnailImage}
+                              src={basePictureUrl + selectedProduct.thumbnailMediaUrl}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    )}
                   </div>
                 )}
               </>

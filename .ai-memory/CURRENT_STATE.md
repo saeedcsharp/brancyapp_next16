@@ -50,6 +50,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Fixed shared infinite-scroll termination: empty or duplicate-only pages now report `hasMore: false`, and the product and lottery-post thumbnail pickers persist that state to prevent repeated exhausted-cursor API calls.
+
 - Added accessible icon-only close controls to the wallet invoice, bank-card sub-invoice, and order-detail popup headers.
 
 - Made both wallet sub-invoice popups fit desktop modal widths with fluid table-grid columns, while retaining horizontal scrolling for narrow screens.

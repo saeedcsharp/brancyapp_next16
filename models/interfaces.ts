@@ -77,6 +77,7 @@ import {
 
 import { StatusType } from "brancy/components/confirmationStatus/confirmationStatus";
 import { PriceType } from "brancy/components/priceFormater";
+import { StringDecoder } from "node:string_decoder";
 
 // #region _AccountInfo
 export interface InstagramerAccountInfo {
@@ -5168,7 +5169,7 @@ export interface IStoreOrderShortProduct {
   username: string | undefined;
   maxInEachCard: number;
   instagramerId: number;
-  productId: number;
+  productId: string;
   tempId: number;
   variationCount: number;
   minStock: number;

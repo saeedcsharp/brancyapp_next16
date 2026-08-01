@@ -76,6 +76,8 @@ React components are present when the folder contains `.tsx` UI files.
 
 React hooks are present when named `use*` functions/files exist.
 
+`useInfiniteScroll.ts` stops pagination by calling `onDataFetched([], false)` when a fetch returns no items or only IDs already in `currentData`. It also holds an internal terminal-page guard, so automatic container checks cannot retry an exhausted cursor even if a consumer does not persist that value; consumers should still persist it to keep their visible state synchronized.
+
 ## Utilities
 
 Utility functions live in local files where applicable.
@@ -162,7 +164,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-08-01
 
 ---
 

@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-08-01
+
+- Fixed `useInfiniteScroll` retry loops after empty or duplicate-only pages; product and lottery-post picker callbacks now retain the terminal `hasMore` state.
+
 ## 2026-07-30
 
 - Replaced the unused order-detail status icon with an accessible back action that closes the detail modal and returns to the invoice popup.

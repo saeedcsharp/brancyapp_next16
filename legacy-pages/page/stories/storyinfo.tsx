@@ -42,6 +42,7 @@ import {
   IMediaUpdateAutoReply,
   IReaction,
   ISendStoryAutomaticReply,
+  IStoreOrderShortProduct,
   IStory_Viewers,
   IStory_Viewers_Server,
   IStoryContent,
@@ -50,6 +51,7 @@ import {
   IStoryViewer,
 } from "brancy/models/interfaces";
 import { AutoReplyPayLoadType, MediaProductType, MediaType, PartnerRole } from "brancy/models/enums";
+import SelectProduct from "brancy/components/messages/popups/selectProduct";
 
 type SearchState = {
   searchMode: boolean;
@@ -168,6 +170,8 @@ const ShowStory = () => {
     threads: [],
     hasOlder: false,
   });
+  const [showProductPopup, setShowProductPopup] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<IStoreOrderShortProduct | null>(null);
   const lastSearchQuery = useRef("");
   const handleImageClick = useCallback((imageUrl: string, username: string) => {
     setProfilePopup({ show: true, image: imageUrl, username });
@@ -810,10 +814,9 @@ const ShowStory = () => {
                         <button
                           className={`cancelButton ${QuickReply ? "" : "fadeDiv"}`}
                           onClick={() => {
-                            if (storyContent.expireTime * 1000 < Date.now() || !autoReply) return;
-                            if (QuickReply) {
-                              setShowQuickReplyPopup(true);
-                            }
+                            if (storyContent.expireTime * 1000 < Date.now()) return;
+
+                            setShowQuickReplyPopup(true);
                           }}
                           disabled={!QuickReply}>
                           {t(LanguageKey.marketstatisticsfeatures)}
@@ -1490,6 +1493,8 @@ const ShowStory = () => {
           setShowQuickReplyPopup={setShowQuickReplyPopup}
           handleSaveAutoReply={handleUpdateAtuoReply}
           handleActiveAutoReply={handleResumeLiveAutoReply}
+          setShowProductPopup={() => setShowProductPopup(true)}
+          selectedProduct={selectedProduct}
           autoReply={
             autoReply ?? {
               items: [],
@@ -1516,6 +1521,19 @@ const ShowStory = () => {
           setShowLotteryPopup={setShowLotteryPopup}
           id={storyContent.storyId}
           lotteryType={LotteryPopupType.StoryLottery}
+        />
+      </Modal>
+      <Modal closePopup={() => setShowProductPopup(false)} classNamePopup={"popup"} showContent={showProductPopup}>
+        <SelectProduct
+          backToAutoreply={() => {
+            setShowProductPopup(false);
+            setShowQuickReplyPopup(true);
+          }}
+          removeMask={() => setShowProductPopup(false)}
+          saveSelectProduct={(product) => {
+            setShowProductPopup(false);
+            setSelectedProduct(product);
+          }}
         />
       </Modal>
       <MediaModal isOpen={mediaModal.isOpen} media={mediaModal.media} onClose={mediaModal.close} />

@@ -155,6 +155,15 @@ export function useInfiniteScroll<T = any>(options: UseInfiniteScrollOptions<T>)
   const containerRef = externalContainerRef || internalContainerRef;
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const isLoadingRef = useRef(false);
+  const hasReachedEndRef = useRef(false);
+  const previousHasMoreRef = useRef(hasMore);
+
+  useEffect(() => {
+    if (!previousHasMoreRef.current && hasMore) {
+      hasReachedEndRef.current = false;
+    }
+    previousHasMoreRef.current = hasMore;
+  }, [hasMore]);
 
   // استفاده از ref برای نگه‌داری آخرین نسخه currentData بدون ایجاد مجدد callback
   const currentDataRef = useRef(currentData);
@@ -162,7 +171,7 @@ export function useInfiniteScroll<T = any>(options: UseInfiniteScrollOptions<T>)
 
   // تابع اصلی بارگذاری که state را مدیریت می‌کند
   const handleLoadMore = useCallback(async () => {
-    if (isLoadingRef.current || !hasMore || !enabled) return;
+    if (isLoadingRef.current || hasReachedEndRef.current || !hasMore || !enabled) return;
 
     isLoadingRef.current = true;
     setIsLoadingMore(true);
@@ -182,9 +191,10 @@ export function useInfiniteScroll<T = any>(options: UseInfiniteScrollOptions<T>)
         return;
       }
 
-      // اگر هیچ داده جدیدی نیامد، هیچ کاری نکن - داده‌های موجود را حفظ کن
+      // پاسخ خالی یعنی صفحه بعدی وجود ندارد؛ ادامه‌ی بارگذاری را متوقف کن
       if (newData.length === 0) {
-        console.log("No new data fetched, keeping existing data intact");
+        hasReachedEndRef.current = true;
+        onDataFetched([], false);
         return;
       }
 
@@ -192,9 +202,10 @@ export function useInfiniteScroll<T = any>(options: UseInfiniteScrollOptions<T>)
       const existingIds = new Set(currentDataRef.current.map(getItemId));
       const uniqueNewData = newData.filter((item) => !existingIds.has(getItemId(item)));
 
-      // اگر همه داده‌ها تکراری بودند، هیچ کاری نکن
+      // پاسخ کاملاً تکراری نیز نباید باعث تلاش مجدد بی‌پایان شود
       if (uniqueNewData.length === 0) {
-        console.log("All fetched items were duplicates, skipping update");
+        hasReachedEndRef.current = true;
+        onDataFetched([], false);
         return;
       }
 
@@ -213,7 +224,7 @@ export function useInfiniteScroll<T = any>(options: UseInfiniteScrollOptions<T>)
 
   // بررسی اینکه آیا نیاز به بارگذاری خودکار هست (وقتی scrollbar وجود ندارد)
   const checkAndLoadMore = useCallback(() => {
-    if (!containerRef.current || isLoadingRef.current || !hasMore || !enabled) return;
+    if (!containerRef.current || isLoadingRef.current || hasReachedEndRef.current || !hasMore || !enabled) return;
 
     if (useContainerScroll) {
       const container = containerRef.current;
@@ -239,7 +250,7 @@ export function useInfiniteScroll<T = any>(options: UseInfiniteScrollOptions<T>)
     if (!enabled) return;
 
     const handleScroll = () => {
-      if (!containerRef.current || isLoadingRef.current) return;
+      if (!containerRef.current || isLoadingRef.current || hasReachedEndRef.current) return;
 
       if (useContainerScroll) {
         // استفاده از scroll container
