@@ -36,7 +36,7 @@ import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import styles from "./showPost.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { MediaProductType, MediaType, PartnerRole } from "brancy/models/enums";
+import { MediaProductType, MediaType, PartnerRole, ShopMediaProductType } from "brancy/models/enums";
 import {
   IAutomaticReply,
   IDetailsPost,
@@ -191,6 +191,7 @@ const ShowPost = () => {
     canDownload: false,
     mediaUrl: "",
     reelsSkipRate: null,
+    shopMediaProductType: ShopMediaProductType.None,
   });
   const [insight, setInsight] = useState<IInsightPost | null>(null);
   const [toggleValue, setToggleValue] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
@@ -224,6 +225,7 @@ const ShowPost = () => {
     prompt: null,
     sendCount: 0,
     replySuccessfullyDirected: false,
+    productId: null,
   });
   const [commentsPerSlide, setCommentsPerSlide] = useState<number>(5);
   const [isFetchingMoreComments, setIsFetchingMoreComments] = useState(false);
@@ -408,6 +410,7 @@ const ShowPost = () => {
                 productType: MediaProductType.Feed,
                 prompt: res.value.commentMedia!.automaticCommentReply.prompt,
                 sendCount: res.value.commentMedia!.automaticCommentReply.sendCount,
+                productId: res.value.commentMedia!.automaticCommentReply.productId || null,
               });
               if (!res.value.commentMedia.automaticCommentReply.pauseTime) setQuickReply(true);
             }
@@ -1898,6 +1901,7 @@ const ShowPost = () => {
             handleSaveAutoReply={(sendReply: IMediaUpdateAutoReply) => handleUpdateAtuoReply(sendReply)}
             handleActiveAutoReply={handleResumeFeedAutoReply}
             autoReply={autoReply}
+            shopMediaProductType={detailPost.shopMediaProductType}
           />
         </Modal>
         <Modal closePopup={() => setShowLotteryPopup(false)} classNamePopup={"popup"} showContent={showLotteryPopup}>

@@ -470,6 +470,12 @@ export enum StatusReplied {
   TimerClosed,
 }
 
+export enum ShopMediaProductType {
+  None,
+  Short,
+  Instance,
+}
+
 export enum MediaProductType {
   Ad = 0,
   Feed = 1,
@@ -554,6 +560,7 @@ export enum AutoReplyPayLoadType {
   AI,
   GeneralAI,
   Product,
+  ConnectProduct,
 }
 
 export enum BusinessFilterNumberType {

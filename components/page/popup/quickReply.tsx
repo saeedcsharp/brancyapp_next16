@@ -3,7 +3,7 @@ import React, { ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
 import EditAutoReplyForMedia from "brancy/components/messages/popups/editAutoReplyForMedia";
 import { LanguageKey } from "brancy/i18n";
-import { MediaProductType } from "brancy/models/enums";
+import { MediaProductType, ShopMediaProductType } from "brancy/models/enums";
 import { IMediaUpdateAutoReply, IAutomaticReply } from "brancy/models/interfaces";
 
 interface QuickReplyPopupProps {
@@ -11,12 +11,14 @@ interface QuickReplyPopupProps {
   handleSaveAutoReply: (sendReply: IMediaUpdateAutoReply) => void;
   handleActiveAutoReply: (e: ChangeEvent<HTMLInputElement>) => void;
   autoReply: IAutomaticReply;
+  shopMediaProductType: ShopMediaProductType;
 }
 
 const QuickReplyPopup: React.FC<QuickReplyPopupProps> = ({
   setShowQuickReplyPopup,
   handleSaveAutoReply,
   autoReply,
+  shopMediaProductType,
   handleActiveAutoReply,
 }) => {
   const { t } = useTranslation();
@@ -53,6 +55,7 @@ const QuickReplyPopup: React.FC<QuickReplyPopupProps> = ({
         autoReply={autoReply}
         productType={autoReply.productType ?? MediaProductType.Feed}
         showActiveAutoreply={false}
+        shopMediaProductType={shopMediaProductType}
       />
     </>
   );

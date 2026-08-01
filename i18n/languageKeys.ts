@@ -1536,6 +1536,8 @@ export enum LanguageKey {
   messagesetting_CreateNewPrompt = "messagesetting_CreateNewPrompt",
   messagesetting_SelectYourPrompt = "messagesetting_SelectYourPrompt",
   messagesetting_DefineCustomResponseExplain = "messagesetting_DefineCustomResponseExplain",
+  messagesetting_SpecifyProductResponseExplain = "messagesetting_SpecifyProductResponseExplain",
+  messagesetting_ConnectProductResponseExplain = "messagesetting_ConnectProductResponseExplain",
   messagesetting_SelectPredefinedFlowExplain = "messagesetting_SelectPredefinedFlowExplain",
   messagesetting_NoFlowsFound = "messagesetting_NoFlowsFound",
   messagesetting_CreateNewFlow = "messagesetting_CreateNewFlow",

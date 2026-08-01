@@ -1769,6 +1769,9 @@ export default {
     messagesetting_SelectYourPrompt: "Select Your Prompt",
     messagesetting_DefineCustomResponseExplain:
       "Define your custom reply text so it will be automatically sent to users",
+    messagesetting_SpecifyProductResponseExplain:
+      "Specify your product reply so it will be automatically sent to users",
+    messagesetting_ConnectProductResponseExplain: "Connect your product to the story or live ",
     messagesetting_SelectPredefinedFlowExplain:
       "Select a predefined flow to start an automated and smart conversation with the user",
     messagesetting_NoFlowsFound: "No flows found. You will be redirected to the create page to build a new flow.",

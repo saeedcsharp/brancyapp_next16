@@ -352,6 +352,7 @@ const ShowStory = () => {
               promptId: contentRes.value.autoReplyCommentInfo.promptId,
               sendCount: contentRes.value.autoReplyCommentInfo.sendCount,
               sendPr: contentRes.value.autoReplyCommentInfo.sendPr,
+              productId: contentRes.value.autoReplyCommentInfo.productId,
             });
             if (!contentRes.value.autoReplyCommentInfo.pauseTime) setQuickReply(true);
           }
@@ -1505,6 +1506,7 @@ const ShowStory = () => {
               sendCount: 0,
               sendPr: false,
               replySuccessfullyDirected: true,
+              productId: null,
             }
           }
         />

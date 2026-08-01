@@ -24,7 +24,7 @@ import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import styles from "./editAutoReply.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { MediaProductType, AutoReplyPayLoadType } from "brancy/models/enums";
+import { MediaProductType, AutoReplyPayLoadType, ShopMediaProductType } from "brancy/models/enums";
 import {
   IMediaUpdateAutoReply,
   IAutomaticReply,
@@ -39,8 +39,16 @@ type CheckBoxState = {
   Flow: boolean;
   AI: boolean;
   GeneralAI: boolean;
+  Product: boolean;
+  ConnectProduct: boolean;
 };
-type CheckBoxAction = { type: "SET_CUSTOM" } | { type: "SET_FLOW" } | { type: "SET_AI" } | { type: "SET_GENERAL_AI" };
+type CheckBoxAction =
+  | { type: "SET_CUSTOM" }
+  | { type: "SET_FLOW" }
+  | { type: "SET_AI" }
+  | { type: "SET_GENERAL_AI" }
+  | { type: "SET_PRODUCT" }
+  | { type: "SET_CONNECT_PRODUCT" };
 type LoadingState = {
   isLoading: boolean;
   isLoadingMoreAIItems: boolean;
@@ -63,6 +71,7 @@ interface QuickReplyPopupProps {
   autoReply: IAutomaticReply;
   productType: MediaProductType;
   showActiveAutoreply: boolean;
+  shopMediaProductType?: ShopMediaProductType;
 }
 const checkBoxReducer = (state: CheckBoxState, action: CheckBoxAction): CheckBoxState => {
   switch (action.type) {
@@ -72,6 +81,8 @@ const checkBoxReducer = (state: CheckBoxState, action: CheckBoxAction): CheckBox
         AI: false,
         Flow: false,
         GeneralAI: false,
+        Product: false,
+        ConnectProduct: false,
       };
     case "SET_AI":
       return {
@@ -79,6 +90,8 @@ const checkBoxReducer = (state: CheckBoxState, action: CheckBoxAction): CheckBox
         AI: true,
         Flow: false,
         GeneralAI: false,
+        Product: false,
+        ConnectProduct: false,
       };
     case "SET_FLOW":
       return {
@@ -86,6 +99,8 @@ const checkBoxReducer = (state: CheckBoxState, action: CheckBoxAction): CheckBox
         AI: false,
         Flow: true,
         GeneralAI: false,
+        Product: false,
+        ConnectProduct: false,
       };
     case "SET_GENERAL_AI":
       return {
@@ -93,6 +108,26 @@ const checkBoxReducer = (state: CheckBoxState, action: CheckBoxAction): CheckBox
         AI: false,
         Flow: false,
         GeneralAI: true,
+        Product: false,
+        ConnectProduct: false,
+      };
+    case "SET_PRODUCT":
+      return {
+        Custom: false,
+        AI: false,
+        Flow: false,
+        GeneralAI: false,
+        Product: true,
+        ConnectProduct: false,
+      };
+    case "SET_CONNECT_PRODUCT":
+      return {
+        Custom: false,
+        AI: false,
+        Flow: false,
+        GeneralAI: false,
+        Product: false,
+        ConnectProduct: true,
       };
     default:
       return state;
@@ -123,6 +158,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
   autoReply,
   productType,
   showActiveAutoreply,
+  shopMediaProductType,
 }) => {
   const { t } = useTranslation();
   const { data: session } = useSession();
@@ -145,6 +181,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
     mediaId: "",
     pauseTime: Date.now(),
     productType: 0,
+    productId: autoReply?.productId || null,
     prompt: null,
     promptId: null,
     response: "",
@@ -161,6 +198,8 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
     AI: autoReply && autoReply.automaticType === AutoReplyPayLoadType.AI,
     Flow: autoReply && autoReply.automaticType === AutoReplyPayLoadType.Flow,
     GeneralAI: autoReply && autoReply.automaticType === AutoReplyPayLoadType.GeneralAI,
+    Product: autoReply && autoReply.automaticType === AutoReplyPayLoadType.Product,
+    ConnectProduct: autoReply && autoReply.automaticType === AutoReplyPayLoadType.ConnectProduct,
   });
   const [loadingState, setDispatchLoading] = useReducer(loadingReducer, {
     isLoading: false,
@@ -324,6 +363,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
     [activeAutoReply, productType, replyMethod, t],
   );
   const handleOptionChanged = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target.name);
     switch (e.target.name) {
       case "custom":
         dispatchCheckBox({ type: "SET_CUSTOM" });
@@ -337,6 +377,12 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       case "GeneralAI":
         dispatchCheckBox({ type: "SET_GENERAL_AI" });
         break;
+      case "Product":
+        dispatchCheckBox({ type: "SET_PRODUCT" });
+        break;
+      case "ConnectProduct":
+        dispatchCheckBox({ type: "SET_CONNECT_PRODUCT" });
+        break;
     }
   }, []);
   const handleUpdateAutoReply = useCallback(() => {
@@ -349,6 +395,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       sendPr: replyMethod !== null && replyMethod.sendPr,
       replySuccessfullyDirected: replyMethod?.replySuccessfullyDirected ?? false,
       shouldFollower: replyMethod !== null && replyMethod.shouldFollower,
+      productId: replyMethod?.productId || null,
     };
     console.log("sendAutoooooo", sendAuto);
     if (checkBox.AI) {
@@ -373,6 +420,11 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       sendAuto = {
         ...sendAuto,
         automaticType: AutoReplyPayLoadType.GeneralAI,
+      };
+    } else if (checkBox.Product) {
+      sendAuto = {
+        ...sendAuto,
+        automaticType: AutoReplyPayLoadType.Product,
       };
     }
     console.log("sendAuto", sendAuto);
@@ -764,7 +816,8 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
     const isAIValid = checkBox.AI && !!(selectedPrompt?.promptId || replyMethod?.promptId) && keywordValid;
     const isGeneralAIValid = checkBox.GeneralAI && keywordValid;
     const isFlowValid = checkBox.Flow && !!(selectedFlow?.masterFlowId || replyMethod?.masterFlowId) && keywordValid;
-    return activeAutoReply && (isCustomValid || isAIValid || isGeneralAIValid || isFlowValid);
+    const isProductValid = checkBox.Product && keywordValid;
+    return activeAutoReply && (isCustomValid || isAIValid || isGeneralAIValid || isFlowValid || isProductValid);
   }, [activeAutoReply, autoReplyAll, checkBox, replyMethod, selectedFlow, selectedPrompt]);
 
   const hasChanges = useMemo(() => {
@@ -1329,6 +1382,36 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                     </div>
                   )}
                 </div>
+                {/* Product */}
+                {shopMediaProductType === ShopMediaProductType.Instance && (
+                  <div className="headerandinput">
+                    <div className="headerandinput">
+                      <RadioButton
+                        name="Product"
+                        id={t("Product")}
+                        checked={checkBox.Product}
+                        handleOptionChanged={handleOptionChanged}
+                        textlabel={t("Product")}
+                      />
+                      <div className="explain">{t(LanguageKey.messagesetting_SpecifyProductResponseExplain)}</div>
+                    </div>
+                  </div>
+                )}
+                {/*Connect Product */}
+                {productType === MediaProductType.Live && (
+                  <div className="headerandinput">
+                    <div className="headerandinput">
+                      <RadioButton
+                        name="ConnectProduct"
+                        id={t("Connect Product")}
+                        checked={checkBox.ConnectProduct}
+                        handleOptionChanged={handleOptionChanged}
+                        textlabel={t("Connect Product")}
+                      />
+                      <div className="explain">{t(LanguageKey.messagesetting_ConnectProductResponseExplain)}</div>
+                    </div>
+                  </div>
+                )}
               </>
             )}
           </>

@@ -62,6 +62,7 @@ import {
   RegisterType,
   RejectedType,
   ShippingRequestType,
+  ShopMediaProductType,
   SortByNum,
   SpecialPayLoad,
   StatusReplied,
@@ -2510,6 +2511,7 @@ export interface IPostContent {
   canDownload: boolean;
   mediaUrl: string;
   reelsSkipRate: number | null;
+  shopMediaProductType: ShopMediaProductType;
 }
 
 export interface IDetailsPost extends IPostContent {
@@ -2608,6 +2610,7 @@ export interface IAutomaticReply {
   masterFlowId: string | null;
   masterFlow: ITotalMasterFlow | null;
   prompt: ITotalPrompt | null;
+  productId: string | null;
 }
 
 export interface IMediaUpdateAutoReply {
@@ -2619,6 +2622,7 @@ export interface IMediaUpdateAutoReply {
   response: string | null;
   replySuccessfullyDirected: boolean;
   keys: string[];
+  productId: string | null;
 }
 
 export interface IPublishLimit {
