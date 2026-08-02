@@ -27,6 +27,7 @@
 - Add component coverage for the Tooltip portal, directional viewport positioning, scroll/resize updates, and click-outside behavior when a UI test harness is introduced.
 - Add component/browser coverage for OTP verification, including one-request submission under WebOTP/manual overlap, repeated Enter/click protection, Persian/Arabic-Indic paste, incorrect-code shake and reset, timer expiry, and unmount cleanup when a UI test harness is introduced.
 - Add focused coverage for multi-digit autofill, select-on-focus behavior, first-input focus after errors, ARIA timer/error relationships, and history replacement after successful verification when a UI test harness is introduced.
+- Add component coverage confirming Comment Inbox hover renders do not re-fetch Auto Reply prompts or flows while the selected media configuration is unchanged when a UI test harness is introduced.
 
 ## Technical Debt Ideas
 

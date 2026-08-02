@@ -2,7 +2,7 @@ import { getClientGraphBaseUrl, getClientMediaBaseUrl } from "brancy/helper/apiB
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
 import { useSession } from "next-auth/react";
 import router from "next/router";
-import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, MouseEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import InputText from "brancy/components/design/inputText";
@@ -186,6 +186,39 @@ const CommentInbox = () => {
 
   // Statistics popup state
   const [showStatisticsPopup, setShowStatisticsPopup] = useState(false);
+
+  const settingsAutoReply = useMemo<IAutomaticReply | null>(() => {
+    const currentChatBox = handleSpecifyChatBox();
+    if (!currentChatBox) return null;
+
+    return (
+      currentChatBox.automaticCommentReply ?? {
+        automaticType: 0,
+        items: [],
+        masterFlow: null,
+        masterFlowId: null,
+        mediaId: currentChatBox.mediaId,
+        pauseTime: Date.now(),
+        productType: 0,
+        prompt: null,
+        promptId: null,
+        replySuccessfullyDirected: false,
+        response: "",
+        sendCount: 0,
+        sendPr: false,
+        shouldFollower: false,
+        productId: null,
+      }
+    );
+  }, [
+    postCommentInbox,
+    searchBusinessInbox,
+    searchPostCommentInbox,
+    showSearchThread.searchMode,
+    storyCommentInbox,
+    toggleOrder,
+    userSelectedId,
+  ]);
 
   // Update vanish mode when selected user changes
   useEffect(() => {
@@ -2367,7 +2400,7 @@ const CommentInbox = () => {
           <div className={chatBoxStyles.autoreplyContent}>
             {(() => {
               const currentChatBox = handleSpecifyChatBox();
-              if (!currentChatBox) return null;
+              if (!currentChatBox || !settingsAutoReply) return null;
               return (
                 <>
                   <div className="headerandinput translate" style={{ marginBottom: "30px" }}>
@@ -2394,27 +2427,7 @@ const CommentInbox = () => {
                       handleUpdateAutoReplySettings(sendReply);
                     }}
                     handleActiveAutoReply={handlePauseAutoReplySettings}
-                    autoReply={
-                      currentChatBox.automaticCommentReply !== null
-                        ? currentChatBox.automaticCommentReply
-                        : {
-                            automaticType: 0,
-                            items: [],
-                            masterFlow: null,
-                            masterFlowId: null,
-                            mediaId: currentChatBox.mediaId,
-                            pauseTime: Date.now(),
-                            productType: 0,
-                            prompt: null,
-                            promptId: null,
-                            replySuccessfullyDirected: false,
-                            response: "",
-                            sendCount: 0,
-                            sendPr: false,
-                            shouldFollower: false,
-                            productId: null,
-                          }
-                    }
+                    autoReply={settingsAutoReply}
                     productType={currentChatBox.productType}
                     showActiveAutoreply={true}
                   />

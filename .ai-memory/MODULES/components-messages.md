@@ -58,6 +58,8 @@ React components are present when the folder contains `.tsx` UI files.
 
 `popups/selectProduct.tsx` loads product thumbnails through `useInfiniteScroll`. Its pagination callback always applies the hook's `hasMore` result, including an empty terminal page, so a short product grid cannot repeatedly request an exhausted product cursor.
 
+`comment/commentInbox.tsx` memoizes the selected media's auto-reply configuration before passing it to `popups/editAutoReplyForMedia.tsx`. Hover-driven parent renders therefore preserve the child fetch effect dependencies and do not repeat prompt or flow API requests; a media, search-mode, or inbox-data change still supplies updated configuration.
+
 ## Hooks
 
 React hooks are present when named `use*` functions/files exist.
@@ -148,7 +150,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-08-01
+2026-08-02
 
 ---
 

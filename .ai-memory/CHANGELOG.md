@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-08-02
+
+- Prevented hover-driven Comment Inbox settings-modal renders from repeating the Auto Reply prompt and flow API requests by memoizing the selected media auto-reply configuration.
+
 ## 2026-08-01
 
 - Fixed `useInfiniteScroll` retry loops after empty or duplicate-only pages; product and lottery-post picker callbacks now retain the terminal `hasMore` state.

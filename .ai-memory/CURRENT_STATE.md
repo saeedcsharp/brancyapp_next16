@@ -50,6 +50,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Prevented Comment Inbox settings-popup hover renders from repeatedly loading Auto Reply prompts and flows. The selected media's auto-reply prop is now memoized and only changes when the selected thread, source inbox, search mode, or relevant inbox data changes.
+
 - Fixed shared infinite-scroll termination: empty or duplicate-only pages now report `hasMore: false`, and the product and lottery-post thumbnail pickers persist that state to prevent repeated exhausted-cursor API calls.
 
 - Added accessible icon-only close controls to the wallet invoice, bank-card sub-invoice, and order-detail popup headers.
