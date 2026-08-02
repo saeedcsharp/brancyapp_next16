@@ -279,7 +279,7 @@ const Properties = () => {
     // }));
   }
   async function handleShowQuickReply(index: string | null, productId?: string) {
-    if (productId) {
+    if (productId && productId !== "") {
       const selectedAutoReply = autoReplies.find((x) => x.id === index);
       if (selectedAutoReply && selectedAutoReply.automaticType === AutoReplyPayLoadType.ConnectProduct) {
         try {
