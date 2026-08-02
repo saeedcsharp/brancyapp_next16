@@ -2430,6 +2430,7 @@ const CommentInbox = () => {
                     autoReply={settingsAutoReply}
                     productType={currentChatBox.productType}
                     showActiveAutoreply={true}
+                    shopMediaProductType={currentChatBox.shopMediaProductType}
                   />
                 </>
               );

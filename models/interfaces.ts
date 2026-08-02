@@ -1886,6 +1886,7 @@ export interface IMedia {
   postId: number | null;
   commentEnabled: boolean;
   automaticCommentReply: IAutomaticReply | null;
+  shopMediaProductType: ShopMediaProductType;
 }
 
 export interface IComment {
