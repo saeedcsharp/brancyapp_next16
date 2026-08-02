@@ -2,6 +2,7 @@
 
 ## 2026-08-02
 
+- Added a shopping-bag SVG badge beside the Page post number when `shopMediaProductType` is `ShopMediaProductType.Instance`.
 - Prevented hover-driven Comment Inbox settings-modal renders from repeating the Auto Reply prompt and flow API requests by memoizing the selected media auto-reply configuration.
 
 ## 2026-08-01

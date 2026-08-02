@@ -32,7 +32,7 @@ import ScheduledPost from "brancy/components/page/scheduledPost/scheduledPost";
 import styles from "./postContent.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { MethodType } from "brancy/helper/api";
-import { PartnerRole, UploadPostSteps } from "brancy/models/enums";
+import { PartnerRole, ShopMediaProductType, UploadPostSteps } from "brancy/models/enums";
 import { IPostContent, IPost, IUploadPost } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 type PostState = {
@@ -651,8 +651,19 @@ const PostContent = (props: PostContentProps) => {
                     sizes="(max-width: 500px) 165px, (max-width: 768px) 200px, 250px"
                   />
                   <div className={styles.postidandmenu}>
-                    <div className={styles.postid} title={`ℹ️ Post no. ${post.tempId}`}>
-                      {post.isDeleted ? <>{t(LanguageKey.DeletedPost)}</> : post.tempId.toLocaleString()}
+                    <div className={styles.postIdAndProduct}>
+                      <div className={styles.postid} title={`ℹ️ Post no. ${post.tempId}`}>
+                        {post.isDeleted ? <>{t(LanguageKey.DeletedPost)}</> : post.tempId.toLocaleString()}
+                      </div>
+                      {post.shopMediaProductType === ShopMediaProductType.Instance && (
+                        <Tooltip tooltipValue="Product post" position="bottom" onHover={true}>
+                          <span className={styles.productBadge} aria-label="Product post">
+                            <svg viewBox="0 0 24 24" aria-hidden="true">
+                              <path d="M7 9V7a5 5 0 0 1 10 0v2M6 9h12l1 12H5L6 9Zm4 4v4m4-4v4" />
+                            </svg>
+                          </span>
+                        </Tooltip>
+                      )}
                     </div>
 
                     <Dotmenu
