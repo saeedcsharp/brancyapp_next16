@@ -40,6 +40,7 @@ import {
   IPostImageInfo,
   IPreStory,
   IPreStoryInfo,
+  IProduct_ShortProduct,
   IPublishLimit,
   IStoreOrderShortProduct,
   IStoryDraftInfo,
@@ -83,7 +84,7 @@ const CreateStory = () => {
     replySuccessfullyDirected: false,
     productId: null,
   });
-  const [selectedProduct, setSelectedProduct] = useState<IStoreOrderShortProduct | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<IProduct_ShortProduct | null>(null);
   const [showProductPopup, setShowProductPopup] = useState(false);
   const [tempId, setTempId] = useState(0);
   const [draftId, setDraftId] = useState(0);

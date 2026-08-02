@@ -1485,6 +1485,7 @@ const CommentInbox = () => {
                         sendCount: 0,
                         sendPr: false,
                         shouldFollower: false,
+                        productId: null,
                       },
                 },
           ),
@@ -1539,6 +1540,7 @@ const CommentInbox = () => {
                         sendCount: 0,
                         sendPr: false,
                         shouldFollower: false,
+                        productId: null,
                       },
                 },
           ),
@@ -2410,6 +2412,7 @@ const CommentInbox = () => {
                             sendCount: 0,
                             sendPr: false,
                             shouldFollower: false,
+                            productId: null,
                           }
                     }
                     productType={currentChatBox.productType}

@@ -30,7 +30,7 @@ interface Adjustment {
 
 const emptyAdjustment = (): Adjustment => ({ unit: "percent", direction: "increase", value: 0 });
 
-const UpdateProduct = (props: { data: number[]; removeMask: () => void; onSaved?: () => void }) => {
+const UpdateProduct = (props: { data: string[]; removeMask: () => void; onSaved?: () => void }) => {
   const { data: session } = useSession();
   const { t } = useTranslation();
   const [loading, setLoading] = useState(true);
@@ -48,7 +48,7 @@ const UpdateProduct = (props: { data: number[]; removeMask: () => void; onSaved?
     async function fetchData() {
       setLoading(true);
       try {
-        const res = await clientFetchApi<{ productIds: number[] }, IProduct_FullProduct[]>(
+        const res = await clientFetchApi<{ productIds: string[] }, IProduct_FullProduct[]>(
           "/api/product/GetFullProductList",
           {
             methodType: MethodType.post,

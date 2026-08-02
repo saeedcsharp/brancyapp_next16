@@ -12,11 +12,11 @@ import { IProduct_ShortProduct } from "brancy/models/interfaces";
 import { AvailabilityStatus } from "brancy/models/enums";
 interface ProductListMobileProps {
   products: IProduct_ShortProduct[];
-  productIds: number[];
+  productIds: string[];
   basePictureUrl: string | undefined;
   availableStatus: React.JSX.Element[];
-  handleSelectProduct: (e: ChangeEvent<HTMLInputElement>, productId: number, productInId: number | null) => void;
-  handleChangeActiveProduct: (productId: number, productInId: number | null, statusId: any) => Promise<void>;
+  handleSelectProduct: (e: ChangeEvent<HTMLInputElement>, productId: string, productInId: number | null) => void;
+  handleChangeActiveProduct: (productId: string, productInId: number | null, statusId: any) => Promise<void>;
   getStockClass: (stock: number, productInId: number | null) => string;
 }
 

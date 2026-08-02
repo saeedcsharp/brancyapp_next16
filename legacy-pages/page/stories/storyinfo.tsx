@@ -1,10 +1,4 @@
-import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { ChangeEvent, useCallback, useEffect, useId, useMemo, useReducer, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { DateObject } from "react-multi-date-picker";
+import ChartHour from "brancy/components/design/chart/Chart_hour";
 import InputText from "brancy/components/design/inputText";
 import Modal from "brancy/components/design/modal";
 import Slider from "brancy/components/design/slider/slider";
@@ -12,6 +6,7 @@ import FlexibleToggleButton from "brancy/components/design/toggleButton/flexible
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
+import SelectProduct from "brancy/components/messages/popups/selectProduct";
 import { MediaModal, useMediaModal } from "brancy/components/messages/shared/utils";
 import {
   internalNotify,
@@ -25,35 +20,37 @@ import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
 import LotteryPopup, { LotteryPopupType } from "brancy/components/page/popup/lottery";
 import QuickStoryReplyPopup from "brancy/components/page/popup/quickStoryReply";
+import { MethodType } from "brancy/helper/api";
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { isRTL } from "brancy/helper/checkRtl";
 import { convertArrayToLarray } from "brancy/helper/chunkArray";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { handleCopyLink } from "brancy/helper/copyLink";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { MethodType } from "brancy/helper/api";
-import ChartHour from "brancy/components/design/chart/Chart_hour";
-import styles from "./showStory.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { AutoReplyPayLoadType, MediaProductType, MediaType, PartnerRole } from "brancy/models/enums";
 import {
   IAutomaticReply,
   IDirectMessageItem,
   IMediaUpdateAutoReply,
   IProduct_FullProduct,
   IProduct_ShortProduct,
-  IReaction,
   ISendStoryAutomaticReply,
-  IStoreOrderShortProduct,
   IStory_Viewers,
   IStory_Viewers_Server,
   IStoryContent,
   IStoryInsight,
   IStoryReply,
-  IStoryViewer,
 } from "brancy/models/interfaces";
-import { AutoReplyPayLoadType, MediaProductType, MediaType, PartnerRole } from "brancy/models/enums";
-import SelectProduct from "brancy/components/messages/popups/selectProduct";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { ChangeEvent, useCallback, useEffect, useId, useMemo, useReducer, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { DateObject } from "react-multi-date-picker";
+import styles from "./showStory.module.css";
 
 type SearchState = {
   searchMode: boolean;
@@ -118,10 +115,6 @@ const ShowStory = () => {
   const isValidIndex = useMemo(() => session?.user.currentIndex !== -1, [session?.user.currentIndex]);
   const [loading, setLoading] = useState(false);
   const [toggleValue, setToggleValue] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
-  const [toggleFollowersValue, setToggleFollowersValue] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
-  const [followers, setFollowers] = useState<IStoryViewer[][]>([]);
-  const [unFollowers, setUnFollowers] = useState<IStoryViewer[][]>([]);
-  const [reaction, setReaction] = useState<IReaction[][]>([]);
   // const [replies, setReplies] = useState<IThread[][]>([]);
   const [storyReplies, setStoryReplies] = useState<IStoryReply>({
     nextMaxId: "",
