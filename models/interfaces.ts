@@ -2138,6 +2138,7 @@ export interface IGeneralAutoReply {
   title: string;
   replySuccessfullyDirected: boolean;
   customRepliesSuccessfullyDirected: string[];
+  productId: string;
 }
 
 export interface ICreateGeneralAutoReply {
@@ -2153,6 +2154,7 @@ export interface ICreateGeneralAutoReply {
   title: string;
   replySuccessfullyDirected: boolean;
   customRepliesSuccessfullyDirected: string[];
+  productId: string;
 }
 
 export interface ITotalMasterFlow {
