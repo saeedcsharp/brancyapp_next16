@@ -30,7 +30,7 @@ import { IProduct_Candidate } from "brancy/models/interfaces";
 import styles from "./selectProduct.module.css";
 const basePictureUrl = getClientMediaBaseUrl();
 async function fetchProductCandidates(session: any, includeProduct: boolean, nextMaxCreatedTime?: string) {
-  return clientFetchApi<boolean, IProduct_Candidate[]>("shopper/Product/GetProductCandidates", {
+  return clientFetchApi<boolean, IProduct_Candidate[]>("/api/product/getProductCandidates", {
     methodType: MethodType.get,
     session,
     data: null,
@@ -44,7 +44,7 @@ async function fetchProductCandidates(session: any, includeProduct: boolean, nex
   });
 }
 async function submitSelectedProducts(session: any, postIds: number[]) {
-  return clientFetchApi<{ postIds: number[] }, boolean>("shopper/Product/CreateProducts", {
+  return clientFetchApi<{ postIds: number[] }, boolean>("/api/product/createProducts", {
     methodType: MethodType.post,
     session,
     data: { postIds },

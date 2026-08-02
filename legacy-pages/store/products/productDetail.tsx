@@ -64,7 +64,7 @@ const ProductDetail = ({ tempId }: { tempId: string }) => {
   });
 
   const getFullProductAndPostInfo = useCallback(
-    async (productId: number, postId: number) => {
+    async (productId: string, postId: number) => {
       try {
         const [res1, res2] = await Promise.all([
           clientFetchApi<boolean, IProduct_FullProduct>("shopper" + "" + "/Product/GetFullProduct", {
@@ -472,7 +472,7 @@ const ProductDetail = ({ tempId }: { tempId: string }) => {
               />
             ) : (
               <NotInstanceProductDetail
-                productId={state.shortProduct!.productId}
+                productId={state.shortProduct!.productId.toString()}
                 maxSize={state.maxSize!}
                 shortProduct={state.shortProduct!}
                 postInfo={state.postInfo!}

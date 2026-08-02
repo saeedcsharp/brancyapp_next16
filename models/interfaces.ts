@@ -4075,7 +4075,7 @@ export interface IProduct_Candidate {
 
 export interface IProduct_ShortProduct {
   instagramerId: number;
-  productId: number;
+  productId: string;
   tempId: number;
   variationCount: number;
   minStock: number;
@@ -4087,11 +4087,18 @@ export interface IProduct_ShortProduct {
   availabilityStatus: AvailabilityStatus;
   minPrice: number;
   maxPrice: number;
-  priceUnit: number;
   title: string | null;
   lastUpdate: number;
   inCardCount: number;
   priceType: PriceType;
+  maxInEachCard: number;
+  likeCount: number;
+  caption: string | null;
+  instagramUrl: string;
+  fbId: number;
+  maxDiscountPrice: number | null;
+  minDiscountPrice: number | null;
+  categoryId: number;
 }
 
 export interface IProduct_MainCategory {
@@ -4165,7 +4172,7 @@ export interface ISummaryProduct {
 }
 
 export interface IProduct_CreateInstance {
-  productId: number;
+  productId: string;
   title: string;
   evat: number;
   deliveryInfo: {
@@ -4238,7 +4245,7 @@ export interface IProduct_Varisation_Client {
 }
 
 export interface IProduct_CreateSubProduct {
-  productId: number;
+  productId: string;
   subProducts: ISubProduct_Create[];
   deActiveSubProducts: number[];
 }
@@ -4331,7 +4338,7 @@ export interface IGenera_CreateInstance {
   brandId: number | null;
   subcategoryId: number | null;
   title: string;
-  productId: number;
+  productId: string;
   categoryId: number;
 }
 

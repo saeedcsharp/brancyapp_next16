@@ -11,7 +11,7 @@ import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
-import { IStoreOrderShortProduct } from "brancy/models/interfaces";
+import { IProduct_ShortProduct, IStoreOrderShortProduct } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
 import router from "next/router";
 import { useEffect, useState } from "react";
@@ -20,7 +20,7 @@ import styles from "./selectProduct.module.css";
 const basePictureUrl = getClientMediaBaseUrl();
 const SelectProduct = (props: {
   removeMask: () => void;
-  saveSelectProduct: (product: IStoreOrderShortProduct) => void;
+  saveSelectProduct: (product: IProduct_ShortProduct) => void;
   backToAutoreply: () => void;
 }) => {
   const { t } = useTranslation();
@@ -31,15 +31,15 @@ const SelectProduct = (props: {
     },
   });
   const [loading, setLoading] = useState(true);
-  const [products, setProducts] = useState<IStoreOrderShortProduct[]>([]);
-  const [selectedProduct, setSelectedProduct] = useState<IStoreOrderShortProduct | null>(null);
+  const [products, setProducts] = useState<IProduct_ShortProduct[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<IProduct_ShortProduct | null>(null);
   const [hasMore, setHasMore] = useState(false);
 
-  const { containerRef, isLoadingMore } = useInfiniteScroll<IStoreOrderShortProduct>({
+  const { containerRef, isLoadingMore } = useInfiniteScroll<IProduct_ShortProduct>({
     hasMore,
     fetchMore: async () => {
       try {
-        const result = await clientFetchApi<string, IStoreOrderShortProduct[]>("/api/product/getProductList", {
+        const result = await clientFetchApi<string, IProduct_ShortProduct[]>("/api/product/getProductList", {
           methodType: MethodType.get,
           session: session,
           queries: [
@@ -72,7 +72,7 @@ const SelectProduct = (props: {
 
   async function getProducts() {
     try {
-      var res = await clientFetchApi<string, IStoreOrderShortProduct[]>("/api/product/getProductList", {
+      var res = await clientFetchApi<string, IProduct_ShortProduct[]>("/api/product/getProductList", {
         methodType: MethodType.get,
         session: session,
         queries: [
@@ -134,7 +134,7 @@ const SelectProduct = (props: {
               {t(LanguageKey.cancel)}
             </button>
             <button
-              onClick={() => props.saveSelectProduct(selectedProduct ?? ({} as IStoreOrderShortProduct))}
+              onClick={() => props.saveSelectProduct(selectedProduct ?? ({} as IProduct_ShortProduct))}
               className={selectedProduct ? "saveButton" : "disableButton"}
               disabled={!selectedProduct}>
               {t(LanguageKey.select)}

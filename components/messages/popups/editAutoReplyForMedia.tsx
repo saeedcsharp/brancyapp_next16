@@ -33,7 +33,7 @@ import {
   IMasterFlow,
   ITotalMasterFlow,
   ITotalPrompt,
-  IStoreOrderShortProduct,
+  IProduct_ShortProduct,
 } from "brancy/models/interfaces";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 type CheckBoxState = {
@@ -75,7 +75,7 @@ interface QuickReplyPopupProps {
   showActiveAutoreply: boolean;
   setShowProductPopup?: () => void;
   shopMediaProductType?: ShopMediaProductType;
-  selectedProduct?: IStoreOrderShortProduct | null;
+  selectedProduct?: IProduct_ShortProduct | null;
 }
 const checkBoxReducer = (state: CheckBoxState, action: CheckBoxAction): CheckBoxState => {
   switch (action.type) {

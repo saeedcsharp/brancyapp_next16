@@ -11,7 +11,7 @@ interface QuickReplyPopupProps {
   handleSaveAutoReply: (sendReply: IMediaUpdateAutoReply) => void;
   handleActiveAutoReply: (e: ChangeEvent<HTMLInputElement>) => void;
   autoReply: IAutomaticReply;
-  shopMediaProductType: ShopMediaProductType;
+  shopMediaProductType?: ShopMediaProductType;
 }
 
 const QuickReplyPopup: React.FC<QuickReplyPopupProps> = ({

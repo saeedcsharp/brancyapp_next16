@@ -39,7 +39,7 @@ const UpdateProduct = (props: { data: number[]; removeMask: () => void; onSaved?
   const [activeTab, setActiveTab] = useState<Tab>("discount");
   const [scope, setScope] = useState<ApplyScope>("all");
   const [allAdjustment, setAllAdjustment] = useState<Adjustment>(emptyAdjustment);
-  const [productAdjustments, setProductAdjustments] = useState<Record<number, Adjustment>>({});
+  const [productAdjustments, setProductAdjustments] = useState<Record<string, Adjustment>>({});
 
   useEffect(() => {
     if (!session || props.data.length === 0) return;
@@ -100,7 +100,7 @@ const UpdateProduct = (props: { data: number[]; removeMask: () => void; onSaved?
     setAllAdjustment((current) => ({ ...current, ...patch }));
   }
 
-  function updateProductAdjustment(productId: number, patch: Partial<Adjustment>) {
+  function updateProductAdjustment(productId: string, patch: Partial<Adjustment>) {
     setProductAdjustments((current) => ({
       ...current,
       [productId]: { ...(current[productId] ?? emptyAdjustment()), ...patch },

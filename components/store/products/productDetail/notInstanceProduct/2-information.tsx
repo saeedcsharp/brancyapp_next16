@@ -25,7 +25,7 @@ export default function Information({
   data: IProduct_Information;
   toggleNext: { toggle: boolean; isNext: boolean };
   upadteCteateFromInformation: (info: IProduct_Information, isNext: boolean) => void;
-  productId: number;
+  productId: string;
   categoryId: number;
 }) {
   const { t } = useTranslation();

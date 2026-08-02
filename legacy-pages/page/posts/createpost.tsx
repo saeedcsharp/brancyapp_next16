@@ -492,6 +492,7 @@ const CreatePost = () => {
     promptId: null,
     sendCount: 0,
     replySuccessfullyDirected: false,
+    productId: null,
   });
   const [hashtagList, setHashtagList] = useState<string[]>([]);
   const [renderWidthSize, setRenderwidthSize] = useState(333);
@@ -792,6 +793,7 @@ const CreatePost = () => {
       masterFlowId: sendAutoReply.masterFlowId,
       sendCount: 0,
       replySuccessfullyDirected: false,
+      productId: sendAutoReply.productId,
     });
     uiDispatch({ type: "TOGGLE_QUICK_REPLY_POPUP", payload: false });
     if (!QuickReply) formDispatch({ type: "TOGGLE_QUICK_REPLY" });
@@ -846,6 +848,7 @@ const CreatePost = () => {
                   sendPr: autoReply.sendPr,
                   shouldFollower: autoReply.shouldFollower,
                   replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
+                  productId: autoReply.productId,
                 }
               : null,
             collaborators: collabratorPages,
@@ -898,6 +901,7 @@ const CreatePost = () => {
                   sendPr: autoReply.sendPr,
                   shouldFollower: autoReply.shouldFollower,
                   replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
+                  productId: autoReply.productId,
                 }
               : null,
 
@@ -967,6 +971,7 @@ const CreatePost = () => {
                 sendPr: autoReply.sendPr,
                 shouldFollower: autoReply.shouldFollower,
                 replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
+                productId: autoReply.productId,
               }
             : null,
           collaborators: collabratorPages,
@@ -2044,6 +2049,7 @@ const CreatePost = () => {
           prompt: null,
           promptId: draft.automaticMediaReply ? draft.automaticMediaReply.promptId : null,
           sendCount: 0,
+          productId: draft.automaticMediaReply ? draft.automaticMediaReply.productId : null,
         });
         setCollabratorPages(draft.collaborators);
         formDispatch({ type: "SET_CAPTION", payload: draft.caption });
@@ -2166,6 +2172,7 @@ const CreatePost = () => {
                 prompt: null,
                 promptId: null,
                 sendCount: 0,
+                productId: null,
               },
         );
         setCollabratorPages(prePost.collaborators);

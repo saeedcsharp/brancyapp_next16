@@ -33,7 +33,7 @@ function General({
   toggleNext,
   upadteCteateFromgeneral,
 }: {
-  productId: number;
+  productId: string;
   suggestedPrice: ISuggestedPrice[];
   info: IGeneralInfo | null;
   toggleNext: boolean;
@@ -274,7 +274,7 @@ function General({
     }
     return null;
   }
-  async function handleGetSuggestedCategory(productId: number) {
+  async function handleGetSuggestedCategory(productId: string) {
     setCategoryLoading(true);
     try {
       const res = await clientFetchApi<boolean, ISuggestedCategory>("/api/product/getSuggestedCategory", {

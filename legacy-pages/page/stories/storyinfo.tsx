@@ -40,6 +40,8 @@ import {
   IAutomaticReply,
   IDirectMessageItem,
   IMediaUpdateAutoReply,
+  IProduct_FullProduct,
+  IProduct_ShortProduct,
   IReaction,
   ISendStoryAutomaticReply,
   IStoreOrderShortProduct,
@@ -171,7 +173,7 @@ const ShowStory = () => {
     hasOlder: false,
   });
   const [showProductPopup, setShowProductPopup] = useState(false);
-  const [selectedProduct, setSelectedProduct] = useState<IStoreOrderShortProduct | null>(null);
+  const [selectedProduct, setSelectedProduct] = useState<IProduct_ShortProduct | null>(null);
   const lastSearchQuery = useRef("");
   const handleImageClick = useCallback((imageUrl: string, username: string) => {
     setProfilePopup({ show: true, image: imageUrl, username });
@@ -185,6 +187,7 @@ const ShowStory = () => {
     const optimal = Math.max(3, Math.floor(availableHeight / averageCommentHeight));
     return Math.min(5, optimal);
   }, []);
+
   useEffect(() => {
     const handleResize = () => {
       setCommentsPerSlide(calculateCommentsPerSlide());
@@ -359,6 +362,12 @@ const ShowStory = () => {
               productId: contentRes.value.autoReplyCommentInfo.productId,
             });
             if (!contentRes.value.autoReplyCommentInfo.pauseTime) setQuickReply(true);
+            if (
+              contentRes.value.autoReplyCommentInfo.automaticType === AutoReplyPayLoadType.ConnectProduct &&
+              contentRes.value.autoReplyCommentInfo.productId
+            ) {
+              handleGetProduct(contentRes.value.autoReplyCommentInfo.productId);
+            }
           }
           setLoading(false);
           setIsDataLoaded(true);
@@ -371,6 +380,22 @@ const ShowStory = () => {
     },
     [session],
   );
+  async function handleGetProduct(productId: string) {
+    try {
+      var res = await clientFetchApi<boolean, IProduct_FullProduct>("/api/product/getFullProduct", {
+        methodType: MethodType.get,
+        session: session,
+        queries: [{ key: "productId", value: productId }],
+      });
+      if (res.succeeded) {
+        // Handle the product data here
+        console.log(res.value);
+        setSelectedProduct(res.value.shortProduct);
+      } else notify(res.info.responseType, NotifType.Warning);
+    } catch (error) {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    }
+  }
   async function handleResumeLiveAutoReply(e: ChangeEvent<HTMLInputElement>) {
     if (!autoReply) return;
     try {
@@ -560,6 +585,7 @@ const ShowStory = () => {
               ...prev,
               autoReplyCommentInfo: res.value,
             }));
+          setShowQuickReplyPopup(false);
         } else notify(res.info.responseType, NotifType.Warning);
       } catch (error) {
         notify(ResponseType.Unexpected, NotifType.Error);

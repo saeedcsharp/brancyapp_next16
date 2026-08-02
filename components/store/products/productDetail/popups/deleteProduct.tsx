@@ -6,7 +6,7 @@ import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import styles from "./deleteProduct.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-const DeleteProduct = (props: { productId: number; removeMask: () => void }) => {
+const DeleteProduct = (props: { productId: string; removeMask: () => void }) => {
   const { t } = useTranslation();
   const { data: session } = useSession();
   async function handleDeleteProduct() {

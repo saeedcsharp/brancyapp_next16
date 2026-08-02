@@ -60,7 +60,7 @@ export default function NotInstanceProductDetail({
   postInfo,
 }: {
   maxSize: IMaxSize | null;
-  productId: number;
+  productId: string;
   shortProduct: IProduct_ShortProduct;
   postInfo: IDetailsPost;
 }) {
@@ -82,7 +82,7 @@ export default function NotInstanceProductDetail({
     isColorVariation: false,
     maxInEachCard: 0,
     orginalityStatus: OrginalityStatus.Fake,
-    productId: 0,
+    productId: "",
     readyForShipDayLong: 0,
     specificationItems: [],
     subCategoryId: 0,

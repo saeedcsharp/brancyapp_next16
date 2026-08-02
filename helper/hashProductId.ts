@@ -1,4 +1,4 @@
-export function hashProductId(productId: number): string {
+export function hashProductId(productId: string): string {
   const str = productId.toString();
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
