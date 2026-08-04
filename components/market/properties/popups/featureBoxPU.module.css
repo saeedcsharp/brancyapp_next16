@@ -254,7 +254,7 @@
   width: 100%;
   height: 100%;
   gap: var(--gap-20);
-  overflow-y: scroll;
+  overflow-y: auto;
   justify-content: flex-start;
 }
 .upload {
@@ -334,7 +334,7 @@
   width: 100%;
   height: 100%;
   gap: var(--gap-20);
-  overflow-y: scroll;
+  overflow-y: auto;
   justify-content: flex-start;
 }
 
@@ -377,7 +377,7 @@
   width: 100%;
   height: 100%;
   gap: var(--gap-20);
-  overflow-y: scroll;
+  overflow-y: auto;
   justify-content: flex-start;
 }
 .inputtext {
@@ -445,7 +445,7 @@
   height: 100%;
   gap: var(--gap-20);
   justify-content: space-between;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .uploadcover {
   position: relative;
@@ -601,7 +601,7 @@
   color: var(--text-h1);
   font-size: var(--font-14);
   font-weight: var(--weight-400);
-  overflow-y: scroll;
+  overflow-y: auto;
   @media (max-width: 720px) {
     -webkit-line-clamp: 10 !important;
     line-clamp: 10 !important;

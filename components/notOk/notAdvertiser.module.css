@@ -64,7 +64,7 @@
   }
 }
 .progressContainer {
-  overflow-y: scroll;
+  overflow-y: auto;
   box-shadow: var(--small-shadow);
   width: 100%;
   max-width: 1440px;
@@ -116,7 +116,10 @@
   max-height: 0;
   overflow: hidden;
   opacity: 0;
-  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s, padding-bottom 0.3s;
+  transition:
+    max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s,
+    padding-bottom 0.3s;
   display: flex;
   gap: var(--gap-10);
   flex-direction: column;
@@ -241,7 +244,7 @@
   gap: var(--gap-20);
   flex-direction: row;
   align-items: flex-start;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 .shippingOption {
   min-width: 150px;

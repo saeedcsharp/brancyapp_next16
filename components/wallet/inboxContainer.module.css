@@ -455,7 +455,7 @@
   flex-direction: column;
   gap: var(--gap-20);
 
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 .table {
   position: relative;

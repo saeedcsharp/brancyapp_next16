@@ -235,7 +235,7 @@ html[dir="rtl"] .subadmincard {
   flex-wrap: wrap;
   align-content: flex-start;
   align-items: flex-start;
-  overflow-y: scroll;
+  overflow-y: auto;
   transition: var(--transition2);
   resize: none;
   font-size: var(--font-14);

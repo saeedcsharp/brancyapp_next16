@@ -8,7 +8,7 @@
   flex-direction: column;
   gap: var(--gap-30);
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .frameContainer {
   max-height: 0;

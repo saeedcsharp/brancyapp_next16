@@ -8,7 +8,7 @@
   flex-direction: column;
   align-items: center;
   justify-content: flex-start;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 .section {
@@ -57,7 +57,7 @@
 .maincontent {
   margin: 0px 20px;
   align-content: flex-start;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   display: flex;
   flex-direction: row;
@@ -164,7 +164,7 @@
   flex-wrap: wrap;
   align-content: flex-start;
   align-items: flex-start;
-  overflow-y: scroll;
+  overflow-y: auto;
   transition: var(--transition2);
   resize: none;
 
@@ -289,7 +289,7 @@
   max-height: 510px;
   height: 100%;
 
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 
   align-self: center;
@@ -350,7 +350,7 @@
   max-width: 800px;
   align-items: center;
   width: calc(100% - 40px);
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 
   align-self: center;

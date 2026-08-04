@@ -236,7 +236,9 @@ html[dir="rtl"] .serachMenuBar {
   height: 100%;
   object-fit: cover;
   opacity: 0.4;
-  transition: opacity 0.6s ease, transform 0.6s ease;
+  transition:
+    opacity 0.6s ease,
+    transform 0.6s ease;
 }
 
 .bannerCarouselItem[data-active="true"] .bannerImage {
@@ -433,7 +435,7 @@ html[dir="rtl"] .bannerPrev,
 .featuresContainer {
   display: flex;
   flex-direction: row;
-  overflow-x: scroll;
+  overflow-x: auto;
   gap: var(--gap-20);
   padding-top: 5px;
   width: 100%;
@@ -566,7 +568,9 @@ html[dir="rtl"] .bannerPrev,
   justify-content: center;
   padding: 4px;
   border-radius: 50%;
-  transition: background-color 0.3s ease, color 0.3s ease;
+  transition:
+    background-color 0.3s ease,
+    color 0.3s ease;
   min-width: 28px;
   min-height: 28px;
 }
@@ -1522,7 +1526,9 @@ html[dir="rtl"] .bannerPrev,
   padding: 0;
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.3s ease, padding 0.3s ease;
+  transition:
+    max-height 0.3s ease,
+    padding 0.3s ease;
   position: relative;
   z-index: 1;
 }

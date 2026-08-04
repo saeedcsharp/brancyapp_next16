@@ -65,7 +65,7 @@
 
 .menuparentleft {
   row-gap: var(--gap-30);
-  overflow-y: scroll;
+  overflow-y: auto;
   position: relative;
   display: flex;
   height: 100%;

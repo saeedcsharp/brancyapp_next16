@@ -10,7 +10,7 @@
   max-width: 350px;
   height: 300px;
   max-height: 300px;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   position: absolute;
   justify-content: space-between;

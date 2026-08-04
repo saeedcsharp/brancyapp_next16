@@ -9,7 +9,7 @@
 }
 
 .frameContainer {
-  overflow-y: scroll;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: var(--gap-30);
@@ -22,7 +22,9 @@
 .frameContainer {
   max-height: 0;
   opacity: 0;
-  transition: max-height 0.5s ease, opacity 0.5s ease;
+  transition:
+    max-height 0.5s ease,
+    opacity 0.5s ease;
 }
 
 .frameContainer.show {

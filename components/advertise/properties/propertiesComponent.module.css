@@ -37,7 +37,7 @@
   gap: var(--gap-20);
   flex-direction: column;
 
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 

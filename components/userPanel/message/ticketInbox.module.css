@@ -48,8 +48,7 @@ html[dir="rtl"] .pincontainer {
   }
   .right {
     min-width: 250px !important;
-    padding: var(--padding-5) var(--padding-10) var(--padding-16)
-      var(--padding-10) !important;
+    padding: var(--padding-5) var(--padding-10) var(--padding-16) var(--padding-10) !important;
   }
   .username {
     font-size: var(--font-12) !important;
@@ -88,8 +87,7 @@ html[dir="rtl"] .pincontainer {
 .right {
   display: flex;
   position: relative;
-  padding: var(--padding-5) var(--padding-20) var(--padding-20)
-    var(--padding-20);
+  padding: var(--padding-5) var(--padding-20) var(--padding-20) var(--padding-20);
   grid-row-end: span 82;
   border-radius: var(--br25);
   background-color: var(--color-white);
@@ -209,7 +207,7 @@ html[dir="rtl"] .pincontainer {
   gap: var(--gap-8);
   flex-direction: column;
   overflow-x: hidden;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .ticket {
   position: relative;

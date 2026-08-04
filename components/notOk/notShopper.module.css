@@ -244,7 +244,7 @@
   gap: var(--gap-20);
   flex-direction: row;
   align-items: flex-start;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 .shippingOption {
   min-width: 150px;

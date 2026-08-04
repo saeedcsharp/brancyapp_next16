@@ -94,7 +94,7 @@ html[dir="rtl"] .navigationicon {
 
   gap: var(--gap-8);
   padding: var(--padding-2);
-  overflow-x: scroll;
+  overflow-x: auto;
   transition: var(--transition2);
 }
 .thumbnailpic {
@@ -244,7 +244,7 @@ html[dir="rtl"] .stepprogressmobileinfo {
   .postRight {
     height: 30px;
     max-width: 100%;
-    overflow-y: scroll;
+    overflow-y: auto;
   }
 }
 

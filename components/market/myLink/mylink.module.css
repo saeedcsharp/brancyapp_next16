@@ -270,7 +270,7 @@
   color: var(--text-h1);
   font-size: var(--font-14);
   font-weight: var(--weight-400);
-  overflow-y: scroll;
+  overflow-y: auto;
   @media (max-width: 720px) {
     -webkit-line-clamp: 10 !important;
     line-clamp: 10 !important;
@@ -324,7 +324,7 @@
 .reviewslist {
   position: relative;
   width: 100%;
-  overflow-x: scroll;
+  overflow-x: auto;
   display: flex;
   gap: var(--gap-30);
   padding-bottom: 10px;
@@ -400,7 +400,7 @@
   text-align: left;
   color: var(--text-h1);
   border-left: 2px solid var(--box-border);
-  overflow-y: scroll;
+  overflow-y: auto;
   margin-left: 15px;
   padding-left: 15px;
   @media (max-width: 720px) {
@@ -601,7 +601,7 @@
   @media (max-width: 720px) {
     gap: var(--gap-20) !important;
     flex-wrap: nowrap !important;
-    overflow-x: scroll;
+    overflow-x: auto;
   }
 }
 .productitem {
@@ -876,11 +876,19 @@
 
 @keyframes ripple {
   0% {
-    box-shadow: 0 0 0 0 #2978ff21, 0 0 0 5px #2977ff1f, 0 0 0 10px #2977ff0c, 0 0 0 15px #2977ff0c;
+    box-shadow:
+      0 0 0 0 #2978ff21,
+      0 0 0 5px #2977ff1f,
+      0 0 0 10px #2977ff0c,
+      0 0 0 15px #2977ff0c;
   }
 
   100% {
-    box-shadow: 0 0 0 5px #2977ff1f, 0 0 0 10px #2977ff0c, 0 0 0 15px #2977ff0c, 0 0 0 20px #2977ff00;
+    box-shadow:
+      0 0 0 5px #2977ff1f,
+      0 0 0 10px #2977ff0c,
+      0 0 0 15px #2977ff0c,
+      0 0 0 20px #2977ff00;
   }
 }
 /* contact and map    */

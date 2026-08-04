@@ -1,7 +1,7 @@
 .reviewslist {
   position: relative;
   width: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   display: flex;
   gap: var(--gap-30);
   padding-bottom: 10px;
@@ -81,7 +81,7 @@
   text-align: left;
   color: var(--text-h1);
   border-left: 2px solid var(--box-border);
-  overflow-y: scroll;
+  overflow-y: auto;
   margin-left: 15px;
   padding-left: 15px;
   @media (max-width: 720px) {

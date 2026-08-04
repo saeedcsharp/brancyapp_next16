@@ -367,7 +367,7 @@
 
 .section5 {
   flex-direction: column;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 .section5,
@@ -380,7 +380,7 @@
 
 .table {
   flex-direction: column;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 .tableheader {
