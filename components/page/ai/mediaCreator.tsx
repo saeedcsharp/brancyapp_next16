@@ -9,7 +9,7 @@ import { MethodType, UploadFile } from "brancy/helper/api";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { InputType } from "brancy/models/enums";
-import { IGetImageUsageRequest, IImageCreator, IImageCreatorInput, IImageCreatorModel } from "brancy/models/interfaces";
+import { IGetImageUsageRequest, IMediaCreator, IMediaCreatorInput, IMediaCreatorModel } from "brancy/models/interfaces";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
@@ -24,7 +24,7 @@ interface UploadedMediaPreview {
 }
 
 interface MediaCreatorProps {
-  creators: IImageCreator[];
+  creators: IMediaCreator[];
   error?: string;
   onRetry?: () => void;
   onCreateImage?: (request: IGetImageUsageRequest, count: number) => void;
@@ -40,7 +40,7 @@ export interface MediaCreatorSelection {
   values: Record<string, InputValue>;
 }
 
-const titleByLanguage: Record<string, keyof IImageCreatorInput> = {
+const titleByLanguage: Record<string, keyof IMediaCreatorInput> = {
   en: "titleEn",
   fa: "titleFa",
   tr: "titleTr",
@@ -50,13 +50,13 @@ const titleByLanguage: Record<string, keyof IImageCreatorInput> = {
   az: "titleAz",
 };
 
-function getInputTitle(input: IImageCreatorInput, language: string): string {
+function getInputTitle(input: IMediaCreatorInput, language: string): string {
   const languageKey = titleByLanguage[language.split("-")[0]] ?? "titleEn";
   const localizedTitle = input[languageKey];
   return typeof localizedTitle === "string" && localizedTitle.trim() ? localizedTitle : input.titleEn || input.key;
 }
 
-function getInitialValues(model: IImageCreatorModel | undefined): Record<string, InputValue> {
+function getInitialValues(model: IMediaCreatorModel | undefined): Record<string, InputValue> {
   if (!model) return {};
 
   return model.inputModelTypes.reduce<Record<string, InputValue>>((values, input) => {
@@ -76,7 +76,7 @@ function FileInput({
   session,
   onChange,
 }: {
-  input: IImageCreatorInput;
+  input: IMediaCreatorInput;
   value: string[];
   title: string;
   session: Session | null;
@@ -185,7 +185,7 @@ function DynamicInput({
   session,
   onChange,
 }: {
-  input: IImageCreatorInput;
+  input: IMediaCreatorInput;
   value: InputValue;
   language: string;
   session: Session | null;

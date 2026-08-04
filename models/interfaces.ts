@@ -468,11 +468,11 @@ export interface IPromptImageGen {
   numberOfGeneratePerThread: number;
 }
 
-export interface IImageCreator {
+export interface IMediaCreator {
   key: string;
   displayName: string;
   logo: string | null;
-  inputModels: IImageCreatorModel[];
+  inputModels: IMediaCreatorModel[];
 }
 export interface IGetImage {
   id: number;
@@ -491,18 +491,18 @@ export interface IGetImages {
   items: IGetImage[];
   nextMaxId: string | null;
 }
-export interface IImageCreatorModel {
+export interface IMediaCreatorModel {
   name: string;
   displayName?: string;
   minPromptLength: number;
   maxPromptLength: number;
-  inputModelTypes: IImageCreatorInput[];
+  inputModelTypes: IMediaCreatorInput[];
   expensiveType: number;
   canContinue: boolean;
   expireContinue: number | null;
 }
 
-export interface IImageCreatorInput {
+export interface IMediaCreatorInput {
   orderId: number;
   key: string;
   titleEn: string;

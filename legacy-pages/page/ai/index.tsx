@@ -21,7 +21,7 @@ import { getHubConnection } from "brancy/helper/pushNotif";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 import { PsgFeatureType, PushResponseType } from "brancy/models/enums";
-import { IGetImage, IGetImages, IGetImageUsageRequest, IImageCreator, PushNotif } from "brancy/models/interfaces";
+import { IGetImage, IGetImages, IGetImageUsageRequest, IMediaCreator, PushNotif } from "brancy/models/interfaces";
 import { t } from "i18next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -60,7 +60,7 @@ export default function PageAI() {
   const [loadedImages, setLoadedImages] = useState(false);
   const [showFeaturePopup, setShowFeaturePopup] = useState(false);
   const [selectedImage, setSelectedImage] = useState<IGetImage | null>(null);
-  const [creators, setCreators] = useState<IImageCreator[]>([]);
+  const [creators, setCreators] = useState<IMediaCreator[]>([]);
   const [error, setError] = useState("");
   const [clientContext, setClientContext] = useState<string | null>(null);
 
@@ -125,7 +125,7 @@ export default function PageAI() {
     console.log("loadCreators called");
     setLoading(true);
     setError("");
-    const response = await clientFetchApi<boolean, IImageCreator[]>("/api/mediaai/GetImageCreators", { session });
+    const response = await clientFetchApi<boolean, IMediaCreator[]>("/api/mediaai/GetImageCreators", { session });
     if (response.succeeded && Array.isArray(response.value)) {
       setCreators(response.value);
       setActiveTab("createimage");
@@ -140,7 +140,7 @@ export default function PageAI() {
     console.log("loadVideoCreators called");
     setLoading(true);
     setError("");
-    const response = await clientFetchApi<boolean, IImageCreator[]>("/api/mediaai/GetVideoCreators", { session });
+    const response = await clientFetchApi<boolean, IMediaCreator[]>("/api/mediaai/GetVideoCreators", { session });
     if (response.succeeded && Array.isArray(response.value)) {
       setCreators(response.value);
       setActiveTab("createvideo");
