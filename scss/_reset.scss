@@ -159,8 +159,7 @@ template {
 }
 
 :focus-visible {
-  outline: 2px solid var(--color-dark-blue);
-  outline-offset: 2px;
+  outline: 0px !important;
 }
 
 ::selection {
