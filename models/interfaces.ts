@@ -493,7 +493,7 @@ export interface IGetImages {
 }
 export interface IImageCreatorModel {
   name: string;
-  displayName: string;
+  displayName?: string;
   minPromptLength: number;
   maxPromptLength: number;
   inputModelTypes: IImageCreatorInput[];

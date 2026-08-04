@@ -14,7 +14,7 @@ import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import { ChangeEvent, Dispatch, SetStateAction, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styles from "./ImageCreator.module.css";
+import styles from "./mediaCreator.module.css";
 
 type InputValue = string | number | boolean | string[];
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
@@ -23,16 +23,17 @@ interface UploadedMediaPreview {
   showUrl: string;
 }
 
-interface ImageCreatorProps {
+interface MediaCreatorProps {
   creators: IImageCreator[];
   error?: string;
   onRetry?: () => void;
   onCreateImage?: (request: IGetImageUsageRequest, count: number) => void;
   createImageLoading?: boolean;
-  setActiveTab?: Dispatch<SetStateAction<MediaTab>>;
+  setActiveTab: Dispatch<SetStateAction<MediaTab>>;
+  activeTab: MediaTab;
 }
 
-export interface ImageCreatorSelection {
+export interface MediaCreatorSelection {
   creatorKey: string;
   modelName: string;
   prompt: string;
@@ -305,14 +306,15 @@ function serializeInputValue(value: InputValue): string {
   return Array.isArray(value) ? JSON.stringify(value) : String(value ?? "");
 }
 
-export default function ImageCreator({
+export default function MediaCreator({
   setActiveTab,
   creators,
   error,
   onRetry,
   onCreateImage,
   createImageLoading,
-}: ImageCreatorProps) {
+  activeTab,
+}: MediaCreatorProps) {
   const { data: session } = useSession();
   const { t, i18n } = useTranslation();
   const availableCreators = creators.filter((item) => item.inputModels.length > 0);
@@ -385,11 +387,14 @@ export default function ImageCreator({
     };
 
     setUsageLoading(true);
-    const response = await clientFetchApi<IGetImageUsageRequest, number>("/api/mediaai/GetImageUsage", {
-      session,
-      methodType: MethodType.post,
-      data: request,
-    });
+    const response = await clientFetchApi<IGetImageUsageRequest, number>(
+      `/api/mediaai/${activeTab === "createimage" ? "GetImageUsage" : "GetVideoUsage"}`,
+      {
+        session,
+        methodType: MethodType.post,
+        data: request,
+      },
+    );
     setUsageLoading(false);
 
     if (response.succeeded && typeof response.value === "number") {
@@ -414,17 +419,19 @@ export default function ImageCreator({
       <div className={styles.backRow}>
         <div
           className={styles.backLink}
-          onClick={() => setActiveTab && setActiveTab("image")}
+          onClick={() => {
+            activeTab === "createimage" ? setActiveTab("image") : setActiveTab("video");
+          }}
           role="button"
           tabIndex={0}>
           <span aria-hidden="true">←</span>
-          {t("Back to images")}
+          {activeTab === "createimage" ? t("Back to images") : t("Back to videos")}
         </div>
       </div>
       <header className={styles.header}>
         <div>
           <span className={styles.eyebrow}>AI studio</span>
-          <h1>{t("Create an image")}</h1>
+          <h1>{activeTab === "createimage" ? t("Create an image") : t("Create a video")}</h1>
           <p>{t("Choose a model, tune its settings, and describe the image you want.")}</p>
         </div>
       </header>
@@ -484,9 +491,11 @@ export default function ImageCreator({
                 className={item.name === model.name ? styles.modelActive : styles.model}
                 key={item.name}
                 onClick={() => setModelName(item.name)}>
-                <span className={styles.modelMark}>{item.displayName.slice(0, 1)}</span>
+                <span className={styles.modelMark}>
+                  {item.displayName ? item.displayName.slice(0, 1) : item.name.slice(0, 1)}
+                </span>
                 <span className={styles.modelText}>
-                  <strong>{item.displayName}</strong>
+                  <strong>{item.displayName ?? item.name}</strong>
                   <small>{item.name}</small>
                 </span>
                 <span className={styles.cost} aria-label={`Cost level ${item.expensiveType + 1}`}>

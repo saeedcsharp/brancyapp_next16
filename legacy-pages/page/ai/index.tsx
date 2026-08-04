@@ -7,7 +7,6 @@ import {
   notify,
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
-import ImageCreator from "brancy/components/page/ai/ImageCreator";
 import GeneratedImageModal from "brancy/components/page/ai/generatedImageModal";
 import ImageList from "brancy/components/page/ai/imageList";
 import VideoList from "brancy/components/page/ai/videoList";
@@ -31,6 +30,7 @@ import { useCallback, useEffect, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import styles from "./pageAI.module.css";
 import ContentCreatorHeader from "brancy/components/page/ai/contentCreatorHeader";
+import MediaCreator from "brancy/components/page/ai/mediaCreator";
 
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
 
@@ -135,6 +135,21 @@ export default function PageAI() {
     setLoading(false);
   };
 
+  const loadVideoCreators = async () => {
+    if (!session) return;
+    console.log("loadVideoCreators called");
+    setLoading(true);
+    setError("");
+    const response = await clientFetchApi<boolean, IImageCreator[]>("/api/mediaai/GetVideoCreators", { session });
+    if (response.succeeded && Array.isArray(response.value)) {
+      setCreators(response.value);
+      setActiveTab("createvideo");
+    } else {
+      notify(response.info?.responseType, NotifType.Warning);
+    }
+    setLoading(false);
+  };
+
   useEffect(() => {
     if (!session) return;
     if (session.user.currentIndex === -1) {
@@ -182,7 +197,7 @@ export default function PageAI() {
       setShowFeaturePopup(true);
       return;
     }
-    //  await loadCreators();
+    await loadVideoCreators();
   };
   const handleGetNotif = useCallback(
     (notif: string) => {
@@ -264,13 +279,14 @@ export default function PageAI() {
           />
         )}
         {activeTab === "video" && <VideoList openVideoCreator={openVideoCreator} />}
-        {activeTab === "createimage" && (
-          <ImageCreator
+        {(activeTab === "createimage" || activeTab === "createvideo") && (
+          <MediaCreator
             creators={creators}
             error={error}
             onRetry={loadCreators}
             onCreateImage={onCreateImage}
             setActiveTab={setActiveTab}
+            activeTab={activeTab}
           />
         )}
       </main>
