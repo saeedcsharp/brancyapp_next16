@@ -2,6 +2,7 @@
 
 ## 2026-08-04
 
+- Fixed the landing pricing slider's maximum-update-depth runtime error by removing bidirectional slider synchronization and deriving tooltip placement directly from the controlled slider value.
 - Standardized global scrollbar behavior across Chromium and Firefox with native `scrollbar-width`/`scrollbar-color` support and a single WebKit refinement.
 - Added stable scrollbar gutter reservation, restored visible keyboard focus outlines, and prevented root-level horizontal overflow from affecting layout.
 - Replaced cross-browser-sensitive modal and landing-page `100vw` sizing with container-relative sizing, removed the landing feature modal's fixed 900px minimum width, and added small-viewport height fallbacks.

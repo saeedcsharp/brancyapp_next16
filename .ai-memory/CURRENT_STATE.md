@@ -51,6 +51,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Fixed the landing pricing slider's React maximum-update-depth runtime error by making the slider value the single source of truth and deriving tooltip placement directly from it; TypeScript validation passes.
+
 - Added an accessible compact shopping-bag SVG badge beside the Page post number for `shopMediaProductType` `ShopMediaProductType.Instance`, so shop-product posts are identifiable from the post grid.
 
 - Prevented Comment Inbox settings-popup hover renders from repeatedly loading Auto Reply prompts and flows. The selected media's auto-reply prop is now memoized and only changes when the selected thread, source inbox, search mode, or relevant inbox data changes.
