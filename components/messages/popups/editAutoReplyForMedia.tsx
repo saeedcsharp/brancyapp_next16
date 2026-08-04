@@ -1415,20 +1415,6 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                     </div>
                   </div>
                 )}
-                {session?.user.isShopper && shopMediaProductType === ShopMediaProductType.Instance && (
-                  <div className="headerandinput">
-                    <div className="headerandinput">
-                      <RadioButton
-                        name="Product"
-                        id={t("Product")}
-                        checked={checkBox.Product}
-                        handleOptionChanged={handleOptionChanged}
-                        textlabel={t("Product")}
-                      />
-                      <div className="explain">{t(LanguageKey.messagesetting_SpecifyProductResponseExplain)}</div>
-                    </div>
-                  </div>
-                )}
                 {/*Connect Product */}
                 {session?.user.isShopper && productType === MediaProductType.Live && (
                   <div className="headerandinput">
