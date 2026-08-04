@@ -52,14 +52,13 @@
 
 /* Desktop Header */
 .headerdesktop {
-  place-self: anchor-center;
-  justify-self: anchor-center;
-  position-area: center;
   animation: var(--top14);
   border-radius: var(--br20);
   gap: var(--gap-20);
   position: fixed;
   top: 20px;
+  left: 50%;
+  transform: translateX(-50%);
   width: calc(100% - 32px);
   max-width: 1920px;
   padding: var(--padding-16);

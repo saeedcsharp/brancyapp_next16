@@ -16,8 +16,8 @@
   background: var(--background-root);
   border-radius: var(--br25);
   padding: var(--paddingbox);
-  width: 100vw;
-  height: 100vh;
+  width: 100%;
+  height: 100%;
   max-width: 950px;
   max-height: 95%;
   position: fixed;
@@ -27,8 +27,8 @@
   overflow: hidden;
   @media (max-width: 860px) {
     padding: 130px 10px 40px 10px !important;
-    width: 100vw !important;
-    height: 100vh !important;
+    width: 100% !important;
+    height: 100% !important;
     max-width: none !important;
     max-height: none !important;
     bottom: 0 !important;
@@ -91,7 +91,7 @@
 /* Main Container */
 .container {
   width: 100%;
-  min-width: 900px;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   height: 100%;
@@ -257,6 +257,7 @@ html[dir="rtl"] .planInfomobile {
   z-index: 1;
   width: 100%;
   height: calc(100vh - 200px);
+  height: calc(100svh - 200px);
   display: flex;
   flex-direction: column;
 
@@ -265,10 +266,15 @@ html[dir="rtl"] .planInfomobile {
   flex: 1;
   @media (max-width: 860px) {
     height: calc(100vh - 150px);
+    height: calc(100svh - 150px);
   }
 }
 .featuresContainer::-webkit-scrollbar {
   display: none;
+}
+.featuresContainer {
+  scrollbar-width: none;
+  -ms-overflow-style: none;
 }
 
 /* Category Styles */

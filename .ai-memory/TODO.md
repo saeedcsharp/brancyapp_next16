@@ -2,6 +2,9 @@
 
 ## Pending Documentation Tasks
 
+- Add Playwright coverage for Chrome, Edge, and Firefox at desktop and mobile viewport sizes, including scrollbar width, horizontal overflow, landing modals, and fixed headers.
+- Replace remaining feature-level `overflow-y: scroll`, `100vw`, and WebKit-only layout rules after visual regression coverage is available.
+
 - Keep `app/dev/test.tsx` package counts and classifications synchronized with `package.json` after dependency changes; verify removal candidates with `npm ls`, `npm audit`, and a production build.
 - Enrich module docs when touching each feature area.
 - Add endpoint-specific request and response examples from backend contracts.
