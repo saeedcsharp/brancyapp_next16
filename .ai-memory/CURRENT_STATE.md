@@ -51,6 +51,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Hardened `legacy-pages/user/home` responsive behavior by replacing fixed masonry-style grid spans and indefinite percentage heights, making the upgrade card positioning local and fluid, constraining narrow text, and adding reduced-motion support. The page now uses native keyboard-accessible controls instead of clickable `div` elements, avoids nested `Link`/`button` markup, and cleans up cancellable data-loading and redirect effects.
+
 - Fixed the landing pricing slider's React maximum-update-depth runtime error by making the slider value the single source of truth and deriving tooltip placement directly from it; TypeScript validation passes.
 
 - Added an accessible compact shopping-bag SVG badge beside the Page post number for `shopMediaProductType` `ShopMediaProductType.Instance`, so shop-product posts are identifiable from the post grid.
