@@ -1,6 +1,7 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import Link from "next/link";
 import { FC, useCallback, useReducer, useState } from "react";
+import { useSession } from "next-auth/react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
@@ -20,6 +21,7 @@ interface OrderDetailContentProps {
 
 const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) => {
   const { t } = useTranslation();
+  const { data: session } = useSession();
   const [isExpanded, dispatchToggle] = useReducer(toggleReducer, false);
   const [isExpandedproduct, setIsExpandedProduct] = useState(ordersProductInfo.orderItems.length < 2);
 
@@ -110,7 +112,12 @@ const OrderDetailContent: FC<OrderDetailContentProps> = ({ ordersProductInfo }) 
                 </div>
                 <div className={styles.productdetails}>
                   <div className={styles.productContainer}>
-                    <Link href={`/store/products/productDetail?tempId=${product.completeProduct.shortProduct.tempId}`}>
+                    <Link
+                      href={
+                        session!.user.currentIndex !== -1
+                          ? `/store/products/productDetail?tempId=${product.completeProduct.shortProduct.tempId}`
+                          : "#"
+                      }>
                       <img
                         loading="lazy"
                         decoding="async"

@@ -194,7 +194,7 @@ function SwitchAccount(props: { removeMask: () => void }) {
     if (instagramers.length > 0) {
       const firstInstagramer = instagramers[0];
       await handleSwitchToInstagramer(firstInstagramer, 0);
-    } else router.push("/user/instagramerLogin");
+    } else router.push("/user/home");
   }
 
   useEffect(() => {
