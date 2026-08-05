@@ -98,7 +98,7 @@ No local database objects were discovered. Data persists through external backen
 
 ## State Management
 
-Mostly React local state, context, NextAuth session, or external state from backend APIs.
+Mostly React local state, context, NextAuth session, or external state from backend APIs. The landing pricing slider keeps the controlled slider value as the single source of truth; its tooltip position is derived directly from that value to avoid reducer synchronization loops.
 
 ## External Integrations
 
@@ -134,7 +134,7 @@ Parent module: `components`.
 
 ## Known Issues
 
-No confirmed module-specific issue recorded at initialization.
+The pricing slider's runtime maximum-update-depth issue was fixed on 2026-08-04 by removing redundant tooltip state and the selected-follower-to-slider synchronization effect. Browser interaction coverage is still pending.
 
 ## Technical Debt
 

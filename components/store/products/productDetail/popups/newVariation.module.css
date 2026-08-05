@@ -18,7 +18,7 @@
   max-height: calc(100% - 50px);
   min-width: 250px;
   gap: var(--gap-20);
-  overflow-y: scroll;
+  overflow-y: auto;
   animation: var(--fadeIn3);
 }
 
@@ -50,7 +50,7 @@
   background-color: var(--color-gray10);
   padding: var(--padding-10);
   border-radius: 0px var(--br8) var(--br8) var(--br8);
-  overflow-y: scroll;
+  overflow-y: auto;
   justify-content: flex-start;
   align-content: flex-start;
   align-items: flex-start;

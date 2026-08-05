@@ -2,6 +2,8 @@
 
 ## Known Bugs
 
+The global browser-compatibility layout issues reported on 2026-08-04 were reduced by standardizing root scrollbars, reserving scrollbar space, replacing vulnerable viewport sizing in shared landing modals, and removing unsupported landing-header anchor positioning. Remaining feature-level overflow rules require browser visual regression coverage before they can be safely migrated in bulk.
+
 No confirmed runtime bugs remain from the chart navigation issue addressed on 2026-07-20 or the AI-route navbar/sidebar logo issues addressed on 2026-07-25.
 
 The shared Tooltip ancestor-clipping issue was fixed on 2026-07-28 by rendering tooltip content through `document.body` and tracking the trigger's viewport position.

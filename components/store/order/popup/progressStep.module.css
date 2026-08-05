@@ -37,7 +37,7 @@
   height: 100%;
   max-height: calc(100% - 50px);
   min-width: 250px;
-  /* overflow-y: scroll; */
+  /* overflow-y: auto; */
   animation: var(--fadeIn3);
 }
 .headerstep {

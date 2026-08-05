@@ -294,7 +294,7 @@
   position: relative;
   gap: var(--gap-20);
   overflow-y: hidden;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 .searchheader {

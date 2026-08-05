@@ -257,7 +257,7 @@
 }
 .dropdownClosing {
   max-height: 205px;
-  overflow-y: scroll;
+  overflow-y: auto;
   height: max-content;
   background-color: var(--background-root);
   border-radius: var(--br5) var(--br5) var(--br15) var(--br15);

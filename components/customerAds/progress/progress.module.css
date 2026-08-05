@@ -75,7 +75,7 @@
   align-content: center;
   justify-content: space-between;
   align-items: center;
-  overflow-x: scroll;
+  overflow-x: auto;
   transition: var(--transition3);
 }
 .stepprogress::before {
@@ -362,7 +362,7 @@
   max-height: 510px;
 
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 
   align-self: center;
@@ -421,7 +421,7 @@
   align-items: center;
   width: 100%;
   align-items: flex-start;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 
   align-self: center;
@@ -451,7 +451,7 @@
   border: 3px solid transparent;
   padding: 0px var(--padding-20);
   background-color: var(--content-box);
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   font-weight: var(--weight-400);
   font-size: var(--font-14);
@@ -649,7 +649,7 @@
 .chartcolumnscroll {
   width: 100%;
   position: relative;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   height: 100%;
   max-height: 300px;
@@ -912,7 +912,7 @@
 }
 .downchild {
   position: relative;
-  overflow-x: scroll;
+  overflow-x: auto;
   max-width: 385px;
   width: 100%;
   min-height: 250px;
@@ -991,7 +991,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--gap-15);
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .pricedetail {
   position: relative;
@@ -1030,7 +1030,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--gap-10);
-  overflow-y: scroll;
+  overflow-y: auto;
 } /* ___payment - step 6___ */
 .stepcontainer6 {
   position: relative;

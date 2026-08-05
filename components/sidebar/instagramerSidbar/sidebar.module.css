@@ -179,7 +179,7 @@ html[dir="rtl"] .menuCategoriesChild {
   margin-inline-end: 5px;
   flex-wrap: nowrap;
   @media (max-height: 520px) {
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     gap: var(--gap-20);
     justify-content: flex-start;
@@ -216,7 +216,10 @@ html[dir="rtl"] .navSidebar > div {
   box-shadow: var(--box-shadow);
   text-transform: capitalize;
   text-wrap: nowrap;
-  transition: opacity 0.5s ease, visibility 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.5s ease,
+    visibility 0.3s ease,
+    transform 0.3s ease;
 }
 
 /* Generic hover rule instead of repeating per button class */
@@ -238,7 +241,9 @@ html[dir="rtl"] .navSidebar > div {
   border-radius: 2px;
   transform: translateY(-50%) rotate(45deg) scale(0.7);
   opacity: 0;
-  transition: opacity 0.3s ease, transform 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    transform 0.3s ease;
   z-index: -1; /* stay behind tooltip */
   pointer-events: none;
 }

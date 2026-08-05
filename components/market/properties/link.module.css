@@ -148,7 +148,7 @@ html[dir="rtl"] .test > li {
   height: 100%;
   flex-direction: column;
   align-items: center;
-  overflow-y: scroll;
+  overflow-y: auto;
   justify-content: space-between;
   touch-action: pan-y; /* Allow vertical scrolling */
 }
@@ -273,7 +273,7 @@ html[dir="rtl"] .test > li {
 .list {
   width: 100%;
   height: 100%;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   touch-action: pan-y; /* Allow vertical scrolling */
 }

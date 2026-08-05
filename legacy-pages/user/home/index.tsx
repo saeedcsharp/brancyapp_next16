@@ -112,101 +112,84 @@ function Markets() {
   const [isNewUser, setIsNewUser] = useState<boolean | null>(null);
   const [greetingMessage, setGreetingMessage] = useState("");
   const { userInfo } = use(InstaInfoContext) ?? {};
-  const [instagramUsername, setInstagramUsername] = useState<string>("");
   const [saved, setSaved] = useState<IFavoriteBusiness>({
     items: [],
     nextMaxId: null,
   });
   const [explore, setExplore] = useState<IBusiness[]>([]);
+  const firstName = userInfo?.fullName?.trim().split(/\s+/)[0] ?? "";
   // پیام‌های خوشامدگویی بر اساس ساعت
   const greetings = [
     {
       condition: (hour: number) => hour >= 4 && hour < 8,
-      message: () =>
-        `${t(LanguageKey.greeting1)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext1,
-        )}`,
+      message: () => `${t(LanguageKey.greeting1)} ${firstName ? firstName + "!" : ""} ${t(LanguageKey.greetingtext1)}`,
     },
     {
       condition: (hour: number) => hour >= 8 && hour < 10,
-      message: () =>
-        `${t(LanguageKey.greeting2)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext2,
-        )}`,
+      message: () => `${t(LanguageKey.greeting2)} ${firstName ? firstName + "!" : ""} ${t(LanguageKey.greetingtext2)}`,
     },
     {
       condition: (hour: number) => hour >= 10 && hour < 12,
-      message: () =>
-        `${t(LanguageKey.greeting3)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext3,
-        )}`,
+      message: () => `${t(LanguageKey.greeting3)} ${firstName ? firstName + "!" : ""} ${t(LanguageKey.greetingtext3)}`,
     },
     {
       condition: (hour: number) => hour >= 12 && hour < 15,
-      message: () =>
-        `${t(LanguageKey.greeting4)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext4,
-        )}`,
+      message: () => `${t(LanguageKey.greeting4)} ${firstName ? firstName + "!" : ""} ${t(LanguageKey.greetingtext4)}`,
     },
     {
       condition: (hour: number) => hour >= 15 && hour < 19,
-      message: () =>
-        `${t(LanguageKey.greeting5)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext5,
-        )}`,
+      message: () => `${t(LanguageKey.greeting5)} ${firstName ? firstName + "!" : ""} ${t(LanguageKey.greetingtext5)}`,
     },
     {
       condition: (hour: number) => hour >= 19 && hour < 23,
-      message: () =>
-        `${t(LanguageKey.greeting6)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext6,
-        )}`,
+      message: () => `${t(LanguageKey.greeting6)} ${firstName ? firstName + "!" : ""} ${t(LanguageKey.greetingtext6)}`,
     },
     {
       condition: (hour: number) => hour >= 23 || hour < 4,
-      message: () =>
-        `${t(LanguageKey.greeting7)} ${userInfo && userInfo.fullName ? userInfo.fullName + "!" : ""} ${t(
-          LanguageKey.greetingtext7,
-        )}`,
+      message: () => `${t(LanguageKey.greeting7)} ${firstName ? firstName + "!" : ""} ${t(LanguageKey.greetingtext7)}`,
     },
   ];
-  const fakeServerResponse = async (): Promise<{ isNewUser: boolean }> => {
-    return new Promise((resolve) => setTimeout(() => resolve({ isNewUser: false }), 500));
-  };
-  async function fetchData() {
-    try {
-      const [saveRes, explorRes] = await Promise.all([
-        clientFetchApi<boolean, IFavoriteBusiness>("/api/business/GetFavorites", {
-          methodType: MethodType.get,
-          session: session,
-          data: undefined,
-          queries: undefined,
-          onUploadProgress: undefined,
-        }),
-        clientFetchApi<boolean, IBusiness[]>("/api/business/GetExplorer", {
-          methodType: MethodType.get,
-          session: session,
-          data: undefined,
-          queries: undefined,
-          onUploadProgress: undefined,
-        }),
-      ]);
-      setLoading(false);
-      if (userInfo?.username) setInstagramUsername(userInfo.username);
-      if (saveRes.succeeded) {
-        console.log("Saved Products:", saveRes.value);
-        setSaved(saveRes.value);
-      }
-      if (explorRes.succeeded) setExplore(explorRes.value);
-    } catch (error) {
-      notify(ResponseType.Unexpected, NotifType.Error);
-    }
-  }
   useEffect(() => {
     if (!session) return;
-    fetchData();
-    (async () => setIsNewUser((await fakeServerResponse()).isNewUser))();
-  }, [session]);
+    let cancelled = false;
+
+    const loadData = async () => {
+      try {
+        const [saveRes, explorRes] = await Promise.all([
+          clientFetchApi<boolean, IFavoriteBusiness>("/api/business/GetFavorites", {
+            methodType: MethodType.get,
+            session,
+            data: undefined,
+            queries: undefined,
+            onUploadProgress: undefined,
+          }),
+          clientFetchApi<boolean, IBusiness[]>("/api/business/GetExplorer", {
+            methodType: MethodType.get,
+            session,
+            data: undefined,
+            queries: undefined,
+            onUploadProgress: undefined,
+          }),
+        ]);
+
+        if (cancelled) return;
+        setLoading(false);
+        if (saveRes.succeeded) setSaved(saveRes.value);
+        if (explorRes.succeeded) setExplore(explorRes.value);
+      } catch (error) {
+        if (!cancelled) {
+          setLoading(false);
+          notify(ResponseType.Unexpected, NotifType.Error);
+        }
+      }
+    };
+
+    loadData();
+    setIsNewUser(false);
+    return () => {
+      cancelled = true;
+    };
+  }, [session, userInfo?.username]);
   useEffect(() => {
     if (isNewUser === null) return;
     let timeoutId: ReturnType<typeof setTimeout>;
@@ -222,8 +205,10 @@ function Markets() {
     };
     updateMessage();
     return () => clearTimeout(timeoutId);
-  }, [isNewUser]);
-  if (session && session.user.currentIndex > -1) router.push("/");
+  }, [isNewUser, t, userInfo?.fullName]);
+  useEffect(() => {
+    if (session && session.user.currentIndex > -1) router.replace("/");
+  }, [router, session]);
   return (
     session?.user.currentIndex === -1 && (
       <>
@@ -248,7 +233,7 @@ function Markets() {
             <span>{t(LanguageKey.welcomeToBrancy)}</span>
             {greetingMessage && <span>{greetingMessage}</span>}
           </header>
-          <main className={styles.pinContainer}>
+          <section className={styles.pinContainer}>
             {loading && <Loading />}
             {!loading && (
               <>
@@ -279,22 +264,22 @@ function Markets() {
                                   : (session?.user.instagramerIds ?? "N/A")}
                               </span>
                             </div>
-                            <div className={`${styles.explain} translate`}>+{userInfo?.phoneNumber}</div>
+                            <div className="explain translate">+{userInfo?.phoneNumber}</div>
                           </div>
                         </div>
                       </div>
                       <div className={styles.quickmenu}>
                         <div className={styles.path}></div>
                         <div className="explain">{t(LanguageKey.userpanel_yourorders)}</div>
-                        <Slider className={styles.swiper} freeMode spaceBetween={30} navigation={false}>
+                        <Slider className={styles.swiper} freeMode spaceBetween={5} navigation={false}>
                           {orderSteps.map((step, index) => (
-                            <div key={index} className={styles.orderstep} onClick={step.onClick}>
+                            <button type="button" key={index} className={styles.orderstep} onClick={step.onClick}>
                               {step.icon}
                               <div className="headerandinput">
                                 <span className={styles.step}>{t(step.label)}</span>
                                 <div className="title">{step.count}</div>
                               </div>
-                            </div>
+                            </button>
                           ))}
                         </Slider>
                       </div>
@@ -304,7 +289,8 @@ function Markets() {
                       {saved.items.length > 0 ? (
                         <Slider className={styles.swiper} freeMode spaceBetween={15} navigation={false}>
                           {saved.items.map((saved, index) => (
-                            <div
+                            <button
+                              type="button"
                               key={index}
                               className={styles.saved}
                               onClick={() => {
@@ -356,7 +342,7 @@ function Markets() {
                                   )} */}
                                 </div>
                               </div>
-                            </div>
+                            </button>
                           ))}
                         </Slider>
                       ) : (
@@ -371,7 +357,9 @@ function Markets() {
                         <div className="title">{t(LanguageKey.userpanel_Startexplore)}</div>
                         <div className={styles.gradientText}>{t(LanguageKey.userpanel_Startexploreexplain)}</div>
                       </div>
-                      <div
+                      <button
+                        type="button"
+                        aria-label={t(LanguageKey.userpanel_Startexplore)}
                         onClick={() => {
                           router.push("/user/business");
                         }}
@@ -388,18 +376,19 @@ function Markets() {
                             xmlns="http://www.w3.org/2000/svg">
                             <path
                               d="M23 10H2m12-9s9 5 9 9-9 8-9 8"
-                              stroke="black"
+                              stroke="#fff"
                               strokeWidth="2"
                               strokeLinecap="round"
                               strokeLinejoin="round"
                             />
                           </svg>
                         </div>
-                      </div>
+                      </button>
                     </div>
                     <Slider className={styles.swiper} freeMode spaceBetween={10} navigation={false}>
                       {explore.map((explore, index) => (
-                        <div
+                        <button
+                          type="button"
                           key={index}
                           className={styles.exploreitem}
                           onClick={() => router.push(`/user/business/shop/${explore.instagramerId}`)}>
@@ -459,11 +448,11 @@ function Markets() {
                                   alignSelf: "center",
                                   whiteSpace: "nowrap",
                                 }}>
-                                🛍 {explore.fullShop.shortShop.productCount} {t(LanguageKey.navbar_Products)}
+                                {explore.fullShop.shortShop.productCount} {t(LanguageKey.navbar_Products)}
                               </span>
                             )}
                           </div>
-                        </div>
+                        </button>
                       ))}
                     </Slider>
                   </div>
@@ -477,9 +466,7 @@ function Markets() {
                       {Array.from({ length: 6 }).map((_, i) => (
                         <div key={i} className={`${styles.hover} ${styles[`bt${i + 1}`]}`}></div>
                       ))}
-                      <button
-                        className={`${styles.button} ${styles.addaddress}`}
-                        style={{ color: "var(--color-firoze)" }}>
+                      <button className={styles.button} style={{ color: "var(--color-firoze)" }}>
                         <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 60 60">
                           <path
                             d="M47 29a22 22 0 0 1-16-16l-1-3-1 3a22 22 0 0 1-16 16l-3 1 3 1a22 22 0 0 1 16 16l1 3 1-3a22 22 0 0 1 16-16l3-1z"
@@ -529,7 +516,7 @@ function Markets() {
                 </aside>
               </>
             )}
-          </main>
+          </section>
         </main>
       </>
     )

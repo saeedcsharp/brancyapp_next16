@@ -40,7 +40,7 @@ html[dir="rtl"] .backicon {
   width: 100%;
   flex-direction: column;
   justify-content: flex-start;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   animation: var(--bottom08);
   transition: var(--transition3);

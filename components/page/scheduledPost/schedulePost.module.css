@@ -94,7 +94,7 @@ html[dir="rtl"] .navButton:hover:not(:disabled) {
   align-items: center;
   justify-content: flex-start;
   gap: var(--gap-10);
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
   padding: var(--padding-10);
   scroll-snap-type: x mandatory;

@@ -1,5 +1,16 @@
 # Changelog
 
+## 2026-08-04
+
+- Stabilized the user home dashboard responsive layout by removing fixed grid row spans and percentage heights without definite parents, anchoring upgrade decorations to their card, constraining narrow-viewport text, and adding reduced-motion support.
+- Replaced user home clickable `div` elements with keyboard-accessible controls, removed nested interactive markup, moved redirects and data loading into effects, and ensured loading ends on API failure or unmount.
+- Fixed the landing pricing slider's maximum-update-depth runtime error by removing bidirectional slider synchronization and deriving tooltip placement directly from the controlled slider value.
+- Standardized global scrollbar behavior across Chromium and Firefox with native `scrollbar-width`/`scrollbar-color` support and a single WebKit refinement.
+- Added stable scrollbar gutter reservation, restored visible keyboard focus outlines, and prevented root-level horizontal overflow from affecting layout.
+- Replaced cross-browser-sensitive modal and landing-page `100vw` sizing with container-relative sizing, removed the landing feature modal's fixed 900px minimum width, and added small-viewport height fallbacks.
+- Replaced unsupported landing header anchor positioning with fixed centering and added a Browserslist target for Chrome, Edge, and Firefox validation.
+- Added a 5px transparent inset around Chromium and Edge scrollbar thumbs; Firefox retains its native thin scrollbar fallback because its standard scrollbar API does not support thumb insets.
+
 ## 2026-08-02
 
 - Added a shopping-bag SVG badge beside the Page post number when `shopMediaProductType` is `ShopMediaProductType.Instance`.

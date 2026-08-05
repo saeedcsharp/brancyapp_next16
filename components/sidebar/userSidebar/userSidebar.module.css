@@ -125,7 +125,7 @@ html[dir="rtl"] .menuCategoriesChild {
   margin-inline-end: 5px;
   flex-wrap: nowrap;
   @media (max-height: 520px) {
-    overflow-y: scroll;
+    overflow-y: auto;
     overflow-x: hidden;
     gap: var(--gap-20);
     justify-content: flex-start;

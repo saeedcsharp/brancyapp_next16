@@ -16,7 +16,7 @@
   height: 100%;
   gap: var(--gap-20);
   justify-content: space-between;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .section {
   position: relative;
@@ -88,7 +88,7 @@
   justify-content: space-evenly;
   display: flex;
   flex-direction: column;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 .title {
   position: relative;

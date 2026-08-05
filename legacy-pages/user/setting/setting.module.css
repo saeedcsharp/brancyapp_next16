@@ -15,7 +15,7 @@
   transition: var(--transition3);
   animation: var(--top04);
   @media (max-width: 680px) {
-    overflow-y: scroll;
+    overflow-y: auto;
     flex-direction: column !important;
     padding: var(--paddingboxmobile) !important;
     margin-inline-start: var(--padding-14) !important;
@@ -44,7 +44,9 @@
 .all {
   max-height: 0;
   opacity: 0;
-  transition: max-height 0.5s ease, opacity 0.1s ease;
+  transition:
+    max-height 0.5s ease,
+    opacity 0.1s ease;
 }
 
 .all.show {
@@ -74,7 +76,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--gap-20);
-  overflow-y: scroll;
+  overflow-y: auto;
   width: 100%;
   height: 100%;
 }
@@ -198,7 +200,7 @@
 
 .form {
   padding: var(--padding-5);
-  overflow-y: scroll;
+  overflow-y: auto;
   width: 100%;
   height: 100%;
   display: flex;
