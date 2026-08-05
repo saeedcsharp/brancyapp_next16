@@ -533,13 +533,6 @@
 .editButton:hover {
   color: var(--color-light-blue);
 }
-.addCardPanel {
-  margin-bottom: var(--gap-16);
-  padding: var(--padding-20);
-  border: 1px solid var(--content-box);
-  border-radius: var(--br10);
-  background: var(--color-white);
-}
 .addCardForm {
   display: grid;
   grid-template-columns: minmax(240px, 480px) auto;

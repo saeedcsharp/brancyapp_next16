@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-08-05
+
+- Split the bank-card sub-invoice popup into History and Setting tabs with `IconToggleButton`; the settings tab calls `/api/wallet/setDefaultCard` with the selected `cardNumber` to set the default bank card.
+
 ## 2026-08-04
 
 - Stabilized the user home dashboard responsive layout by removing fixed grid row spans and percentage heights without definite parents, anchoring upgrade decorations to their card, constraining narrow-viewport text, and adding reduced-motion support.

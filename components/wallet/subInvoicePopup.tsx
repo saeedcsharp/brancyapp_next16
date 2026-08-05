@@ -2,6 +2,8 @@ import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import initialzedTime from "brancy/helper/manageTimer";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
+import IconToggleButton from "brancy/components/design/toggleButton/iconToggleButton";
+import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import { SubInvoiceItemType, SubInvoiceStatus } from "brancy/models/enums";
 import { IGetSubInvoice, ISubInvoice } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
@@ -18,12 +20,21 @@ type SubInvoicesPopupProps = {
   subInvoices: IGetSubInvoice | null;
   onClose: () => void;
   onSubInvoicesChange: (subInvoices: IGetSubInvoice) => void;
+  changeDefaultCard: (cardNumber: string) => void;
 };
 
-export default function SubInvoicesP({ cardNumber, subInvoices, onClose, onSubInvoicesChange }: SubInvoicesPopupProps) {
+export default function SubInvoicesP({
+  cardNumber,
+  subInvoices,
+  onClose,
+  onSubInvoicesChange,
+  changeDefaultCard,
+}: SubInvoicesPopupProps) {
   const { t } = useTranslation();
   const { data: session } = useSession();
+  const [activeTab, setActiveTab] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
   const [subInvoicesLoading, setSubInvoicesLoading] = useState(subInvoices === null);
+  const [setDefaultCardLoading, setSetDefaultCardLoading] = useState(false);
   function manageSubInvoiceType(type: SubInvoiceItemType): string {
     switch (type) {
       case SubInvoiceItemType.InstagramerLogestic:
@@ -122,6 +133,79 @@ export default function SubInvoicesP({ cardNumber, subInvoices, onClose, onSubIn
     }
   }, [cardNumber, onSubInvoicesChange, session, subInvoices]);
 
+  async function setDefaultCard() {
+    if (!session || setDefaultCardLoading) return;
+
+    setSetDefaultCardLoading(true);
+    try {
+      const res = await clientFetchApi<null, boolean>("/api/wallet/setDefaultCard", {
+        session,
+        queries: [{ key: "cardNumber", value: cardNumber }],
+      });
+
+      if (res.succeeded) {
+        notify(ResponseType.Ok, NotifType.Success);
+        changeDefaultCard(cardNumber);
+      } else {
+        notify(res.info.responseType, NotifType.Warning);
+      }
+    } catch (err) {
+      console.error("setDefaultCard error", err);
+      notify(ResponseType.Unexpected, NotifType.Error);
+    } finally {
+      setSetDefaultCardLoading(false);
+    }
+  }
+
+  const tabIcons = {
+    firstIcon: {
+      active: (
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M12 7v5l3 2M4 12a8 8 0 1 0 2.34-5.66L4 8"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      ),
+      diactive: (
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M12 7v5l3 2M4 12a8 8 0 1 0 2.34-5.66L4 8"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+          />
+        </svg>
+      ),
+    },
+    secondIcon: {
+      active: (
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm0-6v2m0 14v2m9-9h-2M5 12H3m15.36-6.36-1.42 1.42M7.05 16.95l-1.41 1.41m12.72 0-1.42-1.41M7.05 7.05 5.64 5.64"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+        </svg>
+      ),
+      diactive: (
+        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
+          <path
+            d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm0-6v2m0 14v2m9-9h-2M5 12H3m15.36-6.36-1.42 1.42M7.05 16.95l-1.41 1.41m12.72 0-1.42-1.41M7.05 7.05 5.64 5.64"
+            stroke="currentColor"
+            strokeWidth="2"
+            strokeLinecap="round"
+          />
+        </svg>
+      ),
+    },
+  };
+
   const { containerRef, isLoadingMore } = useInfiniteScroll<ISubInvoice>({
     hasMore: Boolean(subInvoices?.nextMaxId),
     fetchMore: fetchMoreSubInvoices,
@@ -155,54 +239,74 @@ export default function SubInvoicesP({ cardNumber, subInvoices, onClose, onSubIn
                 </svg>
               </button>
             </div>
-            <div className={styles.section5}>
-              <div className={styles.table}>
-                <div className={styles.tableheader}>
-                  <div className={styles.header1}>#</div>
-                  <div className={styles.header2}>{t("id")}</div>
-                  <div className={styles.header3}>{t("card number")}</div>
-                  <div className={styles.header4}>{t("type")}</div>
-                  <div className={styles.header5}>{t("amount")}</div>
-                  <div className={styles.header6}>{t("status")}</div>
-                  <div className={styles.header7}>{t("time")}</div>
-                  {/* <div className={styles.header8}>اشتراک</div> */}
-                </div>
-                {subInvoices?.items.map((i, index) => (
-                  <div key={i.id} className={styles.tableheader1}>
-                    <div className={styles.tablecounter}>{index + 1}</div>
-                    <div className={styles.orcernumber}>{i.id}</div>
-                    <div className={styles.orcernumber}>{i.cardNumber}</div>
-                    <div className={styles.viwes}>{manageSubInvoiceType(i.itemType)}</div>
-                    <div className={styles.viwes}>
-                      {
-                        <PriceFormater
-                          pricetype={i.priceType}
-                          fee={i.price}
-                          className={PriceFormaterClassName.PostPrice}
-                        />
-                      }
-                    </div>
-                    <div className={styles.confirmedstatus}>{manageSubInvoiceStatus(i.status)}</div>
-                    <div className={styles.date}>
-                      <div className={styles.day}>
-                        {new DateObject({
-                          date: i.createdTime * 1000,
-                          calendar: initialzedTime().calendar,
-                          locale: initialzedTime().locale,
-                        }).format("YYYY/MM/DD HH:mm:ss")}
+            <IconToggleButton
+              data={{ firstToggle: t("History"), secondToggle: t("Setting") }}
+              values={{ firstToggle: t("History"), secondToggle: t("Setting") }}
+              dataIcon={tabIcons}
+              setChangeToggle={setActiveTab}
+              toggleValue={activeTab}
+            />
+            {activeTab === ToggleOrder.FirstToggle ? (
+              <div className={styles.section5}>
+                <div className={styles.table}>
+                  <div className={styles.tableheader}>
+                    <div className={styles.header1}>#</div>
+                    <div className={styles.header2}>{t("id")}</div>
+                    <div className={styles.header3}>{t("card number")}</div>
+                    <div className={styles.header4}>{t("type")}</div>
+                    <div className={styles.header5}>{t("amount")}</div>
+                    <div className={styles.header6}>{t("status")}</div>
+                    <div className={styles.header7}>{t("time")}</div>
+                    {/* <div className={styles.header8}>اشتراک</div> */}
+                  </div>
+                  {subInvoices?.items.map((i, index) => (
+                    <div key={i.id} className={styles.tableheader1}>
+                      <div className={styles.tablecounter}>{index + 1}</div>
+                      <div className={styles.orcernumber}>{i.id}</div>
+                      <div className={styles.orcernumber}>{i.cardNumber}</div>
+                      <div className={styles.viwes}>{manageSubInvoiceType(i.itemType)}</div>
+                      <div className={styles.viwes}>
+                        {
+                          <PriceFormater
+                            pricetype={i.priceType}
+                            fee={i.price}
+                            className={PriceFormaterClassName.PostPrice}
+                          />
+                        }
                       </div>
-                    </div>
-                    {/* <div className={styles.share}>
+                      <div className={styles.confirmedstatus}>{manageSubInvoiceStatus(i.status)}</div>
+                      <div className={styles.date}>
+                        <div className={styles.day}>
+                          {new DateObject({
+                            date: i.createdTime * 1000,
+                            calendar: initialzedTime().calendar,
+                            locale: initialzedTime().locale,
+                          }).format("YYYY/MM/DD HH:mm:ss")}
+                        </div>
+                      </div>
+                      {/* <div className={styles.share}>
                       <img className={styles.sharetype} src="/pdf.svg" />
                       <img className={styles.sharetype} src="/jpg.svg" />
                     </div> */}
-                  </div>
-                ))}
+                    </div>
+                  ))}
+                </div>
+                {subInvoices?.items.length === 0 && (
+                  <div className={styles.emptyState}>{t("No invoices have been registered yet.")}</div>
+                )}
               </div>
-              {subInvoices?.items.length === 0 && (
-                <div className={styles.emptyState}>{t("No invoices have been registered yet.")}</div>
-              )}
-            </div>
+            ) : (
+              <div className={styles.defaultCardSettings}>
+                <div className={styles.defaultCardNumber}>{cardNumber.replace(/(.{4})/g, "$1 ").trim()}</div>
+                <button
+                  type="button"
+                  className={styles.defaultCardButton}
+                  onClick={setDefaultCard}
+                  disabled={!session || setDefaultCardLoading}>
+                  {setDefaultCardLoading ? t("Loading...") : t("Set Default Card")}
+                </button>
+              </div>
+            )}
             {isLoadingMore && <Loading />}
           </div>
         )}

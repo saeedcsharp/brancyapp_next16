@@ -18,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import styles from "./payment.module.css";
 import OrderDetailPopup from "brancy/components/wallet/orderDetailPopup";
 import InvoicePopup from "brancy/components/wallet/invoicePopup";
+import AddCard from "brancy/components/wallet/addCard";
 const Payment = () => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -52,6 +53,7 @@ const Payment = () => {
   const [subInvoicesByCard, setSubInvoicesByCard] = useState<Record<string, IGetSubInvoice>>({});
   const [showOrderDetailsPopup, setShowOrderDetailsPopup] = useState<IInvoice | null>(null);
   const [showInvoicePopup, setShowInvoicePopup] = useState<IInvoice | null>(null);
+  const [showAddCard, setShowAddCard] = useState(false);
   useEffect(() => {
     if (!session) return;
     if (session?.user.currentIndex === -1) router.push("/user");
@@ -135,6 +137,15 @@ const Payment = () => {
     e.preventDefault();
     if (!cryptoAmount) return;
     setCryptoAmount("");
+  };
+
+  const handleChangeDefaultCard = async (cardNumber: string) => {
+    setCards((current) =>
+      current.map((card) => ({
+        ...card,
+        isDefault: card.cardNumber === cardNumber,
+      })),
+    );
   };
 
   async function fetchCards() {
@@ -268,7 +279,7 @@ const Payment = () => {
           <div className={styles.sectionHeading}>
             <h2 className={styles.cardTitle}>{t("Cards and Bank Accounts")}</h2>
           </div>
-          {showAdd && (
+          {/* {showAdd && (
             <div className={styles.addCardPanel}>
               <form className={styles.addCardForm} onSubmit={handleAddCard}>
                 <label className={styles.label} htmlFor="wallet-card-number">
@@ -304,13 +315,17 @@ const Payment = () => {
                 </div>
               </form>
             </div>
-          )}
+          )} */}
           {loading ? (
             <Loading />
           ) : (
             <>
               <div className={styles.cardList}>
-                <button className={styles.addCardTile} type="button" onClick={handleToggleAdd} aria-expanded={showAdd}>
+                <button
+                  className={styles.addCardTile}
+                  type="button"
+                  onClick={() => setShowAddCard(true)}
+                  aria-expanded={showAdd}>
                   <span className={styles.addCardIcon} aria-hidden="true">
                     +
                   </span>
@@ -358,6 +373,7 @@ const Payment = () => {
             onSubInvoicesChange={(subInvoices) => {
               setSubInvoicesByCard((current) => ({ ...current, [showSubInvoicesPopup]: subInvoices }));
             }}
+            changeDefaultCard={handleChangeDefaultCard}
           />
         )}
       </Modal>
@@ -374,23 +390,25 @@ const Payment = () => {
           />
         )}
       </Modal>
-      {
-        <Modal
-          closePopup={() => setShowOrderDetailsPopup(null)}
-          classNamePopup={"popupLarge"}
-          showContent={showOrderDetailsPopup !== null}>
-          {showOrderDetailsPopup && (
-            <OrderDetailPopup
-              invoice={showOrderDetailsPopup}
-              onClose={() => setShowOrderDetailsPopup(null)}
-              backToInvoiceList={(invoice) => {
-                setShowOrderDetailsPopup(null);
-                setShowInvoicePopup(invoice);
-              }}
-            />
-          )}
-        </Modal>
-      }
+      <Modal closePopup={() => setShowAddCard(false)} classNamePopup={"popupSendFile"} showContent={showAddCard}>
+        {showAddCard && <AddCard onClose={() => setShowAddCard(false)} />}
+      </Modal>
+
+      <Modal
+        closePopup={() => setShowOrderDetailsPopup(null)}
+        classNamePopup={"popupLarge"}
+        showContent={showOrderDetailsPopup !== null}>
+        {showOrderDetailsPopup && (
+          <OrderDetailPopup
+            invoice={showOrderDetailsPopup}
+            onClose={() => setShowOrderDetailsPopup(null)}
+            backToInvoiceList={(invoice) => {
+              setShowOrderDetailsPopup(null);
+              setShowInvoicePopup(invoice);
+            }}
+          />
+        )}
+      </Modal>
     </>
   );
 };
