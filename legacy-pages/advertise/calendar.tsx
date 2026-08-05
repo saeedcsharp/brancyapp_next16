@@ -13,7 +13,6 @@ import styles from "./calendar.module.css";
 import { ICaledarAds, IRejectTerms } from "brancy/models/interfaces";
 import { AdsType, AdsTimeType, DetailType } from "brancy/models/enums";
 const AdCalendar = () => {
-  //  return <Soon />;
   const router = useRouter();
   const { data: session } = useSession({
     required: true,

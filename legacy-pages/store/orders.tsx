@@ -34,6 +34,7 @@ import {
   PushNotif,
   IOrderPushNotifExtended,
 } from "brancy/models/interfaces";
+import NotAllowedShopper from "brancy/components/notOk/notAllowedShopper";
 
 const Orders = () => {
   //  return <Soon />;
@@ -836,6 +837,7 @@ const Orders = () => {
       }
     }, 500);
   }, []);
+  if (session?.user.isInfluencer) return <NotAllowedShopper />;
   if (!session?.user.isShopper) return <NotShopper />;
   if (!RoleAccess(session, PartnerRole.Orders)) return <NotAllowed />;
 

@@ -14,6 +14,7 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./statistics.module.css";
+import NotAllowedShopper from "brancy/components/notOk/notAllowedShopper";
 
 const Statistics = () => {
   //  return <Soon />;
@@ -320,7 +321,7 @@ const Statistics = () => {
     if (session?.user.currentIndex === -1) router.push("/user");
     if (!session || !packageStatus(session)) router.push("/upgrade");
   }, [session]);
-
+  if (session?.user.isInfluencer) return <NotAllowedShopper />;
   if (!session?.user.isShopper) return <NotShopper />;
   if (!RoleAccess(session, PartnerRole.Products) && !RoleAccess(session, PartnerRole.Orders)) return <NotAllowed />;
   return (

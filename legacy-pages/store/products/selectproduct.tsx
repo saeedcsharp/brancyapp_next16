@@ -28,6 +28,7 @@ import { LanguageKey } from "brancy/i18n";
 import { PartnerRole } from "brancy/models/enums";
 import { IProduct_Candidate } from "brancy/models/interfaces";
 import styles from "./selectProduct.module.css";
+import NotAllowedShopper from "brancy/components/notOk/notAllowedShopper";
 const basePictureUrl = getClientMediaBaseUrl();
 async function fetchProductCandidates(session: any, includeProduct: boolean, nextMaxCreatedTime?: string) {
   return clientFetchApi<boolean, IProduct_Candidate[]>("/api/product/getProductCandidates", {
@@ -350,6 +351,7 @@ const SelectProduct = () => {
       router.push("/upgrade");
     }
   }, [session, router]);
+  if (session?.user.isInfluencer) return <NotAllowedShopper />;
   if (!session?.user.isShopper) return <NotShopper />;
   if (!RoleAccess(session, PartnerRole.Products)) return <NotAllowed />;
   // if (!session?.user.hasPackage) return <NotBasePackage />;

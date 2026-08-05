@@ -17,6 +17,7 @@ import { LanguageKey } from "brancy/i18n";
 import styles from "./properties.module.css";
 import { BusinessDay, PartnerRole } from "brancy/models/enums";
 import { IBusinessHour } from "brancy/models/interfaces";
+import NotAllowedShopper from "brancy/components/notOk/notAllowedShopper";
 
 const MapComponent = dynamic(() => import("brancy/components/mainLeaftlet"), {
   ssr: false,
@@ -244,7 +245,7 @@ const Properties = () => {
       setIsSaving(false);
     }
   };
-
+  if (session?.user.isInfluencer) return <NotAllowedShopper />;
   if (!session?.user.isShopper) return <NotShopper />;
   if (!RoleAccess(session, PartnerRole.Products)) return <NotAllowed />;
   if (session?.user.currentIndex === -1) router.push("/user");

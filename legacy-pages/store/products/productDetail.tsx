@@ -27,6 +27,7 @@ import {
   ITempIdAndNonProductCount,
 } from "brancy/models/interfaces";
 import { PartnerRole } from "brancy/models/enums";
+import NotAllowedShopper from "brancy/components/notOk/notAllowedShopper";
 
 const ProductDetail = ({ tempId }: { tempId: string }) => {
   //  return <Soon />;
@@ -362,6 +363,7 @@ const ProductDetail = ({ tempId }: { tempId: string }) => {
   if (!session || !tempId) {
     return null;
   }
+  if (session?.user.isInfluencer) return <NotAllowedShopper />;
   if (!RoleAccess(session, PartnerRole.Products)) return <NotAllowed />;
   return (
     session &&

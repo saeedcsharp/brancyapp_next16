@@ -1,3 +1,4 @@
+import NotAllowedShopper from "brancy/components/notOk/notAllowedShopper";
 import NotShopper from "brancy/components/notOk/notShopper";
 import ProductList from "brancy/components/store/products/productList/productList";
 import { LanguageKey } from "brancy/i18n";
@@ -21,8 +22,9 @@ const Products = () => {
     },
   });
   const { t } = useTranslation();
-  if (!session?.user.isShopper) return <NotShopper />;
   if (session?.user.currentIndex === -1) router.push("/user");
+  if (session?.user.isInfluencer) return <NotAllowedShopper />;
+  if (!session?.user.isShopper) return <NotShopper />;
   return (
     session &&
     session!.user.currentIndex !== -1 && (
