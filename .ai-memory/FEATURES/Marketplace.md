@@ -45,3 +45,7 @@ The market domain manager normalizes entered domains to lowercase, removes an op
 The request action opens a Persian confirmation dialog explaining publishing responsibility and the expected provider delay of five minutes to twelve hours, and sends the request only after confirmation. Pending domains show their name servers, a cancel action, and a five-minute cooldown before Connect is available. Connect calls the connect and DNS verification endpoints sequentially; unsuccessful verification keeps the pending domain, displays a Persian DNS propagation message, and starts another five-minute cooldown. An active domain is displayed as read-only with guidance to use a Settings ticket for removal or change.
 
 The public destination-links section is shown for the default-domain selection. For the custom-domain selection it is rendered only after the custom domain is active and finalized; in that state every destination link uses the accepted custom-domain URI.
+
+## Market Properties Features
+
+The Products feature card does not render the edit-options three-dot control because product popup options are not available there. Other movable feature cards retain the edit-options control.

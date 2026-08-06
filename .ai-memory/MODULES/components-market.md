@@ -136,6 +136,8 @@ Parent module: `components`.
 
 Products is enabled in the market properties feature list. Reviews and AdsTimeline remain visually disabled by the feature-properties stylesheet.
 
+The Products card intentionally omits the edit-options three-dot control; other movable feature cards continue to expose it.
+
 ## Domain Manager
 
 `components/market/properties/domainManager.tsx` owns custom-domain normalization and validation. It lowercases values, removes supported URL decoration and trailing slashes, rejects malformed labels, unsupported characters, subdomains, overlong domains, and reserved Brancy domains, and signals invalid request attempts through `InputText`'s one-shot shake prop. Once a pending domain exists, the request form is not rendered and a three-step progress indicator reflects DNS verification and connection state. The DNS verification cooldown is rendered inside the disabled verification button and the button returns to the enabled Connect action after expiry.

@@ -1,5 +1,7 @@
 # Changelog
 
+- Market Properties no longer shows the edit-options three-dot control on the Products feature card.
+
 ## 2026-08-06
 
 - Fixed Domain Manager default and destination links for usernames containing `.`, `_`, `-`, or Persian kashida (`ـ`) by using the path format `baseShortUrl/username` instead of an invalid username subdomain.
