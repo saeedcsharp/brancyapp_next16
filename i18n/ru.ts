@@ -1944,6 +1944,9 @@ export default {
     customDomain_noPackage_title: "Пакет пользовательского домена не найден",
     customDomain_noPackage_desc:
       "Ваш текущий пакет не включает поддержку пользовательского домена. Пожалуйста, обновите пакет для использования этой функции.",
+    customDomain_rule_validChars: "Разрешены только буквы и цифры",
+    customDomain_rule_noUnderscore: "Символы (_) и (-) не допускаются",
+    customDomain_rule_noSubdomain: "Поддомены (Subdomain) не допускаются",
     marketProperties_Request: "Запрос",
     marketProperties_Requested: "Запрошено",
     marketProperties_Checking: "Проверка",
@@ -1975,6 +1978,14 @@ export default {
     marketProperties_StartADSExplain: "Пользователь может начать рекламу согласно вашим тарифам",
     marketProperties_StartSALES: "Начать покупку",
     marketProperties_StartSALESExplain: "Пользователь может начать покупку на основе ваших продуктов",
+    marketProperties_NameServers: "Серверы Имен Домена",
+    marketProperties_NameServersExplain: "Зарегистрируйте серверы имен в панели управления вашего регистратора домена",
+    customDomain_dnsError:
+      "Серверы имен домена еще не зарегистрированы у вашего регистратора. Пожалуйста, попробуйте снова",
+    customDomain_active_desc:
+      "Чтобы изменить или удалить этот домен, отправьте запрос через раздел Тикеты поддержки в настройках",
+    marketProperties_NameServerstooltip:
+      "Обработка вашего запроса может занять до 12 часов, пока серверы имен распространятся в Интернете и ваш домен станет активным.",
     linkURL: "ссылка URL",
     searchID: "Добавить канал",
     searchIDexplain: "Введите ID пользователя или название канала",

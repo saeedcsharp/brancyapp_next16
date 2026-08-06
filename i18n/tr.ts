@@ -1920,6 +1920,9 @@ export default {
     customDomain_noPackage_title: "Özel alan adı paketi bulunamadı",
     customDomain_noPackage_desc:
       "Mevcut paketiniz özel alan adı desteği içermiyor. Bu özelliği kullanmak için paketinizi yükseltin.",
+    customDomain_rule_validChars: "Yalnızca harfler ve rakamlar kullanılabilir",
+    customDomain_rule_noUnderscore: "(_) ve (-) karakterlerine izin verilmez",
+    customDomain_rule_noSubdomain: "Alt alan adlarına (Subdomain) izin verilmez",
     marketProperties_Request: "Talep",
     marketProperties_Requested: "Talep Edildi",
     marketProperties_Checking: "Kontrol Ediliyor",
@@ -1951,6 +1954,14 @@ export default {
     marketProperties_StartADSExplain: "Kullanıcılar fiyatlarınıza göre reklam başlatabilir",
     marketProperties_StartSALES: "Satın Alma Başlat",
     marketProperties_StartSALESExplain: "Kullanıcılar ürünlerinize göre satın alma başlatabilir",
+    marketProperties_NameServers: "Alan Adı Name Server'ları",
+    marketProperties_NameServersExplain: "Name Server'ları alan adı sağlayıcınızın yönetim paneline kaydedin",
+    customDomain_dnsError:
+      "Alan adının Name Server'ları henüz alan adı sağlayıcınızda kayıtlı değil. Lütfen tekrar deneyin",
+    customDomain_active_desc:
+      "Bu alan adını değiştirmek veya kaldırmak için talebinizi Ayarlar bölümündeki Destek Talebi üzerinden gönderin",
+    marketProperties_NameServerstooltip:
+      "İsteğinizin ad sunucularının internette yayılması ve alan adınızın etkinleşmesi 12 saate kadar sürebilir.",
     linkURL: "bağlantı URL'si",
     searchID: "Kanal Ekle",
     searchIDexplain: "Eklemek istediğiniz kişinin ID’sini veya kanal adını yazın",

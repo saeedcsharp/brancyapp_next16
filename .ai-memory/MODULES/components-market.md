@@ -136,6 +136,19 @@ Parent module: `components`.
 
 Products is enabled in the market properties feature list. Reviews and AdsTimeline remain visually disabled by the feature-properties stylesheet.
 
+## Domain Manager
+
+`components/market/properties/domainManager.tsx` owns custom-domain normalization and validation. It lowercases values, removes supported URL decoration and trailing slashes, rejects malformed labels, unsupported characters, subdomains, overlong domains, and reserved Brancy domains, and signals invalid request attempts through `InputText`'s one-shot shake prop. Once a pending domain exists, the request form is not rendered and a three-step progress indicator reflects DNS verification and connection state. The DNS verification cooldown is rendered inside the disabled verification button and the button returns to the enabled Connect action after expiry.
+Requests require a Persian responsibility/delay confirmation. Pending domains use one shared name-server stage with cancellation and a five-minute cooldown; its single Connect action calls connect and verify consecutively, failed DNS propagation remains pending with a Persian retry message, and active domains show Settings ticket guidance for changes.
+
+The Domain Manager uses a native request form for Enter submission. A valid request sends `Instagramer/Bio/UpdateCustomDomain` directly without a confirmation modal or client-side feature gate; duplicate in-flight submissions remain blocked. Its mounted guard is re-enabled when the component effect starts so React Strict Mode's development cleanup/setup cycle cannot leave the Request button stuck in its loading state. It renders custom-domain rules as a semantic list only when the Custom Domain radio is selected, memoized domain/link calculations, native anchors and buttons for keyboard access, and cancellable API requests with unmount/session cleanup. Authenticated Properties metadata is marked noindex and does not expose a public canonical URL.
+
+The default and custom domain sections are presented as mutually exclusive radio choices. The selected panel remains fully visible while the inactive panel content receives the shared `fadeDiv` treatment.
+
+The shared destination-links section is gated by the selected domain type. It is visible for the default option, while the custom option requires `isCustomDomainActive`; its destination URLs use the accepted custom-domain URI only in that selected active state.
+
+When `isDevMode` is enabled, the Domain Manager also exposes a local-only `مرحله بعدی (تست)` control. It advances a pending domain from the name-server step to the completed-DNS step and then to an active accepted-domain state without sending an API request; the existing Delete control remains the backend cleanup action.
+
 ## Technical Debt
 
 Needs deeper per-feature enrichment during future work.

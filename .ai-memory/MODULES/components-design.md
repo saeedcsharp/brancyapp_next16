@@ -43,6 +43,7 @@ Exports are defined by source files in the module.
 - `components/design/tooltip/tooltip.tsx` exports `Tooltip`, which renders its tooltip content through `document.body` using viewport-fixed coordinates derived from the trigger while preserving directional placement options.
 - `components/design/chart/brushLineChart.tsx` exports `BrushLineChart`, a reusable SVG multi-series line chart with a draggable brush range selector, adaptive year/month/day aggregation, count-based vertical axis, legend toggles, and hover tooltips.
 - `components/design/phoneInput/` exports a dependency-free two-input phone selector with local SVG flags, country search, recent/preferred countries, formatting, validation, RTL support, and structured E.164/international/national output.
+- `components/design/inputText.tsx` supports controlled text input normalization by its consumer and exposes a `shake` prop for replaying the shared invalid-input animation.
 
 ## Internal APIs
 

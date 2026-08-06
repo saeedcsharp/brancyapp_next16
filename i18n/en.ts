@@ -1910,11 +1910,10 @@ export default {
     customDomain_noPackage_title: "Custom domain package not found",
     customDomain_noPackage_desc:
       "Your current package does not include custom domain support. Please upgrade your package to use this feature.",
-    customDomain_rule_notEmpty: "Domain must not be empty",
+
     customDomain_rule_validChars: "Only letters and numbers are allowed",
-    customDomain_rule_noUnderscore: "Underscore (_) and hyphen (-) are not allowed",
-    customDomain_rule_noSubdomain: "Subdomains are not allowed (only one dot)",
-    customDomain_rule_notBrancy: "brancy.app and bran.cy are not allowed",
+    customDomain_rule_noUnderscore: "The (_) and (-) characters are not allowed",
+    customDomain_rule_noSubdomain: "Subdomains are not allowed",
     marketProperties_Request: "Request",
     marketProperties_Connect: "Connect",
     marketProperties_Requested: "Requested",
@@ -1947,6 +1946,14 @@ export default {
     marketProperties_StartADSExplain: "Users can start their advertising based on your pricing",
     marketProperties_StartSALES: "Start Purchase Request",
     marketProperties_StartSALESExplain: "Users can start purchasing based on your products",
+    marketProperties_NameServers: "Domain Name Servers",
+    marketProperties_NameServersExplain: "Register these name servers in your domain provider's control panel",
+    customDomain_dnsError:
+      "The domain name servers have not been registered with your domain provider yet. Please try again",
+    customDomain_active_desc:
+      "To change or remove this domain, submit your request through the Support Ticket section in Settings",
+    marketProperties_NameServerstooltip:
+      "Your request may take up to 12 hours for the name servers to propagate across the Internet and for your domain to become active.",
     linkURL: "link URL",
     searchID: "Add Channel",
     searchIDexplain: "Enter the user ID or channel name you want to add",

@@ -31,9 +31,12 @@
 - Add component coverage for the PhoneInput portalled dropdown, including viewport positioning, scroll/resize updates, and option clicks outside the component root when a UI test harness is introduced.
 - Add component coverage for the Tooltip portal, directional viewport positioning, scroll/resize updates, and click-outside behavior when a UI test harness is introduced.
 - Add component/browser coverage for OTP verification, including one-request submission under WebOTP/manual overlap, repeated Enter/click protection, Persian/Arabic-Indic paste, incorrect-code shake and reset, timer expiry, and unmount cleanup when a UI test harness is introduced.
+- Add component coverage for custom-domain normalization, RFC-style label/length validation, reserved-domain rejection, and one-shot invalid-input shake when a UI test harness is introduced.
+- Add component coverage for direct custom-domain submission, cancellation, sequential connect/verify calls, DNS retry cooldown, and active-domain guidance when a UI test harness is introduced.
 - Add focused coverage for multi-digit autofill, select-on-focus behavior, first-input focus after errors, ARIA timer/error relationships, and history replacement after successful verification when a UI test harness is introduced.
 - Add component coverage confirming Comment Inbox hover renders do not re-fetch Auto Reply prompts or flows while the selected media configuration is unchanged when a UI test harness is introduced.
 - Add component coverage for the Page post-grid product badge when `shopMediaProductType` is `ShopMediaProductType.Instance` once a UI test harness is introduced.
+- Add component coverage for Domain Manager request cancellation, unmount cleanup, Enter submission, custom-domain copy URLs, destination-link mapping, and keyboard-accessible controls when a UI test harness is introduced.
 
 ## Technical Debt Ideas
 

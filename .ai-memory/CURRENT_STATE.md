@@ -51,11 +51,14 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
-- MyLink Products now renders the existing `IProduct_ShortProduct` product-card data with title/product-ID search, media fallback, product links, and discount-aware pricing; the shared model contract was left unchanged.
-
-- Enabled interaction with the Products feature item in market properties; Reviews and AdsTimeline remain intentionally disabled by the existing styling rule.
-
-- Split the bank-card sub-invoice popup into History and Setting tabs using `IconToggleButton`; the setting tab sets the selected bank card as default through `/api/wallet/setDefaultCard` with its `cardNumber` query.
+- Fixed the Domain Manager loading state under React Strict Mode by re-enabling its mounted guard during effect setup, allowing the custom-domain Request button to leave `RingLoader` after the request completes.
+- Domain Manager now submits a valid custom-domain request directly to `Instagramer/Bio/UpdateCustomDomain` when Request is clicked; the client-side CustomDomain feature check no longer blocks this initial request, while duplicate-submit protection remains.
+- بهینه‌سازی Domain Manager با حذف state مشتق‌شده، memoization اعتبارسنجی و لینک‌های مقصد، فرم native برای submit با Enter، کنترل‌های keyboard-accessible، لینک‌های خارجی امن، کپی صحیح دامنه سفارشی، لغو درخواست‌های fetch هنگام unmount یا تغییر session، cleanup تایمر و animation frame، حذف consoleهای اضافی و متادیتای noindex برای صفحه احراز هویت‌شده.
+- تأییدیه Modal درخواست دامنه حذف شد و درخواست معتبر اکنون مستقیماً پس از submit فرم ارسال می‌شود.
+- قوانین دامنه سفارشی به‌صورت فهرست معنایی نمایش داده می‌شوند و فقط هنگام فعال‌بودن گزینه Custom Domain رندر می‌شوند.
+- Strengthened custom-domain input handling in the market domain manager: values are lowercased and normalized by removing URL decoration and trailing slashes, validation enforces domain/label length and label/TLD rules, reserved Brancy domains remain blocked, invalid request attempts replay the shared input shake once, pending requests replace the form with a three-step progress indicator, and DNS cooldown is shown inside the disabled verification button until it becomes Connect again.
+- Completed the custom-domain workflow in the market domain manager: values are normalized and validated, requests require a Persian responsibility/delay confirmation, pending domains show name servers with cancel and five-minute cooldown actions, Connect shows a loader across both sequential API calls, failed propagation retains the pending state with a Persian retry message in the name-server stage, and active domains show Settings ticket guidance for changes.
+- The market domain manager now shows public destination links for the default-domain selection, or for the custom-domain selection only after the custom domain is active and finalized; custom-selected links use the accepted custom-domain URI.
 
 - Hardened `legacy-pages/user/home` responsive behavior by replacing fixed masonry-style grid spans and indefinite percentage heights, making the upgrade card positioning local and fluid, constraining narrow text, and adding reduced-motion support. The page now uses native keyboard-accessible controls instead of clickable `div` elements, avoids nested `Link`/`button` markup, and cleans up cancellable data-loading and redirect effects.
 
