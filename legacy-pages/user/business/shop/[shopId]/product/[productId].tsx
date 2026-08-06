@@ -683,7 +683,7 @@ export default function Product() {
         });
 
         if (res.succeeded) {
-          const filteredProducts = res.value.products.filter((x) => x.shortProduct.productId !== Number(productId));
+          const filteredProducts = res.value.products.filter((x) => x.shortProduct.productId !== productId);
           if (filteredProducts.length > 0) {
             productDispatch({
               type: "SET_SIMILAR_PRODUCTS",
@@ -2259,85 +2259,90 @@ export default function Product() {
                   {/* ----------------- Similar----------------- */}
                   {activeRightTab.startsWith("Similar") && similarProducts.length > 0 && (
                     <div className={styles.productSection}>
-                      {similarProducts.map((product) => (
-                        <div
-                          className={styles.productCard}
-                          key={product.shortProduct.productId}
-                          onClick={() =>
-                            router.push(
-                              `/user/shop/${product.shortProduct.instagramerId}/product/${product.shortProduct.productId}`,
-                            )
-                          }>
-                          <div className={styles.productImageparent}>
-                            <img
-                              className={styles.productImage}
-                              title={product.shortProduct.title}
-                              loading="lazy"
-                              decoding="async"
-                              alt={product.shortProduct.title}
-                              src={baseMediaUrl + product.shortProduct.thumbnailMediaUrl}
-                            />
-                            <div className={styles.likesCounters}>
+                      {similarProducts.map((product) => {
+                        const maxDiscountPrice = product.shortProduct.maxDiscountPrice;
+                        const minDiscountPrice = product.shortProduct.minDiscountPrice;
+                        const hasDiscount =
+                          maxDiscountPrice !== null && product.shortProduct.maxPrice - maxDiscountPrice !== 0;
+                        const finalPrice = hasDiscount
+                          ? maxDiscountPrice
+                          : (minDiscountPrice ?? product.shortProduct.maxPrice);
+
+                        return (
+                          <div
+                            className={styles.productCard}
+                            key={product.shortProduct.productId}
+                            onClick={() =>
+                              router.push(
+                                `/user/shop/${product.shortProduct.instagramerId}/product/${product.shortProduct.productId}`,
+                              )
+                            }>
+                            <div className={styles.productImageparent}>
                               <img
-                                style={{
-                                  cursor: "pointer",
-                                  width: "16px",
-                                  height: "16px",
-                                }}
-                                title="ℹ️ like count"
-                                alt="like count"
-                                src="/icon-isLiked.svg"
+                                className={styles.productImage}
+                                title={product.shortProduct.title ?? undefined}
+                                loading="lazy"
+                                decoding="async"
+                                alt={product.shortProduct.title ?? undefined}
+                                src={baseMediaUrl + product.shortProduct.thumbnailMediaUrl}
                               />
-                              <span>{product.shortProduct.likeCount}</span>
-                            </div>
-                          </div>
-
-                          <div className={styles.productDetails}>
-                            <h1 className={styles.productName} title={product.shortProduct.title}>
-                              {product.shortProduct.title}
-                            </h1>
-
-                            <div className={styles.productaction}>
-                              <div className={styles.productPriceparent}>
-                                {product.shortProduct.maxPrice - product.shortProduct.maxDiscountPrice !== 0 && (
-                                  <div className={styles.priceTop}>
-                                    <div className={styles.originalPrice}>
-                                      <PriceFormater
-                                        pricetype={product.shortProduct.priceType}
-                                        fee={product.shortProduct.maxPrice}
-                                        className={PriceFormaterClassName.PostPrice}
-                                      />
-                                    </div>
-                                    <span className={styles.discountBadge}>
-                                      {Math.round(
-                                        ((product.shortProduct.maxPrice - product.shortProduct.maxDiscountPrice) /
-                                          product.shortProduct.maxPrice) *
-                                          100 *
-                                          100,
-                                      ) / 100}
-                                      %
-                                    </span>
-                                  </div>
-                                )}
-                                <div className={styles.finalPrice}>
-                                  <PriceFormater
-                                    pricetype={product.shortProduct.priceType}
-                                    // اگر تخفیف وجود داشت، قیمت تخفیف خورده را نمایش بده، در غیر این صورت کمترین قیمت را
-                                    fee={
-                                      product.shortProduct.maxPrice - product.shortProduct.maxDiscountPrice !== 0
-                                        ? product.shortProduct.maxDiscountPrice
-                                        : product.shortProduct.minDiscountPrice
-                                    }
-                                    className={PriceFormaterClassName.PostPrice}
-                                  />
-                                </div>
+                              <div className={styles.likesCounters}>
+                                <img
+                                  style={{
+                                    cursor: "pointer",
+                                    width: "16px",
+                                    height: "16px",
+                                  }}
+                                  title="ℹ️ like count"
+                                  alt="like count"
+                                  src="/icon-isLiked.svg"
+                                />
+                                <span>{product.shortProduct.likeCount}</span>
                               </div>
+                            </div>
 
-                              {renderAvailabilityStatus(product.shortProduct.availabilityStatus)}
+                            <div className={styles.productDetails}>
+                              <h1 className={styles.productName} title={product.shortProduct.title ?? undefined}>
+                                {product.shortProduct.title}
+                              </h1>
+
+                              <div className={styles.productaction}>
+                                <div className={styles.productPriceparent}>
+                                  {hasDiscount && (
+                                    <div className={styles.priceTop}>
+                                      <div className={styles.originalPrice}>
+                                        <PriceFormater
+                                          pricetype={product.shortProduct.priceType}
+                                          fee={product.shortProduct.maxPrice}
+                                          className={PriceFormaterClassName.PostPrice}
+                                        />
+                                      </div>
+                                      <span className={styles.discountBadge}>
+                                        {Math.round(
+                                          ((product.shortProduct.maxPrice - maxDiscountPrice) /
+                                            product.shortProduct.maxPrice) *
+                                            100 *
+                                            100,
+                                        ) / 100}
+                                        %
+                                      </span>
+                                    </div>
+                                  )}
+                                  <div className={styles.finalPrice}>
+                                    <PriceFormater
+                                      pricetype={product.shortProduct.priceType}
+                                      fee={finalPrice}
+                                      className={PriceFormaterClassName.PostPrice}
+                                    />
+                                  </div>
+                                </div>
+
+                                {renderAvailabilityStatus(product.shortProduct.availabilityStatus)}
+                              </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   )}
                   {/* ----------------- Similar----------------- */}

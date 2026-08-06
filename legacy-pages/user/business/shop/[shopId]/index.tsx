@@ -1575,90 +1575,92 @@ const ProductsPage = () => {
                           ) : (
                             <>
                               <div className={styles.productsGrid}>
-                                {filteredProducts.products.map((product) => (
-                                  <div
-                                    className={styles.productCard}
-                                    key={product.shortProduct.productId}
-                                    onClick={() =>
-                                      router.push(
-                                        `/user/business/shop/${shopId}/product/${product.shortProduct.productId}`,
-                                      )
-                                    }>
-                                    <img
-                                      title={product.shortProduct.title}
-                                      className={styles.productImage}
-                                      loading="lazy"
-                                      decoding="async"
-                                      alt={product.shortProduct.title}
-                                      src={baseMediaUrl + product.shortProduct.thumbnailMediaUrl}
-                                    />
-                                    <div className={styles.likesCounters}>
-                                      <svg
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        width="18 "
-                                        height="18"
-                                        viewBox="0 0 24 24"
-                                        fill="var(--text-h1)">
-                                        <path d="M12 21.4 10.6 20C5.4 15.4 2 12.3 2 8.5 2 5.5 4.4 3 7.5 3A6 6 0 0 1 12 5a6 6 0 0 1 4.5-2c3 0 5.5 2.4 5.5 5.5 0 3.8-3.4 6.9-8.5 11.5z" />
-                                      </svg>
-                                      <span>{product.shortProduct.likeCount}</span>
-                                    </div>
+                                {filteredProducts.products.map((product) => {
+                                  const maxDiscountPrice = product.shortProduct.maxDiscountPrice;
+                                  const minDiscountPrice = product.shortProduct.minDiscountPrice;
+                                  const hasDiscount =
+                                    maxDiscountPrice !== null && product.shortProduct.maxPrice - maxDiscountPrice !== 0;
+                                  const finalPrice = hasDiscount
+                                    ? maxDiscountPrice
+                                    : (minDiscountPrice ?? product.shortProduct.maxPrice);
 
-                                    <div className={styles.productDetails}>
-                                      <h1 className={styles.productName} title={product.shortProduct.title}>
-                                        {product.shortProduct.title}
-                                      </h1>
+                                  return (
+                                    <div
+                                      className={styles.productCard}
+                                      key={product.shortProduct.productId}
+                                      onClick={() =>
+                                        router.push(
+                                          `/user/business/shop/${shopId}/product/${product.shortProduct.productId}`,
+                                        )
+                                      }>
+                                      <img
+                                        title={product.shortProduct.title ?? ""}
+                                        className={styles.productImage}
+                                        loading="lazy"
+                                        decoding="async"
+                                        alt={product.shortProduct.title ?? ""}
+                                        src={baseMediaUrl + product.shortProduct.thumbnailMediaUrl}
+                                      />
+                                      <div className={styles.likesCounters}>
+                                        <svg
+                                          xmlns="http://www.w3.org/2000/svg"
+                                          width="18 "
+                                          height="18"
+                                          viewBox="0 0 24 24"
+                                          fill="var(--text-h1)">
+                                          <path d="M12 21.4 10.6 20C5.4 15.4 2 12.3 2 8.5 2 5.5 4.4 3 7.5 3A6 6 0 0 1 12 5a6 6 0 0 1 4.5-2c3 0 5.5 2.4 5.5 5.5 0 3.8-3.4 6.9-8.5 11.5z" />
+                                        </svg>
+                                        <span>{product.shortProduct.likeCount}</span>
+                                      </div>
 
-                                      <div className={styles.productaction}>
-                                        <div className={styles.productPriceparent}>
-                                          {product.shortProduct.maxPrice - product.shortProduct.maxDiscountPrice !==
-                                            0 && (
-                                            <div className={styles.priceTop}>
-                                              <div className={styles.originalPrice}>
+                                      <div className={styles.productDetails}>
+                                        <h1 className={styles.productName} title={product.shortProduct.title ?? ""}>
+                                          {product.shortProduct.title}
+                                        </h1>
+
+                                        <div className={styles.productaction}>
+                                          <div className={styles.productPriceparent}>
+                                            {hasDiscount && (
+                                              <div className={styles.priceTop}>
+                                                <div className={styles.originalPrice}>
+                                                  <PriceFormater
+                                                    pricetype={product.shortProduct.priceType}
+                                                    fee={product.shortProduct.maxPrice}
+                                                    className={PriceFormaterClassName.PostPrice}
+                                                  />
+                                                </div>
+                                                <span className={styles.discountBadge}>
+                                                  {Math.round(
+                                                    ((product.shortProduct.maxPrice - maxDiscountPrice) /
+                                                      product.shortProduct.maxPrice) *
+                                                      100 *
+                                                      100,
+                                                  ) / 100}
+                                                  %
+                                                </span>
+                                              </div>
+                                            )}
+                                            <div className={styles.finalPrice}>
+                                              {product.shortProduct.availabilityStatus ===
+                                              AvailabilityStatus.Available ? (
                                                 <PriceFormater
                                                   pricetype={product.shortProduct.priceType}
-                                                  fee={product.shortProduct.maxPrice}
+                                                  fee={finalPrice}
                                                   className={PriceFormaterClassName.PostPrice}
                                                 />
-                                              </div>
-                                              <span className={styles.discountBadge}>
-                                                {Math.round(
-                                                  ((product.shortProduct.maxPrice -
-                                                    product.shortProduct.maxDiscountPrice) /
-                                                    product.shortProduct.maxPrice) *
-                                                    100 *
-                                                    100,
-                                                ) / 100}
-                                                %
-                                              </span>
+                                              ) : (
+                                                <>--</>
+                                              )}
                                             </div>
-                                          )}
-                                          <div className={styles.finalPrice}>
-                                            {product.shortProduct.availabilityStatus ===
-                                            AvailabilityStatus.Available ? (
-                                              <PriceFormater
-                                                pricetype={product.shortProduct.priceType}
-                                                fee={
-                                                  product.shortProduct.maxPrice -
-                                                    product.shortProduct.maxDiscountPrice !==
-                                                  0
-                                                    ? product.shortProduct.maxDiscountPrice
-                                                    : product.shortProduct.minDiscountPrice
-                                                }
-                                                className={PriceFormaterClassName.PostPrice}
-                                              />
-                                            ) : (
-                                              <>--</>
-                                            )}
                                           </div>
-                                        </div>
-                                        <div className={styles.productstatus}>
-                                          {renderAvailabilityStatus(product.shortProduct.availabilityStatus)}
+                                          <div className={styles.productstatus}>
+                                            {renderAvailabilityStatus(product.shortProduct.availabilityStatus)}
+                                          </div>
                                         </div>
                                       </div>
                                     </div>
-                                  </div>
-                                ))}
+                                  );
+                                })}
                               </div>
 
                               <div ref={loaderRef} className={styles.loadMore}>
@@ -1715,83 +1717,89 @@ const ProductsPage = () => {
                   )}
                   {showSearch.searchMode && searchQuery && searchResults.length > 0 && (
                     <div className={styles.productsGrid}>
-                      {searchResults.map((product) => (
-                        <div
-                          className={styles.productCard}
-                          key={product.shortProduct.productId}
-                          onClick={() =>
-                            router.push(`/user/business/shop/${shopId}/product/${product.shortProduct.productId}`)
-                          }>
-                          <img
-                            title={product.shortProduct.title}
-                            className={styles.productImage}
-                            loading="lazy"
-                            decoding="async"
-                            alt={product.shortProduct.title}
-                            src={baseMediaUrl + product.shortProduct.thumbnailMediaUrl}
-                          />
-                          <div className={styles.likesCounters}>
-                            <svg
-                              xmlns="http://www.w3.org/2000/svg"
-                              width="18 "
-                              height="18"
-                              viewBox="0 0 24 24"
-                              fill="var(--text-h1)">
-                              <path d="M12 21.4 10.6 20C5.4 15.4 2 12.3 2 8.5 2 5.5 4.4 3 7.5 3A6 6 0 0 1 12 5a6 6 0 0 1 4.5-2c3 0 5.5 2.4 5.5 5.5 0 3.8-3.4 6.9-8.5 11.5z" />
-                            </svg>
-                            <span>{product.shortProduct.likeCount}</span>
-                          </div>
+                      {searchResults.map((product) => {
+                        const maxDiscountPrice = product.shortProduct.maxDiscountPrice;
+                        const minDiscountPrice = product.shortProduct.minDiscountPrice;
+                        const hasDiscount =
+                          maxDiscountPrice !== null && product.shortProduct.maxPrice - maxDiscountPrice !== 0;
+                        const finalPrice = hasDiscount
+                          ? maxDiscountPrice
+                          : (minDiscountPrice ?? product.shortProduct.maxPrice);
 
-                          <div className={styles.productDetails}>
-                            <h1 className={styles.productName} title={product.shortProduct.title}>
-                              {product.shortProduct.title}
-                            </h1>
+                        return (
+                          <div
+                            className={styles.productCard}
+                            key={product.shortProduct.productId}
+                            onClick={() =>
+                              router.push(`/user/business/shop/${shopId}/product/${product.shortProduct.productId}`)
+                            }>
+                            <img
+                              title={product.shortProduct.title ?? ""}
+                              className={styles.productImage}
+                              loading="lazy"
+                              decoding="async"
+                              alt={product.shortProduct.title ?? ""}
+                              src={baseMediaUrl + product.shortProduct.thumbnailMediaUrl}
+                            />
+                            <div className={styles.likesCounters}>
+                              <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                width="18 "
+                                height="18"
+                                viewBox="0 0 24 24"
+                                fill="var(--text-h1)">
+                                <path d="M12 21.4 10.6 20C5.4 15.4 2 12.3 2 8.5 2 5.5 4.4 3 7.5 3A6 6 0 0 1 12 5a6 6 0 0 1 4.5-2c3 0 5.5 2.4 5.5 5.5 0 3.8-3.4 6.9-8.5 11.5z" />
+                              </svg>
+                              <span>{product.shortProduct.likeCount}</span>
+                            </div>
 
-                            <div className={styles.productaction}>
-                              <div className={styles.productPriceparent}>
-                                {product.shortProduct.maxPrice - product.shortProduct.maxDiscountPrice !== 0 && (
-                                  <div className={styles.priceTop}>
-                                    <div className={styles.originalPrice}>
+                            <div className={styles.productDetails}>
+                              <h1 className={styles.productName} title={product.shortProduct.title ?? undefined}>
+                                {product.shortProduct.title}
+                              </h1>
+
+                              <div className={styles.productaction}>
+                                <div className={styles.productPriceparent}>
+                                  {hasDiscount && (
+                                    <div className={styles.priceTop}>
+                                      <div className={styles.originalPrice}>
+                                        <PriceFormater
+                                          pricetype={product.shortProduct.priceType}
+                                          fee={product.shortProduct.maxPrice}
+                                          className={PriceFormaterClassName.PostPrice}
+                                        />
+                                      </div>
+                                      <span className={styles.discountBadge}>
+                                        {Math.round(
+                                          ((product.shortProduct.maxPrice - maxDiscountPrice) /
+                                            product.shortProduct.maxPrice) *
+                                            100 *
+                                            100,
+                                        ) / 100}
+                                        %
+                                      </span>
+                                    </div>
+                                  )}
+                                  <div className={styles.finalPrice}>
+                                    {product.shortProduct.availabilityStatus === AvailabilityStatus.Available ? (
                                       <PriceFormater
                                         pricetype={product.shortProduct.priceType}
-                                        fee={product.shortProduct.maxPrice}
+                                        fee={finalPrice}
                                         className={PriceFormaterClassName.PostPrice}
                                       />
-                                    </div>
-                                    <span className={styles.discountBadge}>
-                                      {Math.round(
-                                        ((product.shortProduct.maxPrice - product.shortProduct.maxDiscountPrice) /
-                                          product.shortProduct.maxPrice) *
-                                          100 *
-                                          100,
-                                      ) / 100}
-                                      %
-                                    </span>
+                                    ) : (
+                                      <>--</>
+                                    )}
                                   </div>
-                                )}
-                                <div className={styles.finalPrice}>
-                                  {product.shortProduct.availabilityStatus === AvailabilityStatus.Available ? (
-                                    <PriceFormater
-                                      pricetype={product.shortProduct.priceType}
-                                      fee={
-                                        product.shortProduct.maxPrice - product.shortProduct.maxDiscountPrice !== 0
-                                          ? product.shortProduct.maxDiscountPrice
-                                          : product.shortProduct.minDiscountPrice
-                                      }
-                                      className={PriceFormaterClassName.PostPrice}
-                                    />
-                                  ) : (
-                                    <>--</>
-                                  )}
                                 </div>
-                              </div>
-                              <div className={styles.productstatus}>
-                                {renderAvailabilityStatus(product.shortProduct.availabilityStatus)}
+                                <div className={styles.productstatus}>
+                                  {renderAvailabilityStatus(product.shortProduct.availabilityStatus)}
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        );
+                      })}
                     </div>
                   )}
                 </div>

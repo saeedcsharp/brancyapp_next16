@@ -1,5 +1,8 @@
 # Changelog
 
+- Fixed customer shop, product-detail, and saved-product cards for nullable product titles and discount prices, including safe regular-price fallbacks and string product ID comparison.
+- Added missing CSS-module state selectors used by the customer shop filters and navigation.
+
 - Market Properties no longer shows the edit-options three-dot control on the Products feature card.
 
 ## 2026-08-06

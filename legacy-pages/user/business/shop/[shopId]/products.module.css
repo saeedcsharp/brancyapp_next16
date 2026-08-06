@@ -95,6 +95,33 @@
   color: var(--text-h1);
 }
 
+.businessLink {
+  display: inline-flex;
+  align-items: center;
+}
+
+.focused {
+  border-color: var(--color-dark-blue);
+}
+
+.expanded {
+  max-height: 1000px;
+}
+
+.show {
+  display: block;
+}
+
+.hashtagListExpanded,
+.filterListExpanded {
+  display: none;
+}
+
+.hashtagListExpanded.show,
+.filterListExpanded.show {
+  display: block;
+}
+
 .searchmenubtn {
   cursor: pointer;
   width: 48px;

@@ -116,6 +116,8 @@ Use `RoleAccess`, session permission flags, and backend authorization where rele
 
 Keep renders and network calls scoped; avoid unnecessary broad fetches. The user home dashboard fetches favorites and explorer data concurrently, cancels state updates after unmount, and ends loading on both success and failure.
 
+Product cards treat nullable titles and discount prices from the backend as optional data: titles use safe image and attribute fallbacks, and prices fall back to the minimum discounted price or regular maximum price when no discount is returned.
+
 The user home responsive layout uses fluid grid columns, content-driven heights, card-local absolute positioning, constrained narrow-viewport text, and a reduced-motion fallback. Interactive dashboard cards use native buttons or links so keyboard focus and activation remain available.
 
 ## Caching
