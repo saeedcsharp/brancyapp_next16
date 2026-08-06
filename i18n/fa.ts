@@ -1879,11 +1879,9 @@ export default {
     customDomain_noPackage_title: "پکیج دامنه اختصاصی یافت نشد",
     customDomain_noPackage_desc:
       "پکیج فعلی شما شامل دامنه اختصاصی نمی‌شود. برای استفاده از این قابلیت، پکیج خود را ارتقا دهید.",
-    customDomain_rule_notEmpty: "دامنه نباید خالی باشد",
     customDomain_rule_validChars: "فقط حروف و اعداد مجاز است",
-    customDomain_rule_noUnderscore: "زیرخط (_) و خط تیره (-) مجاز نیست",
-    customDomain_rule_noSubdomain: "Subdomain مجاز نیست (فقط یک نقطه)",
-    customDomain_rule_notBrancy: "دامنه‌های brancy.app، bran.cy، brncy.ir و brancy.ir مجاز نیستند",
+    customDomain_rule_noUnderscore: "کاراکتر های (_) و (-) مجاز نیست",
+    customDomain_rule_noSubdomain: "دامنه زیر مجموعه (Subdomain) مجاز نیست ",
     marketProperties_Request: "درخواست",
     marketProperties_Connect: "اتصال",
     marketProperties_Requested: "درخواست شده",

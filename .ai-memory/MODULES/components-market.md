@@ -136,6 +136,17 @@ Parent module: `components`.
 
 No confirmed module-specific issue recorded at initialization.
 
+## Domain Manager
+
+`components/market/properties/domainManager.tsx` owns custom-domain normalization and validation. It lowercases values, removes supported URL decoration and trailing slashes, rejects malformed labels, unsupported characters, subdomains, overlong domains, and reserved Brancy domains, and signals invalid request attempts through `InputText`'s one-shot shake prop. Once a pending domain exists, the request form is not rendered and a three-step progress indicator reflects DNS verification and connection state. The DNS verification cooldown is rendered inside the disabled verification button and the button returns to the enabled Connect action after expiry.
+Requests require a Persian responsibility/delay confirmation. Pending domains use one shared name-server stage with cancellation and a five-minute cooldown; its single Connect action calls connect and verify consecutively, failed DNS propagation remains pending with a Persian retry message, and active domains show Settings ticket guidance for changes.
+
+The default and custom domain sections are presented as mutually exclusive radio choices. The selected panel remains fully visible while the inactive panel content receives the shared `fadeDiv` treatment.
+
+The shared destination-links section is gated by the selected domain type. It is visible for the default option, while the custom option requires `isCustomDomainActive`; its destination URLs use the accepted custom-domain URI only in that selected active state.
+
+When `isDevMode` is enabled, the Domain Manager also exposes a local-only `مرحله بعدی (تست)` control. It advances a pending domain from the name-server step to the completed-DNS step and then to an active accepted-domain state without sending an API request; the existing Delete control remains the backend cleanup action.
+
 ## Technical Debt
 
 Needs deeper per-feature enrichment during future work.
@@ -155,13 +166,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

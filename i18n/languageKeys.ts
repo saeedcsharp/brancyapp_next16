@@ -1665,11 +1665,11 @@ export enum LanguageKey {
   customDomain_inactive_desc = "customDomain_inactive_desc",
   customDomain_noPackage_title = "customDomain_noPackage_title",
   customDomain_noPackage_desc = "customDomain_noPackage_desc",
-  customDomain_rule_notEmpty = "customDomain_rule_notEmpty",
+
   customDomain_rule_validChars = "customDomain_rule_validChars",
   customDomain_rule_noUnderscore = "customDomain_rule_noUnderscore",
   customDomain_rule_noSubdomain = "customDomain_rule_noSubdomain",
-  customDomain_rule_notBrancy = "customDomain_rule_notBrancy",
+
   marketProperties_yourstore = "marketProperties_yourstore",
   marketProperties_yourads = "marketProperties_yourads",
   marketProperties_yourtariff = "marketProperties_yourtariff",

@@ -51,6 +51,10 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Strengthened custom-domain input handling in the market domain manager: values are lowercased and normalized by removing URL decoration and trailing slashes, validation enforces domain/label length and label/TLD rules, reserved Brancy domains remain blocked, invalid request attempts replay the shared input shake once, pending requests replace the form with a three-step progress indicator, and DNS cooldown is shown inside the disabled verification button until it becomes Connect again.
+- Completed the custom-domain workflow in the market domain manager: values are normalized and validated, requests require a Persian responsibility/delay confirmation, pending domains show name servers with cancel and five-minute cooldown actions, Connect shows a loader across both sequential API calls, failed propagation retains the pending state with a Persian retry message in the name-server stage, and active domains show Settings ticket guidance for changes.
+- The market domain manager now shows public destination links for the default-domain selection, or for the custom-domain selection only after the custom domain is active and finalized; custom-selected links use the accepted custom-domain URI.
+
 - Hardened `legacy-pages/user/home` responsive behavior by replacing fixed masonry-style grid spans and indefinite percentage heights, making the upgrade card positioning local and fluid, constraining narrow text, and adding reduced-motion support. The page now uses native keyboard-accessible controls instead of clickable `div` elements, avoids nested `Link`/`button` markup, and cleans up cancellable data-loading and redirect effects.
 
 - Fixed the landing pricing slider's React maximum-update-depth runtime error by making the slider value the single source of truth and deriving tooltip placement directly from it; TypeScript validation passes.

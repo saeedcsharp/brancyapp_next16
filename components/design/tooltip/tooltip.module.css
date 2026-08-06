@@ -25,8 +25,8 @@
   min-width: 50px;
   max-width: 200px;
   word-wrap: break-word;
-  white-space: normal;
-  text-align: center;
+  white-space: pre-line;
+  text-align: start;
   width: max-content;
   background-color: var(--background-root);
   border-radius: var(--br8);
@@ -35,7 +35,6 @@
   color: var(--text-h1);
   font-size: var(--font-12);
   font-weight: var(--weight-400);
-
   box-shadow: var(--small-shadow);
 }
 

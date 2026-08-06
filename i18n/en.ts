@@ -1910,11 +1910,10 @@ export default {
     customDomain_noPackage_title: "Custom domain package not found",
     customDomain_noPackage_desc:
       "Your current package does not include custom domain support. Please upgrade your package to use this feature.",
-    customDomain_rule_notEmpty: "Domain must not be empty",
+
     customDomain_rule_validChars: "Only letters and numbers are allowed",
     customDomain_rule_noUnderscore: "Underscore (_) and hyphen (-) are not allowed",
     customDomain_rule_noSubdomain: "Subdomains are not allowed (only one dot)",
-    customDomain_rule_notBrancy: "brancy.app and bran.cy are not allowed",
     marketProperties_Request: "Request",
     marketProperties_Connect: "Connect",
     marketProperties_Requested: "Requested",

@@ -2,6 +2,13 @@
 
 ## 2026-08-04
 
+- Added radio controls for choosing the default or custom domain section; inactive panel content is rendered with the shared faded state.
+- Gated the public destination-links section by the selected domain type; custom-domain links now appear only after final activation and use the accepted custom-domain URI.
+- Unified the pending custom-domain connection and verification UI into one name-server stage; the single Connect action remains responsible for both sequential API calls.
+- Added a development-only symbolic `مرحله بعدی (تست)` control to advance custom-domain UI state through DNS completion and activation without backend calls.
+- Corrected the pending custom-domain retry UI so the DNS message appears only in the name-server stage and the Connect button shows a loader throughout both sequential API calls before restarting the cooldown on failure.
+- Added the Persian custom-domain confirmation and pending workflow: requests now require responsibility and provider-delay acknowledgement, pending domains support cancellation and five-minute DNS retry cooldowns, Connect calls connect and verify sequentially, failed propagation is explained inline, and active domains show Settings ticket guidance.
+
 - Stabilized the user home dashboard responsive layout by removing fixed grid row spans and percentage heights without definite parents, anchoring upgrade decorations to their card, constraining narrow-viewport text, and adding reduced-motion support.
 - Replaced user home clickable `div` elements with keyboard-accessible controls, removed nested interactive markup, moved redirects and data loading into effects, and ensured loading ends on API failure or unmount.
 - Fixed the landing pricing slider's maximum-update-depth runtime error by removing bidirectional slider synchronization and deriving tooltip placement directly from the controlled slider value.
@@ -13,6 +20,7 @@
 
 ## 2026-08-02
 
+- Hardened custom-domain normalization and validation in the market domain manager, including lowercase URL cleanup, domain/label length limits, label/TLD checks, reserved-domain blocking, and a one-shot shake on invalid request attempts; pending requests now replace the form with a three-step progress indicator and DNS cooldown is displayed inside the disabled verification button until Connect becomes available.
 - Added a shopping-bag SVG badge beside the Page post number when `shopMediaProductType` is `ShopMediaProductType.Instance`.
 - Prevented hover-driven Comment Inbox settings-modal renders from repeating the Auto Reply prompt and flow API requests by memoizing the selected media auto-reply configuration.
 
