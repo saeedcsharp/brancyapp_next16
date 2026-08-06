@@ -1877,6 +1877,9 @@ export default {
     customDomain_noPackage_title: "Xüsusi domen paketi tapılmadı",
     customDomain_noPackage_desc:
       "Cari paketiniz xüsusi domen dəstəyini əhatə etmir. Bu xüsusiyyətdən istifadə etmək üçün paketinizi yüksəldin.",
+    customDomain_rule_validChars: "Yalnız hərflər və rəqəmlərə icazə verilir",
+    customDomain_rule_noUnderscore: "(_) və (-) simvollarına icazə verilmir",
+    customDomain_rule_noSubdomain: "Alt domenlərə (Subdomain) icazə verilmir",
     marketProperties_Request: "Tələb",
     marketProperties_Requested: "Tələb edildi",
     marketProperties_Checking: "Yoxlanılır",
@@ -1908,6 +1911,14 @@ export default {
     marketProperties_StartADSExplain: "İstifadəçi sizin tariflərinizə əsasən reklam başlada bilər",
     marketProperties_StartSALES: "Satınalma başlat",
     marketProperties_StartSALESExplain: "İstifadəçi məhsullarınıza əsasən satınalma başlada bilər",
+    marketProperties_NameServers: "Domen Name Server-ləri",
+    marketProperties_NameServersExplain: "Name Server-ləri domen provayderinizin idarəetmə panelində qeyd edin",
+    customDomain_dnsError:
+      "Domenin Name Server-ləri hələ domen provayderinizdə qeydiyyatdan keçməyib. Zəhmət olmasa yenidən cəhd edin",
+    customDomain_active_desc:
+      "Bu domeni dəyişdirmək və ya silmək üçün sorğunuzu Ayarlar bölməsindəki Dəstək Bileti vasitəsilə göndərin",
+    marketProperties_NameServerstooltip:
+      "Sorğunuzun internetdə Name Server-lərin yayılması və domeninizin aktivləşməsi 12 saata qədər çəkə bilər.",
     linkURL: "Link ünvanı",
     searchID: "Kanal əlavə et",
     searchIDexplain: "İstifadəçi ID və ya kanal adını yazın",

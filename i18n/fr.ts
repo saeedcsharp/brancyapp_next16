@@ -1987,6 +1987,9 @@ export default {
     customDomain_noPackage_title: "Forfait domaine personnalisé introuvable",
     customDomain_noPackage_desc:
       "Votre forfait actuel n'inclut pas la prise en charge des domaines personnalisés. Veuillez mettre à niveau votre forfait pour utiliser cette fonctionnalité.",
+    customDomain_rule_validChars: "Only letters and numbers are allowed",
+    customDomain_rule_noUnderscore: "The (_) and (-) characters are not allowed",
+    customDomain_rule_noSubdomain: "Subdomains are not allowed",
     marketProperties_Request: "Demande",
     marketProperties_Requested: "Demandé",
     marketProperties_Checking: "Vérification",
@@ -2018,6 +2021,15 @@ export default {
     marketProperties_StartADSExplain: "Les utilisateurs peuvent lancer leur publicité selon vos tarifs",
     marketProperties_StartSALES: "Démarrer un achat",
     marketProperties_StartSALESExplain: "Les utilisateurs peuvent commencer leurs achats selon vos produits",
+    marketProperties_NameServers: "Serveurs de Noms du Domaine",
+    marketProperties_NameServersExplain:
+      "Enregistrez les serveurs de noms dans le panneau de contrôle de votre fournisseur de domaine",
+    customDomain_dnsError:
+      "Les serveurs de noms du domaine ne sont pas encore enregistrés auprès de votre fournisseur de domaine. Veuillez réessayer",
+    customDomain_active_desc:
+      "Pour modifier ou supprimer ce domaine, envoyez votre demande via la section Ticket d'assistance dans les paramètres",
+    marketProperties_NameServerstooltip:
+      "Votre demande peut prendre jusqu'à 12 heures pour que les serveurs de noms se propagent sur Internet et que votre domaine devienne actif.",
     linkURL: "URL du lien",
     searchID: "Ajouter une chaîne",
     searchIDexplain: "Entrez l’identifiant ou le nom de la chaîne souhaitée",

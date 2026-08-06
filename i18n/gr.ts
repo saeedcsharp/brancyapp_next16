@@ -1971,6 +1971,9 @@ export default {
     customDomain_noPackage_title: "Benutzerdefiniertes Domain-Paket nicht gefunden",
     customDomain_noPackage_desc:
       "Ihr aktuelles Paket beinhaltet keine Unterstützung für benutzerdefinierte Domains. Bitte upgraden Sie Ihr Paket, um diese Funktion zu nutzen.",
+    customDomain_rule_validChars: "Nur Buchstaben und Zahlen sind erlaubt",
+    customDomain_rule_noUnderscore: "Die Zeichen (_) und (-) sind nicht erlaubt",
+    customDomain_rule_noSubdomain: "Subdomains sind nicht erlaubt",
     marketProperties_Request: "Anfrage",
     marketProperties_Requested: "Angefordert",
     marketProperties_Checking: "Überprüfung",
@@ -2002,6 +2005,14 @@ export default {
     marketProperties_StartADSExplain: "Benutzer können basierend auf Ihren Preisen Werbung starten",
     marketProperties_StartSALES: "Kauf starten",
     marketProperties_StartSALESExplain: "Benutzer können basierend auf Ihren Produkten einen Kauf starten",
+    marketProperties_NameServers: "Domain-Nameserver",
+    marketProperties_NameServersExplain: "Registrieren Sie die Nameserver im Verwaltungsbereich Ihres Domain-Anbieters",
+    customDomain_dnsError:
+      "Die Domain-Nameserver wurden bei Ihrem Domain-Anbieter noch nicht registriert. Bitte versuchen Sie es erneut",
+    customDomain_active_desc:
+      "Um diese Domain zu ändern oder zu entfernen, senden Sie Ihre Anfrage über den Bereich Support-Ticket in den Einstellungen",
+    marketProperties_NameServerstooltip:
+      "Es kann bis zu 12 Stunden dauern, bis Ihre Nameserver im Internet übernommen werden und Ihre Domain aktiv wird.",
     linkURL: "Link-URL",
     searchID: "Kanal hinzufügen",
     searchIDexplain: "Geben Sie die ID oder den Namen des gewünschten Kanals ein",

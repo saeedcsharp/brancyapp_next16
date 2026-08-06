@@ -1,5 +1,13 @@
 # Changelog
 
+## 2026-08-06
+
+- Fixed the custom-domain Request button remaining on `RingLoader` during React Strict Mode development cleanup/setup cycles.
+- Domain Manager now sends valid custom-domain requests directly to `Instagramer/Bio/UpdateCustomDomain`; the initial request no longer waits for or is blocked by a client-side CustomDomain feature check.
+- بهینه‌سازی Domain Manager: حذف state و handlerهای بدون مصرف، محاسبه حافظه‌ای اعتبارسنجی و لینک‌ها، پشتیبانی Enter و کنترل‌های native برای دسترسی‌پذیری، لغو درخواست‌های API و cleanup کامل منابع، اصلاح copy دامنه سفارشی و Tariff، حذف consoleهای اضافی، و اصلاح robots/description/zoom صفحه Properties.
+- Modal تأیید درخواست دامنه حذف شد و درخواست معتبر مستقیماً ارسال می‌شود.
+- قوانین Custom Domain به فهرست HTML تبدیل شدند و نمایش آن‌ها به انتخاب رادیوی Custom Domain محدود شد.
+
 ## 2026-08-04
 
 - Added radio controls for choosing the default or custom domain section; inactive panel content is rendered with the shared faded state.

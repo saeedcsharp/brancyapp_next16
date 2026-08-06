@@ -1,26 +1,25 @@
 import CounterDownNotRing, { CounterDownColor } from "brancy/components/design/counterDown/counterDownNotRing";
 import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
+import RadioButton from "brancy/components/design/radioButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import { NotifType, notify } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
-import Modal from "brancy/components/design/modal";
-import RadioButton from "brancy/components/design/radioButton";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { handleCopyLink } from "brancy/helper/copyLink";
 import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
-import { useSession } from "next-auth/react";
-import { useRouter } from "next/navigation";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import styles from "./domainManager.module.css";
 import { PsgFeatureType } from "brancy/models/enums";
 import { InstagramerAccountInfo, IGetCustomDomain } from "brancy/models/interfaces";
+import { useSession } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styles from "./domainManager.module.css";
 
-const baseShortUrl = process.env.NEXT_PUBLIC_SHORT_LINK;
+const baseShortUrl = process.env.NEXT_PUBLIC_SHORT_LINK ?? "";
 const forbiddenDomains = new Set(["brancy.app", "bran.cy", "brncy.ir", "brancy.ir"]);
 const domainLabelPattern = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
 
@@ -57,162 +56,140 @@ const DomainManager = ({
   const { data: session } = useSession();
   const router = useRouter();
   const { gridSpan, hidePage, toggle } = useHideDiv(true, 82);
-  const [loading, setLoading] = useState(true);
-  const [instaInfo, setInstaInfo] = useState<InstagramerAccountInfo>();
   const [customeDomain, setCustomeDomain] = useState<IGetCustomDomain>({ acceptDomain: null, pendingDomain: null });
   const [isUpdating, setIsUpdating] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
   const [verifyCooldownUntil, setVerifyCooldownUntil] = useState<number>(0);
   const [dnsError, setDnsError] = useState(false);
-  const [showRequestConfirm, setShowRequestConfirm] = useState(false);
   const [inputText, setInputText] = useState("");
   const [hasCustomDomainFeature, setHasCustomDomainFeature] = useState<boolean | null>(null);
-  const [isDevMode, setIsDevMode] = useState(false);
   const [domainShake, setDomainShake] = useState(false);
   const [selectedDomainType, setSelectedDomainType] = useState<"default" | "custom">("default");
   const shakeTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const shakeFrameRef = useRef<number | null>(null);
+  const requestControllerRef = useRef<AbortController | null>(null);
+  const mountedRef = useRef(true);
+  const instaInfo = instagramerInfo;
+  const loading = !instaInfo;
+  const isInputDomainValid = useMemo(() => isValidDomain(inputText), [inputText]);
   const isCustomDomainActive =
     !!customeDomain.acceptDomain && hasCustomDomainFeature === true && customeDomain.acceptDomain.status === 0;
   const shouldUseCustomDomain = selectedDomainType === "custom" && isCustomDomainActive;
   const isVerifyCooldownActive = verifyCooldownUntil > Date.now() / 1000;
-  useEffect(() => {
-    if (instagramerInfo) {
-      setInstaInfo(instagramerInfo);
-      setLoading(false);
-    }
-  }, [instagramerInfo]);
-  async function getCustomerInfo(): Promise<IGetCustomDomain | null> {
+  const destinationLinks = useMemo(() => {
+    if (!instaInfo) return [];
+    const domain = shouldUseCustomDomain ? customeDomain.acceptDomain?.uri : `${instaInfo.username}.${baseShortUrl}`;
+    if (!domain) return [];
+    const links = [
+      instaInfo.isShopper && { label: t(LanguageKey.marketProperties_yourstore), path: "Shopping" },
+      instaInfo.isBusiness && { label: t(LanguageKey.marketProperties_yourads), path: "Advertise" },
+      { label: t(LanguageKey.marketProperties_yourtariff), path: "Tariff" },
+      { label: t(LanguageKey.marketProperties_yourBusinesshours), path: "workHour" },
+      { label: t(LanguageKey.marketProperties_yourBusinessTerms), path: "Terms" },
+    ].filter((link): link is { label: string; path: string } => Boolean(link));
+    return links.map((link) => ({
+      ...link,
+      address: `${domain}/${link.path}`,
+      url: `https://${domain}/${link.path}`,
+    }));
+  }, [customeDomain.acceptDomain?.uri, instaInfo, shouldUseCustomDomain, t]);
+  async function getCustomerInfo(signal?: AbortSignal): Promise<IGetCustomDomain | null> {
     const res = await clientFetchApi<boolean, IGetCustomDomain>("Instagramer/Bio/GetCustomDomain", {
       methodType: MethodType.get,
       session: session,
       data: undefined,
       queries: undefined,
       onUploadProgress: undefined,
+      signal,
     });
 
-    if (res.succeeded) {
+    if (res.succeeded && mountedRef.current && !signal?.aborted) {
       setCustomeDomain(res.value);
       // restore cooldown if lastCheckTime is within 5 minutes ago
       const lastCheck = res.value?.pendingDomain?.lastCheckTime;
-      if (lastCheck) {
+      if (lastCheck && lastCheck + 300 > Date.now() / 1000) {
         const enableAt = lastCheck + 300;
-        if (enableAt > Date.now() / 1000) {
-          setVerifyCooldownUntil(enableAt);
-        }
+        setVerifyCooldownUntil(enableAt);
+      } else {
+        setVerifyCooldownUntil(0);
       }
       return res.value;
     }
     return null;
   }
-  function handleRequestCustomAddress() {
+  function handleRequestCustomAddress(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
     if (isUpdating) return; // Prevent multiple clicks
-    if (!isValidDomain(inputText)) {
+    if (!isInputDomainValid) {
       setDomainShake(false);
       if (shakeTimeoutRef.current) clearTimeout(shakeTimeoutRef.current);
-      window.requestAnimationFrame(() => {
+      if (shakeFrameRef.current !== null) cancelAnimationFrame(shakeFrameRef.current);
+      shakeFrameRef.current = window.requestAnimationFrame(() => {
         setDomainShake(true);
         shakeTimeoutRef.current = setTimeout(() => setDomainShake(false), 600);
       });
       return;
     }
-    setShowRequestConfirm(true);
+    void confirmRequestCustomAddress();
   }
 
-  function handleDomainTypeChange(event: ChangeEvent<HTMLInputElement>) {
+  const handleDomainTypeChange = useCallback((event: ChangeEvent<HTMLInputElement>) => {
     setSelectedDomainType(event.currentTarget.id === "custom-domain" ? "custom" : "default");
-  }
+  }, []);
 
   async function confirmRequestCustomAddress() {
     if (isUpdating) return;
-    const hasFeature = await fetchAndCheckFeature(PsgFeatureType.CustomDomain, session);
-    if (!hasFeature) {
-      setShowNotFeature(true);
-      return;
-    }
-    setShowRequestConfirm(false);
+    const controller = new AbortController();
+    requestControllerRef.current?.abort();
+    requestControllerRef.current = controller;
     setIsUpdating(true);
-    const res = await clientFetchApi<boolean, { url: string }>("Instagramer/Bio/UpdateCustomDomain", {
-      methodType: MethodType.post,
-      session: session,
-      data: { uri: inputText },
-      queries: undefined,
-      onUploadProgress: undefined,
-    });
-    if (res.succeeded) {
-      setDnsError(false);
-      await getCustomerInfo();
-    } else notify(res.info.responseType, NotifType.Warning);
-    setIsUpdating(false);
-  }
-  async function handleVerifyCustomAddress() {
-    if (isVerifying || isVerifyCooldownActive) return; // Prevent multiple clicks
-    const hasFeature = await fetchAndCheckFeature(PsgFeatureType.CustomDomain, session);
-    if (!hasFeature) {
-      setShowNotFeature(true);
-      return;
+    try {
+      const res = await clientFetchApi<boolean, { url: string }>("Instagramer/Bio/UpdateCustomDomain", {
+        methodType: MethodType.post,
+        session: session,
+        data: { uri: inputText },
+        queries: undefined,
+        onUploadProgress: undefined,
+        signal: controller.signal,
+      });
+      if (!mountedRef.current || controller.signal.aborted) return;
+      if (res.succeeded) {
+        setDnsError(false);
+        await getCustomerInfo(controller.signal);
+      } else notify(res.info.responseType, NotifType.Warning);
+    } finally {
+      if (mountedRef.current) setIsUpdating(false);
+      if (requestControllerRef.current === controller) requestControllerRef.current = null;
     }
-    setIsVerifying(true);
-    setDnsError(false);
-    const res = await clientFetchApi<boolean, boolean>("api/bio/verifyCustomDomainDns", {
-      methodType: MethodType.get,
-      session: session,
-      data: undefined,
-      queries: undefined,
-      onUploadProgress: undefined,
-    });
-    if (res.succeeded) {
-      const domainInfo = await getCustomerInfo();
-      if (!domainInfo?.acceptDomain || domainInfo.acceptDomain.status !== 0) {
-        setDnsError(true);
-        setVerifyCooldownUntil(Math.floor(Date.now() / 1000) + 300);
-      }
-    } else {
-      setDnsError(true);
-      setVerifyCooldownUntil(Math.floor(Date.now() / 1000) + 300);
-      notify(res.info.responseType, NotifType.Warning);
-    }
-    setIsVerifying(false);
   }
 
   async function handleDeleteCustomDomain() {
-    const res = await clientFetchApi<boolean, boolean>("api/bio/deleteCustomDomain", {
-      methodType: MethodType.get,
-      session: session,
-      data: undefined,
-      queries: undefined,
-      onUploadProgress: undefined,
-    });
-    if (res.succeeded) {
-      await getCustomerInfo();
-      setDnsError(false);
-      setVerifyCooldownUntil(0);
-    } else notify(res.info.responseType, NotifType.Warning);
-  }
-
-  function handleDevAdvanceCustomDomain() {
-    const pendingDomain = customeDomain.pendingDomain;
-    if (!pendingDomain) return;
-
-    if (pendingDomain.nameServerCompletedTime === null) {
-      setCustomeDomain({
-        acceptDomain: customeDomain.acceptDomain,
-        pendingDomain: { ...pendingDomain, nameServerCompletedTime: Math.floor(Date.now() / 1000) },
+    if (isUpdating || isVerifying) return;
+    const controller = new AbortController();
+    requestControllerRef.current?.abort();
+    requestControllerRef.current = controller;
+    setIsUpdating(true);
+    try {
+      const res = await clientFetchApi<boolean, boolean>("api/bio/deleteCustomDomain", {
+        methodType: MethodType.get,
+        session: session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+        signal: controller.signal,
       });
-      return;
+      if (!mountedRef.current || controller.signal.aborted) return;
+      if (res.succeeded) {
+        const domainInfo = await getCustomerInfo(controller.signal);
+        if (domainInfo) {
+          setDnsError(false);
+          setVerifyCooldownUntil(0);
+        }
+      } else notify(res.info.responseType, NotifType.Warning);
+    } finally {
+      if (mountedRef.current) setIsUpdating(false);
+      if (requestControllerRef.current === controller) requestControllerRef.current = null;
     }
-
-    setCustomeDomain({
-      acceptDomain: {
-        uri: pendingDomain.uri,
-        fbId: pendingDomain.fbId,
-        isActive: true,
-        createdTime: pendingDomain.createdTime,
-        isSubDomain: pendingDomain.isSubDomain,
-        status: 0,
-        registerType: pendingDomain.registerType,
-      },
-      pendingDomain: null,
-    });
   }
 
   async function handleConnectCustomAddress() {
@@ -222,6 +199,9 @@ const DomainManager = ({
       setShowNotFeature(true);
       return;
     }
+    const controller = new AbortController();
+    requestControllerRef.current?.abort();
+    requestControllerRef.current = controller;
     setIsVerifying(true);
     try {
       const res = await clientFetchApi<boolean, boolean>("api/bio/connectCustomDomain", {
@@ -230,7 +210,9 @@ const DomainManager = ({
         data: undefined,
         queries: undefined,
         onUploadProgress: undefined,
+        signal: controller.signal,
       });
+      if (!mountedRef.current || controller.signal.aborted) return;
       if (res.succeeded) {
         const verifyRes = await clientFetchApi<boolean, boolean>("api/bio/verifyCustomDomainDns", {
           methodType: MethodType.get,
@@ -238,8 +220,10 @@ const DomainManager = ({
           data: undefined,
           queries: undefined,
           onUploadProgress: undefined,
+          signal: controller.signal,
         });
-        const domainInfo = verifyRes.succeeded ? await getCustomerInfo() : null;
+        if (!mountedRef.current || controller.signal.aborted) return;
+        const domainInfo = verifyRes.succeeded ? await getCustomerInfo(controller.signal) : null;
         if (!domainInfo?.acceptDomain || domainInfo.acceptDomain.status !== 0) {
           setDnsError(true);
           setVerifyCooldownUntil(Math.floor(Date.now() / 1000) + 300);
@@ -250,31 +234,50 @@ const DomainManager = ({
       } else {
         setDnsError(true);
         setVerifyCooldownUntil(Math.floor(Date.now() / 1000) + 300);
+        notify(res.info.responseType, NotifType.Warning);
       }
     } finally {
-      setIsVerifying(false);
+      if (mountedRef.current) setIsVerifying(false);
+      if (requestControllerRef.current === controller) requestControllerRef.current = null;
     }
   }
 
   useEffect(() => {
+    mountedRef.current = true;
     return () => {
       if (shakeTimeoutRef.current) clearTimeout(shakeTimeoutRef.current);
+      if (shakeFrameRef.current !== null) cancelAnimationFrame(shakeFrameRef.current);
+      mountedRef.current = false;
+      requestControllerRef.current?.abort();
     };
   }, []);
 
   useEffect(() => {
-    getCustomerInfo();
-    fetchAndCheckFeature(PsgFeatureType.CustomDomain, session).then(setHasCustomDomainFeature);
+    if (!session) return;
+    const controller = new AbortController();
+    requestControllerRef.current?.abort();
+    requestControllerRef.current = controller;
+    void getCustomerInfo(controller.signal);
+    void fetchAndCheckFeature(PsgFeatureType.CustomDomain, session).then((hasFeature) => {
+      if (mountedRef.current && !controller.signal.aborted) setHasCustomDomainFeature(hasFeature);
+    });
     if (typeof window === "undefined") return; // برای SSR ایمن
-    const host = window.location.hostname;
-    setIsDevMode(host.includes("patran.ir") || host === "localhost" || host === "127.0.0.1");
-  }, []);
+    return () => {
+      controller.abort();
+      if (requestControllerRef.current === controller) requestControllerRef.current = null;
+    };
+  }, [session]);
   return (
     <div className="tooBigCard" style={gridSpan}>
-      <div onClick={toggle} className="headerChild" title="↕ Resize the Card">
+      <button
+        type="button"
+        onClick={toggle}
+        className={`${styles.headerChild} headerChild`}
+        title="Resize the card"
+        aria-expanded={hidePage}>
         <div className="circle"></div>
         <div className="Title">{t(LanguageKey.marketProperties_DomainManager)}</div>
-      </div>
+      </button>
       <div className={styles.all}>
         {hidePage && (
           <>
@@ -304,50 +307,44 @@ const DomainManager = ({
                     </div>
                     <div className={`headerandinput ${selectedDomainType !== "default" ? "fadeDiv" : ""}`}>
                       <div className={`${styles.defaultaddress} translate`}>
-                        <div
+                        <a
                           className={styles.defaultdomain}
-                          onClick={() => window.open(`https://${instaInfo.username}.${baseShortUrl}`, "_blank")}
-                          style={{ cursor: "pointer" }}>
+                          href={`https://${instaInfo.username}.${baseShortUrl}`}
+                          target="_blank"
+                          rel="noopener noreferrer">
                           www.
                           {instaInfo.username}.{baseShortUrl}
-                        </div>
-                        <img
-                          style={{
-                            width: "30px",
-                            cursor: "pointer",
-                            height: "30px",
-                            padding: "var(--padding-5)",
-                          }}
-                          title="ℹ️ copy Domain"
-                          alt="Copy Domain"
-                          src="/copy.svg"
+                        </a>
+                        <button
+                          type="button"
+                          className={styles.copyButton}
+                          title="Copy domain"
+                          aria-label={`Copy ${instaInfo.username}.${baseShortUrl}`}
                           onClick={() => {
                             handleCopyLink(instaInfo.username + "." + baseShortUrl);
-                          }}
-                        />
+                          }}>
+                          <img src="/copy.svg" alt="" aria-hidden="true" />
+                        </button>
                       </div>
                       <div className={`${styles.defaultaddress} translate`}>
-                        <div
+                        <a
                           className={styles.defaultdomain}
-                          onClick={() => window.open(`https://${baseShortUrl}/${instaInfo.username}`, "_blank")}
-                          style={{ cursor: "pointer" }}>
+                          href={`https://${baseShortUrl}/${instaInfo.username}`}
+                          target="_blank"
+                          rel="noopener noreferrer">
                           www.
                           {baseShortUrl}/{instaInfo.username}
-                        </div>
-                        <img
-                          style={{
-                            width: "30px",
-                            cursor: "pointer",
-                            height: "30px",
-                            padding: "var(--padding-5)",
-                          }}
-                          title="ℹ️ copy Domain"
-                          alt="Copy Domain"
-                          src="/copy.svg"
+                        </a>
+                        <button
+                          type="button"
+                          className={styles.copyButton}
+                          title="Copy domain"
+                          aria-label={`Copy ${baseShortUrl}/${instaInfo.username}`}
                           onClick={() => {
                             handleCopyLink(baseShortUrl + "/" + instaInfo.username);
-                          }}
-                        />
+                          }}>
+                          <img src="/copy.svg" alt="" aria-hidden="true" />
+                        </button>
                       </div>
                     </div>
                   </div>
@@ -361,35 +358,40 @@ const DomainManager = ({
                         handleOptionChanged={handleDomainTypeChange}
                       />
                     </div>
-                    <div className={selectedDomainType !== "custom" ? "fadeDiv" : ""}>
+                    <div className={selectedDomainType !== "custom" ? "fadeDiv" : "headerandinput"}>
                       {/* step 1 */}
                       {!customeDomain.acceptDomain && !customeDomain.pendingDomain && (
-                        <div className={`headerparent ${customeDomain.pendingDomain ? "fadeDiv" : ""}`}>
-                          <Tooltip
-                            style={{ maxWidth: "70%" }}
-                            position="bottom"
-                            onClick={false}
-                            tooltipValue={
-                              `• ${t(LanguageKey.customDomain_rule_validChars)}\n` +
-                              `• ${t(LanguageKey.customDomain_rule_noUnderscore)}\n` +
-                              `• ${t(LanguageKey.customDomain_rule_noSubdomain)}\n`
-                            }>
-                            <InputText
-                              className="textinputbox"
-                              placeHolder="www.yourname.com"
-                              name="domain"
-                              handleInputChange={(e) => setInputText(normalizeDomain(e.currentTarget.value))}
-                              shake={domainShake}
-                              value={inputText}
-                            />
-                          </Tooltip>
-                          <button
-                            onClick={handleRequestCustomAddress}
-                            disabled={!isValidDomain(inputText)}
-                            className={isValidDomain(inputText) ? "saveButton" : "disableButton"}>
-                            {isUpdating ? <RingLoader /> : t(LanguageKey.marketProperties_Request)}
-                          </button>
-                        </div>
+                        <>
+                          <form
+                            className={`headerparent ${customeDomain.pendingDomain ? "fadeDiv" : ""}`}
+                            onSubmit={handleRequestCustomAddress}
+                            noValidate>
+                            <Tooltip
+                              style={{ maxWidth: "70%" }}
+                              position="bottom"
+                              onClick={false}
+                              tooltipValue={
+                                `• ${t(LanguageKey.customDomain_rule_validChars)}\n` +
+                                `• ${t(LanguageKey.customDomain_rule_noUnderscore)}\n` +
+                                `• ${t(LanguageKey.customDomain_rule_noSubdomain)}\n`
+                              }>
+                              <InputText
+                                className="textinputbox"
+                                placeHolder="yourname.com"
+                                name="domain"
+                                handleInputChange={(e) => setInputText(normalizeDomain(e.currentTarget.value))}
+                                shake={domainShake}
+                                value={inputText}
+                              />
+                            </Tooltip>
+                            <button
+                              type="submit"
+                              disabled={!isInputDomainValid || isUpdating}
+                              className={isInputDomainValid && !isUpdating ? "saveButton" : "disableButton"}>
+                              {isUpdating ? <RingLoader /> : t(LanguageKey.marketProperties_Request)}
+                            </button>
+                          </form>
+                        </>
                       )}
                       {/* step progress */}
                       {!customeDomain.acceptDomain && customeDomain.pendingDomain && (
@@ -432,15 +434,20 @@ const DomainManager = ({
                         <div className="headerandinput" style={{ marginTop: "8px" }}>
                           {customeDomain.pendingDomain.nameServers?.length > 0 && (
                             <div className={styles.section1}>
-                              <div className="title2">
-                                نیم‌سرورهای دامنه{" "}
-                                <Tooltip
-                                  triggerType="tooltip"
-                                  tooltipValue="نیم‌سرورها را در پنل ارائه‌دهنده دامنه خود ثبت کنید."
-                                  position="bottom"
-                                  onClick={true}
-                                />
+                              <div className="headerandinput">
+                                <div className="title2">
+                                  {t(LanguageKey.marketProperties_NameServers)}
+
+                                  <Tooltip
+                                    triggerType="attention"
+                                    tooltipValue={t(LanguageKey.marketProperties_NameServerstooltip)}
+                                    position="bottom"
+                                    onClick={true}
+                                  />
+                                </div>
+                                <div className="explain">{t(LanguageKey.marketProperties_NameServersExplain)}</div>
                               </div>
+
                               {customeDomain.pendingDomain.nameServers.map((ns, i) => (
                                 <div className={`${styles.defaultaddress} translate`} key={i}>
                                   <span style={{ minWidth: "35px" }} className="IDgreen">
@@ -449,13 +456,14 @@ const DomainManager = ({
                                   <span className="explain" style={{ flex: 1, color: "var(--text-h1)" }}>
                                     {ns}
                                   </span>
-                                  <img
-                                    style={{ width: "18px", height: "18px", cursor: "pointer" }}
+                                  <button
+                                    type="button"
+                                    className={styles.copyButton}
                                     title="Copy"
-                                    alt="Copy"
-                                    src="/copy.svg"
-                                    onClick={() => handleCopyLink(ns)}
-                                  />
+                                    aria-label={`Copy ${ns}`}
+                                    onClick={() => handleCopyLink(ns)}>
+                                    <img src="/copy.svg" alt="" aria-hidden="true" />
+                                  </button>
                                 </div>
                               ))}
                             </div>
@@ -498,7 +506,7 @@ const DomainManager = ({
                                   d="M12 8v4m.13 3.75H12m.25 0a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0"
                                 />
                               </svg>
-                              هنوز نیم‌سرورهای دامنه در ارائه‌دهنده شما ثبت نشده است. دوباره تلاش کنید.
+                              {t(LanguageKey.customDomain_dnsError)}
                             </div>
                           )}
                         </div>
@@ -509,22 +517,16 @@ const DomainManager = ({
                         <>
                           <div className={`headerparent translate ${!isCustomDomainActive ? "fadeDiv" : ""}`}>
                             <div className={styles.defaultdomain}>www.{customeDomain.acceptDomain.uri}</div>
-                            <img
-                              style={{
-                                width: "30px",
-                                cursor: "pointer",
-                                height: "30px",
-                                padding: "var(--padding-5)",
-                              }}
-                              title="ℹ️ copy Domain"
-                              alt="Copy Domain"
-                              src="/copy.svg"
-                              role="button"
+                            <button
+                              type="button"
+                              className={styles.copyButton}
+                              title="Copy domain"
                               aria-label="Copy custom domain"
                               onClick={() => {
                                 handleCopyLink(customeDomain.acceptDomain?.uri!);
-                              }}
-                            />
+                              }}>
+                              <img src="/copy.svg" alt="" aria-hidden="true" />
+                            </button>
                           </div>
                           {/* ------- */}
 
@@ -561,7 +563,11 @@ const DomainManager = ({
                             )}
                           {/* noPackage */}
                           {hasCustomDomainFeature === false && (
-                            <div onClick={() => router.push("/upgrade")} className={styles.domainError} role="alert">
+                            <button
+                              type="button"
+                              onClick={() => router.push("/upgrade")}
+                              className={styles.domainError}
+                              aria-label={t(LanguageKey.customDomain_noPackage_title)}>
                               <svg
                                 className={styles.domainAlerticon}
                                 fill="none"
@@ -585,10 +591,10 @@ const DomainManager = ({
                                   {t(LanguageKey.customDomain_noPackage_desc)}
                                 </span>
                               </div>
-                            </div>
+                            </button>
                           )}
                           {isCustomDomainActive && (
-                            <div className="explain">برای تغییر یا حذف این دامنه، از بخش تنظیمات تیکت ارسال کنید</div>
+                            <div className="explain">{t(LanguageKey.customDomain_active_desc)}</div>
                           )}
                         </>
                       )}
@@ -596,13 +602,13 @@ const DomainManager = ({
                     {/* {isDevMode && (
                       <div className="ButtonContainer">
                         <button onClick={handleDeleteCustomDomain} className="stopButton">
-                          Delete
+                        {t(LanguageKey.cancel)}
                         </button>
                         <button
                           onClick={handleDevAdvanceCustomDomain}
                           className="saveButton"
                           disabled={!customeDomain.pendingDomain}>
-                          مرحله بعدی (تست)
+                          {t(LanguageKey.Continue)}
                         </button>
                       </div>
                     )} */}
@@ -610,178 +616,24 @@ const DomainManager = ({
                 </div>
                 {(selectedDomainType === "default" || isCustomDomainActive) && (
                   <div className={styles.section1}>
-                    {instaInfo.isShopper && (
-                      <>
-                        <div className={styles.link}>
-                          <div className="headertext">{t(LanguageKey.marketProperties_yourstore)}</div>
-                          <div className={`${styles.defaultaddress} translate`}>
-                            <div
-                              className={styles.defaultdomain}
-                              onClick={() =>
-                                window.open(
-                                  shouldUseCustomDomain
-                                    ? `https://${customeDomain.acceptDomain!.uri}/Shopping`
-                                    : `https://${instaInfo.username}.${baseShortUrl}/Shopping`,
-                                  "_blank",
-                                )
-                              }
-                              style={{ cursor: "pointer" }}>
-                              {!shouldUseCustomDomain && `${instaInfo.username}.${baseShortUrl}/Shopping`}
-                              {shouldUseCustomDomain && `${customeDomain.acceptDomain!.uri}/Shopping`}
-                            </div>
-                            <img
-                              style={{
-                                width: "30px",
-                                cursor: "pointer",
-                                height: "30px",
-                                padding: "var(--padding-5)",
-                              }}
-                              title="ℹ️ copy Domain"
-                              src="/copy.svg"
-                              onClick={() => {
-                                handleCopyLink(`${instaInfo.username}.${baseShortUrl}/Shopping`);
-                              }}
-                            />
-                          </div>
+                    {destinationLinks.map((link) => (
+                      <div className={styles.link} key={link.path}>
+                        <div className="headertext">{link.label}</div>
+                        <div className={`${styles.defaultaddress} translate`}>
+                          <a className={styles.defaultdomain} href={link.url} target="_blank" rel="noopener noreferrer">
+                            {link.address}
+                          </a>
+                          <button
+                            type="button"
+                            className={styles.copyButton}
+                            title="Copy domain"
+                            aria-label={`Copy ${link.address}`}
+                            onClick={() => handleCopyLink(link.address)}>
+                            <img src="/copy.svg" alt="" aria-hidden="true" />
+                          </button>
                         </div>
-                      </>
-                    )}
-                    {instaInfo.isBusiness && (
-                      <>
-                        <div className={styles.link}>
-                          <div className="headertext">{t(LanguageKey.marketProperties_yourads)}</div>
-                          <div className={`${styles.defaultaddress} translate`}>
-                            <div
-                              className={styles.defaultdomain}
-                              onClick={() =>
-                                window.open(
-                                  shouldUseCustomDomain
-                                    ? `https://${customeDomain.acceptDomain!.uri}/Advertise`
-                                    : `https://${instaInfo.username}.${baseShortUrl}/Advertise`,
-                                  "_blank",
-                                )
-                              }
-                              style={{ cursor: "pointer" }}>
-                              {!shouldUseCustomDomain && `${instaInfo.username}.${baseShortUrl}/Advertise`}
-                              {shouldUseCustomDomain && `${customeDomain.acceptDomain!.uri}/Advertise`}
-                            </div>
-                            <img
-                              style={{
-                                width: "30px",
-                                cursor: "pointer",
-                                height: "30px",
-                                padding: "var(--padding-5)",
-                              }}
-                              title="ℹ️ copy Domain"
-                              src="/copy.svg"
-                              onClick={() => {
-                                handleCopyLink(`${instaInfo.username}.${baseShortUrl}/Advertise`);
-                              }}
-                            />
-                          </div>
-                        </div>
-                      </>
-                    )}
-
-                    <div className={styles.link}>
-                      <div className="headertext">{t(LanguageKey.marketProperties_yourtariff)}</div>
-                      <div className={`${styles.defaultaddress} translate`}>
-                        <div
-                          className={styles.defaultdomain}
-                          onClick={() =>
-                            window.open(
-                              shouldUseCustomDomain
-                                ? `https://${customeDomain.acceptDomain!.uri}/Tariff`
-                                : `https://${instaInfo.username}.${baseShortUrl}/Tariff`,
-                              "_blank",
-                            )
-                          }
-                          style={{ cursor: "pointer" }}>
-                          {!shouldUseCustomDomain && `${instaInfo.username}.${baseShortUrl}/Tariff`}
-                          {shouldUseCustomDomain && `${customeDomain.acceptDomain!.uri}/Tariff`}
-                        </div>
-                        <img
-                          style={{
-                            width: "30px",
-                            cursor: "pointer",
-                            height: "30px",
-                            padding: "var(--padding-5)",
-                          }}
-                          title="ℹ️ copy Domain"
-                          src="/copy.svg"
-                          onClick={() => {
-                            handleCopyLink(`${instaInfo.username}.${baseShortUrl}/Tarrif`);
-                          }}
-                        />
                       </div>
-                    </div>
-
-                    <div className={styles.link}>
-                      <div className="headertext">{t(LanguageKey.marketProperties_yourBusinesshours)}</div>
-                      <div className={`${styles.defaultaddress} translate`}>
-                        <div
-                          className={styles.defaultdomain}
-                          onClick={() =>
-                            window.open(
-                              shouldUseCustomDomain
-                                ? `https://${customeDomain.acceptDomain!.uri}/workHour`
-                                : `https://${instaInfo.username}.${baseShortUrl}/workHour`,
-                              "_blank",
-                            )
-                          }
-                          style={{ cursor: "pointer" }}>
-                          {!shouldUseCustomDomain && `${instaInfo.username}.${baseShortUrl}/workHour`}
-                          {shouldUseCustomDomain && `${customeDomain.acceptDomain!.uri}/workHour`}
-                        </div>
-                        <img
-                          style={{
-                            width: "30px",
-                            cursor: "pointer",
-                            height: "30px",
-                            padding: "var(--padding-5)",
-                          }}
-                          title="ℹ️ copy Domain"
-                          src="/copy.svg"
-                          onClick={() => {
-                            handleCopyLink(`${instaInfo.username}.${baseShortUrl}/workHour`);
-                          }}
-                        />
-                      </div>
-                    </div>
-                    <div className={styles.link}>
-                      <div className="headertext">{t(LanguageKey.marketProperties_yourBusinessTerms)}</div>
-                      <div className={`${styles.defaultaddress} translate`}>
-                        <div
-                          className={styles.defaultdomain}
-                          onClick={() =>
-                            window.open(
-                              shouldUseCustomDomain
-                                ? `https://${customeDomain.acceptDomain!.uri}/Terms`
-                                : `https://${instaInfo.username}.${baseShortUrl}/Terms`,
-                              "_blank",
-                            )
-                          }
-                          style={{ cursor: "pointer" }}>
-                          {!shouldUseCustomDomain && `${instaInfo.username}.${baseShortUrl}/Terms`}
-                          {shouldUseCustomDomain && `${customeDomain.acceptDomain!.uri}/Terms`}
-                        </div>
-                        <img
-                          loading="lazy"
-                          decoding="async"
-                          style={{
-                            width: "30px",
-                            cursor: "pointer",
-                            height: "30px",
-                            padding: "var(--padding-5)",
-                          }}
-                          title="ℹ️ copy Domain"
-                          src="/copy.svg"
-                          onClick={() => {
-                            handleCopyLink(`${instaInfo.username}.${baseShortUrl}/Terms`);
-                          }}
-                        />
-                      </div>
-                    </div>
+                    ))}
                   </div>
                 )}
               </>
@@ -789,28 +641,6 @@ const DomainManager = ({
           </>
         )}
       </div>
-      <Modal
-        closePopup={() => setShowRequestConfirm(false)}
-        classNamePopup="popupMini"
-        showContent={showRequestConfirm}>
-        <div className={styles.domainConfirm}>
-          <div className={styles.domainConfirmTitle}>تأیید درخواست دامنه</div>
-          <div className={styles.domainConfirmText}>
-            با وارد کردن دامنه، مسئولیت انتشار محتوا بر عهده شماست و برنسی هیچ مسئولیتی در این زمینه قبول نمی‌کند.
-            همچنین آماده‌سازی درخواست، بسته به ارائه‌دهنده دامنه، ممکن است از ۵ دقیقه تا ۱۲ ساعت طول بکشد تا امکان تنظیم
-            نیم‌سرورها و اتصال فراهم شود.
-          </div>
-          <div className={styles.domainConfirmAddress}>{inputText}</div>
-          <div className={styles.domainConfirmActions}>
-            <button type="button" className="disableButton" onClick={() => setShowRequestConfirm(false)}>
-              انصراف
-            </button>
-            <button type="button" className="saveButton" onClick={confirmRequestCustomAddress}>
-              تأیید و ادامه
-            </button>
-          </div>
-        </div>
-      </Modal>
     </div>
   );
 };
