@@ -5,7 +5,7 @@ import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import IconToggleButton from "brancy/components/design/toggleButton/iconToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import { SubInvoiceItemType, SubInvoiceStatus } from "brancy/models/enums";
-import { IGetSubInvoice, ISubInvoice } from "brancy/models/interfaces";
+import { IGeneralBallance, IGetSubInvoice, ISubInvoice } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,6 +18,7 @@ import styles from "./subInvoicePopup.module.css";
 type SubInvoicesPopupProps = {
   cardNumber: string;
   subInvoices: IGetSubInvoice | null;
+  generalBalance: IGeneralBallance[];
   onClose: () => void;
   onSubInvoicesChange: (subInvoices: IGetSubInvoice) => void;
   changeDefaultCard: (cardNumber: string) => void;
@@ -26,15 +27,24 @@ type SubInvoicesPopupProps = {
 export default function SubInvoicesP({
   cardNumber,
   subInvoices,
+  generalBalance,
   onClose,
   onSubInvoicesChange,
   changeDefaultCard,
 }: SubInvoicesPopupProps) {
   const { t } = useTranslation();
   const { data: session } = useSession();
+  const total = generalBalance
+    .filter((item) => item.cardNumber === cardNumber && item.status === SubInvoiceStatus.None)
+    .reduce((sum, item) => sum + item.totalPrice, 0);
+  const totalPriceType =
+    generalBalance.find((item) => item.cardNumber === cardNumber && item.status === SubInvoiceStatus.None)?.priceType ??
+    generalBalance.find((item) => item.cardNumber === cardNumber)?.priceType ??
+    2;
   const [activeTab, setActiveTab] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
   const [subInvoicesLoading, setSubInvoicesLoading] = useState(subInvoices === null);
   const [setDefaultCardLoading, setSetDefaultCardLoading] = useState(false);
+  const [settleLoading, setSettleLoading] = useState(false);
   function manageSubInvoiceType(type: SubInvoiceItemType): string {
     switch (type) {
       case SubInvoiceItemType.InstagramerLogestic:
@@ -154,6 +164,31 @@ export default function SubInvoicesP({
       notify(ResponseType.Unexpected, NotifType.Error);
     } finally {
       setSetDefaultCardLoading(false);
+    }
+  }
+
+  async function settleCard() {
+    if (!session || settleLoading) return;
+
+    setSettleLoading(true);
+    try {
+      const res = await clientFetchApi<null, boolean>("/api/wallet/settleRequest", {
+        session,
+        methodType: MethodType.get,
+        queries: [{ key: "cardNumber", value: cardNumber }],
+        data: undefined,
+      });
+
+      if (res.succeeded) {
+        notify(ResponseType.Ok, NotifType.Success);
+      } else {
+        notify(res.info.responseType, NotifType.Warning);
+      }
+    } catch (err) {
+      console.error("settleCard error", err);
+      notify(ResponseType.Unexpected, NotifType.Error);
+    } finally {
+      setSettleLoading(false);
     }
   }
 
@@ -298,13 +333,61 @@ export default function SubInvoicesP({
             ) : (
               <div className={styles.defaultCardSettings}>
                 <div className={styles.defaultCardNumber}>{cardNumber.replace(/(.{4})/g, "$1 ").trim()}</div>
-                <button
-                  type="button"
-                  className={styles.defaultCardButton}
-                  onClick={setDefaultCard}
-                  disabled={!session || setDefaultCardLoading}>
-                  {setDefaultCardLoading ? t("Loading...") : t("Set Default Card")}
-                </button>
+                <div className={styles.settingsActions}>
+                  <section className={styles.settingsAction}>
+                    <div className={styles.settingsActionIcon} aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M5 12.5 9.5 17 19 7.5"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    <div className={styles.settingsActionContent}>
+                      <strong>{t("Default Card")}</strong>
+                      <span>{t("Use this card as your default payout account.")}</span>
+                    </div>
+                    <button
+                      type="button"
+                      className={styles.defaultCardButton}
+                      onClick={setDefaultCard}
+                      disabled={!session || setDefaultCardLoading}>
+                      {setDefaultCardLoading ? t("Loading...") : t("Set Default Card")}
+                    </button>
+                  </section>
+                  <section className={styles.settingsAction}>
+                    <div className={`${styles.settingsActionIcon} ${styles.settleIcon}`} aria-hidden="true">
+                      <svg viewBox="0 0 24 24" fill="none">
+                        <path
+                          d="M12 3v18m4-14.5c-.7-.9-2-1.5-4-1.5-2.2 0-4 1.1-4 3s1.8 3 4 3 4 1.1 4 3-1.8 3-4 3c-2 0-3.3-.6-4-1.5"
+                          stroke="currentColor"
+                          strokeWidth="2"
+                          strokeLinecap="round"
+                          strokeLinejoin="round"
+                        />
+                      </svg>
+                    </div>
+                    <div className={styles.settingsActionContent}>
+                      <strong>{t("Settle")}</strong>
+                      <span>{t("Request settlement for the balance assigned to this card.")}</span>
+                      <PriceFormater
+                        pricetype={totalPriceType}
+                        fee={total}
+                        className={PriceFormaterClassName.PostPrice}
+                      />
+                    </div>
+                    <button
+                      type="button"
+                      className={styles.settleButton}
+                      onClick={settleCard}
+                      disabled={!session || settleLoading || total <= 0}>
+                      {settleLoading ? t("Loading...") : t("Settle")}
+                    </button>
+                  </section>
+                </div>
               </div>
             )}
             {isLoadingMore && <Loading />}

@@ -288,9 +288,6 @@
 
 .defaultCardSettings {
   display: flex;
-  min-height: 180px;
-  align-items: center;
-  justify-content: center;
   flex-direction: column;
   gap: var(--gap-15);
   padding: var(--paddingbox);
@@ -299,10 +296,63 @@
 }
 
 .defaultCardNumber {
+  align-self: center;
   direction: ltr;
   font-size: var(--font-20);
   font-weight: var(--weight-700);
   letter-spacing: 1px;
+}
+
+.settingsActions {
+  display: grid;
+  width: 100%;
+  gap: var(--gap-10);
+}
+
+.settingsAction {
+  display: grid;
+  grid-template-columns: 40px minmax(0, 1fr) auto;
+  align-items: center;
+  gap: var(--gap-10);
+  padding: 12px;
+  border: 1px solid var(--content-box);
+  border-radius: var(--br8);
+}
+
+.settingsActionIcon {
+  display: grid;
+  width: 40px;
+  height: 40px;
+  place-items: center;
+  border-radius: 50%;
+  background: var(--color-light-blue10);
+  color: var(--color-light-blue);
+}
+
+.settingsActionIcon svg {
+  width: 21px;
+  height: 21px;
+}
+
+.settleIcon {
+  background: var(--color-light-green30);
+  color: var(--color-dark-green);
+}
+
+.settingsActionContent {
+  display: flex;
+  min-width: 0;
+  flex-direction: column;
+  gap: 3px;
+}
+
+.settingsActionContent strong {
+  color: var(--text-h1);
+}
+
+.settingsActionContent span {
+  color: var(--text-h2);
+  font-size: var(--font-12);
 }
 
 .defaultCardButton {
@@ -317,9 +367,34 @@
   font-weight: var(--weight-700);
 }
 
-.defaultCardButton:disabled {
+.settleButton {
+  min-height: 40px;
+  padding: 0 20px;
+  border: 0;
+  border-radius: var(--br8);
+  background: var(--color-dark-green);
+  color: var(--color-white);
+  cursor: pointer;
+  font: inherit;
+  font-weight: var(--weight-700);
+}
+
+.defaultCardButton:disabled,
+.settleButton:disabled {
   cursor: wait;
   opacity: 0.65;
+}
+
+@media (max-width: 560px) {
+  .settingsAction {
+    grid-template-columns: 40px minmax(0, 1fr);
+  }
+
+  .defaultCardButton,
+  .settleButton {
+    grid-column: 1 / -1;
+    width: 100%;
+  }
 }
 
 .headerActions {
