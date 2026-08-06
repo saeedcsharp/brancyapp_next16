@@ -4,6 +4,8 @@
 
 ## 2026-08-06
 
+- Fixed AI media-creator range inputs by allowing fractional steps; backend ranges such as `0` through `0.8` no longer lock at zero because of HTML's default step of `1`. Input types and bounds remain normalized before rendering.
+
 - Fixed Domain Manager default and destination links for usernames containing `.`, `_`, `-`, or Persian kashida (`ـ`) by using the path format `baseShortUrl/username` instead of an invalid username subdomain.
 - Removed the unnecessary `www.` prefix from Domain Manager domain displays.
 - Prevented duplicate default-domain display for usernames such as `brancy_demo`.

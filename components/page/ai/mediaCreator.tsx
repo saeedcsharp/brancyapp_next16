@@ -60,10 +60,11 @@ function getInitialValues(model: IMediaCreatorModel | undefined): Record<string,
   if (!model) return {};
 
   return model.inputModelTypes.reduce<Record<string, InputValue>>((values, input) => {
-    if (input.inputType === InputType.Boolean) values[input.key] = false;
-    else if (input.inputType === InputType.ImageArray || input.inputType === InputType.VideoArray)
-      values[input.key] = [];
-    else if (input.inputType === InputType.Number || input.inputType === InputType.Range) values[input.key] = input.min;
+    const inputType = Number(input.inputType);
+    if (inputType === InputType.Boolean) values[input.key] = false;
+    else if (inputType === InputType.ImageArray || inputType === InputType.VideoArray) values[input.key] = [];
+    else if (inputType === InputType.Number || inputType === InputType.Range)
+      values[input.key] = Number(input.min) || 0;
     else values[input.key] = input.enumValues?.[0] ?? "";
     return values;
   }, {});
@@ -85,7 +86,7 @@ function FileInput({
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [previews, setPreviews] = useState<UploadedMediaPreview[]>([]);
-  const isVideo = input.inputType === InputType.VideoArray;
+  const isVideo = Number(input.inputType) === InputType.VideoArray;
   const accept = input.fileTypes?.map((type) => `.${type}`).join(",") || (isVideo ? "video/*" : "image/*");
   const maximum = input.maxArrayLength || 1;
 
@@ -193,8 +194,9 @@ function DynamicInput({
 }) {
   const title = getInputTitle(input, language);
   const options = input.enumValues ?? [];
+  const inputType = Number(input.inputType);
 
-  if (input.inputType === InputType.ImageArray || input.inputType === InputType.VideoArray) {
+  if (inputType === InputType.ImageArray || inputType === InputType.VideoArray) {
     return (
       <FileInput
         input={input}
@@ -206,7 +208,7 @@ function DynamicInput({
     );
   }
 
-  if (input.inputType === InputType.Boolean) {
+  if (inputType === InputType.Boolean) {
     return (
       <label className={styles.booleanField}>
         <span>
@@ -218,7 +220,7 @@ function DynamicInput({
     );
   }
 
-  if (input.inputType === InputType.EnumV1) {
+  if (inputType === InputType.EnumV1) {
     return (
       <label className={styles.field}>
         <span className={styles.label}>{title}</span>
@@ -234,7 +236,7 @@ function DynamicInput({
     );
   }
 
-  if (input.inputType === InputType.EnumV2) {
+  if (inputType === InputType.EnumV2) {
     return (
       <fieldset className={styles.fieldset}>
         <legend className={styles.label}>{title}</legend>
@@ -253,25 +255,33 @@ function DynamicInput({
     );
   }
 
-  if (input.inputType === InputType.Range) {
+  if (inputType === InputType.Range) {
+    const rangeMinValue = Number(input.min);
+    const rangeMaxValue = Number(input.max);
+    const rangeMin = Number.isFinite(rangeMinValue) ? rangeMinValue : 0;
+    const rangeMax = Number.isFinite(rangeMaxValue) && rangeMaxValue > rangeMin ? rangeMaxValue : rangeMin + 1;
+    const valueNumber = Number(value);
+    const rangeValue = Math.min(Math.max(Number.isFinite(valueNumber) ? valueNumber : rangeMin, rangeMin), rangeMax);
+
     return (
       <label className={styles.field}>
         <span className={styles.labelRow}>
           <span className={styles.label}>{title}</span>
-          <output>{Number(value)}</output>
+          <output>{rangeValue}</output>
         </span>
         <input
           type="range"
-          min={input.min}
-          max={input.max}
-          value={Number(value)}
-          onChange={(event) => onChange(Number(event.target.value))}
+          min={rangeMin}
+          max={rangeMax}
+          step="any"
+          value={rangeValue}
+          onChange={(event) => onChange(event.currentTarget.valueAsNumber)}
         />
       </label>
     );
   }
 
-  if (input.inputType === InputType.Number) {
+  if (inputType === InputType.Number) {
     return (
       <label className={styles.field}>
         <span className={styles.label}>{title}</span>
