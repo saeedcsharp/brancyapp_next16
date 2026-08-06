@@ -552,6 +552,12 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
     });
   }, []);
 
+  const getTwitchFrameUrl = useCallback((frameUrl: string) => {
+    if (!frameUrl || typeof window === "undefined") return frameUrl;
+    const separator = frameUrl.includes("?") ? "&" : "?";
+    return `${frameUrl}${separator}parent=${encodeURIComponent(window.location.hostname)}`;
+  }, []);
+
   const renderVideoContent = useCallback(
     (platform: "youtube" | "twitch" | "aparat", channel: any, streamStatus: boolean) => {
       if (!channel?.video) return null;
@@ -570,7 +576,7 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 title={`${platform} video`}
-                src={channel.video.frameUrl}
+                src={platform === "twitch" ? getTwitchFrameUrl(channel.video.frameUrl) : channel.video.frameUrl}
                 loading="lazy"
               />
             </div>
@@ -607,7 +613,14 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
         </div>
       );
     },
-    [state.selectedEmbed, handleVideoError, handleRedirectYoutube, handleVideoClick, convertLinksToClickable],
+    [
+      state.selectedEmbed,
+      handleVideoError,
+      handleRedirectYoutube,
+      handleVideoClick,
+      convertLinksToClickable,
+      getTwitchFrameUrl,
+    ],
   );
   if (!data.lastVideo) return null;
   return (

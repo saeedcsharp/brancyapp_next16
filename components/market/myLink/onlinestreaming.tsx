@@ -381,6 +381,11 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
     }
     return elements;
   }, []);
+  const getTwitchFrameUrl = useCallback((frameUrl: string) => {
+    if (!frameUrl || typeof window === "undefined") return frameUrl;
+    const separator = frameUrl.includes("?") ? "&" : "?";
+    return `${frameUrl}${separator}parent=${encodeURIComponent(window.location.hostname)}`;
+  }, []);
   const renderVideoContent = useCallback(
     (platform: "youtube" | "twitch" | "aparat", channel: any, streamStatus: boolean) => {
       if (!channel?.live) return null;
@@ -399,7 +404,7 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 title={`${platform} video`}
-                src={channel.live.frameUrl}
+                src={platform === "twitch" ? getTwitchFrameUrl(channel.live.frameUrl) : channel.live.frameUrl}
                 loading="lazy"
               />
             </div>
@@ -436,7 +441,14 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
         </div>
       );
     },
-    [state.selectedEmbed, handleVideoError, handleRedirectYoutube, handleVideoClick, convertLinksToClickable],
+    [
+      state.selectedEmbed,
+      handleVideoError,
+      handleRedirectYoutube,
+      handleVideoClick,
+      convertLinksToClickable,
+      getTwitchFrameUrl,
+    ],
   );
   console.log("data.onlineStream", data.onlineStream);
   if (!data.onlineStream) return null;
