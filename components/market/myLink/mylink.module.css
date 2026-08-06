@@ -156,7 +156,7 @@
   }
 }
 
-.squre.closed {
+.closed {
   transition: var(--transition6);
   height: 20px;
   box-shadow: 0 0 0 4px var(--color-dark-blue30);
@@ -224,7 +224,7 @@
   transition: var(--transition6);
   opacity: 0;
 }
-.content.show {
+.show {
   max-height: 1000px;
   opacity: 1;
 }
@@ -706,6 +706,9 @@
   flex-direction: row;
   gap: var(--gap-10);
   background-color: var(--color-dark-blue60);
+}
+.timer {
+  flex-shrink: 0;
 }
 /* ___timeline___*/
 .timeline {

@@ -981,7 +981,9 @@ export interface ILastVideo extends IFeatureInfo {
   lastVideo: IVideoChannel | null;
 }
 
-export interface IProducts extends IFeatureInfo {}
+export interface IProducts extends IFeatureInfo {
+  productCards: IProductCard[] | null;
+}
 
 export interface ITimeline extends IFeatureInfo {}
 
@@ -1166,6 +1168,7 @@ export interface ISmartLink {
   caption: ICaption;
   featureOrders: IOrderItems;
   terms: string[] | null;
+  products: IProductCard[];
 }
 
 export interface INewLink {
@@ -5373,7 +5376,7 @@ export interface IFavoriteCardCount {
 }
 
 export interface IProductCard {
-  shortProduct: IShopShortProduct;
+  shortProduct: IProduct_ShortProduct;
   favoriteCardCount: IFavoriteCardCount;
 }
 

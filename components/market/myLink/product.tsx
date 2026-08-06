@@ -3,17 +3,31 @@ import { ChangeEvent, useState } from "react";
 import InputText from "brancy/components/design/inputText";
 import styles from "./mylink.module.css";
 import { IProducts } from "brancy/models/interfaces";
+import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
 
 const basePictureUrl = getClientMediaBaseUrl();
 const Products = (props: { data: IProducts | null }) => {
   const [isContentVisible, setIsContentVisible] = useState(true);
+  const [searchTerm, setSearchTerm] = useState("");
 
   const toggleContentVisibility = () => {
     setIsContentVisible((prev) => !prev);
   };
   function handleSearchPeopleInputChange(e: ChangeEvent<HTMLInputElement>): void {
-    throw new Error("Function not implemented.");
+    setSearchTerm(e.target.value);
   }
+
+  const products = (props.data?.productCards ?? [])
+    .map((productCard) => productCard.shortProduct)
+    .filter((product) => {
+      const searchValue = searchTerm.trim().toLocaleLowerCase();
+      if (!searchValue) return true;
+
+      return (
+        product.title?.toLocaleLowerCase().includes(searchValue) ||
+        product.productId.toLocaleLowerCase().includes(searchValue)
+      );
+    });
 
   return (
     <>
@@ -35,7 +49,7 @@ const Products = (props: { data: IProducts | null }) => {
           <div className={`${styles.content} ${isContentVisible ? styles.show : ""}`}>
             <div className={styles.product}>
               <div className={styles.searchContainer}>
-                <InputText
+                {/* <InputText
                   style={{
                     maxWidth: "250px",
                     borderRadius: " var(--br8) 0px 0px var(--br8)",
@@ -43,7 +57,7 @@ const Products = (props: { data: IProducts | null }) => {
                   className="textinputbox"
                   handleInputChange={handleSearchPeopleInputChange}
                   placeHolder="Search product or PID"
-                  value={""}
+                  value={searchTerm}
                   maxLength={undefined}
                   name={""}
                 />
@@ -54,93 +68,65 @@ const Products = (props: { data: IProducts | null }) => {
                       fill="var(--color-ffffff)"
                     />
                   </svg>
-                </div>
+                </div> */}
               </div>
 
               <div className={styles.productContainer}>
-                <div className={styles.productitem}>
-                  <img
-                    loading="lazy"
-                    decoding="async"
-                    className={styles.productimage}
-                    alt="review rate"
-                    src="/post.png"
-                  />
-                  <div className={styles.productname}>Product name one</div>
-                  <div className={styles.pricesection}>
-                    <div className={styles.price}>
-                      <div className={styles.priceold}>15.555.555 تومان</div>
-                      <div className={styles.discountprice}>5 %</div>
-                    </div>
-                    <div className={styles.price}>
-                      <div className={styles.pricenew}>15.555.555 تومان</div>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.productitem}>
-                  <img
-                    loading="lazy"
-                    decoding="async"
-                    className={styles.productimage}
-                    alt="review rate"
-                    src="/post.png"
-                  />
-                  <div className={styles.productname}>Product name one</div>
-                  <div className={styles.pricesection}>
-                    <div className={styles.price}>
-                      <div className={styles.priceold}>15.555.555 تومان</div>
-                      <div className={styles.discountprice}>5 %</div>
-                    </div>
-                    <div className={styles.price}>
-                      <div className={styles.pricenew}>15.555.555 تومان</div>
-                    </div>
-                  </div>
-                </div>
+                {products.map((product) => {
+                  const hasDiscount = product.minDiscountPrice !== null && product.minDiscountPrice < product.minPrice;
+                  const discountPercent =
+                    hasDiscount && product.minPrice > 0
+                      ? Math.round(((product.minPrice - product.minDiscountPrice!) / product.minPrice) * 100)
+                      : 0;
+                  const productPrice = hasDiscount ? product.minDiscountPrice! : product.minPrice;
 
-                <div className={styles.productitem}>
-                  <img
-                    loading="lazy"
-                    decoding="async"
-                    className={styles.productimage}
-                    alt="review rate"
-                    src="/post.png"
-                  />
-                  <div className={styles.productname}>Product name one</div>
-                  <div className={styles.pricesection}>
-                    <div className={styles.price}>
-                      <div className={styles.priceold}>15.555.555 تومان</div>
-                      <div className={styles.discountprice}>5 %</div>
-                    </div>
-                    <div className={styles.price}>
-                      <div className={styles.pricenew}>15.555.555 تومان</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className={styles.productitem}>
-                  <img
-                    loading="lazy"
-                    decoding="async"
-                    className={styles.productimage}
-                    alt="review rate"
-                    src="/post.png"
-                  />
-                  <div className={styles.productname}>Product name one</div>
-                  <div className={styles.pricesection}>
-                    <div className={styles.price}>
-                      <div className={styles.priceold}>15.555.555 تومان</div>
-                      <div className={styles.discountprice}>5 %</div>
-                    </div>
-                    <div className={styles.price}>
-                      <div className={styles.pricenew}>15.555.555 تومان</div>
-                    </div>
-                  </div>
-                </div>
+                  return (
+                    <a
+                      key={product.productId}
+                      className={styles.productitem}
+                      href={product.instagramUrl}
+                      target="_blank"
+                      rel="noreferrer">
+                      <img
+                        loading="lazy"
+                        decoding="async"
+                        className={styles.productimage}
+                        alt={product.title ?? "Product"}
+                        src={`${basePictureUrl}${product.thumbnailMediaUrl}`}
+                        onError={(event) => {
+                          event.currentTarget.src = "/post.png";
+                        }}
+                      />
+                      <div className={styles.productname} title={product.title ?? undefined}>
+                        {product.title || `Product ${product.productId}`}
+                      </div>
+                      <div className={styles.pricesection}>
+                        {hasDiscount && (
+                          <div className={styles.price}>
+                            <PriceFormater
+                              pricetype={product.priceType}
+                              fee={product.minPrice}
+                              className={PriceFormaterClassName.PostPriceRed}
+                            />
+                            <div className={styles.discountprice}>{discountPercent}%</div>
+                          </div>
+                        )}
+                        <div className={styles.price}>
+                          <PriceFormater
+                            pricetype={product.priceType}
+                            fee={productPrice}
+                            className={PriceFormaterClassName.PostPriceBlue}
+                          />
+                        </div>
+                      </div>
+                    </a>
+                  );
+                })}
               </div>
 
               <div className={styles.showallproduct}>Show All Product ↗️</div>
 
-              <div className={styles.couponsection}>
+              {/* <div className={styles.couponsection}>
                 Discount Code
                 <div className={styles.couponcode}>
                   3hj498UTR3JF
@@ -162,7 +148,7 @@ const Products = (props: { data: IProducts | null }) => {
                     width: "150px",
                     border: "1px solid red",
                   }}></div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>

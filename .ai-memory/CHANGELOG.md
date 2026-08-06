@@ -1,8 +1,13 @@
 # Changelog
 
+## 2026-08-06
+
+- Replaced MyLink product placeholders with cards rendered from `IProduct_ShortProduct`, including search by title/product ID, CDN media, product links, and discount-aware prices.
+
 ## 2026-08-05
 
 - Split the bank-card sub-invoice popup into History and Setting tabs with `IconToggleButton`; the settings tab calls `/api/wallet/setDefaultCard` with the selected `cardNumber` to set the default bank card.
+- Enabled the Products feature item in market properties by removing stale disabled styling and pointer-event rules.
 
 ## 2026-08-04
 

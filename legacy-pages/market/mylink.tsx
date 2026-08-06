@@ -39,6 +39,7 @@ import {
 } from "brancy/models/interfaces";
 import { FeatureType, PartnerRole } from "brancy/models/enums";
 import { IMyLinkChannel } from "brancy/models/interfaces";
+import Product from "brancy/components/market/myLink/product";
 function handleFeatureInfo(mediaLink: IMyLink) {
   var featureArray: IFeatureInfo[] = [];
   if (mediaLink.announcement && mediaLink.announcement.isActive) {
@@ -89,13 +90,14 @@ function handleFeatureInfo(mediaLink: IMyLink) {
       isActive: mediaLink.onlineStreaming.isActive,
     });
   }
-  // if (mediaLink.products) {
-  //   featureArray.push({
-  //     orderId: mediaLink.products.orderId,
-  //     title: mediaLink.products.title,
-  //     featureType: FeatureType.Products,
-  //   });
-  // }
+  if (mediaLink.products) {
+    featureArray.push({
+      orderId: mediaLink.products.orderId,
+      title: mediaLink.products.title,
+      featureType: FeatureType.Products,
+      isActive: mediaLink.products.isActive,
+    });
+  }
   if (mediaLink.reviews && mediaLink.reviews.isActive) {
     featureArray.push({
       orderId: mediaLink.reviews.orderId,
@@ -272,6 +274,7 @@ const MyLink = () => {
               title: "products",
               isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Products)!
                 .isActive,
+              productCards: info.value.products,
             },
             timeline: {
               featureType: FeatureType.AdsTimeline,
@@ -372,6 +375,10 @@ const MyLink = () => {
       {
         reactNode: <ContactAndMap data={myLink.data.contactAndMap} key={"ContactAndMap"} />,
         featureType: FeatureType.ContactAndMap,
+      },
+      {
+        reactNode: <Product data={myLink.data.products} key={"Products"} />,
+        featureType: FeatureType.Products,
       },
     ];
   }, [myLink]);

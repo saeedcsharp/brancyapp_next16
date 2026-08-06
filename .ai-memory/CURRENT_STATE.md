@@ -51,6 +51,10 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- MyLink Products now renders the existing `IProduct_ShortProduct` product-card data with title/product-ID search, media fallback, product links, and discount-aware pricing; the shared model contract was left unchanged.
+
+- Enabled interaction with the Products feature item in market properties; Reviews and AdsTimeline remain intentionally disabled by the existing styling rule.
+
 - Split the bank-card sub-invoice popup into History and Setting tabs using `IconToggleButton`; the setting tab sets the selected bank card as default through `/api/wallet/setDefaultCard` with its `cardNumber` query.
 
 - Hardened `legacy-pages/user/home` responsive behavior by replacing fixed masonry-style grid spans and indefinite percentage heights, making the upgrade card positioning local and fluid, constraining narrow text, and adding reduced-motion support. The page now uses native keyboard-accessible controls instead of clickable `div` elements, avoids nested `Link`/`button` markup, and cleans up cancellable data-loading and redirect effects.
