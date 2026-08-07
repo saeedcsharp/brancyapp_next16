@@ -134,19 +134,21 @@ const SortableFeatureItem = memo(
           <h3 className="title2" style={{ paddingInline: "var(--padding-12)" }} title="ℹ️ Feature name">
             {featureTitle}
           </h3>
-          <button
-            onClick={handleEditClick}
-            onKeyDown={handleEditKeyDown}
-            className={styles.more}
-            title="◰ Edit options"
-            aria-label={`Edit ${featureTitle} options`}>
-            <svg fill="none" height="5" viewBox="0 0 14 5">
-              <path
-                fill="var(--color-gray)"
-                d="M2.5 5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5m9 0a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"
-              />
-            </svg>
-          </button>
+          {feature.featureType !== FeatureType.Products && (
+            <button
+              onClick={handleEditClick}
+              onKeyDown={handleEditKeyDown}
+              className={styles.more}
+              title="◰ Edit options"
+              aria-label={`Edit ${featureTitle} options`}>
+              <svg fill="none" height="5" viewBox="0 0 14 5">
+                <path
+                  fill="var(--color-gray)"
+                  d="M2.5 5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5m9 0a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"
+                />
+              </svg>
+            </button>
+          )}
         </div>
       </div>
     );

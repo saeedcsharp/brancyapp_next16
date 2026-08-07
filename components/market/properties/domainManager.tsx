@@ -23,6 +23,10 @@ const baseShortUrl = process.env.NEXT_PUBLIC_SHORT_LINK ?? "";
 const forbiddenDomains = new Set(["brancy.app", "bran.cy", "brncy.ir", "brancy.ir"]);
 const domainLabelPattern = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
 
+function getDefaultDomain(username: string): string {
+  return /[._\-ـ]/.test(username) ? `${baseShortUrl}/${username}` : `${username}.${baseShortUrl}`;
+}
+
 function normalizeDomain(value: string): string {
   return value
     .trim()
@@ -78,7 +82,7 @@ const DomainManager = ({
   const isVerifyCooldownActive = verifyCooldownUntil > Date.now() / 1000;
   const destinationLinks = useMemo(() => {
     if (!instaInfo) return [];
-    const domain = shouldUseCustomDomain ? customeDomain.acceptDomain?.uri : `${instaInfo.username}.${baseShortUrl}`;
+    const domain = shouldUseCustomDomain ? customeDomain.acceptDomain?.uri : getDefaultDomain(instaInfo.username);
     if (!domain) return [];
     const links = [
       instaInfo.isShopper && { label: t(LanguageKey.marketProperties_yourstore), path: "Shopping" },
@@ -309,43 +313,43 @@ const DomainManager = ({
                       <div className={`${styles.defaultaddress} translate`}>
                         <a
                           className={styles.defaultdomain}
-                          href={`https://${instaInfo.username}.${baseShortUrl}`}
+                          href={`https://${getDefaultDomain(instaInfo.username)}`}
                           target="_blank"
                           rel="noopener noreferrer">
-                          www.
-                          {instaInfo.username}.{baseShortUrl}
+                          {getDefaultDomain(instaInfo.username)}
                         </a>
                         <button
                           type="button"
                           className={styles.copyButton}
                           title="Copy domain"
-                          aria-label={`Copy ${instaInfo.username}.${baseShortUrl}`}
+                          aria-label={`Copy ${getDefaultDomain(instaInfo.username)}`}
                           onClick={() => {
-                            handleCopyLink(instaInfo.username + "." + baseShortUrl);
+                            handleCopyLink(getDefaultDomain(instaInfo.username));
                           }}>
                           <img src="/copy.svg" alt="" aria-hidden="true" />
                         </button>
                       </div>
-                      <div className={`${styles.defaultaddress} translate`}>
-                        <a
-                          className={styles.defaultdomain}
-                          href={`https://${baseShortUrl}/${instaInfo.username}`}
-                          target="_blank"
-                          rel="noopener noreferrer">
-                          www.
-                          {baseShortUrl}/{instaInfo.username}
-                        </a>
-                        <button
-                          type="button"
-                          className={styles.copyButton}
-                          title="Copy domain"
-                          aria-label={`Copy ${baseShortUrl}/${instaInfo.username}`}
-                          onClick={() => {
-                            handleCopyLink(baseShortUrl + "/" + instaInfo.username);
-                          }}>
-                          <img src="/copy.svg" alt="" aria-hidden="true" />
-                        </button>
-                      </div>
+                      {getDefaultDomain(instaInfo.username) !== `${baseShortUrl}/${instaInfo.username}` && (
+                        <div className={`${styles.defaultaddress} translate`}>
+                          <a
+                            className={styles.defaultdomain}
+                            href={`https://${baseShortUrl}/${instaInfo.username}`}
+                            target="_blank"
+                            rel="noopener noreferrer">
+                            {baseShortUrl}/{instaInfo.username}
+                          </a>
+                          <button
+                            type="button"
+                            className={styles.copyButton}
+                            title="Copy domain"
+                            aria-label={`Copy ${baseShortUrl}/${instaInfo.username}`}
+                            onClick={() => {
+                              handleCopyLink(baseShortUrl + "/" + instaInfo.username);
+                            }}>
+                            <img src="/copy.svg" alt="" aria-hidden="true" />
+                          </button>
+                        </div>
+                      )}
                     </div>
                   </div>
                   <div className="headerandinput">
@@ -401,10 +405,7 @@ const DomainManager = ({
                           <li className={`${styles.domainProgressStep} ${styles.domainProgressDone}`}>
                             <span className={styles.domainProgressMarker}>1</span>
                             <span>
-                              <Tooltip
-                                onClick={false}
-                                tooltipValue={`www.${customeDomain.pendingDomain.uri}`}
-                                position="bottom">
+                              <Tooltip onClick={false} tooltipValue={customeDomain.pendingDomain.uri} position="bottom">
                                 {t(LanguageKey.marketProperties_Request)}
                               </Tooltip>
                             </span>
@@ -516,7 +517,7 @@ const DomainManager = ({
                       {customeDomain.acceptDomain && (
                         <>
                           <div className={`headerparent translate ${!isCustomDomainActive ? "fadeDiv" : ""}`}>
-                            <div className={styles.defaultdomain}>www.{customeDomain.acceptDomain.uri}</div>
+                            <div className={styles.defaultdomain}>{customeDomain.acceptDomain.uri}</div>
                             <button
                               type="button"
                               className={styles.copyButton}

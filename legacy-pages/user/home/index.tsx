@@ -307,7 +307,7 @@ function Markets() {
                                     ? baseMediaUrl + saved.product.shortProduct.thumbnailMediaUrl
                                     : "/no-profile.svg"
                                 }
-                                alt={saved.product?.shortProduct.title}
+                                alt={saved.product?.shortProduct.title ?? undefined}
                               />
                               <div className={styles.productdetail}>
                                 <div className="headerandinput">
@@ -319,7 +319,11 @@ function Markets() {
                                     {saved.product?.shortProduct.priceType !== undefined && (
                                       <PriceFormater
                                         pricetype={saved.product.shortProduct.priceType}
-                                        fee={saved.product?.shortProduct.minDiscountPrice}
+                                        fee={
+                                          saved.product?.shortProduct.minDiscountPrice ??
+                                          saved.product?.shortProduct.maxPrice ??
+                                          0
+                                        }
                                         className={PriceFormaterClassName.PostPrice}
                                       />
                                     )}

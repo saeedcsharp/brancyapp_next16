@@ -142,7 +142,9 @@ Products is enabled in the market properties feature list. Reviews and AdsTimeli
 
 The product cards render in a free horizontal carousel. The container never wraps, supports native horizontal touch scrolling and pointer drag scrolling with the mouse or touch, and does not use scroll snapping. A drag gesture suppresses the card link click that would otherwise open an Instagram URL.
 
-The product module keeps only styles used by its current header, carousel, and product cards; the former collapsible-section state and legacy header, search, and coupon styles were removed.
+# The product module keeps only styles used by its current header, carousel, and product cards; the former collapsible-section state and legacy header, search, and coupon styles were removed.
+
+The Products card intentionally omits the edit-options three-dot control; other movable feature cards continue to expose it.
 
 ## Domain Manager
 
@@ -154,6 +156,8 @@ The Domain Manager uses a native request form for Enter submission. A valid requ
 The default and custom domain sections are presented as mutually exclusive radio choices. The selected panel remains fully visible while the inactive panel content receives the shared `fadeDiv` treatment.
 
 The shared destination-links section is gated by the selected domain type. It is visible for the default option, while the custom option requires `isCustomDomainActive`; its destination URLs use the accepted custom-domain URI only in that selected active state.
+
+Default username-based links use the subdomain form only when the username contains no `.`, `_`, `-`, or Persian kashida (`ـ`). Usernames containing any of those characters use the path form `baseShortUrl/username`, including the default-domain display and destination links; accepted custom-domain links continue to use the custom domain itself. Domain displays do not add a `www.` prefix, and the alternate default link is hidden when it resolves to the same path.
 
 When `isDevMode` is enabled, the Domain Manager also exposes a local-only `مرحله بعدی (تست)` control. It advances a pending domain from the name-server step to the completed-DNS step and then to an active accepted-domain state without sending an API request; the existing Delete control remains the backend cleanup action.
 
@@ -167,7 +171,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-08-06
 
 ---
 

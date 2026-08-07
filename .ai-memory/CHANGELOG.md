@@ -1,10 +1,21 @@
 # Changelog
 
+- Fixed customer shop, product-detail, and saved-product cards for nullable product titles and discount prices, including safe regular-price fallbacks and string product ID comparison.
+- Added missing CSS-module state selectors used by the customer shop filters and navigation.
+
+- Market Properties no longer shows the edit-options three-dot control on the Products feature card.
+
 ## 2026-08-06
 
 - Cleaned the MyLink product module by removing unused visibility state, legacy markup styles, and obsolete search/coupon CSS.
 - Converted MyLink product cards to a free horizontal carousel with touch scrolling, mouse/pointer drag support, no wrapping or snap points, and protection against opening a product link after dragging.
 - Added responsive MyLink product controls: Best Sellers and Best Discounts sorting toggles, a flex-growing product/PID search field, and a Show All Products reset button that stacks on small screens.
+- Fixed AI media-creator range inputs by allowing fractional steps; backend ranges such as `0` through `0.8` no longer lock at zero because of HTML's default step of `1`. Input types and bounds remain normalized before rendering.
+
+- Fixed Domain Manager default and destination links for usernames containing `.`, `_`, `-`, or Persian kashida (`ـ`) by using the path format `baseShortUrl/username` instead of an invalid username subdomain.
+- Removed the unnecessary `www.` prefix from Domain Manager domain displays.
+- Prevented duplicate default-domain display for usernames such as `brancy_demo`.
+
 - Fixed the custom-domain Request button remaining on `RingLoader` during React Strict Mode development cleanup/setup cycles.
 - Domain Manager now sends valid custom-domain requests directly to `Instagramer/Bio/UpdateCustomDomain`; the initial request no longer waits for or is blocked by a client-side CustomDomain feature check.
 - بهینه‌سازی Domain Manager: حذف state و handlerهای بدون مصرف، محاسبه حافظه‌ای اعتبارسنجی و لینک‌ها، پشتیبانی Enter و کنترل‌های native برای دسترسی‌پذیری، لغو درخواست‌های API و cleanup کامل منابع، اصلاح copy دامنه سفارشی و Tariff، حذف consoleهای اضافی، و اصلاح robots/description/zoom صفحه Properties.
