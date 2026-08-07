@@ -13,7 +13,7 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import IncrementStepper from "brancy/components/design/incrementStepper";
+import IncrementStepper from "brancy/components/design/incrementStepper/incrementStepper";
 import Loading from "brancy/components/notOk/loading";
 import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
 import CardAddress from "brancy/components/userPanel/orders/card_adddress";
@@ -1029,6 +1029,10 @@ const OrdersCart = () => {
                                           const newQuantity = sub.cardCount - 1;
                                           updateQuantity(product.shortProduct.productId, sub.subProductId, newQuantity);
                                         }}
+                                        onValueChange={(value) =>
+                                          updateQuantity(product.shortProduct.productId, sub.subProductId, value)
+                                        }
+                                        max={sub.stock}
                                       />
                                     </div>
                                     <div className={styles.productQuantity}>

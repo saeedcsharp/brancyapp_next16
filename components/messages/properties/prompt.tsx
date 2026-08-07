@@ -1,5 +1,5 @@
 import { ChangeEvent, useState } from "react";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import InputText from "brancy/components/design/inputText";
 import TextArea from "brancy/components/design/textArea/textArea";
 import styles from "./properties.module.css";

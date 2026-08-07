@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useState } from "react";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import InputText from "brancy/components/design/inputText";
 import RadioButton from "brancy/components/design/radioButton";
 import styles from "./step2-cart.module.css";

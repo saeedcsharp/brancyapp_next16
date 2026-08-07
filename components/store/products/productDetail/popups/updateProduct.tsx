@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
-import IncrementStepper from "brancy/components/design/incrementStepper";
+import IncrementStepper from "brancy/components/design/incrementStepper/incrementStepper";
 import RadioButton from "brancy/components/design/radioButton";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
@@ -284,6 +284,8 @@ const UpdateProduct = (props: { data: string[]; removeMask: () => void; onSaved?
             data={adjustment.value}
             increment={() => update({ value: Math.min(maximum, adjustment.value + 1) })}
             decrement={() => update({ value: Math.max(0, adjustment.value - 1) })}
+            onValueChange={(value) => update({ value })}
+            max={maximum}
           />
           <span>%</span>
         </div>

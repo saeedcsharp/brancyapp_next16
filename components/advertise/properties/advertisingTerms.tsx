@@ -1,6 +1,6 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import TextArea from "brancy/components/design/textArea/textArea";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";

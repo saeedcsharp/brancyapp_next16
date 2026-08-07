@@ -2,7 +2,7 @@ import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { t } from "i18next";
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useState } from "react";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";

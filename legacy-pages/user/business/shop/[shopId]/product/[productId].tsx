@@ -11,7 +11,7 @@ import { DateObject } from "react-multi-date-picker";
 
 // Internal Components
 import CountdownTimer from "brancy/components/design/counterDown/counterDownForShop";
-import IncrementStepper from "brancy/components/design/incrementStepper";
+import IncrementStepper from "brancy/components/design/incrementStepper/incrementStepper";
 import Loading from "brancy/components/notOk/loading";
 import {
   internalNotify,
@@ -1798,6 +1798,30 @@ export default function Product() {
                                 }
                                 increment={() => handleIncrement(showProduct)}
                                 decrement={() => handleDecrement(showProduct)}
+                                onValueChange={(value) => {
+                                  const otherQuantity = addCard
+                                    .filter((item) => item.subProductId !== showProduct.subProductId)
+                                    .reduce((total, item) => total + item.stock, 0);
+
+                                  if (value === 0) {
+                                    productDispatch({
+                                      type: "REMOVE_ADD_CARD_ITEM",
+                                      payload: showProduct.subProductId,
+                                    });
+                                  } else if (
+                                    value <= showProduct.stock &&
+                                    value + otherQuantity <= product!.maxInEachCard
+                                  ) {
+                                    productDispatch({
+                                      type: "UPDATE_ADD_CARD_ITEM",
+                                      payload: { subProductId: showProduct.subProductId, stock: value },
+                                    });
+                                  } else {
+                                    uiDispatch({ type: "SET_SHAKE_STEPPER", payload: true });
+                                    setTimeout(() => uiDispatch({ type: "SET_SHAKE_STEPPER", payload: false }), 500);
+                                  }
+                                }}
+                                max={Math.min(showProduct.stock, product!.maxInEachCard)}
                                 id={"subProductId"}
                               />
                               {isMaxCartReached && <span className={styles.maxCartWarning}>{t(LanguageKey.max)}</span>}

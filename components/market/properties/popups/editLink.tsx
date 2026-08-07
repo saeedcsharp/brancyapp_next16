@@ -4,7 +4,7 @@ import { ChangeEvent, useCallback, useEffect, useMemo, useReducer, useRef } from
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import InputText from "brancy/components/design/inputText";
 import Loading from "brancy/components/notOk/loading";
 import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";

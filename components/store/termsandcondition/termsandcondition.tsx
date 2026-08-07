@@ -1,6 +1,6 @@
 import { t } from "i18next";
 import { useState } from "react";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./termsandcondition.module.css";
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, { ChangeEvent, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
 import initialzedTime from "brancy/helper/manageTimer";

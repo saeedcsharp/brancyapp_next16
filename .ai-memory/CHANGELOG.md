@@ -1,5 +1,10 @@
 # Changelog
 
+- Standardized the shared IncrementStepper while preserving its `data`, `increment`, and `decrement` callback API: it now uses semantic buttons with keyboard support, pointer-captured press-and-hold repetition, stale-value-safe decrement handling, click suppression after a long press, 44px touch targets, fluid sizing, and reduced-motion/forced-colors fallbacks. Optional `disabled`, `className`, accessible-label, and per-direction label props are available.
+- Added manual integer entry to IncrementStepper. The new optional `onValueChange`, `min`, and `max` props commit validated values on blur or Enter; all current quantity, lottery, and discount consumers now preserve their existing limits during direct entry.
+
+- Standardized the shared CheckBoxButton while retaining its existing controlled API and import path: the native checkbox is now keyboard-focusable through visual hiding, accepts native ARIA/input attributes, honors `className` and `title`, provides a 44px touch target, and supports visible focus, disabled, reduced-motion, and forced-colors states.
+
 - Standardized the shared TextArea with native textarea props and backward-compatible legacy aliases, reliable RTL/LTR direction, bounded auto-resize, responsive accessible focus styles, reduced-motion/forced-colors support, and a 16px mobile font-size floor that prevents focus zoom.
 
 - Standardized the shared DotMenu with native button/menu semantics, keyboard navigation, focus restoration, Escape and outside-pointer close behavior, responsive touch targets and viewport-bounded menu sizing, RTL-aware placement, reduced-motion/forced-colors support, stable option keys, and option-style rendering. The existing `data`, `handleClickOnIcon`, and `menuPosition` props remain backward compatible alongside `options`, `onOptionSelect`, and `placement`.

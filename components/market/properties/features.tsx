@@ -23,7 +23,7 @@ import Loading from "brancy/components/notOk/loading";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import styles from "./features.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { FeatureType } from "brancy/models/enums";

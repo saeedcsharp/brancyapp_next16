@@ -4,7 +4,7 @@ import english from "react-date-object/locales/gregorian_en";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
-import IncrementStepper from "brancy/components/design/incrementStepper"; // Import IncrementStepper
+import IncrementStepper from "brancy/components/design/incrementStepper/incrementStepper"; // Import IncrementStepper
 import InputText from "brancy/components/design/inputText";
 import Modal from "brancy/components/design/modal";
 import RadioButton from "brancy/components/design/radioButton";
@@ -202,6 +202,13 @@ const Discount = (props: {
                         data={count}
                         increment={handleIncrementCount}
                         decrement={handleDecrementCount}
+                        onValueChange={(value) => {
+                          setCount(value);
+                          setCountWarning(false);
+                          setSubProduct((prev) => ({ ...prev, maxCount: value }));
+                        }}
+                        min={1}
+                        max={1000}
                         id={"count"}
                       />
                     </div>

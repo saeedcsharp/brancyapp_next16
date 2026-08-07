@@ -1,5 +1,5 @@
 import { ChangeEvent, MouseEvent, useState } from "react";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import InputText from "brancy/components/design/inputText";
 import styles from "./searchBar.module.css";
 import SearchContent from "brancy/components/search/searchContent";

@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import IncrementStepper from "brancy/components/design/incrementStepper";
+import IncrementStepper from "brancy/components/design/incrementStepper/incrementStepper";
 import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
@@ -285,6 +285,8 @@ export default function LotteryPopup({
                   data={parseInt(winnerNumber) || 0}
                   increment={handleIncrement}
                   decrement={handleDecrement}
+                  onValueChange={(value) => setWinnerNumber(Math.min(100, value).toString())}
+                  max={100}
                   id={" winnerNumber"}
                   aria-label={t(LanguageKey.pageLottery_NumberofWinners)}
                 />

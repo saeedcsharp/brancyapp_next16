@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import InputText from "brancy/components/design/inputText";
 import RadioButton from "brancy/components/design/radioButton";
 import FollowerSlider from "brancy/components/design/sliders/followerSlider";

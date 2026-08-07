@@ -1,7 +1,7 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
-import IncrementStepper from "brancy/components/design/incrementStepper";
+import IncrementStepper from "brancy/components/design/incrementStepper/incrementStepper";
 import InputText from "brancy/components/design/inputText";
 import RadioButton from "brancy/components/design/radioButton";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
@@ -596,6 +596,12 @@ const ScoreLottery = (props: {
                     setLotteryInfo((prev) => ({
                       ...prev,
                       minMentionCount: prev.minMentionCount > 1 ? prev.minMentionCount - 1 : 0,
+                    }))
+                  }
+                  onValueChange={(value) =>
+                    setLotteryInfo((prev) => ({
+                      ...prev,
+                      minMentionCount: value,
                     }))
                   }
                   id={""}
