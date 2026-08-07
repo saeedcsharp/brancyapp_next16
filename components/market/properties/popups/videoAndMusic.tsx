@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import {
   internalNotify,
   InternalResponseType,

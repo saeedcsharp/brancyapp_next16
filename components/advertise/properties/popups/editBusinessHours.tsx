@@ -2,7 +2,7 @@ import Head from "next/head";
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import TimerSlider from "brancy/components/design/sliders/timerSlider";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import { findDayName, findDayNumber } from "brancy/helper/findDayName";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./businessHours.module.css";

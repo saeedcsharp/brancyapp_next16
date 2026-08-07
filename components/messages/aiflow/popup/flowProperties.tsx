@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import InputText from "brancy/components/design/inputText";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import { LanguageKey } from "brancy/i18n";
 
 interface FlowPropertiesProps {

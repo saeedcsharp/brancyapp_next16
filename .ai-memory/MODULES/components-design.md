@@ -49,6 +49,7 @@ Exports are defined by source files in the module.
 - `components/design/checkBoxButton/checkBoxButton.tsx` exports the legacy-compatible controlled `CheckBoxButton`, with native checkbox accessibility props, keyboard-visible focus, disabled state, a 44px touch target, and forced-colors/reduced-motion fallbacks.
 - `components/design/radioButton/radioButton.tsx` exports the legacy-compatible controlled `RadioButton`. It retains `textlabel` and `handleOptionChanged`, while supporting standard `label`, `onChange`, and native radio input props; its native input remains keyboard-focusable and styles include 44px touch targets, disabled, focus-visible, reduced-motion, and forced-colors states.
 - `components/design/incrementStepper/incrementStepper.tsx` exports a callback-controlled numeric stepper with semantic buttons, keyboard support, pointer-captured press-and-hold repetition, stale-value-safe decrement handling, optional `onValueChange`, `min`, and `max` props for manual integer entry, optional disabled and accessible-label props, and reduced-motion/forced-colors fallbacks.
+- `components/design/switchButton/switchButton.tsx` exports the controlled `SwitchButton` while preserving its existing import path and callback API. It uses a native checkbox input, accepts standard input and ARIA props, filters legacy invalid roles, provides a 44px touch target, and supports visible focus, disabled, RTL, reduced-motion, and forced-colors states.
 
 ## Internal APIs
 
@@ -78,6 +79,7 @@ React components are present when the folder contains `.tsx` UI files.
 - CheckBoxButton keeps its existing import path and controlled `value`/`handleToggle` API while accepting native ARIA and input attributes. Its checkbox input is visually hidden rather than removed from keyboard navigation.
 - RadioButton keeps its existing import path and controlled legacy props while accepting standard native radio props. Its CSS-module classes are `input`, `label`, `indicator`, and `labelText`; selection uses a pseudo-element so hover and checked states do not change layout dimensions.
 - IncrementStepper uses CSS-module `root`, `control`, `value`, and `isShaking` states. Its existing `data`, `increment`, and `decrement` callback API remains compatible; `disabled`, `className`, `aria-label`, `incrementLabel`, and `decrementLabel` are optional additions.
+- SwitchButton uses CSS-module `root`, `input`, and `track` states. The visual thumb is rendered by the track pseudo-element; the native input remains the interactive and accessible control. Its existing `name`, `checked`, and `handleToggle` props remain compatible, while standard input props and an optional wrapper `className` are supported.
 
 ## Hooks
 

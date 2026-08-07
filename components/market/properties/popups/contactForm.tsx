@@ -7,7 +7,7 @@ import InputText from "brancy/components/design/inputText";
 import TextArea from "brancy/components/design/textArea/textArea";
 import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";

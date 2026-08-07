@@ -6,7 +6,7 @@ import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButt
 import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import {
   internalNotify,
   InternalResponseType,

@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Loading from "brancy/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";

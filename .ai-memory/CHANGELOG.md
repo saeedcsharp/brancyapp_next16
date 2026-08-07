@@ -1,5 +1,7 @@
 # Changelog
 
+- Standardized the shared SwitchButton while preserving its existing import path and controlled API: the native checkbox remains keyboard-accessible, accepts standard input and ARIA props, provides a 44px touch target, supports valid switch semantics, RTL thumb direction, disabled/focus-visible states, reduced motion, and forced colors.
+
 - Standardized the shared IncrementStepper while preserving its `data`, `increment`, and `decrement` callback API: it now uses semantic buttons with keyboard support, pointer-captured press-and-hold repetition, stale-value-safe decrement handling, click suppression after a long press, 44px touch targets, fluid sizing, and reduced-motion/forced-colors fallbacks. Optional `disabled`, `className`, accessible-label, and per-direction label props are available.
 - Added manual integer entry to IncrementStepper. The new optional `onValueChange`, `min`, and `max` props commit validated values on blur or Enter; all current quantity, lottery, and discount consumers now preserve their existing limits during direct entry.
 

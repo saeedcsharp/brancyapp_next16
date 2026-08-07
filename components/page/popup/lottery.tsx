@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 import IncrementStepper from "brancy/components/design/incrementStepper/incrementStepper";
 import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import {
   internalNotify,

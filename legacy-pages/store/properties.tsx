@@ -6,7 +6,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import EditBusinessHours from "brancy/components/advertise/properties/popups/editBusinessHours";
 import Modal from "brancy/components/design/modal";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotShopper from "brancy/components/notOk/notShopper";
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";

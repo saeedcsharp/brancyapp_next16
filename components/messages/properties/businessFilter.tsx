@@ -3,7 +3,7 @@ import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import RadioButton from "brancy/components/design/radioButton/radioButton";
 import TextArea from "brancy/components/design/textArea/textArea";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Loading from "brancy/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";

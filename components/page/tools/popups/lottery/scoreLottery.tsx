@@ -4,7 +4,7 @@ import { DateObject } from "react-multi-date-picker";
 import IncrementStepper from "brancy/components/design/incrementStepper/incrementStepper";
 import InputText from "brancy/components/design/inputText";
 import RadioButton from "brancy/components/design/radioButton/radioButton";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import { MethodType } from "brancy/helper/api";
 
 import { useSession } from "next-auth/react";

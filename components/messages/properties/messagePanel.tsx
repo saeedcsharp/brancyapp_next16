@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import InputText from "brancy/components/design/inputText";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import {
   internalNotify,

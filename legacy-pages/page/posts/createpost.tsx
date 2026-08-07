@@ -26,7 +26,7 @@ import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
 import ProgressBar from "brancy/components/design/progressBar/progressBar";
 import TextArea from "brancy/components/design/textArea/textArea";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import {
   internalNotify,
   InternalResponseType,

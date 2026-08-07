@@ -11,7 +11,7 @@ import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
 import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import {
   internalNotify,

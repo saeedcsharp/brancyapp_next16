@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import BlurInputText from "brancy/components/design/blurInputText";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./propertiesComponent.module.css";

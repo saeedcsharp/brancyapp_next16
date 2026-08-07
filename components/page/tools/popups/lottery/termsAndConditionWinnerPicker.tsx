@@ -6,7 +6,7 @@ import { HuePicker } from "react-color";
 import { useTranslation } from "react-i18next";
 import Slider from "react-slider";
 import RingLoader from "brancy/components/design/loader/ringLoder";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import rgbaToHex from "brancy/helper/rgbaToHex";

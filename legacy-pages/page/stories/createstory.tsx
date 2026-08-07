@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
 import ConstantCounterDown from "brancy/components/design/counterDown/constantCounterDown";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Modal from "brancy/components/design/modal";
 import ProgressBar from "brancy/components/design/progressBar/progressBar";
 import {

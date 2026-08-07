@@ -9,7 +9,7 @@ import InputText from "brancy/components/design/inputText";
 import RadioButton from "brancy/components/design/radioButton/radioButton";
 import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
