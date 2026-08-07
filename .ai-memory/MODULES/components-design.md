@@ -45,6 +45,7 @@ Exports are defined by source files in the module.
 - `components/design/chart/brushLineChart.tsx` exports `BrushLineChart`, a reusable SVG multi-series line chart with a draggable brush range selector, adaptive year/month/day aggregation, count-based vertical axis, legend toggles, and hover tooltips.
 - `components/design/phoneInput/` exports a dependency-free two-input phone selector with local SVG flags, country search, recent/preferred countries, formatting, validation, RTL support, and structured E.164/international/national output.
 - `components/design/inputText.tsx` supports controlled text input normalization by its consumer and exposes a `shake` prop for replaying the shared invalid-input animation.
+- `components/design/textArea/textArea.tsx` exports a standard native-textarea-compatible control with RTL direction detection, controlled/uncontrolled modes, optional bounded auto-resize, keyboard Escape handling, and a 16px minimum computed font size to prevent mobile browser focus zoom. Standard React props are preferred; legacy textarea prop names remain temporarily compatible.
 
 ## Internal APIs
 
@@ -70,6 +71,7 @@ React components are present when the folder contains `.tsx` UI files.
 - The chart design folder now includes a brush-style line chart for date/count series. It keeps the full main line rendered while the selected range controls its visible x-domain, accepts multiple series, auto-aggregates by year/month/day, aligns hover guides/tooltips to displayed buckets, animates path redraws and brush movement, and stays dependency-free.
 - Each displayed vertical guide has a transparent hover zone spanning the midpoint to adjacent guides, allowing near-line tooltip activation.
 - The brush chart measures its container after the first layout paint and once more on the next animation frame, while `ResizeObserver` continues to handle route/layout changes where the card initially has no usable size.
+- TextArea uses the CSS-module `textArea`, `rtl`, `ltr`, `danger`, and `fade` states. It includes keyboard-visible focus, reduced-motion, and forced-colors handling without focus-scale transforms.
 
 ## Hooks
 

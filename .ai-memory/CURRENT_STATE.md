@@ -51,6 +51,7 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Standardized the shared TextArea around native textarea props while retaining legacy prop aliases for existing consumers. It now applies RTL/LTR direction reliably, supports bounded auto-resize without timer races, uses responsive focus/forced-colors/reduced-motion styles, and enforces a 16px minimum font size to prevent mobile focus zoom.
 - Standardized the shared DotMenu with native button/menu semantics, keyboard navigation, focus restoration, escape and outside-pointer close behavior, responsive touch targets and viewport bounds, RTL-aware placement, reduced-motion and forced-colors support. The legacy DotMenu props remain compatible while standard `options`, `onOptionSelect`, and `placement` props are available.
 - Removed unused MyLink product visibility state, root key, legacy markup styles, and obsolete search/coupon CSS while retaining the active carousel and card styles.
 - Converted the MyLink product cards into a free horizontal carousel with native touch scrolling, mouse/pointer dragging, no wrapping or scroll snap, and drag-click protection for product links.

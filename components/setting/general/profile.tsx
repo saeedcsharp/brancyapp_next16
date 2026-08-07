@@ -103,14 +103,13 @@ function Profile() {
           </label>
           <div className={styles.biographyContainer}>
             <TextArea
-              className="TextArea"
               id="user-biography"
               name="biography"
-              placeHolder="bio"
+              placeholder="bio"
               maxLength={2200}
               value={userData.biography}
               readOnly={true}
-              role="textbox"
+              fadeTextArea={true}
               title={t(LanguageKey.advertiseProperties_biography)}
               aria-readonly="true"
               aria-label={t(LanguageKey.advertiseProperties_biography)}
