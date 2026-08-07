@@ -1,7 +1,16 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
-import { ChangeEvent, useRef, useState } from "react";
+import {
+  type ChangeEvent,
+  type KeyboardEvent,
+  type PointerEvent,
+  useCallback,
+  useDeferredValue,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
 import InputText from "brancy/components/design/inputText";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import styles from "./product.module.css";
 import { IProducts } from "brancy/models/interfaces";
 import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
@@ -12,12 +21,23 @@ const Products = (props: { data: IProducts | null }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [productFilter, setProductFilter] = useState<ProductFilter>("bestSellers");
   const [isProductDragging, setIsProductDragging] = useState(false);
+  const deferredSearchTerm = useDeferredValue(searchTerm);
   const productContainerRef = useRef<HTMLDivElement>(null);
   const dragStateRef = useRef({ startX: 0, startScrollLeft: 0, moved: false });
-  function handleSearchPeopleInputChange(e: ChangeEvent<HTMLInputElement>): void {
+  const handleSearchPeopleInputChange = useCallback((e: ChangeEvent<HTMLInputElement>): void => {
     setSearchTerm(e.target.value);
-  }
-  function handleProductPointerDown(e: React.PointerEvent<HTMLDivElement>): void {
+  }, []);
+
+  const handleProductFilterChange = useCallback((value: number) => {
+    setProductFilter(value === 1 ? "bestSellers" : "bestDiscounts");
+  }, []);
+
+  const handleResetFilters = useCallback(() => {
+    setProductFilter("bestSellers");
+    setSearchTerm("");
+  }, []);
+
+  const handleProductPointerDown = useCallback((e: PointerEvent<HTMLDivElement>): void => {
     if (e.pointerType === "mouse" && e.button !== 0) return;
 
     const container = productContainerRef.current;
@@ -30,8 +50,9 @@ const Products = (props: { data: IProducts | null }) => {
     };
     container.setPointerCapture(e.pointerId);
     setIsProductDragging(true);
-  }
-  function handleProductPointerMove(e: React.PointerEvent<HTMLDivElement>): void {
+  }, []);
+
+  const handleProductPointerMove = useCallback((e: PointerEvent<HTMLDivElement>): void => {
     const container = productContainerRef.current;
     if (!container || !container.hasPointerCapture(e.pointerId)) return;
 
@@ -40,54 +61,76 @@ const Products = (props: { data: IProducts | null }) => {
       dragStateRef.current.moved = true;
     }
     container.scrollLeft = dragStateRef.current.startScrollLeft - distance;
-  }
-  function handleProductPointerUp(e: React.PointerEvent<HTMLDivElement>): void {
+  }, []);
+
+  const handleProductPointerUp = useCallback((e: PointerEvent<HTMLDivElement>): void => {
     const container = productContainerRef.current;
     if (container?.hasPointerCapture(e.pointerId)) {
       container.releasePointerCapture(e.pointerId);
     }
-    setIsProductDragging(false);
-  }
-  const products = (props.data?.productCards ?? [])
-    .map((productCard) => productCard.shortProduct)
-    .filter((product) => {
-      const searchValue = searchTerm.trim().toLocaleLowerCase();
-      if (!searchValue) return true;
-      return (
-        product.title?.toLocaleLowerCase().includes(searchValue) ||
-        product.productId.toLocaleLowerCase().includes(searchValue)
-      );
-    })
-    .sort((firstProduct, secondProduct) => {
-      if (productFilter === "bestSellers") {
-        return secondProduct.inCardCount - firstProduct.inCardCount;
-      }
-      if (productFilter === "bestDiscounts") {
-        const firstDiscount =
-          firstProduct.minDiscountPrice !== null && firstProduct.minPrice > 0
-            ? (firstProduct.minPrice - firstProduct.minDiscountPrice) / firstProduct.minPrice
-            : 0;
-        const secondDiscount =
-          secondProduct.minDiscountPrice !== null && secondProduct.minPrice > 0
-            ? (secondProduct.minPrice - secondProduct.minDiscountPrice) / secondProduct.minPrice
-            : 0;
-        return secondDiscount - firstDiscount;
-      }
-      return 0;
-    });
+    setIsProductDragging((isDragging) => (isDragging ? false : isDragging));
+  }, []);
+
+  const handleProductContainerKeyDown = useCallback((event: KeyboardEvent<HTMLDivElement>) => {
+    const container = productContainerRef.current;
+    if (!container) return;
+
+    const scrollAmount = Math.max(container.clientWidth * 0.8, 200);
+    const direction = getComputedStyle(container).direction === "rtl" ? -1 : 1;
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      event.preventDefault();
+      const offset = event.key === "ArrowRight" ? scrollAmount * direction : -scrollAmount * direction;
+      container.scrollBy({ left: offset, behavior: "smooth" });
+    }
+    if (event.key === "Home" || event.key === "End") {
+      event.preventDefault();
+      container.scrollTo({ left: event.key === "Home" ? 0 : container.scrollWidth, behavior: "smooth" });
+    }
+  }, []);
+
+  const products = useMemo(() => {
+    const searchValue = deferredSearchTerm.trim().toLocaleLowerCase();
+    return (props.data?.productCards ?? [])
+      .map((productCard) => productCard.shortProduct)
+      .filter((product) => {
+        if (!searchValue) return true;
+        return (
+          product.title?.toLocaleLowerCase().includes(searchValue) ||
+          product.productId.toLocaleLowerCase().includes(searchValue)
+        );
+      })
+      .sort((firstProduct, secondProduct) => {
+        if (productFilter === "bestSellers") {
+          return secondProduct.inCardCount - firstProduct.inCardCount;
+        }
+        if (productFilter === "bestDiscounts") {
+          const firstDiscount =
+            firstProduct.minDiscountPrice !== null && firstProduct.minPrice > 0
+              ? (firstProduct.minPrice - firstProduct.minDiscountPrice) / firstProduct.minPrice
+              : 0;
+          const secondDiscount =
+            secondProduct.minDiscountPrice !== null && secondProduct.minPrice > 0
+              ? (secondProduct.minPrice - secondProduct.minDiscountPrice) / secondProduct.minPrice
+              : 0;
+          return secondDiscount - firstDiscount;
+        }
+        return 0;
+      });
+  }, [deferredSearchTerm, productFilter, props.data?.productCards]);
+
   return (
     <>
       {props.data && (
         <div id="product" className={styles.all}>
           <div className={styles.header}>
             <div className={styles.filterToggle}>
-              <FlexibleToggleButton
+              <ToggleButton
                 options={[
                   { id: 1, label: "Best Sellers" },
                   { id: 2, label: "Best Discounts" },
                 ]}
                 selectedValue={productFilter === "bestSellers" ? 1 : 2}
-                onChange={(value) => setProductFilter(value === 1 ? "bestSellers" : "bestDiscounts")}
+                onChange={handleProductFilterChange}
               />
             </div>
             <div className={styles.headerSearch}>
@@ -102,13 +145,7 @@ const Products = (props: { data: IProducts | null }) => {
                 autoComplete="off"
               />
             </div>
-            <button
-              type="button"
-              className="saveButton"
-              onClick={() => {
-                setProductFilter("bestSellers");
-                setSearchTerm("");
-              }}>
+            <button type="button" className="saveButton" onClick={handleResetFilters}>
               Show All Products
             </button>
           </div>
@@ -116,10 +153,15 @@ const Products = (props: { data: IProducts | null }) => {
           <div
             ref={productContainerRef}
             className={`${styles.productContainer} ${isProductDragging ? styles.dragging : ""}`}
+            tabIndex={0}
+            role="region"
+            aria-label="Product carousel"
+            onKeyDown={handleProductContainerKeyDown}
             onPointerDown={handleProductPointerDown}
             onPointerMove={handleProductPointerMove}
             onPointerUp={handleProductPointerUp}
-            onPointerCancel={handleProductPointerUp}>
+            onPointerCancel={handleProductPointerUp}
+            onLostPointerCapture={handleProductPointerUp}>
             {products.map((product) => {
               const hasDiscount = product.minDiscountPrice !== null && product.minDiscountPrice < product.minPrice;
               const discountPercent =
@@ -146,7 +188,10 @@ const Products = (props: { data: IProducts | null }) => {
                     className={styles.productimage}
                     alt={product.title ?? "Product"}
                     src={`${basePictureUrl}${product.thumbnailMediaUrl}`}
+                    width={200}
+                    height={200}
                     onError={(event) => {
+                      event.currentTarget.onerror = null;
                       event.currentTarget.src = "/product_draft-gray.svg";
                     }}
                   />

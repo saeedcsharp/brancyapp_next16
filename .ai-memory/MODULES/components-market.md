@@ -1,5 +1,9 @@
 # components/market
 
+## MyLink Typography
+
+MyLink CSS modules use the shared fluid typography tokens from `scss/_variables.scss` (`--font-fluid-xs` through `--font-fluid-2xl`). These tokens keep labels, body text, controls, and section headings within readable minimum and maximum sizes across viewport widths, so individual MyLink styles do not use raw pixel `font-size` values or abrupt mobile overrides.
+
 ## Purpose
 
 Component module for market UI and feature concerns.
@@ -140,11 +144,29 @@ Products is enabled in the market properties feature list. Reviews and AdsTimeli
 
 `components/market/myLink/product.tsx` renders the product-card section with a responsive header. The header keeps Best Sellers and Best Discounts toggles beside a flex-growing product/PID search input on desktop, then stacks the controls below 720px. Best Sellers sorts by the available `inCardCount` signal, Best Discounts sorts by calculated discount percentage, and Show All Products clears both filters and search text.
 
+Product search uses a deferred query and a memoized filter/sort result to keep input responsive for large card collections. The horizontal carousel supports pointer dragging plus focused keyboard navigation with Left/Right, Home, and End keys, including RTL-aware scroll direction. Product and live-stream motion honors `prefers-reduced-motion`.
+
 The product cards render in a free horizontal carousel. The container never wraps, supports native horizontal touch scrolling and pointer drag scrolling with the mouse or touch, and does not use scroll snapping. A drag gesture suppresses the card link click that would otherwise open an Instagram URL.
+
+## MyLink Lifecycle And Metadata
+
+The authenticated MyLink page redirects only from effects, ignores asynchronous results after unmount, presents its three feature dialogs through one exclusive modal state, derives rendered feature nodes from one memoized feature map, and marks its authenticated metadata `noindex, nofollow`. The live-stream and last-video interaction listeners are registered from effects and removed during cleanup.
+
+Last-video titles and descriptions preserve backend newline characters in the rendered text while keeping embedded links as safe React anchors.
 
 # The product module keeps only styles used by its current header, carousel, and product cards; the former collapsible-section state and legacy header, search, and coupon styles were removed.
 
 The Products card intentionally omits the edit-options three-dot control; other movable feature cards continue to expose it.
+
+## MyLink Shortcut Links
+
+`components/market/myLink/featureBox.tsx` renders FeatureBox cards in free mode: the section has native horizontal overflow without scroll snapping, supports touch/trackpad scrolling and primary-button pointer dragging across browsers, and prevents a drag gesture from triggering a tile click. The layout starts at the logical inline start on every viewport and keeps keyboard focus and reduced-motion styles available.
+
+`components/market/myLink/link.tsx` renders shortcut cards with a desktop maximum width of 250px. On mobile, the shortcut section becomes a free horizontal carousel with native touch scrolling and pointer dragging; when more than four links exist, each mobile card is reduced to 200px. Dragging suppresses the click that would otherwise redirect to a shortcut URL.
+
+`components/market/myLink/menubar.tsx` keeps feature navigation in free horizontal mode. The intersection observer uses a stable viewport anchor and the rendered feature list to update the active menu item during manual page scrolling and smooth feature navigation; the active button is then centered inside the menubar. Reduced-motion users receive an instant reposition instead of smooth scrolling.
+
+The MyLink page prepends a permanent Home menu item for `FeatureType.FeaturesBox` and initializes the menubar on that item. `ContactAndMap` does not autofocus a contact link during mount, so rendering the section cannot pull the browser viewport away from the top FeatureBox section.
 
 ## Domain Manager
 
@@ -171,7 +193,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-08-06
+2026-08-07
 
 ---
 

@@ -1,5 +1,5 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
-import { memo, useCallback, useEffect, useId, useLayoutEffect, useMemo, useReducer, useRef } from "react";
+import { type KeyboardEventHandler, memo, useCallback, useEffect, useId, useMemo, useReducer, useRef } from "react";
 import styles from "./banner.module.css";
 import { IClientBanner } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
@@ -176,8 +176,8 @@ const Banner = memo(({ data }: { data: IClientBanner }) => {
   const bannerImageSrc = data.banners.map((banner) => `${baseMediaUrl}${banner.url}`);
   const profileImageSrc = `${baseMediaUrl}${data.profile.profileUrl}`;
 
-  const handleKeyDown = useCallback(
-    (e: KeyboardEvent) => {
+  const handleKeyDown = useCallback<KeyboardEventHandler<HTMLDivElement>>(
+    (e) => {
       if (totalSlides <= 1) return;
 
       switch (e.key) {
@@ -217,6 +217,7 @@ const Banner = memo(({ data }: { data: IClientBanner }) => {
   );
 
   useEffect(() => {
+    isUnmountedRef.current = false;
     return () => {
       isUnmountedRef.current = true;
       stopAutoPlay();
@@ -228,19 +229,6 @@ const Banner = memo(({ data }: { data: IClientBanner }) => {
     return stopAutoPlay;
   }, [startAutoPlay, stopAutoPlay]);
 
-  useEffect(() => {
-    const slider = sliderRef.current;
-    if (slider) {
-      slider.addEventListener("keydown", handleKeyDown);
-      return () => slider.removeEventListener("keydown", handleKeyDown);
-    }
-  }, [handleKeyDown]);
-
-  useLayoutEffect(() => {
-    if (sliderRef.current) {
-      sliderRef.current.focus();
-    }
-  }, []);
   return (
     <div className={`${styles.banner} translate`} role="region" aria-label="Image carousel">
       <div
@@ -250,6 +238,7 @@ const Banner = memo(({ data }: { data: IClientBanner }) => {
         role="group"
         aria-roledescription="carousel"
         aria-label={`Image carousel with ${totalSlides} slides`}
+        onKeyDown={handleKeyDown}
         onMouseDown={handleMouseDown}
         onMouseMove={handleMouseMove}
         onMouseUp={handleMouseUp}

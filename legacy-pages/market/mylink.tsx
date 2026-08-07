@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { ReactNode, useEffect, useMemo, useState } from "react";
+import { type ReactNode, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import AdvertisingTermsPopup from "brancy/components/advertise/popups/advertisingTermsPopup";
 import BusinessHourPopup from "brancy/components/advertise/popups/businessHourPopup";
@@ -118,23 +118,18 @@ function handleFeatureInfo(mediaLink: IMyLink) {
 }
 function workHourCast(params: IWorkHourItem[] | null): IBusinessHour[] | null {
   if (!params) return null;
-  let workOurs: IBusinessHour[] = [];
-  const array = [0, 1, 2, 3, 4, 5, 6];
-  for (let index = 0; index < array.length; index++) {
-    const element = params.find((x) => x.weekDay == index);
-    workOurs.push({
-      dayName: index,
-      timerInfo: element
+  return Array.from({ length: 7 }, (_, dayName) => {
+    const workHour = params.find((item) => item.weekDay === dayName);
+    return {
+      dayName,
+      timerInfo: workHour
         ? {
-            endTime: element.endTime,
-            startTime: element.beginTime,
+            endTime: workHour.endTime,
+            startTime: workHour.beginTime,
           }
         : null,
-    });
-  }
-  {
-  }
-  return workOurs;
+    };
+  });
 }
 function lastVideCast(params: IMyLinkChannel | null) {
   if (!params) return null;
@@ -190,9 +185,7 @@ const MyLink = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const { t } = useTranslation();
-  const [showTerms, setShowTerms] = useState(false);
-  const [showTerrif, setShowTerrif] = useState(false);
-  const [showHours, setShowHours] = useState(false);
+  const [activeModal, setActiveModal] = useState<"terms" | "tariff" | "hours" | null>(null);
   const [myLink, setMyLink] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -200,19 +193,32 @@ const MyLink = () => {
   // Handle authentication check
   useEffect(() => {
     if (status === "loading") return; // Still loading
-    if (status === "unauthenticated" || !LoginStatus(session)) {
-      router.push("/");
+    if (status === "unauthenticated" || !session || !LoginStatus(session)) {
+      router.replace("/");
       return;
     }
-  }, [status, router]);
+    if (session.user.currentIndex === -1) {
+      router.replace("/user");
+      return;
+    }
+    if (!packageStatus(session)) router.replace("/upgrade");
+  }, [router, session, status]);
 
   useEffect(() => {
-    if (session && !packageStatus(session)) router.push("/upgrade");
+    let isActive = true;
     const fetchData = async () => {
       // Don't fetch if already loaded or if session is not available
-      if (myLink || !session || status !== "authenticated") return;
+      if (
+        !session ||
+        status !== "authenticated" ||
+        !LoginStatus(session) ||
+        !packageStatus(session) ||
+        session.user.currentIndex === -1
+      ) {
+        return;
+      }
       if (!RoleAccess(session, PartnerRole.Bio)) {
-        setLoading(false);
+        if (isActive) setLoading(false);
         return;
       }
 
@@ -226,6 +232,7 @@ const MyLink = () => {
           queries: undefined,
           onUploadProgress: undefined,
         });
+        if (!isActive) return;
         if (info.succeeded) {
           let data: IMyLink = {
             announcement: info.value.announcement
@@ -334,92 +341,66 @@ const MyLink = () => {
             caption: info.value.caption,
           };
           setMyLink({ data, bannerInfo, featureBox });
-        } else notify(info.info.responseType, NotifType.Warning);
-      } catch (err: any) {
+        } else {
+          notify(info.info.responseType, NotifType.Warning);
+          setError("Unable to load My Link.");
+        }
+      } catch {
+        if (!isActive) return;
         notify(ResponseType.Unexpected, NotifType.Error);
+        setError("Unable to load My Link.");
       } finally {
-        setLoading(false);
+        if (isActive) setLoading(false);
       }
     };
     fetchData();
-  }, [session, status, myLink]);
+    return () => {
+      isActive = false;
+    };
+  }, [session, status]);
 
   // Move all useMemo hooks before early returns
-  const arrayDiv = useMemo(() => {
+  const initialzeFeatureDiv = useMemo(() => {
     if (!myLink) return [];
-    return [
-      {
-        reactNode: <Announcement data={myLink.data.announcement} key={"announcement"} />,
-        featureType: FeatureType.Announcements,
-      },
-      {
-        reactNode: <Reviews data={myLink.data.reviews} key={"reviews"} />,
-        featureType: FeatureType.Reviews,
-      },
-      {
-        reactNode: <OnlineStreaming data={myLink.data.onlineStreaming} key={"OnlineStreaming"} />,
-        featureType: FeatureType.OnlineStream,
-      },
-      {
-        reactNode: <LastVideo data={myLink.data.lastVideo} key={"LastVideo"} />,
-        featureType: FeatureType.LastVideo,
-      },
-      {
-        reactNode: <Faq data={myLink.data.faq} key={"Faq"} />,
-        featureType: FeatureType.QandABox,
-      },
-      {
-        reactNode: <Link data={myLink.data.link} key={"link"} />,
-        featureType: FeatureType.LinkShortcut,
-      },
-      {
-        reactNode: <ContactAndMap data={myLink.data.contactAndMap} key={"ContactAndMap"} />,
-        featureType: FeatureType.ContactAndMap,
-      },
-      {
-        reactNode: <Product data={myLink.data.products} key={"Products"} />,
-        featureType: FeatureType.Products,
-      },
-    ];
+    const featureComponents = new Map<FeatureType, ReactNode>([
+      [FeatureType.Announcements, <Announcement data={myLink.data.announcement} key="announcement" />],
+      [FeatureType.Reviews, <Reviews data={myLink.data.reviews} key="reviews" />],
+      [FeatureType.OnlineStream, <OnlineStreaming data={myLink.data.onlineStreaming} key="onlineStreaming" />],
+      [FeatureType.LastVideo, <LastVideo data={myLink.data.lastVideo} key="lastVideo" />],
+      [FeatureType.QandABox, <Faq data={myLink.data.faq} key="faq" />],
+      [FeatureType.LinkShortcut, <Link data={myLink.data.link} key="link" />],
+      [FeatureType.ContactAndMap, <ContactAndMap data={myLink.data.contactAndMap} key="contactAndMap" />],
+      [FeatureType.Products, <Product data={myLink.data.products} key="products" />],
+    ]);
+    return handleFeatureInfo(myLink.data).flatMap((feature) => {
+      const component = featureComponents.get(feature.featureType);
+      return component ? [component] : [];
+    });
   }, [myLink]);
 
   const featurInfos = useMemo(() => {
-    return myLink ? handleFeatureInfo(myLink.data) : [];
+    if (!myLink) return [];
+    return [
+      {
+        orderId: -1,
+        title: "home",
+        featureType: FeatureType.FeaturesBox,
+        isActive: true,
+      },
+      ...handleFeatureInfo(myLink.data),
+    ];
   }, [myLink]);
 
-  const initialzeFeatureDiv = useMemo(() => {
-    const tempArrayDiv: ReactNode[] = [];
-    for (let index = 0; index < featurInfos.length; index++) {
-      const element = featurInfos[index];
-      const element1 = arrayDiv.find((x) => x.featureType === element.featureType);
-      if (element1) {
-        tempArrayDiv.push(element1.reactNode);
-      }
-    }
-    return tempArrayDiv;
-  }, [featurInfos, arrayDiv]);
-
-  function handleShowTerms() {
-    setShowTerms(true);
-  }
-  function handleShowHours() {
-    setShowHours(true);
-  }
-  function handleShowTerif() {
-    setShowTerrif(true);
-  }
-  function removeMask() {
-    setShowTerms(false);
-    setShowHours(false);
-    setShowTerrif(false);
-  }
+  const handleShowTerms = useCallback(() => setActiveModal("terms"), []);
+  const handleShowHours = useCallback(() => setActiveModal("hours"), []);
+  const handleShowTerif = useCallback(() => setActiveModal("tariff"), []);
+  const removeMask = useCallback(() => setActiveModal(null), []);
 
   if (status === "loading" || loading) return <Loading />;
   if (!RoleAccess(session, PartnerRole.Bio)) return <NotAllowed />;
 
   if (error) return <h1 style={{ color: "red" }}>{error}</h1>;
   if (!myLink) return <h1 className="title">{t(LanguageKey.pageStatistics_EmptyList)}</h1>;
-  if (session?.user.currentIndex === -1) router.push("/user");
   return (
     session &&
     session!.user.currentIndex !== -1 && (
@@ -427,22 +408,17 @@ const MyLink = () => {
         {/* head for SEO */}
         <Head>
           {" "}
-          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
+          <meta name="viewport" content="width=device-width, initial-scale=1" />
           <title>Bran.cy ▸ {t(LanguageKey.navbar_MyLink)}</title>
-          <meta name="description" content="Advanced Instagram post management tool" />
-          <meta name="theme-color"></meta>
-          <meta
-            name="keywords"
-            content="instagram, manage, tools, Brancy,post create , story create , Lottery , insight , Graph , like , share, comment , view , tag , hashtag , "
-          />
-          <meta name="robots" content="index, follow" />
-          <link rel="canonical" href="https://www.Brancy.app/page/posts" />
+          <meta name="description" content="Manage your Brancy bio-link content and business profile." />
+          <meta name="theme-color" content="#ffffff" />
+          <meta name="robots" content="noindex, nofollow" />
           {/* Add other meta tags as needed */}
         </Head>
         {/* head for SEO */}
         <main className={styles.pincontainer}>
-          {initialzeFeatureDiv.length > 0 && <Menubar data={featurInfos} featureType={featurInfos[0].featureType} />}
           <Banner data={myLink.bannerInfo} />
+          {myLink && <Menubar data={featurInfos} featureType={FeatureType.FeaturesBox} />}
           {myLink.data.orderItems.isActiveFeatureBox && (
             <FeatureBox
               data={myLink.featureBox}
@@ -455,13 +431,13 @@ const MyLink = () => {
           {initialzeFeatureDiv.length > 0 && <DynamicFeatures reactNodes={initialzeFeatureDiv} />}
           <Aboutus data={myLink.bannerInfo} />
         </main>
-        <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showTerms}>
+        <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={activeModal === "terms"}>
           <AdvertisingTermsPopup removeMask={removeMask} data={(myLink.featureBox && myLink.featureBox.terms) || []} />
         </Modal>
-        <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showTerrif}>
+        <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={activeModal === "tariff"}>
           <TarrifPopup teriif={myLink.featureBox && myLink.featureBox.teriif} removeMask={removeMask} />
         </Modal>
-        <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showHours}>
+        <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={activeModal === "hours"}>
           <BusinessHourPopup
             businessInfo={(myLink.featureBox && myLink.featureBox.workHours) || []}
             removeMask={removeMask}

@@ -49,6 +49,7 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
   const { t } = useTranslation();
   const [state, dispatch] = useReducer(streamReducer, initialState);
   const playerRef = useRef<any>(null);
+  const lastUserInteractionRef = useRef(0);
 
   // Helpers: URL normalization and deep-linking
   const ensureAbsoluteHttpUrl = useCallback((url: string): string => {
@@ -218,8 +219,6 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
   // فانکشن عمومی برای کلیک روی ویدیو
   const handleVideoClick = useCallback(
     (platform: "youtube" | "twitch" | "aparat") => {
-      console.log(`ویدیو ${platform} کلیک شد!`);
-
       const getFixedUrl = (url?: string) => {
         if (!url) return "";
         if (!/^https?:\/\//i.test(url)) {
@@ -246,24 +245,22 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
           const twitchUrl = getFixedUrl(data.lastVideo?.twitchChannel?.video?.reDirectUrl);
           if (twitchUrl) openLinkSmart(twitchUrl, "twitch");
           break;
-
-        default:
-          console.log("پلتفرم نامشخص");
       }
     },
     [data.lastVideo],
   );
 
-  let lastUserInteraction = 0;
-
   // ثبت تعامل واقعی کاربر
-  if (typeof window !== "undefined") {
-    ["click", "touchend", "pointerdown"].forEach((ev) => {
-      window.addEventListener(ev, () => (lastUserInteraction = Date.now()), {
-        passive: true,
-      });
-    });
-  }
+  useEffect(() => {
+    const updateLastUserInteraction = () => {
+      lastUserInteractionRef.current = Date.now();
+    };
+    const eventTypes = ["click", "touchend", "pointerdown"] as const;
+    eventTypes.forEach((eventType) => window.addEventListener(eventType, updateLastUserInteraction, { passive: true }));
+    return () => {
+      eventTypes.forEach((eventType) => window.removeEventListener(eventType, updateLastUserInteraction));
+    };
+  }, []);
 
   /**
    * باز کردن لینک هوشمند
@@ -277,7 +274,7 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
     const isAndroid = /android/.test(ua);
     const isIOS = /iphone|ipad|ipod/.test(ua);
     const isMobile = isAndroid || isIOS;
-    const hasGesture = Date.now() - lastUserInteraction < 3000;
+    const hasGesture = Date.now() - lastUserInteractionRef.current < 3000;
 
     const normalizeUrl = (u: string) => {
       if (!u) return "";
@@ -390,13 +387,11 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
                 },
                 events: {
                   onStateChange: (event: any) => {
-                    console.log("YouTube event", event.data);
                     if (event.data === (window as any).YT.PlayerState.PLAYING) {
                       firstFetch = false;
                       // OnClickPlayVideo("youtube", "play");
                     }
                     if (event.data === (window as any).YT.PlayerState.BUFFERING) {
-                      console.log("YouTube buffering");
                       firstFetch = true;
                     }
                     if (event.data === (window as any).YT.PlayerState.UNSTARTED && firstFetch) {
@@ -424,7 +419,6 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
           const aparatFrame = document.getElementById("AparatLastVideo");
           if (aparatFrame) {
             aparatFrame.addEventListener("click", () => {
-              console.log("Aparat video clicked");
               // OnClickPlayVideo("aparat", "play");
               const aparatUrl = data.lastVideo?.aparatChannel?.video?.reDirectUrl;
               if (aparatUrl) {
@@ -441,7 +435,6 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
           const twitchFrame = document.getElementById("TwitchLastVideo");
           if (twitchFrame) {
             twitchFrame.addEventListener("click", () => {
-              console.log("Twitch video clicked");
               // OnClickPlayVideo("twitch", "play");
               const twitchUrl = data.lastVideo?.twitchChannel?.video?.reDirectUrl;
               if (twitchUrl) {
@@ -532,16 +525,12 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
             rel="noopener noreferrer"
             style={{
               color: "var(--color-dark-blue)",
-              backgroundColor: "var(--color-dark-blue30)",
-              padding: "0px 6px",
-              borderRadius: "8px",
+              fontSize: "var(--font-fluid-sm)",
               textDecoration: "underline",
-
               cursor: "pointer",
             }}
             onClick={(e) => {
               e.stopPropagation();
-              console.log("Link clicked:", href);
             }}>
             {part}
           </a>
@@ -595,14 +584,12 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
           {!streamStatus && (
             <div className={styles.embedvideofromtumb}>
               <img
+                className={styles.embedvideofromtumbimg}
                 loading="lazy"
                 decoding="async"
                 onClick={() => handleVideoClick(platform)}
                 alt={`${platform} thumbnail`}
                 src={channel.video.filterThumbnailMediaUrl}
-                width={800}
-                height={500}
-                style={{ cursor: "pointer" }}
               />
             </div>
           )}

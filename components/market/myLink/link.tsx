@@ -1,5 +1,5 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
-import { memo, useCallback, useMemo, useState } from "react";
+import { memo, type MouseEvent, type PointerEvent, useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 
 import CountdownTimerForLink from "brancy/components/design/counterDown/counterDownForLink";
@@ -13,8 +13,9 @@ interface LinkItemProps {
   link: IServerLink;
   baseMediaUrl: string;
   onLinkClick: (redirectUrl: string) => void;
+  className?: string;
 }
-const LinkItem = memo<LinkItemProps>(({ link, baseMediaUrl, onLinkClick }) => {
+const LinkItem = memo<LinkItemProps>(({ link, baseMediaUrl, onLinkClick, className }) => {
   const { t } = useTranslation();
   const [imageError, setImageError] = useState(false);
 
@@ -37,7 +38,7 @@ const LinkItem = memo<LinkItemProps>(({ link, baseMediaUrl, onLinkClick }) => {
   }, []);
   return (
     <article
-      className={styles.shortcutlink}
+      className={`${styles.shortcutlink} ${className ?? ""}`}
       onClick={handleClick}
       role="button"
       tabIndex={0}
@@ -105,6 +106,9 @@ LinkItem.displayName = "LinkItem";
 const Link = memo<LinkComponentProps>(({ data }) => {
   const { t } = useTranslation();
   const [isContentVisible, setIsContentVisible] = useState(true);
+  const [isContentDragging, setIsContentDragging] = useState(false);
+  const contentRef = useRef<HTMLElement>(null);
+  const dragStateRef = useRef({ startX: 0, startScrollLeft: 0, moved: false });
   const baseMediaUrl = useMemo(() => getClientMediaBaseUrl(), []);
   const toggleContentVisibility = useCallback(() => {
     setIsContentVisible((prev) => !prev);
@@ -135,7 +139,46 @@ const Link = memo<LinkComponentProps>(({ data }) => {
       window.location.href = url;
     }
   }, []);
+  const handleContentPointerDown = useCallback((event: PointerEvent<HTMLElement>) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+
+    const content = contentRef.current;
+    if (!content) return;
+
+    dragStateRef.current = {
+      startX: event.clientX,
+      startScrollLeft: content.scrollLeft,
+      moved: false,
+    };
+    content.setPointerCapture(event.pointerId);
+    setIsContentDragging(true);
+  }, []);
+  const handleContentPointerMove = useCallback((event: PointerEvent<HTMLElement>) => {
+    const content = contentRef.current;
+    if (!content || !content.hasPointerCapture(event.pointerId)) return;
+
+    const distance = event.clientX - dragStateRef.current.startX;
+    if (Math.abs(distance) > 5) {
+      dragStateRef.current.moved = true;
+    }
+    content.scrollLeft = dragStateRef.current.startScrollLeft - distance;
+  }, []);
+  const handleContentPointerUp = useCallback((event: PointerEvent<HTMLElement>) => {
+    const content = contentRef.current;
+    if (content?.hasPointerCapture(event.pointerId)) {
+      content.releasePointerCapture(event.pointerId);
+    }
+    setIsContentDragging(false);
+  }, []);
+  const handleContentClickCapture = useCallback((event: MouseEvent<HTMLElement>) => {
+    if (!dragStateRef.current.moved) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    dragStateRef.current.moved = false;
+  }, []);
   if (!data?.links?.length) return null;
+  const hasManyLinks = sortedLinks.length > 4;
   return (
     <div key="link" id="link" className={styles.all}>
       <header className={styles.header}>
@@ -172,9 +215,23 @@ const Link = memo<LinkComponentProps>(({ data }) => {
           </div>
         </button>
       </header>
-      <main id="link-content" className={`${styles.content} ${isContentVisible ? styles.show : ""}`}>
+      <main
+        ref={contentRef}
+        id="link-content"
+        className={`${styles.content} ${isContentVisible ? styles.show : ""} ${isContentDragging ? styles.dragging : ""}`}
+        onPointerDown={handleContentPointerDown}
+        onPointerMove={handleContentPointerMove}
+        onPointerUp={handleContentPointerUp}
+        onPointerCancel={handleContentPointerUp}
+        onClickCapture={handleContentClickCapture}>
         {sortedLinks.map((link) => (
-          <LinkItem key={link.id} link={link} baseMediaUrl={baseMediaUrl} onLinkClick={handleLinkClick} />
+          <LinkItem
+            key={link.id}
+            link={link}
+            baseMediaUrl={baseMediaUrl}
+            onLinkClick={handleLinkClick}
+            className={hasManyLinks ? styles.compact : undefined}
+          />
         ))}
       </main>
     </div>

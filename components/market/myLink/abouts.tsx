@@ -69,6 +69,7 @@ const Aboutus = memo<AboutusProps>(({ data }) => {
             style={{
               textDecoration: "none",
               color: "var(--color-light-blue)",
+              fontSize: "var(--font-fluid-xs)",
             }}
             target="_blank"
             rel="noopener noreferrer"

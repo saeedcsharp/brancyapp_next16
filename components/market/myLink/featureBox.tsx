@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { KeyboardEvent, memo, useCallback, useMemo, useRef } from "react";
+import { memo, useCallback, useMemo, useRef, useState, type KeyboardEvent, type PointerEvent } from "react";
 import { useTranslation } from "react-i18next";
 import FiveStar from "brancy/components/fiveStar";
 import { calculateSummary } from "brancy/helper/numberFormater";
@@ -19,16 +19,9 @@ const ICON_PROPS = {
 };
 const FeatureBox = memo<FeatureBoxProps>(({ data, handleShowTerms, handleShowHours, handleShowTerif }) => {
   const { t } = useTranslation();
-  const followers = useMemo(() => (data?.followers ? calculateSummary(data.followers) : null), [data?.followers]);
-  const adsView = useMemo(() => (data?.adsView ? calculateSummary(data.adsView) : null), [data?.adsView]);
-  const hasEnemad = useMemo(() => data?.enemad && data.enemad.length > 0, [data?.enemad]);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const focusedTileRef = useRef<number>(-1);
-  interface FeatureBoxProps {
-    data: IFeatureBox | null;
-    routeUsername?: string;
-    instagramerId: number;
-  }
+  const containerRef = useRef<HTMLElement>(null);
+  const dragStateRef = useRef({ startX: 0, startScrollLeft: 0, moved: false });
+  const [isDragging, setIsDragging] = useState(false);
   interface TileContent {
     image?: { src: string; alt: string };
     title?: string;
@@ -93,7 +86,7 @@ const FeatureBox = memo<FeatureBoxProps>(({ data, handleShowTerms, handleShowHou
         trackingName: "workHour",
       });
     }
-    if (data.enemad.length > 0) {
+    if (data.enemad?.length > 0) {
       tiles.push({
         key: "verified",
         className: styles.verified,
@@ -209,30 +202,23 @@ const FeatureBox = memo<FeatureBoxProps>(({ data, handleShowTerms, handleShowHou
   }, [data, t]);
   const handleKeyDown = useCallback(
     (event: KeyboardEvent<HTMLDivElement>) => {
-      const clickableTiles = tileData.filter((tile) => tile.clickable);
-      const currentIndex = focusedTileRef.current;
+      const focusableTiles = Array.from(containerRef.current?.querySelectorAll<HTMLElement>("button, a[href]") ?? []);
+      const currentIndex = Math.max(0, focusableTiles.indexOf(document.activeElement as HTMLElement));
       switch (event.key) {
         case "ArrowLeft":
         case "ArrowRight": {
+          if (!focusableTiles.length) return;
           event.preventDefault();
           const newIndex =
             event.key === "ArrowLeft"
               ? Math.max(0, currentIndex - 1)
-              : Math.min(clickableTiles.length - 1, currentIndex + 1);
+              : Math.min(focusableTiles.length - 1, currentIndex + 1);
 
-          focusedTileRef.current = newIndex;
-          const targetElement = containerRef.current?.children[newIndex] as HTMLElement;
-          targetElement?.focus();
-          break;
-        }
-        case "Enter":
-        case " ": {
-          event.preventDefault();
+          focusableTiles[newIndex]?.focus();
           break;
         }
         case "Escape": {
           event.preventDefault();
-          focusedTileRef.current = -1;
           containerRef.current?.blur();
           break;
         }
@@ -240,6 +226,45 @@ const FeatureBox = memo<FeatureBoxProps>(({ data, handleShowTerms, handleShowHou
     },
     [tileData],
   );
+  const handlePointerDown = useCallback((event: PointerEvent<HTMLElement>) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+    if ((event.target as HTMLElement).closest("button, a")) return;
+
+    const container = containerRef.current;
+    if (!container) return;
+
+    dragStateRef.current = {
+      startX: event.clientX,
+      startScrollLeft: container.scrollLeft,
+      moved: false,
+    };
+    container.setPointerCapture(event.pointerId);
+    setIsDragging(true);
+  }, []);
+  const handlePointerMove = useCallback((event: PointerEvent<HTMLElement>) => {
+    const container = containerRef.current;
+    if (!container || !container.hasPointerCapture(event.pointerId)) return;
+
+    const distance = event.clientX - dragStateRef.current.startX;
+    if (Math.abs(distance) > 5) {
+      dragStateRef.current.moved = true;
+    }
+    container.scrollLeft = dragStateRef.current.startScrollLeft - distance;
+  }, []);
+  const handlePointerUp = useCallback((event: PointerEvent<HTMLElement>) => {
+    const container = containerRef.current;
+    if (container?.hasPointerCapture(event.pointerId)) {
+      container.releasePointerCapture(event.pointerId);
+    }
+    setIsDragging(false);
+  }, []);
+  const handleClickCapture = useCallback((event: React.MouseEvent<HTMLElement>) => {
+    if (!dragStateRef.current.moved) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    dragStateRef.current.moved = false;
+  }, []);
   const handleModalTileClick = useCallback(
     (trackingName: "workHour" | "terms" | "tariff") => {
       switch (trackingName) {
@@ -261,9 +286,15 @@ const FeatureBox = memo<FeatureBoxProps>(({ data, handleShowTerms, handleShowHou
     <>
       <section
         id="featureBox"
-        className={styles.all}
+        className={`${styles.all} ${isDragging ? styles.dragging : ""}`}
         ref={containerRef}
         onKeyDown={handleKeyDown}
+        onPointerDown={handlePointerDown}
+        onPointerMove={handlePointerMove}
+        onPointerUp={handlePointerUp}
+        onPointerCancel={handlePointerUp}
+        onLostPointerCapture={handlePointerUp}
+        onClickCapture={handleClickCapture}
         role="region"
         aria-label="features and capabilities"
         tabIndex={0}>
@@ -273,12 +304,8 @@ const FeatureBox = memo<FeatureBoxProps>(({ data, handleShowTerms, handleShowHou
               <div className={styles.fade} />
               <img {...ICON_PROPS} alt={tile.content.image?.alt || ""} src={tile.content.image?.src || ""} />
               <div className={styles.tiledescription}>
-                {tile.content.title && (
-                  <span className={tile.content.titleClass || styles.tileTitle}>{tile.content.title}</span>
-                )}
-                {tile.content.subtitle && (
-                  <span className={tile.content.subtitleClass || styles.tileSubtitle}>{tile.content.subtitle}</span>
-                )}
+                {tile.content.title && <span className={tile.content.titleClass}>{tile.content.title}</span>}
+                {tile.content.subtitle && <span className={tile.content.subtitleClass}>{tile.content.subtitle}</span>}
                 {tile.content.customContent}
               </div>
             </>
@@ -293,14 +320,7 @@ const FeatureBox = memo<FeatureBoxProps>(({ data, handleShowTerms, handleShowHou
                 onClick={() => handleModalTileClick(tile.trackingName as "workHour" | "terms" | "tariff")}
                 role="button"
                 tabIndex={0}
-                style={{
-                  border: "none",
-                  background: "none",
-
-                  cursor: "pointer",
-                  width: "100%",
-                  height: "100%",
-                }}
+                style={{ border: "none", background: "none" }}
                 aria-label={`${tile.content.image?.alt} - click`}>
                 <TileContent />
               </button>

@@ -49,3 +49,15 @@ The public destination-links section is shown for the default-domain selection. 
 ## Market Properties Features
 
 The Products feature card does not render the edit-options three-dot control because product popup options are not available there. Other movable feature cards retain the edit-options control.
+
+## MyLink Shortcut Links
+
+MyLink shortcut cards are capped at 250px on desktop. On mobile, the links are presented in a free horizontal carousel that supports touch scrolling and mouse/pointer dragging; collections larger than four links use 200px cards to keep the mobile row usable.
+
+The MyLink FeatureBox cards use a free horizontal carousel with no snap points or page-sized jumps. Native horizontal scrolling remains available for touch and trackpad users, while primary-button mouse dragging uses pointer capture and suppresses accidental tile activation after movement.
+
+MyLink last-video titles and descriptions render backend-provided line breaks as separate visual lines, including when the text contains clickable links.
+
+The MyLink feature menubar is a free horizontal scroller. It does not distribute or compress items, and a stable viewport-anchor check keeps the active item synchronized with the visible page feature during manual or menu-triggered scrolling before centering it in the menubar.
+
+MyLink always prepends a Home shortcut backed by `FeatureType.FeaturesBox`, and the initial active feature is Home. The Contact and Map feature does not move browser focus to its first link on mount, preventing an initial page jump away from the FeatureBox section.

@@ -51,6 +51,15 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Fixed the shared ToggleButton active indicator translation for RTL layouts by reversing its horizontal percentage offset through the shared DirectionContext while preserving the LTR behavior and controlled API.
+- Hardened the MyLink market page: redirects no longer run during render, unmounted async loads cannot update state, feature dialogs share one exclusive modal state, feature rendering uses memoized map lookup, and authenticated metadata now allows zoom and is `noindex, nofollow`.
+- Optimized MyLink media and product interactions: live-stream controls no longer add global listeners per render, product search/filtering is deferred and memoized, carousel keyboard navigation is RTL-aware, and product/live motion respects user reduced-motion preferences.
+- Standardized MyLink typography with shared fluid `clamp()` tokens, replacing raw pixel font sizes across its CSS modules so text scales within readable bounds across desktop, tablet, and mobile viewports.
+- MyLink last-video titles and descriptions now preserve backend-provided line breaks while retaining safe clickable links.
+- Added a free horizontal MyLink shortcut carousel with native touch scrolling and mouse/pointer dragging. Shortcut cards remain capped at 250px on desktop; mobile collections with more than four links use 200px cards.
+- Updated the MyLink feature menubar to use free horizontal scrolling and automatically center the active feature button whenever the visible feature changes.
+- MyLink FeatureBox cards now use free horizontal scrolling with native touch/trackpad support, pointer dragging, no snap points, and protection against accidental activation after dragging.
+- MyLink now always starts with a Home menu item targeting `FeatureType.FeaturesBox`; Contact and Map no longer autofocuses a link on mount, preventing an initial scroll jump away from the top section.
 - Standardized the shared SwitchButton while preserving its existing import path and controlled API. The native checkbox remains keyboard-accessible, supports standard input/ARIA props and valid switch semantics, provides a 44px touch target, handles RTL thumb direction, and includes disabled, focus-visible, reduced-motion, and forced-colors states.
 - Standardized the shared RadioButton with a keyboard-focusable native input, backward-compatible legacy props plus standard native radio props, stable no-layout-shift selection visuals, 44px touch targets, disabled/focus-visible states, and reduced-motion/forced-colors fallbacks.
 - Standardized the shared IncrementStepper with native keyboard-accessible buttons, pointer-captured press-and-hold repetition, current-value decrement guards, click suppression after a hold, 44px touch targets, fluid sizing, reduced-motion/forced-colors fallbacks, and compatible callback props. It additionally accepts `disabled`, `className`, `aria-label`, `incrementLabel`, and `decrementLabel`.

@@ -95,14 +95,6 @@ const ContactAndMap = memo(({ data }: { data: IContactAndMap | null }) => {
     [toggleContentVisibility],
   );
 
-  useEffect(() => {
-    if (isContentVisible && contentRef.current) {
-      const firstLink = contentRef.current.querySelector("a");
-      if (firstLink) {
-        firstLink.focus();
-      }
-    }
-  }, [isContentVisible]);
   const contactText = useMemo(() => {
     const fullText = t(LanguageKey.footer_ContactUs);
     const words = fullText.split(" ");

@@ -1,5 +1,8 @@
 import styles from "./ToggleButton.module.css";
 import { ToggleButtonProps } from "brancy/components/design/toggleButton/types";
+import { DirectionContext } from "brancy/context/directionContext";
+import { useContext } from "react";
+
 const ToggleButton = ({
   options,
   selectedValue,
@@ -8,6 +11,8 @@ const ToggleButton = ({
   ariaLabel,
   disabled = false,
 }: ToggleButtonProps) => {
+  const direction = useContext(DirectionContext);
+
   if (options.length === 0) {
     return null;
   }
@@ -30,7 +35,7 @@ const ToggleButton = ({
         aria-hidden="true"
         style={{
           width: `calc((100% - 10px - ${Math.max(options.length - 1, 0) * 2}px) / ${options.length})`,
-          transform: `translateX(calc(${activeOptionIndex * 100}% + ${indicatorGapOffset}px))`,
+          transform: `translateX(calc(${activeOptionIndex * (direction === "rtl" ? -100 : 100)}% + ${indicatorGapOffset}px))`,
         }}
       />
       {options.map((option) => (

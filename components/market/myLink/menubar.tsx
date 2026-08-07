@@ -9,13 +9,11 @@ import {
   useRef,
   useState,
 } from "react";
-
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./menubar.module.css";
 import { FeatureType } from "brancy/models/enums";
 import { IFeatureInfo } from "brancy/models/interfaces";
-
 interface MenubarProps {
   data: IFeatureInfo[];
   featureType: number;
@@ -33,9 +31,6 @@ const FEATURE_ELEMENT_MAP = new Map([
   [FeatureType.LinkShortcut, "link"],
   [FeatureType.ContactAndMap, "contact"],
 ]);
-
-const ELEMENT_TO_FEATURE_MAP = new Map(Array.from(FEATURE_ELEMENT_MAP, ([k, v]) => [v, k]));
-
 const FEATURE_LANGUAGE_KEY_MAP = new Map([
   [FeatureType.FeaturesBox, LanguageKey.navbar_Home],
   [FeatureType.Announcements, LanguageKey.marketPropertiesAnnouncements],
@@ -44,7 +39,7 @@ const FEATURE_LANGUAGE_KEY_MAP = new Map([
   [FeatureType.LastVideo, LanguageKey.marketPropertiesLastVideo],
   [FeatureType.Products, LanguageKey.marketPropertiesProducts],
   [FeatureType.AdsTimeline, LanguageKey.marketPropertiesAdsTimeline],
-  [FeatureType.QandABox, LanguageKey.marketPropertiesQandABox],
+  [FeatureType.QandABox, LanguageKey.footer_FAQ],
   [FeatureType.LinkShortcut, LanguageKey.marketPropertieslinks],
   [FeatureType.ContactAndMap, LanguageKey.marketPropertiesContactAndMap],
 ]);
@@ -54,12 +49,9 @@ const Menubar = memo(({ data, featureType, onFeatureChange }: MenubarProps) => {
   const [featureId, setFeatureId] = useState(featureType);
   const deferredFeatureId = useDeferredValue(featureId);
   const observerRef = useRef<IntersectionObserver | null>(null);
-  const isScrollingRef = useRef(false);
-  const scrollTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const menubarRef = useRef<HTMLElement>(null);
   const focusedIndexRef = useRef(-1);
   const loaderStyle = useMemo(() => `loader${deferredFeatureId}`, [deferredFeatureId]);
-
   const getMenuTitle = useCallback(
     (featureType: number) => {
       const languageKey = FEATURE_LANGUAGE_KEY_MAP.get(featureType);
@@ -77,15 +69,8 @@ const Menubar = memo(({ data, featureType, onFeatureChange }: MenubarProps) => {
     [featureId, onFeatureChange],
   );
   const handleSlideToFeature = useCallback((elementId: string) => {
-    isScrollingRef.current = true;
     const element = document.getElementById(elementId);
     element?.scrollIntoView({ behavior: "smooth" });
-    if (scrollTimeoutRef.current) {
-      clearTimeout(scrollTimeoutRef.current);
-    }
-    scrollTimeoutRef.current = setTimeout(() => {
-      isScrollingRef.current = false;
-    }, 1000);
   }, []);
   const handleSelectFeature = useCallback(
     (selectedFeatureId: number) => {
@@ -97,13 +82,11 @@ const Menubar = memo(({ data, featureType, onFeatureChange }: MenubarProps) => {
     },
     [updateActiveFeature, handleSlideToFeature],
   );
-
   const handleKeyboardNavigation = useCallback(
     (event: React.KeyboardEvent) => {
       const { key } = event;
       const currentIndex = data.findIndex((item) => item.featureType === featureId);
       let newIndex = currentIndex;
-
       switch (key) {
         case "ArrowRight":
         case "ArrowDown":
@@ -130,11 +113,9 @@ const Menubar = memo(({ data, featureType, onFeatureChange }: MenubarProps) => {
         default:
           return;
       }
-
       if (newIndex !== currentIndex && data[newIndex]) {
         handleSelectFeature(data[newIndex].featureType);
         focusedIndexRef.current = newIndex;
-
         setTimeout(() => {
           const menuItem = document.getElementById(`${menuId}-${data[newIndex].featureType}`);
           menuItem?.focus();
@@ -147,33 +128,50 @@ const Menubar = memo(({ data, featureType, onFeatureChange }: MenubarProps) => {
     if (observerRef.current) {
       observerRef.current.disconnect();
     }
+    const getVisibleFeature = () => {
+      const anchor = Math.max(80, Math.min(window.innerHeight * 0.3, window.innerHeight - 80));
+      const candidates = data
+        .map((item) => {
+          const elementId = FEATURE_ELEMENT_MAP.get(item.featureType);
+          const element = elementId ? document.getElementById(elementId) : null;
+          if (!element) return null;
+          const rect = element.getBoundingClientRect();
+          return { featureType: item.featureType, rect };
+        })
+        .filter((candidate): candidate is { featureType: number; rect: DOMRect } => candidate !== null);
+      const containingAnchor = candidates.find(({ rect }) => rect.top <= anchor && rect.bottom >= anchor);
+      if (containingAnchor) return containingAnchor.featureType;
+      return candidates.sort(
+        (first, second) => Math.abs(first.rect.top - anchor) - Math.abs(second.rect.top - anchor),
+      )[0]?.featureType;
+    };
     const options: IntersectionObserverInit = {
-      threshold: [0.1, 0.3, 0.5],
-      rootMargin: "-80px 0px -40% 0px",
+      threshold: [0, 0.1, 0.3, 0.5, 0.75, 1],
+      rootMargin: "-80px 0px -20% 0px",
     };
     observerRef.current = new IntersectionObserver((entries) => {
-      if (isScrollingRef.current) return;
-
-      const visibleEntry = entries
-        .filter((entry) => entry.isIntersecting)
-        .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0];
-
-      if (visibleEntry) {
-        const elementId = visibleEntry.target.id;
-        const featureType = ELEMENT_TO_FEATURE_MAP.get(elementId);
-        if (featureType !== undefined) {
-          updateActiveFeature(featureType);
-        }
+      if (entries.some((entry) => entry.isIntersecting)) {
+        const featureType = getVisibleFeature();
+        if (featureType !== undefined) updateActiveFeature(featureType);
       }
     }, options);
-
-    FEATURE_ELEMENT_MAP.forEach((elementId) => {
+    data.forEach((item) => {
+      const elementId = FEATURE_ELEMENT_MAP.get(item.featureType);
+      if (!elementId) return;
       const element = document.getElementById(elementId);
       if (element) {
         observerRef.current?.observe(element);
       }
     });
-  }, [updateActiveFeature]);
+  }, [data, updateActiveFeature]);
+  useLayoutEffect(() => {
+    const menubar = menubarRef.current;
+    const activeMenuItem = document.getElementById(`${menuId}-${deferredFeatureId}`);
+    if (!menubar || !activeMenuItem) return;
+    const behavior = window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "auto" : "smooth";
+    const targetLeft = activeMenuItem.offsetLeft - (menubar.clientWidth - activeMenuItem.offsetWidth) / 2;
+    menubar.scrollTo({ left: targetLeft, behavior });
+  }, [deferredFeatureId, menuId]);
   useEffect(() => {
     setFeatureId(featureType);
   }, [featureType]);
@@ -187,10 +185,6 @@ const Menubar = memo(({ data, featureType, onFeatureChange }: MenubarProps) => {
         observerRef.current.disconnect();
         observerRef.current = null;
       }
-      if (scrollTimeoutRef.current) {
-        clearTimeout(scrollTimeoutRef.current);
-        scrollTimeoutRef.current = null;
-      }
     };
   }, [setupIntersectionObserver]);
   const memoizedMenuItems = useMemo(
@@ -198,7 +192,6 @@ const Menubar = memo(({ data, featureType, onFeatureChange }: MenubarProps) => {
       data.map((item, index) => {
         const isActive = item.featureType === deferredFeatureId;
         const itemId = `${menuId}-${item.featureType}`;
-
         return (
           <button
             className={styles.menuitem}

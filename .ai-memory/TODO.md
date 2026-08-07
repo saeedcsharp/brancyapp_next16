@@ -8,7 +8,14 @@
 - Add component/browser coverage for TextArea controlled and uncontrolled values, RTL/LTR direction, bounded auto-resize, Escape handling, forced colors, reduced motion, and focus behavior at iOS Safari and Android Chrome mobile viewport sizes when a UI test harness is introduced.
 - Add component/browser coverage for DotMenu keyboard navigation, focus restoration, Escape/outside-pointer close behavior, long localized labels, RTL placement, reduced motion, forced colors, and narrow viewports when a UI test harness is introduced.
 - Add browser coverage for MyLink product carousel touch scrolling, pointer dragging, horizontal-only overflow, and drag-click suppression when a UI test harness is introduced.
+- Add browser coverage for MyLink FeatureBox free-mode scrolling, pointer dragging, horizontal-only overflow, responsive sizing, and drag-click suppression when a UI test harness is introduced.
+- Add browser coverage for MyLink shortcut-link mobile horizontal scrolling, pointer dragging, conditional 200px sizing for more than four links, and drag-click suppression when a UI test harness is introduced.
+- Add browser coverage for MyLink feature-menubar free scrolling and centering the active item after section changes when a UI test harness is introduced.
+- Add browser coverage confirming MyLink opens on the Home/FeatureBox section and Contact and Map mounting does not change the initial scroll position when a UI test harness is introduced.
 - Add component coverage for MyLink product filtering, search reset, and desktop/mobile product-header layout when a UI test harness is introduced.
+- Add browser coverage for MyLink media lifecycle cleanup, instance-isolated player/radio controls, reduced-motion behavior, and carousel Left/Right/Home/End keyboard navigation when a UI test harness is introduced.
+- Add component coverage confirming MyLink last-video title and description line breaks remain visible alongside clickable links when a UI test harness is introduced.
+- Add visual regression coverage for MyLink fluid typography at desktop, tablet, and mobile viewport widths when a UI test harness is introduced.
 - Add Playwright coverage for Chrome, Edge, and Firefox at desktop and mobile viewport sizes, including scrollbar width, horizontal overflow, landing modals, and fixed headers.
 - Add browser interaction coverage for landing pricing slider changes, keyboard navigation, plan-card selection, and protection against repeated state updates.
 - Add component/browser coverage for FlexibleToggleButton keyboard activation, `aria-pressed`, disabled state, long localized labels, RTL layout, reduced motion, forced colors, and mobile/desktop touch targets when a UI test harness is introduced.

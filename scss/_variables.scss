@@ -145,6 +145,14 @@
   --font-30: 30px;
   --font-50: 50px;
 
+  /* Fluid typography for responsive public surfaces */
+  --font-fluid-xs: clamp(0.6875rem, 0.64rem + 0.2vw, 0.8125rem);
+  --font-fluid-sm: clamp(0.75rem, 0.69rem + 0.3vw, 0.875rem);
+  --font-fluid-md: clamp(0.8125rem, 0.75rem + 0.35vw, 1rem);
+  --font-fluid-lg: clamp(0.875rem, 0.8rem + 0.4vw, 1.125rem);
+  --font-fluid-xl: clamp(1.125rem, 0.95rem + 0.8vw, 1.5rem);
+  --font-fluid-2xl: clamp(1.375rem, 1.05rem + 1.4vw, 1.875rem);
+
   /* Gaps */
   --gap-1: 1px;
   --gap-3: 3px;

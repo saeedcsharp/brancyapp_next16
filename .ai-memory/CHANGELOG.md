@@ -1,5 +1,21 @@
 # Changelog
 
+- Updated the MyLink feature menubar for free horizontal scrolling and active-item centering as the visible feature changes.
+- Converted MyLink FeatureBox to a free horizontal carousel with native scrolling, mouse/pointer dragging, touch support, no snap points, and drag-click suppression.
+- MyLink menubar activation now continues tracking the visible feature during manual page scrolling and smooth menu navigation.
+- Stabilized MyLink active-feature detection around a viewport anchor to prevent menu activation from jumping between nearby sections.
+- Added a permanent Home item for the MyLink menubar, initialized the page on `FeatureType.FeaturesBox`, and removed Contact's mount-time autofocus that could scroll the page away from the top.
+
+- Preserved line breaks in MyLink last-video titles and descriptions, including text segments rendered alongside clickable links.
+
+- Added a free horizontal MyLink shortcut carousel with native touch scrolling and mouse/pointer dragging. Desktop shortcut cards remain capped at 250px, while mobile collections with more than four shortcuts use 200px cards and suppress accidental redirects after dragging.
+
+- Standardized MyLink typography across its CSS modules with shared fluid `clamp()` font tokens, replacing raw pixel sizes and reducing breakpoint-driven jumps between desktop, tablet, and mobile widths.
+
+- Hardened MyLink lifecycle behavior: redirects now run from effects, asynchronous page loading ignores unmounted results, and the mutually exclusive terms, tariff, and business-hours dialogs now use one modal state.
+- Optimized MyLink rendering and media controls: feature rendering uses a memoized lookup map, product search/filter/sort work is deferred and memoized, keyboard carousel navigation is RTL-aware, and live-stream global listeners are lifecycle-cleaned.
+- Improved authenticated MyLink metadata and accessibility by restoring browser zoom, applying `noindex, nofollow`, adding keyboard focus styles, and honoring reduced-motion preferences for product and live-stream movement.
+
 - Standardized the shared SwitchButton while preserving its existing import path and controlled API: the native checkbox remains keyboard-accessible, accepts standard input and ARIA props, provides a 44px touch target, supports valid switch semantics, RTL thumb direction, disabled/focus-visible states, reduced motion, and forced colors.
 
 - Standardized the shared IncrementStepper while preserving its `data`, `increment`, and `decrement` callback API: it now uses semantic buttons with keyboard support, pointer-captured press-and-hold repetition, stale-value-safe decrement handling, click suppression after a long press, 44px touch targets, fluid sizing, and reduced-motion/forced-colors fallbacks. Optional `disabled`, `className`, accessible-label, and per-direction label props are available.

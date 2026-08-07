@@ -110,16 +110,13 @@ const Announcement = memo(function Announcement({ data }: AnnouncementProps) {
       role="region">
       <header className={styles.header}>
         <button
-          // onClick={toggleContentVisibility}
           type="button"
           className={styles.Announcementsheader}
           onClick={handleToggle}
           onKeyDown={handleToggleKeys}
           aria-controls={contentId}
           aria-expanded={isExpanded}
-          aria-label={announcementTitle}
-          //  onClick={toggleContentVisibility}
-        >
+          aria-label={announcementTitle}>
           <span className={styles.headertitle}>{announcementTitle}</span>
           <img
             title={announcementTitle}

@@ -2,13 +2,13 @@
   position: relative;
   align-self: center;
   width: 100%;
-  max-width: 1440px;
+  max-width: 800px;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 30px;
-  padding: 60px 10px;
+  padding: 40px 10px;
   @media (max-width: 768px) {
     gap: 20px !important;
     padding: 20px;
@@ -34,22 +34,18 @@
   flex-wrap: wrap;
   position: relative;
   color: var(--text-h1);
-  font-size: 30px;
+  font-size: var(--font-fluid-2xl);
   font-weight: 700;
   text-transform: capitalize;
   flex-direction: row;
   align-items: center;
   @media (max-width: 768px) {
-    font-size: 16px !important;
+    font-size: var(--font-fluid-lg);
     font-weight: 600 !important;
   }
 }
 .headertextblue {
-  background: linear-gradient(
-    to right,
-    var(--color-dark-blue),
-    var(--color-light-blue)
-  );
+  background: linear-gradient(to right, var(--color-dark-blue), var(--color-light-blue));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -123,11 +119,11 @@
   align-items: center;
   justify-content: space-between;
   font-weight: 600;
-  font-size: 16px;
+  font-size: var(--font-fluid-lg);
   gap: 10px;
   height: 32px;
   @media (max-width: 768px) {
-    font-size: 14px;
+    font-size: var(--font-fluid-md);
     font-weight: 500;
   }
 }
@@ -152,9 +148,9 @@
   overflow: hidden;
   transition: all 0.6s ease-in-out !important;
   font-weight: 300;
-  font-size: 14px;
+  font-size: var(--font-fluid-md);
   @media (max-width: 768px) {
-    font-size: 12px;
+    font-size: var(--font-fluid-sm);
   }
 }
 .answer a {
@@ -180,7 +176,7 @@
   justify-content: center;
   align-items: center;
   color: var(--text-h2);
-  font-size: 18px;
+  font-size: var(--font-fluid-xl);
   font-weight: 800;
   @media (max-width: 768px) {
     display: none;
