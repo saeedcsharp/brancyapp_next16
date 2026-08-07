@@ -40,6 +40,7 @@ Used by routes, components, helpers, or build tooling where imported.
 
 Exports are defined by source files in the module.
 
+- `components/design/dotMenu/dotMenu.tsx` exports `DotMenu`, an accessible menu button with keyboard navigation, focus restoration, RTL-aware placement, responsive menu bounds, reduced-motion handling, and backwards-compatible legacy props (`data`, `handleClickOnIcon`, and `menuPosition`).
 - `components/design/tooltip/tooltip.tsx` exports `Tooltip`, which renders its tooltip content through `document.body` using viewport-fixed coordinates derived from the trigger while preserving directional placement options.
 - `components/design/chart/brushLineChart.tsx` exports `BrushLineChart`, a reusable SVG multi-series line chart with a draggable brush range selector, adaptive year/month/day aggregation, count-based vertical axis, legend toggles, and hover tooltips.
 - `components/design/phoneInput/` exports a dependency-free two-input phone selector with local SVG flags, country search, recent/preferred countries, formatting, validation, RTL support, and structured E.164/international/national output.
@@ -64,6 +65,7 @@ React components are present when the folder contains `.tsx` UI files.
 ## Recent UI Notes
 
 - `components/design/toggleButton/flexibleToggleButton` now renders native buttons with `aria-pressed`, optional group labeling, disabled support, visible keyboard focus, responsive touch targets, RTL-aware unread positioning, reduced-motion handling, and forced-colors fallback. A shared active indicator animates between option columns without changing its controlled `options`, `selectedValue`, and `onChange` API.
+- DotMenu now uses native buttons and WAI-ARIA menu semantics. It supports Enter/Space activation, Arrow/Home/End option navigation, Escape/outside-pointer closing, and moves focus between its trigger and active option. Its option styles are applied and its menu is removed after the exit animation.
 - Tooltip content is portalled to `document.body` so ancestor overflow and stacking contexts cannot clip it. Its fixed coordinates are refreshed on scroll and resize, and click-outside handling recognizes both the trigger and portalled content.
 - The chart design folder now includes a brush-style line chart for date/count series. It keeps the full main line rendered while the selected range controls its visible x-domain, accepts multiple series, auto-aggregates by year/month/day, aligns hover guides/tooltips to displayed buckets, animates path redraws and brush movement, and stays dependency-free.
 - Each displayed vertical guide has a transparent hover zone spanning the midpoint to adjacent guides, allowing near-line tooltip activation.
@@ -159,7 +161,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-08-07
 
 ---
 

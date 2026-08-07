@@ -51,6 +51,7 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Standardized the shared DotMenu with native button/menu semantics, keyboard navigation, focus restoration, escape and outside-pointer close behavior, responsive touch targets and viewport bounds, RTL-aware placement, reduced-motion and forced-colors support. The legacy DotMenu props remain compatible while standard `options`, `onOptionSelect`, and `placement` props are available.
 - Removed unused MyLink product visibility state, root key, legacy markup styles, and obsolete search/coupon CSS while retaining the active carousel and card styles.
 - Converted the MyLink product cards into a free horizontal carousel with native touch scrolling, mouse/pointer dragging, no wrapping or scroll snap, and drag-click protection for product links.
 - # Added responsive MyLink product controls with Best Sellers/Best Discounts sorting toggles, a flex-growing product search, and a Show All Products reset action that stacks cleanly on mobile.

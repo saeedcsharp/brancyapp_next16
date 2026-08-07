@@ -1,5 +1,7 @@
 # Changelog
 
+- Standardized the shared DotMenu with native button/menu semantics, keyboard navigation, focus restoration, Escape and outside-pointer close behavior, responsive touch targets and viewport-bounded menu sizing, RTL-aware placement, reduced-motion/forced-colors support, stable option keys, and option-style rendering. The existing `data`, `handleClickOnIcon`, and `menuPosition` props remain backward compatible alongside `options`, `onOptionSelect`, and `placement`.
+
 - Fixed customer shop, product-detail, and saved-product cards for nullable product titles and discount prices, including safe regular-price fallbacks and string product ID comparison.
 - Added missing CSS-module state selectors used by the customer shop filters and navigation.
 
