@@ -2,7 +2,7 @@ import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import InputText from "brancy/components/design/inputText";
-import RadioButton from "brancy/components/design/radioButton";
+import RadioButton from "brancy/components/design/radioButton/radioButton";
 import FollowerSlider from "brancy/components/design/sliders/followerSlider";
 import PriceSlider from "brancy/components/design/sliders/priceSlider";
 import RatingSlider from "brancy/components/design/sliders/ratingSlider";

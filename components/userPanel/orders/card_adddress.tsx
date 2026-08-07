@@ -5,7 +5,7 @@ import { ChangeEvent, useCallback, useEffect, useId, useLayoutEffect, useMemo, u
 import { useTranslation } from "react-i18next";
 import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
-import RadioButton from "brancy/components/design/radioButton";
+import RadioButton from "brancy/components/design/radioButton/radioButton";
 import TextArea from "brancy/components/design/textArea/textArea";
 import Loading from "brancy/components/notOk/loading";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";

@@ -1,5 +1,5 @@
 import RingLoader from "brancy/components/design/loader/ringLoder";
-import RadioButton from "brancy/components/design/radioButton";
+import RadioButton from "brancy/components/design/radioButton/radioButton";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 import {
   internalNotify,

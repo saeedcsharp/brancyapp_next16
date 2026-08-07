@@ -4,7 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import IncrementStepper from "brancy/components/design/incrementStepper/incrementStepper";
-import RadioButton from "brancy/components/design/radioButton";
+import RadioButton from "brancy/components/design/radioButton/radioButton";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import { MethodType } from "brancy/helper/api";

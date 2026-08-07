@@ -47,6 +47,7 @@ Exports are defined by source files in the module.
 - `components/design/inputText.tsx` supports controlled text input normalization by its consumer and exposes a `shake` prop for replaying the shared invalid-input animation.
 - `components/design/textArea/textArea.tsx` exports a standard native-textarea-compatible control with RTL direction detection, controlled/uncontrolled modes, optional bounded auto-resize, keyboard Escape handling, and a 16px minimum computed font size to prevent mobile browser focus zoom. Standard React props are preferred; legacy textarea prop names remain temporarily compatible.
 - `components/design/checkBoxButton/checkBoxButton.tsx` exports the legacy-compatible controlled `CheckBoxButton`, with native checkbox accessibility props, keyboard-visible focus, disabled state, a 44px touch target, and forced-colors/reduced-motion fallbacks.
+- `components/design/radioButton/radioButton.tsx` exports the legacy-compatible controlled `RadioButton`. It retains `textlabel` and `handleOptionChanged`, while supporting standard `label`, `onChange`, and native radio input props; its native input remains keyboard-focusable and styles include 44px touch targets, disabled, focus-visible, reduced-motion, and forced-colors states.
 - `components/design/incrementStepper/incrementStepper.tsx` exports a callback-controlled numeric stepper with semantic buttons, keyboard support, pointer-captured press-and-hold repetition, stale-value-safe decrement handling, optional `onValueChange`, `min`, and `max` props for manual integer entry, optional disabled and accessible-label props, and reduced-motion/forced-colors fallbacks.
 
 ## Internal APIs
@@ -75,6 +76,7 @@ React components are present when the folder contains `.tsx` UI files.
 - The brush chart measures its container after the first layout paint and once more on the next animation frame, while `ResizeObserver` continues to handle route/layout changes where the card initially has no usable size.
 - TextArea uses the CSS-module `textArea`, `rtl`, `ltr`, `danger`, and `fade` states. It includes keyboard-visible focus, reduced-motion, and forced-colors handling without focus-scale transforms.
 - CheckBoxButton keeps its existing import path and controlled `value`/`handleToggle` API while accepting native ARIA and input attributes. Its checkbox input is visually hidden rather than removed from keyboard navigation.
+- RadioButton keeps its existing import path and controlled legacy props while accepting standard native radio props. Its CSS-module classes are `input`, `label`, `indicator`, and `labelText`; selection uses a pseudo-element so hover and checked states do not change layout dimensions.
 - IncrementStepper uses CSS-module `root`, `control`, `value`, and `isShaking` states. Its existing `data`, `increment`, and `decrement` callback API remains compatible; `disabled`, `className`, `aria-label`, `incrementLabel`, and `decrementLabel` are optional additions.
 
 ## Hooks

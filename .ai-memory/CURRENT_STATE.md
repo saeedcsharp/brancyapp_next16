@@ -51,6 +51,7 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Standardized the shared RadioButton with a keyboard-focusable native input, backward-compatible legacy props plus standard native radio props, stable no-layout-shift selection visuals, 44px touch targets, disabled/focus-visible states, and reduced-motion/forced-colors fallbacks.
 - Standardized the shared IncrementStepper with native keyboard-accessible buttons, pointer-captured press-and-hold repetition, current-value decrement guards, click suppression after a hold, 44px touch targets, fluid sizing, reduced-motion/forced-colors fallbacks, and compatible callback props. It additionally accepts `disabled`, `className`, `aria-label`, `incrementLabel`, and `decrementLabel`.
 - IncrementStepper values can now be manually edited: digit-only drafts commit on Enter or blur through `onValueChange`, are clamped by optional `min`/`max` props, and Escape restores the current value. All existing consumers provide a compatible callback with their own active quantity limits.
 - Standardized the shared CheckBoxButton while preserving its existing import path and controlled API. The native input remains keyboard-focusable through visual hiding, native accessibility attributes are accepted, `className` and `title` now work, touch targets are at least 44px, and the visual indicator supports focus, disabled, reduced-motion, and forced-colors states.

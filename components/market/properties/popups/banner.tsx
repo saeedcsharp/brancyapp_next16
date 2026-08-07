@@ -15,7 +15,7 @@ import {
 } from "react";
 import { useTranslation } from "react-i18next";
 import ProgressBar from "brancy/components/design/progressBar/progressBar";
-import RadioButton from "brancy/components/design/radioButton";
+import RadioButton from "brancy/components/design/radioButton/radioButton";
 import TextArea from "brancy/components/design/textArea/textArea";
 import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";

@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import InputText from "brancy/components/design/inputText";
-import RadioButton from "brancy/components/design/radioButton";
+import RadioButton from "brancy/components/design/radioButton/radioButton";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import System from "brancy/components/setting/general/system";
 import UserPartners from "brancy/components/userPanel/setting/partner";

@@ -7,7 +7,7 @@ import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
 import IncrementStepper from "brancy/components/design/incrementStepper/incrementStepper"; // Import IncrementStepper
 import InputText from "brancy/components/design/inputText";
 import Modal from "brancy/components/design/modal";
-import RadioButton from "brancy/components/design/radioButton";
+import RadioButton from "brancy/components/design/radioButton/radioButton";
 import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";

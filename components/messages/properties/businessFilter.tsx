@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import { ChangeEvent, KeyboardEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import RadioButton from "brancy/components/design/radioButton";
+import RadioButton from "brancy/components/design/radioButton/radioButton";
 import TextArea from "brancy/components/design/textArea/textArea";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 import Loading from "brancy/components/notOk/loading";
