@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useTranslation } from "react-i18next";
 import HourLineChart, { GetHourAmPM } from "brancy/components/design/chart/hourLineChart";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./postTimeAnalalysis.module.css";
 import { IBestTime, HourCountUnix } from "brancy/models/interfaces";

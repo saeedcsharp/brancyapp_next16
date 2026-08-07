@@ -4,11 +4,13 @@ export interface ToggleOption {
   unreadCount?: number;
 }
 
-export interface FlexibleToggleButtonProps {
+export interface ToggleButtonProps {
   options: ToggleOption[];
   selectedValue: number;
   onChange: (value: number) => void;
   className?: string;
+  ariaLabel?: string;
+  disabled?: boolean;
 }
 
 // برای سازگاری با کد قبلی

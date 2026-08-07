@@ -63,6 +63,7 @@ React components are present when the folder contains `.tsx` UI files.
 
 ## Recent UI Notes
 
+- `components/design/toggleButton/flexibleToggleButton` now renders native buttons with `aria-pressed`, optional group labeling, disabled support, visible keyboard focus, responsive touch targets, RTL-aware unread positioning, reduced-motion handling, and forced-colors fallback. A shared active indicator animates between option columns without changing its controlled `options`, `selectedValue`, and `onChange` API.
 - Tooltip content is portalled to `document.body` so ancestor overflow and stacking contexts cannot clip it. Its fixed coordinates are refreshed on scroll and resize, and click-outside handling recognizes both the trigger and portalled content.
 - The chart design folder now includes a brush-style line chart for date/count series. It keeps the full main line rendered while the selected range controls its visible x-domain, accepts multiple series, auto-aggregates by year/month/day, aligns hover guides/tooltips to displayed buckets, animates path redraws and brush movement, and stays dependency-free.
 - Each displayed vertical guide has a transparent hover zone spanning the midpoint to adjacent guides, allowing near-line tooltip activation.

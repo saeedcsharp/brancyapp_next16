@@ -3,7 +3,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import RingLoader from "brancy/components/design/loader/ringLoder";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import Loading from "brancy/components/notOk/loading";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";

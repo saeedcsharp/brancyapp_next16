@@ -12,6 +12,12 @@
 - Added responsive MyLink product controls: Best Sellers and Best Discounts sorting toggles, a flex-growing product/PID search field, and a Show All Products reset button that stacks on small screens.
 - Fixed AI media-creator range inputs by allowing fractional steps; backend ranges such as `0` through `0.8` no longer lock at zero because of HTML's default step of `1`. Input types and bounds remain normalized before rendering.
 
+## 2026-08-07
+
+- Improved the shared FlexibleToggleButton with native button semantics, `aria-pressed`, optional group labeling, disabled support, keyboard focus styling, responsive touch targets, RTL-aware unread indicators, reduced-motion support, and forced-colors fallback.
+- Added a shared animated active indicator to FlexibleToggleButton that glides to the selected option while preserving the existing controlled API.
+- Standardized FlexibleToggleButton CSS module class names and removed the render-time warning/empty render restriction for option counts outside the former 2-to-4 range; an empty options list still renders nothing.
+
 - Fixed Domain Manager default and destination links for usernames containing `.`, `_`, `-`, or Persian kashida (`ـ`) by using the path format `baseShortUrl/username` instead of an invalid username subdomain.
 - Removed the unnecessary `www.` prefix from Domain Manager domain displays.
 - Prevented duplicate default-domain display for usernames such as `brancy_demo`.

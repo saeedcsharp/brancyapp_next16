@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import ProgressBar from "brancy/components/design/progressBar/progressBar";
 import RadioButton from "brancy/components/design/radioButton";
 import TextArea from "brancy/components/design/textArea/textArea";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import Loading from "brancy/components/notOk/loading";
 import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";

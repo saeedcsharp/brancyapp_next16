@@ -1,7 +1,7 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { ChangeEvent, useRef, useState } from "react";
 import InputText from "brancy/components/design/inputText";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import styles from "./product.module.css";
 import { IProducts } from "brancy/models/interfaces";
 import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";

@@ -6,7 +6,7 @@ import { DateObject } from "react-multi-date-picker";
 import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";

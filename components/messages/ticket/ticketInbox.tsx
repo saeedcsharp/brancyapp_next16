@@ -9,7 +9,7 @@ import InputText from "brancy/components/design/inputText";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import {
   internalNotify,
   InternalResponseType,

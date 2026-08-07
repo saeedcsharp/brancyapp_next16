@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import TextArea from "brancy/components/design/textArea/textArea";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 import Loading from "brancy/components/notOk/loading";

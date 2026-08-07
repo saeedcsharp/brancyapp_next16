@@ -9,7 +9,7 @@ import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import RadioButton from "brancy/components/design/radioButton";
 import TextArea from "brancy/components/design/textArea/textArea";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import {

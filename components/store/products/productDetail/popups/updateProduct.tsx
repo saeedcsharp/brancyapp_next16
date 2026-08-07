@@ -2,7 +2,7 @@ import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import IncrementStepper from "brancy/components/design/incrementStepper";
 import RadioButton from "brancy/components/design/radioButton";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";

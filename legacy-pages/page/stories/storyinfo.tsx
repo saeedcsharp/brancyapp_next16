@@ -2,7 +2,7 @@ import ChartHour from "brancy/components/design/chart/Chart_hour";
 import InputText from "brancy/components/design/inputText";
 import Modal from "brancy/components/design/modal";
 import Slider from "brancy/components/design/slider/slider";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";

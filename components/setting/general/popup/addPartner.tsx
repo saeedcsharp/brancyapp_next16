@@ -7,7 +7,7 @@ import type { PhoneValue } from "brancy/components/design/phoneInput";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
 import InputText from "brancy/components/design/inputText";
 import RadioButton from "brancy/components/design/radioButton";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
 

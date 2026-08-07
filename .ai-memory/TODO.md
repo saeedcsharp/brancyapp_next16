@@ -6,6 +6,7 @@
 - Add component coverage for MyLink product filtering, search reset, and desktop/mobile product-header layout when a UI test harness is introduced.
 - Add Playwright coverage for Chrome, Edge, and Firefox at desktop and mobile viewport sizes, including scrollbar width, horizontal overflow, landing modals, and fixed headers.
 - Add browser interaction coverage for landing pricing slider changes, keyboard navigation, plan-card selection, and protection against repeated state updates.
+- Add component/browser coverage for FlexibleToggleButton keyboard activation, `aria-pressed`, disabled state, long localized labels, RTL layout, reduced motion, forced colors, and mobile/desktop touch targets when a UI test harness is introduced.
 - Replace remaining feature-level `overflow-y: scroll`, `100vw`, and WebKit-only layout rules after visual regression coverage is available.
 
 - Keep `app/dev/test.tsx` package counts and classifications synchronized with `package.json` after dependency changes; verify removal candidates with `npm ls`, `npm audit`, and a production build.
