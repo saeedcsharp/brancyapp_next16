@@ -1,6 +1,6 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useState } from "react";
-import styles from "./mylink.module.css";
+import styles from "./timeLine.module.css";
 import { ITimeline } from "brancy/models/interfaces";
 
 const basePictureUrl = getClientMediaBaseUrl();

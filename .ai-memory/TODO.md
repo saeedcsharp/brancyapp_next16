@@ -2,6 +2,8 @@
 
 ## Pending Documentation Tasks
 
+- Add browser coverage for MyLink product carousel touch scrolling, pointer dragging, horizontal-only overflow, and drag-click suppression when a UI test harness is introduced.
+- Add component coverage for MyLink product filtering, search reset, and desktop/mobile product-header layout when a UI test harness is introduced.
 - Add Playwright coverage for Chrome, Edge, and Firefox at desktop and mobile viewport sizes, including scrollbar width, horizontal overflow, landing modals, and fixed headers.
 - Add browser interaction coverage for landing pricing slider changes, keyboard navigation, plan-card selection, and protection against repeated state updates.
 - Replace remaining feature-level `overflow-y: scroll`, `100vw`, and WebKit-only layout rules after visual regression coverage is available.

@@ -136,6 +136,14 @@ Parent module: `components`.
 
 Products is enabled in the market properties feature list. Reviews and AdsTimeline remain visually disabled by the feature-properties stylesheet.
 
+## MyLink Products
+
+`components/market/myLink/product.tsx` renders the product-card section with a responsive header. The header keeps Best Sellers and Best Discounts toggles beside a flex-growing product/PID search input on desktop, then stacks the controls below 720px. Best Sellers sorts by the available `inCardCount` signal, Best Discounts sorts by calculated discount percentage, and Show All Products clears both filters and search text.
+
+The product cards render in a free horizontal carousel. The container never wraps, supports native horizontal touch scrolling and pointer drag scrolling with the mouse or touch, and does not use scroll snapping. A drag gesture suppresses the card link click that would otherwise open an Instagram URL.
+
+The product module keeps only styles used by its current header, carousel, and product cards; the former collapsible-section state and legacy header, search, and coupon styles were removed.
+
 ## Domain Manager
 
 `components/market/properties/domainManager.tsx` owns custom-domain normalization and validation. It lowercases values, removes supported URL decoration and trailing slashes, rejects malformed labels, unsupported characters, subdomains, overlong domains, and reserved Brancy domains, and signals invalid request attempts through `InputText`'s one-shot shake prop. Once a pending domain exists, the request form is not rendered and a three-step progress indicator reflects DNS verification and connection state. The DNS verification cooldown is rendered inside the disabled verification button and the button returns to the enabled Connect action after expiry.

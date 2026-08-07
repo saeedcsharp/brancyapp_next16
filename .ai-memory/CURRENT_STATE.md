@@ -51,6 +51,10 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Removed unused MyLink product visibility state, root key, legacy markup styles, and obsolete search/coupon CSS while retaining the active carousel and card styles.
+- Converted the MyLink product cards into a free horizontal carousel with native touch scrolling, mouse/pointer dragging, no wrapping or scroll snap, and drag-click protection for product links.
+- Added responsive MyLink product controls with Best Sellers/Best Discounts sorting toggles, a flex-growing product search, and a Show All Products reset action that stacks cleanly on mobile.
+
 - Fixed the Domain Manager loading state under React Strict Mode by re-enabling its mounted guard during effect setup, allowing the custom-domain Request button to leave `RingLoader` after the request completes.
 - Domain Manager now submits a valid custom-domain request directly to `Instagramer/Bio/UpdateCustomDomain` when Request is clicked; the client-side CustomDomain feature check no longer blocks this initial request, while duplicate-submit protection remains.
 - بهینه‌سازی Domain Manager با حذف state مشتق‌شده، memoization اعتبارسنجی و لینک‌های مقصد، فرم native برای submit با Enter، کنترل‌های keyboard-accessible، لینک‌های خارجی امن، کپی صحیح دامنه سفارشی، لغو درخواست‌های fetch هنگام unmount یا تغییر session، cleanup تایمر و animation frame، حذف consoleهای اضافی و متادیتای noindex برای صفحه احراز هویت‌شده.

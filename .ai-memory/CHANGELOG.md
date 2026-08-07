@@ -2,6 +2,9 @@
 
 ## 2026-08-06
 
+- Cleaned the MyLink product module by removing unused visibility state, legacy markup styles, and obsolete search/coupon CSS.
+- Converted MyLink product cards to a free horizontal carousel with touch scrolling, mouse/pointer drag support, no wrapping or snap points, and protection against opening a product link after dragging.
+- Added responsive MyLink product controls: Best Sellers and Best Discounts sorting toggles, a flex-growing product/PID search field, and a Show All Products reset button that stacks on small screens.
 - Fixed the custom-domain Request button remaining on `RingLoader` during React Strict Mode development cleanup/setup cycles.
 - Domain Manager now sends valid custom-domain requests directly to `Instagramer/Bio/UpdateCustomDomain`; the initial request no longer waits for or is blocked by a client-side CustomDomain feature check.
 - بهینه‌سازی Domain Manager: حذف state و handlerهای بدون مصرف، محاسبه حافظه‌ای اعتبارسنجی و لینک‌ها، پشتیبانی Enter و کنترل‌های native برای دسترسی‌پذیری، لغو درخواست‌های API و cleanup کامل منابع، اصلاح copy دامنه سفارشی و Tariff، حذف consoleهای اضافی، و اصلاح robots/description/zoom صفحه Properties.
