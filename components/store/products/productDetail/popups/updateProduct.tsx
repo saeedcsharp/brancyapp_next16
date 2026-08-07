@@ -2,7 +2,7 @@ import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import { useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import IncrementStepper from "brancy/components/design/incrementStepper/incrementStepper";
 import RadioButton from "brancy/components/design/radioButton/radioButton";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
@@ -342,7 +342,7 @@ const UpdateProduct = (props: { data: string[]; removeMask: () => void; onSaved?
                 </svg>
               </button>
             </div>
-            <FlexibleToggleButton
+            <ToggleButton
               options={[
                 { id: 0, label: t("product_Discount") },
                 { id: 1, label: t("bulkProduct.priceChange") },

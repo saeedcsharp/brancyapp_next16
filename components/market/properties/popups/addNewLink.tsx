@@ -5,7 +5,7 @@ import { DateObject } from "react-multi-date-picker";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import InputText from "brancy/components/design/inputText";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
@@ -683,7 +683,7 @@ const AddNewLink = (props: { removeMask: () => void; handleAddNewLink: (newLink:
         <>
           <div className="headerandinput">
             <div className="title">{t(LanguageKey.marketPropertiesaddnew)}</div>
-            <FlexibleToggleButton
+            <ToggleButton
               options={[
                 { label: t(LanguageKey.icon), id: 0 },
                 { label: t(LanguageKey.details), id: 1 },

@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import TextArea from "brancy/components/design/textArea/textArea";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Loading from "brancy/components/notOk/loading";
@@ -144,7 +144,7 @@ function WelcomeMessage() {
       {!loadingStatus && (
         <>
           <div className={`${styles.all} ${isHidden ? "" : styles.show}`}>
-            <FlexibleToggleButton
+            <ToggleButton
               options={[
                 { label: t(LanguageKey.messagesetting_welcome), id: 0 },
                 { label: t(LanguageKey.messagesetting_goodbye), id: 1 },

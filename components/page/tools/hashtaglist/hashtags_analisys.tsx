@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import Loading from "brancy/components/notOk/loading";
 import initialzedTime from "brancy/helper/manageTimer";
@@ -78,7 +78,7 @@ const Hashtags = (props: {
           </div>
         </div>
         <div className={`${styles.all} ${isHidden ? "" : styles.show}`}>
-          <FlexibleToggleButton
+          <ToggleButton
             options={[
               { label: t(LanguageKey.pageTools_pictureanAnalyzer), id: 0 },
               { label: t(LanguageKey.pageTools_pageanAnalyzer), id: 1 },

@@ -5,7 +5,7 @@ import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import InputText from "brancy/components/design/inputText";
 import TextArea from "brancy/components/design/textArea/textArea";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
@@ -140,7 +140,7 @@ const ContactForm = (props: { removeMask: () => void }) => {
           {/* head for SEO */}
           <div className="headerandinput">
             <div className="title">{t(LanguageKey.marketPropertiesContactAndMap)}</div>
-            <FlexibleToggleButton
+            <ToggleButton
               options={[
                 { label: t(LanguageKey.Contact), id: 0 },
                 { label: t(LanguageKey.Map), id: 1 },

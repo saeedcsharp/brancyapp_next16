@@ -9,7 +9,7 @@ import MultiChart from "brancy/components/design/chart/Chart_month";
 import InputText from "brancy/components/design/inputText";
 import Modal from "brancy/components/design/modal";
 import Slider from "brancy/components/design/slider/slider";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
@@ -603,7 +603,7 @@ const ShowPost = () => {
         <main className="fullScreenPupup_bg">
           <div className="fullScreenPupup_header">
             <div className={styles.ToggleButton}>
-              <FlexibleToggleButton
+              <ToggleButton
                 options={[
                   {
                     label: t(LanguageKey.details),

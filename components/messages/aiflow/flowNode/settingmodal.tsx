@@ -5,7 +5,7 @@ import { DateObject } from "react-multi-date-picker";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import {
   internalNotify,
@@ -135,7 +135,7 @@ export const SettingModal: React.FC<SettingModalProps> = ({
     <>
       {!isAutoSaving && (
         <div className={styles.tabContainer}>
-          <FlexibleToggleButton options={tabOptions} selectedValue={selectedTab} onChange={setSelectedTab} />
+          <ToggleButton options={tabOptions} selectedValue={selectedTab} onChange={setSelectedTab} />
         </div>
       )}
       {selectedTab === 0 && (

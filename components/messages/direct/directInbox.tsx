@@ -9,7 +9,7 @@ import InputText from "brancy/components/design/inputText";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
@@ -1702,7 +1702,7 @@ const DirectInbox = () => {
             </div>
             {/* ___switch button ___*/}
             {!activeHideInbox && (
-              <FlexibleToggleButton
+              <ToggleButton
                 onChange={handleToggleChange}
                 selectedValue={toggleOrder}
                 options={[

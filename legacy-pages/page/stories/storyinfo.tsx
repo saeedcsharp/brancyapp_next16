@@ -2,7 +2,7 @@ import ChartHour from "brancy/components/design/chart/Chart_hour";
 import InputText from "brancy/components/design/inputText";
 import Modal from "brancy/components/design/modal";
 import Slider from "brancy/components/design/slider/slider";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
@@ -680,7 +680,7 @@ const ShowStory = () => {
       <main className="fullScreenPupup_bg" role="main" aria-label="Story insights">
         <div className="fullScreenPupup_header" role="banner">
           <div className={styles.ToggleButton} role="tablist" aria-label="View toggle">
-            <FlexibleToggleButton
+            <ToggleButton
               options={[
                 { label: t(LanguageKey.details), id: 0 },
                 { label: t(LanguageKey.Insights), id: 1 },

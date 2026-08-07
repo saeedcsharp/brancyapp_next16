@@ -17,7 +17,7 @@ import { useTranslation } from "react-i18next";
 import ProgressBar from "brancy/components/design/progressBar/progressBar";
 import RadioButton from "brancy/components/design/radioButton/radioButton";
 import TextArea from "brancy/components/design/textArea/textArea";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import Loading from "brancy/components/notOk/loading";
 import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
@@ -669,7 +669,7 @@ const Banner = memo((props: BannerProps) => {
           </Head>
           <div className={styles.header}>
             <div className="title">{t(LanguageKey.marketPropertiesProfileInfoBanner)}</div>
-            <FlexibleToggleButton
+            <ToggleButton
               options={[
                 {
                   label: t(LanguageKey.marketPropertiespopup_ProfileInfo),
@@ -678,7 +678,7 @@ const Banner = memo((props: BannerProps) => {
                 { label: t(LanguageKey.marketPropertiespopup_Banner), id: 1 },
               ]}
               onChange={setprofileandbannerToggle}
-              selectedValue={profileandbannerToggle}></FlexibleToggleButton>
+              selectedValue={profileandbannerToggle}></ToggleButton>
           </div>
           <div className={styles.all}>
             {profileandbannerToggle === ToggleOrder.FirstToggle && (

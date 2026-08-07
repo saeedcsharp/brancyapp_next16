@@ -9,7 +9,7 @@ import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import RadioButton from "brancy/components/design/radioButton/radioButton";
 import TextArea from "brancy/components/design/textArea/textArea";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import Loading from "brancy/components/notOk/loading";
@@ -810,7 +810,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
       {loadingState.isLoading && <Loading />}
       {!loadingState.isLoading && (
         <div className={activeAutoReply ? styles.content : `${styles.content} fadeDiv`}>
-          <FlexibleToggleButton
+          <ToggleButton
             options={[
               { id: 0, label: t(LanguageKey.sidebar_Setting) },
               { id: 1, label: t(LanguageKey.replyMethod) },

@@ -3,7 +3,7 @@ import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import RadioButton from "brancy/components/design/radioButton/radioButton";
 import TextArea from "brancy/components/design/textArea/textArea";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/ToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import LiveChat from "brancy/components/messages/aiflow/popup/liveChat";
@@ -360,7 +360,7 @@ const AIPromptBox = ({
             </div>
 
             {!isWideScreen && (
-              <FlexibleToggleButton
+              <ToggleButton
                 options={[
                   { id: 0, label: t(LanguageKey.General) },
                   { id: 1, label: t(LanguageKey.testlab) },
