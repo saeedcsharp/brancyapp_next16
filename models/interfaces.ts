@@ -491,6 +491,23 @@ export interface IGetImages {
   items: IGetImage[];
   nextMaxId: string | null;
 }
+export interface IGetVideo {
+  id: number;
+  fbId: number;
+  clientContext: string;
+  createdTime: number;
+  creatorKey: string;
+  version: string;
+  status: number;
+  jobId: string | null;
+  videoUrl: string;
+  metadata: string;
+  prompt: string;
+}
+export interface IGetVideos {
+  items: IGetVideo[];
+  nextMaxId: string | null;
+}
 export interface IMediaCreatorModel {
   name: string;
   displayName?: string;

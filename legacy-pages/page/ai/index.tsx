@@ -21,7 +21,15 @@ import { getHubConnection } from "brancy/helper/pushNotif";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 import { PsgFeatureType, PushResponseType } from "brancy/models/enums";
-import { IGetImage, IGetImages, IGetImageUsageRequest, IMediaCreator, PushNotif } from "brancy/models/interfaces";
+import {
+  IGetImage,
+  IGetImages,
+  IGetImageUsageRequest,
+  IGetVideo,
+  IGetVideos,
+  IMediaCreator,
+  PushNotif,
+} from "brancy/models/interfaces";
 import { t } from "i18next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -56,8 +64,11 @@ export default function PageAI() {
   const [activeTab, setActiveTab] = useState<MediaTab>("image");
   const [images, setImages] = useState<IGetImage[]>([]);
   const [nextMaxId, setNextMaxId] = useState<string | null>(null);
+  const [videos, setVideos] = useState<IGetVideo[]>([]);
+  const [nextVideoMaxId, setNextVideoMaxId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadedImages, setLoadedImages] = useState(false);
+  const [loadedVideos, setLoadedVideos] = useState(false);
   const [showFeaturePopup, setShowFeaturePopup] = useState(false);
   const [selectedImage, setSelectedImage] = useState<IGetImage | null>(null);
   const [creators, setCreators] = useState<IMediaCreator[]>([]);
@@ -84,6 +95,30 @@ export default function PageAI() {
 
       const items = Array.isArray(response.value?.items) ? response.value.items : [];
       setNextMaxId(response.value?.nextMaxId || null);
+      return items;
+    },
+    [session],
+  );
+  const fetchVideos = useCallback(
+    async (cursor: string | null): Promise<IGetVideo[]> => {
+      if (!session) return [];
+
+      const response = await clientFetchApi<null, IGetVideos>("/api/mediaai/GetVideos", {
+        session,
+        methodType: MethodType.get,
+        queries: [
+          { key: "mediaCreationStatus", value: SUCCESS_MEDIA_STATUS.toString() },
+          { key: "nextMaxId", value: cursor ?? "" },
+        ],
+      });
+
+      if (!response.succeeded) {
+        notify(response.info?.responseType ?? ResponseType.Unexpected, NotifType.Error, response.errorMessage);
+        return [];
+      }
+
+      const items = Array.isArray(response.value?.items) ? response.value.items : [];
+      setNextVideoMaxId(response.value?.nextMaxId || null);
       return items;
     },
     [session],
@@ -169,6 +204,16 @@ export default function PageAI() {
       .finally(() => setLoading(false));
   }, [fetchImages, loadedImages, session]);
 
+  useEffect(() => {
+    if (!session || activeTab !== "video" || loadedVideos) return;
+
+    setLoadedVideos(true);
+    setLoading(true);
+    fetchVideos(null)
+      .then(setVideos)
+      .finally(() => setLoading(false));
+  }, [activeTab, fetchVideos, loadedVideos, session]);
+
   const fetchMoreImages = useCallback(() => fetchImages(nextMaxId), [fetchImages, nextMaxId]);
   const handleImagesFetched = useCallback((newImages: IGetImage[]) => {
     setImages((current) => [...current, ...newImages]);
@@ -182,6 +227,21 @@ export default function PageAI() {
     currentData: images,
     isLoading: loading,
     enabled: activeTab === "image",
+    fetchDelay: 0,
+  });
+  const fetchMoreVideos = useCallback(() => fetchVideos(nextVideoMaxId), [fetchVideos, nextVideoMaxId]);
+  const handleVideosFetched = useCallback((newVideos: IGetVideo[]) => {
+    setVideos((current) => [...current, ...newVideos]);
+  }, []);
+
+  const { isLoadingMore: isLoadingMoreVideos } = useInfiniteScroll<IGetVideo>({
+    hasMore: Boolean(nextVideoMaxId),
+    fetchMore: fetchMoreVideos,
+    onDataFetched: handleVideosFetched,
+    getItemId: (video) => video.id,
+    currentData: videos,
+    isLoading: loading,
+    enabled: activeTab === "video",
     fetchDelay: 0,
   });
 
@@ -278,7 +338,14 @@ export default function PageAI() {
             openImageCreator={openImageCreator}
           />
         )}
-        {activeTab === "video" && <VideoList openVideoCreator={openVideoCreator} />}
+        {activeTab === "video" && (
+          <VideoList
+            videos={videos}
+            loading={loading && videos.length === 0}
+            isLoadingMore={isLoadingMoreVideos}
+            openVideoCreator={openVideoCreator}
+          />
+        )}
         {(activeTab === "createimage" || activeTab === "createvideo") && (
           <MediaCreator
             creators={creators}
