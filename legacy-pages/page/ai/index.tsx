@@ -21,15 +21,7 @@ import { getHubConnection } from "brancy/helper/pushNotif";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 import { PsgFeatureType, PushResponseType } from "brancy/models/enums";
-import {
-  IGetImage,
-  IGetImages,
-  IGetImageUsageRequest,
-  IGetVideo,
-  IGetVideos,
-  IMediaCreator,
-  PushNotif,
-} from "brancy/models/interfaces";
+import { IGetImageUsageRequest, IGetMedia, IGetMedias, IMediaCreator, PushNotif } from "brancy/models/interfaces";
 import { t } from "i18next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -62,24 +54,24 @@ export default function PageAI() {
     },
   });
   const [activeTab, setActiveTab] = useState<MediaTab>("image");
-  const [images, setImages] = useState<IGetImage[]>([]);
+  const [images, setImages] = useState<IGetMedia[]>([]);
   const [nextMaxId, setNextMaxId] = useState<string | null>(null);
-  const [videos, setVideos] = useState<IGetVideo[]>([]);
+  const [videos, setVideos] = useState<IGetMedia[]>([]);
   const [nextVideoMaxId, setNextVideoMaxId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadedImages, setLoadedImages] = useState(false);
   const [loadedVideos, setLoadedVideos] = useState(false);
   const [showFeaturePopup, setShowFeaturePopup] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<IGetImage | null>(null);
+  const [selectedImage, setSelectedImage] = useState<IGetMedia | null>(null);
   const [creators, setCreators] = useState<IMediaCreator[]>([]);
   const [error, setError] = useState("");
   const [clientContext, setClientContext] = useState<string | null>(null);
 
   const fetchImages = useCallback(
-    async (cursor: string | null): Promise<IGetImage[]> => {
+    async (cursor: string | null): Promise<IGetMedia[]> => {
       if (!session) return [];
 
-      const response = await clientFetchApi<null, IGetImages>("/api/mediaai/GetImages", {
+      const response = await clientFetchApi<null, IGetMedias>("/api/mediaai/GetImages", {
         session,
         methodType: MethodType.get,
         queries: [
@@ -100,10 +92,10 @@ export default function PageAI() {
     [session],
   );
   const fetchVideos = useCallback(
-    async (cursor: string | null): Promise<IGetVideo[]> => {
+    async (cursor: string | null): Promise<IGetMedia[]> => {
       if (!session) return [];
 
-      const response = await clientFetchApi<null, IGetVideos>("/api/mediaai/GetVideos", {
+      const response = await clientFetchApi<null, IGetMedias>("/api/mediaai/GetVideos", {
         session,
         methodType: MethodType.get,
         queries: [
@@ -143,17 +135,24 @@ export default function PageAI() {
     }
     const requestClientContext = crypto.randomUUID();
     setClientContext(requestClientContext);
-    const response = await clientFetchApi<IGetImageUsageRequest, number>("/api/mediaai/CreateImage", {
-      session,
-      methodType: MethodType.post,
-      data: request,
-      queries: [{ key: "clientContext", value: requestClientContext }],
-    });
+    const response = await clientFetchApi<IGetImageUsageRequest, number>(
+      `/api/mediaai/${activeTab === "createvideo" ? "CreateVideo" : "CreateImage"}`,
+      {
+        session,
+        methodType: MethodType.post,
+        data: request,
+        queries: [{ key: "clientContext", value: requestClientContext }],
+      },
+    );
     if (!response.succeeded) {
       notify(response.info?.responseType, NotifType.Warning);
       return;
     }
-    internalNotify(InternalResponseType.Success, NotifType.Success, "Image generation request sent.");
+    internalNotify(
+      InternalResponseType.Success,
+      NotifType.Success,
+      activeTab === "createvideo" ? "Video generation request sent." : "Image generation request sent.",
+    );
   };
   const loadCreators = async () => {
     if (!session) return;
@@ -215,11 +214,11 @@ export default function PageAI() {
   }, [activeTab, fetchVideos, loadedVideos, session]);
 
   const fetchMoreImages = useCallback(() => fetchImages(nextMaxId), [fetchImages, nextMaxId]);
-  const handleImagesFetched = useCallback((newImages: IGetImage[]) => {
+  const handleImagesFetched = useCallback((newImages: IGetMedia[]) => {
     setImages((current) => [...current, ...newImages]);
   }, []);
 
-  const { containerRef, isLoadingMore } = useInfiniteScroll<IGetImage>({
+  const { containerRef, isLoadingMore } = useInfiniteScroll<IGetMedia>({
     hasMore: Boolean(nextMaxId),
     fetchMore: fetchMoreImages,
     onDataFetched: handleImagesFetched,
@@ -230,11 +229,11 @@ export default function PageAI() {
     fetchDelay: 0,
   });
   const fetchMoreVideos = useCallback(() => fetchVideos(nextVideoMaxId), [fetchVideos, nextVideoMaxId]);
-  const handleVideosFetched = useCallback((newVideos: IGetVideo[]) => {
+  const handleVideosFetched = useCallback((newVideos: IGetMedia[]) => {
     setVideos((current) => [...current, ...newVideos]);
   }, []);
 
-  const { isLoadingMore: isLoadingMoreVideos } = useInfiniteScroll<IGetVideo>({
+  const { isLoadingMore: isLoadingMoreVideos } = useInfiniteScroll<IGetMedia>({
     hasMore: Boolean(nextVideoMaxId),
     fetchMore: fetchMoreVideos,
     onDataFetched: handleVideosFetched,
@@ -266,12 +265,17 @@ export default function PageAI() {
         if (!decombNotif) return;
         const notifObj = JSON.parse(decombNotif) as PushNotif;
         if (!notifObj.Message) return;
+        console.log("notifObj", notifObj);
         const newPostPush = convertFirstLetterToLowerCase(JSON.parse(notifObj.Message));
-        const generatedImage = newPostPush as IGetImage;
+        const generatedImage = newPostPush as IGetMedia;
         if (generatedImage.clientContext !== clientContext) return;
         if (notifObj.ResponseType === PushResponseType.AiImageSuccess) {
           console.log("generatedImage", generatedImage);
-          setImages((current) => [generatedImage, ...current]);
+          if (generatedImage.videoUrl !== null) {
+            setVideos((current) => [generatedImage, ...current]);
+          } else {
+            setImages((current) => [generatedImage, ...current]);
+          }
         } else if (notifObj.ResponseType === PushResponseType.AiImageFail) {
           console.log("generatedImagefailed", generatedImage);
           internalNotify(
@@ -350,8 +354,8 @@ export default function PageAI() {
           <MediaCreator
             creators={creators}
             error={error}
-            onRetry={loadCreators}
-            onCreateImage={onCreateImage}
+            onRetry={activeTab === "createvideo" ? loadVideoCreators : loadCreators}
+            onCreateMedia={onCreateImage}
             setActiveTab={setActiveTab}
             activeTab={activeTab}
           />

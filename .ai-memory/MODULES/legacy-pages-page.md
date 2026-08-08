@@ -31,6 +31,8 @@ Data enters through props, Next route params, session state, browser state, or b
 The image creation implementation loads available image creators from `/api/mediaai/GetImageCreators` after the NextAuth session is ready, then passes the response to the shared image creator component. Failed requests expose a retry state. Generation requests create and send a stable `clientContext`; matching successful SignalR notifications open the page-owned shared `Modal` with `GeneratedImageModal` as its content, while matching failures use the notification system.
 
 The `/page/ai` landing implementation is an Image/Video segmented workspace. Image mode requests successful image history from `/api/mediaai/GetImages` with `mediaCreationStatus=2`, renders responsive preview cards with shared parsed metadata, opens `GeneratedImageModal` for full details and downloads, and uses `nextMaxId` with `useInfiniteScroll` to append deduplicated pages. Video mode requests successful history from `/api/mediaai/GetVideos`, renders native video previews with the same metadata and empty/loading states, and uses independent cursor pagination through `useInfiniteScroll`.
+The shared creator submit handler sends image requests to `/api/mediaai/CreateImage` and video requests to `/api/mediaai/CreateVideo`, preserving the same serialized inputs and client-context query.
+The shared creator component uses media-neutral submit/loading props and switches its empty/error states, model label, prompt guidance, token-check text, and submit label for image or video mode. Video creator retry requests `GetVideoCreators`.
 
 ## Dependencies
 

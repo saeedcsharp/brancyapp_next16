@@ -474,7 +474,7 @@ export interface IMediaCreator {
   logo: string | null;
   inputModels: IMediaCreatorModel[];
 }
-export interface IGetImage {
+export interface IGetMedia {
   id: number;
   fbId: number;
   clientContext: string;
@@ -486,26 +486,10 @@ export interface IGetImage {
   imageUrl: string;
   metadata: string;
   prompt: string;
+  videoUrl: string | null;
 }
-export interface IGetImages {
-  items: IGetImage[];
-  nextMaxId: string | null;
-}
-export interface IGetVideo {
-  id: number;
-  fbId: number;
-  clientContext: string;
-  createdTime: number;
-  creatorKey: string;
-  version: string;
-  status: number;
-  jobId: string | null;
-  videoUrl: string;
-  metadata: string;
-  prompt: string;
-}
-export interface IGetVideos {
-  items: IGetVideo[];
+export interface IGetMedias {
+  items: IGetMedia[];
   nextMaxId: string | null;
 }
 export interface IMediaCreatorModel {

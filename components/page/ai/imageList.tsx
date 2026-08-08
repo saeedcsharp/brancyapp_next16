@@ -4,7 +4,7 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { DateObject } from "react-multi-date-picker";
 import { parseImageMetadata } from "./generatedImageModal";
 import styles from "./imageList.module.css";
-import { IGetImage } from "brancy/models/interfaces";
+import { IGetMedia } from "brancy/models/interfaces";
 import { useTranslation } from "react-i18next";
 function formatCreatedTime(timestamp: number) {
   const t = initialzedTime();
@@ -16,10 +16,10 @@ function formatCreatedTime(timestamp: number) {
   return d.format("YYYY/MM/DD HH:mm:ss");
 }
 type ImageListProps = {
-  images: IGetImage[];
+  images: IGetMedia[];
   loading: boolean;
   isLoadingMore: boolean;
-  setSelectedImage: (image: IGetImage) => void;
+  setSelectedImage: (image: IGetMedia) => void;
   openImageCreator: () => void;
 };
 export default function ImageList({

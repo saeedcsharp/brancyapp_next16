@@ -1,11 +1,11 @@
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import initialzedTime from "brancy/helper/manageTimer";
-import { IGetVideo } from "brancy/models/interfaces";
 import { DateObject } from "react-multi-date-picker";
 import { useTranslation } from "react-i18next";
 import { parseImageMetadata } from "./generatedImageModal";
 import styles from "./imageList.module.css";
+import { IGetMedia } from "brancy/models/interfaces";
 
 function formatCreatedTime(timestamp: number) {
   const t = initialzedTime();
@@ -18,7 +18,7 @@ function formatCreatedTime(timestamp: number) {
 }
 
 type VideoListProps = {
-  videos: IGetVideo[];
+  videos: IGetMedia[];
   loading: boolean;
   isLoadingMore: boolean;
   openVideoCreator: () => void;

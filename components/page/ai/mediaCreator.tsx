@@ -27,8 +27,8 @@ interface MediaCreatorProps {
   creators: IMediaCreator[];
   error?: string;
   onRetry?: () => void;
-  onCreateImage?: (request: IGetImageUsageRequest, count: number) => void;
-  createImageLoading?: boolean;
+  onCreateMedia?: (request: IGetImageUsageRequest, count: number) => void;
+  createMediaLoading?: boolean;
   setActiveTab: Dispatch<SetStateAction<MediaTab>>;
   activeTab: MediaTab;
 }
@@ -321,12 +321,13 @@ export default function MediaCreator({
   creators,
   error,
   onRetry,
-  onCreateImage,
-  createImageLoading,
+  onCreateMedia,
+  createMediaLoading,
   activeTab,
 }: MediaCreatorProps) {
   const { data: session } = useSession();
   const { t, i18n } = useTranslation();
+  const isVideoCreator = activeTab === "createvideo";
   const availableCreators = creators.filter((item) => item.inputModels.length > 0);
   const [creatorKey, setCreatorKey] = useState(availableCreators[0]?.key ?? "");
   const creator = availableCreators.find((item) => item.key === creatorKey) ?? availableCreators[0];
@@ -356,7 +357,7 @@ export default function MediaCreator({
   if (error) {
     return (
       <main className={styles.stateBox}>
-        <h1>{t("Image creator is unavailable")}</h1>
+        <h1>{t(isVideoCreator ? "Video creator is unavailable" : "Image creator is unavailable")}</h1>
         <p>{error}</p>
         {onRetry && (
           <button type="button" onClick={onRetry}>
@@ -370,8 +371,14 @@ export default function MediaCreator({
   if (!creator || !model) {
     return (
       <main className={styles.stateBox}>
-        <h1>{t("No image models found")}</h1>
-        <p>{t("There are no image generation models available for this account.")}</p>
+        <h1>{t(isVideoCreator ? "No video models found" : "No image models found")}</h1>
+        <p>
+          {t(
+            isVideoCreator
+              ? "There are no video generation models available for this account."
+              : "There are no image generation models available for this account.",
+          )}
+        </p>
       </main>
     );
   }
@@ -442,7 +449,13 @@ export default function MediaCreator({
         <div>
           <span className={styles.eyebrow}>AI studio</span>
           <h1>{activeTab === "createimage" ? t("Create an image") : t("Create a video")}</h1>
-          <p>{t("Choose a model, tune its settings, and describe the image you want.")}</p>
+          <p>
+            {t(
+              isVideoCreator
+                ? "Choose a model, tune its settings, and describe the video you want."
+                : "Choose a model, tune its settings, and describe the image you want.",
+            )}
+          </p>
         </div>
       </header>
 
@@ -486,7 +499,7 @@ export default function MediaCreator({
       )}
 
       <div className={styles.workspace}>
-        <section className={styles.modelPanel} aria-label="Image models">
+        <section className={styles.modelPanel} aria-label={isVideoCreator ? "Video models" : "Image models"}>
           <div className={styles.sectionHeading}>
             <span className={styles.step}>1</span>
             <div>
@@ -522,8 +535,8 @@ export default function MediaCreator({
             event.preventDefault();
             if (tokenUsage === null) {
               getImageUsage();
-            } else if (onCreateImage) {
-              onCreateImage(
+            } else if (onCreateMedia) {
+              onCreateMedia(
                 {
                   creatorKey: creator.key,
                   version: model.name,
@@ -591,22 +604,28 @@ export default function MediaCreator({
             <div>
               <strong>{model.displayName}</strong>
               {tokenUsage === null ? (
-                <span>{t("Check token usage before creating the image")}</span>
+                <span>
+                  {t(
+                    isVideoCreator
+                      ? "Check token usage before creating the video"
+                      : "Check token usage before creating the image",
+                  )}
+                </span>
               ) : (
                 <span className={styles.tokenUsage}>{tokenUsage.toLocaleString()} tokens</span>
               )}
             </div>
             <button
               type="submit"
-              disabled={usageLoading || !promptIsValid || !requiredInputsAreValid || createImageLoading}>
-              {createImageLoading ? (
+              disabled={usageLoading || !promptIsValid || !requiredInputsAreValid || createMediaLoading}>
+              {createMediaLoading ? (
                 <RingLoader />
               ) : usageLoading ? (
                 "Calculating..."
               ) : tokenUsage === null ? (
-                "Check usage"
+                t("Check usage")
               ) : (
-                "Create image"
+                t(isVideoCreator ? "Create video" : "Create image")
               )}
             </button>
           </footer>
