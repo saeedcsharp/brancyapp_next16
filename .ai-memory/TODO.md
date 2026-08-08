@@ -13,6 +13,7 @@
 - Add browser coverage for MyLink feature-menubar free scrolling and centering the active item after section changes when a UI test harness is introduced.
 - Add browser coverage confirming MyLink opens on the Home/FeatureBox section and Contact and Map mounting does not change the initial scroll position when a UI test harness is introduced.
 - Add component coverage for MyLink product filtering, search reset, and desktop/mobile product-header layout when a UI test harness is introduced.
+- Add component/browser coverage for MyLink coupon countdown rendering, copy-button keyboard activation, Clipboard API success/failure feedback, and responsive coupon layout when a UI test harness is introduced.
 - Add browser coverage for MyLink media lifecycle cleanup, instance-isolated player/radio controls, reduced-motion behavior, and carousel Left/Right/Home/End keyboard navigation when a UI test harness is introduced.
 - Add component coverage confirming MyLink last-video title and description line breaks remain visible alongside clickable links when a UI test harness is introduced.
 - Add visual regression coverage for MyLink fluid typography at desktop, tablet, and mobile viewport widths when a UI test harness is introduced.

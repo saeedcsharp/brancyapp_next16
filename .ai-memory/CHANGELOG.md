@@ -1,5 +1,9 @@
 # Changelog
 
+- Updated the MyLink coupon feedback so `Copied` replaces the coupon code after a successful copy instead of appearing as a separate message.
+
+- Added a static MyLink Products coupon header with a placeholder countdown, `BRANCY20` code, accessible copy action, and temporary copied feedback while the promotion backend contract is pending.
+
 - Updated the MyLink feature menubar for free horizontal scrolling and active-item centering as the visible feature changes.
 - Converted MyLink FeatureBox to a free horizontal carousel with native scrolling, mouse/pointer dragging, touch support, no snap points, and drag-click suppression.
 - MyLink menubar activation now continues tracking the visible feature during manual page scrolling and smooth menu navigation.
@@ -36,6 +40,7 @@
 
 - Cleaned the MyLink product module by removing unused visibility state, legacy markup styles, and obsolete search/coupon CSS.
 - Converted MyLink product cards to a free horizontal carousel with touch scrolling, mouse/pointer drag support, no wrapping or snap points, and protection against opening a product link after dragging.
+- Made MyLink product cards responsive with smaller mobile widths, square thumbnails, and two-line ellipsis truncation for long product names.
 - Added responsive MyLink product controls: Best Sellers and Best Discounts sorting toggles, a flex-growing product/PID search field, and a Show All Products reset button that stacks on small screens.
 - Fixed AI media-creator range inputs by allowing fractional steps; backend ranges such as `0` through `0.8` no longer lock at zero because of HTML's default step of `1`. Input types and bounds remain normalized before rendering.
 
