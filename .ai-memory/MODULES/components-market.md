@@ -148,13 +148,17 @@ Product search uses a deferred query and a memoized filter/sort result to keep i
 
 The product cards render in a free horizontal carousel. The container never wraps, supports native horizontal touch scrolling and pointer drag scrolling with the mouse or touch, and does not use scroll snapping. A drag gesture suppresses the card link click that would otherwise open an Instagram URL.
 
+Product cards use a responsive fixed-width range, becoming slightly narrower on tablet and mobile screens. Their thumbnails keep a stable square aspect ratio, while product names reserve two lines and truncate longer text with an ellipsis.
+
+The Products header includes a static presentation coupon with a days/hours/minutes/seconds countdown, the code `BRANCY20`, and a copy interaction. The countdown and code are placeholders until the backend promotion contract is connected; after a successful copy, `Copied` replaces the code temporarily while the browser Clipboard API confirmation is active.
+
 ## MyLink Lifecycle And Metadata
 
 The authenticated MyLink page redirects only from effects, ignores asynchronous results after unmount, presents its three feature dialogs through one exclusive modal state, derives rendered feature nodes from one memoized feature map, and marks its authenticated metadata `noindex, nofollow`. The live-stream and last-video interaction listeners are registered from effects and removed during cleanup.
 
 Last-video titles and descriptions preserve backend newline characters in the rendered text while keeping embedded links as safe React anchors.
 
-# The product module keeps only styles used by its current header, carousel, and product cards; the former collapsible-section state and legacy header, search, and coupon styles were removed.
+# The product module keeps styles for its current header, static presentation coupon, carousel, and product cards; the former collapsible-section state and obsolete legacy header styles were removed.
 
 The Products card intentionally omits the edit-options three-dot control; other movable feature cards continue to expose it.
 

@@ -1,7 +1,7 @@
 @media (max-width: 768px) {
   .all {
     gap: 20px !important;
-    padding: 20px !important;
+    padding: 0px 20px 20px 20px !important;
   }
   .header {
     padding: 0px !important;
@@ -82,9 +82,6 @@
   gap: 20px;
   align-items: flex-start;
   width: 100%;
-  @media (max-width: 768px) {
-    gap: 0px;
-  }
 }
 .headertext {
   margin-top: 30px;

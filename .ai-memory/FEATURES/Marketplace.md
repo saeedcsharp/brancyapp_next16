@@ -56,6 +56,10 @@ MyLink shortcut cards are capped at 250px on desktop. On mobile, the links are p
 
 The MyLink FeatureBox cards use a free horizontal carousel with no snap points or page-sized jumps. Native horizontal scrolling remains available for touch and trackpad users, while primary-button mouse dragging uses pointer capture and suppresses accidental tile activation after movement.
 
+MyLink product cards scale down at narrower viewports, keep product thumbnails square at a stable aspect ratio, and clamp product names to two lines with an ellipsis for longer names.
+
+The Products header currently shows a static coupon presentation with `BRANCY20`, a placeholder countdown, and a copy icon. It is display-only timing data until promotion values are provided by the backend; after a successful copy, `Copied` temporarily replaces the coupon code.
+
 MyLink last-video titles and descriptions render backend-provided line breaks as separate visual lines, including when the text contains clickable links.
 
 The MyLink feature menubar is a free horizontal scroller. It does not distribute or compress items, and a stable viewport-anchor check keeps the active item synchronized with the visible page feature during manual or menu-triggered scrolling before centering it in the menubar.
