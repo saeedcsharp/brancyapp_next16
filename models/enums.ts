@@ -1015,6 +1015,7 @@ export enum ProductSortType {
   MaxPrice,
   MinPrice,
   MostDiscount,
+  SellerSuggest,
 }
 
 export enum ColorStr {
