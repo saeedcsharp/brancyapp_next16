@@ -33,12 +33,18 @@ const OpenStreetMap = (props) => {
       iconSize: new L.Point(50, 50),
     });
 
-    L.marker([location.lat, location.lng], {
+    const marker = L.marker([location.lat, location.lng], {
       draggable: draggable,
       icon: iconPerson,
     }).addTo(map);
 
+    marker.on("dragend", (e) => {
+      const { lat, lng } = e.target.getLatLng();
+      propsRef.current.handleSelectPosition({ lat, lng });
+    });
+
     map.on("click", (e) => {
+      marker.setLatLng(e.latlng);
       propsRef.current.handleSelectPosition({
         lat: e.latlng.lat,
         lng: e.latlng.lng,
