@@ -14,7 +14,7 @@ import FeatureSearch from "brancy/components/search/featureSearch";
 
 import styles from "./hammenu.module.css";
 import { PushResponseType, OrderStep, PushResponseExplanation, PushResponseTitle } from "brancy/models/enums";
-import { PushNotif, ITicketPushNotif, IOrderPushNotifExtended, IGetImage } from "brancy/models/interfaces";
+import { PushNotif, ITicketPushNotif, IOrderPushNotifExtended, IGetMedia } from "brancy/models/interfaces";
 
 const baseMediaUrl = getClientMediaBaseUrl();
 
@@ -305,10 +305,10 @@ const LeftHamMenue = ({
       }
       return "";
     } else if (notif.ResponseType === PushResponseType.AiImageSuccess && notif.Message) {
-      const message = JSON.parse(notif.Message) as IGetImage;
+      const message = JSON.parse(notif.Message) as IGetMedia;
       return "Your images successfully created by, " + message.version + " model.";
     } else if (notif.ResponseType === PushResponseType.AiImageFail && notif.Message) {
-      const message = JSON.parse(notif.Message) as IGetImage;
+      const message = JSON.parse(notif.Message) as IGetMedia;
       return `Your images failed to be created by " + message.version + " model : ${message.metadata || "Image generation failed."}`;
     }
 

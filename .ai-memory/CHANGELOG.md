@@ -2,6 +2,8 @@
 
 ## 2026-08-09
 
+- Fixed the Instagramer product-detail App Router wrapper by making it a client component, reading `tempId` with `useSearchParams`, and placing the client route content beneath Suspense. This prevents the server build from evaluating client-only session/context code and preserves legacy-page query handling.
+
 - Fixed MyLink shortcut mouse clicks being intercepted by the carousel pointer handler when the shortcut row has no horizontal overflow; pointer dragging now starts only for scrollable rows.
 
 - Fixed Market Properties shortcut actions always receiving `linkId` `1000`: menu options pass their link ID directly, and link-card clicks no longer bubble to the surrounding `pinContainer` handler that resets the selected link.

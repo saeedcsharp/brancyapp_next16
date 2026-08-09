@@ -51,6 +51,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Fixed the `/store/products/productDetail` App Router wrapper's mixed server/client boundary. The wrapper now runs on the client, obtains `tempId` through `useSearchParams`, and renders the legacy product-detail page below Suspense so React context and `useSession` are not evaluated during server page-data collection.
+
 - Added a styled Product popup in Market Properties with two radio-button choices for product display mode: latest 10 products and best-selling products.
 - Added dedicated localization keys for the Product popup display mode and translated them in all eight supported locales.
 

@@ -134,7 +134,7 @@ See `MODULE_INDEX.md`.
 
 ## Known Issues
 
-No confirmed module-specific issue recorded at initialization.
+The store product-detail wrapper is a client component because it uses `useSession` and the legacy page uses `next/router`; its `useSearchParams` consumer must remain beneath a Suspense boundary for Next.js production builds.
 
 ## Technical Debt
 
@@ -146,7 +146,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-08-09
 
 ---
 
@@ -155,13 +155,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-
