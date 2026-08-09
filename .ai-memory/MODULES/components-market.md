@@ -168,7 +168,7 @@ The Products card intentionally omits the edit-options three-dot control; other 
 
 `components/market/myLink/featureBox.tsx` renders FeatureBox cards in free mode: the section has native horizontal overflow without scroll snapping, supports touch/trackpad scrolling and primary-button pointer dragging across browsers, and prevents a drag gesture from triggering a tile click. The layout starts at the logical inline start on every viewport and keeps keyboard focus and reduced-motion styles available.
 
-`components/market/myLink/link.tsx` renders shortcut cards with a desktop maximum width of 250px. On mobile, the shortcut section becomes a free horizontal carousel with native touch scrolling and pointer dragging; when more than four links exist, each mobile card is reduced to 200px. Dragging suppresses the click that would otherwise redirect to a shortcut URL.
+`components/market/myLink/link.tsx` renders shortcut cards with a desktop maximum width of 250px. On mobile, the shortcut section becomes a free horizontal carousel with native touch scrolling and pointer dragging only when horizontal overflow exists; when more than four links exist, each mobile card is reduced to 200px. Dragging suppresses the click that would otherwise redirect to a shortcut URL, while ordinary clicks remain available when the content is not scrollable.
 
 `components/market/myLink/menubar.tsx` keeps feature navigation in free horizontal mode. The intersection observer uses a stable viewport anchor and the rendered feature list to update the active menu item during manual page scrolling and smooth feature navigation; the active button is then centered inside the menubar. Reduced-motion users receive an instant reposition instead of smooth scrolling.
 

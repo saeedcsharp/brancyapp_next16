@@ -52,7 +52,7 @@ The Products feature card does not render the edit-options three-dot control bec
 
 ## MyLink Shortcut Links
 
-MyLink shortcut cards are capped at 250px on desktop. On mobile, the links are presented in a free horizontal carousel that supports touch scrolling and mouse/pointer dragging; collections larger than four links use 200px cards to keep the mobile row usable.
+MyLink shortcut cards are capped at 250px on desktop. On mobile, the links are presented in a free horizontal carousel that supports touch scrolling and mouse/pointer dragging when horizontal overflow exists; collections larger than four links use 200px cards to keep the mobile row usable, while non-overflowing collections preserve ordinary card clicks.
 
 The MyLink FeatureBox cards use a free horizontal carousel with no snap points or page-sized jumps. Native horizontal scrolling remains available for touch and trackpad users, while primary-button mouse dragging uses pointer capture and suppresses accidental tile activation after movement.
 
