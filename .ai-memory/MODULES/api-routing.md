@@ -70,6 +70,8 @@ Service integration happens through helper APIs or route handlers when applicabl
 
 Wallet mappings include `/api/wallet/getBallanceHistory` to `Business/Wallet/GetBallanceHistory`; the backend contract intentionally uses the `Ballance` spelling. `/api/wallet/setDefaultCard` maps to `Business/Wallet/SetDefaultCard` and accepts the selected card number as a query parameter.
 
+Product bio visibility maps `/api/product/updateShowInBio` to `Shopper/Product/UpdateShowInBio` and accepts a POST body containing the selected product ID array, including an empty array when no products are selected.
+
 Image history maps `/api/mediaai/getImages` to `Instagramer/MediaAi/GetImages`. The AI landing page calls it with `mediaCreationStatus=2` for successful creations and an initially empty `nextMaxId`; subsequent infinite-scroll requests send the cursor returned by the previous response. Image creator discovery maps `/api/mediaai/getImageCreators` to `Instagramer/MediaAi/GetImageCreators` and is called directly by `clientFetchApi` with the active Instagramer session headers. Token estimation maps `/api/mediaai/getImageUsage` to `Instagramer/MediaAi/GetImageUsage` and uses a POST body with `creatorKey`, model `version`, serialized dynamic `inputs`, and `prompt`; its successful value is the numeric token usage.
 Video history maps `/api/mediaai/getVideos` to `Instagramer/MediaAi/GetVideos`. The AI landing page uses the same successful-status filter and cursor pagination contract as image history, returning `items` with `videoUrl` media paths.
 Media creation submits the shared creator payload to `/api/mediaai/createImage` or `/api/mediaai/createVideo` based on the active creation tab, with the generated `clientContext` query used for notification correlation.

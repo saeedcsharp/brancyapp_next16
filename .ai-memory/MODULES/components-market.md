@@ -162,7 +162,7 @@ Last-video titles and descriptions preserve backend newline characters in the re
 
 # The product module keeps styles for its current header, static presentation coupon, carousel, and product cards; the former collapsible-section state and obsolete legacy header styles were removed.
 
-The Products card intentionally omits the edit-options three-dot control; other movable feature cards continue to expose it.
+The Products card intentionally omits the edit-options three-dot control; other movable feature cards continue to expose it. `components/market/properties/popups/product.tsx` loads products with `/api/product/getProductList`, uses the shared cursor-based infinite-scroll helper, supports selecting up to ten product IDs, and saves the selected array through `/api/product/updateShowInBio`.
 
 ## MyLink Shortcut Links
 

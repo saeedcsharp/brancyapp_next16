@@ -53,8 +53,7 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 - Fixed the `/store/products/productDetail` App Router wrapper's mixed server/client boundary. The wrapper now runs on the client, obtains `tempId` through `useSearchParams`, and renders the legacy product-detail page below Suspense so React context and `useSession` are not evaluated during server page-data collection.
 
-- Added a styled Product popup in Market Properties with two radio-button choices for product display mode: latest 10 products and best-selling products.
-- Added dedicated localization keys for the Product popup display mode and translated them in all eight supported locales.
+- Replaced the Market Properties Product popup radio selector with a product thumbnail picker that loads the shopper product list, supports up to ten selected product IDs, and saves the selection (including an empty array) through `Shopper/Product/UpdateShowInBio`.
 
 - Fixed the shared ToggleButton active indicator translation for RTL layouts by reversing its horizontal percentage offset through the shared DirectionContext while preserving the LTR behavior and controlled API.
 - Hardened the MyLink market page: redirects no longer run during render, unmounted async loads cannot update state, feature dialogs share one exclusive modal state, feature rendering uses memoized map lookup, and authenticated metadata now allows zoom and is `noindex, nofollow`.

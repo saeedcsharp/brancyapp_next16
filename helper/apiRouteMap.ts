@@ -293,6 +293,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/product/searchProducts": "shopper/Product/SearchProducts",
   "/api/product/unLoadProduct": "shopper/Product/UnLoadProduct",
   "/api/product/updateChildrenMediaStatus": "shopper/Product/UpdateChildrenMediaStatus",
+  "/api/product/updateShowInBio": "Shopper/Product/UpdateShowInBio",
   "/api/product/updateSecondaryProductDetails": "shopper/Product/UpdateSecondaryProductDetails",
   "/api/product/updateSelfMediaStatus": "shopper/Product/UpdateSelfMediaStatus",
   "/api/product/updateSpecificationOrder": "shopper/Product/UpdateSpecificationOrder",

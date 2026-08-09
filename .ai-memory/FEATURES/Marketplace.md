@@ -48,7 +48,7 @@ The public destination-links section is shown for the default-domain selection. 
 
 ## Market Properties Features
 
-The Products feature card does not render the edit-options three-dot control because product popup options are not available there. Other movable feature cards retain the edit-options control.
+The Products feature card does not render the edit-options three-dot control. Its popup loads the shopper product list with the same thumbnail and cursor-scrolling behavior as the message product picker, allows at most ten products to be selected, and sends the selected `productId` array (including an empty array) to `Shopper/Product/UpdateShowInBio` when saved. Other movable feature cards retain the edit-options control.
 
 ## MyLink Shortcut Links
 
