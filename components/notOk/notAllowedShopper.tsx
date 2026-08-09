@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "brancy/i18n";
 import styles from "./notAllowed.module.css";
 export default function NotAllowedShopper() {
   const { t } = useTranslation();

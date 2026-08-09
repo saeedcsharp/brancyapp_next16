@@ -1,8 +1,4 @@
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import Slider from "brancy/components/design/slider/slider";
 import Loading from "brancy/components/notOk/loading";
 import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotShopper from "brancy/components/notOk/notShopper";
@@ -18,23 +14,26 @@ import OrderDetail from "brancy/components/store/order/popup/OrderDetail";
 import OrderFailed from "brancy/components/store/order/popup/OrderFailed";
 import OrderPickup from "brancy/components/store/order/popup/OrderPickup";
 import OrderSend from "brancy/components/store/order/popup/OrderSend";
+import { MethodType } from "brancy/helper/api";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { LanguageKey } from "brancy/i18n";
-import Slider from "brancy/components/design/slider/slider";
-import { MethodType } from "brancy/helper/api";
-import styles from "./ordernew.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { OrderStep, OrderStepStatus, PartnerRole, PushResponseType, ShippingRequestType } from "brancy/models/enums";
 import {
-  IOrderDetail,
   IOrderByStatus,
   IOrderByStatusItem,
-  PushNotif,
+  IOrderDetail,
   IOrderPushNotifExtended,
+  PushNotif,
 } from "brancy/models/interfaces";
-import NotAllowedShopper from "brancy/components/notOk/notAllowedShopper";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styles from "./ordernew.module.css";
 
 const Orders = () => {
   //  return <Soon />;
@@ -837,7 +836,6 @@ const Orders = () => {
       }
     }, 500);
   }, []);
-  if (session?.user.isInfluencer) return <NotAllowedShopper />;
   if (!session?.user.isShopper) return <NotShopper />;
   if (!RoleAccess(session, PartnerRole.Orders)) return <NotAllowed />;
 

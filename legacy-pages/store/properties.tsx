@@ -1,9 +1,3 @@
-import { useSession } from "next-auth/react";
-import dynamic from "next/dynamic";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import EditBusinessHours from "brancy/components/advertise/properties/popups/editBusinessHours";
 import Modal from "brancy/components/design/modal";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
@@ -14,10 +8,15 @@ import { findDayName } from "brancy/helper/findDayName";
 import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { numbToAmAndPmTime } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
-import styles from "./properties.module.css";
 import { BusinessDay, PartnerRole } from "brancy/models/enums";
 import { IBusinessHour } from "brancy/models/interfaces";
-import NotAllowedShopper from "brancy/components/notOk/notAllowedShopper";
+import { useSession } from "next-auth/react";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styles from "./properties.module.css";
 
 const MapComponent = dynamic(() => import("brancy/components/mainLeaftlet"), {
   ssr: false,
@@ -245,7 +244,6 @@ const Properties = () => {
       setIsSaving(false);
     }
   };
-  if (session?.user.isInfluencer) return <NotAllowedShopper />;
   if (!session?.user.isShopper) return <NotShopper />;
   if (!RoleAccess(session, PartnerRole.Products)) return <NotAllowed />;
   if (session?.user.currentIndex === -1) router.push("/user");
