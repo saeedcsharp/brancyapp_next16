@@ -1,8 +1,8 @@
 "use client";
 
-import NotAllowedAdvertiser from "brancy/components/notOk/notAllowedShopper";
-import PageComponent from "../../../../legacy-pages/advertise/adlist";
+import NotAllowedAdvertiser from "brancy/components/notOk/notAllowedAdvertiser";
 import { useSession } from "next-auth/react";
+import PageComponent from "../../../../legacy-pages/advertise/adlist";
 
 export default function Page() {
   const { data: session } = useSession();

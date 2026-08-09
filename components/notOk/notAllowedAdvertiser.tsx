@@ -19,7 +19,7 @@ export default function NotAllowedAdvertiser() {
             />
           </svg>
 
-          <span>{t("You can not access this page, because your account is activated as a shopper account")} </span>
+          <span>{t("You can not access this page, because your account is activated as an shopper account")} </span>
         </div>
       </div>
     </>
