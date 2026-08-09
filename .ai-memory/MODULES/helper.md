@@ -56,6 +56,8 @@ Used by routes, components, helpers, or build tooling where imported.
 
 Exports are defined by source files in the module.
 
+- `helper/counterDownHelper.ts` calculates countdowns with separate days, hours, minutes, and seconds and formats full-day values as `Xd HH:MM:SS`.
+
 ## Internal APIs
 
 Local helpers and non-exported functions stay module-private.

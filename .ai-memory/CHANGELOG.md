@@ -2,6 +2,8 @@
 
 ## 2026-08-09
 
+- Updated the link countdown to show full days for durations longer than 24 hours, using the format `Xd HH:MM:SS` while preserving `HH:MM:SS` for shorter durations.
+
 - Fixed the Instagramer product-detail App Router wrapper by making it a client component, reading `tempId` with `useSearchParams`, and placing the client route content beneath Suspense. This prevents the server build from evaluating client-only session/context code and preserves legacy-page query handling.
 
 - Fixed MyLink shortcut mouse clicks being intercepted by the carousel pointer handler when the shortcut row has no horizontal overflow; pointer dragging now starts only for scrollable rows.

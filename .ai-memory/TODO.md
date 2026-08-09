@@ -2,6 +2,8 @@
 
 ## Pending Documentation Tasks
 
+- Add unit coverage for link countdown formatting below 24 hours, at the 24-hour boundary, and across multiple days when a test harness is introduced.
+
 - Add component/browser coverage for the Market Properties Product popup radio selector, including default selected mode, keyboard radio navigation, visual active state, and per-locale label rendering when a UI test harness is introduced.
 
 - Add component/browser coverage for SwitchButton keyboard focus and Space activation, controlled checked state, accessible labels, valid/invalid role handling, disabled state, RTL thumb direction, 44px touch target, reduced motion, forced colors, and mobile/desktop viewport sizing when a UI test harness is introduced.
