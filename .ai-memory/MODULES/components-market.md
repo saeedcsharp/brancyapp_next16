@@ -156,6 +156,8 @@ The Products header includes a static presentation coupon with a days/hours/minu
 
 The authenticated MyLink page redirects only from effects, ignores asynchronous results after unmount, presents its three feature dialogs through one exclusive modal state, derives rendered feature nodes from one memoized feature map, and marks its authenticated metadata `noindex, nofollow`. The live-stream and last-video interaction listeners are registered from effects and removed during cleanup.
 
+Market properties link actions pass the shortcut ID directly to the parent alongside the selected statistics, edit, or delete action. `DotMenu` owns only its open/closed state, while the parent owns the selected `linkId`. Clicks inside the links card stop before reaching the page-level `pinContainer`, whose outside-click handler resets the selection sentinel.
+
 Last-video titles and descriptions preserve backend newline characters in the rendered text while keeping embedded links as safe React anchors.
 
 # The product module keeps styles for its current header, static presentation coupon, carousel, and product cards; the former collapsible-section state and obsolete legacy header styles were removed.
