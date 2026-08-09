@@ -146,7 +146,9 @@ const Editlink = (props: { info: ILink; removeMask: () => void; handleUpdateLink
   const handleUploadImage = useCallback(() => {
     inputRef.current?.click();
   }, []);
-
+  const handleImageError = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
+    e.currentTarget.src = "/attention.svg";
+  }, []);
   const isSaveEnabled = useMemo(() => {
     if (!linkData) return false;
     const isTitleEmpty =
@@ -246,6 +248,7 @@ const Editlink = (props: { info: ILink; removeMask: () => void; handleUpdateLink
                 className={styles.selectedicon}
                 src={imageSrc}
                 alt={`${linkData.title} icon`}
+                onError={handleImageError}
               />
 
               <div className="instagramprofiledetail">
