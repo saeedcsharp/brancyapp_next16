@@ -270,7 +270,7 @@ const Properties = () => {
         {/* <Soon /> */}
         <main className="pinContainer">
           {/* ___Sales list___*/}
-          <div className="tooBigCard">
+          {/* <div className="tooBigCard">
             <div className={styles.all}>
               <div className="headerChild">
                 <div className="circle"></div>
@@ -366,9 +366,9 @@ const Properties = () => {
                 {isSaving ? "در حال ذخیره..." : "ذخیره اطلاعات فروشگاه"}
               </button>
             </div>
-          </div>
+          </div> */}
           {/* ___Social Media___*/}
-          <div className="tooBigCard" style={{ gridRowEnd: "span 41" }}>
+          {/* <div className="tooBigCard" style={{ gridRowEnd: "span 41" }}>
             <div className={styles.all}>
               <div className="headerChild">
                 <div className="circle"></div>
@@ -427,19 +427,17 @@ const Properties = () => {
                   />
                 </div>
               </div>
-              {/* <button className={styles.saveButton} onClick={handleSaveProperties} disabled={isSaving}>
-                {isSaving ? "در حال ذخیره..." : "ذخیره شبکه‌های اجتماعی"}
-              </button> */}
+
             </div>
-          </div>
+          </div> */}
           {/* ___delivery branch___*/}
-          <div className="tooBigCard">
+          {/* <div className="tooBigCard">
             <div className={styles.all}>
               <div className="headerChild">
                 <div className="circle"></div>
                 <div className="Title">شعبه‌های توزیع</div>
               </div>
-              {/* سیستم ارسال پستی */}
+
               <div className={styles.section}>
                 <div className={styles.postmodel}>
                   <div className={styles.iconmodel}>
@@ -464,7 +462,7 @@ const Properties = () => {
                   />
                 </div>
               </div>
-              {/* نقشه اصلی */}
+
               <div className={styles.deliveryMapContainer}>
                 <MapComponent
                   location={mapCenter}
@@ -476,7 +474,6 @@ const Properties = () => {
                 />
               </div>
 
-              {/* لیست شعبه‌های نزدیک */}
               <div className={styles.branchesSection}>
                 <div className={styles.branchesHeader}>
                   <h3 className="title2">شعبه‌های نزدیک شما</h3>
@@ -575,7 +572,7 @@ const Properties = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
           {/* ___Business Hours___*/}
           <div className="tooBigCard">
             <div className={styles.all}>
@@ -626,7 +623,7 @@ const Properties = () => {
             </div>
           </div>
           {/* ___notification___*/}
-          <div className="bigcard" style={{ gridRowEnd: "span 41" }}>
+          {/* <div className="bigcard" style={{ gridRowEnd: "span 41" }}>
             <div className={styles.all}>
               <div className="frameParent">
                 <div className="headerChild">
@@ -694,11 +691,8 @@ const Properties = () => {
                   />
                 </div>
               </div>
-              {/* <button className={styles.saveButton} onClick={handleSaveProperties} disabled={isSaving}>
-                {isSaving ? "در حال ذخیره..." : "ذخیره تنظیمات اعلان"}
-              </button> */}
             </div>
-          </div>
+          </div> */}
         </main>
         <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showBusinessHoursPopup}>
           <EditBusinessHours businessInfo={businessHours} removeMask={removeMask} saveBusinessHour={saveBusinessHour} />
