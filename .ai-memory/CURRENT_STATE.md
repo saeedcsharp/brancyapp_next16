@@ -125,6 +125,7 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 - Added a styled internal back link from the image creation workspace to `/page/ai`.
 - Rebuilt `/page/ai` as a segmented Image/Video media workspace; Image mode loads successful generated images from `GetImages`, while Video mode loads successful generated videos from `GetVideos`. Both modes render responsive metadata cards and append cursor-based pages on infinite scroll; image results open shared detail modals and video results use native playback controls.
+- Updated the `/page/ai` video history UX: cards now show a thumbnail image (`imageUrl`) or the default `/cover-video.svg` fallback when the image is missing, and clicking a video card opens a dedicated generated-video modal where playback (with audio) happens.
 - Parsed generated-image JSON metadata strings into a responsive labeled value grid while preserving a plain-text fallback for malformed metadata.
 - Made AI image provider selection explicitly support multiple provider families and their model collections with responsive logo cards, atomic provider/model switching, and provider-aware form resets.
 - Replaced the generated-image modal's full-image link with a direct download action that uses the resolved media URL.

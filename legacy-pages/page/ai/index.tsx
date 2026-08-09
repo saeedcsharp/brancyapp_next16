@@ -8,6 +8,7 @@ import {
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
 import GeneratedImageModal from "brancy/components/page/ai/generatedImageModal";
+import GeneratedVideoModal from "brancy/components/page/ai/generatedVideoModal";
 import ImageList from "brancy/components/page/ai/imageList";
 import VideoList from "brancy/components/page/ai/videoList";
 import { MethodType } from "brancy/helper/api";
@@ -63,6 +64,7 @@ export default function PageAI() {
   const [loadedVideos, setLoadedVideos] = useState(false);
   const [showFeaturePopup, setShowFeaturePopup] = useState(false);
   const [selectedImage, setSelectedImage] = useState<IGetMedia | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<IGetMedia | null>(null);
   const [creators, setCreators] = useState<IMediaCreator[]>([]);
   const [error, setError] = useState("");
   const [clientContext, setClientContext] = useState<string | null>(null);
@@ -347,6 +349,7 @@ export default function PageAI() {
             videos={videos}
             loading={loading && videos.length === 0}
             isLoadingMore={isLoadingMoreVideos}
+            setSelectedVideo={setSelectedVideo}
             openVideoCreator={openVideoCreator}
           />
         )}
@@ -363,6 +366,9 @@ export default function PageAI() {
       </main>
       <Modal closePopup={() => setSelectedImage(null)} classNamePopup="popupLarge" showContent={selectedImage !== null}>
         {selectedImage && <GeneratedImageModal image={selectedImage} onClose={() => setSelectedImage(null)} />}
+      </Modal>
+      <Modal closePopup={() => setSelectedVideo(null)} classNamePopup="popupLarge" showContent={selectedVideo !== null}>
+        {selectedVideo && <GeneratedVideoModal video={selectedVideo} onClose={() => setSelectedVideo(null)} />}
       </Modal>
       <Modal
         closePopup={() => setShowFeaturePopup(false)}

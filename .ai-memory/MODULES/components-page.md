@@ -64,6 +64,10 @@ React components are present when the folder contains `.tsx` UI files.
 
 `components/page/ai/GeneratedImageModal.tsx` provides the generated-image result content, including the preview, prompt, metadata, technical details, close action, and image download action. Its exported `parseImageMetadata` converts JSON-object metadata strings into reusable, human-readable key/value items; invalid JSON and non-object values retain the modal's plain-text fallback. The `/page/ai` history cards reuse this parser so summary and detail metadata stay consistent. Downloads use the resolved client media URL and the shared blob-based `DownloadImage` helper. The component does not own the shared modal wrapper or visibility state; page owners render it inside `components/design/modal` following the same page-owned modal pattern as `NotFeature`. Its responsive styles remain in `ImageCreator.module.css`.
 
+`components/page/ai/GeneratedVideoModal.tsx` provides the generated-video result content using the same modal structure and metadata presentation rules as `GeneratedImageModal`. It renders native `video` playback with controls and audio when `videoUrl` exists, falls back to a preview image when it does not, and uses `/cover-video.svg` whenever a media item has no `imageUrl`.
+
+`components/page/ai/VideoList.tsx` now renders clickable thumbnail cards instead of inline playback. Each card uses the media `imageUrl` preview when available, or `/cover-video.svg` as a fallback, and opens the page-owned generated-video modal for playback and details.
+
 ## Hooks
 
 React hooks are present when named `use*` functions/files exist.

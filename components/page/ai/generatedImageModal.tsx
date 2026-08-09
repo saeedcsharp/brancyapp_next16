@@ -1,10 +1,10 @@
-import { IGetImage } from "brancy/models/interfaces";
+import { IGetMedia } from "brancy/models/interfaces";
 import styles from "./mediaCreator.module.css";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { DownloadImage } from "brancy/helper/DownloadImage";
 
 interface GeneratedImageModalProps {
-  image: IGetImage;
+  image: IGetMedia;
   onClose: () => void;
 }
 

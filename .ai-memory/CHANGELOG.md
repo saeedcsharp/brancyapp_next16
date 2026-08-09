@@ -1,5 +1,10 @@
 # Changelog
 
+## 2026-08-09
+
+- Updated the AI video library cards to render image thumbnails instead of inline playback, using each media `imageUrl` when available and a default `/cover-video.svg` fallback when it is missing.
+- Added a generated-video detail modal that mirrors the generated-image modal structure; clicking a video card now opens the popup and plays the video with native controls (including audio) inside the modal.
+
 - Updated the MyLink coupon feedback so `Copied` replaces the coupon code after a successful copy instead of appearing as a separate message.
 
 - Added a static MyLink Products coupon header with a placeholder countdown, `BRANCY20` code, accessible copy action, and temporary copied feedback while the promotion backend contract is pending.

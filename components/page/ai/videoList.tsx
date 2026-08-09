@@ -21,10 +21,19 @@ type VideoListProps = {
   videos: IGetMedia[];
   loading: boolean;
   isLoadingMore: boolean;
+  setSelectedVideo: (video: IGetMedia) => void;
   openVideoCreator: () => void;
 };
 
-export default function VideoList({ videos, loading, isLoadingMore, openVideoCreator }: VideoListProps) {
+const DEFAULT_VIDEO_THUMBNAIL = "/cover-video.svg";
+
+export default function VideoList({
+  videos,
+  loading,
+  isLoadingMore,
+  setSelectedVideo,
+  openVideoCreator,
+}: VideoListProps) {
   const { t } = useTranslation();
   return (
     <section className={styles.library} aria-label="Generated videos">
@@ -43,13 +52,13 @@ export default function VideoList({ videos, loading, isLoadingMore, openVideoCre
         <div className={styles.imageGrid}>
           {videos.map((video) => {
             const metadata = video.metadata ? parseImageMetadata(video.metadata) : null;
+            const previewUrl = video.imageUrl ? getClientMediaBaseUrl() + video.imageUrl : DEFAULT_VIDEO_THUMBNAIL;
             return (
               <article className={styles.imageCard} key={video.id}>
-                <div className={styles.imagePreview}>
-                  <video controls preload="metadata" src={getClientMediaBaseUrl() + video.videoUrl}>
-                    {t("Your browser does not support video playback.")}
-                  </video>
-                </div>
+                <button className={styles.imagePreview} type="button" onClick={() => setSelectedVideo(video)}>
+                  <img src={previewUrl} alt={video.prompt || t("Generated video")} />
+                  <span>{t("View details")}</span>
+                </button>
                 <div className={styles.imageInfo}>
                   <div className={styles.imageMetaLine}>
                     <span>{video.creatorKey}</span>
