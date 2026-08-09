@@ -1648,6 +1648,8 @@ export enum LanguageKey {
   marketPropertiesLastVideoexplain = "marketPropertiesLastVideoexplain",
   marketPropertiesProducts = "marketPropertiesProducts",
   marketPropertiesProduct = "marketPropertiesProduct",
+  marketProperties_showLast10Products = "marketProperties_showLast10Products",
+  marketProperties_showBestSellingProducts = "marketProperties_showBestSellingProducts",
   marketPropertiesAdsTimeline = "marketPropertiesAdsTimeline",
   marketPropertiesQandABox = "marketPropertiesQandABox",
   marketPropertiesLinkShortcut = "marketPropertiesLinkShortcut",

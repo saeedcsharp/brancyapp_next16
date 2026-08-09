@@ -1964,6 +1964,8 @@ export default {
 
     marketPropertiesProducts: "Produits",
     marketPropertiesProduct: "Produit",
+    marketProperties_showLast10Products: "Afficher les 10 derniers produits",
+    marketProperties_showBestSellingProducts: "Afficher les produits les plus vendus",
     marketPropertiesAdsTimeline: "Chronologie des Annonces",
     marketPropertiesQandABox: "Boîte de Questions et Réponses",
     marketPropertiesLinkShortcut: "Raccourci de Lien",

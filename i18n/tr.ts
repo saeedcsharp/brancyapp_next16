@@ -1898,6 +1898,8 @@ export default {
 
     marketPropertiesProducts: "Ürünler",
     marketPropertiesProduct: "Ürün",
+    marketProperties_showLast10Products: "Son 10 ürünü göster",
+    marketProperties_showBestSellingProducts: "En çok satan ürünleri göster",
     marketPropertiesAdsTimeline: "Reklam Zaman Çizelgesi",
     marketPropertiesQandABox: "Soru ve Cevap Kutusu",
     marketPropertiesLinkShortcut: "Bağlantı Kısayolu",

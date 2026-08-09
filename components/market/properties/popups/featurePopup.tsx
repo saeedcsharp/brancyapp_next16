@@ -7,6 +7,7 @@ import QAndABox from "brancy/components/market/properties/popups/qAndABox";
 import VideoAndMusic from "brancy/components/market/properties/popups/videoAndMusic";
 import { FeatureType } from "brancy/models/enums";
 import { ISaveLink } from "brancy/models/interfaces";
+import ProductPopup from "./product";
 
 const FeaturePopUp = (props: {
   featureId: number;
@@ -21,6 +22,7 @@ const FeaturePopUp = (props: {
       {props.featureId === FeatureType.LastVideo && <VideoAndMusic removeMask={props.removeMask} />}
       {props.featureId === FeatureType.QandABox && <QAndABox removeMask={props.removeMask} />}
       {props.featureId === FeatureType.ContactAndMap && <ContactForm removeMask={props.removeMask} />}
+      {props.featureId === FeatureType.Products && <ProductPopup removeMask={props.removeMask} />}
       {props.featureId === FeatureType.LinkShortcut && (
         <AddNewLink removeMask={props.removeMask} handleAddNewLink={props.handleAddNewLink} />
       )}

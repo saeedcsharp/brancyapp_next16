@@ -1858,6 +1858,8 @@ export default {
 
     marketPropertiesProducts: "محصولات",
     marketPropertiesProduct: "محصول",
+    marketProperties_showLast10Products: "نمایش ۱۰ محصول آخر",
+    marketProperties_showBestSellingProducts: "نمایش پرفروش‌ترین محصولات",
     marketPropertiesAdsTimeline: "جدول زمانی تبلیغات",
     marketPropertiesQandABox: "باکس سوال و جواب",
     marketPropertiesLinkShortcut: "لینک میان‌بر ",

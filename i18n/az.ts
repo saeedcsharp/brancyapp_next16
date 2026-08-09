@@ -1856,6 +1856,8 @@ export default {
 
     marketPropertiesProducts: "Məhsullar",
     marketPropertiesProduct: "Məhsul",
+    marketProperties_showLast10Products: "Son 10 məhsulu göstər",
+    marketProperties_showBestSellingProducts: "Ən çox satılan məhsulları göstər",
     marketPropertiesAdsTimeline: "Reklam cədvəli",
     marketPropertiesQandABox: "Sual-cavab qutusu",
     marketPropertiesLinkShortcut: "Qısa link",

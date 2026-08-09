@@ -1949,6 +1949,8 @@ export default {
 
     marketPropertiesProducts: "Produkte",
     marketPropertiesProduct: "Produkt",
+    marketProperties_showLast10Products: "Letzte 10 Produkte anzeigen",
+    marketProperties_showBestSellingProducts: "Meistverkaufte Produkte anzeigen",
     marketPropertiesAdsTimeline: "Werbezeitachse",
     marketPropertiesQandABox: "Fragen- und Antwortbox",
     marketPropertiesLinkShortcut: "Link-Verknüpfung",

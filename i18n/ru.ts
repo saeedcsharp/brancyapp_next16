@@ -1922,6 +1922,8 @@ export default {
 
     marketPropertiesProducts: "Продукты",
     marketPropertiesProduct: "Продукт",
+    marketProperties_showLast10Products: "Показать последние 10 товаров",
+    marketProperties_showBestSellingProducts: "Показать самые продаваемые товары",
     marketPropertiesAdsTimeline: "Хронология Рекламы",
     marketPropertiesQandABox: "Ящик Вопросов и Ответов",
     marketPropertiesLinkShortcut: "Ярлык Ссылки",

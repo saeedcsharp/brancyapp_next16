@@ -1824,6 +1824,8 @@ export default {
 
     marketPropertiesProducts: "المنتجات",
     marketPropertiesProduct: "المنتج",
+    marketProperties_showLast10Products: "عرض آخر 10 منتجات",
+    marketProperties_showBestSellingProducts: "عرض المنتجات الأكثر مبيعًا",
     marketPropertiesAdsTimeline: "الجدول الزمني للإعلانات",
     marketPropertiesQandABox: "صندوق الأسئلة والأجوبة",
     marketPropertiesLinkShortcut: "الاختصار الرابط",

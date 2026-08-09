@@ -2,6 +2,9 @@
 
 ## 2026-08-09
 
+- Added a styled Market Properties Product popup selector with two radio options: showing the latest 10 products or showing best-selling products.
+- Added two localization keys for this Product popup option selector and translated them across all supported locales (`en`, `fa`, `ar`, `fr`, `ru`, `tr`, `gr`, `az`).
+
 - Updated the AI video library cards to render image thumbnails instead of inline playback, using each media `imageUrl` when available and a default `/cover-video.svg` fallback when it is missing.
 - Added a generated-video detail modal that mirrors the generated-image modal structure; clicking a video card now opens the popup and plays the video with native controls (including audio) inside the modal.
 

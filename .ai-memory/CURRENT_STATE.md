@@ -51,6 +51,9 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Added a styled Product popup in Market Properties with two radio-button choices for product display mode: latest 10 products and best-selling products.
+- Added dedicated localization keys for the Product popup display mode and translated them in all eight supported locales.
+
 - Fixed the shared ToggleButton active indicator translation for RTL layouts by reversing its horizontal percentage offset through the shared DirectionContext while preserving the LTR behavior and controlled API.
 - Hardened the MyLink market page: redirects no longer run during render, unmounted async loads cannot update state, feature dialogs share one exclusive modal state, feature rendering uses memoized map lookup, and authenticated metadata now allows zoom and is `noindex, nofollow`.
 - Optimized MyLink media and product interactions: live-stream controls no longer add global listeners per render, product search/filtering is deferred and memoized, carousel keyboard navigation is RTL-aware, and product/live motion respects user reduced-motion preferences.

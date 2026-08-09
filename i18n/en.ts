@@ -1889,6 +1889,8 @@ export default {
 
     marketPropertiesProducts: "Products",
     marketPropertiesProduct: "Product",
+    marketProperties_showLast10Products: "Show last 10 products",
+    marketProperties_showBestSellingProducts: "Show best-selling products",
     marketPropertiesAdsTimeline: "Ads Timeline",
     marketPropertiesQandABox: "Q and A Box",
     marketPropertiesLinkShortcut: "Link Shortcut",
