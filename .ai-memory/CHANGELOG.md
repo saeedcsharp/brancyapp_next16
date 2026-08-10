@@ -1,5 +1,9 @@
 # Changelog
 
+## 2026-08-10
+
+- Fixed the customer shop reload flash by keeping the shop page on its loading state while NextAuth restores the session, rendering the sign-in landing only after an unauthenticated result, and moving the current-index redirect into an effect.
+
 ## 2026-08-09
 
 - Updated the link countdown to show full days for durations longer than 24 hours, using the format `Xd HH:MM:SS` while preserving `HH:MM:SS` for shorter durations.

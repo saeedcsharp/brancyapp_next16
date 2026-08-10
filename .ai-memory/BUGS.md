@@ -10,6 +10,8 @@ The shared Tooltip ancestor-clipping issue was fixed on 2026-07-28 by rendering 
 
 The stale-state `clientContext` mismatch in AI image generation was fixed on 2026-07-26 by sending the locally generated value with the request and retaining it for SignalR notification filtering.
 
+The customer shop sign-in flash on reload was fixed on 2026-08-10 by handling the NextAuth `loading` status separately from an unauthenticated session and moving the role redirect out of render.
+
 ## Watchlist
 
 - Bulk product saves issue one `/api/product/CreateSubProducts` request per selected product. The backend map exposes no atomic bulk-update endpoint, so a later request can fail after earlier products have already been updated; the UI reports the failed response and refreshes only after complete success.
