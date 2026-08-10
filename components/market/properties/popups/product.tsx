@@ -60,23 +60,29 @@ export default function ProductPopup({ removeMask }: { removeMask: () => void })
 
   async function getProducts() {
     try {
-      const result = await clientFetchApi<string, ProductWithBioState[]>("/api/product/getProductList", {
-        methodType: MethodType.get,
-        session,
-        queries: [{ key: "excludeProductInstance", value: "false" }],
-      });
-      if (!result.succeeded) {
-        notify(result.info.responseType, NotifType.Error);
+      const [productsResult, bioProductsResult] = await Promise.all([
+        clientFetchApi<string, ProductWithBioState[]>("/api/product/getProductList", {
+          methodType: MethodType.get,
+          session,
+          queries: [{ key: "excludeProductInstance", value: "false" }],
+        }),
+        clientFetchApi<string, IProduct_ShortProduct[]>("/api/product/getBioProductList", {
+          methodType: MethodType.get,
+          session,
+        }),
+      ]);
+      if (!productsResult.succeeded) {
+        notify(productsResult.info.responseType, NotifType.Error);
         return;
       }
-      setProducts(result.value);
+      if (!bioProductsResult.succeeded) {
+        notify(bioProductsResult.info.responseType, NotifType.Error);
+      }
+      setProducts(productsResult.value);
       setSelectedProductIds(
-        result.value
-          .filter((product) => product.showInBio)
-          .slice(0, 10)
-          .map((product) => product.productId),
+        bioProductsResult.succeeded ? bioProductsResult.value.slice(0, 10).map((product) => product.productId) : [],
       );
-      setHasMore(result.value.length > 0);
+      setHasMore(productsResult.value.length > 0);
     } catch {
       internalNotify(InternalResponseType.UnexpectedError, NotifType.Error);
     } finally {
@@ -142,6 +148,11 @@ export default function ProductPopup({ removeMask }: { removeMask: () => void })
                       src={basePictureUrl + product.thumbnailMediaUrl}
                       alt={product.title ?? ""}
                     />
+                    {isSelected && (
+                      <span className={styles.selectedIndicator} aria-hidden="true">
+                        &#10003;
+                      </span>
+                    )}
                   </button>
                 );
               })}

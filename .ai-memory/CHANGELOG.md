@@ -13,6 +13,7 @@
 - Added a styled Market Properties Product popup selector with two radio options: showing the latest 10 products or showing best-selling products.
 - Added two localization keys for this Product popup option selector and translated them across all supported locales (`en`, `fa`, `ar`, `fr`, `ru`, `tr`, `gr`, `az`).
 - Replaced the Market Properties Product popup radio options with the `SelectProduct`-style thumbnail picker; it loads products with cursor scrolling, caps selection at ten IDs, and posts the selected ID array to `Shopper/Product/UpdateShowInBio`, including an empty array.
+- Updated the Market Properties Product popup to load selected products from `Shopper/Product/GetBioProductList` and display selected thumbnails with a large centered check indicator.
 
 - Updated the AI video library cards to render image thumbnails instead of inline playback, using each media `imageUrl` when available and a default `/cover-video.svg` fallback when it is missing.
 - Added a generated-video detail modal that mirrors the generated-image modal structure; clicking a video card now opens the popup and plays the video with native controls (including audio) inside the modal.
