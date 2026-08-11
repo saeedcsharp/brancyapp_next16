@@ -51,6 +51,10 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Corrected the user sidebar active indicator positions after removing wallet: ticket now aligns with the messaging item and setting aligns with the setting item.
+
+- Removed the user wallet entry from both the desktop user sidebar and mobile user hamburger menu; the user wallet route and feature remain available outside those navigation lists.
+
 - Fixed the `/store/products/productDetail` App Router wrapper's mixed server/client boundary. The wrapper now runs on the client, obtains `tempId` through `useSearchParams`, and renders the legacy product-detail page below Suspense so React context and `useSession` are not evaluated during server page-data collection.
 
 - Replaced the Market Properties Product popup radio selector with a product thumbnail picker that loads the shopper product list, loads selected products through `Shopper/Product/GetBioProductList`, supports up to ten selected product IDs, shows selected items with a large check indicator, and saves the selection (including an empty array) through `Shopper/Product/UpdateShowInBio`.

@@ -1,7 +1,7 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { NextRouter } from "next/router";
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { UserPanelRoute } from "brancy/components/sidebar/sidebar";
@@ -28,6 +28,8 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
   // Mouse tracking states and refs
   const [mouseY, setMouseY] = useState<number | null>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
+  const navRef = useRef<HTMLElement>(null);
+  const indicatorRef = useRef<HTMLDivElement>(null);
   const itemRefs = useRef<(HTMLDivElement | null)[]>([]);
   const requestRef = useRef<number | null>(null);
   const previousMouseY = useRef<number | null>(null);
@@ -95,21 +97,6 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
           route === "userbusinessadvertise" ||
           route === "userbusinessvshop" ||
           route.includes("userbusinessshop"),
-      },
-      {
-        id: "wallet",
-        route: "/user/wallet",
-        svgContent: (
-          <svg fill="none" viewBox="0 0 30 31">
-            <path
-              opacity=".4"
-              d="M27.7 11.2q0 .4-.5.5H2.8q-.5-.1-.5-.5V8.5c0-3.3 2.5-6 5.5-6h14.4c3 0 5.5 2.7 5.5 6zM22.2 0H7.8C3.5.1 0 3.9 0 8.5v13.2c0 4.6 3.5 8.4 7.8 8.4h14.4a8 8 0 0 0 6.5-3.8h.1V26a9 9 0 0 0 1.2-4.4V8.5C30 3.9 26.5.1 22.2.1"
-            />
-            <path d="m13.6 5.9-8.4 4.5q-.4.4.2.6h19q.8-.1.5-.7L23 7.7C21 5 16.8 4.2 13.6 6 M19 19.6a2.5 2.5 0 1 0 5 0 2.5 2.5 0 0 0-5 0" />
-          </svg>
-        ),
-        translationKey: LanguageKey.sidebar_Wallet,
-        isActive: (route: string) => route === "userwallet",
       },
       {
         id: "messaging",
@@ -266,39 +253,26 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
   const pathname = usePathname();
   const currentRoute = (pathname || "").replaceAll("/", "").toLowerCase();
 
-  const indicatorClass = useMemo(() => {
-    // Map routes to their CSS indicator class names
-    const routeToIndicatorMap: Record<string, string> = {
-      userhome: UserPanelRoute.UserPanelHome,
-      userorders: UserPanelRoute.UserPanelOrders,
-      userbusiness: UserPanelRoute.UserPanelBusiness,
-      userbusinessshop: UserPanelRoute.UserPanelBusiness,
-      userbusinessadvertise: UserPanelRoute.UserPanelBusiness,
-      userbusinessvshop: UserPanelRoute.UserPanelBusiness,
-      userorderscart: UserPanelRoute.UserPanelOrdersCart,
-      userordersfailed: UserPanelRoute.UserPanelOrdersFailed,
-      userordersinqueue: UserPanelRoute.UserPanelOrdersInQueue,
-      userordersinprogress: UserPanelRoute.UserPanelOrdersInProgress,
-      userorderspickingup: UserPanelRoute.UserPanelOrdersPickingup,
-      userordersdelivered: UserPanelRoute.UserPaneOrdersDelivered,
-      userorderssent: UserPanelRoute.UserPanelOrdersSent,
-      usermessage: UserPanelRoute.UserPanelMessage,
-      userwallet: UserPanelRoute.UserPanelWallet,
-      usersetting: UserPanelRoute.UserPanelSetting,
+  const activeMenuIndex = useMemo(
+    () => menuItems.findIndex((item) => item.isActive(currentRoute)),
+    [currentRoute, menuItems],
+  );
+
+  useLayoutEffect(() => {
+    const updateIndicatorPosition = () => {
+      const activeItem = itemRefs.current[activeMenuIndex];
+      if (!activeItem || !navRef.current || !indicatorRef.current) return;
+
+      indicatorRef.current.style.transform = `translateY(${activeItem.offsetTop}px)`;
     };
 
-    let route = currentRoute;
-    // Check if the route includes userorderscart
-    if (route.includes(UserPanelRoute.UserPanelOrdersCart)) {
-      route = UserPanelRoute.UserPanelOrdersCart;
-    }
-    // Check if the route includes userbusinessshop (dynamic shop/product routes)
-    if (route.includes(UserPanelRoute.UserPanelBusinessShop)) {
-      route = UserPanelRoute.UserPanelBusiness;
-    }
-    const cssClass = routeToIndicatorMap[route];
-    return cssClass ? `${styles.menuIndicator} ${styles[`indicator-${cssClass}`]}` : "";
-  }, [currentRoute]);
+    updateIndicatorPosition();
+    window.addEventListener("resize", updateIndicatorPosition);
+
+    return () => {
+      window.removeEventListener("resize", updateIndicatorPosition);
+    };
+  }, [activeMenuIndex]);
 
   // Function to get the fill color for a menu item
   const getMenuItemColor = (item: MenuItem): string => {
@@ -316,7 +290,7 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
           <svg className={styles.logosvg} fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 118 157">
             <path d="M48 1h-2l-1 1q-9 10-20 17L8 30l-6 4-1 1v3h1l1-1 4-2 1-1Q33 22 50 3V1zm35 154 2-2q11-11 25-18l3-3 1-1-1-1h-2l-4 2-7 4a81 81 0 0 0-21 18v1zm31-36 2-2 1-2-1-2v-1h-3q-17 7-33 17-17 11-24 24v1h-1v2h5l3-2q12-16 30-25l1-1zm-33-4 33-16v-2l-1-5-2-1h-2l-21 10-27 13q-24 12-36 40v2l2 1h5l2-1 1-2c8-19 27-31 46-39ZM69 97l33-15 2-2-2-1-4-3h-5L63 89c-22 9-46 23-56 49l-3 12v2l2 3 3 1h2l1-1 5-16c9-22 31-33 52-42ZM24 1h-3l-1 1L1 16v2h2q12-6 20-15h1zm57 2-1-1h-4l-2 2Q64 22 42 32l-11 6Q16 45 3 54l-2 1v8h1l1-1q14-10 30-18h1q14-7 27-16Q76 18 81 3ZM50 58h1c20-8 41-17 52-37q2-1 1-3l-2-3v-1l-1-1h-2l-1 1C88 32 69 41 49 49l-5 2Q20 60 1 77v11h1l1-1q21-20 47-29Zm12 19 6-3q24-8 41-23h1v-4l1-7v-1l-1-1h-2Q87 59 57 68l-1 1c-20 8-40 16-54 32v1l-1 3v16l1-2c13-24 36-33 60-42Z" />
           </svg>
-          <nav className={styles.navSidebar}>
+          <nav ref={navRef} className={styles.navSidebar}>
             {menuItems.map((item, index) => (
               <div
                 key={item.id}
@@ -334,7 +308,7 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
                 <div className={styles.buttonName}>{t(item.translationKey)}</div>
               </div>
             ))}
-            <div className={indicatorClass}></div>
+            {activeMenuIndex >= 0 && <div ref={indicatorRef} className={styles.menuIndicator}></div>}
           </nav>
           <nav className={styles.path}></nav>
         </div>

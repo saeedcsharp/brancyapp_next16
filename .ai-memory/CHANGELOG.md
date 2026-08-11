@@ -4,6 +4,11 @@
 
 - Fixed the customer shop reload flash by keeping the shop page on its loading state while NextAuth restores the session, rendering the sign-in landing only after an unauthenticated result, and moving the current-index redirect into an effect.
 
+## 2026-08-11
+
+- Removed the user wallet item from the desktop sidebar and mobile hamburger menu while preserving the user wallet route and feature.
+- Repositioned the user sidebar active indicator so ticket and setting align with their menu items after wallet removal.
+
 ## 2026-08-09
 
 - Updated the link countdown to show full days for durations longer than 24 hours, using the format `Xd HH:MM:SS` while preserving `HH:MM:SS` for shorter durations.

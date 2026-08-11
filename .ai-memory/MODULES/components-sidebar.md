@@ -24,6 +24,8 @@ components/sidebar/.
 
 The Instagramer layout passes a slash-free current route to `InstagramerSidebar`. Sidebar parent items match both their direct routes and nested `subRoutes` by prefix, keeping the parent indicator and SVG active color synchronized for AI-related pages such as `/page/ai`.
 
+The user desktop sidebar and mobile hamburger menu intentionally omit the user wallet navigation item. The user wallet route and feature remain available through direct route flows; this change only removes their sidebar entries.
+
 ## Data Flow
 
 Data enters through props, Next route params, session state, browser state, or backend API responses.
@@ -147,7 +149,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-25
+2026-08-11
 
 ---
 
