@@ -48,8 +48,8 @@ const SelectProduct = (props: {
               value: products[products.length - 1].productId.toString(),
             },
             {
-              key: "excludeProductInstance",
-              value: "false",
+              key: "excludeNonProductInstance",
+              value: "true",
             },
           ],
         });
@@ -77,8 +77,8 @@ const SelectProduct = (props: {
         session: session,
         queries: [
           {
-            key: "excludeProductInstance",
-            value: "false",
+            key: "excludeNonProductInstance",
+            value: "true",
           },
         ],
       });
