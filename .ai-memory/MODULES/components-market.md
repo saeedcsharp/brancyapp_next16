@@ -162,7 +162,7 @@ Last-video titles and descriptions preserve backend newline characters in the re
 
 # The product module keeps styles for its current header, static presentation coupon, carousel, and product cards; the former collapsible-section state and obsolete legacy header styles were removed.
 
-The Products card intentionally omits the edit-options three-dot control; other movable feature cards continue to expose it. `components/market/properties/popups/product.tsx` loads the complete products with `/api/product/getProductList`, loads current bio products with `/api/product/getBioProductList`, uses the shared cursor-based infinite-scroll helper, supports selecting up to ten product IDs, shows selected thumbnails with a centered check indicator, and saves the selected array through `/api/product/updateShowInBio`.
+The Products card intentionally omits the edit-options three-dot control; other movable feature cards continue to expose it. `components/market/properties/popups/product.tsx` loads the complete products with `/api/product/getProductList`, loads current bio products with `/api/product/getBioProductList`, uses the shared cursor-based infinite-scroll helper, supports selecting up to ten product IDs, shows each selected thumbnail's one-based position in the ordered selection as a centered numeric badge, and saves that ordered array through `/api/product/updateShowInBio`.
 
 ## MyLink Shortcut Links
 

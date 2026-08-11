@@ -51,6 +51,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Replaced Market Properties selected-product check indicators with numeric badges that show each product's one-based position in the ordered array sent to the bio-product update endpoint.
+
 - Corrected the user sidebar active indicator positions after removing wallet: ticket now aligns with the messaging item and setting aligns with the setting item.
 
 - Removed the user wallet entry from both the desktop user sidebar and mobile user hamburger menu; the user wallet route and feature remain available outside those navigation lists.

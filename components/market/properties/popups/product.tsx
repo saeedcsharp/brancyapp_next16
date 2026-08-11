@@ -44,7 +44,7 @@ export default function ProductPopup({ removeMask }: { removeMask: () => void })
         session,
         queries: [
           { key: "nextMaxId", value: products[products.length - 1].productId },
-          { key: "excludeProductInstance", value: "false" },
+          { key: "excludeNonProductInstance", value: "true" },
         ],
       });
       return result.succeeded ? result.value : [];
@@ -64,7 +64,7 @@ export default function ProductPopup({ removeMask }: { removeMask: () => void })
         clientFetchApi<string, ProductWithBioState[]>("/api/product/getProductList", {
           methodType: MethodType.get,
           session,
-          queries: [{ key: "excludeProductInstance", value: "false" }],
+          queries: [{ key: "excludeNonProductInstance", value: "true" }],
         }),
         clientFetchApi<string, IProduct_ShortProduct[]>("/api/product/getBioProductList", {
           methodType: MethodType.get,
@@ -134,7 +134,8 @@ export default function ProductPopup({ removeMask }: { removeMask: () => void })
           <div className={styles.thumbnailsContainer}>
             <div ref={containerRef} className={styles.productsScroll}>
               {products.map((product) => {
-                const isSelected = selectedProductIds.includes(product.productId);
+                const selectedIndex = selectedProductIds.indexOf(product.productId);
+                const isSelected = selectedIndex !== -1;
                 return (
                   <button
                     type="button"
@@ -150,7 +151,7 @@ export default function ProductPopup({ removeMask }: { removeMask: () => void })
                     />
                     {isSelected && (
                       <span className={styles.selectedIndicator} aria-hidden="true">
-                        &#10003;
+                        {selectedIndex + 1}
                       </span>
                     )}
                   </button>

@@ -6,6 +6,7 @@
 
 ## 2026-08-11
 
+- Replaced the Market Properties Product popup's selected-thumbnail checkmarks with numeric badges showing the products' one-based saved order.
 - Removed the user wallet item from the desktop sidebar and mobile hamburger menu while preserving the user wallet route and feature.
 - Repositioned the user sidebar active indicator so ticket and setting align with their menu items after wallet removal.
 
