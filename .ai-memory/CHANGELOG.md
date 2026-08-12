@@ -13,6 +13,7 @@
 - Added a permanent Home item for the MyLink menubar, initialized the page on `FeatureType.FeaturesBox`, and removed Contact's mount-time autofocus that could scroll the page away from the top.
 
 - Preserved line breaks in MyLink last-video titles and descriptions, including text segments rendered alongside clickable links.
+- Applied the MyLink last-video text presentation to online-stream titles and descriptions, including preserved line breaks, clickable title links, and consistent responsive line-height.
 
 - Added a free horizontal MyLink shortcut carousel with native touch scrolling and mouse/pointer dragging. Desktop shortcut cards remain capped at 250px, while mobile collections with more than four shortcuts use 200px cards and suppress accidental redirects after dragging.
 

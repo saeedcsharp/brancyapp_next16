@@ -36,10 +36,16 @@
     font-weight: 600 !important;
   }
   .contentttext {
-    -webkit-line-clamp: 20 !important;
-    line-clamp: 20 !important;
+    -webkit-line-clamp: unset !important;
+    line-clamp: unset !important;
+    display: block !important;
     font-size: var(--font-fluid-sm);
     font-weight: 400 !important;
+    line-height: 1.5;
+    padding: 10px !important;
+    -webkit-line-clamp: 5 !important;
+    line-clamp: 5 !important;
+    font-size: var(--font-fluid-sm);
   }
 }
 
@@ -233,6 +239,8 @@
 .contentttext {
   text-align: start;
   overflow: hidden;
+  width: 100%;
+  max-height: 200px;
   -webkit-line-clamp: 14;
   line-clamp: 14;
   -webkit-box-orient: vertical;
@@ -243,7 +251,7 @@
   font-size: var(--font-fluid-sm);
   font-weight: 400;
   white-space: pre-line;
-  overflow-y: auto;
+  overflow-y: scroll;
 }
 .streamlogo {
   width: 300px;

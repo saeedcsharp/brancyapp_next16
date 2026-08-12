@@ -16,6 +16,7 @@
 - Add component/browser coverage for MyLink coupon countdown rendering, copy-button keyboard activation, Clipboard API success/failure feedback, and responsive coupon layout when a UI test harness is introduced.
 - Add browser coverage for MyLink media lifecycle cleanup, instance-isolated player/radio controls, reduced-motion behavior, and carousel Left/Right/Home/End keyboard navigation when a UI test harness is introduced.
 - Add component coverage confirming MyLink last-video title and description line breaks remain visible alongside clickable links when a UI test harness is introduced.
+- Add component coverage confirming MyLink online-stream title and description line breaks remain visible alongside clickable links when a UI test harness is introduced.
 - Add visual regression coverage for MyLink fluid typography at desktop, tablet, and mobile viewport widths when a UI test harness is introduced.
 - Add Playwright coverage for Chrome, Edge, and Firefox at desktop and mobile viewport sizes, including scrollbar width, horizontal overflow, landing modals, and fixed headers.
 - Add browser interaction coverage for landing pricing slider changes, keyboard navigation, plan-card selection, and protection against repeated state updates.

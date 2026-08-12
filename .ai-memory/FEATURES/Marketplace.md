@@ -62,6 +62,8 @@ The Products header currently shows a static coupon presentation with `BRANCY20`
 
 MyLink last-video titles and descriptions render backend-provided line breaks as separate visual lines, including when the text contains clickable links.
 
+MyLink online-stream titles and descriptions use the same line-break-preserving, fluid text presentation and safe clickable-link rendering as last-video content.
+
 The MyLink feature menubar is a free horizontal scroller. It does not distribute or compress items, and a stable viewport-anchor check keeps the active item synchronized with the visible page feature during manual or menu-triggered scrolling before centering it in the menubar.
 
 MyLink always prepends a Home shortcut backed by `FeatureType.FeaturesBox`, and the initial active feature is Home. The Contact and Map feature does not move browser focus to its first link on mount, preventing an initial page jump away from the FeatureBox section.

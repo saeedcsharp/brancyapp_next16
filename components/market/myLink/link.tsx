@@ -185,8 +185,8 @@ const Link = memo<LinkComponentProps>(({ data }) => {
         <button
           type="button"
           className={styles.headerbutton}
-          onClick={toggleContentVisibility}
-          onKeyDown={handleToggleKeyDown}
+          // onClick={toggleContentVisibility}
+          // onKeyDown={handleToggleKeyDown}
           aria-expanded={isContentVisible}
           aria-label={t(LanguageKey.marketPropertiesLinkShortcut)}
           aria-controls="link-content">

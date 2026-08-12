@@ -612,7 +612,10 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
   if (!data.lastVideo) return null;
   return (
     <div key="LastVideo" id="LastVideo" className={styles.all}>
-      <div className={styles.header} onClick={toggleContentVisibility}>
+      <div
+        className={styles.header}
+        // onClick={toggleContentVisibility}
+      >
         <div className={styles.headerparent}>
           <img
             className={styles.headerimg}

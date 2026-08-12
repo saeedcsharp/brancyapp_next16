@@ -176,8 +176,8 @@ const ContactAndMap = memo(({ data }: { data: IContactAndMap | null }) => {
         <button
           id={buttonId}
           className={styles.header}
-          onClick={toggleContentVisibility}
-          onKeyDown={handleKeyDown}
+          // onClick={toggleContentVisibility}
+          // onKeyDown={handleKeyDown}
           aria-expanded={isContentVisible}
           aria-controls={sectionId}
           aria-labelledby={`${buttonId}-title`}

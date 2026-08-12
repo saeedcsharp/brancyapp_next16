@@ -158,6 +158,8 @@ The authenticated MyLink page redirects only from effects, ignores asynchronous 
 
 Last-video titles and descriptions preserve backend newline characters in the rendered text while keeping embedded links as safe React anchors.
 
+Online-stream titles and descriptions follow the same text rules: backend newline characters remain visible, titles can contain safe clickable links, and the responsive text sizing and line-height remain consistent with last-video content.
+
 # The product module keeps styles for its current header, static presentation coupon, carousel, and product cards; the former collapsible-section state and obsolete legacy header styles were removed.
 
 The Products card intentionally omits the edit-options three-dot control; other movable feature cards continue to expose it.

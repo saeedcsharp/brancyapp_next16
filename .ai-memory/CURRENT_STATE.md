@@ -58,6 +58,7 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 - Optimized MyLink media and product interactions: live-stream controls no longer add global listeners per render, product search/filtering is deferred and memoized, carousel keyboard navigation is RTL-aware, and product/live motion respects user reduced-motion preferences.
 - Standardized MyLink typography with shared fluid `clamp()` tokens, replacing raw pixel font sizes across its CSS modules so text scales within readable bounds across desktop, tablet, and mobile viewports.
 - MyLink last-video titles and descriptions now preserve backend-provided line breaks while retaining safe clickable links.
+- MyLink online-stream titles and descriptions now use the same line-break preservation, safe clickable links, and responsive line-height as last-video content.
 - Added a free horizontal MyLink shortcut carousel with native touch scrolling and mouse/pointer dragging. Shortcut cards remain capped at 250px on desktop; mobile collections with more than four links use 200px cards.
 - Updated the MyLink feature menubar to use free horizontal scrolling and automatically center the active feature button whenever the visible feature changes.
 - MyLink FeatureBox cards now use free horizontal scrolling with native touch/trackpad support, pointer dragging, no snap points, and protection against accidental activation after dragging.

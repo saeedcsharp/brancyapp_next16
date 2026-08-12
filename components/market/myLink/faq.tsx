@@ -140,15 +140,15 @@ const Faq = memo(({ data }: { data: IFaq | null }) => {
     <div key="faq" id="faq" className={styles.all}>
       <header
         className={styles.header}
-        onClick={toggleContentVisibility}
+        // onClick={toggleContentVisibility}
         role="button"
         tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggleContentVisibility();
-          }
-        }}
+        // onKeyDown={(e) => {
+        //   if (e.key === "Enter" || e.key === " ") {
+        //     e.preventDefault();
+        //     toggleContentVisibility();
+        //   }
+        // }}
         aria-expanded={state.isContentVisible}
         aria-controls="faq-content"
         aria-labelledby="faq-header">
