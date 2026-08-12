@@ -51,6 +51,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Synchronized all eight locale files to the same 2,970 direct string translation keys. Missing entries use English fallback text where available and key-name placeholders otherwise; nested translation objects remain outside the flat `LanguageKey` enum.
+
 - Fixed the shared ToggleButton active indicator translation for RTL layouts by reversing its horizontal percentage offset through the shared DirectionContext while preserving the LTR behavior and controlled API.
 - Hardened the MyLink market page: redirects no longer run during render, unmounted async loads cannot update state, feature dialogs share one exclusive modal state, feature rendering uses memoized map lookup, and authenticated metadata now allows zoom and is `noindex, nofollow`.
 - Optimized MyLink media and product interactions: live-stream controls no longer add global listeners per render, product search/filtering is deferred and memoized, carousel keyboard navigation is RTL-aware, and product/live motion respects user reduced-motion preferences.

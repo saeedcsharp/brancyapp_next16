@@ -3399,5 +3399,24 @@ export default {
     TimerClosed: "Ticket wurde automatisch geschlossen",
     closethisticket: "Dieses Ticket schließen",
     // #endregion Notification Section
+    how: "Wie",
+    SharedRemainingTimeBefore: "Sie müssen 24 Stunden warten, bevor Sie erneut teilen können.",
+    messagesetting_ConnectProductResponseExplain: "Verbinden Sie Ihr Produkt mit der Story oder dem Live.",
+    marketProperties_Connect: "Verbinden",
+    economy: "Wirtschaftlich",
+
+    text: "Text",
+    Retry: "Erneut versuchen",
+    media: "Video/Foto",
+    ReplyStory: "Auf Story antworten",
+    photo: "Foto",
+    audio: "Sprachnachricht",
+    Generic: "Allgemein",
+    StoryMention: "Story-Erwähnung",
+    FileShare: "Datei",
+    voice: "Audio",
+    SettingGeneralProfileTitle: "Profil",
+    messagesetting_SpecifyProductResponseExplain:
+      "Geben Sie Ihre Produktantwort an, damit sie automatisch an Benutzer gesendet wird.",
   },
 };

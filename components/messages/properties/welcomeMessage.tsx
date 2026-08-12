@@ -8,7 +8,7 @@ import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchBu
 import Loading from "brancy/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import styles from "brancy/components/messages/properties/properties.module.css";
+import styles from "./properties.module.css";
 import { PartnerRole } from "brancy/models/enums";
 import {
   IWelcomingMessage_GetCondition,

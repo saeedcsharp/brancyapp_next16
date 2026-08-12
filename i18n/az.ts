@@ -3287,5 +3287,23 @@ export default {
     TimerClosed: "Tiket avtomatik olaraq bağlanıb",
     closethisticket: "Bu bileti bağla",
     // #endregion Notification Section
+    Statistics_Replies_down_summary: "Auditoriyanız uzaqlaşmış kimi görünür; daha şəxsi məzmunla yenidən əlaqə qurun.",
+    Statistics_Replies_down_action_1: "Bir neçə şəxsi, təcrübəyə əsaslanan və ya emosional Story paylaşın.",
+    Statistics_Replies_down_action_2: "Cavab vermək üçün şəxsi təcrübə tələb edən suallar verin.",
+    Statistics_Replies_down_action_3: "İlk cavabları prioritetləşdirin; onlara reaksiya verin və ya cavab yazın.",
+    Statistics_Replies_down_urgency: "Yüksək",
+    Statistics_Replies_zero_title: "Sıfır Cavab 💡 Direct Dəvəti Lazımdır",
+    Statistics_Replies_zero_summary: "Heç kim cavab vermədikdə, cəlbedici və Direct suallar vermək lazımdır.",
+    Statistics_Replies_zero_action_1: "İki seçim arasında seçim etmək kimi çox sadə və interaktiv suallar paylaşın.",
+    Statistics_Replies_zero_action_2: "Aldığınız cavabları önə çıxararaq digərlərini iştirak etməyə təşviq edin.",
+    Statistics_Replies_zero_action_3: "Hər gün yüngül və interaktiv Story paylaşın.",
+    Statistics_Replies_zero_urgency: "Yüksək",
+    how: "Necə",
+    messagesetting_ConnectProductResponseExplain: "Məhsulunuzu Story və ya Live-a qoşun.",
+    marketProperties_Connect: "Qoşul",
+    economy: "İqtisadi",
+    Retry: "Yenidən cəhd et",
+    messagesetting_SpecifyProductResponseExplain:
+      "Məhsul cavabınızı müəyyən edin ki, istifadəçilərə avtomatik göndərilsin.",
   },
 };

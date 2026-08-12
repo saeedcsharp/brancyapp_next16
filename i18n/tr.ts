@@ -3325,5 +3325,14 @@ export default {
     TimerClosed: "Talep otomatik olarak kapatılmış",
     closethisticket: "Bu bileti kapat",
     // #endregion Notification Section
+    how: "Nasıl",
+    SharedRemainingTimeBefore: "Tekrar paylaşım yapmadan önce 24 saat beklemelisiniz.",
+    messagesetting_ConnectProductResponseExplain: "Ürününüzü Story veya Live'a bağlayın.",
+    marketProperties_Connect: "Bağla",
+    economy: "Ekonomik",
+    Retry: "Tekrar Dene",
+    messagesetting_SpecifyProductResponseExplain:
+      "Ürün yanıtınızı belirleyin; böylece kullanıcılara otomatik olarak gönderilir.",
+    Storeproduct_NationalCardexplain: "Bu kart, cep telefonu numarasını Brancy'ye kaydeden kişiye ait olmalıdır.",
   },
 };

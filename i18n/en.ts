@@ -2451,7 +2451,6 @@ export default {
     SettingGeneral_Description: "Description",
     SettingGeneral_Send: "Send",
     // 6 notifications
-    SharedRemainingTimeBefore: "You should wait 23:54:34 to reshare again.",
     // #endregion Setting Section
     // // #region userpanel Section
     userpanel_market: "Market",
@@ -3333,5 +3332,10 @@ export default {
     TimerClosed: "Ticket has been closed automatically",
     closethisticket: "Close this ticket",
     // #endregion Notification Section
+
+    how: "How",
+    SharedRemainingTimeBefore: "You should wait 24 hours before resharing again.",
+    economy: "Economy",
+    Retry: "Retry",
   },
 };

@@ -3231,5 +3231,11 @@ export default {
     TimerClosed: "تم إغلاق التذكرة تلقائيًا",
     closethisticket: "إغلاق هذه التذكرة",
     // #endregion Notification Section
+    how: "كيفية",
+    SharedRemainingTimeBefore: "يجب الانتظار 24 ساعة قبل إعادة المشاركة مرة أخرى.",
+    messagesetting_ConnectProductResponseExplain: "اربط منتجك بـ Story أو Live.",
+    marketProperties_Connect: "اتصال",
+    economy: "اقتصادي",
+    messagesetting_SpecifyProductResponseExplain: "حدد رد المنتج الخاص بك ليتم إرساله تلقائيًا إلى المستخدمين.",
   },
 };

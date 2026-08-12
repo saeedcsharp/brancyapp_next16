@@ -1,5 +1,7 @@
 # Changelog
 
+- Synchronized the eight locale files and `LanguageKey` to 2,970 direct string translation keys. Missing locale entries now exist in every language, using English fallback text or a key-name placeholder when no source translation exists.
+
 - Updated the MyLink coupon feedback so `Copied` replaces the coupon code after a successful copy instead of appearing as a separate message.
 
 - Added a static MyLink Products coupon header with a placeholder countdown, `BRANCY20` code, accessible copy action, and temporary copied feedback while the promotion backend contract is pending.
