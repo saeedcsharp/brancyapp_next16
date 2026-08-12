@@ -1,6 +1,12 @@
+- Refined the store statistics coupon manager presentation with elevated coupon cards, clearer status badges, metadata chips, responsive mobile stacking, and reduced-motion support.
+
 # Changelog
 
 ## 2026-08-12
+
+- Added store coupon management to the statistics page: shopper coupons load from the backend, a shared project popup creates new codes with expiry selected through the shared date-and-time picker, limits, phone assignment, bio visibility, and an optional discount cap, and existing coupons can update bio visibility. The complete coupon list and form are localized through typed keys in all eight supported languages.
+- Added the shared collapsible statistics-card behavior to the coupon manager; the header toggles its content and grid span, while the Add Coupon button opens the popup without collapsing the card.
+- Moved all coupon API orchestration and server state from `CouponManager` and `CreateCouponModal` into the store Statistics page; child components now receive data and action callbacks only.
 
 - Limited AI creator range sliders to two decimal places for both displayed and submitted values, including fractional controls such as Kling Out Painting.
 - Updated the AI page's initial library load to show the shared full-page `Loading` component until the selected image or video history API completes; the initial request now follows the deep-linked library type.

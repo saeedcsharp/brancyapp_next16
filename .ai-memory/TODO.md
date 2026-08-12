@@ -2,6 +2,8 @@
 
 ## Pending Documentation Tasks
 
+- Add component/browser coverage for store coupon loading, creation validation, API errors, `showInBio` updates, and mobile/RTL presentation when a UI test harness is introduced.
+
 - Add browser coverage confirming the user wallet item is absent from desktop and mobile user navigation while the direct user wallet route remains available when a UI test harness is introduced.
 
 - Add unit coverage for link countdown formatting below 24 hours, at the 24-hour boundary, and across multiple days when a test harness is introduced.

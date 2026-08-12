@@ -51,6 +51,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Added a dedicated store statistics coupon section. The Statistics page owns `Shopper/Coupon/GetCoupon`, the documented `CreateCoupon` POST request, `Shopper/Coupon/UpdateCoupon`, and related server state; `CouponManager` and `CreateCouponModal` are data/callback-driven UI components. Labels, placeholders, statuses, and interpolated values are localized across all eight supported languages.
+
 - AI image and video creation now returns to the matching library immediately after request submission, shows one loading card per pending `clientContext`, and replaces or removes each card when its correlated SignalR success or failure notification arrives. Concurrent generations remain independently tracked.
 
 - The active AI workspace is localized across all eight supported locales. Creator states, model guidance, prompt validation, token usage actions, result metadata fallback values, request notifications, and the page description use the active i18next locale.

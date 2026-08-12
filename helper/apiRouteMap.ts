@@ -331,6 +331,11 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/shop/searchshopproducts": "user/shop/searchshopproducts",
   "/api/shop/updateFavoriteProduct": "user/shop/UpdateFavoriteProduct",
 
+  // ── coupon ───────────────────────────────────────────
+  "/api/coupon/getCoupon": "Shopper/Coupon/GetCoupon",
+  "/api/coupon/createCoupon": "Shopper/Coupon/CreateCoupon",
+  "/api/coupon/updateCoupon": "Shopper/Coupon/UpdateCoupon",
+
   // ── statistics ────────────────────────────────────────
   "/api/statistics/getBestFollowers": "Instagramer/Statistics/GetBestFollowers",
   "/api/statistics/getDemographicInsight": "Instagramer/Statistics/GetDemographicInsight",
