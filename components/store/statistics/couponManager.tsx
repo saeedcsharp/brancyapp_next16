@@ -103,6 +103,20 @@ const CouponManager = ({
                     <article className={styles.coupon}>
                       <div className={styles.codeRow}>
                         <strong>{coupon.code}</strong>
+                        <div
+                          title="ویرایش ساعات کاری"
+                          onClick={() => {}}
+                          className="twoDotIconContainer"
+                          style={{ cursor: "pointer" }}>
+                          <svg className="twoDotIcon" fill="none" viewBox="0 0 14 5">
+                            <path
+                              fill="var(--color-gray)"
+                              d="M2.5 5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5m9 0a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"
+                            />
+                          </svg>
+                        </div>
+                      </div>
+                      <div className={styles.details}>
                         <span
                           className={`${styles.status} ${expired || exhausted || coupon.isDeleted ? styles.inactive : ""}`}>
                           {coupon.isDeleted
@@ -113,8 +127,6 @@ const CouponManager = ({
                                 ? t(LanguageKey.storestatistics_couponExhausted)
                                 : t(LanguageKey.storestatistics_couponActive)}
                         </span>
-                      </div>
-                      <div className={styles.details}>
                         <span>{t(LanguageKey.storestatistics_discountValue, { discount: coupon.discount })}</span>
                         <span>
                           {t(LanguageKey.storestatistics_couponUsage, {
