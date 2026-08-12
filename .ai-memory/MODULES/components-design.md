@@ -50,6 +50,7 @@ Exports are defined by source files in the module.
 - `components/design/radioButton/radioButton.tsx` exports the legacy-compatible controlled `RadioButton`. It retains `textlabel` and `handleOptionChanged`, while supporting standard `label`, `onChange`, and native radio input props; its native input remains keyboard-focusable and styles include 44px touch targets, disabled, focus-visible, reduced-motion, and forced-colors states.
 - `components/design/incrementStepper/incrementStepper.tsx` exports a callback-controlled numeric stepper with semantic buttons, keyboard support, pointer-captured press-and-hold repetition, stale-value-safe decrement handling, optional `onValueChange`, `min`, and `max` props for manual integer entry, optional disabled and accessible-label props, and reduced-motion/forced-colors fallbacks.
 - `components/design/switchButton/switchButton.tsx` exports the controlled `SwitchButton` while preserving its existing import path and callback API. It uses a native checkbox input, accepts standard input and ARIA props, filters legacy invalid roles, provides a 44px touch target, and supports visible focus, disabled, RTL, reduced-motion, and forced-colors states.
+- `components/design/counterDown/counterDownForLink.tsx` exports `CountdownTimerForLink`, which treats `expireTime` as a Unix timestamp in seconds and displays `DD:HH:MM:SS` when at least one day remains, otherwise `HH:MM:SS`.
 
 ## Internal APIs
 

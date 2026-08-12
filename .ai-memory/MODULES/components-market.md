@@ -170,6 +170,8 @@ The Products card intentionally omits the edit-options three-dot control; other 
 
 `components/market/myLink/link.tsx` renders shortcut cards with a desktop maximum width of 250px. On mobile, the shortcut section becomes a free horizontal carousel with native touch scrolling and pointer dragging; when more than four links exist, each mobile card is reduced to 200px. Dragging suppresses the click that would otherwise redirect to a shortcut URL.
 
+Shortcut expiration values are Unix timestamps in seconds. `CountdownTimerForLink` displays days before the remaining hours when the duration reaches 24 hours, using `DD:HH:MM:SS`; shorter durations remain `HH:MM:SS`.
+
 `components/market/myLink/menubar.tsx` keeps feature navigation in free horizontal mode. The intersection observer uses a stable viewport anchor and the rendered feature list to update the active menu item during manual page scrolling and smooth feature navigation; the active button is then centered inside the menubar. Reduced-motion users receive an instant reposition instead of smooth scrolling.
 
 The MyLink page prepends a permanent Home menu item for `FeatureType.FeaturesBox` and initializes the menubar on that item. `ContactAndMap` does not autofocus a contact link during mount, so rendering the section cannot pull the browser viewport away from the top FeatureBox section.

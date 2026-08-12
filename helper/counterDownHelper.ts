@@ -1,4 +1,5 @@
 export interface TimeRemaining {
+  days: number;
   hours: number;
   minutes: number;
   seconds: number;
@@ -11,6 +12,7 @@ export const calculateTimeRemaining = (expireTime: number): TimeRemaining => {
 
   if (timeDiff <= 0) {
     return {
+      days: 0,
       hours: 0,
       minutes: 0,
       seconds: 0,
@@ -18,11 +20,13 @@ export const calculateTimeRemaining = (expireTime: number): TimeRemaining => {
     };
   }
 
-  const hours = Math.floor(timeDiff / 3600);
+  const days = Math.floor(timeDiff / 86400);
+  const hours = Math.floor((timeDiff % 86400) / 3600);
   const minutes = Math.floor((timeDiff % 3600) / 60);
   const seconds = timeDiff % 60;
 
   return {
+    days,
     hours,
     minutes,
     seconds,
@@ -36,5 +40,6 @@ export const formatTime = (time: TimeRemaining): string => {
   }
 
   const pad = (num: number): string => num.toString().padStart(2, "0");
-  return `${pad(time.hours)}:${pad(time.minutes)}:${pad(time.seconds)}`;
+  const dayPrefix = time.days > 0 ? `${pad(time.days)}:` : "";
+  return `${dayPrefix}${pad(time.hours)}:${pad(time.minutes)}:${pad(time.seconds)}`;
 };

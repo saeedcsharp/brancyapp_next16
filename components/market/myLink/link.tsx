@@ -63,11 +63,16 @@ const LinkItem = memo<LinkItemProps>(({ link, baseMediaUrl, onLinkClick, classNa
         </div>
         {link.expireTime > 0 && (
           <div className={styles.linkexpire}>
-            <img
-              style={{ cursor: "pointer", width: "20px", height: "20px" }}
-              alt="Expire time icon"
-              src="/expire-time.svg"
-            />
+            <svg fill="none" width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28">
+              <path
+                d="M12.13 3.5h4.91m-2.47 12.03 3.44-3.43m-3.43 12.4a8.94 8.94 0 1 0 0-17.88 8.94 8.94 0 0 0 0 17.88"
+                stroke="#f04438"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+
             <CountdownTimerForLink
               expireTime={link.expireTime}
               className={styles.countdown}

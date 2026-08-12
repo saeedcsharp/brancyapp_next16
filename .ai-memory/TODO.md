@@ -10,6 +10,7 @@
 - Add browser coverage for MyLink product carousel touch scrolling, pointer dragging, horizontal-only overflow, and drag-click suppression when a UI test harness is introduced.
 - Add browser coverage for MyLink FeatureBox free-mode scrolling, pointer dragging, horizontal-only overflow, responsive sizing, and drag-click suppression when a UI test harness is introduced.
 - Add browser coverage for MyLink shortcut-link mobile horizontal scrolling, pointer dragging, conditional 200px sizing for more than four links, and drag-click suppression when a UI test harness is introduced.
+- Add component coverage for MyLink shortcut countdown day/hour/minute/second formatting when a UI test harness is introduced.
 - Add browser coverage for MyLink feature-menubar free scrolling and centering the active item after section changes when a UI test harness is introduced.
 - Add browser coverage confirming MyLink opens on the Home/FeatureBox section and Contact and Map mounting does not change the initial scroll position when a UI test harness is introduced.
 - Add component coverage for MyLink product filtering, search reset, and desktop/mobile product-header layout when a UI test harness is introduced.

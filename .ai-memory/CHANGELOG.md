@@ -1,5 +1,7 @@
 # Changelog
 
+- Fixed MyLink shortcut countdown formatting so durations over 24 hours display days, hours, minutes, and seconds instead of an inflated total-hour value.
+
 - Synchronized the eight locale files and `LanguageKey` to 2,970 direct string translation keys. Missing locale entries now exist in every language, using English fallback text or a key-name placeholder when no source translation exists.
 
 - Updated the MyLink coupon feedback so `Copied` replaces the coupon code after a successful copy instead of appearing as a separate message.
