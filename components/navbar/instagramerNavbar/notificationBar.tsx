@@ -87,7 +87,9 @@ const NotificationBar = ({
       return "";
     } else if (notif.ResponseType === PushResponseType.AiImageSuccess && notif.Message) {
       const message = JSON.parse(notif.Message) as IGetMedia;
-      return "Your images successfully created by, " + message.version + " model.";
+      const notifMessage =
+        message.videoUrl !== null ? "Your video successfully created by, " : "Your images successfully created by, ";
+      return notifMessage + message.version + " model.";
     } else if (notif.ResponseType === PushResponseType.AiImageFail && notif.Message) {
       const message = JSON.parse(notif.Message) as IGetMedia;
       return `Your images failed to be created by " + message.version + " model : ${message.metadata || "Image generation failed."}`;
