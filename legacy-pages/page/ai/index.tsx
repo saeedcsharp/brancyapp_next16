@@ -41,6 +41,7 @@ import ContentCreatorHeader from "brancy/components/page/ai/contentCreatorHeader
 import MediaCreator from "brancy/components/page/ai/mediaCreator";
 
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
+type AiQueryType = "1" | "2";
 const SUCCESS_MEDIA_STATUS = 2;
 
 function formatCreatedTime(timestamp: number) {
@@ -53,7 +54,7 @@ function formatCreatedTime(timestamp: number) {
   return d.format("YYYY/MM/DD HH:mm:ss");
 }
 
-export default function PageAI() {
+export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
@@ -200,6 +201,26 @@ export default function PageAI() {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    if (initialType === "1") {
+      setActiveTab("image");
+      return;
+    }
+    if (initialType === "2") {
+      setActiveTab("video");
+      return;
+    }
+    if (!router.isReady) return;
+
+    const queryType = router.query?.type;
+    const type = Array.isArray(queryType) ? queryType[0] : queryType;
+    if (type === "1") {
+      setActiveTab("image");
+    } else if (type === "2") {
+      setActiveTab("video");
+    }
+  }, [initialType, router.isReady, router.query?.type]);
 
   useEffect(() => {
     if (!session) return;
