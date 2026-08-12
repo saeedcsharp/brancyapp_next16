@@ -34,6 +34,8 @@ After modifying related code:
 
 - Update this document if information changed.
 
+For every application change that adds, changes, completes, renames, or removes a user-facing option or capability, also synchronize `app/feature/featureCatalog.ts`, `i18n/featureKnowledge.ts`, and the related feature documentation. The `/feature` page must remain the current source-backed list of capabilities.
+
 Keep documentation synchronized with the implementation.
 
 ---

@@ -4,14 +4,14 @@
 
 - `.git/`: repository metadata.
 - `.next/`: generated Next build/dev output.
-- `app/`: Next App Router routes, layouts, route handlers, compatibility helpers.
+- `app/`: Next App Router routes, layouts, route handlers, compatibility helpers, and the direct `/feature` knowledge-base route under `app/feature/`.
 - `components/`: reusable and feature UI components.
 - `context/`: React context providers.
 - `FEATURES/`: business capability documentation.
 - `DECISIONS/`: architecture and workflow decision logs.
 - `helper/`: API, formatting, media, timers, localization, draft, and utility helpers.
 - `hook/`: custom React hooks.
-- `i18n/`: translations and language keys.
+- `i18n/`: translations, language keys, and the nested `/feature` catalog namespace.
 - `legacy-pages/`: historical page implementations rendered by app routes.
 - `lib/`: currently empty library folder.
 - `models/`: shared enums, interfaces, mocks, toggles.

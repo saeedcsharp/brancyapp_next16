@@ -13,12 +13,18 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 - External Brancy backend integration through API route mapping and proxy routes.
 - Localization for eight language files.
 - PWA manifests and generated Workbox service worker assets.
+- Public noindex `/feature` knowledge-base route with a source-audited, localized feature catalog for content teams.
+- Persian `/feature` copy uses plain Persian equivalents or Persian transliteration for unavoidable brand names; technical route and identifier values remain unchanged.
+- Persian `/feature` copy is also intentionally conversational and non-technical, with short explanations suitable for general and younger audiences.
+- The feature catalog is a mandatory synchronization point: every added, changed, completed, renamed, or removed user-facing option or capability must update the active or audit-only list before the task is considered complete.
+- Expanded feature details show the usage instruction and route on separate lines, with safe wrapping for narrow viewports.
+- On mobile, feature cards place the expand control in the top corner and keep role and access cells side by side.
 
 ## Completed Features
 
-- App Router wrappers exist for 102 app pages.
+- App Router tree contains 104 page files, including the direct `/feature` knowledge-base route.
 - 9 route handler files exist, including auth, pricing, user proxy endpoints, IP country detection, and a text-file route.
-- API map contains 320 mapped backend entries.
+- API map contains 331 mapped backend entries.
 - Docker standalone build path exists.
 - IIS `web.config` exists for server.js hosting.
 
@@ -50,6 +56,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 - Cross-browser visual regression coverage is not yet automated; feature-level overflow and viewport rules remain candidates for incremental audit.
 
 ## Recent Changes
+
+- Added `/feature`, an evidence-backed Brancy feature knowledge base for content teams. Its static catalog has 41 active source-backed records across Instagramer, Shopper, and Advertiser filters; it exposes search, category/access filters, sorting, expandable detail, source-kind evidence, RTL, dark mode, and mobile layout. Routes whose workflows are seeded, local-only, unmapped, incomplete, download-only, or shell-only are separated into an audit-only section rather than represented as active capabilities. The catalog has reviewed Persian copy, English fallback for the other configured locales, no backend fetches, and no sensitive account data. TypeScript and browser checks passed for interaction and 390px RTL dark mode without horizontal overflow.
 
 - Synchronized all eight locale files to the same 2,970 direct string translation keys. Missing entries use English fallback text where available and key-name placeholders otherwise; nested translation objects remain outside the flat `LanguageKey` enum.
 

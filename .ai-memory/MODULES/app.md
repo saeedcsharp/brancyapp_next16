@@ -34,7 +34,7 @@ Follows existing Next/React/TypeScript project conventions.
 
 ## Folder Structure
 
-`app/` contains 102 page files and 9 route handler files.
+`app/` contains 104 page files and 9 route handler files. `app/feature/` is a direct App Router feature knowledge-base route and does not bridge to a legacy page.
 
 ## Execution Flow
 
@@ -142,7 +142,7 @@ No module-specific env vars documented unless related files read them.
 
 ## Related Files
 
-`app/` contains 102 page files and 9 route handler files.
+`app/` contains 104 page files and 9 route handler files. See `MODULES/app-feature.md` for the `/feature` catalog route.
 
 ## Related Modules
 
@@ -162,7 +162,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-08-12
 
 ---
 

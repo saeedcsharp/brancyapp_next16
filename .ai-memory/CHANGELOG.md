@@ -1,5 +1,19 @@
 # Changelog
 
+- چیدمان کارت قابلیت‌ها در موبایل اصلاح شد: دکمه بازکردن در گوشه بالای کارت قرار گرفت و نقش و وضعیت دسترسی روبه‌روی هم نمایش داده می‌شوند.
+
+- مسیر هر قابلیت در پنل جزئیات اکنون همیشه در خطی جدا، داخل بلوک خوانا و با شکست امن متن نمایش داده می‌شود.
+
+- توضیح فارسی قابلیت «انتخاب برنده و قرعه‌کشی» کامل‌تر شد و انتخاب محتوا، تعیین شرط‌ها و زمان، انتشار قوانین یا بنر و پیگیری وضعیت قرعه‌کشی و برنده را روشن می‌کند.
+
+- Added a permanent AI Knowledge Base rule requiring every added, changed, completed, renamed, or removed user-facing option or capability to be synchronized with the active or audit-only `/feature` catalog before implementation work is considered complete.
+
+- ساده‌سازی دوبارهٔ متن فارسی `/feature` با لحن خودمانی و قابل‌فهم برای مخاطب عمومی و نسل زد؛ جمله‌ها کوتاه‌تر شدند و اصطلاحات فنی با توضیح‌های روزمره جایگزین شدند، بدون تغییر در داده یا شناسه‌های فنی.
+
+- بازبینی کامل متن فارسی صفحه `/feature`: واژه‌های انگلیسی غیرضروری در نقش‌ها، دسته‌ها، دسترسی، پیش‌نیازها، محدودیت‌ها، عنوان و شرح قابلیت‌ها، ایده‌های محتوا، شواهد و موارد ممیزی با معادل فارسی یا نوشتار فارسی جایگزین شدند؛ نام‌های برند مانند مای‌لینک، تلگرام و واتساپ به شکل فارسی نمایش داده می‌شوند.
+
+- Added `/feature`, a localized noindex feature knowledge base for the content team. It contains 41 evidence-backed records with role tabs, deferred search, category/access filters, local sorting, expandable source/dependency/access details, responsive RTL/dark-mode presentation, and a separate audit-only section for seeded, local-only, incomplete, or unmapped workflows. Added the structured catalog, nested i18n namespace, and synchronized AI knowledge-base documentation.
+
 - Fixed MyLink shortcut countdown formatting so durations over 24 hours display days, hours, minutes, and seconds instead of an inflated total-hour value.
 
 - Synchronized the eight locale files and `LanguageKey` to 2,970 direct string translation keys. Missing locale entries now exist in every language, using English fallback text or a key-name placeholder when no source translation exists.

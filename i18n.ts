@@ -6,6 +6,7 @@ import en from "brancy/i18n/en";
 import fa from "brancy/i18n/fa";
 import fr from "brancy/i18n/fr";
 import gr from "brancy/i18n/gr";
+import { featureKnowledgeEn, featureKnowledgeFa } from "brancy/i18n/featureKnowledge";
 import { LanguageKey } from "brancy/i18n/languageKeys";
 import ru from "brancy/i18n/ru";
 import tr from "brancy/i18n/tr";
@@ -14,15 +15,23 @@ import tr from "brancy/i18n/tr";
 // ولی در نسخه‌های جدید می‌توانید مستقیماً از کلیدهای رشته‌ای استفاده کنید
 export { LanguageKey };
 
+const withFeatureKnowledge = <T extends { translation: object }>(locale: T, featureKnowledge: object) => ({
+  ...locale,
+  translation: {
+    ...locale.translation,
+    featureKnowledge,
+  },
+});
+
 const resources = {
-  en,
-  fa,
-  ar,
-  fr,
-  ru,
-  tr,
-  gr,
-  az,
+  en: withFeatureKnowledge(en, featureKnowledgeEn),
+  fa: withFeatureKnowledge(fa, featureKnowledgeFa),
+  ar: withFeatureKnowledge(ar, featureKnowledgeEn),
+  fr: withFeatureKnowledge(fr, featureKnowledgeEn),
+  ru: withFeatureKnowledge(ru, featureKnowledgeEn),
+  tr: withFeatureKnowledge(tr, featureKnowledgeEn),
+  gr: withFeatureKnowledge(gr, featureKnowledgeEn),
+  az: withFeatureKnowledge(az, featureKnowledgeEn),
 };
 i18n.use(initReactI18next).init({
   resources,

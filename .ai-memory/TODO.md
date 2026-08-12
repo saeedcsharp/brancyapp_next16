@@ -2,6 +2,8 @@
 
 ## Pending Documentation Tasks
 
+- For every future feature or option change, check and update the matching active or audit-only record in `/feature`; keep this rule enforced in implementation reviews.
+- Add browser/component coverage for `/feature` deferred search, role/category/access filtering, sort direction, expand/collapse ARIA state, translated search matching, audit-only separation, desktop/mobile layout, RTL, dark mode, and no-horizontal-overflow checks when a persistent UI test harness is introduced.
 - Add component/browser coverage for SwitchButton keyboard focus and Space activation, controlled checked state, accessible labels, valid/invalid role handling, disabled state, RTL thumb direction, 44px touch target, reduced motion, forced colors, and mobile/desktop viewport sizing when a UI test harness is introduced.
 - Add component/browser coverage for IncrementStepper click, keyboard activation, press-and-hold click suppression, direct-entry Enter/blur/Escape behavior, min/max clamping, zero-value decrement feedback, disabled state, forced colors, reduced motion, RTL placement, and mobile/desktop viewport sizing when a UI test harness is introduced.
 - Add component/browser coverage for CheckBoxButton keyboard focus and Space activation, controlled checked/disabled states, ARIA labels, touch targets, reduced motion, forced colors, RTL labels, and mobile viewport layouts when a UI test harness is introduced.
