@@ -460,26 +460,26 @@ const Statistics = () => {
           </div>
           {/* ___salesreport___*/}
 
-          <div className={styles.pinContainer1}>
+          <div className={styles.pinContainer}>
             <TotalSalesReport
               salesReports={totalSalesReport}
               handleLoadMore={handleLoadMore}
               hasTotalMore={hasTotalMore}
             />
+            <CouponManager
+              coupons={coupons}
+              isLoading={isLoadingCoupons}
+              isLoadingMore={isLoadingMoreCoupons}
+              containerRef={couponsScrollRef}
+              isActive={isActive}
+              isPrivate={isPrivate}
+              onActiveFilterChange={setIsActive}
+              onPrivateFilterChange={setIsPrivate}
+              updatingCouponId={updatingCouponId}
+              onCreateClick={() => setShowCreateCoupon(true)}
+              onVisibilityChange={handleCouponVisibilityChange}
+            />
           </div>
-          <CouponManager
-            coupons={coupons}
-            isLoading={isLoadingCoupons}
-            isLoadingMore={isLoadingMoreCoupons}
-            containerRef={couponsScrollRef}
-            isActive={isActive}
-            isPrivate={isPrivate}
-            onActiveFilterChange={setIsActive}
-            onPrivateFilterChange={setIsPrivate}
-            updatingCouponId={updatingCouponId}
-            onCreateClick={() => setShowCreateCoupon(true)}
-            onVisibilityChange={handleCouponVisibilityChange}
-          />
         </main>
         {showReport && <AdReport removeMask={removeMask} advertiseId={advertiseId} />}
         <CreateCouponModal
