@@ -267,12 +267,13 @@ function DynamicInput({
     const rangeMax = Number.isFinite(rangeMaxValue) && rangeMaxValue > rangeMin ? rangeMaxValue : rangeMin + 1;
     const valueNumber = Number(value);
     const rangeValue = Math.min(Math.max(Number.isFinite(valueNumber) ? valueNumber : rangeMin, rangeMin), rangeMax);
+    const displayedRangeValue = rangeValue.toFixed(2);
 
     return (
       <label className={styles.field}>
         <span className={styles.labelRow}>
           <span className={styles.label}>{title}</span>
-          <output>{rangeValue}</output>
+          <output>{displayedRangeValue}</output>
         </span>
         <input
           type="range"
@@ -280,7 +281,7 @@ function DynamicInput({
           max={rangeMax}
           step="any"
           value={rangeValue}
-          onChange={(event) => onChange(event.currentTarget.valueAsNumber)}
+          onChange={(event) => onChange(Number(event.currentTarget.valueAsNumber.toFixed(2)))}
         />
       </label>
     );
