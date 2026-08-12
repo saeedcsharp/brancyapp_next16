@@ -1,8 +1,8 @@
 .container {
   position: relative;
   overflow: hidden;
-  width: calc(100% - 40px);
-  margin: 5px 20px 10px;
+  width: 100%;
+  margin: 5px 0 10px;
   padding: var(--paddingbox);
   border-radius: var(--br25);
   background: var(--color-white);
@@ -203,8 +203,8 @@
 
 @media (max-width: 560px) {
   .container {
-    width: calc(100% - 20px);
-    margin-inline: 10px;
+    width: 100%;
+    margin-inline: 0;
     padding: var(--paddingboxmobile);
   }
   .header {

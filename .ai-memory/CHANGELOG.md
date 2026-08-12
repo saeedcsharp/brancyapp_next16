@@ -1,4 +1,5 @@
 - Refined the store statistics coupon manager presentation with elevated coupon cards, clearer status badges, metadata chips, responsive mobile stacking, and reduced-motion support.
+- Aligned the coupon manager card width and horizontal spacing with the other cards in the shared statistics grid on desktop and mobile.
 
 # Changelog
 
