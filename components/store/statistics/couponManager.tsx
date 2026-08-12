@@ -66,7 +66,6 @@ const CouponManager = ({
       {hidePage && (
         <>
           <div className={styles.filterToolbar} onClick={(event) => event.stopPropagation()}>
-            <span className={styles.filterTitle}>{t(LanguageKey.storestatistics_couponTitle)}</span>
             <div className={styles.filterGroup}>
               <label className={`${styles.filter} ${isActive ? styles.filterSelected : ""}`}>
                 {t(LanguageKey.active)}
