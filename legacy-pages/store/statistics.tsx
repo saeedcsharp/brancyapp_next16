@@ -10,7 +10,6 @@ import TwoMonth from "brancy/components/store/statistics/twoMonth";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
-import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 import { PartnerRole } from "brancy/models/enums";
 import IUserCoupon, {
@@ -22,7 +21,7 @@ import IUserCoupon, {
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./statistics.module.css";
 
@@ -45,6 +44,8 @@ const Statistics = () => {
   const [isActive, setIsActive] = useState(true);
   const [isPrivate, setIsPrivate] = useState(false);
   const [updatingCouponId, setUpdatingCouponId] = useState<number | null>(null);
+  const [isLoadingMoreCoupons, setIsLoadingMoreCoupons] = useState(false);
+  const isLoadingMoreCouponsRef = useRef(false);
   const router = useRouter();
   const [twoMonth, setTwoMonth] = useState<ISaleMonth[]>([]);
   const [totalSalesStatistics, setTotalSalesStatistics] = useState<ISaleShortMonth[]>([]);
@@ -101,15 +102,23 @@ const Statistics = () => {
     return items;
   }, [couponsNextMaxId, isActive, isPrivate, session]);
 
-  const { containerRef: couponsScrollRef, isLoadingMore: isLoadingMoreCoupons } = useInfiniteScroll<IUserCoupon>({
-    hasMore: Boolean(couponsNextMaxId),
-    fetchMore: fetchMoreCoupons,
-    onDataFetched: (newCoupons) => setCoupons((current) => [...current, ...newCoupons]),
-    getItemId: (coupon) => coupon.couponId,
-    currentData: coupons,
-    isLoading: isLoadingCoupons,
-    enabled: Boolean(session),
-  });
+  const handleLoadMoreCoupons = useCallback(async () => {
+    if (isLoadingMoreCouponsRef.current || !couponsNextMaxId) return;
+    isLoadingMoreCouponsRef.current = true;
+    setIsLoadingMoreCoupons(true);
+    try {
+      const newCoupons = await fetchMoreCoupons();
+      if (newCoupons.length > 0) {
+        setCoupons((current) => {
+          const existingIds = new Set(current.map((coupon) => coupon.couponId));
+          return [...current, ...newCoupons.filter((coupon) => !existingIds.has(coupon.couponId))];
+        });
+      }
+    } finally {
+      isLoadingMoreCouponsRef.current = false;
+      setIsLoadingMoreCoupons(false);
+    }
+  }, [couponsNextMaxId, fetchMoreCoupons]);
   async function handleCreateCoupon(coupon: CreateCouponRequest): Promise<boolean> {
     if (!session) return false;
     const response = await clientFetchApi<CreateCouponRequest, boolean>("/api/coupon/CreateCoupon", {
@@ -469,7 +478,7 @@ const Statistics = () => {
               coupons={coupons}
               isLoading={isLoadingCoupons}
               isLoadingMore={isLoadingMoreCoupons}
-              containerRef={couponsScrollRef}
+              onReachEnd={handleLoadMoreCoupons}
               isActive={isActive}
               isPrivate={isPrivate}
               onActiveFilterChange={setIsActive}

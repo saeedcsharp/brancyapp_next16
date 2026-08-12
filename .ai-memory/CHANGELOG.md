@@ -9,6 +9,7 @@
 - Added the shared collapsible statistics-card behavior to the coupon manager; the header toggles its content and grid span, while the Add Coupon button opens the popup without collapsing the card.
 - Moved all coupon API orchestration and server state from `CouponManager` and `CreateCouponModal` into the store Statistics page; child components now receive data and action callbacks only.
 - Added `isActive` and `isPrivate` coupon filters plus duplicate-safe `nextMaxId` query pagination from the last coupon ID through `useInfiniteScroll`; changing filters resets the coupon list and cursor.
+- Replaced coupon infinite-scroll rendering with the shared slider; each slide displays two coupons and loads the next cursor page through the slider's `onReachEnd` callback.
 
 - Limited AI creator range sliders to two decimal places for both displayed and submitted values, including fractional controls such as Kling Out Painting.
 - Updated the AI page's initial library load to show the shared full-page `Loading` component until the selected image or video history API completes; the initial request now follows the deep-linked library type.
