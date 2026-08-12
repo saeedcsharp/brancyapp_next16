@@ -457,10 +457,9 @@ const Statistics = () => {
             {/* ___statistics___*/}
 
             <TotalSales data={totalSalesStatistics} />
-          </div>
-          {/* ___salesreport___*/}
 
-          <div className={styles.pinContainer}>
+            {/* ___salesreport___*/}
+
             <TotalSalesReport
               salesReports={totalSalesReport}
               handleLoadMore={handleLoadMore}
