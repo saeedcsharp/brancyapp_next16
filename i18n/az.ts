@@ -3397,8 +3397,7 @@ export default {
     "There are no image generation models available for this account.":
       "Bu hesab üçün şəkil yaratma modeli mövcud deyil.",
     "Not available": "Mövcud deyil",
-    Yes: "Bəli",
-    No: "Xeyr",
+
     // #endregion Notification Section
     Statistics_Replies_down_summary: "Auditoriyanız uzaqlaşmış kimi görünür; daha şəxsi məzmunla yenidən əlaqə qurun.",
     Statistics_Replies_down_action_1: "Bir neçə şəxsi, təcrübəyə əsaslanan və ya emosional Story paylaşın.",

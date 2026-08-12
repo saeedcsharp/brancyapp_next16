@@ -3418,8 +3418,6 @@ export default {
     "There are no video generation models available for this account.": "مدل تولید ویدیو برای این حساب در دسترس نیست.",
     "There are no image generation models available for this account.": "مدل تولید تصویر برای این حساب در دسترس نیست.",
     "Not available": "در دسترس نیست",
-    Yes: "بله",
-    No: "خیر",
 
     // #endregion Notification Section
     how: "چگونه",

@@ -3441,8 +3441,7 @@ export default {
     "There are no image generation models available for this account.":
       "There are no image generation models available for this account.",
     "Not available": "Not available",
-    Yes: "Yes",
-    No: "No",
+
     // #endregion Notification Section
 
     how: "How",

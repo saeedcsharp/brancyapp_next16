@@ -3508,8 +3508,7 @@ export default {
     "There are no image generation models available for this account.":
       "Für dieses Konto sind keine Bildgenerierungsmodelle verfügbar.",
     "Not available": "Nicht verfügbar",
-    Yes: "Ja",
-    No: "Nein",
+
     // #endregion Notification Section
     how: "Wie",
     SharedRemainingTimeBefore: "Sie müssen 24 Stunden warten, bevor Sie erneut teilen können.",

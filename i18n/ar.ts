@@ -3338,8 +3338,7 @@ export default {
     "There are no video generation models available for this account.": "لا تتوفر نماذج لإنشاء الفيديو لهذا الحساب.",
     "There are no image generation models available for this account.": "لا تتوفر نماذج لإنشاء الصور لهذا الحساب.",
     "Not available": "غير متاح",
-    Yes: "نعم",
-    No: "لا",
+
     // #endregion Notification Section
     how: "كيفية",
     SharedRemainingTimeBefore: "يجب الانتظار 24 ساعة قبل إعادة المشاركة مرة أخرى.",
