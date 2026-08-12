@@ -14,7 +14,7 @@ const DEFAULT_VIDEO_THUMBNAIL = "/cover-video.svg";
 export default function GeneratedVideoModal({ video, onClose }: GeneratedVideoModalProps) {
   const videoUrl = video.videoUrl ? getClientMediaBaseUrl() + video.videoUrl : null;
   const videoFileName = video.videoUrl?.split("/").pop()?.split("?")[0] || `generated-video-${video.id}.mp4`;
-  const previewImageUrl = video.imageUrl ? getClientMediaBaseUrl() + video.imageUrl : DEFAULT_VIDEO_THUMBNAIL;
+  const previewImageUrl = video.imageUrl?.trim() ? getClientMediaBaseUrl() + video.imageUrl : DEFAULT_VIDEO_THUMBNAIL;
   const metadataItems = video.metadata ? parseImageMetadata(video.metadata) : null;
 
   return (

@@ -5,7 +5,7 @@ import { DateObject } from "react-multi-date-picker";
 import { useTranslation } from "react-i18next";
 import { parseImageMetadata } from "./generatedImageModal";
 import styles from "./imageList.module.css";
-import { IGetMedia } from "brancy/models/interfaces";
+import { IGetMedia, PendingGeneration } from "brancy/models/interfaces";
 
 function formatCreatedTime(timestamp: number) {
   const t = initialzedTime();
@@ -23,6 +23,7 @@ type VideoListProps = {
   isLoadingMore: boolean;
   setSelectedVideo: (video: IGetMedia) => void;
   openVideoCreator: () => void;
+  pendingGenerations: PendingGeneration[];
 };
 
 const DEFAULT_VIDEO_THUMBNAIL = "/cover-video.svg";
@@ -33,8 +34,10 @@ export default function VideoList({
   isLoadingMore,
   setSelectedVideo,
   openVideoCreator,
+  pendingGenerations,
 }: VideoListProps) {
   const { t } = useTranslation();
+  const pendingVideos = pendingGenerations.filter((item) => item.mediaType === "video");
   return (
     <section className={styles.library} aria-label="Generated videos">
       <div className={styles.libraryHeading}>
@@ -48,11 +51,29 @@ export default function VideoList({
         <div className={styles.loadingState}>
           <RingLoader width={42} height={42} />
         </div>
-      ) : videos.length > 0 ? (
+      ) : videos.length > 0 || pendingVideos.length > 0 ? (
         <div className={styles.imageGrid}>
+          {pendingVideos.map((pending) => (
+            <article className={styles.imageCard} key={pending.clientContext}>
+              <div className={`${styles.imagePreview} ${styles.pendingPreview}`} aria-label={t("Generating video")}>
+                <RingLoader width={42} height={42} />
+                <span>{t("Generating video")}</span>
+              </div>
+              <div className={styles.imageInfo}>
+                <div className={styles.imageMetaLine}>
+                  <span>{t("In progress")}</span>
+                  <time>{t("Just now")}</time>
+                </div>
+                <h3>{pending.prompt || t("Untitled generation")}</h3>
+                <p>{t("Waiting for the result")}</p>
+              </div>
+            </article>
+          ))}
           {videos.map((video) => {
             const metadata = video.metadata ? parseImageMetadata(video.metadata) : null;
-            const previewUrl = video.imageUrl ? getClientMediaBaseUrl() + video.imageUrl : DEFAULT_VIDEO_THUMBNAIL;
+            const previewUrl = video.imageUrl?.trim()
+              ? getClientMediaBaseUrl() + video.imageUrl
+              : DEFAULT_VIDEO_THUMBNAIL;
             return (
               <article className={styles.imageCard} key={video.id}>
                 <button className={styles.imagePreview} type="button" onClick={() => setSelectedVideo(video)}>

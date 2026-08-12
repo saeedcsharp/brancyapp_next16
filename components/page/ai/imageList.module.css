@@ -601,6 +601,18 @@
   cursor: pointer;
 }
 
+.pendingPreview {
+  display: grid;
+  place-items: center;
+  color: var(--color-dark-blue);
+  cursor: default;
+}
+
+.pendingPreview > span {
+  opacity: 1;
+  transform: none;
+}
+
 .imagePreview img {
   width: 100%;
   height: 100%;

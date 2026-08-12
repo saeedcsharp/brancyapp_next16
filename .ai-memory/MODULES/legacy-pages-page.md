@@ -32,6 +32,7 @@ The image creation implementation loads available image creators from `/api/medi
 
 The `/page/ai` landing implementation is an Image/Video segmented workspace. Image mode requests successful image history from `/api/mediaai/GetImages` with `mediaCreationStatus=2`, renders responsive preview cards with shared parsed metadata, opens `GeneratedImageModal` for full details and downloads, and uses `nextMaxId` with `useInfiniteScroll` to append deduplicated pages. Video mode requests successful history from `/api/mediaai/GetVideos`, renders clickable thumbnail cards (media `imageUrl` or `/cover-video.svg` fallback), opens `GeneratedVideoModal` for native playback/details, and uses independent cursor pagination through `useInfiniteScroll`.
 The shared creator submit handler sends image requests to `/api/mediaai/CreateImage` and video requests to `/api/mediaai/CreateVideo`, preserving the same serialized inputs and client-context query.
+When a create request starts, the page returns to the matching image or video library and renders a pending card keyed by `clientContext` before waiting for the API response, preventing fast SignalR results from being missed. Failed API requests roll the card back. The pending card is replaced by the matching SignalR success result, or removed when a matching failure notification arrives; multiple concurrent generations are supported.
 The shared creator component uses media-neutral submit/loading props and switches its empty/error states, model label, prompt guidance, token-check text, and submit label for image or video mode. Video creator retry requests `GetVideoCreators`.
 
 ## Dependencies
@@ -154,7 +155,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-28
+2026-08-12
 
 ---
 

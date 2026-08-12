@@ -67,6 +67,7 @@ React components are present when the folder contains `.tsx` UI files.
 `components/page/ai/GeneratedVideoModal.tsx` provides the generated-video result content using the same modal structure and metadata presentation rules as `GeneratedImageModal`. It renders native `video` playback with controls and audio when `videoUrl` exists, falls back to a preview image when it does not, and uses `/cover-video.svg` whenever a media item has no `imageUrl`.
 
 `components/page/ai/VideoList.tsx` now renders clickable thumbnail cards instead of inline playback. Each card uses the media `imageUrl` preview when available, or `/cover-video.svg` as a fallback, and opens the page-owned generated-video modal for playback and details.
+`components/page/ai/ImageList.tsx` and `VideoList.tsx` also render non-interactive pending-generation cards with a loader and prompt while the page waits for a matching MediaAi SignalR notification.
 
 ## Hooks
 
@@ -158,7 +159,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-08-02
+2026-08-12
 
 ---
 

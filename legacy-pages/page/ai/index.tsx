@@ -22,19 +22,25 @@ import { getHubConnection } from "brancy/helper/pushNotif";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 import { PsgFeatureType, PushResponseType } from "brancy/models/enums";
-import { IGetImageUsageRequest, IGetMedia, IGetMedias, IMediaCreator, PushNotif } from "brancy/models/interfaces";
+import {
+  IGetImageUsageRequest,
+  IGetMedia,
+  IGetMedias,
+  IMediaCreator,
+  PendingGeneration,
+  PushNotif,
+} from "brancy/models/interfaces";
 import { t } from "i18next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import router from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import styles from "./pageAI.module.css";
 import ContentCreatorHeader from "brancy/components/page/ai/contentCreatorHeader";
 import MediaCreator from "brancy/components/page/ai/mediaCreator";
 
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
-
 const SUCCESS_MEDIA_STATUS = 2;
 
 function formatCreatedTime(timestamp: number) {
@@ -67,7 +73,8 @@ export default function PageAI() {
   const [selectedVideo, setSelectedVideo] = useState<IGetMedia | null>(null);
   const [creators, setCreators] = useState<IMediaCreator[]>([]);
   const [error, setError] = useState("");
-  const [clientContext, setClientContext] = useState<string | null>(null);
+  const [pendingGenerations, setPendingGenerations] = useState<PendingGeneration[]>([]);
+  const pendingGenerationsRef = useRef<PendingGeneration[]>([]);
 
   const fetchImages = useCallback(
     async (cursor: string | null): Promise<IGetMedia[]> => {
@@ -136,7 +143,11 @@ export default function PageAI() {
       return;
     }
     const requestClientContext = crypto.randomUUID();
-    setClientContext(requestClientContext);
+    const mediaType: PendingGeneration["mediaType"] = activeTab === "createvideo" ? "video" : "image";
+    const pendingGeneration = { clientContext: requestClientContext, mediaType, prompt: request.prompt };
+    pendingGenerationsRef.current = [...pendingGenerationsRef.current, pendingGeneration];
+    setPendingGenerations(pendingGenerationsRef.current);
+    setActiveTab(mediaType);
     const response = await clientFetchApi<IGetImageUsageRequest, number>(
       `/api/mediaai/${activeTab === "createvideo" ? "CreateVideo" : "CreateImage"}`,
       {
@@ -147,6 +158,10 @@ export default function PageAI() {
       },
     );
     if (!response.succeeded) {
+      pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
+        (item) => item.clientContext !== requestClientContext,
+      );
+      setPendingGenerations(pendingGenerationsRef.current);
       notify(response.info?.responseType, NotifType.Warning);
       return;
     }
@@ -260,38 +275,53 @@ export default function PageAI() {
     }
     await loadVideoCreators();
   };
-  const handleGetNotif = useCallback(
-    (notif: string) => {
-      try {
-        const decombNotif = handleDecompress(notif);
-        if (!decombNotif) return;
-        const notifObj = JSON.parse(decombNotif) as PushNotif;
-        if (!notifObj.Message) return;
-        console.log("notifObj", notifObj);
-        const newPostPush = convertFirstLetterToLowerCase(JSON.parse(notifObj.Message));
-        const generatedImage = newPostPush as IGetMedia;
-        if (generatedImage.clientContext !== clientContext) return;
-        if (notifObj.ResponseType === PushResponseType.AiImageSuccess) {
-          console.log("generatedImage", generatedImage);
-          if (generatedImage.videoUrl !== null) {
-            setVideos((current) => [generatedImage, ...current]);
-          } else {
-            setImages((current) => [generatedImage, ...current]);
-          }
-        } else if (notifObj.ResponseType === PushResponseType.AiImageFail) {
-          console.log("generatedImagefailed", generatedImage);
-          internalNotify(
-            InternalResponseType.InvalidMetaData,
-            NotifType.Warning,
-            generatedImage.metadata || ", Image generation failed.",
-          );
+  const handleGetNotif = useCallback((notif: string) => {
+    try {
+      const decombNotif = handleDecompress(notif);
+      if (!decombNotif) return;
+      const notifObj = JSON.parse(decombNotif) as PushNotif;
+      if (!notifObj.Message) return;
+      console.log("notifObj", notifObj);
+      const rawGeneratedMedia = JSON.parse(notifObj.Message) as Record<string, unknown>;
+      const newPostPush = convertFirstLetterToLowerCase(rawGeneratedMedia) as IGetMedia & {
+        ClientContext?: string;
+        client_context?: string;
+      };
+      const generatedClientContext =
+        newPostPush.clientContext || newPostPush.ClientContext || newPostPush.client_context;
+      if (!generatedClientContext) return;
+      const generatedImage = { ...newPostPush, clientContext: generatedClientContext } as IGetMedia;
+      const pendingGeneration = pendingGenerationsRef.current.find(
+        (item) => item.clientContext.toLowerCase() === generatedClientContext.toLowerCase(),
+      );
+      if (!pendingGeneration) return;
+      if (notifObj.ResponseType === PushResponseType.AiImageSuccess) {
+        console.log("generatedImage", generatedImage);
+        if (pendingGeneration.mediaType === "video") {
+          setVideos((current) => [generatedImage, ...current]);
+        } else {
+          setImages((current) => [generatedImage, ...current]);
         }
-      } catch (error) {
-        notify(ResponseType.Unexpected, NotifType.Error);
+        pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
+          (item) => item.clientContext !== generatedClientContext,
+        );
+        setPendingGenerations(pendingGenerationsRef.current);
+      } else if (notifObj.ResponseType === PushResponseType.AiImageFail) {
+        console.log("generatedImagefailed", generatedImage);
+        pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
+          (item) => item.clientContext !== generatedClientContext,
+        );
+        setPendingGenerations(pendingGenerationsRef.current);
+        internalNotify(
+          InternalResponseType.InvalidMetaData,
+          NotifType.Warning,
+          generatedImage.metadata || ", Image generation failed.",
+        );
       }
-    },
-    [clientContext],
-  );
+    } catch (error) {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    }
+  }, []);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -342,6 +372,7 @@ export default function PageAI() {
             isLoadingMore={isLoadingMore}
             setSelectedImage={setSelectedImage}
             openImageCreator={openImageCreator}
+            pendingGenerations={pendingGenerations}
           />
         )}
         {activeTab === "video" && (
@@ -351,6 +382,7 @@ export default function PageAI() {
             isLoadingMore={isLoadingMoreVideos}
             setSelectedVideo={setSelectedVideo}
             openVideoCreator={openVideoCreator}
+            pendingGenerations={pendingGenerations}
           />
         )}
         {(activeTab === "createimage" || activeTab === "createvideo") && (

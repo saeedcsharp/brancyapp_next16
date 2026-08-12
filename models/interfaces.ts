@@ -488,6 +488,12 @@ export interface IGetMedia {
   prompt: string;
   videoUrl: string | null;
 }
+export type PendingMediaType = "image" | "video";
+export interface PendingGeneration {
+  clientContext: string;
+  mediaType: PendingMediaType;
+  prompt: string;
+}
 export interface IGetMedias {
   items: IGetMedia[];
   nextMaxId: string | null;
