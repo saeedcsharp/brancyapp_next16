@@ -137,6 +137,7 @@
   border-radius: 0 0 0 100%;
   background: rgb(34 197 94 / 8%);
   content: "";
+  pointer-events: none;
 }
 
 .coupon:hover {
@@ -148,6 +149,10 @@
   justify-content: space-between;
   gap: var(--gap-10);
   min-width: 0;
+}
+.codeRow button {
+  position: relative;
+  z-index: 1;
 }
 .codeRow strong {
   position: relative;

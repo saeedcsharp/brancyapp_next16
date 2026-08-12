@@ -21,7 +21,7 @@ export interface CreateCouponRequest {
 interface CreateCouponModalProps {
   showContent: boolean;
   closePopup: () => void;
-  onCreate: (coupon: CreateCouponRequest) => Promise<boolean>;
+  onCreate: (coupon: CreateCouponRequest, couponId?: number) => Promise<boolean>;
 }
 
 const initialForm: CreateCouponRequest = {
@@ -71,7 +71,7 @@ const CreateCouponModal = ({ showContent, closePopup, onCreate }: CreateCouponMo
           removeMask={handleClose}
           saveDateAndTime={handleSaveDate}
           backToNormalPicker={() => setShowDatePicker(false)}
-          startDay={form.expireTime || Date.now() + 3600000}
+          startDay={form.expireTime ? form.expireTime * 1000 : Date.now() + 3600000}
           fromUnix={Date.now() + 3600000}
           endUnix={Date.now() + 31536000000}
           title={t(LanguageKey.storestatistics_couponExpiry)}
@@ -138,7 +138,7 @@ const CreateCouponModal = ({ showContent, closePopup, onCreate }: CreateCouponMo
             <button className={styles.dateButton} type="button" onClick={() => setShowDatePicker(true)}>
               <span>
                 {form.expireTime
-                  ? new Date(form.expireTime).toLocaleString()
+                  ? new Date(form.expireTime * 1000).toLocaleString()
                   : t(LanguageKey.storestatistics_couponExpiry)}
               </span>
               <img src="/selectDate-item.svg" alt="" aria-hidden="true" />

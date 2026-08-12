@@ -20,6 +20,7 @@ interface CouponManagerProps {
   onPrivateFilterChange: (value: boolean) => void;
   updatingCouponId: number | null;
   onCreateClick: () => void;
+  onEditClick: (coupon: IUserCoupon) => void;
   onVisibilityChange: (coupon: IUserCoupon, showInBio: boolean) => void;
 }
 
@@ -34,6 +35,7 @@ const CouponManager = ({
   onPrivateFilterChange,
   updatingCouponId,
   onCreateClick,
+  onEditClick,
   onVisibilityChange,
 }: CouponManagerProps) => {
   const { t } = useTranslation();
@@ -103,18 +105,21 @@ const CouponManager = ({
                     <article className={styles.coupon}>
                       <div className={styles.codeRow}>
                         <strong>{coupon.code}</strong>
-                        <div
-                          title="ویرایش ساعات کاری"
-                          onClick={() => {}}
+                        <button
+                          type="button"
+                          title="update coupon"
+                          onClick={() => {
+                            onEditClick(coupon);
+                          }}
                           className="twoDotIconContainer"
-                          style={{ cursor: "pointer" }}>
+                          aria-label={t(LanguageKey.storestatistics_addCoupon)}>
                           <svg className="twoDotIcon" fill="none" viewBox="0 0 14 5">
                             <path
                               fill="var(--color-gray)"
                               d="M2.5 5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5m9 0a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"
                             />
                           </svg>
-                        </div>
+                        </button>
                       </div>
                       <div className={styles.details}>
                         <span>{t(LanguageKey.storestatistics_discountValue, { discount: coupon.discount })}</span>

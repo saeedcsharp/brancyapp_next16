@@ -1,9 +1,11 @@
 import AdReport from "brancy/components/advertise/adList/popups/adreport";
+import Modal from "brancy/components/design/modal";
 import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotShopper from "brancy/components/notOk/notShopper";
 import { NotifType, notify } from "brancy/components/notifications/notificationBox";
 import CouponManager from "brancy/components/store/statistics/couponManager";
 import CreateCouponModal, { CreateCouponRequest } from "brancy/components/store/statistics/createCouponModal";
+import UpdateCouponModal, { UpdateCouponRequest } from "brancy/components/store/statistics/updateCouponModal";
 import TotalSalesReport from "brancy/components/store/statistics/totalSalesReport";
 import TotalSales from "brancy/components/store/statistics/totalSalesStatistics";
 import TwoMonth from "brancy/components/store/statistics/twoMonth";
@@ -38,6 +40,7 @@ const Statistics = () => {
   const [advertiseId, setAdvertiseId] = useState(0);
   const [showReport, setShowReport] = useState(false);
   const [showCreateCoupon, setShowCreateCoupon] = useState(false);
+  const [editingCoupon, setEditingCoupon] = useState<IUserCoupon | null>(null);
   const [coupons, setCoupons] = useState<IUserCoupon[]>([]);
   const [isLoadingCoupons, setIsLoadingCoupons] = useState(true);
   const [couponsNextMaxId, setCouponsNextMaxId] = useState<string | null>(null);
@@ -125,6 +128,25 @@ const Statistics = () => {
       methodType: MethodType.post,
       session,
       data: coupon,
+    });
+    if (!response.succeeded) {
+      notify(response.info.responseType, NotifType.Warning);
+      return false;
+    }
+    await loadCoupons();
+    return true;
+  }
+  async function handleUpdateCoupon(coupon: UpdateCouponRequest): Promise<boolean> {
+    if (!session) return false;
+    const response = await clientFetchApi<undefined, boolean>("/api/coupon/UpdateCoupon", {
+      methodType: MethodType.post,
+      session,
+      queries: [
+        { key: "couponId", value: String(coupon.couponId) },
+        { key: "expireTime", value: String(coupon.expireTime) },
+        { key: "maxCount", value: String(coupon.maxCount) },
+        { key: "showInBio", value: String(coupon.showInBio) },
+      ],
     });
     if (!response.succeeded) {
       notify(response.info.responseType, NotifType.Warning);
@@ -485,6 +507,9 @@ const Statistics = () => {
               onPrivateFilterChange={setIsPrivate}
               updatingCouponId={updatingCouponId}
               onCreateClick={() => setShowCreateCoupon(true)}
+              onEditClick={(coupon) => {
+                setEditingCoupon(coupon);
+              }}
               onVisibilityChange={handleCouponVisibilityChange}
             />
           </div>
@@ -495,6 +520,15 @@ const Statistics = () => {
           showContent={showCreateCoupon}
           onCreate={handleCreateCoupon}
         />
+        <Modal closePopup={() => setEditingCoupon(null)} classNamePopup="popup" showContent={Boolean(editingCoupon)}>
+          {editingCoupon && (
+            <UpdateCouponModal
+              coupon={editingCoupon}
+              closePopup={() => setEditingCoupon(null)}
+              onUpdate={handleUpdateCoupon}
+            />
+          )}
+        </Modal>
       </>
     )
   );
