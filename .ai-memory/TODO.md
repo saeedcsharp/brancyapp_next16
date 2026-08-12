@@ -4,6 +4,14 @@
 
 - For every future feature or option change, check and update the matching active or audit-only record in `/feature`; keep this rule enforced in implementation reviews.
 - Add browser/component coverage for `/feature` deferred search, role/category/access filtering, sort direction, expand/collapse ARIA state, translated search matching, audit-only separation, desktop/mobile layout, RTL, dark mode, and no-horizontal-overflow checks when a persistent UI test harness is introduced.
+- Add component/browser coverage for store coupon loading, `isActive`/`isPrivate` filtering, `nextMaxId` pagination, duplicate prevention, creation validation, API errors, `showInBio` updates, and mobile/RTL presentation when a UI test harness is introduced.
+
+- Add browser coverage confirming the user wallet item is absent from desktop and mobile user navigation while the direct user wallet route remains available when a UI test harness is introduced.
+
+- Add unit coverage for link countdown formatting below 24 hours, at the 24-hour boundary, and across multiple days when a test harness is introduced.
+
+- Add component/browser coverage for the Market Properties Product popup, including product loading, cursor pagination, ten-item selection limit, ordered numeric selection badges, empty-array save, API failure handling, and keyboard thumbnail activation when a UI test harness is introduced.
+
 - Add component/browser coverage for SwitchButton keyboard focus and Space activation, controlled checked state, accessible labels, valid/invalid role handling, disabled state, RTL thumb direction, 44px touch target, reduced motion, forced colors, and mobile/desktop viewport sizing when a UI test harness is introduced.
 - Add component/browser coverage for IncrementStepper click, keyboard activation, press-and-hold click suppression, direct-entry Enter/blur/Escape behavior, min/max clamping, zero-value decrement feedback, disabled state, forced colors, reduced motion, RTL placement, and mobile/desktop viewport sizing when a UI test harness is introduced.
 - Add component/browser coverage for CheckBoxButton keyboard focus and Space activation, controlled checked/disabled states, ARIA labels, touch targets, reduced motion, forced colors, RTL labels, and mobile viewport layouts when a UI test harness is introduced.
@@ -48,7 +56,10 @@
 - Replace key-name placeholders added by `scripts/sync-i18n-keys.cjs` with reviewed translations in `fa`, `ar`, `fr`, `ru`, `tr`, `gr`, and `az`.
 - Add unit coverage for feature-search normalization, all-locale keyword groups, translated-key enrichment, and route matching, plus browser coverage for desktop/mobile popup interaction, when test infrastructure is introduced.
 - Add integration coverage for image-generation payloads, upload limits, `clientContext` notification correlation, and successful result-modal rendering when test infrastructure is introduced.
+- Add component/browser coverage for pending image/video generation cards, immediate return to the matching library, concurrent `clientContext` replacement, and failure-card removal when a UI test harness is introduced.
 - Add integration coverage for `GetImages` status filtering, `nextMaxId` pagination, duplicate prevention, empty responses, and failed history requests when test infrastructure is introduced.
+- Add integration coverage for `GetVideos` status filtering, `nextMaxId` pagination, duplicate prevention, empty responses, and failed history requests when test infrastructure is introduced.
+- Add component/browser coverage for AI video-library thumbnail behavior, including `imageUrl` fallback to `/cover-video.svg`, card-click modal opening, and in-modal video playback controls/audio when a UI test harness is introduced.
 - Add component coverage for country search, dial-code selection, controlled E.164 values, formatting, and keyboard navigation when a UI test harness is introduced.
 - Add component coverage for the PhoneInput portalled dropdown, including viewport positioning, scroll/resize updates, and option clicks outside the component root when a UI test harness is introduced.
 - Add component coverage for the Tooltip portal, directional viewport positioning, scroll/resize updates, and click-outside behavior when a UI test harness is introduced.

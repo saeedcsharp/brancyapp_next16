@@ -48,11 +48,11 @@ The public destination-links section is shown for the default-domain selection. 
 
 ## Market Properties Features
 
-The Products feature card does not render the edit-options three-dot control because product popup options are not available there. Other movable feature cards retain the edit-options control.
+The Products feature card does not render the edit-options three-dot control. Its popup loads the shopper product list with the same thumbnail and cursor-scrolling behavior as the message product picker, loads the selected products from `Shopper/Product/GetBioProductList`, allows at most ten products to be selected, and sends the ordered selected `productId` array (including an empty array) to `Shopper/Product/UpdateShowInBio` when saved. Selected thumbnails are dimmed and display their one-based position in that array as a centered numeric badge. Other movable feature cards retain the edit-options control.
 
 ## MyLink Shortcut Links
 
-MyLink shortcut cards are capped at 250px on desktop. On mobile, the links are presented in a free horizontal carousel that supports touch scrolling and mouse/pointer dragging; collections larger than four links use 200px cards to keep the mobile row usable.
+MyLink shortcut cards are capped at 250px on desktop. On mobile, the links are presented in a free horizontal carousel that supports touch scrolling and mouse/pointer dragging when horizontal overflow exists; collections larger than four links use 200px cards to keep the mobile row usable, while non-overflowing collections preserve ordinary card clicks.
 
 The MyLink FeatureBox cards use a free horizontal carousel with no snap points or page-sized jumps. Native horizontal scrolling remains available for touch and trackpad users, while primary-button mouse dragging uses pointer capture and suppresses accidental tile activation after movement.
 

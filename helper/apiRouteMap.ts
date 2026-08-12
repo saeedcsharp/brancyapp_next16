@@ -36,10 +36,13 @@ export const API_ROUTE_MAP: Record<string, string> = {
 
   // ── mediaai ───────────────────────────────────────────
   "/api/mediaai/getImages": "Instagramer/MediaAi/GetImages",
+  "/api/mediaai/getVideos": "Instagramer/MediaAi/GetVideos",
   "/api/mediaai/getImageCreators": "Instagramer/MediaAi/GetImageCreators",
   "/api/mediaai/getVideoCreators": "Instagramer/MediaAi/GetVideoCreators",
   "/api/mediaai/getImageUsage": "Instagramer/MediaAi/GetImageUsage",
+  "/api/mediaai/getVideoUsage": "Instagramer/MediaAi/GetVideoUsage",
   "/api/mediaai/createImage": "Instagramer/MediaAi/CreateImage",
+  "/api/mediaai/createVideo": "Instagramer/MediaAi/CreateVideo",
 
   // ── business ─────────────────────────────────────────
   "/api/business/get": "User/Business/Get",
@@ -279,6 +282,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/product/getPreviousProduct": "shopper/Product/GetPreviousProduct",
   "/api/product/getProductByTempId": "shopper/Product/GetProductByTempId",
   "/api/product/getProductCandidates": "shopper/Product/GetProductCandidates",
+  "/api/product/getBioProductList": "Shopper/Product/GetBioProductList",
   "/api/product/getProductList": "shopper/Product/GetProductList",
   "/api/product/getSeconderyCategoryList": "shopper/Product/GetSeconderyCategoryList",
   "/api/product/getSuggestedDescription": "Shopper/Product/GetSuggestedDescription",
@@ -290,6 +294,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/product/searchProducts": "shopper/Product/SearchProducts",
   "/api/product/unLoadProduct": "shopper/Product/UnLoadProduct",
   "/api/product/updateChildrenMediaStatus": "shopper/Product/UpdateChildrenMediaStatus",
+  "/api/product/updateShowInBio": "Shopper/Product/UpdateShowInBio",
   "/api/product/updateSecondaryProductDetails": "shopper/Product/UpdateSecondaryProductDetails",
   "/api/product/updateSelfMediaStatus": "shopper/Product/UpdateSelfMediaStatus",
   "/api/product/updateSpecificationOrder": "shopper/Product/UpdateSpecificationOrder",
@@ -325,6 +330,11 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/shop/searchshop": "user/shop/searchshop",
   "/api/shop/searchshopproducts": "user/shop/searchshopproducts",
   "/api/shop/updateFavoriteProduct": "user/shop/UpdateFavoriteProduct",
+
+  // ── coupon ───────────────────────────────────────────
+  "/api/coupon/getCoupon": "Shopper/Coupon/GetCoupon",
+  "/api/coupon/createCoupon": "Shopper/Coupon/CreateCoupon",
+  "/api/coupon/updateCoupon": "Shopper/Coupon/UpdateCoupon",
 
   // ── statistics ────────────────────────────────────────
   "/api/statistics/getBestFollowers": "Instagramer/Statistics/GetBestFollowers",

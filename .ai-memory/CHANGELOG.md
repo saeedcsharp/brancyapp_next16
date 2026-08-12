@@ -1,3 +1,5 @@
+- Refined the store statistics coupon manager presentation with elevated coupon cards, clearer status badges, metadata chips, responsive mobile stacking, and reduced-motion support.
+
 # Changelog
 
 - چیدمان کارت قابلیت‌ها در موبایل اصلاح شد: دکمه بازکردن در گوشه بالای کارت قرار گرفت و نقش و وضعیت دسترسی روبه‌روی هم نمایش داده می‌شوند.
@@ -17,6 +19,48 @@
 - Fixed MyLink shortcut countdown formatting so durations over 24 hours display days, hours, minutes, and seconds instead of an inflated total-hour value.
 
 - Synchronized the eight locale files and `LanguageKey` to 2,970 direct string translation keys. Missing locale entries now exist in every language, using English fallback text or a key-name placeholder when no source translation exists.
+
+## 2026-08-12
+
+- Added store coupon management to the statistics page: shopper coupons load from the backend, a shared project popup creates new codes with expiry selected through the shared date-and-time picker, limits, phone assignment, bio visibility, and an optional discount cap, and existing coupons can update bio visibility. The complete coupon list and form are localized through typed keys in all eight supported languages.
+- Added the shared collapsible statistics-card behavior to the coupon manager; the header toggles its content and grid span, while the Add Coupon button opens the popup without collapsing the card.
+- Moved all coupon API orchestration and server state from `CouponManager` and `CreateCouponModal` into the store Statistics page; child components now receive data and action callbacks only.
+- Added `isActive` and `isPrivate` coupon filters plus duplicate-safe `nextMaxId` query pagination from the last coupon ID through `useInfiniteScroll`; changing filters resets the coupon list and cursor.
+
+- Limited AI creator range sliders to two decimal places for both displayed and submitted values, including fractional controls such as Kling Out Painting.
+- Updated the AI page's initial library load to show the shared full-page `Loading` component until the selected image or video history API completes; the initial request now follows the deep-linked library type.
+- Added optional `/page/ai?type=1|2` deep-linking: `type=1` opens the image library and `type=2` opens the video library after the legacy router is ready.
+- Completed localization of the active AI image/video workspace across all eight supported locales, including creator states, prompts, usage messages, result metadata values, notifications, and page metadata.
+- Hardened generated-video thumbnail fallback so null, empty, or whitespace `imageUrl` values use `/cover-video.svg` in both library cards and the video detail modal.
+- Added pending image/video generation cards to `/page/ai`: successful create requests return to the matching library immediately, and each loading card is replaced or removed by its correlated SignalR result.
+
+## 2026-08-10
+
+- Fixed the customer shop reload flash by keeping the shop page on its loading state while NextAuth restores the session, rendering the sign-in landing only after an unauthenticated result, and moving the current-index redirect into an effect.
+
+## 2026-08-11
+
+- Replaced the Market Properties Product popup's selected-thumbnail checkmarks with numeric badges showing the products' one-based saved order.
+- Removed the user wallet item from the desktop sidebar and mobile hamburger menu while preserving the user wallet route and feature.
+- Repositioned the user sidebar active indicator so ticket and setting align with their menu items after wallet removal.
+
+## 2026-08-09
+
+- Updated the link countdown to show full days for durations longer than 24 hours, using the format `Xd HH:MM:SS` while preserving `HH:MM:SS` for shorter durations.
+
+- Fixed the Instagramer product-detail App Router wrapper by making it a client component, reading `tempId` with `useSearchParams`, and placing the client route content beneath Suspense. This prevents the server build from evaluating client-only session/context code and preserves legacy-page query handling.
+
+- Fixed MyLink shortcut mouse clicks being intercepted by the carousel pointer handler when the shortcut row has no horizontal overflow; pointer dragging now starts only for scrollable rows.
+
+- Fixed Market Properties shortcut actions always receiving `linkId` `1000`: menu options pass their link ID directly, and link-card clicks no longer bubble to the surrounding `pinContainer` handler that resets the selected link.
+
+- Added a styled Market Properties Product popup selector with two radio options: showing the latest 10 products or showing best-selling products.
+- Added two localization keys for this Product popup option selector and translated them across all supported locales (`en`, `fa`, `ar`, `fr`, `ru`, `tr`, `gr`, `az`).
+- Replaced the Market Properties Product popup radio options with the `SelectProduct`-style thumbnail picker; it loads products with cursor scrolling, caps selection at ten IDs, and posts the selected ID array to `Shopper/Product/UpdateShowInBio`, including an empty array.
+- Updated the Market Properties Product popup to load selected products from `Shopper/Product/GetBioProductList` and display selected thumbnails with a large centered check indicator.
+
+- Updated the AI video library cards to render image thumbnails instead of inline playback, using each media `imageUrl` when available and a default `/cover-video.svg` fallback when it is missing.
+- Added a generated-video detail modal that mirrors the generated-image modal structure; clicking a video card now opens the popup and plays the video with native controls (including audio) inside the modal.
 
 - Updated the MyLink coupon feedback so `Copied` replaces the coupon code after a successful copy instead of appearing as a separate message.
 
@@ -153,6 +197,9 @@
 - Replaced the AI landing cards with a responsive Image/Video segmented workspace and feature-aware create actions.
 - Registered `Instagramer/MediaAi/GetImages`, added its typed `items`/`nextMaxId` response, and load successful image history with `mediaCreationStatus=2`.
 - Added cursor-based infinite scrolling, deduplication, shared metadata summaries, and full generated-image detail modals to the AI image library.
+- Registered `Instagramer/MediaAi/GetVideos` and added a paginated video library with native playback, metadata cards, loading/empty states, and cursor-based infinite scrolling.
+- Connected video creation submissions to `Instagramer/MediaAi/CreateVideo` while retaining the shared creator payload and client-context query.
+- Updated `MediaCreator` for media-neutral submit props, video-specific labels and states, and correct video creator retry behavior.
 - Rendered generated-image JSON metadata as a responsive key/value grid with readable camel-case labels and a safe plain-text fallback.
 - Reworked image creator selection around the full provider/model hierarchy with responsive provider cards, logos, model counts, atomic model selection, and provider-aware form resets.
 - Excluded providers with no available models from the image creator picker so an unusable provider cannot replace the workspace with an empty state.

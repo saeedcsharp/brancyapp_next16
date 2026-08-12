@@ -27,8 +27,8 @@ interface MediaCreatorProps {
   creators: IMediaCreator[];
   error?: string;
   onRetry?: () => void;
-  onCreateImage?: (request: IGetImageUsageRequest, count: number) => void;
-  createImageLoading?: boolean;
+  onCreateMedia?: (request: IGetImageUsageRequest, count: number) => void;
+  createMediaLoading?: boolean;
   setActiveTab: Dispatch<SetStateAction<MediaTab>>;
   activeTab: MediaTab;
 }
@@ -86,6 +86,7 @@ function FileInput({
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [previews, setPreviews] = useState<UploadedMediaPreview[]>([]);
+  const { t } = useTranslation();
   const isVideo = Number(input.inputType) === InputType.VideoArray;
   const accept = input.fileTypes?.map((type) => `.${type}`).join(",") || (isVideo ? "video/*" : "image/*");
   const maximum = input.maxArrayLength || 1;
@@ -133,10 +134,14 @@ function FileInput({
       <label className={styles.uploadBox}>
         <span className={styles.uploadIcon}>{isVideo ? "▶" : "+"}</span>
         <span className={styles.uploadTitle}>
-          {uploading ? `Uploading ${uploadProgress}%` : isVideo ? "Add video" : "Add reference image"}
+          {uploading
+            ? t("Uploading {percent}%", { percent: uploadProgress })
+            : isVideo
+              ? t("Add video")
+              : t("Add reference image")}
         </span>
         <span className={styles.hint}>
-          {value.length} / {maximum} {input.fileTypes?.join(", ") || (isVideo ? "video" : "image")}
+          {value.length} / {maximum} {input.fileTypes?.join(", ") || (isVideo ? t("video") : t("image"))}
         </span>
         {uploading && (
           <span className={styles.uploadProgress}>
@@ -262,12 +267,13 @@ function DynamicInput({
     const rangeMax = Number.isFinite(rangeMaxValue) && rangeMaxValue > rangeMin ? rangeMaxValue : rangeMin + 1;
     const valueNumber = Number(value);
     const rangeValue = Math.min(Math.max(Number.isFinite(valueNumber) ? valueNumber : rangeMin, rangeMin), rangeMax);
+    const displayedRangeValue = rangeValue.toFixed(2);
 
     return (
       <label className={styles.field}>
         <span className={styles.labelRow}>
           <span className={styles.label}>{title}</span>
-          <output>{rangeValue}</output>
+          <output>{displayedRangeValue}</output>
         </span>
         <input
           type="range"
@@ -275,7 +281,7 @@ function DynamicInput({
           max={rangeMax}
           step="any"
           value={rangeValue}
-          onChange={(event) => onChange(event.currentTarget.valueAsNumber)}
+          onChange={(event) => onChange(Number(event.currentTarget.valueAsNumber.toFixed(2)))}
         />
       </label>
     );
@@ -321,12 +327,13 @@ export default function MediaCreator({
   creators,
   error,
   onRetry,
-  onCreateImage,
-  createImageLoading,
+  onCreateMedia,
+  createMediaLoading,
   activeTab,
 }: MediaCreatorProps) {
   const { data: session } = useSession();
   const { t, i18n } = useTranslation();
+  const isVideoCreator = activeTab === "createvideo";
   const availableCreators = creators.filter((item) => item.inputModels.length > 0);
   const [creatorKey, setCreatorKey] = useState(availableCreators[0]?.key ?? "");
   const creator = availableCreators.find((item) => item.key === creatorKey) ?? availableCreators[0];
@@ -356,7 +363,7 @@ export default function MediaCreator({
   if (error) {
     return (
       <main className={styles.stateBox}>
-        <h1>{t("Image creator is unavailable")}</h1>
+        <h1>{t(isVideoCreator ? "Video creator is unavailable" : "Image creator is unavailable")}</h1>
         <p>{error}</p>
         {onRetry && (
           <button type="button" onClick={onRetry}>
@@ -370,8 +377,14 @@ export default function MediaCreator({
   if (!creator || !model) {
     return (
       <main className={styles.stateBox}>
-        <h1>{t("No image models found")}</h1>
-        <p>{t("There are no image generation models available for this account.")}</p>
+        <h1>{t(isVideoCreator ? "No video models found" : "No image models found")}</h1>
+        <p>
+          {t(
+            isVideoCreator
+              ? t("There are no video generation models available for this account.")
+              : t("There are no image generation models available for this account."),
+          )}
+        </p>
       </main>
     );
   }
@@ -440,9 +453,15 @@ export default function MediaCreator({
       </div>
       <header className={styles.header}>
         <div>
-          <span className={styles.eyebrow}>AI studio</span>
+          <span className={styles.eyebrow}>{t("AI studio")}</span>
           <h1>{activeTab === "createimage" ? t("Create an image") : t("Create a video")}</h1>
-          <p>{t("Choose a model, tune its settings, and describe the image you want.")}</p>
+          <p>
+            {t(
+              isVideoCreator
+                ? t("Choose a model, tune its settings, and describe the video you want.")
+                : t("Choose a model, tune its settings, and describe the image you want."),
+            )}
+          </p>
         </div>
       </header>
 
@@ -472,7 +491,7 @@ export default function MediaCreator({
                   <span className={styles.creatorText}>
                     <strong>{item.displayName}</strong>
                     <small>
-                      {item.inputModels.length} {item.inputModels.length === 1 ? "model" : "models"}
+                      {item.inputModels.length} {item.inputModels.length === 1 ? t("model") : t("models")}
                     </small>
                   </span>
                   <span className={styles.creatorCheck} aria-hidden="true">
@@ -486,7 +505,7 @@ export default function MediaCreator({
       )}
 
       <div className={styles.workspace}>
-        <section className={styles.modelPanel} aria-label="Image models">
+        <section className={styles.modelPanel} aria-label={isVideoCreator ? t("Video models") : t("Image models")}>
           <div className={styles.sectionHeading}>
             <span className={styles.step}>1</span>
             <div>
@@ -508,7 +527,7 @@ export default function MediaCreator({
                   <strong>{item.displayName ?? item.name}</strong>
                   <small>{item.name}</small>
                 </span>
-                <span className={styles.cost} aria-label={`Cost level ${item.expensiveType + 1}`}>
+                <span className={styles.cost} aria-label={t("Cost level {level}", { level: item.expensiveType + 1 })}>
                   {"$".repeat(item.expensiveType + 1)}
                 </span>
               </button>
@@ -522,8 +541,8 @@ export default function MediaCreator({
             event.preventDefault();
             if (tokenUsage === null) {
               getImageUsage();
-            } else if (onCreateImage) {
-              onCreateImage(
+            } else if (onCreateMedia) {
+              onCreateMedia(
                 {
                   creatorKey: creator.key,
                   version: model.name,
@@ -591,22 +610,28 @@ export default function MediaCreator({
             <div>
               <strong>{model.displayName}</strong>
               {tokenUsage === null ? (
-                <span>{t("Check token usage before creating the image")}</span>
+                <span>
+                  {t(
+                    isVideoCreator
+                      ? "Check token usage before creating the video"
+                      : "Check token usage before creating the image",
+                  )}
+                </span>
               ) : (
                 <span className={styles.tokenUsage}>{tokenUsage.toLocaleString()} tokens</span>
               )}
             </div>
             <button
               type="submit"
-              disabled={usageLoading || !promptIsValid || !requiredInputsAreValid || createImageLoading}>
-              {createImageLoading ? (
+              disabled={usageLoading || !promptIsValid || !requiredInputsAreValid || createMediaLoading}>
+              {createMediaLoading ? (
                 <RingLoader />
               ) : usageLoading ? (
-                "Calculating..."
+                t("Calculating...")
               ) : tokenUsage === null ? (
-                "Check usage"
+                t("Check usage")
               ) : (
-                "Create image"
+                t(isVideoCreator ? "Create video" : "Create image")
               )}
             </button>
           </footer>

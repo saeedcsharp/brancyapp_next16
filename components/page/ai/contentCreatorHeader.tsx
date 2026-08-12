@@ -29,7 +29,7 @@ export default function ContentCreatorHeader({
           {t("Create")} {activeTab === "image" ? t("image") : t("video")}
         </button>
       </header>
-      <div className={styles.mediaTabs} role="tablist" aria-label="Media type">
+      <div className={styles.mediaTabs} role="tablist" aria-label={t("Media type")}>
         <button
           className={activeTab === "image" ? styles.mediaTabActive : styles.mediaTab}
           type="button"

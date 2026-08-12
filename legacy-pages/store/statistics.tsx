@@ -1,20 +1,30 @@
 import AdReport from "brancy/components/advertise/adList/popups/adreport";
 import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotShopper from "brancy/components/notOk/notShopper";
+import { NotifType, notify } from "brancy/components/notifications/notificationBox";
+import CouponManager from "brancy/components/store/statistics/couponManager";
+import CreateCouponModal, { CreateCouponRequest } from "brancy/components/store/statistics/createCouponModal";
 import TotalSalesReport from "brancy/components/store/statistics/totalSalesReport";
 import TotalSales from "brancy/components/store/statistics/totalSalesStatistics";
 import TwoMonth from "brancy/components/store/statistics/twoMonth";
+import { MethodType } from "brancy/helper/api";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 import { PartnerRole } from "brancy/models/enums";
-import { IBuyerPurchaseReport, ISaleMonth, ISaleShortMonth, IStoreStatisticsInfo } from "brancy/models/interfaces";
+import IUserCoupon, {
+  IBuyerPurchaseReport,
+  ISaleMonth,
+  ISaleShortMonth,
+  IStoreStatisticsInfo,
+} from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./statistics.module.css";
-import NotAllowedShopper from "brancy/components/notOk/notAllowedShopper";
 
 const Statistics = () => {
   //  return <Soon />;
@@ -28,6 +38,13 @@ const Statistics = () => {
   const [hasTotalMore, setHasTotalMore] = useState(false);
   const [advertiseId, setAdvertiseId] = useState(0);
   const [showReport, setShowReport] = useState(false);
+  const [showCreateCoupon, setShowCreateCoupon] = useState(false);
+  const [coupons, setCoupons] = useState<IUserCoupon[]>([]);
+  const [isLoadingCoupons, setIsLoadingCoupons] = useState(true);
+  const [couponsNextMaxId, setCouponsNextMaxId] = useState<string | null>(null);
+  const [isActive, setIsActive] = useState(true);
+  const [isPrivate, setIsPrivate] = useState(false);
+  const [updatingCouponId, setUpdatingCouponId] = useState<number | null>(null);
   const router = useRouter();
   const [twoMonth, setTwoMonth] = useState<ISaleMonth[]>([]);
   const [totalSalesStatistics, setTotalSalesStatistics] = useState<ISaleShortMonth[]>([]);
@@ -38,6 +55,91 @@ const Statistics = () => {
   function showAdReport(advertiseId: number) {
     setAdvertiseId(advertiseId);
     setShowReport(true);
+  }
+  const loadCoupons = useCallback(async () => {
+    if (!session) return;
+    setIsLoadingCoupons(true);
+    setCoupons([]);
+    setCouponsNextMaxId(null);
+    const response = await clientFetchApi<undefined, IUserCoupon[]>("/api/coupon/GetCoupon", {
+      session,
+      queries: [
+        { key: "isActive", value: String(isActive) },
+        { key: "isPrivate", value: String(isPrivate) },
+        { key: "nextMaxId", value: "" },
+      ],
+    });
+    if (response.succeeded) {
+      const firstPage = response.value ?? [];
+      setCoupons(firstPage);
+      setCouponsNextMaxId(firstPage.length > 0 ? String(firstPage[firstPage.length - 1].couponId) : null);
+    } else {
+      notify(response.info.responseType, NotifType.Warning);
+      setCoupons([]);
+      setCouponsNextMaxId(null);
+    }
+    setIsLoadingCoupons(false);
+  }, [isActive, isPrivate, session]);
+
+  const fetchMoreCoupons = useCallback(async (): Promise<IUserCoupon[]> => {
+    if (!session || !couponsNextMaxId) return [];
+    const response = await clientFetchApi<undefined, IUserCoupon[]>("/api/coupon/GetCoupon", {
+      session,
+      queries: [
+        { key: "isActive", value: String(isActive) },
+        { key: "isPrivate", value: String(isPrivate) },
+        { key: "nextMaxId", value: couponsNextMaxId },
+      ],
+    });
+    if (!response.succeeded) {
+      notify(response.info.responseType, NotifType.Warning);
+      setCouponsNextMaxId(null);
+      return [];
+    }
+    const items = response.value ?? [];
+    setCouponsNextMaxId(items.length > 0 ? String(items[items.length - 1].couponId) : null);
+    return items;
+  }, [couponsNextMaxId, isActive, isPrivate, session]);
+
+  const { containerRef: couponsScrollRef, isLoadingMore: isLoadingMoreCoupons } = useInfiniteScroll<IUserCoupon>({
+    hasMore: Boolean(couponsNextMaxId),
+    fetchMore: fetchMoreCoupons,
+    onDataFetched: (newCoupons) => setCoupons((current) => [...current, ...newCoupons]),
+    getItemId: (coupon) => coupon.couponId,
+    currentData: coupons,
+    isLoading: isLoadingCoupons,
+    enabled: Boolean(session),
+  });
+  async function handleCreateCoupon(coupon: CreateCouponRequest): Promise<boolean> {
+    if (!session) return false;
+    const response = await clientFetchApi<CreateCouponRequest, boolean>("/api/coupon/CreateCoupon", {
+      methodType: MethodType.post,
+      session,
+      data: coupon,
+    });
+    if (!response.succeeded) {
+      notify(response.info.responseType, NotifType.Warning);
+      return false;
+    }
+    await loadCoupons();
+    return true;
+  }
+  async function handleCouponVisibilityChange(coupon: IUserCoupon, showInBio: boolean) {
+    if (!session) return;
+    setUpdatingCouponId(coupon.couponId);
+    const response = await clientFetchApi<undefined, boolean>("/api/coupon/UpdateCoupon", {
+      session,
+      queries: [
+        { key: "couponId", value: String(coupon.couponId) },
+        { key: "showInBio", value: String(showInBio) },
+      ],
+    });
+    if (response.succeeded) {
+      setCoupons((previous) =>
+        previous.map((item) => (item.couponId === coupon.couponId ? { ...item, showInBio } : item)),
+      );
+    } else notify(response.info.responseType, NotifType.Warning);
+    setUpdatingCouponId(null);
   }
   async function handleLoadMore(pagination: number) {
     //Api to get more total sales report based on <<< pagination >>>
@@ -321,7 +423,9 @@ const Statistics = () => {
     if (session?.user.currentIndex === -1) router.push("/user");
     if (!session || !packageStatus(session)) router.push("/upgrade");
   }, [session]);
-  if (session?.user.isInfluencer) return <NotAllowedShopper />;
+  useEffect(() => {
+    loadCoupons();
+  }, [loadCoupons]);
   if (!session?.user.isShopper) return <NotShopper />;
   if (!RoleAccess(session, PartnerRole.Products) && !RoleAccess(session, PartnerRole.Orders)) return <NotAllowed />;
   return (
@@ -363,8 +467,26 @@ const Statistics = () => {
               hasTotalMore={hasTotalMore}
             />
           </div>
+          <CouponManager
+            coupons={coupons}
+            isLoading={isLoadingCoupons}
+            isLoadingMore={isLoadingMoreCoupons}
+            containerRef={couponsScrollRef}
+            isActive={isActive}
+            isPrivate={isPrivate}
+            onActiveFilterChange={setIsActive}
+            onPrivateFilterChange={setIsPrivate}
+            updatingCouponId={updatingCouponId}
+            onCreateClick={() => setShowCreateCoupon(true)}
+            onVisibilityChange={handleCouponVisibilityChange}
+          />
         </main>
         {showReport && <AdReport removeMask={removeMask} advertiseId={advertiseId} />}
+        <CreateCouponModal
+          closePopup={() => setShowCreateCoupon(false)}
+          showContent={showCreateCoupon}
+          onCreate={handleCreateCoupon}
+        />
       </>
     )
   );

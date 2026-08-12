@@ -60,6 +60,25 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 - Added `/feature`, an evidence-backed Brancy feature knowledge base for content teams. Its static catalog has 41 active source-backed records across Instagramer, Shopper, and Advertiser filters; it exposes search, category/access filters, sorting, expandable detail, source-kind evidence, RTL, dark mode, and mobile layout. Routes whose workflows are seeded, local-only, unmapped, incomplete, download-only, or shell-only are separated into an audit-only section rather than represented as active capabilities. The catalog has reviewed Persian copy, English fallback for the other configured locales, no backend fetches, and no sensitive account data. TypeScript and browser checks passed for interaction and 390px RTL dark mode without horizontal overflow.
 
 - Synchronized all eight locale files to the same 2,970 direct string translation keys. Missing entries use English fallback text where available and key-name placeholders otherwise; nested translation objects remain outside the flat `LanguageKey` enum.
+- Added a dedicated store statistics coupon section. The Statistics page owns `Shopper/Coupon/GetCoupon`, including `isActive`/`isPrivate` filters and `nextMaxId` query pagination based on the last coupon ID through `useInfiniteScroll`, the documented `CreateCoupon` POST request, `Shopper/Coupon/UpdateCoupon`, and related server state; `CouponManager` and `CreateCouponModal` are data/callback-driven UI components. Labels, placeholders, statuses, and interpolated values are localized across all eight supported languages.
+
+- AI image and video creation now returns to the matching library immediately after request submission, shows one loading card per pending `clientContext`, and replaces or removes each card when its correlated SignalR success or failure notification arrives. Concurrent generations remain independently tracked.
+
+- The active AI workspace is localized across all eight supported locales. Creator states, model guidance, prompt validation, token usage actions, result metadata fallback values, request notifications, and the page description use the active i18next locale.
+
+- The AI library supports optional deep links: the App Router wrapper reads `/page/ai?type=1` or `/page/ai?type=2` with `useSearchParams` and passes the selected tab into the legacy page. Missing or unsupported values preserve the default image tab.
+
+- The AI page displays the shared full-page `Loading` component during the initial selected-library request. `type=2` starts with the video history request, while `type=1` and the default start with the image history request; the loader is not used for pagination or creator interactions.
+
+- Replaced Market Properties selected-product check indicators with numeric badges that show each product's one-based position in the ordered array sent to the bio-product update endpoint.
+
+- Corrected the user sidebar active indicator positions after removing wallet: ticket now aligns with the messaging item and setting aligns with the setting item.
+
+- Removed the user wallet entry from both the desktop user sidebar and mobile user hamburger menu; the user wallet route and feature remain available outside those navigation lists.
+
+- Fixed the `/store/products/productDetail` App Router wrapper's mixed server/client boundary. The wrapper now runs on the client, obtains `tempId` through `useSearchParams`, and renders the legacy product-detail page below Suspense so React context and `useSession` are not evaluated during server page-data collection.
+
+- Replaced the Market Properties Product popup radio selector with a product thumbnail picker that loads the shopper product list, loads selected products through `Shopper/Product/GetBioProductList`, supports up to ten selected product IDs, shows selected items with a large check indicator, and saves the selection (including an empty array) through `Shopper/Product/UpdateShowInBio`.
 
 - Fixed the shared ToggleButton active indicator translation for RTL layouts by reversing its horizontal percentage offset through the shared DirectionContext while preserving the LTR behavior and controlled API.
 - Hardened the MyLink market page: redirects no longer run during render, unmounted async loads cannot update state, feature dialogs share one exclusive modal state, feature rendering uses memoized map lookup, and authenticated metadata now allows zoom and is `noindex, nofollow`.
@@ -136,7 +155,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 - PhoneInput shows the warning icon instead of a flag whenever the dial code is empty, unknown, or incomplete.
 
 - Added a styled internal back link from the image creation workspace to `/page/ai`.
-- Rebuilt `/page/ai` as a segmented Image/Video media workspace; Image mode loads successful generated images from `GetImages`, renders responsive metadata cards, opens shared result details, and appends cursor-based pages on infinite scroll.
+- Rebuilt `/page/ai` as a segmented Image/Video media workspace; Image mode loads successful generated images from `GetImages`, while Video mode loads successful generated videos from `GetVideos`. Both modes render responsive metadata cards and append cursor-based pages on infinite scroll; image results open shared detail modals and video results use native playback controls.
+- Updated the `/page/ai` video history UX: cards now show a thumbnail image (`imageUrl`) or the default `/cover-video.svg` fallback when the image is missing, and clicking a video card opens a dedicated generated-video modal where playback (with audio) happens.
 - Parsed generated-image JSON metadata strings into a responsive labeled value grid while preserving a plain-text fallback for malformed metadata.
 - Made AI image provider selection explicitly support multiple provider families and their model collections with responsive logo cards, atomic provider/model switching, and provider-aware form resets.
 - Replaced the generated-image modal's full-image link with a direct download action that uses the resolved media URL.

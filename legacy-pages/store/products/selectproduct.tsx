@@ -1,19 +1,4 @@
 // #region
-import {
-  KeyboardEvent as ReactKeyboardEvent,
-  MouseEvent as ReactMouseEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useTranslation } from "react-i18next";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
@@ -27,8 +12,22 @@ import { calculateSummary } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
 import { PartnerRole } from "brancy/models/enums";
 import { IProduct_Candidate } from "brancy/models/interfaces";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import {
+  KeyboardEvent as ReactKeyboardEvent,
+  MouseEvent as ReactMouseEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
+import { useTranslation } from "react-i18next";
 import styles from "./selectProduct.module.css";
-import NotAllowedShopper from "brancy/components/notOk/notAllowedShopper";
 const basePictureUrl = getClientMediaBaseUrl();
 async function fetchProductCandidates(session: any, includeProduct: boolean, nextMaxCreatedTime?: string) {
   return clientFetchApi<boolean, IProduct_Candidate[]>("/api/product/getProductCandidates", {
@@ -351,7 +350,6 @@ const SelectProduct = () => {
       router.push("/upgrade");
     }
   }, [session, router]);
-  if (session?.user.isInfluencer) return <NotAllowedShopper />;
   if (!session?.user.isShopper) return <NotShopper />;
   if (!RoleAccess(session, PartnerRole.Products)) return <NotAllowed />;
   // if (!session?.user.hasPackage) return <NotBasePackage />;

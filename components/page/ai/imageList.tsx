@@ -4,8 +4,9 @@ import initialzedTime from "brancy/helper/manageTimer";
 import { DateObject } from "react-multi-date-picker";
 import { parseImageMetadata } from "./generatedImageModal";
 import styles from "./imageList.module.css";
-import { IGetImage } from "brancy/models/interfaces";
+import { IGetMedia, PendingGeneration } from "brancy/models/interfaces";
 import { useTranslation } from "react-i18next";
+
 function formatCreatedTime(timestamp: number) {
   const t = initialzedTime();
   const d = new DateObject({
@@ -16,11 +17,12 @@ function formatCreatedTime(timestamp: number) {
   return d.format("YYYY/MM/DD HH:mm:ss");
 }
 type ImageListProps = {
-  images: IGetImage[];
+  images: IGetMedia[];
   loading: boolean;
   isLoadingMore: boolean;
-  setSelectedImage: (image: IGetImage) => void;
+  setSelectedImage: (image: IGetMedia) => void;
   openImageCreator: () => void;
+  pendingGenerations: PendingGeneration[];
 };
 export default function ImageList({
   images,
@@ -28,10 +30,12 @@ export default function ImageList({
   isLoadingMore,
   setSelectedImage,
   openImageCreator,
+  pendingGenerations,
 }: ImageListProps) {
   const { t } = useTranslation();
+  const pendingImages = pendingGenerations.filter((item) => item.mediaType === "image");
   return (
-    <section className={styles.library} aria-label="Generated images">
+    <section className={styles.library} aria-label={t("Generated images")}>
       <div className={styles.libraryHeading}>
         <div>
           <h2>{t("Image library")}</h2>
@@ -43,22 +47,38 @@ export default function ImageList({
         <div className={styles.loadingState}>
           <RingLoader width={42} height={42} />
         </div>
-      ) : images.length > 0 ? (
+      ) : images.length > 0 || pendingImages.length > 0 ? (
         <div className={styles.imageGrid}>
+          {pendingImages.map((pending) => (
+            <article className={styles.imageCard} key={pending.clientContext}>
+              <div className={`${styles.imagePreview} ${styles.pendingPreview}`} aria-label={t("Generating image")}>
+                <RingLoader width={42} height={42} />
+                <span>{t("Generating image")}</span>
+              </div>
+              <div className={styles.imageInfo}>
+                <div className={styles.imageMetaLine}>
+                  <span>{t("In progress")}</span>
+                  <time>{t("Just now")}</time>
+                </div>
+                <h3>{pending.prompt || t("Untitled generation")}</h3>
+                <p>{t("Waiting for the result")}</p>
+              </div>
+            </article>
+          ))}
           {images.map((image) => {
-            const metadata = image.metadata ? parseImageMetadata(image.metadata) : null;
+            const metadata = image.metadata ? parseImageMetadata(image.metadata, t) : null;
             return (
               <article className={styles.imageCard} key={image.id}>
                 <button className={styles.imagePreview} type="button" onClick={() => setSelectedImage(image)}>
-                  <img src={getClientMediaBaseUrl() + image.imageUrl} alt={image.prompt || "Generated image"} />
-                  <span>View details</span>
+                  <img src={getClientMediaBaseUrl() + image.imageUrl} alt={image.prompt || t("Generated image")} />
+                  <span>{t("View details")}</span>
                 </button>
                 <div className={styles.imageInfo}>
                   <div className={styles.imageMetaLine}>
                     <span>{image.creatorKey}</span>
                     <time>{formatCreatedTime(image.createdTime)}</time>
                   </div>
-                  <h3>{image.prompt || "Untitled generation"}</h3>
+                  <h3>{image.prompt || t("Untitled generation")}</h3>
                   <p>{image.version}</p>
                   {metadata?.length ? (
                     <dl className={styles.cardMetadata}>

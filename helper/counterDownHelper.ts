@@ -42,4 +42,11 @@ export const formatTime = (time: TimeRemaining): string => {
   const pad = (num: number): string => num.toString().padStart(2, "0");
   const dayPrefix = time.days > 0 ? `${pad(time.days)}:` : "";
   return `${dayPrefix}${pad(time.hours)}:${pad(time.minutes)}:${pad(time.seconds)}`;
+
+  //   const dayPrefix = time.days > 0 ? `${pad(time.days)}:` : "";
+  //   return `${dayPrefix}${pad(time.hours)}:${pad(time.minutes)}:${pad(time.seconds)}`;
+  // =======
+  //   const formattedTime = `${pad(time.hours)}:${pad(time.minutes)}:${pad(time.seconds)}`;
+
+  //   return time.days > 0 ? `${time.days}d ${formattedTime}` : formattedTime;
 };

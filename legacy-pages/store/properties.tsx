@@ -1,9 +1,3 @@
-import { useSession } from "next-auth/react";
-import dynamic from "next/dynamic";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import EditBusinessHours from "brancy/components/advertise/properties/popups/editBusinessHours";
 import Modal from "brancy/components/design/modal";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
@@ -14,10 +8,15 @@ import { findDayName } from "brancy/helper/findDayName";
 import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { numbToAmAndPmTime } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
-import styles from "./properties.module.css";
 import { BusinessDay, PartnerRole } from "brancy/models/enums";
 import { IBusinessHour } from "brancy/models/interfaces";
-import NotAllowedShopper from "brancy/components/notOk/notAllowedShopper";
+import { useSession } from "next-auth/react";
+import dynamic from "next/dynamic";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styles from "./properties.module.css";
 
 const MapComponent = dynamic(() => import("brancy/components/mainLeaftlet"), {
   ssr: false,
@@ -245,7 +244,6 @@ const Properties = () => {
       setIsSaving(false);
     }
   };
-  if (session?.user.isInfluencer) return <NotAllowedShopper />;
   if (!session?.user.isShopper) return <NotShopper />;
   if (!RoleAccess(session, PartnerRole.Products)) return <NotAllowed />;
   if (session?.user.currentIndex === -1) router.push("/user");
@@ -272,7 +270,7 @@ const Properties = () => {
         {/* <Soon /> */}
         <main className="pinContainer">
           {/* ___Sales list___*/}
-          <div className="tooBigCard">
+          {/* <div className="tooBigCard">
             <div className={styles.all}>
               <div className="headerChild">
                 <div className="circle"></div>
@@ -368,9 +366,9 @@ const Properties = () => {
                 {isSaving ? "در حال ذخیره..." : "ذخیره اطلاعات فروشگاه"}
               </button>
             </div>
-          </div>
+          </div> */}
           {/* ___Social Media___*/}
-          <div className="tooBigCard" style={{ gridRowEnd: "span 41" }}>
+          {/* <div className="tooBigCard" style={{ gridRowEnd: "span 41" }}>
             <div className={styles.all}>
               <div className="headerChild">
                 <div className="circle"></div>
@@ -429,19 +427,17 @@ const Properties = () => {
                   />
                 </div>
               </div>
-              {/* <button className={styles.saveButton} onClick={handleSaveProperties} disabled={isSaving}>
-                {isSaving ? "در حال ذخیره..." : "ذخیره شبکه‌های اجتماعی"}
-              </button> */}
+
             </div>
-          </div>
+          </div> */}
           {/* ___delivery branch___*/}
-          <div className="tooBigCard">
+          {/* <div className="tooBigCard">
             <div className={styles.all}>
               <div className="headerChild">
                 <div className="circle"></div>
                 <div className="Title">شعبه‌های توزیع</div>
               </div>
-              {/* سیستم ارسال پستی */}
+
               <div className={styles.section}>
                 <div className={styles.postmodel}>
                   <div className={styles.iconmodel}>
@@ -466,7 +462,7 @@ const Properties = () => {
                   />
                 </div>
               </div>
-              {/* نقشه اصلی */}
+
               <div className={styles.deliveryMapContainer}>
                 <MapComponent
                   location={mapCenter}
@@ -478,7 +474,6 @@ const Properties = () => {
                 />
               </div>
 
-              {/* لیست شعبه‌های نزدیک */}
               <div className={styles.branchesSection}>
                 <div className={styles.branchesHeader}>
                   <h3 className="title2">شعبه‌های نزدیک شما</h3>
@@ -577,7 +572,7 @@ const Properties = () => {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
           {/* ___Business Hours___*/}
           <div className="tooBigCard">
             <div className={styles.all}>
@@ -628,7 +623,7 @@ const Properties = () => {
             </div>
           </div>
           {/* ___notification___*/}
-          <div className="bigcard" style={{ gridRowEnd: "span 41" }}>
+          {/* <div className="bigcard" style={{ gridRowEnd: "span 41" }}>
             <div className={styles.all}>
               <div className="frameParent">
                 <div className="headerChild">
@@ -696,11 +691,8 @@ const Properties = () => {
                   />
                 </div>
               </div>
-              {/* <button className={styles.saveButton} onClick={handleSaveProperties} disabled={isSaving}>
-                {isSaving ? "در حال ذخیره..." : "ذخیره تنظیمات اعلان"}
-              </button> */}
             </div>
-          </div>
+          </div> */}
         </main>
         <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showBusinessHoursPopup}>
           <EditBusinessHours businessInfo={businessHours} removeMask={removeMask} saveBusinessHour={saveBusinessHour} />

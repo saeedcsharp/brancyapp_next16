@@ -156,19 +156,21 @@ The Products header includes a static presentation coupon with a days/hours/minu
 
 The authenticated MyLink page redirects only from effects, ignores asynchronous results after unmount, presents its three feature dialogs through one exclusive modal state, derives rendered feature nodes from one memoized feature map, and marks its authenticated metadata `noindex, nofollow`. The live-stream and last-video interaction listeners are registered from effects and removed during cleanup.
 
+Market properties link actions pass the shortcut ID directly to the parent alongside the selected statistics, edit, or delete action. `DotMenu` owns only its open/closed state, while the parent owns the selected `linkId`. Clicks inside the links card stop before reaching the page-level `pinContainer`, whose outside-click handler resets the selection sentinel.
+
 Last-video titles and descriptions preserve backend newline characters in the rendered text while keeping embedded links as safe React anchors.
 
 Online-stream titles and descriptions follow the same text rules: backend newline characters remain visible, titles can contain safe clickable links, and the responsive text sizing and line-height remain consistent with last-video content.
 
 # The product module keeps styles for its current header, static presentation coupon, carousel, and product cards; the former collapsible-section state and obsolete legacy header styles were removed.
 
-The Products card intentionally omits the edit-options three-dot control; other movable feature cards continue to expose it.
+The Products card intentionally omits the edit-options three-dot control; other movable feature cards continue to expose it. `components/market/properties/popups/product.tsx` loads the complete products with `/api/product/getProductList`, loads current bio products with `/api/product/getBioProductList`, uses the shared cursor-based infinite-scroll helper, supports selecting up to ten product IDs, shows each selected thumbnail's one-based position in the ordered selection as a centered numeric badge, and saves that ordered array through `/api/product/updateShowInBio`.
 
 ## MyLink Shortcut Links
 
 `components/market/myLink/featureBox.tsx` renders FeatureBox cards in free mode: the section has native horizontal overflow without scroll snapping, supports touch/trackpad scrolling and primary-button pointer dragging across browsers, and prevents a drag gesture from triggering a tile click. The layout starts at the logical inline start on every viewport and keeps keyboard focus and reduced-motion styles available.
 
-`components/market/myLink/link.tsx` renders shortcut cards with a desktop maximum width of 250px. On mobile, the shortcut section becomes a free horizontal carousel with native touch scrolling and pointer dragging; when more than four links exist, each mobile card is reduced to 200px. Dragging suppresses the click that would otherwise redirect to a shortcut URL.
+`components/market/myLink/link.tsx` renders shortcut cards with a desktop maximum width of 250px. On mobile, the shortcut section becomes a free horizontal carousel with native touch scrolling and pointer dragging only when horizontal overflow exists; when more than four links exist, each mobile card is reduced to 200px. Dragging suppresses the click that would otherwise redirect to a shortcut URL, while ordinary clicks remain available when the content is not scrollable.
 
 Shortcut expiration values are Unix timestamps in seconds. `CountdownTimerForLink` displays days before the remaining hours when the duration reaches 24 hours, using `DD:HH:MM:SS`; shorter durations remain `HH:MM:SS`.
 

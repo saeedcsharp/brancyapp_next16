@@ -1,5 +1,4 @@
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "brancy/i18n";
 import styles from "./notAllowed.module.css";
 export default function NotAllowedShopper() {
   const { t } = useTranslation();
@@ -20,7 +19,7 @@ export default function NotAllowedShopper() {
             />
           </svg>
 
-          <span>{t("You can not access this page, because your account is activated as a advertiser account")} </span>
+          <span>{t("You can not access this page, because your account is activated as an advertiser account")} </span>
         </div>
       </div>
     </>

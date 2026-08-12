@@ -1,4 +1,3 @@
-import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import PriceSlider from "brancy/components/design/sliders/priceSlider";
@@ -8,9 +7,12 @@ import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFo
 import SignIn, { RedirectType, SignInType } from "brancy/components/signIn/signIn";
 import SignInPage1 from "brancy/components/signIn/signInPage1";
 import { MethodType } from "brancy/helper/api";
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import findSystemLanguage from "brancy/helper/findSystemLanguage";
 import { LanguageKey } from "brancy/i18n";
+import { AvailabilityStatus, ProductSortType } from "brancy/models/enums";
+import { IBusiness, IFilter, IFilterInfo, IProduct, IProductCard, ITopHashtags } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import Link from "next/link";
@@ -18,12 +20,10 @@ import { useRouter } from "next/router";
 import React, { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./products.module.css";
-import { ProductSortType, AvailabilityStatus } from "brancy/models/enums";
-import { IProduct, IBusiness, IFilterInfo, IProductCard, ITopHashtags, IFilter } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
 const ProductsPage = () => {
   const router = useRouter();
-  const { data: session } = useSession();
+  const { data: session, status: sessionStatus } = useSession();
   //   {
   //   required: true,
   //   onUnauthenticated() {
@@ -203,6 +203,11 @@ const ProductsPage = () => {
 
     fetchProducts();
   }, [shopId, session]);
+  useEffect(() => {
+    if (sessionStatus === "authenticated" && session.user.currentIndex > -1) {
+      router.push("/");
+    }
+  }, [router, session, sessionStatus]);
   useEffect(() => {
     if (isBannerAutoplay && business?.banners && business.banners.length > 1) {
       const interval = setInterval(() => {
@@ -729,7 +734,6 @@ const ProductsPage = () => {
       </div>
     );
   }
-  if (session && session.user.currentIndex > -1) router.push("/");
   const renderAvailabilityStatus = (status: AvailabilityStatus) => {
     switch (status) {
       case AvailabilityStatus.Available:
@@ -967,6 +971,12 @@ const ProductsPage = () => {
   //   }
   // }, [priceRange, filter?.priceRange, loading, includeUnavailable, sortProduct]);
 
+  if (sessionStatus === "loading")
+    return (
+      <div className={styles.loadingContainer}>
+        <Loading />
+      </div>
+    );
   if (!session)
     return (
       <>

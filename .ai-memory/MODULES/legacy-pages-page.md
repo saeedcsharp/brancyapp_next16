@@ -30,7 +30,14 @@ Data enters through props, Next route params, session state, browser state, or b
 
 The image creation implementation loads available image creators from `/api/mediaai/GetImageCreators` after the NextAuth session is ready, then passes the response to the shared image creator component. Failed requests expose a retry state. Generation requests create and send a stable `clientContext`; matching successful SignalR notifications open the page-owned shared `Modal` with `GeneratedImageModal` as its content, while matching failures use the notification system.
 
-The `/page/ai` landing implementation is an Image/Video segmented workspace. Image mode requests successful image history from `/api/mediaai/GetImages` with `mediaCreationStatus=2`, renders responsive preview cards with shared parsed metadata, opens `GeneratedImageModal` for full details and downloads, and uses `nextMaxId` with `useInfiniteScroll` to append deduplicated pages. Video mode remains feature-gated and currently shows an empty prepared state until its backend contract is available.
+The `/page/ai` landing implementation is an Image/Video segmented workspace. Image mode requests successful image history from `/api/mediaai/GetImages` with `mediaCreationStatus=2`, renders responsive preview cards with shared parsed metadata, opens `GeneratedImageModal` for full details and downloads, and uses `nextMaxId` with `useInfiniteScroll` to append deduplicated pages. Video mode requests successful history from `/api/mediaai/GetVideos`, renders clickable thumbnail cards (media `imageUrl` or `/cover-video.svg` fallback), opens `GeneratedVideoModal` for native playback/details, and uses independent cursor pagination through `useInfiniteScroll`.
+The `/page/ai` App Router wrapper reads the optional `type` query with `useSearchParams` and passes valid values into the legacy page: `type=1` selects the image tab and `type=2` selects the video tab. Missing or unsupported values retain the default image tab; the legacy router remains a fallback for direct legacy navigation.
+During the initial selected-library request, the page renders the shared `components/notOk/loading` full-page loader until the image or video history API completes. Pagination and creator loading retain their local loading UI instead of replacing the whole page.
+The shared creator submit handler sends image requests to `/api/mediaai/CreateImage` and video requests to `/api/mediaai/CreateVideo`, preserving the same serialized inputs and client-context query.
+When a create request starts, the page returns to the matching image or video library and renders a pending card keyed by `clientContext` before waiting for the API response, preventing fast SignalR results from being missed. Failed API requests roll the card back. The pending card is replaced by the matching SignalR success result, or removed when a matching failure notification arrives; multiple concurrent generations are supported.
+The shared creator component uses media-neutral submit/loading props and switches its empty/error states, model label, prompt guidance, token-check text, and submit label for image or video mode. Video creator retry requests `GetVideoCreators`.
+
+The `/page/ai` controller localizes its page metadata and generation request/failure notifications through the active i18next locale, while the shared creator and result components provide the remaining AI workspace translations.
 
 ## Dependencies
 
@@ -152,7 +159,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-28
+2026-08-12
 
 ---
 

@@ -146,50 +146,6 @@ html[dir="rtl"] .menuCategoriesChild {
   z-index: 1000;
 }
 
-/* Position modifiers for the indicator */
-.indicator-userhome {
-  transform: translateY(0px) !important;
-}
-.indicator-userorders {
-  transform: translateY(63px) !important;
-}
-.indicator-userorderscart {
-  transform: translateY(63px) !important;
-}
-.indicator-userordersinQueue {
-  transform: translateY(63px) !important;
-}
-.indicator-userordersinQueue {
-  transform: translateY(63px) !important;
-}
-.indicator-userordersinProgress {
-  transform: translateY(63px) !important;
-}
-.indicator-userorderspickingup {
-  transform: translateY(63px) !important;
-}
-.indicator-userorderssent {
-  transform: translateY(63px) !important;
-}
-.indicator-userordersdelivered {
-  transform: translateY(63px) !important;
-}
-.indicator-userordersfailed {
-  transform: translateY(63px) !important;
-}
-.indicator-userbusiness {
-  transform: translateY(118px) !important;
-}
-.indicator-userwallet {
-  transform: translateY(180px) !important;
-}
-.indicator-usermessage {
-  transform: translateY(240px) !important;
-}
-.indicator-usersetting {
-  transform: translateY(300px) !important;
-}
-
 .advertisebutton,
 .businessbutton,
 .homebutton,
@@ -198,8 +154,7 @@ html[dir="rtl"] .menuCategoriesChild {
 .shopbutton,
 .pagebutton,
 .settingbutton,
-.storebutton,
-.walletbutton {
+.storebutton {
   transition: var(--transition2);
   position: relative;
   width: 30px;

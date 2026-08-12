@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { MouseEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Modal from "brancy/components/design/modal";
 import DomainManager from "brancy/components/market/properties/domainManager";
@@ -63,18 +63,11 @@ const Properties = () => {
     setFeatureId(featureId);
     setShowFeatureBox(true);
   }
-  function handleShowDotIcons(e: MouseEvent) {
-    e.stopPropagation();
-    const index = parseInt(e.currentTarget.id);
-    if (linkId === index) {
-      setLinkId(1000);
-      return;
-    }
-    setLinkId(index);
+  function handleShowDotIcons(selectedLinkId: number) {
+    setLinkId(selectedLinkId);
   }
-  function handleClickOnIcon(e: MouseEvent) {
-    e.stopPropagation();
-    const icon = e.currentTarget.id;
+  function handleClickOnIcon(icon: string, selectedLinkId: number) {
+    setLinkId(selectedLinkId);
     switch (icon) {
       case t(LanguageKey.edit):
         setSshowEditLink(true);

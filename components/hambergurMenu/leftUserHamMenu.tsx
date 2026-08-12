@@ -60,20 +60,6 @@ const menuItems = [
   {
     href: "/user/business",
     iconPath: (color: string) => (
-      <svg xmlns="http://www.w3.org/2000/svg" fill={color} width="30" height="30" viewBox="0 0 30 30">
-        <path
-          opacity=".4"
-          d="M27.5 10H2.5A2.5 2.5 0 0 0 0 12.5v13A2.5 2.5 0 0 0 2.5 28h25A2.5 2.5 0 0 0 30 25.5v-13A2.5 2.5 0 0 0 27.5 10"
-        />
-        <path d="M20 10V7.5A2.5 2.5 0 0 0 17.5 5h-5A2.5 2.5 0 0 0 10 7.5V10h2.5V7.5h5V10zm-5 10a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
-      </svg>
-    ),
-    textKey: LanguageKey.sidebar_Business,
-    activeRoutes: ["userbusiness", "userbusinessshop", "userbusinessadvertise", "userbusinessvshop"],
-  },
-  {
-    href: "/user/shop",
-    iconPath: (color: string) => (
       <svg
         xmlns="http://www.w3.org/2000/svg"
         viewBox="0 0 30 30"
@@ -87,23 +73,8 @@ const menuItems = [
         <path d="M15 24c-1.6 0-3 1.2-3 2.7v2.9q0 .3.5.4h5q.5 0 .5-.4v-2.9c0-1.5-1.3-2.7-3-2.7M30 8.4a33 33 0 0 0-1.5-5.2A5 5 0 0 0 24.1 0H5.9a5 5 0 0 0-4.5 3.2A35 35 0 0 0 0 8.4 4 4 0 0 0 1.2 12a6 6 0 0 0 4.4 2q2.6-.1 4.2-2a.6.6 0 0 1 1 0 5.5 5.5 0 0 0 8.5 0 1 1 0 0 1 .9 0 6 6 0 0 0 4.3 2 6 6 0 0 0 4.3-2A4 4 0 0 0 30 8.4"></path>
       </svg>
     ),
-    textKey: LanguageKey.sidebar_Stores,
-    activeRoutes: ["usershop"],
-  },
-
-  {
-    href: "/user/wallet",
-    iconPath: (color: string) => (
-      <svg xmlns="http://www.w3.org/2000/svg" fill={color} width="32" height="32" viewBox="0 0 30 31">
-        <path
-          opacity=".4"
-          d="M27.7 11.2q0 .4-.5.5H2.8q-.5-.1-.5-.5V8.5c0-3.3 2.5-6 5.5-6h14.4c3 0 5.5 2.7 5.5 6zM22.2 0H7.8C3.5.1 0 3.9 0 8.5v13.2c0 4.6 3.5 8.4 7.8 8.4h14.4a8 8 0 0 0 6.5-3.8h.1V26a9 9 0 0 0 1.2-4.4V8.5C30 3.9 26.5.1 22.2.1"
-        />
-        <path d="m13.6 5.9-8.4 4.5q-.4.4.2.6h19q.8-.1.5-.7L23 7.7C21 5 16.8 4.2 13.6 6 M19 19.6a2.5 2.5 0 1 0 5 0 2.5 2.5 0 0 0-5 0" />
-      </svg>
-    ),
-    textKey: LanguageKey.sidebar_Wallet,
-    activeRoutes: ["userwallet"],
+    textKey: LanguageKey.sidebar_Business,
+    activeRoutes: ["userbusiness", "userbusinessshop", "userbusinessadvertise", "userbusinessvshop"],
   },
   {
     href: "/user/message",
@@ -119,31 +90,6 @@ const menuItems = [
     textKey: LanguageKey.navbar_Ticket,
     activeRoutes: ["usermessage"],
   },
-  // {
-  //   href: "/orders",
-  //   iconPath: (color: string) => (
-  //     <svg
-  //       xmlns="http://www.w3.org/2000/svg"
-  //       fill={color}
-  //       width="30"
-  //       height="30"
-  //       viewBox="0 0 30 30"
-  //       fillRule="evenodd">
-  //       <path
-  //         opacity=".4"
-  //         d="M19.7 15h-.5a7 7 0 0 1-4.4 1.5q-2.4 0-4.3-1.4H10a7 7 0 0 1-7.3.7q-.6 0-.7.5V22c0 4.5 3 7.7 7.2 7.9q.5 0 .5-.5v-3c0-2.8 2.3-5.2 5.1-5.2a5 5 0 0 1 5.2 5.2v3q0 .5.4.5c4.4-.2 7.6-3.2 7.6-7.9v-6q-.1-.5-.7-.4a7 7 0 0 1-7.6-.6"
-  //       />
-  //       <path d="M15 24c-1.6 0-3 1.2-3 2.7v2.9q0 .3.5.4h5q.5 0 .5-.4v-2.9c0-1.5-1.3-2.7-3-2.7M30 8.4a33 33 0 0 0-1.5-5.2A5 5 0 0 0 24.1 0H5.9a5 5 0 0 0-4.5 3.2A35 35 0 0 0 0 8.4 4 4 0 0 0 1.2 12a6 6 0 0 0 4.4 2q2.6-.1 4.2-2a.6.6 0 0 1 1 0 5.5 5.5 0 0 0 8.5 0 1 1 0 0 1 .9 0 6 6 0 0 0 4.3 2 6 6 0 0 0 4.3-2A4 4 0 0 0 30 8.4" />
-  //     </svg>
-  //   ),
-  //   textKey: LanguageKey.sidebar_Market,
-  //   activeRoutes: [
-  //     "markethome",
-  //     "marketmylink",
-  //     "marketstatistics",
-  //     "marketproperties",
-  //   ],
-  // },
   {
     href: "/user/setting",
     iconPath: (color: string) => (
@@ -168,7 +114,7 @@ const LeftUserHamMenue = (props: {
   const { data: session } = useSession();
   const { t } = useTranslation();
   const router = useRouter();
-  const newRoute = useMemo(() => router.route.replaceAll("/", ""), [router.route]);
+  const newRoute = useMemo(() => router.asPath.split("?")[0].replaceAll("/", ""), [router.asPath]);
   const { value, setValue } = use(InstaInfoContext) ?? {};
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
@@ -355,7 +301,7 @@ const LeftUserHamMenue = (props: {
           {/* ----------menu----------  */}
           <div className={styles.menuparentleft}>
             {menuItems.map((item) => {
-              const isActive = item.activeRoutes.includes(newRoute);
+              const isActive = item.activeRoutes.some((route) => newRoute === route || newRoute.startsWith(route));
               const color = isActive ? "var(--color-dark-blue)" : "var(--text-h2)";
               return (
                 <Link key={item.href} href={item.href} onClick={handleRemoveMask} className={styles.usermenuleft}>

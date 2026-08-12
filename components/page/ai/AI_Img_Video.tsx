@@ -170,7 +170,7 @@ export default function AIPage() {
               handleInputChange={(e) => setSearchbox(e.target.value)}
               value={searchbox}
               maxLength={undefined}
-              name="Search from People or Keyword"
+              name={t("Search from People or Keyword")}
             />
 
             {/* ___switch button ___*/}
@@ -213,7 +213,10 @@ export default function AIPage() {
               </>
             )}
             {toggleOrder === ToggleOrder.SecondToggle && (
-              <div onClick={() => setUserSelectedId("")} className={styles.addnewlink} title="◰ Create new Flow">
+              <div
+                onClick={() => setUserSelectedId("")}
+                className={styles.addnewlink}
+                title={`◰ ${t("Create new Flow")}`}>
                 <div className={styles.addnewicon}>
                   <svg width="36" height="36" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <path
@@ -484,7 +487,7 @@ export default function AIPage() {
           )} */}
           {userSelectedId === null && (
             <div className={styles.disableRight} style={{ display: displayRight }}>
-              <img className={styles.disableRightimage} alt="Welcome illustration" src="/disableright.svg" />
+              <img className={styles.disableRightimage} alt={t("Welcome illustration")} src="/disableright.svg" />
               <div>
                 <h3>{t(LanguageKey.flowmanagement)}</h3>
               </div>

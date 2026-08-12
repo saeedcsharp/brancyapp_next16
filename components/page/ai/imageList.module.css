@@ -601,12 +601,32 @@
   cursor: pointer;
 }
 
+.pendingPreview {
+  display: grid;
+  place-items: center;
+  color: var(--color-dark-blue);
+  cursor: default;
+}
+
+.pendingPreview > span {
+  opacity: 1;
+  transform: none;
+}
+
 .imagePreview img {
   width: 100%;
   height: 100%;
   display: block;
   object-fit: cover;
   transition: transform 0.35s ease;
+}
+
+.imagePreview video {
+  width: 100%;
+  height: 100%;
+  display: block;
+  object-fit: cover;
+  background: var(--color-gray10);
 }
 
 .imagePreview > span {

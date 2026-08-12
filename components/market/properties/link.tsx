@@ -16,7 +16,7 @@ import {
   verticalListSortingStrategy,
 } from "@dnd-kit/sortable";
 import { CSS } from "@dnd-kit/utilities";
-import { MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import Loading from "brancy/components/notOk/loading";
@@ -32,18 +32,15 @@ function SortableItem({
   id,
   link,
   handleClickOnIcon,
-  isMenuOpen,
   onToggleMenu,
   t,
 }: {
   id: string;
   link: ILink;
-  handleClickOnIcon: (e: MouseEvent) => void;
-  isMenuOpen: boolean;
-  onToggleMenu: () => void;
+  handleClickOnIcon: (icon: string, linkId: number) => void;
+  onToggleMenu: (isOpen: boolean) => void;
   t: (key: string) => string;
 }) {
-  const itemRef = useRef<HTMLDivElement>(null);
   const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
     id,
   });
@@ -54,19 +51,6 @@ function SortableItem({
       transition,
     }),
     [transform, transition],
-  );
-
-  const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent) => {
-      if (e.key === "Enter" || e.key === " ") {
-        e.preventDefault();
-        onToggleMenu();
-      } else if (e.key === "Escape" && isMenuOpen) {
-        e.preventDefault();
-        onToggleMenu();
-      }
-    },
-    [isMenuOpen, onToggleMenu],
   );
 
   const handleImageError = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
@@ -101,13 +85,7 @@ function SortableItem({
             <circle opacity=".4" cx="3.5" cy="13.5" r="1.5" fill="var(--color-gray)" />
           </svg>
         </div>
-        <div
-          ref={itemRef}
-          role="button"
-          className={styles.linkcontent}
-          tabIndex={0}
-          onKeyDown={handleKeyDown}
-          aria-expanded={isMenuOpen}>
+        <div className={styles.linkcontent}>
           <div className={styles.linkicon}>
             <img
               loading="lazy"
@@ -138,51 +116,26 @@ function SortableItem({
           </div>
 
           <Dotmenu
-            showSetting={isMenuOpen}
             onToggle={onToggleMenu}
             data={useMemo(
               () => [
                 {
                   icon: "/icon-view.svg",
                   value: t(LanguageKey.navbar_Statistics),
-                  onClick: () => {
-                    const fakeEvent = {
-                      stopPropagation: () => {},
-                      preventDefault: () => {},
-                      currentTarget: { id: t(LanguageKey.navbar_Statistics) },
-                    } as unknown as MouseEvent;
-                    handleClickOnIcon(fakeEvent);
-                    onToggleMenu();
-                  },
+                  onClick: () => handleClickOnIcon(t(LanguageKey.navbar_Statistics), link.id),
                 },
                 {
                   icon: "/edit-1.svg",
                   value: t(LanguageKey.edit),
-                  onClick: () => {
-                    const fakeEvent = {
-                      stopPropagation: () => {},
-                      preventDefault: () => {},
-                      currentTarget: { id: t(LanguageKey.edit) },
-                    } as unknown as MouseEvent;
-                    handleClickOnIcon(fakeEvent);
-                    onToggleMenu();
-                  },
+                  onClick: () => handleClickOnIcon(t(LanguageKey.edit), link.id),
                 },
                 {
                   icon: "/delete.svg",
                   value: t(LanguageKey.delete),
-                  onClick: () => {
-                    const fakeEvent = {
-                      stopPropagation: () => {},
-                      preventDefault: () => {},
-                      currentTarget: { id: t(LanguageKey.delete) },
-                    } as unknown as MouseEvent;
-                    handleClickOnIcon(fakeEvent);
-                    onToggleMenu();
-                  },
+                  onClick: () => handleClickOnIcon(t(LanguageKey.delete), link.id),
                 },
               ],
-              [t, handleClickOnIcon, onToggleMenu],
+              [t, handleClickOnIcon, link.id],
             )}
           />
         </div>
@@ -194,8 +147,8 @@ function SortableItem({
 const Link = (props: {
   data: ILink[] | null;
   addNewLink: () => void;
-  handleShowDotIcons: (e: MouseEvent) => void;
-  handleClickOnIcon: (e: MouseEvent) => void;
+  handleShowDotIcons: (linkId: number) => void;
+  handleClickOnIcon: (icon: string, linkId: number) => void;
   handleUpdateOrderLinks: (orderLinks: IUpdateOrderLink) => void;
   dotIconIndex: number;
 }) => {
@@ -203,7 +156,6 @@ const Link = (props: {
   const { gridSpan, hidePage, toggle } = useHideDiv(true, 82);
   const [loading, setLoading] = useState(true);
   const [linkInfo, setLinkInfo] = useState<ILink[]>([]);
-  const [openMenuLinkId, setOpenMenuLinkId] = useState<number | null>(null);
   const addButtonRef = useRef<HTMLDivElement>(null);
 
   const sensors = useSensors(
@@ -243,24 +195,11 @@ const Link = (props: {
     }
   }, [props.data]);
 
-  useEffect(() => {
-    return () => {
-      setOpenMenuLinkId(null);
-    };
-  }, []);
-
-  const handleToggleMenu = useCallback(
-    (linkId: number) => {
-      setOpenMenuLinkId((prev) => (prev === linkId ? null : linkId));
-      if (openMenuLinkId !== linkId) {
-        const fakeEvent = {
-          stopPropagation: () => {},
-          currentTarget: { id: linkId.toString() },
-        } as unknown as MouseEvent;
-        props.handleShowDotIcons(fakeEvent);
-      }
+  const handleMenuVisibility = useCallback(
+    (linkId: number, isOpen: boolean) => {
+      if (isOpen) props.handleShowDotIcons(linkId);
     },
-    [openMenuLinkId, props.handleShowDotIcons],
+    [props.handleShowDotIcons],
   );
 
   const handleAddNewLinkKeyDown = useCallback(
@@ -276,7 +215,7 @@ const Link = (props: {
   const sortableItems = useMemo(() => linkInfo.map((_, i) => i.toString()), [linkInfo]);
 
   return (
-    <div className="tooBigCard" style={gridSpan}>
+    <div className="tooBigCard" style={gridSpan} onClick={(event) => event.stopPropagation()}>
       <div
         onClick={toggle}
         className="headerChild"
@@ -330,8 +269,7 @@ const Link = (props: {
                         id={index.toString()}
                         link={link}
                         handleClickOnIcon={props.handleClickOnIcon}
-                        isMenuOpen={openMenuLinkId === link.id}
-                        onToggleMenu={() => handleToggleMenu(link.id)}
+                        onToggleMenu={(isOpen) => handleMenuVisibility(link.id, isOpen)}
                         t={t}
                       />
                     ))}

@@ -1,7 +1,6 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { memo, type MouseEvent, type PointerEvent, useCallback, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-
 import CountdownTimerForLink from "brancy/components/design/counterDown/counterDownForLink";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./link.module.css";
@@ -148,7 +147,7 @@ const Link = memo<LinkComponentProps>(({ data }) => {
     if (event.pointerType === "mouse" && event.button !== 0) return;
 
     const content = contentRef.current;
-    if (!content) return;
+    if (!content || content.scrollWidth <= content.clientWidth) return;
 
     dragStateRef.current = {
       startX: event.clientX,

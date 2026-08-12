@@ -117,17 +117,14 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
       };
       switch (platform) {
         case "youtube":
-          // OnClickPlayVideo("youtube", "play");
           const youtubeUrl = getFixedUrl(data.onlineStream?.youtubeChannel?.live?.reDirectUrl);
           if (youtubeUrl) openLinkSmart(youtubeUrl, "youtube");
           break;
         case "aparat":
-          // OnClickPlayVideo("aparat", "play");
           const aparatUrl = getFixedUrl(data.onlineStream?.aparatChannel?.live?.reDirectUrl);
           if (aparatUrl) openLinkSmart(aparatUrl, "aparat");
           break;
         case "twitch":
-          // OnClickPlayVideo("twitch", "play");
           const twitchUrl = getFixedUrl(data.onlineStream?.twitchChannel?.live?.reDirectUrl);
           if (twitchUrl) openLinkSmart(twitchUrl, "twitch");
           break;
@@ -246,7 +243,6 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
                   onStateChange: (event: any) => {
                     if (event.data === (window as any).YT.PlayerState.PLAYING) {
                       firstFetch = false;
-                      // OnClickPlayVideo("youtube", "play");
                     }
                     if (event.data === (window as any).YT.PlayerState.BUFFERING) {
                       firstFetch = true;
@@ -274,7 +270,6 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
           const aparatFrame = document.getElementById("AparatLastVideo");
           if (aparatFrame) {
             aparatFrame.addEventListener("click", () => {
-              // OnClickPlayVideo("aparat", "play");
               const aparatUrl = data.onlineStream?.aparatChannel?.live?.reDirectUrl;
               if (aparatUrl) {
                 window.open(aparatUrl, "_blank");
@@ -288,7 +283,6 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
           const twitchFrame = document.getElementById("TwitchLastVideo");
           if (twitchFrame) {
             twitchFrame.addEventListener("click", () => {
-              // OnClickPlayVideo("twitch", "play");
               const twitchUrl = data.onlineStream?.twitchChannel?.live?.reDirectUrl;
               if (twitchUrl) {
                 window.open(twitchUrl, "_blank");
@@ -387,7 +381,6 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
 
       const embedId = `${platform}Embed`;
       if (state.selectedEmbed !== embedId) return null;
-      // if (platform === "youtube") OnClickPlayVideo("youtube", "redirect");
       return (
         <div className={styles.embedvide} id={embedId} key={platform}>
           {streamStatus && channel.embedVideo && (

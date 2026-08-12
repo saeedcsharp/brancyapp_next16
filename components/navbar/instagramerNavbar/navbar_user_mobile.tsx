@@ -7,7 +7,7 @@ import styles from "./navbarheader.module.css";
 const NavbarUserMobile = (prop: { handleShowHamMenu: (ham: string) => void }) => {
   const { t } = useTranslation();
   const router = useRouter();
-  let newRoute = router.route.replaceAll("/", "");
+  const newRoute = router.asPath.split("?")[0].replaceAll("/", "");
   const [navbarRout, setNavbarRout] = useState("");
   useEffect(() => {
     if (newRoute === UserPanelRoute.UserPanelHome) setNavbarRout("home");
@@ -31,7 +31,6 @@ const NavbarUserMobile = (prop: { handleShowHamMenu: (ham: string) => void }) =>
       newRoute.includes(UserPanelRoute.UserPanelBusinessShop)
     )
       setNavbarRout("business");
-    else if (newRoute === UserPanelRoute.UserPanelWallet) setNavbarRout("wallet");
     else if (newRoute === UserPanelRoute.UserPanelMessage) setNavbarRout("message");
     else if (newRoute === UserPanelRoute.UserPanelSetting) setNavbarRout("setting");
   }, [router]);
@@ -101,30 +100,16 @@ const NavbarUserMobile = (prop: { handleShowHamMenu: (ham: string) => void }) =>
             />
           </>
         );
-      case "shop":
-        return (
-          <>
-            <path
-              fill="var(--color-ffffff)"
-              opacity=".4"
-              d="M19.7 15h-.5a7 7 0 0 1-4.4 1.5q-2.4 0-4.3-1.4H10a7 7 0 0 1-7.3.7q-.6 0-.7.5V22c0 4.5 3 7.7 7.2 7.9q.5 0 .5-.5v-3c0-2.8 2.3-5.2 5.1-5.2a5 5 0 0 1 5.2 5.2v3q0 .5.4.5c4.4-.2 7.6-3.2 7.6-7.9v-6q-.1-.5-.7-.4a7 7 0 0 1-7.6-.6"></path>
-            <path
-              fill="var(--color-ffffff)"
-              d="M15 24c-1.6 0-3 1.2-3 2.7v2.9q0 .3.5.4h5q.5 0 .5-.4v-2.9c0-1.5-1.3-2.7-3-2.7M30 8.4a33 33 0 0 0-1.5-5.2A5 5 0 0 0 24.1 0H5.9a5 5 0 0 0-4.5 3.2A35 35 0 0 0 0 8.4 4 4 0 0 0 1.2 12a6 6 0 0 0 4.4 2q2.6-.1 4.2-2a.6.6 0 0 1 1 0 5.5 5.5 0 0 0 8.5 0 1 1 0 0 1 .9 0 6 6 0 0 0 4.3 2 6 6 0 0 0 4.3-2A4 4 0 0 0 30 8.4"></path>
-          </>
-        );
       case "business":
         return (
           <>
             <path
               opacity=".4"
               fill="var(--color-ffffff)"
-              d="M27.5 10H2.5A2.5 2.5 0 0 0 0 12.5v13A2.5 2.5 0 0 0 2.5 28h25A2.5 2.5 0 0 0 30 25.5v-13A2.5 2.5 0 0 0 27.5 10"
-            />
+              d="M19.7 15h-.5a7 7 0 0 1-4.4 1.5q-2.4 0-4.3-1.4H10a7 7 0 0 1-7.3.7q-.6 0-.7.5V22c0 4.5 3 7.7 7.2 7.9q.5 0 .5-.5v-3c0-2.8 2.3-5.2 5.1-5.2a5 5 0 0 1 5.2 5.2v3q0 .5.4.5c4.4-.2 7.6-3.2 7.6-7.9v-6q-.1-.5-.7-.4a7 7 0 0 1-7.6-.6"></path>
             <path
               fill="var(--color-ffffff)"
-              d="M20 10V7.5A2.5 2.5 0 0 0 17.5 5h-5A2.5 2.5 0 0 0 10 7.5V10h2.5V7.5h5V10zm-5 10a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"
-            />
+              d="M15 24c-1.6 0-3 1.2-3 2.7v2.9q0 .3.5.4h5q.5 0 .5-.4v-2.9c0-1.5-1.3-2.7-3-2.7M30 8.4a33 33 0 0 0-1.5-5.2A5 5 0 0 0 24.1 0H5.9a5 5 0 0 0-4.5 3.2A35 35 0 0 0 0 8.4 4 4 0 0 0 1.2 12a6 6 0 0 0 4.4 2q2.6-.1 4.2-2a.6.6 0 0 1 1 0 5.5 5.5 0 0 0 8.5 0 1 1 0 0 1 .9 0 6 6 0 0 0 4.3 2 6 6 0 0 0 4.3-2A4 4 0 0 0 30 8.4"></path>
           </>
         );
       case "message":

@@ -28,6 +28,8 @@ Execution starts from imports, route rendering, or helper calls depending on the
 
 Data enters through props, Next route params, session state, browser state, or backend API responses.
 
+The statistics page composes the store sales cards with `CouponManager`, controls visibility for the separate `CreateCouponModal`, and owns coupon loading, `isActive`/`isPrivate` filtering, cursor pagination through the `nextMaxId` query and the last `IUserCoupon.couponId`, `useInfiniteScroll`, creation, `showInBio` mutation, and related server state. The child store components receive data and callbacks while the page retains its existing shopper and partner authorization guards.
+
 ## Dependencies
 
 See imports in related files and dependency docs.
@@ -134,7 +136,7 @@ Parent module: `legacy-pages`.
 
 ## Known Issues
 
-No confirmed module-specific issue recorded at initialization.
+Product-detail pages are consumed through an App Router client wrapper. The wrapper reads the `tempId` query parameter with `useSearchParams` and renders the legacy page beneath Suspense to preserve compatibility with the page's client-only session and legacy router dependencies.
 
 ## Technical Debt
 
@@ -146,7 +148,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-08-09
 
 ---
 
@@ -155,13 +157,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-
