@@ -10,6 +10,7 @@ import TwoMonth from "brancy/components/store/statistics/twoMonth";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 import { PartnerRole } from "brancy/models/enums";
 import IUserCoupon, {
@@ -21,7 +22,7 @@ import IUserCoupon, {
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./statistics.module.css";
 
@@ -40,6 +41,9 @@ const Statistics = () => {
   const [showCreateCoupon, setShowCreateCoupon] = useState(false);
   const [coupons, setCoupons] = useState<IUserCoupon[]>([]);
   const [isLoadingCoupons, setIsLoadingCoupons] = useState(true);
+  const [couponsNextMaxId, setCouponsNextMaxId] = useState<string | null>(null);
+  const [isActive, setIsActive] = useState(true);
+  const [isPrivate, setIsPrivate] = useState(false);
   const [updatingCouponId, setUpdatingCouponId] = useState<number | null>(null);
   const router = useRouter();
   const [twoMonth, setTwoMonth] = useState<ISaleMonth[]>([]);
@@ -52,14 +56,60 @@ const Statistics = () => {
     setAdvertiseId(advertiseId);
     setShowReport(true);
   }
-  async function loadCoupons() {
+  const loadCoupons = useCallback(async () => {
     if (!session) return;
     setIsLoadingCoupons(true);
-    const response = await clientFetchApi<undefined, IUserCoupon[]>("/api/coupon/GetCoupon", { session });
-    if (response.succeeded) setCoupons(response.value ?? []);
-    else notify(response.info.responseType, NotifType.Warning);
+    setCoupons([]);
+    setCouponsNextMaxId(null);
+    const response = await clientFetchApi<undefined, IUserCoupon[]>("/api/coupon/GetCoupon", {
+      session,
+      queries: [
+        { key: "isActive", value: String(isActive) },
+        { key: "isPrivate", value: String(isPrivate) },
+        { key: "nextMaxId", value: "" },
+      ],
+    });
+    if (response.succeeded) {
+      const firstPage = response.value ?? [];
+      setCoupons(firstPage);
+      setCouponsNextMaxId(firstPage.length > 0 ? String(firstPage[firstPage.length - 1].couponId) : null);
+    } else {
+      notify(response.info.responseType, NotifType.Warning);
+      setCoupons([]);
+      setCouponsNextMaxId(null);
+    }
     setIsLoadingCoupons(false);
-  }
+  }, [isActive, isPrivate, session]);
+
+  const fetchMoreCoupons = useCallback(async (): Promise<IUserCoupon[]> => {
+    if (!session || !couponsNextMaxId) return [];
+    const response = await clientFetchApi<undefined, IUserCoupon[]>("/api/coupon/GetCoupon", {
+      session,
+      queries: [
+        { key: "isActive", value: String(isActive) },
+        { key: "isPrivate", value: String(isPrivate) },
+        { key: "nextMaxId", value: couponsNextMaxId },
+      ],
+    });
+    if (!response.succeeded) {
+      notify(response.info.responseType, NotifType.Warning);
+      setCouponsNextMaxId(null);
+      return [];
+    }
+    const items = response.value ?? [];
+    setCouponsNextMaxId(items.length > 0 ? String(items[items.length - 1].couponId) : null);
+    return items;
+  }, [couponsNextMaxId, isActive, isPrivate, session]);
+
+  const { containerRef: couponsScrollRef, isLoadingMore: isLoadingMoreCoupons } = useInfiniteScroll<IUserCoupon>({
+    hasMore: Boolean(couponsNextMaxId),
+    fetchMore: fetchMoreCoupons,
+    onDataFetched: (newCoupons) => setCoupons((current) => [...current, ...newCoupons]),
+    getItemId: (coupon) => coupon.couponId,
+    currentData: coupons,
+    isLoading: isLoadingCoupons,
+    enabled: Boolean(session),
+  });
   async function handleCreateCoupon(coupon: CreateCouponRequest): Promise<boolean> {
     if (!session) return false;
     const response = await clientFetchApi<CreateCouponRequest, boolean>("/api/coupon/CreateCoupon", {
@@ -370,10 +420,12 @@ const Statistics = () => {
   }, []);
   useEffect(() => {
     if (!session) return;
-    loadCoupons();
     if (session?.user.currentIndex === -1) router.push("/user");
     if (!session || !packageStatus(session)) router.push("/upgrade");
   }, [session]);
+  useEffect(() => {
+    loadCoupons();
+  }, [loadCoupons]);
   if (!session?.user.isShopper) return <NotShopper />;
   if (!RoleAccess(session, PartnerRole.Products) && !RoleAccess(session, PartnerRole.Orders)) return <NotAllowed />;
   return (
@@ -418,6 +470,12 @@ const Statistics = () => {
           <CouponManager
             coupons={coupons}
             isLoading={isLoadingCoupons}
+            isLoadingMore={isLoadingMoreCoupons}
+            containerRef={couponsScrollRef}
+            isActive={isActive}
+            isPrivate={isPrivate}
+            onActiveFilterChange={setIsActive}
+            onPrivateFilterChange={setIsPrivate}
             updatingCouponId={updatingCouponId}
             onCreateClick={() => setShowCreateCoupon(true)}
             onVisibilityChange={handleCouponVisibilityChange}

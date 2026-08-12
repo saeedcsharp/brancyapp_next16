@@ -51,7 +51,7 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
-- Added a dedicated store statistics coupon section. The Statistics page owns `Shopper/Coupon/GetCoupon`, the documented `CreateCoupon` POST request, `Shopper/Coupon/UpdateCoupon`, and related server state; `CouponManager` and `CreateCouponModal` are data/callback-driven UI components. Labels, placeholders, statuses, and interpolated values are localized across all eight supported languages.
+- Added a dedicated store statistics coupon section. The Statistics page owns `Shopper/Coupon/GetCoupon`, including `isActive`/`isPrivate` filters and `nextMaxId` query pagination based on the last coupon ID through `useInfiniteScroll`, the documented `CreateCoupon` POST request, `Shopper/Coupon/UpdateCoupon`, and related server state; `CouponManager` and `CreateCouponModal` are data/callback-driven UI components. Labels, placeholders, statuses, and interpolated values are localized across all eight supported languages.
 
 - AI image and video creation now returns to the matching library immediately after request submission, shows one loading card per pending `clientContext`, and replaces or removes each card when its correlated SignalR success or failure notification arrives. Concurrent generations remain independently tracked.
 
