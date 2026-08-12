@@ -405,6 +405,8 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
               alt={`${platform} thumbnail`}
               src={channel.live.thumbnailMediaUrl}
               onClick={() => handleVideoClick(platform)}
+              width="100%"
+              height="100%"
               style={{ cursor: "pointer" }}
             />
           )}
@@ -416,14 +418,14 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
                 onClick={() => handleVideoClick(platform)}
                 alt={`${platform} thumbnail`}
                 src={channel.live.filterThumbnailMediaUrl}
-                width={800}
-                height={500}
+                width="100%"
+                height="100%"
                 style={{ cursor: "pointer" }}
               />
             </div>
           )}
           <div className={styles.videodetail}>
-            <h3>{channel.live.title}</h3>
+            <h3>{convertLinksToClickable(channel.live.title)}</h3>
             <div className={styles.contentttext}>{convertLinksToClickable(channel.live.descryption)}</div>
           </div>
         </div>
@@ -441,7 +443,10 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
   if (!data.onlineStream) return null;
   return (
     <div key="onlinestreaming" id="onlinestreaming" className={styles.all}>
-      <div className={styles.header} onClick={toggleContentVisibility}>
+      <div
+        className={styles.header}
+        // onClick={toggleContentVisibility}
+      >
         <div className={styles.ribonparent}>
           {(() => {
             const marqueeItems = [

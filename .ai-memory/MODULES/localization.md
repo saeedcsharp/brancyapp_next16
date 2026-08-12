@@ -12,6 +12,7 @@ Supports multilingual and RTL/LTR product usage.
 
 Owns the folder/module concerns described by its file tree and exports.
 Maintains aligned `Notify_*` translations for backend response notifications across `en`, `fa`, `ar`, `fr`, `ru`, `tr`, `gr`, and `az`.
+Maintains equal coverage of all 2,970 direct string translation keys across the eight locale files.
 
 ## Architecture
 
@@ -20,6 +21,7 @@ Follows existing Next/React/TypeScript project conventions.
 ## Folder Structure
 
 `i18n.ts`, `i18n/`, `context/directionContext.tsx`, `helper/detectLocaleFromTimezone.ts`, `helper/checkRtl.ts`.
+`scripts/sync-i18n-keys.cjs` maintains locale key alignment and updates `LanguageKey` for direct string keys.
 
 ## Execution Flow
 

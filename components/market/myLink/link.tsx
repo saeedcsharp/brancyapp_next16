@@ -62,11 +62,16 @@ const LinkItem = memo<LinkItemProps>(({ link, baseMediaUrl, onLinkClick, classNa
         </div>
         {link.expireTime > 0 && (
           <div className={styles.linkexpire}>
-            <svg className={styles.expireIcon} viewBox="0 0 24 24" role="img" aria-label="Expire time icon">
-              <circle cx="12" cy="12" r="8.5" />
-              <path d="M12 7v5l3 2" />
-              <path d="M8.5 3.8 6.8 2.5M15.5 3.8l1.7-1.3" />
+            <svg fill="none" width="20px" height="20px" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 28 28">
+              <path
+                d="M12.13 3.5h4.91m-2.47 12.03 3.44-3.43m-3.43 12.4a8.94 8.94 0 1 0 0-17.88 8.94 8.94 0 0 0 0 17.88"
+                stroke="#f04438"
+                strokeWidth="2"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
             </svg>
+
             <CountdownTimerForLink
               expireTime={link.expireTime}
               className={styles.countdown}
@@ -184,8 +189,8 @@ const Link = memo<LinkComponentProps>(({ data }) => {
         <button
           type="button"
           className={styles.headerbutton}
-          onClick={toggleContentVisibility}
-          onKeyDown={handleToggleKeyDown}
+          // onClick={toggleContentVisibility}
+          // onKeyDown={handleToggleKeyDown}
           aria-expanded={isContentVisible}
           aria-label={t(LanguageKey.marketPropertiesLinkShortcut)}
           aria-controls="link-content">

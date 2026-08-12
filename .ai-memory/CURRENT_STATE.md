@@ -13,12 +13,18 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 - External Brancy backend integration through API route mapping and proxy routes.
 - Localization for eight language files.
 - PWA manifests and generated Workbox service worker assets.
+- Public noindex `/feature` knowledge-base route with a source-audited, localized feature catalog for content teams.
+- Persian `/feature` copy uses plain Persian equivalents or Persian transliteration for unavoidable brand names; technical route and identifier values remain unchanged.
+- Persian `/feature` copy is also intentionally conversational and non-technical, with short explanations suitable for general and younger audiences.
+- The feature catalog is a mandatory synchronization point: every added, changed, completed, renamed, or removed user-facing option or capability must update the active or audit-only list before the task is considered complete.
+- Expanded feature details show the usage instruction and route on separate lines, with safe wrapping for narrow viewports.
+- On mobile, feature cards place the expand control in the top corner and keep role and access cells side by side.
 
 ## Completed Features
 
-- App Router wrappers exist for 102 app pages.
+- App Router tree contains 104 page files, including the direct `/feature` knowledge-base route.
 - 9 route handler files exist, including auth, pricing, user proxy endpoints, IP country detection, and a text-file route.
-- API map contains 320 mapped backend entries.
+- API map contains 331 mapped backend entries.
 - Docker standalone build path exists.
 - IIS `web.config` exists for server.js hosting.
 
@@ -51,9 +57,10 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
-- Added a dedicated store statistics coupon section. The Statistics page owns `Shopper/Coupon/GetCoupon`, including `isActive`/`isPrivate` filters and `nextMaxId` query pagination based on the last coupon ID through the shared slider's `onReachEnd` callback, the documented `CreateCoupon` POST request, `Shopper/Coupon/UpdateCoupon` edit requests with `couponId`, `expireTime`, `maxCount`, and `showInBio`, and separate `Shopper/Coupon/ActivateCoupon`/`Shopper/Coupon/DeleteCoupon` visibility requests with only `couponId`; `CouponManager` and `CreateCouponModal` are data/callback-driven UI components. The shared modal supports create and edit modes, with only expiry, max uses, and bio visibility editable for existing coupons. Coupons render one information-dense item per slider slide. Labels, placeholders, statuses, and interpolated values are localized across all eight supported languages.
-- Coupon editing now uses a separate `UpdateCouponModal` mounted inside a page-level shared `Modal`; `CreateCouponModal` remains create-only.
-- Aligned the coupon manager card width and horizontal spacing with the other cards in the shared statistics grid on desktop and mobile.
+- Added `/feature`, an evidence-backed Brancy feature knowledge base for content teams. Its static catalog has 41 active source-backed records across Instagramer, Shopper, and Advertiser filters; it exposes search, category/access filters, sorting, expandable detail, source-kind evidence, RTL, dark mode, and mobile layout. Routes whose workflows are seeded, local-only, unmapped, incomplete, download-only, or shell-only are separated into an audit-only section rather than represented as active capabilities. The catalog has reviewed Persian copy, English fallback for the other configured locales, no backend fetches, and no sensitive account data. TypeScript and browser checks passed for interaction and 390px RTL dark mode without horizontal overflow.
+
+- Synchronized all eight locale files to the same 2,970 direct string translation keys. Missing entries use English fallback text where available and key-name placeholders otherwise; nested translation objects remain outside the flat `LanguageKey` enum.
+- Added a dedicated store statistics coupon section. The Statistics page owns `Shopper/Coupon/GetCoupon`, including `isActive`/`isPrivate` filters and `nextMaxId` query pagination based on the last coupon ID through `useInfiniteScroll`, the documented `CreateCoupon` POST request, `Shopper/Coupon/UpdateCoupon`, and related server state; `CouponManager` and `CreateCouponModal` are data/callback-driven UI components. Labels, placeholders, statuses, and interpolated values are localized across all eight supported languages.
 
 - AI image and video creation now returns to the matching library immediately after request submission, shows one loading card per pending `clientContext`, and replaces or removes each card when its correlated SignalR success or failure notification arrives. Concurrent generations remain independently tracked.
 
@@ -78,6 +85,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 - Optimized MyLink media and product interactions: live-stream controls no longer add global listeners per render, product search/filtering is deferred and memoized, carousel keyboard navigation is RTL-aware, and product/live motion respects user reduced-motion preferences.
 - Standardized MyLink typography with shared fluid `clamp()` tokens, replacing raw pixel font sizes across its CSS modules so text scales within readable bounds across desktop, tablet, and mobile viewports.
 - MyLink last-video titles and descriptions now preserve backend-provided line breaks while retaining safe clickable links.
+- MyLink online-stream titles and descriptions now use the same line-break preservation, safe clickable links, and responsive line-height as last-video content.
+- MyLink shortcut countdowns now convert durations over 24 hours into days plus remaining hours instead of showing an inflated total-hour value.
 - Added a free horizontal MyLink shortcut carousel with native touch scrolling and mouse/pointer dragging. Shortcut cards remain capped at 250px on desktop; mobile collections with more than four links use 200px cards.
 - Updated the MyLink feature menubar to use free horizontal scrolling and automatically center the active feature button whenever the visible feature changes.
 - MyLink FeatureBox cards now use free horizontal scrolling with native touch/trackpad support, pointer dragging, no snap points, and protection against accidental activation after dragging.

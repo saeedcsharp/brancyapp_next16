@@ -2,7 +2,9 @@
 
 ## Pending Documentation Tasks
 
-- Add component/browser coverage for store coupon loading, `isActive`/`isPrivate` filtering, slider `onReachEnd`/`nextMaxId` pagination, duplicate prevention, creation validation, create/edit API errors, edit-mode read-only fields, editable expiry/max uses/bio visibility, `showInBio` updates, statistics-grid width alignment, one-item-per-slide behavior, and mobile/RTL presentation when a UI test harness is introduced.
+- For every future feature or option change, check and update the matching active or audit-only record in `/feature`; keep this rule enforced in implementation reviews.
+- Add browser/component coverage for `/feature` deferred search, role/category/access filtering, sort direction, expand/collapse ARIA state, translated search matching, audit-only separation, desktop/mobile layout, RTL, dark mode, and no-horizontal-overflow checks when a persistent UI test harness is introduced.
+- Add component/browser coverage for store coupon loading, `isActive`/`isPrivate` filtering, `nextMaxId` pagination, duplicate prevention, creation validation, API errors, `showInBio` updates, and mobile/RTL presentation when a UI test harness is introduced.
 
 - Add browser coverage confirming the user wallet item is absent from desktop and mobile user navigation while the direct user wallet route remains available when a UI test harness is introduced.
 
@@ -18,12 +20,14 @@
 - Add browser coverage for MyLink product carousel touch scrolling, pointer dragging, horizontal-only overflow, and drag-click suppression when a UI test harness is introduced.
 - Add browser coverage for MyLink FeatureBox free-mode scrolling, pointer dragging, horizontal-only overflow, responsive sizing, and drag-click suppression when a UI test harness is introduced.
 - Add browser coverage for MyLink shortcut-link mobile horizontal scrolling, pointer dragging, conditional 200px sizing for more than four links, and drag-click suppression when a UI test harness is introduced.
+- Add component coverage for MyLink shortcut countdown day/hour/minute/second formatting when a UI test harness is introduced.
 - Add browser coverage for MyLink feature-menubar free scrolling and centering the active item after section changes when a UI test harness is introduced.
 - Add browser coverage confirming MyLink opens on the Home/FeatureBox section and Contact and Map mounting does not change the initial scroll position when a UI test harness is introduced.
 - Add component coverage for MyLink product filtering, search reset, and desktop/mobile product-header layout when a UI test harness is introduced.
 - Add component/browser coverage for MyLink coupon countdown rendering, copy-button keyboard activation, Clipboard API success/failure feedback, and responsive coupon layout when a UI test harness is introduced.
 - Add browser coverage for MyLink media lifecycle cleanup, instance-isolated player/radio controls, reduced-motion behavior, and carousel Left/Right/Home/End keyboard navigation when a UI test harness is introduced.
 - Add component coverage confirming MyLink last-video title and description line breaks remain visible alongside clickable links when a UI test harness is introduced.
+- Add component coverage confirming MyLink online-stream title and description line breaks remain visible alongside clickable links when a UI test harness is introduced.
 - Add visual regression coverage for MyLink fluid typography at desktop, tablet, and mobile viewport widths when a UI test harness is introduced.
 - Add Playwright coverage for Chrome, Edge, and Firefox at desktop and mobile viewport sizes, including scrollbar width, horizontal overflow, landing modals, and fixed headers.
 - Add browser interaction coverage for landing pricing slider changes, keyboard navigation, plan-card selection, and protection against repeated state updates.
@@ -49,6 +53,7 @@
 - Add component coverage for switching bank-card sub-invoice History/Setting tabs and successful or rejected default-card requests when a UI test harness is introduced.
 - Add component coverage confirming that a sub-invoice popup close animation cannot send a request with an empty card number when a UI test harness is introduced.
 - Add an automated locale-alignment check for `LanguageKey.Notify_*` response notification keys when test infrastructure is introduced.
+- Replace key-name placeholders added by `scripts/sync-i18n-keys.cjs` with reviewed translations in `fa`, `ar`, `fr`, `ru`, `tr`, `gr`, and `az`.
 - Add unit coverage for feature-search normalization, all-locale keyword groups, translated-key enrichment, and route matching, plus browser coverage for desktop/mobile popup interaction, when test infrastructure is introduced.
 - Add integration coverage for image-generation payloads, upload limits, `clientContext` notification correlation, and successful result-modal rendering when test infrastructure is introduced.
 - Add component/browser coverage for pending image/video generation cards, immediate return to the matching library, concurrent `clientContext` replacement, and failure-card removal when a UI test harness is introduced.

@@ -3422,5 +3422,11 @@ export default {
     No: "خیر",
 
     // #endregion Notification Section
+    how: "چگونه",
+    messagesetting_ConnectProductResponseExplain: "محصول خود را به Story یا Live متصل کنید.",
+    economy: "اقتصادی",
+    Retry: "تلاش مجدد",
+    messagesetting_SpecifyProductResponseExplain:
+      "پاسخ مربوط به محصول خود را مشخص کنید تا به‌صورت خودکار برای کاربران ارسال شود.",
   },
 };

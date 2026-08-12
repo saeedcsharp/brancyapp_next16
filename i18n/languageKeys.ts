@@ -3069,7 +3069,7 @@ export enum LanguageKey {
   integrations = "integrations",
   integrationsDesc = "integrationsDesc",
   analytics = "analytics",
-  analyticsDesc = "analyticsDesc",
+
   // #endregion
 
   pageSummary = "pageSummary",
@@ -3083,4 +3083,10 @@ export enum LanguageKey {
   // 1️⃣ Home -> cards
 
   // #endregion Notification Section
+  AIFlow_weblink_validation_error_alert = "AIFlow_weblink_validation_error_alert",
+  New_Flow_Tutorials_onmessage_connection_7 = "New_Flow_Tutorials_onmessage_connection_7",
+  New_Flow_Tutorials_genericitem_connection_7 = "New_Flow_Tutorials_genericitem_connection_7",
+  papageTools_Lottery = "papageTools_Lottery",
+  Notify_InvalidBankCardNotify_InvalidBankCardNumber = "Notify_InvalidBankCardNotify_InvalidBankCardNumber",
+  analyticsDesc = "analyticsDesc",
 }

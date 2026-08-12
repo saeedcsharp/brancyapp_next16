@@ -3479,5 +3479,14 @@ export default {
     Yes: "Да",
     No: "Нет",
     // #endregion Notification Section
+    how: "Как",
+    SharedRemainingTimeBefore: "Перед повторной публикацией необходимо подождать 24 часа.",
+    messagesetting_ConnectProductResponseExplain: "Подключите свой продукт к Story или Live.",
+    marketProperties_Connect: "Подключить",
+    economy: "Экономичный",
+    pageStatistics_RePosts: "Репосты",
+    Retry: "Повторить",
+    messagesetting_SpecifyProductResponseExplain:
+      "Укажите ответ для вашего продукта, чтобы он автоматически отправлялся пользователям.",
   },
 };

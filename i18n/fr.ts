@@ -3532,5 +3532,14 @@ export default {
     Yes: "Oui",
     No: "Non",
     // #endregion Notification Section
+    how: "Comment",
+    SharedRemainingTimeBefore: "Vous devez attendre 24 heures avant de partager à nouveau.",
+    messagesetting_ConnectProductResponseExplain: "Connectez votre produit à la Story ou au Live.",
+    marketProperties_Connect: "Connecter",
+    economy: "Économique",
+    Retry: "Réessayer",
+    SettingGeneralProfileTitle: "Profil",
+    messagesetting_SpecifyProductResponseExplain:
+      "Définissez votre réponse concernant le produit afin qu’elle soit automatiquement envoyée aux utilisateurs.",
   },
 };

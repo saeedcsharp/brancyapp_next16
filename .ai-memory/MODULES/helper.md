@@ -84,6 +84,8 @@ React hooks are present when named `use*` functions/files exist.
 
 Utility functions live in local files where applicable.
 
+`counterDownHelper.ts` calculates link countdowns from Unix timestamps in seconds. It separates durations into days, hours, minutes, and seconds; `formatTime` includes the day segment only when it is non-zero.
+
 ## Services
 
 Service integration happens through helper APIs or route handlers when applicable.
@@ -166,7 +168,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-08-01
+2026-08-12
 
 ---
 

@@ -18,7 +18,10 @@ const Timeline = (props: { data: ITimeline | null }) => {
           id="timeline"
           className={styles.all}
           style={{ backgroundColor: "var(--color-dark-blue10)" }}>
-          <div className={styles.header} onClick={toggleContentVisibility}>
+          <div
+            className={styles.header}
+            // onClick={toggleContentVisibility}
+          >
             <div className={`${styles.squre} ${!isContentVisible ? styles.closed : ""}`}></div>
             <div className={styles.headertext}>
               our
