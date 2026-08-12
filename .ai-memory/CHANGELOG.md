@@ -2,6 +2,7 @@
 
 ## 2026-08-12
 
+- Updated the AI page's initial library load to show the shared full-page `Loading` component until the selected image or video history API completes; the initial request now follows the deep-linked library type.
 - Added optional `/page/ai?type=1|2` deep-linking: `type=1` opens the image library and `type=2` opens the video library after the legacy router is ready.
 - Completed localization of the active AI image/video workspace across all eight supported locales, including creator states, prompts, usage messages, result metadata values, notifications, and page metadata.
 - Hardened generated-video thumbnail fallback so null, empty, or whitespace `imageUrl` values use `/cover-video.svg` in both library cards and the video detail modal.

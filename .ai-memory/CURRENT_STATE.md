@@ -57,6 +57,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 - The AI library supports optional deep links: the App Router wrapper reads `/page/ai?type=1` or `/page/ai?type=2` with `useSearchParams` and passes the selected tab into the legacy page. Missing or unsupported values preserve the default image tab.
 
+- The AI page displays the shared full-page `Loading` component during the initial selected-library request. `type=2` starts with the video history request, while `type=1` and the default start with the image history request; the loader is not used for pagination or creator interactions.
+
 - Replaced Market Properties selected-product check indicators with numeric badges that show each product's one-based position in the ordered array sent to the bio-product update endpoint.
 
 - Corrected the user sidebar active indicator positions after removing wallet: ticket now aligns with the messaging item and setting aligns with the setting item.

@@ -11,6 +11,7 @@ import GeneratedImageModal from "brancy/components/page/ai/generatedImageModal";
 import GeneratedVideoModal from "brancy/components/page/ai/generatedVideoModal";
 import ImageList from "brancy/components/page/ai/imageList";
 import VideoList from "brancy/components/page/ai/videoList";
+import Loading from "brancy/components/notOk/loading";
 import { MethodType } from "brancy/helper/api";
 import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
@@ -61,7 +62,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
       router.push("/");
     },
   });
-  const [activeTab, setActiveTab] = useState<MediaTab>("image");
+  const [activeTab, setActiveTab] = useState<MediaTab>(initialType === "2" ? "video" : "image");
   const [images, setImages] = useState<IGetMedia[]>([]);
   const [nextMaxId, setNextMaxId] = useState<string | null>(null);
   const [videos, setVideos] = useState<IGetMedia[]>([]);
@@ -76,6 +77,8 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
   const [error, setError] = useState("");
   const [pendingGenerations, setPendingGenerations] = useState<PendingGeneration[]>([]);
   const pendingGenerationsRef = useRef<PendingGeneration[]>([]);
+  const initialLibrary = initialType === "2" ? "video" : "image";
+  const [initialLibraryLoading, setInitialLibraryLoading] = useState(true);
 
   const fetchImages = useCallback(
     async (cursor: string | null): Promise<IGetMedia[]> => {
@@ -203,12 +206,8 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
   };
 
   useEffect(() => {
-    if (initialType === "1") {
-      setActiveTab("image");
-      return;
-    }
-    if (initialType === "2") {
-      setActiveTab("video");
+    if (initialType) {
+      setActiveTab(initialLibrary);
       return;
     }
     if (!router.isReady) return;
@@ -220,7 +219,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     } else if (type === "2") {
       setActiveTab("video");
     }
-  }, [initialType, router.isReady, router.query?.type]);
+  }, [initialLibrary, initialType, router.isReady, router.query?.type]);
 
   useEffect(() => {
     if (!session) return;
@@ -232,14 +231,17 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
       router.push("/");
       return;
     }
-    if (loadedImages) return;
+    if (activeTab !== "image" || loadedImages) return;
 
     setLoadedImages(true);
     setLoading(true);
     fetchImages(null)
       .then(setImages)
-      .finally(() => setLoading(false));
-  }, [fetchImages, loadedImages, session]);
+      .finally(() => {
+        setLoading(false);
+        setInitialLibraryLoading(false);
+      });
+  }, [activeTab, fetchImages, loadedImages, session]);
 
   useEffect(() => {
     if (!session || activeTab !== "video" || loadedVideos) return;
@@ -248,7 +250,10 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     setLoading(true);
     fetchVideos(null)
       .then(setVideos)
-      .finally(() => setLoading(false));
+      .finally(() => {
+        setLoading(false);
+        setInitialLibraryLoading(false);
+      });
   }, [activeTab, fetchVideos, loadedVideos, session]);
 
   const fetchMoreImages = useCallback(() => fetchImages(nextMaxId), [fetchImages, nextMaxId]);
@@ -371,6 +376,10 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
       }
     };
   }, [handleGetNotif]);
+  if ((activeTab === "image" || activeTab === "video") && initialLibraryLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <Head>
