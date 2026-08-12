@@ -2,7 +2,7 @@
 
 ## Pending Documentation Tasks
 
-- Add component/browser coverage for store coupon loading, `isActive`/`isPrivate` filtering, slider `onReachEnd`/`nextMaxId` pagination, duplicate prevention, creation validation, API errors, `showInBio` updates, statistics-grid width alignment, two-items-per-slide behavior, and mobile/RTL presentation when a UI test harness is introduced.
+- Add component/browser coverage for store coupon loading, `isActive`/`isPrivate` filtering, slider `onReachEnd`/`nextMaxId` pagination, duplicate prevention, creation validation, API errors, `showInBio` updates, statistics-grid width alignment, one-item-per-slide behavior, and mobile/RTL presentation when a UI test harness is introduced.
 
 - Add browser coverage confirming the user wallet item is absent from desktop and mobile user navigation while the direct user wallet route remains available when a UI test harness is introduced.
 
