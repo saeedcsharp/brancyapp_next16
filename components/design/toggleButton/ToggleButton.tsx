@@ -26,7 +26,7 @@ const ToggleButton = ({
   };
   return (
     <div
-      className={`${styles.toggleGroup} ${className}`}
+      className={`translate ${styles.toggleGroup} ${className}`}
       role="group"
       aria-label={ariaLabel}
       style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))` }}>
@@ -35,7 +35,11 @@ const ToggleButton = ({
         aria-hidden="true"
         style={{
           width: `calc((100% - 10px - ${Math.max(options.length - 1, 0) * 2}px) / ${options.length})`,
-          transform: `translateX(calc(${activeOptionIndex * (direction === "rtl" ? -100 : 100)}% + ${indicatorGapOffset}px))`,
+          transform: `translateX(calc(${
+            activeOptionIndex *
+            // direction === "rtl" ? -100 :
+            100
+          }% + ${indicatorGapOffset}px))`,
         }}
       />
       {options.map((option) => (
