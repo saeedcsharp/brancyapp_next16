@@ -35,6 +35,8 @@ The shared creator submit handler sends image requests to `/api/mediaai/CreateIm
 When a create request starts, the page returns to the matching image or video library and renders a pending card keyed by `clientContext` before waiting for the API response, preventing fast SignalR results from being missed. Failed API requests roll the card back. The pending card is replaced by the matching SignalR success result, or removed when a matching failure notification arrives; multiple concurrent generations are supported.
 The shared creator component uses media-neutral submit/loading props and switches its empty/error states, model label, prompt guidance, token-check text, and submit label for image or video mode. Video creator retry requests `GetVideoCreators`.
 
+The `/page/ai` controller localizes its page metadata and generation request/failure notifications through the active i18next locale, while the shared creator and result components provide the remaining AI workspace translations.
+
 ## Dependencies
 
 See imports in related files and dependency docs.

@@ -69,6 +69,8 @@ React components are present when the folder contains `.tsx` UI files.
 `components/page/ai/VideoList.tsx` now renders clickable thumbnail cards instead of inline playback. Each card uses the media `imageUrl` preview when available, or `/cover-video.svg` as a fallback, and opens the page-owned generated-video modal for playback and details.
 `components/page/ai/ImageList.tsx` and `VideoList.tsx` also render non-interactive pending-generation cards with a loader and prompt while the page waits for a matching MediaAi SignalR notification.
 
+The active AI components use direct i18next keys for visible creator, library, modal, upload, accessibility, metadata fallback, and pending-generation text. `parseImageMetadata` accepts an optional translator so shared history cards and result modals render boolean and null metadata values in the active locale.
+
 ## Hooks
 
 React hooks are present when named `use*` functions/files exist.

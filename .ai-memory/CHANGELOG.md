@@ -2,6 +2,7 @@
 
 ## 2026-08-12
 
+- Completed localization of the active AI image/video workspace across all eight supported locales, including creator states, prompts, usage messages, result metadata values, notifications, and page metadata.
 - Hardened generated-video thumbnail fallback so null, empty, or whitespace `imageUrl` values use `/cover-video.svg` in both library cards and the video detail modal.
 - Added pending image/video generation cards to `/page/ai`: successful create requests return to the matching library immediately, and each loading card is replaced or removed by its correlated SignalR result.
 

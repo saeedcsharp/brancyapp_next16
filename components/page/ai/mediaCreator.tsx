@@ -86,6 +86,7 @@ function FileInput({
   const [uploading, setUploading] = useState(false);
   const [uploadProgress, setUploadProgress] = useState(0);
   const [previews, setPreviews] = useState<UploadedMediaPreview[]>([]);
+  const { t } = useTranslation();
   const isVideo = Number(input.inputType) === InputType.VideoArray;
   const accept = input.fileTypes?.map((type) => `.${type}`).join(",") || (isVideo ? "video/*" : "image/*");
   const maximum = input.maxArrayLength || 1;
@@ -133,10 +134,14 @@ function FileInput({
       <label className={styles.uploadBox}>
         <span className={styles.uploadIcon}>{isVideo ? "▶" : "+"}</span>
         <span className={styles.uploadTitle}>
-          {uploading ? `Uploading ${uploadProgress}%` : isVideo ? "Add video" : "Add reference image"}
+          {uploading
+            ? t("Uploading {percent}%", { percent: uploadProgress })
+            : isVideo
+              ? t("Add video")
+              : t("Add reference image")}
         </span>
         <span className={styles.hint}>
-          {value.length} / {maximum} {input.fileTypes?.join(", ") || (isVideo ? "video" : "image")}
+          {value.length} / {maximum} {input.fileTypes?.join(", ") || (isVideo ? t("video") : t("image"))}
         </span>
         {uploading && (
           <span className={styles.uploadProgress}>
@@ -375,8 +380,8 @@ export default function MediaCreator({
         <p>
           {t(
             isVideoCreator
-              ? "There are no video generation models available for this account."
-              : "There are no image generation models available for this account.",
+              ? t("There are no video generation models available for this account.")
+              : t("There are no image generation models available for this account."),
           )}
         </p>
       </main>
@@ -447,13 +452,13 @@ export default function MediaCreator({
       </div>
       <header className={styles.header}>
         <div>
-          <span className={styles.eyebrow}>AI studio</span>
+          <span className={styles.eyebrow}>{t("AI studio")}</span>
           <h1>{activeTab === "createimage" ? t("Create an image") : t("Create a video")}</h1>
           <p>
             {t(
               isVideoCreator
-                ? "Choose a model, tune its settings, and describe the video you want."
-                : "Choose a model, tune its settings, and describe the image you want.",
+                ? t("Choose a model, tune its settings, and describe the video you want.")
+                : t("Choose a model, tune its settings, and describe the image you want."),
             )}
           </p>
         </div>
@@ -485,7 +490,7 @@ export default function MediaCreator({
                   <span className={styles.creatorText}>
                     <strong>{item.displayName}</strong>
                     <small>
-                      {item.inputModels.length} {item.inputModels.length === 1 ? "model" : "models"}
+                      {item.inputModels.length} {item.inputModels.length === 1 ? t("model") : t("models")}
                     </small>
                   </span>
                   <span className={styles.creatorCheck} aria-hidden="true">
@@ -499,7 +504,7 @@ export default function MediaCreator({
       )}
 
       <div className={styles.workspace}>
-        <section className={styles.modelPanel} aria-label={isVideoCreator ? "Video models" : "Image models"}>
+        <section className={styles.modelPanel} aria-label={isVideoCreator ? t("Video models") : t("Image models")}>
           <div className={styles.sectionHeading}>
             <span className={styles.step}>1</span>
             <div>
@@ -521,7 +526,7 @@ export default function MediaCreator({
                   <strong>{item.displayName ?? item.name}</strong>
                   <small>{item.name}</small>
                 </span>
-                <span className={styles.cost} aria-label={`Cost level ${item.expensiveType + 1}`}>
+                <span className={styles.cost} aria-label={t("Cost level {level}", { level: item.expensiveType + 1 })}>
                   {"$".repeat(item.expensiveType + 1)}
                 </span>
               </button>
@@ -621,7 +626,7 @@ export default function MediaCreator({
               {createMediaLoading ? (
                 <RingLoader />
               ) : usageLoading ? (
-                "Calculating..."
+                t("Calculating...")
               ) : tokenUsage === null ? (
                 t("Check usage")
               ) : (

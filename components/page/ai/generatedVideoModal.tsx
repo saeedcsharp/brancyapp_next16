@@ -1,6 +1,7 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { DownloadImage } from "brancy/helper/DownloadImage";
 import { IGetMedia } from "brancy/models/interfaces";
+import { useTranslation } from "react-i18next";
 import { parseImageMetadata } from "./generatedImageModal";
 import styles from "./mediaCreator.module.css";
 
@@ -12,19 +13,20 @@ interface GeneratedVideoModalProps {
 const DEFAULT_VIDEO_THUMBNAIL = "/cover-video.svg";
 
 export default function GeneratedVideoModal({ video, onClose }: GeneratedVideoModalProps) {
+  const { t } = useTranslation();
   const videoUrl = video.videoUrl ? getClientMediaBaseUrl() + video.videoUrl : null;
   const videoFileName = video.videoUrl?.split("/").pop()?.split("?")[0] || `generated-video-${video.id}.mp4`;
   const previewImageUrl = video.imageUrl?.trim() ? getClientMediaBaseUrl() + video.imageUrl : DEFAULT_VIDEO_THUMBNAIL;
-  const metadataItems = video.metadata ? parseImageMetadata(video.metadata) : null;
+  const metadataItems = video.metadata ? parseImageMetadata(video.metadata, t) : null;
 
   return (
     <article className={styles.resultModal}>
       <header className={styles.resultHeader}>
         <div>
-          <span className={styles.resultEyebrow}>AI video ready</span>
-          <h2 id="modal-title">Generated video</h2>
+          <span className={styles.resultEyebrow}>{t("AI video ready")}</span>
+          <h2 id="modal-title">{t("Generated video")}</h2>
         </div>
-        <button className={styles.resultClose} type="button" aria-label="Close" onClick={onClose}>
+        <button className={styles.resultClose} type="button" aria-label={t("Close")} onClick={onClose}>
           ×
         </button>
       </header>
@@ -33,22 +35,22 @@ export default function GeneratedVideoModal({ video, onClose }: GeneratedVideoMo
         <div className={styles.resultPreview}>
           {videoUrl ? (
             <video controls preload="metadata" src={videoUrl} poster={previewImageUrl}>
-              Your browser does not support video playback.
+              {t("Your browser does not support video playback.")}
             </video>
           ) : (
-            <img src={previewImageUrl} alt={video.prompt || "Generated AI video preview"} />
+            <img src={previewImageUrl} alt={video.prompt || t("Generated AI video preview")} />
           )}
         </div>
 
         <div className={styles.resultDetails}>
           <section className={styles.resultSection}>
-            <span>Prompt</span>
-            <p>{video.prompt || "—"}</p>
+            <span>{t("Prompt")}</span>
+            <p>{video.prompt || t("Not available")}</p>
           </section>
 
           {video.metadata && (
             <section className={styles.resultSection}>
-              <span>Metadata</span>
+              <span>{t("Metadata")}</span>
               {metadataItems?.length ? (
                 <dl className={styles.metadataGrid}>
                   {metadataItems.map((item) => (
@@ -66,24 +68,24 @@ export default function GeneratedVideoModal({ video, onClose }: GeneratedVideoMo
 
           <dl className={styles.resultGrid}>
             <div>
-              <dt>Creator</dt>
+              <dt>{t("Creator")}</dt>
               <dd>{video.creatorKey}</dd>
             </div>
             <div>
-              <dt>Version</dt>
+              <dt>{t("Version")}</dt>
               <dd>{video.version}</dd>
             </div>
             <div>
-              <dt>Status</dt>
+              <dt>{t("Status")}</dt>
               <dd>{video.status}</dd>
             </div>
             <div>
-              <dt>Video ID</dt>
+              <dt>{t("Video ID")}</dt>
               <dd>{video.id}</dd>
             </div>
             {video.jobId && (
               <div className={styles.resultWideDetail}>
-                <dt>Job ID</dt>
+                <dt>{t("Job ID")}</dt>
                 <dd>{video.jobId}</dd>
               </div>
             )}
@@ -97,7 +99,7 @@ export default function GeneratedVideoModal({ video, onClose }: GeneratedVideoMo
               if (!videoUrl) return;
               DownloadImage(videoUrl, videoFileName);
             }}>
-            Download video
+            {t("Download video")}
           </button>
         </div>
       </div>

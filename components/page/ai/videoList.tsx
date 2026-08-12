@@ -39,7 +39,7 @@ export default function VideoList({
   const { t } = useTranslation();
   const pendingVideos = pendingGenerations.filter((item) => item.mediaType === "video");
   return (
-    <section className={styles.library} aria-label="Generated videos">
+    <section className={styles.library} aria-label={t("Generated videos")}>
       <div className={styles.libraryHeading}>
         <div>
           <h2>{t("Video library")}</h2>
@@ -70,7 +70,7 @@ export default function VideoList({
             </article>
           ))}
           {videos.map((video) => {
-            const metadata = video.metadata ? parseImageMetadata(video.metadata) : null;
+            const metadata = video.metadata ? parseImageMetadata(video.metadata, t) : null;
             const previewUrl = video.imageUrl?.trim()
               ? getClientMediaBaseUrl() + video.imageUrl
               : DEFAULT_VIDEO_THUMBNAIL;

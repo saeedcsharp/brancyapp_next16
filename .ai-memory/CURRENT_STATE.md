@@ -53,6 +53,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 - AI image and video creation now returns to the matching library immediately after request submission, shows one loading card per pending `clientContext`, and replaces or removes each card when its correlated SignalR success or failure notification arrives. Concurrent generations remain independently tracked.
 
+- The active AI workspace is localized across all eight supported locales. Creator states, model guidance, prompt validation, token usage actions, result metadata fallback values, request notifications, and the page description use the active i18next locale.
+
 - Replaced Market Properties selected-product check indicators with numeric badges that show each product's one-based position in the ordered array sent to the bio-product update endpoint.
 
 - Corrected the user sidebar active indicator positions after removing wallet: ticket now aligns with the messaging item and setting aligns with the setting item.

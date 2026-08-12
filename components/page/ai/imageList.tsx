@@ -35,7 +35,7 @@ export default function ImageList({
   const { t } = useTranslation();
   const pendingImages = pendingGenerations.filter((item) => item.mediaType === "image");
   return (
-    <section className={styles.library} aria-label="Generated images">
+    <section className={styles.library} aria-label={t("Generated images")}>
       <div className={styles.libraryHeading}>
         <div>
           <h2>{t("Image library")}</h2>
@@ -66,19 +66,19 @@ export default function ImageList({
             </article>
           ))}
           {images.map((image) => {
-            const metadata = image.metadata ? parseImageMetadata(image.metadata) : null;
+            const metadata = image.metadata ? parseImageMetadata(image.metadata, t) : null;
             return (
               <article className={styles.imageCard} key={image.id}>
                 <button className={styles.imagePreview} type="button" onClick={() => setSelectedImage(image)}>
-                  <img src={getClientMediaBaseUrl() + image.imageUrl} alt={image.prompt || "Generated image"} />
-                  <span>View details</span>
+                  <img src={getClientMediaBaseUrl() + image.imageUrl} alt={image.prompt || t("Generated image")} />
+                  <span>{t("View details")}</span>
                 </button>
                 <div className={styles.imageInfo}>
                   <div className={styles.imageMetaLine}>
                     <span>{image.creatorKey}</span>
                     <time>{formatCreatedTime(image.createdTime)}</time>
                   </div>
-                  <h3>{image.prompt || "Untitled generation"}</h3>
+                  <h3>{image.prompt || t("Untitled generation")}</h3>
                   <p>{image.version}</p>
                   {metadata?.length ? (
                     <dl className={styles.cardMetadata}>

@@ -168,7 +168,7 @@ export default function PageAI() {
     internalNotify(
       InternalResponseType.Success,
       NotifType.Success,
-      activeTab === "createvideo" ? "Video generation request sent." : "Image generation request sent.",
+      activeTab === "createvideo" ? t("Video generation request sent.") : t("Image generation request sent."),
     );
   };
   const loadCreators = async () => {
@@ -315,7 +315,7 @@ export default function PageAI() {
         internalNotify(
           InternalResponseType.InvalidMetaData,
           NotifType.Warning,
-          generatedImage.metadata || ", Image generation failed.",
+          generatedImage.metadata || t(", Image generation failed."),
         );
       }
     } catch (error) {
@@ -354,7 +354,7 @@ export default function PageAI() {
     <>
       <Head>
         <title>Bran.cy ▸ {t(LanguageKey.navbar_AI)}</title>
-        <meta name="description" content="Create and manage AI-generated images and videos." />
+        <meta name="description" content={t("Create and manage AI-generated images and videos.")} />
       </Head>
       <main className={styles.aiWorkspace} ref={containerRef}>
         {(activeTab === "image" || activeTab === "video") && (
