@@ -1,5 +1,6 @@
 - Refined the store statistics coupon manager presentation with elevated coupon cards, clearer status badges, metadata chips, responsive mobile stacking, and reduced-motion support.
 - Added coupon edit mode: the three-dot action opens the shared modal with existing values, keeps code/discount/phone/max-discount read-only, and saves expiry, max uses, and bio visibility through `Shopper/Coupon/UpdateCoupon` with `couponId`.
+- Coupon bio visibility toggles now activate through `Shopper/Coupon/ActivateCoupon` or remove through `Shopper/Coupon/DeleteCoupon`, sending only `couponId`.
 - Fixed the coupon edit action bubbling into the collapsible card header, which prevented the edit modal from opening reliably.
 - Separated coupon editing into `UpdateCouponModal`; `CreateCouponModal` is create-only, and the Statistics page mounts the update form inside its own shared `Modal`.
 - Aligned the coupon manager card width and horizontal spacing with the other cards in the shared statistics grid on desktop and mobile.

@@ -60,72 +60,95 @@ const UpdateCouponModal = ({ coupon, closePopup, onUpdate }: UpdateCouponModalPr
   ) : (
     <form className={styles.form} onSubmit={handleSubmit}>
       <div className={styles.header}>
-        <h2 id="modal-title">{t(LanguageKey.save)}</h2>
-        <button className={styles.closeButton} type="button" onClick={handleClose} aria-label={t(LanguageKey.close)}>
-          <img src="/iconbox-close.svg" alt="" aria-hidden="true" />
-        </button>
+        <h2 id="modal-title">{t(LanguageKey.update)}</h2>
       </div>
       <div className={styles.fields}>
-        <InputText
-          className="textinputbox"
-          value={coupon.code}
-          handleInputChange={() => {}}
-          placeHolder={t(LanguageKey.storestatistics_couponCode)}
-          disabled
-        />
-        <InputText
-          className="textinputbox"
-          value={String(coupon.discount || "")}
-          handleInputChange={() => {}}
-          placeHolder={t(LanguageKey.storestatistics_discountPercent)}
-          numberType
-          inputMode="numeric"
-          disabled
-        />
-        <InputText
-          className="textinputbox"
-          value={String(maxCount || "")}
-          handleInputChange={(event) => setMaxCount(Number(event.target.value) || 0)}
-          placeHolder={t(LanguageKey.storestatistics_maxUses)}
-          numberType
-          inputMode="numeric"
-        />
-        <InputText
-          className="textinputbox"
-          value={coupon.phoneNumber || "-"}
-          handleInputChange={() => {}}
-          placeHolder={t(LanguageKey.storestatistics_phoneNumber)}
-          inputMode="tel"
-          disabled
-        />
-        <InputText
-          className="textinputbox"
-          value={coupon.maxDiscount === null ? "" : String(coupon.maxDiscount)}
-          handleInputChange={() => {}}
-          placeHolder={t(LanguageKey.storestatistics_maxDiscountOptional)}
-          numberType
-          inputMode="numeric"
-          disabled
-        />
-        <button className={styles.dateButton} type="button" onClick={() => setShowDatePicker(true)}>
-          <span>
-            {expireTime ? new Date(expireTime * 1000).toLocaleString() : t(LanguageKey.storestatistics_couponExpiry)}
-          </span>
-          <img src="/selectDate-item.svg" alt="" aria-hidden="true" />
-        </button>
-        <label className={styles.visibilityControl}>
-          {t(LanguageKey.storestatistics_showInBio)}
+        <div className={styles.visibilityControl}>
+          <span>{t(LanguageKey.storestatistics_showInBio)}</span>
           <SwitchButton
             name={`update-coupon-${coupon.couponId}-show-in-bio`}
             checked={showInBio}
             handleToggle={(event) => setShowInBio(event.target.checked)}
             role="switch"
           />
-        </label>
+        </div>
+        <div className="headerandinput">
+          <div className="headertext">{t(LanguageKey.storestatistics_couponExpiry)}</div>
+          <div className="headerparent">
+            <button className={styles.dateButton} type="button" onClick={() => setShowDatePicker(true)}>
+              <span>
+                {expireTime
+                  ? new Date(expireTime * 1000).toLocaleString()
+                  : t(LanguageKey.storestatistics_couponExpiry)}
+              </span>
+              <img src="/selectDate-item.svg" alt="" aria-hidden="true" />
+            </button>
+          </div>
+        </div>
+        <div className="headerandinput">
+          <div className="headertext">{t(LanguageKey.storestatistics_couponCode)}</div>
+          <div className="headerparent">
+            <InputText className="textinputbox" value={coupon.code} handleInputChange={() => {}} disabled />
+          </div>
+        </div>
+        <div className="headerandinput">
+          <div className="headertext">{t(LanguageKey.storestatistics_discountPercent)}</div>
+          <div className="headerparent">
+            <InputText
+              className="textinputbox"
+              value={String(coupon.discount || "")}
+              handleInputChange={() => {}}
+              numberType
+              inputMode="numeric"
+              disabled
+            />
+          </div>
+        </div>
+        <div className="headerandinput">
+          <div className="headertext">{t(LanguageKey.storestatistics_maxUses)}</div>
+          <div className="headerparent">
+            <InputText
+              className="textinputbox"
+              value={String(maxCount || "")}
+              handleInputChange={(event) => setMaxCount(Number(event.target.value) || 0)}
+              numberType
+              inputMode="numeric"
+            />
+          </div>
+        </div>
+        <div className="headerandinput">
+          <div className="headertext">{t(LanguageKey.storestatistics_phoneNumber)}</div>
+          <div className="headerparent">
+            <InputText
+              className="textinputbox"
+              value={coupon.phoneNumber || "-"}
+              handleInputChange={() => {}}
+              disabled
+            />
+          </div>
+        </div>
+        <div className="headerandinput">
+          <div className="headertext">{t(LanguageKey.storestatistics_maxDiscountOptional)}</div>
+          <div className="headerparent">
+            <InputText
+              className="textinputbox"
+              value={coupon.maxDiscount === null ? "" : String(coupon.maxDiscount)}
+              handleInputChange={() => {}}
+              numberType
+              inputMode="numeric"
+              disabled
+            />
+          </div>
+        </div>
       </div>
-      <button className="saveButton" type="submit" disabled={isUpdating || !expireTime}>
-        {isUpdating ? <RingLoader /> : t(LanguageKey.save)}
-      </button>
+      <div className="ButtonContainer">
+        <button onClick={() => setShowDatePicker(false)} className="cancelButton">
+          {t(LanguageKey.cancel)}
+        </button>
+        <button className="saveButton" type="submit" disabled={isUpdating || !expireTime}>
+          {isUpdating ? <RingLoader /> : t(LanguageKey.save)}
+        </button>
+      </div>
     </form>
   );
 };

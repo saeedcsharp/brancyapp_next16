@@ -153,18 +153,14 @@ const CouponManager = ({
                           className={`${styles.status} ${expired || exhausted || coupon.isDeleted ? styles.inactive : ""}`}>
                           {coupon.isDeleted
                             ? t(LanguageKey.storestatistics_couponDeleted)
-                            : expired
-                              ? t(LanguageKey.storestatistics_couponExpired)
-                              : exhausted
-                                ? t(LanguageKey.storestatistics_couponExhausted)
-                                : t(LanguageKey.storestatistics_couponActive)}
+                            : t(LanguageKey.storestatistics_couponActive)}
                         </span>
                         <span className={styles.activationControl}>
                           {t(LanguageKey.active)}
                           <SwitchButton
                             name={`coupon-${coupon.couponId}-show-in-bio`}
-                            checked={coupon.showInBio}
-                            handleToggle={(event) => onVisibilityChange(coupon, event.target.checked)}
+                            checked={!coupon.isDeleted}
+                            handleToggle={(event) => onVisibilityChange(coupon, !event.target.checked)}
                             disabled={updatingCouponId === coupon.couponId}
                             role="switch"
                           />

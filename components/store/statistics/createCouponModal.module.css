@@ -2,7 +2,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--gap-20);
-  padding: var(--paddingbox);
+  min-height: 100%;
 }
 
 .header {
@@ -37,10 +37,10 @@
 }
 
 .fields {
-  display: grid;
-  grid-template-columns: minmax(0, 1fr);
-  gap: var(--gap-10);
-  align-items: center;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-15);
+  flex: 1;
 }
 
 .dateButton {
@@ -73,4 +73,8 @@
   gap: var(--gap-10);
   color: var(--text-h2);
   font-size: var(--font-14);
+}
+
+.form > .ButtonContainer {
+  margin-top: auto;
 }

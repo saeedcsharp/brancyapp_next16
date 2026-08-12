@@ -155,19 +155,19 @@ const Statistics = () => {
     await loadCoupons();
     return true;
   }
-  async function handleCouponVisibilityChange(coupon: IUserCoupon, showInBio: boolean) {
+  async function handleCouponVisibilityChange(coupon: IUserCoupon, isDelete: boolean) {
     if (!session) return;
     setUpdatingCouponId(coupon.couponId);
-    const response = await clientFetchApi<undefined, boolean>("/api/coupon/UpdateCoupon", {
-      session,
-      queries: [
-        { key: "couponId", value: String(coupon.couponId) },
-        { key: "showInBio", value: String(showInBio) },
-      ],
-    });
+    const response = await clientFetchApi<undefined, boolean>(
+      isDelete ? "/api/coupon/DeleteCoupon" : "/api/coupon/ActivateCoupon",
+      {
+        session,
+        queries: [{ key: "couponId", value: String(coupon.couponId) }],
+      },
+    );
     if (response.succeeded) {
       setCoupons((previous) =>
-        previous.map((item) => (item.couponId === coupon.couponId ? { ...item, showInBio } : item)),
+        previous.map((item) => (item.couponId === coupon.couponId ? { ...item, isDeleted: isDelete } : item)),
       );
     } else notify(response.info.responseType, NotifType.Warning);
     setUpdatingCouponId(null);
