@@ -1,6 +1,6 @@
 import { ChangeEvent, KeyboardEvent, useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import { InternalResponseType, NotifType, internalNotify } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./newHashtagList.module.css";
@@ -181,7 +181,7 @@ const NewHashtagList = (props: {
 
       <div className="headerandinput">
         <div className="headertext">{t(LanguageKey.pageToolspopup_Listname)}</div>
-        <InputText
+        <InputBox
           dangerOnEmpty
           name="listNameInput"
           className="textinputbox"
@@ -210,7 +210,7 @@ const NewHashtagList = (props: {
         </div>
         <div className="headerparent">
           <div style={{ width: "100%" }} ref={inputHashtagRef} className={isShaking ? styles.shake : ""}>
-            <InputText
+            <InputBox
               name="hashtagInput"
               className="textinputbox"
               handleInputChange={handleInputHashtagChange}

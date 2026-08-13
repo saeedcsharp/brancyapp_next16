@@ -4,7 +4,7 @@ import Head from "next/head";
 import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import IncrementStepper from "brancy/components/design/incrementStepper/incrementStepper";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
@@ -266,7 +266,7 @@ export default function LotteryPopup({
 
               <div className="explain">{t(LanguageKey.pageLottery_FilterKeywords)}</div>
               <div className={!isFilterEnabled ? "fadeDiv" : ""}>
-                <InputText
+                <InputBox
                   fadeTextArea={false}
                   name="Filter Keyword"
                   className={"textinputbox"}
@@ -325,7 +325,7 @@ export default function LotteryPopup({
               </div>
 
               <div className="headerparent">
-                <InputText
+                <InputBox
                   style={{
                     width: "100%",
                     backgroundColor: "var(--color-disable)",

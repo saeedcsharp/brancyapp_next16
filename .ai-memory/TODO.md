@@ -2,11 +2,15 @@
 
 ## Pending Documentation Tasks
 
+- Add browser coverage for the protected `/dev` destination chooser and `/dev/systemDesign` component-state interactions, including all `InputBox` models, RTL/mobile layout, portal components, charts, drag/drop, and modal behavior when a UI test harness is introduced.
+
 - For every future feature or option change, check and update the matching active or audit-only record in `/feature`; keep this rule enforced in implementation reviews.
 - Add browser/component coverage for `/feature` deferred search, role/category/access filtering, sort direction, expand/collapse ARIA state, translated search matching, audit-only separation, desktop/mobile layout, RTL, dark mode, and no-horizontal-overflow checks when a persistent UI test harness is introduced.
 - Add component/browser coverage for store coupon loading, `isActive`/`isPrivate` filtering, `nextMaxId` pagination, duplicate prevention, creation validation, API errors, `showInBio` updates, and mobile/RTL presentation when a UI test harness is introduced.
 
 - Add browser coverage confirming the user wallet item is absent from desktop and mobile user navigation while the direct user wallet route remains available when a UI test harness is introduced.
+
+- Add browser coverage confirming the General settings language controls hydrate without text mismatch and then reflect the stored language when a UI test harness is introduced.
 
 - Add unit coverage for link countdown formatting below 24 hours, at the 24-hour boundary, and across multiple days when a test harness is introduced.
 

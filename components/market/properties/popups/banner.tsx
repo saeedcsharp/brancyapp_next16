@@ -716,7 +716,7 @@ const Banner = memo((props: BannerProps) => {
                       aria-label={t(LanguageKey.custom)}
                     />
                     <div className={`${styles.input} ${!profileFullNameBanner.isActive && "fadeDiv"}`}>
-                      <InputText
+                      <InputBox
                         className="textinputbox"
                         placeHolder="User Name"
                         handleInputChange={(e) => {

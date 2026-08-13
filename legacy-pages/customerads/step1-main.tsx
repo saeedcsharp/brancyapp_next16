@@ -1,6 +1,6 @@
 import React, { ChangeEvent, useState } from "react";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RadioButton from "brancy/components/design/radioButton/radioButton";
 import styles from "./step2-cart.module.css";
 
@@ -441,7 +441,7 @@ const CustomerAds = () => {
             </div>
             <div className={styles.searchmobile}>
               <div className={styles.searchBar}>
-                <InputText
+                <InputBox
                   className={"serachMenuBar"}
                   placeHolder={"Search"}
                   maxLength={undefined}

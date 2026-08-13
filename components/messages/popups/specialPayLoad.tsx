@@ -4,7 +4,7 @@ import router from "next/router";
 import React, { ChangeEvent, useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import RadioButton from "brancy/components/design/radioButton/radioButton";
 import TextArea from "brancy/components/design/textArea/textArea";
@@ -719,7 +719,7 @@ const SpecialPayLoadComp = React.memo(
                   <div className={styles.optioncontainer}>
                     <div className="headerandinput">
                       <div className="headertext">{t(LanguageKey.messagesetting_ButtonTitle)}</div>
-                      <InputText
+                      <InputBox
                         dangerOnEmpty
                         className="textinputbox"
                         handleInputChange={(e) => setTitle(e.target.value)}
@@ -783,7 +783,7 @@ const SpecialPayLoadComp = React.memo(
                   <div className={styles.optioncontainer}>
                     <div className="headerandinput">
                       <div className="headertext">{t(LanguageKey.messagesetting_ButtonTitle)}</div>
-                      <InputText
+                      <InputBox
                         dangerOnEmpty
                         className="textinputbox"
                         handleInputChange={(e) => setTitle(e.target.value)}
@@ -861,7 +861,7 @@ const SpecialPayLoadComp = React.memo(
                   <div className={styles.optioncontainer}>
                     <div className="headerandinput">
                       <div className="headertext">{t(LanguageKey.messagesetting_ButtonTitle)}</div>
-                      <InputText
+                      <InputBox
                         dangerOnEmpty
                         className="textinputbox"
                         handleInputChange={(e) => setTitle(e.target.value)}
@@ -974,7 +974,7 @@ const SpecialPayLoadComp = React.memo(
                   <div className={styles.optioncontainer}>
                     <div className="headerandinput">
                       <div className="headertext">{t(LanguageKey.messagesetting_ButtonTitle)}</div>
-                      <InputText
+                      <InputBox
                         dangerOnEmpty
                         className="textinputbox"
                         handleInputChange={(e) => setTitle(e.target.value)}

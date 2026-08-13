@@ -3,7 +3,7 @@ import { ChangeEvent, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import AdsTypeComp from "brancy/components/advertise/adsType";
 import TimeTypeComp from "brancy/components/advertise/timeType";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
 import initialzedTime from "brancy/helper/manageTimer";
 import styles from "./progress.module.css";
@@ -170,7 +170,7 @@ function Payment(props: { customerAd: ICustomer }) {
             <div className="headerandinput">
               <div className={styles.coupontitle}>COUPON CODE</div>
               <div className={styles.couponbox}>
-                <InputText
+                <InputBox
                   className="textinputbox"
                   placeHolder="Insert Coupon"
                   handleInputChange={(e: ChangeEvent<HTMLInputElement>) => {

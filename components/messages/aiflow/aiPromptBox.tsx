@@ -1,5 +1,5 @@
 import AIButton from "brancy/components/design/ai/AIButton";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import RadioButton from "brancy/components/design/radioButton/radioButton";
 import TextArea from "brancy/components/design/textArea/textArea";
@@ -385,7 +385,7 @@ const AIPromptBox = ({
                       {detailedPrompt.title.length}/50
                     </div>
                   </div>
-                  <InputText
+                  <InputBox
                     id="prompt-title"
                     dangerOnEmpty
                     maxLength={50}

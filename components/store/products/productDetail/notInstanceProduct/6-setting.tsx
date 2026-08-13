@@ -3,7 +3,7 @@ import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
@@ -797,7 +797,7 @@ function Setting({
                             {
                               <div className={styles.inputandsub}>
                                 <div className={styles.subinput}>{t(LanguageKey.Storeproduct_gram)}</div>
-                                <InputText
+                                <InputBox
                                   name=""
                                   className={
                                     settingInfo.weight && settingInfo.weight < setting.maxSize?.limitBox.weight!
@@ -824,7 +824,7 @@ function Setting({
                               <div className="headertext">{t(LanguageKey.length)}</div>
                               <div className={styles.inputandsub}>
                                 <div className={styles.subinput}>CM</div>
-                                <InputText
+                                <InputBox
                                   name="length"
                                   className={
                                     settingInfo.productBox!.length > setting.maxSize?.limitBox.length! ||
@@ -848,7 +848,7 @@ function Setting({
                               <div className="headertext">{t(LanguageKey.width)}</div>
                               <div className={styles.inputandsub}>
                                 <div className={styles.subinput}>CM</div>
-                                <InputText
+                                <InputBox
                                   name="width"
                                   className={
                                     settingInfo.productBox!.width > setting.maxSize?.limitBox.width! ||
@@ -872,7 +872,7 @@ function Setting({
                               <div className="headertext">{t(LanguageKey.height)}</div>
                               <div className={styles.inputandsub}>
                                 <div className={styles.subinput}>CM</div>
-                                <InputText
+                                <InputBox
                                   name="height"
                                   className={
                                     settingInfo.productBox!.height > setting.maxSize?.limitBox.height! ||
@@ -937,7 +937,7 @@ function Setting({
                         {
                           <div className={styles.inputandsub}>
                             <div className={styles.subinput}>{t(LanguageKey.Storeproduct_gram)}</div>
-                            <InputText
+                            <InputBox
                               name=""
                               className={
                                 settingInfo.weight && settingInfo.weight < setting.maxSize?.maxEnvelopeWeight!
@@ -965,7 +965,7 @@ function Setting({
                         {
                           <div className={styles.inputandsub}>
                             <div className={styles.subinput}>{t(LanguageKey.Storeorder_quantityorder)}</div>
-                            <InputText
+                            <InputBox
                               name=""
                               className={
                                 settingInfo.envelopeAvailableCount && settingInfo.envelopeAvailableCount > 0

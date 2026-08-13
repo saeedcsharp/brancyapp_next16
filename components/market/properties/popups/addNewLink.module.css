@@ -249,7 +249,6 @@
   color: var(--text-h2);
 }
 .dateTime {
-  margin-top: 10px;
   position: relative;
   width: 100%;
   display: flex;

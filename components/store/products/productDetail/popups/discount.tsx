@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
 import IncrementStepper from "brancy/components/design/incrementStepper/incrementStepper"; // Import IncrementStepper
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import Modal from "brancy/components/design/modal";
 import RadioButton from "brancy/components/design/radioButton/radioButton";
 import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
@@ -121,7 +121,7 @@ const Discount = (props: {
               <div className="headertext">{t(LanguageKey.product_Amount)}</div>
               <div className="headerandinput">
                 <div className={styles.subinput}>%</div>
-                <InputText
+                <InputBox
                   name=""
                   className={parseFloat(amount) < 1 || parseFloat(amount) > 80 ? "danger" : "textinputbox"}
                   placeHolder={t(LanguageKey.pageToolspopup_typehere)}

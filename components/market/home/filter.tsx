@@ -1,7 +1,7 @@
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RadioButton from "brancy/components/design/radioButton/radioButton";
 import FollowerSlider from "brancy/components/design/sliders/followerSlider";
 import PriceSlider from "brancy/components/design/sliders/priceSlider";
@@ -283,7 +283,7 @@ function Filter(props: {
 
       {/* <div className={styles.sublogo}>Ads Campaign</div> */}
 
-      <InputText
+      <InputBox
         style={{ minHeight: "40px" }}
         className={"serachMenuBar"}
         handleInputChange={handleSearchPeopleInputChange}

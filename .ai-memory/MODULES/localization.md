@@ -27,6 +27,8 @@ Follows existing Next/React/TypeScript project conventions.
 
 Execution starts from imports, route rendering, or helper calls depending on the module.
 
+`i18n.ts` remains English-first for SSR. Components that mirror the stored browser language must initialize their render state to English and read `localStorage` only in an effect after hydration.
+
 ## Data Flow
 
 Data enters through props, Next route params, session state, browser state, or backend API responses.

@@ -6,7 +6,7 @@ import router from "next/router";
 import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { useTranslation } from "react-i18next";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
@@ -592,7 +592,7 @@ const ProductList = () => {
                       <div
                         className={`${styles.serachMenuBar} ${isSearchBarClosing ? styles.searchBarClosing : ""}`}
                         ref={searchBarRef}>
-                        <InputText
+                        <InputBox
                           className={"serachMenuBar"}
                           placeHolder={t(LanguageKey.search)}
                           handleInputChange={handleSearchProductInputChange}

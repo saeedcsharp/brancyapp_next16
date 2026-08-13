@@ -1,6 +1,6 @@
 "use client";
 import React from "react";
-import styles from "./test.module.css";
+import styles from "./package.module.css";
 
 // ============================================================
 //  DATA

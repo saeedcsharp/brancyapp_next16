@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import TextArea from "brancy/components/design/textArea/textArea";
 import styles from "./properties.module.css";
 import { IPropmt } from "brancy/models/interfaces";
@@ -43,7 +43,7 @@ function Prompt(props: { data: IPropmt; propmptNumber: number }) {
               ( <strong>{inputText.length}</strong> / <strong>100</strong> )
             </div>
           </div>
-          <InputText
+          <InputBox
             className="textinputbox"
             placeHolder="Income Message"
             handleInputChange={handleChangeInput}

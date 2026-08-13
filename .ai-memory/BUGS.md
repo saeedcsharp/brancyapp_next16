@@ -12,6 +12,8 @@ The stale-state `clientContext` mismatch in AI image generation was fixed on 202
 
 The customer shop sign-in flash on reload was fixed on 2026-08-10 by handling the NextAuth `loading` status separately from an unauthenticated session and moving the role redirect out of render.
 
+The General settings language radio hydration mismatch was fixed on 2026-08-12 by keeping the initial language state aligned with English-first i18n initialization and applying `localStorage` after mount.
+
 ## Watchlist
 
 - Bulk product saves issue one `/api/product/CreateSubProducts` request per selected product. The backend map exposes no atomic bulk-update endpoint, so a later request can fail after earlier products have already been updated; the UI reports the failed response and refreshes only after complete success.

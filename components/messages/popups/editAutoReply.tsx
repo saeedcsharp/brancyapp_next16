@@ -5,7 +5,7 @@ import React, { ChangeEvent, useCallback, useEffect, useId, useMemo, useReducer,
 import { useTranslation } from "react-i18next";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import RadioButton from "brancy/components/design/radioButton/radioButton";
 import TextArea from "brancy/components/design/textArea/textArea";
@@ -824,7 +824,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                 {/* title Section */}
                 <div className="headerandinput">
                   <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
-                  <InputText
+                  <InputBox
                     dangerOnEmpty
                     placeHolder={t(LanguageKey.pageToolspopup_typehere)}
                     className="textinputbox"
@@ -866,7 +866,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                     </div>
                   </div>
                   <div className="headerparent">
-                    <InputText
+                    <InputBox
                       fadeTextArea={false}
                       name="specific-keywords"
                       className={"textinputbox"}
@@ -970,7 +970,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                         {autoReply.prompt && (
                           <>
                             <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
-                            <InputText
+                            <InputBox
                               className={"textinputbox"}
                               handleInputChange={() => {}}
                               value={autoReply.prompt.title}
@@ -1061,7 +1061,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                         {autoReply.masterFlow && (
                           <>
                             <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
-                            <InputText
+                            <InputBox
                               className={"textinputbox"}
                               handleInputChange={() => {}}
                               value={autoReply.masterFlow.title}

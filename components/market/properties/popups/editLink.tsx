@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import Loading from "brancy/components/notOk/loading";
 import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
 import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
@@ -289,7 +289,7 @@ const Editlink = (props: { info: ILink; removeMask: () => void; handleUpdateLink
                 </div>
               </div>
 
-              <InputText
+              <InputBox
                 className="textinputbox"
                 placeHolder={""}
                 handleInputChange={handleInputChange}
@@ -310,7 +310,7 @@ const Editlink = (props: { info: ILink; removeMask: () => void; handleUpdateLink
                 </div>
               </div>
 
-              <InputText
+              <InputBox
                 className="textinputbox"
                 placeHolder={""}
                 handleInputChange={handleInputChange}
@@ -327,7 +327,7 @@ const Editlink = (props: { info: ILink; removeMask: () => void; handleUpdateLink
                 </label>
               </div>
               <div className="headerparent">
-                <InputText
+                <InputBox
                   className="textinputbox"
                   placeHolder={""}
                   handleInputChange={handleInputChange}

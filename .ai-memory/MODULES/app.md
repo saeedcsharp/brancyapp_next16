@@ -144,6 +144,8 @@ No module-specific env vars documented unless related files read them.
 
 `app/` contains 104 page files and 9 route handler files. See `MODULES/app-feature.md` for the `/feature` catalog route.
 
+The protected `/dev` route now presents two authenticated destinations: `/dev/package` for the dependency report and `/dev/systemDesign` for the local design-component test lab.
+
 ## Related Modules
 
 See `MODULE_INDEX.md`.

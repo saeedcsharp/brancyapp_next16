@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n/languageKeys";
 
@@ -49,7 +49,7 @@ const ReportModal: React.FC<ReportModalProps> = ({ report, setReport, onClose, o
       </div>
       <div className="headerandinput">
         <div className="title">{"title"}</div>
-        <InputText
+        <InputBox
           className={"textinputbox"}
           handleInputChange={(e: ChangeEvent<HTMLInputElement>) =>
             setReport((prev) => ({

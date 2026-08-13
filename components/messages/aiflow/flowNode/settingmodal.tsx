@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
@@ -142,7 +142,7 @@ export const SettingModal: React.FC<SettingModalProps> = ({
         <div className={styles.settingModal}>
           <div className="headerandinput">
             <div className="title">{t(LanguageKey.flowtitle)}</div>
-            <InputText
+            <InputBox
               id="flowtitle"
               name="flowtitle"
               className={"textinputbox"}

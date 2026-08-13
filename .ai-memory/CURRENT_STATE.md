@@ -57,6 +57,10 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Added a second authenticated `/dev` destination for `/dev/systemDesign`. The system design lab uses only mock data, groups design components in a responsive bento-style grid, and exposes interactive states for the shared input, form, loading, chart, navigation, drag/drop, modal, AI, and text-editor components. The existing package report remains available at `/dev/package`.
+
+- Fixed the General settings language-control hydration mismatch by keeping its initial render English and applying the stored browser language after mount, matching the global i18n initialization contract.
+
 - Added `/feature`, an evidence-backed Brancy feature knowledge base for content teams. Its static catalog has 41 active source-backed records across Instagramer, Shopper, and Advertiser filters; it exposes search, category/access filters, sorting, expandable detail, source-kind evidence, RTL, dark mode, and mobile layout. Routes whose workflows are seeded, local-only, unmapped, incomplete, download-only, or shell-only are separated into an audit-only section rather than represented as active capabilities. The catalog has reviewed Persian copy, English fallback for the other configured locales, no backend fetches, and no sensitive account data. TypeScript and browser checks passed for interaction and 390px RTL dark mode without horizontal overflow.
 
 - Synchronized all eight locale files to the same 2,970 direct string translation keys. Missing entries use English fallback text where available and key-name placeholders otherwise; nested translation objects remain outside the flat `LanguageKey` enum.

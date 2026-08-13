@@ -145,7 +145,7 @@ const NewPictureAnalyzerList = (props: {
               {t(LanguageKey.pageToolspopup_Listname)}
             </div>
 
-            <InputText
+            <InputBox
               className="textinputbox"
               handleInputChange={handleInputChange}
               placeHolder={t(LanguageKey.pageToolspopup_typehere)}

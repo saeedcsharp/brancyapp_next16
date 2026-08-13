@@ -1,5 +1,5 @@
 import { ChangeEvent } from "react";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import styles from "./step2-cart.module.css";
 const CustomerAdscart = () => {
   //  return <Soon />;
@@ -138,7 +138,7 @@ decoding="async" className={styles.icon} alt="show my cart" src="/cart.svg" />
             <div className={styles.coupon}>
               <div className={styles.coupontitle}>COUPON CODE</div>
               <div className={styles.couponbox}>
-                <InputText
+                <InputBox
                   className="textinputbox"
                   placeHolder="Insert Coupon"
                   handleInputChange={(e: ChangeEvent<HTMLInputElement>) => {

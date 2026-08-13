@@ -3,7 +3,7 @@ import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react"; /
 import { useTranslation } from "react-i18next";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import {
@@ -268,7 +268,7 @@ function MessagePanel({
                         <>{messagePanel.followTemplate.title.length}/50</>
                       </div>
                     </div>
-                    <InputText
+                    <InputBox
                       name="title"
                       className={"textinputbox"}
                       handleInputChange={handleChangeTitle}
@@ -285,7 +285,7 @@ function MessagePanel({
                         <>{messagePanel.followTemplate.content.length}/15</>
                       </div>
                     </div>
-                    <InputText
+                    <InputBox
                       name="content"
                       handleInputChange={handleChangeContent}
                       className={"textinputbox"}

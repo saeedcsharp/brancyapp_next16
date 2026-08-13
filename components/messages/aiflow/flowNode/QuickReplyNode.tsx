@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./QuickReplyNode.module.css";
 import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
@@ -101,7 +101,7 @@ export const QuickReplyNode: React.FC<QuickReplyNodeProps> = ({
       {/* Title Input */}
       <div className={styles.titleSection}>
         <div onClick={(e) => e.stopPropagation()}>
-          <InputText
+          <InputBox
             value={node.data?.title === defaultTitlePlaceholder ? "" : node.data?.title || ""}
             maxLength={140}
             handleInputChange={(e) => {
@@ -130,7 +130,7 @@ export const QuickReplyNode: React.FC<QuickReplyNodeProps> = ({
       {node.data?.buttons?.map((btn: string, idx: number) => (
         <div key={idx} className={styles.buttonItem}>
           <div onClick={(e) => e.stopPropagation()}>
-            <InputText
+            <InputBox
               value={btn}
               maxLength={40}
               handleInputChange={(e) => {

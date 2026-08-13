@@ -2,7 +2,7 @@ import React, { ChangeEvent, JSXElementConstructor, ReactElement, ReactNode, use
 import ReactDOM from "react-dom";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import styles from "./dragDrop.module.css";
 const DragDrop = (props: {
@@ -292,7 +292,7 @@ const DragDrop = (props: {
                 onClick={(e) => {
                   e.stopPropagation();
                 }}>
-                <InputText className={"serachMenuBar"} handleInputChange={handleSearch} value={searchText} />
+                <InputBox className={"serachMenuBar"} handleInputChange={handleSearch} value={searchText} />
               </div>
             )}
             {props.externalSearchMod && (
@@ -301,7 +301,7 @@ const DragDrop = (props: {
                 onClick={(e) => {
                   e.stopPropagation();
                 }}>
-                <InputText
+                <InputBox
                   className={"serachMenuBar"}
                   handleInputChange={handleExternalSearch}
                   value={externalSearchText}

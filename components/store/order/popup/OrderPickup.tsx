@@ -9,7 +9,7 @@ import { MethodType } from "brancy/helper/api";
 import OrderDetailContent from "brancy/components/store/order/popup/OrderDetail-Content";
 import styles from "./orderstep.module.css";
 
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { ShippingRequestType } from "brancy/models/enums";
@@ -413,7 +413,7 @@ const OrderPickup: FC<OrderDetailProps> = ({
                         <div className="headerandinput">
                           <div className="headertext"> {t(LanguageKey.Storeorder_TrackingCode)}</div>
                           <div className="headerparent">
-                            <InputText
+                            <InputBox
                               name="TrackingCode"
                               className="textinputbox"
                               placeHolder={t(LanguageKey.pageToolspopup_typehere)}

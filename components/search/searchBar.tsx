@@ -1,6 +1,6 @@
 import { ChangeEvent, MouseEvent, useState } from "react";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import styles from "./searchBar.module.css";
 import SearchContent from "brancy/components/search/searchContent";
 
@@ -52,7 +52,7 @@ const SearchBar = (prop: { removeMask: (e: MouseEvent) => void }) => {
       // style={{ display: "none" }}
     >
       <div className={styles.searchBar}>
-        <InputText
+        <InputBox
           className={"serachMenuBar"}
           placeHolder={"Search"}
           maxLength={undefined}

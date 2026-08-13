@@ -1,6 +1,6 @@
 import { ChangeEvent, KeyboardEvent, useCallback, useMemo, useReducer } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./newHashtagList.module.css";
 interface HashtagState {
@@ -111,7 +111,7 @@ const UpdateHashtagList = (props: {
       </div>
       <div className="headerandinput">
         <div className="headertext">{t(LanguageKey.pageToolspopup_Listname)}</div>
-        <InputText
+        <InputBox
           className="textinputbox"
           handleInputChange={handleInputListNameChange}
           placeHolder="Type List Name"
@@ -129,7 +129,7 @@ const UpdateHashtagList = (props: {
         <div className="headerparent">
           <div style={{ width: "100%" }}>
             <div onKeyDown={handleInputHashtagEnter}>
-              <InputText
+              <InputBox
                 className="textinputbox"
                 handleInputChange={handleInputHashtagChange}
                 placeHolder={t(LanguageKey.pageToolspopup_typehere)}

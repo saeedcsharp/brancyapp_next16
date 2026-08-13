@@ -1,6 +1,7 @@
 import { ChangeEvent, useCallback, useId, useMemo, useRef } from "react";
-import { isRTL } from "brancy/helper/checkRtl";
 import styles from "./inputBox.module.css";
+import { isRTL } from "brancy/helper/checkRtl";
+
 const persianNumbers = "۰۱۲۳۴۵۶۷۸۹";
 const arabicNumbers = "٠١٢٣٤٥٦٧٨٩";
 const thaiNumbers = "๐๑๒๓๔๕๖๗๘๙";
@@ -18,7 +19,7 @@ const convertToEnglishNumbers = (input: string): string => {
   if (!input) return "";
   return input.replace(/[۰-۹٠-٩๐-๙০-৯०-९]/g, (match) => numberMap.get(match) || match);
 };
-interface InputTextProps {
+interface InputBoxProps {
   id?: string;
   name?: string;
   className: string;
@@ -41,7 +42,7 @@ interface InputTextProps {
   onKeyDown?: (e: any) => void;
   shake?: boolean;
 }
-const InputText = (props: InputTextProps) => {
+const InputBox = (props: InputBoxProps) => {
   const {
     id: providedId,
     name,
@@ -174,4 +175,4 @@ const InputText = (props: InputTextProps) => {
     </div>
   );
 };
-export default InputText;
+export default InputBox;

@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import router, { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
@@ -164,7 +164,7 @@ export default function AIPage() {
           <div className={styles.left} style={{ display: displayLeft }}>
             {/* ___search ___*/}
 
-            <InputText
+            <InputBox
               className={"serachMenuBar"}
               placeHolder={t(LanguageKey.searchKeyword)}
               handleInputChange={(e) => setSearchbox(e.target.value)}

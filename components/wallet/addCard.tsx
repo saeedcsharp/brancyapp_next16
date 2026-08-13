@@ -5,7 +5,7 @@ import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { NotifType, notify, ResponseType } from "../notifications/notificationBox";
 import styles from "./addCard.module.css";
-import InputText from "../design/inputText";
+import InputText from "../design/inputBox/inputBox";
 export default function AddCard({ onClose }: { onClose: () => void }) {
   const { t } = useTranslation();
   const { data: session } = useSession();
@@ -46,7 +46,7 @@ export default function AddCard({ onClose }: { onClose: () => void }) {
         <label className={styles.label} htmlFor="wallet-card-number">
           {t("Card Number")}
           <div className={styles.input}>
-            <InputText
+            <InputBox
               className={"textinputbox"}
               handleInputChange={(e: ChangeEvent<HTMLInputElement>) => handleCardNumberChange(e.target.value)}
               value={newCardNumber.replace(/(.{4})/g, "$1 ").trim()}

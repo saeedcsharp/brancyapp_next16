@@ -1,5 +1,5 @@
 import CounterDownNotRing, { CounterDownColor } from "brancy/components/design/counterDown/counterDownNotRing";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import RadioButton from "brancy/components/design/radioButton/radioButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
@@ -379,7 +379,7 @@ const DomainManager = ({
                                 `• ${t(LanguageKey.customDomain_rule_noUnderscore)}\n` +
                                 `• ${t(LanguageKey.customDomain_rule_noSubdomain)}\n`
                               }>
-                              <InputText
+                              <InputBox
                                 className="textinputbox"
                                 placeHolder="yourname.com"
                                 name="domain"

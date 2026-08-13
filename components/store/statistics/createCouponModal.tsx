@@ -1,7 +1,7 @@
 import { FormEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
 import SwitchButton from "brancy/components/design/switchButton/switchButton";
@@ -89,13 +89,13 @@ const CreateCouponModal = ({ showContent, closePopup, onCreate }: CreateCouponMo
             </button>
           </div>
           <div className={styles.fields}>
-            <InputText
+            <InputBox
               className="textinputbox"
               value={form.code}
               handleInputChange={(event) => setForm((previous) => ({ ...previous, code: event.target.value }))}
               placeHolder={t(LanguageKey.storestatistics_couponCode)}
             />
-            <InputText
+            <InputBox
               className="textinputbox"
               value={String(form.discount || "")}
               handleInputChange={(event) =>
@@ -105,7 +105,7 @@ const CreateCouponModal = ({ showContent, closePopup, onCreate }: CreateCouponMo
               numberType
               inputMode="numeric"
             />
-            <InputText
+            <InputBox
               className="textinputbox"
               value={String(form.maxCount || "")}
               handleInputChange={(event) =>
@@ -115,14 +115,14 @@ const CreateCouponModal = ({ showContent, closePopup, onCreate }: CreateCouponMo
               numberType
               inputMode="numeric"
             />
-            <InputText
+            <InputBox
               className="textinputbox"
               value={form.phoneNumber}
               handleInputChange={(event) => setForm((previous) => ({ ...previous, phoneNumber: event.target.value }))}
               placeHolder={t(LanguageKey.storestatistics_phoneNumber)}
               inputMode="tel"
             />
-            <InputText
+            <InputBox
               className="textinputbox"
               value={form.maxDiscount === null ? "" : String(form.maxDiscount)}
               handleInputChange={(event) =>

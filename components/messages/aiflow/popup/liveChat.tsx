@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useMemo, useReducer, useRef, type ChangeEvent, type KeyboardEvent } from "react";
 import { useSession } from "next-auth/react";
 import { t } from "i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
@@ -292,7 +292,7 @@ export default function LiveChat({ promptInfo }: { promptInfo: ICreatePrompt }) 
 
       <footer className="headerandinput" style={{ paddingBlock: "var(--padding-10)" }}>
         <div className={`${styles.flowTestInput} ${state.isLoading ? "fadeDiv" : ""}`}>
-          <InputText
+          <InputBox
             value={state.userInput}
             handleInputChange={handleInputChange}
             placeHolder={t(LanguageKey.pageToolspopup_typehere)}

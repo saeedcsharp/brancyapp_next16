@@ -3,7 +3,7 @@ import dynamic from "next/dynamic";
 import Head from "next/head";
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import TextArea from "brancy/components/design/textArea/textArea";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
@@ -175,7 +175,7 @@ const ContactForm = (props: { removeMask: () => void }) => {
                   !contactAndMap.showMap && "fadeDiv"
                 }`}>
                 <div className="headertext">{t(LanguageKey.location)}</div>
-                <InputText
+                <InputBox
                   className={"textinputbox"}
                   placeHolder={""}
                   handleInputChange={(e: ChangeEvent<HTMLInputElement>) => {
@@ -209,7 +209,7 @@ const ContactForm = (props: { removeMask: () => void }) => {
             <div className={styles.all}>
               <div className="headerandinput">
                 <div className="headertext">{t(LanguageKey.phone)}</div>
-                <InputText
+                <InputBox
                   dangerOnEmpty
                   className={"textinputbox"}
                   handleInputChange={(e) => {
@@ -227,7 +227,7 @@ const ContactForm = (props: { removeMask: () => void }) => {
 
               <div className="headerandinput">
                 <div className="headertext">{t(LanguageKey.email)}</div>
-                <InputText
+                <InputBox
                   className={"textinputbox"}
                   placeHolder={""}
                   handleInputChange={(e: ChangeEvent<HTMLInputElement>) => {

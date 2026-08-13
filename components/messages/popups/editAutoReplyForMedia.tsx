@@ -5,7 +5,7 @@ import React, { ChangeEvent, useCallback, useEffect, useId, useMemo, useReducer,
 import { useTranslation } from "react-i18next";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import RadioButton from "brancy/components/design/radioButton/radioButton";
 import TextArea from "brancy/components/design/textArea/textArea";
@@ -1028,7 +1028,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                           </div>
 
                           <div className="headerparent">
-                            <InputText
+                            <InputBox
                               fadeTextArea={keywordsDisabled}
                               disabled={keywordsDisabled}
                               name={`specific-keywords-${componentId}`}
@@ -1154,7 +1154,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                         {replyMethod?.prompt && (
                           <>
                             <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
-                            <InputText
+                            <InputBox
                               className={"textinputbox"}
                               handleInputChange={() => {}}
                               value={replyMethod.prompt.title}
@@ -1238,7 +1238,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                         {replyMethod?.masterFlow && (
                           <>
                             <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
-                            <InputText
+                            <InputBox
                               className={"textinputbox"}
                               handleInputChange={() => {}}
                               value={replyMethod.masterFlow.title}

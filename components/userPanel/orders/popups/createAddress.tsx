@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
@@ -135,7 +135,7 @@ export default function CreateAddresses({
         <div className={styles.containeraddress}>
           <div className="headerandinput">
             <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
-            <InputText
+            <InputBox
               className={
                 updateAddress && updateAddress.subject && updateAddress.subject.length > 0 ? "textinputbox" : "danger"
               }
@@ -152,7 +152,7 @@ export default function CreateAddresses({
           </div>
           <div className="headerandinput">
             <div className="headertext">{t(LanguageKey.userpanel_ZipCode)}</div>
-            <InputText
+            <InputBox
               className={
                 step === CreateAddresStep.PostalCode ? (postalCode.length > 0 ? "textinputbox" : "danger") : "disable"
               }
@@ -178,7 +178,7 @@ export default function CreateAddresses({
           <div className="headerandinput">
             <div className="headertext">{t(LanguageKey.Storeorder_receiver)}</div>
             <div style={{ position: "relative" }}>
-              <InputText
+              <InputBox
                 className={
                   updateAddress && updateAddress.receiver && updateAddress.receiver.length > 0
                     ? "textinputbox"

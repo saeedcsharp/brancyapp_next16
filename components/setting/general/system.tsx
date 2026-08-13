@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RadioButton from "brancy/components/design/radioButton/radioButton";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
@@ -14,25 +14,19 @@ import { ILangauge, ICalendar, InitialSetupState } from "brancy/models/interface
 function System() {
   const { i18n, t } = useTranslation();
   const { data: session } = useSession();
-  const isIranDomain =
-    typeof window !== "undefined" &&
-    (window.location.hostname.includes("brancy.ir") || window.location.hostname === "localhost");
+  const [isIranDomain, setIsIranDomain] = useState(false);
   const changeLanguage = (lang: string) => {
     i18n.changeLanguage(lang);
   };
-  const [language, setLanguage] = useState<ILangauge>(() => {
-    const lng = typeof window !== "undefined" ? window.localStorage.getItem("language") : null;
-    const effectiveLng = lng || "en";
-    return {
-      arabic: effectiveLng === "ar",
-      english: effectiveLng === "en",
-      french: effectiveLng === "fr",
-      german: effectiveLng === "gr",
-      persian: effectiveLng === "fa",
-      russian: effectiveLng === "ru",
-      turkey: effectiveLng === "tr",
-      azerbaijani: effectiveLng === "az",
-    };
+  const [language, setLanguage] = useState<ILangauge>({
+    arabic: false,
+    english: true,
+    french: false,
+    german: false,
+    persian: false,
+    russian: false,
+    turkey: false,
+    azerbaijani: false,
   });
   const [themeMode, setThemeMode] = useState<string>(() => {
     const theme = typeof window !== "undefined" ? window.localStorage.getItem("theme") : null;
@@ -274,10 +268,21 @@ function System() {
     setIsHidden(!isHidden); // Toggle visibility and grid-row-end state
   };
   useEffect(() => {
+    setIsIranDomain(window.location.hostname.includes("brancy.ir") || window.location.hostname === "localhost");
     const lng = window.localStorage.getItem("language");
     // Sync i18n instance with the stored language (i18n.ts already reads it on init,
     // but this covers cases where the instance was created before localStorage was set)
     const effectiveLng = lng || "en";
+    setLanguage({
+      arabic: effectiveLng === "ar",
+      english: effectiveLng === "en",
+      french: effectiveLng === "fr",
+      german: effectiveLng === "gr",
+      persian: effectiveLng === "fa",
+      russian: effectiveLng === "ru",
+      turkey: effectiveLng === "tr",
+      azerbaijani: effectiveLng === "az",
+    });
     changeLanguage(effectiveLng);
   }, []);
   return (
@@ -611,7 +616,7 @@ function System() {
                 />
               </div>
               <div className="explain"> {t(LanguageKey.MobileNotificationExplain)}</div>
-              <InputText
+              <InputBox
                 id="mobile-notification"
                 name="mobileNotification"
                 className="disable"
@@ -647,7 +652,7 @@ function System() {
                 />
               </div>
               <div className="explain">{t(LanguageKey.EmailNotificationExplain)}</div>
-              <InputText
+              <InputBox
                 id="email-notification"
                 name="emailNotification"
                 className="disable"

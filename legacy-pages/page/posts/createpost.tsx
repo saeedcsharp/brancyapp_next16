@@ -21,7 +21,7 @@ import AIWithPrompt from "brancy/components/design/ai/AIWithPrompt";
 import ConstantCounterDown from "brancy/components/design/counterDown/constantCounterDown";
 import DragComponent from "brancy/components/design/dragComponent/dragComponent";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
 import ProgressBar from "brancy/components/design/progressBar/progressBar";
@@ -3072,7 +3072,7 @@ const CreatePost = () => {
                   <div className="headerandinput">
                     <div className="title">{t(LanguageKey.TagMention)}</div>
                     <div className="ButtonContainer fadeDiv" style={{ height: "40px" }}>
-                      <InputText
+                      <InputBox
                         name="search-location"
                         className={"serachMenuBar"}
                         placeHolder={t(LanguageKey.searchLocation)}
@@ -3105,7 +3105,7 @@ const CreatePost = () => {
 
                     <div className={`headerandinput ${showMedias.length === 0 && "fadeDiv"}`}>
                       <div className="headerparent" style={{ height: "40px", padding: "3px" }}>
-                        <InputText
+                        <InputBox
                           name="search-people"
                           className={"serachMenuBar"}
                           placeHolder={t(LanguageKey.searchPeople)}
@@ -3157,7 +3157,7 @@ const CreatePost = () => {
                     <div className="explain ">{t(LanguageKey.CollaboratorExplain)}</div>
                     {/* باید برای collaborator کد ها تغییر پیدا کنند */}
                     <div className="headerparent">
-                      <InputText
+                      <InputBox
                         fadeTextArea={prePostId > 0 || collabratorPages.length >= 5}
                         name="search-people"
                         className={"serachMenuBar"}

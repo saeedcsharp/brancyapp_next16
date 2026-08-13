@@ -2,6 +2,10 @@
 
 # Changelog
 
+- Added a password-protected dev-panel choice between the dependency report and a new `/dev/systemDesign` mock component laboratory. The lab uses a responsive bento grid and interactive local samples, including every `InputBox` CSS model and grouped design controls, charts, loaders, menus, drag/drop, modal, AI button, phone input, and text editor.
+
+- Fixed the General settings language radio hydration mismatch by deferring the stored `localStorage` language state until after the English SSR/client-first render.
+
 - چیدمان کارت قابلیت‌ها در موبایل اصلاح شد: دکمه بازکردن در گوشه بالای کارت قرار گرفت و نقش و وضعیت دسترسی روبه‌روی هم نمایش داده می‌شوند.
 
 - مسیر هر قابلیت در پنل جزئیات اکنون همیشه در خطی جدا، داخل بلوک خوانا و با شکست امن متن نمایش داده می‌شود.

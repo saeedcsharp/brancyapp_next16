@@ -6,7 +6,7 @@ import { ChangeEvent, useCallback, useEffect, useMemo, useReducer, useRef, useSt
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import MultiChart from "brancy/components/design/chart/Chart_month";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import Modal from "brancy/components/design/modal";
 import Slider from "brancy/components/design/slider/slider";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
@@ -1133,7 +1133,7 @@ const ShowPost = () => {
                             </div>
                           </div>
                           <div className={styles.commentbox}>
-                            <InputText
+                            <InputBox
                               className={"serachMenuBar"}
                               placeHolder={t(LanguageKey.search)}
                               value={searchPepaple}

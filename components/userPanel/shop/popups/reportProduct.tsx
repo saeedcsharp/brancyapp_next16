@@ -3,7 +3,7 @@ import { LanguageKey } from "brancy/i18n";
 import { useSession } from "next-auth/react";
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { MethodType } from "brancy/helper/api";
@@ -70,7 +70,7 @@ export default function ReportProduct({
       <>
         <div className="headerandinput">
           <div className="headertext">{t(LanguageKey.navbar_Title)}</div>
-          <InputText
+          <InputBox
             className="textinputbox"
             placeHolder=""
             handleInputChange={handleInputChange}

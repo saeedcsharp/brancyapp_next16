@@ -19,7 +19,7 @@ import { useSession } from "next-auth/react";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
@@ -145,7 +145,7 @@ function SortableItem({
               <div className={styles.speccontent}>
                 <div className={styles.headerandinput}>
                   <div className={styles.headertext}>{t(LanguageKey.SettingGeneral_Title)}</div>
-                  <InputText
+                  <InputBox
                     name=""
                     className={item.customSpecification.key.length > 0 ? "textinputbox" : "danger"}
                     placeHolder={t(LanguageKey.SettingGeneral_Title)}

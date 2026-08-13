@@ -3,7 +3,7 @@ import Head from "next/head";
 import { ChangeEvent, SetStateAction, useCallback, useEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import {
@@ -575,7 +575,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
                   <div className="explain">{t(LanguageKey.searchIDexplain)}</div>
                 </div>
                 <div className="headerparent">
-                  <InputText
+                  <InputBox
                     className={"textinputbox"}
                     placeHolder={t(LanguageKey.pageToolspopup_typehere)}
                     handleInputChange={handleSearchChannel}
@@ -680,7 +680,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
                   <div className="explain">{t(LanguageKey.searchIDexplain)}</div>
                 </div>
                 <div className="headerparent">
-                  <InputText
+                  <InputBox
                     className={"textinputbox"}
                     placeHolder={t(LanguageKey.pageToolspopup_typehere)}
                     handleInputChange={handleSearchChannel}
@@ -783,7 +783,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
                   <div className="explain">{t(LanguageKey.searchIDexplain)}</div>
                 </div>
                 <div className="headerparent">
-                  <InputText
+                  <InputBox
                     className={"textinputbox"}
                     placeHolder={t(LanguageKey.pageToolspopup_typehere)}
                     name={"searchTwitchPage"}

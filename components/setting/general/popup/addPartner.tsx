@@ -5,7 +5,7 @@ import { DateObject } from "react-multi-date-picker";
 import PhoneInput from "brancy/components/design/phoneInput";
 import type { PhoneValue } from "brancy/components/design/phoneInput";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RadioButton from "brancy/components/design/radioButton/radioButton";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
@@ -149,7 +149,7 @@ const AddPartner = React.memo(
                 <>
                   <div className="headerandinput">
                     <div className="headertext">{t(LanguageKey.SettingGeneral_partnertitle)}</div>
-                    <InputText
+                    <InputBox
                       className={"textinputbox"}
                       handleInputChange={handleInputChange}
                       value={createPartner.name || ""}
@@ -161,7 +161,7 @@ const AddPartner = React.memo(
                     {partner?.userId !== 0 && (
                       <div className="headerandinput">
                         <div className="headertext">{t(LanguageKey.userpanel_MobileNumber)}</div>
-                        <InputText
+                        <InputBox
                           className={"textinputbox"}
                           value={partner?.phoneNumber || ""}
                           handleInputChange={() => {}}

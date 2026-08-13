@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
@@ -818,7 +818,7 @@ const AddNewLink = (props: { removeMask: () => void; handleAddNewLink: (newLink:
                     </div>
                   </div>
 
-                  <InputText
+                  <InputBox
                     className={"textinputbox"}
                     placeHolder={""}
                     handleInputChange={handleInputChange}
@@ -837,7 +837,7 @@ const AddNewLink = (props: { removeMask: () => void; handleAddNewLink: (newLink:
                     </div>
                   </div>
 
-                  <InputText
+                  <InputBox
                     className={"textinputbox"}
                     placeHolder={""}
                     handleInputChange={handleInputChange}
@@ -852,7 +852,7 @@ const AddNewLink = (props: { removeMask: () => void; handleAddNewLink: (newLink:
                     <div className="headertext">{t(LanguageKey.linkURL)}</div>
                   </div>
                   <div className="headerparent">
-                    <InputText
+                    <InputBox
                       className={"textinputbox"}
                       placeHolder={"URL Address"}
                       handleInputChange={handleInputChange}

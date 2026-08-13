@@ -3,7 +3,7 @@ import router, { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
@@ -509,7 +509,7 @@ const FlowAndAIInbox = () => {
           <div className={styles.left} style={{ display: displayLeft }}>
             {/* ___search ___*/}
 
-            <InputText
+            <InputBox
               className={"serachMenuBar"}
               placeHolder={t(LanguageKey.searchKeyword)}
               handleInputChange={handleSearchThreads}

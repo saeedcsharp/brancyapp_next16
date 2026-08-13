@@ -17,7 +17,7 @@ import {
 import { CSS } from "@dnd-kit/utilities";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./4-specifications.module.css";
 import { IProductSpecification } from "brancy/models/interfaces";
@@ -50,7 +50,7 @@ function SortableItem({ item, index }: { item: IProductSpecification; index: num
               <div className="headerandinput">
                 <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
 
-                <InputText
+                <InputBox
                   style={{
                     cursor: "no-drop",
                     backgroundColor: "var(--color-disable)",
@@ -65,7 +65,7 @@ function SortableItem({ item, index }: { item: IProductSpecification; index: num
               <div className="headerandinput">
                 <div className="headertext">{t(LanguageKey.Value)}</div>
 
-                <InputText
+                <InputBox
                   style={{
                     cursor: "no-drop",
                     backgroundColor: "var(--color-disable)",
@@ -85,7 +85,7 @@ function SortableItem({ item, index }: { item: IProductSpecification; index: num
             <>
               <div className="headerandinput">
                 <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
-                <InputText
+                <InputBox
                   style={{
                     cursor: "no-drop",
                     backgroundColor: "var(--color-disable)",

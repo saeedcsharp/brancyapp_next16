@@ -1,5 +1,5 @@
 import ChartHour from "brancy/components/design/chart/Chart_hour";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import Modal from "brancy/components/design/modal";
 import Slider from "brancy/components/design/slider/slider";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
@@ -865,7 +865,7 @@ const ShowStory = () => {
                           </Tooltip>
                         </div>
                         <div className={styles.commentbox}>
-                          <InputText
+                          <InputBox
                             className={"serachMenuBar"}
                             placeHolder={t(LanguageKey.search)}
                             value={searchPepaple}

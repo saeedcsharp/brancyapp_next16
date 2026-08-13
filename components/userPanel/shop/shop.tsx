@@ -1,6 +1,6 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import Loading from "brancy/components/notOk/loading";
 import { LoginStatus } from "brancy/helper/loadingStatus";
 import { calculateSummary } from "brancy/helper/numberFormater";
@@ -172,7 +172,7 @@ function ShopPage(props: {
         <div className={styles.desktopFilters}>
           <div className={styles.filter}>
             <div className="headertext">{t(LanguageKey.search)}</div>
-            <InputText
+            <InputBox
               className="serachMenuBar"
               placeHolder={t(LanguageKey.pageToolspopup_typehere)}
               value={search}
@@ -331,7 +331,7 @@ function ShopPage(props: {
         <div className={`${styles.mobileFilters} ${isFilterOpen ? styles.mobileFiltersOpen : ""}`}>
           <div className={styles.filter}>
             <div className="headertext">{t(LanguageKey.search)}</div>
-            <InputText
+            <InputBox
               className="serachMenuBar"
               placeHolder={t(LanguageKey.pageToolspopup_typehere)}
               value={search}

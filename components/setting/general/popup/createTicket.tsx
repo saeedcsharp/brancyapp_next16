@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n";
 import { PlatformTicketItemType, PlatformTicketType } from "brancy/models/enums";
@@ -261,7 +261,7 @@ const CreateTicket = React.memo(({ removeMask, handleCreateTicket }: ICreateTick
           <label htmlFor="title" className="headertext">
             {t(LanguageKey.SettingGeneral_Title)}
           </label>
-          <InputText
+          <InputBox
             id="subject"
             name="subject"
             className="textinputbox"

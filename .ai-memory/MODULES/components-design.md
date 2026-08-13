@@ -71,6 +71,8 @@ React components are present when the folder contains `.tsx` UI files.
 
 ## Recent UI Notes
 
+- Added the protected `/dev/systemDesign` showcase. It groups local mock demonstrations for the design controls, all `InputBox` CSS models, phone input, loaders, counters, charts, slider, drag/drop, menus, tooltip, modal, AI button, and text editor. The page intentionally makes no backend requests.
+
 - `components/design/toggleButton/ToggleButton.tsx` renders native buttons with `aria-pressed`, optional group labeling, disabled support, visible keyboard focus, responsive touch targets, RTL-aware unread positioning and active-indicator translation, reduced-motion handling, and forced-colors fallback. A shared active indicator animates between option columns without changing its controlled `options`, `selectedValue`, and `onChange` API.
 - DotMenu now uses native buttons and WAI-ARIA menu semantics. It supports Enter/Space activation, Arrow/Home/End option navigation, Escape/outside-pointer closing, and moves focus between its trigger and active option. Its option styles are applied and its menu is removed after the exit animation.
 - Tooltip content is portalled to `document.body` so ancestor overflow and stacking contexts cannot clip it. Its fixed coordinates are refreshed on scroll and resize, and click-outside handling recognizes both the trigger and portalled content.
