@@ -1,4 +1,9 @@
 - Refined the store statistics coupon manager presentation with elevated coupon cards, clearer status badges, metadata chips, responsive mobile stacking, and reduced-motion support.
+- Added coupon edit mode: the three-dot action opens the shared modal with existing values, keeps code/discount/phone/max-discount read-only, and saves expiry, max uses, and bio visibility through `Shopper/Coupon/UpdateCoupon` with `couponId`.
+- Coupon bio visibility toggles now activate through `Shopper/Coupon/ActivateCoupon` or remove through `Shopper/Coupon/DeleteCoupon`, sending only `couponId`.
+- Fixed the coupon edit action bubbling into the collapsible card header, which prevented the edit modal from opening reliably.
+- Separated coupon editing into `UpdateCouponModal`; `CreateCouponModal` is create-only, and the Statistics page mounts the update form inside its own shared `Modal`.
+- Aligned the coupon manager card width and horizontal spacing with the other cards in the shared statistics grid on desktop and mobile.
 
 - Fixed brush line chart hydration mismatches by using an explicit `en-US` locale for count labels rendered in SVG axes and tooltips.
 
@@ -48,6 +53,8 @@
 - Added the shared collapsible statistics-card behavior to the coupon manager; the header toggles its content and grid span, while the Add Coupon button opens the popup without collapsing the card.
 - Moved all coupon API orchestration and server state from `CouponManager` and `CreateCouponModal` into the store Statistics page; child components now receive data and action callbacks only.
 - Added `isActive` and `isPrivate` coupon filters plus duplicate-safe `nextMaxId` query pagination from the last coupon ID through `useInfiniteScroll`; changing filters resets the coupon list and cursor.
+- Replaced coupon infinite-scroll rendering with the shared slider; each slide displays two coupons and loads the next cursor page through the slider's `onReachEnd` callback.
+- Adjusted coupon slides to display one information-dense coupon per slide for improved readability.
 
 - Limited AI creator range sliders to two decimal places for both displayed and submitted values, including fractional controls such as Kling Out Painting.
 - Updated the AI page's initial library load to show the shared full-page `Loading` component until the selected image or video history API completes; the initial request now follows the deep-linked library type.

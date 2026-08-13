@@ -28,7 +28,7 @@ Execution starts from imports, route rendering, or helper calls depending on the
 
 Data enters through props, Next route params, session state, browser state, or backend API responses.
 
-The statistics page composes the store sales cards with `CouponManager`, controls visibility for the separate `CreateCouponModal`, and owns coupon loading, `isActive`/`isPrivate` filtering, cursor pagination through the `nextMaxId` query and the last `IUserCoupon.couponId`, `useInfiniteScroll`, creation, `showInBio` mutation, and related server state. The child store components receive data and callbacks while the page retains its existing shopper and partner authorization guards.
+The statistics page composes the store sales cards with `CouponManager`, controls separate page-level `Modal` instances for create and update coupon workflows, and owns coupon loading, `isActive`/`isPrivate` filtering, cursor pagination through the `nextMaxId` query and the last `IUserCoupon.couponId`, creation, updates for `couponId`/`expireTime`/`maxCount`/`showInBio`, visibility activation through `Shopper/Coupon/ActivateCoupon`, visibility removal through `Shopper/Coupon/DeleteCoupon`, and related server state. The child store components receive data and callbacks while the page retains its existing shopper and partner authorization guards.
 
 ## Dependencies
 

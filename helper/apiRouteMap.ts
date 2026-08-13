@@ -335,6 +335,8 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/coupon/getCoupon": "Shopper/Coupon/GetCoupon",
   "/api/coupon/createCoupon": "Shopper/Coupon/CreateCoupon",
   "/api/coupon/updateCoupon": "Shopper/Coupon/UpdateCoupon",
+  "/api/coupon/activateCoupon": "Shopper/Coupon/ActivateCoupon",
+  "/api/coupon/deleteCoupon": "Shopper/Coupon/DeleteCoupon",
 
   // ── statistics ────────────────────────────────────────
   "/api/statistics/getBestFollowers": "Instagramer/Statistics/GetBestFollowers",

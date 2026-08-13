@@ -1,16 +1,17 @@
 import AdReport from "brancy/components/advertise/adList/popups/adreport";
+import Modal from "brancy/components/design/modal";
 import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotShopper from "brancy/components/notOk/notShopper";
 import { NotifType, notify } from "brancy/components/notifications/notificationBox";
 import CouponManager from "brancy/components/store/statistics/couponManager";
 import CreateCouponModal, { CreateCouponRequest } from "brancy/components/store/statistics/createCouponModal";
+import UpdateCouponModal, { UpdateCouponRequest } from "brancy/components/store/statistics/updateCouponModal";
 import TotalSalesReport from "brancy/components/store/statistics/totalSalesReport";
 import TotalSales from "brancy/components/store/statistics/totalSalesStatistics";
 import TwoMonth from "brancy/components/store/statistics/twoMonth";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
-import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 import { PartnerRole } from "brancy/models/enums";
 import IUserCoupon, {
@@ -22,7 +23,7 @@ import IUserCoupon, {
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./statistics.module.css";
 
@@ -39,12 +40,15 @@ const Statistics = () => {
   const [advertiseId, setAdvertiseId] = useState(0);
   const [showReport, setShowReport] = useState(false);
   const [showCreateCoupon, setShowCreateCoupon] = useState(false);
+  const [editingCoupon, setEditingCoupon] = useState<IUserCoupon | null>(null);
   const [coupons, setCoupons] = useState<IUserCoupon[]>([]);
   const [isLoadingCoupons, setIsLoadingCoupons] = useState(true);
   const [couponsNextMaxId, setCouponsNextMaxId] = useState<string | null>(null);
   const [isActive, setIsActive] = useState(true);
   const [isPrivate, setIsPrivate] = useState(false);
   const [updatingCouponId, setUpdatingCouponId] = useState<number | null>(null);
+  const [isLoadingMoreCoupons, setIsLoadingMoreCoupons] = useState(false);
+  const isLoadingMoreCouponsRef = useRef(false);
   const router = useRouter();
   const [twoMonth, setTwoMonth] = useState<ISaleMonth[]>([]);
   const [totalSalesStatistics, setTotalSalesStatistics] = useState<ISaleShortMonth[]>([]);
@@ -101,15 +105,23 @@ const Statistics = () => {
     return items;
   }, [couponsNextMaxId, isActive, isPrivate, session]);
 
-  const { containerRef: couponsScrollRef, isLoadingMore: isLoadingMoreCoupons } = useInfiniteScroll<IUserCoupon>({
-    hasMore: Boolean(couponsNextMaxId),
-    fetchMore: fetchMoreCoupons,
-    onDataFetched: (newCoupons) => setCoupons((current) => [...current, ...newCoupons]),
-    getItemId: (coupon) => coupon.couponId,
-    currentData: coupons,
-    isLoading: isLoadingCoupons,
-    enabled: Boolean(session),
-  });
+  const handleLoadMoreCoupons = useCallback(async () => {
+    if (isLoadingMoreCouponsRef.current || !couponsNextMaxId) return;
+    isLoadingMoreCouponsRef.current = true;
+    setIsLoadingMoreCoupons(true);
+    try {
+      const newCoupons = await fetchMoreCoupons();
+      if (newCoupons.length > 0) {
+        setCoupons((current) => {
+          const existingIds = new Set(current.map((coupon) => coupon.couponId));
+          return [...current, ...newCoupons.filter((coupon) => !existingIds.has(coupon.couponId))];
+        });
+      }
+    } finally {
+      isLoadingMoreCouponsRef.current = false;
+      setIsLoadingMoreCoupons(false);
+    }
+  }, [couponsNextMaxId, fetchMoreCoupons]);
   async function handleCreateCoupon(coupon: CreateCouponRequest): Promise<boolean> {
     if (!session) return false;
     const response = await clientFetchApi<CreateCouponRequest, boolean>("/api/coupon/CreateCoupon", {
@@ -124,19 +136,38 @@ const Statistics = () => {
     await loadCoupons();
     return true;
   }
-  async function handleCouponVisibilityChange(coupon: IUserCoupon, showInBio: boolean) {
-    if (!session) return;
-    setUpdatingCouponId(coupon.couponId);
+  async function handleUpdateCoupon(coupon: UpdateCouponRequest): Promise<boolean> {
+    if (!session) return false;
     const response = await clientFetchApi<undefined, boolean>("/api/coupon/UpdateCoupon", {
+      methodType: MethodType.post,
       session,
       queries: [
         { key: "couponId", value: String(coupon.couponId) },
-        { key: "showInBio", value: String(showInBio) },
+        { key: "expireTime", value: String(coupon.expireTime) },
+        { key: "maxCount", value: String(coupon.maxCount) },
+        { key: "showInBio", value: String(coupon.showInBio) },
       ],
     });
+    if (!response.succeeded) {
+      notify(response.info.responseType, NotifType.Warning);
+      return false;
+    }
+    await loadCoupons();
+    return true;
+  }
+  async function handleCouponVisibilityChange(coupon: IUserCoupon, isDelete: boolean) {
+    if (!session) return;
+    setUpdatingCouponId(coupon.couponId);
+    const response = await clientFetchApi<undefined, boolean>(
+      isDelete ? "/api/coupon/DeleteCoupon" : "/api/coupon/ActivateCoupon",
+      {
+        session,
+        queries: [{ key: "couponId", value: String(coupon.couponId) }],
+      },
+    );
     if (response.succeeded) {
       setCoupons((previous) =>
-        previous.map((item) => (item.couponId === coupon.couponId ? { ...item, showInBio } : item)),
+        previous.map((item) => (item.couponId === coupon.couponId ? { ...item, isDeleted: isDelete } : item)),
       );
     } else notify(response.info.responseType, NotifType.Warning);
     setUpdatingCouponId(null);
@@ -457,29 +488,31 @@ const Statistics = () => {
             {/* ___statistics___*/}
 
             <TotalSales data={totalSalesStatistics} />
-          </div>
-          {/* ___salesreport___*/}
 
-          <div className={styles.pinContainer1}>
+            {/* ___salesreport___*/}
+
             <TotalSalesReport
               salesReports={totalSalesReport}
               handleLoadMore={handleLoadMore}
               hasTotalMore={hasTotalMore}
             />
+            <CouponManager
+              coupons={coupons}
+              isLoading={isLoadingCoupons}
+              isLoadingMore={isLoadingMoreCoupons}
+              onReachEnd={handleLoadMoreCoupons}
+              isActive={isActive}
+              isPrivate={isPrivate}
+              onActiveFilterChange={setIsActive}
+              onPrivateFilterChange={setIsPrivate}
+              updatingCouponId={updatingCouponId}
+              onCreateClick={() => setShowCreateCoupon(true)}
+              onEditClick={(coupon) => {
+                setEditingCoupon(coupon);
+              }}
+              onVisibilityChange={handleCouponVisibilityChange}
+            />
           </div>
-          <CouponManager
-            coupons={coupons}
-            isLoading={isLoadingCoupons}
-            isLoadingMore={isLoadingMoreCoupons}
-            containerRef={couponsScrollRef}
-            isActive={isActive}
-            isPrivate={isPrivate}
-            onActiveFilterChange={setIsActive}
-            onPrivateFilterChange={setIsPrivate}
-            updatingCouponId={updatingCouponId}
-            onCreateClick={() => setShowCreateCoupon(true)}
-            onVisibilityChange={handleCouponVisibilityChange}
-          />
         </main>
         {showReport && <AdReport removeMask={removeMask} advertiseId={advertiseId} />}
         <CreateCouponModal
@@ -487,6 +520,15 @@ const Statistics = () => {
           showContent={showCreateCoupon}
           onCreate={handleCreateCoupon}
         />
+        <Modal closePopup={() => setEditingCoupon(null)} classNamePopup="popup" showContent={Boolean(editingCoupon)}>
+          {editingCoupon && (
+            <UpdateCouponModal
+              coupon={editingCoupon}
+              closePopup={() => setEditingCoupon(null)}
+              onUpdate={handleUpdateCoupon}
+            />
+          )}
+        </Modal>
       </>
     )
   );

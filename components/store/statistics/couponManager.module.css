@@ -1,8 +1,8 @@
 .container {
   position: relative;
   overflow: hidden;
-  width: calc(100% - 40px);
-  margin: 5px 20px 10px;
+  width: 100%;
+  margin: 5px 0 10px;
   padding: var(--paddingbox);
   border-radius: var(--br25);
   background: var(--color-white);
@@ -61,32 +61,26 @@
 .filterToolbar {
   display: flex;
   align-items: center;
-  justify-content: space-between;
-  gap: var(--gap-15);
+  justify-content: flex-start;
+  width: 100%;
   margin-bottom: var(--gap-15);
-  padding: 8px;
-  border: 1px solid rgb(148 163 184 / 20%);
-  border-radius: var(--br10);
-  background: var(--background-root);
-}
-.filterTitle {
-  color: var(--text-h2);
-  font-size: var(--font-12);
-  font-weight: var(--weight-600);
 }
 .filterGroup {
   display: flex;
-  gap: 6px;
-  padding: 3px;
+  width: 100%;
+  gap: 8px;
+  padding: 4px;
+  border: 1px solid rgb(148 163 184 / 18%);
   border-radius: 8px;
-  background: rgb(148 163 184 / 12%);
+  background: rgb(148 163 184 / 9%);
 }
 .filter {
   display: inline-flex;
   align-items: center;
-  gap: 6px;
+  flex: 1;
+  gap: 8px;
   min-height: 38px;
-  padding: 0 10px;
+  padding: 0 12px;
   border: 1px solid transparent;
   border-radius: 6px;
   color: var(--text-h2);
@@ -101,6 +95,7 @@
   border-color: rgb(34 197 94 / 30%);
   background: var(--color-white);
   color: var(--color-green);
+  box-shadow: 0 2px 8px rgb(34 197 94 / 10%);
 }
 .visibilityControl {
   min-height: 44px;
@@ -142,6 +137,7 @@
   border-radius: 0 0 0 100%;
   background: rgb(34 197 94 / 8%);
   content: "";
+  pointer-events: none;
 }
 
 .coupon:hover {
@@ -153,6 +149,10 @@
   justify-content: space-between;
   gap: var(--gap-10);
   min-width: 0;
+}
+.codeRow button {
+  position: relative;
+  z-index: 1;
 }
 .codeRow strong {
   position: relative;
@@ -170,17 +170,28 @@
   color: var(--color-red);
 }
 .details {
-  flex-wrap: wrap;
-  gap: 7px;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
   color: var(--text-h2);
   font-size: var(--font-12);
 }
 
 .details span {
-  padding: 6px 8px;
+  min-width: 0;
+  padding: 8px 10px;
   border: 1px solid rgb(148 163 184 / 16%);
   border-radius: 7px;
-  background: rgb(148 163 184 / 7%);
+  background: rgb(148 163 184 / 6%);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.activationControl {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-10);
+  white-space: nowrap;
 }
 
 .loading,
@@ -203,8 +214,8 @@
 
 @media (max-width: 560px) {
   .container {
-    width: calc(100% - 20px);
-    margin-inline: 10px;
+    width: 100%;
+    margin-inline: 0;
     padding: var(--paddingboxmobile);
   }
   .header {
@@ -215,10 +226,6 @@
     align-items: flex-end;
   }
   .filterToolbar {
-    align-items: stretch;
-    flex-direction: column;
-  }
-  .filterGroup {
     justify-content: stretch;
   }
   .filter {
@@ -234,6 +241,9 @@
   }
   .status {
     align-self: flex-start;
+  }
+  .details {
+    grid-template-columns: 1fr;
   }
 }
 

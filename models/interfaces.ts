@@ -5316,6 +5316,7 @@ export default interface IUserCoupon {
   isDeleted: boolean;
   useCount: number;
   maxCount: number;
+  phoneNumber?: string;
   userId: number | null;
   showInBio: boolean;
   instagramerId: number;
