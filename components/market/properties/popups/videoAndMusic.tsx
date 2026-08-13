@@ -576,25 +576,13 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
                 </div>
                 <div className="headerparent">
                   <InputBox
+                    pasteIcon={true}
                     className={"textinputbox"}
                     placeHolder={t(LanguageKey.pageToolspopup_typehere)}
                     handleInputChange={handleSearchChannel}
                     value={channelSearch?.searchYoutubePage || ""}
                     maxLength={undefined}
                     name={""}
-                  />
-                  <img
-                    onClick={() => {
-                      navigator.clipboard.writeText(channelSearch?.searchYoutubePage || "");
-                    }}
-                    style={{
-                      cursor: "pointer",
-                      width: "30px",
-                      height: "30px",
-                      padding: "5px",
-                    }}
-                    title="ℹ️ paste"
-                    src="/copy.svg"
                   />
                 </div>
                 {channelSearch &&
@@ -681,25 +669,13 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
                 </div>
                 <div className="headerparent">
                   <InputBox
+                    pasteIcon={true}
                     className={"textinputbox"}
                     placeHolder={t(LanguageKey.pageToolspopup_typehere)}
                     handleInputChange={handleSearchChannel}
                     value={channelSearch?.searchAparatPage || ""}
                     maxLength={undefined}
                     name={"searchAparatPage"}
-                  />
-                  <img
-                    onClick={() => {
-                      navigator.clipboard.writeText(channelSearch?.searchAparatPage || "");
-                    }}
-                    style={{
-                      cursor: "pointer",
-                      width: "30px",
-                      height: "30px",
-                      padding: "5px",
-                    }}
-                    title="ℹ️ paste"
-                    src="/copy.svg"
                   />
                 </div>
                 {channelSearch &&
@@ -784,21 +760,12 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
                 </div>
                 <div className="headerparent">
                   <InputBox
+                    pasteIcon={true}
                     className={"textinputbox"}
                     placeHolder={t(LanguageKey.pageToolspopup_typehere)}
                     name={"searchTwitchPage"}
                     handleInputChange={handleSearchChannel}
                     value={channelSearch.searchTwitchPage || ""}
-                  />
-                  <img
-                    style={{
-                      cursor: "pointer",
-                      width: "30px",
-                      height: "30px",
-                      padding: "5px",
-                    }}
-                    title="ℹ️ paste"
-                    src="/copy.svg"
                   />
                 </div>
                 {channelSearch &&

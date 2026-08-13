@@ -3476,8 +3476,6 @@ export default {
     "There are no image generation models available for this account.":
       "Для этого аккаунта нет доступных моделей генерации изображений.",
     "Not available": "Недоступно",
-    Yes: "Да",
-    No: "Нет",
     // #endregion Notification Section
     how: "Как",
     SharedRemainingTimeBefore: "Перед повторной публикацией необходимо подождать 24 часа.",

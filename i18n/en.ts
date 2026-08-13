@@ -1557,7 +1557,7 @@ export default {
     pageLottery_MinimumMentionexplain: "The count of people must be mentioned",
     pageLottery_FollowedPage: "Followed Page",
     pageLottery_FollowedPageexplain: "People must Follow your page and/or pages you choose to enter the giveaway",
-    pageLottery_FollowmyPage: "Follo my Page",
+    pageLottery_FollowmyPage: "Follow my Page",
     pageLottery_FollowalternativePages: "Follow alternative Pages",
     pageLottery_Termsconditions: "Terms & conditions",
     pageLottery_publishTermsconditions: "Publish Terms & conditions",
@@ -3441,8 +3441,6 @@ export default {
     "There are no image generation models available for this account.":
       "There are no image generation models available for this account.",
     "Not available": "Not available",
-    Yes: "Yes",
-    No: "No",
     // #endregion Notification Section
 
     how: "How",

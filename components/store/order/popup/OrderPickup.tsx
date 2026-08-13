@@ -414,6 +414,7 @@ const OrderPickup: FC<OrderDetailProps> = ({
                           <div className="headertext"> {t(LanguageKey.Storeorder_TrackingCode)}</div>
                           <div className="headerparent">
                             <InputBox
+                              pasteIcon={true}
                               name="TrackingCode"
                               className="textinputbox"
                               placeHolder={t(LanguageKey.pageToolspopup_typehere)}
@@ -422,24 +423,6 @@ const OrderPickup: FC<OrderDetailProps> = ({
                                 setParcelId(e.target.value);
                               }}
                               value={parcelId}
-                            />
-                            <img
-                              style={{
-                                cursor: "pointer",
-                                width: "30px",
-                                height: "30px",
-                                padding: "5px",
-                              }}
-                              title="ℹ️ paste"
-                              src="/copy.svg"
-                              onClick={async () => {
-                                try {
-                                  const clipboardText = await navigator.clipboard.readText();
-                                  setParcelId(clipboardText);
-                                } catch (error) {
-                                  console.error("Failed to read clipboard:", error);
-                                }
-                              }}
                             />
                           </div>
                         </div>

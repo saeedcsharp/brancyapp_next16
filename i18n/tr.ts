@@ -3435,8 +3435,6 @@ export default {
     "There are no image generation models available for this account.":
       "Bu hesap için kullanılabilir görsel oluşturma modeli yok.",
     "Not available": "Mevcut değil",
-    Yes: "Evet",
-    No: "Hayır",
     // #endregion Notification Section
     how: "Nasıl",
     SharedRemainingTimeBefore: "Tekrar paylaşım yapmadan önce 24 saat beklemelisiniz.",

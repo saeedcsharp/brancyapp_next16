@@ -210,8 +210,10 @@ const ContactForm = (props: { removeMask: () => void }) => {
               <div className="headerandinput">
                 <div className="headertext">{t(LanguageKey.phone)}</div>
                 <InputBox
+                  numberType
+                  pasteIcon={true}
                   dangerOnEmpty
-                  className={"textinputbox"}
+                  className="textinputbox"
                   handleInputChange={(e) => {
                     setContactAndMap((prev) => ({
                       ...prev,
@@ -228,7 +230,8 @@ const ContactForm = (props: { removeMask: () => void }) => {
               <div className="headerandinput">
                 <div className="headertext">{t(LanguageKey.email)}</div>
                 <InputBox
-                  className={"textinputbox"}
+                  pasteIcon={true}
+                  className="textinputbox"
                   placeHolder={""}
                   handleInputChange={(e: ChangeEvent<HTMLInputElement>) => {
                     console.log("emaillll", e.currentTarget.name);

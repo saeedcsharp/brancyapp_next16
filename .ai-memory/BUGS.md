@@ -14,6 +14,8 @@ The customer shop sign-in flash on reload was fixed on 2026-08-10 by handling th
 
 The General settings language radio hydration mismatch was fixed on 2026-08-12 by keeping the initial language state aligned with English-first i18n initialization and applying `localStorage` after mount.
 
+The brush line chart numeric-label hydration mismatch was fixed on 2026-08-13 by making count formatting use an explicit `en-US` locale instead of the runtime default locale.
+
 ## Watchlist
 
 - Bulk product saves issue one `/api/product/CreateSubProducts` request per selected product. The backend map exposes no atomic bulk-update endpoint, so a later request can fail after earlier products have already been updated; the UI reports the failed response and refreshes only after complete success.

@@ -57,6 +57,13 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Fixed brush line chart hydration mismatches by formatting count labels with an explicit `en-US` locale instead of the runtime default locale.
+
+- Fixed `InputBox` so an empty field with `dangerOnEmpty` receives the shared `.shake` animation class and replays the animation when it enters the invalid empty state.
+
+- Standardized the shared `InputBox` while preserving its legacy class models and controlled callback API. It now has responsive fluid sizing, RTL/LTR logical spacing, mobile-safe 16px text, localized-digit normalization, native read-only/disabled/required behavior, forwarded refs, semantic `variant`/`status` options, and an accessible native clear button. Existing full-project typecheck still reports unrelated wallet import and duplicate locale-key errors.
+- Fixed the shared `InputBox` clear button positioning by anchoring it inside a full-width relative wrapper at the physical right edge for both LTR and RTL layouts.
+
 - Added a second authenticated `/dev` destination for `/dev/systemDesign`. The system design lab uses only mock data, groups design components in a responsive bento-style grid, and exposes interactive states for the shared input, form, loading, chart, navigation, drag/drop, modal, AI, and text-editor components. The existing package report remains available at `/dev/package`.
 
 - Fixed the General settings language-control hydration mismatch by keeping its initial render English and applying the stored browser language after mount, matching the global i18n initialization contract.

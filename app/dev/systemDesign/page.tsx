@@ -45,6 +45,7 @@ const inputModels = [
   "textinputbox",
   "serachMenuBar",
 ];
+const inputUnits = ["gram", "Kg", "CM", "MM", "$", "%"];
 const chartSeries = [
   {
     id: "sales",
@@ -114,6 +115,8 @@ export default function SystemDesignPage() {
   const [inputValues, setInputValues] = useState<Record<string, string>>({
     textinputbox: "نمونه‌ی پرشده",
     success: "تأیید شده",
+    num: "۱۲۳۴",
+    numAndPercentage: "۹۵",
     search: "",
   });
   const [text, setText] = useState("یک متن نمایشی برای تست راست‌چین و تغییر اندازه.");
@@ -166,6 +169,23 @@ export default function SystemDesignPage() {
                 disabled={model === "disable"}
                 numberType={model === "num" || model === "numAndPercentage"}
                 dangerOnEmpty={model === "danger"}
+                pasteIcon={model === "initial"}
+              />
+            </DemoCard>
+          ))}
+        </div>
+        <div className={styles.inputGrid}>
+          {inputUnits.map((unit, index) => (
+            <DemoCard key={unit} name={`unit / ${unit}`} note={index === 0 ? "custom unit" : undefined}>
+              <InputBox
+                className="textinputbox"
+                value={inputValues[`unit-${unit}`] ?? (index === 0 ? "۱۲۵۰" : index === 4 ? "۲۹۹" : "۱۲")}
+                handleInputChange={setInput(`unit-${unit}`)}
+                unit={unit}
+                unitStyle={index === 4 ? { color: "var(--color-dark-green)", fontWeight: 700 } : undefined}
+                numberType
+                inputMode="numeric"
+                placeHolder={`مقدار ${unit}`}
               />
             </DemoCard>
           ))}

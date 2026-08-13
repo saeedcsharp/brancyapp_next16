@@ -2,6 +2,8 @@
 
 ## Pending Documentation Tasks
 
+- Add component/browser coverage for InputBox legacy models and semantic variants, RTL/LTR direction, physical-right clear-button placement, localized digits, native clear keyboard behavior, disabled/read-only states, mobile zoom prevention, forced colors, reduced motion, and responsive overflow across Chrome, Edge, Firefox, iOS Safari, and Android Chrome when a UI test harness is introduced.
+
 - Add browser coverage for the protected `/dev` destination chooser and `/dev/systemDesign` component-state interactions, including all `InputBox` models, RTL/mobile layout, portal components, charts, drag/drop, and modal behavior when a UI test harness is introduced.
 
 - For every future feature or option change, check and update the matching active or audit-only record in `/feature`; keep this rule enforced in implementation reviews.
@@ -11,6 +13,8 @@
 - Add browser coverage confirming the user wallet item is absent from desktop and mobile user navigation while the direct user wallet route remains available when a UI test harness is introduced.
 
 - Add browser coverage confirming the General settings language controls hydrate without text mismatch and then reflect the stored language when a UI test harness is introduced.
+
+- Add component/browser coverage confirming brush line chart SVG axis and tooltip count labels hydrate identically across locale settings when a UI test harness is introduced.
 
 - Add unit coverage for link countdown formatting below 24 hours, at the 24-hour boundary, and across multiple days when a test harness is introduced.
 

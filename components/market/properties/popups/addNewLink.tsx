@@ -853,6 +853,7 @@ const AddNewLink = (props: { removeMask: () => void; handleAddNewLink: (newLink:
                   </div>
                   <div className="headerparent">
                     <InputBox
+                      pasteIcon={true}
                       className={"textinputbox"}
                       placeHolder={"URL Address"}
                       handleInputChange={handleInputChange}
@@ -860,17 +861,6 @@ const AddNewLink = (props: { removeMask: () => void; handleAddNewLink: (newLink:
                       maxLength={undefined}
                       name={"redirectUrl"}
                       dangerOnEmpty
-                    />
-                    <img
-                      onClick={handleButtonClick}
-                      style={{
-                        cursor: "pointer",
-                        width: "30px",
-                        height: "30px",
-                        padding: "var(--padding-5)",
-                      }}
-                      title="ℹ️ paste"
-                      src="/copy.svg"
                     />
                   </div>
                 </div>

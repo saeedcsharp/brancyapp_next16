@@ -1,91 +1,196 @@
-.initial {
-  position: absolute;
+.inputBox {
   display: flex;
-  width: 344px;
-  height: 48px;
-  align-items: center;
-  flex-shrink: 0;
-  border-radius: var(--br15);
-  transition: var(--transition3);
-  outline: none;
-  border: 1px solid var(--content-box);
-}
-.initial:focus {
-  background: var(--color-white);
-  border-color: var(--color-dark-blue);
-  border-radius: var(--br8);
-  box-shadow: 0 0 4px 5px var(--color-gray);
-  /* color: var(--color-white); */
-  background-position: 15px center;
-  transition: var(--transition3);
-}
-
-.hover {
-  position: absolute;
-  width: 236px;
-  height: 48px;
-  background: var(--color-gray);
-  border-color: var(--content-box);
-  border-radius: var(--br10);
-  background-color: var(--color-disable);
-  transition: var(--transition3);
-}
-
-.disable {
-  padding-inline: var(--padding-16) var(--padding-28);
+  gap: 5px;
   position: relative;
-  display: flex;
-  height: 42px;
-  color: var(--text-h2);
-  border-radius: var(--br15);
-  background: var(--color-white);
+  inline-size: 100%;
+  justify-content: center;
+  align-items: center;
+}
+
+.input,
+.initial,
+.hover,
+.disable,
+.filled,
+.success,
+.info,
+.warning,
+.danger,
+.num,
+.numAndPercentage,
+.search,
+.textinputbox,
+.serachMenuBar {
+  box-sizing: border-box;
+  display: block;
+  inline-size: 100%;
+  max-inline-size: 100%;
+  min-block-size: 44px;
+  block-size: auto;
+  min-inline-size: 0;
+  margin: 0;
+  padding: 10px 30px 10px 12px;
+  /* padding-inline: 16px 46px; */
   border: 1px solid var(--content-box);
+  border-radius: var(--br15);
   outline: none;
-  transition: var(--transition3);
-  font-size: var(--font-12);
+  background: var(--color-white);
+  color: var(--text-h1);
+  font-family: inherit;
+  font-size: 16px;
   font-weight: var(--weight-400);
-  width: -webkit-fill-available;
-  align-items: flex-start;
-  align-content: flex-start;
-  pointer-events: none !important;
-  opacity: 0.3 !important;
-}
-.filled {
-  position: absolute;
-  width: 236px;
-  height: 42px;
-  border-color: var(--content-box);
-  border-radius: var(--br15);
-  background-color: var(--color-white);
+  line-height: 22px;
   transition: var(--transition3);
+  -webkit-appearance: none;
+  appearance: none;
 }
+.input:hover:not(:disabled),
+.textinputbox:hover:not(:disabled),
+.initial:hover:not(:disabled),
+.hover:hover:not(:disabled),
+.filled:hover:not(:disabled),
+.num:hover:not(:disabled),
+.numAndPercentage:hover:not(:disabled),
+.search:hover:not(:disabled),
+.serachMenuBar:hover:not(:disabled) {
+  border-color: var(--color-dark-blue);
+}
+.input:focus-visible,
+.textinputbox:focus-visible,
+.initial:focus-visible,
+.hover:focus-visible,
+.filled:focus-visible,
+.num:focus-visible,
+.numAndPercentage:focus-visible,
+.search:focus-visible,
+.serachMenuBar:focus-visible {
+  border-color: var(--color-dark-blue);
+  border-radius: var(--br10);
+  box-shadow: 0 0 0 4px var(--color-dark-blue30);
+  color: var(--text-h1);
+}
+.input:disabled,
+.textinputbox:disabled,
+.initial:disabled,
+.hover:disabled,
+.filled:disabled,
+.num:disabled,
+.numAndPercentage:disabled,
+.search:disabled,
+.serachMenuBar:disabled,
+.disable {
+  cursor: not-allowed;
+  opacity: 0.55;
+  background: var(--color-disable);
+  color: var(--text-h3);
+}
+.input::placeholder,
+.textinputbox::placeholder,
+.initial::placeholder,
+.hover::placeholder,
+.filled::placeholder,
+.num::placeholder,
+.numAndPercentage::placeholder,
+.search::placeholder,
+.serachMenuBar::placeholder {
+  color: var(--text-h2);
+  opacity: 1;
+}
+.statusSuccess,
 .success {
-  position: absolute;
-  width: 236px;
-  height: 42px;
   border-color: var(--color-dark-green);
-  border-radius: var(--br15);
-  background-color: var(--color-white);
-  transition: var(--transition3);
 }
+.statusInfo,
 .info {
-  position: absolute;
-  width: 236px;
-  height: 42px;
   border-color: var(--color-light-blue);
-  border-radius: var(--br15);
-  background-color: var(--color-white);
-  transition: var(--transition3);
 }
+.statusWarning,
 .warning {
-  position: absolute;
-  width: 236px;
-  height: 42px;
   border-color: var(--color-dark-yellow);
-  border-radius: var(--br15);
-  background-color: var(--color-white);
-  transition: var(--transition3);
 }
+.statusDanger,
+.danger {
+  border-color: var(--color-dark-red);
+}
+.variantSearch,
+.variantMenuSearch,
+.search,
+.serachMenuBar {
+  padding-inline-start: 42px;
+}
+.variantSearch,
+.search {
+  min-block-size: 44px;
+}
+.variantMenuSearch,
+.serachMenuBar {
+  line-height: 20px;
+}
+.variantSearch,
+.search,
+.variantMenuSearch,
+.serachMenuBar {
+  background-image: url("/icon-search.svg");
+  background-repeat: no-repeat;
+  background-size: 18px 18px;
+  background-position: 8px center;
+  padding: 10px 30px 10px 34px;
+}
+.rtl {
+  direction: rtl;
+  text-align: right;
+}
+.ltr {
+  direction: ltr;
+  text-align: left;
+}
+.clearButton {
+  position: absolute;
+  margin: 0 8px 0 0;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 1;
+  right: 0px;
+  bottom: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 18px;
+  block-size: 18px;
+  padding: 0;
+  border-radius: 50%;
+  border: 0;
+  background: transparent;
+  transition: var(--transition3);
+  animation: var(--fadeIn3);
+  cursor: pointer;
+  line-height: 0;
+}
+.clearButton:hover {
+  transform: translateY(-50%) scale(1.1);
+}
+.pasteButton {
+  position: relative;
+  z-index: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  inline-size: 30px;
+  block-size: 30px;
+  padding: 3px;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+  line-height: 0;
+}
+.pasteButton:hover:not(:disabled) {
+  transform: scale(1.1);
+}
+.pasteButton:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
 @keyframes shake {
   0%,
   100% {
@@ -105,264 +210,79 @@
     transform: translateX(1px);
   }
 }
-
-.danger {
-  padding-inline: var(--padding-16) var(--padding-28);
-  position: relative;
-  display: flex;
-  height: 42px;
-  color: var(--text-h2);
-  border-radius: var(--br15);
-  background: var(--color-white);
-  border: 1px solid var(--color-dark-red);
-  outline: none;
-  transition: var(--transition3);
-  font-size: var(--font-12);
-  font-weight: var(--weight-400);
-  width: -webkit-fill-available;
-  align-items: flex-start;
-  align-content: flex-start;
-  animation: shake 0.6s ease-in-out;
-}
-/* Reusable shake class for inputs */
 .shake {
   animation: shake 0.6s ease-in-out;
 }
-.num {
+@media (prefers-reduced-motion: reduce) {
+  .input,
+  .initial,
+  .hover,
+  .disable,
+  .filled,
+  .success,
+  .info,
+  .warning,
+  .danger,
+  .num,
+  .numAndPercentage,
+  .search,
+  .textinputbox,
+  .serachMenuBar,
+  .shake {
+    transition: none;
+    animation: none;
+  }
+}
+@media (forced-colors: active) {
+  .input,
+  .initial,
+  .hover,
+  .disable,
+  .filled,
+  .success,
+  .info,
+  .warning,
+  .danger,
+  .num,
+  .numAndPercentage,
+  .search,
+  .textinputbox,
+  .serachMenuBar {
+    border: 1px solid ButtonText;
+    background: Canvas;
+    color: CanvasText;
+  }
+  .input:focus-visible,
+  .textinputbox:focus-visible {
+    outline: 2px solid Highlight;
+    box-shadow: none;
+  }
+}
+.unitLabel {
   position: absolute;
-  width: 236px;
-  height: 42px;
-  border-color: var(--content-box);
-  border-radius: var(--br15);
-  background-color: var(--color-disable);
-  transition: var(--transition3);
-}
-.numAndPercentage {
-  position: absolute;
-  width: 236px;
-  height: 42px;
-  border-color: var(--content-box);
-  border-radius: var(--br15);
-  background-color: var(--color-disable);
-  transition: var(--transition3);
-}
-.search {
-  width: 348px;
-  height: 20px;
-  color: var(--content-box);
-  border-radius: var(--br15);
-  background: var(--color-white);
-  transition: var(--transition3);
-  outline: none;
-  /* Remove the always-on background image */
-  padding: var(--padding-10) var(--padding-10) var(--padding-10) 42px;
-  border: 1px solid var(--content-box);
-  line-height: 30px;
-  text-decoration: none;
-}
-.search:focus {
-  background-size: auto 20px;
-  background: var(--color-white);
-  border-color: var(--color-dark-blue);
-  border-radius: var(--br15);
-  box-shadow: 0 0 4px 5px var(--color-gray);
-  color: var(--text-h1);
-  /* Remove the always-on background image */
-  transition: var(--transition3);
-  line-height: 30px;
-  text-decoration: none;
-}
-
-/* Add these styles for background image handling */
-.emptyInput.search {
-  background-image: url("/icon-search.svg");
-  background-repeat: no-repeat;
-  background-size: auto 20px;
-  background-position: 15px center;
-}
-
-/* For empty inputs that are focused */
-.emptyInput.search:focus {
-  background-image: url("/icon-search.svg");
-  background-repeat: no-repeat;
-  background-position: 15px center;
-}
-
-/* ___textinputbox___*/
-.textinputbox {
-  padding-inline: var(--padding-16) var(--padding-28);
-  position: relative;
-  display: flex;
-  height: 42px;
-  color: var(--text-h2);
-  border-radius: var(--br15);
-  background: var(--color-white);
-  border: 1px solid var(--content-box);
-  outline: none;
-  transition: var(--transition3);
-  font-size: var(--font-12);
-  font-weight: var(--weight-400);
-  width: -webkit-fill-available;
-  align-items: flex-start;
-  align-content: flex-start;
-}
-
-.textinputbox:hover {
-  border-color: var(--color-dark-blue);
-  border-radius: var(--br10);
-}
-
-.textinputbox:focus {
-  border-radius: var(--br10);
-  transform: scale(0.99);
-
-  border-color: var(--color-dark-blue);
-  box-shadow: 0 0 0 5px var(--color-dark-blue30);
-
-  color: var(--text-h1);
-}
-.textinputbox:focus-visible {
-  border-radius: var(--br10);
-  transform: scale(0.99);
-  border: 1px solid var(--color-dark-blue) !important;
-  box-shadow: 0 0 0 5px var(--color-dark-blue30);
-
-  color: var(--text-h1);
-}
-
-.textinputbox:active {
-  transform: scale(0.99);
-  text-decoration: none;
-}
-
-.textinputbox::placeholder {
-  color: var(--text-h2);
-  text-decoration: none;
-}
-
-.textinputbox:focus::placeholder {
-  color: var(--text-h2);
-  transition: var(--transition3);
-  text-decoration: none;
-}
-
-.textinputbox:disabled {
-  background-color: var(--color-disable); /* Or any other style to indicate disabled state */
-  color: var(--text-h3); /* Lighter text color for disabled state */
-  cursor: not-allowed;
-  border-color: var(--content-box); /* Keep border or change as needed */
-}
-
-.textinputbox:disabled:hover,
-.textinputbox:disabled:focus {
-  border-color: var(--content-box); /* Prevent hover/focus styles on disabled */
-  box-shadow: none;
-  transform: none;
-}
-
-/* ___textinputbox___*/
-
-/* ___serachMenuBar___*/
-.serachMenuBar {
-  padding: var(--padding-5) var(--padding-20) var(--padding-5) 42px;
-  position: relative;
-  display: flex;
-  height: 42px;
-  color: var(--text-h2);
-  background: var(--color-white);
-  border: 1px solid var(--content-box);
-  outline: none;
-  transition: var(--transition3);
-  font-size: var(--font-12);
-
-  font-weight: var(--weight-400);
-  line-height: 20px;
-  width: -webkit-fill-available;
-  border-radius: var(--br15);
-  /* Remove the always-on background image */
-  text-decoration: none;
-}
-html[dir="rtl"] .serachMenuBar {
-  padding: var(--padding-5) 42px var(--padding-5) var(--padding-5) !important;
-  background-position: right 10px center !important;
-}
-.serachMenuBar:hover {
-  border-color: var(--color-dark-blue);
-  border-radius: var(--br10);
-  line-height: 20px;
-  text-decoration: none;
-}
-
-.serachMenuBar:focus {
-  background: var(--color-white);
-  border-color: var(--color-dark-blue);
-  border-radius: var(--br10);
-  box-shadow: 0 0 0 5px var(--color-dark-blue30);
-  color: var(--text-h1);
-  transition: var(--transition3);
-  /* Remove the always-on background image */
-  line-height: 20px;
-  text-decoration: none;
-}
-
-/* Add these styles for background image handling */
-.emptyInput.serachMenuBar {
-  background-image: url("/icon-search.svg");
-  background-repeat: no-repeat;
-  background-position: 10px center;
-}
-
-/* For empty inputs that are focused */
-.emptyInput.serachMenuBar:focus {
-  background-image: url("/icon-search.svg");
-  background-repeat: no-repeat;
-  background-position: 10px center;
-}
-
-.serachMenuBar:active {
-  transform: scale(0.99);
-  text-decoration: none;
-}
-
-.serachMenuBar::placeholder {
-  color: var(--text-h2);
-  line-height: 20px;
-  text-decoration: none;
-  text-transform: capitalize;
-}
-
-.serachMenuBar:focus::placeholder {
-  color: var(--text-h2);
-  transition: var(--transition3);
-  line-height: 20px;
-  text-decoration: none;
-}
-
-/* ___serachMenuBar___*/
-.inputWrapper {
-  padding: 2px;
-  position: relative;
-  display: inline-block;
-  width: 100%;
-}
-.clearButton {
-  position: absolute;
+  z-index: 1;
+  margin: 0px;
   top: 50%;
+  right: 0;
   transform: translateY(-50%);
-  cursor: pointer;
+  margin-inline-end: auto;
   display: flex;
   align-items: center;
   justify-content: center;
+  inline-size: clamp(30px, 30%, 50px);
+  box-sizing: border-box;
+  min-block-size: 32px;
+  border-left: 1px solid var(--color-gray60);
+  overflow: hidden;
+  color: var(--text-h2);
+  font-size: var(--font-12);
+  font-weight: var(--weight-500);
+  line-height: 20px;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  pointer-events: none;
 }
-.clearButtonLtr {
-  right: 10px;
-}
-.clearButtonRtl {
-  left: 10px;
-}
-.inputWrapper input.ltr {
-  padding-right: 30px;
-}
-.inputWrapper input.rtl {
-  padding-left: 30px;
+.hasUnit {
+  padding-left: 12px;
+  padding-right: clamp(40px, 30%, 60px);
 }

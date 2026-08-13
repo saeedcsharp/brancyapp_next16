@@ -1,6 +1,24 @@
 - Refined the store statistics coupon manager presentation with elevated coupon cards, clearer status badges, metadata chips, responsive mobile stacking, and reduced-motion support.
 
+- Fixed brush line chart hydration mismatches by using an explicit `en-US` locale for count labels rendered in SVG axes and tooltips.
+
 # Changelog
+
+- Anchored the shared InputBox clear button inside a full-width relative wrapper so it remains centered at the physical right edge in both LTR and RTL layouts.
+
+- Removed the extra InputBox wrapper element. The clear button remains visually overlaid as an accessible sibling because native HTML `input` elements cannot contain children.
+
+- Fixed the shared InputBox empty-danger state so `dangerOnEmpty` activates the existing shake animation in addition to the invalid border.
+
+- Added strict digit-only handling for InputBox numeric modes, Unicode decimal-digit normalization to English digits, and an extensible styled `unit`/`unitStyle` option for values such as `Kg`, `CM`, `MM`, and `$` without adding a wrapper element.
+
+- Extended `/dev/systemDesign` with interactive numeric samples using Persian digits and unit samples for `gram`, `Kg`, `CM`, `MM`, `$`, and `%`, including a custom unit style.
+
+- Updated InputBox so a displayed `unit` occupies the trailing control area and suppresses the clear button.
+
+- Matched the `unitLabel` width to the InputBox unit padding with `clamp(40px, 30%, 60px)` so both regions remain identical responsively.
+
+- Standardized the shared `InputBox` with a responsive fluid base, logical RTL/LTR layout, 16px mobile-safe typography, localized-digit normalization, native disabled/read-only/required behavior, forwarded refs, semantic `variant`/`status` props, keyboard-accessible clear control, and reduced-motion/forced-colors fallbacks while retaining all legacy CSS models.
 
 - Added a password-protected dev-panel choice between the dependency report and a new `/dev/systemDesign` mock component laboratory. The lab uses a responsive bento grid and interactive local samples, including every `InputBox` CSS model and grouped design controls, charts, loaders, menus, drag/drop, modal, AI button, phone input, and text editor.
 

@@ -328,6 +328,7 @@ const Editlink = (props: { info: ILink; removeMask: () => void; handleUpdateLink
               </div>
               <div className="headerparent">
                 <InputBox
+                  pasteIcon={true}
                   className="textinputbox"
                   placeHolder={""}
                   handleInputChange={handleInputChange}
@@ -336,21 +337,6 @@ const Editlink = (props: { info: ILink; removeMask: () => void; handleUpdateLink
                   name={"redirectUrl"}
                   dangerOnEmpty
                 />
-                <button
-                  type="button"
-                  onClick={handleButtonClick}
-                  style={{
-                    cursor: "pointer",
-                    width: "30px",
-                    height: "30px",
-                    padding: "var(--padding-5)",
-                    border: "none",
-                    background: "transparent",
-                  }}
-                  title="Paste from clipboard"
-                  aria-label="Paste URL from clipboard">
-                  <img src="/copy.svg" alt="" role="presentation" />
-                </button>
               </div>
             </div>
 

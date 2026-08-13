@@ -389,6 +389,7 @@ const DomainManager = ({
                               />
                             </Tooltip>
                             <button
+                              style={{ maxWidth: "30%" }}
                               type="submit"
                               disabled={!isInputDomainValid || isUpdating}
                               className={isInputDomainValid && !isUpdating ? "saveButton" : "disableButton"}>
