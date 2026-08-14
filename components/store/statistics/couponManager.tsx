@@ -140,7 +140,7 @@ const CouponManager = ({
                           {t(LanguageKey.storestatistics_expiryValue, {
                             date: coupon.expireTime
                               ? new DateObject({
-                                  date: coupon.expireTime * 1000,
+                                  date: coupon.expireTime,
                                   calendar: initialzedTime().calendar,
                                   locale: initialzedTime().locale,
                                 }).format("YYYY/MM/DD")

@@ -8,6 +8,8 @@ import { InternalResponseType, internalNotify, NotifType } from "brancy/componen
 import SwitchButton from "brancy/components/design/switchButton/switchButton";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./createCouponModal.module.css";
+import initialzedTime from "brancy/helper/manageTimer";
+import { DateObject } from "react-multi-date-picker";
 
 export interface CreateCouponRequest {
   code: string;
@@ -108,7 +110,11 @@ const CreateCouponModal = ({ showContent, closePopup, onCreate }: CreateCouponMo
                 <button className={styles.dateButton} type="button" onClick={() => setShowDatePicker(true)}>
                   <span>
                     {form.expireTime
-                      ? new Date(form.expireTime).toLocaleString()
+                      ? new DateObject({
+                          date: form.expireTime,
+                          calendar: initialzedTime().calendar,
+                          locale: initialzedTime().locale,
+                        }).format("YYYY/MM/DD")
                       : t(LanguageKey.storestatistics_couponExpiry)}
                   </span>
                   <img src="/selectDate-item.svg" alt="" aria-hidden="true" />

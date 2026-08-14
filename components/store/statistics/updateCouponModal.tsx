@@ -7,6 +7,8 @@ import { LanguageKey } from "brancy/i18n";
 import IUserCoupon from "brancy/models/interfaces";
 import styles from "./createCouponModal.module.css";
 import InputBox from "brancy/components/design/inputBox/inputBox";
+import initialzedTime from "brancy/helper/manageTimer";
+import { DateObject } from "react-multi-date-picker";
 
 export interface UpdateCouponRequest {
   couponId: number;
@@ -77,7 +79,13 @@ const UpdateCouponModal = ({ coupon, closePopup, onUpdate }: UpdateCouponModalPr
           <div className="headerparent">
             <button className={styles.dateButton} type="button" onClick={() => setShowDatePicker(true)}>
               <span>
-                {expireTime ? new Date(expireTime).toLocaleString() : t(LanguageKey.storestatistics_couponExpiry)}
+                {expireTime
+                  ? new DateObject({
+                      date: coupon.expireTime,
+                      calendar: initialzedTime().calendar,
+                      locale: initialzedTime().locale,
+                    }).format("YYYY/MM/DD")
+                  : t(LanguageKey.storestatistics_couponExpiry)}
               </span>
               <img src="/selectDate-item.svg" alt="" aria-hidden="true" />
             </button>
