@@ -336,7 +336,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
         internalNotify(
           InternalResponseType.InvalidMetaData,
           NotifType.Warning,
-          generatedImage.metadata || t(", Image generation failed."),
+          generatedImage.metadata || t(", Media generation failed."),
         );
       }
     } catch (error) {
