@@ -1,7 +1,3 @@
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { ChangeEvent, SetStateAction, useCallback, useEffect, useMemo, useReducer, useRef } from "react";
-import { useTranslation } from "react-i18next";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
@@ -14,18 +10,21 @@ import {
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
-import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import styles from "./featureBoxPU.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { LanguageKey } from "brancy/i18n";
 import {
-  ISearchChannel,
-  IUpdateChannel,
   IChannelBox,
   IChannelInfo,
-  IMyLinkChannel,
   IPropertiesChannel,
+  ISearchChannel,
+  IUpdateChannel,
 } from "brancy/models/interfaces";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { ChangeEvent, SetStateAction, useCallback, useEffect, useMemo, useReducer, useRef } from "react";
+import { useTranslation } from "react-i18next";
+import styles from "./featureBoxPU.module.css";
 const initialChannelSearchState: ISearchChannel = {
   searchAparatPage: "",
   searchYoutubePage: "",
@@ -244,7 +243,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
           notify(youtubeUpdateRes.info.responseType, NotifType.Warning);
         }
       } catch {
-        notify(ResponseType.Unexpected, NotifType.Warning);
+        notify(ResponseType.Unexpected, NotifType.Error);
       }
     }
 
@@ -262,7 +261,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
           notify(aparatUpdateRes.info.responseType, NotifType.Warning);
         }
       } catch {
-        notify(ResponseType.Unexpected, NotifType.Warning);
+        notify(ResponseType.Unexpected, NotifType.Error);
       }
     }
     if (channelSearch.activeTwitch && (updateTwitch.id || updateTwitch.username)) {
@@ -279,7 +278,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
           notify(twitchUpdateRes.info.responseType, NotifType.Warning);
         }
       } catch {
-        notify(ResponseType.Unexpected, NotifType.Warning);
+        notify(ResponseType.Unexpected, NotifType.Error);
       }
     }
 
@@ -585,7 +584,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
                 </div>
                 <div className="headerparent">
                   <InputBox
-                  pasteIcon={true}
+                    pasteIcon={true}
                     className={"textinputbox"}
                     placeHolder={t(LanguageKey.pageToolspopup_typehere)}
                     handleInputChange={handleSearchChannel}
@@ -593,7 +592,6 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
                     maxLength={undefined}
                     name={""}
                   />
-
                 </div>
                 {channelSearch && channelSearch.searchYoutubePage.length > 0 && channelBox.showAddPeapleBox && (
                   <div className={styles.resultSearchmention}>
@@ -672,7 +670,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
                 </div>
                 <div className="headerparent">
                   <InputBox
-                  pasteIcon={true}
+                    pasteIcon={true}
                     className={"textinputbox"}
                     placeHolder={t(LanguageKey.pageToolspopup_typehere)}
                     handleInputChange={handleSearchChannel}
@@ -680,7 +678,6 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
                     maxLength={undefined}
                     name={"searchAparatPage"}
                   />
-
                 </div>
                 {channelSearch && channelSearch.searchAparatPage.length > 0 && channelBox.showAddPeapleBox && (
                   <div className={styles.resultSearchmention}>
@@ -757,14 +754,13 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
                 </div>
                 <div className="headerparent">
                   <InputBox
-                  pasteIcon={true}
+                    pasteIcon={true}
                     className={"textinputbox"}
                     placeHolder={t(LanguageKey.pageToolspopup_typehere)}
                     name={"searchTwitchPage"}
                     handleInputChange={handleSearchChannel}
                     value={channelSearch.searchTwitchPage || ""}
                   />
-
                 </div>
                 {channelSearch && channelSearch.searchTwitchPage.length > 0 && channelBox.showAddPeapleBox && (
                   <div className={styles.resultSearchmention}>

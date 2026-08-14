@@ -1,3 +1,5 @@
+- Add component/browser coverage for the Market Properties FeatureBox API loading, Working Hours editor tab, Terms & Conditions list, empty responses, API failures, and mobile/RTL presentation when a UI test harness is introduced.
+
 # TODO
 
 ## Pending Documentation Tasks

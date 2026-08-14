@@ -11,6 +11,8 @@
 
 # Changelog
 
+- Added the Market Properties FeatureBox popup with API-backed Working Hours and Terms & Conditions sections, shared toggle navigation, loading state, business-hours editor, and styled terms list.
+
 - Store properties business-hours summaries now render all seven days and show days missing from the business-hours array as closed.
 
 - Clarified the coupon expiration label in all eight locales to state that the expiration must be at least one hour from the current time.

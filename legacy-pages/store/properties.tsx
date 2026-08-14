@@ -1,4 +1,4 @@
-import EditBusinessHours from "brancy/components/advertise/properties/popups/editBusinessHours";
+import EditBusinessHours from "brancy/components/market/properties/popups/editBusinessHours";
 import Modal from "brancy/components/design/modal";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import NotAllowed from "brancy/components/notOk/notAllowed";
@@ -158,13 +158,13 @@ const Properties = () => {
   });
 
   const [businessHours, setBusinessHours] = useState<IBusinessHour[]>([
-    { weekday: BusinessDay.Monday,  beginTime: 0, endTime: 1410 ,instagramerId: 0 },
-    { weekday: BusinessDay.Tuesday,  beginTime: 0, endTime: 1410 ,instagramerId: 0 },
-    { weekday: BusinessDay.Wednesday,  beginTime: 0, endTime: 1410 ,instagramerId: 0 },
-    { weekday: BusinessDay.Thursday,  beginTime: 0, endTime: 1410 ,instagramerId: 0 },
-    { weekday: BusinessDay.Friday,  beginTime: 0, endTime: 1410 ,instagramerId: 0 },
-    { weekday: BusinessDay.Saturday,  beginTime: 0, endTime: 1410 ,instagramerId: 0 },
-    { weekday: BusinessDay.Sunday,  beginTime: 0, endTime: 1410 ,instagramerId: 0 },
+    { weekday: BusinessDay.Monday, beginTime: 0, endTime: 1410, instagramerId: 0 },
+    { weekday: BusinessDay.Tuesday, beginTime: 0, endTime: 1410, instagramerId: 0 },
+    { weekday: BusinessDay.Wednesday, beginTime: 0, endTime: 1410, instagramerId: 0 },
+    { weekday: BusinessDay.Thursday, beginTime: 0, endTime: 1410, instagramerId: 0 },
+    { weekday: BusinessDay.Friday, beginTime: 0, endTime: 1410, instagramerId: 0 },
+    { weekday: BusinessDay.Saturday, beginTime: 0, endTime: 1410, instagramerId: 0 },
+    { weekday: BusinessDay.Sunday, beginTime: 0, endTime: 1410, instagramerId: 0 },
   ]);
 
   const [showBusinessHoursPopup, setShowBusinessHoursPopup] = useState(false);
@@ -622,8 +622,7 @@ const Properties = () => {
                   <div className={styles.headerparent}>
                     <div className={styles.headertitle1}>{t(findDayName(v.weekday))}</div>
                     {v.beginTime >= 0 && v.endTime >= 0 ? (
-                      numbToAmAndPmTime(v.beginTime) === "12:00 AM" &&
-                      numbToAmAndPmTime(v.endTime) === "11:30 PM" ? (
+                      numbToAmAndPmTime(v.beginTime) === "12:00 AM" && numbToAmAndPmTime(v.endTime) === "11:30 PM" ? (
                         <div className={styles.open} title="فعال ۲۴ ساعته">
                           {t(LanguageKey.advertiseProperties_24hours)}
                         </div>

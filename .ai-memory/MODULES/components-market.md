@@ -168,6 +168,8 @@ The Products card intentionally omits the edit-options three-dot control; other 
 
 ## MyLink Shortcut Links
 
+`components/market/properties/popups/featureBox.tsx` loads working hours and terms from `Instagramer/Bio/GetWorkingHours` and `Instagramer/Bio/GetTermsAndCondtions`. A shared `ToggleButton` switches between the embedded `EditBusinessHours` view and an ordered terms list; the shared `Loading` component remains visible until both requests finish.
+
 `components/market/myLink/featureBox.tsx` renders FeatureBox cards in free mode: the section has native horizontal overflow without scroll snapping, supports touch/trackpad scrolling and primary-button pointer dragging across browsers, and prevents a drag gesture from triggering a tile click. The layout starts at the logical inline start on every viewport and keeps keyboard focus and reduced-motion styles available.
 
 `components/market/myLink/link.tsx` renders shortcut cards with a desktop maximum width of 250px. On mobile, the shortcut section becomes a free horizontal carousel with native touch scrolling and pointer dragging only when horizontal overflow exists; when more than four links exist, each mobile card is reduced to 200px. Dragging suppresses the click that would otherwise redirect to a shortcut URL, while ordinary clicks remain available when the content is not scrollable.

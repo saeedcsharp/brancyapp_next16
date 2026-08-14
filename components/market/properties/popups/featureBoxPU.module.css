@@ -10,6 +10,32 @@
   justify-content: flex-start;
   align-items: flex-start;
 }
+
+.terms {
+  width: 100%;
+  padding: var(--padding-10);
+  color: var(--color-dark-blue);
+  line-height: 1.8;
+}
+
+.terms ol {
+  display: grid;
+  gap: var(--gap-10);
+  margin: 0;
+  padding-inline-start: var(--padding-20);
+}
+
+.terms li {
+  padding: var(--padding-10);
+  border: 1px solid var(--content-box);
+  border-radius: var(--br8);
+  overflow-wrap: anywhere;
+}
+
+.terms p {
+  margin: 0;
+  text-align: center;
+}
 .tile {
   position: relative;
   width: 100%;
