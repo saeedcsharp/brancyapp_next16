@@ -344,6 +344,20 @@ const Features = (props: {
                   <h3 className="title2" style={{ paddingInline: "var(--padding-12)" }} title="ℹ️ Feature name">
                     {t(LanguageKey.marketPropertiesFeaturebox)}
                   </h3>
+                  <button
+                    onClick={() => {
+                      props.showMask(FeatureType.FeaturesBox);
+                    }}
+                    className={styles.more}
+                    title="◰ Edit options"
+                    aria-label={`Edit featurebox`}>
+                    <svg fill="none" height="5" viewBox="0 0 14 5">
+                      <path
+                        fill="var(--color-gray)"
+                        d="M2.5 5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5m9 0a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"
+                      />
+                    </svg>
+                  </button>
                 </div>
               </article>
               <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>

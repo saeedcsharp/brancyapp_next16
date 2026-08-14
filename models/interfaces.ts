@@ -337,8 +337,10 @@ export interface IEditTariff {
 }
 
 export interface IBusinessHour {
-  dayName: BusinessDay;
-  timerInfo: ITimerInfo | null;
+  instagramerId: number;
+  weekday: BusinessDay;
+  beginTime: number;
+  endTime: number;
 }
 
 export interface IActiveBusinessHour {
@@ -381,11 +383,6 @@ interface IPriceNonCamp {
 interface IPriceCamp {
   post: IFullDayPrice;
   story: IFullDayPrice;
-}
-
-export interface ITimerInfo {
-  startTime: number;
-  endTime: number;
 }
 
 export interface ICaledarAds extends IBaseAds {

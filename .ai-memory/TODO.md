@@ -26,6 +26,7 @@
 - Add component/browser coverage for TextArea controlled and uncontrolled values, RTL/LTR direction, bounded auto-resize, Escape handling, forced colors, reduced motion, and focus behavior at iOS Safari and Android Chrome mobile viewport sizes when a UI test harness is introduced.
 - Add component/browser coverage for DotMenu keyboard navigation, focus restoration, Escape/outside-pointer close behavior, long localized labels, RTL placement, reduced motion, forced colors, and narrow viewports when a UI test harness is introduced.
 - Add browser coverage for MyLink product carousel touch scrolling, pointer dragging, horizontal-only overflow, and drag-click suppression when a UI test harness is introduced.
+- Add component coverage confirming store business-hours summaries render all seven weekdays and mark missing backend days as closed when a UI test harness is introduced.
 - Add browser coverage for MyLink FeatureBox free-mode scrolling, pointer dragging, horizontal-only overflow, responsive sizing, and drag-click suppression when a UI test harness is introduced.
 - Add browser coverage for MyLink shortcut-link mobile horizontal scrolling, pointer dragging, conditional 200px sizing for more than four links, and drag-click suppression when a UI test harness is introduced.
 - Add component coverage for MyLink shortcut countdown day/hour/minute/second formatting when a UI test harness is introduced.

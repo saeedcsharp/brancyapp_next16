@@ -11,6 +11,8 @@
 
 # Changelog
 
+- Store properties business-hours summaries now render all seven days and show days missing from the business-hours array as closed.
+
 - Clarified the coupon expiration label in all eight locales to state that the expiration must be at least one hour from the current time.
 
 - Anchored the shared InputBox clear button inside a full-width relative wrapper so it remains centered at the physical right edge in both LTR and RTL layouts.

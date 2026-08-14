@@ -63,6 +63,17 @@ interface NotificationSettings {
   instagramDirect: boolean;
   systemMessage: boolean;
 }
+
+const businessDays: BusinessDay[] = [
+  BusinessDay.Monday,
+  BusinessDay.Tuesday,
+  BusinessDay.Wednesday,
+  BusinessDay.Thursday,
+  BusinessDay.Friday,
+  BusinessDay.Saturday,
+  BusinessDay.Sunday,
+];
+
 const Properties = () => {
   const { t } = useTranslation();
   const router = useRouter();
@@ -147,18 +158,29 @@ const Properties = () => {
   });
 
   const [businessHours, setBusinessHours] = useState<IBusinessHour[]>([
-    { dayName: BusinessDay.Monday, timerInfo: { startTime: 0, endTime: 1410 } },
-    { dayName: BusinessDay.Tuesday, timerInfo: { startTime: 0, endTime: 1410 } },
-    { dayName: BusinessDay.Wednesday, timerInfo: { startTime: 0, endTime: 1410 } },
-    { dayName: BusinessDay.Thursday, timerInfo: { startTime: 0, endTime: 1410 } },
-    { dayName: BusinessDay.Friday, timerInfo: null },
-    { dayName: BusinessDay.Saturday, timerInfo: { startTime: 0, endTime: 1410 } },
-    { dayName: BusinessDay.Sunday, timerInfo: { startTime: 0, endTime: 1410 } },
+    { weekday: BusinessDay.Monday,  beginTime: 0, endTime: 1410 ,instagramerId: 0 },
+    { weekday: BusinessDay.Tuesday,  beginTime: 0, endTime: 1410 ,instagramerId: 0 },
+    { weekday: BusinessDay.Wednesday,  beginTime: 0, endTime: 1410 ,instagramerId: 0 },
+    { weekday: BusinessDay.Thursday,  beginTime: 0, endTime: 1410 ,instagramerId: 0 },
+    { weekday: BusinessDay.Friday,  beginTime: 0, endTime: 1410 ,instagramerId: 0 },
+    { weekday: BusinessDay.Saturday,  beginTime: 0, endTime: 1410 ,instagramerId: 0 },
+    { weekday: BusinessDay.Sunday,  beginTime: 0, endTime: 1410 ,instagramerId: 0 },
   ]);
 
   const [showBusinessHoursPopup, setShowBusinessHoursPopup] = useState(false);
 
   const [isSaving, setIsSaving] = useState(false);
+
+  const businessHoursForDisplay = businessDays.map((weekday) => {
+    return (
+      businessHours.find((businessHour) => businessHour.weekday === weekday) ?? {
+        weekday,
+        beginTime: -1,
+        endTime: -1,
+        instagramerId: 0,
+      }
+    );
+  });
 
   const removeMask = () => {
     changePositionToRelative();
@@ -172,6 +194,7 @@ const Properties = () => {
 
   const saveBusinessHour = (info: IBusinessHour[]) => {
     // TODO: API call to save business hours
+    console.log("Saving business hours:", info);
     setBusinessHours(info);
     removeMask();
   };
@@ -594,21 +617,21 @@ const Properties = () => {
                   </svg>
                 </div>
               </div>
-              {businessHours.map((v, i) => (
-                <div className={styles.section} key={i}>
+              {businessHoursForDisplay.map((v) => (
+                <div className={styles.section} key={v.weekday}>
                   <div className={styles.headerparent}>
-                    <div className={styles.headertitle1}>{t(findDayName(v.dayName))}</div>
-                    {v.timerInfo ? (
-                      numbToAmAndPmTime(v.timerInfo?.startTime) === "12:00 AM" &&
-                      numbToAmAndPmTime(v.timerInfo?.endTime) === "11:30 PM" ? (
+                    <div className={styles.headertitle1}>{t(findDayName(v.weekday))}</div>
+                    {v.beginTime >= 0 && v.endTime >= 0 ? (
+                      numbToAmAndPmTime(v.beginTime) === "12:00 AM" &&
+                      numbToAmAndPmTime(v.endTime) === "11:30 PM" ? (
                         <div className={styles.open} title="فعال ۲۴ ساعته">
                           {t(LanguageKey.advertiseProperties_24hours)}
                         </div>
                       ) : (
                         <div className={styles.active}>
                           <div className={styles.activehour}>
-                            <div className={styles.amhour}>{numbToAmAndPmTime(v.timerInfo?.startTime)}</div>-
-                            <div className={styles.pmhour}>{numbToAmAndPmTime(v.timerInfo?.endTime)}</div>
+                            <div className={styles.amhour}>{numbToAmAndPmTime(v.beginTime)}</div>-
+                            <div className={styles.pmhour}>{numbToAmAndPmTime(v.endTime)}</div>
                           </div>
                         </div>
                       )

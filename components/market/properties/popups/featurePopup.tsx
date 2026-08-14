@@ -8,6 +8,7 @@ import VideoAndMusic from "brancy/components/market/properties/popups/videoAndMu
 import { FeatureType } from "brancy/models/enums";
 import { ISaveLink } from "brancy/models/interfaces";
 import ProductPopup from "./product";
+import FeaturesBoxPopup from "./featureBox";
 
 const FeaturePopUp = (props: {
   featureId: number;
@@ -26,6 +27,7 @@ const FeaturePopUp = (props: {
       {props.featureId === FeatureType.LinkShortcut && (
         <AddNewLink removeMask={props.removeMask} handleAddNewLink={props.handleAddNewLink} />
       )}
+      {props.featureId === FeatureType.FeaturesBox && <FeaturesBoxPopup removeMask={props.removeMask} />}
     </>
   );
 };

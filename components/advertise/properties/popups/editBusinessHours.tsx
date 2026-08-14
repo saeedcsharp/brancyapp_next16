@@ -25,16 +25,18 @@ const EditBusinessHours = (props: {
   ]);
   const { t } = useTranslation();
   const [activeBusinessHour, setActiveBusinessHour] = useState<IActiveBusinessHour>({
-    friday: props.businessInfo[BusinessDay.Friday].timerInfo ? true : false,
-    monday: props.businessInfo[BusinessDay.Monday].timerInfo ? true : false,
-    saturday: props.businessInfo[BusinessDay.Saturday].timerInfo ? true : false,
-    sunday: props.businessInfo[BusinessDay.Sunday].timerInfo ? true : false,
-    thursday: props.businessInfo[BusinessDay.Thursday].timerInfo ? true : false,
-    tuesday: props.businessInfo[BusinessDay.Tuesday].timerInfo ? true : false,
-    wednesday: props.businessInfo[BusinessDay.Wednesday].timerInfo ? true : false,
+    friday: props.businessInfo[BusinessDay.Friday].weekday ? true : false,
+    monday: props.businessInfo[BusinessDay.Monday].weekday ? true : false,
+    saturday: props.businessInfo[BusinessDay.Saturday].weekday ? true : false,
+    sunday: props.businessInfo[BusinessDay.Sunday].weekday ? true : false,
+    thursday: props.businessInfo[BusinessDay.Thursday].weekday ? true : false,
+    tuesday: props.businessInfo[BusinessDay.Tuesday].weekday ? true : false,
+    wednesday: props.businessInfo[BusinessDay.Wednesday].weekday ? true : false,
   });
   function changeSliderValue(info: IBusinessHour) {
-    setBusinessHours((prev) => prev.map((x) => (x.dayName === info.dayName ? { ...x, timerInfo: info.timerInfo } : x)));
+    setBusinessHours((prev) =>
+      prev.map((x) => (x.weekday === info.weekday ? { ...x, beginTime: info.beginTime, endTime: info.endTime } : x)),
+    );
   }
   function changeActiveBusinessHour(e: ChangeEvent<HTMLInputElement>) {
     setActiveBusinessHour((prev) => ({
@@ -43,7 +45,9 @@ const EditBusinessHours = (props: {
     }));
     setBusinessHours((prev) =>
       prev.map((x) =>
-        x.dayName === findDayNumber(e.target.name) ? { ...x, timerInfo: e.target.checked ? x.timerInfo : null } : x,
+        x.weekday === findDayNumber(e.target.name)
+          ? { ...x, beginTime: e.target.checked ? x.beginTime : 0, endTime: e.target.checked ? x.endTime : 0 }
+          : x,
       ),
     );
   }
@@ -69,7 +73,7 @@ const EditBusinessHours = (props: {
         <div className={styles.all}>
           <div className={styles.section}>
             <div className={styles.left}>
-              <div className={styles.day}>{t(findDayName(businessHours[BusinessDay.Monday].dayName))}</div>
+              <div className={styles.day}>{t(findDayName(businessHours[BusinessDay.Monday].weekday))}</div>
               <div className={styles.setting}>
                 <ToggleCheckBoxButton
                   name="monday"
@@ -83,7 +87,7 @@ const EditBusinessHours = (props: {
 
             <div className={`${styles.right} ${!activeBusinessHour.monday && "fadeDiv"}`}>
               <TimerSlider
-                info={props.businessInfo[businessHours[BusinessDay.Monday].dayName]}
+                info={props.businessInfo[businessHours[BusinessDay.Monday].weekday]}
                 changeSliderValue={changeSliderValue}
                 activeTimer={activeBusinessHour.monday}
               />
@@ -91,7 +95,7 @@ const EditBusinessHours = (props: {
           </div>
           <div className={styles.section}>
             <div className={styles.left}>
-              <div className={styles.day}>{t(findDayName(businessHours[BusinessDay.Tuesday].dayName))}</div>
+              <div className={styles.day}>{t(findDayName(businessHours[BusinessDay.Tuesday].weekday))}</div>
               <div className={styles.setting}>
                 <ToggleCheckBoxButton
                   name="tuesday"
@@ -105,7 +109,7 @@ const EditBusinessHours = (props: {
 
             <div className={`${styles.right} ${!activeBusinessHour.tuesday && "fadeDiv"}`}>
               <TimerSlider
-                info={props.businessInfo[businessHours[BusinessDay.Tuesday].dayName]}
+                info={props.businessInfo[businessHours[BusinessDay.Tuesday].weekday]}
                 changeSliderValue={changeSliderValue}
                 activeTimer={activeBusinessHour.tuesday}
               />
@@ -113,7 +117,7 @@ const EditBusinessHours = (props: {
           </div>
           <div className={styles.section}>
             <div className={styles.left}>
-              <div className={styles.day}>{t(findDayName(businessHours[BusinessDay.Wednesday].dayName))}</div>
+              <div className={styles.day}>{t(findDayName(businessHours[BusinessDay.Wednesday].weekday))}</div>
               <div className={styles.setting}>
                 <ToggleCheckBoxButton
                   name="wednesday"
@@ -127,7 +131,7 @@ const EditBusinessHours = (props: {
 
             <div className={`${styles.right} ${!activeBusinessHour.wednesday && "fadeDiv"}`}>
               <TimerSlider
-                info={props.businessInfo[businessHours[BusinessDay.Wednesday].dayName]}
+                info={props.businessInfo[businessHours[BusinessDay.Wednesday].weekday]}
                 changeSliderValue={changeSliderValue}
                 activeTimer={activeBusinessHour.wednesday}
               />
@@ -135,7 +139,7 @@ const EditBusinessHours = (props: {
           </div>
           <div className={styles.section}>
             <div className={styles.left}>
-              <div className={styles.day}>{t(findDayName(businessHours[BusinessDay.Thursday].dayName))}</div>
+              <div className={styles.day}>{t(findDayName(businessHours[BusinessDay.Thursday].weekday))}</div>
               <div className={styles.setting}>
                 <ToggleCheckBoxButton
                   name="thursday"
@@ -149,7 +153,7 @@ const EditBusinessHours = (props: {
 
             <div className={`${styles.right} ${!activeBusinessHour.thursday && "fadeDiv"}`}>
               <TimerSlider
-                info={props.businessInfo[businessHours[BusinessDay.Thursday].dayName]}
+                info={props.businessInfo[businessHours[BusinessDay.Thursday].weekday]}
                 changeSliderValue={changeSliderValue}
                 activeTimer={activeBusinessHour.thursday}
               />
@@ -157,7 +161,7 @@ const EditBusinessHours = (props: {
           </div>
           <div className={styles.section}>
             <div className={styles.left}>
-              <div className={styles.day}>{t(findDayName(businessHours[BusinessDay.Friday].dayName))}</div>
+              <div className={styles.day}>{t(findDayName(businessHours[BusinessDay.Friday].weekday))}</div>
               <div className={styles.setting}>
                 <ToggleCheckBoxButton
                   name="friday"
@@ -171,7 +175,7 @@ const EditBusinessHours = (props: {
 
             <div className={`${styles.right} ${!activeBusinessHour.friday && "fadeDiv"}`}>
               <TimerSlider
-                info={props.businessInfo[businessHours[BusinessDay.Friday].dayName]}
+                info={props.businessInfo[businessHours[BusinessDay.Friday].weekday]}
                 changeSliderValue={changeSliderValue}
                 activeTimer={activeBusinessHour.friday}
               />
@@ -179,7 +183,7 @@ const EditBusinessHours = (props: {
           </div>
           <div className={styles.section}>
             <div className={styles.left}>
-              <div className={styles.day}>{t(findDayName(businessHours[BusinessDay.Saturday].dayName))}</div>
+              <div className={styles.day}>{t(findDayName(businessHours[BusinessDay.Saturday].weekday))}</div>
               <div className={styles.setting}>
                 <ToggleCheckBoxButton
                   name="saturday"
@@ -193,7 +197,7 @@ const EditBusinessHours = (props: {
 
             <div className={`${styles.right} ${!activeBusinessHour.saturday && "fadeDiv"}`}>
               <TimerSlider
-                info={props.businessInfo[businessHours[BusinessDay.Saturday].dayName]}
+                info={props.businessInfo[businessHours[BusinessDay.Saturday].weekday]}
                 changeSliderValue={changeSliderValue}
                 activeTimer={activeBusinessHour.saturday}
               />
@@ -201,7 +205,7 @@ const EditBusinessHours = (props: {
           </div>
           <div className={styles.section}>
             <div className={styles.left}>
-              <div className={styles.day}>{t(findDayName(businessHours[BusinessDay.Sunday].dayName))}</div>
+              <div className={styles.day}>{t(findDayName(businessHours[BusinessDay.Sunday].weekday))}</div>
               <div className={styles.setting}>
                 <ToggleCheckBoxButton
                   name="sunday"
@@ -215,7 +219,7 @@ const EditBusinessHours = (props: {
 
             <div className={`${styles.right} ${!activeBusinessHour.sunday && "fadeDiv"}`}>
               <TimerSlider
-                info={props.businessInfo[businessHours[BusinessDay.Sunday].dayName]}
+                info={props.businessInfo[businessHours[BusinessDay.Sunday].weekday]}
                 changeSliderValue={changeSliderValue}
                 activeTimer={activeBusinessHour.sunday}
               />
