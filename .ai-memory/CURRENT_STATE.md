@@ -57,7 +57,7 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
-- Added the Market Properties FeatureBox popup with shared Working Hours and Terms & Conditions tabs, backend loading through `Instagramer/Bio/GetWorkingHours` and `Instagramer/Bio/GetTermsAndCondtions`, embedded `EditBusinessHours`, ordered terms rendering, and the shared initial `Loading` state.
+- Added the Market Properties FeatureBox popup with shared Working Hours and Terms & Conditions tabs, backend loading through `Instagramer/Bio/GetWorkingHours` and `Instagramer/Bio/GetTermsAndCondtions`, embedded `EditBusinessHours`, ordered terms rendering, `Instagramer/Bio/UpdateWorkingHours` persistence, and the shared initial `Loading` state.
 
 - Fixed brush line chart hydration mismatches by formatting count labels with an explicit `en-US` locale instead of the runtime default locale.
 

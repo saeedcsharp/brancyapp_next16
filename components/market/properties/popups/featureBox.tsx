@@ -57,7 +57,12 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
         }
         if (!isMounted) return;
 
-        const hours = Array.isArray(workingHoursResult.value) ? workingHoursResult.value : [];
+        const hours = Array.isArray(workingHoursResult.value)
+          ? workingHoursResult.value.map((item) => ({
+              ...item,
+              weekday: (item as IBusinessHour & { weekDay?: BusinessDay }).weekDay ?? item.weekday,
+            }))
+          : [];
         setBusinessHours(
           Array.from(
             { length: 7 },
@@ -84,6 +89,28 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
     };
   }, [session]);
 
+  async function saveBusinessHour(info: IBusinessHour[]) {
+    try {
+      const result = await clientFetchApi<IBusinessHour[], boolean>("/Instagramer/Bio/UpdateWorkingHours", {
+        methodType: MethodType.post,
+        session,
+        data: info,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
+
+      if (!result.succeeded) {
+        notify(result.info.responseType, NotifType.Warning);
+        return;
+      }
+
+      setBusinessHours(info);
+      props.removeMask();
+    } catch {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    }
+  }
+
   if (loading || !businessHours) return <Loading />;
 
   return (
@@ -101,7 +128,7 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
         <EditBusinessHours
           businessInfo={businessHours}
           removeMask={props.removeMask}
-          saveBusinessHour={() => props.removeMask()}
+          saveBusinessHour={saveBusinessHour}
         />
       ) : (
         <section className={styles.terms} aria-label={t(LanguageKey.marketProperties_BusinessTerms)}>

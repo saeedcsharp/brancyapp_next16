@@ -11,7 +11,7 @@
 
 # Changelog
 
-- Added the Market Properties FeatureBox popup with API-backed Working Hours and Terms & Conditions sections, shared toggle navigation, loading state, business-hours editor, and styled terms list.
+- Added the Market Properties FeatureBox popup with API-backed Working Hours and Terms & Conditions sections, shared toggle navigation, loading state, business-hours editor, styled terms list, and `UpdateWorkingHours` persistence.
 
 - Store properties business-hours summaries now render all seven days and show days missing from the business-hours array as closed.
 

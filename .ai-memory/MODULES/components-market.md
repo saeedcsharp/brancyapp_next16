@@ -168,7 +168,7 @@ The Products card intentionally omits the edit-options three-dot control; other 
 
 ## MyLink Shortcut Links
 
-`components/market/properties/popups/featureBox.tsx` loads working hours and terms from `Instagramer/Bio/GetWorkingHours` and `Instagramer/Bio/GetTermsAndCondtions`. A shared `ToggleButton` switches between the embedded `EditBusinessHours` view and an ordered terms list; the shared `Loading` component remains visible until both requests finish.
+`components/market/properties/popups/featureBox.tsx` loads working hours and terms from `Instagramer/Bio/GetWorkingHours` and `Instagramer/Bio/GetTermsAndCondtions`. A shared `ToggleButton` switches between the embedded `EditBusinessHours` view and an ordered terms list; the shared `Loading` component remains visible until both requests finish. Saving the editor sends the `IBusinessHour[]` body to `Instagramer/Bio/UpdateWorkingHours` and closes only after a successful response.
 
 `components/market/myLink/featureBox.tsx` renders FeatureBox cards in free mode: the section has native horizontal overflow without scroll snapping, supports touch/trackpad scrolling and primary-button pointer dragging across browsers, and prevents a drag gesture from triggering a tile click. The layout starts at the logical inline start on every viewport and keeps keyboard focus and reduced-motion styles available.
 
