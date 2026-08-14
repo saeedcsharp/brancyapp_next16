@@ -113,6 +113,7 @@ const CreateCouponModal = ({ showContent, closePopup, onCreate }: CreateCouponMo
                   value={form.code}
                   handleInputChange={(event) => setForm((previous) => ({ ...previous, code: event.target.value }))}
                   placeHolder={t(LanguageKey.storestatistics_couponCode)}
+                  dangerOnEmpty
                 />
               </div>
             </div>
@@ -128,6 +129,7 @@ const CreateCouponModal = ({ showContent, closePopup, onCreate }: CreateCouponMo
                   placeHolder={t(LanguageKey.storestatistics_discountPercent)}
                   numberType
                   inputMode="numeric"
+                  dangerOnEmpty
                 />
               </div>
             </div>
@@ -143,6 +145,7 @@ const CreateCouponModal = ({ showContent, closePopup, onCreate }: CreateCouponMo
                   placeHolder={t(LanguageKey.storestatistics_maxUses)}
                   numberType
                   inputMode="numeric"
+                  dangerOnEmpty
                 />
               </div>
             </div>
@@ -180,7 +183,7 @@ const CreateCouponModal = ({ showContent, closePopup, onCreate }: CreateCouponMo
             </div>
           </div>
           <div className="ButtonContainer">
-            <button onClick={() => setShowDatePicker(false)} className="cancelButton">
+            <button type="button" onClick={handleClose} className="cancelButton">
               {t(LanguageKey.cancel)}
             </button>
             <button
