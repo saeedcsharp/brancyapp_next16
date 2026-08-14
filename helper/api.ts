@@ -117,7 +117,7 @@ export async function UploadFile(
     }
 
     const obj = (await response.json()) as IMediaResponse;
-  return createMediaResponse(obj);
+    return createMediaResponse(obj);
   } catch {
     notify(ResponseType.Unexpected, NotifType.Error);
     return { showUrl: "", fileName: "" };

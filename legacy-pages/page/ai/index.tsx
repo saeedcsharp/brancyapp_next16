@@ -128,7 +128,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     },
     [session],
   );
-  const onCreateImage = async (request: IGetImageUsageRequest, count: number) => {
+  const onCreateMedia = async (request: IGetImageUsageRequest, count: number) => {
     const checkFeatureResponse = await clientFetchApi<boolean, boolean>("/api/feature/hasFeatureCount", {
       session,
       methodType: MethodType.get,
@@ -415,7 +415,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
             creators={creators}
             error={error}
             onRetry={activeTab === "createvideo" ? loadVideoCreators : loadCreators}
-            onCreateMedia={onCreateImage}
+            onCreateMedia={onCreateMedia}
             setActiveTab={setActiveTab}
             activeTab={activeTab}
           />
