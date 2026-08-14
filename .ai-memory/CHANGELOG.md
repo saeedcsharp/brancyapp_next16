@@ -9,6 +9,8 @@
 
 # Changelog
 
+- Added a permanent AI knowledge-base rule requiring new UI code to be based on the shared `scss/` styles and reusable `components/design/` components, with documented justification for any design-system exception.
+
 - Anchored the shared InputBox clear button inside a full-width relative wrapper so it remains centered at the physical right edge in both LTR and RTL layouts.
 
 - Removed the extra InputBox wrapper element. The clear button remains visually overlaid as an accessible sibling because native HTML `input` elements cannot contain children.

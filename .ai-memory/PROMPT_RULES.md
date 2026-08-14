@@ -11,6 +11,18 @@
 7. Validate.
 8. Update affected documentation.
 
+## Design System Consistency Rule
+
+Before writing any new UI code or changing an existing UI surface:
+
+1. Inspect the relevant tokens, mixins, layout rules, typography, animations, buttons, and shared styles in `scss/`.
+2. Inspect the reusable controls and patterns in `components/design/`.
+3. Reuse the existing SCSS variables, classes, conventions, and design components whenever they cover the required behavior.
+4. Keep new markup, CSS modules, spacing, colors, typography, responsive behavior, RTL/LTR handling, and interaction states consistent with those sources.
+5. Do not create parallel design tokens, duplicate shared controls, or an unrelated visual style without documenting and justifying the exception.
+
+This rule applies to every new component, page, feature UI, modal, form, and responsive or accessibility refinement. Consistency with the existing design system is part of implementation completeness.
+
 ## Feature Catalog Synchronization Rule
 
 Whenever an option, feature, workflow, permission, role, integration, or user-facing capability is added, changed, completed, renamed, or removed anywhere in the application:

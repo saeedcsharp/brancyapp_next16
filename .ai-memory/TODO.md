@@ -2,6 +2,8 @@
 
 ## Pending Documentation Tasks
 
+- Add an automated review check for new UI code that detects avoidable duplication of shared `scss/` tokens/styles and `components/design/` controls when a suitable analysis tool is introduced.
+
 - Add component/browser coverage for InputBox legacy models and semantic variants, RTL/LTR direction, physical-right clear-button placement, localized digits, native clear keyboard behavior, disabled/read-only states, mobile zoom prevention, forced colors, reduced motion, and responsive overflow across Chrome, Edge, Firefox, iOS Safari, and Android Chrome when a UI test harness is introduced.
 
 - Add browser coverage for the protected `/dev` destination chooser and `/dev/systemDesign` component-state interactions, including all `InputBox` models, RTL/mobile layout, portal components, charts, drag/drop, and modal behavior when a UI test harness is introduced.

@@ -4,6 +4,10 @@
 
 Component module for design UI and feature concerns.
 
+## Design System Rule
+
+This module is the first reuse point for new UI controls and interaction patterns. Before adding a component or local presentation pattern, inspect the shared tokens and style layers in `scss/`, then reuse or extend the closest existing component here. New components must preserve the repository's spacing, typography, color, responsive, RTL/LTR, accessibility, reduced-motion, and forced-colors conventions.
+
 ## Business Purpose
 
 Supports Brancy design workflows or shared UI.

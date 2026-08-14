@@ -57,6 +57,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Added a permanent design-system rule for AI-assisted implementation: before writing new UI code, inspect and reuse the shared `scss/` styles and `components/design/` components, preserving the existing visual, responsive, RTL/LTR, and accessibility conventions.
+
 - Fixed brush line chart hydration mismatches by formatting count labels with an explicit `en-US` locale instead of the runtime default locale.
 
 - Fixed `InputBox` so an empty field with `dangerOnEmpty` receives the shared `.shake` animation class and replays the animation when it enters the invalid empty state.

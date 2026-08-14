@@ -28,6 +28,8 @@ The app uses Next.js 16 with React 19, TypeScript, App Router routes under `app/
 
 Preserve existing path alias `brancy/*`. Keep `/api/user/*` calls server-proxied. Avoid leaking `.env` or secret values. Update documentation with every code change.
 
+For any new or changed UI, inspect and use the shared styles in `scss/` and reusable components in `components/design/` before creating local styles or controls. Preserve the existing design language, tokens, spacing, typography, responsive behavior, RTL/LTR support, and accessibility states; do not introduce parallel design systems without a documented reason.
+
 ## Current Priorities And Risks
 
 The main risks are mixed App Router/legacy-router compatibility, external backend contract drift, broad API map maintenance, generated PWA artifacts in `public/`, and limited visible test coverage.
