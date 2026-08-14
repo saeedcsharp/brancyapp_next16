@@ -1,3 +1,5 @@
+- Add component coverage confirming advertise and customer-ad business-hour views translate all seven `findDayName` results in each supported locale when a UI test harness is introduced.
+
 - Add component/browser coverage for the Market Properties FeatureBox API loading, Working Hours editor tab, single-text Terms & Conditions editor, empty responses, API failures, payload shape `{ str: string }`, and mobile/RTL presentation when a UI test harness is introduced.
 - Extend Market Properties FeatureBox coverage to confirm the Terms & Conditions textarea focus remains stable while typing and its 1,500-character limit is enforced when a UI test harness is introduced.
 

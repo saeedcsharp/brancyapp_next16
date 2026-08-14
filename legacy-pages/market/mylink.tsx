@@ -1,8 +1,3 @@
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { type ReactNode, useCallback, useEffect, useMemo, useState } from "react";
-import { useTranslation } from "react-i18next";
 import AdvertisingTermsPopup from "brancy/components/advertise/popups/advertisingTermsPopup";
 import BusinessHourPopup from "brancy/components/advertise/popups/businessHourPopup";
 import TarrifPopup from "brancy/components/advertise/popups/tariffPopup";
@@ -18,28 +13,31 @@ import LastVideo from "brancy/components/market/myLink/lastVideo";
 import Link from "brancy/components/market/myLink/link";
 import Menubar from "brancy/components/market/myLink/menubar";
 import OnlineStreaming from "brancy/components/market/myLink/onlinestreaming";
+import Product from "brancy/components/market/myLink/product";
 import Reviews from "brancy/components/market/myLink/reviews";
 import Loading from "brancy/components/notOk/loading";
 import NotAllowed from "brancy/components/notOk/notAllowed";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { MethodType } from "brancy/helper/api";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { MethodType } from "brancy/helper/api";
-import styles from "./myLink.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { FeatureType, PartnerRole } from "brancy/models/enums";
 import {
-  IBusinessHour,
   IFeatureBox,
   IFeatureInfo,
   ILiveChannel,
   IMyLink,
+  IMyLinkChannel,
   ISmartLink,
   IVideoChannel,
-  IWorkHourItem,
 } from "brancy/models/interfaces";
-import { FeatureType, PartnerRole } from "brancy/models/enums";
-import { IMyLinkChannel } from "brancy/models/interfaces";
-import Product from "brancy/components/market/myLink/product";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { type ReactNode, useCallback, useEffect, useMemo, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styles from "./myLink.module.css";
 function handleFeatureInfo(mediaLink: IMyLink) {
   var featureArray: IFeatureInfo[] = [];
   if (mediaLink.announcement && mediaLink.announcement.isActive) {
@@ -116,21 +114,18 @@ function handleFeatureInfo(mediaLink: IMyLink) {
   featureArray.sort((a, b) => a.orderId - b.orderId);
   return featureArray;
 }
-function workHourCast(params: IWorkHourItem[] | null): IBusinessHour[] | null {
-  if (!params) return null;
-  return Array.from({ length: 7 }, (_, dayName) => {
-    const workHour = params.find((item) => item.weekDay === dayName);
-    return {
-      dayName,
-      timerInfo: workHour
-        ? {
-            endTime: workHour.endTime,
-            startTime: workHour.beginTime,
-          }
-        : null,
-    };
-  });
-}
+// function workHourCast(params: IWorkHourItem[] | null): IBusinessHour[] | null {
+//   if (!params) return null;
+//   return Array.from({ length: 7 }, (_, dayName) => {
+//     const workHour = params.find((item) => item.weekDay === dayName);
+//     return {
+//       beginTime: workHour?.beginTime ?? null,
+//       endTime: workHour?.endTime ?? null,
+//       weekDay: dayName,
+//       instagramerId: workHour?.instagramerId ?? null,
+//     };
+//   });
+// }
 function lastVideCast(params: IMyLinkChannel | null) {
   if (!params) return null;
   if (!params.aparatChannel?.video && !params.twitchChannel?.video && !params.youtubeChannel?.video) return null;
@@ -320,16 +315,16 @@ const MyLink = () => {
             orderItems: info.value.featureOrders,
           };
           let featureBox: IFeatureBox = {
-            adsView: 0,
-            enemad: "enemad link",
+            adsView: null,
+            enemad: "",
             followers: info.value.instagramer.followerCount,
             isInfluencer: info.value.instagramer.isInfluencer,
             isShopper: info.value.instagramer.isShopper,
-            rate: 0,
-            salesSuccess: 0,
-            teriif: info.value.influencerTeriffe,
+            rate: null,
+            salesSuccess: null,
+            teriif: null,
             terms: info.value.terms,
-            workHours: workHourCast(info.value.workHourItems),
+            workHours: info.value.workHourItems,
           };
           let bannerInfo = {
             banners: info.value.banners,

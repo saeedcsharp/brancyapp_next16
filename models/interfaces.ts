@@ -1080,12 +1080,6 @@ export interface IServerLink {
   iconUrl: string;
 }
 
-export interface IWorkHourItem {
-  weekDay: number;
-  beginTime: number;
-  endTime: number;
-}
-
 export interface IInfluencerTeriffe {
   today12HPost: number;
   today24HPost: number;
@@ -1162,7 +1156,7 @@ export interface ISmartLink {
   instagramer: IInstagramer;
   contact: IContact;
   links: IServerLink[];
-  workHourItems: IWorkHourItem[] | null;
+  workHourItems: IBusinessHour[] | null;
   influencerTeriffe: IInfluencerTeriffe | null;
   announcement: IAnnouncement;
   reviews: IReview[];

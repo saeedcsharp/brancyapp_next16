@@ -1,3 +1,5 @@
+- Fixed advertise and customer-ad business-hour displays to translate `findDayName` results, replacing raw weekday translation keys with localized labels. The MyLink popup now accepts its backend `weekDay` weekday field, preventing every row from displaying Monday.
+
 - Centralized a one-second media-availability delay after every successful `UploadFile` result so newly uploaded media is not fetched by the browser before the upload server has published it. Migrated direct-message image and video upload popups from local XMLHttpRequests to the shared uploader.
 
 - Refined the store statistics coupon manager presentation with elevated coupon cards, clearer status badges, metadata chips, responsive mobile stacking, and reduced-motion support.
