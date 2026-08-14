@@ -57,6 +57,7 @@ Used by routes, components, helpers, or build tooling where imported.
 Exports are defined by source files in the module.
 
 - `helper/counterDownHelper.ts` calculates countdowns with separate days, hours, minutes, and seconds and formats full-day values as `Xd HH:MM:SS`.
+- `helper/api.ts` delays successful `UploadFile` results by one second before exposing their media URLs, giving the upload server time to make newly uploaded media fetchable by the browser.
 
 ## Internal APIs
 

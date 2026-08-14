@@ -5,7 +5,7 @@ import { LanguageKey } from "brancy/i18n";
 import styles from "./sendFile.module.css";
 import { ItemType, MediaType } from "brancy/models/enums";
 import { IIsSendingMessage } from "brancy/models/interfaces";
-import { getClientUploadBaseUrl } from "brancy/helper/apiBaseUrl";
+import { UploadFile } from "brancy/helper/api";
 
 function _arrayBufferToBase64(buffer: ArrayBuffer) {
   var binary = "";
@@ -65,37 +65,17 @@ const SendVideoFile = (props: {
       if (!(selectedImage && videoDimensions && preparedFile)) return;
       setLoading(true);
       try {
-        const id = await new Promise<any | null>((resolve) => {
-          const xhr = new XMLHttpRequest();
-          const url = `${getClientUploadBaseUrl()}`;
-          const fd = new FormData();
-          fd.append("file", preparedFile as File);
-          xhr.open("POST", url, true);
-          xhr.setRequestHeader("Authorization", session?.user?.accessToken ?? "");
-          xhr.upload.onprogress = (ev) => {
-            if (ev.lengthComputable) {
-              const p = Math.round((ev.loaded * 100) / ev.total);
-              setProgress(p);
-            }
-          };
-          xhr.onload = () => {
-            if (xhr.status >= 200 && xhr.status < 300) resolve(xhr.responseText);
-            else resolve(null);
-          };
-          xhr.onerror = () => resolve(null);
-          xhr.send(fd);
-        });
-        if (!id) {
+        const upload = await UploadFile(session, preparedFile, setProgress);
+        if (!upload.fileName) {
           console.error("video upload failed");
           setLoading(false);
           setProgress(0);
           return;
         }
-        const obj = JSON.parse(id);
-        console.log("handleSendVideo upload success:", obj);
+        console.log("handleSendVideo upload success:", upload);
         const sendVideo: IIsSendingMessage = {
-          imageBase64: obj.showUrl,
-          imageUrl: obj.fileName,
+          imageBase64: upload.showUrl,
+          imageUrl: upload.fileName,
           file: props.data.file,
           igId: props.data.igid,
           itemType: ItemType.Media,

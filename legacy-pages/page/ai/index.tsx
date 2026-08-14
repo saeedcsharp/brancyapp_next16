@@ -169,11 +169,6 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
       notify(response.info?.responseType, NotifType.Warning);
       return;
     }
-    internalNotify(
-      InternalResponseType.Success,
-      NotifType.Success,
-      activeTab === "createvideo" ? t("Video generation request sent.") : t("Image generation request sent."),
-    );
   };
   const loadCreators = async () => {
     if (!session) return;

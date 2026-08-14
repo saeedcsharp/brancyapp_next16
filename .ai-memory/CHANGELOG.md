@@ -1,3 +1,5 @@
+- Centralized a one-second media-availability delay after every successful `UploadFile` result so newly uploaded media is not fetched by the browser before the upload server has published it. Migrated direct-message image and video upload popups from local XMLHttpRequests to the shared uploader.
+
 - Refined the store statistics coupon manager presentation with elevated coupon cards, clearer status badges, metadata chips, responsive mobile stacking, and reduced-motion support.
 - Fixed create and update coupon cancel buttons submitting their forms by explicitly marking them as non-submit buttons.
 - Added memoized create-coupon validation for code, discount percentage, and maximum uses, plus an internal `TimeExpire` notification when expiry is missing or less than one hour ahead.

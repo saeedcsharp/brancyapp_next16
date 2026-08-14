@@ -5,6 +5,8 @@
 
 ## Pending Documentation Tasks
 
+- Add integration coverage for `UploadFile` success paths to confirm media URLs are released after one second, errors are not delayed, progress callbacks are preserved, and direct-message image/video send flows use the shared uploader when a test harness is introduced.
+
 - Add component/browser coverage for InputBox legacy models and semantic variants, RTL/LTR direction, physical-right clear-button placement, localized digits, native clear keyboard behavior, disabled/read-only states, mobile zoom prevention, forced colors, reduced motion, and responsive overflow across Chrome, Edge, Firefox, iOS Safari, and Android Chrome when a UI test harness is introduced.
 
 - Add browser coverage for the protected `/dev` destination chooser and `/dev/systemDesign` component-state interactions, including all `InputBox` models, RTL/mobile layout, portal components, charts, drag/drop, and modal behavior when a UI test harness is introduced.

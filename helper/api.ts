@@ -9,6 +9,7 @@ import {
 import { getClientUploadBaseUrl } from "brancy/helper/apiBaseUrl";
 
 const UPLOAD_BASE_URL = getClientUploadBaseUrl();
+const UPLOAD_MEDIA_AVAILABILITY_DELAY_MS = 1_000;
 
 export interface IResult<T> {
   succeeded: boolean;
@@ -47,6 +48,15 @@ function getSessionAccessToken(session: Session | null | undefined): string {
   return (session?.user as any)?.accessToken ?? "";
 }
 
+function waitForUploadedMedia(): Promise<void> {
+  return new Promise((resolve) => window.setTimeout(resolve, UPLOAD_MEDIA_AVAILABILITY_DELAY_MS));
+}
+
+async function createMediaResponse(response: IMediaResponse): Promise<IMediaResponse> {
+  await waitForUploadedMedia();
+  return { showUrl: response.showUrl, fileName: response.fileName };
+}
+
 export async function UploadFile(
   accessToken: Session | null | undefined,
   file: File,
@@ -70,7 +80,7 @@ export async function UploadFile(
           if (xhr.status >= 200 && xhr.status < 300) {
             try {
               const obj = JSON.parse(xhr.responseText) as IMediaResponse;
-              resolve({ showUrl: obj.showUrl, fileName: obj.fileName });
+              void createMediaResponse(obj).then(resolve, reject);
             } catch {
               internalNotify(InternalResponseType.UploadMedia, NotifType.Warning);
               resolve({ showUrl: "", fileName: "" });
@@ -107,7 +117,7 @@ export async function UploadFile(
     }
 
     const obj = (await response.json()) as IMediaResponse;
-    return { showUrl: obj.showUrl, fileName: obj.fileName };
+  return createMediaResponse(obj);
   } catch {
     notify(ResponseType.Unexpected, NotifType.Error);
     return { showUrl: "", fileName: "" };

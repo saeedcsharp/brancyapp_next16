@@ -58,6 +58,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Successful browser uploads now wait one second before their returned media URL is made available to UI consumers. This gives the upload server time to publish newly uploaded images, videos, and other media before the browser fetches them. Direct-message image and video popups now use the same shared `UploadFile` path instead of local XMLHttpRequests.
+
 - Added the Market Properties FeatureBox popup with shared Working Hours and Terms & Conditions tabs. It uses canonical `/api/bio/*` paths registered in `helper/apiRouteMap.ts`, which resolve to the `Instagramer/Bio/*` backend endpoints, and includes embedded `EditBusinessHours`, Announcement-style `{ str: string }` Terms editing with a 1,500-character counter, persistence, and the shared initial `Loading` state.
 
 - Fixed brush line chart hydration mismatches by formatting count labels with an explicit `en-US` locale instead of the runtime default locale.
