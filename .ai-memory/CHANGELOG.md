@@ -11,6 +11,10 @@
 
 # Changelog
 
+- Updated Market Properties Terms & Conditions to match the Announcement `{ str: string }` API contract, using one controlled 1,500-character `TextArea` instead of a string-array editor.
+
+- Fixed Market Properties Terms & Conditions textareas losing focus after every typed character by removing term text from the editor row React key.
+
 - Added the Market Properties FeatureBox popup with API-backed Working Hours and Terms & Conditions sections, shared toggle navigation, loading state, business-hours editor, styled terms list, and `UpdateWorkingHours` persistence.
 
 - Store properties business-hours summaries now render all seven days and show days missing from the business-hours array as closed.

@@ -17,6 +17,7 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 - Persian `/feature` copy uses plain Persian equivalents or Persian transliteration for unavoidable brand names; technical route and identifier values remain unchanged.
 - Persian `/feature` copy is also intentionally conversational and non-technical, with short explanations suitable for general and younger audiences.
 - The feature catalog is a mandatory synchronization point: every added, changed, completed, renamed, or removed user-facing option or capability must update the active or audit-only list before the task is considered complete.
+- Market Properties Terms editors use stable row keys, preventing controlled textareas from remounting and losing focus while users type.
 - Expanded feature details show the usage instruction and route on separate lines, with safe wrapping for narrow viewports.
 - On mobile, feature cards place the expand control in the top corner and keep role and access cells side by side.
 
@@ -57,7 +58,7 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
-- Added the Market Properties FeatureBox popup with shared Working Hours and Terms & Conditions tabs, backend loading through `Instagramer/Bio/GetWorkingHours` and `Instagramer/Bio/GetTermsAndCondtions`, embedded `EditBusinessHours`, ordered terms rendering, `Instagramer/Bio/UpdateWorkingHours` persistence, and the shared initial `Loading` state.
+- Added the Market Properties FeatureBox popup with shared Working Hours and Terms & Conditions tabs, backend loading through `Instagramer/Bio/GetWorkingHours` and `Instagramer/Bio/GetTermsAndCondtions`, embedded `EditBusinessHours`, Announcement-style `{ str: string }` Terms editing with a 1,500-character counter, `Instagramer/Bio/UpdateWorkingHours` and `Instagramer/Bio/UpdateTermsAndConditions` persistence, and the shared initial `Loading` state.
 
 - Fixed brush line chart hydration mismatches by formatting count labels with an explicit `en-US` locale instead of the runtime default locale.
 

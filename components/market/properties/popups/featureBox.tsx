@@ -2,6 +2,7 @@ import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import EditBusinessHours from "brancy/components/market/properties/popups/editBusinessHours";
+import EditTermsAndConditions from "./editTermsAndConditions";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import Loading from "brancy/components/notOk/loading";
@@ -18,7 +19,7 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
   const { data: session } = useSession();
   const [selectedSection, setSelectedSection] = useState(ToggleOrder.FirstToggle);
   const [businessHours, setBusinessHours] = useState<IBusinessHour[] | null>(null);
-  const [terms, setTerms] = useState<string[]>([]);
+  const [terms, setTerms] = useState<{ str: string } | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -40,7 +41,7 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
             queries: undefined,
             onUploadProgress: undefined,
           }),
-          clientFetchApi<undefined, string[]>("/Instagramer/Bio/GetTermsAndCondtions", {
+          clientFetchApi<undefined, { str: string }>("/Instagramer/Bio/GetTermsAndCondtions", {
             methodType: MethodType.get,
             session,
             data: undefined,
@@ -75,7 +76,9 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
               },
           ),
         );
-        setTerms(Array.isArray(termsResult.value) ? termsResult.value : []);
+        setTerms({
+          str: typeof termsResult.value?.str === "string" ? termsResult.value.str : "",
+        });
       } catch {
         notify(ResponseType.Unexpected, NotifType.Error);
       } finally {
@@ -111,7 +114,29 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
     }
   }
 
-  if (loading || !businessHours) return <Loading />;
+  async function saveTerms(termsInfo: { str: string }) {
+    try {
+      const result = await clientFetchApi<{ str: string }, boolean>("/Instagramer/Bio/UpdateTermsAndConditions", {
+        methodType: MethodType.post,
+        session,
+        data: { str: termsInfo.str },
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
+
+      if (!result.succeeded) {
+        notify(result.info.responseType, NotifType.Warning);
+        return;
+      }
+
+      setTerms(termsInfo);
+      props.removeMask();
+    } catch {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    }
+  }
+
+  if (loading || !businessHours || !terms) return <Loading />;
 
   return (
     <>
@@ -131,17 +156,7 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
           saveBusinessHour={saveBusinessHour}
         />
       ) : (
-        <section className={styles.terms} aria-label={t(LanguageKey.marketProperties_BusinessTerms)}>
-          {terms.length > 0 ? (
-            <ol>
-              {terms.map((term, index) => (
-                <li key={`${term}-${index}`}>{term}</li>
-              ))}
-            </ol>
-          ) : (
-            <p>{t(LanguageKey.marketProperties_BusinessTermsExplain)}</p>
-          )}
-        </section>
+        <EditTermsAndConditions terms={terms} removeMask={props.removeMask} saveTerms={saveTerms} />
       )}
     </>
   );

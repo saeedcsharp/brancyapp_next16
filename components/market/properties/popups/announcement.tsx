@@ -21,7 +21,7 @@ const Announcement = (props: { removeMask: () => void }) => {
     //Api to save Announcement decsription
     const instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     if (!instagramerId) return;
-    var res = await clientFetchApi<{ str: string }, boolean>("Instagramer" + "/bio/UpdateAnnouncement", {
+    var res = await clientFetchApi<{ str: string }, boolean>("api/bio/UpdateAnnouncement", {
       methodType: MethodType.post,
       session: session,
       data: { str: announcement?.str },
