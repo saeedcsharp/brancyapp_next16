@@ -2256,7 +2256,7 @@ export default {
     storestatistics_maxUses: "Nombre maximal d'utilisations",
     storestatistics_phoneNumber: "Numéro de téléphone",
     storestatistics_maxDiscountOptional: "Réduction maximale (facultatif)",
-    storestatistics_couponExpiry: "Expiration du code promo",
+    storestatistics_couponExpiry: "Heure d’expiration (doit être dans au moins 1 heure)",
     storestatistics_showInBio: "Afficher dans la bio",
     storestatistics_couponDeleted: "Supprimé",
     storestatistics_couponExpired: "Expiré",

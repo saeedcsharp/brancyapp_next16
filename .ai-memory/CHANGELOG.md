@@ -11,6 +11,8 @@
 
 # Changelog
 
+- Clarified the coupon expiration label in all eight locales to state that the expiration must be at least one hour from the current time.
+
 - Anchored the shared InputBox clear button inside a full-width relative wrapper so it remains centered at the physical right edge in both LTR and RTL layouts.
 
 - Removed the extra InputBox wrapper element. The clear button remains visually overlaid as an accessible sibling because native HTML `input` elements cannot contain children.
