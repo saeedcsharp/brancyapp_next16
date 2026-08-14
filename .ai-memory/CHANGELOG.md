@@ -13,6 +13,8 @@
 
 - Updated Market Properties Terms & Conditions to match the Announcement `{ str: string }` API contract, using one controlled 1,500-character `TextArea` instead of a string-array editor.
 
+- Standardized Market Properties FeatureBox requests on `/api/bio/*` paths and registered all four Working Hours and Terms endpoints in `apiRouteMap`.
+
 - Fixed Market Properties Terms & Conditions textareas losing focus after every typed character by removing term text from the editor row React key.
 
 - Added the Market Properties FeatureBox popup with API-backed Working Hours and Terms & Conditions sections, shared toggle navigation, loading state, business-hours editor, styled terms list, and `UpdateWorkingHours` persistence.

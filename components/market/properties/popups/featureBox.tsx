@@ -1,10 +1,6 @@
-import { useSession } from "next-auth/react";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
-import EditBusinessHours from "brancy/components/market/properties/popups/editBusinessHours";
-import EditTermsAndConditions from "./editTermsAndConditions";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
+import EditBusinessHours from "brancy/components/market/properties/popups/editBusinessHours";
 import Loading from "brancy/components/notOk/loading";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { MethodType } from "brancy/helper/api";
@@ -12,7 +8,10 @@ import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { LanguageKey } from "brancy/i18n";
 import { BusinessDay } from "brancy/models/enums";
 import { IBusinessHour } from "brancy/models/interfaces";
-import styles from "./featureBoxPU.module.css";
+import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import EditTermsAndConditions from "./editTermsAndConditions";
 
 export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
   const { t } = useTranslation();
@@ -34,14 +33,14 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
 
       try {
         const [workingHoursResult, termsResult] = await Promise.all([
-          clientFetchApi<undefined, IBusinessHour[]>("/Instagramer/Bio/GetWorkingHours", {
+          clientFetchApi<undefined, IBusinessHour[]>("/api/bio/getWorkingHours", {
             methodType: MethodType.get,
             session,
             data: undefined,
             queries: undefined,
             onUploadProgress: undefined,
           }),
-          clientFetchApi<undefined, { str: string }>("/Instagramer/Bio/GetTermsAndCondtions", {
+          clientFetchApi<undefined, { str: string }>("/api/bio/getTermsAndCondtions", {
             methodType: MethodType.get,
             session,
             data: undefined,
@@ -94,7 +93,7 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
 
   async function saveBusinessHour(info: IBusinessHour[]) {
     try {
-      const result = await clientFetchApi<IBusinessHour[], boolean>("/Instagramer/Bio/UpdateWorkingHours", {
+      const result = await clientFetchApi<IBusinessHour[], boolean>("/api/bio/updateWorkingHours", {
         methodType: MethodType.post,
         session,
         data: info,
@@ -116,7 +115,7 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
 
   async function saveTerms(termsInfo: { str: string }) {
     try {
-      const result = await clientFetchApi<{ str: string }, boolean>("/Instagramer/Bio/UpdateTermsAndConditions", {
+      const result = await clientFetchApi<{ str: string }, boolean>("/api/bio/updateTermsAndConditions", {
         methodType: MethodType.post,
         session,
         data: { str: termsInfo.str },

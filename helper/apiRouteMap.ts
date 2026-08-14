@@ -83,6 +83,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/bio/getTotalInsight": "Instagramer/Bio/GetTotalInsight",
   "/api/bio/getTotalInsightFigures": "Instagramer/Bio/GetTotalInsightFigures",
   "/api/bio/getVideoInsight": "Instagramer/Bio/GetVideoInsight",
+  "/api/bio/getWorkingHours": "Instagramer/Bio/GetWorkingHours",
   "/api/bio/saveAparatPage": "Instagramer/Bio/SaveAparatPage",
   "/api/bio/saveYoutubePage": "Instagramer/Bio/SaveYoutubePage",
   "/api/bio/saveTwitchPage": "Instagramer/Bio/SaveTwitchPage",
@@ -98,6 +99,9 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/bio/updateCustomProfile": "Instagramer/Bio/UpdateCustomProfile",
   "/api/bio/updateFaqs": "Instagramer/bio/UpdateFaqs",
   "/api/bio/updateOrderItems": "Instagramer/Bio/UpdateOrderItems",
+  "/api/bio/updateWorkingHours": "Instagramer/Bio/UpdateWorkingHours",
+  "/api/bio/getTermsAndCondtions": "Instagramer/Bio/GetTermsAndCondtions",
+  "/api/bio/updateTermsAndConditions": "Instagramer/Bio/UpdateTermsAndConditions",
 
   // ── comment ───────────────────────────────────────────
   "/api/comment/createExportLiveComment": "Instagramer/Comment/CreateExportLiveComment",
