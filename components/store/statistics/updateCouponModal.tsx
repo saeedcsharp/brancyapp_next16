@@ -52,7 +52,7 @@ const UpdateCouponModal = ({ coupon, closePopup, onUpdate }: UpdateCouponModalPr
         setShowDatePicker(false);
       }}
       backToNormalPicker={() => setShowDatePicker(false)}
-      startDay={expireTime ? expireTime * 1000 : Date.now() + 3600000}
+      startDay={expireTime ? expireTime : Date.now() + 3600000}
       fromUnix={Date.now() + 3600000}
       endUnix={Date.now() + 31536000000}
       title={t(LanguageKey.storestatistics_couponExpiry)}
@@ -77,9 +77,7 @@ const UpdateCouponModal = ({ coupon, closePopup, onUpdate }: UpdateCouponModalPr
           <div className="headerparent">
             <button className={styles.dateButton} type="button" onClick={() => setShowDatePicker(true)}>
               <span>
-                {expireTime
-                  ? new Date(expireTime * 1000).toLocaleString()
-                  : t(LanguageKey.storestatistics_couponExpiry)}
+                {expireTime ? new Date(expireTime).toLocaleString() : t(LanguageKey.storestatistics_couponExpiry)}
               </span>
               <img src="/selectDate-item.svg" alt="" aria-hidden="true" />
             </button>

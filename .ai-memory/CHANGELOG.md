@@ -1,5 +1,6 @@
 - Refined the store statistics coupon manager presentation with elevated coupon cards, clearer status badges, metadata chips, responsive mobile stacking, and reduced-motion support.
 - Fixed create and update coupon cancel buttons submitting their forms by explicitly marking them as non-submit buttons.
+- Added memoized create-coupon validation for code, discount percentage, and maximum uses, plus an internal `TimeExpire` notification when expiry is missing or less than one hour ahead.
 - Added coupon edit mode: the three-dot action opens the shared modal with existing values, keeps code/discount/phone/max-discount read-only, and saves expiry, max uses, and bio visibility through `Shopper/Coupon/UpdateCoupon` with `couponId`.
 - Coupon bio visibility toggles now activate through `Shopper/Coupon/ActivateCoupon` or remove through `Shopper/Coupon/DeleteCoupon`, sending only `couponId`.
 - Fixed the coupon edit action bubbling into the collapsible card header, which prevented the edit modal from opening reliably.
