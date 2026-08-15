@@ -800,6 +800,11 @@ const FlowAndAIInbox = () => {
                 flowId={userSelectedId}
                 showUserList={showUserList}
                 onOpenSettings={handleOpenSettings}
+                onSaveSuccess={(masterFlow, flowStr) => {
+                  if (masterFlow && flowStr) {
+                    handleUpdateFlow(masterFlow, flowStr);
+                  }
+                }}
                 onOpenLiveTest={handleOpenLiveTest}
                 onOpenTutorial={handleOpenTutorial}
                 onRegisterGetEditorState={handleRegisterGetEditorState}

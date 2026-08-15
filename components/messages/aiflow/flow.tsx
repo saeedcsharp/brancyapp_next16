@@ -767,7 +767,7 @@ export default function Flow({
   onOpenTutorial?: (nodeType: string) => void;
   onRegisterGetEditorState?: (fn: () => { nodes: NodeData[]; connections: Connection[]; title: string }) => void;
   onRegisterReload?: (fn: (useLocalStorage: boolean) => void) => void;
-  onSaveSuccess?: () => void;
+  onSaveSuccess?: (masterFlow?: ITotalMasterFlow, flowStr?: string) => void;
   existingFlows?: Array<{ title: string }>;
 }) {
   const { data: session } = useSession();
@@ -3849,7 +3849,9 @@ export default function Flow({
       } else {
         internalNotify(InternalResponseType.Ok, NotifType.Success);
         setHasUnsavedChanges(false);
-        if (onSaveSuccess) onSaveSuccess();
+        if (flowPropsId === "newFlow" && onSaveSuccess) {
+          onSaveSuccess(res.value, JSON.stringify(editorState));
+        }
 
         // پاک کردن localStorage بعد از سیو موفق
         const autoSaveKey =
