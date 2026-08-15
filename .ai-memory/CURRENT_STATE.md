@@ -61,13 +61,22 @@ The direct-message composer applies the same 1,000-byte UTF-8 limit to drafts, t
 
 ## Recent Changes
 
-- Added a MyLink FeatureBox lottery card using `/icon-lottery.svg`. The card is shown when the authenticated `GetMyLink` response contains ended lotteries, opens a MyLink modal with at most five entries, and shows each entry's winners in a second view without score-lottery creation, slider, Share Story, or Excel actions.
-- MyLink lottery list rows now use the same `/adticket.svg` marker as WinnerPicker and omit the unrelated winner-count number.
+- Fixed the AI page runtime crash caused by passing the removed `onCreateImage` callback name to `MediaCreator`; the page now passes its existing media-neutral `onCreateMedia` handler.
 
-- AI flow toolbar saves now notify `FlowAndAIInbox` only when creating a new flow. The parent switches from `newFlow` to the returned master-flow ID, which remounts the editor and performs the expected `GetMasterFlow`; existing-flow saves do not trigger that reload.
+- The shared TextArea supports line-based `minRows`/`maxRows` auto-resize bounds. The AI media prompt grows with its content from five lines up to ten lines, then scrolls internally.
 
-- AI flow TextNode text input now enforces a 1,000-byte UTF-8 limit for typing, paste, and existing node data. Its counter reports used bytes, so Persian characters and emoji consume their actual UTF-8 size.
+- Restructured the AI workspace so Image/Video tabs remain visible while the matching media creator is rendered above the corresponding generated-media library. Creator requests now load for the selected media type without using the removed header Create button.
+- AI creator provider and model selection now share one tree-like panel: each provider branch expands to show its models underneath, replacing the separate provider panel.
+- Removed unused legacy AI creator styles for the old standalone header, back link, section heading, and provider-panel layout while preserving selectors shared by generated-media modals.
+- AI provider branches now use the public down-arrow asset with a 180-degree open-state rotation, and nested model lists animate open/closed with reduced-motion support.
+- AI media tabs now render inside the creator model panel. If the selected media type has no creator/model, the model panel retains only the tabs and the localized empty/error state is rendered in the settings panel.
+- AI creator enum inputs now use the shared button-based `optionGrid` presentation for both enum input variants instead of a native select.
+- AI creator multiple range inputs now render as one fixed `250px` square with a centered fixed `100px` inner square; mouse/touch handles define one shared hatched frame, including its corners, while each backend range key remains separate in submitted requests.
+- AI creator footers now show separate, independent token-usage and media-creation buttons on opposite sides; creation only requires a valid prompt and required inputs, and uses zero for the parent feature check when no estimate exists.
+- AI media tabs now use the shared `ToggleButton`; the former dedicated content-creator header component and stylesheet were removed.
+- Generated image and video result modal styles now live in `components/page/ai/Modal_Generated.module.css`; `mediaCreator.module.css` is limited to `mediaCreator.tsx` styles.
 
+- Added a permanent design-system rule for AI-assisted implementation: before writing new UI code, inspect and reuse the shared `scss/` styles and `components/design/` components, preserving the existing visual, responsive, RTL/LTR, and accessibility conventions.
 - Fixed advertise and customer-ad business-hour displays to translate the `LanguageKey` returned by `findDayName`, so localized weekday labels render instead of raw key names. The MyLink popup also normalizes its backend `weekDay` field before mapping it, preventing all rows from falling back to Monday.
 
 - Successful browser uploads now wait one second before their returned media URL is made available to UI consumers. This gives the upload server time to publish newly uploaded images, videos, and other media before the browser fetches them. Direct-message image and video popups now use the same shared `UploadFile` path instead of local XMLHttpRequests.

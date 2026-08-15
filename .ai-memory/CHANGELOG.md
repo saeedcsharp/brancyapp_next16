@@ -1,3 +1,5 @@
+- Fixed the AI page runtime crash caused by passing the removed `onCreateImage` callback name to `MediaCreator`; the page now passes its existing media-neutral `onCreateMedia` handler.
+
 - Fixed advertise and customer-ad business-hour displays to translate `findDayName` results, replacing raw weekday translation keys with localized labels. The MyLink popup now accepts its backend `weekDay` weekday field, preventing every row from displaying Monday.
 
 - Centralized a one-second media-availability delay after every successful `UploadFile` result so newly uploaded media is not fetched by the browser before the upload server has published it. Migrated direct-message image and video upload popups from local XMLHttpRequests to the shared uploader.
@@ -15,17 +17,31 @@
 
 # Changelog
 
-- Added a MyLink ended-lottery FeatureBox card using `/icon-lottery.svg`, with a five-entry modal list and an in-modal winners view without score-lottery creation, slider, Share Story, or Excel export controls.
-- Matched MyLink lottery list row icons to WinnerPicker's `/adticket.svg` and removed the confusing winner-count value from each row.
+- Moved generated image and video modal styles into the dedicated `Modal_Generated.module.css` and removed those unused result selectors from `mediaCreator.module.css`.
 
-- Added reusable UTF-8 text helpers in `helper/textByteLength.ts` for byte counting and Unicode-safe truncation; `TextNode` now consumes the shared implementation.
+- Removed unused legacy selectors from the AI generated-media list stylesheet, keeping only styles consumed by the image and video library cards.
 
-- Applied the shared 1,000-byte UTF-8 limit to the direct-message composer, including drafts, typing, emoji insertion, and outgoing text.
+- Added line-based bounded auto-resize to the shared TextArea and configured the AI media prompt to show at least five lines, grow with its text to ten lines, then use an internal scrollbar.
 
-- Fixed new AI flows saved from the Flow toolbar so the parent receives the created flow ID and reloads it with `GetMasterFlow`; existing flow saves remain local without an extra fetch.
+- Combined multiple AI creator range inputs into one fixed `250px` square expansion control with a centered fixed `100px` square and independently draggable mouse/touch handles that define one shared hatched frame, including its corners, while preserving the original per-input request values.
 
-- محدودیت متن نود TextNode به ۱۰۰۰ بایت UTF-8 تغییر کرد؛ تایپ، paste و داده اولیه همگی برش امن Unicode دارند و شمارنده تعداد بایت مصرف‌شده را نمایش می‌دهد.
+- Made AI creator dynamic input fields responsive so wider screens can display more fields in each row.
+- Styled the AI creator action button with `saveButton` when enabled and `cancelButton` when disabled.
+- Updated the AI creator usage section so the check button and token progress sit side by side on larger screens and stack on mobile.
+- Added an AI token balance progress bar based on the account's main and reserve package balances, with a hatched requested-usage segment and numeric total/requested values.
+- Moved the AI creator's returned token count beside the usage-check button and removed the duplicate footer display.
+- Styled the AI creator usage-check button with the shared `saveButton` class when enabled and `disableButton` when its existing disabled conditions apply.
+- Separated the AI creator footer's token-usage check and media-creation actions into two buttons placed on opposite sides; creation remains disabled until a valid usage estimate is available.
+- Made AI creator token-usage estimation and media creation independent; the create action no longer requires or waits for a prior estimate and passes zero to the parent feature check when no estimate exists.
+- Changed both AI creator enum input variants from native select controls to the shared `optionGrid` button presentation, preserving active selection styling and request validation.
+- Restructured `/page/ai` so the media tabs stay at the top, the selected image/video creator appears below them, and the matching generated-media library appears below the creator. Removed the duplicate header Create action and load creator models per media type.
+- Merged AI provider selection into the model panel as an expandable tree; selecting a provider reveals its nested model list and selects the provider's first model.
+- Removed unused legacy selectors from the AI media creator stylesheet, including the old header, back-link, section-heading, and standalone provider-panel rules.
+- Added an animated `down-arrow.svg` indicator to AI provider branches; nested model lists now transition open and closed and respect reduced-motion preferences.
+- Moved the AI Image/Video tabs into the creator model panel and kept empty/error creator states inside the settings panel when no model is available.
+- Replaced the AI-specific media tab component with the shared `ToggleButton` and removed the obsolete `contentCreatorHeader` files.
 
+- Added a permanent AI knowledge-base rule requiring new UI code to be based on the shared `scss/` styles and reusable `components/design/` components, with documented justification for any design-system exception.
 - Updated Market Properties Terms & Conditions to match the Announcement `{ str: string }` API contract, using one controlled 1,500-character `TextArea` instead of a string-array editor.
 - Increased the Market Properties Terms & Conditions textarea to a fixed 200px height so it stays stable while editing.
 

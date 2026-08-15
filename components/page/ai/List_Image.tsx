@@ -2,11 +2,12 @@ import RingLoader from "brancy/components/design/loader/ringLoder";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import initialzedTime from "brancy/helper/manageTimer";
 import { DateObject } from "react-multi-date-picker";
-import { parseImageMetadata } from "./generatedImageModal";
-import styles from "./imageList.module.css";
+import { parseImageMetadata } from "./GeneratedImageModal";
+import styles from "./List.module.css";
 import { IGetMedia, PendingGeneration } from "brancy/models/interfaces";
 import { useTranslation } from "react-i18next";
-
+import Loading from "brancy/components/notOk/loading";
+import DotLoaders from "brancy/components/design/loader/dotLoaders";
 function formatCreatedTime(timestamp: number) {
   const t = initialzedTime();
   const d = new DateObject({
@@ -35,20 +36,22 @@ export default function ImageList({
   const { t } = useTranslation();
   const pendingImages = pendingGenerations.filter((item) => item.mediaType === "image");
   return (
-    <section className={styles.library} aria-label={t("Generated images")}>
-      <div className={styles.libraryHeading}>
+    <section aria-label={t("Generated images")}>
+      {/* <div className={styles.libraryHeading}>
         <div>
           <h2>{t("Image library")}</h2>
           <p>{t("{count} creations loaded", { count: images.length })}</p>
         </div>
-      </div>
+      </div> */}
 
       {loading ? (
-        <div className={styles.loadingState}>
-          <RingLoader width={42} height={42} />
+        <div className={styles.loadingContainer}>
+          {" "}
+          <Loading />
         </div>
       ) : images.length > 0 || pendingImages.length > 0 ? (
         <div className={styles.imageGrid}>
+          {/* pending image card */}
           {pendingImages.map((pending) => (
             <article className={styles.imageCard} key={pending.clientContext}>
               <div className={`${styles.imagePreview} ${styles.pendingPreview}`} aria-label={t("Generating image")}>
@@ -56,31 +59,35 @@ export default function ImageList({
                 <span>{t("Generating image")}</span>
               </div>
               <div className={styles.imageInfo}>
+                <div className={styles.imageTitle}>{pending.prompt || t("Untitled generation")}</div>
                 <div className={styles.imageMetaLine}>
-                  <span>{t("In progress")}</span>
-                  <time>{t("Just now")}</time>
+                  <span className={styles.creatorKey}>{t("In progress")}</span>
+                  <span className={styles.version}>{t("Waiting for the result")}</span>
+                  {/* <time>{formatCreatedTime(image.createdTime)}</time> */}
                 </div>
-                <h3>{pending.prompt || t("Untitled generation")}</h3>
-                <p>{t("Waiting for the result")}</p>
               </div>
             </article>
           ))}
+          {/* created image card */}
           {images.map((image) => {
             const metadata = image.metadata ? parseImageMetadata(image.metadata, t) : null;
             return (
-              <article className={styles.imageCard} key={image.id}>
-                <button className={styles.imagePreview} type="button" onClick={() => setSelectedImage(image)}>
-                  <img src={getClientMediaBaseUrl() + image.imageUrl} alt={image.prompt || t("Generated image")} />
-                  <span>{t("View details")}</span>
-                </button>
+              <article className={styles.imageCard} key={image.id} onClick={() => setSelectedImage(image)}>
+                <img
+                  className={styles.imagePreview}
+                  src={getClientMediaBaseUrl() + image.imageUrl}
+                  alt={image.prompt || t("Generated image")}
+                />
+
                 <div className={styles.imageInfo}>
+                  <div className={styles.imageTitle}>{image.prompt || t("Untitled generation")}</div>
                   <div className={styles.imageMetaLine}>
-                    <span>{image.creatorKey}</span>
-                    <time>{formatCreatedTime(image.createdTime)}</time>
+                    <span className={styles.creatorKey}>{image.creatorKey}</span>
+                    <span className={styles.version}>{image.version}</span>
+                    {/* <time>{formatCreatedTime(image.createdTime)}</time> */}
                   </div>
-                  <h3>{image.prompt || t("Untitled generation")}</h3>
-                  <p>{image.version}</p>
-                  {metadata?.length ? (
+
+                  {/* {metadata?.length ? (
                     <dl className={styles.cardMetadata}>
                       {metadata.slice(0, 3).map((item) => (
                         <div key={item.key}>
@@ -89,7 +96,7 @@ export default function ImageList({
                         </div>
                       ))}
                     </dl>
-                  ) : null}
+                  ) : null} */}
                 </div>
               </article>
             );
@@ -97,17 +104,13 @@ export default function ImageList({
         </div>
       ) : (
         <div className={styles.emptyLibrary}>
-          <span aria-hidden="true">▧</span>
           <h2>{t("No images yet")}</h2>
           <p>{t("Your successful image generations will appear here.")}</p>
-          <button type="button" onClick={openImageCreator}>
-            {t("Create your first image")}
-          </button>
         </div>
       )}
       {isLoadingMore && (
         <div className={styles.loadMore}>
-          <RingLoader width={30} height={30} />
+          <DotLoaders />
         </div>
       )}
     </section>

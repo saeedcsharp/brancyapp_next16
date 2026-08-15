@@ -3445,10 +3445,7 @@ export default {
     UserClosed: "Le ticket a été fermé par l’utilisateur",
     TimerClosed: "Le ticket a été fermé automatiquement",
     closethisticket: "Fermer ce ticket",
-    "AI media studio": "Studio média IA",
-    "Your creations": "Vos créations",
-    "Browse previous generations or start a new creative project.":
-      "Parcourez vos créations précédentes ou démarrez un nouveau projet créatif.",
+
     Create: "Créer",
     image: "image",
     video: "vidéo",
@@ -3457,15 +3454,9 @@ export default {
     "Generated artwork and visuals": "Illustrations et visuels générés",
     "AI motion and clips": "Mouvements et clips IA",
     "Media type": "Type de média",
-    "Generated images": "Images générées",
-    "Generated videos": "Vidéos générées",
-    "Generated image": "Image générée",
-    "Generated video": "Vidéo générée",
-    "Generated AI image": "Image générée par IA",
+
     "Generated AI video preview": "Aperçu de la vidéo générée par IA",
-    "View details": "Voir les détails",
-    "AI image ready": "Image IA prête",
-    "AI video ready": "Vidéo IA prête",
+
     Close: "Fermer",
     Prompt: "Prompt",
     Metadata: "Métadonnées",
@@ -3478,12 +3469,13 @@ export default {
     "Download image": "Télécharger l’image",
     "Download video": "Télécharger la vidéo",
     "Your browser does not support video playback.": "Votre navigateur ne prend pas en charge la lecture vidéo.",
-    "AI studio": "Studio IA",
-    "Uploading {percent}%": "Téléversement {percent} %",
+
+    Uploading: "Téléversement",
     "Add video": "Ajouter une vidéo",
     "Add reference image": "Ajouter une image de référence",
     model: "modèle",
     models: "modèles",
+    "resize aspect ratio": "redimensionner le rapport d’aspect",
     "Video models": "Modèles vidéo",
     "Image models": "Modèles d’image",
     "Cost level {level}": "Niveau de coût {level}",
@@ -3500,27 +3492,21 @@ export default {
     "Create your first video": "Créez votre première vidéo",
     "Generating image": "Génération de l’image",
     "Generating video": "Génération de la vidéo",
+
     "In progress": "En cours",
     "Just now": "À l’instant",
     "Waiting for the result": "En attente du résultat",
-    "Image library": "Bibliothèque d'images",
-    "Video library": "Bibliothèque de vidéos",
-    "{count} creations loaded": "{count} créations chargées",
+
     "Try again": "Réessayer",
-    "Back to images": "Retour aux images",
-    "Back to videos": "Retour aux vidéos",
-    "Create an image": "Créer une image",
-    "Create a video": "Créer une vidéo",
+
     "AI provider": "Fournisseur d'IA",
-    "Choose a provider to see its available models": "Choisissez un fournisseur pour voir ses modèles disponibles",
+
     "Choose a model": "Choisir un modèle",
-    "Describe and customize": "Décrire et personnaliser",
+
     "Describe the subject, setting, light, composition, and style...":
       "Décrivez le sujet, le cadre, la lumière, la composition et le style...",
     "Use at least {count} characters.": "Utilisez au moins {count} caractères.",
-    "Check token usage before creating the image": "Vérifier l'utilisation des jetons avant de créer l'image",
-    "Check token usage before creating the video": "Vérifier l'utilisation des jetons avant de créer la vidéo",
-    "Check usage": "Vérifier l'utilisation",
+
     "Video creator is unavailable": "Le créateur vidéo est indisponible",
     "Image creator is unavailable": "Le créateur d'images est indisponible",
     "No video models found": "Aucun modèle vidéo trouvé",

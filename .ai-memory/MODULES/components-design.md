@@ -4,6 +4,10 @@
 
 Component module for design UI and feature concerns.
 
+## Design System Rule
+
+This module is the first reuse point for new UI controls and interaction patterns. Before adding a component or local presentation pattern, inspect the shared tokens and style layers in `scss/`, then reuse or extend the closest existing component here. New components must preserve the repository's spacing, typography, color, responsive, RTL/LTR, accessibility, reduced-motion, and forced-colors conventions.
+
 ## Business Purpose
 
 Supports Brancy design workflows or shared UI.
@@ -46,7 +50,7 @@ Exports are defined by source files in the module.
 - `components/design/phoneInput/` exports a dependency-free two-input phone selector with local SVG flags, country search, recent/preferred countries, formatting, validation, RTL support, and structured E.164/international/national output.
 - `components/design/inputText.tsx` supports controlled text input normalization by its consumer and exposes a `shake` prop for replaying the shared invalid-input animation.
 - `components/design/inputBox/inputBox.tsx` exports the legacy-compatible controlled `InputBox`. It supports standard `variant`/`status` options, native disabled/read-only/required behavior, forwarded refs, localized-digit normalization, RTL/LTR logical layout, clearable keyboard-accessible controls anchored to the physical right edge, mobile-safe 16px text, and responsive legacy CSS model aliases.
-- `components/design/textArea/textArea.tsx` exports a standard native-textarea-compatible control with RTL direction detection, controlled/uncontrolled modes, optional bounded auto-resize, keyboard Escape handling, and a 16px minimum computed font size to prevent mobile browser focus zoom. Standard React props are preferred; legacy textarea prop names remain temporarily compatible.
+- `components/design/textArea/textArea.tsx` exports a standard native-textarea-compatible control with RTL direction detection, controlled/uncontrolled modes, optional bounded auto-resize, line-based `minRows`/`maxRows` bounds, keyboard Escape handling, and a 16px minimum computed font size to prevent mobile browser focus zoom. Standard React props are preferred; legacy textarea prop names remain temporarily compatible.
 - `components/design/checkBoxButton/checkBoxButton.tsx` exports the legacy-compatible controlled `CheckBoxButton`, with native checkbox accessibility props, keyboard-visible focus, disabled state, a 44px touch target, and forced-colors/reduced-motion fallbacks.
 - `components/design/radioButton/radioButton.tsx` exports the legacy-compatible controlled `RadioButton`. It retains `textlabel` and `handleOptionChanged`, while supporting standard `label`, `onChange`, and native radio input props; its native input remains keyboard-focusable and styles include 44px touch targets, disabled, focus-visible, reduced-motion, and forced-colors states.
 - `components/design/incrementStepper/incrementStepper.tsx` exports a callback-controlled numeric stepper with semantic buttons, keyboard support, pointer-captured press-and-hold repetition, stale-value-safe decrement handling, optional `onValueChange`, `min`, and `max` props for manual integer entry, optional disabled and accessible-label props, and reduced-motion/forced-colors fallbacks.
@@ -82,6 +86,7 @@ React components are present when the folder contains `.tsx` UI files.
 - The brush chart measures its container after the first layout paint and once more on the next animation frame, while `ResizeObserver` continues to handle route/layout changes where the card initially has no usable size.
 - Brush chart count labels use an explicit `en-US` number locale so SSR and browser rendering cannot produce different numeric glyphs during hydration.
 - TextArea uses the CSS-module `textArea`, `rtl`, `ltr`, `danger`, and `fade` states. It includes keyboard-visible focus, reduced-motion, and forced-colors handling without focus-scale transforms.
+- TextArea line-based auto-resize calculates row heights from the rendered line-height, padding, and borders; the AI media prompt uses a five-line minimum and ten-line maximum before enabling its internal scrollbar.
 - InputBox uses a shared responsive base instead of fixed dimensions. Legacy models (`initial`, `hover`, `disable`, `filled`, `success`, `info`, `warning`, `danger`, `num`, `numAndPercentage`, `search`, `textinputbox`, and `serachMenuBar`) remain available while semantic `variant` and `status` props can be used for new code. CSS uses logical direction properties, native focus/disabled behavior, forced-colors and reduced-motion fallbacks, and a 16px minimum input font to prevent mobile zoom. A full-width relative wrapper anchors the keyboard-accessible clear button to the physical right edge.
 - InputBox numeric modes (`number`, `num`, `percentage`, and `numAndPercentage`, plus legacy `numberType`) normalize decimal digits from supported Unicode scripts to ASCII and remove every non-digit before the controlled callback and rendered value. Optional `unit` text (such as `gram`, `Kg`, `CM`, `MM`, or `$`) is rendered as a styled, RTL/LTR-aware visual sibling inside the wrapper; `unitStyle` allows per-instance styling, and the unit replaces the clear button while present.
 - CheckBoxButton keeps its existing import path and controlled `value`/`handleToggle` API while accepting native ARIA and input attributes. Its checkbox input is visually hidden rather than removed from keyboard navigation.

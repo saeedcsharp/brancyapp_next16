@@ -29,6 +29,8 @@ interface TextAreaProps extends NativeTextAreaProps {
   fadeTextArea?: boolean;
   autoResize?: boolean;
   autoExpandOnFocus?: boolean;
+  minRows?: number;
+  maxRows?: number;
   initialHeight?: number;
   minHeight?: number;
   maxHeight?: number;
@@ -48,6 +50,15 @@ function toMinimumMobileFontSize(fontSize?: CSSProperties["fontSize"]): CSSPrope
   if (typeof fontSize === "number") return `${Math.max(16, fontSize)}px`;
   if (fontSize) return `max(16px, ${fontSize})`;
   return "16px";
+}
+function getRowsHeight(element: HTMLTextAreaElement, rows: number): number {
+  const computedStyle = window.getComputedStyle(element);
+  const lineHeight = Number.parseFloat(computedStyle.lineHeight) || Number.parseFloat(computedStyle.fontSize) * 1.5;
+  const verticalPadding =
+    (Number.parseFloat(computedStyle.paddingTop) || 0) + (Number.parseFloat(computedStyle.paddingBottom) || 0);
+  const verticalBorder =
+    (Number.parseFloat(computedStyle.borderTopWidth) || 0) + (Number.parseFloat(computedStyle.borderBottomWidth) || 0);
+  return Math.ceil(lineHeight * rows + verticalPadding + verticalBorder);
 }
 function TextArea(props: TextAreaProps) {
   const {
@@ -69,6 +80,8 @@ function TextArea(props: TextAreaProps) {
     fadeTextArea = false,
     autoResize,
     autoExpandOnFocus = false,
+    minRows,
+    maxRows,
     initialHeight,
     minHeight,
     maxHeight,
@@ -91,19 +104,22 @@ function TextArea(props: TextAreaProps) {
   const resetHeight = useCallback(() => {
     const element = textareaRef.current;
     if (!element || !shouldAutoResize) return;
-    element.style.height = `${baseHeight}px`;
+    const height = minRows === undefined ? baseHeight : getRowsHeight(element, minRows);
+    element.style.height = `${height}px`;
     element.style.overflowY = "hidden";
-  }, [baseHeight, shouldAutoResize]);
+  }, [baseHeight, minRows, shouldAutoResize]);
   const adjustHeight = useCallback(() => {
     const element = textareaRef.current;
     if (!element || !shouldAutoResize) return;
     element.style.height = "auto";
     const contentHeight = element.scrollHeight;
-    const targetHeight = Math.max(minHeight ?? baseHeight, contentHeight);
-    const height = maxHeight ? Math.min(targetHeight, maxHeight) : targetHeight;
+    const minimumHeight = minRows === undefined ? (minHeight ?? baseHeight) : getRowsHeight(element, minRows);
+    const maximumHeight = maxRows === undefined ? maxHeight : getRowsHeight(element, maxRows);
+    const targetHeight = Math.max(minimumHeight, contentHeight);
+    const height = maximumHeight ? Math.min(targetHeight, maximumHeight) : targetHeight;
     element.style.height = `${height}px`;
-    element.style.overflowY = maxHeight && contentHeight > maxHeight ? "auto" : "hidden";
-  }, [baseHeight, maxHeight, minHeight, shouldAutoResize]);
+    element.style.overflowY = maximumHeight && contentHeight > maximumHeight ? "auto" : "hidden";
+  }, [baseHeight, maxHeight, maxRows, minHeight, minRows, shouldAutoResize]);
   useLayoutEffect(() => {
     if (!shouldAutoResize) return;
     if (document.activeElement === textareaRef.current) {
