@@ -2,6 +2,8 @@
 
 ## Pending Documentation Tasks
 
+- Add component/browser coverage for the AI workspace order: shared ToggleButton Image/Video tabs inside the model panel, matching creator loading after tab changes, empty/error state placement in the settings panel, creator submission, and the corresponding library below the creator when a UI test harness is introduced.
+
 - Add an automated review check for new UI code that detects avoidable duplication of shared `scss/` tokens/styles and `components/design/` controls when a suitable analysis tool is introduced.
 
 - Add component/browser coverage for InputBox legacy models and semantic variants, RTL/LTR direction, physical-right clear-button placement, localized digits, native clear keyboard behavior, disabled/read-only states, mobile zoom prevention, forced colors, reduced motion, and responsive overflow across Chrome, Edge, Firefox, iOS Safari, and Android Chrome when a UI test harness is introduced.
@@ -25,7 +27,7 @@
 - Add component/browser coverage for SwitchButton keyboard focus and Space activation, controlled checked state, accessible labels, valid/invalid role handling, disabled state, RTL thumb direction, 44px touch target, reduced motion, forced colors, and mobile/desktop viewport sizing when a UI test harness is introduced.
 - Add component/browser coverage for IncrementStepper click, keyboard activation, press-and-hold click suppression, direct-entry Enter/blur/Escape behavior, min/max clamping, zero-value decrement feedback, disabled state, forced colors, reduced motion, RTL placement, and mobile/desktop viewport sizing when a UI test harness is introduced.
 - Add component/browser coverage for CheckBoxButton keyboard focus and Space activation, controlled checked/disabled states, ARIA labels, touch targets, reduced motion, forced colors, RTL labels, and mobile viewport layouts when a UI test harness is introduced.
-- Add component/browser coverage for TextArea controlled and uncontrolled values, RTL/LTR direction, bounded auto-resize, Escape handling, forced colors, reduced motion, and focus behavior at iOS Safari and Android Chrome mobile viewport sizes when a UI test harness is introduced.
+- Add component/browser coverage for TextArea controlled and uncontrolled values, RTL/LTR direction, pixel- and line-bounded auto-resize including the AI prompt's five-to-ten-line range, Escape handling, forced colors, reduced motion, and focus behavior at iOS Safari and Android Chrome mobile viewport sizes when a UI test harness is introduced.
 - Add component/browser coverage for DotMenu keyboard navigation, focus restoration, Escape/outside-pointer close behavior, long localized labels, RTL placement, reduced motion, forced colors, and narrow viewports when a UI test harness is introduced.
 - Add browser coverage for MyLink product carousel touch scrolling, pointer dragging, horizontal-only overflow, and drag-click suppression when a UI test harness is introduced.
 - Add browser coverage for MyLink FeatureBox free-mode scrolling, pointer dragging, horizontal-only overflow, responsive sizing, and drag-click suppression when a UI test harness is introduced.
@@ -50,12 +52,9 @@
 - Document exact environment variable names from deployment manifests without exposing secret values.
 - Add testing strategy once test tooling exists.
 - Add component coverage for customer shop product cards with null titles and discount prices when a UI test harness is introduced.
-- Add integration coverage for wallet balance-history loading and unsuccessful backend responses when test infrastructure is introduced.
-- Add unit coverage for wallet summary aggregation across multiple `SubInvoiceStatus.None` entries when test infrastructure is introduced.
-- Add integration coverage for general-balance date filtering and per-card status aggregation when test infrastructure is introduced.
-- Add integration coverage for successful and rejected bank-card registration responses when test infrastructure is introduced.
-- Add component coverage for invoice-history loading, successful invoice-card rendering, and empty/error responses when a UI test harness is introduced.
-- Add component coverage for wallet invoice order details, including `invoiceId`/`userId` query construction, successful full-order rendering, and failed detail responses when a UI test harness is introduced.
+- Add component/browser coverage confirming both AI enum input variants render as `optionGrid` buttons, expose the active option, and retain required-input validation when a UI test harness is introduced.
+- Add component/browser coverage for the AI creator square range control, including independent edge dragging with mouse/touch, maximum clamping, RTL layout, and preservation of per-edge request keys when a UI test harness is introduced.
+- Add component/browser coverage confirming the AI creator footer keeps usage estimation and media creation as independent actions, permits creation before an estimate, and stacks both actions on narrow viewports when a UI test harness is introduced.
 - Add component coverage confirming the sub-invoice popup header action calls `/api/wallet/getInvoice` with the selected invoice ID and opens order details on success when a UI test harness is introduced.
 - Add integration coverage for invoice-history cursor pagination, duplicate invoice IDs, and exhausted `nextMaxId` responses when test infrastructure is introduced.
 - Add integration coverage for sub-invoice popup cursor pagination, duplicate IDs, exhausted `nextMaxId`, and the mobile table overflow behavior when test infrastructure is introduced.

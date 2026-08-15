@@ -57,6 +57,19 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- The shared TextArea supports line-based `minRows`/`maxRows` auto-resize bounds. The AI media prompt grows with its content from five lines up to ten lines, then scrolls internally.
+
+- Restructured the AI workspace so Image/Video tabs remain visible while the matching media creator is rendered above the corresponding generated-media library. Creator requests now load for the selected media type without using the removed header Create button.
+- AI creator provider and model selection now share one tree-like panel: each provider branch expands to show its models underneath, replacing the separate provider panel.
+- Removed unused legacy AI creator styles for the old standalone header, back link, section heading, and provider-panel layout while preserving selectors shared by generated-media modals.
+- AI provider branches now use the public down-arrow asset with a 180-degree open-state rotation, and nested model lists animate open/closed with reduced-motion support.
+- AI media tabs now render inside the creator model panel. If the selected media type has no creator/model, the model panel retains only the tabs and the localized empty/error state is rendered in the settings panel.
+- AI creator enum inputs now use the shared button-based `optionGrid` presentation for both enum input variants instead of a native select.
+- AI creator multiple range inputs now render as one fixed `250px` square with a centered fixed `100px` inner square; mouse/touch handles define one shared hatched frame, including its corners, while each backend range key remains separate in submitted requests.
+- AI creator footers now show separate, independent token-usage and media-creation buttons on opposite sides; creation only requires a valid prompt and required inputs, and uses zero for the parent feature check when no estimate exists.
+- AI media tabs now use the shared `ToggleButton`; the former dedicated content-creator header component and stylesheet were removed.
+- Generated image and video result modal styles now live in `components/page/ai/Modal_Generated.module.css`; `mediaCreator.module.css` is limited to `mediaCreator.tsx` styles.
+
 - Added a permanent design-system rule for AI-assisted implementation: before writing new UI code, inspect and reuse the shared `scss/` styles and `components/design/` components, preserving the existing visual, responsive, RTL/LTR, and accessibility conventions.
 
 - Fixed brush line chart hydration mismatches by formatting count labels with an explicit `en-US` locale instead of the runtime default locale.

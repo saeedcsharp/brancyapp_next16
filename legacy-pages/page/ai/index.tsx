@@ -7,10 +7,10 @@ import {
   notify,
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
-import GeneratedImageModal from "brancy/components/page/ai/generatedImageModal";
-import GeneratedVideoModal from "brancy/components/page/ai/generatedVideoModal";
-import ImageList from "brancy/components/page/ai/imageList";
-import VideoList from "brancy/components/page/ai/videoList";
+import GeneratedImageModal from "brancy/components/page/ai/GeneratedImageModal";
+import GeneratedVideoModal from "brancy/components/page/ai/GeneratedVideoModal";
+import ImageList from "brancy/components/page/ai/List_image";
+import VideoList from "brancy/components/page/ai/List_Video";
 import Loading from "brancy/components/notOk/loading";
 import { MethodType } from "brancy/helper/api";
 import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
@@ -38,13 +38,10 @@ import router from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import styles from "./pageAI.module.css";
-import ContentCreatorHeader from "brancy/components/page/ai/contentCreatorHeader";
 import MediaCreator from "brancy/components/page/ai/mediaCreator";
-
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
 type AiQueryType = "1" | "2";
 const SUCCESS_MEDIA_STATUS = 2;
-
 function formatCreatedTime(timestamp: number) {
   const t = initialzedTime();
   const d = new DateObject({
@@ -54,7 +51,6 @@ function formatCreatedTime(timestamp: number) {
   });
   return d.format("YYYY/MM/DD HH:mm:ss");
 }
-
 export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
   const { data: session } = useSession({
     required: true,
@@ -63,6 +59,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     },
   });
   const [activeTab, setActiveTab] = useState<MediaTab>(initialType === "2" ? "video" : "image");
+  const [creatorTab, setCreatorTab] = useState<MediaTab>(initialType === "2" ? "createvideo" : "createimage");
   const [images, setImages] = useState<IGetMedia[]>([]);
   const [nextMaxId, setNextMaxId] = useState<string | null>(null);
   const [videos, setVideos] = useState<IGetMedia[]>([]);
@@ -73,7 +70,10 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
   const [showFeaturePopup, setShowFeaturePopup] = useState(false);
   const [selectedImage, setSelectedImage] = useState<IGetMedia | null>(null);
   const [selectedVideo, setSelectedVideo] = useState<IGetMedia | null>(null);
-  const [creators, setCreators] = useState<IMediaCreator[]>([]);
+  const [imageCreators, setImageCreators] = useState<IMediaCreator[]>([]);
+  const [videoCreators, setVideoCreators] = useState<IMediaCreator[]>([]);
+  const [loadedImageCreators, setLoadedImageCreators] = useState(false);
+  const [loadedVideoCreators, setLoadedVideoCreators] = useState(false);
   const [error, setError] = useState("");
   const [pendingGenerations, setPendingGenerations] = useState<PendingGeneration[]>([]);
   const pendingGenerationsRef = useRef<PendingGeneration[]>([]);
@@ -147,13 +147,13 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
       return;
     }
     const requestClientContext = crypto.randomUUID();
-    const mediaType: PendingGeneration["mediaType"] = activeTab === "createvideo" ? "video" : "image";
+    const mediaType: PendingGeneration["mediaType"] = creatorTab === "createvideo" ? "video" : "image";
     const pendingGeneration = { clientContext: requestClientContext, mediaType, prompt: request.prompt };
     pendingGenerationsRef.current = [...pendingGenerationsRef.current, pendingGeneration];
     setPendingGenerations(pendingGenerationsRef.current);
     setActiveTab(mediaType);
     const response = await clientFetchApi<IGetImageUsageRequest, number>(
-      `/api/mediaai/${activeTab === "createvideo" ? "CreateVideo" : "CreateImage"}`,
+      `/api/mediaai/${creatorTab === "createvideo" ? "CreateVideo" : "CreateImage"}`,
       {
         session,
         methodType: MethodType.post,
@@ -172,7 +172,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     internalNotify(
       InternalResponseType.Success,
       NotifType.Success,
-      activeTab === "createvideo" ? t("Video generation request sent.") : t("Image generation request sent."),
+      creatorTab === "createvideo" ? t("Video generation request sent.") : t("Image generation request sent."),
     );
   };
   const loadCreators = async () => {
@@ -182,8 +182,9 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     setError("");
     const response = await clientFetchApi<boolean, IMediaCreator[]>("/api/mediaai/GetImageCreators", { session });
     if (response.succeeded && Array.isArray(response.value)) {
-      setCreators(response.value);
-      setActiveTab("createimage");
+      setImageCreators(response.value);
+      setLoadedImageCreators(true);
+      setCreatorTab("createimage");
     } else {
       notify(response.info?.responseType, NotifType.Warning);
     }
@@ -197,8 +198,9 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     setError("");
     const response = await clientFetchApi<boolean, IMediaCreator[]>("/api/mediaai/GetVideoCreators", { session });
     if (response.succeeded && Array.isArray(response.value)) {
-      setCreators(response.value);
-      setActiveTab("createvideo");
+      setVideoCreators(response.value);
+      setLoadedVideoCreators(true);
+      setCreatorTab("createvideo");
     } else {
       notify(response.info?.responseType, NotifType.Warning);
     }
@@ -301,6 +303,17 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     }
     await loadVideoCreators();
   };
+
+  useEffect(() => {
+    if (!session) return;
+    if (activeTab === "image") {
+      setCreatorTab("createimage");
+      if (!loadedImageCreators) openImageCreator();
+    } else {
+      setCreatorTab("createvideo");
+      if (!loadedVideoCreators) openVideoCreator();
+    }
+  }, [activeTab, loadedImageCreators, loadedVideoCreators, session]);
   const handleGetNotif = useCallback((notif: string) => {
     try {
       const decombNotif = handleDecompress(notif);
@@ -388,11 +401,13 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
       </Head>
       <main className={styles.aiWorkspace} ref={containerRef}>
         {(activeTab === "image" || activeTab === "video") && (
-          <ContentCreatorHeader
-            activeTab={activeTab}
+          <MediaCreator
+            creators={activeTab === "image" ? imageCreators : videoCreators}
+            error={error}
+            onRetry={activeTab === "video" ? loadVideoCreators : loadCreators}
+            onCreateMedia={onCreateImage}
             setActiveTab={setActiveTab}
-            openImageCreator={openImageCreator}
-            openVideoCreator={openVideoCreator}
+            activeTab={creatorTab}
           />
         )}
         {activeTab === "image" && (
@@ -413,16 +428,6 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
             setSelectedVideo={setSelectedVideo}
             openVideoCreator={openVideoCreator}
             pendingGenerations={pendingGenerations}
-          />
-        )}
-        {(activeTab === "createimage" || activeTab === "createvideo") && (
-          <MediaCreator
-            creators={creators}
-            error={error}
-            onRetry={activeTab === "createvideo" ? loadVideoCreators : loadCreators}
-            onCreateMedia={onCreateImage}
-            setActiveTab={setActiveTab}
-            activeTab={activeTab}
           />
         )}
       </main>

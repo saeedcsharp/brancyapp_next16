@@ -9,6 +9,30 @@
 
 # Changelog
 
+- Moved generated image and video modal styles into the dedicated `Modal_Generated.module.css` and removed those unused result selectors from `mediaCreator.module.css`.
+
+- Removed unused legacy selectors from the AI generated-media list stylesheet, keeping only styles consumed by the image and video library cards.
+
+- Added line-based bounded auto-resize to the shared TextArea and configured the AI media prompt to show at least five lines, grow with its text to ten lines, then use an internal scrollbar.
+
+- Combined multiple AI creator range inputs into one fixed `250px` square expansion control with a centered fixed `100px` square and independently draggable mouse/touch handles that define one shared hatched frame, including its corners, while preserving the original per-input request values.
+
+- Made AI creator dynamic input fields responsive so wider screens can display more fields in each row.
+- Styled the AI creator action button with `saveButton` when enabled and `cancelButton` when disabled.
+- Updated the AI creator usage section so the check button and token progress sit side by side on larger screens and stack on mobile.
+- Added an AI token balance progress bar based on the account's main and reserve package balances, with a hatched requested-usage segment and numeric total/requested values.
+- Moved the AI creator's returned token count beside the usage-check button and removed the duplicate footer display.
+- Styled the AI creator usage-check button with the shared `saveButton` class when enabled and `disableButton` when its existing disabled conditions apply.
+- Separated the AI creator footer's token-usage check and media-creation actions into two buttons placed on opposite sides; creation remains disabled until a valid usage estimate is available.
+- Made AI creator token-usage estimation and media creation independent; the create action no longer requires or waits for a prior estimate and passes zero to the parent feature check when no estimate exists.
+- Changed both AI creator enum input variants from native select controls to the shared `optionGrid` button presentation, preserving active selection styling and request validation.
+- Restructured `/page/ai` so the media tabs stay at the top, the selected image/video creator appears below them, and the matching generated-media library appears below the creator. Removed the duplicate header Create action and load creator models per media type.
+- Merged AI provider selection into the model panel as an expandable tree; selecting a provider reveals its nested model list and selects the provider's first model.
+- Removed unused legacy selectors from the AI media creator stylesheet, including the old header, back-link, section-heading, and standalone provider-panel rules.
+- Added an animated `down-arrow.svg` indicator to AI provider branches; nested model lists now transition open and closed and respect reduced-motion preferences.
+- Moved the AI Image/Video tabs into the creator model panel and kept empty/error creator states inside the settings panel when no model is available.
+- Replaced the AI-specific media tab component with the shared `ToggleButton` and removed the obsolete `contentCreatorHeader` files.
+
 - Added a permanent AI knowledge-base rule requiring new UI code to be based on the shared `scss/` styles and reusable `components/design/` components, with documented justification for any design-system exception.
 
 - Anchored the shared InputBox clear button inside a full-width relative wrapper so it remains centered at the physical right edge in both LTR and RTL layouts.

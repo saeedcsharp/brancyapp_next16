@@ -3423,10 +3423,7 @@ export default {
     UserClosed: "Ticket wurde vom Benutzer geschlossen",
     TimerClosed: "Ticket wurde automatisch geschlossen",
     closethisticket: "Dieses Ticket schließen",
-    "AI media studio": "KI-Medienstudio",
-    "Your creations": "Ihre Kreationen",
-    "Browse previous generations or start a new creative project.":
-      "Durchsuchen Sie frühere Generierungen oder starten Sie ein neues kreatives Projekt.",
+
     Create: "Erstellen",
     image: "Bild",
     video: "Video",
@@ -3435,15 +3432,9 @@ export default {
     "Generated artwork and visuals": "Erstellte Grafiken und Visualisierungen",
     "AI motion and clips": "KI-Bewegungen und Clips",
     "Media type": "Medientyp",
-    "Generated images": "Erstellte Bilder",
-    "Generated videos": "Erstellte Videos",
-    "Generated image": "Erstelltes Bild",
-    "Generated video": "Erstelltes Video",
-    "Generated AI image": "Mit KI erstelltes Bild",
+
     "Generated AI video preview": "Vorschau des mit KI erstellten Videos",
-    "View details": "Details anzeigen",
-    "AI image ready": "KI-Bild bereit",
-    "AI video ready": "KI-Video bereit",
+
     Close: "Schließen",
     Prompt: "Prompt",
     Metadata: "Metadaten",
@@ -3456,12 +3447,13 @@ export default {
     "Download image": "Bild herunterladen",
     "Download video": "Video herunterladen",
     "Your browser does not support video playback.": "Ihr Browser unterstützt keine Videowiedergabe.",
-    "AI studio": "KI-Studio",
-    "Uploading {percent}%": "Hochladen {percent}%",
+
+    Uploading: "Hochladen",
     "Add video": "Video hinzufügen",
     "Add reference image": "Referenzbild hinzufügen",
     model: "Modell",
     models: "Modelle",
+    "resize aspect ratio": "Seitenverhältnis ändern",
     "Video models": "Videomodelle",
     "Image models": "Bildmodelle",
     "Cost level {level}": "Kostenstufe {level}",
@@ -3481,24 +3473,17 @@ export default {
     "In progress": "In Bearbeitung",
     "Just now": "Gerade eben",
     "Waiting for the result": "Warten auf das Ergebnis",
-    "Image library": "Bilderbibliothek",
-    "Video library": "Videobibliothek",
-    "{count} creations loaded": "{count} erstellte Inhalte geladen",
+
     "Try again": "Erneut versuchen",
-    "Back to images": "Zurück zu Bildern",
-    "Back to videos": "Zurück zu Videos",
-    "Create an image": "Bild erstellen",
-    "Create a video": "Video erstellen",
+
     "AI provider": "KI-Anbieter",
-    "Choose a provider to see its available models": "Wählen Sie einen Anbieter, um seine verfügbaren Modelle zu sehen",
+
     "Choose a model": "Modell auswählen",
-    "Describe and customize": "Beschreiben und anpassen",
+
     "Describe the subject, setting, light, composition, and style...":
       "Beschreiben Sie Motiv, Umgebung, Licht, Komposition und Stil...",
     "Use at least {count} characters.": "Verwenden Sie mindestens {count} Zeichen.",
-    "Check token usage before creating the image": "Tokenverbrauch vor der Bilderstellung prüfen",
-    "Check token usage before creating the video": "Tokenverbrauch vor der Videoerstellung prüfen",
-    "Check usage": "Verbrauch prüfen",
+
     "Video creator is unavailable": "Videoersteller ist nicht verfügbar",
     "Image creator is unavailable": "Bildersteller ist nicht verfügbar",
     "No video models found": "Keine Videomodelle gefunden",
