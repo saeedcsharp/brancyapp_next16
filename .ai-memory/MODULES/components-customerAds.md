@@ -28,6 +28,8 @@ Execution starts from imports, route rendering, or helper calls depending on the
 
 Data enters through props, Next route params, session state, browser state, or backend API responses.
 
+Business-hour card weekday values are `LanguageKey` results from `findDayName` and are rendered through `react-i18next`'s `t(...)` function.
+
 ## Dependencies
 
 See imports in related files and dependency docs.
@@ -155,13 +157,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

@@ -1,4 +1,10 @@
+- Fixed advertise and customer-ad business-hour displays to translate `findDayName` results, replacing raw weekday translation keys with localized labels. The MyLink popup now accepts its backend `weekDay` weekday field, preventing every row from displaying Monday.
+
+- Centralized a one-second media-availability delay after every successful `UploadFile` result so newly uploaded media is not fetched by the browser before the upload server has published it. Migrated direct-message image and video upload popups from local XMLHttpRequests to the shared uploader.
+
 - Refined the store statistics coupon manager presentation with elevated coupon cards, clearer status badges, metadata chips, responsive mobile stacking, and reduced-motion support.
+- Fixed create and update coupon cancel buttons submitting their forms by explicitly marking them as non-submit buttons.
+- Added memoized create-coupon validation for code, discount percentage, and maximum uses, plus an internal `TimeExpire` notification when expiry is missing or less than one hour ahead.
 - Added coupon edit mode: the three-dot action opens the shared modal with existing values, keeps code/discount/phone/max-discount read-only, and saves expiry, max uses, and bio visibility through `Shopper/Coupon/UpdateCoupon` with `couponId`.
 - Coupon bio visibility toggles now activate through `Shopper/Coupon/ActivateCoupon` or remove through `Shopper/Coupon/DeleteCoupon`, sending only `couponId`.
 - Fixed the coupon edit action bubbling into the collapsible card header, which prevented the edit modal from opening reliably.
@@ -34,6 +40,17 @@
 - Replaced the AI-specific media tab component with the shared `ToggleButton` and removed the obsolete `contentCreatorHeader` files.
 
 - Added a permanent AI knowledge-base rule requiring new UI code to be based on the shared `scss/` styles and reusable `components/design/` components, with documented justification for any design-system exception.
+- Updated Market Properties Terms & Conditions to match the Announcement `{ str: string }` API contract, using one controlled 1,500-character `TextArea` instead of a string-array editor.
+
+- Standardized Market Properties FeatureBox requests on `/api/bio/*` paths and registered all four Working Hours and Terms endpoints in `apiRouteMap`.
+
+- Fixed Market Properties Terms & Conditions textareas losing focus after every typed character by removing term text from the editor row React key.
+
+- Added the Market Properties FeatureBox popup with API-backed Working Hours and Terms & Conditions sections, shared toggle navigation, loading state, business-hours editor, styled terms list, and `UpdateWorkingHours` persistence.
+
+- Store properties business-hours summaries now render all seven days and show days missing from the business-hours array as closed.
+
+- Clarified the coupon expiration label in all eight locales to state that the expiration must be at least one hour from the current time.
 
 - Anchored the shared InputBox clear button inside a full-width relative wrapper so it remains centered at the physical right edge in both LTR and RTL layouts.
 

@@ -47,7 +47,8 @@ const NotificationBar = ({
       responseType === PushResponseType.UploadPostFailed ||
       responseType === PushResponseType.UploadStoryFailed ||
       responseType === PushResponseType.AiImageFail
-    )
+    ) {
+      console.log("responseTypeeeeeeeeee", responseType);
       return (
         <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true">
           <path
@@ -56,6 +57,7 @@ const NotificationBar = ({
           />
         </svg>
       );
+    }
   }, []);
   const fullyDecodeURIComponent = useCallback((encoded: string): string => {
     let decoded = encoded;
@@ -92,7 +94,7 @@ const NotificationBar = ({
       return notifMessage + message.version + " model.";
     } else if (notif.ResponseType === PushResponseType.AiImageFail && notif.Message) {
       const message = JSON.parse(notif.Message) as IGetMedia;
-      return `Your images failed to be created by " + message.version + " model : ${message.metadata || "Image generation failed."}`;
+      return `Your media failed to be created by " + message.version + " model : ${message.metadata || "media generation failed."}`;
     } else {
       const explaination = getEnumValue(PushResponseType, PushResponseExplanation, notif.ResponseType);
       return `${explaination} `;

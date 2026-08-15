@@ -337,8 +337,10 @@ export interface IEditTariff {
 }
 
 export interface IBusinessHour {
-  dayName: BusinessDay;
-  timerInfo: ITimerInfo | null;
+  instagramerId: number;
+  weekday: BusinessDay;
+  beginTime: number;
+  endTime: number;
 }
 
 export interface IActiveBusinessHour {
@@ -381,11 +383,6 @@ interface IPriceNonCamp {
 interface IPriceCamp {
   post: IFullDayPrice;
   story: IFullDayPrice;
-}
-
-export interface ITimerInfo {
-  startTime: number;
-  endTime: number;
 }
 
 export interface ICaledarAds extends IBaseAds {
@@ -1083,12 +1080,6 @@ export interface IServerLink {
   iconUrl: string;
 }
 
-export interface IWorkHourItem {
-  weekDay: number;
-  beginTime: number;
-  endTime: number;
-}
-
 export interface IInfluencerTeriffe {
   today12HPost: number;
   today24HPost: number;
@@ -1165,7 +1156,7 @@ export interface ISmartLink {
   instagramer: IInstagramer;
   contact: IContact;
   links: IServerLink[];
-  workHourItems: IWorkHourItem[] | null;
+  workHourItems: IBusinessHour[] | null;
   influencerTeriffe: IInfluencerTeriffe | null;
   announcement: IAnnouncement;
   reviews: IReview[];

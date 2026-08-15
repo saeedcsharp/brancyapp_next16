@@ -17,6 +17,7 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 - Persian `/feature` copy uses plain Persian equivalents or Persian transliteration for unavoidable brand names; technical route and identifier values remain unchanged.
 - Persian `/feature` copy is also intentionally conversational and non-technical, with short explanations suitable for general and younger audiences.
 - The feature catalog is a mandatory synchronization point: every added, changed, completed, renamed, or removed user-facing option or capability must update the active or audit-only list before the task is considered complete.
+- Market Properties Terms editors use stable row keys, preventing controlled textareas from remounting and losing focus while users type.
 - Expanded feature details show the usage instruction and route on separate lines, with safe wrapping for narrow viewports.
 - On mobile, feature cards place the expand control in the top corner and keep role and access cells side by side.
 
@@ -71,6 +72,11 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 - Generated image and video result modal styles now live in `components/page/ai/Modal_Generated.module.css`; `mediaCreator.module.css` is limited to `mediaCreator.tsx` styles.
 
 - Added a permanent design-system rule for AI-assisted implementation: before writing new UI code, inspect and reuse the shared `scss/` styles and `components/design/` components, preserving the existing visual, responsive, RTL/LTR, and accessibility conventions.
+- Fixed advertise and customer-ad business-hour displays to translate the `LanguageKey` returned by `findDayName`, so localized weekday labels render instead of raw key names. The MyLink popup also normalizes its backend `weekDay` field before mapping it, preventing all rows from falling back to Monday.
+
+- Successful browser uploads now wait one second before their returned media URL is made available to UI consumers. This gives the upload server time to publish newly uploaded images, videos, and other media before the browser fetches them. Direct-message image and video popups now use the same shared `UploadFile` path instead of local XMLHttpRequests.
+
+- Added the Market Properties FeatureBox popup with shared Working Hours and Terms & Conditions tabs. It uses canonical `/api/bio/*` paths registered in `helper/apiRouteMap.ts`, which resolve to the `Instagramer/Bio/*` backend endpoints, and includes embedded `EditBusinessHours`, Announcement-style `{ str: string }` Terms editing with a 1,500-character counter, persistence, and the shared initial `Loading` state.
 
 - Fixed brush line chart hydration mismatches by formatting count labels with an explicit `en-US` locale instead of the runtime default locale.
 

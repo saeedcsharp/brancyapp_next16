@@ -2145,7 +2145,7 @@ export default {
     storestatistics_maxUses: "حداکثر استفاده",
     storestatistics_phoneNumber: "شماره تلفن",
     storestatistics_maxDiscountOptional: "سقف تخفیف (اختیاری)",
-    storestatistics_couponExpiry: "تاریخ انقضای کد تخفیف",
+    storestatistics_couponExpiry: "زمان انقضا (باید حداقل ۱ ساعت از اکنون فاصله داشته باشد)",
     storestatistics_showInBio: "نمایش در بیو",
     storestatistics_couponDeleted: "حذف شده",
     storestatistics_couponExpired: "منقضی شده",

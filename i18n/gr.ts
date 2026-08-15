@@ -2238,7 +2238,7 @@ export default {
     storestatistics_maxUses: "Maximale Verwendungen",
     storestatistics_phoneNumber: "Telefonnummer",
     storestatistics_maxDiscountOptional: "Maximaler Rabatt (optional)",
-    storestatistics_couponExpiry: "Ablaufdatum des Rabattcodes",
+    storestatistics_couponExpiry: "Ablaufzeit (muss mindestens 1 Stunde ab jetzt betragen)",
     storestatistics_showInBio: "In der Bio anzeigen",
     storestatistics_couponDeleted: "Gelöscht",
     storestatistics_couponExpired: "Abgelaufen",

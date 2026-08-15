@@ -2212,7 +2212,7 @@ export default {
     storestatistics_maxUses: "Максимальное число использований",
     storestatistics_phoneNumber: "Номер телефона",
     storestatistics_maxDiscountOptional: "Максимальная скидка (необязательно)",
-    storestatistics_couponExpiry: "Срок действия промокода",
+    storestatistics_couponExpiry: "Время окончания (должно быть не менее чем через 1 час)",
     storestatistics_showInBio: "Показывать в профиле",
     storestatistics_couponDeleted: "Удален",
     storestatistics_couponExpired: "Истек",

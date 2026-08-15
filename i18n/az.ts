@@ -2143,7 +2143,7 @@ export default {
     storestatistics_maxUses: "Maksimum istifadə sayı",
     storestatistics_phoneNumber: "Telefon nömrəsi",
     storestatistics_maxDiscountOptional: "Maksimum endirim (istəyə bağlı)",
-    storestatistics_couponExpiry: "Endirim kodunun bitmə tarixi",
+    storestatistics_couponExpiry: "Bitmə vaxtı (ən azı 1 saat sonrakı vaxt olmalıdır)",
     storestatistics_showInBio: "Bio-da göstər",
     storestatistics_couponDeleted: "Silinib",
     storestatistics_couponExpired: "Müddəti bitib",

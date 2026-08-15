@@ -2103,7 +2103,7 @@ export default {
     storestatistics_maxUses: "الحد الأقصى للاستخدام",
     storestatistics_phoneNumber: "رقم الهاتف",
     storestatistics_maxDiscountOptional: "الحد الأقصى للخصم (اختياري)",
-    storestatistics_couponExpiry: "تاريخ انتهاء رمز الخصم",
+    storestatistics_couponExpiry: "وقت الانتهاء (يجب أن يكون بعد ساعة واحدة على الأقل من الآن)",
     storestatistics_showInBio: "إظهار في النبذة",
     storestatistics_couponDeleted: "محذوف",
     storestatistics_couponExpired: "منتهي الصلاحية",

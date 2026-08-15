@@ -2181,7 +2181,7 @@ export default {
     storestatistics_maxUses: "Maximum uses",
     storestatistics_phoneNumber: "Phone number",
     storestatistics_maxDiscountOptional: "Maximum discount (optional)",
-    storestatistics_couponExpiry: "Discount code expiration",
+    storestatistics_couponExpiry: "Expiration time (must be at least 1 hour from now)",
     storestatistics_showInBio: "Show in bio",
     storestatistics_couponDeleted: "Deleted",
     storestatistics_couponExpired: "Expired",

@@ -1,3 +1,8 @@
+- Add component coverage confirming advertise and customer-ad business-hour views translate all seven `findDayName` results in each supported locale when a UI test harness is introduced.
+
+- Add component/browser coverage for the Market Properties FeatureBox API loading, Working Hours editor tab, single-text Terms & Conditions editor, empty responses, API failures, payload shape `{ str: string }`, and mobile/RTL presentation when a UI test harness is introduced.
+- Extend Market Properties FeatureBox coverage to confirm the Terms & Conditions textarea focus remains stable while typing and its 1,500-character limit is enforced when a UI test harness is introduced.
+
 # TODO
 
 ## Pending Documentation Tasks
@@ -5,6 +10,7 @@
 - Add component/browser coverage for the AI workspace order: shared ToggleButton Image/Video tabs inside the model panel, matching creator loading after tab changes, empty/error state placement in the settings panel, creator submission, and the corresponding library below the creator when a UI test harness is introduced.
 
 - Add an automated review check for new UI code that detects avoidable duplication of shared `scss/` tokens/styles and `components/design/` controls when a suitable analysis tool is introduced.
+- Add integration coverage for `UploadFile` success paths to confirm media URLs are released after one second, errors are not delayed, progress callbacks are preserved, and direct-message image/video send flows use the shared uploader when a test harness is introduced.
 
 - Add component/browser coverage for InputBox legacy models and semantic variants, RTL/LTR direction, physical-right clear-button placement, localized digits, native clear keyboard behavior, disabled/read-only states, mobile zoom prevention, forced colors, reduced motion, and responsive overflow across Chrome, Edge, Firefox, iOS Safari, and Android Chrome when a UI test harness is introduced.
 
@@ -30,6 +36,7 @@
 - Add component/browser coverage for TextArea controlled and uncontrolled values, RTL/LTR direction, pixel- and line-bounded auto-resize including the AI prompt's five-to-ten-line range, Escape handling, forced colors, reduced motion, and focus behavior at iOS Safari and Android Chrome mobile viewport sizes when a UI test harness is introduced.
 - Add component/browser coverage for DotMenu keyboard navigation, focus restoration, Escape/outside-pointer close behavior, long localized labels, RTL placement, reduced motion, forced colors, and narrow viewports when a UI test harness is introduced.
 - Add browser coverage for MyLink product carousel touch scrolling, pointer dragging, horizontal-only overflow, and drag-click suppression when a UI test harness is introduced.
+- Add component coverage confirming store business-hours summaries render all seven weekdays and mark missing backend days as closed when a UI test harness is introduced.
 - Add browser coverage for MyLink FeatureBox free-mode scrolling, pointer dragging, horizontal-only overflow, responsive sizing, and drag-click suppression when a UI test harness is introduced.
 - Add browser coverage for MyLink shortcut-link mobile horizontal scrolling, pointer dragging, conditional 200px sizing for more than four links, and drag-click suppression when a UI test harness is introduced.
 - Add component coverage for MyLink shortcut countdown day/hour/minute/second formatting when a UI test harness is introduced.

@@ -9,8 +9,8 @@ const TimerSlider = (props: {
   activeTimer: boolean;
   changeSliderValue: (info: IBusinessHour) => void;
 }) => {
-  const [minValue, setMinValue] = useState(numbTo24HourTime(props.activeTimer ? props.info.timerInfo?.startTime : 0));
-  const [maxValue, setMaxValue] = useState(numbTo24HourTime(props.activeTimer ? props.info.timerInfo?.endTime : 84600));
+  const [minValue, setMinValue] = useState(numbTo24HourTime(props.activeTimer ? props.info.beginTime : 0));
+  const [maxValue, setMaxValue] = useState(numbTo24HourTime(props.activeTimer ? props.info.endTime : 84600));
   const [rangePositionValues, setRangePositionValues] = useState([minValue, maxValue]);
   const handleRangePositionChange = (newValues: number[]) => {
     if (!props.activeTimer) return;
@@ -18,11 +18,10 @@ const TimerSlider = (props: {
     setMinValue(newValues[0]);
     setMaxValue(newValues[1]);
     props.changeSliderValue({
-      dayName: props.info.dayName,
-      timerInfo: {
-        endTime: newValues[1] * 3600,
-        startTime: newValues[0] * 3600,
-      },
+      weekday: props.info.weekday,
+      endTime: newValues[1] * 3600,
+      beginTime: newValues[0] * 3600,
+      instagramerId: props.info.instagramerId,
     });
   };
   return (

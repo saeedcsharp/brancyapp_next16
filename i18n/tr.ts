@@ -2184,7 +2184,7 @@ export default {
     storestatistics_maxUses: "Maksimum kullanım",
     storestatistics_phoneNumber: "Telefon numarası",
     storestatistics_maxDiscountOptional: "Maksimum indirim (isteğe bağlı)",
-    storestatistics_couponExpiry: "İndirim kodu son kullanma tarihi",
+    storestatistics_couponExpiry: "Son kullanma zamanı (en az 1 saat sonrası olmalıdır)",
     storestatistics_showInBio: "Biyografide göster",
     storestatistics_couponDeleted: "Silindi",
     storestatistics_couponExpired: "Süresi doldu",

@@ -30,6 +30,8 @@ Data enters through props, Next route params, session state, browser state, or b
 
 The statistics page composes the store sales cards with `CouponManager`, controls separate page-level `Modal` instances for create and update coupon workflows, and owns coupon loading, `isActive`/`isPrivate` filtering, cursor pagination through the `nextMaxId` query and the last `IUserCoupon.couponId`, creation, updates for `couponId`/`expireTime`/`maxCount`/`showInBio`, visibility activation through `Shopper/Coupon/ActivateCoupon`, visibility removal through `Shopper/Coupon/DeleteCoupon`, and related server state. The child store components receive data and callbacks while the page retains its existing shopper and partner authorization guards.
 
+The store properties business-hours summary always renders Monday through Sunday. Days present in the backend/local business-hours array use their configured hours; missing days are represented only in the display projection and are shown as closed, without changing the editor's state shape.
+
 ## Dependencies
 
 See imports in related files and dependency docs.

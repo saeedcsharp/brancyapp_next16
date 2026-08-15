@@ -1,12 +1,14 @@
 import { FormEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
-import InputText from "brancy/components/design/inputText";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import SwitchButton from "brancy/components/design/switchButton/switchButton";
 import { LanguageKey } from "brancy/i18n";
 import IUserCoupon from "brancy/models/interfaces";
 import styles from "./createCouponModal.module.css";
+import InputBox from "brancy/components/design/inputBox/inputBox";
+import initialzedTime from "brancy/helper/manageTimer";
+import { DateObject } from "react-multi-date-picker";
 
 export interface UpdateCouponRequest {
   couponId: number;
@@ -52,7 +54,7 @@ const UpdateCouponModal = ({ coupon, closePopup, onUpdate }: UpdateCouponModalPr
         setShowDatePicker(false);
       }}
       backToNormalPicker={() => setShowDatePicker(false)}
-      startDay={expireTime ? expireTime * 1000 : Date.now() + 3600000}
+      startDay={expireTime ? expireTime : Date.now() + 3600000}
       fromUnix={Date.now() + 3600000}
       endUnix={Date.now() + 31536000000}
       title={t(LanguageKey.storestatistics_couponExpiry)}
@@ -78,7 +80,11 @@ const UpdateCouponModal = ({ coupon, closePopup, onUpdate }: UpdateCouponModalPr
             <button className={styles.dateButton} type="button" onClick={() => setShowDatePicker(true)}>
               <span>
                 {expireTime
-                  ? new Date(expireTime * 1000).toLocaleString()
+                  ? new DateObject({
+                      date: coupon.expireTime,
+                      calendar: initialzedTime().calendar,
+                      locale: initialzedTime().locale,
+                    }).format("YYYY/MM/DD")
                   : t(LanguageKey.storestatistics_couponExpiry)}
               </span>
               <img src="/selectDate-item.svg" alt="" aria-hidden="true" />
@@ -88,13 +94,13 @@ const UpdateCouponModal = ({ coupon, closePopup, onUpdate }: UpdateCouponModalPr
         <div className="headerandinput">
           <div className="headertext">{t(LanguageKey.storestatistics_couponCode)}</div>
           <div className="headerparent">
-            <InputText className="textinputbox" value={coupon.code} handleInputChange={() => {}} disabled />
+            <InputBox className="textinputbox" value={coupon.code} handleInputChange={() => {}} disabled />
           </div>
         </div>
         <div className="headerandinput">
           <div className="headertext">{t(LanguageKey.storestatistics_discountPercent)}</div>
           <div className="headerparent">
-            <InputText
+            <InputBox
               className="textinputbox"
               value={String(coupon.discount || "")}
               handleInputChange={() => {}}
@@ -107,7 +113,7 @@ const UpdateCouponModal = ({ coupon, closePopup, onUpdate }: UpdateCouponModalPr
         <div className="headerandinput">
           <div className="headertext">{t(LanguageKey.storestatistics_maxUses)}</div>
           <div className="headerparent">
-            <InputText
+            <InputBox
               className="textinputbox"
               value={String(maxCount || "")}
               handleInputChange={(event) => setMaxCount(Number(event.target.value) || 0)}
@@ -119,7 +125,7 @@ const UpdateCouponModal = ({ coupon, closePopup, onUpdate }: UpdateCouponModalPr
         <div className="headerandinput">
           <div className="headertext">{t(LanguageKey.storestatistics_phoneNumber)}</div>
           <div className="headerparent">
-            <InputText
+            <InputBox
               className="textinputbox"
               value={coupon.phoneNumber || "-"}
               handleInputChange={() => {}}
@@ -130,7 +136,7 @@ const UpdateCouponModal = ({ coupon, closePopup, onUpdate }: UpdateCouponModalPr
         <div className="headerandinput">
           <div className="headertext">{t(LanguageKey.storestatistics_maxDiscountOptional)}</div>
           <div className="headerparent">
-            <InputText
+            <InputBox
               className="textinputbox"
               value={coupon.maxDiscount === null ? "" : String(coupon.maxDiscount)}
               handleInputChange={() => {}}
@@ -142,7 +148,7 @@ const UpdateCouponModal = ({ coupon, closePopup, onUpdate }: UpdateCouponModalPr
         </div>
       </div>
       <div className="ButtonContainer">
-        <button onClick={() => setShowDatePicker(false)} className="cancelButton">
+        <button type="button" onClick={() => setShowDatePicker(false)} className="cancelButton">
           {t(LanguageKey.cancel)}
         </button>
         <button className="saveButton" type="submit" disabled={isUpdating || !expireTime}>

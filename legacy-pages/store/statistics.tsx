@@ -139,7 +139,7 @@ const Statistics = () => {
   async function handleUpdateCoupon(coupon: UpdateCouponRequest): Promise<boolean> {
     if (!session) return false;
     const response = await clientFetchApi<undefined, boolean>("/api/coupon/UpdateCoupon", {
-      methodType: MethodType.post,
+      methodType: MethodType.get,
       session,
       queries: [
         { key: "couponId", value: String(coupon.couponId) },

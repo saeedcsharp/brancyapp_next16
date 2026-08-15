@@ -7,7 +7,7 @@ import { LanguageKey } from "brancy/i18n";
 import styles from "./sendFile.module.css";
 import { ItemType, MediaType } from "brancy/models/enums";
 import { IIsSendingMessage } from "brancy/models/interfaces";
-import { getClientUploadBaseUrl } from "brancy/helper/apiBaseUrl";
+import { UploadFile } from "brancy/helper/api";
 
 function _arrayBufferToBase64(buffer: ArrayBuffer) {
   var binary = "";
@@ -115,42 +115,18 @@ const SendFile = (props: {
       if (!(selectedImage && dimintion && dimintion.width > 0 && compressedFile)) return;
       setLoading(true);
       try {
-        // upload with progress using XMLHttpRequest
-        const id = await new Promise<any | null>((resolve) => {
-          const xhr = new XMLHttpRequest();
-          const url = `${getClientUploadBaseUrl()}`;
-          const fd = new FormData();
-          fd.append("file", compressedFile as File);
-          xhr.open("POST", url, true);
-          xhr.setRequestHeader("Authorization", session?.user?.accessToken ?? "");
-          xhr.upload.onprogress = (ev) => {
-            if (ev.lengthComputable) {
-              const p = Math.round((ev.loaded * 100) / ev.total);
-              setProgress(p);
-            }
-          };
-          xhr.onload = () => {
-            if (xhr.status >= 200 && xhr.status < 300) {
-              resolve(xhr.responseText);
-            } else {
-              resolve(null);
-            }
-          };
-          xhr.onerror = () => resolve(null);
-          xhr.send(fd);
-        });
-        if (!id) {
+        const upload = await UploadFile(session, compressedFile, setProgress);
+        if (!upload.fileName) {
           console.error("Upload failed");
           setLoading(false);
           setProgress(0);
           return;
         }
-        setUploadId(id.fileName);
-        console.log("handleSendImage upload success:", id);
-        const obj = JSON.parse(id);
+        setUploadId(upload.fileName);
+        console.log("handleSendImage upload success:", upload);
         const sendImage: IIsSendingMessage = {
-          imageBase64: obj.showUrl,
-          imageUrl: obj.fileName,
+          imageBase64: upload.showUrl,
+          imageUrl: upload.fileName,
           file: compressedFile as File,
           igId: props.data.igid,
           itemType: ItemType.Media,
