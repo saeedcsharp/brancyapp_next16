@@ -1,7 +1,7 @@
 import { useTranslation } from "react-i18next";
 import { findDayName } from "brancy/helper/findDayName";
 import { numbToAmAndPmTime } from "brancy/helper/numberFormater";
-import styles from "./adPopupStyle.module.css";
+import styles from "./businessPopup.module.css";
 import { IBusinessHour } from "brancy/models/interfaces";
 import { BusinessDay } from "brancy/models/enums";
 export default function BusinessHourPopup(props: { businessInfo: IBusinessHour[]; removeMask: () => void }) {

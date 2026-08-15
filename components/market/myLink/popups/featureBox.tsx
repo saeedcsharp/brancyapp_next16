@@ -1,6 +1,6 @@
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
-import EditBusinessHours from "brancy/components/market/properties/popups/editBusinessHours";
+import EditBusinessHours from "brancy/components/market/myLink/popups/editBusinessHours";
 import Loading from "brancy/components/notOk/loading";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { MethodType } from "brancy/helper/api";

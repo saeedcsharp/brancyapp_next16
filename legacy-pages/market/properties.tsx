@@ -7,11 +7,11 @@ import Modal from "brancy/components/design/modal";
 import DomainManager from "brancy/components/market/properties/domainManager";
 import Features from "brancy/components/market/properties/features";
 import Link from "brancy/components/market/properties/link";
-import AddNewLink from "brancy/components/market/properties/popups/addNewLink";
-import DeleteLink from "brancy/components/market/properties/popups/deletLink";
-import EditLink from "brancy/components/market/properties/popups/editLink";
-import FeaturePopUp from "brancy/components/market/properties/popups/featurePopup";
-import StatisticsLinks from "brancy/components/market/properties/popups/statisticsLink";
+import AddNewLink from "brancy/components/market/myLink/popups/addNewLink";
+import DeleteLink from "brancy/components/market/myLink/popups/deletLink";
+import EditLink from "brancy/components/market/myLink/popups/editLink";
+import FeaturePopUp from "brancy/components/market/myLink/popups/featurePopup";
+import StatisticsLinks from "brancy/components/market/myLink/popups/statisticsLink";
 import NotAllowed from "brancy/components/notOk/notAllowed";
 import {
   internalNotify,

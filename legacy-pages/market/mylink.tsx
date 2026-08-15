@@ -1,5 +1,5 @@
-import AdvertisingTermsPopup from "brancy/components/advertise/popups/advertisingTermsPopup";
-import BusinessHourPopup from "brancy/components/advertise/popups/businessHourPopup";
+import BusinessHourPopup from "brancy/components/market/myLink/popups/businessHourPopup";
+import BusinessTermsPopup from "brancy/components/market/myLink/popups/businessTermsPopup";
 import TarrifPopup from "brancy/components/advertise/popups/tariffPopup";
 import Modal from "brancy/components/design/modal";
 import Aboutus from "brancy/components/market/myLink/abouts";
@@ -427,7 +427,7 @@ const MyLink = () => {
           <Aboutus data={myLink.bannerInfo} />
         </main>
         <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={activeModal === "terms"}>
-          <AdvertisingTermsPopup removeMask={removeMask} data={(myLink.featureBox && myLink.featureBox.terms) || []} />
+          <BusinessTermsPopup removeMask={removeMask} terms={(myLink.featureBox && myLink.featureBox.terms) || ""} />
         </Modal>
         <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={activeModal === "tariff"}>
           <TarrifPopup teriif={myLink.featureBox && myLink.featureBox.teriif} removeMask={removeMask} />

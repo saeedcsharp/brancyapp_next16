@@ -1,4 +1,4 @@
-import EditBusinessHours from "brancy/components/market/properties/popups/editBusinessHours";
+import EditBusinessHours from "brancy/components/market/myLink/popups/editBusinessHours";
 import Modal from "brancy/components/design/modal";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import NotAllowed from "brancy/components/notOk/notAllowed";

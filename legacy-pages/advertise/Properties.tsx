@@ -7,7 +7,7 @@ import AdsOption from "brancy/components/advertise/properties/adsOption";
 import AdvertisingTerms from "brancy/components/advertise/properties/advertisingTerms";
 import BusinessHours from "brancy/components/advertise/properties/businessHours";
 import Notifications from "brancy/components/advertise/properties/notifications";
-import EditBusinessHours from "brancy/components/market/properties/popups/editBusinessHours";
+import EditBusinessHours from "brancy/components/market/myLink/popups/editBusinessHours";
 import EditTariff from "brancy/components/advertise/properties/popups/editTariff";
 import Tariff from "brancy/components/advertise/properties/tariff";
 import UserReport from "brancy/components/advertise/properties/userReport";
