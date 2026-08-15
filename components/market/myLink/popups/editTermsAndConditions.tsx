@@ -51,8 +51,7 @@ const EditTermsAndConditions = (props: {
           placeHolder={t(LanguageKey.marketProperties_BusinessTerms)}
           handleInputChange={handleChange}
           fadeTextArea={false}
-          autoResize
-          minHeight={70}
+          initialHeight={400}
           maxLength={1500}
           aria-label={t(LanguageKey.marketProperties_BusinessTerms)}
           title={t(LanguageKey.marketProperties_BusinessTerms)}
