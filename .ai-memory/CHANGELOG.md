@@ -15,6 +15,8 @@
 
 # Changelog
 
+- Added reusable UTF-8 text helpers in `helper/textByteLength.ts` for byte counting and Unicode-safe truncation; `TextNode` now consumes the shared implementation.
+
 - Fixed new AI flows saved from the Flow toolbar so the parent receives the created flow ID and reloads it with `GetMasterFlow`; existing flow saves remain local without an extra fetch.
 
 - محدودیت متن نود TextNode به ۱۰۰۰ بایت UTF-8 تغییر کرد؛ تایپ، paste و داده اولیه همگی برش امن Unicode دارند و شمارنده تعداد بایت مصرف‌شده را نمایش می‌دهد.

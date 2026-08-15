@@ -4,26 +4,9 @@ import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./TextNode.module.css";
 import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
+import { getTextByteLength, truncateTextToBytes } from "brancy/helper/textByteLength";
 
 const MAX_TEXT_BYTES = 1000;
-
-const getTextByteLength = (text: string): number => {
-  return new TextEncoder().encode(text).length;
-};
-
-const truncateTextToBytes = (text: string, maxBytes: number): string => {
-  let result = "";
-  let byteLength = 0;
-
-  for (const character of text) {
-    const characterByteLength = getTextByteLength(character);
-    if (byteLength + characterByteLength > maxBytes) break;
-    result += character;
-    byteLength += characterByteLength;
-  }
-
-  return result;
-};
 
 export const TextNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) => {
   const { t } = useTranslation();

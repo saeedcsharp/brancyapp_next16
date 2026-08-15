@@ -48,6 +48,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 - `DECISIONS/` is the architecture and workflow decision log.
 - Protect auth/session and redirect flows.
 
+The shared `helper/textByteLength.ts` utility now owns UTF-8 byte counting and Unicode-safe truncation used by AI flow text input.
+
 ## Current Risks
 
 - `.env` exists locally and must not be copied into documentation.

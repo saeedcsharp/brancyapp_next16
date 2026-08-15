@@ -59,6 +59,7 @@ Exports are defined by source files in the module.
 - `findDayName` maps a `BusinessDay` value to a typed `LanguageKey`; UI callers must pass that key through `t(...)` before rendering it.
 - `helper/counterDownHelper.ts` calculates countdowns with separate days, hours, minutes, and seconds and formats full-day values as `Xd HH:MM:SS`.
 - `helper/api.ts` delays successful `UploadFile` results by one second before exposing their media URLs, giving the upload server time to make newly uploaded media fetchable by the browser.
+- `helper/textByteLength.ts` provides reusable UTF-8 byte counting and Unicode-safe truncation for text limits.
 
 ## Internal APIs
 
