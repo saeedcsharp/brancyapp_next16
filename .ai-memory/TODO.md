@@ -7,6 +7,8 @@
 
 ## Pending Documentation Tasks
 
+- Add component coverage for the AI flow TextNode's 1,000-byte UTF-8 limit, including English, Persian, emoji, mixed input, paste, existing over-limit data, and Unicode-safe truncation when a UI test harness is introduced.
+
 - Add integration coverage for `UploadFile` success paths to confirm media URLs are released after one second, errors are not delayed, progress callbacks are preserved, and direct-message image/video send flows use the shared uploader when a test harness is introduced.
 
 - Add component/browser coverage for InputBox legacy models and semantic variants, RTL/LTR direction, physical-right clear-button placement, localized digits, native clear keyboard behavior, disabled/read-only states, mobile zoom prevention, forced colors, reduced motion, and responsive overflow across Chrome, Edge, Firefox, iOS Safari, and Android Chrome when a UI test harness is introduced.

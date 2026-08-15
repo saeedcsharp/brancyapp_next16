@@ -58,6 +58,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- AI flow TextNode text input now enforces a 1,000-byte UTF-8 limit for typing, paste, and existing node data. Its counter reports used bytes, so Persian characters and emoji consume their actual UTF-8 size.
+
 - Fixed advertise and customer-ad business-hour displays to translate the `LanguageKey` returned by `findDayName`, so localized weekday labels render instead of raw key names. The MyLink popup also normalizes its backend `weekDay` field before mapping it, preventing all rows from falling back to Monday.
 
 - Successful browser uploads now wait one second before their returned media URL is made available to UI consumers. This gives the upload server time to publish newly uploaded images, videos, and other media before the browser fetches them. Direct-message image and video popups now use the same shared `UploadFile` path instead of local XMLHttpRequests.

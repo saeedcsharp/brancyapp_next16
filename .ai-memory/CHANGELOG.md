@@ -15,6 +15,8 @@
 
 # Changelog
 
+- محدودیت متن نود TextNode به ۱۰۰۰ بایت UTF-8 تغییر کرد؛ تایپ، paste و داده اولیه همگی برش امن Unicode دارند و شمارنده تعداد بایت مصرف‌شده را نمایش می‌دهد.
+
 - Updated Market Properties Terms & Conditions to match the Announcement `{ str: string }` API contract, using one controlled 1,500-character `TextArea` instead of a string-array editor.
 
 - Standardized Market Properties FeatureBox requests on `/api/bio/*` paths and registered all four Working Hours and Terms endpoints in `apiRouteMap`.

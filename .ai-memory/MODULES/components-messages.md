@@ -60,6 +60,8 @@ React components are present when the folder contains `.tsx` UI files.
 
 `comment/commentInbox.tsx` memoizes the selected media's auto-reply configuration before passing it to `popups/editAutoReplyForMedia.tsx`. Hover-driven parent renders therefore preserve the child fetch effect dependencies and do not repeat prompt or flow API requests; a media, search-mode, or inbox-data change still supplies updated configuration.
 
+`aiflow/flowNode/TextNode.tsx` enforces a 1,000-byte UTF-8 limit for text input, paste, and existing node data. The counter reports bytes rather than JavaScript string length, and truncation preserves complete Unicode characters.
+
 `popups/sendFile.tsx` and `popups/sendVideoFile.tsx` use the shared `UploadFile` helper for progress-aware uploads, so direct-message image and video URLs are released only after the global one-second media-availability delay.
 
 ## Hooks
