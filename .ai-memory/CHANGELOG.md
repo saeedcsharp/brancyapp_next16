@@ -15,6 +15,9 @@
 
 # Changelog
 
+- Added a MyLink ended-lottery FeatureBox card using `/icon-lottery.svg`, with a five-entry modal list and an in-modal winners view without score-lottery creation, slider, Share Story, or Excel export controls.
+- Matched MyLink lottery list row icons to WinnerPicker's `/adticket.svg` and removed the confusing winner-count value from each row.
+
 - Added reusable UTF-8 text helpers in `helper/textByteLength.ts` for byte counting and Unicode-safe truncation; `TextNode` now consumes the shared implementation.
 
 - Applied the shared 1,000-byte UTF-8 limit to the direct-message composer, including drafts, typing, emoji insertion, and outgoing text.

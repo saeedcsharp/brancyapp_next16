@@ -1538,6 +1538,7 @@ export default {
     pageLottery_deleteexplain: "سيتم حذف القرعة بشكل دائم، ولا يمكن التراجع عن ذلك.",
     pageLottery_Winnerpickersstatus: "حالة القرعة",
     pageLottery_scoreLotteryWinners: "الفائزون في القرعة",
+    pageLottery_NoWinners: "لا يوجد فائزون",
     pageLottery_RandomFollowersWinners: "الفائزون العشوائيون بالمتابعين",
     pageLottery_specifickeywordexplain: "يجب على المستخدمين كتابة كلمة محددة في کامنت للمشاركة في القرعة",
     pageLottery_FollowmyPageexplain: "يجب على المستخدمين عمل فالو للصفحة للمشاركة في القرعة",

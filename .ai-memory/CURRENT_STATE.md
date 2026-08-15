@@ -61,6 +61,9 @@ The direct-message composer applies the same 1,000-byte UTF-8 limit to drafts, t
 
 ## Recent Changes
 
+- Added a MyLink FeatureBox lottery card using `/icon-lottery.svg`. The card is shown when the authenticated `GetMyLink` response contains ended lotteries, opens a MyLink modal with at most five entries, and shows each entry's winners in a second view without score-lottery creation, slider, Share Story, or Excel actions.
+- MyLink lottery list rows now use the same `/adticket.svg` marker as WinnerPicker and omit the unrelated winner-count number.
+
 - AI flow toolbar saves now notify `FlowAndAIInbox` only when creating a new flow. The parent switches from `newFlow` to the returned master-flow ID, which remounts the editor and performs the expected `GetMasterFlow`; existing-flow saves do not trigger that reload.
 
 - AI flow TextNode text input now enforces a 1,000-byte UTF-8 limit for typing, paste, and existing node data. Its counter reports used bytes, so Persian characters and emoji consume their actual UTF-8 size.

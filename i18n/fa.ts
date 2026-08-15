@@ -1559,6 +1559,7 @@ export default {
     pageLottery_deleteexplain: "این قرعه‌کشی به‌طور دائمی حذف خواهد شد و این عمل قابل بازگشت نیست.",
     pageLottery_Winnerpickersstatus: "وضعیت قرعه‌کشی",
     pageLottery_scoreLotteryWinners: "برندگان قرعه‌کشی",
+    pageLottery_NoWinners: "برنده‌ای وجود ندارد",
     pageLottery_RandomFollowersWinners: "برندگان تصادفی فالورها",
     pageLottery_specifickeywordexplain:
       "کاربران باید حتماً یک کلمه خاص را در کامنت خود بنویسند تا در قرعه‌کشی شرکت داده شوند",

@@ -1595,6 +1595,7 @@ export default {
     pageLottery_deleteexplain: "Bu işlem, çekilişi kalıcı olarak silecek ve geri alınamaz.",
     pageLottery_Winnerpickersstatus: "Çekiliş durumu",
     pageLottery_scoreLotteryWinners: "Çekiliş Kazananları",
+    pageLottery_NoWinners: "Kazanan bulunamadı",
     pageLottery_RandomFollowersWinners: "Rastgele Takipçi Kazananlar",
     pageLottery_specifickeywordexplain:
       "Kullanıcılar, Lottery'e katılmak için yorumlarında belirli bir anahtar kelime yazmalıdır",

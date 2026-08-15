@@ -1653,6 +1653,7 @@ export default {
     pageLottery_deleteexplain: "Il supprimera définitivement la loterie, et cela ne peut pas être annulé.",
     pageLottery_Winnerpickersstatus: "Statut de la Lottery",
     pageLottery_scoreLotteryWinners: "Gagnants de la Loterie",
+    pageLottery_NoWinners: "Aucun gagnant trouvé",
     pageLottery_RandomFollowersWinners: "Gagnants aléatoires des Followers",
     pageLottery_specifickeywordexplain:
       "Les utilisateurs doivent inclure un mot-clé spécifique dans leur Comment pour participer à la Lottery",

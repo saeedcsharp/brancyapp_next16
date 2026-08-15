@@ -962,6 +962,7 @@ export interface IFeatureBox {
   teriif: IInfluencerTeriffe | null;
   adsView: number | null;
   salesSuccess: number | null;
+  lotteries: IFullLottery[];
   isShopper: boolean;
   isInfluencer: boolean;
 }
@@ -1167,6 +1168,7 @@ export interface ISmartLink {
   featureOrders: IOrderItems;
   terms: string[] | null;
   products: IProductCard[];
+  lotteries: IFullLottery[];
 }
 
 export interface INewLink {

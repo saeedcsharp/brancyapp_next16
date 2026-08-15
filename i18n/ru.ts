@@ -1616,6 +1616,7 @@ export default {
     pageLottery_deleteexplain: "Это навсегда удалит лотерею, и это действие нельзя будет отменить.",
     pageLottery_Winnerpickersstatus: "Статус лотереи",
     pageLottery_scoreLotteryWinners: "Победители Лотереи",
+    pageLottery_NoWinners: "Победители не найдены",
     pageLottery_RandomFollowersWinners: "Случайные победители среди подписчиков",
     pageLottery_specifickeywordexplain:
       "Пользователи должны указать определённое ключевое слово в своём Комменте, чтобы участвовать в Lottery",

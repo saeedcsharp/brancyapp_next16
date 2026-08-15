@@ -1587,6 +1587,7 @@ export default {
     pageLottery_deleteexplain: "It will permanently delete the Lottery, and it cannot be undone.",
     pageLottery_Winnerpickersstatus: "Lottery status",
     pageLottery_scoreLotteryWinners: "Lottery Winners",
+    pageLottery_NoWinners: "No winners found",
     pageLottery_RandomFollowersWinners: "Random Followers Winners",
     pageLottery_specifickeywordexplain:
       "Users must include a specific keyword in their Comment to participate in the Lottery",

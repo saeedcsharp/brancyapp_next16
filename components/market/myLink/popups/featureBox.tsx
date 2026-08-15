@@ -40,7 +40,7 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
             queries: undefined,
             onUploadProgress: undefined,
           }),
-          clientFetchApi<undefined, { str: string }>("/api/bio/getTermsAndCondtions", {
+          clientFetchApi<undefined, string>("/api/bio/getTermsAndCondtions", {
             methodType: MethodType.get,
             session,
             data: undefined,
@@ -76,7 +76,7 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
           ),
         );
         setTerms({
-          str: typeof termsResult.value?.str === "string" ? termsResult.value.str : "",
+          str: typeof termsResult.value === "string" ? termsResult.value : "",
         });
       } catch {
         notify(ResponseType.Unexpected, NotifType.Error);

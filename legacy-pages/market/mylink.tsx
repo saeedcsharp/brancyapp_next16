@@ -11,6 +11,7 @@ import Faq from "brancy/components/market/myLink/faq";
 import FeatureBox from "brancy/components/market/myLink/featureBox";
 import LastVideo from "brancy/components/market/myLink/lastVideo";
 import Link from "brancy/components/market/myLink/link";
+import LotteryPopup from "brancy/components/market/myLink/lotteryPopup";
 import Menubar from "brancy/components/market/myLink/menubar";
 import OnlineStreaming from "brancy/components/market/myLink/onlinestreaming";
 import Product from "brancy/components/market/myLink/product";
@@ -22,7 +23,7 @@ import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { FeatureType, PartnerRole } from "brancy/models/enums";
+import { FeatureType, LotteryStatus, PartnerRole } from "brancy/models/enums";
 import {
   IFeatureBox,
   IFeatureInfo,
@@ -180,7 +181,7 @@ const MyLink = () => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const { t } = useTranslation();
-  const [activeModal, setActiveModal] = useState<"terms" | "tariff" | "hours" | null>(null);
+  const [activeModal, setActiveModal] = useState<"terms" | "tariff" | "hours" | "lotteryList" | null>(null);
   const [myLink, setMyLink] = useState<any>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
@@ -322,6 +323,7 @@ const MyLink = () => {
             isShopper: info.value.instagramer.isShopper,
             rate: null,
             salesSuccess: null,
+            lotteries: info.value.lotteries.filter((lottery) => lottery.status === LotteryStatus.Ended).slice(0, 5),
             teriif: null,
             terms: info.value.terms,
             workHours: info.value.workHourItems,
@@ -389,6 +391,7 @@ const MyLink = () => {
   const handleShowTerms = useCallback(() => setActiveModal("terms"), []);
   const handleShowHours = useCallback(() => setActiveModal("hours"), []);
   const handleShowTerif = useCallback(() => setActiveModal("tariff"), []);
+  const handleShowLottery = useCallback(() => setActiveModal("lotteryList"), []);
   const removeMask = useCallback(() => setActiveModal(null), []);
 
   if (status === "loading" || loading) return <Loading />;
@@ -421,6 +424,7 @@ const MyLink = () => {
               handleShowTerms={handleShowTerms}
               handleShowHours={handleShowHours}
               handleShowTerif={handleShowTerif}
+              handleShowLottery={handleShowLottery}
             />
           )}
           {initialzeFeatureDiv.length > 0 && <DynamicFeatures reactNodes={initialzeFeatureDiv} />}
@@ -437,6 +441,9 @@ const MyLink = () => {
             businessInfo={(myLink.featureBox && myLink.featureBox.workHours) || []}
             removeMask={removeMask}
           />
+        </Modal>
+        <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={activeModal === "lotteryList"}>
+          <LotteryPopup lotteries={myLink.featureBox.lotteries} removeMask={removeMask} />
         </Modal>
       </>
     )

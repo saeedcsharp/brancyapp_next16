@@ -1558,6 +1558,7 @@ export default {
     pageLottery_deleteexplain: "Bu çəkiliş daimi olaraq silinəcək və geri qaytarmaq mümkün deyil.",
     pageLottery_Winnerpickersstatus: "Çəkiliş vəziyyəti",
     pageLottery_scoreLotteryWinners: "Lotereya Qalibləri",
+    pageLottery_NoWinners: "Qalib yoxdur",
     pageLottery_RandomFollowersWinners: "Təsadüfi izləyici qalibləri",
     pageLottery_specifickeywordexplain:
       "İstifadəçilər Lottery-də iştirak etmək üçün Şərhlərində xüsusi bir açar sözü yazmalıdırlar",

@@ -956,6 +956,7 @@ export enum LanguageKey {
   pageLottery_Publishasstory = "pageLottery_Publishasstory",
   pageLottery_Winnerpickersstatus = "pageLottery_Winnerpickersstatus",
   pageLottery_scoreLotteryWinners = "pageLottery_scoreLotteryWinners",
+  pageLottery_NoWinners = "pageLottery_NoWinners",
   pageLottery_RandomFollowersWinners = "pageLottery_RandomFollowersWinners",
   pageLottery_StoryAgain = "pageLottery_StoryAgain",
   ShareTermsAndCondition = "ShareTermsAndCondition",
