@@ -22,9 +22,9 @@ export default function BusinessTermsPopup(props: { removeMask: () => void; term
           value={props.terms.str}
           placeHolder={t(LanguageKey.marketProperties_BusinessTerms)}
           fadeTextArea={false}
-          autoResize
           minHeight={70}
           maxLength={1500}
+          initialHeight={400}
           aria-label={t(LanguageKey.marketProperties_BusinessTerms)}
           title={t(LanguageKey.marketProperties_BusinessTerms)}
         />

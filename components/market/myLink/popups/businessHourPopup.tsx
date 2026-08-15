@@ -4,12 +4,13 @@ import { numbToAmAndPmTime } from "brancy/helper/numberFormater";
 import styles from "./businessPopup.module.css";
 import { IBusinessHour } from "brancy/models/interfaces";
 import { BusinessDay } from "brancy/models/enums";
+import { LanguageKey } from "brancy/i18n";
 export default function BusinessHourPopup(props: { businessInfo: IBusinessHour[]; removeMask: () => void }) {
   const { t } = useTranslation();
   return (
     <>
       <div className="headerandinput">
-        <div className="title">AD Terms</div>
+        <div className="title">{t(LanguageKey.marketProperties_bussinessHours)}</div>
       </div>
       {props.businessInfo.map((v, i) => (
         <div key={i} className={styles.section}>
@@ -25,7 +26,7 @@ export default function BusinessHourPopup(props: { businessInfo: IBusinessHour[]
                 </div>
               </div>
             )}
-            {v.beginTime === 0 && v.endTime === 0 && <div className={styles.close}>close</div>}
+            {v.beginTime === 0 && v.endTime === 0 && <div className={styles.close}>{t(LanguageKey.close)}</div>}
           </div>
         </div>
       ))}
