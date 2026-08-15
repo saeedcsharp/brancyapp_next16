@@ -7,9 +7,7 @@ import {
   notify,
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
-import GeneratedImageModal from "brancy/components/page/ai/GeneratedImageModal";
-import GeneratedVideoModal from "brancy/components/page/ai/GeneratedVideoModal";
-import ImageList from "brancy/components/page/ai/List_image";
+
 import VideoList from "brancy/components/page/ai/List_Video";
 import Loading from "brancy/components/notOk/loading";
 import { MethodType } from "brancy/helper/api";
@@ -39,6 +37,9 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import styles from "./pageAI.module.css";
 import MediaCreator from "brancy/components/page/ai/mediaCreator";
+import ImageList from "brancy/components/page/ai/List_Image";
+import GeneratedImageModal from "brancy/components/page/ai/generatedImageModal";
+import GeneratedVideoModal from "brancy/components/page/ai/generatedVideoModal";
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
 type AiQueryType = "1" | "2";
 const SUCCESS_MEDIA_STATUS = 2;
