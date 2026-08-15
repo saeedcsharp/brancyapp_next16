@@ -22,7 +22,7 @@ components/hambergurMenu/.
 
 ## Execution Flow
 
-Execution starts from imports, route rendering, or helper calls depending on the module.
+Execution starts from imports, route rendering, or helper calls depending on the module. The Instagramer store hamburger menu exposes Products, Orders, and Statistics; Store Properties is intentionally excluded while its route remains available.
 
 ## Data Flow
 

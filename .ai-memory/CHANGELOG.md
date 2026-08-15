@@ -1,3 +1,5 @@
+- Removed the Store Properties entry from the Instagramer desktop navbar and mobile hamburger menu while keeping `/store/properties` directly accessible.
+
 - Fixed the AI page runtime crash caused by passing the removed `onCreateImage` callback name to `MediaCreator`; the page now passes its existing media-neutral `onCreateMedia` handler.
 
 - Fixed advertise and customer-ad business-hour displays to translate `findDayName` results, replacing raw weekday translation keys with localized labels. The MyLink popup now accepts its backend `weekDay` weekday field, preventing every row from displaying Monday.

@@ -149,32 +149,46 @@ const Properties = () => {
     });
     setBusinessHours([
       {
-        dayName: BusinessDay.Monday,
-        timerInfo: { endTime: 68400, startTime: 27000 },
+        weekday: BusinessDay.Monday,
+        endTime: 68400,
+        beginTime: 27000,
+        instagramerId: 0,
       },
       {
-        dayName: BusinessDay.Tuesday,
-        timerInfo: null,
+        weekday: BusinessDay.Tuesday,
+        endTime: 0,
+        beginTime: 0,
+        instagramerId: 0,
       },
       {
-        dayName: BusinessDay.Wednesday,
-        timerInfo: { endTime: 72000, startTime: 30600 },
+        weekday: BusinessDay.Wednesday,
+        endTime: 72000,
+        beginTime: 30600,
+        instagramerId: 0,
       },
       {
-        dayName: BusinessDay.Thursday,
-        timerInfo: { endTime: 77400, startTime: 32400 },
+        weekday: BusinessDay.Thursday,
+        endTime: 77400,
+        beginTime: 32400,
+        instagramerId: 0,
       },
       {
-        dayName: BusinessDay.Friday,
-        timerInfo: { endTime: 79225, startTime: 0 },
+        weekday: BusinessDay.Friday,
+        endTime: 79225,
+        beginTime: 0,
+        instagramerId: 0,
       },
       {
-        dayName: BusinessDay.Saturday,
-        timerInfo: { endTime: 82800, startTime: 39600 },
+        weekday: BusinessDay.Saturday,
+        endTime: 82800,
+        beginTime: 39600,
+        instagramerId: 0,
       },
       {
-        dayName: BusinessDay.Sunday,
-        timerInfo: { endTime: 66600, startTime: 23400 },
+        weekday: BusinessDay.Sunday,
+        endTime: 66600,
+        beginTime: 23400,
+        instagramerId: 0,
       },
     ]);
     setNotification({

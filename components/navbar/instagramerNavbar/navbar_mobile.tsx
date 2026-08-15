@@ -53,7 +53,6 @@ const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: b
       newRoute === InstagramerRoute.StoreProducts ||
       newRoute === InstagramerRoute.StoreOrders ||
       newRoute === InstagramerRoute.StoreStatistics ||
-      newRoute === InstagramerRoute.StoreProperties ||
       newRoute === InstagramerRoute.StorePost
     )
       return "store";

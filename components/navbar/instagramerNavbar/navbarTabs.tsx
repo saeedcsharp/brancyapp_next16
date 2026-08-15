@@ -392,25 +392,19 @@ const NavbarTabs = () => {
 
     storeproducts: {
       id: "products",
-      items: ["products", "orders", "statistics", "properties"],
+      items: ["products", "orders", "statistics"],
       indexValue: "store",
       initialSlide: 0,
     },
     storeorders: {
       id: "orders",
-      items: ["products", "orders", "statistics", "properties"],
+      items: ["products", "orders", "statistics"],
       indexValue: "store",
       initialSlide: 0,
     },
     storestatistics: {
       id: "statistics",
-      items: ["products", "orders", "statistics", "properties"],
-      indexValue: "store",
-      initialSlide: 0,
-    },
-    storeproperties: {
-      id: "properties",
-      items: ["products", "orders", "statistics", "properties"],
+      items: ["products", "orders", "statistics"],
       indexValue: "store",
       initialSlide: 0,
     },

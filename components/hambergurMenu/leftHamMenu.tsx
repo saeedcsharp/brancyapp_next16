@@ -198,7 +198,7 @@ const menuItems = [
       </svg>
     ),
     textKey: LanguageKey.sidebar_Store,
-    activeRoutes: ["storeproducts", "storeorders", "storestatistics", "storeproperties", "storetitle"],
+    activeRoutes: ["storeproducts", "storeorders", "storestatistics", "storetitle"],
   },
   {
     href: "/setting",

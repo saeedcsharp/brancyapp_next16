@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { NotifType, notify, ResponseType } from "../notifications/notificationBox";
 import styles from "./addCard.module.css";
 import InputText from "../design/inputBox/inputBox";
+import InputBox from "../design/inputBox/inputBox";
 export default function AddCard({ onClose }: { onClose: () => void }) {
   const { t } = useTranslation();
   const { data: session } = useSession();
