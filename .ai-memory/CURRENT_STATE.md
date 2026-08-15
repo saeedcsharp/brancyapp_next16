@@ -49,6 +49,7 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 - Protect auth/session and redirect flows.
 
 The shared `helper/textByteLength.ts` utility now owns UTF-8 byte counting and Unicode-safe truncation used by AI flow text input.
+The direct-message composer applies the same 1,000-byte UTF-8 limit to drafts, typing, emoji insertion, and outgoing messages.
 
 ## Current Risks
 

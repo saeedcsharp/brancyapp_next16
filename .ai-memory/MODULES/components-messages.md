@@ -62,6 +62,8 @@ React components are present when the folder contains `.tsx` UI files.
 
 `aiflow/flowNode/TextNode.tsx` enforces a 1,000-byte UTF-8 limit for text input, paste, and existing node data. The counter reports bytes rather than JavaScript string length, and truncation preserves complete Unicode characters.
 
+`direct/directChatBox.tsx` applies the same 1,000-byte UTF-8 limit to loaded drafts, typed text, emoji insertion, and outgoing text; truncation preserves complete Unicode characters.
+
 `aiflow/flow.tsx` reports successful toolbar saves to `FlowAndAIInbox` only for `newFlow`. The parent adopts the returned master-flow record and selects its ID, causing the editor to reload through `GetMasterFlow`; existing-flow toolbar saves do not request an additional reload.
 
 `popups/sendFile.tsx` and `popups/sendVideoFile.tsx` use the shared `UploadFile` helper for progress-aware uploads, so direct-message image and video URLs are released only after the global one-second media-availability delay.

@@ -37,6 +37,7 @@ The main risks are mixed App Router/legacy-router compatibility, external backen
 Instagramer means an Instagram account owner/operator. Shopper means a seller/store role. Partner roles gate sub-admin capabilities. User panel means buyer/customer-facing workflows.
 
 Reusable UTF-8 byte counting and Unicode-safe truncation are provided by `helper/textByteLength.ts`; the AI flow `TextNode` uses these exports for its text limit and counter.
+The direct-message composer also uses the shared utility to limit drafts and outgoing text to 1,000 UTF-8 bytes.
 
 ---
 
