@@ -405,7 +405,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
             creators={activeTab === "image" ? imageCreators : videoCreators}
             error={error}
             onRetry={activeTab === "video" ? loadVideoCreators : loadCreators}
-            onCreateMedia={onCreateImage}
+            onCreateMedia={onCreateMedia}
             setActiveTab={setActiveTab}
             activeTab={creatorTab}
           />

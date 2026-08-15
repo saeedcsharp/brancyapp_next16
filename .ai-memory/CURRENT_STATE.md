@@ -58,6 +58,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 ## Recent Changes
 
+- Fixed the AI page runtime crash caused by passing the removed `onCreateImage` callback name to `MediaCreator`; the page now passes its existing media-neutral `onCreateMedia` handler.
+
 - The shared TextArea supports line-based `minRows`/`maxRows` auto-resize bounds. The AI media prompt grows with its content from five lines up to ten lines, then scrolls internally.
 
 - Restructured the AI workspace so Image/Video tabs remain visible while the matching media creator is rendered above the corresponding generated-media library. Creator requests now load for the selected media type without using the removed header Create button.
