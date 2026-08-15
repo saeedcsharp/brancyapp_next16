@@ -1240,6 +1240,8 @@ export interface IAnnouncementInfo {
   instagramerId: number;
 }
 
+export interface IBusinessTerms extends IAnnouncementInfo {}
+
 export interface ICantactMap extends IUpdateContactMap {
   instagramerId: number;
   lastUpdate: number;

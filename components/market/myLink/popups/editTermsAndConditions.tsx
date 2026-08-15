@@ -1,16 +1,27 @@
 import TextArea from "brancy/components/design/textArea/textArea";
+import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import Head from "next/head";
 import { ChangeEvent, useState } from "react";
+import { DateObject } from "react-multi-date-picker";
+import { IBusinessTerms } from "brancy/models/interfaces";
 import { useTranslation } from "react-i18next";
 
 const EditTermsAndConditions = (props: {
-  terms: { str: string };
+  terms: IBusinessTerms;
   removeMask: () => void;
-  saveTerms: (terms: { str: string }) => void;
+  saveTerms: (terms: IBusinessTerms) => void;
 }) => {
   const { t } = useTranslation();
-  const [terms, setTerms] = useState<{ str: string }>({ str: props.terms?.str ?? "" });
+  const [terms, setTerms] = useState<IBusinessTerms>({ ...props.terms });
+  const timeSettings = initialzedTime();
+  const lastUpdate = terms.lastUpdate
+    ? new DateObject({
+        date: terms.lastUpdate,
+        calendar: timeSettings.calendar,
+        locale: timeSettings.locale,
+      })
+    : null;
 
   const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
     setTerms((previous) => ({ ...previous, str: event.target.value }));
@@ -25,6 +36,11 @@ const EditTermsAndConditions = (props: {
       <div className="headerandinput">
         <div className="headerparent" role="banner" aria-label={t(LanguageKey.marketProperties_BusinessTerms)}>
           <span></span>
+          {lastUpdate && (
+            <div className="translate" aria-label={t(LanguageKey.marketstatisticslastupdate)}>
+              {t(LanguageKey.marketstatisticslastupdate)}: {lastUpdate.format("YYYY/MM/DD - hh:mm a")}
+            </div>
+          )}
           <div className="counter translate" aria-live="polite">
             (<strong>{terms.str.length}</strong> / <strong>1500</strong>)
           </div>

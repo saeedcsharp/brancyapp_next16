@@ -32,6 +32,9 @@
 
 - Fixed Market Properties Terms & Conditions textareas losing focus after every typed character by removing term text from the editor row React key.
 
+- Updated Market Properties Terms & Conditions `lastUpdate` to the current timestamp when saving.
+- Added localized calendar-aware `lastUpdate` display to the Market Properties Terms & Conditions editor.
+
 - Added the Market Properties FeatureBox popup with API-backed Working Hours and Terms & Conditions sections, shared toggle navigation, loading state, business-hours editor, styled terms list, and `UpdateWorkingHours` persistence.
 
 - Store properties business-hours summaries now render all seven days and show days missing from the business-hours array as closed.

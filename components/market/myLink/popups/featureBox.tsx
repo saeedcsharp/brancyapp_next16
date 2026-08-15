@@ -7,7 +7,7 @@ import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { LanguageKey } from "brancy/i18n";
 import { BusinessDay } from "brancy/models/enums";
-import { IBusinessHour } from "brancy/models/interfaces";
+import { IBusinessHour, IBusinessTerms } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -18,7 +18,7 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
   const { data: session } = useSession();
   const [selectedSection, setSelectedSection] = useState(ToggleOrder.FirstToggle);
   const [businessHours, setBusinessHours] = useState<IBusinessHour[] | null>(null);
-  const [terms, setTerms] = useState<{ str: string } | null>(null);
+  const [terms, setTerms] = useState<IBusinessTerms | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -40,7 +40,7 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
             queries: undefined,
             onUploadProgress: undefined,
           }),
-          clientFetchApi<undefined, string>("/api/bio/getTermsAndCondtions", {
+          clientFetchApi<undefined, IBusinessTerms>("/api/bio/getTermsAndCondtions", {
             methodType: MethodType.get,
             session,
             data: undefined,
@@ -68,7 +68,7 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
             { length: 7 },
             (_, weekday) =>
               hours.find((item) => item.weekday === weekday) ?? {
-                instagramerId: Number(instagramerId),
+                instagramerId: session.user.instagramerIds?.[session.user.currentIndex] ?? "",
                 weekday: weekday as BusinessDay,
                 beginTime: 0,
                 endTime: 0,
@@ -76,7 +76,9 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
           ),
         );
         setTerms({
-          str: typeof termsResult.value === "string" ? termsResult.value : "",
+          instagramerId: session.user.instagramerIds?.[session.user.currentIndex],
+          str: termsResult.value?.str ?? "",
+          lastUpdate: termsResult.value?.lastUpdate ?? "",
         });
       } catch {
         notify(ResponseType.Unexpected, NotifType.Error);
@@ -113,12 +115,14 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
     }
   }
 
-  async function saveTerms(termsInfo: { str: string }) {
+  async function saveTerms(termsInfo: IBusinessTerms) {
+    const updatedTerms = { ...termsInfo, lastUpdate: Date.now() };
+
     try {
-      const result = await clientFetchApi<{ str: string }, boolean>("/api/bio/updateTermsAndConditions", {
+      const result = await clientFetchApi<IBusinessTerms, boolean>("/api/bio/updateTermsAndConditions", {
         methodType: MethodType.post,
         session,
-        data: { str: termsInfo.str },
+        data: updatedTerms,
         queries: undefined,
         onUploadProgress: undefined,
       });
@@ -128,7 +132,7 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
         return;
       }
 
-      setTerms(termsInfo);
+      setTerms(updatedTerms);
       props.removeMask();
     } catch {
       notify(ResponseType.Unexpected, NotifType.Error);

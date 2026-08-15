@@ -49,6 +49,8 @@ The public destination-links section is shown for the default-domain selection. 
 ## Market Properties Features
 
 The FeatureBox popup provides Working Hours and Terms & Conditions sections through the shared `ToggleButton`. It calls the canonical `/api/bio/getWorkingHours`, `/api/bio/getTermsAndCondtions`, `/api/bio/updateWorkingHours`, and `/api/bio/updateTermsAndConditions` paths; `apiRouteMap` resolves them to the corresponding `Instagramer/Bio/*` backend URLs. It shows the shared loader during the initial requests, embeds the existing business-hours editor, and provides an Announcement-style editable Terms component with one text area, character counter, cancel, and save actions. Terms use an `{ str: string }` response/request body and the text is limited to 1,500 characters. Working hours use an `IBusinessHour[]` body.
+Saving Terms & Conditions refreshes `lastUpdate` with the current Unix timestamp in milliseconds before sending the update and applying it to local state.
+The Terms editor displays the stored `lastUpdate` using `initialzedTime()` and `DateObject`, so the configured calendar and locale control the rendered date.
 
 The Products feature card does not render the edit-options three-dot control. Its popup loads the shopper product list with the same thumbnail and cursor-scrolling behavior as the message product picker, loads the selected products from `Shopper/Product/GetBioProductList`, allows at most ten products to be selected, and sends the ordered selected `productId` array (including an empty array) to `Shopper/Product/UpdateShowInBio` when saved. Selected thumbnails are dimmed and display their one-based position in that array as a centered numeric badge. Other movable feature cards retain the edit-options control.
 
