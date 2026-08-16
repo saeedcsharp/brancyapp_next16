@@ -120,7 +120,8 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         // setUser(res.value);
         // throw new Error(`Failed to fetch data, status: ${res.statusCode}`);
       } else if (res.succeeded) {
-        if (res.value.packageExpireTime < Date.now() / 1000) notPackageNotify();
+        if (res.value.packageExpireTime < Date.now() / 1000 && (res.value.loginByFb || res.value.loginByInsta))
+          notPackageNotify();
         const updatedSession = await update({
           ...session,
           user: {
