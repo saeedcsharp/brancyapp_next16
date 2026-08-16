@@ -7,6 +7,7 @@
 
 ## Pending Documentation Tasks
 
+- Add component coverage confirming the Meta direct-login initial loading phrases hydrate without text mismatches and its verification request is sent only once when React Strict Mode replays effects.
 - Add component/browser coverage for the AI workspace order: shared ToggleButton Image/Video tabs inside the model panel, matching creator loading after tab changes, empty/error state placement in the settings panel, creator submission, and the corresponding library below the creator when a UI test harness is introduced.
 
 - Add an automated review check for new UI code that detects avoidable duplication of shared `scss/` tokens/styles and `components/design/` controls when a suitable analysis tool is introduced.

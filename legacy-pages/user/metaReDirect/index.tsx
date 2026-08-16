@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo, useState, useRef } from "react";
+import React, { useEffect, useState, useRef } from "react";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 
 import Loading from "brancy/components/notOk/loading";
@@ -93,13 +93,18 @@ export default function MetaRedirect() {
     if (router.isReady) {
       if (query.state === undefined || query.code === undefined) router.push("/");
       else {
+        if (hasRun.current) return;
+        hasRun.current = true;
         createInstagramerAccount();
       }
     }
   }, [router.isReady]);
-  const shuffledPhrases = useMemo(() => shuffleArray(phrases), []);
+  const [shuffledPhrases, setShuffledPhrases] = useState(phrases);
   const [activeIndex, setActiveIndex] = useState(0);
   const [checkedIndex, setCheckedIndex] = useState(-1);
+  useEffect(() => {
+    setShuffledPhrases(shuffleArray(phrases));
+  }, []);
   useEffect(() => {
     const timer1 = setTimeout(() => {
       setCheckedIndex(activeIndex);
