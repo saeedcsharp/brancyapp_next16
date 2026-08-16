@@ -1,3 +1,5 @@
+- Added a 15-second delay before the successful Meta direct-login redirect, keeping the existing loading screen visible after verification succeeds.
+
 - Removed the Store Properties entry from the Instagramer desktop navbar and mobile hamburger menu while keeping `/store/properties` directly accessible.
 
 - Fixed the AI page runtime crash caused by passing the removed `onCreateImage` callback name to `MediaCreator`; the page now passes its existing media-neutral `onCreateMedia` handler.

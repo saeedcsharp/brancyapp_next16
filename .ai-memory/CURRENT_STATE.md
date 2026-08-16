@@ -61,6 +61,8 @@ The direct-message composer applies the same 1,000-byte UTF-8 limit to drafts, t
 
 ## Recent Changes
 
+- The Meta direct-login redirect now waits 15 seconds after successful verification before navigating to `/directlogin`, allowing the existing loading screen to remain visible during the delay.
+
 - Removed the Store Properties entry from the Instagramer desktop navbar and mobile hamburger menu while keeping `/store/properties` directly accessible.
 
 - Fixed the AI page runtime crash caused by passing the removed `onCreateImage` callback name to `MediaCreator`; the page now passes its existing media-neutral `onCreateMedia` handler.

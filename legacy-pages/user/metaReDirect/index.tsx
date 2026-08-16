@@ -69,15 +69,17 @@ export default function MetaRedirect() {
         },
       );
       if (verifyCodeRes.succeeded) {
-        window.location.href =
-          verifyCodeRes.value.origin +
-          "/directlogin" +
-          "?bearer=" +
-          query.state +
-          "&redirectUrl=" +
-          "/home" +
-          "&instagramerId=" +
-          verifyCodeRes.value.instagramerId;
+        setTimeout(() => {
+          window.location.href =
+            verifyCodeRes.value.origin +
+            "/directlogin" +
+            "?bearer=" +
+            query.state +
+            "&redirectUrl=" +
+            "/home" +
+            "&instagramerId=" +
+            verifyCodeRes.value.instagramerId;
+        }, 15000);
       } else {
         console.log("verifyCodeRes.info.responseType", verifyCodeRes.info.responseType);
         notify(verifyCodeRes.info.responseType, NotifType.Warning);
