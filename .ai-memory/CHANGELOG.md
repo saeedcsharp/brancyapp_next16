@@ -1,3 +1,5 @@
+- Fixed the main subscription remaining-time calculation so it subtracts the current time from the expiry timestamp and displays `0 days` after expiration instead of the absolute timestamp converted to days.
+
 - Highlighted the currently selected Instagram account in the account switcher and added its accessible `aria-pressed` state.
 - Prevented the upgrade page from reloading package details, reserve prices, and package prices during the session update that starts an account switch; navigation now proceeds without the unnecessary three-request cycle.
 

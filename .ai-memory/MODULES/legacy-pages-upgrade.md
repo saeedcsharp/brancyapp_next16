@@ -134,7 +134,7 @@ Parent module: `legacy-pages`.
 
 ## Known Issues
 
-The upgrade page suppresses its session-based package-data load when the embedded account switcher begins an account change. This prevents the three package APIs from being called during the transition before navigation completes.
+The upgrade page suppresses its session-based package-data load when the embedded account switcher begins an account change. This prevents the three package APIs from being called during the transition before navigation completes. Main subscription remaining time is supplied as a duration until expiry, clamped at zero after expiration, rather than as the absolute expiry timestamp.
 
 ## Technical Debt
 

@@ -408,8 +408,10 @@ export const generateMockUserPackageInfo = (
   const totalDomainDays = convertToMilliseconds(
     featureInfo.basePackage ? featureInfo.basePackage.endUnix - featureInfo.basePackage!.beginUnix : 0,
   );
-  const domainDaysRemaining =
-    convertToMilliseconds(featureInfo.basePackage ? featureInfo.basePackage.endUnix : Date.now()) - 0;
+  const domainDaysRemaining = Math.max(
+    0,
+    convertToMilliseconds(featureInfo.basePackage ? featureInfo.basePackage.endUnix : Date.now()) - Date.now(),
+  );
   const domainDaysPassed = totalDomainDays - domainDaysRemaining;
   const aiPackage = featureInfo.features.find((x) => x.featureId === PsgFeatureType.AI)?.packageFeature;
   const aiReservePackage = featureInfo.features.find((x) => x.featureId === PsgFeatureType.AI)?.reserveFeature;

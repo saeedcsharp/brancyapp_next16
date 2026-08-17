@@ -16,6 +16,8 @@ The General settings language radio hydration mismatch was fixed on 2026-08-12 b
 
 The brush line chart numeric-label hydration mismatch was fixed on 2026-08-13 by making count formatting use an explicit `en-US` locale instead of the runtime default locale.
 
+The main subscription remaining-time display was fixed on 2026-08-17 by calculating the duration from the expiry timestamp to the current time and clamping expired values to zero.
+
 ## Watchlist
 
 - Bulk product saves issue one `/api/product/CreateSubProducts` request per selected product. The backend map exposes no atomic bulk-update endpoint, so a later request can fail after earlier products have already been updated; the UI reports the failed response and refreshes only after complete success.
