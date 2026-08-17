@@ -554,16 +554,24 @@ export interface ICreateLiveChat {
   username: string;
   promptInfo: ICreatePrompt;
 }
-
+export interface AIToolParameter {
+  name: string;
+  description: string;
+  type: string;
+  isRequired: boolean;
+  generateWithAI: boolean;
+  completeDescriptionEn: string;
+  completeDescriptionRu: string;
+  completeDescriptionFa: string;
+  completeDescriptionDe: string;
+  completeDescriptionTr: string;
+  completeDescriptionAz: string;
+  completeDescriptionAr: string;
+  completeDescriptionFr: string;
+}
 export interface IAITools {
   description: string;
-  parameters: {
-    type: string;
-    description: string;
-    isRequired: boolean;
-    name: string;
-    generateWithAI: boolean;
-  }[];
+  parameters: AIToolParameter[];
   name: string;
   tokenUsage: number;
   completeDescription: string;

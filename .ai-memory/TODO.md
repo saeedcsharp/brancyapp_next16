@@ -7,6 +7,8 @@
 
 # TODO
 
+- Add component coverage for AI tool parameter description selection across supported locales, including German `gr`, French English fallback, missing localized values, and legacy `description` fallback when a UI test harness is introduced.
+
 ## Pending Documentation Tasks
 
 - Add component coverage confirming the Meta direct-login initial loading phrases hydrate without text mismatches and its verification request is sent only once when React Strict Mode replays effects.
