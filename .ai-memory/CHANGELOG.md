@@ -2,6 +2,8 @@
 
 - Localized AI tool parameter placeholders by selecting the matching `completeDescription*` field from the active locale, using German for `gr` and English/legacy description fallbacks when needed.
 - Enabled adding AI tools that do not define parameters; tools with required manual parameters retain their existing validation.
+- Changed the sender-username mention from an empty-parameter AI tool into a prompt-only action that inserts `[SENDER_USERNAME]` and never enters the selected tools list.
+- Disabled the sender-username mention in prompt-analysis mode while keeping it available as a prompt-only action in manual mode, and prevented it from inheriting the selected state of tools with the same enum value.
 - Added selected highlighting and accessible removal directly to the existing clickable AI tool options below the prompt in manual and analysis modes, without rendering a separate selected-tool list.
 
 - Highlighted the currently selected Instagram account in the account switcher and added its accessible `aria-pressed` state.

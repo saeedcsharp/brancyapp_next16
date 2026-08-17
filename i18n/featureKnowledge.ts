@@ -57,7 +57,7 @@ const recordsEn = {
   aiFlows: {
     title: "AI prompts and visual flows",
     description:
-      "Build AI prompts, connect available tools, test conversations, and compose node-based message flows for automated interactions.",
+      "Build AI prompts, connect available tools, mention the sender with a manual-prompt placeholder, analyze prompts, test conversations, and compose node-based message flows for automated interactions.",
   },
   postCaptionAi: {
     title: "AI caption generation",

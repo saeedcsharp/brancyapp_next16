@@ -68,6 +68,8 @@ React components are present when the folder contains `.tsx` UI files.
 
 The same popup shows and enables `addTools` for tools with no parameters; parameterized tools still require all required manual values before they can be added.
 
+The sender-username mention entry is a prompt placeholder rather than an `ITool`. In manual mode, selecting it inserts `[SENDER_USERNAME]` into the prompt textbox through `onAddToPrompt`, closes the popup, and never adds it to or inherits state from the selected tools collection. The entry remains visible but is non-focusable and disabled in prompt-analysis mode.
+
 `aiflow/aiPromptBox.tsx` reflects selection directly on the existing clickable tool options below the prompt input in both manual and analysis modes. A selected option is highlighted and replaces its plus icon with an accessible remove button that updates the parent `ITool[]` without opening the settings popup; no separate selected-tool list is rendered.
 
 `aiflow/flow.tsx` reports successful toolbar saves to `FlowAndAIInbox` only for `newFlow`. The parent adopts the returned master-flow record and selects its ID, causing the editor to reload through `GetMasterFlow`; existing-flow toolbar saves do not request an additional reload.

@@ -63,9 +63,9 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
       return merged;
     });
   }, [existingTools]);
-  // اضافه کردن آیتم username به لیست ابزارها
+  // افزودن placeholder نام کاربری فرستنده به پرامپت
   const usernameItem: AITool = {
-    name: "{SENDER_USERNAME}",
+    name: "SENDER_USERNAME",
     description: "Use username in your prompt",
     completeDescription: "Use username in your prompt",
     tokenUsage: 0,
@@ -119,7 +119,7 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
     onClose();
   };
   const handleAddToPrompt = (item: AITool) => {
-    onAddToPrompt(item.name);
+    onAddToPrompt(`[${item.name}]`);
     onClose();
   };
 
@@ -282,14 +282,20 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
           </div>
 
           <div className="ButtonContainer" role="group">
-            {(item.parameters.length === 0 || item.parameters.some((p) => p.isRequired && !p.generateWithAI)) && (
-              <button
-                className={`saveButton ${!isAddToolEnabled(item) ? "fadeDiv" : ""}`}
-                onClick={() => handleAddTool(item)}
-                disabled={!isAddToolEnabled(item)}
-                aria-label="Add tool">
-                {t(LanguageKey.addtools)}
+            {item.name === "SENDER_USERNAME" ? (
+              <button className="saveButton" onClick={() => handleAddToPrompt(item)} aria-label="Add sender username">
+                {t(LanguageKey.usethisPrompt)}
               </button>
+            ) : (
+              (item.parameters.length === 0 || item.parameters.some((p) => p.isRequired && !p.generateWithAI)) && (
+                <button
+                  className={`saveButton ${!isAddToolEnabled(item) ? "fadeDiv" : ""}`}
+                  onClick={() => handleAddTool(item)}
+                  disabled={!isAddToolEnabled(item)}
+                  aria-label="Add tool">
+                  {t(LanguageKey.addtools)}
+                </button>
+              )
             )}
             <button className="cancelButton" onClick={onClose} aria-label="Cancel and close quick reply settings">
               {t(LanguageKey.close)}

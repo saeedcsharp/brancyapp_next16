@@ -480,7 +480,7 @@ const AIPromptBox = ({
                             const selectedToolIndex = tools.findIndex(
                               (selectedTool) => selectedTool.toolId === String(tool.toolType),
                             );
-                            const isSelected = selectedToolIndex !== -1;
+                            const isSelected = tool.name !== "SENDER_USERNAME" && selectedToolIndex !== -1;
 
                             return (
                               <div
@@ -609,28 +609,38 @@ const AIPromptBox = ({
                             const selectedToolIndex = tools.findIndex(
                               (selectedTool) => selectedTool.toolId === String(tool.toolType),
                             );
-                            const isSelected = selectedToolIndex !== -1;
+                            const isSelected = tool.name !== "SENDER_USERNAME" && selectedToolIndex !== -1;
+                            const isDisabled = tool.name === "SENDER_USERNAME";
 
                             return (
                               <div
                                 key={`tool-analysis-${index}-${tool.name}`}
-                                className={`${styles.promptModeoption} ${isSelected ? styles.promptModeoptionSelected : ""}`}
-                                onClick={() => {
-                                  setSelectedAITool(tool);
-                                  setShowAIToolsSettings(true);
-                                }}
-                                onKeyDown={(e) => {
-                                  if (e.key === "Enter" || e.key === " ") {
-                                    e.preventDefault();
-                                    setSelectedAITool(tool);
-                                    setShowAIToolsSettings(true);
-                                  }
-                                }}
+                                className={`${styles.promptModeoption} ${isSelected ? styles.promptModeoptionSelected : ""} ${isDisabled ? styles.promptModeoptionDisabled : ""}`}
+                                onClick={
+                                  isDisabled
+                                    ? undefined
+                                    : () => {
+                                        setSelectedAITool(tool);
+                                        setShowAIToolsSettings(true);
+                                      }
+                                }
+                                onKeyDown={
+                                  isDisabled
+                                    ? undefined
+                                    : (e) => {
+                                        if (e.key === "Enter" || e.key === " ") {
+                                          e.preventDefault();
+                                          setSelectedAITool(tool);
+                                          setShowAIToolsSettings(true);
+                                        }
+                                      }
+                                }
                                 role="button"
-                                tabIndex={0}
-                                aria-pressed={isSelected}
+                                tabIndex={isDisabled ? -1 : 0}
+                                aria-disabled={isDisabled}
+                                aria-pressed={isDisabled ? undefined : isSelected}
                                 aria-label={`${isSelected ? "Edit" : "Add"} ${getDisplayName(tool.name)}`}>
-                                {!isSelected && (
+                                {!isSelected && !isDisabled && (
                                   <img
                                     style={{ width: "20px", height: "20px" }}
                                     alt=""
@@ -640,7 +650,7 @@ const AIPromptBox = ({
                                   />
                                 )}
                                 <span>{getDisplayName(tool.name)}</span>
-                                {isSelected && (
+                                {isSelected && !isDisabled && (
                                   <button
                                     type="button"
                                     className={styles.promptModeoptionRemove}
