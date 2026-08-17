@@ -62,7 +62,7 @@ The MyLink FeatureBox cards use a free horizontal carousel with no snap points o
 
 MyLink product cards scale down at narrower viewports, keep product thumbnails square at a stable aspect ratio, and clamp product names to two lines with an ellipsis for longer names.
 
-The Products header currently shows a static coupon presentation with `BRANCY20`, a placeholder countdown, and a copy icon. It is display-only timing data until promotion values are provided by the backend; after a successful copy, `Copied` temporarily replaces the coupon code.
+The MyLink Products section receives product cards and the display-ready `productCoupons` list under the backend `shopperInfo` object. Every returned coupon appears in the shared DragDrop selector with code, percentage discount, usage count, and expiry date; the selected coupon exposes a copy action alongside the existing product cards.
 
 MyLink last-video titles and descriptions render backend-provided line breaks as separate visual lines, including when the text contains clickable links.
 

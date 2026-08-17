@@ -144,6 +144,8 @@ Needs deeper per-feature enrichment during future work.
 
 The market properties shortcut menu sends the selected shortcut ID directly with each action. Link-card clicks do not bubble to the surrounding `pinContainer` outside-click handler, preventing that handler from immediately replacing the selected ID with the `1000` sentinel.
 
+MyLink `GetMyLink` responses provide product cards and coupons under the required `shopperInfo` object. The page maps `shopperInfo.products` to the existing product section and passes every entry in `shopperInfo.productCoupons` alongside it for coupon presentation.
+
 ## Future Improvements
 
 Add examples, endpoint schemas, and diagrams when this module is changed.

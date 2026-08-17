@@ -996,6 +996,7 @@ export interface ILastVideo extends IFeatureInfo {
 
 export interface IProducts extends IFeatureInfo {
   productCards: IProductCard[] | null;
+  productCoupons: IMyLinkProductCoupon[];
 }
 
 export interface ITimeline extends IFeatureInfo {}
@@ -1152,6 +1153,22 @@ export interface ICaption {
   caption: string;
 }
 
+export interface IMyLinkProductCoupon {
+  couponId: number;
+  code: string;
+  discount: number;
+  expireTime: number;
+  isDeleted: boolean;
+  useCount: number;
+  maxCount: number;
+  phoneNumber: string | null;
+  showInBio: boolean;
+  fbId: number;
+  createdTime: number;
+  updateTime: number;
+  maxDiscount: number | null;
+}
+
 export interface IOrderItems {
   isActiveFeatureBox: boolean;
   orderItems: {
@@ -1175,7 +1192,10 @@ export interface ISmartLink {
   caption: ICaption;
   featureOrders: IOrderItems;
   terms: string[] | null;
-  products: IProductCard[];
+  shopperInfo: {
+    products: IProductCard[];
+    productCoupons: IMyLinkProductCoupon[];
+  };
   lotteries: IFullLottery[];
 }
 

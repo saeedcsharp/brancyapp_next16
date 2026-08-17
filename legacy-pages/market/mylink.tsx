@@ -277,7 +277,8 @@ const MyLink = () => {
               title: "products",
               isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Products)!
                 .isActive,
-              productCards: info.value.products,
+              productCards: info.value.shopperInfo.products,
+              productCoupons: info.value.shopperInfo.productCoupons,
             },
             timeline: {
               featureType: FeatureType.AdsTimeline,

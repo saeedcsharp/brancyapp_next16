@@ -150,7 +150,7 @@ The product cards render in a free horizontal carousel. The container never wrap
 
 Product cards use a responsive fixed-width range, becoming slightly narrower on tablet and mobile screens. Their thumbnails keep a stable square aspect ratio, while product names reserve two lines and truncate longer text with an ellipsis.
 
-The Products header includes a static presentation coupon with a days/hours/minutes/seconds countdown, the code `BRANCY20`, and a copy interaction. The countdown and code are placeholders until the backend promotion contract is connected; after a successful copy, `Copied` replaces the code temporarily while the browser Clipboard API confirmation is active.
+The Products header supplies every backend coupon from `shopperInfo.productCoupons` to the shared `DragDrop` selector without additional client filtering. Each option shows its code, percentage discount, usage count, and deterministic expiry date. The selected coupon has a separate accessible Clipboard API action; successful copying temporarily shows the localized copied state. The selector is omitted only when the returned coupon array is empty.
 
 ## MyLink Lifecycle And Metadata
 

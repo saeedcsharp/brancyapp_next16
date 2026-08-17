@@ -1,5 +1,10 @@
 - Fixed the main subscription remaining-time calculation so it subtracts the current time from the expiry timestamp and displays `0 days` after expiration instead of the absolute timestamp converted to days.
 
+- Updated MyLink `GetMyLink` mapping to read products and coupons from `shopperInfo`; visible product coupons now render alongside products with discount, usage, expiry, and copy details.
+- Corrected MyLink coupon handling to read the server's plural `shopperInfo.productCoupons` field and render every returned item without extra client filtering.
+- Fixed the MyLink coupon list being visually empty when its flex container collapsed beside the store button; the list now grows across the available header width.
+- Replaced the MyLink coupon-card row with the shared DragDrop selector while retaining coupon metadata and copy feedback for the selected code.
+
 - Localized AI tool parameter placeholders by selecting the matching `completeDescription*` field from the active locale, using German for `gr` and English/legacy description fallbacks when needed.
 - Enabled adding AI tools that do not define parameters; tools with required manual parameters retain their existing validation.
 - Changed the sender-username mention from an empty-parameter AI tool into a prompt-only action that inserts `[SENDER_USERNAME]` and never enters the selected tools list.

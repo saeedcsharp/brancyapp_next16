@@ -18,6 +18,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 - Persian `/feature` copy is also intentionally conversational and non-technical, with short explanations suitable for general and younger audiences.
 - The feature catalog is a mandatory synchronization point: every added, changed, completed, renamed, or removed user-facing option or capability must update the active or audit-only list before the task is considered complete.
 - Market Properties Terms editors use stable row keys, preventing controlled textareas from remounting and losing focus while users type.
+- MyLink products and coupons come from the required backend `shopperInfo` object; every item in its display-ready `productCoupons` list renders beside products with code, discount, usage, expiry, and copy details.
+- The MyLink coupon list now uses the shared DragDrop selector, with a separate copy action for the selected coupon.
 - Expanded feature details show the usage instruction and route on separate lines, with safe wrapping for narrow viewports.
 - On mobile, feature cards place the expand control in the top corner and keep role and access cells side by side.
 
