@@ -134,7 +134,7 @@ Parent module: `legacy-pages`.
 
 ## Known Issues
 
-No confirmed module-specific issue recorded at initialization.
+The upgrade page suppresses its session-based package-data load when the embedded account switcher begins an account change. This prevents the three package APIs from being called during the transition before navigation completes.
 
 ## Technical Debt
 
@@ -146,7 +146,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-08-17
 
 ---
 
@@ -155,13 +155,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

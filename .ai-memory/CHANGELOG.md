@@ -1,4 +1,5 @@
 - Highlighted the currently selected Instagram account in the account switcher and added its accessible `aria-pressed` state.
+- Prevented the upgrade page from reloading package details, reserve prices, and package prices during the session update that starts an account switch; navigation now proceeds without the unnecessary three-request cycle.
 
 - Fixed the Meta direct-login hydration mismatch caused by shuffling loading phrases with `Math.random()` during server and initial client rendering.
 - Prevented the Meta direct-login verification API from being called twice when React Strict Mode replays the effect.

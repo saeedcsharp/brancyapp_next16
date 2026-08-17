@@ -19,7 +19,7 @@ import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { InstagramerAccountInfo, IPartner_User } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
 const host = typeof window !== "undefined" ? window.location.host : "";
-function SwitchAccount(props: { removeMask: () => void }) {
+function SwitchAccount(props: { removeMask: () => void; onSwitchStart?: () => void }) {
   const { t } = useTranslation();
   const router = useRouter();
   const { data: session, update } = useSession();
@@ -28,6 +28,7 @@ function SwitchAccount(props: { removeMask: () => void }) {
   const [loading, setLoading] = useState(true);
   const [partnersLoading, setPartnersLoading] = useState(true);
   async function handleSwitchToUser() {
+    props.onSwitchStart?.();
     await update({
       ...session,
       user: {
@@ -124,6 +125,7 @@ function SwitchAccount(props: { removeMask: () => void }) {
     }
   }
   async function handleSwitchToInstagramer(instagramer: InstagramerAccountInfo, i: number) {
+    props.onSwitchStart?.();
     await update({
       ...session,
       user: {

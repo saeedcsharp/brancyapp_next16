@@ -62,6 +62,7 @@ The direct-message composer applies the same 1,000-byte UTF-8 limit to drafts, t
 ## Recent Changes
 
 - The Instagram account switcher now highlights the account selected by `session.user.currentIndex` with a blue-tinted border/background treatment and exposes the selection through `aria-pressed`.
+- The upgrade page now skips its session-dependent package-data reload when account switching starts, preventing duplicate `GetPackageFeatureDetails`, `GetReserveFeaturePrices`, and `GetPackagePrices` requests before navigation.
 
 - Fixed the Meta direct-login loading-screen hydration mismatch by keeping its initial phrase order deterministic across server and client rendering, then shuffling after mount.
 

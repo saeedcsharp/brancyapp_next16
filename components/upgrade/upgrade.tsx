@@ -24,6 +24,7 @@ function Upgrade(props: { removeMask: () => void }) {
   const [loading, setLoading] = useState(true);
   async function getPSGInfo() {
     try {
+      console.log("Fetching package prices222...");
       const res = await clientFetchApi<boolean, PaymentInfo[]>("/api/psg/getPackagePrices", {
         methodType: MethodType.get,
         session: session,

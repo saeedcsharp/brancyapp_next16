@@ -139,6 +139,7 @@ const Upgrade = memo(function Upgrade() {
   const router = useRouter();
   const { data: session } = useSession();
   const abortControllerRef = useRef<AbortController | null>(null);
+  const skipNextSessionLoadRef = useRef(false);
   const [isPending, startTransition] = useTransition();
   const componentId = useId();
   const [state, dispatch] = useReducer(upgradeReducer, initialState);
@@ -200,6 +201,7 @@ const Upgrade = memo(function Upgrade() {
   const getPackageExtensions = useCallback(async () => {
     if (!session) return;
     try {
+      console.log("Fetching package prices111...");
       const res = await clientFetchApi<boolean, IBasePackagePrice[]>("/api/psg/GetPackagePrices", {
         methodType: MethodType.get,
         session: session,
@@ -490,6 +492,10 @@ const Upgrade = memo(function Upgrade() {
   }, [router]);
   useEffect(() => {
     if (!session || !RoleAccess(session)) return;
+    if (skipNextSessionLoadRef.current) {
+      skipNextSessionLoadRef.current = false;
+      return;
+    }
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
@@ -1522,7 +1528,14 @@ const Upgrade = memo(function Upgrade() {
           )}
         </div>
       </div>
-      {showSwitchAccount && <SwitchAccount removeMask={() => setShowSwitchAccount(false)} />}
+      {showSwitchAccount && (
+        <SwitchAccount
+          removeMask={() => setShowSwitchAccount(false)}
+          onSwitchStart={() => {
+            skipNextSessionLoadRef.current = true;
+          }}
+        />
+      )}
     </>
   );
 });
