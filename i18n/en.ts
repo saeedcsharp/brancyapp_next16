@@ -482,6 +482,8 @@ export default {
     VerifyAddress: "Verify Address",
     VerifyCode: "Verify Code",
     Continue: "Continue",
+    metaRedirect_aiAnalysisNotice:
+      "Please note that analyzing your page with artificial intelligence may take several hours.",
     Efficiency: "Efficiency",
     max: "max",
     logout: "Log Out",

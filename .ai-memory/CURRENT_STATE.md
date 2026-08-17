@@ -67,7 +67,7 @@ The direct-message composer applies the same 1,000-byte UTF-8 limit to drafts, t
 
 - Prevented React Strict Mode effect replays from sending the Meta direct-login verification API request twice by guarding the request with a component ref.
 
-- The Meta direct-login redirect now waits 15 seconds after successful verification before navigating to `/directlogin`, allowing the existing loading screen to remain visible during the delay.
+- The Meta direct-login flow waits 10 seconds after successful verification, then opens a localized AI-analysis notice; navigation to `/directlogin` occurs only when the user confirms the modal.
 
 - Removed the Store Properties entry from the Instagramer desktop navbar and mobile hamburger menu while keeping `/store/properties` directly accessible.
 

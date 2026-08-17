@@ -493,6 +493,7 @@ export default {
     VerifyAddress: "تأیید آدرس",
     VerifyCode: "تأیید کد",
     Continue: "ادامه",
+    metaRedirect_aiAnalysisNotice: "توجه داشته باشید که تحلیل پیج شما با هوش مصنوعی ممکن است تا چند ساعت طول بکشد.",
     Efficiency: "کارایی",
     max: "حداکثر",
     logout: "خروج",

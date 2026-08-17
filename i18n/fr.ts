@@ -495,6 +495,8 @@ export default {
     Verify: "Vérifier",
     VerifyAddress: "Vérifier l'adresse",
     Continue: "Continuer",
+    metaRedirect_aiAnalysisNotice:
+      "Veuillez noter que l'analyse de votre page par intelligence artificielle peut prendre plusieurs heures.",
     Efficiency: "Efficacité",
     max: "Max",
     logout: "Déconnexion",

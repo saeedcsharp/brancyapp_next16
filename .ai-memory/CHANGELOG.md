@@ -2,7 +2,7 @@
 
 - Fixed the Meta direct-login hydration mismatch caused by shuffling loading phrases with `Math.random()` during server and initial client rendering.
 - Prevented the Meta direct-login verification API from being called twice when React Strict Mode replays the effect.
-- Added a 15-second delay before the successful Meta direct-login redirect, keeping the existing loading screen visible after verification succeeds.
+- Changed the Meta direct-login flow to show a localized AI-analysis notice after 10 seconds instead of redirecting automatically; navigation now occurs only after the user confirms the notice.
 
 - Removed the Store Properties entry from the Instagramer desktop navbar and mobile hamburger menu while keeping `/store/properties` directly accessible.
 

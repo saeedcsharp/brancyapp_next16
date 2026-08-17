@@ -100,6 +100,8 @@ No local database objects were discovered. Data persists through external backen
 
 Mostly React local state, context, NextAuth session, or external state from backend APIs.
 
+The Meta direct-login page retains the verified direct-login destination, shows a shared confirmation modal after a 10-second loading delay, and redirects only when the localized confirmation action is selected.
+
 ## External Integrations
 
 External services are accessed through Brancy backend APIs unless this module documents another integration.

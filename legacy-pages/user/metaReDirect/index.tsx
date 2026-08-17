@@ -1,5 +1,7 @@
 import React, { useEffect, useState, useRef } from "react";
+import { useTranslation } from "react-i18next";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Modal from "brancy/components/design/modal";
 
 import Loading from "brancy/components/notOk/loading";
 import { MethodType } from "brancy/helper/api";
@@ -7,6 +9,7 @@ import { clientFetchApiWithAccessToken } from "brancy/helper/clientFetchApi";
 import { IRefreshToken, IVerifyCode } from "brancy/models/interfaces";
 import { signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
+import { LanguageKey } from "brancy/i18n";
 import styles from "./metaDirect.module.css";
 const phrases = [
   "Initializing Brancy",
@@ -54,23 +57,31 @@ function shuffleArray(values: string[]) {
 export default function MetaRedirect() {
   const router = useRouter();
   const { query } = router;
+  const { t } = useTranslation();
   const hasRun = useRef(false);
+  const [showAnalysisNotice, setShowAnalysisNotice] = useState(false);
+  const [redirectUrl, setRedirectUrl] = useState("");
+
+  function redirectToDirectLogin() {
+    if (redirectUrl) window.location.href = redirectUrl;
+  }
+
   async function createInstagramerAccount() {
     console.log("createInstagramerAccount");
-    try {
-      const verifyCodeRes = await clientFetchApiWithAccessToken<boolean, IVerifyCode>(
-        "/api/preinstagramer/VerifyCode",
-        {
-          methodType: MethodType.get,
-          accessToken: "Bearer" + " " + query.state,
-          data: null,
-          queries: [{ key: "code", value: query.code as string }],
-          onUploadProgress: undefined,
-        },
-      );
-      if (verifyCodeRes.succeeded) {
-        setTimeout(() => {
-          window.location.href =
+    for (let attempt = 0; attempt < 2; attempt += 1) {
+      try {
+        const verifyCodeRes = await clientFetchApiWithAccessToken<boolean, IVerifyCode>(
+          "/api/preinstagramer/VerifyCode",
+          {
+            methodType: MethodType.get,
+            accessToken: "Bearer" + " " + query.state,
+            data: null,
+            queries: [{ key: "code", value: query.code as string }],
+            onUploadProgress: undefined,
+          },
+        );
+        if (verifyCodeRes.succeeded) {
+          const nextRedirectUrl =
             verifyCodeRes.value.origin +
             "/directlogin" +
             "?bearer=" +
@@ -79,14 +90,23 @@ export default function MetaRedirect() {
             "/home" +
             "&instagramerId=" +
             verifyCodeRes.value.instagramerId;
-        }, 15000);
-      } else {
-        console.log("verifyCodeRes.info.responseType", verifyCodeRes.info.responseType);
-        notify(verifyCodeRes.info.responseType, NotifType.Warning);
+          setRedirectUrl(nextRedirectUrl);
+          setTimeout(() => {
+            setShowAnalysisNotice(true);
+          }, 10000);
+          return;
+        }
+
+        if (attempt === 1) {
+          console.log("verifyCodeRes.info.responseType", verifyCodeRes.info.responseType);
+          notify(verifyCodeRes.info.responseType, NotifType.Warning);
+        }
+      } catch (error) {
+        if (attempt === 1) {
+          console.error("Error in createInstagramerAccount:", error);
+          notify(ResponseType.Unexpected, NotifType.Error);
+        }
       }
-    } catch (error) {
-      console.error("Error in createInstagramerAccount:", error);
-      notify(ResponseType.Unexpected, NotifType.Error);
     }
   }
   useEffect(() => {
@@ -178,6 +198,40 @@ export default function MetaRedirect() {
           </div>
         </div>
       </div>
+      <Modal
+        classNamePopup="popupSendFile"
+        closePopup={() => setShowAnalysisNotice(false)}
+        showContent={showAnalysisNotice}>
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px", padding: "24px" }}>
+          <svg
+            aria-hidden="true"
+            width="72"
+            height="72"
+            viewBox="0 0 72 72"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
+            style={{ alignSelf: "center" }}>
+            <circle cx="36" cy="36" r="27" fill="var(--background-color)" stroke="var(--text-h1)" strokeWidth="2" />
+            <path
+              d="M25 36.5C25 31.8 28.8 28 33.5 28H38.5C43.2 28 47 31.8 47 36.5V40.5C47 45.2 43.2 49 38.5 49H33.5C28.8 49 25 45.2 25 40.5V36.5Z"
+              stroke="var(--text-h1)"
+              strokeWidth="2"
+            />
+            <path
+              d="M31 35V38M41 35V38M31 43C33.8 45.2 38.2 45.2 41 43"
+              stroke="var(--text-h1)"
+              strokeWidth="2"
+              strokeLinecap="round"
+            />
+            <path d="M36 22V18M22 28L19 25M50 28L53 25" stroke="var(--text-h1)" strokeWidth="2" strokeLinecap="round" />
+            <path d="M56 14L57.2 17.8L61 19L57.2 20.2L56 24L54.8 20.2L51 19L54.8 17.8L56 14Z" fill="var(--text-h1)" />
+          </svg>
+          <p>{t(LanguageKey.metaRedirect_aiAnalysisNotice)}</p>
+          <button className="saveButton" type="button" onClick={redirectToDirectLogin}>
+            {t(LanguageKey.Continue)}
+          </button>
+        </div>
+      </Modal>
     </>
   );
 }

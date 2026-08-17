@@ -492,6 +492,8 @@ export default {
     Verify: "Bestätigen",
     VerifyAddress: "Adresse bestätigen",
     Continue: "Fortsetzen",
+    metaRedirect_aiAnalysisNotice:
+      "Bitte beachten Sie, dass die Analyse Ihrer Seite mit künstlicher Intelligenz mehrere Stunden dauern kann.",
     Efficiency: "Effizienz",
     max: "MAX",
     logout: "Abmelden",

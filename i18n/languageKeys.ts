@@ -74,6 +74,7 @@ export enum LanguageKey {
   VerifyAddress = "VerifyAddress",
   VerifyCode = "VerifyCode",
   Continue = "Continue",
+  metaRedirect_aiAnalysisNotice = "metaRedirect_aiAnalysisNotice",
   Efficiency = "Efficiency",
   logout = "logout",
   notallowed = "notallowed",

@@ -487,6 +487,7 @@ export default {
     VerifyAddress: "Ünvanı təsdiq et",
     VerifyCode: "Kodu təsdiq et",
     Continue: "Davam et",
+    metaRedirect_aiAnalysisNotice: "Nəzərə alın ki, səhifənizin süni intellektlə təhlili bir neçə saat çəkə bilər.",
     Efficiency: "Səmərəlilik",
     max: "Maksimum",
     logout: "Çıxış",

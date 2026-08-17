@@ -492,6 +492,8 @@ export default {
     Verify: "Doğrula",
     VerifyAddress: "Adresi Doğrula",
     Continue: "Devam Et",
+    metaRedirect_aiAnalysisNotice:
+      "Sayfanızın yapay zeka ile analiz edilmesinin birkaç saat sürebileceğini lütfen unutmayın.",
     Efficiency: "Verimlilik",
     max: "MAKS",
     logout: "Çıkış Yap",

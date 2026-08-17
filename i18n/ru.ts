@@ -490,6 +490,8 @@ export default {
     Verify: "Подтвердить",
     VerifyAddress: "Подтвердить адрес",
     Continue: "Продолжить",
+    metaRedirect_aiAnalysisNotice:
+      "Обратите внимание: анализ вашей страницы с помощью искусственного интеллекта может занять несколько часов.",
     Efficiency: "Эффективность",
     max: "МАКС",
     logout: "Выйти",

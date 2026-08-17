@@ -478,6 +478,7 @@ export default {
     Verify: "تأكيد",
     VerifyAddress: "تأكيد العنوان",
     Continue: "متابعة",
+    metaRedirect_aiAnalysisNotice: "يرجى ملاحظة أن تحليل صفحتك باستخدام الذكاء الاصطناعي قد يستغرق عدة ساعات.",
     Efficiency: "الكفاءة",
     logout: "تسجيل الخروج",
     notallowed: "غير مسموح",
