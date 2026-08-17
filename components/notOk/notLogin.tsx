@@ -289,8 +289,9 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
         <div
           key={`${v.pk}-${i}`}
           onClick={() => handleSwitchToInstagramer(v, i)}
-          className={`instagramprofile ${session?.user.currentIndex === i ? "" : ""}`}
+          className={`instagramprofile ${session?.user.currentIndex === i ? styles.selectedAccount : ""}`}
           role="button"
+          aria-pressed={session?.user.currentIndex === i}
           tabIndex={0}
           onKeyDown={(e) => {
             if (e.key === "Enter" || e.key === " ") {

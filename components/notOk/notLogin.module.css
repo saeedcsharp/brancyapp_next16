@@ -16,6 +16,12 @@
 .accountsGrid > div:hover {
   background: var(--color-gray30);
 }
+.accountsGrid > .selectedAccount,
+.accountsGrid > .selectedAccount:hover {
+  background: var(--color-dark-blue10);
+  border: 1px solid var(--color-dark-blue);
+  box-shadow: 0 0 0 3px var(--color-dark-blue30);
+}
 .line {
   height: 1px;
   background: var(--color-gray60);

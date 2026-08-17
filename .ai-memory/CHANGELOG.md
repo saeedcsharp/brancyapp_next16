@@ -1,3 +1,5 @@
+- Highlighted the currently selected Instagram account in the account switcher and added its accessible `aria-pressed` state.
+
 - Fixed the Meta direct-login hydration mismatch caused by shuffling loading phrases with `Math.random()` during server and initial client rendering.
 - Prevented the Meta direct-login verification API from being called twice when React Strict Mode replays the effect.
 - Added a 15-second delay before the successful Meta direct-login redirect, keeping the existing loading screen visible after verification succeeds.
