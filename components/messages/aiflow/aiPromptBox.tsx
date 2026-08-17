@@ -193,6 +193,7 @@ const AIPromptBox = ({
     }
     try {
       setUpdateLoading(true);
+      console.log("tools", tools);
       const res = await clientFetchApi<ICreatePrompt, ITotalPrompt>("/api/ai/CreatePrompt", {
         methodType: MethodType.post,
         session: session,
@@ -474,64 +475,60 @@ const AIPromptBox = ({
                           autoExpandOnFocus
                           initialHeight={120}
                         />
-                        {tools.length > 0 && (
-                          <div className={styles.toolsList} role="list" aria-label="Added tools">
-                            {tools.map((tool, index) => (
-                              <div key={`added-tool-${index}`} className={styles.toolsItem} role="listitem">
-                                <span className={styles.toolsItemName}>{tool.toolId}</span>
-                                {tool.parameters.map((param, pi) => (
-                                  <span key={pi} className={styles.toolsItemParam}>
-                                    {param.name}
-                                    {": "}
-                                    <span
-                                      style={{ cursor: "copy" }}
-                                      title="Copy value"
-                                      onClick={() => navigator.clipboard.writeText(param.value)}>
-                                      {param.value}
-                                    </span>
-                                  </span>
-                                ))}
-                                <button
-                                  type="button"
-                                  className={styles.toolsItemRemove}
-                                  aria-label={`Remove tool ${tool.toolId}`}
-                                  onClick={() => setTools((prev) => prev.filter((_, i) => i !== index))}>
-                                  ✕
-                                </button>
-                              </div>
-                            ))}
-                          </div>
-                        )}
                         <div className={styles.promptModeoptionlist} role="list">
-                          {mergedAITools.map((tool, index) => (
-                            <div
-                              key={`tool-${index}-${tool.name}`}
-                              className={styles.promptModeoption}
-                              onClick={() => {
-                                setSelectedAITool(tool);
-                                setShowAIToolsSettings(true);
-                              }}
-                              onKeyDown={(e) => {
-                                if (e.key === "Enter" || e.key === " ") {
-                                  e.preventDefault();
+                          {mergedAITools.map((tool, index) => {
+                            const selectedToolIndex = tools.findIndex(
+                              (selectedTool) => selectedTool.toolId === String(tool.toolType),
+                            );
+                            const isSelected = selectedToolIndex !== -1;
+
+                            return (
+                              <div
+                                key={`tool-${index}-${tool.name}`}
+                                className={`${styles.promptModeoption} ${isSelected ? styles.promptModeoptionSelected : ""}`}
+                                onClick={() => {
                                   setSelectedAITool(tool);
                                   setShowAIToolsSettings(true);
-                                }
-                              }}
-                              role="button"
-                              tabIndex={0}
-                              aria-label={`Add ${getDisplayName(tool.name)} to prompt`}
-                              style={{ cursor: "pointer" }}>
-                              <img
-                                style={{ cursor: "pointer", width: "20px", height: "20px" }}
-                                alt="Add"
-                                title={tool.description}
-                                src="/icon-plus.svg"
-                                aria-hidden="true"
-                              />
-                              {getDisplayName(tool.name)}
-                            </div>
-                          ))}
+                                }}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter" || e.key === " ") {
+                                    e.preventDefault();
+                                    setSelectedAITool(tool);
+                                    setShowAIToolsSettings(true);
+                                  }
+                                }}
+                                role="button"
+                                tabIndex={0}
+                                aria-pressed={isSelected}
+                                aria-label={`${isSelected ? "Edit" : "Add"} ${getDisplayName(tool.name)}`}>
+                                {!isSelected && (
+                                  <img
+                                    style={{ width: "20px", height: "20px" }}
+                                    alt=""
+                                    title={tool.description}
+                                    src="/icon-plus.svg"
+                                    aria-hidden="true"
+                                  />
+                                )}
+                                <span>{getDisplayName(tool.name)}</span>
+                                {isSelected && (
+                                  <button
+                                    type="button"
+                                    className={styles.promptModeoptionRemove}
+                                    aria-label={`Remove ${getDisplayName(tool.name)}`}
+                                    onKeyDown={(event) => event.stopPropagation()}
+                                    onClick={(event) => {
+                                      event.stopPropagation();
+                                      setTools((prev) =>
+                                        prev.filter((_, toolIndex) => toolIndex !== selectedToolIndex),
+                                      );
+                                    }}>
+                                    <span aria-hidden="true">×</span>
+                                  </button>
+                                )}
+                              </div>
+                            );
+                          })}
                         </div>
                       </>
                     )}
@@ -607,64 +604,60 @@ const AIPromptBox = ({
                       )}
                     {promptMode === "analysis" && !loadingPromptAnalysis && showAnalysisContent && (
                       <>
-                        {tools.length > 0 && (
-                          <div className={styles.toolsList} role="list" aria-label="Added tools">
-                            {tools.map((tool, index) => (
-                              <div key={`added-tool-analysis-${index}`} className={styles.toolsItem} role="listitem">
-                                <span className={styles.toolsItemName}>{tool.toolId}</span>
-                                {tool.parameters.map((param, pi) => (
-                                  <span key={pi} className={styles.toolsItemParam}>
-                                    {param.name}
-                                    {": "}
-                                    <span
-                                      style={{ cursor: "copy" }}
-                                      title="Copy value"
-                                      onClick={() => navigator.clipboard.writeText(param.value)}>
-                                      {param.value}
-                                    </span>
-                                  </span>
-                                ))}
-                                <button
-                                  type="button"
-                                  className={styles.toolsItemRemove}
-                                  aria-label={`Remove tool ${tool.toolId}`}
-                                  onClick={() => setTools((prev) => prev.filter((_, i) => i !== index))}>
-                                  ✕
-                                </button>
-                              </div>
-                            ))}
-                          </div>
-                        )}
                         <div className={styles.promptModeoptionlist} role="list">
-                          {mergedAITools.map((tool, index) => (
-                            <div
-                              key={`tool-analysis-${index}-${tool.name}`}
-                              className={styles.promptModeoption}
-                              onClick={() => {
-                                setSelectedAITool(tool);
-                                setShowAIToolsSettings(true);
-                              }}
-                              onKeyDown={(e) => {
-                                if (e.key === "Enter" || e.key === " ") {
-                                  e.preventDefault();
+                          {mergedAITools.map((tool, index) => {
+                            const selectedToolIndex = tools.findIndex(
+                              (selectedTool) => selectedTool.toolId === String(tool.toolType),
+                            );
+                            const isSelected = selectedToolIndex !== -1;
+
+                            return (
+                              <div
+                                key={`tool-analysis-${index}-${tool.name}`}
+                                className={`${styles.promptModeoption} ${isSelected ? styles.promptModeoptionSelected : ""}`}
+                                onClick={() => {
                                   setSelectedAITool(tool);
                                   setShowAIToolsSettings(true);
-                                }
-                              }}
-                              role="button"
-                              tabIndex={0}
-                              aria-label={`Add ${getDisplayName(tool.name)} to prompt`}
-                              style={{ cursor: "pointer" }}>
-                              <img
-                                style={{ cursor: "pointer", width: "20px", height: "20px" }}
-                                alt="Add"
-                                title={tool.description}
-                                src="/icon-plus.svg"
-                                aria-hidden="true"
-                              />
-                              {getDisplayName(tool.name)}
-                            </div>
-                          ))}
+                                }}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter" || e.key === " ") {
+                                    e.preventDefault();
+                                    setSelectedAITool(tool);
+                                    setShowAIToolsSettings(true);
+                                  }
+                                }}
+                                role="button"
+                                tabIndex={0}
+                                aria-pressed={isSelected}
+                                aria-label={`${isSelected ? "Edit" : "Add"} ${getDisplayName(tool.name)}`}>
+                                {!isSelected && (
+                                  <img
+                                    style={{ width: "20px", height: "20px" }}
+                                    alt=""
+                                    title={tool.description}
+                                    src="/icon-plus.svg"
+                                    aria-hidden="true"
+                                  />
+                                )}
+                                <span>{getDisplayName(tool.name)}</span>
+                                {isSelected && (
+                                  <button
+                                    type="button"
+                                    className={styles.promptModeoptionRemove}
+                                    aria-label={`Remove ${getDisplayName(tool.name)}`}
+                                    onKeyDown={(event) => event.stopPropagation()}
+                                    onClick={(event) => {
+                                      event.stopPropagation();
+                                      setTools((prev) =>
+                                        prev.filter((_, toolIndex) => toolIndex !== selectedToolIndex),
+                                      );
+                                    }}>
+                                    <span aria-hidden="true">×</span>
+                                  </button>
+                                )}
+                              </div>
+                            );
+                          })}
                         </div>
                       </>
                     )}

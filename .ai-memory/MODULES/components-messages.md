@@ -68,6 +68,8 @@ React components are present when the folder contains `.tsx` UI files.
 
 The same popup shows and enables `addTools` for tools with no parameters; parameterized tools still require all required manual values before they can be added.
 
+`aiflow/aiPromptBox.tsx` reflects selection directly on the existing clickable tool options below the prompt input in both manual and analysis modes. A selected option is highlighted and replaces its plus icon with an accessible remove button that updates the parent `ITool[]` without opening the settings popup; no separate selected-tool list is rendered.
+
 `aiflow/flow.tsx` reports successful toolbar saves to `FlowAndAIInbox` only for `newFlow`. The parent adopts the returned master-flow record and selects its ID, causing the editor to reload through `GetMasterFlow`; existing-flow toolbar saves do not request an additional reload.
 
 `popups/sendFile.tsx` and `popups/sendVideoFile.tsx` use the shared `UploadFile` helper for progress-aware uploads, so direct-message image and video URLs are released only after the global one-second media-availability delay.

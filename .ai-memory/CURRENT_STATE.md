@@ -53,6 +53,7 @@ The direct-message composer applies the same 1,000-byte UTF-8 limit to drafts, t
 
 AI tool parameter placeholders now select the localized `completeDescription*` model field for the active locale, with German used for `gr` and English fallback for French or missing values.
 AI tools without parameters now display an enabled `addTools` action and are added with an empty parameter list.
+Selected AI tools are highlighted directly in the existing clickable tool-options row below the prompt editor in both manual and analysis modes. Their plus icon becomes an accessible remove button, and no separate selected-tool list is rendered.
 
 ## Current Risks
 
