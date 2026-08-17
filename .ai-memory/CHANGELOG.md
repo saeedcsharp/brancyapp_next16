@@ -1,6 +1,7 @@
 - Fixed the main subscription remaining-time calculation so it subtracts the current time from the expiry timestamp and displays `0 days` after expiration instead of the absolute timestamp converted to days.
 
 - Localized AI tool parameter placeholders by selecting the matching `completeDescription*` field from the active locale, using German for `gr` and English/legacy description fallbacks when needed.
+- Enabled adding AI tools that do not define parameters; tools with required manual parameters retain their existing validation.
 
 - Highlighted the currently selected Instagram account in the account switcher and added its accessible `aria-pressed` state.
 - Prevented the upgrade page from reloading package details, reserve prices, and package prices during the session update that starts an account switch; navigation now proceeds without the unnecessary three-request cycle.

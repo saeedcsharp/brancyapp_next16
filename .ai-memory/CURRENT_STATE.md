@@ -52,6 +52,7 @@ The shared `helper/textByteLength.ts` utility now owns UTF-8 byte counting and U
 The direct-message composer applies the same 1,000-byte UTF-8 limit to drafts, typing, emoji insertion, and outgoing messages.
 
 AI tool parameter placeholders now select the localized `completeDescription*` model field for the active locale, with German used for `gr` and English fallback for French or missing values.
+AI tools without parameters now display an enabled `addTools` action and are added with an empty parameter list.
 
 ## Current Risks
 

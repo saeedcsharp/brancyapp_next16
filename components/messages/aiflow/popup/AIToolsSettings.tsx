@@ -100,7 +100,7 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
   };
   const isAddToolEnabled = (item: AITool): boolean => {
     const requiredManualParams = item.parameters.filter((p) => p.isRequired && !p.generateWithAI);
-    if (requiredManualParams.length === 0) return false;
+    if (requiredManualParams.length === 0) return true;
     return requiredManualParams.every((p) => {
       const val = paramValues[item.name]?.[p.name];
       return val && val.trim().length > 0;
@@ -282,7 +282,7 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
           </div>
 
           <div className="ButtonContainer" role="group">
-            {item.parameters.some((p) => p.isRequired && !p.generateWithAI) && (
+            {(item.parameters.length === 0 || item.parameters.some((p) => p.isRequired && !p.generateWithAI)) && (
               <button
                 className={`saveButton ${!isAddToolEnabled(item) ? "fadeDiv" : ""}`}
                 onClick={() => handleAddTool(item)}
