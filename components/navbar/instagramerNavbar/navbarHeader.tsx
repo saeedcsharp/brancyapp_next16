@@ -54,17 +54,23 @@ const NavbarHeader = (props: {
     const decombNotif = handleDecompress(notif);
     const notifObj = JSON.parse(decombNotif!) as PushNotif;
     console.log("Received notification in navbar header", notifObj);
+    if (notifObj.ResponseType === PushResponseType.DeauthorizedInstaAccount) {
+      await signOut({ redirect: false });
+      router.replace("/");
+      props.removeMask();
+    }
     if (notifObj.IsNavbar) {
       console.log("decombNotif in navbar header", notifObj);
       // setNavbarNotifs((prev) => [notifObj, ...prev]);
       if (setValue && sessionRef.current!.user.currentIndex > -1) setValue((prev) => [notifObj, ...prev]);
       if (!props.showNotifBar) setGooli(true);
-    } else if (!notifObj.IsNavbar && notifObj.ResponseType === PushResponseType.DeauthorizedInstaAccount) {
-      console.log("not isNvabar AND DeauthorizedInstaAccount");
-      await signOut({ redirect: false });
-      router.replace("/");
-      props.removeMask();
     }
+    // else if (!notifObj.IsNavbar && notifObj.ResponseType === PushResponseType.DeauthorizedInstaAccount) {
+    //   console.log("not isNvabar AND DeauthorizedInstaAccount");
+    //   await signOut({ redirect: false });
+    //   router.replace("/");
+    //   props.removeMask();
+    // }
   }
   function handleDeleteNotif(index: number) {
     if (setValue) setValue((prev) => prev.filter((_, i) => i !== index));
