@@ -69,6 +69,14 @@ export default {
     advertisertitle: "Tout est prêt pour la publicité 👌",
     shopperdescription: "Suivez précisément vos performances de vente.",
     advertiserdescription: "Suivez précisément vos performances publicitaires.",
+    syncingAccountTitle: "Récupération des informations",
+    syncingAccountDescription: "Vos informations Instagram sont en cours de mise à jour dans Brancy",
+    syncingAccountDescriptiontooltip:
+      "Certaines de vos informations seront mises à jour dans les prochaines 24 heures.",
+    subscriptionExpiringTitle: "Votre abonnement arrive à expiration",
+    subscriptionExpiringDescription:
+      "Renouvelez votre abonnement pour continuer à utiliser les fonctionnalités disponibles.",
+    subscriptionDaysRemaining: "{{days}} jours restants",
     priceHistory: "Historique des prix",
     unselect: "Unselect",
     shopper: "Vendeur",

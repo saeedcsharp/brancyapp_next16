@@ -67,6 +67,12 @@ export default {
     advertisertitle: "Всё готово к рекламе 👌",
     shopperdescription: "Точно отслеживайте свои показатели продаж.",
     advertiserdescription: "Точно отслеживайте эффективность рекламы.",
+    syncingAccountTitle: "Получение информации",
+    syncingAccountDescription: "Информация вашего Instagram обновляется в Brancy",
+    syncingAccountDescriptiontooltip: "Некоторая информация будет обновлена в течение следующих 24 часов.",
+    subscriptionExpiringTitle: "Срок действия подписки истекает",
+    subscriptionExpiringDescription: "Продлите подписку, чтобы продолжить пользоваться доступными функциями.",
+    subscriptionDaysRemaining: "Осталось дней: {{days}}",
     priceHistory: "История цен",
     // #region landing page
     shopper: "Продавец",

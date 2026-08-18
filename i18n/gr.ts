@@ -67,6 +67,14 @@ export default {
     advertisertitle: "Alles bereit für Werbung 👌",
     shopperdescription: "Verfolgen Sie Ihre Verkaufsleistung genau.",
     advertiserdescription: "Verfolgen Sie Ihre Werbeleistung genau.",
+    syncingAccountTitle: "Informationen werden abgerufen",
+    syncingAccountDescription: "Ihre Instagram-Informationen werden in Brancy aktualisiert",
+    syncingAccountDescriptiontooltip:
+      "Einige Ihrer Informationen werden innerhalb der nächsten 24 Stunden aktualisiert.",
+    subscriptionExpiringTitle: "Ihr Abonnement läuft bald ab",
+    subscriptionExpiringDescription:
+      "Verlängern Sie Ihr Abonnement, um die verfügbaren Funktionen weiterhin nutzen zu können.",
+    subscriptionDaysRemaining: "{{days}} Tage verbleibend",
     priceHistory: "Preisverlauf",
     // #region landing page
     shopper: "Verkäufer",

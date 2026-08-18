@@ -34,10 +34,37 @@
 }
 .upgradeicon {
   cursor: pointer;
+  min-width: 36px;
+  min-height: 36px;
+  width: 36px;
+  height: 36px;
   transition: var(--transition3);
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
 }
 .upgradeicon:hover {
   transform: scale(1.1);
+}
+.syncicon {
+  transition: var(--transition3);
+  min-width: 36px;
+  min-height: 36px;
+  width: 36px;
+  height: 36px;
+  animation: rotate 2s linear infinite;
+
+  stroke-width: 2;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+}
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 .personalinfosection {
   position: relative;
@@ -47,7 +74,7 @@
   align-items: flex-start;
   justify-content: space-between;
   flex-direction: column;
-  padding: var(--paddingbox);
+  padding: var(--paddingboxmobile);
   border-radius: var(--br25);
   background-color: var(--color-white);
 }
@@ -485,4 +512,86 @@
   height: 185px;
   flex-shrink: 0;
   overflow: hidden;
+}
+
+.status {
+  transition: var(--transition3);
+  animation: var(--fadeIn3);
+  flex-direction: row;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-10);
+  position: relative;
+  display: flex;
+  width: 100%;
+}
+.statuscontent {
+  transition: var(--transition3);
+  animation: var(--fadeIn3);
+  min-width: 0;
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-10);
+}
+.statusnav {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 28px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--br100);
+  color: var(--color-gray);
+  background: transparent;
+  cursor: pointer;
+  transition: var(--transition3);
+}
+.statusnav:hover,
+.statusnav:focus-visible {
+  color: var(--color-gray);
+  background-color: var(--color-gray30);
+  outline: none;
+}
+.statusnav svg {
+  width: 18px;
+  height: 18px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 2;
+}
+.statusactions {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-10);
+}
+.progressbar {
+  width: 100%;
+  height: 6px;
+  overflow: hidden;
+  border-radius: var(--br100);
+  background-color: var(--color-light-blue30);
+}
+.progressvalue {
+  height: 100%;
+  border-radius: inherit;
+  background-color: var(--color-light-blue);
+  transition: width 1s linear;
+}
+.countdown {
+  color: var(--color-gray);
+  font-size: var(--font-12);
+  direction: ltr;
+  text-align: start;
+}
+.statusnavcontainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-5);
 }

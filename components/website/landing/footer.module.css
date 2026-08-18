@@ -144,6 +144,7 @@ html[dir="rtl"] .link::before {
   left: auto;
   right: 0%;
 }
+
 @media (max-width: 1210px) {
   .footer {
     height: 480px;

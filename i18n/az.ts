@@ -63,6 +63,12 @@ export default {
     advertisertitle: "Reklam üçün hər şey hazırdır👌",
     shopperdescription: "Satış performansını dəqiq izləyin.",
     advertiserdescription: "Reklam performansını dəqiq izləyin.",
+    syncingAccountTitle: "Məlumatlar Alınır",
+    syncingAccountDescription: "Instagram məlumatlarınız Brancy-də yenilənir",
+    syncingAccountDescriptiontooltip: "Məlumatlarınızın bəziləri növbəti 24 saat ərzində yenilənəcək.",
+    subscriptionExpiringTitle: "Abunəliyiniz Bitmək Üzrədir",
+    subscriptionExpiringDescription: "Mövcud funksiyalardan istifadə etməyə davam etmək üçün abunəliyinizi yeniləyin.",
+    subscriptionDaysRemaining: "{{days}} gün qalıb",
 
     daysAgo: "gün əvvəl",
     hoursAgo: "saat əvvəl",

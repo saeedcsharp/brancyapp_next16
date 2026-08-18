@@ -68,6 +68,8 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 
 ## Recent Changes
 
+- Added a prioritized home profile status slideshow. It shows all currently active statuses, ordered from priority `1` through `10`, with previous/next controls when more than one status applies. The first-login 24-hour synchronization countdown, subscription renewal warning below seven remaining days with a remaining-day count, shopper/influencer role content, and role-upgrade actions remain supported and localized across all eight supported locales.
+
 - Fixed the main subscription remaining-time calculation so expired subscriptions display `0 days` instead of the expiry timestamp interpreted as a duration.
 
 - The Instagram account switcher now highlights the account selected by `session.user.currentIndex` with a blue-tinted border/background treatment and exposes the selection through `aria-pressed`.
