@@ -55,6 +55,14 @@ export default {
     advertisertitle: "Everything is ready for advertising 👌",
     shopperdescription: "Track your sales performance accurately.",
     advertiserdescription: "Track your advertising performance accurately.",
+
+    syncingAccountTitle: "Fetching Information",
+    syncingAccountDescription: "Your Instagram information is being updated in Brancy",
+    syncingAccountDescriptiontooltip: "Some of your information will be updated within the next 24 hours",
+    subscriptionExpiringTitle: "Your Subscription Is Expiring",
+    subscriptionExpiringDescription: "Renew your subscription to continue using the available features",
+    subscriptionDaysRemaining: "{{days}} days remaining",
+
     priceHistory: "Price History",
     unselect: "unselect",
     shopper: "Seller",

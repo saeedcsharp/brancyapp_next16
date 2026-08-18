@@ -28,6 +28,8 @@ Execution starts from imports, route rendering, or helper calls depending on the
 
 Data enters through props, Next route params, session state, browser state, or backend API responses.
 
+The `IngageInfo` profile tile renders its `status` area from an ordered status map. Active entries are sorted by an explicit priority where `1` is highest and `10` is lowest: the 24-hour first-login synchronization notice, the subscription warning when `packageExpireTime` has fewer than seven days remaining, shopper, influencer, and finally the role-upgrade prompt. The warning also displays the rounded-up number of remaining subscription days. When multiple entries are active, the tile displays manual previous/next slideshow controls and resets to the highest-priority entry whenever the active set changes. The first-login timestamp is retained in the existing `first-login-date` localStorage key and the synchronization state exposes a live countdown and progress bar.
+
 ## Dependencies
 
 See imports in related files and dependency docs.
@@ -155,13 +157,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

@@ -66,6 +66,12 @@ export default {
     advertisertitle: "Her şey reklam için hazır 👌",
     shopperdescription: "Satış performansınızı doğru takip edin.",
     advertiserdescription: "Reklam performansınızı doğru takip edin.",
+    syncingAccountTitle: "Bilgiler Alınıyor",
+    syncingAccountDescription: "Instagram bilgileriniz Brancy'de güncelleniyor",
+    syncingAccountDescriptiontooltip: "Bilgilerinizin bir kısmı önümüzdeki 24 saat içinde güncellenecektir.",
+    subscriptionExpiringTitle: "Aboneliğiniz Sona Ermek Üzere",
+    subscriptionExpiringDescription: "Mevcut özellikleri kullanmaya devam etmek için aboneliğinizi yenileyin.",
+    subscriptionDaysRemaining: "{{days}} gün kaldı",
     priceHistory: "Fiyat Geçmişi",
     unselect: "Auswahl aufheben",
     // #region landing page

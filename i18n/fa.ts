@@ -62,6 +62,12 @@ export default {
     advertisertitle: "همه‌چیز آماده تبلیغات است👌",
     shopperdescription: "عملکرد فروش را به‌صورت دقیق دنبال کنید.",
     advertiserdescription: "عملکرد تبلیغات را به‌صورت دقیق دنبال کنید.",
+    syncingAccountTitle: "در حال دریافت اطلاعات",
+    syncingAccountDescription: "اطلاعات اینستاگرام شما در برنسی در حال به‌روزرسانی است",
+    syncingAccountDescriptiontooltip: "برخی از اطلاعات شما تا ۲۴ ساعت آینده به‌روزرسانی خواهند شد.",
+    subscriptionExpiringTitle: "اشتراک شما رو به پایان است",
+    subscriptionExpiringDescription: "برای ادامه استفاده از امکانات، اشتراک خود را تمدید کنید.",
+    subscriptionDaysRemaining: "{{days}} روز باقی‌مانده",
 
     daysAgo: "روز پیش",
     hoursAgo: "ساعت پیش",

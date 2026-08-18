@@ -220,7 +220,7 @@ export default function LandingPageClient() {
             <Page4 />
           </div>
           <Page5 />
-          <div style={{ justifyItems: "center" }} ref={page9Ref}>
+          <div style={{ justifyItems: "center", width: "calc(100% - 10px)" }} ref={page9Ref}>
             <Page9 handleShowCreateSignIn={handleShowCreateSignIn} />
           </div>
           <Page8 />

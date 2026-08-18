@@ -24,10 +24,10 @@
     flex-direction: column !important;
     align-items: flex-start !important;
   }
-  .accountlistItem > div:nth-child(2),
+  /* .accountlistItem > div:nth-child(2),
   .header > div:nth-child(2) > div:nth-child(2) {
     display: none !important;
-  }
+  } */
   .addnewaccount {
     font-size: var(--font-12) !important;
     gap: var(--gap-5) !important;
@@ -71,6 +71,7 @@
   background-color: var(--color-white);
 }
 .maincontent {
+  height: 100%;
   display: flex;
   flex-direction: column;
   width: 100%;

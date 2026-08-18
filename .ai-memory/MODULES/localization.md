@@ -14,6 +14,7 @@ Owns the folder/module concerns described by its file tree and exports.
 Maintains aligned `Notify_*` translations for backend response notifications across `en`, `fa`, `ar`, `fr`, `ru`, `tr`, `gr`, and `az`.
 Maintains equal coverage of all 2,970 direct string translation keys across the eight locale files.
 The Meta direct-login AI-analysis notice is represented by `LanguageKey.metaRedirect_aiAnalysisNotice` and is translated in all eight locale resources.
+The home profile status map uses `syncingAccountTitle`, `syncingAccountDescription`, `subscriptionExpiringTitle`, and `subscriptionExpiringDescription`; these keys are present in all eight locale resources.
 
 ## Architecture
 

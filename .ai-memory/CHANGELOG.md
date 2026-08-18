@@ -1,3 +1,5 @@
+- Added the home profile status slideshow with explicit priorities from `1` (highest) to `10` (lowest), previous/next controls for multiple active states, shopper/influencer and role-upgrade actions, first-login synchronization, and expiring-subscription states. The subscription warning now activates below seven days and displays the remaining-day count. The first-login state includes a live 24-hour countdown and progress bar, and all new copy is localized across the eight supported locales.
+
 - Fixed the main subscription remaining-time calculation so it subtracts the current time from the expiry timestamp and displays `0 days` after expiration instead of the absolute timestamp converted to days.
 
 - Localized AI tool parameter placeholders by selecting the matching `completeDescription*` field from the active locale, using German for `gr` and English/legacy description fallbacks when needed.
