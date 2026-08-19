@@ -71,7 +71,7 @@ const AIPromptBox = ({
   });
   const router = useRouter();
   const chatBoxRef = useRef<HTMLDivElement>(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const manualModeId = useId();
   const analysisModeId = useId();
   const [isPending, startTransition] = useTransition();
@@ -119,19 +119,42 @@ const AIPromptBox = ({
   }, []);
 
   const getDisplayName = useCallback(
-    (name: string) => {
-      switch (name) {
-        case "send_sms_ir_code":
-          return t(LanguageKey.sendsms);
-        case "send_to_telegram":
-          return t(LanguageKey.sendtotelegram);
-        case "SENDER_USERNAME":
-          return t(LanguageKey.senderusername);
-        default:
-          return name;
+    (
+      tool: Pick<IAITools, "name"> &
+        Partial<
+          Pick<
+            IAITools,
+            | "displayNameEn"
+            | "displayNameFa"
+            | "displayNameRu"
+            | "displayNameDe"
+            | "displayNameTr"
+            | "displayNameAz"
+            | "displayNameAr"
+            | "displayNameFr"
+          >
+        >,
+    ) => {
+      if (tool.name === "SENDER_USERNAME") {
+        return t(LanguageKey.senderusername);
       }
+
+      const language = i18n.language.split("-")[0];
+      const displayNameByLanguage = {
+        en: tool.displayNameEn,
+        fa: tool.displayNameFa,
+        ru: tool.displayNameRu,
+        de: tool.displayNameDe,
+        gr: tool.displayNameDe,
+        tr: tool.displayNameTr,
+        az: tool.displayNameAz,
+        ar: tool.displayNameAr,
+        fr: tool.displayNameFr,
+      } as const;
+
+      return displayNameByLanguage[language as keyof typeof displayNameByLanguage] || tool.displayNameEn || tool.name;
     },
-    [t],
+    [i18n.language, t],
   );
 
   useEffect(() => {
@@ -305,6 +328,22 @@ const AIPromptBox = ({
         name: "SENDER_USERNAME",
         description: "Use username in your prompt",
         completeDescription: "Use username in your prompt",
+        completeDescriptionEn: "Use username in your prompt",
+        completeDescriptionRu: "Use username in your prompt",
+        completeDescriptionFa: "Use username in your prompt",
+        completeDescriptionDe: "Use username in your prompt",
+        completeDescriptionTr: "Use username in your prompt",
+        completeDescriptionAz: "Use username in your prompt",
+        completeDescriptionAr: "Use username in your prompt",
+        completeDescriptionFr: "Use username in your prompt",
+        displayNameEn: "",
+        displayNameFa: "",
+        displayNameRu: "",
+        displayNameDe: "",
+        displayNameTr: "",
+        displayNameAz: "",
+        displayNameAr: "",
+        displayNameFr: "",
         tokenUsage: 0,
         parameters: [],
         toolType: ToolType.SendTelegramMessage,
@@ -500,7 +539,7 @@ const AIPromptBox = ({
                                 role="button"
                                 tabIndex={0}
                                 aria-pressed={isSelected}
-                                aria-label={`${isSelected ? "Edit" : "Add"} ${getDisplayName(tool.name)}`}>
+                                aria-label={`${isSelected ? "Edit" : "Add"} ${getDisplayName(tool)}`}>
                                 {!isSelected && (
                                   <img
                                     style={{ width: "20px", height: "20px" }}
@@ -510,12 +549,12 @@ const AIPromptBox = ({
                                     aria-hidden="true"
                                   />
                                 )}
-                                <span>{getDisplayName(tool.name)}</span>
+                                <span>{getDisplayName(tool)}</span>
                                 {isSelected && (
                                   <button
                                     type="button"
                                     className={styles.promptModeoptionRemove}
-                                    aria-label={`Remove ${getDisplayName(tool.name)}`}
+                                    aria-label={`Remove ${getDisplayName(tool)}`}
                                     onKeyDown={(event) => event.stopPropagation()}
                                     onClick={(event) => {
                                       event.stopPropagation();
@@ -639,7 +678,7 @@ const AIPromptBox = ({
                                 tabIndex={isDisabled ? -1 : 0}
                                 aria-disabled={isDisabled}
                                 aria-pressed={isDisabled ? undefined : isSelected}
-                                aria-label={`${isSelected ? "Edit" : "Add"} ${getDisplayName(tool.name)}`}>
+                                aria-label={`${isSelected ? "Edit" : "Add"} ${getDisplayName(tool)}`}>
                                 {!isSelected && !isDisabled && (
                                   <img
                                     style={{ width: "20px", height: "20px" }}
@@ -649,12 +688,12 @@ const AIPromptBox = ({
                                     aria-hidden="true"
                                   />
                                 )}
-                                <span>{getDisplayName(tool.name)}</span>
+                                <span>{getDisplayName(tool)}</span>
                                 {isSelected && !isDisabled && (
                                   <button
                                     type="button"
                                     className={styles.promptModeoptionRemove}
-                                    aria-label={`Remove ${getDisplayName(tool.name)}`}
+                                    aria-label={`Remove ${getDisplayName(tool)}`}
                                     onKeyDown={(event) => event.stopPropagation()}
                                     onClick={(event) => {
                                       event.stopPropagation();

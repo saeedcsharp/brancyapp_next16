@@ -12,6 +12,7 @@
 - Changed the sender-username mention from an empty-parameter AI tool into a prompt-only action that inserts `[SENDER_USERNAME]` and never enters the selected tools list.
 - Disabled the sender-username mention in prompt-analysis mode while keeping it available as a prompt-only action in manual mode, and prevented it from inheriting the selected state of tools with the same enum value.
 - Added selected highlighting and accessible removal directly to the existing clickable AI tool options below the prompt in manual and analysis modes, without rendering a separate selected-tool list.
+- Localized AI tool option names in the prompt box using each tool's `displayName*` field and the active i18next locale, with German text for `gr` and English/name fallbacks.
 
 - Highlighted the currently selected Instagram account in the account switcher and added its accessible `aria-pressed` state.
 - Prevented the upgrade page from reloading package details, reserve prices, and package prices during the session update that starts an account switch; navigation now proceeds without the unnecessary three-request cycle.

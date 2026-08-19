@@ -54,6 +54,7 @@ The shared `helper/textByteLength.ts` utility now owns UTF-8 byte counting and U
 The direct-message composer applies the same 1,000-byte UTF-8 limit to drafts, typing, emoji insertion, and outgoing messages.
 
 AI tool parameter placeholders now select the localized `completeDescription*` model field for the active locale, with German used for `gr` and English fallback for French or missing values.
+AI prompt tool options now select each tool's localized `displayName*` field from the active i18next locale, with German used for `gr` and English/name fallbacks.
 AI tools without parameters now display an enabled `addTools` action and are added with an empty parameter list.
 The sender-username mention is excluded from selected AI tools and inserts `[SENDER_USERNAME]` directly into the prompt textbox in manual mode; it is visible but disabled in prompt-analysis mode.
 Selected AI tools are highlighted directly in the existing clickable tool-options row below the prompt editor in both manual and analysis modes. Their plus icon becomes an accessible remove button, and no separate selected-tool list is rendered.

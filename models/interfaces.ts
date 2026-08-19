@@ -576,6 +576,22 @@ export interface IAITools {
   tokenUsage: number;
   completeDescription: string;
   toolType: ToolType;
+  completeDescriptionEn: string;
+  completeDescriptionRu: string;
+  completeDescriptionFa: string;
+  completeDescriptionDe: string;
+  completeDescriptionTr: string;
+  completeDescriptionAz: string;
+  completeDescriptionAr: string;
+  completeDescriptionFr: string;
+  displayNameEn: string;
+  displayNameFa: string;
+  displayNameRu: string;
+  displayNameDe: string;
+  displayNameTr: string;
+  displayNameAz: string;
+  displayNameAr: string;
+  displayNameFr: string;
 }
 
 export interface ILiveChatClient {
