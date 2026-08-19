@@ -292,7 +292,7 @@ const CommentChatBox = (props: {
 
   async function handleActionComment(comment: IComment, action: ActionType) {
     try {
-      console.log("handleActionComment", comment, action);
+      console.log("handleActionComment", comment);
       const funcName =
         props.chatBox.productType === MediaProductType.Live
           ? "SendInternalLiveCommentAction"
@@ -581,8 +581,9 @@ const CommentChatBox = (props: {
       setSeenItem(seenComments);
     }
     return () => {
+      if (props.chatBox.unSeenCount === 0) return;
       const seenComments = props.chatBox.comments
-        .filter((item) => item.createdTime > props.chatBox.lastSeenUnix)
+        .filter((item) => !item.sentByOwner)
         .sort((a, b) => a.createdTime - b.createdTime)[0];
       console.log("seencommnets", seenComments);
       if (!seenComments) return;
