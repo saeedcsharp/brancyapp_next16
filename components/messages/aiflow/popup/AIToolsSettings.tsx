@@ -266,9 +266,9 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
         <React.Fragment key={index}>
           <div className="headerandinput">
             <div className="title"> {getDisplayName(item)}</div>
-            <div className="explain" style={{ whiteSpace: "pre-line" }}>
+            {/* <div className="explain" style={{ whiteSpace: "pre-line" }}>
               {getDescription(item)}
-            </div>
+            </div> */}
           </div>
           <div className={styles.container}>
             <div className="explain" style={{ whiteSpace: "pre-line" }}>
@@ -321,18 +321,6 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
                 {item.tokenUsage}
               </div>
             </div>
-            {/* <div className="headerandinput">
-              <div className="title2">{t(LanguageKey.tool_how_use)}</div>
-              <div className="explain" style={{ whiteSpace: "pre-line" }}>
-                {getHowUse(item)}
-              </div>
-            </div>
-            <div className="headerandinput">
-              <div className="title2">{t(LanguageKey.tool_how_work)}</div>
-              <div className="explain" style={{ whiteSpace: "pre-line" }}>
-                {getHowWork(item)}
-              </div>
-            </div> */}
           </div>
 
           <div className="ButtonContainer" role="group">

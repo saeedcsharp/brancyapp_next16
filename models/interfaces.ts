@@ -435,6 +435,15 @@ export interface ITotalPrompt {
 
 export interface IDetailPrompt extends ITotalPrompt {
   promptStr: string;
+  tools: {
+    toolId: number | string;
+    parameters:
+      | {
+          name: string;
+          value: string;
+        }[]
+      | null;
+  }[];
 }
 
 export interface IPrompts {

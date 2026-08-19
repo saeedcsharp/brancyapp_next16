@@ -76,6 +76,8 @@ The sender-username mention entry is a prompt placeholder rather than an `ITool`
 
 `aiflow/aiPromptBox.tsx` displays each AI tool's localized `displayName*` field according to the active i18next locale, using German text for `gr` and falling back to English or the tool name when a localized value is unavailable.
 
+When `aiflow/aiPromptBox.tsx` loads an existing prompt through `GetPrompt`, it synchronizes the response `tools` into the parent tool state by `toolId`; nullable API parameters are normalized to empty arrays so the matching tool option is shown as selected.
+
 `aiflow/flow.tsx` reports successful toolbar saves to `FlowAndAIInbox` only for `newFlow`. The parent adopts the returned master-flow record and selects its ID, causing the editor to reload through `GetMasterFlow`; existing-flow toolbar saves do not request an additional reload.
 
 `popups/sendFile.tsx` and `popups/sendVideoFile.tsx` use the shared `UploadFile` helper for progress-aware uploads, so direct-message image and video URLs are released only after the global one-second media-availability delay.

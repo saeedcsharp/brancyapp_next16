@@ -80,6 +80,7 @@ const AIPromptBox = ({
     fbId: "",
     promptId: "",
     promptStr: "",
+    tools: [],
     reNewForThread: false,
     shouldFollower: false,
     title: "",
@@ -184,6 +185,12 @@ const AIPromptBox = ({
         if (!signal?.aborted) {
           if (res.succeeded) {
             setDetailedPrompt(res.value);
+            setTools(
+              (res.value.tools ?? []).map((tool) => ({
+                toolId: String(tool.toolId),
+                parameters: tool.parameters ?? [],
+              })),
+            );
             const hasAnalysis = res.value.customPromptAnalysis !== null;
             setAdvancePrompt(hasAnalysis);
             setPromptMode(hasAnalysis ? "analysis" : "manual");
@@ -301,6 +308,7 @@ const AIPromptBox = ({
         fbId: "",
         promptId: "",
         promptStr: "",
+        tools: [],
         reNewForThread: false,
         shouldFollower: false,
         title: "",
