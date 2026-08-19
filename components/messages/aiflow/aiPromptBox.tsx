@@ -44,6 +44,7 @@ const AIPromptBox = ({
   tools,
   setTools,
   setShowNotFeature,
+  openPromptAnalysisModal,
 }: {
   aiTools: IAITools[];
   userSelectId: string | null;
@@ -62,6 +63,7 @@ const AIPromptBox = ({
   tools: ITool[];
   setTools: React.Dispatch<React.SetStateAction<ITool[]>>;
   setShowNotFeature: (value: boolean) => void;
+  openPromptAnalysisModal: (initialText: string, onAccept: (text: string) => void, onClose: () => void) => void;
 }) => {
   const { data: session } = useSession({
     required: true,
@@ -251,47 +253,67 @@ const AIPromptBox = ({
       setUpdateLoading(false);
     }
   }, [session, detailedPrompt, advancePrompt, userSelectId, updateAIPrompt, setShowAIToolsSettings, tools]);
-  const handleGetPromptAnalysis = useCallback(async () => {
-    const hasAccess = await fetchAndCheckFeature(PsgFeatureType.AI, session);
-    if (!hasAccess) {
-      setShowNotFeature(true);
-      return;
-    }
-    setDetailedPrompt((prev) => ({ ...prev, customPromptAnalysis: null }));
-    setLoadingPromptAnalysis(true);
-    setShowAnalysisContent(false);
-    startTransition(async () => {
-      try {
-        const res = await clientFetchApi<string, IAnalysisPrompt>("/api/ai/GetPromptAnalysis", {
-          methodType: MethodType.post,
-          session: session,
-          data: { str: detailedPrompt.promptStr },
-          queries: undefined,
-          onUploadProgress: undefined,
-        });
-        if (res.succeeded) {
-          setDetailedPrompt((prev) => ({
-            ...prev,
-            customPromptAnalysis: res.value,
-          }));
-          // show content with a tiny delay to allow CSS transitions
-          setTimeout(() => setShowAnalysisContent(true), 5);
-        } else {
-          notify(res.info.responseType, NotifType.Warning);
+  const handleGetPromptAnalysis = useCallback(
+    async (promptText = detailedPrompt.promptStr) => {
+      const hasAccess = await fetchAndCheckFeature(PsgFeatureType.AI, session);
+      if (!hasAccess) {
+        setShowNotFeature(true);
+        return;
+      }
+      setDetailedPrompt((prev) => ({ ...prev, customPromptAnalysis: null }));
+      setLoadingPromptAnalysis(true);
+      setShowAnalysisContent(false);
+      startTransition(async () => {
+        try {
+          const res = await clientFetchApi<string, IAnalysisPrompt>("/api/ai/GetPromptAnalysis", {
+            methodType: MethodType.post,
+            session: session,
+            data: { str: promptText },
+            queries: undefined,
+            onUploadProgress: undefined,
+          });
+          if (res.succeeded) {
+            setDetailedPrompt((prev) => ({
+              ...prev,
+              customPromptAnalysis: res.value,
+            }));
+            // show content with a tiny delay to allow CSS transitions
+            setTimeout(() => setShowAnalysisContent(true), 5);
+          } else {
+            notify(res.info.responseType, NotifType.Warning);
+            setPromptMode("manual");
+            setAdvancePrompt(false);
+            setShowAnalysisContent(false);
+          }
+        } catch (error) {
+          notify(ResponseType.Unexpected, NotifType.Error);
           setPromptMode("manual");
           setAdvancePrompt(false);
           setShowAnalysisContent(false);
+        } finally {
+          setLoadingPromptAnalysis(false);
         }
-      } catch (error) {
-        notify(ResponseType.Unexpected, NotifType.Error);
-        setPromptMode("manual");
-        setAdvancePrompt(false);
-        setShowAnalysisContent(false);
-      } finally {
-        setLoadingPromptAnalysis(false);
-      }
-    });
-  }, [session, detailedPrompt.promptStr, startTransition]);
+      });
+    },
+    [session, detailedPrompt.promptStr, startTransition],
+  );
+
+  const acceptPromptAnalysis = useCallback(
+    (promptAnalysisText: string) => {
+      setDetailedPrompt((prev) => ({
+        ...prev,
+        promptStr: promptAnalysisText,
+      }));
+      handleGetPromptAnalysis(promptAnalysisText);
+    },
+    [handleGetPromptAnalysis],
+  );
+
+  const closePromptAnalysisModal = useCallback(() => {
+    setPromptMode("manual");
+    setAdvancePrompt(false);
+    setShowAnalysisContent(false);
+  }, []);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -470,16 +492,7 @@ const AIPromptBox = ({
                         }}
                       />
 
-                      <div
-                        style={{ transition: "var(--transition3)" }}
-                        className={
-                          detailedPrompt.promptStr
-                            .trim()
-                            .split(/\s+/)
-                            .filter((word) => word.length > 0).length < 2 || detailedPrompt.promptStr.length <= 20
-                            ? "fadeDiv"
-                            : ""
-                        }>
+                      <div style={{ transition: "var(--transition3)" }}>
                         <RadioButton
                           name="promptMode"
                           id={analysisModeId}
@@ -490,9 +503,11 @@ const AIPromptBox = ({
                               setPromptMode("analysis");
                               setAdvancePrompt(true);
                               setShowAnalysisContent(false);
-                              if (detailedPrompt.promptStr.length > 0) {
-                                handleGetPromptAnalysis();
-                              }
+                              openPromptAnalysisModal(
+                                detailedPrompt.promptStr,
+                                acceptPromptAnalysis,
+                                closePromptAnalysisModal,
+                              );
                             }
                           }}
                         />
@@ -600,7 +615,7 @@ const AIPromptBox = ({
                           {promptMode === "analysis" && !loadingPromptAnalysis && (
                             <button
                               className={styles.reanalize}
-                              onClick={handleGetPromptAnalysis}
+                              onClick={() => handleGetPromptAnalysis()}
                               onKeyDown={(e) => e.key === "Enter" && handleGetPromptAnalysis()}
                               aria-label="Reanalyze prompt"
                               type="button">

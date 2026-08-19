@@ -2640,6 +2640,7 @@ export default {
     testlab: "Test Lab",
     promptmode: "Prompt Mode",
     promptanalysis: "Prompt Analysis",
+    promptanalysisplaceholder: "Enter at least 20 characters for prompt analysis",
     reanalyze: "Reanalyze",
     shouldFollowerexplain: "Replies are sent only to users who follow you",
     RenewForThread: "Renew Conversation Flow",

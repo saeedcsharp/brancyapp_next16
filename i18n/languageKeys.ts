@@ -2248,6 +2248,7 @@ export enum LanguageKey {
   livetest = "livetest",
   promptmode = "promptmode",
   promptanalysis = "promptanalysis",
+  promptanalysisplaceholder = "promptanalysisplaceholder",
   reanalyze = "reanalyze",
   shouldFollowerexplain = "shouldFollowerexplain",
   RenewForThread = "RenewForThread",

@@ -2596,6 +2596,7 @@ export default {
     testlab: "آزمایشگاه",
     promptmode: "حالت پرامپت",
     promptanalysis: "تحلیل پرامپت",
+    promptanalysisplaceholder: "برای تحلیل پرامپت حداقل ۲۰ کاراکتر وارد کنید",
     promptanalysisexplain: "برنسی پرامپت شما را تحلیل می‌کند و بهترین تنظیمات را برای پاسخگویی هوشمند پیشنهاد می‌دهد",
 
     reanalyze: "تحلیل مجدد",

@@ -2637,6 +2637,7 @@ export default {
     testlab: "Test Laboratuvarı",
     promptmode: "Prompt Modu",
     promptanalysis: "Prompt Analizi",
+    promptanalysisplaceholder: "Prompt analizi için en az 20 karakter girin",
     reanalyze: "Yeniden Analiz Et",
     shouldFollowerexplain: "Yanıtlar yalnızca sizi follow eden kullanıcılara gönderilir",
     RenewForThread: "Konuşma Flow’unu Yenile",

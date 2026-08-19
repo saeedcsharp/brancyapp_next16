@@ -15,6 +15,9 @@
 - Localized AI tool option names in the prompt box using each tool's `displayName*` field and the active i18next locale, with German text for `gr` and English/name fallbacks.
 - Localized AI tool titles and complete descriptions in the tool settings popup using the model's `displayName*` and `completeDescription*` fields for the active locale.
 - Existing AI prompts now restore their selected tools from the `GetPrompt` response, including `toolId` values with nullable parameters.
+- Changed AI Prompt Analysis selection to always remain available. It now opens a shared textarea modal, enables Accept only after more than 20 characters are entered, and calls `GetPromptAnalysis` with the accepted text; Close leaves the existing prompt unchanged.
+- Moved the Prompt Analysis modal ownership from `aiPromptBox.tsx` to `flowAndAIInBox.tsx`, alongside the other page-level modals, while retaining the child prompt update and API callback behavior.
+- Added the localized `promptanalysisplaceholder` text in all eight supported languages, including the 20-character minimum required for analysis.
 
 - Highlighted the currently selected Instagram account in the account switcher and added its accessible `aria-pressed` state.
 - Prevented the upgrade page from reloading package details, reserve prices, and package prices during the session update that starts an account switch; navigation now proceeds without the unnecessary three-request cycle.

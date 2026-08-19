@@ -2696,6 +2696,7 @@ export default {
     testlab: "Testlabor",
     promptmode: "Prompt-Modus",
     promptanalysis: "Prompt-Analyse",
+    promptanalysisplaceholder: "Geben Sie mindestens 20 Zeichen für die Prompt-Analyse ein",
     reanalyze: "Erneut analysieren",
     shouldFollowerexplain: "Antworten werden nur an Benutzer gesendet, die Ihnen follow",
     RenewForThread: "Konversations-Flow erneuern",

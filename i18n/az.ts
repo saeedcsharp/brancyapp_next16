@@ -2595,6 +2595,7 @@ export default {
     testlab: "Test Laboratoriyası",
     promptmode: "Prompt Rejimi",
     promptanalysis: "Prompt Analizi",
+    promptanalysisplaceholder: "Prompt analizi üçün ən azı 20 simvol daxil edin",
     reanalyze: "Yenidən Analiz Et",
     shouldFollowerexplain: "Cavablar yalnız sizi follow edən istifadəçilərə göndərilir",
     RenewForThread: "Danışıq Flow-unu Yenilə",

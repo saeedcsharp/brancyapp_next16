@@ -2548,6 +2548,7 @@ export default {
     testlab: "مختبر الاختبار",
     promptmode: "وضع البرومبت",
     promptanalysis: "تحليل البرومبت",
+    promptanalysisplaceholder: "أدخل 20 حرفًا على الأقل لتحليل البرومبت",
     reanalyze: "إعادة التحليل",
     shouldFollowerexplain: "يتم إرسال الرد فقط إلى المستخدمين الذين قاموا بمتابعتك",
     RenewForThread: "تجديد تدفق المحادثة",

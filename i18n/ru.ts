@@ -2670,6 +2670,7 @@ export default {
     testlab: "Тестовая лаборатория",
     promptmode: "Режим Prompt",
     promptanalysis: "Анализ Prompt",
+    promptanalysisplaceholder: "Введите не менее 20 символов для анализа Prompt",
     reanalyze: "Повторный анализ",
     shouldFollowerexplain: "Ответы отправляются только пользователям, которые follow вас",
     RenewForThread: "Обновить поток диалога",
