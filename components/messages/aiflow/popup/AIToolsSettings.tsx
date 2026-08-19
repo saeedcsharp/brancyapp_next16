@@ -11,6 +11,22 @@ interface AITool {
   name: string;
   description: string;
   completeDescription: string;
+  completeDescriptionEn: string;
+  completeDescriptionRu: string;
+  completeDescriptionFa: string;
+  completeDescriptionDe: string;
+  completeDescriptionTr: string;
+  completeDescriptionAz: string;
+  completeDescriptionAr: string;
+  completeDescriptionFr: string;
+  displayNameEn: string;
+  displayNameFa: string;
+  displayNameRu: string;
+  displayNameDe: string;
+  displayNameTr: string;
+  displayNameAz: string;
+  displayNameAr: string;
+  displayNameFr: string;
   tokenUsage: number;
   parameters: AIToolParameter[];
   toolType: ToolType;
@@ -68,6 +84,22 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
     name: "SENDER_USERNAME",
     description: "Use username in your prompt",
     completeDescription: "Use username in your prompt",
+    completeDescriptionEn: "",
+    completeDescriptionRu: "",
+    completeDescriptionFa: "",
+    completeDescriptionDe: "",
+    completeDescriptionTr: "",
+    completeDescriptionAz: "",
+    completeDescriptionAr: "",
+    completeDescriptionFr: "",
+    displayNameEn: "",
+    displayNameFa: "",
+    displayNameRu: "",
+    displayNameDe: "",
+    displayNameTr: "",
+    displayNameAz: "",
+    displayNameAr: "",
+    displayNameFr: "",
     tokenUsage: 0,
     parameters: [],
     toolType: ToolType.SendTelegramMessage,
@@ -123,13 +155,6 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
     onClose();
   };
 
-  // متن دلخواه
-  const nameMap: Record<string, string> = {
-    send_sms_ir_code: LanguageKey.sendsms,
-    send_to_telegram: LanguageKey.sendtotelegram,
-    SENDER_USERNAME: LanguageKey.senderusername,
-  };
-
   const overrideContentMap: Record<
     string,
     {
@@ -162,9 +187,23 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
   };
 
   // 👇 مهم: اینجا t() اضافه شد
-  const getDisplayName = (name: string) => {
-    const key = nameMap[name];
-    return key ? t(key) : name;
+  const getDisplayName = (item: AITool) => {
+    if (item.name === "SENDER_USERNAME") return t(LanguageKey.senderusername);
+
+    const language = (i18n.language ?? "en").split("-")[0].toLowerCase();
+    const displayNames: Record<string, string> = {
+      en: item.displayNameEn,
+      ru: item.displayNameRu,
+      fa: item.displayNameFa,
+      de: item.displayNameDe,
+      gr: item.displayNameDe,
+      tr: item.displayNameTr,
+      az: item.displayNameAz,
+      ar: item.displayNameAr,
+      fr: item.displayNameFr,
+    };
+
+    return displayNames[language] || item.displayNameEn || item.name;
   };
 
   const getDescription = (item: any) => {
@@ -174,9 +213,24 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
   };
 
   const getCompleteDescription = (item: any) => {
-    const key = overrideContentMap[item.name]?.completeDescription ?? item.completeDescription;
+    if (item.name === "SENDER_USERNAME") {
+      return t(overrideContentMap[item.name].completeDescription);
+    }
 
-    return t(key);
+    const language = (i18n.language ?? "en").split("-")[0].toLowerCase();
+    const descriptions: Record<string, string> = {
+      en: item.completeDescriptionEn,
+      ru: item.completeDescriptionRu,
+      fa: item.completeDescriptionFa,
+      de: item.completeDescriptionDe,
+      gr: item.completeDescriptionDe,
+      tr: item.completeDescriptionTr,
+      az: item.completeDescriptionAz,
+      ar: item.completeDescriptionAr,
+      fr: item.completeDescriptionFr,
+    };
+
+    return descriptions[language] || item.completeDescriptionEn || item.completeDescription;
   };
 
   const getHowWork = (item: any) => {
@@ -211,7 +265,7 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
       {toolsToDisplay.map((item, index) => (
         <React.Fragment key={index}>
           <div className="headerandinput">
-            <div className="title"> {getDisplayName(item.name)}</div>
+            <div className="title"> {getDisplayName(item)}</div>
             <div className="explain" style={{ whiteSpace: "pre-line" }}>
               {getDescription(item)}
             </div>

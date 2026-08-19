@@ -66,6 +66,8 @@ React components are present when the folder contains `.tsx` UI files.
 
 `aiflow/popup/AIToolsSettings.tsx` selects each tool parameter's `completeDescription*` field from the active i18next locale. The model's German description serves the `gr` locale, while French and unknown locales fall back to English and then the legacy `description` field.
 
+The same popup selects tool titles from `displayName*` and complete tool explanations from `completeDescription*` using the active locale, with German used for `gr` and English/legacy fallbacks when values are unavailable.
+
 The same popup shows and enables `addTools` for tools with no parameters; parameterized tools still require all required manual values before they can be added.
 
 The sender-username mention entry is a prompt placeholder rather than an `ITool`. In manual mode, selecting it inserts `[SENDER_USERNAME]` into the prompt textbox through `onAddToPrompt`, closes the popup, and never adds it to or inherits state from the selected tools collection. The entry remains visible but is non-focusable and disabled in prompt-analysis mode.
