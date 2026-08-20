@@ -11,6 +11,7 @@
 
 - Add component coverage for AI tool parameter description selection across supported locales, including German `gr`, French English fallback, missing localized values, and legacy `description` fallback when a UI test harness is introduced.
 - Add component/browser coverage for the AI Prompt Analysis modal, including always-enabled radio selection, 20-character Accept validation, Close preserving the existing prompt, accepted-text propagation, and `GetPromptAnalysis` request behavior when a UI test harness is introduced.
+- Add component coverage for the AI Prompt Analysis availability gate, including `HasPageAnalysis` true/false responses, request failures, modal suppression, and the localized warning when a UI test harness is introduced.
 - Add component coverage confirming the sender-username mention inserts `[SENDER_USERNAME]` into the manual prompt, closes the popup, never calls or inherits state from selected tools, and is non-focusable and disabled in analysis mode.
 
 ## Pending Documentation Tasks

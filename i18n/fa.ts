@@ -3340,6 +3340,7 @@ export default {
     InternalNotify_NotFeature: "این قابلیت برای شما فعال نیست",
     InternalNotify_ExceedBasefeatureTime: "مدت زمان استفاده از ویژگی پایه از حد مجاز بیشتر است",
     InternalNotify_ChannelIdNotStartedWithUC: "شناسه کانال باید با 'UC' شروع شود",
+    InternalNotify_PageAnalysisNotCompleted: "متأسفانه تحلیل صفحه شما هنوز توسط هوش مصنوعی انجام نشده است",
     JustCreated: "تیکت ثبت شده",
     AdminReplied: "پشتیبانی پاسخ داده",
     UserReplied: "کاربر پاسخ داده",

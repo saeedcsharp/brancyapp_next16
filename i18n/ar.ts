@@ -3260,6 +3260,7 @@ export default {
     InternalNotify_NotFeature: "هذه الميزة غير متاحة لحسابك",
     InternalNotify_ExceedBasefeatureTime: "وقت استخدام الميزة الأساسية تجاوز الحد المسموح",
     InternalNotify_ChannelIdNotStartedWithUC: "يجب أن يبدأ معرف القناة بـ 'UC'",
+    InternalNotify_PageAnalysisNotCompleted: "للأسف، لم يتم تحليل صفحتك بواسطة الذكاء الاصطناعي بعد",
     JustCreated: "تم تسجيل التذكرة",
     AdminReplied: "قام الدعم بالرد",
     UserReplied: "قام المستخدم بالرد",

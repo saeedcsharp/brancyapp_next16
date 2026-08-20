@@ -3364,6 +3364,7 @@ export default {
     InternalNotify_NotFeature: "You have problem in features",
     InternalNotify_ExceedBasefeatureTime: "It is more than the base feature time",
     InternalNotify_ChannelIdNotStartedWithUC: "Channel ID must start with 'UC'",
+    InternalNotify_PageAnalysisNotCompleted: "Unfortunately, your page has not been analyzed by AI yet",
     JustCreated: "Ticket has been registered",
     AdminReplied: "Support has replied",
     UserReplied: "User has replied",

@@ -1,3 +1,5 @@
+- Gated AI Prompt Analysis modal opening behind `Instagramer/AI/HasPageAnalysis`; pages without a completed AI analysis now receive a localized internal warning.
+
 - Added API-backed coupon search with the `query` parameter, loading feedback while results refresh, normal pagination restoration when cleared, and pagination disabled during search.
 - Debounced coupon search requests by 400 milliseconds to avoid one server request per typed character.
 - Cached the normal coupon list per filter combination so clearing search does not issue a redundant API request.

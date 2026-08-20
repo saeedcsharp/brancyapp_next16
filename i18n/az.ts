@@ -3317,6 +3317,7 @@ export default {
     InternalNotify_NotFeature: "Bu xüsusiyyət sizin paketinizdə mövcud deyil",
     InternalNotify_ExceedBasefeatureTime: "Əsas xüsusiyyətin müddəti icazə verilən həddi keçib",
     InternalNotify_ChannelIdNotStartedWithUC: "Channel ID 'UC' ilə başlamalıdır",
+    InternalNotify_PageAnalysisNotCompleted: "Təəssüf ki, səhifəniz hələ süni intellekt tərəfindən analiz edilməyib",
     JustCreated: "Tiket qeyd olunub",
     AdminReplied: "Dəstək cavab verib",
     UserReplied: "İstifadəçi cavab verib",

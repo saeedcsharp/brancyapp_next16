@@ -3397,6 +3397,7 @@ export default {
     InternalNotify_NotFeature: "Эта функция недоступна",
     InternalNotify_ExceedBasefeatureTime: "Время превышает допустимый лимит",
     InternalNotify_ChannelIdNotStartedWithUC: "ID канала должен начинаться с 'UC'",
+    InternalNotify_PageAnalysisNotCompleted: "К сожалению, ваша страница еще не была проанализирована ИИ",
     JustCreated: "Тикет зарегистрирован",
     AdminReplied: "Поддержка ответила",
     UserReplied: "Пользователь ответил",

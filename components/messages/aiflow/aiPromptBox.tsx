@@ -315,6 +315,30 @@ const AIPromptBox = ({
     setShowAnalysisContent(false);
   }, []);
 
+  const handlePromptAnalysisSelection = useCallback(async () => {
+    try {
+      const res = await clientFetchApi<boolean, boolean>("/api/ai/HasPageAnalysis", {
+        methodType: MethodType.get,
+        session,
+        data: null,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
+
+      if (res.succeeded && res.value === true) {
+        setPromptMode("analysis");
+        setAdvancePrompt(true);
+        setShowAnalysisContent(false);
+        openPromptAnalysisModal(detailedPrompt.promptStr, acceptPromptAnalysis, closePromptAnalysisModal);
+        return;
+      }
+
+      internalNotify(InternalResponseType.PageAnalysisNotCompleted, NotifType.Warning);
+    } catch {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    }
+  }, [acceptPromptAnalysis, closePromptAnalysisModal, detailedPrompt.promptStr, openPromptAnalysisModal, session]);
+
   useEffect(() => {
     const abortController = new AbortController();
     if (userSelectId) {
@@ -500,14 +524,7 @@ const AIPromptBox = ({
                           textlabel={t(LanguageKey.promptanalysis)}
                           handleOptionChanged={(e) => {
                             if (e.target.checked) {
-                              setPromptMode("analysis");
-                              setAdvancePrompt(true);
-                              setShowAnalysisContent(false);
-                              openPromptAnalysisModal(
-                                detailedPrompt.promptStr,
-                                acceptPromptAnalysis,
-                                closePromptAnalysisModal,
-                              );
+                              void handlePromptAnalysisSelection();
                             }
                           }}
                         />

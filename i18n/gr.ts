@@ -3431,6 +3431,7 @@ export default {
     InternalNotify_NotFeature: "Dieses Feature ist in Ihrem aktuellen Plan nicht enthalten",
     InternalNotify_ExceedBasefeatureTime: "Die maximale Zeit für diese Basisfunktion wurde überschritten",
     InternalNotify_ChannelIdNotStartedWithUC: "Channel ID muss mit 'UC' beginnen",
+    InternalNotify_PageAnalysisNotCompleted: "Leider wurde Ihre Seite noch nicht von der KI analysiert",
     JustCreated: "Ticket wurde registriert",
     AdminReplied: "Der Support hat geantwortet",
     UserReplied: "Der Benutzer hat geantwortet",

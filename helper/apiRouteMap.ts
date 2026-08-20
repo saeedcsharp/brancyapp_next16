@@ -27,6 +27,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/ai/createPrompt": "Instagramer/AI/CreatePrompt",
   "/api/ai/getPrompt": "Instagramer/AI/GetPrompt",
   "/api/ai/getPromptAnalysis": "Instagramer/AI/GetPromptAnalysis",
+  "/api/ai/hasPageAnalysis": "Instagramer/AI/HasPageAnalysis",
   "/api/ai/getPrompts": "Instagramer/AI/GetPrompts",
   "/api/ai/getTools": "Instagramer/AI/GetTools",
   "/api/ai/sendTestMessage": "Instagramer/AI/SendTestMessage",

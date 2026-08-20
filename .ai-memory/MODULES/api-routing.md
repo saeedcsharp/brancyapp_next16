@@ -78,6 +78,8 @@ Image history maps `/api/mediaai/getImages` to `Instagramer/MediaAi/GetImages`. 
 Video history maps `/api/mediaai/getVideos` to `Instagramer/MediaAi/GetVideos`. The AI landing page uses the same successful-status filter and cursor pagination contract as image history, returning `items` with `videoUrl` media paths.
 Media creation submits the shared creator payload to `/api/mediaai/createImage` or `/api/mediaai/createVideo` based on the active creation tab, with the generated `clientContext` query used for notification correlation.
 
+AI Prompt Analysis availability uses `/api/ai/hasPageAnalysis`, mapped to `Instagramer/AI/HasPageAnalysis`; the Prompt Analysis modal must remain closed unless the endpoint returns `value: true`.
+
 ## Providers
 
 Providers are documented where the module defines React providers.

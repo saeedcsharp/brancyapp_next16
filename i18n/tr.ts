@@ -3356,6 +3356,7 @@ export default {
     InternalNotify_NotFeature: "Bu özellik mevcut değil",
     InternalNotify_ExceedBasefeatureTime: "Temel özellik süresi aşıldı",
     InternalNotify_ChannelIdNotStartedWithUC: "Channel ID 'UC' ile başlamalı",
+    InternalNotify_PageAnalysisNotCompleted: "Ne yazık ki sayfanız henüz yapay zeka tarafından analiz edilmedi",
     JustCreated: "Destek talebi kaydedildi",
     AdminReplied: "Destek yanıt vermiş",
     UserReplied: "Kullanıcı yanıt vermiş",

@@ -59,6 +59,7 @@ AI tool parameter placeholders now select the localized `completeDescription*` m
 AI prompt tool options now select each tool's localized `displayName*` field from the active i18next locale, with German used for `gr` and English/name fallbacks.
 AI tools without parameters now display an enabled `addTools` action and are added with an empty parameter list.
 Prompt Analysis in the AI flow is always selectable. `FlowAndAIInBox` owns the shared confirmation modal and controlled textarea; text must exceed 20 characters before Accept updates the child prompt and calls `GetPromptAnalysis`, while Close leaves the existing prompt unchanged.
+Prompt Analysis now checks `/api/ai/HasPageAnalysis` before opening. The shared modal opens only when the page analysis exists; otherwise the localized `InternalNotify_PageAnalysisNotCompleted` warning is shown.
 The sender-username mention is excluded from selected AI tools and inserts `[SENDER_USERNAME]` directly into the prompt textbox in manual mode; it is visible but disabled in prompt-analysis mode.
 Selected AI tools are highlighted directly in the existing clickable tool-options row below the prompt editor in both manual and analysis modes. Their plus icon becomes an accessible remove button, and no separate selected-tool list is rendered.
 

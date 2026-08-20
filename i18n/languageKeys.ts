@@ -2979,6 +2979,7 @@ export enum LanguageKey {
   InternalNotify_NotFeature = "InternalNotify_NotFeature",
   InternalNotify_ExceedBasefeatureTime = "InternalNotify_ExceedBasefeatureTime",
   InternalNotify_ChannelIdNotStartedWithUC = "InternalNotify_ChannelIdNotStartedWithUC",
+  InternalNotify_PageAnalysisNotCompleted = "InternalNotify_PageAnalysisNotCompleted",
   usersettingexplain = "usersettingexplain",
   Responded = "Responded",
   Nodetutorial = "Nodetutorial",

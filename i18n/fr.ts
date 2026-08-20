@@ -3452,6 +3452,7 @@ export default {
     InternalNotify_NotFeature: "Cette fonctionnalité n'est pas disponible pour votre compte",
     InternalNotify_ExceedBasefeatureTime: "Le temps de base de cette fonctionnalité a été dépassé",
     InternalNotify_ChannelIdNotStartedWithUC: "L'ID de la chaîne doit commencer par 'UC'",
+    InternalNotify_PageAnalysisNotCompleted: "Malheureusement, votre page n'a pas encore été analysée par l'IA",
     JustCreated: "Le ticket a été enregistré",
     AdminReplied: "Le support a répondu",
     UserReplied: "L’utilisateur a répondu",

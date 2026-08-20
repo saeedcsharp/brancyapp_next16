@@ -76,6 +76,8 @@ The sender-username mention entry is a prompt placeholder rather than an `ITool`
 
 `aiflow/aiPromptBox.tsx` keeps the Prompt Analysis radio option enabled regardless of the current prompt length and delegates modal ownership to `aiflow/flowAndAIInBox.tsx`. The parent renders the shared modal with a controlled `TextArea`; Accept remains disabled until the text is longer than 20 characters, then calls the child callback to update the prompt and request `GetPromptAnalysis`. Close dismisses the modal without changing the prompt.
 
+Before opening the Prompt Analysis modal, `aiflow/aiPromptBox.tsx` requests `/api/ai/HasPageAnalysis`. The modal opens only when the authenticated backend response value is `true`; otherwise it shows the localized `InternalNotify_PageAnalysisNotCompleted` warning.
+
 `aiflow/aiPromptBox.tsx` displays each AI tool's localized `displayName*` field according to the active i18next locale, using German text for `gr` and falling back to English or the tool name when a localized value is unavailable.
 
 When `aiflow/aiPromptBox.tsx` loads an existing prompt through `GetPrompt`, it synchronizes the response `tools` into the parent tool state by `toolId`; nullable API parameters are normalized to empty arrays so the matching tool option is shown as selected.
