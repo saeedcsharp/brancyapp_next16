@@ -679,7 +679,7 @@ export default {
     navbar_Title: "Başlıq",
     priceHistory: "Qiymət tarixi",
     navbar_Home: "Ana səhifə",
-    navbar_MyLink: "Mənim linkim",
+    navbar_Biolink: "Mənim linkim",
     navbar_Calendar: "Təqvim",
     navbar_AdList: "Reklam siyahısı",
     navbar_General: "Ümumi",

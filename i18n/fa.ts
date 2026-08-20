@@ -686,7 +686,7 @@ export default {
     navbar_Title: "عنوان",
     priceHistory: "تاریخچه قیمت",
     navbar_Home: "خانه",
-    navbar_MyLink: "لینک من",
+    navbar_Biolink: "لینک من",
     navbar_Calendar: "تقویم",
     navbar_AdList: "لیست تبلیغات",
     navbar_General: "عمومی",

@@ -256,7 +256,7 @@ export enum LanguageKey {
   navbar_Payment = "navbar_Payment",
   navbar_Title = "navbar_Title",
   navbar_Home = "navbar_Home",
-  navbar_MyLink = "navbar_MyLink",
+  navbar_Biolink = "navbar_Biolink",
   navbar_Properties = "navbar_Properties",
   navbar_AIAndFlow = "navbar_AIAndFlow",
   navbar_Calendar = "navbar_Calendar",

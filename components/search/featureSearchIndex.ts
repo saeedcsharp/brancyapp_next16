@@ -418,7 +418,7 @@ const featureSearchDefinitions: FeatureSearchItem[] = [
   },
   {
     route: "/market/mylink",
-    labelKey: LanguageKey.navbar_MyLink,
+    labelKey: LanguageKey.navbar_Biolink,
     contextKeys: [LanguageKey.sidebar_biolink],
     keywordGroups: ["marketBio", "links"],
     keywords: ["bio link", "link", "لینک من", "لینک بیو"],

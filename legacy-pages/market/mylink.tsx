@@ -407,7 +407,7 @@ const MyLink = () => {
         <Head>
           {" "}
           <meta name="viewport" content="width=device-width, initial-scale=1" />
-          <title>Bran.cy ▸ {t(LanguageKey.navbar_MyLink)}</title>
+          <title>Bran.cy ▸ {t(LanguageKey.navbar_Biolink)}</title>
           <meta name="description" content="Manage your Brancy bio-link content and business profile." />
           <meta name="theme-color" content="#ffffff" />
           <meta name="robots" content="noindex, nofollow" />

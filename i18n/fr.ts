@@ -682,7 +682,7 @@ export default {
     navbar_Payment: "Paiements",
     navbar_Title: "Titre",
     navbar_Home: "Accueil",
-    navbar_MyLink: "Mon lien",
+    navbar_Biolink: "Mon lien",
     navbar_Calendar: "Calendrier",
     navbar_AdList: "Annonces",
     navbar_General: "Général",

@@ -663,7 +663,7 @@ export default {
     navbar_Payment: "المدفوعات",
     navbar_Title: "عنوان",
     navbar_Home: "الرئيسية",
-    navbar_MyLink: "رابطى",
+    navbar_Biolink: "رابطى",
     navbar_Calendar: "التقويم",
     navbar_AdList: "قائمة الإعلانات",
     navbar_General: "عام",

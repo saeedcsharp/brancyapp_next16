@@ -678,7 +678,7 @@ export default {
     navbar_Payment: "Ödemeler",
     navbar_Title: "Başlık",
     navbar_Home: "Anasayfa",
-    navbar_MyLink: "Benim linkim",
+    navbar_Biolink: "Benim linkim",
     navbar_Calendar: "Takvim",
     navbar_AdList: "Reklam Listesi",
     navbar_General: "Genel",

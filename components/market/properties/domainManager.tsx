@@ -362,7 +362,9 @@ const DomainManager = ({
                         handleOptionChanged={handleDomainTypeChange}
                       />
                     </div>
-                    <div className={selectedDomainType !== "custom" ? "fadeDiv" : "headerandinput"}>
+                    <div
+                      className={selectedDomainType !== "custom" ? "fadeDiv" : "headerandinput"}
+                      style={{ marginTop: "10px" }}>
                       {/* step 1 */}
                       {!customeDomain.acceptDomain && !customeDomain.pendingDomain && (
                         <>
@@ -432,7 +434,7 @@ const DomainManager = ({
                         </ol>
                       )}
                       {/* pendingDomain */}
-                      {customeDomain.pendingDomain && (
+                      {selectedDomainType === "custom" && customeDomain.pendingDomain && (
                         <div className="headerandinput" style={{ marginTop: "8px" }}>
                           {customeDomain.pendingDomain.nameServers?.length > 0 && (
                             <div className={styles.section1}>

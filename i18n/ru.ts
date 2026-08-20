@@ -676,7 +676,7 @@ export default {
     navbar_Payment: "Платежи",
     navbar_Title: "Заголовок",
     navbar_Home: "Главная",
-    navbar_MyLink: "Моя ссылка",
+    navbar_Biolink: "Моя ссылка",
     navbar_Calendar: "Календарь",
     navbar_AdList: "Список реклам",
     navbar_General: "Общие",
