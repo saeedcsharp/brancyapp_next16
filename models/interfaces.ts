@@ -105,6 +105,7 @@ export interface InstagramerAccountInfo {
   publishPermission: boolean;
   website: string | null;
   biography: string | null;
+  createdTime: number;
 }
 
 export interface IVerifyCode {

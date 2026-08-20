@@ -95,12 +95,7 @@ const IngageInfo = (props: {
   }, [props.data, session]);
   useEffect(() => {
     if (typeof window === "undefined") return;
-    const storedValue = localStorage.getItem(FIRST_LOGIN_KEY);
-    const numericFirstLogin = Number(storedValue);
-    const parsedFirstLogin =
-      storedValue && Number.isFinite(numericFirstLogin) ? numericFirstLogin : Date.parse(storedValue ?? "");
-    const loginTime = parsedFirstLogin > 0 ? parsedFirstLogin : Date.now();
-    if (parsedFirstLogin <= 0) localStorage.setItem(FIRST_LOGIN_KEY, String(loginTime));
+    const loginTime = session?.user.createdTime ? session.user.createdTime * 1000 : Date.now();
     setFirstLoginAt(loginTime);
     setCurrentTime(Date.now());
     const timer = window.setInterval(() => setCurrentTime(Date.now()), 1000);
