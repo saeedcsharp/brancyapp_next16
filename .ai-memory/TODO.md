@@ -7,9 +7,7 @@
 
 # TODO
 
-- Add component/browser coverage for the Instagram connection dialog's invalid-IP ten-second countdown, localized message, single redirect after expiry, and immediate redirect when the IP lookup fails.
-
-- Add component/browser coverage for MyLink shopper products and coupon rendering, including `shopperInfo` mapping, deleted/private filtering, percentage/usage/expiry display, Clipboard API success/failure, and responsive RTL layout when a UI test harness is introduced.
+- Add component/browser coverage for the `/page/tools` `hashtagManager` toggle and collapse interaction, including selected-view mounting, hidden content and row-span changes, saved-list callbacks, trend/search loading, keyboard activation, RTL labels, and mobile layout when a UI test harness is introduced.
 
 - Add component coverage for AI tool parameter description selection across supported locales, including German `gr`, French English fallback, missing localized values, and legacy `description` fallback when a UI test harness is introduced.
 - Add component/browser coverage for the AI Prompt Analysis modal, including always-enabled radio selection, 20-character Accept validation, Close preserving the existing prompt, accepted-text propagation, and `GetPromptAnalysis` request behavior when a UI test harness is introduced.
@@ -45,7 +43,7 @@
 - Add component/browser coverage for IncrementStepper click, keyboard activation, press-and-hold click suppression, direct-entry Enter/blur/Escape behavior, min/max clamping, zero-value decrement feedback, disabled state, forced colors, reduced motion, RTL placement, and mobile/desktop viewport sizing when a UI test harness is introduced.
 - Add component/browser coverage for CheckBoxButton keyboard focus and Space activation, controlled checked/disabled states, ARIA labels, touch targets, reduced motion, forced colors, RTL labels, and mobile viewport layouts when a UI test harness is introduced.
 - Add component/browser coverage for TextArea controlled and uncontrolled values, RTL/LTR direction, pixel- and line-bounded auto-resize including the AI prompt's five-to-ten-line range, Escape handling, forced colors, reduced motion, and focus behavior at iOS Safari and Android Chrome mobile viewport sizes when a UI test harness is introduced.
-- Add component/browser coverage for DotMenu keyboard navigation, focus restoration, Escape/outside-pointer close behavior, long localized labels, RTL placement, reduced motion, forced colors, and narrow viewports when a UI test harness is introduced.
+- Add component/browser coverage for DotMenu keyboard navigation, focus restoration, Escape/outside-pointer close behavior across the body-level portal, fixed viewport placement, long localized labels, RTL placement, reduced motion, forced colors, and narrow viewports when a UI test harness is introduced.
 - Add browser coverage for MyLink product carousel touch scrolling, pointer dragging, horizontal-only overflow, and drag-click suppression when a UI test harness is introduced.
 - Add component coverage confirming store business-hours summaries render all seven weekdays and mark missing backend days as closed when a UI test harness is introduced.
 - Add browser coverage for MyLink FeatureBox free-mode scrolling, pointer dragging, horizontal-only overflow, responsive sizing, and drag-click suppression when a UI test harness is introduced.

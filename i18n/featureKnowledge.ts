@@ -72,7 +72,7 @@ const recordsEn = {
   hashtagTools: {
     title: "Hashtag lists and analysis tools",
     description:
-      "Create and maintain hashtag lists, inspect trend or searched hashtags, and use image or public-page hashtag analysis where the backend returns data.",
+      "Manage saved, searched, and trending hashtags together in one workspace with separate tabs, and use image or public-page hashtag analysis where the backend returns data.",
   },
   winnerPicker: {
     title: "Winner picker and lottery workflow",
@@ -635,7 +635,7 @@ export const featureKnowledgeFa = {
     },
     hashtagTools: {
       title: "ابزار برچسب موضوعی",
-      description: "برچسب‌های موضوعی را پیدا و دسته‌بندی کنید و ببینید کدام‌ها بیشتر دیده می‌شوند.",
+      description: "فهرست‌ها، جست‌وجو و هشتگ‌های پرطرفدار را در یک بخش و با دو تب جدا مدیریت کنید.",
       descriptionDetail:
         "برای پیدا کردن برچسب مناسب، فهرست‌های خودتان را بسازید و برچسب‌های جست‌وجوشده یا پرطرفدار را بررسی کنید. تحلیل تصویر یا صفحه عمومی، وقتی داده‌اش در دسترس باشد، کمک می‌کند برچسب‌ها را موضوعی‌تر انتخاب و برای محتوای بعدی مرتب کنید.",
     },

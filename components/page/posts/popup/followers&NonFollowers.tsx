@@ -2,7 +2,7 @@ import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
-import IconToggleButton from "brancy/components/design/toggleButton/iconToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./followers&NonFollowers.module.css";
@@ -28,7 +28,7 @@ const FollowersNonFollowers = (props: { removeMask: () => void }) => {
   const { t } = useTranslation();
   return (
     <>
-      <IconToggleButton
+      <ToggleButton
         data={{
           firstToggle: t(LanguageKey.Followers),
           secondToggle: t(LanguageKey.NonFollowers),

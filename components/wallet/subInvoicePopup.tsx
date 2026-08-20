@@ -2,7 +2,7 @@ import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import initialzedTime from "brancy/helper/manageTimer";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
-import IconToggleButton from "brancy/components/design/toggleButton/iconToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import { SubInvoiceItemType, SubInvoiceStatus } from "brancy/models/enums";
 import { IGeneralBallance, IGetSubInvoice, ISubInvoice } from "brancy/models/interfaces";
@@ -274,7 +274,7 @@ export default function SubInvoicesP({
                 </svg>
               </button>
             </div>
-            <IconToggleButton
+            <ToggleButton
               data={{ firstToggle: t("History"), secondToggle: t("Setting") }}
               values={{ firstToggle: t("History"), secondToggle: t("Setting") }}
               dataIcon={tabIcons}

@@ -56,6 +56,8 @@ See related source files for exported functions and local helpers.
 
 React components are present when the folder contains `.tsx` UI files.
 
+`tools/hashtagManager/hashtagManager.tsx` owns the single `hashtagManager` card on `/page/tools`. It uses the shared `ToggleButton` to switch between the saved `Hashtags` view and the `TrendHashtags` view, and owns the card's expanded/collapsed state. The shared header exposes the expanded state through `aria-expanded`, hides the manager content, and changes the masonry row span from `82` to `10` while collapsed. The two hashtag views render their content directly inside this standard manager structure and do not own a card-collapse state.
+
 `tools/popups/lottery/selectPost.tsx` applies `useInfiniteScroll`'s `hasMore` result for every page response. An empty final post page therefore disables further automatic container fetches while retaining the already rendered thumbnails.
 
 `posts/postContent.tsx` displays a compact, non-interactive, accessible shopping-bag SVG badge beside the top post number when its `shopMediaProductType` is `ShopMediaProductType.Instance`, identifying posts that represent a shop product without changing the card's navigation or overflow-menu behavior.

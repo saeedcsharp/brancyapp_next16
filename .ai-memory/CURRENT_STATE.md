@@ -2,6 +2,8 @@
 
 ## Current Architecture
 
+The former icon-specific toggle control has been removed. Toggle tabs now use the shared `components/design/toggleButton/ToggleButton.tsx` control across wallet, event ideas, follower analysis, and the system-design showcase.
+
 The repository is a single Next.js 16 application using React 19, TypeScript strict mode, Sass, CSS modules, NextAuth, next-pwa, and a mixed App Router plus legacy-page bridge. App routes in `app/` commonly import pages from `legacy-pages/` while shared components live in `components/`.
 
 ## Active Features
@@ -70,7 +72,9 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 
 ## Recent Changes
 
-- The authenticated Instagram connection dialog now replaces the Iran IP warning notification with the localized `Notify_IpInvalid` message and a ten-second countdown before redirecting to Instagram. For valid non-Iranian IPs it shows the localized `Notify_InstagramRedirectInTenSeconds` toast and uses the same ten-second automatic redirect. Network errors during the IP check retain the existing immediate redirect behavior.
+- The `/page/tools` `hashtagManager` now owns the card collapse interaction. Activating its shared header hides the manager content and reduces the masonry row span from `82` to `10`; Enter and Space provide the same keyboard behavior.
+
+- Unified the `/page/tools` saved-hashtag and trend/search-hashtag cards into one `hashtagManager` card with the shared `ToggleButton`; only the selected hashtag view mounts, while existing hashtag callbacks and data behavior remain unchanged.
 
 - Added a prioritized home profile status slideshow. It shows all currently active statuses, ordered from priority `1` through `10`, with previous/next controls when more than one status applies. The first-login 24-hour synchronization countdown, subscription renewal warning below seven remaining days with a remaining-day count, shopper/influencer role content, and role-upgrade actions remain supported and localized across all eight supported locales.
 
@@ -164,7 +168,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - IncrementStepper values can now be manually edited: digit-only drafts commit on Enter or blur through `onValueChange`, are clamped by optional `min`/`max` props, and Escape restores the current value. All existing consumers provide a compatible callback with their own active quantity limits.
 - Standardized the shared CheckBoxButton while preserving its existing import path and controlled API. The native input remains keyboard-focusable through visual hiding, native accessibility attributes are accepted, `className` and `title` now work, touch targets are at least 44px, and the visual indicator supports focus, disabled, reduced-motion, and forced-colors states.
 - Standardized the shared TextArea around native textarea props while retaining legacy prop aliases for existing consumers. It now applies RTL/LTR direction reliably, supports bounded auto-resize without timer races, uses responsive focus/forced-colors/reduced-motion styles, and enforces a 16px minimum font size to prevent mobile focus zoom.
-- Standardized the shared DotMenu with native button/menu semantics, keyboard navigation, focus restoration, escape and outside-pointer close behavior, responsive touch targets and viewport bounds, RTL-aware placement, reduced-motion and forced-colors support. The legacy DotMenu props remain compatible while standard `options`, `onOptionSelect`, and `placement` props are available.
+- Standardized the shared DotMenu with native button/menu semantics, keyboard navigation, focus restoration, escape and outside-pointer close behavior, responsive touch targets and viewport bounds, RTL-aware placement, body-level portal rendering with fixed viewport coordinates, and reduced-motion and forced-colors support. The legacy DotMenu props remain compatible while standard `options`, `onOptionSelect`, and `placement` props are available.
 - Removed unused MyLink product visibility state, root key, legacy markup styles, and obsolete search/coupon CSS while retaining the active carousel and card styles.
 - Added a static MyLink Products coupon presentation with placeholder countdown values, code `BRANCY20`, and an accessible Clipboard API copy action with temporary confirmation; backend promotion data is still pending.
 - Converted the MyLink product cards into a free horizontal carousel with native touch scrolling, mouse/pointer dragging, no wrapping or scroll snap, and drag-click protection for product links.

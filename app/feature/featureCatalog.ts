@@ -233,7 +233,7 @@ export const featureCatalog: FeatureRecord[] = [
     limitation: "backendDefined",
     contentIdea: "tutorial",
     routes: ["/page/tools"],
-    sourceKinds: ["route", "component", "api", "permission"],
+    sourceKinds: ["route", "component", "api", "permission", "translation"],
   },
   {
     id: "winnerPicker",

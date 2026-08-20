@@ -10,7 +10,6 @@ import IncrementStepper from "brancy/components/design/incrementStepper/incremen
 import ProgressBar from "brancy/components/design/progressBar/progressBar";
 import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
-import IconToggleButton from "brancy/components/design/toggleButton/iconToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import DotMenu from "brancy/components/design/dotMenu/dotMenu";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
@@ -276,8 +275,8 @@ export default function SystemDesignPage() {
               ariaLabel="بازه"
             />
           </DemoCard>
-          <DemoCard name="IconToggleButton / active + inactive">
-            <IconToggleButton
+          <DemoCard name="ToggleButton / legacy labels">
+            <ToggleButton
               data={{ firstToggle: "اول", secondToggle: "دوم" }}
               values={{ firstToggle: "اول", secondToggle: "دوم" }}
               dataIcon={{ firstIcon: { active: "✓", diactive: "○" }, secondIcon: { active: "✓", diactive: "○" } }}

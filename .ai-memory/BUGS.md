@@ -8,6 +8,8 @@ No confirmed runtime bugs remain from the chart navigation issue addressed on 20
 
 The shared Tooltip ancestor-clipping issue was fixed on 2026-07-28 by rendering tooltip content through `document.body` and tracking the trigger's viewport position.
 
+The shared DotMenu ancestor-clipping issue was fixed on 2026-08-20 by rendering the open menu through `document.body` and tracking fixed viewport coordinates instead of relying on a parent stacking context or component-level `z-index`.
+
 The stale-state `clientContext` mismatch in AI image generation was fixed on 2026-07-26 by sending the locally generated value with the request and retaining it for SignalR notification filtering.
 
 The customer shop sign-in flash on reload was fixed on 2026-08-10 by handling the NextAuth `loading` status separately from an unauthenticated session and moving the role redirect out of render.

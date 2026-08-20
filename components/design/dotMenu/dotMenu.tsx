@@ -1,4 +1,5 @@
-import React, { useCallback, useEffect, useId, useRef, useState } from "react";
+import React, { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import styles from "./dotMenu.module.css";
 type DotMenuPlacement = "topLeft" | "topRight" | "bottomLeft" | "bottomRight";
 export interface DotMenuOption {
@@ -29,6 +30,26 @@ const placementClasses: Record<DotMenuPlacement, { menu: string; trigger: string
   bottomLeft: { menu: styles.bottomLeft, trigger: styles.triggerBottomLeft },
   bottomRight: { menu: styles.bottomRight, trigger: styles.triggerBottomRight },
 };
+const getMenuPosition = (triggerRect: DOMRect, placement?: DotMenuPlacement): React.CSSProperties => {
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+
+  switch (placement) {
+    case "topLeft":
+      return { position: "fixed", right: viewportWidth - triggerRect.left, bottom: viewportHeight - triggerRect.top };
+    case "topRight":
+      return { position: "fixed", left: triggerRect.right, bottom: viewportHeight - triggerRect.top };
+    case "bottomLeft":
+      return { position: "fixed", right: viewportWidth - triggerRect.left, top: triggerRect.bottom };
+    case "bottomRight":
+      return { position: "fixed", left: triggerRect.right, top: triggerRect.bottom };
+    default:
+      if (document.documentElement.dir === "rtl") {
+        return { position: "fixed", left: triggerRect.right, top: triggerRect.bottom };
+      }
+      return { position: "fixed", right: viewportWidth - triggerRect.left, top: triggerRect.bottom };
+  }
+};
 const DotMenu: React.FC<DotMenuProps> = ({
   data,
   options,
@@ -44,7 +65,9 @@ const DotMenu: React.FC<DotMenuProps> = ({
   const [isOpen, setIsOpen] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [focusIndex, setFocusIndex] = useState<number | null>(null);
+  const [menuCoordinates, setMenuCoordinates] = useState<React.CSSProperties | null>(null);
   const menuId = useId();
+  const rootRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const optionRefs = useRef<Array<HTMLButtonElement | null>>([]);
@@ -54,6 +77,7 @@ const DotMenu: React.FC<DotMenuProps> = ({
       setFocusIndex(null);
       if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
         setShowMenu(false);
+        setMenuCoordinates(null);
       }
       onToggle?.(false);
       if (restoreFocus) triggerRef.current?.focus();
@@ -66,6 +90,7 @@ const DotMenu: React.FC<DotMenuProps> = ({
       setShowMenu(true);
       setIsOpen(true);
       setFocusIndex(nextFocusIndex);
+      setMenuCoordinates(null);
       onToggle?.(true);
     },
     [menuOptions.length, onToggle],
@@ -73,7 +98,8 @@ const DotMenu: React.FC<DotMenuProps> = ({
   useEffect(() => {
     if (!isOpen) return;
     const handlePointerDownOutside = (event: PointerEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+      const target = event.target as Node;
+      if (!rootRef.current?.contains(target) && !menuRef.current?.contains(target)) {
         closeMenu();
       }
     };
@@ -82,6 +108,23 @@ const DotMenu: React.FC<DotMenuProps> = ({
       document.removeEventListener("pointerdown", handlePointerDownOutside);
     };
   }, [closeMenu, isOpen]);
+  useLayoutEffect(() => {
+    if (!showMenu) return;
+
+    const updateMenuPosition = () => {
+      const trigger = triggerRef.current;
+      if (!trigger) return;
+      setMenuCoordinates(getMenuPosition(trigger.getBoundingClientRect(), resolvedPlacement));
+    };
+
+    updateMenuPosition();
+    window.addEventListener("resize", updateMenuPosition);
+    window.addEventListener("scroll", updateMenuPosition, true);
+    return () => {
+      window.removeEventListener("resize", updateMenuPosition);
+      window.removeEventListener("scroll", updateMenuPosition, true);
+    };
+  }, [resolvedPlacement, showMenu]);
   useEffect(() => {
     if (isOpen && focusIndex !== null) optionRefs.current[focusIndex]?.focus();
   }, [focusIndex, isOpen]);
@@ -142,7 +185,7 @@ const DotMenu: React.FC<DotMenuProps> = ({
   );
   const placementClass = resolvedPlacement ? placementClasses[resolvedPlacement] : undefined;
   return (
-    <div ref={menuRef} className={styles.root}>
+    <div ref={rootRef} className={styles.root}>
       <button
         ref={triggerRef}
         type="button"
@@ -158,40 +201,48 @@ const DotMenu: React.FC<DotMenuProps> = ({
           <path d="M2.5 5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5m9 0a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
         </svg>
       </button>
-      {showMenu && (
-        <div
-          id={menuId}
-          className={`${styles.menu} ${placementClass?.menu ?? ""} ${isOpen ? styles.enter : styles.exit}`}
-          role="menu"
-          aria-label={ariaLabel}
-          onKeyDown={handleMenuKeyDown}
-          onAnimationEnd={() => {
-            if (!isOpen) setShowMenu(false);
-          }}>
-          {menuOptions.map((option, index) => (
-            <button
-              key={option.id ?? `${option.value}-${index}`}
-              ref={(element) => {
-                optionRefs.current[index] = element;
-              }}
-              type="button"
-              role="menuitem"
-              tabIndex={focusIndex === index ? 0 : -1}
-              className={styles.menuItem}
-              style={option.style}
-              onClick={() => handleOptionClick(option)}>
-              <span className={styles.menuItemIcon} aria-hidden="true">
-                {typeof option.icon === "string" ? (
-                  <img src={option.icon} alt="" loading="lazy" decoding="async" />
-                ) : (
-                  option.icon
-                )}
-              </span>
-              <span className={styles.menuItemLabel}>{option.value}</span>
-            </button>
-          ))}
-        </div>
-      )}
+      {typeof document !== "undefined" && showMenu && menuCoordinates
+        ? createPortal(
+            <div
+              ref={menuRef}
+              id={menuId}
+              className={`${styles.menu} ${placementClass?.menu ?? ""} ${isOpen ? styles.enter : styles.exit}`}
+              style={menuCoordinates}
+              role="menu"
+              aria-label={ariaLabel}
+              onKeyDown={handleMenuKeyDown}
+              onAnimationEnd={() => {
+                if (!isOpen) {
+                  setShowMenu(false);
+                  setMenuCoordinates(null);
+                }
+              }}>
+              {menuOptions.map((option, index) => (
+                <button
+                  key={option.id ?? `${option.value}-${index}`}
+                  ref={(element) => {
+                    optionRefs.current[index] = element;
+                  }}
+                  type="button"
+                  role="menuitem"
+                  tabIndex={focusIndex === index ? 0 : -1}
+                  className={styles.menuItem}
+                  style={option.style}
+                  onClick={() => handleOptionClick(option)}>
+                  <span className={styles.menuItemIcon} aria-hidden="true">
+                    {typeof option.icon === "string" ? (
+                      <img src={option.icon} alt="" loading="lazy" decoding="async" />
+                    ) : (
+                      option.icon
+                    )}
+                  </span>
+                  <span className={styles.menuItemLabel}>{option.value}</span>
+                </button>
+              ))}
+            </div>,
+            document.body,
+          )
+        : null}
     </div>
   );
 };
