@@ -94,7 +94,7 @@ const DomainManager = ({
       // { label: t(LanguageKey.marketProperties_yourtariff), path: "Tariff" },
       { label: t(LanguageKey.marketProperties_yourlottery), path: "lottery" },
       { label: t(LanguageKey.marketProperties_yourBusinesshours), path: "workHour" },
-      { label: t(LanguageKey.marketProperties_yourBusinessTerms), path: "Terms" },
+      { label: t(LanguageKey.marketProperties_yourBusinessTerms), path: "terms" },
     ].filter((link): link is { label: string; path: string } => Boolean(link));
     return links.map((link) => ({
       ...link,
