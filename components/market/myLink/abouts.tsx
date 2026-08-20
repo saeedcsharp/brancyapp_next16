@@ -1,11 +1,11 @@
-import { KeyboardEvent, memo, useCallback, useMemo } from "react";
+import { KeyboardEvent, memo, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./abouts.module.css";
 import { IClientBanner } from "brancy/models/interfaces";
 
 const CURRENT_YEAR = new Date().getFullYear();
-const BRANCY_URL = "https://www.brancy.app";
+const DEFAULT_BRANCY_URL = "https://www.brancy.ir";
 
 interface AboutusProps {
   data?: IClientBanner;
@@ -13,6 +13,13 @@ interface AboutusProps {
 
 const Aboutus = memo<AboutusProps>(({ data }) => {
   const { t } = useTranslation();
+  const [brancyUrl, setBrancyUrl] = useState(DEFAULT_BRANCY_URL);
+
+  useEffect(() => {
+    setBrancyUrl(window.location.hostname === "brancy.app" ? "https://www.brancy.app" : DEFAULT_BRANCY_URL);
+  }, []);
+
+  const brancyName = brancyUrl.endsWith(".app") ? "Brancy.App" : "Brancy.Ir";
 
   const getOwnerName = useCallback(() => {
     return data?.profile?.fullName || data?.profile?.username || t(LanguageKey.admin);
@@ -31,12 +38,15 @@ const Aboutus = memo<AboutusProps>(({ data }) => {
   const aboutText = useMemo(() => getAboutText(), [getAboutText]);
   const copyrightText = useMemo(() => getCopyrightText(), [getCopyrightText]);
 
-  const handleKeyDown = useCallback((event: KeyboardEvent<HTMLAnchorElement>) => {
-    if (event.key === "Enter" || event.key === " ") {
-      event.preventDefault();
-      window.open(BRANCY_URL, "_blank", "noopener,noreferrer");
-    }
-  }, []);
+  const handleKeyDown = useCallback(
+    (event: KeyboardEvent<HTMLAnchorElement>) => {
+      if (event.key === "Enter" || event.key === " ") {
+        event.preventDefault();
+        window.open(brancyUrl, "_blank", "noopener,noreferrer");
+      }
+    },
+    [brancyUrl],
+  );
 
   return (
     <section className={styles.copyright} role="contentinfo" aria-labelledby="about-heading">
@@ -73,11 +83,11 @@ const Aboutus = memo<AboutusProps>(({ data }) => {
             }}
             target="_blank"
             rel="noopener noreferrer"
-            href={BRANCY_URL}
+            href={brancyUrl}
             aria-label="Visit Brancy App website"
             tabIndex={0}
             onKeyDown={handleKeyDown}>
-            Brancy.App
+            {brancyName}
           </a>
         </strong>
       </p>

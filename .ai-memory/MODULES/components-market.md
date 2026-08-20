@@ -2,6 +2,8 @@
 
 ## MyLink Typography
 
+The MyLink About section displays and links to `Brancy.App` only on the `brancy.app` host; all other hosts use `Brancy.Ir` and `https://www.brancy.ir`.
+
 MyLink CSS modules use the shared fluid typography tokens from `scss/_variables.scss` (`--font-fluid-xs` through `--font-fluid-2xl`). These tokens keep labels, body text, controls, and section headings within readable minimum and maximum sizes across viewport widths, so individual MyLink styles do not use raw pixel `font-size` values or abrupt mobile overrides.
 
 ## Purpose
