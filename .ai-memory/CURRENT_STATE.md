@@ -1,8 +1,15 @@
+The bulk product individual editors now render as a free horizontal slider using the shared `Slider` and `SliderSlide` components; each product card keeps its existing independent controls and state.
+
 # Current State
 
 ## Current Architecture
 
 The former icon-specific toggle control has been removed. Toggle tabs now use the shared `components/design/toggleButton/ToggleButton.tsx` control across wallet, event ideas, follower analysis, and the system-design showcase.
+
+The bulk product popup keeps each value-unit radio beside its corresponding editor and renders both shared and per-product editors inline without changing its API or save behavior.
+
+Bulk product amount editors now use the shared decimal-aware `InputBox`; in-progress decimal drafts remain strings until calculation, amount values are stored separately from percentage stepper values, and inactive editors are disabled with the shared `fadeDiv` treatment.
+Bulk product amount inputs now display the product currency through the shared `InputBox` unit slot, using the shared `specifyPriceType` renderer.
 
 The repository is a single Next.js 16 application using React 19, TypeScript strict mode, Sass, CSS modules, NextAuth, next-pwa, and a mixed App Router plus legacy-page bridge. App routes in `app/` commonly import pages from `legacy-pages/` while shared components live in `components/`.
 

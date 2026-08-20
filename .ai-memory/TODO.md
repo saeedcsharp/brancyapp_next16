@@ -7,6 +7,9 @@
 
 # TODO
 
+- Add component coverage for decimal bulk-product amount entry, localized unit display, independent amount/percentage values, inactive-editor `fadeDiv`/disabled states, and radio switching when a UI test harness is introduced.
+- Add browser coverage for individual bulk-product slider touch/pointer dragging, RTL direction, responsive card widths, and preserving focused editor state when a UI test harness is introduced.
+
 - Add component/browser coverage for the `/page/tools` `hashtagManager` toggle and collapse interaction, including selected-view mounting, hidden content and row-span changes, saved-list callbacks, trend/search loading, keyboard activation, RTL labels, and mobile layout when a UI test harness is introduced.
 
 - Add component coverage for AI tool parameter description selection across supported locales, including German `gr`, French English fallback, missing localized values, and legacy `description` fallback when a UI test harness is introduced.

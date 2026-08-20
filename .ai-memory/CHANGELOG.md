@@ -1,3 +1,4 @@
+- Converted individual bulk-product adjustment cards to the shared free-mode horizontal slider while preserving each card's existing controls and save behavior.
 - Added an accessible collapse interaction to the unified Page Tools `hashtagManager` card. Its header toggles the content and reduces the card row span while closed, with Enter and Space keyboard support.
 
 - Unified the Page Tools saved-hashtag and trend/search-hashtag cards into one localized `hashtagManager` card with a shared two-option `ToggleButton`.
@@ -39,6 +40,16 @@
 - Fixed brush line chart hydration mismatches by using an explicit `en-US` locale for count labels rendered in SVG axes and tooltips.
 
 # Changelog
+
+# Changelog
+
+- Updated both bulk product fixed-amount inputs to use each product's `PriceType` currency through the shared `InputBox` unit slot and `specifyPriceType` renderer.
+
+- Replaced bulk product amount inputs with the shared decimal-aware `InputBox`, preserving in-progress decimal drafts as strings before numeric calculation, keeping amount state independent from percentage steppers, and fading/disabling inactive editors while retaining selectable radio alternatives.
+
+- Expanded the bulk product popup's shared and per-product adjustment controls inline, removing the local `renderEditor` abstraction while preserving the existing save behavior.
+
+- Reorganized the bulk product popup's percentage and amount controls so each radio stays beside its matching input, and moved per-product rendering into a local helper without changing save behavior.
 
 - Removed the obsolete `IconToggleButton` component and migrated its consumers to the shared `ToggleButton` control.
 

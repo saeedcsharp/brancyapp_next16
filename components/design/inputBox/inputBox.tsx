@@ -33,6 +33,13 @@ const convertToEnglishNumbers = (input: string): string => {
     .join("");
 };
 const convertToDigitsOnly = (input: string): string => convertToEnglishNumbers(input).replace(/[^0-9]/g, "");
+const convertToDecimalDigits = (input: string): string => {
+  const normalized = convertToEnglishNumbers(input).replace(/[^0-9.]/g, "");
+  const decimalIndex = normalized.indexOf(".");
+  return decimalIndex === -1
+    ? normalized
+    : `${normalized.slice(0, decimalIndex)}.${normalized.slice(decimalIndex + 1).replace(/\./g, "")}`;
+};
 type InputBoxVariant =
   | "default"
   | "initial"
@@ -63,10 +70,12 @@ interface InputBoxProps {
   maxLength?: number;
   style?: React.CSSProperties;
   numberType?: boolean;
+  decimal?: boolean;
   type?: string;
   inputMode?: "none" | "text" | "tel" | "url" | "email" | "numeric" | "decimal" | "search";
   autoComplete?: string;
   pattern?: string;
+
   autoCorrect?: string;
   disabled?: boolean;
   readOnly?: boolean;
@@ -74,7 +83,7 @@ interface InputBoxProps {
   autoFocus?: boolean;
   clearable?: boolean;
   pasteIcon?: boolean;
-  unit?: string;
+  unit?: React.ReactNode;
   unitStyle?: React.CSSProperties;
   ariaLabel?: string;
   ariaLabelledBy?: string;
@@ -100,6 +109,7 @@ const InputBox = forwardRef<HTMLInputElement, InputBoxProps>(function InputBox(p
     maxLength,
     style,
     numberType,
+    decimal = false,
     type,
     inputMode,
     autoComplete,
@@ -125,6 +135,7 @@ const InputBox = forwardRef<HTMLInputElement, InputBoxProps>(function InputBox(p
   const inputRef = useRef<HTMLInputElement>(null);
   const inputPlaceholder = placeholder ?? placeHolder;
   const numericInput =
+    decimal ||
     numberType ||
     variant === "number" ||
     variant === "num" ||
@@ -138,14 +149,16 @@ const InputBox = forwardRef<HTMLInputElement, InputBoxProps>(function InputBox(p
     (e: ChangeEvent<HTMLInputElement>) => {
       if (fadeTextArea) return;
       const convertedValue = numericInput
-        ? convertToDigitsOnly(e.target.value)
+        ? decimal
+          ? convertToDecimalDigits(e.target.value)
+          : convertToDigitsOnly(e.target.value)
         : convertToEnglishNumbers(e.target.value);
       handleInputChange({
         ...e,
         target: { ...e.target, value: convertedValue },
       });
     },
-    [fadeTextArea, handleInputChange, numericInput],
+    [decimal, fadeTextArea, handleInputChange, numericInput],
   );
   const handleClearInput = useCallback(() => {
     if (inputRef.current) {
@@ -252,7 +265,13 @@ const InputBox = forwardRef<HTMLInputElement, InputBoxProps>(function InputBox(p
         placeholder={inputPlaceholder}
         dir={activeRTL ? "rtl" : "ltr"}
         className={`${inputClassNames} ${shakeClass}`.trim()}
-        value={numericInput ? convertToDigitsOnly(value) : convertToEnglishNumbers(value)}
+        value={
+          numericInput
+            ? decimal
+              ? convertToDecimalDigits(value)
+              : convertToDigitsOnly(value)
+            : convertToEnglishNumbers(value)
+        }
         style={inputStyles}
         inputMode={inputMode ?? (numericInput ? "numeric" : undefined)}
         pattern={pattern}
