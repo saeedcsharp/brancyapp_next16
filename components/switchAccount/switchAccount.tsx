@@ -149,6 +149,7 @@ function SwitchAccount(props: { removeMask: () => void; onSwitchStart?: () => vo
         roles: instagramer.roles,
         isPartner: instagramer.isPartner,
         currentIndex: i,
+        createdTime: instagramer.createdTime,
       },
     });
     props.removeMask();

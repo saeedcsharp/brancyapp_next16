@@ -213,6 +213,7 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
           roles: instagramer.roles,
           isPartner: instagramer.isPartner,
           currentIndex: i,
+          createdTime: instagramer.createdTime,
         },
       });
       removeMask();
