@@ -118,14 +118,13 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
       const res = await fetch("/api/user/ip");
       const data = await res.json();
       if (data.countryCode === "ir") {
+        toast.info(t(LanguageKey.Notify_InstagramRedirectInTenSeconds), {
+          autoClose: 10000,
+          toastId: "instagram-redirect-countdown",
+        });
         setIpWarningSeconds(10);
         return;
       }
-      setIpWarningSeconds(10);
-      toast.info(t(LanguageKey.Notify_InstagramRedirectInTenSeconds), {
-        autoClose: 10000,
-        toastId: "instagram-redirect-countdown",
-      });
     } catch {
       // ignore; proceed to redirect
     }
