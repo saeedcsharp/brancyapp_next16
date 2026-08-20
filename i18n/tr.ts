@@ -3092,6 +3092,7 @@ export default {
     Notify_NotFoundAnyPreviousProduct: "Önceki ürün bulunamadı",
     Notify_InvalidItemId: "Öğe ID'si geçerli değil",
     Notify_IpInvalid: "Girilen IP geçerli değil",
+    Notify_InstagramRedirectInTenSeconds: "10 saniye içinde otomatik olarak Instagram'a yönlendirileceksiniz",
     Notify_ThisInstagramAccountAddedBefore: "Bu Instagram hesabı zaten eklenmiş",
     Notify_InvalidTicketId: "Bilet ID'si geçerli değil",
     Notify_ExpiredSignature: "İmza süresi dolmuş",

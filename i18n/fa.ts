@@ -3071,6 +3071,7 @@ export default {
     Notify_NotFoundAnyPreviousProduct: "محصول قبلی یافت نشد",
     Notify_InvalidItemId: "شناسه آیتم معتبر نیست",
     Notify_IpInvalid: "آی‌پی واردشده معتبر نیست",
+    Notify_InstagramRedirectInTenSeconds: "تا ۱۰ ثانیه دیگر به‌صورت خودکار به اینستاگرام هدایت می‌شوید",
 
     Notify_ThisInstagramAccountAddedBefore: "این حساب اینستاگرام قبلاً اضافه شده است",
     Notify_InvalidTicketId: "شناسه تیکت معتبر نیست",

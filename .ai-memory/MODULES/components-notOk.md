@@ -58,6 +58,8 @@ React components are present when the folder contains `.tsx` UI files.
 
 `notLogin.tsx` lists the authenticated user's Instagram accounts and visually marks the active account by comparing each list index with `session.user.currentIndex`. The active card uses the shared blue design tokens and exposes `aria-pressed="true"` while retaining click and keyboard account switching.
 
+When the local IP endpoint reports Iran (`countryCode === "ir"`), `notLogin.tsx` displays the localized `Notify_IpInvalid` message with a ten-second countdown, then calls the Instagram redirect flow. For other countries, it shows the localized `Notify_InstagramRedirectInTenSeconds` toast, starts the same ten-second countdown, and redirects automatically. IP lookup failures continue directly to the redirect.
+
 ## Hooks
 
 React hooks are present when named `use*` functions/files exist.

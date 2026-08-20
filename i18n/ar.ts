@@ -2998,6 +2998,7 @@ export default {
     Notify_NotFoundAnyPreviousProduct: "لم يتم العثور على المنتج السابق",
     Notify_InvalidItemId: "معرّف العنصر غير صالح",
     Notify_IpInvalid: "IP المدخل غير صالح",
+    Notify_InstagramRedirectInTenSeconds: "سيتم تحويلك تلقائيًا إلى Instagram خلال 10 ثوانٍ",
     Notify_ThisInstagramAccountAddedBefore: "تمت إضافة هذا الحساب على إنستغرام سابقاً",
     Notify_InvalidTicketId: "معرّف التذكرة غير صالح",
     Notify_ExpiredSignature: "التوقيع منتهي الصلاحية",

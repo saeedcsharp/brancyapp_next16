@@ -2706,6 +2706,7 @@ export enum LanguageKey {
   Notify_NotFoundAnyPreviousProduct = "Notify_NotFoundAnyPreviousProduct",
   Notify_InvalidItemId = "Notify_InvalidItemId",
   Notify_IpInvalid = "Notify_IpInvalid",
+  Notify_InstagramRedirectInTenSeconds = "Notify_InstagramRedirectInTenSeconds",
   Notify_ThisInstagramAccountAddedBefore = "Notify_ThisInstagramAccountAddedBefore",
   Notify_InvalidTicketId = "Notify_InvalidTicketId",
   Notify_ExpiredSignature = "Notify_ExpiredSignature",

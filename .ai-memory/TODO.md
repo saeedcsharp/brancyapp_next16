@@ -7,6 +7,8 @@
 
 # TODO
 
+- Add component/browser coverage for the Instagram connection dialog's invalid-IP ten-second countdown, localized message, single redirect after expiry, and immediate redirect when the IP lookup fails.
+
 - Add component/browser coverage for MyLink shopper products and coupon rendering, including `shopperInfo` mapping, deleted/private filtering, percentage/usage/expiry display, Clipboard API success/failure, and responsive RTL layout when a UI test harness is introduced.
 
 - Add component coverage for AI tool parameter description selection across supported locales, including German `gr`, French English fallback, missing localized values, and legacy `description` fallback when a UI test harness is introduced.

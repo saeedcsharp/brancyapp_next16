@@ -53,6 +53,8 @@
 
 # Changelog
 
+- Replaced the Iran IP `internalNotify` in the Instagram connection dialog with the localized invalid-IP message and a ten-second countdown before redirecting to Instagram; valid non-Iranian IPs now show a localized automatic-redirect toast and use the same ten-second delay.
+
 - Forwarded the incoming `user-agent` header from the local API proxy to the upstream Brancy API.
 
 - Moved generated image and video modal styles into the dedicated `Modal_Generated.module.css` and removed those unused result selectors from `mediaCreator.module.css`.

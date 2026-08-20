@@ -3050,6 +3050,7 @@ export default {
     Notify_NotFoundAnyPreviousProduct: "Əvvəlki məhsul tapılmadı",
     Notify_InvalidItemId: "Maddə ID-si etibarlı deyil",
     Notify_IpInvalid: "Daxil edilmiş IP etibarlı deyil",
+    Notify_InstagramRedirectInTenSeconds: "10 saniyə ərzində avtomatik olaraq Instagram-a yönləndiriləcəksiniz",
     Notify_ThisInstagramAccountAddedBefore: "Bu Instagram hesabı əvvəllər əlavə edilib",
     Notify_InvalidTicketId: "Bilet ID-si etibarlı deyil",
     Notify_ExpiredSignature: "İmza müddəti bitib",

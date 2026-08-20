@@ -70,6 +70,8 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 
 ## Recent Changes
 
+- The authenticated Instagram connection dialog now replaces the Iran IP warning notification with the localized `Notify_IpInvalid` message and a ten-second countdown before redirecting to Instagram. For valid non-Iranian IPs it shows the localized `Notify_InstagramRedirectInTenSeconds` toast and uses the same ten-second automatic redirect. Network errors during the IP check retain the existing immediate redirect behavior.
+
 - Added a prioritized home profile status slideshow. It shows all currently active statuses, ordered from priority `1` through `10`, with previous/next controls when more than one status applies. The first-login 24-hour synchronization countdown, subscription renewal warning below seven remaining days with a remaining-day count, shopper/influencer role content, and role-upgrade actions remain supported and localized across all eight supported locales.
 
 - Fixed the main subscription remaining-time calculation so expired subscriptions display `0 days` instead of the expiry timestamp interpreted as a duration.

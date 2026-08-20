@@ -3126,6 +3126,7 @@ export default {
     Notify_NotFoundAnyPreviousProduct: "Предыдущий продукт не найден",
     Notify_InvalidItemId: "ID предмета недействителен",
     Notify_IpInvalid: "Введённый IP недействителен",
+    Notify_InstagramRedirectInTenSeconds: "Через 10 секунд вы будете автоматически перенаправлены в Instagram",
     Notify_ThisInstagramAccountAddedBefore: "Этот аккаунт Instagram уже добавлен",
     Notify_InvalidTicketId: "Неверный ID тикета",
     Notify_ExpiredSignature: "Срок действия подписи истек",

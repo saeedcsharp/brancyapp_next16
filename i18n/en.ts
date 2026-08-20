@@ -3098,6 +3098,7 @@ export default {
     Notify_NotFoundAnyPreviousProduct: "No previous product found",
     Notify_InvalidItemId: "Item ID is not valid",
     Notify_IpInvalid: "The entered IP is not valid",
+    Notify_InstagramRedirectInTenSeconds: "You will be redirected to Instagram automatically in 10 seconds",
     Notify_ThisInstagramAccountAddedBefore: "This Instagram account has already been added",
     Notify_InvalidTicketId: "The ticket ID is not valid",
     Notify_ExpiredSignature: "Signature has expired",
