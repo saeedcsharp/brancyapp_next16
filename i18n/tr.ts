@@ -1940,6 +1940,7 @@ export default {
     marketProperties_Checking: "Kontrol Ediliyor",
     marketProperties_yourstore: "Mağaza (mağaza bağlantınız)",
     marketProperties_yourads: "Reklam Sipariş Bağlantısı",
+    marketProperties_yourlottery: "Tamamlanan çekilişleriniz",
     marketProperties_yourtariff: "Tarife (fiyat tablonuz)",
     marketProperties_yourBusinesshours: "Aktif İş Saatleriniz",
     marketProperties_yourBusinessTerms: "İş Şartlarınız",

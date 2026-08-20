@@ -1718,6 +1718,7 @@ export enum LanguageKey {
   marketProperties_NameServerstooltip = "marketProperties_NameServerstooltip",
   marketProperties_yourstore = "marketProperties_yourstore",
   marketProperties_yourads = "marketProperties_yourads",
+  marketProperties_yourlottery = "marketProperties_yourlottery",
   marketProperties_yourtariff = "marketProperties_yourtariff",
   marketProperties_yourBusinessTerms = "marketProperties_yourBusinessTerms",
   marketProperties_yourBusinesshours = "marketProperties_yourBusinesshours",

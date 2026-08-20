@@ -6,6 +6,7 @@ import Tooltip from "brancy/components/design/tooltip/tooltip";
 import { NotifType, notify } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import { MethodType } from "brancy/helper/api";
+import { resolvePublicDomain } from "brancy/helper/apiBaseUrl";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { handleCopyLink } from "brancy/helper/copyLink";
 import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
@@ -19,12 +20,12 @@ import { ChangeEvent, FormEvent, useCallback, useEffect, useMemo, useRef, useSta
 import { useTranslation } from "react-i18next";
 import styles from "./domainManager.module.css";
 
-const baseShortUrl = process.env.NEXT_PUBLIC_SHORT_LINK ?? "";
+const configuredShortUrl = process.env.NEXT_PUBLIC_SHORT_LINK ?? "";
 const forbiddenDomains = new Set(["brancy.app", "bran.cy", "brncy.ir", "brancy.ir"]);
 const domainLabelPattern = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
 
-function getDefaultDomain(username: string): string {
-  return /[._\-ـ]/.test(username) ? `${baseShortUrl}/${username}` : `${username}.${baseShortUrl}`;
+function getDefaultDomain(username: string, baseUrl: string): string {
+  return /[._\-ـ]/.test(username) ? `${baseUrl}/${username}` : `${username}.${baseUrl}`;
 }
 
 function normalizeDomain(value: string): string {
@@ -60,6 +61,7 @@ const DomainManager = ({
   const { data: session } = useSession();
   const router = useRouter();
   const { gridSpan, hidePage, toggle } = useHideDiv(true, 82);
+  const [baseShortUrl, setBaseShortUrl] = useState(() => resolvePublicDomain(configuredShortUrl));
   const [customeDomain, setCustomeDomain] = useState<IGetCustomDomain>({ acceptDomain: null, pendingDomain: null });
   const [isUpdating, setIsUpdating] = useState(false);
   const [isVerifying, setIsVerifying] = useState(false);
@@ -82,12 +84,15 @@ const DomainManager = ({
   const isVerifyCooldownActive = verifyCooldownUntil > Date.now() / 1000;
   const destinationLinks = useMemo(() => {
     if (!instaInfo) return [];
-    const domain = shouldUseCustomDomain ? customeDomain.acceptDomain?.uri : getDefaultDomain(instaInfo.username);
+    const domain = shouldUseCustomDomain
+      ? customeDomain.acceptDomain?.uri
+      : getDefaultDomain(instaInfo.username, baseShortUrl);
     if (!domain) return [];
     const links = [
-      instaInfo.isShopper && { label: t(LanguageKey.marketProperties_yourstore), path: "Shopping" },
+      instaInfo.isShopper && { label: t(LanguageKey.marketProperties_yourstore), path: "product" },
       instaInfo.isBusiness && { label: t(LanguageKey.marketProperties_yourads), path: "Advertise" },
-      { label: t(LanguageKey.marketProperties_yourtariff), path: "Tariff" },
+      // { label: t(LanguageKey.marketProperties_yourtariff), path: "Tariff" },
+      { label: t(LanguageKey.marketProperties_yourlottery), path: "lottery" },
       { label: t(LanguageKey.marketProperties_yourBusinesshours), path: "workHour" },
       { label: t(LanguageKey.marketProperties_yourBusinessTerms), path: "Terms" },
     ].filter((link): link is { label: string; path: string } => Boolean(link));
@@ -96,7 +101,7 @@ const DomainManager = ({
       address: `${domain}/${link.path}`,
       url: `https://${domain}/${link.path}`,
     }));
-  }, [customeDomain.acceptDomain?.uri, instaInfo, shouldUseCustomDomain, t]);
+  }, [baseShortUrl, customeDomain.acceptDomain?.uri, instaInfo, shouldUseCustomDomain, t]);
   async function getCustomerInfo(signal?: AbortSignal): Promise<IGetCustomDomain | null> {
     const res = await clientFetchApi<boolean, IGetCustomDomain>("Instagramer/Bio/GetCustomDomain", {
       methodType: MethodType.get,
@@ -257,6 +262,10 @@ const DomainManager = ({
   }, []);
 
   useEffect(() => {
+    setBaseShortUrl(resolvePublicDomain(configuredShortUrl, window.location.hostname));
+  }, []);
+
+  useEffect(() => {
     if (!session) return;
     const controller = new AbortController();
     requestControllerRef.current?.abort();
@@ -313,23 +322,24 @@ const DomainManager = ({
                       <div className={`${styles.defaultaddress} translate`}>
                         <a
                           className={styles.defaultdomain}
-                          href={`https://${getDefaultDomain(instaInfo.username)}`}
+                          href={`https://${getDefaultDomain(instaInfo.username, baseShortUrl)}`}
                           target="_blank"
                           rel="noopener noreferrer">
-                          {getDefaultDomain(instaInfo.username)}
+                          {getDefaultDomain(instaInfo.username, baseShortUrl)}
                         </a>
                         <button
                           type="button"
                           className={styles.copyButton}
                           title="Copy domain"
-                          aria-label={`Copy ${getDefaultDomain(instaInfo.username)}`}
+                          aria-label={`Copy ${getDefaultDomain(instaInfo.username, baseShortUrl)}`}
                           onClick={() => {
-                            handleCopyLink(getDefaultDomain(instaInfo.username));
+                            handleCopyLink(getDefaultDomain(instaInfo.username, baseShortUrl));
                           }}>
                           <img src="/copy.svg" alt="" aria-hidden="true" />
                         </button>
                       </div>
-                      {getDefaultDomain(instaInfo.username) !== `${baseShortUrl}/${instaInfo.username}` && (
+                      {getDefaultDomain(instaInfo.username, baseShortUrl) !==
+                        `${baseShortUrl}/${instaInfo.username}` && (
                         <div className={`${styles.defaultaddress} translate`}>
                           <a
                             className={styles.defaultdomain}

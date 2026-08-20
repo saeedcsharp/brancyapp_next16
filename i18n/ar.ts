@@ -1862,6 +1862,7 @@ export default {
     marketProperties_Checking: "جارٍ التحقق",
     marketProperties_yourstore: "المتجر (رابط متجرك)",
     marketProperties_yourads: "رابط طلب الإعلان",
+    marketProperties_yourlottery: "السحوبات التي أجريتها",
     marketProperties_yourtariff: "التعريفة (جدول أسعارك)",
     marketProperties_yourBusinesshours: "ساعات عملك النشطة",
     marketProperties_yourBusinessTerms: "شروط عملك",

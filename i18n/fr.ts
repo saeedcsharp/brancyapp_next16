@@ -2009,6 +2009,7 @@ export default {
     marketProperties_Checking: "Vérification",
     marketProperties_yourstore: "Magasin (lien de votre magasin)",
     marketProperties_yourads: "Lien de commande publicitaire",
+    marketProperties_yourlottery: "Vos loteries terminées",
     marketProperties_yourtariff: "Tarif (votre grille tarifaire)",
     marketProperties_yourBusinesshours: "Vos Heures d'Ouverture Actives",
     marketProperties_yourBusinessTerms: "Vos Conditions Commerciales",

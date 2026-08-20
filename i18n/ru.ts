@@ -1964,6 +1964,7 @@ export default {
     marketProperties_Checking: "Проверка",
     marketProperties_yourstore: "Магазин (ссылка на ваш магазин)",
     marketProperties_yourads: "Ссылка на заказ рекламы",
+    marketProperties_yourlottery: "Проведенные вами розыгрыши",
     marketProperties_yourtariff: "Тариф (ваш прайс-лист)",
     marketProperties_yourBusinesshours: "Ваши Активные Часы Работы",
     marketProperties_yourBusinessTerms: "Ваши Условия Бизнеса",

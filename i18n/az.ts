@@ -1896,6 +1896,7 @@ export default {
     marketProperties_Checking: "Yoxlanılır",
     marketProperties_yourstore: "Mağaza (Sizin link)",
     marketProperties_yourads: "Reklam sifariş linki",
+    marketProperties_yourlottery: "Keçirdiyiniz lotereyalar",
     marketProperties_yourtariff: "Qiymət cədvəli",
     marketProperties_yourBusinesshours: "Fəal iş saatlarınız",
     marketProperties_yourBusinessTerms: "Biznes şərtləri",

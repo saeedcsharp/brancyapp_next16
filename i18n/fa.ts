@@ -1899,6 +1899,7 @@ export default {
     marketProperties_Checking: "در حال بررسی",
     marketProperties_yourstore: "فروشگاه (لینک فروشگاه شما)",
     marketProperties_yourads: "لینک سفارش تبلیغات",
+    marketProperties_yourlottery: "قرعه‌کشی‌های انجام‌شده شما",
     marketProperties_yourtariff: "تعرفه (جدول قیمت شما)",
     marketProperties_yourBusinesshours: "ساعات کاری فعال شما",
     marketProperties_yourBusinessTerms: "شرایط کسب و کار شما",

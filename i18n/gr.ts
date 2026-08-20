@@ -1993,6 +1993,7 @@ export default {
     marketProperties_Checking: "Überprüfung",
     marketProperties_yourstore: "Store (Ihr Store-Link)",
     marketProperties_yourads: "Werbungsbestellungslink",
+    marketProperties_yourlottery: "Ihre abgeschlossenen Verlosungen",
     marketProperties_yourtariff: "Tarif (Ihre Preisliste)",
     marketProperties_yourBusinesshours: "Ihre Aktiven Geschäftszeiten",
     marketProperties_yourBusinessTerms: "Ihre Geschäftsbedingungen",

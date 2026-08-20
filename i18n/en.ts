@@ -1934,6 +1934,7 @@ export default {
     marketProperties_Checking: "Checking",
     marketProperties_yourstore: "Store (your store link)",
     marketProperties_yourads: "Advertise Order Link",
+    marketProperties_yourlottery: "Your completed lotteries",
     marketProperties_yourtariff: "Tariff (your price chart)",
     marketProperties_yourBusinesshours: "Your Active Business Hours",
     marketProperties_yourBusinessTerms: "Your Business Terms",

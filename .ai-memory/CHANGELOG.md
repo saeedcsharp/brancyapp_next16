@@ -140,7 +140,11 @@
 
 - Fixed MyLink shortcut countdown formatting so durations over 24 hours display days, hours, minutes, and seconds instead of an inflated total-hour value.
 
-- Synchronized the eight locale files and `LanguageKey` to 2,970 direct string translation keys. Missing locale entries now exist in every language, using English fallback text or a key-name placeholder when no source translation exists.
+- Added the shared `resolvePublicDomain` helper for mapping local, `patran.ir`, `brancy.ir`, and `brancy.app` link bases to their public domains.
+
+- Added the localized `marketProperties_yourlottery` label for completed lotteries across all eight supported languages.
+
+- Synchronized the eight locale files and `LanguageKey` to 2,971 direct string translation keys. Missing locale entries now exist in every language, using English fallback text or a key-name placeholder when no source translation exists.
 
 ## 2026-08-12
 
