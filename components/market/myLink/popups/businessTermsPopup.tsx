@@ -7,10 +7,12 @@ export default function BusinessTermsPopup(props: { removeMask: () => void; term
   const { t } = useTranslation();
   return (
     <>
-      <Head>
-        <title>Bran.cy ▸ {t(LanguageKey.marketProperties_BusinessTerms)}</title>
-        <meta name="robots" content="noindex, nofollow" />
-      </Head>
+      <div className="frameParent">
+        <div className="headerChild" title={t(LanguageKey.marketProperties_BusinessTerms)}>
+          <div className="circle"></div>
+          <div className="Title">{t(LanguageKey.marketProperties_BusinessTerms)}</div>
+        </div>
+      </div>
       {!props.terms.trim() ? (
         <EmptyPopupState label={t(LanguageKey.marketProperties_BusinessTerms)} />
       ) : (

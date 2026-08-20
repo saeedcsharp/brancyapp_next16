@@ -96,6 +96,7 @@ export default {
     chooseCalendarExplain: "اختر نوع التقويم الذي تفضله",
     setupchooseexplain: "يمكنك تغيير هذه الإعدادات لاحقًا من قسم الإعدادات",
 
+    Lottery: "اليانصيب",
     services: "الميزات",
     markets: "المنصات",
     pricing: "التسعير",

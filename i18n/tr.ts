@@ -99,6 +99,7 @@ export default {
     chooseCalendarExplain: "Tercih ettiğiniz takvim türünü seçin",
     setupchooseexplain: "Bu ayarlar daha sonra Ayarlar bölümünden değiştirilebilir",
 
+    Lottery: "Piyango",
     services: "Özellikler",
     markets: "Platformlar",
     pricing: "Fiyatlandırma",

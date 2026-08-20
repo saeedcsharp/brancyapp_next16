@@ -63,7 +63,12 @@ const LotteryPopup = ({ lotteries, removeMask }: LotteryPopupProps) => {
 
   return (
     <div className={styles.popupContent}>
-      <div className={styles.header}>Lottery</div>
+      <div className="frameParent">
+        <div className="headerChild" title={t(LanguageKey.Lottery)}>
+          <div className="circle"></div>
+          <div className="Title">{t(LanguageKey.Lottery)}</div>
+        </div>
+      </div>
       {visibleLotteries.length === 0 ? (
         <EmptyPopupState label={t(LanguageKey.pageTools_emptylotteryList)} />
       ) : (

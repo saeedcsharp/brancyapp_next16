@@ -1,3 +1,5 @@
+- Added the missing `LanguageKey.Lottery` entry and translations in all eight locale files for the MyLink lottery popup title.
+
 - Gated AI Prompt Analysis modal opening behind `Instagramer/AI/HasPageAnalysis`; pages without a completed AI analysis now receive a localized internal warning.
 
 - Added a shared localized empty state to the MyLink Terms, Working Hours, and Lottery popups when their content is unavailable, while preserving the selected-lottery no-winners state.

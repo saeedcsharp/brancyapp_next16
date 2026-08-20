@@ -92,6 +92,7 @@ export default {
     CollaboratorExplain: "Share a Post or Reels Collaboratively Between Multiple Instagram Pages",
 
     SwitchtoUserpanel: "Switch to User Panel",
+    Lottery: "Lottery",
     services: "Features",
     markets: "Platforms",
     pricing: "Pricing",

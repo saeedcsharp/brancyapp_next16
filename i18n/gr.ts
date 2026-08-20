@@ -101,6 +101,7 @@ export default {
     chooseCalendarExplain: "Wählen Sie den gewünschten Kalendertyp",
     setupchooseexplain: "Diese Einstellungen können später unter Einstellungen geändert werden",
 
+    Lottery: "Lotterie",
     services: "Funktionen",
     markets: "Plattformen",
     pricing: "Preisgestaltung",

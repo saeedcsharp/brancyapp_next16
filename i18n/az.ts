@@ -99,6 +99,7 @@ export default {
     chooseCalendarExplain: "İstədiyiniz təqvim növünü seçin",
     setupchooseexplain: "Bu tənzimləmələri sonra 'Settings' bölməsində dəyişmək olar",
 
+    Lottery: "Lotereya",
     services: "Xidmətlər",
     markets: "Platformalar",
     pricing: "Qiymətləmə",

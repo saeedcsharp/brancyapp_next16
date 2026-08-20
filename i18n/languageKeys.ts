@@ -23,6 +23,7 @@ export enum LanguageKey {
   justNow = "justNow",
   services = "services",
   markets = "markets",
+  Lottery = "Lottery",
   pricing = "pricing",
   how = "how",
   unselect = "unselect",

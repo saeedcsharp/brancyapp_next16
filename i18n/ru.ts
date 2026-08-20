@@ -99,6 +99,7 @@ export default {
     chooseCalendarExplain: "Выберите предпочитаемый тип календаря",
     setupchooseexplain: "Эти настройки можно изменить позже в разделе настроек",
 
+    Lottery: "Лотерея",
     services: "Функции",
     markets: "Платформы",
     pricing: "Ценообразование",

@@ -98,6 +98,7 @@ export default {
     chooseCalendarExplain: "نوع تقویم مورد نظر خود را انتخاب کنید",
     setupchooseexplain: "این تنظیمات بعداً در قسمت ستینگ قابل تغییر و عوض شدن هستند",
 
+    Lottery: "قرعه‌کشی",
     services: "امکانات",
     markets: "پلتفرم‌ها",
     pricing: "قیمت‌گذاری",

@@ -10,8 +10,11 @@ export default function BusinessHourPopup(props: { businessInfo: IBusinessHour[]
   const { t } = useTranslation();
   return (
     <>
-      <div className="headerandinput">
-        <div className="title">{t(LanguageKey.marketProperties_bussinessHours)}</div>
+      <div className="frameParent">
+        <div className="headerChild" title={t(LanguageKey.marketProperties_bussinessHours)}>
+          <div className="circle"></div>
+          <div className="Title">{t(LanguageKey.marketProperties_bussinessHours)}</div>
+        </div>
       </div>
       {props.businessInfo.length === 0 ? (
         <EmptyPopupState label={t(LanguageKey.marketProperties_bussinessHours)} />
