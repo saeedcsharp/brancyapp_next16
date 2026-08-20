@@ -490,6 +490,7 @@ export interface IGetMedia {
   status: number;
   jobId: string | null;
   imageUrl: string;
+  thumbnailUrl: string;
   metadata: string;
   prompt: string;
   videoUrl: string | null;
