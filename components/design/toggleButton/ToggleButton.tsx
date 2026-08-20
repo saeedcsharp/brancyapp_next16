@@ -1,5 +1,5 @@
 import styles from "./ToggleButton.module.css";
-import { ToggleButtonProps } from "brancy/components/design/toggleButton/types";
+import { ToggleButtonProps, ToggleOption } from "brancy/components/design/toggleButton/types";
 import { DirectionContext } from "brancy/context/directionContext";
 import { useContext } from "react";
 
@@ -10,18 +10,30 @@ const ToggleButton = ({
   className = "",
   ariaLabel,
   disabled = false,
+  data,
+  values,
+  toggleValue,
+  setChangeToggle,
 }: ToggleButtonProps) => {
   const direction = useContext(DirectionContext);
+  const resolvedOptions: ToggleOption[] =
+    options ??
+    [
+      { id: 0, label: values?.firstToggle ?? data?.firstToggle ?? "" },
+      { id: 1, label: values?.secondToggle ?? data?.secondToggle ?? "" },
+    ].filter((option) => option.label.length > 0);
+  const resolvedSelectedValue = selectedValue ?? toggleValue ?? 0;
+  const resolvedOnChange = onChange ?? setChangeToggle;
 
-  if (options.length === 0) {
+  if (resolvedOptions.length === 0) {
     return null;
   }
-  const selectedOptionIndex = options.findIndex((option) => option.id === selectedValue);
+  const selectedOptionIndex = resolvedOptions.findIndex((option) => option.id === resolvedSelectedValue);
   const activeOptionIndex = selectedOptionIndex === -1 ? 0 : selectedOptionIndex;
   const indicatorGapOffset = activeOptionIndex * 2;
   const handleToggleClick = (value: number) => {
-    if (value !== selectedValue) {
-      onChange(value);
+    if (value !== resolvedSelectedValue) {
+      resolvedOnChange?.(value);
     }
   };
   return (
@@ -29,12 +41,12 @@ const ToggleButton = ({
       className={`translate ${styles.toggleGroup} ${className}`}
       role="group"
       aria-label={ariaLabel}
-      style={{ gridTemplateColumns: `repeat(${options.length}, minmax(0, 1fr))` }}>
+      style={{ gridTemplateColumns: `repeat(${resolvedOptions.length}, minmax(0, 1fr))` }}>
       <span
         className={styles.activeIndicator}
         aria-hidden="true"
         style={{
-          width: `calc((100% - 10px - ${Math.max(options.length - 1, 0) * 2}px) / ${options.length})`,
+          width: `calc((100% - 10px - ${Math.max(resolvedOptions.length - 1, 0) * 2}px) / ${resolvedOptions.length})`,
           transform: `translateX(calc(${
             activeOptionIndex *
             // direction === "rtl" ? -100 :
@@ -42,13 +54,13 @@ const ToggleButton = ({
           }% + ${indicatorGapOffset}px))`,
         }}
       />
-      {options.map((option) => (
+      {resolvedOptions.map((option) => (
         <button
           type="button"
           key={option.id}
           onClick={() => handleToggleClick(option.id)}
-          className={selectedValue === option.id ? styles.toggleOptionActive : styles.toggleOptionInactive}
-          aria-pressed={selectedValue === option.id}
+          className={resolvedSelectedValue === option.id ? styles.toggleOptionActive : styles.toggleOptionInactive}
+          aria-pressed={resolvedSelectedValue === option.id}
           disabled={disabled}
           title={option.label}>
           <span className={styles.toggleOptionLabel}>

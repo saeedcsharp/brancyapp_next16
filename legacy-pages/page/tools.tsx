@@ -14,7 +14,7 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import NotAllowed from "brancy/components/notOk/notAllowed";
 import FontSelector from "brancy/components/page/tools/customFont/customFont";
-import Hashtags from "brancy/components/page/tools/hashtaglist/hashtags";
+import HashtagManager from "brancy/components/page/tools/hashtagManager/hashtagManager";
 import DeleteHashtagList from "brancy/components/page/tools/popups/hashtags/deleteHashtaglist";
 import NewHashtagList from "brancy/components/page/tools/popups/hashtags/newHashtagList";
 import NewPageAnalyzer from "brancy/components/page/tools/popups/hashtags/newPageAnalyzer";
@@ -29,7 +29,6 @@ import ShareTermsAndCondition from "brancy/components/page/tools/popups/lottery/
 import TermsAndConditionWinnerPicker from "brancy/components/page/tools/popups/lottery/termsAndConditionWinnerPicker";
 import WinnerAnnouncementAndBanner from "brancy/components/page/tools/popups/lottery/winnerAnnouncementAndBanner";
 import WinnersList from "brancy/components/page/tools/popups/lottery/winnersList";
-import TrendHashtags from "brancy/components/page/tools/trendhashtag/trendHashtags";
 import WinnerPicker from "brancy/components/page/tools/winnerpicker/winnerPicker";
 import DayEvents from "brancy/components/page/tools/event/dayEvents";
 import EventIdea, { EventIdeaHandle } from "brancy/components/page/tools/event/eventIdea";
@@ -1039,7 +1038,7 @@ const Tools = () => {
                 handleShowNewPicture={() => setShowNewPictureAnalyzer(true)}
               /> */}
 
-            <Hashtags
+            <HashtagManager
               data={hashtagData}
               displayNewList={handleDisplayNewList}
               onCopyHashtags={handleCopyHashtags}
@@ -1057,7 +1056,6 @@ const Tools = () => {
                 displayNewList={handleDisplayNewList}
                 handleClickOnIcon={handleClickOnIcon}
               /> */}
-            <TrendHashtags />
             <FontSelector />
             {/* <AutoInteraction
                 data={autointeraction}

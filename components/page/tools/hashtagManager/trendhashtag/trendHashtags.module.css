@@ -4,17 +4,6 @@
   width: 100%;
   justify-content: space-between;
 }
-.trendHashtags {
-  max-height: 0;
-  opacity: 0;
-  transition: max-height 0.5s ease, opacity 0.1s ease;
-}
-
-.trendHashtags.show {
-  max-height: 100%;
-  opacity: 1;
-}
-
 .searchandfilter {
   position: relative;
   gap: var(--gap-8);
@@ -29,10 +18,10 @@
   justify-content: space-between;
 }
 .trendHashtags {
-  height: 100%;
   align-content: space-between;
   flex-direction: column;
   gap: var(--gap-20);
+  animation: var(--top04);
 }
 .searchbtn {
   height: 40px;
@@ -149,6 +138,7 @@
 
 .swiperContent,
 .trendHashtagContainer {
+  animation: var(--top04);
   display: flex;
   position: relative;
   width: 100%;
@@ -285,7 +275,7 @@ html[dir="rtl"] .detail {
 .popupcopy {
   position: absolute;
   background-color: var(--color-disable);
-  width: calc(100% - 60px);
+  width: 100%;
   border-radius: var(--br15);
   padding: var(--padding-10) var(--padding-14);
   border: 1px solid var(--color-gray30);
@@ -295,7 +285,7 @@ html[dir="rtl"] .detail {
   color: var(--text-h1);
   z-index: 15;
   transition: var(--transition2);
-  bottom: 25px;
+  bottom: 0px;
   animation: fade-in 0.3s ease-in-out both;
   justify-content: space-between;
   align-items: center;

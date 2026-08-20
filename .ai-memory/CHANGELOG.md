@@ -1,3 +1,7 @@
+- Added an accessible collapse interaction to the unified Page Tools `hashtagManager` card. Its header toggles the content and reduces the card row span while closed, with Enter and Space keyboard support.
+
+- Unified the Page Tools saved-hashtag and trend/search-hashtag cards into one localized `hashtagManager` card with a shared two-option `ToggleButton`.
+
 - Added the home profile status slideshow with explicit priorities from `1` (highest) to `10` (lowest), previous/next controls for multiple active states, shopper/influencer and role-upgrade actions, first-login synchronization, and expiring-subscription states. The subscription warning now activates below seven days and displays the remaining-day count. The first-login state includes a live 24-hour countdown and progress bar, and all new copy is localized across the eight supported locales.
 
 - Fixed the main subscription remaining-time calculation so it subtracts the current time from the expiry timestamp and displays `0 days` after expiration instead of the absolute timestamp converted to days.
@@ -35,6 +39,10 @@
 - Fixed brush line chart hydration mismatches by using an explicit `en-US` locale for count labels rendered in SVG axes and tooltips.
 
 # Changelog
+
+- Removed the obsolete `IconToggleButton` component and migrated its consumers to the shared `ToggleButton` control.
+
+- Updated the shared DotMenu to render its open menu through `document.body` with viewport-fixed placement, allowing it to appear above ancestor overflow and stacking contexts without relying on a component-level `z-index`; outside-pointer handling recognizes the portalled menu.
 
 - Moved generated image and video modal styles into the dedicated `Modal_Generated.module.css` and removed those unused result selectors from `mediaCreator.module.css`.
 

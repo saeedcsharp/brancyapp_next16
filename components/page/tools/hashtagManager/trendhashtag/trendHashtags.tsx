@@ -36,7 +36,6 @@ type HashtagsState = {
   isSearchNoResult: boolean;
   index: string;
   hashtagSvg: string;
-  isHidden: boolean;
   showPopup: boolean;
   searchLocked: boolean;
 };
@@ -52,7 +51,6 @@ type HashtagsAction =
   | { type: "SET_SEARCH_NO_RESULT"; payload: boolean }
   | { type: "SET_INDEX"; payload: string }
   | { type: "SET_HASHTAG_SVG"; payload: string }
-  | { type: "TOGGLE_HIDDEN" }
   | { type: "SET_POPUP"; payload: boolean }
   | { type: "SET_SEARCH_LOCKED"; payload: boolean }
   | { type: "RESET_INDEX_AND_SVG" };
@@ -87,8 +85,6 @@ const hashtagsReducer = (state: HashtagsState, action: HashtagsAction): Hashtags
       return { ...state, index: action.payload };
     case "SET_HASHTAG_SVG":
       return { ...state, hashtagSvg: action.payload };
-    case "TOGGLE_HIDDEN":
-      return { ...state, isHidden: !state.isHidden };
     case "SET_POPUP":
       return { ...state, showPopup: action.payload };
     case "SET_SEARCH_LOCKED":
@@ -120,7 +116,6 @@ const TrandHashtags = () => {
     isSearchNoResult: false,
     index: "",
     hashtagSvg: "",
-    isHidden: false,
     showPopup: false,
     searchLocked: false,
   });
@@ -284,10 +279,6 @@ const TrandHashtags = () => {
     }
   }, [state.hashtagSvg]);
 
-  const handleCircleClick = useCallback(() => {
-    dispatch({ type: "TOGGLE_HIDDEN" });
-  }, []);
-
   const copyHashtagToClipboard = useCallback(
     (index: number, hashtag: string) => {
       if (timerIdRef.current) clearTimeout(timerIdRef.current);
@@ -344,93 +335,82 @@ const TrandHashtags = () => {
   }, [session, fetchData]);
 
   return (
-    <div className="tooBigCard" style={{ gridRowEnd: state.isHidden ? "span 10" : "span 82" }}>
-      <div className="headerChild" onClick={handleCircleClick}>
-        <div className="circle"></div>
-        <div className="Title">
-          {state.searchHashtagQuery.length > 0
-            ? t(LanguageKey.pageTools_SearchedHashtag)
-            : t(LanguageKey.pageTools_TrendHashtags)}
-        </div>
-      </div>
-
-      <div className={`${styles.trendHashtags} ${state.isHidden ? "" : styles.show}`}>
-        {!RoleAccess(session, PartnerRole.PageView) && <NotAllowedCard />}
-        {RoleAccess(session, PartnerRole.PageView) && (
-          <>
-            <div className="headerparent">
-              <DragDrop data={languageOptions} handleOptionSelect={handlelanguageOptionSelect} />
-              <DragDrop data={timeOptions} handleOptionSelect={handleTimeOptionSelect} />
+    <div className={styles.trendHashtags}>
+      {!RoleAccess(session, PartnerRole.PageView) && <NotAllowedCard />}
+      {RoleAccess(session, PartnerRole.PageView) && (
+        <>
+          <div className="headerparent">
+            <DragDrop data={languageOptions} handleOptionSelect={handlelanguageOptionSelect} />
+            <DragDrop data={timeOptions} handleOptionSelect={handleTimeOptionSelect} />
+          </div>
+          <div className="headerandinput" style={{ height: "100%" }}>
+            <div className={styles.trendhashtagTitleContainer}>
+              <div className={styles.symbol}>#</div>
+              <div className={styles.hashtagtitle}>{t(LanguageKey.pageTools_hashtag)}</div>
+              <div className={styles.used}>{t(LanguageKey.pageTools_USED)}</div>
             </div>
-            <div className="headerandinput" style={{ height: "100%" }}>
-              <div className={styles.trendhashtagTitleContainer}>
-                <div className={styles.symbol}>#</div>
-                <div className={styles.hashtagtitle}>{t(LanguageKey.pageTools_hashtag)}</div>
-                <div className={styles.used}>{t(LanguageKey.pageTools_USED)}</div>
-              </div>
-              <div className={styles.lineheader} />
+            <div className={styles.lineheader} />
 
-              {showSearchPeople.loading && <RingLoader />}
-              {showSearchPeople.noResult && <h1>{t(LanguageKey.pageStatistics_EmptyList)}</h1>}
+            {showSearchPeople.loading && <RingLoader />}
+            {showSearchPeople.noResult && <h1>{t(LanguageKey.pageStatistics_EmptyList)}</h1>}
 
-              {!showSearchPeople.loading && !showSearchPeople.noResult && (
-                <Slider itemsPerSlide={10}>
-                  {state.searchHashtagQuery.length > 0
-                    ? state.searchedHashtag.map((u, j) => (
-                        <SliderSlide key={j}>
-                          <div className={styles.trendHashtagContainer}>
-                            <div className={styles.div4}>{j + 1}</div>
-                            <div className={styles.hashtagtitle}>
-                              <div className={styles.detail}>
-                                <img
-                                  onMouseOver={() => handleOnMouseOver(j)}
-                                  onMouseLeave={handleOnMouseLeave}
-                                  onClick={() => copyHashtagToClipboard(j, u.name)}
-                                  className={styles.component9431}
-                                  title="ℹ️ Copy hashtag"
-                                  alt="Hashtag icon"
-                                  src={selectHashtagIcon(j, u.name)}
-                                />
-                                <div className={styles.instagramer}>{u.name}</div>
-                              </div>
+            {!showSearchPeople.loading && !showSearchPeople.noResult && (
+              <Slider itemsPerSlide={9}>
+                {state.searchHashtagQuery.length > 0
+                  ? state.searchedHashtag.map((u, j) => (
+                      <SliderSlide key={j}>
+                        <div className={styles.trendHashtagContainer}>
+                          <div className={styles.div4}>{j + 1}</div>
+                          <div className={styles.hashtagtitle}>
+                            <div className={styles.detail}>
+                              <img
+                                onMouseOver={() => handleOnMouseOver(j)}
+                                onMouseLeave={handleOnMouseLeave}
+                                onClick={() => copyHashtagToClipboard(j, u.name)}
+                                className={styles.component9431}
+                                title="ℹ️ Copy hashtag"
+                                alt="Hashtag icon"
+                                src={selectHashtagIcon(j, u.name)}
+                              />
+                              <div className={styles.instagramer}>{u.name}</div>
                             </div>
+                          </div>
 
-                            <Tooltip tooltipValue={u.mediaCount.toLocaleString()} position="RTL">
-                              <div className={styles.k}>{calculateSummary(u.mediaCount)}</div>
-                            </Tooltip>
-                          </div>
-                        </SliderSlide>
-                      ))
-                    : state.trendHashtag.map((u, j) => (
-                        <SliderSlide key={j}>
-                          <div className={styles.trendHashtagContainer}>
-                            <div className={styles.div4}>{j + 1}</div>
-                            <div className={styles.hashtagtitle}>
-                              <div className={styles.detail}>
-                                <img
-                                  onMouseOver={() => handleOnMouseOver(j)}
-                                  onMouseLeave={handleOnMouseLeave}
-                                  onClick={() => copyHashtagToClipboard(j, u.name)}
-                                  className={styles.component9431}
-                                  title="Copy hashtag"
-                                  alt="Hashtag icon"
-                                  src={selectHashtagIcon(j, u.name)}
-                                />
-                                <div className={styles.instagramer}>{u.name}</div>
-                              </div>
+                          <Tooltip tooltipValue={u.mediaCount.toLocaleString()} position="RTL">
+                            <div className={styles.k}>{calculateSummary(u.mediaCount)}</div>
+                          </Tooltip>
+                        </div>
+                      </SliderSlide>
+                    ))
+                  : state.trendHashtag.map((u, j) => (
+                      <SliderSlide key={j}>
+                        <div className={styles.trendHashtagContainer}>
+                          <div className={styles.div4}>{j + 1}</div>
+                          <div className={styles.hashtagtitle}>
+                            <div className={styles.detail}>
+                              <img
+                                onMouseOver={() => handleOnMouseOver(j)}
+                                onMouseLeave={handleOnMouseLeave}
+                                onClick={() => copyHashtagToClipboard(j, u.name)}
+                                className={styles.component9431}
+                                title="Copy hashtag"
+                                alt="Hashtag icon"
+                                src={selectHashtagIcon(j, u.name)}
+                              />
+                              <div className={styles.instagramer}>{u.name}</div>
                             </div>
-                            <Tooltip tooltipValue={u.mediaCount.toLocaleString()} position="RTL">
-                              <div className={styles.k}>{calculateSummary(u.mediaCount)}</div>
-                            </Tooltip>
                           </div>
-                        </SliderSlide>
-                      ))}
-                </Slider>
-              )}
-            </div>
-          </>
-        )}
-      </div>
+                          <Tooltip tooltipValue={u.mediaCount.toLocaleString()} position="RTL">
+                            <div className={styles.k}>{calculateSummary(u.mediaCount)}</div>
+                          </Tooltip>
+                        </div>
+                      </SliderSlide>
+                    ))}
+              </Slider>
+            )}
+          </div>
+        </>
+      )}
 
       {state.showPopup && (
         <div className={styles.popupcopy}>
@@ -443,8 +423,8 @@ const TrandHashtags = () => {
                 onClick={copyAllHashtagsToClipboard}
                 style={{
                   cursor: "pointer",
-                  width: "25px",
-                  height: "25px",
+                  width: "18px",
+                  height: "18px",
                 }}
                 title="Copy selected hashtags"
                 alt="Copy icon"
@@ -454,8 +434,8 @@ const TrandHashtags = () => {
                 onClick={clearHashtagList}
                 style={{
                   cursor: "pointer",
-                  width: "25px",
-                  height: "25px",
+                  width: "18px",
+                  height: "18px",
                 }}
                 title="Clear selected hashtags"
                 alt="Delete icon"

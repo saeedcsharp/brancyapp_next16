@@ -43,10 +43,7 @@
 .menu {
   --menu-origin: 100% 0;
   display: flex;
-  position: absolute;
-  z-index: 2;
-  top: 100%;
-  right: 100%;
+  position: fixed;
   box-sizing: border-box;
   flex-direction: column;
   align-items: stretch;
@@ -63,8 +60,6 @@
   box-shadow: var(--dropdown-shadow);
 }
 html[dir="rtl"] .menu {
-  right: auto;
-  left: 100%;
   --menu-origin: 0 0;
   border-radius: 0 var(--br15) var(--br15) var(--br15);
 }
@@ -88,34 +83,18 @@ html[dir="rtl"] .trigger.isOpen {
 }
 .menu.topLeft {
   --menu-origin: 100% 100%;
-  top: auto;
-  right: 100%;
-  bottom: 0;
-  left: auto;
   border-radius: var(--br15) var(--br15) 0 var(--br15);
 }
 .menu.topRight {
   --menu-origin: 0 100%;
-  top: auto;
-  right: auto;
-  bottom: 0;
-  left: 100%;
   border-radius: var(--br15) var(--br15) var(--br15) 0;
 }
 .menu.bottomRight {
   --menu-origin: 0 0;
-  top: 0;
-  right: auto;
-  bottom: auto;
-  left: 100%;
   border-radius: 0 var(--br15) var(--br15) var(--br15);
 }
 .menu.bottomLeft {
   --menu-origin: 100% 0;
-  top: 0;
-  right: 100%;
-  bottom: auto;
-  left: auto;
   border-radius: var(--br15) 0 var(--br15) var(--br15);
 }
 .menu.enter {
@@ -189,10 +168,10 @@ html[dir="rtl"] .trigger.isOpen {
   text-align: start;
 }
 @media (pointer: coarse) {
-  .trigger {
+  /* .trigger {
     width: 44px;
     height: 44px;
-  }
+  } */
 }
 @media (max-width: 768px) {
   .menu {

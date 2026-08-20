@@ -66,6 +66,7 @@ Known feature entitlements are `PsgFeatureType.AI`, `PsgFeatureType.Lottery`, an
 - The usage instruction and its technical route are rendered on separate lines; long routes wrap safely on narrow screens.
 - Mobile uses stacked records instead of a horizontally overflowing table.
 - Direction follows `DirectionContext`; themes use existing CSS variables.
+- The `/page/tools` hashtag capability is presented as one collapsible `hashtagManager` card with a shared toggle between saved hashtags and trend/search hashtags.
 - Persian display copy uses plain Persian equivalents or Persian transliteration for unavoidable brand names; technical route and identifier values remain unchanged.
 - Persian display copy uses a conversational, short, non-technical tone for general and younger audiences.
 - Feature descriptions should explain the user's goal, the main steps, and the expected result clearly enough to understand the option without technical knowledge.
