@@ -503,8 +503,8 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
       </Head>
       {/* head for SEO */}
       <div className="headerandinput">
-        <div className="title">{t(LanguageKey.marketPropertiesLastVideo)}</div>
-        <div className="explain">{t(LanguageKey.marketPropertiesLastVideoexplain)}</div>
+        <div className="title">{t(LanguageKey.biolinkPropertiesLastVideo)}</div>
+        <div className="explain">{t(LanguageKey.biolinkPropertiesLastVideoexplain)}</div>
         <div className={styles.radioinput}>
           <label className={styles.option}>
             <input

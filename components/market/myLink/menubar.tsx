@@ -33,15 +33,15 @@ const FEATURE_ELEMENT_MAP = new Map([
 ]);
 const FEATURE_LANGUAGE_KEY_MAP = new Map([
   [FeatureType.FeaturesBox, LanguageKey.navbar_Home],
-  [FeatureType.Announcements, LanguageKey.marketPropertiesAnnouncements],
-  [FeatureType.Reviews, LanguageKey.marketPropertiesReviews],
-  [FeatureType.OnlineStream, LanguageKey.marketPropertiesOnlineStream],
-  [FeatureType.LastVideo, LanguageKey.marketPropertiesLastVideo],
-  [FeatureType.Products, LanguageKey.marketPropertiesProducts],
-  [FeatureType.AdsTimeline, LanguageKey.marketPropertiesAdsTimeline],
+  [FeatureType.Announcements, LanguageKey.biolinkPropertiesAnnouncements],
+  [FeatureType.Reviews, LanguageKey.biolinkPropertiesReviews],
+  [FeatureType.OnlineStream, LanguageKey.biolinkPropertiesOnlineStream],
+  [FeatureType.LastVideo, LanguageKey.biolinkPropertiesLastVideo],
+  [FeatureType.Products, LanguageKey.biolinkPropertiesProducts],
+  [FeatureType.AdsTimeline, LanguageKey.biolinkPropertiesAdsTimeline],
   [FeatureType.QandABox, LanguageKey.footer_FAQ],
-  [FeatureType.LinkShortcut, LanguageKey.marketPropertieslinks],
-  [FeatureType.ContactAndMap, LanguageKey.marketPropertiesContactAndMap],
+  [FeatureType.LinkShortcut, LanguageKey.biolinkPropertieslinks],
+  [FeatureType.ContactAndMap, LanguageKey.biolinkPropertiesContactAndMap],
 ]);
 const Menubar = memo(({ data, featureType, onFeatureChange }: MenubarProps) => {
   const { t } = useTranslation();

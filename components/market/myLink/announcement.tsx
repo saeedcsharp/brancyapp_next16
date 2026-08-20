@@ -16,7 +16,7 @@ const Announcement = memo(function Announcement({ data }: AnnouncementProps) {
   const headingId = useId();
   const contentId = useId();
 
-  const announcementTitle = useMemo(() => t(LanguageKey.marketPropertiesAnnouncements), [t]);
+  const announcementTitle = useMemo(() => t(LanguageKey.biolinkPropertiesAnnouncements), [t]);
 
   const announcementDate = useMemo(() => {
     if (!data?.createdDate) {

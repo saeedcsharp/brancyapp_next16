@@ -125,12 +125,12 @@ function InstagramerSidebar(props: { newRoute: string; router?: any }) {
             />
           </svg>
         ),
-        translationKey: LanguageKey.sidebar_Market,
+        translationKey: LanguageKey.sidebar_biolink,
         subRoutes: [
-          InstagramerRoute.MarketHome,
+          InstagramerRoute.biolinkHome,
           InstagramerRoute.MarketmyLink,
-          InstagramerRoute.MarketStatistics,
-          InstagramerRoute.MarketProperties,
+          InstagramerRoute.biolinkStatistics,
+          InstagramerRoute.biolinkProperties,
         ],
       },
       {

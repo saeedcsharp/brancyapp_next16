@@ -127,7 +127,7 @@ const ContactForm = (props: { removeMask: () => void }) => {
           <Head>
             {" "}
             <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-            <title>Bran.cy ▸ {t(LanguageKey.marketPropertiesContactAndMap)}</title>
+            <title>Bran.cy ▸ {t(LanguageKey.biolinkPropertiesContactAndMap)}</title>
             <meta name="description" content="Advanced Instagram post management tool" />
             <meta
               name="keywords"
@@ -139,7 +139,7 @@ const ContactForm = (props: { removeMask: () => void }) => {
           </Head>
           {/* head for SEO */}
           <div className="headerandinput">
-            <div className="title">{t(LanguageKey.marketPropertiesContactAndMap)}</div>
+            <div className="title">{t(LanguageKey.biolinkPropertiesContactAndMap)}</div>
             <ToggleButton
               options={[
                 { label: t(LanguageKey.Contact), id: 0 },

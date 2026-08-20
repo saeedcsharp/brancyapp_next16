@@ -1411,7 +1411,7 @@ const CreateStory = () => {
                           }
                         }}
                         disabled={!handleActiveAutoComment}>
-                        {t(LanguageKey.marketstatisticsfeatures)}
+                        {t(LanguageKey.biolinkStatisticsfeatures)}
                       </button>
                     </div>
                   </div>

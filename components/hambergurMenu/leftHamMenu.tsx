@@ -163,8 +163,8 @@ const menuItems = [
         />
       </svg>
     ),
-    textKey: LanguageKey.sidebar_Market,
-    activeRoutes: ["markethome", "marketmylink", "marketstatistics", "marketproperties"],
+    textKey: LanguageKey.sidebar_biolink,
+    activeRoutes: ["biolinkHome", "marketmylink", "biolinkStatistics", "biolinkProperties"],
   },
   {
     href: "/advertise",

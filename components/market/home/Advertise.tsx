@@ -64,15 +64,15 @@ function Advertise(props: { data: IMarketInfo[] | undefined; fetchAdvertiseData:
             <div className={styles.summary}>
               <div className={styles.summarydata}>
                 <div className={styles.rating}>{v.rating}</div>
-                {t(LanguageKey.markethomerating)}
+                {t(LanguageKey.biolinkHomerating)}
               </div>
               <div className={styles.summarydata}>
                 <div className={styles.follower}>{calculateSummary(v.followers)}</div>
-                {t(LanguageKey.markethomefollower)}
+                {t(LanguageKey.biolinkHomefollower)}
               </div>
               <div className={styles.summarydata}>
                 <div className={styles.post}>{v.post}</div>
-                {t(LanguageKey.markethomepost)}
+                {t(LanguageKey.biolinkHomepost)}
               </div>
             </div>
             <div className={styles.line}> </div>

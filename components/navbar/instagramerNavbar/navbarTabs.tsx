@@ -340,13 +340,13 @@ const NavbarTabs = () => {
       indexValue: "wallet",
       initialSlide: 1,
     },
-    // markethome: {
+    // biolinkHome: {
     //   id: "home",
     //   items: ["statistics", "mylink", "properties"],
     //   indexValue: "market",
     //   initialSlide: 0,
     // },
-    marketstatistics: {
+    biolinkStatistics: {
       id: "statistics",
       items: ["statistics", "mylink", "properties"],
       indexValue: "market",
@@ -358,7 +358,7 @@ const NavbarTabs = () => {
       indexValue: "market",
       initialSlide: 0,
     },
-    marketproperties: {
+    biolinkProperties: {
       id: "properties",
       items: ["statistics", "mylink", "properties"],
       indexValue: "market",

@@ -229,9 +229,9 @@ const Link = (props: {
           }
         }}
         aria-expanded={hidePage}
-        aria-label={t(LanguageKey.marketPropertieslinks)}>
+        aria-label={t(LanguageKey.biolinkPropertieslinks)}>
         <div className="circle" aria-hidden="true"></div>
-        <div className="Title">{t(LanguageKey.marketPropertieslinks)}</div>
+        <div className="Title">{t(LanguageKey.biolinkPropertieslinks)}</div>
       </div>
       {hidePage && (
         <>
@@ -246,7 +246,7 @@ const Link = (props: {
                 role="button"
                 tabIndex={0}
                 onKeyDown={handleAddNewLinkKeyDown}
-                aria-label={t(LanguageKey.marketPropertiesaddnew)}>
+                aria-label={t(LanguageKey.biolinkPropertiesaddnew)}>
                 <div className={styles.addnewicon} aria-hidden="true">
                   <svg width="22" height="22" viewBox="0 0 22 22" aria-hidden="true">
                     <path
@@ -256,11 +256,11 @@ const Link = (props: {
                   </svg>
                 </div>
                 <div className={styles.addnewcontent}>
-                  <div className={styles.addnewheader}>{t(LanguageKey.marketPropertiesaddnew)}</div>
+                  <div className={styles.addnewheader}>{t(LanguageKey.biolinkPropertiesaddnew)}</div>
                 </div>
               </div>
 
-              <div className={styles.list} role="list" aria-label={t(LanguageKey.marketPropertieslinks)}>
+              <div className={styles.list} role="list" aria-label={t(LanguageKey.biolinkPropertieslinks)}>
                 <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
                   <SortableContext items={sortableItems} strategy={verticalListSortingStrategy}>
                     {linkInfo.map((link, index) => (

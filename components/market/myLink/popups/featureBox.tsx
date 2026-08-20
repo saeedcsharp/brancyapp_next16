@@ -145,8 +145,8 @@ export default function FeaturesBoxPopup(props: { removeMask: () => void }) {
     <>
       <ToggleButton
         options={[
-          { id: ToggleOrder.FirstToggle, label: t(LanguageKey.marketProperties_yourBusinesshours) },
-          { id: ToggleOrder.SecondToggle, label: t(LanguageKey.marketProperties_BusinessTerms) },
+          { id: ToggleOrder.FirstToggle, label: t(LanguageKey.biolinkProperties_yourBusinesshours) },
+          { id: ToggleOrder.SecondToggle, label: t(LanguageKey.biolinkProperties_BusinessTerms) },
         ]}
         selectedValue={selectedSection}
         onChange={setSelectedSection}

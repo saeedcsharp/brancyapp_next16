@@ -234,7 +234,7 @@ const recordsEn = {
     description:
       "Video-creator discovery appears in the image workspace, but the create action and usage call are incomplete or unmapped. Do not present video generation as an active feature.",
   },
-  marketHomePrototype: {
+  biolinkHomePrototype: {
     title: "Market home",
     description:
       "The market-home route renders hard-coded entries and has no backend fetch, so it is not documented as a live marketplace discovery capability.",
@@ -832,7 +832,7 @@ export const featureKnowledgeFa = {
       descriptionDetail:
         "گزینه‌های مربوط به ساخت ویدیو در فضای تصویر دیده می‌شوند، اما عملیات ساخت و برآورد مصرف هنوز کامل یا به مسیر مشخص سامانه وصل نیستند. به همین دلیل فعلاً امکان معرفی ساخت ویدیوی هوش مصنوعی به‌عنوان قابلیت فعال وجود ندارد.",
     },
-    marketHomePrototype: {
+    biolinkHomePrototype: {
       title: "صفحه اصلی بازار",
       description: "این صفحه فعلاً چند مورد نمونه نشان می‌دهد و به اطلاعات واقعی وصل نیست.",
       descriptionDetail:

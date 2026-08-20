@@ -668,14 +668,14 @@ const Banner = memo((props: BannerProps) => {
             <link rel="canonical" href="https://www.Brancy.app/page/profile-banner" />
           </Head>
           <div className={styles.header}>
-            <div className="title">{t(LanguageKey.marketPropertiesProfileInfoBanner)}</div>
+            <div className="title">{t(LanguageKey.biolinkPropertiesProfileInfoBanner)}</div>
             <ToggleButton
               options={[
                 {
-                  label: t(LanguageKey.marketPropertiespopup_ProfileInfo),
+                  label: t(LanguageKey.biolinkPropertiespopup_ProfileInfo),
                   id: 0,
                 },
-                { label: t(LanguageKey.marketPropertiespopup_Banner), id: 1 },
+                { label: t(LanguageKey.biolinkPropertiespopup_Banner), id: 1 },
               ]}
               onChange={setprofileandbannerToggle}
               selectedValue={profileandbannerToggle}></ToggleButton>
@@ -697,9 +697,9 @@ const Banner = memo((props: BannerProps) => {
                           payload: { isActive: false },
                         });
                       }}
-                      textlabel={t(LanguageKey.marketPropertiespopup_SameasInstagramProfile)}
-                      title={t(LanguageKey.marketPropertiespopup_SameasInstagramProfile)}
-                      aria-label={t(LanguageKey.marketPropertiespopup_SameasInstagramProfile)}
+                      textlabel={t(LanguageKey.biolinkPropertiespopup_SameasInstagramProfile)}
+                      title={t(LanguageKey.biolinkPropertiespopup_SameasInstagramProfile)}
+                      aria-label={t(LanguageKey.biolinkPropertiespopup_SameasInstagramProfile)}
                     />
                     <RadioButton
                       name="personal"
@@ -744,9 +744,9 @@ const Banner = memo((props: BannerProps) => {
                           payload: { isActive: false },
                         });
                       }}
-                      textlabel={t(LanguageKey.marketPropertiespopup_SameasInstagramProfile)}
-                      title={t(LanguageKey.marketPropertiespopup_SameasInstagramProfile)}
-                      aria-label={t(LanguageKey.marketPropertiespopup_SameasInstagramProfile)}
+                      textlabel={t(LanguageKey.biolinkPropertiespopup_SameasInstagramProfile)}
+                      title={t(LanguageKey.biolinkPropertiespopup_SameasInstagramProfile)}
+                      aria-label={t(LanguageKey.biolinkPropertiespopup_SameasInstagramProfile)}
                     />
                     <RadioButton
                       name="biography"

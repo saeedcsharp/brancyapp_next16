@@ -626,8 +626,8 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
             alt="Video section icon"
           />
           <div className={styles.headertext}>
-            <span className={styles.headertextblue}>{t(LanguageKey.marketPropertiesLastVideo).split(" ")[0]}</span>{" "}
-            {t(LanguageKey.marketPropertiesLastVideo).split(" ").slice(1).join(" ")}
+            <span className={styles.headertextblue}>{t(LanguageKey.biolinkPropertiesLastVideo).split(" ")[0]}</span>{" "}
+            {t(LanguageKey.biolinkPropertiesLastVideo).split(" ").slice(1).join(" ")}
           </div>
         </div>
         {activeOptionsCount > 1 && (

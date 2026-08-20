@@ -7,11 +7,11 @@ export default function BusinessTermsPopup(props: { removeMask: () => void; term
   return (
     <>
       <Head>
-        <title>Bran.cy ▸ {t(LanguageKey.marketProperties_BusinessTerms)}</title>
+        <title>Bran.cy ▸ {t(LanguageKey.biolinkProperties_BusinessTerms)}</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <div className="headerandinput">
-        <div className="headerparent" role="banner" aria-label={t(LanguageKey.marketProperties_BusinessTerms)}>
+        <div className="headerparent" role="banner" aria-label={t(LanguageKey.biolinkProperties_BusinessTerms)}>
           <span></span>
           {/* <div className="counter translate" aria-live="polite">
             (<strong>{props.terms.str.length}</strong> / <strong>1500</strong>)
@@ -20,13 +20,13 @@ export default function BusinessTermsPopup(props: { removeMask: () => void; term
         <TextArea
           className="TextArea"
           value={props.terms.str}
-          placeHolder={t(LanguageKey.marketProperties_BusinessTerms)}
+          placeHolder={t(LanguageKey.biolinkProperties_BusinessTerms)}
           fadeTextArea={false}
           minHeight={70}
           maxLength={1500}
           initialHeight={400}
-          aria-label={t(LanguageKey.marketProperties_BusinessTerms)}
-          title={t(LanguageKey.marketProperties_BusinessTerms)}
+          aria-label={t(LanguageKey.biolinkProperties_BusinessTerms)}
+          title={t(LanguageKey.biolinkProperties_BusinessTerms)}
         />
       </div>
       <div className="ButtonContainer">

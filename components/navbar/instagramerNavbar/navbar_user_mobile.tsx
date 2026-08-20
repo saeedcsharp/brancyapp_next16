@@ -42,7 +42,7 @@ const NavbarUserMobile = (prop: { handleShowHamMenu: (ham: string) => void }) =>
       case "wallet":
         return t(LanguageKey.sidebar_Wallet);
       case "orders":
-        return t(LanguageKey.sidebar_Market);
+        return t(LanguageKey.sidebar_biolink);
       case "shop":
         return t(LanguageKey.sidebar_Stores);
       case "business":

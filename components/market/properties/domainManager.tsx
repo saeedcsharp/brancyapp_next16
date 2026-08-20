@@ -85,11 +85,11 @@ const DomainManager = ({
     const domain = shouldUseCustomDomain ? customeDomain.acceptDomain?.uri : getDefaultDomain(instaInfo.username);
     if (!domain) return [];
     const links = [
-      instaInfo.isShopper && { label: t(LanguageKey.marketProperties_yourstore), path: "Shopping" },
-      instaInfo.isBusiness && { label: t(LanguageKey.marketProperties_yourads), path: "Advertise" },
-      { label: t(LanguageKey.marketProperties_yourtariff), path: "Tariff" },
-      { label: t(LanguageKey.marketProperties_yourBusinesshours), path: "workHour" },
-      { label: t(LanguageKey.marketProperties_yourBusinessTerms), path: "Terms" },
+      instaInfo.isShopper && { label: t(LanguageKey.biolinkProperties_yourstore), path: "Shopping" },
+      instaInfo.isBusiness && { label: t(LanguageKey.biolinkProperties_yourads), path: "Advertise" },
+      { label: t(LanguageKey.biolinkProperties_yourtariff), path: "Tariff" },
+      { label: t(LanguageKey.biolinkProperties_yourBusinesshours), path: "workHour" },
+      { label: t(LanguageKey.biolinkProperties_yourBusinessTerms), path: "Terms" },
     ].filter((link): link is { label: string; path: string } => Boolean(link));
     return links.map((link) => ({
       ...link,
@@ -280,7 +280,7 @@ const DomainManager = ({
         title="Resize the card"
         aria-expanded={hidePage}>
         <div className="circle"></div>
-        <div className="Title">{t(LanguageKey.marketProperties_DomainManager)}</div>
+        <div className="Title">{t(LanguageKey.biolinkProperties_DomainManager)}</div>
       </button>
       <div className={styles.all}>
         {hidePage && (
@@ -290,8 +290,8 @@ const DomainManager = ({
               <>
                 <div className={styles.section}>
                   <div className="headerandinput">
-                    <div className="title">{t(LanguageKey.marketProperties_DomainManagerexplain)}</div>
-                    <div className="explain">{t(LanguageKey.marketProperties_DomainManagerexplain2)}</div>
+                    <div className="title">{t(LanguageKey.biolinkProperties_DomainManagerexplain)}</div>
+                    <div className="explain">{t(LanguageKey.biolinkProperties_DomainManagerexplain2)}</div>
                   </div>
                   <div className="headerandinput">
                     <div className="title2">
@@ -299,12 +299,12 @@ const DomainManager = ({
                         name="domain-type"
                         id="default-domain"
                         checked={selectedDomainType === "default"}
-                        textlabel={t(LanguageKey.marketProperties_defaultAddress)}
+                        textlabel={t(LanguageKey.biolinkProperties_defaultAddress)}
                         handleOptionChanged={handleDomainTypeChange}
                       />
                       <Tooltip
                         triggerType="attention"
-                        tooltipValue={t(LanguageKey.marketProperties_explain)}
+                        tooltipValue={t(LanguageKey.biolinkProperties_explain)}
                         position="bottom"
                         onClick={true}
                       />
@@ -358,7 +358,7 @@ const DomainManager = ({
                         name="domain-type"
                         id="custom-domain"
                         checked={selectedDomainType === "custom"}
-                        textlabel={t(LanguageKey.marketProperties_CustomAddress)}
+                        textlabel={t(LanguageKey.biolinkProperties_CustomAddress)}
                         handleOptionChanged={handleDomainTypeChange}
                       />
                     </div>
@@ -393,7 +393,7 @@ const DomainManager = ({
                               type="submit"
                               disabled={!isInputDomainValid || isUpdating}
                               className={isInputDomainValid && !isUpdating ? "saveButton" : "disableButton"}>
-                              {isUpdating ? <RingLoader /> : t(LanguageKey.marketProperties_Request)}
+                              {isUpdating ? <RingLoader /> : t(LanguageKey.biolinkProperties_Request)}
                             </button>
                           </form>
                         </>
@@ -402,12 +402,12 @@ const DomainManager = ({
                       {!customeDomain.acceptDomain && customeDomain.pendingDomain && (
                         <ol
                           className={styles.domainProgress}
-                          aria-label={t(LanguageKey.marketProperties_CustomAddress)}>
+                          aria-label={t(LanguageKey.biolinkProperties_CustomAddress)}>
                           <li className={`${styles.domainProgressStep} ${styles.domainProgressDone}`}>
                             <span className={styles.domainProgressMarker}>1</span>
                             <span>
                               <Tooltip onClick={false} tooltipValue={customeDomain.pendingDomain.uri} position="bottom">
-                                {t(LanguageKey.marketProperties_Request)}
+                                {t(LanguageKey.biolinkProperties_Request)}
                               </Tooltip>
                             </span>
                           </li>
@@ -418,7 +418,7 @@ const DomainManager = ({
                                 : styles.domainProgressDone
                             }`}>
                             <span className={styles.domainProgressMarker}>2</span>
-                            <span>{t(LanguageKey.marketProperties_Connect)}</span>
+                            <span>{t(LanguageKey.biolinkProperties_Connect)}</span>
                           </li>
                           <li
                             className={`${styles.domainProgressStep} ${
@@ -438,16 +438,16 @@ const DomainManager = ({
                             <div className={styles.section1}>
                               <div className="headerandinput">
                                 <div className="title2">
-                                  {t(LanguageKey.marketProperties_NameServers)}
+                                  {t(LanguageKey.biolinkProperties_NameServers)}
 
                                   <Tooltip
                                     triggerType="attention"
-                                    tooltipValue={t(LanguageKey.marketProperties_NameServerstooltip)}
+                                    tooltipValue={t(LanguageKey.biolinkProperties_NameServerstooltip)}
                                     position="bottom"
                                     onClick={true}
                                   />
                                 </div>
-                                <div className="explain">{t(LanguageKey.marketProperties_NameServersExplain)}</div>
+                                <div className="explain">{t(LanguageKey.biolinkProperties_NameServersExplain)}</div>
                               </div>
 
                               {customeDomain.pendingDomain.nameServers.map((ns, i) => (
@@ -484,7 +484,7 @@ const DomainManager = ({
                               ) : isVerifying ? (
                                 <RingLoader />
                               ) : (
-                                t(LanguageKey.marketProperties_Connect)
+                                t(LanguageKey.biolinkProperties_Connect)
                               )}
                             </button>
                             <button onClick={handleDeleteCustomDomain} className="stopButton" type="button">

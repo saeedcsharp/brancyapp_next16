@@ -838,7 +838,7 @@ const ShowStory = () => {
                             setShowQuickReplyPopup(true);
                           }}
                           disabled={!QuickReply}>
-                          {t(LanguageKey.marketstatisticsfeatures)}
+                          {t(LanguageKey.biolinkStatisticsfeatures)}
                         </button>
                       </div>
                     </div>

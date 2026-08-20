@@ -1022,7 +1022,7 @@ const ShowPost = () => {
                                 disabled={!quickReply}
                                 className={quickReply ? "cancelButton" : "disableButton"}
                                 onClick={() => setShowQuickReplyPopup(true)}>
-                                {t(LanguageKey.marketstatisticsfeatures)}
+                                {t(LanguageKey.biolinkStatisticsfeatures)}
                               </button>
                             </div>
                             {/* <div className="title2" role="heading" aria-level={3}>
@@ -1039,10 +1039,10 @@ const ShowPost = () => {
                               }
                             }}
                             disabled={!QuickReply}>
-                            {t(LanguageKey.marketstatisticsfeatures)}
+                            {t(LanguageKey.biolinkStatisticsfeatures)}
                           </button> */}
                             {/* <button className="cancelButton" onClick={() => setShowQuickReplyPopup(true)}>
-                              {t(LanguageKey.marketstatisticsfeatures)}
+                              {t(LanguageKey.biolinkStatisticsfeatures)}
                             </button> */}
                           </div>
                         </>

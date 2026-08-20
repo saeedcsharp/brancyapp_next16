@@ -10,7 +10,7 @@ export default function BusinessHourPopup(props: { businessInfo: IBusinessHour[]
   return (
     <>
       <div className="headerandinput">
-        <div className="title">{t(LanguageKey.marketProperties_bussinessHours)}</div>
+        <div className="title">{t(LanguageKey.biolinkProperties_bussinessHours)}</div>
       </div>
       {props.businessInfo.map((v, i) => (
         <div key={i} className={styles.section}>

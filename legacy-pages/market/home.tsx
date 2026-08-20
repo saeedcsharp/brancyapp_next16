@@ -14,7 +14,7 @@ import styles from "./home.module.css";
 import { IMarketInfo } from "brancy/models/interfaces";
 import { SelectedMarketType, MarketType } from "brancy/models/enums";
 
-const MarketHome = () => {
+const biolinkHome = () => {
   //  return <Soon />;
   const { t } = useTranslation();
   const router = useRouter();
@@ -281,9 +281,9 @@ const MarketHome = () => {
             )}
             <HeaderTitle
               titles={[
-                t(LanguageKey.markethomeAllMarkets),
-                t(LanguageKey.markethomeAdvertise),
-                t(LanguageKey.markethomeStore),
+                t(LanguageKey.biolinkHomeAllMarkets),
+                t(LanguageKey.biolinkHomeAdvertise),
+                t(LanguageKey.biolinkHomeStore),
               ]}
               handleSelectIndexItem={(marketType: SelectedMarketType) => {
                 setMarketType(marketType);
@@ -302,4 +302,4 @@ const MarketHome = () => {
   );
 };
 
-export default MarketHome;
+export default biolinkHome;

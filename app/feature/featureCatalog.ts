@@ -557,7 +557,7 @@ export const auditRecords: AuditRecord[] = [
     sourceKinds: ["component", "api", "enum"],
   },
   {
-    id: "marketHomePrototype",
+    id: "biolinkHomePrototype",
     routes: ["/market/home"],
     sourceKinds: ["route", "component", "translation"],
   },
