@@ -174,6 +174,8 @@ The Products card intentionally omits the edit-options three-dot control; other 
 
 The MyLink FeatureBox also renders a clickable lottery card with `/icon-lottery.svg` when `GetMyLink` returns ended lotteries. It opens a MyLink modal with at most five entries, and selecting an entry shows its winners from the already-loaded `IFullLottery` data. This flow intentionally has no score-lottery creation controls, slider, Share Story action, or Excel export.
 
+The MyLink Terms, Working Hours, and Lottery popups render the shared `EmptyPopupState` with a localized label when their terms text, business-hours array, or ended-lottery list is empty. Lottery winner absence remains a detail-level state for a selected lottery.
+
 `components/market/myLink/link.tsx` renders shortcut cards with a desktop maximum width of 250px. On mobile, the shortcut section becomes a free horizontal carousel with native touch scrolling and pointer dragging only when horizontal overflow exists; when more than four links exist, each mobile card is reduced to 200px. Dragging suppresses the click that would otherwise redirect to a shortcut URL, while ordinary clicks remain available when the content is not scrollable.
 
 Shortcut expiration values are Unix timestamps in seconds. `CountdownTimerForLink` displays days before the remaining hours when the duration reaches 24 hours, using `DD:HH:MM:SS`; shorter durations remain `HH:MM:SS`.

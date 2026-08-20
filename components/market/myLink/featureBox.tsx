@@ -73,21 +73,6 @@ const FeatureBox = memo<FeatureBoxProps>(
           clickable: false,
         });
       }
-      if (data.workHours) {
-        tiles.push({
-          key: "workHours",
-          className: styles.workHours,
-          content: {
-            image: { src: "/marketlink/icon-work.webp", alt: "active business hours" },
-            title: "",
-            subtitle: t(LanguageKey.advertiseProperties_businesshours),
-            titleClass: styles.workHoursTitle,
-            subtitleClass: styles.workHoursSubtitle,
-          },
-          clickable: true,
-          trackingName: "workHour",
-        });
-      }
       if (data.enemad?.length > 0) {
         tiles.push({
           key: "verified",
@@ -105,21 +90,6 @@ const FeatureBox = memo<FeatureBoxProps>(
             subtitleClass: styles.verifiedSubtitle,
           },
           clickable: false,
-        });
-      }
-      if (data.terms) {
-        tiles.push({
-          key: "terms",
-          className: styles.terms,
-          content: {
-            image: { src: "/marketlink/icon-terms.webp", alt: "terms and conditions" },
-            title: "",
-            subtitle: t(LanguageKey.footer_TermsAndConditions),
-            titleClass: styles.termsTitle,
-            subtitleClass: styles.termsSubtitle,
-          },
-          clickable: true,
-          trackingName: "terms",
         });
       }
       if (data.teriif) {
@@ -165,21 +135,6 @@ const FeatureBox = memo<FeatureBoxProps>(
           clickable: false,
         });
       }
-      if (data.lotteries.length > 0) {
-        tiles.push({
-          key: "lottery",
-          className: styles.lottery,
-          content: {
-            image: { src: "/icon-lottery.svg", alt: "Lottery" },
-            title: "",
-            subtitle: "Lottery",
-            titleClass: styles.lotteryTitle,
-            subtitleClass: styles.lotterySubtitle,
-          },
-          clickable: true,
-          trackingName: "lottery",
-        });
-      }
       if (data.isShopper) {
         tiles.push({
           key: "startAds",
@@ -214,7 +169,45 @@ const FeatureBox = memo<FeatureBoxProps>(
           clickable: true,
         });
       }
-
+      tiles.push({
+        key: "workHours",
+        className: styles.workHours,
+        content: {
+          image: { src: "/marketlink/icon-work.webp", alt: "active business hours" },
+          title: "",
+          subtitle: t(LanguageKey.advertiseProperties_businesshours),
+          titleClass: styles.workHoursTitle,
+          subtitleClass: styles.workHoursSubtitle,
+        },
+        clickable: true,
+        trackingName: "workHour",
+      });
+      tiles.push({
+        key: "terms",
+        className: styles.terms,
+        content: {
+          image: { src: "/marketlink/icon-terms.webp", alt: "terms and conditions" },
+          title: "",
+          subtitle: t(LanguageKey.footer_TermsAndConditions),
+          titleClass: styles.termsTitle,
+          subtitleClass: styles.termsSubtitle,
+        },
+        clickable: true,
+        trackingName: "terms",
+      });
+      tiles.push({
+        key: "lottery",
+        className: styles.lottery,
+        content: {
+          image: { src: "/icon-lottery.svg", alt: "Lottery" },
+          title: "",
+          subtitle: "Lottery",
+          titleClass: styles.lotteryTitle,
+          subtitleClass: styles.lotterySubtitle,
+        },
+        clickable: true,
+        trackingName: "lottery",
+      });
       return tiles;
     }, [data, t]);
     const handleKeyDown = useCallback(

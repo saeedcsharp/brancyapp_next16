@@ -70,6 +70,8 @@ MyLink online-stream titles and descriptions use the same line-break-preserving,
 
 The MyLink feature menubar is a free horizontal scroller. It does not distribute or compress items, and a stable viewport-anchor check keeps the active item synchronized with the visible page feature during manual or menu-triggered scrolling before centering it in the menubar.
 
+MyLink Terms, Working Hours, and Lottery dialogs show the shared localized empty popup state when no terms text, business hours, or ended lotteries are available; a selected lottery with no winners keeps its own localized winner-empty message.
+
 MyLink always prepends a Home shortcut backed by `FeatureType.FeaturesBox`, and the initial active feature is Home. The Contact and Map feature does not move browser focus to its first link on mount, preventing an initial page jump away from the FeatureBox section.
 
 MyLink shortcut expiration timers accept Unix timestamps in seconds. Durations of at least one day display as `DD:HH:MM:SS`; shorter durations retain the `HH:MM:SS` format.
