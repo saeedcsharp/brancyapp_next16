@@ -13,16 +13,11 @@ const couponDateFormatter = new Intl.DateTimeFormat("en-US", {
   day: "2-digit",
 });
 const Products = (props: { data: IProducts | null; username: string }) => {
-  const [searchTerm, setSearchTerm] = useState("");
   const [isProductDragging, setIsProductDragging] = useState(false);
   const [copiedCouponId, setCopiedCouponId] = useState<number | null>(null);
   const [selectedCouponId, setSelectedCouponId] = useState<number | null>(null);
-  const deferredSearchTerm = useDeferredValue(searchTerm);
   const productContainerRef = useRef<HTMLDivElement>(null);
   const dragStateRef = useRef({ startX: 0, startScrollLeft: 0, moved: false });
-  const handleResetSearch = useCallback(() => {
-    setSearchTerm("");
-  }, []);
   const handleViewStoreProducts = useCallback(() => {
     const domain = resolvePublicDomain(process.env.NEXT_PUBLIC_SHORT_LINK, window.location.hostname);
     window.location.assign(`https://${domain}/${encodeURIComponent(props.username)}/product`);
@@ -80,17 +75,8 @@ const Products = (props: { data: IProducts | null; username: string }) => {
     }
   }, []);
   const products = useMemo(() => {
-    const searchValue = deferredSearchTerm.trim().toLocaleLowerCase();
-    return (props.data?.productCards ?? [])
-      .map((productCard) => productCard.shortProduct)
-      .filter((product) => {
-        if (!searchValue) return true;
-        return (
-          product.title?.toLocaleLowerCase().includes(searchValue) ||
-          product.productId.toLocaleLowerCase().includes(searchValue)
-        );
-      });
-  }, [deferredSearchTerm, props.data?.productCards]);
+    return (props.data?.productCards ?? []).map((productCard) => productCard.shortProduct);
+  }, [props.data?.productCards]);
   const coupons = props.data?.productCoupons ?? [];
   const selectedCoupon = coupons.find((coupon) => coupon.couponId === selectedCouponId) ?? coupons[0];
   const selectedCouponIndex = selectedCoupon

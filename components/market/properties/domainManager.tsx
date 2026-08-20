@@ -25,7 +25,7 @@ const forbiddenDomains = new Set(["brancy.app", "bran.cy", "brncy.ir", "brancy.i
 const domainLabelPattern = /^[a-z0-9](?:[a-z0-9-]{0,61}[a-z0-9])?$/;
 
 function getDefaultDomain(username: string, baseUrl: string): string {
-  return /[._\-ـ]/.test(username) ? `${baseUrl}/${username}` : `${username}.${baseUrl}`;
+  return username.includes(".") ? `${baseUrl}/${username}` : `${username}.${baseUrl}`;
 }
 
 function normalizeDomain(value: string): string {

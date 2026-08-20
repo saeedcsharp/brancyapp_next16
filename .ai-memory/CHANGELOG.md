@@ -254,6 +254,7 @@
 - بهینه‌سازی Domain Manager: حذف state و handlerهای بدون مصرف، محاسبه حافظه‌ای اعتبارسنجی و لینک‌ها، پشتیبانی Enter و کنترل‌های native برای دسترسی‌پذیری، لغو درخواست‌های API و cleanup کامل منابع، اصلاح copy دامنه سفارشی و Tariff، حذف consoleهای اضافی، و اصلاح robots/description/zoom صفحه Properties.
 - Modal تأیید درخواست دامنه حذف شد و درخواست معتبر مستقیماً ارسال می‌شود.
 - قوانین Custom Domain به فهرست HTML تبدیل شدند و نمایش آن‌ها به انتخاب رادیوی Custom Domain محدود شد.
+- اصلاح شد: Domain Manager اکنون فقط برای usernameهای دارای `.` از لینک `baseShortUrl/username` استفاده می‌کند؛ usernameهای دارای `_` یا `-` دوباره به شکل `username.baseShortUrl` نمایش داده می‌شوند.
 
 ## 2026-08-04
 

@@ -175,7 +175,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - Converted the MyLink product cards into a free horizontal carousel with native touch scrolling, mouse/pointer dragging, no wrapping or scroll snap, and drag-click protection for product links.
 - Made MyLink product cards responsive with smaller mobile widths, square fixed-aspect thumbnails, and two-line ellipsis truncation for product names.
 - # Added responsive MyLink product controls with Best Sellers/Best Discounts sorting toggles, a flex-growing product search, and a Show All Products reset action that stacks cleanly on mobile.
-- Domain Manager now uses `baseShortUrl/username` instead of `username.baseShortUrl` for default and destination links when the username contains `.`, `_`, `-`, or Persian kashida (`ـ`), preventing invalid hostnames such as `brancy_demo.bran.cy`.
+- Domain Manager now uses `baseShortUrl/username` instead of `username.baseShortUrl` for default and destination links only when the username contains `.`, while `_` and `-` continue to use the subdomain form.
 - Domain Manager domain displays no longer add a `www.` prefix.
 - Domain Manager hides the duplicate default link when an invalid subdomain username already resolves to the path-style URL.
 - Fixed the Domain Manager loading state under React Strict Mode by re-enabling its mounted guard during effect setup, allowing the custom-domain Request button to leave `RingLoader` after the request completes.

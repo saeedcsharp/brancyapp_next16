@@ -197,7 +197,7 @@ The default and custom domain sections are presented as mutually exclusive radio
 
 The shared destination-links section is gated by the selected domain type. It is visible for the default option, while the custom option requires `isCustomDomainActive`; its destination URLs use the accepted custom-domain URI only in that selected active state.
 
-Default username-based links use the subdomain form only when the username contains no `.`, `_`, `-`, or Persian kashida (`ـ`). Usernames containing any of those characters use the path form `baseShortUrl/username`, including the default-domain display and destination links; accepted custom-domain links continue to use the custom domain itself. Domain displays do not add a `www.` prefix, and the alternate default link is hidden when it resolves to the same path.
+Default username-based links use the path form `baseShortUrl/username` only when the username contains a period (`.`); usernames containing `_` or `-` continue to use the subdomain form `username.baseShortUrl`. This applies to the default-domain display and destination links; accepted custom-domain links continue to use the custom domain itself. Domain displays do not add a `www.` prefix, and the alternate default link is hidden when it resolves to the same path.
 
 When `isDevMode` is enabled, the Domain Manager also exposes a local-only `مرحله بعدی (تست)` control. It advances a pending domain from the name-server step to the completed-DNS step and then to an active accepted-domain state without sending an API request; the existing Delete control remains the backend cleanup action.
 
