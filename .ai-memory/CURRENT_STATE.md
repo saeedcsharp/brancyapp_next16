@@ -123,6 +123,9 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - Synchronized all eight locale files to the same 2,970 direct string translation keys. Missing entries use English fallback text where available and key-name placeholders otherwise; nested translation objects remain outside the flat `LanguageKey` enum.
 - Added a dedicated store statistics coupon section. The Statistics page owns `Shopper/Coupon/GetCoupon`, including `isActive`/`isPrivate` filters and `nextMaxId` query pagination based on the last coupon ID through `useInfiniteScroll`, the documented `CreateCoupon` POST request, `Shopper/Coupon/UpdateCoupon`, and related server state; `CouponManager` and `CreateCouponModal` are data/callback-driven UI components. Labels, placeholders, statuses, and interpolated values are localized across all eight supported languages.
 - Store statistic coupon cards show a present phone number, including `0`, with a localized `Private` tag; missing phone numbers show a localized `Public` tag.
+- Store statistic coupons now support API-backed search using the `query` parameter. Search displays a loading state for each request, restores the regular paginated list when cleared, and does not request additional pages while active.
+- Coupon search requests are debounced by 400 milliseconds after the last typed character.
+- Normal coupon results are cached per filter combination and restored when search is cleared, avoiding an extra API request when leaving search.
 
 - AI image and video creation now returns to the matching library immediately after request submission, shows one loading card per pending `clientContext`, and replaces or removes each card when its correlated SignalR success or failure notification arrives. Concurrent generations remain independently tracked.
 

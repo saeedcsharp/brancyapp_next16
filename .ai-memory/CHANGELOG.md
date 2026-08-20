@@ -1,3 +1,7 @@
+- Added API-backed coupon search with the `query` parameter, loading feedback while results refresh, normal pagination restoration when cleared, and pagination disabled during search.
+- Debounced coupon search requests by 400 milliseconds to avoid one server request per typed character.
+- Cached the normal coupon list per filter combination so clearing search does not issue a redundant API request.
+
 - Added localized phone visibility details to store statistic coupon cards: present phone numbers, including `0`, show the number and `Private`, while missing numbers show `Public`.
 
 - Added the home profile status slideshow with explicit priorities from `1` (highest) to `10` (lowest), previous/next controls for multiple active states, shopper/influencer and role-upgrade actions, first-login synchronization, and expiring-subscription states. The subscription warning now activates below seven days and displays the remaining-day count. The first-login state includes a live 24-hour countdown and progress bar, and all new copy is localized across the eight supported locales.

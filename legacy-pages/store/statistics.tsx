@@ -46,9 +46,11 @@ const Statistics = () => {
   const [couponsNextMaxId, setCouponsNextMaxId] = useState<string | null>(null);
   const [isActive, setIsActive] = useState(true);
   const [isPrivate, setIsPrivate] = useState(false);
+  const [couponSearchQuery, setCouponSearchQuery] = useState("");
   const [updatingCouponId, setUpdatingCouponId] = useState<number | null>(null);
   const [isLoadingMoreCoupons, setIsLoadingMoreCoupons] = useState(false);
   const isLoadingMoreCouponsRef = useRef(false);
+  const normalCouponsCacheRef = useRef(new Map<string, { coupons: IUserCoupon[]; nextMaxId: string | null }>());
   const router = useRouter();
   const [twoMonth, setTwoMonth] = useState<ISaleMonth[]>([]);
   const [totalSalesStatistics, setTotalSalesStatistics] = useState<ISaleShortMonth[]>([]);
@@ -62,26 +64,37 @@ const Statistics = () => {
   }
   const loadCoupons = useCallback(async () => {
     if (!session) return;
+    const query = couponSearchQuery.trim();
+    const cacheKey = `${isActive}:${isPrivate}`;
+    const cachedCoupons = !query ? normalCouponsCacheRef.current.get(cacheKey) : undefined;
+    if (cachedCoupons) {
+      setCoupons(cachedCoupons.coupons);
+      setCouponsNextMaxId(cachedCoupons.nextMaxId);
+      return;
+    }
     setIsLoadingCoupons(true);
     setCoupons([]);
     setCouponsNextMaxId(null);
     const response = await clientFetchApi<undefined, IUserCoupon[]>("/api/coupon/GetCoupons", {
       session,
+      queries: query ? [{ key: "query", value: query }] : [],
     });
     if (response.succeeded) {
       const firstPage = response.value ?? [];
+      const nextMaxId = firstPage.length > 0 ? String(firstPage[firstPage.length - 1].couponId) : null;
       setCoupons(firstPage);
-      setCouponsNextMaxId(firstPage.length > 0 ? String(firstPage[firstPage.length - 1].couponId) : null);
+      setCouponsNextMaxId(nextMaxId);
+      if (!query) normalCouponsCacheRef.current.set(cacheKey, { coupons: firstPage, nextMaxId });
     } else {
       notify(response.info.responseType, NotifType.Warning);
       setCoupons([]);
       setCouponsNextMaxId(null);
     }
     setIsLoadingCoupons(false);
-  }, [isActive, isPrivate, session]);
+  }, [couponSearchQuery, isActive, isPrivate, session]);
 
   const fetchMoreCoupons = useCallback(async (): Promise<IUserCoupon[]> => {
-    if (!session || !couponsNextMaxId) return [];
+    if (!session || !couponsNextMaxId || couponSearchQuery.trim()) return [];
     const response = await clientFetchApi<undefined, IUserCoupon[]>("/api/coupon/GetCoupons", {
       session,
       queries: [{ key: "nextMaxId", value: couponsNextMaxId }],
@@ -94,10 +107,10 @@ const Statistics = () => {
     const items = response.value ?? [];
     setCouponsNextMaxId(items.length > 0 ? String(items[items.length - 1].couponId) : null);
     return items;
-  }, [couponsNextMaxId, isActive, isPrivate, session]);
+  }, [couponSearchQuery, couponsNextMaxId, isActive, isPrivate, session]);
 
   const handleLoadMoreCoupons = useCallback(async () => {
-    if (isLoadingMoreCouponsRef.current || !couponsNextMaxId) return;
+    if (isLoadingMoreCouponsRef.current || !couponsNextMaxId || couponSearchQuery.trim()) return;
     isLoadingMoreCouponsRef.current = true;
     setIsLoadingMoreCoupons(true);
     try {
@@ -105,14 +118,19 @@ const Statistics = () => {
       if (newCoupons.length > 0) {
         setCoupons((current) => {
           const existingIds = new Set(current.map((coupon) => coupon.couponId));
-          return [...current, ...newCoupons.filter((coupon) => !existingIds.has(coupon.couponId))];
+          const updatedCoupons = [...current, ...newCoupons.filter((coupon) => !existingIds.has(coupon.couponId))];
+          normalCouponsCacheRef.current.set(`${isActive}:${isPrivate}`, {
+            coupons: updatedCoupons,
+            nextMaxId: couponsNextMaxId,
+          });
+          return updatedCoupons;
         });
       }
     } finally {
       isLoadingMoreCouponsRef.current = false;
       setIsLoadingMoreCoupons(false);
     }
-  }, [couponsNextMaxId, fetchMoreCoupons]);
+  }, [couponSearchQuery, couponsNextMaxId, fetchMoreCoupons]);
   async function handleCreateCoupon(coupon: CreateCouponRequest): Promise<boolean> {
     if (!session) return false;
     const response = await clientFetchApi<CreateCouponRequest, boolean>("/api/coupon/CreateCoupon", {
@@ -124,6 +142,7 @@ const Statistics = () => {
       notify(response.info.responseType, NotifType.Warning);
       return false;
     }
+    normalCouponsCacheRef.current.clear();
     await loadCoupons();
     return true;
   }
@@ -143,6 +162,7 @@ const Statistics = () => {
       notify(response.info.responseType, NotifType.Warning);
       return false;
     }
+    normalCouponsCacheRef.current.clear();
     await loadCoupons();
     return true;
   }
@@ -160,6 +180,14 @@ const Statistics = () => {
       setCoupons((previous) =>
         previous.map((item) => (item.couponId === coupon.couponId ? { ...item, isDeleted: isDelete } : item)),
       );
+      normalCouponsCacheRef.current.forEach((cached, key) => {
+        normalCouponsCacheRef.current.set(key, {
+          ...cached,
+          coupons: cached.coupons.map((item) =>
+            item.couponId === coupon.couponId ? { ...item, isDeleted: isDelete } : item,
+          ),
+        });
+      });
     } else notify(response.info.responseType, NotifType.Warning);
     setUpdatingCouponId(null);
   }
@@ -494,6 +522,8 @@ const Statistics = () => {
               onReachEnd={handleLoadMoreCoupons}
               isActive={isActive}
               isPrivate={isPrivate}
+              searchQuery={couponSearchQuery}
+              onSearchQueryChange={setCouponSearchQuery}
               onActiveFilterChange={setIsActive}
               onPrivateFilterChange={setIsPrivate}
               updatingCouponId={updatingCouponId}

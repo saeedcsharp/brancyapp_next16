@@ -74,6 +74,9 @@ React components are present when the folder contains `.tsx` UI files.
 - `CouponManager` uses layered card styling for coupon entries, status badges, metadata chips, responsive mobile stacking, and reduced-motion support while preserving the existing data and callback API.
 - `CouponManager` fills its statistics-grid cell at `100%` width without the extra horizontal margins used by its previous standalone layout, matching the sibling statistics cards on desktop and mobile.
 - Coupon cards show a present phone number, including `0`, with a `Private` tag; coupons without a phone number show a `Public` tag.
+- Coupon statistics support API-backed search through the `query` parameter on `Shopper/Coupon/GetCoupon`. Search changes clear the current results and show the loading state until the response arrives; clearing the query restores normal results and pagination, while pagination is disabled during search.
+- Coupon search input is debounced by 400 milliseconds, so rapid typing does not issue one API request per character.
+- The previously loaded normal coupon list is cached per active/private filter combination, so leaving search restores it without an extra API request; coupon mutations invalidate or update the cached state.
 
 ## Hooks
 
