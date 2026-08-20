@@ -1,17 +1,41 @@
 - Converted individual bulk-product adjustment cards to the shared free-mode horizontal slider while preserving each card's existing controls and save behavior.
 - Added an accessible collapse interaction to the unified Page Tools `hashtagManager` card. Its header toggles the content and reduces the card row span while closed, with Enter and Space keyboard support.
+- Updated the MyLink About branding link to show `Brancy.App` on `brancy.app` and `Brancy.Ir` with the Iranian URL on other hosts.
 
-- Unified the Page Tools saved-hashtag and trend/search-hashtag cards into one localized `hashtagManager` card with a shared two-option `ToggleButton`.
+- Updated the MyLink View Store Products action to redirect to `https://{resolved-domain}/{username}/product` using `resolvePublicDomain` for localhost, regional, and app domains.
+
+- Added the missing `LanguageKey.Lottery` entry and translations in all eight locale files for the MyLink lottery popup title.
+
+- Gated AI Prompt Analysis modal opening behind `Instagramer/AI/HasPageAnalysis`; pages without a completed AI analysis now receive a localized internal warning.
+
+- Added a shared localized empty state to the MyLink Terms, Working Hours, and Lottery popups when their content is unavailable, while preserving the selected-lottery no-winners state.
+
+- Added API-backed coupon search with the `query` parameter, loading feedback while results refresh, normal pagination restoration when cleared, and pagination disabled during search.
+- Debounced coupon search requests by 400 milliseconds to avoid one server request per typed character.
+- Cached the normal coupon list per filter combination so clearing search does not issue a redundant API request.
+
+- Added localized phone visibility details to store statistic coupon cards: present phone numbers, including `0`, show the number and `Private`, while missing numbers show `Public`.
 
 - Added the home profile status slideshow with explicit priorities from `1` (highest) to `10` (lowest), previous/next controls for multiple active states, shopper/influencer and role-upgrade actions, first-login synchronization, and expiring-subscription states. The subscription warning now activates below seven days and displays the remaining-day count. The first-login state includes a live 24-hour countdown and progress bar, and all new copy is localized across the eight supported locales.
 
 - Fixed the main subscription remaining-time calculation so it subtracts the current time from the expiry timestamp and displays `0 days` after expiration instead of the absolute timestamp converted to days.
+
+- Updated MyLink `GetMyLink` mapping to read products and coupons from `shopperInfo`; visible product coupons now render alongside products with discount, usage, expiry, and copy details.
+- Corrected MyLink coupon handling to read the server's plural `shopperInfo.productCoupons` field and render every returned item without extra client filtering.
+- Fixed the MyLink coupon list being visually empty when its flex container collapsed beside the store button; the list now grows across the available header width.
+- Replaced the MyLink coupon-card row with the shared DragDrop selector while retaining coupon metadata and copy feedback for the selected code.
 
 - Localized AI tool parameter placeholders by selecting the matching `completeDescription*` field from the active locale, using German for `gr` and English/legacy description fallbacks when needed.
 - Enabled adding AI tools that do not define parameters; tools with required manual parameters retain their existing validation.
 - Changed the sender-username mention from an empty-parameter AI tool into a prompt-only action that inserts `[SENDER_USERNAME]` and never enters the selected tools list.
 - Disabled the sender-username mention in prompt-analysis mode while keeping it available as a prompt-only action in manual mode, and prevented it from inheriting the selected state of tools with the same enum value.
 - Added selected highlighting and accessible removal directly to the existing clickable AI tool options below the prompt in manual and analysis modes, without rendering a separate selected-tool list.
+- Localized AI tool option names in the prompt box using each tool's `displayName*` field and the active i18next locale, with German text for `gr` and English/name fallbacks.
+- Localized AI tool titles and complete descriptions in the tool settings popup using the model's `displayName*` and `completeDescription*` fields for the active locale.
+- Existing AI prompts now restore their selected tools from the `GetPrompt` response, including `toolId` values with nullable parameters.
+- Changed AI Prompt Analysis selection to always remain available. It now opens a shared textarea modal, enables Accept only after more than 20 characters are entered, and calls `GetPromptAnalysis` with the accepted text; Close leaves the existing prompt unchanged.
+- Moved the Prompt Analysis modal ownership from `aiPromptBox.tsx` to `flowAndAIInBox.tsx`, alongside the other page-level modals, while retaining the child prompt update and API callback behavior.
+- Added the localized `promptanalysisplaceholder` text in all eight supported languages, including the 20-character minimum required for analysis.
 
 - Highlighted the currently selected Instagram account in the account switcher and added its accessible `aria-pressed` state.
 - Prevented the upgrade page from reloading package details, reserve prices, and package prices during the session update that starts an account switch; navigation now proceeds without the unnecessary three-request cycle.
@@ -52,8 +76,9 @@
 - Reorganized the bulk product popup's percentage and amount controls so each radio stays beside its matching input, and moved per-product rendering into a local helper without changing save behavior.
 
 - Removed the obsolete `IconToggleButton` component and migrated its consumers to the shared `ToggleButton` control.
+- Replaced the Iran IP `internalNotify` in the Instagram connection dialog with the localized invalid-IP message and a ten-second countdown before redirecting to Instagram; valid non-Iranian IPs now show a localized automatic-redirect toast and use the same ten-second delay.
 
-- Updated the shared DotMenu to render its open menu through `document.body` with viewport-fixed placement, allowing it to appear above ancestor overflow and stacking contexts without relying on a component-level `z-index`; outside-pointer handling recognizes the portalled menu.
+- Forwarded the incoming `user-agent` header from the local API proxy to the upstream Brancy API.
 
 - Moved generated image and video modal styles into the dedicated `Modal_Generated.module.css` and removed those unused result selectors from `mediaCreator.module.css`.
 
@@ -132,7 +157,11 @@
 
 - Fixed MyLink shortcut countdown formatting so durations over 24 hours display days, hours, minutes, and seconds instead of an inflated total-hour value.
 
-- Synchronized the eight locale files and `LanguageKey` to 2,970 direct string translation keys. Missing locale entries now exist in every language, using English fallback text or a key-name placeholder when no source translation exists.
+- Added the shared `resolvePublicDomain` helper for mapping local, `patran.ir`, `brancy.ir`, and `brancy.app` link bases to their public domains.
+
+- Added the localized `biolinkProperties_yourlottery` label for completed lotteries across all eight supported languages.
+
+- Synchronized the eight locale files and `LanguageKey` to 2,971 direct string translation keys. Missing locale entries now exist in every language, using English fallback text or a key-name placeholder when no source translation exists.
 
 ## 2026-08-12
 
@@ -238,6 +267,7 @@
 - بهینه‌سازی Domain Manager: حذف state و handlerهای بدون مصرف، محاسبه حافظه‌ای اعتبارسنجی و لینک‌ها، پشتیبانی Enter و کنترل‌های native برای دسترسی‌پذیری، لغو درخواست‌های API و cleanup کامل منابع، اصلاح copy دامنه سفارشی و Tariff، حذف consoleهای اضافی، و اصلاح robots/description/zoom صفحه Properties.
 - Modal تأیید درخواست دامنه حذف شد و درخواست معتبر مستقیماً ارسال می‌شود.
 - قوانین Custom Domain به فهرست HTML تبدیل شدند و نمایش آن‌ها به انتخاب رادیوی Custom Domain محدود شد.
+- اصلاح شد: Domain Manager اکنون فقط برای usernameهای دارای `.` از لینک `baseShortUrl/username` استفاده می‌کند؛ usernameهای دارای `_` یا `-` دوباره به شکل `username.baseShortUrl` نمایش داده می‌شوند.
 
 ## 2026-08-04
 

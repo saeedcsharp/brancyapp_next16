@@ -197,6 +197,7 @@ export default function InstaLogin(props: { removeMask: () => void }) {
           roles: instagramer.roles,
           isPartner: instagramer.isPartner,
           currentIndex: i,
+          createdTime: instagramer.createdTime,
         },
       });
       props.removeMask();

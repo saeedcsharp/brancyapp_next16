@@ -48,6 +48,7 @@ export async function proxyToBrancy(request: NextRequest, fixedSubUrl: string) {
         "Content-Type": "application/json",
         Authorization: request.headers.get("authorization") ?? "",
         instagramerId: request.headers.get("instagramerid") ?? "-1",
+        "user-agent": request.headers.get("user-agent") ?? "",
       },
       body: methodType === 1 ? JSON.stringify(data) : undefined,
       cache: "no-store",

@@ -44,6 +44,7 @@ const AIPromptBox = ({
   tools,
   setTools,
   setShowNotFeature,
+  openPromptAnalysisModal,
 }: {
   aiTools: IAITools[];
   userSelectId: string | null;
@@ -62,6 +63,7 @@ const AIPromptBox = ({
   tools: ITool[];
   setTools: React.Dispatch<React.SetStateAction<ITool[]>>;
   setShowNotFeature: (value: boolean) => void;
+  openPromptAnalysisModal: (initialText: string, onAccept: (text: string) => void, onClose: () => void) => void;
 }) => {
   const { data: session } = useSession({
     required: true,
@@ -71,7 +73,7 @@ const AIPromptBox = ({
   });
   const router = useRouter();
   const chatBoxRef = useRef<HTMLDivElement>(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const manualModeId = useId();
   const analysisModeId = useId();
   const [isPending, startTransition] = useTransition();
@@ -80,6 +82,7 @@ const AIPromptBox = ({
     fbId: "",
     promptId: "",
     promptStr: "",
+    tools: [],
     reNewForThread: false,
     shouldFollower: false,
     title: "",
@@ -119,19 +122,42 @@ const AIPromptBox = ({
   }, []);
 
   const getDisplayName = useCallback(
-    (name: string) => {
-      switch (name) {
-        case "send_sms_ir_code":
-          return t(LanguageKey.sendsms);
-        case "send_to_telegram":
-          return t(LanguageKey.sendtotelegram);
-        case "SENDER_USERNAME":
-          return t(LanguageKey.senderusername);
-        default:
-          return name;
+    (
+      tool: Pick<IAITools, "name"> &
+        Partial<
+          Pick<
+            IAITools,
+            | "displayNameEn"
+            | "displayNameFa"
+            | "displayNameRu"
+            | "displayNameDe"
+            | "displayNameTr"
+            | "displayNameAz"
+            | "displayNameAr"
+            | "displayNameFr"
+          >
+        >,
+    ) => {
+      if (tool.name === "SENDER_USERNAME") {
+        return t(LanguageKey.senderusername);
       }
+
+      const language = i18n.language.split("-")[0];
+      const displayNameByLanguage = {
+        en: tool.displayNameEn,
+        fa: tool.displayNameFa,
+        ru: tool.displayNameRu,
+        de: tool.displayNameDe,
+        gr: tool.displayNameDe,
+        tr: tool.displayNameTr,
+        az: tool.displayNameAz,
+        ar: tool.displayNameAr,
+        fr: tool.displayNameFr,
+      } as const;
+
+      return displayNameByLanguage[language as keyof typeof displayNameByLanguage] || tool.displayNameEn || tool.name;
     },
-    [t],
+    [i18n.language, t],
   );
 
   useEffect(() => {
@@ -161,6 +187,12 @@ const AIPromptBox = ({
         if (!signal?.aborted) {
           if (res.succeeded) {
             setDetailedPrompt(res.value);
+            setTools(
+              (res.value.tools ?? []).map((tool) => ({
+                toolId: String(tool.toolId),
+                parameters: tool.parameters ?? [],
+              })),
+            );
             const hasAnalysis = res.value.customPromptAnalysis !== null;
             setAdvancePrompt(hasAnalysis);
             setPromptMode(hasAnalysis ? "analysis" : "manual");
@@ -221,47 +253,91 @@ const AIPromptBox = ({
       setUpdateLoading(false);
     }
   }, [session, detailedPrompt, advancePrompt, userSelectId, updateAIPrompt, setShowAIToolsSettings, tools]);
-  const handleGetPromptAnalysis = useCallback(async () => {
-    const hasAccess = await fetchAndCheckFeature(PsgFeatureType.AI, session);
-    if (!hasAccess) {
-      setShowNotFeature(true);
-      return;
-    }
-    setDetailedPrompt((prev) => ({ ...prev, customPromptAnalysis: null }));
-    setLoadingPromptAnalysis(true);
-    setShowAnalysisContent(false);
-    startTransition(async () => {
-      try {
-        const res = await clientFetchApi<string, IAnalysisPrompt>("/api/ai/GetPromptAnalysis", {
-          methodType: MethodType.post,
-          session: session,
-          data: { str: detailedPrompt.promptStr },
-          queries: undefined,
-          onUploadProgress: undefined,
-        });
-        if (res.succeeded) {
-          setDetailedPrompt((prev) => ({
-            ...prev,
-            customPromptAnalysis: res.value,
-          }));
-          // show content with a tiny delay to allow CSS transitions
-          setTimeout(() => setShowAnalysisContent(true), 5);
-        } else {
-          notify(res.info.responseType, NotifType.Warning);
+  const handleGetPromptAnalysis = useCallback(
+    async (promptText = detailedPrompt.promptStr) => {
+      const hasAccess = await fetchAndCheckFeature(PsgFeatureType.AI, session);
+      if (!hasAccess) {
+        setShowNotFeature(true);
+        return;
+      }
+      setDetailedPrompt((prev) => ({ ...prev, customPromptAnalysis: null }));
+      setLoadingPromptAnalysis(true);
+      setShowAnalysisContent(false);
+      startTransition(async () => {
+        try {
+          const res = await clientFetchApi<string, IAnalysisPrompt>("/api/ai/GetPromptAnalysis", {
+            methodType: MethodType.post,
+            session: session,
+            data: { str: promptText },
+            queries: undefined,
+            onUploadProgress: undefined,
+          });
+          if (res.succeeded) {
+            setDetailedPrompt((prev) => ({
+              ...prev,
+              customPromptAnalysis: res.value,
+            }));
+            // show content with a tiny delay to allow CSS transitions
+            setTimeout(() => setShowAnalysisContent(true), 5);
+          } else {
+            notify(res.info.responseType, NotifType.Warning);
+            setPromptMode("manual");
+            setAdvancePrompt(false);
+            setShowAnalysisContent(false);
+          }
+        } catch (error) {
+          notify(ResponseType.Unexpected, NotifType.Error);
           setPromptMode("manual");
           setAdvancePrompt(false);
           setShowAnalysisContent(false);
+        } finally {
+          setLoadingPromptAnalysis(false);
         }
-      } catch (error) {
-        notify(ResponseType.Unexpected, NotifType.Error);
-        setPromptMode("manual");
-        setAdvancePrompt(false);
+      });
+    },
+    [session, detailedPrompt.promptStr, startTransition],
+  );
+
+  const acceptPromptAnalysis = useCallback(
+    (promptAnalysisText: string) => {
+      setDetailedPrompt((prev) => ({
+        ...prev,
+        promptStr: promptAnalysisText,
+      }));
+      handleGetPromptAnalysis(promptAnalysisText);
+    },
+    [handleGetPromptAnalysis],
+  );
+
+  const closePromptAnalysisModal = useCallback(() => {
+    setPromptMode("manual");
+    setAdvancePrompt(false);
+    setShowAnalysisContent(false);
+  }, []);
+
+  const handlePromptAnalysisSelection = useCallback(async () => {
+    try {
+      const res = await clientFetchApi<boolean, boolean>("/api/ai/HasPageAnalysis", {
+        methodType: MethodType.get,
+        session,
+        data: null,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
+
+      if (res.succeeded && res.value === true) {
+        setPromptMode("analysis");
+        setAdvancePrompt(true);
         setShowAnalysisContent(false);
-      } finally {
-        setLoadingPromptAnalysis(false);
+        openPromptAnalysisModal(detailedPrompt.promptStr, acceptPromptAnalysis, closePromptAnalysisModal);
+        return;
       }
-    });
-  }, [session, detailedPrompt.promptStr, startTransition]);
+
+      internalNotify(InternalResponseType.PageAnalysisNotCompleted, NotifType.Warning);
+    } catch {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    }
+  }, [acceptPromptAnalysis, closePromptAnalysisModal, detailedPrompt.promptStr, openPromptAnalysisModal, session]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -278,6 +354,7 @@ const AIPromptBox = ({
         fbId: "",
         promptId: "",
         promptStr: "",
+        tools: [],
         reNewForThread: false,
         shouldFollower: false,
         title: "",
@@ -305,6 +382,22 @@ const AIPromptBox = ({
         name: "SENDER_USERNAME",
         description: "Use username in your prompt",
         completeDescription: "Use username in your prompt",
+        completeDescriptionEn: "Use username in your prompt",
+        completeDescriptionRu: "Use username in your prompt",
+        completeDescriptionFa: "Use username in your prompt",
+        completeDescriptionDe: "Use username in your prompt",
+        completeDescriptionTr: "Use username in your prompt",
+        completeDescriptionAz: "Use username in your prompt",
+        completeDescriptionAr: "Use username in your prompt",
+        completeDescriptionFr: "Use username in your prompt",
+        displayNameEn: "",
+        displayNameFa: "",
+        displayNameRu: "",
+        displayNameDe: "",
+        displayNameTr: "",
+        displayNameAz: "",
+        displayNameAr: "",
+        displayNameFr: "",
         tokenUsage: 0,
         parameters: [],
         toolType: ToolType.SendTelegramMessage,
@@ -423,16 +516,7 @@ const AIPromptBox = ({
                         }}
                       />
 
-                      <div
-                        style={{ transition: "var(--transition3)" }}
-                        className={
-                          detailedPrompt.promptStr
-                            .trim()
-                            .split(/\s+/)
-                            .filter((word) => word.length > 0).length < 2 || detailedPrompt.promptStr.length <= 20
-                            ? "fadeDiv"
-                            : ""
-                        }>
+                      <div style={{ transition: "var(--transition3)" }}>
                         <RadioButton
                           name="promptMode"
                           id={analysisModeId}
@@ -440,12 +524,7 @@ const AIPromptBox = ({
                           textlabel={t(LanguageKey.promptanalysis)}
                           handleOptionChanged={(e) => {
                             if (e.target.checked) {
-                              setPromptMode("analysis");
-                              setAdvancePrompt(true);
-                              setShowAnalysisContent(false);
-                              if (detailedPrompt.promptStr.length > 0) {
-                                handleGetPromptAnalysis();
-                              }
+                              void handlePromptAnalysisSelection();
                             }
                           }}
                         />
@@ -500,7 +579,7 @@ const AIPromptBox = ({
                                 role="button"
                                 tabIndex={0}
                                 aria-pressed={isSelected}
-                                aria-label={`${isSelected ? "Edit" : "Add"} ${getDisplayName(tool.name)}`}>
+                                aria-label={`${isSelected ? "Edit" : "Add"} ${getDisplayName(tool)}`}>
                                 {!isSelected && (
                                   <img
                                     style={{ width: "20px", height: "20px" }}
@@ -510,12 +589,12 @@ const AIPromptBox = ({
                                     aria-hidden="true"
                                   />
                                 )}
-                                <span>{getDisplayName(tool.name)}</span>
+                                <span>{getDisplayName(tool)}</span>
                                 {isSelected && (
                                   <button
                                     type="button"
                                     className={styles.promptModeoptionRemove}
-                                    aria-label={`Remove ${getDisplayName(tool.name)}`}
+                                    aria-label={`Remove ${getDisplayName(tool)}`}
                                     onKeyDown={(event) => event.stopPropagation()}
                                     onClick={(event) => {
                                       event.stopPropagation();
@@ -553,7 +632,7 @@ const AIPromptBox = ({
                           {promptMode === "analysis" && !loadingPromptAnalysis && (
                             <button
                               className={styles.reanalize}
-                              onClick={handleGetPromptAnalysis}
+                              onClick={() => handleGetPromptAnalysis()}
                               onKeyDown={(e) => e.key === "Enter" && handleGetPromptAnalysis()}
                               aria-label="Reanalyze prompt"
                               type="button">
@@ -639,7 +718,7 @@ const AIPromptBox = ({
                                 tabIndex={isDisabled ? -1 : 0}
                                 aria-disabled={isDisabled}
                                 aria-pressed={isDisabled ? undefined : isSelected}
-                                aria-label={`${isSelected ? "Edit" : "Add"} ${getDisplayName(tool.name)}`}>
+                                aria-label={`${isSelected ? "Edit" : "Add"} ${getDisplayName(tool)}`}>
                                 {!isSelected && !isDisabled && (
                                   <img
                                     style={{ width: "20px", height: "20px" }}
@@ -649,12 +728,12 @@ const AIPromptBox = ({
                                     aria-hidden="true"
                                   />
                                 )}
-                                <span>{getDisplayName(tool.name)}</span>
+                                <span>{getDisplayName(tool)}</span>
                                 {isSelected && !isDisabled && (
                                   <button
                                     type="button"
                                     className={styles.promptModeoptionRemove}
-                                    aria-label={`Remove ${getDisplayName(tool.name)}`}
+                                    aria-label={`Remove ${getDisplayName(tool)}`}
                                     onKeyDown={(event) => event.stopPropagation()}
                                     onClick={(event) => {
                                       event.stopPropagation();

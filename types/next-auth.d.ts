@@ -35,6 +35,7 @@ declare module "next-auth" {
     website: string | null;
     biography: string | null;
     hasPackage?: boolean;
+    createdTime: number;
   }
 
   interface Session {

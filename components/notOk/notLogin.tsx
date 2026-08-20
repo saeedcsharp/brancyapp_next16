@@ -3,6 +3,7 @@ import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { toast } from "react-toastify";
 import Loading from "brancy/components/notOk/loading";
 import {
   internalNotify,
@@ -32,6 +33,7 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
   const [instaId, setInstaId] = useState("");
   const [preInstaToken, setPreInstaToken] = useState("");
   const [loading, setLoading] = useState(false);
+  const [ipWarningSeconds, setIpWarningSeconds] = useState<number | null>(null);
   const [showTooltip, setShowTooltip] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const formatNumber = useCallback((num: number): string => {
@@ -110,18 +112,39 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
   }, [session, router]);
 
   const handleRedirectToInstagram = useCallback(async () => {
+    if (ipWarningSeconds !== null) return;
+
     try {
       const res = await fetch("/api/user/ip");
       const data = await res.json();
       if (data.countryCode === "ir") {
-        internalNotify(InternalResponseType.TurnOnProxy, NotifType.Warning);
+        toast.info(t(LanguageKey.Notify_InstagramRedirectInTenSeconds), {
+          autoClose: 10000,
+          toastId: "instagram-redirect-countdown",
+        });
+        setIpWarningSeconds(10);
         return;
       }
     } catch {
       // ignore; proceed to redirect
     }
     await redirectToInstagram();
-  }, [redirectToInstagram]);
+  }, [ipWarningSeconds, redirectToInstagram, t]);
+
+  useEffect(() => {
+    if (ipWarningSeconds === null) return;
+
+    const timeout = window.setTimeout(() => {
+      if (ipWarningSeconds === 1) {
+        setIpWarningSeconds(null);
+        redirectToInstagram();
+      } else {
+        setIpWarningSeconds(ipWarningSeconds - 1);
+      }
+    }, 1000);
+
+    return () => window.clearTimeout(timeout);
+  }, [ipWarningSeconds, redirectToInstagram]);
 
   const getInstagramers = useCallback(async () => {
     if (!session) return;
@@ -190,6 +213,7 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
           roles: instagramer.roles,
           isPartner: instagramer.isPartner,
           currentIndex: i,
+          createdTime: instagramer.createdTime,
         },
       });
       removeMask();
@@ -393,6 +417,12 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
                 <div className="headerandinput">
                   <h2 className="title">{t(LanguageKey.addedaccounts)}</h2>
                   <div className={styles.accountsGrid}>{instagramerItems}</div>
+                </div>
+              )}
+              {ipWarningSeconds !== null && (
+                <div className={styles.ipWarning} role="status" aria-live="assertive">
+                  <span>{t(LanguageKey.Notify_IpInvalid)}</span>
+                  <strong>{ipWarningSeconds}</strong>
                 </div>
               )}
               <div className="headerandinput">

@@ -115,6 +115,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             lastUpdate: Date.now(),
             profileUrl: res.value.profileUrl,
             packageExpireTime: res.value.packageExpireTime ?? session?.user?.packageExpireTime ?? 0,
+            createdTime: res.value.createdTime,
           },
         });
         // setUser(res.value);
@@ -149,6 +150,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             publishPermission: res.value.publishPermission,
             website: res.value.website,
             biography: res.value.biography,
+            createdTime: res.value.createdTime,
           },
         });
 

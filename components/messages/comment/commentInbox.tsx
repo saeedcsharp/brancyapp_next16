@@ -1016,7 +1016,6 @@ const CommentInbox = () => {
                         ...x,
                         commentEnabled: true,
                         commentCount: newComent.Username.length == 0 ? x.commentCount : x.commentCount + 1,
-                        unSeenCount: newComent.SentByOwner ? 0 : x.unSeenCount,
                         unAnsweredCount:
                           newComent.SentByOwner &&
                           x.comments.find((c) => c.id === newComent.ParrentId)?.replys?.find((x) => x.sentByOwner)

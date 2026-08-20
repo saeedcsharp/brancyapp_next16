@@ -75,7 +75,7 @@ export default function ImageList({
               <article className={styles.imageCard} key={image.id} onClick={() => setSelectedImage(image)}>
                 <img
                   className={styles.imagePreview}
-                  src={getClientMediaBaseUrl() + image.imageUrl}
+                  src={getClientMediaBaseUrl() + image.thumbnailUrl}
                   alt={image.prompt || t("Generated image")}
                 />
 

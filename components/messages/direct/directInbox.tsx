@@ -1304,8 +1304,9 @@ const DirectInbox = () => {
                   items: x.items.some((existingItem) => existingItem.itemId === newItem.itemId)
                     ? x.items
                     : [newItem, ...x.items],
-                  ownerLastSeenUnix:
-                    refUserSelectId.current === item.ThreadId && !item.SentByOwner
+                  ownerLastSeenUnix: newItem.sentByOwner
+                    ? Date.now() * 1000
+                    : refUserSelectId.current === item.ThreadId && !item.SentByOwner
                       ? item.DirectItem!.CreatedTime * 1e6
                       : x.ownerLastSeenUnix,
                 },
@@ -1499,6 +1500,7 @@ const DirectInbox = () => {
   }, [tempThreadIds]);
   function handleSpecifyUnread(items: IDirectMessageItem[], thread: IThread) {
     let unSeenDiv = <></>;
+    if (items[0].sentByOwner) return unSeenDiv;
     const newItems = items
       .filter((item) => item.createdTime > thread.ownerLastSeenUnix && !item.sentByOwner)
       .sort((a, b) => a.createdTime - b.createdTime);

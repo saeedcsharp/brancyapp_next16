@@ -1,29 +1,34 @@
-import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { getClientMediaBaseUrl, resolvePublicDomain } from "brancy/helper/apiBaseUrl";
 import { type KeyboardEvent, type PointerEvent, useCallback, useDeferredValue, useMemo, useRef, useState } from "react";
 import styles from "./product.module.css";
 import { IProducts } from "brancy/models/interfaces";
 import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
 import { LanguageKey } from "brancy/i18n/languageKeys";
 import { t } from "i18next";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 const basePictureUrl = getClientMediaBaseUrl();
-const promotionCode = "BRANCY20";
-const Products = (props: { data: IProducts | null }) => {
-  const [searchTerm, setSearchTerm] = useState("");
+const couponDateFormatter = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+const Products = (props: { data: IProducts | null; username: string }) => {
   const [isProductDragging, setIsProductDragging] = useState(false);
-  const [isPromotionCodeCopied, setIsPromotionCodeCopied] = useState(false);
-  const deferredSearchTerm = useDeferredValue(searchTerm);
+  const [copiedCouponId, setCopiedCouponId] = useState<number | null>(null);
+  const [selectedCouponId, setSelectedCouponId] = useState<number | null>(null);
   const productContainerRef = useRef<HTMLDivElement>(null);
   const dragStateRef = useRef({ startX: 0, startScrollLeft: 0, moved: false });
-  const handleResetSearch = useCallback(() => {
-    setSearchTerm("");
-  }, []);
-  const handleCopyPromotionCode = useCallback(async () => {
+  const handleViewStoreProducts = useCallback(() => {
+    const domain = resolvePublicDomain(process.env.NEXT_PUBLIC_SHORT_LINK, window.location.hostname);
+    window.location.assign(`https://${domain}/${encodeURIComponent(props.username)}/product`);
+  }, [props.username]);
+  const handleCopyCouponCode = useCallback(async (couponId: number, code: string) => {
     try {
-      await navigator.clipboard.writeText(promotionCode);
-      setIsPromotionCodeCopied(true);
-      window.setTimeout(() => setIsPromotionCodeCopied(false), 1800);
+      await navigator.clipboard.writeText(code);
+      setCopiedCouponId(couponId);
+      window.setTimeout(() => setCopiedCouponId((current) => (current === couponId ? null : current)), 1800);
     } catch {
-      setIsPromotionCodeCopied(false);
+      setCopiedCouponId(null);
     }
   }, []);
   const handleProductPointerDown = useCallback((e: PointerEvent<HTMLDivElement>): void => {
@@ -70,73 +75,55 @@ const Products = (props: { data: IProducts | null }) => {
     }
   }, []);
   const products = useMemo(() => {
-    const searchValue = deferredSearchTerm.trim().toLocaleLowerCase();
-    return (props.data?.productCards ?? [])
-      .map((productCard) => productCard.shortProduct)
-      .filter((product) => {
-        if (!searchValue) return true;
-        return (
-          product.title?.toLocaleLowerCase().includes(searchValue) ||
-          product.productId.toLocaleLowerCase().includes(searchValue)
-        );
-      });
-  }, [deferredSearchTerm, props.data?.productCards]);
+    return (props.data?.productCards ?? []).map((productCard) => productCard.shortProduct);
+  }, [props.data?.productCards]);
+  const coupons = props.data?.productCoupons ?? [];
+  const selectedCoupon = coupons.find((coupon) => coupon.couponId === selectedCouponId) ?? coupons[0];
+  const selectedCouponIndex = selectedCoupon
+    ? coupons.findIndex((coupon) => coupon.couponId === selectedCoupon.couponId)
+    : 0;
+  const couponOptions = coupons.map((coupon) => (
+    <div id={String(coupon.couponId)} key={coupon.couponId} className={styles.couponOption}>
+      <span className={styles.couponCode}>{coupon.code}</span>
+      <strong className={styles.couponDiscount}>{coupon.discount}%</strong>
+      <span className={styles.couponMeta}>
+        {coupon.useCount}/{coupon.maxCount} · {couponDateFormatter.format(coupon.expireTime)}
+      </span>
+    </div>
+  ));
   return (
     <>
       {props.data && (
         <>
           <div id="product" className={styles.all}>
             <div className={styles.header}>
-              <div className={styles.couponPromotion}>
-                <img
-                  className={styles.promotionimg}
-                  src="/marketlink/market-promotion.webp"
-                  loading="lazy"
-                  decoding="async"
-                />
-                <div className={styles.couponDetails}>
-                  <div className={styles.couponCountdown}>
-                    <span>
-                      <strong>02</strong>
-                    </span>
-                    <small>:</small>
-                    <span>
-                      <strong>08</strong>
-                    </span>
-                    <small>:</small>
-                    <span>
-                      <strong>24</strong>
-                    </span>
-                    <small>:</small>
-                    <span>
-                      <strong>36</strong>
-                    </span>
-                  </div>
-
-                  <span className={styles.couponCode} onClick={handleCopyPromotionCode}>
-                    {isPromotionCodeCopied ? t(LanguageKey.successfulCopy) : promotionCode}
-                    <svg fill="none" width="24" height="24" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-                      <path
-                        opacity=".4"
-                        d="M15.17 5.47A2.8 2.8 0 0 0 12.27 3h-5.2c-1.8 0-2.94 1.29-2.94 3.1v6.7c0 1.65.94 2.87 2.5 3.06"
-                        stroke="var(--color-gray)"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                      <path
-                        clipRule="evenodd"
-                        d="M17.34 8.11h-5.2c-1.8 0-2.94 1.28-2.94 3.1v6.7c0 1.8 1.13 3.09 2.95 3.09h5.2c1.81 0 2.94-1.28 2.94-3.1v-6.7c0-1.8-1.13-3.09-2.95-3.09"
-                        stroke="var(--color-gray)"
-                        strokeWidth="1.5"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                      />
-                    </svg>
-                  </span>
+              {coupons.length > 0 && (
+                <div className={styles.couponSelector} aria-label={t(LanguageKey.storestatistics_couponTitle)}>
+                  <DragDrop
+                    data={couponOptions}
+                    item={selectedCouponIndex}
+                    isRefresh={selectedCouponId !== null}
+                    handleOptionSelect={(couponId) => setSelectedCouponId(Number(couponId))}
+                  />
+                  {selectedCoupon && (
+                    <button
+                      type="button"
+                      className={styles.copyCouponButton}
+                      onClick={() => handleCopyCouponCode(selectedCoupon.couponId, selectedCoupon.code)}
+                      aria-label={`${t(LanguageKey.Storeorder_Coupon)} ${selectedCoupon.code}`}>
+                      {copiedCouponId === selectedCoupon.couponId ? (
+                        t(LanguageKey.successfulCopy)
+                      ) : (
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <rect x="8" y="8" width="11" height="12" rx="2" />
+                          <path d="M16 8V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1" />
+                        </svg>
+                      )}
+                    </button>
+                  )}
                 </div>
-              </div>
-              <button type="button" className="saveButton" onClick={handleResetSearch}>
+              )}
+              <button type="button" className="saveButton" onClick={handleViewStoreProducts}>
                 {t(LanguageKey.messagesetting_ViewStoreandproducts)}
               </button>
             </div>

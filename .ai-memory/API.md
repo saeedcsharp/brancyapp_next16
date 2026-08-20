@@ -21,7 +21,7 @@ Wallet balance history uses `/api/wallet/getBallanceHistory`, mapped directly to
 
 ## Auth And Headers
 
-Requests include `Authorization` and `instagramerId` headers. `/api/user/*` stays server proxied. Most other mapped endpoints are called directly from the browser using `getClientApiBaseUrl()`.
+Requests include `Authorization`, `instagramerId`, and the incoming `user-agent` headers. `/api/user/*` stays server proxied. Most other mapped endpoints are called directly from the browser using `getClientApiBaseUrl()`.
 
 ## Error Behavior
 

@@ -62,13 +62,15 @@ The MyLink FeatureBox cards use a free horizontal carousel with no snap points o
 
 MyLink product cards scale down at narrower viewports, keep product thumbnails square at a stable aspect ratio, and clamp product names to two lines with an ellipsis for longer names.
 
-The Products header currently shows a static coupon presentation with `BRANCY20`, a placeholder countdown, and a copy icon. It is display-only timing data until promotion values are provided by the backend; after a successful copy, `Copied` temporarily replaces the coupon code.
+The MyLink Products section receives product cards and the display-ready `productCoupons` list under the backend `shopperInfo` object. Every returned coupon appears in the shared DragDrop selector with code, percentage discount, usage count, and expiry date; the selected coupon exposes a copy action alongside the existing product cards.
 
 MyLink last-video titles and descriptions render backend-provided line breaks as separate visual lines, including when the text contains clickable links.
 
 MyLink online-stream titles and descriptions use the same line-break-preserving, fluid text presentation and safe clickable-link rendering as last-video content.
 
 The MyLink feature menubar is a free horizontal scroller. It does not distribute or compress items, and a stable viewport-anchor check keeps the active item synchronized with the visible page feature during manual or menu-triggered scrolling before centering it in the menubar.
+
+MyLink Terms, Working Hours, and Lottery dialogs show the shared localized empty popup state when no terms text, business hours, or ended lotteries are available; a selected lottery with no winners keeps its own localized winner-empty message.
 
 MyLink always prepends a Home shortcut backed by `FeatureType.FeaturesBox`, and the initial active feature is Home. The Contact and Map feature does not move browser focus to its first link on mount, preventing an initial page jump away from the FeatureBox section.
 

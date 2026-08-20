@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import SwitchButton from "brancy/components/design/switchButton/switchButton";
@@ -8,6 +9,7 @@ import { LanguageKey } from "brancy/i18n";
 import IUserCoupon from "brancy/models/interfaces";
 import styles from "./couponManager.module.css";
 import useHideDiv from "brancy/hook/useHide";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 
 interface CouponManagerProps {
   coupons: IUserCoupon[];
@@ -16,6 +18,8 @@ interface CouponManagerProps {
   onReachEnd: () => void;
   isActive: boolean;
   isPrivate: boolean;
+  searchQuery: string;
+  onSearchQueryChange: (value: string) => void;
   onActiveFilterChange: (value: boolean) => void;
   onPrivateFilterChange: (value: boolean) => void;
   updatingCouponId: number | null;
@@ -31,6 +35,8 @@ const CouponManager = ({
   onReachEnd,
   isActive,
   isPrivate,
+  searchQuery,
+  onSearchQueryChange,
   onActiveFilterChange,
   onPrivateFilterChange,
   updatingCouponId,
@@ -40,6 +46,19 @@ const CouponManager = ({
 }: CouponManagerProps) => {
   const { t } = useTranslation();
   const { hidePage, gridSpan, toggle } = useHideDiv(true, 57);
+  const [searchInput, setSearchInput] = useState(searchQuery);
+
+  useEffect(() => {
+    setSearchInput(searchQuery);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    const debounceTimer = window.setTimeout(() => {
+      if (searchInput !== searchQuery) onSearchQueryChange(searchInput);
+    }, 400);
+
+    return () => window.clearTimeout(debounceTimer);
+  }, [onSearchQueryChange, searchInput, searchQuery]);
 
   return (
     <section style={gridSpan} className={styles.container} aria-labelledby="coupon-manager-title">
@@ -68,26 +87,14 @@ const CouponManager = ({
       {hidePage && (
         <>
           <div className={styles.filterToolbar} onClick={(event) => event.stopPropagation()}>
-            <div className={styles.filterGroup}>
-              <label className={`${styles.filter} ${isActive ? styles.filterSelected : ""}`}>
-                {t(LanguageKey.active)}
-                <SwitchButton
-                  name="coupon-filter-active"
-                  checked={isActive}
-                  handleToggle={(event) => onActiveFilterChange(event.target.checked)}
-                  role="switch"
-                />
-              </label>
-              <label className={`${styles.filter} ${isPrivate ? styles.filterSelected : ""}`}>
-                {t(LanguageKey.pageTools_onlyprivate)}
-                <SwitchButton
-                  name="coupon-filter-private"
-                  checked={isPrivate}
-                  handleToggle={(event) => onPrivateFilterChange(event.target.checked)}
-                  role="switch"
-                />
-              </label>
-            </div>
+            <InputBox
+              className="search"
+              variant="search"
+              value={searchInput}
+              placeholder={t(LanguageKey.search)}
+              ariaLabel={t(LanguageKey.search)}
+              handleInputChange={(event) => setSearchInput(event.target.value)}
+            />
           </div>
           {isLoading ? (
             <div className={styles.loading}>
@@ -96,7 +103,11 @@ const CouponManager = ({
           ) : coupons.length === 0 ? (
             <p className={styles.empty}>{t(LanguageKey.storestatistics_noCoupons)}</p>
           ) : (
-            <Slider className={styles.list} itemsPerSlide={1} onReachEnd={onReachEnd} isLoading={isLoadingMore}>
+            <Slider
+              className={styles.list}
+              itemsPerSlide={1}
+              onReachEnd={searchQuery.trim() ? undefined : onReachEnd}
+              isLoading={isLoadingMore}>
               {coupons.map((coupon) => {
                 const exhausted = coupon.maxCount > 0 && coupon.useCount >= coupon.maxCount;
                 const expired = coupon.expireTime > 0 && coupon.expireTime < Date.now();
@@ -123,6 +134,11 @@ const CouponManager = ({
                       </div>
                       <div className={styles.details}>
                         <span>{t(LanguageKey.storestatistics_discountValue, { discount: coupon.discount })}</span>
+                        <span>
+                          {coupon.phoneNumber !== null && coupon.phoneNumber !== ""
+                            ? `${coupon.phoneNumber} (${t(LanguageKey.storestatistics_private)})`
+                            : t(LanguageKey.storestatistics_public)}
+                        </span>
                         <span>
                           {t(LanguageKey.storestatistics_couponUsage, {
                             used: coupon.useCount,

@@ -66,11 +66,21 @@ React components are present when the folder contains `.tsx` UI files.
 
 `aiflow/popup/AIToolsSettings.tsx` selects each tool parameter's `completeDescription*` field from the active i18next locale. The model's German description serves the `gr` locale, while French and unknown locales fall back to English and then the legacy `description` field.
 
+The same popup selects tool titles from `displayName*` and complete tool explanations from `completeDescription*` using the active locale, with German used for `gr` and English/legacy fallbacks when values are unavailable.
+
 The same popup shows and enables `addTools` for tools with no parameters; parameterized tools still require all required manual values before they can be added.
 
 The sender-username mention entry is a prompt placeholder rather than an `ITool`. In manual mode, selecting it inserts `[SENDER_USERNAME]` into the prompt textbox through `onAddToPrompt`, closes the popup, and never adds it to or inherits state from the selected tools collection. The entry remains visible but is non-focusable and disabled in prompt-analysis mode.
 
 `aiflow/aiPromptBox.tsx` reflects selection directly on the existing clickable tool options below the prompt input in both manual and analysis modes. A selected option is highlighted and replaces its plus icon with an accessible remove button that updates the parent `ITool[]` without opening the settings popup; no separate selected-tool list is rendered.
+
+`aiflow/aiPromptBox.tsx` keeps the Prompt Analysis radio option enabled regardless of the current prompt length and delegates modal ownership to `aiflow/flowAndAIInBox.tsx`. The parent renders the shared modal with a controlled `TextArea`; Accept remains disabled until the text is longer than 20 characters, then calls the child callback to update the prompt and request `GetPromptAnalysis`. Close dismisses the modal without changing the prompt.
+
+Before opening the Prompt Analysis modal, `aiflow/aiPromptBox.tsx` requests `/api/ai/HasPageAnalysis`. The modal opens only when the authenticated backend response value is `true`; otherwise it shows the localized `InternalNotify_PageAnalysisNotCompleted` warning.
+
+`aiflow/aiPromptBox.tsx` displays each AI tool's localized `displayName*` field according to the active i18next locale, using German text for `gr` and falling back to English or the tool name when a localized value is unavailable.
+
+When `aiflow/aiPromptBox.tsx` loads an existing prompt through `GetPrompt`, it synchronizes the response `tools` into the parent tool state by `toolId`; nullable API parameters are normalized to empty arrays so the matching tool option is shown as selected.
 
 `aiflow/flow.tsx` reports successful toolbar saves to `FlowAndAIInbox` only for `newFlow`. The parent adopts the returned master-flow record and selects its ID, causing the editor to reload through `GetMasterFlow`; existing-flow toolbar saves do not request an additional reload.
 

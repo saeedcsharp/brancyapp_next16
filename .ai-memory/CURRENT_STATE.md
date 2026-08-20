@@ -27,6 +27,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 - Persian `/feature` copy is also intentionally conversational and non-technical, with short explanations suitable for general and younger audiences.
 - The feature catalog is a mandatory synchronization point: every added, changed, completed, renamed, or removed user-facing option or capability must update the active or audit-only list before the task is considered complete.
 - Market Properties Terms editors use stable row keys, preventing controlled textareas from remounting and losing focus while users type.
+- MyLink products and coupons come from the required backend `shopperInfo` object; every item in its display-ready `productCoupons` list renders beside products with code, discount, usage, expiry, and copy details.
+- The MyLink coupon list now uses the shared DragDrop selector, with a separate copy action for the selected coupon.
 - Expanded feature details show the usage instruction and route on separate lines, with safe wrapping for narrow viewports.
 - On mobile, feature cards place the expand control in the top corner and keep role and access cells side by side.
 
@@ -61,7 +63,10 @@ The shared `helper/textByteLength.ts` utility now owns UTF-8 byte counting and U
 The direct-message composer applies the same 1,000-byte UTF-8 limit to drafts, typing, emoji insertion, and outgoing messages.
 
 AI tool parameter placeholders now select the localized `completeDescription*` model field for the active locale, with German used for `gr` and English fallback for French or missing values.
+AI prompt tool options now select each tool's localized `displayName*` field from the active i18next locale, with German used for `gr` and English/name fallbacks.
 AI tools without parameters now display an enabled `addTools` action and are added with an empty parameter list.
+Prompt Analysis in the AI flow is always selectable. `FlowAndAIInBox` owns the shared confirmation modal and controlled textarea; text must exceed 20 characters before Accept updates the child prompt and calls `GetPromptAnalysis`, while Close leaves the existing prompt unchanged.
+Prompt Analysis now checks `/api/ai/HasPageAnalysis` before opening. The shared modal opens only when the page analysis exists; otherwise the localized `InternalNotify_PageAnalysisNotCompleted` warning is shown.
 The sender-username mention is excluded from selected AI tools and inserts `[SENDER_USERNAME]` directly into the prompt textbox in manual mode; it is visible but disabled in prompt-analysis mode.
 Selected AI tools are highlighted directly in the existing clickable tool-options row below the prompt editor in both manual and analysis modes. Their plus icon becomes an accessible remove button, and no separate selected-tool list is rendered.
 
@@ -131,6 +136,10 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 
 - Synchronized all eight locale files to the same 2,970 direct string translation keys. Missing entries use English fallback text where available and key-name placeholders otherwise; nested translation objects remain outside the flat `LanguageKey` enum.
 - Added a dedicated store statistics coupon section. The Statistics page owns `Shopper/Coupon/GetCoupon`, including `isActive`/`isPrivate` filters and `nextMaxId` query pagination based on the last coupon ID through `useInfiniteScroll`, the documented `CreateCoupon` POST request, `Shopper/Coupon/UpdateCoupon`, and related server state; `CouponManager` and `CreateCouponModal` are data/callback-driven UI components. Labels, placeholders, statuses, and interpolated values are localized across all eight supported languages.
+- Store statistic coupon cards show a present phone number, including `0`, with a localized `Private` tag; missing phone numbers show a localized `Public` tag.
+- Store statistic coupons now support API-backed search using the `query` parameter. Search displays a loading state for each request, restores the regular paginated list when cleared, and does not request additional pages while active.
+- Coupon search requests are debounced by 400 milliseconds after the last typed character.
+- Normal coupon results are cached per filter combination and restored when search is cleared, avoiding an extra API request when leaving search.
 
 - AI image and video creation now returns to the matching library immediately after request submission, shows one loading card per pending `clientContext`, and replaces or removes each card when its correlated SignalR success or failure notification arrives. Concurrent generations remain independently tracked.
 
@@ -173,7 +182,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - Converted the MyLink product cards into a free horizontal carousel with native touch scrolling, mouse/pointer dragging, no wrapping or scroll snap, and drag-click protection for product links.
 - Made MyLink product cards responsive with smaller mobile widths, square fixed-aspect thumbnails, and two-line ellipsis truncation for product names.
 - # Added responsive MyLink product controls with Best Sellers/Best Discounts sorting toggles, a flex-growing product search, and a Show All Products reset action that stacks cleanly on mobile.
-- Domain Manager now uses `baseShortUrl/username` instead of `username.baseShortUrl` for default and destination links when the username contains `.`, `_`, `-`, or Persian kashida (`ـ`), preventing invalid hostnames such as `brancy_demo.bran.cy`.
+- Domain Manager now uses `baseShortUrl/username` instead of `username.baseShortUrl` for default and destination links only when the username contains `.`, while `_` and `-` continue to use the subdomain form.
 - Domain Manager domain displays no longer add a `www.` prefix.
 - Domain Manager hides the duplicate default link when an invalid subdomain username already resolves to the path-style URL.
 - Fixed the Domain Manager loading state under React Strict Mode by re-enabling its mounted guard during effect setup, allowing the custom-domain Request button to leave `RingLoader` after the request completes.

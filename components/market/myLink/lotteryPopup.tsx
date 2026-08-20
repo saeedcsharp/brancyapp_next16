@@ -1,4 +1,5 @@
 import { useState } from "react";
+import EmptyPopupState from "brancy/components/EmptyPopupState";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
@@ -62,22 +63,31 @@ const LotteryPopup = ({ lotteries, removeMask }: LotteryPopupProps) => {
 
   return (
     <div className={styles.popupContent}>
-      <div className={styles.header}>Lottery</div>
-      <div className={styles.lotteryList}>
-        {visibleLotteries.map((lottery) => (
-          <button
-            type="button"
-            className={styles.lotteryItem}
-            key={lottery.id}
-            onClick={() => setSelectedLottery(lottery)}>
-            <img className={styles.lotteryIcon} src="/adticket.svg" alt="Lottery" />
-            <div className={styles.lotteryInfo}>
-              <strong>#{lottery.id}</strong>
-              <span>{formatLotteryDate(lottery.startTime)}</span>
-            </div>
-          </button>
-        ))}
+      <div className="frameParent">
+        <div className="headerChild" title={t(LanguageKey.Lottery)}>
+          <div className="circle"></div>
+          <div className="Title">{t(LanguageKey.Lottery)}</div>
+        </div>
       </div>
+      {visibleLotteries.length === 0 ? (
+        <EmptyPopupState label={t(LanguageKey.pageTools_emptylotteryList)} />
+      ) : (
+        <div className={styles.lotteryList}>
+          {visibleLotteries.map((lottery) => (
+            <button
+              type="button"
+              className={styles.lotteryItem}
+              key={lottery.id}
+              onClick={() => setSelectedLottery(lottery)}>
+              <img className={styles.lotteryIcon} src="/adticket.svg" alt="Lottery" />
+              <div className={styles.lotteryInfo}>
+                <strong>#{lottery.id}</strong>
+                <span>{formatLotteryDate(lottery.startTime)}</span>
+              </div>
+            </button>
+          ))}
+        </div>
+      )}
       <button type="button" className={styles.closeButton} onClick={removeMask}>
         {t(LanguageKey.close)}
       </button>

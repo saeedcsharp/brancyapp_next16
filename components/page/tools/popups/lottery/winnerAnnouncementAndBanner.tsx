@@ -409,6 +409,7 @@ const WinnerAnnouncementAndBanner = (props: {
                 maxLength={120}
                 role="textbox"
                 title={t(LanguageKey.header)}
+                dangerOnEmpty
               />
               {/* <div className="explain">{t(LanguageKey.pageLottery_participantsexplain)}</div> */}
             </div>

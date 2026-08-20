@@ -60,6 +60,7 @@ Exports are defined by source files in the module.
 - `helper/counterDownHelper.ts` calculates countdowns with separate days, hours, minutes, and seconds and formats full-day values as `Xd HH:MM:SS`.
 - `helper/api.ts` delays successful `UploadFile` results by one second before exposing their media URLs, giving the upload server time to make newly uploaded media fetchable by the browser.
 - `helper/textByteLength.ts` provides reusable UTF-8 byte counting and Unicode-safe truncation for text limits.
+- `helper/apiBaseUrl.ts` exports `resolvePublicDomain`, which maps local and legacy base domains to the public link domain for the active runtime host. It preserves paths because callers append paths after resolving the base.
 
 ## Internal APIs
 

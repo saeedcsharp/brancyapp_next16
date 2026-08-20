@@ -105,6 +105,7 @@ export interface InstagramerAccountInfo {
   publishPermission: boolean;
   website: string | null;
   biography: string | null;
+  createdTime: number;
 }
 
 export interface IVerifyCode {
@@ -435,6 +436,15 @@ export interface ITotalPrompt {
 
 export interface IDetailPrompt extends ITotalPrompt {
   promptStr: string;
+  tools: {
+    toolId: number | string;
+    parameters:
+      | {
+          name: string;
+          value: string;
+        }[]
+      | null;
+  }[];
 }
 
 export interface IPrompts {
@@ -481,6 +491,7 @@ export interface IGetMedia {
   status: number;
   jobId: string | null;
   imageUrl: string;
+  thumbnailUrl: string;
   metadata: string;
   prompt: string;
   videoUrl: string | null;
@@ -576,6 +587,22 @@ export interface IAITools {
   tokenUsage: number;
   completeDescription: string;
   toolType: ToolType;
+  completeDescriptionEn: string;
+  completeDescriptionRu: string;
+  completeDescriptionFa: string;
+  completeDescriptionDe: string;
+  completeDescriptionTr: string;
+  completeDescriptionAz: string;
+  completeDescriptionAr: string;
+  completeDescriptionFr: string;
+  displayNameEn: string;
+  displayNameFa: string;
+  displayNameRu: string;
+  displayNameDe: string;
+  displayNameTr: string;
+  displayNameAz: string;
+  displayNameAr: string;
+  displayNameFr: string;
 }
 
 export interface ILiveChatClient {
@@ -996,6 +1023,7 @@ export interface ILastVideo extends IFeatureInfo {
 
 export interface IProducts extends IFeatureInfo {
   productCards: IProductCard[] | null;
+  productCoupons: IMyLinkProductCoupon[];
 }
 
 export interface ITimeline extends IFeatureInfo {}
@@ -1152,6 +1180,22 @@ export interface ICaption {
   caption: string;
 }
 
+export interface IMyLinkProductCoupon {
+  couponId: number;
+  code: string;
+  discount: number;
+  expireTime: number;
+  isDeleted: boolean;
+  useCount: number;
+  maxCount: number;
+  phoneNumber: string | null;
+  showInBio: boolean;
+  fbId: number;
+  createdTime: number;
+  updateTime: number;
+  maxDiscount: number | null;
+}
+
 export interface IOrderItems {
   isActiveFeatureBox: boolean;
   orderItems: {
@@ -1175,7 +1219,10 @@ export interface ISmartLink {
   caption: ICaption;
   featureOrders: IOrderItems;
   terms: string[] | null;
-  products: IProductCard[];
+  shopperInfo: {
+    products: IProductCard[];
+    productCoupons: IMyLinkProductCoupon[];
+  };
   lotteries: IFullLottery[];
 }
 

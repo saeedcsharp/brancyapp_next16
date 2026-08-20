@@ -2,6 +2,8 @@
 
 ## MyLink Typography
 
+The MyLink About section displays and links to `Brancy.App` only on the `brancy.app` host; all other hosts use `Brancy.Ir` and `https://www.brancy.ir`.
+
 MyLink CSS modules use the shared fluid typography tokens from `scss/_variables.scss` (`--font-fluid-xs` through `--font-fluid-2xl`). These tokens keep labels, body text, controls, and section headings within readable minimum and maximum sizes across viewport widths, so individual MyLink styles do not use raw pixel `font-size` values or abrupt mobile overrides.
 
 ## Purpose
@@ -150,7 +152,7 @@ The product cards render in a free horizontal carousel. The container never wrap
 
 Product cards use a responsive fixed-width range, becoming slightly narrower on tablet and mobile screens. Their thumbnails keep a stable square aspect ratio, while product names reserve two lines and truncate longer text with an ellipsis.
 
-The Products header includes a static presentation coupon with a days/hours/minutes/seconds countdown, the code `BRANCY20`, and a copy interaction. The countdown and code are placeholders until the backend promotion contract is connected; after a successful copy, `Copied` replaces the code temporarily while the browser Clipboard API confirmation is active.
+The Products header supplies every backend coupon from `shopperInfo.productCoupons` to the shared `DragDrop` selector without additional client filtering. Each option shows its code, percentage discount, usage count, and deterministic expiry date. The selected coupon has a separate accessible Clipboard API action; successful copying temporarily shows the localized copied state. The selector is omitted only when the returned coupon array is empty.
 
 ## MyLink Lifecycle And Metadata
 
@@ -174,6 +176,8 @@ The Products card intentionally omits the edit-options three-dot control; other 
 
 The MyLink FeatureBox also renders a clickable lottery card with `/icon-lottery.svg` when `GetMyLink` returns ended lotteries. It opens a MyLink modal with at most five entries, and selecting an entry shows its winners from the already-loaded `IFullLottery` data. This flow intentionally has no score-lottery creation controls, slider, Share Story action, or Excel export.
 
+The MyLink Terms, Working Hours, and Lottery popups render the shared `EmptyPopupState` with a localized label when their terms text, business-hours array, or ended-lottery list is empty. Lottery winner absence remains a detail-level state for a selected lottery.
+
 `components/market/myLink/link.tsx` renders shortcut cards with a desktop maximum width of 250px. On mobile, the shortcut section becomes a free horizontal carousel with native touch scrolling and pointer dragging only when horizontal overflow exists; when more than four links exist, each mobile card is reduced to 200px. Dragging suppresses the click that would otherwise redirect to a shortcut URL, while ordinary clicks remain available when the content is not scrollable.
 
 Shortcut expiration values are Unix timestamps in seconds. `CountdownTimerForLink` displays days before the remaining hours when the duration reaches 24 hours, using `DD:HH:MM:SS`; shorter durations remain `HH:MM:SS`.
@@ -193,7 +197,7 @@ The default and custom domain sections are presented as mutually exclusive radio
 
 The shared destination-links section is gated by the selected domain type. It is visible for the default option, while the custom option requires `isCustomDomainActive`; its destination URLs use the accepted custom-domain URI only in that selected active state.
 
-Default username-based links use the subdomain form only when the username contains no `.`, `_`, `-`, or Persian kashida (`ـ`). Usernames containing any of those characters use the path form `baseShortUrl/username`, including the default-domain display and destination links; accepted custom-domain links continue to use the custom domain itself. Domain displays do not add a `www.` prefix, and the alternate default link is hidden when it resolves to the same path.
+Default username-based links use the path form `baseShortUrl/username` only when the username contains a period (`.`); usernames containing `_` or `-` continue to use the subdomain form `username.baseShortUrl`. This applies to the default-domain display and destination links; accepted custom-domain links continue to use the custom domain itself. Domain displays do not add a `www.` prefix, and the alternate default link is hidden when it resolves to the same path.
 
 When `isDevMode` is enabled, the Domain Manager also exposes a local-only `مرحله بعدی (تست)` control. It advances a pending domain from the name-server step to the completed-DNS step and then to an active accepted-domain state without sending an API request; the existing Delete control remains the backend cleanup action.
 
