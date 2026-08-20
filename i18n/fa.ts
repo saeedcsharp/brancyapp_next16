@@ -2164,6 +2164,8 @@ export default {
     storestatistics_discountValue: "{{discount}}٪ تخفیف",
     storestatistics_maxDiscountValue: "سقف: {{value}}",
     storestatistics_expiryValue: "انقضا: {{date}}",
+    storestatistics_private: "private",
+    storestatistics_public: "public",
     // Store -> order
     incartcount: "در سبد خرید",
     addtocart: "افزودن به سبد خرید",

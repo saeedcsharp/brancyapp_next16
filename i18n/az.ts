@@ -2162,6 +2162,8 @@ export default {
     storestatistics_discountValue: "{{discount}}% endirim",
     storestatistics_maxDiscountValue: "Maksimum: {{value}}",
     storestatistics_expiryValue: "Bitmə tarixi: {{date}}",
+    storestatistics_private: "Private",
+    storestatistics_public: "Public",
 
     incartcount: "Səbətdə",
     addtocart: "Səbətə əlavə et",

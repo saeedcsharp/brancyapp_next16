@@ -1301,6 +1301,8 @@ export enum LanguageKey {
   storestatistics_discountValue = "storestatistics_discountValue",
   storestatistics_maxDiscountValue = "storestatistics_maxDiscountValue",
   storestatistics_expiryValue = "storestatistics_expiryValue",
+  storestatistics_private = "storestatistics_private",
+  storestatistics_public = "storestatistics_public",
 
   Showmore = "Showmore",
   totalprice = "totalprice",

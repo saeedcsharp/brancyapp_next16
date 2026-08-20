@@ -336,7 +336,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/shop/updateFavoriteProduct": "user/shop/UpdateFavoriteProduct",
 
   // ── coupon ───────────────────────────────────────────
-  "/api/coupon/getCoupon": "Shopper/Coupon/GetCoupon",
+  "/api/coupon/getCoupons": "Shopper/Coupon/GetCoupons",
   "/api/coupon/createCoupon": "Shopper/Coupon/CreateCoupon",
   "/api/coupon/updateCoupon": "Shopper/Coupon/UpdateCoupon",
   "/api/coupon/activateCoupon": "Shopper/Coupon/ActivateCoupon",

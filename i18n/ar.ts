@@ -2122,6 +2122,8 @@ export default {
     storestatistics_discountValue: "خصم {{discount}}٪",
     storestatistics_maxDiscountValue: "الحد الأقصى: {{value}}",
     storestatistics_expiryValue: "ينتهي في: {{date}}",
+    storestatistics_private: "خاص",
+    storestatistics_public: "عام",
     // Store -> order
     incartcount: "في السلة",
     addtocart: "إضافة إلى السلة",

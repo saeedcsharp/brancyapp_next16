@@ -2204,6 +2204,8 @@ export default {
     storestatistics_discountValue: "%{{discount}} indirim",
     storestatistics_maxDiscountValue: "Maksimum: {{value}}",
     storestatistics_expiryValue: "Son kullanma: {{date}}",
+    storestatistics_private: "Özel",
+    storestatistics_public: "Herkese açık",
     // Store -> order
     incartcount: "Sepette",
     addtocart: "Sepete Ekle",

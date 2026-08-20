@@ -2203,6 +2203,8 @@ export default {
     storestatistics_discountValue: "{{discount}}% discount",
     storestatistics_maxDiscountValue: "Maximum: {{value}}",
     storestatistics_expiryValue: "Expires: {{date}}",
+    storestatistics_private: "Private",
+    storestatistics_public: "Public",
     incartcount: "In Cart",
     addtocart: "Add to Cart",
     AllProducts: "All Products",

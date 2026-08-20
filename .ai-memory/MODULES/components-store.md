@@ -73,6 +73,7 @@ React components are present when the folder contains `.tsx` UI files.
 - `CouponManager` uses the shared `useHideDiv` statistics-card behavior: clicking its header collapses or expands loading, empty, coupon-list content, and actions while updating the grid row span. The header has no coupon-count badge; while collapsed only its title remains visible. The Add Coupon action stops header click propagation while expanded, so opening the modal does not collapse the card.
 - `CouponManager` uses layered card styling for coupon entries, status badges, metadata chips, responsive mobile stacking, and reduced-motion support while preserving the existing data and callback API.
 - `CouponManager` fills its statistics-grid cell at `100%` width without the extra horizontal margins used by its previous standalone layout, matching the sibling statistics cards on desktop and mobile.
+- Coupon cards show a present phone number, including `0`, with a `Private` tag; coupons without a phone number show a `Public` tag.
 
 ## Hooks
 

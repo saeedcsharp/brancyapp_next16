@@ -67,28 +67,7 @@ const CouponManager = ({
 
       {hidePage && (
         <>
-          <div className={styles.filterToolbar} onClick={(event) => event.stopPropagation()}>
-            <div className={styles.filterGroup}>
-              <label className={`${styles.filter} ${isActive ? styles.filterSelected : ""}`}>
-                {t(LanguageKey.active)}
-                <SwitchButton
-                  name="coupon-filter-active"
-                  checked={isActive}
-                  handleToggle={(event) => onActiveFilterChange(event.target.checked)}
-                  role="switch"
-                />
-              </label>
-              <label className={`${styles.filter} ${isPrivate ? styles.filterSelected : ""}`}>
-                {t(LanguageKey.pageTools_onlyprivate)}
-                <SwitchButton
-                  name="coupon-filter-private"
-                  checked={isPrivate}
-                  handleToggle={(event) => onPrivateFilterChange(event.target.checked)}
-                  role="switch"
-                />
-              </label>
-            </div>
-          </div>
+          <div className={styles.filterToolbar} onClick={(event) => event.stopPropagation()}></div>
           {isLoading ? (
             <div className={styles.loading}>
               <RingLoader />
@@ -123,6 +102,11 @@ const CouponManager = ({
                       </div>
                       <div className={styles.details}>
                         <span>{t(LanguageKey.storestatistics_discountValue, { discount: coupon.discount })}</span>
+                        <span>
+                          {coupon.phoneNumber !== null && coupon.phoneNumber !== ""
+                            ? `${coupon.phoneNumber} (${t(LanguageKey.storestatistics_private)})`
+                            : t(LanguageKey.storestatistics_public)}
+                        </span>
                         <span>
                           {t(LanguageKey.storestatistics_couponUsage, {
                             used: coupon.useCount,

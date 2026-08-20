@@ -2232,6 +2232,8 @@ export default {
     storestatistics_discountValue: "Скидка {{discount}}%",
     storestatistics_maxDiscountValue: "Максимум: {{value}}",
     storestatistics_expiryValue: "Истекает: {{date}}",
+    storestatistics_private: "Частный",
+    storestatistics_public: "Публичный",
     // Store -> order
     incartcount: "В корзине",
     addtocart: "Добавить в корзину",

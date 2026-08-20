@@ -2278,6 +2278,8 @@ export default {
     storestatistics_discountValue: "{{discount}} % de réduction",
     storestatistics_maxDiscountValue: "Maximum : {{value}}",
     storestatistics_expiryValue: "Expire le : {{date}}",
+    storestatistics_private: "Privé",
+    storestatistics_public: "Public",
     // Store -> order
     incartcount: "Dans le panier",
     addtocart: "Ajouter au Panier",

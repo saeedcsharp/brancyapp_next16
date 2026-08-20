@@ -65,13 +65,8 @@ const Statistics = () => {
     setIsLoadingCoupons(true);
     setCoupons([]);
     setCouponsNextMaxId(null);
-    const response = await clientFetchApi<undefined, IUserCoupon[]>("/api/coupon/GetCoupon", {
+    const response = await clientFetchApi<undefined, IUserCoupon[]>("/api/coupon/GetCoupons", {
       session,
-      queries: [
-        { key: "isActive", value: String(isActive) },
-        { key: "isPrivate", value: String(isPrivate) },
-        { key: "nextMaxId", value: "" },
-      ],
     });
     if (response.succeeded) {
       const firstPage = response.value ?? [];
@@ -87,13 +82,9 @@ const Statistics = () => {
 
   const fetchMoreCoupons = useCallback(async (): Promise<IUserCoupon[]> => {
     if (!session || !couponsNextMaxId) return [];
-    const response = await clientFetchApi<undefined, IUserCoupon[]>("/api/coupon/GetCoupon", {
+    const response = await clientFetchApi<undefined, IUserCoupon[]>("/api/coupon/GetCoupons", {
       session,
-      queries: [
-        { key: "isActive", value: String(isActive) },
-        { key: "isPrivate", value: String(isPrivate) },
-        { key: "nextMaxId", value: couponsNextMaxId },
-      ],
+      queries: [{ key: "nextMaxId", value: couponsNextMaxId }],
     });
     if (!response.succeeded) {
       notify(response.info.responseType, NotifType.Warning);
