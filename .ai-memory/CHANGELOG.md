@@ -1,3 +1,5 @@
+- Updated the MyLink View Store Products action to redirect to `https://{resolved-domain}/{username}/product` using `resolvePublicDomain` for localhost, regional, and app domains.
+
 - Added the missing `LanguageKey.Lottery` entry and translations in all eight locale files for the MyLink lottery popup title.
 
 - Gated AI Prompt Analysis modal opening behind `Instagramer/AI/HasPageAnalysis`; pages without a completed AI analysis now receive a localized internal warning.

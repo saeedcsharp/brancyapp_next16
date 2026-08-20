@@ -368,7 +368,10 @@ const MyLink = () => {
       [FeatureType.QandABox, <Faq data={myLink.data.faq} key="faq" />],
       [FeatureType.LinkShortcut, <Link data={myLink.data.link} key="link" />],
       [FeatureType.ContactAndMap, <ContactAndMap data={myLink.data.contactAndMap} key="contactAndMap" />],
-      [FeatureType.Products, <Product data={myLink.data.products} key="products" />],
+      [
+        FeatureType.Products,
+        <Product data={myLink.data.products} username={myLink.bannerInfo.profile.username} key="products" />,
+      ],
     ]);
     return handleFeatureInfo(myLink.data).flatMap((feature) => {
       const component = featureComponents.get(feature.featureType);

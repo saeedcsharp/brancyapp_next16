@@ -1,4 +1,4 @@
-import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { getClientMediaBaseUrl, resolvePublicDomain } from "brancy/helper/apiBaseUrl";
 import { type KeyboardEvent, type PointerEvent, useCallback, useDeferredValue, useMemo, useRef, useState } from "react";
 import styles from "./product.module.css";
 import { IProducts } from "brancy/models/interfaces";
@@ -12,7 +12,7 @@ const couponDateFormatter = new Intl.DateTimeFormat("en-US", {
   month: "2-digit",
   day: "2-digit",
 });
-const Products = (props: { data: IProducts | null }) => {
+const Products = (props: { data: IProducts | null; username: string }) => {
   const [searchTerm, setSearchTerm] = useState("");
   const [isProductDragging, setIsProductDragging] = useState(false);
   const [copiedCouponId, setCopiedCouponId] = useState<number | null>(null);
@@ -23,6 +23,10 @@ const Products = (props: { data: IProducts | null }) => {
   const handleResetSearch = useCallback(() => {
     setSearchTerm("");
   }, []);
+  const handleViewStoreProducts = useCallback(() => {
+    const domain = resolvePublicDomain(process.env.NEXT_PUBLIC_SHORT_LINK, window.location.hostname);
+    window.location.assign(`https://${domain}/${encodeURIComponent(props.username)}/product`);
+  }, [props.username]);
   const handleCopyCouponCode = useCallback(async (couponId: number, code: string) => {
     try {
       await navigator.clipboard.writeText(code);
@@ -133,7 +137,7 @@ const Products = (props: { data: IProducts | null }) => {
                   )}
                 </div>
               )}
-              <button type="button" className="saveButton" onClick={handleResetSearch}>
+              <button type="button" className="saveButton" onClick={handleViewStoreProducts}>
                 {t(LanguageKey.messagesetting_ViewStoreandproducts)}
               </button>
             </div>
