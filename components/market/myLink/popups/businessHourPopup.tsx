@@ -38,6 +38,11 @@ export default function BusinessHourPopup(props: { businessInfo: IBusinessHour[]
           </div>
         ))
       )}
+      <div className="ButtonContainer">
+        <button type="button" onClick={props.removeMask} className="cancelButton">
+          {t(LanguageKey.cancel)}
+        </button>
+      </div>
     </>
   );
 }

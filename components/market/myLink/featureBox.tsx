@@ -199,9 +199,9 @@ const FeatureBox = memo<FeatureBoxProps>(
         key: "lottery",
         className: styles.lottery,
         content: {
-          image: { src: "/icon-lottery.svg", alt: "Lottery" },
+          image: { src: "/icon-lottery.svg", alt: t(LanguageKey.Lottery) },
           title: "",
-          subtitle: "Lottery",
+          subtitle: t(LanguageKey.Lottery),
           titleClass: styles.lotteryTitle,
           subtitleClass: styles.lotterySubtitle,
         },
