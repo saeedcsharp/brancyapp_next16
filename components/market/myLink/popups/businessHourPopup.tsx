@@ -11,13 +11,13 @@ export default function BusinessHourPopup(props: { businessInfo: IBusinessHour[]
   return (
     <>
       <div className="frameParent">
-        <div className="headerChild" title={t(LanguageKey.marketProperties_bussinessHours)}>
+        <div className="headerChild" title={t(LanguageKey.biolinkProperties_bussinessHours)}>
           <div className="circle"></div>
-          <div className="Title">{t(LanguageKey.marketProperties_bussinessHours)}</div>
+          <div className="Title">{t(LanguageKey.biolinkProperties_bussinessHours)}</div>
         </div>
       </div>
       {props.businessInfo.length === 0 ? (
-        <EmptyPopupState label={t(LanguageKey.marketProperties_bussinessHours)} />
+        <EmptyPopupState label={t(LanguageKey.biolinkProperties_bussinessHours)} />
       ) : (
         props.businessInfo.map((v, i) => (
           <div key={i} className={styles.section}>
