@@ -47,6 +47,8 @@
 
 # Changelog
 
+- Forwarded the incoming `user-agent` header from the local API proxy to the upstream Brancy API.
+
 - Moved generated image and video modal styles into the dedicated `Modal_Generated.module.css` and removed those unused result selectors from `mediaCreator.module.css`.
 
 - Removed unused legacy selectors from the AI generated-media list stylesheet, keeping only styles consumed by the image and video library cards.
