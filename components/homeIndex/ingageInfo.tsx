@@ -12,7 +12,6 @@ import { TopTileType } from "brancy/models/enums";
 import { IInstagramerHomeTiles, IStoryContent } from "brancy/models/interfaces";
 import Tooltip from "../design/tooltip/tooltip";
 const basePictureUrl = getClientMediaBaseUrl();
-const FIRST_LOGIN_KEY = "first-login-date";
 const FIRST_LOGIN_DURATION_MS = 24 * 60 * 60 * 1000;
 const SUBSCRIPTION_WARNING_SECONDS = 7 * 24 * 60 * 60;
 type StatusIconType = "shopper" | "influencer" | "sync" | "warning";
@@ -94,8 +93,9 @@ const IngageInfo = (props: {
     if (props.data && LoginStatus(session)) setLoadingStaus(false);
   }, [props.data, session]);
   useEffect(() => {
-    if (!session) return;
+    if (!session || session?.user.createdTime === null) return;
     if (typeof window === "undefined") return;
+    console.log("loginTime", session?.user.createdTime);
     const loginTime = session?.user.createdTime ? session.user.createdTime * 1000 : Date.now();
     setFirstLoginAt(loginTime);
     setCurrentTime(Date.now());
