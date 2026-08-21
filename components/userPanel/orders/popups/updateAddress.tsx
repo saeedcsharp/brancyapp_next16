@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n";
@@ -79,7 +79,7 @@ export default function UpdateAddresses({
         <div className={styles.containeraddress}>
           <div className="headerandinput">
             <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
-            <InputText
+            <InputBox
               className={"disable"}
               handleInputChange={(e) => {}}
               value={address.subject}
@@ -90,7 +90,7 @@ export default function UpdateAddresses({
           </div>
           <div className="headerandinput">
             <div className="headertext">{t(LanguageKey.userpanel_ZipCode)}</div>
-            <InputText
+            <InputBox
               className={"disable"}
               handleInputChange={(e) => {}}
               value={address.postalCode}
@@ -111,7 +111,7 @@ export default function UpdateAddresses({
 
           <div className="headerandinput">
             <div className="headertext">{t(LanguageKey.Storeorder_receiver)}</div>
-            <InputText
+            <InputBox
               className={"disable"}
               handleInputChange={() => {}}
               value={address.receiver}

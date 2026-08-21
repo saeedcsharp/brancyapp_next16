@@ -1,14 +1,26 @@
+import type { ReactNode } from "react";
+
 export interface ToggleOption {
   id: number;
   label: string;
   unreadCount?: number;
 }
 
-export interface FlexibleToggleButtonProps {
-  options: ToggleOption[];
-  selectedValue: number;
-  onChange: (value: number) => void;
+export interface ToggleButtonProps {
+  options?: ToggleOption[];
+  selectedValue?: number;
+  onChange?: (value: number) => void;
   className?: string;
+  ariaLabel?: string;
+  disabled?: boolean;
+  data?: LegacyToggleData;
+  values?: LegacyToggleData;
+  dataIcon?: {
+    firstIcon?: { active: string | ReactNode; diactive: string | ReactNode };
+    secondIcon?: { active: string | ReactNode; diactive: string | ReactNode };
+  };
+  setChangeToggle?: (order: ToggleOrder) => void;
+  toggleValue?: ToggleOrder;
 }
 
 // برای سازگاری با کد قبلی

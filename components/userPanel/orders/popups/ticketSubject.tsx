@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useReducer, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { LanguageKey } from "brancy/i18n";
@@ -129,7 +129,7 @@ export default function TicketTitle({ removeMask, orderId }: { removeMask: () =>
         <div className="headerandinput">
           <div className="title">{"Ticket Title"}</div>
         </div>
-        <InputText
+        <InputBox
           className={"textinputbox"}
           handleInputChange={(e) => dispatch({ type: "SET_SUBJECT", payload: e.target.value })}
           value={state.subject}
@@ -138,7 +138,7 @@ export default function TicketTitle({ removeMask, orderId }: { removeMask: () =>
         <div className="headerandinput">
           <div className="title">{"Description"}</div>
         </div>
-        <InputText
+        <InputBox
           className={"textinputbox"}
           handleInputChange={(e) => dispatch({ type: "SET_TEXT", payload: e.target.value })}
           value={state.text ?? ""}

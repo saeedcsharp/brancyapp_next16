@@ -162,7 +162,7 @@ html[dir="rtl"] .cardsrowtwo > div:nth-child(2) {
   .cardsrowone,
   .cardsrowtwo,
   .cardsrowthree {
-    overflow-x: scroll;
+    overflow-x: auto;
     padding-inline: 20px;
     padding-bottom: 20px;
   }
@@ -261,7 +261,7 @@ html[dir="rtl"] .button {
 .fadecircle {
   position: absolute;
   z-index: 0;
-  width: 500px;
+  /* width: 500px; */
   height: 500px;
   top: 10%;
   right: 40%;

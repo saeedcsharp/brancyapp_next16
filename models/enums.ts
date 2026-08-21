@@ -75,7 +75,6 @@ export enum ToolType {
   SendTelegramMessage,
   SendSmsirVerification,
 }
-
 export enum PromptType {
   General,
   Structured,
@@ -470,6 +469,12 @@ export enum StatusReplied {
   TimerClosed,
 }
 
+export enum ShopMediaProductType {
+  None,
+  Short,
+  Instance,
+}
+
 export enum MediaProductType {
   Ad = 0,
   Feed = 1,
@@ -554,6 +559,7 @@ export enum AutoReplyPayLoadType {
   AI,
   GeneralAI,
   Product,
+  ConnectProduct,
 }
 
 export enum BusinessFilterNumberType {
@@ -1008,6 +1014,7 @@ export enum ProductSortType {
   MaxPrice,
   MinPrice,
   MostDiscount,
+  SellerSuggest,
 }
 
 export enum ColorStr {
@@ -1067,5 +1074,14 @@ export enum InvoiceStatus {
   Refunded,
   FailedRefaund,
   Failed,
+}
+export enum SubInvoiceItemType {
+  InstagramerProduct = 0,
+  PlatformProductFee = 2,
+  InstagramerLogestic = 3,
+  PlatformPackage = 5,
+  PlatformLogestic = 6,
+  PlatformTransferFee = 7,
+  PlatformFeature = 8,
 }
 // #endregion Wallet

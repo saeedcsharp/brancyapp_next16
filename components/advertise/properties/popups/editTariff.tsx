@@ -1,7 +1,6 @@
 import Head from "next/head";
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
 import {
   convertFormatedStringToNumber,
   numberToFormattedString,
@@ -10,6 +9,7 @@ import {
 import { LanguageKey } from "brancy/i18n";
 import styles from "./tariff.module.css";
 import { ITariff, IEditTariff } from "brancy/models/interfaces";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 const EditTariff = (props: { removeMask: () => void; saveTariift: (tariif: ITariff) => void; tariif: ITariff }) => {
   const { t } = useTranslation();
   const [editTariff, setEditTarrif] = useState<IEditTariff>({
@@ -84,7 +84,7 @@ const EditTariff = (props: { removeMask: () => void; saveTariift: (tariif: ITari
       {/* head for SEO */}
       <>
         <div className="headerandinput">
-          <h1 className="title">{t(LanguageKey.marketProperties_yourtariff)}</h1>
+          <h1 className="title">{t(LanguageKey.biolinkProperties_yourtariff)}</h1>
         </div>
         <div className={styles.all}>
           <div className="headerandinput">
@@ -104,7 +104,7 @@ const EditTariff = (props: { removeMask: () => void; saveTariift: (tariif: ITari
               <div className={styles.column}>
                 <div className={styles.type}>{t(LanguageKey.pageStatistics_post)}</div>
                 <div className={styles.input}>
-                  <InputText
+                  <InputBox
                     name="todayPostSemiDay"
                     maxLength={undefined}
                     className="textinputbox"
@@ -114,7 +114,7 @@ const EditTariff = (props: { removeMask: () => void; saveTariift: (tariif: ITari
                   />
                 </div>
                 <div className={styles.input}>
-                  <InputText
+                  <InputBox
                     name="todayPostFullDay"
                     maxLength={undefined}
                     className="textinputbox"
@@ -127,7 +127,7 @@ const EditTariff = (props: { removeMask: () => void; saveTariift: (tariif: ITari
               <div className={styles.column}>
                 <div className={styles.type}>{t(LanguageKey.pageStatistics_stories)}</div>
                 <div className={styles.input}>
-                  <InputText
+                  <InputBox
                     name="todayStorySemiDay"
                     maxLength={undefined}
                     className="textinputbox"
@@ -137,7 +137,7 @@ const EditTariff = (props: { removeMask: () => void; saveTariift: (tariif: ITari
                   />
                 </div>
                 <div className={styles.input}>
-                  <InputText
+                  <InputBox
                     name="todayStoryFullDay"
                     maxLength={undefined}
                     className="textinputbox"
@@ -166,7 +166,7 @@ const EditTariff = (props: { removeMask: () => void; saveTariift: (tariif: ITari
               <div className={styles.column}>
                 <div className={styles.type}>{t(LanguageKey.pageStatistics_post)}</div>
                 <div className={styles.input}>
-                  <InputText
+                  <InputBox
                     name="basicPostSemiDay"
                     maxLength={undefined}
                     className="textinputbox"
@@ -176,7 +176,7 @@ const EditTariff = (props: { removeMask: () => void; saveTariift: (tariif: ITari
                   />
                 </div>
                 <div className={styles.input}>
-                  <InputText
+                  <InputBox
                     name="basicPostFullday"
                     maxLength={undefined}
                     className="textinputbox"
@@ -189,7 +189,7 @@ const EditTariff = (props: { removeMask: () => void; saveTariift: (tariif: ITari
               <div className={styles.column}>
                 <div className={styles.type}>{t(LanguageKey.pageStatistics_stories)}</div>
                 <div className={styles.input}>
-                  <InputText
+                  <InputBox
                     name="basicStorySemiDay"
                     maxLength={undefined}
                     className="textinputbox"
@@ -199,7 +199,7 @@ const EditTariff = (props: { removeMask: () => void; saveTariift: (tariif: ITari
                   />
                 </div>
                 <div className={styles.input}>
-                  <InputText
+                  <InputBox
                     name="basicStoryFullDay"
                     maxLength={undefined}
                     className="textinputbox"
@@ -227,7 +227,7 @@ const EditTariff = (props: { removeMask: () => void; saveTariift: (tariif: ITari
               <div className={styles.column}>
                 <div className={styles.type}>{t(LanguageKey.pageStatistics_post)}</div>
                 <div className={styles.input}>
-                  <InputText
+                  <InputBox
                     name="campaignPostFullDay"
                     maxLength={undefined}
                     className="textinputbox"
@@ -240,7 +240,7 @@ const EditTariff = (props: { removeMask: () => void; saveTariift: (tariif: ITari
               <div className={styles.column}>
                 <div className={styles.type}>{t(LanguageKey.pageStatistics_stories)}</div>
                 <div className={styles.input}>
-                  <InputText
+                  <InputBox
                     name="campaignStoryFullDay"
                     maxLength={undefined}
                     className="textinputbox"

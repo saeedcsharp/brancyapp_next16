@@ -1,6 +1,6 @@
 import { ChangeEvent } from "react";
 import TextArea from "brancy/components/design/textArea/textArea";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import styles from "./properties.module.css";
 function GhostFollower() {
   return (

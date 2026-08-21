@@ -2,8 +2,8 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
-import RadioButton from "brancy/components/design/radioButton";
+import InputBox from "brancy/components/design/inputBox/inputBox";
+import RadioButton from "brancy/components/design/radioButton/radioButton";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import System from "brancy/components/setting/general/system";
 import UserPartners from "brancy/components/userPanel/setting/partner";
@@ -30,7 +30,7 @@ function InputField({
     <div className="headerandinput">
       <div className="headertext">{label}</div>
       <div className="headerparent">
-        <InputText
+        <InputBox
           placeHolder={placeholder}
           maxLength={maxLength}
           className="textinputbox"
@@ -455,7 +455,7 @@ function Setting() {
                 <div className="headerandinput">
                   <div className="headertext">{t(LanguageKey.userpanel_Instagramid)}</div>
                   <div className="headerparent">
-                    <InputText
+                    <InputBox
                       placeHolder="Enter your instagram ID"
                       maxLength={200}
                       className="textinputbox"
@@ -470,7 +470,7 @@ function Setting() {
                   {t(LanguageKey.userpanel_Nameandfamily)}
                 </div>
                 <div className="headerparent">
-                  <InputText
+                  <InputBox
                     placeHolder="Enter your name"
                     maxLength={200}
                     className="textinputbox"
@@ -483,7 +483,7 @@ function Setting() {
                 <div className="headerandinput">
                   <div className="headertext">{t(LanguageKey.userpanel_NationalCode)}</div>
                   <div className="headerparent">
-                    <InputText
+                    <InputBox
                       placeHolder="Enter your national code"
                       maxLength={10}
                       className={getInputClass("nationalCode")} // تعیین کلاس بر اساس وضعیت
@@ -497,7 +497,7 @@ function Setting() {
                 <div className="headerandinput">
                   <div className="headertext">{t(LanguageKey.userpanel_BirthDay)}</div>
                   <div className="headerparent">
-                    <InputText
+                    <InputBox
                       placeHolder="Enter your birth day"
                       maxLength={200}
                       className="textinputbox"
@@ -510,7 +510,7 @@ function Setting() {
                 <div className="headerandinput">
                   <div className="headertext">{t(LanguageKey.userpanel_MobileNumber)}</div>
                   <div className="headerparent">
-                    <InputText
+                    <InputBox
                       placeHolder="Enter your mobile number"
                       maxLength={11}
                       className={getInputClass("mobile")} // تعیین کلاس بر اساس وضعیت
@@ -523,7 +523,7 @@ function Setting() {
                 <div className="headerandinput">
                   <div className="headertext">{t(LanguageKey.userpanel_Email)}</div>
                   <div className="headerparent">
-                    <InputText
+                    <InputBox
                       placeHolder="Enter your email"
                       maxLength={200}
                       className={getInputClass("email")} // تعیین کلاس بر اساس وضعیت
@@ -536,7 +536,7 @@ function Setting() {
                 <div className="headerandinput">
                   <div className="headertext">{t(LanguageKey.userpanel_CreditNumber)}</div>
                   <div className="headerparent">
-                    <InputText
+                    <InputBox
                       placeHolder="Enter your credit number"
                       maxLength={16}
                       className={getInputClass("creditNumber")} // تعیین کلاس بر اساس وضعیت

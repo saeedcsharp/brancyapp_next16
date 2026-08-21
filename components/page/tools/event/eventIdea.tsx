@@ -1,4 +1,4 @@
-import IconToggleButton from "brancy/components/design/toggleButton/iconToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
@@ -369,7 +369,7 @@ const EventIdea = forwardRef<EventIdeaHandle, { handleOpenCreate: () => void }>(
               </div>
             </div>
 
-            <IconToggleButton
+            <ToggleButton
               data={{
                 firstToggle: t(LanguageKey.pageTools_EventIdeas),
                 secondToggle: t(LanguageKey.pageTools_CustomEvent),

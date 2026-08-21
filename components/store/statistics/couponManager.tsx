@@ -1,0 +1,197 @@
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { DateObject } from "react-multi-date-picker";
+import SwitchButton from "brancy/components/design/switchButton/switchButton";
+import RingLoader from "brancy/components/design/loader/ringLoder";
+import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
+import initialzedTime from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
+import IUserCoupon from "brancy/models/interfaces";
+import styles from "./couponManager.module.css";
+import useHideDiv from "brancy/hook/useHide";
+import InputBox from "brancy/components/design/inputBox/inputBox";
+
+interface CouponManagerProps {
+  coupons: IUserCoupon[];
+  isLoading: boolean;
+  isLoadingMore: boolean;
+  onReachEnd: () => void;
+  isActive: boolean;
+  isPrivate: boolean;
+  searchQuery: string;
+  onSearchQueryChange: (value: string) => void;
+  onActiveFilterChange: (value: boolean) => void;
+  onPrivateFilterChange: (value: boolean) => void;
+  updatingCouponId: number | null;
+  onCreateClick: () => void;
+  onEditClick: (coupon: IUserCoupon) => void;
+  onVisibilityChange: (coupon: IUserCoupon, showInBio: boolean) => void;
+}
+
+const CouponManager = ({
+  coupons,
+  isLoading,
+  isLoadingMore,
+  onReachEnd,
+  isActive,
+  isPrivate,
+  searchQuery,
+  onSearchQueryChange,
+  onActiveFilterChange,
+  onPrivateFilterChange,
+  updatingCouponId,
+  onCreateClick,
+  onEditClick,
+  onVisibilityChange,
+}: CouponManagerProps) => {
+  const { t } = useTranslation();
+  const { hidePage, gridSpan, toggle } = useHideDiv(true, 57);
+  const [searchInput, setSearchInput] = useState(searchQuery);
+
+  useEffect(() => {
+    setSearchInput(searchQuery);
+  }, [searchQuery]);
+
+  useEffect(() => {
+    const debounceTimer = window.setTimeout(() => {
+      if (searchInput !== searchQuery) onSearchQueryChange(searchInput);
+    }, 400);
+
+    return () => window.clearTimeout(debounceTimer);
+  }, [onSearchQueryChange, searchInput, searchQuery]);
+
+  return (
+    <section style={gridSpan} className={styles.container} aria-labelledby="coupon-manager-title">
+      <div onClick={toggle} className={styles.header}>
+        <div>
+          <div className="circle" />
+          <h2 id="coupon-manager-title" className="Title">
+            {t(LanguageKey.storestatistics_couponTitle)}
+          </h2>
+        </div>
+        <div className={styles.actions}>
+          {hidePage && (
+            <button
+              className="saveButton"
+              type="button"
+              onClick={(event) => {
+                event.stopPropagation();
+                onCreateClick();
+              }}>
+              {t(LanguageKey.storestatistics_addCoupon)}
+            </button>
+          )}
+        </div>
+      </div>
+
+      {hidePage && (
+        <>
+          <div className={styles.filterToolbar} onClick={(event) => event.stopPropagation()}>
+            <InputBox
+              className="search"
+              variant="search"
+              value={searchInput}
+              placeholder={t(LanguageKey.search)}
+              ariaLabel={t(LanguageKey.search)}
+              handleInputChange={(event) => setSearchInput(event.target.value)}
+            />
+          </div>
+          {isLoading ? (
+            <div className={styles.loading}>
+              <RingLoader />
+            </div>
+          ) : coupons.length === 0 ? (
+            <p className={styles.empty}>{t(LanguageKey.storestatistics_noCoupons)}</p>
+          ) : (
+            <Slider
+              className={styles.list}
+              itemsPerSlide={1}
+              onReachEnd={searchQuery.trim() ? undefined : onReachEnd}
+              isLoading={isLoadingMore}>
+              {coupons.map((coupon) => {
+                const exhausted = coupon.maxCount > 0 && coupon.useCount >= coupon.maxCount;
+                const expired = coupon.expireTime > 0 && coupon.expireTime < Date.now();
+                return (
+                  <SliderSlide key={coupon.couponId}>
+                    <article className={styles.coupon}>
+                      <div className={styles.codeRow}>
+                        <strong>{coupon.code}</strong>
+                        <button
+                          type="button"
+                          title="update coupon"
+                          onClick={() => {
+                            onEditClick(coupon);
+                          }}
+                          className="twoDotIconContainer"
+                          aria-label={t(LanguageKey.storestatistics_addCoupon)}>
+                          <svg className="twoDotIcon" fill="none" viewBox="0 0 14 5">
+                            <path
+                              fill="var(--color-gray)"
+                              d="M2.5 5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5m9 0a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                      <div className={styles.details}>
+                        <span>{t(LanguageKey.storestatistics_discountValue, { discount: coupon.discount })}</span>
+                        <span>
+                          {coupon.phoneNumber !== null && coupon.phoneNumber !== ""
+                            ? `${coupon.phoneNumber} (${t(LanguageKey.storestatistics_private)})`
+                            : t(LanguageKey.storestatistics_public)}
+                        </span>
+                        <span>
+                          {t(LanguageKey.storestatistics_couponUsage, {
+                            used: coupon.useCount,
+                            max: coupon.maxCount || t(LanguageKey.storestatistics_unlimited),
+                          })}
+                        </span>
+                        {coupon.maxDiscount !== null && (
+                          <span>
+                            {t(LanguageKey.storestatistics_maxDiscountValue, {
+                              value: coupon.maxDiscount.toLocaleString(),
+                            })}
+                          </span>
+                        )}
+                        <span>
+                          {t(LanguageKey.storestatistics_expiryValue, {
+                            date: coupon.expireTime
+                              ? new DateObject({
+                                  date: coupon.expireTime,
+                                  calendar: initialzedTime().calendar,
+                                  locale: initialzedTime().locale,
+                                }).format("YYYY/MM/DD")
+                              : "-",
+                          })}
+                        </span>
+                      </div>
+                      <label className={styles.visibilityControl}>
+                        <span
+                          className={`${styles.status} ${expired || exhausted || coupon.isDeleted ? styles.inactive : ""}`}>
+                          {coupon.isDeleted
+                            ? t(LanguageKey.storestatistics_couponDeleted)
+                            : t(LanguageKey.storestatistics_couponActive)}
+                        </span>
+                        <span className={styles.activationControl}>
+                          {t(LanguageKey.active)}
+                          <SwitchButton
+                            name={`coupon-${coupon.couponId}-show-in-bio`}
+                            checked={!coupon.isDeleted}
+                            handleToggle={(event) => onVisibilityChange(coupon, !event.target.checked)}
+                            disabled={updatingCouponId === coupon.couponId}
+                            role="switch"
+                          />
+                        </span>
+                      </label>
+                    </article>
+                  </SliderSlide>
+                );
+              })}
+            </Slider>
+          )}
+        </>
+      )}
+    </section>
+  );
+};
+
+export default CouponManager;

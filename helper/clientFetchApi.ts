@@ -29,7 +29,6 @@ function getSessionInstagramerId(session: Session | null | undefined): string {
   const user = session?.user as any;
   const currentIndex = Number(user?.currentIndex ?? -1);
   const instagramerIds = Array.isArray(user?.instagramerIds) ? user.instagramerIds : [];
-  console.log("instagramerIds, currentIndex", instagramerIds, currentIndex);
   if (currentIndex >= 0 && currentIndex < instagramerIds.length) {
     return String(instagramerIds[currentIndex]);
   }
@@ -39,6 +38,7 @@ function getSessionInstagramerId(session: Session | null | undefined): string {
 interface FetchOptions<T> {
   session?: Session | null;
   accessToken?: string | null;
+  signal?: AbortSignal;
   methodType?: MethodType;
   data?: any;
   queries?: StringDitionaryItem[];
@@ -108,6 +108,7 @@ async function fetchDirect<TRes>(
   queries: StringDitionaryItem[],
   onUploadProgress?: (numb: number) => void,
   session?: Session | null,
+  signal?: AbortSignal,
 ): Promise<IResult<TRes>> {
   try {
     const targetUrl = buildDirectUrl(backendSubUrl, queries);
@@ -121,6 +122,7 @@ async function fetchDirect<TRes>(
       },
       body: methodType === MethodType.post ? JSON.stringify(data) : undefined,
       cache: "no-store",
+      signal,
     });
 
     if (onUploadProgress) onUploadProgress(100);
@@ -155,6 +157,7 @@ async function fetchViaProxy<TRes>(
   queries: StringDitionaryItem[],
   onUploadProgress?: (numb: number) => void,
   session?: Session | null,
+  signal?: AbortSignal,
 ): Promise<IResult<TRes>> {
   try {
     const res = await fetch(localPath, {
@@ -165,6 +168,7 @@ async function fetchViaProxy<TRes>(
         instagramerId,
       },
       body: JSON.stringify({ methodType, data, queries }),
+      signal,
     });
 
     if (onUploadProgress) onUploadProgress(100);
@@ -191,8 +195,7 @@ export async function clientFetchApi<TReq, TRes>(
   path: string,
   options: FetchOptions<TReq> = {},
 ): Promise<IResult<TRes>> {
-  const { session, methodType = MethodType.get, data, queries = [], onUploadProgress } = options;
-  console.log("queriessssss", queries);
+  const { session, methodType = MethodType.get, data, queries = [], onUploadProgress, signal } = options;
   const accessToken = options.accessToken ?? getSessionAccessToken(session);
   const instagramerId = session ? getSessionInstagramerId(session) : "-1";
   const localPath = toLocalApiPath(path);
@@ -208,6 +211,7 @@ export async function clientFetchApi<TReq, TRes>(
       queries,
       onUploadProgress,
       session,
+      signal,
     );
   }
 
@@ -223,6 +227,7 @@ export async function clientFetchApi<TReq, TRes>(
       queries,
       onUploadProgress,
       session,
+      signal,
     );
   }
 
@@ -282,6 +287,7 @@ export async function clientFetchApi<TReq, TRes>(
       queries,
       onUploadProgress,
       session,
+      signal,
     );
   }
 
@@ -295,6 +301,7 @@ export async function clientFetchApi<TReq, TRes>(
     queries,
     onUploadProgress,
     session,
+    signal,
   );
 }
 

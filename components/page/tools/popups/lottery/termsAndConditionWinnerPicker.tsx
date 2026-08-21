@@ -6,7 +6,7 @@ import { HuePicker } from "react-color";
 import { useTranslation } from "react-i18next";
 import Slider from "react-slider";
 import RingLoader from "brancy/components/design/loader/ringLoder";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import rgbaToHex from "brancy/helper/rgbaToHex";
@@ -25,6 +25,9 @@ import {
 } from "brancy/models/interfaces";
 import { TermsType } from "brancy/models/enums";
 const basePictureUrl = getClientMediaBaseUrl();
+const INSTAGRAM_STORY_WIDTH = 1080;
+const INSTAGRAM_STORY_HEIGHT = 1920;
+
 function filterTypeSlide(backgrounds: IGetTermsAndConditionInfo, type: TermsType) {
   const result = backgrounds.background.filter((x) => x.type === type);
   return result;
@@ -326,16 +329,26 @@ const TermsAndConditionWinnerPicker = (props: {
         style={{
           display: "flex",
           background: backgroundStr,
-          width: "32",
-          height: "56",
+          width: `${INSTAGRAM_STORY_WIDTH}`,
+          height: `${INSTAGRAM_STORY_HEIGHT}`,
         }}></div>,
-      32,
-      56,
+      INSTAGRAM_STORY_WIDTH,
+      INSTAGRAM_STORY_HEIGHT,
       500,
     );
     const termsUrlSvg = await GetSvg();
-    const termsUrlJpeg = await svgToJpgFile(termsUrlSvg);
-    const termsBackGroundFile = await svgToFile(backgroundSvg);
+    const termsUrlJpeg = await svgToJpgFile(
+      termsUrlSvg,
+      "terms-and-conditions.jpg",
+      INSTAGRAM_STORY_WIDTH,
+      INSTAGRAM_STORY_HEIGHT,
+    );
+    const termsBackGroundFile = await svgToFile(
+      backgroundSvg,
+      "terms-background.jpg",
+      INSTAGRAM_STORY_WIDTH,
+      INSTAGRAM_STORY_HEIGHT,
+    );
     let termsAndConditionResult: ICreateTermsAndConditionInfo = {
       background: {
         backgroundId: selectedSlide,
@@ -378,8 +391,8 @@ const TermsAndConditionWinnerPicker = (props: {
           display: "flex",
           flexDirection: "column",
           background: backgroundStr,
-          width: "1080",
-          height: "1920",
+          width: `${INSTAGRAM_STORY_WIDTH}`,
+          height: `${INSTAGRAM_STORY_HEIGHT}`,
           gap: "36px ",
           justifyContent: "center",
           alignItems: "center",
@@ -477,8 +490,8 @@ const TermsAndConditionWinnerPicker = (props: {
           )}
         </div>
       </div>,
-      1080,
-      1920,
+      INSTAGRAM_STORY_WIDTH,
+      INSTAGRAM_STORY_HEIGHT,
       500,
     );
     return termsAndConditionSvg;

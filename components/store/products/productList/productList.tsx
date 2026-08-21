@@ -5,8 +5,8 @@ import Link from "next/link";
 import router from "next/router";
 import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState, useTransition } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
-import InputText from "brancy/components/design/inputText";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
@@ -79,7 +79,7 @@ const ProductList = () => {
   const [products, setProducts] = useState<IProduct_ShortProduct[]>([]);
   const [loadingStatus, setLoadingStatus] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.Products));
   const [hasMoreData, setHasMoreData] = useState(true);
-  const [productIds, setProductIds] = useState<number[]>([]);
+  const [productIds, setProductIds] = useState<string[]>([]);
   const [selectAllProduct, setSelectAllProduct] = useState(false);
   const [showUpdateProduct, setshowUpdateProduct] = useState(false);
   const [showSearch, setShowSearch] = useState({
@@ -103,7 +103,7 @@ const ProductList = () => {
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
   // تغییر در تابع هندل وضعیت محصول
   const handleChangeActiveProduct = useCallback(
-    async (productId: number, productInId: number | null, statusId: any) => {
+    async (productId: string, productInId: number | null, statusId: any) => {
       console.log("statusId", statusId.toString());
       if (!productInId) return;
 
@@ -348,7 +348,7 @@ const ProductList = () => {
   });
 
   const handleSelectProduct = useCallback(
-    (e: ChangeEvent<HTMLInputElement>, productId: number, productInId: number | null) => {
+    (e: ChangeEvent<HTMLInputElement>, productId: string, productInId: number | null) => {
       if (!productInId) return;
       const newArray = [...productIds];
       if (e.target.checked) {
@@ -592,7 +592,7 @@ const ProductList = () => {
                       <div
                         className={`${styles.serachMenuBar} ${isSearchBarClosing ? styles.searchBarClosing : ""}`}
                         ref={searchBarRef}>
-                        <InputText
+                        <InputBox
                           className={"serachMenuBar"}
                           placeHolder={t(LanguageKey.search)}
                           handleInputChange={handleSearchProductInputChange}

@@ -16,10 +16,32 @@
 .accountsGrid > div:hover {
   background: var(--color-gray30);
 }
+.accountsGrid > .selectedAccount,
+.accountsGrid > .selectedAccount:hover {
+  background: var(--color-dark-blue10);
+  border: 1px solid var(--color-dark-blue);
+  box-shadow: 0 0 0 3px var(--color-dark-blue30);
+}
 .line {
   height: 1px;
   background: var(--color-gray60);
   margin: 12px 0;
+}
+.ipWarning {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-10);
+  color: var(--color-dark-red);
+  font-weight: 600;
+  text-align: center;
+}
+.ipWarning strong {
+  min-width: 28px;
+  padding: 4px 8px;
+  border-radius: var(--br10);
+  background: var(--color-dark-red10);
+  text-align: center;
 }
 .blinkYellow {
   color: var(--color-light-yellow);

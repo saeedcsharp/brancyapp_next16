@@ -4,6 +4,10 @@
 
 Component module for design UI and feature concerns.
 
+## Design System Rule
+
+This module is the first reuse point for new UI controls and interaction patterns. Before adding a component or local presentation pattern, inspect the shared tokens and style layers in `scss/`, then reuse or extend the closest existing component here. New components must preserve the repository's spacing, typography, color, responsive, RTL/LTR, accessibility, reduced-motion, and forced-colors conventions.
+
 ## Business Purpose
 
 Supports Brancy design workflows or shared UI.
@@ -40,9 +44,20 @@ Used by routes, components, helpers, or build tooling where imported.
 
 Exports are defined by source files in the module.
 
+- `components/design/dotMenu/dotMenu.tsx` exports `DotMenu`, an accessible menu button with keyboard navigation, focus restoration, RTL-aware placement, responsive menu bounds, body-level portal rendering with viewport-fixed coordinates, reduced-motion handling, and backwards-compatible legacy props (`data`, `handleClickOnIcon`, and `menuPosition`).
 - `components/design/tooltip/tooltip.tsx` exports `Tooltip`, which renders its tooltip content through `document.body` using viewport-fixed coordinates derived from the trigger while preserving directional placement options.
 - `components/design/chart/brushLineChart.tsx` exports `BrushLineChart`, a reusable SVG multi-series line chart with a draggable brush range selector, adaptive year/month/day aggregation, count-based vertical axis, legend toggles, and hover tooltips.
 - `components/design/phoneInput/` exports a dependency-free two-input phone selector with local SVG flags, country search, recent/preferred countries, formatting, validation, RTL support, and structured E.164/international/national output.
+- `components/design/inputText.tsx` supports controlled text input normalization by its consumer and exposes a `shake` prop for replaying the shared invalid-input animation.
+- `components/design/inputBox/inputBox.tsx` exports the legacy-compatible controlled `InputBox`. It supports standard `variant`/`status` options, optional decimal numeric normalization through `decimal`, native disabled/read-only/required behavior, forwarded refs, localized-digit normalization, RTL/LTR logical layout, clearable keyboard-accessible controls anchored to the physical right edge, mobile-safe 16px text, responsive legacy CSS model aliases, and text or React-node units.
+- `components/design/textArea/textArea.tsx` exports a standard native-textarea-compatible control with RTL direction detection, controlled/uncontrolled modes, optional bounded auto-resize, line-based `minRows`/`maxRows` bounds, keyboard Escape handling, and a 16px minimum computed font size to prevent mobile browser focus zoom. Standard React props are preferred; legacy textarea prop names remain temporarily compatible.
+- `components/design/checkBoxButton/checkBoxButton.tsx` exports the legacy-compatible controlled `CheckBoxButton`, with native checkbox accessibility props, keyboard-visible focus, disabled state, a 44px touch target, and forced-colors/reduced-motion fallbacks.
+- `components/design/radioButton/radioButton.tsx` exports the legacy-compatible controlled `RadioButton`. It retains `textlabel` and `handleOptionChanged`, while supporting standard `label`, `onChange`, and native radio input props; its native input remains keyboard-focusable and styles include 44px touch targets, disabled, focus-visible, reduced-motion, and forced-colors states.
+- `components/design/incrementStepper/incrementStepper.tsx` exports a callback-controlled numeric stepper with semantic buttons, keyboard support, pointer-captured press-and-hold repetition, stale-value-safe decrement handling, optional `onValueChange`, `min`, and `max` props for manual integer entry, optional disabled and accessible-label props, and reduced-motion/forced-colors fallbacks.
+- `components/design/switchButton/switchButton.tsx` exports the controlled `SwitchButton` while preserving its existing import path and callback API. It uses a native checkbox input, accepts standard input and ARIA props, filters legacy invalid roles, provides a 44px touch target, and supports visible focus, disabled, RTL, reduced-motion, and forced-colors states.
+- `components/design/counterDown/counterDownForLink.tsx` exports `CountdownTimerForLink`, which treats `expireTime` as a Unix timestamp in seconds and displays `DD:HH:MM:SS` when at least one day remains, otherwise `HH:MM:SS`.
+- `components/design/counterDown/counterDownForLink.tsx` exports a link countdown that shows `HH:MM:SS` below one day and `Xd HH:MM:SS` when one or more full days remain.
+- `components/design/slider/slider.tsx` exports `Slider` and `SliderSlide`; `freeMode` provides horizontal touch, trackpad, and pointer-drag scrolling for independently sized slides without pagination controls.
 
 ## Internal APIs
 
@@ -62,10 +77,24 @@ React components are present when the folder contains `.tsx` UI files.
 
 ## Recent UI Notes
 
+- Added the protected `/dev/systemDesign` showcase. It groups local mock demonstrations for the design controls, all `InputBox` CSS models, numeric Unicode-digit filtering, configurable units (`gram`, `Kg`, `CM`, `MM`, `$`, `%`), phone input, loaders, counters, charts, slider, drag/drop, menus, tooltip, modal, AI button, and text editor. The page intentionally makes no backend requests.
+
+- `components/design/toggleButton/ToggleButton.tsx` renders native buttons with `aria-pressed`, optional group labeling, disabled support, visible keyboard focus, responsive touch targets, RTL-aware unread positioning and active-indicator translation, reduced-motion handling, and forced-colors fallback. A shared active indicator animates between option columns without changing its controlled `options`, `selectedValue`, and `onChange` API.
+- DotMenu now uses native buttons and WAI-ARIA menu semantics. It supports Enter/Space activation, Arrow/Home/End option navigation, Escape/outside-pointer closing, and moves focus between its trigger and active option. Its option styles are applied, its open menu is rendered through `document.body` with fixed viewport coordinates so ancestor overflow and stacking contexts cannot hide it, and it is removed after the exit animation.
 - Tooltip content is portalled to `document.body` so ancestor overflow and stacking contexts cannot clip it. Its fixed coordinates are refreshed on scroll and resize, and click-outside handling recognizes both the trigger and portalled content.
 - The chart design folder now includes a brush-style line chart for date/count series. It keeps the full main line rendered while the selected range controls its visible x-domain, accepts multiple series, auto-aggregates by year/month/day, aligns hover guides/tooltips to displayed buckets, animates path redraws and brush movement, and stays dependency-free.
 - Each displayed vertical guide has a transparent hover zone spanning the midpoint to adjacent guides, allowing near-line tooltip activation.
 - The brush chart measures its container after the first layout paint and once more on the next animation frame, while `ResizeObserver` continues to handle route/layout changes where the card initially has no usable size.
+- Brush chart count labels use an explicit `en-US` number locale so SSR and browser rendering cannot produce different numeric glyphs during hydration.
+- TextArea uses the CSS-module `textArea`, `rtl`, `ltr`, `danger`, and `fade` states. It includes keyboard-visible focus, reduced-motion, and forced-colors handling without focus-scale transforms.
+- TextArea line-based auto-resize calculates row heights from the rendered line-height, padding, and borders; the AI media prompt uses a five-line minimum and ten-line maximum before enabling its internal scrollbar.
+- InputBox uses a shared responsive base instead of fixed dimensions. Legacy models (`initial`, `hover`, `disable`, `filled`, `success`, `info`, `warning`, `danger`, `num`, `numAndPercentage`, `search`, `textinputbox`, and `serachMenuBar`) remain available while semantic `variant` and `status` props can be used for new code. CSS uses logical direction properties, native focus/disabled behavior, forced-colors and reduced-motion fallbacks, and a 16px minimum input font to prevent mobile zoom. A full-width relative wrapper anchors the keyboard-accessible clear button to the physical right edge.
+- InputBox numeric modes (`number`, `num`, `percentage`, and `numAndPercentage`, plus legacy `numberType`) normalize decimal digits from supported Unicode scripts to ASCII and remove every non-digit before the controlled callback and rendered value. Optional `unit` text or React node (such as `gram`, `Kg`, `CM`, `MM`, `$`, or the shared currency SVG) is rendered as a styled, RTL/LTR-aware visual sibling inside the wrapper; `unitStyle` allows per-instance styling, and the unit replaces the clear button while present.
+- `components/priceFormater.tsx` exports `specifyPriceType`, which renders the shared currency symbol/mark for a `PriceType`; consumers can pass its output to `InputBox.unit`.
+- CheckBoxButton keeps its existing import path and controlled `value`/`handleToggle` API while accepting native ARIA and input attributes. Its checkbox input is visually hidden rather than removed from keyboard navigation.
+- RadioButton keeps its existing import path and controlled legacy props while accepting standard native radio props. Its CSS-module classes are `input`, `label`, `indicator`, and `labelText`; selection uses a pseudo-element so hover and checked states do not change layout dimensions.
+- IncrementStepper uses CSS-module `root`, `control`, `value`, and `isShaking` states. Its existing `data`, `increment`, and `decrement` callback API remains compatible; `disabled`, `className`, `aria-label`, `incrementLabel`, and `decrementLabel` are optional additions.
+- SwitchButton uses CSS-module `root`, `input`, and `track` states. The visual thumb is rendered by the track pseudo-element; the native input remains the interactive and accessible control. Its existing `name`, `checked`, and `handleToggle` props remain compatible, while standard input props and an optional wrapper `className` are supported.
 
 ## Hooks
 
@@ -157,7 +186,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-08-07
 
 ---
 

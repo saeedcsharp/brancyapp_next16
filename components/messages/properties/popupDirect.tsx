@@ -1,7 +1,7 @@
 import { t } from "i18next";
 import React, { useState } from "react";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
-import InputText from "brancy/components/design/inputText";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n";
 
@@ -61,7 +61,7 @@ const PopupDirect: React.FC<PopupCommentProps> = ({ onClose }) => {
           </div>
         </div>
 
-        <InputText
+        <InputBox
           className="textinputbox"
           placeHolder={t(LanguageKey.receivedmessage)}
           handleInputChange={(e) => setDIRECTInputText(e.target.value)}

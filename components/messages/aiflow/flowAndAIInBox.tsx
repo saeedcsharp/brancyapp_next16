@@ -3,10 +3,11 @@ import router, { useRouter } from "next/router";
 import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import TextArea from "brancy/components/design/textArea/textArea";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
@@ -80,6 +81,37 @@ const FlowAndAIInbox = () => {
   // LiveChat related states
   const [showLiveChatPopup, setShowLiveChatPopup] = useState(false);
   const [promptInfo, setPromptInfo] = useState<ICreatePrompt | null>(null);
+  const [showPromptAnalysisModal, setShowPromptAnalysisModal] = useState(false);
+  const [promptAnalysisText, setPromptAnalysisText] = useState("");
+  const promptAnalysisAcceptRef = useRef<((text: string) => void) | null>(null);
+  const promptAnalysisCloseRef = useRef<(() => void) | null>(null);
+
+  const handleOpenPromptAnalysisModal = (
+    initialText: string,
+    onAccept: (text: string) => void,
+    onClose: () => void,
+  ) => {
+    setPromptAnalysisText(initialText);
+    promptAnalysisAcceptRef.current = onAccept;
+    promptAnalysisCloseRef.current = onClose;
+    setShowPromptAnalysisModal(true);
+  };
+
+  const handleClosePromptAnalysisModal = () => {
+    setShowPromptAnalysisModal(false);
+    promptAnalysisCloseRef.current?.();
+    promptAnalysisAcceptRef.current = null;
+    promptAnalysisCloseRef.current = null;
+  };
+
+  const handleAcceptPromptAnalysis = () => {
+    if (promptAnalysisText.length <= 20) return;
+
+    promptAnalysisAcceptRef.current?.(promptAnalysisText);
+    setShowPromptAnalysisModal(false);
+    promptAnalysisAcceptRef.current = null;
+    promptAnalysisCloseRef.current = null;
+  };
 
   // Settings Modal (lifted from Flow)
   const [settingModalVisible, setSettingModalVisible] = useState(false);
@@ -509,7 +541,7 @@ const FlowAndAIInbox = () => {
           <div className={styles.left} style={{ display: displayLeft }}>
             {/* ___search ___*/}
 
-            <InputText
+            <InputBox
               className={"serachMenuBar"}
               placeHolder={t(LanguageKey.searchKeyword)}
               handleInputChange={handleSearchThreads}
@@ -519,7 +551,7 @@ const FlowAndAIInbox = () => {
             />
 
             {/* ___switch button ___*/}
-            <FlexibleToggleButton
+            <ToggleButton
               onChange={handleToggleChange}
               selectedValue={toggleOrder}
               options={[
@@ -800,6 +832,11 @@ const FlowAndAIInbox = () => {
                 flowId={userSelectedId}
                 showUserList={showUserList}
                 onOpenSettings={handleOpenSettings}
+                onSaveSuccess={(masterFlow, flowStr) => {
+                  if (masterFlow && flowStr) {
+                    handleUpdateFlow(masterFlow, flowStr);
+                  }
+                }}
                 onOpenLiveTest={handleOpenLiveTest}
                 onOpenTutorial={handleOpenTutorial}
                 onRegisterGetEditorState={handleRegisterGetEditorState}
@@ -828,6 +865,7 @@ const FlowAndAIInbox = () => {
                 tools={aiPromptTools}
                 setTools={setAIPromptTools}
                 setShowNotFeature={setShowNotFeature}
+                openPromptAnalysisModal={handleOpenPromptAnalysisModal}
               />
             </div>
           )}
@@ -867,6 +905,37 @@ const FlowAndAIInbox = () => {
           />
         </Modal>
       )}
+      <Modal
+        closePopup={handleClosePromptAnalysisModal}
+        classNamePopup="popup"
+        showContent={showPromptAnalysisModal && toggleOrder === ToggleOrder.SecondToggle && !loading}>
+        <div className={styles.promptAnalysisModal}>
+          <h2 id="modal-title" className="title2">
+            {t(LanguageKey.promptanalysis)}
+          </h2>
+          <TextArea
+            className={"TextArea"}
+            handleInputChange={(e) => setPromptAnalysisText(e.target.value)}
+            value={promptAnalysisText}
+            title={t(LanguageKey.promptanalysis)}
+            autoExpandOnFocus
+            initialHeight={500}
+            placeholder={t(LanguageKey.promptanalysisplaceholder)}
+          />
+          <div className={styles.promptAnalysisModalActions}>
+            <button type="button" className="cancelButton" onClick={handleClosePromptAnalysisModal}>
+              {t(LanguageKey.close)}
+            </button>
+            <button
+              type="button"
+              className={`saveButton ${promptAnalysisText.length <= 20 ? "fadeDiv" : ""}`}
+              onClick={handleAcceptPromptAnalysis}
+              disabled={promptAnalysisText.length <= 20}>
+              {t(LanguageKey.accept)}
+            </button>
+          </div>
+        </div>
+      </Modal>
       {/* ================================================================= */}
       {/* SETTINGS MODAL - مودال تنظیمات */}
       {/* ================================================================= */}

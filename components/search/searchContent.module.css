@@ -7,7 +7,7 @@
   top: 50px;
   width: 380px;
   height: 500px;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   border-radius: var(--br8) var(--br8) var(--br20) var(--br20);
   transition: var(--transition3);

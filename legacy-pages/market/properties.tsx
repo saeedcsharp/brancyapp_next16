@@ -1,17 +1,17 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { MouseEvent, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Modal from "brancy/components/design/modal";
 import DomainManager from "brancy/components/market/properties/domainManager";
 import Features from "brancy/components/market/properties/features";
 import Link from "brancy/components/market/properties/link";
-import AddNewLink from "brancy/components/market/properties/popups/addNewLink";
-import DeleteLink from "brancy/components/market/properties/popups/deletLink";
-import EditLink from "brancy/components/market/properties/popups/editLink";
-import FeaturePopUp from "brancy/components/market/properties/popups/featurePopup";
-import StatisticsLinks from "brancy/components/market/properties/popups/statisticsLink";
+import AddNewLink from "brancy/components/market/myLink/popups/addNewLink";
+import DeleteLink from "brancy/components/market/myLink/popups/deletLink";
+import EditLink from "brancy/components/market/myLink/popups/editLink";
+import FeaturePopUp from "brancy/components/market/myLink/popups/featurePopup";
+import StatisticsLinks from "brancy/components/market/myLink/popups/statisticsLink";
 import NotAllowed from "brancy/components/notOk/notAllowed";
 import {
   internalNotify,
@@ -63,18 +63,11 @@ const Properties = () => {
     setFeatureId(featureId);
     setShowFeatureBox(true);
   }
-  function handleShowDotIcons(e: MouseEvent) {
-    e.stopPropagation();
-    const index = parseInt(e.currentTarget.id);
-    if (linkId === index) {
-      setLinkId(1000);
-      return;
-    }
-    setLinkId(index);
+  function handleShowDotIcons(selectedLinkId: number) {
+    setLinkId(selectedLinkId);
   }
-  function handleClickOnIcon(e: MouseEvent) {
-    e.stopPropagation();
-    const icon = e.currentTarget.id;
+  function handleClickOnIcon(icon: string, selectedLinkId: number) {
+    setLinkId(selectedLinkId);
     switch (icon) {
       case t(LanguageKey.edit):
         setSshowEditLink(true);
@@ -109,10 +102,8 @@ const Properties = () => {
     if (res.value) {
       fetchData();
     }
-    console.log("Add New Link", newLink);
   }
   async function handleUpdateLink(updatedLink: IUpdateLink) {
-    console.log("updatedLink", updatedLink);
     try {
       var res = await clientFetchApi<ISaveLink, boolean>("/api/link/UpdateLink", {
         methodType: MethodType.post,
@@ -127,8 +118,6 @@ const Properties = () => {
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
     }
-
-    console.log(updatedLink);
   }
   async function handleDeleteLink(linkId: number) {
     const instagramerId = session?.user.instagramerIds[session.user.currentIndex];
@@ -154,10 +143,8 @@ const Properties = () => {
     if (res.value) {
       //fetchData();
     }
-    console.log("orderLinks", orderLinks);
   }
   async function handleUpdatefeatures(updateFeatures: IUpdateFeatureOrder) {
-    console.log("updateFeatures", updateFeatures);
     var res = await clientFetchApi<IUpdateFeatureOrder, boolean>("/api/bio/UpdateOrderItems", {
       methodType: MethodType.post,
       session: session,
@@ -169,7 +156,6 @@ const Properties = () => {
     if (res.value) {
       //fetchData();
     }
-    console.log("updateFeatures", updateFeatures);
   }
   const fetchData = async () => {
     try {
@@ -221,16 +207,9 @@ const Properties = () => {
         {/* head for SEO */}
         <Head>
           {" "}
-          <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
           <title>Bran.cy ▸ {t(LanguageKey.navbar_Properties)}</title>
-          <meta name="description" content="Advanced Instagram post management tool" />
-          <meta name="theme-color"></meta>
-          <meta
-            name="keywords"
-            content="instagram, manage, tools, Brancy,post create , story create , Lottery , insight , Graph , like , share, comment , view , tag , hashtag , "
-          />
-          <meta name="robots" content="index, follow" />
-          <link rel="canonical" href="https://www.Brancy.app/page/posts" />
+          <meta name="description" content="Manage your Brancy bio links, domains, and public business pages." />
+          <meta name="robots" content="noindex, nofollow, noarchive" />
           {/* Add other meta tags as needed */}
         </Head>
         {/* head for SEO */}

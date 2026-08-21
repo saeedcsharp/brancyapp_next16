@@ -1,0 +1,123 @@
+.toggleGroup {
+  display: grid;
+  align-items: center;
+  position: relative;
+  width: 100%;
+  min-height: 50px;
+  box-sizing: border-box;
+  text-align: center;
+  border-radius: var(--br15);
+  background-color: var(--background-root);
+  box-shadow: 0px 2px 10px 0px #00000040 inset;
+  transition: var(--transition3);
+  gap: 2px;
+  padding: 5px;
+}
+.activeIndicator {
+  position: absolute;
+  inset-block: 5px;
+  inset-inline-start: 5px;
+  z-index: 0;
+  border-radius: var(--br10);
+  background-color: var(--color-light-blue);
+  pointer-events: none;
+  transition: transform 250ms ease-out;
+}
+.toggleOptionActive,
+.toggleOptionInactive {
+  box-sizing: border-box;
+  min-width: 0;
+  min-height: 40px;
+  margin: 0;
+  border: 0;
+  padding: 0;
+  font: inherit;
+  appearance: none;
+  -webkit-appearance: none;
+  background-color: transparent;
+  cursor: pointer;
+  position: relative;
+  z-index: 1;
+  border-radius: var(--br10);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: var(--transition3);
+}
+.toggleOptionActive {
+  color: var(--color-white);
+}
+.toggleOptionInactive {
+  color: var(--text-h1);
+}
+.toggleOptionInactive:hover:not(:disabled) {
+  color: var(--color-light-blue);
+  background-color: rgba(var(--color-light-blue-rgb), 0.1);
+}
+.toggleOptionActive:hover:not(:disabled) {
+  opacity: 0.9;
+}
+.toggleOptionActive:focus-visible,
+.toggleOptionInactive:focus-visible {
+  outline: 3px solid var(--color-light-blue);
+  outline-offset: 2px;
+  z-index: 1;
+}
+.toggleOptionActive:disabled,
+.toggleOptionInactive:disabled {
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+.toggleOptionBadge {
+  background-color: var(--color-light-red);
+  color: var(--color-white);
+  font-size: var(--font-10);
+  font-weight: var(--weight-600);
+  min-width: 12px;
+  min-height: 12px;
+  top: -3px;
+  inset-inline-start: 6px;
+  border-radius: 8px;
+  display: flex;
+  position: absolute;
+  align-items: center;
+  justify-content: center;
+}
+.toggleOptionLabel {
+  min-width: 0;
+  max-width: 100%;
+  font-size: var(--font-14);
+  line-height: normal;
+  font-weight: var(--weight-500);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding: 0 8px;
+}
+@media (max-width: 480px) {
+  .toggleOptionActive,
+  .toggleOptionInactive {
+    min-height: 44px;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .toggleGroup,
+  .activeIndicator,
+  .toggleOptionActive,
+  .toggleOptionInactive {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  .toggleOptionActive {
+    border: 1px solid ButtonText;
+    color: HighlightText;
+  }
+  .activeIndicator {
+    background-color: Highlight;
+  }
+  .toggleOptionActive:focus-visible,
+  .toggleOptionInactive:focus-visible {
+    outline-color: Highlight;
+  }
+}

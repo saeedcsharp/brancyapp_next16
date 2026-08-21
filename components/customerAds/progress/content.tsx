@@ -2,7 +2,7 @@ import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useRouter } from "next/router";
 import { ChangeEvent, KeyboardEvent, useEffect, useRef, useState } from "react";
 import DragComponent, { positionType } from "brancy/components/design/dragComponent/dragComponent";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { MethodType } from "brancy/helper/api";
 import styles from "./progress.module.css";
@@ -463,7 +463,7 @@ function Content(props: {
             <div className="headertext">upload instagram link</div>
 
             <div className="ButtonContainer" style={{ height: "40px" }}>
-              <InputText
+              <InputBox
                 className={"textinputbox"}
                 placeHolder={"insert link"}
                 handleInputChange={handleChangeInputLink}
@@ -745,7 +745,7 @@ function Content(props: {
             <div className="headertext">Tag and Mention</div>
 
             <div className="ButtonContainer" style={{ height: "40px" }}>
-              <InputText
+              <InputBox
                 className={"serachMenuBar"}
                 placeHolder={"Search People"}
                 handleInputChange={handleSearchPeopleInputChange}

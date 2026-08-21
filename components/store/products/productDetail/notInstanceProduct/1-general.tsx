@@ -1,6 +1,6 @@
 import AIButton from "brancy/components/design/ai/AIButton";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import {
   internalNotify,
@@ -33,7 +33,7 @@ function General({
   toggleNext,
   upadteCteateFromgeneral,
 }: {
-  productId: number;
+  productId: string;
   suggestedPrice: ISuggestedPrice[];
   info: IGeneralInfo | null;
   toggleNext: boolean;
@@ -274,7 +274,7 @@ function General({
     }
     return null;
   }
-  async function handleGetSuggestedCategory(productId: number) {
+  async function handleGetSuggestedCategory(productId: string) {
     setCategoryLoading(true);
     try {
       const res = await clientFetchApi<boolean, ISuggestedCategory>("/api/product/getSuggestedCategory", {
@@ -591,7 +591,7 @@ function General({
               <div className="headerparent">
                 <div className="headerandinput" style={{ maxWidth: "150px", minWidth: "100px" }}>
                   <div className="headertext">{t(LanguageKey.product_ProductID)} (PID) </div>
-                  <InputText
+                  <InputBox
                     style={{
                       cursor: "no-drop",
                       backgroundColor: "var(--color-disable)",
@@ -619,7 +619,7 @@ function General({
                       ref={customTitleRef}
                       className={styles.customtitle}
                       onClick={() => setShowCustomTitleTooltip(true)}>
-                      <InputText
+                      <InputBox
                         name=""
                         className={
                           generalInfo.createInstance.title.length === 0 && hasNotif ? "danger" : "textinputbox"

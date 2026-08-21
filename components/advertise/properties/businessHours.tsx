@@ -35,26 +35,15 @@ function BusinessHours(props: {
           props.businessInfo.map((v, i) => (
             <div className={styles.section} key={i}>
               <div className={styles.headerparent}>
-                <div className={styles.headertitle1}>{t(findDayName(v.dayName))}</div>
-                {v.timerInfo ? (
-                  numbToAmAndPmTime(v.timerInfo?.startTime) === "12:00 AM" &&
-                  numbToAmAndPmTime(v.timerInfo?.endTime) === "11:30 PM" ? (
-                    <div className={styles.open} title="ℹ️ active all day long">
-                      {t(LanguageKey.advertiseProperties_24hours)}
+                <div className={styles.headertitle1}>{t(findDayName(v.weekday))}</div>
+                {
+                  <div className={styles.active}>
+                    <div className={styles.activehour}>
+                      <div className={styles.amhour}>{numbToAmAndPmTime(v.beginTime)}</div>-
+                      <div className={styles.pmhour}>{numbToAmAndPmTime(v.endTime)}</div>
                     </div>
-                  ) : (
-                    <div className={styles.active}>
-                      <div className={styles.activehour}>
-                        <div className={styles.amhour}>{numbToAmAndPmTime(v.timerInfo?.startTime)}</div>-
-                        <div className={styles.pmhour}>{numbToAmAndPmTime(v.timerInfo?.endTime)}</div>
-                      </div>
-                    </div>
-                  )
-                ) : (
-                  <div className={styles.close} title="ℹ️ deactive all day long">
-                    {t(LanguageKey.advertiseProperties_close)}
                   </div>
-                )}
+                }
               </div>
             </div>
           ))}

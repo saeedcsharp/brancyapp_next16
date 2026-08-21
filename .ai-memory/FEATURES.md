@@ -24,6 +24,7 @@ Authentication, authorization by partner role, localization, theme/direction man
 - [Payment](FEATURES/Payment.md)
 - [Wallet](FEATURES/Wallet.md)
 - [Localization](FEATURES/Localization.md)
+- [Feature Knowledge Base](FEATURES/Feature%20Knowledge%20Base.md)
 - [PWA](FEATURES/PWA.md)
 
 ---

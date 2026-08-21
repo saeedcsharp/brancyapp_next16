@@ -2,11 +2,11 @@ import { useSession } from "next-auth/react";
 import React, { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
-import InputText from "brancy/components/design/inputText";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import {
   internalNotify,
   InternalResponseType,
@@ -135,14 +135,14 @@ export const SettingModal: React.FC<SettingModalProps> = ({
     <>
       {!isAutoSaving && (
         <div className={styles.tabContainer}>
-          <FlexibleToggleButton options={tabOptions} selectedValue={selectedTab} onChange={setSelectedTab} />
+          <ToggleButton options={tabOptions} selectedValue={selectedTab} onChange={setSelectedTab} />
         </div>
       )}
       {selectedTab === 0 && (
         <div className={styles.settingModal}>
           <div className="headerandinput">
             <div className="title">{t(LanguageKey.flowtitle)}</div>
-            <InputText
+            <InputBox
               id="flowtitle"
               name="flowtitle"
               className={"textinputbox"}

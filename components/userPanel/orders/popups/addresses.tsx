@@ -2,7 +2,7 @@ import Head from "next/head";
 import { useCallback } from "react";
 import { useTranslation } from "react-i18next";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
-import RadioButton from "brancy/components/design/radioButton";
+import RadioButton from "brancy/components/design/radioButton/radioButton";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./addresses.module.css";
 import { IAddress } from "brancy/models/interfaces";

@@ -2,7 +2,7 @@ import Link from "next/link";
 import React, { ChangeEvent, MouseEvent } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
 import initialzedTime from "brancy/helper/manageTimer";
@@ -12,11 +12,11 @@ import { IProduct_ShortProduct } from "brancy/models/interfaces";
 import { AvailabilityStatus } from "brancy/models/enums";
 interface ProductListMobileProps {
   products: IProduct_ShortProduct[];
-  productIds: number[];
+  productIds: string[];
   basePictureUrl: string | undefined;
   availableStatus: React.JSX.Element[];
-  handleSelectProduct: (e: ChangeEvent<HTMLInputElement>, productId: number, productInId: number | null) => void;
-  handleChangeActiveProduct: (productId: number, productInId: number | null, statusId: any) => Promise<void>;
+  handleSelectProduct: (e: ChangeEvent<HTMLInputElement>, productId: string, productInId: number | null) => void;
+  handleChangeActiveProduct: (productId: string, productInId: number | null, statusId: any) => Promise<void>;
   getStockClass: (stock: number, productInId: number | null) => string;
 }
 

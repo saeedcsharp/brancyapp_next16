@@ -95,14 +95,6 @@ const ContactAndMap = memo(({ data }: { data: IContactAndMap | null }) => {
     [toggleContentVisibility],
   );
 
-  useEffect(() => {
-    if (isContentVisible && contentRef.current) {
-      const firstLink = contentRef.current.querySelector("a");
-      if (firstLink) {
-        firstLink.focus();
-      }
-    }
-  }, [isContentVisible]);
   const contactText = useMemo(() => {
     const fullText = t(LanguageKey.footer_ContactUs);
     const words = fullText.split(" ");
@@ -184,8 +176,8 @@ const ContactAndMap = memo(({ data }: { data: IContactAndMap | null }) => {
         <button
           id={buttonId}
           className={styles.header}
-          onClick={toggleContentVisibility}
-          onKeyDown={handleKeyDown}
+          // onClick={toggleContentVisibility}
+          // onKeyDown={handleKeyDown}
           aria-expanded={isContentVisible}
           aria-controls={sectionId}
           aria-labelledby={`${buttonId}-title`}

@@ -1,0 +1,47 @@
+.addCardPanel {
+  margin-bottom: var(--gap-16);
+  padding: var(--padding-20);
+  /* border: 1px solid var(--content-box); */
+  border-radius: var(--br10);
+  background: var(--color-white);
+}
+.addCardForm {
+  display: grid;
+  grid-template-columns: minmax(240px, 480px) auto;
+  align-items: end;
+  justify-content: space-between;
+  gap: var(--gap-20);
+}
+.label {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-5);
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+  color: var(--text-h1);
+  text-transform: capitalize;
+}
+.inputHint {
+  color: var(--text-h2);
+  font-size: var(--font-11);
+  font-weight: var(--weight-400);
+}
+.formActions {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-10);
+  grid-column: 1 / -1;
+  justify-content: flex-end;
+}
+.input {
+  height: 40px;
+  background: var(--color-white);
+  padding: 0 var(--padding-10);
+  font-size: var(--font-14);
+  font-family: inherit;
+  direction: ltr;
+  transition: var(--transition3);
+  color: var(--text-h1);
+  outline: none;
+}

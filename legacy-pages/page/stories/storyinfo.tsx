@@ -1,17 +1,12 @@
-import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { ChangeEvent, useCallback, useEffect, useId, useMemo, useReducer, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { DateObject } from "react-multi-date-picker";
-import InputText from "brancy/components/design/inputText";
+import ChartHour from "brancy/components/design/chart/Chart_hour";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import Modal from "brancy/components/design/modal";
 import Slider from "brancy/components/design/slider/slider";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
+import SelectProduct from "brancy/components/messages/popups/selectProduct";
 import { MediaModal, useMediaModal } from "brancy/components/messages/shared/utils";
 import {
   internalNotify,
@@ -25,31 +20,37 @@ import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
 import LotteryPopup, { LotteryPopupType } from "brancy/components/page/popup/lottery";
 import QuickStoryReplyPopup from "brancy/components/page/popup/quickStoryReply";
+import { MethodType } from "brancy/helper/api";
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { isRTL } from "brancy/helper/checkRtl";
 import { convertArrayToLarray } from "brancy/helper/chunkArray";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { handleCopyLink } from "brancy/helper/copyLink";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { MethodType } from "brancy/helper/api";
-import ChartHour from "brancy/components/design/chart/Chart_hour";
-import styles from "./showStory.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { AutoReplyPayLoadType, MediaProductType, MediaType, PartnerRole } from "brancy/models/enums";
 import {
   IAutomaticReply,
   IDirectMessageItem,
   IMediaUpdateAutoReply,
-  IReaction,
+  IProduct_FullProduct,
+  IProduct_ShortProduct,
   ISendStoryAutomaticReply,
   IStory_Viewers,
   IStory_Viewers_Server,
   IStoryContent,
   IStoryInsight,
   IStoryReply,
-  IStoryViewer,
 } from "brancy/models/interfaces";
-import { AutoReplyPayLoadType, MediaProductType, MediaType, PartnerRole } from "brancy/models/enums";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { ChangeEvent, useCallback, useEffect, useId, useMemo, useReducer, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { DateObject } from "react-multi-date-picker";
+import styles from "./showStory.module.css";
 
 type SearchState = {
   searchMode: boolean;
@@ -114,10 +115,6 @@ const ShowStory = () => {
   const isValidIndex = useMemo(() => session?.user.currentIndex !== -1, [session?.user.currentIndex]);
   const [loading, setLoading] = useState(false);
   const [toggleValue, setToggleValue] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
-  const [toggleFollowersValue, setToggleFollowersValue] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
-  const [followers, setFollowers] = useState<IStoryViewer[][]>([]);
-  const [unFollowers, setUnFollowers] = useState<IStoryViewer[][]>([]);
-  const [reaction, setReaction] = useState<IReaction[][]>([]);
   // const [replies, setReplies] = useState<IThread[][]>([]);
   const [storyReplies, setStoryReplies] = useState<IStoryReply>({
     nextMaxId: "",
@@ -168,6 +165,8 @@ const ShowStory = () => {
     threads: [],
     hasOlder: false,
   });
+  const [showProductPopup, setShowProductPopup] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<IProduct_ShortProduct | null>(null);
   const lastSearchQuery = useRef("");
   const handleImageClick = useCallback((imageUrl: string, username: string) => {
     setProfilePopup({ show: true, image: imageUrl, username });
@@ -181,6 +180,7 @@ const ShowStory = () => {
     const optimal = Math.max(3, Math.floor(availableHeight / averageCommentHeight));
     return Math.min(5, optimal);
   }, []);
+
   useEffect(() => {
     const handleResize = () => {
       setCommentsPerSlide(calculateCommentsPerSlide());
@@ -352,8 +352,15 @@ const ShowStory = () => {
               promptId: contentRes.value.autoReplyCommentInfo.promptId,
               sendCount: contentRes.value.autoReplyCommentInfo.sendCount,
               sendPr: contentRes.value.autoReplyCommentInfo.sendPr,
+              productId: contentRes.value.autoReplyCommentInfo.productId,
             });
             if (!contentRes.value.autoReplyCommentInfo.pauseTime) setQuickReply(true);
+            if (
+              contentRes.value.autoReplyCommentInfo.automaticType === AutoReplyPayLoadType.ConnectProduct &&
+              contentRes.value.autoReplyCommentInfo.productId
+            ) {
+              handleGetProduct(contentRes.value.autoReplyCommentInfo.productId);
+            }
           }
           setLoading(false);
           setIsDataLoaded(true);
@@ -366,6 +373,22 @@ const ShowStory = () => {
     },
     [session],
   );
+  async function handleGetProduct(productId: string) {
+    try {
+      var res = await clientFetchApi<boolean, IProduct_FullProduct>("/api/product/getFullProduct", {
+        methodType: MethodType.get,
+        session: session,
+        queries: [{ key: "productId", value: productId }],
+      });
+      if (res.succeeded) {
+        // Handle the product data here
+        console.log(res.value);
+        setSelectedProduct(res.value.shortProduct);
+      } else notify(res.info.responseType, NotifType.Warning);
+    } catch (error) {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    }
+  }
   async function handleResumeLiveAutoReply(e: ChangeEvent<HTMLInputElement>) {
     if (!autoReply) return;
     try {
@@ -555,6 +578,7 @@ const ShowStory = () => {
               ...prev,
               autoReplyCommentInfo: res.value,
             }));
+          setShowQuickReplyPopup(false);
         } else notify(res.info.responseType, NotifType.Warning);
       } catch (error) {
         notify(ResponseType.Unexpected, NotifType.Error);
@@ -656,7 +680,7 @@ const ShowStory = () => {
       <main className="fullScreenPupup_bg" role="main" aria-label="Story insights">
         <div className="fullScreenPupup_header" role="banner">
           <div className={styles.ToggleButton} role="tablist" aria-label="View toggle">
-            <FlexibleToggleButton
+            <ToggleButton
               options={[
                 { label: t(LanguageKey.details), id: 0 },
                 { label: t(LanguageKey.Insights), id: 1 },
@@ -809,13 +833,12 @@ const ShowStory = () => {
                         <button
                           className={`cancelButton ${QuickReply ? "" : "fadeDiv"}`}
                           onClick={() => {
-                            if (storyContent.expireTime * 1000 < Date.now() || !autoReply) return;
-                            if (QuickReply) {
-                              setShowQuickReplyPopup(true);
-                            }
+                            if (storyContent.expireTime * 1000 < Date.now()) return;
+
+                            setShowQuickReplyPopup(true);
                           }}
                           disabled={!QuickReply}>
-                          {t(LanguageKey.marketstatisticsfeatures)}
+                          {t(LanguageKey.biolinkStatisticsfeatures)}
                         </button>
                       </div>
                     </div>
@@ -842,7 +865,7 @@ const ShowStory = () => {
                           </Tooltip>
                         </div>
                         <div className={styles.commentbox}>
-                          <InputText
+                          <InputBox
                             className={"serachMenuBar"}
                             placeHolder={t(LanguageKey.search)}
                             value={searchPepaple}
@@ -1489,6 +1512,8 @@ const ShowStory = () => {
           setShowQuickReplyPopup={setShowQuickReplyPopup}
           handleSaveAutoReply={handleUpdateAtuoReply}
           handleActiveAutoReply={handleResumeLiveAutoReply}
+          setShowProductPopup={() => setShowProductPopup(true)}
+          selectedProduct={selectedProduct}
           autoReply={
             autoReply ?? {
               items: [],
@@ -1505,6 +1530,7 @@ const ShowStory = () => {
               sendCount: 0,
               sendPr: false,
               replySuccessfullyDirected: true,
+              productId: null,
             }
           }
         />
@@ -1514,6 +1540,19 @@ const ShowStory = () => {
           setShowLotteryPopup={setShowLotteryPopup}
           id={storyContent.storyId}
           lotteryType={LotteryPopupType.StoryLottery}
+        />
+      </Modal>
+      <Modal closePopup={() => setShowProductPopup(false)} classNamePopup={"popup"} showContent={showProductPopup}>
+        <SelectProduct
+          backToAutoreply={() => {
+            setShowProductPopup(false);
+            setShowQuickReplyPopup(true);
+          }}
+          removeMask={() => setShowProductPopup(false)}
+          saveSelectProduct={(product) => {
+            setShowProductPopup(false);
+            setSelectedProduct(product);
+          }}
         />
       </Modal>
       <MediaModal isOpen={mediaModal.isOpen} media={mediaModal.media} onClose={mediaModal.close} />

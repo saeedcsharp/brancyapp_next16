@@ -27,6 +27,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/ai/createPrompt": "Instagramer/AI/CreatePrompt",
   "/api/ai/getPrompt": "Instagramer/AI/GetPrompt",
   "/api/ai/getPromptAnalysis": "Instagramer/AI/GetPromptAnalysis",
+  "/api/ai/hasPageAnalysis": "Instagramer/AI/HasPageAnalysis",
   "/api/ai/getPrompts": "Instagramer/AI/GetPrompts",
   "/api/ai/getTools": "Instagramer/AI/GetTools",
   "/api/ai/sendTestMessage": "Instagramer/AI/SendTestMessage",
@@ -36,9 +37,13 @@ export const API_ROUTE_MAP: Record<string, string> = {
 
   // ── mediaai ───────────────────────────────────────────
   "/api/mediaai/getImages": "Instagramer/MediaAi/GetImages",
+  "/api/mediaai/getVideos": "Instagramer/MediaAi/GetVideos",
   "/api/mediaai/getImageCreators": "Instagramer/MediaAi/GetImageCreators",
+  "/api/mediaai/getVideoCreators": "Instagramer/MediaAi/GetVideoCreators",
   "/api/mediaai/getImageUsage": "Instagramer/MediaAi/GetImageUsage",
+  "/api/mediaai/getVideoUsage": "Instagramer/MediaAi/GetVideoUsage",
   "/api/mediaai/createImage": "Instagramer/MediaAi/CreateImage",
+  "/api/mediaai/createVideo": "Instagramer/MediaAi/CreateVideo",
 
   // ── business ─────────────────────────────────────────
   "/api/business/get": "User/Business/Get",
@@ -79,6 +84,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/bio/getTotalInsight": "Instagramer/Bio/GetTotalInsight",
   "/api/bio/getTotalInsightFigures": "Instagramer/Bio/GetTotalInsightFigures",
   "/api/bio/getVideoInsight": "Instagramer/Bio/GetVideoInsight",
+  "/api/bio/getWorkingHours": "Instagramer/Bio/GetWorkingHours",
   "/api/bio/saveAparatPage": "Instagramer/Bio/SaveAparatPage",
   "/api/bio/saveYoutubePage": "Instagramer/Bio/SaveYoutubePage",
   "/api/bio/saveTwitchPage": "Instagramer/Bio/SaveTwitchPage",
@@ -94,6 +100,9 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/bio/updateCustomProfile": "Instagramer/Bio/UpdateCustomProfile",
   "/api/bio/updateFaqs": "Instagramer/bio/UpdateFaqs",
   "/api/bio/updateOrderItems": "Instagramer/Bio/UpdateOrderItems",
+  "/api/bio/updateWorkingHours": "Instagramer/Bio/UpdateWorkingHours",
+  "/api/bio/getTermsAndCondtions": "Instagramer/Bio/GetTermsAndCondtions",
+  "/api/bio/updateTermsAndConditions": "Instagramer/Bio/UpdateTermsAndConditions",
 
   // ── comment ───────────────────────────────────────────
   "/api/comment/createExportLiveComment": "Instagramer/Comment/CreateExportLiveComment",
@@ -278,6 +287,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/product/getPreviousProduct": "shopper/Product/GetPreviousProduct",
   "/api/product/getProductByTempId": "shopper/Product/GetProductByTempId",
   "/api/product/getProductCandidates": "shopper/Product/GetProductCandidates",
+  "/api/product/getBioProductList": "Shopper/Product/GetBioProductList",
   "/api/product/getProductList": "shopper/Product/GetProductList",
   "/api/product/getSeconderyCategoryList": "shopper/Product/GetSeconderyCategoryList",
   "/api/product/getSuggestedDescription": "Shopper/Product/GetSuggestedDescription",
@@ -289,6 +299,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/product/searchProducts": "shopper/Product/SearchProducts",
   "/api/product/unLoadProduct": "shopper/Product/UnLoadProduct",
   "/api/product/updateChildrenMediaStatus": "shopper/Product/UpdateChildrenMediaStatus",
+  "/api/product/updateShowInBio": "Shopper/Product/UpdateShowInBio",
   "/api/product/updateSecondaryProductDetails": "shopper/Product/UpdateSecondaryProductDetails",
   "/api/product/updateSelfMediaStatus": "shopper/Product/UpdateSelfMediaStatus",
   "/api/product/updateSpecificationOrder": "shopper/Product/UpdateSpecificationOrder",
@@ -324,6 +335,13 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/shop/searchshop": "user/shop/searchshop",
   "/api/shop/searchshopproducts": "user/shop/searchshopproducts",
   "/api/shop/updateFavoriteProduct": "user/shop/UpdateFavoriteProduct",
+
+  // ── coupon ───────────────────────────────────────────
+  "/api/coupon/getCoupons": "Shopper/Coupon/GetCoupons",
+  "/api/coupon/createCoupon": "Shopper/Coupon/CreateCoupon",
+  "/api/coupon/updateCoupon": "Shopper/Coupon/UpdateCoupon",
+  "/api/coupon/activateCoupon": "Shopper/Coupon/ActivateCoupon",
+  "/api/coupon/deleteCoupon": "Shopper/Coupon/DeleteCoupon",
 
   // ── statistics ────────────────────────────────────────
   "/api/statistics/getBestFollowers": "Instagramer/Statistics/GetBestFollowers",
@@ -401,8 +419,11 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/wallet/getBallanceHistory": "/Business/Wallet/GetBallanceHistory",
   "/api/wallet/getInstagramerBankCards": "/Business/Wallet/GetInstagramerBankCards",
   "/api/wallet/addCardNumber": "/Business/Wallet/AddCardNumber",
+  "/api/wallet/setDefaultCard": "/Business/Wallet/SetDefaultCard",
   "/api/wallet/settleRequest": "/Business/Wallet/SettleRequest",
   "/api/wallet/getGenerallBallance": "/Business/Wallet/GetGeneralBallance",
+  "/api/wallet/getSubInvoices": "/Business/Wallet/GetSubInvoices",
+  "/api/wallet/getInvoices": "/Business/Wallet/GetInvoices",
 };
 
 /**

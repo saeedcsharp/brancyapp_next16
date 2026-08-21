@@ -62,10 +62,12 @@ import {
   RegisterType,
   RejectedType,
   ShippingRequestType,
+  ShopMediaProductType,
   SortByNum,
   SpecialPayLoad,
   StatusReplied,
   StoreLanguage,
+  SubInvoiceItemType,
   SubInvoiceStatus,
   TermsType,
   ToolType,
@@ -75,6 +77,7 @@ import {
 
 import { StatusType } from "brancy/components/confirmationStatus/confirmationStatus";
 import { PriceType } from "brancy/components/priceFormater";
+import { StringDecoder } from "node:string_decoder";
 
 // #region _AccountInfo
 export interface InstagramerAccountInfo {
@@ -102,6 +105,7 @@ export interface InstagramerAccountInfo {
   publishPermission: boolean;
   website: string | null;
   biography: string | null;
+  createdTime: number;
 }
 
 export interface IVerifyCode {
@@ -334,8 +338,10 @@ export interface IEditTariff {
 }
 
 export interface IBusinessHour {
-  dayName: BusinessDay;
-  timerInfo: ITimerInfo | null;
+  instagramerId: number;
+  weekday: BusinessDay;
+  beginTime: number;
+  endTime: number;
 }
 
 export interface IActiveBusinessHour {
@@ -378,11 +384,6 @@ interface IPriceNonCamp {
 interface IPriceCamp {
   post: IFullDayPrice;
   story: IFullDayPrice;
-}
-
-export interface ITimerInfo {
-  startTime: number;
-  endTime: number;
 }
 
 export interface ICaledarAds extends IBaseAds {
@@ -435,6 +436,15 @@ export interface ITotalPrompt {
 
 export interface IDetailPrompt extends ITotalPrompt {
   promptStr: string;
+  tools: {
+    toolId: number | string;
+    parameters:
+      | {
+          name: string;
+          value: string;
+        }[]
+      | null;
+  }[];
 }
 
 export interface IPrompts {
@@ -465,13 +475,13 @@ export interface IPromptImageGen {
   numberOfGeneratePerThread: number;
 }
 
-export interface IImageCreator {
+export interface IMediaCreator {
   key: string;
   displayName: string;
   logo: string | null;
-  inputModels: IImageCreatorModel[];
+  inputModels: IMediaCreatorModel[];
 }
-export interface IGetImage {
+export interface IGetMedia {
   id: number;
   fbId: number;
   clientContext: string;
@@ -481,25 +491,33 @@ export interface IGetImage {
   status: number;
   jobId: string | null;
   imageUrl: string;
+  thumbnailUrl: string;
   metadata: string;
   prompt: string;
+  videoUrl: string | null;
 }
-export interface IGetImages {
-  items: IGetImage[];
+export type PendingMediaType = "image" | "video";
+export interface PendingGeneration {
+  clientContext: string;
+  mediaType: PendingMediaType;
+  prompt: string;
+}
+export interface IGetMedias {
+  items: IGetMedia[];
   nextMaxId: string | null;
 }
-export interface IImageCreatorModel {
+export interface IMediaCreatorModel {
   name: string;
-  displayName: string;
+  displayName?: string;
   minPromptLength: number;
   maxPromptLength: number;
-  inputModelTypes: IImageCreatorInput[];
+  inputModelTypes: IMediaCreatorInput[];
   expensiveType: number;
   canContinue: boolean;
   expireContinue: number | null;
 }
 
-export interface IImageCreatorInput {
+export interface IMediaCreatorInput {
   orderId: number;
   key: string;
   titleEn: string;
@@ -547,20 +565,44 @@ export interface ICreateLiveChat {
   username: string;
   promptInfo: ICreatePrompt;
 }
-
+export interface AIToolParameter {
+  name: string;
+  description: string;
+  type: string;
+  isRequired: boolean;
+  generateWithAI: boolean;
+  completeDescriptionEn: string;
+  completeDescriptionRu: string;
+  completeDescriptionFa: string;
+  completeDescriptionDe: string;
+  completeDescriptionTr: string;
+  completeDescriptionAz: string;
+  completeDescriptionAr: string;
+  completeDescriptionFr: string;
+}
 export interface IAITools {
   description: string;
-  parameters: {
-    type: string;
-    description: string;
-    isRequired: boolean;
-    name: string;
-    generateWithAI: boolean;
-  }[];
+  parameters: AIToolParameter[];
   name: string;
   tokenUsage: number;
   completeDescription: string;
   toolType: ToolType;
+  completeDescriptionEn: string;
+  completeDescriptionRu: string;
+  completeDescriptionFa: string;
+  completeDescriptionDe: string;
+  completeDescriptionTr: string;
+  completeDescriptionAz: string;
+  completeDescriptionAr: string;
+  completeDescriptionFr: string;
+  displayNameEn: string;
+  displayNameFa: string;
+  displayNameRu: string;
+  displayNameDe: string;
+  displayNameTr: string;
+  displayNameAz: string;
+  displayNameAr: string;
+  displayNameFr: string;
 }
 
 export interface ILiveChatClient {
@@ -955,6 +997,7 @@ export interface IFeatureBox {
   teriif: IInfluencerTeriffe | null;
   adsView: number | null;
   salesSuccess: number | null;
+  lotteries: IFullLottery[];
   isShopper: boolean;
   isInfluencer: boolean;
 }
@@ -978,7 +1021,10 @@ export interface ILastVideo extends IFeatureInfo {
   lastVideo: IVideoChannel | null;
 }
 
-export interface IProducts extends IFeatureInfo {}
+export interface IProducts extends IFeatureInfo {
+  productCards: IProductCard[] | null;
+  productCoupons: IMyLinkProductCoupon[];
+}
 
 export interface ITimeline extends IFeatureInfo {}
 
@@ -1071,12 +1117,6 @@ export interface IServerLink {
   iconUrl: string;
 }
 
-export interface IWorkHourItem {
-  weekDay: number;
-  beginTime: number;
-  endTime: number;
-}
-
 export interface IInfluencerTeriffe {
   today12HPost: number;
   today24HPost: number;
@@ -1140,6 +1180,22 @@ export interface ICaption {
   caption: string;
 }
 
+export interface IMyLinkProductCoupon {
+  couponId: number;
+  code: string;
+  discount: number;
+  expireTime: number;
+  isDeleted: boolean;
+  useCount: number;
+  maxCount: number;
+  phoneNumber: string | null;
+  showInBio: boolean;
+  fbId: number;
+  createdTime: number;
+  updateTime: number;
+  maxDiscount: number | null;
+}
+
 export interface IOrderItems {
   isActiveFeatureBox: boolean;
   orderItems: {
@@ -1153,7 +1209,7 @@ export interface ISmartLink {
   instagramer: IInstagramer;
   contact: IContact;
   links: IServerLink[];
-  workHourItems: IWorkHourItem[] | null;
+  workHourItems: IBusinessHour[] | null;
   influencerTeriffe: IInfluencerTeriffe | null;
   announcement: IAnnouncement;
   reviews: IReview[];
@@ -1163,6 +1219,11 @@ export interface ISmartLink {
   caption: ICaption;
   featureOrders: IOrderItems;
   terms: string[] | null;
+  shopperInfo: {
+    products: IProductCard[];
+    productCoupons: IMyLinkProductCoupon[];
+  };
+  lotteries: IFullLottery[];
 }
 
 export interface INewLink {
@@ -1233,6 +1294,8 @@ export interface IAnnouncementInfo {
   lastUpdate: number;
   instagramerId: number;
 }
+
+export interface IBusinessTerms extends IAnnouncementInfo {}
 
 export interface ICantactMap extends IUpdateContactMap {
   instagramerId: number;
@@ -1531,7 +1594,7 @@ export interface RepliedMessageProps {
 export interface IInbox {
   threads: IThread[];
   ownerInbox: IDirectOwnerInbox;
-  nextMaxId: string;
+  nextMaxId: string | null;
 }
 
 export interface IUserThread {
@@ -1853,7 +1916,7 @@ export interface IReplyTicket {
 }
 
 export interface ICommetInbox {
-  oldestCursor: string;
+  oldestCursor: string | null;
   hasOlder: boolean;
   medias: IMedia[];
   ownerInbox: IDirectOwnerInbox;
@@ -1883,6 +1946,7 @@ export interface IMedia {
   postId: number | null;
   commentEnabled: boolean;
   automaticCommentReply: IAutomaticReply | null;
+  shopMediaProductType: ShopMediaProductType;
 }
 
 export interface IComment {
@@ -2135,6 +2199,7 @@ export interface IGeneralAutoReply {
   title: string;
   replySuccessfullyDirected: boolean;
   customRepliesSuccessfullyDirected: string[];
+  productId: string;
 }
 
 export interface ICreateGeneralAutoReply {
@@ -2150,6 +2215,7 @@ export interface ICreateGeneralAutoReply {
   title: string;
   replySuccessfullyDirected: boolean;
   customRepliesSuccessfullyDirected: string[];
+  productId: string;
 }
 
 export interface ITotalMasterFlow {
@@ -2509,6 +2575,7 @@ export interface IPostContent {
   canDownload: boolean;
   mediaUrl: string;
   reelsSkipRate: number | null;
+  shopMediaProductType: ShopMediaProductType;
 }
 
 export interface IDetailsPost extends IPostContent {
@@ -2607,6 +2674,7 @@ export interface IAutomaticReply {
   masterFlowId: string | null;
   masterFlow: ITotalMasterFlow | null;
   prompt: ITotalPrompt | null;
+  productId: string | null;
 }
 
 export interface IMediaUpdateAutoReply {
@@ -2618,6 +2686,7 @@ export interface IMediaUpdateAutoReply {
   response: string | null;
   replySuccessfullyDirected: boolean;
   keys: string[];
+  productId: string | null;
 }
 
 export interface IPublishLimit {
@@ -4069,7 +4138,7 @@ export interface IProduct_Candidate {
 
 export interface IProduct_ShortProduct {
   instagramerId: number;
-  productId: number;
+  productId: string;
   tempId: number;
   variationCount: number;
   minStock: number;
@@ -4081,11 +4150,18 @@ export interface IProduct_ShortProduct {
   availabilityStatus: AvailabilityStatus;
   minPrice: number;
   maxPrice: number;
-  priceUnit: number;
   title: string | null;
   lastUpdate: number;
   inCardCount: number;
   priceType: PriceType;
+  maxInEachCard: number;
+  likeCount: number;
+  caption: string | null;
+  instagramUrl: string;
+  fbId: number;
+  maxDiscountPrice: number | null;
+  minDiscountPrice: number | null;
+  categoryId: number;
 }
 
 export interface IProduct_MainCategory {
@@ -4159,7 +4235,7 @@ export interface ISummaryProduct {
 }
 
 export interface IProduct_CreateInstance {
-  productId: number;
+  productId: string;
   title: string;
   evat: number;
   deliveryInfo: {
@@ -4232,7 +4308,7 @@ export interface IProduct_Varisation_Client {
 }
 
 export interface IProduct_CreateSubProduct {
-  productId: number;
+  productId: string;
   subProducts: ISubProduct_Create[];
   deActiveSubProducts: number[];
 }
@@ -4325,7 +4401,7 @@ export interface IGenera_CreateInstance {
   brandId: number | null;
   subcategoryId: number | null;
   title: string;
-  productId: number;
+  productId: string;
   categoryId: number;
 }
 
@@ -4847,11 +4923,16 @@ export interface IAddress {
 export interface ISubInvoice {
   id: string;
   invoiceId: string;
-  itemType: number;
+  itemType: SubInvoiceItemType;
   price: number;
   priceType: PriceType;
   cardNumber?: string;
   status: SubInvoiceStatus;
+  createdTime: number;
+}
+export interface IGetSubInvoice {
+  items: ISubInvoice[];
+  nextMaxId: string | null;
 }
 
 export interface IOrderInvoice {
@@ -4878,6 +4959,11 @@ export interface IInvoice {
   orderInvoice: IOrderInvoice;
   packageInvoice?: any;
   customInvoices?: any;
+}
+
+export interface IGetInvoice {
+  items: IInvoice[];
+  nextMaxId: string | null;
 }
 
 export interface IBoxSize {
@@ -5153,7 +5239,7 @@ export interface IStoreOrderShortProduct {
   username: string | undefined;
   maxInEachCard: number;
   instagramerId: number;
-  productId: number;
+  productId: string;
   tempId: number;
   variationCount: number;
   minStock: number;
@@ -5280,6 +5366,7 @@ export default interface IUserCoupon {
   isDeleted: boolean;
   useCount: number;
   maxCount: number;
+  phoneNumber?: string;
   userId: number | null;
   showInBio: boolean;
   instagramerId: number;
@@ -5347,7 +5434,7 @@ export interface IFavoriteCardCount {
 }
 
 export interface IProductCard {
-  shortProduct: IShopShortProduct;
+  shortProduct: IProduct_ShortProduct;
   favoriteCardCount: IFavoriteCardCount;
 }
 

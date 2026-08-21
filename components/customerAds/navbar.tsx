@@ -1,5 +1,5 @@
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import styles from "./customerAds.module.css";
 function Navbar(props: {
   handleShowSelectAdmins: (e: MouseEvent) => void;
@@ -65,7 +65,7 @@ function Navbar(props: {
       </div>
       <div className={styles.searchmobile}>
         <div className={styles.searchBar}>
-          <InputText
+          <InputBox
             className={"serachMenuBar"}
             placeHolder={"Search"}
             maxLength={undefined}

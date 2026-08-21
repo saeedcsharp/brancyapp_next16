@@ -3,9 +3,9 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { ChangeEvent, useCallback, useEffect, useId, useLayoutEffect, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
-import RadioButton from "brancy/components/design/radioButton";
+import RadioButton from "brancy/components/design/radioButton/radioButton";
 import TextArea from "brancy/components/design/textArea/textArea";
 import Loading from "brancy/components/notOk/loading";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
@@ -502,7 +502,7 @@ export default function CardAddress({
               </div>
 
               <div className="frameParent" style={{ gap: "10px" }}>
-                <InputText
+                <InputBox
                   style={{ width: "100%" }}
                   placeHolder={t(LanguageKey.Storeorder_Coupon)}
                   className="textinputbox"
@@ -667,7 +667,7 @@ export default function CardAddress({
             <div className={styles.boxheader}>{t(LanguageKey.navbar_Payment)}</div>
 
             <div className="frameParent" style={{ gap: "10px" }}>
-              <InputText
+              <InputBox
                 placeHolder={t(LanguageKey.Storeorder_Coupon)}
                 className="textinputbox"
                 handleInputChange={handleCouponInputChange}

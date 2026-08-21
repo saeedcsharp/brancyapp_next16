@@ -1,0 +1,153 @@
+.popup {
+  width: 595px;
+  max-width: 100%;
+  min-width: 250px;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-10);
+}
+
+.orderStepactive {
+  width: 50px;
+  min-width: 50px;
+  height: 50px;
+  padding: var(--padding-10);
+  border: 1px solid transparent;
+  border-radius: var(--br15);
+  background-color: var(--color-dark-blue30);
+  stroke: var(--color-dark-blue);
+}
+
+.backButton {
+  display: grid;
+  width: 50px;
+  min-width: 50px;
+  height: 50px;
+  place-items: center;
+  padding: var(--padding-10);
+  border: 1px solid transparent;
+  border-radius: var(--br15);
+  background-color: var(--color-dark-blue30);
+  color: var(--color-dark-blue);
+  cursor: pointer;
+  transition: var(--transition3);
+}
+
+.backButton:hover,
+.backButton:focus-visible {
+  border-color: var(--color-light-blue);
+  background-color: var(--color-light-blue10);
+  outline: none;
+}
+
+.backButton svg {
+  width: 26px;
+  height: 26px;
+}
+
+.orderStep {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-height: 50px;
+  padding: var(--padding-5);
+  border-radius: var(--br15);
+  background-color: var(--color-gray10);
+  opacity: 0.4;
+}
+
+.headerActions {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-8);
+  margin-inline-start: auto;
+}
+
+.orderprogressStep,
+.orderpickupStep,
+.ordersendStep {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  padding: var(--padding-8);
+  aspect-ratio: 1 / 1;
+  border: 1px solid transparent;
+  border-radius: var(--br10);
+  stroke: var(--color-gray);
+}
+
+.loader {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  height: 100%;
+  gap: var(--gap-5);
+}
+
+.loadercircle {
+  width: 3px;
+  height: 3px;
+  border-radius: 50%;
+  background-color: var(--color-gray);
+}
+
+.headerStyle {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: 100%;
+  max-height: 40px;
+  padding: var(--padding-8);
+  border-radius: var(--br25);
+  background-color: var(--color-gray30);
+}
+
+.ordernumber {
+  position: relative;
+  padding: var(--padding-5) var(--padding-16);
+  border-radius: var(--br20);
+  background-color: var(--color-white);
+  color: var(--text-h1);
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+}
+
+.closeButton {
+  display: grid;
+  width: 32px;
+  min-width: 32px;
+  height: 32px;
+  place-items: center;
+  padding: 0;
+  border: 1px solid var(--content-box);
+  border-radius: var(--br8);
+  background: var(--color-white);
+  color: var(--text-h2);
+  cursor: pointer;
+  transition: var(--transition3);
+}
+
+.closeButton:hover,
+.closeButton:focus-visible {
+  border-color: var(--color-dark-red);
+  background: var(--color-dark-red30);
+  color: var(--color-dark-red);
+  outline: none;
+}
+
+.closeButton svg {
+  width: 18px;
+  height: 18px;
+}
+
+@media (max-width: 480px) {
+  .orderprogressStep > svg,
+  .orderpickupStep > svg,
+  .ordersendStep > svg {
+    height: 20px;
+  }
+}

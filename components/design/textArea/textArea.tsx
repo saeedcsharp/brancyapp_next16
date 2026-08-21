@@ -1,185 +1,195 @@
 import {
   ChangeEvent,
+  ComponentPropsWithoutRef,
   CSSProperties,
+  FocusEvent,
   KeyboardEvent,
   memo,
-  useMemo,
-  useRef,
-  useEffect,
   useCallback,
   useLayoutEffect,
+  useMemo,
+  useRef,
   useState,
 } from "react";
 import clsx from "clsx";
 import { isRTL } from "brancy/helper/checkRtl";
 import styles from "./textArea.module.css";
-interface TextAreaProps {
-  name?: string;
-  id?: string;
-  role: string;
-  title: string;
-  className: string;
-  placeHolder?: string;
+type NativeTextAreaProps = Omit<
+  ComponentPropsWithoutRef<"textarea">,
+  "defaultValue" | "onBlur" | "onChange" | "onFocus" | "onKeyDown" | "value"
+>;
+interface TextAreaProps extends NativeTextAreaProps {
   value?: string;
   defaultValue?: string;
-  handleInputChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
-  handleKeyDown?: (e: KeyboardEvent<HTMLTextAreaElement>) => void;
-  handleInputonFocus?: () => void;
-  handleInputBlur?: () => void;
-  maxLength?: number;
-  style?: CSSProperties;
-  readOnly?: boolean;
-  autoFocus?: boolean;
-  required?: boolean;
-  invalid?: boolean;
+  onChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
+  onFocus?: (event: FocusEvent<HTMLTextAreaElement>) => void;
+  onBlur?: (event: FocusEvent<HTMLTextAreaElement>) => void;
+  onKeyDown?: (event: KeyboardEvent<HTMLTextAreaElement>) => void;
   dangerOnEmpty?: boolean;
   fadeTextArea?: boolean;
+  autoResize?: boolean;
   autoExpandOnFocus?: boolean;
+  minRows?: number;
+  maxRows?: number;
   initialHeight?: number;
   minHeight?: number;
   maxHeight?: number;
   onEscape?: () => void;
+  /** @deprecated Use placeholder instead. */
+  placeHolder?: string;
+  /** @deprecated Use onChange instead. */
+  handleInputChange?: (event: ChangeEvent<HTMLTextAreaElement>) => void;
+  /** @deprecated Use onKeyDown instead. */
+  handleKeyDown?: (event: KeyboardEvent<HTMLTextAreaElement>) => void;
+  /** @deprecated Use onFocus instead. */
+  handleInputonFocus?: (event: FocusEvent<HTMLTextAreaElement>) => void;
+  /** @deprecated Use onBlur instead. */
+  handleInputBlur?: (event: FocusEvent<HTMLTextAreaElement>) => void;
 }
-
+function toMinimumMobileFontSize(fontSize?: CSSProperties["fontSize"]): CSSProperties["fontSize"] {
+  if (typeof fontSize === "number") return `${Math.max(16, fontSize)}px`;
+  if (fontSize) return `max(16px, ${fontSize})`;
+  return "16px";
+}
+function getRowsHeight(element: HTMLTextAreaElement, rows: number): number {
+  const computedStyle = window.getComputedStyle(element);
+  const lineHeight = Number.parseFloat(computedStyle.lineHeight) || Number.parseFloat(computedStyle.fontSize) * 1.5;
+  const verticalPadding =
+    (Number.parseFloat(computedStyle.paddingTop) || 0) + (Number.parseFloat(computedStyle.paddingBottom) || 0);
+  const verticalBorder =
+    (Number.parseFloat(computedStyle.borderTopWidth) || 0) + (Number.parseFloat(computedStyle.borderBottomWidth) || 0);
+  return Math.ceil(lineHeight * rows + verticalPadding + verticalBorder);
+}
 function TextArea(props: TextAreaProps) {
   const {
-    name,
-    id,
-    role,
-    title,
-    placeHolder,
     value,
     defaultValue,
+    placeholder,
+    placeHolder,
+    onChange,
     handleInputChange,
-    handleKeyDown,
+    onFocus,
     handleInputonFocus,
+    onBlur,
     handleInputBlur,
-    maxLength = 100000,
-    style,
+    onKeyDown,
+    handleKeyDown,
     className,
-    readOnly = false,
-    autoFocus = false,
-    required = false,
-    invalid = false,
+    style,
     dangerOnEmpty = false,
     fadeTextArea = false,
+    autoResize,
     autoExpandOnFocus = false,
+    minRows,
+    maxRows,
     initialHeight,
     minHeight,
     maxHeight,
     onEscape,
+    readOnly = false,
+    tabIndex,
+    title,
+    "aria-label": ariaLabel,
+    ...nativeProps
   } = props;
-  const textareaRef = useRef<HTMLTextAreaElement | null>(null);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const isControlled = value !== undefined;
-  const [internalValue, setInternalValue] = useState(defaultValue || "");
-  const currentValue = isControlled ? value! : internalValue;
-  const isEmpty = useMemo(() => !currentValue?.trim(), [currentValue]);
-  const isValueRTL = useMemo(() => isRTL(currentValue), [currentValue]);
-  const isPlaceholderRTL = useMemo(() => isRTL(placeHolder || ""), [placeHolder]);
-  const getFontSize = (size?: string | number): string => {
-    if (!size) return "16px";
-    const n = typeof size === "number" ? size : parseFloat(size);
-    return n < 16 ? "16px" : typeof size === "number" ? `${size}px` : String(size);
-  };
+  const [internalValue, setInternalValue] = useState(defaultValue ?? "");
+  const currentValue = isControlled ? value : internalValue;
+  const resolvedPlaceholder = placeholder ?? placeHolder;
+  const shouldAutoResize = autoResize ?? autoExpandOnFocus;
+  const isEmpty = !currentValue.trim();
+  const direction = isRTL(currentValue || resolvedPlaceholder || "") ? "rtl" : "ltr";
+  const baseHeight = initialHeight ?? minHeight ?? 40;
+  const resetHeight = useCallback(() => {
+    const element = textareaRef.current;
+    if (!element || !shouldAutoResize) return;
+    const height = minRows === undefined ? baseHeight : getRowsHeight(element, minRows);
+    element.style.height = `${height}px`;
+    element.style.overflowY = "hidden";
+  }, [baseHeight, minRows, shouldAutoResize]);
   const adjustHeight = useCallback(() => {
-    const el = textareaRef.current;
-    if (!el || !autoExpandOnFocus) return;
-    el.style.height = "auto";
-    let newHeight = el.scrollHeight;
-    if (minHeight) newHeight = Math.max(minHeight, newHeight);
-    if (maxHeight) newHeight = Math.min(maxHeight, newHeight);
-    el.style.height = `${newHeight}px`;
-  }, [autoExpandOnFocus, minHeight, maxHeight]);
+    const element = textareaRef.current;
+    if (!element || !shouldAutoResize) return;
+    element.style.height = "auto";
+    const contentHeight = element.scrollHeight;
+    const minimumHeight = minRows === undefined ? (minHeight ?? baseHeight) : getRowsHeight(element, minRows);
+    const maximumHeight = maxRows === undefined ? maxHeight : getRowsHeight(element, maxRows);
+    const targetHeight = Math.max(minimumHeight, contentHeight);
+    const height = maximumHeight ? Math.min(targetHeight, maximumHeight) : targetHeight;
+    element.style.height = `${height}px`;
+    element.style.overflowY = maximumHeight && contentHeight > maximumHeight ? "auto" : "hidden";
+  }, [baseHeight, maxHeight, maxRows, minHeight, minRows, shouldAutoResize]);
   useLayoutEffect(() => {
-    const el = textareaRef.current;
-    if (!el) return;
-    if (autoExpandOnFocus) {
-      const base = initialHeight || minHeight || 40;
-      el.style.height = `${base}px`;
-    }
-  }, [autoExpandOnFocus, initialHeight, minHeight]);
-  useEffect(() => {
-    if (!autoExpandOnFocus) return;
-    const t = setTimeout(() => {
+    if (!shouldAutoResize) return;
+    if (document.activeElement === textareaRef.current) {
       adjustHeight();
-    }, 40);
-    return () => clearTimeout(t);
-  }, [currentValue, adjustHeight, autoExpandOnFocus]);
-  const combinedStyle: CSSProperties = useMemo(
+    } else {
+      resetHeight();
+    }
+  }, [adjustHeight, currentValue, resetHeight, shouldAutoResize]);
+  const combinedStyle = useMemo<CSSProperties>(
     () => ({
       ...style,
-      fontSize: getFontSize(style?.fontSize),
-      textAlign: isPlaceholderRTL ? "right" : style?.textAlign,
+      fontSize: toMinimumMobileFontSize(style?.fontSize),
+      textAlign: style?.textAlign ?? (direction === "rtl" ? "right" : "left"),
       touchAction: "manipulation",
       WebkitAppearance: "none",
       MozAppearance: "none",
-      height: !autoExpandOnFocus && initialHeight ? `${initialHeight}px` : undefined,
-      minHeight: autoExpandOnFocus ? `${minHeight ?? initialHeight ?? 40}px` : undefined,
-      overflow: autoExpandOnFocus ? "hidden" : "auto",
+      height: shouldAutoResize ? undefined : initialHeight ? `${initialHeight}px` : style?.height,
+      minHeight: shouldAutoResize ? `${minHeight ?? baseHeight}px` : style?.minHeight,
       resize: "none",
     }),
-    [style, isPlaceholderRTL, autoExpandOnFocus, initialHeight, minHeight],
+    [baseHeight, direction, initialHeight, minHeight, shouldAutoResize, style],
   );
-  const handleChange = (e: ChangeEvent<HTMLTextAreaElement>) => {
-    if (!isControlled) {
-      setInternalValue(e.target.value);
-    }
-    handleInputChange?.(e);
-    if (autoExpandOnFocus) {
-      requestAnimationFrame(adjustHeight);
-    }
+  const handleChange = (event: ChangeEvent<HTMLTextAreaElement>) => {
+    if (!isControlled) setInternalValue(event.target.value);
+    onChange?.(event);
+    handleInputChange?.(event);
   };
-  const handleKeyDownInternal = (e: KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === "Escape") {
-      onEscape?.();
-      e.currentTarget.blur();
+  const handleKeyDownInternal = (event: KeyboardEvent<HTMLTextAreaElement>) => {
+    if (event.key === "Escape" && onEscape) {
+      onEscape();
+      event.currentTarget.blur();
     }
-    handleKeyDown?.(e);
+    onKeyDown?.(event);
+    handleKeyDown?.(event);
+  };
+  const handleFocus = (event: FocusEvent<HTMLTextAreaElement>) => {
+    onFocus?.(event);
+    handleInputonFocus?.(event);
+    adjustHeight();
+  };
+  const handleBlur = (event: FocusEvent<HTMLTextAreaElement>) => {
+    onBlur?.(event);
+    handleInputBlur?.(event);
+    resetHeight();
   };
   return (
     <textarea
+      {...nativeProps}
       ref={textareaRef}
-      name={name}
-      id={id}
-      role={role}
       title={title}
-      aria-label={title || placeHolder || "text area"}
-      aria-required={required}
-      aria-invalid={invalid}
-      aria-multiline="true"
-      maxLength={maxLength}
       value={isControlled ? value : internalValue}
-      defaultValue={!isControlled ? defaultValue : undefined}
-      placeholder={placeHolder}
-      readOnly={readOnly}
-      autoFocus={autoFocus}
-      autoComplete="off"
-      autoCorrect="off"
-      autoCapitalize="off"
-      spellCheck={false}
+      placeholder={resolvedPlaceholder}
+      readOnly={readOnly || fadeTextArea}
+      tabIndex={fadeTextArea ? -1 : tabIndex}
+      dir={direction}
+      aria-label={ariaLabel ?? title ?? resolvedPlaceholder ?? "Text area"}
+      aria-invalid={nativeProps["aria-invalid"] ?? (dangerOnEmpty && isEmpty ? true : undefined)}
       onChange={handleChange}
       onKeyDown={handleKeyDownInternal}
-      onFocus={() => {
-        handleInputonFocus?.();
-        adjustHeight();
-      }}
-      onBlur={() => {
-        handleInputBlur?.();
-        if (autoExpandOnFocus && textareaRef.current) {
-          const base = initialHeight || minHeight || 40;
-          textareaRef.current.style.height = `${base}px`;
-        }
-      }}
+      onFocus={handleFocus}
+      onBlur={handleBlur}
       className={clsx(
-        styles.base,
-        styles[className],
-        dangerOnEmpty && isEmpty && styles.TextAreaDangerOnEmpty,
-        isValueRTL ? styles.rtl : styles.ltr,
+        styles.textArea,
+        className,
+        dangerOnEmpty && isEmpty && styles.danger,
+        direction === "rtl" ? styles.rtl : styles.ltr,
         fadeTextArea && styles.fade,
       )}
       style={combinedStyle}
     />
   );
 }
-
 export default memo(TextArea);

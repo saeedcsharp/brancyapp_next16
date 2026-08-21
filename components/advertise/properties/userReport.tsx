@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import TextArea from "brancy/components/design/textArea/textArea";
 import useHideDiv from "brancy/hook/useHide";
 import { LanguageKey } from "brancy/i18n";
@@ -45,7 +45,7 @@ function UserReport() {
               <div className={styles.terms}>
                 <div className="headerandinput">
                   <div className="headertext">{t(LanguageKey.advertiseProperties_userID)}</div>
-                  <InputText
+                  <InputBox
                     className="textinputbox"
                     placeHolder="@ username"
                     handleInputChange={handleInputChange}

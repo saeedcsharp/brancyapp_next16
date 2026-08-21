@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import router from "next/router";
 import { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import {
   InternalResponseType,
@@ -135,7 +135,7 @@ const NewPageAnalyzer = (props: {
           </div>
         ) : (
           <>
-            <InputText
+            <InputBox
               className="textinputbox"
               handleInputChange={handleSearchPeopleInputChange}
               placeHolder={t(LanguageKey.search)}

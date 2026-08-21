@@ -1,7 +1,7 @@
 import React, { ChangeEvent, FormEvent, useCallback, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n";
 import { PlatformTicketItemType, PlatformTicketType } from "brancy/models/enums";
@@ -182,7 +182,7 @@ const CreateTicket = React.memo(({ removeMask, handleCreateTicket }: ICreateTick
             <path d="M10 13a5 5 0 0 0 7.54.54l3-3a5 5 0 0 0-7.07-7.07l-1.72 1.71" />
             <path d="M14 11a5 5 0 0 0-7.54-.54l-3 3a5 5 0 0 0 7.07 7.07l1.71-1.71" />
           </svg>
-          {t(LanguageKey.SettingGeneral_Marketlink)}
+          {t(LanguageKey.SettingGeneral_biolink)}
         </div>
       </div>,
     ],
@@ -261,7 +261,7 @@ const CreateTicket = React.memo(({ removeMask, handleCreateTicket }: ICreateTick
           <label htmlFor="title" className="headertext">
             {t(LanguageKey.SettingGeneral_Title)}
           </label>
-          <InputText
+          <InputBox
             id="subject"
             name="subject"
             className="textinputbox"

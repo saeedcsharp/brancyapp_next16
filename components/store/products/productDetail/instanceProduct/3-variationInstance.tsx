@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import { ChangeEvent, CSSProperties, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import {
   internalNotify,
@@ -529,7 +529,7 @@ function IntanceVariation({
                             {productInstance.customVariation}
                           </div>
                           {!sub.id && (
-                            <InputText
+                            <InputBox
                               className={
                                 sub.customVariation && sub.customVariation.length > 0 ? "textinputbox" : "danger"
                               }
@@ -538,7 +538,7 @@ function IntanceVariation({
                             />
                           )}
                           {sub.id && (
-                            <InputText
+                            <InputBox
                               style={{
                                 cursor: "no-drop",
                                 backgroundColor: "var(--color-disable)",
@@ -572,7 +572,7 @@ function IntanceVariation({
                             {t(LanguageKey.color)}
                           </div>
                           {sub.id && (
-                            <InputText
+                            <InputBox
                               style={{
                                 cursor: "no-drop",
                                 backgroundColor: "var(--color-disable)",
@@ -618,7 +618,7 @@ function IntanceVariation({
                               {variationTitle}
                             </div>
                             {sub.id && (
-                              <InputText
+                              <InputBox
                                 style={{
                                   cursor: "no-drop",
                                   backgroundColor: "var(--color-disable)",
@@ -646,7 +646,7 @@ function IntanceVariation({
                       <div className={styles.variationsection}>
                         <div className="headerandinput">
                           <div className="headertext">{t(LanguageKey.Storeproduct_stock)}</div>
-                          <InputText
+                          <InputBox
                             name=""
                             className="textinputbox"
                             placeHolder="number"
@@ -658,7 +658,7 @@ function IntanceVariation({
                         <div className="headerandinput">
                           <div className="headertext">{t(LanguageKey.Storeproduct_price)}</div>
                           <div className={styles.inputandsub}>
-                            {/* <InputText
+                            {/* <InputBox
                               name=""
                               className={
                                 sub.price === 0 ? "danger" : "textinputbox"
@@ -670,7 +670,7 @@ function IntanceVariation({
                               value={sub.price.toString()}
                               numberType={true}
                             /> */}
-                            <InputText
+                            <InputBox
                               name=""
                               className={sub.price === 0 && rawValue[i].price !== "" ? "danger" : "textinputbox"}
                               placeHolder={t(LanguageKey.pageToolspopup_typehere)}

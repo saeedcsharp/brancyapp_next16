@@ -6,7 +6,7 @@ import { getEnumValue } from "brancy/helper/handleItemTypeEnum";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./notificationBar.module.css";
 import { PushResponseType, OrderStep, PushResponseExplanation, PushResponseTitle } from "brancy/models/enums";
-import { PushNotif, ITicketPushNotif, IOrderPushNotifExtended, IGetImage } from "brancy/models/interfaces";
+import { PushNotif, ITicketPushNotif, IOrderPushNotifExtended, IGetMedia } from "brancy/models/interfaces";
 
 const basePictureUrl = getClientMediaBaseUrl();
 const NotificationBar = ({
@@ -47,7 +47,8 @@ const NotificationBar = ({
       responseType === PushResponseType.UploadPostFailed ||
       responseType === PushResponseType.UploadStoryFailed ||
       responseType === PushResponseType.AiImageFail
-    )
+    ) {
+      console.log("responseTypeeeeeeeeee", responseType);
       return (
         <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true">
           <path
@@ -56,6 +57,7 @@ const NotificationBar = ({
           />
         </svg>
       );
+    }
   }, []);
   const fullyDecodeURIComponent = useCallback((encoded: string): string => {
     let decoded = encoded;
@@ -86,11 +88,13 @@ const NotificationBar = ({
       }
       return "";
     } else if (notif.ResponseType === PushResponseType.AiImageSuccess && notif.Message) {
-      const message = JSON.parse(notif.Message) as IGetImage;
-      return "Your images successfully created by, " + message.version + " model.";
+      const message = JSON.parse(notif.Message) as IGetMedia;
+      const notifMessage =
+        message.videoUrl !== null ? "Your video successfully created by, " : "Your images successfully created by, ";
+      return notifMessage + message.version + " model.";
     } else if (notif.ResponseType === PushResponseType.AiImageFail && notif.Message) {
-      const message = JSON.parse(notif.Message) as IGetImage;
-      return `Your images failed to be created by " + message.version + " model : ${message.metadata || "Image generation failed."}`;
+      const message = JSON.parse(notif.Message) as IGetMedia;
+      return `Your media failed to be created by " + message.version + " model : ${message.metadata || "media generation failed."}`;
     } else {
       const explaination = getEnumValue(PushResponseType, PushResponseExplanation, notif.ResponseType);
       return `${explaination} `;

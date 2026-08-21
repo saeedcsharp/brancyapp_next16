@@ -23,6 +23,7 @@ import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
 import { detectEmojiOnly } from "brancy/helper/emojiDetector";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import initialzedTime from "brancy/helper/manageTimer";
+import { truncateTextToBytes } from "brancy/helper/textByteLength";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 import { UploadFile } from "brancy/helper/api";
@@ -43,6 +44,8 @@ import {
 //#endregion
 
 //#region تعریف کامپوننت و Props
+const MAX_MESSAGE_BYTES = 1000;
+
 const DirectChatBox = memo(
   (props: {
     userSelectId: string | null;
@@ -91,7 +94,7 @@ const DirectChatBox = memo(
       if (!props.chatBox) return;
       const key = draftKey(props.chatBox.threadId);
       const draft = getDraft(key);
-      if (draft) setAnswerBox(draft.text);
+      if (draft) setAnswerBox(truncateTextToBytes(draft.text, MAX_MESSAGE_BYTES));
     }, [props.chatBox?.threadId]);
 
     // save draft to localStorage with debounce
@@ -154,7 +157,8 @@ const DirectChatBox = memo(
     //#region توابع مدیریت ورودی و اسکرول
     const handleInputOnChange = useCallback(
       (value: string) => {
-        const cleanValue = value.replace("\n", "").replace("</br>", "");
+        const limitedValue = truncateTextToBytes(value, MAX_MESSAGE_BYTES);
+        const cleanValue = limitedValue.replace("\n", "").replace("</br>", "");
         if (value.length === 0 || cleanValue.length === 0) {
           if (Date.now() < unixTypingTimeRef.current + 8000) {
             if (props.hub?.state === HubConnectionState.Connected) {
@@ -162,7 +166,7 @@ const DirectChatBox = memo(
             }
           }
           unixTypingTimeRef.current = 0;
-          setAnswerBox(value);
+          setAnswerBox(limitedValue);
           return;
         } else if (Date.now() > unixTypingTimeRef.current + 8000) {
           if (props.hub?.state === HubConnectionState.Connected) {
@@ -170,7 +174,7 @@ const DirectChatBox = memo(
           }
           unixTypingTimeRef.current = Date.now();
         }
-        setAnswerBox(value);
+        setAnswerBox(limitedValue);
       },
       [props.hub, props.chatBox.recp.igId],
     );
@@ -310,7 +314,7 @@ const DirectChatBox = memo(
     //#region توابع ارسال پیام
     const handleSendText = useCallback(async () => {
       try {
-        const text = answerBox.replaceAll("</br>", "\n");
+        const text = truncateTextToBytes(answerBox.replaceAll("</br>", "\n"), MAX_MESSAGE_BYTES);
         if (text.length === 0) return;
         props.handleSendMessage({
           itemType: ItemType.Text,

@@ -1,19 +1,4 @@
 // #region
-import {
-  KeyboardEvent as ReactKeyboardEvent,
-  MouseEvent as ReactMouseEvent,
-  useCallback,
-  useEffect,
-  useMemo,
-  useReducer,
-  useRef,
-  useState,
-} from "react";
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import { useTranslation } from "react-i18next";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
@@ -27,10 +12,25 @@ import { calculateSummary } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
 import { PartnerRole } from "brancy/models/enums";
 import { IProduct_Candidate } from "brancy/models/interfaces";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import {
+  KeyboardEvent as ReactKeyboardEvent,
+  MouseEvent as ReactMouseEvent,
+  useCallback,
+  useEffect,
+  useMemo,
+  useReducer,
+  useRef,
+  useState,
+} from "react";
+import { useTranslation } from "react-i18next";
 import styles from "./selectProduct.module.css";
 const basePictureUrl = getClientMediaBaseUrl();
 async function fetchProductCandidates(session: any, includeProduct: boolean, nextMaxCreatedTime?: string) {
-  return clientFetchApi<boolean, IProduct_Candidate[]>("shopper/Product/GetProductCandidates", {
+  return clientFetchApi<boolean, IProduct_Candidate[]>("/api/product/getProductCandidates", {
     methodType: MethodType.get,
     session,
     data: null,
@@ -44,7 +44,7 @@ async function fetchProductCandidates(session: any, includeProduct: boolean, nex
   });
 }
 async function submitSelectedProducts(session: any, postIds: number[]) {
-  return clientFetchApi<{ postIds: number[] }, boolean>("shopper/Product/CreateProducts", {
+  return clientFetchApi<{ postIds: number[] }, boolean>("/api/product/createProducts", {
     methodType: MethodType.post,
     session,
     data: { postIds },

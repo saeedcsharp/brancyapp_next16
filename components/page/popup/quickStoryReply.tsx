@@ -4,12 +4,14 @@ import { useTranslation } from "react-i18next";
 import EditAutoReplyForMedia from "brancy/components/messages/popups/editAutoReplyForMedia";
 import { LanguageKey } from "brancy/i18n";
 import { MediaProductType } from "brancy/models/enums";
-import { IMediaUpdateAutoReply, IAutomaticReply } from "brancy/models/interfaces";
+import { IMediaUpdateAutoReply, IAutomaticReply, IProduct_ShortProduct } from "brancy/models/interfaces";
 interface QuickReplyPopupProps {
   setShowQuickReplyPopup: (show: boolean) => void;
   handleSaveAutoReply: (sendReply: IMediaUpdateAutoReply) => void;
   handleActiveAutoReply: (e: ChangeEvent<HTMLInputElement>) => void;
   autoReply: IAutomaticReply;
+  setShowProductPopup?: () => void;
+  selectedProduct?: IProduct_ShortProduct | null;
 }
 
 const QuickStoryReplyPopup: React.FC<QuickReplyPopupProps> = ({
@@ -17,6 +19,8 @@ const QuickStoryReplyPopup: React.FC<QuickReplyPopupProps> = ({
   handleSaveAutoReply,
   handleActiveAutoReply,
   autoReply,
+  setShowProductPopup,
+  selectedProduct,
 }) => {
   const { t } = useTranslation();
   return (
@@ -53,6 +57,8 @@ const QuickStoryReplyPopup: React.FC<QuickReplyPopupProps> = ({
         autoReply={autoReply}
         productType={MediaProductType.Live}
         showActiveAutoreply={false}
+        setShowProductPopup={setShowProductPopup}
+        selectedProduct={selectedProduct}
       />
     </>
   );

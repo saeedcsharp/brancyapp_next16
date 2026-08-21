@@ -50,7 +50,7 @@ function AutoReply({
   handleGeneralActiveAutoreply,
   handleGetNextAutoreply,
 }: {
-  handleShowEditAutoreply: (id: string | null) => void;
+  handleShowEditAutoreply: (id: string | null, productId?: string) => void;
   autoReplies: IGeneralAutoReply[];
   handleGeneralActiveAutoreply: (on: boolean) => void;
   handleGetNextAutoreply: (nextMaxId: string) => void;
@@ -108,9 +108,9 @@ function AutoReply({
     [t, handleGeneralActiveAutoreply],
   );
   const handleShowEditAutoreplyCallback = useCallback(
-    (id: string | null) => {
+    (id: string | null, productId?: string) => {
       console.log("handleShowEditAutoreplyCallback", id);
-      handleShowEditAutoreply(id);
+      handleShowEditAutoreply(id, productId);
     },
     [handleShowEditAutoreply],
   );
@@ -226,7 +226,9 @@ function AutoReply({
                     <div className={styles.autoreplycontainer}>
                       <div className="headerparent" style={{ paddingInlineEnd: "10px" }}>
                         <div className="headertext">{u.title}</div>
-                        <div className={styles.headermenu} onClick={() => handleShowEditAutoreplyCallback(u.id)}>
+                        <div
+                          className={styles.headermenu}
+                          onClick={() => handleShowEditAutoreplyCallback(u.id, u.productId)}>
                           <svg className="twoDotIcon" fill="none" viewBox="0 0 14 5">
                             <path
                               fill="var(--color-gray)"
@@ -361,6 +363,33 @@ function AutoReply({
                               textAlign: containsFarsiOrArabic(u.response ?? "") ? "right" : "left",
                             }}>
                             {"response by general AI"}
+                          </div>
+                        </div>
+                      )}
+                      {u.automaticType === AutoReplyPayLoadType.ConnectProduct && (
+                        <div
+                          className={`${styles.responseparent} ${u.pauseTime !== null && "fadeDiv"}`}
+                          role="group"
+                          aria-labelledby="specific-keywords-title">
+                          <div className={styles.headertitle2}>
+                            {u.items.length > 1
+                              ? t(LanguageKey.messagesetting_KeywordsSensitive)
+                              : t(LanguageKey.messagesetting_KeywordSensitive)}
+                          </div>
+                          <div className={styles.wordpool}>
+                            {u.items.map((item, index) => (
+                              <div key={index} className={styles.specificword}>
+                                {item.text}
+                              </div>
+                            ))}
+                          </div>
+                          <div className={styles.headertitle2}>{t(LanguageKey.Connected)}</div>
+                          <div
+                            className={styles.responsetext}
+                            style={{
+                              textAlign: containsFarsiOrArabic(u.response ?? "") ? "right" : "left",
+                            }}>
+                            {`productId: ${u.productId}`}
                           </div>
                         </div>
                       )}

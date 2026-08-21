@@ -1,171 +1,204 @@
-import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
-import { ChangeEvent, useState } from "react";
-import InputText from "brancy/components/design/inputText";
-import styles from "./mylink.module.css";
+import { getClientMediaBaseUrl, resolvePublicDomain } from "brancy/helper/apiBaseUrl";
+import { type KeyboardEvent, type PointerEvent, useCallback, useDeferredValue, useMemo, useRef, useState } from "react";
+import styles from "./product.module.css";
 import { IProducts } from "brancy/models/interfaces";
-
+import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
+import { LanguageKey } from "brancy/i18n/languageKeys";
+import { t } from "i18next";
+import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 const basePictureUrl = getClientMediaBaseUrl();
-const Products = (props: { data: IProducts | null }) => {
-  const [isContentVisible, setIsContentVisible] = useState(true);
-
-  const toggleContentVisibility = () => {
-    setIsContentVisible((prev) => !prev);
-  };
-  function handleSearchPeopleInputChange(e: ChangeEvent<HTMLInputElement>): void {
-    throw new Error("Function not implemented.");
-  }
-
+const couponDateFormatter = new Intl.DateTimeFormat("en-US", {
+  year: "numeric",
+  month: "2-digit",
+  day: "2-digit",
+});
+const Products = (props: { data: IProducts | null; username: string }) => {
+  const [isProductDragging, setIsProductDragging] = useState(false);
+  const [copiedCouponId, setCopiedCouponId] = useState<number | null>(null);
+  const [selectedCouponId, setSelectedCouponId] = useState<number | null>(null);
+  const productContainerRef = useRef<HTMLDivElement>(null);
+  const dragStateRef = useRef({ startX: 0, startScrollLeft: 0, moved: false });
+  const handleViewStoreProducts = useCallback(() => {
+    const domain = resolvePublicDomain(process.env.NEXT_PUBLIC_SHORT_LINK, window.location.hostname);
+    window.location.assign(`https://${domain}/${encodeURIComponent(props.username)}/product`);
+  }, [props.username]);
+  const handleCopyCouponCode = useCallback(async (couponId: number, code: string) => {
+    try {
+      await navigator.clipboard.writeText(code);
+      setCopiedCouponId(couponId);
+      window.setTimeout(() => setCopiedCouponId((current) => (current === couponId ? null : current)), 1800);
+    } catch {
+      setCopiedCouponId(null);
+    }
+  }, []);
+  const handleProductPointerDown = useCallback((e: PointerEvent<HTMLDivElement>): void => {
+    if (e.pointerType === "mouse" && e.button !== 0) return;
+    const container = productContainerRef.current;
+    if (!container) return;
+    dragStateRef.current = {
+      startX: e.clientX,
+      startScrollLeft: container.scrollLeft,
+      moved: false,
+    };
+    container.setPointerCapture(e.pointerId);
+    setIsProductDragging(true);
+  }, []);
+  const handleProductPointerMove = useCallback((e: PointerEvent<HTMLDivElement>): void => {
+    const container = productContainerRef.current;
+    if (!container || !container.hasPointerCapture(e.pointerId)) return;
+    const distance = e.clientX - dragStateRef.current.startX;
+    if (Math.abs(distance) > 5) {
+      dragStateRef.current.moved = true;
+    }
+    container.scrollLeft = dragStateRef.current.startScrollLeft - distance;
+  }, []);
+  const handleProductPointerUp = useCallback((e: PointerEvent<HTMLDivElement>): void => {
+    const container = productContainerRef.current;
+    if (container?.hasPointerCapture(e.pointerId)) {
+      container.releasePointerCapture(e.pointerId);
+    }
+    setIsProductDragging((isDragging) => (isDragging ? false : isDragging));
+  }, []);
+  const handleProductContainerKeyDown = useCallback((event: KeyboardEvent<HTMLDivElement>) => {
+    const container = productContainerRef.current;
+    if (!container) return;
+    const scrollAmount = Math.max(container.clientWidth * 0.8, 200);
+    const direction = getComputedStyle(container).direction === "rtl" ? -1 : 1;
+    if (event.key === "ArrowLeft" || event.key === "ArrowRight") {
+      event.preventDefault();
+      const offset = event.key === "ArrowRight" ? scrollAmount * direction : -scrollAmount * direction;
+      container.scrollBy({ left: offset, behavior: "smooth" });
+    }
+    if (event.key === "Home" || event.key === "End") {
+      event.preventDefault();
+      container.scrollTo({ left: event.key === "Home" ? 0 : container.scrollWidth, behavior: "smooth" });
+    }
+  }, []);
+  const products = useMemo(() => {
+    return (props.data?.productCards ?? []).map((productCard) => productCard.shortProduct);
+  }, [props.data?.productCards]);
+  const coupons = props.data?.productCoupons ?? [];
+  const selectedCoupon = coupons.find((coupon) => coupon.couponId === selectedCouponId) ?? coupons[0];
+  const selectedCouponIndex = selectedCoupon
+    ? coupons.findIndex((coupon) => coupon.couponId === selectedCoupon.couponId)
+    : 0;
+  const couponOptions = coupons.map((coupon) => (
+    <div id={String(coupon.couponId)} key={coupon.couponId} className={styles.couponOption}>
+      <span className={styles.couponCode}>{coupon.code}</span>
+      <strong className={styles.couponDiscount}>{coupon.discount}%</strong>
+      <span className={styles.couponMeta}>
+        {coupon.useCount}/{coupon.maxCount} · {couponDateFormatter.format(coupon.expireTime)}
+      </span>
+    </div>
+  ));
   return (
     <>
       {props.data && (
-        <div
-          key={"product"}
-          id="product"
-          className={styles.all}
-          style={{ backgroundColor: "var(--color-dark-blue10)" }}>
-          <div className={styles.header} onClick={toggleContentVisibility}>
-            <div className={`${styles.squre} ${!isContentVisible ? styles.closed : ""}`}></div>
-            <div className={styles.headertext}>
-              our
-              <div className={styles.headertextblue}>products</div>
+        <>
+          <div id="product" className={styles.all}>
+            <div className={styles.header}>
+              {coupons.length > 0 && (
+                <div className={styles.couponSelector} aria-label={t(LanguageKey.storestatistics_couponTitle)}>
+                  <DragDrop
+                    data={couponOptions}
+                    item={selectedCouponIndex}
+                    isRefresh={selectedCouponId !== null}
+                    handleOptionSelect={(couponId) => setSelectedCouponId(Number(couponId))}
+                  />
+                  {selectedCoupon && (
+                    <button
+                      type="button"
+                      className={styles.copyCouponButton}
+                      onClick={() => handleCopyCouponCode(selectedCoupon.couponId, selectedCoupon.code)}
+                      aria-label={`${t(LanguageKey.Storeorder_Coupon)} ${selectedCoupon.code}`}>
+                      {copiedCouponId === selectedCoupon.couponId ? (
+                        t(LanguageKey.successfulCopy)
+                      ) : (
+                        <svg viewBox="0 0 24 24" aria-hidden="true">
+                          <rect x="8" y="8" width="11" height="12" rx="2" />
+                          <path d="M16 8V6a2 2 0 0 0-2-2H7a2 2 0 0 0-2 2v10a2 2 0 0 0 2 2h1" />
+                        </svg>
+                      )}
+                    </button>
+                  )}
+                </div>
+              )}
+              <button type="button" className="saveButton" onClick={handleViewStoreProducts}>
+                {t(LanguageKey.messagesetting_ViewStoreandproducts)}
+              </button>
             </div>
-            <div className={styles.line}></div>
-          </div>
-
-          <div className={`${styles.content} ${isContentVisible ? styles.show : ""}`}>
-            <div className={styles.product}>
-              <div className={styles.searchContainer}>
-                <InputText
-                  style={{
-                    maxWidth: "250px",
-                    borderRadius: " var(--br8) 0px 0px var(--br8)",
-                  }}
-                  className="textinputbox"
-                  handleInputChange={handleSearchPeopleInputChange}
-                  placeHolder="Search product or PID"
-                  value={""}
-                  maxLength={undefined}
-                  name={""}
-                />
-                <div className={styles.searchbtn}>
-                  <svg width="16" height="16" viewBox="0 0 16 16" fill="none">
-                    <path
-                      d="M12.5201 11.0201H11.7301L11.4501 10.7501C13.7901 8.02008 13.4801 3.91008 10.7501 1.57008C8.02008 -0.769915 3.91008 -0.459916 1.57008 2.27008C-0.769915 5.00008 -0.459916 9.11008 2.27008 11.4501C4.71008 13.5401 8.31009 13.5401 10.7501 11.4501L11.0201 11.7301V12.5201L13.7401 15.2101L15.2301 13.7201L12.5201 11.0201ZM6.52008 11.0201C4.03008 11.0201 2.02008 9.01008 2.02008 6.52008C2.02008 4.03008 4.03008 2.02008 6.52008 2.02008C9.01008 2.02008 11.0201 4.03008 11.0201 6.52008C11.0201 9.00008 9.01008 11.0201 6.53008 11.0201C6.53008 11.0201 6.53008 11.0201 6.52008 11.0201Z"
-                      fill="var(--color-ffffff)"
+            <div
+              ref={productContainerRef}
+              className={`${styles.productContainer} ${isProductDragging ? styles.dragging : ""}`}
+              tabIndex={0}
+              role="region"
+              aria-label="Product carousel"
+              onKeyDown={handleProductContainerKeyDown}
+              onPointerDown={handleProductPointerDown}
+              onPointerMove={handleProductPointerMove}
+              onPointerUp={handleProductPointerUp}
+              onPointerCancel={handleProductPointerUp}
+              onLostPointerCapture={handleProductPointerUp}>
+              {products.map((product) => {
+                const hasDiscount = product.minDiscountPrice !== null && product.minDiscountPrice < product.minPrice;
+                const discountPercent =
+                  hasDiscount && product.minPrice > 0
+                    ? Math.round(((product.minPrice - product.minDiscountPrice!) / product.minPrice) * 100)
+                    : 0;
+                const productPrice = hasDiscount ? product.minDiscountPrice! : product.minPrice;
+                return (
+                  <a
+                    key={product.productId}
+                    className={styles.productitem}
+                    href={product.instagramUrl}
+                    target="_blank"
+                    rel="noreferrer"
+                    onClick={(e) => {
+                      if (dragStateRef.current.moved) {
+                        e.preventDefault();
+                        dragStateRef.current.moved = false;
+                      }
+                    }}>
+                    <img
+                      loading="lazy"
+                      decoding="async"
+                      className={styles.productimage}
+                      alt={product.title ?? "Product"}
+                      src={`${basePictureUrl}${product.thumbnailMediaUrl}`}
+                      width={200}
+                      height={200}
+                      onError={(event) => {
+                        event.currentTarget.onerror = null;
+                        event.currentTarget.src = "/product_draft-gray.svg";
+                      }}
                     />
-                  </svg>
-                </div>
-              </div>
+                    <div className={styles.productname} title={product.title ?? undefined}>
+                      {product.title || `Product ${product.productId}`}
+                    </div>
+                    <div className={styles.pricesection}>
+                      {hasDiscount && (
+                        <div className={styles.price}>
+                          <PriceFormater
+                            pricetype={product.priceType}
+                            fee={product.minPrice}
+                            className={PriceFormaterClassName.PostPriceRed}
+                          />
+                          <div className={styles.discountprice}>{discountPercent}%</div>
+                        </div>
+                      )}
 
-              <div className={styles.productContainer}>
-                <div className={styles.productitem}>
-                  <img
-                    loading="lazy"
-                    decoding="async"
-                    className={styles.productimage}
-                    alt="review rate"
-                    src="/post.png"
-                  />
-                  <div className={styles.productname}>Product name one</div>
-                  <div className={styles.pricesection}>
-                    <div className={styles.price}>
-                      <div className={styles.priceold}>15.555.555 تومان</div>
-                      <div className={styles.discountprice}>5 %</div>
+                      <PriceFormater
+                        pricetype={product.priceType}
+                        fee={productPrice}
+                        className={PriceFormaterClassName.PostPrice}
+                      />
                     </div>
-                    <div className={styles.price}>
-                      <div className={styles.pricenew}>15.555.555 تومان</div>
-                    </div>
-                  </div>
-                </div>
-                <div className={styles.productitem}>
-                  <img
-                    loading="lazy"
-                    decoding="async"
-                    className={styles.productimage}
-                    alt="review rate"
-                    src="/post.png"
-                  />
-                  <div className={styles.productname}>Product name one</div>
-                  <div className={styles.pricesection}>
-                    <div className={styles.price}>
-                      <div className={styles.priceold}>15.555.555 تومان</div>
-                      <div className={styles.discountprice}>5 %</div>
-                    </div>
-                    <div className={styles.price}>
-                      <div className={styles.pricenew}>15.555.555 تومان</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className={styles.productitem}>
-                  <img
-                    loading="lazy"
-                    decoding="async"
-                    className={styles.productimage}
-                    alt="review rate"
-                    src="/post.png"
-                  />
-                  <div className={styles.productname}>Product name one</div>
-                  <div className={styles.pricesection}>
-                    <div className={styles.price}>
-                      <div className={styles.priceold}>15.555.555 تومان</div>
-                      <div className={styles.discountprice}>5 %</div>
-                    </div>
-                    <div className={styles.price}>
-                      <div className={styles.pricenew}>15.555.555 تومان</div>
-                    </div>
-                  </div>
-                </div>
-
-                <div className={styles.productitem}>
-                  <img
-                    loading="lazy"
-                    decoding="async"
-                    className={styles.productimage}
-                    alt="review rate"
-                    src="/post.png"
-                  />
-                  <div className={styles.productname}>Product name one</div>
-                  <div className={styles.pricesection}>
-                    <div className={styles.price}>
-                      <div className={styles.priceold}>15.555.555 تومان</div>
-                      <div className={styles.discountprice}>5 %</div>
-                    </div>
-                    <div className={styles.price}>
-                      <div className={styles.pricenew}>15.555.555 تومان</div>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className={styles.showallproduct}>Show All Product ↗️</div>
-
-              <div className={styles.couponsection}>
-                Discount Code
-                <div className={styles.couponcode}>
-                  3hj498UTR3JF
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    style={{ width: "15px", cursor: "pointer" }}>
-                    <path
-                      fill="var(--color-ffffff)"
-                      d="M24.2 14.7V6.2L18 .1h-6.9a7 7 0 0 0-4 1.7 6 6 0 0 0-1.4 2 6 6 0 0 0-3.8 1.7A5 5 0 0 0 0 9.7v8.8a6 6 0 0 0 2 4.2A6 6 0 0 0 5.6 24h7.7a6 6 0 0 0 5.3-3.7 5.6 5.6 0 0 0 5.6-5.6m-8 6.6a4 4 0 0 1-2.9 1.2H5.7a4 4 0 0 1-2.6-1 4 4 0 0 1-1.5-3V9.7A4 4 0 0 1 3 6.6a5 5 0 0 1 3-1.3h6.3l5.2 5.2v7.9a4 4 0 0 1-1.2 3m2.7-2.5V10l-6-6.1H7.5l.8-1a5 5 0 0 1 3-1.3h6.2l5.3 5.3c0 9-.5 10-1.2 10.8a4 4 0 0 1-2.6 1.2m-5.5-2.1a1 1 0 0 1-.8.7H6.4a.7.7 0 1 1 0-1.5h6.3a.7.7 0 0 1 .8.8m0-4.3a.7.7 0 0 1-.8.8H6.4a.7.7 0 1 1 0-1.5h6.3a1 1 0 0 1 .8.7"
-                      data-name="Path 2641"
-                    />
-                  </svg>
-                </div>
-                <div
-                  className={styles.timer}
-                  style={{
-                    height: "40px",
-                    width: "150px",
-                    border: "1px solid red",
-                  }}></div>
-              </div>
+                  </a>
+                );
+              })}
             </div>
           </div>
-        </div>
+        </>
       )}
     </>
   );

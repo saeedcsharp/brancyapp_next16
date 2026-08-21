@@ -44,7 +44,10 @@ import {
   ICreateGeneralAutoReply,
   IAutoReplySetting,
   IUpdateProfileButton,
+  IProduct_ShortProduct,
+  IProduct_FullProduct,
 } from "brancy/models/interfaces";
+import SelectProduct from "brancy/components/messages/popups/selectProduct";
 
 const Properties = () => {
   const { t } = useTranslation();
@@ -55,7 +58,8 @@ const Properties = () => {
   const [isPopupCOMMENT, setIsPopupCOMMENT] = useState(false);
   const [isPopupDirect, setIsPopupDirect] = useState(false);
   const [loadingStatus, setLoadingStaus] = useState(true);
-
+  const [showProductPopup, setShowProductPopup] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<IProduct_ShortProduct | null>(null);
   // Authentication effect
   useEffect(() => {
     if (session && !packageStatus(session)) router.push("/upgrade");
@@ -273,6 +277,28 @@ const Properties = () => {
     //     ),
     //   },
     // }));
+  }
+  async function handleShowQuickReply(index: string | null, productId?: string) {
+    if (productId && productId !== "") {
+      const selectedAutoReply = autoReplies.find((x) => x.id === index);
+      if (selectedAutoReply && selectedAutoReply.automaticType === AutoReplyPayLoadType.ConnectProduct) {
+        try {
+          var res = await clientFetchApi<boolean, IProduct_FullProduct>("/api/product/getFullProduct", {
+            methodType: MethodType.get,
+            session: session,
+            queries: [{ key: "productId", value: productId }],
+          });
+          if (res.succeeded) {
+            // Handle the product data here
+            console.log(res.value);
+            setSelectedProduct(res.value.shortProduct);
+          } else notify(res.info.responseType, NotifType.Warning);
+        } catch (error) {
+          notify(ResponseType.Unexpected, NotifType.Error);
+        }
+      }
+    }
+    setShowIndexAutoReply(index);
   }
   //-----------persistent Menu----------------------//
   //-----------Message panel----------------------//
@@ -818,7 +844,7 @@ const Properties = () => {
             />
             <AutoReply
               autoReplies={autoReplies}
-              handleShowEditAutoreply={setShowIndexAutoReply}
+              handleShowEditAutoreply={handleShowQuickReply}
               handleGeneralActiveAutoreply={handleGeneralActiveAutoreply}
               handleGetNextAutoreply={handleGetNextAutoreply}
             />
@@ -860,6 +886,8 @@ const Properties = () => {
             setShowQuickReplyPopup={setShowIndexAutoReply}
             handleSaveAutoReply={handleSaveAutoReply}
             handleActiveAutoReply={handleActiveAutoReply}
+            selectedProduct={selectedProduct}
+            setShowProductPopup={() => setShowProductPopup(true)}
             autoReply={
               autoReplies.find((x) => x.id === showIndexAutoReply) || {
                 id: showIndexAutoReply || "",
@@ -878,8 +906,22 @@ const Properties = () => {
                 title: "",
                 replySuccessfullyDirected: false,
                 customRepliesSuccessfullyDirected: [],
+                productId: "",
               }
             }
+          />
+        </Modal>
+        <Modal closePopup={() => setShowProductPopup(false)} classNamePopup={"popup"} showContent={showProductPopup}>
+          <SelectProduct
+            backToAutoreply={() => {
+              setShowProductPopup(false);
+              setShowIndexAutoReply(null);
+            }}
+            removeMask={() => setShowProductPopup(false)}
+            saveSelectProduct={(product) => {
+              setShowProductPopup(false);
+              setSelectedProduct(product);
+            }}
           />
         </Modal>
       </>

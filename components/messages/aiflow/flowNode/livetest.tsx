@@ -2,7 +2,7 @@ import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import { LanguageKey } from "brancy/i18n/languageKeys";
 import styles from "./livetest.module.css";
 import { NodeData } from "brancy/components/messages/aiflow/flowNode/types";
@@ -630,7 +630,7 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
             onKeyDown={(e) => {
               if (e.key === "Enter") handleSend();
             }}>
-            <InputText
+            <InputBox
               className="textinputbox"
               placeHolder={t(LanguageKey.pageToolspopup_typehere)}
               value={input}

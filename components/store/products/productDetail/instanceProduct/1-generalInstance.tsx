@@ -1,7 +1,7 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import Loading from "brancy/components/notOk/loading";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./1-general.module.css";
@@ -37,7 +37,7 @@ function GeneralInstance({
               <div className="headerparent">
                 <div className="headerandinput" style={{ maxWidth: "150px", minWidth: "100px" }}>
                   <div className="headertext">{t(LanguageKey.product_ProductID)} (PID) </div>
-                  <InputText
+                  <InputBox
                     style={{
                       cursor: "no-drop",
                       backgroundColor: "var(--color-disable)",
@@ -52,7 +52,7 @@ function GeneralInstance({
                 <div className="headerandinput">
                   <div className="headertext">{t(LanguageKey.product_Producttitle)} *</div>
                   <div className="headerparent">
-                    <InputText
+                    <InputBox
                       style={{
                         cursor: "no-drop",
                         backgroundColor: "var(--color-disable)",
@@ -94,7 +94,7 @@ function GeneralInstance({
 
                       <div className="headertext">{categoryName}</div>
                       <div className="headerparent">
-                        <InputText
+                        <InputBox
                           style={{
                             cursor: "no-drop",
                             backgroundColor: "var(--color-disable)",
@@ -115,7 +115,7 @@ function GeneralInstance({
                     minWidth: "200px",
                   }}>
                   <div className="headertext">{t(LanguageKey.product_MainCategory)}</div>
-                  <InputText
+                  <InputBox
                     style={{
                       cursor: "no-drop",
                       backgroundColor: "var(--color-disable)",
@@ -134,7 +134,7 @@ function GeneralInstance({
                       minWidth: "200px",
                     }}>
                     <div className="headertext">{t(LanguageKey.product_Dependency)}</div>
-                    <InputText
+                    <InputBox
                       style={{
                         cursor: "no-drop",
                         backgroundColor: "var(--color-disable)",
@@ -151,7 +151,7 @@ function GeneralInstance({
                 {productInstance.brandLangValue && (
                   <div className="headerandinput">
                     <div className="headertext">{t(LanguageKey.product_Brand)}</div>
-                    <InputText
+                    <InputBox
                       style={{
                         cursor: "no-drop",
                         backgroundColor: "var(--color-disable)",

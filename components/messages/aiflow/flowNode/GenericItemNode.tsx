@@ -4,7 +4,7 @@ import { useSession } from "next-auth/react";
 import React, { useCallback, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n/languageKeys";
 import { UploadFile } from "brancy/helper/api";
@@ -294,7 +294,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
           />
         </div>
         <div onClick={(e) => e.stopPropagation()}>
-          <InputText
+          <InputBox
             className="textinputbox"
             value={node.data?.title === defaultTitlePlaceholder ? "" : node.data?.title || ""}
             maxLength={140}
@@ -373,7 +373,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
           />
         </div>
         <div className={shouldShake ? styles.shakeHorizontal : ""} onClick={(e) => e.stopPropagation()}>
-          <InputText
+          <InputBox
             className="textinputbox"
             type="url"
             value={node.data?.weblink || ""}
@@ -465,7 +465,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
         {node.data?.buttons?.map((btn: string, idx: number) => (
           <div key={idx} className={styles.buttonItem}>
             <div className={styles.inputTextparent} onClick={(e) => e.stopPropagation()}>
-              <InputText
+              <InputBox
                 className="textinputbox"
                 value={btn}
                 maxLength={40}

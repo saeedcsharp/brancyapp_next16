@@ -3,7 +3,7 @@
   .information {
     justify-content: flex-start !important;
     flex-direction: column !important;
-    overflow-y: scroll;
+    overflow-y: auto;
     padding: var(--padding-12) var(--padding-10) var(--padding-50) var(--padding-10) !important;
   }
   .information > div:nth-child(1) {

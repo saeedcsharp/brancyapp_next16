@@ -1,24 +1,29 @@
 @media (max-width: 768px) {
   .all {
     gap: 20px !important;
-    padding: 20px !important;
+    padding: 0px 20px 20px 20px !important;
   }
   .header {
     padding: 0px !important;
     height: 120px !important;
+    flex-direction: column !important;
   }
   .headertext {
     margin-top: 10px !important;
-    font-size: 14px !important;
+    font-size: var(--font-fluid-md);
     font-weight: 400 !important;
   }
   .headertextblue {
-    font-size: 16px !important;
+    font-size: var(--font-fluid-lg);
   }
 
   .radioinput {
-    font-size: 12px !important;
-    top: 0px !important;
+    position: absolute;
+    margin-inline-start: auto !important;
+    font-size: var(--font-fluid-sm);
+    top: -60px !important;
+    max-width: 150px !important;
+    width: max-content !important;
   }
   .headerimg {
     width: 100px !important;
@@ -27,16 +32,23 @@
   .videodetail {
     gap: 10px !important;
     padding: 0px !important;
-    font-size: 18px !important;
+    font-size: var(--font-fluid-xl);
     font-weight: 600 !important;
   }
   .contentttext {
-    -webkit-line-clamp: 20 !important;
-    line-clamp: 20 !important;
-    font-size: 12px !important;
+    -webkit-line-clamp: unset !important;
+    line-clamp: unset !important;
+    display: block !important;
+    font-size: var(--font-fluid-sm);
     font-weight: 400 !important;
+    line-height: 1.5;
+    padding: 10px !important;
+    -webkit-line-clamp: 5 !important;
+    line-clamp: 5 !important;
+    font-size: var(--font-fluid-sm);
   }
 }
+
 .embedvideofromtumbparent {
   width: 100%;
   border-radius: 30px;
@@ -54,7 +66,7 @@
   flex-direction: column;
   align-content: center;
   gap: 30px;
-  padding: 0 30px 30px 30px;
+  padding: 0 30px 80px 30px;
 }
 .header {
   text-wrap: nowrap;
@@ -76,9 +88,6 @@
   gap: 20px;
   align-items: flex-start;
   width: 100%;
-  @media (max-width: 768px) {
-    gap: 0px;
-  }
 }
 .headertext {
   margin-top: 30px;
@@ -86,7 +95,7 @@
   gap: 5px;
   position: relative;
   color: var(--text-h1);
-  font-size: 24px;
+  font-size: var(--font-fluid-2xl);
   font-weight: 400;
   text-transform: capitalize;
   flex-direction: row;
@@ -94,12 +103,8 @@
 }
 .headertextblue {
   font-weight: 800;
-  font-size: 28px;
-  background: linear-gradient(
-    to right,
-    var(--color-dark-blue),
-    var(--color-light-blue)
-  );
+  font-size: var(--font-fluid-2xl);
+  background: linear-gradient(to right, var(--color-dark-blue), var(--color-light-blue));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -112,7 +117,7 @@
 .content {
   max-height: 0px;
   overflow: hidden;
-  transition: all 0.6s ease-in-out !important;
+  transition: var(--transoition3) !important;
   opacity: 0;
 }
 .content.show {
@@ -140,6 +145,7 @@
   align-items: center;
   justify-content: space-between;
   border-radius: 15px;
+  min-height: 50px;
   padding: 5px;
   gap: 10px;
   background-color: var(--background-root);
@@ -148,10 +154,7 @@
   width: 100%;
   flex-direction: row;
   overflow: hidden;
-  @media (max-width: 768px) {
-    max-width: fit-content;
-    gap: 5px;
-  }
+  z-index: 10;
 }
 .option {
   padding: 5px;
@@ -163,10 +166,10 @@
   gap: 5px;
   z-index: 1;
   font-weight: 400;
-  font-size: 12px;
+  font-size: var(--font-fluid-xs);
   height: 50px;
   justify-content: space-between;
-  transition: all 0.2s ease-in-out !important;
+  transition: var(--transoition3) !important;
   @media (max-width: 768px) {
     justify-content: center;
     width: 35px;
@@ -184,10 +187,13 @@
 .option:has(input:checked) {
   border-radius: 10px;
   padding: 5px;
-  transition: all 0.2s ease-in-out !important;
+  transition: var(--transoition3) !important;
   background-color: var(--color-white);
 }
 .embedvide {
+  background: var(--color-gray10);
+  padding-block-end: 10px;
+  border-radius: var(--br30);
   gap: 20px;
   display: flex;
   width: 100%;
@@ -206,30 +212,46 @@
   border-radius: 30px;
   background-color: var(--color-gray10);
 }
+.embedvideofromtumbimg {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border-radius: 30px;
+  cursor: pointer;
+  animation: var(--fadeIn3);
+}
 .videodetail {
   padding-inline: 30px;
-  gap: 20px;
+  gap: var(--gap-5);
   width: 100%;
   position: relative;
   display: flex;
   font-weight: 800;
-  font-size: 30px;
+  font-size: var(--font-fluid-md);
   color: var(--text-h1);
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
 }
+.videodetail h3 {
+  white-space: pre-line;
+}
 .contentttext {
+  text-align: start;
   overflow: hidden;
+  width: 100%;
+  max-height: 200px;
   -webkit-line-clamp: 14;
   line-clamp: 14;
   -webkit-box-orient: vertical;
   box-orient: vertical;
+  line-height: 1.5;
   display: -webkit-box;
   color: var(--text-h1);
-  font-size: 14px;
+  font-size: var(--font-fluid-sm);
   font-weight: 400;
-  overflow-y: auto;
+  white-space: pre-line;
+  overflow-y: scroll;
 }
 .streamlogo {
   width: 300px;

@@ -64,7 +64,6 @@ type PlanState = {
   isAnimatingOut: boolean;
   selectedFollowers: number;
   selectedDuration: keyof typeof discounts;
-  tooltipPosition: number;
   sliderValue: number;
 };
 
@@ -73,7 +72,6 @@ type PlanAction =
   | { type: "SET_ANIMATING_OUT"; payload: boolean }
   | { type: "SET_SELECTED_FOLLOWERS"; payload: number }
   | { type: "SET_SELECTED_DURATION"; payload: keyof typeof discounts }
-  | { type: "SET_TOOLTIP_POSITION"; payload: number }
   | { type: "SET_SLIDER_VALUE"; payload: number };
 
 const planReducer = (state: PlanState, action: PlanAction): PlanState => {
@@ -86,8 +84,6 @@ const planReducer = (state: PlanState, action: PlanAction): PlanState => {
       return { ...state, selectedFollowers: action.payload };
     case "SET_SELECTED_DURATION":
       return { ...state, selectedDuration: action.payload };
-    case "SET_TOOLTIP_POSITION":
-      return { ...state, tooltipPosition: action.payload };
     case "SET_SLIDER_VALUE":
       return { ...state, sliderValue: action.payload };
     default:
@@ -296,7 +292,6 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
     isAnimatingOut: false,
     selectedFollowers: 5000,
     selectedDuration: "month1" as keyof typeof discounts,
-    tooltipPosition: 0,
     sliderValue: 16.67, // تقریباً موقعیت 500 فالوور
   });
   // این قسمت برای مدیریت وضعیت نمایش پلن‌ها و انیمیشن‌های مربوط به آن‌ها استفاده می‌شود
@@ -411,10 +406,6 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
     },
     [followerSteps],
   );
-  // آپدیت موقعیت تولتیپ هنگام تغییر slider
-  useEffect(() => {
-    dispatch({ type: "SET_TOOLTIP_POSITION", payload: state.sliderValue });
-  }, [state.sliderValue]);
   // محاسبه موقعیت‌های استپ‌ها - memoized برای بهبود عملکرد
   const stepPositions = useMemo(
     () => [
@@ -428,14 +419,6 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
     ],
     [],
   );
-  // آپدیت slider value هنگام تغییر selectedFollowers
-  useEffect(() => {
-    const newSliderValue = followerValueToSlider(state.selectedFollowers);
-    if (Math.abs(newSliderValue - state.sliderValue) > 0.01) {
-      // جلوگیری از تغییرات ریز
-      dispatch({ type: "SET_SLIDER_VALUE", payload: newSliderValue });
-    }
-  }, [state.selectedFollowers, state.sliderValue]);
   // Prevent background scroll when popup is open - با cleanup بهتر
   useLayoutEffect(() => {
     if (state.isPopupOpen) {
@@ -602,7 +585,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
             <div className={styles.sliderContainer}>
               <div
                 className={styles.sliderTooltip}
-                style={{ left: `${state.tooltipPosition}%` }}
+                style={{ left: `${state.sliderValue}%` }}
                 role="tooltip"
                 aria-live="polite">
                 {formatFollowersForTooltip(state.selectedFollowers)}
@@ -713,7 +696,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
                   }}>
                   <header className={`${styles.planHeader} ${isCurrentPlan ? styles.highlighted : ""}`}>
                     <h4 className={styles.planModel} id={`plan-title-${index}`}>
-                      <span> {plan.followerRange}</span> {t(LanguageKey.markethomefollower)}
+                      <span> {plan.followerRange}</span> {t(LanguageKey.biolinkHomefollower)}
                     </h4>
                     <div className="headerandinput" style={{ gap: "1px", height: "45px" }}>
                       <div className="title">
@@ -783,7 +766,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
                               <span>{feature.label}</span>
                               {/* <span className={styles.planExplain}>
                                 {" "}
-                                ({requests} {t(LanguageKey.marketProperties_Request)}/{t(LanguageKey.page9_monthly)})
+                                ({requests} {t(LanguageKey.biolinkProperties_Request)}/{t(LanguageKey.page9_monthly)})
                               </span> */}
                             </>
                           );

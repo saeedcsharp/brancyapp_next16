@@ -1,6 +1,6 @@
 import { ChangeEvent, useState } from "react";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
-import RadioButton from "brancy/components/design/radioButton";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
+import RadioButton from "brancy/components/design/radioButton/radioButton";
 import FollowerSlider from "brancy/components/design/sliders/followerSlider";
 import PriceSlider from "brancy/components/design/sliders/priceSlider";
 import RatingSlider from "brancy/components/design/sliders/ratingSlider";

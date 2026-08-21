@@ -84,6 +84,10 @@ html[dir="rtl"] .frameContainer {
   .postimage {
     min-height: 174px !important;
   }
+  .productBadge {
+    width: 25px;
+    height: 25px;
+  }
   .newcomment {
     top: 18px !important;
     left: 3px !important;
@@ -129,6 +133,10 @@ html[dir="rtl"] .frameContainer {
     min-height: 0 !important;
     height: auto !important;
     aspect-ratio: 1 / 1 !important;
+  }
+  .productBadge {
+    width: 23px;
+    height: 23px;
   }
   .cardbackground {
     border-radius: var(--br20) !important;
@@ -192,6 +200,12 @@ html[dir="rtl"] .frameContainer {
 }
 html[dir="rtl"] .postidandmenu {
   flex-direction: row-reverse !important;
+}
+
+.postIdAndProduct {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-8);
 }
 
 .postinfo,
@@ -265,6 +279,30 @@ html[dir="rtl"] .postidandmenu {
   contain: layout style paint;
   transform: translateZ(0);
   object-fit: cover;
+}
+
+.productBadge {
+  display: flex;
+  width: 28px;
+  height: 28px;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  background-color: var(--color-white);
+  box-shadow: var(--box-shadow);
+  color: var(--text-h2);
+  pointer-events: none;
+}
+
+.productBadge svg {
+  width: 16px;
+  height: 16px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
 }
 
 /* Fallback style when image failed to load: show a simple colored block with centered icon */

@@ -1,9 +1,9 @@
 import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Loading from "brancy/components/notOk/loading";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
@@ -107,7 +107,7 @@ function AutomaticReply() {
       {loadingStatus && <Loading />}
       {!loadingStatus && (
         <>
-          <FlexibleToggleButton
+          <ToggleButton
             options={[
               { label: t(LanguageKey.navbar_Direct), id: 0 },
               { label: t(LanguageKey.navbar_Comments), id: 1 },

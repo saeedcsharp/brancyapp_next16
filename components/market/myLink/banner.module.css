@@ -1,5 +1,4 @@
 .banner {
-  margin-top: 30px;
   display: flex;
   position: relative;
   width: 100%;
@@ -59,7 +58,7 @@
   border-radius: 50%;
   width: 40px;
   height: 40px;
-  font-size: 18px;
+  font-size: var(--font-fluid-xl);
   cursor: pointer;
   z-index: 10;
   display: flex;
@@ -71,7 +70,7 @@
     right: 10px;
     width: 35px;
     height: 35px;
-    font-size: 14px;
+    font-size: var(--font-fluid-md);
   }
 }
 .playStopButton:hover,
@@ -211,18 +210,18 @@
   justify-content: space-evenly;
 }
 .instaid {
-  font-size: 16px;
+  font-size: var(--font-fluid-lg);
   font-weight: 800;
   line-height: 1;
   @media (max-width: 768px) {
-    font-size: 12px !important;
+    font-size: var(--font-fluid-sm);
   }
 }
 .instausername {
-  font-size: 14px;
+  font-size: var(--font-fluid-md);
   font-weight: 400;
   line-height: 1;
   @media (max-width: 768px) {
-    font-size: 10px !important;
+    font-size: var(--font-fluid-xs);
   }
 }

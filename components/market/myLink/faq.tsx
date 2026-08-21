@@ -3,26 +3,20 @@ import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./faq.module.css";
 import { IFaq } from "brancy/models/interfaces";
-
-// Types
 interface FaqItem {
   id: string;
   question: string;
   answer: string;
   counter: number;
 }
-
 interface FaqState {
   isContentVisible: boolean;
   selectedQuestion: string | null;
 }
-
 type FaqAction =
   | { type: "TOGGLE_CONTENT_VISIBILITY" }
   | { type: "SELECT_QUESTION"; payload: string }
   | { type: "CLOSE_ALL_QUESTIONS" };
-
-// Reducer
 const faqReducer = (state: FaqState, action: FaqAction): FaqState => {
   switch (action.type) {
     case "TOGGLE_CONTENT_VISIBILITY":
@@ -38,19 +32,15 @@ const faqReducer = (state: FaqState, action: FaqAction): FaqState => {
       return state;
   }
 };
-
 const initialState: FaqState = {
   isContentVisible: true,
   selectedQuestion: null,
 };
-
 const Faq = memo(({ data }: { data: IFaq | null }) => {
   const { t } = useTranslation();
   const [state, dispatch] = useReducer(faqReducer, initialState);
   const faqRefs = useRef<(HTMLDivElement | null)[]>([]);
   const currentFocusIndex = useRef<number>(-1);
-
-  // Memoized data
   const faqHeaderText = useMemo(() => {
     const faqText = t(LanguageKey.footer_FAQ);
     const words = faqText.split(" ");
@@ -59,7 +49,6 @@ const Faq = memo(({ data }: { data: IFaq | null }) => {
       highlightedText: words.slice(-1)[0],
     };
   }, [t]);
-
   const faqItems = useMemo((): FaqItem[] => {
     if (!data?.faqs?.length) return [];
     return data.faqs.slice(0, 4).map((faq, index) => ({
@@ -69,17 +58,12 @@ const Faq = memo(({ data }: { data: IFaq | null }) => {
       counter: index + 1,
     }));
   }, [data?.faqs]);
-
-  // Event handlers
   const toggleContentVisibility = useCallback(() => {
     dispatch({ type: "TOGGLE_CONTENT_VISIBILITY" });
   }, []);
-
   const handleQuestionClick = useCallback((questionId: string) => {
     dispatch({ type: "SELECT_QUESTION", payload: questionId });
   }, []);
-
-  // Convert URLs in plain text to clickable links
   const convertLinksToClickable = useCallback((text?: string) => {
     if (!text) return null;
     const regex =
@@ -106,8 +90,6 @@ const Faq = memo(({ data }: { data: IFaq | null }) => {
     }
     return elements;
   }, []);
-
-  // Keyboard navigation handlers
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent, index: number) => {
       switch (e.key) {
@@ -147,8 +129,6 @@ const Faq = memo(({ data }: { data: IFaq | null }) => {
     },
     [faqItems, handleQuestionClick],
   );
-
-  // Update refs array length when items change
   useEffect(() => {
     faqRefs.current = faqRefs.current.slice(0, faqItems.length);
   }, [faqItems.length]);
@@ -156,20 +136,19 @@ const Faq = memo(({ data }: { data: IFaq | null }) => {
   if (!data?.faqs?.length) {
     return null;
   }
-
   return (
     <div key="faq" id="faq" className={styles.all}>
       <header
         className={styles.header}
-        onClick={toggleContentVisibility}
+        // onClick={toggleContentVisibility}
         role="button"
         tabIndex={0}
-        onKeyDown={(e) => {
-          if (e.key === "Enter" || e.key === " ") {
-            e.preventDefault();
-            toggleContentVisibility();
-          }
-        }}
+        // onKeyDown={(e) => {
+        //   if (e.key === "Enter" || e.key === " ") {
+        //     e.preventDefault();
+        //     toggleContentVisibility();
+        //   }
+        // }}
         aria-expanded={state.isContentVisible}
         aria-controls="faq-content"
         aria-labelledby="faq-header">

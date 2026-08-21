@@ -20,7 +20,9 @@
 .frameContainer {
   max-height: 0;
   opacity: 0;
-  transition: max-height 0.3s ease, opacity 0.5s ease;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.5s ease;
 }
 .frameContainer {
   overflow-y: auto;
@@ -35,12 +37,16 @@
   color: var(--text-h1);
   max-height: 0;
   opacity: 0;
-  transition: max-height 0.3s ease, opacity 0.5s ease;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.5s ease;
 }
 .show {
   max-height: 500px;
   opacity: 1;
-  transition: max-height 0.3s ease, opacity 0.5s ease;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.5s ease;
 }
 
 .headersection {
@@ -92,10 +98,12 @@ html[dir="rtl"] .backdropfade {
 .frameContainer {
   max-height: 0;
   opacity: 0;
-  transition: max-height 0.3s ease, opacity 0.5s ease;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.5s ease;
 }
 .frameContainer {
-  overflow-y: scroll;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: var(--gap-30);
@@ -106,12 +114,16 @@ html[dir="rtl"] .backdropfade {
   color: var(--text-h1);
   max-height: 0;
   opacity: 0;
-  transition: max-height 0.3s ease, opacity 0.5s ease;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.5s ease;
 }
 .show {
   max-height: 500px;
   opacity: 1;
-  transition: max-height 0.3s ease, opacity 0.5s ease;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.5s ease;
 }
 .groupWrapper {
   gap: var(--gap-50);

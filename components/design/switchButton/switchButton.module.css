@@ -1,0 +1,87 @@
+.root {
+  position: relative;
+  display: inline-flex;
+  inline-size: 51px;
+  min-inline-size: 51px;
+  block-size: 44px;
+  align-items: center;
+  justify-content: center;
+  flex: 0 0 51px;
+}
+.input {
+  position: absolute;
+  z-index: 1;
+  inset: 0;
+  inline-size: 100%;
+  block-size: 100%;
+  margin: 0;
+  cursor: pointer;
+  opacity: 0;
+}
+.track {
+  position: absolute;
+  inset-inline: 0;
+  inset-block-start: 50%;
+  block-size: 24px;
+  transform: translateY(-50%);
+  background-color: var(--color-gray);
+  border-radius: 999px;
+  transition: var(--transition3);
+}
+.track::before {
+  position: absolute;
+  content: "";
+  inset-block-start: 2px;
+  inset-inline-start: 2px;
+  inline-size: 27px;
+  block-size: 20px;
+  background-color: var(--color-white);
+  border-radius: 999px;
+  transition: var(--transition3);
+}
+.input:checked + .track {
+  background-color: #34c759;
+}
+.input:checked + .track::before {
+  transform: translateX(20px);
+}
+.input:focus-visible + .track {
+  outline: 2px solid var(--color-dark-blue, Highlight);
+  outline-offset: 3px;
+}
+.input:disabled {
+  cursor: not-allowed;
+}
+.input:disabled + .track {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+:dir(rtl) .input:checked + .track::before {
+  transform: translateX(-20px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .track,
+  .track::before {
+    transition: none;
+  }
+}
+@media (forced-colors: active) {
+  .track {
+    background-color: Canvas;
+    border: 1px solid ButtonText;
+    forced-color-adjust: none;
+  }
+  .track::before {
+    background-color: ButtonText;
+  }
+  .input:checked + .track {
+    background-color: Highlight;
+    border-color: Highlight;
+  }
+  .input:checked + .track::before {
+    background-color: HighlightText;
+  }
+  .input:focus-visible + .track {
+    outline-color: Highlight;
+  }
+}

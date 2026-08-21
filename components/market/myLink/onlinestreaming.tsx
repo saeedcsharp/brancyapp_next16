@@ -50,6 +50,7 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
   const { t } = useTranslation();
   const [state, dispatch] = useReducer(streamReducer, initialState);
   const playerRef = useRef<any>(null);
+  const lastUserInteractionRef = useRef(0);
   const activeOptionsCount = useMemo(() => {
     if (!data.onlineStream) return 0;
     let count = 0;
@@ -107,7 +108,6 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
   }, [data.onlineStream?.youtubeChannel?.live?.reDirectUrl]);
   const handleVideoClick = useCallback(
     (platform: "youtube" | "twitch" | "aparat") => {
-      console.log(`ویدیو ${platform} کلیک شد!`);
       const getFixedUrl = (url?: string) => {
         if (!url) return "";
         if (!/^https?:\/\//i.test(url)) {
@@ -117,41 +117,38 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
       };
       switch (platform) {
         case "youtube":
-          // OnClickPlayVideo("youtube", "play");
           const youtubeUrl = getFixedUrl(data.onlineStream?.youtubeChannel?.live?.reDirectUrl);
           if (youtubeUrl) openLinkSmart(youtubeUrl, "youtube");
           break;
         case "aparat":
-          // OnClickPlayVideo("aparat", "play");
           const aparatUrl = getFixedUrl(data.onlineStream?.aparatChannel?.live?.reDirectUrl);
           if (aparatUrl) openLinkSmart(aparatUrl, "aparat");
           break;
         case "twitch":
-          // OnClickPlayVideo("twitch", "play");
           const twitchUrl = getFixedUrl(data.onlineStream?.twitchChannel?.live?.reDirectUrl);
           if (twitchUrl) openLinkSmart(twitchUrl, "twitch");
           break;
-        default:
-          console.log("پلتفرم نامشخص");
       }
     },
     [data.onlineStream],
   );
-  let lastUserInteraction = 0;
-  if (typeof window !== "undefined") {
-    ["click", "touchend", "pointerdown"].forEach((ev) => {
-      window.addEventListener(ev, () => (lastUserInteraction = Date.now()), {
-        passive: true,
-      });
-    });
-  }
+  useEffect(() => {
+    const updateLastUserInteraction = () => {
+      lastUserInteractionRef.current = Date.now();
+    };
+    const eventTypes = ["click", "touchend", "pointerdown"] as const;
+    eventTypes.forEach((eventType) => window.addEventListener(eventType, updateLastUserInteraction, { passive: true }));
+    return () => {
+      eventTypes.forEach((eventType) => window.removeEventListener(eventType, updateLastUserInteraction));
+    };
+  }, []);
   function openLinkSmart(url: string, platform: "youtube" | "twitch" | "aparat") {
     if (typeof window === "undefined") return;
     const ua = navigator.userAgent.toLowerCase();
     const isAndroid = /android/.test(ua);
     const isIOS = /iphone|ipad|ipod/.test(ua);
     const isMobile = isAndroid || isIOS;
-    const hasGesture = Date.now() - lastUserInteraction < 3000;
+    const hasGesture = Date.now() - lastUserInteractionRef.current < 3000;
     const normalizeUrl = (u: string) => {
       if (!u) return "";
       if (!/^https?:\/\//i.test(u)) return `https://${u}`;
@@ -244,13 +241,10 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
                 },
                 events: {
                   onStateChange: (event: any) => {
-                    console.log("YouTube event", event.data);
                     if (event.data === (window as any).YT.PlayerState.PLAYING) {
                       firstFetch = false;
-                      // OnClickPlayVideo("youtube", "play");
                     }
                     if (event.data === (window as any).YT.PlayerState.BUFFERING) {
-                      console.log("YouTube buffering");
                       firstFetch = true;
                     }
                     if (event.data === (window as any).YT.PlayerState.UNSTARTED && firstFetch) {
@@ -276,8 +270,6 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
           const aparatFrame = document.getElementById("AparatLastVideo");
           if (aparatFrame) {
             aparatFrame.addEventListener("click", () => {
-              console.log("Aparat video clicked");
-              // OnClickPlayVideo("aparat", "play");
               const aparatUrl = data.onlineStream?.aparatChannel?.live?.reDirectUrl;
               if (aparatUrl) {
                 window.open(aparatUrl, "_blank");
@@ -291,8 +283,6 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
           const twitchFrame = document.getElementById("TwitchLastVideo");
           if (twitchFrame) {
             twitchFrame.addEventListener("click", () => {
-              console.log("Twitch video clicked");
-              // OnClickPlayVideo("twitch", "play");
               const twitchUrl = data.onlineStream?.twitchChannel?.live?.reDirectUrl;
               if (twitchUrl) {
                 window.open(twitchUrl, "_blank");
@@ -311,7 +301,6 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
   }, [data.onlineStream, state.selectedEmbed]);
   const renderVideoOption = useCallback(
     (platform: "youtube" | "twitch" | "aparat", channel: any) => {
-      console.log("renderVideoOption", channel?.live);
       if (!channel?.live) return null;
       const icons = {
         youtube: (
@@ -381,13 +370,17 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
     }
     return elements;
   }, []);
+  const getTwitchFrameUrl = useCallback((frameUrl: string) => {
+    if (!frameUrl || typeof window === "undefined") return frameUrl;
+    const separator = frameUrl.includes("?") ? "&" : "?";
+    return `${frameUrl}${separator}parent=${encodeURIComponent(window.location.hostname)}`;
+  }, []);
   const renderVideoContent = useCallback(
     (platform: "youtube" | "twitch" | "aparat", channel: any, streamStatus: boolean) => {
       if (!channel?.live) return null;
 
       const embedId = `${platform}Embed`;
       if (state.selectedEmbed !== embedId) return null;
-      // if (platform === "youtube") OnClickPlayVideo("youtube", "redirect");
       return (
         <div className={styles.embedvide} id={embedId} key={platform}>
           {streamStatus && channel.embedVideo && (
@@ -399,7 +392,7 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
                 title={`${platform} video`}
-                src={channel.live.frameUrl}
+                src={platform === "twitch" ? getTwitchFrameUrl(channel.live.frameUrl) : channel.live.frameUrl}
                 loading="lazy"
               />
             </div>
@@ -412,6 +405,8 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
               alt={`${platform} thumbnail`}
               src={channel.live.thumbnailMediaUrl}
               onClick={() => handleVideoClick(platform)}
+              width="100%"
+              height="100%"
               style={{ cursor: "pointer" }}
             />
           )}
@@ -423,26 +418,35 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
                 onClick={() => handleVideoClick(platform)}
                 alt={`${platform} thumbnail`}
                 src={channel.live.filterThumbnailMediaUrl}
-                width={800}
-                height={500}
+                width="100%"
+                height="100%"
                 style={{ cursor: "pointer" }}
               />
             </div>
           )}
           <div className={styles.videodetail}>
-            <h3>{channel.live.title}</h3>
+            <h3>{convertLinksToClickable(channel.live.title)}</h3>
             <div className={styles.contentttext}>{convertLinksToClickable(channel.live.descryption)}</div>
           </div>
         </div>
       );
     },
-    [state.selectedEmbed, handleVideoError, handleRedirectYoutube, handleVideoClick, convertLinksToClickable],
+    [
+      state.selectedEmbed,
+      handleVideoError,
+      handleRedirectYoutube,
+      handleVideoClick,
+      convertLinksToClickable,
+      getTwitchFrameUrl,
+    ],
   );
-  console.log("data.onlineStream", data.onlineStream);
   if (!data.onlineStream) return null;
   return (
     <div key="onlinestreaming" id="onlinestreaming" className={styles.all}>
-      <div className={styles.header} onClick={toggleContentVisibility}>
+      <div
+        className={styles.header}
+        // onClick={toggleContentVisibility}
+      >
         <div className={styles.ribonparent}>
           {(() => {
             const marqueeItems = [

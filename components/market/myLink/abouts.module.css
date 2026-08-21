@@ -1,10 +1,10 @@
 .copyright {
-  margin-block: 100px 60px;
+  margin-block: 100px 20px;
   position: relative;
   align-self: center;
   width: 100%;
   color: var(--text-h1);
-  font-size: 14px;
+  font-size: var(--font-fluid-xs);
   font-weight: 400;
   border-radius: 30px;
   padding: 70px 20px 30px 20px;
@@ -20,11 +20,11 @@
   text-align: center;
   align-content: center;
   @media (max-width: 768px) {
-    font-size: 12px !important;
+    font-size: var(--font-fluid-xs);
     padding: 50px 10px 20px 10px;
     gap: 10px;
     border-radius: 30px;
-    margin-block: 60px 30px;
+    margin-block: 60px 10px;
   }
 }
 .copyrightimg {

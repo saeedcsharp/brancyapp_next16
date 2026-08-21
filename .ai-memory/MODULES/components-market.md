@@ -1,5 +1,11 @@
 # components/market
 
+## MyLink Typography
+
+The MyLink About section displays and links to `Brancy.App` only on the `brancy.app` host; all other hosts use `Brancy.Ir` and `https://www.brancy.ir`.
+
+MyLink CSS modules use the shared fluid typography tokens from `scss/_variables.scss` (`--font-fluid-xs` through `--font-fluid-2xl`). These tokens keep labels, body text, controls, and section headings within readable minimum and maximum sizes across viewport widths, so individual MyLink styles do not use raw pixel `font-size` values or abrupt mobile overrides.
+
 ## Purpose
 
 Component module for market UI and feature concerns.
@@ -134,7 +140,66 @@ Parent module: `components`.
 
 ## Known Issues
 
-No confirmed module-specific issue recorded at initialization.
+Products is enabled in the market properties feature list. Reviews and AdsTimeline remain visually disabled by the feature-properties stylesheet.
+
+## MyLink Products
+
+`components/market/myLink/product.tsx` renders the product-card section with a responsive header. The header keeps Best Sellers and Best Discounts toggles beside a flex-growing product/PID search input on desktop, then stacks the controls below 720px. Best Sellers sorts by the available `inCardCount` signal, Best Discounts sorts by calculated discount percentage, and Show All Products clears both filters and search text.
+
+Product search uses a deferred query and a memoized filter/sort result to keep input responsive for large card collections. The horizontal carousel supports pointer dragging plus focused keyboard navigation with Left/Right, Home, and End keys, including RTL-aware scroll direction. Product and live-stream motion honors `prefers-reduced-motion`.
+
+The product cards render in a free horizontal carousel. The container never wraps, supports native horizontal touch scrolling (`touch-action: pan-x pan-y`) and pointer drag scrolling with the mouse or touch, and does not use scroll snapping. A drag gesture suppresses the card link click that would otherwise open an Instagram URL.
+
+Product cards use a responsive fixed-width range, becoming slightly narrower on tablet and mobile screens. Their thumbnails keep a stable square aspect ratio, while product names reserve two lines and truncate longer text with an ellipsis.
+
+The Products header supplies every backend coupon from `shopperInfo.productCoupons` to the shared `DragDrop` selector without additional client filtering. Each option shows its code, percentage discount, usage count, and deterministic expiry date. The selected coupon has a separate accessible Clipboard API action; successful copying temporarily shows the localized copied state. The selector is omitted only when the returned coupon array is empty.
+
+## MyLink Lifecycle And Metadata
+
+The authenticated MyLink page redirects only from effects, ignores asynchronous results after unmount, presents its three feature dialogs through one exclusive modal state, derives rendered feature nodes from one memoized feature map, and marks its authenticated metadata `noindex, nofollow`. The live-stream and last-video interaction listeners are registered from effects and removed during cleanup.
+
+Market properties link actions pass the shortcut ID directly to the parent alongside the selected statistics, edit, or delete action. `DotMenu` owns only its open/closed state, while the parent owns the selected `linkId`. Clicks inside the links card stop before reaching the page-level `pinContainer`, whose outside-click handler resets the selection sentinel.
+
+Last-video titles and descriptions preserve backend newline characters in the rendered text while keeping embedded links as safe React anchors.
+
+Online-stream titles and descriptions follow the same text rules: backend newline characters remain visible, titles can contain safe clickable links, and the responsive text sizing and line-height remain consistent with last-video content.
+
+# The product module keeps styles for its current header, static presentation coupon, carousel, and product cards; the former collapsible-section state and obsolete legacy header styles were removed.
+
+The Products card intentionally omits the edit-options three-dot control; other movable feature cards continue to expose it. `components/market/properties/popups/product.tsx` loads the complete products with `/api/product/getProductList`, loads current bio products with `/api/product/getBioProductList`, uses the shared cursor-based infinite-scroll helper, supports selecting up to ten product IDs, shows each selected thumbnail's one-based position in the ordered selection as a centered numeric badge, and saves that ordered array through `/api/product/updateShowInBio`.
+
+## MyLink Shortcut Links
+
+`components/market/properties/popups/featureBox.tsx` uses the canonical `/api/bio/getWorkingHours`, `/api/bio/getTermsAndCondtions`, `/api/bio/updateWorkingHours`, and `/api/bio/updateTermsAndConditions` paths. `helper/apiRouteMap.ts` maps these paths to the `Instagramer/Bio/*` backend URLs. A shared `ToggleButton` switches between the embedded `EditBusinessHours` view and the local `EditTermsAndConditions` editor; the shared `Loading` component remains visible until both requests finish. Terms follow the Announcement-style `{ str: string }` response and request contract, and the editor uses one controlled, fixed 200px `TextArea` with a 1,500-character counter. Saving the editors sends `IBusinessHour[]` or `{ str: string }` bodies and closes only after a successful response.
+
+`components/market/myLink/featureBox.tsx` renders FeatureBox cards in free mode: the section has native horizontal overflow without scroll snapping, supports touch/trackpad scrolling and primary-button pointer dragging across browsers, and prevents a drag gesture from triggering a tile click. The layout starts at the logical inline start on every viewport and keeps keyboard focus and reduced-motion styles available.
+
+The MyLink FeatureBox also renders a clickable lottery card with `/icon-lottery.svg` when `GetMyLink` returns ended lotteries. It opens a MyLink modal with at most five entries, and selecting an entry shows its winners from the already-loaded `IFullLottery` data. This flow intentionally has no score-lottery creation controls, slider, Share Story action, or Excel export.
+
+The MyLink Terms, Working Hours, and Lottery popups render the shared `EmptyPopupState` with a localized label when their terms text, business-hours array, or ended-lottery list is empty. Lottery winner absence remains a detail-level state for a selected lottery.
+
+`components/market/myLink/link.tsx` renders shortcut cards with a desktop maximum width of 250px. On mobile, the shortcut section becomes a free horizontal carousel with native touch scrolling and pointer dragging only when horizontal overflow exists; when more than four links exist, each mobile card is reduced to 200px. Dragging suppresses the click that would otherwise redirect to a shortcut URL, while ordinary clicks remain available when the content is not scrollable.
+
+Shortcut expiration values are Unix timestamps in seconds. `CountdownTimerForLink` displays days before the remaining hours when the duration reaches 24 hours, using `DD:HH:MM:SS`; shorter durations remain `HH:MM:SS`.
+
+`components/market/myLink/menubar.tsx` keeps feature navigation in free horizontal mode. The intersection observer uses a stable viewport anchor and the rendered feature list to update the active menu item during manual page scrolling and smooth feature navigation; the active button is then centered inside the menubar. Reduced-motion users receive an instant reposition instead of smooth scrolling.
+
+The MyLink page prepends a permanent Home menu item for `FeatureType.FeaturesBox` and initializes the menubar on that item. `ContactAndMap` does not autofocus a contact link during mount, so rendering the section cannot pull the browser viewport away from the top FeatureBox section.
+
+## Domain Manager
+
+`components/market/properties/domainManager.tsx` owns custom-domain normalization and validation. It lowercases values, removes supported URL decoration and trailing slashes, rejects malformed labels, unsupported characters, subdomains, overlong domains, and reserved Brancy domains, and signals invalid request attempts through `InputText`'s one-shot shake prop. Once a pending domain exists, the request form is not rendered and a three-step progress indicator reflects DNS verification and connection state. The DNS verification cooldown is rendered inside the disabled verification button and the button returns to the enabled Connect action after expiry.
+Requests require a Persian responsibility/delay confirmation. Pending domains use one shared name-server stage with cancellation and a five-minute cooldown; its single Connect action calls connect and verify consecutively, failed DNS propagation remains pending with a Persian retry message, and active domains show Settings ticket guidance for changes.
+
+The Domain Manager uses a native request form for Enter submission. A valid request sends `Instagramer/Bio/UpdateCustomDomain` directly without a confirmation modal or client-side feature gate; duplicate in-flight submissions remain blocked. Its mounted guard is re-enabled when the component effect starts so React Strict Mode's development cleanup/setup cycle cannot leave the Request button stuck in its loading state. It renders custom-domain rules as a semantic list only when the Custom Domain radio is selected, memoized domain/link calculations, native anchors and buttons for keyboard access, and cancellable API requests with unmount/session cleanup. Authenticated Properties metadata is marked noindex and does not expose a public canonical URL.
+
+The default and custom domain sections are presented as mutually exclusive radio choices. The selected panel remains fully visible while the inactive panel content receives the shared `fadeDiv` treatment.
+
+The shared destination-links section is gated by the selected domain type. It is visible for the default option, while the custom option requires `isCustomDomainActive`; its destination URLs use the accepted custom-domain URI only in that selected active state.
+
+Default username-based links use the path form `baseShortUrl/username` only when the username contains a period (`.`); usernames containing `_` or `-` continue to use the subdomain form `username.baseShortUrl`. This applies to the default-domain display and destination links; accepted custom-domain links continue to use the custom domain itself. Domain displays do not add a `www.` prefix, and the alternate default link is hidden when it resolves to the same path.
+
+When `isDevMode` is enabled, the Domain Manager also exposes a local-only `مرحله بعدی (تست)` control. It advances a pending domain from the name-server step to the completed-DNS step and then to an active accepted-domain state without sending an API request; the existing Delete control remains the backend cleanup action.
 
 ## Technical Debt
 
@@ -146,7 +211,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-08-07
 
 ---
 
@@ -155,13 +220,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

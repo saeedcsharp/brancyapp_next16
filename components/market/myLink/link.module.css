@@ -3,11 +3,11 @@
     padding-inline: 20px !important;
   }
   .linketitle {
-    font-size: 16px !important;
+    font-size: var(--font-fluid-lg);
     font-weight: 600 !important;
   }
   .linkexplain {
-    font-size: 12px !important;
+    font-size: var(--font-fluid-sm);
     font-weight: 400 !important;
   }
   .all {
@@ -19,7 +19,7 @@
   }
   .headertext {
     bottom: -10px !important;
-    font-size: 20px !important;
+    font-size: var(--font-fluid-md);
     font-weight: 500 !important;
   }
 }
@@ -34,7 +34,7 @@
   flex-direction: column;
   align-content: center;
   gap: 30px;
-  padding: 60px 0px;
+  padding: 40px 0px;
 }
 .header {
   text-wrap: nowrap;
@@ -80,7 +80,7 @@
   position: absolute;
   transform: translateX(-50%);
   color: var(--text-h1);
-  font-size: 30px;
+  font-size: var(--font-fluid-2xl);
   font-weight: 700;
   text-transform: capitalize;
   flex-direction: row;
@@ -88,11 +88,7 @@
 }
 .headertextblue {
   font-weight: 700;
-  background: linear-gradient(
-    to right,
-    var(--color-dark-blue),
-    var(--color-light-blue)
-  );
+  background: linear-gradient(to right, var(--color-dark-blue), var(--color-light-blue));
   -webkit-background-clip: text;
   background-clip: text;
   -webkit-text-fill-color: transparent;
@@ -100,7 +96,9 @@
 .content {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s ease;
+  transition:
+    max-height 0.6s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease;
   opacity: 0;
   position: relative;
   display: flex;
@@ -111,9 +109,14 @@
   align-items: flex-start;
   width: 100%;
   max-width: 1440px;
-  padding-top: 50px;
+  padding-top: 10px;
   gap: 20px;
   will-change: max-height, opacity;
+}
+
+.dragging {
+  cursor: grabbing;
+  user-select: none;
 }
 
 .show {
@@ -151,9 +154,11 @@
   bottom: -2px;
   border-radius: 32px;
   padding: 2px;
-  -webkit-mask: linear-gradient(var(--color-ffffff) 0 0) content-box,
+  -webkit-mask:
+    linear-gradient(var(--color-ffffff) 0 0) content-box,
     linear-gradient(var(--color-ffffff) 0 0);
-  mask: linear-gradient(var(--color-ffffff) 0 0) content-box,
+  mask:
+    linear-gradient(var(--color-ffffff) 0 0) content-box,
     linear-gradient(var(--color-ffffff) 0 0);
   -webkit-mask-composite: xor;
   mask-composite: exclude;
@@ -248,6 +253,32 @@
   outline: none;
 }
 
+.compact {
+  flex-basis: 200px;
+  max-width: 200px;
+}
+
+@media (max-width: 720px) {
+  .content {
+    flex-wrap: nowrap;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overflow-y: hidden;
+    touch-action: pan-x pan-y;
+    cursor: grab;
+    scrollbar-width: thin;
+  }
+
+  .shortcutlink {
+    flex: 0 0 250px;
+  }
+
+  .compact {
+    flex-basis: 200px;
+    max-width: 200px;
+  }
+}
+
 .shortcutlink:hover,
 .shortcutlink:focus-visible {
   transform: translate3d(0, -5px, 0);
@@ -273,10 +304,11 @@
   background-color: var(--color-gray10);
   border-radius: 30px;
   aspect-ratio: 6/5;
+  min-height: 230px;
   min-width: 100px;
   width: calc(100% + 20px);
-  padding: 10px;
-  gap: 3px;
+  padding: 96px 14px 14px;
+  gap: 8px;
   overflow: hidden;
   position: relative;
   align-items: center;
@@ -285,7 +317,9 @@
   flex-direction: column;
   color: var(--text-h1);
   cursor: pointer;
-  transition: background-color 0.3s ease, transform 0.2s ease;
+  transition:
+    background-color 0.3s ease,
+    transform 0.2s ease;
   will-change: background-color;
   transform: translateZ(0);
 }
@@ -324,12 +358,14 @@
 
 .linketitle {
   width: 100%;
+  min-height: 30px;
+  flex-shrink: 0;
   display: flex;
   flex-direction: row;
   align-items: center;
   justify-content: center;
   gap: 10px;
-  font-size: 20px;
+  font-size: var(--font-fluid-md);
   font-weight: 600;
   color: var(--text-h1);
   text-align: center;
@@ -348,7 +384,7 @@
   flex-direction: column;
   align-items: center;
   gap: 10px;
-  font-size: 14px;
+  font-size: var(--font-fluid-sm);
   font-weight: 400;
   color: var(--text-h1);
   text-align: center;
@@ -365,22 +401,38 @@
 
 .linkexpire {
   width: 100%;
+  min-height: 24px;
+  flex-shrink: 0;
   display: flex;
   align-items: center;
   justify-content: center;
-  font-size: 12px;
+  font-size: var(--font-fluid-sm);
   font-weight: 500;
   color: #f04438;
   text-align: center;
-  gap: 5px;
+  gap: 10px;
+}
+
+.expireIcon {
+  width: 20px;
+  height: 20px;
+  flex: 0 0 20px;
+  fill: none;
+  stroke: currentColor;
+  stroke-linecap: round;
+  stroke-linejoin: round;
+  stroke-width: 1.8;
 }
 
 .countdown {
   font-weight: 700;
   color: #f04438;
-  width: 55px;
+  min-width: 0;
+  width: auto;
+  max-width: 100%;
+  white-space: nowrap;
   display: flex;
-  font-size: 11px;
+  font-size: var(--font-fluid-xs);
   letter-spacing: 0.5px;
   transition: all 0.3s ease;
   align-content: center;
@@ -394,5 +446,5 @@
   color: #dc3545;
   padding: 2px 6px;
   border-radius: 4px;
-  font-size: 11px;
+  font-size: var(--font-fluid-xs);
 }

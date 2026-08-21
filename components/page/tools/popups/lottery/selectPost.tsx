@@ -62,8 +62,8 @@ const SelectPost = (props: {
       if (newData.length > 0) {
         setPost((prev) => [...prev, ...newData]);
         setNextTime(newData[newData.length - 1].createdTime);
-        setHasMore(hasMoreData);
       }
+      setHasMore(hasMoreData);
     },
     getItemId: (item) => item.postId,
     currentData: post,

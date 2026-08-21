@@ -2,7 +2,7 @@ import { useSession } from "next-auth/react";
 import { ChangeEvent, CSSProperties, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import priceFormatter from "brancy/helper/priceFormater";
@@ -857,7 +857,7 @@ function Variation({
                             }}>
                             {customeTitleVar}
                           </div>
-                          <InputText
+                          <InputBox
                             className={
                               sub.customVariation && sub.customVariation.length > 0 ? "textinputbox" : "danger"
                             }
@@ -921,7 +921,7 @@ function Variation({
                         <div className={styles.stockheaderandinput}>
                           <div className="headertext">{t(LanguageKey.Storeproduct_stock)}</div>
                           <div className={styles.stocksection}>
-                            <InputText
+                            <InputBox
                               name=""
                               className="textinputbox"
                               placeHolder="number"
@@ -1182,7 +1182,7 @@ function Variation({
                                 </div>
                               )}
                             </div>
-                            <InputText
+                            <InputBox
                               name=""
                               className={sub.price === 0 && rawValue[i].price !== "" ? "danger" : "textinputbox"}
                               placeHolder={t(LanguageKey.pageToolspopup_typehere)}

@@ -1,7 +1,7 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useState } from "react";
 import FiveStar from "brancy/components/fiveStar";
-import styles from "./mylink.module.css";
+import styles from "./reviews.module.css";
 import { IReviews } from "brancy/models/interfaces";
 const Reviews = ({ data }: { data: IReviews | null }) => {
   const baseMediaUrl = getClientMediaBaseUrl();
@@ -13,7 +13,10 @@ const Reviews = ({ data }: { data: IReviews | null }) => {
     <>
       {data && data.reviews.length > 0 && (
         <div key={"reviews"} id="reviews" className={styles.all}>
-          <div className={styles.header} onClick={toggleContentVisibility}>
+          <div
+            className={styles.header}
+            // onClick={toggleContentVisibility}
+          >
             <div className={`${styles.squre} ${!isContentVisible ? styles.closed : ""}`}></div>
             <div className={styles.headertext}>
               Reviews

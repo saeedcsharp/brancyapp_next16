@@ -1,0 +1,258 @@
+.container {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  margin: 5px 0 10px;
+  padding: var(--paddingbox);
+  border-radius: var(--br25);
+  background: var(--color-white);
+  color: var(--text-h1);
+  animation: var(--bottom14);
+  transition: var(--transition3);
+  box-shadow: 0 8px 24px rgb(30 41 59 / 6%);
+}
+
+.container::before {
+  position: absolute;
+  inset: 0 0 auto;
+  height: 4px;
+  background: linear-gradient(90deg, var(--color-green), var(--color-blue));
+  content: "";
+}
+
+.container:hover {
+  box-shadow: var(--box-shadow);
+}
+
+.header,
+.header > div,
+.visibilityControl,
+.codeRow,
+.details {
+  display: flex;
+  align-items: center;
+}
+
+.header {
+  justify-content: space-between;
+  gap: var(--gap-10);
+  margin-bottom: var(--gap-20);
+  padding-top: 4px;
+}
+.header > div {
+  gap: var(--gap-10);
+}
+.status {
+  flex: 0 0 auto;
+  border-radius: var(--br10);
+  background: rgb(34 197 94 / 12%);
+  color: var(--color-green);
+  font-weight: var(--weight-600);
+  font-size: var(--font-12);
+  padding: 5px 9px;
+  white-space: nowrap;
+}
+
+.actions {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-10);
+}
+.filterToolbar {
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  width: 100%;
+  margin-bottom: var(--gap-15);
+}
+.filterGroup {
+  display: flex;
+  width: 100%;
+  gap: 8px;
+  padding: 4px;
+  border: 1px solid rgb(148 163 184 / 18%);
+  border-radius: 8px;
+  background: rgb(148 163 184 / 9%);
+}
+.filter {
+  display: inline-flex;
+  align-items: center;
+  flex: 1;
+  gap: 8px;
+  min-height: 38px;
+  padding: 0 12px;
+  border: 1px solid transparent;
+  border-radius: 6px;
+  color: var(--text-h2);
+  font-size: var(--font-12);
+  cursor: pointer;
+  transition:
+    background-color 180ms ease,
+    border-color 180ms ease,
+    color 180ms ease;
+}
+.filterSelected {
+  border-color: rgb(34 197 94 / 30%);
+  background: var(--color-white);
+  color: var(--color-green);
+  box-shadow: 0 2px 8px rgb(34 197 94 / 10%);
+}
+.visibilityControl {
+  min-height: 44px;
+  justify-content: space-between;
+  gap: var(--gap-10);
+  color: var(--text-h2);
+  font-size: var(--font-14);
+}
+
+.list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: var(--gap-15);
+  margin-top: var(--gap-20);
+}
+.coupon {
+  position: relative;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-15);
+  padding: 16px;
+  border: 1px solid rgb(148 163 184 / 22%);
+  border-radius: var(--br10);
+  background: linear-gradient(145deg, var(--color-white), var(--background-root));
+  box-shadow: 0 4px 14px rgb(30 41 59 / 5%);
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.coupon::after {
+  position: absolute;
+  top: 0;
+  inset-inline-end: 0;
+  width: 46px;
+  height: 46px;
+  border-radius: 0 0 0 100%;
+  background: rgb(34 197 94 / 8%);
+  content: "";
+  pointer-events: none;
+}
+
+.coupon:hover {
+  border-color: rgb(34 197 94 / 35%);
+  box-shadow: 0 10px 22px rgb(30 41 59 / 10%);
+  transform: translateY(-2px);
+}
+.codeRow {
+  justify-content: space-between;
+  gap: var(--gap-10);
+  min-width: 0;
+}
+.codeRow button {
+  position: relative;
+  z-index: 1;
+}
+.codeRow strong {
+  position: relative;
+  z-index: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  letter-spacing: 0;
+  color: var(--text-h1);
+  font-size: var(--font-16);
+  font-weight: var(--weight-600);
+}
+.inactive {
+  background: rgb(239 68 68 / 10%);
+  color: var(--color-red);
+}
+.details {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 8px;
+  color: var(--text-h2);
+  font-size: var(--font-12);
+}
+
+.details span {
+  min-width: 0;
+  padding: 8px 10px;
+  border: 1px solid rgb(148 163 184 / 16%);
+  border-radius: 7px;
+  background: rgb(148 163 184 / 6%);
+  line-height: 1.5;
+  overflow-wrap: anywhere;
+}
+
+.activationControl {
+  display: inline-flex;
+  align-items: center;
+  gap: var(--gap-10);
+  white-space: nowrap;
+}
+
+.loading,
+.empty {
+  min-height: 110px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0;
+  color: var(--text-h2);
+}
+
+.loadingMore {
+  display: flex;
+  justify-content: center;
+  grid-column: 1 / -1;
+  min-height: 70px;
+  align-items: center;
+}
+
+@media (max-width: 560px) {
+  .container {
+    width: 100%;
+    margin-inline: 0;
+    padding: var(--paddingboxmobile);
+  }
+  .header {
+    align-items: flex-start;
+  }
+  .actions {
+    flex-direction: column;
+    align-items: flex-end;
+  }
+  .filterToolbar {
+    justify-content: stretch;
+  }
+  .filter {
+    flex: 1;
+    justify-content: space-between;
+  }
+  .coupon {
+    padding: 14px;
+  }
+  .codeRow {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .status {
+    align-self: flex-start;
+  }
+  .details {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .coupon {
+    transition: none;
+  }
+
+  .coupon:hover {
+    transform: none;
+  }
+}

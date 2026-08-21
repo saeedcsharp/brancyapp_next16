@@ -6,17 +6,27 @@ import { ToolType } from "brancy/models/enums";
 import { ITool } from "brancy/models/interfaces";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import styles from "./AIToolsSettings.module.css";
-interface AIToolParameter {
-  name: string;
-  description: string;
-  type: string;
-  isRequired: boolean;
-  generateWithAI: boolean;
-}
+import { AIToolParameter } from "brancy/models/interfaces";
 interface AITool {
   name: string;
   description: string;
   completeDescription: string;
+  completeDescriptionEn: string;
+  completeDescriptionRu: string;
+  completeDescriptionFa: string;
+  completeDescriptionDe: string;
+  completeDescriptionTr: string;
+  completeDescriptionAz: string;
+  completeDescriptionAr: string;
+  completeDescriptionFr: string;
+  displayNameEn: string;
+  displayNameFa: string;
+  displayNameRu: string;
+  displayNameDe: string;
+  displayNameTr: string;
+  displayNameAz: string;
+  displayNameAr: string;
+  displayNameFr: string;
   tokenUsage: number;
   parameters: AIToolParameter[];
   toolType: ToolType;
@@ -46,7 +56,7 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
   paramValues,
   setParamValues,
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const buildParamValues = (tools: ITool[], allAITools: AITool[]): ParamValues => {
     const initial: ParamValues = {};
     tools.forEach((existingTool) => {
@@ -69,11 +79,27 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
       return merged;
     });
   }, [existingTools]);
-  // اضافه کردن آیتم username به لیست ابزارها
+  // افزودن placeholder نام کاربری فرستنده به پرامپت
   const usernameItem: AITool = {
-    name: "{SENDER_USERNAME}",
+    name: "SENDER_USERNAME",
     description: "Use username in your prompt",
     completeDescription: "Use username in your prompt",
+    completeDescriptionEn: "",
+    completeDescriptionRu: "",
+    completeDescriptionFa: "",
+    completeDescriptionDe: "",
+    completeDescriptionTr: "",
+    completeDescriptionAz: "",
+    completeDescriptionAr: "",
+    completeDescriptionFr: "",
+    displayNameEn: "",
+    displayNameFa: "",
+    displayNameRu: "",
+    displayNameDe: "",
+    displayNameTr: "",
+    displayNameAz: "",
+    displayNameAr: "",
+    displayNameFr: "",
     tokenUsage: 0,
     parameters: [],
     toolType: ToolType.SendTelegramMessage,
@@ -106,7 +132,7 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
   };
   const isAddToolEnabled = (item: AITool): boolean => {
     const requiredManualParams = item.parameters.filter((p) => p.isRequired && !p.generateWithAI);
-    if (requiredManualParams.length === 0) return false;
+    if (requiredManualParams.length === 0) return true;
     return requiredManualParams.every((p) => {
       const val = paramValues[item.name]?.[p.name];
       return val && val.trim().length > 0;
@@ -125,15 +151,8 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
     onClose();
   };
   const handleAddToPrompt = (item: AITool) => {
-    onAddToPrompt(item.name);
+    onAddToPrompt(`[${item.name}]`);
     onClose();
-  };
-
-  // متن دلخواه
-  const nameMap: Record<string, string> = {
-    send_sms_ir_code: LanguageKey.sendsms,
-    send_to_telegram: LanguageKey.sendtotelegram,
-    SENDER_USERNAME: LanguageKey.senderusername,
   };
 
   const overrideContentMap: Record<
@@ -168,9 +187,23 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
   };
 
   // 👇 مهم: اینجا t() اضافه شد
-  const getDisplayName = (name: string) => {
-    const key = nameMap[name];
-    return key ? t(key) : name;
+  const getDisplayName = (item: AITool) => {
+    if (item.name === "SENDER_USERNAME") return t(LanguageKey.senderusername);
+
+    const language = (i18n.language ?? "en").split("-")[0].toLowerCase();
+    const displayNames: Record<string, string> = {
+      en: item.displayNameEn,
+      ru: item.displayNameRu,
+      fa: item.displayNameFa,
+      de: item.displayNameDe,
+      gr: item.displayNameDe,
+      tr: item.displayNameTr,
+      az: item.displayNameAz,
+      ar: item.displayNameAr,
+      fr: item.displayNameFr,
+    };
+
+    return displayNames[language] || item.displayNameEn || item.name;
   };
 
   const getDescription = (item: any) => {
@@ -180,9 +213,24 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
   };
 
   const getCompleteDescription = (item: any) => {
-    const key = overrideContentMap[item.name]?.completeDescription ?? item.completeDescription;
+    if (item.name === "SENDER_USERNAME") {
+      return t(overrideContentMap[item.name].completeDescription);
+    }
 
-    return t(key);
+    const language = (i18n.language ?? "en").split("-")[0].toLowerCase();
+    const descriptions: Record<string, string> = {
+      en: item.completeDescriptionEn,
+      ru: item.completeDescriptionRu,
+      fa: item.completeDescriptionFa,
+      de: item.completeDescriptionDe,
+      gr: item.completeDescriptionDe,
+      tr: item.completeDescriptionTr,
+      az: item.completeDescriptionAz,
+      ar: item.completeDescriptionAr,
+      fr: item.completeDescriptionFr,
+    };
+
+    return descriptions[language] || item.completeDescriptionEn || item.completeDescription;
   };
 
   const getHowWork = (item: any) => {
@@ -196,15 +244,31 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
 
     return t(key);
   };
+
+  const getParameterDescription = (parameter: AIToolParameter): string => {
+    const language = (i18n.language ?? "en").split("-")[0].toLowerCase();
+    const descriptions: Record<string, string> = {
+      en: parameter.completeDescriptionEn,
+      ru: parameter.completeDescriptionRu,
+      fa: parameter.completeDescriptionFa,
+      gr: parameter.completeDescriptionDe,
+      tr: parameter.completeDescriptionTr,
+      az: parameter.completeDescriptionAz,
+      ar: parameter.completeDescriptionAr,
+      fr: parameter.completeDescriptionFr,
+    };
+
+    return descriptions[language] || parameter.completeDescriptionEn || parameter.description;
+  };
   return (
     <>
       {toolsToDisplay.map((item, index) => (
         <React.Fragment key={index}>
           <div className="headerandinput">
-            <div className="title"> {getDisplayName(item.name)}</div>
-            <div className="explain" style={{ whiteSpace: "pre-line" }}>
+            <div className="title"> {getDisplayName(item)}</div>
+            {/* <div className="explain" style={{ whiteSpace: "pre-line" }}>
               {getDescription(item)}
-            </div>
+            </div> */}
           </div>
           <div className={styles.container}>
             <div className="explain" style={{ whiteSpace: "pre-line" }}>
@@ -229,7 +293,7 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
                           className="TextArea"
                           role="textbox"
                           title={des.name}
-                          placeHolder={des.description}
+                          placeHolder={getParameterDescription(des)}
                           style={{ maxHeight: "80px" }}
                           value={paramValues[item.name]?.[des.name] ?? ""}
                           handleInputChange={(e) => handleParamChange(item.name, des.name, e.target.value)}
@@ -257,29 +321,23 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
                 {item.tokenUsage}
               </div>
             </div>
-            <div className="headerandinput">
-              <div className="title2">{t(LanguageKey.tool_how_use)}</div>
-              <div className="explain" style={{ whiteSpace: "pre-line" }}>
-                {getHowUse(item)}
-              </div>
-            </div>
-            <div className="headerandinput">
-              <div className="title2">{t(LanguageKey.tool_how_work)}</div>
-              <div className="explain" style={{ whiteSpace: "pre-line" }}>
-                {getHowWork(item)}
-              </div>
-            </div>
           </div>
 
           <div className="ButtonContainer" role="group">
-            {item.parameters.some((p) => p.isRequired && !p.generateWithAI) && (
-              <button
-                className={`saveButton ${!isAddToolEnabled(item) ? "fadeDiv" : ""}`}
-                onClick={() => handleAddTool(item)}
-                disabled={!isAddToolEnabled(item)}
-                aria-label="Add tool">
-                {t(LanguageKey.addtools)}
+            {item.name === "SENDER_USERNAME" ? (
+              <button className="saveButton" onClick={() => handleAddToPrompt(item)} aria-label="Add sender username">
+                {t(LanguageKey.usethisPrompt)}
               </button>
+            ) : (
+              (item.parameters.length === 0 || item.parameters.some((p) => p.isRequired && !p.generateWithAI)) && (
+                <button
+                  className={`saveButton ${!isAddToolEnabled(item) ? "fadeDiv" : ""}`}
+                  onClick={() => handleAddTool(item)}
+                  disabled={!isAddToolEnabled(item)}
+                  aria-label="Add tool">
+                  {t(LanguageKey.addtools)}
+                </button>
+              )
             )}
             <button className="cancelButton" onClick={onClose} aria-label="Cancel and close quick reply settings">
               {t(LanguageKey.close)}

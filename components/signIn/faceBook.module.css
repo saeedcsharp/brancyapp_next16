@@ -9,7 +9,7 @@
 }
 
 .frameContainer {
-  overflow-y: scroll;
+  overflow-y: auto;
   display: flex;
   flex-direction: column;
   gap: var(--gap-30);

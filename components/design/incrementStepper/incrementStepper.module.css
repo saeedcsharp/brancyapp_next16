@@ -1,0 +1,139 @@
+.IncrementStepper {
+  position: relative;
+  display: inline-flex;
+  justify-content: space-between;
+  align-items: center;
+  box-sizing: border-box;
+  inline-size: min(100%, 110px);
+  min-inline-size: 110px;
+  min-block-size: 40px;
+  gap: var(--gap-5);
+  border-radius: var(--br10);
+  padding-inline: var(--padding-5);
+  background-color: var(--color-gray10);
+  transition: var(--transition3);
+  border: 1px solid transparent;
+  touch-action: manipulation;
+}
+
+.control {
+  display: inline-flex;
+  flex: 0 0 30px;
+  align-items: center;
+  justify-content: center;
+  box-sizing: border-box;
+  inline-size: 30px;
+  block-size: 30px;
+  padding: 0;
+  border: 0;
+  border-radius: var(--br5);
+  color: var(--text-h2);
+  background-color: transparent;
+  cursor: pointer;
+  transition: var(--transition3);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .IncrementStepper:hover {
+    border: 1px solid var(--color-gray30);
+  }
+
+  .control:hover:not(:disabled) {
+    background-color: var(--color-gray30);
+  }
+}
+
+.control:active:not(:disabled) {
+  transform: scale(0.96);
+}
+
+.control:disabled {
+  color: var(--color-gray);
+  cursor: not-allowed;
+  opacity: 0.6;
+}
+
+.value {
+  flex: 1 1 0;
+  box-sizing: border-box;
+  min-inline-size: 0;
+  padding: 0;
+  border: 0;
+  border-radius: var(--br5);
+  color: var(--text-h1);
+  font-size: var(--font-16);
+  font-weight: var(--weight-400);
+  background: transparent;
+  text-align: center;
+}
+
+.value:focus-visible {
+  outline: 2px solid var(--color-dark-blue);
+  outline-offset: -2px;
+}
+
+.value:disabled {
+  cursor: default;
+}
+
+@keyframes shake {
+  0%,
+  100% {
+    transform: translateX(0);
+  }
+  10%,
+  30%,
+  50%,
+  70%,
+  90% {
+    transform: translateX(-1px);
+  }
+  20%,
+  40%,
+  60%,
+  80% {
+    transform: translateX(1px);
+  }
+}
+
+.isShaking {
+  animation: shake 0.5s ease-in-out;
+}
+
+@media (max-width: 360px) {
+  .IncrementStepper {
+    inline-size: 100%;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .IncrementStepper,
+  .control {
+    transition: none;
+  }
+
+  .isShaking {
+    animation: none;
+  }
+}
+
+@media (forced-colors: active) {
+  .IncrementStepper {
+    border: 1px solid CanvasText;
+    background: Canvas;
+  }
+
+  .control {
+    color: ButtonText;
+    background: ButtonFace;
+  }
+
+  .value {
+    color: CanvasText;
+    background: Canvas;
+  }
+
+  .control:disabled {
+    color: GrayText;
+  }
+}

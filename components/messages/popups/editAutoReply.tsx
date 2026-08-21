@@ -3,14 +3,14 @@ import Head from "next/head";
 import router from "next/router";
 import React, { ChangeEvent, useCallback, useEffect, useId, useMemo, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
-import RadioButton from "brancy/components/design/radioButton";
+import RadioButton from "brancy/components/design/radioButton/radioButton";
 import TextArea from "brancy/components/design/textArea/textArea";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import Loading from "brancy/components/notOk/loading";
 import {
@@ -33,14 +33,22 @@ import {
   IDetailPrompt,
   IMasterFlow,
   ITotalMasterFlow,
+  IProduct_ShortProduct,
 } from "brancy/models/interfaces";
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 type CheckBoxState = {
   Custom: boolean;
   Flow: boolean;
   AI: boolean;
   GeneralAI: boolean;
+  ConnectProduct: boolean;
 };
-type CheckBoxAction = { type: "SET_CUSTOM" } | { type: "SET_FLOW" } | { type: "SET_AI" } | { type: "SET_GENERAL_AI" };
+type CheckBoxAction =
+  | { type: "SET_CUSTOM" }
+  | { type: "SET_FLOW" }
+  | { type: "SET_AI" }
+  | { type: "SET_GENERAL_AI" }
+  | { type: "SET_CONNECT_PRODUCT" };
 type LoadingState = {
   isLoading: boolean;
   isLoadingMoreAIItems: boolean;
@@ -61,7 +69,10 @@ interface QuickReplyPopupProps {
   handleSaveAutoReply: (sendReply: ICreateGeneralAutoReply) => void;
   handleActiveAutoReply: (e: ChangeEvent<HTMLInputElement>, id: string) => void;
   autoReply: IGeneralAutoReply;
+  setShowProductPopup?: () => void;
+  selectedProduct?: IProduct_ShortProduct | null;
 }
+const basePictureUrl = getClientMediaBaseUrl();
 const checkBoxReducer = (state: CheckBoxState, action: CheckBoxAction): CheckBoxState => {
   switch (action.type) {
     case "SET_CUSTOM":
@@ -70,6 +81,7 @@ const checkBoxReducer = (state: CheckBoxState, action: CheckBoxAction): CheckBox
         AI: false,
         Flow: false,
         GeneralAI: false,
+        ConnectProduct: false,
       };
     case "SET_AI":
       return {
@@ -77,6 +89,7 @@ const checkBoxReducer = (state: CheckBoxState, action: CheckBoxAction): CheckBox
         AI: true,
         Flow: false,
         GeneralAI: false,
+        ConnectProduct: false,
       };
     case "SET_FLOW":
       return {
@@ -84,6 +97,7 @@ const checkBoxReducer = (state: CheckBoxState, action: CheckBoxAction): CheckBox
         AI: false,
         Flow: true,
         GeneralAI: false,
+        ConnectProduct: false,
       };
     case "SET_GENERAL_AI":
       return {
@@ -91,6 +105,15 @@ const checkBoxReducer = (state: CheckBoxState, action: CheckBoxAction): CheckBox
         AI: false,
         Flow: false,
         GeneralAI: true,
+        ConnectProduct: false,
+      };
+    case "SET_CONNECT_PRODUCT":
+      return {
+        Custom: false,
+        AI: false,
+        Flow: false,
+        GeneralAI: false,
+        ConnectProduct: true,
       };
     default:
       return state;
@@ -128,6 +151,8 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
   handleSaveAutoReply,
   handleActiveAutoReply,
   autoReply,
+  selectedProduct,
+  setShowProductPopup,
 }) => {
   const { t } = useTranslation();
   const { data: session } = useSession();
@@ -185,6 +210,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
     AI: autoReply.automaticType === AutoReplyPayLoadType.AI,
     Flow: autoReply.automaticType === AutoReplyPayLoadType.Flow,
     GeneralAI: autoReply.automaticType === AutoReplyPayLoadType.GeneralAI,
+    ConnectProduct: autoReply.automaticType === AutoReplyPayLoadType.ConnectProduct,
   });
   const [loadingState, setDispatchLoading] = useReducer(loadingReducer, {
     isLoading: false,
@@ -219,6 +245,9 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
       case "GeneralAI":
         dispatchCheckBox({ type: "SET_GENERAL_AI" });
         break;
+      case "ConnectProduct":
+        dispatchCheckBox({ type: "SET_CONNECT_PRODUCT" });
+        break;
     }
   }, []);
   const handleUpdateAutoReply = useCallback(() => {
@@ -235,6 +264,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
       title: autoReplytitle,
       replySuccessfullyDirected: replySuccessfullyDirected,
       customRepliesSuccessfullyDirected: customRepliesSuccessfullyDirected,
+      productId: selectedProduct?.productId || autoReply.productId || "",
     };
     if (checkBox.AI) {
       sendAuto = {
@@ -258,6 +288,12 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
       sendAuto = {
         ...sendAuto,
         automaticType: AutoReplyPayLoadType.GeneralAI,
+      };
+    } else if (checkBox.ConnectProduct) {
+      sendAuto = {
+        ...sendAuto,
+        automaticType: AutoReplyPayLoadType.ConnectProduct,
+        productId: selectedProduct?.productId || autoReply.productId || "",
       };
     }
     handleSaveAutoReply(sendAuto);
@@ -613,11 +649,12 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
     const isTitleValid = autoReplytitle.length > 0;
     const isCustomValid =
       checkBox.Custom && autoReplyCustom && autoReplyCustom.length > 0 && specificKeywordsList.length > 0;
-    const isAIValid = checkBox.AI && selectedPrompt && specificKeywordsList.length > 0;
-    const isGeneralAIValid = checkBox.GeneralAI && specificKeywordsList.length > 0;
-    const isFlowValid = checkBox.Flow && selectedFlow && specificKeywordsList.length > 0;
-    return (isCustomValid || isAIValid || isGeneralAIValid || isFlowValid) && isTitleValid;
-  }, [checkBox, selectedPrompt, selectedFlow, specificKeywordsList, autoReplyCustom, autoReplytitle]);
+    const isAIValid = checkBox.AI && selectedPrompt;
+    const isGeneralAIValid = checkBox.GeneralAI;
+    const isFlowValid = checkBox.Flow && selectedFlow;
+    const isConnectProductValid = checkBox.ConnectProduct && selectedProduct;
+    return (isCustomValid || isAIValid || isGeneralAIValid || isFlowValid || isConnectProductValid) && isTitleValid;
+  }, [checkBox, selectedPrompt, selectedFlow, specificKeywordsList, autoReplyCustom, autoReplytitle, selectedProduct]);
 
   const shouldShowReplyMethod = useMemo(
     () =>
@@ -646,6 +683,8 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
     if (checkBox.AI && autoReply.automaticType !== AutoReplyPayLoadType.AI) autoTypeChanged = true;
     if (checkBox.Flow && autoReply.automaticType !== AutoReplyPayLoadType.Flow) autoTypeChanged = true;
     if (checkBox.GeneralAI && autoReply.automaticType !== AutoReplyPayLoadType.GeneralAI) autoTypeChanged = true;
+    if (checkBox.ConnectProduct && autoReply.automaticType !== AutoReplyPayLoadType.ConnectProduct)
+      autoTypeChanged = true;
 
     // Check if selected prompt/flow changed
     const promptChanged = checkBox.AI && selectedPrompt?.promptId !== autoReply.promptId;
@@ -771,7 +810,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
       {loadingState.isLoading && <Loading />}
       {!loadingState.isLoading && (
         <div className={activeAutoReply ? styles.content : `${styles.content} fadeDiv`}>
-          <FlexibleToggleButton
+          <ToggleButton
             options={[
               { id: 0, label: t(LanguageKey.sidebar_Setting) },
               { id: 1, label: t(LanguageKey.replyMethod) },
@@ -785,7 +824,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                 {/* title Section */}
                 <div className="headerandinput">
                   <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
-                  <InputText
+                  <InputBox
                     dangerOnEmpty
                     placeHolder={t(LanguageKey.pageToolspopup_typehere)}
                     className="textinputbox"
@@ -827,7 +866,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                     </div>
                   </div>
                   <div className="headerparent">
-                    <InputText
+                    <InputBox
                       fadeTextArea={false}
                       name="specific-keywords"
                       className={"textinputbox"}
@@ -931,7 +970,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                         {autoReply.prompt && (
                           <>
                             <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
-                            <InputText
+                            <InputBox
                               className={"textinputbox"}
                               handleInputChange={() => {}}
                               value={autoReply.prompt.title}
@@ -1022,7 +1061,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                         {autoReply.masterFlow && (
                           <>
                             <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
-                            <InputText
+                            <InputBox
                               className={"textinputbox"}
                               handleInputChange={() => {}}
                               value={autoReply.masterFlow.title}
@@ -1223,6 +1262,38 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                     </div>
                   )}
                 </div>
+                {/*Connect Product */}
+                {session?.user.isShopper && (
+                  <div className="headerandinput">
+                    <div className="headerandinput">
+                      <RadioButton
+                        name="ConnectProduct"
+                        id={t("Connect Product")}
+                        checked={checkBox.ConnectProduct}
+                        handleOptionChanged={handleOptionChanged}
+                        textlabel={t("Connect Product")}
+                      />
+                      <div className="explain">{t(LanguageKey.messagesetting_ConnectProductResponseExplain)}</div>
+                    </div>
+                    {checkBox.ConnectProduct && (
+                      <div className={styles.optioncontainer}>
+                        <div className="headerandinput">
+                          <div onClick={() => setShowProductPopup?.()} className="saveButton">
+                            {t(LanguageKey.SelectProduct)}
+                          </div>
+                        </div>
+                        {selectedProduct && (
+                          <div className={styles.thumbnailsContainer}>
+                            <img
+                              className={styles.thumbnailImage}
+                              src={basePictureUrl + selectedProduct.thumbnailMediaUrl}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                )}
               </>
             )}
           </>
@@ -1231,19 +1302,12 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
       <div className="ButtonContainer" role="group" aria-label="Form actions">
         <button
           type="submit"
-          disabled={
-            !(
-              activeAutoReply &&
-              specificKeywordsList.length > 0 &&
-              (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI) &&
-              (isFormValid || hasChanges)
-            )
-          }
+          disabled={!(activeAutoReply && specificKeywordsList.length > 0 && (isFormValid || hasChanges))}
           className={
             activeAutoReply &&
             specificKeywordsList.length > 0 &&
-            (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI) &&
-            (isFormValid || hasChanges)
+            (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI || checkBox.ConnectProduct) &&
+            isFormValid
               ? "saveButton"
               : "disableButton"
           }
@@ -1255,8 +1319,8 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
               e.key === "Enter" &&
               activeAutoReply &&
               specificKeywordsList.length > 0 &&
-              (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI) &&
-              (isFormValid || hasChanges)
+              (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI || checkBox.ConnectProduct) &&
+              isFormValid
             ) {
               e.preventDefault();
               handleUpdateAutoReply();
@@ -1267,8 +1331,8 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
             !(
               activeAutoReply &&
               specificKeywordsList.length > 0 &&
-              (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI) &&
-              (isFormValid || hasChanges)
+              (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI || checkBox.ConnectProduct) &&
+              isFormValid
             )
           }>
           {t(LanguageKey.save)}

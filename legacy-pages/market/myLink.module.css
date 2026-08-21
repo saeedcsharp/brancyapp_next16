@@ -16,14 +16,14 @@
   justify-content: flex-start;
   flex-direction: column;
   height: 100%;
-  gap: var(--gap-20);
+  gap: var(--gap-30);
   max-height: calc(100% - 100px);
   width: calc(100% - 130px);
   margin-inline: 20px;
   min-width: 250px;
   top: 80px;
   align-items: center;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 }
 

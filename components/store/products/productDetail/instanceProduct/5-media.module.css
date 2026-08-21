@@ -10,7 +10,7 @@
   flex-direction: column;
   align-items: flex-start;
   justify-content: flex-start;
-  overflow-y: scroll;
+  overflow-y: auto;
   animation: var(--top08);
   background-color: var(--color-white);
   border-radius: var(--br20);
@@ -19,8 +19,7 @@
 }
 @media (max-width: 768px) {
   .Media {
-    padding: var(--padding-12) var(--padding-10) var(--padding-50)
-      var(--padding-10) !important;
+    padding: var(--padding-12) var(--padding-10) var(--padding-50) var(--padding-10) !important;
   }
 }
 
@@ -39,7 +38,7 @@
   width: 100%;
   max-width: 1460px;
   display: flex;
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
   position: relative;
   touch-action: pan-x; /* Allow horizontal scrolling */
@@ -337,7 +336,7 @@
   border-radius: var(--br20);
   background-color: var(--color-gray10);
   transition: var(--transition3);
-  overflow-x: scroll;
+  overflow-x: auto;
   justify-content: flex-start;
   cursor: pointer;
   touch-action: pan-x; /* Allow horizontal scrolling */

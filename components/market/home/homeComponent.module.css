@@ -33,7 +33,7 @@
   width: 100%;
   flex-direction: column;
   justify-content: flex-start;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   animation: var(--bottom08);
   transition: var(--transition3);
@@ -46,7 +46,7 @@
   width: 100%;
   height: 100%;
   padding: var(--padding-40) var(--padding-20);
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   display: flex;
   flex-direction: row;
@@ -82,8 +82,12 @@
   border-radius: var(--br50);
   padding: var(--padding-2);
   background: linear-gradient(to left, var(--color-dark-blue30), var(--color-dark-blue), var(--color-dark-blue30));
-  -webkit-mask: linear-gradient(var(--color-ffffff) 0 0) content-box, linear-gradient(var(--color-ffffff) 0 0);
-  mask: linear-gradient(var(--color-ffffff) 0 0) content-box, linear-gradient(var(--color-ffffff) 0 0);
+  -webkit-mask:
+    linear-gradient(var(--color-ffffff) 0 0) content-box,
+    linear-gradient(var(--color-ffffff) 0 0);
+  mask:
+    linear-gradient(var(--color-ffffff) 0 0) content-box,
+    linear-gradient(var(--color-ffffff) 0 0);
   mask-composite: exclude;
 }
 
@@ -275,7 +279,7 @@
   border-top: 1px solid var(--content-box);
   padding-top: 10px;
   height: 56px;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   position: relative;
   width: 100%;

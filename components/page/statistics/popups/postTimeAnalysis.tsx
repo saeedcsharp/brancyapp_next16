@@ -2,7 +2,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useTranslation } from "react-i18next";
 import HourLineChart, { GetHourAmPM } from "brancy/components/design/chart/hourLineChart";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./postTimeAnalalysis.module.css";
 import { IBestTime, HourCountUnix } from "brancy/models/interfaces";
@@ -655,7 +655,7 @@ const PostTimeAnalysis: React.FC<PostTimeAnalysisProps> = ({ bestTimeSeries, rem
 
         <div className={styles.recommendationSummary}>
           <div className="headerandinput">
-            <FlexibleToggleButton
+            <ToggleButton
               options={[
                 { id: 0, label: t(LanguageKey.pageStatistics_BestTimes) },
                 { id: 1, label: t(LanguageKey.pageStatistics_WorstTimes) },

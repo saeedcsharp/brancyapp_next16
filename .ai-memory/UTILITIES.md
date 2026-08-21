@@ -1,6 +1,6 @@
 # Utilities
 
-Utilities live mostly in `helper/`. They include API helpers, number/price/time formatting, media conversion, RTL detection, locale detection, timers, draft storage, emoji detection, SVG helpers, URL/base64 conversion, upload/download helpers, and infinite scroll/mouse hooks.
+Utilities live mostly in `helper/`. They include API helpers, number/price/time formatting, media conversion, RTL detection, locale detection, timers, draft storage, emoji detection, SVG helpers, URL/base64 conversion, upload/download helpers, UTF-8 text byte counting/truncation, and infinite scroll/mouse hooks. The infinite-scroll hook treats empty and duplicate-only pages as terminal, reports `hasMore: false`, and applies an internal terminal guard to prevent automatic retry loops.
 
 Keep utility functions pure where possible and document side effects such as localStorage, network requests, file conversion, or DOM access.
 

@@ -1,11 +1,10 @@
-import { useTranslation } from "react-i18next";
-import styles from "./generalBallance.module.css";
+import initialzedTime from "brancy/helper/manageTimer";
 import { SubInvoiceStatus } from "brancy/models/enums";
-import PriceFormater, { PriceFormaterClassName, PriceType } from "../priceFormater";
 import { IBankCard, IGeneralBallance } from "brancy/models/interfaces";
+import { useTranslation } from "react-i18next";
 import DatePicker, { DateObject } from "react-multi-date-picker";
-import persian from "react-date-object/calendars/persian";
-import persianFa from "react-date-object/locales/persian_fa";
+import PriceFormater, { PriceFormaterClassName, PriceType } from "../priceFormater";
+import styles from "./generalBallance.module.css";
 
 const statuses = [
   { status: SubInvoiceStatus.None, label: "تسویه‌نشده", className: "unsettled" },
@@ -54,8 +53,8 @@ export default function GeneralBalance({
           <div className={styles.dateFilter}>
             <span className={styles.dateLabel}>{t("From date")}</span>
             <DatePicker
-              calendar={persian}
-              locale={persianFa}
+              calendar={initialzedTime().calendar}
+              locale={initialzedTime().locale}
               calendarPosition="bottom-right"
               format="YYYY/MM/DD"
               maxDate={new Date()}

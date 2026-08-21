@@ -2,25 +2,25 @@ import { IBankCard } from "brancy/models/interfaces";
 import styles from "./bankCard.module.css";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-
-export default function BankCard({ card, onSettle }: { card: IBankCard; onSettle: () => void }) {
+type BankCardProps = {
+  card: IBankCard;
+  onSelectCard?: (bamckCrd: string) => void;
+};
+export default function BankCard({ card, onSelectCard }: BankCardProps) {
   const { t } = useTranslation();
 
   return (
-    <article className={styles.bankCard}>
+    <article onClick={() => onSelectCard?.(card.cardNumber)} className={styles.bankCard}>
       <div className={styles.bankCardHeader}>
         <div className={styles.bankName}>{card.bankName}</div>
         <div className={styles.badges}>
-          {card.isDefault && <span className={styles.defaultBadge}>پیش‌فرض</span>}
-          {!card.isActive && <span className={styles.suspendedBadge}>معلق</span>}
+          {card.isDefault && <span className={styles.defaultBadge}>{t("Default")}</span>}
+          {!card.isActive && <span className={styles.suspendedBadge}>{t("Suspended")}</span>}
         </div>
       </div>
       <div className={styles.cardNumber}>{maskCard(card.cardNumber)}</div>
       <div className={styles.bankCardFooter}>
         <span className={styles.holder}>{card.accountHolderName}</span>
-        <button onClick={onSettle} className={styles.editButton} type="button">
-          تسویه
-        </button>
       </div>
     </article>
   );

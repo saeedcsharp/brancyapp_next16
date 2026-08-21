@@ -1,15 +1,16 @@
 .menubar {
   position: sticky;
-  width: 100%;
+  padding-inline: 20px;
+  width: 90%;
   min-height: 60px;
   height: 60px;
   max-width: 1440px;
   top: 30px;
   display: flex;
   align-items: center;
-  justify-content: space-evenly;
+  justify-content: space-between;
   flex-direction: row;
-  gap: var(--gap-16);
+  gap: var(--gap-15);
   overflow-x: auto;
   overflow-y: hidden;
   background-color: var(--color-gray30);
@@ -29,6 +30,7 @@
 }
 
 .menuitem {
+  flex: 0 0 auto;
   height: 60px;
   justify-content: center;
   width: fit-content;
@@ -45,13 +47,13 @@
   white-space: nowrap;
   border: none;
   background: transparent;
-  font-size: 14px;
+  font-size: var(--font-fluid-md);
   font-weight: 400;
   color: inherit;
   font: inherit;
   will-change: transform, color;
   @media (max-width: 768px) {
-    font-size: 12px;
+    font-size: var(--font-fluid-sm);
     font-weight: 500;
   }
 }
@@ -62,7 +64,7 @@
   transform: translateY(-2px);
 }
 
-.menuitem:hover:not(:focus-visible) {
+.menuitem:hover .title {
   transform: translateY(-1px);
   color: var(--color-dark-blue);
 }
@@ -84,6 +86,10 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .menubar {
+    scroll-behavior: auto;
+  }
+
   .menuitem {
     transition: none;
   }
@@ -165,9 +171,9 @@
   text-wrap: nowrap;
   transform: translateZ(0);
   font-weight: 500;
-  font-size: 14px;
+  font-size: var(--font-fluid-md);
   @media (max-width: 768px) {
-    font-size: 12px;
+    font-size: var(--font-fluid-sm);
     font-weight: 600;
   }
 }

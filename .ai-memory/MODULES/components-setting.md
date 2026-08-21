@@ -136,7 +136,7 @@ Parent module: `components`.
 
 ## Known Issues
 
-No confirmed module-specific issue recorded at initialization.
+The general System settings component initializes language controls in English and synchronizes the stored browser language after mount, preserving hydration consistency with the global i18n initialization.
 
 ## Technical Debt
 

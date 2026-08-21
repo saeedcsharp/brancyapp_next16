@@ -7,10 +7,9 @@ import {
   notify,
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
-import ImageCreator from "brancy/components/page/ai/ImageCreator";
-import GeneratedImageModal from "brancy/components/page/ai/generatedImageModal";
-import ImageList from "brancy/components/page/ai/imageList";
-import VideoList from "brancy/components/page/ai/videoList";
+
+import VideoList from "brancy/components/page/ai/List_Video";
+import Loading from "brancy/components/notOk/loading";
 import { MethodType } from "brancy/helper/api";
 import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
@@ -22,20 +21,28 @@ import { getHubConnection } from "brancy/helper/pushNotif";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { LanguageKey } from "brancy/i18n";
 import { PsgFeatureType, PushResponseType } from "brancy/models/enums";
-import { IGetImage, IGetImages, IGetImageUsageRequest, IImageCreator, PushNotif } from "brancy/models/interfaces";
+import {
+  IGetImageUsageRequest,
+  IGetMedia,
+  IGetMedias,
+  IMediaCreator,
+  PendingGeneration,
+  PushNotif,
+} from "brancy/models/interfaces";
 import { t } from "i18next";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import router from "next/router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import styles from "./pageAI.module.css";
-import ContentCreatorHeader from "brancy/components/page/ai/contentCreatorHeader";
-
+import MediaCreator from "brancy/components/page/ai/mediaCreator";
+import ImageList from "brancy/components/page/ai/List_Image";
+import GeneratedImageModal from "brancy/components/page/ai/generatedImageModal";
+import GeneratedVideoModal from "brancy/components/page/ai/generatedVideoModal";
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
-
+type AiQueryType = "1" | "2";
 const SUCCESS_MEDIA_STATUS = 2;
-
 function formatCreatedTime(timestamp: number) {
   const t = initialzedTime();
   const d = new DateObject({
@@ -45,30 +52,40 @@ function formatCreatedTime(timestamp: number) {
   });
   return d.format("YYYY/MM/DD HH:mm:ss");
 }
-
-export default function PageAI() {
+export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
   const { data: session } = useSession({
     required: true,
     onUnauthenticated() {
       router.push("/");
     },
   });
-  const [activeTab, setActiveTab] = useState<MediaTab>("image");
-  const [images, setImages] = useState<IGetImage[]>([]);
+  const [activeTab, setActiveTab] = useState<MediaTab>(initialType === "2" ? "video" : "image");
+  const [creatorTab, setCreatorTab] = useState<MediaTab>(initialType === "2" ? "createvideo" : "createimage");
+  const [images, setImages] = useState<IGetMedia[]>([]);
   const [nextMaxId, setNextMaxId] = useState<string | null>(null);
+  const [videos, setVideos] = useState<IGetMedia[]>([]);
+  const [nextVideoMaxId, setNextVideoMaxId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
   const [loadedImages, setLoadedImages] = useState(false);
+  const [loadedVideos, setLoadedVideos] = useState(false);
   const [showFeaturePopup, setShowFeaturePopup] = useState(false);
-  const [selectedImage, setSelectedImage] = useState<IGetImage | null>(null);
-  const [creators, setCreators] = useState<IImageCreator[]>([]);
+  const [selectedImage, setSelectedImage] = useState<IGetMedia | null>(null);
+  const [selectedVideo, setSelectedVideo] = useState<IGetMedia | null>(null);
+  const [imageCreators, setImageCreators] = useState<IMediaCreator[]>([]);
+  const [videoCreators, setVideoCreators] = useState<IMediaCreator[]>([]);
+  const [loadedImageCreators, setLoadedImageCreators] = useState(false);
+  const [loadedVideoCreators, setLoadedVideoCreators] = useState(false);
   const [error, setError] = useState("");
-  const [clientContext, setClientContext] = useState<string | null>(null);
+  const [pendingGenerations, setPendingGenerations] = useState<PendingGeneration[]>([]);
+  const pendingGenerationsRef = useRef<PendingGeneration[]>([]);
+  const initialLibrary = initialType === "2" ? "video" : "image";
+  const [initialLibraryLoading, setInitialLibraryLoading] = useState(true);
 
   const fetchImages = useCallback(
-    async (cursor: string | null): Promise<IGetImage[]> => {
+    async (cursor: string | null): Promise<IGetMedia[]> => {
       if (!session) return [];
 
-      const response = await clientFetchApi<null, IGetImages>("/api/mediaai/GetImages", {
+      const response = await clientFetchApi<null, IGetMedias>("/api/mediaai/GetImages", {
         session,
         methodType: MethodType.get,
         queries: [
@@ -88,7 +105,31 @@ export default function PageAI() {
     },
     [session],
   );
-  const onCreateImage = async (request: IGetImageUsageRequest, count: number) => {
+  const fetchVideos = useCallback(
+    async (cursor: string | null): Promise<IGetMedia[]> => {
+      if (!session) return [];
+
+      const response = await clientFetchApi<null, IGetMedias>("/api/mediaai/GetVideos", {
+        session,
+        methodType: MethodType.get,
+        queries: [
+          { key: "mediaCreationStatus", value: SUCCESS_MEDIA_STATUS.toString() },
+          { key: "nextMaxId", value: cursor ?? "" },
+        ],
+      });
+
+      if (!response.succeeded) {
+        notify(response.info?.responseType ?? ResponseType.Unexpected, NotifType.Error, response.errorMessage);
+        return [];
+      }
+
+      const items = Array.isArray(response.value?.items) ? response.value.items : [];
+      setNextVideoMaxId(response.value?.nextMaxId || null);
+      return items;
+    },
+    [session],
+  );
+  const onCreateMedia = async (request: IGetImageUsageRequest, count: number) => {
     const checkFeatureResponse = await clientFetchApi<boolean, boolean>("/api/feature/hasFeatureCount", {
       session,
       methodType: MethodType.get,
@@ -107,33 +148,81 @@ export default function PageAI() {
       return;
     }
     const requestClientContext = crypto.randomUUID();
-    setClientContext(requestClientContext);
-    const response = await clientFetchApi<IGetImageUsageRequest, number>("/api/mediaai/CreateImage", {
-      session,
-      methodType: MethodType.post,
-      data: request,
-      queries: [{ key: "clientContext", value: requestClientContext }],
-    });
+    const mediaType: PendingGeneration["mediaType"] = creatorTab === "createvideo" ? "video" : "image";
+    const pendingGeneration = { clientContext: requestClientContext, mediaType, prompt: request.prompt };
+    pendingGenerationsRef.current = [...pendingGenerationsRef.current, pendingGeneration];
+    setPendingGenerations(pendingGenerationsRef.current);
+    setActiveTab(mediaType);
+    const response = await clientFetchApi<IGetImageUsageRequest, number>(
+      `/api/mediaai/${creatorTab === "createvideo" ? "CreateVideo" : "CreateImage"}`,
+      {
+        session,
+        methodType: MethodType.post,
+        data: request,
+        queries: [{ key: "clientContext", value: requestClientContext }],
+      },
+    );
     if (!response.succeeded) {
+      pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
+        (item) => item.clientContext !== requestClientContext,
+      );
+      setPendingGenerations(pendingGenerationsRef.current);
       notify(response.info?.responseType, NotifType.Warning);
       return;
     }
-    internalNotify(InternalResponseType.Success, NotifType.Success, "Image generation request sent.");
+    internalNotify(
+      InternalResponseType.Success,
+      NotifType.Success,
+      creatorTab === "createvideo" ? t("Video generation request sent.") : t("Image generation request sent."),
+    );
   };
   const loadCreators = async () => {
     if (!session) return;
     console.log("loadCreators called");
     setLoading(true);
     setError("");
-    const response = await clientFetchApi<boolean, IImageCreator[]>("/api/mediaai/GetImageCreators", { session });
+    const response = await clientFetchApi<boolean, IMediaCreator[]>("/api/mediaai/GetImageCreators", { session });
     if (response.succeeded && Array.isArray(response.value)) {
-      setCreators(response.value);
-      setActiveTab("createimage");
+      setImageCreators(response.value);
+      setLoadedImageCreators(true);
+      setCreatorTab("createimage");
     } else {
       notify(response.info?.responseType, NotifType.Warning);
     }
     setLoading(false);
   };
+
+  const loadVideoCreators = async () => {
+    if (!session) return;
+    console.log("loadVideoCreators called");
+    setLoading(true);
+    setError("");
+    const response = await clientFetchApi<boolean, IMediaCreator[]>("/api/mediaai/GetVideoCreators", { session });
+    if (response.succeeded && Array.isArray(response.value)) {
+      setVideoCreators(response.value);
+      setLoadedVideoCreators(true);
+      setCreatorTab("createvideo");
+    } else {
+      notify(response.info?.responseType, NotifType.Warning);
+    }
+    setLoading(false);
+  };
+
+  useEffect(() => {
+    if (initialType) {
+      setActiveTab(initialLibrary);
+      return;
+    }
+    if (!router.isReady) return;
+
+    const queryType = router.query?.type;
+    const type = Array.isArray(queryType) ? queryType[0] : queryType;
+    if (type === "1") {
+      setActiveTab("image");
+    } else if (type === "2") {
+      setActiveTab("video");
+    }
+  }, [initialLibrary, initialType, router.isReady, router.query?.type]);
 
   useEffect(() => {
     if (!session) return;
@@ -145,21 +234,37 @@ export default function PageAI() {
       router.push("/");
       return;
     }
-    if (loadedImages) return;
+    if (activeTab !== "image" || loadedImages) return;
 
     setLoadedImages(true);
     setLoading(true);
     fetchImages(null)
       .then(setImages)
-      .finally(() => setLoading(false));
-  }, [fetchImages, loadedImages, session]);
+      .finally(() => {
+        setLoading(false);
+        setInitialLibraryLoading(false);
+      });
+  }, [activeTab, fetchImages, loadedImages, session]);
+
+  useEffect(() => {
+    if (!session || activeTab !== "video" || loadedVideos) return;
+
+    setLoadedVideos(true);
+    setLoading(true);
+    fetchVideos(null)
+      .then(setVideos)
+      .finally(() => {
+        setLoading(false);
+        setInitialLibraryLoading(false);
+      });
+  }, [activeTab, fetchVideos, loadedVideos, session]);
 
   const fetchMoreImages = useCallback(() => fetchImages(nextMaxId), [fetchImages, nextMaxId]);
-  const handleImagesFetched = useCallback((newImages: IGetImage[]) => {
+  const handleImagesFetched = useCallback((newImages: IGetMedia[]) => {
     setImages((current) => [...current, ...newImages]);
   }, []);
 
-  const { containerRef, isLoadingMore } = useInfiniteScroll<IGetImage>({
+  const { containerRef, isLoadingMore } = useInfiniteScroll<IGetMedia>({
     hasMore: Boolean(nextMaxId),
     fetchMore: fetchMoreImages,
     onDataFetched: handleImagesFetched,
@@ -167,6 +272,21 @@ export default function PageAI() {
     currentData: images,
     isLoading: loading,
     enabled: activeTab === "image",
+    fetchDelay: 0,
+  });
+  const fetchMoreVideos = useCallback(() => fetchVideos(nextVideoMaxId), [fetchVideos, nextVideoMaxId]);
+  const handleVideosFetched = useCallback((newVideos: IGetMedia[]) => {
+    setVideos((current) => [...current, ...newVideos]);
+  }, []);
+
+  const { isLoadingMore: isLoadingMoreVideos } = useInfiniteScroll<IGetMedia>({
+    hasMore: Boolean(nextVideoMaxId),
+    fetchMore: fetchMoreVideos,
+    onDataFetched: handleVideosFetched,
+    getItemId: (video) => video.id,
+    currentData: videos,
+    isLoading: loading,
+    enabled: activeTab === "video",
     fetchDelay: 0,
   });
 
@@ -182,35 +302,66 @@ export default function PageAI() {
       setShowFeaturePopup(true);
       return;
     }
-    //  await loadCreators();
+    await loadVideoCreators();
   };
-  const handleGetNotif = useCallback(
-    (notif: string) => {
-      try {
-        const decombNotif = handleDecompress(notif);
-        if (!decombNotif) return;
-        const notifObj = JSON.parse(decombNotif) as PushNotif;
-        if (!notifObj.Message) return;
-        const newPostPush = convertFirstLetterToLowerCase(JSON.parse(notifObj.Message));
-        const generatedImage = newPostPush as IGetImage;
-        if (generatedImage.clientContext !== clientContext) return;
-        if (notifObj.ResponseType === PushResponseType.AiImageSuccess) {
-          console.log("generatedImage", generatedImage);
+
+  useEffect(() => {
+    if (!session) return;
+    if (activeTab === "image") {
+      setCreatorTab("createimage");
+      if (!loadedImageCreators) openImageCreator();
+    } else {
+      setCreatorTab("createvideo");
+      if (!loadedVideoCreators) openVideoCreator();
+    }
+  }, [activeTab, loadedImageCreators, loadedVideoCreators, session]);
+  const handleGetNotif = useCallback((notif: string) => {
+    try {
+      const decombNotif = handleDecompress(notif);
+      if (!decombNotif) return;
+      const notifObj = JSON.parse(decombNotif) as PushNotif;
+      if (!notifObj.Message) return;
+      console.log("notifObj", notifObj);
+      const rawGeneratedMedia = JSON.parse(notifObj.Message) as Record<string, unknown>;
+      const newPostPush = convertFirstLetterToLowerCase(rawGeneratedMedia) as IGetMedia & {
+        ClientContext?: string;
+        client_context?: string;
+      };
+      const generatedClientContext =
+        newPostPush.clientContext || newPostPush.ClientContext || newPostPush.client_context;
+      if (!generatedClientContext) return;
+      const generatedImage = { ...newPostPush, clientContext: generatedClientContext } as IGetMedia;
+      const pendingGeneration = pendingGenerationsRef.current.find(
+        (item) => item.clientContext.toLowerCase() === generatedClientContext.toLowerCase(),
+      );
+      if (!pendingGeneration) return;
+      if (notifObj.ResponseType === PushResponseType.AiImageSuccess) {
+        console.log("generatedImage", generatedImage);
+        if (pendingGeneration.mediaType === "video") {
+          setVideos((current) => [generatedImage, ...current]);
+        } else {
           setImages((current) => [generatedImage, ...current]);
-        } else if (notifObj.ResponseType === PushResponseType.AiImageFail) {
-          console.log("generatedImagefailed", generatedImage);
-          internalNotify(
-            InternalResponseType.InvalidMetaData,
-            NotifType.Warning,
-            generatedImage.metadata || ", Image generation failed.",
-          );
         }
-      } catch (error) {
-        notify(ResponseType.Unexpected, NotifType.Error);
+        pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
+          (item) => item.clientContext !== generatedClientContext,
+        );
+        setPendingGenerations(pendingGenerationsRef.current);
+      } else if (notifObj.ResponseType === PushResponseType.AiImageFail) {
+        console.log("generatedImagefailed", generatedImage);
+        pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
+          (item) => item.clientContext !== generatedClientContext,
+        );
+        setPendingGenerations(pendingGenerationsRef.current);
+        internalNotify(
+          InternalResponseType.InvalidMetaData,
+          NotifType.Warning,
+          generatedImage.metadata || t(", Media generation failed."),
+        );
       }
-    },
-    [clientContext],
-  );
+    } catch (error) {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    }
+  }, []);
 
   useEffect(() => {
     let intervalId: NodeJS.Timeout;
@@ -239,19 +390,25 @@ export default function PageAI() {
       }
     };
   }, [handleGetNotif]);
+  if ((activeTab === "image" || activeTab === "video") && initialLibraryLoading) {
+    return <Loading />;
+  }
+
   return (
     <>
       <Head>
         <title>Bran.cy ▸ {t(LanguageKey.navbar_AI)}</title>
-        <meta name="description" content="Create and manage AI-generated images and videos." />
+        <meta name="description" content={t("Create and manage AI-generated images and videos.")} />
       </Head>
       <main className={styles.aiWorkspace} ref={containerRef}>
         {(activeTab === "image" || activeTab === "video") && (
-          <ContentCreatorHeader
-            activeTab={activeTab}
+          <MediaCreator
+            creators={activeTab === "image" ? imageCreators : videoCreators}
+            error={error}
+            onRetry={activeTab === "video" ? loadVideoCreators : loadCreators}
+            onCreateMedia={onCreateMedia}
             setActiveTab={setActiveTab}
-            openImageCreator={openImageCreator}
-            openVideoCreator={openVideoCreator}
+            activeTab={creatorTab}
           />
         )}
         {activeTab === "image" && (
@@ -261,21 +418,25 @@ export default function PageAI() {
             isLoadingMore={isLoadingMore}
             setSelectedImage={setSelectedImage}
             openImageCreator={openImageCreator}
+            pendingGenerations={pendingGenerations}
           />
         )}
-        {activeTab === "video" && <VideoList openVideoCreator={openVideoCreator} />}
-        {activeTab === "createimage" && (
-          <ImageCreator
-            creators={creators}
-            error={error}
-            onRetry={loadCreators}
-            onCreateImage={onCreateImage}
-            setActiveTab={setActiveTab}
+        {activeTab === "video" && (
+          <VideoList
+            videos={videos}
+            loading={loading && videos.length === 0}
+            isLoadingMore={isLoadingMoreVideos}
+            setSelectedVideo={setSelectedVideo}
+            openVideoCreator={openVideoCreator}
+            pendingGenerations={pendingGenerations}
           />
         )}
       </main>
       <Modal closePopup={() => setSelectedImage(null)} classNamePopup="popupLarge" showContent={selectedImage !== null}>
         {selectedImage && <GeneratedImageModal image={selectedImage} onClose={() => setSelectedImage(null)} />}
+      </Modal>
+      <Modal closePopup={() => setSelectedVideo(null)} classNamePopup="popupLarge" showContent={selectedVideo !== null}>
+        {selectedVideo && <GeneratedVideoModal video={selectedVideo} onClose={() => setSelectedVideo(null)} />}
       </Modal>
       <Modal
         closePopup={() => setShowFeaturePopup(false)}

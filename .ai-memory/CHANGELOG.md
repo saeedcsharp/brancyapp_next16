@@ -1,7 +1,343 @@
+<<<<<<< HEAD
+
+- Updated the global App Router error page to display the received error message, with a readable fallback when no detail is available.
+
+- Applied the global error boundary to DirectInbox initial loads and pagination failures, preserving the HTTP status and backend reason in the rendered error page.
+
+- Fixed direct inbox pagination so general and business scroll requests return fetched threads to `useInfiniteScroll`; a non-null `/api/message/GetDirectInbox` `nextMaxId` now allows the next page request, while `null` correctly stops pagination.
+
+- Normalized direct inbox cursors before subsequent `/api/message/GetDirectInbox` requests. Empty, `null`, string `"null"`, and repeated cursors now terminate pagination instead of causing invalid higher-page requests and backend 500 responses.
+
+- Preserved backend error messages in `clientFetchApi` and displayed the HTTP status plus server reason for direct inbox 4xx/5xx responses, including higher-page `/api/message/GetDirectInbox` failures.
+
+- Fixed comment inbox pagination so Post and Story scroll requests return fetched media to `useInfiniteScroll`; a non-null `/api/Comment/GetInbox` `oldestCursor` now loads the next page, while `null` stops pagination.
+
+- Kept both lottery Terms image uploads at the verified publishable Instagram Story canvas size of `1080x1920`.
+
+- استاندارد ابعاد استوری اینستاگرام برای خروجی‌های Terms & Conditions لاتاری روی `1080x1920` قرار گرفت.
+
+=======
+
+- Converted individual bulk-product adjustment cards to the shared free-mode horizontal slider while preserving each card's existing controls and save behavior.
+- Added an accessible collapse interaction to the unified Page Tools `hashtagManager` card. Its header toggles the content and reduces the card row span while closed, with Enter and Space keyboard support.
+  > > > > > > > sepehr
+- Fixed MyLink mobile horizontal carousels by allowing native horizontal and vertical touch panning on shortcut, FeatureBox, and product scroll containers.
+- Updated the MyLink About branding link to show `Brancy.App` on `brancy.app` and `Brancy.Ir` with the Iranian URL on other hosts.
+
+- Updated the MyLink View Store Products action to redirect to `https://{resolved-domain}/{username}/product` using `resolvePublicDomain` for localhost, regional, and app domains.
+
+- Added the missing `LanguageKey.Lottery` entry and translations in all eight locale files for the MyLink lottery popup title.
+
+- Gated AI Prompt Analysis modal opening behind `Instagramer/AI/HasPageAnalysis`; pages without a completed AI analysis now receive a localized internal warning.
+
+- Added a shared localized empty state to the MyLink Terms, Working Hours, and Lottery popups when their content is unavailable, while preserving the selected-lottery no-winners state.
+
+- Added API-backed coupon search with the `query` parameter, loading feedback while results refresh, normal pagination restoration when cleared, and pagination disabled during search.
+- Debounced coupon search requests by 400 milliseconds to avoid one server request per typed character.
+- Cached the normal coupon list per filter combination so clearing search does not issue a redundant API request.
+
+- Added localized phone visibility details to store statistic coupon cards: present phone numbers, including `0`, show the number and `Private`, while missing numbers show `Public`.
+
+- Added the home profile status slideshow with explicit priorities from `1` (highest) to `10` (lowest), previous/next controls for multiple active states, shopper/influencer and role-upgrade actions, first-login synchronization, and expiring-subscription states. The subscription warning now activates below seven days and displays the remaining-day count. The first-login state includes a live 24-hour countdown and progress bar, and all new copy is localized across the eight supported locales.
+
+- Fixed the main subscription remaining-time calculation so it subtracts the current time from the expiry timestamp and displays `0 days` after expiration instead of the absolute timestamp converted to days.
+
+- Updated MyLink `GetMyLink` mapping to read products and coupons from `shopperInfo`; visible product coupons now render alongside products with discount, usage, expiry, and copy details.
+- Corrected MyLink coupon handling to read the server's plural `shopperInfo.productCoupons` field and render every returned item without extra client filtering.
+- Fixed the MyLink coupon list being visually empty when its flex container collapsed beside the store button; the list now grows across the available header width.
+- Replaced the MyLink coupon-card row with the shared DragDrop selector while retaining coupon metadata and copy feedback for the selected code.
+
+- Localized AI tool parameter placeholders by selecting the matching `completeDescription*` field from the active locale, using German for `gr` and English/legacy description fallbacks when needed.
+- Enabled adding AI tools that do not define parameters; tools with required manual parameters retain their existing validation.
+- Changed the sender-username mention from an empty-parameter AI tool into a prompt-only action that inserts `[SENDER_USERNAME]` and never enters the selected tools list.
+- Disabled the sender-username mention in prompt-analysis mode while keeping it available as a prompt-only action in manual mode, and prevented it from inheriting the selected state of tools with the same enum value.
+- Added selected highlighting and accessible removal directly to the existing clickable AI tool options below the prompt in manual and analysis modes, without rendering a separate selected-tool list.
+- Localized AI tool option names in the prompt box using each tool's `displayName*` field and the active i18next locale, with German text for `gr` and English/name fallbacks.
+- Localized AI tool titles and complete descriptions in the tool settings popup using the model's `displayName*` and `completeDescription*` fields for the active locale.
+- Existing AI prompts now restore their selected tools from the `GetPrompt` response, including `toolId` values with nullable parameters.
+- Changed AI Prompt Analysis selection to always remain available. It now opens a shared textarea modal, enables Accept only after more than 20 characters are entered, and calls `GetPromptAnalysis` with the accepted text; Close leaves the existing prompt unchanged.
+- Moved the Prompt Analysis modal ownership from `aiPromptBox.tsx` to `flowAndAIInBox.tsx`, alongside the other page-level modals, while retaining the child prompt update and API callback behavior.
+- Added the localized `promptanalysisplaceholder` text in all eight supported languages, including the 20-character minimum required for analysis.
+
+- Highlighted the currently selected Instagram account in the account switcher and added its accessible `aria-pressed` state.
+- Prevented the upgrade page from reloading package details, reserve prices, and package prices during the session update that starts an account switch; navigation now proceeds without the unnecessary three-request cycle.
+
+- Fixed the Meta direct-login hydration mismatch caused by shuffling loading phrases with `Math.random()` during server and initial client rendering.
+- Prevented the Meta direct-login verification API from being called twice when React Strict Mode replays the effect.
+- Changed the Meta direct-login flow to show a localized AI-analysis notice after 10 seconds instead of redirecting automatically; navigation now occurs only after the user confirms the notice.
+
+- Removed the Store Properties entry from the Instagramer desktop navbar and mobile hamburger menu while keeping `/store/properties` directly accessible.
+
+- Fixed the AI page runtime crash caused by passing the removed `onCreateImage` callback name to `MediaCreator`; the page now passes its existing media-neutral `onCreateMedia` handler.
+
+- Fixed advertise and customer-ad business-hour displays to translate `findDayName` results, replacing raw weekday translation keys with localized labels. The MyLink popup now accepts its backend `weekDay` weekday field, preventing every row from displaying Monday.
+
+- Centralized a one-second media-availability delay after every successful `UploadFile` result so newly uploaded media is not fetched by the browser before the upload server has published it. Migrated direct-message image and video upload popups from local XMLHttpRequests to the shared uploader.
+
+- Refined the store statistics coupon manager presentation with elevated coupon cards, clearer status badges, metadata chips, responsive mobile stacking, and reduced-motion support.
+- Fixed create and update coupon cancel buttons submitting their forms by explicitly marking them as non-submit buttons.
+- Added memoized create-coupon validation for code, discount percentage, and maximum uses, plus an internal `TimeExpire` notification when expiry is missing or less than one hour ahead.
+- Added coupon edit mode: the three-dot action opens the shared modal with existing values, keeps code/discount/phone/max-discount read-only, and saves expiry, max uses, and bio visibility through `Shopper/Coupon/UpdateCoupon` with `couponId`.
+- Coupon bio visibility toggles now activate through `Shopper/Coupon/ActivateCoupon` or remove through `Shopper/Coupon/DeleteCoupon`, sending only `couponId`.
+- Fixed the coupon edit action bubbling into the collapsible card header, which prevented the edit modal from opening reliably.
+- Separated coupon editing into `UpdateCouponModal`; `CreateCouponModal` is create-only, and the Statistics page mounts the update form inside its own shared `Modal`.
+- Aligned the coupon manager card width and horizontal spacing with the other cards in the shared statistics grid on desktop and mobile.
+
+- Fixed brush line chart hydration mismatches by using an explicit `en-US` locale for count labels rendered in SVG axes and tooltips.
+
 # Changelog
+
+# Changelog
+
+- Updated both bulk product fixed-amount inputs to use each product's `PriceType` currency through the shared `InputBox` unit slot and `specifyPriceType` renderer.
+
+- Replaced bulk product amount inputs with the shared decimal-aware `InputBox`, preserving in-progress decimal drafts as strings before numeric calculation, keeping amount state independent from percentage steppers, and fading/disabling inactive editors while retaining selectable radio alternatives.
+
+- Expanded the bulk product popup's shared and per-product adjustment controls inline, removing the local `renderEditor` abstraction while preserving the existing save behavior.
+
+- Reorganized the bulk product popup's percentage and amount controls so each radio stays beside its matching input, and moved per-product rendering into a local helper without changing save behavior.
+
+- Removed the obsolete `IconToggleButton` component and migrated its consumers to the shared `ToggleButton` control.
+- Replaced the Iran IP `internalNotify` in the Instagram connection dialog with the localized invalid-IP message and a ten-second countdown before redirecting to Instagram; valid non-Iranian IPs now show a localized automatic-redirect toast and use the same ten-second delay.
+
+- Forwarded the incoming `user-agent` header from the local API proxy to the upstream Brancy API.
+
+- Moved generated image and video modal styles into the dedicated `Modal_Generated.module.css` and removed those unused result selectors from `mediaCreator.module.css`.
+
+- Removed unused legacy selectors from the AI generated-media list stylesheet, keeping only styles consumed by the image and video library cards.
+
+- Added line-based bounded auto-resize to the shared TextArea and configured the AI media prompt to show at least five lines, grow with its text to ten lines, then use an internal scrollbar.
+
+- Combined multiple AI creator range inputs into one fixed `250px` square expansion control with a centered fixed `100px` square and independently draggable mouse/touch handles that define one shared hatched frame, including its corners, while preserving the original per-input request values.
+
+- Made AI creator dynamic input fields responsive so wider screens can display more fields in each row.
+- Styled the AI creator action button with `saveButton` when enabled and `cancelButton` when disabled.
+- Updated the AI creator usage section so the check button and token progress sit side by side on larger screens and stack on mobile.
+- Added an AI token balance progress bar based on the account's main and reserve package balances, with a hatched requested-usage segment and numeric total/requested values.
+- Moved the AI creator's returned token count beside the usage-check button and removed the duplicate footer display.
+- Styled the AI creator usage-check button with the shared `saveButton` class when enabled and `disableButton` when its existing disabled conditions apply.
+- Separated the AI creator footer's token-usage check and media-creation actions into two buttons placed on opposite sides; creation remains disabled until a valid usage estimate is available.
+- Made AI creator token-usage estimation and media creation independent; the create action no longer requires or waits for a prior estimate and passes zero to the parent feature check when no estimate exists.
+- Changed both AI creator enum input variants from native select controls to the shared `optionGrid` button presentation, preserving active selection styling and request validation.
+- Restructured `/page/ai` so the media tabs stay at the top, the selected image/video creator appears below them, and the matching generated-media library appears below the creator. Removed the duplicate header Create action and load creator models per media type.
+- Merged AI provider selection into the model panel as an expandable tree; selecting a provider reveals its nested model list and selects the provider's first model.
+- Removed unused legacy selectors from the AI media creator stylesheet, including the old header, back-link, section-heading, and standalone provider-panel rules.
+- Added an animated `down-arrow.svg` indicator to AI provider branches; nested model lists now transition open and closed and respect reduced-motion preferences.
+- Moved the AI Image/Video tabs into the creator model panel and kept empty/error creator states inside the settings panel when no model is available.
+- Replaced the AI-specific media tab component with the shared `ToggleButton` and removed the obsolete `contentCreatorHeader` files.
+
+- Added a permanent AI knowledge-base rule requiring new UI code to be based on the shared `scss/` styles and reusable `components/design/` components, with documented justification for any design-system exception.
+- Updated Market Properties Terms & Conditions to match the Announcement `{ str: string }` API contract, using one controlled 1,500-character `TextArea` instead of a string-array editor.
+- Increased the Market Properties Terms & Conditions textarea to a fixed 200px height so it stays stable while editing.
+
+- Standardized Market Properties FeatureBox requests on `/api/bio/*` paths and registered all four Working Hours and Terms endpoints in `apiRouteMap`.
+
+- Fixed Market Properties Terms & Conditions textareas losing focus after every typed character by removing term text from the editor row React key.
+
+- Updated Market Properties Terms & Conditions `lastUpdate` to the current timestamp when saving.
+- Added localized calendar-aware `lastUpdate` display to the Market Properties Terms & Conditions editor.
+
+- Added the Market Properties FeatureBox popup with API-backed Working Hours and Terms & Conditions sections, shared toggle navigation, loading state, business-hours editor, styled terms list, and `UpdateWorkingHours` persistence.
+
+- Store properties business-hours summaries now render all seven days and show days missing from the business-hours array as closed.
+
+- Clarified the coupon expiration label in all eight locales to state that the expiration must be at least one hour from the current time.
+
+- Anchored the shared InputBox clear button inside a full-width relative wrapper so it remains centered at the physical right edge in both LTR and RTL layouts.
+
+- Removed the extra InputBox wrapper element. The clear button remains visually overlaid as an accessible sibling because native HTML `input` elements cannot contain children.
+
+- Fixed the shared InputBox empty-danger state so `dangerOnEmpty` activates the existing shake animation in addition to the invalid border.
+
+- Added strict digit-only handling for InputBox numeric modes, Unicode decimal-digit normalization to English digits, and an extensible styled `unit`/`unitStyle` option for values such as `Kg`, `CM`, `MM`, and `$` without adding a wrapper element.
+
+- Extended `/dev/systemDesign` with interactive numeric samples using Persian digits and unit samples for `gram`, `Kg`, `CM`, `MM`, `$`, and `%`, including a custom unit style.
+
+- Updated InputBox so a displayed `unit` occupies the trailing control area and suppresses the clear button.
+
+- Matched the `unitLabel` width to the InputBox unit padding with `clamp(40px, 30%, 60px)` so both regions remain identical responsively.
+
+- Standardized the shared `InputBox` with a responsive fluid base, logical RTL/LTR layout, 16px mobile-safe typography, localized-digit normalization, native disabled/read-only/required behavior, forwarded refs, semantic `variant`/`status` props, keyboard-accessible clear control, and reduced-motion/forced-colors fallbacks while retaining all legacy CSS models.
+
+- Added a password-protected dev-panel choice between the dependency report and a new `/dev/systemDesign` mock component laboratory. The lab uses a responsive bento grid and interactive local samples, including every `InputBox` CSS model and grouped design controls, charts, loaders, menus, drag/drop, modal, AI button, phone input, and text editor.
+
+- Fixed the General settings language radio hydration mismatch by deferring the stored `localStorage` language state until after the English SSR/client-first render.
+
+- چیدمان کارت قابلیت‌ها در موبایل اصلاح شد: دکمه بازکردن در گوشه بالای کارت قرار گرفت و نقش و وضعیت دسترسی روبه‌روی هم نمایش داده می‌شوند.
+
+- مسیر هر قابلیت در پنل جزئیات اکنون همیشه در خطی جدا، داخل بلوک خوانا و با شکست امن متن نمایش داده می‌شود.
+
+- توضیح فارسی قابلیت «انتخاب برنده و قرعه‌کشی» کامل‌تر شد و انتخاب محتوا، تعیین شرط‌ها و زمان، انتشار قوانین یا بنر و پیگیری وضعیت قرعه‌کشی و برنده را روشن می‌کند.
+
+- Added a permanent AI Knowledge Base rule requiring every added, changed, completed, renamed, or removed user-facing option or capability to be synchronized with the active or audit-only `/feature` catalog before implementation work is considered complete.
+
+- ساده‌سازی دوبارهٔ متن فارسی `/feature` با لحن خودمانی و قابل‌فهم برای مخاطب عمومی و نسل زد؛ جمله‌ها کوتاه‌تر شدند و اصطلاحات فنی با توضیح‌های روزمره جایگزین شدند، بدون تغییر در داده یا شناسه‌های فنی.
+
+- بازبینی کامل متن فارسی صفحه `/feature`: واژه‌های انگلیسی غیرضروری در نقش‌ها، دسته‌ها، دسترسی، پیش‌نیازها، محدودیت‌ها، عنوان و شرح قابلیت‌ها، ایده‌های محتوا، شواهد و موارد ممیزی با معادل فارسی یا نوشتار فارسی جایگزین شدند؛ نام‌های برند مانند مای‌لینک، تلگرام و واتساپ به شکل فارسی نمایش داده می‌شوند.
+
+- Added `/feature`, a localized noindex feature knowledge base for the content team. It contains 41 evidence-backed records with role tabs, deferred search, category/access filters, local sorting, expandable source/dependency/access details, responsive RTL/dark-mode presentation, and a separate audit-only section for seeded, local-only, incomplete, or unmapped workflows. Added the structured catalog, nested i18n namespace, and synchronized AI knowledge-base documentation.
+
+- Fixed MyLink shortcut countdown formatting so durations over 24 hours display days, hours, minutes, and seconds instead of an inflated total-hour value.
+
+- Added the shared `resolvePublicDomain` helper for mapping local, `patran.ir`, `brancy.ir`, and `brancy.app` link bases to their public domains.
+
+- Added the localized `biolinkProperties_yourlottery` label for completed lotteries across all eight supported languages.
+
+- Synchronized the eight locale files and `LanguageKey` to 2,971 direct string translation keys. Missing locale entries now exist in every language, using English fallback text or a key-name placeholder when no source translation exists.
+
+## 2026-08-12
+
+- Added store coupon management to the statistics page: shopper coupons load from the backend, a shared project popup creates new codes with expiry selected through the shared date-and-time picker, limits, phone assignment, bio visibility, and an optional discount cap, and existing coupons can update bio visibility. The complete coupon list and form are localized through typed keys in all eight supported languages.
+- Added the shared collapsible statistics-card behavior to the coupon manager; the header toggles its content and grid span, while the Add Coupon button opens the popup without collapsing the card.
+- Moved all coupon API orchestration and server state from `CouponManager` and `CreateCouponModal` into the store Statistics page; child components now receive data and action callbacks only.
+- Added `isActive` and `isPrivate` coupon filters plus duplicate-safe `nextMaxId` query pagination from the last coupon ID through `useInfiniteScroll`; changing filters resets the coupon list and cursor.
+- Replaced coupon infinite-scroll rendering with the shared slider; each slide displays two coupons and loads the next cursor page through the slider's `onReachEnd` callback.
+- Adjusted coupon slides to display one information-dense coupon per slide for improved readability.
+
+- Limited AI creator range sliders to two decimal places for both displayed and submitted values, including fractional controls such as Kling Out Painting.
+- Updated the AI page's initial library load to show the shared full-page `Loading` component until the selected image or video history API completes; the initial request now follows the deep-linked library type.
+- Added optional `/page/ai?type=1|2` deep-linking: `type=1` opens the image library and `type=2` opens the video library after the legacy router is ready.
+- Completed localization of the active AI image/video workspace across all eight supported locales, including creator states, prompts, usage messages, result metadata values, notifications, and page metadata.
+- Hardened generated-video thumbnail fallback so null, empty, or whitespace `imageUrl` values use `/cover-video.svg` in both library cards and the video detail modal.
+- Added pending image/video generation cards to `/page/ai`: successful create requests return to the matching library immediately, and each loading card is replaced or removed by its correlated SignalR result.
+
+## 2026-08-10
+
+- Fixed the customer shop reload flash by keeping the shop page on its loading state while NextAuth restores the session, rendering the sign-in landing only after an unauthenticated result, and moving the current-index redirect into an effect.
+
+## 2026-08-11
+
+- Replaced the Market Properties Product popup's selected-thumbnail checkmarks with numeric badges showing the products' one-based saved order.
+- Removed the user wallet item from the desktop sidebar and mobile hamburger menu while preserving the user wallet route and feature.
+- Repositioned the user sidebar active indicator so ticket and setting align with their menu items after wallet removal.
+
+## 2026-08-09
+
+- Updated the link countdown to show full days for durations longer than 24 hours, using the format `Xd HH:MM:SS` while preserving `HH:MM:SS` for shorter durations.
+
+- Fixed the Instagramer product-detail App Router wrapper by making it a client component, reading `tempId` with `useSearchParams`, and placing the client route content beneath Suspense. This prevents the server build from evaluating client-only session/context code and preserves legacy-page query handling.
+
+- Fixed MyLink shortcut mouse clicks being intercepted by the carousel pointer handler when the shortcut row has no horizontal overflow; pointer dragging now starts only for scrollable rows.
+
+- Fixed Market Properties shortcut actions always receiving `linkId` `1000`: menu options pass their link ID directly, and link-card clicks no longer bubble to the surrounding `pinContainer` handler that resets the selected link.
+
+- Added a styled Market Properties Product popup selector with two radio options: showing the latest 10 products or showing best-selling products.
+- Added two localization keys for this Product popup option selector and translated them across all supported locales (`en`, `fa`, `ar`, `fr`, `ru`, `tr`, `gr`, `az`).
+- Replaced the Market Properties Product popup radio options with the `SelectProduct`-style thumbnail picker; it loads products with cursor scrolling, caps selection at ten IDs, and posts the selected ID array to `Shopper/Product/UpdateShowInBio`, including an empty array.
+- Updated the Market Properties Product popup to load selected products from `Shopper/Product/GetBioProductList` and display selected thumbnails with a large centered check indicator.
+
+- Updated the AI video library cards to render image thumbnails instead of inline playback, using each media `imageUrl` when available and a default `/cover-video.svg` fallback when it is missing.
+- Added a generated-video detail modal that mirrors the generated-image modal structure; clicking a video card now opens the popup and plays the video with native controls (including audio) inside the modal.
+
+- Updated the MyLink coupon feedback so `Copied` replaces the coupon code after a successful copy instead of appearing as a separate message.
+
+- Added a static MyLink Products coupon header with a placeholder countdown, `BRANCY20` code, accessible copy action, and temporary copied feedback while the promotion backend contract is pending.
+
+- Updated the MyLink feature menubar for free horizontal scrolling and active-item centering as the visible feature changes.
+- Converted MyLink FeatureBox to a free horizontal carousel with native scrolling, mouse/pointer dragging, touch support, no snap points, and drag-click suppression.
+- MyLink menubar activation now continues tracking the visible feature during manual page scrolling and smooth menu navigation.
+- Stabilized MyLink active-feature detection around a viewport anchor to prevent menu activation from jumping between nearby sections.
+- Added a permanent Home item for the MyLink menubar, initialized the page on `FeatureType.FeaturesBox`, and removed Contact's mount-time autofocus that could scroll the page away from the top.
+
+- Preserved line breaks in MyLink last-video titles and descriptions, including text segments rendered alongside clickable links.
+- Applied the MyLink last-video text presentation to online-stream titles and descriptions, including preserved line breaks, clickable title links, and consistent responsive line-height.
+
+- Added a free horizontal MyLink shortcut carousel with native touch scrolling and mouse/pointer dragging. Desktop shortcut cards remain capped at 250px, while mobile collections with more than four shortcuts use 200px cards and suppress accidental redirects after dragging.
+
+- Standardized MyLink typography across its CSS modules with shared fluid `clamp()` font tokens, replacing raw pixel sizes and reducing breakpoint-driven jumps between desktop, tablet, and mobile widths.
+
+- Hardened MyLink lifecycle behavior: redirects now run from effects, asynchronous page loading ignores unmounted results, and the mutually exclusive terms, tariff, and business-hours dialogs now use one modal state.
+- Optimized MyLink rendering and media controls: feature rendering uses a memoized lookup map, product search/filter/sort work is deferred and memoized, keyboard carousel navigation is RTL-aware, and live-stream global listeners are lifecycle-cleaned.
+- Improved authenticated MyLink metadata and accessibility by restoring browser zoom, applying `noindex, nofollow`, adding keyboard focus styles, and honoring reduced-motion preferences for product and live-stream movement.
+
+- Standardized the shared SwitchButton while preserving its existing import path and controlled API: the native checkbox remains keyboard-accessible, accepts standard input and ARIA props, provides a 44px touch target, supports valid switch semantics, RTL thumb direction, disabled/focus-visible states, reduced motion, and forced colors.
+
+- Standardized the shared IncrementStepper while preserving its `data`, `increment`, and `decrement` callback API: it now uses semantic buttons with keyboard support, pointer-captured press-and-hold repetition, stale-value-safe decrement handling, click suppression after a long press, 44px touch targets, fluid sizing, and reduced-motion/forced-colors fallbacks. Optional `disabled`, `className`, accessible-label, and per-direction label props are available.
+- Added manual integer entry to IncrementStepper. The new optional `onValueChange`, `min`, and `max` props commit validated values on blur or Enter; all current quantity, lottery, and discount consumers now preserve their existing limits during direct entry.
+
+- Standardized the shared CheckBoxButton while retaining its existing controlled API and import path: the native checkbox is now keyboard-focusable through visual hiding, accepts native ARIA/input attributes, honors `className` and `title`, provides a 44px touch target, and supports visible focus, disabled, reduced-motion, and forced-colors states.
+
+- Standardized the shared TextArea with native textarea props and backward-compatible legacy aliases, reliable RTL/LTR direction, bounded auto-resize, responsive accessible focus styles, reduced-motion/forced-colors support, and a 16px mobile font-size floor that prevents focus zoom.
+
+- Standardized the shared DotMenu with native button/menu semantics, keyboard navigation, focus restoration, Escape and outside-pointer close behavior, responsive touch targets and viewport-bounded menu sizing, RTL-aware placement, reduced-motion/forced-colors support, stable option keys, and option-style rendering. The existing `data`, `handleClickOnIcon`, and `menuPosition` props remain backward compatible alongside `options`, `onOptionSelect`, and `placement`.
+
+- Fixed customer shop, product-detail, and saved-product cards for nullable product titles and discount prices, including safe regular-price fallbacks and string product ID comparison.
+- Added missing CSS-module state selectors used by the customer shop filters and navigation.
+
+- Market Properties no longer shows the edit-options three-dot control on the Products feature card.
+
+## 2026-08-06
+
+- Cleaned the MyLink product module by removing unused visibility state, legacy markup styles, and obsolete search/coupon CSS.
+- Converted MyLink product cards to a free horizontal carousel with touch scrolling, mouse/pointer drag support, no wrapping or snap points, and protection against opening a product link after dragging.
+- Made MyLink product cards responsive with smaller mobile widths, square thumbnails, and two-line ellipsis truncation for long product names.
+- Added responsive MyLink product controls: Best Sellers and Best Discounts sorting toggles, a flex-growing product/PID search field, and a Show All Products reset button that stacks on small screens.
+- Fixed AI media-creator range inputs by allowing fractional steps; backend ranges such as `0` through `0.8` no longer lock at zero because of HTML's default step of `1`. Input types and bounds remain normalized before rendering.
+
+## 2026-08-07
+
+- Improved the shared FlexibleToggleButton with native button semantics, `aria-pressed`, optional group labeling, disabled support, keyboard focus styling, responsive touch targets, RTL-aware unread indicators, reduced-motion support, and forced-colors fallback.
+- Added a shared animated active indicator to FlexibleToggleButton that glides to the selected option while preserving the existing controlled API.
+- Standardized FlexibleToggleButton CSS module class names and removed the render-time warning/empty render restriction for option counts outside the former 2-to-4 range; an empty options list still renders nothing.
+
+- Fixed Domain Manager default and destination links for usernames containing `.`, `_`, `-`, or Persian kashida (`ـ`) by using the path format `baseShortUrl/username` instead of an invalid username subdomain.
+- Removed the unnecessary `www.` prefix from Domain Manager domain displays.
+- Prevented duplicate default-domain display for usernames such as `brancy_demo`.
+
+- Fixed the custom-domain Request button remaining on `RingLoader` during React Strict Mode development cleanup/setup cycles.
+- Domain Manager now sends valid custom-domain requests directly to `Instagramer/Bio/UpdateCustomDomain`; the initial request no longer waits for or is blocked by a client-side CustomDomain feature check.
+- بهینه‌سازی Domain Manager: حذف state و handlerهای بدون مصرف، محاسبه حافظه‌ای اعتبارسنجی و لینک‌ها، پشتیبانی Enter و کنترل‌های native برای دسترسی‌پذیری، لغو درخواست‌های API و cleanup کامل منابع، اصلاح copy دامنه سفارشی و Tariff، حذف consoleهای اضافی، و اصلاح robots/description/zoom صفحه Properties.
+- Modal تأیید درخواست دامنه حذف شد و درخواست معتبر مستقیماً ارسال می‌شود.
+- قوانین Custom Domain به فهرست HTML تبدیل شدند و نمایش آن‌ها به انتخاب رادیوی Custom Domain محدود شد.
+- اصلاح شد: Domain Manager اکنون فقط برای usernameهای دارای `.` از لینک `baseShortUrl/username` استفاده می‌کند؛ usernameهای دارای `_` یا `-` دوباره به شکل `username.baseShortUrl` نمایش داده می‌شوند.
+
+## 2026-08-04
+
+- Added radio controls for choosing the default or custom domain section; inactive panel content is rendered with the shared faded state.
+- Gated the public destination-links section by the selected domain type; custom-domain links now appear only after final activation and use the accepted custom-domain URI.
+- Unified the pending custom-domain connection and verification UI into one name-server stage; the single Connect action remains responsible for both sequential API calls.
+- Added a development-only symbolic `مرحله بعدی (تست)` control to advance custom-domain UI state through DNS completion and activation without backend calls.
+- Corrected the pending custom-domain retry UI so the DNS message appears only in the name-server stage and the Connect button shows a loader throughout both sequential API calls before restarting the cooldown on failure.
+- Added the Persian custom-domain confirmation and pending workflow: requests now require responsibility and provider-delay acknowledgement, pending domains support cancellation and five-minute DNS retry cooldowns, Connect calls connect and verify sequentially, failed propagation is explained inline, and active domains show Settings ticket guidance.
+
+- Stabilized the user home dashboard responsive layout by removing fixed grid row spans and percentage heights without definite parents, anchoring upgrade decorations to their card, constraining narrow-viewport text, and adding reduced-motion support.
+- Replaced user home clickable `div` elements with keyboard-accessible controls, removed nested interactive markup, moved redirects and data loading into effects, and ensured loading ends on API failure or unmount.
+- Fixed the landing pricing slider's maximum-update-depth runtime error by removing bidirectional slider synchronization and deriving tooltip placement directly from the controlled slider value.
+- Standardized global scrollbar behavior across Chromium and Firefox with native `scrollbar-width`/`scrollbar-color` support and a single WebKit refinement.
+- Added stable scrollbar gutter reservation, restored visible keyboard focus outlines, and prevented root-level horizontal overflow from affecting layout.
+- Replaced cross-browser-sensitive modal and landing-page `100vw` sizing with container-relative sizing, removed the landing feature modal's fixed 900px minimum width, and added small-viewport height fallbacks.
+- Replaced unsupported landing header anchor positioning with fixed centering and added a Browserslist target for Chrome, Edge, and Firefox validation.
+- Added a 5px transparent inset around Chromium and Edge scrollbar thumbs; Firefox retains its native thin scrollbar fallback because its standard scrollbar API does not support thumb insets.
+
+## 2026-08-02
+
+- Hardened custom-domain normalization and validation in the market domain manager, including lowercase URL cleanup, domain/label length limits, label/TLD checks, reserved-domain blocking, and a one-shot shake on invalid request attempts; pending requests now replace the form with a three-step progress indicator and DNS cooldown is displayed inside the disabled verification button until Connect becomes available.
+- Added a shopping-bag SVG badge beside the Page post number when `shopMediaProductType` is `ShopMediaProductType.Instance`.
+- Prevented hover-driven Comment Inbox settings-modal renders from repeating the Auto Reply prompt and flow API requests by memoizing the selected media auto-reply configuration.
+
+## 2026-08-01
+
+- Fixed `useInfiniteScroll` retry loops after empty or duplicate-only pages; product and lottery-post picker callbacks now retain the terminal `hasMore` state.
+
+## 2026-07-30
+
+- Replaced the unused order-detail status icon with an accessible back action that closes the detail modal and returns to the invoice popup.
+- Added accessible icon-only close controls to the wallet invoice, bank-card sub-invoice, and order-detail popup headers.
+- Made the shared wallet sub-invoice table fluid on desktop modal widths and retained its horizontal-scroll layout below 680px.
+- Added an accessible SVG order-details action to the sub-invoice popup header; it retrieves the selected invoice through `/api/wallet/getInvoice` and opens its read-only order-detail modal.
+- Added a read-only wallet invoice order-detail popup that requests `/api/order/GetFullOrder` with `invoiceId`, `userId`, and the current language, then renders the shared store order-detail presentation without order actions.
+- Replaced the bank-card sub-invoice popup's global masonry-card dependency with a local responsive card and horizontally scrollable transaction table.
+- Fixed the sub-invoice popup's collapsed content by replacing its inherited 10px-row masonry container with a flex wrapper that grows with the table.
+- Added duplicate-safe cursor pagination to sub-invoice history through `/api/wallet/getSubInvoices`, `nextMaxId`, and `useInfiniteScroll`.
+- Cached sub-invoice history by bank-card number in the payment page so reopening a popup reuses its loaded pages without repeating the initial API request.
+- Prevented a redundant `GetSubInvoices` call on popup close by unmounting its child before the modal exit animation receives an empty card number.
+- Connected the Instagramer payment page invoice-history request to a responsive invoice card section after the bank-card collection, with status/type labels and loading/empty states.
+- Added `useInfiniteScroll` pagination to the invoice-history section, loading later `/api/wallet/getInvoices` pages from the backend cursor and preserving unique invoice IDs.
+- Refined invoice history into responsive financial cards with status accents, a prominent amount, and a structured invoice-details footer.
 
 ## 2026-07-29
 
+- Moved all `InstallPrompt` inline presentation styles, including Share/Add Home Screen SVG styles and RTL-specific layout rules, into `components/website/installPrompt.module.css`.
 - Updated the dependency audit page at `app/dev/test.tsx` to cover all 50 direct packages from `package.json` (41 runtime and 9 development dependencies).
 - Added the missing `@next/third-parties` and `emoji-picker-react` entries, refreshed package counts and the report date, and corrected stale Quill/pako recommendations.
 
@@ -29,6 +365,9 @@
 - Replaced the AI landing cards with a responsive Image/Video segmented workspace and feature-aware create actions.
 - Registered `Instagramer/MediaAi/GetImages`, added its typed `items`/`nextMaxId` response, and load successful image history with `mediaCreationStatus=2`.
 - Added cursor-based infinite scrolling, deduplication, shared metadata summaries, and full generated-image detail modals to the AI image library.
+- Registered `Instagramer/MediaAi/GetVideos` and added a paginated video library with native playback, metadata cards, loading/empty states, and cursor-based infinite scrolling.
+- Connected video creation submissions to `Instagramer/MediaAi/CreateVideo` while retaining the shared creator payload and client-context query.
+- Updated `MediaCreator` for media-neutral submit props, video-specific labels and states, and correct video creator retry behavior.
 - Rendered generated-image JSON metadata as a responsive key/value grid with readable camel-case labels and a safe plain-text fallback.
 - Reworked image creator selection around the full provider/model hierarchy with responsive provider cards, logos, model counts, atomic model selection, and provider-aware form resets.
 - Excluded providers with no available models from the image creator picker so an unusable provider cannot replace the workspace with an empty state.

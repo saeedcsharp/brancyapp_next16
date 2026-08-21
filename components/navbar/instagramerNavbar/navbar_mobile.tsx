@@ -36,10 +36,10 @@ const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: b
     )
       return "wallet";
     else if (
-      newRoute === InstagramerRoute.MarketHome ||
+      newRoute === InstagramerRoute.biolinkHome ||
       newRoute === InstagramerRoute.MarketmyLink ||
-      newRoute === InstagramerRoute.MarketStatistics ||
-      newRoute === InstagramerRoute.MarketProperties
+      newRoute === InstagramerRoute.biolinkStatistics ||
+      newRoute === InstagramerRoute.biolinkProperties
     )
       return "market";
     else if (
@@ -53,7 +53,6 @@ const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: b
       newRoute === InstagramerRoute.StoreProducts ||
       newRoute === InstagramerRoute.StoreOrders ||
       newRoute === InstagramerRoute.StoreStatistics ||
-      newRoute === InstagramerRoute.StoreProperties ||
       newRoute === InstagramerRoute.StorePost
     )
       return "store";
@@ -77,7 +76,7 @@ const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: b
       case "wallet":
         return t(LanguageKey.sidebar_Wallet);
       case "market":
-        return t(LanguageKey.sidebar_Market);
+        return t(LanguageKey.sidebar_biolink);
       case "advertise":
         return t(LanguageKey.sidebar_Advertise);
       case "store":

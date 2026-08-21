@@ -2,7 +2,7 @@
 // ✏️  ONLY EDIT THIS SECTION — everything else updates automatically
 // =============================================================================
 const baseIRUrl = "brancy.ir";
-const baseAppUrl = "patran.ir";
+const baseAppUrl = "brancy.app";
 const baseLocalUrl = "patran.ir";
 const CONFIG = {
   // ── brancy.ir (داخل ایران) ───────────────────────────────────────────────
@@ -38,6 +38,32 @@ const CONFIG = {
 // =============================================================================
 
 const IR_HOST = "brancy.ir";
+const publicDomainMap: Record<string, string> = {
+  localhost: "cowkeeper.ir",
+  "127.0.0.1": "cowkeeper.ir",
+  "::1": "cowkeeper.ir",
+  "patran.ir": "cowkeeper.ir",
+  "brancy.ir": "brncy.ir",
+  "brancy.app": "bran.cy",
+};
+
+function getHostname(value: string): string {
+  const normalized = value.trim().toLowerCase();
+  if (!normalized) return "";
+
+  try {
+    return new URL(normalized.includes("://") ? normalized : `https://${normalized}`).hostname;
+  } catch {
+    return normalized.split("/")[0].split(":")[0];
+  }
+}
+
+/** Resolves a link base to the public domain for the current runtime environment. */
+export function resolvePublicDomain(base: string | null | undefined, runtimeHost?: string | null | undefined): string {
+  const baseHostname = getHostname(base ?? "");
+  const runtimeHostname = getHostname(runtimeHost ?? "");
+  return publicDomainMap[runtimeHostname] ?? publicDomainMap[baseHostname] ?? baseHostname;
+}
 
 function isIrHost(hostname: string): boolean {
   const h = hostname.toLowerCase().split(":")[0];
@@ -112,5 +138,5 @@ export function supportsDirectCalls(): boolean {
   return clientIsIr() || clientIsLocal();
 }
 export function redirectHostUrl() {
-  return "patran.ir";
+  return "brancy.app";
 }

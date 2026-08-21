@@ -4,15 +4,20 @@ import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./TextNode.module.css";
 import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
+import { getTextByteLength, truncateTextToBytes } from "brancy/helper/textByteLength";
+
+const MAX_TEXT_BYTES = 1000;
+
 export const TextNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) => {
   const { t } = useTranslation();
   const [isFocused, setIsFocused] = React.useState<boolean>(false);
   const defaultPlaceholder = t(LanguageKey.pageToolspopup_typehere);
+  const text = node.data?.text === defaultPlaceholder ? "" : node.data?.text || "";
 
   const handlePaste = async () => {
     try {
       const text = await navigator.clipboard.readText();
-      updateNodeData(node.id, { text });
+      updateNodeData(node.id, { text: truncateTextToBytes(text, MAX_TEXT_BYTES) });
     } catch (err) {
       console.error("Failed to read clipboard:", err);
     }
@@ -35,20 +40,23 @@ export const TextNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) => {
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    updateNodeData(node.id, { text: e.target.value });
+    updateNodeData(node.id, { text: truncateTextToBytes(e.target.value, MAX_TEXT_BYTES) });
   };
 
-  // مطمئن شویم که در ابتدا اگر خالی است، placeholder قرار بگیرد
   React.useEffect(() => {
     if (!node.data?.text || node.data.text.trim() === "") {
       updateNodeData(node.id, { text: defaultPlaceholder });
+    } else if (getTextByteLength(node.data.text) > MAX_TEXT_BYTES) {
+      updateNodeData(node.id, { text: truncateTextToBytes(node.data.text, MAX_TEXT_BYTES) });
     }
   }, []);
 
   return (
     <div className={styles.container}>
       <div className="headerparent" style={{ paddingInline: "10px" }}>
-        <span className="counter">{node.data?.text?.length || 0}/2200</span>
+        <span className="counter">
+          {getTextByteLength(text)}/{MAX_TEXT_BYTES}
+        </span>
         <img
           style={{ cursor: "pointer", width: "20px", height: "20px" }}
           title="ℹ️ paste"
@@ -64,8 +72,7 @@ export const TextNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) => {
         <TextArea
           className="TextArea"
           placeHolder={defaultPlaceholder}
-          maxLength={2200}
-          value={node.data?.text === defaultPlaceholder ? "" : node.data?.text || ""}
+          value={text}
           handleInputChange={handleChange}
           handleInputonFocus={handleFocus}
           handleInputBlur={handleBlur}

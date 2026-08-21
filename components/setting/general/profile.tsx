@@ -2,7 +2,7 @@ import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import { KeyboardEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import TextArea from "brancy/components/design/textArea/textArea";
 import { LanguageKey } from "brancy/i18n";
 
@@ -73,7 +73,7 @@ function Profile() {
           <label className="headertext" htmlFor="user-fullname">
             {t(LanguageKey.user)}
           </label>
-          <InputText
+          <InputBox
             id="user-fullname"
             className="textinputbox"
             disabled={true}
@@ -87,7 +87,7 @@ function Profile() {
             {t(LanguageKey.InstagramID)}
           </label>
           <div className="headerparent">
-            <InputText
+            <InputBox
               id="user-username"
               className="textinputbox"
               disabled={true}
@@ -103,14 +103,13 @@ function Profile() {
           </label>
           <div className={styles.biographyContainer}>
             <TextArea
-              className="TextArea"
               id="user-biography"
               name="biography"
-              placeHolder="bio"
+              placeholder="bio"
               maxLength={2200}
               value={userData.biography}
               readOnly={true}
-              role="textbox"
+              fadeTextArea={true}
               title={t(LanguageKey.advertiseProperties_biography)}
               aria-readonly="true"
               aria-label={t(LanguageKey.advertiseProperties_biography)}

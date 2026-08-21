@@ -4,6 +4,10 @@
 
 Shared Sass styles and theme variables.
 
+## Design System Rule
+
+This module is the source to inspect before writing UI styles. New components and pages should reuse its variables, typography, layout, button, icon, animation, and other shared style layers so the application keeps one coherent visual system. Add new tokens or shared rules only when the existing system cannot express the requirement, and keep the addition documented.
+
 ## Business Purpose
 
 Provides global design tokens and reusable style layers.
@@ -155,13 +159,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

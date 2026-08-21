@@ -12,6 +12,9 @@ Supports multilingual and RTL/LTR product usage.
 
 Owns the folder/module concerns described by its file tree and exports.
 Maintains aligned `Notify_*` translations for backend response notifications across `en`, `fa`, `ar`, `fr`, `ru`, `tr`, `gr`, and `az`.
+Maintains equal coverage of all 2,971 direct string translation keys across the eight locale files.
+The Meta direct-login AI-analysis notice is represented by `LanguageKey.metaRedirect_aiAnalysisNotice` and is translated in all eight locale resources.
+The home profile status map uses `syncingAccountTitle`, `syncingAccountDescription`, `subscriptionExpiringTitle`, and `subscriptionExpiringDescription`; these keys are present in all eight locale resources.
 
 ## Architecture
 
@@ -20,10 +23,13 @@ Follows existing Next/React/TypeScript project conventions.
 ## Folder Structure
 
 `i18n.ts`, `i18n/`, `context/directionContext.tsx`, `helper/detectLocaleFromTimezone.ts`, `helper/checkRtl.ts`.
+`scripts/sync-i18n-keys.cjs` maintains locale key alignment and updates `LanguageKey` for direct string keys.
 
 ## Execution Flow
 
 Execution starts from imports, route rendering, or helper calls depending on the module.
+
+`i18n.ts` remains English-first for SSR. Components that mirror the stored browser language must initialize their render state to English and read `localStorage` only in an effect after hydration.
 
 ## Data Flow
 

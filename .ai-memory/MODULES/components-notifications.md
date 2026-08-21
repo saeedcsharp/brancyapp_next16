@@ -13,6 +13,8 @@ Supports Brancy notifications workflows or shared UI.
 Owns the folder/module concerns described by its file tree and exports.
 Maps `ResponseType` values to localized `LanguageKey.Notify_*` messages for both legacy and hook-based toast APIs.
 
+Internal notifications include the localized `InternalNotify_PageAnalysisNotCompleted` message used when an Instagram page has no completed AI analysis.
+
 ## Architecture
 
 Follows existing Next/React/TypeScript project conventions.

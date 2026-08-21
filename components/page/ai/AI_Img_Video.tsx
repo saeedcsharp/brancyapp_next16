@@ -2,8 +2,8 @@ import { useSession } from "next-auth/react";
 import router, { useRouter } from "next/router";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import InputBox from "brancy/components/design/inputBox/inputBox";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
@@ -164,17 +164,17 @@ export default function AIPage() {
           <div className={styles.left} style={{ display: displayLeft }}>
             {/* ___search ___*/}
 
-            <InputText
+            <InputBox
               className={"serachMenuBar"}
               placeHolder={t(LanguageKey.searchKeyword)}
               handleInputChange={(e) => setSearchbox(e.target.value)}
               value={searchbox}
               maxLength={undefined}
-              name="Search from People or Keyword"
+              name={t("Search from People or Keyword")}
             />
 
             {/* ___switch button ___*/}
-            <FlexibleToggleButton
+            <ToggleButton
               onChange={handleToggleChange}
               selectedValue={toggleOrder}
               options={[
@@ -213,7 +213,10 @@ export default function AIPage() {
               </>
             )}
             {toggleOrder === ToggleOrder.SecondToggle && (
-              <div onClick={() => setUserSelectedId("")} className={styles.addnewlink} title="◰ Create new Flow">
+              <div
+                onClick={() => setUserSelectedId("")}
+                className={styles.addnewlink}
+                title={`◰ ${t("Create new Flow")}`}>
                 <div className={styles.addnewicon}>
                   <svg width="36" height="36" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
                     <path
@@ -484,7 +487,7 @@ export default function AIPage() {
           )} */}
           {userSelectedId === null && (
             <div className={styles.disableRight} style={{ display: displayRight }}>
-              <img className={styles.disableRightimage} alt="Welcome illustration" src="/disableright.svg" />
+              <img className={styles.disableRightimage} alt={t("Welcome illustration")} src="/disableright.svg" />
               <div>
                 <h3>{t(LanguageKey.flowmanagement)}</h3>
               </div>

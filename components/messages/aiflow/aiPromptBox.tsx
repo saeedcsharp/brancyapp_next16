@@ -1,10 +1,10 @@
 import AIButton from "brancy/components/design/ai/AIButton";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
-import RadioButton from "brancy/components/design/radioButton";
+import RadioButton from "brancy/components/design/radioButton/radioButton";
 import TextArea from "brancy/components/design/textArea/textArea";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import LiveChat from "brancy/components/messages/aiflow/popup/liveChat";
 import {
@@ -44,6 +44,7 @@ const AIPromptBox = ({
   tools,
   setTools,
   setShowNotFeature,
+  openPromptAnalysisModal,
 }: {
   aiTools: IAITools[];
   userSelectId: string | null;
@@ -62,6 +63,7 @@ const AIPromptBox = ({
   tools: ITool[];
   setTools: React.Dispatch<React.SetStateAction<ITool[]>>;
   setShowNotFeature: (value: boolean) => void;
+  openPromptAnalysisModal: (initialText: string, onAccept: (text: string) => void, onClose: () => void) => void;
 }) => {
   const { data: session } = useSession({
     required: true,
@@ -71,7 +73,7 @@ const AIPromptBox = ({
   });
   const router = useRouter();
   const chatBoxRef = useRef<HTMLDivElement>(null);
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const manualModeId = useId();
   const analysisModeId = useId();
   const [isPending, startTransition] = useTransition();
@@ -80,6 +82,7 @@ const AIPromptBox = ({
     fbId: "",
     promptId: "",
     promptStr: "",
+    tools: [],
     reNewForThread: false,
     shouldFollower: false,
     title: "",
@@ -119,19 +122,42 @@ const AIPromptBox = ({
   }, []);
 
   const getDisplayName = useCallback(
-    (name: string) => {
-      switch (name) {
-        case "send_sms_ir_code":
-          return t(LanguageKey.sendsms);
-        case "send_to_telegram":
-          return t(LanguageKey.sendtotelegram);
-        case "SENDER_USERNAME":
-          return t(LanguageKey.senderusername);
-        default:
-          return name;
+    (
+      tool: Pick<IAITools, "name"> &
+        Partial<
+          Pick<
+            IAITools,
+            | "displayNameEn"
+            | "displayNameFa"
+            | "displayNameRu"
+            | "displayNameDe"
+            | "displayNameTr"
+            | "displayNameAz"
+            | "displayNameAr"
+            | "displayNameFr"
+          >
+        >,
+    ) => {
+      if (tool.name === "SENDER_USERNAME") {
+        return t(LanguageKey.senderusername);
       }
+
+      const language = i18n.language.split("-")[0];
+      const displayNameByLanguage = {
+        en: tool.displayNameEn,
+        fa: tool.displayNameFa,
+        ru: tool.displayNameRu,
+        de: tool.displayNameDe,
+        gr: tool.displayNameDe,
+        tr: tool.displayNameTr,
+        az: tool.displayNameAz,
+        ar: tool.displayNameAr,
+        fr: tool.displayNameFr,
+      } as const;
+
+      return displayNameByLanguage[language as keyof typeof displayNameByLanguage] || tool.displayNameEn || tool.name;
     },
-    [t],
+    [i18n.language, t],
   );
 
   useEffect(() => {
@@ -161,6 +187,12 @@ const AIPromptBox = ({
         if (!signal?.aborted) {
           if (res.succeeded) {
             setDetailedPrompt(res.value);
+            setTools(
+              (res.value.tools ?? []).map((tool) => ({
+                toolId: String(tool.toolId),
+                parameters: tool.parameters ?? [],
+              })),
+            );
             const hasAnalysis = res.value.customPromptAnalysis !== null;
             setAdvancePrompt(hasAnalysis);
             setPromptMode(hasAnalysis ? "analysis" : "manual");
@@ -193,6 +225,7 @@ const AIPromptBox = ({
     }
     try {
       setUpdateLoading(true);
+      console.log("tools", tools);
       const res = await clientFetchApi<ICreatePrompt, ITotalPrompt>("/api/ai/CreatePrompt", {
         methodType: MethodType.post,
         session: session,
@@ -220,47 +253,91 @@ const AIPromptBox = ({
       setUpdateLoading(false);
     }
   }, [session, detailedPrompt, advancePrompt, userSelectId, updateAIPrompt, setShowAIToolsSettings, tools]);
-  const handleGetPromptAnalysis = useCallback(async () => {
-    const hasAccess = await fetchAndCheckFeature(PsgFeatureType.AI, session);
-    if (!hasAccess) {
-      setShowNotFeature(true);
-      return;
-    }
-    setDetailedPrompt((prev) => ({ ...prev, customPromptAnalysis: null }));
-    setLoadingPromptAnalysis(true);
-    setShowAnalysisContent(false);
-    startTransition(async () => {
-      try {
-        const res = await clientFetchApi<string, IAnalysisPrompt>("/api/ai/GetPromptAnalysis", {
-          methodType: MethodType.post,
-          session: session,
-          data: { str: detailedPrompt.promptStr },
-          queries: undefined,
-          onUploadProgress: undefined,
-        });
-        if (res.succeeded) {
-          setDetailedPrompt((prev) => ({
-            ...prev,
-            customPromptAnalysis: res.value,
-          }));
-          // show content with a tiny delay to allow CSS transitions
-          setTimeout(() => setShowAnalysisContent(true), 5);
-        } else {
-          notify(res.info.responseType, NotifType.Warning);
+  const handleGetPromptAnalysis = useCallback(
+    async (promptText = detailedPrompt.promptStr) => {
+      const hasAccess = await fetchAndCheckFeature(PsgFeatureType.AI, session);
+      if (!hasAccess) {
+        setShowNotFeature(true);
+        return;
+      }
+      setDetailedPrompt((prev) => ({ ...prev, customPromptAnalysis: null }));
+      setLoadingPromptAnalysis(true);
+      setShowAnalysisContent(false);
+      startTransition(async () => {
+        try {
+          const res = await clientFetchApi<string, IAnalysisPrompt>("/api/ai/GetPromptAnalysis", {
+            methodType: MethodType.post,
+            session: session,
+            data: { str: promptText },
+            queries: undefined,
+            onUploadProgress: undefined,
+          });
+          if (res.succeeded) {
+            setDetailedPrompt((prev) => ({
+              ...prev,
+              customPromptAnalysis: res.value,
+            }));
+            // show content with a tiny delay to allow CSS transitions
+            setTimeout(() => setShowAnalysisContent(true), 5);
+          } else {
+            notify(res.info.responseType, NotifType.Warning);
+            setPromptMode("manual");
+            setAdvancePrompt(false);
+            setShowAnalysisContent(false);
+          }
+        } catch (error) {
+          notify(ResponseType.Unexpected, NotifType.Error);
           setPromptMode("manual");
           setAdvancePrompt(false);
           setShowAnalysisContent(false);
+        } finally {
+          setLoadingPromptAnalysis(false);
         }
-      } catch (error) {
-        notify(ResponseType.Unexpected, NotifType.Error);
-        setPromptMode("manual");
-        setAdvancePrompt(false);
+      });
+    },
+    [session, detailedPrompt.promptStr, startTransition],
+  );
+
+  const acceptPromptAnalysis = useCallback(
+    (promptAnalysisText: string) => {
+      setDetailedPrompt((prev) => ({
+        ...prev,
+        promptStr: promptAnalysisText,
+      }));
+      handleGetPromptAnalysis(promptAnalysisText);
+    },
+    [handleGetPromptAnalysis],
+  );
+
+  const closePromptAnalysisModal = useCallback(() => {
+    setPromptMode("manual");
+    setAdvancePrompt(false);
+    setShowAnalysisContent(false);
+  }, []);
+
+  const handlePromptAnalysisSelection = useCallback(async () => {
+    try {
+      const res = await clientFetchApi<boolean, boolean>("/api/ai/HasPageAnalysis", {
+        methodType: MethodType.get,
+        session,
+        data: null,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
+
+      if (res.succeeded && res.value === true) {
+        setPromptMode("analysis");
+        setAdvancePrompt(true);
         setShowAnalysisContent(false);
-      } finally {
-        setLoadingPromptAnalysis(false);
+        openPromptAnalysisModal(detailedPrompt.promptStr, acceptPromptAnalysis, closePromptAnalysisModal);
+        return;
       }
-    });
-  }, [session, detailedPrompt.promptStr, startTransition]);
+
+      internalNotify(InternalResponseType.PageAnalysisNotCompleted, NotifType.Warning);
+    } catch {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    }
+  }, [acceptPromptAnalysis, closePromptAnalysisModal, detailedPrompt.promptStr, openPromptAnalysisModal, session]);
 
   useEffect(() => {
     const abortController = new AbortController();
@@ -277,6 +354,7 @@ const AIPromptBox = ({
         fbId: "",
         promptId: "",
         promptStr: "",
+        tools: [],
         reNewForThread: false,
         shouldFollower: false,
         title: "",
@@ -304,6 +382,22 @@ const AIPromptBox = ({
         name: "SENDER_USERNAME",
         description: "Use username in your prompt",
         completeDescription: "Use username in your prompt",
+        completeDescriptionEn: "Use username in your prompt",
+        completeDescriptionRu: "Use username in your prompt",
+        completeDescriptionFa: "Use username in your prompt",
+        completeDescriptionDe: "Use username in your prompt",
+        completeDescriptionTr: "Use username in your prompt",
+        completeDescriptionAz: "Use username in your prompt",
+        completeDescriptionAr: "Use username in your prompt",
+        completeDescriptionFr: "Use username in your prompt",
+        displayNameEn: "",
+        displayNameFa: "",
+        displayNameRu: "",
+        displayNameDe: "",
+        displayNameTr: "",
+        displayNameAz: "",
+        displayNameAr: "",
+        displayNameFr: "",
         tokenUsage: 0,
         parameters: [],
         toolType: ToolType.SendTelegramMessage,
@@ -360,7 +454,7 @@ const AIPromptBox = ({
             </div>
 
             {!isWideScreen && (
-              <FlexibleToggleButton
+              <ToggleButton
                 options={[
                   { id: 0, label: t(LanguageKey.General) },
                   { id: 1, label: t(LanguageKey.testlab) },
@@ -385,7 +479,7 @@ const AIPromptBox = ({
                       {detailedPrompt.title.length}/50
                     </div>
                   </div>
-                  <InputText
+                  <InputBox
                     id="prompt-title"
                     dangerOnEmpty
                     maxLength={50}
@@ -422,16 +516,7 @@ const AIPromptBox = ({
                         }}
                       />
 
-                      <div
-                        style={{ transition: "var(--transition3)" }}
-                        className={
-                          detailedPrompt.promptStr
-                            .trim()
-                            .split(/\s+/)
-                            .filter((word) => word.length > 0).length < 2 || detailedPrompt.promptStr.length <= 20
-                            ? "fadeDiv"
-                            : ""
-                        }>
+                      <div style={{ transition: "var(--transition3)" }}>
                         <RadioButton
                           name="promptMode"
                           id={analysisModeId}
@@ -439,12 +524,7 @@ const AIPromptBox = ({
                           textlabel={t(LanguageKey.promptanalysis)}
                           handleOptionChanged={(e) => {
                             if (e.target.checked) {
-                              setPromptMode("analysis");
-                              setAdvancePrompt(true);
-                              setShowAnalysisContent(false);
-                              if (detailedPrompt.promptStr.length > 0) {
-                                handleGetPromptAnalysis();
-                              }
+                              void handlePromptAnalysisSelection();
                             }
                           }}
                         />
@@ -474,64 +554,60 @@ const AIPromptBox = ({
                           autoExpandOnFocus
                           initialHeight={120}
                         />
-                        {tools.length > 0 && (
-                          <div className={styles.toolsList} role="list" aria-label="Added tools">
-                            {tools.map((tool, index) => (
-                              <div key={`added-tool-${index}`} className={styles.toolsItem} role="listitem">
-                                <span className={styles.toolsItemName}>{tool.toolId}</span>
-                                {tool.parameters.map((param, pi) => (
-                                  <span key={pi} className={styles.toolsItemParam}>
-                                    {param.name}
-                                    {": "}
-                                    <span
-                                      style={{ cursor: "copy" }}
-                                      title="Copy value"
-                                      onClick={() => navigator.clipboard.writeText(param.value)}>
-                                      {param.value}
-                                    </span>
-                                  </span>
-                                ))}
-                                <button
-                                  type="button"
-                                  className={styles.toolsItemRemove}
-                                  aria-label={`Remove tool ${tool.toolId}`}
-                                  onClick={() => setTools((prev) => prev.filter((_, i) => i !== index))}>
-                                  ✕
-                                </button>
-                              </div>
-                            ))}
-                          </div>
-                        )}
                         <div className={styles.promptModeoptionlist} role="list">
-                          {mergedAITools.map((tool, index) => (
-                            <div
-                              key={`tool-${index}-${tool.name}`}
-                              className={styles.promptModeoption}
-                              onClick={() => {
-                                setSelectedAITool(tool);
-                                setShowAIToolsSettings(true);
-                              }}
-                              onKeyDown={(e) => {
-                                if (e.key === "Enter" || e.key === " ") {
-                                  e.preventDefault();
+                          {mergedAITools.map((tool, index) => {
+                            const selectedToolIndex = tools.findIndex(
+                              (selectedTool) => selectedTool.toolId === String(tool.toolType),
+                            );
+                            const isSelected = tool.name !== "SENDER_USERNAME" && selectedToolIndex !== -1;
+
+                            return (
+                              <div
+                                key={`tool-${index}-${tool.name}`}
+                                className={`${styles.promptModeoption} ${isSelected ? styles.promptModeoptionSelected : ""}`}
+                                onClick={() => {
                                   setSelectedAITool(tool);
                                   setShowAIToolsSettings(true);
-                                }
-                              }}
-                              role="button"
-                              tabIndex={0}
-                              aria-label={`Add ${getDisplayName(tool.name)} to prompt`}
-                              style={{ cursor: "pointer" }}>
-                              <img
-                                style={{ cursor: "pointer", width: "20px", height: "20px" }}
-                                alt="Add"
-                                title={tool.description}
-                                src="/icon-plus.svg"
-                                aria-hidden="true"
-                              />
-                              {getDisplayName(tool.name)}
-                            </div>
-                          ))}
+                                }}
+                                onKeyDown={(e) => {
+                                  if (e.key === "Enter" || e.key === " ") {
+                                    e.preventDefault();
+                                    setSelectedAITool(tool);
+                                    setShowAIToolsSettings(true);
+                                  }
+                                }}
+                                role="button"
+                                tabIndex={0}
+                                aria-pressed={isSelected}
+                                aria-label={`${isSelected ? "Edit" : "Add"} ${getDisplayName(tool)}`}>
+                                {!isSelected && (
+                                  <img
+                                    style={{ width: "20px", height: "20px" }}
+                                    alt=""
+                                    title={tool.description}
+                                    src="/icon-plus.svg"
+                                    aria-hidden="true"
+                                  />
+                                )}
+                                <span>{getDisplayName(tool)}</span>
+                                {isSelected && (
+                                  <button
+                                    type="button"
+                                    className={styles.promptModeoptionRemove}
+                                    aria-label={`Remove ${getDisplayName(tool)}`}
+                                    onKeyDown={(event) => event.stopPropagation()}
+                                    onClick={(event) => {
+                                      event.stopPropagation();
+                                      setTools((prev) =>
+                                        prev.filter((_, toolIndex) => toolIndex !== selectedToolIndex),
+                                      );
+                                    }}>
+                                    <span aria-hidden="true">×</span>
+                                  </button>
+                                )}
+                              </div>
+                            );
+                          })}
                         </div>
                       </>
                     )}
@@ -556,7 +632,7 @@ const AIPromptBox = ({
                           {promptMode === "analysis" && !loadingPromptAnalysis && (
                             <button
                               className={styles.reanalize}
-                              onClick={handleGetPromptAnalysis}
+                              onClick={() => handleGetPromptAnalysis()}
                               onKeyDown={(e) => e.key === "Enter" && handleGetPromptAnalysis()}
                               aria-label="Reanalyze prompt"
                               type="button">
@@ -607,64 +683,70 @@ const AIPromptBox = ({
                       )}
                     {promptMode === "analysis" && !loadingPromptAnalysis && showAnalysisContent && (
                       <>
-                        {tools.length > 0 && (
-                          <div className={styles.toolsList} role="list" aria-label="Added tools">
-                            {tools.map((tool, index) => (
-                              <div key={`added-tool-analysis-${index}`} className={styles.toolsItem} role="listitem">
-                                <span className={styles.toolsItemName}>{tool.toolId}</span>
-                                {tool.parameters.map((param, pi) => (
-                                  <span key={pi} className={styles.toolsItemParam}>
-                                    {param.name}
-                                    {": "}
-                                    <span
-                                      style={{ cursor: "copy" }}
-                                      title="Copy value"
-                                      onClick={() => navigator.clipboard.writeText(param.value)}>
-                                      {param.value}
-                                    </span>
-                                  </span>
-                                ))}
-                                <button
-                                  type="button"
-                                  className={styles.toolsItemRemove}
-                                  aria-label={`Remove tool ${tool.toolId}`}
-                                  onClick={() => setTools((prev) => prev.filter((_, i) => i !== index))}>
-                                  ✕
-                                </button>
-                              </div>
-                            ))}
-                          </div>
-                        )}
                         <div className={styles.promptModeoptionlist} role="list">
-                          {mergedAITools.map((tool, index) => (
-                            <div
-                              key={`tool-analysis-${index}-${tool.name}`}
-                              className={styles.promptModeoption}
-                              onClick={() => {
-                                setSelectedAITool(tool);
-                                setShowAIToolsSettings(true);
-                              }}
-                              onKeyDown={(e) => {
-                                if (e.key === "Enter" || e.key === " ") {
-                                  e.preventDefault();
-                                  setSelectedAITool(tool);
-                                  setShowAIToolsSettings(true);
+                          {mergedAITools.map((tool, index) => {
+                            const selectedToolIndex = tools.findIndex(
+                              (selectedTool) => selectedTool.toolId === String(tool.toolType),
+                            );
+                            const isSelected = tool.name !== "SENDER_USERNAME" && selectedToolIndex !== -1;
+                            const isDisabled = tool.name === "SENDER_USERNAME";
+
+                            return (
+                              <div
+                                key={`tool-analysis-${index}-${tool.name}`}
+                                className={`${styles.promptModeoption} ${isSelected ? styles.promptModeoptionSelected : ""} ${isDisabled ? styles.promptModeoptionDisabled : ""}`}
+                                onClick={
+                                  isDisabled
+                                    ? undefined
+                                    : () => {
+                                        setSelectedAITool(tool);
+                                        setShowAIToolsSettings(true);
+                                      }
                                 }
-                              }}
-                              role="button"
-                              tabIndex={0}
-                              aria-label={`Add ${getDisplayName(tool.name)} to prompt`}
-                              style={{ cursor: "pointer" }}>
-                              <img
-                                style={{ cursor: "pointer", width: "20px", height: "20px" }}
-                                alt="Add"
-                                title={tool.description}
-                                src="/icon-plus.svg"
-                                aria-hidden="true"
-                              />
-                              {getDisplayName(tool.name)}
-                            </div>
-                          ))}
+                                onKeyDown={
+                                  isDisabled
+                                    ? undefined
+                                    : (e) => {
+                                        if (e.key === "Enter" || e.key === " ") {
+                                          e.preventDefault();
+                                          setSelectedAITool(tool);
+                                          setShowAIToolsSettings(true);
+                                        }
+                                      }
+                                }
+                                role="button"
+                                tabIndex={isDisabled ? -1 : 0}
+                                aria-disabled={isDisabled}
+                                aria-pressed={isDisabled ? undefined : isSelected}
+                                aria-label={`${isSelected ? "Edit" : "Add"} ${getDisplayName(tool)}`}>
+                                {!isSelected && !isDisabled && (
+                                  <img
+                                    style={{ width: "20px", height: "20px" }}
+                                    alt=""
+                                    title={tool.description}
+                                    src="/icon-plus.svg"
+                                    aria-hidden="true"
+                                  />
+                                )}
+                                <span>{getDisplayName(tool)}</span>
+                                {isSelected && !isDisabled && (
+                                  <button
+                                    type="button"
+                                    className={styles.promptModeoptionRemove}
+                                    aria-label={`Remove ${getDisplayName(tool)}`}
+                                    onKeyDown={(event) => event.stopPropagation()}
+                                    onClick={(event) => {
+                                      event.stopPropagation();
+                                      setTools((prev) =>
+                                        prev.filter((_, toolIndex) => toolIndex !== selectedToolIndex),
+                                      );
+                                    }}>
+                                    <span aria-hidden="true">×</span>
+                                  </button>
+                                )}
+                              </div>
+                            );
+                          })}
                         </div>
                       </>
                     )}

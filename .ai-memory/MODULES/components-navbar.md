@@ -24,7 +24,7 @@ components/navbar/.
 
 The Instagramer layout owns desktop popup visibility. Desktop uses a search button in the header. Mobile search is a locally controlled accordion section inside `LeftHamMenue`, positioned with the notification and profile sections rather than beside the route tabs. Opening search closes notification and profile accordions; selecting a result closes the complete mobile menu before navigation.
 
-`NavbarMobile` and desktop `NavbarTabs` derive their active sections directly from App Router `usePathname()`. The `/page/ai` route family, including image and video creation subroutes, maps to the Page section on mobile and the Content Creator tab on desktop so both navigation logos are available on client navigation and direct reload.
+`NavbarMobile` and desktop `NavbarTabs` derive their active sections directly from App Router `usePathname()`. The `/page/ai` route family, including image and video creation subroutes, maps to the Page section on mobile and the Content Creator tab on desktop so both navigation logos are available on client navigation and direct reload. Store navigation exposes Products, Orders, and Statistics; the Store Properties route remains directly addressable but is omitted from desktop and mobile navigation.
 
 ## Data Flow
 

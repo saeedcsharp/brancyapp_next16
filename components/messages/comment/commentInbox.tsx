@@ -2,16 +2,16 @@ import { getClientGraphBaseUrl, getClientMediaBaseUrl } from "brancy/helper/apiB
 import { HubConnection, HubConnectionBuilder, HubConnectionState } from "@microsoft/signalr";
 import { useSession } from "next-auth/react";
 import router from "next/router";
-import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
+import { ChangeEvent, MouseEvent, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import {
   internalNotify,
@@ -133,7 +133,7 @@ const CommentInbox = () => {
     hasMore: !!postCommentInbox?.oldestCursor && !showSearchThread.searchMode,
     fetchMore: async () => {
       if (postCommentInbox?.oldestCursor) {
-        await fetchData(CommentType.Post, postCommentInbox.oldestCursor, null);
+        return fetchData(CommentType.Post, postCommentInbox.oldestCursor, null);
       }
       return [];
     },
@@ -154,7 +154,7 @@ const CommentInbox = () => {
     hasMore: !!storyCommentInbox?.oldestCursor && !showSearchThread.searchMode,
     fetchMore: async () => {
       if (storyCommentInbox?.oldestCursor) {
-        await fetchData(CommentType.Story, storyCommentInbox.oldestCursor, null);
+        return fetchData(CommentType.Story, storyCommentInbox.oldestCursor, null);
       }
       return [];
     },
@@ -186,6 +186,39 @@ const CommentInbox = () => {
 
   // Statistics popup state
   const [showStatisticsPopup, setShowStatisticsPopup] = useState(false);
+
+  const settingsAutoReply = useMemo<IAutomaticReply | null>(() => {
+    const currentChatBox = handleSpecifyChatBox();
+    if (!currentChatBox) return null;
+
+    return (
+      currentChatBox.automaticCommentReply ?? {
+        automaticType: 0,
+        items: [],
+        masterFlow: null,
+        masterFlowId: null,
+        mediaId: currentChatBox.mediaId,
+        pauseTime: Date.now(),
+        productType: 0,
+        prompt: null,
+        promptId: null,
+        replySuccessfullyDirected: false,
+        response: "",
+        sendCount: 0,
+        sendPr: false,
+        shouldFollower: false,
+        productId: null,
+      }
+    );
+  }, [
+    postCommentInbox,
+    searchBusinessInbox,
+    searchPostCommentInbox,
+    showSearchThread.searchMode,
+    storyCommentInbox,
+    toggleOrder,
+    userSelectedId,
+  ]);
 
   // Update vanish mode when selected user changes
   useEffect(() => {
@@ -334,7 +367,11 @@ const CommentInbox = () => {
     }
   };
 
-  const fetchData = async (ticketType: CommentType, nextMaxId: string | null, query: string | null) => {
+  const fetchData = async (
+    ticketType: CommentType,
+    nextMaxId: string | null,
+    query: string | null,
+  ): Promise<IMedia[]> => {
     if (ticketType === CommentType.Post && !activeHideInbox) {
       console.log("nextMaxId", nextMaxId);
       console.log("searchTerm", query);
@@ -384,9 +421,11 @@ const CommentInbox = () => {
           }));
           notify(postComments.info.responseType, NotifType.Warning);
         }
+        return postComments.succeeded ? postComments.value.medias : [];
       } catch (error) {
         notify(ResponseType.Unexpected, NotifType.Error);
         // handleDisConnectedNetwork();
+        return [];
       }
       // mainNavOrderId = generalRes.value.mainNavOrderId;
     } else if (ticketType === CommentType.Story && !activeHideInbox) {
@@ -405,11 +444,16 @@ const CommentInbox = () => {
         });
         console.log("businessRes ", businessRes.value);
         if (businessRes.succeeded && !query) {
-          setStoryCommentInbox((prev) => ({
-            ...prev!,
-            oldestCursor: businessRes.value.oldestCursor,
-            medias: [...prev!.medias, ...businessRes.value.medias],
-          }));
+          setStoryCommentInbox((prev) => {
+            const existingMediaIds = new Set(prev!.medias.map((media) => media.mediaId));
+            const uniqueNewMedias = businessRes.value.medias.filter((media) => !existingMediaIds.has(media.mediaId));
+
+            return {
+              ...prev!,
+              oldestCursor: businessRes.value.oldestCursor,
+              medias: [...prev!.medias, ...uniqueNewMedias],
+            };
+          });
         } else if (businessRes.succeeded && query) {
           if (businessRes.value.medias.length > 0) {
             setSearchBusinessInbox(businessRes.value);
@@ -428,8 +472,10 @@ const CommentInbox = () => {
           }));
           notify(businessRes.info.responseType, NotifType.Warning);
         }
+        return businessRes.succeeded ? businessRes.value.medias : [];
       } catch (error) {
         notify(ResponseType.Unexpected, NotifType.Error);
+        return [];
       }
     } else if (ticketType === CommentType.Post && activeHideInbox) {
       try {
@@ -465,10 +511,13 @@ const CommentInbox = () => {
           }));
           notify(hideFb.info.responseType, NotifType.Warning);
         }
+        return hideFb.succeeded ? hideFb.value.medias : [];
       } catch (error) {
         notify(ResponseType.Unexpected, NotifType.Error);
+        return [];
       }
     }
+    return [];
   };
   async function fetchStoryCpmments() {
     try {
@@ -983,7 +1032,6 @@ const CommentInbox = () => {
                         ...x,
                         commentEnabled: true,
                         commentCount: newComent.Username.length == 0 ? x.commentCount : x.commentCount + 1,
-                        unSeenCount: newComent.SentByOwner ? 0 : x.unSeenCount,
                         unAnsweredCount:
                           newComent.SentByOwner &&
                           x.comments.find((c) => c.id === newComent.ParrentId)?.replys?.find((x) => x.sentByOwner)
@@ -1485,6 +1533,7 @@ const CommentInbox = () => {
                         sendCount: 0,
                         sendPr: false,
                         shouldFollower: false,
+                        productId: null,
                       },
                 },
           ),
@@ -1539,6 +1588,7 @@ const CommentInbox = () => {
                         sendCount: 0,
                         sendPr: false,
                         shouldFollower: false,
+                        productId: null,
                       },
                 },
           ),
@@ -1627,7 +1677,7 @@ const CommentInbox = () => {
             {/* ___search ___*/}
             <div className={styles.search}>
               <div className={styles.searchbox}>
-                <InputText
+                <InputBox
                   className={"serachMenuBar"}
                   placeHolder={t(LanguageKey.searchMessage)}
                   handleInputChange={handleSearchThreads}
@@ -1727,7 +1777,7 @@ const CommentInbox = () => {
             </div>
             {/* ___switch button ___*/}
             {!activeHideInbox && (
-              <FlexibleToggleButton
+              <ToggleButton
                 onChange={handleToggleChange}
                 selectedValue={toggleOrder}
                 options={[
@@ -2365,7 +2415,7 @@ const CommentInbox = () => {
           <div className={chatBoxStyles.autoreplyContent}>
             {(() => {
               const currentChatBox = handleSpecifyChatBox();
-              if (!currentChatBox) return null;
+              if (!currentChatBox || !settingsAutoReply) return null;
               return (
                 <>
                   <div className="headerandinput translate" style={{ marginBottom: "30px" }}>
@@ -2392,28 +2442,10 @@ const CommentInbox = () => {
                       handleUpdateAutoReplySettings(sendReply);
                     }}
                     handleActiveAutoReply={handlePauseAutoReplySettings}
-                    autoReply={
-                      currentChatBox.automaticCommentReply !== null
-                        ? currentChatBox.automaticCommentReply
-                        : {
-                            automaticType: 0,
-                            items: [],
-                            masterFlow: null,
-                            masterFlowId: null,
-                            mediaId: currentChatBox.mediaId,
-                            pauseTime: Date.now(),
-                            productType: 0,
-                            prompt: null,
-                            promptId: null,
-                            replySuccessfullyDirected: false,
-                            response: "",
-                            sendCount: 0,
-                            sendPr: false,
-                            shouldFollower: false,
-                          }
-                    }
+                    autoReply={settingsAutoReply}
                     productType={currentChatBox.productType}
                     showActiveAutoreply={true}
+                    shopMediaProductType={currentChatBox.shopMediaProductType}
                   />
                 </>
               );

@@ -21,12 +21,12 @@ import AIWithPrompt from "brancy/components/design/ai/AIWithPrompt";
 import ConstantCounterDown from "brancy/components/design/counterDown/constantCounterDown";
 import DragComponent from "brancy/components/design/dragComponent/dragComponent";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
 import ProgressBar from "brancy/components/design/progressBar/progressBar";
 import TextArea from "brancy/components/design/textArea/textArea";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import {
   internalNotify,
   InternalResponseType,
@@ -492,6 +492,7 @@ const CreatePost = () => {
     promptId: null,
     sendCount: 0,
     replySuccessfullyDirected: false,
+    productId: null,
   });
   const [hashtagList, setHashtagList] = useState<string[]>([]);
   const [renderWidthSize, setRenderwidthSize] = useState(333);
@@ -792,6 +793,7 @@ const CreatePost = () => {
       masterFlowId: sendAutoReply.masterFlowId,
       sendCount: 0,
       replySuccessfullyDirected: false,
+      productId: sendAutoReply.productId,
     });
     uiDispatch({ type: "TOGGLE_QUICK_REPLY_POPUP", payload: false });
     if (!QuickReply) formDispatch({ type: "TOGGLE_QUICK_REPLY" });
@@ -846,6 +848,7 @@ const CreatePost = () => {
                   sendPr: autoReply.sendPr,
                   shouldFollower: autoReply.shouldFollower,
                   replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
+                  productId: autoReply.productId,
                 }
               : null,
             collaborators: collabratorPages,
@@ -898,6 +901,7 @@ const CreatePost = () => {
                   sendPr: autoReply.sendPr,
                   shouldFollower: autoReply.shouldFollower,
                   replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
+                  productId: autoReply.productId,
                 }
               : null,
 
@@ -967,6 +971,7 @@ const CreatePost = () => {
                 sendPr: autoReply.sendPr,
                 shouldFollower: autoReply.shouldFollower,
                 replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
+                productId: autoReply.productId,
               }
             : null,
           collaborators: collabratorPages,
@@ -2044,6 +2049,7 @@ const CreatePost = () => {
           prompt: null,
           promptId: draft.automaticMediaReply ? draft.automaticMediaReply.promptId : null,
           sendCount: 0,
+          productId: draft.automaticMediaReply ? draft.automaticMediaReply.productId : null,
         });
         setCollabratorPages(draft.collaborators);
         formDispatch({ type: "SET_CAPTION", payload: draft.caption });
@@ -2166,6 +2172,7 @@ const CreatePost = () => {
                 prompt: null,
                 promptId: null,
                 sendCount: 0,
+                productId: null,
               },
         );
         setCollabratorPages(prePost.collaborators);
@@ -2905,7 +2912,7 @@ const CreatePost = () => {
                             });
                           }}
                           className={postType == PostType.Single ? styles.selectedType : styles.type}>
-                          {t(LanguageKey.markethomepost)}
+                          {t(LanguageKey.biolinkHomepost)}
                         </div>
                         <div
                           title="ℹ️ change to ALBUM"
@@ -3065,7 +3072,7 @@ const CreatePost = () => {
                   <div className="headerandinput">
                     <div className="title">{t(LanguageKey.TagMention)}</div>
                     <div className="ButtonContainer fadeDiv" style={{ height: "40px" }}>
-                      <InputText
+                      <InputBox
                         name="search-location"
                         className={"serachMenuBar"}
                         placeHolder={t(LanguageKey.searchLocation)}
@@ -3098,7 +3105,7 @@ const CreatePost = () => {
 
                     <div className={`headerandinput ${showMedias.length === 0 && "fadeDiv"}`}>
                       <div className="headerparent" style={{ height: "40px", padding: "3px" }}>
-                        <InputText
+                        <InputBox
                           name="search-people"
                           className={"serachMenuBar"}
                           placeHolder={t(LanguageKey.searchPeople)}
@@ -3150,7 +3157,7 @@ const CreatePost = () => {
                     <div className="explain ">{t(LanguageKey.CollaboratorExplain)}</div>
                     {/* باید برای collaborator کد ها تغییر پیدا کنند */}
                     <div className="headerparent">
-                      <InputText
+                      <InputBox
                         fadeTextArea={prePostId > 0 || collabratorPages.length >= 5}
                         name="search-people"
                         className={"serachMenuBar"}
@@ -3370,7 +3377,7 @@ const CreatePost = () => {
                         }
                       }}
                       disabled={!handleActiveAutoComment}>
-                      {t(LanguageKey.marketstatisticsfeatures)}
+                      {t(LanguageKey.biolinkStatisticsfeatures)}
                     </button>
                   </div>
 

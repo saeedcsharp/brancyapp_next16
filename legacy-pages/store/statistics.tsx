@@ -1,17 +1,29 @@
 import AdReport from "brancy/components/advertise/adList/popups/adreport";
+import Modal from "brancy/components/design/modal";
 import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotShopper from "brancy/components/notOk/notShopper";
+import { NotifType, notify } from "brancy/components/notifications/notificationBox";
+import CouponManager from "brancy/components/store/statistics/couponManager";
+import CreateCouponModal, { CreateCouponRequest } from "brancy/components/store/statistics/createCouponModal";
+import UpdateCouponModal, { UpdateCouponRequest } from "brancy/components/store/statistics/updateCouponModal";
 import TotalSalesReport from "brancy/components/store/statistics/totalSalesReport";
 import TotalSales from "brancy/components/store/statistics/totalSalesStatistics";
 import TwoMonth from "brancy/components/store/statistics/twoMonth";
+import { MethodType } from "brancy/helper/api";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { PartnerRole } from "brancy/models/enums";
-import { IBuyerPurchaseReport, ISaleMonth, ISaleShortMonth, IStoreStatisticsInfo } from "brancy/models/interfaces";
+import IUserCoupon, {
+  IBuyerPurchaseReport,
+  ISaleMonth,
+  ISaleShortMonth,
+  IStoreStatisticsInfo,
+} from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./statistics.module.css";
 
@@ -27,6 +39,18 @@ const Statistics = () => {
   const [hasTotalMore, setHasTotalMore] = useState(false);
   const [advertiseId, setAdvertiseId] = useState(0);
   const [showReport, setShowReport] = useState(false);
+  const [showCreateCoupon, setShowCreateCoupon] = useState(false);
+  const [editingCoupon, setEditingCoupon] = useState<IUserCoupon | null>(null);
+  const [coupons, setCoupons] = useState<IUserCoupon[]>([]);
+  const [isLoadingCoupons, setIsLoadingCoupons] = useState(true);
+  const [couponsNextMaxId, setCouponsNextMaxId] = useState<string | null>(null);
+  const [isActive, setIsActive] = useState(true);
+  const [isPrivate, setIsPrivate] = useState(false);
+  const [couponSearchQuery, setCouponSearchQuery] = useState("");
+  const [updatingCouponId, setUpdatingCouponId] = useState<number | null>(null);
+  const [isLoadingMoreCoupons, setIsLoadingMoreCoupons] = useState(false);
+  const isLoadingMoreCouponsRef = useRef(false);
+  const normalCouponsCacheRef = useRef(new Map<string, { coupons: IUserCoupon[]; nextMaxId: string | null }>());
   const router = useRouter();
   const [twoMonth, setTwoMonth] = useState<ISaleMonth[]>([]);
   const [totalSalesStatistics, setTotalSalesStatistics] = useState<ISaleShortMonth[]>([]);
@@ -37,6 +61,135 @@ const Statistics = () => {
   function showAdReport(advertiseId: number) {
     setAdvertiseId(advertiseId);
     setShowReport(true);
+  }
+  const loadCoupons = useCallback(async () => {
+    if (!session) return;
+    const query = couponSearchQuery.trim();
+    const cacheKey = `${isActive}:${isPrivate}`;
+    const cachedCoupons = !query ? normalCouponsCacheRef.current.get(cacheKey) : undefined;
+    if (cachedCoupons) {
+      setCoupons(cachedCoupons.coupons);
+      setCouponsNextMaxId(cachedCoupons.nextMaxId);
+      return;
+    }
+    setIsLoadingCoupons(true);
+    setCoupons([]);
+    setCouponsNextMaxId(null);
+    const response = await clientFetchApi<undefined, IUserCoupon[]>("/api/coupon/GetCoupons", {
+      session,
+      queries: query ? [{ key: "query", value: query }] : [],
+    });
+    if (response.succeeded) {
+      const firstPage = response.value ?? [];
+      const nextMaxId = firstPage.length > 0 ? String(firstPage[firstPage.length - 1].couponId) : null;
+      setCoupons(firstPage);
+      setCouponsNextMaxId(nextMaxId);
+      if (!query) normalCouponsCacheRef.current.set(cacheKey, { coupons: firstPage, nextMaxId });
+    } else {
+      notify(response.info.responseType, NotifType.Warning);
+      setCoupons([]);
+      setCouponsNextMaxId(null);
+    }
+    setIsLoadingCoupons(false);
+  }, [couponSearchQuery, isActive, isPrivate, session]);
+
+  const fetchMoreCoupons = useCallback(async (): Promise<IUserCoupon[]> => {
+    if (!session || !couponsNextMaxId || couponSearchQuery.trim()) return [];
+    const response = await clientFetchApi<undefined, IUserCoupon[]>("/api/coupon/GetCoupons", {
+      session,
+      queries: [{ key: "nextMaxId", value: couponsNextMaxId }],
+    });
+    if (!response.succeeded) {
+      notify(response.info.responseType, NotifType.Warning);
+      setCouponsNextMaxId(null);
+      return [];
+    }
+    const items = response.value ?? [];
+    setCouponsNextMaxId(items.length > 0 ? String(items[items.length - 1].couponId) : null);
+    return items;
+  }, [couponSearchQuery, couponsNextMaxId, isActive, isPrivate, session]);
+
+  const handleLoadMoreCoupons = useCallback(async () => {
+    if (isLoadingMoreCouponsRef.current || !couponsNextMaxId || couponSearchQuery.trim()) return;
+    isLoadingMoreCouponsRef.current = true;
+    setIsLoadingMoreCoupons(true);
+    try {
+      const newCoupons = await fetchMoreCoupons();
+      if (newCoupons.length > 0) {
+        setCoupons((current) => {
+          const existingIds = new Set(current.map((coupon) => coupon.couponId));
+          const updatedCoupons = [...current, ...newCoupons.filter((coupon) => !existingIds.has(coupon.couponId))];
+          normalCouponsCacheRef.current.set(`${isActive}:${isPrivate}`, {
+            coupons: updatedCoupons,
+            nextMaxId: couponsNextMaxId,
+          });
+          return updatedCoupons;
+        });
+      }
+    } finally {
+      isLoadingMoreCouponsRef.current = false;
+      setIsLoadingMoreCoupons(false);
+    }
+  }, [couponSearchQuery, couponsNextMaxId, fetchMoreCoupons]);
+  async function handleCreateCoupon(coupon: CreateCouponRequest): Promise<boolean> {
+    if (!session) return false;
+    const response = await clientFetchApi<CreateCouponRequest, boolean>("/api/coupon/CreateCoupon", {
+      methodType: MethodType.post,
+      session,
+      data: coupon,
+    });
+    if (!response.succeeded) {
+      notify(response.info.responseType, NotifType.Warning);
+      return false;
+    }
+    normalCouponsCacheRef.current.clear();
+    await loadCoupons();
+    return true;
+  }
+  async function handleUpdateCoupon(coupon: UpdateCouponRequest): Promise<boolean> {
+    if (!session) return false;
+    const response = await clientFetchApi<undefined, boolean>("/api/coupon/UpdateCoupon", {
+      methodType: MethodType.get,
+      session,
+      queries: [
+        { key: "couponId", value: String(coupon.couponId) },
+        { key: "expireTime", value: String(coupon.expireTime) },
+        { key: "maxCount", value: String(coupon.maxCount) },
+        { key: "showInBio", value: String(coupon.showInBio) },
+      ],
+    });
+    if (!response.succeeded) {
+      notify(response.info.responseType, NotifType.Warning);
+      return false;
+    }
+    normalCouponsCacheRef.current.clear();
+    await loadCoupons();
+    return true;
+  }
+  async function handleCouponVisibilityChange(coupon: IUserCoupon, isDelete: boolean) {
+    if (!session) return;
+    setUpdatingCouponId(coupon.couponId);
+    const response = await clientFetchApi<undefined, boolean>(
+      isDelete ? "/api/coupon/DeleteCoupon" : "/api/coupon/ActivateCoupon",
+      {
+        session,
+        queries: [{ key: "couponId", value: String(coupon.couponId) }],
+      },
+    );
+    if (response.succeeded) {
+      setCoupons((previous) =>
+        previous.map((item) => (item.couponId === coupon.couponId ? { ...item, isDeleted: isDelete } : item)),
+      );
+      normalCouponsCacheRef.current.forEach((cached, key) => {
+        normalCouponsCacheRef.current.set(key, {
+          ...cached,
+          coupons: cached.coupons.map((item) =>
+            item.couponId === coupon.couponId ? { ...item, isDeleted: isDelete } : item,
+          ),
+        });
+      });
+    } else notify(response.info.responseType, NotifType.Warning);
+    setUpdatingCouponId(null);
   }
   async function handleLoadMore(pagination: number) {
     //Api to get more total sales report based on <<< pagination >>>
@@ -320,7 +473,9 @@ const Statistics = () => {
     if (session?.user.currentIndex === -1) router.push("/user");
     if (!session || !packageStatus(session)) router.push("/upgrade");
   }, [session]);
-
+  useEffect(() => {
+    loadCoupons();
+  }, [loadCoupons]);
   if (!session?.user.isShopper) return <NotShopper />;
   if (!RoleAccess(session, PartnerRole.Products) && !RoleAccess(session, PartnerRole.Orders)) return <NotAllowed />;
   return (
@@ -352,18 +507,49 @@ const Statistics = () => {
             {/* ___statistics___*/}
 
             <TotalSales data={totalSalesStatistics} />
-          </div>
-          {/* ___salesreport___*/}
 
-          <div className={styles.pinContainer1}>
+            {/* ___salesreport___*/}
+
             <TotalSalesReport
               salesReports={totalSalesReport}
               handleLoadMore={handleLoadMore}
               hasTotalMore={hasTotalMore}
             />
+            <CouponManager
+              coupons={coupons}
+              isLoading={isLoadingCoupons}
+              isLoadingMore={isLoadingMoreCoupons}
+              onReachEnd={handleLoadMoreCoupons}
+              isActive={isActive}
+              isPrivate={isPrivate}
+              searchQuery={couponSearchQuery}
+              onSearchQueryChange={setCouponSearchQuery}
+              onActiveFilterChange={setIsActive}
+              onPrivateFilterChange={setIsPrivate}
+              updatingCouponId={updatingCouponId}
+              onCreateClick={() => setShowCreateCoupon(true)}
+              onEditClick={(coupon) => {
+                setEditingCoupon(coupon);
+              }}
+              onVisibilityChange={handleCouponVisibilityChange}
+            />
           </div>
         </main>
         {showReport && <AdReport removeMask={removeMask} advertiseId={advertiseId} />}
+        <CreateCouponModal
+          closePopup={() => setShowCreateCoupon(false)}
+          showContent={showCreateCoupon}
+          onCreate={handleCreateCoupon}
+        />
+        <Modal closePopup={() => setEditingCoupon(null)} classNamePopup="popup" showContent={Boolean(editingCoupon)}>
+          {editingCoupon && (
+            <UpdateCouponModal
+              coupon={editingCoupon}
+              closePopup={() => setEditingCoupon(null)}
+              onUpdate={handleUpdateCoupon}
+            />
+          )}
+        </Modal>
       </>
     )
   );

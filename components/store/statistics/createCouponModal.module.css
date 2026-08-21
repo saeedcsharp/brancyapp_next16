@@ -1,0 +1,80 @@
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-20);
+  min-height: 100%;
+}
+
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-10);
+}
+
+.header h2 {
+  margin: 0;
+  color: var(--text-h1);
+  font-size: var(--font-18);
+  font-weight: var(--weight-600);
+}
+
+.closeButton {
+  display: grid;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 0;
+  border-radius: 50%;
+  background: transparent;
+  cursor: pointer;
+  place-items: center;
+}
+
+.closeButton img {
+  width: 20px;
+  height: 20px;
+}
+
+.fields {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-15);
+  flex: 1;
+}
+
+.dateButton {
+  display: flex;
+  width: 100%;
+  min-height: 44px;
+  padding: 0 var(--padding-10);
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-10);
+  border: 1px solid var(--box-border);
+  border-radius: var(--br10);
+  background: var(--background-root);
+  color: var(--text-h1);
+  font: inherit;
+  font-size: 16px;
+  cursor: pointer;
+}
+
+.dateButton img {
+  width: 24px;
+  height: 24px;
+}
+
+.visibilityControl {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-10);
+  color: var(--text-h2);
+  font-size: var(--font-14);
+}
+
+.form > .ButtonContainer {
+  margin-top: auto;
+}

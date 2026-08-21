@@ -1,7 +1,7 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useSession } from "next-auth/react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { ReactNode, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { LoginStatus } from "brancy/helper/loadingStatus";
 import { numberToFormattedString } from "brancy/helper/numberFormater";
@@ -10,7 +10,74 @@ import Loading from "brancy/components/notOk/loading";
 import styles from "./ingageInfo.module.css";
 import { TopTileType } from "brancy/models/enums";
 import { IInstagramerHomeTiles, IStoryContent } from "brancy/models/interfaces";
+import Tooltip from "../design/tooltip/tooltip";
 const basePictureUrl = getClientMediaBaseUrl();
+const FIRST_LOGIN_DURATION_MS = 24 * 60 * 60 * 1000;
+const SUBSCRIPTION_WARNING_SECONDS = 7 * 24 * 60 * 60;
+type StatusIconType = "shopper" | "influencer" | "sync" | "warning";
+type StatusType = StatusIconType | "upgrade";
+type StatusItem = {
+  key: string;
+  type: StatusType;
+  priority: number;
+  condition: boolean;
+  content: ReactNode;
+};
+const StatusIcon = ({ type }: { type: StatusIconType }) => {
+  if (type === "shopper") {
+    return (
+      <svg className={styles.upgradeicon} fill="none" viewBox="0 0 42 42" aria-hidden="true">
+        <path
+          d="M3.5 38c3 3.3 10.1 3.4 17.3 3.5 7-.1 14.2-.2 17.2-3.5 3.3-3 3.4-10.1 3.5-17.2-.1-7.2-.2-14.3-3.5-17.3C35 .2 28 .1 20.8 0 13.6.1 6.5.2 3.5 3.5.2 6.5.1 13.6 0 20.8.1 27.8.2 35 3.5 38"
+          fill="var(--color-light-green60)"
+        />
+        <path
+          d="M25.2 9.3a6 6 0 0 1 6 5.4l1.1 10.5v.3a6.4 6.4 0 0 1-6.4 6.7H15.6a6.4 6.4 0 0 1-6.4-7l1.1-10.5a6 6 0 0 1 6-5.4zM16.3 12c-1.6 0-3 1.2-3.2 2.9L12 25.5c-.2 2.1 1.4 4 3.6 4h10.3c2.1 0 3.7-1.8 3.6-3.8v-.2l-1-10.5a3 3 0 0 0-3.3-3z M15.9 15.9a1.4 1.4 0 1 1 2.8 0 2.1 2.1 0 1 0 4.2 0 1.4 1.4 0 0 1 2.8 0 4.9 4.9 0 0 1-9.8 0"
+          fill="var(--color-light-green)"
+        />
+      </svg>
+    );
+  }
+  if (type === "influencer") {
+    return (
+      <svg className={styles.upgradeicon} fill="none" viewBox="0 0 42 42" aria-hidden="true">
+        <path
+          d="M14.3.5h12.9q2.1 0 3.7 1.5l9 9.1q1.5 1.6 1.6 3.7v12.9q0 2.1-1.5 3.7l-9.1 9Q29.3 42 27.2 42H14.3q-2.2 0-3.7-1.5l-9-9.1Q0 29.8 0 27.7V14.8q0-2.1 1.5-3.7l9.1-9Q12.1.5 14.3.4"
+          fill="var(--color-purple60)"
+        />
+        <path
+          d="m32.7 25-3.1-1.5c-.8-.4-1.8 0-2.1.7s-.1 1.7.6 2l3.2 1.6c.7.4 1.7 0 2-.7q.6-1.4-.6-2m-9.3-11.9q-1-.4-2 .1s-2 1.5-4.3 1.5h-3.7a5.4 5.4 0 0 0-1.8 10.5v2.1a1.8 1.8 0 0 0 3.6 0v-1.8h1.9c2.2 0 4.4 1.5 4.4 1.5q1 .6 1.9.1 1-.5 1-1.6V14.8q0-1-1-1.6m-2 10q-1.9-.9-4.2-1H13a2 2 0 0 1-2-2q.2-1.8 2-2h4.2q2.3 0 4.2-.9zm7.4-1.4H32q1.3-.1 1.5-1.6-.2-1.4-1.5-1.5h-3.2q-1.4.1-1.5 1.5.1 1.5 1.5 1.6m.7-4.8 3.2-1.6q1.1-.8.7-2-.8-1.3-2.2-.8l-3 1.6q-1.3.8-.8 2c.4.8 1.4 1.1 2.1.7"
+          fill="var(--color-purple)"
+        />
+      </svg>
+    );
+  }
+  if (type === "sync") {
+    return (
+      <svg
+        stroke="var(--color-light-blue)"
+        fill="none"
+        className={styles.syncicon}
+        xmlns="http://www.w3.org/2000/svg"
+        viewBox="0 0 24 22">
+        <path d="M4.05 11.9a7.98 7.98 0 0 1 9.92-8.65 8 8 0 0 1 4.27 2.73m1.72 4.14q.04.45.04.88a7.98 7.98 0 0 1-10.18 7.7 8 8 0 0 1-4.05-2.67m9.8-9.47h.89c1.24 0 1.88 0 2.27-.39s.4-1.02.4-2.27V3M8.45 15.44h-.89c-1.26 0-1.89 0-2.28.4-.4.39-.38 1.02-.38 2.27V19" />
+      </svg>
+    );
+  }
+  if (type === "warning") {
+    return (
+      <svg
+        className={styles.upgradeicon}
+        fill="none"
+        stroke="var(--color-dark-red)"
+        viewBox="0 0 24 24"
+        aria-hidden="true">
+        <path d="M13.92 21h-3.84c-4.64 0-6.95 0-7.8-1.5-.86-1.51.33-3.5 2.7-7.5L6.9 8.75C9.18 4.92 10.31 3 12 3s2.82 1.92 5.1 5.75L19.02 12c2.37 4 3.56 5.99 2.7 7.5s-3.16 1.5-7.8 1.5M12 9v4" />
+        <path d="M12.13 16.75H12m.25 0a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0" />
+      </svg>
+    );
+  }
+};
 const IngageInfo = (props: {
   data: IInstagramerHomeTiles | null;
   collaboratePostNumber: number;
@@ -19,123 +86,205 @@ const IngageInfo = (props: {
   const { t } = useTranslation();
   const { data: session } = useSession();
   const [loadingStatus, setLoadingStaus] = useState(LoginStatus(session));
+  const [currentTime, setCurrentTime] = useState(0);
+  const [firstLoginAt, setFirstLoginAt] = useState<number | null>(null);
+  const [activeStatusIndex, setActiveStatusIndex] = useState(0);
   useEffect(() => {
     if (props.data && LoginStatus(session)) setLoadingStaus(false);
-  }, [props.data]);
+  }, [props.data, session]);
+  useEffect(() => {
+    if (!session || session?.user.createdTime === null) return;
+    if (typeof window === "undefined") return;
+    console.log("loginTime", session?.user.createdTime);
+    const loginTime = session?.user.createdTime ? session.user.createdTime * 1000 : Date.now();
+    setFirstLoginAt(loginTime);
+    setCurrentTime(Date.now());
+    const timer = window.setInterval(() => setCurrentTime(Date.now()), 1000);
+    return () => window.clearInterval(timer);
+  }, [session]);
+  const firstLoginRemaining = firstLoginAt ? Math.max(0, FIRST_LOGIN_DURATION_MS - (currentTime - firstLoginAt)) : 0;
+  const firstLoginProgress = (firstLoginRemaining / FIRST_LOGIN_DURATION_MS) * 100;
+  const syncSeconds = Math.ceil(firstLoginRemaining / 1000);
+  const syncHours = Math.floor(syncSeconds / 3600);
+  const syncMinutes = Math.floor((syncSeconds % 3600) / 60);
+  const syncRemainingSeconds = syncSeconds % 60;
+  const packageRemainingSeconds = (session?.user.packageExpireTime ?? 0) - Math.floor(currentTime / 1000);
+  const subscriptionRemainingDays = Math.ceil(packageRemainingSeconds / (24 * 60 * 60));
+  const statusMap: StatusItem[] = [
+    {
+      key: "firstLogin",
+      type: "sync",
+      priority: 1,
+      condition: firstLoginRemaining > 0,
+      content: (
+        <>
+          <div className="headerandinput" style={{ gap: "1px" }}>
+            <div className="title2">
+              {" "}
+              {t(LanguageKey.syncingAccountTitle)}{" "}
+              <Tooltip
+                triggerType="tooltip"
+                tooltipValue={t(LanguageKey.syncingAccountDescriptiontooltip)}
+                position="bottom"
+                onClick></Tooltip>{" "}
+            </div>
+            <div className="explain">{t(LanguageKey.syncingAccountDescription)}</div>
+            <div
+              className={styles.progressbar}
+              role="progressbar"
+              aria-valuemin={0}
+              aria-valuemax={100}
+              aria-valuenow={Math.round(firstLoginProgress)}>
+              <div className={styles.progressvalue} style={{ width: `${firstLoginProgress}%` }} />
+            </div>
+            <div className={styles.countdown}>
+              {syncHours.toString().padStart(2, "0")}:{syncMinutes.toString().padStart(2, "0")}:
+              {syncRemainingSeconds.toString().padStart(2, "0")}
+            </div>
+          </div>
+          <StatusIcon type="sync" />
+        </>
+      ),
+    },
+    {
+      key: "subscriptionExpiring",
+      type: "warning",
+      priority: 2,
+      condition: packageRemainingSeconds > 0 && packageRemainingSeconds < SUBSCRIPTION_WARNING_SECONDS,
+      content: (
+        <>
+          <div className="headerandinput" style={{ gap: "1px" }}>
+            <div className="title2">{t(LanguageKey.subscriptionExpiringTitle)}</div>
+            <div className="explain">{t(LanguageKey.subscriptionExpiringDescription)}</div>
+            <div className="IDred">
+              {t(LanguageKey.subscriptionDaysRemaining, { days: numberToFormattedString(subscriptionRemainingDays) })}
+            </div>
+          </div>
+          <Link className={styles.upgradeicon} href="/upgrade" aria-label={t(LanguageKey.upgradeyouraccount)}>
+            <StatusIcon type="warning" />
+          </Link>
+        </>
+      ),
+    },
+    {
+      key: "shopper",
+      type: "shopper",
+      priority: 3,
+      condition: Boolean(session?.user.isShopper),
+      content: (
+        <>
+          <div className="headerandinput" style={{ gap: "1px" }}>
+            <div className="title2">{t(LanguageKey.shoppertitle)}</div>
+            <div className="explain">{t(LanguageKey.shopperdescription)}</div>
+          </div>
+          <Link className={styles.upgradeicon} href="/store" aria-label={t(LanguageKey.shoppertitle)}>
+            <StatusIcon type="shopper" />
+          </Link>
+        </>
+      ),
+    },
+    {
+      key: "influencer",
+      type: "influencer",
+      priority: 4,
+      condition: Boolean(session?.user.isInfluencer),
+      content: (
+        <>
+          <div className="headerandinput" style={{ gap: "1px" }}>
+            <div className="title2">{t(LanguageKey.advertisertitle)}</div>
+            <div className="explain">{t(LanguageKey.advertiserdescription)}</div>
+          </div>
+          <Link className={styles.upgradeicon} href="/advertise" aria-label={t(LanguageKey.advertisertitle)}>
+            <StatusIcon type="influencer" />
+          </Link>
+        </>
+      ),
+    },
+    {
+      key: "upgrade",
+      type: "upgrade",
+      priority: 10,
+      condition: !session?.user.isShopper && !session?.user.isInfluencer,
+      content: (
+        <>
+          <div className="headerandinput" style={{ gap: "1px" }}>
+            <div className="title2">{t(LanguageKey.upgradeyouraccount)}</div>
+            <div className="explain">{t(LanguageKey.likeaprouser)}</div>
+          </div>
+          <div className={styles.statusactions}>
+            <Link className={styles.upgradeicon} href="/advertise" aria-label={t(LanguageKey.advertisertitle)}>
+              <StatusIcon type="influencer" />
+            </Link>
+            <Link className={styles.upgradeicon} href="/store" aria-label={t(LanguageKey.shoppertitle)}>
+              <StatusIcon type="shopper" />
+            </Link>
+          </div>
+        </>
+      ),
+    },
+  ];
+  const activeStatuses = statusMap
+    .filter((status) => status.condition)
+    .sort((firstStatus, secondStatus) => firstStatus.priority - secondStatus.priority);
+  const activeStatusKeys = activeStatuses.map((status) => status.key).join("|");
+  const selectedStatus = activeStatuses[activeStatusIndex] ?? activeStatuses[0];
+  useEffect(() => {
+    setActiveStatusIndex(0);
+  }, [activeStatusKeys]);
+  const showNextStatus = () => {
+    setActiveStatusIndex((currentIndex) => (currentIndex + 1) % activeStatuses.length);
+  };
+  const showPreviousStatus = () => {
+    setActiveStatusIndex((currentIndex) => (currentIndex - 1 + activeStatuses.length) % activeStatuses.length);
+  };
   return (
     <>
       {loadingStatus && <Loading />}
       {!loadingStatus && props.data && (
         <>
           <section className={styles.personalinfosection}>
-            <div className="instagramprofile ">
-              <img
-                style={{ width: "50px", height: "50px" }}
-                loading="lazy"
-                decoding="async"
-                className="instagramimage"
-                alt="profile image"
-                src={session?.user?.profileUrl ? basePictureUrl + session?.user?.profileUrl : "/no-profile.svg"}
-              />
-              <div className="instagramprofiledetail">
-                <div className="instagramusername">{session?.user?.fullName ?? ""}</div>
-                <div className="instagramid translate">@{session?.user?.username ?? ""}</div>
-                {/* <div className="instagramprofiledetail">
-                  <div className="instagramusername">
-                    {session?.user?.biography ?? ""}
-                  </div>
-                </div> */}
+            <div className="headerparent" style={{ justifyContent: "space-between", alignItems: "flex-start" }}>
+              <div className="instagramprofile ">
+                <img
+                  style={{ width: "40px", height: "40px" }}
+                  loading="lazy"
+                  decoding="async"
+                  className="instagramimage"
+                  alt="profile image"
+                  src={session?.user?.profileUrl ? basePictureUrl + session?.user?.profileUrl : "/no-profile.svg"}
+                />
+                <div className="instagramprofiledetail">
+                  <div className="instagramusername">{session?.user?.fullName ?? ""}</div>
+                  <div className="instagramid translate">@{session?.user?.username ?? ""}</div>
+                </div>
               </div>
-            </div>
-            <div className="headerparent">
-              <div className="headerandinput">
-                {session?.user?.isShopper ? (
-                  <>
-                    <div className="instagramusername">{t(LanguageKey.shoppertitle)}</div>
-                    <div className="instagramid">{t(LanguageKey.shopperdescription)}</div>
-                  </>
-                ) : session?.user?.isInfluencer ? (
-                  <>
-                    <div className="instagramusername">{t(LanguageKey.advertisertitle)}</div>
-                    <div className="instagramid">{t(LanguageKey.advertiserdescription)}</div>
-                  </>
-                ) : (
-                  <>
-                    <div className="instagramusername">{t(LanguageKey.upgradeyouraccount)}</div>
-                    <div className="instagramid">{t(LanguageKey.likeaprouser)}</div>
-                  </>
-                )}
-              </div>
-              {session?.user?.isShopper ? (
-                <Link className={styles.upgradeicon} href="/store">
-                  <svg
-                    style={{ width: "40px", height: "40px" }}
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 42 42">
-                    <path
-                      d="M3.5 38c3 3.3 10.1 3.4 17.3 3.5 7-.1 14.2-.2 17.2-3.5 3.3-3 3.4-10.1 3.5-17.2-.1-7.2-.2-14.3-3.5-17.3C35 .2 28 .1 20.8 0 13.6.1 6.5.2 3.5 3.5.2 6.5.1 13.6 0 20.8.1 27.8.2 35 3.5 38"
-                      fill="var(--color-light-green60)"
-                    />
-                    <path
-                      d="M25.2 9.3a6 6 0 0 1 6 5.4l1.1 10.5v.3a6.4 6.4 0 0 1-6.4 6.7H15.6a6.4 6.4 0 0 1-6.4-7l1.1-10.5a6 6 0 0 1 6-5.4zM16.3 12c-1.6 0-3 1.2-3.2 2.9L12 25.5c-.2 2.1 1.4 4 3.6 4h10.3c2.1 0 3.7-1.8 3.6-3.8v-.2l-1-10.5a3 3 0 0 0-3.3-3z M15.9 15.9a1.4 1.4 0 1 1 2.8 0 2.1 2.1 0 1 0 4.2 0 1.4 1.4 0 0 1 2.8 0 4.9 4.9 0 0 1-9.8 0"
-                      fill="var(--color-light-green)"
-                    />
-                  </svg>
-                </Link>
-              ) : session?.user?.isInfluencer ? (
-                <Link className={styles.upgradeicon} href="/advertise">
-                  <svg
-                    style={{ width: "40px", height: "40px" }}
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 42 42">
-                    <path
-                      d="M14.3.5h12.9q2.1 0 3.7 1.5l9 9.1q1.5 1.6 1.6 3.7v12.9q0 2.1-1.5 3.7l-9.1 9Q29.3 42 27.2 42H14.3q-2.2 0-3.7-1.5l-9-9.1Q0 29.8 0 27.7V14.8q0-2.1 1.5-3.7l9.1-9Q12.1.5 14.3.4"
-                      fill="var(--color-purple60)"
-                    />
-                    <path
-                      d="m32.7 25-3.1-1.5c-.8-.4-1.8 0-2.1.7s-.1 1.7.6 2l3.2 1.6c.7.4 1.7 0 2-.7q.6-1.4-.6-2m-9.3-11.9q-1-.4-2 .1s-2 1.5-4.3 1.5h-3.7a5.4 5.4 0 0 0-1.8 10.5v2.1a1.8 1.8 0 0 0 3.6 0v-1.8h1.9c2.2 0 4.4 1.5 4.4 1.5q1 .6 1.9.1 1-.5 1-1.6V14.8q0-1-1-1.6m-2 10q-1.9-.9-4.2-1H13a2 2 0 0 1-2-2q.2-1.8 2-2h4.2q2.3 0 4.2-.9zm7.4-1.4H32q1.3-.1 1.5-1.6-.2-1.4-1.5-1.5h-3.2q-1.4.1-1.5 1.5.1 1.5 1.5 1.6m.7-4.8 3.2-1.6q1.1-.8.7-2-.8-1.3-2.2-.8l-3 1.6q-1.3.8-.8 2c.4.8 1.4 1.1 2.1.7"
-                      fill="var(--color-purple)"
-                    />
-                  </svg>
-                </Link>
-              ) : (
-                <>
-                  <Link className={styles.upgradeicon} href="/advertise">
-                    <svg
-                      style={{ width: "40px", height: "40px" }}
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 42 42">
-                      <path
-                        d="M14.3.5h12.9q2.1 0 3.7 1.5l9 9.1q1.5 1.6 1.6 3.7v12.9q0 2.1-1.5 3.7l-9.1 9Q29.3 42 27.2 42H14.3q-2.2 0-3.7-1.5l-9-9.1Q0 29.8 0 27.7V14.8q0-2.1 1.5-3.7l9.1-9Q12.1.5 14.3.4"
-                        fill="var(--color-purple60)"
-                      />
-                      <path
-                        d="m32.7 25-3.1-1.5c-.8-.4-1.8 0-2.1.7s-.1 1.7.6 2l3.2 1.6c.7.4 1.7 0 2-.7q.6-1.4-.6-2m-9.3-11.9q-1-.4-2 .1s-2 1.5-4.3 1.5h-3.7a5.4 5.4 0 0 0-1.8 10.5v2.1a1.8 1.8 0 0 0 3.6 0v-1.8h1.9c2.2 0 4.4 1.5 4.4 1.5q1 .6 1.9.1 1-.5 1-1.6V14.8q0-1-1-1.6m-2 10q-1.9-.9-4.2-1H13a2 2 0 0 1-2-2q.2-1.8 2-2h4.2q2.3 0 4.2-.9zm7.4-1.4H32q1.3-.1 1.5-1.6-.2-1.4-1.5-1.5h-3.2q-1.4.1-1.5 1.5.1 1.5 1.5 1.6m.7-4.8 3.2-1.6q1.1-.8.7-2-.8-1.3-2.2-.8l-3 1.6q-1.3.8-.8 2c.4.8 1.4 1.1 2.1.7"
-                        fill="var(--color-purple)"
-                      />
+              {activeStatuses.length > 1 && (
+                <div className={`${styles.statusnavcontainer} translate`}>
+                  <button
+                    type="button"
+                    className={styles.statusnav}
+                    onClick={showPreviousStatus}
+                    aria-label={t(LanguageKey.previous)}
+                    title={t(LanguageKey.previous)}>
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="m14 6-6 6 6 6" />
                     </svg>
-                  </Link>
-                  <Link className={styles.upgradeicon} href="/store">
-                    <svg
-                      style={{ width: "40px", height: "40px" }}
-                      fill="none"
-                      xmlns="http://www.w3.org/2000/svg"
-                      viewBox="0 0 42 42">
-                      <path
-                        d="M3.5 38c3 3.3 10.1 3.4 17.3 3.5 7-.1 14.2-.2 17.2-3.5 3.3-3 3.4-10.1 3.5-17.2-.1-7.2-.2-14.3-3.5-17.3C35 .2 28 .1 20.8 0 13.6.1 6.5.2 3.5 3.5.2 6.5.1 13.6 0 20.8.1 27.8.2 35 3.5 38"
-                        fill="var(--color-light-green60)"
-                      />
-                      <path
-                        d="M25.2 9.3a6 6 0 0 1 6 5.4l1.1 10.5v.3a6.4 6.4 0 0 1-6.4 6.7H15.6a6.4 6.4 0 0 1-6.4-7l1.1-10.5a6 6 0 0 1 6-5.4zM16.3 12c-1.6 0-3 1.2-3.2 2.9L12 25.5c-.2 2.1 1.4 4 3.6 4h10.3c2.1 0 3.7-1.8 3.6-3.8v-.2l-1-10.5a3 3 0 0 0-3.3-3z M15.9 15.9a1.4 1.4 0 1 1 2.8 0 2.1 2.1 0 1 0 4.2 0 1.4 1.4 0 0 1 2.8 0 4.9 4.9 0 0 1-9.8 0"
-                        fill="var(--color-light-green)"
-                      />
+                  </button>
+                  <button
+                    type="button"
+                    className={styles.statusnav}
+                    onClick={showNextStatus}
+                    aria-label={t(LanguageKey.next)}
+                    title={t(LanguageKey.next)}>
+                    <svg viewBox="0 0 24 24" aria-hidden="true">
+                      <path d="m10 6 6 6-6 6" />
                     </svg>
-                  </Link>
-                </>
+                  </button>
+                </div>
               )}
+            </div>
+            <div className={styles.status} aria-live="polite">
+              <div className={styles.statuscontent}>{selectedStatus?.content}</div>
             </div>
           </section>
           <section className={styles.totaltile}>
@@ -173,28 +322,7 @@ const IngageInfo = (props: {
               </div>
             </div>
           </section>
-          {/* <section className={styles.totaltile}>
-            <svg
-              className={styles.totaltilesvg}
-              width="24"
-              height="24"
-              viewBox="0 0 24 24"
-              fill="var(--color-gray)"
-              xmlns="http://www.w3.org/2000/svg">
-              <path
-                fillRule="evenodd"
-                d="M10.5 3.25a4.25 4.25 0 1 0 0 8.5 4.25 4.25 0 1 0 0-8.5zM16 7.5c0 1.697-.769 3.215-1.977 4.224.157.018.316.027.477.027a4.25 4.25 0 1 0 0-8.5c-.161 0-.32.009-.477.026A5.49 5.49 0 0 1 16 7.5zm2.75 5.25a1 1 0 0 1 1 1v2h2a1 1 0 1 1 0 2h-2v2a1 1 0 1 1-2 0v-2h-2a1 1 0 1 1 0-2h2v-2a1 1 0 0 1 1-1zm-3.129 1.562a3.4 3.4 0 0 1 .355.188h-.227a2.25 2.25 0 1 0 0 4.5h.75v.75c0 .3.059.585.165.847a2.26 2.26 0 0 1-.468.11c-.323.043-.72.043-1.152.043h0-9.089 0c-.433 0-.83 0-1.152-.043-.355-.048-.731-.16-1.04-.469s-.421-.685-.469-1.04c-.043-.323-.043-.794-.043-1.227 0-1.436.65-2.984 2.129-3.658S8.621 13.25 10.5 13.25s3.639.386 5.121 1.062z"></path>
-            </svg>
 
-            <div className="headerandinput">
-              <div className=" instagramid">
-                {t(LanguageKey.collaboratorpost)}
-              </div>
-              <div className="instagramusername">
-                {props.collaboratePostNumber}
-              </div>
-            </div>
-          </section> */}
           <section className={styles.totaltile}>
             <svg
               className={styles.totaltilesvg}

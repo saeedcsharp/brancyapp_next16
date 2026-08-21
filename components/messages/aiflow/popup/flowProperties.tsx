@@ -1,7 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
-import InputText from "brancy/components/design/inputText";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import InputBox from "brancy/components/design/inputBox/inputBox";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import { LanguageKey } from "brancy/i18n";
 
 interface FlowPropertiesProps {
@@ -74,7 +74,7 @@ export default function FlowProperties({
         <h3 className="title">{t(LanguageKey.product_Properties)}</h3>
         <div className="headerandinput">
           <div className="headertext">{t(LanguageKey.flowtitle)}</div>
-          <InputText
+          <InputBox
             className={"textinputbox"}
             handleInputChange={(e: React.ChangeEvent<HTMLInputElement>) => setTitleFlow(e.target.value)}
             value={titleFlow}

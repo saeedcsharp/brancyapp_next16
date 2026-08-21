@@ -51,7 +51,7 @@
   gap: var(--gap-10);
   height: 100%;
   display: flex;
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
 
   flex-direction: column;
@@ -134,7 +134,7 @@
   left: 10px;
   gap: var(--gap-15);
   max-height: 0;
-  overflow-y: scroll;
+  overflow-y: auto;
   transition: var(--transition3);
 }
 
@@ -250,7 +250,7 @@
   position: relative;
   width: 100%;
   gap: var(--gap-5);
-  overflow-y: scroll;
+  overflow-y: auto;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -467,7 +467,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  overflow-y: scroll;
+  overflow-y: auto;
   justify-content: space-evenly;
   column-gap: var(--gap-20);
   row-gap: 40px;
@@ -579,7 +579,7 @@
   padding: 0px var(--padding-10) 0px var(--padding-10);
 
   max-height: 60px;
-  overflow-y: scroll;
+  overflow-y: auto;
   position: relative;
   width: 100%;
   display: flex;
@@ -662,7 +662,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--gap-20);
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   justify-content: flex-start;
 }
@@ -1025,7 +1025,7 @@
   display: flex;
   flex-direction: row;
   gap: var(--gap-5);
-  overflow-x: scroll;
+  overflow-x: auto;
   overflow-y: hidden;
   border-bottom: 1px solid var(--color-light-blue30);
   padding-bottom: var(--padding-5);
@@ -1111,7 +1111,7 @@
   width: 100%;
   height: fit-content;
 
-  overflow-x: scroll;
+  overflow-x: auto;
   justify-content: space-between;
   overflow-y: hidden;
   white-space: nowrap;
@@ -1159,7 +1159,7 @@
   display: flex;
   flex-direction: column;
   gap: var(--gap-30);
-  overflow-y: scroll;
+  overflow-y: auto;
   overflow-x: hidden;
   justify-content: center;
 }
@@ -1286,7 +1286,7 @@
   height: 100%;
   gap: var(--gap-20);
   justify-content: space-between;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .terms {

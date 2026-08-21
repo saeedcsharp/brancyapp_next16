@@ -1,6 +1,6 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { useState } from "react";
-import styles from "./mylink.module.css";
+import styles from "./timeLine.module.css";
 import { ITimeline } from "brancy/models/interfaces";
 
 const basePictureUrl = getClientMediaBaseUrl();
@@ -18,7 +18,10 @@ const Timeline = (props: { data: ITimeline | null }) => {
           id="timeline"
           className={styles.all}
           style={{ backgroundColor: "var(--color-dark-blue10)" }}>
-          <div className={styles.header} onClick={toggleContentVisibility}>
+          <div
+            className={styles.header}
+            // onClick={toggleContentVisibility}
+          >
             <div className={`${styles.squre} ${!isContentVisible ? styles.closed : ""}`}></div>
             <div className={styles.headertext}>
               our

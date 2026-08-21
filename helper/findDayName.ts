@@ -1,27 +1,27 @@
 import { LanguageKey } from "brancy/i18n";
 import { BusinessDay } from "brancy/models/enums";
-export function findDayName(id: number): LanguageKey {
+export function findDayName(id: BusinessDay): LanguageKey {
   var dayName: LanguageKey = LanguageKey.SettingGeneralSystemmonday;
   switch (id) {
-    case 0:
+    case BusinessDay.Monday:
       dayName = LanguageKey.SettingGeneralSystemmonday;
       break;
-    case 1:
+    case BusinessDay.Tuesday:
       dayName = LanguageKey.SettingGeneralSystemtuesday;
       break;
-    case 2:
+    case BusinessDay.Wednesday:
       dayName = LanguageKey.SettingGeneralSystemwednesday;
       break;
-    case 3:
+    case BusinessDay.Thursday:
       dayName = LanguageKey.SettingGeneralSystemthursday;
       break;
-    case 4:
+    case BusinessDay.Friday:
       dayName = LanguageKey.SettingGeneralSystemfriday;
       break;
-    case 5:
+    case BusinessDay.Saturday:
       dayName = LanguageKey.SettingGeneralSystemsaturday;
       break;
-    case 6:
+    case BusinessDay.Sunday:
       dayName = LanguageKey.SettingGeneralSystemsunday;
       break;
 

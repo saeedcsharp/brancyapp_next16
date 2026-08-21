@@ -1,10 +1,12 @@
 "use client";
 import { useState, useRef } from "react";
-import DependencyReport from "./test";
+import { useRouter } from "next/navigation";
+import DependencyReport from "./package/page";
 
 const DEV_PASSWORD = "9311";
 
 export default function DevPage() {
+  const router = useRouter();
   const [authenticated, setAuthenticated] = useState(false);
   const [input, setInput] = useState("");
   const [error, setError] = useState(false);
@@ -23,7 +25,23 @@ export default function DevPage() {
   }
 
   if (authenticated) {
-    return <DependencyReport />;
+    return (
+      <div style={styles.overlay}>
+        <div style={styles.card}>
+          <div style={styles.lockIcon}>🧭</div>
+          <h2 style={styles.title}>Dev Panel</h2>
+          <p style={styles.subtitle}>بخش موردنظر برای بررسی را انتخاب کنید.</p>
+          <div style={styles.choiceGrid}>
+            <button type="button" style={styles.button} onClick={() => router.push("/dev/package")}>
+              بررسی Package
+            </button>
+            <button type="button" style={styles.designButton} onClick={() => router.push("/dev/systemDesign")}>
+              تست System Design
+            </button>
+          </div>
+        </div>
+      </div>
+    );
   }
 
   return (
@@ -31,7 +49,7 @@ export default function DevPage() {
       <div style={styles.card}>
         <div style={styles.lockIcon}>🔒</div>
         <h2 style={styles.title}>Dev Panel</h2>
-        <p style={styles.subtitle}>این صفحه محافظت‌شده است. پسورد وارد کنید.</p>
+        <p style={styles.subtitle}> پسورد وارد کنید.</p>
         <form onSubmit={handleSubmit} style={styles.form}>
           <input
             ref={inputRef}
@@ -105,6 +123,13 @@ const styles: Record<string, React.CSSProperties> = {
     width: "100%",
     marginTop: 8,
   },
+  choiceGrid: {
+    display: "grid",
+    gridTemplateColumns: "1fr",
+    gap: 10,
+    width: "100%",
+    marginTop: 8,
+  },
   input: {
     width: "100%",
     padding: "12px 16px",
@@ -141,5 +166,16 @@ const styles: Record<string, React.CSSProperties> = {
     fontWeight: 600,
     cursor: "pointer",
     transition: "opacity 0.2s",
+  },
+  designButton: {
+    width: "100%",
+    padding: "12px",
+    borderRadius: 8,
+    border: "1px solid #38bdf8",
+    background: "#082f49",
+    color: "#bae6fd",
+    fontSize: 16,
+    fontWeight: 600,
+    cursor: "pointer",
   },
 };

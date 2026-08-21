@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import CounterDownNotRing, { CounterDownColor } from "brancy/components/design/counterDown/counterDownNotRing";
 import TextArea from "brancy/components/design/textArea/textArea";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import Loading from "brancy/components/notOk/loading";
 import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
@@ -115,7 +115,7 @@ const AdDetails = (props: {
               <h2 className={styles.adnumber}>({adDetails?.advertiseId})</h2>
             </div>
           </div>
-          <FlexibleToggleButton
+          <ToggleButton
             options={[
               { label: t(LanguageKey.details), id: 0 },
               { label: t(LanguageKey.content), id: 1 },

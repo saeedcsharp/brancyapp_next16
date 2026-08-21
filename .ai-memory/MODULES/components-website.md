@@ -14,7 +14,7 @@ Owns the folder/module concerns described by its file tree and exports.
 
 ## Architecture
 
-Follows existing Next/React/TypeScript project conventions.
+Follows existing Next/React/TypeScript project conventions. Website component styling is kept in feature-local CSS Modules; `InstallPrompt` uses `installPrompt.module.css` for both banner and iOS fallback presentation.
 
 ## Folder Structure
 
@@ -98,7 +98,7 @@ No local database objects were discovered. Data persists through external backen
 
 ## State Management
 
-Mostly React local state, context, NextAuth session, or external state from backend APIs.
+Mostly React local state, context, NextAuth session, or external state from backend APIs. The landing pricing slider keeps the controlled slider value as the single source of truth; its tooltip position is derived directly from that value to avoid reducer synchronization loops.
 
 ## External Integrations
 
@@ -134,7 +134,7 @@ Parent module: `components`.
 
 ## Known Issues
 
-No confirmed module-specific issue recorded at initialization.
+The pricing slider's runtime maximum-update-depth issue was fixed on 2026-08-04 by removing redundant tooltip state and the selected-follower-to-slider synchronization effect. Browser interaction coverage is still pending.
 
 ## Technical Debt
 
@@ -146,7 +146,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-07-29
 
 ---
 
@@ -155,13 +155,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

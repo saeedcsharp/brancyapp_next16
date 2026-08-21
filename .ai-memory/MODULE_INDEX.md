@@ -25,6 +25,7 @@ The module catalog is the source of truth for reading priority and impact triage
 - [app-accessibility](MODULES/app-accessibility.md)
 - [app-api](MODULES/app-api.md)
 - [app-compat](MODULES/app-compat.md)
+- [app-feature](MODULES/app-feature.md)
 - [app-instagramer](MODULES/app-instagramer.md)
 - [app-user](MODULES/app-user.md)
 - [app](MODULES/app.md)

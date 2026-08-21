@@ -6,12 +6,12 @@ import { ChangeEvent, useCallback, useEffect, useMemo, useReducer, useRef, useSt
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import MultiChart from "brancy/components/design/chart/Chart_month";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import Modal from "brancy/components/design/modal";
 import Slider from "brancy/components/design/slider/slider";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import { MediaModal, useMediaModal } from "brancy/components/messages/shared/utils";
 import {
@@ -36,7 +36,7 @@ import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import styles from "./showPost.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { MediaProductType, MediaType, PartnerRole } from "brancy/models/enums";
+import { MediaProductType, MediaType, PartnerRole, ShopMediaProductType } from "brancy/models/enums";
 import {
   IAutomaticReply,
   IDetailsPost,
@@ -191,6 +191,7 @@ const ShowPost = () => {
     canDownload: false,
     mediaUrl: "",
     reelsSkipRate: null,
+    shopMediaProductType: ShopMediaProductType.None,
   });
   const [insight, setInsight] = useState<IInsightPost | null>(null);
   const [toggleValue, setToggleValue] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
@@ -224,6 +225,7 @@ const ShowPost = () => {
     prompt: null,
     sendCount: 0,
     replySuccessfullyDirected: false,
+    productId: null,
   });
   const [commentsPerSlide, setCommentsPerSlide] = useState<number>(5);
   const [isFetchingMoreComments, setIsFetchingMoreComments] = useState(false);
@@ -408,6 +410,7 @@ const ShowPost = () => {
                 productType: MediaProductType.Feed,
                 prompt: res.value.commentMedia!.automaticCommentReply.prompt,
                 sendCount: res.value.commentMedia!.automaticCommentReply.sendCount,
+                productId: res.value.commentMedia!.automaticCommentReply.productId || null,
               });
               if (!res.value.commentMedia.automaticCommentReply.pauseTime) setQuickReply(true);
             }
@@ -600,7 +603,7 @@ const ShowPost = () => {
         <main className="fullScreenPupup_bg">
           <div className="fullScreenPupup_header">
             <div className={styles.ToggleButton}>
-              <FlexibleToggleButton
+              <ToggleButton
                 options={[
                   {
                     label: t(LanguageKey.details),
@@ -1019,7 +1022,7 @@ const ShowPost = () => {
                                 disabled={!quickReply}
                                 className={quickReply ? "cancelButton" : "disableButton"}
                                 onClick={() => setShowQuickReplyPopup(true)}>
-                                {t(LanguageKey.marketstatisticsfeatures)}
+                                {t(LanguageKey.biolinkStatisticsfeatures)}
                               </button>
                             </div>
                             {/* <div className="title2" role="heading" aria-level={3}>
@@ -1036,10 +1039,10 @@ const ShowPost = () => {
                               }
                             }}
                             disabled={!QuickReply}>
-                            {t(LanguageKey.marketstatisticsfeatures)}
+                            {t(LanguageKey.biolinkStatisticsfeatures)}
                           </button> */}
                             {/* <button className="cancelButton" onClick={() => setShowQuickReplyPopup(true)}>
-                              {t(LanguageKey.marketstatisticsfeatures)}
+                              {t(LanguageKey.biolinkStatisticsfeatures)}
                             </button> */}
                           </div>
                         </>
@@ -1130,7 +1133,7 @@ const ShowPost = () => {
                             </div>
                           </div>
                           <div className={styles.commentbox}>
-                            <InputText
+                            <InputBox
                               className={"serachMenuBar"}
                               placeHolder={t(LanguageKey.search)}
                               value={searchPepaple}
@@ -1898,6 +1901,7 @@ const ShowPost = () => {
             handleSaveAutoReply={(sendReply: IMediaUpdateAutoReply) => handleUpdateAtuoReply(sendReply)}
             handleActiveAutoReply={handleResumeFeedAutoReply}
             autoReply={autoReply}
+            shopMediaProductType={detailPost.shopMediaProductType}
           />
         </Modal>
         <Modal closePopup={() => setShowLotteryPopup(false)} classNamePopup={"popup"} showContent={showLotteryPopup}>

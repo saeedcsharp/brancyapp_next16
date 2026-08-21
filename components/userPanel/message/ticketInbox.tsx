@@ -5,7 +5,7 @@ import { useSession } from "next-auth/react";
 import router from "next/router";
 import { ChangeEvent, MouseEvent, useEffect, useRef, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
 import SendFile from "brancy/components/messages/popups/sendFile";
@@ -721,7 +721,7 @@ const UserPanelDirectInbox = () => {
               {/* ___search ___*/}
               <div className={styles.search}>
                 <div className={styles.searchbox}>
-                  <InputText
+                  <InputBox
                     className={"serachMenuBar"}
                     placeHolder={"Search People or Keyword"}
                     handleInputChange={handleSearchThreads}

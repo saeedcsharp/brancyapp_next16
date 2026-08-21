@@ -5,11 +5,11 @@ import { DateObject } from "react-multi-date-picker";
 import PhoneInput from "brancy/components/design/phoneInput";
 import type { PhoneValue } from "brancy/components/design/phoneInput";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
-import InputText from "brancy/components/design/inputText";
-import RadioButton from "brancy/components/design/radioButton";
-import FlexibleToggleButton from "brancy/components/design/toggleButton/flexibleToggleButton";
+import InputBox from "brancy/components/design/inputBox/inputBox";
+import RadioButton from "brancy/components/design/radioButton/radioButton";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
@@ -135,7 +135,7 @@ const AddPartner = React.memo(
                 {partner?.userId !== 0 ? t(LanguageKey.edit) : t(LanguageKey.SettingGeneral_addSubAdmin)}
               </div>
               <div className="explain">{t(LanguageKey.SettingGeneral_addSubAdminExplain)}</div>
-              <FlexibleToggleButton
+              <ToggleButton
                 options={[
                   { label: t(LanguageKey.General), id: 0 },
                   { label: t(LanguageKey.SettingGeneral_access), id: 1 },
@@ -149,7 +149,7 @@ const AddPartner = React.memo(
                 <>
                   <div className="headerandinput">
                     <div className="headertext">{t(LanguageKey.SettingGeneral_partnertitle)}</div>
-                    <InputText
+                    <InputBox
                       className={"textinputbox"}
                       handleInputChange={handleInputChange}
                       value={createPartner.name || ""}
@@ -161,7 +161,7 @@ const AddPartner = React.memo(
                     {partner?.userId !== 0 && (
                       <div className="headerandinput">
                         <div className="headertext">{t(LanguageKey.userpanel_MobileNumber)}</div>
-                        <InputText
+                        <InputBox
                           className={"textinputbox"}
                           value={partner?.phoneNumber || ""}
                           handleInputChange={() => {}}
@@ -401,7 +401,7 @@ const AddPartner = React.memo(
                   <div className="headerandinput">
                     <div className="frameParent">
                       <div className="title">
-                        {t(LanguageKey.SettingGeneral_Marketlink)}
+                        {t(LanguageKey.SettingGeneral_biolink)}
                         <Tooltip
                           triggerType="tooltip"
                           tooltipValue="  Content and arrangement - Links and Third Party Content Shotcuts and ..."

@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
 import ConstantCounterDown from "brancy/components/design/counterDown/constantCounterDown";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Modal from "brancy/components/design/modal";
 import ProgressBar from "brancy/components/design/progressBar/progressBar";
 import {
@@ -40,11 +40,15 @@ import {
   IPostImageInfo,
   IPreStory,
   IPreStoryInfo,
+  IProduct_ShortProduct,
   IPublishLimit,
+  IStoreOrderShortProduct,
   IStoryDraftInfo,
   IStoryImageInfo,
   IStoryVideoInfo,
 } from "brancy/models/interfaces";
+import SelectProduct from "brancy/components/messages/popups/selectProduct";
+
 const CreateStory = () => {
   const router = useRouter();
   const { data: session } = useSession();
@@ -78,8 +82,10 @@ const CreateStory = () => {
     sendCount: 0,
     sendPr: false,
     replySuccessfullyDirected: false,
+    productId: null,
   });
-  const [totalPrePostCount, settotalPrePostCount] = useState(0);
+  const [selectedProduct, setSelectedProduct] = useState<IProduct_ShortProduct | null>(null);
+  const [showProductPopup, setShowProductPopup] = useState(false);
   const [tempId, setTempId] = useState(0);
   const [draftId, setDraftId] = useState(0);
   const [preStoryId, setpreStoryId] = useState(0);
@@ -141,6 +147,7 @@ const CreateStory = () => {
                   sendPr: autoReply.sendPr,
                   shouldFollower: autoReply.shouldFollower,
                   replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
+                  productId: autoReply.productId,
                 }
               : null,
             preStoryId: preStoryId,
@@ -193,6 +200,7 @@ const CreateStory = () => {
                   sendPr: autoReply.sendPr,
                   shouldFollower: autoReply.shouldFollower,
                   replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
+                  productId: autoReply.productId,
                 }
               : null,
             uiParameters: null,
@@ -728,6 +736,7 @@ const CreateStory = () => {
                   sendCount: 0,
                   sendPr: draft.automaticReplyInfo.sendPr,
                   replySuccessfullyDirected: draft.automaticReplyInfo.replySuccessfullyDirected,
+                  productId: draft.automaticReplyInfo.productId,
                 }
               : {
                   items: [],
@@ -744,6 +753,7 @@ const CreateStory = () => {
                   sendCount: 0,
                   sendPr: false,
                   replySuccessfullyDirected: false,
+                  productId: null,
                 },
           );
           console.log("mediaType", draft.mediaType);
@@ -824,6 +834,7 @@ const CreateStory = () => {
                   sendCount: 0,
                   sendPr: preStory.automaticMediaReply.sendPr,
                   replySuccessfullyDirected: preStory.automaticMediaReply.replySuccessfullyDirected,
+                  productId: preStory.automaticMediaReply.productId,
                 }
               : {
                   items: [],
@@ -840,6 +851,7 @@ const CreateStory = () => {
                   sendCount: 0,
                   sendPr: false,
                   replySuccessfullyDirected: false,
+                  productId: null,
                 },
           );
           setAutomaticPost(true);
@@ -961,6 +973,7 @@ const CreateStory = () => {
   }, []);
   function handleSaveAutoReply(sendAutoReply: IMediaUpdateAutoReply) {
     // setCreateAutoReply(sendAutoReply);
+    console.log("handleSaveAutoReply called with:", sendAutoReply);
     setAutoReply({
       automaticType: sendAutoReply.automaticType,
       items: sendAutoReply.keys.map((x) => ({ id: "", sendCount: 0, text: x })),
@@ -976,6 +989,7 @@ const CreateStory = () => {
       masterFlowId: sendAutoReply.masterFlowId,
       sendCount: 0,
       replySuccessfullyDirected: sendAutoReply.replySuccessfullyDirected,
+      productId: sendAutoReply.productId,
     });
     setShowQuickReplyPopup(false);
     if (!QuickReply) setQuickReply(true);
@@ -1021,9 +1035,13 @@ const CreateStory = () => {
   }, [router.isReady, query.draftId, session, handleGetDraftStory, draftId]);
   const handleActiveAutoComment = useMemo(() => {
     return (
-      QuickReply && (autoReply.promptId !== null || autoReply.masterFlowId !== null || autoReply.response !== null)
+      QuickReply &&
+      (autoReply.promptId !== null ||
+        autoReply.masterFlowId !== null ||
+        autoReply.response !== null ||
+        autoReply.productId !== null)
     );
-  }, [QuickReply, autoReply.promptId, autoReply.masterFlowId, autoReply.response]);
+  }, [QuickReply, autoReply.promptId, autoReply.masterFlowId, autoReply.response, autoReply.productId]);
   const handlePermissionShowQuickReply = useMemo(() => {
     return autoReply.promptId === null && autoReply.masterFlowId === null && autoReply.response === null;
   }, [QuickReply, autoReply.promptId, autoReply.masterFlowId, autoReply.response]);
@@ -1393,7 +1411,7 @@ const CreateStory = () => {
                           }
                         }}
                         disabled={!handleActiveAutoComment}>
-                        {t(LanguageKey.marketstatisticsfeatures)}
+                        {t(LanguageKey.biolinkStatisticsfeatures)}
                       </button>
                     </div>
                   </div>
@@ -1621,6 +1639,8 @@ const CreateStory = () => {
               if (preStoryId > 0) return;
             }}
             autoReply={autoReply}
+            setShowProductPopup={() => setShowProductPopup(true)}
+            selectedProduct={selectedProduct}
           />
         </Modal>
         <Modal closePopup={() => setshowDraftError(null)} classNamePopup={"popupSendFile"} showContent={false}>
@@ -1631,6 +1651,19 @@ const CreateStory = () => {
           classNamePopup={"popupSendFile"}
           showContent={showDeletePreStory}>
           <DeletePrePost removeMask={() => setShowDeletePreStory(false)} deletePrePost={handleDeletePreStory} />
+        </Modal>
+        <Modal closePopup={() => setShowProductPopup(false)} classNamePopup={"popup"} showContent={showProductPopup}>
+          <SelectProduct
+            backToAutoreply={() => {
+              setShowProductPopup(false);
+              setShowQuickReplyPopup(true);
+            }}
+            removeMask={() => setShowProductPopup(false)}
+            saveSelectProduct={(product) => {
+              setShowProductPopup(false);
+              setSelectedProduct(product);
+            }}
+          />
         </Modal>
       </>
     )

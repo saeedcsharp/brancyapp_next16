@@ -28,6 +28,8 @@ The app uses Next.js 16 with React 19, TypeScript, App Router routes under `app/
 
 Preserve existing path alias `brancy/*`. Keep `/api/user/*` calls server-proxied. Avoid leaking `.env` or secret values. Update documentation with every code change.
 
+For any new or changed UI, inspect and use the shared styles in `scss/` and reusable components in `components/design/` before creating local styles or controls. Preserve the existing design language, tokens, spacing, typography, responsive behavior, RTL/LTR support, and accessibility states; do not introduce parallel design systems without a documented reason.
+
 ## Current Priorities And Risks
 
 The main risks are mixed App Router/legacy-router compatibility, external backend contract drift, broad API map maintenance, generated PWA artifacts in `public/`, and limited visible test coverage.
@@ -35,6 +37,9 @@ The main risks are mixed App Router/legacy-router compatibility, external backen
 ## Terminology
 
 Instagramer means an Instagram account owner/operator. Shopper means a seller/store role. Partner roles gate sub-admin capabilities. User panel means buyer/customer-facing workflows.
+
+Reusable UTF-8 byte counting and Unicode-safe truncation are provided by `helper/textByteLength.ts`; the AI flow `TextNode` uses these exports for its text limit and counter.
+The direct-message composer also uses the shared utility to limit drafts and outgoing text to 1,000 UTF-8 bytes.
 
 ---
 

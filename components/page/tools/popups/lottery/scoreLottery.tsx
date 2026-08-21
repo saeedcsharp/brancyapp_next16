@@ -1,10 +1,10 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { ChangeEvent, useEffect, useMemo, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
-import IncrementStepper from "brancy/components/design/incrementStepper";
-import InputText from "brancy/components/design/inputText";
-import RadioButton from "brancy/components/design/radioButton";
-import ToggleCheckBoxButton from "brancy/components/design/toggleCheckBoxButton";
+import IncrementStepper from "brancy/components/design/incrementStepper/incrementStepper";
+import InputBox from "brancy/components/design/inputBox/inputBox";
+import RadioButton from "brancy/components/design/radioButton/radioButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import { MethodType } from "brancy/helper/api";
 
 import { useSession } from "next-auth/react";
@@ -598,6 +598,12 @@ const ScoreLottery = (props: {
                       minMentionCount: prev.minMentionCount > 1 ? prev.minMentionCount - 1 : 0,
                     }))
                   }
+                  onValueChange={(value) =>
+                    setLotteryInfo((prev) => ({
+                      ...prev,
+                      minMentionCount: value,
+                    }))
+                  }
                   id={""}
                 />
               </div>
@@ -620,7 +626,7 @@ const ScoreLottery = (props: {
               </div>
               <div className="explain">{t(LanguageKey.pageLottery_specifickeywordexplain)}</div>
               <div className="frameParent" style={{ gap: "10px" }}>
-                <InputText
+                <InputBox
                   className={"textinputbox"}
                   disabled={lotteryInfo.lotteryType !== LotteryType.Filter}
                   handleInputChange={(e) => {
@@ -653,7 +659,7 @@ const ScoreLottery = (props: {
               </div>
 
               <div className="explain">{t(LanguageKey.pageLottery_FollowmyPageexplain)}</div>
-              <InputText
+              <InputBox
                 className={"textinputbox"}
                 disabled={!lotteryInfo.isFollower}
                 handleInputChange={(e) =>

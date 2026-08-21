@@ -3,7 +3,7 @@ import { useSession } from "next-auth/react";
 import React, { ChangeEvent, useEffect, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";

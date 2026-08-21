@@ -1,7 +1,7 @@
 import { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
-import InputText from "brancy/components/design/inputText";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./customtable.module.css";
 interface TableCell {
@@ -268,7 +268,7 @@ export default function CustomTable({ onClose, onInsertTable, initialTable, init
           </div>
           <div className="headerandinput">
             <div className="headertext">{t(LanguageKey.product_tabletitle)}</div>
-            <InputText
+            <InputBox
               name="tableTitle"
               className="textinputbox"
               value={tableTitle}
@@ -357,7 +357,7 @@ export default function CustomTable({ onClose, onInsertTable, initialTable, init
                       ${hoveredColumnIndex === colIndex ? styles.highlightedColumn : ""}
                       ${hoveredAddColumnIndex === colIndex ? styles.highlightAddColumnBorder : ""}
                       `}>
-                      <InputText
+                      <InputBox
                         name={`cell-${rowIndex}-${colIndex}`}
                         className="textinputbox"
                         value={cell.value}

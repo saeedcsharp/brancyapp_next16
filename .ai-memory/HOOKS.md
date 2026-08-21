@@ -3,7 +3,7 @@
 ## Discovered Hooks
 
 - `hook/useHide.tsx`: custom UI hiding behavior.
-- `helper/useInfiniteScroll.ts`: infinite scroll utility hook with optional container scrolling.
+- `helper/useInfiniteScroll.ts`: infinite scroll utility hook with optional container scrolling. Empty or duplicate-only result pages invoke `onDataFetched([], false)` and engage an internal terminal guard to prevent retry loops; consumers should still store that terminal `hasMore` value.
 - `helper/useMousePosition.ts`: mouse position tracking hook with isomorphic layout effect.
 
 Future hooks should be documented here and in module docs.

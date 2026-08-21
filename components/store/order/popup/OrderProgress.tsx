@@ -1,8 +1,8 @@
 import React, { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
-import CheckBoxButton from "brancy/components/design/checkBoxButton";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
-import InputText from "brancy/components/design/inputText";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./OrderProgress.module.css";
 
@@ -328,7 +328,7 @@ const OrderProgress = () => {
 
                   <div className={styles.inputandsub}>
                     <div className={styles.subinput}>{t(LanguageKey.Storeproduct_gram)}</div>
-                    <InputText
+                    <InputBox
                       name=""
                       className={settingInfo.weight >= 60 ? "textinputbox" : "danger"}
                       placeHolder="Net Weight "
@@ -360,7 +360,7 @@ const OrderProgress = () => {
                     <div className="headertext">{t(LanguageKey.length)}</div>
                     <div className={styles.inputandsub}>
                       <div className={styles.subinput}>CM</div>
-                      <InputText
+                      <InputBox
                         name="length"
                         className={
                           settingInfo.productBox.length < 10 || settingInfo.productBox.length > 100
@@ -382,7 +382,7 @@ const OrderProgress = () => {
                     <div className="headertext">{t(LanguageKey.width)}</div>
                     <div className={styles.inputandsub}>
                       <div className={styles.subinput}>CM</div>
-                      <InputText
+                      <InputBox
                         name="width"
                         className={
                           settingInfo.productBox.width < 10 || settingInfo.productBox.width > 100
@@ -404,7 +404,7 @@ const OrderProgress = () => {
                     <div className="headertext">{t(LanguageKey.height)}</div>
                     <div className={styles.inputandsub}>
                       <div className={styles.subinput}>CM</div>
-                      <InputText
+                      <InputBox
                         name="height"
                         className={
                           settingInfo.productBox.height < 10 || settingInfo.productBox.height > 100

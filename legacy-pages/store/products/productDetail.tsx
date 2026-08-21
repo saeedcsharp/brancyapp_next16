@@ -27,6 +27,7 @@ import {
   ITempIdAndNonProductCount,
 } from "brancy/models/interfaces";
 import { PartnerRole } from "brancy/models/enums";
+import NotAllowedShopper from "brancy/components/notOk/notAllowedShopper";
 
 const ProductDetail = ({ tempId }: { tempId: string }) => {
   //  return <Soon />;
@@ -64,7 +65,7 @@ const ProductDetail = ({ tempId }: { tempId: string }) => {
   });
 
   const getFullProductAndPostInfo = useCallback(
-    async (productId: number, postId: number) => {
+    async (productId: string, postId: number) => {
       try {
         const [res1, res2] = await Promise.all([
           clientFetchApi<boolean, IProduct_FullProduct>("shopper" + "" + "/Product/GetFullProduct", {
@@ -362,6 +363,7 @@ const ProductDetail = ({ tempId }: { tempId: string }) => {
   if (!session || !tempId) {
     return null;
   }
+  if (session?.user.isInfluencer) return <NotAllowedShopper />;
   if (!RoleAccess(session, PartnerRole.Products)) return <NotAllowed />;
   return (
     session &&
@@ -472,7 +474,7 @@ const ProductDetail = ({ tempId }: { tempId: string }) => {
               />
             ) : (
               <NotInstanceProductDetail
-                productId={state.shortProduct!.productId}
+                productId={state.shortProduct!.productId.toString()}
                 maxSize={state.maxSize!}
                 shortProduct={state.shortProduct!}
                 postInfo={state.postInfo!}

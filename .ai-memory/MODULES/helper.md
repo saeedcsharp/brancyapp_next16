@@ -56,6 +56,12 @@ Used by routes, components, helpers, or build tooling where imported.
 
 Exports are defined by source files in the module.
 
+- `findDayName` maps a `BusinessDay` value to a typed `LanguageKey`; UI callers must pass that key through `t(...)` before rendering it.
+- `helper/counterDownHelper.ts` calculates countdowns with separate days, hours, minutes, and seconds and formats full-day values as `Xd HH:MM:SS`.
+- `helper/api.ts` delays successful `UploadFile` results by one second before exposing their media URLs, giving the upload server time to make newly uploaded media fetchable by the browser.
+- `helper/textByteLength.ts` provides reusable UTF-8 byte counting and Unicode-safe truncation for text limits.
+- `helper/apiBaseUrl.ts` exports `resolvePublicDomain`, which maps local and legacy base domains to the public link domain for the active runtime host. It preserves paths because callers append paths after resolving the base.
+
 ## Internal APIs
 
 Local helpers and non-exported functions stay module-private.
@@ -76,9 +82,13 @@ React components are present when the folder contains `.tsx` UI files.
 
 React hooks are present when named `use*` functions/files exist.
 
+`useInfiniteScroll.ts` stops pagination by calling `onDataFetched([], false)` when a fetch returns no items or only IDs already in `currentData`. It also holds an internal terminal-page guard, so automatic container checks cannot retry an exhausted cursor even if a consumer does not persist that value; consumers should still persist it to keep their visible state synchronized.
+
 ## Utilities
 
 Utility functions live in local files where applicable.
+
+`counterDownHelper.ts` calculates link countdowns from Unix timestamps in seconds. It separates durations into days, hours, minutes, and seconds; `formatTime` includes the day segment only when it is non-zero.
 
 ## Services
 
@@ -162,7 +172,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-08-12
 
 ---
 

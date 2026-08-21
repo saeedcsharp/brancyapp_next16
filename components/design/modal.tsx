@@ -21,7 +21,7 @@ const Modal = memo(({ closePopup, children, classNamePopup, showContent, style }
         }, 300);
       }
     },
-    [closePopup]
+    [closePopup],
   );
 
   useEffect(() => {

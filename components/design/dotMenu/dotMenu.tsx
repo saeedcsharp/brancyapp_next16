@@ -1,154 +1,249 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useId, useLayoutEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import styles from "./dotMenu.module.css";
-
-type MenuPosition = "topLeft" | "topRight" | "bottomLeft" | "bottomRight";
-
-interface DotMenuOption {
+type DotMenuPlacement = "topLeft" | "topRight" | "bottomLeft" | "bottomRight";
+export interface DotMenuOption {
+  id?: string;
   icon: string | React.ReactNode;
   value: string;
   onClick?: () => void;
   style?: React.CSSProperties;
 }
-interface DotmenuProps {
-  data: DotMenuOption[];
+interface DotMenuProps {
+  /** @deprecated Use options instead. */
+  data?: DotMenuOption[];
+  options?: DotMenuOption[];
+  /** @deprecated This prop was never read by DotMenu and is retained for compatibility. */
   showSetting?: boolean;
   onToggle?: (isOpen: boolean) => void;
+  /** @deprecated Use onOptionSelect instead. */
   handleClickOnIcon?: (id: string) => void;
-  menuPosition?: MenuPosition;
+  onOptionSelect?: (value: string) => void;
+  /** @deprecated Use placement instead. */
+  menuPosition?: DotMenuPlacement;
+  placement?: DotMenuPlacement;
+  ariaLabel?: string;
 }
-const Dotmenu: React.FC<DotmenuProps> = ({ data, showSetting, onToggle, handleClickOnIcon, menuPosition }) => {
+const placementClasses: Record<DotMenuPlacement, { menu: string; trigger: string }> = {
+  topLeft: { menu: styles.topLeft, trigger: styles.triggerTopLeft },
+  topRight: { menu: styles.topRight, trigger: styles.triggerTopRight },
+  bottomLeft: { menu: styles.bottomLeft, trigger: styles.triggerBottomLeft },
+  bottomRight: { menu: styles.bottomRight, trigger: styles.triggerBottomRight },
+};
+const getMenuPosition = (triggerRect: DOMRect, placement?: DotMenuPlacement): React.CSSProperties => {
+  const viewportWidth = window.innerWidth;
+  const viewportHeight = window.innerHeight;
+
+  switch (placement) {
+    case "topLeft":
+      return { position: "fixed", right: viewportWidth - triggerRect.left, bottom: viewportHeight - triggerRect.top };
+    case "topRight":
+      return { position: "fixed", left: triggerRect.right, bottom: viewportHeight - triggerRect.top };
+    case "bottomLeft":
+      return { position: "fixed", right: viewportWidth - triggerRect.left, top: triggerRect.bottom };
+    case "bottomRight":
+      return { position: "fixed", left: triggerRect.right, top: triggerRect.bottom };
+    default:
+      if (document.documentElement.dir === "rtl") {
+        return { position: "fixed", left: triggerRect.right, top: triggerRect.bottom };
+      }
+      return { position: "fixed", right: viewportWidth - triggerRect.left, top: triggerRect.bottom };
+  }
+};
+const DotMenu: React.FC<DotMenuProps> = ({
+  data,
+  options,
+  onToggle,
+  handleClickOnIcon,
+  onOptionSelect,
+  menuPosition,
+  placement,
+  ariaLabel = "More options",
+}) => {
+  const menuOptions = options ?? data ?? [];
+  const resolvedPlacement = placement ?? menuPosition;
   const [isOpen, setIsOpen] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
+  const [focusIndex, setFocusIndex] = useState<number | null>(null);
+  const [menuCoordinates, setMenuCoordinates] = useState<React.CSSProperties | null>(null);
+  const menuId = useId();
+  const rootRef = useRef<HTMLDivElement>(null);
   const menuRef = useRef<HTMLDivElement>(null);
-  const closeTimerRef = useRef<number | null>(null);
-
-  const getMenuPositionClass = () => {
-    if (!menuPosition) return "";
-    switch (menuPosition) {
-      case "topLeft":
-        return styles.topleft;
-      case "topRight":
-        return styles.topright;
-      case "bottomLeft":
-        return styles.bottomleft;
-      case "bottomRight":
-        return styles.bottomright;
-      default:
-        return "";
-    }
-  };
-
-  const getIconBorderRadiusClass = () => {
-    if (!menuPosition) return "";
-    switch (menuPosition) {
-      case "topLeft":
-        return styles.icontopleft;
-      case "topRight":
-        return styles.icontopright;
-      case "bottomLeft":
-        return styles.iconbottomleft;
-      case "bottomRight":
-        return styles.iconbottomright;
-      default:
-        return "";
-    }
-  };
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const optionRefs = useRef<Array<HTMLButtonElement | null>>([]);
+  const closeMenu = useCallback(
+    (restoreFocus = false) => {
+      setIsOpen(false);
+      setFocusIndex(null);
+      if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+        setShowMenu(false);
+        setMenuCoordinates(null);
+      }
+      onToggle?.(false);
+      if (restoreFocus) triggerRef.current?.focus();
+    },
+    [onToggle],
+  );
+  const openMenu = useCallback(
+    (nextFocusIndex: number | null = 0) => {
+      if (menuOptions.length === 0) return;
+      setShowMenu(true);
+      setIsOpen(true);
+      setFocusIndex(nextFocusIndex);
+      setMenuCoordinates(null);
+      onToggle?.(true);
+    },
+    [menuOptions.length, onToggle],
+  );
   useEffect(() => {
     if (!isOpen) return;
-    const handleClickOutside = (event: MouseEvent) => {
-      if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
-        setIsOpen(false);
-        onToggle?.(false);
+    const handlePointerDownOutside = (event: PointerEvent) => {
+      const target = event.target as Node;
+      if (!rootRef.current?.contains(target) && !menuRef.current?.contains(target)) {
+        closeMenu();
       }
     };
-    const timer = setTimeout(() => {
-      document.addEventListener("mousedown", handleClickOutside);
-    }, 0);
+    document.addEventListener("pointerdown", handlePointerDownOutside);
     return () => {
-      clearTimeout(timer);
-      document.removeEventListener("mousedown", handleClickOutside);
+      document.removeEventListener("pointerdown", handlePointerDownOutside);
     };
-  }, [isOpen, onToggle]);
+  }, [closeMenu, isOpen]);
+  useLayoutEffect(() => {
+    if (!showMenu) return;
+
+    const updateMenuPosition = () => {
+      const trigger = triggerRef.current;
+      if (!trigger) return;
+      setMenuCoordinates(getMenuPosition(trigger.getBoundingClientRect(), resolvedPlacement));
+    };
+
+    updateMenuPosition();
+    window.addEventListener("resize", updateMenuPosition);
+    window.addEventListener("scroll", updateMenuPosition, true);
+    return () => {
+      window.removeEventListener("resize", updateMenuPosition);
+      window.removeEventListener("scroll", updateMenuPosition, true);
+    };
+  }, [resolvedPlacement, showMenu]);
   useEffect(() => {
-    return () => {
-      if (closeTimerRef.current) {
-        window.clearTimeout(closeTimerRef.current);
-        closeTimerRef.current = null;
-      }
-    };
-  }, []);
-  const handleToggle = useCallback(
-    (e: React.MouseEvent) => {
-      e.stopPropagation();
-      if (closeTimerRef.current) {
-        window.clearTimeout(closeTimerRef.current);
-        closeTimerRef.current = null;
-      }
-      if (!isOpen) {
-        setShowMenu(true);
-        setIsOpen(true);
-        onToggle?.(true);
-      } else {
-        setIsOpen(false);
-        onToggle?.(false);
-        closeTimerRef.current = window.setTimeout(() => {
-          setShowMenu(false);
-          closeTimerRef.current = null;
-        }, 300);
+    if (isOpen && focusIndex !== null) optionRefs.current[focusIndex]?.focus();
+  }, [focusIndex, isOpen]);
+  const handleToggle = useCallback(() => {
+    if (isOpen) closeMenu();
+    else openMenu();
+  }, [closeMenu, isOpen, openMenu]);
+  const handleTriggerKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLButtonElement>) => {
+      if (event.key === "ArrowDown") {
+        event.preventDefault();
+        openMenu(0);
+      } else if (event.key === "ArrowUp") {
+        event.preventDefault();
+        openMenu(menuOptions.length - 1);
       }
     },
-    [isOpen, onToggle],
+    [menuOptions.length, openMenu],
   );
   const handleOptionClick = useCallback(
-    (option: DotMenuOption, e: React.MouseEvent) => {
-      e.stopPropagation();
-
+    (option: DotMenuOption) => {
       if (option.onClick) {
         option.onClick();
+      } else if (onOptionSelect) {
+        onOptionSelect(option.value);
       } else if (handleClickOnIcon) {
         handleClickOnIcon(option.value);
       }
-      setIsOpen(false);
-      onToggle?.(false);
-      if (closeTimerRef.current) {
-        window.clearTimeout(closeTimerRef.current);
-      }
-      closeTimerRef.current = window.setTimeout(() => {
-        setShowMenu(false);
-        closeTimerRef.current = null;
-      }, 300);
+      closeMenu(true);
     },
-    [handleClickOnIcon, onToggle],
+    [closeMenu, handleClickOnIcon, onOptionSelect],
   );
+  const handleMenuKeyDown = useCallback(
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === "Escape") {
+        event.preventDefault();
+        closeMenu(true);
+        return;
+      }
+      if (event.key === "Tab") {
+        closeMenu();
+        return;
+      }
+      if (!["ArrowDown", "ArrowUp", "Home", "End"].includes(event.key)) return;
+      event.preventDefault();
+      const currentIndex = focusIndex ?? 0;
+      const nextIndex =
+        event.key === "ArrowDown"
+          ? (currentIndex + 1) % menuOptions.length
+          : event.key === "ArrowUp"
+            ? (currentIndex - 1 + menuOptions.length) % menuOptions.length
+            : event.key === "Home"
+              ? 0
+              : menuOptions.length - 1;
+      setFocusIndex(nextIndex);
+    },
+    [closeMenu, focusIndex, menuOptions.length],
+  );
+  const placementClass = resolvedPlacement ? placementClasses[resolvedPlacement] : undefined;
   return (
-    <div ref={menuRef} style={{ position: "relative" }}>
-      <div
+    <div ref={rootRef} className={styles.root}>
+      <button
+        ref={triggerRef}
+        type="button"
+        className={`${styles.trigger} ${isOpen ? styles.isOpen : ""} ${isOpen ? (placementClass?.trigger ?? "") : ""}`}
+        aria-label={ariaLabel}
+        aria-haspopup="menu"
+        aria-expanded={isOpen}
+        aria-controls={showMenu ? menuId : undefined}
         onClick={handleToggle}
-        className={`${styles.DotIconContainer} ${
-          isOpen ? (menuPosition ? getIconBorderRadiusClass() : styles.open) : ""
-        }`}
-        style={isOpen ? { background: "var(--color-light-blue)" } : {}}>
-        <svg className={`${styles.twoDotIcon} ${isOpen ? styles.twoDotIconhover : ""}`} fill="none" viewBox="0 0 14 5">
+        onKeyDown={handleTriggerKeyDown}
+        disabled={menuOptions.length === 0}>
+        <svg className={styles.triggerIcon} fill="none" viewBox="0 0 14 5" aria-hidden="true" focusable="false">
           <path d="M2.5 5a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5m9 0a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5" />
         </svg>
-      </div>
-      {showMenu && (
-        <div className={`${styles.OptionsContainer} ${getMenuPositionClass()} ${isOpen ? styles.enter : styles.exit}`}>
-          {data.map((option, index) => (
-            <div key={index} className={styles.optionLine} onClick={(e) => handleOptionClick(option, e)}>
-              <div className={styles.optionIcon}>
-                {typeof option.icon === "string" ? (
-                  <img src={option.icon} alt={option.value} loading="lazy" decoding="async" />
-                ) : (
-                  option.icon
-                )}
-              </div>
-              <div className={styles.optionText}>{option.value}</div>
-            </div>
-          ))}
-        </div>
-      )}
+      </button>
+      {typeof document !== "undefined" && showMenu && menuCoordinates
+        ? createPortal(
+            <div
+              ref={menuRef}
+              id={menuId}
+              className={`${styles.menu} ${placementClass?.menu ?? ""} ${isOpen ? styles.enter : styles.exit}`}
+              style={menuCoordinates}
+              role="menu"
+              aria-label={ariaLabel}
+              onKeyDown={handleMenuKeyDown}
+              onAnimationEnd={() => {
+                if (!isOpen) {
+                  setShowMenu(false);
+                  setMenuCoordinates(null);
+                }
+              }}>
+              {menuOptions.map((option, index) => (
+                <button
+                  key={option.id ?? `${option.value}-${index}`}
+                  ref={(element) => {
+                    optionRefs.current[index] = element;
+                  }}
+                  type="button"
+                  role="menuitem"
+                  tabIndex={focusIndex === index ? 0 : -1}
+                  className={styles.menuItem}
+                  style={option.style}
+                  onClick={() => handleOptionClick(option)}>
+                  <span className={styles.menuItemIcon} aria-hidden="true">
+                    {typeof option.icon === "string" ? (
+                      <img src={option.icon} alt="" loading="lazy" decoding="async" />
+                    ) : (
+                      option.icon
+                    )}
+                  </span>
+                  <span className={styles.menuItemLabel}>{option.value}</span>
+                </button>
+              ))}
+            </div>,
+            document.body,
+          )
+        : null}
     </div>
   );
 };
-export default Dotmenu;
+export default DotMenu;
