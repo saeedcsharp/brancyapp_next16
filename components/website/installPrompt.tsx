@@ -216,16 +216,23 @@ export default function InstallPrompt() {
     </div>
   );
   const renderDefaultBanner = () => (
-    <div className={styles.container}>
-      <div className={styles.box} dir={isRtl ? "rtl" : "ltr"}>
-        <div className={styles.row}>
-          <img src="/Brancy.svg" alt="Brancy" className={styles.logo} />
-          <div className={styles.text}>{t(LanguageKey.installPromptMessage)}</div>
-        </div>
-        <button className="saveButton" onClick={onInstallClick}>
-          {t(LanguageKey.install)}
-        </button>
+    <div className={styles.container} dir={isRtl ? "rtl" : "ltr"}>
+      <div className={styles.iosIconWrap}>
+        <img src="/Brancy.svg" alt="Brancy" className={styles.iosIconImg} />
       </div>
+      <div className={`${styles.iosTitle} ${isRtl ? styles.rtlText : styles.ltrText}`}>
+        {t(LanguageKey.installPromptMessage)}
+      </div>
+      <ol className={`${styles.iosList} ${isRtl ? styles.rtlText : styles.ltrText}`}>
+        <li>{insertIconAfterButton(t(LanguageKey.installStep1) as string)}</li>
+        <li>
+          <div className={styles.addIconLine}>{insertAddIcon(t(LanguageKey.installStep2) as string)}</div>
+        </li>
+        <li>{t(LanguageKey.installStep3)}</li>
+      </ol>
+      <button className="saveButton" onClick={onInstallClick}>
+        {t(LanguageKey.install)}
+      </button>
     </div>
   );
   return isIOS ? renderIOSFallback() : renderDefaultBanner();
