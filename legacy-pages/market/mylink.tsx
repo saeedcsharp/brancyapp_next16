@@ -184,7 +184,6 @@ const MyLink = () => {
   const [activeModal, setActiveModal] = useState<"terms" | "tariff" | "hours" | "lotteryList" | null>(null);
   const [myLink, setMyLink] = useState<any>(null);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
 
   // Handle authentication check
   useEffect(() => {
@@ -217,9 +216,7 @@ const MyLink = () => {
         if (isActive) setLoading(false);
         return;
       }
-
       setLoading(true);
-      setError(null);
       try {
         const info = await clientFetchApi<string, ISmartLink>("/api/bio/GetMyLink", {
           methodType: MethodType.get,
@@ -339,16 +336,13 @@ const MyLink = () => {
             caption: info.value.caption,
           };
           setMyLink({ data, bannerInfo, featureBox });
+          setLoading(false);
         } else {
           notify(info.info.responseType, NotifType.Warning);
-          setError("Unable to load My Link.");
         }
       } catch {
         if (!isActive) return;
         notify(ResponseType.Unexpected, NotifType.Error);
-        setError("Unable to load My Link.");
-      } finally {
-        if (isActive) setLoading(false);
       }
     };
     fetchData();
@@ -397,11 +391,8 @@ const MyLink = () => {
   const handleShowTerif = useCallback(() => setActiveModal("tariff"), []);
   const handleShowLottery = useCallback(() => setActiveModal("lotteryList"), []);
   const removeMask = useCallback(() => setActiveModal(null), []);
-
   if (status === "loading" || loading) return <Loading />;
   if (!RoleAccess(session, PartnerRole.Bio)) return <NotAllowed />;
-
-  if (error) return <h1 style={{ color: "red" }}>{error}</h1>;
   if (!myLink) return <h1 className="title">{t(LanguageKey.pageStatistics_EmptyList)}</h1>;
   return (
     session &&

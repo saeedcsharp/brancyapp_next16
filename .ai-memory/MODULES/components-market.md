@@ -148,7 +148,7 @@ Products is enabled in the market properties feature list. Reviews and AdsTimeli
 
 Product search uses a deferred query and a memoized filter/sort result to keep input responsive for large card collections. The horizontal carousel supports pointer dragging plus focused keyboard navigation with Left/Right, Home, and End keys, including RTL-aware scroll direction. Product and live-stream motion honors `prefers-reduced-motion`.
 
-The product cards render in a free horizontal carousel. The container never wraps, supports native horizontal touch scrolling and pointer drag scrolling with the mouse or touch, and does not use scroll snapping. A drag gesture suppresses the card link click that would otherwise open an Instagram URL.
+The product cards render in a free horizontal carousel. The container never wraps, supports native horizontal touch scrolling (`touch-action: pan-x pan-y`) and pointer drag scrolling with the mouse or touch, and does not use scroll snapping. A drag gesture suppresses the card link click that would otherwise open an Instagram URL.
 
 Product cards use a responsive fixed-width range, becoming slightly narrower on tablet and mobile screens. Their thumbnails keep a stable square aspect ratio, while product names reserve two lines and truncate longer text with an ellipsis.
 

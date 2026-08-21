@@ -167,6 +167,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - MyLink online-stream titles and descriptions now use the same line-break preservation, safe clickable links, and responsive line-height as last-video content.
 - MyLink shortcut countdowns now convert durations over 24 hours into days plus remaining hours instead of showing an inflated total-hour value.
 - Added a free horizontal MyLink shortcut carousel with native touch scrolling and mouse/pointer dragging. Shortcut cards remain capped at 250px on desktop; mobile collections with more than four links use 200px cards.
+- Enabled horizontal touch panning on MyLink shortcut, FeatureBox, and product carousel containers while preserving vertical page panning, so mobile horizontal scrolling works with native gestures.
 - Updated the MyLink feature menubar to use free horizontal scrolling and automatically center the active feature button whenever the visible feature changes.
 - MyLink FeatureBox cards now use free horizontal scrolling with native touch/trackpad support, pointer dragging, no snap points, and protection against accidental activation after dragging.
 - MyLink now always starts with a Home menu item targeting `FeatureType.FeaturesBox`; Contact and Map no longer autofocuses a link on mount, preventing an initial scroll jump away from the top section.

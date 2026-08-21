@@ -7,6 +7,7 @@
 - Converted individual bulk-product adjustment cards to the shared free-mode horizontal slider while preserving each card's existing controls and save behavior.
 - Added an accessible collapse interaction to the unified Page Tools `hashtagManager` card. Its header toggles the content and reduces the card row span while closed, with Enter and Space keyboard support.
 >>>>>>> sepehr
+- Fixed MyLink mobile horizontal carousels by allowing native horizontal and vertical touch panning on shortcut, FeatureBox, and product scroll containers.
 - Updated the MyLink About branding link to show `Brancy.App` on `brancy.app` and `Brancy.Ir` with the Iranian URL on other hosts.
 
 - Updated the MyLink View Store Products action to redirect to `https://{resolved-domain}/{username}/product` using `resolvePublicDomain` for localhost, regional, and app domains.
