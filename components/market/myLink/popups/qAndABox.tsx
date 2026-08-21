@@ -95,7 +95,7 @@ const QAndABox = (props: { removeMask: () => void }) => {
         {/* Add other meta tags as needed */}
       </Head>
       {/* head for SEO */}
-      <div className="title">{t(LanguageKey.marketPropertiesQandABox)}</div>
+      <div className="title">{t(LanguageKey.biolinkPropertiesQandABox)}</div>
       <div
         className={`${styles.addnewlink} ${!canAddMoreFAQ ? "fadeDiv" : ""}`}
         title="◰ add new FAQ to your market"

@@ -2138,7 +2138,7 @@ export default function Product() {
                     { key: "Comments", label: t(LanguageKey.comments) },
                     {
                       key: "Reviews",
-                      label: t(LanguageKey.marketPropertiesReviews),
+                      label: t(LanguageKey.biolinkPropertiesReviews),
                     },
                     // { key: "Q&A", label: t(LanguageKey.QandA) },
                     // do not delete this line

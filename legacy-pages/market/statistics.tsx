@@ -84,18 +84,18 @@ const Statistics = () => {
     ];
 
     return [
-      { name: t(LanguageKey.marketstatisticsYoutube), color: "#FF0000", data: youtubeData },
-      { name: t(LanguageKey.marketstatisticsAparat), color: "#00A8E8", data: aparatData },
-      { name: t(LanguageKey.marketstatisticsTwitch), color: "#9146FF", data: twitchData },
+      { name: t(LanguageKey.biolinkStatisticsYoutube), color: "#FF0000", data: youtubeData },
+      { name: t(LanguageKey.biolinkStatisticsAparat), color: "#00A8E8", data: aparatData },
+      { name: t(LanguageKey.biolinkStatisticsTwitch), color: "#9146FF", data: twitchData },
     ];
   }, [lastVideo, t]);
 
   const radarCategories = [
-    t(LanguageKey.marketstatisticsPlatformEntry),
-    t(LanguageKey.marketstatisticsRedirectEvent),
-    t(LanguageKey.marketstatisticsPlayVideo),
-    t(LanguageKey.marketstatisticsPlayEvent),
-    t(LanguageKey.marketstatisticsUniqueVisit),
+    t(LanguageKey.biolinkStatisticsPlatformEntry),
+    t(LanguageKey.biolinkStatisticsRedirectEvent),
+    t(LanguageKey.biolinkStatisticsPlayVideo),
+    t(LanguageKey.biolinkStatisticsPlayEvent),
+    t(LanguageKey.biolinkStatisticsUniqueVisit),
   ];
 
   // فرمت ثانیه به HH:MM:SS
@@ -195,7 +195,7 @@ const Statistics = () => {
                     <div className={styles.gooli4}></div>
                   </div>
                   <div className="title" style={{ textAlign: "center" }}>
-                    {t(LanguageKey.marketstatisticsVisits)}
+                    {t(LanguageKey.biolinkStatisticsVisits)}
                   </div>
                   <div className={styles.div}>{totalInsight!.nbVisits}</div>
                 </div>
@@ -208,34 +208,34 @@ const Statistics = () => {
                     <div className={styles.gooli8}></div>
                   </div>
                   <div className="title" style={{ textAlign: "center" }}>
-                    {t(LanguageKey.marketstatisticsClicksAndInteractions)}
+                    {t(LanguageKey.biolinkStatisticsClicksAndInteractions)}
                   </div>
                   <div className={styles.div}>{totalInsight!.nbActions}</div>
                 </div>
 
                 <div className={styles.newlikes}>
                   <div className="title" style={{ textAlign: "center" }}>
-                    {t(LanguageKey.marketstatisticsVisitsConverted)}
+                    {t(LanguageKey.biolinkStatisticsVisitsConverted)}
                   </div>
                   <div className={styles.div}>{totalInsight!.nbVisitsConverted}</div>
                 </div>
 
                 <div className={styles.newCommnet}>
                   <div className="title" style={{ textAlign: "center" }}>
-                    {t(LanguageKey.marketstatisticsQuickUserExitAfterEntry)}
+                    {t(LanguageKey.biolinkStatisticsQuickUserExitAfterEntry)}
                   </div>
                   <div className={styles.div}>{totalInsight!.bounceCount}</div>
                 </div>
                 <div className={styles.postrequest}>
                   <div className="title" style={{ textAlign: "center" }}>
-                    {t(LanguageKey.marketstatisticsNoInteractionExit)}
+                    {t(LanguageKey.biolinkStatisticsNoInteractionExit)}
                   </div>
                   <div className={styles.div}>{totalInsight!.bounceRate}</div>
                 </div>
 
                 <div className={styles.postrequest}>
                   <div className="title" style={{ textAlign: "center" }}>
-                    {t(LanguageKey.marketstatisticsMaxClicksPerVisit)}
+                    {t(LanguageKey.biolinkStatisticsMaxClicksPerVisit)}
                   </div>
                   <div className="title2" style={{ textAlign: "center" }}></div>
 
@@ -244,14 +244,14 @@ const Statistics = () => {
 
                 <div className={styles.postrequest}>
                   <div className="title" style={{ textAlign: "center" }}>
-                    {t(LanguageKey.marketstatisticsAvgClicksAndInteractionsPerVisitor)}
+                    {t(LanguageKey.biolinkStatisticsAvgClicksAndInteractionsPerVisitor)}
                   </div>
 
                   <div className={styles.div}>{totalInsight!.nbActionsPerVisit}</div>
                 </div>
                 <div className={styles.postrequest}>
                   <div className="title" style={{ textAlign: "center" }}>
-                    {t(LanguageKey.marketstatisticsTotalVisitTime)}
+                    {t(LanguageKey.biolinkStatisticsTotalVisitTime)}
                   </div>
 
                   <div className={styles.div}>{formatSeconds(totalInsight!.sumVisitLength)}</div>
@@ -259,7 +259,7 @@ const Statistics = () => {
 
                 <div className={styles.postrequest}>
                   <div className="title" style={{ textAlign: "center" }}>
-                    {t(LanguageKey.marketstatisticsAvgVisitTime)}
+                    {t(LanguageKey.biolinkStatisticsAvgVisitTime)}
                   </div>
 
                   <div className={styles.div}>{formatSeconds(totalInsight!.avgTimeOnSite)}</div>
@@ -271,7 +271,7 @@ const Statistics = () => {
                   <div className="frameParent">
                     <div className="headerChild">
                       <div className="circle"></div>
-                      <div className="Title">{t(LanguageKey.marketstatisticsVideoPlatformsComparison)}</div>
+                      <div className="Title">{t(LanguageKey.biolinkStatisticsVideoPlatformsComparison)}</div>
                     </div>
                   </div>
                   {/* مقایسه عملکرد یوتیوب، آپارات و توییچ در یک نمودار */}
@@ -288,7 +288,7 @@ const Statistics = () => {
                     <div className="frameParent">
                       <div className="headerChild">
                         <div className="circle"></div>
-                        <div className="Title">{t(LanguageKey.marketstatisticsDedicatedLinkVisits)}</div>
+                        <div className="Title">{t(LanguageKey.biolinkStatisticsDedicatedLinkVisits)}</div>
                       </div>
                     </div>
                     {/* نمودار تعداد بازدیدها در طول زمان */}
@@ -297,12 +297,12 @@ const Statistics = () => {
                       seriesData={[
                         {
                           id: "nbVisit",
-                          name: t(LanguageKey.marketstatisticsVisits),
+                          name: t(LanguageKey.biolinkStatisticsVisits),
                           data: totalInsightFigures.nbVisit,
                         },
                       ]}
                       id={"nbVisit-chart"}
-                      name={t(LanguageKey.marketstatisticsVisits)}
+                      name={t(LanguageKey.biolinkStatisticsVisits)}
                     />
                   </div>
                 )}
@@ -312,7 +312,7 @@ const Statistics = () => {
                     <div className="frameParent">
                       <div className="headerChild">
                         <div className="circle"></div>
-                        <div className="Title">{t(LanguageKey.marketstatisticsCombinedLinkVisits)}</div>
+                        <div className="Title">{t(LanguageKey.biolinkStatisticsCombinedLinkVisits)}</div>
                       </div>
                     </div>
                     <MultiChart
@@ -322,7 +322,7 @@ const Statistics = () => {
                         data: link.insight,
                       }))}
                       id={"allLinks-chart"}
-                      name={t(LanguageKey.marketstatisticsCombinedLinkVisits)}
+                      name={t(LanguageKey.biolinkStatisticsCombinedLinkVisits)}
                     />
                   </div>
                 )}

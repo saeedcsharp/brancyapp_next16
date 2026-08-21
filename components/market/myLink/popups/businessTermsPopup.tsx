@@ -8,16 +8,16 @@ export default function BusinessTermsPopup(props: { removeMask: () => void; term
   return (
     <>
       <div className="frameParent">
-        <div className="headerChild" title={t(LanguageKey.marketProperties_BusinessTerms)}>
+        <div className="headerChild" title={t(LanguageKey.biolinkProperties_BusinessTerms)}>
           <div className="circle"></div>
-          <div className="Title">{t(LanguageKey.marketProperties_BusinessTerms)}</div>
+          <div className="Title">{t(LanguageKey.biolinkProperties_BusinessTerms)}</div>
         </div>
       </div>
       {!props.terms.trim() ? (
-        <EmptyPopupState label={t(LanguageKey.marketProperties_BusinessTerms)} />
+        <EmptyPopupState label={t(LanguageKey.biolinkProperties_BusinessTerms)} />
       ) : (
         <div className="headerandinput">
-          <div className="headerparent" role="banner" aria-label={t(LanguageKey.marketProperties_BusinessTerms)}>
+          <div className="headerparent" role="banner" aria-label={t(LanguageKey.biolinkProperties_BusinessTerms)}>
             <span></span>
             {/* <div className="counter translate" aria-live="polite">
               (<strong>{props.terms.str.length}</strong> / <strong>1500</strong>)
@@ -26,13 +26,13 @@ export default function BusinessTermsPopup(props: { removeMask: () => void; term
           <TextArea
             className="TextArea"
             value={props.terms}
-            placeHolder={t(LanguageKey.marketProperties_BusinessTerms)}
+            placeHolder={t(LanguageKey.biolinkProperties_BusinessTerms)}
             fadeTextArea={false}
             minHeight={70}
             maxLength={1500}
             initialHeight={400}
-            aria-label={t(LanguageKey.marketProperties_BusinessTerms)}
-            title={t(LanguageKey.marketProperties_BusinessTerms)}
+            aria-label={t(LanguageKey.biolinkProperties_BusinessTerms)}
+            title={t(LanguageKey.biolinkProperties_BusinessTerms)}
           />
         </div>
       )}

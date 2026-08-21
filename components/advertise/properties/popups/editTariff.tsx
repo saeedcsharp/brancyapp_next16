@@ -84,7 +84,7 @@ const EditTariff = (props: { removeMask: () => void; saveTariift: (tariif: ITari
       {/* head for SEO */}
       <>
         <div className="headerandinput">
-          <h1 className="title">{t(LanguageKey.marketProperties_yourtariff)}</h1>
+          <h1 className="title">{t(LanguageKey.biolinkProperties_yourtariff)}</h1>
         </div>
         <div className={styles.all}>
           <div className="headerandinput">

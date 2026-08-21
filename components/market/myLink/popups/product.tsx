@@ -124,8 +124,8 @@ export default function ProductPopup({ removeMask }: { removeMask: () => void })
       {!loading && (
         <>
           <div className="headerandinput">
-            <div className="title">{t(LanguageKey.marketPropertiesProducts)}</div>
-            <div className="explain">{t(LanguageKey.marketPropertiesProduct)}</div>
+            <div className="title">{t(LanguageKey.biolinkPropertiesProducts)}</div>
+            <div className="explain">{t(LanguageKey.biolinkPropertiesProduct)}</div>
           </div>
 
           <div className={styles.selectionSummary} aria-live="polite">

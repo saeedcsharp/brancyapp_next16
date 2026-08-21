@@ -401,7 +401,7 @@ const AddPartner = React.memo(
                   <div className="headerandinput">
                     <div className="frameParent">
                       <div className="title">
-                        {t(LanguageKey.SettingGeneral_Marketlink)}
+                        {t(LanguageKey.SettingGeneral_biolink)}
                         <Tooltip
                           triggerType="tooltip"
                           tooltipValue="  Content and arrangement - Links and Third Party Content Shotcuts and ..."

@@ -2912,7 +2912,7 @@ const CreatePost = () => {
                             });
                           }}
                           className={postType == PostType.Single ? styles.selectedType : styles.type}>
-                          {t(LanguageKey.markethomepost)}
+                          {t(LanguageKey.biolinkHomepost)}
                         </div>
                         <div
                           title="ℹ️ change to ALBUM"
@@ -3377,7 +3377,7 @@ const CreatePost = () => {
                         }
                       }}
                       disabled={!handleActiveAutoComment}>
-                      {t(LanguageKey.marketstatisticsfeatures)}
+                      {t(LanguageKey.biolinkStatisticsfeatures)}
                     </button>
                   </div>
 

@@ -131,7 +131,7 @@ const Link = memo<LinkComponentProps>(({ data }) => {
     return [...data.links].sort((a, b) => a.orderId - b.orderId);
   }, [data?.links]);
   const headerText = useMemo(() => {
-    const text = t(LanguageKey.marketPropertiesLinkShortcut);
+    const text = t(LanguageKey.biolinkPropertiesLinkShortcut);
     const words = text.split(" ");
     const highlighted = words.length >= 2 ? words[words.length - 2] : "";
     const rest = words.slice(0, -2).concat(words.slice(-1)).join(" ");
@@ -192,13 +192,13 @@ const Link = memo<LinkComponentProps>(({ data }) => {
           // onClick={toggleContentVisibility}
           // onKeyDown={handleToggleKeyDown}
           aria-expanded={isContentVisible}
-          aria-label={t(LanguageKey.marketPropertiesLinkShortcut)}
+          aria-label={t(LanguageKey.biolinkPropertiesLinkShortcut)}
           aria-controls="link-content">
           <img
             className={styles.headerimg}
             title="ℹ️ header-banner"
             src="/marketlink/market-link.webp"
-            alt="Market link header banner"
+            alt="bio link header banner"
             loading="lazy"
             decoding="async"
           />

@@ -1,7 +1,12 @@
+<<<<<<< HEAD
 - Kept both lottery Terms image uploads at the verified publishable Instagram Story canvas size of `1080x1920`.
 
 - استاندارد ابعاد استوری اینستاگرام برای خروجی‌های Terms & Conditions لاتاری روی `1080x1920` قرار گرفت.
 
+=======
+- Converted individual bulk-product adjustment cards to the shared free-mode horizontal slider while preserving each card's existing controls and save behavior.
+- Added an accessible collapse interaction to the unified Page Tools `hashtagManager` card. Its header toggles the content and reduces the card row span while closed, with Enter and Space keyboard support.
+>>>>>>> sepehr
 - Updated the MyLink About branding link to show `Brancy.App` on `brancy.app` and `Brancy.Ir` with the Iranian URL on other hosts.
 
 - Updated the MyLink View Store Products action to redirect to `https://{resolved-domain}/{username}/product` using `resolvePublicDomain` for localhost, regional, and app domains.
@@ -67,6 +72,17 @@
 
 # Changelog
 
+# Changelog
+
+- Updated both bulk product fixed-amount inputs to use each product's `PriceType` currency through the shared `InputBox` unit slot and `specifyPriceType` renderer.
+
+- Replaced bulk product amount inputs with the shared decimal-aware `InputBox`, preserving in-progress decimal drafts as strings before numeric calculation, keeping amount state independent from percentage steppers, and fading/disabling inactive editors while retaining selectable radio alternatives.
+
+- Expanded the bulk product popup's shared and per-product adjustment controls inline, removing the local `renderEditor` abstraction while preserving the existing save behavior.
+
+- Reorganized the bulk product popup's percentage and amount controls so each radio stays beside its matching input, and moved per-product rendering into a local helper without changing save behavior.
+
+- Removed the obsolete `IconToggleButton` component and migrated its consumers to the shared `ToggleButton` control.
 - Replaced the Iran IP `internalNotify` in the Instagram connection dialog with the localized invalid-IP message and a ten-second countdown before redirecting to Instagram; valid non-Iranian IPs now show a localized automatic-redirect toast and use the same ten-second delay.
 
 - Forwarded the incoming `user-agent` header from the local API proxy to the upstream Brancy API.
@@ -150,7 +166,7 @@
 
 - Added the shared `resolvePublicDomain` helper for mapping local, `patran.ir`, `brancy.ir`, and `brancy.app` link bases to their public domains.
 
-- Added the localized `marketProperties_yourlottery` label for completed lotteries across all eight supported languages.
+- Added the localized `biolinkProperties_yourlottery` label for completed lotteries across all eight supported languages.
 
 - Synchronized the eight locale files and `LanguageKey` to 2,971 direct string translation keys. Missing locale entries now exist in every language, using English fallback text or a key-name placeholder when no source translation exists.
 

@@ -179,25 +179,25 @@ const Features = (props: {
     (featureType: FeatureType): string => {
       switch (featureType) {
         case FeatureType.Reviews:
-          return t(LanguageKey.marketPropertiesReviews);
+          return t(LanguageKey.biolinkPropertiesReviews);
         case FeatureType.AdsTimeline:
-          return t(LanguageKey.marketPropertiesAdsTimeline);
+          return t(LanguageKey.biolinkPropertiesAdsTimeline);
         case FeatureType.ContactAndMap:
-          return t(LanguageKey.marketPropertiesContactAndMap);
+          return t(LanguageKey.biolinkPropertiesContactAndMap);
         case FeatureType.LastVideo:
-          return t(LanguageKey.marketPropertiesLastVideo);
+          return t(LanguageKey.biolinkPropertiesLastVideo);
         case FeatureType.LinkShortcut:
-          return t(LanguageKey.marketPropertiesLinkShortcut);
+          return t(LanguageKey.biolinkPropertiesLinkShortcut);
         case FeatureType.OnlineStream:
-          return t(LanguageKey.marketPropertiesOnlineStream);
+          return t(LanguageKey.biolinkPropertiesOnlineStream);
         case FeatureType.Announcements:
-          return t(LanguageKey.marketPropertiesAnnouncements);
+          return t(LanguageKey.biolinkPropertiesAnnouncements);
         case FeatureType.Products:
-          return t(LanguageKey.marketPropertiesProducts);
+          return t(LanguageKey.biolinkPropertiesProducts);
         case FeatureType.QandABox:
-          return t(LanguageKey.marketPropertiesQandABox);
+          return t(LanguageKey.biolinkPropertiesQandABox);
         default:
-          return t(LanguageKey.marketPropertiesFeaturebox);
+          return t(LanguageKey.biolinkPropertiesFeaturebox);
       }
     },
     [t],
@@ -306,7 +306,7 @@ const Features = (props: {
         aria-label="Toggle card size"
         aria-expanded={hidePage}>
         <div className="circle"></div>
-        <h2 className="Title">{t(LanguageKey.marketPropertiesfeatures)}</h2>
+        <h2 className="Title">{t(LanguageKey.biolinkPropertiesfeatures)}</h2>
       </div>
       {hidePage && (
         <>
@@ -320,14 +320,14 @@ const Features = (props: {
                 <img className={styles.lock} title="ℹ️ can't move" aria-hidden="true" src="/lock.svg" />
                 <div className={styles.boxcontent}>
                   <h3 className="title2" style={{ paddingInline: "var(--padding-12)" }} title="ℹ️ Feature name">
-                    {t(LanguageKey.marketPropertiesProfileInfoBanner)}
+                    {t(LanguageKey.biolinkPropertiesProfileInfoBanner)}
                   </h3>
                   <button
                     onClick={() => handleBannerEdit(10)}
                     onKeyDown={(e) => handleBannerKeyDown(e, 10)}
                     className={styles.more}
                     title="◰ Edit options"
-                    aria-label={`Edit ${t(LanguageKey.marketPropertiesProfileInfoBanner)} options`}>
+                    aria-label={`Edit ${t(LanguageKey.biolinkPropertiesProfileInfoBanner)} options`}>
                     <svg fill="none" height="5" viewBox="0 0 14 5" aria-hidden="true">
                       <path
                         fill="#8F9BB3"
@@ -342,7 +342,7 @@ const Features = (props: {
                 <img className={styles.lock} title="ℹ️ can't move" aria-hidden="true" src="/lock.svg" />
                 <div className={styles.boxcontent}>
                   <h3 className="title2" style={{ paddingInline: "var(--padding-12)" }} title="ℹ️ Feature name">
-                    {t(LanguageKey.marketPropertiesFeaturebox)}
+                    {t(LanguageKey.biolinkPropertiesFeaturebox)}
                   </h3>
                   <button
                     onClick={() => {

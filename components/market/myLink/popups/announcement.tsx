@@ -68,8 +68,8 @@ const Announcement = (props: { removeMask: () => void }) => {
       </Head>
       {/* head for SEO */}
       <div className="headerandinput">
-        <div className="title">{t(LanguageKey.marketPropertiesAnnouncements)}</div>
-        <div className="explain">{t(LanguageKey.marketPropertiesAnnouncementsexplain)}</div>
+        <div className="title">{t(LanguageKey.biolinkPropertiesAnnouncements)}</div>
+        <div className="explain">{t(LanguageKey.biolinkPropertiesAnnouncementsexplain)}</div>
       </div>
       <div className="headerandinput" style={{ height: "100%" }}>
         {loading && <Loading />}

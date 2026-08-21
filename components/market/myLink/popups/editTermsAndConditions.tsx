@@ -30,15 +30,15 @@ const EditTermsAndConditions = (props: {
   return (
     <>
       <Head>
-        <title>Bran.cy ▸ {t(LanguageKey.marketProperties_BusinessTerms)}</title>
+        <title>Bran.cy ▸ {t(LanguageKey.biolinkProperties_BusinessTerms)}</title>
         <meta name="robots" content="noindex, nofollow" />
       </Head>
       <div className="headerandinput">
-        <div className="headerparent" role="banner" aria-label={t(LanguageKey.marketProperties_BusinessTerms)}>
+        <div className="headerparent" role="banner" aria-label={t(LanguageKey.biolinkProperties_BusinessTerms)}>
           <span></span>
           {lastUpdate && (
-            <div className="translate" aria-label={t(LanguageKey.marketstatisticslastupdate)}>
-              {t(LanguageKey.marketstatisticslastupdate)}: {lastUpdate.format("YYYY/MM/DD - hh:mm a")}
+            <div className="translate" aria-label={t(LanguageKey.biolinkStatisticslastupdate)}>
+              {t(LanguageKey.biolinkStatisticslastupdate)}: {lastUpdate.format("YYYY/MM/DD - hh:mm a")}
             </div>
           )}
           <div className="counter translate" aria-live="polite">
@@ -48,13 +48,13 @@ const EditTermsAndConditions = (props: {
         <TextArea
           className="TextArea"
           value={terms.str}
-          placeHolder={t(LanguageKey.marketProperties_BusinessTerms)}
+          placeHolder={t(LanguageKey.biolinkProperties_BusinessTerms)}
           handleInputChange={handleChange}
           fadeTextArea={false}
           initialHeight={400}
           maxLength={1500}
-          aria-label={t(LanguageKey.marketProperties_BusinessTerms)}
-          title={t(LanguageKey.marketProperties_BusinessTerms)}
+          aria-label={t(LanguageKey.biolinkProperties_BusinessTerms)}
+          title={t(LanguageKey.biolinkProperties_BusinessTerms)}
         />
       </div>
       <div className="ButtonContainer">

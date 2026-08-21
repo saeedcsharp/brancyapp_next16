@@ -273,7 +273,7 @@ const Editlink = (props: { info: ILink; removeMask: () => void; handleUpdateLink
                   style={{ display: "none" }}
                   aria-label="Upload custom icon"
                 />
-                {t(LanguageKey.marketPropertiespopup_yourcustomIcon)}
+                {t(LanguageKey.biolinkPropertiespopup_yourcustomIcon)}
               </div>
             )}
           </div>

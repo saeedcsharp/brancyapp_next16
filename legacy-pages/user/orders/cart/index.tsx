@@ -193,7 +193,7 @@ export default function Card() {
                       <div className={styles.products}>
                         {v.cardCount}
                         <br />
-                        {t(LanguageKey.marketPropertiesProduct)}
+                        {t(LanguageKey.biolinkPropertiesProduct)}
                       </div>
                     )}
                   </div>

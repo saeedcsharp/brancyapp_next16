@@ -696,7 +696,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
                   }}>
                   <header className={`${styles.planHeader} ${isCurrentPlan ? styles.highlighted : ""}`}>
                     <h4 className={styles.planModel} id={`plan-title-${index}`}>
-                      <span> {plan.followerRange}</span> {t(LanguageKey.markethomefollower)}
+                      <span> {plan.followerRange}</span> {t(LanguageKey.biolinkHomefollower)}
                     </h4>
                     <div className="headerandinput" style={{ gap: "1px", height: "45px" }}>
                       <div className="title">
@@ -766,7 +766,7 @@ const Page9: React.FC<Page9Props> = ({ handleShowCreateSignIn }) => {
                               <span>{feature.label}</span>
                               {/* <span className={styles.planExplain}>
                                 {" "}
-                                ({requests} {t(LanguageKey.marketProperties_Request)}/{t(LanguageKey.page9_monthly)})
+                                ({requests} {t(LanguageKey.biolinkProperties_Request)}/{t(LanguageKey.page9_monthly)})
                               </span> */}
                             </>
                           );

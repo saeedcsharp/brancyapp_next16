@@ -340,7 +340,7 @@ const NavbarTabs = () => {
       indexValue: "wallet",
       initialSlide: 1,
     },
-    // markethome: {
+    // biolinkHome: {
     //   id: "home",
     //   items: ["statistics", "mylink", "properties"],
     //   indexValue: "market",
@@ -356,13 +356,13 @@ const NavbarTabs = () => {
       id: "mylink",
       items: ["statistics", "mylink", "properties"],
       indexValue: "market",
-      initialSlide: 0,
+      initialSlide: 1,
     },
     marketproperties: {
       id: "properties",
       items: ["statistics", "mylink", "properties"],
       indexValue: "market",
-      initialSlide: 0,
+      initialSlide: 2,
     },
 
     advertisecalendar: {
@@ -444,7 +444,7 @@ const NavbarTabs = () => {
     payment: t(LanguageKey.navbar_Payment),
     title: t(LanguageKey.navbar_Title),
     home: t(LanguageKey.navbar_Home),
-    mylink: t(LanguageKey.navbar_MyLink),
+    mylink: t(LanguageKey.navbar_Biolink),
     properties: t(LanguageKey.navbar_Properties),
     calendar: t(LanguageKey.navbar_Calendar),
     general: t(LanguageKey.navbar_General),

@@ -667,7 +667,7 @@ const AddNewLink = (props: { removeMask: () => void; handleAddNewLink: (newLink:
       <Head>
         {" "}
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        <title>Bran.cy ▸ {t(LanguageKey.marketPropertiesaddnew)}</title>
+        <title>Bran.cy ▸ {t(LanguageKey.biolinkPropertiesaddnew)}</title>
         <meta name="description" content="Advanced Instagram post management tool" />
         <meta
           name="keywords"
@@ -682,7 +682,7 @@ const AddNewLink = (props: { removeMask: () => void; handleAddNewLink: (newLink:
       {!loading && !showSetDateAndTime && (
         <>
           <div className="headerandinput">
-            <div className="title">{t(LanguageKey.marketPropertiesaddnew)}</div>
+            <div className="title">{t(LanguageKey.biolinkPropertiesaddnew)}</div>
             <ToggleButton
               options={[
                 { label: t(LanguageKey.icon), id: 0 },
@@ -720,7 +720,7 @@ const AddNewLink = (props: { removeMask: () => void; handleAddNewLink: (newLink:
               <div className="headerandinput">
                 <div className={styles.linkiconpool}>
                   <div className="headerandinput">
-                    <div className="headertext">{t(LanguageKey.marketPropertiespopup_GeneralCustom)}</div>
+                    <div className="headertext">{t(LanguageKey.biolinkPropertiespopup_GeneralCustom)}</div>
                     <div className={styles.poolicon}>
                       {svgLinks.getValue("General Link")}
                       {svgLinks.getValue("PDF Link")}
@@ -729,7 +729,7 @@ const AddNewLink = (props: { removeMask: () => void; handleAddNewLink: (newLink:
                     </div>
                   </div>
                   <div className="headerandinput">
-                    <div className="headertext">{t(LanguageKey.marketPropertiespopup_socialmedia)}</div>
+                    <div className="headertext">{t(LanguageKey.biolinkPropertiespopup_socialmedia)}</div>
                     <div className={styles.poolicon}>
                       {svgLinks.getValue("Instagram")}
                       {svgLinks.getValue("Club House")}
@@ -749,7 +749,7 @@ const AddNewLink = (props: { removeMask: () => void; handleAddNewLink: (newLink:
                     </div>
                   </div>
                   <div className="headerandinput">
-                    <div className="headertext">{t(LanguageKey.marketPropertiespopup_mediastream)}</div>
+                    <div className="headertext">{t(LanguageKey.biolinkPropertiespopup_mediastream)}</div>
                     <div className={styles.poolicon}>
                       {svgLinks.getValue("Apple Music")}
                       {svgLinks.getValue("Amazon Music")}
@@ -765,7 +765,7 @@ const AddNewLink = (props: { removeMask: () => void; handleAddNewLink: (newLink:
                     </div>
                   </div>
                   <div className="headerandinput">
-                    <div className="headertext">{t(LanguageKey.marketPropertiespopup_clouddrivecontent)}</div>
+                    <div className="headertext">{t(LanguageKey.biolinkPropertiespopup_clouddrivecontent)}</div>
                     <div className={styles.poolicon}>
                       {svgLinks.getValue("Dropbox")}
                       {svgLinks.getValue("Mega")}
@@ -776,7 +776,7 @@ const AddNewLink = (props: { removeMask: () => void; handleAddNewLink: (newLink:
                     </div>
                   </div>
                   <div className="headerandinput">
-                    <div className="headertext">{t(LanguageKey.marketPropertiespopup_Finance)}</div>
+                    <div className="headertext">{t(LanguageKey.biolinkPropertiespopup_Finance)}</div>
                     <div className={styles.poolicon}>
                       {svgLinks.getValue("PayPal")}
                       {svgLinks.getValue(" Square")}
@@ -804,7 +804,7 @@ const AddNewLink = (props: { removeMask: () => void; handleAddNewLink: (newLink:
                     ref={inputRef}
                     style={{ display: "none" }}
                   />
-                  {t(LanguageKey.marketPropertiespopup_yourcustomIcon)}
+                  {t(LanguageKey.biolinkPropertiespopup_yourcustomIcon)}
                 </div>
               </div>
             )}

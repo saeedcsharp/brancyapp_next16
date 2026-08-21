@@ -499,7 +499,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
       <Head>
         {" "}
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" />
-        <title>Bran.cy ▸ {t(LanguageKey.marketPropertiesOnlineStream)}</title>
+        <title>Bran.cy ▸ {t(LanguageKey.biolinkPropertiesOnlineStream)}</title>
         <meta name="description" content="Advanced Instagram post management tool" />
         <meta
           name="keywords"
@@ -511,8 +511,8 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
       </Head>
       {/* head for SEO */}
       <div className="headerandinput">
-        <div className="title">{t(LanguageKey.marketPropertiesOnlineStream)}</div>
-        <div className="explain">{t(LanguageKey.marketPropertiesOnlineStreamexplain)}</div>
+        <div className="title">{t(LanguageKey.biolinkPropertiesOnlineStream)}</div>
+        <div className="explain">{t(LanguageKey.biolinkPropertiesOnlineStreamexplain)}</div>
         <div className={styles.radioinput}>
           <label className={styles.option}>
             <input
