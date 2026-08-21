@@ -94,13 +94,14 @@ const IngageInfo = (props: {
     if (props.data && LoginStatus(session)) setLoadingStaus(false);
   }, [props.data, session]);
   useEffect(() => {
+    if (!session) return;
     if (typeof window === "undefined") return;
     const loginTime = session?.user.createdTime ? session.user.createdTime * 1000 : Date.now();
     setFirstLoginAt(loginTime);
     setCurrentTime(Date.now());
     const timer = window.setInterval(() => setCurrentTime(Date.now()), 1000);
     return () => window.clearInterval(timer);
-  }, []);
+  }, [session]);
   const firstLoginRemaining = firstLoginAt ? Math.max(0, FIRST_LOGIN_DURATION_MS - (currentTime - firstLoginAt)) : 0;
   const firstLoginProgress = (firstLoginRemaining / FIRST_LOGIN_DURATION_MS) * 100;
   const syncSeconds = Math.ceil(firstLoginRemaining / 1000);
