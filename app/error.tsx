@@ -1,9 +1,8 @@
 "use client";
 
-import Link from "next/link";
 import styles from "./error.module.css";
 
-export default function Error({ reset }: { reset: () => void }) {
+export default function Error({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {
   return (
     <div className={styles.room}>
       <div className={styles.cuboid}>
@@ -14,7 +13,7 @@ export default function Error({ reset }: { reset: () => void }) {
 
       <div className={styles.oops}>
         <h2>Internal Server Error!</h2>
-        <p>Something went wrong on our server. Please try again Again! </p>
+        <p>{error.message || "Something went wrong on our server. Please try again."}</p>
       </div>
 
       <div className={styles.centerLine}>

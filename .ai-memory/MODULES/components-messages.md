@@ -60,6 +60,8 @@ React components are present when the folder contains `.tsx` UI files.
 
 `comment/commentInbox.tsx` memoizes the selected media's auto-reply configuration before passing it to `popups/editAutoReplyForMedia.tsx`. Hover-driven parent renders therefore preserve the child fetch effect dependencies and do not repeat prompt or flow API requests; a media, search-mode, or inbox-data change still supplies updated configuration.
 
+`comment/commentInbox.tsx` returns fetched media pages from its Post and Story `useInfiniteScroll` callbacks. The backend `oldestCursor` is nullable; returning an empty array before the response was processed caused the shared hook to stop pagination even when another cursor existed. Post and Story page appends also filter duplicate media IDs.
+
 `aiflow/flowNode/TextNode.tsx` enforces a 1,000-byte UTF-8 limit for text input, paste, and existing node data. The counter reports bytes rather than JavaScript string length, and truncation preserves complete Unicode characters.
 
 `direct/directChatBox.tsx` applies the same 1,000-byte UTF-8 limit to loaded drafts, typed text, emoji insertion, and outgoing text; truncation preserves complete Unicode characters.
@@ -85,6 +87,12 @@ When `aiflow/aiPromptBox.tsx` loads an existing prompt through `GetPrompt`, it s
 `aiflow/flow.tsx` reports successful toolbar saves to `FlowAndAIInbox` only for `newFlow`. The parent adopts the returned master-flow record and selects its ID, causing the editor to reload through `GetMasterFlow`; existing-flow toolbar saves do not request an additional reload.
 
 `popups/sendFile.tsx` and `popups/sendVideoFile.tsx` use the shared `UploadFile` helper for progress-aware uploads, so direct-message image and video URLs are released only after the global one-second media-availability delay.
+
+`direct/directInbox.tsx` returns the fetched thread page from its `fetchData` pagination callback. This is required by `useInfiniteScroll`; returning an empty array would make the hook mark pagination as exhausted even when the inbox API returns a non-null `nextMaxId`. `IInbox.nextMaxId` is nullable because the backend uses `null` to indicate the final page.
+
+`direct/directInbox.tsx` routes HTTP/API and initial-load failures to the App Router error boundary with the HTTP status and backend-provided reason when available. The boundary renders that received error message instead of replacing it with a generic-only message.
+
+Direct inbox rendering tolerates terminal pages containing threads with an empty `items` array. Message previews, timestamps, and unread counts use empty fallbacks instead of reading `sentByOwner`, `text`, or `createdTime` from an absent first item.
 
 ## Hooks
 

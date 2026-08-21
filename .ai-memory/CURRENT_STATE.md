@@ -13,6 +13,8 @@ Bulk product amount inputs now display the product currency through the shared `
 
 The repository is a single Next.js 16 application using React 19, TypeScript strict mode, Sass, CSS modules, NextAuth, next-pwa, and a mixed App Router plus legacy-page bridge. App routes in `app/` commonly import pages from `legacy-pages/` while shared components live in `components/`.
 
+The global App Router error boundary displays the received error message. DirectInbox sends failed initial inbox requests and pagination/API failures to that boundary with the HTTP status and backend reason when available.
+
 ## Active Features
 
 - Public landing and pricing flow.

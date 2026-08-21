@@ -1,12 +1,26 @@
 <<<<<<< HEAD
+
+- Updated the global App Router error page to display the received error message, with a readable fallback when no detail is available.
+
+- Applied the global error boundary to DirectInbox initial loads and pagination failures, preserving the HTTP status and backend reason in the rendered error page.
+
+- Fixed direct inbox pagination so general and business scroll requests return fetched threads to `useInfiniteScroll`; a non-null `/api/message/GetDirectInbox` `nextMaxId` now allows the next page request, while `null` correctly stops pagination.
+
+- Normalized direct inbox cursors before subsequent `/api/message/GetDirectInbox` requests. Empty, `null`, string `"null"`, and repeated cursors now terminate pagination instead of causing invalid higher-page requests and backend 500 responses.
+
+- Preserved backend error messages in `clientFetchApi` and displayed the HTTP status plus server reason for direct inbox 4xx/5xx responses, including higher-page `/api/message/GetDirectInbox` failures.
+
+- Fixed comment inbox pagination so Post and Story scroll requests return fetched media to `useInfiniteScroll`; a non-null `/api/Comment/GetInbox` `oldestCursor` now loads the next page, while `null` stops pagination.
+
 - Kept both lottery Terms image uploads at the verified publishable Instagram Story canvas size of `1080x1920`.
 
 - استاندارد ابعاد استوری اینستاگرام برای خروجی‌های Terms & Conditions لاتاری روی `1080x1920` قرار گرفت.
 
 =======
+
 - Converted individual bulk-product adjustment cards to the shared free-mode horizontal slider while preserving each card's existing controls and save behavior.
 - Added an accessible collapse interaction to the unified Page Tools `hashtagManager` card. Its header toggles the content and reduces the card row span while closed, with Enter and Space keyboard support.
->>>>>>> sepehr
+  > > > > > > > sepehr
 - Fixed MyLink mobile horizontal carousels by allowing native horizontal and vertical touch panning on shortcut, FeatureBox, and product scroll containers.
 - Updated the MyLink About branding link to show `Brancy.App` on `brancy.app` and `Brancy.Ir` with the Iranian URL on other hosts.
 

@@ -1594,7 +1594,7 @@ export interface RepliedMessageProps {
 export interface IInbox {
   threads: IThread[];
   ownerInbox: IDirectOwnerInbox;
-  nextMaxId: string;
+  nextMaxId: string | null;
 }
 
 export interface IUserThread {
@@ -1916,7 +1916,7 @@ export interface IReplyTicket {
 }
 
 export interface ICommetInbox {
-  oldestCursor: string;
+  oldestCursor: string | null;
   hasOlder: boolean;
   medias: IMedia[];
   ownerInbox: IDirectOwnerInbox;

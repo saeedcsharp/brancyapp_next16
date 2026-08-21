@@ -48,6 +48,28 @@ let downFlagLeft = false;
 let downFlagRight = false;
 let hideDivIndex: string | null = null;
 let constUserSelected: string | null = null;
+
+const normalizeInboxCursor = (cursor: string | null | undefined): string | null => {
+  if (cursor === null || cursor === undefined) return null;
+  const normalizedCursor = String(cursor).trim();
+  return normalizedCursor && normalizedCursor.toLowerCase() !== "null" ? normalizedCursor : null;
+};
+
+const getInboxApiErrorMessage = (response: {
+  statusCode?: number;
+  errorMessage?: string;
+  info?: { message?: string; exception?: { Message?: string; message?: string } | null };
+}) => {
+  const reason =
+    response.errorMessage?.trim() ||
+    response.info?.message?.trim() ||
+    response.info?.exception?.Message?.trim() ||
+    response.info?.exception?.message?.trim() ||
+    "No reason was provided by the server";
+
+  return `HTTP ${response.statusCode ?? 500}: ${reason}`;
+};
+
 const DirectInbox = () => {
   const { data: session } = useSession({
     required: true,
@@ -74,6 +96,7 @@ const DirectInbox = () => {
     bInbox.current = businessInbox;
   }, [businessInbox]);
   const [loading, setLoading] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.Message));
+  const [inboxError, setInboxError] = useState<Error | null>(null);
 
   const [searchbox, setSearchbox] = useState("");
   const [toggleOrder, setToggleOrder] = useState<MessageCategoryType>(MessageCategoryType.General);
@@ -128,8 +151,9 @@ const DirectInbox = () => {
   const { isLoadingMore: isLoadingMoreGeneral } = useInfiniteScroll<IThread>({
     hasMore: !!generalInbox?.nextMaxId && !showSearchThread.searchMode,
     fetchMore: async () => {
-      if (generalInbox?.nextMaxId) {
-        await fetchData(MessageCategoryType.General, generalInbox.nextMaxId, null);
+      const oldestCursor = normalizeInboxCursor(generalInbox?.nextMaxId);
+      if (oldestCursor) {
+        return fetchData(MessageCategoryType.General, oldestCursor, null);
       }
       return [];
     },
@@ -150,7 +174,7 @@ const DirectInbox = () => {
     hasMore: !!businessInbox?.nextMaxId && !showSearchThread.searchMode,
     fetchMore: async () => {
       if (businessInbox?.nextMaxId) {
-        await fetchData(MessageCategoryType.Business, businessInbox.nextMaxId, null);
+        return fetchData(MessageCategoryType.Business, businessInbox.nextMaxId, null);
       }
       return [];
     },
@@ -597,7 +621,11 @@ const DirectInbox = () => {
       await ws.send("SendVideoMessage", sendVideo.igId, sendVideo.imageUrl);
   };
 
-  const fetchData = async (categoryType: MessageCategoryType, oldestCursor: string | null, query: string | null) => {
+  const fetchData = async (
+    categoryType: MessageCategoryType,
+    oldestCursor: string | null,
+    query: string | null,
+  ): Promise<IThread[]> => {
     if (categoryType === MessageCategoryType.General) {
       var generalDirectInbox: IGetDirectInbox = {
         categoryId: 0,
@@ -613,18 +641,20 @@ const DirectInbox = () => {
           onUploadProgress: undefined,
         });
         console.log("generalResssssssssssss", generalRes);
-        if (generalRes.succeeded && !query) {
+        if (generalRes.succeeded && generalRes.statusCode < 400 && !query) {
+          const responseCursor = normalizeInboxCursor(generalRes.value.nextMaxId);
+          const nextMaxId = responseCursor === oldestCursor ? null : responseCursor;
           setGeneralInbox((prev) => {
             // Filter out duplicate threads before adding
             const existingThreadIds = new Set(prev!.threads.map((t) => t.threadId));
             const newThreads = generalRes.value.threads.filter((t) => !existingThreadIds.has(t.threadId));
             return {
               ...prev!,
-              nextMaxId: generalRes.value.nextMaxId,
+              nextMaxId,
               threads: [...prev!.threads, ...newThreads],
             };
           });
-        } else if (generalRes.succeeded && query) {
+        } else if (generalRes.succeeded && generalRes.statusCode < 400 && query) {
           if (generalRes.value.threads.length > 0) {
             setSearchGeneralInbox(generalRes.value);
             setShowSearchThread((prev) => ({ ...prev, loading: false }));
@@ -635,6 +665,13 @@ const DirectInbox = () => {
               noResult: true,
             }));
         } else if (!generalRes.succeeded) {
+          if (generalRes.statusCode >= 400) {
+            setInboxError(new Error(getInboxApiErrorMessage(generalRes)));
+          }
+          if (generalRes.statusCode >= 500) {
+            console.error("GetDirectInbox General failed", generalRes);
+            notify(generalRes.info.responseType, NotifType.Error, ` - ${getInboxApiErrorMessage(generalRes)}`);
+          }
           setShowSearchThread((prev) => ({
             ...prev,
             loading: false,
@@ -642,8 +679,11 @@ const DirectInbox = () => {
           }));
           notify(generalRes.info.responseType, NotifType.Warning);
         }
+        return generalRes.succeeded ? generalRes.value.threads : [];
       } catch (error) {
+        setInboxError(error instanceof Error ? error : new Error("Unable to load the direct inbox."));
         notify(ResponseType.Unexpected, NotifType.Error);
+        return [];
       }
     }
     if (categoryType === MessageCategoryType.Business) {
@@ -661,7 +701,9 @@ const DirectInbox = () => {
           onUploadProgress: undefined,
         });
         console.log("businessRes ", businessRes.value);
-        if (businessRes.succeeded && !query) {
+        if (businessRes.succeeded && businessRes.statusCode < 400 && !query) {
+          const responseCursor = normalizeInboxCursor(businessRes.value.nextMaxId);
+          const nextMaxId = responseCursor === oldestCursor ? null : responseCursor;
           setBusinessInbox((prev) => {
             // Filter out duplicate threads before adding
             const existingThreadIds = new Set(prev!.threads.map((t) => t.threadId));
@@ -683,6 +725,9 @@ const DirectInbox = () => {
               noResult: true,
             }));
         } else if (!businessRes.succeeded) {
+          if (businessRes.statusCode >= 400) {
+            setInboxError(new Error(getInboxApiErrorMessage(businessRes)));
+          }
           setShowSearchThread((prev) => ({
             ...prev,
             loading: false,
@@ -690,8 +735,11 @@ const DirectInbox = () => {
           }));
           notify(businessRes.info.responseType, NotifType.Warning);
         }
+        return businessRes.succeeded ? businessRes.value.threads : [];
       } catch (error) {
+        setInboxError(error instanceof Error ? error : new Error("Unable to load the direct inbox."));
         notify(ResponseType.Unexpected, NotifType.Error);
+        return [];
       }
     }
     if (categoryType === MessageCategoryType.Hide) {
@@ -731,6 +779,9 @@ const DirectInbox = () => {
               noResult: true,
             }));
         } else if (!res.succeeded) {
+          if (res.statusCode >= 400) {
+            setInboxError(new Error(getInboxApiErrorMessage(res)));
+          }
           setShowSearchThread((prev) => ({
             ...prev,
             loading: false,
@@ -738,10 +789,14 @@ const DirectInbox = () => {
           }));
           notify(res.info.responseType, NotifType.Warning);
         }
+        return res.succeeded ? res.value.threads : [];
       } catch (error) {
+        setInboxError(error instanceof Error ? error : new Error("Unable to load the direct inbox."));
         notify(ResponseType.Unexpected, NotifType.Error);
+        return [];
       }
     }
+    return [];
   };
   async function fetchBusiness() {
     var businessDirectInbox: IGetDirectInbox = {
@@ -758,8 +813,12 @@ const DirectInbox = () => {
         onUploadProgress: undefined,
       });
       if (businessRes.succeeded) setBusinessInbox(businessRes.value);
-      else notify(businessRes.info.responseType, NotifType.Warning);
+      else {
+        if (businessRes.statusCode >= 400) setInboxError(new Error(getInboxApiErrorMessage(businessRes)));
+        notify(businessRes.info.responseType, NotifType.Warning);
+      }
     } catch (error) {
+      setInboxError(error instanceof Error ? error : new Error("Unable to load the direct inbox."));
       notify(ResponseType.Unexpected, NotifType.Warning);
     }
   }
@@ -779,8 +838,12 @@ const DirectInbox = () => {
       });
       console.log(" ✅ Console ⋙ Hide", res.value);
       if (res.succeeded) setHideInbox(res.value);
-      else notify(res.info.responseType, NotifType.Warning);
+      else {
+        if (res.statusCode >= 400) setInboxError(new Error(getInboxApiErrorMessage(res)));
+        notify(res.info.responseType, NotifType.Warning);
+      }
     } catch (error) {
+      setInboxError(error instanceof Error ? error : new Error("Unable to load the direct inbox."));
       notify(ResponseType.Unexpected, NotifType.Warning);
     }
   }
@@ -799,10 +862,17 @@ const DirectInbox = () => {
         queries: undefined,
         onUploadProgress: undefined,
       });
-      setGeneralInbox(generalRes.value);
-      console.log("generalRes.value ", generalRes.value);
-      uniqueGeneralThreads = generalRes.value.threads;
-    } catch (error) {}
+      if (generalRes.succeeded) {
+        setGeneralInbox(generalRes.value);
+        console.log("generalRes.value ", generalRes.value);
+        uniqueGeneralThreads = generalRes.value.threads;
+      } else {
+        if (generalRes.statusCode >= 400) setInboxError(new Error(getInboxApiErrorMessage(generalRes)));
+        notify(generalRes.info.responseType, NotifType.Warning);
+      }
+    } catch (error) {
+      setInboxError(error instanceof Error ? error : new Error("Unable to load the direct inbox."));
+    }
     await handleSignalR();
     if (router.isReady && query.threadId !== undefined) {
       var threadIdRouter = query.threadId;
@@ -1500,7 +1570,7 @@ const DirectInbox = () => {
   }, [tempThreadIds]);
   function handleSpecifyUnread(items: IDirectMessageItem[], thread: IThread) {
     let unSeenDiv = <></>;
-    if (items[0].sentByOwner) return unSeenDiv;
+    if (!items[0] || items[0].sentByOwner) return unSeenDiv;
     const newItems = items
       .filter((item) => item.createdTime > thread.ownerLastSeenUnix && !item.sentByOwner)
       .sort((a, b) => a.createdTime - b.createdTime);
@@ -1596,6 +1666,8 @@ const DirectInbox = () => {
       handleReSendMessage();
     }
   }, [ws?.state]);
+
+  if (inboxError) throw inboxError;
 
   return (
     <>
@@ -1863,7 +1935,7 @@ const DirectInbox = () => {
                             <div className={styles.chattime}>
                               {v.items.length > 0
                                 ? new DateObject({
-                                    date: v.items[0].createdTime / 1e3,
+                                    date: (v.items[0]?.createdTime ?? 0) / 1e3,
                                     calendar: initialzedTime().calendar,
                                     locale: initialzedTime().locale,
                                   }).format("h:mm a")
@@ -2029,7 +2101,7 @@ const DirectInbox = () => {
                             </div>
                             <div className={styles.chattime}>
                               {new DateObject({
-                                date: v.items[0].createdTime / 1e3,
+                                date: (v.items[0]?.createdTime ?? 0) / 1e3,
                                 calendar: initialzedTime().calendar,
                                 locale: initialzedTime().locale,
                               }).format("h:MM a")}
@@ -2221,7 +2293,7 @@ const DirectInbox = () => {
                                 {handleSpecifyUnread(v.items, v)}
                                 <div className={styles.chattime}>
                                   {new DateObject({
-                                    date: v.items[0].createdTime / 1e3,
+                                    date: (v.items[0]?.createdTime ?? 0) / 1e3,
                                     calendar: initialzedTime().calendar,
                                     locale: initialzedTime().locale,
                                   }).format("h:mm a")}
@@ -2329,14 +2401,14 @@ const DirectInbox = () => {
                                 <div className={styles.username} title={v.recp.username}>
                                   {v.recp.username}
                                 </div>
-                                <div className={getMessageDirectionClass(v.items[0].text, styles.messagetext)}>
-                                  {v.items[0].text}
+                                <div className={getMessageDirectionClass(v.items[0]?.text ?? null, styles.messagetext)}>
+                                  {v.items[0]?.text ?? ""}
                                 </div>
                               </div>
                               <div className={styles.notifbox} title="ℹ️ Slide to more">
                                 <div className={styles.chattime}>
                                   {new DateObject({
-                                    date: v.items[0].createdTime / 1e3,
+                                    date: (v.items[0]?.createdTime ?? 0) / 1e3,
                                     calendar: initialzedTime().calendar,
                                     locale: initialzedTime().locale,
                                   }).format("h:mm a")}
@@ -2392,15 +2464,15 @@ const DirectInbox = () => {
                                 <div className={styles.username} title={v.recp.username}>
                                   {v.recp.username}
                                 </div>
-                                <div className={getMessageDirectionClass(v.items[0].text, styles.messagetext)}>
-                                  {v.items[0].text}
+                                <div className={getMessageDirectionClass(v.items[0]?.text ?? null, styles.messagetext)}>
+                                  {v.items[0]?.text ?? ""}
                                 </div>
                               </div>
                               <div className={styles.notifbox} title="ℹ️ Slide to more">
                                 {handleSpecifyUnread(v.items, v)}
                                 <div className={styles.chattime}>
                                   {new DateObject({
-                                    date: v.items[0].createdTime / 1e3,
+                                    date: (v.items[0]?.createdTime ?? 0) / 1e3,
                                     calendar: initialzedTime().calendar,
                                     locale: initialzedTime().locale,
                                   }).format("h:mm a")}
@@ -2546,15 +2618,15 @@ const DirectInbox = () => {
                                 <div className={styles.username} title={v.recp.username}>
                                   {v.recp.username}
                                 </div>
-                                <div className={getMessageDirectionClass(v.items[0].text, styles.messagetext)}>
-                                  {v.items[0].text}
+                                <div className={getMessageDirectionClass(v.items[0]?.text ?? null, styles.messagetext)}>
+                                  {v.items[0]?.text ?? ""}
                                 </div>
                               </div>
                               <div className={styles.notifbox} title="ℹ️ Slide to more">
                                 {handleSpecifyUnread(v.items, v)}
                                 <div className={styles.chattime}>
                                   {new DateObject({
-                                    date: v.items[0].createdTime / 1e3,
+                                    date: (v.items[0]?.createdTime ?? 0) / 1e3,
                                     calendar: initialzedTime().calendar,
                                     locale: initialzedTime().locale,
                                   }).format("h:mm a")}

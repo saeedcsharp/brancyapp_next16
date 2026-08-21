@@ -22,6 +22,12 @@ The main subscription remaining-time display was fixed on 2026-08-17 by calculat
 
 The AI-flow sender-username mention was fixed on 2026-08-17 so it inserts `[SENDER_USERNAME]` into the manual prompt instead of being added as a selected tool, cannot inherit another tool's selected state, and is disabled in prompt-analysis mode.
 
+The direct inbox pagination stop bug was fixed on 2026-08-21. The general and business `fetchMore` callbacks now return the threads fetched from `/api/message/GetDirectInbox` instead of returning an empty array, which previously caused `useInfiniteScroll` to mark the cursor exhausted immediately. The inbox cursor is documented as nullable because the backend returns `null` for the final page.
+
+The direct inbox terminal-page render crash was fixed on 2026-08-21. Threads returned with an empty `items` array no longer cause `sentByOwner`, `text`, or `createdTime` access on an undefined first item.
+
+The comment inbox pagination stop bug was fixed on 2026-08-21. Post and Story `fetchMore` callbacks now return the media fetched from `/api/Comment/GetInbox` instead of returning an empty array, and `ICommetInbox.oldestCursor` is nullable for the final page. Story page appends also ignore duplicate media IDs.
+
 ## Watchlist
 
 - Bulk product saves issue one `/api/product/CreateSubProducts` request per selected product. The backend map exposes no atomic bulk-update endpoint, so a later request can fail after earlier products have already been updated; the UI reports the failed response and refreshes only after complete success.

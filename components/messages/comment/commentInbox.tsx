@@ -133,7 +133,7 @@ const CommentInbox = () => {
     hasMore: !!postCommentInbox?.oldestCursor && !showSearchThread.searchMode,
     fetchMore: async () => {
       if (postCommentInbox?.oldestCursor) {
-        await fetchData(CommentType.Post, postCommentInbox.oldestCursor, null);
+        return fetchData(CommentType.Post, postCommentInbox.oldestCursor, null);
       }
       return [];
     },
@@ -154,7 +154,7 @@ const CommentInbox = () => {
     hasMore: !!storyCommentInbox?.oldestCursor && !showSearchThread.searchMode,
     fetchMore: async () => {
       if (storyCommentInbox?.oldestCursor) {
-        await fetchData(CommentType.Story, storyCommentInbox.oldestCursor, null);
+        return fetchData(CommentType.Story, storyCommentInbox.oldestCursor, null);
       }
       return [];
     },
@@ -367,7 +367,11 @@ const CommentInbox = () => {
     }
   };
 
-  const fetchData = async (ticketType: CommentType, nextMaxId: string | null, query: string | null) => {
+  const fetchData = async (
+    ticketType: CommentType,
+    nextMaxId: string | null,
+    query: string | null,
+  ): Promise<IMedia[]> => {
     if (ticketType === CommentType.Post && !activeHideInbox) {
       console.log("nextMaxId", nextMaxId);
       console.log("searchTerm", query);
@@ -417,9 +421,11 @@ const CommentInbox = () => {
           }));
           notify(postComments.info.responseType, NotifType.Warning);
         }
+        return postComments.succeeded ? postComments.value.medias : [];
       } catch (error) {
         notify(ResponseType.Unexpected, NotifType.Error);
         // handleDisConnectedNetwork();
+        return [];
       }
       // mainNavOrderId = generalRes.value.mainNavOrderId;
     } else if (ticketType === CommentType.Story && !activeHideInbox) {
@@ -438,11 +444,16 @@ const CommentInbox = () => {
         });
         console.log("businessRes ", businessRes.value);
         if (businessRes.succeeded && !query) {
-          setStoryCommentInbox((prev) => ({
-            ...prev!,
-            oldestCursor: businessRes.value.oldestCursor,
-            medias: [...prev!.medias, ...businessRes.value.medias],
-          }));
+          setStoryCommentInbox((prev) => {
+            const existingMediaIds = new Set(prev!.medias.map((media) => media.mediaId));
+            const uniqueNewMedias = businessRes.value.medias.filter((media) => !existingMediaIds.has(media.mediaId));
+
+            return {
+              ...prev!,
+              oldestCursor: businessRes.value.oldestCursor,
+              medias: [...prev!.medias, ...uniqueNewMedias],
+            };
+          });
         } else if (businessRes.succeeded && query) {
           if (businessRes.value.medias.length > 0) {
             setSearchBusinessInbox(businessRes.value);
@@ -461,8 +472,10 @@ const CommentInbox = () => {
           }));
           notify(businessRes.info.responseType, NotifType.Warning);
         }
+        return businessRes.succeeded ? businessRes.value.medias : [];
       } catch (error) {
         notify(ResponseType.Unexpected, NotifType.Error);
+        return [];
       }
     } else if (ticketType === CommentType.Post && activeHideInbox) {
       try {
@@ -498,10 +511,13 @@ const CommentInbox = () => {
           }));
           notify(hideFb.info.responseType, NotifType.Warning);
         }
+        return hideFb.succeeded ? hideFb.value.medias : [];
       } catch (error) {
         notify(ResponseType.Unexpected, NotifType.Error);
+        return [];
       }
     }
+    return [];
   };
   async function fetchStoryCpmments() {
     try {
