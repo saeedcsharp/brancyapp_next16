@@ -139,9 +139,17 @@
 .currentcolor {
   position: relative;
   top: 0px;
-  height: 100%;
   margin-inline: 10px;
   height: 75px;
+  width: 35px;
+  flex: 0 0 35px;
+}
+.currentcolor img {
+  display: block;
+  width: 35px;
+  height: 75px;
+  object-fit: cover;
+  border-radius: var(--br8);
 }
 .colorpalletesliderItem {
   flex-shrink: 0;

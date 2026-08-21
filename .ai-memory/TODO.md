@@ -7,6 +7,8 @@
 
 # TODO
 
+- Add component coverage confirming lottery Terms & Conditions output files passed to `saveTermsAndCondition` use `1080x1920` canvases when a UI test harness is introduced.
+
 - Add component/browser coverage for the `/page/tools` `hashtagManager` toggle and collapse interaction, including selected-view mounting, hidden content and row-span changes, saved-list callbacks, trend/search loading, keyboard activation, RTL labels, and mobile layout when a UI test harness is introduced.
 
 - Add component coverage for AI tool parameter description selection across supported locales, including German `gr`, French English fallback, missing localized values, and legacy `description` fallback when a UI test harness is introduced.

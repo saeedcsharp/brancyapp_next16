@@ -28,6 +28,8 @@ Execution starts from imports, route rendering, or helper calls depending on the
 
 Data enters through props, Next route params, session state, browser state, or backend API responses.
 
+The lottery `TermsAndConditionWinnerPicker` generates both uploaded Terms image files at the verified Instagram Story canvas size of `1080x1920`. The selected background preview is constrained separately in CSS to thumbnail dimensions, so the UI preview does not affect upload resolution.
+
 ## Dependencies
 
 See imports in related files and dependency docs.
