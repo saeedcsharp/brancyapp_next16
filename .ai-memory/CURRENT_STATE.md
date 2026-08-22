@@ -97,6 +97,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - Fixed the main subscription remaining-time calculation so expired subscriptions display `0 days` instead of the expiry timestamp interpreted as a duration.
 
 - The Instagram account switcher now highlights the account selected by `session.user.currentIndex` with a blue-tinted border/background treatment and exposes the selection through `aria-pressed`.
+- The account switcher's Instagram redirect now uses full browser navigation with a runtime host check, preventing external redirect URLs from reopening the current site.
 - The upgrade page now skips its session-dependent package-data reload when account switching starts, preventing duplicate `GetPackageFeatureDetails`, `GetReserveFeaturePrices`, and `GetPackagePrices` requests before navigation.
 
 - Fixed the Meta direct-login loading-screen hydration mismatch by keeping its initial phrase order deterministic across server and client rendering, then shuffling after mount.

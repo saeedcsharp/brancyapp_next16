@@ -18,7 +18,6 @@ import styles from "./switchAccount.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { InstagramerAccountInfo, IPartner_User } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
-const host = typeof window !== "undefined" ? window.location.host : "";
 function SwitchAccount(props: {
   removeMask: () => void;
   onSwitchStart?: () => void;
@@ -184,10 +183,13 @@ function SwitchAccount(props: {
         onUploadProgress: undefined,
       });
       if (response.succeeded) {
-        if (host.includes(redirectHostUrl())) {
-          router.push(response.value);
+        const currentHost = window.location.host;
+        if (currentHost.includes(redirectHostUrl())) {
+          window.location.assign(response.value);
         } else {
-          window.location.href = `https://${redirectHostUrl()}/redirectInterface?redirectUrl=${encodeURIComponent(response.value)}`;
+          window.location.assign(
+            `https://${redirectHostUrl()}/redirectInterface?redirectUrl=${encodeURIComponent(response.value)}`,
+          );
         }
       } else {
         notify(response.info.responseType, NotifType.Warning);

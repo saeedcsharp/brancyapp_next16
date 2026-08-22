@@ -1,5 +1,9 @@
 <<<<<<< HEAD
 
+- Fixed the account switcher's Instagram redirect by using the runtime host and full browser navigation for external destinations.
+
+- Added the localized automatic Instagram redirect explanation to the invalid-IP account-switch modal.
+
 - Updated the global App Router error page to display the received error message, with a readable fallback when no detail is available.
 
 - Applied the global error boundary to DirectInbox initial loads and pagination failures, preserving the HTTP status and backend reason in the rendered error page.

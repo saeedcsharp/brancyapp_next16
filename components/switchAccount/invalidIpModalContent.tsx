@@ -57,6 +57,7 @@ function InvalidIpModalContent({ expireTime, onContinue, onClose }: InvalidIpMod
       <h2 id="modal-title" style={{ margin: 0, textAlign: "center" }}>
         {t(LanguageKey.Notify_IpInvalid)}
       </h2>
+      <p style={{ margin: 0, textAlign: "center" }}>{t(LanguageKey.Notify_InstagramRedirectInTenSeconds)}</p>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <CounterDownNotRing
           unixTime={expireTime}
