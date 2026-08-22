@@ -13,45 +13,18 @@ function InvalidIpModalContent({ expireTime, onContinue, onClose }: InvalidIpMod
 
   return (
     <>
-      <button
-        type="button"
-        aria-label={t(LanguageKey.close)}
-        title={t(LanguageKey.close)}
-        onClick={onClose}
-        style={{
-          alignSelf: "flex-end",
-          background: "transparent",
-          border: 0,
-          cursor: "pointer",
-          padding: "4px",
-        }}>
-        <svg
-          aria-hidden="true"
-          fill="none"
-          height="24"
-          viewBox="0 0 24 24"
-          width="24"
-          xmlns="http://www.w3.org/2000/svg">
-          <path d="m7 7 10 10M17 7 7 17" stroke="var(--color-dark-blue)" strokeLinecap="round" strokeWidth="2" />
-        </svg>
-      </button>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <svg
-          aria-hidden="true"
-          fill="none"
-          height="64"
-          viewBox="0 0 64 64"
           width="64"
-          xmlns="http://www.w3.org/2000/svg">
-          <path d="M32 8 58 54H6L32 8Z" fill="var(--color-light-red)" opacity=".18" />
-          <path
-            d="M32 8 58 54H6L32 8Z"
-            stroke="var(--color-dark-red)"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="3"
-          />
-          <path d="M32 24v14M32 45h.01" stroke="var(--color-dark-red)" strokeLinecap="round" strokeWidth="4" />
+          xmlns="http://www.w3.org/2000/svg"
+          color="var(--color-light-red)"
+          fill="none"
+          stroke="var(--color-light-red)"
+          strokeWidth="2"
+          strokeLinecap="round"
+          viewBox="0 0 24 24">
+          <path d="M12 8v4m.1 3.8zm.2 0a.2.2 0 1 1-.5 0 .2.2 0 0 1 .5 0" strokeLinejoin="round" />
+          <path d="M21 11.2v-3q.1-2.2-.4-3-.5-.5-3.2-1.2l-3.2-1.2L12 2q-.5 0-2.2.8L6.5 4Q4 4.7 3.4 5.3t-.4 3v2.9c0 5.6 5 9 7.6 10.3q.8.5 1.4.5t1.4-.5c2.5-1.3 7.6-4.7 7.6-10.3Z" />
         </svg>
       </div>
       <h2 id="modal-title" style={{ margin: 0, textAlign: "center" }}>

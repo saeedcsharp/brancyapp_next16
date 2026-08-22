@@ -566,7 +566,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
             <div className={styles.all}>
               <div className="headerandinput">
                 <div className="headerparent">
-                  <div className="title">{t(LanguageKey.activate)}</div>
+                  <div className="title">{t(LanguageKey.activate)} Youtube</div>
                   <ToggleCheckBoxButton
                     name="youtubeToggle"
                     handleToggle={handleActiveYoutube}
@@ -651,7 +651,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
             <div className={styles.all}>
               <div className="headerandinput">
                 <div className="headerparent">
-                  <div className="title">{t(LanguageKey.activate)}</div>
+                  <div className="title">{t(LanguageKey.activate)} Aparat</div>
                   <ToggleCheckBoxButton
                     name="aparatToggle"
                     handleToggle={handleActiveAparat}
@@ -735,7 +735,7 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
             <div className={`${styles.all} `}>
               <div className="headerandinput">
                 <div className="headerparent">
-                  <div className="title">{t(LanguageKey.activate)}</div>
+                  <div className="title">{t(LanguageKey.activate)} Twitch</div>
                   <ToggleCheckBoxButton
                     name="twitchToggle"
                     handleToggle={handleActiveTwitch}
