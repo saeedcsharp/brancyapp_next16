@@ -1,11 +1,11 @@
 - Auto-reply AI and Flow selectors now show their Create Automation actions whenever no prompt or flow is selected, even when the selector lists available options.
 - Media auto-reply AI and Flow selectors now use the same unselected-state create-action behavior.
-<<<<<<< HEAD
+  <<<<<<< HEAD
 - Reused the Instagramer layout's invalid-IP modal for the NotLogin Instagram connection button, replacing its local toast countdown with the shared warning, countdown, Continue, and Close behavior.
-=======
+- # Fixed the Upgrade page's embedded SwitchAccount Add Account flow by wiring its Iranian-IP callback to the same invalid-IP modal and redirect continuation.
 - Standardized all DotMenu consumers on the `placement` prop and removed the duplicate `menuPosition` prop.
 - Prevented DotMenu trigger clicks from bubbling into clickable parent cards, avoiding unintended post navigation when opening a menu.
->>>>>>> sepehr
+  > > > > > > > sepehr
 
 <<<<<<< HEAD
 

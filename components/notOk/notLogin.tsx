@@ -79,7 +79,7 @@ export default function NotLogin({ removeMask, onInvalidIp }: NotLoginProps) {
     try {
       const res = await fetch("/api/user/ip");
       const data = await res.json();
-      if (data.countryCode === "ir" || !data.countryCode) {
+      if (data.countryCode === "ir") {
         if (onInvalidIp) {
           onInvalidIp(redirectToInstagram);
           return;

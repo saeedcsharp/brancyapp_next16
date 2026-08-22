@@ -1,5 +1,5 @@
 - Add component/browser coverage confirming the Instagram account switcher highlights only `session.user.currentIndex`, updates after switching, and preserves keyboard activation when a UI test harness is introduced.
-- Add component/browser coverage for the Add Account and NotLogin Instagram connection IP checks, including the localized Iranian-IP modal, ten-second Continue/timeout redirect, redirect behavior for other countries, and redirect fallback when the IP lookup fails.
+- Add component/browser coverage for the Add Account and NotLogin Instagram connection IP checks, including the localized Iranian-IP modal in the layout and Upgrade page, ten-second Continue/timeout redirect, redirect behavior for other countries, and redirect fallback when the IP lookup fails.
 
 - Add component coverage confirming advertise and customer-ad business-hour views translate all seven `findDayName` results in each supported locale when a UI test harness is introduced.
 

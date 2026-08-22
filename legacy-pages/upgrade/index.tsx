@@ -37,6 +37,8 @@ import {
 import { useTranslation } from "react-i18next";
 import styles from "./upgrade.module.css";
 import SwitchAccount from "brancy/components/switchAccount/switchAccount";
+import InvalidIpModalContent from "brancy/components/switchAccount/invalidIpModalContent";
+import Modal from "brancy/components/design/modal";
 const basePictureUrl = getClientMediaBaseUrl();
 const host = typeof window !== "undefined" ? window.location.host : "";
 type UpgradeState = {
@@ -572,6 +574,53 @@ const Upgrade = memo(function Upgrade() {
     };
   }, []);
   const [showSwitchAccount, setShowSwitchAccount] = useState(false);
+  const [showInvalidIp, setShowInvalidIp] = useState(false);
+  const [invalidIpExpireTime, setInvalidIpExpireTime] = useState(0);
+  const invalidIpContinueRef = useRef<(() => Promise<void>) | null>(null);
+
+  const redirectToInstagram = useCallback(async () => {
+    if (!session) return;
+
+    try {
+      const response = await clientFetchApi<boolean, string>("/api/preinstagramer/GetInstagramRedirect", {
+        methodType: MethodType.get,
+        session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
+      if (response.succeeded) {
+        if (host.includes(redirectHostUrl())) {
+          router.push(response.value);
+        } else {
+          window.location.href = `https://${redirectHostUrl()}/redirectInterface?redirectUrl=${encodeURIComponent(response.value)}`;
+        }
+      } else {
+        notify(response.info.responseType, NotifType.Warning);
+      }
+    } catch (error) {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    }
+  }, [session, router]);
+
+  const handleInvalidIp = useCallback((continueAction: () => Promise<void>) => {
+    invalidIpContinueRef.current = continueAction;
+    setInvalidIpExpireTime(Date.now() + 10000);
+    setShowInvalidIp(true);
+  }, []);
+
+  const handleInvalidIpContinue = useCallback(() => {
+    const continueAction = invalidIpContinueRef.current;
+    invalidIpContinueRef.current = null;
+    setShowInvalidIp(false);
+    if (continueAction) void continueAction();
+  }, []);
+
+  const handleInvalidIpClose = useCallback(() => {
+    invalidIpContinueRef.current = null;
+    setShowInvalidIp(false);
+  }, []);
+
   return (
     <>
       <Head>
@@ -1534,8 +1583,26 @@ const Upgrade = memo(function Upgrade() {
           onSwitchStart={() => {
             skipNextSessionLoadRef.current = true;
           }}
+          onInvalidIp={handleInvalidIp}
         />
       )}
+      <Modal
+        closePopup={handleInvalidIpClose}
+        classNamePopup="popupMini"
+        showContent={showInvalidIp}
+        style={{
+          aspectRatio: "auto",
+          gap: "16px",
+          justifyContent: "flex-start",
+          maxHeight: "none",
+          padding: "28px",
+        }}>
+        <InvalidIpModalContent
+          expireTime={invalidIpExpireTime}
+          onContinue={handleInvalidIpContinue}
+          onClose={handleInvalidIpClose}
+        />
+      </Modal>
     </>
   );
 });
