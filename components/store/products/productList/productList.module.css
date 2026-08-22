@@ -1,15 +1,5 @@
 /* ___responsive mobile___ */
 
-@media (max-width: 600px) {
-  .tableheaderparent {
-    display: none !important;
-  }
-  .noproducttext {
-    font-size: var(--font-18) !important;
-    line-height: 20px !important;
-  }
-}
-
 @media (max-width: 460px) {
   .pincontainer {
     padding: var(--paddingboxmobile) !important;
@@ -93,6 +83,12 @@
 }
 .searchmenubtn:hover {
   border: 1px solid var(--color-gray);
+}
+
+.searchBar {
+  position: relative;
+  display: flex;
+  align-items: center;
 }
 
 .serachMenuBar {
@@ -287,21 +283,25 @@ html[dir="rtl"] .reddot {
 
 /* ___table Header___ */
 .tableheaderparent {
+  position: sticky;
+  top: 0;
+  z-index: 2;
+  display: grid;
+  grid-template-columns: minmax(320px, 1fr) 45px 45px 95px 80px 145px;
+  min-width: 830px;
+  width: 100%;
   overflow: hidden;
-  justify-content: space-between;
-  position: relative;
   text-decoration: none;
-  display: flex;
-  flex-direction: row;
   border: 1px solid var(--color-gray30);
   background-color: var(--color-gray30);
   border-radius: var(--br20);
   transition: var(--transition2);
   gap: var(--gap-15);
   padding: var(--padding-8);
+  backdrop-filter: blur(10px);
   color: var(--text-h2);
   min-height: 45px;
-  max-height: 45px;
+  height: 45px;
   text-align: center;
   font-weight: var(--weight-600);
   align-items: center;
@@ -311,6 +311,7 @@ html[dir="rtl"] .reddot {
   border-radius: var(--br20) var(--br20) 0px 0px;
   position: relative;
   width: 100%;
+  min-width: 0;
   display: flex;
   flex-direction: column;
   overflow-y: auto;

@@ -627,101 +627,103 @@ const ProductList = () => {
                 </div>
               </div>
               <>
-                <div className={styles.tableheaderparent}>
-                  <div className={styles.productbody}>
-                    <div style={{ width: "101px" }} onClick={(e) => e.stopPropagation()}>
-                      <CheckBoxButton
-                        handleToggle={handleSelectAllProduct}
-                        value={selectAllProduct}
-                        title={"Select all product"}
-                        textlabel={productIds.length > 0 ? productIds.length.toString() : ""}
-                      />
-                    </div>
-                    <div className={styles.headername} onClick={() => handleSort("name")}>
-                      {t(LanguageKey.Storeproduct_name)}
-                      {sortField === "name" && <span>{sortDirection === "asc" ? "↑" : "↓"}</span>}
-                    </div>
-                  </div>
-                  <div className={styles.headerproductid} onClick={() => handleSort("pid")}>
-                    PID
-                    {sortField === "pid" && <span>{sortDirection === "asc" ? "↑" : "↓"}</span>}
-                  </div>
-                  <div className={styles.headerstock} onClick={() => handleSort("stock")}>
-                    {t(LanguageKey.Storeproduct_stock)}
-                    {sortField === "stock" && <span>{sortDirection === "asc" ? "↑" : "↓"}</span>}
-                  </div>
-                  <div className={styles.headerprice} onClick={() => handleSort("price")}>
-                    {t(LanguageKey.Storeproduct_price)}
-                    {sortField === "price" && <span>{sortDirection === "asc" ? "↑" : "↓"}</span>}
-                  </div>
-                  <div className={styles.headerlastmodified} onClick={() => handleSort("lastModified")}>
-                    {t(LanguageKey.advertiseProperties_lastModified)}
-                    {sortField === "lastModified" && <span>{sortDirection === "asc" ? "↑" : "↓"}</span>}
-                  </div>
-                  <div className={styles.headeractive} onClick={() => handleSort("status")}>
-                    {t(LanguageKey.Storeorder_STATUS)}
-                    {sortField === "status" && <span>{sortDirection === "asc" ? "↑" : "↓"}</span>}
-                  </div>
-                </div>
                 {/* Desktop View - Only render when width >= 600px */}
                 {resize >= 600 && (
-                  <div className={styles.productlist} ref={infiniteScrollRef}>
-                    {isProductListLoading && (
-                      <div className={styles.searchnotfound}>
-                        <RingLoader />
-                      </div>
-                    )}
-                    {!isProductListLoading && searchQuery.length === 0 && sortedProducts && (
-                      <ProductListDesktop
-                        products={sortedProducts}
-                        productIds={productIds}
-                        basePictureUrl={basePictureUrl}
-                        availableStatus={availableStatus}
-                        handleSelectProduct={handleSelectProduct}
-                        handleChangeActiveProduct={handleChangeActiveProduct}
-                        getStockClass={getStockClass}
-                      />
-                    )}
-                    {!isProductListLoading && searchQuery.length > 0 && (
-                      <>
-                        {showSearch.loading && (
-                          <div className={styles.searchnotfound}>
-                            <RingLoader />
-                          </div>
-                        )}
-                        {showSearch.noResult && (
-                          <div className={styles.searchnotfound}>
-                            <img
-                              style={{
-                                width: "200px",
-                                height: "200px",
-                                padding: "var(--padding-5)",
-                              }}
-                              title="ℹ️ product not found"
-                              src="/noresult.svg"
+                  <>
+                    <div className={styles.productlist} ref={infiniteScrollRef}>
+                      <div className={styles.tableheaderparent}>
+                        <div className={styles.productbody}>
+                          <div style={{ width: "101px", display: "flex" }} onClick={(e) => e.stopPropagation()}>
+                            <CheckBoxButton
+                              handleToggle={handleSelectAllProduct}
+                              value={selectAllProduct}
+                              title={"Select all product"}
+                              textlabel={productIds.length > 0 ? productIds.length.toString() : ""}
                             />
-                            {t(LanguageKey.noresult)}
                           </div>
-                        )}
-                        {sortedSearchProducts && (
-                          <ProductListDesktop
-                            products={sortedSearchProducts}
-                            productIds={productIds}
-                            basePictureUrl={basePictureUrl}
-                            availableStatus={availableStatus}
-                            handleSelectProduct={handleSelectProduct}
-                            handleChangeActiveProduct={handleChangeActiveProduct}
-                            getStockClass={getStockClass}
-                          />
-                        )}
-                      </>
-                    )}
-                    {isLoadingMore && (
-                      <div className={styles.loader}>
-                        <DotLoaders />
+                          <div className={styles.headername} onClick={() => handleSort("name")}>
+                            {t(LanguageKey.Storeproduct_name)}
+                            {sortField === "name" && <span>{sortDirection === "asc" ? "↑" : "↓"}</span>}
+                          </div>
+                        </div>
+                        <div className={styles.headerproductid} onClick={() => handleSort("pid")}>
+                          PID
+                          {sortField === "pid" && <span>{sortDirection === "asc" ? "↑" : "↓"}</span>}
+                        </div>
+                        <div className={styles.headerstock} onClick={() => handleSort("stock")}>
+                          {t(LanguageKey.Storeproduct_stock)}
+                          {sortField === "stock" && <span>{sortDirection === "asc" ? "↑" : "↓"}</span>}
+                        </div>
+                        <div className={styles.headerprice} onClick={() => handleSort("price")}>
+                          {t(LanguageKey.Storeproduct_price)}
+                          {sortField === "price" && <span>{sortDirection === "asc" ? "↑" : "↓"}</span>}
+                        </div>
+                        <div className={styles.headerlastmodified} onClick={() => handleSort("lastModified")}>
+                          {t(LanguageKey.advertiseProperties_lastModified)}
+                          {sortField === "lastModified" && <span>{sortDirection === "asc" ? "↑" : "↓"}</span>}
+                        </div>
+                        <div className={styles.headeractive} onClick={() => handleSort("status")}>
+                          {t(LanguageKey.Storeorder_STATUS)}
+                          {sortField === "status" && <span>{sortDirection === "asc" ? "↑" : "↓"}</span>}
+                        </div>
                       </div>
-                    )}
-                  </div>
+                      {isProductListLoading && (
+                        <div className={styles.searchnotfound}>
+                          <RingLoader />
+                        </div>
+                      )}
+                      {!isProductListLoading && searchQuery.length === 0 && sortedProducts && (
+                        <ProductListDesktop
+                          products={sortedProducts}
+                          productIds={productIds}
+                          basePictureUrl={basePictureUrl}
+                          availableStatus={availableStatus}
+                          handleSelectProduct={handleSelectProduct}
+                          handleChangeActiveProduct={handleChangeActiveProduct}
+                          getStockClass={getStockClass}
+                        />
+                      )}
+                      {!isProductListLoading && searchQuery.length > 0 && (
+                        <>
+                          {showSearch.loading && (
+                            <div className={styles.searchnotfound}>
+                              <RingLoader />
+                            </div>
+                          )}
+                          {showSearch.noResult && (
+                            <div className={styles.searchnotfound}>
+                              <img
+                                style={{
+                                  width: "200px",
+                                  height: "200px",
+                                  padding: "var(--padding-5)",
+                                }}
+                                title="ℹ️ product not found"
+                                src="/noresult.svg"
+                              />
+                              {t(LanguageKey.noresult)}
+                            </div>
+                          )}
+                          {sortedSearchProducts && (
+                            <ProductListDesktop
+                              products={sortedSearchProducts}
+                              productIds={productIds}
+                              basePictureUrl={basePictureUrl}
+                              availableStatus={availableStatus}
+                              handleSelectProduct={handleSelectProduct}
+                              handleChangeActiveProduct={handleChangeActiveProduct}
+                              getStockClass={getStockClass}
+                            />
+                          )}
+                        </>
+                      )}
+                      {isLoadingMore && (
+                        <div className={styles.loader}>
+                          <DotLoaders />
+                        </div>
+                      )}
+                    </div>
+                  </>
                 )}
                 {/* Mobile View - Only render when width < 600px */}
                 {resize < 600 && (
