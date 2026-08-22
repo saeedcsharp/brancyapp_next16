@@ -202,8 +202,14 @@ const PageDetail = (props: { data: IDemographicInsight; items: IInstagramerHomeT
         </div>
         <div className={`${styles.frameContainer} ${isHidden ? "" : styles.show}`}>
           <section className={styles.pageDetailSection}>
-            <div className="title2" style={{ textAlign: "center" }}>
-              {t(LanguageKey.AudienceGender)}
+            <div className="title2">
+              {t(LanguageKey.AudienceGender)}{" "}
+              <Tooltip
+                tooltipValue={t(LanguageKey.AudienceTooltip)}
+                triggerType="tooltip"
+                onClick={true}
+                position="bottom"
+              />
             </div>
             <div className="explain">
               {t(LanguageKey.AudienceGenderStats, {
@@ -252,7 +258,16 @@ const PageDetail = (props: { data: IDemographicInsight; items: IInstagramerHomeT
           </section>
 
           <section className={styles.pageDetailSection}>
-            <div className="title2">{t(LanguageKey.AudienceAge)}</div>
+            <div className="title2">
+              {t(LanguageKey.AudienceAge)}{" "}
+              <Tooltip
+                tooltipValue={t(LanguageKey.AudienceTooltip)}
+                triggerType="tooltip"
+                onClick={true}
+                position="bottom"
+              />
+            </div>
+
             <div className="explain">
               {(() => {
                 // Find the age range with highest percentage
@@ -387,7 +402,15 @@ const PageDetail = (props: { data: IDemographicInsight; items: IInstagramerHomeT
 
           <section className={styles.pageDetailSection}>
             <div className="headerandinput">
-              <div className="title2">{t(LanguageKey.AudienceLocation)}</div>
+              <div className="title2">
+                {t(LanguageKey.AudienceLocation)}{" "}
+                <Tooltip
+                  tooltipValue={t(LanguageKey.AudienceTooltip)}
+                  triggerType="tooltip"
+                  onClick={true}
+                  position="bottom"
+                />
+              </div>
 
               <div className="explain">
                 {(() => {

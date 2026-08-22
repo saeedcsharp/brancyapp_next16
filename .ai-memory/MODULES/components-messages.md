@@ -84,7 +84,17 @@ When `aiflow/aiPromptBox.tsx` loads an existing prompt through `GetPrompt`, it s
 
 `aiflow/flow.tsx` reports successful toolbar saves to `FlowAndAIInbox` only for `newFlow`. The parent adopts the returned master-flow record and selects its ID, causing the editor to reload through `GetMasterFlow`; existing-flow toolbar saves do not request an additional reload.
 
+`aiflow/flow.tsx` refreshes connection paths in `useLayoutEffect` after node transforms commit. Zoom no longer schedules a delayed connection refresh, preventing SVG paths from lagging behind scaled nodes. The DOM-measurement fallback uses the CSS node width of `280px`.
+
+`aiflow/flowAndAIInBox.tsx` opens a localized new-flow settings modal before selecting `newFlow`. The modal requires a title, collects follower, snap-grid, and panning-boundary settings, accepts an imported JSON editor state, and mounts the editor only after Continue.
+
+The same component keeps the continued new flow in `userslist` as a local `newFlow` Draft item. A successful manual save removes that item and prepends the backend-returned `ITotalMasterFlow`; `aiflow/flow.tsx` treats a new flow as unsaved until that save succeeds.
+
+`aiflow/flowNode/GenericItemNode.tsx` and `aiflow/flowNode/WeblinkNode.tsx` validate web links on blur. A valid HTTP(S) link must have a non-empty final hostname segment after a dot (for example, `.com` or `.ir`); the suffix is not restricted to a fixed list. Invalid non-empty links set the shared `InputBox` danger status and replay its shake animation once; editing the value clears the error state.
+
 `popups/sendFile.tsx` and `popups/sendVideoFile.tsx` use the shared `UploadFile` helper for progress-aware uploads, so direct-message image and video URLs are released only after the global one-second media-availability delay.
+
+`popups/editAutoReply.tsx` and `popups/editAutoReplyForMedia.tsx` show the Create Automation AI and Create Automation Flow actions whenever the active AI prompt or flow has not been selected, even when the corresponding `DragDrop` list contains options. Existing saved prompts and flows count as selected and keep the actions hidden.
 
 ## Hooks
 

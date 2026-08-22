@@ -228,6 +228,7 @@ export enum LanguageKey {
   CreateAutomationFlowExplain = "CreateAutomationFlowExplain",
   CreateAutomationAI = "CreateAutomationAI",
   CreateAutomationAIExplain = "CreateAutomationAIExplain",
+  ConnectProduct = "ConnectProduct",
   flowProperties_notworking_privateReply = "flowProperties_notworking_privateReply",
   //0️⃣ General -> sidebar
   sidebar_Home = "sidebar_Home",
@@ -3104,4 +3105,5 @@ export enum LanguageKey {
   papageTools_Lottery = "papageTools_Lottery",
   Notify_InvalidBankCardNotify_InvalidBankCardNumber = "Notify_InvalidBankCardNotify_InvalidBankCardNumber",
   analyticsDesc = "analyticsDesc",
+  AudienceTooltip = "AudienceTooltip",
 }

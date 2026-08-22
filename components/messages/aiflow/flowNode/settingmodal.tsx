@@ -19,6 +19,7 @@ import { MethodType } from "brancy/helper/api";
 import styles from "./settingmodal.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { ITotalMasterFlow } from "brancy/models/interfaces";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
 interface SettingModalProps {
   masterFlowId: string;
   snapToGridEnabled: boolean;
@@ -276,8 +277,16 @@ export const SettingModal: React.FC<SettingModalProps> = ({
                 />
               </div>
               <div className="headerandinput">
-                <div className="title">{t(LanguageKey.Data_Management)}</div>
-                <div className="explain">{t(LanguageKey.Data_Management_explain)}</div>
+                <div className="title">
+                  {t(LanguageKey.Data_Management)}
+                  <Tooltip
+                    tooltipValue={t(LanguageKey.Data_Management_explain)}
+                    triggerType="tooltip"
+                    onClick
+                    position="bottom"
+                  />
+                </div>
+
                 <div className="ButtonContainer">
                   <button className="cancelButton" onClick={exportFlow}>
                     {t(LanguageKey.exportJSON)}

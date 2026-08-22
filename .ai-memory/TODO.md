@@ -7,12 +7,21 @@
 
 # TODO
 
+- Add component coverage confirming the auto-reply AI and Flow Create Automation actions appear with populated unselected DragDrop lists and remain hidden after selecting or retaining an existing prompt/flow when a UI test harness is introduced.
+- Extend the auto-reply Create Automation action coverage to `EditAutoReplyForMedia` and its retained media prompt/flow state when a UI test harness is introduced.
+
+- Add browser coverage for AI Flow zooming and panning, confirming SVG connection paths remain aligned with Socket DOM positions across wheel zoom, toolbar zoom, reset, RTL, and mobile viewports when a UI test harness is introduced.
+
+- Add component/browser coverage for the new-flow settings modal, including title validation, Continue/cancel behavior, setting propagation, JSON import validation, RTL labels, and mobile overflow when a UI test harness is introduced.
+- Add component/browser coverage for new-flow Draft list insertion, initial Save availability, draft replacement after a successful API save, and draft retention after a failed save when a UI test harness is introduced.
+
 <<<<<<< HEAD
-- Add component coverage confirming lottery Terms & Conditions output files passed to `saveTermsAndCondition` use `1080x1920` canvases when a UI test harness is introduced.
-=======
+
+- # Add component coverage confirming lottery Terms & Conditions output files passed to `saveTermsAndCondition` use `1080x1920` canvases when a UI test harness is introduced.
 - Add component coverage for decimal bulk-product amount entry, localized unit display, independent amount/percentage values, inactive-editor `fadeDiv`/disabled states, and radio switching when a UI test harness is introduced.
 - Add browser coverage for individual bulk-product slider touch/pointer dragging, RTL direction, responsive card widths, and preserving focused editor state when a UI test harness is introduced.
->>>>>>> sepehr
+
+  > > > > > > > sepehr
 
 - Add component/browser coverage for the `/page/tools` `hashtagManager` toggle and collapse interaction, including selected-view mounting, hidden content and row-span changes, saved-list callbacks, trend/search loading, keyboard activation, RTL labels, and mobile layout when a UI test harness is introduced.
 

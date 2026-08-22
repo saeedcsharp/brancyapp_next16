@@ -4,7 +4,8 @@ export default {
     unpin: "Détacher",
     pin: "Épingler",
     usethisPrompt: "Utiliser dans le Prompt",
-
+    AudienceTooltip:
+      "Pour mesurer plus précisément votre engagement actuel, les statistiques sont basées sur vos performances des 30 derniers jours ; les statistiques Instagram couvrent toute la période d'activité du compte et peuvent différer de ces données",
     toggleShowAll: "afficher tout",
     toggleShowmonthly: "afficher mensuel",
     Nodetutorial: "Description du bloc",
@@ -517,7 +518,7 @@ export default {
     CreateAutomationAI: "Créer une IA d'automatisation",
     CreateAutomationAIExplain: "Automatisez les interactions Instagram avec des réponses basées sur l'IA.",
     flowProperties_notworking_privateReply:
-      "⚠️ Remarque : Ce flux ne peut pas être utilisé pour les réponses privées aux publications ou aux lives, il s’applique uniquement aux autres messages et conversations.",
+      "⚠️ Attention : ce flux ne fonctionne pas dans les conversations privées avec des amis et sert uniquement à répondre automatiquement aux commentaires et aux messages Direct",
 
     needPass: "Vérification et Activation",
     needPassExplain: "Pour accéder pleinement à cette fonctionnalité, le mot de passe du compte Instagram est requis",
@@ -3536,12 +3537,13 @@ export default {
     // #endregion Notification Section
     how: "Comment",
     SharedRemainingTimeBefore: "Vous devez attendre 24 heures avant de partager à nouveau.",
+    ConnectProduct: "Connexion directe au produit",
     messagesetting_ConnectProductResponseExplain: "Connectez votre produit à la Story ou au Live.",
     biolinkProperties_Connect: "Connecter",
     economy: "Économique",
     Retry: "Réessayer",
     SettingGeneralProfileTitle: "Profil",
     messagesetting_SpecifyProductResponseExplain:
-      "Définissez votre réponse concernant le produit afin qu’elle soit automatiquement envoyée aux utilisateurs.",
+      "Sélectionnez un produit pour qu’il soit envoyé automatiquement aux utilisateurs",
   },
 };

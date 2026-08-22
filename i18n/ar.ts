@@ -3,7 +3,8 @@ export default {
     unpin: "إلغاء التثبيت",
     pin: "تثبيت",
     usethisPrompt: "استخدم في البرومبت",
-
+    AudienceTooltip:
+      "لقياس تفاعلك الحالي بشكل أدق، يتم عرض الإحصاءات بناءً على أدائك خلال آخر 30 يومًا؛ بينما تعتمد إحصاءات Instagram على كامل فترة نشاط الحساب، وقد تختلف عن هذه البيانات",
     toggleShowAll: "عرض الكل",
     toggleShowmonthly: "عرض الشهري",
     Nodetutorial: "شرح الكتلة",
@@ -496,7 +497,7 @@ export default {
     CreateAutomationAI: "إنشاء ذكاء اصطناعي للأتمتة",
     CreateAutomationAIExplain: "قم بأتمتة تفاعلات إنستغرام من خلال الردود المدفوعة بالذكاء الاصطناعي.",
     flowProperties_notworking_privateReply:
-      "⚠️ ملاحظة: لا يمكن استخدام هذا الفلو في الردود الخاصة على المنشورات أو البثوث المباشرة، ويمكن استخدامه فقط في الرسائل والمحادثات الأخرى.",
+      "⚠️ ملاحظة: لا يعمل هذا الفلو في المحادثات الخاصة مع الأصدقاء، ويُستخدم فقط للرد التلقائي على التعليقات ورسائل Direct",
 
     max: "الحد الأقصى",
     needPass: "التأكيد والتفعيل",
@@ -3340,9 +3341,10 @@ export default {
     // #endregion Notification Section
     how: "كيفية",
     SharedRemainingTimeBefore: "يجب الانتظار 24 ساعة قبل إعادة المشاركة مرة أخرى.",
+    ConnectProduct: "ربط مباشر بالمنتج",
     messagesetting_ConnectProductResponseExplain: "اربط منتجك بـ Story أو Live.",
     biolinkProperties_Connect: "اتصال",
     economy: "اقتصادي",
-    messagesetting_SpecifyProductResponseExplain: "حدد رد المنتج الخاص بك ليتم إرساله تلقائيًا إلى المستخدمين.",
+    messagesetting_SpecifyProductResponseExplain: "حدّد منتجًا ليتم إرساله تلقائيًا إلى المستخدمين",
   },
 };

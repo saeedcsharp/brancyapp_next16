@@ -52,7 +52,7 @@ const recordsEn = {
   responseRules: {
     title: "Reply rules and message controls",
     description:
-      "Configure general auto replies, icebreakers, persistent menus, special payloads, follower checks, and reply settings for direct conversations.",
+      "Configure general auto replies, icebreakers, persistent menus, special payloads, follower checks, and reply settings for direct conversations; create actions remain available when no AI prompt or flow is selected.",
   },
   aiFlows: {
     title: "AI prompts and visual flows",
@@ -611,9 +611,10 @@ export const featureKnowledgeFa = {
     },
     responseRules: {
       title: "قوانین پاسخ به پیام",
-      description: "برای پیام‌ها جواب خودکار، شروع‌کننده گفت‌وگو و منوی آماده بسازید.",
+      description:
+        "برای پیام‌ها جواب خودکار، شروع‌کننده گفت‌وگو و منوی آماده بسازید و هنگام انتخاب‌نکردن گزینه، مسیر ساخت آن را باز کنید.",
       descriptionDetail:
-        "برای مدیریت پیام‌های تکراری، جواب خودکار و شروع‌کننده گفت‌وگو بسازید و منوی آماده در اختیار مخاطب بگذارید. می‌توانید قوانین پاسخ، بررسی دنبال‌کردن حساب و تنظیمات مربوط به هر گفت‌وگو را هماهنگ کنید تا پاسخ‌گویی منظم‌تر شود.",
+        "برای مدیریت پیام‌های تکراری، جواب خودکار و شروع‌کننده گفت‌وگو بسازید و منوی آماده در اختیار مخاطب بگذارید. در تنظیمات پاسخ خودکار، وقتی هنوز دستور هوش مصنوعی یا فلو را انتخاب نکرده‌اید، مسیر ساخت همان گزینه در کنار فهرست انتخاب نمایش داده می‌شود. می‌توانید قوانین پاسخ، بررسی دنبال‌کردن حساب و تنظیمات مربوط به هر گفت‌وگو را هماهنگ کنید تا پاسخ‌گویی منظم‌تر شود.",
     },
     aiFlows: {
       title: "دستورها و جریان‌های هوش مصنوعی",

@@ -3,6 +3,8 @@ export default {
     // #region landing page.
     unpin: "Unpin",
     pin: "Pin",
+    AudienceTooltip:
+      "For a more accurate measure of your current engagement, statistics are based on your performance over the past 30 days. Instagram statistics are based on your account's entire activity period and may differ from these figures",
     usethisPrompt: "Use in prompt",
     toggleShowAll: " Show All",
     toggleShowmonthly: " Show Monthly",
@@ -505,7 +507,7 @@ export default {
     CreateAutomationAI: "Create Automation AI",
     CreateAutomationAIExplain: "Automate Instagram interactions with AI-driven responses.",
     flowProperties_notworking_privateReply:
-      "⚠️ Note: This flow cannot be used for private replies to Posts or Lives and is only applicable to other messages and conversations.",
+      "⚠️ Note: This flow does not run in private chats with friends and is only used for automatic replies to comments and Direct messages",
 
     sending: "Sending",
     uploadsRemaining: "Uploads Remaining",
@@ -1781,8 +1783,8 @@ export default {
     messagesetting_SelectYourPrompt: "Select Your Prompt",
     messagesetting_DefineCustomResponseExplain:
       "Define your custom reply text so it will be automatically sent to users",
-    messagesetting_SpecifyProductResponseExplain:
-      "Specify your product reply so it will be automatically sent to users",
+    messagesetting_SpecifyProductResponseExplain: "Specify a product to be automatically sent to users",
+    ConnectProduct: "Direct Product Connection",
     messagesetting_ConnectProductResponseExplain: "Connect your product to the story or live ",
     messagesetting_SelectPredefinedFlowExplain:
       "Select a predefined flow to start an automated and smart conversation with the user",

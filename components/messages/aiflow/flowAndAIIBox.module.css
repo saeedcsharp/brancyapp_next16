@@ -14,8 +14,7 @@
   width: 100%;
   gap: var(--gap-10);
   justify-content: flex-end;
-}
-/* ___general___ */
+}/* ___general___ */
 
 .addnewlink {
   position: relative;

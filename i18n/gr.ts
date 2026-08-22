@@ -3,7 +3,8 @@ export default {
     unpin: "Lösen",
     pin: "Anheften",
     usethisPrompt: "Im Prompt verwenden",
-
+    AudienceTooltip:
+      "Für eine genauere Messung Ihrer aktuellen Interaktionen basieren die Statistiken auf Ihrer Leistung der letzten 30 Tage; Instagram-Statistiken beziehen sich auf den gesamten Aktivitätszeitraum des Kontos und können von diesen Daten abweichen",
     toggleShowAll: "Alles anzeigen",
     toggleShowmonthly: "Monatlich anzeigen",
     Nodetutorial: "Blockbeschreibung",
@@ -514,7 +515,7 @@ export default {
     CreateAutomationAI: "KI-Automatisierung erstellen",
     CreateAutomationAIExplain: "Automatisiere Instagram-Interaktionen mit KI-gesteuerten Antworten.",
     flowProperties_notworking_privateReply:
-      "⚠️ Hinweis: Dieser Flow kann nicht für private Antworten auf Posts oder Lives verwendet werden und gilt nur für andere Nachrichten und Unterhaltungen.",
+      "⚠️ Hinweis: Dieser Flow funktioniert nicht in privaten Chats mit Freunden und wird nur für automatische Antworten auf Kommentare und Direct-Nachrichten verwendet",
 
     needPass: "Verifizierung und Aktivierung",
     needPassExplain: "Für den vollen Zugriff auf diese Funktion wird das Passwort des Instagram-Kontos benötigt",
@@ -3516,6 +3517,7 @@ export default {
     // #endregion Notification Section
     how: "Wie",
     SharedRemainingTimeBefore: "Sie müssen 24 Stunden warten, bevor Sie erneut teilen können.",
+    ConnectProduct: "Direkte Produktverknüpfung",
     messagesetting_ConnectProductResponseExplain: "Verbinden Sie Ihr Produkt mit der Story oder dem Live.",
     biolinkProperties_Connect: "Verbinden",
     economy: "Wirtschaftlich",
@@ -3532,6 +3534,6 @@ export default {
     voice: "Audio",
     SettingGeneralProfileTitle: "Profil",
     messagesetting_SpecifyProductResponseExplain:
-      "Geben Sie Ihre Produktantwort an, damit sie automatisch an Benutzer gesendet wird.",
+      "Legen Sie ein Produkt fest, das automatisch an die Nutzer gesendet wird",
   },
 };

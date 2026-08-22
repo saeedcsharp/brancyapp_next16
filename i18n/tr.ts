@@ -3,7 +3,8 @@ export default {
     unpin: "Pini Kaldır",
     pin: "Pinle",
     usethisPrompt: "Prompt içinde kullan",
-
+    AudienceTooltip:
+      "Mevcut etkileşiminizi daha doğru ölçmek için istatistikler son 30 gündeki performansınıza göre gösterilir; Instagram istatistikleri hesabın tüm faaliyet dönemini kapsar ve bu verilerden farklı olabilir",
     toggleShowAll: "Hepsini Göster",
     toggleShowmonthly: "Aylık Göster",
     Nodetutorial: "Blok Açıklaması",
@@ -513,7 +514,7 @@ export default {
     CreateAutomationAI: "Yapay Zeka Otomasyonu Oluştur",
     CreateAutomationAIExplain: "Yapay zeka destekli yanıtlarla Instagram etkileşimlerini otomatikleştir.",
     flowProperties_notworking_privateReply:
-      "⚠️ Dikkat: Bu akış, Post veya canlı yayınlara özel yanıtlar için kullanılamaz; yalnızca diğer mesajlar ve sohbetlerde geçerlidir.",
+      "⚠️ Dikkat: Bu akış arkadaşlarla yapılan özel sohbetlerde çalışmaz ve yalnızca yorumlara ve Direct mesajlarına otomatik yanıt vermek için kullanılır",
 
     needPass: "Doğrulama ve Aktivasyon",
     needPassExplain: "Bu özelliğe tam erişim için Instagram hesap şifresi gereklidir",
@@ -3438,12 +3439,12 @@ export default {
     // #endregion Notification Section
     how: "Nasıl",
     SharedRemainingTimeBefore: "Tekrar paylaşım yapmadan önce 24 saat beklemelisiniz.",
+    ConnectProduct: "Doğrudan Ürüne Bağlantı",
     messagesetting_ConnectProductResponseExplain: "Ürününüzü Story veya Live'a bağlayın.",
     biolinkProperties_Connect: "Bağla",
     economy: "Ekonomik",
     Retry: "Tekrar Dene",
-    messagesetting_SpecifyProductResponseExplain:
-      "Ürün yanıtınızı belirleyin; böylece kullanıcılara otomatik olarak gönderilir.",
+    messagesetting_SpecifyProductResponseExplain: "Kullanıcılara otomatik olarak gönderilmesi için bir ürün belirtin",
     Storeproduct_NationalCardexplain: "Bu kart, cep telefonu numarasını Brancy'ye kaydeden kişiye ait olmalıdır.",
   },
 };
