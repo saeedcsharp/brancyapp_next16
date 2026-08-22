@@ -705,6 +705,7 @@ export default {
     home_FollowRequest: "Follow tələbləri",
     home_UnreadNewComments: "Oxunmamış yeni şərhlər",
     home_Last24H: "Son 24 saat",
+    home_Last30Days: "Son 30 gün ərzində",
     home_LastLikes: "Yeni bəyənmələr",
     home_LastPost: "Son post",
     home_Followings: "Follow edilənlər",

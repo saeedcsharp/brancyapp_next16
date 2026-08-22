@@ -716,6 +716,7 @@ export default {
     home_FollowRequest: "Takip İstekleri",
     home_UnreadNewComments: "Okunmamış Yeni Yorumlar",
     home_Last24H: "Son 24 Saat",
+    home_Last30Days: "Son 30 gün içinde",
     home_LastLikes: "Yeni Beğeniler",
     home_LastPost: "Son Gönderi",
     home_Followings: "Takip Edilenler",

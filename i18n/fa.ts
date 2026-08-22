@@ -715,6 +715,7 @@ export default {
     home_FollowRequest: "درخواست‌های فالو",
     home_UnreadNewComments: "کامنت‌های جدید خوانده‌ نشده",
     home_Last24H: "۲۴ ساعت گذشته",
+    home_Last30Days: "طی ۳۰ روز اخیر",
     home_LastLikes: "لایک‌های جدید",
     home_LastPost: "آخرین پست",
     home_Followings: "فالوینگ ها",

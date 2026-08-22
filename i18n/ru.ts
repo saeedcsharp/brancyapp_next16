@@ -713,6 +713,7 @@ export default {
     home_FollowRequest: "Запросы на Подписку",
     home_UnreadNewComments: "Новые Непрочитанные Комментарии",
     home_Last24H: "Последние 24 часа",
+    home_Last30Days: "За последние 30 дней",
     home_LastLikes: "Новые лайки",
     home_LastPost: "Последний пост",
     home_Followings: "Подписки ",

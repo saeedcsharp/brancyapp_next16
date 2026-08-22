@@ -18,6 +18,8 @@
 
 =======
 
+- Added localized last-30-days labels in parentheses beside the Home PageDetail gender, age, and location section titles across all eight supported locales.
+
 - Converted individual bulk-product adjustment cards to the shared free-mode horizontal slider while preserving each card's existing controls and save behavior.
 - Added an accessible collapse interaction to the unified Page Tools `hashtagManager` card. Its header toggles the content and reduces the card row span while closed, with Enter and Space keyboard support.
   > > > > > > > sepehr

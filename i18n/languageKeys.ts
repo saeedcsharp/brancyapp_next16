@@ -284,6 +284,7 @@ export enum LanguageKey {
   home_FollowRequest = "home_FollowRequest",
   home_UnreadNewComments = "home_UnreadNewComments",
   home_Last24H = "home_Last24H",
+  home_Last30Days = "home_Last30Days",
   home_LastLikes = "home_LastLikes",
   home_LastPost = "home_LastPost",
   home_Followings = "home_Followings",

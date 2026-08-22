@@ -701,6 +701,7 @@ export default {
     home_FollowRequest: "طلبات متابعة",
     home_UnreadNewComments: "تعليقات جديدة غير مقروءة",
     home_Last24H: "آخر ٢٤ ساعة",
+    home_Last30Days: "خلال آخر ٣٠ يومًا",
     home_LastLikes: "إعجابات جديدة",
     home_LastPost: "آخر منشور",
     home_Followings: "الذين تتابعهم",

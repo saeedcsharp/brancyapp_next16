@@ -719,6 +719,7 @@ export default {
     home_FollowRequest: "Demandes de Suivi",
     home_UnreadNewComments: "Nouveaux Commentaires Non Lus",
     home_Last24H: "Dernières 24 Heures",
+    home_Last30Days: "Au cours des 30 derniers jours",
     home_LastLikes: "Nouveaux J'aime",
     home_LastPost: "Dernier Post",
     home_Followings: "Abonnements",

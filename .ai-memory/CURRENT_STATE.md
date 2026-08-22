@@ -84,6 +84,8 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 
 - The `/page/tools` `hashtagManager` now owns the card collapse interaction. Activating its shared header hides the manager content and reduces the masonry row span from `82` to `10`; Enter and Space provide the same keyboard behavior.
 
+- Home PageDetail demographic titles now show a localized `(Last 30 Days)`-equivalent label for gender, age, and location sections across all eight supported locales.
+
 - Unified the `/page/tools` saved-hashtag and trend/search-hashtag cards into one `hashtagManager` card with the shared `ToggleButton`; only the selected hashtag view mounts, while existing hashtag callbacks and data behavior remain unchanged.
 
 - Added a prioritized home profile status slideshow. It shows all currently active statuses, ordered from priority `1` through `10`, with previous/next controls when more than one status applies. The first-login 24-hour synchronization countdown, subscription renewal warning below seven remaining days with a remaining-day count, shopper/influencer role content, and role-upgrade actions remain supported and localized across all eight supported locales.

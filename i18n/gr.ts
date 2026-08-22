@@ -706,6 +706,7 @@ export default {
     home_FollowRequest: "Folgeanfragen",
     home_UnreadNewComments: "Ungelesene Neue Kommentare",
     home_Last24H: "Letzte 24 Stunden",
+    home_Last30Days: "In den letzten 30 Tagen",
     home_LastLikes: "Neue Likes",
     home_LastPost: "Letzter Beitrag",
     home_Followings: "Gefolgte",
