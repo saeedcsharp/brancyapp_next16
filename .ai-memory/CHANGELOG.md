@@ -1,9 +1,11 @@
 - Auto-reply AI and Flow selectors now show their Create Automation actions whenever no prompt or flow is selected, even when the selector lists available options.
 - Media auto-reply AI and Flow selectors now use the same unselected-state create-action behavior.
+- Reused the Instagramer layout's invalid-IP modal for the NotLogin Instagram connection button, replacing its local toast countdown with the shared warning, countdown, Continue, and Close behavior.
 
 <<<<<<< HEAD
 
 <<<<<<< HEAD
+
 - Fixed the account switcher's Instagram redirect by using the runtime host and full browser navigation for external destinations.
 
 - Added the localized automatic Instagram redirect explanation to the invalid-IP account-switch modal.
@@ -21,7 +23,9 @@
 - Fixed comment inbox pagination so Post and Story scroll requests return fetched media to `useInfiniteScroll`; a non-null `/api/Comment/GetInbox` `oldestCursor` now loads the next page, while `null` stops pagination.
 
 =======
->>>>>>> sepehr
+
+> > > > > > > sepehr
+
 - Kept both lottery Terms image uploads at the verified publishable Instagram Story canvas size of `1080x1920`.
 
 - استاندارد ابعاد استوری اینستاگرام برای خروجی‌های Terms & Conditions لاتاری روی `1080x1920` قرار گرفت.
@@ -29,6 +33,7 @@
 =======
 
 <<<<<<< HEAD
+
 - Fixed the Instagramer hamburger menu BioLink active state for all market routes by aligning its active-route list with the actual slash-free App Router paths.
 
 - Fixed Instagramer mobile navbar market-route detection by aligning BioLink route enum values with the actual slash-free App Router paths, so Home, Statistics, MyLink, and Properties all show the BioLink logo.
@@ -36,7 +41,9 @@
 - Added localized last-30-days labels in parentheses beside the Home PageDetail gender, age, and location section titles across all eight supported locales.
 
 =======
->>>>>>> sepehr
+
+> > > > > > > sepehr
+
 - Converted individual bulk-product adjustment cards to the shared free-mode horizontal slider while preserving each card's existing controls and save behavior.
 - Added an accessible collapse interaction to the unified Page Tools `hashtagManager` card. Its header toggles the content and reduces the card row span while closed, with Enter and Space keyboard support.
   > > > > > > > sepehr

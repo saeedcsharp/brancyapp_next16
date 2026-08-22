@@ -149,7 +149,7 @@ export default function InstagramerGroupLayout({ children }: { children: React.R
           handleRemoveNotifLogo={() => setToggleNotif((prev) => !prev)}
         />
       )}
-      {session?.user?.loginByInsta === false && <NotLogin removeMask={removeMask} />}
+      {session?.user?.loginByInsta === false && <NotLogin removeMask={removeMask} onInvalidIp={handleInvalidIp} />}
       {showSignOut && <SignOut removeMask={removeMask} />}
       {showSwitch && <SwitchAccount removeMask={removeMask} onInvalidIp={handleInvalidIp} />}
       <Modal

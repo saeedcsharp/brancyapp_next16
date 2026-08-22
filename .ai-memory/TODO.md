@@ -1,5 +1,5 @@
 - Add component/browser coverage confirming the Instagram account switcher highlights only `session.user.currentIndex`, updates after switching, and preserves keyboard activation when a UI test harness is introduced.
-- Add component/browser coverage for the Add Account IP check, including the localized Iranian-IP modal, ten-second Continue/timeout redirect, redirect behavior for other countries, and redirect fallback when the IP lookup fails.
+- Add component/browser coverage for the Add Account and NotLogin Instagram connection IP checks, including the localized Iranian-IP modal, ten-second Continue/timeout redirect, redirect behavior for other countries, and redirect fallback when the IP lookup fails.
 
 - Add component coverage confirming advertise and customer-ad business-hour views translate all seven `findDayName` results in each supported locale when a UI test harness is introduced.
 
@@ -9,12 +9,12 @@
 # TODO
 
 <<<<<<< HEAD
+
 - Add component/browser coverage confirming all Instagramer market routes select the BioLink mobile navbar logo when a UI test harness is introduced.
 
 - Add component coverage for direct inbox general/business cursor pagination, including a non-null `nextMaxId`, fetched-page append, duplicate-page handling, and terminal `null` cursor behavior when a UI test harness is introduced.
 
-- Add component coverage for comment inbox Post/Story cursor pagination, including non-null `oldestCursor`, media append, duplicate-page handling, and terminal `null` cursor behavior when a UI test harness is introduced.
-=======
+- # Add component coverage for comment inbox Post/Story cursor pagination, including non-null `oldestCursor`, media append, duplicate-page handling, and terminal `null` cursor behavior when a UI test harness is introduced.
 - Add component coverage confirming the auto-reply AI and Flow Create Automation actions appear with populated unselected DragDrop lists and remain hidden after selecting or retaining an existing prompt/flow when a UI test harness is introduced.
 - Extend the auto-reply Create Automation action coverage to `EditAutoReplyForMedia` and its retained media prompt/flow state when a UI test harness is introduced.
 
@@ -22,7 +22,7 @@
 
 - Add component/browser coverage for the new-flow settings modal, including title validation, Continue/cancel behavior, setting propagation, JSON import validation, RTL labels, and mobile overflow when a UI test harness is introduced.
 - Add component/browser coverage for new-flow Draft list insertion, initial Save availability, draft replacement after a successful API save, and draft retention after a failed save when a UI test harness is introduced.
->>>>>>> sepehr
+  > > > > > > > sepehr
 
 <<<<<<< HEAD
 
