@@ -8,6 +8,16 @@
 
 # TODO
 
+- Add reviewed, visible multilingual FAQ content and FAQPage schema to the public FAQ route; do not generate structured data for hidden or fallback-only answers.
+- Replace English fallback topic copy for `ar`, `fr`, `ru`, `tr`, `gr`, and `az` with native-reviewed translations, then validate each route's language, intent, and FAQ schema in Search Console.
+- Run Lighthouse/PageSpeed and real-user Core Web Vitals measurement on localized landing and resource routes; run Playwright user-flow tests for CTA, sign-in, keyboard, mobile, RTL, and reduced-motion behavior.
+- Provide verified public business identity data and official profile URLs, then create/verify Google Business Profile and Bing Places listings, add NAP-consistent LocalBusiness schema, and add only confirmed profiles to `sameAs`.
+
+- Build and maintain the external eight-language keyword map with primary/secondary terms, intent, topic cluster, target URL, difficulty, volume, CTR potential, cannibalization review, and PSEO priority.
+- Audit backlink quality by locale: topical relevance, authority, referring-domain diversity, anchor distribution, editorial context, dofollow/nofollow balance, unlinked mentions, competitor gaps, broken links, velocity, and toxic-link risk.
+
+- Verify the production `robots.txt` and `sitemap.xml` in Google Search Console and Bing Webmaster after deployment; add reviewed hreflang and public marketing routes when their canonical localized URL strategy is finalized.
+
 - Add browser coverage for the `/dev/systemDesign` helper reference, including complete helper-card coverage, safe live-example output, RTL/mobile layout, and confirmation that environment-dependent helpers are not invoked.
 
 <<<<<<< HEAD

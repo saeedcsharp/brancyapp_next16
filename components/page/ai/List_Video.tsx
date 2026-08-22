@@ -7,7 +7,7 @@ import styles from "./List.module.css";
 import { IGetMedia, PendingGeneration } from "brancy/models/interfaces";
 import Loading from "brancy/components/notOk/loading";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
-import { parseImageMetadata } from "./generatedImageModal";
+import { parseImageMetadata } from "./GeneratedImageModal";
 
 function formatCreatedTime(timestamp: number) {
   const t = initialzedTime();

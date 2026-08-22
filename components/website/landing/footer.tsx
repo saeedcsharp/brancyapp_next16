@@ -17,15 +17,15 @@ const Footer: React.FC = () => {
         links: [
           {
             text: t(LanguageKey.footer_AboutUs),
-            href: "Accessibility/About-Us",
+            href: "/Accessibility/About-Us",
           },
           {
             text: t(LanguageKey.footer_ContactUs),
-            href: "Accessibility/Contact-Us",
+            href: "/Accessibility/Contact-Us",
           },
           {
             text: t(LanguageKey.footer_JoinUs),
-            href: "Accessibility/join-Us",
+            href: "/Accessibility/join-Us",
           },
           // {
           //   text: t(LanguageKey.footer_OrgChart),
@@ -33,62 +33,32 @@ const Footer: React.FC = () => {
           // },
         ],
       },
-      // {
-      //   title: t(LanguageKey.footer_Solutions),
-      //   links: [
-      //     {
-      //       text: t(LanguageKey.footer_HelpCenter),
-      //       href: "Accessibility/Help-Center",
-      //     },
-      //     {
-      //       text: t(LanguageKey.footer_Support),
-      //       href: "Accessibility/Support",
-      //     },
-      //     { text: t(LanguageKey.footer_FAQ), href: "Accessibility/FAQ" },
-      //     {
-      //       text: t(LanguageKey.footer_ReportAnIssue),
-      //       href: "Accessibility/Report-an-Issue",
-      //     },
-      //   ],
-      // },
-      // {
-      //   title: t(LanguageKey.footer_TrustLegal),
-      //   links: [
-      //     {
-      //       text: t(LanguageKey.footer_TermsAndConditions),
-      //       href: "Accessibility/Terms-and-conditions",
-      //     },
-      //     {
-      //       text: t(LanguageKey.footer_PrivacyNotice),
-      //       href: "Accessibility/privacy-policy",
-      //     },
-      //     {
-      //       text: t(LanguageKey.footer_CookieNotice),
-      //       href: "Accessibility/Cookie-Notice",
-      //     },
-      //   ],
-      // },
-      // {
-      //   title: t(LanguageKey.footer_Blog),
-      //   links: [
-      //     {
-      //       text: t(LanguageKey.footer_ProductUpdates),
-      //       href: "Accessibility/Product-Updates",
-      //     },
-      //     {
-      //       text: t(LanguageKey.footer_Articles),
-      //       href: "Accessibility/Articles",
-      //     },
-      //     {
-      //       text: t(LanguageKey.footer_LatestNews),
-      //       href: "Accessibility/Latest-news",
-      //     },
-      //     {
-      //       text: t(LanguageKey.footer_FollowUs),
-      //       href: "Accessibility/Follow-Us",
-      //     },
-      //   ],
-      // },
+      {
+        title: t(LanguageKey.footer_Solutions),
+        links: [
+          { text: t(LanguageKey.footer_HelpCenter), href: "/Accessibility/Help-Center" },
+          { text: t(LanguageKey.footer_Support), href: "/Accessibility/Support" },
+          { text: t(LanguageKey.footer_FAQ), href: "/Accessibility/FAQ" },
+          { text: t(LanguageKey.footer_ReportAnIssue), href: "/Accessibility/Report-an-Issue" },
+        ],
+      },
+      {
+        title: t(LanguageKey.footer_TrustLegal),
+        links: [
+          { text: t(LanguageKey.footer_TermsAndConditions), href: "/Accessibility/Terms-and-conditions" },
+          { text: t(LanguageKey.footer_PrivacyNotice), href: "/Accessibility/privacy-policy" },
+          { text: t(LanguageKey.footer_CookieNotice), href: "/Accessibility/Cookie-Notice" },
+        ],
+      },
+      {
+        title: t(LanguageKey.footer_Blog),
+        links: [
+          { text: t(LanguageKey.footer_ProductUpdates), href: "/Accessibility/Product-Updates" },
+          { text: t(LanguageKey.footer_Articles), href: "/Accessibility/Articles" },
+          { text: t(LanguageKey.footer_LatestNews), href: "/Accessibility/Latest-news" },
+          { text: t(LanguageKey.footer_FollowUs), href: "/Accessibility/Follow-Us" },
+        ],
+      },
     ],
     [t],
   );
@@ -101,34 +71,39 @@ const Footer: React.FC = () => {
     <footer className={styles.footer}>
       <div className={styles.footerContent}>
         {isIR && (
-          <div className={styles.footersectiontable}>
-            <div className={styles.footerbody}>
-              آدرس: اصفهان - خیابان هاتف - کوچه یخچال - ساختمان برنسی
-              <br />
-              تلفن:09138664066
-              <a
-                href="https://trustseal.enamad.ir/?id=745725&Code=4jzLwvZYKySIQKV7TZv1oleWBHSAyBzv"
-                target="_blank"
-                referrerPolicy="origin"
-                aria-label="eNamad Trust Badge">
-                <img
+          <>
+            <div className={styles.footersectiontable}>
+              <div className={styles.footerbody}>
+                <address>
+                  آدرس: اصفهان - خیابان هاتف - کوچه یخچال - ساختمان برنسی
+                  <br />
+                  تلفن: <a href="tel:+989138664066">09138664066</a>
+                </address>
+                <br />
+                <a
+                  href="https://trustseal.enamad.ir/?id=745725&Code=4jzLwvZYKySIQKV7TZv1oleWBHSAyBzv"
+                  target="_blank"
                   referrerPolicy="origin"
-                  src={enemadImageSrc}
-                  onError={() => {
-                    if (enemadImageSrc !== "/landing/icon-verified.png") {
-                      setEnemadImageSrc("/landing/icon-verified.png");
-                    }
-                  }}
-                  alt="نماد اعتماد الکترونیکی"
-                  style={{
-                    cursor: "pointer",
-                    width: "50px",
-                    height: "50px",
-                  }}
-                  data-code="4jzLwvZYKySIQKV7TZv1oleWBHSAyBzv'"></img>
-              </a>
+                  aria-label="eNamad Trust Badge">
+                  <img
+                    referrerPolicy="origin"
+                    src={enemadImageSrc}
+                    onError={() => {
+                      if (enemadImageSrc !== "/landing/icon-verified.png") {
+                        setEnemadImageSrc("/landing/icon-verified.png");
+                      }
+                    }}
+                    alt="نماد اعتماد الکترونیکی"
+                    style={{
+                      cursor: "pointer",
+                      width: "50px",
+                      height: "50px",
+                    }}
+                    data-code="4jzLwvZYKySIQKV7TZv1oleWBHSAyBzv'"></img>
+                </a>
+              </div>
             </div>
-          </div>
+          </>
         )}
         {sections.map((section, idx) => (
           <div key={idx} className={styles.footersectiontable}>

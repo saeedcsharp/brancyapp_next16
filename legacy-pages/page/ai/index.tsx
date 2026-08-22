@@ -38,7 +38,7 @@ import { DateObject } from "react-multi-date-picker";
 import styles from "./pageAI.module.css";
 import MediaCreator from "brancy/components/page/ai/mediaCreator";
 import ImageList from "brancy/components/page/ai/List_Image";
-import GeneratedImageModal from "brancy/components/page/ai/generatedImageModal";
+import GeneratedImageModal from "brancy/components/page/ai/GeneratedImageModal";
 import GeneratedVideoModal from "brancy/components/page/ai/generatedVideoModal";
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
 type AiQueryType = "1" | "2";

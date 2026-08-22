@@ -34,7 +34,7 @@ Follows existing Next/React/TypeScript project conventions.
 
 ## Folder Structure
 
-`app/` contains 104 page files and 9 route handler files. `app/feature/` is a direct App Router feature knowledge-base route and does not bridge to a legacy page.
+`app/` contains 104 page files and 9 route handler files. `app/feature/` is a direct App Router feature knowledge-base route and does not bridge to a legacy page. `app/robots.ts` and `app/sitemap.ts` expose the public crawl policy and sitemap; authenticated dashboard routes and the noindex feature reference are excluded.
 
 ## Execution Flow
 
@@ -152,7 +152,7 @@ See `MODULE_INDEX.md`.
 
 ## Known Issues
 
-No confirmed module-specific issue recorded at initialization.
+Cross-browser visual regression coverage remains pending. Public crawlability now has explicit `robots.txt` and `sitemap.xml` route handlers, but search-engine verification still requires production deployment and webmaster-console inspection.
 
 ## Technical Debt
 

@@ -7,7 +7,7 @@ import { IGetMedia, PendingGeneration } from "brancy/models/interfaces";
 import { useTranslation } from "react-i18next";
 import Loading from "brancy/components/notOk/loading";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
-import { parseImageMetadata } from "./generatedImageModal";
+import { parseImageMetadata } from "./GeneratedImageModal";
 function formatCreatedTime(timestamp: number) {
   const t = initialzedTime();
   const d = new DateObject({

@@ -255,9 +255,7 @@ const Page1 = ({ handleShowVerification }: Page1Props) => {
   return (
     <>
       <Head>
-        <link rel="preload" as="image" href="/landing/hiroimg1.png" />
-        <link rel="preload" as="image" href="/landing/hiroimg2.png" />
-        <link rel="preload" as="image" href="/landing/hiroimg3.png" />
+        <link rel="preload" as="image" href="/brancy.png" />
       </Head>
       <main ref={sectionRef} className={styles.page1} role="main" aria-label={t(LanguageKey.page1_text1)}>
         <section className={styles.hiroesignin} aria-labelledby="hero-title">
@@ -303,7 +301,8 @@ const Page1 = ({ handleShowVerification }: Page1Props) => {
 
                     {showLandingSignIn && <LandingSignIn handleShowVerification={handleShowVerification} />}
                     {!showLandingSignIn && (
-                      <div
+                      <button
+                        type="button"
                         onClick={() => {
                           setShowLandingSignIn(true);
                           setHideGoogleSpan(true);
@@ -328,7 +327,7 @@ const Page1 = ({ handleShowVerification }: Page1Props) => {
                           />
                         </svg>
                         <span>{t(LanguageKey.loginWithMobile)}</span>
-                      </div>
+                      </button>
                     )}
                   </div>
                 )}

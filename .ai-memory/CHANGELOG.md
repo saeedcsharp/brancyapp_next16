@@ -120,6 +120,15 @@
 
 # Changelog
 
+- Implemented phase two SEO metadata foundations: added localized Open Graph/Twitter cards, app icons, `x-default` hreflang, and reusable JSON-LD for Organization, WebSite, and SoftwareApplication on eight landing routes. Kept FAQ schema, keyword metrics, and backlink acquisition pending until visible reviewed content and external data are available.
+- Implemented phases three and four growth/conversion foundations: added 40 static multilingual topic-resource URLs across management, automation, analytics, marketing, and AI clusters; added visible FAQ answers, FAQPage schema, breadcrumbs, related internal links, and landing CTAs; reduced landing image preloads and persistent GPU hints and made the mobile sign-in CTA keyboard-accessible. Field Core Web Vitals and user-test measurement remain pending.
+- Implemented phase five local/social discoverability foundations: restored and corrected public Footer links for solutions, legal, FAQ, updates, articles, and follow-up resources; added a source-backed public `llms.txt` and sitemap entry. Google Business, Bing Places, LocalBusiness schema, and official social `sameAs` links remain pending verified business profile inputs.
+- Added source-backed LocalBusiness JSON-LD and a clickable phone link to the Iranian/local Footer branch, and added the existing Articles page to the public sitemap.
+
+- Extended phase-one SEO foundations to all eight supported languages with static URL-based landing routes, localized metadata, canonical URLs, hreflang alternates, Open Graph metadata, and sitemap entries. Recorded keyword-intent/topic-cluster and backlink-quality measurement requirements; external metrics and link acquisition remain pending.
+
+- Implemented phase-one SEO foundations: corrected the homepage canonical URL and description, added dynamic `robots.txt` and `sitemap.xml` routes for stable public pages, and excluded private/session-dependent routes plus the noindex feature reference from crawling.
+
 - Added a complete helper reference section to `/dev/systemDesign`, with all helper files listed and safe live examples for pure text, emoji, and object-key utilities. Environment-dependent helpers are documented without triggering network, storage, file, DOM, or real-time side effects.
 
 - Fixed AI Flow web-link validation so invalid non-empty URLs apply the final danger border to the shared `InputBox` and run its shake animation once per invalid blur.

@@ -28,6 +28,11 @@ type ThemeAction =
   | { type: "SET_THEME"; payload: { themeMode: string; darkTheme: boolean } }
   | { type: "SET_LANGUAGE"; payload: string };
 
+type LandingPageClientProps = {
+  initialLanguage?: string;
+  respectInitialLanguage?: boolean;
+};
+
 const themeReducer = (state: ThemeState, action: ThemeAction): ThemeState => {
   switch (action.type) {
     case "SET_THEME":
@@ -43,7 +48,10 @@ const themeReducer = (state: ThemeState, action: ThemeAction): ThemeState => {
   }
 };
 
-export default function LandingPageClient() {
+export default function LandingPageClient({
+  initialLanguage = "en",
+  respectInitialLanguage = false,
+}: LandingPageClientProps) {
   const { i18n } = useTranslation();
   const router = useRouter();
   const { data: session, status, update } = useSession();
@@ -59,17 +67,17 @@ export default function LandingPageClient() {
   const [themeState, dispatch] = useReducer(themeReducer, {
     themeMode: "light mode",
     darkTheme: undefined,
-    language: "en",
+    language: initialLanguage,
   });
 
   useEffect(() => {
     setHasMounted(true);
     const theme = window.localStorage.getItem("theme");
-    let lng = window.localStorage.getItem("language");
+    let lng = respectInitialLanguage ? initialLanguage : window.localStorage.getItem("language") || initialLanguage;
 
     if (!lng) {
       applyDetectedLocale(i18n.changeLanguage);
-      lng = window.localStorage.getItem("language") || "en";
+      lng = window.localStorage.getItem("language") || initialLanguage;
     }
 
     if (theme) {
@@ -86,7 +94,7 @@ export default function LandingPageClient() {
       dispatch({ type: "SET_LANGUAGE", payload: lng });
       i18n.changeLanguage(lng);
     }
-  }, [i18n]);
+  }, [i18n, initialLanguage, respectInitialLanguage]);
 
   useEffect(() => {
     if (themeState.darkTheme !== undefined) {

@@ -5,7 +5,7 @@ import { IGetMedia } from "brancy/models/interfaces";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import initialzedTime from "brancy/helper/manageTimer";
-import { parseImageMetadata } from "./generatedImageModal";
+import { parseImageMetadata } from "./GeneratedImageModal";
 
 function formatCreatedTime(timestamp: number) {
   const t = initialzedTime();

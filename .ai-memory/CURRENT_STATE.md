@@ -2,6 +2,18 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+Phase-one SEO foundations are implemented: the homepage uses the site-root canonical URL, `app/[locale]/page.tsx` exposes static landing routes for all eight supported locales, and `app/robots.ts` plus `app/sitemap.ts` publish crawl rules and stable public URLs. Each localized landing route has its own canonical, hreflang set, Open Graph metadata, and localized title/description. Authenticated, session-dependent, API, development, payment, and other private routes are excluded from the crawl policy; `/feature` remains intentionally noindex and is excluded from the sitemap. Production verification is still pending in Google Search Console and Bing Webmaster. The current full type-check remains blocked by a pre-existing AI filename-casing error.
+
+Keyword and backlink quality work is documented as an external measurement baseline: locale, intent, topic cluster, target URL, semantic coverage, cannibalization, authority, topical relevance, referring-domain diversity, anchor distribution, editorial placement, and toxic-link risk must be measured before acquisition claims are made.
+
+Phase two adds root and localized Open Graph/Twitter metadata, app icons, `x-default` hreflang, and source-backed JSON-LD for Organization, WebSite, and SoftwareApplication on localized landing routes. FAQ schema, pillar pages, keyword metrics, and backlink acquisition remain pending until reviewed content and external search/link data are available.
+
+Phases three and four add five public topic resource pages across all eight locale URL spaces (40 static URLs), with visible topic introductions, semantic benefits, FAQ answers, FAQPage JSON-LD, breadcrumbs, related-topic internal links, and landing CTAs. The landing hero now preloads only its primary image, uses a keyboard-accessible mobile sign-in button, and removes persistent GPU `will-change` hints. Arabic, French, Russian, Turkish, German-locale, and Azerbaijani topic copy currently uses the reviewed English fallback and must receive native review before being treated as fully localized content.
+
+Phase five adds active public Footer links for solutions, legal, support, FAQ, updates, articles, and follow-up resources, plus a public `llms.txt` containing source-backed URLs and a no-private-data usage note. Local Business structured data, Google Business, Bing Places, and `sameAs` links remain intentionally pending until the business supplies a verified public address/phone policy and official social/profile URLs.
+
+The Iranian/local Footer branch now publishes source-backed LocalBusiness JSON-LD using the existing Isfahan address and phone, exposes the phone as a `tel:` link, and the Articles route is included in the public sitemap. Google Business and Bing Places listing creation/verification still require account ownership and cannot be completed from repository code alone.
+
 ## Current Architecture
 
 The former icon-specific toggle control has been removed. Toggle tabs now use the shared `components/design/toggleButton/ToggleButton.tsx` control across wallet, event ideas, follower analysis, and the system-design showcase.

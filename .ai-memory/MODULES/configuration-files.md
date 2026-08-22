@@ -120,6 +120,10 @@ Keep renders and network calls scoped; avoid unnecessary broad fetches.
 
 PWA, Next, browser, or backend caching applies only where configured.
 
+## SEO And Crawling
+
+The App Router owns `robots.txt` and `sitemap.xml` through `app/robots.ts` and `app/sitemap.ts`. The policy allows the homepage and public Accessibility pages, while excluding API, authentication, dashboard, payment, invitation, development, and other session-dependent routes. The sitemap contains only stable public URLs.
+
 ## Environment Variables
 
 No module-specific env vars documented unless related files read them.
@@ -155,13 +159,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-
