@@ -18,6 +18,10 @@
 
 =======
 
+- Fixed the Instagramer hamburger menu BioLink active state for all market routes by aligning its active-route list with the actual slash-free App Router paths.
+
+- Fixed Instagramer mobile navbar market-route detection by aligning BioLink route enum values with the actual slash-free App Router paths, so Home, Statistics, MyLink, and Properties all show the BioLink logo.
+
 - Added localized last-30-days labels in parentheses beside the Home PageDetail gender, age, and location section titles across all eight supported locales.
 
 - Converted individual bulk-product adjustment cards to the shared free-mode horizontal slider while preserving each card's existing controls and save behavior.

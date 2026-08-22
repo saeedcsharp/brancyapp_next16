@@ -82,6 +82,10 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 
 ## Recent Changes
 
+- Fixed the Instagramer hamburger menu BioLink active state by using the actual slash-free market route values, so Home, Statistics, MyLink, and Properties all select the BioLink logo.
+
+- Fixed Instagramer mobile navbar market-route detection by aligning the BioLink enum values with the actual slash-free `/market`, `/market/statistics`, `/market/mylink`, and `/market/properties` paths, so all market views display the BioLink logo.
+
 - The `/page/tools` `hashtagManager` now owns the card collapse interaction. Activating its shared header hides the manager content and reduces the masonry row span from `82` to `10`; Enter and Space provide the same keyboard behavior.
 
 - Home PageDetail demographic titles now show a localized `(Last 30 Days)`-equivalent label for gender, age, and location sections across all eight supported locales.

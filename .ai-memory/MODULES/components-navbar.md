@@ -24,7 +24,7 @@ components/navbar/.
 
 The Instagramer layout owns desktop popup visibility. Desktop uses a search button in the header. Mobile search is a locally controlled accordion section inside `LeftHamMenue`, positioned with the notification and profile sections rather than beside the route tabs. Opening search closes notification and profile accordions; selecting a result closes the complete mobile menu before navigation.
 
-`NavbarMobile` and desktop `NavbarTabs` derive their active sections directly from App Router `usePathname()`. The `/page/ai` route family, including image and video creation subroutes, maps to the Page section on mobile and the Content Creator tab on desktop so both navigation logos are available on client navigation and direct reload. Store navigation exposes Products, Orders, and Statistics; the Store Properties route remains directly addressable but is omitted from desktop and mobile navigation.
+`NavbarMobile` and desktop `NavbarTabs` derive their active sections directly from App Router `usePathname()`. The `/page/ai` route family, including image and video creation subroutes, maps to the Page section on mobile and the Content Creator tab on desktop so both navigation logos are available on client navigation and direct reload. Market navigation uses the actual slash-free route values `market`, `marketstatistics`, `marketmylink`, and `marketproperties`, so all market mobile routes resolve to the BioLink logo. Store navigation exposes Products, Orders, and Statistics; the Store Properties route remains directly addressable but is omitted from desktop and mobile navigation.
 
 ## Data Flow
 
@@ -139,7 +139,7 @@ Parent module: `components`.
 
 ## Known Issues
 
-No confirmed module-specific issue remains after fixing the missing mobile Page and desktop Content Creator logos on direct reloads of AI routes.
+No confirmed module-specific issue remains after fixing the missing mobile Page and desktop Content Creator logos on direct reloads of AI routes and aligning market route enum values with their App Router paths.
 
 ## Technical Debt
 
@@ -151,7 +151,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-25
+2026-08-22
 
 ---
 
