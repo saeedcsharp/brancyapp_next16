@@ -30,7 +30,7 @@ const ChatAudioComponent: React.FC<BaseChatProps> = ({
       chat: isLeft ? styles.leftchat : styles.rightchat,
       chatWrapper: isLeft ? styles.leftchatwithreply : styles.rightchatwithreply,
       voice: styles.chatvoice,
-      menuPosition: isLeft ? "topRight" : "topLeft",
+      placement: isLeft ? "topRight" : "topLeft",
     }),
     [isLeft],
   );
@@ -99,11 +99,7 @@ const ChatAudioComponent: React.FC<BaseChatProps> = ({
       <>
         <div className={classes.chat}>
           {renderAudioContent()}
-          <Dotmenu
-            menuPosition={classes.menuPosition as "topRight"}
-            data={menuData}
-            handleClickOnIcon={handleMenuClick}
-          />
+          <Dotmenu placement={classes.placement as "topRight"} data={menuData} handleClickOnIcon={handleMenuClick} />
         </div>
         <ReactionEmoji item={item} direction={direction} chatBox={chatBox} baseMediaUrl={baseMediaUrl} />
         <ChatDate
@@ -124,11 +120,7 @@ const ChatAudioComponent: React.FC<BaseChatProps> = ({
       <div className={classes.chat}>
         {renderAudioContent()}
         {item.itemId && (
-          <Dotmenu
-            menuPosition={classes.menuPosition as "topLeft"}
-            data={menuData}
-            handleClickOnIcon={handleMenuClick}
-          />
+          <Dotmenu placement={classes.placement as "topLeft"} data={menuData} handleClickOnIcon={handleMenuClick} />
         )}
       </div>
       <ReactionEmoji item={item} direction={direction} chatBox={chatBox} baseMediaUrl={baseMediaUrl} />

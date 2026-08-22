@@ -27,10 +27,13 @@ The direct inbox pagination stop bug was fixed on 2026-08-21. The general and bu
 
 The direct inbox terminal-page render crash was fixed on 2026-08-21. Threads returned with an empty `items` array no longer cause `sentByOwner`, `text`, or `createdTime` access on an undefined first item.
 
-The comment inbox pagination stop bug was fixed on 2026-08-21. Post and Story `fetchMore` callbacks now return the media fetched from `/api/Comment/GetInbox` instead of returning an empty array, and `ICommetInbox.oldestCursor` is nullable for the final page. Story page appends also ignore duplicate media IDs.
-=======
+The direct inbox category-request crash was fixed on 2026-08-22. Failed initial or pagination requests no longer rethrow `inboxError` during render, so a 500 from one category does not replace the entire inbox with the global error page.
+
+# The comment inbox pagination stop bug was fixed on 2026-08-21. Post and Story `fetchMore` callbacks now return the media fetched from `/api/Comment/GetInbox` instead of returning an empty array, and `ICommetInbox.oldestCursor` is nullable for the final page. Story page appends also ignore duplicate media IDs.
+
 The AI-flow connection lag and misalignment during zoom was fixed on 2026-08-21 by refreshing measured Socket positions in `useLayoutEffect` after the canvas transform commits and removing delayed zoom refresh timers.
->>>>>>> sepehr
+
+> > > > > > > sepehr
 
 ## Watchlist
 

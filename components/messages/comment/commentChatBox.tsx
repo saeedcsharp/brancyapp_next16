@@ -833,7 +833,7 @@ const CommentChatBox = (props: {
                                       !v.privateReply)) &&
                                     (!selectedMessageId || selectedMessageId === v.id) && (
                                       <Dotmenu
-                                        menuPosition="topRight"
+                                        placement="topRight"
                                         handleClickOnIcon={(iconId) => handleClickSubIcon(iconId, v.id)}
                                         data={[
                                           ...(props.chatBox.productType !== MediaProductType.Live

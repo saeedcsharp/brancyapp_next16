@@ -134,7 +134,7 @@ export const ChatStoryMention: React.FC<BaseChatProps> = memo(
               {repliedContent}
               {mediaContent}
             </div>
-            <Dotmenu menuPosition="topRight" data={menuData} handleClickOnIcon={handleMenuClick} />
+            <Dotmenu placement="topRight" data={menuData} handleClickOnIcon={handleMenuClick} />
           </div>
           <ReactionEmoji item={item} direction={direction} chatBox={chatBox} baseMediaUrl={baseMediaUrl} />
           <ChatDate
@@ -158,7 +158,7 @@ export const ChatStoryMention: React.FC<BaseChatProps> = memo(
             {repliedContent}
             {mediaContent}
           </div>
-          {item.itemId && <Dotmenu menuPosition="topLeft" data={menuData} handleClickOnIcon={handleMenuClick} />}
+          {item.itemId && <Dotmenu placement="topLeft" data={menuData} handleClickOnIcon={handleMenuClick} />}
         </div>
         <ReactionEmoji item={item} direction={direction} chatBox={chatBox} baseMediaUrl={baseMediaUrl} />
         {item.itemId && (

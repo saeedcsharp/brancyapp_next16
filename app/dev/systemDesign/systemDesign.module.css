@@ -6,6 +6,12 @@
   font-family: inherit;
   direction: rtl;
 }
+.inputSection,
+.controlsSection,
+.chartSection,
+.helperSection {
+  position: relative;
+}
 .hero {
   display: flex;
   align-items: flex-end;
@@ -188,6 +194,92 @@
 .editorSection :global(.textedit-editor) {
   max-width: 100%;
 }
+.helperIntro {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-12);
+  margin-bottom: var(--gap-12);
+  padding: var(--padding-12) var(--padding-16);
+  border-right: 3px solid var(--color-firoze);
+  background: var(--color-firoze10);
+  color: var(--text-h2);
+  font-size: var(--font-12);
+}
+.helperIntro strong {
+  color: var(--text-h1);
+  white-space: nowrap;
+}
+.helperExamples {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: var(--gap-12);
+  margin-bottom: var(--gap-12);
+}
+.helperExamples .demoCard {
+  min-width: 0;
+}
+.exampleResult {
+  display: grid;
+  gap: var(--gap-8);
+  width: 100%;
+  color: var(--text-h2);
+  font-size: var(--font-12);
+}
+.exampleResult output {
+  min-width: 0;
+  padding: var(--padding-8);
+  overflow-wrap: anywhere;
+  background: var(--background-root);
+  color: var(--color-dark-green);
+  direction: ltr;
+  text-align: left;
+}
+.helperGrid {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: var(--gap-12);
+}
+.helperCard {
+  min-width: 0;
+  padding: var(--padding-12);
+  border: 1px solid var(--content-box);
+  border-radius: var(--br8);
+  background: var(--color-white);
+  box-shadow: var(--box-shadow);
+}
+.helperCard header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-8);
+  direction: ltr;
+}
+.helperCard header strong {
+  min-width: 0;
+  overflow-wrap: anywhere;
+  color: var(--color-dark-blue);
+  font-size: var(--font-11);
+}
+.helperMode {
+  flex: 0 0 auto;
+  padding: 3px 6px;
+  border-radius: var(--br5);
+  background: var(--color-firoze10);
+  color: var(--color-dark-green);
+  font-size: var(--font-10);
+}
+.helperCard h3 {
+  margin: var(--gap-10) 0 var(--gap-5);
+  color: var(--text-h1);
+  font-size: var(--font-13);
+}
+.helperCard p {
+  margin: 0;
+  color: var(--text-h2);
+  font-size: var(--font-11);
+  line-height: 1.8;
+}
 @media (max-width: 900px) {
   .hero {
     align-items: flex-start;
@@ -200,6 +292,12 @@
   }
   .wideCard {
     grid-column: span 12 !important;
+  }
+  .helperExamples {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .helperGrid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 }
 @media (max-width: 580px) {
@@ -220,6 +318,18 @@
   .chartGrid .demoCard,
   .wideCard {
     grid-column: span 1 !important;
+  }
+  .helperIntro,
+  .helperExamples {
+    grid-template-columns: 1fr;
+  }
+  .helperIntro {
+    align-items: flex-start;
+    flex-direction: column;
+  }
+  .helperExamples,
+  .helperGrid {
+    grid-template-columns: 1fr;
   }
   .sectionHeading {
     display: block;

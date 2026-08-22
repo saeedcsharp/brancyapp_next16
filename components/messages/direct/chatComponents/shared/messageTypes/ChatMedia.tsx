@@ -231,7 +231,7 @@ export const ChatMedia: React.FC<BaseChatProps> = ({
             formatDate={formatDate}
           />
         </div>
-        <Dotmenu menuPosition="topRight" data={dotMenuData} handleClickOnIcon={handleIconClick} />
+        <Dotmenu placement="topRight" data={dotMenuData} handleClickOnIcon={handleIconClick} />
       </div>
     );
   }, [
@@ -290,7 +290,7 @@ export const ChatMedia: React.FC<BaseChatProps> = ({
             ))}
             <ReactionEmoji item={item} direction={direction} chatBox={chatBox} baseMediaUrl={baseMediaUrl} />
           </div>
-          {item.itemId && <Dotmenu menuPosition="topLeft" data={dotMenuData} handleClickOnIcon={handleIconClick} />}
+          {item.itemId && <Dotmenu placement="topLeft" data={dotMenuData} handleClickOnIcon={handleIconClick} />}
         </div>
         {item.itemId && (
           <MessageStatus
