@@ -4,8 +4,10 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import InputBox from "brancy/components/design/inputBox/inputBox";
+import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import TextArea from "brancy/components/design/textArea/textArea";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
@@ -37,6 +39,7 @@ import {
   ITotalMasterFlow,
 } from "brancy/models/interfaces";
 import NotFeature from "brancy/components/notOk/notFeature";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
 
 let firstTime = 0;
 let touchMove = 0;
@@ -45,6 +48,134 @@ let firstPos = { x: 0, y: 0 };
 let downFlagLeft = false;
 let downFlagRight = false;
 let hideDivIndex: string | number | null = null;
+
+const NewFlowModal = (props: {
+  open: boolean;
+  onClose: () => void;
+  onContinue: (settings: {
+    title: string;
+    checkFollower: boolean;
+    snapToGridEnabled: boolean;
+    panningBoundaryEnabled: boolean;
+    editorState?: any;
+  }) => void;
+}) => {
+  const { t } = useTranslation();
+  const [title, setTitle] = useState("Flow_1");
+  const [checkFollower, setCheckFollower] = useState(false);
+  const [snapToGridEnabled, setSnapToGridEnabled] = useState(false);
+  const [panningBoundaryEnabled, setPanningBoundaryEnabled] = useState(false);
+  const [editorState, setEditorState] = useState<any>();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+
+  const handleImport = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+    try {
+      const imported = JSON.parse(await file.text());
+      if (!Array.isArray(imported.nodes) || !Array.isArray(imported.connections)) throw new Error("Invalid flow");
+      setEditorState({
+        nodes: imported.nodes,
+        connections: imported.connections,
+        scale: typeof imported.scale === "number" ? imported.scale : 1,
+        pan: imported.pan || { x: 0, y: 0 },
+      });
+    } catch {
+      notify(ResponseType.Unexpected, NotifType.Warning);
+    } finally {
+      event.target.value = "";
+    }
+  };
+
+  return (
+    <Modal closePopup={props.onClose} classNamePopup="popup" showContent={props.open}>
+      <div className="title">{t(LanguageKey.CreateAutomationFlow)}</div>
+      <div className="headerandinput">
+        <div className="title">{t(LanguageKey.flowtitle)}</div>
+        <InputBox
+          id="new-flow-title"
+          name="new-flow-title"
+          className="textinputbox"
+          placeHolder={t(LanguageKey.pageToolspopup_typehere)}
+          dangerOnEmpty
+          handleInputChange={(event) => setTitle(event.target.value)}
+          value={title}
+        />
+      </div>
+      <div className="headerandinput">
+        <div className="headerparent">
+          <div className="title2">{t(LanguageKey.shouldFollower)}</div>
+          <ToggleCheckBoxButton
+            title="Check Follower"
+            name="new-flow-check-follower"
+            role="switch"
+            handleToggle={(event) => setCheckFollower(event.currentTarget.checked)}
+            checked={checkFollower}
+          />
+        </div>
+        <div className="explain" style={{ color: "var(--color-dark-yellow)" }}>
+          {t(LanguageKey.flowProperties_notworking_privateReply)}
+        </div>
+      </div>
+      <div className="headerandinput">
+        <CheckBoxButton
+          value={snapToGridEnabled}
+          handleToggle={() => setSnapToGridEnabled((value) => !value)}
+          textlabel={t(LanguageKey.snapGrid)}
+          name="new-flow-snap-grid"
+          title="switch"
+        />
+        <CheckBoxButton
+          value={panningBoundaryEnabled}
+          handleToggle={() => setPanningBoundaryEnabled((value) => !value)}
+          textlabel={t(LanguageKey.PanningBoundary)}
+          name="new-flow-panning-boundary"
+          title="switch"
+        />
+      </div>
+      <div className="headerparent">
+        <div className="title">
+          {t(LanguageKey.Data_Management)}
+          <Tooltip
+            tooltipValue={t(LanguageKey.Data_Management_explain)}
+            triggerType="tooltip"
+            onClick
+            position="bottom"
+          />
+        </div>
+
+        <input ref={fileInputRef} type="file" accept="application/json,.json" hidden onChange={handleImport} />
+        <button
+          style={{ minWidth: "max-content", maxWidth: "35%" }}
+          className="cancelButton"
+          onClick={() => fileInputRef.current?.click()}>
+          {t(LanguageKey.importJSON)}
+        </button>
+      </div>
+      <div className="ButtonContainer">
+        <button
+          className={`saveButton ${!title.trim() ? "fadeDiv" : ""}`}
+          disabled={!title.trim()}
+          title="Continue"
+          onClick={() =>
+            props.onContinue({
+              title: title.trim(),
+              checkFollower,
+              snapToGridEnabled,
+              panningBoundaryEnabled,
+              editorState,
+            })
+          }>
+          {t(LanguageKey.Continue)}
+        </button>
+        <button className="cancelButton" title="cancel" onClick={props.onClose}>
+          {t(LanguageKey.cancel)}
+        </button>
+      </div>
+    </Modal>
+  );
+};
+
 const FlowAndAIInbox = () => {
   const { data: session } = useSession({
     required: true,
@@ -60,6 +191,15 @@ const FlowAndAIInbox = () => {
   const [searchbox, setSearchbox] = useState("");
   const [toggleOrder, setToggleOrder] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
   const [userSelectedId, setUserSelectedId] = useState<string | null>(null);
+  const [showNewFlowModal, setShowNewFlowModal] = useState(false);
+  const [newFlowSettings, setNewFlowSettings] = useState<{
+    title: string;
+    checkFollower: boolean;
+    snapToGridEnabled: boolean;
+    panningBoundaryEnabled: boolean;
+    editorState?: any;
+  } | null>(null);
+  const [newFlowDraft, setNewFlowDraft] = useState<ITotalMasterFlow | null>(null);
   const [searchLocked, setSearchLocked] = useState<boolean>(false);
   const [displayRight, setDisplayRight] = useState("");
   const [displayLeft, setDisplayLeft] = useState("");
@@ -513,7 +653,7 @@ const FlowAndAIInbox = () => {
         setUserSelectedId(masterFlow.masterFlowId);
         return {
           ...prev,
-          items: [masterFlow, ...prev.items],
+          items: [masterFlow, ...prev.items.filter((item) => item.masterFlowId !== "newFlow")],
         };
       }
       // Otherwise replace the existing item
@@ -526,6 +666,10 @@ const FlowAndAIInbox = () => {
         };
       }
     });
+
+    if (masterFlow.masterFlowId !== "newFlow") {
+      setNewFlowDraft(null);
+    }
 
     // Close the settings modal after successful update
     setSettingModalVisible(false);
@@ -561,12 +705,7 @@ const FlowAndAIInbox = () => {
             />
             {toggleOrder === ToggleOrder.FirstToggle && (
               <>
-                <div
-                  onClick={() => {
-                    setUserSelectedId("newFlow");
-                  }}
-                  className={styles.addnewlink}
-                  title="◰ Create new Flow">
+                <div onClick={() => setShowNewFlowModal(true)} className={styles.addnewlink} title="◰ Create new Flow">
                   <div className={styles.addnewicon}>
                     <svg xmlns="http://www.w3.org/2000/svg" width="36" height="36" fill="none" viewBox="0 0 36 36">
                       <path
@@ -616,6 +755,50 @@ const FlowAndAIInbox = () => {
             )}
             {/* ___list of user ___*/}
             <div className={styles.userslist} ref={userListRef} onScroll={handleScroll}>
+              {toggleOrder === ToggleOrder.FirstToggle && newFlowDraft && !showSearchThread.searchMode && (
+                <div
+                  className={styles.userbackground}
+                  style={userSelectedId === "newFlow" ? { background: "var(--color-gray30)" } : {}}
+                  onMouseDown={() => handleMouseDown()}
+                  onMouseUp={() => handleMouseUp()}
+                  onMouseMove={() => handleMouseMove("newFlow")}
+                  onTouchEnd={() => handleTouchEnd("newFlow")}
+                  onClick={() => {
+                    if (typeof window !== "undefined" && window.innerWidth <= 1024) {
+                      setDisplayLeft("none");
+                      setDisplayRight("");
+                    }
+                    setUserSelectedId("newFlow");
+                  }}>
+                  {(() => {
+                    const thumbnailStyle = getThumbnailStyle(newFlowDraft.title, {
+                      backgroundOpacity: 60,
+                      characterCount: 2,
+                      textColorMode: "background-dark",
+                    });
+                    return (
+                      <div
+                        className={styles.thumbnail}
+                        style={{
+                          background: thumbnailStyle.backgroundColor,
+                          color: thumbnailStyle.color,
+                        }}>
+                        {thumbnailStyle.text}
+                      </div>
+                    );
+                  })()}
+                  <div className="instagramprofiledetail">
+                    <div className="instagramusername" title={newFlowDraft.title}>
+                      {newFlowDraft.title}
+                    </div>
+                    <div className="instagramid">
+                      # {newFlowDraft.masterFlowId}
+                      <div className="IDred">{t(LanguageKey.product_draft)}</div>
+                    </div>
+                    <div className={styles.chattime}>{new Date(newFlowDraft.createdTime).toLocaleString()}</div>
+                  </div>
+                </div>
+              )}
               {toggleOrder === ToggleOrder.FirstToggle &&
                 !showSearchThread.searchMode &&
                 masterFlow &&
@@ -842,6 +1025,8 @@ const FlowAndAIInbox = () => {
                 onRegisterGetEditorState={handleRegisterGetEditorState}
                 onRegisterReload={handleRegisterReload}
                 existingFlows={masterFlow?.items || []}
+                initialSettings={userSelectedId === "newFlow" ? newFlowSettings || undefined : undefined}
+                initialEditorState={userSelectedId === "newFlow" ? newFlowSettings?.editorState : undefined}
               />
             </div>
           )}
@@ -905,6 +1090,25 @@ const FlowAndAIInbox = () => {
           />
         </Modal>
       )}
+      <NewFlowModal
+        open={showNewFlowModal && toggleOrder === ToggleOrder.FirstToggle && !loading}
+        onClose={() => setShowNewFlowModal(false)}
+        onContinue={(settings) => {
+          setNewFlowSettings(settings);
+          setNewFlowDraft({
+            fbId: "",
+            masterFlowId: "newFlow",
+            createdTime: Date.now(),
+            initialFlowId: "",
+            title: settings.title,
+            checkFollower: settings.checkFollower,
+            initalFlow: null,
+            onMessagePosition: null,
+          });
+          setShowNewFlowModal(false);
+          setUserSelectedId("newFlow");
+        }}
+      />
       <Modal
         closePopup={handleClosePromptAnalysisModal}
         classNamePopup="popup"

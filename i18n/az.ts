@@ -3,7 +3,8 @@ export default {
     unpin: "Pin-i Ləğv Et",
     pin: "Pin Et",
     usethisPrompt: "Prompt daxilində istifadə et",
-
+    AudienceTooltip:
+      "Cari qarşılıqlı əlaqəni daha dəqiq ölçmək üçün statistika son 30 gündəki fəaliyyətinizə əsasən göstərilir; Instagram statistikası hesabın bütün fəaliyyət dövrünü əhatə edir və bu məlumatlardan fərqlənə bilər",
     toggleShowAll: "Hamısını Göstər",
     toggleShowmonthly: "Aylıq Göstər",
     Nodetutorial: "Blok İzahı",
@@ -506,7 +507,7 @@ export default {
     CreateAutomationAI: "AI Avtomatlaşdırması Yarat",
     CreateAutomationAIExplain: "Süni intellekt əsaslı cavablarla Instagram qarşılıqlı əlaqələrini avtomatlaşdır.",
     flowProperties_notworking_privateReply:
-      "⚠️ Qeyd: Bu axın Post və Canlı yayımlara xüsusi cavablar üçün istifadə edilə bilməz, yalnız digər mesajlar və söhbətlərdə keçərlidir.",
+      "⚠️ Diqqət: Bu axın dostlarla şəxsi çatlarda işləmir və yalnız şərhlərə və Direct mesajlarına avtomatik cavab vermək üçün istifadə olunur",
 
     needPass: "Təsdiq və aktivləşdirmə",
     needPassExplain: "Tam giriş üçün Instagram hesabınızın şifrəsi tələb olunur",
@@ -3410,11 +3411,11 @@ export default {
     Statistics_Replies_zero_action_3: "Hər gün yüngül və interaktiv Story paylaşın.",
     Statistics_Replies_zero_urgency: "Yüksək",
     how: "Necə",
+    ConnectProduct: "Məhsula Birbaşa Bağlantı",
     messagesetting_ConnectProductResponseExplain: "Məhsulunuzu Story və ya Live-a qoşun.",
     biolinkProperties_Connect: "Qoşul",
     economy: "İqtisadi",
     Retry: "Yenidən cəhd et",
-    messagesetting_SpecifyProductResponseExplain:
-      "Məhsul cavabınızı müəyyən edin ki, istifadəçilərə avtomatik göndərilsin.",
+    messagesetting_SpecifyProductResponseExplain: "İstifadəçilərə avtomatik göndərilməsi üçün bir məhsul seçin",
   },
 };

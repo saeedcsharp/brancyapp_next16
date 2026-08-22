@@ -4,7 +4,8 @@ export default {
     toggleShowAll: "نمایش همه",
     toggleShowmonthly: "نمایش ماهانه",
     usethisPrompt: "استفاده در پرامپت",
-
+    AudienceTooltip:
+      "برای سنجش دقیق‌تر تعامل فعلی، آمار بر اساس عملکرد ۳۰ روز اخیر نمایش داده می‌شود؛ آمار اینستاگرام بر مبنای کل دوره فعالیت پیج است و ممکن است با این داده‌ها متفاوت باشد",
     unpin: "لغو پین",
     pin: "پین کردن",
     Nodetutorial: "توضیح بلوک",
@@ -512,7 +513,7 @@ export default {
     CreateAutomationAI: "ساخت اتوماسیون هوشمند",
     CreateAutomationAIExplain: "خودکارسازی تمامی تعاملات اینستاگرام با پاسخ‌های مبتنی بر هوش مصنوعی",
     flowProperties_notworking_privateReply:
-      "⚠️ توجه: استفاده از این فلو در پاسخ‌های خصوصی مربوط به پست‌ها و لایوها امکان‌پذیر نیست و تنها در سایر پیام‌ها و مکالمات کاربرد دارد.",
+      "⚠️ توجه: این فلو در چت خصوصی با دوستان اجرا نمی‌شود و فقط برای پاسخ خودکار به کامنت‌ها و دایرکت کاربرد دارد",
 
     needPass: "تأیید و فعال‌سازی",
     needPassExplain: "برای دسترسی کامل به این قابلیت، پسورد اکانت اینستاگرم مورد نیاز است",
@@ -3424,10 +3425,10 @@ export default {
 
     // #endregion Notification Section
     how: "چگونه",
+    ConnectProduct: "اتصال مستقیم به محصول",
     messagesetting_ConnectProductResponseExplain: "محصول خود را به Story یا Live متصل کنید.",
     economy: "اقتصادی",
     Retry: "تلاش مجدد",
-    messagesetting_SpecifyProductResponseExplain:
-      "پاسخ مربوط به محصول خود را مشخص کنید تا به‌صورت خودکار برای کاربران ارسال شود.",
+    messagesetting_SpecifyProductResponseExplain: "یک محصول را مشخص کنید تا به‌صورت خودکار برای کاربران ارسال شود",
   },
 };

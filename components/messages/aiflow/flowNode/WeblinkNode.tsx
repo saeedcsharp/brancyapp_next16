@@ -7,6 +7,7 @@ import styles from "./WeblinkNode.module.css";
 export const WeblinkNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) => {
   const [displayTitle, setDisplayTitle] = React.useState<string>("");
   const [shouldShake, setShouldShake] = React.useState<boolean>(false);
+  const [isUrlInvalid, setIsUrlInvalid] = React.useState<boolean>(false);
   const [isFocused, setIsFocused] = React.useState<boolean>(false);
   const defaultPlaceholder = "https://example.com";
   const { t } = useTranslation();
@@ -68,7 +69,8 @@ export const WeblinkNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) =
     try {
       const urlObj = new URL(url);
       // بررسی پروتکل معتبر
-      return urlObj.protocol === "http:" || urlObj.protocol === "https:";
+      const hasDomainSuffix = /\.[^.\s]+$/.test(urlObj.hostname);
+      return (urlObj.protocol === "http:" || urlObj.protocol === "https:") && hasDomainSuffix;
     } catch {
       return false;
     }
@@ -85,10 +87,14 @@ export const WeblinkNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) =
       const newChar = value.substring(defaultPlaceholder.length);
       updateNodeData(node.id, { url: newChar });
       setDisplayTitle("");
+      setIsUrlInvalid(false);
+      setShouldShake(false);
       return;
     }
 
     updateNodeData(node.id, { url: value });
+    setIsUrlInvalid(false);
+    setShouldShake(false);
     // اگر محتوا پاک شد، displayTitle را هم پاک کن
     if (!value || value.trim() === "") {
       setDisplayTitle("");
@@ -125,8 +131,13 @@ export const WeblinkNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) =
 
     // اگر URL معتبر نبود و متن وجود داشت، shake را فعال کن
     if (!isValid && formattedUrl && formattedUrl !== defaultPlaceholder) {
-      setShouldShake(true);
-      setTimeout(() => setShouldShake(false), 3600); // مدت زمان انیمیشن (6 تکرار × 0.6 ثانیه)
+      setIsUrlInvalid(true);
+      setShouldShake(false);
+      requestAnimationFrame(() => setShouldShake(true));
+      setTimeout(() => setShouldShake(false), 600);
+    } else {
+      setIsUrlInvalid(false);
+      setShouldShake(false);
     }
   };
 
@@ -173,7 +184,7 @@ export const WeblinkNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) =
         />
       </div>
 
-      <div className={` ${shouldShake ? styles.shakeHorizontal : ""}`}>
+      <div>
         <InputBox
           className="textinputbox"
           type="url"
@@ -182,6 +193,8 @@ export const WeblinkNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) =
           handleInputChange={handleUrlChange}
           handleInputBlur={handleUrlBlur}
           handleInputonFocus={handleFocus}
+          status={isUrlInvalid ? "danger" : "default"}
+          shake={shouldShake}
           dangerOnEmpty={false}
         />
       </div>

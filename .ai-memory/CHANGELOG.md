@@ -1,5 +1,9 @@
+- Auto-reply AI and Flow selectors now show their Create Automation actions whenever no prompt or flow is selected, even when the selector lists available options.
+- Media auto-reply AI and Flow selectors now use the same unselected-state create-action behavior.
+
 <<<<<<< HEAD
 
+<<<<<<< HEAD
 - Fixed the account switcher's Instagram redirect by using the runtime host and full browser navigation for external destinations.
 
 - Added the localized automatic Instagram redirect explanation to the invalid-IP account-switch modal.
@@ -16,18 +20,23 @@
 
 - Fixed comment inbox pagination so Post and Story scroll requests return fetched media to `useInfiniteScroll`; a non-null `/api/Comment/GetInbox` `oldestCursor` now loads the next page, while `null` stops pagination.
 
+=======
+>>>>>>> sepehr
 - Kept both lottery Terms image uploads at the verified publishable Instagram Story canvas size of `1080x1920`.
 
 - استاندارد ابعاد استوری اینستاگرام برای خروجی‌های Terms & Conditions لاتاری روی `1080x1920` قرار گرفت.
 
 =======
 
+<<<<<<< HEAD
 - Fixed the Instagramer hamburger menu BioLink active state for all market routes by aligning its active-route list with the actual slash-free App Router paths.
 
 - Fixed Instagramer mobile navbar market-route detection by aligning BioLink route enum values with the actual slash-free App Router paths, so Home, Statistics, MyLink, and Properties all show the BioLink logo.
 
 - Added localized last-30-days labels in parentheses beside the Home PageDetail gender, age, and location section titles across all eight supported locales.
 
+=======
+>>>>>>> sepehr
 - Converted individual bulk-product adjustment cards to the shared free-mode horizontal slider while preserving each card's existing controls and save behavior.
 - Added an accessible collapse interaction to the unified Page Tools `hashtagManager` card. Its header toggles the content and reduces the card row span while closed, with Enter and Space keyboard support.
   > > > > > > > sepehr
@@ -99,7 +108,15 @@
 
 # Changelog
 
+- Fixed AI Flow web-link validation so invalid non-empty URLs apply the final danger border to the shared `InputBox` and run its shake animation once per invalid blur.
+- Added the web-link domain rule requiring HTTP(S) hostnames to end with a non-empty `.XXX` suffix, without restricting which suffix is used.
+
+- Fixed AI Flow connection lag and misalignment during zoom by recalculating measured Socket positions after canvas transforms commit and removing delayed zoom refresh timers.
+
 # Changelog
+
+- Added a pre-editor new automation flow modal with required title validation, follower/snap-grid/panning-boundary settings, JSON import, and Continue/cancel actions.
+- New flows now appear in the sidebar as Draft records after Continue and leave Draft status only after a successful manual save.
 
 - Updated both bulk product fixed-amount inputs to use each product's `PriceType` currency through the shared `InputBox` unit slot and `specifyPriceType` renderer.
 

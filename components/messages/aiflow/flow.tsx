@@ -1,6 +1,6 @@
 // #region IMPORTS AND EXPORTS
 import { useSession } from "next-auth/react";
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
+import React, { useCallback, useEffect, useLayoutEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
@@ -759,6 +759,8 @@ export default function Flow({
   onRegisterReload,
   onSaveSuccess,
   existingFlows,
+  initialSettings,
+  initialEditorState,
 }: {
   flowId: string;
   showUserList: () => void;
@@ -769,6 +771,13 @@ export default function Flow({
   onRegisterReload?: (fn: (useLocalStorage: boolean) => void) => void;
   onSaveSuccess?: (masterFlow?: ITotalMasterFlow, flowStr?: string) => void;
   existingFlows?: Array<{ title: string }>;
+  initialSettings?: {
+    title: string;
+    checkFollower: boolean;
+    snapToGridEnabled: boolean;
+    panningBoundaryEnabled: boolean;
+  };
+  initialEditorState?: EditorState;
 }) {
   const { data: session } = useSession();
   // ============================================================================
@@ -783,12 +792,14 @@ export default function Flow({
 
   const [showMobileMenu, setShowMobileMenu] = useState(false);
   // State اصلی ویرایشگر (نودها، اتصالات، scale و pan)
-  const [editorState, setEditorState] = useState<EditorState>({
-    nodes: [],
-    connections: [],
-    scale: 1,
-    pan: { x: 0, y: 0 },
-  });
+  const [editorState, setEditorState] = useState<EditorState>(
+    initialEditorState || {
+      nodes: [],
+      connections: [],
+      scale: 1,
+      pan: { x: 0, y: 0 },
+    },
+  );
   let editorStateConst: EditorState = editorState;
   // مدیریت تاریخچه برای Undo/Redo
   const [history, setHistory] = useState<HistoryEntry[]>([]);
@@ -840,10 +851,12 @@ export default function Flow({
   // State های مربوط به قابلیت‌های اضافی
   const [searchQuery, setSearchQuery] = useState("");
   const [showMinimap, setShowMinimap] = useState(true);
-  const [snapToGridEnabled, setSnapToGridEnabled] = useState(false);
-  const [panningBoundaryEnabled, setPanningBoundaryEnabled] = useState(false);
+  const [snapToGridEnabled, setSnapToGridEnabled] = useState(initialSettings?.snapToGridEnabled ?? false);
+  const [panningBoundaryEnabled, setPanningBoundaryEnabled] = useState(
+    initialSettings?.panningBoundaryEnabled ?? false,
+  );
   const [lastSaved, setLastSaved] = useState<Date>(new Date());
-  const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(false);
+  const [hasUnsavedChanges, setHasUnsavedChanges] = useState<boolean>(flowPropsId === "newFlow");
   const [forceConnectionUpdate, setForceConnectionUpdate] = useState(0);
 
   // State برای نمایش مودال تنظیمات (Settings Modal)
@@ -851,6 +864,7 @@ export default function Flow({
 
   // State برای شناسه یکتا و عنوان Flow
   const [flowTitle, setFlowTitle] = useState<string>(() => {
+    if (initialSettings?.title) return initialSettings.title;
     if (!existingFlows || existingFlows.length === 0) {
       return "Flow_1";
     }
@@ -869,7 +883,7 @@ export default function Flow({
   useEffect(() => {
     flowTitleRef.current = flowTitle;
   }, [flowTitle]);
-  const [checkFollower, setCheckFollower] = useState<boolean>(false);
+  const [checkFollower, setCheckFollower] = useState<boolean>(initialSettings?.checkFollower ?? false);
   const checkFollowerRef = useRef<boolean>(checkFollower);
   useEffect(() => {
     checkFollowerRef.current = checkFollower;
@@ -1755,10 +1769,6 @@ export default function Flow({
         scale: newScale,
         pan: clamped,
       }));
-      // به‌روزرسانی connection‌ها بعد از zoom
-      setTimeout(() => {
-        setForceConnectionUpdate((prev) => prev + 1);
-      }, 0);
     },
     [editorState.scale, editorState.pan, clampPan],
   );
@@ -1785,10 +1795,6 @@ export default function Flow({
       ...prev,
       scale: Math.max(0.1, Math.min(3, prev.scale + delta)),
     }));
-    // به‌روزرسانی connection‌ها بعد از zoom
-    setTimeout(() => {
-      setForceConnectionUpdate((prev) => prev + 1);
-    }, 0);
   }, []);
 
   /**
@@ -1803,10 +1809,6 @@ export default function Flow({
         pan: clamped,
       };
     });
-    // به‌روزرسانی connection‌ها بعد از reset zoom
-    setTimeout(() => {
-      setForceConnectionUpdate((prev) => prev + 1);
-    }, 0);
   }, [clampPan]);
 
   /**
@@ -2637,7 +2639,7 @@ export default function Flow({
       }
       const socketStartY = nodeHeaderHeight + bodyHeight + 8;
       const socketY = socketStartY + socketIndex * 45 + 22.5;
-      const nodeWidth = 200;
+      const nodeWidth = 280;
       const xOffset = socketType === "input" ? -17 : nodeWidth + 17;
       return {
         x: node.position.x + xOffset,
@@ -2646,6 +2648,11 @@ export default function Flow({
     },
     [editorState.nodes, editorState.pan, editorState.scale, forceConnectionUpdate],
   );
+
+  // Socket DOM positions are valid only after the node transform has been committed.
+  useLayoutEffect(() => {
+    setForceConnectionUpdate((previous) => previous + 1);
+  }, [editorState.nodes, editorState.connections, editorState.pan, editorState.scale]);
 
   /**
    * به‌روزرسانی داده‌های یک نود
@@ -3726,13 +3733,15 @@ export default function Flow({
   useEffect(() => {
     setLoading(true);
     if (flowPropsId === "newFlow") {
-      // Initialize with a single `onmessage` node when no flow id provided
       const savedRaw = localStorage.getItem("flowEditor_autoSave_newFlow");
       if (savedRaw) {
         console.log("flowEditor_autoSave_newFlow found");
         const parsed = JSON.parse(savedRaw) as EditorState;
         setEditorState(parsed);
         addToHistory(parsed);
+      } else if (initialEditorState) {
+        setEditorState(initialEditorState);
+        addToHistory(initialEditorState);
       } else {
         console.log("Not saved flow ...");
         const initialNode: NodeData = {
@@ -4036,6 +4045,28 @@ export default function Flow({
                 fill="var(--color-light-blue)"
               />
             </svg>
+            <Tooltip tooltipValue={t(LanguageKey.save)} position="top">
+              <button
+                className={`${styles.toolbardesktopitem} ${hasUnsavedChanges ? styles.toolbardesktopitemDraft : ""}`}
+                onClick={handleServerSave}
+                disabled={!hasUnsavedChanges}
+                style={{
+                  opacity: hasUnsavedChanges ? 1 : 0.3,
+                  cursor: hasUnsavedChanges ? "pointer" : "not-allowed",
+                  position: "relative",
+                  width: "40px",
+                  height: "40px",
+                  borderRadius: "10px",
+                  padding: "10px",
+                }}>
+                <svg width="24px" height="24px" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 22 22">
+                  <path
+                    d="M2.4 5a2.6 2.6 0 0 1 2.7-2.6h9.4a3 3 0 0 1 2.2 1l2 1.9.8 1.2v10.4a2.6 2.6 0 0 1-2.6 2.7H5.1a2.6 2.6 0 0 1-2.7-2.7zm2.7-1q-1.2-.1-1.3 1v11.8q.1 1.2 1.3 1.3h.2v-5A2 2 0 0 1 7.5 11h7a2 2 0 0 1 2.2 2.1v5h.2q1.2 0 1.2-1.2V7.5q0-.8-.4-1.2l-2-2-1-.4v2.6a2 2 0 0 1-2 2.1H8.3a2 2 0 0 1-2.2-2.1V3.9zm10.2 14.3v-5a.7.7 0 0 0-.8-.8h-7a1 1 0 0 0-.8.7v5zM7.7 3.9v2.6q0 .7.7.7h4.2a1 1 0 0 0 .8-.7V3.9z"
+                    fill="var(--text-h1)"
+                  />
+                </svg>
+              </button>
+            </Tooltip>
           </div>
 
           {/* ================================================================= */}
@@ -4305,7 +4336,8 @@ export default function Flow({
                   </svg>
                 </button>
               </Tooltip>
-              <Tooltip tooltipValue={t(LanguageKey.save)} position="top">
+
+              {/* <Tooltip tooltipValue={t(LanguageKey.save)} position="top">
                 <button
                   className={`${styles.toolbardesktopitem} ${hasUnsavedChanges ? styles.toolbardesktopitemDraft : ""}`}
                   onClick={handleServerSave}
@@ -4322,7 +4354,7 @@ export default function Flow({
                     />
                   </svg>
                 </button>
-              </Tooltip>
+              </Tooltip> */}
             </div>
           </div>
           {/* mobile */}
@@ -4368,7 +4400,8 @@ export default function Flow({
                     </svg>
                   </button>
                 </Tooltip>
-                <Tooltip tooltipValue={t(LanguageKey.save)} position="top">
+
+                {/* <Tooltip tooltipValue={t(LanguageKey.save)} position="top">
                   <button
                     className={`${styles.toolbardesktopitem} ${
                       hasUnsavedChanges ? styles.toolbardesktopitemDraft : ""
@@ -4387,7 +4420,7 @@ export default function Flow({
                       />
                     </svg>
                   </button>
-                </Tooltip>
+                </Tooltip> */}
               </div>
 
               <button

@@ -3,7 +3,8 @@ export default {
     unpin: "Открепить",
     pin: "Закрепить",
     usethisPrompt: "Использовать в Prompt",
-
+    AudienceTooltip:
+      "Для более точной оценки текущей вовлечённости статистика рассчитывается на основе показателей за последние 30 дней; статистика Instagram учитывает весь период активности аккаунта и может отличаться от этих данных",
     toggleShowAll: "Показать все",
     toggleShowmonthly: "Показать по месяцам",
     Nodetutorial: "Описание блока",
@@ -511,7 +512,7 @@ export default {
     CreateAutomationAI: "Создать ИИ-автоматизацию",
     CreateAutomationAIExplain: "Автоматизируйте взаимодействия в Instagram с помощью ответов на основе ИИ.",
     flowProperties_notworking_privateReply:
-      "⚠️ Внимание: Этот поток нельзя использовать для личных ответов на посты или прямые эфиры. Он работает только с другими сообщениями и диалогами.",
+      "⚠️ Внимание: этот флоу не работает в личных чатах с друзьями и используется только для автоматических ответов на комментарии и сообщения Direct",
 
     needPass: "Подтверждение и активация",
     needPassExplain: "Для полного доступа к этой функции требуется пароль от аккаунта Instagram",
@@ -3480,12 +3481,12 @@ export default {
     // #endregion Notification Section
     how: "Как",
     SharedRemainingTimeBefore: "Перед повторной публикацией необходимо подождать 24 часа.",
+    ConnectProduct: "Прямое подключение к товару",
     messagesetting_ConnectProductResponseExplain: "Подключите свой продукт к Story или Live.",
     biolinkProperties_Connect: "Подключить",
     economy: "Экономичный",
     pageStatistics_RePosts: "Репосты",
     Retry: "Повторить",
-    messagesetting_SpecifyProductResponseExplain:
-      "Укажите ответ для вашего продукта, чтобы он автоматически отправлялся пользователям.",
+    messagesetting_SpecifyProductResponseExplain: "Выберите товар, чтобы он автоматически отправлялся пользователям",
   },
 };

@@ -17,6 +17,10 @@ The global App Router error boundary displays the received error message. Direct
 
 ## Active Features
 
+- General and media auto-reply AI and Flow selectors show their localized create-automation actions while no prompt or flow is selected, including when selectable DragDrop options are available.
+
+- AI Flow connection paths refresh synchronously after canvas zoom and pan transforms commit, keeping SVG lines aligned with Socket DOM positions.
+
 - Public landing and pricing flow.
 - NextAuth credential, Google OAuth, and direct-token authentication flows.
 - Instagramer dashboard with home, page, post, story, message, comment, ads, market, store, wallet, setting, and upgrade areas.
@@ -69,6 +73,8 @@ AI prompt tool options now select each tool's localized `displayName*` field fro
 AI tools without parameters now display an enabled `addTools` action and are added with an empty parameter list.
 Prompt Analysis in the AI flow is always selectable. `FlowAndAIInBox` owns the shared confirmation modal and controlled textarea; text must exceed 20 characters before Accept updates the child prompt and calls `GetPromptAnalysis`, while Close leaves the existing prompt unchanged.
 Prompt Analysis now checks `/api/ai/HasPageAnalysis` before opening. The shared modal opens only when the page analysis exists; otherwise the localized `InternalNotify_PageAnalysisNotCompleted` warning is shown.
+Creating a new automation flow now opens a settings modal before mounting the editor. Continue validates the title, carries follower, snap-grid, and panning-boundary settings into the new editor, and can import a JSON editor state before editing begins.
+After Continue, the new flow appears in the flow list as a local Draft record. Manual Save creates the backend flow, replaces the draft list item with the returned flow, and enables the normal saved-flow state.
 The sender-username mention is excluded from selected AI tools and inserts `[SENDER_USERNAME]` directly into the prompt textbox in manual mode; it is visible but disabled in prompt-analysis mode.
 Selected AI tools are highlighted directly in the existing clickable tool-options row below the prompt editor in both manual and analysis modes. Their plus icon becomes an accessible remove button, and no separate selected-tool list is rendered.
 
@@ -82,9 +88,14 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 
 ## Recent Changes
 
+<<<<<<< HEAD
 - Fixed the Instagramer hamburger menu BioLink active state by using the actual slash-free market route values, so Home, Statistics, MyLink, and Properties all select the BioLink logo.
 
 - Fixed Instagramer mobile navbar market-route detection by aligning the BioLink enum values with the actual slash-free `/market`, `/market/statistics`, `/market/mylink`, and `/market/properties` paths, so all market views display the BioLink logo.
+=======
+- AI Flow web-link inputs now apply the shared `InputBox` danger status after invalid non-empty URLs and replay the shake animation once per invalid blur; editing the URL clears the error state.
+- AI Flow web-link validation now requires HTTP(S) hostnames to end with a non-empty dot suffix such as `.com` or `.ir`, while allowing any suffix value.
+>>>>>>> sepehr
 
 - The `/page/tools` `hashtagManager` now owns the card collapse interaction. Activating its shared header hides the manager content and reduces the masonry row span from `82` to `10`; Enter and Space provide the same keyboard behavior.
 
