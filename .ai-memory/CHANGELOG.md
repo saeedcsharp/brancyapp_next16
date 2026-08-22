@@ -60,6 +60,8 @@
 - Added the localized `promptanalysisplaceholder` text in all eight supported languages, including the 20-character minimum required for analysis.
 
 - Highlighted the currently selected Instagram account in the account switcher and added its accessible `aria-pressed` state.
+- Changed Add Account IP handling so Iranian or undetected IPs open a styled localized invalid-IP modal owned by the Instagramer layout, with a warning SVG, shared `CounterDownNotRing` countdown, separate Continue and Close actions, and automatic redirect after ten seconds; dismissing the modal no longer calls the redirect API, while other detected countries continue to the Instagram redirect.
+- Extracted the invalid-IP modal body into `invalidIpModalContent.tsx`, leaving modal state and fixed countdown expiry ownership in the Instagramer layout.
 - Prevented the upgrade page from reloading package details, reserve prices, and package prices during the session update that starts an account switch; navigation now proceeds without the unnecessary three-request cycle.
 
 - Fixed the Meta direct-login hydration mismatch caused by shuffling loading phrases with `Math.random()` during server and initial client rendering.

@@ -146,7 +146,7 @@ html[dir="rtl"] .marketAdsCart {
   padding: var(--paddingbox);
   justify-content: space-between;
   z-index: 117;
-  animation: var(--slide-in);
+  animation: var(--fadeIn4);
   @media (max-width: 480px) {
     padding: var(--padding-30);
     border-radius: var(--br35);
