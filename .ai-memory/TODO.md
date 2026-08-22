@@ -8,6 +8,8 @@
 
 # TODO
 
+- Add browser coverage for the `/dev/systemDesign` helper reference, including complete helper-card coverage, safe live-example output, RTL/mobile layout, and confirmation that environment-dependent helpers are not invoked.
+
 <<<<<<< HEAD
 
 - Add component/browser coverage confirming all Instagramer market routes select the BioLink mobile navbar logo when a UI test harness is introduced.

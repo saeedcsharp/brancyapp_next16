@@ -173,7 +173,7 @@ export const ChatMediaShare: React.FC<BaseChatProps> = memo(
                 {!item.repliedToItemId ? mediaContentFor(i) : mediaWithReply(styles.leftchatwithreply, i)}
               </div>
             ))}
-            <Dotmenu menuPosition="topRight" data={dotMenuData} handleClickOnIcon={(id) => handleDotMenuClick(id, 0)} />
+            <Dotmenu placement="topRight" data={dotMenuData} handleClickOnIcon={(id) => handleDotMenuClick(id, 0)} />
           </div>
           <ReactionEmoji item={item} direction={direction} chatBox={chatBox} baseMediaUrl={baseMediaUrl} />
           <ChatDate
@@ -207,7 +207,7 @@ export const ChatMediaShare: React.FC<BaseChatProps> = memo(
             </div>
           ))}
           {item.itemId && (
-            <Dotmenu menuPosition="topLeft" data={dotMenuData} handleClickOnIcon={(id) => handleDotMenuClick(id, 0)} />
+            <Dotmenu placement="topLeft" data={dotMenuData} handleClickOnIcon={(id) => handleDotMenuClick(id, 0)} />
           )}
           <ReactionEmoji item={item} direction={direction} chatBox={chatBox} baseMediaUrl={baseMediaUrl} />
         </div>

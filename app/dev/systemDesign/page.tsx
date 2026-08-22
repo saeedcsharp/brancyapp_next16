@@ -27,6 +27,9 @@ import BrushLineChart from "brancy/components/design/chart/brushLineChart";
 import InlineBarChart from "brancy/components/design/chart/inlineBarChart";
 import RadarChart from "brancy/components/design/chart/radarChart";
 import TextEditor from "brancy/components/design/textEditor/TextEditor";
+import { getTextByteLength, truncateTextToBytes } from "brancy/helper/textByteLength";
+import { countEmojis, extractEmojis } from "brancy/helper/emojiDetector";
+import convertFirstLetterToLowerCase from "brancy/helper/convertFirstLetterToLowerCase";
 import styles from "./systemDesign.module.css";
 
 const inputModels = [
@@ -64,6 +67,79 @@ const chartSeries = [
       count: [20, 16, 34, 25, 48, 39][index],
     })),
   },
+];
+
+const helperCatalog = [
+  ["api.ts", "API و آپلود فایل", "شبکه و آپلود؛ به session و backend نیاز دارد.", "محیط"],
+  ["apiBaseUrl.ts", "آدرس‌های API و رسانه", "آدرس سرویس‌ها و دامنه‌ی عمومی را resolve می‌کند.", "توضیح"],
+  ["apiRouteMap.ts", "نقشه‌ی مسیر API", "مسیرهای داخلی را به endpointهای backend وصل می‌کند.", "توضیح"],
+  ["arrayBufferToBase64.ts", "ArrayBuffer به Base64", "داده‌ی باینری را برای انتقال متنی تبدیل می‌کند.", "توضیح"],
+  [
+    "changeMarketAdsStyle.js",
+    "تغییر جایگاه تبلیغ",
+    "استایل جایگاه تبلیغ بازار را بین fixed و relative تغییر می‌دهد.",
+    "DOM",
+  ],
+  ["checkFeature.ts", "بررسی امکانات بسته", "دسترسی feature را از backend و session بررسی می‌کند.", "محیط"],
+  ["checkRtl.ts", "تشخیص جهت متن", "جهت متن و styleهای مناسب RTL/LTR را تشخیص می‌دهد.", "توضیح"],
+  ["chunkArray.ts", "تقسیم آرایه", "آرایه را به بخش‌های کوچک‌تر تقسیم و بین ساختارهای آرایه‌ای تبدیل می‌کند.", "توضیح"],
+  ["clientFetchApi.ts", "درخواست API کلاینت", "درخواست‌های authenticated را به API داخلی یا backend می‌فرستد.", "شبکه"],
+  [
+    "convertFirstLetterToLowerCase.ts",
+    "کوچک‌کردن حرف اول",
+    "حرف اول keyهای یک object را به lowercase تبدیل می‌کند.",
+    "نمونه",
+  ],
+  ["convertHeicToJPEG.ts", "HEIC به JPEG", "تصویر HEIC را برای استفاده در مرورگر به JPEG تبدیل می‌کند.", "فایل"],
+  ["copyLink.ts", "کپی لینک", "یک لینک را در clipboard مرورگر قرار می‌دهد.", "مرورگر"],
+  [
+    "counterDownHelper.ts",
+    "محاسبه‌ی شمارش معکوس",
+    "ثانیه را به روز، ساعت، دقیقه و ثانیه تبدیل و قالب‌بندی می‌کند.",
+    "نمونه",
+  ],
+  ["detectLocaleFromTimezone.ts", "زبان از timezone", "کشور و زبان ترجیحی را از timezone پیدا می‌کند.", "توضیح"],
+  ["digitOTP.js", "ورودی OTP", "رفتار ورود رقم‌های کد یک‌بارمصرف را مدیریت می‌کند.", "DOM"],
+  ["DownloadImage.js", "دانلود تصویر", "فایل تصویر را از مرورگر دانلود می‌کند.", "فایل"],
+  ["draftStorage.ts", "ذخیره‌ی draft", "draftها را در localStorage ذخیره، بازیابی و پاک‌سازی می‌کند.", "storage"],
+  ["emojiDetector.ts", "تحلیل emoji", "emojiها را استخراج، شمارش و از متن جدا می‌کند.", "نمونه"],
+  ["entryTypeStr.ts", "نام نوع ورودی", "مقدار enum نوع ورودی را به متن قابل نمایش تبدیل می‌کند.", "توضیح"],
+  ["findDayName.ts", "نام روز هفته", "شماره یا enum روز را به کلید ترجمه‌ی نام روز تبدیل می‌کند.", "توضیح"],
+  ["findSystemLanguage.ts", "زبان سیستم", "زبان سیستم یا مرورگر را برای انتخاب locale پیدا می‌کند.", "مرورگر"],
+  ["formatTimeAgo.ts", "زمان نسبی", "timestamp را به تاریخ یا عبارت زمان نسبی localized تبدیل می‌کند.", "نمونه"],
+  ["getThumbnailColor.ts", "رنگ thumbnail", "از متن یا گزینه‌ها رنگ و حرف اول thumbnail می‌سازد.", "توضیح"],
+  ["guidList.ts", "اعتبارسنجی GUID", "وجود GUID را در فهرست شناسه‌ها بررسی می‌کند.", "توضیح"],
+  ["handleItemTypeEnum.ts", "مقدار enum آیتم", "مقدار عددی یا متنی enum یک آیتم را استخراج می‌کند.", "توضیح"],
+  ["hashProductId.ts", "hash شناسه محصول", "شناسه محصول را برای کلید یا مقایسه به مقدار hash تبدیل می‌کند.", "توضیح"],
+  ["loadingStatus.ts", "وضعیت loading و نقش", "ثابت‌های وضعیت ورود، بسته و دسترسی نقش‌ها را نگه می‌دارد.", "توضیح"],
+  ["manageTimer.ts", "تبدیل زمان", "واحدهای زمان را به میلی‌ثانیه، ثانیه یا روز تبدیل می‌کند.", "توضیح"],
+  ["messageTokenGenerator.ts", "توکن پیام", "توکن مورد نیاز پیام را برای جریان پیام‌نگاری می‌سازد.", "توضیح"],
+  ["numberFormater.ts", "قالب‌بندی عدد", "عدد، خلاصه‌ی عدد، مقدار مالی و زمان AM/PM را format می‌کند.", "توضیح"],
+  ["pako.ts", "فشرده‌سازی داده", "داده را با pako فشرده یا از حالت فشرده خارج می‌کند.", "توضیح"],
+  ["priceFormater.ts", "قالب‌بندی قیمت", "قیمت را با جداکننده و قالب مناسب نمایش می‌دهد.", "توضیح"],
+  ["psgApi.ts", "API اطلاعات بسته", "تابع مربوط به اطلاعات featureهای بسته را re-export می‌کند.", "شبکه"],
+  ["pushNotif.ts", "اعلان و SignalR", "اتصال و subscription اعلان‌های real-time را مدیریت می‌کند.", "شبکه"],
+  ["rgbaToHex.ts", "رنگ RGBA و HEX", "رنگ‌ها را بین قالب‌های RGBA، RGB و HEX تبدیل می‌کند.", "توضیح"],
+  ["socket.ts", "ارتباط socket", "ابزار اتصال socket برای جریان‌های real-time را فراهم می‌کند.", "شبکه"],
+  ["specifyAdType.ts", "نوع تبلیغ", "نوع تبلیغ را از داده‌ی آن تشخیص می‌دهد.", "توضیح"],
+  ["specifyLogistic.ts", "نوع ارسال", "نوع روش لجستیک را از مقدار backend تعیین می‌کند.", "توضیح"],
+  ["svgGenerator.ts", "ساخت SVG", "SVG و styleهای متناظر را از داده‌ی ورودی تولید می‌کند.", "فایل"],
+  ["svgInsertor.js", "درج SVG", "SVG را در محتوای HTML یا DOM درج می‌کند.", "DOM"],
+  ["svgtojpeg.ts", "SVG به JPEG", "SVG را به data URL، Blob یا فایل JPEG تبدیل می‌کند.", "فایل"],
+  [
+    "textByteLength.ts",
+    "طول UTF-8 متن",
+    "تعداد byte متن و برش Unicode-safe بر اساس سقف byte را محاسبه می‌کند.",
+    "نمونه",
+  ],
+  ["urlToBase64.js", "URL به Base64", "محتوای URL را خوانده و به Base64 تبدیل می‌کند.", "شبکه"],
+  [
+    "useInfiniteScroll.ts",
+    "اسکرول بی‌نهایت",
+    "صفحه‌های بعدی داده را با cursor می‌گیرد و duplicate/صفحه‌ی پایانی را کنترل می‌کند.",
+    "hook",
+  ],
+  ["useMousePosition.ts", "موقعیت mouse", "موقعیت pointer را در یک hook قابل استفاده‌ی مجدد ارائه می‌دهد.", "hook"],
 ];
 
 function Section({
@@ -369,6 +445,30 @@ export default function SystemDesignPage() {
               ]}
               placement="bottomLeft"
             />
+            <DotMenu
+              options={[
+                { icon: "✎", value: "ویرایش" },
+                { icon: "⌫", value: "حذف" },
+                { icon: "⋯", value: "بیشتر" },
+              ]}
+              placement="bottomRight"
+            />
+            <DotMenu
+              options={[
+                { icon: "✎", value: "ویرایش" },
+                { icon: "⌫", value: "حذف" },
+                { icon: "⋯", value: "بیشتر" },
+              ]}
+              placement="topLeft"
+            />
+            <DotMenu
+              options={[
+                { icon: "✎", value: "ویرایش" },
+                { icon: "⌫", value: "حذف" },
+                { icon: "⋯", value: "بیشتر" },
+              ]}
+              placement="topRight"
+            />
           </DemoCard>
           <DemoCard name="DragDrop / search + selection">
             <DragDrop data={dropdownItems} handleOptionSelect={() => undefined} searchMod />
@@ -425,6 +525,52 @@ export default function SystemDesignPage() {
         <DemoCard name="TextEditor / toolbar + blocks" className={styles.wideCard}>
           <TextEditor value="<h2>نمونه‌ی ویرایشگر</h2><p>این متن را ویرایش کن، Enter بزن و toolbar را امتحان کن.</p>" />
         </DemoCard>
+      </Section>
+
+      <Section title="Helperها" folder="helper / utility reference" className={styles.helperSection}>
+        <div className={styles.helperIntro}>
+          <strong>{helperCatalog.length} فایل helper</strong>
+          <span>
+            نمونه‌های زنده فقط از utilityهای خالص استفاده می‌کنند؛ helperهای شبکه، فایل، storage و DOM توضیح داده
+            شده‌اند.
+          </span>
+        </div>
+        <div className={styles.helperExamples}>
+          <DemoCard name="textByteLength / truncateTextToBytes">
+            <div className={styles.exampleResult}>
+              <span>Brancy 🚀 / ۱۲ byte</span>
+              <output>
+                {getTextByteLength("Brancy 🚀")} byte | {truncateTextToBytes("Brancy 🚀 آزمایش", 12)}
+              </output>
+            </div>
+          </DemoCard>
+          <DemoCard name="emojiDetector / extract + count">
+            <div className={styles.exampleResult}>
+              <span>متن نمونه: Brancy 🚀 🎨</span>
+              <output>
+                {countEmojis("Brancy 🚀 🎨")} emoji: {extractEmojis("Brancy 🚀 🎨").join(" ")}
+              </output>
+            </div>
+          </DemoCard>
+          <DemoCard name="convertFirstLetterToLowerCase">
+            <div className={styles.exampleResult}>
+              <span>{"{ UserName, UserId }"}</span>
+              <output>{JSON.stringify(convertFirstLetterToLowerCase({ UserName: "demo", UserId: 42 }))}</output>
+            </div>
+          </DemoCard>
+        </div>
+        <div className={styles.helperGrid}>
+          {helperCatalog.map(([file, name, description, mode]) => (
+            <article className={styles.helperCard} key={file}>
+              <header>
+                <strong>{file}</strong>
+                <span className={styles.helperMode}>{mode}</span>
+              </header>
+              <h3>{name}</h3>
+              <p>{description}</p>
+            </article>
+          ))}
+        </div>
       </Section>
     </main>
   );

@@ -36,6 +36,8 @@ Follows existing Next/React/TypeScript project conventions.
 
 `helper/` contains 45 helper files.
 
+The system-design showcase catalogs the helper files at the bottom of `/dev/systemDesign`, with live examples limited to side-effect-free utilities and explanatory cards for environment-dependent helpers.
+
 ## Execution Flow
 
 Execution starts from imports, route rendering, or helper calls depending on the module.

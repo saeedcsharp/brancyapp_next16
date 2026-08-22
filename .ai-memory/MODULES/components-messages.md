@@ -99,12 +99,13 @@ The same component keeps the continued new flow in `userslist` as a local `newFl
 <<<<<<< HEAD
 `direct/directInbox.tsx` returns the fetched thread page from its `fetchData` pagination callback. This is required by `useInfiniteScroll`; returning an empty array would make the hook mark pagination as exhausted even when the inbox API returns a non-null `nextMaxId`. `IInbox.nextMaxId` is nullable because the backend uses `null` to indicate the final page.
 
-`direct/directInbox.tsx` routes HTTP/API and initial-load failures to the App Router error boundary with the HTTP status and backend-provided reason when available. The boundary renders that received error message instead of replacing it with a generic-only message.
+`direct/directInbox.tsx` keeps HTTP/API and initial-load failures local to the inbox so an unavailable category does not crash the whole route. Notifications retain the HTTP status and backend-provided reason when available.
 
-Direct inbox rendering tolerates terminal pages containing threads with an empty `items` array. Message previews, timestamps, and unread counts use empty fallbacks instead of reading `sentByOwner`, `text`, or `createdTime` from an absent first item.
-=======
+# Direct inbox rendering tolerates terminal pages containing threads with an empty `items` array. Message previews, timestamps, and unread counts use empty fallbacks instead of reading `sentByOwner`, `text`, or `createdTime` from an absent first item.
+
 `popups/editAutoReply.tsx` and `popups/editAutoReplyForMedia.tsx` show the Create Automation AI and Create Automation Flow actions whenever the active AI prompt or flow has not been selected, even when the corresponding `DragDrop` list contains options. Existing saved prompts and flows count as selected and keep the actions hidden.
->>>>>>> sepehr
+
+> > > > > > > sepehr
 
 ## Hooks
 

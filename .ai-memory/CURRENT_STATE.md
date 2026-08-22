@@ -13,7 +13,7 @@ Bulk product amount inputs now display the product currency through the shared `
 
 The repository is a single Next.js 16 application using React 19, TypeScript strict mode, Sass, CSS modules, NextAuth, next-pwa, and a mixed App Router plus legacy-page bridge. App routes in `app/` commonly import pages from `legacy-pages/` while shared components live in `components/`.
 
-The global App Router error boundary displays the received error message. DirectInbox sends failed initial inbox requests and pagination/API failures to that boundary with the HTTP status and backend reason when available.
+The global App Router error boundary displays the received error message. DirectInbox keeps failed initial inbox requests and pagination/API failures local to the inbox, preserving the HTTP status and backend reason in notifications without crashing the whole route.
 
 ## Active Features
 
@@ -89,13 +89,14 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 ## Recent Changes
 
 <<<<<<< HEAD
+
 - Fixed the Instagramer hamburger menu BioLink active state by using the actual slash-free market route values, so Home, Statistics, MyLink, and Properties all select the BioLink logo.
 
-- Fixed Instagramer mobile navbar market-route detection by aligning the BioLink enum values with the actual slash-free `/market`, `/market/statistics`, `/market/mylink`, and `/market/properties` paths, so all market views display the BioLink logo.
-=======
+- # Fixed Instagramer mobile navbar market-route detection by aligning the BioLink enum values with the actual slash-free `/market`, `/market/statistics`, `/market/mylink`, and `/market/properties` paths, so all market views display the BioLink logo.
 - AI Flow web-link inputs now apply the shared `InputBox` danger status after invalid non-empty URLs and replay the shake animation once per invalid blur; editing the URL clears the error state.
 - AI Flow web-link validation now requires HTTP(S) hostnames to end with a non-empty dot suffix such as `.com` or `.ir`, while allowing any suffix value.
->>>>>>> sepehr
+
+  > > > > > > > sepehr
 
 - The `/page/tools` `hashtagManager` now owns the card collapse interaction. Activating its shared header hides the manager content and reduces the masonry row span from `82` to `10`; Enter and Space provide the same keyboard behavior.
 
@@ -197,7 +198,8 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - IncrementStepper values can now be manually edited: digit-only drafts commit on Enter or blur through `onValueChange`, are clamped by optional `min`/`max` props, and Escape restores the current value. All existing consumers provide a compatible callback with their own active quantity limits.
 - Standardized the shared CheckBoxButton while preserving its existing import path and controlled API. The native input remains keyboard-focusable through visual hiding, native accessibility attributes are accepted, `className` and `title` now work, touch targets are at least 44px, and the visual indicator supports focus, disabled, reduced-motion, and forced-colors states.
 - Standardized the shared TextArea around native textarea props while retaining legacy prop aliases for existing consumers. It now applies RTL/LTR direction reliably, supports bounded auto-resize without timer races, uses responsive focus/forced-colors/reduced-motion styles, and enforces a 16px minimum font size to prevent mobile focus zoom.
-- Standardized the shared DotMenu with native button/menu semantics, keyboard navigation, focus restoration, escape and outside-pointer close behavior, responsive touch targets and viewport bounds, RTL-aware placement, body-level portal rendering with fixed viewport coordinates, and reduced-motion and forced-colors support. The legacy DotMenu props remain compatible while standard `options`, `onOptionSelect`, and `placement` props are available.
+- Standardized the shared DotMenu with native button/menu semantics, keyboard navigation, focus restoration, escape and outside-pointer close behavior, responsive touch targets and viewport bounds, RTL-aware `placement`, body-level portal rendering with fixed viewport coordinates, and reduced-motion and forced-colors support. `placement` is now the single menu-position prop; data/action compatibility props and standard `options`/`onOptionSelect` remain available.
+- DotMenu trigger clicks stop propagation, so opening a menu inside a clickable post or card does not trigger the parent navigation action.
 - Removed unused MyLink product visibility state, root key, legacy markup styles, and obsolete search/coupon CSS while retaining the active carousel and card styles.
 - Added a static MyLink Products coupon presentation with placeholder countdown values, code `BRANCY20`, and an accessible Clipboard API copy action with temporary confirmation; backend promotion data is still pending.
 - Converted the MyLink product cards into a free horizontal carousel with native touch scrolling, mouse/pointer dragging, no wrapping or scroll snap, and drag-click protection for product links.

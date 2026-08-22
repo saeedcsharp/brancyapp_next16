@@ -1,6 +1,11 @@
 - Auto-reply AI and Flow selectors now show their Create Automation actions whenever no prompt or flow is selected, even when the selector lists available options.
 - Media auto-reply AI and Flow selectors now use the same unselected-state create-action behavior.
+<<<<<<< HEAD
 - Reused the Instagramer layout's invalid-IP modal for the NotLogin Instagram connection button, replacing its local toast countdown with the shared warning, countdown, Continue, and Close behavior.
+=======
+- Standardized all DotMenu consumers on the `placement` prop and removed the duplicate `menuPosition` prop.
+- Prevented DotMenu trigger clicks from bubbling into clickable parent cards, avoiding unintended post navigation when opening a menu.
+>>>>>>> sepehr
 
 <<<<<<< HEAD
 
@@ -12,7 +17,7 @@
 
 - Updated the global App Router error page to display the received error message, with a readable fallback when no detail is available.
 
-- Applied the global error boundary to DirectInbox initial loads and pagination failures, preserving the HTTP status and backend reason in the rendered error page.
+- Prevented DirectInbox initial-load and pagination failures from crashing the whole route; failed category requests remain local and retain their HTTP status and backend reason in notifications.
 
 - Fixed direct inbox pagination so general and business scroll requests return fetched threads to `useInfiniteScroll`; a non-null `/api/message/GetDirectInbox` `nextMaxId` now allows the next page request, while `null` correctly stops pagination.
 
@@ -114,6 +119,8 @@
 - Fixed brush line chart hydration mismatches by using an explicit `en-US` locale for count labels rendered in SVG axes and tooltips.
 
 # Changelog
+
+- Added a complete helper reference section to `/dev/systemDesign`, with all helper files listed and safe live examples for pure text, emoji, and object-key utilities. Environment-dependent helpers are documented without triggering network, storage, file, DOM, or real-time side effects.
 
 - Fixed AI Flow web-link validation so invalid non-empty URLs apply the final danger border to the shared `InputBox` and run its shake animation once per invalid blur.
 - Added the web-link domain rule requiring HTTP(S) hostnames to end with a non-empty `.XXX` suffix, without restricting which suffix is used.

@@ -96,7 +96,7 @@ const DirectInbox = () => {
     bInbox.current = businessInbox;
   }, [businessInbox]);
   const [loading, setLoading] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.Message));
-  const [inboxError, setInboxError] = useState<Error | null>(null);
+  const [, setInboxError] = useState<Error | null>(null);
 
   const [searchbox, setSearchbox] = useState("");
   const [toggleOrder, setToggleOrder] = useState<MessageCategoryType>(MessageCategoryType.General);
@@ -1666,8 +1666,6 @@ const DirectInbox = () => {
       handleReSendMessage();
     }
   }, [ws?.state]);
-
-  if (inboxError) throw inboxError;
 
   return (
     <>

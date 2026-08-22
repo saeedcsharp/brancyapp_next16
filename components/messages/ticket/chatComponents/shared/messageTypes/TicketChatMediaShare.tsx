@@ -83,7 +83,7 @@ const TicketChatMediaShareComponent: React.FC<TicketBaseChatProps> = ({
             tabIndex={0}
             aria-label="View media share">
             <MediaDetector src={mediaSrc} />
-            <Dotmenu menuPosition="topRight" data={dotMenuData} handleClickOnIcon={handleDotMenuClick} />
+            <Dotmenu placement="topRight" data={dotMenuData} handleClickOnIcon={handleDotMenuClick} />
           </div>
         </div>
         <TicketReactionEmoji item={item} direction={direction} baseMediaUrl={baseMediaUrl} chatBox={chatBox} />

@@ -10,17 +10,12 @@ export interface DotMenuOption {
   style?: React.CSSProperties;
 }
 interface DotMenuProps {
-  /** @deprecated Use options instead. */
   data?: DotMenuOption[];
   options?: DotMenuOption[];
-  /** @deprecated This prop was never read by DotMenu and is retained for compatibility. */
   showSetting?: boolean;
   onToggle?: (isOpen: boolean) => void;
-  /** @deprecated Use onOptionSelect instead. */
   handleClickOnIcon?: (id: string) => void;
   onOptionSelect?: (value: string) => void;
-  /** @deprecated Use placement instead. */
-  menuPosition?: DotMenuPlacement;
   placement?: DotMenuPlacement;
   ariaLabel?: string;
 }
@@ -30,10 +25,9 @@ const placementClasses: Record<DotMenuPlacement, { menu: string; trigger: string
   bottomLeft: { menu: styles.bottomLeft, trigger: styles.triggerBottomLeft },
   bottomRight: { menu: styles.bottomRight, trigger: styles.triggerBottomRight },
 };
-const getMenuPosition = (triggerRect: DOMRect, placement?: DotMenuPlacement): React.CSSProperties => {
+const getPlacementCoordinates = (triggerRect: DOMRect, placement?: DotMenuPlacement): React.CSSProperties => {
   const viewportWidth = window.innerWidth;
   const viewportHeight = window.innerHeight;
-
   switch (placement) {
     case "topLeft":
       return { position: "fixed", right: viewportWidth - triggerRect.left, bottom: viewportHeight - triggerRect.top };
@@ -56,12 +50,11 @@ const DotMenu: React.FC<DotMenuProps> = ({
   onToggle,
   handleClickOnIcon,
   onOptionSelect,
-  menuPosition,
   placement,
   ariaLabel = "More options",
 }) => {
   const menuOptions = options ?? data ?? [];
-  const resolvedPlacement = placement ?? menuPosition;
+  const resolvedPlacement = placement;
   const [isOpen, setIsOpen] = useState(false);
   const [showMenu, setShowMenu] = useState(false);
   const [focusIndex, setFocusIndex] = useState<number | null>(null);
@@ -111,18 +104,18 @@ const DotMenu: React.FC<DotMenuProps> = ({
   useLayoutEffect(() => {
     if (!showMenu) return;
 
-    const updateMenuPosition = () => {
+    const updatePlacement = () => {
       const trigger = triggerRef.current;
       if (!trigger) return;
-      setMenuCoordinates(getMenuPosition(trigger.getBoundingClientRect(), resolvedPlacement));
+      setMenuCoordinates(getPlacementCoordinates(trigger.getBoundingClientRect(), resolvedPlacement));
     };
 
-    updateMenuPosition();
-    window.addEventListener("resize", updateMenuPosition);
-    window.addEventListener("scroll", updateMenuPosition, true);
+    updatePlacement();
+    window.addEventListener("resize", updatePlacement);
+    window.addEventListener("scroll", updatePlacement, true);
     return () => {
-      window.removeEventListener("resize", updateMenuPosition);
-      window.removeEventListener("scroll", updateMenuPosition, true);
+      window.removeEventListener("resize", updatePlacement);
+      window.removeEventListener("scroll", updatePlacement, true);
     };
   }, [resolvedPlacement, showMenu]);
   useEffect(() => {
@@ -194,7 +187,10 @@ const DotMenu: React.FC<DotMenuProps> = ({
         aria-haspopup="menu"
         aria-expanded={isOpen}
         aria-controls={showMenu ? menuId : undefined}
-        onClick={handleToggle}
+        onClick={(event) => {
+          event.stopPropagation();
+          handleToggle();
+        }}
         onKeyDown={handleTriggerKeyDown}
         disabled={menuOptions.length === 0}>
         <svg className={styles.triggerIcon} fill="none" viewBox="0 0 14 5" aria-hidden="true" focusable="false">
