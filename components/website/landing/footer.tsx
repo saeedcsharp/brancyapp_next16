@@ -74,11 +74,11 @@ const Footer: React.FC = () => {
           <>
             <div className={styles.footersectiontable}>
               <div className={styles.footerbody}>
-                <address>
+                {/* <address>
                   آدرس: اصفهان - خیابان هاتف - کوچه یخچال - ساختمان برنسی
                   <br />
                   تلفن: <a href="tel:+989138664066">09138664066</a>
-                </address>
+                </address> */}
                 <br />
                 <a
                   href="https://trustseal.enamad.ir/?id=745725&Code=4jzLwvZYKySIQKV7TZv1oleWBHSAyBzv"

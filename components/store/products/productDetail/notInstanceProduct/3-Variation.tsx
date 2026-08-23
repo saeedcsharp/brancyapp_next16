@@ -2,9 +2,12 @@ import { useSession } from "next-auth/react";
 import { ChangeEvent, CSSProperties, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import IncrementStepper from "brancy/components/design/incrementStepper/incrementStepper";
 import InputBox from "brancy/components/design/inputBox/inputBox";
+import { specifyPriceType } from "brancy/components/priceFormater";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
+import { numberToFormattedString } from "brancy/helper/numberFormater";
 import priceFormatter from "brancy/helper/priceFormater";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
@@ -22,6 +25,7 @@ import {
   ISubProduct_Create,
   IVariation_Create,
 } from "brancy/models/interfaces";
+import Soon from "brancy/components/notOk/soon";
 export interface IAddNewVariation {
   val1: INewVariation | null;
   val2: INewVariation | null;
@@ -361,7 +365,7 @@ function Variation({
     subProductsCreate.length > 0
       ? subProductsCreate.map((x) => ({
           index: subProductsCreate.indexOf(x),
-          price: priceFormatter(shortProduct.priceType)(x.price),
+          price: String(numberToFormattedString(x.price)),
         }))
       : [
           {
@@ -412,7 +416,7 @@ function Variation({
           ? x
           : {
               ...x,
-              price: priceFormatter(shortProduct.priceType)(value),
+              price: String(numberToFormattedString(value)),
             },
       ),
     ); // Format the price on blur
@@ -917,340 +921,339 @@ function Variation({
                         })}
                     </div>
                     <div className={styles.variationsetting}>
-                      <div className={styles.variationarea}>
-                        <div className={styles.stockheaderandinput}>
-                          <div className="headertext">{t(LanguageKey.Storeproduct_stock)}</div>
-                          <div className={styles.stocksection}>
-                            <InputBox
-                              name=""
-                              className="textinputbox"
-                              placeHolder="number"
-                              handleInputChange={(e) => handleChangeStock(e, i)}
-                              value={sub.stock.toString()}
-                              numberType={true}
-                            />
-                            <button
-                              title="add 5 to stock"
-                              className={styles.stockplus}
-                              onClick={() =>
-                                setSubProducts((prev) =>
-                                  prev.map((x, idx) => (idx === i ? { ...x, stock: x.stock + 5 } : x)),
-                                )
-                              }>
-                              +5
-                            </button>
-                            <button
-                              title="add 10 to stock"
-                              className={styles.stockplus}
-                              onClick={() =>
-                                setSubProducts((prev) =>
-                                  prev.map((x, idx) => (idx === i ? { ...x, stock: x.stock + 10 } : x)),
-                                )
-                              }>
-                              +10
-                            </button>
-                            <button
-                              title="add 50 to stock"
-                              className={styles.stockplus}
-                              onClick={() =>
-                                setSubProducts((prev) =>
-                                  prev.map((x, idx) => (idx === i ? { ...x, stock: x.stock + 50 } : x)),
-                                )
-                              }>
-                              +50
-                            </button>
-                          </div>
-                        </div>
-
-                        <div className={styles.priceheaderandinput}>
-                          <div className="headertext">{t(LanguageKey.Storeproduct_price)}</div>
-
-                          <div className={`${styles.pricesection} translate`}>
-                            <div
-                              className={`${styles.searchprice} ${pricePopupStates[i] ? styles.active : ""}`}
-                              title="ℹ️ search price for today"
-                              role="button"
-                              aria-label="search price for today"
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                togglePricePopup(i);
-                              }}
-                              data-price-popup>
-                              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="24">
-                                <path
-                                  opacity=".6"
-                                  fill="var(--color-dark-blue)"
-                                  d="M3.25 11.53c0-4.3 3.48-7.78 7.78-7.78a.97.97 0 0 1 0 1.94 5.83 5.83 0 1 0 5.83 5.84.97.97 0 0 1 1.95 0c0 1.8-.61 3.45-1.64 4.77l3.3 3.29a.97.97 0 0 1-1.38 1.38l-3.3-3.3a7.78 7.78 0 0 1-12.55-6.14"
-                                />
-                                <path
-                                  fill="var(--color-dark-blue)"
-                                  d="M15.5 2.75c.31 0 .6.2.7.49l.26.7c.36.98.48 1.24.67 1.43.19.2.45.3 1.43.67l.7.26a.75.75 0 0 1 0 1.4l-.7.26c-.98.36-1.24.48-1.43.67-.2.19-.3.45-.67 1.43l-.26.7a.75.75 0 0 1-1.4 0l-.26-.7c-.36-.98-.48-1.24-.67-1.43-.19-.2-.45-.3-1.43-.67l-.7-.26a.75.75 0 0 1 0-1.4l.7-.26c.98-.36 1.24-.48 1.43-.67.2-.19.3-.45.67-1.43l.26-.7c.1-.3.39-.49.7-.49"
-                                />
-                              </svg>
-                              {pricePopupStates[i] && (
-                                <div className={styles.pricePopup} data-price-popup>
-                                  <div className="headerandinput">
-                                    <div className="title">{t(LanguageKey.product_SuggestedPrice)}</div>
-                                    <div className={styles.suggestedprice}>
-                                      <div className={styles.pricePopupdetail}>
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          fill="none"
-                                          color="#000"
-                                          width="20"
-                                          viewBox="0 0 24 24">
-                                          <path
-                                            d="M2.5 12c0-4.5 0-6.7 1.4-8.1S7.5 2.5 12 2.5s6.7 0 8.1 1.4 1.4 3.6 1.4 8.1 0 6.7-1.4 8.1-3.6 1.4-8.1 1.4-6.7 0-8.1-1.4-1.4-3.6-1.4-8.1Z"
-                                            stroke="var(--color-gray)"
-                                            strokeWidth="1.5"
-                                            strokeLinejoin="round"
-                                          />
-                                          <path
-                                            d="M12 10.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m0 0V7m3 8-2-2"
-                                            stroke="var(--text-h2)"
-                                            strokeWidth="1.5"
-                                            strokeLinecap="round"
-                                            strokeLinejoin="round"
-                                          />
-                                        </svg>
-                                        {t(LanguageKey.update)}
-                                      </div>
-                                      <span>{t(LanguageKey.advertisecalendar_TODAY)}</span>
-                                    </div>
-                                    <div className="explain"></div>
-                                  </div>
-                                  <div className="headerandinput">
-                                    <div
-                                      className={styles.suggestedprice}
-                                      onClick={() => {
-                                        setRawValue((prev) =>
-                                          prev.map((x, idx) =>
-                                            idx === i
-                                              ? {
-                                                  ...x,
-                                                  price: priceFormatter(shortProduct.priceType)(
-                                                    suggestedPriceV2?.minPrice || 0,
-                                                  ),
-                                                }
-                                              : x,
-                                          ),
-                                        );
-                                        setSubProducts((prev) =>
-                                          prev.map((x, idx) =>
-                                            idx === i
-                                              ? {
-                                                  ...x,
-                                                  price: suggestedPriceV2?.minPrice || 0,
-                                                }
-                                              : x,
-                                          ),
-                                        );
-                                      }}>
-                                      <div className={styles.pricePopupdetail}>
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          fill="none"
-                                          color="#000"
-                                          width="20"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          viewBox="0 0 24 24">
-                                          <path
-                                            d="M8 3c0 6.075 2.686 11 6 11s6-4.925 6-11 M21 21H10c-3.3 0-4.95 0-5.975-1.025S3 17.3 3 14V3"
-                                            stroke="var(--color-gray)"
-                                            strokeWidth="1.5"
-                                          />
-                                          <path
-                                            d="M6 17h.009m2.99 0h.008m2.99 0h.008m2.99 0h.009m2.989 0h.009m2.989 0H21"
-                                            stroke="var(--text-h1)"
-                                            strokeWidth="2"
-                                          />
-                                        </svg>
-                                        {t(LanguageKey.product_MinimumPrice)}
-                                      </div>
-                                      <span>
-                                        {priceFormatter(shortProduct.priceType)(suggestedPriceV2?.minPrice || 0)}
-                                      </span>
-                                    </div>
-
-                                    <div
-                                      className={styles.suggestedprice}
-                                      onClick={() => {
-                                        setRawValue((prev) =>
-                                          prev.map((x, idx) =>
-                                            idx === i
-                                              ? {
-                                                  ...x,
-                                                  price: priceFormatter(shortProduct.priceType)(
-                                                    suggestedPriceV2?.averagePrice || 0,
-                                                  ),
-                                                }
-                                              : x,
-                                          ),
-                                        );
-                                        setSubProducts((prev) =>
-                                          prev.map((x, idx) =>
-                                            idx === i
-                                              ? {
-                                                  ...x,
-                                                  price: suggestedPriceV2?.averagePrice || 0,
-                                                }
-                                              : x,
-                                          ),
-                                        );
-                                      }}>
-                                      <div className={styles.pricePopupdetail}>
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          fill="none"
-                                          color="#000"
-                                          width="20"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          viewBox="0 0 24 24">
-                                          <path
-                                            d="M6 7c.673-1.122 1.587-2 2.993-2 5.943 0 2.602 12 8.989 12 1.416 0 2.324-.884 3.018-2 M21 21H10c-3.3 0-4.95 0-5.975-1.025S3 17.3 3 14V3"
-                                            stroke="var(--color-gray)"
-                                            strokeWidth="1.5"
-                                          />
-                                          <path
-                                            d="M6 12h.009m2.99 0h.008m2.99 0h.008m2.99 0h.009m2.989 0h.009m2.989 0H21"
-                                            stroke="var(--text-h1)"
-                                            strokeWidth="2"
-                                          />
-                                        </svg>
-                                        {t(LanguageKey.product_AveragePrice)}
-                                      </div>
-                                      <span>
-                                        {priceFormatter(shortProduct.priceType)(suggestedPriceV2?.averagePrice || 0)}
-                                      </span>
-                                    </div>
-
-                                    <div
-                                      className={styles.suggestedprice}
-                                      onClick={() => {
-                                        setRawValue((prev) =>
-                                          prev.map((x, idx) =>
-                                            idx === i
-                                              ? {
-                                                  ...x,
-                                                  price: priceFormatter(shortProduct.priceType)(
-                                                    suggestedPriceV2?.maxPrice || 0,
-                                                  ),
-                                                }
-                                              : x,
-                                          ),
-                                        );
-                                        setSubProducts((prev) =>
-                                          prev.map((x, idx) =>
-                                            idx === i
-                                              ? {
-                                                  ...x,
-                                                  price: suggestedPriceV2?.maxPrice || 0,
-                                                }
-                                              : x,
-                                          ),
-                                        );
-                                      }}>
-                                      <div className={styles.pricePopupdetail}>
-                                        <svg
-                                          xmlns="http://www.w3.org/2000/svg"
-                                          fill="none"
-                                          color="#000"
-                                          width="20"
-                                          strokeLinecap="round"
-                                          strokeLinejoin="round"
-                                          viewBox="0 0 24 24">
-                                          <path
-                                            d="M19 21c0-6.627-2.686-12-6-12s-6 5.373-6 12 M21 21H10c-3.3 0-4.95 0-5.975-1.025S3 17.3 3 14V3"
-                                            stroke="var(--color-gray)"
-                                            strokeWidth="1.5"
-                                          />
-                                          <path
-                                            d="M6 6h.009m2.99 0h.008m2.99 0h.008m2.99 0h.009m2.989 0h.009m2.989 0H21"
-                                            stroke="var(--text-h1)"
-                                            strokeWidth="2"
-                                          />
-                                        </svg>
-                                        {t(LanguageKey.product_MaximumPrice)}
-                                      </div>
-                                      <span>
-                                        {priceFormatter(shortProduct.priceType)(suggestedPriceV2?.maxPrice || 0)}
-                                      </span>
-                                    </div>
-                                  </div>
-                                </div>
-                              )}
-                            </div>
-                            <InputBox
-                              name=""
-                              className={sub.price === 0 && rawValue[i].price !== "" ? "danger" : "textinputbox"}
-                              placeHolder={t(LanguageKey.pageToolspopup_typehere)}
-                              handleInputChange={(e) => handleChangePrice(e, i)}
-                              handleInputBlur={(e) => handleBlur(e, i)}
-                              handleInputonFocus={(e) => handleFocus(e, i)}
-                              value={rawValue[i].price}
-                              numberType={false}
-                            />
-                          </div>
+                      <div className={styles.variationheaderandinput}>
+                        <div className="headertext">{t(LanguageKey.Storeproduct_stock)}</div>
+                        <div className={styles.stocksection}>
+                          <IncrementStepper
+                            data={sub.stock}
+                            min={0}
+                            id={`stock-${i}`}
+                            aria-label={`${t(LanguageKey.Storeproduct_stock)} ${i + 1}`}
+                            increment={() =>
+                              setSubProducts((prev) =>
+                                prev.map((x, idx) => (idx === i ? { ...x, stock: x.stock + 1 } : x)),
+                              )
+                            }
+                            decrement={() =>
+                              setSubProducts((prev) =>
+                                prev.map((x, idx) => (idx === i ? { ...x, stock: Math.max(0, x.stock - 1) } : x)),
+                              )
+                            }
+                            onValueChange={(value: number) =>
+                              setSubProducts((prev) =>
+                                prev.map((x, idx) => (idx === i ? { ...x, stock: Math.max(0, value) } : x)),
+                              )
+                            }
+                          />
+                          <button
+                            title="add 5 to stock"
+                            className={styles.stockplus}
+                            onClick={() =>
+                              setSubProducts((prev) =>
+                                prev.map((x, idx) => (idx === i ? { ...x, stock: x.stock + 5 } : x)),
+                              )
+                            }>
+                            +5
+                          </button>
+                          <button
+                            title="add 10 to stock"
+                            className={styles.stockplus}
+                            onClick={() =>
+                              setSubProducts((prev) =>
+                                prev.map((x, idx) => (idx === i ? { ...x, stock: x.stock + 10 } : x)),
+                              )
+                            }>
+                            +10
+                          </button>
+                          <button
+                            title="add 50 to stock"
+                            className={styles.stockplus}
+                            onClick={() =>
+                              setSubProducts((prev) =>
+                                prev.map((x, idx) => (idx === i ? { ...x, stock: x.stock + 50 } : x)),
+                              )
+                            }>
+                            +50
+                          </button>
                         </div>
                       </div>
-                      <div className={styles.variationarea}>
-                        <div className={styles.discountheaderandinput}>
-                          <div className="headertext">{t(LanguageKey.product_Discount)}</div>
-                          <div className={styles.discountsection}>
-                            <DragDrop
-                              data={[
-                                <div id="0">{t(LanguageKey.deactive)}</div>,
-                                <div id="1">{t(LanguageKey.active)}</div>,
-                              ]}
-                              handleOptionSelect={(id) => handleSelectDiscout(id, i)}
-                              item={sub.disCount ? 1 : 0}
-                              isRefresh={refresh}
-                            />
-                            <div
-                              onClick={() => togglePopup(sub.disCount, i)}
-                              className={`${styles.discountbtn} ${!sub.disCount && "fadeDiv"}`}>
-                              <img title="setting" alt="setting" src="/more-blue.svg" style={{ width: "25px" }} />
-                              <span>{t(LanguageKey.sidebar_Setting)}</span>
-                            </div>
-                          </div>
-                        </div>
 
-                        <div className={styles.variationheaderandinput}>
-                          <div className="headertext">{t(LanguageKey.product_PricewithDiscount)}</div>
-                          <div className={styles.variationsection}>
-                            {sub.disCount && <span title="ℹ️ Discount Value">{`${sub.disCount.value}%`}</span>}
-                            <div className={styles.pricewithdiscount}>
-                              {sub.disCount
-                                ? priceFormatter(shortProduct.priceType)((sub.price * (100 - sub.disCount.value)) / 100)
-                                : priceFormatter(shortProduct.priceType)(sub.price)}
-                            </div>
-                            {sub.disCount?.maxTime && (
-                              <span
-                                style={{ cursor: "pointer" }}
-                                ref={discountTooltipRef}
-                                onClick={() => setOpenDiscountTooltip(openDiscountTooltip === i ? null : i)}>
-                                <svg width="25px" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                  <path
-                                    d="M10 7.92v3.33l2.08 1.25M10 4.17a7.08 7.08 0 1 0 0 14.16 7.08 7.08 0 0 0 0-14.16m0 0v-2.5m-1.67 0h3.34m5.27 2.99-1.25-1.25.63.63m-13.26.62L4.3 3.41l-.63.63"
-                                    stroke="var(--text-h2)"
-                                    strokeWidth="1.5"
-                                  />
-                                </svg>
-                                {openDiscountTooltip === i && (
-                                  <div className={styles.tooltip}>
-                                    <div>
-                                      {sub.disCount.maxCount !== null
-                                        ? sub.disCount.maxCount
-                                        : t(LanguageKey.product_UNLIMITED)}
-                                    </div>
-                                    <div>{formatRemainingTime(sub.disCount.maxTime)}</div>
-                                  </div>
-                                )}
-                              </span>
+                      <div className={styles.variationheaderandinput}>
+                        <div className="headertext">{t(LanguageKey.Storeproduct_price)}</div>
+
+                        <div className={`${styles.pricesection} translate`}>
+                          <div
+                            className={`${styles.searchprice} ${pricePopupStates[i] ? styles.active : ""}`}
+                            title="ℹ️ search price for today"
+                            role="button"
+                            aria-label="search price for today"
+                            onClick={(e) => {
+                              e.stopPropagation();
+                              togglePricePopup(i);
+                            }}
+                            data-price-popup>
+                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" width="24">
+                              <path
+                                opacity=".6"
+                                fill="var(--color-dark-blue)"
+                                d="M3.25 11.53c0-4.3 3.48-7.78 7.78-7.78a.97.97 0 0 1 0 1.94 5.83 5.83 0 1 0 5.83 5.84.97.97 0 0 1 1.95 0c0 1.8-.61 3.45-1.64 4.77l3.3 3.29a.97.97 0 0 1-1.38 1.38l-3.3-3.3a7.78 7.78 0 0 1-12.55-6.14"
+                              />
+                              <path
+                                fill="var(--color-dark-blue)"
+                                d="M15.5 2.75c.31 0 .6.2.7.49l.26.7c.36.98.48 1.24.67 1.43.19.2.45.3 1.43.67l.7.26a.75.75 0 0 1 0 1.4l-.7.26c-.98.36-1.24.48-1.43.67-.2.19-.3.45-.67 1.43l-.26.7a.75.75 0 0 1-1.4 0l-.26-.7c-.36-.98-.48-1.24-.67-1.43-.19-.2-.45-.3-1.43-.67l-.7-.26a.75.75 0 0 1 0-1.4l.7-.26c.98-.36 1.24-.48 1.43-.67.2-.19.3-.45.67-1.43l.26-.7c.1-.3.39-.49.7-.49"
+                              />
+                            </svg>
+                            {pricePopupStates[i] && (
+                              <div className={styles.pricePopup} data-price-popup>
+                                <div className="title2">{t(LanguageKey.product_SuggestedPrice)}</div>
+                                <div className={styles.suggestedprice}>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    color="#000"
+                                    width="20"
+                                    height="20"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                      d="M2.5 12c0-4.5 0-6.7 1.4-8.1S7.5 2.5 12 2.5s6.7 0 8.1 1.4 1.4 3.6 1.4 8.1 0 6.7-1.4 8.1-3.6 1.4-8.1 1.4-6.7 0-8.1-1.4-1.4-3.6-1.4-8.1Z"
+                                      stroke="var(--color-gray)"
+                                      strokeWidth="1.5"
+                                      strokeLinejoin="round"
+                                    />
+                                    <path
+                                      d="M12 10.5a1.5 1.5 0 1 0 0 3 1.5 1.5 0 0 0 0-3m0 0V7m3 8-2-2"
+                                      stroke="var(--text-h2)"
+                                      strokeWidth="1.5"
+                                      strokeLinecap="round"
+                                      strokeLinejoin="round"
+                                    />
+                                  </svg>
+                                  <span style={{ flex: 1 }}>{t(LanguageKey.update)}</span>
+
+                                  {/* <span>{t(LanguageKey.advertisecalendar_TODAY)}</span> */}
+                                  <span>{t(LanguageKey.soon)}</span>
+                                </div>
+
+                                <div
+                                  className={styles.suggestedprice}
+                                  onClick={() => {
+                                    setRawValue((prev) =>
+                                      prev.map((x, idx) =>
+                                        idx === i
+                                          ? {
+                                              ...x,
+                                              price: String(numberToFormattedString(suggestedPriceV2?.minPrice || 0)),
+                                            }
+                                          : x,
+                                      ),
+                                    );
+                                    setSubProducts((prev) =>
+                                      prev.map((x, idx) =>
+                                        idx === i
+                                          ? {
+                                              ...x,
+                                              price: suggestedPriceV2?.minPrice || 0,
+                                            }
+                                          : x,
+                                      ),
+                                    );
+                                  }}>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    color="#000"
+                                    width="20"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                      d="M8 3c0 6.075 2.686 11 6 11s6-4.925 6-11 M21 21H10c-3.3 0-4.95 0-5.975-1.025S3 17.3 3 14V3"
+                                      stroke="var(--color-gray)"
+                                      strokeWidth="1.5"
+                                    />
+                                    <path
+                                      d="M6 17h.009m2.99 0h.008m2.99 0h.008m2.99 0h.009m2.989 0h.009m2.989 0H21"
+                                      stroke="var(--text-h1)"
+                                      strokeWidth="2"
+                                    />
+                                  </svg>
+                                  <span style={{ flex: 1 }}>{t(LanguageKey.product_MinimumPrice)}</span>
+                                  <span>{priceFormatter(shortProduct.priceType)(suggestedPriceV2?.minPrice || 0)}</span>
+                                </div>
+
+                                <div
+                                  className={styles.suggestedprice}
+                                  onClick={() => {
+                                    setRawValue((prev) =>
+                                      prev.map((x, idx) =>
+                                        idx === i
+                                          ? {
+                                              ...x,
+                                              price: String(
+                                                numberToFormattedString(suggestedPriceV2?.averagePrice || 0),
+                                              ),
+                                            }
+                                          : x,
+                                      ),
+                                    );
+                                    setSubProducts((prev) =>
+                                      prev.map((x, idx) =>
+                                        idx === i
+                                          ? {
+                                              ...x,
+                                              price: suggestedPriceV2?.averagePrice || 0,
+                                            }
+                                          : x,
+                                      ),
+                                    );
+                                  }}>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    color="#000"
+                                    width="20"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                      d="M6 7c.673-1.122 1.587-2 2.993-2 5.943 0 2.602 12 8.989 12 1.416 0 2.324-.884 3.018-2 M21 21H10c-3.3 0-4.95 0-5.975-1.025S3 17.3 3 14V3"
+                                      stroke="var(--color-gray)"
+                                      strokeWidth="1.5"
+                                    />
+                                    <path
+                                      d="M6 12h.009m2.99 0h.008m2.99 0h.008m2.99 0h.009m2.989 0h.009m2.989 0H21"
+                                      stroke="var(--text-h1)"
+                                      strokeWidth="2"
+                                    />
+                                  </svg>
+
+                                  <span style={{ flex: 1 }}>{t(LanguageKey.product_AveragePrice)}</span>
+
+                                  <span>
+                                    {priceFormatter(shortProduct.priceType)(suggestedPriceV2?.averagePrice || 0)}
+                                  </span>
+                                </div>
+
+                                <div
+                                  className={styles.suggestedprice}
+                                  onClick={() => {
+                                    setRawValue((prev) =>
+                                      prev.map((x, idx) =>
+                                        idx === i
+                                          ? {
+                                              ...x,
+                                              price: String(numberToFormattedString(suggestedPriceV2?.maxPrice || 0)),
+                                            }
+                                          : x,
+                                      ),
+                                    );
+                                    setSubProducts((prev) =>
+                                      prev.map((x, idx) =>
+                                        idx === i
+                                          ? {
+                                              ...x,
+                                              price: suggestedPriceV2?.maxPrice || 0,
+                                            }
+                                          : x,
+                                      ),
+                                    );
+                                  }}>
+                                  <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    color="#000"
+                                    width="20"
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    viewBox="0 0 24 24">
+                                    <path
+                                      d="M19 21c0-6.627-2.686-12-6-12s-6 5.373-6 12 M21 21H10c-3.3 0-4.95 0-5.975-1.025S3 17.3 3 14V3"
+                                      stroke="var(--color-gray)"
+                                      strokeWidth="1.5"
+                                    />
+                                    <path
+                                      d="M6 6h.009m2.99 0h.008m2.99 0h.008m2.99 0h.009m2.989 0h.009m2.989 0H21"
+                                      stroke="var(--text-h1)"
+                                      strokeWidth="2"
+                                    />
+                                  </svg>
+                                  <span style={{ flex: 1 }}>{t(LanguageKey.product_MaximumPrice)}</span>
+                                  <span>{priceFormatter(shortProduct.priceType)(suggestedPriceV2?.maxPrice || 0)}</span>
+                                </div>
+                              </div>
                             )}
                           </div>
+                          <InputBox
+                            name=""
+                            className={sub.price === 0 && rawValue[i].price !== "" ? "danger" : "textinputbox"}
+                            placeHolder={t(LanguageKey.pageToolspopup_typehere)}
+                            handleInputChange={(e) => handleChangePrice(e, i)}
+                            handleInputBlur={(e) => handleBlur(e, i)}
+                            handleInputonFocus={(e) => handleFocus(e, i)}
+                            value={rawValue[i].price}
+                            unit={specifyPriceType(shortProduct.priceType)}
+                            numberType={false}
+                          />
+                        </div>
+                      </div>
+
+                      <div className={styles.variationheaderandinput}>
+                        <div className="headertext">{t(LanguageKey.product_Discount)}</div>
+                        <div className={styles.discountsection}>
+                          <DragDrop
+                            data={[
+                              <div id="0">{t(LanguageKey.deactive)}</div>,
+                              <div id="1">{t(LanguageKey.active)}</div>,
+                            ]}
+                            handleOptionSelect={(id) => handleSelectDiscout(id, i)}
+                            item={sub.disCount ? 1 : 0}
+                            isRefresh={refresh}
+                          />
+
+                          <button
+                            style={{ width: "max-content" }}
+                            onClick={() => togglePopup(sub.disCount, i)}
+                            className={`cancelButton ${!sub.disCount && "fadeDiv"}`}>
+                            <span>{t(LanguageKey.sidebar_Setting)}</span>
+                          </button>
+                        </div>
+                      </div>
+
+                      <div className={styles.variationheaderandinput}>
+                        <div className="headertext">{t(LanguageKey.product_PricewithDiscount)}</div>
+                        <div className={styles.variationsection}>
+                          {sub.disCount && <span title="ℹ️ Discount Value">{`${sub.disCount.value}%`}</span>}
+                          <div className={styles.pricewithdiscount}>
+                            {sub.disCount
+                              ? priceFormatter(shortProduct.priceType)((sub.price * (100 - sub.disCount.value)) / 100)
+                              : priceFormatter(shortProduct.priceType)(sub.price)}
+                          </div>
+                          {sub.disCount?.maxTime && (
+                            <span
+                              style={{ cursor: "pointer" }}
+                              ref={discountTooltipRef}
+                              onClick={() => setOpenDiscountTooltip(openDiscountTooltip === i ? null : i)}>
+                              <svg width="25px" fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                <path
+                                  d="M10 7.92v3.33l2.08 1.25M10 4.17a7.08 7.08 0 1 0 0 14.16 7.08 7.08 0 0 0 0-14.16m0 0v-2.5m-1.67 0h3.34m5.27 2.99-1.25-1.25.63.63m-13.26.62L4.3 3.41l-.63.63"
+                                  stroke="var(--text-h2)"
+                                  strokeWidth="1.5"
+                                />
+                              </svg>
+                              {openDiscountTooltip === i && (
+                                <div className={styles.tooltip}>
+                                  <div>
+                                    {sub.disCount.maxCount !== null
+                                      ? sub.disCount.maxCount
+                                      : t(LanguageKey.product_UNLIMITED)}
+                                  </div>
+                                  <div>{formatRemainingTime(sub.disCount.maxTime)}</div>
+                                </div>
+                              )}
+                            </span>
+                          )}
                         </div>
                       </div>
                     </div>

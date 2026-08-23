@@ -1180,155 +1180,155 @@ export function Toolbar() {
           </button>
         </div>
       </div>
-
-      {/* Paragraph Style */}
-      <ToolbarPopover
-        trigger={
-          <>
-            <span className={s.toolbarBlockTypeLabel}>
-              <BlockTypeIcon />
-            </span>
-            <ChevronDownIcon size={9} className={showBlockType ? s.toolbarChevronOpen : s.toolbarChevron} />
-          </>
-        }
-        triggerTitle="Block type"
-        open={showBlockType}
-        onOpenChange={setShowBlockType}
-        onBeforeOpen={() => {
-          saveSelection();
-          setShowEmojiPicker(false);
-          setShowLinkDialog(false);
-          setShowColorPicker(null);
-        }}>
-        <div className={s.toolbarDropdownMenu} onClick={() => setShowBlockType(false)}>
-          <button
-            className={s.dropdownItem}
-            onClick={() => {
-              changeBlockType("paragraph");
-              setShowBlockType(false);
-            }}>
-            <div className={s.dropdownItemICON}>
-              <TextIcon />
-            </div>
-            <span>Paragraph</span>
-          </button>
-          {([1, 2, 3, 4, 5, 6] as HeadingLevel[]).map((n) => {
-            const IconComp =
-              n === 1
-                ? Heading1Icon
-                : n === 2
-                  ? Heading2Icon
-                  : n === 3
-                    ? Heading3Icon
-                    : n === 4
-                      ? Heading4Icon
-                      : n === 5
-                        ? Heading5Icon
-                        : Heading6Icon;
-            return (
-              <button
-                key={n}
-                className={s.dropdownItem}
-                onClick={() => {
-                  changeBlockType("heading", { level: n } as any);
-                  setShowBlockType(false);
-                }}>
-                <div className={s.dropdownItemICON}>
-                  <IconComp />
-                </div>
-
-                <span style={{ fontSize: `${16 - n * 1.2}px`, fontWeight: 700 }}>Heading {n}</span>
-              </button>
-            );
-          })}
-          <button
-            className={s.dropdownItem}
-            onClick={() => {
-              changeBlockType("blockquote");
-              setShowBlockType(false);
-            }}>
-            <div className={s.dropdownItemICON}>
-              <QuoteIcon />
-            </div>
-            Quote
-          </button>
-          <button
-            className={s.dropdownItem}
-            onClick={() => {
-              changeBlockType("code");
-              setShowBlockType(false);
-            }}>
-            <div className={s.dropdownItemICON}>
-              <CodeBlockIcon />
-            </div>
-            Code
-          </button>
-        </div>
-      </ToolbarPopover>
-
-      <Divider />
-
-      {/* Text Formatting */}
-      <TBtn onClick={() => fmt("bold")} active={formatState.bold} title="Bold (Ctrl+B)">
-        <BoldIcon />
-      </TBtn>
-      <TBtn onClick={() => fmt("italic")} active={formatState.italic} title="Italic (Ctrl+I)">
-        <ItalicIcon />
-      </TBtn>
-      <TBtn onClick={() => fmt("underline")} active={formatState.underline} title="Underline (Ctrl+U)">
-        <UnderlineIcon />
-      </TBtn>
-      <TBtn onClick={() => fmt("strikeThrough")} active={formatState.strike} title="Strike">
-        <StrikeIcon />
-      </TBtn>
-      <TBtn onClick={() => fmt("superscript")} title="Superscript">
-        <SuperscriptIcon />
-      </TBtn>
-      <TBtn onClick={() => fmt("subscript")} title="Subscript">
-        <SubscriptIcon />
-      </TBtn>
-      <TBtn onClick={applyInlineCode} title="Inline Code" active={hasInlineCode}>
-        <CodeInlineIcon />
-      </TBtn>
-      <TBtn onClick={() => fmt("removeFormat")} title="Clear Formatting">
-        <ClearFormatIcon />
-      </TBtn>
-
-      <Divider />
-
-      {/* Font */}
-      <ToolbarPopover
-        trigger={
-          <>
-            <span className={s.toolbarBlockTypeLabel}>{currentFontSize}</span>
-            <ChevronDownIcon size={9} className={showFontSize ? s.toolbarChevronOpen : s.toolbarChevron} />
-          </>
-        }
-        triggerTitle="Font size"
-        open={showFontSize}
-        onOpenChange={setShowFontSize}
-        onBeforeOpen={() => {
-          saveSelection();
-          setShowEmojiPicker(false);
-          setShowLinkDialog(false);
-          setShowColorPicker(null);
-        }}>
-        <div className={s.toolbarDropdownMenu} onClick={() => setShowFontSize(false)}>
-          {FONT_SIZES.map((size) => (
+      <div style={{ display: "flex", flex: "1 0 100%", padding: "4px  4px", overflowX: "auto" }}>
+        {/* Paragraph Style */}
+        <ToolbarPopover
+          trigger={
+            <>
+              <span className={s.toolbarBlockTypeLabel}>
+                <BlockTypeIcon />
+              </span>
+              <ChevronDownIcon size={9} className={showBlockType ? s.toolbarChevronOpen : s.toolbarChevron} />
+            </>
+          }
+          triggerTitle="Block type"
+          open={showBlockType}
+          onOpenChange={setShowBlockType}
+          onBeforeOpen={() => {
+            saveSelection();
+            setShowEmojiPicker(false);
+            setShowLinkDialog(false);
+            setShowColorPicker(null);
+          }}>
+          <div className={s.toolbarDropdownMenu} onClick={() => setShowBlockType(false)}>
             <button
-              key={size}
               className={s.dropdownItem}
               onClick={() => {
-                applyFontSize(size);
-                setShowFontSize(false);
+                changeBlockType("paragraph");
+                setShowBlockType(false);
               }}>
-              {size}
+              <div className={s.dropdownItemICON}>
+                <TextIcon />
+              </div>
+              <span>Paragraph</span>
             </button>
-          ))}
-        </div>
-      </ToolbarPopover>
+            {([1, 2, 3, 4, 5, 6] as HeadingLevel[]).map((n) => {
+              const IconComp =
+                n === 1
+                  ? Heading1Icon
+                  : n === 2
+                    ? Heading2Icon
+                    : n === 3
+                      ? Heading3Icon
+                      : n === 4
+                        ? Heading4Icon
+                        : n === 5
+                          ? Heading5Icon
+                          : Heading6Icon;
+              return (
+                <button
+                  key={n}
+                  className={s.dropdownItem}
+                  onClick={() => {
+                    changeBlockType("heading", { level: n } as any);
+                    setShowBlockType(false);
+                  }}>
+                  <div className={s.dropdownItemICON}>
+                    <IconComp />
+                  </div>
 
-      {/* <ToolbarPopover
+                  <span style={{ fontSize: `${16 - n * 1.2}px`, fontWeight: 700 }}>Heading {n}</span>
+                </button>
+              );
+            })}
+            <button
+              className={s.dropdownItem}
+              onClick={() => {
+                changeBlockType("blockquote");
+                setShowBlockType(false);
+              }}>
+              <div className={s.dropdownItemICON}>
+                <QuoteIcon />
+              </div>
+              Quote
+            </button>
+            <button
+              className={s.dropdownItem}
+              onClick={() => {
+                changeBlockType("code");
+                setShowBlockType(false);
+              }}>
+              <div className={s.dropdownItemICON}>
+                <CodeBlockIcon />
+              </div>
+              Code
+            </button>
+          </div>
+        </ToolbarPopover>
+
+        <Divider />
+
+        {/* Text Formatting */}
+        <TBtn onClick={() => fmt("bold")} active={formatState.bold} title="Bold (Ctrl+B)">
+          <BoldIcon />
+        </TBtn>
+        <TBtn onClick={() => fmt("italic")} active={formatState.italic} title="Italic (Ctrl+I)">
+          <ItalicIcon />
+        </TBtn>
+        <TBtn onClick={() => fmt("underline")} active={formatState.underline} title="Underline (Ctrl+U)">
+          <UnderlineIcon />
+        </TBtn>
+        <TBtn onClick={() => fmt("strikeThrough")} active={formatState.strike} title="Strike">
+          <StrikeIcon />
+        </TBtn>
+        <TBtn onClick={() => fmt("superscript")} title="Superscript">
+          <SuperscriptIcon />
+        </TBtn>
+        <TBtn onClick={() => fmt("subscript")} title="Subscript">
+          <SubscriptIcon />
+        </TBtn>
+        <TBtn onClick={applyInlineCode} title="Inline Code" active={hasInlineCode}>
+          <CodeInlineIcon />
+        </TBtn>
+        <TBtn onClick={() => fmt("removeFormat")} title="Clear Formatting">
+          <ClearFormatIcon />
+        </TBtn>
+
+        <Divider />
+
+        {/* Font */}
+        <ToolbarPopover
+          trigger={
+            <>
+              <span className={s.toolbarBlockTypeLabel}>{currentFontSize}</span>
+              <ChevronDownIcon size={9} className={showFontSize ? s.toolbarChevronOpen : s.toolbarChevron} />
+            </>
+          }
+          triggerTitle="Font size"
+          open={showFontSize}
+          onOpenChange={setShowFontSize}
+          onBeforeOpen={() => {
+            saveSelection();
+            setShowEmojiPicker(false);
+            setShowLinkDialog(false);
+            setShowColorPicker(null);
+          }}>
+          <div className={s.toolbarDropdownMenu} onClick={() => setShowFontSize(false)}>
+            {FONT_SIZES.map((size) => (
+              <button
+                key={size}
+                className={s.dropdownItem}
+                onClick={() => {
+                  applyFontSize(size);
+                  setShowFontSize(false);
+                }}>
+                {size}
+              </button>
+            ))}
+          </div>
+        </ToolbarPopover>
+
+        {/* <ToolbarPopover
         trigger={
           <span>
             <FontFamilyIcon />
@@ -1360,352 +1360,352 @@ export function Toolbar() {
         </div>
       </ToolbarPopover> */}
 
-      <Divider />
+        <Divider />
 
-      {/* Colors */}
-      {/* Text Color */}
-      <ToolbarPopover
-        trigger={<TextColorIcon color={selectionTextColor || undefined} />}
-        triggerTitle="Text color"
-        open={showColorPicker === "text"}
-        onOpenChange={(v) => setShowColorPicker(v ? "text" : null)}
-        onBeforeOpen={() => {
-          saveSelection();
-          setShowEmojiPicker(false);
-          setShowLinkDialog(false);
-        }}>
-        <div className={s.colorPicker}>
-          <div className={s.colorGrid}>
-            {COLORS.map((c) => (
-              <button
-                key={c}
-                className={s.colorSwatch}
-                style={{ backgroundColor: c }}
-                onClick={() => applyTextColor(c)}
-                title={c}
-              />
-            ))}
+        {/* Colors */}
+        {/* Text Color */}
+        <ToolbarPopover
+          trigger={<TextColorIcon color={selectionTextColor || undefined} />}
+          triggerTitle="Text color"
+          open={showColorPicker === "text"}
+          onOpenChange={(v) => setShowColorPicker(v ? "text" : null)}
+          onBeforeOpen={() => {
+            saveSelection();
+            setShowEmojiPicker(false);
+            setShowLinkDialog(false);
+          }}>
+          <div className={s.colorPicker}>
+            <div className={s.colorGrid}>
+              {COLORS.map((c) => (
+                <button
+                  key={c}
+                  className={s.colorSwatch}
+                  style={{ backgroundColor: c }}
+                  onClick={() => applyTextColor(c)}
+                  title={c}
+                />
+              ))}
+            </div>
+            <div className={s.colorPickerCustom}>
+              <input type="color" onChange={(e) => applyTextColor(e.target.value)} title="Custom color" />
+              <span>Custom</span>
+            </div>
           </div>
-          <div className={s.colorPickerCustom}>
-            <input type="color" onChange={(e) => applyTextColor(e.target.value)} title="Custom color" />
-            <span>Custom</span>
+        </ToolbarPopover>
+
+        {/* Background Color */}
+        <ToolbarPopover
+          trigger={<BgColorIcon color={selectionBgColor || undefined} />}
+          triggerTitle="Highlight / Background color"
+          open={showColorPicker === "bg"}
+          onOpenChange={(v) => setShowColorPicker(v ? "bg" : null)}
+          onBeforeOpen={() => {
+            saveSelection();
+            setShowEmojiPicker(false);
+            setShowLinkDialog(false);
+          }}>
+          <div className={s.colorPicker}>
+            <div className={s.colorGrid}>
+              {COLORS.map((c) => (
+                <button
+                  key={c}
+                  className={s.colorSwatch}
+                  style={{ backgroundColor: c }}
+                  onClick={() => applyBgColor(c)}
+                  title={c}
+                />
+              ))}
+            </div>
+            <div className={s.colorPickerCustom}>
+              <input type="color" onChange={(e) => applyBgColor(e.target.value)} title="Custom color" />
+              <span>Custom</span>
+            </div>
           </div>
-        </div>
-      </ToolbarPopover>
+        </ToolbarPopover>
 
-      {/* Background Color */}
-      <ToolbarPopover
-        trigger={<BgColorIcon color={selectionBgColor || undefined} />}
-        triggerTitle="Highlight / Background color"
-        open={showColorPicker === "bg"}
-        onOpenChange={(v) => setShowColorPicker(v ? "bg" : null)}
-        onBeforeOpen={() => {
-          saveSelection();
-          setShowEmojiPicker(false);
-          setShowLinkDialog(false);
-        }}>
-        <div className={s.colorPicker}>
-          <div className={s.colorGrid}>
-            {COLORS.map((c) => (
-              <button
-                key={c}
-                className={s.colorSwatch}
-                style={{ backgroundColor: c }}
-                onClick={() => applyBgColor(c)}
-                title={c}
-              />
-            ))}
+        <Divider />
+
+        {/* Alignment (popover) */}
+        <ToolbarPopover
+          trigger={
+            <>
+              <AlignIcon />
+              <ChevronDownIcon size={9} className={showAlign ? s.toolbarChevronOpen : s.toolbarChevron} />
+            </>
+          }
+          triggerTitle="Alignment"
+          triggerActive={currentAlign !== "left"}
+          open={showAlign}
+          onOpenChange={setShowAlign}
+          onBeforeOpen={() => {
+            saveSelection();
+            setShowEmojiPicker(false);
+            setShowLinkDialog(false);
+            setShowColorPicker(null);
+          }}>
+          <div className={s.toolbarDropdownMenu} onClick={() => setShowAlign(false)}>
+            <button
+              className={s.dropdownItem}
+              onClick={() => {
+                applyAlign("left");
+                setShowAlign(false);
+              }}>
+              <div className={s.dropdownItemICON}>
+                <AlignLeftIcon />
+              </div>
+              <span>Left</span>
+            </button>
+            <button
+              className={s.dropdownItem}
+              onClick={() => {
+                applyAlign("center");
+                setShowAlign(false);
+              }}>
+              <div className={s.dropdownItemICON}>
+                <AlignCenterIcon />
+              </div>
+              <span>Center</span>
+            </button>
+            <button
+              className={s.dropdownItem}
+              onClick={() => {
+                applyAlign("right");
+                setShowAlign(false);
+              }}>
+              <div className={s.dropdownItemICON}>
+                <AlignRightIcon />
+              </div>
+              <span>Right</span>
+            </button>
+            <button
+              className={s.dropdownItem}
+              onClick={() => {
+                applyAlign("justify");
+                setShowAlign(false);
+              }}>
+              <div className={s.dropdownItemICON}>
+                <AlignJustifyIcon />
+              </div>
+              <span>Justify</span>
+            </button>
           </div>
-          <div className={s.colorPickerCustom}>
-            <input type="color" onChange={(e) => applyBgColor(e.target.value)} title="Custom color" />
-            <span>Custom</span>
+        </ToolbarPopover>
+
+        <Divider />
+
+        {/* Direction (popover) */}
+        <ToolbarPopover
+          trigger={
+            <>
+              <DirectionIcon />
+              <ChevronDownIcon size={9} className={showDirection ? s.toolbarChevronOpen : s.toolbarChevron} />
+            </>
+          }
+          triggerTitle="Direction"
+          triggerActive={currentDir === "rtl"}
+          open={showDirection}
+          onOpenChange={setShowDirection}
+          onBeforeOpen={() => {
+            saveSelection();
+            setShowEmojiPicker(false);
+            setShowLinkDialog(false);
+            setShowColorPicker(null);
+          }}>
+          <div className={s.toolbarDropdownMenu} onClick={() => setShowDirection(false)}>
+            <button
+              className={s.dropdownItem}
+              onClick={() => {
+                applyDirection("ltr");
+                setShowDirection(false);
+              }}>
+              <div className={s.dropdownItemICON}>
+                <LTRIcon />
+              </div>
+              <span>LTR</span>
+            </button>
+            <button
+              className={s.dropdownItem}
+              onClick={() => {
+                applyDirection("rtl");
+                setShowDirection(false);
+              }}>
+              <div className={s.dropdownItemICON}>
+                <RTLIcon />
+              </div>
+              <span>RTL</span>
+            </button>
           </div>
-        </div>
-      </ToolbarPopover>
+        </ToolbarPopover>
 
-      <Divider />
+        <Divider />
 
-      {/* Alignment (popover) */}
-      <ToolbarPopover
-        trigger={
-          <>
-            <AlignIcon />
-            <ChevronDownIcon size={9} className={showAlign ? s.toolbarChevronOpen : s.toolbarChevron} />
-          </>
-        }
-        triggerTitle="Alignment"
-        triggerActive={currentAlign !== "left"}
-        open={showAlign}
-        onOpenChange={setShowAlign}
-        onBeforeOpen={() => {
-          saveSelection();
-          setShowEmojiPicker(false);
-          setShowLinkDialog(false);
-          setShowColorPicker(null);
-        }}>
-        <div className={s.toolbarDropdownMenu} onClick={() => setShowAlign(false)}>
-          <button
-            className={s.dropdownItem}
-            onClick={() => {
-              applyAlign("left");
-              setShowAlign(false);
-            }}>
-            <div className={s.dropdownItemICON}>
-              <AlignLeftIcon />
-            </div>
-            <span>Left</span>
-          </button>
-          <button
-            className={s.dropdownItem}
-            onClick={() => {
-              applyAlign("center");
-              setShowAlign(false);
-            }}>
-            <div className={s.dropdownItemICON}>
-              <AlignCenterIcon />
-            </div>
-            <span>Center</span>
-          </button>
-          <button
-            className={s.dropdownItem}
-            onClick={() => {
-              applyAlign("right");
-              setShowAlign(false);
-            }}>
-            <div className={s.dropdownItemICON}>
-              <AlignRightIcon />
-            </div>
-            <span>Right</span>
-          </button>
-          <button
-            className={s.dropdownItem}
-            onClick={() => {
-              applyAlign("justify");
-              setShowAlign(false);
-            }}>
-            <div className={s.dropdownItemICON}>
-              <AlignJustifyIcon />
-            </div>
-            <span>Justify</span>
-          </button>
-        </div>
-      </ToolbarPopover>
-
-      <Divider />
-
-      {/* Direction (popover) */}
-      <ToolbarPopover
-        trigger={
-          <>
-            <DirectionIcon />
-            <ChevronDownIcon size={9} className={showDirection ? s.toolbarChevronOpen : s.toolbarChevron} />
-          </>
-        }
-        triggerTitle="Direction"
-        triggerActive={currentDir === "rtl"}
-        open={showDirection}
-        onOpenChange={setShowDirection}
-        onBeforeOpen={() => {
-          saveSelection();
-          setShowEmojiPicker(false);
-          setShowLinkDialog(false);
-          setShowColorPicker(null);
-        }}>
-        <div className={s.toolbarDropdownMenu} onClick={() => setShowDirection(false)}>
-          <button
-            className={s.dropdownItem}
-            onClick={() => {
-              applyDirection("ltr");
-              setShowDirection(false);
-            }}>
-            <div className={s.dropdownItemICON}>
-              <LTRIcon />
-            </div>
-            <span>LTR</span>
-          </button>
-          <button
-            className={s.dropdownItem}
-            onClick={() => {
-              applyDirection("rtl");
-              setShowDirection(false);
-            }}>
-            <div className={s.dropdownItemICON}>
-              <RTLIcon />
-            </div>
-            <span>RTL</span>
-          </button>
-        </div>
-      </ToolbarPopover>
-
-      <Divider />
-
-      {/* Indent (popover) */}
-      <ToolbarPopover
-        trigger={
-          <>
-            <IndentIcon />
-            <ChevronDownIcon size={9} className={showIndent ? s.toolbarChevronOpen : s.toolbarChevron} />
-          </>
-        }
-        triggerTitle="Indent"
-        triggerActive={currentIndent > 0}
-        open={showIndent}
-        onOpenChange={setShowIndent}
-        onBeforeOpen={() => {
-          saveSelection();
-          setShowEmojiPicker(false);
-          setShowLinkDialog(false);
-          setShowColorPicker(null);
-        }}>
-        <div className={s.toolbarDropdownMenu} onClick={() => setShowIndent(false)}>
-          <button
-            className={s.dropdownItem}
-            onClick={() => {
-              applyOutdent();
-              setShowIndent(false);
-            }}
-            disabled={currentIndent === 0}
-            title={currentIndent === 0 ? "No outdent available" : "Outdent"}>
-            <div className={s.dropdownItemICON}>
-              <OutdentIcon />
-            </div>
-            <span>Outdent</span>
-          </button>
-          <button
-            className={s.dropdownItem}
-            onClick={() => {
-              applyIndent();
-              setShowIndent(false);
-            }}>
-            <div className={s.dropdownItemICON}>
+        {/* Indent (popover) */}
+        <ToolbarPopover
+          trigger={
+            <>
               <IndentIcon />
-            </div>
-            <span>Indent</span>
-          </button>
-        </div>
-      </ToolbarPopover>
-
-      <Divider />
-
-      <ToolbarPopover
-        trigger={
-          <>
-            <ListTypeIcon />
-            <ChevronDownIcon size={9} className={showListType ? s.toolbarChevronOpen : s.toolbarChevron} />
-          </>
-        }
-        triggerTitle="List type"
-        triggerActive={
-          currentBlockType === "bulletList" || currentBlockType === "orderedList" || currentBlockType === "taskList"
-        }
-        open={showListType}
-        onOpenChange={setShowListType}
-        onBeforeOpen={() => {
-          saveSelection();
-          setShowEmojiPicker(false);
-          setShowLinkDialog(false);
-          setShowColorPicker(null);
-        }}>
-        <div className={s.toolbarDropdownMenu} onClick={() => setShowListType(false)}>
-          <button
-            className={s.dropdownItem}
-            onClick={() => {
-              applyListType("bulletList");
-              setShowListType(false);
-            }}>
-            <div className={s.dropdownItemICON}>
-              <BulletListIcon />
-            </div>
-            <span>Bullet list</span>
-          </button>
-          <button
-            className={s.dropdownItem}
-            onClick={() => {
-              applyListType("orderedList");
-              setShowListType(false);
-            }}>
-            <div className={s.dropdownItemICON}>
-              <OrderedListIcon />
-            </div>
-            <span>Ordered list</span>
-          </button>
-          <button
-            className={s.dropdownItem}
-            onClick={() => {
-              applyListType("taskList");
-              setShowListType(false);
-            }}>
-            <div className={s.dropdownItemICON}>
-              <TaskListIcon />
-            </div>
-            <span>Task list</span>
-          </button>
-        </div>
-      </ToolbarPopover>
-
-      <Divider />
-
-      {/* Insert blocks */}
-      <TBtn onClick={() => insertBlock("blockquote", state.activeBlockId || undefined)} title="Blockquote">
-        <QuoteIcon />
-      </TBtn>
-      <TBtn onClick={() => insertBlock("hr", state.activeBlockId || undefined)} title="Horizontal rule">
-        <HRIcon />
-      </TBtn>
-      <TBtn onClick={() => insertBlock("table", state.activeBlockId || undefined)} title="Insert table">
-        <TableIcon />
-      </TBtn>
-      <TBtn onClick={() => insertBlock("code", state.activeBlockId || undefined)} title="Code block">
-        <CodeBlockIcon />
-      </TBtn>
-
-      <Divider />
-
-      {/* Link */}
-      <ToolbarPopover
-        trigger={<LinkIcon />}
-        triggerTitle="Insert link"
-        triggerActive={hasLink}
-        open={showLinkDialog}
-        onOpenChange={setShowLinkDialog}
-        onBeforeOpen={() => {
-          saveSelection();
-          setLinkText(window.getSelection()?.toString() || "");
-          setShowEmojiPicker(false);
-          setShowColorPicker(null);
-        }}>
-        <div className={s.linkDialog}>
-          <div className={s.linkDialogTitle}>Insert Link</div>
-          <input
-            className={s.linkInput}
-            value={linkHref}
-            onChange={(e) => setLinkHref(e.target.value)}
-            placeholder="https://..."
-            type="url"
-            autoFocus
-            onKeyDown={(e) => {
-              if (e.key === "Enter") handleInsertLink();
-              if (e.key === "Escape") setShowLinkDialog(false);
-            }}
-          />
-          <input
-            className={s.linkInput}
-            value={linkText}
-            onChange={(e) => setLinkText(e.target.value)}
-            placeholder="Link text (optional)"
-            type="text"
-          />
-          <div className={s.linkDialogActions}>
-            <button className={s.linkDialogBtn} onClick={handleInsertLink} type="button">
-              Insert
+              <ChevronDownIcon size={9} className={showIndent ? s.toolbarChevronOpen : s.toolbarChevron} />
+            </>
+          }
+          triggerTitle="Indent"
+          triggerActive={currentIndent > 0}
+          open={showIndent}
+          onOpenChange={setShowIndent}
+          onBeforeOpen={() => {
+            saveSelection();
+            setShowEmojiPicker(false);
+            setShowLinkDialog(false);
+            setShowColorPicker(null);
+          }}>
+          <div className={s.toolbarDropdownMenu} onClick={() => setShowIndent(false)}>
+            <button
+              className={s.dropdownItem}
+              onClick={() => {
+                applyOutdent();
+                setShowIndent(false);
+              }}
+              disabled={currentIndent === 0}
+              title={currentIndent === 0 ? "No outdent available" : "Outdent"}>
+              <div className={s.dropdownItemICON}>
+                <OutdentIcon />
+              </div>
+              <span>Outdent</span>
             </button>
-            <button className={s.linkDialogBtnCancel} onClick={() => setShowLinkDialog(false)} type="button">
-              Cancel
+            <button
+              className={s.dropdownItem}
+              onClick={() => {
+                applyIndent();
+                setShowIndent(false);
+              }}>
+              <div className={s.dropdownItemICON}>
+                <IndentIcon />
+              </div>
+              <span>Indent</span>
             </button>
           </div>
-        </div>
-      </ToolbarPopover>
+        </ToolbarPopover>
 
+        <Divider />
+
+        <ToolbarPopover
+          trigger={
+            <>
+              <ListTypeIcon />
+              <ChevronDownIcon size={9} className={showListType ? s.toolbarChevronOpen : s.toolbarChevron} />
+            </>
+          }
+          triggerTitle="List type"
+          triggerActive={
+            currentBlockType === "bulletList" || currentBlockType === "orderedList" || currentBlockType === "taskList"
+          }
+          open={showListType}
+          onOpenChange={setShowListType}
+          onBeforeOpen={() => {
+            saveSelection();
+            setShowEmojiPicker(false);
+            setShowLinkDialog(false);
+            setShowColorPicker(null);
+          }}>
+          <div className={s.toolbarDropdownMenu} onClick={() => setShowListType(false)}>
+            <button
+              className={s.dropdownItem}
+              onClick={() => {
+                applyListType("bulletList");
+                setShowListType(false);
+              }}>
+              <div className={s.dropdownItemICON}>
+                <BulletListIcon />
+              </div>
+              <span>Bullet list</span>
+            </button>
+            <button
+              className={s.dropdownItem}
+              onClick={() => {
+                applyListType("orderedList");
+                setShowListType(false);
+              }}>
+              <div className={s.dropdownItemICON}>
+                <OrderedListIcon />
+              </div>
+              <span>Ordered list</span>
+            </button>
+            <button
+              className={s.dropdownItem}
+              onClick={() => {
+                applyListType("taskList");
+                setShowListType(false);
+              }}>
+              <div className={s.dropdownItemICON}>
+                <TaskListIcon />
+              </div>
+              <span>Task list</span>
+            </button>
+          </div>
+        </ToolbarPopover>
+
+        <Divider />
+
+        {/* Insert blocks */}
+        <TBtn onClick={() => insertBlock("blockquote", state.activeBlockId || undefined)} title="Blockquote">
+          <QuoteIcon />
+        </TBtn>
+        <TBtn onClick={() => insertBlock("hr", state.activeBlockId || undefined)} title="Horizontal rule">
+          <HRIcon />
+        </TBtn>
+        <TBtn onClick={() => insertBlock("table", state.activeBlockId || undefined)} title="Insert table">
+          <TableIcon />
+        </TBtn>
+        <TBtn onClick={() => insertBlock("code", state.activeBlockId || undefined)} title="Code block">
+          <CodeBlockIcon />
+        </TBtn>
+
+        <Divider />
+
+        {/* Link */}
+        <ToolbarPopover
+          trigger={<LinkIcon />}
+          triggerTitle="Insert link"
+          triggerActive={hasLink}
+          open={showLinkDialog}
+          onOpenChange={setShowLinkDialog}
+          onBeforeOpen={() => {
+            saveSelection();
+            setLinkText(window.getSelection()?.toString() || "");
+            setShowEmojiPicker(false);
+            setShowColorPicker(null);
+          }}>
+          <div className={s.linkDialog}>
+            <div className={s.linkDialogTitle}>Insert Link</div>
+            <input
+              className={s.linkInput}
+              value={linkHref}
+              onChange={(e) => setLinkHref(e.target.value)}
+              placeholder="https://..."
+              type="url"
+              autoFocus
+              onKeyDown={(e) => {
+                if (e.key === "Enter") handleInsertLink();
+                if (e.key === "Escape") setShowLinkDialog(false);
+              }}
+            />
+            <input
+              className={s.linkInput}
+              value={linkText}
+              onChange={(e) => setLinkText(e.target.value)}
+              placeholder="Link text (optional)"
+              type="text"
+            />
+            <div className={s.linkDialogActions}>
+              <button className={s.linkDialogBtn} onClick={handleInsertLink} type="button">
+                Insert
+              </button>
+              <button className={s.linkDialogBtnCancel} onClick={() => setShowLinkDialog(false)} type="button">
+                Cancel
+              </button>
+            </div>
+          </div>
+        </ToolbarPopover>
+      </div>
       {/* Emoji */}
       {/* <ToolbarPopover
         trigger={<EmojiIcon />}

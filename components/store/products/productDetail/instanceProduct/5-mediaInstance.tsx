@@ -8,6 +8,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
+import type { Modifier } from "@dnd-kit/core";
 import {
   arrayMove,
   horizontalListSortingStrategy,
@@ -29,6 +30,11 @@ import ProgressBar from "brancy/components/design/progressBar/progressBar";
 import { MediaType } from "brancy/models/enums";
 import { IMediaInstanceInfo, ISuggestedMedia } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
+
+const restrictToHorizontalAxis: Modifier = ({ transform }) => ({
+  ...transform,
+  y: 0,
+});
 
 // Sortable item component
 function SortableItem({
@@ -221,7 +227,11 @@ export default function MediaInstance({
 
   // Set up dnd-kit sensors
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
@@ -500,7 +510,11 @@ export default function MediaInstance({
           <div className="title">{t(LanguageKey.product_mediatitle)}</div>
 
           {/* dnd-kit implementation */}
-          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            modifiers={[restrictToHorizontalAxis]}
+            onDragEnd={handleDragEnd}>
             <div className={styles.medialist}>
               <div className={styles.thumbnailmedia}>
                 <img

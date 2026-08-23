@@ -8,6 +8,8 @@
 
 # TODO
 
+- Add component coverage confirming product-detail setting inputs render gram, CM, and envelope quantity labels through the shared `InputBox.unit` slot in both instance and non-instance editors when a UI test harness is introduced.
+
 - Add reviewed, visible multilingual FAQ content and FAQPage schema to the public FAQ route; do not generate structured data for hidden or fallback-only answers.
 - Replace English fallback topic copy for `ar`, `fr`, `ru`, `tr`, `gr`, and `az` with native-reviewed translations, then validate each route's language, intent, and FAQ schema in Search Console.
 - Run Lighthouse/PageSpeed and real-user Core Web Vitals measurement on localized landing and resource routes; run Playwright user-flow tests for CTA, sign-in, keyboard, mobile, RTL, and reduced-motion behavior.
@@ -41,6 +43,7 @@
 - # Add component coverage confirming lottery Terms & Conditions output files passed to `saveTermsAndCondition` use `1080x1920` canvases when a UI test harness is introduced.
 - Add component coverage for decimal bulk-product amount entry, localized unit display, independent amount/percentage values, inactive-editor `fadeDiv`/disabled states, and radio switching when a UI test harness is introduced.
 - Add browser coverage for individual bulk-product slider touch/pointer dragging, RTL direction, responsive card widths, and preserving focused editor state when a UI test harness is introduced.
+- Add browser coverage for product-detail media horizontal-only sorting in instance and non-instance editors, including vertical movement rejection, keyboard sorting, pointer activation distance, RTL, and mobile overflow when a UI test harness is introduced.
 
   > > > > > > > sepehr
 

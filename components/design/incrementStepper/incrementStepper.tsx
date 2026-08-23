@@ -118,10 +118,14 @@ const IncrementStepper = ({
   const valueLabel = ariaLabel ?? "Value";
   const inputId = valueId ? `${valueId}-input` : undefined;
 
+  const formatNumber = (value: number) =>
+    Number.isFinite(value) ? value.toLocaleString("en-US", { maximumFractionDigits: 0 }) : "0";
+
   const commitDraftValue = () => {
     if (draftValue === null) return;
 
-    const parsedValue = Number(draftValue);
+    const normalizedDraft = draftValue.replace(/,/g, "");
+    const parsedValue = Number(normalizedDraft);
     if (!Number.isInteger(parsedValue)) {
       triggerShake();
       setDraftValue(null);
@@ -134,7 +138,7 @@ const IncrementStepper = ({
   };
 
   const handleValueChange = (event: ChangeEvent<HTMLInputElement>) => {
-    const nextValue = event.target.value;
+    const nextValue = event.target.value.replace(/,/g, "");
     if (/^\d*$/.test(nextValue)) setDraftValue(nextValue);
   };
 
@@ -171,7 +175,7 @@ const IncrementStepper = ({
         type="text"
         inputMode="numeric"
         pattern="[0-9]*"
-        value={draftValue ?? data}
+        value={draftValue !== null ? draftValue.replace(/\B(?=(\d{3})+(?!\d))/g, ",") : formatNumber(data)}
         onChange={handleValueChange}
         onBlur={commitDraftValue}
         onKeyDown={handleValueKeyDown}

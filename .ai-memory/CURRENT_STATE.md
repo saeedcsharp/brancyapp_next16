@@ -22,6 +22,8 @@ The bulk product popup keeps each value-unit radio beside its corresponding edit
 
 Bulk product amount editors now use the shared decimal-aware `InputBox`; in-progress decimal drafts remain strings until calculation, amount values are stored separately from percentage stepper values, and inactive editors are disabled with the shared `fadeDiv` treatment.
 Bulk product amount inputs now display the product currency through the shared `InputBox` unit slot, using the shared `specifyPriceType` renderer.
+Product setting inputs in both instance and non-instance product-detail editors now use the shared `InputBox.unit` slot for gram, CM, and envelope quantity labels instead of local `subinput` wrappers.
+Product-detail media reordering is constrained to the horizontal axis in both instance and non-instance editors through a dnd-kit modifier; pointer sorting uses an 8px activation distance so regular thumbnail clicks remain separate from drag gestures.
 The desktop product list now keeps its table header inside the scrollable list, where it stays sticky above the rows; the header and desktop product rows share a fixed six-column grid with a flexible product-details column and dedicated PID, stock, price, last-modified, and status widths.
 
 The repository is a single Next.js 16 application using React 19, TypeScript strict mode, Sass, CSS modules, NextAuth, next-pwa, and a mixed App Router plus legacy-page bridge. App routes in `app/` commonly import pages from `legacy-pages/` while shared components live in `components/`.

@@ -1,3 +1,7 @@
+- Updated instance and non-instance product setting inputs to use the shared `InputBox.unit` slot for gram, CM, and envelope quantity labels, removing duplicate local unit wrappers and spacing styles.
+- Constrained product-detail media reordering to the horizontal axis in both instance and non-instance editors with a dnd-kit modifier, and added an 8px pointer activation distance to separate drag gestures from thumbnail clicks.
+- Converted store product-detail `variationsetting` layouts to responsive CSS grid: four equal columns on wide screens, two columns on medium screens, and one column on narrow screens.
+- Updated store product-detail variation price inputs (instance and non-instance) to display the server-provided `PriceType` currency symbol in the shared `InputBox` unit slot via `specifyPriceType`.
 - Auto-reply AI and Flow selectors now show their Create Automation actions whenever no prompt or flow is selected, even when the selector lists available options.
 - Standardized the desktop store product list as a synchronized six-column grid. Its header now belongs to the scrollable list and remains sticky above product rows, with dedicated widths for PID, stock, price, last modified, and status columns.
 - Media auto-reply AI and Flow selectors now use the same unselected-state create-action behavior.

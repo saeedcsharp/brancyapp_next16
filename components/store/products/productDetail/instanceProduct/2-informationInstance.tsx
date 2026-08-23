@@ -133,7 +133,7 @@ export default function InformationInstance({
             </div>
             <div className="counter" role="status" aria-label="description character count">
               <div className={styles.icon}>T</div>(
-              <strong>{description ? description.replace(/<[^>]*>?/gm, "").length : 0}</strong> /<strong>1500</strong>)
+              <strong>{description ? description.replace(/<[^>]*>?/gm, "").length : 0}</strong> /<strong>2500</strong>)
             </div>
           </div>
           <TextEditor
@@ -149,7 +149,7 @@ export default function InformationInstance({
               },
             }}
           />
-          <div className="headerandinput" style={{ marginTop: "10px" }}>
+          {/* <div className="headerandinput" style={{ marginTop: "10px" }}>
             <div className="title">{t(LanguageKey.product_addtable)}</div>
             <div className="ButtonContainer" style={{ justifyContent: "start" }}>
               <button style={{ maxWidth: "380px" }} onClick={() => setShowTableModal(true)} className="saveButton">
@@ -176,7 +176,7 @@ export default function InformationInstance({
                 />
               )}
             </div>
-          </div>
+          </div> */}
         </div>
       </div>
 
