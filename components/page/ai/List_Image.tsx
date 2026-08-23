@@ -1,28 +1,16 @@
+import DotLoaders from "brancy/components/design/loader/dotLoaders";
 import RingLoader from "brancy/components/design/loader/ringLoder";
+import Loading from "brancy/components/notOk/loading";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
-import initialzedTime from "brancy/helper/manageTimer";
-import { DateObject } from "react-multi-date-picker";
-import styles from "./List.module.css";
 import { IGetMedia, PendingGeneration } from "brancy/models/interfaces";
 import { useTranslation } from "react-i18next";
-import Loading from "brancy/components/notOk/loading";
-import DotLoaders from "brancy/components/design/loader/dotLoaders";
-import { parseImageMetadata } from "./GeneratedImageModal";
-function formatCreatedTime(timestamp: number) {
-  const t = initialzedTime();
-  const d = new DateObject({
-    date: timestamp * 1000,
-    calendar: t.calendar,
-    locale: t.locale,
-  });
-  return d.format("YYYY/MM/DD HH:mm:ss");
-}
+import { parseImageMetadata } from "./generatedImageModal";
+import styles from "./List.module.css";
 type ImageListProps = {
   images: IGetMedia[];
   loading: boolean;
   isLoadingMore: boolean;
   setSelectedImage: (image: IGetMedia) => void;
-  openImageCreator: () => void;
   pendingGenerations: PendingGeneration[];
 };
 export default function ImageList({
@@ -30,20 +18,12 @@ export default function ImageList({
   loading,
   isLoadingMore,
   setSelectedImage,
-  openImageCreator,
   pendingGenerations,
 }: ImageListProps) {
   const { t } = useTranslation();
   const pendingImages = pendingGenerations.filter((item) => item.mediaType === "image");
   return (
     <section aria-label={t("Generated images")}>
-      {/* <div className={styles.libraryHeading}>
-        <div>
-          <h2>{t("Image library")}</h2>
-          <p>{t("{count} creations loaded", { count: images.length })}</p>
-        </div>
-      </div> */}
-
       {loading ? (
         <div className={styles.loadingContainer}>
           {" "}
@@ -63,7 +43,6 @@ export default function ImageList({
                 <div className={styles.imageMetaLine}>
                   <span className={styles.creatorKey}>{t("In progress")}</span>
                   <span className={styles.version}>{t("Waiting for the result")}</span>
-                  {/* <time>{formatCreatedTime(image.createdTime)}</time> */}
                 </div>
               </div>
             </article>
@@ -84,19 +63,7 @@ export default function ImageList({
                   <div className={styles.imageMetaLine}>
                     <span className={styles.creatorKey}>{image.creatorKey}</span>
                     <span className={styles.version}>{image.version}</span>
-                    {/* <time>{formatCreatedTime(image.createdTime)}</time> */}
                   </div>
-
-                  {/* {metadata?.length ? (
-                    <dl className={styles.cardMetadata}>
-                      {metadata.slice(0, 3).map((item) => (
-                        <div key={item.key}>
-                          <dt>{item.label}</dt>
-                          <dd>{item.value}</dd>
-                        </div>
-                      ))}
-                    </dl>
-                  ) : null} */}
                 </div>
               </article>
             );
