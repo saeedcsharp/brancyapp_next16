@@ -30,6 +30,8 @@ Data enters through props, Next route params, session state, browser state, or b
 
 The `IngageInfo` profile tile renders its `status` area from an ordered status map. Active entries are sorted by an explicit priority where `1` is highest and `10` is lowest: the 24-hour first-login synchronization notice, the subscription warning when `packageExpireTime` has fewer than seven days remaining, shopper, influencer, and finally the role-upgrade prompt. The warning also displays the rounded-up number of remaining subscription days. When multiple entries are active, the tile displays manual previous/next slideshow controls and resets to the highest-priority entry whenever the active set changes. The first-login timestamp is retained in the existing `first-login-date` localStorage key and the synchronization state exposes a live countdown and progress bar.
 
+The PageDetail demographic section titles display the localized `home_Last30Days` label in parentheses, indicating that gender, age, and location insights cover the last 30 days.
+
 ## Dependencies
 
 See imports in related files and dependency docs.

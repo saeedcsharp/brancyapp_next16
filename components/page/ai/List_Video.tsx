@@ -1,13 +1,13 @@
+import DotLoaders from "brancy/components/design/loader/dotLoaders";
 import RingLoader from "brancy/components/design/loader/ringLoder";
+import Loading from "brancy/components/notOk/loading";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import initialzedTime from "brancy/helper/manageTimer";
-import { DateObject } from "react-multi-date-picker";
-import { useTranslation } from "react-i18next";
-import styles from "./List.module.css";
 import { IGetMedia, PendingGeneration } from "brancy/models/interfaces";
-import Loading from "brancy/components/notOk/loading";
-import DotLoaders from "brancy/components/design/loader/dotLoaders";
+import { useTranslation } from "react-i18next";
+import { DateObject } from "react-multi-date-picker";
 import { parseImageMetadata } from "./generatedImageModal";
+import styles from "./List.module.css";
 
 function formatCreatedTime(timestamp: number) {
   const t = initialzedTime();
@@ -24,7 +24,6 @@ type VideoListProps = {
   loading: boolean;
   isLoadingMore: boolean;
   setSelectedVideo: (video: IGetMedia) => void;
-  openVideoCreator: () => void;
   pendingGenerations: PendingGeneration[];
 };
 
@@ -35,7 +34,6 @@ export default function VideoList({
   loading,
   isLoadingMore,
   setSelectedVideo,
-  openVideoCreator,
   pendingGenerations,
 }: VideoListProps) {
   const { t } = useTranslation();

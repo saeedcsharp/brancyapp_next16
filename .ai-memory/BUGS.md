@@ -4,7 +4,9 @@
 
 The global browser-compatibility layout issues reported on 2026-08-04 were reduced by standardizing root scrollbars, reserving scrollbar space, replacing vulnerable viewport sizing in shared landing modals, and removing unsupported landing-header anchor positioning. Remaining feature-level overflow rules require browser visual regression coverage before they can be safely migrated in bulk.
 
-No confirmed runtime bugs remain from the chart navigation issue addressed on 2026-07-20 or the AI-route navbar/sidebar logo issues addressed on 2026-07-25.
+Product-detail media drag reordering was fixed on 2026-08-23 in both product editors by applying a dnd-kit horizontal-axis modifier and an 8px pointer activation distance; vertical pointer movement no longer changes sortable transforms.
+
+No confirmed runtime bugs remain from the chart navigation issue addressed on 2026-07-20 or the AI-route navbar/sidebar logo issues addressed on 2026-07-25. The market mobile navbar logo mismatch was fixed on 2026-08-22 by aligning route enum values with the actual App Router paths.
 
 The shared Tooltip ancestor-clipping issue was fixed on 2026-07-28 by rendering tooltip content through `document.body` and tracking the trigger's viewport position.
 
@@ -22,11 +24,18 @@ The main subscription remaining-time display was fixed on 2026-08-17 by calculat
 
 The AI-flow sender-username mention was fixed on 2026-08-17 so it inserts `[SENDER_USERNAME]` into the manual prompt instead of being added as a selected tool, cannot inherit another tool's selected state, and is disabled in prompt-analysis mode.
 
+<<<<<<< HEAD
 The direct inbox pagination stop bug was fixed on 2026-08-21. The general and business `fetchMore` callbacks now return the threads fetched from `/api/message/GetDirectInbox` instead of returning an empty array, which previously caused `useInfiniteScroll` to mark the cursor exhausted immediately. The inbox cursor is documented as nullable because the backend returns `null` for the final page.
 
 The direct inbox terminal-page render crash was fixed on 2026-08-21. Threads returned with an empty `items` array no longer cause `sentByOwner`, `text`, or `createdTime` access on an undefined first item.
 
-The comment inbox pagination stop bug was fixed on 2026-08-21. Post and Story `fetchMore` callbacks now return the media fetched from `/api/Comment/GetInbox` instead of returning an empty array, and `ICommetInbox.oldestCursor` is nullable for the final page. Story page appends also ignore duplicate media IDs.
+The direct inbox category-request crash was fixed on 2026-08-22. Failed initial or pagination requests no longer rethrow `inboxError` during render, so a 500 from one category does not replace the entire inbox with the global error page.
+
+# The comment inbox pagination stop bug was fixed on 2026-08-21. Post and Story `fetchMore` callbacks now return the media fetched from `/api/Comment/GetInbox` instead of returning an empty array, and `ICommetInbox.oldestCursor` is nullable for the final page. Story page appends also ignore duplicate media IDs.
+
+The AI-flow connection lag and misalignment during zoom was fixed on 2026-08-21 by refreshing measured Socket positions in `useLayoutEffect` after the canvas transform commits and removing delayed zoom refresh timers.
+
+> > > > > > > sepehr
 
 ## Watchlist
 

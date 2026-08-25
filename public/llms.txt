@@ -1,0 +1,30 @@
+# Brancy
+
+> Brancy is a web platform for businesses that manage Instagram-centered content, messaging, marketing, analytics, shops, and customer workflows.
+
+## Public resources
+
+- [Brancy homepage](https://www.brancy.app/): Main public landing page.
+- [Instagram management software](https://www.brancy.app/en/resources/management): Managing Instagram content, conversations, and customer workflows.
+- [Instagram automation](https://www.brancy.app/en/resources/automation): Repeatable reply and message workflows with human review.
+- [Instagram analytics](https://www.brancy.app/en/resources/analytics): Audience and content performance workflows.
+- [Instagram marketing](https://www.brancy.app/en/resources/marketing): Connected marketing, content, communication, and commerce workflows.
+- [AI Instagram assistant](https://www.brancy.app/en/resources/ai): AI-supported content and communication workflows.
+- [Brancy FAQ](https://www.brancy.app/Accessibility/FAQ): Public questions and answers.
+- [About Brancy](https://www.brancy.app/Accessibility/About-Us): Public company information.
+- [Contact Brancy](https://www.brancy.app/Accessibility/Contact-Us): Public contact information.
+
+## Supported language routes
+
+- https://www.brancy.app/en
+- https://www.brancy.app/fa
+- https://www.brancy.app/ar
+- https://www.brancy.app/fr
+- https://www.brancy.app/ru
+- https://www.brancy.app/tr
+- https://www.brancy.app/gr
+- https://www.brancy.app/az
+
+## Usage note
+
+Use public pages as the source of truth. Do not infer private dashboard data, customer data, pricing, quotas, or backend capabilities from this file.

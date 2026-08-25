@@ -4,10 +4,35 @@ import "brancy/components/page/statistics/sliderToFourBox.css";
 import "brancy/app/globals.scss";
 import Providers from "brancy/app/providers";
 import { ThemeScript } from "brancy/components/themeScript";
+import LocalBusinessJsonLd from "brancy/components/website/LocalBusinessJsonLd";
 
 export const metadata: Metadata = {
-  title: "Brancy",
-  description: "Brancy application",
+  metadataBase: new URL("https://www.brancy.app"),
+  title: {
+    default: "Brancy | Instagram Management and Marketing Platform",
+    template: "%s | Brancy",
+  },
+  description:
+    "Brancy helps businesses manage Instagram content, messaging, advertising, shops, analytics, and customer workflows in one platform.",
+  applicationName: "Brancy",
+  generator: "Next.js",
+  openGraph: {
+    type: "website",
+    siteName: "Brancy",
+    title: "Brancy | Instagram Management and Marketing Platform",
+    description:
+      "Manage Instagram content, messaging, advertising, shops, analytics, and customer workflows with Brancy.",
+    url: "https://www.brancy.app/",
+    images: [{ url: "/icons/icon-512x512.png", alt: "Brancy" }],
+  },
+  twitter: {
+    card: "summary",
+    title: "Brancy | Instagram Management and Marketing Platform",
+    description:
+      "Manage Instagram content, messaging, advertising, shops, analytics, and customer workflows with Brancy.",
+    images: ["/icons/icon-512x512.png"],
+  },
+  icons: { icon: "/favicon.ico", apple: "/icons/icon-152x152.png" },
 };
 
 export const viewport: Viewport = {
@@ -54,6 +79,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <link rel="apple-touch-icon" href="/icons/icon-152x152.png" />
       </head>
       <body>
+        <LocalBusinessJsonLd />
         <ThemeScript />
         <GoogleTagManager gtmId="GTM-PLFD6SZ4" />
         <GoogleAnalytics gaId="G-BSQ8WGVTN1" />

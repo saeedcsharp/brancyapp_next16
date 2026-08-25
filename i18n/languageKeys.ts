@@ -228,6 +228,7 @@ export enum LanguageKey {
   CreateAutomationFlowExplain = "CreateAutomationFlowExplain",
   CreateAutomationAI = "CreateAutomationAI",
   CreateAutomationAIExplain = "CreateAutomationAIExplain",
+  ConnectProduct = "ConnectProduct",
   flowProperties_notworking_privateReply = "flowProperties_notworking_privateReply",
   //0️⃣ General -> sidebar
   sidebar_Home = "sidebar_Home",
@@ -284,6 +285,7 @@ export enum LanguageKey {
   home_FollowRequest = "home_FollowRequest",
   home_UnreadNewComments = "home_UnreadNewComments",
   home_Last24H = "home_Last24H",
+  home_Last30Days = "home_Last30Days",
   home_LastLikes = "home_LastLikes",
   home_LastPost = "home_LastPost",
   home_Followings = "home_Followings",
@@ -3104,4 +3106,5 @@ export enum LanguageKey {
   papageTools_Lottery = "papageTools_Lottery",
   Notify_InvalidBankCardNotify_InvalidBankCardNumber = "Notify_InvalidBankCardNotify_InvalidBankCardNumber",
   analyticsDesc = "analyticsDesc",
+  AudienceTooltip = "AudienceTooltip",
 }

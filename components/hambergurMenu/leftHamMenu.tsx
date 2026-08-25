@@ -164,7 +164,7 @@ const menuItems = [
       </svg>
     ),
     textKey: LanguageKey.sidebar_biolink,
-    activeRoutes: ["biolinkHome", "marketmylink", "biolinkStatistics", "biolinkProperties"],
+    activeRoutes: ["market", "marketmylink", "marketstatistics", "marketproperties"],
   },
   {
     href: "/advertise",

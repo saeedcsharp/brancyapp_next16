@@ -2,6 +2,18 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+Phase-one SEO foundations are implemented: the homepage uses the site-root canonical URL, `app/[locale]/page.tsx` exposes static landing routes for all eight supported locales, and `app/robots.ts` plus `app/sitemap.ts` publish crawl rules and stable public URLs. Each localized landing route has its own canonical, hreflang set, Open Graph metadata, and localized title/description. Authenticated, session-dependent, API, development, payment, and other private routes are excluded from the crawl policy; `/feature` remains intentionally noindex and is excluded from the sitemap. Production verification is still pending in Google Search Console and Bing Webmaster. The current full type-check remains blocked by a pre-existing AI filename-casing error.
+
+Keyword and backlink quality work is documented as an external measurement baseline: locale, intent, topic cluster, target URL, semantic coverage, cannibalization, authority, topical relevance, referring-domain diversity, anchor distribution, editorial placement, and toxic-link risk must be measured before acquisition claims are made.
+
+Phase two adds root and localized Open Graph/Twitter metadata, app icons, `x-default` hreflang, and source-backed JSON-LD for Organization, WebSite, and SoftwareApplication on localized landing routes. FAQ schema, pillar pages, keyword metrics, and backlink acquisition remain pending until reviewed content and external search/link data are available.
+
+Phases three and four add five public topic resource pages across all eight locale URL spaces (40 static URLs), with visible topic introductions, semantic benefits, FAQ answers, FAQPage JSON-LD, breadcrumbs, related-topic internal links, and landing CTAs. The landing hero now preloads only its primary image, uses a keyboard-accessible mobile sign-in button, and removes persistent GPU `will-change` hints. Arabic, French, Russian, Turkish, German-locale, and Azerbaijani topic copy currently uses the reviewed English fallback and must receive native review before being treated as fully localized content.
+
+Phase five adds active public Footer links for solutions, legal, support, FAQ, updates, articles, and follow-up resources, plus a public `llms.txt` containing source-backed URLs and a no-private-data usage note. Local Business structured data, Google Business, Bing Places, and `sameAs` links remain intentionally pending until the business supplies a verified public address/phone policy and official social/profile URLs.
+
+The Iranian/local Footer branch now publishes source-backed LocalBusiness JSON-LD using the existing Isfahan address and phone, exposes the phone as a `tel:` link, and the Articles route is included in the public sitemap. Google Business and Bing Places listing creation/verification still require account ownership and cannot be completed from repository code alone.
+
 ## Current Architecture
 
 The former icon-specific toggle control has been removed. Toggle tabs now use the shared `components/design/toggleButton/ToggleButton.tsx` control across wallet, event ideas, follower analysis, and the system-design showcase.
@@ -10,12 +22,19 @@ The bulk product popup keeps each value-unit radio beside its corresponding edit
 
 Bulk product amount editors now use the shared decimal-aware `InputBox`; in-progress decimal drafts remain strings until calculation, amount values are stored separately from percentage stepper values, and inactive editors are disabled with the shared `fadeDiv` treatment.
 Bulk product amount inputs now display the product currency through the shared `InputBox` unit slot, using the shared `specifyPriceType` renderer.
+Product setting inputs in both instance and non-instance product-detail editors now use the shared `InputBox.unit` slot for gram, CM, and envelope quantity labels instead of local `subinput` wrappers.
+Product-detail media reordering is constrained to the horizontal axis in both instance and non-instance editors through a dnd-kit modifier; pointer sorting uses an 8px activation distance so regular thumbnail clicks remain separate from drag gestures.
+The desktop product list now keeps its table header inside the scrollable list, where it stays sticky above the rows; the header and desktop product rows share a fixed six-column grid with a flexible product-details column and dedicated PID, stock, price, last-modified, and status widths.
 
 The repository is a single Next.js 16 application using React 19, TypeScript strict mode, Sass, CSS modules, NextAuth, next-pwa, and a mixed App Router plus legacy-page bridge. App routes in `app/` commonly import pages from `legacy-pages/` while shared components live in `components/`.
 
-The global App Router error boundary displays the received error message. DirectInbox sends failed initial inbox requests and pagination/API failures to that boundary with the HTTP status and backend reason when available.
+The global App Router error boundary displays the received error message. DirectInbox keeps failed initial inbox requests and pagination/API failures local to the inbox, preserving the HTTP status and backend reason in notifications without crashing the whole route.
 
 ## Active Features
+
+- General and media auto-reply AI and Flow selectors show their localized create-automation actions while no prompt or flow is selected, including when selectable DragDrop options are available.
+
+- AI Flow connection paths refresh synchronously after canvas zoom and pan transforms commit, keeping SVG lines aligned with Socket DOM positions.
 
 - Public landing and pricing flow.
 - NextAuth credential, Google OAuth, and direct-token authentication flows.
@@ -69,6 +88,8 @@ AI prompt tool options now select each tool's localized `displayName*` field fro
 AI tools without parameters now display an enabled `addTools` action and are added with an empty parameter list.
 Prompt Analysis in the AI flow is always selectable. `FlowAndAIInBox` owns the shared confirmation modal and controlled textarea; text must exceed 20 characters before Accept updates the child prompt and calls `GetPromptAnalysis`, while Close leaves the existing prompt unchanged.
 Prompt Analysis now checks `/api/ai/HasPageAnalysis` before opening. The shared modal opens only when the page analysis exists; otherwise the localized `InternalNotify_PageAnalysisNotCompleted` warning is shown.
+Creating a new automation flow now opens a settings modal before mounting the editor. Continue validates the title, carries follower, snap-grid, and panning-boundary settings into the new editor, and can import a JSON editor state before editing begins.
+After Continue, the new flow appears in the flow list as a local Draft record. Manual Save creates the backend flow, replaces the draft list item with the returned flow, and enables the normal saved-flow state.
 The sender-username mention is excluded from selected AI tools and inserts `[SENDER_USERNAME]` directly into the prompt textbox in manual mode; it is visible but disabled in prompt-analysis mode.
 Selected AI tools are highlighted directly in the existing clickable tool-options row below the prompt editor in both manual and analysis modes. Their plus icon becomes an accessible remove button, and no separate selected-tool list is rendered.
 
@@ -82,7 +103,19 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 
 ## Recent Changes
 
+<<<<<<< HEAD
+
+- Fixed the Instagramer hamburger menu BioLink active state by using the actual slash-free market route values, so Home, Statistics, MyLink, and Properties all select the BioLink logo.
+
+- # Fixed Instagramer mobile navbar market-route detection by aligning the BioLink enum values with the actual slash-free `/market`, `/market/statistics`, `/market/mylink`, and `/market/properties` paths, so all market views display the BioLink logo.
+- AI Flow web-link inputs now apply the shared `InputBox` danger status after invalid non-empty URLs and replay the shake animation once per invalid blur; editing the URL clears the error state.
+- AI Flow web-link validation now requires HTTP(S) hostnames to end with a non-empty dot suffix such as `.com` or `.ir`, while allowing any suffix value.
+
+  > > > > > > > sepehr
+
 - The `/page/tools` `hashtagManager` now owns the card collapse interaction. Activating its shared header hides the manager content and reduces the masonry row span from `82` to `10`; Enter and Space provide the same keyboard behavior.
+
+- Home PageDetail demographic titles now show a localized `(Last 30 Days)`-equivalent label for gender, age, and location sections across all eight supported locales.
 
 - Unified the `/page/tools` saved-hashtag and trend/search-hashtag cards into one `hashtagManager` card with the shared `ToggleButton`; only the selected hashtag view mounts, while existing hashtag callbacks and data behavior remain unchanged.
 
@@ -91,6 +124,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - Fixed the main subscription remaining-time calculation so expired subscriptions display `0 days` instead of the expiry timestamp interpreted as a duration.
 
 - The Instagram account switcher now highlights the account selected by `session.user.currentIndex` with a blue-tinted border/background treatment and exposes the selection through `aria-pressed`.
+- The account switcher's Instagram redirect now uses full browser navigation with a runtime host check, preventing external redirect URLs from reopening the current site.
 - The upgrade page now skips its session-dependent package-data reload when account switching starts, preventing duplicate `GetPackageFeatureDetails`, `GetReserveFeaturePrices`, and `GetPackagePrices` requests before navigation.
 
 - Fixed the Meta direct-login loading-screen hydration mismatch by keeping its initial phrase order deterministic across server and client rendering, then shuffling after mount.
@@ -179,7 +213,8 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - IncrementStepper values can now be manually edited: digit-only drafts commit on Enter or blur through `onValueChange`, are clamped by optional `min`/`max` props, and Escape restores the current value. All existing consumers provide a compatible callback with their own active quantity limits.
 - Standardized the shared CheckBoxButton while preserving its existing import path and controlled API. The native input remains keyboard-focusable through visual hiding, native accessibility attributes are accepted, `className` and `title` now work, touch targets are at least 44px, and the visual indicator supports focus, disabled, reduced-motion, and forced-colors states.
 - Standardized the shared TextArea around native textarea props while retaining legacy prop aliases for existing consumers. It now applies RTL/LTR direction reliably, supports bounded auto-resize without timer races, uses responsive focus/forced-colors/reduced-motion styles, and enforces a 16px minimum font size to prevent mobile focus zoom.
-- Standardized the shared DotMenu with native button/menu semantics, keyboard navigation, focus restoration, escape and outside-pointer close behavior, responsive touch targets and viewport bounds, RTL-aware placement, body-level portal rendering with fixed viewport coordinates, and reduced-motion and forced-colors support. The legacy DotMenu props remain compatible while standard `options`, `onOptionSelect`, and `placement` props are available.
+- Standardized the shared DotMenu with native button/menu semantics, keyboard navigation, focus restoration, escape and outside-pointer close behavior, responsive touch targets and viewport bounds, RTL-aware `placement`, body-level portal rendering with fixed viewport coordinates, and reduced-motion and forced-colors support. `placement` is now the single menu-position prop; data/action compatibility props and standard `options`/`onOptionSelect` remain available.
+- DotMenu trigger clicks stop propagation, so opening a menu inside a clickable post or card does not trigger the parent navigation action.
 - Removed unused MyLink product visibility state, root key, legacy markup styles, and obsolete search/coupon CSS while retaining the active carousel and card styles.
 - Added a static MyLink Products coupon presentation with placeholder countdown values, code `BRANCY20`, and an accessible Clipboard API copy action with temporary confirmation; backend promotion data is still pending.
 - Converted the MyLink product cards into a free horizontal carousel with native touch scrolling, mouse/pointer dragging, no wrapping or scroll snap, and drag-click protection for product links.

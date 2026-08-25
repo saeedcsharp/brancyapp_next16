@@ -592,11 +592,7 @@ function General({
                 <div className="headerandinput" style={{ maxWidth: "150px", minWidth: "100px" }}>
                   <div className="headertext">{t(LanguageKey.product_ProductID)} (PID) </div>
                   <InputBox
-                    style={{
-                      cursor: "no-drop",
-                      backgroundColor: "var(--color-disable)",
-                      pointerEvents: "none",
-                    }}
+                    disabled
                     name=""
                     className="textinputbox"
                     placeHolder="Product id"

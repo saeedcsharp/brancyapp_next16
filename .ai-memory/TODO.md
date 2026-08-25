@@ -1,4 +1,5 @@
 - Add component/browser coverage confirming the Instagram account switcher highlights only `session.user.currentIndex`, updates after switching, and preserves keyboard activation when a UI test harness is introduced.
+- Add component/browser coverage for the Add Account and NotLogin Instagram connection IP checks, including the localized Iranian-IP modal in the layout and Upgrade page, ten-second Continue/timeout redirect, redirect behavior for other countries, and redirect fallback when the IP lookup fails.
 
 - Add component coverage confirming advertise and customer-ad business-hour views translate all seven `findDayName` results in each supported locale when a UI test harness is introduced.
 
@@ -7,15 +8,42 @@
 
 # TODO
 
+- Add component coverage confirming product-detail setting inputs render gram, CM, and envelope quantity labels through the shared `InputBox.unit` slot in both instance and non-instance editors when a UI test harness is introduced.
+
+- Add reviewed, visible multilingual FAQ content and FAQPage schema to the public FAQ route; do not generate structured data for hidden or fallback-only answers.
+- Replace English fallback topic copy for `ar`, `fr`, `ru`, `tr`, `gr`, and `az` with native-reviewed translations, then validate each route's language, intent, and FAQ schema in Search Console.
+- Run Lighthouse/PageSpeed and real-user Core Web Vitals measurement on localized landing and resource routes; run Playwright user-flow tests for CTA, sign-in, keyboard, mobile, RTL, and reduced-motion behavior.
+- Provide verified public business identity data and official profile URLs, then create/verify Google Business Profile and Bing Places listings, add NAP-consistent LocalBusiness schema, and add only confirmed profiles to `sameAs`.
+
+- Build and maintain the external eight-language keyword map with primary/secondary terms, intent, topic cluster, target URL, difficulty, volume, CTR potential, cannibalization review, and PSEO priority.
+- Audit backlink quality by locale: topical relevance, authority, referring-domain diversity, anchor distribution, editorial context, dofollow/nofollow balance, unlinked mentions, competitor gaps, broken links, velocity, and toxic-link risk.
+
+- Verify the production `robots.txt` and `sitemap.xml` in Google Search Console and Bing Webmaster after deployment; add reviewed hreflang and public marketing routes when their canonical localized URL strategy is finalized.
+
+- Add browser coverage for the `/dev/systemDesign` helper reference, including complete helper-card coverage, safe live-example output, RTL/mobile layout, and confirmation that environment-dependent helpers are not invoked.
+
+<<<<<<< HEAD
+
+- Add component/browser coverage confirming all Instagramer market routes select the BioLink mobile navbar logo when a UI test harness is introduced.
+
 - Add component coverage for direct inbox general/business cursor pagination, including a non-null `nextMaxId`, fetched-page append, duplicate-page handling, and terminal `null` cursor behavior when a UI test harness is introduced.
 
-- Add component coverage for comment inbox Post/Story cursor pagination, including non-null `oldestCursor`, media append, duplicate-page handling, and terminal `null` cursor behavior when a UI test harness is introduced.
+- # Add component coverage for comment inbox Post/Story cursor pagination, including non-null `oldestCursor`, media append, duplicate-page handling, and terminal `null` cursor behavior when a UI test harness is introduced.
+- Add component coverage confirming the auto-reply AI and Flow Create Automation actions appear with populated unselected DragDrop lists and remain hidden after selecting or retaining an existing prompt/flow when a UI test harness is introduced.
+- Extend the auto-reply Create Automation action coverage to `EditAutoReplyForMedia` and its retained media prompt/flow state when a UI test harness is introduced.
+
+- Add browser coverage for AI Flow zooming and panning, confirming SVG connection paths remain aligned with Socket DOM positions across wheel zoom, toolbar zoom, reset, RTL, and mobile viewports when a UI test harness is introduced.
+
+- Add component/browser coverage for the new-flow settings modal, including title validation, Continue/cancel behavior, setting propagation, JSON import validation, RTL labels, and mobile overflow when a UI test harness is introduced.
+- Add component/browser coverage for new-flow Draft list insertion, initial Save availability, draft replacement after a successful API save, and draft retention after a failed save when a UI test harness is introduced.
+  > > > > > > > sepehr
 
 <<<<<<< HEAD
 
 - # Add component coverage confirming lottery Terms & Conditions output files passed to `saveTermsAndCondition` use `1080x1920` canvases when a UI test harness is introduced.
 - Add component coverage for decimal bulk-product amount entry, localized unit display, independent amount/percentage values, inactive-editor `fadeDiv`/disabled states, and radio switching when a UI test harness is introduced.
 - Add browser coverage for individual bulk-product slider touch/pointer dragging, RTL direction, responsive card widths, and preserving focused editor state when a UI test harness is introduced.
+- Add browser coverage for product-detail media horizontal-only sorting in instance and non-instance editors, including vertical movement rejection, keyboard sorting, pointer activation distance, RTL, and mobile overflow when a UI test harness is introduced.
 
   > > > > > > > sepehr
 

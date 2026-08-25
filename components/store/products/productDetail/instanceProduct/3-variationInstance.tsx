@@ -2,7 +2,10 @@ import { useSession } from "next-auth/react";
 import { ChangeEvent, CSSProperties, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import IncrementStepper from "brancy/components/design/incrementStepper/incrementStepper";
 import InputBox from "brancy/components/design/inputBox/inputBox";
+import { specifyPriceType } from "brancy/components/priceFormater";
+import { numberToFormattedString } from "brancy/helper/numberFormater";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import {
   internalNotify,
@@ -118,7 +121,7 @@ function IntanceVariation({
   const [rawValue, setRawValue] = useState<{ price: string; index: number }[]>(
     subProductInfo.map((x) => ({
       index: subProductInfo.indexOf(x),
-      price: priceFormatter(shortProduct.priceType)(x.price),
+      price: String(numberToFormattedString(x.price)),
     })),
   ); // Raw input value
   const handleChangePrice = (e: React.ChangeEvent<HTMLInputElement>, index: number) => {
@@ -174,7 +177,7 @@ function IntanceVariation({
             ? x
             : {
                 ...x,
-                price: priceFormatter(shortProduct.priceType)(numericValue),
+                price: String(numberToFormattedString(numericValue)),
               },
         ),
       ); // Format the price on blur
@@ -646,13 +649,26 @@ function IntanceVariation({
                       <div className={styles.variationsection}>
                         <div className="headerandinput">
                           <div className="headertext">{t(LanguageKey.Storeproduct_stock)}</div>
-                          <InputBox
-                            name=""
-                            className="textinputbox"
-                            placeHolder="number"
-                            handleInputChange={(e) => handleChangeStock(e, i)}
-                            value={sub.stock.toString()}
-                            numberType={true}
+                          <IncrementStepper
+                            data={sub.stock}
+                            min={0}
+                            id={`stock-${i}`}
+                            aria-label={`${t(LanguageKey.Storeproduct_stock)} ${i + 1}`}
+                            increment={() =>
+                              setCreateSubProducts((prev) =>
+                                prev.map((x, idx) => (idx === i ? { ...x, stock: x.stock + 1 } : x)),
+                              )
+                            }
+                            decrement={() =>
+                              setCreateSubProducts((prev) =>
+                                prev.map((x, idx) => (idx === i ? { ...x, stock: Math.max(0, x.stock - 1) } : x)),
+                              )
+                            }
+                            onValueChange={(value) =>
+                              setCreateSubProducts((prev) =>
+                                prev.map((x, idx) => (idx === i ? { ...x, stock: Math.max(0, value) } : x)),
+                              )
+                            }
                           />
                         </div>
                         <div className="headerandinput">
@@ -678,6 +694,7 @@ function IntanceVariation({
                               handleInputBlur={(e) => handleBlur(e, i)}
                               handleInputonFocus={(e) => handleFocus(e, i)}
                               value={rawValue[i].price}
+                              unit={specifyPriceType(shortProduct.priceType)}
                               numberType={false}
                             />
                           </div>
@@ -696,12 +713,12 @@ function IntanceVariation({
                               item={sub.disCount ? 1 : 0}
                               isRefresh={refresh}
                             />
-                            <div
+                            <button
+                              style={{ width: "max-content" }}
                               onClick={() => togglePopup(sub.disCount, i)}
-                              className={`${styles.discountbtn} ${!sub.disCount && "fadeDiv"}`}>
-                              <img src="/more-blue.svg" style={{ width: "25px" }} />
+                              className={`cancelButton ${!sub.disCount && "fadeDiv"}`}>
                               <span>{t(LanguageKey.sidebar_Setting)}</span>
-                            </div>
+                            </button>
                           </div>
                         </div>
                       </div>

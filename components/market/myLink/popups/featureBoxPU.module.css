@@ -524,7 +524,7 @@
   align-items: center;
   border: 3px solid transparent;
   justify-content: center;
-
+  object-fit: cover;
   align-content: center;
   transition: var(--transition2);
   cursor: pointer;

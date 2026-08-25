@@ -8,6 +8,7 @@ import {
   useSensor,
   useSensors,
 } from "@dnd-kit/core";
+import type { Modifier } from "@dnd-kit/core";
 import {
   arrayMove,
   horizontalListSortingStrategy,
@@ -44,6 +45,11 @@ const IMAGE_COMPRESSION_OPTIONS = {
   maxHeight: 700,
   mimeType: "jpeg",
 } as const;
+
+const restrictToHorizontalAxis: Modifier = ({ transform }) => ({
+  ...transform,
+  y: 0,
+});
 
 interface MediaProps {
   coverUrl: string;
@@ -208,7 +214,11 @@ export default function Media({
 
   // Configure DnD sensors
   const sensors = useSensors(
-    useSensor(PointerSensor),
+    useSensor(PointerSensor, {
+      activationConstraint: {
+        distance: 8,
+      },
+    }),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
     }),
@@ -488,7 +498,11 @@ export default function Media({
           <div className="title" role="heading" aria-level={2}>
             {t(LanguageKey.product_mediatitle)}
           </div>
-          <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
+          <DndContext
+            sensors={sensors}
+            collisionDetection={closestCenter}
+            modifiers={[restrictToHorizontalAxis]}
+            onDragEnd={handleDragEnd}>
             <div className={styles.medialist} role="list" aria-label="Product Images">
               <div className={styles.thumbnailmedia}>
                 <img

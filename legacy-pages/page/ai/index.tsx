@@ -7,9 +7,10 @@ import {
   notify,
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
-
-import VideoList from "brancy/components/page/ai/List_Video";
 import Loading from "brancy/components/notOk/loading";
+import ImageList from "brancy/components/page/ai/List_Image";
+import VideoList from "brancy/components/page/ai/List_Video";
+import MediaCreator from "brancy/components/page/ai/mediaCreator";
 import { MethodType } from "brancy/helper/api";
 import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
@@ -36,8 +37,7 @@ import router from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import styles from "./pageAI.module.css";
-import MediaCreator from "brancy/components/page/ai/mediaCreator";
-import ImageList from "brancy/components/page/ai/List_Image";
+
 import GeneratedImageModal from "brancy/components/page/ai/generatedImageModal";
 import GeneratedVideoModal from "brancy/components/page/ai/generatedVideoModal";
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
@@ -417,7 +417,6 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
             loading={loading}
             isLoadingMore={isLoadingMore}
             setSelectedImage={setSelectedImage}
-            openImageCreator={openImageCreator}
             pendingGenerations={pendingGenerations}
           />
         )}
@@ -427,7 +426,6 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
             loading={loading && videos.length === 0}
             isLoadingMore={isLoadingMoreVideos}
             setSelectedVideo={setSelectedVideo}
-            openVideoCreator={openVideoCreator}
             pendingGenerations={pendingGenerations}
           />
         )}

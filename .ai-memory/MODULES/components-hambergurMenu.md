@@ -22,7 +22,7 @@ components/hambergurMenu/.
 
 ## Execution Flow
 
-Execution starts from imports, route rendering, or helper calls depending on the module. The Instagramer store hamburger menu exposes Products, Orders, and Statistics; Store Properties is intentionally excluded while its route remains available.
+Execution starts from imports, route rendering, or helper calls depending on the module. The Instagramer hamburger menu marks the BioLink item active for the actual slash-free market routes `market`, `marketstatistics`, `marketmylink`, and `marketproperties`. It exposes Products, Orders, and Statistics; Store Properties is intentionally excluded while its route remains available.
 
 ## Data Flow
 
@@ -134,7 +134,7 @@ Parent module: `components`.
 
 ## Known Issues
 
-No confirmed module-specific issue recorded at initialization.
+No confirmed module-specific issue remains after aligning the BioLink active-route list with the App Router market paths.
 
 ## Technical Debt
 
@@ -146,7 +146,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-07-19
+2026-08-22
 
 ---
 

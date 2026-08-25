@@ -4,6 +4,8 @@ Utilities live mostly in `helper/`. They include API helpers, number/price/time 
 
 Keep utility functions pure where possible and document side effects such as localStorage, network requests, file conversion, or DOM access.
 
+The `/dev/systemDesign` helper section is the visual reference for all helper files. It intentionally executes only pure examples (`textByteLength`, `emojiDetector`, and `convertFirstLetterToLowerCase`); API, upload, storage, file, DOM, SignalR, and hook helpers are documented without invocation.
+
 ---
 
 # AI Maintenance Policy

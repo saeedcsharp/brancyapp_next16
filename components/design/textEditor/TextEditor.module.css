@@ -536,7 +536,7 @@
 /* ─── Toolbar ────────────────────────────────────────────── */
 .toolbar {
   width: auto;
-  margin-inline: 20px;
+  margin-inline: 10px;
   /* bottom: 20px; */
   display: flex;
   align-items: center;
@@ -552,7 +552,7 @@
   pointer-events: all;
   border-radius: 15px;
   box-shadow: var(--small-shadow);
-  max-width: calc(100% - 40px);
+  max-width: calc(100% - 20px);
 }
 
 .toolbar::-webkit-scrollbar {

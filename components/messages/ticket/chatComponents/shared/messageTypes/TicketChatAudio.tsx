@@ -30,7 +30,7 @@ const TicketChatAudioComponent: React.FC<TicketBaseChatProps> = ({
     () => ({
       chat: isLeft ? styles.leftchat : styles.rightchat,
       voice: isLeft ? styles.leftchatvoice : styles.rightchatvoice,
-      menuPosition: isLeft ? "topRight" : "topLeft",
+      placement: isLeft ? "topRight" : "topLeft",
     }),
     [isLeft],
   );
@@ -75,7 +75,7 @@ const TicketChatAudioComponent: React.FC<TicketBaseChatProps> = ({
             />
           </div>
           <Dotmenu
-            menuPosition={classes.menuPosition as "topRight" | "topLeft"}
+            placement={classes.placement as "topRight" | "topLeft"}
             data={menuData}
             handleClickOnIcon={handleMenuClick}
           />

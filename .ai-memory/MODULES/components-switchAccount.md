@@ -136,6 +136,10 @@ Parent module: `components`.
 
 When an account switch starts, the component notifies the hosting page before updating the NextAuth session. Hosts can use this to stop session-dependent requests while navigation to the selected account begins.
 
+The Add Account IP check reports an Iranian or undetected IP and its redirect continuation through the optional `onInvalidIp` callback; the hosting layout owns the localized invalid-IP modal, warning SVG, explanatory automatic-Instagram-redirect message, and shared `CounterDownNotRing` ten-second countdown. Continue or timeout redirects, while Close/backdrop dismissal clears the continuation and does not call the redirect API. Other detected countries and IP lookup failures continue through the Instagram redirect flow. Instagram destinations use full browser navigation with the runtime host, preventing external redirect URLs from being interpreted as Next.js internal routes or returning to the current site.
+
+The modal body is implemented by `invalidIpModalContent.tsx`; the layout supplies the fixed expiry timestamp and action callbacks.
+
 ## Technical Debt
 
 Needs deeper per-feature enrichment during future work.

@@ -1,7 +1,7 @@
 "use client";
 
 import { useSession } from "next-auth/react";
-import { MouseEvent, useState } from "react";
+import { MouseEvent, useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import LeftHamMenue from "brancy/components/hambergurMenu/leftHamMenu";
 import NavbarHeader from "brancy/components/navbar/instagramerNavbar/navbarHeader";
@@ -10,6 +10,8 @@ import InstagramerSidebar from "brancy/components/sidebar/instagramerSidbar/inst
 import NotLogin from "brancy/components/notOk/notLogin";
 import SignOut from "brancy/components/signout/signOut";
 import SwitchAccount from "brancy/components/switchAccount/switchAccount";
+import InvalidIpModalContent from "brancy/components/switchAccount/invalidIpModalContent";
+import Modal from "brancy/components/design/modal";
 
 export default function InstagramerGroupLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
@@ -23,6 +25,9 @@ export default function InstagramerGroupLayout({ children }: { children: React.R
   const [showLeftHamMenu, setShowLeftHamMenu] = useState(false);
   const [showSignOut, setShowSignOut] = useState(false);
   const [showSwitch, setShowSwitch] = useState(false);
+  const [showInvalidIp, setShowInvalidIp] = useState(false);
+  const [invalidIpExpireTime, setInvalidIpExpireTime] = useState(0);
+  const invalidIpContinueRef = useRef<(() => Promise<void>) | null>(null);
   const [toggleNotif, setToggleNotif] = useState(false);
 
   const handleShowSearchBar = (event: MouseEvent) => {
@@ -93,6 +98,24 @@ export default function InstagramerGroupLayout({ children }: { children: React.R
     setShowProfile(false);
   };
 
+  const handleInvalidIp = (continueAction: () => Promise<void>) => {
+    invalidIpContinueRef.current = continueAction;
+    setInvalidIpExpireTime(Date.now() + 10000);
+    setShowInvalidIp(true);
+  };
+
+  const handleInvalidIpContinue = () => {
+    const continueAction = invalidIpContinueRef.current;
+    invalidIpContinueRef.current = null;
+    setShowInvalidIp(false);
+    if (continueAction) void continueAction();
+  };
+
+  const handleInvalidIpClose = () => {
+    invalidIpContinueRef.current = null;
+    setShowInvalidIp(false);
+  };
+
   return (
     <main className="marketAdsCart" onClick={handleOutsideClick}>
       <InstagramerSidebar newRoute={newRoute} router={router} />
@@ -126,9 +149,26 @@ export default function InstagramerGroupLayout({ children }: { children: React.R
           handleRemoveNotifLogo={() => setToggleNotif((prev) => !prev)}
         />
       )}
-      {session?.user?.loginByInsta === false && <NotLogin removeMask={removeMask} />}
+      {session?.user?.loginByInsta === false && <NotLogin removeMask={removeMask} onInvalidIp={handleInvalidIp} />}
       {showSignOut && <SignOut removeMask={removeMask} />}
-      {showSwitch && <SwitchAccount removeMask={removeMask} />}
+      {showSwitch && <SwitchAccount removeMask={removeMask} onInvalidIp={handleInvalidIp} />}
+      <Modal
+        closePopup={handleInvalidIpClose}
+        classNamePopup="popupMini"
+        showContent={showInvalidIp}
+        style={{
+          aspectRatio: "auto",
+          gap: "16px",
+          justifyContent: "flex-start",
+          maxHeight: "none",
+          padding: "28px",
+        }}>
+        <InvalidIpModalContent
+          expireTime={invalidIpExpireTime}
+          onContinue={handleInvalidIpContinue}
+          onClose={handleInvalidIpClose}
+        />
+      </Modal>
     </main>
   );
 }

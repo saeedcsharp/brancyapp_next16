@@ -29,6 +29,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
   );
   const [displayTitle, setDisplayTitle] = React.useState<string>("");
   const [shouldShake, setShouldShake] = React.useState<boolean>(false);
+  const [isWeblinkInvalid, setIsWeblinkInvalid] = React.useState<boolean>(false);
   const [isTitleFocused, setIsTitleFocused] = React.useState<boolean>(false);
   const { t } = useTranslation();
   const defaultTitlePlaceholder = t(LanguageKey.New_Flow_message_title);
@@ -197,7 +198,8 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
     try {
       const urlObj = new URL(url);
       // بررسی پروتکل معتبر
-      return urlObj.protocol === "http:" || urlObj.protocol === "https:";
+      const hasDomainSuffix = /\.[^.\s]+$/.test(urlObj.hostname);
+      return (urlObj.protocol === "http:" || urlObj.protocol === "https:") && hasDomainSuffix;
     } catch {
       return false;
     }
@@ -372,7 +374,7 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
             src="/copy.svg"
           />
         </div>
-        <div className={shouldShake ? styles.shakeHorizontal : ""} onClick={(e) => e.stopPropagation()}>
+        <div onClick={(e) => e.stopPropagation()}>
           <InputBox
             className="textinputbox"
             type="url"
@@ -380,6 +382,8 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
             handleInputChange={(e) => {
               const value = e.target.value;
               updateNodeData(node.id, { weblink: value });
+              setIsWeblinkInvalid(false);
+              setShouldShake(false);
               if (!value || value.trim() === "") {
                 setDisplayTitle("");
               }
@@ -395,10 +399,17 @@ export const GenericItemNode: React.FC<GenericItemNodeProps> = ({
               }
               const isValid = validateUrl(formattedUrl);
               if (!isValid && formattedUrl) {
-                setShouldShake(true);
-                setTimeout(() => setShouldShake(false), 3600);
+                setIsWeblinkInvalid(true);
+                setShouldShake(false);
+                requestAnimationFrame(() => setShouldShake(true));
+                setTimeout(() => setShouldShake(false), 600);
+              } else {
+                setIsWeblinkInvalid(false);
+                setShouldShake(false);
               }
             }}
+            status={isWeblinkInvalid ? "danger" : "default"}
+            shake={shouldShake}
             placeHolder="https://example.com"
           />
         </div>

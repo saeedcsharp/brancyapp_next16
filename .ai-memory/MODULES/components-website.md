@@ -14,7 +14,7 @@ Owns the folder/module concerns described by its file tree and exports.
 
 ## Architecture
 
-Follows existing Next/React/TypeScript project conventions. Website component styling is kept in feature-local CSS Modules; `InstallPrompt` uses `installPrompt.module.css` for both banner and iOS fallback presentation.
+Follows existing Next/React/TypeScript project conventions. Website component styling is kept in feature-local CSS Modules; `InstallPrompt` uses `installPrompt.module.css` for both banner and iOS fallback presentation. `SeoJsonLd` provides structured data for public pages, while `content/TopicPage.tsx` renders static topic resources with visible FAQs and internal links. The local Footer branch provides source-backed LocalBusiness JSON-LD for the verified address and phone already present in the UI.
 
 ## Folder Structure
 
@@ -116,6 +116,8 @@ Use `RoleAccess`, session permission flags, and backend authorization where rele
 
 Keep renders and network calls scoped; avoid unnecessary broad fetches.
 
+Landing hero preloads only its primary image, avoids persistent `will-change` hints, and keeps the mobile sign-in CTA keyboard-accessible. Topic resources are static and do not fetch backend data.
+
 ## Caching
 
 PWA, Next, browser, or backend caching applies only where configured.
@@ -142,7 +144,7 @@ Needs deeper per-feature enrichment during future work.
 
 ## Future Improvements
 
-Add examples, endpoint schemas, and diagrams when this module is changed.
+Add native-reviewed translations for all topic resources, field Core Web Vitals measurement, user-flow tests, and approved content examples when this module is changed.
 
 ## Last Updated
 

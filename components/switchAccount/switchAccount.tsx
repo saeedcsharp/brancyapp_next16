@@ -18,8 +18,11 @@ import styles from "./switchAccount.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { InstagramerAccountInfo, IPartner_User } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
-const host = typeof window !== "undefined" ? window.location.host : "";
-function SwitchAccount(props: { removeMask: () => void; onSwitchStart?: () => void }) {
+function SwitchAccount(props: {
+  removeMask: () => void;
+  onSwitchStart?: () => void;
+  onInvalidIp?: (continueAction: () => Promise<void>) => void;
+}) {
   const { t } = useTranslation();
   const router = useRouter();
   const { data: session, update } = useSession();
@@ -161,7 +164,7 @@ function SwitchAccount(props: { removeMask: () => void; onSwitchStart?: () => vo
       const res = await fetch("/api/user/ip");
       const data = await res.json();
       if (data.countryCode === "ir") {
-        internalNotify(InternalResponseType.TurnOnProxy, NotifType.Warning);
+        props.onInvalidIp?.(redirectToInstagram);
         return;
       }
     } catch {
@@ -180,10 +183,13 @@ function SwitchAccount(props: { removeMask: () => void; onSwitchStart?: () => vo
         onUploadProgress: undefined,
       });
       if (response.succeeded) {
-        if (host.includes(redirectHostUrl())) {
-          router.push(response.value);
+        const currentHost = window.location.host;
+        if (currentHost.includes(redirectHostUrl())) {
+          window.location.assign(response.value);
         } else {
-          window.location.href = `https://${redirectHostUrl()}/redirectInterface?redirectUrl=${encodeURIComponent(response.value)}`;
+          window.location.assign(
+            `https://${redirectHostUrl()}/redirectInterface?redirectUrl=${encodeURIComponent(response.value)}`,
+          );
         }
       } else {
         notify(response.info.responseType, NotifType.Warning);

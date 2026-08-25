@@ -27,6 +27,10 @@ Browser renders Next routes. Route components either render app-native pages or 
 - Localization changes may affect RTL rendering, layout spacing, and route titles.
 - PWA changes may affect offline behavior, install prompts, and generated service worker assets.
 
+## System Design Lab
+
+`/dev/systemDesign` includes a bottom `Helperها` section that catalogs every file in `helper/`. Pure helpers have small live examples; helpers that require network, storage, files, DOM, or real-time connections are represented with a description and dependency label so the showcase never triggers production side effects.
+
 ---
 
 # AI Maintenance Policy

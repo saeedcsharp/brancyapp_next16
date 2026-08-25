@@ -1,25 +1,22 @@
+import Loading from "brancy/components/notOk/loading";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { MethodType } from "brancy/helper/api";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { LanguageKey } from "brancy/i18n";
+import { InstagramerAccountInfo } from "brancy/models/interfaces";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
-import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "react-toastify";
-import Loading from "brancy/components/notOk/loading";
-import {
-  internalNotify,
-  InternalResponseType,
-  NotifType,
-  notify,
-  ResponseType,
-} from "brancy/components/notifications/notificationBox";
-import formatTimeAgo from "brancy/helper/formatTimeAgo";
-import { LanguageKey } from "brancy/i18n";
 import styles from "./notLogin.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { MethodType } from "brancy/helper/api";
-import { InstagramerAccountInfo, SendCodeResult } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
-export default function NotLogin({ removeMask }: { removeMask: () => void }) {
+interface NotLoginProps {
+  removeMask: () => void;
+  onInvalidIp?: (continueAction: () => Promise<void>) => void;
+}
+
+export default function NotLogin({ removeMask, onInvalidIp }: NotLoginProps) {
   const { t } = useTranslation();
   const router = useRouter();
   const { data: session, update } = useSession({
@@ -28,12 +25,9 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
       router.push("/");
     },
   });
-  const [showVerificationCode, setshowVerificationCode] = useState(false);
+
   const [instagramers, setInstagramers] = useState<InstagramerAccountInfo[]>([]);
-  const [instaId, setInstaId] = useState("");
-  const [preInstaToken, setPreInstaToken] = useState("");
   const [loading, setLoading] = useState(false);
-  const [ipWarningSeconds, setIpWarningSeconds] = useState<number | null>(null);
   const [showTooltip, setShowTooltip] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
   const formatNumber = useCallback((num: number): string => {
@@ -59,36 +53,6 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
     return days < 3 ? styles.blinkRed : days < 10 ? styles.blinkYellow : "";
   }, []);
 
-  const sendInstaId = useCallback(async () => {
-    if (!session) return;
-
-    setLoading(true);
-    try {
-      const response = await clientFetchApi<boolean, SendCodeResult>("/api/preinstagramer/SendCode", {
-        methodType: MethodType.get,
-        session: session,
-        data: null,
-        queries: [{ key: "username", value: instaId }],
-        onUploadProgress: undefined,
-      });
-
-      if (response.statusCode !== 200) {
-        if (response.info.responseType === ResponseType.ExceedLoginAttempt) {
-          notify(response.info.responseType, NotifType.Error, formatTimeAgo(response.info.actionBlockEnd! * 1000));
-        } else {
-          notify(response.info.responseType, NotifType.Error);
-        }
-      } else {
-        setshowVerificationCode(true);
-        setPreInstaToken(response.value.token);
-      }
-    } catch (err) {
-      internalNotify(InternalResponseType.Network, NotifType.Error);
-    } finally {
-      setLoading(false);
-    }
-  }, [session, instaId]);
-
   const redirectToInstagram = useCallback(async () => {
     if (!session) return;
 
@@ -112,39 +76,20 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
   }, [session, router]);
 
   const handleRedirectToInstagram = useCallback(async () => {
-    if (ipWarningSeconds !== null) return;
-
     try {
       const res = await fetch("/api/user/ip");
       const data = await res.json();
       if (data.countryCode === "ir") {
-        toast.info(t(LanguageKey.Notify_InstagramRedirectInTenSeconds), {
-          autoClose: 10000,
-          toastId: "instagram-redirect-countdown",
-        });
-        setIpWarningSeconds(10);
-        return;
+        if (onInvalidIp) {
+          onInvalidIp(redirectToInstagram);
+          return;
+        }
       }
     } catch {
       // ignore; proceed to redirect
     }
     await redirectToInstagram();
-  }, [ipWarningSeconds, redirectToInstagram, t]);
-
-  useEffect(() => {
-    if (ipWarningSeconds === null) return;
-
-    const timeout = window.setTimeout(() => {
-      if (ipWarningSeconds === 1) {
-        setIpWarningSeconds(null);
-        redirectToInstagram();
-      } else {
-        setIpWarningSeconds(ipWarningSeconds - 1);
-      }
-    }, 1000);
-
-    return () => window.clearTimeout(timeout);
-  }, [ipWarningSeconds, redirectToInstagram]);
+  }, [onInvalidIp, redirectToInstagram]);
 
   const getInstagramers = useCallback(async () => {
     if (!session) return;
@@ -245,19 +190,6 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
     removeMask();
     router.replace("/");
   }, [removeMask, router]);
-
-  const handleSubmit = useCallback(
-    (event: FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      sendInstaId();
-      removeMask();
-    },
-    [sendInstaId, removeMask],
-  );
-
-  const handleBackInstaId = useCallback(() => {
-    setshowVerificationCode(false);
-  }, []);
 
   const handleImageError = useCallback((e: React.SyntheticEvent<HTMLImageElement, Event>) => {
     (e.target as HTMLImageElement).src = "/no-profile.svg";
@@ -374,7 +306,7 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
   if (!session) return null;
   return (
     <div className="dialogBg">
-      {!showVerificationCode && (
+      {
         <div className="popup">
           {loading && <Loading />}
           {!loading && (
@@ -417,12 +349,6 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
                 <div className="headerandinput">
                   <h2 className="title">{t(LanguageKey.addedaccounts)}</h2>
                   <div className={styles.accountsGrid}>{instagramerItems}</div>
-                </div>
-              )}
-              {ipWarningSeconds !== null && (
-                <div className={styles.ipWarning} role="status" aria-live="assertive">
-                  <span>{t(LanguageKey.Notify_IpInvalid)}</span>
-                  <strong>{ipWarningSeconds}</strong>
                 </div>
               )}
               <div className="headerandinput">
@@ -507,7 +433,7 @@ export default function NotLogin({ removeMask }: { removeMask: () => void }) {
             </>
           )}
         </div>
-      )}
+      }
 
       {/* Tooltip Modal */}
       {showTooltip && (

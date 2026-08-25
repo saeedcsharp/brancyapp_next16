@@ -150,7 +150,7 @@ const ChatTextComponent: React.FC<BaseChatProps> = ({
       return (
         <div className={classes.chat} data-itemid={item.itemId ?? ""}>
           {renderMessageText()}
-          {item.itemId && <Dotmenu menuPosition="topLeft" data={dotMenuData} handleClickOnIcon={handleDotMenuClick} />}
+          {item.itemId && <Dotmenu placement="topLeft" data={dotMenuData} handleClickOnIcon={handleDotMenuClick} />}
         </div>
       );
     }
@@ -172,7 +172,7 @@ const ChatTextComponent: React.FC<BaseChatProps> = ({
           handleSpecifyRepliedItemType={handleSpecifyRepliedItemType}
         />
         {renderMessageText()}
-        {item.itemId && <Dotmenu menuPosition="topLeft" data={dotMenuData} handleClickOnIcon={handleDotMenuClick} />}
+        {item.itemId && <Dotmenu placement="topLeft" data={dotMenuData} handleClickOnIcon={handleDotMenuClick} />}
       </div>
     );
   }, [
@@ -197,7 +197,7 @@ const ChatTextComponent: React.FC<BaseChatProps> = ({
       <div className={classes.container} data-itemid={item.itemId ?? ""}>
         <div className={classes.chat} role="article" aria-label="Received message">
           {renderLeftMessage()}
-          <Dotmenu menuPosition="topRight" data={dotMenuData} handleClickOnIcon={handleDotMenuClick} />
+          <Dotmenu placement="topRight" data={dotMenuData} handleClickOnIcon={handleDotMenuClick} />
         </div>
         <ReactionEmoji item={item} direction={direction} chatBox={chatBox} baseMediaUrl={baseMediaUrl} />
         <ChatDate

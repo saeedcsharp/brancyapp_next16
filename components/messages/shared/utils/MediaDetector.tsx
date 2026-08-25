@@ -33,6 +33,7 @@ export function MediaDetector({
   const { data: session } = useSession();
   const [mediaType, setMediaType] = useState<"video" | "image" | "loading" | "error">(forcedMediaType || "loading");
   const hasRun = useRef(false);
+
   // نرمال‌سازی ابعاد - اگر 0 باشد از مقدار پیش‌فرض استفاده می‌شود
   const normalizedWidth = useMemo(() => (width === 0 ? DEFAULT_MEDIA_WIDTH : width), [width]);
   const normalizedHeight = useMemo(() => (height === 0 ? DEFAULT_MEDIA_HEIGHT : height), [height]);
@@ -56,12 +57,17 @@ export function MediaDetector({
       return;
     }
     try {
-      const content = await fetch(src + "/contenttype", {
+      const requestContentType = () => fetch(src + "/contenttype", {
         method: "GET",
         headers: {
           Authorization: session.user.accessToken,
         },
       });
+      let content = await requestContentType();
+      if (content.status !== 200) {
+        await new Promise((resolve) => setTimeout(resolve, 1000));
+        content = await requestContentType();
+      }
       const res = await content.text();
       if (res.includes("video/mp4") || res.includes("video/")) {
         setMediaType("video");

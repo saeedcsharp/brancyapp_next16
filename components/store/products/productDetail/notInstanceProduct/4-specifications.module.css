@@ -38,7 +38,8 @@
   cursor: pointer;
   width: 33%;
   min-width: 210px;
-  max-height: 100px;
+  min-height: 110px;
+  max-height: 150px;
   padding: var(--padding-12) var(--padding-8) var(--padding-12) var(--padding-8);
   position: relative;
   display: flex;
@@ -137,9 +138,9 @@
   gap: var(--gap-10);
   background-color: var(--color-gray10);
   padding: var(--padding-14);
-  transition: var(--transition2);
+  transition: background-color 0.3s ease-in-out;
   border-radius: var(--br15);
-  animation: top 0.3s ease-in-out;
+  animation: var(--top04);
   touch-action: none;
 }
 .specitem:hover {

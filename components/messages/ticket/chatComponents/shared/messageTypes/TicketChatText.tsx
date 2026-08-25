@@ -69,7 +69,7 @@ const TicketChatTextComponent: React.FC<TicketBaseChatProps> = ({
             aria-label="Received message">
             <LinkifyText text={item.text} />
           </div>
-          <Dotmenu menuPosition="topRight" data={dotMenuData} handleClickOnIcon={handleDotMenuClick} />
+          <Dotmenu placement="topRight" data={dotMenuData} handleClickOnIcon={handleDotMenuClick} />
         </div>
         <TicketReactionEmoji item={item} direction={direction} baseMediaUrl={baseMediaUrl} chatBox={chatBox} />
         <TicketChatDate

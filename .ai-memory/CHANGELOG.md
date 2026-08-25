@@ -1,8 +1,29 @@
+- Updated instance and non-instance product setting inputs to use the shared `InputBox.unit` slot for gram, CM, and envelope quantity labels, removing duplicate local unit wrappers and spacing styles.
+- Constrained product-detail media reordering to the horizontal axis in both instance and non-instance editors with a dnd-kit modifier, and added an 8px pointer activation distance to separate drag gestures from thumbnail clicks.
+- Converted store product-detail `variationsetting` layouts to responsive CSS grid: four equal columns on wide screens, two columns on medium screens, and one column on narrow screens.
+- Updated store product-detail variation price inputs (instance and non-instance) to display the server-provided `PriceType` currency symbol in the shared `InputBox` unit slot via `specifyPriceType`.
+- Auto-reply AI and Flow selectors now show their Create Automation actions whenever no prompt or flow is selected, even when the selector lists available options.
+- Standardized the desktop store product list as a synchronized six-column grid. Its header now belongs to the scrollable list and remains sticky above product rows, with dedicated widths for PID, stock, price, last modified, and status columns.
+- Media auto-reply AI and Flow selectors now use the same unselected-state create-action behavior.
+  <<<<<<< HEAD
+- # Reused the Instagramer layout's invalid-IP modal for the NotLogin Instagram connection button, replacing its local toast countdown with the shared warning, countdown, Continue, and Close behavior.
+- # Fixed the Upgrade page's embedded SwitchAccount Add Account flow by wiring its Iranian-IP callback to the same invalid-IP modal and redirect continuation.
+- Standardized all DotMenu consumers on the `placement` prop and removed the duplicate `menuPosition` prop.
+- Prevented DotMenu trigger clicks from bubbling into clickable parent cards, avoiding unintended post navigation when opening a menu.
+  > > > > > > > sepehr
+  > > > > > > > sepehr
+
 <<<<<<< HEAD
+
+<<<<<<< HEAD
+
+- Fixed the account switcher's Instagram redirect by using the runtime host and full browser navigation for external destinations.
+
+- Added the localized automatic Instagram redirect explanation to the invalid-IP account-switch modal.
 
 - Updated the global App Router error page to display the received error message, with a readable fallback when no detail is available.
 
-- Applied the global error boundary to DirectInbox initial loads and pagination failures, preserving the HTTP status and backend reason in the rendered error page.
+- Prevented DirectInbox initial-load and pagination failures from crashing the whole route; failed category requests remain local and retain their HTTP status and backend reason in notifications.
 
 - Fixed direct inbox pagination so general and business scroll requests return fetched threads to `useInfiniteScroll`; a non-null `/api/message/GetDirectInbox` `nextMaxId` now allows the next page request, while `null` correctly stops pagination.
 
@@ -12,11 +33,27 @@
 
 - Fixed comment inbox pagination so Post and Story scroll requests return fetched media to `useInfiniteScroll`; a non-null `/api/Comment/GetInbox` `oldestCursor` now loads the next page, while `null` stops pagination.
 
+=======
+
+> > > > > > > sepehr
+
 - Kept both lottery Terms image uploads at the verified publishable Instagram Story canvas size of `1080x1920`.
 
 - استاندارد ابعاد استوری اینستاگرام برای خروجی‌های Terms & Conditions لاتاری روی `1080x1920` قرار گرفت.
 
 =======
+
+<<<<<<< HEAD
+
+- Fixed the Instagramer hamburger menu BioLink active state for all market routes by aligning its active-route list with the actual slash-free App Router paths.
+
+- Fixed Instagramer mobile navbar market-route detection by aligning BioLink route enum values with the actual slash-free App Router paths, so Home, Statistics, MyLink, and Properties all show the BioLink logo.
+
+- Added localized last-30-days labels in parentheses beside the Home PageDetail gender, age, and location section titles across all eight supported locales.
+
+=======
+
+> > > > > > > sepehr
 
 - Converted individual bulk-product adjustment cards to the shared free-mode horizontal slider while preserving each card's existing controls and save behavior.
 - Added an accessible collapse interaction to the unified Page Tools `hashtagManager` card. Its header toggles the content and reduces the card row span while closed, with Enter and Space keyboard support.
@@ -60,6 +97,8 @@
 - Added the localized `promptanalysisplaceholder` text in all eight supported languages, including the 20-character minimum required for analysis.
 
 - Highlighted the currently selected Instagram account in the account switcher and added its accessible `aria-pressed` state.
+- Changed Add Account IP handling so Iranian or undetected IPs open a styled localized invalid-IP modal owned by the Instagramer layout, with a warning SVG, shared `CounterDownNotRing` countdown, separate Continue and Close actions, and automatic redirect after ten seconds; dismissing the modal no longer calls the redirect API, while other detected countries continue to the Instagram redirect.
+- Extracted the invalid-IP modal body into `invalidIpModalContent.tsx`, leaving modal state and fixed countdown expiry ownership in the Instagramer layout.
 - Prevented the upgrade page from reloading package details, reserve prices, and package prices during the session update that starts an account switch; navigation now proceeds without the unnecessary three-request cycle.
 
 - Fixed the Meta direct-login hydration mismatch caused by shuffling loading phrases with `Math.random()` during server and initial client rendering.
@@ -87,7 +126,26 @@
 
 # Changelog
 
+- Implemented phase two SEO metadata foundations: added localized Open Graph/Twitter cards, app icons, `x-default` hreflang, and reusable JSON-LD for Organization, WebSite, and SoftwareApplication on eight landing routes. Kept FAQ schema, keyword metrics, and backlink acquisition pending until visible reviewed content and external data are available.
+- Implemented phases three and four growth/conversion foundations: added 40 static multilingual topic-resource URLs across management, automation, analytics, marketing, and AI clusters; added visible FAQ answers, FAQPage schema, breadcrumbs, related internal links, and landing CTAs; reduced landing image preloads and persistent GPU hints and made the mobile sign-in CTA keyboard-accessible. Field Core Web Vitals and user-test measurement remain pending.
+- Implemented phase five local/social discoverability foundations: restored and corrected public Footer links for solutions, legal, FAQ, updates, articles, and follow-up resources; added a source-backed public `llms.txt` and sitemap entry. Google Business, Bing Places, LocalBusiness schema, and official social `sameAs` links remain pending verified business profile inputs.
+- Added source-backed LocalBusiness JSON-LD and a clickable phone link to the Iranian/local Footer branch, and added the existing Articles page to the public sitemap.
+
+- Extended phase-one SEO foundations to all eight supported languages with static URL-based landing routes, localized metadata, canonical URLs, hreflang alternates, Open Graph metadata, and sitemap entries. Recorded keyword-intent/topic-cluster and backlink-quality measurement requirements; external metrics and link acquisition remain pending.
+
+- Implemented phase-one SEO foundations: corrected the homepage canonical URL and description, added dynamic `robots.txt` and `sitemap.xml` routes for stable public pages, and excluded private/session-dependent routes plus the noindex feature reference from crawling.
+
+- Added a complete helper reference section to `/dev/systemDesign`, with all helper files listed and safe live examples for pure text, emoji, and object-key utilities. Environment-dependent helpers are documented without triggering network, storage, file, DOM, or real-time side effects.
+
+- Fixed AI Flow web-link validation so invalid non-empty URLs apply the final danger border to the shared `InputBox` and run its shake animation once per invalid blur.
+- Added the web-link domain rule requiring HTTP(S) hostnames to end with a non-empty `.XXX` suffix, without restricting which suffix is used.
+
+- Fixed AI Flow connection lag and misalignment during zoom by recalculating measured Socket positions after canvas transforms commit and removing delayed zoom refresh timers.
+
 # Changelog
+
+- Added a pre-editor new automation flow modal with required title validation, follower/snap-grid/panning-boundary settings, JSON import, and Continue/cancel actions.
+- New flows now appear in the sidebar as Draft records after Continue and leave Draft status only after a successful manual save.
 
 - Updated both bulk product fixed-amount inputs to use each product's `PriceType` currency through the shared `InputBox` unit slot and `specifyPriceType` renderer.
 

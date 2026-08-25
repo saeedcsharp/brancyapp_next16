@@ -653,21 +653,19 @@ function SettingInstance({
                               />
                             </div>
                             {
-                              <div className={styles.inputandsub}>
-                                <div className={styles.subinput}>{t(LanguageKey.Storeproduct_gram)}</div>
-                                <InputBox
-                                  name=""
-                                  className={
-                                    settingInfo.weight && settingInfo.weight < setting.maxSize?.limitBox.weight!
-                                      ? "textinputbox"
-                                      : "danger"
-                                  }
-                                  placeHolder="Net Weight "
-                                  handleInputChange={handleNetWeightChange}
-                                  value={settingInfo.weight ? settingInfo.weight.toString() : "0"}
-                                  numberType={true}
-                                />
-                              </div>
+                              <InputBox
+                                name=""
+                                className={
+                                  settingInfo.weight && settingInfo.weight < setting.maxSize?.limitBox.weight!
+                                    ? "textinputbox"
+                                    : "danger"
+                                }
+                                placeHolder="Net Weight "
+                                handleInputChange={handleNetWeightChange}
+                                value={settingInfo.weight ? settingInfo.weight.toString() : "0"}
+                                numberType={true}
+                                unit={t(LanguageKey.Storeproduct_gram)}
+                              />
                             }
                           </div>
                         </div>
@@ -680,22 +678,21 @@ function SettingInstance({
                                 minWidth: "40px",
                               }}>
                               <div className="headertext">{t(LanguageKey.length)}</div>
-                              <div className={styles.inputandsub}>
-                                <div className={styles.subinput}>CM</div>
-                                <InputBox
-                                  name="length"
-                                  className={
-                                    settingInfo.productBox!.length > setting.maxSize?.limitBox.length! ||
-                                    settingInfo.productBox!.length <= 0
-                                      ? "danger"
-                                      : "textinputbox"
-                                  }
-                                  placeHolder="Net Price + BOX"
-                                  handleInputChange={handleChangeCustomWeight}
-                                  value={settingInfo.productBox!.length.toString()}
-                                  numberType={true}
-                                />
-                              </div>
+
+                              <InputBox
+                                name="length"
+                                className={
+                                  settingInfo.productBox!.length > setting.maxSize?.limitBox.length! ||
+                                  settingInfo.productBox!.length <= 0
+                                    ? "danger"
+                                    : "textinputbox"
+                                }
+                                placeHolder="Net Price + BOX"
+                                handleInputChange={handleChangeCustomWeight}
+                                value={settingInfo.productBox!.length.toString()}
+                                numberType={true}
+                                unit="CM"
+                              />
                             </div>
                             <div
                               className="headerandinput"
@@ -704,22 +701,21 @@ function SettingInstance({
                                 minWidth: "40px",
                               }}>
                               <div className="headertext">{t(LanguageKey.width)}</div>
-                              <div className={styles.inputandsub}>
-                                <div className={styles.subinput}>CM</div>
-                                <InputBox
-                                  name="width"
-                                  className={
-                                    settingInfo.productBox!.width > setting.maxSize?.limitBox.width! ||
-                                    settingInfo.productBox!.width <= 0
-                                      ? "danger"
-                                      : "textinputbox"
-                                  }
-                                  placeHolder="Net Price + BOX"
-                                  handleInputChange={handleChangeCustomWeight}
-                                  value={settingInfo.productBox!.width.toString()}
-                                  numberType={true}
-                                />
-                              </div>
+
+                              <InputBox
+                                name="width"
+                                className={
+                                  settingInfo.productBox!.width > setting.maxSize?.limitBox.width! ||
+                                  settingInfo.productBox!.width <= 0
+                                    ? "danger"
+                                    : "textinputbox"
+                                }
+                                placeHolder="Net Price + BOX"
+                                handleInputChange={handleChangeCustomWeight}
+                                value={settingInfo.productBox!.width.toString()}
+                                numberType={true}
+                                unit="CM"
+                              />
                             </div>
                             <div
                               className="headerandinput"
@@ -728,22 +724,21 @@ function SettingInstance({
                                 minWidth: "40px",
                               }}>
                               <div className="headertext">{t(LanguageKey.height)}</div>
-                              <div className={styles.inputandsub}>
-                                <div className={styles.subinput}>CM</div>
-                                <InputBox
-                                  name="height"
-                                  className={
-                                    settingInfo.productBox!.height > setting.maxSize?.limitBox.height! ||
-                                    settingInfo.productBox!.height <= 0
-                                      ? "danger"
-                                      : "textinputbox"
-                                  }
-                                  placeHolder="Net Price + BOX"
-                                  handleInputChange={handleChangeCustomWeight}
-                                  value={settingInfo.productBox!.height.toString()}
-                                  numberType={true}
-                                />
-                              </div>
+
+                              <InputBox
+                                name="height"
+                                className={
+                                  settingInfo.productBox!.height > setting.maxSize?.limitBox.height! ||
+                                  settingInfo.productBox!.height <= 0
+                                    ? "danger"
+                                    : "textinputbox"
+                                }
+                                placeHolder="Net Price + BOX"
+                                handleInputChange={handleChangeCustomWeight}
+                                value={settingInfo.productBox!.height.toString()}
+                                numberType={true}
+                                unit="CM"
+                              />
                             </div>
                             <div className="headerandinput" style={{ maxWidth: "40px", minWidth: "40px" }}>
                               <div className="headertext"> </div>
@@ -792,21 +787,19 @@ function SettingInstance({
                           />
                         </div>
                         {
-                          <div className={styles.inputandsub}>
-                            <div className={styles.subinput}>{t(LanguageKey.Storeproduct_gram)}</div>
-                            <InputBox
-                              name=""
-                              className={
-                                settingInfo.weight && settingInfo.weight < setting.maxSize?.maxEnvelopeWeight!
-                                  ? "textinputbox"
-                                  : "danger"
-                              }
-                              placeHolder="Net Weight "
-                              handleInputChange={handleNetWeightChange}
-                              value={settingInfo.weight!.toString()}
-                              numberType={true}
-                            />
-                          </div>
+                          <InputBox
+                            name=""
+                            className={
+                              settingInfo.weight && settingInfo.weight < setting.maxSize?.maxEnvelopeWeight!
+                                ? "textinputbox"
+                                : "danger"
+                            }
+                            placeHolder="Net Weight "
+                            handleInputChange={handleNetWeightChange}
+                            value={settingInfo.weight!.toString()}
+                            numberType={true}
+                            unit={t(LanguageKey.Storeproduct_gram)}
+                          />
                         }
                       </div>
                       <div className="headerandinput">
@@ -819,23 +812,21 @@ function SettingInstance({
                           />
                         </div>
                         {
-                          <div className={styles.inputandsub}>
-                            <div className={styles.subinput}>{t(LanguageKey.Storeorder_quantityorder)}</div>
-                            <InputBox
-                              name=""
-                              className={
-                                settingInfo.envelopeAvailableCount && settingInfo.envelopeAvailableCount > 0
-                                  ? "textinputbox"
-                                  : "danger"
-                              }
-                              placeHolder="Net Weight "
-                              handleInputChange={handleEnvelopCountChange}
-                              value={
-                                settingInfo.envelopeAvailableCount ? settingInfo.envelopeAvailableCount.toString() : "0"
-                              }
-                              numberType={true}
-                            />
-                          </div>
+                          <InputBox
+                            name=""
+                            className={
+                              settingInfo.envelopeAvailableCount && settingInfo.envelopeAvailableCount > 0
+                                ? "textinputbox"
+                                : "danger"
+                            }
+                            placeHolder="Net Weight "
+                            handleInputChange={handleEnvelopCountChange}
+                            value={
+                              settingInfo.envelopeAvailableCount ? settingInfo.envelopeAvailableCount.toString() : "0"
+                            }
+                            numberType={true}
+                            unit={t(LanguageKey.Storeorder_quantityorder)}
+                          />
                         }
                       </div>
                     </div>

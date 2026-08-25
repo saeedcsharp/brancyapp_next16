@@ -1135,6 +1135,64 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
 
             {selectedTab === 1 && (
               <>
+                {/* Custom */}
+                <div className="headerandinput">
+                  <div className="headerandinput">
+                    <RadioButton
+                      name="custom"
+                      id={t(LanguageKey.product_Definenew)}
+                      checked={checkBox.Custom}
+                      handleOptionChanged={handleOptionChanged}
+                      textlabel={t(LanguageKey.AIFlow_quick_reply)}
+                    />
+                    <div className="explain">{t(LanguageKey.messagesetting_DefineCustomResponseExplain)}</div>
+                  </div>
+                  {checkBox.Custom && (
+                    <div className={styles.optioncontainer}>
+                      <div className="headerandinput">
+                        <div className="headerparent">
+                          <div className="headertext">{t(LanguageKey.Answer)}</div>
+                          <div className="counter">
+                            ({replyMethod?.response?.length ?? 0}/800)
+                            <img
+                              style={{
+                                cursor: "pointer",
+                                width: "16px",
+                                height: "16px",
+                              }}
+                              title="ℹ️ paste"
+                              src="/copy.svg"
+                              role="button"
+                              aria-label="Paste from clipboard"
+                              onClick={() => {
+                                void pasteFromClipboard();
+                              }}
+                            />
+                          </div>
+                        </div>
+                        <TextArea
+                          className="TextArea"
+                          placeHolder={t(LanguageKey.pageToolspopup_typehere)}
+                          fadeTextArea={false}
+                          handleInputChange={(e) => {
+                            setReplyMethod((prev) => ({
+                              ...prev!,
+                              response: e.target.value,
+                            }));
+                          }}
+                          value={(replyMethod && replyMethod.response) ?? ""}
+                          maxLength={800}
+                          name="auto-reply-message"
+                          role="textbox"
+                          aria-label="Auto-reply message content"
+                          title={""}
+                          style={{ height: "120px" }}
+                        />
+                      </div>
+                      {renderReplyMethodSection("Custom")}
+                    </div>
+                  )}
+                </div>
                 {/* AI */}
                 <div className="headerandinput">
                   <div className="headerandinput">
@@ -1151,7 +1209,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                   {checkBox.AI && (
                     <div className={styles.optioncontainer}>
                       <div className="headerandinput">
-                        {replyMethod?.prompt && (
+                        {/* {replyMethod?.prompt && (
                           <>
                             <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
                             <InputBox
@@ -1160,7 +1218,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                               value={replyMethod.prompt.title}
                             />
                           </>
-                        )}
+                        )} */}
 
                         {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : (prompts?.items?.length ?? 0)) > 0 ? (
                           <DragDrop
@@ -1179,9 +1237,10 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                           />
                         ) : null}
 
-                        {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : (prompts?.items?.length ?? 0)) === 0 ? (
+                        {!selectedPrompt && !replyMethod?.prompt ? (
                           <div className="headerandinput">
-                            <div className="explain">{t(LanguageKey.messagesetting_NoPromptsFound)}</div>
+                            {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : (prompts?.items?.length ?? 0)) ===
+                              0 && <div className="explain">{t(LanguageKey.messagesetting_NoPromptsFound)}</div>}
                             <button
                               onClick={() => {
                                 try {
@@ -1266,11 +1325,13 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                           />
                         ) : null}
 
-                        {(searchFlowMode
-                          ? (masterSearchFlows?.items?.length ?? 0)
-                          : (masterFlows?.items?.length ?? 0)) === 0 ? (
+                        {!selectedFlow && !replyMethod?.masterFlow ? (
                           <div className="headerandinput">
-                            <div className="explain">{t(LanguageKey.messagesetting_NoFlowsFound)}</div>
+                            {(searchFlowMode
+                              ? (masterSearchFlows?.items?.length ?? 0)
+                              : (masterFlows?.items?.length ?? 0)) === 0 && (
+                              <div className="explain">{t(LanguageKey.messagesetting_NoFlowsFound)}</div>
+                            )}
                             <button
                               onClick={() => {
                                 try {
@@ -1342,64 +1403,6 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                   )}
                 </div> */}
 
-                {/* Custom */}
-                <div className="headerandinput">
-                  <div className="headerandinput">
-                    <RadioButton
-                      name="custom"
-                      id={t(LanguageKey.product_Definenew)}
-                      checked={checkBox.Custom}
-                      handleOptionChanged={handleOptionChanged}
-                      textlabel={t(LanguageKey.AIFlow_quick_reply)}
-                    />
-                    <div className="explain">{t(LanguageKey.messagesetting_DefineCustomResponseExplain)}</div>
-                  </div>
-                  {checkBox.Custom && (
-                    <div className={styles.optioncontainer}>
-                      <div className="headerandinput">
-                        <div className="headerparent">
-                          <div className="headertext">{t(LanguageKey.Answer)}</div>
-                          <div className="counter">
-                            ({replyMethod?.response?.length ?? 0}/800)
-                            <img
-                              style={{
-                                cursor: "pointer",
-                                width: "16px",
-                                height: "16px",
-                              }}
-                              title="ℹ️ paste"
-                              src="/copy.svg"
-                              role="button"
-                              aria-label="Paste from clipboard"
-                              onClick={() => {
-                                void pasteFromClipboard();
-                              }}
-                            />
-                          </div>
-                        </div>
-                        <TextArea
-                          className="TextArea"
-                          placeHolder={t(LanguageKey.pageToolspopup_typehere)}
-                          fadeTextArea={false}
-                          handleInputChange={(e) => {
-                            setReplyMethod((prev) => ({
-                              ...prev!,
-                              response: e.target.value,
-                            }));
-                          }}
-                          value={(replyMethod && replyMethod.response) ?? ""}
-                          maxLength={800}
-                          name="auto-reply-message"
-                          role="textbox"
-                          aria-label="Auto-reply message content"
-                          title={""}
-                          style={{ height: "120px" }}
-                        />
-                      </div>
-                      {renderReplyMethodSection("Custom")}
-                    </div>
-                  )}
-                </div>
                 {/* Product */}
                 {session?.user.isShopper && shopMediaProductType === ShopMediaProductType.Instance && (
                   <div className="headerandinput">
@@ -1416,17 +1419,17 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                   </div>
                 )}
                 {/*Connect Product */}
-                {session?.user.isShopper && productType === MediaProductType.Live && (
+                {session?.user.isShopper && (
                   <div className="headerandinput">
                     <div className="headerandinput">
                       <RadioButton
                         name="ConnectProduct"
-                        id={t("Connect Product")}
+                        id={t(LanguageKey.ConnectProduct)}
                         checked={checkBox.ConnectProduct}
                         handleOptionChanged={handleOptionChanged}
-                        textlabel={t("Connect Product")}
+                        textlabel={t(LanguageKey.ConnectProduct)}
                       />
-                      <div className="explain">{t(LanguageKey.messagesetting_ConnectProductResponseExplain)}</div>
+                      <div className="explain">{t(LanguageKey.messagesetting_SpecifyProductResponseExplain)}</div>
                     </div>
                     {checkBox.ConnectProduct && (
                       <div className={styles.optioncontainer}>

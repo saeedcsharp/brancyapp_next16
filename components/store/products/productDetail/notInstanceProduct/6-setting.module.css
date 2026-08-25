@@ -15,10 +15,6 @@
   border-radius: var(--br20);
   transition: var(--transition3);
 }
-.inputandsub input {
-  padding-inline: 50px 5px;
-}
-
 @media (max-width: 768px) {
   .setting {
     overflow-y: auto;
@@ -85,18 +81,10 @@
   .boxing {
     grid-template-columns: 1fr;
   }
-
-  .subinput {
-    font-size: var(--font-10) !important;
-    width: 40px !important;
-  }
-  .inputandsub input {
-    padding-inline: 50px 0px !important;
-  }
 }
-.inputandsub > div :nth-child(2) {
+/* .inputandsub > div :nth-child(2) {
   display: none !important;
-}
+} */
 /* .basic > div {
   width: 100%;
   transition: var(--transition3);
@@ -137,7 +125,17 @@
 .customsize {
   align-items: flex-start;
   position: relative;
-  display: flex;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  flex-direction: row;
+  gap: var(--gap-5);
+  justify-content: space-between;
+}
+.customsize2 {
+  align-items: flex-start;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
   flex-direction: row;
   gap: var(--gap-5);
   justify-content: space-between;
@@ -315,9 +313,6 @@
   border-radius: var(--br5);
 }
 
-.inputandsub {
-  position: relative;
-}
 .headerandinputhalf {
   align-items: flex-start;
   position: relative;
@@ -530,27 +525,6 @@
   width: 20%;
 }
 
-.subinput {
-  position: absolute;
-  color: var(--text-h2);
-  font-weight: var(--weight-400);
-  font-size: var(--font-12);
-  z-index: 2;
-  border-right: 1px solid var(--color-gray60);
-  padding-inline: var(--padding-8);
-  display: flex;
-  left: 0px;
-  border-radius: var(--br15) 0px 0px var(--br15);
-  background-color: var(--color-gray10);
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-}
-
-.inputandsub > input {
-  text-align: right !important;
-}
 .tooltip {
   position: absolute;
   top: 25px;

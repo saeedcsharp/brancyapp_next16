@@ -653,7 +653,7 @@ export default function InstanceProductDetail({
                 }>
                 <div className={styles.mobilecircle}> </div>
                 <div className={styles.stepprogressmobileinfo}>
-                  <div className={styles.stepcounter}>
+                  <div className={`${styles.stepcounter} translate`}>
                     <div
                       className={
                         currentStep > step

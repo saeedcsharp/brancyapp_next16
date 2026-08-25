@@ -102,7 +102,7 @@ const TicketChatMediaComponent: React.FC<TicketBaseChatProps> = ({
               onImageClick={() => handleMediaClick(item.medias[0], true)}
               className={styles.mediaImageLeft}
             />
-            <Dotmenu menuPosition="topRight" data={dotMenuData} handleClickOnIcon={handleDotMenuClick} />
+            <Dotmenu placement="topRight" data={dotMenuData} handleClickOnIcon={handleDotMenuClick} />
           </div>
         </div>
         <TicketReactionEmoji item={item} direction={direction} baseMediaUrl={baseMediaUrl} chatBox={chatBox} />
@@ -134,7 +134,7 @@ const TicketChatMediaComponent: React.FC<TicketBaseChatProps> = ({
                 className={styles.mediaImageLeft}
               />
             </div>
-            <Dotmenu menuPosition="topRight" data={dotMenuData} handleClickOnIcon={handleDotMenuClick} />
+            <Dotmenu placement="topRight" data={dotMenuData} handleClickOnIcon={handleDotMenuClick} />
           </div>
         </div>
         <TicketReactionEmoji item={item} direction={direction} baseMediaUrl={baseMediaUrl} chatBox={chatBox} />

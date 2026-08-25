@@ -50,9 +50,6 @@
   transition: var(--transition3);
 }
 
-.inputandsub input {
-  padding-inline: 50px 5px;
-}
 @media (max-width: 1024px) {
   .basic {
     grid-template-columns: repeat(2, 1fr);
@@ -66,16 +63,6 @@
   .basic {
     grid-template-columns: 1fr;
   }
-  .subinput {
-    font-size: var(--font-10) !important;
-    width: 40px !important;
-  }
-  .inputandsub input {
-    padding-inline: 50px 0px !important;
-  }
-}
-.inputandsub > div :nth-child(2) {
-  display: none !important;
 }
 
 .shipping {
@@ -147,9 +134,6 @@
   font-size: var(--font-12);
 }
 
-.inputandsub {
-  position: relative;
-}
 .headerandinputhalf {
   align-items: flex-start;
   position: relative;
@@ -365,27 +349,6 @@
   width: 20%;
 }
 
-.subinput {
-  position: absolute;
-  color: var(--text-h2);
-  font-weight: var(--weight-400);
-  font-size: var(--font-12);
-  z-index: 2;
-  border-right: 1px solid var(--color-gray60);
-  padding-inline: var(--padding-10);
-  display: flex;
-  left: 0px;
-  border-radius: var(--br15) 0px 0px var(--br15);
-  background-color: var(--color-gray10);
-  height: 100%;
-  justify-content: center;
-  align-items: center;
-  align-content: center;
-}
-
-.inputandsub > input {
-  text-align: right !important;
-}
 .tooltip {
   position: absolute;
   top: 25px;
