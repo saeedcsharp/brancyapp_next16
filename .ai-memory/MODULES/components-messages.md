@@ -109,6 +109,10 @@ The same component keeps the continued new flow in `userslist` as a local `newFl
 
 `components/page/popup/quickReply.tsx` renders a localized Instagram comment-permission state with an inline SVG and an Enable Permission action only when `session.user.commentPermission === false`; the action checks `/api/user/ip`, opens `InvalidIpModalContent` for Iranian IPs, and otherwise follows the existing Instagram redirect flow. The existing media auto-reply editor remains unchanged when access is available.
 
+`popups/editAutoReplyForMedia.tsx` keeps media auto-reply and AI configuration available when `session.user.messagePermission === false`, but shows the localized message-permission state whenever direct response, Flow, Product, or Connect Product delivery is selected. Its Enable Permission action uses the same IP check, invalid-IP modal, and Instagram redirect flow as the comment quick-reply state; same-comment responses remain available without message permission.
+
+For message-delivery modes, the confirmation-message and must-follow-page options are omitted from the editor and both corresponding save payload flags are forced to `false`; same-comment delivery retains the existing controls and values.
+
 > > > > > > > sepehr
 
 ## Hooks

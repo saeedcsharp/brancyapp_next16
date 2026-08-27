@@ -10,6 +10,8 @@ Session users include `commentPermission`, `insightPermission`, `messagePermissi
 
 Document every new permission check in the related module doc.
 
+Media auto-reply direct response, Flow, Product, and Connect Product delivery states use `session.user.messagePermission`; when false, the editor presents the localized message-access state and Instagram permission redirect while preserving same-comment configuration.
+
 ---
 
 # AI Maintenance Policy
