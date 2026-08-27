@@ -101,6 +101,8 @@ The same component keeps the continued new flow in `userslist` as a local `newFl
 
 `direct/directInbox.tsx` keeps HTTP/API and initial-load failures local to the inbox so an unavailable category does not crash the whole route. Notifications retain the HTTP status and backend-provided reason when available.
 
+`direct/directInbox.tsx` resolves a `threadId` deep link from the browser URL after either inbox category has loaded. Reading `window.location.search` avoids the mixed App Router/legacy-router query timing issue; matching General and Business threads select their category and conversation, so links from the home Last Messages card open the requested chat.
+
 # Direct inbox rendering tolerates terminal pages containing threads with an empty `items` array. Message previews, timestamps, and unread counts use empty fallbacks instead of reading `sentByOwner`, `text`, or `createdTime` from an absent first item.
 
 `popups/editAutoReply.tsx` and `popups/editAutoReplyForMedia.tsx` show the Create Automation AI and Create Automation Flow actions whenever the active AI prompt or flow has not been selected, even when the corresponding `DragDrop` list contains options. Existing saved prompts and flows count as selected and keep the actions hidden.

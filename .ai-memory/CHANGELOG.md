@@ -27,6 +27,12 @@
 
 - Fixed direct inbox pagination so general and business scroll requests return fetched threads to `useInfiniteScroll`; a non-null `/api/message/GetDirectInbox` `nextMaxId` now allows the next page request, while `null` correctly stops pagination.
 
+- Fixed Last Messages deep links so `/message/direct?threadId=...` selects the matching General or Business conversation after router and inbox data are ready.
+
+- Fixed DirectInbox's initial render when the legacy router query object is temporarily undefined; deep-link lookup now safely waits for the query value.
+
+- Fixed Last Messages deep-link lookup in the App Router/legacy-router bridge by reading `threadId` from the browser URL and tracking `router.asPath` for navigation updates.
+
 - Normalized direct inbox cursors before subsequent `/api/message/GetDirectInbox` requests. Empty, `null`, string `"null"`, and repeated cursors now terminate pagination instead of causing invalid higher-page requests and backend 500 responses.
 
 - Preserved backend error messages in `clientFetchApi` and displayed the HTTP status plus server reason for direct inbox 4xx/5xx responses, including higher-page `/api/message/GetDirectInbox` failures.
