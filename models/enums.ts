@@ -726,11 +726,12 @@ export enum PushResponseType {
   UpdateSystemTicket,
   CreateSystemTicket,
   ChangeOrderStatus,
-  AiImageFail,
-  AiImageSuccess,
-  TransferThread,
-  AIVideoSuccess = 15,
-  AIVideoFailed = 16,
+  AIImageFailed,
+  AIImageSuccess,
+  TransferThreadMessage,
+  SuspendAccount,
+  AIVideoSuccess,
+  AIVideoFailed,
 }
 
 export enum PushResponseTitle {

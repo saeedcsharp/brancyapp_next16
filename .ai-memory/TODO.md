@@ -8,6 +8,8 @@
 
 # TODO
 
+- Add component coverage for the quick-reply comment-permission state, including localized text, SVG rendering, redirect action, and authorized editor rendering when a UI test harness is introduced.
+
 - Add component coverage confirming product-detail setting inputs render gram, CM, and envelope quantity labels through the shared `InputBox.unit` slot in both instance and non-instance editors when a UI test harness is introduced.
 
 - Add reviewed, visible multilingual FAQ content and FAQPage schema to the public FAQ route; do not generate structured data for hidden or fallback-only answers.

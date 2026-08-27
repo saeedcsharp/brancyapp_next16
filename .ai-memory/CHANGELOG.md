@@ -1,5 +1,9 @@
 - Delayed successful AI video thumbnail insertion by one second after its SignalR notification, keeping the generating card visible while the thumbnail URL becomes available.
 
+- Added a localized comment-permission empty state to the media quick-reply popup, with an inline SVG and an action to enable Instagram comment access when the session permission is false.
+
+- Added the shared Iranian-IP check to the quick-reply Enable Permission action, opening `InvalidIpModalContent` before continuing to Instagram.
+
 - Localized Instagramer navbar notification titles and dynamic messages across all eight supported locales, including safe handling for malformed notification payloads.
 
 - Updated instance and non-instance product setting inputs to use the shared `InputBox.unit` slot for gram, CM, and envelope quantity labels, removing duplicate local unit wrappers and spacing styles.

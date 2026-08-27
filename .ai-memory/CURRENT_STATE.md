@@ -16,6 +16,8 @@ The Iranian/local Footer branch now publishes source-backed LocalBusiness JSON-L
 
 ## Current Architecture
 
+The media quick-reply popup now shows a localized comment-permission state with an inline SVG and an Instagram permission redirect when `session.user.commentPermission === false`. Its Enable Permission action checks `/api/user/ip` and opens `InvalidIpModalContent` for Iranian IPs; authorized users continue to see the existing auto-reply editor.
+
 The former icon-specific toggle control has been removed. Toggle tabs now use the shared `components/design/toggleButton/ToggleButton.tsx` control across wallet, event ideas, follower analysis, and the system-design showcase.
 
 The bulk product popup keeps each value-unit radio beside its corresponding editor and renders both shared and per-product editors inline without changing its API or save behavior.

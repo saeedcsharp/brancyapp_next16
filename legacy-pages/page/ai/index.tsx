@@ -336,7 +336,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
         (item) => item.clientContext.toLowerCase() === generatedClientContext.toLowerCase(),
       );
       if (!pendingGeneration) return;
-      if (notifObj.ResponseType === PushResponseType.AiImageSuccess) {
+      if (notifObj.ResponseType === PushResponseType.AIImageSuccess) {
         console.log("generatedImage", generatedImage);
         setImages((current) => [generatedImage, ...current]);
         pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
@@ -353,7 +353,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
           setPendingGenerations(pendingGenerationsRef.current);
         }, VIDEO_THUMBNAIL_DELAY_MS);
       } else if (
-        notifObj.ResponseType === PushResponseType.AiImageFail ||
+        notifObj.ResponseType === PushResponseType.AIImageFailed ||
         notifObj.ResponseType === PushResponseType.AIVideoFailed
       ) {
         console.log("generatedImagefailed", generatedImage);

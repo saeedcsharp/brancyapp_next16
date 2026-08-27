@@ -21,7 +21,7 @@ const NotificationBar = ({
     if (
       responseType === PushResponseType.UploadPostSuccess ||
       responseType === PushResponseType.UploadStorySuccess ||
-      responseType === PushResponseType.AiImageSuccess ||
+      responseType === PushResponseType.AIImageSuccess ||
       responseType === PushResponseType.AIVideoSuccess
     )
       return (
@@ -47,7 +47,7 @@ const NotificationBar = ({
     } else if (
       responseType === PushResponseType.UploadPostFailed ||
       responseType === PushResponseType.UploadStoryFailed ||
-      responseType === PushResponseType.AiImageFail ||
+      responseType === PushResponseType.AIImageFailed ||
       responseType === PushResponseType.AIVideoFailed
     ) {
       console.log("responseTypeeeeeeeeee", responseType);
@@ -92,7 +92,7 @@ const NotificationBar = ({
           });
         }
         if (
-          (notif.ResponseType === PushResponseType.AiImageSuccess ||
+          (notif.ResponseType === PushResponseType.AIImageSuccess ||
             notif.ResponseType === PushResponseType.AIVideoSuccess) &&
           notif.Message
         ) {
@@ -104,7 +104,7 @@ const NotificationBar = ({
             { version: message.version || "" },
           );
         }
-        if (notif.ResponseType === PushResponseType.AiImageFail && notif.Message) {
+        if (notif.ResponseType === PushResponseType.AIImageFailed && notif.Message) {
           const message = JSON.parse(notif.Message) as IGetMedia;
           return t(LanguageKey.Notification_MediaCreationFailed, {
             version: message.version || "",
