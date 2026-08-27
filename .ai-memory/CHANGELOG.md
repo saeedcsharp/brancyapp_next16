@@ -1,3 +1,7 @@
+- Delayed successful AI video thumbnail insertion by one second after its SignalR notification, keeping the generating card visible while the thumbnail URL becomes available.
+
+- Localized Instagramer navbar notification titles and dynamic messages across all eight supported locales, including safe handling for malformed notification payloads.
+
 - Updated instance and non-instance product setting inputs to use the shared `InputBox.unit` slot for gram, CM, and envelope quantity labels, removing duplicate local unit wrappers and spacing styles.
 - Constrained product-detail media reordering to the horizontal axis in both instance and non-instance editors with a dnd-kit modifier, and added an 8px pointer activation distance to separate drag gestures from thumbnail clicks.
 - Converted store product-detail `variationsetting` layouts to responsive CSS grid: four equal columns on wide screens, two columns on medium screens, and one column on narrow screens.
@@ -251,17 +255,8 @@
 
 ## 2026-08-12
 
-- Added store coupon management to the statistics page: shopper coupons load from the backend, a shared project popup creates new codes with expiry selected through the shared date-and-time picker, limits, phone assignment, bio visibility, and an optional discount cap, and existing coupons can update bio visibility. The complete coupon list and form are localized through typed keys in all eight supported languages.
-- Added the shared collapsible statistics-card behavior to the coupon manager; the header toggles its content and grid span, while the Add Coupon button opens the popup without collapsing the card.
-- Moved all coupon API orchestration and server state from `CouponManager` and `CreateCouponModal` into the store Statistics page; child components now receive data and action callbacks only.
-- Added `isActive` and `isPrivate` coupon filters plus duplicate-safe `nextMaxId` query pagination from the last coupon ID through `useInfiniteScroll`; changing filters resets the coupon list and cursor.
-- Replaced coupon infinite-scroll rendering with the shared slider; each slide displays two coupons and loads the next cursor page through the slider's `onReachEnd` callback.
-- Adjusted coupon slides to display one information-dense coupon per slide for improved readability.
-
-- Limited AI creator range sliders to two decimal places for both displayed and submitted values, including fractional controls such as Kling Out Painting.
 - Updated the AI page's initial library load to show the shared full-page `Loading` component until the selected image or video history API completes; the initial request now follows the deep-linked library type.
 - Added optional `/page/ai?type=1|2` deep-linking: `type=1` opens the image library and `type=2` opens the video library after the legacy router is ready.
-- Completed localization of the active AI image/video workspace across all eight supported locales, including creator states, prompts, usage messages, result metadata values, notifications, and page metadata.
 - Hardened generated-video thumbnail fallback so null, empty, or whitespace `imageUrl` values use `/cover-video.svg` in both library cards and the video detail modal.
 - Added pending image/video generation cards to `/page/ai`: successful create requests return to the matching library immediately, and each loading card is replaced or removed by its correlated SignalR result.
 

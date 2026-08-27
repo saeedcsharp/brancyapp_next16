@@ -26,6 +26,8 @@ The Instagramer layout owns desktop popup visibility. Desktop uses a search butt
 
 `NavbarMobile` and desktop `NavbarTabs` derive their active sections directly from App Router `usePathname()`. The `/page/ai` route family, including image and video creation subroutes, maps to the Page section on mobile and the Content Creator tab on desktop so both navigation logos are available on client navigation and direct reload. Market navigation uses the actual slash-free route values `market`, `marketstatistics`, `marketmylink`, and `marketproperties`, so all market mobile routes resolve to the BioLink logo. Store navigation exposes Products, Orders, and Statistics; the Store Properties route remains directly addressable but is omitted from desktop and mobile navigation.
 
+Instagramer notification surfaces recognize `AIVideoSuccess` and `AIVideoFailed` as AI video-generation success and failure notifications, with dedicated localized titles, explanations, icons, and messages. Dynamic notification content uses i18next interpolation for sender, model version, and failure metadata; malformed payloads fall back to the localized unexpected-error message.
+
 ## Data Flow
 
 Data enters through props, Next route params, session state, browser state, or backend API responses.

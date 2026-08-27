@@ -39,4 +39,5 @@ Changing this feature may affect directionality, translations, menu labels, page
 
 Keep language files and direction handling aligned so AI does not treat translation keys as isolated text.
 Notification response keys use the same `Notify_*` identifier in `LanguageKey` and every locale object.
+Instagramer notification titles and dynamic messages use `Notification_*` keys in every locale object; sender, model version, and failure details are passed as interpolation values.
 Internal feature search indexes each capability's translated feature, parent-section, and configured synonym keys, then adds reusable semantic alias groups that TypeScript requires to cover all eight locales for every route.

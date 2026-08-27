@@ -177,7 +177,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - Coupon search requests are debounced by 400 milliseconds after the last typed character.
 - Normal coupon results are cached per filter combination and restored when search is cleared, avoiding an extra API request when leaving search.
 
-- AI image and video creation now returns to the matching library immediately after request submission, shows one loading card per pending `clientContext`, and replaces or removes each card when its correlated SignalR success or failure notification arrives. Concurrent generations remain independently tracked.
+- AI image and video creation now returns to the matching library immediately after request submission, shows one loading card per pending `clientContext`, and replaces or removes each card when its correlated SignalR success or failure notification arrives. Successful video results wait one second before replacing the loading card so the thumbnail URL has time to become available. Concurrent generations remain independently tracked.
 
 - The active AI workspace is localized across all eight supported locales. Creator states, model guidance, prompt validation, token usage actions, result metadata fallback values, request notifications, and the page description use the active i18next locale.
 

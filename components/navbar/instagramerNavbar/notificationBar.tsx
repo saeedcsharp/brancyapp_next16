@@ -21,7 +21,8 @@ const NotificationBar = ({
     if (
       responseType === PushResponseType.UploadPostSuccess ||
       responseType === PushResponseType.UploadStorySuccess ||
-      responseType === PushResponseType.AiImageSuccess
+      responseType === PushResponseType.AiImageSuccess ||
+      responseType === PushResponseType.AIVideoSuccess
     )
       return (
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" aria-hidden="true">
@@ -46,7 +47,8 @@ const NotificationBar = ({
     } else if (
       responseType === PushResponseType.UploadPostFailed ||
       responseType === PushResponseType.UploadStoryFailed ||
-      responseType === PushResponseType.AiImageFail
+      responseType === PushResponseType.AiImageFail ||
+      responseType === PushResponseType.AIVideoFailed
     ) {
       console.log("responseTypeeeeeeeeee", responseType);
       return (
@@ -72,34 +74,80 @@ const NotificationBar = ({
     }
     return decoded;
   }, []);
-  const handleMessage = useCallback((notif: PushNotif): string => {
-    if (notif.ResponseType === PushResponseType.UpdateSystemTicket && notif.Message) {
-      const message = JSON.parse(notif.Message) as ITicketPushNotif;
-      return `You have a new message from  ${
-        message.Username !== null ? message.Username : "+" + message.PhoneNumber
-      } `;
-    } else if (notif.ResponseType === PushResponseType.ChangeOrderStatus && notif.Message) {
-      const message = JSON.parse(notif.Message) as IOrderPushNotifExtended;
-      if (message.NewStatus === OrderStep.Paid) {
-        return (
-          "You have new order from " +
-          (message.UserProfile?.FullName || message.UserProfile?.Username || message.UserProfile?.PhoneNumber)
-        );
+  const handleMessage = useCallback(
+    (notif: PushNotif): string => {
+      try {
+        if (notif.ResponseType === PushResponseType.UpdateSystemTicket && notif.Message) {
+          const message = JSON.parse(notif.Message) as ITicketPushNotif;
+          return t(LanguageKey.Notification_NewMessage, {
+            sender: message.Username ?? (message.PhoneNumber ? `+${message.PhoneNumber}` : ""),
+          });
+        }
+        if (notif.ResponseType === PushResponseType.ChangeOrderStatus && notif.Message) {
+          const message = JSON.parse(notif.Message) as IOrderPushNotifExtended;
+          if (message.NewStatus !== OrderStep.Paid) return "";
+          return t(LanguageKey.Notification_NewOrder, {
+            sender:
+              message.UserProfile?.FullName || message.UserProfile?.Username || message.UserProfile?.PhoneNumber || "",
+          });
+        }
+        if (
+          (notif.ResponseType === PushResponseType.AiImageSuccess ||
+            notif.ResponseType === PushResponseType.AIVideoSuccess) &&
+          notif.Message
+        ) {
+          const message = JSON.parse(notif.Message) as IGetMedia;
+          return t(
+            message.videoUrl !== undefined
+              ? LanguageKey.Notification_VideoCreatedBy
+              : LanguageKey.Notification_ImagesCreatedBy,
+            { version: message.version || "" },
+          );
+        }
+        if (notif.ResponseType === PushResponseType.AiImageFail && notif.Message) {
+          const message = JSON.parse(notif.Message) as IGetMedia;
+          return t(LanguageKey.Notification_MediaCreationFailed, {
+            version: message.version || "",
+            metadata: message.metadata || t(LanguageKey.Notify_GenerateAIFail),
+          });
+        }
+        if (notif.ResponseType === PushResponseType.AIVideoFailed && notif.Message) {
+          const message = JSON.parse(notif.Message) as IGetMedia;
+          return t(LanguageKey.Notification_VideoCreationFailed, {
+            version: message.version || "",
+            metadata: message.metadata || t(LanguageKey.Notify_GenerateAIFail),
+          });
+        }
+      } catch {
+        return t(LanguageKey.Notify_Unexpected);
       }
-      return "";
-    } else if (notif.ResponseType === PushResponseType.AiImageSuccess && notif.Message) {
-      const message = JSON.parse(notif.Message) as IGetMedia;
-      const notifMessage =
-        message.videoUrl !== null ? "Your video successfully created by, " : "Your images successfully created by, ";
-      return notifMessage + message.version + " model.";
-    } else if (notif.ResponseType === PushResponseType.AiImageFail && notif.Message) {
-      const message = JSON.parse(notif.Message) as IGetMedia;
-      return `Your media failed to be created by " + message.version + " model : ${message.metadata || "media generation failed."}`;
-    } else {
-      const explaination = getEnumValue(PushResponseType, PushResponseExplanation, notif.ResponseType);
-      return `${explaination} `;
-    }
-  }, []);
+      const explanation = getEnumValue(PushResponseType, PushResponseExplanation, notif.ResponseType) || "";
+      const explanationKey: Partial<Record<string, LanguageKey>> = {
+        [PushResponseExplanation.UpdateSystemTicket]: LanguageKey.Notification_YouHaveNewMessage,
+        [PushResponseExplanation.DeauthorizedInstaAccount]: LanguageKey.Notification_AccountDeauthorized,
+      };
+      const explanationLanguageKey = explanationKey[explanation];
+      return explanationLanguageKey ? t(explanationLanguageKey) : `${explanation} `;
+    },
+    [t],
+  );
+  const getNotifTitle = useCallback(
+    (responseType: PushResponseType): string => {
+      const titleKey: Partial<Record<PushResponseType, LanguageKey>> = {
+        [PushResponseType.UploadPostSuccess]: LanguageKey.Notification_NewPost,
+        [PushResponseType.UploadPostFailed]: LanguageKey.Notification_UploadPostFailed,
+        [PushResponseType.UploadStorySuccess]: LanguageKey.Notification_NewStory,
+        [PushResponseType.UploadStoryFailed]: LanguageKey.Notification_UploadStoryFailed,
+        [PushResponseType.AIVideoSuccess]: LanguageKey.Notification_NewVideo,
+        [PushResponseType.AIVideoFailed]: LanguageKey.Notification_VideoCreationFailedTitle,
+        [PushResponseType.UpdateSystemTicket]: LanguageKey.Notification_YouHaveNewMessage,
+        [PushResponseType.DeauthorizedInstaAccount]: LanguageKey.Notification_AccountDeauthorized,
+      };
+      const key = titleKey[responseType];
+      return key ? t(key) : getEnumValue(PushResponseType, PushResponseTitle, responseType) || "";
+    },
+    [t],
+  );
 
   const handleDeleteClick = useCallback(
     (e: MouseEvent<HTMLButtonElement>, index: number) => {
@@ -123,7 +171,7 @@ const NotificationBar = ({
     return notifs.map((notif, index) => {
       const notifKey = `${notif.ResponseType}-${notif.CreatedTime}-${index}`;
       const decodedUrl = fullyDecodeURIComponent(notif.RedirectUrl);
-      const notifTitle = getEnumValue(PushResponseType, PushResponseTitle, notif.ResponseType) || "";
+      const notifTitle = getNotifTitle(notif.ResponseType);
       const notifMessage = handleMessage(notif);
       const timeAgo = formatTimeAgo(notif.CreatedTime * 1e3);
       return (
@@ -183,6 +231,7 @@ const NotificationBar = ({
     fullyDecodeURIComponent,
     getNotifLogo,
     handleMessage,
+    getNotifTitle,
     handleDeleteClick,
     handleNotifClick,
     handleDeleteNotif,
