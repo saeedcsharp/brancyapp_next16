@@ -534,13 +534,6 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
 
     return [savedPrompt, ...promptItems];
   }, [prompts, replyMethod?.prompt]);
-  const selectedPromptIndex = useMemo(() => {
-    const promptId = selectedPrompt?.promptId || replyMethod?.prompt?.promptId;
-    if (!promptId) return 0;
-
-    const index = availablePrompts.findIndex((prompt) => prompt.promptId === promptId);
-    return index >= 0 ? index + 1 : 0;
-  }, [availablePrompts, replyMethod?.prompt?.promptId, selectedPrompt?.promptId]);
   const AITitles = useMemo(
     () => [
       <div key="NoSelect" id="NoSelect">
@@ -1325,7 +1318,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                           <DragDrop
                             externalSearchMod={true}
                             data={searchAIMode ? AISearchTitles : AITitles}
-                            item={searchAIMode ? 0 : selectedPromptIndex}
+                            item={0}
                             handleOptionSelect={(id) => {
                               void getPromptById(id);
                             }}
