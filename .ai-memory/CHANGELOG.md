@@ -1,3 +1,5 @@
+- Auto-reply keyword validation now derives the shared `InputBox` empty danger state from `specificKeywordsList`, rather than only from the draft keyword input value.
+
 - Extracted the media quick-reply comment-permission state into the reusable `components/notOk/commentPermissionState.tsx` component and its local stylesheet without changing the IP-check or Instagram redirect behavior.
 
 - Delayed successful AI video thumbnail insertion by one second after its SignalR notification, keeping the generating card visible while the thumbnail URL becomes available.

@@ -882,8 +882,10 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                       }}
                       value={specificKeywords}
                       shake={shake}
+                      isEmptyOverride={specificKeywordsList.length === 0}
                       aria-label="Specific keywords for auto-reply"
                       aria-required="true"
+                      dangerOnEmpty
                     />
                     {(() => {
                       const canAdd = specificKeywords.trim() !== "" && specificKeywordsList.length < 10;

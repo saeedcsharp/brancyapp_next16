@@ -9,6 +9,7 @@
 # TODO
 
 - Add component coverage for the quick-reply comment-permission state, including localized text, SVG rendering, redirect action, and authorized editor rendering when a UI test harness is introduced.
+- Add component coverage confirming the auto-reply keyword input remains invalid while `specificKeywordsList` is empty, including when a draft keyword is typed.
 - Add component coverage for media auto-reply message-permission states across direct response, Flow, Product, and Connect Product modes, including same-comment availability and invalid-IP redirect behavior when a UI test harness is introduced.
 - Add component coverage confirming DirectInbox delays SignalR audio insertion by one second while non-audio messages are inserted immediately when a UI test harness is introduced.
 
