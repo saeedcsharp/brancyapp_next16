@@ -17,6 +17,9 @@
 - Auto-reply AI and Flow selectors now show their Create Automation actions whenever no prompt or flow is selected, even when the selector lists available options.
 - Standardized the desktop store product list as a synchronized six-column grid. Its header now belongs to the scrollable list and remains sticky above product rows, with dedicated widths for PID, stock, price, last modified, and status columns.
 - Media auto-reply AI and Flow selectors now use the same unselected-state create-action behavior.
+- Fixed media auto-reply AI prompt selection not appearing after post-info reload by merging the saved prompt into the selector options and synchronizing its selected index after async loading.
+- Media auto-reply now displays the selected or restored AI prompt title above the selector, matching the Flow editor.
+- Media auto-reply now reloads full AI prompt details through `GetPrompt`, so the saved prompt description appears below `DragDrop` after post-info reload.
 - Media auto-reply direct response, Flow, Product, and Connect Product modes now show the localized message-permission state with the existing Instagram permission and invalid-IP flow when `messagePermission` is false; same-comment replies remain available.
 - Media auto-reply message-delivery modes now hide confirmation-message and must-follow-page options and save both values as `false`; same-comment replies preserve the existing options.
   <<<<<<< HEAD
@@ -145,6 +148,8 @@
 - Fixed brush line chart hydration mismatches by using an explicit `en-US` locale for count labels rendered in SVG axes and tooltips.
 
 # Changelog
+
+- Prevented the Instagramer sidebar and navbar from flashing while the required NextAuth session is loading or redirecting an unauthenticated user.
 
 - Implemented phase two SEO metadata foundations: added localized Open Graph/Twitter cards, app icons, `x-default` hreflang, and reusable JSON-LD for Organization, WebSite, and SoftwareApplication on eight landing routes. Kept FAQ schema, keyword metrics, and backlink acquisition pending until visible reviewed content and external data are available.
 - Implemented phases three and four growth/conversion foundations: added 40 static multilingual topic-resource URLs across management, automation, analytics, marketing, and AI clusters; added visible FAQ answers, FAQPage schema, breadcrumbs, related internal links, and landing CTAs; reduced landing image preloads and persistent GPU hints and made the mobile sign-in CTA keyboard-accessible. Field Core Web Vitals and user-test measurement remain pending.

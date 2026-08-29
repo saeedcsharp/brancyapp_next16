@@ -526,18 +526,33 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
     console.log("sendAuto", sendAuto);
     handleSaveAutoReply(sendAuto);
   }, [handleSaveAutoReply, replyMethod, selectedFlow, selectedPrompt, checkBox, session]);
+  const availablePrompts = useMemo(() => {
+    const promptItems = prompts?.items || [];
+    const savedPrompt = replyMethod?.prompt;
+
+    if (!savedPrompt || promptItems.some((prompt) => prompt.promptId === savedPrompt.promptId)) return promptItems;
+
+    return [savedPrompt, ...promptItems];
+  }, [prompts, replyMethod?.prompt]);
+  const selectedPromptIndex = useMemo(() => {
+    const promptId = selectedPrompt?.promptId || replyMethod?.prompt?.promptId;
+    if (!promptId) return 0;
+
+    const index = availablePrompts.findIndex((prompt) => prompt.promptId === promptId);
+    return index >= 0 ? index + 1 : 0;
+  }, [availablePrompts, replyMethod?.prompt?.promptId, selectedPrompt?.promptId]);
   const AITitles = useMemo(
     () => [
       <div key="NoSelect" id="NoSelect">
         {t(LanguageKey.Pleaseselect)}
       </div>,
-      ...(prompts?.items || []).map((prompt) => (
+      ...availablePrompts.map((prompt) => (
         <div key={prompt.promptId.toString()} id={prompt.promptId.toString()}>
           {prompt.title}
         </div>
       )),
     ],
-    [prompts, t],
+    [availablePrompts, t],
   );
   const AISearchTitles = useMemo(
     () => [
@@ -700,7 +715,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
   const getPrompt = useCallback(
     async (promptId: string) => {
       try {
-        const res = await clientFetchApi<boolean, ITotalPrompt>("/api/ai/GetPrompt", {
+        const res = await clientFetchApi<boolean, IDetailPrompt>("/api/ai/GetPrompt", {
           methodType: MethodType.get,
           session: session,
           data: null,
@@ -745,9 +760,12 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
         const flow = await getMasterFlow(enriched.masterFlowId);
         enriched = { ...enriched, masterFlow: flow };
       }
-      if (enriched.promptId && !enriched.prompt) {
+      if (enriched.promptId) {
         const prompt = await getPrompt(enriched.promptId);
-        enriched = { ...enriched, prompt };
+        if (prompt) {
+          enriched = { ...enriched, prompt };
+          if (isMountedRef.current) setSelectedPrompt(prompt);
+        }
       }
       if (isMountedRef.current) {
         setReplyMethod(enriched);
@@ -1292,38 +1310,42 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                   {checkBox.AI && (
                     <div className={styles.optioncontainer}>
                       <div className="headerandinput">
-                        {/* {replyMethod?.prompt && (
+                        {(selectedPrompt || replyMethod?.prompt) && (
                           <>
                             <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
                             <InputBox
                               className={"textinputbox"}
                               handleInputChange={() => {}}
-                              value={replyMethod.prompt.title}
+                              value={selectedPrompt?.title || replyMethod?.prompt?.title || ""}
                             />
                           </>
-                        )} */}
+                        )}
 
-                        {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : (prompts?.items?.length ?? 0)) > 0 ? (
+                        {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : availablePrompts.length) > 0 ? (
                           <DragDrop
                             externalSearchMod={true}
                             data={searchAIMode ? AISearchTitles : AITitles}
+                            item={searchAIMode ? 0 : selectedPromptIndex}
                             handleOptionSelect={(id) => {
                               void getPromptById(id);
                             }}
                             handleGetMoreItems={async () => {
-                              await getMorePrompts(prompts!.nextMaxId);
+                              await getMorePrompts(prompts?.nextMaxId || null);
                             }}
                             isLoadingMoreItems={loadingState.isLoadingMoreAIItems}
                             onExternalSearch={handleExternalAISearch}
                             externalSearchLoading={loadingState.isExternalSearchAILoading}
-                            externalSearchText={searchAIMode ? selectedPrompt?.title : ""}
+                            externalSearchText={
+                              searchAIMode ? selectedPrompt?.title || replyMethod?.prompt?.title || "" : ""
+                            }
                           />
                         ) : null}
 
                         {!selectedPrompt && !replyMethod?.prompt ? (
                           <div className="headerandinput">
-                            {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : (prompts?.items?.length ?? 0)) ===
-                              0 && <div className="explain">{t(LanguageKey.messagesetting_NoPromptsFound)}</div>}
+                            {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : availablePrompts.length) === 0 && (
+                              <div className="explain">{t(LanguageKey.messagesetting_NoPromptsFound)}</div>
+                            )}
                             <button
                               onClick={() => {
                                 try {

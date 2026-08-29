@@ -35,6 +35,7 @@ The global App Router error boundary displays the received error message. Direct
 ## Active Features
 
 - General and media auto-reply AI and Flow selectors show their localized create-automation actions while no prompt or flow is selected, including when selectable DragDrop options are available.
+- The media auto-reply AI selector restores a saved prompt from `GetPostInfo` into the options list after post-info reload, even when `GetPrompts` does not return that prompt, displays its title above the selector like Flow, and fetches/renders its full `promptStr` description through `GetPrompt`.
 
 - AI Flow connection paths refresh synchronously after canvas zoom and pan transforms commit, keeping SVG lines aligned with Socket DOM positions.
 
