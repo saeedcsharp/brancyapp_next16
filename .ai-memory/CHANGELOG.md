@@ -1,5 +1,7 @@
 - Delayed successful AI video thumbnail insertion by one second after its SignalR notification, keeping the generating card visible while the thumbnail URL becomes available.
 
+- Delayed SignalR audio message insertion in DirectInbox by one second so `ChatAudio` does not consume the URL before it is available on the server.
+
 - Added a localized comment-permission empty state to the media quick-reply popup, with an inline SVG and an action to enable Instagram comment access when the session permission is false.
 
 - Added the shared Iranian-IP check to the quick-reply Enable Permission action, opening `InvalidIpModalContent` before continuing to Instagram.

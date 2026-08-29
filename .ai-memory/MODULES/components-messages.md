@@ -96,6 +96,8 @@ The same component keeps the continued new flow in `userslist` as a local `newFl
 
 `popups/sendFile.tsx` and `popups/sendVideoFile.tsx` use the shared `UploadFile` helper for progress-aware uploads, so direct-message image and video URLs are released only after the global one-second media-availability delay.
 
+`direct/directInbox.tsx` waits one second before inserting SignalR audio messages into the inbox, allowing the audio URL to become available on the server before `ChatAudio` renders it.
+
 <<<<<<< HEAD
 `direct/directInbox.tsx` returns the fetched thread page from its `fetchData` pagination callback. This is required by `useInfiniteScroll`; returning an empty array would make the hook mark pagination as exhausted even when the inbox API returns a non-null `nextMaxId`. `IInbox.nextMaxId` is nullable because the backend uses `null` to indicate the final page.
 

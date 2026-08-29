@@ -39,29 +39,6 @@ export const ChatMedia: React.FC<BaseChatProps> = ({
     },
     [useExternalUrl, baseMediaUrl],
   );
-  const handleImageError = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
-    const target = e.currentTarget;
-    target.src = FALLBACK_IMAGE;
-    target.style.width = FALLBACK_SIZE;
-    target.style.height = FALLBACK_SIZE;
-    if (target.style.maxWidth) {
-      target.style.maxWidth = FALLBACK_SIZE;
-    }
-  }, []);
-  const handleVideoError = useCallback((e: React.SyntheticEvent<HTMLVideoElement>) => {
-    const target = e.currentTarget;
-    const parent = target.parentElement;
-    if (!parent) return;
-    target.style.display = "none";
-    const existingFallback = parent.querySelector('img[alt="Video unavailable"]');
-    if (existingFallback) return;
-    const img = document.createElement("img");
-    img.src = FALLBACK_IMAGE;
-    img.style.width = FALLBACK_SIZE;
-    img.style.height = FALLBACK_SIZE;
-    img.alt = "Video unavailable";
-    parent.appendChild(img);
-  }, []);
   // #endregion
   // #region هندلر کلیک بر روی رسانه — باز و ارسال داده برای نمایش تصویر/ویدیو
   const handleMediaClick = useCallback(
