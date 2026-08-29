@@ -21,32 +21,3 @@
 html[dir="rtl"] .specificword {
   flex-direction: row-reverse;
 }
-
-.permissionState {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  min-height: 280px;
-  padding: 32px 24px;
-  color: var(--text-h2);
-  text-align: center;
-}
-
-.permissionIcon {
-  width: 88px;
-  height: 88px;
-  color: var(--color-dark-blue);
-}
-
-.permissionState h2,
-.permissionState p {
-  max-width: 520px;
-  margin: 0;
-}
-
-.permissionState p {
-  color: var(--text-h3);
-  line-height: 1.7;
-}

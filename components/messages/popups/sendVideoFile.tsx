@@ -262,7 +262,7 @@ const SendVideoFile = (props: {
                 !selectedImage || !videoDimensions || loading || !preparedFile ? "disableButton" : "saveButton"
               }
               disabled={!selectedImage || !videoDimensions || loading || !preparedFile}>
-              {loading ? t(LanguageKey.upload) : t(LanguageKey.save)}
+              {loading ? t(LanguageKey.upload) : t(LanguageKey.send)}
             </button>
           )}
         </div>

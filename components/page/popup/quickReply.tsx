@@ -9,9 +9,9 @@ import { useSession } from "next-auth/react";
 import InvalidIpModalContent from "brancy/components/switchAccount/invalidIpModalContent";
 import Modal from "brancy/components/design/modal";
 import { redirectHostUrl } from "brancy/helper/apiBaseUrl";
-import styles from "./quickReply.module.css";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import CommentPermissionState from "brancy/components/notOk/commentPermissionState";
 
 interface QuickReplyPopupProps {
   setShowQuickReplyPopup: (show: boolean) => void;
@@ -100,33 +100,7 @@ const QuickReplyPopup: React.FC<QuickReplyPopupProps> = ({
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
       {session?.user.commentPermission === false ? (
-        <div className={styles.permissionState} role="status">
-          <svg className={styles.permissionIcon} viewBox="0 0 96 96" aria-hidden="true">
-            <rect x="20" y="40" width="56" height="42" rx="8" fill="none" stroke="currentColor" strokeWidth="6" />
-            <path
-              d="M32 40V29a16 16 0 0 1 32 0v11"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="6"
-              strokeLinecap="round"
-            />
-            <circle cx="48" cy="60" r="5" fill="currentColor" />
-            <path d="M48 65v8" stroke="currentColor" strokeWidth="5" strokeLinecap="round" />
-            <path
-              d="m68 22 5 5 10-11"
-              fill="none"
-              stroke="var(--color-green, #2eaa70)"
-              strokeWidth="6"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-            />
-          </svg>
-          <h2>{t(LanguageKey.AccessAndManageComments)}</h2>
-          <p>{t(LanguageKey.AccessAndManageCommentsExplain)}</p>
-          <button type="button" className="saveButton" onClick={handleRedirectToInstagram}>
-            {t(LanguageKey.EnablePermission)}
-          </button>
-        </div>
+        <CommentPermissionState onEnablePermission={handleRedirectToInstagram} />
       ) : session?.user.commentPermission ? (
         <EditAutoReplyForMedia
           setShowQuickReplyPopup={setShowQuickReplyPopup}

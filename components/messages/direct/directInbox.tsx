@@ -1369,7 +1369,7 @@ const DirectInbox = () => {
     if (item.ThreadId === refUserSelectId.current && !item.SentByOwner) {
       await refWs.current!.send("SendRead", item.RecpId, item.DirectItem.ItemId);
     }
-    await delay(1000);
+    if (item.DirectItem.ItemType !== ItemType.Text) await delay(1000);
     if (gthread !== undefined) {
       console.log("newIGeneral", newItem);
       setGeneralInbox((prev) => ({
