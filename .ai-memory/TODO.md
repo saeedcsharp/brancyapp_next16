@@ -8,6 +8,11 @@
 
 # TODO
 
+- Add component coverage for the quick-reply comment-permission state, including localized text, SVG rendering, redirect action, and authorized editor rendering when a UI test harness is introduced.
+- Add component coverage confirming the auto-reply keyword input remains invalid while `specificKeywordsList` is empty, including when a draft keyword is typed.
+- Add component coverage for media auto-reply message-permission states across direct response, Flow, Product, and Connect Product modes, including same-comment availability and invalid-IP redirect behavior when a UI test harness is introduced.
+- Add component coverage confirming DirectInbox delays SignalR audio insertion by one second while non-audio messages are inserted immediately when a UI test harness is introduced.
+
 - Add component coverage confirming product-detail setting inputs render gram, CM, and envelope quantity labels through the shared `InputBox.unit` slot in both instance and non-instance editors when a UI test harness is introduced.
 
 - Add reviewed, visible multilingual FAQ content and FAQPage schema to the public FAQ route; do not generate structured data for hidden or fallback-only answers.
@@ -27,6 +32,7 @@
 - Add component/browser coverage confirming all Instagramer market routes select the BioLink mobile navbar logo when a UI test harness is introduced.
 
 - Add component coverage for direct inbox general/business cursor pagination, including a non-null `nextMaxId`, fetched-page append, duplicate-page handling, and terminal `null` cursor behavior when a UI test harness is introduced.
+- Add component/browser coverage confirming a Last Messages `threadId` deep link selects the matching General or Business conversation after inbox loading when a UI test harness is introduced.
 
 - # Add component coverage for comment inbox Post/Story cursor pagination, including non-null `oldestCursor`, media append, duplicate-page handling, and terminal `null` cursor behavior when a UI test harness is introduced.
 - Add component coverage confirming the auto-reply AI and Flow Create Automation actions appear with populated unselected DragDrop lists and remain hidden after selecting or retaining an existing prompt/flow when a UI test harness is introduced.

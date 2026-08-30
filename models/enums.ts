@@ -726,9 +726,12 @@ export enum PushResponseType {
   UpdateSystemTicket,
   CreateSystemTicket,
   ChangeOrderStatus,
-  AiImageFail,
-  AiImageSuccess,
-  TransferThread,
+  AIImageFailed,
+  AIImageSuccess,
+  TransferThreadMessage,
+  SuspendAccount,
+  AIVideoSuccess,
+  AIVideoFailed,
 }
 
 export enum PushResponseTitle {
@@ -736,6 +739,8 @@ export enum PushResponseTitle {
   UploadPostFailed = "Upload Post Failed",
   UploadStorySuccess = "New Story",
   UploadStoryFailed = "Upload Story Failed",
+  AIVideoSuccess = "New Video",
+  AIVideoFailed = "Video Creation Failed",
   UpdateSystemTicket = "New Message",
 }
 
@@ -744,6 +749,8 @@ export enum PushResponseExplanation {
   UploadPostFailed = "Upload Post Failed",
   UploadStorySuccess = "New Story successfully uploaded",
   UploadStoryFailed = "Upload Story Failed",
+  AIVideoSuccess = "Your video was successfully created",
+  AIVideoFailed = "Video creation failed",
   UpdateSystemTicket = "You have New Message",
   DeauthorizedInstaAccount = "Deauthorized Insta Account",
 }

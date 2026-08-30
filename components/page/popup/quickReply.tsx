@@ -1,10 +1,17 @@
 import Head from "next/head";
-import React, { ChangeEvent } from "react";
+import React, { ChangeEvent, useState } from "react";
 import { useTranslation } from "react-i18next";
 import EditAutoReplyForMedia from "brancy/components/messages/popups/editAutoReplyForMedia";
 import { LanguageKey } from "brancy/i18n";
 import { MediaProductType, ShopMediaProductType } from "brancy/models/enums";
 import { IMediaUpdateAutoReply, IAutomaticReply } from "brancy/models/interfaces";
+import { useSession } from "next-auth/react";
+import InvalidIpModalContent from "brancy/components/switchAccount/invalidIpModalContent";
+import Modal from "brancy/components/design/modal";
+import { redirectHostUrl } from "brancy/helper/apiBaseUrl";
+import { MethodType } from "brancy/helper/api";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import CommentPermissionState from "brancy/components/notOk/commentPermissionState";
 
 interface QuickReplyPopupProps {
   setShowQuickReplyPopup: (show: boolean) => void;
@@ -22,6 +29,50 @@ const QuickReplyPopup: React.FC<QuickReplyPopupProps> = ({
   handleActiveAutoReply,
 }) => {
   const { t } = useTranslation();
+  const { data: session } = useSession();
+  const [showInvalidIp, setShowInvalidIp] = useState(false);
+  const [invalidIpExpireTime, setInvalidIpExpireTime] = useState(0);
+
+  async function redirectToInstagram() {
+    const response = await clientFetchApi<boolean, string>("/api/preinstagramer/GetInstagramRedirect", {
+      methodType: MethodType.get,
+      session,
+      data: undefined,
+      queries: undefined,
+      onUploadProgress: undefined,
+    });
+
+    if (response.succeeded) {
+      const currentHost = window.location.host;
+      if (currentHost.includes(redirectHostUrl())) {
+        window.location.assign(response.value);
+      } else {
+        window.location.assign(
+          `https://${redirectHostUrl()}/redirectInterface?redirectUrl=${encodeURIComponent(response.value)}`,
+        );
+      }
+    }
+  }
+
+  async function handleRedirectToInstagram() {
+    try {
+      const response = await fetch("/api/user/ip");
+      const data = await response.json();
+      if (data.countryCode === "ir" || !data.countryCode) {
+        setInvalidIpExpireTime(Date.now() + 10000);
+        setShowInvalidIp(true);
+        return;
+      }
+    } catch {
+      // Proceed to redirect when the IP lookup is unavailable.
+    }
+    await redirectToInstagram();
+  }
+
+  const handleInvalidIpContinue = () => {
+    setShowInvalidIp(false);
+    void redirectToInstagram();
+  };
 
   return (
     <>
@@ -48,15 +99,36 @@ const QuickReplyPopup: React.FC<QuickReplyPopupProps> = ({
         <link rel="canonical" href="https://www.brancy.app/page/posts" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <EditAutoReplyForMedia
-        setShowQuickReplyPopup={setShowQuickReplyPopup}
-        handleSaveAutoReply={handleSaveAutoReply}
-        handleActiveAutoReply={handleActiveAutoReply}
-        autoReply={autoReply}
-        productType={autoReply.productType ?? MediaProductType.Feed}
-        showActiveAutoreply={false}
-        shopMediaProductType={shopMediaProductType}
-      />
+      {session?.user.commentPermission === false ? (
+        <CommentPermissionState onEnablePermission={handleRedirectToInstagram} />
+      ) : session?.user.commentPermission ? (
+        <EditAutoReplyForMedia
+          setShowQuickReplyPopup={setShowQuickReplyPopup}
+          handleSaveAutoReply={handleSaveAutoReply}
+          handleActiveAutoReply={handleActiveAutoReply}
+          autoReply={autoReply}
+          productType={autoReply.productType ?? MediaProductType.Feed}
+          showActiveAutoreply={false}
+          shopMediaProductType={shopMediaProductType}
+        />
+      ) : null}
+      <Modal
+        closePopup={() => setShowInvalidIp(false)}
+        classNamePopup="popupMini"
+        showContent={showInvalidIp}
+        style={{
+          aspectRatio: "auto",
+          gap: "16px",
+          justifyContent: "flex-start",
+          maxHeight: "none",
+          padding: "28px",
+        }}>
+        <InvalidIpModalContent
+          expireTime={invalidIpExpireTime}
+          onContinue={handleInvalidIpContinue}
+          onClose={() => setShowInvalidIp(false)}
+        />
+      </Modal>
     </>
   );
 };

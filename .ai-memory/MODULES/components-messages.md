@@ -96,14 +96,28 @@ The same component keeps the continued new flow in `userslist` as a local `newFl
 
 `popups/sendFile.tsx` and `popups/sendVideoFile.tsx` use the shared `UploadFile` helper for progress-aware uploads, so direct-message image and video URLs are released only after the global one-second media-availability delay.
 
+`direct/directInbox.tsx` waits one second before inserting SignalR audio messages into the inbox, allowing the audio URL to become available on the server before `ChatAudio` renders it.
+
 <<<<<<< HEAD
 `direct/directInbox.tsx` returns the fetched thread page from its `fetchData` pagination callback. This is required by `useInfiniteScroll`; returning an empty array would make the hook mark pagination as exhausted even when the inbox API returns a non-null `nextMaxId`. `IInbox.nextMaxId` is nullable because the backend uses `null` to indicate the final page.
 
 `direct/directInbox.tsx` keeps HTTP/API and initial-load failures local to the inbox so an unavailable category does not crash the whole route. Notifications retain the HTTP status and backend-provided reason when available.
 
+`direct/directInbox.tsx` resolves a `threadId` deep link from the browser URL after either inbox category has loaded. Reading `window.location.search` avoids the mixed App Router/legacy-router query timing issue; matching General and Business threads select their category and conversation, so links from the home Last Messages card open the requested chat.
+
 # Direct inbox rendering tolerates terminal pages containing threads with an empty `items` array. Message previews, timestamps, and unread counts use empty fallbacks instead of reading `sentByOwner`, `text`, or `createdTime` from an absent first item.
 
 `popups/editAutoReply.tsx` and `popups/editAutoReplyForMedia.tsx` show the Create Automation AI and Create Automation Flow actions whenever the active AI prompt or flow has not been selected, even when the corresponding `DragDrop` list contains options. Existing saved prompts and flows count as selected and keep the actions hidden.
+
+`popups/editAutoReply.tsx` passes `specificKeywordsList.length === 0` to `InputBox.isEmptyOverride`, so the keyword field keeps its `dangerOnEmpty` state until at least one keyword has been added, even when the draft keyword input itself contains text.
+
+The media auto-reply AI selector keeps its `DragDrop` on the localized Please select option, matching Flow, while displaying the selected or saved prompt title above the selector. It merges a saved prompt from `GetPostInfo` into its prompt options when that prompt is absent from `GetPrompts`. When a saved `promptId` exists, it also calls `GetPrompt` for the full `IDetailPrompt` and renders its `promptStr` description below the selector after reload.
+
+`components/page/popup/quickReply.tsx` renders `components/notOk/commentPermissionState.tsx` as a localized Instagram comment-permission state with an inline SVG and an Enable Permission action only when `session.user.commentPermission === false`; the action checks `/api/user/ip`, opens `InvalidIpModalContent` for Iranian IPs, and otherwise follows the existing Instagram redirect flow. The existing media auto-reply editor remains unchanged when access is available.
+
+`popups/editAutoReplyForMedia.tsx` keeps media auto-reply and AI configuration available when `session.user.messagePermission === false`, but shows the localized message-permission state whenever direct response, Flow, Product, or Connect Product delivery is selected. Its Enable Permission action uses the same IP check, invalid-IP modal, and Instagram redirect flow as the comment quick-reply state; same-comment responses remain available without message permission.
+
+For message-delivery modes, the confirmation-message and must-follow-page options are omitted from the editor and both corresponding save payload flags are forced to `false`; same-comment delivery retains the existing controls and values.
 
 > > > > > > > sepehr
 

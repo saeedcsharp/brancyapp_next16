@@ -29,6 +29,12 @@ The direct inbox pagination stop bug was fixed on 2026-08-21. The general and bu
 
 The direct inbox terminal-page render crash was fixed on 2026-08-21. Threads returned with an empty `items` array no longer cause `sentByOwner`, `text`, or `createdTime` access on an undefined first item.
 
+The Last Messages direct-link selection bug was fixed on 2026-08-27. Direct inbox now waits for the legacy router and loaded inbox categories before selecting the `threadId` from `/message/direct?threadId=...`.
+
+The DirectInbox initial-render crash was fixed on 2026-08-27. Deep-link query access now tolerates the legacy router's temporarily undefined query object.
+
+The Last Messages chat-selection issue was fixed on 2026-08-27. DirectInbox now reads the deep-link `threadId` from `window.location.search`, so the matching loaded General or Business thread is selected in the mixed router bridge.
+
 The direct inbox category-request crash was fixed on 2026-08-22. Failed initial or pagination requests no longer rethrow `inboxError` during render, so a 500 from one category does not replace the entire inbox with the global error page.
 
 # The comment inbox pagination stop bug was fixed on 2026-08-21. Post and Story `fetchMore` callbacks now return the media fetched from `/api/Comment/GetInbox` instead of returning an empty array, and `ICommetInbox.oldestCursor` is nullable for the final page. Story page appends also ignore duplicate media IDs.

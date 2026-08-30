@@ -79,6 +79,35 @@ html[dir="rtl"] .specificword {
   font-size: var(--font-12);
 }
 
+.permissionState {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  min-height: 220px;
+  padding: 24px 16px;
+  color: var(--text-h2);
+  text-align: center;
+}
+
+.permissionIcon {
+  width: 72px;
+  height: 72px;
+  color: var(--color-dark-blue);
+}
+
+.permissionState h2,
+.permissionState p {
+  max-width: 520px;
+  margin: 0;
+}
+
+.permissionState p {
+  color: var(--text-h3);
+  line-height: 1.7;
+}
+
 .thumbnailsContainer {
   display: flex;
   gap: var(--gap-10);

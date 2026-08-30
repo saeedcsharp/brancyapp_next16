@@ -183,7 +183,7 @@ const PageDetail = (props: { data: IDemographicInsight; items: IInstagramerHomeT
 
             <span className="explain" style={{ textAlign: "center" }}>
               <Tooltip tooltipValue={t(LanguageKey.home_Last24H)} onClick={true} position="top">
-                {t(LanguageKey.pageStatistics_NewFollowers)} ({t(LanguageKey.home_Last30Days)})
+                {t(LanguageKey.pageStatistics_NewFollowers)} ({t(t(LanguageKey.home_Last24H))})
               </Tooltip>
             </span>
           </div>

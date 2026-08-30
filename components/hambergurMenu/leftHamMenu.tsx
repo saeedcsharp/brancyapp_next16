@@ -250,7 +250,8 @@ const LeftHamMenue = ({
     if (
       responseType === PushResponseType.UploadPostSuccess ||
       responseType === PushResponseType.UploadStorySuccess ||
-      responseType === PushResponseType.AiImageSuccess
+      responseType === PushResponseType.AIImageSuccess ||
+      responseType === PushResponseType.AIVideoSuccess
     ) {
       return (
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" aria-hidden="true">
@@ -276,7 +277,8 @@ const LeftHamMenue = ({
     if (
       responseType === PushResponseType.UploadPostFailed ||
       responseType === PushResponseType.UploadStoryFailed ||
-      responseType === PushResponseType.AiImageFail
+      responseType === PushResponseType.AIImageFailed ||
+      responseType === PushResponseType.AIVideoFailed
     ) {
       return (
         <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true">
@@ -304,12 +306,18 @@ const LeftHamMenue = ({
         );
       }
       return "";
-    } else if (notif.ResponseType === PushResponseType.AiImageSuccess && notif.Message) {
+    } else if (notif.ResponseType === PushResponseType.AIImageSuccess && notif.Message) {
       const message = JSON.parse(notif.Message) as IGetMedia;
       return "Your images successfully created by, " + message.version + " model.";
-    } else if (notif.ResponseType === PushResponseType.AiImageFail && notif.Message) {
+    } else if (notif.ResponseType === PushResponseType.AIImageFailed && notif.Message) {
       const message = JSON.parse(notif.Message) as IGetMedia;
       return `Your images failed to be created by " + message.version + " model : ${message.metadata || "Image generation failed."}`;
+    } else if (notif.ResponseType === PushResponseType.AIVideoSuccess && notif.Message) {
+      const message = JSON.parse(notif.Message) as IGetMedia;
+      return `Your video was successfully created by ${message.version} model.`;
+    } else if (notif.ResponseType === PushResponseType.AIVideoFailed && notif.Message) {
+      const message = JSON.parse(notif.Message) as IGetMedia;
+      return `Your video failed to be created by ${message.version} model: ${message.metadata || "Video generation failed."}`;
     }
 
     const explanation = getEnumValue(PushResponseType, PushResponseExplanation, notif.ResponseType);

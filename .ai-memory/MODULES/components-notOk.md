@@ -58,6 +58,8 @@ React components are present when the folder contains `.tsx` UI files.
 
 `notLogin.tsx` lists the authenticated user's Instagram accounts and visually marks the active account by comparing each list index with `session.user.currentIndex`. The active card uses the shared blue design tokens and exposes `aria-pressed="true"` while retaining click and keyboard account switching.
 
+`commentPermissionState.tsx` provides the localized comment-permission empty state used by the media quick-reply popup. It owns the permission icon, explanatory text, and Enable Permission action presentation while receiving the redirect action through `onEnablePermission`.
+
 When the local IP endpoint reports Iran (`countryCode === "ir"`), `notLogin.tsx` delegates the pending Instagram redirect to the Instagramer layout's `onInvalidIp` callback, which opens the shared localized invalid-IP modal and its ten-second countdown. Continue or timeout performs the redirect; closing the modal cancels it. Other countries and IP lookup failures continue directly to the redirect.
 
 ## Hooks

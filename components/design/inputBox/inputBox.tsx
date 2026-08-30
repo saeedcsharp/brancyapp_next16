@@ -89,6 +89,7 @@ interface InputBoxProps {
   ariaLabelledBy?: string;
   ariaDescribedBy?: string;
   dangerOnEmpty?: boolean;
+  isEmptyOverride?: boolean;
   onKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
   shake?: boolean;
 }
@@ -127,6 +128,7 @@ const InputBox = forwardRef<HTMLInputElement, InputBoxProps>(function InputBox(p
     ariaLabelledBy,
     ariaDescribedBy,
     dangerOnEmpty,
+    isEmptyOverride,
     onKeyDown,
     shake,
   } = props;
@@ -202,7 +204,7 @@ const InputBox = forwardRef<HTMLInputElement, InputBoxProps>(function InputBox(p
     inputRef.current.dispatchEvent(new Event("input", { bubbles: true }));
     inputRef.current.focus();
   }, [disabled, pasteIcon, readOnly]);
-  const isEmpty = !value || value.trim() === "";
+  const isEmpty = isEmptyOverride ?? (!value || value.trim() === "");
   const activeRTL = value ? isValueRTL : isPlaceholderRTL;
   const legacyClass = styles[className as keyof typeof styles] || styles.textinputbox;
   const selectedVariant =

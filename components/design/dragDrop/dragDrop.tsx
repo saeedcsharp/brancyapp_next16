@@ -245,7 +245,7 @@ const DragDrop = (props: {
   }, [props.resetItemValue]);
   useEffect(() => {
     if (props.item !== undefined) setItemValue(props.item);
-  }, [props.isRefresh]);
+  }, [props.item, props.isRefresh]);
 
   // Cleanup timeout هنگام unmount
   useEffect(() => {

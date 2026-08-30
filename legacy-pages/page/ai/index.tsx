@@ -43,6 +43,7 @@ import GeneratedVideoModal from "brancy/components/page/ai/generatedVideoModal";
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
 type AiQueryType = "1" | "2";
 const SUCCESS_MEDIA_STATUS = 2;
+const VIDEO_THUMBNAIL_DELAY_MS = 1000;
 function formatCreatedTime(timestamp: number) {
   const t = initialzedTime();
   const d = new DateObject({
@@ -335,18 +336,26 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
         (item) => item.clientContext.toLowerCase() === generatedClientContext.toLowerCase(),
       );
       if (!pendingGeneration) return;
-      if (notifObj.ResponseType === PushResponseType.AiImageSuccess) {
+      if (notifObj.ResponseType === PushResponseType.AIImageSuccess) {
         console.log("generatedImage", generatedImage);
-        if (pendingGeneration.mediaType === "video") {
-          setVideos((current) => [generatedImage, ...current]);
-        } else {
-          setImages((current) => [generatedImage, ...current]);
-        }
+        setImages((current) => [generatedImage, ...current]);
         pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
           (item) => item.clientContext !== generatedClientContext,
         );
         setPendingGenerations(pendingGenerationsRef.current);
-      } else if (notifObj.ResponseType === PushResponseType.AiImageFail) {
+      } else if (notifObj.ResponseType === PushResponseType.AIVideoSuccess) {
+        console.log("generatedVideo", generatedImage);
+        setTimeout(() => {
+          setVideos((current) => [generatedImage, ...current]);
+          pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
+            (item) => item.clientContext !== generatedClientContext,
+          );
+          setPendingGenerations(pendingGenerationsRef.current);
+        }, VIDEO_THUMBNAIL_DELAY_MS);
+      } else if (
+        notifObj.ResponseType === PushResponseType.AIImageFailed ||
+        notifObj.ResponseType === PushResponseType.AIVideoFailed
+      ) {
         console.log("generatedImagefailed", generatedImage);
         pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
           (item) => item.clientContext !== generatedClientContext,

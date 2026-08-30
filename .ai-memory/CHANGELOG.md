@@ -1,3 +1,19 @@
+- Auto-reply keyword validation now derives the shared `InputBox` empty danger state from `specificKeywordsList`, rather than only from the draft keyword input value.
+
+- Media auto-reply AI `DragDrop` now keeps the Please select option visible, matching the Flow selector while the selected prompt title remains shown above it.
+
+- Extracted the media quick-reply comment-permission state into the reusable `components/notOk/commentPermissionState.tsx` component and its local stylesheet without changing the IP-check or Instagram redirect behavior.
+
+- Delayed successful AI video thumbnail insertion by one second after its SignalR notification, keeping the generating card visible while the thumbnail URL becomes available.
+
+- Delayed SignalR audio message insertion in DirectInbox by one second so `ChatAudio` does not consume the URL before it is available on the server.
+
+- Added a localized comment-permission empty state to the media quick-reply popup, with an inline SVG and an action to enable Instagram comment access when the session permission is false.
+
+- Added the shared Iranian-IP check to the quick-reply Enable Permission action, opening `InvalidIpModalContent` before continuing to Instagram.
+
+- Localized Instagramer navbar notification titles and dynamic messages across all eight supported locales, including safe handling for malformed notification payloads.
+
 - Updated instance and non-instance product setting inputs to use the shared `InputBox.unit` slot for gram, CM, and envelope quantity labels, removing duplicate local unit wrappers and spacing styles.
 - Constrained product-detail media reordering to the horizontal axis in both instance and non-instance editors with a dnd-kit modifier, and added an 8px pointer activation distance to separate drag gestures from thumbnail clicks.
 - Converted store product-detail `variationsetting` layouts to responsive CSS grid: four equal columns on wide screens, two columns on medium screens, and one column on narrow screens.
@@ -5,6 +21,11 @@
 - Auto-reply AI and Flow selectors now show their Create Automation actions whenever no prompt or flow is selected, even when the selector lists available options.
 - Standardized the desktop store product list as a synchronized six-column grid. Its header now belongs to the scrollable list and remains sticky above product rows, with dedicated widths for PID, stock, price, last modified, and status columns.
 - Media auto-reply AI and Flow selectors now use the same unselected-state create-action behavior.
+- Fixed media auto-reply AI prompt selection not appearing after post-info reload by merging the saved prompt into the selector options and synchronizing its selected index after async loading.
+- Media auto-reply now displays the selected or restored AI prompt title above the selector, matching the Flow editor.
+- Media auto-reply now reloads full AI prompt details through `GetPrompt`, so the saved prompt description appears below `DragDrop` after post-info reload.
+- Media auto-reply direct response, Flow, Product, and Connect Product modes now show the localized message-permission state with the existing Instagram permission and invalid-IP flow when `messagePermission` is false; same-comment replies remain available.
+- Media auto-reply message-delivery modes now hide confirmation-message and must-follow-page options and save both values as `false`; same-comment replies preserve the existing options.
   <<<<<<< HEAD
 - # Reused the Instagramer layout's invalid-IP modal for the NotLogin Instagram connection button, replacing its local toast countdown with the shared warning, countdown, Continue, and Close behavior.
 - # Fixed the Upgrade page's embedded SwitchAccount Add Account flow by wiring its Iranian-IP callback to the same invalid-IP modal and redirect continuation.
@@ -26,6 +47,12 @@
 - Prevented DirectInbox initial-load and pagination failures from crashing the whole route; failed category requests remain local and retain their HTTP status and backend reason in notifications.
 
 - Fixed direct inbox pagination so general and business scroll requests return fetched threads to `useInfiniteScroll`; a non-null `/api/message/GetDirectInbox` `nextMaxId` now allows the next page request, while `null` correctly stops pagination.
+
+- Fixed Last Messages deep links so `/message/direct?threadId=...` selects the matching General or Business conversation after router and inbox data are ready.
+
+- Fixed DirectInbox's initial render when the legacy router query object is temporarily undefined; deep-link lookup now safely waits for the query value.
+
+- Fixed Last Messages deep-link lookup in the App Router/legacy-router bridge by reading `threadId` from the browser URL and tracking `router.asPath` for navigation updates.
 
 - Normalized direct inbox cursors before subsequent `/api/message/GetDirectInbox` requests. Empty, `null`, string `"null"`, and repeated cursors now terminate pagination instead of causing invalid higher-page requests and backend 500 responses.
 
@@ -125,6 +152,8 @@
 - Fixed brush line chart hydration mismatches by using an explicit `en-US` locale for count labels rendered in SVG axes and tooltips.
 
 # Changelog
+
+- Prevented the Instagramer sidebar and navbar from flashing while the required NextAuth session is loading or redirecting an unauthenticated user.
 
 - Implemented phase two SEO metadata foundations: added localized Open Graph/Twitter cards, app icons, `x-default` hreflang, and reusable JSON-LD for Organization, WebSite, and SoftwareApplication on eight landing routes. Kept FAQ schema, keyword metrics, and backlink acquisition pending until visible reviewed content and external data are available.
 - Implemented phases three and four growth/conversion foundations: added 40 static multilingual topic-resource URLs across management, automation, analytics, marketing, and AI clusters; added visible FAQ answers, FAQPage schema, breadcrumbs, related internal links, and landing CTAs; reduced landing image preloads and persistent GPU hints and made the mobile sign-in CTA keyboard-accessible. Field Core Web Vitals and user-test measurement remain pending.
@@ -245,17 +274,8 @@
 
 ## 2026-08-12
 
-- Added store coupon management to the statistics page: shopper coupons load from the backend, a shared project popup creates new codes with expiry selected through the shared date-and-time picker, limits, phone assignment, bio visibility, and an optional discount cap, and existing coupons can update bio visibility. The complete coupon list and form are localized through typed keys in all eight supported languages.
-- Added the shared collapsible statistics-card behavior to the coupon manager; the header toggles its content and grid span, while the Add Coupon button opens the popup without collapsing the card.
-- Moved all coupon API orchestration and server state from `CouponManager` and `CreateCouponModal` into the store Statistics page; child components now receive data and action callbacks only.
-- Added `isActive` and `isPrivate` coupon filters plus duplicate-safe `nextMaxId` query pagination from the last coupon ID through `useInfiniteScroll`; changing filters resets the coupon list and cursor.
-- Replaced coupon infinite-scroll rendering with the shared slider; each slide displays two coupons and loads the next cursor page through the slider's `onReachEnd` callback.
-- Adjusted coupon slides to display one information-dense coupon per slide for improved readability.
-
-- Limited AI creator range sliders to two decimal places for both displayed and submitted values, including fractional controls such as Kling Out Painting.
 - Updated the AI page's initial library load to show the shared full-page `Loading` component until the selected image or video history API completes; the initial request now follows the deep-linked library type.
 - Added optional `/page/ai?type=1|2` deep-linking: `type=1` opens the image library and `type=2` opens the video library after the legacy router is ready.
-- Completed localization of the active AI image/video workspace across all eight supported locales, including creator states, prompts, usage messages, result metadata values, notifications, and page metadata.
 - Hardened generated-video thumbnail fallback so null, empty, or whitespace `imageUrl` values use `/cover-video.svg` in both library cards and the video detail modal.
 - Added pending image/video generation cards to `/page/ai`: successful create requests return to the matching library immediately, and each loading card is replaced or removed by its correlated SignalR result.
 

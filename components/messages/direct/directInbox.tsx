@@ -78,7 +78,6 @@ const DirectInbox = () => {
     },
   });
   const { t } = useTranslation();
-  const { query } = router;
   let instagramerId = session?.user.instagramerIds[session?.user.currentIndex];
   const basePictureUrl = getClientMediaBaseUrl();
   const [generalInbox, setGeneralInbox] = useState<IInbox>();
@@ -102,6 +101,7 @@ const DirectInbox = () => {
   const [toggleOrder, setToggleOrder] = useState<MessageCategoryType>(MessageCategoryType.General);
   const [userSelectedId, setUserSelectedId] = useState<string | null>(null);
   const refUserSelectId = useRef(userSelectedId);
+  const deepLinkedThreadId = useRef<string | null>(null);
   useEffect(() => {
     refUserSelectId.current = userSelectedId;
   }, [userSelectedId]);
@@ -853,7 +853,6 @@ const DirectInbox = () => {
       categoryId: 0,
       searchTerm: "",
     };
-    var uniqueGeneralThreads: IThread[] = [];
     try {
       let generalRes = await clientFetchApi<IGetDirectInbox, IInbox>("/api/message/GetDirectInbox", {
         methodType: MethodType.post,
@@ -865,7 +864,6 @@ const DirectInbox = () => {
       if (generalRes.succeeded) {
         setGeneralInbox(generalRes.value);
         console.log("generalRes.value ", generalRes.value);
-        uniqueGeneralThreads = generalRes.value.threads;
       } else {
         if (generalRes.statusCode >= 400) setInboxError(new Error(getInboxApiErrorMessage(generalRes)));
         notify(generalRes.info.responseType, NotifType.Warning);
@@ -874,18 +872,30 @@ const DirectInbox = () => {
       setInboxError(error instanceof Error ? error : new Error("Unable to load the direct inbox."));
     }
     await handleSignalR();
-    if (router.isReady && query.threadId !== undefined) {
-      var threadIdRouter = query.threadId;
-      if (threadIdRouter) {
-        var oldGeneral = uniqueGeneralThreads.find((x) => x.threadId === threadIdRouter);
-        if (oldGeneral) {
-          setToggleOrder(MessageCategoryType.General);
-          setUserSelectedId(oldGeneral.threadId);
-        }
-      }
-    }
     setLoading(false);
   };
+
+  useEffect(() => {
+    const threadId = new URLSearchParams(window.location.search).get("threadId");
+    if (!threadId) return;
+    if (deepLinkedThreadId.current === threadId) return;
+
+    const generalThread = generalInbox?.threads.find((thread) => thread.threadId === threadId);
+    if (generalThread) {
+      deepLinkedThreadId.current = threadId;
+      setToggleOrder(MessageCategoryType.General);
+      setUserSelectedId(generalThread.threadId);
+      return;
+    }
+
+    const businessThread = businessInbox?.threads.find((thread) => thread.threadId === threadId);
+    if (businessThread) {
+      deepLinkedThreadId.current = threadId;
+      setToggleOrder(MessageCategoryType.Business);
+      setUserSelectedId(businessThread.threadId);
+    }
+  }, [router.asPath, generalInbox, businessInbox]);
+
   let onLoading = false;
   const fetchItemData = async (chatBox: IThread) => {
     console.log("oldestCursor", chatBox.nextMaxId);
@@ -1359,6 +1369,7 @@ const DirectInbox = () => {
     if (item.ThreadId === refUserSelectId.current && !item.SentByOwner) {
       await refWs.current!.send("SendRead", item.RecpId, item.DirectItem.ItemId);
     }
+    if (item.DirectItem.ItemType !== ItemType.Text) await delay(1000);
     if (gthread !== undefined) {
       console.log("newIGeneral", newItem);
       setGeneralInbox((prev) => ({
