@@ -65,7 +65,7 @@ function handleFeatureInfo(mediaLink: IMyLink) {
       isActive: mediaLink.lastVideo.isActive,
     });
   }
-  if (mediaLink.faq && mediaLink.faq.isActive) {
+  if (mediaLink.faq && mediaLink.faq.isActive && mediaLink.faq.faqs.length > 0) {
     featureArray.push({
       orderId: mediaLink.faq.orderId,
       title: mediaLink.faq.title,
@@ -73,7 +73,7 @@ function handleFeatureInfo(mediaLink: IMyLink) {
       isActive: mediaLink.faq.isActive,
     });
   }
-  if (mediaLink.link && mediaLink.link.isActive) {
+  if (mediaLink.link && mediaLink.link.isActive && mediaLink.link.links.length > 0) {
     featureArray.push({
       orderId: mediaLink.link.orderId,
       title: mediaLink.link.title,
@@ -89,7 +89,7 @@ function handleFeatureInfo(mediaLink: IMyLink) {
       isActive: mediaLink.onlineStreaming.isActive,
     });
   }
-  if (mediaLink.products ) {
+  if (mediaLink.products) {
     featureArray.push({
       orderId: mediaLink.products.orderId,
       title: mediaLink.products.title,
@@ -97,7 +97,7 @@ function handleFeatureInfo(mediaLink: IMyLink) {
       isActive: mediaLink.products.isActive,
     });
   }
-  if (mediaLink.reviews && mediaLink.reviews.isActive) {
+  if (mediaLink.reviews && mediaLink.reviews.isActive && mediaLink.reviews.reviews.length > 0) {
     featureArray.push({
       orderId: mediaLink.reviews.orderId,
       title: mediaLink.reviews.title,
@@ -268,15 +268,19 @@ const MyLink = () => {
               isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.LastVideo)!
                 .isActive,
             },
-            products: info.value.shopperInfo!==null   ? {
-              featureType: FeatureType.Products,
-              orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Products)!.orderId,
-              title: "products",
-              isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Products)!
-                .isActive,
-              productCards: info.value.shopperInfo?.products??null,
-              productCoupons: info.value.shopperInfo?.productCoupons??null,
-            }:null,
+            products:
+              info.value.shopperInfo !== null
+                ? {
+                    featureType: FeatureType.Products,
+                    orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Products)!
+                      .orderId,
+                    title: "products",
+                    isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Products)!
+                      .isActive,
+                    productCards: info.value.shopperInfo?.products ?? null,
+                    productCoupons: info.value.shopperInfo?.productCoupons ?? null,
+                  }
+                : null,
             timeline: {
               featureType: FeatureType.AdsTimeline,
               orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.AdsTimeline)!
@@ -340,8 +344,8 @@ const MyLink = () => {
         } else {
           notify(info.info.responseType, NotifType.Warning);
         }
-      } catch(error:any) {
-        console.log("error "+error);
+      } catch (error: any) {
+        console.log("error " + error);
         if (!isActive) return;
         notify(ResponseType.Unexpected, NotifType.Error);
       }

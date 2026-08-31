@@ -62,7 +62,7 @@ const LotteryPopup = ({ lotteries, removeMask }: LotteryPopupProps) => {
   }
 
   return (
-    <div className={styles.popupContent}>
+    <>
       <div className="frameParent">
         <div className="headerChild" title={t(LanguageKey.Lottery)}>
           <div className="circle"></div>
@@ -91,7 +91,7 @@ const LotteryPopup = ({ lotteries, removeMask }: LotteryPopupProps) => {
       <button type="button" className={styles.closeButton} onClick={removeMask}>
         {t(LanguageKey.close)}
       </button>
-    </div>
+    </>
   );
 };
 
