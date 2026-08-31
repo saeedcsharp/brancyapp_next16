@@ -130,14 +130,29 @@ export const VoiceNode: React.FC<VoiceNodeProps> = ({ node, updateNodeData, setE
         },
       });
 
-      let mimeType = "audio/mp4";
-      if (MediaRecorder.isTypeSupported("audio/aac")) {
-        mimeType = "audio/aac";
-      } else if (MediaRecorder.isTypeSupported("audio/m4a")) {
-        mimeType = "audio/m4a";
+      // مهم: باید isTypeSupported برای "audio/mp4" هم چک بشه، وگرنه در ویندوز
+      // (که معمولاً audio/mp4 برای ضبط پشتیبانی نمی‌شه) مرورگر با codec دیگه‌ای
+      // (مثلاً webm/opus) ضبط می‌کنه ولی فایل با برچسب/پسوند mp4 ذخیره می‌شه؛
+      // همین mismatch باعث می‌شه bitrate در Properties ویندوز صفر نشون داده بشه.
+      const getBestMimeType = () => {
+        const types = ["audio/mp4", "audio/aac", "audio/m4a"];
+        for (const type of types) {
+          if (MediaRecorder.isTypeSupported(type)) return type;
+        }
+        return ""; // بذار مرورگر خودش فرمت پیش‌فرض معتبر (معمولاً audio/webm) رو انتخاب کنه
+      };
+
+      const preferredMimeType = getBestMimeType();
+      const recorderOptions: MediaRecorderOptions = {
+        audioBitsPerSecond: 128000, // بیت‌ریت ثابت و صریح، تا در متادیتای فایل هم درست ثبت بشه
+      };
+      if (preferredMimeType) {
+        recorderOptions.mimeType = preferredMimeType;
       }
 
-      const recorder = new MediaRecorder(stream, { mimeType });
+      const recorder = new MediaRecorder(stream, recorderOptions);
+      // mimeType واقعی که مرورگر برای ضبط استفاده می‌کنه (ممکنه با preferredMimeType فرق کنه)
+      const actualMimeType = recorder.mimeType || preferredMimeType || "audio/webm";
       audioChunksRef.current = [];
 
       recorder.ondataavailable = (event) => {
@@ -147,11 +162,13 @@ export const VoiceNode: React.FC<VoiceNodeProps> = ({ node, updateNodeData, setE
       };
 
       recorder.onstop = async () => {
-        const audioBlob = new Blob(audioChunksRef.current, { type: mimeType });
+        const audioBlob = new Blob(audioChunksRef.current, { type: actualMimeType });
 
-        // تبدیل Blob به File
-        const fileName = `recorded_${Date.now()}.${mimeType.split("/")[1]}`;
-        const audioFile = new File([audioBlob], fileName, { type: mimeType });
+        // تبدیل Blob به File - پسوند و type باید دقیقاً منطبق با actualMimeType باشن
+        // تا هدر فایل با محتوای واقعی‌اش هم‌خوانی داشته باشه و bitrate/duration درست خونده بشه
+        const extension = actualMimeType.split("/")[1]?.split(";")[0] || "webm";
+        const fileName = `recorded_${Date.now()}.${extension}`;
+        const audioFile = new File([audioBlob], fileName, { type: actualMimeType });
 
         // نمایش پیش‌نمایش موقت
         const reader = new FileReader();
@@ -162,7 +179,7 @@ export const VoiceNode: React.FC<VoiceNodeProps> = ({ node, updateNodeData, setE
               voiceUrl: audioUrl,
               fileName: fileName,
               fileSize: audioBlob.size,
-              fileType: mimeType,
+              fileType: actualMimeType,
               isRecorded: true,
             });
           }
@@ -190,7 +207,7 @@ export const VoiceNode: React.FC<VoiceNodeProps> = ({ node, updateNodeData, setE
               tempVoiceUrl: uploadResult.showUrl,
               fileName: uploadResult.fileName,
               fileSize: audioBlob.size,
-              fileType: mimeType,
+              fileType: actualMimeType,
               isRecorded: true,
               isExist: false,
             });

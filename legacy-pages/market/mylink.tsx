@@ -89,7 +89,7 @@ function handleFeatureInfo(mediaLink: IMyLink) {
       isActive: mediaLink.onlineStreaming.isActive,
     });
   }
-  if (mediaLink.products) {
+  if (mediaLink.products ) {
     featureArray.push({
       orderId: mediaLink.products.orderId,
       title: mediaLink.products.title,
@@ -268,15 +268,15 @@ const MyLink = () => {
               isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.LastVideo)!
                 .isActive,
             },
-            products: {
+            products: info.value.shopperInfo!==null   ? {
               featureType: FeatureType.Products,
               orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Products)!.orderId,
               title: "products",
               isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Products)!
                 .isActive,
-              productCards: info.value.shopperInfo.products,
-              productCoupons: info.value.shopperInfo.productCoupons,
-            },
+              productCards: info.value.shopperInfo?.products??null,
+              productCoupons: info.value.shopperInfo?.productCoupons??null,
+            }:null,
             timeline: {
               featureType: FeatureType.AdsTimeline,
               orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.AdsTimeline)!
@@ -340,7 +340,8 @@ const MyLink = () => {
         } else {
           notify(info.info.responseType, NotifType.Warning);
         }
-      } catch {
+      } catch(error:any) {
+        console.log("error "+error);
         if (!isActive) return;
         notify(ResponseType.Unexpected, NotifType.Error);
       }
