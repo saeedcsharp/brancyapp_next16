@@ -3259,7 +3259,7 @@ export default function Flow({
   }, [editorState.nodes, searchQuery]);
 
   const requiresFollowerForPrivateReply = useMemo(() => {
-    if (checkFollower || editorState.nodes.length <= 3) return false;
+    if (checkFollower || editorState.nodes.length <= 2) return false;
 
     return editorState.connections.some((connection) => {
       if (connection.sourceNodeId !== "node_onmessage") return false;
