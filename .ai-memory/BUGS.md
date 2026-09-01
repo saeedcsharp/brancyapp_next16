@@ -2,6 +2,8 @@
 
 ## Known Bugs
 
+MyLink feature-order mapping errors were fixed on 2026-09-01 by safely handling missing backend order items: missing IDs default to `0` and missing active flags default to `false`.
+
 The global browser-compatibility layout issues reported on 2026-08-04 were reduced by standardizing root scrollbars, reserving scrollbar space, replacing vulnerable viewport sizing in shared landing modals, and removing unsupported landing-header anchor positioning. Remaining feature-level overflow rules require browser visual regression coverage before they can be safely migrated in bulk.
 
 Product-detail media drag reordering was fixed on 2026-08-23 in both product editors by applying a dnd-kit horizontal-axis modifier and an 8px pointer activation distance; vertical pointer movement no longer changes sortable transforms.

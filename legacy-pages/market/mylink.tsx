@@ -233,87 +233,103 @@ const MyLink = () => {
                   profileUrl: info.value.instagramer.profileUrl,
                   text: info.value.announcement.str,
                   featureType: FeatureType.Announcements,
-                  orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Announcements)!
-                    .orderId,
+                  orderId:
+                    info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Announcements)
+                      ?.orderId ?? 0,
                   title: "announcement",
                   name: info.value.instagramer.username,
-                  isActive: info.value.featureOrders.orderItems.find(
-                    (x) => x.featureType === FeatureType.Announcements,
-                  )!.isActive,
+                  isActive:
+                    info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Announcements)
+                      ?.isActive ?? false,
                 }
               : null,
             reviews: {
               featureType: FeatureType.Reviews,
-              orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Reviews)!.orderId,
+              orderId:
+                info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Reviews)?.orderId ?? 0,
               title: "reviews",
               reviews: info.value.reviews,
-              isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Reviews)!
-                .isActive,
+              isActive:
+                info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Reviews)?.isActive ??
+                false,
             },
             onlineStreaming: {
               onlineStream: onlineStreamCast(info.value.channel),
               featureType: FeatureType.OnlineStream,
-              orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.OnlineStream)!
-                .orderId,
+              orderId:
+                info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.OnlineStream)?.orderId ??
+                0,
               title: "onlineStreaming",
-              isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.OnlineStream)!
-                .isActive,
+              isActive:
+                info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.OnlineStream)?.isActive ??
+                false,
             },
             lastVideo: {
               lastVideo: lastVideCast(info.value.channel),
               featureType: FeatureType.LastVideo,
-              orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.LastVideo)!
-                .orderId,
+              orderId:
+                info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.LastVideo)?.orderId ?? 0,
               title: "lastVideo",
-              isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.LastVideo)!
-                .isActive,
+              isActive:
+                info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.LastVideo)?.isActive ??
+                false,
             },
             products:
               info.value.shopperInfo !== null
                 ? {
                     featureType: FeatureType.Products,
-                    orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Products)!
-                      .orderId,
+                    orderId:
+                      info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Products)
+                        ?.orderId ?? 0,
                     title: "products",
-                    isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Products)!
-                      .isActive,
+                    isActive:
+                      info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.Products)
+                        ?.isActive ?? false,
                     productCards: info.value.shopperInfo?.products ?? null,
                     productCoupons: info.value.shopperInfo?.productCoupons ?? null,
                   }
                 : null,
             timeline: {
               featureType: FeatureType.AdsTimeline,
-              orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.AdsTimeline)!
-                .orderId,
+              orderId:
+                info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.AdsTimeline)?.orderId ??
+                0,
               title: "timeline",
-              isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.AdsTimeline)!
-                .isActive,
+              isActive:
+                info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.AdsTimeline)?.isActive ??
+                false,
             },
             faq: {
               featureType: FeatureType.QandABox,
-              orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.QandABox)!.orderId,
+              orderId:
+                info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.QandABox)?.orderId ?? 0,
               title: "faq",
               faqs: info.value.faqs,
-              isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.QandABox)!
-                .isActive,
+              isActive:
+                info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.QandABox)?.isActive ??
+                false,
             },
             link: {
               featureType: FeatureType.LinkShortcut,
-              orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.LinkShortcut)!
-                .orderId,
+              orderId:
+                info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.LinkShortcut)?.orderId ??
+                0,
               title: "link",
               links: info.value.links,
-              isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.LinkShortcut)!
-                .isActive,
+              isActive:
+                info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.LinkShortcut)?.isActive ??
+                false,
             },
             contactAndMap: {
               contact: info.value.contact,
               featureType: FeatureType.ContactAndMap,
-              orderId: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.ContactAndMap)!
-                .orderId,
+              orderId:
+                info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.ContactAndMap)?.orderId ??
+                0,
               title: "contactAndMap",
-              isActive: info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.ContactAndMap)!
-                .isActive,
+              isActive:
+                info.value.featureOrders.orderItems.find((x) => x.featureType === FeatureType.ContactAndMap)
+                  ?.isActive ?? false,
             },
             orderItems: info.value.featureOrders,
           };

@@ -1,3 +1,5 @@
+- Fixed MyLink feature-order mapping so missing backend order items safely default `orderId` to `0`, `isActive` to `false`, and no longer cause runtime or TypeScript failures.
+
 - Auto-reply keyword validation now derives the shared `InputBox` empty danger state from `specificKeywordsList`, rather than only from the draft keyword input value.
 
 - Media auto-reply AI `DragDrop` now keeps the Please select option visible, matching the Flow selector while the selected prompt title remains shown above it.
