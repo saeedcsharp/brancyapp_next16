@@ -522,6 +522,8 @@ export default {
     CreateAutomationAIExplain: "Automate Instagram interactions with AI-driven responses.",
     flowProperties_notworking_privateReply:
       "⚠️ Note: This flow does not run in private chats with friends and is only used for automatic replies to comments and Direct messages",
+    flowProperties_privateReply_requiresFollower:
+      "This flow cannot be used for private replies. Enable The user must follow the page in Settings to activate it.",
 
     sending: "Sending",
     uploadsRemaining: "Uploads Remaining",

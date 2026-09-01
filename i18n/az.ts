@@ -522,6 +522,8 @@ export default {
     CreateAutomationAIExplain: "Süni intellekt əsaslı cavablarla Instagram qarşılıqlı əlaqələrini avtomatlaşdır.",
     flowProperties_notworking_privateReply:
       "⚠️ Diqqət: Bu axın dostlarla şəxsi çatlarda işləmir və yalnız şərhlərə və Direct mesajlarına avtomatik cavab vermək üçün istifadə olunur",
+    flowProperties_privateReply_requiresFollower:
+      'Bu axından şəxsi cavablar üçün istifadə edilə bilməz. Aktivləşdirmək üçün Parametrlərdə "İstifadəçi səhifəni izləməlidir" seçimini aktiv edin.',
 
     needPass: "Təsdiq və aktivləşdirmə",
     needPassExplain: "Tam giriş üçün Instagram hesabınızın şifrəsi tələb olunur",

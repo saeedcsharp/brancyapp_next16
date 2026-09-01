@@ -533,6 +533,8 @@ export default {
     CreateAutomationAIExplain: "Automatisez les interactions Instagram avec des réponses basées sur l'IA.",
     flowProperties_notworking_privateReply:
       "⚠️ Attention : ce flux ne fonctionne pas dans les conversations privées avec des amis et sert uniquement à répondre automatiquement aux commentaires et aux messages Direct",
+    flowProperties_privateReply_requiresFollower:
+      "Ce flux ne peut pas être utilisé pour les réponses privées. Pour l'activer, activez l'option « L'utilisateur doit suivre la page » dans les paramètres.",
 
     needPass: "Vérification et Activation",
     needPassExplain: "Pour accéder pleinement à cette fonctionnalité, le mot de passe du compte Instagram est requis",

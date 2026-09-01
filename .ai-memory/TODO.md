@@ -1,3 +1,5 @@
+- Add component coverage for the AI Flow private-reply warning and `settingModal` Save flow, including output-bearing and output-less `node_onmessage` targets, more-than-three-node validation, follower-setting changes immediately before Save, localized Tooltip text, and confirmation that Save still sends the request when the warning is visible when a UI test harness is introduced.
+
 - Add component/browser coverage confirming the Instagram account switcher highlights only `session.user.currentIndex`, updates after switching, and preserves keyboard activation when a UI test harness is introduced.
 - Add component/browser coverage for the Add Account and NotLogin Instagram connection IP checks, including the localized Iranian-IP modal in the layout and Upgrade page, ten-second Continue/timeout redirect, redirect behavior for other countries, and redirect fallback when the IP lookup fails.
 

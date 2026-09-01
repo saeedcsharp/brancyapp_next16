@@ -1,3 +1,7 @@
+- The AI Flow private-reply follower requirement remains a display-only warning. Saving from the editor or `settingModal` continues through the existing API flow, while the warning visibility reflects the current follower setting and graph state.
+
+- Added a localized AI Flow header warning when an `node_onmessage` connection targets a node with a non-null output while The user must follow the page is disabled; output-less quick-reply nodes do not show the warning.
+
 - Fixed MyLink feature-order mapping so missing backend order items safely default `orderId` to `0`, `isActive` to `false`, and no longer cause runtime or TypeScript failures.
 
 - Auto-reply keyword validation now derives the shared `InputBox` empty danger state from `specificKeywordsList`, rather than only from the draft keyword input value.

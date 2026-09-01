@@ -1,5 +1,7 @@
 # components/messages
 
+The AI Flow editor shows a localized private-reply warning beside the back and save controls when an `node_onmessage` connection targets a node with a non-null output while `checkFollower` is disabled. Output-less nodes such as quick replies do not trigger the warning. The warning condition is display-only: Save continues through the existing API flow, including after changing The user must follow the page in `settingModal`.
+
 ## Purpose
 
 Component module for messages UI and feature concerns.

@@ -1165,6 +1165,7 @@ const FlowAndAIInbox = () => {
             history={settingModalProps.history}
             flowTitle={settingModalProps.flowTitle}
             checkFollower={settingModalProps.checkFollower}
+            setCheckFollower={settingModalProps.setCheckFollower}
             privateReplyCompability={settingModalProps.privateReplyCompability}
             isAutoSaving={settingModalProps.isAutoSaving}
             isValidFlow={settingModalProps.isValidFlow}

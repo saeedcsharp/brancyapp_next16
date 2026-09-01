@@ -244,6 +244,7 @@ export enum LanguageKey {
   CreateAutomationAIExplain = "CreateAutomationAIExplain",
   ConnectProduct = "ConnectProduct",
   flowProperties_notworking_privateReply = "flowProperties_notworking_privateReply",
+  flowProperties_privateReply_requiresFollower = "flowProperties_privateReply_requiresFollower",
   //0️⃣ General -> sidebar
   sidebar_Home = "sidebar_Home",
   sidebar_Page = "sidebar_Page",

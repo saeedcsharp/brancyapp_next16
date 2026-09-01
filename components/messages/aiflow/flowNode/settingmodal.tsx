@@ -40,6 +40,7 @@ interface SettingModalProps {
   history: any[];
   flowTitle: string;
   checkFollower: boolean;
+  setCheckFollower: (value: boolean) => void;
   privateReplyCompability: boolean;
   updateFlow: (masterFlow: ITotalMasterFlow, flowStr: string) => void;
   cancelSave: () => void;
@@ -65,8 +66,6 @@ export const SettingModal: React.FC<SettingModalProps> = ({
   masterFlowId,
   snapToGridEnabled,
   setSnapToGridEnabled,
-  showMinimap,
-  setShowMinimap,
   panningBoundaryEnabled,
   setPanningBoundaryEnabled,
   exportFlow,
@@ -74,10 +73,9 @@ export const SettingModal: React.FC<SettingModalProps> = ({
   deleteAllNodes,
   editorState,
   lastSaved,
-  historyIndex,
-  history,
   flowTitle,
   checkFollower: checkFollowerInitial,
+  setCheckFollower: setCheckFollowerParent,
   privateReplyCompability,
   updateFlow,
   cancelSave,
@@ -240,7 +238,11 @@ export const SettingModal: React.FC<SettingModalProps> = ({
                   title="Check Follower"
                   name="checkFollower"
                   role="switch"
-                  handleToggle={(e) => setCheckFollower(e.currentTarget.checked)}
+                  handleToggle={(e) => {
+                    const value = e.currentTarget.checked;
+                    setCheckFollower(value);
+                    setCheckFollowerParent(value);
+                  }}
                   checked={checkFollower}
                 />
               </div>
