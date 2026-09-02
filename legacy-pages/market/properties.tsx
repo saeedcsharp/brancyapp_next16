@@ -40,12 +40,7 @@ import NotFeature from "brancy/components/notOk/notFeature";
 const Properties = () => {
   //  return <Soon />;
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const { t } = useTranslation();
   const [showAddNewLink, setShowAddNewLink] = useState(false);
   const [showFeatureBox, setShowFeatureBox] = useState(false);
@@ -194,7 +189,7 @@ const Properties = () => {
   };
   useEffect(() => {
     if (!session) return;
-    if (session && !packageStatus(session)) router.push("/upgrade");
+    if (session && !packageStatus(session)) router.replace("/upgrade");
     if (!LoginStatus(session)) router.push("/");
     if (!RoleAccess(session, PartnerRole.Bio)) return;
     fetchData();
