@@ -1,3 +1,4 @@
+"use client";
 import { redirect } from "next/navigation";
 import { useSession } from "next-auth/react";
 import { packageStatus } from "brancy/helper/loadingStatus";

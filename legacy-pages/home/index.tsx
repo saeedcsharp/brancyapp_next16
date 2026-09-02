@@ -271,10 +271,6 @@ const Home = () => {
       return;
     }
     console.log("Session loaded, checking package status...", session);
-    if (!packageStatus(session) && session?.user?.loginByInsta) {
-      router.push("/upgrade");
-      return;
-    }
 
     // Wait for GetAccountInfo() to complete (lastUpdate is set to 0 on sign-in and updated after GetAccountInfo)
 
