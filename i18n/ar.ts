@@ -512,6 +512,8 @@ export default {
     CreateAutomationAIExplain: "قم بأتمتة تفاعلات إنستغرام من خلال الردود المدفوعة بالذكاء الاصطناعي.",
     flowProperties_notworking_privateReply:
       "⚠️ ملاحظة: لا يعمل هذا الفلو في المحادثات الخاصة مع الأصدقاء، ويُستخدم فقط للرد التلقائي على التعليقات ورسائل Direct",
+    flowProperties_privateReply_requiresFollower:
+      "لا يمكن استخدام هذا الفلو للردود الخاصة. لتفعيله، فعّل خيار «يجب أن يتابع المستخدم الصفحة» في الإعدادات.",
 
     max: "الحد الأقصى",
     needPass: "التأكيد والتفعيل",

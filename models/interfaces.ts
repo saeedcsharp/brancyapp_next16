@@ -1023,7 +1023,7 @@ export interface ILastVideo extends IFeatureInfo {
 
 export interface IProducts extends IFeatureInfo {
   productCards: IProductCard[] | null;
-  productCoupons: IMyLinkProductCoupon[];
+  productCoupons: IMyLinkProductCoupon[]|null;
 }
 
 export interface ITimeline extends IFeatureInfo {}
@@ -1219,7 +1219,7 @@ export interface ISmartLink {
   caption: ICaption;
   featureOrders: IOrderItems;
   terms: string[] | null;
-  shopperInfo: {
+  shopperInfo?: {
     products: IProductCard[];
     productCoupons: IMyLinkProductCoupon[];
   };

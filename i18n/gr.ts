@@ -530,6 +530,8 @@ export default {
     CreateAutomationAIExplain: "Automatisiere Instagram-Interaktionen mit KI-gesteuerten Antworten.",
     flowProperties_notworking_privateReply:
       "⚠️ Hinweis: Dieser Flow funktioniert nicht in privaten Chats mit Freunden und wird nur für automatische Antworten auf Kommentare und Direct-Nachrichten verwendet",
+    flowProperties_privateReply_requiresFollower:
+      "Dieser Flow kann nicht für private Antworten verwendet werden. Aktivieren Sie zur Freischaltung in den Einstellungen die Option „Der Benutzer muss der Seite folgen“.",
 
     needPass: "Verifizierung und Aktivierung",
     needPassExplain: "Für den vollen Zugriff auf diese Funktion wird das Passwort des Instagram-Kontos benötigt",

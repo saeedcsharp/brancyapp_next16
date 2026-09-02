@@ -529,6 +529,8 @@ export default {
     CreateAutomationAIExplain: "Yapay zeka destekli yanıtlarla Instagram etkileşimlerini otomatikleştir.",
     flowProperties_notworking_privateReply:
       "⚠️ Dikkat: Bu akış arkadaşlarla yapılan özel sohbetlerde çalışmaz ve yalnızca yorumlara ve Direct mesajlarına otomatik yanıt vermek için kullanılır",
+    flowProperties_privateReply_requiresFollower:
+      'Bu akış özel yanıtlar için kullanılamaz. Etkinleştirmek için Ayarlar\'da "Kullanıcı sayfayı takip etmeli" seçeneğini etkinleştirin.',
 
     needPass: "Doğrulama ve Aktivasyon",
     needPassExplain: "Bu özelliğe tam erişim için Instagram hesap şifresi gereklidir",

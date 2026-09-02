@@ -3258,6 +3258,17 @@ export default function Flow({
     );
   }, [editorState.nodes, searchQuery]);
 
+  const requiresFollowerForPrivateReply = useMemo(() => {
+    if (checkFollower || editorState.nodes.length <= 2) return false;
+
+    return editorState.connections.some((connection) => {
+      if (connection.sourceNodeId !== "node_onmessage") return false;
+
+      const targetNode = editorState.nodes.find((node) => node.id === connection.targetNodeId);
+      return targetNode?.outputs?.some((output) => output !== null && output !== undefined) ?? false;
+    });
+  }, [checkFollower, editorState.connections, editorState.nodes]);
+
   /**
    * useEffect برای انتخاب خودکار نودهای جستجو شده
    */
@@ -3800,6 +3811,7 @@ export default function Flow({
           history,
           flowTitle: flowTitleRef.current,
           checkFollower: checkFollowerRef.current,
+          setCheckFollower,
           privateReplyCompability,
           isAutoSaving: true,
           unsavedChanges: diff,
@@ -4026,15 +4038,6 @@ export default function Flow({
           <div className={styles.header}>
             <svg
               onClick={() => {
-                // const js = localStorage.getItem("flowEditor_autoSave");
-                // if (js)
-                //   localStorage.setItem(
-                //     `flowEditor_autoSave_${
-                //       flowPropsId.length > 0 ? flowPropsId : "newFlow"
-                //     }`,
-                //     js
-                //   );
-                // localStorage.removeItem("flowEditor_autoSave");
                 showUserList();
               }}
               className={styles.backicon}
@@ -4067,6 +4070,17 @@ export default function Flow({
                 </svg>
               </button>
             </Tooltip>
+            {requiresFollowerForPrivateReply && (
+              <Tooltip tooltipValue={t(LanguageKey.flowProperties_privateReply_requiresFollower)} position="top">
+                <button
+                  type="button"
+                  className={styles.toolbardesktopitem}
+                  aria-label={t(LanguageKey.flowProperties_privateReply_requiresFollower)}
+                  style={{ color: "var(--color-dark-red)", fontSize: "24px", fontWeight: "700" }}>
+                  !
+                </button>
+              </Tooltip>
+            )}
           </div>
 
           {/* ================================================================= */}
@@ -4318,6 +4332,7 @@ export default function Flow({
                       history,
                       flowTitle,
                       checkFollower,
+                      setCheckFollower,
                       privateReplyCompability,
                       isValidFlow: validateAllBlocksHaveInput(editorState, flowPropsId),
                     });
@@ -4381,6 +4396,7 @@ export default function Flow({
                         history,
                         flowTitle,
                         checkFollower,
+                        setCheckFollower,
                         privateReplyCompability,
                         isValidFlow: validateAllBlocksHaveInput(editorState, flowPropsId),
                       });
