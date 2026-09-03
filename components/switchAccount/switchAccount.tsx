@@ -1,22 +1,16 @@
+import Loading from "brancy/components/notOk/loading";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { MethodType } from "brancy/helper/api";
 import { getClientMediaBaseUrl, redirectHostUrl } from "brancy/helper/apiBaseUrl";
-import { getSession, useSession } from "next-auth/react";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { LanguageKey } from "brancy/i18n";
+import { InstagramerAccountInfo, IPartner_User } from "brancy/models/interfaces";
+import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "brancy/i18n";
-import { MethodType } from "brancy/helper/api";
-import Loading from "brancy/components/notOk/loading";
-import {
-  internalNotify,
-  InternalResponseType,
-  NotifType,
-  notify,
-  ResponseType,
-} from "brancy/components/notifications/notificationBox";
 import styles from "./switchAccount.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { InstagramerAccountInfo, IPartner_User } from "brancy/models/interfaces";
 const baseMediaUrl = getClientMediaBaseUrl();
 function SwitchAccount(props: {
   removeMask: () => void;
@@ -129,6 +123,7 @@ function SwitchAccount(props: {
   }
   async function handleSwitchToInstagramer(instagramer: InstagramerAccountInfo, i: number) {
     props.onSwitchStart?.();
+    console.log("Switching to Instagramer:", instagramer);
     const hasPackage = instagramer.packageExpireTime * 1000 > Date.now();
     try {
       const updatedSession = await update({

@@ -42,7 +42,10 @@ export async function middleware(request: NextRequest) {
     return NextResponse.redirect(new URL("/user", request.url));
   }
 
-  if (typeof token.packageExpireTime !== "number" || token.packageExpireTime * 1e3 <= Date.now()) {
+  if (
+    (typeof token.packageExpireTime !== "number" || token.packageExpireTime * 1e3 <= Date.now()) &&
+    (token.loginByFb || token.loginByInsta)
+  ) {
     return NextResponse.redirect(new URL("/upgrade", request.url));
   }
 

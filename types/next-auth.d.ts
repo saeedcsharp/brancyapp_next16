@@ -62,5 +62,7 @@ declare module "next-auth/jwt" {
     publishPermission?: boolean;
     website?: string | null;
     biography?: string | null;
+    loginByFb?: boolean;
+    loginByInsta?: boolean;
   }
 }
