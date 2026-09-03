@@ -83,6 +83,7 @@ type MediaState = {
   progress: number;
 };
 
+type MediaAction =
   | { type: "SET_SHOW_MEDIAS"; payload: IShowMedia[] }
   | { type: "ADD_MEDIA"; payload: IShowMedia }
   | {
