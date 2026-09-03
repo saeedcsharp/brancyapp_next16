@@ -1,22 +1,20 @@
 "use client";
 
-import { packageStatus } from "brancy/helper/loadingStatus";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/navigation";
 import { useEffect } from "react";
 
 export default function Page() {
   const router = useRouter();
-  const { data: session } = useSession();
-  if (!packageStatus(session)) router.replace("/upgrade");
-
+  const { data: session, status } = useSession();
   useEffect(() => {
-    if (session?.user.currentIndex === -1) {
+    if (status !== "authenticated" || !session) return;
+    if (session.user.currentIndex === -1) {
       router.push("/user");
     } else {
       router.push("/message/direct");
     }
-  }, [router, session]);
+  }, [router, session, status]);
 
   return null;
 }

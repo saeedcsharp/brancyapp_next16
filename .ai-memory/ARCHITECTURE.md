@@ -14,6 +14,10 @@
 - Legacy `next/router` usage is bridged by `app/_compat/next-router.ts` through a webpack alias.
 - API calls route through `clientFetchApi`; `/api/user/*` uses Next API proxy, most other calls resolve to direct backend URLs.
 
+- All protected App Router paths are enforced by `middleware.ts` in the Node.js runtime. It reads the Docker JWT secret at `/run/secrets/brancyapp_jwt_token` with `NEXTAUTH_SECRET` as the deployment fallback, validates the NextAuth token, and redirects missing tokens to `/`. Instagramer paths additionally use current-account and package-expiry redirects; `/customershop/*` and `/user/*` receive authentication only. Client route wrappers retain session readiness and route-specific behavior without `onUnauthenticated` callbacks.
+
+- App Router wrappers use the non-required `useSession()` form. They preserve existing `session` and `status` handling but do not enable NextAuth's automatic `SessionRequired` redirect; middleware continues to own authentication enforcement.
+
 ---
 
 # AI Maintenance Policy

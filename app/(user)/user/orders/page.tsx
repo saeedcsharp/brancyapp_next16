@@ -6,12 +6,8 @@ import { useEffect } from "react";
 
 export default function Page() {
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
+  if (session && session!.user.currentIndex > -1) router.push("/");
 
   useEffect(() => {
     router.push("/user/orders/cart");

@@ -143,7 +143,7 @@ export default function LandingPageClient({
   }, []);
 
   const checkFirstLogin = useCallback(async () => {
-    router.push("/user/instagramerLogin");
+    router.push("/user");
   }, [router]);
 
   const handleQueryInRoute = useCallback(async () => {
@@ -173,7 +173,7 @@ export default function LandingPageClient({
       }
     }
 
-    if (source === "pwa" || !role || !redirectUrl) {
+    if (source === "pwa" || (!role && !redirectUrl)) {
       if (session?.user.currentIndex > -1) {
         router.push("/home");
       } else {

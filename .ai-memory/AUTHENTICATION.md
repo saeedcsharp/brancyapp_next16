@@ -14,7 +14,15 @@ Authentication uses NextAuth in `app/api/auth/[...nextauth]/route.ts` with JWT s
 
 ## Secret Handling
 
-The auth route tries `/run/secrets/brancyapp_jwt_token`, then `NEXTAUTH_SECRET`, then a fallback string. Prefer real secrets in deployment and avoid documenting secret values.
+The auth route and Instagramer middleware use `/run/secrets/brancyapp_jwt_token` when available, then `NEXTAUTH_SECRET`, and finally the existing development fallback. Middleware runs in the Node.js runtime so it can read the Docker secret file while processing requests.
+
+## Route Enforcement
+
+The root `middleware.ts` is the single source of truth for authentication on all protected App Router routes. It protects Instagramer paths (`/advertise`, `/customerads`, `/home`, `/market`, `/message`, `/page`, `/search`, `/setting`, `/store`, and `/wallet`) plus `/customershop/:path*` and `/user/:path*`; missing tokens redirect to `/`.
+
+Only Instagramer paths apply selected-account (`currentIndex`) and package-expiry redirects. User paths perform authentication only, so `/user` can safely handle `currentIndex === -1` without a middleware loop. Public paths such as `/`, `/upgrade`, `/directlogin`, and `/googleoauth` are not matched. App Router page wrappers may wait for the client session or preserve route-specific role/account/query behavior, but they do not duplicate authentication callbacks or `packageStatus` checks.
+
+App Router wrappers call `useSession()` without `required: true` or `onUnauthenticated`. This prevents NextAuth from redirecting a user who has just logged out to `/api/auth/signin?error=SessionRequired`; wrappers retain their existing `session` and `status` checks, while middleware remains responsible for unauthenticated route access.
 
 ---
 

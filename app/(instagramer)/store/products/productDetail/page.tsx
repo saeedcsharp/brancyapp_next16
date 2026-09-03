@@ -5,14 +5,13 @@ import PageComponent from "../../../../../legacy-pages/store/products/productDet
 import NotAllowedShopper from "brancy/components/notOk/notAllowedShopper";
 import { useSession } from "next-auth/react";
 import { useSearchParams } from "next/navigation";
-import { packageStatus } from "brancy/helper/loadingStatus";
-import router from "next/router";
+import { useEffect } from "react";
 function ProductDetailRoute() {
-  const { data: session } = useSession();
+  const { data: session, status } = useSession();
   const searchParams = useSearchParams();
   const tempId = searchParams.get("tempId");
-  if (!packageStatus(session)) router.replace("/upgrade");
-  if (session?.user.isInfluencer) return <NotAllowedShopper />;
+  if (status !== "authenticated" || !session) return null;
+  if (session.user.isInfluencer) return <NotAllowedShopper />;
   return <PageComponent tempId={tempId ?? ""} />;
 }
 

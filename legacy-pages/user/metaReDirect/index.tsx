@@ -1,15 +1,14 @@
-import React, { useEffect, useState, useRef } from "react";
-import { useTranslation } from "react-i18next";
-import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Modal from "brancy/components/design/modal";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 import Loading from "brancy/components/notOk/loading";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApiWithAccessToken } from "brancy/helper/clientFetchApi";
-import { IRefreshToken, IVerifyCode } from "brancy/models/interfaces";
-import { signIn, signOut } from "next-auth/react";
-import { useRouter } from "next/router";
 import { LanguageKey } from "brancy/i18n";
+import { IVerifyCode } from "brancy/models/interfaces";
+import { useRouter } from "next/router";
 import styles from "./metaDirect.module.css";
 const phrases = [
   "Initializing Brancy",

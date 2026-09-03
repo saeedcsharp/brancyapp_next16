@@ -1,3 +1,13 @@
+- Centralized authentication for all protected App Router routes in `middleware.ts`. Added `/customershop/:path*` and `/user/:path*` matchers, kept public routes out of the matcher, redirected missing tokens to `/`, limited `currentIndex` and package-expiry checks to Instagramer paths, and removed all route-level `onUnauthenticated` callbacks from `app/**`.
+
+- Centralized Instagramer authentication and package-expiry enforcement in the Node-runtime middleware. Removed `packageStatus` imports and checks from all `app/(instagramer)/**/page.tsx` wrappers while preserving route-specific role, account, query, Suspense, and navigation behavior. Middleware now reads the Docker JWT secret from `/run/secrets/brancyapp_jwt_token` with `NEXTAUTH_SECRET` fallback and no hard-coded secret.
+
+- Fixed the `/home` route redirect regression by removing the duplicate client-side Instagram/Facebook redirect after package access was centralized in middleware.
+
+- Fixed account switching for Instagramers without an active package by updating only the NextAuth user payload, verifying the returned session, and using full browser navigation to `/upgrade` instead of routing through root and `/home`.
+
+- Fixed the MyLink App Router auth guard so a reload does not redirect to `/upgrade` while NextAuth is still loading a session; subscription and account redirects now run only for an authenticated session.
+
 - The AI Flow private-reply follower requirement remains a display-only warning. Saving from the editor or `settingModal` continues through the existing API flow, while the warning visibility reflects the current follower setting and graph state.
 
 - Added a localized AI Flow header warning when an `node_onmessage` connection targets a node with a non-null output while The user must follow the page is disabled; output-less quick-reply nodes do not show the warning.
@@ -158,6 +168,12 @@
 - Fixed brush line chart hydration mismatches by using an explicit `en-US` locale for count labels rendered in SVG axes and tooltips.
 
 # Changelog
+
+# Changelog
+
+- Removed `required: true` from all App Router `useSession` calls. Session and status checks remain in place, while middleware continues to enforce protected-route authentication without NextAuth's logout-time `SessionRequired` redirect.
+
+- Fixed reload-time authentication/package redirects across Instagramer App Router wrappers. Every package-gated route now waits for an authenticated NextAuth session, performs redirects in effects, and prevents legacy page mounting while loading or redirecting; home, account selection, influencer, store/message redirects, AI query handling, Suspense, and intercepted routes retain their existing behavior.
 
 - Prevented the Instagramer sidebar and navbar from flashing while the required NextAuth session is loading or redirecting an unauthenticated user.
 

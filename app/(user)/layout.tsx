@@ -11,12 +11,6 @@ import { useSession } from "next-auth/react";
 
 export default function UserGroupLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
-  const { data: session, status } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
   const newRoute = (router.asPath || "").split("?")[0].replaceAll("/", "");
   const [showLeftUserHamMenu, setShowLeftUserHamMenu] = useState(false);
   const [showNotifBar, setShowNotifBar] = useState(false);
@@ -63,7 +57,6 @@ export default function UserGroupLayout({ children }: { children: React.ReactNod
     setShowSignOut(false);
     setShowSwitch(false);
   };
-  if (status !== "authenticated") return null;
   return (
     <main className="marketAdsCart">
       <UserSidebar newRouth={newRoute} router={router} />

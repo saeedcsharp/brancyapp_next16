@@ -1,5 +1,5 @@
 import { getClientMediaBaseUrl, redirectHostUrl } from "brancy/helper/apiBaseUrl";
-import { useSession } from "next-auth/react";
+import { getSession, useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
@@ -129,34 +129,42 @@ function SwitchAccount(props: {
   }
   async function handleSwitchToInstagramer(instagramer: InstagramerAccountInfo, i: number) {
     props.onSwitchStart?.();
-    await update({
-      ...session,
-      user: {
-        ...session?.user,
-        loginStatus: instagramer.loginStatus,
-        lastUpdate: Date.now(),
-        profileUrl: instagramer.profileUrl,
-        username: instagramer.username,
-        fullName: instagramer.fullName ?? "",
-        isShopper: instagramer.isShopper,
-        hasPackage: instagramer.packageExpireTime * 1000 > Date.now(),
-        isPrivate: instagramer.isPrivate,
-        isShopperOrInfluencer: instagramer.isShopperOrInfluencer,
-        isVerified: instagramer.isVerified,
-        packageExpireTime: instagramer.packageExpireTime,
-        pk: instagramer.pk,
-        isInfluencer: instagramer.isInfluencer,
-        isBusiness: instagramer.isBusiness,
-        loginByFb: instagramer.loginByFb,
-        loginByInsta: instagramer.loginByInsta,
-        roles: instagramer.roles,
-        isPartner: instagramer.isPartner,
-        currentIndex: i,
-        createdTime: instagramer.createdTime,
-      },
-    });
+    const hasPackage = instagramer.packageExpireTime * 1000 > Date.now();
+    try {
+      const updatedSession = await update({
+        user: {
+          ...session?.user,
+          loginStatus: instagramer.loginStatus,
+          lastUpdate: Date.now(),
+          profileUrl: instagramer.profileUrl,
+          username: instagramer.username,
+          fullName: instagramer.fullName ?? "",
+          isShopper: instagramer.isShopper,
+          hasPackage,
+          isPrivate: instagramer.isPrivate,
+          isShopperOrInfluencer: instagramer.isShopperOrInfluencer,
+          isVerified: instagramer.isVerified,
+          packageExpireTime: instagramer.packageExpireTime,
+          pk: instagramer.pk,
+          isInfluencer: instagramer.isInfluencer,
+          isBusiness: instagramer.isBusiness,
+          loginByFb: instagramer.loginByFb,
+          loginByInsta: instagramer.loginByInsta,
+          roles: instagramer.roles,
+          isPartner: instagramer.isPartner,
+          currentIndex: i,
+          createdTime: instagramer.createdTime,
+        },
+      });
+      if (!updatedSession?.user) throw new Error("Session update returned no session");
+    } catch (error) {
+      console.error("Account switch session update failed:", error);
+      notify(ResponseType.Unexpected, NotifType.Error);
+      return;
+    }
+
     props.removeMask();
-    router.push("/");
+    window.location.replace(hasPackage ? "/" : "/upgrade");
   }
 
   async function handleRedirectToInstagram() {

@@ -2,6 +2,16 @@
 
 ## Known Bugs
 
+The logout redirect regression was fixed on 2026-09-03. App Router wrappers no longer pass `required: true` to `useSession`, so NextAuth does not redirect a logged-out browser to `/api/auth/signin?error=SessionRequired`; protected access remains enforced by middleware.
+
+The Instagramer App Router reload guard issue was fixed on 2026-09-03 across all `app/**` routes using `helper/loadingStatus.packageStatus`. Package checks and redirects now wait for `status === "authenticated"` and a valid session, redirects run in effects, and legacy page components do not mount during loading or redirect. Route-specific account, influencer, query, Suspense, and intercepted-modal behavior remains intact.
+
+The `/home` upgrade redirect regression was fixed on 2026-09-03. The route wrapper had retained an unconditional Instagram/Facebook redirect after package checks moved to middleware; the duplicate redirect was removed so middleware remains the only package-access guard.
+
+The no-package account-switch logout/redirect issue was fixed on 2026-09-03. Account switching now updates only the user payload, verifies that NextAuth returned a session, and uses a full browser navigation to `/upgrade` for an account without an active package, avoiding client-navigation races while the updated JWT cookie is settling.
+
+The MyLink reload redirect bug was fixed on 2026-09-03. Its App Router wrapper previously treated the initial `null` NextAuth session as an expired package and redirected to `/upgrade`; it now waits for `status === "authenticated"` before evaluating package or account access.
+
 MyLink feature-order mapping errors were fixed on 2026-09-01 by safely handling missing backend order items: missing IDs default to `0` and missing active flags default to `false`.
 
 The global browser-compatibility layout issues reported on 2026-08-04 were reduced by standardizing root scrollbars, reserving scrollbar space, replacing vulnerable viewport sizing in shared landing modals, and removing unsupported landing-header anchor positioning. Remaining feature-level overflow rules require browser visual regression coverage before they can be safely migrated in bulk.

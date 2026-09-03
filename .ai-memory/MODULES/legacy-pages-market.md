@@ -146,6 +146,8 @@ The market properties shortcut menu sends the selected shortcut ID directly with
 
 MyLink `GetMyLink` responses provide product cards and coupons under the required `shopperInfo` object. The page maps `shopperInfo.products` to the existing product section and passes every entry in `shopperInfo.productCoupons` alongside it for coupon presentation.
 
+The App Router MyLink wrapper waits for NextAuth authentication to finish before evaluating package access or mounting the legacy page, preventing a reload-time `null` session from redirecting valid users to `/upgrade`.
+
 ## Future Improvements
 
 Add examples, endpoint schemas, and diagrams when this module is changed.

@@ -10,6 +10,8 @@
 
 # TODO
 
+- Add component/browser coverage for authenticated Instagramer route guards, including NextAuth loading, expired packages, `currentIndex === -1`, home login-provider exceptions, influencer restrictions, internal redirects, Suspense/query routes, intercepted modals, and confirmation that legacy pages do not mount during redirects.
+
 - Add component coverage for the quick-reply comment-permission state, including localized text, SVG rendering, redirect action, and authorized editor rendering when a UI test harness is introduced.
 - Add component coverage confirming the auto-reply keyword input remains invalid while `specificKeywordsList` is empty, including when a draft keyword is typed.
 - Add component coverage for media auto-reply message-permission states across direct response, Flow, Product, and Connect Product modes, including same-comment availability and invalid-IP redirect behavior when a UI test harness is introduced.

@@ -22,7 +22,7 @@ Follows existing Next/React/TypeScript project conventions.
 
 ## Execution Flow
 
-Execution starts from imports, route rendering, or helper calls depending on the module. The Instagramer group layout waits for NextAuth `status === "authenticated"` before rendering its sidebar, navbar, children, or session-dependent overlays; unauthenticated users are redirected to `/` by the session guard.
+Execution starts from imports, route rendering, or helper calls depending on the module. The Instagramer group layout waits for NextAuth `status === "authenticated"` before rendering its sidebar, navbar, children, or session-dependent overlays. The root Node-runtime middleware is the single source of truth for authentication across protected App Router routes. It handles authentication for Instagramer, `/customershop/*`, and `/user/*`, while account selection and package expiry are applied only to Instagramer paths.
 
 ## Data Flow
 
@@ -136,6 +136,8 @@ See `MODULE_INDEX.md`.
 
 The store product-detail wrapper is a client component because it uses `useSession` and the legacy page uses `next/router`; its `useSearchParams` consumer must remain beneath a Suspense boundary for Next.js production builds.
 
+Instagramer page wrappers do not import or use `packageStatus` and contain no `onUnauthenticated` callbacks. They wait for an authenticated client session only when the legacy page needs session data, while preserving role restrictions, account redirects, query handling, Suspense boundaries, intercepted routes, and feature navigation. Package expiry and protected-route authentication belong to the root middleware; user routes are authentication-only to avoid a `/user` `currentIndex` redirect loop.
+
 ## Technical Debt
 
 Needs deeper per-feature enrichment during future work.
@@ -146,7 +148,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-08-09
+2026-09-03
 
 ---
 

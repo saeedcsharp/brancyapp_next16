@@ -17,12 +17,7 @@ export default function InstagramerGroupLayout({ children }: { children: React.R
   const router = useRouter();
   const pathname = usePathname();
   const newRoute = (pathname || "").split("?")[0].replaceAll("/", "");
-  const { data: session, status } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
 
   const [showSearchBar, setShowSearchBar] = useState(false);
   const [showNotifBar, setShowNotifBar] = useState(false);
@@ -120,8 +115,6 @@ export default function InstagramerGroupLayout({ children }: { children: React.R
     invalidIpContinueRef.current = null;
     setShowInvalidIp(false);
   };
-
-  if (status !== "authenticated") return null;
 
   return (
     <main className="marketAdsCart" onClick={handleOutsideClick}>
