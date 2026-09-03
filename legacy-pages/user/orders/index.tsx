@@ -73,10 +73,7 @@ const stores = [
 const Orders = () => {
   //  return <Soon />;
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated: () => router.push("/"),
-  });
+  const { data: session } = useSession();
   let route = router.route;
   useEffect(() => {
     if (route === "/user/orders") router.push("/user/orders/cart");

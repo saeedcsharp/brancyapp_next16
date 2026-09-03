@@ -68,12 +68,7 @@ const ProductList = () => {
     ],
     [t],
   );
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const userRef = useRef<HTMLDivElement>(null);
   const basePictureUrl = getClientMediaBaseUrl();
   const [products, setProducts] = useState<IProduct_ShortProduct[]>([]);

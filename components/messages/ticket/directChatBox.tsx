@@ -62,12 +62,7 @@ const DirectChatBox = (props: {
   //#endregion
 
   //#region Session و تنظیمات اولیه
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const baseMediaUrl = getClientMediaBaseUrl();
   const useExternalUrl = process.env.NEXT_PUBLIC_USE_EXTERNAL_MESSAGE_URL === "true";
   const { t } = useTranslation();

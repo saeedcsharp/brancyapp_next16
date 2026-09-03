@@ -1,5 +1,7 @@
 # Architecture
 
+Reviewed legacy Instagramer route pages now rely on middleware for package-expiry enforcement while retaining local account, role, shopper, session-rendering, and fetch behavior. Home, story index/detail, market, message, and Instagramer navbar package code remains deferred pending ownership clarification.
+
 ## Runtime Shape
 
 - Next.js 16 application with `next dev --webpack` and `next build --webpack` scripts.

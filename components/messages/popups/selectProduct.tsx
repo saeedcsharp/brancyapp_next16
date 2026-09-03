@@ -24,12 +24,7 @@ const SelectProduct = (props: {
   backToAutoreply: () => void;
 }) => {
   const { t } = useTranslation();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<IProduct_ShortProduct[]>([]);
   const [selectedProduct, setSelectedProduct] = useState<IProduct_ShortProduct | null>(null);

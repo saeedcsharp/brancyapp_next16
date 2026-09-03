@@ -10,7 +10,7 @@ import DeletePartner from "brancy/components/setting/general/popup/deletePartner
 import DeleteSession from "brancy/components/setting/general/popup/deleteSession";
 import ActivityHistory from "brancy/components/setting/subAdmin/activityHistory";
 import Partners from "brancy/components/setting/subAdmin/partner";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 
 import { MethodType } from "brancy/helper/api";
@@ -19,12 +19,7 @@ import { ICreatePartner, IPartner, ISession, IUpdatePartner } from "brancy/model
 
 const SubAdmin = () => {
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
 
   const { t } = useTranslation();
 
@@ -200,7 +195,6 @@ const SubAdmin = () => {
   useEffect(() => {
     if (!session) return;
     if (session?.user.currentIndex === -1) router.push("/user");
-    if (!session || !packageStatus(session)) router.push("/upgrade");
   }, [session]);
 
   return (

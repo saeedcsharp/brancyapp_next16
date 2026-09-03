@@ -54,12 +54,7 @@ function formatCreatedTime(timestamp: number) {
   return d.format("YYYY/MM/DD HH:mm:ss");
 }
 export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const [activeTab, setActiveTab] = useState<MediaTab>(initialType === "2" ? "video" : "image");
   const [creatorTab, setCreatorTab] = useState<MediaTab>(initialType === "2" ? "createvideo" : "createimage");
   const [images, setImages] = useState<IGetMedia[]>([]);

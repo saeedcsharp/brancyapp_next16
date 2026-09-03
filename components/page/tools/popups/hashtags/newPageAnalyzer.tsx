@@ -27,12 +27,7 @@ const NewPageAnalyzer = (props: {
   removeMask: () => void;
   saveHashtagAnalyzer: () => void;
 }) => {
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const { t } = useTranslation();
   const [hashtagSourceImg, sethashtagSourceImg] = useState("");
   const [hashtags, setHashtags] = useState<string[]>();

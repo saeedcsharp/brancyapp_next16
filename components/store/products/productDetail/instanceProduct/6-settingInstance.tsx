@@ -170,12 +170,7 @@ function SettingInstance({
   );
   const router = useRouter();
   const { query } = router;
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const [settingInfo, setSettingInfo] = useState<IProduct_Setting>(setting);
   const [loading, setLoading] = useState<boolean>(true);
   const [isPopupOpen, setIsPopupOpen] = useState(false);

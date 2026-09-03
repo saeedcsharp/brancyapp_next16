@@ -3,7 +3,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Soon from "brancy/components/notOk/soon";
-import { packageStatus } from "brancy/helper/loadingStatus";
 import ChartDay, { IChartSeries as IChartSeriesDay } from "brancy/components/design/chart/Chart_day";
 import styles from "./statistics.module.css";
 
@@ -12,12 +11,7 @@ import styles from "./statistics.module.css";
 
 const Statistics = () => {
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
 
   // وضعیت‌های نمایشی
   const [walletBalance, setWalletBalance] = useState(22000000); // ریال
@@ -79,7 +73,6 @@ const Statistics = () => {
   useEffect(() => {
     if (!session) return;
     if (session?.user.currentIndex === -1) router.push("/user");
-    if (!session || !packageStatus(session)) router.push("/upgrade");
   }, [session]);
 
   // شبیه‌سازی به‌روزرسانی لحظه‌ای (افزایش درآمد ماه و کاهش مبالغ تسویه نشده)

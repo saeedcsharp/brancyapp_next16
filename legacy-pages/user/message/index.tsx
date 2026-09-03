@@ -10,12 +10,7 @@ function Messages() {
   //  return <Soon />;
   const { t } = useTranslation();
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   if (session && session!.user.currentIndex > -1) router.push("/");
   return (
     session?.user.currentIndex === -1 && (

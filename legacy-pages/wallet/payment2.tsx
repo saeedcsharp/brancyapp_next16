@@ -3,7 +3,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Soon from "brancy/components/notOk/soon";
-import { packageStatus } from "brancy/helper/loadingStatus";
 import styles from "./payment.module.css";
 
 // توجه: همه متون این صفحه به صورت ایستا و فارسی برای پرزنت سرمایه‌گذار هستند.
@@ -11,12 +10,7 @@ import styles from "./payment.module.css";
 
 const Payment = () => {
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
 
   // حالت‌های محلی برای فرم‌ها
   const [gatewayName, setGatewayName] = useState("پرداخت یار برانسی");
@@ -34,7 +28,6 @@ const Payment = () => {
   useEffect(() => {
     if (!session) return;
     if (session?.user.currentIndex === -1) router.push("/user");
-    if (!session || !packageStatus(session)) router.push("/upgrade");
   }, [session]);
 
   const formatMoney = (v: number) => v.toLocaleString("fa-IR");

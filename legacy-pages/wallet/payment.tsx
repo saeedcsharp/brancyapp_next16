@@ -8,7 +8,6 @@ import Invoices from "brancy/components/wallet/invoices";
 import OrderDetailPopup from "brancy/components/wallet/orderDetailPopup";
 import SubInvoicesPopup from "brancy/components/wallet/subInvoicePopup";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { packageStatus } from "brancy/helper/loadingStatus";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import { IBankCard, IGeneralBallance, IGetInvoice, IGetSubInvoice, IInvoice } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
@@ -21,12 +20,7 @@ import { MethodType } from "brancy/helper/api";
 const Payment = () => {
   const { t } = useTranslation();
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
 
   // حالت‌های محلی برای فرم‌ها
   const [cards, setCards] = useState<IBankCard[]>([]);
@@ -42,7 +36,6 @@ const Payment = () => {
   useEffect(() => {
     if (!session) return;
     if (session?.user.currentIndex === -1) router.push("/user");
-    if (!session || !packageStatus(session)) router.push("/upgrade");
   }, [session]);
 
   useEffect(() => {

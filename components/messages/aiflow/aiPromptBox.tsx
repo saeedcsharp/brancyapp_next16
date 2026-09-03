@@ -65,12 +65,7 @@ const AIPromptBox = ({
   setShowNotFeature: (value: boolean) => void;
   openPromptAnalysisModal: (initialText: string, onAccept: (text: string) => void, onClose: () => void) => void;
 }) => {
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const router = useRouter();
   const chatBoxRef = useRef<HTMLDivElement>(null);
   const { t, i18n } = useTranslation();

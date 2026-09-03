@@ -20,12 +20,7 @@ import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { IFullLottery } from "brancy/models/interfaces";
 const basePictureUrl = getClientMediaBaseUrl();
 const WinnersList = (props: { removeMask: () => void; lotteryId: string; handleBackToLotteryHistory: () => void }) => {
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const { t } = useTranslation();
   const [fullLottery, setFullLottery] = useState<IFullLottery>();
   const [loading, setLoading] = useState(true);

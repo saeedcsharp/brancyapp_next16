@@ -15,12 +15,7 @@ import { BusinessType } from "brancy/models/enums";
 
 export default function BusinessShop() {
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
 
   const [loading, setLoading] = useState(true);
   const [storeMarkets, setStoreMarkets] = useState<IBusinessResponse>({ items: [], nextMaxId: "" });

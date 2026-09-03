@@ -12,7 +12,7 @@ import AiModels from "brancy/components/setting/general/AiModels";
 import Profile from "brancy/components/setting/general/profile";
 import Support from "brancy/components/setting/general/Support";
 import System from "brancy/components/setting/general/system";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType, UploadFile } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
@@ -30,12 +30,7 @@ const General = () => {
   const { t } = useTranslation();
 
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
 
   const [isDataLoaded, setIsDataLoaded] = useState(false);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
@@ -339,7 +334,6 @@ const General = () => {
     if (!session) return;
     if (session?.user.currentIndex === -1) router.push("/user");
     if (!session || !LoginStatus(session)) router.push("/");
-    if (!session || !packageStatus(session)) router.push("/upgrade");
     if (!RoleAccess(session, PartnerRole.Automatics)) return;
     fetchData([StatusReplied.UserReplied]);
   }, [session]);

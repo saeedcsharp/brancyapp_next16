@@ -25,10 +25,6 @@ const ProductsPage = () => {
   const router = useRouter();
   const { data: session, status: sessionStatus } = useSession();
   //   {
-  //   required: true,
-  //   onUnauthenticated() {
-  //     router.push("/");
-  //   },
   // }
   const { shopId } = router.query;
   const { t } = useTranslation();

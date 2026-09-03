@@ -23,7 +23,7 @@ import Loading from "brancy/components/notOk/loading";
 import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
@@ -62,7 +62,6 @@ const Properties = () => {
   const [selectedProduct, setSelectedProduct] = useState<IProduct_ShortProduct | null>(null);
   // Authentication effect
   useEffect(() => {
-    if (session && !packageStatus(session)) router.push("/upgrade");
     if (session && !LoginStatus(session)) {
       router.push("/");
     }

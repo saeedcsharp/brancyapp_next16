@@ -17,20 +17,21 @@ const DeleteLottery = (props: {
   handleDeleteLottery: () => void;
 }) => {
   const { t } = useTranslation();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   async function abortLottery() {
     try {
-      var res = await clientFetchApi<boolean, boolean>("/api/lottery/RejectLottery", { methodType: MethodType.get, session: session, data: null, queries: [
+      var res = await clientFetchApi<boolean, boolean>("/api/lottery/RejectLottery", {
+        methodType: MethodType.get,
+        session: session,
+        data: null,
+        queries: [
           {
             key: "id",
             value: props.lotteryId.toString(),
           },
-        ], onUploadProgress: undefined });
+        ],
+        onUploadProgress: undefined,
+      });
       if (res.succeeded) {
         internalNotify(InternalResponseType.Ok, NotifType.Success, ", Your lottery has aborted successfuly");
         props.handleDeleteLottery();

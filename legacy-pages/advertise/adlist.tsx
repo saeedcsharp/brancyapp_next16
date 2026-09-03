@@ -18,12 +18,7 @@ import { DetailType, AdsType, AdsTimeType, RejectedType } from "brancy/models/en
 const AdList = () => {
   //  return <Soon />;
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const { t } = useTranslation();
   const [waitingAds, setWaitingAds] = useState<IWatingAds[]>([]);
   const [upComingList, setUpComingList] = useState<IUpcomingAds[]>([]);

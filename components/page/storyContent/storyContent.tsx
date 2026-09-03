@@ -86,12 +86,7 @@ const StoryContent = (props: {
   const appRouter = useAppRouter();
   const uniqueId = useId();
 
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
 
   const [state, dispatch] = useReducer(storyReducer, initialState);
   const [openMenuStoryId, setOpenMenuStoryId] = useState<number | null>(null);

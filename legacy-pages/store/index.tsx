@@ -10,12 +10,7 @@ import { PartnerRole } from "brancy/models/enums";
 const Store = () => {
   //  return <Soon />;
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   let route = router.route;
   if (session && !RoleAccess(session, PartnerRole.Products)) return <NotAllowed />;
   useEffect(() => {

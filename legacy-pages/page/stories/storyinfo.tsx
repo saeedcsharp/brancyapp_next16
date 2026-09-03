@@ -27,7 +27,7 @@ import { convertArrayToLarray } from "brancy/helper/chunkArray";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { handleCopyLink } from "brancy/helper/copyLink";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { AutoReplyPayLoadType, MediaProductType, MediaType, PartnerRole } from "brancy/models/enums";
@@ -111,7 +111,6 @@ const ShowStory = () => {
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const isAuthenticated = useMemo(() => session !== null && LoginStatus(session), [session]);
   const hasPageAccess = useMemo(() => session && RoleAccess(session, PartnerRole.PageView), [session]);
-  const hasPackageAccess = useMemo(() => session && packageStatus(session), [session]);
   const isValidIndex = useMemo(() => session?.user.currentIndex !== -1, [session?.user.currentIndex]);
   const [loading, setLoading] = useState(false);
   const [toggleValue, setToggleValue] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
@@ -590,10 +589,8 @@ const ShowStory = () => {
   useEffect(() => {
     if (isValidIndex === false) {
       router.push("/user");
-    } else if (hasPackageAccess === false) {
-      router.push("/upgrade");
     }
-  }, [isValidIndex, hasPackageAccess, router]);
+  }, [isValidIndex, router]);
 
   const handleKeyDown = useCallback(
     (e: KeyboardEvent) => {

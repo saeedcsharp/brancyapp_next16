@@ -30,7 +30,7 @@ import FollowersNonFollowers from "brancy/components/page/posts/popup/followers&
 import { isRTL } from "brancy/helper/checkRtl";
 import { handleCopyLink } from "brancy/helper/copyLink";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
@@ -575,7 +575,6 @@ const ShowPost = () => {
     }
   }, [router.isReady, session, status, postIdParam, isDataLoaded, fetchData, router]);
   if (session?.user.currentIndex === -1) router.push("/user");
-  if (session && !packageStatus(session)) router.push("/upgrade");
   return (
     session &&
     session.user.currentIndex !== -1 &&

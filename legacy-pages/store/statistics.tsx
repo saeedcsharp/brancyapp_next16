@@ -11,7 +11,7 @@ import TotalSales from "brancy/components/store/statistics/totalSalesStatistics"
 import TwoMonth from "brancy/components/store/statistics/twoMonth";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { PartnerRole } from "brancy/models/enums";
 import IUserCoupon, {
@@ -29,12 +29,7 @@ import styles from "./statistics.module.css";
 
 const Statistics = () => {
   //  return <Soon />;
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const { t } = useTranslation();
   const [hasTotalMore, setHasTotalMore] = useState(false);
   const [advertiseId, setAdvertiseId] = useState(0);
@@ -471,7 +466,6 @@ const Statistics = () => {
   useEffect(() => {
     if (!session) return;
     if (session?.user.currentIndex === -1) router.push("/user");
-    if (!session || !packageStatus(session)) router.push("/upgrade");
   }, [session]);
   useEffect(() => {
     loadCoupons();

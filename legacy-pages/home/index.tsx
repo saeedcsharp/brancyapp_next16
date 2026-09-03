@@ -1,10 +1,3 @@
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useCallback, useEffect, useReducer, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { ResponseType } from "brancy/components/notifications/notificationBox";
-import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
 import AccountSummary from "brancy/components/homeIndex/accountSummary";
 import IngageInfo from "brancy/components/homeIndex/ingageInfo";
 import InstagramerUpgrade from "brancy/components/homeIndex/instagramerupgrade";
@@ -12,8 +5,15 @@ import LastMessage from "brancy/components/homeIndex/lastMessage";
 import LastOrder from "brancy/components/homeIndex/lastOrder";
 import PageDetail from "brancy/components/homeIndex/pageDetail";
 import PostSummary from "brancy/components/homeIndex/postSummary";
+import { ResponseType } from "brancy/components/notifications/notificationBox";
+import { LoginStatus } from "brancy/helper/loadingStatus";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useReducer, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
-import styles from "./homeIndex.module.css";
+import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   IDemographicInsight,
@@ -28,7 +28,7 @@ import {
   IPostContent,
   IStoryContent,
 } from "brancy/models/interfaces";
-import { MethodType } from "brancy/helper/api";
+import styles from "./homeIndex.module.css";
 
 const initialState = {
   error: { message: null } as IError,

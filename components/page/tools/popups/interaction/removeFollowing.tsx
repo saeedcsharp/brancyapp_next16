@@ -17,12 +17,7 @@ const RemoveFollowing = (props: {
   removeMask: () => void;
 }) => {
   const { t } = useTranslation();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   async function removeFollowing() {
     let instagramerId = session?.user.instagramerIds[session.user.currentIndex];
     try {

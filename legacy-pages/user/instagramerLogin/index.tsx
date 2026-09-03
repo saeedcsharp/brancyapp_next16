@@ -24,12 +24,7 @@ const baseMediaUrl = getClientMediaBaseUrl();
 export default function InstaLogin(props: { removeMask: () => void }) {
   const { t } = useTranslation();
   const router = useRouter();
-  const { data: session, update } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session, update } = useSession();
   const [showVerificationCode, setshowVerificationCode] = useState(false);
   const [instagramers, setInstagramers] = useState<InstagramerAccountInfo[]>([]);
   const [instaId, setInstaId] = useState("");

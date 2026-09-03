@@ -177,12 +177,7 @@ const NewFlowModal = (props: {
 };
 
 const FlowAndAIInbox = () => {
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const { t } = useTranslation();
   const routerHook = useRouter();
   const [searchMasterFlowInbox, setSearchMasterFlowInbox] = useState<IMasterFlow>();

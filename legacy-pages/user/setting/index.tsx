@@ -44,12 +44,7 @@ function InputField({
 function Setting() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { data: session, update } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session, update } = useSession();
 
   // state برای نگهداری تصویر پروفایل
   const [profileImage, setProfileImage] = useState<string | null>(null);

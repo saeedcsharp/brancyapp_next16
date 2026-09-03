@@ -16,7 +16,7 @@ import OrderPickup from "brancy/components/store/order/popup/OrderPickup";
 import OrderSend from "brancy/components/store/order/popup/OrderSend";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { RoleAccess } from "brancy/helper/loadingStatus";
 import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { LanguageKey } from "brancy/i18n";
@@ -38,10 +38,7 @@ import styles from "./ordernew.module.css";
 const Orders = () => {
   //  return <Soon />;
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated: () => router.push("/"),
-  });
+  const { data: session } = useSession();
   const { t } = useTranslation();
   const [firstLoading, setFirstLoading] = useState(true);
   const [selectedStep, setSelectedStep] = useState<OrderStepStatus>(0);
@@ -823,7 +820,6 @@ const Orders = () => {
     if (session.user.currentIndex === -1) {
       router.push("/user");
     }
-    if (!packageStatus(session)) router.push("/upgrade");
   }, [session?.user.currentIndex, router]);
   useEffect(() => {
     const intervalId = setInterval(() => {

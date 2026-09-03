@@ -7,7 +7,7 @@ import NotShopper from "brancy/components/notOk/notShopper";
 import { MethodType } from "brancy/helper/api";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { RoleAccess } from "brancy/helper/loadingStatus";
 import { calculateSummary } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
 import { PartnerRole } from "brancy/models/enums";
@@ -149,12 +149,7 @@ const SCROLL_THRESHOLD_PX = 50;
 const SelectProduct = () => {
   const router = useRouter();
   const { t } = useTranslation();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const [state, dispatch] = useReducer(reducer, initialState);
   const { products, selectedPosts, productFilter, selectAllFilter, noMoreData, status } = state;
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -345,9 +340,6 @@ const SelectProduct = () => {
     if (session.user.currentIndex === -1) {
       router.push("/user");
       return;
-    }
-    if (!packageStatus(session)) {
-      router.push("/upgrade");
     }
   }, [session, router]);
   if (!session?.user.isShopper) return <NotShopper />;

@@ -3,12 +3,7 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 const Message = () => {
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   let route = router.route;
   useEffect(() => {
     if (session?.user.currentIndex === -1) router.push("/user");

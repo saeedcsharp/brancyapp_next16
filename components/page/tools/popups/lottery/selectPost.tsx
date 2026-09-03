@@ -24,12 +24,7 @@ const SelectPost = (props: {
   backToNormalPicker: () => void;
 }) => {
   const { t } = useTranslation();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   const [post, setPost] = useState<IShortPostInfo[]>([]);
   const [nextTime, setNextTime] = useState(0);

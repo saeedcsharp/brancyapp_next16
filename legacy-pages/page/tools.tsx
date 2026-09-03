@@ -35,7 +35,7 @@ import EventIdea, { EventIdeaHandle } from "brancy/components/page/tools/event/e
 import CreateEventIdea from "brancy/components/page/tools/event/createEventIdea";
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
 import { checkRemainingTimeFeature, getPackageFeatureDetails } from "brancy/helper/checkFeature";
-import { LoginStatus, RoleAccess, packageStatus } from "brancy/helper/loadingStatus";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { convertToMilliseconds, convertToSeconds } from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType, UploadFile } from "brancy/helper/api";
@@ -251,7 +251,6 @@ const Tools = () => {
   // Authentication effect
   useEffect(() => {
     if (session && !LoginStatus(session)) router.push("/");
-    if (session && !packageStatus(session)) router.push("/upgrade");
   }, [session, router]);
 
   // Data loading protection

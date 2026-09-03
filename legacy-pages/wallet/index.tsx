@@ -5,12 +5,7 @@ import { useEffect } from "react";
 const Wallet = () => {
   //  return <Soon />;
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   let route = router.route;
   useEffect(() => {
     if (route === "/wallet") router.push("/wallet/statistics");

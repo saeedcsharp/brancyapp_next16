@@ -21,7 +21,7 @@ import NotAllowed from "brancy/components/notOk/notAllowed";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { FeatureType, LotteryStatus, PartnerRole } from "brancy/models/enums";
 import {
@@ -196,20 +196,13 @@ const MyLink = () => {
       router.replace("/user");
       return;
     }
-    if (!packageStatus(session)) router.replace("/upgrade");
   }, [router, session, status]);
 
   useEffect(() => {
     let isActive = true;
     const fetchData = async () => {
       // Don't fetch if already loaded or if session is not available
-      if (
-        !session ||
-        status !== "authenticated" ||
-        !LoginStatus(session) ||
-        !packageStatus(session) ||
-        session.user.currentIndex === -1
-      ) {
+      if (!session || status !== "authenticated" || !LoginStatus(session) || session.user.currentIndex === -1) {
         return;
       }
       if (!RoleAccess(session, PartnerRole.Bio)) {

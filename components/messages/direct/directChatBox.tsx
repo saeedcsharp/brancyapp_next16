@@ -65,12 +65,7 @@ const DirectChatBox = memo(
     //#endregion
 
     //#region Session و تنظیمات اولیه
-    const { data: session } = useSession({
-      required: true,
-      onUnauthenticated() {
-        router.push("/");
-      },
-    });
+    const { data: session } = useSession();
     //#endregion
 
     //#region متغیرهای State و Ref

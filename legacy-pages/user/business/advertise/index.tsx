@@ -49,12 +49,7 @@ function BusinessCard({ item }: { item: IBusiness }) {
 
 export default function BusinessAdvertise() {
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
 
   const [items, setItems] = useState<IBusiness[]>([]);
   const [hasMore, setHasMore] = useState(false);

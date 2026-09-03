@@ -14,12 +14,7 @@ import { ICaledarAds, IRejectTerms } from "brancy/models/interfaces";
 import { AdsType, AdsTimeType, DetailType } from "brancy/models/enums";
 const AdCalendar = () => {
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const { t } = useTranslation();
   const [totalAds, setTotalAds] = useState<ICaledarAds[]>([]);
   const [adId, setAdId] = useState(0);

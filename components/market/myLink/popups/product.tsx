@@ -24,12 +24,7 @@ type ProductWithBioState = IProduct_ShortProduct & { showInBio?: boolean };
 
 export default function ProductPopup({ removeMask }: { removeMask: () => void }) {
   const { t } = useTranslation();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   const [products, setProducts] = useState<ProductWithBioState[]>([]);
   const [selectedProductIds, setSelectedProductIds] = useState<string[]>([]);

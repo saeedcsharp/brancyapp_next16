@@ -223,12 +223,7 @@ const AdminChatBox = (props: {
   onImageClick?: (imageUrl: string) => void;
   onImageContainerClick?: (info: { url: string; height: number; width: number }) => void;
 }) => {
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
 
   const [headerExpanded, setHeaderExpanded] = useState(false);
   const [dateFormatToggle, setDateFormatToggle] = useState("");

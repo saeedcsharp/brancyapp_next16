@@ -24,12 +24,7 @@ export interface ISpecification {
 const MarketAdsProgress = () => {
   //  return <Soon />;
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const { query } = router;
   const [customerAdId, setCustomerAdId] = useState<number>(0);
   const [activeNextStep, setActiveNextStep] = useState<boolean>(false);

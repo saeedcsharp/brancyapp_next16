@@ -37,12 +37,7 @@ let downFlagRight = false;
 let hideDivIndex: number | null = null;
 let constUserSelected: string | null = null;
 const UserPanelDirectInbox = () => {
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const { query } = router;
   const basePictureUrl = getClientMediaBaseUrl();
   const [ticketInbox, setTicketInbox] = useState<IUserPanelMessage>();

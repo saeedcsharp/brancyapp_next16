@@ -71,12 +71,7 @@ const getInboxApiErrorMessage = (response: {
 };
 
 const DirectInbox = () => {
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const { t } = useTranslation();
   let instagramerId = session?.user.instagramerIds[session?.user.currentIndex];
   const basePictureUrl = getClientMediaBaseUrl();

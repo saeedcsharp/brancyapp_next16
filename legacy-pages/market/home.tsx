@@ -8,7 +8,6 @@ import Advertise from "brancy/components/market/home/Advertise";
 import AllMarket from "brancy/components/market/home/allMarket";
 import Filter from "brancy/components/market/home/filter";
 import Store from "brancy/components/market/home/Store";
-import { packageStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./home.module.css";
 import { IMarketInfo } from "brancy/models/interfaces";
@@ -18,12 +17,7 @@ const biolinkHome = () => {
   //  return <Soon />;
   const { t } = useTranslation();
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const [showFilter, setShowFilter] = useState(false);
   const [allMarkets, setAllMarkets] = useState<IMarketInfo[]>();
   const [advertiseMarkets, setAdvertiseMarkets] = useState<IMarketInfo[]>();
@@ -234,7 +228,6 @@ const biolinkHome = () => {
     ]);
   }
   useEffect(() => {
-    if (session && !packageStatus(session)) router.push("/upgrade");
     fetchData();
   }, [session]);
   if (session?.user.currentIndex === -1) router.push("/user");

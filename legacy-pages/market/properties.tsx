@@ -21,7 +21,7 @@ import {
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
@@ -189,7 +189,6 @@ const Properties = () => {
   };
   useEffect(() => {
     if (!session) return;
-    if (session && !packageStatus(session)) router.replace("/upgrade");
     if (!LoginStatus(session)) router.push("/");
     if (!RoleAccess(session, PartnerRole.Bio)) return;
     fetchData();

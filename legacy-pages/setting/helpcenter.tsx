@@ -6,21 +6,14 @@ import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 
 import Soon from "brancy/components/notOk/soon";
-import { packageStatus } from "brancy/helper/loadingStatus";
 
 const HelpCenter = () => {
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
 
   useEffect(() => {
     if (!session) return;
     if (session?.user.currentIndex === -1) router.push("/user");
-    if (!session || !packageStatus(session)) router.push("/upgrade");
   }, [session]);
   const { t } = useTranslation();
 

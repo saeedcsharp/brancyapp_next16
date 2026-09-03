@@ -4,12 +4,7 @@ import { useEffect } from "react";
 
 const UserPanel = () => {
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   let route = router.route;
   async function checkUserLogin() {
     if (route === "/user") router.push("/user/home");

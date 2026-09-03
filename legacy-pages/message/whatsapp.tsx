@@ -4,12 +4,7 @@ import styles from "./whatsapp.module.css";
 const Whatsapp = () => {
   const router = useRouter();
   //  return <Soon />;
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   if (session?.user.currentIndex === -1) router.push("/user");
   return (
     session &&

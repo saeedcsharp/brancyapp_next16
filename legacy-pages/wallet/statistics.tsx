@@ -5,7 +5,6 @@ import GeneralBalance from "brancy/components/wallet/generalBallance";
 import InboxContainer from "brancy/components/wallet/inboxContainer";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { packageStatus } from "brancy/helper/loadingStatus";
 import { SubInvoiceStatus } from "brancy/models/enums";
 import {
   IBankCard,
@@ -21,12 +20,7 @@ import { useEffect, useState } from "react";
 
 const Statistics = () => {
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
 
   // وضعیت‌های نمایشی
   const [generalBalance, setGeneralBalance] = useState<IGeneralBallance[]>([]);
@@ -37,7 +31,6 @@ const Statistics = () => {
   useEffect(() => {
     if (!session) return;
     if (session?.user.currentIndex === -1) router.push("/user");
-    if (!session || !packageStatus(session)) router.push("/upgrade");
   }, [session]);
 
   useEffect(() => {

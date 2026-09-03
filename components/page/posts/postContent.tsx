@@ -97,12 +97,7 @@ interface PostContentProps {
 
 const PostContent = (props: PostContentProps) => {
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const { t } = useTranslation();
   const [state, dispatch] = useReducer(postReducer, initialState);
   const [openMenuPostId, setOpenMenuPostId] = useState<number | null>(null);

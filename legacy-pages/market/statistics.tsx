@@ -8,7 +8,7 @@ import RadarChart, { IPlatformData } from "brancy/components/design/chart/radarC
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import NotAllowed from "brancy/components/notOk/notAllowed";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import styles from "./statistics.module.css";
@@ -19,12 +19,7 @@ const Statistics = () => {
   //  return <Soon />;
   const { t } = useTranslation();
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const [loadingStatus, setLoadingStatus] = useState(
     // LoginStatus(session) && RoleAccess(session, PartnerRole.Orders)
     true,
@@ -154,7 +149,6 @@ const Statistics = () => {
   }
   useEffect(() => {
     if (!session) return;
-    if (session && !packageStatus(session)) router.push("/upgrade");
     if (!LoginStatus(session)) router.push("/");
     if (RoleAccess(session, PartnerRole.Bio)) fetchData();
     else setLoadingStatus(false);

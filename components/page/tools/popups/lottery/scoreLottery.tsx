@@ -75,12 +75,7 @@ const ScoreLottery = (props: {
       setPeopleTimeOutId(timeOutId);
     }
   };
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   // const [minMentionCount, setMinMentionCount] = useState(
   //   props.data.minMentionCount ? props.data.minMentionCount : 1
   // );

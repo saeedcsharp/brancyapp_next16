@@ -26,7 +26,7 @@ import QuickStoryReplyPopup from "brancy/components/page/popup/quickStoryReply";
 import SaveDraft from "brancy/components/page/popup/saveDraft";
 import DeletePrePost from "brancy/components/page/scheduledPost/deletePrePost";
 import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType, UploadFile } from "brancy/helper/api";
@@ -1047,7 +1047,6 @@ const CreateStory = () => {
   }, [QuickReply, autoReply.promptId, autoReply.masterFlowId, autoReply.response]);
 
   if (session?.user.currentIndex === -1) router.push("/user");
-  if (session && !packageStatus(session)) router.push("/upgrade");
   return (
     session &&
     session.user.currentIndex !== -1 &&

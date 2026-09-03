@@ -4,22 +4,16 @@ import { useRouter } from "next/router";
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import TicketInbox from "brancy/components/messages/ticket/ticketInbox";
-import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import { LoginStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 const Ticket = () => {
   //  return <Soon />;
   const { t } = useTranslation();
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   useEffect(() => {
     if (!session) return;
     if (session.user.currentIndex === -1) router.push("/user");
-    if (session && !packageStatus(session)) router.push("/upgrade");
     if (!LoginStatus(session)) router.push("/");
   }, [session]);
   return (

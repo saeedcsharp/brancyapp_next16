@@ -1,5 +1,7 @@
 # Authentication
 
+Reviewed legacy Instagramer pages no longer perform duplicate route-level package redirects; their session, `currentIndex`, role-access, shopper, rendering, and fetch checks remain. Deferred package-related usages: `legacy-pages/home/index.tsx`, `legacy-pages/page/stories/index.tsx`, `legacy-pages/page/stories/storyinfo.tsx`, `legacy-pages/market/*`, `legacy-pages/message/*`, and `components/navbar/instagramerNavbar/navbarHeader.tsx`.
+
 Authentication uses NextAuth in `app/api/auth/[...nextauth]/route.ts` with JWT sessions.
 
 ## Providers
@@ -22,7 +24,7 @@ The root `middleware.ts` is the single source of truth for authentication on all
 
 Only Instagramer paths apply selected-account (`currentIndex`) and package-expiry redirects. User paths perform authentication only, so `/user` can safely handle `currentIndex === -1` without a middleware loop. Public paths such as `/`, `/upgrade`, `/directlogin`, and `/googleoauth` are not matched. App Router page wrappers may wait for the client session or preserve route-specific role/account/query behavior, but they do not duplicate authentication callbacks or `packageStatus` checks.
 
-App Router wrappers call `useSession()` without `required: true` or `onUnauthenticated`. This prevents NextAuth from redirecting a user who has just logged out to `/api/auth/signin?error=SessionRequired`; wrappers retain their existing `session` and `status` checks, while middleware remains responsible for unauthenticated route access.
+App Router wrappers and legacy page implementations call `useSession()` without `required: true` or `onUnauthenticated`. This prevents NextAuth from redirecting a user who has just logged out to `/api/auth/signin?error=SessionRequired`; wrappers and legacy pages retain their existing `session`, account, role, and permission checks, while middleware remains responsible for unauthenticated route access and package expiry.
 
 ---
 

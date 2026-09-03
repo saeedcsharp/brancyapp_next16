@@ -18,12 +18,7 @@ const NewPictureAnalyzerList = (props: {
   removeMask: () => void;
   saveHashtagAnalyzer: () => void;
 }) => {
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const { t } = useTranslation();
   const [inputAnalyzerTitle, setInputAnalyzerTitle] = useState("");
   const [hashtags, setHashtags] = useState<string[] | null>(null);

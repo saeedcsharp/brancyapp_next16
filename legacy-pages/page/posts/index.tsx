@@ -7,7 +7,7 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import PostContent from "brancy/components/page/posts/postContent";
 import convertFirstLetterToLowerCase from "brancy/helper/convertFirstLetterToLowerCase";
 import { handleCopyLink } from "brancy/helper/copyLink";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { LanguageKey } from "brancy/i18n";
@@ -32,12 +32,11 @@ const Posts = () => {
   // Handle authentication check
   useEffect(() => {
     if (status === "loading") return; // Still loading
-    if (session && !packageStatus(session)) router.push("/upgrade");
     if (status === "unauthenticated" || (session && !LoginStatus(session))) {
       router.push("/");
       return;
     }
-  }, [status, router]);
+  }, [status, session, router]);
 
   const fetchData = useCallback(async () => {
     if (isFetchingRef.current || !session || !LoginStatus(session)) return;

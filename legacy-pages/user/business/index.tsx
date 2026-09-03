@@ -32,12 +32,7 @@ const typeCards = [
 
 export default function Business() {
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
 
   if (session && session.user.currentIndex > -1) {
     router.push("/");

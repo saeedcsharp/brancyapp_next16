@@ -42,7 +42,7 @@ import ErrorDraft from "brancy/components/page/popup/errorDraft";
 import QuickReplyPopup from "brancy/components/page/popup/quickReply";
 import SaveDraft from "brancy/components/page/popup/saveDraft";
 import DeletePrePost from "brancy/components/page/scheduledPost/deletePrePost";
-import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType, UploadFile } from "brancy/helper/api";
@@ -83,7 +83,6 @@ type MediaState = {
   progress: number;
 };
 
-type MediaAction =
   | { type: "SET_SHOW_MEDIAS"; payload: IShowMedia[] }
   | { type: "ADD_MEDIA"; payload: IShowMedia }
   | {
@@ -2425,7 +2424,6 @@ const CreatePost = () => {
     uiDispatch({ type: "TOGGLE_DELETE_PREPOST", payload: false });
   }, []);
   if (session?.user.currentIndex === -1) router.push("/user");
-  if (session && !packageStatus(session)) router.push("/upgrade");
   return (
     session &&
     session.user.currentIndex !== -1 &&

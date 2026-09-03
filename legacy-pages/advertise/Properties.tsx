@@ -21,12 +21,7 @@ import { BusinessDay } from "brancy/models/enums";
 const Properties = () => {
   //  return <Soon />;
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const { t } = useTranslation();
   const [ShowTariffPopup, setShowTariffPopup] = useState(false);
   const [ShowBusinessHoursPopup, setShowBusinessHoursPopup] = useState(false);

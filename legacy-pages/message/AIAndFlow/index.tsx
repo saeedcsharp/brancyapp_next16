@@ -10,12 +10,7 @@ import { LanguageKey } from "brancy/i18n/languageKeys";
 
 export default function AIFlow() {
   const { t } = useTranslation();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     if (!session) return;

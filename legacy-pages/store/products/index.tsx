@@ -14,12 +14,7 @@ const Products = () => {
   // );
 
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const { t } = useTranslation();
   if (session?.user.currentIndex === -1) router.push("/user");
   if (!session?.user.isShopper) return <NotShopper />;

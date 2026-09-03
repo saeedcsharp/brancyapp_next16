@@ -18,12 +18,7 @@ import { AdsType } from "brancy/models/enums";
 
 const Statistics = () => {
   //  return <Soon />;
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const { t } = useTranslation();
   const [hasTotalMore, setHasTotalMore] = useState(false);
   const [advertiseId, setAdvertiseId] = useState(0);

@@ -53,12 +53,7 @@ const CommentChatBox = (props: {
   onLotteryClick: () => void;
   onStatisticsClick: () => void;
 }) => {
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const inputRef = useRef<HTMLTextAreaElement | HTMLDivElement | any>(null);
   const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
   const emojiPickerContainerRef = useRef<HTMLDivElement | null>(null);

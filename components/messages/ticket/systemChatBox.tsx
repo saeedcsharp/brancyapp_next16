@@ -40,12 +40,7 @@ const SystemChatBox = (props: {
   //#endregion
 
   //#region Session و تنظیمات اولیه
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
 
   const baseMediaUrl = useMemo(() => getClientMediaBaseUrl(), []);
   const isMountedRef = useRef(true);

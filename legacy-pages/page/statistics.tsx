@@ -12,7 +12,7 @@ import EngageMentStatistics from "brancy/components/page/statistics/engagementSt
 import IngageBoxModel from "brancy/components/page/statistics/inagegBoxes/inagegBoxes";
 import PostStatsViewer from "brancy/components/page/statistics/popups/PostStatsViewer";
 import PostTimeAnalysis from "brancy/components/page/statistics/popups/postTimeAnalysis";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./page.module.css";
 import {
@@ -133,7 +133,6 @@ const Stattistics = (prop: { onComponentClick: () => void }) => {
   const { t } = useTranslation();
   React.useEffect(() => {
     if (session && !LoginStatus(session)) router.push("/");
-    if (session && !packageStatus(session)) router.push("/upgrade");
   }, [session, router]);
   const [state, dispatch] = useReducer(statisticsReducer, initialState);
   const { popups } = state;

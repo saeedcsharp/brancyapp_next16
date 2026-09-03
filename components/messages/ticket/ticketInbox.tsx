@@ -57,12 +57,7 @@ let downFlagRight = false;
 let hideDivIndex: string | number | null = null;
 let constUserSelected: string | null = null;
 const TicketInbox = () => {
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const { t } = useTranslation();
   const { query } = router;
   let onLoading = false;

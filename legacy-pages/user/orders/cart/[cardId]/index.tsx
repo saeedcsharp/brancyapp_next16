@@ -276,10 +276,7 @@ const basePictureUrl = getClientMediaBaseUrl();
 const OrdersCart = () => {
   const router = useRouter();
   const { cardId } = router.query;
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated: () => router.push("/"),
-  });
+  const { data: session } = useSession();
 
   const componentId = useId();
   const [isPending, startTransition] = useTransition();

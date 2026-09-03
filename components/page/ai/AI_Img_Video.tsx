@@ -19,12 +19,7 @@ let downFlagLeft = false;
 let downFlagRight = false;
 let hideDivIndex: string | number | null = null;
 export default function AIPage() {
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const { t } = useTranslation();
   const routerHook = useRouter();
   const userListRef = useRef<HTMLDivElement>(null);

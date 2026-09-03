@@ -45,12 +45,7 @@ const TermsAndConditionWinnerPicker = (props: {
   loadingToSave: boolean;
 }) => {
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const selectBackGroundSlide = (id: number) => {
     setSelectedSlide(id);
     setReverseThumb(false);

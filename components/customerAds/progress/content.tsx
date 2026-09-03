@@ -19,12 +19,7 @@ function Content(props: {
   caption: string;
 }) {
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const basePictureUrl = getClientMediaBaseUrl();
   const inputRef = useRef<HTMLInputElement | null>(null);
   const inputCoverRef = useRef<HTMLInputElement | null>(null);

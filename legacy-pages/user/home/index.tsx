@@ -100,12 +100,7 @@ const orderSteps = [
 ];
 
 function Markets() {
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   const { t } = useTranslation();
   const router = useRouter(); // Add this line
   const [loading, setLoading] = useState(true);

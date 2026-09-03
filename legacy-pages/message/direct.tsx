@@ -6,20 +6,14 @@ import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import DirectInbox from "brancy/components/messages/direct/directInbox";
 import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
-import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import { LoginStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 const Direct = () => {
   const { t } = useTranslation();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
   useEffect(() => {
     if (!session) return;
     if (session.user.currentIndex === -1) router.push("/user");
-    if (session && !packageStatus(session)) router.push("/upgrade");
     if (!LoginStatus(session)) router.push("/");
   }, [session]);
   if (session && !session.user.messagePermission) return <NotPermission permissionType={PermissionType.Messages} />;

@@ -13,7 +13,7 @@ import NotShopper from "brancy/components/notOk/notShopper";
 import InstanceProductDetail from "brancy/components/store/products/productDetail/instanceProduct/instanceProductDetail";
 import NotInstanceProductDetail from "brancy/components/store/products/productDetail/notInstanceProduct/notInstanceProductDetail";
 import DeleteProduct from "brancy/components/store/products/productDetail/popups/deleteProduct";
-import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { RoleAccess } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 
@@ -33,12 +33,7 @@ const ProductDetail = ({ tempId }: { tempId: string }) => {
   //  return <Soon />;
   console.log("tempIddddd", tempId);
   const router = useRouter();
-  const { data: session } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session } = useSession();
 
   const { t } = useTranslation();
 
@@ -357,7 +352,6 @@ const ProductDetail = ({ tempId }: { tempId: string }) => {
   useEffect(() => {
     if (!session) return;
     if (session?.user.currentIndex === -1) router.push("/user");
-    if (!session || !packageStatus(session)) router.push("/upgrade");
   }, [session]);
 
   if (!session || !tempId) {

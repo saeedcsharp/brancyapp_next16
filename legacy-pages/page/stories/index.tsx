@@ -8,7 +8,7 @@ import { NotifType, notify, ResponseType } from "brancy/components/notifications
 import StoryContent from "brancy/components/page/storyContent/storyContent";
 import convertFirstLetterToLowerCase from "brancy/helper/convertFirstLetterToLowerCase";
 import { handleCopyLink } from "brancy/helper/copyLink";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { LanguageKey } from "brancy/i18n";
@@ -90,11 +90,6 @@ const Stories = () => {
   const fetchData = useCallback(async () => {
     if (!session || !LoginStatus(session) || isFetchingRef.current) return;
 
-    if (session && !packageStatus(session)) {
-      router.push("/upgrade");
-      return;
-    }
-
     if (abortControllerRef.current) {
       abortControllerRef.current.abort();
     }
@@ -165,11 +160,6 @@ const Stories = () => {
   }, []);
   useEffect(() => {
     isMountedRef.current = true;
-
-    if (session && !packageStatus(session)) {
-      router.push("/upgrade");
-      return;
-    }
 
     if (session === null || (session && !LoginStatus(session))) {
       router.push("/");

@@ -19,12 +19,7 @@ interface NotLoginProps {
 export default function NotLogin({ removeMask, onInvalidIp }: NotLoginProps) {
   const { t } = useTranslation();
   const router = useRouter();
-  const { data: session, update } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session, update } = useSession();
 
   const [instagramers, setInstagramers] = useState<InstagramerAccountInfo[]>([]);
   const [loading, setLoading] = useState(false);
