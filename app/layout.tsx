@@ -1,4 +1,5 @@
 import type { Metadata, Viewport } from "next";
+import Script from "next/script";
 import { GoogleAnalytics, GoogleTagManager } from "@next/third-parties/google";
 import "brancy/components/page/statistics/sliderToFourBox.css";
 import "brancy/app/globals.scss";
@@ -83,6 +84,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <ThemeScript />
         <GoogleTagManager gtmId="GTM-PLFD6SZ4" />
         <GoogleAnalytics gaId="G-BSQ8WGVTN1" />
+        <Script
+          id="goftino-widget"
+          strategy="afterInteractive"
+          dangerouslySetInnerHTML={{
+            __html: `
+!function(){var i="9u6Fje",a=window,d=document;function g(){var g=d.createElement("script"),s="https://www.goftino.com/widget/"+i,l=localStorage.getItem("goftino_"+i);g.async=!0,g.src=l?s+"?o="+l:s;d.getElementsByTagName("head")[0].appendChild(g);}"complete"===d.readyState?g():a.attachEvent?a.attachEvent("onload",g):a.addEventListener("load",g,!1);}();`,
+          }}
+        />
         <noscript>
           <iframe
             src="https://www.googletagmanager.com/ns.html?id=GTM-PLFD6SZ4"

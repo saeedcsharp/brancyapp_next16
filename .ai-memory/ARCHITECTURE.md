@@ -11,7 +11,7 @@ Reviewed legacy Instagramer route pages now rely on middleware for package-expir
 
 ## Key Patterns
 
-- Root layout initializes theme, manifests, analytics, and providers.
+- Root layout initializes theme, manifests, analytics, the Goftino live-chat widget, and providers. The Goftino widget is loaded with `next/script` after hydration so its browser-only storage and script injection run on every route without SSR evaluation.
 - `app/providers.tsx` wraps SessionProvider, DirectionProvider, InstaProvider, and notifications.
 - Legacy `next/router` usage is bridged by `app/_compat/next-router.ts` through a webpack alias.
 - API calls route through `clientFetchApi`; `/api/user/*` uses Next API proxy, most other calls resolve to direct backend URLs.

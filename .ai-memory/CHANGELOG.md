@@ -1,3 +1,5 @@
+- Added the Goftino live-chat widget to the root App Router layout with `next/script` and `afterInteractive`, making it available across all routes.
+
 - Removed duplicate route-level `packageStatus` redirects from the reviewed legacy posts, statistics, tools, story creation, settings, store, and wallet pages. Preserved `currentIndex`, `RoleAccess`, shopper checks, session rendering, and fetch logic; corrected the posts authentication-effect dependencies. Deferred home, story index/detail, market, message, and Instagramer navbar usages.
 
 - Centralized authentication for all protected App Router routes in `middleware.ts`. Added `/customershop/:path*` and `/user/:path*` matchers, kept public routes out of the matcher, redirected missing tokens to `/`, limited `currentIndex` and package-expiry checks to Instagramer paths, and removed all route-level `onUnauthenticated` callbacks from `app/**`.
