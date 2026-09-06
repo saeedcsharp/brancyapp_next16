@@ -414,6 +414,85 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                 />
               )}
 
+              {replyMethod &&
+                (mode === "Flow" || isDirectReplyMode) &&
+                replyMethod.replySuccessfullyDirected &&
+                !hasMessagePermission && (
+                  <div className="headerandinput" role="group" aria-labelledby={`${titleId}-custom-replies`}>
+                    <div className="headerparent" id={`${titleId}-custom-replies`}>
+                      <div className="counter" aria-live="polite">
+                        ({replyMethod.customRepliesSuccessfullyDirected.length}/3)
+                      </div>
+                    </div>
+                    <div className="headerparent">
+                      <InputBox
+                        name={`${mode}-custom-success-reply`}
+                        className="textinputbox"
+                        placeHolder={t(LanguageKey.pageToolspopup_typehere)}
+                        value={customReplyInput}
+                        disabled={replyMethod.customRepliesSuccessfullyDirected.length >= 3}
+                        handleInputChange={(e) => setCustomReplyInput(e.target.value)}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            addCustomReply();
+                          }
+                        }}
+                        aria-label={t(LanguageKey.sendreplydirectedsuccessfully)}
+                      />
+                      <button
+                        type="button"
+                        disabled={!customReplyInput.trim() || replyMethod.customRepliesSuccessfullyDirected.length >= 3}
+                        className={
+                          customReplyInput.trim() && replyMethod.customRepliesSuccessfullyDirected.length < 3
+                            ? "saveButton"
+                            : "disableButton"
+                        }
+                        style={{ height: "42px", width: "max-content", paddingInline: "10px" }}
+                        onClick={addCustomReply}
+                        aria-label={t(LanguageKey.add)}>
+                        {t(LanguageKey.add)}
+                      </button>
+                    </div>
+                    <div
+                      className={styles.wordpool}
+                      role="list"
+                      aria-label={t(LanguageKey.sendreplydirectedsuccessfully)}>
+                      {replyMethod.customRepliesSuccessfullyDirected.map((reply, index) => (
+                        <div key={`${reply}-${index}`} className={styles.specificword} role="listitem">
+                          <span>{reply}</span>
+                          <button
+                            type="button"
+                            onClick={() =>
+                              setReplyMethod((prev) => ({
+                                ...prev!,
+                                customRepliesSuccessfullyDirected: prev!.customRepliesSuccessfullyDirected.filter(
+                                  (_, replyIndex) => replyIndex !== index,
+                                ),
+                              }))
+                            }
+                            aria-label={`${t(LanguageKey.delete)}: ${reply}`}
+                            className="keyword-remove-btn"
+                            style={{
+                              background: "none",
+                              border: "none",
+                              cursor: "pointer",
+                              padding: "2px",
+                              display: "inline-flex",
+                              alignItems: "center",
+                            }}>
+                            <img
+                              style={{ width: "15px", height: "15px", pointerEvents: "none" }}
+                              alt={t(LanguageKey.delete)}
+                              src="/deleteHashtag.svg"
+                            />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                )}
+
               {replyMethod && isDirectReplyMode && !hasMessagePermission && (
                 <CheckBoxButton
                   handleToggle={(e) =>
@@ -426,85 +505,6 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                   title={t(LanguageKey.shouldFollower)}
                   textlabel={t(LanguageKey.shouldFollower)}
                 />
-              )}
-
-              {replyMethod && (mode === "Flow" || isDirectReplyMode) && !hasMessagePermission && (
-                <div className="headerandinput" role="group" aria-labelledby={`${titleId}-custom-replies`}>
-                  <div className="headerparent">
-                    <div className="headertext" id={`${titleId}-custom-replies`}>
-                      {t(LanguageKey.sendreplydirectedsuccessfully)}
-                    </div>
-                    <div className="counter" aria-live="polite">
-                      ({replyMethod.customRepliesSuccessfullyDirected.length}/3)
-                    </div>
-                  </div>
-                  <div className="headerparent">
-                    <InputBox
-                      name={`${mode}-custom-success-reply`}
-                      className="textinputbox"
-                      placeHolder={t(LanguageKey.pageToolspopup_typehere)}
-                      value={customReplyInput}
-                      disabled={replyMethod.customRepliesSuccessfullyDirected.length >= 3}
-                      handleInputChange={(e) => setCustomReplyInput(e.target.value)}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          e.preventDefault();
-                          addCustomReply();
-                        }
-                      }}
-                      aria-label={t(LanguageKey.sendreplydirectedsuccessfully)}
-                    />
-                    <button
-                      type="button"
-                      disabled={!customReplyInput.trim() || replyMethod.customRepliesSuccessfullyDirected.length >= 3}
-                      className={
-                        customReplyInput.trim() && replyMethod.customRepliesSuccessfullyDirected.length < 3
-                          ? "saveButton"
-                          : "disableButton"
-                      }
-                      style={{ height: "42px", width: "max-content", paddingInline: "10px" }}
-                      onClick={addCustomReply}
-                      aria-label={t(LanguageKey.add)}>
-                      {t(LanguageKey.add)}
-                    </button>
-                  </div>
-                  <div
-                    className={styles.wordpool}
-                    role="list"
-                    aria-label={t(LanguageKey.sendreplydirectedsuccessfully)}>
-                    {replyMethod.customRepliesSuccessfullyDirected.map((reply, index) => (
-                      <div key={`${reply}-${index}`} className={styles.specificword} role="listitem">
-                        <span>{reply}</span>
-                        <button
-                          type="button"
-                          onClick={() =>
-                            setReplyMethod((prev) => ({
-                              ...prev!,
-                              customRepliesSuccessfullyDirected: prev!.customRepliesSuccessfullyDirected.filter(
-                                (_, replyIndex) => replyIndex !== index,
-                              ),
-                            }))
-                          }
-                          aria-label={`${t(LanguageKey.delete)}: ${reply}`}
-                          className="keyword-remove-btn"
-                          style={{
-                            background: "none",
-                            border: "none",
-                            cursor: "pointer",
-                            padding: "2px",
-                            display: "inline-flex",
-                            alignItems: "center",
-                          }}>
-                          <img
-                            style={{ width: "15px", height: "15px", pointerEvents: "none" }}
-                            alt={t(LanguageKey.delete)}
-                            src="/deleteHashtag.svg"
-                          />
-                        </button>
-                      </div>
-                    ))}
-                  </div>
-                </div>
               )}
             </div>
             {hasMessagePermission && isMessageDeliveryMode && renderMessagePermissionState()}

@@ -1,3 +1,7 @@
+- Removed the empty reserved height from media auto-reply successful-reply tags so the must-follow option stays directly below the editor and spacing grows only when replies are added.
+
+- Updated the media auto-reply successful-reply editor to remove its duplicate confirmation title and show the input/tags directly below the checkbox only when `replySuccessfullyDirected` is enabled.
+
 - Added the Goftino live-chat widget to the root App Router layout with `next/script` and `afterInteractive`, making it available across all routes.
 
 - Removed duplicate route-level `packageStatus` redirects from the reviewed legacy posts, statistics, tools, story creation, settings, store, and wallet pages. Preserved `currentIndex`, `RoleAccess`, shopper checks, session rendering, and fetch logic; corrected the posts authentication-effect dependencies. Deferred home, story index/detail, market, message, and Instagramer navbar usages.

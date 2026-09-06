@@ -2,6 +2,8 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+The media auto-reply successful-reply editor no longer repeats the confirmation checkbox title. Its input and removable reply tags appear directly below the confirmation checkbox only after `replySuccessfullyDirected` is enabled; Flow follows the same enabled-state behavior.
+
 On 2026-09-03, duplicate package-status redirects were removed from the reviewed legacy posts, page statistics/tools, story creation and story detail, settings, store, wallet, and home pages. The remaining package-status usage is limited to the Instagramer navbar's internal interval guard; market and message legacy pages should be audited separately if their route wrappers are migrated further.
 
 All protected App Router authentication is centralized in the Node-runtime `middleware.ts`; route wrappers use `useSession()` without `required: true` or `onUnauthenticated`. This prevents NextAuth's automatic `SessionRequired` redirect during logout while preserving each wrapper's existing `session` and `status` handling. The middleware reads `/run/secrets/brancyapp_jwt_token` or `NEXTAUTH_SECRET` without a hard-coded secret, redirects missing tokens to `/`, and protects Instagramer plus `/customershop/*` and `/user/*` routes. Only Instagramer routes apply `currentIndex` and package-expiry redirects, while user routes perform authentication only. Route-specific account, role, query, Suspense, and navigation behavior remains in the relevant wrappers.

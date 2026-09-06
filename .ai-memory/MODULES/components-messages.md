@@ -119,6 +119,10 @@ The media auto-reply AI selector keeps its `DragDrop` on the localized Please se
 
 `popups/editAutoReplyForMedia.tsx` keeps media auto-reply and AI configuration available when `session.user.messagePermission === false`, but shows the localized message-permission state whenever direct response, Flow, Product, or Connect Product delivery is selected. Its Enable Permission action uses the same IP check, invalid-IP modal, and Instagram redirect flow as the comment quick-reply state; same-comment responses remain available without message permission.
 
+The media auto-reply successful-reply editor does not repeat the confirmation checkbox title. For Direct and Flow delivery, its input and removable reply tags render immediately below the `replySuccessfullyDirected` checkbox only while that checkbox is enabled.
+
+The successful-reply tag list has no reserved minimum height, so the must-follow option has no empty gap before the first reply is added and expands only according to the rendered tags.
+
 For message-delivery modes, the confirmation-message and must-follow-page options are omitted from the editor and both corresponding save payload flags are forced to `false`; same-comment delivery retains the existing controls and values.
 
 > > > > > > > sepehr
