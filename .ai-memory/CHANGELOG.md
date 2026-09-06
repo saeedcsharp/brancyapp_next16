@@ -1,10 +1,12 @@
+- Localized the persistent support menu's blog and online-support labels across all eight supported languages, including its chat title and accessibility labels.
+
 - Aligned the general auto-reply editor with the media editor for `AllMedia`, `Feed`, and `Reels`, including AI Direct response and the shared conditional three-reply editor for Custom, AI, and Flow.
 
 - Removed the empty reserved height from media auto-reply successful-reply tags so the must-follow option stays directly below the editor and spacing grows only when replies are added.
 
 - Updated the media auto-reply successful-reply editor to remove its duplicate confirmation title and show the input/tags directly below the checkbox only when `replySuccessfullyDirected` is enabled.
 
-- Added the Goftino live-chat widget to the root App Router layout with `next/script` and `afterInteractive`, making it available across all routes.
+- Added a persistent support logo with blog redirect and online-support actions. The embedded support view now loads the blog homepage without sandbox restrictions so WordPress and Goftino scripts can execute normally.
 
 - Removed duplicate route-level `packageStatus` redirects from the reviewed legacy posts, statistics, tools, story creation, settings, store, and wallet pages. Preserved `currentIndex`, `RoleAccess`, shopper checks, session rendering, and fetch logic; corrected the posts authentication-effect dependencies. Deferred home, story index/detail, market, message, and Instagramer navbar usages.
 

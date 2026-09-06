@@ -299,6 +299,8 @@ export default {
     page8_CommunityBTN: "با هم یاد بگیریم",
     page8_learnBTN: "یادگیری سریع",
     page8_BlogBTN: "آخرین اخبار",
+    support_EnterBlog: "ورود به وبلاگ",
+    support_Online: "پشتیبانی آنلاین",
     page8_FAQBTN: "پاسخ‌های فوری",
     page8_SupportBTN: "ما پاسخگوییم",
     footer_Brancy: "برنسی",

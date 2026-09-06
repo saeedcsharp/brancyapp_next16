@@ -2116,6 +2116,8 @@ export enum LanguageKey {
   page8_CommunityBTN = "page8_CommunityBTN",
   page8_learnBTN = "page8_learnBTN",
   page8_BlogBTN = "page8_BlogBTN",
+  support_EnterBlog = "support_EnterBlog",
+  support_Online = "support_Online",
   page8_FAQBTN = "page8_FAQBTN",
   page8_SupportBTN = "page8_SupportBTN",
   page1_text1 = "page1_text1",

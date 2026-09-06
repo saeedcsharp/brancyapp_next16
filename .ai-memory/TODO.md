@@ -10,6 +10,8 @@
 
 # TODO
 
+- Verify in production that `blog.brancy.app` continues to allow iframe embedding and that its Goftino panel is visible inside the embedded homepage without conflicting with the host app's fixed controls.
+
 - Add component/browser coverage for authenticated Instagramer route guards, including NextAuth loading, expired packages, `currentIndex === -1`, home login-provider exceptions, influencer restrictions, internal redirects, Suspense/query routes, intercepted modals, and confirmation that legacy pages do not mount during redirects.
 
 - Add component coverage for the quick-reply comment-permission state, including localized text, SVG rendering, redirect action, and authorized editor rendering when a UI test harness is introduced.

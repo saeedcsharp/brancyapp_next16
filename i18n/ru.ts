@@ -298,6 +298,8 @@ export default {
     page8_CommunityBTN: "Давайте учиться вместе",
     page8_learnBTN: "Быстрое обучение",
     page8_BlogBTN: "Последние новости",
+    support_EnterBlog: "Перейти в блог",
+    support_Online: "Онлайн-поддержка",
     page8_FAQBTN: "Мгновенные ответы",
     page8_SupportBTN: "Мы здесь, чтобы помочь",
     footer_Brancy: "Brancy",

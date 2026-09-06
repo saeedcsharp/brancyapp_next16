@@ -299,6 +299,8 @@ export default {
     page8_CommunityBTN: "Birlikdə öyrənək",
     page8_learnBTN: "Tez öyrən",
     page8_BlogBTN: "Ən son xəbərlər",
+    support_EnterBlog: "Bloqa keçid",
+    support_Online: "Onlayn dəstək",
     page8_FAQBTN: "Tez cavablar",
     page8_SupportBTN: "Biz cavab veririk",
     footer_Brancy: "Brancy",

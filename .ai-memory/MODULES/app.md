@@ -144,7 +144,7 @@ No module-specific env vars documented unless related files read them.
 
 `app/` contains 104 page files and 9 route handler files. See `MODULES/app-feature.md` for the `/feature` catalog route.
 
-The protected `/dev` route now presents two authenticated destinations: `/dev/package` for the dependency report and `/dev/systemDesign` for the local design-component test lab. The root layout also loads the Goftino live-chat widget after hydration, making it available across all App Router routes.
+The protected `/dev` route now presents two authenticated destinations: `/dev/package` for the dependency report and `/dev/systemDesign` for the local design-component test lab. The root layout also renders the persistent support logo and blog-hosted live-chat menu through `components/website/BlogChatFrame.tsx`.
 
 ## Related Modules
 

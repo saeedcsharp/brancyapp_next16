@@ -298,6 +298,8 @@ export default {
     page8_CommunityBTN: "Birlikte Öğrenelim",
     page8_learnBTN: "Hızlı Öğren",
     page8_BlogBTN: "Son Haberler",
+    support_EnterBlog: "Bloga Git",
+    support_Online: "Çevrim içi destek",
     page8_FAQBTN: "Anında Yanıtlar",
     page8_SupportBTN: "Yardım İçin Buradayız",
     footer_Brancy: "Brancy",

@@ -300,6 +300,8 @@ export default {
     page8_CommunityBTN: "Lernen wir zusammen",
     page8_learnBTN: "Schnelles Lernen",
     page8_BlogBTN: "Neueste Nachrichten",
+    support_EnterBlog: "Zum Blog",
+    support_Online: "Online-Support",
     page8_FAQBTN: "Sofortige Antworten",
     page8_SupportBTN: "Wir sind hier, um zu helfen",
     footer_Brancy: "Brancy",

@@ -293,6 +293,8 @@ export default {
     page8_CommunityBTN: "دعونا نتعلم معًا",
     page8_learnBTN: "تعلم سريع",
     page8_BlogBTN: "آخر الأخبار",
+    support_EnterBlog: "الانتقال إلى المدونة",
+    support_Online: "الدعم عبر الإنترنت",
     page8_FAQBTN: "إجابات فورية",
     page8_SupportBTN: "نحن هنا للمساعدة",
     footer_Brancy: "برنسی",

@@ -296,6 +296,8 @@ export default {
     page8_CommunityBTN: "Let's Connect",
     page8_learnBTN: "Learn Fast",
     page8_BlogBTN: "Read the Latest",
+    support_EnterBlog: "Go to Blog",
+    support_Online: "Online Support",
     page8_FAQBTN: "Quick Answers",
     page8_SupportBTN: "We're Here to Help",
     footer_Brancy: "Brancy",
