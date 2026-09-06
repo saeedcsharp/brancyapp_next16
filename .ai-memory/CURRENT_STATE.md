@@ -2,6 +2,8 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+The general auto-reply editor now mirrors the media editor's successful-reply workflow for `AllMedia`, `Feed`, and `Reels`: AI supports same-comment versus Direct response, and Custom, AI, and Flow show the shared three-reply input/tag editor only when the confirmation-reply checkbox is enabled.
+
 The media auto-reply successful-reply editor no longer repeats the confirmation checkbox title. Its input and removable reply tags appear directly below the confirmation checkbox only after `replySuccessfullyDirected` is enabled; Flow follows the same enabled-state behavior.
 
 On 2026-09-03, duplicate package-status redirects were removed from the reviewed legacy posts, page statistics/tools, story creation and story detail, settings, store, wallet, and home pages. The remaining package-status usage is limited to the Instagramer navbar's internal interval guard; market and message legacy pages should be audited separately if their route wrappers are migrated further.

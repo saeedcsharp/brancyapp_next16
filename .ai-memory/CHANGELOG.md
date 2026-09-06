@@ -1,3 +1,5 @@
+- Aligned the general auto-reply editor with the media editor for `AllMedia`, `Feed`, and `Reels`, including AI Direct response and the shared conditional three-reply editor for Custom, AI, and Flow.
+
 - Removed the empty reserved height from media auto-reply successful-reply tags so the must-follow option stays directly below the editor and spacing grows only when replies are added.
 
 - Updated the media auto-reply successful-reply editor to remove its duplicate confirmation title and show the input/tags directly below the checkbox only when `replySuccessfullyDirected` is enabled.

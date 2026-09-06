@@ -201,9 +201,16 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
   const [replyMethod, setReplyMethod] = useState(autoReply.sendPr);
   const [shouldFollower, setShouldFollower] = useState(autoReply.shouldFollower);
   const [replySuccessfullyDirected, setReplySuccessfullyDirected] = useState(autoReply.replySuccessfullyDirected);
+  const [customReplyInput, setCustomReplyInput] = useState("");
   const [customRepliesSuccessfullyDirected, setCustomRepliesSuccessfullyDirected] = useState(
     autoReply.customRepliesSuccessfullyDirected,
   );
+  const addCustomReply = useCallback(() => {
+    const trimmed = customReplyInput.trim();
+    if (!trimmed || customRepliesSuccessfullyDirected.length >= 3) return;
+    setCustomRepliesSuccessfullyDirected((prev) => [...prev, trimmed]);
+    setCustomReplyInput("");
+  }, [customReplyInput, customRepliesSuccessfullyDirected.length]);
   const [activeAutoReply, setActiveAutoReply] = useState(autoReply.pauseTime === null || !autoReply.id);
   const [checkBox, dispatchCheckBox] = useReducer(checkBoxReducer, {
     Custom: autoReply.automaticType === AutoReplyPayLoadType.KeyWord,
@@ -675,7 +682,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
     const shouldFollowerChanged = shouldFollower !== autoReply.shouldFollower;
     const replySuccessfullyDirectedChanged = replySuccessfullyDirected !== autoReply.replySuccessfullyDirected;
     const customRepliesSuccessfullyDirectedChanged =
-      customRepliesSuccessfullyDirected !== autoReply.customRepliesSuccessfullyDirected;
+      JSON.stringify(customRepliesSuccessfullyDirected) !== JSON.stringify(autoReply.customRepliesSuccessfullyDirected);
 
     // Check if automation type changed
     let autoTypeChanged = false;
@@ -753,6 +760,80 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
     if (!session) return;
     void fetchData();
   }, [session, fetchData]);
+
+  const renderCustomReplies = useCallback(
+    (mode: "Custom" | "AI" | "Flow") => {
+      if (!replySuccessfullyDirected) return null;
+
+      return (
+        <div className="headerandinput" role="group" aria-label={t(LanguageKey.sendreplydirectedsuccessfully)}>
+          <div className="headerparent">
+            <div className="counter" aria-live="polite">
+              ({customRepliesSuccessfullyDirected.length}/3)
+            </div>
+          </div>
+          <div className="headerparent">
+            <InputBox
+              name={`${mode}-custom-success-reply`}
+              className="textinputbox"
+              placeHolder={t(LanguageKey.pageToolspopup_typehere)}
+              value={customReplyInput}
+              disabled={customRepliesSuccessfullyDirected.length >= 3}
+              handleInputChange={(e) => setCustomReplyInput(e.target.value)}
+              onKeyDown={(e) => {
+                if (e.key === "Enter") {
+                  e.preventDefault();
+                  addCustomReply();
+                }
+              }}
+              aria-label={t(LanguageKey.sendreplydirectedsuccessfully)}
+            />
+            <button
+              type="button"
+              disabled={!customReplyInput.trim() || customRepliesSuccessfullyDirected.length >= 3}
+              className={
+                customReplyInput.trim() && customRepliesSuccessfullyDirected.length < 3 ? "saveButton" : "disableButton"
+              }
+              style={{ height: "42px", width: "max-content", paddingInline: "10px" }}
+              onClick={addCustomReply}
+              aria-label={t(LanguageKey.add)}>
+              {t(LanguageKey.add)}
+            </button>
+          </div>
+          <div className={styles.wordpool} role="list" aria-label={t(LanguageKey.sendreplydirectedsuccessfully)}>
+            {customRepliesSuccessfullyDirected.map((reply, index) => (
+              <div key={`${reply}-${index}`} className={styles.specificword} role="listitem">
+                <span>{reply}</span>
+                <button
+                  type="button"
+                  onClick={() =>
+                    setCustomRepliesSuccessfullyDirected((prev) => prev.filter((_, replyIndex) => replyIndex !== index))
+                  }
+                  aria-label={`${t(LanguageKey.delete)}: ${reply}`}
+                  className="keyword-remove-btn"
+                  style={{
+                    background: "none",
+                    border: "none",
+                    cursor: "pointer",
+                    padding: "2px",
+                    display: "inline-flex",
+                    alignItems: "center",
+                  }}>
+                  <img
+                    style={{ width: "15px", height: "15px", pointerEvents: "none" }}
+                    alt={t(LanguageKey.delete)}
+                    src="/deleteHashtag.svg"
+                  />
+                </button>
+              </div>
+            ))}
+          </div>
+        </div>
+      );
+    },
+    [addCustomReply, customReplyInput, customRepliesSuccessfullyDirected, replySuccessfullyDirected, t],
+  );
+
   return (
     <>
       <Head>
@@ -1047,6 +1128,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                                 title={t(LanguageKey.sendreplydirectedsuccessfully)}
                                 textlabel={t(LanguageKey.sendreplydirectedsuccessfully)}
                               />
+                              {renderCustomReplies("Custom")}
                               <CheckBoxButton
                                 handleToggle={(e) => setShouldFollower(e.target.checked)}
                                 value={shouldFollower}
@@ -1139,14 +1221,46 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
 
                       {/* Reply Method for AI */}
                       {shouldShowReplyMethod && (
-                        <div className="headerandinput">
-                          <CheckBoxButton
-                            handleToggle={(e) => setReplySuccessfullyDirected(e.target.checked)}
-                            value={replySuccessfullyDirected}
-                            title={t(LanguageKey.sendreplydirectedsuccessfully)}
-                            textlabel={t(LanguageKey.sendreplydirectedsuccessfully)}
-                          />
-                        </div>
+                        <>
+                          <div className="headerandinput">
+                            <div className="headertext">{t(LanguageKey.replyMethod)}</div>
+                            <RadioButton
+                              name="ai-reply-method"
+                              id="ai-respondInSameComment"
+                              checked={!replyMethod}
+                              handleOptionChanged={() => setReplyMethod(false)}
+                              textlabel={t(LanguageKey.respondInSameComment)}
+                              aria-checked={!replyMethod}
+                              title={t(LanguageKey.respondInSameComment)}
+                            />
+                            <RadioButton
+                              name="ai-reply-method"
+                              id="ai-respondDirectly"
+                              checked={replyMethod}
+                              handleOptionChanged={() => setReplyMethod(true)}
+                              textlabel={t(LanguageKey.respondDirectly)}
+                              aria-checked={replyMethod}
+                              title={t(LanguageKey.respondDirectly)}
+                            />
+                          </div>
+                          {replyMethod && (
+                            <div className={styles.replyMethodOptions}>
+                              <CheckBoxButton
+                                handleToggle={(e) => setReplySuccessfullyDirected(e.target.checked)}
+                                value={replySuccessfullyDirected}
+                                title={t(LanguageKey.sendreplydirectedsuccessfully)}
+                                textlabel={t(LanguageKey.sendreplydirectedsuccessfully)}
+                              />
+                              {renderCustomReplies("AI")}
+                              <CheckBoxButton
+                                handleToggle={(e) => setShouldFollower(e.target.checked)}
+                                value={shouldFollower}
+                                title={t(LanguageKey.shouldFollower)}
+                                textlabel={t(LanguageKey.shouldFollower)}
+                              />
+                            </div>
+                          )}
+                        </>
                       )}
                     </div>
                   )}
@@ -1261,6 +1375,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                             title={t(LanguageKey.sendreplydirectedsuccessfully)}
                             textlabel={t(LanguageKey.sendreplydirectedsuccessfully)}
                           />
+                          {renderCustomReplies("Flow")}
                         </div>
                       )}
                     </div>

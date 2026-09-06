@@ -16,6 +16,7 @@
 - Add component coverage confirming the auto-reply keyword input remains invalid while `specificKeywordsList` is empty, including when a draft keyword is typed.
 - Add component coverage confirming media successful-reply input/tags stay hidden until `replySuccessfullyDirected` is enabled and render directly below its checkbox when enabled.
 - Add browser coverage confirming the media successful-reply tag list does not reserve empty height and expands only with added replies.
+- Add component coverage confirming the general auto-reply editor matches the media editor across `AllMedia`, `Feed`, and `Reels`, while hiding reply-method controls for other media types.
 - Add component coverage for media auto-reply message-permission states across direct response, Flow, Product, and Connect Product modes, including same-comment availability and invalid-IP redirect behavior when a UI test harness is introduced.
 - Add component coverage confirming DirectInbox delays SignalR audio insertion by one second while non-audio messages are inserted immediately when a UI test harness is introduced.
 

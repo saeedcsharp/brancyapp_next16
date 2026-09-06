@@ -113,6 +113,8 @@ The same component keeps the continued new flow in `userslist` as a local `newFl
 
 `popups/editAutoReply.tsx` passes `specificKeywordsList.length === 0` to `InputBox.isEmptyOverride`, so the keyword field keeps its `dangerOnEmpty` state until at least one keyword has been added, even when the draft keyword input itself contains text.
 
+`popups/editAutoReply.tsx` mirrors `editAutoReplyForMedia.tsx` for `AllMedia`, `Feed`, and `Reels`: Custom, AI, and Flow use the same three-reply input/tag workflow, with AI exposing same-comment versus Direct response. The input and removable tags appear directly below the confirmation checkbox only when it is enabled.
+
 The media auto-reply AI selector keeps its `DragDrop` on the localized Please select option, matching Flow, while displaying the selected or saved prompt title above the selector. It merges a saved prompt from `GetPostInfo` into its prompt options when that prompt is absent from `GetPrompts`. When a saved `promptId` exists, it also calls `GetPrompt` for the full `IDetailPrompt` and renders its `promptStr` description below the selector after reload.
 
 `components/page/popup/quickReply.tsx` renders `components/notOk/commentPermissionState.tsx` as a localized Instagram comment-permission state with an inline SVG and an Enable Permission action only when `session.user.commentPermission === false`; the action checks `/api/user/ip`, opens `InvalidIpModalContent` for Iranian IPs, and otherwise follows the existing Instagram redirect flow. The existing media auto-reply editor remains unchanged when access is available.
