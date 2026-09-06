@@ -1023,7 +1023,7 @@ export interface ILastVideo extends IFeatureInfo {
 
 export interface IProducts extends IFeatureInfo {
   productCards: IProductCard[] | null;
-  productCoupons: IMyLinkProductCoupon[]|null;
+  productCoupons: IMyLinkProductCoupon[] | null;
 }
 
 export interface ITimeline extends IFeatureInfo {}
@@ -2667,6 +2667,7 @@ export interface IAutomaticReply {
   response: string | null;
   sendPr: boolean;
   replySuccessfullyDirected: boolean;
+  customRepliesSuccessfullyDirected: string[];
   shouldFollower: boolean;
   productType: MediaProductType | null;
   automaticType: AutoReplyPayLoadType;
@@ -2685,6 +2686,7 @@ export interface IMediaUpdateAutoReply {
   shouldFollower: boolean;
   response: string | null;
   replySuccessfullyDirected: boolean;
+  customRepliesSuccessfullyDirected: string[];
   keys: string[];
   productId: string | null;
 }

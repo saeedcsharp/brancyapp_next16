@@ -1,18 +1,13 @@
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import router from "next/router";
-import React, { ChangeEvent, useCallback, useEffect, useId, useMemo, useReducer, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
+import Modal from "brancy/components/design/modal";
 import RadioButton from "brancy/components/design/radioButton/radioButton";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import TextArea from "brancy/components/design/textArea/textArea";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
-import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
-import Modal from "brancy/components/design/modal";
 import {
   internalNotify,
   InternalResponseType,
@@ -22,23 +17,26 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import InvalidIpModalContent from "brancy/components/switchAccount/invalidIpModalContent";
-import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import { redirectHostUrl } from "brancy/helper/apiBaseUrl";
-import styles from "./editAutoReply.module.css";
+import { getClientMediaBaseUrl, redirectHostUrl } from "brancy/helper/apiBaseUrl";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { MediaProductType, AutoReplyPayLoadType, ShopMediaProductType } from "brancy/models/enums";
+import { LanguageKey } from "brancy/i18n";
+import { AutoReplyPayLoadType, MediaProductType, ShopMediaProductType } from "brancy/models/enums";
 import {
-  IMediaUpdateAutoReply,
   IAutomaticReply,
-  IPrompts,
   IDetailPrompt,
   IMasterFlow,
-  ITotalMasterFlow,
-  ITotalPrompt,
+  IMediaUpdateAutoReply,
   IProduct_ShortProduct,
+  IPrompts,
+  ITotalMasterFlow,
 } from "brancy/models/interfaces";
-import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import router from "next/router";
+import React, { ChangeEvent, useCallback, useEffect, useId, useMemo, useReducer, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styles from "./editAutoReply.module.css";
 type CheckBoxState = {
   Custom: boolean;
   Flow: boolean;
@@ -183,6 +181,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
   const [shakeSpecificKeywordInput, setShakeSpecificKeywordInput] = useState(false);
 
   const [specificKeywords, setSpecificKeywords] = useState("");
+  const [customReplyInput, setCustomReplyInput] = useState("");
   // const [autoReplyCustom, setAutoReplyCustom] = useState(autoReply.response);
   const [replyMethod, setReplyMethod] = useState<IAutomaticReply | null>({
     automaticType: 0,
@@ -200,6 +199,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
     sendPr: false,
     shouldFollower: false,
     replySuccessfullyDirected: true,
+    customRepliesSuccessfullyDirected: autoReply?.customRepliesSuccessfullyDirected || [],
   });
   // const [activeAutoReply, setActiveAutoReply] = useState(
   //   autoReply && autoReply.pauseTime === null
@@ -342,6 +342,16 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
     setShakeSpecificKeywordInput(false);
   }, [replyMethod, specificKeywords, triggerSpecificKeywordShake]);
 
+  const addCustomReply = useCallback(() => {
+    const trimmed = customReplyInput.trim();
+    if (!trimmed || !replyMethod || replyMethod.customRepliesSuccessfullyDirected.length >= 3) return;
+    setReplyMethod((prev) => ({
+      ...prev!,
+      customRepliesSuccessfullyDirected: [...prev!.customRepliesSuccessfullyDirected, trimmed],
+    }));
+    setCustomReplyInput("");
+  }, [customReplyInput, replyMethod]);
+
   type AutoReplyMode = keyof CheckBoxState;
   const renderReplyMethodSection = useCallback(
     (mode: AutoReplyMode) => {
@@ -417,6 +427,85 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                   textlabel={t(LanguageKey.shouldFollower)}
                 />
               )}
+
+              {replyMethod && (mode === "Flow" || isDirectReplyMode) && !hasMessagePermission && (
+                <div className="headerandinput" role="group" aria-labelledby={`${titleId}-custom-replies`}>
+                  <div className="headerparent">
+                    <div className="headertext" id={`${titleId}-custom-replies`}>
+                      {t(LanguageKey.sendreplydirectedsuccessfully)}
+                    </div>
+                    <div className="counter" aria-live="polite">
+                      ({replyMethod.customRepliesSuccessfullyDirected.length}/3)
+                    </div>
+                  </div>
+                  <div className="headerparent">
+                    <InputBox
+                      name={`${mode}-custom-success-reply`}
+                      className="textinputbox"
+                      placeHolder={t(LanguageKey.pageToolspopup_typehere)}
+                      value={customReplyInput}
+                      disabled={replyMethod.customRepliesSuccessfullyDirected.length >= 3}
+                      handleInputChange={(e) => setCustomReplyInput(e.target.value)}
+                      onKeyDown={(e) => {
+                        if (e.key === "Enter") {
+                          e.preventDefault();
+                          addCustomReply();
+                        }
+                      }}
+                      aria-label={t(LanguageKey.sendreplydirectedsuccessfully)}
+                    />
+                    <button
+                      type="button"
+                      disabled={!customReplyInput.trim() || replyMethod.customRepliesSuccessfullyDirected.length >= 3}
+                      className={
+                        customReplyInput.trim() && replyMethod.customRepliesSuccessfullyDirected.length < 3
+                          ? "saveButton"
+                          : "disableButton"
+                      }
+                      style={{ height: "42px", width: "max-content", paddingInline: "10px" }}
+                      onClick={addCustomReply}
+                      aria-label={t(LanguageKey.add)}>
+                      {t(LanguageKey.add)}
+                    </button>
+                  </div>
+                  <div
+                    className={styles.wordpool}
+                    role="list"
+                    aria-label={t(LanguageKey.sendreplydirectedsuccessfully)}>
+                    {replyMethod.customRepliesSuccessfullyDirected.map((reply, index) => (
+                      <div key={`${reply}-${index}`} className={styles.specificword} role="listitem">
+                        <span>{reply}</span>
+                        <button
+                          type="button"
+                          onClick={() =>
+                            setReplyMethod((prev) => ({
+                              ...prev!,
+                              customRepliesSuccessfullyDirected: prev!.customRepliesSuccessfullyDirected.filter(
+                                (_, replyIndex) => replyIndex !== index,
+                              ),
+                            }))
+                          }
+                          aria-label={`${t(LanguageKey.delete)}: ${reply}`}
+                          className="keyword-remove-btn"
+                          style={{
+                            background: "none",
+                            border: "none",
+                            cursor: "pointer",
+                            padding: "2px",
+                            display: "inline-flex",
+                            alignItems: "center",
+                          }}>
+                          <img
+                            style={{ width: "15px", height: "15px", pointerEvents: "none" }}
+                            alt={t(LanguageKey.delete)}
+                            src="/deleteHashtag.svg"
+                          />
+                        </button>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
             {hasMessagePermission && isMessageDeliveryMode && renderMessagePermissionState()}
           </div>
@@ -447,7 +536,16 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
 
       return null;
     },
-    [activeAutoReply, productType, replyMethod, renderMessagePermissionState, t],
+    [
+      activeAutoReply,
+      addCustomReply,
+      customReplyInput,
+      hasMessagePermission,
+      productType,
+      replyMethod,
+      renderMessagePermissionState,
+      t,
+    ],
   );
   const handleOptionChanged = useCallback((e: ChangeEvent<HTMLInputElement>) => {
     console.log(e.target.name);
@@ -483,6 +581,8 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       response: null,
       sendPr: hasMessagePermission ? false : replyMethod !== null && replyMethod.sendPr,
       replySuccessfullyDirected: isDirectReplyMode ? (replyMethod?.replySuccessfullyDirected ?? false) : false,
+      customRepliesSuccessfullyDirected:
+        checkBox.Flow || isDirectReplyMode ? (replyMethod?.customRepliesSuccessfullyDirected ?? []) : [],
       shouldFollower: isDirectReplyMode ? replyMethod !== null && replyMethod.shouldFollower : false,
       productId: replyMethod?.productId || null,
     };
@@ -943,6 +1043,9 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
     const shouldFollowerChanged = (replyMethod?.shouldFollower ?? false) !== (autoReply?.shouldFollower ?? false);
     const replySuccessfullyDirectedChanged =
       (replyMethod?.replySuccessfullyDirected ?? false) !== (autoReply?.replySuccessfullyDirected ?? false);
+    const customRepliesSuccessfullyDirectedChanged =
+      JSON.stringify(replyMethod?.customRepliesSuccessfullyDirected ?? []) !==
+      JSON.stringify(autoReply?.customRepliesSuccessfullyDirected ?? []);
 
     let autoTypeChanged = false;
     if (checkBox.Custom && autoReply?.automaticType !== AutoReplyPayLoadType.KeyWord) autoTypeChanged = true;
@@ -962,6 +1065,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       sendPrChanged ||
       shouldFollowerChanged ||
       replySuccessfullyDirectedChanged ||
+      customRepliesSuccessfullyDirectedChanged ||
       autoTypeChanged ||
       promptChanged ||
       flowChanged
