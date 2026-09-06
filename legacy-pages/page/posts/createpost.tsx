@@ -68,6 +68,7 @@ import {
 } from "brancy/models/interfaces";
 import { AutoReplyPayLoadType, MediaProductType, MediaType, PartnerRole, PostType } from "brancy/models/enums";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
+import { se } from "date-fns/locale";
 
 enum SearchType {
   CollaboratePeople,
@@ -493,6 +494,7 @@ const CreatePost = () => {
     sendCount: 0,
     replySuccessfullyDirected: false,
     productId: null,
+    customRepliesSuccessfullyDirected: [],
   });
   const [hashtagList, setHashtagList] = useState<string[]>([]);
   const [renderWidthSize, setRenderwidthSize] = useState(333);
@@ -792,8 +794,9 @@ const CreatePost = () => {
       masterFlow: null,
       masterFlowId: sendAutoReply.masterFlowId,
       sendCount: 0,
-      replySuccessfullyDirected: false,
+      replySuccessfullyDirected: sendAutoReply.replySuccessfullyDirected,
       productId: sendAutoReply.productId,
+      customRepliesSuccessfullyDirected: sendAutoReply.customRepliesSuccessfullyDirected,
     });
     uiDispatch({ type: "TOGGLE_QUICK_REPLY_POPUP", payload: false });
     if (!QuickReply) formDispatch({ type: "TOGGLE_QUICK_REPLY" });
@@ -849,6 +852,7 @@ const CreatePost = () => {
                   shouldFollower: autoReply.shouldFollower,
                   replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
                   productId: autoReply.productId,
+                  customRepliesSuccessfullyDirected: autoReply.customRepliesSuccessfullyDirected,
                 }
               : null,
             collaborators: collabratorPages,
@@ -902,6 +906,7 @@ const CreatePost = () => {
                   shouldFollower: autoReply.shouldFollower,
                   replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
                   productId: autoReply.productId,
+                  customRepliesSuccessfullyDirected: autoReply.customRepliesSuccessfullyDirected,
                 }
               : null,
 
@@ -972,6 +977,7 @@ const CreatePost = () => {
                 shouldFollower: autoReply.shouldFollower,
                 replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
                 productId: autoReply.productId,
+                customRepliesSuccessfullyDirected: autoReply.customRepliesSuccessfullyDirected,
               }
             : null,
           collaborators: collabratorPages,
@@ -2050,6 +2056,9 @@ const CreatePost = () => {
           promptId: draft.automaticMediaReply ? draft.automaticMediaReply.promptId : null,
           sendCount: 0,
           productId: draft.automaticMediaReply ? draft.automaticMediaReply.productId : null,
+          customRepliesSuccessfullyDirected: draft.automaticMediaReply
+            ? draft.automaticMediaReply.customRepliesSuccessfullyDirected
+            : [],
         });
         setCollabratorPages(draft.collaborators);
         formDispatch({ type: "SET_CAPTION", payload: draft.caption });
@@ -2173,6 +2182,7 @@ const CreatePost = () => {
                 promptId: null,
                 sendCount: 0,
                 productId: null,
+                customRepliesSuccessfullyDirected: [],
               },
         );
         setCollabratorPages(prePost.collaborators);

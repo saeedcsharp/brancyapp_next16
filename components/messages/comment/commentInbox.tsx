@@ -203,6 +203,7 @@ const CommentInbox = () => {
         sendPr: false,
         shouldFollower: false,
         productId: null,
+        customRepliesSuccessfullyDirected: [],
       }
     );
   }, [
@@ -1529,6 +1530,7 @@ const CommentInbox = () => {
                         sendPr: false,
                         shouldFollower: false,
                         productId: null,
+                        customRepliesSuccessfullyDirected: [],
                       },
                 },
           ),
@@ -1584,6 +1586,7 @@ const CommentInbox = () => {
                         sendPr: false,
                         shouldFollower: false,
                         productId: null,
+                        customRepliesSuccessfullyDirected: [],
                       },
                 },
           ),

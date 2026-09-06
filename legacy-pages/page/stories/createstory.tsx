@@ -83,6 +83,7 @@ const CreateStory = () => {
     sendPr: false,
     replySuccessfullyDirected: false,
     productId: null,
+    customRepliesSuccessfullyDirected: [],
   });
   const [selectedProduct, setSelectedProduct] = useState<IProduct_ShortProduct | null>(null);
   const [showProductPopup, setShowProductPopup] = useState(false);
@@ -147,6 +148,7 @@ const CreateStory = () => {
                   sendPr: autoReply.sendPr,
                   shouldFollower: autoReply.shouldFollower,
                   replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
+                  customRepliesSuccessfullyDirected: autoReply.customRepliesSuccessfullyDirected,
                   productId: autoReply.productId,
                 }
               : null,
@@ -201,6 +203,7 @@ const CreateStory = () => {
                   shouldFollower: autoReply.shouldFollower,
                   replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
                   productId: autoReply.productId,
+                  customRepliesSuccessfullyDirected: autoReply.customRepliesSuccessfullyDirected,
                 }
               : null,
             uiParameters: null,
@@ -737,6 +740,7 @@ const CreateStory = () => {
                   sendPr: draft.automaticReplyInfo.sendPr,
                   replySuccessfullyDirected: draft.automaticReplyInfo.replySuccessfullyDirected,
                   productId: draft.automaticReplyInfo.productId,
+                  customRepliesSuccessfullyDirected: draft.automaticReplyInfo.customRepliesSuccessfullyDirected,
                 }
               : {
                   items: [],
@@ -754,6 +758,7 @@ const CreateStory = () => {
                   sendPr: false,
                   replySuccessfullyDirected: false,
                   productId: null,
+                  customRepliesSuccessfullyDirected: [],
                 },
           );
           console.log("mediaType", draft.mediaType);
@@ -835,6 +840,7 @@ const CreateStory = () => {
                   sendPr: preStory.automaticMediaReply.sendPr,
                   replySuccessfullyDirected: preStory.automaticMediaReply.replySuccessfullyDirected,
                   productId: preStory.automaticMediaReply.productId,
+                  customRepliesSuccessfullyDirected: preStory.automaticMediaReply.customRepliesSuccessfullyDirected,
                 }
               : {
                   items: [],
@@ -852,6 +858,7 @@ const CreateStory = () => {
                   sendPr: false,
                   replySuccessfullyDirected: false,
                   productId: null,
+                  customRepliesSuccessfullyDirected: [],
                 },
           );
           setAutomaticPost(true);
@@ -990,6 +997,7 @@ const CreateStory = () => {
       sendCount: 0,
       replySuccessfullyDirected: sendAutoReply.replySuccessfullyDirected,
       productId: sendAutoReply.productId,
+      customRepliesSuccessfullyDirected: sendAutoReply.customRepliesSuccessfullyDirected,
     });
     setShowQuickReplyPopup(false);
     if (!QuickReply) setQuickReply(true);
