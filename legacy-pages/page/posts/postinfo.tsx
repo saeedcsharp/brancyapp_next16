@@ -226,6 +226,7 @@ const ShowPost = () => {
     sendCount: 0,
     replySuccessfullyDirected: false,
     productId: null,
+    customRepliesSuccessfullyDirected: [],
   });
   const [commentsPerSlide, setCommentsPerSlide] = useState<number>(5);
   const [isFetchingMoreComments, setIsFetchingMoreComments] = useState(false);
@@ -396,21 +397,23 @@ const ShowPost = () => {
             }));
             if (res.value.commentMedia!.automaticCommentReply) {
               setAutoReply({
-                replySuccessfullyDirected: res.value.commentMedia.automaticCommentReply.replySuccessfullyDirected,
-                items: res.value.commentMedia!.automaticCommentReply.items,
-                response: res.value.commentMedia!.automaticCommentReply.response || "",
-                sendPr: res.value.commentMedia!.automaticCommentReply.sendPr || false,
-                shouldFollower: res.value.commentMedia!.automaticCommentReply.shouldFollower || false,
-                automaticType: res.value.commentMedia!.automaticCommentReply.automaticType,
-                masterFlowId: res.value.commentMedia!.automaticCommentReply.masterFlowId,
-                promptId: res.value.commentMedia!.automaticCommentReply.promptId,
-                masterFlow: res.value.commentMedia!.automaticCommentReply.masterFlow,
-                mediaId: res.value.commentMedia!.automaticCommentReply.mediaId,
-                pauseTime: res.value.commentMedia!.automaticCommentReply.pauseTime,
+                replySuccessfullyDirected: res.value.commentMedia?.automaticCommentReply.replySuccessfullyDirected,
+                items: res.value.commentMedia?.automaticCommentReply.items,
+                response: res.value.commentMedia?.automaticCommentReply.response || "",
+                sendPr: res.value.commentMedia?.automaticCommentReply.sendPr || false,
+                shouldFollower: res.value.commentMedia?.automaticCommentReply.shouldFollower || false,
+                automaticType: res.value.commentMedia?.automaticCommentReply.automaticType,
+                masterFlowId: res.value.commentMedia?.automaticCommentReply.masterFlowId,
+                promptId: res.value.commentMedia?.automaticCommentReply.promptId,
+                masterFlow: res.value.commentMedia?.automaticCommentReply.masterFlow,
+                mediaId: res.value.commentMedia?.automaticCommentReply.mediaId,
+                pauseTime: res.value.commentMedia?.automaticCommentReply.pauseTime,
                 productType: MediaProductType.Feed,
-                prompt: res.value.commentMedia!.automaticCommentReply.prompt,
-                sendCount: res.value.commentMedia!.automaticCommentReply.sendCount,
-                productId: res.value.commentMedia!.automaticCommentReply.productId || null,
+                prompt: res.value.commentMedia?.automaticCommentReply.prompt,
+                sendCount: res.value.commentMedia?.automaticCommentReply.sendCount,
+                productId: res.value.commentMedia?.automaticCommentReply.productId || null,
+                customRepliesSuccessfullyDirected:
+                  res.value.commentMedia?.automaticCommentReply.customRepliesSuccessfullyDirected || [],
               });
               if (!res.value.commentMedia.automaticCommentReply.pauseTime) setQuickReply(true);
             }
