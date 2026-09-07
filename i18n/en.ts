@@ -3359,6 +3359,7 @@ export default {
     InternalNotify_ExceedPermittedSizeOfVideoStory: "Story video size exceeds the permitted limit",
     InternalNotify_ExceedPermittedWidthOfVideo: "Video width exceeds the permitted limit",
     InternalNotify_ExceedPermittedDurationOfVideoStory: "Story video duration exceeds the permitted limit",
+    InternalNotify_BelowMinimumDurationOfVideoStory: "Story video must be at least 3 seconds long",
     InternalNotify_ExceedPermittedSpecificWordForAutoreply:
       "Number of specific words for auto-reply exceeds the permitted limit",
     InternalNotify_ExceedPermittedAspectRatioImage: "Image aspect ratio exceeds the permitted limit",

@@ -3311,6 +3311,7 @@ export default {
     InternalNotify_ExceedPermittedSizeOfVideoStory: "Story videonun ölçüsü icazə verilən həddi keçib",
     InternalNotify_ExceedPermittedWidthOfVideo: "Videonun eni icazə verilən həddi keçib",
     InternalNotify_ExceedPermittedDurationOfVideoStory: "Story videonun müddəti icazə verilən həddi keçib",
+    InternalNotify_BelowMinimumDurationOfVideoStory: "Story videosu ən azı 3 saniyə olmalıdır",
     InternalNotify_ExceedPermittedSpecificWordForAutoreply:
       "Avtomatik cavab üçün xüsusi sözlərin sayı icazə verilən həddi keçib",
     InternalNotify_ExceedPermittedAspectRatioImage: "Şəklin nisbəti icazə verilən həddi keçib",

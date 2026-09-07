@@ -3391,6 +3391,7 @@ export default {
     InternalNotify_ExceedPermittedSizeOfVideoStory: "Размер видео истории превышает допустимый лимит",
     InternalNotify_ExceedPermittedWidthOfVideo: "Ширина видео превышает допустимый лимит",
     InternalNotify_ExceedPermittedDurationOfVideoStory: "Продолжительность видео истории превышает допустимый лимит",
+    InternalNotify_BelowMinimumDurationOfVideoStory: "Продолжительность видео истории должна быть не менее 3 секунд",
     InternalNotify_ExceedPermittedSpecificWordForAutoreply:
       "Количество специальных слов для автоответа превышает допустимый лимит",
     InternalNotify_ExceedPermittedAspectRatioImage: "Соотношение сторон изображения превышает допустимый лимит",

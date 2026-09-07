@@ -3255,6 +3255,7 @@ export default {
     InternalNotify_ExceedPermittedSizeOfVideoStory: "حجم فيديو الاستوري تجاوز الحد المسموح",
     InternalNotify_ExceedPermittedWidthOfVideo: "عرض الفيديو تجاوز الحد المسموح",
     InternalNotify_ExceedPermittedDurationOfVideoStory: "مدة فيديو الاستوري تجاوزت الحد المسموح",
+    InternalNotify_BelowMinimumDurationOfVideoStory: "يجب أن تكون مدة فيديو القصة 3 ثوانٍ على الأقل",
     InternalNotify_ExceedPermittedSpecificWordForAutoreply: "عدد الكلمات الخاصة بالرد التلقائي تجاوز الحد المسموح",
     InternalNotify_ExceedPermittedAspectRatioImage: "نسبة أبعاد الصورة تجاوزت الحد المسموح",
     InternalNotify_Success: "تمت العملية بنجاح",

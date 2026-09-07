@@ -3335,6 +3335,7 @@ export default {
     InternalNotify_ExceedPermittedSizeOfVideoStory: "حجم استوری از حد مجاز بیشتر است",
     InternalNotify_ExceedPermittedWidthOfVideo: "عرض ویدئو از حد مجاز بیشتر است",
     InternalNotify_ExceedPermittedDurationOfVideoStory: "مدت زمان استوری از حد مجاز بیشتر است",
+    InternalNotify_BelowMinimumDurationOfVideoStory: "مدت زمان ویدیوی استوری باید حداقل ۳ ثانیه باشد",
     InternalNotify_ExceedPermittedSpecificWordForAutoreply: "تعداد کلمات مخصوص برای پاسخ خودکار از حد مجاز گذشته است",
     InternalNotify_ExceedPermittedAspectRatioImage: "نسبت ابعاد تصویر از حد مجاز بیشتر است",
     InternalNotify_Success: "عملیات با موفقیت انجام شد",

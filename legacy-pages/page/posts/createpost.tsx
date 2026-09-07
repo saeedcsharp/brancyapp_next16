@@ -450,7 +450,7 @@ const CreatePost = () => {
   } = formState;
 
   // Add loading and data states - keeping these as simple useState
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [loadedQueryKey, setLoadedQueryKey] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const inputCoverRef = useRef<HTMLInputElement | null>(null);
@@ -2335,7 +2335,8 @@ const CreatePost = () => {
   }, [session, prePostId, closeCreatePost]);
   useEffect(() => {
     if (!session || status !== "authenticated") return;
-    if (!isDataLoaded && router.isReady) {
+    const queryKey = `${query.draftId ?? ""}:${query.prePostId ?? ""}`;
+    if (loadedQueryKey !== queryKey && router.isReady) {
       // checkCanCreatePrePost();
       console.log("query", query);
       if (query.draftId !== undefined) {
@@ -2345,7 +2346,7 @@ const CreatePost = () => {
       getHashtagList();
       GetNextBestTimes();
       getPublishLimitContent();
-      setIsDataLoaded(true);
+      setLoadedQueryKey(queryKey);
     }
   }, [
     session,
@@ -2353,7 +2354,7 @@ const CreatePost = () => {
     router.isReady,
     query.draftId,
     query.prePostId,
-    isDataLoaded,
+    loadedQueryKey,
     getHashtagList,
     GetNextBestTimes,
     getPublishLimitContent,

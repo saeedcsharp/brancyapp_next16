@@ -1,3 +1,11 @@
+- Fixed first-load draft/pre-story and draft/pre-post hydration by tracking the loaded query key, so late router query values trigger their API request without a manual reload.
+
+- Added a localized story-video warning for clips shorter than 3 seconds; clips longer than the 60-second maximum keep the existing duration-limit message.
+
+- Fixed create-story scheduling so new stories expose the date/time picker and recommended publish-time buttons, matching create-post instead of always using the default next-day time.
+
+- Fixed create-story image uploads on iOS Safari by uploading the original or HEIC-converted `File` directly, removing dimension-changing compression/cropping, and keeping preview generation separate from upload.
+
 - The AI Flow private-reply follower requirement remains a display-only warning. Saving from the editor or `settingModal` continues through the existing API flow, while the warning visibility reflects the current follower setting and graph state.
 
 - Added a localized AI Flow header warning when an `node_onmessage` connection targets a node with a non-null output while The user must follow the page is disabled; output-less quick-reply nodes do not show the warning.

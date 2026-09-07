@@ -2,6 +2,10 @@
 
 ## Known Bugs
 
+The first-load create-story/create-post query hydration bug was fixed on 2026-09-07. Query-backed draft, pre-story, and pre-post data now reloads when router values arrive after the initial render instead of requiring a browser reload.
+
+The iOS Safari create-story image upload issue was fixed on 2026-09-07 by removing the story-only compressor/canvas path and uploading the original `File` directly, matching the working create-post upload flow without changing image dimensions. Automated iOS browser coverage remains unavailable.
+
 MyLink feature-order mapping errors were fixed on 2026-09-01 by safely handling missing backend order items: missing IDs default to `0` and missing active flags default to `false`.
 
 The global browser-compatibility layout issues reported on 2026-08-04 were reduced by standardizing root scrollbars, reserving scrollbar space, replacing vulnerable viewport sizing in shared landing modals, and removing unsupported landing-header anchor positioning. Remaining feature-level overflow rules require browser visual regression coverage before they can be safely migrated in bulk.

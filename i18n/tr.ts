@@ -3350,6 +3350,7 @@ export default {
     InternalNotify_ExceedPermittedSizeOfVideoStory: "Story video boyutu izin verilen limiti aşıyor",
     InternalNotify_ExceedPermittedWidthOfVideo: "Video genişliği izin verilen limiti aşıyor",
     InternalNotify_ExceedPermittedDurationOfVideoStory: "Story video süresi izin verilen limiti aşıyor",
+    InternalNotify_BelowMinimumDurationOfVideoStory: "Hikaye videosu en az 3 saniye uzunluğunda olmalıdır",
     InternalNotify_ExceedPermittedSpecificWordForAutoreply:
       "Otomatik yanıt için özel kelime sayısı izin verilen limiti aşıyor",
     InternalNotify_ExceedPermittedAspectRatioImage: "Görsel en-boy oranı izin verilen limiti aşıyor",

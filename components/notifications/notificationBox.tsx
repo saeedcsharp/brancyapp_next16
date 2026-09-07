@@ -387,6 +387,8 @@ const getInternalResponseTextLegacy = (responseType: InternalResponseType): stri
     [InternalResponseType.ExceedPermittedWidthOfVideo]: LanguageKey.InternalNotify_ExceedPermittedWidthOfVideo,
     [InternalResponseType.ExceedPermittedDurationOfVideoStory]:
       LanguageKey.InternalNotify_ExceedPermittedDurationOfVideoStory,
+    [InternalResponseType.BelowMinimumDurationOfVideoStory]:
+      LanguageKey.InternalNotify_BelowMinimumDurationOfVideoStory,
     [InternalResponseType.ExceedPermittedSpecificWordForAutoreply]:
       LanguageKey.InternalNotify_ExceedPermittedSpecificWordForAutoreply,
     [InternalResponseType.ExceedPermittedAspectRatioImage]: LanguageKey.InternalNotify_ExceedPermittedAspectRatioImage,
@@ -857,6 +859,8 @@ const getInternalResponseText = (responseType: InternalResponseType, t: (key: La
     [InternalResponseType.ExceedPermittedWidthOfVideo]: LanguageKey.InternalNotify_ExceedPermittedWidthOfVideo,
     [InternalResponseType.ExceedPermittedDurationOfVideoStory]:
       LanguageKey.InternalNotify_ExceedPermittedDurationOfVideoStory,
+    [InternalResponseType.BelowMinimumDurationOfVideoStory]:
+      LanguageKey.InternalNotify_BelowMinimumDurationOfVideoStory,
     [InternalResponseType.ExceedPermittedSpecificWordForAutoreply]:
       LanguageKey.InternalNotify_ExceedPermittedSpecificWordForAutoreply,
     [InternalResponseType.ExceedPermittedAspectRatioImage]: LanguageKey.InternalNotify_ExceedPermittedAspectRatioImage,
@@ -1313,6 +1317,7 @@ export enum InternalResponseType {
   ExceedPermittedSizeOfVideoStory,
   ExceedPermittedWidthOfVideo,
   ExceedPermittedDurationOfVideoStory,
+  BelowMinimumDurationOfVideoStory,
   ExceedPermittedSpecificWordForAutoreply,
   ExceedPermittedAspectRatioImage,
   Success,

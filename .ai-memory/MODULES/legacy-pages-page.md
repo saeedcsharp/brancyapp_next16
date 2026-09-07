@@ -153,6 +153,14 @@ No confirmed module-specific issue recorded at initialization.
 
 The create-post page no longer includes the duplicate local content-size tooltip; the shared `Tooltip` component remains the source for that information.
 
+The create-story image upload path sends the original (or HEIC-converted) `File` directly to `UploadFile`, using `FileReader` only for preview. It does not compress, crop, or resize image dimensions, which keeps the upload compatible with iOS Safari and preserves the selected media dimensions.
+
+New stories expose the same date/time picker and recommended publish-time choices as create-post. The controls are available while `preStoryId <= 0`; existing pre-stories remain read-only.
+
+Story video validation now uses a dedicated localized warning when duration is below the three-second minimum; the existing duration-limit warning remains for videos longer than 60 seconds.
+
+Create-story and create-post data loading tracks a query-derived key instead of locking after the first render. Draft and pre-item queries that arrive after the router becomes ready now trigger their corresponding API request without requiring a reload.
+
 ## Technical Debt
 
 Needs deeper per-feature enrichment during future work.
