@@ -51,10 +51,10 @@ export default function AIFlow() {
         <meta name="twitter:description" content="Manage your Bran.cy account settings and preferences" />
         <meta name="twitter:image:alt" content="Bran.cy Settings Page" />
       </Head>
-      {!loading && <FlowAndAIInbox />}
       {!loading && session && !session.user.messagePermission && (
         <NotPermission permissionType={PermissionType.Messages} />
       )}
+      {!loading && <FlowAndAIInbox />}
     </>
   );
 }

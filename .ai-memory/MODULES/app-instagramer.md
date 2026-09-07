@@ -138,6 +138,10 @@ The store product-detail wrapper is a client component because it uses `useSessi
 
 Instagramer page wrappers do not import or use `packageStatus` and contain no `onUnauthenticated` callbacks. They wait for an authenticated client session only when the legacy page needs session data, while preserving role restrictions, account redirects, query handling, Suspense boundaries, intercepted routes, and feature navigation. Package expiry and protected-route authentication belong to the root middleware; user routes are authentication-only to avoid a `/user` `currentIndex` redirect loop.
 
+Whole-page permission gates are owned by the App Router wrappers for message Direct, Comments, AI and Flow, Properties, and page Statistics. They wait for `useSession()` to finish loading, render the matching `NotPermission` state for authenticated users without access, and avoid mounting the legacy page in that state. Legacy permission checks remain as defensive fallbacks; feature-level permissions inside post, story, home, and tools pages are intentionally not route gates.
+
+Post and Story creation wrappers apply the same pre-mount behavior for `publishPermission`, preventing their legacy editors from issuing initial draft or publish-limit requests when content publishing is unavailable. Post and Story detail popups keep their comment, insight, and message permissions section-scoped because those permissions control individual tabs and actions rather than the whole popup.
+
 ## Technical Debt
 
 Needs deeper per-feature enrichment during future work.

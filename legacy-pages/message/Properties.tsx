@@ -77,7 +77,13 @@ const Properties = () => {
   const fetchDataCallback = useCallback(fetchData, [session]);
 
   useEffect(() => {
-    if (session && LoginStatus(session) && RoleAccess(session, PartnerRole.Message) && !isDataLoaded) {
+    if (
+      session &&
+      session.user.messagePermission &&
+      LoginStatus(session) &&
+      RoleAccess(session, PartnerRole.Message) &&
+      !isDataLoaded
+    ) {
       fetchDataCallback();
     }
   }, [session, fetchDataCallback, isDataLoaded]);
@@ -550,7 +556,12 @@ const Properties = () => {
     setShowSpecialPayLoad(true);
   }
   async function fetchData() {
-    if (!session || !LoginStatus(session) || !RoleAccess(session, PartnerRole.Message)) {
+    if (
+      !session ||
+      !session.user.messagePermission ||
+      !LoginStatus(session) ||
+      !RoleAccess(session, PartnerRole.Message)
+    ) {
       return;
     }
 

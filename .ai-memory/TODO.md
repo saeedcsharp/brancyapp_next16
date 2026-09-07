@@ -20,6 +20,7 @@
 - Add browser coverage confirming the media successful-reply tag list does not reserve empty height and expands only with added replies.
 - Add component coverage confirming the general auto-reply editor matches the media editor across `AllMedia`, `Feed`, and `Reels`, while hiding reply-method controls for other media types.
 - Add component coverage for media auto-reply message-permission states across direct response, Flow, Product, and Connect Product modes, including same-comment availability and invalid-IP redirect behavior when a UI test harness is introduced.
+- Add component coverage confirming the message Properties page skips all settings requests, including `GetGeneralAutoReplies`, when `messagePermission` is false and renders `NotPermission` without signing out.
 - Add component coverage confirming DirectInbox delays SignalR audio insertion by one second while non-audio messages are inserted immediately when a UI test harness is introduced.
 
 - Add component coverage confirming product-detail setting inputs render gram, CM, and envelope quantity labels through the shared `InputBox.unit` slot in both instance and non-instance editors when a UI test harness is introduced.

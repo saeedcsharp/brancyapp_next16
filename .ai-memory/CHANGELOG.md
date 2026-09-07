@@ -1,3 +1,9 @@
+- Moved the confirmed whole-page permission checks into App Router wrappers for message Direct, Comments, AI and Flow, Properties, and page Statistics. Feature-level permission checks in post, story, home, and tools pages remain local to their relevant sections.
+
+- Added pre-mount `publishPermission` guards to the Post and Story creation App Router wrappers, preventing unauthorized draft and publish-limit requests that could return 401 and trigger sign-out while the content permission state was visible.
+
+- Prevented the message Properties page from fetching message settings when `messagePermission` is false, avoiding an unauthorized `GetGeneralAutoReplies` response that previously signed Instagram logins out to `/` while the permission dialog was visible.
+
 - Localized the persistent support menu's blog and online-support labels across all eight supported languages, including its chat title and accessibility labels.
 
 - Aligned the general auto-reply editor with the media editor for `AllMedia`, `Feed`, and `Reels`, including AI Direct response and the shared conditional three-reply editor for Custom, AI, and Flow.
