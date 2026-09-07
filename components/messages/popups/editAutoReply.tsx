@@ -762,7 +762,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
   }, [session, fetchData]);
 
   const renderCustomReplies = useCallback(
-    (mode: "Custom" | "AI" | "Flow") => {
+    (mode: "Custom" | "AI" | "Flow" | "ConnectProduct") => {
       if (!replySuccessfullyDirected) return null;
 
       return (
@@ -1412,6 +1412,17 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                               <div className={styles.productTitle}>{selectedProduct.title}</div>
                               <div className={styles.productCaption}>{selectedProduct.caption}</div>
                             </div>
+                          </div>
+                        )}
+                        {shouldShowReplyMethod && (
+                          <div className="headerandinput">
+                            <CheckBoxButton
+                              handleToggle={(e) => setReplySuccessfullyDirected(e.target.checked)}
+                              value={replySuccessfullyDirected}
+                              title={t(LanguageKey.sendreplydirectedsuccessfully)}
+                              textlabel={t(LanguageKey.sendreplydirectedsuccessfully)}
+                            />
+                            {renderCustomReplies("ConnectProduct")}
                           </div>
                         )}
                       </div>

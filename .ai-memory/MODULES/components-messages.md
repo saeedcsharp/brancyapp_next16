@@ -111,9 +111,13 @@ The same component keeps the continued new flow in `userslist` as a local `newFl
 
 `popups/editAutoReply.tsx` and `popups/editAutoReplyForMedia.tsx` show the Create Automation AI and Create Automation Flow actions whenever the active AI prompt or flow has not been selected, even when the corresponding `DragDrop` list contains options. Existing saved prompts and flows count as selected and keep the actions hidden.
 
+`popups/editAutoReplyForMedia.tsx` uses the localized confirmation-message checkbox in Flow and Connect Product modes. These modes do not expose a Direct reply radio option; enabling the checkbox persists `replySuccessfullyDirected` and the configured confirmation replies while their update payload keeps `sendPr` false.
+
 `popups/editAutoReply.tsx` passes `specificKeywordsList.length === 0` to `InputBox.isEmptyOverride`, so the keyword field keeps its `dangerOnEmpty` state until at least one keyword has been added, even when the draft keyword input itself contains text.
 
 `popups/editAutoReply.tsx` mirrors `editAutoReplyForMedia.tsx` for `AllMedia`, `Feed`, and `Reels`: Custom, AI, and Flow use the same three-reply input/tag workflow, with AI exposing same-comment versus Direct response. The input and removable tags appear directly below the confirmation checkbox only when it is enabled.
+
+The same general auto-reply editor now exposes the confirmation-message checkbox and configurable confirmation replies for Connect Product only on `AllMedia`, `Feed`, and `Reels`, matching the Flow behavior.
 
 The media auto-reply AI selector keeps its `DragDrop` on the localized Please select option, matching Flow, while displaying the selected or saved prompt title above the selector. It merges a saved prompt from `GetPostInfo` into its prompt options when that prompt is absent from `GetPrompts`. When a saved `promptId` exists, it also calls `GetPrompt` for the full `IDetailPrompt` and renders its `promptStr` description below the selector after reload.
 

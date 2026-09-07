@@ -12,6 +12,10 @@
 
 - Updated the media auto-reply successful-reply editor to remove its duplicate confirmation title and show the input/tags directly below the checkbox only when `replySuccessfullyDirected` is enabled.
 
+- Added the confirmation-message checkbox and configurable confirmation replies to general auto-reply Connect Product mode for AllMedia, Feed, and Reels only.
+
+- Changed media auto-reply Flow and Connect Product controls to use the confirmation-message checkbox, with no Direct reply option and `sendPr: false` preserved in their payloads.
+
 - Added a persistent support logo with blog redirect and online-support actions. The embedded support view now loads the blog homepage without sandbox restrictions so WordPress and Goftino scripts can execute normally.
 
 - Removed duplicate route-level `packageStatus` redirects from the reviewed legacy posts, statistics, tools, story creation, settings, store, and wallet pages. Preserved `currentIndex`, `RoleAccess`, shopper checks, session rendering, and fetch logic; corrected the posts authentication-effect dependencies. Deferred home, story index/detail, market, message, and Instagramer navbar usages.

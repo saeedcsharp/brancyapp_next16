@@ -357,7 +357,11 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
     (mode: AutoReplyMode) => {
       const titleId = `reply-method-title-${mode}`;
       const radioName = `reply-method-${mode}`;
-      const isDirectReplyMode = (mode === "GeneralAI" || mode === "Custom" || mode === "AI") && !!replyMethod?.sendPr;
+      const supportsDirectReply = mode === "GeneralAI" || mode === "Custom" || mode === "AI";
+      const supportsConfirmationReply = mode === "Flow" || mode === "ConnectProduct";
+      const isDirectReplyMode = supportsDirectReply && !!replyMethod?.sendPr;
+      const supportsReplyMethod =
+        mode === "GeneralAI" || mode === "Custom" || mode === "AI" || mode === "Flow" || mode === "ConnectProduct";
       const isMessageDeliveryMode =
         isDirectReplyMode || mode === "Flow" || mode === "Product" || mode === "ConnectProduct";
 
@@ -371,37 +375,37 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
               {t(LanguageKey.replyMethod)}
             </div>
 
-            {replyMethod !== null && (mode === "GeneralAI" || mode === "Custom" || mode === "AI") && (
+            {replyMethod !== null && supportsReplyMethod && (
               <>
-                <RadioButton
-                  name={radioName}
-                  id={`${mode}-respondInSameComment`}
-                  checked={replyMethod !== null && !replyMethod.sendPr}
-                  handleOptionChanged={() =>
-                    setReplyMethod((prev) => ({
-                      ...prev!,
-                      sendPr: false,
-                    }))
-                  }
-                  textlabel={t(LanguageKey.respondInSameComment)}
-                  aria-checked={replyMethod !== null && !replyMethod.sendPr}
-                  title={"Respond in the same comment"}
-                />
+                {!supportsConfirmationReply && (
+                  <RadioButton
+                    name={radioName}
+                    id={`${mode}-respondInSameComment`}
+                    checked={replyMethod !== null && !replyMethod.sendPr}
+                    handleOptionChanged={() => setReplyMethod((prev) => ({ ...prev!, sendPr: false }))}
+                    textlabel={t(LanguageKey.respondInSameComment)}
+                    aria-checked={replyMethod !== null && !replyMethod.sendPr}
+                    title={"Respond in the same comment"}
+                  />
+                )}
 
-                <RadioButton
-                  name={radioName}
-                  id={`${mode}-respondDirectly`}
-                  checked={replyMethod !== null && replyMethod.sendPr}
-                  handleOptionChanged={() => setReplyMethod((prev) => ({ ...prev!, sendPr: true }))}
-                  textlabel={t(LanguageKey.respondDirectly)}
-                  aria-checked={replyMethod !== null && replyMethod.sendPr}
-                  title={"Respond directly"}
-                />
+                {supportsDirectReply && (
+                  <RadioButton
+                    name={radioName}
+                    id={`${mode}-respondDirectly`}
+                    checked={replyMethod !== null && replyMethod.sendPr}
+                    handleOptionChanged={() => setReplyMethod((prev) => ({ ...prev!, sendPr: true }))}
+                    textlabel={t(LanguageKey.respondDirectly)}
+                    aria-checked={replyMethod !== null && replyMethod.sendPr}
+                    title={"Respond directly"}
+                  />
+                )}
               </>
             )}
             <div className={styles.replyMethodOptions}>
-              {replyMethod && isDirectReplyMode && !hasMessagePermission && (
+              {replyMethod && (isDirectReplyMode || supportsConfirmationReply) && (
                 <CheckBoxButton
+                  id={`${mode}-confirmation-reply`}
                   handleToggle={(e) =>
                     setReplyMethod((prev) => ({
                       ...prev!,
@@ -415,7 +419,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
               )}
 
               {replyMethod &&
-                (mode === "Flow" || isDirectReplyMode) &&
+                (supportsConfirmationReply || isDirectReplyMode) &&
                 replyMethod.replySuccessfullyDirected &&
                 !hasMessagePermission && (
                   <div className="headerandinput" role="group" aria-labelledby={`${titleId}-custom-replies`}>
@@ -579,10 +583,17 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       masterFlowId: null,
       promptId: null,
       response: null,
-      sendPr: hasMessagePermission ? false : replyMethod !== null && replyMethod.sendPr,
-      replySuccessfullyDirected: isDirectReplyMode ? (replyMethod?.replySuccessfullyDirected ?? false) : false,
+      sendPr:
+        hasMessagePermission || checkBox.Flow || checkBox.ConnectProduct
+          ? false
+          : replyMethod !== null && replyMethod.sendPr,
+      replySuccessfullyDirected:
+        (isDirectReplyMode || checkBox.Flow || checkBox.ConnectProduct) &&
+        (replyMethod?.replySuccessfullyDirected ?? false),
       customRepliesSuccessfullyDirected:
-        checkBox.Flow || isDirectReplyMode ? (replyMethod?.customRepliesSuccessfullyDirected ?? []) : [],
+        checkBox.Flow || checkBox.ConnectProduct || isDirectReplyMode
+          ? (replyMethod?.customRepliesSuccessfullyDirected ?? [])
+          : [],
       shouldFollower: isDirectReplyMode ? replyMethod !== null && replyMethod.shouldFollower : false,
       productId: replyMethod?.productId || null,
     };
@@ -1495,81 +1506,55 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                   </div>
                   {checkBox.Flow && (
                     <div className={styles.optioncontainer}>
-                      {hasMessagePermission ? (
-                        renderMessagePermissionState()
-                      ) : (
-                        <>
-                          <div className="headerandinput">
-                            {replyMethod?.masterFlow && (
-                              <>
-                                <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
-                                <InputBox
-                                  className={"textinputbox"}
-                                  handleInputChange={() => {}}
-                                  value={replyMethod.masterFlow.title}
-                                />
-                              </>
-                            )}
-
-                            {(searchFlowMode
-                              ? (masterSearchFlows?.items?.length ?? 0)
-                              : (masterFlows?.items?.length ?? 0)) > 0 ? (
-                              <DragDrop
-                                externalSearchMod={true}
-                                data={searchFlowMode ? flowSearchTitles : flowTitles}
-                                handleOptionSelect={(id) => {
-                                  if (!masterFlows) return;
-                                  setSelectedFlow(masterFlows.items.find((flow) => flow.masterFlowId === id) || null);
-                                }}
-                                handleGetMoreItems={async () => {
-                                  await handleGetMoreFlows();
-                                }}
-                                isLoadingMoreItems={loadingState.isLoadingMoreFlowItems}
-                                onExternalSearch={handleExternalFlowSearch}
-                                externalSearchLoading={loadingState.isExternalSearchFlowLoading}
-                                externalSearchText={searchFlowMode ? selectedFlow?.title : ""}
+                      <>
+                        <div className="headerandinput">
+                          {replyMethod?.masterFlow && (
+                            <>
+                              <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
+                              <InputBox
+                                className={"textinputbox"}
+                                handleInputChange={() => {}}
+                                value={replyMethod.masterFlow.title}
                               />
-                            ) : null}
+                            </>
+                          )}
 
-                            {!selectedFlow && !replyMethod?.masterFlow ? (
-                              <div className="headerandinput">
-                                {(searchFlowMode
-                                  ? (masterSearchFlows?.items?.length ?? 0)
-                                  : (masterFlows?.items?.length ?? 0)) === 0 && (
-                                  <div className="explain">{t(LanguageKey.messagesetting_NoFlowsFound)}</div>
-                                )}
-                                <button
-                                  onClick={() => {
-                                    try {
-                                      void router.push({ pathname: "/message/AIAndFlow" });
-                                    } catch (e) {
-                                      console.error(e);
-                                    }
-                                  }}
-                                  className="saveButton">
-                                  <svg
-                                    width="16"
-                                    height="16"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="#fff"
-                                    viewBox="0 0 36 36">
-                                    <path
-                                      opacity={0.4}
-                                      fillRule="evenodd"
-                                      d="M18.2 4.5A1.5 1.5 0 0 1 16.5 6l-6.2.3q-2 .3-2.9 1.2t-1.3 3.3A61 61 0 0 0 6 18l.2 7.2q.4 2.4 1.3 3.3t3.3 1.3q2.5.2 7.2.2l7.2-.2q2.4-.4 3.3-1.3t1.2-3 .3-6.1a1.5 1.5 0 1 1 3 0l-.3 6.7a8 8 0 0 1-2.1 4.5 8 8 0 0 1-5 2.1q-3 .4-7.5.3H18q-4.6 0-7.5-.3t-5-2.1a8 8 0 0 1-2.1-5q-.4-3-.3-7.5v-.2l.3-7.5q.2-3 2.1-5a8 8 0 0 1 4.6-2q2.6-.5 6.7-.4a1.5 1.5 0 0 1 1.5 1.5"
-                                    />
-                                    <path d="M25 3a28 28 0 0 1 5.5.2q1 .2 1.6.8t.7 1.5c.3 1.6.2 4.3.1 5.6a2 2 0 0 1-3.3 1.2l-1.9-1.8-4.1 4a1.5 1.5 0 1 1-2.1-2.1l4-4-1.8-2a2 2 0 0 1 1.2-3.3" />
-                                  </svg>
-                                  {t(LanguageKey.CreateAutomationFlow)}
-                                </button>
-                              </div>
-                            ) : null}
-                          </div>
+                          {(searchFlowMode
+                            ? (masterSearchFlows?.items?.length ?? 0)
+                            : (masterFlows?.items?.length ?? 0)) > 0 ? (
+                            <DragDrop
+                              externalSearchMod={true}
+                              data={searchFlowMode ? flowSearchTitles : flowTitles}
+                              handleOptionSelect={(id) => {
+                                if (!masterFlows) return;
+                                setSelectedFlow(masterFlows.items.find((flow) => flow.masterFlowId === id) || null);
+                              }}
+                              handleGetMoreItems={async () => {
+                                await handleGetMoreFlows();
+                              }}
+                              isLoadingMoreItems={loadingState.isLoadingMoreFlowItems}
+                              onExternalSearch={handleExternalFlowSearch}
+                              externalSearchLoading={loadingState.isExternalSearchFlowLoading}
+                              externalSearchText={searchFlowMode ? selectedFlow?.title : ""}
+                            />
+                          ) : null}
 
-                          {selectedFlow && (
+                          {!selectedFlow && !replyMethod?.masterFlow ? (
                             <div className="headerandinput">
-                              <button className="saveButton">
-                                {" "}
+                              {(searchFlowMode
+                                ? (masterSearchFlows?.items?.length ?? 0)
+                                : (masterFlows?.items?.length ?? 0)) === 0 && (
+                                <div className="explain">{t(LanguageKey.messagesetting_NoFlowsFound)}</div>
+                              )}
+                              <button
+                                onClick={() => {
+                                  try {
+                                    void router.push({ pathname: "/message/AIAndFlow" });
+                                  } catch (e) {
+                                    console.error(e);
+                                  }
+                                }}
+                                className="saveButton">
                                 <svg
                                   width="16"
                                   height="16"
@@ -1583,14 +1568,36 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                                   />
                                   <path d="M25 3a28 28 0 0 1 5.5.2q1 .2 1.6.8t.7 1.5c.3 1.6.2 4.3.1 5.6a2 2 0 0 1-3.3 1.2l-1.9-1.8-4.1 4a1.5 1.5 0 1 1-2.1-2.1l4-4-1.8-2a2 2 0 0 1 1.2-3.3" />
                                 </svg>
-                                {t(LanguageKey.messagesetting_ViewFlow)}
+                                {t(LanguageKey.CreateAutomationFlow)}
                               </button>
                             </div>
-                          )}
+                          ) : null}
+                        </div>
 
-                          {renderReplyMethodSection("Flow")}
-                        </>
-                      )}
+                        {selectedFlow && (
+                          <div className="headerandinput">
+                            <button className="saveButton">
+                              {" "}
+                              <svg
+                                width="16"
+                                height="16"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="#fff"
+                                viewBox="0 0 36 36">
+                                <path
+                                  opacity={0.4}
+                                  fillRule="evenodd"
+                                  d="M18.2 4.5A1.5 1.5 0 0 1 16.5 6l-6.2.3q-2 .3-2.9 1.2t-1.3 3.3A61 61 0 0 0 6 18l.2 7.2q.4 2.4 1.3 3.3t3.3 1.3q2.5.2 7.2.2l7.2-.2q2.4-.4 3.3-1.3t1.2-3 .3-6.1a1.5 1.5 0 1 1 3 0l-.3 6.7a8 8 0 0 1-2.1 4.5 8 8 0 0 1-5 2.1q-3 .4-7.5.3H18q-4.6 0-7.5-.3t-5-2.1a8 8 0 0 1-2.1-5q-.4-3-.3-7.5v-.2l.3-7.5q.2-3 2.1-5a8 8 0 0 1 4.6-2q2.6-.5 6.7-.4a1.5 1.5 0 0 1 1.5 1.5"
+                                />
+                                <path d="M25 3a28 28 0 0 1 5.5.2q1 .2 1.6.8t.7 1.5c.3 1.6.2 4.3.1 5.6a2 2 0 0 1-3.3 1.2l-1.9-1.8-4.1 4a1.5 1.5 0 1 1-2.1-2.1l4-4-1.8-2a2 2 0 0 1 1.2-3.3" />
+                              </svg>
+                              {t(LanguageKey.messagesetting_ViewFlow)}
+                            </button>
+                          </div>
+                        )}
+
+                        {renderReplyMethodSection("Flow")}
+                      </>
                     </div>
                   )}
                 </div>
@@ -1642,25 +1649,22 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                     </div>
                     {checkBox.ConnectProduct && (
                       <div className={styles.optioncontainer}>
-                        {hasMessagePermission ? (
-                          renderMessagePermissionState()
-                        ) : (
-                          <>
-                            <div className="headerandinput">
-                              <div onClick={() => setShowProductPopup?.()} className="saveButton">
-                                {t(LanguageKey.SelectProduct)}
-                              </div>
+                        <>
+                          <div className="headerandinput">
+                            <div onClick={() => setShowProductPopup?.()} className="saveButton">
+                              {t(LanguageKey.SelectProduct)}
                             </div>
-                            {selectedProduct && (
-                              <div className={styles.thumbnailsContainer}>
-                                <img
-                                  className={styles.thumbnailImage}
-                                  src={basePictureUrl + selectedProduct.thumbnailMediaUrl}
-                                />
-                              </div>
-                            )}
-                          </>
-                        )}
+                          </div>
+                          {selectedProduct && (
+                            <div className={styles.thumbnailsContainer}>
+                              <img
+                                className={styles.thumbnailImage}
+                                src={basePictureUrl + selectedProduct.thumbnailMediaUrl}
+                              />
+                            </div>
+                          )}
+                          {renderReplyMethodSection("ConnectProduct")}
+                        </>
                       </div>
                     )}
                   </div>
