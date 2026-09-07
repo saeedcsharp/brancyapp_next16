@@ -31,7 +31,7 @@ export default function BlogChatFrame() {
           </div>
           <iframe
             className={styles.frame}
-            src="https://www.goftino.com/c/9u6Fje"
+            src="https://blog.brancy.app/support-chat"
             title="Brancy live chat"
             loading="lazy"
             referrerPolicy="strict-origin-when-cross-origin"
