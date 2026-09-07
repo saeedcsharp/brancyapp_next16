@@ -12,6 +12,8 @@
 
 - Add iOS Safari browser coverage for create-story image selection, direct `File` upload, HEIC conversion, upload progress, and preservation of the selected image dimensions when a UI test harness is introduced.
 
+- Add iOS Safari browser coverage for create-post video cover selection, HEIC-to-JPEG conversion, dimension validation, upload progress, failed-upload cleanup, and preservation of the selected image dimensions when a UI test harness is introduced.
+
 - Add component coverage for the quick-reply comment-permission state, including localized text, SVG rendering, redirect action, and authorized editor rendering when a UI test harness is introduced.
 - Add component coverage confirming the auto-reply keyword input remains invalid while `specificKeywordsList` is empty, including when a draft keyword is typed.
 - Add component coverage for media auto-reply message-permission states across direct response, Flow, Product, and Connect Product modes, including same-comment availability and invalid-IP redirect behavior when a UI test harness is introduced.

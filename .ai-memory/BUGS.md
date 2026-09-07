@@ -6,6 +6,8 @@ The first-load create-story/create-post query hydration bug was fixed on 2026-09
 
 The iOS Safari create-story image upload issue was fixed on 2026-09-07 by removing the story-only compressor/canvas path and uploading the original `File` directly, matching the working create-post upload flow without changing image dimensions. Automated iOS browser coverage remains unavailable.
 
+The create-post video cover HEIC upload issue was fixed on 2026-09-07 by converting the selected iPhone file to JPEG before validation and upload, and by waiting for the preview image to load before reading dimensions. Automated iOS browser coverage remains unavailable.
+
 MyLink feature-order mapping errors were fixed on 2026-09-01 by safely handling missing backend order items: missing IDs default to `0` and missing active flags default to `false`.
 
 The global browser-compatibility layout issues reported on 2026-08-04 were reduced by standardizing root scrollbars, reserving scrollbar space, replacing vulnerable viewport sizing in shared landing modals, and removing unsupported landing-header anchor positioning. Remaining feature-level overflow rules require browser visual regression coverage before they can be safely migrated in bulk.

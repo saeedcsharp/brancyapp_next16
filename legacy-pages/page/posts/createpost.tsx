@@ -1,3 +1,4 @@
+import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import ImageCompressor from "compressorjs";
 import { useSession } from "next-auth/react";
@@ -1552,50 +1553,59 @@ const CreatePost = () => {
     }
   };
   const handleSelectCover = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file && showMediaIndex === 0 && postType === PostType.Single) {
-      if (file.type !== "image/jpeg" && file.type !== "image/jpg") {
-        internalNotify(InternalResponseType.NotPermittedMediaType, NotifType.Warning);
-        return;
-      }
-      mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: true });
-      mediaDispatch({
-        type: "SET_PROGRESS",
-        payload: 0,
-      });
-      const res = await UploadFile(session, file, (progress) =>
-        mediaDispatch({
-          type: "SET_PROGRESS",
-          payload: progress,
-        }),
-      );
-      mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
-      if (res.fileName === "") return;
-      console.log("coverrrrrrrrrrrrr", res);
-      // You can display a preview of the selected image if needed.
-      const reader = new FileReader();
-      const img = new Image();
-      reader.onload = () => {
-        const width = img.width;
-        const height = img.height;
-        if (!checkSpecImage(width, height, file.size)) return;
-        var selectedMedia1 = reader.result as string;
-        mediaDispatch({
-          type: "UPDATE_MEDIA",
-          payload: {
-            index: 0,
-            media: {
-              cover: selectedMedia1,
-              coverId: res ? res.fileName : "",
-              coverUri: null,
-            },
-          },
-        });
-      };
-      reader.readAsDataURL(file);
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile && showMediaIndex === 0 && postType === PostType.Single) {
       if (inputCoverRef.current) {
         inputCoverRef.current.value = "";
       }
+
+      let file: File;
+      try {
+        file = await convertHeicToJpeg(selectedFile);
+      } catch {
+        internalNotify(InternalResponseType.NotPermittedMediaType, NotifType.Warning);
+        return;
+      }
+
+      if (!file.type.startsWith("image/")) {
+        internalNotify(InternalResponseType.NotPermittedMediaType, NotifType.Warning);
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const selectedMedia1 = reader.result as string;
+        const img = new Image();
+        img.onload = async () => {
+          if (!checkSpecImage(img.width, img.height, file.size)) return;
+
+          mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: true });
+          mediaDispatch({ type: "SET_PROGRESS", payload: 0 });
+          let res;
+          try {
+            res = await UploadFile(session, file, (progress) =>
+              mediaDispatch({ type: "SET_PROGRESS", payload: progress }),
+            );
+          } finally {
+            mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
+          }
+          if (!res.fileName) return;
+
+          mediaDispatch({
+            type: "UPDATE_MEDIA",
+            payload: {
+              index: 0,
+              media: {
+                cover: selectedMedia1,
+                coverId: res.fileName,
+                coverUri: null,
+              },
+            },
+          });
+        };
+        img.src = selectedMedia1;
+      };
+      reader.readAsDataURL(file);
     }
   };
   const handleDeleteCover = () => {

@@ -1,3 +1,5 @@
+- Fixed create-post video cover uploads for iPhone HEIC files by converting the selected file to JPEG before validation, preview, and upload. Cover dimensions are preserved, and failed uploads no longer leave the loading state active.
+
 - Fixed first-load draft/pre-story and draft/pre-post hydration by tracking the loaded query key, so late router query values trigger their API request without a manual reload.
 
 - Added a localized story-video warning for clips shorter than 3 seconds; clips longer than the 60-second maximum keep the existing duration-limit message.

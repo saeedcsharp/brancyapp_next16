@@ -161,6 +161,8 @@ Story video validation now uses a dedicated localized warning when duration is b
 
 Create-story and create-post data loading tracks a query-derived key instead of locking after the first render. Draft and pre-item queries that arrive after the router becomes ready now trigger their corresponding API request without requiring a reload.
 
+The create-post single-video cover upload converts HEIC selections before image validation, preview generation, and `UploadFile`. It reads dimensions after the converted preview loads, preserves the selected dimensions without compression or cropping, and resets the upload loading state when the request completes or fails.
+
 ## Technical Debt
 
 Needs deeper per-feature enrichment during future work.
