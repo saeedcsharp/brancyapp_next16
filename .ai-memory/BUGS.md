@@ -2,6 +2,8 @@
 
 ## Known Bugs
 
+The Instagram connection flow previously showed only a warning for Iranian IPs and blocked the redirect when the country code was absent. Fixed on 2026-09-08 by using the shared invalid-IP modal and matching `SwitchAccount`; live browser coverage remains pending.
+
 On 2026-09-08, a notification-only render was confirmed to retrigger `InstaProvider` account checks because its legacy router object changed identity. Using `next/navigation` fixes this dependency defect in a focused synthetic test. Whether this fully resolves the reported AI-notification browser reload remains unverified with live backend events.
 
 The first-load create-story/create-post query hydration bug was fixed on 2026-09-07. Query-backed draft, pre-story, and pre-post data now reloads when router values arrive after the initial render instead of requiring a browser reload.

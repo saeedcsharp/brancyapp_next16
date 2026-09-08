@@ -1,3 +1,7 @@
+- 2026-09-08: Portaled the Instagram login invalid-IP modal to `document.body` so it appears above the login popup and its backdrop.
+
+- 2026-09-08: Matched `/user/instagramerLogin` Instagram connection handling with `SwitchAccount` by using the shared invalid-IP modal for Iranian IPs, continuing after confirmation or timeout, and allowing failed IP lookup to proceed.
+
 - 2026-09-08: Switched `InstaProvider` to the stable App Router instance so notification state updates do not invalidate account-refresh dependencies. Re-enabled the navbar notification handler, retaining deauthorization sign-out/navigation and guarding absent sessions. Focused synthetic tests pass; live AI-notification reload verification remains pending.
 
 - Fixed create-post video cover uploads for iPhone HEIC files by converting the selected file to JPEG before validation, preview, and upload. Cover dimensions are preserved, and failed uploads no longer leave the loading state active.

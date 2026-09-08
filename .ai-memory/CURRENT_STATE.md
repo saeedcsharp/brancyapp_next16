@@ -4,6 +4,10 @@ The bulk product individual editors now render as a free horizontal slider using
 
 Notification-only updates no longer retrigger `InstaProvider` account effects through an unstable legacy router dependency. Navbar notification delivery is enabled, with deauthorization navigation preserved. Focused dependency/handler tests pass; the reported AI-notification browser reload still requires live verification.
 
+The `/user/instagramerLogin` Instagram connection flow now matches `SwitchAccount`: Iranian IPs open the shared invalid-IP modal, Continue or its ten-second timeout proceeds to Instagram, Close cancels, and failed IP lookup does not block the redirect.
+
+The Instagram login invalid-IP modal is rendered through a body portal, keeping it above the login page's existing dialog backdrop.
+
 Phase-one SEO foundations are implemented: the homepage uses the site-root canonical URL, `app/[locale]/page.tsx` exposes static landing routes for all eight supported locales, and `app/robots.ts` plus `app/sitemap.ts` publish crawl rules and stable public URLs. Each localized landing route has its own canonical, hreflang set, Open Graph metadata, and localized title/description. Authenticated, session-dependent, API, development, payment, and other private routes are excluded from the crawl policy; `/feature` remains intentionally noindex and is excluded from the sitemap. Production verification is still pending in Google Search Console and Bing Webmaster. The current full type-check remains blocked by a pre-existing AI filename-casing error.
 
 Keyword and backlink quality work is documented as an external measurement baseline: locale, intent, topic cluster, target URL, semantic coverage, cannibalization, authority, topical relevance, referring-domain diversity, anchor distribution, editorial placement, and toxic-link risk must be measured before acquisition claims are made.
