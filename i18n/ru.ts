@@ -298,8 +298,6 @@ export default {
     page8_CommunityBTN: "Давайте учиться вместе",
     page8_learnBTN: "Быстрое обучение",
     page8_BlogBTN: "Последние новости",
-    support_EnterBlog: "Перейти в блог",
-    support_Online: "Онлайн-поддержка",
     page8_FAQBTN: "Мгновенные ответы",
     page8_SupportBTN: "Мы здесь, чтобы помочь",
     footer_Brancy: "Brancy",
@@ -3393,6 +3391,7 @@ export default {
     InternalNotify_ExceedPermittedSizeOfVideoStory: "Размер видео истории превышает допустимый лимит",
     InternalNotify_ExceedPermittedWidthOfVideo: "Ширина видео превышает допустимый лимит",
     InternalNotify_ExceedPermittedDurationOfVideoStory: "Продолжительность видео истории превышает допустимый лимит",
+    InternalNotify_BelowMinimumDurationOfVideoStory: "Продолжительность видео истории должна быть не менее 3 секунд",
     InternalNotify_ExceedPermittedSpecificWordForAutoreply:
       "Количество специальных слов для автоответа превышает допустимый лимит",
     InternalNotify_ExceedPermittedAspectRatioImage: "Соотношение сторон изображения превышает допустимый лимит",
