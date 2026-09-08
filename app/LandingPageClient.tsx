@@ -155,8 +155,8 @@ export default function LandingPageClient({
         onUploadProgress: undefined,
       },
     );
-
-    router.push(checkUserIsNewResponse.succeeded && checkUserIsNewResponse.value ? "/user/instagramerLogin" : "/user");
+    if (checkUserIsNewResponse.value) router.push("/user/instagramerLogin");
+    else router.push("/user");
   }, [router, session?.user.accessToken]);
 
   const handleQueryInRoute = useCallback(async () => {
