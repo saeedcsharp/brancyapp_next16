@@ -302,8 +302,6 @@ export default {
     page8_CommunityBTN: "Apprenons ensemble",
     page8_learnBTN: "Apprentissage rapide",
     page8_BlogBTN: "Dernières nouvelles",
-    support_EnterBlog: "Accéder au blog",
-    support_Online: "Support en ligne",
     page8_FAQBTN: "Réponses instantanées",
     page8_SupportBTN: "Nous sommes là pour aider",
     footer_Brancy: "Brancy",
@@ -3445,6 +3443,7 @@ export default {
     InternalNotify_ExceedPermittedAspectRatioStory: "Le ratio d'aspect de l'histoire dépasse la limite autorisée",
     InternalNotify_ExceedPermittedSizeOfVideoStory: "La taille de la vidéo de l'histoire dépasse la limite autorisée",
     InternalNotify_ExceedPermittedWidthOfVideo: "La largeur de la vidéo dépasse la limite autorisée",
+    InternalNotify_BelowMinimumDurationOfVideoStory: "La vidéo de story doit durer au moins 3 secondes",
     InternalNotify_ExceedPermittedDurationOfVideoStory:
       "La durée de la vidéo de l'histoire dépasse la limite autorisée",
     InternalNotify_ExceedPermittedSpecificWordForAutoreply:
