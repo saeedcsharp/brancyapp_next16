@@ -296,8 +296,6 @@ export default {
     page8_CommunityBTN: "Let's Connect",
     page8_learnBTN: "Learn Fast",
     page8_BlogBTN: "Read the Latest",
-    support_EnterBlog: "Go to Blog",
-    support_Online: "Online Support",
     page8_FAQBTN: "Quick Answers",
     page8_SupportBTN: "We're Here to Help",
     footer_Brancy: "Brancy",
@@ -3361,6 +3359,7 @@ export default {
     InternalNotify_ExceedPermittedSizeOfVideoStory: "Story video size exceeds the permitted limit",
     InternalNotify_ExceedPermittedWidthOfVideo: "Video width exceeds the permitted limit",
     InternalNotify_ExceedPermittedDurationOfVideoStory: "Story video duration exceeds the permitted limit",
+    InternalNotify_BelowMinimumDurationOfVideoStory: "Story video must be at least 3 seconds long",
     InternalNotify_ExceedPermittedSpecificWordForAutoreply:
       "Number of specific words for auto-reply exceeds the permitted limit",
     InternalNotify_ExceedPermittedAspectRatioImage: "Image aspect ratio exceeds the permitted limit",
