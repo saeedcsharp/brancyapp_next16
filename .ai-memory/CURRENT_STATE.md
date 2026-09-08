@@ -158,6 +158,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - AI creator footers now show separate, independent token-usage and media-creation buttons on opposite sides; creation only requires a valid prompt and required inputs, and uses zero for the parent feature check when no estimate exists.
 - AI image/video creation controls now remain disabled for the full pending request and the form ignores duplicate submit events while creation is in progress.
 - The AI page now owns and passes the media-creation loading state, enabling it before feature validation and clearing it only after the correlated image/video SignalR success or failure notification.
+- AI image/video success notifications are now accepted after leaving and revisiting the AI page, even without a local pending-generation ref; duplicate library entries are ignored.
 - AI media tabs now use the shared `ToggleButton`; the former dedicated content-creator header component and stylesheet were removed.
 - Generated image and video result modal styles now live in `components/page/ai/Modal_Generated.module.css`; `mediaCreator.module.css` is limited to `mediaCreator.tsx` styles.
 

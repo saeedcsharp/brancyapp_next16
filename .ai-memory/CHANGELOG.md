@@ -1,3 +1,5 @@
+- 2026-09-08: Fixed AI image/video SignalR success handling after an AI page remount by accepting unmatched results and preventing duplicate library entries.
+
 - 2026-09-08: Disabled the AI image/video creation action throughout the pending request and guarded the form submit against duplicate creation events.
 - 2026-09-08: Connected the AI page's media-creation loading state to `MediaCreator`, covering feature validation and the full create-image/create-video request lifecycle.
 

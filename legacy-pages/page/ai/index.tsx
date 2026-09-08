@@ -341,11 +341,17 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
       const pendingGeneration = pendingGenerationsRef.current.find(
         (item) => item.clientContext.toLowerCase() === generatedClientContext.toLowerCase(),
       );
-      if (!pendingGeneration) return;
       if (notifObj.ResponseType === PushResponseType.AIImageSuccess) {
         console.log("generatedImage", generatedImage);
         setCreateMediaLoading(false);
-        setImages((current) => [generatedImage, ...current]);
+        setImages((current) => {
+          const alreadyAdded = current.some(
+            (item) =>
+              item.id === generatedImage.id ||
+              item.clientContext?.toLowerCase() === generatedClientContext.toLowerCase(),
+          );
+          return alreadyAdded ? current : [generatedImage, ...current];
+        });
         pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
           (item) => item.clientContext !== generatedClientContext,
         );
@@ -354,7 +360,14 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
         console.log("generatedVideo", generatedImage);
         setCreateMediaLoading(false);
         setTimeout(() => {
-          setVideos((current) => [generatedImage, ...current]);
+          setVideos((current) => {
+            const alreadyAdded = current.some(
+              (item) =>
+                item.id === generatedImage.id ||
+                item.clientContext?.toLowerCase() === generatedClientContext.toLowerCase(),
+            );
+            return alreadyAdded ? current : [generatedImage, ...current];
+          });
           pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
             (item) => item.clientContext !== generatedClientContext,
           );
@@ -364,6 +377,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
         notifObj.ResponseType === PushResponseType.AIImageFailed ||
         notifObj.ResponseType === PushResponseType.AIVideoFailed
       ) {
+        if (!pendingGeneration) return;
         console.log("generatedImagefailed", generatedImage);
         setCreateMediaLoading(false);
         pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
