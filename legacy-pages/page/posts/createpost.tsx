@@ -1,3 +1,4 @@
+import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import ImageCompressor from "compressorjs";
 import { useSession } from "next-auth/react";
@@ -42,7 +43,7 @@ import ErrorDraft from "brancy/components/page/popup/errorDraft";
 import QuickReplyPopup from "brancy/components/page/popup/quickReply";
 import SaveDraft from "brancy/components/page/popup/saveDraft";
 import DeletePrePost from "brancy/components/page/scheduledPost/deletePrePost";
-import { RoleAccess } from "brancy/helper/loadingStatus";
+import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType, UploadFile } from "brancy/helper/api";
@@ -68,7 +69,6 @@ import {
 } from "brancy/models/interfaces";
 import { AutoReplyPayLoadType, MediaProductType, MediaType, PartnerRole, PostType } from "brancy/models/enums";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
-import { se } from "date-fns/locale";
 
 enum SearchType {
   CollaboratePeople,
@@ -451,7 +451,7 @@ const CreatePost = () => {
   } = formState;
 
   // Add loading and data states - keeping these as simple useState
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [loadedQueryKey, setLoadedQueryKey] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
   const inputCoverRef = useRef<HTMLInputElement | null>(null);
@@ -794,9 +794,9 @@ const CreatePost = () => {
       masterFlow: null,
       masterFlowId: sendAutoReply.masterFlowId,
       sendCount: 0,
-      replySuccessfullyDirected: sendAutoReply.replySuccessfullyDirected,
+      replySuccessfullyDirected: false,
       productId: sendAutoReply.productId,
-      customRepliesSuccessfullyDirected: sendAutoReply.customRepliesSuccessfullyDirected,
+      customRepliesSuccessfullyDirected: [],
     });
     uiDispatch({ type: "TOGGLE_QUICK_REPLY_POPUP", payload: false });
     if (!QuickReply) formDispatch({ type: "TOGGLE_QUICK_REPLY" });
@@ -905,8 +905,8 @@ const CreatePost = () => {
                   sendPr: autoReply.sendPr,
                   shouldFollower: autoReply.shouldFollower,
                   replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
-                  productId: autoReply.productId,
                   customRepliesSuccessfullyDirected: autoReply.customRepliesSuccessfullyDirected,
+                  productId: autoReply.productId,
                 }
               : null,
 
@@ -1558,50 +1558,59 @@ const CreatePost = () => {
     }
   };
   const handleSelectCover = async (e: ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (file && showMediaIndex === 0 && postType === PostType.Single) {
-      if (file.type !== "image/jpeg" && file.type !== "image/jpg") {
-        internalNotify(InternalResponseType.NotPermittedMediaType, NotifType.Warning);
-        return;
-      }
-      mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: true });
-      mediaDispatch({
-        type: "SET_PROGRESS",
-        payload: 0,
-      });
-      const res = await UploadFile(session, file, (progress) =>
-        mediaDispatch({
-          type: "SET_PROGRESS",
-          payload: progress,
-        }),
-      );
-      mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
-      if (res.fileName === "") return;
-      console.log("coverrrrrrrrrrrrr", res);
-      // You can display a preview of the selected image if needed.
-      const reader = new FileReader();
-      const img = new Image();
-      reader.onload = () => {
-        const width = img.width;
-        const height = img.height;
-        if (!checkSpecImage(width, height, file.size)) return;
-        var selectedMedia1 = reader.result as string;
-        mediaDispatch({
-          type: "UPDATE_MEDIA",
-          payload: {
-            index: 0,
-            media: {
-              cover: selectedMedia1,
-              coverId: res ? res.fileName : "",
-              coverUri: null,
-            },
-          },
-        });
-      };
-      reader.readAsDataURL(file);
+    const selectedFile = e.target.files?.[0];
+    if (selectedFile && showMediaIndex === 0 && postType === PostType.Single) {
       if (inputCoverRef.current) {
         inputCoverRef.current.value = "";
       }
+
+      let file: File;
+      try {
+        file = await convertHeicToJpeg(selectedFile);
+      } catch {
+        internalNotify(InternalResponseType.NotPermittedMediaType, NotifType.Warning);
+        return;
+      }
+
+      if (!file.type.startsWith("image/")) {
+        internalNotify(InternalResponseType.NotPermittedMediaType, NotifType.Warning);
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = () => {
+        const selectedMedia1 = reader.result as string;
+        const img = new Image();
+        img.onload = async () => {
+          if (!checkSpecImage(img.width, img.height, file.size)) return;
+
+          mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: true });
+          mediaDispatch({ type: "SET_PROGRESS", payload: 0 });
+          let res;
+          try {
+            res = await UploadFile(session, file, (progress) =>
+              mediaDispatch({ type: "SET_PROGRESS", payload: progress }),
+            );
+          } finally {
+            mediaDispatch({ type: "SET_LOADING_UPLOAD", payload: false });
+          }
+          if (!res.fileName) return;
+
+          mediaDispatch({
+            type: "UPDATE_MEDIA",
+            payload: {
+              index: 0,
+              media: {
+                cover: selectedMedia1,
+                coverId: res.fileName,
+                coverUri: null,
+              },
+            },
+          });
+        };
+        img.src = selectedMedia1;
+      };
+      reader.readAsDataURL(file);
     }
   };
   const handleDeleteCover = () => {
@@ -2345,7 +2354,8 @@ const CreatePost = () => {
   }, [session, prePostId, closeCreatePost]);
   useEffect(() => {
     if (!session || status !== "authenticated") return;
-    if (!isDataLoaded && router.isReady) {
+    const queryKey = `${query.draftId ?? ""}:${query.prePostId ?? ""}`;
+    if (loadedQueryKey !== queryKey && router.isReady) {
       // checkCanCreatePrePost();
       console.log("query", query);
       if (query.draftId !== undefined) {
@@ -2355,7 +2365,7 @@ const CreatePost = () => {
       getHashtagList();
       GetNextBestTimes();
       getPublishLimitContent();
-      setIsDataLoaded(true);
+      setLoadedQueryKey(queryKey);
     }
   }, [
     session,
@@ -2363,7 +2373,7 @@ const CreatePost = () => {
     router.isReady,
     query.draftId,
     query.prePostId,
-    isDataLoaded,
+    loadedQueryKey,
     getHashtagList,
     GetNextBestTimes,
     getPublishLimitContent,
@@ -2435,6 +2445,7 @@ const CreatePost = () => {
     uiDispatch({ type: "TOGGLE_DELETE_PREPOST", payload: false });
   }, []);
   if (session?.user.currentIndex === -1) router.push("/user");
+  if (session && !packageStatus(session)) router.push("/upgrade");
   return (
     session &&
     session.user.currentIndex !== -1 &&
