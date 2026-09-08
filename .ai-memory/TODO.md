@@ -12,6 +12,8 @@
 
 # TODO
 
+- Add a route smoke check for the public `/metaRedirect` path so accidental whitespace in App Router directory names is detected before development.
+
 - Add iOS Safari browser coverage for create-story image selection, direct `File` upload, HEIC conversion, upload progress, and preservation of the selected image dimensions when a UI test harness is introduced.
 
 - Add iOS Safari browser coverage for create-post video cover selection, HEIC-to-JPEG conversion, dimension validation, upload progress, failed-upload cleanup, and preservation of the selected image dimensions when a UI test harness is introduced.

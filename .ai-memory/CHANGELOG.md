@@ -1,3 +1,5 @@
+- 2026-09-08: Fixed the `/metaRedirect` App Router route by removing the trailing space from its directory name; Next.js now registers the expected URL.
+
 - 2026-09-08: Fixed AI image/video SignalR success handling after an AI page remount by accepting unmatched results and preventing duplicate library entries.
 
 - 2026-09-08: Disabled the AI image/video creation action throughout the pending request and guarded the form submit against duplicate creation events.

@@ -34,7 +34,7 @@ Follows existing Next/React/TypeScript project conventions.
 
 ## Folder Structure
 
-`app/` contains 104 page files and 9 route handler files. `app/feature/` is a direct App Router feature knowledge-base route and does not bridge to a legacy page. `app/robots.ts` and `app/sitemap.ts` expose the public crawl policy and sitemap; authenticated dashboard routes and the noindex feature reference are excluded.
+`app/` contains 105 page files and 9 route handler files. `app/feature/` is a direct App Router feature knowledge-base route and does not bridge to a legacy page. `app/metaRedirect/` is the direct Meta verification/loading route. `app/robots.ts` and `app/sitemap.ts` expose the public crawl policy and sitemap; authenticated dashboard routes and the noindex feature reference are excluded.
 
 ## Execution Flow
 
@@ -142,7 +142,7 @@ No module-specific env vars documented unless related files read them.
 
 ## Related Files
 
-`app/` contains 104 page files and 9 route handler files. See `MODULES/app-feature.md` for the `/feature` catalog route.
+`app/` contains 105 page files and 9 route handler files. See `MODULES/app-feature.md` for the `/feature` catalog route.
 
 The protected `/dev` route now presents two authenticated destinations: `/dev/package` for the dependency report and `/dev/systemDesign` for the local design-component test lab.
 
