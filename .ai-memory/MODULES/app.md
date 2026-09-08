@@ -34,7 +34,7 @@ Follows existing Next/React/TypeScript project conventions.
 
 ## Folder Structure
 
-`app/` contains 105 page files and 9 route handler files. `app/feature/` is a direct App Router feature knowledge-base route and does not bridge to a legacy page. `app/metaRedirect/` is the direct Meta verification/loading route. `app/robots.ts` and `app/sitemap.ts` expose the public crawl policy and sitemap; authenticated dashboard routes and the noindex feature reference are excluded.
+`app/` contains 105 page files and 9 route handler files. `app/feature/` is a direct App Router feature knowledge-base route and does not bridge to a legacy page. `app/metaRedirect/` is the direct Meta verification/loading route. The landing page checks `PreInstagramer/CheckUserIsNew` before choosing the first-login or user-panel destination. `app/robots.ts` and `app/sitemap.ts` expose the public crawl policy and sitemap; authenticated dashboard routes and the noindex feature reference are excluded.
 
 ## Execution Flow
 

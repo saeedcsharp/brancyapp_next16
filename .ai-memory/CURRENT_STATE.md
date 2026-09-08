@@ -4,6 +4,8 @@ The bulk product individual editors now render as a free horizontal slider using
 
 The direct Meta redirect route is available at `/metaRedirect`; its App Router directory no longer has a trailing space, so the route is discovered correctly by Next.js.
 
+The landing-page authenticated redirect calls `PreInstagramer/CheckUserIsNew`; a true response opens `/user/instagramerLogin`, while a false or unsuccessful response opens `/user`.
+
 Notification-only updates no longer retrigger `InstaProvider` account effects through an unstable legacy router dependency. Navbar notification delivery is enabled, with deauthorization navigation preserved. Focused dependency/handler tests pass; the reported AI-notification browser reload still requires live verification.
 
 The `/user/instagramerLogin` Instagram connection flow now matches `SwitchAccount`: Iranian IPs open the shared invalid-IP modal, Continue or its ten-second timeout proceeds to Instagram, Close cancels, and failed IP lookup does not block the redirect.
