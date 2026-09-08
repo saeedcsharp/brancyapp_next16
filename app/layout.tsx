@@ -90,7 +90,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             width="0"
             style={{ display: "none", visibility: "hidden" }}></iframe>
         </noscript>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <BlogChatFrame />
+        </Providers>
       </body>
     </html>
   );
