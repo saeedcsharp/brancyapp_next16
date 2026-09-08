@@ -2,10 +2,8 @@ import DotLoaders from "brancy/components/design/loader/dotLoaders";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Loading from "brancy/components/notOk/loading";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
-import initialzedTime from "brancy/helper/manageTimer";
 import { IGetMedia, PendingGeneration } from "brancy/models/interfaces";
 import { useTranslation } from "react-i18next";
-import { DateObject } from "react-multi-date-picker";
 import { parseImageMetadata } from "./generatedImageModal";
 import styles from "./List.module.css";
 
