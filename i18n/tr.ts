@@ -298,8 +298,6 @@ export default {
     page8_CommunityBTN: "Birlikte Öğrenelim",
     page8_learnBTN: "Hızlı Öğren",
     page8_BlogBTN: "Son Haberler",
-    support_EnterBlog: "Bloga Git",
-    support_Online: "Çevrim içi destek",
     page8_FAQBTN: "Anında Yanıtlar",
     page8_SupportBTN: "Yardım İçin Buradayız",
     footer_Brancy: "Brancy",
@@ -3352,6 +3350,7 @@ export default {
     InternalNotify_ExceedPermittedSizeOfVideoStory: "Story video boyutu izin verilen limiti aşıyor",
     InternalNotify_ExceedPermittedWidthOfVideo: "Video genişliği izin verilen limiti aşıyor",
     InternalNotify_ExceedPermittedDurationOfVideoStory: "Story video süresi izin verilen limiti aşıyor",
+    InternalNotify_BelowMinimumDurationOfVideoStory: "Hikaye videosu en az 3 saniye uzunluğunda olmalıdır",
     InternalNotify_ExceedPermittedSpecificWordForAutoreply:
       "Otomatik yanıt için özel kelime sayısı izin verilen limiti aşıyor",
     InternalNotify_ExceedPermittedAspectRatioImage: "Görsel en-boy oranı izin verilen limiti aşıyor",
