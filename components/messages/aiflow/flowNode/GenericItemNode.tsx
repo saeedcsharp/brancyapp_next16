@@ -6,10 +6,10 @@ import { useTranslation } from "react-i18next";
 import { toast } from "react-toastify";
 import InputBox from "brancy/components/design/inputBox/inputBox";
 import TextArea from "brancy/components/design/textArea/textArea";
-import { LanguageKey } from "brancy/i18n/languageKeys";
 import { UploadFile } from "brancy/helper/api";
 import styles from "./GenericItemNode.module.css";
 import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
+import { LanguageKey } from "brancy/i18n /languageKeys";
 const baseMediaUrl = getClientMediaBaseUrl();
 
 interface GenericItemNodeProps extends BaseNodeProps {

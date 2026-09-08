@@ -3,9 +3,9 @@ import { type KeyboardEvent, type PointerEvent, useCallback, useDeferredValue, u
 import styles from "./product.module.css";
 import { IProducts } from "brancy/models/interfaces";
 import PriceFormater, { PriceFormaterClassName } from "brancy/components/priceFormater";
-import { LanguageKey } from "brancy/i18n/languageKeys";
 import { t } from "i18next";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
+import { LanguageKey } from "brancy/i18n";
 const basePictureUrl = getClientMediaBaseUrl();
 const couponDateFormatter = new Intl.DateTimeFormat("en-US", {
   year: "numeric",

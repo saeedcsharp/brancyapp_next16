@@ -18,7 +18,6 @@ import Loading from "brancy/components/notOk/loading";
 import { MethodType } from "brancy/helper/api";
 import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { LanguageKey } from "brancy/i18n/languageKeys";
 import { PromptType, PsgFeatureType, ToolType } from "brancy/models/enums";
 import { IAITools, IAnalysisPrompt, ICreatePrompt, IDetailPrompt, ITool, ITotalPrompt } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
@@ -26,6 +25,7 @@ import { useRouter } from "next/router";
 import { useCallback, useEffect, useId, useMemo, useRef, useState, useTransition } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./aiPromptBox.module.css";
+import { LanguageKey } from "brancy/i18n /languageKeys";
 const AIPromptBox = ({
   aiTools,
   userSelectId,
