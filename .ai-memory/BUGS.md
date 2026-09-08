@@ -2,6 +2,8 @@
 
 ## Known Bugs
 
+On 2026-09-08, a notification-only render was confirmed to retrigger `InstaProvider` account checks because its legacy router object changed identity. Using `next/navigation` fixes this dependency defect in a focused synthetic test. Whether this fully resolves the reported AI-notification browser reload remains unverified with live backend events.
+
 The first-load create-story/create-post query hydration bug was fixed on 2026-09-07. Query-backed draft, pre-story, and pre-post data now reloads when router values arrive after the initial render instead of requiring a browser reload.
 
 The iOS Safari create-story image upload issue was fixed on 2026-09-07 by removing the story-only compressor/canvas path and uploading the original `File` directly, matching the working create-post upload flow without changing image dimensions. Automated iOS browser coverage remains unavailable.

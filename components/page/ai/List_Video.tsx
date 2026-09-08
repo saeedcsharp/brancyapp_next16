@@ -9,16 +9,6 @@ import { DateObject } from "react-multi-date-picker";
 import { parseImageMetadata } from "./generatedImageModal";
 import styles from "./List.module.css";
 
-function formatCreatedTime(timestamp: number) {
-  const t = initialzedTime();
-  const d = new DateObject({
-    date: timestamp * 1000,
-    calendar: t.calendar,
-    locale: t.locale,
-  });
-  return d.format("YYYY/MM/DD HH:mm:ss");
-}
-
 type VideoListProps = {
   videos: IGetMedia[];
   loading: boolean;

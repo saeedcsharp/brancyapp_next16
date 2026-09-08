@@ -1,3 +1,5 @@
+- 2026-09-08: Switched `InstaProvider` to the stable App Router instance so notification state updates do not invalidate account-refresh dependencies. Re-enabled the navbar notification handler, retaining deauthorization sign-out/navigation and guarding absent sessions. Focused synthetic tests pass; live AI-notification reload verification remains pending.
+
 - Fixed create-post video cover uploads for iPhone HEIC files by converting the selected file to JPEG before validation, preview, and upload. Cover dimensions are preserved, and failed uploads no longer leave the loading state active.
 - Temporarily changed the support control to open only the direct Goftino chat; the blog redirect was removed from the menu.
 

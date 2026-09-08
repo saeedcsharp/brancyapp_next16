@@ -1,3 +1,5 @@
+- Verify live AI image/video notifications on multiple authenticated routes after the provider router fix: no document reload, no notification-triggered account request, and notifications remain visible. Add durable React/browser regression coverage for unchanged session state after the 20-second account-check threshold and near token expiry; current validation uses synthetic hook/handler harnesses.
+
 - Add component coverage for the AI Flow private-reply warning and `settingModal` Save flow, including output-bearing and output-less `node_onmessage` targets, more-than-three-node validation, follower-setting changes immediately before Save, localized Tooltip text, and confirmation that Save still sends the request when the warning is visible when a UI test harness is introduced.
 
 - Add component/browser coverage confirming the Instagram account switcher highlights only `session.user.currentIndex`, updates after switching, and preserves keyboard activation when a UI test harness is introduced.
