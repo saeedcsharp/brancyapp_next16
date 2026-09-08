@@ -128,7 +128,7 @@ export default function InstaLogin(props: { removeMask: () => void }) {
     try {
       const res = await fetch("/api/user/ip");
       const data = await res.json();
-      if (data.countryCode === "ir" || !data.countryCode) {
+      if (data.countryCode === "ir") {
         setInvalidIpExpireTime(Date.now() + 10000);
         setShowInvalidIp(true);
         return;

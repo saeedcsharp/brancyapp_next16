@@ -7,7 +7,6 @@ import Loading from "brancy/components/notOk/loading";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApiWithAccessToken } from "brancy/helper/clientFetchApi";
 import { IRefreshToken, IVerifyCode } from "brancy/models/interfaces";
-import { signIn, signOut } from "next-auth/react";
 import { useRouter } from "next/router";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./metaDirect.module.css";
