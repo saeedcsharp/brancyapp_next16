@@ -1,3 +1,6 @@
+- 2026-09-08: Disabled the AI image/video creation action throughout the pending request and guarded the form submit against duplicate creation events.
+- 2026-09-08: Connected the AI page's media-creation loading state to `MediaCreator`, covering feature validation and the full create-image/create-video request lifecycle.
+
 - 2026-09-08: Portaled the Instagram login invalid-IP modal to `document.body` so it appears above the login popup and its backdrop.
 
 - 2026-09-08: Matched `/user/instagramerLogin` Instagram connection handling with `SwitchAccount` by using the shared invalid-IP modal for Iranian IPs, continuing after confirmation or timeout, and allowing failed IP lookup to proceed.

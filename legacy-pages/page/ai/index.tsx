@@ -67,6 +67,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
   const [videos, setVideos] = useState<IGetMedia[]>([]);
   const [nextVideoMaxId, setNextVideoMaxId] = useState<string | null>(null);
   const [loading, setLoading] = useState(true);
+  const [createMediaLoading, setCreateMediaLoading] = useState(false);
   const [loadedImages, setLoadedImages] = useState(false);
   const [loadedVideos, setLoadedVideos] = useState(false);
   const [showFeaturePopup, setShowFeaturePopup] = useState(false);
@@ -131,6 +132,8 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     [session],
   );
   const onCreateMedia = async (request: IGetImageUsageRequest, count: number) => {
+    if (createMediaLoading) return;
+    setCreateMediaLoading(true);
     const checkFeatureResponse = await clientFetchApi<boolean, boolean>("/api/feature/hasFeatureCount", {
       session,
       methodType: MethodType.get,
@@ -142,10 +145,12 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
 
     if (!checkFeatureResponse.succeeded) {
       notify(checkFeatureResponse.info?.responseType, NotifType.Warning);
+      setCreateMediaLoading(false);
       return;
     }
     if (!checkFeatureResponse.value) {
       setShowFeaturePopup(true);
+      setCreateMediaLoading(false);
       return;
     }
     const requestClientContext = crypto.randomUUID();
@@ -169,6 +174,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
       );
       setPendingGenerations(pendingGenerationsRef.current);
       notify(response.info?.responseType, NotifType.Warning);
+      setCreateMediaLoading(false);
       return;
     }
     internalNotify(
@@ -338,6 +344,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
       if (!pendingGeneration) return;
       if (notifObj.ResponseType === PushResponseType.AIImageSuccess) {
         console.log("generatedImage", generatedImage);
+        setCreateMediaLoading(false);
         setImages((current) => [generatedImage, ...current]);
         pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
           (item) => item.clientContext !== generatedClientContext,
@@ -345,6 +352,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
         setPendingGenerations(pendingGenerationsRef.current);
       } else if (notifObj.ResponseType === PushResponseType.AIVideoSuccess) {
         console.log("generatedVideo", generatedImage);
+        setCreateMediaLoading(false);
         setTimeout(() => {
           setVideos((current) => [generatedImage, ...current]);
           pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
@@ -357,6 +365,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
         notifObj.ResponseType === PushResponseType.AIVideoFailed
       ) {
         console.log("generatedImagefailed", generatedImage);
+        setCreateMediaLoading(false);
         pendingGenerationsRef.current = pendingGenerationsRef.current.filter(
           (item) => item.clientContext !== generatedClientContext,
         );
@@ -416,6 +425,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
             error={error}
             onRetry={activeTab === "video" ? loadVideoCreators : loadCreators}
             onCreateMedia={onCreateMedia}
+            createMediaLoading={createMediaLoading}
             setActiveTab={setActiveTab}
             activeTab={creatorTab}
           />
