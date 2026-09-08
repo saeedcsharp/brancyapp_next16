@@ -5,7 +5,7 @@ import { useTranslation } from "react-i18next";
 import InputBox from "brancy/components/design/inputBox/inputBox";
 import styles from "./livetest.module.css";
 import { NodeData } from "brancy/components/messages/aiflow/flowNode/types";
-import { LanguageKey } from "brancy/i18n /languageKeys";
+import { LanguageKey } from "brancy/i18n/languageKeys";
 
 // Define baseMediaUrl or import it from a config file
 const baseMediaUrl = getClientMediaBaseUrl();

@@ -9,7 +9,8 @@ import TextArea from "brancy/components/design/textArea/textArea";
 import { UploadFile } from "brancy/helper/api";
 import styles from "./GenericItemNode.module.css";
 import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
-import { LanguageKey } from "brancy/i18n /languageKeys";
+import { LanguageKey } from "brancy/i18n/languageKeys";
+
 const baseMediaUrl = getClientMediaBaseUrl();
 
 interface GenericItemNodeProps extends BaseNodeProps {

@@ -4,7 +4,8 @@ import InputBox from "brancy/components/design/inputBox/inputBox";
 
 import { BaseNodeProps, NodeData } from "brancy/components/messages/aiflow/flowNode/types";
 import styles from "./WeblinkNode.module.css";
-import { LanguageKey } from "brancy/i18n /languageKeys";
+import { LanguageKey } from "brancy/i18n/languageKeys";
+
 export const WeblinkNode: React.FC<BaseNodeProps> = ({ node, updateNodeData }) => {
   const [displayTitle, setDisplayTitle] = React.useState<string>("");
   const [shouldShake, setShouldShake] = React.useState<boolean>(false);
