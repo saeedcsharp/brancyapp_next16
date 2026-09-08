@@ -286,6 +286,8 @@ export default {
     faqEmptyState: "سؤالات متداول شما در این قسمت اضافه خواهد شد",
 
     page8_Support: "پشتیبانی",
+    support_Online: "پشتیبانی آنلاین",
+    support_EnterBlog: "ورود به بلاگ",
     page8_CommunityExplain:
       "با دیگر کاربران در ارتباط باشید، تجربیات خود را به اشتراک بگذارید و از مشاوره جمعی برای رشد بیشتر بهره‌مند شوید.",
     page8_learnExplain:

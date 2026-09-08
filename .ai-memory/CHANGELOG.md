@@ -1,3 +1,8 @@
+# Unreleased
+
+- Restored the persistent blog support menu's online-support and blog-entry translations across all eight locale dictionaries.
+- Fixed production module resolution for `brancy/i18n` by adding explicit aliases for the root i18n module and locale subpaths; `npm run build` now completes successfully.
+
 - Moved the confirmed whole-page permission checks into App Router wrappers for message Direct, Comments, AI and Flow, Properties, and page Statistics. Feature-level permission checks in post, story, home, and tools pages remain local to their relevant sections.
 
 - Added pre-mount `publishPermission` guards to the Post and Story creation App Router wrappers, preventing unauthorized draft and publish-limit requests that could return 401 and trigger sign-out while the content permission state was visible.

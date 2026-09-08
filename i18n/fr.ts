@@ -289,6 +289,8 @@ export default {
     faqEmptyState: "Vos questions fréquentes s’afficheront ici",
 
     page8_Support: "Support",
+    support_Online: "Assistance en ligne",
+    support_EnterBlog: "Accéder au blog",
     page8_CommunityExplain:
       "Connectez-vous avec d'autres utilisateurs, partagez vos expériences et bénéficiez des conseils collectifs pour une croissance supplémentaire.",
     page8_learnExplain:

@@ -285,6 +285,8 @@ export default {
     faqEmptyState: "Sık sorulan sorularınız burada görünecek",
 
     page8_Support: "Destek",
+    support_Online: "Çevrim içi destek",
+    support_EnterBlog: "Bloga gir",
     page8_CommunityExplain:
       "Diğer kullanıcılarla iletişim kurun, deneyimlerinizi paylaşın ve daha fazla büyüme için kolektif tavsiyelerden faydalanın.",
     page8_learnExplain:

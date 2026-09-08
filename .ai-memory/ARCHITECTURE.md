@@ -14,6 +14,7 @@ Reviewed legacy Instagramer route pages now rely on middleware for package-expir
 - Root layout initializes theme, manifests, analytics, the provider tree, and the blog-hosted live-chat support control. `components/website/BlogChatFrame.tsx` keeps a support logo visible, offers a blog redirect and online-support action, and embeds the blog homepage in a responsive frame so its WordPress and Goftino scripts can run normally.
 - `app/providers.tsx` wraps SessionProvider, DirectionProvider, InstaProvider, and notifications.
 - Legacy `next/router` usage is bridged by `app/_compat/next-router.ts` through a webpack alias.
+- `brancy/i18n` and `brancy/i18n/*` are explicitly aliased in `next.config.js` because the root `i18n.ts` module and the `i18n/` translation directory share a basename; this keeps `LanguageKey` imports and locale imports deterministic in production builds.
 - API calls route through `clientFetchApi`; `/api/user/*` uses Next API proxy, most other calls resolve to direct backend URLs.
 
 - All protected App Router paths are enforced by `middleware.ts` in the Node.js runtime. It reads the Docker JWT secret at `/run/secrets/brancyapp_jwt_token` with `NEXTAUTH_SECRET` as the deployment fallback, validates the NextAuth token, and redirects missing tokens to `/`. Instagramer paths additionally use current-account and package-expiry redirects; `/customershop/*` and `/user/*` receive authentication only. Client route wrappers retain session readiness and route-specific behavior without `onUnauthenticated` callbacks.

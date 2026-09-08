@@ -283,6 +283,8 @@ export default {
     page8_Blog: "Blog",
     page8_FAQ: "FAQ",
     page8_Support: "Support",
+    support_Online: "Online support",
+    support_EnterBlog: "Enter blog",
     page8_CommunityExplain:
       "Connect with other users, share your experiences, and benefit from collective advice for further growth.",
     page8_learnExplain:

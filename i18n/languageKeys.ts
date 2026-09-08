@@ -2108,6 +2108,8 @@ export enum LanguageKey {
   page8_Blog = "page8_Blog",
   page8_FAQ = "page8_FAQ",
   page8_Support = "page8_Support",
+  support_Online = "support_Online",
+  support_EnterBlog = "support_EnterBlog",
   page8_CommunityExplain = "page8_CommunityExplain",
   page8_learnExplain = "page8_learnExplain",
   page8_BlogExplain = "page8_BlogExplain",

@@ -286,6 +286,8 @@ export default {
     faqEmptyState: "Tez-tez soruşulan suallar burada göstəriləcək",
 
     page8_Support: "Dəstək",
+    support_Online: "Onlayn dəstək",
+    support_EnterBlog: "Bloqa daxil ol",
     page8_CommunityExplain:
       "Digər istifadəçilərlə əlaqədə olun, təcrübələr paylaşın və kollektiv məsləhətdən faydalanın.",
     page8_learnExplain:

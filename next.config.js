@@ -139,6 +139,8 @@ module.exports = withPWA({
     config.resolve = config.resolve || {};
     config.resolve.alias = {
       ...(config.resolve.alias || {}),
+      "brancy/i18n": path.resolve(__dirname, "i18n.ts"),
+      "brancy/i18n/*": path.resolve(__dirname, "i18n"),
       "next/router": path.resolve(__dirname, "app/_compat/next-router.ts"),
     };
 
