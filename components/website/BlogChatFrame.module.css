@@ -1,0 +1,137 @@
+.container {
+  position: fixed;
+  z-index: 1200;
+  right: 20px;
+  bottom: 20px;
+}
+
+.supportButton {
+  display: grid;
+  width: 64px;
+  height: 64px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  border-radius: 50%;
+  background: #fff;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 24%);
+  cursor: pointer;
+}
+
+.supportButton img {
+  width: 58px;
+  height: 58px;
+  border-radius: 50%;
+}
+
+.menu {
+  position: absolute;
+  right: 0;
+  bottom: 76px;
+  display: grid;
+  width: 180px;
+  gap: 4px;
+  padding: 8px;
+  border: 1px solid rgb(30 40 70 / 12%);
+  border-radius: 10px;
+  background: #fff;
+  box-shadow: 0 8px 24px rgb(0 0 0 / 18%);
+}
+
+.menuItem {
+  display: block;
+  padding: 10px 12px;
+  border: 0;
+  border-radius: 6px;
+  background: transparent;
+  color: #182033;
+  font: inherit;
+  text-align: right;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.menuItem:hover,
+.menuItem:focus-visible {
+  background: #edf4ff;
+  outline: none;
+}
+
+.chatPanel {
+  position: absolute;
+  right: 0;
+  bottom: 76px;
+  width: min(380px, calc(100vw - 40px));
+  overflow: hidden;
+  border-radius: 12px;
+  background: #fff;
+  box-shadow: 0 12px 32px rgb(0 0 0 / 22%);
+}
+
+.panelHeader {
+  display: flex;
+  height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 12px;
+  background: #182033;
+  color: #fff;
+}
+
+.closeButton {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.frame {
+  display: block;
+  width: 100%;
+  height: min(576px, calc(100vh - 84px));
+  border: 0;
+  background: #fff;
+}
+
+html[dir="rtl"] .frame {
+  direction: rtl;
+}
+
+html[dir="rtl"] .container {
+  right: auto;
+  left: 20px;
+}
+
+html[dir="rtl"] .chatPanel {
+  right: auto;
+  left: 0;
+}
+
+html[dir="rtl"] .menu {
+  right: auto;
+  left: 0;
+}
+
+@media (max-width: 480px) {
+  .container {
+    right: 10px;
+    bottom: 10px;
+  }
+
+  .chatPanel {
+    right: 0;
+    width: calc(100vw - 20px);
+  }
+
+  html[dir="rtl"] .container {
+    right: auto;
+    left: 10px;
+  }
+
+  html[dir="rtl"] .chatPanel {
+    right: auto;
+    left: 0;
+  }
+}

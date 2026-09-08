@@ -1,4 +1,5 @@
 - Fixed create-post video cover uploads for iPhone HEIC files by converting the selected file to JPEG before validation, preview, and upload. Cover dimensions are preserved, and failed uploads no longer leave the loading state active.
+- Temporarily changed the support control to open only the direct Goftino chat; the blog redirect was removed from the menu.
 
 - Fixed first-load draft/pre-story and draft/pre-post hydration by tracking the loaded query key, so late router query values trigger their API request without a manual reload.
 
