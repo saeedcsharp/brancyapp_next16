@@ -108,6 +108,8 @@ External services are accessed through Brancy backend APIs unless this module do
 
 Do not expose tokens, secrets, or user data. Follow auth and redirect rules.
 
+`BlogChatFrame` only mounts Goftino after the online-support action. Its fixed HTTPS cross-origin URL uses `strict-origin-when-cross-origin` and `sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-downloads"`. Goftino's bootstrap requires scripts and its own localStorage; same-origin access does not grant access to Brancy while the frame stays cross-origin. Do not reuse this permission combination for a Brancy-origin document. Top-level navigation and popup sandbox escape remain blocked. Camera, microphone (including voice recording), geolocation, payment, and USB are explicitly denied. Popups inherit sandbox restrictions; downloads remain allowed for attachments. Goftino still receives visitor network information and chat content; sandboxing is not a vendor privacy audit. No global frame-src CSP or legal/privacy text was changed.
+
 ## Permission Rules
 
 Use `RoleAccess`, session permission flags, and backend authorization where relevant.

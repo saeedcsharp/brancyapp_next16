@@ -1,5 +1,6 @@
 # Unreleased
 
+- Hardened the direct Goftino support iframe with sandbox restrictions and sensitive-device permission denials while retaining origin-only cross-origin referrers. Top navigation and popup sandbox escape are blocked; voice recording is intentionally unavailable.
 - Restored the persistent blog support menu's online-support and blog-entry translations across all eight locale dictionaries.
 - Fixed production module resolution for `brancy/i18n` by adding explicit aliases for the root i18n module and locale subpaths; `npm run build` now completes successfully.
 

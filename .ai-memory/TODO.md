@@ -10,7 +10,8 @@
 
 # TODO
 
-- Verify in production that `blog.brancy.app` continues to allow iframe embedding and that its Goftino panel is visible inside the embedded homepage without conflicting with the host app's fixed controls.
+- Verify direct Goftino sandbox compatibility in production: chat loading, session persistence, sending text/files, attachment downloads, and sandboxed links across supported browsers. Do not send real support messages during automated checks; microphone recording is intentionally denied.
+- Audit all embedded providers before enforcing a global `frame-src` CSP. Obtain reviewed multilingual privacy disclosure for Goftino's processing of visitor information and chat content.
 
 - Add component/browser coverage for authenticated Instagramer route guards, including NextAuth loading, expired packages, `currentIndex === -1`, home login-provider exceptions, influencer restrictions, internal redirects, Suspense/query routes, intercepted modals, and confirmation that legacy pages do not mount during redirects.
 

@@ -11,7 +11,7 @@ Reviewed legacy Instagramer route pages now rely on middleware for package-expir
 
 ## Key Patterns
 
-- Root layout initializes theme, manifests, analytics, the provider tree, and the blog-hosted live-chat support control. `components/website/BlogChatFrame.tsx` keeps a support logo visible, offers a blog redirect and online-support action, and embeds the blog homepage in a responsive frame so its WordPress and Goftino scripts can run normally.
+- Root layout initializes theme, manifests, analytics, the provider tree, and the support control. `components/website/BlogChatFrame.tsx` offers a blog link and embeds the cross-origin Goftino chat with sandbox restrictions and sensitive device permissions denied; see `MODULES/components-website.md` for the permission contract.
 - `app/providers.tsx` wraps SessionProvider, DirectionProvider, InstaProvider, and notifications.
 - Legacy `next/router` usage is bridged by `app/_compat/next-router.ts` through a webpack alias.
 - `brancy/i18n` and `brancy/i18n/*` are explicitly aliased in `next.config.js` because the root `i18n.ts` module and the `i18n/` translation directory share a basename; this keeps `LanguageKey` imports and locale imports deterministic in production builds.
