@@ -10,7 +10,7 @@ export default function BlogChatFrame() {
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   const handleChatOpen = () => {
-    setIsChatOpen(true);
+    setIsChatOpen((prev) => !prev);
   };
 
   return (
