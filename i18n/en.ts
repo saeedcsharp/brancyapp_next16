@@ -618,6 +618,7 @@ export default {
     switchaccount: "Switch Account",
     instagramConnect: "Connect Instagram Account",
     upgrade: "Upgrade",
+    Renew_Subscription: "Renew Subscription",
     done: "Done",
 
     text: "Text",
@@ -3120,6 +3121,9 @@ export default {
     Notify_InvalidItemId: "Item ID is not valid",
     Notify_IpInvalid: "The entered IP is not valid",
     Notify_InstagramRedirectInTenSeconds: "You will be redirected to Instagram automatically in 10 seconds",
+    Notify_InstagramRedirect: "Redirecting to Instagram",
+    Notify_InstagramRedirectExplain: "Make sure your VPN is enabled, as your IP address is not valid",
+
     Notify_ThisInstagramAccountAddedBefore: "This Instagram account has already been added",
     Notify_InvalidTicketId: "The ticket ID is not valid",
     Notify_ExpiredSignature: "Signature has expired",

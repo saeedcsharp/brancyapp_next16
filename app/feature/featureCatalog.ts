@@ -299,7 +299,7 @@ export const featureCatalog: FeatureRecord[] = [
     prerequisites: ["instagramConnection", "activePackage", "bankCard"],
     limitation: "bankCard",
     contentIdea: "tutorial",
-    routes: ["/wallet/payment", "/wallet/statistics"],
+    routes: ["/wallet/payment"],
     sourceKinds: ["route", "component", "api", "enum"],
   },
   {
@@ -563,7 +563,7 @@ export const auditRecords: AuditRecord[] = [
   },
   {
     id: "buyerFinanceStubs",
-    routes: ["/user/wallet", "/user/payment/orderstatus", "/user/payment/adstatus", "/wallet/title"],
+    routes: ["/user/wallet", "/user/payment/orderstatus", "/user/payment/adstatus"],
     sourceKinds: ["route", "component", "translation"],
   },
   {

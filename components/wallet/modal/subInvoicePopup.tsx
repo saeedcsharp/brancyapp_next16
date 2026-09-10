@@ -10,9 +10,9 @@ import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import { NotifType, notify, ResponseType } from "../notifications/notificationBox";
-import Loading from "../notOk/loading";
-import PriceFormater, { PriceFormaterClassName } from "../priceFormater";
+import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
+import Loading from "../../notOk/loading";
+import PriceFormater, { PriceFormaterClassName } from "../../priceFormater";
 import styles from "./subInvoicePopup.module.css";
 
 type SubInvoicesPopupProps = {

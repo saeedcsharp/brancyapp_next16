@@ -32,6 +32,7 @@ interface SliderProps {
   isLoading?: boolean; // نمایش loading در pagination
   itemsPerSlide?: number; // تعداد آیتم‌ها در هر اسلاید (برای گروه‌بندی خودکار)
   freeMode?: boolean; // اسکرول آزاد افقی بدون snap
+  initialIndex?: number; // اسلایدی که هنگام mount نمایش داده می‌شود
 }
 
 interface SliderSlideProps {
@@ -285,6 +286,7 @@ const Slider: React.FC<SliderProps> = ({
   onReachEnd,
   isLoading = false,
   itemsPerSlide,
+  initialIndex = 0,
 }) => {
   //#region FreeMode
   if (freeMode) {
@@ -313,7 +315,7 @@ const Slider: React.FC<SliderProps> = ({
 
   //#region State with Reducer
   const [state, dispatch] = useReducer(sliderReducer, {
-    currentIndex: 0,
+    currentIndex: initialIndex,
     slideSize: 0,
     isRTL: false,
     isDragging: false,

@@ -599,7 +599,7 @@ export default {
     switchaccount: "تبديل الحساب",
     instagramConnect: "اتصال حساب إنستغرام",
     CollaboratorExplain: "مشاركة Post أو Reels بشكل مشترك بين عدة صفحات إنستغرام",
-
+    Renew_Subscription: "تجديد الاشتراك",
     upgrade: "ترقية",
     deactive: "غير نشط",
     Deactivate: "تعطيل",
@@ -3019,6 +3019,8 @@ export default {
     Notify_InvalidItemId: "معرّف العنصر غير صالح",
     Notify_IpInvalid: "IP المدخل غير صالح",
     Notify_InstagramRedirectInTenSeconds: "سيتم تحويلك تلقائيًا إلى Instagram خلال 10 ثوانٍ",
+    Notify_InstagramRedirect: "جارٍ التحويل إلى Instagram",
+    Notify_InstagramRedirectExplain: "تأكد من تفعيل VPN، لأن عنوان IP الخاص بك غير صالح",
     Notify_ThisInstagramAccountAddedBefore: "تمت إضافة هذا الحساب على إنستغرام سابقاً",
     Notify_InvalidTicketId: "معرّف التذكرة غير صالح",
     Notify_ExpiredSignature: "التوقيع منتهي الصلاحية",

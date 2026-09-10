@@ -3,7 +3,7 @@ import { SubInvoiceItemType, SubInvoiceStatus } from "brancy/models/enums";
 import { IInvoice, ISubInvoice } from "brancy/models/interfaces";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import PriceFormater, { PriceFormaterClassName } from "../priceFormater";
+import PriceFormater, { PriceFormaterClassName } from "../../priceFormater";
 import styles from "./subInvoicePopup.module.css";
 
 type SubInvoicesPopupProps = {
@@ -95,7 +95,7 @@ export default function InvoicePopup({ invoice, subInvoices, onClose, getInvoice
                 <div key={i.id} className={styles.tableheader1}>
                   <div className={styles.tablecounter}>{index + 1}</div>
                   <div className={styles.orcernumber}>{i.id}</div>
-                  <div className={styles.orcernumber}>{i.cardNumber ?? "brancy"}</div>
+                  <div className={styles.orcernumber}>{i.cardNumber ?? "برنسی"}</div>
                   <div className={styles.viwes}>{manageSubInvoiceType(i.itemType)}</div>
                   <div className={styles.viwes}>
                     {

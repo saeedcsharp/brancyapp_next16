@@ -39,14 +39,14 @@ export default function Invoices({
   const items = invoices?.items ?? [];
   return (
     <section ref={containerRef} className={styles.invoicesSection} aria-busy={invoicesLoading || invoicesLoadingMore}>
-      <header className={styles.sectionHeader}>
-        <div>
+      {/* <header className={styles.sectionHeader}>
+      <div>
           <p className={styles.sectionEyebrow}>{t("Payment")}</p>
           <h2 className={styles.sectionTitle}>{t("Invoice History")}</h2>
           <p className={styles.sectionDescription}>{t("Latest invoices and payment status")}</p>
         </div>
         <span className={styles.invoiceCount}>{invoicesLoading ? "..." : items.length}</span>
-      </header>
+      </header> */}
 
       {invoicesLoading ? (
         <div className={styles.invoiceGrid} aria-label={t("Loading")}>

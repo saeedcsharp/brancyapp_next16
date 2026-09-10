@@ -20,6 +20,11 @@ The media quick-reply popup now renders the reusable `components/notOk/commentPe
 
 The former icon-specific toggle control has been removed. Toggle tabs now use the shared `components/design/toggleButton/ToggleButton.tsx` control across wallet, event ideas, follower analysis, and the system-design showcase.
 
+Instagramer wallet navigation now has one canonical tab at `/wallet/payment`. The payment page contains the former statistics balance summary and card financial-status sections, while `/wallet`, `/wallet/statistics`, and `/wallet/title` redirect to it.
+The complete wallet card collection view is now owned by `components/wallet/bankCard.tsx`: it renders the shared free horizontal slider, maps the cards, and shows each card's matching general-balance status totals and date filter beneath the card. The standalone `generalBallance` component and stylesheet were removed.
+The wallet slider sorts the default card to the first card after the add-card slide and starts on it using the shared Slider's `initialIndex`; changing the default restarts on the new default, while subsequent user navigation remains unrestricted.
+The first wallet slider item is also owned by `BankCard`: its add-card tile expands the inline card-number registration form beneath the tile, and `BankCard` owns its state, request, validation, notifications, and successful-registration refresh without opening a modal. The standalone `AddCard` component and stylesheet were removed.
+
 The bulk product popup keeps each value-unit radio beside its corresponding editor and renders both shared and per-product editors inline without changing its API or save behavior.
 
 Bulk product amount editors now use the shared decimal-aware `InputBox`; in-progress decimal drafts remain strings until calculation, amount values are stored separately from percentage stepper values, and inactive editors are disabled with the shared `fadeDiv` treatment.
@@ -134,7 +139,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 
 - Prevented React Strict Mode effect replays from sending the Meta direct-login verification API request twice by guarding the request with a component ref.
 
-- The Meta direct-login flow waits 10 seconds after successful verification, then opens a localized AI-analysis notice; navigation to `/directlogin` occurs only when the user confirms the modal.
+- The Meta direct-login flow waits 10 seconds after successful verification, then opens the `initialSetup` language, theme, and calendar flow; navigation to `/directlogin` occurs only after setup completion.
 
 - Removed the Store Properties entry from the Instagramer desktop navbar and mobile hamburger menu while keeping `/store/properties` directly accessible.
 

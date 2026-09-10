@@ -92,7 +92,7 @@ function InstagramerSidebar(props: { newRoute: string; router?: any }) {
       },
       {
         id: "wallet",
-        route: "/wallet",
+        route: "/wallet/payment",
         svgContent: (
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 31">
             <path
@@ -104,7 +104,7 @@ function InstagramerSidebar(props: { newRoute: string; router?: any }) {
           </svg>
         ),
         translationKey: LanguageKey.sidebar_Wallet,
-        subRoutes: [InstagramerRoute.WalletStatistics, InstagramerRoute.WalletPayment, InstagramerRoute.WalletTitle],
+        subRoutes: [InstagramerRoute.WalletPayment],
       },
       {
         id: "market",

@@ -126,7 +126,7 @@ const menuItems = [
     ], // Removed commented routes
   },
   {
-    href: "/wallet",
+    href: "/wallet/payment",
     iconPath: (color: string) => (
       <svg xmlns="http://www.w3.org/2000/svg" fill={color} width="32" height="32" viewBox="0 0 30 31">
         <path
@@ -137,7 +137,7 @@ const menuItems = [
       </svg>
     ),
     textKey: LanguageKey.sidebar_Wallet,
-    activeRoutes: ["walletstatistics", "walletpayment", "wallettitle"],
+    activeRoutes: ["walletpayment"],
   },
   {
     href: "/market",
@@ -654,7 +654,7 @@ const LeftHamMenue = ({
               </svg>
               <div className="headerandinput" style={{ gap: "3px" }}>
                 <span className="title2" style={{ fontSize: "14px" }}>
-                  {t(LanguageKey.upgrade)}
+                  {t(LanguageKey.Renew_Subscription)}
                 </span>
                 <span className={`${styles.remainingTime} ${timeClass}`} aria-live="polite">
                   {t(LanguageKey.remainingTime)}:{" "}

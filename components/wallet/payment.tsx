@@ -1,12 +1,11 @@
 import Modal from "brancy/components/design/modal";
-import Loading from "brancy/components/notOk/loading";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
-import AddCard from "brancy/components/wallet/addCard";
 import BankCard from "brancy/components/wallet/bankCard";
-import InvoicePopup from "brancy/components/wallet/invoicePopup";
+import InvoicePopup from "brancy/components/wallet/modal/invoicePopup";
 import Invoices from "brancy/components/wallet/invoices";
-import OrderDetailPopup from "brancy/components/wallet/orderDetailPopup";
-import SubInvoicesPopup from "brancy/components/wallet/subInvoicePopup";
+import WalletTile from "brancy/components/wallet/WalletTile";
+import OrderDetailPopup from "brancy/components/wallet/modal/orderDetailPopup";
+import SubInvoicesPopup from "brancy/components/wallet/modal/subInvoicePopup";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { packageStatus } from "brancy/helper/loadingStatus";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
@@ -16,7 +15,6 @@ import Head from "next/head";
 import { useRouter } from "next/router";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import styles from "./payment.module.css";
 import { MethodType } from "brancy/helper/api";
 const Payment = () => {
   const { t } = useTranslation();
@@ -37,8 +35,8 @@ const Payment = () => {
   const [subInvoicesByCard, setSubInvoicesByCard] = useState<Record<string, IGetSubInvoice>>({});
   const [showOrderDetailsPopup, setShowOrderDetailsPopup] = useState<IInvoice | null>(null);
   const [showInvoicePopup, setShowInvoicePopup] = useState<IInvoice | null>(null);
-  const [showAddCard, setShowAddCard] = useState(false);
   const [generalBalance, setGeneralBalance] = useState<IGeneralBallance[]>([]);
+  const [generalBalanceLoading, setGeneralBalanceLoading] = useState(false);
   useEffect(() => {
     if (!session) return;
     if (session?.user.currentIndex === -1) router.push("/user");
@@ -113,6 +111,7 @@ const Payment = () => {
     }
   }
   const fetchGeneralBalance = async (from = 0) => {
+    setGeneralBalanceLoading(true);
     try {
       const response = await clientFetchApi<null, IGeneralBallance[]>("/api/wallet/getGenerallBallance", {
         session,
@@ -128,6 +127,8 @@ const Payment = () => {
       } else notify(response.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
+    } finally {
+      setGeneralBalanceLoading(false);
     }
   };
   const fetchMoreInvoices = useCallback(async (): Promise<IInvoice[]> => {
@@ -200,49 +201,48 @@ const Payment = () => {
       <Head>
         <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
         <title>برنسی ▸ عملیات پرداخت و کیف پول</title>
-        <meta
-          name="description"
-          content="صفحه نمایشی فرآیندهای مالی، درگاه پرداخت یار، کارت به کارت، برداشت، تسویه و تبدیل به رمزارز در پلتفرم برانسی"
-        />
+        <meta name="description" content="صفحه عملیات پرداخت و کیف پول در پلتفرم برانسی" />
         <meta name="robots" content="noindex, nofollow" />
       </Head>
-      <main className={styles.paymentPage}>
-        <section className={styles.walletSection}>
-          <div className={styles.sectionHeading}>
-            <h2 className={styles.cardTitle}>{t("Cards and Bank Accounts")}</h2>
+      <main>
+        <WalletTile generalBalance={generalBalance} cards={cards} />
+        <div className="pinContainer">
+          {/* --------------------------------Card status----------------------------------------- */}
+          <div className="tooBigCard">
+            <header className="headerChild" title="↕ Resize the Card" role="button">
+              <div className="circle" aria-hidden="true" />
+              <h2 className="Title">کارت های بانکی</h2>
+            </header>
+            <BankCard
+              cards={cards}
+              generalBalance={generalBalance}
+              loading={generalBalanceLoading}
+              onFromDateChange={fetchGeneralBalance}
+              onSelectCard={(cardNumber) => setShowSubInvoicesPopup(cardNumber)}
+              onCardAdded={() => void fetchCards()}
+            />
           </div>
-          {loading ? (
-            <Loading />
-          ) : (
-            <>
-              <div className={styles.cardList}>
-                <button className={styles.addCardTile} type="button" onClick={() => setShowAddCard(true)}>
-                  <span className={styles.addCardIcon} aria-hidden="true">
-                    +
-                  </span>
-                  <span>{t("Add Bank Card")}</span>
-                  <small>{t("Register a new card")}</small>
-                </button>
-                {cards.map((c, idx) => (
-                  <BankCard
-                    key={`${c.cardNumber}-${idx}`}
-                    card={c}
-                    onSelectCard={(cardNumber) => setShowSubInvoicesPopup(cardNumber)}
-                  />
-                ))}
-              </div>
-              <Invoices
-                invoices={invoices}
-                invoicesLoading={invoicesLoading}
-                invoicesLoadingMore={invoicesLoadingMore}
-                hasMore={Boolean(invoices?.nextMaxId)}
-                containerRef={invoicesScrollRef}
-                openInvoicePopup={(invoice) => setShowInvoicePopup(invoice)}
-              />
-            </>
-          )}
-        </section>
+          {/* --------------------------------Invoices----------------------------------------- */}
+          <div className="tooBigCard">
+            <header className="headerChild" title="↕ Resize the Card" role="button">
+              <div className="circle" aria-hidden="true" />
+              <h2 className="Title">تراکنش‌ها</h2>
+            </header>
+            <Invoices
+              invoices={invoices}
+              invoicesLoading={invoicesLoading}
+              invoicesLoadingMore={invoicesLoadingMore}
+              hasMore={Boolean(invoices?.nextMaxId)}
+              containerRef={invoicesScrollRef}
+              openInvoicePopup={(invoice) => setShowInvoicePopup(invoice)}
+            />
+          </div>
+          {/* --------------------------------Sub Invoices----------------------------------------- */}
+          <div className="tooBigCard"></div>
+        </div>
       </main>
+
+      {/* ------------------------------------------------------------------------- */}
       <Modal
         closePopup={() => setShowSubInvoicesPopup(null)}
         classNamePopup={"popupLarge"}
@@ -273,10 +273,6 @@ const Payment = () => {
           />
         )}
       </Modal>
-      <Modal closePopup={() => setShowAddCard(false)} classNamePopup={"popupSendFile"} showContent={showAddCard}>
-        {showAddCard && <AddCard onClose={() => setShowAddCard(false)} />}
-      </Modal>
-
       <Modal
         closePopup={() => setShowOrderDetailsPopup(null)}
         classNamePopup={"popupLarge"}

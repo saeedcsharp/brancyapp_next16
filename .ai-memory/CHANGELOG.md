@@ -1,3 +1,10 @@
+- Unified the Instagramer wallet under the single `/wallet/payment` tab, moved the balance summary and card financial-status sections into that page, and redirected legacy wallet routes to the canonical payment route.
+- Merged wallet general-balance details into each bank-card slider item. Cards now scroll horizontally, and each card displays its four financial statuses and date filter beneath the card; the standalone `GeneralBalance` component was removed.
+- Moved the wallet add-card tile and registration form into the first `BankCard` slider item. The form now appears inline beneath the tile and refreshes cards after a successful registration instead of using a modal.
+- Merged the remaining add-card API, validation, notification, input, and loading logic into `bankCard.tsx`; the standalone `AddCard` component and stylesheet were removed.
+- Wallet cards now place the default card first after the add-card slide and open the slider on that card; users can still navigate freely between all cards.
+- Organized wallet modal contents under `components/wallet/modal/` and removed unused demo and legacy wallet components that had no active references.
+
 - Fixed create-post video cover uploads for iPhone HEIC files by converting the selected file to JPEG before validation, preview, and upload. Cover dimensions are preserved, and failed uploads no longer leave the loading state active.
 
 - Fixed first-load draft/pre-story and draft/pre-post hydration by tracking the loaded query key, so late router query values trigger their API request without a manual reload.
@@ -147,6 +154,7 @@
 - Fixed the Meta direct-login hydration mismatch caused by shuffling loading phrases with `Math.random()` during server and initial client rendering.
 - Prevented the Meta direct-login verification API from being called twice when React Strict Mode replays the effect.
 - Changed the Meta direct-login flow to show a localized AI-analysis notice after 10 seconds instead of redirecting automatically; navigation now occurs only after the user confirms the notice.
+- Replaced the Meta direct-login AI-analysis notice with the `initialSetup` language, theme, and calendar flow; navigation now occurs after setup completion.
 
 - Removed the Store Properties entry from the Instagramer desktop navbar and mobile hamburger menu while keeping `/store/properties` directly accessible.
 

@@ -29,12 +29,7 @@ const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: b
       newRoute === InstagramerRoute.MessageProperties
     )
       return "message";
-    else if (
-      newRoute === InstagramerRoute.WalletStatistics ||
-      newRoute === InstagramerRoute.WalletPayment ||
-      newRoute === InstagramerRoute.WalletTitle
-    )
-      return "wallet";
+    else if (newRoute === InstagramerRoute.WalletPayment) return "wallet";
     else if (
       newRoute === InstagramerRoute.biolinkHome ||
       newRoute === InstagramerRoute.MarketmyLink ||
