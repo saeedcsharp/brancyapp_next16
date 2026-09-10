@@ -3488,7 +3488,8 @@ export default {
     "Loading...": "در حال بارگذاری...",
     "Set Default Card": "تنظیم به‌عنوان کارت پیش‌فرض",
     Settle: "تسویه",
-    "Request settlement for the balance assigned to this card.": "برای تسویه موجودی اختصاص‌یافته به این کارت درخواست دهید.",
+    "Request settlement for the balance assigned to this card.":
+      "برای تسویه موجودی اختصاص‌یافته به این کارت درخواست دهید.",
     "Logestic Payment": "پرداخت لجستیک",
     "Product Income": "درآمد محصول",
     "Brancy Feature Income": "درآمد ویژگی برانسی",

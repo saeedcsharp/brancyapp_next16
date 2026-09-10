@@ -52,25 +52,18 @@ const NavbarHeader = (props: {
   const { value, setValue } = use(InstaInfoContext) ?? {};
   async function handleGetNotif(notif: string) {
     const decombNotif = handleDecompress(notif);
-    const notifObj = JSON.parse(decombNotif!) as PushNotif;
-    console.log("Received notification in navbar header", notifObj);
+    if (!decombNotif) return;
+    const notifObj = JSON.parse(decombNotif) as PushNotif;
     if (notifObj.ResponseType === PushResponseType.DeauthorizedInstaAccount) {
       await signOut({ redirect: false });
       router.replace("/");
       props.removeMask();
+      return;
     }
-    if (notifObj.IsNavbar) {
-      console.log("decombNotif in navbar header", notifObj);
-      // setNavbarNotifs((prev) => [notifObj, ...prev]);
-      if (setValue && sessionRef.current!.user.currentIndex > -1) setValue((prev) => [notifObj, ...prev]);
+    if (notifObj.IsNavbar && sessionRef.current && sessionRef.current.user.currentIndex > -1) {
+      if (setValue) setValue((prev) => [notifObj, ...prev]);
       if (!props.showNotifBar) setGooli(true);
     }
-    // else if (!notifObj.IsNavbar && notifObj.ResponseType === PushResponseType.DeauthorizedInstaAccount) {
-    //   console.log("not isNvabar AND DeauthorizedInstaAccount");
-    //   await signOut({ redirect: false });
-    //   router.replace("/");
-    //   props.removeMask();
-    // }
   }
   function handleDeleteNotif(index: number) {
     if (setValue) setValue((prev) => prev.filter((_, i) => i !== index));

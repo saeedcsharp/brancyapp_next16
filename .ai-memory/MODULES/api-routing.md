@@ -80,6 +80,8 @@ Media creation submits the shared creator payload to `/api/mediaai/createImage` 
 
 AI Prompt Analysis availability uses `/api/ai/hasPageAnalysis`, mapped to `Instagramer/AI/HasPageAnalysis`; the Prompt Analysis modal must remain closed unless the endpoint returns `value: true`.
 
+Landing-page first-login detection uses `GET /api/preinstagramer/checkUserIsNew`, mapped to `PreInstagramer/CheckUserIsNew`. A successful `value: true` response redirects to `/user/instagramerLogin`; false or unsuccessful responses redirect to `/user`.
+
 ## Providers
 
 Providers are documented where the module defines React providers.

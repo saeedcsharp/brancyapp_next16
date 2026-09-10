@@ -1,5 +1,5 @@
 import { signOut, useSession } from "next-auth/react";
-import { useRouter } from "next/router";
+import { useRouter } from "next/navigation";
 import React, { useCallback, useEffect, useMemo, useRef } from "react";
 import { NotifType, notify, notPackageNotify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { MethodType } from "brancy/helper/api";

@@ -100,6 +100,8 @@ No local database objects were discovered. Data persists through external backen
 
 Mostly React local state, context, NextAuth session, or external state from backend APIs.
 
+`InstaProvider` uses the stable `next/navigation` router. The legacy compatibility router creates a new object on every render, which previously invalidated `refreshToken`, `GetAccountInfo`, and the account effect when notification state changed. Notification-only updates must not trigger account/session requests; session changes still drive the existing expiry and account checks.
+
 ## External Integrations
 
 External services are accessed through Brancy backend APIs unless this module documents another integration.
@@ -155,13 +157,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

@@ -32,6 +32,8 @@ Instagramer notification surfaces recognize `AIVideoSuccess` and `AIVideoFailed`
 
 Data enters through props, Next route params, session state, browser state, or backend API responses.
 
+The header's SignalR receiver adds navbar notifications to `InstaInfoContext` only for an active Instagramer session. AI success notifications do not navigate. `DeauthorizedInstaAccount` signs out, replaces the route with `/`, and returns without adding a notification. The provider uses the stable App Router instance to avoid notification-triggered account effects.
+
 ## Dependencies
 
 See imports in related files and dependency docs.
