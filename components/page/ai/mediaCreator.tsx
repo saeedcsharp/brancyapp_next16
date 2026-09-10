@@ -663,20 +663,19 @@ export default function MediaCreator({
         className={styles.settingsPanel}
         onSubmit={(event) => {
           event.preventDefault();
-          if (onCreateMedia) {
-            onCreateMedia(
-              {
-                creatorKey: creator.key,
-                version: model.name,
-                inputs: model.inputModelTypes.map((input) => ({
-                  key: input.key,
-                  value: serializeInputValue(values[input.key]),
-                })),
-                prompt,
-              },
-              tokenUsage ?? 0,
-            );
-          }
+          if (createMediaLoading || !promptIsValid || !requiredInputsAreValid || !onCreateMedia) return;
+          onCreateMedia(
+            {
+              creatorKey: creator.key,
+              version: model.name,
+              inputs: model.inputModelTypes.map((input) => ({
+                key: input.key,
+                value: serializeInputValue(values[input.key]),
+              })),
+              prompt,
+            },
+            tokenUsage ?? 0,
+          );
         }}>
         <label className="headerandinput">
           <span className="headerparent">

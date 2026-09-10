@@ -397,7 +397,7 @@ const ShowPost = () => {
             }));
             if (res.value.commentMedia!.automaticCommentReply) {
               setAutoReply({
-                replySuccessfullyDirected: res.value.commentMedia.automaticCommentReply.replySuccessfullyDirected,
+                replySuccessfullyDirected: res.value.commentMedia?.automaticCommentReply.replySuccessfullyDirected,
                 items: res.value.commentMedia?.automaticCommentReply.items,
                 response: res.value.commentMedia?.automaticCommentReply.response || "",
                 sendPr: res.value.commentMedia?.automaticCommentReply.sendPr || false,
@@ -413,7 +413,7 @@ const ShowPost = () => {
                 sendCount: res.value.commentMedia?.automaticCommentReply.sendCount,
                 productId: res.value.commentMedia?.automaticCommentReply.productId || null,
                 customRepliesSuccessfullyDirected:
-                  res.value.commentMedia?.automaticCommentReply.customRepliesSuccessfullyDirected,
+                  res.value.commentMedia?.automaticCommentReply.customRepliesSuccessfullyDirected || [],
               });
               if (!res.value.commentMedia.automaticCommentReply.pauseTime) setQuickReply(true);
             }

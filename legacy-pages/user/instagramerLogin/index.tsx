@@ -1,9 +1,12 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { signOut, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
+import { createPortal } from "react-dom";
 import { FormEvent, useCallback, useEffect, useMemo, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Loading from "brancy/components/notOk/loading";
+import Modal from "brancy/components/design/modal";
+import InvalidIpModalContent from "brancy/components/switchAccount/invalidIpModalContent";
 import {
   internalNotify,
   InternalResponseType,
@@ -32,6 +35,13 @@ export default function InstaLogin(props: { removeMask: () => void }) {
   const [loading, setLoading] = useState(false);
   const [showTooltip, setShowTooltip] = useState(false);
   const [currentStep, setCurrentStep] = useState(1);
+  const [showInvalidIp, setShowInvalidIp] = useState(false);
+  const [invalidIpExpireTime, setInvalidIpExpireTime] = useState(0);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const formatNumber = useCallback((num: number): string => {
     return num.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
@@ -114,7 +124,8 @@ export default function InstaLogin(props: { removeMask: () => void }) {
       const res = await fetch("/api/user/ip");
       const data = await res.json();
       if (data.countryCode === "ir") {
-        internalNotify(InternalResponseType.TurnOnProxy, NotifType.Warning);
+        setInvalidIpExpireTime(Date.now() + 10000);
+        setShowInvalidIp(true);
         return;
       }
     } catch {
@@ -122,6 +133,15 @@ export default function InstaLogin(props: { removeMask: () => void }) {
     }
     await redirectToInstagram();
   }, [redirectToInstagram]);
+
+  const handleInvalidIpContinue = useCallback(() => {
+    setShowInvalidIp(false);
+    void redirectToInstagram();
+  }, [redirectToInstagram]);
+
+  const handleInvalidIpClose = useCallback(() => {
+    setShowInvalidIp(false);
+  }, []);
 
   const getInstagramers = useCallback(async () => {
     if (!session) return;
@@ -642,6 +662,27 @@ export default function InstaLogin(props: { removeMask: () => void }) {
           sendInstaId={sendInstaId}
         />
       )}
+      {isMounted &&
+        createPortal(
+          <Modal
+            closePopup={handleInvalidIpClose}
+            classNamePopup="popupMini"
+            showContent={showInvalidIp}
+            style={{
+              aspectRatio: "auto",
+              gap: "16px",
+              justifyContent: "flex-start",
+              maxHeight: "none",
+              padding: "28px",
+            }}>
+            <InvalidIpModalContent
+              expireTime={invalidIpExpireTime}
+              onContinue={handleInvalidIpContinue}
+              onClose={handleInvalidIpClose}
+            />
+          </Modal>,
+          document.body,
+        )}
     </div>
   );
 }

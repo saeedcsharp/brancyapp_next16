@@ -1,3 +1,4 @@
+"use client";
 import Modal from "brancy/components/design/modal";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { useEffect, useRef, useState } from "react";
@@ -66,45 +67,39 @@ export default function MetaRedirect() {
 
   async function createInstagramerAccount() {
     console.log("createInstagramerAccount");
-    for (let attempt = 0; attempt < 2; attempt += 1) {
-      try {
-        const verifyCodeRes = await clientFetchApiWithAccessToken<boolean, IVerifyCode>(
-          "/api/preinstagramer/VerifyCode",
-          {
-            methodType: MethodType.get,
-            accessToken: "Bearer" + " " + query.state,
-            data: null,
-            queries: [{ key: "code", value: query.code as string }],
-            onUploadProgress: undefined,
-          },
-        );
-        if (verifyCodeRes.succeeded) {
-          const nextRedirectUrl =
-            verifyCodeRes.value.origin +
-            "/directlogin" +
-            "?bearer=" +
-            query.state +
-            "&redirectUrl=" +
-            "/home" +
-            "&instagramerId=" +
-            verifyCodeRes.value.instagramerId;
-          setRedirectUrl(nextRedirectUrl);
-          setTimeout(() => {
-            setShowAnalysisNotice(true);
-          }, 10000);
-          return;
-        }
-
-        if (attempt === 1) {
-          console.log("verifyCodeRes.info.responseType", verifyCodeRes.info.responseType);
-          notify(verifyCodeRes.info.responseType, NotifType.Warning);
-        }
-      } catch (error) {
-        if (attempt === 1) {
-          console.error("Error in createInstagramerAccount:", error);
-          notify(ResponseType.Unexpected, NotifType.Error);
-        }
+    try {
+      const verifyCodeRes = await clientFetchApiWithAccessToken<boolean, IVerifyCode>(
+        "/api/preinstagramer/VerifyCode",
+        {
+          methodType: MethodType.get,
+          accessToken: "Bearer" + " " + query.state,
+          data: null,
+          queries: [{ key: "code", value: query.code as string }],
+          onUploadProgress: undefined,
+        },
+      );
+      if (verifyCodeRes.succeeded) {
+        const nextRedirectUrl =
+          verifyCodeRes.value.origin +
+          "/directlogin" +
+          "?bearer=" +
+          query.state +
+          "&redirectUrl=" +
+          "/home" +
+          "&instagramerId=" +
+          verifyCodeRes.value.instagramerId;
+        setRedirectUrl(nextRedirectUrl);
+        setTimeout(() => {
+          setShowAnalysisNotice(true);
+        }, 10000);
+        return;
       }
+
+      console.log("verifyCodeRes.info.responseType", verifyCodeRes.info.responseType);
+      notify(verifyCodeRes.info.responseType, NotifType.Warning);
+    } catch (error) {
+      console.error("Error in createInstagramerAccount:", error);
+      notify(ResponseType.Unexpected, NotifType.Error);
     }
   }
   useEffect(() => {

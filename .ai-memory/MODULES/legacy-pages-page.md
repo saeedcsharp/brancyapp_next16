@@ -36,10 +36,10 @@ During the initial selected-library request, the page renders the shared `compon
 The shared creator submit handler sends image requests to `/api/mediaai/CreateImage` and video requests to `/api/mediaai/CreateVideo`, preserving the same serialized inputs and client-context query.
 
 The `/page/tools` legacy page renders the `hashtagManager` card instead of separate saved-hashtag and trend/search-hashtag cards. The manager owns the shared header, its expanded/collapsed state, and `ToggleButton`; it passes the existing list callbacks and data into the selected hashtag view, so only the active view is mounted when the card is open.
-When a create request starts, the page returns to the matching image or video library and renders a pending card keyed by `clientContext` before waiting for the API response, preventing fast SignalR results from being missed. Failed API requests roll the card back. The pending card is replaced by the matching SignalR success result, or removed when a matching failure notification arrives; multiple concurrent generations are supported.
+When a create request starts, the page returns to the matching image or video library and renders a pending card keyed by `clientContext` before waiting for the API response, preventing fast SignalR results from being missed. Failed API requests roll the card back. SignalR success results are added even after a page remount when no local pending card exists, with duplicate `id`/`clientContext` protection; matching pending cards are replaced, and matching failure notifications remove them. Multiple concurrent generations are supported.
 The shared creator component uses media-neutral submit/loading props and switches its empty/error states, model label, prompt guidance, token-check text, and submit label for image or video mode. Video creator retry requests `GetVideoCreators`.
 
-The AI workspace keeps the Image/Video `mediaTabs` visible as the primary navigation inside the creator's model panel. The selected media creator and its model controls are rendered there, followed by the matching image or video library; creator model data is loaded independently for each media type. When no model is available, the model panel retains only the media tabs and the localized empty state is shown in the settings panel. The former header Create button and create-only page mode were removed.
+The AI workspace keeps the Image/Video `mediaTabs` visible as the primary navigation inside the creator's model panel. The selected media creator and its model controls are rendered there, followed by the matching image or video library; creator model data is loaded independently for each media type. When no model is available, the model panel retains only the media tabs and the localized empty state is shown in the settings panel. The former header Create button and create-only page mode were removed. The page owns the media-creation loading state, enabling it before feature validation and keeping the creator action disabled until the correlated create-image or create-video SignalR success or failure notification returns.
 
 The `/page/ai` controller localizes its page metadata and generation request/failure notifications through the active i18next locale, while the shared creator and result components provide the remaining AI workspace translations.
 
@@ -152,6 +152,16 @@ Parent module: `legacy-pages`.
 No confirmed module-specific issue recorded at initialization.
 
 The create-post page no longer includes the duplicate local content-size tooltip; the shared `Tooltip` component remains the source for that information.
+
+The create-story image upload path sends the original (or HEIC-converted) `File` directly to `UploadFile`, using `FileReader` only for preview. It does not compress, crop, or resize image dimensions, which keeps the upload compatible with iOS Safari and preserves the selected media dimensions.
+
+New stories expose the same date/time picker and recommended publish-time choices as create-post. The controls are available while `preStoryId <= 0`; existing pre-stories remain read-only.
+
+Story video validation now uses a dedicated localized warning when duration is below the three-second minimum; the existing duration-limit warning remains for videos longer than 60 seconds.
+
+Create-story and create-post data loading tracks a query-derived key instead of locking after the first render. Draft and pre-item queries that arrive after the router becomes ready now trigger their corresponding API request without requiring a reload.
+
+The create-post single-video cover upload converts HEIC selections before image validation, preview generation, and `UploadFile`. It reads dimensions after the converted preview loads, preserves the selected dimensions without compression or cropping, and resets the upload loading state when the request completes or fails.
 
 ## Technical Debt
 

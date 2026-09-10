@@ -1,7 +1,5 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
 import PageComponent from "../../../../../legacy-pages/page/stories/createstory";
 export default function Page() {
   const { data: session, status } = useSession();

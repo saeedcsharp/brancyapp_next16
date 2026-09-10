@@ -2,6 +2,7 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+<<<<<<< HEAD
 The persistent blog support menu translation keys `support_Online` and `support_EnterBlog` are restored in the enum and all eight locale dictionaries.
 
 The general auto-reply editor now mirrors the media editor's successful-reply workflow for `AllMedia`, `Feed`, and `Reels`: AI supports same-comment versus Direct response, and Custom, AI, and Flow show the shared three-reply input/tag editor only when the confirmation-reply checkbox is enabled.
@@ -15,6 +16,17 @@ Media auto-reply Flow and Connect Product modes now use the confirmation-message
 On 2026-09-03, duplicate package-status redirects were removed from the reviewed legacy posts, page statistics/tools, story creation and story detail, settings, store, wallet, and home pages. The remaining package-status usage is limited to the Instagramer navbar's internal interval guard; market and message legacy pages should be audited separately if their route wrappers are migrated further.
 
 All protected App Router authentication is centralized in the Node-runtime `middleware.ts`; route wrappers use `useSession()` without `required: true` or `onUnauthenticated`. This prevents NextAuth's automatic `SessionRequired` redirect during logout while preserving each wrapper's existing `session` and `status` handling. The middleware reads `/run/secrets/brancyapp_jwt_token` or `NEXTAUTH_SECRET` without a hard-coded secret, redirects missing tokens to `/`, and protects Instagramer plus `/customershop/*` and `/user/*` routes. Only Instagramer routes apply `currentIndex` and package-expiry redirects, while user routes perform authentication only. Route-specific account, role, query, Suspense, and navigation behavior remains in the relevant wrappers.
+=======
+The direct Meta redirect route is available at `/metaRedirect`; its App Router directory no longer has a trailing space, so the route is discovered correctly by Next.js.
+
+The landing-page authenticated redirect calls `PreInstagramer/CheckUserIsNew`; a true response opens `/user/instagramerLogin`, while a false or unsuccessful response opens `/user`.
+
+Notification-only updates no longer retrigger `InstaProvider` account effects through an unstable legacy router dependency. Navbar notification delivery is enabled, with deauthorization navigation preserved. Focused dependency/handler tests pass; the reported AI-notification browser reload still requires live verification.
+
+The `/user/instagramerLogin` Instagram connection flow now matches `SwitchAccount`: Iranian IPs open the shared invalid-IP modal, Continue or its ten-second timeout proceeds to Instagram, Close cancels, and failed IP lookup does not block the redirect.
+
+The Instagram login invalid-IP modal is rendered through a body portal, keeping it above the login page's existing dialog backdrop.
+>>>>>>> saeed
 
 Phase-one SEO foundations are implemented: the homepage uses the site-root canonical URL, `app/[locale]/page.tsx` exposes static landing routes for all eight supported locales, and `app/robots.ts` plus `app/sitemap.ts` publish crawl rules and stable public URLs. Each localized landing route has its own canonical, hreflang set, Open Graph metadata, and localized title/description. Authenticated, session-dependent, API, development, payment, and other private routes are excluded from the crawl policy; `/feature` remains intentionally noindex and is excluded from the sitemap. Production verification is still pending in Google Search Console and Bing Webmaster. The current full type-check remains blocked by a pre-existing AI filename-casing error.
 
@@ -168,6 +180,9 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - AI creator enum inputs now use the shared button-based `optionGrid` presentation for both enum input variants instead of a native select.
 - AI creator multiple range inputs now render as one fixed `250px` square with a centered fixed `100px` inner square; mouse/touch handles define one shared hatched frame, including its corners, while each backend range key remains separate in submitted requests.
 - AI creator footers now show separate, independent token-usage and media-creation buttons on opposite sides; creation only requires a valid prompt and required inputs, and uses zero for the parent feature check when no estimate exists.
+- AI image/video creation controls now remain disabled for the full pending request and the form ignores duplicate submit events while creation is in progress.
+- The AI page now owns and passes the media-creation loading state, enabling it before feature validation and clearing it only after the correlated image/video SignalR success or failure notification.
+- AI image/video success notifications are now accepted after leaving and revisiting the AI page, even without a local pending-generation ref; duplicate library entries are ignored.
 - AI media tabs now use the shared `ToggleButton`; the former dedicated content-creator header component and stylesheet were removed.
 - Generated image and video result modal styles now live in `components/page/ai/Modal_Generated.module.css`; `mediaCreator.module.css` is limited to `mediaCreator.tsx` styles.
 

@@ -2,22 +2,10 @@ import DotLoaders from "brancy/components/design/loader/dotLoaders";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Loading from "brancy/components/notOk/loading";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
-import initialzedTime from "brancy/helper/manageTimer";
 import { IGetMedia, PendingGeneration } from "brancy/models/interfaces";
 import { useTranslation } from "react-i18next";
-import { DateObject } from "react-multi-date-picker";
 import { parseImageMetadata } from "./generatedImageModal";
 import styles from "./List.module.css";
-
-function formatCreatedTime(timestamp: number) {
-  const t = initialzedTime();
-  const d = new DateObject({
-    date: timestamp * 1000,
-    calendar: t.calendar,
-    locale: t.locale,
-  });
-  return d.format("YYYY/MM/DD HH:mm:ss");
-}
 
 type VideoListProps = {
   videos: IGetMedia[];

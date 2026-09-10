@@ -266,6 +266,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   // ── preinstagramer ────────────────────────────────────
   "/api/preinstagramer/getFacebookRedirect": "PreInstagramer/GetFacebookRedirect",
   "/api/preinstagramer/getInstagramRedirect": "PreInstagramer/GetInstagramRedirect",
+  "/api/preinstagramer/checkUserIsNew": "PreInstagramer/CheckUserIsNew",
   "/api/preinstagramer/sendCode": "PreInstagramer/SendCode",
   "/api/preinstagramer/verifyCode": "PreInstagramer/VerifyCode",
 

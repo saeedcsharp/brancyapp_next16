@@ -15,6 +15,8 @@ import Page5 from "brancy/components/website/landing/page5";
 import Page8 from "brancy/components/website/landing/page8";
 import Page9 from "brancy/components/website/landing/page9";
 import InstallPrompt from "brancy/components/website/installPrompt";
+import { MethodType } from "brancy/helper/api";
+import { clientFetchApiWithAccessToken } from "brancy/helper/clientFetchApi";
 import { applyDetectedLocale } from "brancy/helper/detectLocaleFromTimezone";
 import styles from "../legacy-pages/index.module.css";
 
@@ -143,8 +145,19 @@ export default function LandingPageClient({
   }, []);
 
   const checkFirstLogin = useCallback(async () => {
-    router.push("/user");
-  }, [router]);
+    const checkUserIsNewResponse = await clientFetchApiWithAccessToken<null, boolean>(
+      "/api/preinstagramer/CheckUserIsNew",
+      {
+        methodType: MethodType.get,
+        accessToken: session?.user.accessToken,
+        data: null,
+        queries: [],
+        onUploadProgress: undefined,
+      },
+    );
+    if (checkUserIsNewResponse.value) router.push("/user/instagramerLogin");
+    else router.push("/user");
+  }, [router, session?.user.accessToken]);
 
   const handleQueryInRoute = useCallback(async () => {
     if (!session) return;
@@ -172,7 +185,6 @@ export default function LandingPageClient({
         }
       }
     }
-
     if (source === "pwa" || (!role && !redirectUrl)) {
       if (session?.user.currentIndex > -1) {
         router.push("/home");

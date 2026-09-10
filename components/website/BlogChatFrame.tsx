@@ -7,12 +7,10 @@ import styles from "./BlogChatFrame.module.css";
 
 export default function BlogChatFrame() {
   const { t } = useTranslation();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [isChatOpen, setIsChatOpen] = useState(false);
 
   const handleChatOpen = () => {
     setIsChatOpen(true);
-    setIsMenuOpen(false);
   };
 
   return (
@@ -20,7 +18,7 @@ export default function BlogChatFrame() {
       {isChatOpen && (
         <div className={styles.chatPanel} id="brancy-support-chat">
           <div className={styles.panelHeader}>
-            <strong>{t(LanguageKey.support_Online)}</strong>
+            <strong>{t(LanguageKey.page8_Support)}</strong>
             <button
               className={styles.closeButton}
               type="button"
@@ -41,27 +39,11 @@ export default function BlogChatFrame() {
         </div>
       )}
 
-      {isMenuOpen && (
-        <div className={styles.menu} role="menu" aria-label={t(LanguageKey.page8_Support)}>
-          <a
-            className={styles.menuItem}
-            href="https://blog.brancy.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-            role="menuitem">
-            {t(LanguageKey.support_EnterBlog)}
-          </a>
-          <button className={styles.menuItem} type="button" onClick={handleChatOpen} role="menuitem">
-            {t(LanguageKey.support_Online)}
-          </button>
-        </div>
-      )}
-
       <button
         className={styles.supportButton}
         type="button"
-        onClick={() => setIsMenuOpen((open) => !open)}
-        aria-expanded={isMenuOpen}
+        onClick={handleChatOpen}
+        aria-expanded={isChatOpen}
         aria-controls="brancy-support-chat"
         aria-label={t(LanguageKey.page8_Support)}>
         <img src="/landing/page8_support.png" alt="" />
