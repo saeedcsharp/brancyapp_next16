@@ -1,5 +1,4 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
-import ImageCompressor from "compressorjs";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
@@ -55,7 +54,7 @@ const CreateStory = () => {
   const { t } = useTranslation();
   const basePictureUrl = getClientMediaBaseUrl();
   const { query } = router;
-  const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [loadedQueryKey, setLoadedQueryKey] = useState<string | null>(null);
   const [isDragging, setIsDragging] = useState(false);
   const isFetchingRef = useRef(false);
   const inputRef = useRef<HTMLInputElement | null>(null);
@@ -83,6 +82,7 @@ const CreateStory = () => {
     sendPr: false,
     replySuccessfullyDirected: false,
     productId: null,
+    customRepliesSuccessfullyDirected: [],
   });
   const [selectedProduct, setSelectedProduct] = useState<IProduct_ShortProduct | null>(null);
   const [showProductPopup, setShowProductPopup] = useState(false);
@@ -148,6 +148,7 @@ const CreateStory = () => {
                   shouldFollower: autoReply.shouldFollower,
                   replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
                   productId: autoReply.productId,
+                  customRepliesSuccessfullyDirected: autoReply.customRepliesSuccessfullyDirected,
                 }
               : null,
             preStoryId: preStoryId,
@@ -201,6 +202,7 @@ const CreateStory = () => {
                   shouldFollower: autoReply.shouldFollower,
                   replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
                   productId: autoReply.productId,
+                  customRepliesSuccessfullyDirected: autoReply.customRepliesSuccessfullyDirected,
                 }
               : null,
             uiParameters: null,
@@ -292,103 +294,34 @@ const CreateStory = () => {
       console.log("Selected file:", file);
       if (file) {
         const extension = file.name.split(".").pop()?.toLowerCase();
-        // For image files, compress using ImageCompressor
         if (file.type.startsWith("image/") || file.type.length === 0) {
-          new ImageCompressor(file, {
-            quality: 0.95,
-            maxWidth: 700,
-            maxHeight: 700,
-            mimeType: "image/jpeg",
-            success(result) {
-              const reader = new FileReader();
-              reader.onload = () => {
-                const selectedMedia1 = reader.result as string;
-                const img = new Image();
-                img.onload = async () => {
-                  const width = img.width;
-                  const height = img.height;
-                  if (!file) return;
-                  if (!checkSpecImage(width, height, file.size)) return;
-                  if (width / height < 0.8 || width / height > 1.91) {
-                    // Crop the image to the allowed aspect ratio (0.8 - 1.91)
-                    // We'll use a canvas to crop the image in the browser
-                    const allowedMin = 0.8;
-                    const allowedMax = 1.91;
-                    let targetAspect = width / height < allowedMin ? allowedMin : allowedMax;
-                    let newWidth = width;
-                    let newHeight = height;
-
-                    if (width / height < allowedMin) {
-                      // Too tall, crop height
-                      newWidth = width;
-                      newHeight = Math.round(width / allowedMin);
-                    } else if (width / height > allowedMax) {
-                      // Too wide, crop width
-                      newHeight = height;
-                      newWidth = Math.round(height * allowedMax);
-                    }
-
-                    // Calculate cropping start points
-                    const sx = Math.floor((width - newWidth) / 2);
-                    const sy = Math.floor((height - newHeight) / 2);
-
-                    const canvas = document.createElement("canvas");
-                    canvas.width = newWidth;
-                    canvas.height = newHeight;
-                    const ctx = canvas.getContext("2d");
-                    if (ctx) {
-                      ctx.drawImage(img, sx, sy, newWidth, newHeight, 0, 0, newWidth, newHeight);
-                      const croppedDataUrl = canvas.toDataURL("image/jpeg");
-                      // Now upload the cropped image
-                      canvas.toBlob(async (blob) => {
-                        if (!blob) return;
-                        setLoadingUpload(true);
-                        setProgress(0);
-                        const croppedFile = new File([blob], file.name, {
-                          type: "image/jpeg",
-                        });
-                        // const res = await UploadFile(session, croppedFile, (progress) => setProgress(progress));
-                        // setLoadingUpload(false);
-                        // setShowMedias({
-                        //   mediaUri: null,
-                        //   error: "",
-                        //   mediaType: MediaType.Image,
-                        //   media: croppedDataUrl,
-                        //   cover: "",
-                        //   mediaUploadId: res ? res.fileName : "",
-                        //   coverId: "",
-                        //   coverUri: null,
-                        // });
-                      }, "image/jpeg");
-                    }
-                    return;
-                  }
-                  setLoadingUpload(true);
-                  setProgress(0);
-                  const res = await UploadFile(session, file!, (progress) => setProgress(progress));
-
-                  setLoadingUpload(false);
-                  if (!res) return;
-                  setShowMedias({
-                    mediaUri: null,
-                    error: "",
-                    mediaType: MediaType.Image,
-                    media: selectedMedia1,
-                    cover: "",
-                    mediaUploadId: res ? res.fileName : "",
-                    coverId: "",
-                    coverUri: null,
-                  });
-                };
-                img.src = selectedMedia1;
-              };
-              reader.readAsDataURL(result);
-            },
-            error(err) {
-              console.log(err);
-              internalNotify(InternalResponseType.NotPermittedMediaType, NotifType.Warning);
-            },
-          });
+          const reader = new FileReader();
+          reader.onload = () => {
+            const selectedMedia1 = reader.result as string;
+            const img = new Image();
+            img.onload = async () => {
+              if (!checkSpecImage(img.width, img.height, file.size)) {
+                setLoadingUpload(false);
+                return;
+              }
+              setProgress(0);
+              const res = await UploadFile(session, file, (progress) => setProgress(progress));
+              setLoadingUpload(false);
+              if (!res.fileName) return;
+              setShowMedias({
+                mediaUri: null,
+                error: "",
+                mediaType: MediaType.Image,
+                media: selectedMedia1,
+                cover: "",
+                mediaUploadId: res.fileName,
+                coverId: "",
+                coverUri: null,
+              });
+            };
+            img.src = selectedMedia1;
+          };
+          reader.readAsDataURL(file);
         } else if (
           file.type === "video/mp4" ||
           file.type === "video/quicktime" ||
@@ -430,7 +363,6 @@ const CreateStory = () => {
         if (inputRef.current) {
           inputRef.current.value = "";
         }
-        setLoadingUpload(false);
       }
     },
     [session],
@@ -502,106 +434,35 @@ const CreateStory = () => {
       setLoadingUpload(true);
       let file = await convertHeicToJpeg(e.target.files?.[0]!);
       if (file) {
-        // For image files, use ImageCompressor from "compressorjs"
         setLoadingUpload(true);
-        file = await convertHeicToJpeg(file);
         if (file.type.startsWith("image/") || file.type.length === 0) {
-          new ImageCompressor(file, {
-            quality: 0.95,
-            maxWidth: 700,
-            maxHeight: 700,
-            mimeType: "image/jpeg",
-            success(result) {
-              // Ensure we use the compressed result (Blob/File) for upload so UploadFile's XHR progress works
-              const compressedFile =
-                result instanceof File
-                  ? result
-                  : new File([result], file.name, { type: (result as any).type || "image/jpeg" });
-              const reader = new FileReader();
-              reader.onload = () => {
-                const selectedMedia1 = reader.result as string;
-                const img = new Image();
-                img.onload = async () => {
-                  const width = img.width;
-                  const height = img.height;
-                  if (!checkSpecImage(width, height, compressedFile.size)) return;
-                  if (width / height < 0.8 || width / height > 1.91) {
-                    // Crop the image to the allowed aspect ratio (0.8 - 1.91)
-                    // We'll use a canvas to crop the image in the browser
-                    const allowedMin = 0.8;
-                    const allowedMax = 1.91;
-                    let targetAspect = width / height < allowedMin ? allowedMin : allowedMax;
-                    let newWidth = width;
-                    let newHeight = height;
-
-                    if (width / height < allowedMin) {
-                      // Too tall, crop height
-                      newWidth = width;
-                      newHeight = Math.round(width / allowedMin);
-                    } else if (width / height > allowedMax) {
-                      // Too wide, crop width
-                      newHeight = height;
-                      newWidth = Math.round(height * allowedMax);
-                    }
-
-                    // Calculate cropping start points
-                    const sx = Math.floor((width - newWidth) / 2);
-                    const sy = Math.floor((height - newHeight) / 2);
-
-                    const canvas = document.createElement("canvas");
-                    canvas.width = newWidth;
-                    canvas.height = newHeight;
-                    const ctx = canvas.getContext("2d");
-                    if (ctx) {
-                      ctx.drawImage(img, sx, sy, newWidth, newHeight, 0, 0, newWidth, newHeight);
-                      const croppedDataUrl = canvas.toDataURL("image/jpeg");
-                      // Now upload the cropped image
-                      canvas.toBlob(async (blob) => {
-                        if (!blob) return;
-                        setLoadingUpload(true);
-                        setProgress(0);
-                        const croppedFile = new File([blob], file.name, {
-                          type: "image/jpeg",
-                        });
-                        const res = await UploadFile(session, croppedFile, (progress) => setProgress(progress));
-                        setLoadingUpload(false);
-                        setShowMedias({
-                          mediaUri: null,
-                          error: "",
-                          mediaType: MediaType.Image,
-                          media: selectedMedia1,
-                          cover: "",
-                          mediaUploadId: res ? res.fileName : "",
-                          coverId: "",
-                          coverUri: null,
-                        });
-                      }, "image/jpeg");
-                    }
-                    return;
-                  }
-                  setLoadingUpload(true);
-                  setProgress(0);
-                  const res = await UploadFile(session, compressedFile, (progress) => setProgress(progress));
-                  setLoadingUpload(false);
-                  setShowMedias({
-                    error: "",
-                    mediaType: MediaType.Image,
-                    media: selectedMedia1,
-                    cover: "",
-                    mediaUploadId: res ? res.fileName : "",
-                    coverId: "",
-                    mediaUri: null,
-                    coverUri: null,
-                  });
-                };
-                img.src = selectedMedia1;
-              };
-              reader.readAsDataURL(result);
-            },
-            error(err) {
-              internalNotify(InternalResponseType.NotPermittedMediaType, NotifType.Warning);
-            },
-          });
+          const reader = new FileReader();
+          reader.onload = () => {
+            const selectedMedia1 = reader.result as string;
+            const img = new Image();
+            img.onload = async () => {
+              if (!checkSpecImage(img.width, img.height, file.size)) {
+                setLoadingUpload(false);
+                return;
+              }
+              setProgress(0);
+              const res = await UploadFile(session, file, (progress) => setProgress(progress));
+              setLoadingUpload(false);
+              if (!res.fileName) return;
+              setShowMedias({
+                error: "",
+                mediaType: MediaType.Image,
+                media: selectedMedia1,
+                cover: "",
+                mediaUploadId: res.fileName,
+                coverId: "",
+                mediaUri: null,
+                coverUri: null,
+              });
+            };
+            img.src = selectedMedia1;
+          };
+          reader.readAsDataURL(file);
         } else if (file.type === "video/mp4") {
           // Video files: use FileReader directly without compression
           const reader = new FileReader();
@@ -637,7 +498,6 @@ const CreateStory = () => {
       if (inputReplaceRef.current) {
         inputReplaceRef.current.value = "";
       }
-      setLoadingUpload(false);
     },
     [session, preStoryId],
   );
@@ -737,6 +597,7 @@ const CreateStory = () => {
                   sendPr: draft.automaticReplyInfo.sendPr,
                   replySuccessfullyDirected: draft.automaticReplyInfo.replySuccessfullyDirected,
                   productId: draft.automaticReplyInfo.productId,
+                  customRepliesSuccessfullyDirected: draft.automaticReplyInfo.customRepliesSuccessfullyDirected || [],
                 }
               : {
                   items: [],
@@ -754,6 +615,7 @@ const CreateStory = () => {
                   sendPr: false,
                   replySuccessfullyDirected: false,
                   productId: null,
+                  customRepliesSuccessfullyDirected: [],
                 },
           );
           console.log("mediaType", draft.mediaType);
@@ -835,6 +697,8 @@ const CreateStory = () => {
                   sendPr: preStory.automaticMediaReply.sendPr,
                   replySuccessfullyDirected: preStory.automaticMediaReply.replySuccessfullyDirected,
                   productId: preStory.automaticMediaReply.productId,
+                  customRepliesSuccessfullyDirected:
+                    preStory.automaticMediaReply.customRepliesSuccessfullyDirected || [],
                 }
               : {
                   items: [],
@@ -852,6 +716,7 @@ const CreateStory = () => {
                   sendPr: false,
                   replySuccessfullyDirected: false,
                   productId: null,
+                  customRepliesSuccessfullyDirected: [],
                 },
           );
           setAutomaticPost(true);
@@ -917,13 +782,18 @@ const CreateStory = () => {
     }
   }, [session]);
 
-  const checkSpecImage = useCallback((width: number, height: number, size: number) => {
+  function checkSpecImage(width: number, height: number, size: number) {
     if (size > 8192000) {
       internalNotify(InternalResponseType.ExceedPermittedSizeOfImage, NotifType.Warning);
       return false;
     }
+    // const aspectRatio = width / height;
+    // if (!width || !height || aspectRatio < 0.8 || aspectRatio > 1.91) {
+    //   internalNotify(InternalResponseType.ExceedPermittedAspectRatioStory, NotifType.Warning);
+    //   return false;
+    // }
     return true;
-  }, []);
+  }
 
   const checkSpecVideo = useCallback((width: number, height: number, duration: number, size: number) => {
     const SINGLE_CONSTRAINTS = {
@@ -954,7 +824,12 @@ const CreateStory = () => {
       return false;
     }
     if (!checkDuration(duration, constraints.durationMin, constraints.durationMax)) {
-      internalNotify(InternalResponseType.ExceedPermittedDurationOfVideoStory, NotifType.Warning);
+      internalNotify(
+        duration < constraints.durationMin
+          ? InternalResponseType.BelowMinimumDurationOfVideoStory
+          : InternalResponseType.ExceedPermittedDurationOfVideoStory,
+        NotifType.Warning,
+      );
 
       return false;
     }
@@ -990,6 +865,7 @@ const CreateStory = () => {
       sendCount: 0,
       replySuccessfullyDirected: sendAutoReply.replySuccessfullyDirected,
       productId: sendAutoReply.productId,
+      customRepliesSuccessfullyDirected: sendAutoReply.customRepliesSuccessfullyDirected || [],
     });
     setShowQuickReplyPopup(false);
     if (!QuickReply) setQuickReply(true);
@@ -1003,7 +879,8 @@ const CreateStory = () => {
 
   // Data fetching
   useEffect(() => {
-    if (!isDataLoaded && session && LoginStatus(session) && router.isReady) {
+    const queryKey = `${query.draftId ?? ""}:${query.preStoryId ?? ""}`;
+    if (loadedQueryKey !== queryKey && session && LoginStatus(session) && router.isReady) {
       console.log("Fetching data for Create Story", { draftId: query.draftId, preStoryId: query.preStoryId });
       if (query.draftId !== undefined) {
         handleGetDraftStory(query.draftId as string);
@@ -1012,14 +889,14 @@ const CreateStory = () => {
       }
       GetNextBestTimes();
       getPublishLimitContent();
-      setIsDataLoaded(true);
+      setLoadedQueryKey(queryKey);
     }
   }, [
     session,
     router.isReady,
     query.draftId,
     query.preStoryId,
-    isDataLoaded,
+    loadedQueryKey,
     GetNextBestTimes,
     handleGetDraftStory,
     handleGetPreStory,
@@ -1476,7 +1353,7 @@ const CreateStory = () => {
                           }).format("A")}
                         </div>
                       </div>
-                      {preStoryId < 0 && (
+                      {preStoryId <= 0 && (
                         <div
                           onClick={() => setShowSetDateAndTime(true)}
                           className="saveButton"
@@ -1505,7 +1382,7 @@ const CreateStory = () => {
                       )}
                     </div>
                   </div>
-                  {preStoryId < 0 && (
+                  {preStoryId <= 0 && (
                     <div className={styles.Section}>
                       {recommendedTime.length > 0 && (
                         <div

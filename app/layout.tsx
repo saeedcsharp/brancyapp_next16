@@ -5,6 +5,7 @@ import "brancy/app/globals.scss";
 import Providers from "brancy/app/providers";
 import { ThemeScript } from "brancy/components/themeScript";
 import LocalBusinessJsonLd from "brancy/components/website/LocalBusinessJsonLd";
+import BlogChatFrame from "brancy/components/website/BlogChatFrame";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://www.brancy.app"),
@@ -90,7 +91,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             width="0"
             style={{ display: "none", visibility: "hidden" }}></iframe>
         </noscript>
-        <Providers>{children}</Providers>
+        <Providers>
+          {children}
+          <BlogChatFrame />
+        </Providers>
       </body>
     </html>
   );

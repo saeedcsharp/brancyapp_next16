@@ -1,3 +1,29 @@
+- 2026-09-08: Updated the landing-page first-login check to call `PreInstagramer/CheckUserIsNew`; new users go to `/user/instagramerLogin` and existing users go to `/user`.
+
+- 2026-09-08: Fixed the `/metaRedirect` App Router route by removing the trailing space from its directory name; Next.js now registers the expected URL.
+
+- 2026-09-08: Fixed AI image/video SignalR success handling after an AI page remount by accepting unmatched results and preventing duplicate library entries.
+
+- 2026-09-08: Disabled the AI image/video creation action throughout the pending request and guarded the form submit against duplicate creation events.
+- 2026-09-08: Connected the AI page's media-creation loading state to `MediaCreator`, covering feature validation and the full create-image/create-video request lifecycle.
+
+- 2026-09-08: Portaled the Instagram login invalid-IP modal to `document.body` so it appears above the login popup and its backdrop.
+
+- 2026-09-08: Matched `/user/instagramerLogin` Instagram connection handling with `SwitchAccount` by using the shared invalid-IP modal for Iranian IPs, continuing after confirmation or timeout, and allowing failed IP lookup to proceed.
+
+- 2026-09-08: Switched `InstaProvider` to the stable App Router instance so notification state updates do not invalidate account-refresh dependencies. Re-enabled the navbar notification handler, retaining deauthorization sign-out/navigation and guarding absent sessions. Focused synthetic tests pass; live AI-notification reload verification remains pending.
+
+- Fixed create-post video cover uploads for iPhone HEIC files by converting the selected file to JPEG before validation, preview, and upload. Cover dimensions are preserved, and failed uploads no longer leave the loading state active.
+- Temporarily changed the support control to open only the direct Goftino chat; the blog redirect was removed from the menu.
+
+- Fixed first-load draft/pre-story and draft/pre-post hydration by tracking the loaded query key, so late router query values trigger their API request without a manual reload.
+
+- Added a localized story-video warning for clips shorter than 3 seconds; clips longer than the 60-second maximum keep the existing duration-limit message.
+
+- Fixed create-story scheduling so new stories expose the date/time picker and recommended publish-time buttons, matching create-post instead of always using the default next-day time.
+
+- Fixed create-story image uploads on iOS Safari by uploading the original or HEIC-converted `File` directly, removing dimension-changing compression/cropping, and keeping preview generation separate from upload.
+
 - The AI Flow private-reply follower requirement remains a display-only warning. Saving from the editor or `settingModal` continues through the existing API flow, while the warning visibility reflects the current follower setting and graph state.
 
 - Added a localized AI Flow header warning when an `node_onmessage` connection targets a node with a non-null output while The user must follow the page is disabled; output-less quick-reply nodes do not show the warning.

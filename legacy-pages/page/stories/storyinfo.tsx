@@ -353,6 +353,8 @@ const ShowStory = () => {
               sendCount: contentRes.value.autoReplyCommentInfo.sendCount,
               sendPr: contentRes.value.autoReplyCommentInfo.sendPr,
               productId: contentRes.value.autoReplyCommentInfo.productId,
+              customRepliesSuccessfullyDirected:
+                contentRes.value.autoReplyCommentInfo.customRepliesSuccessfullyDirected || [],
             });
             if (!contentRes.value.autoReplyCommentInfo.pauseTime) setQuickReply(true);
             if (
@@ -1531,6 +1533,7 @@ const ShowStory = () => {
               sendPr: false,
               replySuccessfullyDirected: true,
               productId: null,
+              customRepliesSuccessfullyDirected: [],
             }
           }
         />

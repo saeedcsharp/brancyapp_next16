@@ -2,6 +2,16 @@
 
 ## Known Bugs
 
+The Instagram connection flow previously showed only a warning for Iranian IPs and blocked the redirect when the country code was absent. Fixed on 2026-09-08 by using the shared invalid-IP modal and matching `SwitchAccount`; live browser coverage remains pending.
+
+On 2026-09-08, a notification-only render was confirmed to retrigger `InstaProvider` account checks because its legacy router object changed identity. Using `next/navigation` fixes this dependency defect in a focused synthetic test. Whether this fully resolves the reported AI-notification browser reload remains unverified with live backend events.
+
+The first-load create-story/create-post query hydration bug was fixed on 2026-09-07. Query-backed draft, pre-story, and pre-post data now reloads when router values arrive after the initial render instead of requiring a browser reload.
+
+The iOS Safari create-story image upload issue was fixed on 2026-09-07 by removing the story-only compressor/canvas path and uploading the original `File` directly, matching the working create-post upload flow without changing image dimensions. Automated iOS browser coverage remains unavailable.
+
+The create-post video cover HEIC upload issue was fixed on 2026-09-07 by converting the selected iPhone file to JPEG before validation and upload, and by waiting for the preview image to load before reading dimensions. Automated iOS browser coverage remains unavailable.
+
 MyLink feature-order mapping errors were fixed on 2026-09-01 by safely handling missing backend order items: missing IDs default to `0` and missing active flags default to `false`.
 
 The global browser-compatibility layout issues reported on 2026-08-04 were reduced by standardizing root scrollbars, reserving scrollbar space, replacing vulnerable viewport sizing in shared landing modals, and removing unsupported landing-header anchor positioning. Remaining feature-level overflow rules require browser visual regression coverage before they can be safely migrated in bulk.

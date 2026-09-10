@@ -2973,6 +2973,7 @@ export enum LanguageKey {
   InternalNotify_ExceedPermittedSizeOfVideoStory = "InternalNotify_ExceedPermittedSizeOfVideoStory",
   InternalNotify_ExceedPermittedWidthOfVideo = "InternalNotify_ExceedPermittedWidthOfVideo",
   InternalNotify_ExceedPermittedDurationOfVideoStory = "InternalNotify_ExceedPermittedDurationOfVideoStory",
+  InternalNotify_BelowMinimumDurationOfVideoStory = "InternalNotify_BelowMinimumDurationOfVideoStory",
   InternalNotify_ExceedPermittedSpecificWordForAutoreply = "InternalNotify_ExceedPermittedSpecificWordForAutoreply",
   InternalNotify_ExceedPermittedAspectRatioImage = "InternalNotify_ExceedPermittedAspectRatioImage",
   InternalNotify_Success = "InternalNotify_Success",

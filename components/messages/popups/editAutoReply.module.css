@@ -33,7 +33,7 @@ html[dir="rtl"] .optioncontainer {
   display: flex;
   flex-wrap: wrap;
   gap: var(--gap-10);
-  min-height: 90px;
+  min-height: 0;
   max-height: 120px;
   overflow-y: auto;
   flex-direction: row;

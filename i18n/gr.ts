@@ -3427,6 +3427,7 @@ export default {
     InternalNotify_ExceedPermittedSizeOfVideoStory: "Story-Videogröße überschreitet das erlaubte Limit",
     InternalNotify_ExceedPermittedWidthOfVideo: "Videobreite überschreitet das erlaubte Limit",
     InternalNotify_ExceedPermittedDurationOfVideoStory: "Story-Videodauer überschreitet das erlaubte Limit",
+    InternalNotify_BelowMinimumDurationOfVideoStory: "Das Story-Video muss mindestens 3 Sekunden lang sein",
     InternalNotify_ExceedPermittedSpecificWordForAutoreply:
       "Anzahl der speziellen Wörter für automatische Antwort überschreitet das erlaubte Limit",
     InternalNotify_ExceedPermittedAspectRatioImage: "Seitenverhältnis des Bildes überschreitet das erlaubte Limit",
