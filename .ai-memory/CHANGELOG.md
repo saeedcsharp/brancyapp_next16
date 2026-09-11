@@ -1,5 +1,10 @@
 <<<<<<< HEAD
+
 # Unreleased
+
+- Added image prompt suggestions to the AI media creator, including category filtering, cursor pagination, example-output cards, prompt details, and prompt-body copy support.
+- Moved image prompt suggestion and detail modal ownership to the AI page parent and extracted the long suggestion content into `imagePromptSuggestions.tsx`.
+- Localized the image suggested-prompt controls and detail labels across all eight supported languages.
 
 - Hardened the direct Goftino support iframe with sandbox restrictions and sensitive-device permission denials while retaining origin-only cross-origin referrers. Top navigation and popup sandbox escape are blocked; voice recording is intentionally unavailable.
 - Restored the persistent blog support menu's online-support and blog-entry translations across all eight locale dictionaries.
@@ -35,8 +40,7 @@
 
 - Fixed account switching for Instagramers without an active package by updating only the NextAuth user payload, verifying the returned session, and using full browser navigation to `/upgrade` instead of routing through root and `/home`.
 
-- Fixed the MyLink App Router auth guard so a reload does not redirect to `/upgrade` while NextAuth is still loading a session; subscription and account redirects now run only for an authenticated session.
-=======
+- # Fixed the MyLink App Router auth guard so a reload does not redirect to `/upgrade` while NextAuth is still loading a session; subscription and account redirects now run only for an authenticated session.
 - 2026-09-08: Updated the landing-page first-login check to call `PreInstagramer/CheckUserIsNew`; new users go to `/user/instagramerLogin` and existing users go to `/user`.
 
 - 2026-09-08: Fixed the `/metaRedirect` App Router route by removing the trailing space from its directory name; Next.js now registers the expected URL.
@@ -62,7 +66,8 @@
 - Fixed create-story scheduling so new stories expose the date/time picker and recommended publish-time buttons, matching create-post instead of always using the default next-day time.
 
 - Fixed create-story image uploads on iOS Safari by uploading the original or HEIC-converted `File` directly, removing dimension-changing compression/cropping, and keeping preview generation separate from upload.
->>>>>>> saeed
+
+  > > > > > > > saeed
 
 - The AI Flow private-reply follower requirement remains a display-only warning. Saving from the editor or `settingModal` continues through the existing API flow, while the warning visibility reflects the current follower setting and graph state.
 

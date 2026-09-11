@@ -1,5 +1,15 @@
 export default {
   translation: {
+    aiSuggestedPrompts_title: "Рекомендуемые промпты",
+    aiSuggestedPrompts_explain: "Выберите промпт для начала работы.",
+    aiSuggestedPrompts_category: "Категория промпта",
+    aiSuggestedPrompts_subCategory: "Подкатегория",
+    aiSuggestedPrompts_allCategories: "Все категории",
+    aiSuggestedPrompts_loading: "Загрузка...",
+    aiSuggestedPrompts_empty: "Рекомендуемые промпты не найдены.",
+    aiSuggestedPrompts_loadMore: "Загрузить еще",
+    aiSuggestedPrompts_prompt: "Промпт",
+    aiSuggestedPrompts_copy: "Копировать промпт",
     unpin: "Открепить",
     pin: "Закрепить",
     usethisPrompt: "Использовать в Prompt",

@@ -1,5 +1,15 @@
 export default {
   translation: {
+    aiSuggestedPrompts_title: "پرامپت‌های پیشنهادی",
+    aiSuggestedPrompts_explain: "یک پرامپت را برای شروع انتخاب کنید.",
+    aiSuggestedPrompts_category: "دسته‌بندی پرامپت",
+    aiSuggestedPrompts_subCategory: "زیردسته‌بندی",
+    aiSuggestedPrompts_allCategories: "همه دسته‌بندی‌ها",
+    aiSuggestedPrompts_loading: "در حال بارگذاری...",
+    aiSuggestedPrompts_empty: "پرامپت پیشنهادی یافت نشد.",
+    aiSuggestedPrompts_loadMore: "نمایش بیشتر",
+    aiSuggestedPrompts_prompt: "پرامپت",
+    aiSuggestedPrompts_copy: "کپی پرامپت",
     // #region landing page
     toggleShowAll: "نمایش همه",
     toggleShowmonthly: "نمایش ماهانه",

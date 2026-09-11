@@ -1,5 +1,15 @@
 export default {
   translation: {
+    aiSuggestedPrompts_title: "Prompts suggérés",
+    aiSuggestedPrompts_explain: "Choisissez un prompt pour commencer.",
+    aiSuggestedPrompts_category: "Catégorie du prompt",
+    aiSuggestedPrompts_subCategory: "Sous-catégorie",
+    aiSuggestedPrompts_allCategories: "Toutes les catégories",
+    aiSuggestedPrompts_loading: "Chargement...",
+    aiSuggestedPrompts_empty: "Aucun prompt suggéré trouvé.",
+    aiSuggestedPrompts_loadMore: "Charger plus",
+    aiSuggestedPrompts_prompt: "Prompt",
+    aiSuggestedPrompts_copy: "Copier le prompt",
     // #region landing page
     unpin: "Détacher",
     pin: "Épingler",

@@ -5,6 +5,7 @@ import {
   InternalResponseType,
   NotifType,
   notify,
+  ResponseType,
 } from "brancy/components/notifications/notificationBox";
 import { MethodType, UploadFile } from "brancy/helper/api";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
@@ -24,6 +25,7 @@ import { useTranslation } from "react-i18next";
 import styles from "./mediaCreator.module.css";
 import { t } from "i18next";
 import TextArea from "brancy/components/design/textArea/textArea";
+import ImagePromptSuggestions from "brancy/components/page/ai/imagePromptSuggestions";
 type InputValue = string | number | boolean | string[];
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
 interface UploadedMediaPreview {
@@ -42,6 +44,7 @@ interface MediaCreatorProps {
   createMediaLoading?: boolean;
   setActiveTab: Dispatch<SetStateAction<MediaTab>>;
   activeTab: MediaTab;
+  onOpenImagePrompts?: () => void;
 }
 export interface MediaCreatorSelection {
   creatorKey: string;
@@ -444,6 +447,7 @@ function DynamicInput({
 function serializeInputValue(value: InputValue): string {
   return Array.isArray(value) ? JSON.stringify(value) : String(value ?? "");
 }
+
 export default function MediaCreator({
   setActiveTab,
   creators,
@@ -452,6 +456,7 @@ export default function MediaCreator({
   onCreateMedia,
   createMediaLoading,
   activeTab,
+  onOpenImagePrompts,
 }: MediaCreatorProps) {
   const { data: session } = useSession();
   const { t, i18n } = useTranslation();
@@ -683,6 +688,11 @@ export default function MediaCreator({
             <span className="explain">
               ({prompt.length} / {model.maxPromptLength})
             </span>
+            {!isVideoCreator && onOpenImagePrompts && (
+              <button type="button" className={styles.promptSuggestionButton} onClick={onOpenImagePrompts}>
+                {t("aiSuggestedPrompts_title")}
+              </button>
+            )}
           </span>
           <TextArea
             className="textArea"

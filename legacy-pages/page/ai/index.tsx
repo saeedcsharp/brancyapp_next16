@@ -11,6 +11,7 @@ import Loading from "brancy/components/notOk/loading";
 import ImageList from "brancy/components/page/ai/List_Image";
 import VideoList from "brancy/components/page/ai/List_Video";
 import MediaCreator from "brancy/components/page/ai/mediaCreator";
+import ImagePromptSuggestions, { ImagePromptDetail } from "brancy/components/page/ai/imagePromptSuggestions";
 import { MethodType } from "brancy/helper/api";
 import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
@@ -26,6 +27,7 @@ import {
   IGetImageUsageRequest,
   IGetMedia,
   IGetMedias,
+  IImagePrompt,
   IMediaCreator,
   PendingGeneration,
   PushNotif,
@@ -77,6 +79,8 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
   const pendingGenerationsRef = useRef<PendingGeneration[]>([]);
   const initialLibrary = initialType === "2" ? "video" : "image";
   const [initialLibraryLoading, setInitialLibraryLoading] = useState(true);
+  const [showImagePrompts, setShowImagePrompts] = useState(false);
+  const [selectedImagePrompt, setSelectedImagePrompt] = useState<IImagePrompt | null>(null);
 
   const fetchImages = useCallback(
     async (cursor: string | null): Promise<IGetMedia[]> => {
@@ -434,6 +438,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
             error={error}
             onRetry={activeTab === "video" ? loadVideoCreators : loadCreators}
             onCreateMedia={onCreateMedia}
+            onOpenImagePrompts={() => setShowImagePrompts(true)}
             createMediaLoading={createMediaLoading}
             setActiveTab={setActiveTab}
             activeTab={creatorTab}
@@ -458,6 +463,22 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
           />
         )}
       </main>
+      <Modal closePopup={() => setShowImagePrompts(false)} classNamePopup="popupLarge" showContent={showImagePrompts}>
+        <ImagePromptSuggestions
+          session={session}
+          isOpen={showImagePrompts}
+          onSelect={(imagePrompt) => {
+            setSelectedImagePrompt(imagePrompt);
+            setShowImagePrompts(false);
+          }}
+        />
+      </Modal>
+      <Modal
+        closePopup={() => setSelectedImagePrompt(null)}
+        classNamePopup="popupLarge"
+        showContent={selectedImagePrompt !== null}>
+        {selectedImagePrompt && <ImagePromptDetail prompt={selectedImagePrompt} />}
+      </Modal>
       <Modal closePopup={() => setSelectedImage(null)} classNamePopup="popupLarge" showContent={selectedImage !== null}>
         {selectedImage && <GeneratedImageModal image={selectedImage} onClose={() => setSelectedImage(null)} />}
       </Modal>

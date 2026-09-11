@@ -1,5 +1,15 @@
 export default {
   translation: {
+    aiSuggestedPrompts_title: "Təklif olunan promptlar",
+    aiSuggestedPrompts_explain: "Başlanğıc kimi istifadə etmək üçün prompt seçin.",
+    aiSuggestedPrompts_category: "Prompt kateqoriyası",
+    aiSuggestedPrompts_subCategory: "Alt kateqoriya",
+    aiSuggestedPrompts_allCategories: "Bütün kateqoriyalar",
+    aiSuggestedPrompts_loading: "Yüklənir...",
+    aiSuggestedPrompts_empty: "Təklif olunan prompt tapılmadı.",
+    aiSuggestedPrompts_loadMore: "Daha çox yüklə",
+    aiSuggestedPrompts_prompt: "Prompt",
+    aiSuggestedPrompts_copy: "Promptu kopyala",
     unpin: "Pin-i Ləğv Et",
     pin: "Pin Et",
     usethisPrompt: "Prompt daxilində istifadə et",

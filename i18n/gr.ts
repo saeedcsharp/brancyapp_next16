@@ -1,5 +1,15 @@
 export default {
   translation: {
+    aiSuggestedPrompts_title: "Vorgeschlagene Prompts",
+    aiSuggestedPrompts_explain: "Wählen Sie einen Prompt als Ausgangspunkt.",
+    aiSuggestedPrompts_category: "Prompt-Kategorie",
+    aiSuggestedPrompts_subCategory: "Unterkategorie",
+    aiSuggestedPrompts_allCategories: "Alle Kategorien",
+    aiSuggestedPrompts_loading: "Wird geladen...",
+    aiSuggestedPrompts_empty: "Keine vorgeschlagenen Prompts gefunden.",
+    aiSuggestedPrompts_loadMore: "Mehr laden",
+    aiSuggestedPrompts_prompt: "Prompt",
+    aiSuggestedPrompts_copy: "Prompt kopieren",
     unpin: "Lösen",
     pin: "Anheften",
     usethisPrompt: "Im Prompt verwenden",

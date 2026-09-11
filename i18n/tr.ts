@@ -1,5 +1,15 @@
 export default {
   translation: {
+    aiSuggestedPrompts_title: "Önerilen promptlar",
+    aiSuggestedPrompts_explain: "Başlangıç olarak kullanmak için bir prompt seçin.",
+    aiSuggestedPrompts_category: "Prompt kategorisi",
+    aiSuggestedPrompts_subCategory: "Alt kategori",
+    aiSuggestedPrompts_allCategories: "Tüm kategoriler",
+    aiSuggestedPrompts_loading: "Yükleniyor...",
+    aiSuggestedPrompts_empty: "Önerilen prompt bulunamadı.",
+    aiSuggestedPrompts_loadMore: "Daha fazla yükle",
+    aiSuggestedPrompts_prompt: "Prompt",
+    aiSuggestedPrompts_copy: "Promptu kopyala",
     unpin: "Pini Kaldır",
     pin: "Pinle",
     usethisPrompt: "Prompt içinde kullan",

@@ -19,6 +19,8 @@
 
 Wallet balance history uses `/api/wallet/getBallanceHistory`, mapped directly to `Business/Wallet/GetBallanceHistory`. Its response value contains a `statistics` array of monthly day-count records for `ChartDay`.
 
+Image prompt suggestions use `GET /api/mediaai/getImagePrompts`, mapped to `Instagramer/MediaAi/GetImagePrompts`. The request accepts `nextMaxId` and `categoryId`; the response is `{ items, nextMaxId }` and each item contains prompt name, description, example output URL, category, subcategory, and prompt body.
+
 ## Auth And Headers
 
 Requests include `Authorization`, `instagramerId`, and the incoming `user-agent` headers. `/api/user/*` stays server proxied. Most other mapped endpoints are called directly from the browser using `getClientApiBaseUrl()`.

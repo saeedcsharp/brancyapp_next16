@@ -1,5 +1,15 @@
 export default {
   translation: {
+    aiSuggestedPrompts_title: "المطالبات المقترحة",
+    aiSuggestedPrompts_explain: "اختر مطالبة لاستخدامها كنقطة بداية.",
+    aiSuggestedPrompts_category: "فئة المطالبة",
+    aiSuggestedPrompts_subCategory: "الفئة الفرعية",
+    aiSuggestedPrompts_allCategories: "جميع الفئات",
+    aiSuggestedPrompts_loading: "جارٍ التحميل...",
+    aiSuggestedPrompts_empty: "لم يتم العثور على مطالبات مقترحة.",
+    aiSuggestedPrompts_loadMore: "تحميل المزيد",
+    aiSuggestedPrompts_prompt: "المطالبة",
+    aiSuggestedPrompts_copy: "نسخ المطالبة",
     unpin: "إلغاء التثبيت",
     pin: "تثبيت",
     usethisPrompt: "استخدم في البرومبت",

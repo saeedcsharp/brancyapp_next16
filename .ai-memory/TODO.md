@@ -12,18 +12,23 @@
 
 # TODO
 
+- Review backend-provided image prompt names, descriptions, categories, and prompt bodies for localized response support if multilingual prompt content is required.
+
+- Add component/browser coverage for image prompt suggestions, category filtering, cursor pagination, card selection, prompt-body copying, failed image-prompt requests, and mobile/RTL modal layout when a UI test harness is introduced.
+
 <<<<<<< HEAD
+
 - Verify direct Goftino sandbox compatibility in production: chat loading, session persistence, sending text/files, attachment downloads, and sandboxed links across supported browsers. Do not send real support messages during automated checks; microphone recording is intentionally denied.
 - Audit all embedded providers before enforcing a global `frame-src` CSP. Obtain reviewed multilingual privacy disclosure for Goftino's processing of visitor information and chat content.
 
-- Add component/browser coverage for authenticated Instagramer route guards, including NextAuth loading, expired packages, `currentIndex === -1`, home login-provider exceptions, influencer restrictions, internal redirects, Suspense/query routes, intercepted modals, and confirmation that legacy pages do not mount during redirects.
-=======
+- # Add component/browser coverage for authenticated Instagramer route guards, including NextAuth loading, expired packages, `currentIndex === -1`, home login-provider exceptions, influencer restrictions, internal redirects, Suspense/query routes, intercepted modals, and confirmation that legacy pages do not mount during redirects.
 - Add a route smoke check for the public `/metaRedirect` path so accidental whitespace in App Router directory names is detected before development.
 
 - Add iOS Safari browser coverage for create-story image selection, direct `File` upload, HEIC conversion, upload progress, and preservation of the selected image dimensions when a UI test harness is introduced.
 
 - Add iOS Safari browser coverage for create-post video cover selection, HEIC-to-JPEG conversion, dimension validation, upload progress, failed-upload cleanup, and preservation of the selected image dimensions when a UI test harness is introduced.
->>>>>>> saeed
+
+  > > > > > > > saeed
 
 - Add component coverage for the quick-reply comment-permission state, including localized text, SVG rendering, redirect action, and authorized editor rendering when a UI test harness is introduced.
 - Add component coverage confirming the auto-reply keyword input remains invalid while `specificKeywordsList` is empty, including when a draft keyword is typed.
