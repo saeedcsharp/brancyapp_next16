@@ -16,6 +16,24 @@
   max-height: 100%;
   opacity: 1;
 }
+.partnerEmptyState {
+  display: flex;
+  flex: 1;
+  min-height: 150px;
+  padding: var(--padding-10);
+  align-items: center;
+  justify-content: center;
+  gap: var(--gap-10);
+  flex-direction: column;
+  color: var(--text-h2);
+  text-align: center;
+}
+.partnerEmptyState img {
+  width: 56px;
+  height: 56px;
+  object-fit: contain;
+  opacity: 0.65;
+}
 .partnercard {
   display: flex;
   padding: var(--padding-10);

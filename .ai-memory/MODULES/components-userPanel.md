@@ -136,6 +136,8 @@ Parent module: `components`.
 
 No confirmed module-specific issue recorded at initialization.
 
+The partner settings list displays a centered localized `noresult` message above a `56x56` `/no-data.svg` illustration, matching the shared empty-state size, when the loaded partner array is empty.
+
 ## Technical Debt
 
 Needs deeper per-feature enrichment during future work.

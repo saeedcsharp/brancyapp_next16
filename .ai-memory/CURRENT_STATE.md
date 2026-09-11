@@ -2,6 +2,8 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+The user-panel partner settings list now renders a centered localized `noresult` message above a `56x56` `/no-data.svg` illustration, matching the shared empty-state size.
+
 <<<<<<< HEAD
 The persistent blog support menu translation keys `support_Online` and `support_EnterBlog` are restored in the enum and all eight locale dictionaries.
 

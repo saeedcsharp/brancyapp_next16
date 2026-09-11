@@ -2,6 +2,8 @@
 
 # Unreleased
 
+- Added a centered partner-list empty state matching the shared `EmptyPopupState` `/no-data.svg` illustration size, with the localized `noresult` message above it.
+
 - Added image prompt suggestions to the AI media creator, including category filtering, cursor pagination, example-output cards, prompt details, and prompt-body copy support.
 - Moved image prompt suggestion and detail modal ownership to the AI page parent and extracted the long suggestion content into `imagePromptSuggestions.tsx`.
 - Localized the image suggested-prompt controls and detail labels across all eight supported languages.
