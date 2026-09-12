@@ -1,11 +1,11 @@
 import RingLoader from "brancy/components/design/loader/ringLoder";
+import TextArea from "brancy/components/design/textArea/textArea";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import {
   internalNotify,
   InternalResponseType,
   NotifType,
   notify,
-  ResponseType,
 } from "brancy/components/notifications/notificationBox";
 import { MethodType, UploadFile } from "brancy/helper/api";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
@@ -18,14 +18,12 @@ import {
   IMediaCreatorModel,
   IPsgFeatureInfo,
 } from "brancy/models/interfaces";
+import { t } from "i18next";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import { ChangeEvent, CSSProperties, Dispatch, PointerEvent, SetStateAction, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./mediaCreator.module.css";
-import { t } from "i18next";
-import TextArea from "brancy/components/design/textArea/textArea";
-import ImagePromptSuggestions from "brancy/components/page/ai/imagePromptSuggestions";
 type InputValue = string | number | boolean | string[];
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
 interface UploadedMediaPreview {

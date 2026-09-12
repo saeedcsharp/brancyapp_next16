@@ -1,3 +1,5 @@
+- Add component coverage for image prompt category loading, category selection resetting prompt pagination, and forwarding the selected category ID to `GetImagePrompts` when a UI test harness is introduced.
+
 - Verify live AI image/video notifications on multiple authenticated routes after the provider router fix: no document reload, no notification-triggered account request, and notifications remain visible. Add durable React/browser regression coverage for unchanged session state after the 20-second account-check threshold and near token expiry; current validation uses synthetic hook/handler harnesses.
 
 - Add component coverage for the AI Flow private-reply warning and `settingModal` Save flow, including output-bearing and output-less `node_onmessage` targets, more-than-three-node validation, follower-setting changes immediately before Save, localized Tooltip text, and confirmation that Save still sends the request when the warning is visible when a UI test harness is introduced.
@@ -12,31 +14,17 @@
 
 # TODO
 
-- Review backend-provided image prompt names, descriptions, categories, and prompt bodies for localized response support if multilingual prompt content is required.
+- Add component/browser coverage for switching between multiple Instagramer accounts when one account is inactive or has an expired package, confirming `/upgrade` is reached through middleware without logout or an intermediate `/home` redirect.
 
-- Add component/browser coverage for image prompt suggestions, category filtering, cursor pagination, card selection, prompt-body copying, failed image-prompt requests, and mobile/RTL modal layout when a UI test harness is introduced.
-
-<<<<<<< HEAD
-
-- Verify direct Goftino sandbox compatibility in production: chat loading, session persistence, sending text/files, attachment downloads, and sandboxed links across supported browsers. Do not send real support messages during automated checks; microphone recording is intentionally denied.
-- Audit all embedded providers before enforcing a global `frame-src` CSP. Obtain reviewed multilingual privacy disclosure for Goftino's processing of visitor information and chat content.
-
-- # Add component/browser coverage for authenticated Instagramer route guards, including NextAuth loading, expired packages, `currentIndex === -1`, home login-provider exceptions, influencer restrictions, internal redirects, Suspense/query routes, intercepted modals, and confirmation that legacy pages do not mount during redirects.
 - Add a route smoke check for the public `/metaRedirect` path so accidental whitespace in App Router directory names is detected before development.
 
 - Add iOS Safari browser coverage for create-story image selection, direct `File` upload, HEIC conversion, upload progress, and preservation of the selected image dimensions when a UI test harness is introduced.
 
 - Add iOS Safari browser coverage for create-post video cover selection, HEIC-to-JPEG conversion, dimension validation, upload progress, failed-upload cleanup, and preservation of the selected image dimensions when a UI test harness is introduced.
 
-  > > > > > > > saeed
-
 - Add component coverage for the quick-reply comment-permission state, including localized text, SVG rendering, redirect action, and authorized editor rendering when a UI test harness is introduced.
 - Add component coverage confirming the auto-reply keyword input remains invalid while `specificKeywordsList` is empty, including when a draft keyword is typed.
-- Add component coverage confirming media successful-reply input/tags stay hidden until `replySuccessfullyDirected` is enabled and render directly below its checkbox when enabled.
-- Add browser coverage confirming the media successful-reply tag list does not reserve empty height and expands only with added replies.
-- Add component coverage confirming the general auto-reply editor matches the media editor across `AllMedia`, `Feed`, and `Reels`, while hiding reply-method controls for other media types.
 - Add component coverage for media auto-reply message-permission states across direct response, Flow, Product, and Connect Product modes, including same-comment availability and invalid-IP redirect behavior when a UI test harness is introduced.
-- Add component coverage confirming the message Properties page skips all settings requests, including `GetGeneralAutoReplies`, when `messagePermission` is false and renders `NotPermission` without signing out.
 - Add component coverage confirming DirectInbox delays SignalR audio insertion by one second while non-audio messages are inserted immediately when a UI test harness is introduced.
 
 - Add component coverage confirming product-detail setting inputs render gram, CM, and envelope quantity labels through the shared `InputBox.unit` slot in both instance and non-instance editors when a UI test harness is introduced.

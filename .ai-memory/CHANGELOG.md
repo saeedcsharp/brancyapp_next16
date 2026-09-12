@@ -1,48 +1,7 @@
-<<<<<<< HEAD
+- 2026-09-12: Image prompt suggestions now load category options from `Instagramer/MediaAi/GetImagePromptCategories`; selecting a category reloads `GetImagePrompts` with that category ID while retaining cursor pagination.
 
-# Unreleased
+- 2026-09-11: Fixed the mixed-account package redirect bypass: selected Instagramer accounts with missing or expired packages now reach `/upgrade` even when both `loginByFb` and `loginByInsta` are false. Removed full JWT logging from middleware.
 
-- Added a centered partner-list empty state matching the shared `EmptyPopupState` `/no-data.svg` illustration size, with the localized `noresult` message above it.
-
-- Added image prompt suggestions to the AI media creator, including category filtering, cursor pagination, example-output cards, prompt details, and prompt-body copy support.
-- Moved image prompt suggestion and detail modal ownership to the AI page parent and extracted the long suggestion content into `imagePromptSuggestions.tsx`.
-- Localized the image suggested-prompt controls and detail labels across all eight supported languages.
-
-- Hardened the direct Goftino support iframe with sandbox restrictions and sensitive-device permission denials while retaining origin-only cross-origin referrers. Top navigation and popup sandbox escape are blocked; voice recording is intentionally unavailable.
-- Restored the persistent blog support menu's online-support and blog-entry translations across all eight locale dictionaries.
-- Fixed production module resolution for `brancy/i18n` by adding explicit aliases for the root i18n module and locale subpaths; `npm run build` now completes successfully.
-
-- Moved the confirmed whole-page permission checks into App Router wrappers for message Direct, Comments, AI and Flow, Properties, and page Statistics. Feature-level permission checks in post, story, home, and tools pages remain local to their relevant sections.
-
-- Added pre-mount `publishPermission` guards to the Post and Story creation App Router wrappers, preventing unauthorized draft and publish-limit requests that could return 401 and trigger sign-out while the content permission state was visible.
-
-- Prevented the message Properties page from fetching message settings when `messagePermission` is false, avoiding an unauthorized `GetGeneralAutoReplies` response that previously signed Instagram logins out to `/` while the permission dialog was visible.
-
-- Localized the persistent support menu's blog and online-support labels across all eight supported languages, including its chat title and accessibility labels.
-
-- Aligned the general auto-reply editor with the media editor for `AllMedia`, `Feed`, and `Reels`, including AI Direct response and the shared conditional three-reply editor for Custom, AI, and Flow.
-
-- Removed the empty reserved height from media auto-reply successful-reply tags so the must-follow option stays directly below the editor and spacing grows only when replies are added.
-
-- Updated the media auto-reply successful-reply editor to remove its duplicate confirmation title and show the input/tags directly below the checkbox only when `replySuccessfullyDirected` is enabled.
-
-- Added the confirmation-message checkbox and configurable confirmation replies to general auto-reply Connect Product mode for AllMedia, Feed, and Reels only.
-
-- Changed media auto-reply Flow and Connect Product controls to use the confirmation-message checkbox, with no Direct reply option and `sendPr: false` preserved in their payloads.
-
-- Added a persistent support logo with blog redirect and online-support actions. The embedded support view now loads the blog homepage without sandbox restrictions so WordPress and Goftino scripts can execute normally.
-
-- Removed duplicate route-level `packageStatus` redirects from the reviewed legacy posts, statistics, tools, story creation, settings, store, and wallet pages. Preserved `currentIndex`, `RoleAccess`, shopper checks, session rendering, and fetch logic; corrected the posts authentication-effect dependencies. Deferred home, story index/detail, market, message, and Instagramer navbar usages.
-
-- Centralized authentication for all protected App Router routes in `middleware.ts`. Added `/customershop/:path*` and `/user/:path*` matchers, kept public routes out of the matcher, redirected missing tokens to `/`, limited `currentIndex` and package-expiry checks to Instagramer paths, and removed all route-level `onUnauthenticated` callbacks from `app/**`.
-
-- Centralized Instagramer authentication and package-expiry enforcement in the Node-runtime middleware. Removed `packageStatus` imports and checks from all `app/(instagramer)/**/page.tsx` wrappers while preserving route-specific role, account, query, Suspense, and navigation behavior. Middleware now reads the Docker JWT secret from `/run/secrets/brancyapp_jwt_token` with `NEXTAUTH_SECRET` fallback and no hard-coded secret.
-
-- Fixed the `/home` route redirect regression by removing the duplicate client-side Instagram/Facebook redirect after package access was centralized in middleware.
-
-- Fixed account switching for Instagramers without an active package by updating only the NextAuth user payload, verifying the returned session, and using full browser navigation to `/upgrade` instead of routing through root and `/home`.
-
-- # Fixed the MyLink App Router auth guard so a reload does not redirect to `/upgrade` while NextAuth is still loading a session; subscription and account redirects now run only for an authenticated session.
 - 2026-09-08: Updated the landing-page first-login check to call `PreInstagramer/CheckUserIsNew`; new users go to `/user/instagramerLogin` and existing users go to `/user`.
 
 - 2026-09-08: Fixed the `/metaRedirect` App Router route by removing the trailing space from its directory name; Next.js now registers the expected URL.
@@ -68,8 +27,6 @@
 - Fixed create-story scheduling so new stories expose the date/time picker and recommended publish-time buttons, matching create-post instead of always using the default next-day time.
 
 - Fixed create-story image uploads on iOS Safari by uploading the original or HEIC-converted `File` directly, removing dimension-changing compression/cropping, and keeping preview generation separate from upload.
-
-  > > > > > > > saeed
 
 - The AI Flow private-reply follower requirement remains a display-only warning. Saving from the editor or `settingModal` continues through the existing API flow, while the warning visibility reflects the current follower setting and graph state.
 
@@ -231,12 +188,6 @@
 - Fixed brush line chart hydration mismatches by using an explicit `en-US` locale for count labels rendered in SVG axes and tooltips.
 
 # Changelog
-
-# Changelog
-
-- Removed `required: true` from all App Router `useSession` calls. Session and status checks remain in place, while middleware continues to enforce protected-route authentication without NextAuth's logout-time `SessionRequired` redirect.
-
-- Fixed reload-time authentication/package redirects across Instagramer App Router wrappers. Every package-gated route now waits for an authenticated NextAuth session, performs redirects in effects, and prevents legacy page mounting while loading or redirecting; home, account selection, influencer, store/message redirects, AI query handling, Suspense, and intercepted routes retain their existing behavior.
 
 - Prevented the Instagramer sidebar and navbar from flashing while the required NextAuth session is loading or redirecting an unauthenticated user.
 

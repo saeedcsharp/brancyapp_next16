@@ -2,17 +2,8 @@
 
 ## Known Bugs
 
-<<<<<<< HEAD
-The logout redirect regression was fixed on 2026-09-03. App Router wrappers no longer pass `required: true` to `useSession`, so NextAuth does not redirect a logged-out browser to `/api/auth/signin?error=SessionRequired`; protected access remains enforced by middleware.
+The mixed-account package redirect bypass was fixed on 2026-09-11. Middleware previously required `loginByFb || loginByInsta`, so a selected account with both flags false could bypass `/upgrade`; package enforcement now uses the selected `currentIndex` and expiry. Full-token middleware logging was removed as part of the fix.
 
-The Instagramer App Router reload guard issue was fixed on 2026-09-03 across all `app/**` routes using `helper/loadingStatus.packageStatus`. Package checks and redirects now wait for `status === "authenticated"` and a valid session, redirects run in effects, and legacy page components do not mount during loading or redirect. Route-specific account, influencer, query, Suspense, and intercepted-modal behavior remains intact.
-
-The `/home` upgrade redirect regression was fixed on 2026-09-03. The route wrapper had retained an unconditional Instagram/Facebook redirect after package checks moved to middleware; the duplicate redirect was removed so middleware remains the only package-access guard.
-
-The no-package account-switch logout/redirect issue was fixed on 2026-09-03. Account switching now updates only the user payload, verifies that NextAuth returned a session, and uses a full browser navigation to `/upgrade` for an account without an active package, avoiding client-navigation races while the updated JWT cookie is settling.
-
-The MyLink reload redirect bug was fixed on 2026-09-03. Its App Router wrapper previously treated the initial `null` NextAuth session as an expired package and redirected to `/upgrade`; it now waits for `status === "authenticated"` before evaluating package or account access.
-=======
 The Instagram connection flow previously showed only a warning for Iranian IPs and blocked the redirect when the country code was absent. Fixed on 2026-09-08 by using the shared invalid-IP modal and matching `SwitchAccount`; live browser coverage remains pending.
 
 On 2026-09-08, a notification-only render was confirmed to retrigger `InstaProvider` account checks because its legacy router object changed identity. Using `next/navigation` fixes this dependency defect in a focused synthetic test. Whether this fully resolves the reported AI-notification browser reload remains unverified with live backend events.
@@ -22,7 +13,6 @@ The first-load create-story/create-post query hydration bug was fixed on 2026-09
 The iOS Safari create-story image upload issue was fixed on 2026-09-07 by removing the story-only compressor/canvas path and uploading the original `File` directly, matching the working create-post upload flow without changing image dimensions. Automated iOS browser coverage remains unavailable.
 
 The create-post video cover HEIC upload issue was fixed on 2026-09-07 by converting the selected iPhone file to JPEG before validation and upload, and by waiting for the preview image to load before reading dimensions. Automated iOS browser coverage remains unavailable.
->>>>>>> saeed
 
 MyLink feature-order mapping errors were fixed on 2026-09-01 by safely handling missing backend order items: missing IDs default to `0` and missing active flags default to `false`.
 

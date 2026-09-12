@@ -524,6 +524,7 @@ export interface IGetImagePrompts {
   items: IImagePrompt[];
   nextMaxId: string | null;
 }
+export type IGetImagePromptCategories = IImagePromptCategory[];
 export interface IMediaCreatorModel {
   name: string;
   displayName?: string;

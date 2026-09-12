@@ -1,7 +1,5 @@
 # Authentication
 
-Reviewed legacy Instagramer pages no longer perform duplicate route-level package redirects; their session, `currentIndex`, role-access, shopper, rendering, and fetch checks remain. Deferred package-related usages: `legacy-pages/home/index.tsx`, `legacy-pages/page/stories/index.tsx`, `legacy-pages/page/stories/storyinfo.tsx`, `legacy-pages/market/*`, `legacy-pages/message/*`, and `components/navbar/instagramerNavbar/navbarHeader.tsx`.
-
 Authentication uses NextAuth in `app/api/auth/[...nextauth]/route.ts` with JWT sessions.
 
 ## Providers
@@ -16,15 +14,13 @@ Authentication uses NextAuth in `app/api/auth/[...nextauth]/route.ts` with JWT s
 
 ## Secret Handling
 
-The auth route and Instagramer middleware use `/run/secrets/brancyapp_jwt_token` when available, then `NEXTAUTH_SECRET`, and finally the existing development fallback. Middleware runs in the Node.js runtime so it can read the Docker secret file while processing requests.
+The auth route tries `/run/secrets/brancyapp_jwt_token`, then `NEXTAUTH_SECRET`, then a fallback string. Prefer real secrets in deployment and avoid documenting secret values.
 
-## Route Enforcement
+## Protected Route Enforcement
 
-The root `middleware.ts` is the single source of truth for authentication on all protected App Router routes. It protects Instagramer paths (`/advertise`, `/customerads`, `/home`, `/market`, `/message`, `/page`, `/search`, `/setting`, `/store`, and `/wallet`) plus `/customershop/:path*` and `/user/:path*`; missing tokens redirect to `/`.
+The Node-runtime `middleware.ts` is the source of truth for protected App Router routes. Instagramer routes redirect to `/user` when no account is selected (`currentIndex === -1`) and redirect to `/upgrade` when a selected account (`currentIndex >= 0`) has a missing or expired package. Package enforcement does not depend on `loginByFb` or `loginByInsta`, since either flag can be false for a selected account.
 
-Only Instagramer paths apply selected-account (`currentIndex`) and package-expiry redirects. A package redirect applies when the expiry is missing/expired and the selected account is logged in through Facebook or Instagram (`loginByFb || loginByInsta`). User paths perform authentication only, so `/user` can safely handle `currentIndex === -1` without a middleware loop. Public paths such as `/`, `/upgrade`, `/directlogin`, and `/googleoauth` are not matched. App Router page wrappers may wait for the client session or preserve route-specific role/account/query behavior, but they do not duplicate authentication callbacks or `packageStatus` checks.
-
-App Router wrappers and legacy page implementations call `useSession()` without `required: true` or `onUnauthenticated`. This prevents NextAuth from redirecting a user who has just logged out to `/api/auth/signin?error=SessionRequired`; wrappers and legacy pages retain their existing `session`, account, role, and permission checks, while middleware remains responsible for unauthenticated route access and package expiry.
+Middleware must not log the complete JWT or access token.
 
 ---
 

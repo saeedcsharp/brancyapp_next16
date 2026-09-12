@@ -8,20 +8,21 @@ import {
   notify,
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
-import { IImagePrompt, IGetImagePrompts } from "brancy/models/interfaces";
+import {
+  IGetImagePromptCategories,
+  IImagePrompt,
+  IGetImagePrompts,
+  IImagePromptCategory,
+} from "brancy/models/interfaces";
 import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import Loading from "brancy/components/notOk/loading";
 import styles from "./mediaCreator.module.css";
 
 function promptValue(value: string | { name?: string; title?: string } | null | undefined): string {
   if (!value) return "";
   return typeof value === "string" ? value : value.name || value.title || "";
-}
-
-function promptCategoryId(value: string | { id?: number | string } | null | undefined): string {
-  if (!value) return "";
-  return typeof value === "string" ? value : value.id?.toString() || "";
 }
 
 export interface ImagePromptSuggestionsProps {
@@ -77,20 +78,27 @@ export function ImagePromptDetail({ prompt }: { prompt: IImagePrompt }) {
 export default function ImagePromptSuggestions({ session, isOpen, onSelect }: ImagePromptSuggestionsProps) {
   const { t } = useTranslation();
   const [prompts, setPrompts] = useState<IImagePrompt[]>([]);
+  const [categories, setCategories] = useState<IImagePromptCategory[]>([]);
   const [nextMaxId, setNextMaxId] = useState<string | null>(null);
   const [categoryId, setCategoryId] = useState("");
   const [loading, setLoading] = useState(false);
-  const categories = Array.from(
-    new Map(
-      prompts
-        .map((item) => {
-          const name = promptValue(item.category);
-          const id = promptCategoryId(item.category) || name;
-          return name ? ([id, { id, name }] as const) : null;
-        })
-        .filter((item): item is readonly [string, { id: string; name: string }] => item !== null),
-    ).values(),
-  );
+  const [categoriesLoading, setCategoriesLoading] = useState(false);
+  const isLoading = loading || categoriesLoading;
+
+  const loadCategories = async () => {
+    if (!session) return;
+    setCategoriesLoading(true);
+    const response = await clientFetchApi<null, IGetImagePromptCategories>("/api/mediaai/GetImagePromptCategories", {
+      session,
+      methodType: MethodType.get,
+    });
+    setCategoriesLoading(false);
+    if (!response.succeeded) {
+      notify(response.info?.responseType ?? ResponseType.Unexpected, NotifType.Error, response.errorMessage);
+      return;
+    }
+    setCategories(response.value ?? []);
+  };
 
   const loadPrompts = async (cursor: string | null = null, selectedCategory = categoryId) => {
     if (!session) return;
@@ -113,7 +121,10 @@ export default function ImagePromptSuggestions({ session, isOpen, onSelect }: Im
   };
 
   useEffect(() => {
-    if (isOpen && !prompts.length) loadPrompts();
+    if (isOpen) {
+      if (!categories.length && !categoriesLoading) loadCategories();
+      if (!prompts.length) loadPrompts();
+    }
   }, [isOpen, session]);
 
   const chooseCategory = (value: string) => {
@@ -140,10 +151,8 @@ export default function ImagePromptSuggestions({ session, isOpen, onSelect }: Im
           ))}
         </select>
       </header>
-      {loading && !prompts.length ? (
-        <div className={styles.promptSuggestionsState}>{t("aiSuggestedPrompts_loading")}</div>
-      ) : null}
-      {!loading && !prompts.length ? (
+      {isLoading ? <Loading /> : null}
+      {!isLoading && !prompts.length ? (
         <div className={styles.promptSuggestionsState}>{t("aiSuggestedPrompts_empty")}</div>
       ) : null}
       <div className={styles.promptSuggestionGrid}>
@@ -166,7 +175,11 @@ export default function ImagePromptSuggestions({ session, isOpen, onSelect }: Im
         ))}
       </div>
       {nextMaxId && (
-        <button type="button" className="cancelButton" disabled={loading} onClick={() => loadPrompts(nextMaxId)}>
+        <button
+          type="button"
+          className="cancelButton"
+          disabled={loading}
+          onClick={() => loadPrompts(nextMaxId, categoryId)}>
           {t("aiSuggestedPrompts_loadMore")}
         </button>
       )}
