@@ -1734,9 +1734,9 @@ export default {
     unreadcomment: "Ungelesene Kommentare",
     hiddencommenttooltip:
       "Dieser Kommentar wurde ausgeblendet. Nur Administratoren können ausgeblendete Kommentare sehen.",
-    vanishmode: "Verschwinde-Modus",
+    vanishmode: "Verborgener Modus",
     vanishmodeexplain:
-      "Nachrichten, die im Verschwinde-Modus gesendet werden, verschwinden automatisch nach dem Lesen.",
+      "Im verborgenen Modus werden Nachrichten, die unbeantwortet geblieben und weder ignoriert noch ausgeblendet wurden, angezeigt.",
     totalcomments: "Gesamtanzahl Kommentare",
     unansweredcomments: "Unbeantwortete Kommentare",
     totalcommenters: "Gesamtanzahl Kommentatoren",

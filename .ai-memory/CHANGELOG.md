@@ -1,3 +1,5 @@
+- 2026-09-12: Updated `vanishmode` and `vanishmodeexplain` across all eight locales to describe Hidden Mode as showing unanswered messages that were not ignored or hidden.
+
 - 2026-09-12: Image prompt suggestions now load category options from `Instagramer/MediaAi/GetImagePromptCategories`; selecting a category reloads `GetImagePrompts` with that category ID while retaining cursor pagination.
 
 - 2026-09-11: Fixed the mixed-account package redirect bypass: selected Instagramer accounts with missing or expired packages now reach `/upgrade` even when both `loginByFb` and `loginByInsta` are false. Removed full JWT logging from middleware.

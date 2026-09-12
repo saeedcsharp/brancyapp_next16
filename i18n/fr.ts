@@ -1750,8 +1750,9 @@ export default {
     unreadcomment: "Commentaires non lus",
     hiddencommenttooltip:
       "Ce commentaire a été masqué de l'affichage. Seuls les administrateurs peuvent voir les commentaires masqués.",
-    vanishmode: "Mode Disparition",
-    vanishmodeexplain: "Les messages envoyés en mode éphémère disparaîtront automatiquement après avoir été lus.",
+    vanishmode: "Mode masqué",
+    vanishmodeexplain:
+      "En mode masqué, les messages restés sans réponse et qui n’ont été ni ignorés ni masqués seront affichés.",
     totalcomments: "Commentaires Totaux",
     unansweredcomments: "Commentaires Non Répondu",
     totalcommenters: "Total des Commentateurs",
