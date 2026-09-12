@@ -1,3 +1,5 @@
+- 2026-09-12: Updated `vanishmode` and `vanishmodeexplain` across all eight locales to describe Hidden Mode as restoring unanswered messages that were not ignored or hidden.
+
 - 2026-09-08: Updated the landing-page first-login check to call `PreInstagramer/CheckUserIsNew`; new users go to `/user/instagramerLogin` and existing users go to `/user`.
 
 - 2026-09-08: Fixed the `/metaRedirect` App Router route by removing the trailing space from its directory name; Next.js now registers the expected URL.
