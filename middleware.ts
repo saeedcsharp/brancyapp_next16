@@ -33,7 +33,7 @@ export async function middleware(request: NextRequest) {
     "/store",
     "/wallet",
   ].some((path) => request.nextUrl.pathname === path || request.nextUrl.pathname.startsWith(`${path}/`));
-
+  console.log("tokennnnnnnn ", token);
   if (!isInstagramerRoute) {
     return NextResponse.next();
   }
