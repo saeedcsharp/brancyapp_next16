@@ -26,7 +26,11 @@ Execution starts from imports, route rendering, or helper calls depending on the
 
 ## Data Flow
 
+The root provider revalidates selected-account session data on each client pathname transition, not only document reloads. The destination gate opens only for that navigation's persisted response; late responses from a previous navigation cannot mount the destination or trigger its package redirect.
+
 Data enters through props, Next route params, session state, browser state, or backend API responses.
+
+Above the route group, `InstaProvider` now withholds dashboard client children until selected-account `GetInfo` and NextAuth `update()` complete. This prevents the group layout, navigation components, pages, and their effects from mounting against stale initial session data. Expired accounts remain gated until upgrade navigation completes; initialization failures expose reload retry. Middleware still executes before this client gate.
 
 ## Dependencies
 

@@ -1,3 +1,11 @@
+- Verify forced 401 sign-out on the deployed public domain for both direct and user-proxy API requests: the auth cookie is cleared and navigation remains on the public origin. Confirm deployment `NEXTAUTH_URL` uses the public authentication origin; local synthetic tests cover a deliberately incorrect localhost response URL.
+
+- Verify account refresh and gated mounting on client pathname changes in an authenticated browser, including rapid Back/Forward navigation, transitions during pending requests, and expiry redirects. Synthetic route-transition checks pass; query/hash-only refresh is not implemented.
+
+- Verify the dashboard initialization barrier in an authenticated browser with delayed `GetInfo` and delayed NextAuth persistence: no navbar/sidebar/page effects before readiness, no expired-dashboard flash before upgrade, account-switch reinitialization, and offline retry. Synthetic deferred-promise checks pass; middleware still evaluates the incoming cookie before the client gate.
+
+- Verify authenticated rapid reloads (under 20 seconds), token renewal followed by account/title fetch, and backend package expiry changes leading to `/upgrade` after session persistence. Add durable React/browser coverage when a UI test harness is introduced; current checks use a synthetic provider harness.
+
 - Add component coverage for image prompt category loading, category selection resetting prompt pagination, and forwarding the selected category ID to `GetImagePrompts` when a UI test harness is introduced.
 
 - Verify live AI image/video notifications on multiple authenticated routes after the provider router fix: no document reload, no notification-triggered account request, and notifications remain visible. Add durable React/browser regression coverage for unchanged session state after the 20-second account-check threshold and near token expiry; current validation uses synthetic hook/handler harnesses.

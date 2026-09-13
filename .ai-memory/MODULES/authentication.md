@@ -114,7 +114,13 @@ No local database objects were discovered. Data persists through external backen
 
 ## State Management
 
+The provider's account request and ready state are now keyed by navigation identity as well as account. Every pathname transition revalidates selected-account session data before gated client children mount, including rapid navigation and returning to a previous pathname. In-flight requests serialize, and the latest pending navigation is retried when the request lock is released.
+
 Mostly React local state, context, NextAuth session, or external state from backend APIs.
+
+The account provider now uses a mount-local timestamp to force the first selected-account fetch after each reload independently of persisted session freshness. Token refresh returns the updated NextAuth session for the follow-up account/title request. Account package expiry redirects run after `update()` completes on protected Instagramer routes. See `context.md` for the request guard and throttling contract.
+
+Dashboard and upgrade client children wait for selected-account initialization and persisted session readiness in `InstaProvider`. Failures keep stale children unmounted and expose retry; expired protected accounts stay behind the loader during upgrade navigation. Middleware still runs earlier using its existing JWT cookie.
 
 ## External Integrations
 
@@ -123,6 +129,8 @@ External services are accessed through Brancy backend APIs unless this module do
 ## Security
 
 Do not expose tokens, secrets, or user data. Follow auth and redirect rules.
+
+The API client's forced-401 logout disables NextAuth automatic navigation and, after logout resolves, uses `window.location.replace("/")`. Production logout therefore stays on the active public origin even if NextAuth returns a localhost URL. Deployment `NEXTAUTH_URL` should still match the public authentication origin for other NextAuth flows; this change does not alter deployment configuration.
 
 ## Permission Rules
 

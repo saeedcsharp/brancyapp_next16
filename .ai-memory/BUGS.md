@@ -2,6 +2,14 @@
 
 ## Known Bugs
 
+Forced API sign-out following a localhost callback was fixed on 2026-09-13 by disabling automatic NextAuth redirects in both 401 handlers and navigating to the current origin root only after sign-out completes. Ten synthetic direct/proxy cases pass, including NextAuth returning localhost. Production configuration and live cookie/navigation verification remain deployment checks.
+
+Missing account refresh on client navigation was fixed on 2026-09-13 by observing individual pathname transitions and bypassing same-navigation throttling. Navigation-scoped readiness prevents stale responses from opening the destination gate, and request completion resumes pending route checks. Synthetic navigation tests pass; live verification is pending.
+
+Dashboard client components mounting before the initial account session update was fixed on 2026-09-13. `InstaProvider` now withholds protected/upgrade children until successful selected-account initialization and persistence, keeps expired dashboards blocked during redirect, and exposes retry on failure. Deferred-promise synthetic checks pass; live browser verification is pending.
+
+Skipped account-info requests on quick reloads were fixed on 2026-09-13: persisted `lastUpdate` no longer suppresses the first mount-local request. Routine token renewal explicitly continues account/title loading with the renewed session, and `PartnerNotExist` no longer blocks its own token refresh through the shared guard. Successful account refresh redirects expired protected accounts after session persistence. Live backend/browser verification remains pending.
+
 The mixed-account package redirect bypass was fixed on 2026-09-11. Middleware previously required `loginByFb || loginByInsta`, so a selected account with both flags false could bypass `/upgrade`; package enforcement now uses the selected `currentIndex` and expiry. Full-token middleware logging was removed as part of the fix.
 
 The Instagram connection flow previously showed only a warning for Iranian IPs and blocked the redirect when the country code was absent. Fixed on 2026-09-08 by using the shared invalid-IP modal and matching `SwitchAccount`; live browser coverage remains pending.

@@ -120,6 +120,8 @@ External services are accessed through Brancy backend APIs unless this module do
 
 ## Security
 
+Forced logout in both direct and `/api/user/*` proxy fetches preserves the existing 401/loginByInsta predicate. It awaits NextAuth sign-out with automatic redirects disabled, then replaces the current browser location with `/`; the server's returned callback URL is not followed.
+
 Do not expose tokens, secrets, or user data. Follow auth and redirect rules.
 
 ## Permission Rules

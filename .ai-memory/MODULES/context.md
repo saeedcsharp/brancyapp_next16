@@ -102,6 +102,12 @@ Mostly React local state, context, NextAuth session, or external state from back
 
 `InstaProvider` uses the stable `next/navigation` router. The legacy compatibility router creates a new object on every render, which previously invalidated `refreshToken`, `GetAccountInfo`, and the account effect when notification state changed. Notification-only updates must not trigger account/session requests; session changes still drive the existing expiry and account checks.
 
+On each provider mount (including a document reload), a selected Instagram account requests `GetInfo` even when the persisted session `lastUpdate` is recent. A mount-local request timestamp and the in-flight guard suppress immediate repeats; subsequent session-driven checks retain the 20-second throttle. This is not interval polling. Token renewal returns the updated session and the effect explicitly chains account or customer title loading with it, without navigating to `/` for routine renewal. `PartnerNotExist` releases the account guard before invoking the existing refresh-and-redirect flow.
+
+After a successful account response is persisted with `update()`, an expired package redirects protected Instagramer paths to `/upgrade`. Public, customer, payment, and upgrade paths are excluded, avoiding an upgrade redirect loop. The provider does not change middleware policy. Validation uses a mocked-hook harness against the transpiled provider; authenticated browser/backend verification remains pending.
+
+Protected Instagramer paths and `/upgrade` now withhold their children behind the existing `Loading` component until selected-account `GetInfo` succeeds and `update()` resolves. Readiness is keyed by user ID, selected index, and Instagramer ID, so switching accounts requires fresh initialization. Expired or missing package data keeps protected children unmounted while navigating to `/upgrade`, where initialized content is allowed. Failed initialization renders the existing error view with a document-reload retry instead of mounting stale content. Unauthenticated protected visitors navigate to `/`; a customer-only session on an Instagramer path navigates to `/user`. Public and customer routes are not gated. This is a client mount barrier, not a pre-middleware/server-render session refresh.
+
 ## External Integrations
 
 External services are accessed through Brancy backend APIs unless this module documents another integration.
@@ -117,6 +123,8 @@ Use `RoleAccess`, session permission flags, and backend authorization where rele
 ## Performance
 
 Keep renders and network calls scoped; avoid unnecessary broad fetches.
+
+Every committed `usePathname()` transition now triggers selected-account `GetInfo` regardless of the 20-second same-navigation throttle, including returning to a previously visited path. A navigation identity keys both request deduplication and readiness, so protected/upgrade children wait for their own navigation's session persistence. In-flight requests remain serialized; completion retriggers the latest pending navigation check. Older navigation responses cannot release the current gate or issue package redirects; the navigation-aware effect owns those redirects. Query-only and hash-only changes are not navigation triggers. Requests still require a selected Instagram account.
 
 ## Caching
 

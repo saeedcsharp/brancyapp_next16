@@ -137,6 +137,8 @@ External services are accessed through Brancy backend APIs unless this module do
 
 Do not expose tokens, secrets, or user data. Follow auth and redirect rules.
 
+For direct and proxied API responses, the existing `401 && session.user.loginByInsta` forced-logout rule awaits `signOut({ redirect: false })` before `window.location.replace("/")`. Navigation stays on the browser's current origin and ignores the NextAuth response URL, preventing a server-configured localhost callback from redirecting production users. Non-401 responses and sessions without `loginByInsta` retain their existing behavior.
+
 ## Permission Rules
 
 Use `RoleAccess`, session permission flags, and backend authorization where relevant.

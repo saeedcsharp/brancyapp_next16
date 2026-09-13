@@ -36,7 +36,15 @@ Changing this feature may affect sign-in, sign-out, session shape, permission ch
 
 ## Notes
 
+Forced API logout now awaits NextAuth session removal with redirects disabled, then navigates to the current origin root. Server-returned callback URLs, including localhost, are ignored. The existing forced-logout condition (401 plus `loginByInsta`) is unchanged for both direct backend and user-proxy requests.
+
+Selected-account session refresh now also runs on every pathname change during client navigation, bypassing the 20-second throttle. Protected/upgrade destinations wait for the current navigation's refresh and persistence; navigation during a pending request is checked after that request finishes. Query/hash-only updates do not trigger refresh.
+
 Keep this doc aligned with session handling, provider configuration, and backend auth contract changes.
+
+`InstaProvider` fetches selected-account information on every document reload regardless of the session's persisted `lastUpdate`, while suppressing duplicate in-flight and immediate session-update requests. Routine token renewal chains account or customer title loading using the returned session. Successful account refresh persists package data before redirecting expired subscriptions from protected Instagramer routes to `/upgrade`; the upgrade page itself is excluded.
+
+The provider withholds dashboard and upgrade children until selected-account initialization and session persistence finish. During that initial wait, sidebar, navbar, route components, and their client effects cannot mount with stale permissions or subscription state. Expiry navigation keeps dashboard children blocked until `/upgrade` is reached. Initialization failures show the shared error view with reload retry. Public/customer routes and server middleware are outside this client-side gate.
 
 The phone verification form accepts English, Persian, and Arabic-Indic digits from typing, paste, and WebOTP. A complete six-digit code is submitted through one guarded path; WebOTP only fills the inputs, so it cannot submit concurrently with the code-change effect. Failed verification preserves the existing shake, error styling, notification, and input reset behavior.
 

@@ -86,7 +86,11 @@ Service integration happens through helper APIs or route handlers when applicabl
 
 ## Providers
 
+The account provider now revalidates on each client pathname transition and keeps protected destinations behind their own navigation-specific session gate. Query-only and hash-only updates are unchanged.
+
 Providers are documented where the module defines React providers.
+
+The root `InstaProvider` blocks dashboard and upgrade client children until selected-account data is fetched and persisted to NextAuth. It reuses `components/notOk/loading.tsx` during initialization and `app/error.tsx` with reload retry on failure. Public/customer routes are not blocked, and this client mount gate does not defer server rendering or middleware execution.
 
 ## Repositories
 

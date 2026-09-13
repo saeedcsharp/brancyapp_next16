@@ -1,3 +1,11 @@
+- 2026-09-13: Fixed forced API sign-out following a server-generated localhost callback in production. Both direct and proxy 401 handlers now await `signOut({ redirect: false })` and navigate to the current origin root with `window.location.replace("/")`. Existing logout eligibility is unchanged; ten synthetic cases pass.
+
+- 2026-09-13: Added selected-account refresh on each client pathname transition, independent of the 20-second throttle. Request/readiness tracking now distinguishes individual navigations, queues the latest route check behind an active request, and restricts package redirects to current-navigation data. Synthetic rapid-navigation, return-navigation, deduplication, and in-flight transition checks pass.
+
+- 2026-09-13: Added a selected-account initialization barrier above dashboard and upgrade client routes. Children mount only after `GetInfo` and session persistence complete; expired protected routes stay gated during upgrade navigation, and failures show the existing error/retry view. Public/customer rendering and middleware behavior are unchanged. Deferred API/session promise tests pass.
+
+- 2026-09-13: Fixed skipped `GetAccountInfo` calls on quick reloads by separating mount-local request tracking from persisted session freshness. Routine token renewal now chains account/title loading with the returned session; partner recovery releases the shared lock. Successful account refresh persists package expiry before redirecting protected Instagramer routes to `/upgrade`. Focused synthetic provider checks pass; live verification remains pending.
+
 - 2026-09-12: Updated `vanishmode` and `vanishmodeexplain` across all eight locales to describe Hidden Mode as showing unanswered messages that were not ignored or hidden.
 
 - 2026-09-12: Image prompt suggestions now load category options from `Instagramer/MediaAi/GetImagePromptCategories`; selecting a category reloads `GetImagePrompts` with that category ID while retaining cursor pagination.

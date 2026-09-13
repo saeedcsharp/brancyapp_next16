@@ -2,6 +2,14 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+Forced API sign-out now stays on the browser's current origin: both direct and proxied 401 handlers await NextAuth logout with redirects disabled and replace the location with `/`. Ten synthetic cases cover production, staging, local development, logout ordering, and unchanged non-logout responses. Deployed browser verification remains pending.
+
+Selected-account `GetInfo` now runs on every client pathname transition, bypassing the same-route 20-second throttle. Dashboard/upgrade readiness is navigation-specific; a transition during a pending request is checked after completion. Query/hash-only changes are excluded. Focused synthetic navigation tests pass; live browser verification remains pending.
+
+Dashboard and upgrade client children now wait in `InstaProvider` for selected-account initialization and session persistence before mounting. Expired protected accounts remain behind the loader until upgrade navigation completes; initialization errors expose reload retry. Public/customer routes and server middleware remain outside this gate. Deferred-promise synthetic checks pass; live browser verification is pending.
+
+`InstaProvider` now fetches selected-account data on every document reload despite a recent session `lastUpdate`, chains account/title loading after routine token renewal, and redirects expired packages from protected Instagramer routes after persisting fresh account data. Focused synthetic checks pass; authenticated browser verification remains pending.
+
 The middleware redirects selected Instagramer accounts with missing or expired packages to `/upgrade` regardless of `loginByFb` or `loginByInsta`; it no longer logs full JWT tokens.
 
 The direct Meta redirect route is available at `/metaRedirect`; its App Router directory no longer has a trailing space, so the route is discovered correctly by Next.js.
