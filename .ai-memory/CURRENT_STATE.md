@@ -2,6 +2,8 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+The `/user` customer entry route now waits for NextAuth to finish loading before redirecting, performs only one `router.replace` decision, and treats an unset `currentIndex` as `-1`, preventing the production route from remaining at `/user`.
+
 Forced API sign-out now stays on the browser's current origin: both direct and proxied 401 handlers await NextAuth logout with redirects disabled and replace the location with `/`. Ten synthetic cases cover production, staging, local development, logout ordering, and unchanged non-logout responses. Deployed browser verification remains pending.
 
 Selected-account `GetInfo` now runs on every client pathname transition, bypassing the same-route 20-second throttle. Dashboard/upgrade readiness is navigation-specific; a transition during a pending request is checked after completion. Query/hash-only changes are excluded. Focused synthetic navigation tests pass; live browser verification remains pending.

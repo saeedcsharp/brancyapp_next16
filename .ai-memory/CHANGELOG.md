@@ -1,3 +1,5 @@
+- 2026-09-14: Fixed the `/user` customer redirect in production by waiting for NextAuth session loading to finish, choosing one destination inside an effect, and using `router.replace` with an `-1` fallback for an unset `currentIndex`.
+
 - 2026-09-13: Fixed forced API sign-out following a server-generated localhost callback in production. Both direct and proxy 401 handlers now await `signOut({ redirect: false })` and navigate to the current origin root with `window.location.replace("/")`. Existing logout eligibility is unchanged; ten synthetic cases pass.
 
 - 2026-09-13: Added selected-account refresh on each client pathname transition, independent of the 20-second throttle. Request/readiness tracking now distinguishes individual navigations, queues the latest route check behind an active request, and restricts package redirects to current-navigation data. Synthetic rapid-navigation, return-navigation, deduplication, and in-flight transition checks pass.

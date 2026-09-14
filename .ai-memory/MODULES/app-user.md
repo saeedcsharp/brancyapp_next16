@@ -22,7 +22,7 @@ Follows existing Next/React/TypeScript project conventions.
 
 ## Execution Flow
 
-Execution starts from imports, route rendering, or helper calls depending on the module.
+The `/user` entry route waits for the NextAuth session status before redirecting. It replaces the entry URL with `/` for a selected Instagramer account and with `/user/home` otherwise; an unset `currentIndex` is treated as no selected account.
 
 ## Data Flow
 
@@ -155,13 +155,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

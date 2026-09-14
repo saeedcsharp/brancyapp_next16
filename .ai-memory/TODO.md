@@ -22,6 +22,8 @@
 
 # TODO
 
+- Add a production browser smoke check for `/user` with loading, unauthenticated, unset-index, and selected-account session states.
+
 - Add component/browser coverage for switching between multiple Instagramer accounts when one account is inactive or has an expired package, confirming `/upgrade` is reached through middleware without logout or an intermediate `/home` redirect.
 
 - Add a route smoke check for the public `/metaRedirect` path so accidental whitespace in App Router directory names is detected before development.

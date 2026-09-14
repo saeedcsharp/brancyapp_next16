@@ -5,11 +5,13 @@ import { useSession } from "next-auth/react";
 
 export default function Page() {
   const router = useRouter();
-  const { data: session } = useSession();
-  if (session && session!.user.currentIndex > -1) router.push("/");
+  const { data: session, status } = useSession();
+
   useEffect(() => {
-    router.push("/user/home");
-  }, [router]);
+    if (status === "loading") return;
+
+    router.replace((session?.user.currentIndex ?? -1) > -1 ? "/" : "/user/home");
+  }, [router, session, status]);
 
   return null;
 }
