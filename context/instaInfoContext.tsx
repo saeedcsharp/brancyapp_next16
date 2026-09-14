@@ -43,7 +43,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
 
   const refreshToken = useCallback(
     async (accountInfo?: InstagramerAccountInfo, redirect = true) => {
-      if (isUpdatingRef.current) return;
+      if (!session || isUpdatingRef.current) return;
       isUpdatingRef.current = true;
 
       try {
@@ -59,10 +59,11 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
           const instagramerCount = instagramerIds.length;
           const currentIndex = session!.user.currentIndex;
           const newCurrentIndex = instagramerCount === 0 ? -1 : currentIndex >= instagramerCount ? 0 : currentIndex;
-          const updatedSession = await update({
+          const nextSession: Session = {
             ...session,
+            expires: session.expires ?? new Date(0).toISOString(),
             user: {
-              //...session?.user,
+              ...session.user,
               expireTime: res.value.expireTime,
               id: res.value.id,
               instagramerIds: res.value.role.instagramerIds,
@@ -77,7 +78,8 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
               website: accountInfo?.website ?? session?.user.website ?? null,
               biography: accountInfo?.biography ?? session?.user.biography ?? null,
             },
-          });
+          };
+          const updatedSession = (await update(nextSession)) ?? nextSession;
           if (redirect) router.replace("/");
           return updatedSession;
         } else notify(res.info.responseType, NotifType.Warning);
@@ -142,7 +144,6 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             user: {
               ...accountSession.user,
               error: `Failed to fetch data, status: ${res.statusCode}`,
-              loginStatus: res.value.loginStatus,
               lastUpdate: Date.now(),
               profileUrl: res.value.profileUrl,
               packageExpireTime: res.value.packageExpireTime ?? accountSession.user.packageExpireTime ?? 0,
@@ -155,10 +156,10 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         } else if (res.succeeded) {
           if (res.value.packageExpireTime < Date.now() / 1000 && (res.value.loginByFb || res.value.loginByInsta))
             notPackageNotify();
-          const updatedSession = await update({
+          const nextSession: Session = {
             ...accountSession,
             user: {
-              loginStatus: res.value.loginStatus,
+              ...accountSession.user,
               lastUpdate: Date.now(),
               profileUrl: res.value.profileUrl,
               username: res.value.username,
@@ -184,9 +185,8 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
               biography: res.value.biography,
               createdTime: res.value.createdTime,
             },
-          });
-          console.log("Updated session:", updatedSession);
-          if (!updatedSession) throw new Error("Unable to update session.");
+          };
+          const updatedSession = (await update(nextSession)) ?? nextSession;
           setReadySession(updatedSession);
           setReadyNavigation(navigation);
           setInitializationError(null);
@@ -197,6 +197,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
         // setUser((prev) => ({ ...prev!, error: error.message }));
       } finally {
         isUpdatingRef.current = false;
+        lastUpdateRef.current = Date.now();
         setCompletedRequests((count) => count + 1);
       }
     },
