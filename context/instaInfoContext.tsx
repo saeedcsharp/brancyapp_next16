@@ -144,6 +144,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             user: {
               ...accountSession.user,
               error: `Failed to fetch data, status: ${res.statusCode}`,
+              loginStatus: res.value.loginStatus,
               lastUpdate: Date.now(),
               profileUrl: res.value.profileUrl,
               packageExpireTime: res.value.packageExpireTime ?? accountSession.user.packageExpireTime ?? 0,
@@ -160,6 +161,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             ...accountSession,
             user: {
               ...accountSession.user,
+              loginStatus: res.value.loginStatus,
               lastUpdate: Date.now(),
               profileUrl: res.value.profileUrl,
               username: res.value.username,

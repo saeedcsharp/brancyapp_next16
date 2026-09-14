@@ -6,6 +6,7 @@ declare module "next-auth" {
     id: number;
     Id: number;
     error: string | null;
+    loginStatus: number;
     instagramerIds: number[];
     accessToken: string;
     socketAccessToken: string;
@@ -62,6 +63,7 @@ declare module "next-auth/jwt" {
     publishPermission?: boolean;
     website?: string | null;
     biography?: string | null;
+    loginStatus?: LoginStatus;
     loginByFb?: boolean;
     loginByInsta?: boolean;
   }
