@@ -14,7 +14,7 @@ import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { IPost, IPostContent, IShortDraft, PushNotif } from "brancy/models/interfaces";
-import { PushResponseType } from "brancy/models/enums";
+import { PartnerRole, PushResponseType } from "brancy/models/enums";
 
 const Posts = () => {
   const router = useRouter();
@@ -122,7 +122,13 @@ const Posts = () => {
   );
   useEffect(() => {
     // Only fetch data if not already loaded and session is available
-    if (!isDataLoaded && session && LoginStatus(session) && status === "authenticated" && RoleAccess(session)) {
+    if (
+      !isDataLoaded &&
+      session &&
+      LoginStatus(session) &&
+      status === "authenticated" &&
+      RoleAccess(session, PartnerRole.PageView)
+    ) {
       fetchData();
     }
   }, [session, status, isDataLoaded, fetchData]);
