@@ -1,8 +1,3 @@
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
 import Modal from "brancy/components/design/modal";
 import {
@@ -12,8 +7,10 @@ import {
   internalNotify,
   notify,
 } from "brancy/components/notifications/notificationBox";
-import NotAllowed from "brancy/components/notOk/notAllowed";
 import FontSelector from "brancy/components/page/tools/customFont/customFont";
+import CreateEventIdea from "brancy/components/page/tools/event/createEventIdea";
+import DayEvents from "brancy/components/page/tools/event/dayEvents";
+import EventIdea, { EventIdeaHandle } from "brancy/components/page/tools/event/eventIdea";
 import HashtagManager from "brancy/components/page/tools/hashtagManager/hashtagManager";
 import DeleteHashtagList from "brancy/components/page/tools/popups/hashtags/deleteHashtaglist";
 import NewHashtagList from "brancy/components/page/tools/popups/hashtags/newHashtagList";
@@ -30,26 +27,27 @@ import TermsAndConditionWinnerPicker from "brancy/components/page/tools/popups/l
 import WinnerAnnouncementAndBanner from "brancy/components/page/tools/popups/lottery/winnerAnnouncementAndBanner";
 import WinnersList from "brancy/components/page/tools/popups/lottery/winnersList";
 import WinnerPicker from "brancy/components/page/tools/winnerpicker/winnerPicker";
-import DayEvents from "brancy/components/page/tools/event/dayEvents";
-import EventIdea, { EventIdeaHandle } from "brancy/components/page/tools/event/eventIdea";
-import CreateEventIdea from "brancy/components/page/tools/event/createEventIdea";
+import { MethodType, UploadFile } from "brancy/helper/api";
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
 import { checkRemainingTimeFeature, getPackageFeatureDetails } from "brancy/helper/checkFeature";
-import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus } from "brancy/helper/loadingStatus";
 import { convertToMilliseconds, convertToSeconds } from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { MethodType, UploadFile } from "brancy/helper/api";
-
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { MouseEvent, useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import NotFeature from "brancy/components/notOk/notFeature";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
-  FeatureType,
   FollowerLotteryType,
   LotteryStatus,
   LotteryType,
-  PartnerRole,
   PsgFeatureType,
   ShowScoreLotteryType,
   TermsType,
+  lotterySpecificationType,
 } from "brancy/models/enums";
 import {
   CreateHashtagListItem,
@@ -57,7 +55,6 @@ import {
   IAutoInterAction,
   ICreateFollowerLottery,
   ICreateTermsAndConditionInfo,
-  IFeatureInfo,
   IFollowerLottery,
   IFullLottery,
   IGetAnnouncementAndBannerInfo,
@@ -70,8 +67,6 @@ import {
   IShortPostInfo,
   IUnFollowAllFollowing_UpdateCondotion,
 } from "brancy/models/interfaces";
-import { lotterySpecificationType } from "brancy/models/enums";
-import NotFeature from "brancy/components/notOk/notFeature";
 
 function addHashPrefixOrSuffix(list: string[]) {
   const result = [];
@@ -943,7 +938,7 @@ const Tools = () => {
     setShowWinnersList(true);
   };
   const GetHashtagList = useCallback(async () => {
-    if (!session || !LoginStatus(session) || !RoleAccess(session, PartnerRole.PageView)) {
+    if (!session || !LoginStatus(session)) {
       return;
     }
 
@@ -986,12 +981,12 @@ const Tools = () => {
   }
   const [featureInfo, setFeatureInfo] = useState<IPsgFeatureInfo | null>(null);
   useEffect(() => {
-    if (session && LoginStatus(session) && RoleAccess(session, PartnerRole.PageView) && !isDataLoaded) {
+    if (session && LoginStatus(session) && !isDataLoaded) {
       GetHashtagList();
     }
   }, [session, GetHashtagList, isDataLoaded]);
   useEffect(() => {
-    if (session && LoginStatus(session) && RoleAccess(session, PartnerRole.PageView) && !isDataLoaded) {
+    if (session && LoginStatus(session) && !isDataLoaded) {
       getPackageFeatureDetails(session).then((result) => {
         if (result) setFeatureInfo(result);
       });
@@ -1017,8 +1012,6 @@ const Tools = () => {
       </Head>
       {session && session.user.currentIndex !== -1 && (
         <main>
-          {!RoleAccess(session, PartnerRole.PageView) && <NotAllowed />}
-
           <div onClick={unshowPopups} className="pinContainer">
             {/* <Hashtags_analisys
                 data={hashtagData}

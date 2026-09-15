@@ -6,16 +6,16 @@ import { useTranslation } from "react-i18next";
 
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import StoryContent from "brancy/components/page/storyContent/storyContent";
+import { MethodType } from "brancy/helper/api";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import convertFirstLetterToLowerCase from "brancy/helper/convertFirstLetterToLowerCase";
 import { handleCopyLink } from "brancy/helper/copyLink";
-import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus } from "brancy/helper/loadingStatus";
 import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { LanguageKey } from "brancy/i18n";
-import { MethodType } from "brancy/helper/api";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { IStory, IStoryContent, IStoryDraft, PushNotif } from "brancy/models/interfaces";
 import { PushResponseType } from "brancy/models/enums";
+import { IStory, IStoryContent, IStoryDraft, PushNotif } from "brancy/models/interfaces";
 
 type StoryAction =
   | { type: "SET_STORY"; payload: IStory }
@@ -166,7 +166,7 @@ const Stories = () => {
       return;
     }
 
-    if (!isDataLoaded && session && LoginStatus(session) && RoleAccess(session)) {
+    if (!isDataLoaded && session && LoginStatus(session)) {
       fetchData();
     }
 

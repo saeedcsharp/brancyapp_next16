@@ -1,10 +1,4 @@
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import React, { useCallback, useReducer } from "react";
-import { useTranslation } from "react-i18next";
 import Modal from "brancy/components/design/modal";
-import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
 import BestFollowers from "brancy/components/page/statistics/bestFollower/bestFollower";
 import CardBestWorst from "brancy/components/page/statistics/cardBestWorst/cardBestWorst";
@@ -12,9 +6,8 @@ import EngageMentStatistics from "brancy/components/page/statistics/engagementSt
 import IngageBoxModel from "brancy/components/page/statistics/inagegBoxes/inagegBoxes";
 import PostStatsViewer from "brancy/components/page/statistics/popups/PostStatsViewer";
 import PostTimeAnalysis from "brancy/components/page/statistics/popups/postTimeAnalysis";
-import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import styles from "./page.module.css";
 import {
   GraphGhostViewersModel,
   GraphViewsFourMonthModel,
@@ -22,7 +15,12 @@ import {
   IBestTime,
   IPostContent,
 } from "brancy/models/interfaces";
-import { PartnerRole } from "brancy/models/enums";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import React, { useCallback, useReducer } from "react";
+import { useTranslation } from "react-i18next";
+import styles from "./page.module.css";
 enum PopupType {
   NONE = "NONE",
   CARD_BEST = "CARD_BEST",
@@ -163,7 +161,6 @@ const Stattistics = (prop: { onComponentClick: () => void }) => {
   if (session && !session?.user.insightPermission) return <NotPermission permissionType={PermissionType.Insights} />;
   return (
     <>
-      {!RoleAccess(session, PartnerRole.PageView) && <NotAllowed />}
       {session && session.user.currentIndex !== -1 && (
         <>
           {/* head for SEO */}

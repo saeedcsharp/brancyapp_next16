@@ -22,6 +22,10 @@
 
 # TODO
 
+- Add component coverage confirming create-post role denial preserves the popup shell and renders `NotAllowed` for missing `Publish` access without mounting editor content when a UI test harness is introduced.
+- Add component coverage confirming create-story role denial preserves the popup shell and renders `NotAllowed` for missing `Publish` access without mounting editor content when a UI test harness is introduced.
+- Add component coverage confirming media auto-reply AI/Flow panels render `NotAllowed` without `PartnerRole.Automatics` and skip initial, search, pagination, selection, and saved-item prompt/flow API requests when a UI test harness is introduced.
+
 - Add a production browser smoke check for `/user` with loading, unauthenticated, unset-index, and selected-account session states.
 
 - Add component/browser coverage for switching between multiple Instagramer accounts when one account is inactive or has an expired package, confirming `/upgrade` is reached through middleware without logout or an intermediate `/home` redirect.

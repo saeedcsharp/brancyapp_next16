@@ -48,7 +48,7 @@ import {
 } from "brancy/models/interfaces";
 import SelectProduct from "brancy/components/messages/popups/selectProduct";
 
-const CreateStory = () => {
+const CreateStory = ({ showNotAllowed = false }: { showNotAllowed?: boolean }) => {
   const router = useRouter();
   const { data: session } = useSession();
   const { t } = useTranslation();
@@ -880,7 +880,7 @@ const CreateStory = () => {
   // Data fetching
   useEffect(() => {
     const queryKey = `${query.draftId ?? ""}:${query.preStoryId ?? ""}`;
-    if (loadedQueryKey !== queryKey && session && LoginStatus(session) && router.isReady) {
+    if (!showNotAllowed && loadedQueryKey !== queryKey && session && LoginStatus(session) && router.isReady) {
       console.log("Fetching data for Create Story", { draftId: query.draftId, preStoryId: query.preStoryId });
       if (query.draftId !== undefined) {
         handleGetDraftStory(query.draftId as string);
@@ -901,15 +901,23 @@ const CreateStory = () => {
     handleGetDraftStory,
     handleGetPreStory,
     getPublishLimitContent,
+    showNotAllowed,
   ]);
 
   // Ensure we react to route query changes (e.g., client-side Link navigation)
   useEffect(() => {
-    if (router.isReady && session && LoginStatus(session) && query.draftId !== undefined && draftId <= 0) {
+    if (
+      !showNotAllowed &&
+      router.isReady &&
+      session &&
+      LoginStatus(session) &&
+      query.draftId !== undefined &&
+      draftId <= 0
+    ) {
       console.log("Detected draftId in query (effect):", query.draftId);
       handleGetDraftStory(query.draftId as string);
     }
-  }, [router.isReady, query.draftId, session, handleGetDraftStory, draftId]);
+  }, [router.isReady, query.draftId, session, handleGetDraftStory, draftId, showNotAllowed]);
   const handleActiveAutoComment = useMemo(() => {
     return (
       QuickReply &&
@@ -995,9 +1003,8 @@ const CreateStory = () => {
             </div>
           </div>
           <div className="fullScreenPupup_content">
-            {!RoleAccess(session, PartnerRole.PageView) && <NotAllowed />}
-            {!session.user.publishPermission && <NotPermission permissionType={PermissionType.Content} />}
-            {RoleAccess(session, PartnerRole.PageView) && session.user.publishPermission && (
+            {showNotAllowed && <NotAllowed />}
+            {!showNotAllowed && RoleAccess(session, PartnerRole.PageView) && session.user.publishPermission && (
               <>
                 <div className={`${styles.container} ${loadingUpload && "fadeDiv"}`}>
                   <div className={styles.cardPost}>

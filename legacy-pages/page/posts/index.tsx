@@ -122,13 +122,7 @@ const Posts = () => {
   );
   useEffect(() => {
     // Only fetch data if not already loaded and session is available
-    if (
-      !isDataLoaded &&
-      session &&
-      LoginStatus(session) &&
-      status === "authenticated" &&
-      RoleAccess(session, PartnerRole.PageView)
-    ) {
+    if (!isDataLoaded && session && LoginStatus(session) && status === "authenticated") {
       fetchData();
     }
   }, [session, status, isDataLoaded, fetchData]);

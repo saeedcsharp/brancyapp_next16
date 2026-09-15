@@ -264,9 +264,9 @@ const AddPartner = React.memo(
                       </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
-                        checked={createPartner.roles.includes(PartnerRole.Publish)}
-                        title={"Publish"}
-                        name={"Publish"}
+                        checked={createPartner.roles.includes(PartnerRole.PageView)}
+                        title={"PageView"}
+                        name={"PageView"}
                         role={"switch"}
                       />
                     </div>
@@ -285,9 +285,9 @@ const AddPartner = React.memo(
                       </div>
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
-                        checked={createPartner.roles.includes(PartnerRole.PageView)}
-                        title={"PageView"}
-                        name={"PageView"}
+                        checked={createPartner.roles.includes(PartnerRole.Publish)}
+                        title={"Publish"}
+                        name={"Publish"}
                         role={"switch"}
                       />
                     </div>
@@ -435,6 +435,42 @@ const AddPartner = React.memo(
                         checked={createPartner.roles.includes(PartnerRole.SystemTicket)}
                         title={"SystemTicket"}
                         name={"SystemTicket"}
+                        role={"switch"}
+                      />
+                    </div>
+                  </div>
+
+                  <div className="headerandinput">
+                    <div className="frameParent">
+                      <div className="title">
+                        {t(LanguageKey.automatic)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue="AI - Flow - Automated processes and tasks..."
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
+                      <ToggleCheckBoxButton
+                        handleToggle={(e) => handleSelectRole(e)}
+                        checked={createPartner.roles.includes(PartnerRole.Automatics)}
+                        title={"Automatics"}
+                        name={"Automatics"}
+                        role={"switch"}
+                      />
+                    </div>
+                  </div>
+                  <div className="headerandinput">
+                    <div className="frameParent">
+                      <div className="title">
+                        {t(LanguageKey.product_Producttitle)}
+                        <Tooltip triggerType="tooltip" tooltipValue="..." position="bottom" onClick={true} />
+                      </div>
+                      <ToggleCheckBoxButton
+                        handleToggle={(e) => handleSelectRole(e)}
+                        checked={createPartner.roles.includes(PartnerRole.Products)}
+                        title={"Products"}
+                        name={"Products"}
                         role={"switch"}
                       />
                     </div>

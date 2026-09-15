@@ -359,7 +359,7 @@ const formReducer = (state: FormState, action: FormAction): FormState => {
       return state;
   }
 };
-const CreatePost = () => {
+const CreatePost = ({ showNotAllowed = false }: { showNotAllowed?: boolean }) => {
   const router = useRouter();
   const { data: session, status } = useSession();
   const { t } = useTranslation();
@@ -2353,7 +2353,7 @@ const CreatePost = () => {
     }
   }, [session, prePostId, closeCreatePost]);
   useEffect(() => {
-    if (!session || status !== "authenticated") return;
+    if (showNotAllowed || !session || status !== "authenticated") return;
     const queryKey = `${query.draftId ?? ""}:${query.prePostId ?? ""}`;
     if (loadedQueryKey !== queryKey && router.isReady) {
       // checkCanCreatePrePost();
@@ -2374,6 +2374,7 @@ const CreatePost = () => {
     query.draftId,
     query.prePostId,
     loadedQueryKey,
+    showNotAllowed,
     getHashtagList,
     GetNextBestTimes,
     getPublishLimitContent,
@@ -2381,11 +2382,11 @@ const CreatePost = () => {
 
   // Ensure we react to route query changes (e.g., client-side Link navigation)
   useEffect(() => {
-    if (router.isReady && session && query.draftId !== undefined && draftId <= 0) {
+    if (!showNotAllowed && router.isReady && session && query.draftId !== undefined && draftId <= 0) {
       console.log("Detected draftId in query (effect):", query.draftId);
       handleGetDraftPost(query.draftId as string);
     }
-  }, [router.isReady, query.draftId, session, handleGetDraftPost, draftId]);
+  }, [router.isReady, query.draftId, session, handleGetDraftPost, draftId, showNotAllowed]);
   const handleMainContentClick = useCallback(() => {
     uiDispatch({
       type: "SET_ADD_PEOPLE_BOX",
@@ -2516,9 +2517,8 @@ const CreatePost = () => {
             </div>
           </div>
           <div className="fullScreenPupup_content">
-            {!RoleAccess(session, PartnerRole.PageView) && <NotAllowed />}
-            {!session.user.publishPermission && <NotPermission permissionType={PermissionType.Content} />}
-            {RoleAccess(session, PartnerRole.PageView) && session.user.publishPermission && (
+            {showNotAllowed && <NotAllowed />}
+            {!showNotAllowed && RoleAccess(session, PartnerRole.PageView) && session.user.publishPermission && (
               <>
                 <div className={styles.container}>
                   <div className={`${styles.cardPost} ${loadingUpload && "fadeDiv"} translate`}>

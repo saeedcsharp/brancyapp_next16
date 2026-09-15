@@ -144,7 +144,7 @@ Instagramer page wrappers do not import or use `packageStatus` and contain no `o
 
 Whole-page permission gates are owned by the App Router wrappers for message Direct, Comments, AI and Flow, Properties, and page Statistics. They wait for `useSession()` to finish loading, render the matching `NotPermission` state for authenticated users without access, and avoid mounting the legacy page in that state. Legacy permission checks remain as defensive fallbacks; feature-level permissions inside post, story, home, and tools pages are intentionally not route gates.
 
-Post and Story creation wrappers apply the same pre-mount behavior for `publishPermission`, preventing their legacy editors from issuing initial draft or publish-limit requests when content publishing is unavailable. Post and Story detail popups keep their comment, insight, and message permissions section-scoped because those permissions control individual tabs and actions rather than the whole popup.
+Post and Story creation wrappers apply the same pre-mount behavior for `publishPermission`, preventing their legacy editors from issuing initial draft or publish-limit requests when content publishing is unavailable. The create-post and create-story routes keep their editor popup shells visible and replace their content with `NotAllowed` when the partner lacks the `Publish` role. Their legacy query-loading effects also stop before any initial API callback when the denial shell is active. Post and Story detail popups keep their comment, insight, and message permissions section-scoped because those permissions control individual tabs and actions rather than the whole popup.
 
 ## Technical Debt
 
