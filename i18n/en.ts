@@ -1668,8 +1668,9 @@ export default {
     specifickeywords: "specific keyword",
     unreadcomment: "Unread Comments",
     hiddencommenttooltip: "This comment has been hidden from view. Only admins can see hidden comments.",
-    vanishmode: "Vanish Mode",
-    vanishmodeexplain: "Messages sent in Vanish Mode will automatically disappear after being read.",
+    vanishmode: "Hidden Mode",
+    vanishmodeexplain:
+      "In Hidden Mode, messages that have not been answered and have not been ignored or hidden will be shown.",
     totalcomments: "Total Comments",
     unansweredcomments: "Unanswered Comments",
     totalcommenters: "Total Commenters",

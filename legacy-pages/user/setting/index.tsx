@@ -1,17 +1,14 @@
+import InputBox from "brancy/components/design/inputBox/inputBox";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import System from "brancy/components/setting/general/system";
+import UserPartners from "brancy/components/userPanel/setting/partner";
+import { MethodType } from "brancy/helper/api";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { IPartner_User, IRefreshToken } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import InputBox from "brancy/components/design/inputBox/inputBox";
-import RadioButton from "brancy/components/design/radioButton/radioButton";
-import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
-import System from "brancy/components/setting/general/system";
-import UserPartners from "brancy/components/userPanel/setting/partner";
-import { LanguageKey } from "brancy/i18n";
-import { MethodType } from "brancy/helper/api";
-import styles from "./setting.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { IPartner_User, IRefreshToken } from "brancy/models/interfaces";
 function InputField({
   label,
   placeholder,
@@ -44,12 +41,7 @@ function InputField({
 function Setting() {
   const { t } = useTranslation();
   const router = useRouter();
-  const { data: session, update } = useSession({
-    required: true,
-    onUnauthenticated() {
-      router.push("/");
-    },
-  });
+  const { data: session, update } = useSession();
 
   // state برای نگهداری تصویر پروفایل
   const [profileImage, setProfileImage] = useState<string | null>(null);
@@ -412,7 +404,7 @@ function Setting() {
     session?.user.currentIndex === -1 && (
       <>
         <div className="pinContainer">
-          <div className="tooBigCard" style={{ gridRowEnd: isPersonalInfoHidden ? "span 10" : "" }}>
+          {/* <div className="tooBigCard" style={{ gridRowEnd: isPersonalInfoHidden ? "span 10" : "" }}>
             <div
               className="headerChild"
               title="↕ Resize the Card"
@@ -451,7 +443,7 @@ function Setting() {
                     </label>
                   </>
                 </div>
-                {/* فیلدهای اطلاعات */}
+
                 <div className="headerandinput">
                   <div className="headertext">{t(LanguageKey.userpanel_Instagramid)}</div>
                   <div className="headerparent">
@@ -464,29 +456,13 @@ function Setting() {
                     />
                   </div>
                 </div>
-
-                {/* <div className="headerandinput">
-                <div className="headertext">
-                  {t(LanguageKey.userpanel_Nameandfamily)}
-                </div>
-                <div className="headerparent">
-                  <InputBox
-                    placeHolder="Enter your name"
-                    maxLength={200}
-                    className="textinputbox"
-                    handleInputChange={handleNameChange}
-                    value={formData.name}
-                  />
-                </div>
-              </div> */}
-
                 <div className="headerandinput">
                   <div className="headertext">{t(LanguageKey.userpanel_NationalCode)}</div>
                   <div className="headerparent">
                     <InputBox
                       placeHolder="Enter your national code"
                       maxLength={10}
-                      className={getInputClass("nationalCode")} // تعیین کلاس بر اساس وضعیت
+                      className={getInputClass("nationalCode")} //
                       handleInputChange={handleNationalCodeChange}
                       value={formData.nationalCode}
                     />
@@ -587,7 +563,7 @@ function Setting() {
                 {t(LanguageKey.userpanel_AddNewAddress)}
               </div>
 
-              {/* لیست آدرس‌ها */}
+
               <div className={styles.sectioncontent}>
                 {addresses.map((address, index) => (
                   <div key={index} className="headerandinput">
@@ -695,7 +671,7 @@ function Setting() {
                 ))}
               </div>
             </div>
-          </div>
+          </div> */}
 
           <System />
           <UserPartners
@@ -707,7 +683,7 @@ function Setting() {
         </div>
 
         {/* پاپ آپ فرم اضافه کردن یا ویرایش آدرس */}
-        {popupVisible && (
+        {/* {popupVisible && (
           <>
             <div className="dialogBg" onClick={() => setPopupVisible(false)} />
             <div className="popup">
@@ -775,10 +751,10 @@ function Setting() {
               </form>
             </div>
           </>
-        )}
+        )} */}
 
         {/* پاپ‌آپ حذف آدرس */}
-        {deletePopupVisible && (
+        {/* {deletePopupVisible && (
           <>
             <div className="dialogBg" onClick={cancelDelete} />
             <div className={styles.popupdelete}>
@@ -826,7 +802,7 @@ function Setting() {
               </div>
             </div>
           </>
-        )}
+        )} */}
       </>
     )
   );

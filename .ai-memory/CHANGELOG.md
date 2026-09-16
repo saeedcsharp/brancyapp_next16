@@ -16,6 +16,8 @@
 - Merged the remaining add-card API, validation, notification, input, and loading logic into `bankCard.tsx`; the standalone `AddCard` component and stylesheet were removed.
 - Wallet cards now place the default card first after the add-card slide and open the slider on that card; users can still navigate freely between all cards.
 - Organized wallet modal contents under `components/wallet/modal/` and removed unused demo and legacy wallet components that had no active references.
+- 2026-09-12: Updated `vanishmode` and `vanishmodeexplain` across all eight locales to describe Hidden Mode as restoring unanswered messages that were not ignored or hidden.
+
 - 2026-09-08: Updated the landing-page first-login check to call `PreInstagramer/CheckUserIsNew`; new users go to `/user/instagramerLogin` and existing users go to `/user`.
 
 - 2026-09-08: Fixed the `/metaRedirect` App Router route by removing the trailing space from its directory name; Next.js now registers the expected URL.
