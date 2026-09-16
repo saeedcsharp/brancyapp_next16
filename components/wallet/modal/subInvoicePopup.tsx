@@ -2,49 +2,28 @@ import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import initialzedTime from "brancy/helper/manageTimer";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
-import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
-import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import { SubInvoiceItemType, SubInvoiceStatus } from "brancy/models/enums";
-import { IGeneralBallance, IGetSubInvoice, ISubInvoice } from "brancy/models/interfaces";
+import { IGetSubInvoice, ISubInvoice } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
 import Loading from "../../notOk/loading";
 import PriceFormater, { PriceFormaterClassName } from "../../priceFormater";
 import styles from "./subInvoicePopup.module.css";
-
+import DotLoaders from "brancy/components/design/loader/dotLoaders";
 type SubInvoicesPopupProps = {
   cardNumber: string;
   subInvoices: IGetSubInvoice | null;
-  generalBalance: IGeneralBallance[];
   onClose: () => void;
   onSubInvoicesChange: (subInvoices: IGetSubInvoice) => void;
-  changeDefaultCard: (cardNumber: string) => void;
 };
-
-export default function SubInvoicesP({
-  cardNumber,
-  subInvoices,
-  generalBalance,
-  onClose,
-  onSubInvoicesChange,
-  changeDefaultCard,
-}: SubInvoicesPopupProps) {
+export default function SubInvoicesP({ cardNumber, subInvoices, onClose, onSubInvoicesChange }: SubInvoicesPopupProps) {
   const { t } = useTranslation();
   const { data: session } = useSession();
-  const total = generalBalance
-    .filter((item) => item.cardNumber === cardNumber && item.status === SubInvoiceStatus.None)
-    .reduce((sum, item) => sum + item.totalPrice, 0);
-  const totalPriceType =
-    generalBalance.find((item) => item.cardNumber === cardNumber && item.status === SubInvoiceStatus.None)?.priceType ??
-    generalBalance.find((item) => item.cardNumber === cardNumber)?.priceType ??
-    2;
-  const [activeTab, setActiveTab] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
   const [subInvoicesLoading, setSubInvoicesLoading] = useState(subInvoices === null);
-  const [setDefaultCardLoading, setSetDefaultCardLoading] = useState(false);
-  const [settleLoading, setSettleLoading] = useState(false);
+  const downsectionDragRef = useRef({ startX: 0, startScrollLeft: 0, element: null as HTMLDivElement | null });
   function manageSubInvoiceType(type: SubInvoiceItemType): string {
     switch (type) {
       case SubInvoiceItemType.InstagramerLogestic:
@@ -63,20 +42,46 @@ export default function SubInvoicesP({
         return t("Brancy Transfer payment");
     }
   }
-  function manageSubInvoiceStatus(status: SubInvoiceStatus): string {
+  function manageSubInvoiceStatus(status: SubInvoiceStatus): { label: string; className: string } {
     switch (status) {
       case SubInvoiceStatus.None:
-        return t("Unsettled");
+        return { label: t("Unsettled"), className: "IDblue" };
       case SubInvoiceStatus.AwaitingSettled:
-        return t("Awaiting Settled");
+        return { label: t("Awaiting Settled"), className: "IDpurple" };
       case SubInvoiceStatus.Settled:
-        return t("Settled");
+        return { label: t("Settled"), className: "IDgreen" };
       case SubInvoiceStatus.Failed:
-        return t("Failed");
+        return { label: t("Failed"), className: "IDred" };
       default:
-        return t("Unknown Status");
+        return { label: t("Unknown Status"), className: "IDgray" };
     }
   }
+  const handleDownsectionPointerDown = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    if (event.pointerType === "mouse" && event.button !== 0) return;
+
+    const element = event.currentTarget;
+    downsectionDragRef.current = {
+      startX: event.clientX,
+      startScrollLeft: element.scrollLeft,
+      element,
+    };
+    element.setPointerCapture(event.pointerId);
+    element.classList.add(styles.dragging);
+  }, []);
+  const handleDownsectionPointerMove = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    const { element, startX, startScrollLeft } = downsectionDragRef.current;
+    if (!element || !element.hasPointerCapture(event.pointerId)) return;
+
+    element.scrollLeft = startScrollLeft - (event.clientX - startX);
+  }, []);
+  const handleDownsectionPointerUp = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
+    const element = downsectionDragRef.current.element;
+    if (!element) return;
+
+    if (element.hasPointerCapture(event.pointerId)) element.releasePointerCapture(event.pointerId);
+    element.classList.remove(styles.dragging);
+    downsectionDragRef.current = { startX: 0, startScrollLeft: 0, element: null };
+  }, []);
   async function getSubInvoices(cardNumber: string, nextMaxId?: string) {
     setSubInvoicesLoading(true);
     try {
@@ -107,11 +112,9 @@ export default function SubInvoicesP({
     if (!session || subInvoices) return;
     getSubInvoices(cardNumber);
   }, [cardNumber, session, subInvoices]);
-
   const fetchMoreSubInvoices = useCallback(async (): Promise<ISubInvoice[]> => {
     const nextMaxId = subInvoices?.nextMaxId;
     if (!session || !nextMaxId) return [];
-
     try {
       const res = await clientFetchApi<null, IGetSubInvoice>("/api/wallet/getSubInvoices", {
         session,
@@ -122,13 +125,11 @@ export default function SubInvoicesP({
         ],
         data: [0, 1, 2, 3],
       });
-
       if (!res.succeeded) {
         notify(res.info.responseType, NotifType.Warning);
         if (subInvoices) onSubInvoicesChange({ ...subInvoices, nextMaxId: null });
         return [];
       }
-
       const nextPage = res.value ?? { items: [], nextMaxId: null };
       const nextItems = Array.isArray(nextPage.items) ? nextPage.items : [];
       if (subInvoices) {
@@ -142,105 +143,6 @@ export default function SubInvoicesP({
       return [];
     }
   }, [cardNumber, onSubInvoicesChange, session, subInvoices]);
-
-  async function setDefaultCard() {
-    if (!session || setDefaultCardLoading) return;
-
-    setSetDefaultCardLoading(true);
-    try {
-      const res = await clientFetchApi<null, boolean>("/api/wallet/setDefaultCard", {
-        session,
-        queries: [{ key: "cardNumber", value: cardNumber }],
-      });
-
-      if (res.succeeded) {
-        notify(ResponseType.Ok, NotifType.Success);
-        changeDefaultCard(cardNumber);
-      } else {
-        notify(res.info.responseType, NotifType.Warning);
-      }
-    } catch (err) {
-      console.error("setDefaultCard error", err);
-      notify(ResponseType.Unexpected, NotifType.Error);
-    } finally {
-      setSetDefaultCardLoading(false);
-    }
-  }
-
-  async function settleCard() {
-    if (!session || settleLoading) return;
-
-    setSettleLoading(true);
-    try {
-      const res = await clientFetchApi<null, boolean>("/api/wallet/settleRequest", {
-        session,
-        methodType: MethodType.get,
-        queries: [{ key: "cardNumber", value: cardNumber }],
-        data: undefined,
-      });
-
-      if (res.succeeded) {
-        notify(ResponseType.Ok, NotifType.Success);
-      } else {
-        notify(res.info.responseType, NotifType.Warning);
-      }
-    } catch (err) {
-      console.error("settleCard error", err);
-      notify(ResponseType.Unexpected, NotifType.Error);
-    } finally {
-      setSettleLoading(false);
-    }
-  }
-
-  const tabIcons = {
-    firstIcon: {
-      active: (
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path
-            d="M12 7v5l3 2M4 12a8 8 0 1 0 2.34-5.66L4 8"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      ),
-      diactive: (
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path
-            d="M12 7v5l3 2M4 12a8 8 0 1 0 2.34-5.66L4 8"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-          />
-        </svg>
-      ),
-    },
-    secondIcon: {
-      active: (
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path
-            d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm0-6v2m0 14v2m9-9h-2M5 12H3m15.36-6.36-1.42 1.42M7.05 16.95l-1.41 1.41m12.72 0-1.42-1.41M7.05 7.05 5.64 5.64"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-        </svg>
-      ),
-      diactive: (
-        <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <path
-            d="M12 9a3 3 0 1 0 0 6 3 3 0 0 0 0-6Zm0-6v2m0 14v2m9-9h-2M5 12H3m15.36-6.36-1.42 1.42M7.05 16.95l-1.41 1.41m12.72 0-1.42-1.41M7.05 7.05 5.64 5.64"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-          />
-        </svg>
-      ),
-    },
-  };
-
   const { containerRef, isLoadingMore } = useInfiniteScroll<ISubInvoice>({
     hasMore: Boolean(subInvoices?.nextMaxId),
     fetchMore: fetchMoreSubInvoices,
@@ -255,143 +157,115 @@ export default function SubInvoicesP({
   });
   return (
     <>
-      {/* تاریخچه تراکنش‌ها */}
-      <section ref={containerRef} className={styles.pinContainer1} aria-busy={subInvoicesLoading || isLoadingMore}>
+      <div className="headerparent">
+        <div className="headerChild">
+          <div className="circle" />
+          <div className="Title">{t("Sub Invoice History")}</div>
+        </div>
+        <img
+          src="/close-box.svg"
+          alt={t("close")}
+          onClick={onClose}
+          role="button"
+          aria-label={t("close")}
+          title={t("close")}
+          style={{ width: "36px" }}
+        />
+      </div>
+      <section ref={containerRef} className={styles.pinContainer} aria-busy={subInvoicesLoading || isLoadingMore}>
         {subInvoicesLoading && <Loading />}
         {!subInvoicesLoading && (
-          <div className={styles.subInvoiceCard}>
-            <div className="headerChild">
-              <div className="circle"></div>
-              <div className="Title">{t("Sub Invoice History")}</div>
-              <button
-                type="button"
-                className={styles.closeButton}
-                onClick={onClose}
-                aria-label={t("close")}
-                title={t("close")}>
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="m6 6 12 12M18 6 6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                </svg>
-              </button>
-            </div>
-            <ToggleButton
-              data={{ firstToggle: t("History"), secondToggle: t("Setting") }}
-              values={{ firstToggle: t("History"), secondToggle: t("Setting") }}
-              dataIcon={tabIcons}
-              setChangeToggle={setActiveTab}
-              toggleValue={activeTab}
-            />
-            {activeTab === ToggleOrder.FirstToggle ? (
-              <div className={styles.section5}>
-                <div className={styles.table}>
-                  <div className={styles.tableheader}>
-                    <div className={styles.header1}>#</div>
-                    <div className={styles.header2}>{t("id")}</div>
-                    <div className={styles.header3}>{t("card number")}</div>
-                    <div className={styles.header4}>{t("type")}</div>
-                    <div className={styles.header5}>{t("amount")}</div>
-                    <div className={styles.header6}>{t("status")}</div>
-                    <div className={styles.header7}>{t("time")}</div>
-                    {/* <div className={styles.header8}>اشتراک</div> */}
+          <>
+            {subInvoices?.items.map((i) => {
+              const status = manageSubInvoiceStatus(i.status);
+              return (
+                <div key={i.id} className={styles.list}>
+                  <div className={styles.upsection}>
+                    <PriceFormater pricetype={i.priceType} fee={i.price} className={PriceFormaterClassName.PostPrice} />
+                    <div
+                      className={status.className}
+                      style={{
+                        fontSize: "var(--font-14)",
+                        borderRadius: "var(--br10)",
+                        padding: "var(--padding-5) var(--padding-8)",
+                      }}>
+                      {status.label}
+                    </div>
                   </div>
-                  {subInvoices?.items.map((i, index) => (
-                    <div key={i.id} className={styles.tableheader1}>
-                      <div className={styles.tablecounter}>{index + 1}</div>
-                      <div className={styles.orcernumber}>{i.id}</div>
-                      <div className={styles.orcernumber}>{i.cardNumber}</div>
-                      <div className={styles.viwes}>{manageSubInvoiceType(i.itemType)}</div>
-                      <div className={styles.viwes}>
-                        {
-                          <PriceFormater
-                            pricetype={i.priceType}
-                            fee={i.price}
-                            className={PriceFormaterClassName.PostPrice}
-                          />
-                        }
+                  <div
+                    className={styles.downsection}
+                    onPointerDown={handleDownsectionPointerDown}
+                    onPointerMove={handleDownsectionPointerMove}
+                    onPointerUp={handleDownsectionPointerUp}
+                    onPointerCancel={handleDownsectionPointerUp}>
+                    <div className={styles.detailcontainer}>
+                      <div className={styles.detailIcon}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                          <path d="M4 17.98V9.71c0-3.64 0-5.45 1.17-6.58S8.23 2 12 2s5.66 0 6.83 1.13S20 6.07 20 9.7v8.27c0 2.3 0 3.46-.77 3.87-1.5.8-4.3-1.86-5.64-2.67-.77-.46-1.16-.7-1.59-.7s-.82.24-1.59.7c-1.33.8-4.14 3.47-5.64 2.67C4 21.44 4 20.3 4 17.98" />
+                        </svg>
                       </div>
-                      <div className={styles.confirmedstatus}>{manageSubInvoiceStatus(i.status)}</div>
-                      <div className={styles.date}>
-                        <div className={styles.day}>
+                      <div className={styles.detailitem}>
+                        <div className={styles.detailheader}>{t("id")}</div>
+                        <div className={styles.detailvalue}>{i.id}</div>
+                      </div>
+                    </div>
+                    <div className={styles.detailcontainer}>
+                      <div className={styles.detailIcon}>
+                        <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                          <path
+                            d="M13.3 13.1h2m-11 0h2m2-9h2m2 15h4.1q2.3-.1 2.4-2.5v-4q-.1-2.4-2.3-2.5h-4.2q-2.3.1-2.4 2.5v4q.1 2.3 2.3 2.5m-9 0h4.1q2.3-.1 2.4-2.5v-4q-.1-2.4-2.3-2.5H3.3Q1 10.2.9 12.6v4Q1 18.9 3.1 19m4-9h4.1q2.3-.1 2.4-2.5v-4c0-1.4-.9-2.5-2.3-2.5h-4Q5 1.2 4.9 3.6v4Q5 9.9 7.1 10"
+
+                          />
+                        </svg>
+                      </div>
+
+                      <div className={styles.detailitem}>
+                        <div className={styles.detailheader}>{t("type")}</div>
+                        <div className={styles.detailvalue}>{manageSubInvoiceType(i.itemType)}</div>
+                      </div>
+                    </div>
+                    <div className={styles.detailcontainer}>
+                      <div className={styles.detailIcon}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                          <path d="M2 12c0-3.5 0-5.3 1-6.5l.6-.5C5 4 6.7 4 10.5 4h3c3.8 0 5.6 0 6.9 1l.5.5C22 6.7 22 8.5 22 12s0 5.3-1 6.5l-.6.5c-1.3 1-3.1 1-6.9 1h-3c-3.8 0-5.6 0-6.9-1l-.5-.5C2 17.3 2 15.5 2 12 M10 16h1.5m3 0H18 M2 9h20" />
+                        </svg>
+                      </div>
+                      <div className={styles.detailitem}>
+                        <div className={styles.detailheader}>{t("card number")}</div>
+                        <div className={styles.detailvalue}>{i.cardNumber}</div>
+                      </div>
+                    </div>
+                    <div className={styles.detailcontainer}>
+                      <div className={styles.detailIcon}>
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+                          <path d="M16 2v4M8 2v4m5-2h-2C7.23 4 5.34 4 4.17 5.17S3 8.23 3 12v2c0 3.77 0 5.66 1.17 6.83S7.23 22 11 22h2c3.77 0 5.66 0 6.83-1.17S21 17.77 21 14v-2c0-3.77 0-5.66-1.17-6.83S16.77 4 13 4M3 10h18 M12.13 14H12m.13 4H12m-4.37-4H7.5m.13 4H7.5m9.13-4h-.13m-4.25 0a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0m0 4a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0m-4.5-4a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0m0 4a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0m9-4a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0" />
+                        </svg>
+                      </div>
+                      <div className={styles.detailitem}>
+                        <div className={styles.detailheader}>{t("time")}</div>
+                        <div className={styles.detailvalue}>
                           {new DateObject({
                             date: i.createdTime * 1000,
                             calendar: initialzedTime().calendar,
                             locale: initialzedTime().locale,
-                          }).format("YYYY/MM/DD HH:mm:ss")}
+                          }).format("YYYY/MM/DD - HH:mm:ss")}
                         </div>
                       </div>
-                      {/* <div className={styles.share}>
-                      <img className={styles.sharetype} src="/pdf.svg" />
-                      <img className={styles.sharetype} src="/jpg.svg" />
-                    </div> */}
                     </div>
-                  ))}
+                  </div>
                 </div>
-                {subInvoices?.items.length === 0 && (
-                  <div className={styles.emptyState}>{t("No invoices have been registered yet.")}</div>
-                )}
-              </div>
-            ) : (
-              <div className={styles.defaultCardSettings}>
-                <div className={styles.defaultCardNumber}>{cardNumber.replace(/(.{4})/g, "$1 ").trim()}</div>
-                <div className={styles.settingsActions}>
-                  <section className={styles.settingsAction}>
-                    <div className={styles.settingsActionIcon} aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none">
-                        <path
-                          d="M5 12.5 9.5 17 19 7.5"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </div>
-                    <div className={styles.settingsActionContent}>
-                      <strong>{t("Default Card")}</strong>
-                      <span>{t("Use this card as your default payout account.")}</span>
-                    </div>
-                    <button
-                      type="button"
-                      className={styles.defaultCardButton}
-                      onClick={setDefaultCard}
-                      disabled={!session || setDefaultCardLoading}>
-                      {setDefaultCardLoading ? t("Loading...") : t("Set Default Card")}
-                    </button>
-                  </section>
-                  <section className={styles.settingsAction}>
-                    <div className={`${styles.settingsActionIcon} ${styles.settleIcon}`} aria-hidden="true">
-                      <svg viewBox="0 0 24 24" fill="none">
-                        <path
-                          d="M12 3v18m4-14.5c-.7-.9-2-1.5-4-1.5-2.2 0-4 1.1-4 3s1.8 3 4 3 4 1.1 4 3-1.8 3-4 3c-2 0-3.3-.6-4-1.5"
-                          stroke="currentColor"
-                          strokeWidth="2"
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </div>
-                    <div className={styles.settingsActionContent}>
-                      <strong>{t("Settle")}</strong>
-                      <span>{t("Request settlement for the balance assigned to this card.")}</span>
-                      <PriceFormater
-                        pricetype={totalPriceType}
-                        fee={total}
-                        className={PriceFormaterClassName.PostPrice}
-                      />
-                    </div>
-                    <button
-                      type="button"
-                      className={styles.settleButton}
-                      onClick={settleCard}
-                      disabled={!session || settleLoading || total <= 0}>
-                      {settleLoading ? t("Loading...") : t("Settle")}
-                    </button>
-                  </section>
-                </div>
+              );
+            })}
+
+            {subInvoices?.items.length === 0 && (
+              <div className={styles.emptyState}>{t("No invoices have been registered yet.")}</div>
+            )}
+            {isLoadingMore && (
+              <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
+                <DotLoaders />
               </div>
             )}
-            {isLoadingMore && <Loading />}
-          </div>
+          </>
         )}
       </section>
     </>

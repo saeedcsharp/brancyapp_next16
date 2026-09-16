@@ -12,7 +12,10 @@
 
 # TODO
 
-- Add browser coverage confirming `/wallet` and legacy wallet routes redirect to `/wallet/payment`, and that the unified payment page renders balance summary, defaults to the default bank-card slide while allowing free navigation, supports inline add-card registration, per-card financial status/date filtering, and invoices when a UI test harness is introduced.
+- Add browser coverage confirming `/wallet` and legacy wallet routes redirect to `/wallet/payment`, and that the unified payment page renders balance summary, defaults to the default bank-card slide while allowing free navigation, supports inline add-card registration, latest per-card financial statuses, and invoices when a UI test harness is introduced.
+- Add component coverage for inline bank-card registration, including 16-digit submit activation, invalid-card feedback below the input, notification handling, and card refresh after successful registration when a UI test harness is introduced.
+- Add component coverage for inline bank-card default selection and settlement actions, including disabled/loading states, balance-based settlement eligibility, API notifications, and prevention of card-history navigation when controls are clicked.
+- Add component coverage confirming the inactive bank-card default switch receives the shared `fadeDiv` treatment when a UI test harness is introduced.
 - Add a route smoke check for the public `/metaRedirect` path so accidental whitespace in App Router directory names is detected before development.
 
 - Add iOS Safari browser coverage for create-story image selection, direct `File` upload, HEIC conversion, upload progress, and preservation of the selected image dimensions when a UI test harness is introduced.

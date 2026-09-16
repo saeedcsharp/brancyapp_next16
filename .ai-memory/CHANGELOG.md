@@ -1,3 +1,15 @@
+- Added mouse and touch drag scrolling to the horizontally scrollable sub-invoice detail rows while preserving vertical touch scrolling.
+
+- Applied shared status styles to sub-invoice history labels: blue for unsettled, purple for awaiting settlement, green for settled, red for failed, and gray for unknown statuses.
+
+- Removed the bank-card financial-status date picker and its date-filtered balance requests. Each card now displays the latest general-balance response.
+
+- Applied the shared `fadeDiv` treatment to the inline bank-card default switch while the corresponding card is inactive.
+- Updated the inline wallet settlement button to use `saveButton` when actionable, `disableButton` when unavailable, and the shared `RingLoader` while the settlement request is pending.
+
+- Rendered the four bank-card financial status entries explicitly in `components/wallet/bankCard.tsx` instead of iterating through a local status array; status totals and labels remain unchanged.
+- Moved wallet bank-card default-card and settlement controls from the sub-invoice modal into each `BankCard` item, including their API requests, loading states, balance display, and responsive styles; the modal now renders history only.
+- Refactored the wallet payment page so `BankCard` owns card/general-balance loading, `Invoices` owns invoice cursor pagination, and `WalletTile` remains a presentation-only balance summary; `payment.tsx` now focuses on composition and modal orchestration.
 - Unified the Instagramer wallet under the single `/wallet/payment` tab, moved the balance summary and card financial-status sections into that page, and redirected legacy wallet routes to the canonical payment route.
 - Merged wallet general-balance details into each bank-card slider item. Cards now scroll horizontally, and each card displays its four financial statuses and date filter beneath the card; the standalone `GeneralBalance` component was removed.
 - Moved the wallet add-card tile and registration form into the first `BankCard` slider item. The form now appears inline beneath the tile and refreshes cards after a successful registration instead of using a modal.
@@ -514,6 +526,7 @@
 
 ## 2026-07-23
 
+- Simplified inline bank-card registration: the submit action activates at 16 digits, invalid backend responses show localized feedback below the input, and the form no longer renders the extra hint/cancel/loading labels.
 - Added 16 new backend `ResponseType` notification mappings and localized their messages in all eight supported languages.
 - Updated the wallet summary balance to total every general-balance entry with `SubInvoiceStatus.None` instead of using only the first match.
 - Added a Persian start-date filter that refreshes `/api/wallet/getGenerallBallance` through the current time.

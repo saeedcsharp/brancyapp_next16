@@ -2,7 +2,12 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+Sub-invoice history labels now use the shared `IDblue`, `IDpurple`, `IDgreen`, `IDred`, and `IDgray` styles for unsettled, awaiting-settlement, settled, failed, and unknown statuses.
+Sub-invoice detail rows support horizontal native scrolling and pointer-captured mouse/touch dragging with vertical touch scrolling preserved.
+
 The direct Meta redirect route is available at `/metaRedirect`; its App Router directory no longer has a trailing space, so the route is discovered correctly by Next.js.
+
+Shared Slider drag and keyboard handlers now leave native controls inside slides interactive, including the wallet add-card InputBox.
 
 The landing-page authenticated redirect calls `PreInstagramer/CheckUserIsNew`; a true response opens `/user/instagramerLogin`, while a false or unsuccessful response opens `/user`.
 
@@ -31,9 +36,14 @@ The media quick-reply popup now renders the reusable `components/notOk/commentPe
 The former icon-specific toggle control has been removed. Toggle tabs now use the shared `components/design/toggleButton/ToggleButton.tsx` control across wallet, event ideas, follower analysis, and the system-design showcase.
 
 Instagramer wallet navigation now has one canonical tab at `/wallet/payment`. The payment page contains the former statistics balance summary and card financial-status sections, while `/wallet`, `/wallet/statistics`, and `/wallet/title` redirect to it.
-The complete wallet card collection view is now owned by `components/wallet/bankCard.tsx`: it renders the shared free horizontal slider, maps the cards, and shows each card's matching general-balance status totals and date filter beneath the card. The standalone `generalBallance` component and stylesheet were removed.
+The complete wallet card collection view is now owned by `components/wallet/bankCard.tsx`: it renders the shared free horizontal slider, maps the cards, and shows each card's matching latest general-balance status totals beneath the card. The date filter was removed, so the status grid now represents the newest response loaded for the current session. The standalone `generalBallance` component and stylesheet were removed.
+The inline bank-card settlement button uses `saveButton` while settlement is available, `disableButton` while unavailable, and the shared white `RingLoader` during the settlement request.
+The inline bank-card default setting now uses the shared controlled `SwitchButton` while preserving the existing `/api/wallet/setDefaultCard` request and loading guard.
+The inline bank-card default switch receives the shared `fadeDiv` treatment when its card is inactive.
 The wallet slider sorts the default card to the first card after the add-card slide and starts on it using the shared Slider's `initialIndex`; changing the default restarts on the new default, while subsequent user navigation remains unrestricted.
 The first wallet slider item is also owned by `BankCard`: its add-card tile expands the inline card-number registration form beneath the tile, and `BankCard` owns its state, request, validation, notifications, and successful-registration refresh without opening a modal. The standalone `AddCard` component and stylesheet were removed.
+Bank-card default selection and settlement actions are now rendered inline beneath each card in `BankCard` instead of inside the sub-invoice modal. The modal now contains only cached, paginated sub-invoice history.
+`BankCard` now also owns loading and normalizing the card collection and general-balance data; it reports the balance to `WalletTile`, while `Invoices` owns invoice loading and cursor pagination. `payment.tsx` now focuses on composition, selected-card/invoice state, session redirects, and wallet modals.
 
 The bulk product popup keeps each value-unit radio beside its corresponding editor and renders both shared and per-product editors inline without changing its API or save behavior.
 
@@ -308,10 +318,10 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - Fixed the Instagramer mobile Page and desktop Content Creator logos on `/page/ai`, including direct reloads, by deriving active navbar sections from the App Router pathname.
 - Added responsive internal feature search to the Instagramer navbar using translated feature/section labels for all eight configured locales; searches such as Persian lottery terms resolve to `/page/tools`.
 - Added localized notification mappings for 16 new backend response types across all eight supported languages.
-- Connected Instagramer bank-card registration to `/Business/Wallet/AddCardNumber` and refreshes the complete backend card list after successful registration.
+- Connected Instagramer bank-card registration to `/Business/Wallet/AddCardNumber`; the inline submit activates at 16 digits, invalid responses show localized feedback below the input, and successful registration refreshes the complete backend card list.
 - Connected the Instagramer payment page invoice-history request to a responsive invoice card section after the bank-card collection, with status/type labels and loading/empty states.
 - Added cursor-based infinite scrolling to Instagramer invoice history, using each `/api/wallet/getInvoices` response's `nextMaxId` to append unique subsequent pages.
-- Added a Persian start-date filter to the Instagramer general-balance request and redesigned its results as per-card totals across all four sub-invoice statuses.
+- Removed the bank-card general-balance start-date filter; the status grid now always displays the latest per-card totals across all four sub-invoice statuses.
 - Connected the Instagramer wallet statistics chart to `/api/wallet/getBallanceHistory` and its monthly balance-history response.
 - Updated `legacy-pages/wallet/payment.tsx` to load and render Instagramer bank cards as responsive standalone tiles, with a separate add-card toolbar and form.
 - AI Knowledge Base initialized on 2026-07-19.

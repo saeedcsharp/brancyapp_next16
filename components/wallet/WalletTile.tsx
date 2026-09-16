@@ -1,14 +1,8 @@
-import { IGeneralBallance, IBankCard } from "brancy/models/interfaces";
+import { IGeneralBallance } from "brancy/models/interfaces";
 import styles from "./WalletTile.module.css";
 import { SubInvoiceStatus } from "brancy/models/enums";
 import { useTranslation } from "react-i18next";
-export default function WalletTile({
-  generalBalance,
-  cards,
-}: {
-  generalBalance: IGeneralBallance[];
-  cards: IBankCard[];
-}) {
+export default function WalletTile({ generalBalance }: { generalBalance: IGeneralBallance[] }) {
   const { t } = useTranslation();
   const formatMoney = (v: number) => v.toLocaleString("en-US");
   const totalBalance = generalBalance

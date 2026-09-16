@@ -51,6 +51,10 @@ interface SliderState {
   animatingDirection: "prev" | "next" | null;
 }
 
+const isInteractiveTarget = (target: EventTarget | null) =>
+  target instanceof HTMLElement &&
+  Boolean(target.closest("input, textarea, select, button, a, [contenteditable='true']"));
+
 type SliderAction =
   | { type: "SET_CURRENT_INDEX"; payload: number }
   | { type: "SET_SLIDE_SIZE"; payload: number }
@@ -487,6 +491,8 @@ const Slider: React.FC<SliderProps> = ({
 
   const handleKeyDown = useCallback(
     (e: React.KeyboardEvent) => {
+      if (isInteractiveTarget(e.target)) return;
+
       const { key } = e;
       e.preventDefault();
 
@@ -697,6 +703,8 @@ const Slider: React.FC<SliderProps> = ({
 
   const handleMouseDown = useCallback(
     (e: React.MouseEvent) => {
+      if (isInteractiveTarget(e.target)) return;
+
       e.preventDefault();
       handleDragStart(e.clientX);
     },
@@ -705,6 +713,8 @@ const Slider: React.FC<SliderProps> = ({
 
   const handleTouchStart = useCallback(
     (e: React.TouchEvent) => {
+      if (isInteractiveTarget(e.target)) return;
+
       handleDragStart(e.touches[0].clientX);
     },
     [handleDragStart],

@@ -3,16 +3,15 @@ import { InvoiceStatus, InvoiceType } from "brancy/models/enums";
 import { IGetInvoice, IInvoice } from "brancy/models/interfaces";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
-import { RefObject } from "react";
+import { useCallback, useEffect, useState } from "react";
 import styles from "./invoices.module.css";
 import PriceFormater, { PriceFormaterClassName } from "../priceFormater";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { useSession } from "next-auth/react";
+import { notify, NotifType, ResponseType } from "brancy/components/notifications/notificationBox";
+import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 
 type InvoicesProps = {
-  invoices: IGetInvoice | null;
-  invoicesLoading?: boolean;
-  invoicesLoadingMore?: boolean;
-  hasMore?: boolean;
-  containerRef?: RefObject<HTMLDivElement | null>;
   openInvoicePopup?: (invoice: IInvoice) => void;
 };
 
@@ -27,15 +26,78 @@ const invoiceStatusClassNames: Record<InvoiceStatus, string> = {
   [InvoiceStatus.Failed]: "failed",
 };
 
-export default function Invoices({
-  invoices,
-  invoicesLoading = false,
-  invoicesLoadingMore = false,
-  hasMore = false,
-  containerRef,
-  openInvoicePopup,
-}: InvoicesProps) {
+export default function Invoices({ openInvoicePopup }: InvoicesProps) {
   const { t } = useTranslation();
+  const { data: session } = useSession();
+  const [invoices, setInvoices] = useState<IGetInvoice | null>(null);
+  const [invoicesLoading, setInvoicesLoading] = useState(true);
+
+  const fetchInvoices = async () => {
+    if (!session) return;
+    setInvoicesLoading(true);
+    try {
+      const response = await clientFetchApi<null, IGetInvoice>("/api/wallet/getInvoices", {
+        session,
+        queries: [{ key: "nextMaxId", value: "" }],
+      });
+      if (response.succeeded) setInvoices(response.value);
+      else {
+        notify(response.info.responseType, NotifType.Warning);
+        setInvoices({ items: [], nextMaxId: null });
+      }
+    } catch (error) {
+      console.error("fetchInvoices error", error);
+      notify(ResponseType.Unexpected, NotifType.Error);
+      setInvoices({ items: [], nextMaxId: null });
+    } finally {
+      setInvoicesLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    void fetchInvoices();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session]);
+
+  const fetchMoreInvoices = useCallback(async (): Promise<IInvoice[]> => {
+    const nextMaxId = invoices?.nextMaxId;
+    if (!session || !nextMaxId) return [];
+    try {
+      const response = await clientFetchApi<null, IGetInvoice>("/api/wallet/getInvoices", {
+        session,
+        queries: [{ key: "nextMaxId", value: nextMaxId }],
+      });
+      if (!response.succeeded) {
+        notify(response.info.responseType, NotifType.Warning);
+        setInvoices((current) => (current ? { ...current, nextMaxId: null } : current));
+        return [];
+      }
+      const nextPage = response.value ?? { items: [], nextMaxId: null };
+      const nextItems = Array.isArray(nextPage.items) ? nextPage.items : [];
+      setInvoices((current) =>
+        current ? { ...current, nextMaxId: nextItems.length ? nextPage.nextMaxId : null } : current,
+      );
+      return nextItems;
+    } catch (error) {
+      console.error("fetchMoreInvoices error", error);
+      notify(ResponseType.Unexpected, NotifType.Error);
+      setInvoices((current) => (current ? { ...current, nextMaxId: null } : current));
+      return [];
+    }
+  }, [invoices?.nextMaxId, session]);
+
+  const { containerRef, isLoadingMore: invoicesLoadingMore } = useInfiniteScroll<IInvoice>({
+    hasMore: Boolean(invoices?.nextMaxId),
+    fetchMore: fetchMoreInvoices,
+    onDataFetched: (newInvoices) => {
+      setInvoices((current) => (current ? { ...current, items: [...current.items, ...newInvoices] } : current));
+    },
+    getItemId: (invoice) => invoice.id,
+    currentData: invoices?.items ?? [],
+    isLoading: invoicesLoading,
+    enabled: Boolean(session && invoices),
+  });
+  const hasMore = Boolean(invoices?.nextMaxId);
   const items = invoices?.items ?? [];
   return (
     <section ref={containerRef} className={styles.invoicesSection} aria-busy={invoicesLoading || invoicesLoadingMore}>

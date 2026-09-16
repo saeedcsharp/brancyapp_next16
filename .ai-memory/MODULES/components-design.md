@@ -57,7 +57,7 @@ Exports are defined by source files in the module.
 - `components/design/switchButton/switchButton.tsx` exports the controlled `SwitchButton` while preserving its existing import path and callback API. It uses a native checkbox input, accepts standard input and ARIA props, filters legacy invalid roles, provides a 44px touch target, and supports visible focus, disabled, RTL, reduced-motion, and forced-colors states.
 - `components/design/counterDown/counterDownForLink.tsx` exports `CountdownTimerForLink`, which treats `expireTime` as a Unix timestamp in seconds and displays `DD:HH:MM:SS` when at least one day remains, otherwise `HH:MM:SS`.
 - `components/design/counterDown/counterDownForLink.tsx` exports a link countdown that shows `HH:MM:SS` below one day and `Xd HH:MM:SS` when one or more full days remain.
-- `components/design/slider/slider.tsx` exports `Slider` and `SliderSlide`; `freeMode` provides horizontal touch, trackpad, and pointer-drag scrolling for independently sized slides without pagination controls. The optional `initialIndex` selects the starting slide without preventing later user navigation.
+- `components/design/slider/slider.tsx` exports `Slider` and `SliderSlide`; `freeMode` provides horizontal touch, trackpad, and pointer-drag scrolling for independently sized slides without pagination controls. The optional `initialIndex` selects the starting slide without preventing later user navigation. Native controls inside slides are excluded from slider drag and keyboard interception so inputs remain focusable and editable.
 
 ## Internal APIs
 

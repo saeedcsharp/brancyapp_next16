@@ -3452,7 +3452,6 @@ export default {
     Default: "پیش‌فرض",
     Suspended: "غیرفعال",
     "Financial status": "وضعیت مالی",
-    "All times": "همه زمان‌ها",
     "Updating...": "در حال به‌روزرسانی...",
     Unsettled: "تسویه‌نشده",
     "Awaiting Settled": "در انتظار تسویه",
@@ -3488,6 +3487,7 @@ export default {
     "Loading...": "در حال بارگذاری...",
     "Set Default Card": "تنظیم به‌عنوان کارت پیش‌فرض",
     Settle: "تسویه",
+    "Settle Request": "درخواست تسویه",
     "Request settlement for the balance assigned to this card.":
       "برای تسویه موجودی اختصاص‌یافته به این کارت درخواست دهید.",
     "Logestic Payment": "پرداخت لجستیک",

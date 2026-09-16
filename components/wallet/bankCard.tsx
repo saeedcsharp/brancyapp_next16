@@ -1,13 +1,13 @@
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import initialzedTime from "brancy/helper/manageTimer";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { SubInvoiceStatus } from "brancy/models/enums";
 import { IBankCard, IGeneralBallance } from "brancy/models/interfaces";
 import PriceFormater, { PriceFormaterClassName, PriceType } from "brancy/components/priceFormater";
 import InputBox from "brancy/components/design/inputBox/inputBox";
-import DatePicker, { DateObject } from "react-multi-date-picker";
-import { ChangeEvent, FormEvent, useState } from "react";
+import { ChangeEvent, FormEvent, useEffect, useState } from "react";
+import RingLoader from "../design/loader/ringLoder";
+import SwitchButton from "../design/switchButton/switchButton";
 import { useSession } from "next-auth/react";
 import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
 import styles from "./bankCard.module.css";
@@ -17,8 +17,8 @@ type BankCardItemProps =
       card: IBankCard;
       generalBalance: IGeneralBallance[];
       loading: boolean;
-      onFromDateChange: (from: number) => void;
       onSelectCard?: (bamckCrd: string) => void;
+      onDefaultCardChange?: (cardNumber: string) => void;
       isAddCard?: false;
       onCardAdded?: () => void;
     }
@@ -27,29 +27,22 @@ type BankCardItemProps =
       onCardAdded?: () => void;
     };
 type BankCardProps = {
-  cards: IBankCard[];
-  generalBalance: IGeneralBallance[];
-  loading: boolean;
-  onFromDateChange: (from: number) => void;
+  defaultCardNumber?: string;
+  onGeneralBalanceChange?: (balance: IGeneralBallance[]) => void;
   onSelectCard?: (cardNumber: string) => void;
-  onCardAdded?: () => void;
+  onDefaultCardChange?: (cardNumber: string) => void;
 };
-const statuses = [
-  { status: SubInvoiceStatus.None, label: "Unsettled", className: "unsettled" },
-  { status: SubInvoiceStatus.AwaitingSettled, label: "Awaiting Settled", className: "awaiting" },
-  { status: SubInvoiceStatus.Settled, label: "Settled", className: "settled" },
-  { status: SubInvoiceStatus.Failed, label: "Failed", className: "failed" },
-] as const;
-
 function BankCardItem(props: BankCardItemProps) {
   const { t } = useTranslation();
   const { data: session } = useSession();
   const [showAddForm, setShowAddForm] = useState(false);
   const [newCardNumber, setNewCardNumber] = useState("");
   const [addCardLoading, setAddCardLoading] = useState(false);
+  const [cardNumberInvalid, setCardNumberInvalid] = useState(false);
 
   const handleCardNumberChange = (value: string) => {
     setNewCardNumber(value.replace(/\D/g, "").slice(0, 16));
+    setCardNumberInvalid(false);
   };
 
   const handleAddCard = async (event: FormEvent) => {
@@ -65,12 +58,14 @@ function BankCardItem(props: BankCardItemProps) {
       });
 
       if (!response.succeeded) {
+        setCardNumberInvalid(true);
         notify(response.info.responseType, NotifType.Warning);
         return;
       }
 
       notify(ResponseType.Ok, NotifType.Success);
       setNewCardNumber("");
+      setCardNumberInvalid(false);
       props.onCardAdded?.();
       setShowAddForm(false);
     } catch {
@@ -82,7 +77,7 @@ function BankCardItem(props: BankCardItemProps) {
 
   if (props.isAddCard) {
     return (
-      <article className={`${styles.bankCard} ${styles.addCardCard}`}>
+      <>
         <button className={styles.addCardTile} type="button" onClick={() => setShowAddForm((current) => !current)}>
           <span className={styles.addCardIcon} aria-hidden="true">
             +
@@ -90,150 +85,277 @@ function BankCardItem(props: BankCardItemProps) {
           <span>{t("Add Bank Card")}</span>
           <small>{t("Register a new card")}</small>
         </button>
+
         {showAddForm && (
-          <div className={styles.addCardPanel}>
-            <form className={styles.addCardForm} onSubmit={handleAddCard}>
-              <label className={styles.label} htmlFor="wallet-card-number">
-                {t("Card Number")}
-                <div className={styles.addCardInput}>
-                  <InputBox
-                    className="textinputbox"
-                    handleInputChange={(event: ChangeEvent<HTMLInputElement>) =>
-                      handleCardNumberChange(event.target.value)
-                    }
-                    value={newCardNumber.replace(/(.{4})/g, "$1 ").trim()}
-                    disabled={addCardLoading}
-                    numberType
-                    maxLength={19}
-                    inputMode="numeric"
-                    autoComplete="cc-number"
-                    id="wallet-card-number"
-                    name="wallet-card-number"
-                  />
-                </div>
-                <small className={styles.inputHint}>{t("Insert your card number")}.</small>
-              </label>
-              <div className={styles.formActions}>
-                <button
-                  className="cancelButton"
-                  type="button"
-                  onClick={() => setShowAddForm(false)}
-                  disabled={addCardLoading}>
-                  {t("Cancel")}
-                </button>
-                <button
-                  className={newCardNumber.length !== 16 || addCardLoading ? "disableButton" : "saveButton"}
-                  type="submit"
-                  disabled={newCardNumber.length !== 16 || addCardLoading}>
-                  {addCardLoading ? t("Registering...") : t("Register Bank Card")}
-                </button>
-              </div>
-            </form>
-          </div>
+          <form className="headerandinput" onSubmit={handleAddCard}>
+            <label className={styles.label} htmlFor="wallet-card-number">
+              {t("Card Number")}
+
+              <InputBox
+                className="textinputbox"
+                handleInputChange={(event: ChangeEvent<HTMLInputElement>) => handleCardNumberChange(event.target.value)}
+                value={newCardNumber}
+                numberType
+                maxLength={16}
+                inputMode="numeric"
+                autoComplete="cc-number"
+                id="wallet-card-number"
+                name="wallet-card-number"
+              />
+
+              {cardNumberInvalid && (
+                <small className={styles.invalidCardMessage} role="alert">
+                  {t("Notify_InvalidBankCardNumber")}
+                </small>
+              )}
+            </label>
+            <div className="ButtonContainer">
+              <button
+                className={newCardNumber.length === 16 ? "saveButton" : "disableButton"}
+                type="submit"
+                disabled={newCardNumber.length !== 16}>
+                {t("Register Bank Card")}
+              </button>
+            </div>
+          </form>
         )}
-      </article>
+      </>
     );
   }
 
-  const { card, generalBalance, loading, onFromDateChange, onSelectCard } = props;
+  const { card, generalBalance, loading, onSelectCard, onDefaultCardChange } = props;
   const cardBalances = generalBalance.filter((item) => item.cardNumber === card.cardNumber);
   const priceType = cardBalances[0]?.priceType ?? PriceType.Toman;
+  const total = cardBalances
+    .filter((item) => item.status === SubInvoiceStatus.None)
+    .reduce((sum, item) => sum + item.totalPrice, 0);
+  const totalPriceType = cardBalances.find((item) => item.status === SubInvoiceStatus.None)?.priceType ?? priceType;
+  const [setDefaultCardLoading, setSetDefaultCardLoading] = useState(false);
+  const [settleLoading, setSettleLoading] = useState(false);
 
-  const handleDateChange = (date: DateObject | null) => {
-    if (!date) {
-      onFromDateChange(0);
-      return;
+  const setDefaultCard = async () => {
+    if (!session || setDefaultCardLoading) return;
+
+    setSetDefaultCardLoading(true);
+    try {
+      const response = await clientFetchApi<null, boolean>("/api/wallet/setDefaultCard", {
+        session,
+        queries: [{ key: "cardNumber", value: card.cardNumber }],
+      });
+
+      if (response.succeeded) {
+        notify(ResponseType.Ok, NotifType.Success);
+        onDefaultCardChange?.(card.cardNumber);
+      } else {
+        notify(response.info.responseType, NotifType.Warning);
+      }
+    } catch (error) {
+      console.error("setDefaultCard error", error);
+      notify(ResponseType.Unexpected, NotifType.Error);
+    } finally {
+      setSetDefaultCardLoading(false);
     }
+  };
 
-    const from = date.toDate();
-    from.setHours(0, 0, 0, 0);
-    onFromDateChange(from.getTime());
+  const settleCard = async () => {
+    if (!session || settleLoading) return;
+
+    setSettleLoading(true);
+    try {
+      const response = await clientFetchApi<null, boolean>("/api/wallet/settleRequest", {
+        session,
+        methodType: MethodType.get,
+        queries: [{ key: "cardNumber", value: card.cardNumber }],
+        data: undefined,
+      });
+
+      if (response.succeeded) {
+        notify(ResponseType.Ok, NotifType.Success);
+      } else {
+        notify(response.info.responseType, NotifType.Warning);
+      }
+    } catch (error) {
+      console.error("settleCard error", error);
+      notify(ResponseType.Unexpected, NotifType.Error);
+    } finally {
+      setSettleLoading(false);
+    }
   };
 
   return (
-    <article onClick={() => onSelectCard?.(card.cardNumber)} className={styles.bankCard}>
-      <div className={styles.bankCardHeader}>
-        <div className={styles.bankName}>{card.bankName}</div>
-        <div className={styles.badges}>
-          {card.isDefault && <span className={styles.defaultBadge}>{t("Default")}</span>}
-          {!card.isActive && <span className={styles.suspendedBadge}>{t("Suspended")}</span>}
+    <div className={styles.bankCardContainer}>
+      <div className={styles.bankCard}>
+        <div className={styles.bankCarddetail}>
+          <div className={styles.cardNumber}>{card.cardNumber}</div>
+          <div className={styles.iban}>{card.iban}</div>
+          <span className={styles.holder}>{card.accountHolderName}</span>
+        </div>
+        <div className="headerparent">
+          <div className="explain">
+            {card.bankName} -{card.bankCountryCode}
+          </div>
+          <div className={styles.badges}>
+            {card.isDefault && <span className="IDgreen">{t("active")}</span>}
+            {!card.isActive && <span className="IDred">{t("Suspended")}</span>}
+          </div>
         </div>
       </div>
-      <div className={styles.cardNumber}>{maskCard(card.cardNumber)}</div>
-      <div className={styles.bankCardFooter}>
-        <span className={styles.holder}>{card.accountHolderName}</span>
+      <div className="headerparent" onClick={(event) => event.stopPropagation()}>
+        <div className="title2">{t("Default Card")}</div>
+        <SwitchButton
+          name={`default-card-${card.cardNumber}`}
+          checked={card.isDefault}
+          handleToggle={setDefaultCard}
+          disabled={!session || setDefaultCardLoading}
+          className={!card.isActive ? "fadeDiv" : undefined}
+          role="switch"
+          aria-label={t("Default Card")}
+        />
       </div>
-      <div className={styles.balanceContent} onClick={(event) => event.stopPropagation()}>
-        <div className={styles.balanceHeader}>
-          <span className={styles.balanceTitle}>{t("Financial status")}</span>
-          <DatePicker
-            calendar={initialzedTime().calendar}
-            locale={initialzedTime().locale}
-            calendarPosition="bottom-right"
-            format="YYYY/MM/DD"
-            maxDate={new Date()}
-            onChange={handleDateChange}
-            placeholder={t("All times")}
-            inputClass={styles.dateInput}
-            containerClassName={styles.datePickerContainer}
-            disabled={loading}
-          />
-        </div>
-        {loading && <span className={styles.loadingLabel}>{t("Updating...")}</span>}
-        <div className={`${styles.statusGrid} ${loading ? styles.cardsLoading : ""}`}>
-          {statuses.map(({ status, label, className }) => {
-            const total = cardBalances
-              .filter((item) => item.status === status)
-              .reduce((sum, item) => sum + item.totalPrice, 0);
 
-            return (
-              <div key={status} className={`${styles.statusItem} ${styles[className]}`}>
-                <span className={styles.statusLabel}>{t(label)}</span>
-                <PriceFormater pricetype={priceType} fee={total} className={PriceFormaterClassName.PostPrice} />
-              </div>
-            );
-          })}
+      <div className={`${styles.statusGrid} ${loading ? styles.cardsLoading : ""}`}>
+        <div className="headerandinput">
+          <PriceFormater
+            pricetype={priceType}
+            fee={cardBalances
+              .filter((item) => item.status === SubInvoiceStatus.None)
+              .reduce((sum, item) => sum + item.totalPrice, 0)}
+            className={PriceFormaterClassName.PostPrice}
+          />
+          <span className={styles.statusLabel}>{t("Unsettled")}</span>
+        </div>
+        <div className="headerandinput">
+          <PriceFormater
+            pricetype={priceType}
+            fee={cardBalances
+              .filter((item) => item.status === SubInvoiceStatus.Settled)
+              .reduce((sum, item) => sum + item.totalPrice, 0)}
+            className={PriceFormaterClassName.PostPrice}
+          />
+          <span className={styles.statusLabel}>{t("Settled")}</span>
+        </div>
+        <div className="headerandinput">
+          <PriceFormater
+            pricetype={priceType}
+            fee={cardBalances
+              .filter((item) => item.status === SubInvoiceStatus.AwaitingSettled)
+              .reduce((sum, item) => sum + item.totalPrice, 0)}
+            className={PriceFormaterClassName.PostPrice}
+          />
+          <span className={styles.statusLabel}>{t("Awaiting Settled")}</span>
+        </div>
+
+        <div className="headerandinput">
+          <PriceFormater
+            pricetype={priceType}
+            fee={cardBalances
+              .filter((item) => item.status === SubInvoiceStatus.Failed)
+              .reduce((sum, item) => sum + item.totalPrice, 0)}
+            className={PriceFormaterClassName.PostPrice}
+          />
+          <span className={styles.statusLabel}>{t("Failed")}</span>
         </div>
       </div>
-    </article>
+
+      <div className="ButtonContainer">
+        <div className="cancelButton" onClick={() => onSelectCard?.(card.cardNumber)}>
+          {t("History")}
+        </div>
+        <button
+          type="button"
+          className={session && !settleLoading && total > 0 ? "saveButton" : "disableButton"}
+          onClick={settleCard}
+          disabled={!session || settleLoading || total <= 0}>
+          {settleLoading ? <RingLoader color="white" width={20} height={20} /> : t("Settle Request")}
+        </button>
+      </div>
+    </div>
   );
-}
-function maskCard(s: string) {
-  if (!s) return "---- ---- ---- ----";
-  const cleaned = s.replace(/\s+/g, "");
-  if (cleaned.length < 4) return s;
-  const last = cleaned.slice(-4);
-  return "**** **** **** " + last;
 }
 
 export default function BankCard({
-  cards,
-  generalBalance,
-  loading,
-  onFromDateChange,
+  defaultCardNumber,
+  onGeneralBalanceChange,
   onSelectCard,
-  onCardAdded,
+  onDefaultCardChange,
 }: BankCardProps) {
-  const orderedCards = [...cards].sort((first, second) => Number(second.isDefault) - Number(first.isDefault));
+  const { data: session } = useSession();
+  const [cards, setCards] = useState<IBankCard[]>([]);
+  const [generalBalance, setGeneralBalance] = useState<IGeneralBallance[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  const fetchCards = async () => {
+    try {
+      const response = await clientFetchApi<null, IBankCard[]>("/api/wallet/getInstagramerBankCards", { session });
+      if (!response.succeeded) {
+        notify(response.info.responseType, NotifType.Warning);
+        setCards([]);
+        return;
+      }
+
+      const value: any = response.value;
+      if (Array.isArray(value)) setCards(value);
+      else if (value && Array.isArray(value.value)) setCards(value.value);
+      else if (value && Array.isArray(value.cards)) setCards(value.cards);
+      else if (value && typeof value === "object") setCards([value]);
+      else setCards([]);
+    } catch (error) {
+      console.error("fetchCards error", error);
+      notify(ResponseType.Unexpected, NotifType.Error);
+      setCards([]);
+    }
+  };
+
+  const fetchGeneralBalance = async () => {
+    setLoading(true);
+    try {
+      const response = await clientFetchApi<null, IGeneralBallance[]>("/api/wallet/getGenerallBallance", {
+        session,
+        methodType: MethodType.get,
+        queries: [
+          { key: "from", value: "0" },
+          { key: "end", value: Date.now().toString() },
+        ],
+      });
+      if (response.succeeded) {
+        setGeneralBalance(response.value);
+        onGeneralBalanceChange?.(response.value);
+      } else notify(response.info.responseType, NotifType.Warning);
+    } catch (error) {
+      notify(ResponseType.Unexpected, NotifType.Error);
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    if (!session) return;
+    void fetchCards();
+    void fetchGeneralBalance();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [session]);
+
+  const orderedCards = [...cards]
+    .map((card) => (defaultCardNumber ? { ...card, isDefault: card.cardNumber === defaultCardNumber } : card))
+    .sort((first, second) => Number(second.isDefault) - Number(first.isDefault));
   const defaultCard = orderedCards.find((card) => card.isDefault);
 
   return (
     <Slider
       key={defaultCard?.cardNumber ?? "no-default-card"}
-      className={styles.cardSlider}
       spaceBetween={16}
       initialIndex={orderedCards.length > 0 ? 1 : 0}>
-      <SliderSlide className={styles.cardSlide}>
-        <BankCardItem isAddCard onCardAdded={onCardAdded} />
+      <SliderSlide>
+        <BankCardItem isAddCard onCardAdded={fetchCards} />
       </SliderSlide>
       {orderedCards.map((card, index) => (
-        <SliderSlide key={`${card.cardNumber}-${index}`} className={styles.cardSlide}>
+        <SliderSlide key={`${card.cardNumber}-${index}`}>
           <BankCardItem
             card={card}
             generalBalance={generalBalance}
             loading={loading}
-            onFromDateChange={onFromDateChange}
             onSelectCard={onSelectCard}
+            onDefaultCardChange={onDefaultCardChange}
           />
         </SliderSlide>
       ))}
