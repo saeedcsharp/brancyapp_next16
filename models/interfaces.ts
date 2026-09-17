@@ -106,6 +106,7 @@ export interface InstagramerAccountInfo {
   website: string | null;
   biography: string | null;
   createdTime: number;
+  businessType: BusinessType;
 }
 
 export interface IVerifyCode {

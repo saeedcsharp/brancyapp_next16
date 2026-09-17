@@ -1653,7 +1653,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                   </div>
                 )}
                 {/*Connect Product */}
-                {session?.user.isShopper && (
+                {session?.user.isShopper && productType === MediaProductType.Live && (
                   <div className="headerandinput">
                     <div className="headerandinput">
                       <RadioButton
