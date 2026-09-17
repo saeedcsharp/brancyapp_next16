@@ -174,6 +174,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
   const { data: session } = useSession();
   const hasMessagePermission = session?.user.messagePermission === false;
   const hasAutomaticsPermission = RoleAccess(session, PartnerRole.Automatics);
+  const hasProductPermission = RoleAccess(session, PartnerRole.Products);
   const componentId = useId();
 
   const isMountedRef = useRef(true);
@@ -1043,14 +1044,24 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
     const isAIValid = checkBox.AI && !!(selectedPrompt?.promptId || replyMethod?.promptId) && keywordValid;
     const isGeneralAIValid = checkBox.GeneralAI && keywordValid;
     const isFlowValid = checkBox.Flow && !!(selectedFlow?.masterFlowId || replyMethod?.masterFlowId) && keywordValid;
-    const isProductValid = checkBox.Product && keywordValid;
-    const isConnectProductValid = checkBox.ConnectProduct && selectedProduct && keywordValid;
+    const isProductValid = checkBox.Product && hasProductPermission && keywordValid;
+    const isConnectProductValid = checkBox.ConnectProduct && hasProductPermission && selectedProduct && keywordValid;
     return (
       activeAutoReply &&
       !(hasMessagePermission && checkBox.Flow) &&
       (isCustomValid || isAIValid || isGeneralAIValid || isFlowValid || isProductValid || isConnectProductValid)
     );
-  }, [activeAutoReply, autoReplyAll, checkBox, replyMethod, selectedFlow, selectedPrompt, selectedProduct]);
+  }, [
+    activeAutoReply,
+    autoReplyAll,
+    checkBox,
+    hasMessagePermission,
+    hasProductPermission,
+    replyMethod,
+    selectedFlow,
+    selectedPrompt,
+    selectedProduct,
+  ]);
 
   const hasChanges = useMemo(() => {
     const originalAll = (autoReply?.items?.length ?? 0) === 0;
@@ -1649,7 +1660,11 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                       />
                       <div className="explain">{t(LanguageKey.messagesetting_SpecifyProductResponseExplain)}</div>
                     </div>
-                    {checkBox.Product && hasMessagePermission && renderMessagePermissionState()}
+                    {checkBox.Product && !hasProductPermission ? (
+                      <NotAllowedCard />
+                    ) : (
+                      checkBox.Product && hasMessagePermission && renderMessagePermissionState()
+                    )}
                   </div>
                 )}
                 {/*Connect Product */}
@@ -1665,7 +1680,9 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                       />
                       <div className="explain">{t(LanguageKey.messagesetting_SpecifyProductResponseExplain)}</div>
                     </div>
-                    {checkBox.ConnectProduct && (
+                    {checkBox.ConnectProduct && !hasProductPermission ? (
+                      <NotAllowedCard />
+                    ) : checkBox.ConnectProduct ? (
                       <div className={styles.optioncontainer}>
                         <>
                           <div className="headerandinput">
@@ -1684,7 +1701,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                           {renderReplyMethodSection("ConnectProduct")}
                         </>
                       </div>
-                    )}
+                    ) : null}
                   </div>
                 )}
               </>

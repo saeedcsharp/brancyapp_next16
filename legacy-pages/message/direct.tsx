@@ -1,7 +1,6 @@
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import router from "next/router";
-
 import { useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import DirectInbox from "brancy/components/messages/direct/directInbox";

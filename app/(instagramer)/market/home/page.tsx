@@ -1,9 +1,17 @@
 "use client";
 
-import PageComponent from "../../../../legacy-pages/market/home";
+import NotAllowed from "brancy/components/notOk/notAllowed";
+import { RoleAccess } from "brancy/helper/loadingStatus";
+import { PartnerRole } from "brancy/models/enums";
 import { useSession } from "next-auth/react";
+import PageComponent from "../../../../legacy-pages/market/home";
 export default function Page() {
-  const { status } = useSession();
+  const { data: session, status } = useSession();
+
+  if (!RoleAccess(session, PartnerRole.Bio)) {
+    return <NotAllowed />;
+  }
+
   if (status !== "authenticated") return null;
   return <PageComponent />;
 }

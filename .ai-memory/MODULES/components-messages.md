@@ -125,6 +125,8 @@ The media auto-reply AI selector keeps its `DragDrop` on the localized Please se
 
 `popups/editAutoReplyForMedia.tsx` keeps media auto-reply and AI configuration available when `session.user.messagePermission === false`, but shows the localized message-permission state whenever direct response, Flow, Product, or Connect Product delivery is selected. Its Enable Permission action uses the same IP check, invalid-IP modal, and Instagram redirect flow as the comment quick-reply state; same-comment responses remain available without message permission.
 
+`popups/editAutoReplyForMedia.tsx` requires `RoleAccess(session, PartnerRole.Products)` for Product and Connect Product modes. When the partner lacks the Products role, the selected mode renders `NotAllowedCard` and the save action remains invalid until product access is available.
+
 The media auto-reply editor gates all AI prompt and Flow list, search, pagination, selection, and saved-item enrichment requests with `RoleAccess(session, PartnerRole.Automatics)`. When the partner lacks that role, the selected AI or Flow panel renders `NotAllowed` and no related API request is started.
 
 `legacy-pages/message/Properties.tsx` does not load message settings, including `GetGeneralAutoReplies`, when `session.user.messagePermission` is false. This prevents an unauthorized response from reaching the shared client API sign-out path while the localized `NotPermission` state is displayed.
