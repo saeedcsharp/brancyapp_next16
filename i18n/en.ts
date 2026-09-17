@@ -2507,6 +2507,17 @@ export default {
     SettingGeneral_partnertitle: "Collaborator Admin Title",
     SettingGeneral_partnernumberexplain:
       "An invitation will be sent to this number, and the collaborator admin must confirm it in their panel (the admin must register in Brancy to accept the invitation).",
+    SettingGeneral_contentTooltip: "Posts, Stories, Reels, IGTV, Carousels, and scheduling.",
+    SettingGeneral_publishTooltip: "Create posts and stories. This requires Content access.",
+    SettingGeneral_automaticsTooltip: "AI, Flow, and automated processes and tasks.",
+    SettingGeneral_messageTooltip: "Instagram Direct, internal messages, and related tools.",
+    SettingGeneral_commentTooltip: "Comments, replies, and related tools.",
+    SettingGeneral_transactionTooltip: "Payment account management, transactions, wallet, and related tools.",
+    SettingGeneral_adsTooltip: "Calendar management, advertiser management, ad approval, pricing, and related tools.",
+    SettingGeneral_ordersTooltip: "Products, prices, warehouse stock, orders, waybills, and related tools.",
+    SettingGeneral_bioTooltip: "Bio content and arrangement, links, and third-party content shortcuts.",
+    SettingGeneral_ticketTooltip: "CRM, system tickets, and support.",
+    SettingGeneral_productsTooltip: "Product management tools.",
 
     // Setting -> General -> support
     SettingGeneral_GeneralSupport: "General Support",

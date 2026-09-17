@@ -12,6 +12,9 @@ A valid working Instagramer session generally requires `session.user.currentInde
 
 Partner accounts are restricted by `PartnerRole`; non-partner users are broadly allowed by `RoleAccess` unless a specific partner role check applies.
 
+In the Add Partner permissions form, `PageView` (Content) and `Publish` remain independent roles. The Publish control is disabled until Content is enabled, but enabling or disabling Content does not change the stored Publish role.
+When saving, Publish is omitted from the create/update payload whenever Content is disabled.
+
 ## Country And Payments
 
 Pricing and redirect behavior use country headers. Iranian-only payment domains are blocked for non-IR/AZ visitors in `app/redirectInterface/page.tsx`; a client timer reloads the blocked page every second.

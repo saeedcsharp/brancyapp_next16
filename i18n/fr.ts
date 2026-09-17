@@ -2581,6 +2581,18 @@ export default {
     SettingGeneral_partnertitle: "Titre de l’Admin Collaborateur",
     SettingGeneral_partnernumberexplain:
       "Une invitation sera envoyée à ce numéro, et l’admin collaborateur doit la confirmer dans son panneau (l’admin doit s’inscrire sur Brancy pour accepter l’invitation).",
+    SettingGeneral_contentTooltip: "Publications, stories, Reels, IGTV, carrousels et planification.",
+    SettingGeneral_publishTooltip: "Créer des publications et des stories. L’accès au contenu est requis.",
+    SettingGeneral_automaticsTooltip: "IA, flux, processus et tâches automatisés.",
+    SettingGeneral_messageTooltip: "Messages directs Instagram, messages internes et outils associés.",
+    SettingGeneral_commentTooltip: "Commentaires, réponses et outils associés.",
+    SettingGeneral_transactionTooltip: "Gestion du compte de paiement, transactions, portefeuille et outils associés.",
+    SettingGeneral_adsTooltip:
+      "Gestion du calendrier, des annonceurs, validation des publicités, tarification et outils associés.",
+    SettingGeneral_ordersTooltip: "Produits, prix, stock, commandes, bons de livraison et outils associés.",
+    SettingGeneral_bioTooltip: "Contenu et mise en page de la bio, liens et raccourcis de contenu tiers.",
+    SettingGeneral_ticketTooltip: "CRM, tickets système et assistance.",
+    SettingGeneral_productsTooltip: "Outils de gestion des produits.",
 
     // Setting -> General -> support
     SettingGeneral_GeneralSupport: "Support Général",

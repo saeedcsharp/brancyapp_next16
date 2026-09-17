@@ -2461,6 +2461,18 @@ export default {
     SettingGeneral_partnertitle: "Əməkdaş Admin Başlığı",
     SettingGeneral_partnernumberexplain:
       "Dəvət bu nömrəyə göndəriləcək və əməkdaş admin onu öz panelində təsdiqləməlidir (dəvəti qəbul etmək üçün admin Brancy-də qeydiyyatdan keçməlidir).",
+    SettingGeneral_contentTooltip: "Paylaşımlar, hekayələr, Reels, IGTV, karusellər və planlaşdırma.",
+    SettingGeneral_publishTooltip: "Paylaşım və hekayə yaratmaq. Bunun üçün məzmun girişi tələb olunur.",
+    SettingGeneral_automaticsTooltip: "Süni intellekt, axınlar və avtomatlaşdırılmış proses və tapşırıqlar.",
+    SettingGeneral_messageTooltip: "Instagram Direct, daxili mesajlar və əlaqəli alətlər.",
+    SettingGeneral_commentTooltip: "Şərhlər, cavablar və əlaqəli alətlər.",
+    SettingGeneral_transactionTooltip: "Ödəniş hesabının idarəsi, əməliyyatlar, cüzdan və əlaqəli alətlər.",
+    SettingGeneral_adsTooltip:
+      "Təqvim, reklamverənlərin idarəsi, reklamların təsdiqi, qiymətləndirmə və əlaqəli alətlər.",
+    SettingGeneral_ordersTooltip: "Məhsullar, qiymətlər, anbar ehtiyatı, sifarişlər, qaimələr və əlaqəli alətlər.",
+    SettingGeneral_bioTooltip: "Bio məzmunu və düzülüşü, keçidlər və üçüncü tərəf məzmun qısayolları.",
+    SettingGeneral_ticketTooltip: "CRM, sistem biletləri və dəstək.",
+    SettingGeneral_productsTooltip: "Məhsul idarəetmə alətləri.",
 
     SettingGeneral_access: "Giriş",
     SettingGeneral_GeneralSupport: "Ümumi dəstək",

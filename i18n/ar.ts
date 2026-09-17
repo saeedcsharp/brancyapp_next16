@@ -2422,6 +2422,17 @@ export default {
     SettingGeneral_partnertitle: "عنوان الأدمن المتعاون",
     SettingGeneral_partnernumberexplain:
       "سيتم إرسال دعوة إلى هذا الرقم، ويجب على الأدمن المتعاون تأكيدها في لوحته (يجب أن يسجل الأدمن في برنسی ليتمكن من قبول الدعوة).",
+    SettingGeneral_contentTooltip: "المنشورات والقصص وReels وIGTV والمنشورات المتعددة والجدولة.",
+    SettingGeneral_publishTooltip: "إنشاء المنشورات والقصص. يتطلب ذلك صلاحية المحتوى.",
+    SettingGeneral_automaticsTooltip: "الذكاء الاصطناعي والتدفقات والعمليات والمهام الآلية.",
+    SettingGeneral_messageTooltip: "الرسائل المباشرة في Instagram والرسائل الداخلية والأدوات المرتبطة.",
+    SettingGeneral_commentTooltip: "التعليقات والردود والأدوات المرتبطة.",
+    SettingGeneral_transactionTooltip: "إدارة حساب الدفع والمعاملات والمحفظة والأدوات المرتبطة.",
+    SettingGeneral_adsTooltip: "إدارة التقويم والمعلنين وقبول الإعلانات والتسعير والأدوات المرتبطة.",
+    SettingGeneral_ordersTooltip: "المنتجات والأسعار ومخزون المستودع والطلبات ووثائق الشحن والأدوات المرتبطة.",
+    SettingGeneral_bioTooltip: "محتوى السيرة وترتيبه والروابط واختصارات محتوى الجهات الخارجية.",
+    SettingGeneral_ticketTooltip: "إدارة علاقات العملاء وتذاكر النظام والدعم.",
+    SettingGeneral_productsTooltip: "أدوات إدارة المنتجات.",
 
     // Setting -> General -> support
     SettingGeneral_GeneralSupport: "الدعم العام",

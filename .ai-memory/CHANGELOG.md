@@ -1,3 +1,8 @@
+- 2026-09-17: Localized all Add Partner access tooltips across the eight supported locales using dedicated `LanguageKey` entries.
+
+- 2026-09-17: Updated Add Partner permissions so Content and Publish remain independent while the Publish control is disabled until Content is enabled.
+- 2026-09-17: Filtered Publish from Add Partner create/update payloads when Content is disabled.
+
 - 2026-09-17: Gated media auto-reply Product and Connect Product modes behind `PartnerRole.Products`; partners without the role see `NotAllowedCard` and cannot save those modes.
 
 - 2026-09-15: Gated media auto-reply AI and Flow prompt APIs behind `PartnerRole.Automatics`; partners without the role see `NotAllowed` and do not trigger prompt/flow list, search, pagination, selection, or saved-item enrichment requests.

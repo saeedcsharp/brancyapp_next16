@@ -22,6 +22,8 @@
 
 # TODO
 
+- Add component coverage confirming Add Partner keeps Content and Publish independent, disables Publish while Content is off, and preserves Publish when Content is toggled when a UI test harness is introduced.
+
 - Add component coverage confirming create-post role denial preserves the popup shell and renders `NotAllowed` for missing `Publish` access without mounting editor content when a UI test harness is introduced.
 - Add component coverage confirming create-story role denial preserves the popup shell and renders `NotAllowed` for missing `Publish` access without mounting editor content when a UI test harness is introduced.
 - Add component coverage confirming media auto-reply AI/Flow panels render `NotAllowed` without `PartnerRole.Automatics` and skip initial, search, pagination, selection, and saved-item prompt/flow API requests when a UI test harness is introduced.

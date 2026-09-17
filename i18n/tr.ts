@@ -2508,6 +2508,17 @@ export default {
     SettingGeneral_partnertitle: "İşbirlikçi Admin Başlığı",
     SettingGeneral_partnernumberexplain:
       "Bu numaraya davetiye gönderilecektir ve işbirlikçi admin bunu panelinde onaylamalıdır (admin davetiyeyi kabul edebilmek için Brancy’de kayıt olmalıdır).",
+    SettingGeneral_contentTooltip: "Gönderiler, Hikayeler, Reels, IGTV, karuseller ve zamanlama.",
+    SettingGeneral_publishTooltip: "Gönderi ve hikaye oluşturma. İçerik erişimi gerektirir.",
+    SettingGeneral_automaticsTooltip: "Yapay zeka, akışlar ve otomatik süreç ve görevler.",
+    SettingGeneral_messageTooltip: "Instagram Direct, dahili mesajlar ve ilgili araçlar.",
+    SettingGeneral_commentTooltip: "Yorumlar, yanıtlar ve ilgili araçlar.",
+    SettingGeneral_transactionTooltip: "Ödeme hesabı yönetimi, işlemler, cüzdan ve ilgili araçlar.",
+    SettingGeneral_adsTooltip: "Takvim yönetimi, reklamveren yönetimi, reklam onayı, fiyatlandırma ve ilgili araçlar.",
+    SettingGeneral_ordersTooltip: "Ürünler, fiyatlar, depo stoku, siparişler, irsaliyeler ve ilgili araçlar.",
+    SettingGeneral_bioTooltip: "Biyografi içeriği ve düzeni, bağlantılar ve üçüncü taraf içerik kısayolları.",
+    SettingGeneral_ticketTooltip: "CRM, sistem talepleri ve destek.",
+    SettingGeneral_productsTooltip: "Ürün yönetimi araçları.",
 
     // Setting -> General -> support
     SettingGeneral_GeneralSupport: "Genel Destek",

@@ -2469,6 +2469,17 @@ export default {
     SettingGeneral_partnertitle: "عنوان ادمین همکار",
     SettingGeneral_partnernumberexplain:
       "دعوت‌نامه به این شماره ارسال می‌شود و ادمین همکار باید در پنل خود آن را تأیید کند (ادمین باید در برنسی ثبت‌نام کند تا بتواند دعوت‌نامه را قبول کند).",
+    SettingGeneral_contentTooltip: "پست‌ها، استوری‌ها، ریلزها، IGTV، کاروسل‌ها و زمان‌بندی.",
+    SettingGeneral_publishTooltip: "ایجاد پست و استوری؛ این دسترسی به دسترسی محتوا نیاز دارد.",
+    SettingGeneral_automaticsTooltip: "هوش مصنوعی، فلوها و فرایندها و وظایف خودکار.",
+    SettingGeneral_messageTooltip: "دایرکت اینستاگرام، پیام‌های داخلی و ابزارهای مرتبط.",
+    SettingGeneral_commentTooltip: "نظرات، پاسخ‌ها و ابزارهای مرتبط.",
+    SettingGeneral_transactionTooltip: "مدیریت حساب پرداخت، تراکنش‌ها، کیف پول و ابزارهای مرتبط.",
+    SettingGeneral_adsTooltip: "مدیریت تقویم، تبلیغ‌دهندگان، تأیید تبلیغات، قیمت‌گذاری و ابزارهای مرتبط.",
+    SettingGeneral_ordersTooltip: "محصولات، قیمت‌ها، موجودی انبار، سفارش‌ها، بارنامه‌ها و ابزارهای مرتبط.",
+    SettingGeneral_bioTooltip: "محتوا و چیدمان بایو، لینک‌ها و میانبرهای محتوای شخص ثالث.",
+    SettingGeneral_ticketTooltip: "CRM، تیکت‌های سیستمی و پشتیبانی.",
+    SettingGeneral_productsTooltip: "ابزارهای مدیریت محصولات.",
 
     // Setting -> General -> support
     SettingGeneral_GeneralSupport: "پشتیبانی عمومی",
