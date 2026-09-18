@@ -2,6 +2,8 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+The Instagramer and user desktop sidebars now include a localized Support button at the bottom of their menus. Each opens the shared Goftino chat panel beside the sidebar while retaining the global website support control.
+
 Wallet invoice order details now load automatically when the `Order` tab is selected and render inside the existing invoice popup. The request still uses `/api/wallet/getInvoice`, but the returned invoice is passed to `OrderDetailPopup` inline instead of requiring a button or opening a second modal.
 
 Sub-invoice history labels now use the shared `IDblue`, `IDpurple`, `IDgreen`, `IDred`, and `IDgray` styles for unsettled, awaiting-settlement, settled, failed, and unknown statuses.

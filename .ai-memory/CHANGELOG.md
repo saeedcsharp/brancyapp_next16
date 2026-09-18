@@ -1,3 +1,5 @@
+- 2026-09-18: Added localized Support buttons to the Instagramer and user sidebars. They open the shared Goftino chat panel beside the menu and use unique panel IDs alongside the global support control.
+
 - Added the wallet settlement-history view to the payment page. `components/wallet/settle.tsx` uses paginated invoice data, shows awaiting/settled/failed sub-invoices in invoice-style cards, and keeps unsettled balances in the existing card and invoice views.
 
 - Wallet invoice order details now load automatically when the `Order` tab is selected and replace the invoice summary inside the existing invoice popup; back and close return to the invoice summary without a second modal.

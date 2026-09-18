@@ -7,20 +7,22 @@
 
 .supportButton {
   display: grid;
-  width: 64px;
-  height: 64px;
-  padding: 0;
+  width: 40px;
+  height: 40px;
+  padding: 5px;
+  box-sizing: border-box;
+  box-shadow: var(--box-shadow);
   place-items: center;
   border: 0;
   border-radius: 50%;
-  background: #fff;
+  background: var(--color-white);
   box-shadow: 0 8px 24px rgb(0 0 0 / 24%);
   cursor: pointer;
 }
 
 .supportButton img {
-  width: 58px;
-  height: 58px;
+  width: 40px;
+  height: 40px;
   border-radius: 50%;
 }
 
@@ -58,10 +60,15 @@
 }
 
 .chatPanel {
+  filter: var(--box-shadow);
+  animation: var(--bottom08);
   position: absolute;
-  right: 0;
-  bottom: 76px;
+  /* right: 0;
+  bottom: 76px; */
+  right: 0px;
+  bottom: 0px;
   width: min(380px, calc(100vw - 40px));
+  /* height: min(550px, calc(100vh - 120px)); */
   overflow: hidden;
   border-radius: 12px;
   background: #fff;
@@ -90,9 +97,7 @@
 .frame {
   display: block;
   width: 100%;
-  height: min(576px, calc(100vh - 84px));
-  border: 0;
-  background: #fff;
+  height: min(576px, calc(100vh - 100px));
 }
 
 html[dir="rtl"] .frame {

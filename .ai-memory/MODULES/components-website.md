@@ -108,7 +108,7 @@ External services are accessed through Brancy backend APIs unless this module do
 
 Do not expose tokens, secrets, or user data. Follow auth and redirect rules.
 
-`BlogChatFrame` now opens only the direct Goftino chat when its support button is pressed; the blog redirect is temporarily removed. The cross-origin iframe keeps its sandbox and sensitive-device permission restrictions.
+`BlogChatFrame` now opens only the direct Goftino chat when its support button is pressed; the blog redirect is temporarily removed. Its reusable `SupportChatPanel` is also used by the Instagramer sidebar. The cross-origin iframe keeps its sandbox and sensitive-device permission restrictions, and each mounted panel can use a unique DOM ID.
 
 ## Permission Rules
 

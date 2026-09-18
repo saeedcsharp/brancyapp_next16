@@ -1833,6 +1833,7 @@ export default {
     biolinkPropertiesfeatures: "الميزات",
     biolinkPropertiesProfileInfoBanner: "معلومات الملف الشخصي والبنر",
     biolinkPropertiesFeaturebox: "صندوق الميزات",
+    biolinkPropertiesTermsAndActiveTime: "الشروط وساعات العمل",
     biolinkPropertiesFeatureboxexplain: "من خلال تفعيل كل ميزة، يمكنك عرض معلومات مهمة لزوار صفحة الرابط الخاصة بك",
     biolinkPropertiesBanner: "الراية",
     biolinkPropertiesFeaturesBox: "صندوق الميزات",

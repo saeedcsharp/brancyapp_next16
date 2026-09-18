@@ -1908,6 +1908,7 @@ export default {
     biolinkPropertiesfeatures: "Özellikler",
     biolinkPropertiesProfileInfoBanner: "Profil Bilgileri ve Afiş",
     biolinkPropertiesFeaturebox: "Özellik Kutusu",
+    biolinkPropertiesTermsAndActiveTime: "Koşullar ve Çalışma Saatleri",
     biolinkPropertiesFeatureboxexplain:
       "Her özelliği etkinleştirerek, link sayfanızı ziyaret edenlere önemli bilgiler gösterebilirsiniz",
     biolinkPropertiesBanner: "Afiş",

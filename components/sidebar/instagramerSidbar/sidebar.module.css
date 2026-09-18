@@ -248,6 +248,39 @@ html[dir="rtl"] .navSidebar > div {
   pointer-events: none;
 }
 
+.supportbutton button {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  padding: 0;
+  place-items: center;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.supportbutton button:focus-visible {
+  outline: 2px solid var(--color-dark-blue);
+  outline-offset: 4px;
+}
+
+.supportbutton svg {
+  width: 30px;
+  height: 30px;
+}
+
+.sidebarChatPanel {
+  position: fixed;
+  right: auto;
+  bottom: 20px;
+  left: 110px;
+}
+
+html[dir="rtl"] .sidebarChatPanel {
+  right: 110px;
+  left: auto;
+}
+
 .navSidebar > div:hover .buttonName::before {
   opacity: 1;
   transform: translateY(-50%) rotate(45deg) scale(0.9);

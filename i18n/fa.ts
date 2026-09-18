@@ -1868,6 +1868,7 @@ export default {
     biolinkPropertiesfeatures: "تنظیمات",
     biolinkPropertiesProfileInfoBanner: "اطلاعات پروفایل و بنر",
     biolinkPropertiesFeaturebox: "باکس ویژگی ها",
+    biolinkPropertiesTermsAndActiveTime: "قوانین و ساعات کاری",
     biolinkPropertiesFeatureboxexplain:
       "با فعال‌سازی هر ویژگی، می‌توانید اطلاعات مهمی را به بازدیدکنندگان صفحه لینک خود نمایش دهید",
     biolinkPropertiesBanner: "بنر",

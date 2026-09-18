@@ -1961,6 +1961,7 @@ export default {
     biolinkPropertiesfeatures: "Funktionen",
     biolinkPropertiesProfileInfoBanner: "Profilinfo & Banner",
     biolinkPropertiesFeaturebox: "Funktionsbox",
+    biolinkPropertiesTermsAndActiveTime: "Bedingungen und Geschäftszeiten",
     biolinkPropertiesFeatureboxexplain:
       "Durch das Aktivieren jeder Funktion können Sie wichtige Informationen für Besucher Ihrer Link-Seite anzeigen",
     biolinkPropertiesBanner: "Banner",

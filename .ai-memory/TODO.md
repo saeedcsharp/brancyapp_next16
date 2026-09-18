@@ -12,6 +12,8 @@
 
 # TODO
 
+- Add component/browser coverage for opening and closing the Instagramer sidebar Support chat, including RTL positioning, keyboard activation, coexistence with the global support control, and mobile visibility when a UI test harness is introduced.
+
 - Add component coverage for settlement-history filtering, cursor pagination, duplicate sub-invoice IDs, status labels, loading/empty states, and responsive detail scrolling when a UI test harness is introduced.
 
 - Add component coverage confirming selecting the `Order` tab automatically loads order details inside the existing invoice popup, returns to the invoice summary through Back/Close, and does not mount a second modal when a UI test harness is introduced.
