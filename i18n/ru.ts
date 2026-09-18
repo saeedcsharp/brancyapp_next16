@@ -668,7 +668,7 @@ export default {
     collaborator: "Страница Сотрудника",
     collaboratorpost: "Пост Сотрудника",
     sidebar_Home: "Дом",
-    sidebar_Page: "Страница",
+    sidebar_Page: "Управление",
     sidebar_Message: "Сообщения",
     sidebar_Wallet: "Кошелек",
     sidebar_biolink: "Ссылка в био",

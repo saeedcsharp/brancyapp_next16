@@ -670,7 +670,7 @@ export default {
     collaborator: "İşbirlikçi Sayfası",
     collaboratorpost: "İşbirlikçi Postu",
     sidebar_Home: "Ev",
-    sidebar_Page: "Sayfa",
+    sidebar_Page: "Sayfa Yönetimi",
     sidebar_Message: "Mesajlar",
     sidebar_Wallet: "Cüzdan",
     sidebar_biolink: "Biyografi Bağlantısı",

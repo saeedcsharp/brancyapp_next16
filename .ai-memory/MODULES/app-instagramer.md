@@ -22,7 +22,7 @@ Follows existing Next/React/TypeScript project conventions.
 
 ## Execution Flow
 
-Execution starts from imports, route rendering, or helper calls depending on the module. The Instagramer group layout waits for NextAuth `status === "authenticated"` before rendering its sidebar, navbar, children, or session-dependent overlays; unauthenticated users are redirected to `/` by the session guard.
+Execution starts from imports, route rendering, or helper calls depending on the module. The Instagramer group layout waits for NextAuth `status === "authenticated"` before rendering its sidebar, navbar, children, or session-dependent overlays; unauthenticated users are redirected to `/` by the session guard. AI routes are grouped under `/Ai`, with `/Ai` redirecting to `/Ai/creator` and the Flow and Agent workspace available at `/Ai/FlowandAgent`.
 
 ## Data Flow
 

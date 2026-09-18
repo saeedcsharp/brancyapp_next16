@@ -660,7 +660,7 @@ export default {
     caption: "Beschriftung",
     collaborator: "Mitarbeiterseite",
     sidebar_Home: "Zuhause",
-    sidebar_Page: "Seite",
+    sidebar_Page: "Seite verwalten",
     sidebar_Message: "Nachrichten",
     sidebar_Wallet: "Brieftasche",
     sidebar_biolink: "Bio-Link",

@@ -22,7 +22,7 @@ components/sidebar/.
 
 ## Execution Flow
 
-The Instagramer layout passes a slash-free current route to `InstagramerSidebar`. Sidebar parent items match both their direct routes and nested `subRoutes` by prefix, keeping the parent indicator and SVG active color synchronized for AI-related pages such as `/page/ai`.
+The Instagramer layout passes a slash-free current route to `InstagramerSidebar`. Sidebar parent items match both their direct routes and nested `subRoutes` by prefix, keeping the parent indicator and SVG active color synchronized for the standalone AI routes `/Ai/creator` and `/Ai/FlowandAgent`.
 
 The user desktop sidebar and mobile hamburger menu intentionally omit the user wallet navigation item. The user wallet route and feature remain available through direct route flows; this change only removes their sidebar entries.
 

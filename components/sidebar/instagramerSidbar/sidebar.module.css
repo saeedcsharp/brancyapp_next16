@@ -22,23 +22,26 @@
 .indicator-page {
   transform: translateY(60px) !important;
 }
-.indicator-messaging {
+.indicator-ai {
   transform: translateY(125px) !important;
 }
-.indicator-wallet {
+.indicator-messaging {
   transform: translateY(190px) !important;
 }
-.indicator-market {
+.indicator-wallet {
   transform: translateY(255px) !important;
 }
-.indicator-advertise {
+.indicator-market {
   transform: translateY(318px) !important;
 }
-.indicator-store {
+.indicator-advertise {
   transform: translateY(382px) !important;
 }
-.indicator-setting {
+.indicator-store {
   transform: translateY(446px) !important;
+}
+.indicator-setting {
+  transform: translateY(510px) !important;
 }
 /* .indicator-setting {
   transform: translateY(190px) !important;
@@ -50,23 +53,26 @@ html[dir="rtl"] .indicator-home {
 html[dir="rtl"] .indicator-page {
   transform: translateY(62px) !important;
 }
-html[dir="rtl"] .indicator-messaging {
+html[dir="rtl"] .indicator-ai {
   transform: translateY(128px) !important;
 }
-html[dir="rtl"] .indicator-wallet {
+html[dir="rtl"] .indicator-messaging {
   transform: translateY(194px) !important;
 }
-html[dir="rtl"] .indicator-market {
+html[dir="rtl"] .indicator-wallet {
   transform: translateY(261px) !important;
 }
-html[dir="rtl"] .indicator-advertise {
+html[dir="rtl"] .indicator-market {
   transform: translateY(325px) !important;
 }
-html[dir="rtl"] .indicator-store {
+html[dir="rtl"] .indicator-advertise {
   transform: translateY(390px) !important;
 }
-html[dir="rtl"] .indicator-setting {
+html[dir="rtl"] .indicator-store {
   transform: translateY(456px) !important;
+}
+html[dir="rtl"] .indicator-setting {
+  transform: translateY(520px) !important;
 }
 
 .sidebarparent {

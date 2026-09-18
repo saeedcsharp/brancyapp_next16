@@ -196,7 +196,7 @@ export const featureCatalog: FeatureRecord[] = [
     prerequisites: ["instagramConnection", "activePackage", "messagePermission", "automaticRole"],
     limitation: "backendDefined",
     contentIdea: "featureAnnouncement",
-    routes: ["/message/AIAndFlow"],
+    routes: ["/Ai/FlowandAgent"],
     sourceKinds: ["route", "component", "api", "permission", "enum"],
     isAi: true,
   },
@@ -220,7 +220,7 @@ export const featureCatalog: FeatureRecord[] = [
     prerequisites: ["instagramConnection", "activePackage", "automaticRole", "featureAi"],
     limitation: "backendFeature",
     contentIdea: "featureAnnouncement",
-    routes: ["/page/ai"],
+    routes: ["/Ai/creator"],
     sourceKinds: ["route", "component", "api", "permission", "enum"],
     isAi: true,
   },
@@ -553,7 +553,7 @@ export const auditRecords: AuditRecord[] = [
   },
   {
     id: "videoCreationIncomplete",
-    routes: ["/page/ai"],
+    routes: ["/Ai/creator"],
     sourceKinds: ["component", "api", "enum"],
   },
   {

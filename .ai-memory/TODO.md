@@ -12,6 +12,8 @@
 
 # TODO
 
+- Add browser coverage confirming `/Ai` redirects to `/Ai/creator`, both AI child tabs render their legacy workspaces, and the old `/page/ai` and `/message/AIAndFlow` routes are no longer registered when a UI test harness is introduced.
+
 - Add component/browser coverage for opening and closing the Instagramer sidebar Support chat, including RTL positioning, keyboard activation, coexistence with the global support control, and mobile visibility when a UI test harness is introduced.
 
 - Add component coverage for settlement-history filtering, cursor pagination, duplicate sub-invoice IDs, status labels, loading/empty states, and responsive detail scrolling when a UI test harness is introduced.

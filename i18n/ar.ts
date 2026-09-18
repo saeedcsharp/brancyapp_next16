@@ -654,7 +654,7 @@ export default {
     collaborator: "صفحة المتعاون",
     collaboratorpost: "منشور المتعاون",
     sidebar_Home: "المنزل",
-    sidebar_Page: "صفحة",
+    sidebar_Page: "إدارة الصفحة",
     sidebar_Message: "الرسائل",
     sidebar_Wallet: "محفظة",
     sidebar_biolink: "رابط البايو",

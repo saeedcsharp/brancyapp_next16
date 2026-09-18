@@ -7,18 +7,18 @@ import styles from "./navbarheader.module.css";
 const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: boolean }) => {
   const { t } = useTranslation();
   const pathname = usePathname();
-  const newRoute = (pathname || "").replaceAll("/", "");
+  const newRoute = (pathname || "").replaceAll("/", "").toLowerCase();
 
   const getNavbarRoute = () => {
     if (newRoute === InstagramerRoute.Home) return "home";
     else if (
       newRoute === InstagramerRoute.PagePost ||
       newRoute === InstagramerRoute.PageStories ||
-      newRoute.startsWith(InstagramerRoute.PageAI) ||
       newRoute === InstagramerRoute.PageStatistics ||
       newRoute === InstagramerRoute.PageTools
     )
       return "page";
+    else if (newRoute === InstagramerRoute.PageAI || newRoute === InstagramerRoute.MessageAIANDFlow) return "ai";
     else if (
       newRoute === InstagramerRoute.MessageDirect ||
       newRoute === InstagramerRoute.MessageComments ||
@@ -66,6 +66,8 @@ const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: b
         return t(LanguageKey.sidebar_Home);
       case "page":
         return t(LanguageKey.sidebar_Page);
+      case "ai":
+        return t(LanguageKey.navbar_AI);
       case "message":
         return t(LanguageKey.sidebar_Message);
       case "wallet":
@@ -98,6 +100,15 @@ const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: b
               d="M20 23.7q-.1 1.2-1.3 1.3h-7.4q-1.2-.1-1.3-1.3V19c0-2.7 2.2-4.9 5-4.9s5 2.2 5 4.9z"
             />
           </>
+        );
+      case "ai":
+        return (
+          <svg width="30" height="30" viewBox="0 0 36 36" aria-hidden="true" role="img">
+            <path
+              fill="var(--color-ffffff)"
+              d="M21 5.93c-1.08-3.08-2.43-4.8-3.54-4.8-1.74 0-4.08 4.23-4.99 11.31-.08.6-.55 1.08-1.16 1.16C4.23 14.5 0 16.85 0 18.6c0 .5.38 1.08 1.08 1.65a21 21 0 0 0 12.6-4.06A21 21 0 0 0 21 5.93m-3.54 30.12c1.73 0 4.05-4.18 4.97-11.18a33 33 0 0 1-8.77 5.56c1.1 3.6 2.6 5.62 3.8 5.62m7.03-17.71a26 26 0 0 0 2.37-4.18q-1.5-.33-3.25-.56a1.35 1.35 0 0 1-1.16-1.16q-.14-1.04-.3-2a23 23 0 0 1-6.77 8.02 23 23 0 0 1-9.2 4.09q2.23.64 5.13 1.02c.6.07 1.09.55 1.17 1.16q.2 1.55.48 2.92a30 28 0 0 0 11.53-9.32m10.43.27c0-1.18-1.9-2.61-5.29-3.7a29 29 0 0 1-5.81 8.65c6.95-.92 11.1-3.23 11.1-4.96m-6.8-12.05a.4.4 0 0 1 .34.34c.26 2.06.94 3.3 1.45 3.3.5 0 1.2-1.24 1.45-3.3a.4.4 0 0 1 .34-.34c2.07-.26 3.3-.94 3.3-1.45s-1.23-1.2-3.3-1.45a.4.4 0 0 1-.34-.34C31.1 1.23 30.42 0 29.91 0c-.5 0-1.19 1.23-1.45 3.3a.4.4 0 0 1-.34.34c-2.06.26-3.3.94-3.3 1.45 0 .5 1.24 1.19 3.3 1.45"
+            />
+          </svg>
         );
       case "page":
         return (

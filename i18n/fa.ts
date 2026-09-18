@@ -676,7 +676,7 @@ export default {
     collaborator: "پیج همکار",
     collaboratorpost: "پست همکار",
     sidebar_Home: "خانه",
-    sidebar_Page: "پیج",
+    sidebar_Page: "مدیریت پیج",
     sidebar_Message: "پیام‌ها",
     sidebar_Wallet: "کیف پول",
     sidebar_biolink: "بایو لینک",

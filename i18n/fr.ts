@@ -674,7 +674,7 @@ export default {
     collaborator: "Page Collaborateur",
     collaboratorpost: "Publication Collaborateur",
     sidebar_Home: "Maison",
-    sidebar_Page: "Page",
+    sidebar_Page: "Gestion page",
     sidebar_Message: "Messages",
     sidebar_Wallet: "Portefeuille",
     sidebar_biolink: "Lien Bio",

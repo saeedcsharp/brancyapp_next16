@@ -4,7 +4,7 @@ import PageComponent from "../../../../legacy-pages/page/ai/index";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 
-function AiRoute() {
+function AiCreatorRoute() {
   const searchParams = useSearchParams();
   const type = searchParams.get("type");
   const initialType = type === "1" || type === "2" ? type : undefined;
@@ -15,7 +15,7 @@ function AiRoute() {
 export default function Page() {
   return (
     <Suspense fallback={<div />}>
-      <AiRoute />
+      <AiCreatorRoute />
     </Suspense>
   );
 }
