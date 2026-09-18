@@ -1,3 +1,5 @@
+- AI creator `IntRange` inputs now render as standard sliders with integer values and a step of `1`; they remain separate from the four-direction square expansion control.
+
 - AI creator square expansion controls now use the four backend Range key names (`topExpantionRatio`, `buttonExpantionRatio`, `rightExpantionRatio`, and `leftExpantionRatio`) to decide whether to render `RangeSquareInput`; other Range inputs remain standard sliders.
 
 - AI creator models with a single or incomplete set of range inputs now render standard sliders; the square expansion control remains reserved for complete top/right/bottom/left range sets.

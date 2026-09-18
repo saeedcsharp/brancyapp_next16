@@ -69,7 +69,7 @@ function getInitialValues(model: IMediaCreatorModel | undefined): Record<string,
     const inputType = Number(input.inputType);
     if (inputType === InputType.Boolean) values[input.key] = false;
     else if (inputType === InputType.ImageArray || inputType === InputType.VideoArray) values[input.key] = [];
-    else if (inputType === InputType.Number || inputType === InputType.Range)
+    else if (inputType === InputType.Number || inputType === InputType.Range || inputType === InputType.IntRange)
       values[input.key] = Number(input.min) || 0;
     else values[input.key] = input.enumValues?.[0] ?? "";
     return values;
@@ -398,14 +398,19 @@ function DynamicInput({
       </div>
     );
   }
-  if (inputType === InputType.Range) {
+  if (inputType === InputType.Range || inputType === InputType.IntRange) {
     const rangeMinValue = Number(input.min);
     const rangeMaxValue = Number(input.max);
     const rangeMin = Number.isFinite(rangeMinValue) ? rangeMinValue : 0;
     const rangeMax = Number.isFinite(rangeMaxValue) && rangeMaxValue > rangeMin ? rangeMaxValue : rangeMin + 1;
     const valueNumber = Number(value);
-    const rangeValue = Math.min(Math.max(Number.isFinite(valueNumber) ? valueNumber : rangeMin, rangeMin), rangeMax);
-    const displayedRangeValue = rangeValue.toFixed(2);
+    const isIntegerRange = inputType === InputType.IntRange;
+    const normalizedValue = isIntegerRange ? Math.round(valueNumber) : valueNumber;
+    const rangeValue = Math.min(
+      Math.max(Number.isFinite(normalizedValue) ? normalizedValue : rangeMin, rangeMin),
+      rangeMax,
+    );
+    const displayedRangeValue = isIntegerRange ? String(Math.round(rangeValue)) : rangeValue.toFixed(2);
     return (
       <label className="headerandinput">
         <span className="headerparent">
@@ -416,9 +421,15 @@ function DynamicInput({
           type="range"
           min={rangeMin}
           max={rangeMax}
-          step="any"
+          step={isIntegerRange ? 1 : "any"}
           value={rangeValue}
-          onChange={(event) => onChange(Number(event.currentTarget.valueAsNumber.toFixed(2)))}
+          onChange={(event) =>
+            onChange(
+              isIntegerRange
+                ? Math.round(event.currentTarget.valueAsNumber)
+                : Number(event.currentTarget.valueAsNumber.toFixed(2)),
+            )
+          }
         />
       </label>
     );
