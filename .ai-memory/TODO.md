@@ -12,6 +12,8 @@
 
 # TODO
 
+- Add component coverage confirming complete four-direction AI ranges render the square expansion control while single and incomplete ranges render standard sliders when a UI test harness is introduced.
+
 - Add component coverage for settlement-history filtering, cursor pagination, duplicate sub-invoice IDs, status labels, loading/empty states, and responsive detail scrolling when a UI test harness is introduced.
 
 - Add component coverage confirming selecting the `Order` tab automatically loads order details inside the existing invoice popup, returns to the invoice summary through Back/Close, and does not mount a second modal when a UI test harness is introduced.
