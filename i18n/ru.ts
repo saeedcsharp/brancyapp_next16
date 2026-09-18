@@ -1,5 +1,15 @@
 export default {
   translation: {
+    aiSuggestedPrompts_title: "Рекомендуемые промпты",
+    aiSuggestedPrompts_explain: "Выберите промпт для начала работы.",
+    aiSuggestedPrompts_category: "Категория промпта",
+    aiSuggestedPrompts_subCategory: "Подкатегория",
+    aiSuggestedPrompts_allCategories: "Все категории",
+    aiSuggestedPrompts_loading: "Загрузка...",
+    aiSuggestedPrompts_empty: "Рекомендуемые промпты не найдены.",
+    aiSuggestedPrompts_loadMore: "Загрузить еще",
+    aiSuggestedPrompts_prompt: "Промпт",
+    aiSuggestedPrompts_copy: "Копировать промпт",
     unpin: "Открепить",
     pin: "Закрепить",
     usethisPrompt: "Использовать в Prompt",
@@ -285,6 +295,8 @@ export default {
     faqEmptyState: "Ваши часто задаваемые вопросы будут отображаться здесь",
 
     page8_Support: "Поддержка",
+    support_Online: "Онлайн-поддержка",
+    support_EnterBlog: "Перейти в блог",
     page8_CommunityExplain:
       "Свяжитесь с другими пользователями, делитесь своим опытом и получайте коллективные советы для дальнейшего роста.",
     page8_learnExplain:
@@ -2527,6 +2539,19 @@ export default {
     SettingGeneral_partnertitle: "Название Админа-Сотрудника",
     SettingGeneral_partnernumberexplain:
       "Приглашение будет отправлено на этот номер, и админ-сотрудник должен подтвердить его в своей панели (админ должен зарегистрироваться в Brancy, чтобы принять приглашение).",
+    SettingGeneral_contentTooltip: "Публикации, истории, Reels, IGTV, карусели и планирование.",
+    SettingGeneral_publishTooltip: "Создание публикаций и историй. Требуется доступ к контенту.",
+    SettingGeneral_automaticsTooltip: "ИИ, сценарии, автоматизированные процессы и задачи.",
+    SettingGeneral_messageTooltip: "Директ Instagram, внутренние сообщения и связанные инструменты.",
+    SettingGeneral_commentTooltip: "Комментарии, ответы и связанные инструменты.",
+    SettingGeneral_transactionTooltip:
+      "Управление платёжным аккаунтом, транзакциями, кошельком и связанные инструменты.",
+    SettingGeneral_adsTooltip:
+      "Управление календарём, рекламодателями, одобрением рекламы, ценами и связанные инструменты.",
+    SettingGeneral_ordersTooltip: "Товары, цены, складские запасы, заказы, накладные и связанные инструменты.",
+    SettingGeneral_bioTooltip: "Содержимое и оформление био, ссылки и ярлыки стороннего контента.",
+    SettingGeneral_ticketTooltip: "CRM, системные тикеты и поддержка.",
+    SettingGeneral_productsTooltip: "Инструменты управления товарами.",
 
     // Setting -> General -> support
     SettingGeneral_GeneralSupport: "Общая Поддержка",
@@ -3509,6 +3534,7 @@ export default {
     pageStatistics_RePosts: "Репосты",
     Retry: "Повторить",
     messagesetting_SpecifyProductResponseExplain: "Выберите товар, чтобы он автоматически отправлялся пользователям",
+    messagesetting_ProductResponseExplain: "Подключите текущий товар к пользователю",
     // #region wallet
     createdtime: "Время создания",
     BankCards: "Банковские карты",
