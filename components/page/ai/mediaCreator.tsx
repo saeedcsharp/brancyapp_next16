@@ -77,9 +77,20 @@ function getInitialValues(model: IMediaCreatorModel | undefined): Record<string,
 }
 type RangeSide = "top" | "right" | "bottom" | "left";
 const rangeSides: RangeSide[] = ["top", "right", "bottom", "left"];
+const rangeSquareKeyParts = [
+  "topexpantionratio",
+  "buttonexpantionratio",
+  "rightexpantionratio",
+  "leftexpantionratio",
+] as const;
 function getRangeSide(input: IMediaCreatorInput, index: number): RangeSide {
   const inputName = `${input.key} ${input.titleEn}`.toLowerCase();
+  if (inputName.includes("button")) return "bottom";
   return rangeSides.find((side) => inputName.includes(side)) ?? rangeSides[index] ?? "top";
+}
+function hasRangeSquareKey(input: IMediaCreatorInput, keyPart: string): boolean {
+  const inputKey = input.key.toLowerCase();
+  return inputKey.includes(keyPart);
 }
 function getRangeBounds(input: IMediaCreatorInput) {
   const minValue = Number(input.min);
@@ -711,10 +722,9 @@ export default function MediaCreator({
             {(() => {
               const orderedInputs = [...model.inputModelTypes].sort((first, second) => first.orderId - second.orderId);
               const rangeInputs = orderedInputs.filter((input) => Number(input.inputType) === InputType.Range);
-              const rangeSidesForModel = rangeInputs.map((input, index) => getRangeSide(input, index));
               const hasFourDirectionalRange =
-                rangeInputs.length === rangeSides.length &&
-                rangeSides.every((side) => rangeSidesForModel.includes(side));
+                rangeInputs.length === rangeSquareKeyParts.length &&
+                rangeSquareKeyParts.every((keyPart) => rangeInputs.some((input) => hasRangeSquareKey(input, keyPart)));
               let rangeRendered = false;
               return orderedInputs.map((input) => {
                 if (Number(input.inputType) === InputType.Range) {

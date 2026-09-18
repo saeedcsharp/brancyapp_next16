@@ -177,7 +177,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - AI media tabs now render inside the creator model panel. If the selected media type has no creator/model, the model panel retains only the tabs and the localized empty/error state is rendered in the settings panel.
 - AI creator enum inputs now use the shared button-based `optionGrid` presentation for both enum input variants instead of a native select.
 - AI creator multiple range inputs now render as one fixed `250px` square with a centered fixed `100px` inner square; mouse/touch handles define one shared hatched frame, including its corners, while each backend range key remains separate in submitted requests.
-- AI creator range inputs use the square expansion control only when top, right, bottom, and left ranges are all present; single or incomplete ranges remain standard sliders.
+- AI creator range inputs use the square expansion control only when exactly the four backend keys `topExpantionRatio`, `buttonExpantionRatio`, `rightExpantionRatio`, and `leftExpantionRatio` are present; single, incomplete, or differently named ranges remain standard sliders.
 - AI creator footers now show separate, independent token-usage and media-creation buttons on opposite sides; creation only requires a valid prompt and required inputs, and uses zero for the parent feature check when no estimate exists.
 - AI image/video creation controls now remain disabled for the full pending request and the form ignores duplicate submit events while creation is in progress.
 - The AI page now owns and passes the media-creation loading state, enabling it before feature validation and clearing it only after the correlated image/video SignalR success or failure notification.
