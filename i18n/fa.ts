@@ -3527,5 +3527,6 @@ export default {
     economy: "اقتصادی",
     Retry: "تلاش مجدد",
     messagesetting_SpecifyProductResponseExplain: "یک محصول را مشخص کنید تا به‌صورت خودکار برای کاربران ارسال شود",
+    messagesetting_ProductResponseExplain: "محصول فعلی را به کاربر متصل کنید",
   },
 };

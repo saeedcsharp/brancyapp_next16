@@ -3534,6 +3534,7 @@ export default {
     pageStatistics_RePosts: "Репосты",
     Retry: "Повторить",
     messagesetting_SpecifyProductResponseExplain: "Выберите товар, чтобы он автоматически отправлялся пользователям",
+    messagesetting_ProductResponseExplain: "Подключите текущий товар к пользователю",
     // #region wallet
     createdtime: "Время создания",
     BankCards: "Банковские карты",

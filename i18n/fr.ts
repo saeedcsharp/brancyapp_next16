@@ -3591,6 +3591,7 @@ export default {
     SettingGeneralProfileTitle: "Profil",
     messagesetting_SpecifyProductResponseExplain:
       "Sélectionnez un produit pour qu’il soit envoyé automatiquement aux utilisateurs",
+    messagesetting_ProductResponseExplain: "Connectez le produit actuel à l’utilisateur",
 
     // #region wallet
     createdtime: "Date de création",

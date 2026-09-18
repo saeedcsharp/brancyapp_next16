@@ -1,11 +1,13 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+
 - 2026-09-17: Localized all Add Partner access tooltips across the eight supported locales using dedicated `LanguageKey` entries.
 
 - 2026-09-17: Updated Add Partner permissions so Content and Publish remain independent while the Publish control is disabled until Content is enabled.
 - 2026-09-17: Filtered Publish from Add Partner create/update payloads when Content is disabled.
 
 - 2026-09-17: Gated media auto-reply Product and Connect Product modes behind `PartnerRole.Products`; partners without the role see `NotAllowedCard` and cannot save those modes.
+- 2026-09-18: Separated media auto-reply Product guidance from Connect Product guidance; Product now explains connecting the current product to the user, while Connect Product explains connecting a product to Story or Live.
 
 - 2026-09-15: Gated media auto-reply AI and Flow prompt APIs behind `PartnerRole.Automatics`; partners without the role see `NotAllowed` and do not trigger prompt/flow list, search, pagination, selection, or saved-item enrichment requests.
 
@@ -27,12 +29,12 @@
 
 - 2026-09-12: Image prompt suggestions now load category options from `Instagramer/MediaAi/GetImagePromptCategories`; selecting a category reloads `GetImagePrompts` with that category ID while retaining cursor pagination.
 
-- 2026-09-11: Fixed the mixed-account package redirect bypass: selected Instagramer accounts with missing or expired packages now reach `/upgrade` even when both `loginByFb` and `loginByInsta` are false. Removed full JWT logging from middleware.
-=======
-=======
+- # 2026-09-11: Fixed the mixed-account package redirect bypass: selected Instagramer accounts with missing or expired packages now reach `/upgrade` even when both `loginByFb` and `loginByInsta` are false. Removed full JWT logging from middleware.
+  =======
 - AI creator models with a single or incomplete set of range inputs now render standard sliders; the square expansion control remains reserved for complete top/right/bottom/left range sets.
 
->>>>>>> saeed
+> > > > > > > saeed
+
 - Added the wallet settlement-history view to the payment page. `components/wallet/settle.tsx` uses paginated invoice data, shows awaiting/settled/failed sub-invoices in invoice-style cards, and keeps unsettled balances in the existing card and invoice views.
 
 - Wallet invoice order details now load automatically when the `Order` tab is selected and replace the invoice summary inside the existing invoice popup; back and close return to the invoice summary without a second modal.
@@ -56,7 +58,8 @@
 - Wallet cards now place the default card first after the add-card slide and open the slider on that card; users can still navigate freely between all cards.
 - Organized wallet modal contents under `components/wallet/modal/` and removed unused demo and legacy wallet components that had no active references.
 - 2026-09-12: Updated `vanishmode` and `vanishmodeexplain` across all eight locales to describe Hidden Mode as restoring unanswered messages that were not ignored or hidden.
->>>>>>> sepehr
+
+  > > > > > > > sepehr
 
 - 2026-09-08: Updated the landing-page first-login check to call `PreInstagramer/CheckUserIsNew`; new users go to `/user/instagramerLogin` and existing users go to `/user`.
 

@@ -3489,6 +3489,7 @@ export default {
     economy: "Ekonomik",
     Retry: "Tekrar Dene",
     messagesetting_SpecifyProductResponseExplain: "Kullanıcılara otomatik olarak gönderilmesi için bir ürün belirtin",
+    messagesetting_ProductResponseExplain: "Mevcut ürünü kullanıcıya bağlayın",
     Storeproduct_NationalCardexplain: "Bu kart, cep telefonu numarasını Brancy'ye kaydeden kişiye ait olmalıdır.",
 
     // #region wallet

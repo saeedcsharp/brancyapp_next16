@@ -3389,6 +3389,7 @@ export default {
     biolinkProperties_Connect: "اتصال",
     economy: "اقتصادي",
     messagesetting_SpecifyProductResponseExplain: "حدّد منتجًا ليتم إرساله تلقائيًا إلى المستخدمين",
+    messagesetting_ProductResponseExplain: "اربط المنتج الحالي بالمستخدم",
 
     // #region wallet
     createdtime: "وقت الإنشاء",

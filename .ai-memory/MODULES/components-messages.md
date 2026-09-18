@@ -127,6 +127,8 @@ The media auto-reply AI selector keeps its `DragDrop` on the localized Please se
 
 `popups/editAutoReplyForMedia.tsx` requires `RoleAccess(session, PartnerRole.Products)` for Product and Connect Product modes. When the partner lacks the Products role, the selected mode renders `NotAllowedCard` and the save action remains invalid until product access is available.
 
+The media auto-reply Product mode uses a dedicated localized explanation for connecting the current product to the user; Connect Product retains its separate Story/Live connection explanation.
+
 The media auto-reply editor gates all AI prompt and Flow list, search, pagination, selection, and saved-item enrichment requests with `RoleAccess(session, PartnerRole.Automatics)`. When the partner lacks that role, the selected AI or Flow panel renders `NotAllowed` and no related API request is started.
 
 `legacy-pages/message/Properties.tsx` does not load message settings, including `GetGeneralAutoReplies`, when `session.user.messagePermission` is false. This prevents an unauthorized response from reaching the shared client API sign-out path while the localized `NotPermission` state is displayed.

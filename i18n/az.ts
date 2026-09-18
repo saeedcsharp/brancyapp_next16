@@ -3460,6 +3460,7 @@ export default {
     economy: "İqtisadi",
     Retry: "Yenidən cəhd et",
     messagesetting_SpecifyProductResponseExplain: "İstifadəçilərə avtomatik göndərilməsi üçün bir məhsul seçin",
+    messagesetting_ProductResponseExplain: "Cari məhsulu istifadəçiyə bağlayın",
 
     // #region wallet
     createdtime: "Yaradılma vaxtı",

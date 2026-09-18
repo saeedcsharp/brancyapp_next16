@@ -526,17 +526,19 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
             <div className="title" id={titleId} role="heading" aria-level={2}>
               {t(LanguageKey.replyMethod)}
             </div>
-            <CheckBoxButton
-              handleToggle={(e) =>
-                setReplyMethod((prev) => ({
-                  ...prev!,
-                  sendPr: e.target.checked,
-                }))
-              }
-              value={replyMethod !== null && replyMethod.sendPr}
-              title={t(LanguageKey.shouldFollower)}
-              textlabel={t(LanguageKey.shouldFollower)}
-            />
+            {mode !== "ConnectProduct" && (
+              <CheckBoxButton
+                handleToggle={(e) =>
+                  setReplyMethod((prev) => ({
+                    ...prev!,
+                    sendPr: e.target.checked,
+                  }))
+                }
+                value={replyMethod !== null && replyMethod.sendPr}
+                title={t(LanguageKey.shouldFollower)}
+                textlabel={t(LanguageKey.shouldFollower)}
+              />
+            )}
             {hasMessagePermission && replyMethod?.sendPr && renderMessagePermissionState()}
           </div>
         );
@@ -1658,7 +1660,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                         handleOptionChanged={handleOptionChanged}
                         textlabel={t("Product")}
                       />
-                      <div className="explain">{t(LanguageKey.messagesetting_SpecifyProductResponseExplain)}</div>
+                      <div className="explain">{t(LanguageKey.messagesetting_ProductResponseExplain)}</div>
                     </div>
                     {checkBox.Product && !hasProductPermission ? (
                       <NotAllowedCard />
@@ -1668,42 +1670,43 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                   </div>
                 )}
                 {/*Connect Product */}
-                {session?.user.isShopper && productType === MediaProductType.Live && (
-                  <div className="headerandinput">
+                {session?.user.isShopper &&
+                  (productType === MediaProductType.Live || productType === MediaProductType.Story) && (
                     <div className="headerandinput">
-                      <RadioButton
-                        name="ConnectProduct"
-                        id={t(LanguageKey.ConnectProduct)}
-                        checked={checkBox.ConnectProduct}
-                        handleOptionChanged={handleOptionChanged}
-                        textlabel={t(LanguageKey.ConnectProduct)}
-                      />
-                      <div className="explain">{t(LanguageKey.messagesetting_SpecifyProductResponseExplain)}</div>
-                    </div>
-                    {checkBox.ConnectProduct && !hasProductPermission ? (
-                      <NotAllowedCard />
-                    ) : checkBox.ConnectProduct ? (
-                      <div className={styles.optioncontainer}>
-                        <>
-                          <div className="headerandinput">
-                            <div onClick={() => setShowProductPopup?.()} className="saveButton">
-                              {t(LanguageKey.SelectProduct)}
-                            </div>
-                          </div>
-                          {selectedProduct && (
-                            <div className={styles.thumbnailsContainer}>
-                              <img
-                                className={styles.thumbnailImage}
-                                src={basePictureUrl + selectedProduct.thumbnailMediaUrl}
-                              />
-                            </div>
-                          )}
-                          {renderReplyMethodSection("ConnectProduct")}
-                        </>
+                      <div className="headerandinput">
+                        <RadioButton
+                          name="ConnectProduct"
+                          id={t(LanguageKey.ConnectProduct)}
+                          checked={checkBox.ConnectProduct}
+                          handleOptionChanged={handleOptionChanged}
+                          textlabel={t(LanguageKey.ConnectProduct)}
+                        />
+                        <div className="explain">{t(LanguageKey.messagesetting_SpecifyProductResponseExplain)}</div>
                       </div>
-                    ) : null}
-                  </div>
-                )}
+                      {checkBox.ConnectProduct && !hasProductPermission ? (
+                        <NotAllowedCard />
+                      ) : checkBox.ConnectProduct ? (
+                        <div className={styles.optioncontainer}>
+                          <>
+                            <div className="headerandinput">
+                              <div onClick={() => setShowProductPopup?.()} className="saveButton">
+                                {t(LanguageKey.SelectProduct)}
+                              </div>
+                            </div>
+                            {selectedProduct && (
+                              <div className={styles.thumbnailsContainer}>
+                                <img
+                                  className={styles.thumbnailImage}
+                                  src={basePictureUrl + selectedProduct.thumbnailMediaUrl}
+                                />
+                              </div>
+                            )}
+                            {renderReplyMethodSection("ConnectProduct")}
+                          </>
+                        </div>
+                      ) : null}
+                    </div>
+                  )}
               </>
             )}
           </>

@@ -1815,6 +1815,7 @@ export default {
     messagesetting_DefineCustomResponseExplain:
       "Define your custom reply text so it will be automatically sent to users",
     messagesetting_SpecifyProductResponseExplain: "Specify a product to be automatically sent to users",
+    messagesetting_ProductResponseExplain: "Connect the current product to the user",
     ConnectProduct: "Direct Product Connection",
     messagesetting_ConnectProductResponseExplain: "Connect your product to the story or live ",
     messagesetting_SelectPredefinedFlowExplain:
