@@ -322,6 +322,41 @@ const IngageInfo = (props: {
               </div>
             </div>
           </section>
+          <section className={styles.totaltile}>
+            <svg
+              className={styles.totaltilesvg}
+              fill="var(--color-gray)"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 22 22">
+              <path d="m11 .8 5.3.1q2.1.2 3.3 1.5 1.3 1.4 1.5 3.3.2 2 .1 5.2v.2l-.1 5.2q-.2 1.9-1.5 3.3t-3.3 1.5q-2 .2-5.2.1h-.2l-5.2-.1q-1.9-.2-3.3-1.5T.9 16.3t-.2-5.2v-.2q0-3.2.2-5.2.1-1.9 1.5-3.3T5.7.9 11 .7m0 5.7a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9m5.5-2a1 1 0 1 0 1 1.1v-.1a1 1 0 0 0-1-1" />
+            </svg>
+            <div className="headerandinput">
+              <div className="instagramid">{t(LanguageKey.pageStatistics_stories)}</div>
+              <div className="headerparent" style={{ justifyContent: "flex-start" }}>
+                {props.activeStories.length > 0 ? (
+                  props.activeStories.map((story) => (
+                    <Link
+                      href={`/page/stories/storyinfo/${story.storyId}`}
+                      key={story.storyId}
+                      style={{ position: "relative" }}>
+                      <img
+                        style={{
+                          aspectRatio: "9/16",
+                          borderRadius: "5px",
+                          backgroundColor: "var(--color-gray)",
+                          maxHeight: "40px",
+                          minHeight: "40px",
+                        }}
+                        src={basePictureUrl + story.thumbnailMediaUrl}
+                      />
+                    </Link>
+                  ))
+                ) : (
+                  <div className="instagramusername">{t(LanguageKey.notfound)}</div>
+                )}
+              </div>
+            </div>
+          </section>
 
           <section className={styles.totaltile}>
             <svg

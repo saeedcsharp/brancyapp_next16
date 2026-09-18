@@ -4,6 +4,8 @@
 
 ## 2026-09-18
 
+- Fixed duplicate AI creator model entries returned for one provider by de-duplicating model names before rendering, preventing repeated React keys such as `seedance_2.0_mini_text_to_video`.
+
 - Updated `InternalNotify_ExceedPermittedUploadMedia` across all eight locales to state that the media count exceeds the permitted limit without assuming a fixed maximum of five.
 
 - AI creator `AudioArray` inputs now use the shared file-upload flow with `audio/*` acceptance, localized Add audio text, and native audio playback controls for uploaded previews.

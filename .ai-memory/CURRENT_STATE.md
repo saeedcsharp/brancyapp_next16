@@ -219,6 +219,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - AI image and video creation now returns to the matching library immediately after request submission, shows one loading card per pending `clientContext`, and replaces or removes each card when its correlated SignalR success or failure notification arrives. Successful video results wait one second before replacing the loading card so the thumbnail URL has time to become available. Concurrent generations remain independently tracked.
 
 - The active AI workspace is localized across all eight supported locales. Creator states, model guidance, prompt validation, token usage actions, result metadata fallback values, request notifications, and the page description use the active i18next locale.
+- AI creator model lists remove duplicate model names returned by a provider before rendering, preventing duplicate React keys while preserving name-based model selection.
 
 - The AI library supports optional deep links: the App Router wrapper reads `/page/ai?type=1` or `/page/ai?type=2` with `useSearchParams` and passes the selected tab into the legacy page. Missing or unsupported values preserve the default image tab.
 
