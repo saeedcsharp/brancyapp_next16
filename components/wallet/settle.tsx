@@ -12,6 +12,7 @@ import Loading from "brancy/components/notOk/loading";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
 import PriceFormater, { PriceFormaterClassName } from "../priceFormater";
 import styles from "./settle.module.css";
+import { LanguageKey } from "brancy/i18n";
 
 type SettlementItem = ISubInvoice & { invoiceId: string };
 
@@ -113,7 +114,7 @@ export default function Settle() {
       ) : items.length > 0 ? (
         items.map((item) => <SettlementCard key={item.id} item={item} t={t} />)
       ) : (
-        <div className={styles.emptyState}>{t("No invoices have been registered yet.")}</div>
+        <div className={styles.emptyState}>{t(LanguageKey.NoSettlementsRegisteredYet)}</div>
       )}
       {!loading && isLoadingMore && <DotLoaders />}
     </section>
@@ -135,10 +136,10 @@ function SettlementCard({ item, t }: { item: SettlementItem; t: (key: string) =>
         <div className={status.className}>{status.label}</div>
       </div>
       <div className={styles.settleDetails}>
-        <Detail label={t("Invoice ID")} value={item.invoiceId} />
-        <Detail label={t("type")} value={getItemType(item.itemType, t)} />
-        <Detail label={t("card number")} value={item.cardNumber ?? t("Unknown")} />
-        <Detail label={t("time")} value={date} />
+        <Detail label={t(LanguageKey.InvoiceID)} value={item.invoiceId} />
+        <Detail label={t(LanguageKey.InvoiceType)} value={getItemType(item.itemType, t)} />
+        <Detail label={t(LanguageKey.CardBankNumber)} value={item.cardNumber ?? t(LanguageKey.Unknown)} />
+        <Detail label={t(LanguageKey.createdtime)} value={date} />
       </div>
     </div>
   );
@@ -158,10 +159,10 @@ function Detail({ label, value }: { label: string; value: string }) {
 
 function getStatus(status: SubInvoiceStatus, t: (key: string) => string) {
   const labels: Record<SubInvoiceStatus, string> = {
-    [SubInvoiceStatus.None]: t("Unsettled"),
-    [SubInvoiceStatus.AwaitingSettled]: t("Awaiting Settled"),
-    [SubInvoiceStatus.Settled]: t("Settled"),
-    [SubInvoiceStatus.Failed]: t("Failed"),
+    [SubInvoiceStatus.None]: t(LanguageKey.Unsettled),
+    [SubInvoiceStatus.AwaitingSettled]: t(LanguageKey.AwaitingSettled),
+    [SubInvoiceStatus.Settled]: t(LanguageKey.Settled),
+    [SubInvoiceStatus.Failed]: t(LanguageKey.Failed),
   };
   const classNames: Record<SubInvoiceStatus, string> = {
     [SubInvoiceStatus.None]: "IDblue",
@@ -169,18 +170,18 @@ function getStatus(status: SubInvoiceStatus, t: (key: string) => string) {
     [SubInvoiceStatus.Settled]: "IDgreen",
     [SubInvoiceStatus.Failed]: "IDred",
   };
-  return { label: labels[status] ?? t("Unknown Status"), className: classNames[status] ?? "IDgray" };
+  return { label: labels[status] ?? t(LanguageKey.UnknownStatus), className: classNames[status] ?? "IDgray" };
 }
 
 function getItemType(type: SubInvoiceItemType, t: (key: string) => string) {
   const labels: Partial<Record<SubInvoiceItemType, string>> = {
-    [SubInvoiceItemType.InstagramerLogestic]: t("Logestic Payment"),
-    [SubInvoiceItemType.InstagramerProduct]: t("Product Income"),
-    [SubInvoiceItemType.PlatformFeature]: t("Brancy Feature Income"),
-    [SubInvoiceItemType.PlatformLogestic]: t("Brancy Logestic Payment"),
-    [SubInvoiceItemType.PlatformPackage]: t("Brancy Package Income"),
-    [SubInvoiceItemType.PlatformProductFee]: t("Brancy Product Income"),
-    [SubInvoiceItemType.PlatformTransferFee]: t("Brancy Transfer payment"),
+    [SubInvoiceItemType.InstagramerLogestic]: t(LanguageKey.LogesticPayment),
+    [SubInvoiceItemType.InstagramerProduct]: t(LanguageKey.ProductIncome),
+    [SubInvoiceItemType.PlatformFeature]: t(LanguageKey.BrancyFeatureIncome),
+    [SubInvoiceItemType.PlatformLogestic]: t(LanguageKey.BrancyLogesticPayment),
+    [SubInvoiceItemType.PlatformPackage]: t(LanguageKey.BrancyPackageIncome),
+    [SubInvoiceItemType.PlatformProductFee]: t(LanguageKey.BrancyProductIncome),
+    [SubInvoiceItemType.PlatformTransferFee]: t(LanguageKey.BrancyTransferPayment),
   };
-  return labels[type] ?? t("Invoice");
+  return labels[type] ?? t(LanguageKey.Invoice);
 }

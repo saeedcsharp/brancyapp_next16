@@ -1,7 +1,6 @@
 .bankCard {
   width: 100%;
-  aspect-ratio: 1.8 / 1;
-  background: var(--color-gray30);
+  height: 190px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -14,21 +13,137 @@
   flex-wrap: nowrap;
   font-family: monospace !important;
 }
+.bankCardMask {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 190px;
+  border-radius: var(--br20);
+  z-index: -1;
+  overflow: hidden;
+}
+.bankCardMask1 {
+  content: "";
+  border-radius: var(--br100);
+  filter: blur(60px);
+  background-color: var(--color-gray30);
+  position: absolute;
+  bottom: -40px;
+  left: -10px;
+  height: 150px;
+  width: 150px;
+  display: flex;
+}
+
+.bankCardMask2 {
+  content: "";
+  border-radius: var(--br100);
+  filter: blur(60px);
+  background-color: #2977ff;
+  position: absolute;
+  bottom: 0px;
+  right: -20px;
+  height: 80px;
+  width: 200px;
+  display: flex;
+}
+.bankCardMask3 {
+  content: "";
+  border-radius: var(--br100);
+  filter: blur(50px);
+  background-color: #2699fb60;
+  position: absolute;
+  top: -70px;
+  left: 30px;
+  height: 180px;
+  width: 150px;
+  transform: rotate(45deg);
+  display: flex;
+}
+
+.bankCardMask4 {
+  content: "";
+  border-radius: var(--br100);
+  filter: blur(80px);
+  background-color: #2699fb60;
+  position: absolute;
+  top: -60px;
+  right: -20px;
+  height: 130px;
+  transform: rotate(105deg);
+  width: 70px;
+  display: flex;
+}
+.bankCardTheme2 .bankCardMask2 {
+  background-color: var(--color-dark-green);
+}
+.bankCardTheme2 .bankCardMask3 {
+  background-color: var(--color-light-green60);
+}
+.bankCardTheme2 .bankCardMask4 {
+  background-color: var(--color-light-green);
+}
+
+.bankCardTheme3 .bankCardMask2 {
+  background-color: var(--color-light-red);
+}
+.bankCardTheme3 .bankCardMask3 {
+  background-color: var(--color-light-red60);
+}
+.bankCardTheme3 .bankCardMask4 {
+  background-color: var(--color-light-red);
+}
+.bankCardTheme4 .bankCardMask2 {
+  background-color: var(--color-purple);
+}
+.bankCardTheme4 .bankCardMask3 {
+  background-color: var(--color-purple60);
+}
+.bankCardTheme4 .bankCardMask4 {
+  background-color: var(--color-purple);
+}
+.bankCardTheme5 .bankCardMask2 {
+  background-color: var(--color-firoze);
+}
+.bankCardTheme5 .bankCardMask3 {
+  background-color: var(--color-firoze60);
+}
+.bankCardTheme5 .bankCardMask4 {
+  background-color: var(--color-firoze);
+}
+.bankCardTheme6 .bankCardMask2 {
+  background-color: var(--color-dark-yellow);
+}
+.bankCardTheme6 .bankCardMask3 {
+  background-color: var(--color-light-yellow60);
+}
+.bankCardTheme6 .bankCardMask4 {
+  background-color: var(--color-light-yellow);
+}
 .cardNumber {
-  font-size: var(--font-16);
+  font-size: var(--font-18);
+  font-weight: var(--weight-700);
+  color: var(--text-h1);
+  text-align: center;
+  direction: ltr;
+  font-family: monospace !important;
+  white-space: pre;
+}
+.iban {
+  margin-top: var(--gap-5);
+  font-size: var(--font-14);
   font-weight: var(--weight-600);
   color: var(--text-h1);
   text-align: center;
-}
-.iban {
-  font-size: var(--font-14);
-  font-weight: var(--weight-400);
-  color: var(--text-h2);
-  text-align: center;
+  direction: ltr;
+  font-family: monospace !important;
+  white-space: pre;
 }
 
 .addCardTile {
-  aspect-ratio: 1.8 / 1;
+  height: 190px;
   width: 100%;
   padding: var(--padding-20);
   border-radius: var(--br20);
@@ -36,18 +151,17 @@
   background: var(--color-light-blue10);
   color: var(--color-dark-blue);
   cursor: pointer;
-  font: inherit;
   font-size: var(--font-14);
   font-weight: var(--weight-700);
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
+  justify-content: space-evenly;
   gap: var(--gap-8);
   transition: var(--transition3);
 }
 .addCardTile:hover {
-  border-style: solid;
+  border: 2px solid var(--color-light-blue);
   background: var(--color-light-blue30);
 }
 .addCardTile small {
@@ -58,35 +172,11 @@
 .addCardIcon {
   width: 44px;
   height: 44px;
-  border-radius: 50%;
-  background: var(--color-dark-blue);
-  color: var(--color-white);
-  display: grid;
-  place-items: center;
-  font-size: 28px;
-  font-weight: var(--weight-400);
-  line-height: 1;
 }
-.label {
-  display: flex;
-  flex-direction: column;
-  gap: var(--gap-5);
-  font-size: var(--font-14);
-  font-weight: var(--weight-600);
-  color: var(--text-h1);
-  text-transform: capitalize;
-}
-.addCardForm .label {
-  min-width: 0;
-}
-.invalidCardMessage {
-  color: var(--color-dark-red);
-  font-size: var(--font-11);
-  font-weight: var(--weight-600);
-}
+
 .holder {
   font-size: var(--font-12);
-  color: var(--text-h2);
+  color: var(--text-h1);
 }
 .badges {
   display: flex;
@@ -111,10 +201,13 @@
   flex-direction: column;
   gap: var(--gap-10);
   align-items: center;
-  justify-content: space-between;
+  justify-content: space-evenly;
 }
 .statusGrid {
   display: grid;
+  background: var(--color-gray10);
+  padding: var(--padding-20) var(--padding-10);
+  border-radius: var(--br20);
   grid-template-columns: repeat(2, minmax(0, 1fr));
   gap: 30px 10px;
   overflow: hidden;
@@ -135,4 +228,11 @@
   justify-content: flex-start;
   flex-wrap: nowrap;
   overflow-y: auto;
+}
+.showAddForm {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-20);
+  margin-top: var(--gap-30);
+  animation: var(--top08);
 }

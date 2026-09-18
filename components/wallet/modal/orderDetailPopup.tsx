@@ -70,13 +70,13 @@ export default function OrderDetailPopup({ invoice, onClose, backToInvoiceList }
     <div className={styles.popup}>
       <div className="headerparent">
         <div className={styles.orderStep}>
-          <div className={styles.orderprogressStep} title={t("Order in progress")}>
+          <div className={styles.orderprogressStep} title={t(LanguageKey.OrderInProgress)}>
             <svg
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 28 28"
               role="img"
-              aria-label={t("Order in progress")}>
+              aria-label={t(LanguageKey.OrderInProgress)}>
               <path
                 d="M15.3 10.1h6.5m-6.5 7.8h6.5m-15.6-.03 1.29 1.3 2.77-2.57M6.2 10.07l1.29 1.3 2.77-2.57M10.1 27h7.8c6.5 0 9.1-2.6 9.1-9.1v-7.8C27 3.6 24.4 1 17.9 1h-7.8C3.6 1 1 3.6 1 10.1v7.8c0 6.5 2.6 9.1 9.1 9.1"
                 strokeWidth="2"
@@ -86,13 +86,13 @@ export default function OrderDetailPopup({ invoice, onClose, backToInvoiceList }
             </svg>
           </div>
           <Loader count={loaderCount} />
-          <div className={styles.orderpickupStep} title={t("Order pickup")}>
+          <div className={styles.orderpickupStep} title={t(LanguageKey.OrderPickup)}>
             <svg
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 26 26"
               role="img"
-              aria-label={t("Order pickup")}>
+              aria-label={t(LanguageKey.OrderPickup)}>
               <path
                 d="M5.82 19.486h3.995M1.182 7.676h23.634M15.278 1.02l1.14 6.656v6.963l-3.424-1.287-3.41 1.287V7.676l1.14-6.656M2.747 3.356l-1.13 2.822c-.395.99-.6 2.047-.601 3.112L1 19.552c-.008 3.163 1.428 5.401 4.595 5.41l14.812.02c3.166.008 4.568-2.221 4.576-5.384L25 9.318a8.4 8.4 0 0 0-.61-3.162l-1.13-2.809a3.715 3.715 0 0 0-3.447-2.327H6.197a3.72 3.72 0 0 0-3.45 2.336"
                 strokeWidth="2"
@@ -102,13 +102,13 @@ export default function OrderDetailPopup({ invoice, onClose, backToInvoiceList }
             </svg>
           </div>
           <Loader count={loaderCount} />
-          <div className={styles.ordersendStep} title={t("Order delivery")}>
+          <div className={styles.ordersendStep} title={t(LanguageKey.OrderDelivery)}>
             <svg
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
               viewBox="0 0 29 29"
               role="img"
-              aria-label={t("Order delivery")}>
+              aria-label={t(LanguageKey.OrderDelivery)}>
               <path
                 d="M14.335 17h1.333c1.467 0 2.667-1.2 2.667-2.667V1h-12c-2 0-3.747 1.107-4.653 2.733M1 21c0 2.213 1.787 4 4 4h1.333m0 0c0-1.467 1.2-2.667 2.667-2.667M6.333 25a2.667 2.667 0 0 0 5.334 0m-5.334 0A2.667 2.667 0 0 1 9 22.333m0 0c1.467 0 2.667 1.2 2.667 2.667M9 22.333A2.667 2.667 0 0 1 11.667 25m0 0H17m0 0c0-1.467 1.2-2.667 2.667-2.667M17 25a2.666 2.666 0 0 0 5.333 0M17 25a2.667 2.667 0 0 1 2.667-2.667m0 0c1.466 0 2.666 1.2 2.666 2.667m-2.666-2.667A2.667 2.667 0 0 1 22.333 25m0 0h1.334c2.213 0 4-1.787 4-4v-4m0 0h-4c-.734 0-1.334-.6-1.334-1.333v-4c0-.734.6-1.334 1.334-1.334h1.72M27.667 17v-2.667l-2.28-4m0 0-2.28-3.986A2.69 2.69 0 0 0 20.787 5h-2.454v9.333c0 1.467-1.2 2.667-2.666 2.667h-1.334M1 9h8m-8 4h5.333M1 17h2.667"
                 strokeWidth="2"
@@ -123,8 +123,8 @@ export default function OrderDetailPopup({ invoice, onClose, backToInvoiceList }
             type="button"
             className={styles.closeButton}
             onClick={onClose}
-            aria-label={t("close")}
-            title={t("close")}>
+            aria-label={t(LanguageKey.close)}
+            title={t(LanguageKey.close)}>
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path d="m6 6 12 12M18 6 6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
             </svg>
@@ -133,8 +133,8 @@ export default function OrderDetailPopup({ invoice, onClose, backToInvoiceList }
             type="button"
             className={styles.backButton}
             onClick={() => backToInvoiceList?.(invoice)}
-            aria-label={t("Back")}
-            title={t("Back")}>
+            aria-label={t(LanguageKey.back)}
+            title={t(LanguageKey.back)}>
             <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
               <path
                 d="M19 12H5m6-6-6 6 6 6"

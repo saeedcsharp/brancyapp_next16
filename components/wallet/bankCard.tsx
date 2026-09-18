@@ -9,6 +9,7 @@ import { ChangeEvent, FormEvent, useEffect, useState } from "react";
 import RingLoader from "../design/loader/ringLoder";
 import SwitchButton from "../design/switchButton/switchButton";
 import { useSession } from "next-auth/react";
+import { LanguageKey } from "brancy/i18n";
 import Slider, { SliderSlide } from "brancy/components/design/slider/slider";
 import styles from "./bankCard.module.css";
 import { useTranslation } from "react-i18next";
@@ -19,6 +20,7 @@ type BankCardItemProps =
       loading: boolean;
       onSelectCard?: (bamckCrd: string) => void;
       onDefaultCardChange?: (cardNumber: string) => void;
+      themeIndex: number;
       isAddCard?: false;
       onCardAdded?: () => void;
     }
@@ -32,6 +34,12 @@ type BankCardProps = {
   onSelectCard?: (cardNumber: string) => void;
   onDefaultCardChange?: (cardNumber: string) => void;
 };
+const toEnglishDigits = (value: string) =>
+  value.replace(/[\u0660-\u0669\u06F0-\u06F9]/g, (digit) => {
+    const code = digit.charCodeAt(0);
+    return String(code >= 0x06f0 ? code - 0x06f0 : code - 0x0660);
+  });
+const formatCardNumber = (value: string) => toEnglishDigits(value).replace(/(\d{4})(?=\d)/g, "$1  ");
 function BankCardItem(props: BankCardItemProps) {
   const { t } = useTranslation();
   const { data: session } = useSession();
@@ -39,16 +47,13 @@ function BankCardItem(props: BankCardItemProps) {
   const [newCardNumber, setNewCardNumber] = useState("");
   const [addCardLoading, setAddCardLoading] = useState(false);
   const [cardNumberInvalid, setCardNumberInvalid] = useState(false);
-
   const handleCardNumberChange = (value: string) => {
     setNewCardNumber(value.replace(/\D/g, "").slice(0, 16));
     setCardNumberInvalid(false);
   };
-
   const handleAddCard = async (event: FormEvent) => {
     event.preventDefault();
     if (newCardNumber.length !== 16 || addCardLoading) return;
-
     setAddCardLoading(true);
     try {
       const response = await clientFetchApi<{ cardNumber: string }, boolean>("/api/wallet/addCardNumber", {
@@ -56,13 +61,11 @@ function BankCardItem(props: BankCardItemProps) {
         methodType: MethodType.get,
         queries: [{ key: "cardNumber", value: newCardNumber }],
       });
-
       if (!response.succeeded) {
         setCardNumberInvalid(true);
         notify(response.info.responseType, NotifType.Warning);
         return;
       }
-
       notify(ResponseType.Ok, NotifType.Success);
       setNewCardNumber("");
       setCardNumberInvalid(false);
@@ -74,23 +77,21 @@ function BankCardItem(props: BankCardItemProps) {
       setAddCardLoading(false);
     }
   };
-
   if (props.isAddCard) {
     return (
       <>
         <button className={styles.addCardTile} type="button" onClick={() => setShowAddForm((current) => !current)}>
-          <span className={styles.addCardIcon} aria-hidden="true">
-            +
-          </span>
-          <span>{t("Add Bank Card")}</span>
-          <small>{t("Register a new card")}</small>
+          <img className={styles.addCardIcon} src="/add-circle.svg" />
+          <div className="headerandinput">
+            <div>{t(LanguageKey.RegisterANewCard)}</div>
+            <small>{t(LanguageKey.AddNewBankCard)}</small>
+          </div>
         </button>
-
         {showAddForm && (
-          <form className="headerandinput" onSubmit={handleAddCard}>
-            <label className={styles.label} htmlFor="wallet-card-number">
-              {t("Card Number")}
-
+          <form className={styles.showAddForm} onSubmit={handleAddCard}>
+            <div className="headerandinput" style={{ padding: "var(--padding-5)" }}>
+              <div className="title">{t(LanguageKey.CardBankNumber)}</div>
+              <div className="explain">{t(LanguageKey.CardNumberExplain)}</div>
               <InputBox
                 className="textinputbox"
                 handleInputChange={(event: ChangeEvent<HTMLInputElement>) => handleCardNumberChange(event.target.value)}
@@ -102,19 +103,18 @@ function BankCardItem(props: BankCardItemProps) {
                 id="wallet-card-number"
                 name="wallet-card-number"
               />
-
               {cardNumberInvalid && (
-                <small className={styles.invalidCardMessage} role="alert">
-                  {t("Notify_InvalidBankCardNumber")}
-                </small>
+                <div className="explain" role="alert" style={{ color: "var(--color-dark-red)" }}>
+                  {t(LanguageKey.Notify_InvalidBankCardNumber)}
+                </div>
               )}
-            </label>
+            </div>
             <div className="ButtonContainer">
               <button
                 className={newCardNumber.length === 16 ? "saveButton" : "disableButton"}
                 type="submit"
                 disabled={newCardNumber.length !== 16}>
-                {t("Register Bank Card")}
+                {t(LanguageKey.RegisterBankCard)}
               </button>
             </div>
           </form>
@@ -123,7 +123,7 @@ function BankCardItem(props: BankCardItemProps) {
     );
   }
 
-  const { card, generalBalance, loading, onSelectCard, onDefaultCardChange } = props;
+  const { card, generalBalance, loading, onSelectCard, onDefaultCardChange, themeIndex } = props;
   const cardBalances = generalBalance.filter((item) => item.cardNumber === card.cardNumber);
   const priceType = cardBalances[0]?.priceType ?? PriceType.Toman;
   const total = cardBalances
@@ -132,17 +132,14 @@ function BankCardItem(props: BankCardItemProps) {
   const totalPriceType = cardBalances.find((item) => item.status === SubInvoiceStatus.None)?.priceType ?? priceType;
   const [setDefaultCardLoading, setSetDefaultCardLoading] = useState(false);
   const [settleLoading, setSettleLoading] = useState(false);
-
   const setDefaultCard = async () => {
     if (!session || setDefaultCardLoading) return;
-
     setSetDefaultCardLoading(true);
     try {
       const response = await clientFetchApi<null, boolean>("/api/wallet/setDefaultCard", {
         session,
         queries: [{ key: "cardNumber", value: card.cardNumber }],
       });
-
       if (response.succeeded) {
         notify(ResponseType.Ok, NotifType.Success);
         onDefaultCardChange?.(card.cardNumber);
@@ -156,10 +153,8 @@ function BankCardItem(props: BankCardItemProps) {
       setSetDefaultCardLoading(false);
     }
   };
-
   const settleCard = async () => {
     if (!session || settleLoading) return;
-
     setSettleLoading(true);
     try {
       const response = await clientFetchApi<null, boolean>("/api/wallet/settleRequest", {
@@ -168,7 +163,6 @@ function BankCardItem(props: BankCardItemProps) {
         queries: [{ key: "cardNumber", value: card.cardNumber }],
         data: undefined,
       });
-
       if (response.succeeded) {
         notify(ResponseType.Ok, NotifType.Success);
       } else {
@@ -181,27 +175,37 @@ function BankCardItem(props: BankCardItemProps) {
       setSettleLoading(false);
     }
   };
-
   return (
     <div className={styles.bankCardContainer}>
-      <div className={styles.bankCard}>
+      <div className={`${styles.bankCard} ${styles[`bankCardTheme${themeIndex}`]}`}>
+        <div className={styles.bankCardMask}>
+          <div className={styles.bankCardMask1} />
+          <div className={styles.bankCardMask2} />
+          <div className={styles.bankCardMask3} />
+          <div className={styles.bankCardMask4} />
+        </div>
         <div className={styles.bankCarddetail}>
-          <div className={styles.cardNumber}>{card.cardNumber}</div>
-          <div className={styles.iban}>{card.iban}</div>
+          <div className="headerandparent">
+            <div className={styles.cardNumber}>{formatCardNumber(card.cardNumber)}</div>
+            <div className={styles.iban}>{toEnglishDigits(card.iban)}</div>
+          </div>
           <span className={styles.holder}>{card.accountHolderName}</span>
         </div>
         <div className="headerparent">
-          <div className="explain">
+          <div className={styles.holder}>
             {card.bankName} -{card.bankCountryCode}
           </div>
           <div className={styles.badges}>
-            {card.isDefault && <span className="IDgreen">{t("active")}</span>}
-            {!card.isActive && <span className="IDred">{t("Suspended")}</span>}
+            {card.isDefault && <span className="IDgreen">{t(LanguageKey.active)}</span>}
+            {!card.isActive && <span className="IDred">{t(LanguageKey.Suspended)}</span>}
           </div>
         </div>
       </div>
       <div className="headerparent" onClick={(event) => event.stopPropagation()}>
-        <div className="title2">{t("Default Card")}</div>
+        <div className="headerandinput">
+          <div className="title2">{t(LanguageKey.DefaultBankCard)}</div>
+          <div className="explain">{t(LanguageKey.SetAsDefaultBankCard)}</div>
+        </div>
         <SwitchButton
           name={`default-card-${card.cardNumber}`}
           checked={card.isDefault}
@@ -209,10 +213,9 @@ function BankCardItem(props: BankCardItemProps) {
           disabled={!session || setDefaultCardLoading}
           className={!card.isActive ? "fadeDiv" : undefined}
           role="switch"
-          aria-label={t("Default Card")}
+          aria-label={t(LanguageKey.DefaultBankCard)}
         />
       </div>
-
       <div className={`${styles.statusGrid} ${loading ? styles.cardsLoading : ""}`}>
         <div className="headerandinput">
           <PriceFormater
@@ -222,7 +225,7 @@ function BankCardItem(props: BankCardItemProps) {
               .reduce((sum, item) => sum + item.totalPrice, 0)}
             className={PriceFormaterClassName.PostPrice}
           />
-          <span className={styles.statusLabel}>{t("Unsettled")}</span>
+          <span className={styles.statusLabel}>{t(LanguageKey.Unsettled)}</span>
         </div>
         <div className="headerandinput">
           <PriceFormater
@@ -232,7 +235,7 @@ function BankCardItem(props: BankCardItemProps) {
               .reduce((sum, item) => sum + item.totalPrice, 0)}
             className={PriceFormaterClassName.PostPrice}
           />
-          <span className={styles.statusLabel}>{t("Settled")}</span>
+          <span className={styles.statusLabel}>{t(LanguageKey.Settled)}</span>
         </div>
         <div className="headerandinput">
           <PriceFormater
@@ -242,9 +245,8 @@ function BankCardItem(props: BankCardItemProps) {
               .reduce((sum, item) => sum + item.totalPrice, 0)}
             className={PriceFormaterClassName.PostPrice}
           />
-          <span className={styles.statusLabel}>{t("Awaiting Settled")}</span>
+          <span className={styles.statusLabel}>{t(LanguageKey.AwaitingSettled)}</span>
         </div>
-
         <div className="headerandinput">
           <PriceFormater
             pricetype={priceType}
@@ -253,26 +255,24 @@ function BankCardItem(props: BankCardItemProps) {
               .reduce((sum, item) => sum + item.totalPrice, 0)}
             className={PriceFormaterClassName.PostPrice}
           />
-          <span className={styles.statusLabel}>{t("Failed")}</span>
+          <span className={styles.statusLabel}>{t(LanguageKey.SettlementFailed)}</span>
         </div>
       </div>
-
       <div className="ButtonContainer">
         <div className="cancelButton" onClick={() => onSelectCard?.(card.cardNumber)}>
-          {t("History")}
+          {t(LanguageKey.history)}
         </div>
         <button
           type="button"
           className={session && !settleLoading && total > 0 ? "saveButton" : "disableButton"}
           onClick={settleCard}
           disabled={!session || settleLoading || total <= 0}>
-          {settleLoading ? <RingLoader color="white" width={20} height={20} /> : t("Settle Request")}
+          {settleLoading ? <RingLoader color="white" width={20} height={20} /> : t(LanguageKey.SettleRequest)}
         </button>
       </div>
     </div>
   );
 }
-
 export default function BankCard({
   defaultCardNumber,
   onGeneralBalanceChange,
@@ -283,7 +283,6 @@ export default function BankCard({
   const [cards, setCards] = useState<IBankCard[]>([]);
   const [generalBalance, setGeneralBalance] = useState<IGeneralBallance[]>([]);
   const [loading, setLoading] = useState(true);
-
   const fetchCards = async () => {
     try {
       const response = await clientFetchApi<null, IBankCard[]>("/api/wallet/getInstagramerBankCards", { session });
@@ -292,7 +291,6 @@ export default function BankCard({
         setCards([]);
         return;
       }
-
       const value: any = response.value;
       if (Array.isArray(value)) setCards(value);
       else if (value && Array.isArray(value.value)) setCards(value.value);
@@ -305,7 +303,6 @@ export default function BankCard({
       setCards([]);
     }
   };
-
   const fetchGeneralBalance = async () => {
     setLoading(true);
     try {
@@ -327,19 +324,15 @@ export default function BankCard({
       setLoading(false);
     }
   };
-
   useEffect(() => {
     if (!session) return;
     void fetchCards();
     void fetchGeneralBalance();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
-
   const orderedCards = [...cards]
     .map((card) => (defaultCardNumber ? { ...card, isDefault: card.cardNumber === defaultCardNumber } : card))
     .sort((first, second) => Number(second.isDefault) - Number(first.isDefault));
   const defaultCard = orderedCards.find((card) => card.isDefault);
-
   return (
     <Slider
       key={defaultCard?.cardNumber ?? "no-default-card"}
@@ -354,6 +347,7 @@ export default function BankCard({
             card={card}
             generalBalance={generalBalance}
             loading={loading}
+            themeIndex={(index % 6) + 1}
             onSelectCard={onSelectCard}
             onDefaultCardChange={onDefaultCardChange}
           />

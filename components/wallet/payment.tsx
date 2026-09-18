@@ -12,6 +12,7 @@ import { IGeneralBallance, IGetSubInvoice, IInvoice } from "brancy/models/interf
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
+import { LanguageKey } from "brancy/i18n";
 import { useCallback, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 const Payment = () => {
@@ -23,8 +24,6 @@ const Payment = () => {
       router.push("/");
     },
   });
-
-  // حالت‌های محلی برای فرم‌ها
   const [generalBalance, setGeneralBalance] = useState<IGeneralBallance[]>([]);
   const [defaultCardNumber, setDefaultCardNumber] = useState<string>();
   const [showSubInvoicesPopup, setShowSubInvoicesPopup] = useState<string | null>(null);
@@ -35,15 +34,12 @@ const Payment = () => {
     if (session?.user.currentIndex === -1) router.push("/user");
     if (!session || !packageStatus(session)) router.push("/upgrade");
   }, [session]);
-
   useEffect(() => {
     if (!session) return;
   }, [session]);
-
   const handleChangeDefaultCard = (cardNumber: string) => {
     setDefaultCardNumber(cardNumber);
   };
-
   const getInvoice = useCallback(
     async (invoiceId: string): Promise<IInvoice | undefined> => {
       if (!session) return undefined;
@@ -66,7 +62,6 @@ const Payment = () => {
     [session],
   );
   if (!session || session!.user.currentIndex === -1) return null;
-
   return (
     <>
       <Head>
@@ -82,7 +77,7 @@ const Payment = () => {
           <div className="tooBigCard">
             <header className="headerChild" title="↕ Resize the Card" role="button">
               <div className="circle" aria-hidden="true" />
-              <h2 className="Title">کارت های بانکی</h2>
+              <h2 className="Title">{t(LanguageKey.BankCards)}</h2>
             </header>
             <BankCard
               defaultCardNumber={defaultCardNumber}
@@ -95,7 +90,7 @@ const Payment = () => {
           <div className="tooBigCard">
             <header className="headerChild" title="↕ Resize the Card" role="button">
               <div className="circle" aria-hidden="true" />
-              <h2 className="Title">تراکنش‌ها</h2>
+              <h2 className="Title">{t(LanguageKey.Transactions)}</h2>
             </header>
             <Invoices openInvoicePopup={(invoice) => setShowInvoicePopup(invoice)} />
           </div>
@@ -103,13 +98,12 @@ const Payment = () => {
           <div className="tooBigCard">
             <header className="headerChild" title="↕ Resize the Card" role="button">
               <div className="circle" aria-hidden="true" />
-              <h2 className="Title">تاریخچه تسویه ها</h2>
+              <h2 className="Title">{t(LanguageKey.Settlements)}</h2>
             </header>
             <Settle />
           </div>
         </div>
       </main>
-
       {/* ------------------------------------------------------------------------- */}
       <Modal
         closePopup={() => setShowSubInvoicesPopup(null)}
@@ -142,5 +136,4 @@ const Payment = () => {
     </>
   );
 };
-
 export default Payment;

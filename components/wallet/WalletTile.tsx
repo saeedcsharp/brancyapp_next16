@@ -2,6 +2,7 @@ import { IGeneralBallance } from "brancy/models/interfaces";
 import styles from "./WalletTile.module.css";
 import { SubInvoiceStatus } from "brancy/models/enums";
 import { useTranslation } from "react-i18next";
+import { LanguageKey } from "brancy/i18n";
 export default function WalletTile({ generalBalance }: { generalBalance: IGeneralBallance[] }) {
   const { t } = useTranslation();
   const formatMoney = (v: number) => v.toLocaleString("en-US");
@@ -27,7 +28,7 @@ export default function WalletTile({ generalBalance }: { generalBalance: IGenera
           {/* <div className={styles.chart}></div> */}
         </div>
         <div className={styles.tiledetail}>
-          <div className="title2">{t("Wallet Balance")}</div>
+          <div className="title2">{t(LanguageKey.WalletBalance)}</div>
           <div className="title">{formatMoney(totalBalance)}</div>
         </div>
       </div>
@@ -40,7 +41,7 @@ export default function WalletTile({ generalBalance }: { generalBalance: IGenera
           {/* <div className={styles.chart}></div> */}
         </div>
         <div className={styles.tiledetail}>
-          <div className="title2">{t("Total Withdrawn")}</div>
+          <div className="title2">{t(LanguageKey.TotalWithdrawn)}</div>
           <div className="title">{formatMoney(totalSettledBalance)}</div>
         </div>
       </div>
@@ -53,7 +54,7 @@ export default function WalletTile({ generalBalance }: { generalBalance: IGenera
           {/* <div className={styles.chart}></div> */}
         </div>
         <div className={styles.tiledetail}>
-          <div className="title2">{t("Failed Transactions")}</div>
+          <div className="title2">{t(LanguageKey.FailedTransactions)}</div>
           <div className="title">{formatMoney(totalFailedBalance)}</div>
         </div>
       </div>
@@ -66,7 +67,7 @@ export default function WalletTile({ generalBalance }: { generalBalance: IGenera
           {/* <div className={styles.chart}></div> */}
         </div>
         <div className={styles.tiledetail}>
-          <div className="title2">{t("Pending Settlement")}</div>
+          <div className="title2">{t(LanguageKey.PendingSettlement)}</div>
           <div className="title">{formatMoney(totalAwaitingSettleBalance)}</div>
         </div>
       </div>

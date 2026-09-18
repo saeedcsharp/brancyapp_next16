@@ -11,6 +11,7 @@ import { useSession } from "next-auth/react";
 import { notify, NotifType, ResponseType } from "brancy/components/notifications/notificationBox";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
 import Loading from "../notOk/loading";
+import { LanguageKey } from "brancy/i18n";
 import DotLoaders from "../design/loader/dotLoaders";
 type InvoicesProps = {
   openInvoicePopup?: (invoice: IInvoice) => void;
@@ -106,7 +107,7 @@ export default function Invoices({ openInvoicePopup }: InvoicesProps) {
           ))}
         </>
       ) : (
-        <div className={styles.emptyState}>{t("No invoices have been registered yet.")}</div>
+        <div className={styles.emptyState}>{t(LanguageKey.emptyInvoice)}</div>
       )}
       {!invoicesLoading && (invoicesLoadingMore || hasMore) && <>{invoicesLoadingMore && <DotLoaders />}</>}
     </section>
@@ -148,7 +149,7 @@ function InvoiceCard({
             </svg>
           </div>
           <div className={styles.detailitem}>
-            <div className={styles.detailheader}>{t("time")}</div>
+            <div className={styles.detailheader}>{t(LanguageKey.createtime)}</div>
             <div className={styles.detailvalue}>
               <time
                 dateTime={new DateObject({
@@ -168,7 +169,7 @@ function InvoiceCard({
             </svg>
           </div>
           <div className={styles.detailitem}>
-            <div className={styles.detailheader}>{t("Invoice ID")}</div>
+            <div className={styles.detailheader}>{t(LanguageKey.InvoiceID)}</div>
             <div className={styles.detailvalue}>{invoice.id}</div>
           </div>
         </div>
@@ -180,7 +181,7 @@ function InvoiceCard({
           </div>
 
           <div className={styles.detailitem}>
-            <div className={styles.detailheader}>{t("type")}</div>
+            <div className={styles.detailheader}>{t(LanguageKey.InvoiceType)}</div>
             <div className={styles.detailvalue}>{getInvoiceType(invoice.invoiceType, t)}</div>
           </div>
         </div>
@@ -190,23 +191,23 @@ function InvoiceCard({
 }
 function getInvoiceStatus(status: InvoiceStatus, t: (key: string) => string) {
   const labels: Record<InvoiceStatus, string> = {
-    [InvoiceStatus.Pending]: t("Pending"),
-    [InvoiceStatus.Paid]: t("Paid"),
-    [InvoiceStatus.Success]: t("Success"),
-    [InvoiceStatus.WaitingForRefundRequest]: t("Refund request"),
-    [InvoiceStatus.FastRefunding]: t("Refunding"),
-    [InvoiceStatus.Refunded]: t("Refunded"),
-    [InvoiceStatus.FailedRefaund]: t("Refund failed"),
-    [InvoiceStatus.Failed]: t("Failed"),
+    [InvoiceStatus.Pending]: t(LanguageKey.Pending),
+    [InvoiceStatus.Paid]: t(LanguageKey.Paid),
+    [InvoiceStatus.Success]: t(LanguageKey.Success),
+    [InvoiceStatus.WaitingForRefundRequest]: t(LanguageKey.RefundRequest),
+    [InvoiceStatus.FastRefunding]: t(LanguageKey.Refunding),
+    [InvoiceStatus.Refunded]: t(LanguageKey.Refunded),
+    [InvoiceStatus.FailedRefaund]: t(LanguageKey.RefundFailed),
+    [InvoiceStatus.Failed]: t(LanguageKey.Failed),
   };
-  return labels[status] ?? t("Unknown Status");
+  return labels[status] ?? t(LanguageKey.UnknownStatus);
 }
 function getInvoiceType(type: InvoiceType, t: (key: string) => string) {
   const labels: Record<InvoiceType, string> = {
-    [InvoiceType.Package]: t("Package"),
-    [InvoiceType.Product]: t("Product"),
-    [InvoiceType.Feature]: t("Feature"),
-    [InvoiceType.Custom]: t("Custom"),
+    [InvoiceType.Package]: t(LanguageKey.Package),
+    [InvoiceType.Product]: t(LanguageKey.Product),
+    [InvoiceType.Feature]: t(LanguageKey.Feature),
+    [InvoiceType.Custom]: t(LanguageKey.Custom),
   };
-  return labels[type] ?? t("Invoice");
+  return labels[type] ?? t(LanguageKey.Invoice);
 }

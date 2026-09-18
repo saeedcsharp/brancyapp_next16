@@ -8,6 +8,7 @@ import styles from "./invoicePopup.module.css";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import OrderDetailPopup from "brancy/components/wallet/modal/orderDetailPopup";
 import { useEffect, useState } from "react";
+import { LanguageKey } from "brancy/i18n";
 
 type SubInvoicesPopupProps = {
   invoice: IInvoice;
@@ -24,33 +25,33 @@ export default function InvoicePopup({ invoice, subInvoices, onClose, getInvoice
   function manageSubInvoiceType(type: SubInvoiceItemType): string {
     switch (type) {
       case SubInvoiceItemType.InstagramerLogestic:
-        return t("Logestic Payment");
+        return t(LanguageKey.LogesticPayment);
       case SubInvoiceItemType.InstagramerProduct:
-        return t("Product Income");
+        return t(LanguageKey.ProductIncome);
       case SubInvoiceItemType.PlatformFeature:
-        return t("Brancy Feature Income");
+        return t(LanguageKey.BrancyFeatureIncome);
       case SubInvoiceItemType.PlatformLogestic:
-        return t("Brancy Logestic Payment");
+        return t(LanguageKey.BrancyLogesticPayment);
       case SubInvoiceItemType.PlatformPackage:
-        return t("Brancy Package Income");
+        return t(LanguageKey.BrancyPackageIncome);
       case SubInvoiceItemType.PlatformProductFee:
-        return t("Brancy Product Income");
+        return t(LanguageKey.BrancyProductIncome);
       case SubInvoiceItemType.PlatformTransferFee:
-        return t("Brancy Transfer payment");
+        return t(LanguageKey.BrancyTransferPayment);
     }
   }
   function manageSubInvoiceStatus(status: SubInvoiceStatus): { label: string; className: string } {
     switch (status) {
       case SubInvoiceStatus.None:
-        return { label: t("Unsettled"), className: "IDblue" };
+        return { label: t(LanguageKey.Unsettled), className: "IDblue" };
       case SubInvoiceStatus.AwaitingSettled:
-        return { label: t("Awaiting Settled"), className: "IDpurple" };
+        return { label: t(LanguageKey.AwaitingSettled), className: "IDpurple" };
       case SubInvoiceStatus.Settled:
-        return { label: t("Settled"), className: "IDgreen" };
+        return { label: t(LanguageKey.Settled), className: "IDgreen" };
       case SubInvoiceStatus.Failed:
-        return { label: t("Failed"), className: "IDred" };
+        return { label: t(LanguageKey.Failed), className: "IDred" };
       default:
-        return { label: t("Unknown Status"), className: "IDgray" };
+        return { label: t(LanguageKey.UnknownStatus), className: "IDgray" };
     }
   }
   useEffect(() => {
@@ -70,27 +71,26 @@ export default function InvoicePopup({ invoice, subInvoices, onClose, getInvoice
       <div className="headerparent">
         <div className="headerChild">
           <div className="circle"></div>
-          <div className="Title">{t("Invoice History")}</div>
+          <div className="Title">{t(LanguageKey.InvoiceHistory)}</div>
         </div>
         <img
           src="/close-box.svg"
-          alt={t("close")}
+          alt={t(LanguageKey.close)}
           onClick={onClose}
           role="button"
-          aria-label={t("close")}
-          title={t("close")}
+          aria-label={t(LanguageKey.close)}
+          title={t(LanguageKey.close)}
           style={{ width: "36px" }}
         />
       </div>
 
       <ToggleButton
         options={[
-          { id: 0, label: t("Invoice details") },
-          { id: 1, label: t("Order details") },
+          { id: 0, label: t(LanguageKey.InvoiceDetails) },
+          { id: 1, label: t(LanguageKey.OrderDetails) },
         ]}
         selectedValue={selectedTab}
         onChange={setSelectedTab}
-        ariaLabel={t("Invoice sections")}
         className={styles.tabs}
       />
 
@@ -99,12 +99,12 @@ export default function InvoicePopup({ invoice, subInvoices, onClose, getInvoice
           <div className={styles.table}>
             <div className={styles.tableheader}>
               <div className={styles.header}>#</div>
-              <div className={styles.header}>{t("id")}</div>
-              <div className={styles.header}>{t("card number")}</div>
-              <div className={styles.header}>{t("type")}</div>
-              <div className={styles.header}>{t("amount")}</div>
-              <div className={styles.header}>{t("status")}</div>
-              <div className={styles.header}>{t("time")}</div>
+              <div className={styles.header}>{t(LanguageKey.InvoiceID)}</div>
+              <div className={styles.header}>{t(LanguageKey.CardNumber)}</div>
+              <div className={styles.header}>{t(LanguageKey.Type)}</div>
+              <div className={styles.header}>{t(LanguageKey.Amount)}</div>
+              <div className={styles.header}>{t(LanguageKey.status)}</div>
+              <div className={styles.header}>{t(LanguageKey.Time)}</div>
             </div>
             {subInvoices?.map((i, index) => (
               <div key={i.id} className={styles.tablecontent}>
@@ -137,9 +137,7 @@ export default function InvoicePopup({ invoice, subInvoices, onClose, getInvoice
               </div>
             ))}
           </div>
-          {subInvoices?.length === 0 && (
-            <div className={styles.emptyState}>{t("No invoices have been registered yet.")}</div>
-          )}
+          {subInvoices?.length === 0 && <div className={styles.emptyState}>{t(LanguageKey.emptyInvoice)}</div>}
         </div>
       ) : orderDetailsInvoice ? (
         <div className={styles.orderDetails}>
@@ -153,16 +151,16 @@ export default function InvoicePopup({ invoice, subInvoices, onClose, getInvoice
         <div className={styles.orderDetails}>
           <div className={styles.orderSummary}>
             <div className={styles.orderSummaryRow}>
-              <span>{t("Invoice")}</span>
+              <span>{t(LanguageKey.Invoice)}</span>
               <strong>{invoice.id}</strong>
             </div>
             <div className={styles.orderSummaryRow}>
-              <span>{t("Order")}</span>
-              <strong>{orderInvoice?.orderId ?? t("Not available")}</strong>
+              <span>{t(LanguageKey.Order)}</span>
+              <strong>{orderInvoice?.orderId ?? t(LanguageKey.NotAvailable)}</strong>
             </div>
             <div className={styles.orderSummaryRow}>
-              <span>{t("User")}</span>
-              <strong>{orderInvoice?.userId ?? t("Not available")}</strong>
+              <span>{t(LanguageKey.User)}</span>
+              <strong>{orderInvoice?.userId ?? t(LanguageKey.NotAvailable)}</strong>
             </div>
           </div>
         </div>

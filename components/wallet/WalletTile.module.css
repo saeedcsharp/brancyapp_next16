@@ -5,16 +5,23 @@
   align-items: center;
   justify-content: space-evenly;
   gap: 20px;
-  margin: 20px;
+  padding-inline: 20px;
+  margin-inline: auto;
+  margin-block-end: 10px;
   grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 }
+@media (max-width: 600px) {
+  .tileContainer {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
 .tileCard {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: space-between;
 
-  min-width: 200px;
   height: 160px;
   padding: 20px;
   border-radius: var(--br20);
@@ -22,6 +29,7 @@
   flex-shrink: 0;
   overflow: hidden;
 }
+
 .tileheader {
   height: 50px;
   width: 100%;

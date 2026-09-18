@@ -1,85 +1,85 @@
 .settleContainer {
-	display: flex;
-	flex-direction: column;
-	gap: 20px;
-	overflow-y: auto;
-	overflow-x: hidden;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  overflow-y: auto;
+  overflow-x: hidden;
 }
 .emptyState {
-	padding: 40px 20px;
-	border: 1px dashed var(--content-box);
-	border-radius: var(--br12);
-	color: var(--text-h2);
-	font-size: var(--font-14);
-	text-align: center;
+  padding: 40px 20px;
+  border: 1px dashed var(--content-box);
+  border-radius: var(--br12);
+  color: var(--text-h2);
+  font-size: var(--font-14);
+  text-align: center;
 }
 .settleCard {
-	width: 100%;
-	min-width: 0;
-	display: flex;
-	flex-direction: column;
-	border-radius: var(--br20);
-	border: 1px solid var(--color-gray30);
-	background-color: var(--color-gray10);
+  width: 100%;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  border-radius: var(--br20);
+  border: 1px solid var(--color-gray30);
+  background-color: var(--color-gray10);
 }
 .settleTopRow {
-	min-height: 60px;
-	height: 60px;
-	background-color: var(--color-white);
-	display: flex;
-	align-items: center;
-	justify-content: space-between;
-	border-radius: var(--br20);
-	padding: var(--padding-10) var(--padding-20);
+  min-height: 60px;
+  height: 60px;
+  background-color: var(--color-white);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-radius: var(--br20);
+  padding: var(--padding-10) var(--padding-20);
 }
 .settleDetails {
-	min-height: 80px;
-	height: 80px;
-	display: flex;
-	flex-direction: row;
-	gap: var(--gap-30);
-	align-items: center;
-	padding: var(--padding-10);
-	overflow-x: auto;
-	overflow-y: hidden;
-	flex-wrap: nowrap;
-	touch-action: pan-y;
-	user-select: none;
+  min-height: 80px;
+  height: 80px;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-30);
+  align-items: center;
+  padding: var(--padding-10);
+  overflow-x: auto;
+  overflow-y: hidden;
+  flex-wrap: nowrap;
+  touch-action: pan-y;
+  user-select: none;
 }
 .detailcontainer {
-	display: flex;
-	flex-direction: row;
-	gap: var(--gap-10);
-	width: max-content;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-10);
+  width: max-content;
 }
 .detailIcon {
-	width: 40px;
-	height: 40px;
-	min-width: 40px;
-	border-radius: 10px;
-	background-color: var(--color-gray10);
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  border-radius: 10px;
+  background-color: var(--color-gray10);
 }
 .detailitem {
-	display: flex;
-	flex-direction: column;
-	justify-content: space-around;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-around;
 }
 .detailheader,
 .detailvalue {
-	display: flex;
-	text-align: center;
-	white-space: nowrap;
-	overflow: hidden;
-	text-overflow: ellipsis;
-	max-width: 100%;
+  display: flex;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 100%;
 }
 .detailheader {
-	font-size: var(--font-12);
-	font-weight: var(--weight-400);
-	color: var(--text-h2);
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+  color: var(--text-h2);
 }
 .detailvalue {
-	font-size: var(--font-12);
-	font-weight: var(--weight-600);
-	color: var(--text-h1);
+  font-size: var(--font-12);
+  font-weight: var(--weight-600);
+  color: var(--text-h1);
 }

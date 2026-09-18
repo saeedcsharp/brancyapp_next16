@@ -6,11 +6,12 @@ import { SubInvoiceItemType, SubInvoiceStatus } from "brancy/models/enums";
 import { IGetSubInvoice, ISubInvoice } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { LanguageKey } from "brancy/i18n";
 import { DateObject } from "react-multi-date-picker";
 import { NotifType, notify, ResponseType } from "../../notifications/notificationBox";
 import Loading from "../../notOk/loading";
 import PriceFormater, { PriceFormaterClassName } from "../../priceFormater";
+import { useTranslation } from "react-i18next";
 import styles from "./subInvoicePopup.module.css";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
 type SubInvoicesPopupProps = {
@@ -27,33 +28,33 @@ export default function SubInvoicesP({ cardNumber, subInvoices, onClose, onSubIn
   function manageSubInvoiceType(type: SubInvoiceItemType): string {
     switch (type) {
       case SubInvoiceItemType.InstagramerLogestic:
-        return t("Logestic Payment");
+        return t(LanguageKey.LogesticPayment);
       case SubInvoiceItemType.InstagramerProduct:
-        return t("Product Income");
+        return t(LanguageKey.ProductIncome);
       case SubInvoiceItemType.PlatformFeature:
-        return t("Brancy Feature Income");
+        return t(LanguageKey.BrancyFeatureIncome);
       case SubInvoiceItemType.PlatformLogestic:
-        return t("Brancy Logestic Payment");
+        return t(LanguageKey.BrancyLogesticPayment);
       case SubInvoiceItemType.PlatformPackage:
-        return t("Brancy Package Income");
+        return t(LanguageKey.BrancyPackageIncome);
       case SubInvoiceItemType.PlatformProductFee:
-        return t("Brancy Product Income");
+        return t(LanguageKey.BrancyProductIncome);
       case SubInvoiceItemType.PlatformTransferFee:
-        return t("Brancy Transfer payment");
+        return t(LanguageKey.BrancyTransferPayment);
     }
   }
   function manageSubInvoiceStatus(status: SubInvoiceStatus): { label: string; className: string } {
     switch (status) {
       case SubInvoiceStatus.None:
-        return { label: t("Unsettled"), className: "IDblue" };
+        return { label: t(LanguageKey.Unsettled), className: "IDblue" };
       case SubInvoiceStatus.AwaitingSettled:
-        return { label: t("Awaiting Settled"), className: "IDpurple" };
+        return { label: t(LanguageKey.AwaitingSettled), className: "IDpurple" };
       case SubInvoiceStatus.Settled:
-        return { label: t("Settled"), className: "IDgreen" };
+        return { label: t(LanguageKey.Settled), className: "IDgreen" };
       case SubInvoiceStatus.Failed:
-        return { label: t("Failed"), className: "IDred" };
+        return { label: t(LanguageKey.Failed), className: "IDred" };
       default:
-        return { label: t("Unknown Status"), className: "IDgray" };
+        return { label: t(LanguageKey.UnknownStatus), className: "IDgray" };
     }
   }
   const handleDownsectionPointerDown = useCallback((event: React.PointerEvent<HTMLDivElement>) => {
@@ -160,15 +161,15 @@ export default function SubInvoicesP({ cardNumber, subInvoices, onClose, onSubIn
       <div className="headerparent">
         <div className="headerChild">
           <div className="circle" />
-          <div className="Title">{t("Sub Invoice History")}</div>
+          <div className="Title">{t(LanguageKey.SubInvoiceHistory)}</div>
         </div>
         <img
           src="/close-box.svg"
-          alt={t("close")}
+          alt={t(LanguageKey.close)}
           onClick={onClose}
           role="button"
-          aria-label={t("close")}
-          title={t("close")}
+          aria-label={t(LanguageKey.close)}
+          title={t(LanguageKey.close)}
           style={{ width: "36px" }}
         />
       </div>
@@ -205,7 +206,7 @@ export default function SubInvoicesP({ cardNumber, subInvoices, onClose, onSubIn
                         </svg>
                       </div>
                       <div className={styles.detailitem}>
-                        <div className={styles.detailheader}>{t("Invoice ID")}</div>
+                        <div className={styles.detailheader}>{t(LanguageKey.InvoiceID)}</div>
                         <div className={styles.detailvalue}>{i.id}</div>
                       </div>
                     </div>
@@ -217,7 +218,7 @@ export default function SubInvoicesP({ cardNumber, subInvoices, onClose, onSubIn
                       </div>
 
                       <div className={styles.detailitem}>
-                        <div className={styles.detailheader}>{t("type")}</div>
+                        <div className={styles.detailheader}>{t(LanguageKey.InvoiceType)}</div>
                         <div className={styles.detailvalue}>{manageSubInvoiceType(i.itemType)}</div>
                       </div>
                     </div>
@@ -228,7 +229,7 @@ export default function SubInvoicesP({ cardNumber, subInvoices, onClose, onSubIn
                         </svg>
                       </div>
                       <div className={styles.detailitem}>
-                        <div className={styles.detailheader}>{t("card number")}</div>
+                        <div className={styles.detailheader}>{t(LanguageKey.CardNumber)}</div>
                         <div className={styles.detailvalue}>{i.cardNumber}</div>
                       </div>
                     </div>
@@ -239,7 +240,7 @@ export default function SubInvoicesP({ cardNumber, subInvoices, onClose, onSubIn
                         </svg>
                       </div>
                       <div className={styles.detailitem}>
-                        <div className={styles.detailheader}>{t("time")}</div>
+                        <div className={styles.detailheader}>{t(LanguageKey.createtime)}</div>
                         <div className={styles.detailvalue}>
                           {new DateObject({
                             date: i.createdTime * 1000,
@@ -254,9 +255,7 @@ export default function SubInvoicesP({ cardNumber, subInvoices, onClose, onSubIn
               );
             })}
 
-            {subInvoices?.items.length === 0 && (
-              <div className={styles.emptyState}>{t("No invoices have been registered yet.")}</div>
-            )}
+            {subInvoices?.items.length === 0 && <div className={styles.emptyState}>{t(LanguageKey.emptyInvoice)}</div>}
             {isLoadingMore && (
               <div style={{ display: "flex", justifyContent: "center", width: "100%" }}>
                 <DotLoaders />
