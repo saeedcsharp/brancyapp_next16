@@ -1,5 +1,15 @@
 export default {
   translation: {
+    aiSuggestedPrompts_title: "Önerilen promptlar",
+    aiSuggestedPrompts_explain: "Başlangıç olarak kullanmak için bir prompt seçin.",
+    aiSuggestedPrompts_category: "Prompt kategorisi",
+    aiSuggestedPrompts_subCategory: "Alt kategori",
+    aiSuggestedPrompts_allCategories: "Tüm kategoriler",
+    aiSuggestedPrompts_loading: "Yükleniyor...",
+    aiSuggestedPrompts_empty: "Önerilen prompt bulunamadı.",
+    aiSuggestedPrompts_loadMore: "Daha fazla yükle",
+    aiSuggestedPrompts_prompt: "Prompt",
+    aiSuggestedPrompts_copy: "Promptu kopyala",
     unpin: "Pini Kaldır",
     pin: "Pinle",
     usethisPrompt: "Prompt içinde kullan",
@@ -285,6 +295,8 @@ export default {
     faqEmptyState: "Sık sorulan sorularınız burada görünecek",
 
     page8_Support: "Destek",
+    support_Online: "Çevrim içi destek",
+    support_EnterBlog: "Bloga gir",
     page8_CommunityExplain:
       "Diğer kullanıcılarla iletişim kurun, deneyimlerinizi paylaşın ve daha fazla büyüme için kolektif tavsiyelerden faydalanın.",
     page8_learnExplain:
@@ -2497,6 +2509,17 @@ export default {
     SettingGeneral_partnertitle: "İşbirlikçi Admin Başlığı",
     SettingGeneral_partnernumberexplain:
       "Bu numaraya davetiye gönderilecektir ve işbirlikçi admin bunu panelinde onaylamalıdır (admin davetiyeyi kabul edebilmek için Brancy’de kayıt olmalıdır).",
+    SettingGeneral_contentTooltip: "Gönderiler, Hikayeler, Reels, IGTV, karuseller ve zamanlama.",
+    SettingGeneral_publishTooltip: "Gönderi ve hikaye oluşturma. İçerik erişimi gerektirir.",
+    SettingGeneral_automaticsTooltip: "Yapay zeka, akışlar ve otomatik süreç ve görevler.",
+    SettingGeneral_messageTooltip: "Instagram Direct, dahili mesajlar ve ilgili araçlar.",
+    SettingGeneral_commentTooltip: "Yorumlar, yanıtlar ve ilgili araçlar.",
+    SettingGeneral_transactionTooltip: "Ödeme hesabı yönetimi, işlemler, cüzdan ve ilgili araçlar.",
+    SettingGeneral_adsTooltip: "Takvim yönetimi, reklamveren yönetimi, reklam onayı, fiyatlandırma ve ilgili araçlar.",
+    SettingGeneral_ordersTooltip: "Ürünler, fiyatlar, depo stoku, siparişler, irsaliyeler ve ilgili araçlar.",
+    SettingGeneral_bioTooltip: "Biyografi içeriği ve düzeni, bağlantılar ve üçüncü taraf içerik kısayolları.",
+    SettingGeneral_ticketTooltip: "CRM, sistem talepleri ve destek.",
+    SettingGeneral_productsTooltip: "Ürün yönetimi araçları.",
 
     // Setting -> General -> support
     SettingGeneral_GeneralSupport: "Genel Destek",
@@ -3466,6 +3489,7 @@ export default {
     economy: "Ekonomik",
     Retry: "Tekrar Dene",
     messagesetting_SpecifyProductResponseExplain: "Kullanıcılara otomatik olarak gönderilmesi için bir ürün belirtin",
+    messagesetting_ProductResponseExplain: "Mevcut ürünü kullanıcıya bağlayın",
     Storeproduct_NationalCardexplain: "Bu kart, cep telefonu numarasını Brancy'ye kaydeden kişiye ait olmalıdır.",
 
     // #region wallet
