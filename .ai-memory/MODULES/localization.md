@@ -13,7 +13,7 @@ Supports multilingual and RTL/LTR product usage.
 Owns the folder/module concerns described by its file tree and exports.
 Maintains aligned `Notify_*` translations for backend response notifications across `en`, `fa`, `ar`, `fr`, `ru`, `tr`, `gr`, and `az`. Instagramer navbar notifications also use aligned `Notification_*` keys with i18next interpolation for dynamic message values.
 Maintains equal coverage of all 2,971 direct string translation keys across the eight locale files.
-The Meta direct-login AI-analysis notice is represented by `LanguageKey.metaRedirect_aiAnalysisNotice` and is translated in all eight locale resources.
+The Meta direct-login setup flow uses the existing localized language, theme, calendar, and setup guidance keys across all eight locale resources. The legacy `LanguageKey.metaRedirect_aiAnalysisNotice` translations remain aligned for compatibility.
 The home profile status map uses `syncingAccountTitle`, `syncingAccountDescription`, `subscriptionExpiringTitle`, and `subscriptionExpiringDescription`; these keys are present in all eight locale resources.
 The image AI suggested-prompt UI uses the `aiSuggestedPrompts_*` keys for its title, explanation, category controls, loading/empty states, pagination, prompt label, and copy action. These keys are translated in all eight locale resources; prompt content returned by `GetImagePrompts` remains backend-provided.
 

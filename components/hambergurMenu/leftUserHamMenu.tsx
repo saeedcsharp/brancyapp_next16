@@ -458,7 +458,7 @@ const LeftUserHamMenue = (props: {
               </svg>
               <div className="headerandinput" style={{ gap: "3px" }}>
                 <div className="title2" style={{ fontSize: "14px" }}>
-                  {t(LanguageKey.upgrade)}
+                  {t(LanguageKey.Renew_Subscription)}
                 </div>
                 <div className={`${styles.remainingTime} ${timeClass}`}>
                   {t(LanguageKey.remainingTime)}:{" "}

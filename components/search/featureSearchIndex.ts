@@ -389,25 +389,11 @@ const featureSearchDefinitions: FeatureSearchItem[] = [
     keywords: ["message settings", "تنظیمات پیام"],
   },
   {
-    route: "/wallet/statistics",
-    labelKey: LanguageKey.navbar_Statistics,
-    contextKeys: [LanguageKey.sidebar_Wallet],
-    keywordGroups: ["walletFinance", "analytics"],
-    keywords: ["wallet", "balance", "finance", "کیف پول", "موجودی", "مالی"],
-  },
-  {
     route: "/wallet/payment",
     labelKey: LanguageKey.navbar_Payment,
     contextKeys: [LanguageKey.sidebar_Wallet],
     keywordGroups: ["paymentBank"],
     keywords: ["payment", "card", "bank", "پرداخت", "کارت بانکی"],
-  },
-  {
-    route: "/wallet/title",
-    labelKey: LanguageKey.navbar_Title,
-    contextKeys: [LanguageKey.sidebar_Wallet],
-    keywordGroups: ["invoiceTransaction"],
-    keywords: ["invoice", "transaction", "تراکنش", "صورتحساب"],
   },
   {
     route: "/market/home",

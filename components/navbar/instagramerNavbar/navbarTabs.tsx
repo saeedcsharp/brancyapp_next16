@@ -322,23 +322,11 @@ const NavbarTabs = () => {
       indexValue: "message",
       initialSlide: 4,
     },
-    walletstatistics: {
-      id: "statistics",
-      items: ["statistics", "payment"],
-      indexValue: "wallet",
-      initialSlide: 0,
-    },
     walletpayment: {
       id: "payment",
-      items: ["statistics", "payment"],
+      items: ["payment"],
       indexValue: "wallet",
-      initialSlide: 1,
-    },
-    wallettitle: {
-      id: "title",
-      items: ["statistics", "payment"],
-      indexValue: "wallet",
-      initialSlide: 1,
+      initialSlide: 0,
     },
     // biolinkHome: {
     //   id: "home",

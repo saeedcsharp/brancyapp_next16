@@ -177,7 +177,7 @@ const NotificationBar = ({
       return (
         <div
           key={notifKey}
-          className={`instagramprofile translate`}
+          className={styles.listitem}
           role="listitem"
           tabIndex={0}
           onClick={(e) => handleNotifClick(e, decodedUrl)}
@@ -196,12 +196,16 @@ const NotificationBar = ({
           </div>
           <div className={styles.notifbody}>
             <div className="headerparent">
-              <div className="explain">{notifTitle}</div>
+              <div className="explain" style={{ justifyContent: "flex-start" }}>
+                {notifTitle}
+              </div>
               <time className={styles.time} dateTime={new Date(notif.CreatedTime * 1e3).toISOString()}>
                 {timeAgo}
               </time>
             </div>
-            <div className={styles.message}>{notifMessage}</div>
+            <div className={styles.message} style={{ justifyContent: "flex-start" }}>
+              {notifMessage}
+            </div>
           </div>
           <button
             type="button"

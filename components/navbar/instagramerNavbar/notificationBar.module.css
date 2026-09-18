@@ -127,8 +127,20 @@ html[dir="rtl"] .notification {
   font-size: var(--font-10);
   font-weight: var(--weight-400);
   color: var(--text-h2);
-
-  text-align: left;
+  display: flex;
+  text-align: start;
+}
+.listitem {
+  height: max-content;
+  position: relative;
+  display: flex;
+  flex-direction: row;
+  gap: var(--gap-10);
+  align-content: center;
+  align-items: center;
+  transition: var(--transition2);
+  padding-block: 10px;
+  border-block-end: 1px solid var(--color-gray30);
 }
 .time {
   position: relative;
@@ -144,7 +156,9 @@ html[dir="rtl"] .notification {
   font-weight: var(--weight-400);
   color: var(--text-h1);
   width: 100%;
-  text-align: left;
+  display: flex;
+  text-align: start;
+  line-height: 1.4;
 }
 
 .deleteButton {

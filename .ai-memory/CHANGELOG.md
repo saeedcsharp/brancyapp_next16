@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 - 2026-09-17: Localized all Add Partner access tooltips across the eight supported locales using dedicated `LanguageKey` entries.
 
 - 2026-09-17: Updated Add Partner permissions so Content and Publish remain independent while the Publish control is disabled until Content is enabled.
@@ -26,6 +27,31 @@
 - 2026-09-12: Image prompt suggestions now load category options from `Instagramer/MediaAi/GetImagePromptCategories`; selecting a category reloads `GetImagePrompts` with that category ID while retaining cursor pagination.
 
 - 2026-09-11: Fixed the mixed-account package redirect bypass: selected Instagramer accounts with missing or expired packages now reach `/upgrade` even when both `loginByFb` and `loginByInsta` are false. Removed full JWT logging from middleware.
+=======
+- Added the wallet settlement-history view to the payment page. `components/wallet/settle.tsx` uses paginated invoice data, shows awaiting/settled/failed sub-invoices in invoice-style cards, and keeps unsettled balances in the existing card and invoice views.
+
+- Wallet invoice order details now load automatically when the `Order` tab is selected and replace the invoice summary inside the existing invoice popup; back and close return to the invoice summary without a second modal.
+
+- Added mouse and touch drag scrolling to the horizontally scrollable sub-invoice detail rows while preserving vertical touch scrolling.
+
+- Applied shared status styles to sub-invoice history labels: blue for unsettled, purple for awaiting settlement, green for settled, red for failed, and gray for unknown statuses.
+
+- Removed the bank-card financial-status date picker and its date-filtered balance requests. Each card now displays the latest general-balance response.
+
+- Applied the shared `fadeDiv` treatment to the inline bank-card default switch while the corresponding card is inactive.
+- Updated the inline wallet settlement button to use `saveButton` when actionable, `disableButton` when unavailable, and the shared `RingLoader` while the settlement request is pending.
+
+- Rendered the four bank-card financial status entries explicitly in `components/wallet/bankCard.tsx` instead of iterating through a local status array; status totals and labels remain unchanged.
+- Moved wallet bank-card default-card and settlement controls from the sub-invoice modal into each `BankCard` item, including their API requests, loading states, balance display, and responsive styles; the modal now renders history only.
+- Refactored the wallet payment page so `BankCard` owns card/general-balance loading, `Invoices` owns invoice cursor pagination, and `WalletTile` remains a presentation-only balance summary; `payment.tsx` now focuses on composition and modal orchestration.
+- Unified the Instagramer wallet under the single `/wallet/payment` tab, moved the balance summary and card financial-status sections into that page, and redirected legacy wallet routes to the canonical payment route.
+- Merged wallet general-balance details into each bank-card slider item. Cards now scroll horizontally, and each card displays its four financial statuses and date filter beneath the card; the standalone `GeneralBalance` component was removed.
+- Moved the wallet add-card tile and registration form into the first `BankCard` slider item. The form now appears inline beneath the tile and refreshes cards after a successful registration instead of using a modal.
+- Merged the remaining add-card API, validation, notification, input, and loading logic into `bankCard.tsx`; the standalone `AddCard` component and stylesheet were removed.
+- Wallet cards now place the default card first after the add-card slide and open the slider on that card; users can still navigate freely between all cards.
+- Organized wallet modal contents under `components/wallet/modal/` and removed unused demo and legacy wallet components that had no active references.
+- 2026-09-12: Updated `vanishmode` and `vanishmodeexplain` across all eight locales to describe Hidden Mode as restoring unanswered messages that were not ignored or hidden.
+>>>>>>> sepehr
 
 - 2026-09-08: Updated the landing-page first-login check to call `PreInstagramer/CheckUserIsNew`; new users go to `/user/instagramerLogin` and existing users go to `/user`.
 
@@ -192,6 +218,7 @@
 - Fixed the Meta direct-login hydration mismatch caused by shuffling loading phrases with `Math.random()` during server and initial client rendering.
 - Prevented the Meta direct-login verification API from being called twice when React Strict Mode replays the effect.
 - Changed the Meta direct-login flow to show a localized AI-analysis notice after 10 seconds instead of redirecting automatically; navigation now occurs only after the user confirms the notice.
+- Replaced the Meta direct-login AI-analysis notice with the `initialSetup` language, theme, and calendar flow; navigation now occurs after setup completion.
 
 - Removed the Store Properties entry from the Instagramer desktop navbar and mobile hamburger menu while keeping `/store/properties` directly accessible.
 
@@ -536,6 +563,7 @@
 
 ## 2026-07-23
 
+- Simplified inline bank-card registration: the submit action activates at 16 digits, invalid backend responses show localized feedback below the input, and the form no longer renders the extra hint/cancel/loading labels.
 - Added 16 new backend `ResponseType` notification mappings and localized their messages in all eight supported languages.
 - Updated the wallet summary balance to total every general-balance entry with `SubInvoiceStatus.None` instead of using only the first match.
 - Added a Persian start-date filter that refreshes `/api/wallet/getGenerallBallance` through the current time.
