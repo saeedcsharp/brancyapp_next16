@@ -3425,7 +3425,7 @@ export default {
     InternalNotify_ExceedPermittedHashtagNumber: "Anzahl der Hashtags überschreitet das erlaubte Limit",
     InternalNotify_UnexpectedError: "Ein unerwarteter Fehler ist aufgetreten",
     InternalNotify_CopyToClipboard: "Ihre Informationen wurden bereits in die Zwischenablage kopiert",
-    InternalNotify_ExceedPermittedUploadMedia: "Maximale Anzahl hochladbarer Medien: 5",
+    InternalNotify_ExceedPermittedUploadMedia: "Die Anzahl der Medien überschreitet das zulässige Limit",
     InternalNotify_FillRedBorderFields: "Bitte füllen Sie die rot umrandeten Felder aus",
     InternalNotify_RepeatedVariation: "Mindestens zwei Elemente sind wiederholt",
     InternalNotify_NeedOneProduct: "Mindestens ein Produkt ist erforderlich",

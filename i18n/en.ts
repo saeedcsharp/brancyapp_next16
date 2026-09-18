@@ -3361,7 +3361,7 @@ export default {
     InternalNotify_ExceedPermittedHashtagNumber: "Number of hashtags exceeds the permitted limit",
     InternalNotify_UnexpectedError: "An unexpected error occurred",
     InternalNotify_CopyToClipboard: "Your information has already been copied to the clipboard",
-    InternalNotify_ExceedPermittedUploadMedia: "Maximum number of media upload is 5",
+    InternalNotify_ExceedPermittedUploadMedia: "The number of media exceeds the permitted limit",
     InternalNotify_FillRedBorderFields: "Please fill in the red-bordered fields",
     InternalNotify_RepeatedVariation: "At least two items are repeated",
     InternalNotify_NeedOneProduct: "At least one product is required",

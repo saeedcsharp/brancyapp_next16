@@ -3392,7 +3392,7 @@ export default {
     InternalNotify_ExceedPermittedHashtagNumber: "Количество хэштегов превышает допустимый лимит",
     InternalNotify_UnexpectedError: "Произошла непредвиденная ошибка",
     InternalNotify_CopyToClipboard: "Ваша информация уже скопирована в буфер обмена",
-    InternalNotify_ExceedPermittedUploadMedia: "Максимальное количество медиа для загрузки — 5",
+    InternalNotify_ExceedPermittedUploadMedia: "Количество медиа превышает допустимый лимит",
     InternalNotify_FillRedBorderFields: "Пожалуйста, заполните поля с красной рамкой",
     InternalNotify_RepeatedVariation: "Как минимум два элемента повторяются",
     InternalNotify_NeedOneProduct: "Требуется как минимум один продукт",

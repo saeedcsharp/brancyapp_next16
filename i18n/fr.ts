@@ -3443,7 +3443,7 @@ export default {
     InternalNotify_ExceedPermittedHashtagNumber: "Le nombre de hashtags dépasse la limite autorisée",
     InternalNotify_UnexpectedError: "Une erreur inattendue est survenue",
     InternalNotify_CopyToClipboard: "Vos informations ont déjà été copiées dans le presse-papiers",
-    InternalNotify_ExceedPermittedUploadMedia: "Nombre maximal de médias à télécharger : 5",
+    InternalNotify_ExceedPermittedUploadMedia: "Le nombre de médias dépasse la limite autorisée",
     InternalNotify_FillRedBorderFields: "Veuillez remplir les champs encadrés en rouge",
     InternalNotify_RepeatedVariation: "Au moins deux éléments sont répétés",
     InternalNotify_NeedOneProduct: "Au moins un produit est requis",

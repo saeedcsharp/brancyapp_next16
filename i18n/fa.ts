@@ -3333,7 +3333,7 @@ export default {
     InternalNotify_ExceedPermittedHashtagNumber: "تعداد هشتگ‌ها از حد مجاز بیشتر است",
     InternalNotify_UnexpectedError: "خطای غیرمنتظره‌ای رخ داده است",
     InternalNotify_CopyToClipboard: "اطلاعات شما قبلاً در حافظه کپی شده است",
-    InternalNotify_ExceedPermittedUploadMedia: "حداکثر تعداد رسانه قابل آپلود ۵ عدد است",
+    InternalNotify_ExceedPermittedUploadMedia: "تعداد مدیا از حد مجاز بیشتر است",
     InternalNotify_FillRedBorderFields: "فیلدهای قرمز رنگ را پر کنید",
     InternalNotify_RepeatedVariation: "حداقل دو مورد تکراری هستند",
     InternalNotify_NeedOneProduct: "حداقل یک محصول مورد نیاز است",

@@ -3253,7 +3253,7 @@ export default {
     InternalNotify_ExceedPermittedHashtagNumber: "عدد الهاشتاغات تجاوز الحد المسموح",
     InternalNotify_UnexpectedError: "حدث خطأ غير متوقع",
     InternalNotify_CopyToClipboard: "تم نسخ معلوماتك مسبقاً إلى الحافظة",
-    InternalNotify_ExceedPermittedUploadMedia: "الحد الأقصى لتحميل الوسائط هو 5",
+    InternalNotify_ExceedPermittedUploadMedia: "عدد الوسائط يتجاوز الحد المسموح به",
     InternalNotify_FillRedBorderFields: "يرجى ملء الحقول ذات الإطار الأحمر",
     InternalNotify_RepeatedVariation: "على الأقل عنصران مكرر",
     InternalNotify_NeedOneProduct: "مطلوب منتج واحد على الأقل",

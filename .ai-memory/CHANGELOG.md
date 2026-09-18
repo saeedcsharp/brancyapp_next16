@@ -1,3 +1,7 @@
+## 2026-09-18
+
+- Updated `InternalNotify_ExceedPermittedUploadMedia` across all eight locales to state that the media count exceeds the permitted limit without assuming a fixed maximum of five.
+
 - AI creator `AudioArray` inputs now use the shared file-upload flow with `audio/*` acceptance, localized Add audio text, and native audio playback controls for uploaded previews.
 
 - AI creator `IntRange` inputs now render as standard sliders with integer values and a step of `1`; they remain separate from the four-direction square expansion control.
