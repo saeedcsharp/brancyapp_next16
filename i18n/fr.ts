@@ -1,5 +1,15 @@
 export default {
   translation: {
+    aiSuggestedPrompts_title: "Prompts suggérés",
+    aiSuggestedPrompts_explain: "Choisissez un prompt pour commencer.",
+    aiSuggestedPrompts_category: "Catégorie du prompt",
+    aiSuggestedPrompts_subCategory: "Sous-catégorie",
+    aiSuggestedPrompts_allCategories: "Toutes les catégories",
+    aiSuggestedPrompts_loading: "Chargement...",
+    aiSuggestedPrompts_empty: "Aucun prompt suggéré trouvé.",
+    aiSuggestedPrompts_loadMore: "Charger plus",
+    aiSuggestedPrompts_prompt: "Prompt",
+    aiSuggestedPrompts_copy: "Copier le prompt",
     // #region landing page
     unpin: "Détacher",
     pin: "Épingler",
@@ -289,6 +299,8 @@ export default {
     faqEmptyState: "Vos questions fréquentes s’afficheront ici",
 
     page8_Support: "Support",
+    support_Online: "Assistance en ligne",
+    support_EnterBlog: "Accéder au blog",
     page8_CommunityExplain:
       "Connectez-vous avec d'autres utilisateurs, partagez vos expériences et bénéficiez des conseils collectifs pour une croissance supplémentaire.",
     page8_learnExplain:
@@ -2570,6 +2582,18 @@ export default {
     SettingGeneral_partnertitle: "Titre de l’Admin Collaborateur",
     SettingGeneral_partnernumberexplain:
       "Une invitation sera envoyée à ce numéro, et l’admin collaborateur doit la confirmer dans son panneau (l’admin doit s’inscrire sur Brancy pour accepter l’invitation).",
+    SettingGeneral_contentTooltip: "Publications, stories, Reels, IGTV, carrousels et planification.",
+    SettingGeneral_publishTooltip: "Créer des publications et des stories. L’accès au contenu est requis.",
+    SettingGeneral_automaticsTooltip: "IA, flux, processus et tâches automatisés.",
+    SettingGeneral_messageTooltip: "Messages directs Instagram, messages internes et outils associés.",
+    SettingGeneral_commentTooltip: "Commentaires, réponses et outils associés.",
+    SettingGeneral_transactionTooltip: "Gestion du compte de paiement, transactions, portefeuille et outils associés.",
+    SettingGeneral_adsTooltip:
+      "Gestion du calendrier, des annonceurs, validation des publicités, tarification et outils associés.",
+    SettingGeneral_ordersTooltip: "Produits, prix, stock, commandes, bons de livraison et outils associés.",
+    SettingGeneral_bioTooltip: "Contenu et mise en page de la bio, liens et raccourcis de contenu tiers.",
+    SettingGeneral_ticketTooltip: "CRM, tickets système et assistance.",
+    SettingGeneral_productsTooltip: "Outils de gestion des produits.",
 
     // Setting -> General -> support
     SettingGeneral_GeneralSupport: "Support Général",
@@ -3567,6 +3591,7 @@ export default {
     SettingGeneralProfileTitle: "Profil",
     messagesetting_SpecifyProductResponseExplain:
       "Sélectionnez un produit pour qu’il soit envoyé automatiquement aux utilisateurs",
+    messagesetting_ProductResponseExplain: "Connectez le produit actuel à l’utilisateur",
 
     // #region wallet
     createdtime: "Date de création",
