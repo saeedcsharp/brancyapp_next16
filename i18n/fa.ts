@@ -1,5 +1,15 @@
 export default {
   translation: {
+    aiSuggestedPrompts_title: "پرامپت‌های پیشنهادی",
+    aiSuggestedPrompts_explain: "یک پرامپت را برای شروع انتخاب کنید.",
+    aiSuggestedPrompts_category: "دسته‌بندی پرامپت",
+    aiSuggestedPrompts_subCategory: "زیردسته‌بندی",
+    aiSuggestedPrompts_allCategories: "همه دسته‌بندی‌ها",
+    aiSuggestedPrompts_loading: "در حال بارگذاری...",
+    aiSuggestedPrompts_empty: "پرامپت پیشنهادی یافت نشد.",
+    aiSuggestedPrompts_loadMore: "نمایش بیشتر",
+    aiSuggestedPrompts_prompt: "پرامپت",
+    aiSuggestedPrompts_copy: "کپی پرامپت",
     // #region landing page
     toggleShowAll: "نمایش همه",
     toggleShowmonthly: "نمایش ماهانه",
@@ -286,6 +296,8 @@ export default {
     faqEmptyState: "سؤالات متداول شما در این قسمت اضافه خواهد شد",
 
     page8_Support: "پشتیبانی",
+    support_Online: "پشتیبانی آنلاین",
+    support_EnterBlog: "ورود به بلاگ",
     page8_CommunityExplain:
       "با دیگر کاربران در ارتباط باشید، تجربیات خود را به اشتراک بگذارید و از مشاوره جمعی برای رشد بیشتر بهره‌مند شوید.",
     page8_learnExplain:
@@ -2458,6 +2470,17 @@ export default {
     SettingGeneral_partnertitle: "عنوان ادمین همکار",
     SettingGeneral_partnernumberexplain:
       "دعوت‌نامه به این شماره ارسال می‌شود و ادمین همکار باید در پنل خود آن را تأیید کند (ادمین باید در برنسی ثبت‌نام کند تا بتواند دعوت‌نامه را قبول کند).",
+    SettingGeneral_contentTooltip: "پست‌ها، استوری‌ها، ریلزها، IGTV، کاروسل‌ها و زمان‌بندی.",
+    SettingGeneral_publishTooltip: "ایجاد پست و استوری؛ این دسترسی به دسترسی محتوا نیاز دارد.",
+    SettingGeneral_automaticsTooltip: "هوش مصنوعی، فلوها و فرایندها و وظایف خودکار.",
+    SettingGeneral_messageTooltip: "دایرکت اینستاگرام، پیام‌های داخلی و ابزارهای مرتبط.",
+    SettingGeneral_commentTooltip: "نظرات، پاسخ‌ها و ابزارهای مرتبط.",
+    SettingGeneral_transactionTooltip: "مدیریت حساب پرداخت، تراکنش‌ها، کیف پول و ابزارهای مرتبط.",
+    SettingGeneral_adsTooltip: "مدیریت تقویم، تبلیغ‌دهندگان، تأیید تبلیغات، قیمت‌گذاری و ابزارهای مرتبط.",
+    SettingGeneral_ordersTooltip: "محصولات، قیمت‌ها، موجودی انبار، سفارش‌ها، بارنامه‌ها و ابزارهای مرتبط.",
+    SettingGeneral_bioTooltip: "محتوا و چیدمان بایو، لینک‌ها و میانبرهای محتوای شخص ثالث.",
+    SettingGeneral_ticketTooltip: "CRM، تیکت‌های سیستمی و پشتیبانی.",
+    SettingGeneral_productsTooltip: "ابزارهای مدیریت محصولات.",
 
     // Setting -> General -> support
     SettingGeneral_GeneralSupport: "پشتیبانی عمومی",
@@ -3311,7 +3334,7 @@ export default {
     InternalNotify_ExceedPermittedHashtagNumber: "تعداد هشتگ‌ها از حد مجاز بیشتر است",
     InternalNotify_UnexpectedError: "خطای غیرمنتظره‌ای رخ داده است",
     InternalNotify_CopyToClipboard: "اطلاعات شما قبلاً در حافظه کپی شده است",
-    InternalNotify_ExceedPermittedUploadMedia: "حداکثر تعداد رسانه قابل آپلود ۵ عدد است",
+    InternalNotify_ExceedPermittedUploadMedia: "تعداد مدیا از حد مجاز بیشتر است",
     InternalNotify_FillRedBorderFields: "فیلدهای قرمز رنگ را پر کنید",
     InternalNotify_RepeatedVariation: "حداقل دو مورد تکراری هستند",
     InternalNotify_NeedOneProduct: "حداقل یک محصول مورد نیاز است",
@@ -3395,6 +3418,7 @@ export default {
     "Your browser does not support video playback.": "مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.",
     Uploading: "در حال بارگذاری ",
     "Add video": "افزودن ویدیو",
+    "Add audio": "افزودن صوت",
     "Add reference image": "افزودن تصویر مرجع",
     model: "مدل",
     models: "مدل",
@@ -3505,5 +3529,6 @@ export default {
     economy: "اقتصادی",
     Retry: "تلاش مجدد",
     messagesetting_SpecifyProductResponseExplain: "یک محصول را مشخص کنید تا به‌صورت خودکار برای کاربران ارسال شود",
+    messagesetting_ProductResponseExplain: "محصول فعلی را به کاربر متصل کنید",
   },
 };

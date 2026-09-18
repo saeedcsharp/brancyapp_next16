@@ -1,5 +1,15 @@
 export default {
   translation: {
+    aiSuggestedPrompts_title: "Suggested prompts",
+    aiSuggestedPrompts_explain: "Choose a prompt to use as your starting point.",
+    aiSuggestedPrompts_category: "Prompt category",
+    aiSuggestedPrompts_subCategory: "Subcategory",
+    aiSuggestedPrompts_allCategories: "All categories",
+    aiSuggestedPrompts_loading: "Loading...",
+    aiSuggestedPrompts_empty: "No suggested prompts found.",
+    aiSuggestedPrompts_loadMore: "Load more",
+    aiSuggestedPrompts_prompt: "Prompt",
+    aiSuggestedPrompts_copy: "Copy prompt",
     // #region landing page.
     unpin: "Unpin",
     pin: "Pin",
@@ -283,6 +293,8 @@ export default {
     page8_Blog: "Blog",
     page8_FAQ: "FAQ",
     page8_Support: "Support",
+    support_Online: "Online support",
+    support_EnterBlog: "Enter blog",
     page8_CommunityExplain:
       "Connect with other users, share your experiences, and benefit from collective advice for further growth.",
     page8_learnExplain:
@@ -1803,6 +1815,7 @@ export default {
     messagesetting_DefineCustomResponseExplain:
       "Define your custom reply text so it will be automatically sent to users",
     messagesetting_SpecifyProductResponseExplain: "Specify a product to be automatically sent to users",
+    messagesetting_ProductResponseExplain: "Connect the current product to the user",
     ConnectProduct: "Direct Product Connection",
     messagesetting_ConnectProductResponseExplain: "Connect your product to the story or live ",
     messagesetting_SelectPredefinedFlowExplain:
@@ -2497,6 +2510,17 @@ export default {
     SettingGeneral_partnertitle: "Collaborator Admin Title",
     SettingGeneral_partnernumberexplain:
       "An invitation will be sent to this number, and the collaborator admin must confirm it in their panel (the admin must register in Brancy to accept the invitation).",
+    SettingGeneral_contentTooltip: "Posts, Stories, Reels, IGTV, Carousels, and scheduling.",
+    SettingGeneral_publishTooltip: "Create posts and stories. This requires Content access.",
+    SettingGeneral_automaticsTooltip: "AI, Flow, and automated processes and tasks.",
+    SettingGeneral_messageTooltip: "Instagram Direct, internal messages, and related tools.",
+    SettingGeneral_commentTooltip: "Comments, replies, and related tools.",
+    SettingGeneral_transactionTooltip: "Payment account management, transactions, wallet, and related tools.",
+    SettingGeneral_adsTooltip: "Calendar management, advertiser management, ad approval, pricing, and related tools.",
+    SettingGeneral_ordersTooltip: "Products, prices, warehouse stock, orders, waybills, and related tools.",
+    SettingGeneral_bioTooltip: "Bio content and arrangement, links, and third-party content shortcuts.",
+    SettingGeneral_ticketTooltip: "CRM, system tickets, and support.",
+    SettingGeneral_productsTooltip: "Product management tools.",
 
     // Setting -> General -> support
     SettingGeneral_GeneralSupport: "General Support",
@@ -3338,7 +3362,7 @@ export default {
     InternalNotify_ExceedPermittedHashtagNumber: "Number of hashtags exceeds the permitted limit",
     InternalNotify_UnexpectedError: "An unexpected error occurred",
     InternalNotify_CopyToClipboard: "Your information has already been copied to the clipboard",
-    InternalNotify_ExceedPermittedUploadMedia: "Maximum number of media upload is 5",
+    InternalNotify_ExceedPermittedUploadMedia: "The number of media exceeds the permitted limit",
     InternalNotify_FillRedBorderFields: "Please fill in the red-bordered fields",
     InternalNotify_RepeatedVariation: "At least two items are repeated",
     InternalNotify_NeedOneProduct: "At least one product is required",
@@ -3427,6 +3451,7 @@ export default {
 
     Uploading: "Uploading",
     "Add video": "Add video",
+    "Add audio": "Add audio",
     "Add reference image": "Add reference image",
     model: "model",
     models: "models",

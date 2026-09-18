@@ -2,6 +2,18 @@
 
 - 2026-09-18: Added localized Support buttons to the Instagramer and user sidebars. They open the shared Goftino chat panel beside the menu and use unique panel IDs alongside the global support control.
 
+## 2026-09-18
+
+- Updated `InternalNotify_ExceedPermittedUploadMedia` across all eight locales to state that the media count exceeds the permitted limit without assuming a fixed maximum of five.
+
+- AI creator `AudioArray` inputs now use the shared file-upload flow with `audio/*` acceptance, localized Add audio text, and native audio playback controls for uploaded previews.
+
+- AI creator `IntRange` inputs now render as standard sliders with integer values and a step of `1`; they remain separate from the four-direction square expansion control.
+
+- AI creator square expansion controls now use the four backend Range key names (`topExpantionRatio`, `buttonExpantionRatio`, `rightExpantionRatio`, and `leftExpantionRatio`) to decide whether to render `RangeSquareInput`; other Range inputs remain standard sliders.
+
+- AI creator models with a single or incomplete set of range inputs now render standard sliders; the square expansion control remains reserved for complete top/right/bottom/left range sets.
+
 - Added the wallet settlement-history view to the payment page. `components/wallet/settle.tsx` uses paginated invoice data, shows awaiting/settled/failed sub-invoices in invoice-style cards, and keeps unsettled balances in the existing card and invoice views.
 
 - Wallet invoice order details now load automatically when the `Order` tab is selected and replace the invoice summary inside the existing invoice popup; back and close return to the invoice summary without a second modal.
