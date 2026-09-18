@@ -3450,6 +3450,7 @@ export default {
 
     Uploading: "Uploading",
     "Add video": "Add video",
+    "Add audio": "Add audio",
     "Add reference image": "Add reference image",
     model: "model",
     models: "models",

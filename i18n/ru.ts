@@ -3482,6 +3482,7 @@ export default {
 
     Uploading: "Загрузка",
     "Add video": "Добавить видео",
+    "Add audio": "Добавить аудио",
     "Add reference image": "Добавить референсное изображение",
     model: "модель",
     models: "модели",

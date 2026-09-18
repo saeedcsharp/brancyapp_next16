@@ -3399,6 +3399,7 @@ export default {
 
     Uploading: "Yüklənir",
     "Add video": "Video əlavə et",
+    "Add audio": "Audio əlavə et",
     "Add reference image": "İstinad şəkli əlavə et",
     model: "model",
     models: "modellər",

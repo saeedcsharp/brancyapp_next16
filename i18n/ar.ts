@@ -3341,6 +3341,7 @@ export default {
 
     Uploading: "جارٍ الرفع ",
     "Add video": "إضافة فيديو",
+    "Add audio": "إضافة صوت",
     "Add reference image": "إضافة صورة مرجعية",
     model: "نموذج",
     models: "نماذج",

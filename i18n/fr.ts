@@ -3536,6 +3536,7 @@ export default {
 
     Uploading: "Téléversement",
     "Add video": "Ajouter une vidéo",
+    "Add audio": "Ajouter un audio",
     "Add reference image": "Ajouter une image de référence",
     model: "modèle",
     models: "modèles",

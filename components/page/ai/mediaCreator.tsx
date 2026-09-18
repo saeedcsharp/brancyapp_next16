@@ -68,7 +68,12 @@ function getInitialValues(model: IMediaCreatorModel | undefined): Record<string,
   return model.inputModelTypes.reduce<Record<string, InputValue>>((values, input) => {
     const inputType = Number(input.inputType);
     if (inputType === InputType.Boolean) values[input.key] = false;
-    else if (inputType === InputType.ImageArray || inputType === InputType.VideoArray) values[input.key] = [];
+    else if (
+      inputType === InputType.ImageArray ||
+      inputType === InputType.VideoArray ||
+      inputType === InputType.AudioArray
+    )
+      values[input.key] = [];
     else if (inputType === InputType.Number || inputType === InputType.Range || inputType === InputType.IntRange)
       values[input.key] = Number(input.min) || 0;
     else values[input.key] = input.enumValues?.[0] ?? "";
@@ -226,8 +231,14 @@ function FileInput({
   const [uploadProgress, setUploadProgress] = useState(0);
   const [previews, setPreviews] = useState<UploadedMediaPreview[]>([]);
   const { t } = useTranslation();
-  const isVideo = Number(input.inputType) === InputType.VideoArray;
-  const accept = input.fileTypes?.map((type) => `.${type}`).join(",") || (isVideo ? "video/*" : "image/*");
+  const inputType = Number(input.inputType);
+  const isVideo = inputType === InputType.VideoArray;
+  const isAudio = inputType === InputType.AudioArray;
+  const fileTypes = input.fileTypes
+    ?.map((type) => type.trim())
+    .filter(Boolean)
+    .map((type) => (type.startsWith(".") ? type : `.${type}`));
+  const accept = fileTypes?.join(",") || (isVideo ? "video/*" : isAudio ? "audio/*" : "image/*");
   const maximum = input.maxArrayLength || 1;
   useEffect(() => {
     setPreviews((current) => current.filter((preview) => value.includes(preview.fileName)));
@@ -274,9 +285,13 @@ function FileInput({
             ? t("Uploading", { percent: uploadProgress })
             : isVideo
               ? t("Add video")
-              : t("Add reference image")}
+              : isAudio
+                ? t("Add audio")
+                : t("Add reference image")}
         </span>
-        <span className={styles.hint}>{input.fileTypes?.join(", ") || (isVideo ? t("video") : t("image"))}</span>
+        <span className={styles.hint}>
+          {fileTypes?.join(", ") || (isVideo ? t("video") : isAudio ? t("audio") : t("image"))}
+        </span>
         <span className={styles.hint}>
           {value.length} / {maximum}
         </span>
@@ -302,7 +317,9 @@ function FileInput({
             return (
               <div className={styles.fileItem} key={fileName}>
                 {previewUrl &&
-                  (isVideo ? (
+                  (isAudio ? (
+                    <audio className={styles.mediaPreview} src={previewUrl} controls />
+                  ) : isVideo ? (
                     <video className={styles.mediaPreview} src={previewUrl} muted />
                   ) : (
                     <img className={styles.mediaPreview} src={previewUrl} alt={fileName} />
@@ -337,7 +354,7 @@ function DynamicInput({
   const title = getInputTitle(input, language);
   const options = input.enumValues ?? [];
   const inputType = Number(input.inputType);
-  if (inputType === InputType.ImageArray || inputType === InputType.VideoArray) {
+  if (inputType === InputType.ImageArray || inputType === InputType.VideoArray || inputType === InputType.AudioArray) {
     return (
       <FileInput
         input={input}

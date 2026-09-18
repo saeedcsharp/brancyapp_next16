@@ -12,7 +12,7 @@
 
 # TODO
 
-- Add component coverage confirming the four specified AI Range keys render the square expansion control, `IntRange` renders an integer-step slider, and single, incomplete, or differently named ranges render standard sliders when a UI test harness is introduced.
+- Add component coverage confirming the four specified AI Range keys render the square expansion control, `IntRange` renders an integer-step slider, `AudioArray` accepts and previews audio, and single, incomplete, or differently named ranges render standard sliders when a UI test harness is introduced.
 
 - Add component coverage for settlement-history filtering, cursor pagination, duplicate sub-invoice IDs, status labels, loading/empty states, and responsive detail scrolling when a UI test harness is introduced.
 

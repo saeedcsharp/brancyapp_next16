@@ -3515,6 +3515,7 @@ export default {
 
     Uploading: "Hochladen",
     "Add video": "Video hinzufügen",
+    "Add audio": "Audio hinzufügen",
     "Add reference image": "Referenzbild hinzufügen",
     model: "Modell",
     models: "Modelle",

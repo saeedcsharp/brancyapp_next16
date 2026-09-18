@@ -3417,6 +3417,7 @@ export default {
     "Your browser does not support video playback.": "مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.",
     Uploading: "در حال بارگذاری ",
     "Add video": "افزودن ویدیو",
+    "Add audio": "افزودن صوت",
     "Add reference image": "افزودن تصویر مرجع",
     model: "مدل",
     models: "مدل",

@@ -1,3 +1,5 @@
+- AI creator `AudioArray` inputs now use the shared file-upload flow with `audio/*` acceptance, localized Add audio text, and native audio playback controls for uploaded previews.
+
 - AI creator `IntRange` inputs now render as standard sliders with integer values and a step of `1`; they remain separate from the four-direction square expansion control.
 
 - AI creator square expansion controls now use the four backend Range key names (`topExpantionRatio`, `buttonExpantionRatio`, `rightExpantionRatio`, and `leftExpantionRatio`) to decide whether to render `RangeSquareInput`; other Range inputs remain standard sliders.

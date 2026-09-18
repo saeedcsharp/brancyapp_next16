@@ -3438,6 +3438,7 @@ export default {
 
     Uploading: "Yükleniyor",
     "Add video": "Video ekle",
+    "Add audio": "Ses ekle",
     "Add reference image": "Referans görseli ekle",
     model: "model",
     models: "model",
