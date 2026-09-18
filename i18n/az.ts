@@ -3310,7 +3310,7 @@ export default {
     InternalNotify_ExceedPermittedHashtagNumber: "Hashtag sayı icazə verilən həddi keçib",
     InternalNotify_UnexpectedError: "Gözlənilməz xəta baş verdi",
     InternalNotify_CopyToClipboard: "Məlumatlarınız artıq panoya kopyalanıb",
-    InternalNotify_ExceedPermittedUploadMedia: "Yüklənəcək maksimum media sayı 5-dir",
+    InternalNotify_ExceedPermittedUploadMedia: "Media sayı icazə verilən həddi aşır",
     InternalNotify_FillRedBorderFields: "Qırmızı çərçivəli sahələri doldurun",
     InternalNotify_RepeatedVariation: "Ən azı iki element təkrarlanıb",
     InternalNotify_NeedOneProduct: "Ən azı bir məhsul tələb olunur",
@@ -3399,6 +3399,7 @@ export default {
 
     Uploading: "Yüklənir",
     "Add video": "Video əlavə et",
+    "Add audio": "Audio əlavə et",
     "Add reference image": "İstinad şəkli əlavə et",
     model: "model",
     models: "modellər",

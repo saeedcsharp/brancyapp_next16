@@ -69,8 +69,13 @@ function getInitialValues(model: IMediaCreatorModel | undefined): Record<string,
   return model.inputModelTypes.reduce<Record<string, InputValue>>((values, input) => {
     const inputType = Number(input.inputType);
     if (inputType === InputType.Boolean) values[input.key] = false;
-    else if (inputType === InputType.ImageArray || inputType === InputType.VideoArray) values[input.key] = [];
-    else if (inputType === InputType.Number || inputType === InputType.Range)
+    else if (
+      inputType === InputType.ImageArray ||
+      inputType === InputType.VideoArray ||
+      inputType === InputType.AudioArray
+    )
+      values[input.key] = [];
+    else if (inputType === InputType.Number || inputType === InputType.Range || inputType === InputType.IntRange)
       values[input.key] = Number(input.min) || 0;
     else values[input.key] = input.enumValues?.[0] ?? "";
     return values;
@@ -78,9 +83,20 @@ function getInitialValues(model: IMediaCreatorModel | undefined): Record<string,
 }
 type RangeSide = "top" | "right" | "bottom" | "left";
 const rangeSides: RangeSide[] = ["top", "right", "bottom", "left"];
+const rangeSquareKeyParts = [
+  "topexpantionratio",
+  "buttonexpantionratio",
+  "rightexpantionratio",
+  "leftexpantionratio",
+] as const;
 function getRangeSide(input: IMediaCreatorInput, index: number): RangeSide {
   const inputName = `${input.key} ${input.titleEn}`.toLowerCase();
+  if (inputName.includes("button")) return "bottom";
   return rangeSides.find((side) => inputName.includes(side)) ?? rangeSides[index] ?? "top";
+}
+function hasRangeSquareKey(input: IMediaCreatorInput, keyPart: string): boolean {
+  const inputKey = input.key.toLowerCase();
+  return inputKey.includes(keyPart);
 }
 function getRangeBounds(input: IMediaCreatorInput) {
   const minValue = Number(input.min);
@@ -216,8 +232,14 @@ function FileInput({
   const [uploadProgress, setUploadProgress] = useState(0);
   const [previews, setPreviews] = useState<UploadedMediaPreview[]>([]);
   const { t } = useTranslation();
-  const isVideo = Number(input.inputType) === InputType.VideoArray;
-  const accept = input.fileTypes?.map((type) => `.${type}`).join(",") || (isVideo ? "video/*" : "image/*");
+  const inputType = Number(input.inputType);
+  const isVideo = inputType === InputType.VideoArray;
+  const isAudio = inputType === InputType.AudioArray;
+  const fileTypes = input.fileTypes
+    ?.map((type) => type.trim())
+    .filter(Boolean)
+    .map((type) => (type.startsWith(".") ? type : `.${type}`));
+  const accept = fileTypes?.join(",") || (isVideo ? "video/*" : isAudio ? "audio/*" : "image/*");
   const maximum = input.maxArrayLength || 1;
   useEffect(() => {
     setPreviews((current) => current.filter((preview) => value.includes(preview.fileName)));
@@ -264,9 +286,13 @@ function FileInput({
             ? t("Uploading", { percent: uploadProgress })
             : isVideo
               ? t("Add video")
-              : t("Add reference image")}
+              : isAudio
+                ? t("Add audio")
+                : t("Add reference image")}
         </span>
-        <span className={styles.hint}>{input.fileTypes?.join(", ") || (isVideo ? t("video") : t("image"))}</span>
+        <span className={styles.hint}>
+          {fileTypes?.join(", ") || (isVideo ? t("video") : isAudio ? t("audio") : t("image"))}
+        </span>
         <span className={styles.hint}>
           {value.length} / {maximum}
         </span>
@@ -292,7 +318,9 @@ function FileInput({
             return (
               <div className={styles.fileItem} key={fileName}>
                 {previewUrl &&
-                  (isVideo ? (
+                  (isAudio ? (
+                    <audio className={styles.mediaPreview} src={previewUrl} controls />
+                  ) : isVideo ? (
                     <video className={styles.mediaPreview} src={previewUrl} muted />
                   ) : (
                     <img className={styles.mediaPreview} src={previewUrl} alt={fileName} />
@@ -327,7 +355,7 @@ function DynamicInput({
   const title = getInputTitle(input, language);
   const options = input.enumValues ?? [];
   const inputType = Number(input.inputType);
-  if (inputType === InputType.ImageArray || inputType === InputType.VideoArray) {
+  if (inputType === InputType.ImageArray || inputType === InputType.VideoArray || inputType === InputType.AudioArray) {
     return (
       <FileInput
         input={input}
@@ -388,14 +416,19 @@ function DynamicInput({
       </div>
     );
   }
-  if (inputType === InputType.Range) {
+  if (inputType === InputType.Range || inputType === InputType.IntRange) {
     const rangeMinValue = Number(input.min);
     const rangeMaxValue = Number(input.max);
     const rangeMin = Number.isFinite(rangeMinValue) ? rangeMinValue : 0;
     const rangeMax = Number.isFinite(rangeMaxValue) && rangeMaxValue > rangeMin ? rangeMaxValue : rangeMin + 1;
     const valueNumber = Number(value);
-    const rangeValue = Math.min(Math.max(Number.isFinite(valueNumber) ? valueNumber : rangeMin, rangeMin), rangeMax);
-    const displayedRangeValue = rangeValue.toFixed(2);
+    const isIntegerRange = inputType === InputType.IntRange;
+    const normalizedValue = isIntegerRange ? Math.round(valueNumber) : valueNumber;
+    const rangeValue = Math.min(
+      Math.max(Number.isFinite(normalizedValue) ? normalizedValue : rangeMin, rangeMin),
+      rangeMax,
+    );
+    const displayedRangeValue = isIntegerRange ? String(Math.round(rangeValue)) : rangeValue.toFixed(2);
     return (
       <label className="headerandinput">
         <span className="headerparent">
@@ -406,9 +439,15 @@ function DynamicInput({
           type="range"
           min={rangeMin}
           max={rangeMax}
-          step="any"
+          step={isIntegerRange ? 1 : "any"}
           value={rangeValue}
-          onChange={(event) => onChange(Number(event.currentTarget.valueAsNumber.toFixed(2)))}
+          onChange={(event) =>
+            onChange(
+              isIntegerRange
+                ? Math.round(event.currentTarget.valueAsNumber)
+                : Number(event.currentTarget.valueAsNumber.toFixed(2)),
+            )
+          }
         />
       </label>
     );
@@ -719,10 +758,9 @@ export default function MediaCreator({
             {(() => {
               const orderedInputs = [...model.inputModelTypes].sort((first, second) => first.orderId - second.orderId);
               const rangeInputs = orderedInputs.filter((input) => Number(input.inputType) === InputType.Range);
-              const rangeSidesForModel = rangeInputs.map((input, index) => getRangeSide(input, index));
               const hasFourDirectionalRange =
-                rangeInputs.length === rangeSides.length &&
-                rangeSides.every((side) => rangeSidesForModel.includes(side));
+                rangeInputs.length === rangeSquareKeyParts.length &&
+                rangeSquareKeyParts.every((keyPart) => rangeInputs.some((input) => hasRangeSquareKey(input, keyPart)));
               let rangeRendered = false;
               return orderedInputs.map((input) => {
                 if (Number(input.inputType) === InputType.Range) {

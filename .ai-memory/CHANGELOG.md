@@ -1,5 +1,6 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 - 2026-09-17: Localized all Add Partner access tooltips across the eight supported locales using dedicated `LanguageKey` entries.
 
@@ -31,6 +32,18 @@
 
 - # 2026-09-11: Fixed the mixed-account package redirect bypass: selected Instagramer accounts with missing or expired packages now reach `/upgrade` even when both `loginByFb` and `loginByInsta` are false. Removed full JWT logging from middleware.
   =======
+=======
+## 2026-09-18
+
+- Updated `InternalNotify_ExceedPermittedUploadMedia` across all eight locales to state that the media count exceeds the permitted limit without assuming a fixed maximum of five.
+
+- AI creator `AudioArray` inputs now use the shared file-upload flow with `audio/*` acceptance, localized Add audio text, and native audio playback controls for uploaded previews.
+
+- AI creator `IntRange` inputs now render as standard sliders with integer values and a step of `1`; they remain separate from the four-direction square expansion control.
+
+- AI creator square expansion controls now use the four backend Range key names (`topExpantionRatio`, `buttonExpantionRatio`, `rightExpantionRatio`, and `leftExpantionRatio`) to decide whether to render `RangeSquareInput`; other Range inputs remain standard sliders.
+
+>>>>>>> saeed
 - AI creator models with a single or incomplete set of range inputs now render standard sliders; the square expansion control remains reserved for complete top/right/bottom/left range sets.
 
 > > > > > > > saeed

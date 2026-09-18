@@ -3350,7 +3350,7 @@ export default {
     InternalNotify_ExceedPermittedHashtagNumber: "Hashtag sayısı izin verilen sınırı aşıyor",
     InternalNotify_UnexpectedError: "Beklenmeyen bir hata oluştu",
     InternalNotify_CopyToClipboard: "Bilgileriniz zaten panoya kopyalanmış",
-    InternalNotify_ExceedPermittedUploadMedia: "Yüklenebilecek maksimum medya sayısı 5",
+    InternalNotify_ExceedPermittedUploadMedia: "Medya sayısı izin verilen sınırı aşıyor",
     InternalNotify_FillRedBorderFields: "Kırmızı çerçeveli alanları doldurun",
     InternalNotify_RepeatedVariation: "En az iki öğe tekrar ediyor",
     InternalNotify_NeedOneProduct: "En az bir ürün gereklidir",
@@ -3438,6 +3438,7 @@ export default {
 
     Uploading: "Yükleniyor",
     "Add video": "Video ekle",
+    "Add audio": "Ses ekle",
     "Add reference image": "Referans görseli ekle",
     model: "model",
     models: "model",
