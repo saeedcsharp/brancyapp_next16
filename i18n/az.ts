@@ -1,5 +1,15 @@
 export default {
   translation: {
+    aiSuggestedPrompts_title: "Təklif olunan promptlar",
+    aiSuggestedPrompts_explain: "Başlanğıc kimi istifadə etmək üçün prompt seçin.",
+    aiSuggestedPrompts_category: "Prompt kateqoriyası",
+    aiSuggestedPrompts_subCategory: "Alt kateqoriya",
+    aiSuggestedPrompts_allCategories: "Bütün kateqoriyalar",
+    aiSuggestedPrompts_loading: "Yüklənir...",
+    aiSuggestedPrompts_empty: "Təklif olunan prompt tapılmadı.",
+    aiSuggestedPrompts_loadMore: "Daha çox yüklə",
+    aiSuggestedPrompts_prompt: "Prompt",
+    aiSuggestedPrompts_copy: "Promptu kopyala",
     unpin: "Pin-i Ləğv Et",
     pin: "Pin Et",
     usethisPrompt: "Prompt daxilində istifadə et",
@@ -286,6 +296,8 @@ export default {
     faqEmptyState: "Tez-tez soruşulan suallar burada göstəriləcək",
 
     page8_Support: "Dəstək",
+    support_Online: "Onlayn dəstək",
+    support_EnterBlog: "Bloqa daxil ol",
     page8_CommunityExplain:
       "Digər istifadəçilərlə əlaqədə olun, təcrübələr paylaşın və kollektiv məsləhətdən faydalanın.",
     page8_learnExplain:
@@ -2449,6 +2461,18 @@ export default {
     SettingGeneral_partnertitle: "Əməkdaş Admin Başlığı",
     SettingGeneral_partnernumberexplain:
       "Dəvət bu nömrəyə göndəriləcək və əməkdaş admin onu öz panelində təsdiqləməlidir (dəvəti qəbul etmək üçün admin Brancy-də qeydiyyatdan keçməlidir).",
+    SettingGeneral_contentTooltip: "Paylaşımlar, hekayələr, Reels, IGTV, karusellər və planlaşdırma.",
+    SettingGeneral_publishTooltip: "Paylaşım və hekayə yaratmaq. Bunun üçün məzmun girişi tələb olunur.",
+    SettingGeneral_automaticsTooltip: "Süni intellekt, axınlar və avtomatlaşdırılmış proses və tapşırıqlar.",
+    SettingGeneral_messageTooltip: "Instagram Direct, daxili mesajlar və əlaqəli alətlər.",
+    SettingGeneral_commentTooltip: "Şərhlər, cavablar və əlaqəli alətlər.",
+    SettingGeneral_transactionTooltip: "Ödəniş hesabının idarəsi, əməliyyatlar, cüzdan və əlaqəli alətlər.",
+    SettingGeneral_adsTooltip:
+      "Təqvim, reklamverənlərin idarəsi, reklamların təsdiqi, qiymətləndirmə və əlaqəli alətlər.",
+    SettingGeneral_ordersTooltip: "Məhsullar, qiymətlər, anbar ehtiyatı, sifarişlər, qaimələr və əlaqəli alətlər.",
+    SettingGeneral_bioTooltip: "Bio məzmunu və düzülüşü, keçidlər və üçüncü tərəf məzmun qısayolları.",
+    SettingGeneral_ticketTooltip: "CRM, sistem biletləri və dəstək.",
+    SettingGeneral_productsTooltip: "Məhsul idarəetmə alətləri.",
 
     SettingGeneral_access: "Giriş",
     SettingGeneral_GeneralSupport: "Ümumi dəstək",
@@ -3436,6 +3460,7 @@ export default {
     economy: "İqtisadi",
     Retry: "Yenidən cəhd et",
     messagesetting_SpecifyProductResponseExplain: "İstifadəçilərə avtomatik göndərilməsi üçün bir məhsul seçin",
+    messagesetting_ProductResponseExplain: "Cari məhsulu istifadəçiyə bağlayın",
 
     // #region wallet
     createdtime: "Yaradılma vaxtı",
