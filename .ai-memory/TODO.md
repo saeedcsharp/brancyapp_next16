@@ -23,6 +23,7 @@
 # TODO
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 - Add component coverage confirming Add Partner keeps Content and Publish independent, disables Publish while Content is off, and preserves Publish when Content is toggled when a UI test harness is introduced.
 
 - Add component coverage confirming create-post role denial preserves the popup shell and renders `NotAllowed` for missing `Publish` access without mounting editor content when a UI test harness is introduced.
@@ -34,6 +35,10 @@
 - Add component/browser coverage for switching between multiple Instagramer accounts when one account is inactive or has an expired package, confirming `/upgrade` is reached through middleware without logout or an intermediate `/home` redirect.
 
 =======
+=======
+- Add component coverage confirming complete four-direction AI ranges render the square expansion control while single and incomplete ranges render standard sliders when a UI test harness is introduced.
+
+>>>>>>> saeed
 - Add component coverage for settlement-history filtering, cursor pagination, duplicate sub-invoice IDs, status labels, loading/empty states, and responsive detail scrolling when a UI test harness is introduced.
 
 - Add component coverage confirming selecting the `Order` tab automatically loads order details inside the existing invoice popup, returns to the invoice summary through Back/Close, and does not mount a second modal when a UI test harness is introduced.

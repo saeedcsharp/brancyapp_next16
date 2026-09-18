@@ -147,8 +147,8 @@ function RangeSquareInput({
     <div className="headerandinput">
       <span className="headerparent">
         <span className="headertext">
-          {t("resize aspect ratio")}
-          {/* {getInputTitle(inputs[0], language)} */}
+          {/* {t("resize aspect ratio")} */}
+          {getInputTitle(inputs[0], language)}
         </span>
       </span>
       <div className={styles.rangeSquare} ref={squareRef}>
@@ -719,9 +719,28 @@ export default function MediaCreator({
             {(() => {
               const orderedInputs = [...model.inputModelTypes].sort((first, second) => first.orderId - second.orderId);
               const rangeInputs = orderedInputs.filter((input) => Number(input.inputType) === InputType.Range);
+              const rangeSidesForModel = rangeInputs.map((input, index) => getRangeSide(input, index));
+              const hasFourDirectionalRange =
+                rangeInputs.length === rangeSides.length &&
+                rangeSides.every((side) => rangeSidesForModel.includes(side));
               let rangeRendered = false;
               return orderedInputs.map((input) => {
                 if (Number(input.inputType) === InputType.Range) {
+                  if (!hasFourDirectionalRange) {
+                    return (
+                      <DynamicInput
+                        key={input.key}
+                        input={input}
+                        value={values[input.key]}
+                        language={i18n.language || "en"}
+                        session={session}
+                        onChange={(value) => {
+                          setValues((current) => ({ ...current, [input.key]: value }));
+                          invalidateUsage();
+                        }}
+                      />
+                    );
+                  }
                   if (rangeRendered) return null;
                   rangeRendered = true;
                   return (
