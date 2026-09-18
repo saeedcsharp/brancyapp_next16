@@ -1,5 +1,6 @@
 .loaderparent {
   width: 100%;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -10,11 +11,14 @@
   width: 16px;
   height: 16px;
   position: relative;
-  left: -32px;
   border-radius: 50%;
   color: var(--color-dark-blue);
   background: currentColor;
-  box-shadow: 32px 0, -32px 0, 64px 0;
+
+  box-shadow:
+    32px 0,
+    -32px 0,
+    64px 0;
 }
 
 .loader::after {

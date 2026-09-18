@@ -4,7 +4,7 @@ import BankCard from "brancy/components/wallet/bankCard";
 import InvoicePopup from "brancy/components/wallet/modal/invoicePopup";
 import Invoices from "brancy/components/wallet/invoices";
 import WalletTile from "brancy/components/wallet/WalletTile";
-import OrderDetailPopup from "brancy/components/wallet/modal/orderDetailPopup";
+import Settle from "brancy/components/wallet/settle";
 import SubInvoicesPopup from "brancy/components/wallet/modal/subInvoicePopup";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { packageStatus } from "brancy/helper/loadingStatus";
@@ -29,7 +29,6 @@ const Payment = () => {
   const [defaultCardNumber, setDefaultCardNumber] = useState<string>();
   const [showSubInvoicesPopup, setShowSubInvoicesPopup] = useState<string | null>(null);
   const [subInvoicesByCard, setSubInvoicesByCard] = useState<Record<string, IGetSubInvoice>>({});
-  const [showOrderDetailsPopup, setShowOrderDetailsPopup] = useState<IInvoice | null>(null);
   const [showInvoicePopup, setShowInvoicePopup] = useState<IInvoice | null>(null);
   useEffect(() => {
     if (!session) return;
@@ -46,8 +45,8 @@ const Payment = () => {
   };
 
   const getInvoice = useCallback(
-    async (invoiceId: string) => {
-      if (!session) return;
+    async (invoiceId: string): Promise<IInvoice | undefined> => {
+      if (!session) return undefined;
       try {
         const res = await clientFetchApi<null, IInvoice>("/api/wallet/getInvoice", {
           session,
@@ -55,13 +54,13 @@ const Payment = () => {
         });
         if (!res.succeeded) {
           notify(res.info.responseType, NotifType.Warning);
-          return;
+          return undefined;
         }
-        setShowOrderDetailsPopup(res.value);
-        setShowInvoicePopup(null);
+        return res.value;
       } catch (err) {
         console.error("getInvoice error", err);
         notify(ResponseType.Unexpected, NotifType.Error);
+        return undefined;
       }
     },
     [session],
@@ -100,15 +99,21 @@ const Payment = () => {
             </header>
             <Invoices openInvoicePopup={(invoice) => setShowInvoicePopup(invoice)} />
           </div>
-          {/* --------------------------------Sub Invoices----------------------------------------- */}
-          <div className="tooBigCard"></div>
+          {/* --------------------------------settle history----------------------------------------- */}
+          <div className="tooBigCard">
+            <header className="headerChild" title="↕ Resize the Card" role="button">
+              <div className="circle" aria-hidden="true" />
+              <h2 className="Title">تاریخچه تسویه ها</h2>
+            </header>
+            <Settle />
+          </div>
         </div>
       </main>
 
       {/* ------------------------------------------------------------------------- */}
       <Modal
         closePopup={() => setShowSubInvoicesPopup(null)}
-        classNamePopup={"popup"}
+        classNamePopup={"popupLarge"}
         showContent={showSubInvoicesPopup !== null}>
         {showSubInvoicesPopup && (
           <SubInvoicesPopup
@@ -131,21 +136,6 @@ const Payment = () => {
             subInvoices={showInvoicePopup.subInvoices}
             getInvoice={getInvoice}
             onClose={() => setShowInvoicePopup(null)}
-          />
-        )}
-      </Modal>
-      <Modal
-        closePopup={() => setShowOrderDetailsPopup(null)}
-        classNamePopup={"popupLarge"}
-        showContent={showOrderDetailsPopup !== null}>
-        {showOrderDetailsPopup && (
-          <OrderDetailPopup
-            invoice={showOrderDetailsPopup}
-            onClose={() => setShowOrderDetailsPopup(null)}
-            backToInvoiceList={(invoice) => {
-              setShowOrderDetailsPopup(null);
-              setShowInvoicePopup(invoice);
-            }}
           />
         )}
       </Modal>

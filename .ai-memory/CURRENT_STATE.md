@@ -2,6 +2,8 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+Wallet invoice order details now load automatically when the `Order` tab is selected and render inside the existing invoice popup. The request still uses `/api/wallet/getInvoice`, but the returned invoice is passed to `OrderDetailPopup` inline instead of requiring a button or opening a second modal.
+
 Sub-invoice history labels now use the shared `IDblue`, `IDpurple`, `IDgreen`, `IDred`, and `IDgray` styles for unsettled, awaiting-settlement, settled, failed, and unknown statuses.
 Sub-invoice detail rows support horizontal native scrolling and pointer-captured mouse/touch dragging with vertical touch scrolling preserved.
 
@@ -36,6 +38,7 @@ The media quick-reply popup now renders the reusable `components/notOk/commentPe
 The former icon-specific toggle control has been removed. Toggle tabs now use the shared `components/design/toggleButton/ToggleButton.tsx` control across wallet, event ideas, follower analysis, and the system-design showcase.
 
 Instagramer wallet navigation now has one canonical tab at `/wallet/payment`. The payment page contains the former statistics balance summary and card financial-status sections, while `/wallet`, `/wallet/statistics`, and `/wallet/title` redirect to it.
+The payment page now renders `components/wallet/settle.tsx` beneath the settlement-history header. It derives awaiting, settled, and failed settlement records from paginated `/api/wallet/getInvoices` sub-invoices and presents them using the invoice-history card layout and shared status styles.
 The complete wallet card collection view is now owned by `components/wallet/bankCard.tsx`: it renders the shared free horizontal slider, maps the cards, and shows each card's matching latest general-balance status totals beneath the card. The date filter was removed, so the status grid now represents the newest response loaded for the current session. The standalone `generalBallance` component and stylesheet were removed.
 The inline bank-card settlement button uses `saveButton` while settlement is available, `disableButton` while unavailable, and the shared white `RingLoader` during the settlement request.
 The inline bank-card default setting now uses the shared controlled `SwitchButton` while preserving the existing `/api/wallet/setDefaultCard` request and loading guard.

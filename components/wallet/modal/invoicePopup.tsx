@@ -4,17 +4,23 @@ import { IInvoice, ISubInvoice } from "brancy/models/interfaces";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import PriceFormater, { PriceFormaterClassName } from "../../priceFormater";
-import styles from "./subInvoicePopup.module.css";
+import styles from "./invoicePopup.module.css";
+import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
+import OrderDetailPopup from "brancy/components/wallet/modal/orderDetailPopup";
+import { useEffect, useState } from "react";
 
 type SubInvoicesPopupProps = {
   invoice: IInvoice;
   subInvoices: ISubInvoice[];
-  getInvoice: (invoiceId: string) => void;
+  getInvoice: (invoiceId: string) => Promise<IInvoice | undefined>;
   onClose: () => void;
 };
 
 export default function InvoicePopup({ invoice, subInvoices, onClose, getInvoice }: SubInvoicesPopupProps) {
   const { t } = useTranslation();
+  const [selectedTab, setSelectedTab] = useState(0);
+  const [orderDetailsInvoice, setOrderDetailsInvoice] = useState<IInvoice | null>(null);
+  const orderInvoice = invoice.orderInvoice;
   function manageSubInvoiceType(type: SubInvoiceItemType): string {
     switch (type) {
       case SubInvoiceItemType.InstagramerLogestic:
@@ -33,102 +39,134 @@ export default function InvoicePopup({ invoice, subInvoices, onClose, getInvoice
         return t("Brancy Transfer payment");
     }
   }
-  function manageSubInvoiceStatus(status: SubInvoiceStatus): string {
+  function manageSubInvoiceStatus(status: SubInvoiceStatus): { label: string; className: string } {
     switch (status) {
       case SubInvoiceStatus.None:
-        return t("Unsettled");
+        return { label: t("Unsettled"), className: "IDblue" };
       case SubInvoiceStatus.AwaitingSettled:
-        return t("Awaiting Settled");
+        return { label: t("Awaiting Settled"), className: "IDpurple" };
       case SubInvoiceStatus.Settled:
-        return t("Settled");
+        return { label: t("Settled"), className: "IDgreen" };
       case SubInvoiceStatus.Failed:
-        return t("Failed");
+        return { label: t("Failed"), className: "IDred" };
       default:
-        return t("Unknown Status");
+        return { label: t("Unknown Status"), className: "IDgray" };
     }
   }
+  useEffect(() => {
+    if (selectedTab !== 1 || orderDetailsInvoice) return;
+
+    let isActive = true;
+    void getInvoice(invoice.id).then((fullInvoice) => {
+      if (isActive && fullInvoice) setOrderDetailsInvoice(fullInvoice);
+    });
+
+    return () => {
+      isActive = false;
+    };
+  }, [getInvoice, invoice.id, orderDetailsInvoice, selectedTab]);
   return (
-    <>
-      {/* تاریخچه تراکنش‌ها */}
-      <section className={styles.pinContainer1}>
-        <div className={styles.subInvoiceCard}>
-          <div className="headerChild">
-            <div className="circle"></div>
-            <div className="Title">{t("Invoice History")}</div>
-            <div className={styles.headerActions}>
-              <button
-                type="button"
-                className={styles.orderDetailsButton}
-                onClick={() => getInvoice?.(invoice.id)}
-                aria-label={t("Order details")}
-                title={t("Order details")}>
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="M9 3h6l1 2h3v16H5V5h3l1-2Z" stroke="currentColor" strokeWidth="1.8" strokeLinejoin="round" />
-                  <path d="M9 11h6M9 15h4" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" />
-                </svg>
-              </button>
-              <button
-                type="button"
-                className={styles.closeButton}
-                onClick={onClose}
-                aria-label={t("close")}
-                title={t("close")}>
-                <svg viewBox="0 0 24 24" fill="none" aria-hidden="true">
-                  <path d="m6 6 12 12M18 6 6 18" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
-                </svg>
-              </button>
+    <div className={styles.container}>
+      <div className="headerparent">
+        <div className="headerChild">
+          <div className="circle"></div>
+          <div className="Title">{t("Invoice History")}</div>
+        </div>
+        <img
+          src="/close-box.svg"
+          alt={t("close")}
+          onClick={onClose}
+          role="button"
+          aria-label={t("close")}
+          title={t("close")}
+          style={{ width: "36px" }}
+        />
+      </div>
+
+      <ToggleButton
+        options={[
+          { id: 0, label: t("Invoice details") },
+          { id: 1, label: t("Order details") },
+        ]}
+        selectedValue={selectedTab}
+        onChange={setSelectedTab}
+        ariaLabel={t("Invoice sections")}
+        className={styles.tabs}
+      />
+
+      {selectedTab === 0 ? (
+        <div className={styles.InvoiceDetails}>
+          <div className={styles.table}>
+            <div className={styles.tableheader}>
+              <div className={styles.header}>#</div>
+              <div className={styles.header}>{t("id")}</div>
+              <div className={styles.header}>{t("card number")}</div>
+              <div className={styles.header}>{t("type")}</div>
+              <div className={styles.header}>{t("amount")}</div>
+              <div className={styles.header}>{t("status")}</div>
+              <div className={styles.header}>{t("time")}</div>
             </div>
-          </div>
-          <div className={styles.section5}>
-            <div className={styles.table}>
-              <div className={styles.tableheader}>
-                <div className={styles.header1}>#</div>
-                <div className={styles.header2}>{t("id")}</div>
-                <div className={styles.header3}>{t("card number")}</div>
-                <div className={styles.header4}>{t("type")}</div>
-                <div className={styles.header5}>{t("amount")}</div>
-                <div className={styles.header6}>{t("status")}</div>
-                <div className={styles.header7}>{t("time")}</div>
-                {/* <div className={styles.header8}>اشتراک</div> */}
-              </div>
-              {subInvoices?.map((i, index) => (
-                <div key={i.id} className={styles.tableheader1}>
-                  <div className={styles.tablecounter}>{index + 1}</div>
-                  <div className={styles.orcernumber}>{i.id}</div>
-                  <div className={styles.orcernumber}>{i.cardNumber ?? "برنسی"}</div>
-                  <div className={styles.viwes}>{manageSubInvoiceType(i.itemType)}</div>
-                  <div className={styles.viwes}>
-                    {
-                      <PriceFormater
-                        pricetype={i.priceType}
-                        fee={i.price}
-                        className={PriceFormaterClassName.PostPrice}
-                      />
-                    }
-                  </div>
-                  <div className={styles.confirmedstatus}>{manageSubInvoiceStatus(i.status)}</div>
-                  <div className={styles.date}>
-                    <div className={styles.day}>
-                      {new DateObject({
-                        date: i.createdTime * 1000,
-                        calendar: initialzedTime().calendar,
-                        locale: initialzedTime().locale,
-                      }).format("YYYY/MM/DD HH:mm:ss")}
-                    </div>
-                  </div>
-                  {/* <div className={styles.share}>
-                      <img className={styles.sharetype} src="/pdf.svg" />
-                      <img className={styles.sharetype} src="/jpg.svg" />
-                    </div> */}
+            {subInvoices?.map((i, index) => (
+              <div key={i.id} className={styles.tablecontent}>
+                <div className={styles.orcernumber}>{index + 1}</div>
+                <div className={styles.orcernumber}>{i.id}</div>
+                <div className={styles.orcernumber}>{i.cardNumber ?? "Brancy"}</div>
+                <div className={`${styles.orcernumber} IDgray`}>{manageSubInvoiceType(i.itemType)}</div>
+                <div className={styles.orcernumber}>
+                  <PriceFormater pricetype={i.priceType} fee={i.price} className={PriceFormaterClassName.PostPrice} />
                 </div>
-              ))}
+                <div className={`${styles.orcernumber} ${manageSubInvoiceStatus(i.status).className}`}>
+                  {manageSubInvoiceStatus(i.status).label}
+                </div>
+                <div className={styles.date}>
+                  <div className="day">
+                    {new DateObject({
+                      date: i.createdTime * 1000,
+                      calendar: initialzedTime().calendar,
+                      locale: initialzedTime().locale,
+                    }).format("YYYY/MM/DD")}
+                  </div>
+                  <div className="hour">
+                    {new DateObject({
+                      date: i.createdTime * 1000,
+                      calendar: initialzedTime().calendar,
+                      locale: initialzedTime().locale,
+                    }).format("HH:mm:ss")}
+                  </div>
+                </div>
+              </div>
+            ))}
+          </div>
+          {subInvoices?.length === 0 && (
+            <div className={styles.emptyState}>{t("No invoices have been registered yet.")}</div>
+          )}
+        </div>
+      ) : orderDetailsInvoice ? (
+        <div className={styles.orderDetails}>
+          <OrderDetailPopup
+            invoice={orderDetailsInvoice}
+            onClose={() => setOrderDetailsInvoice(null)}
+            backToInvoiceList={() => setOrderDetailsInvoice(null)}
+          />
+        </div>
+      ) : (
+        <div className={styles.orderDetails}>
+          <div className={styles.orderSummary}>
+            <div className={styles.orderSummaryRow}>
+              <span>{t("Invoice")}</span>
+              <strong>{invoice.id}</strong>
             </div>
-            {subInvoices?.length === 0 && (
-              <div className={styles.emptyState}>{t("No invoices have been registered yet.")}</div>
-            )}
+            <div className={styles.orderSummaryRow}>
+              <span>{t("Order")}</span>
+              <strong>{orderInvoice?.orderId ?? t("Not available")}</strong>
+            </div>
+            <div className={styles.orderSummaryRow}>
+              <span>{t("User")}</span>
+              <strong>{orderInvoice?.userId ?? t("Not available")}</strong>
+            </div>
           </div>
         </div>
-      </section>
-    </>
+      )}
+    </div>
   );
 }

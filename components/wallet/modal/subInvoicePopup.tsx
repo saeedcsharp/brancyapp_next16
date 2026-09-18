@@ -205,17 +205,14 @@ export default function SubInvoicesP({ cardNumber, subInvoices, onClose, onSubIn
                         </svg>
                       </div>
                       <div className={styles.detailitem}>
-                        <div className={styles.detailheader}>{t("id")}</div>
+                        <div className={styles.detailheader}>{t("Invoice ID")}</div>
                         <div className={styles.detailvalue}>{i.id}</div>
                       </div>
                     </div>
                     <div className={styles.detailcontainer}>
                       <div className={styles.detailIcon}>
                         <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                          <path
-                            d="M13.3 13.1h2m-11 0h2m2-9h2m2 15h4.1q2.3-.1 2.4-2.5v-4q-.1-2.4-2.3-2.5h-4.2q-2.3.1-2.4 2.5v4q.1 2.3 2.3 2.5m-9 0h4.1q2.3-.1 2.4-2.5v-4q-.1-2.4-2.3-2.5H3.3Q1 10.2.9 12.6v4Q1 18.9 3.1 19m4-9h4.1q2.3-.1 2.4-2.5v-4c0-1.4-.9-2.5-2.3-2.5h-4Q5 1.2 4.9 3.6v4Q5 9.9 7.1 10"
-
-                          />
+                          <path d="M13.3 13.1h2m-11 0h2m2-9h2m2 15h4.1q2.3-.1 2.4-2.5v-4q-.1-2.4-2.3-2.5h-4.2q-2.3.1-2.4 2.5v4q.1 2.3 2.3 2.5m-9 0h4.1q2.3-.1 2.4-2.5v-4q-.1-2.4-2.3-2.5H3.3Q1 10.2.9 12.6v4Q1 18.9 3.1 19m4-9h4.1q2.3-.1 2.4-2.5v-4c0-1.4-.9-2.5-2.3-2.5h-4Q5 1.2 4.9 3.6v4Q5 9.9 7.1 10" />
                         </svg>
                       </div>
 

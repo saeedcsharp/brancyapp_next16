@@ -10,11 +10,11 @@ import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { useSession } from "next-auth/react";
 import { notify, NotifType, ResponseType } from "brancy/components/notifications/notificationBox";
 import { useInfiniteScroll } from "brancy/helper/useInfiniteScroll";
-
+import Loading from "../notOk/loading";
+import DotLoaders from "../design/loader/dotLoaders";
 type InvoicesProps = {
   openInvoicePopup?: (invoice: IInvoice) => void;
 };
-
 const invoiceStatusClassNames: Record<InvoiceStatus, string> = {
   [InvoiceStatus.Pending]: "pending",
   [InvoiceStatus.Paid]: "paid",
@@ -25,13 +25,11 @@ const invoiceStatusClassNames: Record<InvoiceStatus, string> = {
   [InvoiceStatus.FailedRefaund]: "failed",
   [InvoiceStatus.Failed]: "failed",
 };
-
 export default function Invoices({ openInvoicePopup }: InvoicesProps) {
   const { t } = useTranslation();
   const { data: session } = useSession();
   const [invoices, setInvoices] = useState<IGetInvoice | null>(null);
   const [invoicesLoading, setInvoicesLoading] = useState(true);
-
   const fetchInvoices = async () => {
     if (!session) return;
     setInvoicesLoading(true);
@@ -53,12 +51,9 @@ export default function Invoices({ openInvoicePopup }: InvoicesProps) {
       setInvoicesLoading(false);
     }
   };
-
   useEffect(() => {
     void fetchInvoices();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [session]);
-
   const fetchMoreInvoices = useCallback(async (): Promise<IInvoice[]> => {
     const nextMaxId = invoices?.nextMaxId;
     if (!session || !nextMaxId) return [];
@@ -85,7 +80,6 @@ export default function Invoices({ openInvoicePopup }: InvoicesProps) {
       return [];
     }
   }, [invoices?.nextMaxId, session]);
-
   const { containerRef, isLoadingMore: invoicesLoadingMore } = useInfiniteScroll<IInvoice>({
     hasMore: Boolean(invoices?.nextMaxId),
     fetchMore: fetchMoreInvoices,
@@ -100,37 +94,21 @@ export default function Invoices({ openInvoicePopup }: InvoicesProps) {
   const hasMore = Boolean(invoices?.nextMaxId);
   const items = invoices?.items ?? [];
   return (
-    <section ref={containerRef} className={styles.invoicesSection} aria-busy={invoicesLoading || invoicesLoadingMore}>
-      {/* <header className={styles.sectionHeader}>
-      <div>
-          <p className={styles.sectionEyebrow}>{t("Payment")}</p>
-          <h2 className={styles.sectionTitle}>{t("Invoice History")}</h2>
-          <p className={styles.sectionDescription}>{t("Latest invoices and payment status")}</p>
-        </div>
-        <span className={styles.invoiceCount}>{invoicesLoading ? "..." : items.length}</span>
-      </header> */}
-
+    <section className={styles.invoicecontainer} ref={containerRef} aria-busy={invoicesLoading || invoicesLoadingMore}>
       {invoicesLoading ? (
-        <div className={styles.invoiceGrid} aria-label={t("Loading")}>
-          {[0, 1, 2].map((index) => (
-            <div key={index} className={styles.invoiceSkeleton} />
-          ))}
-        </div>
+        <>
+          <Loading />
+        </>
       ) : items.length > 0 ? (
-        <div className={styles.invoiceGrid}>
+        <>
           {items.map((invoice) => (
             <InvoiceCard key={invoice.id} invoice={invoice} openInvoicePopup={openInvoicePopup} />
           ))}
-        </div>
+        </>
       ) : (
         <div className={styles.emptyState}>{t("No invoices have been registered yet.")}</div>
       )}
-
-      {!invoicesLoading && (invoicesLoadingMore || hasMore) && (
-        <div className={styles.loadMoreIndicator} aria-live="polite">
-          {invoicesLoadingMore && <div className={styles.loadMoreSpinner} aria-label={t("Loading")} />}
-        </div>
-      )}
+      {!invoicesLoading && (invoicesLoadingMore || hasMore) && <>{invoicesLoadingMore && <DotLoaders />}</>}
     </section>
   );
 }
@@ -150,44 +128,66 @@ function InvoiceCard({
     locale: initialzedTime().locale,
   }).format("YYYY/MM/DD HH:mm");
   return (
-    <article
+    <div
       onClick={() => openInvoicePopup?.(invoice)}
       className={`${styles.invoiceCard} ${styles[invoiceStatusClassNames[invoice.status]]}`}>
       <div className={styles.invoiceTopRow}>
-        <span className={styles.status}>{status}</span>
-        <span className={styles.invoiceType}>{getInvoiceType(invoice.invoiceType, t)}</span>
+        <PriceFormater
+          pricetype={invoice.priceType}
+          fee={invoice.amount}
+          className={PriceFormaterClassName.PostPrice}
+        />
+        <div className={styles.status}>{status}</div>
       </div>
-      <div className={styles.amountBlock}>
-        <span className={styles.amountLabel}>{t("Amount")}</span>
-        <div className={styles.amount} dir="ltr">
-          <PriceFormater
-            pricetype={invoice.priceType}
-            fee={invoice.amount}
-            className={PriceFormaterClassName.PostPrice}
-          />
-        </div>
-      </div>
+
       <div className={styles.invoiceDetails}>
-        <div className={styles.invoiceMeta}>
-          <span>{t("Invoice ID")}</span>
-          <code>{invoice.id}</code>
+        <div className={styles.detailcontainer}>
+          <div className={styles.detailIcon}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M16 2v4M8 2v4m5-2h-2C7.23 4 5.34 4 4.17 5.17S3 8.23 3 12v2c0 3.77 0 5.66 1.17 6.83S7.23 22 11 22h2c3.77 0 5.66 0 6.83-1.17S21 17.77 21 14v-2c0-3.77 0-5.66-1.17-6.83S16.77 4 13 4M3 10h18 M12.13 14H12m.13 4H12m-4.37-4H7.5m.13 4H7.5m9.13-4h-.13m-4.25 0a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0m0 4a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0m-4.5-4a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0m0 4a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0m9-4a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0" />
+            </svg>
+          </div>
+          <div className={styles.detailitem}>
+            <div className={styles.detailheader}>{t("time")}</div>
+            <div className={styles.detailvalue}>
+              <time
+                dateTime={new DateObject({
+                  date: invoice.createdTime * 1000,
+                  calendar: initialzedTime().calendar,
+                  locale: initialzedTime().locale,
+                }).format("YYYY/MM/DD  HH:mm:ss")}>
+                {createdTime}
+              </time>
+            </div>
+          </div>
         </div>
-        <div className={styles.invoiceMeta}>
-          <span>{t("Time")}</span>
-          <time
-            dateTime={new DateObject({
-              date: invoice.createdTime * 1000,
-              calendar: initialzedTime().calendar,
-              locale: initialzedTime().locale,
-            }).format("YYYY/MM/DD HH:mm:ss")}>
-            {createdTime}
-          </time>
+        <div className={styles.detailcontainer}>
+          <div className={styles.detailIcon}>
+            <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+              <path d="M4 17.98V9.71c0-3.64 0-5.45 1.17-6.58S8.23 2 12 2s5.66 0 6.83 1.13S20 6.07 20 9.7v8.27c0 2.3 0 3.46-.77 3.87-1.5.8-4.3-1.86-5.64-2.67-.77-.46-1.16-.7-1.59-.7s-.82.24-1.59.7c-1.33.8-4.14 3.47-5.64 2.67C4 21.44 4 20.3 4 17.98" />
+            </svg>
+          </div>
+          <div className={styles.detailitem}>
+            <div className={styles.detailheader}>{t("Invoice ID")}</div>
+            <div className={styles.detailvalue}>{invoice.id}</div>
+          </div>
+        </div>
+        <div className={styles.detailcontainer}>
+          <div className={styles.detailIcon}>
+            <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+              <path d="M13.3 13.1h2m-11 0h2m2-9h2m2 15h4.1q2.3-.1 2.4-2.5v-4q-.1-2.4-2.3-2.5h-4.2q-2.3.1-2.4 2.5v4q.1 2.3 2.3 2.5m-9 0h4.1q2.3-.1 2.4-2.5v-4q-.1-2.4-2.3-2.5H3.3Q1 10.2.9 12.6v4Q1 18.9 3.1 19m4-9h4.1q2.3-.1 2.4-2.5v-4c0-1.4-.9-2.5-2.3-2.5h-4Q5 1.2 4.9 3.6v4Q5 9.9 7.1 10" />
+            </svg>
+          </div>
+
+          <div className={styles.detailitem}>
+            <div className={styles.detailheader}>{t("type")}</div>
+            <div className={styles.detailvalue}>{getInvoiceType(invoice.invoiceType, t)}</div>
+          </div>
         </div>
       </div>
-    </article>
+    </div>
   );
 }
-
 function getInvoiceStatus(status: InvoiceStatus, t: (key: string) => string) {
   const labels: Record<InvoiceStatus, string> = {
     [InvoiceStatus.Pending]: t("Pending"),
@@ -199,10 +199,8 @@ function getInvoiceStatus(status: InvoiceStatus, t: (key: string) => string) {
     [InvoiceStatus.FailedRefaund]: t("Refund failed"),
     [InvoiceStatus.Failed]: t("Failed"),
   };
-
   return labels[status] ?? t("Unknown Status");
 }
-
 function getInvoiceType(type: InvoiceType, t: (key: string) => string) {
   const labels: Record<InvoiceType, string> = {
     [InvoiceType.Package]: t("Package"),
@@ -210,6 +208,5 @@ function getInvoiceType(type: InvoiceType, t: (key: string) => string) {
     [InvoiceType.Feature]: t("Feature"),
     [InvoiceType.Custom]: t("Custom"),
   };
-
   return labels[type] ?? t("Invoice");
 }

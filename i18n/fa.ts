@@ -3500,6 +3500,7 @@ export default {
     "Brancy Transfer payment": "کارمزد انتقال برانسی",
     "No invoices have been registered yet.": "هنوز هیچ صورتحسابی ثبت نشده است.",
     "Order details": "جزئیات سفارش",
+    "Invoice details": "جزئیات صورتحساب",
     Back: "بازگشت",
     "Order in progress": "سفارش در حال پردازش",
     "Order pickup": "دریافت سفارش",
