@@ -282,6 +282,23 @@ const StoryContent = (props: {
 
         {!loadingStatus && stories && (
           <section className={`${styles.frameContainer} translate`} role="main">
+            <div className="ButtonContainer" style={{ justifyContent: "center" }}>
+              <div className="cancelButton" style={{ maxWidth: "250px" }}>
+                <svg
+                  width="20"
+                  xmlns="http://www.w3.org/2000/svg"
+                  color="currentColor"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  viewBox="0 0 24 24">
+                  <path d="M20.94 13q.05-.5.05-1A9 9 0 0 0 5 6.34M3.05 11A9 9 0 0 0 19 17.66M12 12v-.8m1 .8a1 1 0 1 0-2 0 1 1 0 0 0 2 0 M8 7H7c-1.42 0-2.13 0-2.57-.44S4 5.41 4 4V3m12 14h1c1.4 0 2.11 0 2.55.44S20 18.59 20 20v1" />
+                </svg>
+                {t(LanguageKey.Storynotvisible)}
+              </div>
+            </div>
             {errorDraftsToRender.length > 0 && (
               <div className={styles.draft} role="article" aria-label="Error drafts section">
                 <div className={styles.cardbackground} />

@@ -779,6 +779,15 @@ export default {
     // #region 2️⃣page Section
     // 2️⃣ Page -> Post
     CreateNewPost: "Yeni Gönderi Oluştur",
+    Postnotvisible: "Post Görünmüyor mu?",
+    Storynotvisible: "Story Görünmüyor mu?",
+    SmartPageAnalysis: "Akıllı Sayfa Analizi",
+    EducationAndGuidance: "Eğitim ve Rehberlik",
+    HowToUseBrancy: "Brancy Nasıl Kullanılır",
+    BrancyKnowsYou: "Brancy Sizi Tanıyor",
+    BrancyKnowsYouExplain:
+      "Brancy, dijital kimliğinizin eksiksiz bir profilini oluşturmak için sayfanızı derinlemesine analiz eder; kişiliğiniz, işletmeniz ve faaliyetlerinizden iletişim tonunuz ve tarzınıza, içerik türünüzden içerikleri sunma biçiminize, paylaşım zamanlamanızdan kitlenizle etkileşim şeklinize kadar birçok unsuru değerlendirir.\n\nBu analiz, sayfanızdaki tüm iletişim noktalarındaki faaliyetlerinizi de dikkate alır; yorumlara ve Direct mesajlara verdiğiniz yanıtlardan yazım tarzınıza, kitlenizle iletişim şeklinizden farklı durumlara verdiğiniz tepkilere kadar.\n\nManuel eğitim, ton ayarı veya ek bilgi girişi gerekmeden Brancy sizi tanır ve yapay zekâyı gerçek kimliğiniz ve tarzınız doğrultusunda uyumlandırır.",
+    CreateYourDigitalVersion: "Dijital Versiyonunuzu Oluşturun",
     CreateNewStrory: "Yeni Hikaye Oluştur",
     PostDraft: "Gönderi Taslağı",
     StoryDraft: "Hikaye Taslağı",

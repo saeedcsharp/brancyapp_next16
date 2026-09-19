@@ -3,13 +3,14 @@ import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { ReactNode, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { LoginStatus } from "brancy/helper/loadingStatus";
+import formatTimeAgo from "brancy/helper/formatTimeAgo";
 import { numberToFormattedString } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
 import Loading from "brancy/components/notOk/loading";
 import styles from "./ingageInfo.module.css";
-import { TopTileType } from "brancy/models/enums";
-import { IInstagramerHomeTiles, IStoryContent } from "brancy/models/interfaces";
+import { PsgFeatureType, TopTileType } from "brancy/models/enums";
+import { IInstagramerHomeTiles, IPageSummary, IPsgFeatureInfo, IStoryContent } from "brancy/models/interfaces";
+import { getPackageFeatureDetails } from "brancy/helper/checkFeature";
 import Tooltip from "../design/tooltip/tooltip";
 const basePictureUrl = getClientMediaBaseUrl();
 const FIRST_LOGIN_DURATION_MS = 24 * 60 * 60 * 1000;
@@ -82,16 +83,22 @@ const IngageInfo = (props: {
   data: IInstagramerHomeTiles | null;
   collaboratePostNumber: number;
   activeStories: IStoryContent[] | [];
+  onSummaryClick: () => void;
+  onUpgradeClick: () => void;
+  pageSummary: IPageSummary | null;
 }) => {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const { data: session } = useSession();
-  const [loadingStatus, setLoadingStaus] = useState(LoginStatus(session));
+  const loadingStatus = props.data === null;
   const [currentTime, setCurrentTime] = useState(0);
   const [firstLoginAt, setFirstLoginAt] = useState<number | null>(null);
   const [activeStatusIndex, setActiveStatusIndex] = useState(0);
+  const [featureInfo, setFeatureInfo] = useState<IPsgFeatureInfo | null>(null);
+
   useEffect(() => {
-    if (props.data && LoginStatus(session)) setLoadingStaus(false);
-  }, [props.data, session]);
+    if (!session) return;
+    getPackageFeatureDetails(session).then(setFeatureInfo);
+  }, [session]);
   useEffect(() => {
     if (!session || session?.user.createdTime === null) return;
     if (typeof window === "undefined") return;
@@ -109,7 +116,16 @@ const IngageInfo = (props: {
   const syncMinutes = Math.floor((syncSeconds % 3600) / 60);
   const syncRemainingSeconds = syncSeconds % 60;
   const packageRemainingSeconds = (session?.user.packageExpireTime ?? 0) - Math.floor(currentTime / 1000);
-  const subscriptionRemainingDays = Math.ceil(packageRemainingSeconds / (24 * 60 * 60));
+  const subscriptionRemainingDays = Math.max(0, Math.ceil(packageRemainingSeconds / (24 * 60 * 60)));
+  const aiFeature = featureInfo?.features.find((feature) => feature.featureId === PsgFeatureType.AI);
+
+  const remainingTokens =
+    (aiFeature?.packageFeature ? Math.max(0, aiFeature.packageFeature.maxCount - aiFeature.packageFeature.count) : 0) +
+    (aiFeature?.reserveFeature
+      ? aiFeature.reserveFeature.unLimited
+        ? aiFeature.reserveFeature.maxCount
+        : Math.max(0, aiFeature.reserveFeature.maxCount - aiFeature.reserveFeature.count)
+      : 0);
   const statusMap: StatusItem[] = [
     {
       key: "firstLogin",
@@ -118,8 +134,8 @@ const IngageInfo = (props: {
       condition: firstLoginRemaining > 0,
       content: (
         <>
-          <div className="headerandinput" style={{ gap: "1px" }}>
-            <div className="title2">
+          <div className={styles.headerandinput} style={{ gap: "1px" }}>
+            <div className={styles.title2}>
               {" "}
               {t(LanguageKey.syncingAccountTitle)}{" "}
               <Tooltip
@@ -128,7 +144,7 @@ const IngageInfo = (props: {
                 position="bottom"
                 onClick></Tooltip>{" "}
             </div>
-            <div className="explain">{t(LanguageKey.syncingAccountDescription)}</div>
+            <div className={styles.explain}>{t(LanguageKey.syncingAccountDescription)}</div>
             <div
               className={styles.progressbar}
               role="progressbar"
@@ -153,9 +169,9 @@ const IngageInfo = (props: {
       condition: packageRemainingSeconds > 0 && packageRemainingSeconds < SUBSCRIPTION_WARNING_SECONDS,
       content: (
         <>
-          <div className="headerandinput" style={{ gap: "1px" }}>
-            <div className="title2">{t(LanguageKey.subscriptionExpiringTitle)}</div>
-            <div className="explain">{t(LanguageKey.subscriptionExpiringDescription)}</div>
+          <div className={styles.headerandinput} style={{ gap: "1px" }}>
+            <div className={styles.title2}>{t(LanguageKey.subscriptionExpiringTitle)}</div>
+            <div className={styles.explain}>{t(LanguageKey.subscriptionExpiringDescription)}</div>
             <div className="IDred">
               {t(LanguageKey.subscriptionDaysRemaining, { days: numberToFormattedString(subscriptionRemainingDays) })}
             </div>
@@ -173,9 +189,9 @@ const IngageInfo = (props: {
       condition: Boolean(session?.user.isShopper),
       content: (
         <>
-          <div className="headerandinput" style={{ gap: "1px" }}>
-            <div className="title2">{t(LanguageKey.shoppertitle)}</div>
-            <div className="explain">{t(LanguageKey.shopperdescription)}</div>
+          <div className={styles.headerandinput} style={{ gap: "1px" }}>
+            <div className={styles.title2}>{t(LanguageKey.shoppertitle)}</div>
+            <div className={styles.explain}>{t(LanguageKey.shopperdescription)}</div>
           </div>
           <Link className={styles.upgradeicon} href="/store" aria-label={t(LanguageKey.shoppertitle)}>
             <StatusIcon type="shopper" />
@@ -190,9 +206,9 @@ const IngageInfo = (props: {
       condition: Boolean(session?.user.isInfluencer),
       content: (
         <>
-          <div className="headerandinput" style={{ gap: "1px" }}>
-            <div className="title2">{t(LanguageKey.advertisertitle)}</div>
-            <div className="explain">{t(LanguageKey.advertiserdescription)}</div>
+          <div className={styles.headerandinput} style={{ gap: "1px" }}>
+            <div className={styles.title2}>{t(LanguageKey.advertisertitle)}</div>
+            <div className={styles.explain}>{t(LanguageKey.advertiserdescription)}</div>
           </div>
           <Link className={styles.upgradeicon} href="/advertise" aria-label={t(LanguageKey.advertisertitle)}>
             <StatusIcon type="influencer" />
@@ -207,9 +223,9 @@ const IngageInfo = (props: {
       condition: !session?.user.isShopper && !session?.user.isInfluencer,
       content: (
         <>
-          <div className="headerandinput" style={{ gap: "1px" }}>
-            <div className="title2">{t(LanguageKey.upgradeyouraccount)}</div>
-            <div className="explain">{t(LanguageKey.likeaprouser)}</div>
+          <div className={styles.headerandinput} style={{ gap: "1px" }}>
+            <div className={styles.title2}>{t(LanguageKey.upgradeyouraccount)}</div>
+            <div className={styles.explain}>{t(LanguageKey.likeaprouser)}</div>
           </div>
           <div className={styles.statusactions}>
             <Link className={styles.upgradeicon} href="/advertise" aria-label={t(LanguageKey.advertisertitle)}>
@@ -237,6 +253,168 @@ const IngageInfo = (props: {
   const showPreviousStatus = () => {
     setActiveStatusIndex((currentIndex) => (currentIndex - 1 + activeStatuses.length) % activeStatuses.length);
   };
+  const [activeUpgradeSlide, setActiveUpgradeSlide] = useState(0);
+  const [activeStatisticsSlide, setActiveStatisticsSlide] = useState(0);
+  const upgradeSlides = [
+    {
+      description: t(LanguageKey.ReserveToken),
+      value: `${numberToFormattedString(remainingTokens)}`,
+      backdropColor: "var(--color-light-red60)",
+      activeDotClassName: styles.paginationdotactive,
+      icon: (
+        <svg
+          className={styles.totaltilesvg}
+          xmlns="http://www.w3.org/2000/svg"
+          color="var(--color-light-red)"
+          fill="none"
+          stroke="var(--color-light-red)"
+          viewBox="0 0 24 24"
+          aria-hidden="true">
+          <path d="M11.54 7.25c.21-.33.7-.33.92 0l.62.98q1.05 1.64 2.69 2.69l.98.62c.33.21.33.7 0 .92l-.98.62q-1.64 1.05-2.69 2.69l-.62.98a.55.55 0 0 1-.92 0l-.62-.98q-1.05-1.64-2.69-2.69l-.98-.62a.55.55 0 0 1 0-.92l.98-.62q1.64-1.05 2.69-2.69z" />
+          <circle cx="12" cy="12" r="10" />
+        </svg>
+      ),
+    },
+    {
+      description: t(LanguageKey.remainingTime),
+      value: `${numberToFormattedString(subscriptionRemainingDays)} ${t(LanguageKey.pageTools_Day)}`,
+      backdropColor: "var(--color-dark-red60)",
+      activeDotClassName: styles.paginationdotactiveyellow,
+      icon: (
+        <svg
+          className={styles.totaltilesvg}
+          xmlns="http://www.w3.org/2000/svg"
+          color="var(--color-dark-red)"
+          fill="none"
+          stroke="var(--color-dark-red)"
+          viewBox="0 0 24 24">
+          <path d="M12 17.88V18m.25 0a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0M12 13.88V14m.25 0a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0m-5 3.88V18m.25 0a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0m-.25-4.12V14m.25 0a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0m9.25-.12V14m.25 0a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0M16 2v4M8 2v4m-5 4h18" />
+          <path d="M13 4h-2C7.23 4 5.34 4 4.17 5.17S3 8.23 3 12v2c0 3.77 0 5.66 1.17 6.83S7.23 22 11 22h2c3.77 0 5.66 0 6.83-1.17S21 17.77 21 14v-2c0-3.77 0-5.66-1.17-6.83S16.77 4 13 4" />
+        </svg>
+      ),
+    },
+  ];
+  const statisticsSlides = [
+    {
+      description: t(LanguageKey.pageStatistics_stories),
+      value: (
+        <div className="headerparent" style={{ justifyContent: "flex-start" }}>
+          {props.activeStories.length > 0 ? (
+            props.activeStories.map((story) => (
+              <Link
+                href={`/page/stories/storyinfo/${story.storyId}`}
+                key={story.storyId}
+                onClick={(event) => event.stopPropagation()}
+                style={{ position: "relative" }}>
+                <img
+                  style={{
+                    aspectRatio: "9/16",
+                    borderRadius: "5px",
+                    backgroundColor: "var(--color-gray)",
+                    maxHeight: "40px",
+                    minHeight: "40px",
+                  }}
+                  src={basePictureUrl + story.thumbnailMediaUrl}
+                  alt=""
+                />
+              </Link>
+            ))
+          ) : (
+            <div className={styles.title2}>{t(LanguageKey.notfound)}</div>
+          )}
+        </div>
+      ),
+      backdropColor: "var(--color-purple60)",
+      activeDotClassName: styles.paginationdotactivepurple,
+      icon: (
+        <svg
+          className={styles.totaltilesvg}
+          xmlns="http://www.w3.org/2000/svg"
+          color="var(--color-purple)"
+          fill="none"
+          stroke="var(--color-purple)"
+          viewBox="0 0 24 24">
+          <path d="M3 12c0-4.24 0-6.36 1.32-7.68S7.76 3 12 3s6.36 0 7.68 1.32S21 7.76 21 12s0 6.36-1.32 7.68S16.24 21 12 21s-6.36 0-7.68-1.32S3 16.24 3 12" />
+          <path d="M16 12a4 4 0 1 1-8 0 4 4 0 0 1 8 0m1.37-5.25h-.12m.25 0a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0" />
+        </svg>
+      ),
+    },
+    {
+      description: t(LanguageKey.lastLike),
+      value: numberToFormattedString(
+        props.data?.items.find((x) => x.topTileType === TopTileType.LikeCount)?.value ?? 0,
+      ),
+      backdropColor: "var(--color-light-red60)",
+      activeDotClassName: styles.paginationdotactivered,
+      icon: (
+        <svg
+          className={styles.totaltilesvg}
+          xmlns="http://www.w3.org/2000/svg"
+          color="var(--color-light-red)"
+          fill="none"
+          stroke="var(--color-light-red)"
+          viewBox="0 0 24 24">
+          <path d="M10.4 20C7.6 17.9 2 13 2 8.7a5 5 0 0 1 5-5.2c1.5 0 3 .5 5 2.5 2-2 3.5-2.5 5-2.5a5 5 0 0 1 5 5.2c0 4.3-5.6 9.2-8.4 11.3q-1.6 1-3.2 0" />
+        </svg>
+      ),
+    },
+    {
+      description: t(LanguageKey.pageStatistics_Reach),
+      value: props.data?.items.find((x) => x.topTileType === TopTileType.Reach)?.value
+        ? numberToFormattedString(props.data?.items.find((x) => x.topTileType === TopTileType.Reach)?.value ?? 0)
+        : t(LanguageKey.notfound),
+      backdropColor: "var(--color-firoze60)",
+      activeDotClassName: styles.paginationdotactivefiroze,
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className={styles.totaltilesvg}
+          color="var(--color-firoze)"
+          fill="none"
+          stroke="var(--color-firoze)"
+          viewBox="0 0 24 24">
+          <circle cx="12" cy="7" r="4" />
+          <path d="M12 14c-5 0-8 2.5-8 5q.2 1.8 2 2h12a2 2 0 0 0 2-2c0-2.5-3-5-8-5" />
+        </svg>
+      ),
+    },
+    {
+      description: t(LanguageKey.unreadcomment),
+      value: numberToFormattedString(
+        props.data?.items.find((x) => x.topTileType === TopTileType.NewCommentCount)?.value ?? 0,
+      ),
+      backdropColor: "var(--color-light-green60)",
+      activeDotClassName: styles.paginationdotactivegreen,
+      icon: (
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          className={styles.totaltilesvg}
+          color="var(--color-light-green)"
+          fill="none"
+          stroke="var(--color-light-green)"
+          viewBox="0 0 24 24">
+          <path d="m22 10.5-.04-2.25c-.08-2.37-.12-3.56-1.09-4.53s-2.19-1.03-4.63-1.13a100 100 0 0 0-8.48 0c-2.44.1-3.66.15-4.63 1.13s-1 2.16-1.1 4.53a64 64 0 0 0 0 4.5c.1 2.37.13 3.56 1.1 4.53s2.19 1.03 4.63 1.13q1.1.05 2.27.07c.74.02 1.11.02 1.44.15.32.12.6.36 1.15.83l2.18 1.86a.73.73 0 0 0 1.2-.55v-2.35h.24c2.44-.11 3.66-.16 4.63-1.14s1-2.16 1.1-4.53z" />
+          <path d="M12.13 10.5H12m-3.87 0H8m8.13 0H16m-3.75 0a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0m-4 0a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0m8 0a.25.25 0 1 1-.5 0 .25.25 0 0 1 .5 0" />
+        </svg>
+      ),
+    },
+  ];
+  const selectedUpgradeSlide = upgradeSlides[activeUpgradeSlide];
+  const selectedStatisticsSlide = statisticsSlides[activeStatisticsSlide];
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveUpgradeSlide((currentIndex) => (currentIndex + 1) % upgradeSlides.length);
+    }, 10000);
+
+    return () => window.clearInterval(timer);
+  }, [upgradeSlides.length]);
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActiveStatisticsSlide((currentIndex) => (currentIndex + 1) % statisticsSlides.length);
+    }, 10000);
+
+    return () => window.clearInterval(timer);
+  }, [statisticsSlides.length]);
   return (
     <>
       {loadingStatus && <Loading />}
@@ -287,128 +465,138 @@ const IngageInfo = (props: {
               <div className={styles.statuscontent}>{selectedStatus?.content}</div>
             </div>
           </section>
-          <section className={styles.totaltile}>
+          <section
+            className={styles.totaltile}
+            role="button"
+            tabIndex={0}
+            onClick={props.onSummaryClick}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                props.onSummaryClick();
+              }
+            }}>
+            <div className={styles.backdropfade} style={{ backgroundColor: "var(--color-light-blue60)" }} />
             <svg
               className={styles.totaltilesvg}
-              fill="var(--color-gray)"
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 22 22">
-              <path d="m11 .8 5.3.1q2.1.2 3.3 1.5 1.3 1.4 1.5 3.3.2 2 .1 5.2v.2l-.1 5.2q-.2 1.9-1.5 3.3t-3.3 1.5q-2 .2-5.2.1h-.2l-5.2-.1q-1.9-.2-3.3-1.5T.9 16.3t-.2-5.2v-.2q0-3.2.2-5.2.1-1.9 1.5-3.3T5.7.9 11 .7m0 5.7a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9m5.5-2a1 1 0 1 0 1 1.1v-.1a1 1 0 0 0-1-1" />
+              color="var(--color-light-blue)"
+              fill="none"
+              stroke="var(--color-light-blue)"
+              viewBox="0 0 24 24">
+              <path d="m17 17 4 4M12 3.06A8 8 0 1 0 18.94 10M17.5 2.94V4.5m0 0v1.56m0-1.56h-1.25m1.25 0h1.25m1.25 0-1.08-.36c-.5-.17-.9-.56-1.06-1.06L17.5 2l-.36 1.08c-.17.5-.56.9-1.06 1.06L15 4.5l1.08.36c.5.17.9.56 1.06 1.06L17.5 7l.36-1.08c.17-.5.56-.9 1.06-1.06z" />
             </svg>
-            <div className="headerandinput">
-              <div className="instagramid">{t(LanguageKey.pageStatistics_stories)}</div>
-              <div className="headerparent" style={{ justifyContent: "flex-start" }}>
-                {props.activeStories.length > 0 ? (
-                  props.activeStories.map((story) => (
-                    <Link
-                      href={`/page/stories/storyinfo/${story.storyId}`}
-                      key={story.storyId}
-                      style={{ position: "relative" }}>
-                      <img
-                        style={{
-                          aspectRatio: "9/16",
-                          borderRadius: "5px",
-                          backgroundColor: "var(--color-gray)",
-                          maxHeight: "40px",
-                          minHeight: "40px",
-                        }}
-                        src={basePictureUrl + story.thumbnailMediaUrl}
-                      />
-                    </Link>
-                  ))
-                ) : (
-                  <div className="instagramusername">{t(LanguageKey.notfound)}</div>
-                )}
+
+            <div className={styles.headerandinput} style={{ paddingInline: "10px" }}>
+              <div className={styles.explain}>{t(LanguageKey.CreateYourDigitalVersion)}</div>
+              <div className="headerparent">
+                <div className={styles.title2}>{t(LanguageKey.SmartPageAnalysis)}</div>
+                <svg
+                  className={styles.shorticon}
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M2.3.9q0-.8 1-.9h7q.7 0 .8.9v7a.9.9 0 1 1-1.8 0v-5l-7.8 8A.9.9 0 0 1 .3 9.5L8 1.8H3.2a1 1 0 0 1-.9-1"
+                    fill="var(--color-light-blue)"></path>
+                </svg>
               </div>
             </div>
           </section>
           <section className={styles.totaltile}>
-            <svg
-              className={styles.totaltilesvg}
-              fill="var(--color-gray)"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 22 22">
-              <path d="m11 .8 5.3.1q2.1.2 3.3 1.5 1.3 1.4 1.5 3.3.2 2 .1 5.2v.2l-.1 5.2q-.2 1.9-1.5 3.3t-3.3 1.5q-2 .2-5.2.1h-.2l-5.2-.1q-1.9-.2-3.3-1.5T.9 16.3t-.2-5.2v-.2q0-3.2.2-5.2.1-1.9 1.5-3.3T5.7.9 11 .7m0 5.7a4.5 4.5 0 1 0 0 9 4.5 4.5 0 0 0 0-9m5.5-2a1 1 0 1 0 1 1.1v-.1a1 1 0 0 0-1-1" />
-            </svg>
-            <div className="headerandinput">
-              <div className="instagramid">{t(LanguageKey.pageStatistics_stories)}</div>
-              <div className="headerparent" style={{ justifyContent: "flex-start" }}>
-                {props.activeStories.length > 0 ? (
-                  props.activeStories.map((story) => (
-                    <Link
-                      href={`/page/stories/storyinfo/${story.storyId}`}
-                      key={story.storyId}
-                      style={{ position: "relative" }}>
-                      <img
-                        style={{
-                          aspectRatio: "9/16",
-                          borderRadius: "5px",
-                          backgroundColor: "var(--color-gray)",
-                          maxHeight: "40px",
-                          minHeight: "40px",
-                        }}
-                        src={basePictureUrl + story.thumbnailMediaUrl}
-                      />
-                    </Link>
-                  ))
-                ) : (
-                  <div className="instagramusername">{t(LanguageKey.notfound)}</div>
-                )}
+            <div className={styles.backdropfade} style={{ backgroundColor: selectedStatisticsSlide.backdropColor }} />
+            <div className={styles.slideshowcontent} aria-live="polite">
+              {selectedStatisticsSlide.icon}
+              <div className={styles.slidecontentcontainer}>
+                <div className={styles.pagination} onClick={(event) => event.stopPropagation()}>
+                  {statisticsSlides.map((slide, index) => (
+                    <button
+                      type="button"
+                      key={slide.description}
+                      className={`${styles.paginationdot} ${
+                        index === activeStatisticsSlide ? selectedStatisticsSlide.activeDotClassName : ""
+                      }`}
+                      aria-label={`${slide.description} ${index + 1}`}
+                      aria-current={index === activeStatisticsSlide ? "true" : undefined}
+                      onClick={() => setActiveStatisticsSlide(index)}
+                    />
+                  ))}
+                </div>
+                <div className={styles.headerandinput}>
+                  <div className={styles.explain}>{selectedStatisticsSlide.description}</div>
+                  <div className={styles.title2}>{selectedStatisticsSlide.value}</div>
+                </div>
+              </div>
+            </div>
+          </section>
+
+          <section
+            className={styles.totaltile}
+            role="button"
+            tabIndex={0}
+            onClick={props.onUpgradeClick}
+            onKeyDown={(event) => {
+              if (event.key === "Enter" || event.key === " ") {
+                event.preventDefault();
+                props.onUpgradeClick();
+              }
+            }}>
+            <div className={styles.backdropfade} style={{ backgroundColor: selectedUpgradeSlide.backdropColor }} />
+            <div className={styles.slideshowcontent} aria-live="polite">
+              {selectedUpgradeSlide.icon}
+              <div className={styles.slidecontentcontainer}>
+                <div className={styles.pagination} onClick={(event) => event.stopPropagation()}>
+                  {upgradeSlides.map((slide, index) => (
+                    <button
+                      type="button"
+                      key={slide.description}
+                      className={`${styles.paginationdot} ${
+                        index === activeUpgradeSlide ? selectedUpgradeSlide.activeDotClassName : ""
+                      }`}
+                      aria-label={`${slide.description} ${index + 1}`}
+                      aria-current={index === activeUpgradeSlide ? "true" : undefined}
+                      onClick={() => setActiveUpgradeSlide(index)}
+                    />
+                  ))}
+                </div>
+                <div className={styles.headerandinput}>
+                  <div className={styles.explain}>{selectedUpgradeSlide.description}</div>
+                  <div className={styles.title2}>{selectedUpgradeSlide.value}</div>
+                </div>
               </div>
             </div>
           </section>
 
           <section className={styles.totaltile}>
+            <div className={styles.backdropfade} style={{ backgroundColor: "var(--color-light-yellow60)" }} />
             <svg
               className={styles.totaltilesvg}
-              fill="var(--color-gray)"
               xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 15 15">
-              <path d="M4.87.77q.66.03 1.3.24h.03q.04 0 .07.04.23.07.44.18l.27.12.3.2.22.14a4.4 4.4 0 0 1 4.04-.71c2.62.85 3.56 3.72 2.77 6.22a9 9 0 0 1-2.13 3.41 27 27 0 0 1-4.48 3.51l-.18.11-.18-.11Q4.9 12.6 2.83 10.6A9 9 0 0 1 .69 7.2C-.1 4.7.83 1.83 3.48.96q.3-.1.63-.15h.08q.3-.04.6-.04zm6.3 2.24a.57.57 0 0 0-.7.35c-.1.3.05.63.35.73.45.17.75.62.75 1.12v.02a.6.6 0 0 0 .14.44q.16.18.4.2c.3 0 .54-.24.56-.54v-.08c.02-1-.58-1.9-1.5-2.24" />
+              color="var(--color-light-yellow)"
+              fill="none"
+              stroke="var(--color-light-yellow)"
+              viewBox="0 0 24 24">
+              <path d="M15.48 16.9v-.27c0-1.04.13-1.34.86-2.08l.58-.57a7 7 0 1 0-9.84 0l.6.59c.7.73.82 1.01.84 2.04v.47a2 2 0 0 0 2.1 1.92h2.93a2 2 0 0 0 1.93-1.95z" />
+              <path d="M10 19v1a2 2 0 1 0 4 0v-1m-5.5-3h7" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
 
-            <div className="headerandinput">
-              <div className=" instagramid">{t(LanguageKey.lastLike)}</div>
-              <div className="instagramusername">
-                {numberToFormattedString(
-                  props.data.items.find((x) => x.topTileType === TopTileType.LikeCount)?.value ?? 0,
-                )}
-              </div>
-            </div>
-          </section>
-          <section className={styles.totaltile}>
-            <svg className={styles.totaltilesvg} fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 46 34">
-              <path
-                d="M22.6 22.3c-7 0-13 1.2-13 5.7s6 5.7 13 5.7 13-1.2 13-5.7-6-5.7-13-5.7m0-4.3c4.7 0 8.6-4 8.6-8.8 0-5-3.9-8.9-8.6-8.9-4.8 0-8.6 4-8.6 8.9 0 4.8 3.8 8.8 8.6 8.8m18.6-6.8c1.3-5-2.4-9.4-7-9.4q-.8 0-1.4.2h-.2v.3a12 12 0 0 1 .2 13.8q-.1.3.2.5h1a7 7 0 0 0 7.2-5.4m3.5 11.7q-.9-2.1-4.3-2.7a31 31 0 0 0-6.6-.5c1.2.6 6 3.4 5.4 9.1q0 .5.4.5c1.2-.2 4.2-.9 5.1-3a4 4 0 0 0 0-3.4M12.5 2l-1.4-.2a7.4 7.4 0 0 0-7 9.4 7 7 0 0 0 8.2 5.4q.3-.1.2-.5-2-3-2-6.8 0-4 2.2-7V2zM5 20.2q-3.5.6-4.4 2.7a4 4 0 0 0 0 3.4c1 2.1 4 2.8 5.1 3q.5 0 .5-.5c-.6-5.7 4.1-8.5 5.4-9v-.2a31 31 0 0 0-6.7.6"
-                fill="var(--color-gray)"
-              />
-            </svg>
-
-            <div className="headerandinput">
-              <div className=" instagramid">{t(LanguageKey.pageStatistics_Reach)}</div>
-              <div className="instagramusername">
-                {props.data.items.find((x) => x.topTileType === TopTileType.Reach)?.value
-                  ? numberToFormattedString(
-                      props.data.items.find((x) => x.topTileType === TopTileType.Reach)?.value ?? 0,
-                    )
-                  : t(LanguageKey.notfound)}
-              </div>
-            </div>
-          </section>
-          <section className={styles.totaltile}>
-            <svg
-              className={styles.totaltilesvg}
-              fill="var(--color-gray)"
-              xmlns="http://www.w3.org/2000/svg"
-              viewBox="0 0 16 17">
-              <path d="M10 9a1 1 0 0 1-1-.8q.1-.8 1-.9a.9.9 0 0 1 0 1.8M6 9a.9.9 0 0 1 0-1.7q.9 0 1 1-.1.7-1 .8m9.4-1.7A7.6 7.6 0 0 0 8.9.6Q5.8.2 3.3 2.3A8 8 0 0 0 .6 8c-.2 4.4 3.4 7.8 7 8.9l.8-.2q.3-.2.3-.7v-1.3c4.3-.5 7-3.6 6.7-7.4" />
-            </svg>
-            <div className="headerandinput">
-              <div className="instagramid">{t(LanguageKey.unreadcomment)}</div>
-              <div className="instagramusername">
-                {numberToFormattedString(
-                  props.data.items.find((x) => x.topTileType === TopTileType.NewCommentCount)?.value ?? 0,
-                )}
+            <div className={styles.headerandinput} style={{ paddingInline: "10px" }}>
+              <div className={styles.explain}>{t(LanguageKey.EducationAndGuidance)}</div>
+              <div className="headerparent">
+                <div className={styles.title2}>{t(LanguageKey.HowToUseBrancy)}</div>
+                <svg
+                  className={styles.shorticon}
+                  width="12"
+                  height="12"
+                  viewBox="0 0 12 12"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg">
+                  <path
+                    d="M2.3.9q0-.8 1-.9h7q.7 0 .8.9v7a.9.9 0 1 1-1.8 0v-5l-7.8 8A.9.9 0 0 1 .3 9.5L8 1.8H3.2a1 1 0 0 1-.9-1"
+                    fill="var(--color-light-yellow)"></path>
+                </svg>
               </div>
             </div>
           </section>

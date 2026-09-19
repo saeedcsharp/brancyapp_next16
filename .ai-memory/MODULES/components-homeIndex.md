@@ -32,6 +32,16 @@ The `IngageInfo` profile tile renders its `status` area from an ordered status m
 
 The PageDetail demographic section titles display the localized `home_Last30Days` label in parentheses, indicating that gender, age, and location insights cover the last 30 days.
 
+The home page owns the shared smart page-analysis modal and renders it at page level with the current `pageSummary` through `AccountSummary`. `IngageInfo` exposes the tile click and keyboard activation through a callback and displays the localized relative summary time from `pageSummary.createdTime`; the modal can be closed with its close button or the shared backdrop behavior.
+
+`IngageInfo` loads the current AI feature details for the authenticated session and displays the remaining AI token total by combining the unused counts from the regular and reserve AI features.
+
+The home upgrade tile is a two-slide accessible slideshow. Its first slide shows remaining AI tokens with the light-yellow backdrop and active pagination color; its second slide shows remaining subscription days using the live package expiry countdown with the dark-yellow backdrop and active pagination color. Pagination buttons switch the icon, description, and value without triggering the tile's upgrade action, while clicking or keyboard-activating the tile body still opens the upgrade route.
+
+The home total-tile area uses separate accessible slideshows: the upgrade tile contains reserve tokens and remaining subscription days, while a separate statistics tile contains active stories, last likes, reach, and unread comments. Both slideshows advance automatically every 10 seconds while retaining manual pagination. The story, like, reach, and comment slides use purple, light green, firoze, and light red respectively, and story links stop propagation so opening a story does not trigger the statistics tile action.
+
+`IngageInfo` derives its loading state from whether home tile data has arrived. It must not use `LoginStatus(session)` as a persistent loading flag, because an authenticated session returns `true` and would keep the full-page loader visible indefinitely.
+
 ## Dependencies
 
 See imports in related files and dependency docs.

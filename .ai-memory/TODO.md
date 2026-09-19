@@ -12,6 +12,11 @@
 
 # TODO
 
+- Add component coverage confirming the home dashboard upgrade slideshow combines regular and reserve AI feature balances, displays remaining subscription days, preserves pagination keyboard access, and handles missing feature data when a UI test harness is introduced.
+- Add component coverage confirming the separate home dashboard statistics slideshow renders stories, likes, reach, and unread comments in the specified color order and keeps story links independent from tile activation when a UI test harness is introduced.
+
+- Add component/browser coverage for opening and closing the home smart page-analysis modal with mouse, keyboard, backdrop, and missing-summary states when a UI test harness is introduced.
+
 - Add browser coverage confirming `/Ai` redirects to `/Ai/creator`, both AI child tabs render their legacy workspaces, and the old `/page/ai` and `/message/AIAndFlow` routes are no longer registered when a UI test harness is introduced.
 
 - Add component/browser coverage for opening and closing the Instagramer sidebar Support chat, including RTL positioning, keyboard activation, coexistence with the global support control, and mobile visibility when a UI test harness is introduced.

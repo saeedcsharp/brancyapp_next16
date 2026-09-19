@@ -2,6 +2,8 @@
 
 ## Known Bugs
 
+The home dashboard loading screen was fixed on 2026-09-19. `IngageInfo` previously initialized its loading flag from `LoginStatus(session)` and never cleared it for an authenticated session, hiding all home tiles indefinitely. The flag now follows the home tile data state; live browser verification confirmed five home tile sections render after refresh.
+
 The Instagram connection flow previously showed only a warning for Iranian IPs and blocked the redirect when the country code was absent. Fixed on 2026-09-08 by using the shared invalid-IP modal and matching `SwitchAccount`; live browser coverage remains pending.
 
 On 2026-09-08, a notification-only render was confirmed to retrigger `InstaProvider` account checks because its legacy router object changed identity. Using `next/navigation` fixes this dependency defect in a focused synthetic test. Whether this fully resolves the reported AI-notification browser reload remains unverified with live backend events.

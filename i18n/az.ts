@@ -762,6 +762,15 @@ export default {
     LastFollowers: "Son izləyicilər",
 
     CreateNewPost: "Yeni post yarat",
+    Postnotvisible: "Post görünmür?",
+    Storynotvisible: "Story görünmür?",
+    SmartPageAnalysis: "Ağıllı Səhifə Analitikası",
+    EducationAndGuidance: "Təlim və Rəhbərlik",
+    HowToUseBrancy: "Brancy-dən necə istifadə etməli",
+    BrancyKnowsYou: "Brancy sizi tanıyır",
+    BrancyKnowsYouExplain:
+      "Brancy rəqəmsal kimliyiniz haqqında tam təsəvvür yaratmaq üçün səhifənizi dərindən təhlil edir; şəxsiyyətiniz, biznesiniz və fəaliyyətlərinizdən tutmuş ünsiyyət tonunuza və üslubunuza, məzmun növünüzə, məlumatları təqdim etmə tərzinizə, paylaşım vaxtlarınıza və auditoriyanızla qarşılıqlı əlaqə üsulunuza qədər.\n\nBu təhlil səhifənizdəki bütün kommunikasiya nöqtələrində fəaliyyətinizi də nəzərə alır; şərhlərə və Direct mesajlara cavab verməkdən tutmuş yazı üslubunuza, auditoriyanızla ünsiyyətinizə və müxtəlif vəziyyətlərə reaksiyanıza qədər.\n\nƏl ilə təlimə, tonun tənzimlənməsinə və ya əlavə məlumat daxil etməyə ehtiyac olmadan Brancy sizi tanıyır və süni intellekti real kimliyinizə və üslubunuza uyğunlaşdırır.",
+    CreateYourDigitalVersion: "Rəqəmsal versiyanızı yaradın",
     CreateNewStrory: "Yeni story yarat",
     PostDraft: "Post qaralığı",
     StoryDraft: "Story qaralığı",

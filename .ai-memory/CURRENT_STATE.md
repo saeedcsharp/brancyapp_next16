@@ -2,6 +2,10 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+The home dashboard no longer remains on its full-page loader after authentication. `IngageInfo` derives loading from `props.data === null`, and a live browser refresh confirmed the five home tile sections render with the authenticated demo session.
+
+The home dashboard total-tile area now presents reserve tokens and remaining subscription days in one upgrade slideshow, while active stories, last likes, reach, and unread comments are grouped in a separate statistics slideshow. Both slideshows advance automatically every 10 seconds and remain manually navigable. The four statistic slides use purple, light green, firoze, and light red in that order.
+
 Instagramer AI navigation is now grouped under `/Ai`: the creator workspace is `/Ai/creator`, the Flow and Agent workspace is `/Ai/FlowandAgent`, and `/Ai` redirects to the creator workspace. The former `/page/ai` and `/message/AIAndFlow` route wrappers were removed, and desktop/mobile navigation no longer places these destinations under Page or Message.
 
 The Instagramer and user desktop sidebars now include a localized Support button at the bottom of their menus. Each opens the shared Goftino chat panel beside the sidebar while retaining the global website support control.
@@ -137,6 +141,12 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - Cross-browser visual regression coverage is not yet automated; feature-level overflow and viewport rules remain candidates for incremental audit.
 
 ## Recent Changes
+
+- The home smart page-analysis tile now opens the current account summary in the shared modal, with mouse and keyboard activation plus close controls.
+
+- The home dashboard token tile now loads the AI package feature details and displays the combined remaining balance from the regular and reserve AI features.
+
+- The home dashboard upgrade tile now provides accessible pagination between the remaining AI token balance and remaining subscription days; the tile's main click and keyboard action still opens the upgrade route.
 
 <<<<<<< HEAD
 

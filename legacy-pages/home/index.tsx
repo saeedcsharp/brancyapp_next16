@@ -7,12 +7,12 @@ import { ResponseType } from "brancy/components/notifications/notificationBox";
 import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
 import AccountSummary from "brancy/components/homeIndex/accountSummary";
 import IngageInfo from "brancy/components/homeIndex/ingageInfo";
+import Modal from "brancy/components/design/modal";
 import InstagramerUpgrade from "brancy/components/homeIndex/instagramerupgrade";
 import LastMessage from "brancy/components/homeIndex/lastMessage";
 import LastOrder from "brancy/components/homeIndex/lastOrder";
 import PageDetail from "brancy/components/homeIndex/pageDetail";
 import PostSummary from "brancy/components/homeIndex/postSummary";
-
 import styles from "./homeIndex.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
@@ -103,6 +103,7 @@ const Home = () => {
 
   // Add loading and data states
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [isSummaryModalOpen, setIsSummaryModalOpen] = useState(false);
   const isFetchingRef = useRef(false);
 
   // Handle authentication check
@@ -342,6 +343,9 @@ const Home = () => {
                   : 0
               }
               activeStories={state.activeStories}
+              onSummaryClick={() => setIsSummaryModalOpen(true)}
+              onUpgradeClick={() => router.push("/upgrade")}
+              pageSummary={state.pageSummary}
             />
           </div>
 
@@ -349,7 +353,7 @@ const Home = () => {
             className="pinContainer"
             // style={{  maxWidth: "calc(3 * 395px + 2 * var(--gap-20))",}}
           >
-            {state.pageSummary && <AccountSummary data={state.pageSummary} />}
+            {/* {state.pageSummary && <AccountSummary data={state.pageSummary} />} */}
 
             {session.user.messagePermission && state.hometiles && (
               <LastMessage
@@ -376,6 +380,29 @@ const Home = () => {
             {/* <LastFollower data={state.lastFollowers} /> */}
           </div>
         </main>
+        <Modal closePopup={() => setIsSummaryModalOpen(false)} classNamePopup="popup" showContent={isSummaryModalOpen}>
+          {/* <div>
+            <div id="modal-title" className="title2">
+              آنالیز هوشمند پیج شما
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsSummaryModalOpen(false)}
+              aria-label="بستن مودال"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 0,
+                border: 0,
+                background: "transparent",
+                cursor: "pointer",
+              }}>
+              <img src="/close-box.svg" alt="" style={{ width: "28px", height: "28px" }} />
+            </button>
+          </div> */}
+          <AccountSummary data={state.pageSummary} />
+        </Modal>
       </>
     )
   );

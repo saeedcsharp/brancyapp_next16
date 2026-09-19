@@ -1,3 +1,12 @@
+- 2026-09-19: Fixed the home dashboard tile loader remaining visible forever by deriving `IngageInfo` loading state from the arrival of home tile data instead of the authenticated session status.
+- 2026-09-19: Added independent 10-second autoplay timers to the home upgrade and statistics slideshows while preserving manual pagination.
+- 2026-09-19: Split the home dashboard total-tile slideshow into a two-slide upgrade section for reserve tokens and remaining subscription days and a separate four-slide statistics section for stories, likes, reach, and unread comments, with purple, light green, firoze, and light red statistic colors.
+- 2026-09-19: Matched the home upgrade slideshow backdrop and active pagination colors to each slide: light yellow for tokens and dark yellow for remaining subscription days.
+- 2026-09-19: Added pagination to the home upgrade tile so users can switch between remaining AI tokens and remaining subscription days without losing the existing upgrade action.
+- 2026-09-19: Updated the home dashboard token tile to load and display the remaining AI token balance from the regular and reserve AI package features instead of an undefined prop.
+
+- 2026-09-18: Made the home smart page-analysis tile open a shared modal containing the current account summary, with keyboard activation and close controls.
+
 - 2026-09-18: Grouped Instagramer AI navigation under `/Ai`, with creator and Flow and Agent tabs at `/Ai/creator` and `/Ai/FlowandAgent`; removed the former Page and Message route wrappers and updated desktop/mobile navigation.
 
 - 2026-09-18: Added localized Support buttons to the Instagramer and user sidebars. They open the shared Goftino chat panel beside the menu and use unique panel IDs alongside the global support control.
@@ -227,6 +236,8 @@
 - Fixed brush line chart hydration mismatches by using an explicit `en-US` locale for count labels rendered in SVG axes and tooltips.
 
 # Changelog
+
+- Combined the home dashboard statistic tiles with the existing reserve-token and remaining-days slideshow. Active stories, last likes, reach, and unread comments now use purple, light green, firoze, and light red slide colors.
 
 - Prevented the Instagramer sidebar and navbar from flashing while the required NextAuth session is loading or redirecting an unauthenticated user.
 
