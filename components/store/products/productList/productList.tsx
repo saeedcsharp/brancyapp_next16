@@ -77,7 +77,7 @@ const ProductList = () => {
   const userRef = useRef<HTMLDivElement>(null);
   const basePictureUrl = getClientMediaBaseUrl();
   const [products, setProducts] = useState<IProduct_ShortProduct[]>([]);
-  const [loadingStatus, setLoadingStatus] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.Products));
+  const [loadingStatus, setLoadingStatus] = useState(LoginStatus(session));
   const [hasMoreData, setHasMoreData] = useState(true);
   const [productIds, setProductIds] = useState<string[]>([]);
   const [selectAllProduct, setSelectAllProduct] = useState(false);
@@ -517,7 +517,7 @@ const ProductList = () => {
   //مپ محصول
   useEffect(() => {
     if (!session) return;
-    if (RoleAccess(session, PartnerRole.Products)) fetchData(false);
+    fetchData(false);
 
     window.addEventListener("resize", handleResize);
     handleResize();
@@ -800,19 +800,18 @@ const ProductList = () => {
                     src="/addnewproduct.png"
                   />
                   <div className={styles.noproducttextdiscription}>{t(LanguageKey.Storeproduct_notyet)}</div>
-                  {RoleAccess(session, PartnerRole.Products) && (
+                  {
                     <Link
                       href="/store/products/selectproduct"
                       className="saveButton"
                       style={{ textDecoration: "none" }}>
                       {t(LanguageKey.Storeproduct_addnow)}
                     </Link>
-                  )}
+                  }
                 </main>
               </div>
             </>
           )}
-          {!RoleAccess(session, PartnerRole.Products) && <NotAllowed />}
         </>
       )}
       <Modal
