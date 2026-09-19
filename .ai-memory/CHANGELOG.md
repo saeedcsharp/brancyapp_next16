@@ -2,6 +2,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 - 2026-09-17: Localized all Add Partner access tooltips across the eight supported locales using dedicated `LanguageKey` entries.
 
@@ -35,6 +36,26 @@
   =======
 =======
 =======
+=======
+- 2026-09-19: Changed the standalone partner access label from Product to Products across all eight locales.
+
+- 2026-09-19: Added the standalone `product_Product` label for the partner access role, leaving `product_Producttitle` unchanged for product forms.
+
+- 2026-09-19: Clarified the Publish Tooltip to explicitly express creating content across all eight locales, including the exact `Create content` wording in English.
+
+- 2026-09-19: Added content creation to the Publish partner Tooltip across all eight locales.
+
+- 2026-09-19: Clearing Content access now also clears Publish and Automatic selections, while keeping both toggles disabled.
+
+- 2026-09-19: Excluded Automatic from saved partner roles when Content access is disabled, matching Publish behavior.
+
+- 2026-09-19: Disabled the Automatic partner permission when Content access is disabled, matching Publish behavior.
+
+- 2026-09-19: Preserved the automatic-partner Tooltip wording and appended the Content access requirement across all eight locales.
+
+- 2026-09-19: Removed scheduling from `SettingGeneral_contentTooltip` across all eight locale dictionaries.
+
+>>>>>>> saeed
 - 2026-09-18: Grouped Instagramer AI navigation under `/Ai`, with creator and Flow and Agent tabs at `/Ai/creator` and `/Ai/FlowandAgent`; removed the former Page and Message route wrappers and updated desktop/mobile navigation.
 
 - 2026-09-18: Added localized Support buttons to the Instagramer and user sidebars. They open the shared Goftino chat panel beside the menu and use unique panel IDs alongside the global support control.

@@ -49,7 +49,9 @@ const AddPartner = React.memo(
     const [showSetDateAndTime, setShowSetDateAndTime] = useState(false);
     const [activeTab, setActiveTab] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
     const rolesForSave = createPartner.roles.filter(
-      (role) => role !== PartnerRole.Publish || createPartner.roles.includes(PartnerRole.PageView),
+      (role) =>
+        (role !== PartnerRole.Publish && role !== PartnerRole.Automatics) ||
+        createPartner.roles.includes(PartnerRole.PageView),
     );
     const handleOptionChanged = useCallback((e: ChangeEvent<HTMLInputElement>) => {
       setCheckBox(
@@ -92,7 +94,10 @@ const AddPartner = React.memo(
       } else {
         setCreatePartner((prev) => ({
           ...prev,
-          roles: prev.roles.filter((r) => r !== role),
+          roles:
+            role === PartnerRole.PageView
+              ? prev.roles.filter((r) => r !== role && r !== PartnerRole.Publish && r !== PartnerRole.Automatics)
+              : prev.roles.filter((r) => r !== role),
         }));
       }
     }
@@ -315,6 +320,7 @@ const AddPartner = React.memo(
                       <ToggleCheckBoxButton
                         handleToggle={(e) => handleSelectRole(e)}
                         checked={createPartner.roles.includes(PartnerRole.Automatics)}
+                        disabled={!createPartner.roles.includes(PartnerRole.PageView)}
                         title={"Automatics"}
                         name={"Automatics"}
                         role={"switch"}
@@ -417,6 +423,26 @@ const AddPartner = React.memo(
                         checked={createPartner.roles.includes(PartnerRole.Orders)}
                         title={"Orders"}
                         name={"Orders"}
+                        role={"switch"}
+                      />
+                    </div>
+                  </div>
+                  <div className="headerandinput">
+                    <div className="frameParent">
+                      <div className="title">
+                        {t(LanguageKey.product_Product)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue={t(LanguageKey.SettingGeneral_productsTooltip)}
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
+                      <ToggleCheckBoxButton
+                        handleToggle={(e) => handleSelectRole(e)}
+                        checked={createPartner.roles.includes(PartnerRole.Products)}
+                        title={"Products"}
+                        name={"Products"}
                         role={"switch"}
                       />
                     </div>

@@ -1,15 +1,12 @@
 "use client";
 
-import { useSession } from "next-auth/react";
-import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
+import { RoleAccess } from "brancy/helper/loadingStatus";
 import PageComponent from "../../../../legacy-pages/message/AIAndFlow/index";
+import { useSession } from "next-auth/react";
+import { PartnerRole } from "brancy/models/enums";
+import NotAllowed from "brancy/components/notOk/notAllowed";
 export default function Page() {
-  const { data: session, status } = useSession();
-
-  if (status === "loading") return null;
-  if (status === "authenticated" && session && !session.user.messagePermission) {
-    return <NotPermission permissionType={PermissionType.Messages} />;
-  }
-
+  const { data: session } = useSession();
+  if (!RoleAccess(session, PartnerRole.Automatics)) return <NotAllowed />;
   return <PageComponent />;
 }

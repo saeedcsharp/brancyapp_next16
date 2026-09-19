@@ -1,45 +1,43 @@
-import { useSession } from "next-auth/react";
-import router, { useRouter } from "next/router";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { DateObject } from "react-multi-date-picker";
-import InputBox from "brancy/components/design/inputBox/inputBox";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
+import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import Modal from "brancy/components/design/modal";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import TextArea from "brancy/components/design/textArea/textArea";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
-import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
-import Loading from "brancy/components/notOk/loading";
-import NotAllowed from "brancy/components/notOk/notAllowed";
-import { getThumbnailStyle } from "brancy/helper/getThumbnailColor";
-import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
-import initialzedTime, { convertToMilliseconds } from "brancy/helper/manageTimer";
-import { LanguageKey } from "brancy/i18n";
-import { MethodType } from "brancy/helper/api";
+import Tooltip from "brancy/components/design/tooltip/tooltip";
 import AIPromptBox from "brancy/components/messages/aiflow/aiPromptBox";
 import Flow from "brancy/components/messages/aiflow/flow";
-import styles from "./flowAndAIIBox.module.css";
 import { LiveTestModal } from "brancy/components/messages/aiflow/flowNode";
 import { TutorialModalContent } from "brancy/components/messages/aiflow/flowNode/NodeTutorials";
 import { SettingModal } from "brancy/components/messages/aiflow/flowNode/settingmodal";
 import AIToolsSettings from "brancy/components/messages/aiflow/popup/AIToolsSettings";
 import LiveChat from "brancy/components/messages/aiflow/popup/liveChat";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import Loading from "brancy/components/notOk/loading";
+import NotFeature from "brancy/components/notOk/notFeature";
+import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { PartnerRole } from "brancy/models/enums";
+import { getThumbnailStyle } from "brancy/helper/getThumbnailColor";
+import { LoginStatus } from "brancy/helper/loadingStatus";
+import initialzedTime, { convertToMilliseconds } from "brancy/helper/manageTimer";
+import { LanguageKey } from "brancy/i18n";
 import {
+  IAITools,
+  ICreatePrompt,
   IMasterFlow,
   IPrompts,
-  IAITools,
   ITool,
-  ICreatePrompt,
-  ITotalPrompt,
   ITotalMasterFlow,
+  ITotalPrompt,
 } from "brancy/models/interfaces";
-import NotFeature from "brancy/components/notOk/notFeature";
-import Tooltip from "brancy/components/design/tooltip/tooltip";
+import { useSession } from "next-auth/react";
+import router, { useRouter } from "next/router";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { DateObject } from "react-multi-date-picker";
+import styles from "./flowAndAIIBox.module.css";
 
 let firstTime = 0;
 let touchMove = 0;
@@ -182,7 +180,7 @@ const FlowAndAIInbox = () => {
   const routerHook = useRouter();
   const [searchMasterFlowInbox, setSearchMasterFlowInbox] = useState<IMasterFlow>();
   const [searchPromptInbox, setSearchPromptInbox] = useState<IPrompts>();
-  const [loading, setLoading] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.SystemTicket));
+  const [loading, setLoading] = useState(LoginStatus(session));
   const [searchbox, setSearchbox] = useState("");
   const [toggleOrder, setToggleOrder] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
   const [userSelectedId, setUserSelectedId] = useState<string | null>(null);
@@ -593,13 +591,7 @@ const FlowAndAIInbox = () => {
       }
     }
     console.log(" ✅ Console ⋙ Session", session, session?.user.username);
-    if (
-      session === undefined ||
-      session?.user.username === undefined ||
-      !LoginStatus(session) ||
-      !RoleAccess(session, PartnerRole.Automatics)
-    )
-      return;
+    if (session === undefined || session?.user.username === undefined || !LoginStatus(session)) return;
     fetchFirstData();
     const handleMouseMove = (event: { clientX: number; clientY: number }) => {
       setMousePos({ x: event.clientX, y: event.clientY });
@@ -672,7 +664,6 @@ const FlowAndAIInbox = () => {
 
   return (
     <>
-      {!RoleAccess(session, PartnerRole.Automatics) && <NotAllowed />}
       {loading && <Loading />}
       {!loading && (
         <div className={`pincontainerMSG translate`}>

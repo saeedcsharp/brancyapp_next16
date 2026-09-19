@@ -4,6 +4,9 @@ import PageComponent from "../../../../legacy-pages/page/ai/index";
 import { useSearchParams } from "next/navigation";
 import { Suspense } from "react";
 import { useSession } from "next-auth/react";
+import { RoleAccess } from "brancy/helper/loadingStatus";
+import { PartnerRole } from "brancy/models/enums";
+import NotAllowed from "brancy/components/notOk/notAllowed";
 
 function AiCreatorRoute() {
   const searchParams = useSearchParams();
@@ -15,6 +18,8 @@ function AiCreatorRoute() {
 }
 
 export default function Page() {
+  const { data: session } = useSession();
+  if (!RoleAccess(session, PartnerRole.Publish)) return <NotAllowed />;
   return (
     <Suspense fallback={<div />}>
       <AiCreatorRoute />

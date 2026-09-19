@@ -2367,6 +2367,7 @@ export default {
     Backtocart: "Вернуться в корзину",
     product_ProductID: "ID продукта",
     product_Producttitle: "Название продукта",
+    product_Product: "Продукты",
     product_Categories: "Категории",
     product_MainCategory: "Основная категория",
     product_Subcategory: "Подкатегория",
@@ -2540,9 +2541,11 @@ export default {
     SettingGeneral_partnertitle: "Название Админа-Сотрудника",
     SettingGeneral_partnernumberexplain:
       "Приглашение будет отправлено на этот номер, и админ-сотрудник должен подтвердить его в своей панели (админ должен зарегистрироваться в Brancy, чтобы принять приглашение).",
-    SettingGeneral_contentTooltip: "Публикации, истории, Reels, IGTV, карусели и планирование.",
-    SettingGeneral_publishTooltip: "Создание публикаций и историй. Требуется доступ к контенту.",
-    SettingGeneral_automaticsTooltip: "ИИ, сценарии, автоматизированные процессы и задачи.",
+    SettingGeneral_contentTooltip: "Публикации, истории, Reels, IGTV и карусели.",
+    SettingGeneral_publishTooltip:
+      "Создавать публикации и истории, а также создавать контент. Требуется доступ к контенту.",
+    SettingGeneral_automaticsTooltip:
+      "ИИ, сценарии, автоматизированные процессы и задачи. Требуется доступ к контенту.",
     SettingGeneral_messageTooltip: "Директ Instagram, внутренние сообщения и связанные инструменты.",
     SettingGeneral_commentTooltip: "Комментарии, ответы и связанные инструменты.",
     SettingGeneral_transactionTooltip:
