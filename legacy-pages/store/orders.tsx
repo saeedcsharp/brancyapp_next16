@@ -1,7 +1,5 @@
 import Slider from "brancy/components/design/slider/slider";
 import Loading from "brancy/components/notOk/loading";
-import NotAllowed from "brancy/components/notOk/notAllowed";
-import NotShopper from "brancy/components/notOk/notShopper";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Queue from "brancy/components/store/order/1-Queue";
 import InProgress from "brancy/components/store/order/2-InProgress";
@@ -16,11 +14,11 @@ import OrderPickup from "brancy/components/store/order/popup/OrderPickup";
 import OrderSend from "brancy/components/store/order/popup/OrderSend";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { packageStatus } from "brancy/helper/loadingStatus";
 import { handleDecompress } from "brancy/helper/pako";
 import { getHubConnection } from "brancy/helper/pushNotif";
 import { LanguageKey } from "brancy/i18n";
-import { OrderStep, OrderStepStatus, PartnerRole, PushResponseType, ShippingRequestType } from "brancy/models/enums";
+import { OrderStep, OrderStepStatus, PushResponseType, ShippingRequestType } from "brancy/models/enums";
 import {
   IOrderByStatus,
   IOrderByStatusItem,
@@ -812,7 +810,7 @@ const Orders = () => {
   const hasFetchedRef = useRef(false);
 
   useEffect(() => {
-    if (session && !hasFetchedRef.current && RoleAccess(session, PartnerRole.Orders)) {
+    if (session && !hasFetchedRef.current) {
       hasFetchedRef.current = true;
       fetchData();
     }
@@ -836,9 +834,6 @@ const Orders = () => {
       }
     }, 500);
   }, []);
-  if (!session?.user.isShopper) return <NotShopper />;
-  if (!RoleAccess(session, PartnerRole.Orders)) return <NotAllowed />;
-
   return (
     session &&
     session!.user.currentIndex !== -1 && (

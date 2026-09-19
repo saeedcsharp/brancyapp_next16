@@ -22,7 +22,6 @@ const Products = () => {
   });
   const { t } = useTranslation();
   if (session?.user.currentIndex === -1) router.push("/user");
-  if (!session?.user.isShopper) return <NotShopper />;
   return (
     session &&
     session!.user.currentIndex !== -1 && (

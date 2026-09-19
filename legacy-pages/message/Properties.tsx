@@ -1,10 +1,6 @@
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
 import Modal from "brancy/components/design/modal";
 import EditAutoReply from "brancy/components/messages/popups/editAutoReply";
+import SelectProduct from "brancy/components/messages/popups/selectProduct";
 import SpecialPayLoadComp from "brancy/components/messages/popups/specialPayLoad";
 import AutoReply from "brancy/components/messages/properties/autoreply";
 import IceBreaker from "brancy/components/messages/properties/iceBreaker";
@@ -20,34 +16,30 @@ import {
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
-import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
-import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
-import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
+import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { AutoReplyPayLoadType, IceOrPersistent, Language, MediaProductType, SpecialPayLoad } from "brancy/models/enums";
 import {
-  AutoReplyPayLoadType,
-  IceOrPersistent,
-  Language,
-  MediaProductType,
-  PartnerRole,
-  SpecialPayLoad,
-} from "brancy/models/enums";
-import {
-  ISpecialPayload,
-  IIceBreaker,
-  IProfileButtons,
-  IMessagePanel,
-  IGeneralAutoReply,
-  ICreateGeneralAutoReply,
   IAutoReplySetting,
-  IUpdateProfileButton,
-  IProduct_ShortProduct,
+  ICreateGeneralAutoReply,
+  IGeneralAutoReply,
+  IIceBreaker,
+  IMessagePanel,
   IProduct_FullProduct,
+  IProduct_ShortProduct,
+  IProfileButtons,
+  ISpecialPayload,
+  IUpdateProfileButton,
 } from "brancy/models/interfaces";
-import SelectProduct from "brancy/components/messages/popups/selectProduct";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const Properties = () => {
   const { t } = useTranslation();
@@ -78,7 +70,7 @@ const Properties = () => {
   const fetchDataCallback = useCallback(fetchData, [session]);
 
   useEffect(() => {
-    if (session && LoginStatus(session) && RoleAccess(session, PartnerRole.Message) && !isDataLoaded) {
+    if (session && LoginStatus(session) && !isDataLoaded) {
       fetchDataCallback();
     }
   }, [session, fetchDataCallback, isDataLoaded]);
@@ -551,7 +543,7 @@ const Properties = () => {
     setShowSpecialPayLoad(true);
   }
   async function fetchData() {
-    if (!session || !LoginStatus(session) || !RoleAccess(session, PartnerRole.Message)) {
+    if (!session || !LoginStatus(session)) {
       return;
     }
 
@@ -772,7 +764,6 @@ const Properties = () => {
           {/* Add other meta tags as needed */}
         </Head>
         {/* head for SEO */}
-        {!RoleAccess(session, PartnerRole.Message) && <NotAllowed />}
         {loadingStatus && <Loading />}
         {!LoginStatus(session) && (
           <main className="pinContainer">

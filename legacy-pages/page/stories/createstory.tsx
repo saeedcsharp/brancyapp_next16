@@ -1,15 +1,9 @@
-import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { DateObject } from "react-multi-date-picker";
 import SetTimeAndDate from "brancy/components/dateAndTime/setTimeAndDate";
 import ConstantCounterDown from "brancy/components/design/counterDown/constantCounterDown";
-import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Modal from "brancy/components/design/modal";
 import ProgressBar from "brancy/components/design/progressBar/progressBar";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
+import SelectProduct from "brancy/components/messages/popups/selectProduct";
 import {
   internalNotify,
   InternalResponseType,
@@ -18,19 +12,18 @@ import {
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
 import NotAllowed from "brancy/components/notOk/notAllowed";
-import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
 import DeleteDraft from "brancy/components/page/popup/deleteDraft";
 import ErrorDraft from "brancy/components/page/popup/errorDraft";
 import QuickStoryReplyPopup from "brancy/components/page/popup/quickStoryReply";
 import SaveDraft from "brancy/components/page/popup/saveDraft";
 import DeletePrePost from "brancy/components/page/scheduledPost/deletePrePost";
+import { MethodType, UploadFile } from "brancy/helper/api";
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
 import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { MethodType, UploadFile } from "brancy/helper/api";
-import styles from "./createStory.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { AutoReplyPayLoadType, MediaProductType, MediaType, PartnerRole } from "brancy/models/enums";
 import {
   IAutomaticReply,
@@ -41,14 +34,19 @@ import {
   IPreStoryInfo,
   IProduct_ShortProduct,
   IPublishLimit,
-  IStoreOrderShortProduct,
   IStoryDraftInfo,
   IStoryImageInfo,
   IStoryVideoInfo,
 } from "brancy/models/interfaces";
-import SelectProduct from "brancy/components/messages/popups/selectProduct";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { ChangeEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { DateObject } from "react-multi-date-picker";
+import styles from "./createStory.module.css";
 
-const CreateStory = () => {
+const CreateStory = ({ showNotAllowed = false }: { showNotAllowed?: boolean }) => {
   const router = useRouter();
   const { data: session } = useSession();
   const { t } = useTranslation();
@@ -880,7 +878,7 @@ const CreateStory = () => {
   // Data fetching
   useEffect(() => {
     const queryKey = `${query.draftId ?? ""}:${query.preStoryId ?? ""}`;
-    if (loadedQueryKey !== queryKey && session && LoginStatus(session) && router.isReady) {
+    if (!showNotAllowed && loadedQueryKey !== queryKey && session && LoginStatus(session) && router.isReady) {
       console.log("Fetching data for Create Story", { draftId: query.draftId, preStoryId: query.preStoryId });
       if (query.draftId !== undefined) {
         handleGetDraftStory(query.draftId as string);
@@ -901,15 +899,23 @@ const CreateStory = () => {
     handleGetDraftStory,
     handleGetPreStory,
     getPublishLimitContent,
+    showNotAllowed,
   ]);
 
   // Ensure we react to route query changes (e.g., client-side Link navigation)
   useEffect(() => {
-    if (router.isReady && session && LoginStatus(session) && query.draftId !== undefined && draftId <= 0) {
+    if (
+      !showNotAllowed &&
+      router.isReady &&
+      session &&
+      LoginStatus(session) &&
+      query.draftId !== undefined &&
+      draftId <= 0
+    ) {
       console.log("Detected draftId in query (effect):", query.draftId);
       handleGetDraftStory(query.draftId as string);
     }
-  }, [router.isReady, query.draftId, session, handleGetDraftStory, draftId]);
+  }, [router.isReady, query.draftId, session, handleGetDraftStory, draftId, showNotAllowed]);
   const handleActiveAutoComment = useMemo(() => {
     return (
       QuickReply &&
@@ -995,9 +1001,8 @@ const CreateStory = () => {
             </div>
           </div>
           <div className="fullScreenPupup_content">
-            {!RoleAccess(session, PartnerRole.PageView) && <NotAllowed />}
-            {!session.user.publishPermission && <NotPermission permissionType={PermissionType.Content} />}
-            {RoleAccess(session, PartnerRole.PageView) && session.user.publishPermission && (
+            {showNotAllowed && <NotAllowed />}
+            {!showNotAllowed && RoleAccess(session, PartnerRole.PageView) && session.user.publishPermission && (
               <>
                 <div className={`${styles.container} ${loadingUpload && "fadeDiv"}`}>
                   <div className={styles.cardPost}>

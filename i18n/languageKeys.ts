@@ -1340,6 +1340,7 @@ export enum LanguageKey {
   product_BasicDetail = "product_BasicDetail",
   product_ProductID = "product_ProductID",
   product_Producttitle = "product_Producttitle",
+  product_Product = "product_Product",
   product_Categories = "product_Categories",
   product_MainCategory = "product_MainCategory",
   product_Subcategory = "product_Subcategory",

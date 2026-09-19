@@ -26,6 +26,7 @@
 - Add component coverage for settlement-history filtering, cursor pagination, duplicate sub-invoice IDs, status labels, loading/empty states, and responsive detail scrolling when a UI test harness is introduced.
 
 - Add component coverage confirming selecting the `Order` tab automatically loads order details inside the existing invoice popup, returns to the invoice summary through Back/Close, and does not mount a second modal when a UI test harness is introduced.
+- Extend invoice order-tab coverage to confirm users without `PartnerRole.Orders` see `NotAllowedCard` and do not request invoice/order details.
 
 - Add browser coverage confirming `/wallet` and legacy wallet routes redirect to `/wallet/payment`, and that the unified payment page renders balance summary, defaults to the default bank-card slide while allowing free navigation, supports inline add-card registration, latest per-card financial statuses, and invoices when a UI test harness is introduced.
 - Add component coverage for inline bank-card registration, including 16-digit submit activation, invalid-card feedback below the input, notification handling, and card refresh after successful registration when a UI test harness is introduced.

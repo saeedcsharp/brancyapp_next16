@@ -6,6 +6,29 @@
 - 2026-09-19: Updated the home dashboard token tile to load and display the remaining AI token balance from the regular and reserve AI package features instead of an undefined prop.
 
 - 2026-09-18: Made the home smart page-analysis tile open a shared modal containing the current account summary, with keyboard activation and close controls.
+- 2026-09-19: Fixed desktop and mobile navbar detection for `/message/Properties` and corrected the active Properties tab index.
+
+- 2026-09-19: Fixed desktop and mobile navbar detection for `/setting/subAdmin` and corrected the active SubAdmin tab index.
+
+- 2026-09-19: Fixed desktop and mobile navbar detection for `/advertise/Properties` and corrected the active Properties tab index.
+
+- 2026-09-19: Changed the standalone partner access label from Product to Products across all eight locales.
+
+- 2026-09-19: Added the standalone `product_Product` label for the partner access role, leaving `product_Producttitle` unchanged for product forms.
+
+- 2026-09-19: Clarified the Publish Tooltip to explicitly express creating content across all eight locales, including the exact `Create content` wording in English.
+
+- 2026-09-19: Added content creation to the Publish partner Tooltip across all eight locales.
+
+- 2026-09-19: Clearing Content access now also clears Publish and Automatic selections, while keeping both toggles disabled.
+
+- 2026-09-19: Excluded Automatic from saved partner roles when Content access is disabled, matching Publish behavior.
+
+- 2026-09-19: Disabled the Automatic partner permission when Content access is disabled, matching Publish behavior.
+
+- 2026-09-19: Preserved the automatic-partner Tooltip wording and appended the Content access requirement across all eight locales.
+
+- 2026-09-19: Removed scheduling from `SettingGeneral_contentTooltip` across all eight locale dictionaries.
 
 - 2026-09-18: Grouped Instagramer AI navigation under `/Ai`, with creator and Flow and Agent tabs at `/Ai/creator` and `/Ai/FlowandAgent`; removed the former Page and Message route wrappers and updated desktop/mobile navigation.
 
@@ -28,6 +51,7 @@
 - Added the wallet settlement-history view to the payment page. `components/wallet/settle.tsx` uses paginated invoice data, shows awaiting/settled/failed sub-invoices in invoice-style cards, and keeps unsettled balances in the existing card and invoice views.
 
 - Wallet invoice order details now load automatically when the `Order` tab is selected and replace the invoice summary inside the existing invoice popup; back and close return to the invoice summary without a second modal.
+- Gated wallet invoice order details by the `PartnerRole.Orders` permission and show `NotAllowedCard` without requesting order data when access is unavailable; scoped popup CSS so the access state remains visible.
 
 - Added mouse and touch drag scrolling to the horizontally scrollable sub-invoice detail rows while preserving vertical touch scrolling.
 

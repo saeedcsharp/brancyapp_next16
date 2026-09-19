@@ -2405,6 +2405,7 @@ export default {
     Backtocart: "Zurück zum Warenkorb",
     product_ProductID: "Produkt-ID",
     product_Producttitle: "Produkttitel",
+    product_Product: "Produkte",
     product_Categories: "Kategorien",
     product_MainCategory: "Hauptkategorie",
     product_Subcategory: "Unterkategorie",
@@ -2576,9 +2577,11 @@ export default {
     SettingGeneral_partnertitle: "Titel des Mitwirkenden Admins",
     SettingGeneral_partnernumberexplain:
       "Eine Einladung wird an diese Nummer gesendet, und der Mitwirkende-Admin muss sie in seinem Panel bestätigen (der Admin muss sich bei Brancy registrieren, um die Einladung anzunehmen).",
-    SettingGeneral_contentTooltip: "Beiträge, Stories, Reels, IGTV, Karussells und Planung.",
-    SettingGeneral_publishTooltip: "Beiträge und Stories erstellen. Dafür ist der Inhaltszugriff erforderlich.",
-    SettingGeneral_automaticsTooltip: "KI, Flows sowie automatisierte Prozesse und Aufgaben.",
+    SettingGeneral_contentTooltip: "Beiträge, Stories, Reels, IGTV und Karussells.",
+    SettingGeneral_publishTooltip:
+      "Beiträge, Stories und Inhalte erstellen. Dafür ist der Inhaltszugriff erforderlich.",
+    SettingGeneral_automaticsTooltip:
+      "KI, Flows sowie automatisierte Prozesse und Aufgaben. Dafür ist der Inhaltszugriff erforderlich.",
     SettingGeneral_messageTooltip: "Instagram-Direktnachrichten, interne Nachrichten und zugehörige Tools.",
     SettingGeneral_commentTooltip: "Kommentare, Antworten und zugehörige Tools.",
     SettingGeneral_transactionTooltip: "Zahlungskontoverwaltung, Transaktionen, Wallet und zugehörige Tools.",
