@@ -41,6 +41,7 @@
 - Added the wallet settlement-history view to the payment page. `components/wallet/settle.tsx` uses paginated invoice data, shows awaiting/settled/failed sub-invoices in invoice-style cards, and keeps unsettled balances in the existing card and invoice views.
 
 - Wallet invoice order details now load automatically when the `Order` tab is selected and replace the invoice summary inside the existing invoice popup; back and close return to the invoice summary without a second modal.
+- Gated wallet invoice order details by the `PartnerRole.Orders` permission and show `NotAllowedCard` without requesting order data when access is unavailable; scoped popup CSS so the access state remains visible.
 
 - Added mouse and touch drag scrolling to the horizontally scrollable sub-invoice detail rows while preserving vertical touch scrolling.
 
