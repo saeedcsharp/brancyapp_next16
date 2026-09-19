@@ -77,13 +77,7 @@ const Properties = () => {
   const fetchDataCallback = useCallback(fetchData, [session]);
 
   useEffect(() => {
-    if (
-      session &&
-      session.user.messagePermission &&
-      LoginStatus(session) &&
-      RoleAccess(session, PartnerRole.Message) &&
-      !isDataLoaded
-    ) {
+    if (session && session.user.messagePermission && LoginStatus(session) && !isDataLoaded) {
       fetchDataCallback();
     }
   }, [session, fetchDataCallback, isDataLoaded]);
@@ -556,12 +550,7 @@ const Properties = () => {
     setShowSpecialPayLoad(true);
   }
   async function fetchData() {
-    if (
-      !session ||
-      !session.user.messagePermission ||
-      !LoginStatus(session) ||
-      !RoleAccess(session, PartnerRole.Message)
-    ) {
+    if (!session || !session.user.messagePermission || !LoginStatus(session)) {
       return;
     }
 
@@ -782,7 +771,6 @@ const Properties = () => {
           {/* Add other meta tags as needed */}
         </Head>
         {/* head for SEO */}
-        {!RoleAccess(session, PartnerRole.Message) && <NotAllowed />}
         {loadingStatus && <Loading />}
         {!LoginStatus(session) && (
           <main className="pinContainer">
