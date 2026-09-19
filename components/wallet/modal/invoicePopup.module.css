@@ -1,0 +1,146 @@
+.container {
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  gap: var(--gap-10);
+  width: 100%;
+}
+
+.tabs {
+  margin-block: var(--padding-5);
+}
+
+.InvoiceDetails {
+  width: 100%;
+  min-width: 0;
+  overflow: hidden;
+}
+
+.table {
+  width: 100%;
+  min-width: 720px;
+  overflow: hidden;
+  border: 1px solid var(--color-gray30);
+  border-radius: var(--br15);
+  background-color: var(--color-gray10);
+}
+
+.tableheader,
+.tablecontent {
+  display: grid;
+  grid-template-columns:
+    35px 90px minmax(100px, 1fr) minmax(130px, 1.2fr) minmax(110px, 1fr) minmax(100px, 1fr)
+    100px;
+  align-items: center;
+  gap: var(--gap-8);
+  min-height: 52px;
+  padding: 0 var(--padding-10);
+}
+
+.tableheader {
+  background-color: var(--color-gray30);
+  color: var(--text-h2);
+  font-size: var(--font-12);
+  font-weight: var(--weight-600);
+}
+
+.tablecontent {
+  min-height: 62px;
+  border-top: 1px solid var(--color-gray30);
+  color: var(--text-h1);
+  font-size: var(--font-12);
+}
+.tablecontent > * {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-weight: 400 !important;
+  font-size: var(--font-12) !important;
+}
+
+.tableheader > * {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.header,
+.date,
+.orcernumber {
+  justify-self: center;
+  text-align: center;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 120px;
+  padding: var(--padding-16);
+  border: 1px dashed var(--content-box);
+  border-radius: var(--br12);
+  color: var(--text-h2);
+  font-size: var(--font-14);
+  text-align: center;
+}
+
+.orderDetails {
+  display: flex;
+  width: 100%;
+  flex-direction: column;
+  gap: var(--gap-15);
+  width: 100%;
+}
+.orderDetails > div {
+  width: 100%;
+}
+.orderDetails > div > :nth-child(1),
+.orderDetails > div > :nth-child(2),
+.orderDetails > div > :nth-child(3) > :nth-child(1) > :nth-child(1) {
+  display: none;
+}
+
+.orderSummary {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-8);
+  padding: var(--padding-16);
+  border: 1px solid var(--content-box);
+  border-radius: var(--br15);
+  background-color: var(--color-gray10);
+}
+
+.orderSummaryRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-10);
+  min-height: 32px;
+  color: var(--text-h2);
+  font-size: var(--font-14);
+}
+
+.orderSummaryRow strong {
+  color: var(--text-h1);
+  direction: ltr;
+  font-weight: var(--weight-600);
+  overflow-wrap: anywhere;
+  text-align: end;
+}
+
+@media (max-width: 480px) {
+  .InvoiceDetails {
+    overflow-x: auto;
+    padding-bottom: var(--padding-5);
+  }
+
+  .orderSummaryRow {
+    align-items: flex-start;
+    flex-direction: column;
+    gap: var(--gap-3);
+  }
+}

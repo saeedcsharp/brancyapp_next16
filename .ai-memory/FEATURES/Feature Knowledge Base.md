@@ -81,6 +81,8 @@ The page explicitly keeps advertising calendar/list/properties/report screens, c
 
 ## Change Impact
 
+The Instagramer AI capability is currently exposed through `/Ai/creator` and `/Ai/FlowandAgent`; feature records must use these canonical routes rather than the retired Page and Message paths.
+
 When a route, access guard, entitlement, API mapping, or user-facing workflow changes, update `featureCatalog.ts`, `i18n/featureKnowledge.ts`, this document, `CURRENT_STATE.md`, `CHANGELOG.md`, and the related domain feature document.
 
 ## Maintenance Rule

@@ -137,7 +137,13 @@ export default function UserPartners({
       </div>
       <div className={`${styles.all} ${isHidden ? "" : styles.show}`}>
         {loading && <Loading />}
-        {!loading && partners && (
+        {!loading && partners && partners.length === 0 && (
+          <div className={styles.partnerEmptyState} role="status">
+            <span>{t(LanguageKey.noresult)}</span>
+            <img src="/no-data.svg" alt="" aria-hidden="true" />
+          </div>
+        )}
+        {!loading && partners && partners.length > 0 && (
           <>
             {partners.map((sess) => (
               <div className="headerandinput">

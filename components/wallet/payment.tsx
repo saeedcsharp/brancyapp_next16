@@ -1,0 +1,139 @@
+import Modal from "brancy/components/design/modal";
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import BankCard from "brancy/components/wallet/bankCard";
+import InvoicePopup from "brancy/components/wallet/modal/invoicePopup";
+import Invoices from "brancy/components/wallet/invoices";
+import WalletTile from "brancy/components/wallet/WalletTile";
+import Settle from "brancy/components/wallet/settle";
+import SubInvoicesPopup from "brancy/components/wallet/modal/subInvoicePopup";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { packageStatus } from "brancy/helper/loadingStatus";
+import { IGeneralBallance, IGetSubInvoice, IInvoice } from "brancy/models/interfaces";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { LanguageKey } from "brancy/i18n";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+const Payment = () => {
+  const { t } = useTranslation();
+  const router = useRouter();
+  const { data: session } = useSession({
+    required: true,
+    onUnauthenticated() {
+      router.push("/");
+    },
+  });
+  const [generalBalance, setGeneralBalance] = useState<IGeneralBallance[]>([]);
+  const [defaultCardNumber, setDefaultCardNumber] = useState<string>();
+  const [showSubInvoicesPopup, setShowSubInvoicesPopup] = useState<string | null>(null);
+  const [subInvoicesByCard, setSubInvoicesByCard] = useState<Record<string, IGetSubInvoice>>({});
+  const [showInvoicePopup, setShowInvoicePopup] = useState<IInvoice | null>(null);
+  useEffect(() => {
+    if (!session) return;
+    if (session?.user.currentIndex === -1) router.push("/user");
+    if (!session || !packageStatus(session)) router.push("/upgrade");
+  }, [session]);
+  useEffect(() => {
+    if (!session) return;
+  }, [session]);
+  const handleChangeDefaultCard = (cardNumber: string) => {
+    setDefaultCardNumber(cardNumber);
+  };
+  const getInvoice = useCallback(
+    async (invoiceId: string): Promise<IInvoice | undefined> => {
+      if (!session) return undefined;
+      try {
+        const res = await clientFetchApi<null, IInvoice>("/api/wallet/getInvoice", {
+          session,
+          queries: [{ key: "invoiceId", value: invoiceId }],
+        });
+        if (!res.succeeded) {
+          notify(res.info.responseType, NotifType.Warning);
+          return undefined;
+        }
+        return res.value;
+      } catch (err) {
+        console.error("getInvoice error", err);
+        notify(ResponseType.Unexpected, NotifType.Error);
+        return undefined;
+      }
+    },
+    [session],
+  );
+  if (!session || session!.user.currentIndex === -1) return null;
+  return (
+    <>
+      <Head>
+        <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=5, user-scalable=yes" />
+        <title>برنسی ▸ عملیات پرداخت و کیف پول</title>
+        <meta name="description" content="صفحه عملیات پرداخت و کیف پول در پلتفرم برانسی" />
+        <meta name="robots" content="noindex, nofollow" />
+      </Head>
+      <main>
+        <WalletTile generalBalance={generalBalance} />
+        <div className="pinContainer">
+          {/* --------------------------------Card status----------------------------------------- */}
+          <div className="tooBigCard">
+            <header className="headerChild" title="↕ Resize the Card" role="button">
+              <div className="circle" aria-hidden="true" />
+              <h2 className="Title">{t(LanguageKey.BankCards)}</h2>
+            </header>
+            <BankCard
+              defaultCardNumber={defaultCardNumber}
+              onGeneralBalanceChange={setGeneralBalance}
+              onSelectCard={(cardNumber) => setShowSubInvoicesPopup(cardNumber)}
+              onDefaultCardChange={handleChangeDefaultCard}
+            />
+          </div>
+          {/* --------------------------------Invoices----------------------------------------- */}
+          <div className="tooBigCard">
+            <header className="headerChild" title="↕ Resize the Card" role="button">
+              <div className="circle" aria-hidden="true" />
+              <h2 className="Title">{t(LanguageKey.Transactions)}</h2>
+            </header>
+            <Invoices openInvoicePopup={(invoice) => setShowInvoicePopup(invoice)} />
+          </div>
+          {/* --------------------------------settle history----------------------------------------- */}
+          <div className="tooBigCard">
+            <header className="headerChild" title="↕ Resize the Card" role="button">
+              <div className="circle" aria-hidden="true" />
+              <h2 className="Title">{t(LanguageKey.Settlements)}</h2>
+            </header>
+            <Settle />
+          </div>
+        </div>
+      </main>
+      {/* ------------------------------------------------------------------------- */}
+      <Modal
+        closePopup={() => setShowSubInvoicesPopup(null)}
+        classNamePopup={"popupLarge"}
+        showContent={showSubInvoicesPopup !== null}>
+        {showSubInvoicesPopup && (
+          <SubInvoicesPopup
+            cardNumber={showSubInvoicesPopup}
+            subInvoices={subInvoicesByCard[showSubInvoicesPopup] ?? null}
+            onClose={() => setShowSubInvoicesPopup(null)}
+            onSubInvoicesChange={(subInvoices) => {
+              setSubInvoicesByCard((current) => ({ ...current, [showSubInvoicesPopup]: subInvoices }));
+            }}
+          />
+        )}
+      </Modal>
+      <Modal
+        closePopup={() => setShowInvoicePopup(null)}
+        classNamePopup={"popupLarge"}
+        showContent={showInvoicePopup !== null}>
+        {showInvoicePopup && (
+          <InvoicePopup
+            invoice={showInvoicePopup}
+            subInvoices={showInvoicePopup.subInvoices}
+            getInvoice={getInvoice}
+            onClose={() => setShowInvoicePopup(null)}
+          />
+        )}
+      </Modal>
+    </>
+  );
+};
+export default Payment;

@@ -248,7 +248,7 @@ function Markets() {
                             decoding="async"
                             className="instagramimage"
                             alt="Instagram profile"
-                            src={baseMediaUrl + userInfo!.profileUrl}
+                            src={userInfo ? baseMediaUrl + userInfo.profileUrl : "/no-profile.svg"}
                             onError={(e) => {
                               (e.target as HTMLImageElement).src = "/no-profile.svg";
                             }}

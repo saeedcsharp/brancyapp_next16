@@ -3,6 +3,7 @@ import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { InstagramerRoute } from "brancy/components/sidebar/sidebar";
+import { SupportChatPanel } from "brancy/components/website/BlogChatFrame";
 import styles from "./sidebar.module.css";
 
 // Type for menu items
@@ -21,6 +22,7 @@ const DISTANCE = 150; // Distance of effect in pixels
 
 function InstagramerSidebar(props: { newRoute: string; router?: any }) {
   const { t } = useTranslation();
+  const [isChatOpen, setIsChatOpen] = useState(false);
 
   // Mouse tracking states and refs
   const [mouseY, setMouseY] = useState<number | null>(null);
@@ -52,22 +54,32 @@ function InstagramerSidebar(props: { newRoute: string; router?: any }) {
         id: "page",
         route: "/page/posts",
         svgContent: (
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 30 30" fillRule="evenodd">
+          <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33">
             <path
-              d="M8 1H4.2A4 4 0 0 0 0 5v4a4 4 0 0 0 4.1 4.1h4A4 4 0 0 0 12 9V5a4 4 0 0 0-4-4m16.8 16.8H21a4 4 0 0 0-4.1 4.1v4a4 4 0 0 0 4 4.1h4a4 4 0 0 0 4.2-4.1v-4a4 4 0 0 0-4.2-4m-16.8 0H4a4 4 0 0 0-4.1 4v4A4 4 0 0 0 4.1 30h4a4 4 0 0 0 4-4.1v-4a4 4 0 0 0-4-4"
-              fillOpacity=".4"
+              opacity=".3"
+              d="M-.18 13.82c0-5.91 0-8.87 1.55-10.92q.67-.88 1.55-1.54C5-.18 7.98-.18 13.94-.18h4.78c5.97 0 8.95 0 11.02 1.54q.88.66 1.55 1.54c1.55 2.05 1.55 5 1.55 10.92v4.74c0 5.91 0 8.87-1.55 10.93q-.66.88-1.55 1.53c-2.07 1.54-5.05 1.54-11.02 1.54h-4.78c-5.96 0-8.95 0-11.02-1.54a8 8 0 0 1-1.55-1.53C-.18 27.43-.18 24.47-.18 18.56z"
             />
-            <path d="M20 12.8a4 4 0 0 0 6 0l2.8-2.8a4 4 0 0 0 0-6l-2.9-2.8a4.3 4.3 0 0 0-5.9 0L17.2 4a4 4 0 0 0 0 6z" />
+            <path d="M22.48 16.45a6.2 6.2 0 0 0-6.23-6.17 6.2 6.2 0 0 0-6.22 6.17 6.2 6.2 0 0 0 6.22 6.17v2.48a8.7 8.7 0 0 1-8.72-8.65c0-4.78 3.9-8.65 8.72-8.65a8.7 8.7 0 0 1 8.73 8.65c0 4.78-3.9 8.65-8.73 8.65v-2.48a6.2 6.2 0 0 0 6.23-6.17m1.75-10.49c0-1.02.84-1.84 1.87-1.84s1.87.82 1.87 1.84-.84 1.84-1.87 1.84a1.86 1.86 0 0 1-1.87-1.84" />
           </svg>
         ),
         translationKey: LanguageKey.sidebar_Page,
         subRoutes: [
           InstagramerRoute.PagePost,
           InstagramerRoute.PageStories,
-          InstagramerRoute.PageAI,
           InstagramerRoute.PageStatistics,
           InstagramerRoute.PageTools,
         ],
+      },
+      {
+        id: "ai",
+        route: "/Ai",
+        svgContent: (
+          <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 35 37">
+            <path d="M21 5.93c-1.08-3.08-2.43-4.8-3.54-4.8-1.74 0-4.08 4.23-4.99 11.31-.08.6-.55 1.08-1.16 1.16C4.23 14.5 0 16.85 0 18.6c0 .5.38 1.08 1.08 1.65a21 21 0 0 0 12.6-4.06A21 21 0 0 0 21 5.93m-3.54 30.12c1.73 0 4.05-4.18 4.97-11.18a33 33 0 0 1-8.77 5.56c1.1 3.6 2.6 5.62 3.8 5.62m7.03-17.71a26 26 0 0 0 2.37-4.18q-1.5-.33-3.25-.56a1.35 1.35 0 0 1-1.16-1.16q-.14-1.04-.3-2a23 23 0 0 1-6.77 8.02 23 23 0 0 1-9.2 4.09q2.23.64 5.13 1.02c.6.07 1.09.55 1.17 1.16q.2 1.55.48 2.92a28 28 0 0 0 11.53-9.32m10.43.27c0-1.18-1.9-2.61-5.29-3.7a29 29 0 0 1-5.81 8.65c6.95-.92 11.1-3.23 11.1-4.96m-6.8-12.05a.4.4 0 0 1 .34.34c.26 2.06.94 3.3 1.45 3.3.5 0 1.2-1.24 1.45-3.3a.4.4 0 0 1 .34-.34c2.07-.26 3.3-.94 3.3-1.45s-1.23-1.2-3.3-1.45a.4.4 0 0 1-.34-.34C31.1 1.23 30.42 0 29.91 0c-.5 0-1.19 1.23-1.45 3.3a.4.4 0 0 1-.34.34c-2.06.26-3.3.94-3.3 1.45 0 .5 1.24 1.19 3.3 1.45" />
+          </svg>
+        ),
+        translationKey: LanguageKey.navbar_AI,
+        subRoutes: [InstagramerRoute.PageAI, InstagramerRoute.MessageAIANDFlow],
       },
       {
         id: "messaging",
@@ -86,13 +98,12 @@ function InstagramerSidebar(props: { newRoute: string; router?: any }) {
           InstagramerRoute.MessageDirect,
           InstagramerRoute.MessageComments,
           InstagramerRoute.MessageTicket,
-          InstagramerRoute.MessageAIANDFlow,
           InstagramerRoute.MessageProperties,
         ],
       },
       {
         id: "wallet",
-        route: "/wallet",
+        route: "/wallet/payment",
         svgContent: (
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 30 31">
             <path
@@ -104,7 +115,7 @@ function InstagramerSidebar(props: { newRoute: string; router?: any }) {
           </svg>
         ),
         translationKey: LanguageKey.sidebar_Wallet,
-        subRoutes: [InstagramerRoute.WalletStatistics, InstagramerRoute.WalletPayment, InstagramerRoute.WalletTitle],
+        subRoutes: [InstagramerRoute.WalletPayment],
       },
       {
         id: "market",
@@ -117,10 +128,10 @@ function InstagramerSidebar(props: { newRoute: string; router?: any }) {
           //   />
           //   <path d="M15 24c-1.6 0-3 1.2-3 2.7v2.9q0 .3.5.4h5q.5 0 .5-.4v-2.9c0-1.5-1.3-2.7-3-2.7M30 8.4a33 33 0 0 0-1.5-5.2A5 5 0 0 0 24.1 0H5.9a5 5 0 0 0-4.5 3.2A35 35 0 0 0 0 8.4 4 4 0 0 0 1.2 12a6 6 0 0 0 4.4 2q2.6-.1 4.2-2a.6.6 0 0 1 1 0 5.5 5.5 0 0 0 8.5 0 1 1 0 0 1 .9 0 6 6 0 0 0 4.3 2 6 6 0 0 0 4.3-2A4 4 0 0 0 30 8.4" />
           // </svg>
-          <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 33 33">
-            <path d="m22.8 2.2 1 3-3 3c-.6.6-.1 1.5.6 1.4l8-1.1q.8-.3.7-1l-1-3 3-3.1c.6-.6.1-1.5-.6-1.4l-8 1.2q-.8 0-.7 1m-6.7 20.6A4.9 4.9 0 0 1 9.2 16l1.8-1.8a3.3 3.3 0 0 0 0-4.7l-.8-.8a3.3 3.3 0 0 0-4.7 0l-1.8 1.8a12.7 12.7 0 1 0 18 18l1.8-1.8a3.3 3.3 0 0 0 0-4.8l-.9-.8a3.3 3.3 0 0 0-4.7 0z" />
+          <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29 29">
+            <path d="M11.01 22.07a3.34 3.34 0 0 1-4.7-4.71l1.21-1.22c.89-.89.89-2.33 0-3.22l-.55-.55a2.27 2.27 0 0 0-3.22 0L2.53 13.6a8.67 8.67 0 0 0 12.25 12.25L16 24.62c.89-.89.89-2.33 0-3.22l-.55-.55a2.27 2.27 0 0 0-3.22 0zM17.18 6.3a3.34 3.34 0 0 1 4.7 4.71l-1.21 1.22a2.27 2.27 0 0 0 0 3.22l.55.55c.89.89 2.33.89 3.22 0l1.22-1.22A8.67 8.67 0 0 0 13.4 2.53l-1.22 1.22a2.27 2.27 0 0 0 0 3.22l.55.55c.89.89 2.33.89 3.22 0z" />
             <path
-              d="M23.4 18a2 2 0 0 1 0-2.9l.7-.7a2 2 0 0 1 2.8 0l2.9 2.8q1.2 1.4 0 2.9l-.7.7a2 2 0 0 1-2.9 0zm-12-12a2 2 0 0 1 0-2.9l.7-.7a2 2 0 0 1 2.8 0l2.9 2.8q1.2 1.4 0 2.9l-.7.7a2 2 0 0 1-2.9 0z"
+              d="m20 17.63-1.29-1.18-.14-.14a1.67 1.67 0 0 0-2.38.17l-.14.15c-.57.64-.55 1.6.02 2.24l.15.14 1.28 1.18.15.14c.64.56 1.6.55 2.23-.03l.15-.14.14-.15c.56-.64.55-1.6-.03-2.24zm-7.91-8.11-1.26-1.2-.15-.13a1.67 1.67 0 0 0-2.23.02l-.15.15-.14.14a1.67 1.67 0 0 0 .17 2.38l1.26 1.2.15.14a1.67 1.67 0 0 0 2.38-.17l.14-.15c.56-.64.55-1.6-.03-2.24z"
               opacity=".4"
             />
           </svg>
@@ -379,9 +390,42 @@ function InstagramerSidebar(props: { newRoute: string; router?: any }) {
               </div>
             </div>
           ))}
+          <div
+            ref={(element) => {
+              itemRefs.current[menuItems.length] = element;
+            }}
+            className={styles.supportbutton}>
+            <button
+              type="button"
+              onClick={() => setIsChatOpen((previous) => !previous)}
+              aria-expanded={isChatOpen}
+              aria-controls="brancy-sidebar-support-chat"
+              aria-label={t(LanguageKey.page8_Support)}>
+              <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 33">
+                <path
+                  d="M26.72 14.64V13.5a11.02 11.02 0 0 0-22.01 0v1.13a3.54 3.54 0 0 1 4 2.7l1.51 6.33a3.55 3.55 0 0 1-3.41 4.39h-.15a6.9 6.9 0 0 1-6.42-5.14 7 7 0 0 1 1.97-6.9V13.5C2.2 6.06 8.27 0 15.7 0s13.5 6.06 13.5 13.5v2.51a6.96 6.96 0 0 1-4.17 12.03c-2.35 4-4.9 4.46-7.6 4.46l-1.2-.02h-.01l-1.33-.02a1.25 1.25 0 0 1 0-2.5q.72 0 1.4.02c2.76.07 4.43.11 6.23-2.62a3.6 3.6 0 0 1-1.32-3.7l1.5-6.32a3.54 3.54 0 0 1 4-2.7"
+                  fill="var(--color-gray)"
+                />
+                <path
+                  d="M15.6 17.9c-.69 0-1.25-.55-1.26-1.23-.02-1.72 1.38-2.5 2.13-2.93l.16-.1c.76-.4.84-.89.84-1.22a1.6 1.6 0 0 0-3.18 0 1.25 1.25 0 0 1-2.5 0 4.1 4.1 0 0 1 8.18 0 3.8 3.8 0 0 1-2.11 3.4l-.17.1c-.59.33-.85.52-.85.71.01.7-.54 1.26-1.23 1.27zm0 3.37a1.26 1.26 0 0 1-.01-2.52c.7 0 1.25.55 1.25 1.24v.03c0 .69-.56 1.25-1.25 1.25"
+                  opacity=".4"
+                  fill="var(--color-gray)"
+                />
+              </svg>
+            </button>
+            <div className={styles.buttonName} suppressHydrationWarning>
+              {t(LanguageKey.page8_Support)}
+            </div>
+          </div>
           <div className={indicatorClass}></div>
         </nav>
         <nav className={styles.navSidebar}></nav>
+        <SupportChatPanel
+          isOpen={isChatOpen}
+          onClose={() => setIsChatOpen(false)}
+          panelId="brancy-sidebar-support-chat"
+          className={styles.sidebarChatPanel}
+        />
       </div>
     </aside>
   );

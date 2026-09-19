@@ -1,5 +1,15 @@
 export default {
   translation: {
+    aiSuggestedPrompts_title: "پرامپت‌های پیشنهادی",
+    aiSuggestedPrompts_explain: "یک پرامپت را برای شروع انتخاب کنید.",
+    aiSuggestedPrompts_category: "دسته‌بندی پرامپت",
+    aiSuggestedPrompts_subCategory: "زیردسته‌بندی",
+    aiSuggestedPrompts_allCategories: "همه دسته‌بندی‌ها",
+    aiSuggestedPrompts_loading: "در حال بارگذاری...",
+    aiSuggestedPrompts_empty: "پرامپت پیشنهادی یافت نشد.",
+    aiSuggestedPrompts_loadMore: "نمایش بیشتر",
+    aiSuggestedPrompts_prompt: "پرامپت",
+    aiSuggestedPrompts_copy: "کپی پرامپت",
     // #region landing page
     toggleShowAll: "نمایش همه",
     toggleShowmonthly: "نمایش ماهانه",
@@ -286,6 +296,8 @@ export default {
     faqEmptyState: "سؤالات متداول شما در این قسمت اضافه خواهد شد",
 
     page8_Support: "پشتیبانی",
+    support_Online: "پشتیبانی آنلاین",
+    support_EnterBlog: "ورود به بلاگ",
     page8_CommunityExplain:
       "با دیگر کاربران در ارتباط باشید، تجربیات خود را به اشتراک بگذارید و از مشاوره جمعی برای رشد بیشتر بهره‌مند شوید.",
     page8_learnExplain:
@@ -623,7 +635,7 @@ export default {
     accountmanagement: "مدیریت اکانت",
     subadmininvitation: "دعوتنامه همکاری",
     subadmininvitationexplain: "دعوت‌نامه مدیریت اینستاگرام به عنوان همکار",
-
+    Renew_Subscription: "تمدید اشتراک",
     upgrade: "ارتقاء",
     Deactivate: "غیرفعال‌سازی",
     done: "انجام‌شده",
@@ -676,7 +688,7 @@ export default {
     collaborator: "پیج همکار",
     collaboratorpost: "پست همکار",
     sidebar_Home: "خانه",
-    sidebar_Page: "پیج",
+    sidebar_Page: "مدیریت پیج",
     sidebar_Message: "پیام‌ها",
     sidebar_Wallet: "کیف پول",
     sidebar_biolink: "بایو لینک",
@@ -1636,8 +1648,9 @@ export default {
     unreadcomment: "کامنت‌های خوانده‌نشده",
     hiddencommenttooltip:
       ".این کامنت از دید کاربران پنهان شده است. فقط ادمین‌ها می‌توانند کامنت‌های پنهان را مشاهده کنند",
-    vanishmode: "حالت ناپدید شدن",
-    vanishmodeexplain: "پیام‌های ارسال‌شده در حالت ناپدید شونده پس از خوانده شدن به‌صورت خودکار نمایش داده نمی‌شوند.",
+    vanishmode: "حالت پنهان",
+    vanishmodeexplain:
+      "در حالت پنهان، پیام‌هایی که به آن‌ها پاسخ داده نشده و نادیده گرفته یا پنهان نشده‌اند، نمایش داده خواهند شد.",
     totalcomments: "کل کامنت‌ها",
     unansweredcomments: "کامنت‌های پاسخ داده نشده",
     totalcommenters: "کل افراد کامنت‌گذار",
@@ -1867,6 +1880,7 @@ export default {
     biolinkPropertiesfeatures: "تنظیمات",
     biolinkPropertiesProfileInfoBanner: "اطلاعات پروفایل و بنر",
     biolinkPropertiesFeaturebox: "باکس ویژگی ها",
+    biolinkPropertiesTermsAndActiveTime: "قوانین و ساعات کاری",
     biolinkPropertiesFeatureboxexplain:
       "با فعال‌سازی هر ویژگی، می‌توانید اطلاعات مهمی را به بازدیدکنندگان صفحه لینک خود نمایش دهید",
     biolinkPropertiesBanner: "بنر",
@@ -2456,6 +2470,17 @@ export default {
     SettingGeneral_partnertitle: "عنوان ادمین همکار",
     SettingGeneral_partnernumberexplain:
       "دعوت‌نامه به این شماره ارسال می‌شود و ادمین همکار باید در پنل خود آن را تأیید کند (ادمین باید در برنسی ثبت‌نام کند تا بتواند دعوت‌نامه را قبول کند).",
+    SettingGeneral_contentTooltip: "پست‌ها، استوری‌ها، ریلزها، IGTV، کاروسل‌ها و زمان‌بندی.",
+    SettingGeneral_publishTooltip: "ایجاد پست و استوری؛ این دسترسی به دسترسی محتوا نیاز دارد.",
+    SettingGeneral_automaticsTooltip: "هوش مصنوعی، فلوها و فرایندها و وظایف خودکار.",
+    SettingGeneral_messageTooltip: "دایرکت اینستاگرام، پیام‌های داخلی و ابزارهای مرتبط.",
+    SettingGeneral_commentTooltip: "نظرات، پاسخ‌ها و ابزارهای مرتبط.",
+    SettingGeneral_transactionTooltip: "مدیریت حساب پرداخت، تراکنش‌ها، کیف پول و ابزارهای مرتبط.",
+    SettingGeneral_adsTooltip: "مدیریت تقویم، تبلیغ‌دهندگان، تأیید تبلیغات، قیمت‌گذاری و ابزارهای مرتبط.",
+    SettingGeneral_ordersTooltip: "محصولات، قیمت‌ها، موجودی انبار، سفارش‌ها، بارنامه‌ها و ابزارهای مرتبط.",
+    SettingGeneral_bioTooltip: "محتوا و چیدمان بایو، لینک‌ها و میانبرهای محتوای شخص ثالث.",
+    SettingGeneral_ticketTooltip: "CRM، تیکت‌های سیستمی و پشتیبانی.",
+    SettingGeneral_productsTooltip: "ابزارهای مدیریت محصولات.",
 
     // Setting -> General -> support
     SettingGeneral_GeneralSupport: "پشتیبانی عمومی",
@@ -3092,7 +3117,8 @@ export default {
     Notify_InvalidItemId: "شناسه آیتم معتبر نیست",
     Notify_IpInvalid: "آی‌پی واردشده معتبر نیست",
     Notify_InstagramRedirectInTenSeconds: "تا ۱۰ ثانیه دیگر به‌صورت خودکار به اینستاگرام هدایت می‌شوید",
-
+    Notify_InstagramRedirect: "در حال انتقال به اینستاگرام",
+    Notify_InstagramRedirectExplain: "از فعال بودن فیلترشکن خود اطمینان حاصل کنید، زیرا آی‌پی شما معتبر نیست",
     Notify_ThisInstagramAccountAddedBefore: "این حساب اینستاگرام قبلاً اضافه شده است",
     Notify_InvalidTicketId: "شناسه تیکت معتبر نیست",
     Notify_ExpiredSignature: "امضا منقضی شده است",
@@ -3308,7 +3334,7 @@ export default {
     InternalNotify_ExceedPermittedHashtagNumber: "تعداد هشتگ‌ها از حد مجاز بیشتر است",
     InternalNotify_UnexpectedError: "خطای غیرمنتظره‌ای رخ داده است",
     InternalNotify_CopyToClipboard: "اطلاعات شما قبلاً در حافظه کپی شده است",
-    InternalNotify_ExceedPermittedUploadMedia: "حداکثر تعداد رسانه قابل آپلود ۵ عدد است",
+    InternalNotify_ExceedPermittedUploadMedia: "تعداد مدیا از حد مجاز بیشتر است",
     InternalNotify_FillRedBorderFields: "فیلدهای قرمز رنگ را پر کنید",
     InternalNotify_RepeatedVariation: "حداقل دو مورد تکراری هستند",
     InternalNotify_NeedOneProduct: "حداقل یک محصول مورد نیاز است",
@@ -3369,7 +3395,6 @@ export default {
     UserClosed: "تیکت توسط کاربر بسته شده",
     TimerClosed: "تیکت به‌صورت خودکار بسته شده",
     closethisticket: "بستن این تیکت",
-
     Create: "ایجاد",
     image: "تصویر",
     video: "ویدیو",
@@ -3378,9 +3403,7 @@ export default {
     "Generated artwork and visuals": "تصاویر و آثار ساخته‌شده",
     "AI motion and clips": "حرکت‌ها و کلیپ‌های هوش مصنوعی",
     "Media type": "نوع رسانه",
-
     "Generated AI video preview": "پیش‌نمایش ویدیوی ساخته‌شده با هوش مصنوعی",
-
     Close: "بستن",
     Prompt: "پرامپت",
     Metadata: "فراداده",
@@ -3393,9 +3416,9 @@ export default {
     "Download image": "دانلود تصویر",
     "Download video": "دانلود ویدیو",
     "Your browser does not support video playback.": "مرورگر شما از پخش ویدیو پشتیبانی نمی‌کند.",
-
     Uploading: "در حال بارگذاری ",
     "Add video": "افزودن ویدیو",
+    "Add audio": "افزودن صوت",
     "Add reference image": "افزودن تصویر مرجع",
     model: "مدل",
     models: "مدل",
@@ -3421,17 +3444,12 @@ export default {
     "In progress": "در حال انجام",
     "Just now": "همین حالا",
     "Waiting for the result": "در انتظار نتیجه",
-
     "Try again": "تلاش دوباره",
-
     "AI provider": "ارائه‌دهنده هوش مصنوعی",
-
     "Choose a model": "انتخاب مدل",
-
     "Describe the subject, setting, light, composition, and style...":
       "موضوع، فضا، نور، ترکیب‌بندی و سبک را توصیف کنید...",
     "Use at least {count} characters.": "حداقل از {count} نویسه استفاده کنید.",
-
     "Video creator is unavailable": "سازنده ویدیو در دسترس نیست",
     "Image creator is unavailable": "سازنده تصویر در دسترس نیست",
     "No video models found": "مدل ویدیویی پیدا نشد",
@@ -3440,6 +3458,70 @@ export default {
     "There are no image generation models available for this account.": "مدل تولید تصویر برای این حساب در دسترس نیست.",
     "Not available": "در دسترس نیست",
 
+    // #region wallet fixed
+
+    createdtime: "زمان ایجاد",
+    BankCards: "کارت‌های بانکی",
+    Transactions: "تراکنش‌ها",
+    Settlements: "تسویه‌ها",
+    AddNewBankCard: "افزودن کارت بانکی جدید",
+    RegisterANewCard: "ثبت کارت جدید",
+    CardBankNumber: "شماره کارت بانکی",
+    CardNumberExplain: "شماره کارت خود را وارد کنید. کارت بانکی باید به نام شخص ثبت‌نام‌کننده باشد.",
+    RegisterBankCard: "ثبت کارت بانکی",
+    CardNumber: "شماره کارت",
+    DefaultBankCard: "کارت بانکی پیش‌فرض",
+    SetAsDefaultBankCard: "تنظیم به‌عنوان کارت بانکی پیش‌فرض",
+    Type: "نوع",
+    Suspended: "معلق",
+    Amount: "مبلغ",
+    Time: "زمان",
+    Order: "سفارش",
+    User: "کاربر",
+    NotAvailable: "در دسترس نیست",
+    Unsettled: "تسویه‌نشده",
+    AwaitingSettled: "در انتظار تسویه",
+    Settled: "تسویه‌شده",
+    SettlementFailed: "تسویه ناموفق",
+    SettleRequest: "درخواست تسویه",
+    emptyInvoice: "هنوز هیچ صورتحسابی ثبت نشده است.",
+    InvoiceID: "شناسه صورتحساب",
+    InvoiceType: "نوع صورتحساب",
+    InvoiceHistory: "تاریخچه صورتحساب‌ها",
+    OrderDetails: "جزئیات سفارش",
+    InvoiceDetails: "جزئیات صورتحساب",
+    Paid: "پرداخت‌شده",
+    Success: "موفق",
+    RefundRequest: "درخواست بازپرداخت",
+    Refunding: "در حال بازپرداخت",
+    Refunded: "بازپرداخت‌شده",
+    RefundFailed: "بازپرداخت ناموفق",
+    Failed: "ناموفق",
+    Package: "بسته",
+    Product: "محصول",
+    Feature: "ویژگی",
+    Custom: "سفارشی",
+    Invoice: "صورتحساب",
+    UnknownStatus: "وضعیت نامشخص",
+    NoSettlementsRegisteredYet: "هنوز هیچ تسویه‌ای ثبت نشده است.",
+    LogesticPayment: "پرداخت لجستیک",
+    ProductIncome: "درآمد محصول",
+    BrancyFeatureIncome: "درآمد ویژگی برنسی",
+    BrancyLogesticPayment: "پرداخت لجستیک برنسی",
+    BrancyPackageIncome: "درآمد بسته برنسی",
+    BrancyProductIncome: "درآمد محصول برنسی",
+    BrancyTransferPayment: "کارمزد انتقال برنسی",
+    WalletBalance: "موجودی کیف پول",
+    TotalWithdrawn: "مجموع برداشت‌شده",
+    FailedTransactions: "تراکنش‌های ناموفق",
+    PendingSettlement: "در انتظار تسویه",
+    OrderInProgress: "سفارش در حال پردازش",
+    OrderPickup: "جمع‌آوری سفارش",
+    OrderDelivery: "تحویل سفارش",
+    SubInvoiceHistory: "تاریخچه ریزصورتحساب‌ها",
+    history: "تاریخچه",
+    // #endregion wallet fixed
+
     // #endregion Notification Section
     how: "چگونه",
     ConnectProduct: "اتصال مستقیم به محصول",
@@ -3447,5 +3529,6 @@ export default {
     economy: "اقتصادی",
     Retry: "تلاش مجدد",
     messagesetting_SpecifyProductResponseExplain: "یک محصول را مشخص کنید تا به‌صورت خودکار برای کاربران ارسال شود",
+    messagesetting_ProductResponseExplain: "محصول فعلی را به کاربر متصل کنید",
   },
 };

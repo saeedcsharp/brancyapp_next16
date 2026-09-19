@@ -93,6 +93,10 @@ export default function MetaRedirect() {
           setShowAnalysisNotice(true);
         }, 10000);
         return;
+      } else if (verifyCodeRes.info.responseType === ResponseType.ThisInstagramAccountAddedBefore) {
+        notify(verifyCodeRes.info.responseType, NotifType.Warning);
+        router.push("/");
+        return;
       }
 
       console.log("verifyCodeRes.info.responseType", verifyCodeRes.info.responseType);

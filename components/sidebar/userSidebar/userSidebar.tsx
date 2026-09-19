@@ -6,6 +6,7 @@ import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import { UserPanelRoute } from "brancy/components/sidebar/sidebar";
 import styles from "./userSidebar.module.css";
+import { SupportChatPanel } from "brancy/components/website/BlogChatFrame";
 
 // Type for menu items
 type MenuItem = {
@@ -24,7 +25,7 @@ const DISTANCE = 150; // Distance of effect in pixels
 
 function UserSidebar(props: { newRouth: string; router: NextRouter }) {
   const { t } = useTranslation();
-
+  const [isChatOpen, setIsChatOpen] = useState(false);
   // Mouse tracking states and refs
   const [mouseY, setMouseY] = useState<number | null>(null);
   const sidebarRef = useRef<HTMLDivElement>(null);
@@ -90,7 +91,7 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
             <path d="M15 24c-1.6 0-3 1.2-3 2.7v2.9q0 .3.5.4h5q.5 0 .5-.4v-2.9c0-1.5-1.3-2.7-3-2.7M30 8.4a33 33 0 0 0-1.5-5.2A5 5 0 0 0 24.1 0H5.9a5 5 0 0 0-4.5 3.2A35 35 0 0 0 0 8.4 4 4 0 0 0 1.2 12a6 6 0 0 0 4.4 2q2.6-.1 4.2-2a.6.6 0 0 1 1 0 5.5 5.5 0 0 0 8.5 0 1 1 0 0 1 .9 0 6 6 0 0 0 4.3 2 6 6 0 0 0 4.3-2A4 4 0 0 0 30 8.4"></path>
           </svg>
         ),
-        translationKey: LanguageKey.sidebar_Business,
+        translationKey: LanguageKey.userpanel_market,
         isActive: (route: string) =>
           route === "userbusiness" ||
           route === "userbusinessshop" ||
@@ -102,12 +103,12 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
         id: "messaging",
         route: "/user/message",
         svgContent: (
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 33">
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 31 30" fillRule="evenodd">
             <path
-              d="M26.7 14.6v-1.1a11 11 0 1 0-22 0v1.1l2 .3q1.5.7 2 2.4l1.5 6.4a4 4 0 0 1-.7 3 4 4 0 0 1-2.7 1.4l-1.2-.2a7 7 0 0 1-3.3-12v-2.4a13.5 13.5 0 0 1 27 0V16a7 7 0 0 1 1.9 7 7 7 0 0 1-5.3 5H25c-2.3 4-4.9 4.5-7.6 4.5H15a1.3 1.3 0 1 1 0-2.5h1.4c2.8 0 4.4 0 6.2-2.6l-.6-.6q-1.1-1.5-.7-3.1l1.5-6.4a4 4 0 0 1 2-2.4q.9-.5 1.9-.3"
               opacity=".4"
+              d="M15.6 18.4q-1.5-.2-1.7-1.8.2-1.7 1.7-1.8 1.7.1 1.8 1.8c0 1.7-.8 1.8-1.8 1.8m-7.7 0q-1.7-.2-1.8-1.8.2-1.7 1.8-1.8 1.5.1 1.7 1.8c.2 1.7-.8 1.8-1.7 1.8M18.5 6h-13A5.6 5.6 0 0 0 0 11.7V21a5.6 5.6 0 0 0 5.5 5.7h1.4q1 0 1.6.7l1.9 1.9a2.3 2.3 0 0 0 3.3 0l1.8-2a2 2 0 0 1 1.6-.6h1.4A5.6 5.6 0 0 0 24 21v-9.3A5.6 5.6 0 0 0 18.5 6"
             />
-            <path d="M15.6 17.9a1.3 1.3 0 0 1-1.3-1.2c0-1.7 1.4-2.5 2.2-3q1-.8 1-1.3a1.6 1.6 0 0 0-3.2 0 1.3 1.3 0 0 1-2.5 0 4.1 4.1 0 0 1 8.2 0q0 2.3-2.1 3.4l-.2.1q-.9.5-.9.7a1.3 1.3 0 0 1-1.2 1.3m0 3.4a1.3 1.3 0 0 1-1.3-1.3 1.3 1.3 0 0 1 1.3-1.2 1.2 1.2 0 0 1 1.2 1.2 1.3 1.3 0 0 1-1.2 1.3" />
+            <path d="M25.5 0H12.3A5.5 5.5 0 0 0 7 4q0 .2.3.3h10.2c6-.4 8.7 2.7 8.7 8.2v7.2q0 .3.4.3a5.6 5.6 0 0 0 4.4-5.4v-9A5.6 5.6 0 0 0 25.5 0" />
           </svg>
         ),
         translationKey: LanguageKey.navbar_Ticket,
@@ -308,8 +309,41 @@ function UserSidebar(props: { newRouth: string; router: NextRouter }) {
                 <div className={styles.buttonName}>{t(item.translationKey)}</div>
               </div>
             ))}
+            <div
+              ref={(element) => {
+                itemRefs.current[menuItems.length] = element;
+              }}
+              className={styles.supportbutton}>
+              <button
+                type="button"
+                onClick={() => setIsChatOpen((previous) => !previous)}
+                aria-expanded={isChatOpen}
+                aria-controls="brancy-sidebar-support-chat"
+                aria-label={t(LanguageKey.page8_Support)}>
+                <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 33">
+                  <path
+                    d="M26.72 14.64V13.5a11.02 11.02 0 0 0-22.01 0v1.13a3.54 3.54 0 0 1 4 2.7l1.51 6.33a3.55 3.55 0 0 1-3.41 4.39h-.15a6.9 6.9 0 0 1-6.42-5.14 7 7 0 0 1 1.97-6.9V13.5C2.2 6.06 8.27 0 15.7 0s13.5 6.06 13.5 13.5v2.51a6.96 6.96 0 0 1-4.17 12.03c-2.35 4-4.9 4.46-7.6 4.46l-1.2-.02h-.01l-1.33-.02a1.25 1.25 0 0 1 0-2.5q.72 0 1.4.02c2.76.07 4.43.11 6.23-2.62a3.6 3.6 0 0 1-1.32-3.7l1.5-6.32a3.54 3.54 0 0 1 4-2.7"
+                    fill="var(--color-gray)"
+                  />
+                  <path
+                    d="M15.6 17.9c-.69 0-1.25-.55-1.26-1.23-.02-1.72 1.38-2.5 2.13-2.93l.16-.1c.76-.4.84-.89.84-1.22a1.6 1.6 0 0 0-3.18 0 1.25 1.25 0 0 1-2.5 0 4.1 4.1 0 0 1 8.18 0 3.8 3.8 0 0 1-2.11 3.4l-.17.1c-.59.33-.85.52-.85.71.01.7-.54 1.26-1.23 1.27zm0 3.37a1.26 1.26 0 0 1-.01-2.52c.7 0 1.25.55 1.25 1.24v.03c0 .69-.56 1.25-1.25 1.25"
+                    opacity=".4"
+                    fill="var(--color-gray)"
+                  />
+                </svg>
+              </button>
+              <div className={styles.buttonName} suppressHydrationWarning>
+                {t(LanguageKey.page8_Support)}
+              </div>
+            </div>
             {activeMenuIndex >= 0 && <div ref={indicatorRef} className={styles.menuIndicator}></div>}
           </nav>
+          <SupportChatPanel
+            isOpen={isChatOpen}
+            onClose={() => setIsChatOpen(false)}
+            panelId="brancy-user-sidebar-support-chat"
+            className={styles.sidebarChatPanel}
+          />
           <nav className={styles.path}></nav>
         </div>
       </aside>

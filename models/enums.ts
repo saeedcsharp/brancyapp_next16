@@ -90,6 +90,8 @@ export enum InputType {
   Boolean,
   ImageArray,
   VideoArray,
+  IntRange,
+  AudioArray,
 }
 // #endregion AI
 

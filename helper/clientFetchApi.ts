@@ -128,7 +128,8 @@ async function fetchDirect<TRes>(
     if (onUploadProgress) onUploadProgress(100);
 
     if (res.status === 401 && session?.user?.loginByInsta) {
-      signOut({ callbackUrl: "/" });
+      await signOut({ redirect: false });
+      window.location.replace("/");
       return normalizeResult<TRes>(null, 401, "Unauthorized");
     }
 
@@ -174,7 +175,8 @@ async function fetchViaProxy<TRes>(
     if (onUploadProgress) onUploadProgress(100);
 
     if (res.status === 401 && session?.user?.loginByInsta) {
-      signOut({ callbackUrl: "/" });
+      await signOut({ redirect: false });
+      window.location.replace("/");
       return normalizeResult<TRes>(null, 401, "Unauthorized");
     }
 

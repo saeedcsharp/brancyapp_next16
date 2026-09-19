@@ -100,7 +100,7 @@ No local database objects were discovered. Data persists through external backen
 
 Mostly React local state, context, NextAuth session, or external state from backend APIs.
 
-The Meta direct-login page retains the verified direct-login destination, shows a shared confirmation modal after a 10-second loading delay, and redirects only when the localized confirmation action is selected.
+The Meta direct-login page retains the verified direct-login destination, shows the `initialSetup` language/theme/calendar flow after a 10-second loading delay, and redirects only after setup completion.
 
 The Instagramer login page uses the shared `InvalidIpModalContent` for Iranian IPs before opening the Instagram connection flow. The modal is portaled to `document.body` so it renders above the login popup instead of inside its backdrop stacking context. Continue or the ten-second timeout invokes the existing redirect; closing the modal cancels it. An unavailable country lookup continues to the redirect, matching `SwitchAccount` behavior.
 
