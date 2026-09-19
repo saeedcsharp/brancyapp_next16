@@ -383,11 +383,11 @@ const NavbarTabs = () => {
       indexValue: "advertise",
       initialSlide: 0,
     },
-    advertiseProperties: {
+    advertiseproperties: {
       id: "Properties",
       items: ["calendar", "adlist", "statistics", "Properties"],
       indexValue: "advertise",
-      initialSlide: 0,
+      initialSlide: 3,
     },
 
     storeproducts: {

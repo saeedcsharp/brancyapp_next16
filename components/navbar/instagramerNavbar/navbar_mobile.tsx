@@ -41,7 +41,7 @@ const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: b
       newRoute === InstagramerRoute.AdvertiseCalendar ||
       newRoute === InstagramerRoute.AdvertiseStatistics ||
       newRoute === InstagramerRoute.AdvertiseAdlist ||
-      newRoute === InstagramerRoute.AdvertiseProperties
+      newRoute === InstagramerRoute.AdvertiseProperties.toLowerCase()
     )
       return "advertise";
     else if (

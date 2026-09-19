@@ -2,6 +2,8 @@
 
 - 2026-09-19: Fixed desktop and mobile navbar detection for `/setting/subAdmin` and corrected the active SubAdmin tab index.
 
+- 2026-09-19: Fixed desktop and mobile navbar detection for `/advertise/Properties` and corrected the active Properties tab index.
+
 - 2026-09-19: Changed the standalone partner access label from Product to Products across all eight locales.
 
 - 2026-09-19: Added the standalone `product_Product` label for the partner access role, leaving `product_Producttitle` unchanged for product forms.
