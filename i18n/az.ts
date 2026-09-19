@@ -2294,6 +2294,7 @@ export default {
     product_BasicDetail: "Əsas məlumat",
     product_ProductID: "Məhsul ID",
     product_Producttitle: "Məhsul başlığı",
+    product_Product: "Məhsullar",
     product_Categories: "Kateqoriyalar",
     product_MainCategory: "Əsas kateqoriya",
     product_Subcategory: "Alt kateqoriya",
@@ -2462,9 +2463,10 @@ export default {
     SettingGeneral_partnertitle: "Əməkdaş Admin Başlığı",
     SettingGeneral_partnernumberexplain:
       "Dəvət bu nömrəyə göndəriləcək və əməkdaş admin onu öz panelində təsdiqləməlidir (dəvəti qəbul etmək üçün admin Brancy-də qeydiyyatdan keçməlidir).",
-    SettingGeneral_contentTooltip: "Paylaşımlar, hekayələr, Reels, IGTV, karusellər və planlaşdırma.",
-    SettingGeneral_publishTooltip: "Paylaşım və hekayə yaratmaq. Bunun üçün məzmun girişi tələb olunur.",
-    SettingGeneral_automaticsTooltip: "Süni intellekt, axınlar və avtomatlaşdırılmış proses və tapşırıqlar.",
+    SettingGeneral_contentTooltip: "Paylaşımlar, hekayələr, Reels, IGTV və karusellər.",
+    SettingGeneral_publishTooltip: "Paylaşım, hekayə və məzmun yaratmaq. Bunun üçün məzmun girişi tələb olunur.",
+    SettingGeneral_automaticsTooltip:
+      "Süni intellekt, axınlar və avtomatlaşdırılmış proses və tapşırıqlar. Bunun üçün məzmun girişi tələb olunur.",
     SettingGeneral_messageTooltip: "Instagram Direct, daxili mesajlar və əlaqəli alətlər.",
     SettingGeneral_commentTooltip: "Şərhlər, cavablar və əlaqəli alətlər.",
     SettingGeneral_transactionTooltip: "Ödəniş hesabının idarəsi, əməliyyatlar, cüzdan və əlaqəli alətlər.",

@@ -10,7 +10,6 @@ import RadioButton from "brancy/components/design/radioButton/radioButton";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
-
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import styles from "./addPartner.module.css";
@@ -49,6 +48,11 @@ const AddPartner = React.memo(
     });
     const [showSetDateAndTime, setShowSetDateAndTime] = useState(false);
     const [activeTab, setActiveTab] = useState<ToggleOrder>(ToggleOrder.FirstToggle);
+    const rolesForSave = createPartner.roles.filter(
+      (role) =>
+        (role !== PartnerRole.Publish && role !== PartnerRole.Automatics) ||
+        createPartner.roles.includes(PartnerRole.PageView),
+    );
     const handleOptionChanged = useCallback((e: ChangeEvent<HTMLInputElement>) => {
       setCheckBox(
         e.target.name === "Permanent" ? { permanent: true, periodic: false } : { permanent: false, periodic: true },
@@ -58,7 +62,7 @@ const AddPartner = React.memo(
       if (partner?.userId !== 0) {
         const updatePartner: IUpdatePartner = {
           expireTime: checkBox.periodic ? (createPartner.expireTime! / 1000) | 0 : null,
-          roles: createPartner.roles,
+          roles: rolesForSave,
           userId: partner?.userId || 0,
           name: createPartner.name,
         };
@@ -69,24 +73,31 @@ const AddPartner = React.memo(
           phoneNumber: createPartner.phoneNumber,
           countryCode: createPartner.countryCode,
           expireTime: checkBox.periodic ? (createPartner.expireTime! / 1000) | 0 : null,
-          roles: createPartner.roles,
+          roles: rolesForSave,
           name: createPartner.name,
         };
         console.log("addPartner", addPartner);
         handleSavePartner(addPartner);
       }
-    }, [checkBox, createPartner, handleSavePartner]);
+    }, [checkBox, createPartner, handleSavePartner, handleUpdatePartner, rolesForSave]);
     function handleSelectRole(e: React.ChangeEvent<HTMLInputElement>): void {
       const role = PartnerRole[e.target.name as keyof typeof PartnerRole];
+      if (role === PartnerRole.Publish && !createPartner.roles.includes(PartnerRole.PageView)) {
+        return;
+      }
+
       if (e.target.checked) {
         setCreatePartner((prev) => ({
           ...prev,
-          roles: [...prev.roles, role],
+          roles: prev.roles.includes(role) ? prev.roles : [...prev.roles, role],
         }));
       } else {
         setCreatePartner((prev) => ({
           ...prev,
-          roles: prev.roles.filter((r) => r !== role),
+          roles:
+            role === PartnerRole.PageView
+              ? prev.roles.filter((r) => r !== role && r !== PartnerRole.Publish && r !== PartnerRole.Automatics)
+              : prev.roles.filter((r) => r !== role),
         }));
       }
     }
@@ -113,6 +124,9 @@ const AddPartner = React.memo(
       console.log("Partner name input changed to:", newValue);
       setCreatePartner((prev) => ({ ...prev, name: newValue }));
     }
+
+    const isSaveDisabled =
+      (partner?.userId === 0 && createPartner.phoneNumber.length === 0) || rolesForSave.length === 0;
 
     return (
       <>
@@ -257,28 +271,7 @@ const AddPartner = React.memo(
                         {t(LanguageKey.content)}{" "}
                         <Tooltip
                           triggerType="tooltip"
-                          tooltipValue="Posts - Stories - Reels - IGTV - Carousels - Scheduling and ..."
-                          position="bottom"
-                          onClick={true}
-                        />
-                      </div>
-                      <ToggleCheckBoxButton
-                        handleToggle={(e) => handleSelectRole(e)}
-                        checked={createPartner.roles.includes(PartnerRole.Publish)}
-                        title={"Publish"}
-                        name={"Publish"}
-                        role={"switch"}
-                      />
-                    </div>
-                  </div>
-
-                  <div className="headerandinput">
-                    <div className="frameParent">
-                      <div className="title">
-                        {t(LanguageKey.navbar_Statistics)}
-                        <Tooltip
-                          triggerType="tooltip"
-                          tooltipValue="Page Views - Tools and ..."
+                          tooltipValue={t(LanguageKey.SettingGeneral_contentTooltip)}
                           position="bottom"
                           onClick={true}
                         />
@@ -292,14 +285,55 @@ const AddPartner = React.memo(
                       />
                     </div>
                   </div>
-
+                  <div className="headerandinput">
+                    <div className="frameParent">
+                      <div className="title">
+                        {t(LanguageKey.publish)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue={t(LanguageKey.SettingGeneral_publishTooltip)}
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
+                      <ToggleCheckBoxButton
+                        handleToggle={(e) => handleSelectRole(e)}
+                        checked={createPartner.roles.includes(PartnerRole.Publish)}
+                        disabled={!createPartner.roles.includes(PartnerRole.PageView)}
+                        title={"Publish"}
+                        name={"Publish"}
+                        role={"switch"}
+                      />
+                    </div>
+                  </div>
+                  <div className="headerandinput">
+                    <div className="frameParent">
+                      <div className="title">
+                        {t(LanguageKey.automatic)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue={t(LanguageKey.SettingGeneral_automaticsTooltip)}
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
+                      <ToggleCheckBoxButton
+                        handleToggle={(e) => handleSelectRole(e)}
+                        checked={createPartner.roles.includes(PartnerRole.Automatics)}
+                        disabled={!createPartner.roles.includes(PartnerRole.PageView)}
+                        title={"Automatics"}
+                        name={"Automatics"}
+                        role={"switch"}
+                      />
+                    </div>
+                  </div>
                   <div className="headerandinput">
                     <div className="frameParent">
                       <div className="title">
                         {t(LanguageKey.navbar_Direct)}
                         <Tooltip
                           triggerType="tooltip"
-                          tooltipValue="Instagram Directs - Internal message - Tools and ..."
+                          tooltipValue={t(LanguageKey.SettingGeneral_messageTooltip)}
                           position="bottom"
                           onClick={true}
                         />
@@ -313,14 +347,13 @@ const AddPartner = React.memo(
                       />
                     </div>
                   </div>
-
                   <div className="headerandinput">
                     <div className="frameParent">
                       <div className="title">
                         {t(LanguageKey.comment)}
                         <Tooltip
                           triggerType="tooltip"
-                          tooltipValue="Comments and Replies - Tools and ..."
+                          tooltipValue={t(LanguageKey.SettingGeneral_commentTooltip)}
                           position="bottom"
                           onClick={true}
                         />
@@ -334,14 +367,13 @@ const AddPartner = React.memo(
                       />
                     </div>
                   </div>
-
                   <div className="headerandinput">
                     <div className="frameParent">
                       <div className="title">
                         {t(LanguageKey.navbar_Payment)}
                         <Tooltip
                           triggerType="tooltip"
-                          tooltipValue="Payment Account Managing - Transactions Wallet - Tools and ..."
+                          tooltipValue={t(LanguageKey.SettingGeneral_transactionTooltip)}
                           position="bottom"
                           onClick={true}
                         />
@@ -355,14 +387,13 @@ const AddPartner = React.memo(
                       />
                     </div>
                   </div>
-
                   <div className="headerandinput">
                     <div className="frameParent">
                       <div className="title">
                         {t(LanguageKey.SettingGeneral_Advertise)}
                         <Tooltip
                           triggerType="tooltip"
-                          tooltipValue="  Calendar managing - Advertisers Managing Reject and Accept Ads - Pricing -Tools and ..."
+                          tooltipValue={t(LanguageKey.SettingGeneral_adsTooltip)}
                           position="bottom"
                           onClick={true}
                         />
@@ -376,14 +407,13 @@ const AddPartner = React.memo(
                       />
                     </div>
                   </div>
-
                   <div className="headerandinput">
                     <div className="frameParent">
                       <div className="title">
                         {t(LanguageKey.navbar_Orders)}
                         <Tooltip
                           triggerType="tooltip"
-                          tooltipValue="  List of products - Product Price - warehouse stock - Orders and WayBill - Tools and ..."
+                          tooltipValue={t(LanguageKey.SettingGeneral_ordersTooltip)}
                           position="bottom"
                           onClick={true}
                         />
@@ -397,14 +427,33 @@ const AddPartner = React.memo(
                       />
                     </div>
                   </div>
-
+                  <div className="headerandinput">
+                    <div className="frameParent">
+                      <div className="title">
+                        {t(LanguageKey.product_Product)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue={t(LanguageKey.SettingGeneral_productsTooltip)}
+                          position="bottom"
+                          onClick={true}
+                        />
+                      </div>
+                      <ToggleCheckBoxButton
+                        handleToggle={(e) => handleSelectRole(e)}
+                        checked={createPartner.roles.includes(PartnerRole.Products)}
+                        title={"Products"}
+                        name={"Products"}
+                        role={"switch"}
+                      />
+                    </div>
+                  </div>
                   <div className="headerandinput">
                     <div className="frameParent">
                       <div className="title">
                         {t(LanguageKey.SettingGeneral_biolink)}
                         <Tooltip
                           triggerType="tooltip"
-                          tooltipValue="  Content and arrangement - Links and Third Party Content Shotcuts and ..."
+                          tooltipValue={t(LanguageKey.SettingGeneral_bioTooltip)}
                           position="bottom"
                           onClick={true}
                         />
@@ -418,14 +467,13 @@ const AddPartner = React.memo(
                       />
                     </div>
                   </div>
-
                   <div className="headerandinput">
                     <div className="frameParent">
                       <div className="title">
                         {t(LanguageKey.navbar_Ticket)}
                         <Tooltip
                           triggerType="tooltip"
-                          tooltipValue="CRM - System Ticket - Support and ..."
+                          tooltipValue={t(LanguageKey.SettingGeneral_ticketTooltip)}
                           position="bottom"
                           onClick={true}
                         />
@@ -447,15 +495,9 @@ const AddPartner = React.memo(
                 {t(LanguageKey.cancel)}
               </button>
               <button
-                disabled={
-                  (partner?.userId === 0 && createPartner.phoneNumber.length === 0) || createPartner.roles.length === 0
-                }
+                disabled={isSaveDisabled}
                 onClick={handleSaveNewPartner}
-                className={
-                  (partner?.userId === 0 && createPartner.phoneNumber.length === 0) || createPartner.roles.length === 0
-                    ? "disableButton"
-                    : "saveButton"
-                }>
+                className={isSaveDisabled ? "disableButton" : "saveButton"}>
                 {partner?.userId !== 0 ? t(LanguageKey.save) : t(LanguageKey.SettingGeneral_Send)}
               </button>
             </div>

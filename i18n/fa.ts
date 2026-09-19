@@ -2298,6 +2298,7 @@ export default {
     product_BasicDetail: "جزئیات پایه",
     product_ProductID: "شناسه محصول",
     product_Producttitle: "عنوان محصول",
+    product_Product: "محصولات",
     product_Categories: "دسته‌بندی ها",
     product_MainCategory: "دسته اصلی",
     product_Subcategory: "زیر دسته",
@@ -2470,9 +2471,10 @@ export default {
     SettingGeneral_partnertitle: "عنوان ادمین همکار",
     SettingGeneral_partnernumberexplain:
       "دعوت‌نامه به این شماره ارسال می‌شود و ادمین همکار باید در پنل خود آن را تأیید کند (ادمین باید در برنسی ثبت‌نام کند تا بتواند دعوت‌نامه را قبول کند).",
-    SettingGeneral_contentTooltip: "پست‌ها، استوری‌ها، ریلزها، IGTV، کاروسل‌ها و زمان‌بندی.",
-    SettingGeneral_publishTooltip: "ایجاد پست و استوری؛ این دسترسی به دسترسی محتوا نیاز دارد.",
-    SettingGeneral_automaticsTooltip: "هوش مصنوعی، فلوها و فرایندها و وظایف خودکار.",
+    SettingGeneral_contentTooltip: "پست‌ها، استوری‌ها، ریلزها، IGTV و کاروسل‌ها.",
+    SettingGeneral_publishTooltip: "ایجاد پست و استوری و تولید محتوا؛ این دسترسی به دسترسی محتوا نیاز دارد.",
+    SettingGeneral_automaticsTooltip:
+      "هوش مصنوعی، فلوها و فرایندها و وظایف خودکار. این دسترسی به دسترسی محتوا نیاز دارد.",
     SettingGeneral_messageTooltip: "دایرکت اینستاگرام، پیام‌های داخلی و ابزارهای مرتبط.",
     SettingGeneral_commentTooltip: "نظرات، پاسخ‌ها و ابزارهای مرتبط.",
     SettingGeneral_transactionTooltip: "مدیریت حساب پرداخت، تراکنش‌ها، کیف پول و ابزارهای مرتبط.",
