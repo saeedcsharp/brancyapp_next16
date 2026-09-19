@@ -25,7 +25,15 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 - Add component coverage confirming Add Partner keeps Content and Publish independent, disables Publish while Content is off, and preserves Publish when Content is toggled when a UI test harness is introduced.
+=======
+- Add browser coverage confirming `/Ai` redirects to `/Ai/creator`, both AI child tabs render their legacy workspaces, and the old `/page/ai` and `/message/AIAndFlow` routes are no longer registered when a UI test harness is introduced.
+
+- Add component/browser coverage for opening and closing the Instagramer sidebar Support chat, including RTL positioning, keyboard activation, coexistence with the global support control, and mobile visibility when a UI test harness is introduced.
+
+- Add component coverage confirming the four specified AI Range keys render the square expansion control, `IntRange` renders an integer-step slider, `AudioArray` accepts and previews audio, and single, incomplete, or differently named ranges render standard sliders when a UI test harness is introduced.
+>>>>>>> saeed
 
 - Add component coverage confirming create-post role denial preserves the popup shell and renders `NotAllowed` for missing `Publish` access without mounting editor content when a UI test harness is introduced.
 - Add component coverage confirming create-story role denial preserves the popup shell and renders `NotAllowed` for missing `Publish` access without mounting editor content when a UI test harness is introduced.

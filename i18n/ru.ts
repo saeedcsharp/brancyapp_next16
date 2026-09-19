@@ -680,7 +680,7 @@ export default {
     collaborator: "Страница Сотрудника",
     collaboratorpost: "Пост Сотрудника",
     sidebar_Home: "Дом",
-    sidebar_Page: "Страница",
+    sidebar_Page: "Управление",
     sidebar_Message: "Сообщения",
     sidebar_Wallet: "Кошелек",
     sidebar_biolink: "Ссылка в био",
@@ -1945,6 +1945,7 @@ export default {
     biolinkPropertiesfeatures: "Функции",
     biolinkPropertiesProfileInfoBanner: "Информация о профиле и баннер",
     biolinkPropertiesFeaturebox: "Блок функций",
+    biolinkPropertiesTermsAndActiveTime: "Правила и часы работы",
     biolinkPropertiesFeatureboxexplain:
       "Активируя каждую функцию, вы можете отображать важную информацию для посетителей вашей страницы ссылки",
     biolinkPropertiesBanner: "Баннер",

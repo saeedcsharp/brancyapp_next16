@@ -342,7 +342,7 @@ const Features = (props: {
                 <img className={styles.lock} title="ℹ️ can't move" aria-hidden="true" src="/lock.svg" />
                 <div className={styles.boxcontent}>
                   <h3 className="title2" style={{ paddingInline: "var(--padding-12)" }} title="ℹ️ Feature name">
-                    {t(LanguageKey.biolinkPropertiesFeaturebox)}
+                    {t(LanguageKey.biolinkPropertiesTermsAndActiveTime)}
                   </h3>
                   <button
                     onClick={() => {

@@ -672,7 +672,7 @@ export default {
     caption: "Beschriftung",
     collaborator: "Mitarbeiterseite",
     sidebar_Home: "Zuhause",
-    sidebar_Page: "Seite",
+    sidebar_Page: "Seite verwalten",
     sidebar_Message: "Nachrichten",
     sidebar_Wallet: "Brieftasche",
     sidebar_biolink: "Bio-Link",
@@ -1973,6 +1973,7 @@ export default {
     biolinkPropertiesfeatures: "Funktionen",
     biolinkPropertiesProfileInfoBanner: "Profilinfo & Banner",
     biolinkPropertiesFeaturebox: "Funktionsbox",
+    biolinkPropertiesTermsAndActiveTime: "Bedingungen und Geschäftszeiten",
     biolinkPropertiesFeatureboxexplain:
       "Durch das Aktivieren jeder Funktion können Sie wichtige Informationen für Besucher Ihrer Link-Seite anzeigen",
     biolinkPropertiesBanner: "Banner",

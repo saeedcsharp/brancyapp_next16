@@ -688,7 +688,7 @@ export default {
     collaborator: "پیج همکار",
     collaboratorpost: "پست همکار",
     sidebar_Home: "خانه",
-    sidebar_Page: "پیج",
+    sidebar_Page: "مدیریت پیج",
     sidebar_Message: "پیام‌ها",
     sidebar_Wallet: "کیف پول",
     sidebar_biolink: "بایو لینک",
@@ -1880,6 +1880,7 @@ export default {
     biolinkPropertiesfeatures: "تنظیمات",
     biolinkPropertiesProfileInfoBanner: "اطلاعات پروفایل و بنر",
     biolinkPropertiesFeaturebox: "باکس ویژگی ها",
+    biolinkPropertiesTermsAndActiveTime: "قوانین و ساعات کاری",
     biolinkPropertiesFeatureboxexplain:
       "با فعال‌سازی هر ویژگی، می‌توانید اطلاعات مهمی را به بازدیدکنندگان صفحه لینک خود نمایش دهید",
     biolinkPropertiesBanner: "بنر",

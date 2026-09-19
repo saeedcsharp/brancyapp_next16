@@ -686,7 +686,7 @@ export default {
     collaborator: "Page Collaborateur",
     collaboratorpost: "Publication Collaborateur",
     sidebar_Home: "Maison",
-    sidebar_Page: "Page",
+    sidebar_Page: "Gestion page",
     sidebar_Message: "Messages",
     sidebar_Wallet: "Portefeuille",
     sidebar_biolink: "Lien Bio",
@@ -1989,6 +1989,7 @@ export default {
     biolinkPropertiesfeatures: "Fonctionnalités",
     biolinkPropertiesProfileInfoBanner: "Informations de Profil & Bannière",
     biolinkPropertiesFeaturebox: "Boîte de Fonctionnalités",
+    biolinkPropertiesTermsAndActiveTime: "Conditions et horaires d’ouverture",
     biolinkPropertiesFeatureboxexplain:
       "En activant chaque fonctionnalité, vous pouvez afficher des informations importantes aux visiteurs de votre page de lien",
     biolinkPropertiesBanner: "Bannière",

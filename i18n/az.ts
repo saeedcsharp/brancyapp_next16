@@ -681,7 +681,7 @@ export default {
     collaborator: "Əməkdaş səhifəsi",
     collaboratorpost: "Əməkdaş postu",
     sidebar_Home: "Ana səhifə",
-    sidebar_Page: "Səhifə",
+    sidebar_Page: "Səhifə idarəsi",
     sidebar_Message: "Mesajlar",
     sidebar_Wallet: "Cüzdan",
     sidebar_biolink: "Bio Link",
@@ -1876,6 +1876,7 @@ export default {
     biolinkPropertiesfeatures: "Parametrlər",
     biolinkPropertiesProfileInfoBanner: "Profil məlumatları və banner",
     biolinkPropertiesFeaturebox: "Xüsusiyyətlər qutusu",
+    biolinkPropertiesTermsAndActiveTime: "Qaydalar və iş saatları",
     biolinkPropertiesFeatureboxexplain:
       "Hər funksiyanı aktivləşdirərək link səhifənizin ziyarətçilərinə vacib məlumatları göstərə bilərsiniz",
     biolinkPropertiesBanner: "Banner",

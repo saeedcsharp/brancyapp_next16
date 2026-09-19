@@ -682,7 +682,7 @@ export default {
     collaborator: "İşbirlikçi Sayfası",
     collaboratorpost: "İşbirlikçi Postu",
     sidebar_Home: "Ev",
-    sidebar_Page: "Sayfa",
+    sidebar_Page: "Sayfa Yönetimi",
     sidebar_Message: "Mesajlar",
     sidebar_Wallet: "Cüzdan",
     sidebar_biolink: "Biyografi Bağlantısı",
@@ -1920,6 +1920,7 @@ export default {
     biolinkPropertiesfeatures: "Özellikler",
     biolinkPropertiesProfileInfoBanner: "Profil Bilgileri ve Afiş",
     biolinkPropertiesFeaturebox: "Özellik Kutusu",
+    biolinkPropertiesTermsAndActiveTime: "Koşullar ve Çalışma Saatleri",
     biolinkPropertiesFeatureboxexplain:
       "Her özelliği etkinleştirerek, link sayfanızı ziyaret edenlere önemli bilgiler gösterebilirsiniz",
     biolinkPropertiesBanner: "Afiş",

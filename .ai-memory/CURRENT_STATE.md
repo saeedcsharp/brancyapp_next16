@@ -3,6 +3,7 @@ The bulk product individual editors now render as a free horizontal slider using
 # Current State
 
 <<<<<<< HEAD
+<<<<<<< HEAD
 The `/user` customer entry route now waits for NextAuth to finish loading before redirecting, performs only one `router.replace` decision, and treats an unset `currentIndex` as `-1`, preventing the production route from remaining at `/user`.
 
 Forced API sign-out now stays on the browser's current origin: both direct and proxied 401 handlers await NextAuth logout with redirects disabled and replace the location with `/`. Ten synthetic cases cover production, staging, local development, logout ordering, and unchanged non-logout responses. Deployed browser verification remains pending.
@@ -15,6 +16,12 @@ Dashboard and upgrade client children now wait in `InstaProvider` for selected-a
 
 The middleware redirects selected Instagramer accounts with missing or expired packages to `/upgrade` regardless of `loginByFb` or `loginByInsta`; it no longer logs full JWT tokens.
 =======
+=======
+Instagramer AI navigation is now grouped under `/Ai`: the creator workspace is `/Ai/creator`, the Flow and Agent workspace is `/Ai/FlowandAgent`, and `/Ai` redirects to the creator workspace. The former `/page/ai` and `/message/AIAndFlow` route wrappers were removed, and desktop/mobile navigation no longer places these destinations under Page or Message.
+
+The Instagramer and user desktop sidebars now include a localized Support button at the bottom of their menus. Each opens the shared Goftino chat panel beside the sidebar while retaining the global website support control.
+
+>>>>>>> saeed
 Wallet invoice order details now load automatically when the `Order` tab is selected and render inside the existing invoice popup. The request still uses `/api/wallet/getInvoice`, but the returned invoice is passed to `OrderDetailPopup` inline instead of requiring a button or opening a second modal.
 
 Sub-invoice history labels now use the shared `IDblue`, `IDpurple`, `IDgreen`, `IDred`, and `IDgray` styles for unsettled, awaiting-settlement, settled, failed, and unknown statuses.

@@ -25,7 +25,7 @@ const svgMapping: { [key: string]: React.JSX.Element } = {
   ),
   ai: (
     <svg strokeLinecap="round" width="24" height="24" fill="none" viewBox="0 0 24 24">
-      <path
+      {/* <path
         strokeWidth="1.5"
         d="M21 9.67C21 6.54 18.76 4 16 4H8C5.24 4 3 6.54 3 9.67v10.2c0 .62.45 1.13 1 1.13h12c2.76 0 5-2.54 5-5.67z"
         strokeOpacity=".4"
@@ -33,6 +33,21 @@ const svgMapping: { [key: string]: React.JSX.Element } = {
       <path
         strokeWidth="1.2"
         d="m14.57 15.26.13-.38a5.1 5.1 0 0 1 2.94-3.1l.36-.15-.36-.14a5.1 5.1 0 0 1-2.94-3.1L14.57 8l-.13.38a5.1 5.1 0 0 1-2.94 3.11l-.36.14.36.14a5.1 5.1 0 0 1 2.94 3.11zM7.55 17c.23-.79.81-1.4 1.56-1.65a2.4 2.4 0 0 1-1.56-1.64A2.4 2.4 0 0 1 6 15.35 2.4 2.4 0 0 1 7.55 17"
+      /> */}
+      <path
+        d="M10.99 3h-3.2C4.83 3 3 5.08 3 8.03v7.94C3 18.92 4.83 21 7.78 21h8.44c2.95 0 4.78-2.08 4.78-5.03v-5.94M7.35 16.38h1.31m7.99-7.7.11-.29a4.1 4.1 0 0 1 2.43-2.43l.3-.12-.3-.1a4.1 4.1 0 0 1-2.43-2.44l-.11-.3-.11.3a4.1 4.1 0 0 1-2.43 2.43l-.3.11.3.12a4.1 4.1 0 0 1 2.43 2.43z"
+        stroke="#2977ff"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+      />
+      <path
+        opacity=".42"
+        d="M16.65 16.38h-5.3m.65-3.82c.22-.73.79-1.3 1.51-1.52a2.3 2.3 0 0 1-1.5-1.51c-.23.73-.8 1.3-1.52 1.51.72.23 1.3.8 1.51 1.52"
+        stroke="#2977ff"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        strokeLinejoin="round"
       />
     </svg>
   ),
@@ -250,75 +265,72 @@ const svgMapping: { [key: string]: React.JSX.Element } = {
   ),
 };
 
+svgMapping.creator = svgMapping.ai;
+svgMapping.FlowandAgent = svgMapping.AIAndFlow;
+
 const NavbarTabs = () => {
   const { t } = useTranslation();
   const pathname = usePathname();
-  const newRoute = (pathname || "").replaceAll("/", "");
+  const newRoute = (pathname || "").replaceAll("/", "").toLowerCase();
 
   const navbarMapping: { [key: string]: INavbar } = {
     pageposts: {
       id: "posts",
       indexValue: "page",
-      items: ["posts", "stories", "ai", "statistics", "tools"],
+      items: ["posts", "stories", "statistics", "tools"],
       initialSlide: 0,
     },
     pagestories: {
       id: "stories",
       indexValue: "page",
-      items: ["posts", "stories", "ai", "statistics", "tools"],
+      items: ["posts", "stories", "statistics", "tools"],
       initialSlide: 1,
-    },
-    pageai: {
-      id: "ai",
-      indexValue: "page",
-      items: ["posts", "stories", "ai", "statistics", "tools"],
-      initialSlide: 2,
     },
     pagestatistics: {
       id: "statistics",
       indexValue: "page",
-      items: ["posts", "stories", "ai", "statistics", "tools"],
-      initialSlide: 3,
+      items: ["posts", "stories", "statistics", "tools"],
+      initialSlide: 2,
     },
     pagetools: {
       id: "tools",
       indexValue: "page",
-      items: ["posts", "stories", "ai", "statistics", "tools"],
-      initialSlide: 4,
+      items: ["posts", "stories", "statistics", "tools"],
+      initialSlide: 3,
+    },
+    aicreator: {
+      id: "creator",
+      items: ["creator", "FlowandAgent"],
+      indexValue: "Ai",
+      initialSlide: 0,
+    },
+    aiflowandagent: {
+      id: "FlowandAgent",
+      items: ["creator", "FlowandAgent"],
+      indexValue: "Ai",
+      initialSlide: 1,
     },
     messagedirect: {
       id: "direct",
-      items: ["direct", "comments", "ticket", "AIAndFlow", "Properties"],
+      items: ["direct", "comments", "ticket", "Properties"],
       indexValue: "message",
       initialSlide: 0,
     },
     messagecomments: {
       id: "comments",
-      items: ["direct", "comments", "ticket", "AIAndFlow", "Properties"],
+      items: ["direct", "comments", "ticket", "Properties"],
       indexValue: "message",
       initialSlide: 1,
     },
     messageticket: {
       id: "ticket",
-      items: ["direct", "comments", "ticket", "AIAndFlow", "Properties"],
+      items: ["direct", "comments", "ticket", "Properties"],
       indexValue: "message",
       initialSlide: 2,
     },
-    messageAIAndFlow: {
-      id: "AIAndFlow",
-      items: ["direct", "comments", "ticket", "AIAndFlow", "Properties"],
-      indexValue: "message",
-      initialSlide: 3,
-    },
-    messageAIAndFlowflowGraph: {
-      id: "AIAndFlow",
-      items: ["direct", "comments", "ticket", "AIAndFlow", "Properties"],
-      indexValue: "message",
-      initialSlide: 3,
-    },
     messageProperties: {
       id: "Properties",
-      items: ["direct", "comments", "ticket", "AIAndFlow", "Properties"],
+      items: ["direct", "comments", "ticket", "Properties"],
       indexValue: "message",
       initialSlide: 4,
     },
@@ -416,19 +428,19 @@ const NavbarTabs = () => {
     },
   };
 
-  const navbarRoute = newRoute.startsWith("pageai") ? "pageai" : newRoute;
-  const navbar2 = navbarMapping[navbarRoute] || null;
+  const navbar2 = navbarMapping[newRoute] || null;
 
   const labelMapping: { [key: string]: string } = {
     posts: t(LanguageKey.navbar_Post),
     stories: t(LanguageKey.navbar_Story),
-    ai: t(LanguageKey.navbar_ContentCreator),
+    ai: t(LanguageKey.navbar_AI),
+    creator: t(LanguageKey.navbar_ContentCreator),
     statistics: t(LanguageKey.navbar_Statistics),
     direct: t(LanguageKey.navbar_Direct),
     comments: t(LanguageKey.navbar_Comments),
     ticket: t(LanguageKey.navbar_Ticket),
     Properties: t(LanguageKey.navbar_Properties),
-    AIAndFlow: t(LanguageKey.navbar_AIAndFlow),
+    FlowandAgent: t(LanguageKey.navbar_AIAndFlow),
     payment: t(LanguageKey.navbar_Payment),
     title: t(LanguageKey.navbar_Title),
     home: t(LanguageKey.navbar_Home),

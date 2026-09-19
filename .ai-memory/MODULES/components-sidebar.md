@@ -22,9 +22,11 @@ components/sidebar/.
 
 ## Execution Flow
 
-The Instagramer layout passes a slash-free current route to `InstagramerSidebar`. Sidebar parent items match both their direct routes and nested `subRoutes` by prefix, keeping the parent indicator and SVG active color synchronized for AI-related pages such as `/page/ai`.
+The Instagramer layout passes a slash-free current route to `InstagramerSidebar`. Sidebar parent items match both their direct routes and nested `subRoutes` by prefix, keeping the parent indicator and SVG active color synchronized for the standalone AI routes `/Ai/creator` and `/Ai/FlowandAgent`.
 
 The user desktop sidebar and mobile hamburger menu intentionally omit the user wallet navigation item. The user wallet route and feature remain available through direct route flows; this change only removes their sidebar entries.
+
+The Instagramer and user sidebars include a localized Support control at the bottom of their animated menus. Each opens the shared Goftino chat panel beside the sidebar and uses a unique panel ID so it can coexist with the global website support control.
 
 ## Data Flow
 
@@ -149,7 +151,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-08-11
+2026-09-18
 
 ---
 

@@ -1690,6 +1690,7 @@ export enum LanguageKey {
   biolinkPropertiesfeatures = "biolinkPropertiesfeatures",
   biolinkPropertiesProfileInfoBanner = "biolinkPropertiesProfileInfoBanner",
   biolinkPropertiesFeaturebox = "biolinkPropertiesFeaturebox",
+  biolinkPropertiesTermsAndActiveTime = "biolinkPropertiesTermsAndActiveTime",
   biolinkPropertiesFeatureboxexplain = "biolinkPropertiesFeatureboxexplain",
   biolinkPropertiesBanner = "biolinkPropertiesBanner",
   biolinkPropertiesFeaturesBox = "biolinkPropertiesFeaturesBox",

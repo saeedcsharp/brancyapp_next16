@@ -64,7 +64,7 @@
 }
 
 .menuparentleft {
-  row-gap: var(--gap-30);
+  row-gap: var(--gap-20);
   overflow-y: auto;
   position: relative;
   display: flex;
@@ -81,7 +81,7 @@
   gap: var(--gap-10);
   display: flex;
   position: relative;
-  width: 25%;
+  width: 30%;
   background-color: transparent;
   align-items: center;
   transition: var(--transition2);
@@ -135,6 +135,7 @@ html[dir="rtl"] .usermenuleft:hover {
   text-transform: capitalize;
   color: var(--text-h2);
   line-height: normal;
+  text-wrap: nowrap;
 }
 .menutext {
   position: relative;

@@ -22,7 +22,11 @@ Follows existing Next/React/TypeScript project conventions.
 
 ## Execution Flow
 
+<<<<<<< HEAD
 Execution starts from imports, route rendering, or helper calls depending on the module. The Instagramer group layout waits for NextAuth `status === "authenticated"` before rendering its sidebar, navbar, children, or session-dependent overlays. The root Node-runtime middleware is the single source of truth for authentication across protected App Router routes. It handles authentication for Instagramer, `/customershop/*`, and `/user/*`, while account selection and package expiry are applied only to Instagramer paths.
+=======
+Execution starts from imports, route rendering, or helper calls depending on the module. The Instagramer group layout waits for NextAuth `status === "authenticated"` before rendering its sidebar, navbar, children, or session-dependent overlays; unauthenticated users are redirected to `/` by the session guard. AI routes are grouped under `/Ai`, with `/Ai` redirecting to `/Ai/creator` and the Flow and Agent workspace available at `/Ai/FlowandAgent`.
+>>>>>>> saeed
 
 ## Data Flow
 

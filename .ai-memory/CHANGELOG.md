@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 
 - 2026-09-17: Localized all Add Partner access tooltips across the eight supported locales using dedicated `LanguageKey` entries.
 
@@ -33,6 +34,12 @@
 - # 2026-09-11: Fixed the mixed-account package redirect bypass: selected Instagramer accounts with missing or expired packages now reach `/upgrade` even when both `loginByFb` and `loginByInsta` are false. Removed full JWT logging from middleware.
   =======
 =======
+=======
+- 2026-09-18: Grouped Instagramer AI navigation under `/Ai`, with creator and Flow and Agent tabs at `/Ai/creator` and `/Ai/FlowandAgent`; removed the former Page and Message route wrappers and updated desktop/mobile navigation.
+
+- 2026-09-18: Added localized Support buttons to the Instagramer and user sidebars. They open the shared Goftino chat panel beside the menu and use unique panel IDs alongside the global support control.
+
+>>>>>>> saeed
 ## 2026-09-18
 
 - Updated `InternalNotify_ExceedPermittedUploadMedia` across all eight locales to state that the media count exceeds the permitted limit without assuming a fixed maximum of five.

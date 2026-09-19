@@ -22,7 +22,7 @@ components/hambergurMenu/.
 
 ## Execution Flow
 
-Execution starts from imports, route rendering, or helper calls depending on the module. The Instagramer hamburger menu marks the BioLink item active for the actual slash-free market routes `market`, `marketstatistics`, `marketmylink`, and `marketproperties`. It exposes Products, Orders, and Statistics; Store Properties is intentionally excluded while its route remains available.
+Execution starts from imports, route rendering, or helper calls depending on the module. The Instagramer hamburger menu exposes a standalone AI item targeting `/Ai/creator` and marks it active for both `/Ai/creator` and `/Ai/FlowandAgent`. It also marks the BioLink item active for the actual slash-free market routes `market`, `marketstatistics`, `marketmylink`, and `marketproperties`. It exposes Products, Orders, and Statistics; Store Properties is intentionally excluded while its route remains available.
 
 ## Data Flow
 

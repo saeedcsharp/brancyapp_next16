@@ -1916,6 +1916,7 @@ export default {
     biolinkPropertiesfeatures: "Features",
     biolinkPropertiesProfileInfoBanner: "Profile Info & Banner",
     biolinkPropertiesFeaturebox: "Feature Box",
+    biolinkPropertiesTermsAndActiveTime: "Terms & Business Hours",
     biolinkPropertiesFeatureboxexplain:
       "By enabling each feature, you can display important information to visitors of your link page",
     biolinkPropertiesBanner: "Banner",
