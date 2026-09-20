@@ -782,6 +782,15 @@ export default {
     // #region 2️⃣page Section
     // 2️⃣ Page -> Post
     CreateNewPost: "Créer un Nouveau Post",
+    Postnotvisible: "Le Post ne s’affiche pas ?",
+    Storynotvisible: "La Story ne s’affiche pas ?",
+    SmartPageAnalysis: "Analyse intelligente de la page",
+    EducationAndGuidance: "Formation et accompagnement",
+    HowToUseBrancy: "Comment utiliser Brancy",
+    BrancyKnowsYou: "Brancy vous connaît",
+    BrancyKnowsYouExplain:
+      "Brancy analyse votre page en profondeur afin de construire une vision complète de votre identité numérique : votre personnalité, votre activité et vos actions, mais aussi votre ton et votre style de communication, votre type de contenu, votre manière de présenter les informations, votre calendrier de publication et votre façon d’interagir avec votre audience.\n\nCette analyse prend également en compte votre manière d’utiliser tous les points de contact de votre page, des réponses aux commentaires et aux messages Direct à votre style d’écriture, votre façon d’échanger avec votre audience et vos réactions face aux différentes situations.\n\nAucune formation manuelle, aucun réglage du ton ni aucune information supplémentaire ne sont nécessaires : Brancy vous connaît et adapte son intelligence artificielle à votre identité et à votre style réels.",
+    CreateYourDigitalVersion: "Créer votre version numérique",
     CreateNewStrory: "Créer une Nouvelle Story",
     PostDraft: "Brouillon de Publication",
     StoryDraft: "Brouillon de Story",

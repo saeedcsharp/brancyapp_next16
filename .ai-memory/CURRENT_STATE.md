@@ -4,6 +4,7 @@ The bulk product individual editors now render as a free horizontal slider using
 
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 The `/user` customer entry route now waits for NextAuth to finish loading before redirecting, performs only one `router.replace` decision, and treats an unset `currentIndex` as `-1`, preventing the production route from remaining at `/user`.
 
 Forced API sign-out now stays on the browser's current origin: both direct and proxied 401 handlers await NextAuth logout with redirects disabled and replace the location with `/`. Ten synthetic cases cover production, staging, local development, logout ordering, and unchanged non-logout responses. Deployed browser verification remains pending.
@@ -17,6 +18,12 @@ Dashboard and upgrade client children now wait in `InstaProvider` for selected-a
 The middleware redirects selected Instagramer accounts with missing or expired packages to `/upgrade` regardless of `loginByFb` or `loginByInsta`; it no longer logs full JWT tokens.
 =======
 =======
+=======
+The home dashboard no longer remains on its full-page loader after authentication. `IngageInfo` derives loading from `props.data === null`, and a live browser refresh confirmed the five home tile sections render with the authenticated demo session.
+
+The home dashboard total-tile area now presents reserve tokens and remaining subscription days in one upgrade slideshow, while active stories, last likes, reach, and unread comments are grouped in a separate statistics slideshow. Both slideshows advance automatically every 10 seconds and remain manually navigable. The four statistic slides use purple, light green, firoze, and light red in that order.
+
+>>>>>>> saeed
 Instagramer AI navigation is now grouped under `/Ai`: the creator workspace is `/Ai/creator`, the Flow and Agent workspace is `/Ai/FlowandAgent`, and `/Ai` redirects to the creator workspace. The former `/page/ai` and `/message/AIAndFlow` route wrappers were removed, and desktop/mobile navigation no longer places these destinations under Page or Message.
 
 The Instagramer and user desktop sidebars now include a localized Support button at the bottom of their menus. Each opens the shared Goftino chat panel beside the sidebar while retaining the global website support control.
@@ -84,6 +91,8 @@ The desktop product list now keeps its table header inside the scrollable list, 
 The repository is a single Next.js 16 application using React 19, TypeScript strict mode, Sass, CSS modules, NextAuth, next-pwa, and a mixed App Router plus legacy-page bridge. App routes in `app/` commonly import pages from `legacy-pages/` while shared components live in `components/`.
 
 The global App Router error boundary displays the received error message. DirectInbox keeps failed initial inbox requests and pagination/API failures local to the inbox, preserving the HTTP status and backend reason in notifications without crashing the whole route.
+
+`clientFetchApi` now redirects both direct backend requests and `/api/user/*` proxy requests to `/upgrade` when the response status is 402, while returning a normalized `Payment Required` result.
 
 ## Active Features
 
@@ -158,6 +167,12 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - Cross-browser visual regression coverage is not yet automated; feature-level overflow and viewport rules remain candidates for incremental audit.
 
 ## Recent Changes
+
+- The home smart page-analysis tile now opens the current account summary in the shared modal, with mouse and keyboard activation plus close controls.
+
+- The home dashboard token tile now loads the AI package feature details and displays the combined remaining balance from the regular and reserve AI features.
+
+- The home dashboard upgrade tile now provides accessible pagination between the remaining AI token balance and remaining subscription days; the tile's main click and keyboard action still opens the upgrade route.
 
 <<<<<<< HEAD
 
@@ -240,6 +255,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - AI image and video creation now returns to the matching library immediately after request submission, shows one loading card per pending `clientContext`, and replaces or removes each card when its correlated SignalR success or failure notification arrives. Successful video results wait one second before replacing the loading card so the thumbnail URL has time to become available. Concurrent generations remain independently tracked.
 
 - The active AI workspace is localized across all eight supported locales. Creator states, model guidance, prompt validation, token usage actions, result metadata fallback values, request notifications, and the page description use the active i18next locale.
+- AI creator model lists remove duplicate model names returned by a provider before rendering, preventing duplicate React keys while preserving name-based model selection.
 
 - The AI library supports optional deep links: the App Router wrapper reads `/page/ai?type=1` or `/page/ai?type=2` with `useSearchParams` and passes the selected tab into the legacy page. Missing or unsupported values preserve the default image tab.
 

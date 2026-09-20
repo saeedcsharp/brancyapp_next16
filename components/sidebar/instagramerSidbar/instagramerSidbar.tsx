@@ -419,7 +419,7 @@ function InstagramerSidebar(props: { newRoute: string; router?: any }) {
           </div>
           <div className={indicatorClass}></div>
         </nav>
-        <nav className={styles.navSidebar}></nav>
+        <nav className={styles.fake}></nav>
         <SupportChatPanel
           isOpen={isChatOpen}
           onClose={() => setIsChatOpen(false)}

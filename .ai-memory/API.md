@@ -15,7 +15,7 @@
 
 ## Mapped Backend API
 
-`helper/apiRouteMap.ts` contains 320 mapped local API paths. Categories include account, address, ai, business, autoacceptfollower, authorize, bio, comment, dayevent, flow, feature, hashtag, home, instagramer, likecomment, likelastpostfollower, link, lottery, message, order, post, preinstagramer, product, psg, session, shop, statistics, story, systemticket, transaction, user, and wallet-style domains.
+`helper/apiRouteMap.ts` contains 319 mapped local API paths. The home dashboard uses the remaining tiles, page-summary, and last-messages mappings; the unused `GetLastComments` mapping has been removed. Categories include account, address, ai, business, autoacceptfollower, authorize, bio, comment, dayevent, flow, feature, hashtag, home, instagramer, likecomment, likelastpostfollower, link, lottery, message, order, post, preinstagramer, product, psg, session, shop, statistics, story, systemticket, transaction, user, and wallet-style domains.
 
 Wallet balance history uses `/api/wallet/getBallanceHistory`, mapped directly to `Business/Wallet/GetBallanceHistory`. Its response value contains a `statistics` array of monthly day-count records for `ChartDay`.
 
@@ -28,6 +28,7 @@ Requests include `Authorization`, `instagramerId`, and the incoming `user-agent`
 ## Error Behavior
 
 Proxy 401 responses delete NextAuth session cookies and return a normalized error result. Client direct calls may sign out on 401 when `loginByInsta` is true.
+Any client or proxied API response with status 402 redirects the browser to `/upgrade` and returns a normalized `Payment Required` result.
 
 ---
 

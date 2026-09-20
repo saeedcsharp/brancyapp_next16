@@ -1,18 +1,12 @@
 import AccountSummary from "brancy/components/homeIndex/accountSummary";
 import IngageInfo from "brancy/components/homeIndex/ingageInfo";
+import Modal from "brancy/components/design/modal";
 import InstagramerUpgrade from "brancy/components/homeIndex/instagramerupgrade";
 import LastMessage from "brancy/components/homeIndex/lastMessage";
 import LastOrder from "brancy/components/homeIndex/lastOrder";
 import PageDetail from "brancy/components/homeIndex/pageDetail";
 import PostSummary from "brancy/components/homeIndex/postSummary";
-import { ResponseType } from "brancy/components/notifications/notificationBox";
-import { LoginStatus } from "brancy/helper/loadingStatus";
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useCallback, useEffect, useReducer, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import { MethodType } from "brancy/helper/api";
+import styles from "./homeIndex.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   IDemographicInsight,
@@ -33,7 +27,6 @@ const initialState = {
   error: { message: null } as IError,
   lastMessages: null as ILastMessage[] | null,
   lastReplies: null as ILastMessage[] | null,
-  lastComments: null as ILastMessage[] | null,
   lastOrder: null as ILastOrder[] | null,
   lastTransaction: null as ILastTransaction[] | null,
   lastLikes: null as ILastLike[] | null,
@@ -49,7 +42,6 @@ type State = typeof initialState;
 type Action =
   | { type: "SET_LAST_MESSAGES"; payload: ILastMessage[] | null }
   | { type: "SET_LAST_REPLIES"; payload: ILastMessage[] | null }
-  | { type: "SET_LAST_COMMENTS"; payload: ILastMessage[] | null }
   | { type: "SET_LAST_ORDER"; payload: ILastOrder[] | null }
   | { type: "SET_LAST_TRANSACTION"; payload: ILastTransaction[] | null }
   | { type: "SET_LAST_LIKES"; payload: ILastLike[] | null }
@@ -67,8 +59,6 @@ function reducer(state: State, action: Action): State {
       return { ...state, lastMessages: action.payload };
     case "SET_LAST_REPLIES":
       return { ...state, lastReplies: action.payload };
-    case "SET_LAST_COMMENTS":
-      return { ...state, lastComments: action.payload };
     case "SET_LAST_ORDER":
       return { ...state, lastOrder: action.payload };
     case "SET_LAST_TRANSACTION":
@@ -102,6 +92,7 @@ const Home = () => {
 
   // Add loading and data states
   const [isDataLoaded, setIsDataLoaded] = useState(false);
+  const [isSummaryModalOpen, setIsSummaryModalOpen] = useState(false);
   const isFetchingRef = useRef(false);
 
   // Handle authentication check
@@ -120,7 +111,6 @@ const Home = () => {
       const [
         lastMessages,
         // lastReplies,
-        lastComments,
         hometiles,
         demographic,
         activeStories,
@@ -154,27 +144,6 @@ const Home = () => {
         //   "Instagramer/Home/GetLastReplies",
         //   null
         // ),
-        session.user.commentPermission
-          ? clientFetchApi<boolean, ILastMessage[]>("/api/home/GetLastComments", {
-              methodType: MethodType.get,
-              session: session,
-              data: null,
-              queries: undefined,
-              onUploadProgress: undefined,
-            })
-          : {
-              succeeded: false,
-              value: [],
-              info: {
-                exception: null,
-                message: "",
-                needsChallenge: false,
-                actionBlockEnd: null,
-                responseType: 0,
-              },
-              statusCode: 200,
-              errorMessage: "",
-            },
         clientFetchApi<boolean, IInstagramerHomeTiles>("/api/home/GetTiles", {
           methodType: MethodType.get,
           session: session,
@@ -232,7 +201,6 @@ const Home = () => {
       ]);
       if (session.user.messagePermission) dispatch({ type: "SET_LAST_MESSAGES", payload: lastMessages.value });
       // dispatch({ type: "SET_LAST_REPLIES", payload: lastReplies.value });
-      if (session.user.commentPermission) dispatch({ type: "SET_LAST_COMMENTS", payload: lastComments.value });
       dispatch({ type: "SET_HOMETILES", payload: hometiles.value });
       if (session.user.insightPermission)
         dispatch({
@@ -337,6 +305,9 @@ const Home = () => {
                   : 0
               }
               activeStories={state.activeStories}
+              onSummaryClick={() => setIsSummaryModalOpen(true)}
+              onUpgradeClick={() => router.push("/upgrade")}
+              pageSummary={state.pageSummary}
             />
           </div>
 
@@ -344,7 +315,7 @@ const Home = () => {
             className="pinContainer"
             // style={{  maxWidth: "calc(3 * 395px + 2 * var(--gap-20))",}}
           >
-            {state.pageSummary && <AccountSummary data={state.pageSummary} />}
+            {/* {state.pageSummary && <AccountSummary data={state.pageSummary} />} */}
 
             {session.user.messagePermission && state.hometiles && (
               <LastMessage
@@ -361,9 +332,6 @@ const Home = () => {
               <PostSummary data={state.hometiles} posts={state.posts} />
             )}
 
-            {/* {!session.user.isShopper && !session.user.isInfluencer && state.lastComments && (
-              <LastComments data={state.lastComments} />
-            )} */}
             {session.user.isShopper && session.user.isShopper && <LastOrder data={state.lastOrder} />}
             {/* {session.user.isShopper && (
               <LastTransaction data={state.lastTransaction} />
@@ -371,6 +339,29 @@ const Home = () => {
             {/* <LastFollower data={state.lastFollowers} /> */}
           </div>
         </main>
+        <Modal closePopup={() => setIsSummaryModalOpen(false)} classNamePopup="popup" showContent={isSummaryModalOpen}>
+          {/* <div>
+            <div id="modal-title" className="title2">
+              آنالیز هوشمند پیج شما
+            </div>
+            <button
+              type="button"
+              onClick={() => setIsSummaryModalOpen(false)}
+              aria-label="بستن مودال"
+              style={{
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                padding: 0,
+                border: 0,
+                background: "transparent",
+                cursor: "pointer",
+              }}>
+              <img src="/close-box.svg" alt="" style={{ width: "28px", height: "28px" }} />
+            </button>
+          </div> */}
+          <AccountSummary data={state.pageSummary} />
+        </Modal>
       </>
     )
   );

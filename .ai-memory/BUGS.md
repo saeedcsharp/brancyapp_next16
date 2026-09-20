@@ -2,6 +2,7 @@
 
 ## Known Bugs
 
+<<<<<<< HEAD
 Forced API sign-out following a localhost callback was fixed on 2026-09-13 by disabling automatic NextAuth redirects in both 401 handlers and navigating to the current origin root only after sign-out completes. Ten synthetic direct/proxy cases pass, including NextAuth returning localhost. Production configuration and live cookie/navigation verification remain deployment checks.
 
 Missing account refresh on client navigation was fixed on 2026-09-13 by observing individual pathname transitions and bypassing same-navigation throttling. Navigation-scoped readiness prevents stale responses from opening the destination gate, and request completion resumes pending route checks. Synthetic navigation tests pass; live verification is pending.
@@ -11,6 +12,9 @@ Dashboard client components mounting before the initial account session update w
 Skipped account-info requests on quick reloads were fixed on 2026-09-13: persisted `lastUpdate` no longer suppresses the first mount-local request. Routine token renewal explicitly continues account/title loading with the renewed session, and `PartnerNotExist` no longer blocks its own token refresh through the shared guard. Successful account refresh redirects expired protected accounts after session persistence. Live backend/browser verification remains pending.
 
 The mixed-account package redirect bypass was fixed on 2026-09-11. Middleware previously required `loginByFb || loginByInsta`, so a selected account with both flags false could bypass `/upgrade`; package enforcement now uses the selected `currentIndex` and expiry. Full-token middleware logging was removed as part of the fix.
+=======
+The home dashboard loading screen was fixed on 2026-09-19. `IngageInfo` previously initialized its loading flag from `LoginStatus(session)` and never cleared it for an authenticated session, hiding all home tiles indefinitely. The flag now follows the home tile data state; live browser verification confirmed five home tile sections render after refresh.
+>>>>>>> saeed
 
 The Instagram connection flow previously showed only a warning for Iranian IPs and blocked the redirect when the country code was absent. Fixed on 2026-09-08 by using the shared invalid-IP modal and matching `SwitchAccount`; live browser coverage remains pending.
 
@@ -28,7 +32,7 @@ The global browser-compatibility layout issues reported on 2026-08-04 were reduc
 
 Product-detail media drag reordering was fixed on 2026-08-23 in both product editors by applying a dnd-kit horizontal-axis modifier and an 8px pointer activation distance; vertical pointer movement no longer changes sortable transforms.
 
-No confirmed runtime bugs remain from the chart navigation issue addressed on 2026-07-20 or the AI-route navbar/sidebar logo issues addressed on 2026-07-25. The market mobile navbar logo mismatch was fixed on 2026-08-22 by aligning route enum values with the actual App Router paths.
+No confirmed runtime bugs remain from the chart navigation issue addressed on 2026-07-20 or the AI-route navbar/sidebar logo issues addressed on 2026-07-25. The market mobile navbar logo mismatch was fixed on 2026-08-22 by aligning route enum values with the actual App Router paths. The `/message/Properties`, `/setting/subAdmin`, and `/advertise/Properties` navbar visibility issues were fixed on 2026-09-19 by aligning desktop and mobile route matching with lowercase pathname normalization; these tabs now also receive the correct active index.
 
 The shared Tooltip ancestor-clipping issue was fixed on 2026-07-28 by rendering tooltip content through `document.body` and tracking the trigger's viewport position.
 

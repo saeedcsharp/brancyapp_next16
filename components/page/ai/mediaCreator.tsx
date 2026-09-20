@@ -81,6 +81,9 @@ function getInitialValues(model: IMediaCreatorModel | undefined): Record<string,
     return values;
   }, {});
 }
+function getUniqueModels(models: IMediaCreatorModel[]): IMediaCreatorModel[] {
+  return models.filter((model, index) => models.findIndex((candidate) => candidate.name === model.name) === index);
+}
 type RangeSide = "top" | "right" | "bottom" | "left";
 const rangeSides: RangeSide[] = ["top", "right", "bottom", "left"];
 const rangeSquareKeyParts = [
@@ -504,7 +507,9 @@ export default function MediaCreator({
   ];
   const selectedMediaTab = isVideoCreator ? 1 : 0;
   const handleMediaTabChange = (tab: number) => setActiveTab(tab === 1 ? "video" : "image");
-  const availableCreators = creators.filter((item) => item.inputModels.length > 0);
+  const availableCreators = creators
+    .map((item) => ({ ...item, inputModels: getUniqueModels(item.inputModels) }))
+    .filter((item) => item.inputModels.length > 0);
   const [creatorKey, setCreatorKey] = useState(availableCreators[0]?.key ?? "");
   const creator = availableCreators.find((item) => item.key === creatorKey) ?? availableCreators[0];
   const [modelName, setModelName] = useState(creator?.inputModels[0]?.name ?? "");

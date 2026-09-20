@@ -3214,4 +3214,12 @@ export enum LanguageKey {
   OrderDelivery = "OrderDelivery",
   createdtime = "createdtime",
   SubInvoiceHistory = "SubInvoiceHistory",
+  SmartPageAnalysis = "SmartPageAnalysis",
+  EducationAndGuidance = "EducationAndGuidance",
+  HowToUseBrancy = "HowToUseBrancy",
+  CreateYourDigitalVersion = "CreateYourDigitalVersion",
+  BrancyKnowsYou = "BrancyKnowsYou",
+  BrancyKnowsYouExplain = "BrancyKnowsYouExplain",
+  Postnotvisible = "Postnotvisible",
+  Storynotvisible = "Storynotvisible",
 }

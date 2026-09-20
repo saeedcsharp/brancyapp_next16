@@ -1,12 +1,15 @@
 import initialzedTime from "brancy/helper/manageTimer";
-import { SubInvoiceItemType, SubInvoiceStatus } from "brancy/models/enums";
+import { PartnerRole, SubInvoiceItemType, SubInvoiceStatus } from "brancy/models/enums";
 import { IInvoice, ISubInvoice } from "brancy/models/interfaces";
+import { RoleAccess } from "brancy/helper/loadingStatus";
 import { useTranslation } from "react-i18next";
 import { DateObject } from "react-multi-date-picker";
 import PriceFormater, { PriceFormaterClassName } from "../../priceFormater";
 import styles from "./invoicePopup.module.css";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import OrderDetailPopup from "brancy/components/wallet/modal/orderDetailPopup";
+import NotAllowedCard from "brancy/components/notOk/notAllowedCard";
+import { useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 import { LanguageKey } from "brancy/i18n";
 
@@ -19,9 +22,11 @@ type SubInvoicesPopupProps = {
 
 export default function InvoicePopup({ invoice, subInvoices, onClose, getInvoice }: SubInvoicesPopupProps) {
   const { t } = useTranslation();
+  const { data: session } = useSession();
   const [selectedTab, setSelectedTab] = useState(0);
   const [orderDetailsInvoice, setOrderDetailsInvoice] = useState<IInvoice | null>(null);
   const orderInvoice = invoice.orderInvoice;
+  const hasOrderAccess = RoleAccess(session, PartnerRole.Orders);
   function manageSubInvoiceType(type: SubInvoiceItemType): string {
     switch (type) {
       case SubInvoiceItemType.InstagramerLogestic:
@@ -55,7 +60,7 @@ export default function InvoicePopup({ invoice, subInvoices, onClose, getInvoice
     }
   }
   useEffect(() => {
-    if (selectedTab !== 1 || orderDetailsInvoice) return;
+    if (selectedTab !== 1 || !hasOrderAccess || orderDetailsInvoice) return;
 
     let isActive = true;
     void getInvoice(invoice.id).then((fullInvoice) => {
@@ -65,7 +70,7 @@ export default function InvoicePopup({ invoice, subInvoices, onClose, getInvoice
     return () => {
       isActive = false;
     };
-  }, [getInvoice, invoice.id, orderDetailsInvoice, selectedTab]);
+  }, [getInvoice, hasOrderAccess, invoice.id, orderDetailsInvoice, selectedTab]);
   return (
     <div className={styles.container}>
       <div className="headerparent">
@@ -139,13 +144,19 @@ export default function InvoicePopup({ invoice, subInvoices, onClose, getInvoice
           </div>
           {subInvoices?.length === 0 && <div className={styles.emptyState}>{t(LanguageKey.emptyInvoice)}</div>}
         </div>
+      ) : !hasOrderAccess ? (
+        <div className={styles.orderDetails}>
+          <NotAllowedCard />
+        </div>
       ) : orderDetailsInvoice ? (
         <div className={styles.orderDetails}>
-          <OrderDetailPopup
-            invoice={orderDetailsInvoice}
-            onClose={() => setOrderDetailsInvoice(null)}
-            backToInvoiceList={() => setOrderDetailsInvoice(null)}
-          />
+          <div className={styles.orderPopup}>
+            <OrderDetailPopup
+              invoice={orderDetailsInvoice}
+              onClose={() => setOrderDetailsInvoice(null)}
+              backToInvoiceList={() => setOrderDetailsInvoice(null)}
+            />
+          </div>
         </div>
       ) : (
         <div className={styles.orderDetails}>

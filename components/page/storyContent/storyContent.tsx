@@ -7,7 +7,9 @@ import { MouseEvent, SyntheticEvent, useCallback, useEffect, useId, useMemo, use
 import { useTranslation } from "react-i18next";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
+import RingLoader from "brancy/components/design/loader/ringLoder";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
+import { notify, NotifType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import NotAllowed from "brancy/components/notOk/notAllowed";
 import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
@@ -90,6 +92,7 @@ const StoryContent = (props: {
 
   const [state, dispatch] = useReducer(storyReducer, initialState);
   const [openMenuStoryId, setOpenMenuStoryId] = useState<number | null>(null);
+  const [isForceMediasLoading, setIsForceMediasLoading] = useState(false);
 
   const { stories, hasMore, nextTime, loadingStatus } = state;
 
@@ -98,6 +101,28 @@ const StoryContent = (props: {
   const handleMenuToggle = useCallback((storyId: number) => {
     setOpenMenuStoryId((prev) => (prev === storyId ? null : storyId));
   }, []);
+
+  const handleForceMedias = useCallback(async () => {
+    if (isForceMediasLoading) return;
+    setIsForceMediasLoading(true);
+    try {
+      const result = await clientFetchApi<undefined, boolean>("/api/post/getForceMedias", {
+        methodType: MethodType.get,
+        session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
+
+      if (result.succeeded && result.value === true) {
+        window.location.reload();
+      } else if (result.succeeded === false) {
+        notify(result.info.responseType, NotifType.Error);
+      }
+    } finally {
+      setIsForceMediasLoading(false);
+    }
+  }, [isForceMediasLoading, session]);
 
   const handleStoryClick = useCallback(
     (storyId: number) => {
@@ -277,6 +302,27 @@ const StoryContent = (props: {
 
         {!loadingStatus && stories && (
           <section className={`${styles.frameContainer} translate`} role="main">
+            <div className="ButtonContainer" style={{ justifyContent: "center" }}>
+              <div
+                className="cancelButton"
+                role="button"
+                tabIndex={isForceMediasLoading ? -1 : 0}
+                aria-busy={isForceMediasLoading}
+                style={{ maxWidth: "250px" }}
+                onClick={isForceMediasLoading ? undefined : handleForceMedias}
+                onKeyDown={(event) => {
+                  if (!isForceMediasLoading && (event.key === "Enter" || event.key === " ")) {
+                    event.preventDefault();
+                    handleForceMedias();
+                  }
+                }}>
+                {isForceMediasLoading ? (
+                  <RingLoader width={20} height={20} color="blue" />
+                ) : (
+                  t(LanguageKey.Storynotvisible)
+                )}
+              </div>
+            </div>
             {errorDraftsToRender.length > 0 && (
               <div className={styles.draft} role="article" aria-label="Error drafts section">
                 <div className={styles.cardbackground} />

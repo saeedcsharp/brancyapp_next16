@@ -779,6 +779,15 @@ export default {
     // #endregion home Section      // #region 2️⃣page Section
     // 2️⃣ Page -> Post
     CreateNewPost: "Create New Post",
+    Postnotvisible: "Post Not Visible?",
+    Storynotvisible: "Story Not Visible?",
+    SmartPageAnalysis: "Smart Page Analytics",
+    EducationAndGuidance: "Education & Guidance",
+    HowToUseBrancy: "How to Use Brancy",
+    BrancyKnowsYou: "Brancy Knows You",
+    BrancyKnowsYouExplain:
+      "Brancy deeply analyzes your page to build a complete picture of your digital identity — from your personality, business, and activities to your communication tone and style, content type, presentation style, posting schedule, and the way you interact with your audience.\n\nThis analysis also considers how you operate across all of your page's communication touchpoints — from responding to comments and Direct messages to your writing style, the way you interact with your audience, and how you respond to different situations.\n\nWith no need for manual training, tone configuration, or entering additional information, Brancy knows you and aligns its AI with your real identity and style.",
+    CreateYourDigitalVersion: "Create Your Digital Version",
     CreateNewStrory: "Create New Story",
     PostDraft: "Post Draft",
     StoryDraft: "Story Draft",

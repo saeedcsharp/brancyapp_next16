@@ -26,8 +26,16 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 <<<<<<< HEAD
+<<<<<<< HEAD
 - Add component coverage confirming Add Partner keeps Content and Publish independent, disables Publish while Content is off, and preserves Publish when Content is toggled when a UI test harness is introduced.
 =======
+=======
+- Add component coverage confirming the home dashboard upgrade slideshow combines regular and reserve AI feature balances, displays remaining subscription days, preserves pagination keyboard access, and handles missing feature data when a UI test harness is introduced.
+- Add component coverage confirming the separate home dashboard statistics slideshow renders stories, likes, reach, and unread comments in the specified color order and keeps story links independent from tile activation when a UI test harness is introduced.
+
+- Add component/browser coverage for opening and closing the home smart page-analysis modal with mouse, keyboard, backdrop, and missing-summary states when a UI test harness is introduced.
+
+>>>>>>> saeed
 - Add browser coverage confirming `/Ai` redirects to `/Ai/creator`, both AI child tabs render their legacy workspaces, and the old `/page/ai` and `/message/AIAndFlow` routes are no longer registered when a UI test harness is introduced.
 
 - Add component/browser coverage for opening and closing the Instagramer sidebar Support chat, including RTL positioning, keyboard activation, coexistence with the global support control, and mobile visibility when a UI test harness is introduced.
@@ -54,6 +62,7 @@
 - Add component coverage for settlement-history filtering, cursor pagination, duplicate sub-invoice IDs, status labels, loading/empty states, and responsive detail scrolling when a UI test harness is introduced.
 
 - Add component coverage confirming selecting the `Order` tab automatically loads order details inside the existing invoice popup, returns to the invoice summary through Back/Close, and does not mount a second modal when a UI test harness is introduced.
+- Extend invoice order-tab coverage to confirm users without `PartnerRole.Orders` see `NotAllowedCard` and do not request invoice/order details.
 
 - Add browser coverage confirming `/wallet` and legacy wallet routes redirect to `/wallet/payment`, and that the unified payment page renders balance summary, defaults to the default bank-card slide while allowing free navigation, supports inline add-card registration, latest per-card financial statuses, and invoices when a UI test harness is introduced.
 - Add component coverage for inline bank-card registration, including 16-digit submit activation, invalid-card feedback below the input, notification handling, and card refresh after successful registration when a UI test harness is introduced.

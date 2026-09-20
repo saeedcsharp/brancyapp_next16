@@ -328,11 +328,11 @@ const NavbarTabs = () => {
       indexValue: "message",
       initialSlide: 2,
     },
-    messageProperties: {
+    messageproperties: {
       id: "Properties",
       items: ["direct", "comments", "ticket", "Properties"],
       indexValue: "message",
-      initialSlide: 4,
+      initialSlide: 3,
     },
     walletpayment: {
       id: "payment",
@@ -383,11 +383,11 @@ const NavbarTabs = () => {
       indexValue: "advertise",
       initialSlide: 0,
     },
-    advertiseProperties: {
+    advertiseproperties: {
       id: "Properties",
       items: ["calendar", "adlist", "statistics", "Properties"],
       indexValue: "advertise",
-      initialSlide: 0,
+      initialSlide: 3,
     },
 
     storeproducts: {
@@ -414,11 +414,11 @@ const NavbarTabs = () => {
       indexValue: "setting",
       initialSlide: 0,
     },
-    settingsubAdmin: {
+    settingsubadmin: {
       id: "subAdmin",
       items: ["general", "subAdmin", "helpcenter"],
       indexValue: "setting",
-      initialSlide: 0,
+      initialSlide: 1,
     },
     settinghelpcenter: {
       id: "helpcenter",

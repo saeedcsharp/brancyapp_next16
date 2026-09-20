@@ -64,6 +64,7 @@ Exports are defined by source files in the module.
 - `helper/textByteLength.ts` provides reusable UTF-8 byte counting and Unicode-safe truncation for text limits.
 - `helper/apiBaseUrl.ts` exports `resolvePublicDomain`, which maps local and legacy base domains to the public link domain for the active runtime host. It preserves paths because callers append paths after resolving the base.
 - `helper/apiRouteMap.ts` maps `/api/preinstagramer/checkUserIsNew` to `PreInstagramer/CheckUserIsNew` for the landing-page first-login decision.
+- `helper/clientFetchApi.ts` redirects browser requests to `/upgrade` when either the direct backend call or `/api/user/*` proxy returns HTTP 402.
 
 ## Internal APIs
 
