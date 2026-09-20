@@ -1,3 +1,5 @@
+- 2026-09-20: Redirected direct and proxied client API responses with HTTP 402 to `/upgrade` and preserved a normalized `Payment Required` result.
+
 - 2026-09-19: Fixed the home dashboard tile loader remaining visible forever by deriving `IngageInfo` loading state from the arrival of home tile data instead of the authenticated session status.
 - 2026-09-19: Added independent 10-second autoplay timers to the home upgrade and statistics slideshows while preserving manual pagination.
 - 2026-09-19: Split the home dashboard total-tile slideshow into a two-slide upgrade section for reserve tokens and remaining subscription days and a separate four-slide statistics section for stories, likes, reach, and unread comments, with purple, light green, firoze, and light red statistic colors.

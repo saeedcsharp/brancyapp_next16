@@ -26,6 +26,7 @@ Requests include `Authorization`, `instagramerId`, and the incoming `user-agent`
 ## Error Behavior
 
 Proxy 401 responses delete NextAuth session cookies and return a normalized error result. Client direct calls may sign out on 401 when `loginByInsta` is true.
+Any client or proxied API response with status 402 redirects the browser to `/upgrade` and returns a normalized `Payment Required` result.
 
 ---
 

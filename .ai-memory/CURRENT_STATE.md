@@ -68,6 +68,8 @@ The repository is a single Next.js 16 application using React 19, TypeScript str
 
 The global App Router error boundary displays the received error message. DirectInbox keeps failed initial inbox requests and pagination/API failures local to the inbox, preserving the HTTP status and backend reason in notifications without crashing the whole route.
 
+`clientFetchApi` now redirects both direct backend requests and `/api/user/*` proxy requests to `/upgrade` when the response status is 402, while returning a normalized `Payment Required` result.
+
 ## Active Features
 
 - General and media auto-reply AI and Flow selectors show their localized create-automation actions while no prompt or flow is selected, including when selectable DragDrop options are available.
