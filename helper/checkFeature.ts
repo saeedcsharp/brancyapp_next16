@@ -24,6 +24,26 @@ export async function getPackageFeatureDetails(session: Session | null | undefin
     return null;
   }
 }
+export async function getTotalFeatureCount(
+  session: Session | null | undefined,
+  featureId: PsgFeatureType,
+): Promise<number | null> {
+  try {
+    const res = await clientFetchApi<boolean, number>("/Instagramer/Feature/GetTotalFeatureCount", {
+      methodType: MethodType.get,
+      session: session,
+      data: undefined,
+      queries: [{ key: "featureId", value: featureId.toString() }],
+      onUploadProgress: undefined,
+    });
+    if (res.succeeded && typeof res.value === "number") return res.value;
+    notify(res.info.responseType, NotifType.Warning);
+    return null;
+  } catch {
+    notify(ResponseType.Unexpected, NotifType.Error);
+    return null;
+  }
+}
 export async function checkPackageFeature(
   session: Session | null | undefined,
   featureId: PsgFeatureType,

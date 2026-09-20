@@ -146,7 +146,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 
 - The home smart page-analysis tile now opens the current account summary in the shared modal, with mouse and keyboard activation plus close controls.
 
-- The home dashboard token tile now loads the AI package feature details and displays the combined remaining balance from the regular and reserve AI features.
+- The home dashboard token tile now loads the direct AI total from `Instagramer/Feature/GetTotalFeatureCount` with `PsgFeatureType.AI`; numeric results, including zero, are displayed directly and unavailable results use the localized upgrade fallback.
 
 - The home dashboard upgrade tile now provides accessible pagination between the remaining AI token balance and remaining subscription days; the tile's main click and keyboard action still opens the upgrade route.
 

@@ -1,3 +1,7 @@
+- 2026-09-20: Updated the AI media creator token balance to use the shared `GetTotalFeatureCount` helper for `PsgFeatureType.AI` instead of loading package feature details.
+
+- 2026-09-20: Updated the home dashboard AI tile to use `Instagramer/Feature/GetTotalFeatureCount` with `PsgFeatureType.AI`; numeric results are displayed directly and unavailable results show the localized upgrade fallback while retaining the `/upgrade` action.
+
 - 2026-09-20: Stabilized the upgrade-page close button by using one guarded `router.replace("/home")` handler and relying on the native button keyboard behavior, preventing duplicate or intermittent navigation.
 
 - 2026-09-20: Removed the unused home-dashboard `/api/home/GetLastComments` request and its API route-map entry.

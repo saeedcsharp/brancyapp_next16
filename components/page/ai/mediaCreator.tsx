@@ -10,13 +10,7 @@ import { MethodType, UploadFile } from "brancy/helper/api";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { InputType, PsgFeatureType } from "brancy/models/enums";
-import {
-  IGetImageUsageRequest,
-  IMediaCreator,
-  IMediaCreatorInput,
-  IMediaCreatorModel,
-  IPsgFeatureInfo,
-} from "brancy/models/interfaces";
+import { IGetImageUsageRequest, IMediaCreator, IMediaCreatorInput, IMediaCreatorModel } from "brancy/models/interfaces";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import { ChangeEvent, CSSProperties, Dispatch, PointerEvent, SetStateAction, useEffect, useRef, useState } from "react";
@@ -24,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import styles from "./mediaCreator.module.css";
 import { t } from "i18next";
 import TextArea from "brancy/components/design/textArea/textArea";
+import { getTotalFeatureCount } from "brancy/helper/checkFeature";
 type InputValue = string | number | boolean | string[];
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
 interface UploadedMediaPreview {
@@ -523,17 +518,9 @@ export default function MediaCreator({
         setTokenBalance(null);
         return;
       }
-      const response = await clientFetchApi<boolean, IPsgFeatureInfo>("/api/psg/GetPackageFeatureDetails", {
-        session,
-        methodType: MethodType.get,
-      });
-      if (!mounted || !response.succeeded || !response.value) return;
-      const aiFeature = response.value.features.find((feature) => feature.featureId === PsgFeatureType.AI);
-      const packages = [aiFeature?.packageFeature, aiFeature?.reserveFeature].filter(
-        (item): item is NonNullable<typeof item> => item !== null && item !== undefined,
-      );
-      const remaining = packages.reduce((total, item) => total + Math.max(0, item.maxCount - item.count), 0);
-      setTokenBalance({ total: remaining, remaining });
+      const totalFeatureCount = await getTotalFeatureCount(session, PsgFeatureType.AI);
+      if (!mounted || totalFeatureCount === null) return;
+      setTokenBalance({ total: totalFeatureCount, remaining: totalFeatureCount });
     };
     loadTokenBalance();
     return () => {

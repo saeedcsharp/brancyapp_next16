@@ -9,8 +9,8 @@ import { LanguageKey } from "brancy/i18n";
 import Loading from "brancy/components/notOk/loading";
 import styles from "./ingageInfo.module.css";
 import { PsgFeatureType, TopTileType } from "brancy/models/enums";
-import { IInstagramerHomeTiles, IPageSummary, IPsgFeatureInfo, IStoryContent } from "brancy/models/interfaces";
-import { getPackageFeatureDetails } from "brancy/helper/checkFeature";
+import { IInstagramerHomeTiles, IPageSummary, IStoryContent } from "brancy/models/interfaces";
+import { getTotalFeatureCount } from "brancy/helper/checkFeature";
 import Tooltip from "../design/tooltip/tooltip";
 const basePictureUrl = getClientMediaBaseUrl();
 const FIRST_LOGIN_DURATION_MS = 24 * 60 * 60 * 1000;
@@ -93,11 +93,11 @@ const IngageInfo = (props: {
   const [currentTime, setCurrentTime] = useState(0);
   const [firstLoginAt, setFirstLoginAt] = useState<number | null>(null);
   const [activeStatusIndex, setActiveStatusIndex] = useState(0);
-  const [featureInfo, setFeatureInfo] = useState<IPsgFeatureInfo | null>(null);
+  const [aiFeatureCount, setAiFeatureCount] = useState<number | null>(null);
 
   useEffect(() => {
     if (!session) return;
-    getPackageFeatureDetails(session).then(setFeatureInfo);
+    getTotalFeatureCount(session, PsgFeatureType.AI).then(setAiFeatureCount);
   }, [session]);
   useEffect(() => {
     if (!session || session?.user.createdTime === null) return;
@@ -117,15 +117,6 @@ const IngageInfo = (props: {
   const syncRemainingSeconds = syncSeconds % 60;
   const packageRemainingSeconds = (session?.user.packageExpireTime ?? 0) - Math.floor(currentTime / 1000);
   const subscriptionRemainingDays = Math.max(0, Math.ceil(packageRemainingSeconds / (24 * 60 * 60)));
-  const aiFeature = featureInfo?.features.find((feature) => feature.featureId === PsgFeatureType.AI);
-
-  const remainingTokens =
-    (aiFeature?.packageFeature ? Math.max(0, aiFeature.packageFeature.maxCount - aiFeature.packageFeature.count) : 0) +
-    (aiFeature?.reserveFeature
-      ? aiFeature.reserveFeature.unLimited
-        ? aiFeature.reserveFeature.maxCount
-        : Math.max(0, aiFeature.reserveFeature.maxCount - aiFeature.reserveFeature.count)
-      : 0);
   const statusMap: StatusItem[] = [
     {
       key: "firstLogin",
@@ -258,7 +249,7 @@ const IngageInfo = (props: {
   const upgradeSlides = [
     {
       description: t(LanguageKey.ReserveToken),
-      value: `${numberToFormattedString(remainingTokens)}`,
+      value: aiFeatureCount === null ? t(LanguageKey.upgradeyouraccount) : numberToFormattedString(aiFeatureCount),
       backdropColor: "var(--color-light-red60)",
       activeDotClassName: styles.paginationdotactive,
       icon: (

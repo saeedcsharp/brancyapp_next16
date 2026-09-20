@@ -19,6 +19,8 @@
 
 Wallet balance history uses `/api/wallet/getBallanceHistory`, mapped directly to `Business/Wallet/GetBallanceHistory`. Its response value contains a `statistics` array of monthly day-count records for `ChartDay`.
 
+The home dashboard AI tile calls `GET /Instagramer/Feature/GetTotalFeatureCount?featureId=1` through `clientFetchApi`; the numeric response is the total AI feature count. A missing or unsuccessful response is represented as `null` in the helper so the tile can show its localized upgrade fallback.
+
 ## Auth And Headers
 
 Requests include `Authorization`, `instagramerId`, and the incoming `user-agent` headers. `/api/user/*` stays server proxied. Most other mapped endpoints are called directly from the browser using `getClientApiBaseUrl()`.

@@ -34,7 +34,7 @@ The PageDetail demographic section titles display the localized `home_Last30Days
 
 The home page owns the shared smart page-analysis modal and renders it at page level with the current `pageSummary` through `AccountSummary`. `IngageInfo` exposes the tile click and keyboard activation through a callback and displays the localized relative summary time from `pageSummary.createdTime`; the modal can be closed with its close button or the shared backdrop behavior.
 
-`IngageInfo` loads the current AI feature details for the authenticated session and displays the remaining AI token total by combining the unused counts from the regular and reserve AI features.
+`IngageInfo` loads the authenticated account's AI total through `Instagramer/Feature/GetTotalFeatureCount` with `PsgFeatureType.AI`. A numeric response, including zero, is displayed directly; an unavailable response displays the localized upgrade-account text, and the tile action continues to open `/upgrade`.
 
 The home upgrade tile is a two-slide accessible slideshow. Its first slide shows remaining AI tokens with the light-yellow backdrop and active pagination color; its second slide shows remaining subscription days using the live package expiry countdown with the dark-yellow backdrop and active pagination color. Pagination buttons switch the icon, description, and value without triggering the tile's upgrade action, while clicking or keyboard-activating the tile body still opens the upgrade route.
 

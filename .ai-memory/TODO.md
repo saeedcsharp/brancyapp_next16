@@ -14,7 +14,7 @@
 
 - Add component/browser coverage confirming the Upgrade close button navigates to `/home` through mouse, Enter, and Space activation without duplicate navigation when a UI test harness is introduced.
 
-- Add component coverage confirming the home dashboard upgrade slideshow combines regular and reserve AI feature balances, displays remaining subscription days, preserves pagination keyboard access, and handles missing feature data when a UI test harness is introduced.
+- Add component coverage confirming the home dashboard upgrade slideshow displays the direct AI feature count, preserves zero as a valid value, shows the localized upgrade fallback for unavailable data, displays remaining subscription days, and preserves pagination keyboard access when a UI test harness is introduced.
 - Add component coverage confirming the separate home dashboard statistics slideshow renders stories, likes, reach, and unread comments in the specified color order and keeps story links independent from tile activation when a UI test harness is introduced.
 
 - Add component/browser coverage for opening and closing the home smart page-analysis modal with mouse, keyboard, backdrop, and missing-summary states when a UI test harness is introduced.
