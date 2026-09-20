@@ -538,6 +538,7 @@ export interface IMediaCreatorInput {
   minArrayLength: number;
   fileTypes: string[] | null;
   isRequiredForToken: boolean;
+  defaultValue: any;
 }
 
 export interface IImageUsageInput {

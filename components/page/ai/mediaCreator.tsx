@@ -58,10 +58,29 @@ function getInputTitle(input: IMediaCreatorInput, language: string): string {
   const localizedTitle = input[languageKey];
   return typeof localizedTitle === "string" && localizedTitle.trim() ? localizedTitle : input.titleEn || input.key;
 }
+function getDefaultInputValue(input: IMediaCreatorInput): InputValue | null {
+  if (input.defaultValue === null || input.defaultValue === undefined) return null;
+
+  const inputType = Number(input.inputType);
+  if (inputType === InputType.Boolean) return Boolean(input.defaultValue);
+  if (inputType === InputType.ImageArray || inputType === InputType.VideoArray || inputType === InputType.AudioArray) {
+    return Array.isArray(input.defaultValue) ? input.defaultValue.map(String) : [];
+  }
+  if (inputType === InputType.Number || inputType === InputType.Range || inputType === InputType.IntRange) {
+    const numericValue = Number(input.defaultValue);
+    return Number.isFinite(numericValue) ? numericValue : null;
+  }
+  return String(input.defaultValue);
+}
 function getInitialValues(model: IMediaCreatorModel | undefined): Record<string, InputValue> {
   if (!model) return {};
   return model.inputModelTypes.reduce<Record<string, InputValue>>((values, input) => {
     const inputType = Number(input.inputType);
+    const defaultValue = getDefaultInputValue(input);
+    if (defaultValue !== null) {
+      values[input.key] = defaultValue;
+      return values;
+    }
     if (inputType === InputType.Boolean) values[input.key] = false;
     else if (
       inputType === InputType.ImageArray ||

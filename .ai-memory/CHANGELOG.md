@@ -1,3 +1,5 @@
+- 2026-09-20: Media creator inputs now initialize from each non-null backend `defaultValue`, normalized by `inputType`, while null defaults retain the existing fallbacks and remain editable.
+
 - 2026-09-20: Updated the AI media creator token balance to use the shared `GetTotalFeatureCount` helper for `PsgFeatureType.AI` instead of loading package feature details.
 
 - 2026-09-20: Updated the home dashboard AI tile to use `Instagramer/Feature/GetTotalFeatureCount` with `PsgFeatureType.AI`; numeric results are displayed directly and unavailable results show the localized upgrade fallback while retaining the `/upgrade` action.
