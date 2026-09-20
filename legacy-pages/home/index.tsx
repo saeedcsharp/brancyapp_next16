@@ -1,3 +1,10 @@
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useReducer, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { ResponseType } from "brancy/components/notifications/notificationBox";
+import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
 import AccountSummary from "brancy/components/homeIndex/accountSummary";
 import IngageInfo from "brancy/components/homeIndex/ingageInfo";
 import Modal from "brancy/components/design/modal";
@@ -21,15 +28,7 @@ import {
   IPostContent,
   IStoryContent,
 } from "brancy/models/interfaces";
-import styles from "./homeIndex.module.css";
-import { ResponseType } from "brancy/components/notifications/notificationBox";
 import { MethodType } from "brancy/helper/api";
-import { LoginStatus } from "brancy/models/enums";
-import { useSession } from "next-auth/react";
-import { Head } from "next/document";
-import { useRouter } from "next/router";
-import { useReducer, useState, useRef, useEffect, useCallback } from "react";
-import { useTranslation } from "react-i18next";
 
 const initialState = {
   error: { message: null } as IError,
@@ -246,6 +245,10 @@ const Home = () => {
       return;
     }
     console.log("Session loaded, checking package status...", session);
+    if (!packageStatus(session) && session?.user?.loginByInsta) {
+      router.push("/upgrade");
+      return;
+    }
 
     // Wait for GetAccountInfo() to complete (lastUpdate is set to 0 on sign-in and updated after GetAccountInfo)
 
