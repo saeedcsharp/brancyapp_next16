@@ -339,7 +339,7 @@ const Home = () => {
             {state.hometiles?.followerCount &&
               state.hometiles?.followerCount > 100 &&
               session.user.insightPermission && <PageDetail data={state.demographic} items={state.hometiles?.items!} />}
-            {!session.user.isShopper && !session.user.isInfluencer && (
+            {!session.user.isShopper && !session.user.isInfluencer && state.posts && (
               <PostSummary data={state.hometiles} posts={state.posts} />
             )}
 
