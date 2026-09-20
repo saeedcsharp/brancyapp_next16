@@ -22,6 +22,14 @@ import {
   IStoryContent,
 } from "brancy/models/interfaces";
 import styles from "./homeIndex.module.css";
+import { ResponseType } from "brancy/components/notifications/notificationBox";
+import { MethodType } from "brancy/helper/api";
+import { LoginStatus } from "brancy/models/enums";
+import { useSession } from "next-auth/react";
+import { Head } from "next/document";
+import { useRouter } from "next/router";
+import { useReducer, useState, useRef, useEffect, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 
 const initialState = {
   error: { message: null } as IError,
