@@ -1,4 +1,5 @@
 import RingLoader from "brancy/components/design/loader/ringLoder";
+import TextArea from "brancy/components/design/textArea/textArea";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import {
   internalNotify,
@@ -8,6 +9,7 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import { MethodType, UploadFile } from "brancy/helper/api";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { getTotalFeatureCount } from "brancy/helper/checkFeature";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { InputType, PsgFeatureType } from "brancy/models/enums";
 import { IGetImageUsageRequest, IMediaCreator, IMediaCreatorInput, IMediaCreatorModel } from "brancy/models/interfaces";
@@ -16,9 +18,6 @@ import { useSession } from "next-auth/react";
 import { ChangeEvent, CSSProperties, Dispatch, PointerEvent, SetStateAction, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./mediaCreator.module.css";
-import { t } from "i18next";
-import TextArea from "brancy/components/design/textArea/textArea";
-import { getTotalFeatureCount } from "brancy/helper/checkFeature";
 type InputValue = string | number | boolean | string[];
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
 interface UploadedMediaPreview {
@@ -71,6 +70,9 @@ function getDefaultInputValue(input: IMediaCreatorInput): InputValue | null {
     return Number.isFinite(numericValue) ? numericValue : null;
   }
   return String(input.defaultValue);
+}
+function allowsEmptyValue(input: IMediaCreatorInput): boolean {
+  return Number(input.inputType) === InputType.Text && input.min === 0;
 }
 function getInitialValues(model: IMediaCreatorModel | undefined): Record<string, InputValue> {
   if (!model) return {};
@@ -491,7 +493,7 @@ function DynamicInput({
         minLength={input.minTextLength || undefined}
         maxLength={input.maxTextLength || undefined}
         value={String(value ?? "")}
-        required={input.isRequired}
+        required={input.isRequired && !allowsEmptyValue(input)}
         onChange={(event) => onChange(event.target.value)}
       />
     </label>
@@ -601,7 +603,7 @@ export default function MediaCreator({
   }
   const promptIsValid = prompt.length >= model.minPromptLength && prompt.length <= model.maxPromptLength;
   const requiredInputsAreValid = model.inputModelTypes.every((input) => {
-    if (!input.isRequired) return true;
+    if (!input.isRequired || allowsEmptyValue(input)) return true;
     const value = values[input.key];
     return Array.isArray(value) ? value.length >= input.minArrayLength : value !== "" && value !== undefined;
   });
