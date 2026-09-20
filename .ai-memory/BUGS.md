@@ -2,6 +2,8 @@
 
 ## Known Bugs
 
+The upgrade-page close action was fixed on 2026-09-20 by replacing the duplicated click/keyboard navigation with one guarded `router.replace("/home")` handler. Native button keyboard activation remains available, and repeated activation after navigation starts is ignored.
+
 The home dashboard loading screen was fixed on 2026-09-19. `IngageInfo` previously initialized its loading flag from `LoginStatus(session)` and never cleared it for an authenticated session, hiding all home tiles indefinitely. The flag now follows the home tile data state; live browser verification confirmed five home tile sections render after refresh.
 
 The Instagram connection flow previously showed only a warning for Iranian IPs and blocked the redirect when the country code was absent. Fixed on 2026-09-08 by using the shared invalid-IP modal and matching `SwitchAccount`; live browser coverage remains pending.

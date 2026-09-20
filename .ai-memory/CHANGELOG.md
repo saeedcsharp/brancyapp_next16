@@ -1,3 +1,5 @@
+- 2026-09-20: Stabilized the upgrade-page close button by using one guarded `router.replace("/home")` handler and relying on the native button keyboard behavior, preventing duplicate or intermittent navigation.
+
 - 2026-09-20: Removed the unused home-dashboard `/api/home/GetLastComments` request and its API route-map entry.
 
 - 2026-09-20: Redirected direct and proxied client API responses with HTTP 402 to `/upgrade` and preserved a normalized `Payment Required` result.
