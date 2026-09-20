@@ -18,8 +18,14 @@ import {
 import { useTranslation } from "react-i18next";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
+import RingLoader from "brancy/components/design/loader/ringLoder";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
-import { internalNotify, InternalResponseType, NotifType } from "brancy/components/notifications/notificationBox";
+import {
+  internalNotify,
+  InternalResponseType,
+  notify,
+  NotifType,
+} from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import NotAllowed from "brancy/components/notOk/notAllowed";
 import { checkGuid } from "brancy/helper/guidList";
@@ -106,6 +112,7 @@ const PostContent = (props: PostContentProps) => {
   const { t } = useTranslation();
   const [state, dispatch] = useReducer(postReducer, initialState);
   const [openMenuPostId, setOpenMenuPostId] = useState<number | null>(null);
+  const [isForceMediasLoading, setIsForceMediasLoading] = useState(false);
   const [focusedPostIndex, setFocusedPostIndex] = useState<number>(-1);
   const [isPending, startTransition] = useTransition();
   const postRefs = useRef<Map<number, HTMLDivElement>>(new Map());
@@ -234,6 +241,28 @@ const PostContent = (props: PostContentProps) => {
   const handleMenuToggle = useCallback((postId: number) => {
     setOpenMenuPostId((prev) => (prev === postId ? null : postId));
   }, []);
+
+  const handleForceMedias = useCallback(async () => {
+    if (isForceMediasLoading) return;
+    setIsForceMediasLoading(true);
+    try {
+      const result = await clientFetchApi<undefined, boolean>("/api/post/getForceMedias", {
+        methodType: MethodType.get,
+        session,
+        data: undefined,
+        queries: undefined,
+        onUploadProgress: undefined,
+      });
+
+      if (result.succeeded && result.value === true) {
+        window.location.reload();
+      } else if (result.succeeded === false) {
+        notify(result.info.responseType, NotifType.Error);
+      }
+    } finally {
+      setIsForceMediasLoading(false);
+    }
+  }, [isForceMediasLoading, session]);
 
   const handleKeyboardNavigation = useCallback(
     (event: KeyboardEvent) => {
@@ -524,20 +553,24 @@ const PostContent = (props: PostContentProps) => {
         {!loadingStatus && posts && (
           <section className={`${styles.frameContainer} translate`}>
             <div className="ButtonContainer" style={{ justifyContent: "center" }}>
-              <div className="cancelButton" style={{ maxWidth: "250px" }}>
-                <svg
-                  width="20"
-                  xmlns="http://www.w3.org/2000/svg"
-                  color="currentColor"
-                  fill="none"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  viewBox="0 0 24 24">
-                  <path d="M20.94 13q.05-.5.05-1A9 9 0 0 0 5 6.34M3.05 11A9 9 0 0 0 19 17.66M12 12v-.8m1 .8a1 1 0 1 0-2 0 1 1 0 0 0 2 0 M8 7H7c-1.42 0-2.13 0-2.57-.44S4 5.41 4 4V3m12 14h1c1.4 0 2.11 0 2.55.44S20 18.59 20 20v1" />
-                </svg>
-                {t(LanguageKey.Postnotvisible)}
+              <div
+                className="cancelButton"
+                role="button"
+                tabIndex={isForceMediasLoading ? -1 : 0}
+                aria-busy={isForceMediasLoading}
+                style={{ maxWidth: "250px" }}
+                onClick={isForceMediasLoading ? undefined : handleForceMedias}
+                onKeyDown={(event) => {
+                  if (!isForceMediasLoading && (event.key === "Enter" || event.key === " ")) {
+                    event.preventDefault();
+                    handleForceMedias();
+                  }
+                }}>
+                {isForceMediasLoading ? (
+                  <RingLoader width={20} height={20} color="blue" />
+                ) : (
+                  t(LanguageKey.Postnotvisible)
+                )}
               </div>
             </div>
             {props.data.errorDrafts.length > 0 && (

@@ -247,6 +247,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/post/getCaptionPromptExamples": "Instagramer/Post/GetCaptionPromptExamples",
   "/api/post/getDraft": "Instagramer/Post/GetDraft",
   "/api/post/getExportComments": "Instagramer/Post/GetExportComments",
+  "/api/post/getForceMedias": "Instagramer/Post/GetForceMedias",
   "/api/post/getPostByGuid": "Instagramer/Post/GetPostByGuid",
   "/api/post/getPostByScrollingDown": "Instagramer/Post/GetPostByScrollingDown",
   "/api/post/getPostCards": "Instagramer/Post/GetPostCards",
