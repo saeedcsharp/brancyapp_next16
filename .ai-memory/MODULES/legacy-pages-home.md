@@ -134,7 +134,7 @@ Parent module: `legacy-pages`.
 
 ## Known Issues
 
-No confirmed module-specific issue recorded at initialization.
+The home dashboard no longer requests the unused `GetLastComments` endpoint; comment data remains available through the dedicated comment workflows.
 
 ## Technical Debt
 
@@ -155,13 +155,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

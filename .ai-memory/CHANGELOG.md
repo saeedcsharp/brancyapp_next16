@@ -1,3 +1,5 @@
+- 2026-09-20: Removed the unused home-dashboard `/api/home/GetLastComments` request and its API route-map entry.
+
 - 2026-09-20: Redirected direct and proxied client API responses with HTTP 402 to `/upgrade` and preserved a normalized `Payment Required` result.
 
 - 2026-09-19: Fixed the home dashboard tile loader remaining visible forever by deriving `IngageInfo` loading state from the arrival of home tile data instead of the authenticated session status.

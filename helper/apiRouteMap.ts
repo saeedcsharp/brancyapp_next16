@@ -143,7 +143,6 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/hashtag/updateHashtagList": "Instagramer/hashtag/UpdateHashtagList",
 
   // ── home ──────────────────────────────────────────────
-  "/api/home/getLastComments": "Instagramer/Home/GetLastComments",
   "/api/home/getLastMessages": "Instagramer/Home/GetLastMessages",
   "/api/home/getPageSummary": "Instagramer/Home/GetPageSummary",
   "/api/home/getTiles": "Instagramer/Home/GetTiles",
