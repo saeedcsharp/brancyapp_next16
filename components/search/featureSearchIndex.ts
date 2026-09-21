@@ -375,7 +375,7 @@ const featureSearchDefinitions: FeatureSearchItem[] = [
     keywords: ["ticket", "support", "تیکت", "پشتیبانی"],
   },
   {
-    route: "/message/AIAndFlow",
+    route: "/Ai/FlowandAgent",
     labelKey: LanguageKey.navbar_AIAndFlow,
     contextKeys: [LanguageKey.sidebar_Message],
     keywordGroups: ["artificialIntelligence", "automation"],

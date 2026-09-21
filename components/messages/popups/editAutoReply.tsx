@@ -1190,7 +1190,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                             <button
                               onClick={() => {
                                 try {
-                                  void router.push({ pathname: "/message/AIAndFlow" });
+                                  void router.push({ pathname: "/Ai/FlowandAgent" });
                                 } catch (e) {
                                   console.error(e);
                                 }
@@ -1320,7 +1320,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                             <button
                               onClick={() => {
                                 try {
-                                  void router.push({ pathname: "/message/AIAndFlow" });
+                                  void router.push({ pathname: "/Ai/FlowandAgent" });
                                 } catch (e) {
                                   console.error(e);
                                 }
