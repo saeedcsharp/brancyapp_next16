@@ -37,7 +37,6 @@ import router from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import styles from "./pageAI.module.css";
-
 import GeneratedImageModal from "brancy/components/page/ai/generatedImageModal";
 import GeneratedVideoModal from "brancy/components/page/ai/generatedVideoModal";
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
