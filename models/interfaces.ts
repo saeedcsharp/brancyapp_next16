@@ -39,7 +39,6 @@ import {
   LotteryGroupType,
   LotteryStatus,
   LotteryType,
-  MarketAdsType,
   MarketType,
   MediaProductType,
   MediaType,
@@ -77,7 +76,6 @@ import {
 
 import { StatusType } from "brancy/components/confirmationStatus/confirmationStatus";
 import { PriceType } from "brancy/components/priceFormater";
-import { StringDecoder } from "node:string_decoder";
 
 // #region _AccountInfo
 export interface InstagramerAccountInfo {
@@ -105,6 +103,7 @@ export interface InstagramerAccountInfo {
   publishPermission: boolean;
   website: string | null;
   biography: string | null;
+  businessType: BusinessType;
   createdTime: number;
 }
 

@@ -123,7 +123,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
       } else if (res.succeeded) {
         if (res.value.packageExpireTime < Date.now() / 1000 && (res.value.loginByFb || res.value.loginByInsta))
           notPackageNotify();
-        const updatedSession = await update({
+        await update({
           ...session,
           user: {
             loginStatus: res.value.loginStatus,
@@ -151,6 +151,7 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             website: res.value.website,
             biography: res.value.biography,
             createdTime: res.value.createdTime,
+            businessType: res.value.businessType,
           },
         });
 
