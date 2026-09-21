@@ -8,8 +8,8 @@ import { PartnerRole } from "brancy/models/enums";
 import { RoleAccess } from "brancy/helper/loadingStatus";
 export default function Page() {
   const { data: session, status } = useSession();
-  if (!RoleAccess(session, PartnerRole.PageView)) return <NotAllowed />;
   if (status === "loading") return null;
+  if (!RoleAccess(session, PartnerRole.PageView)) return <NotAllowed />;
   if (status === "authenticated" && session && !session.user.insightPermission) {
     return <NotPermission permissionType={PermissionType.Insights} />;
   }

@@ -1,20 +1,19 @@
 // #region
-import { useSession } from "next-auth/react";
-import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
-import { useTranslation } from "react-i18next";
-import InputBox from "brancy/components/design/inputBox/inputBox";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
-import { LoginStatus, RoleAccess } from "brancy/helper/loadingStatus";
-import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
-import styles from "./persistent_icebreaker.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { IceOrPersistent, PartnerRole, SpecialPayLoad, PayloadType } from "brancy/models/enums";
-import { IIceBreaker, IDetailPrompt } from "brancy/models/interfaces";
+import { LoginStatus } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { IceOrPersistent, PayloadType, SpecialPayLoad } from "brancy/models/enums";
+import { IDetailPrompt, IIceBreaker } from "brancy/models/interfaces";
+import { useSession } from "next-auth/react";
+import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
+import { useTranslation } from "react-i18next";
+import styles from "./persistent_icebreaker.module.css";
 const PersistentMenu = React.memo(
   ({
     updateLoading,
@@ -30,7 +29,7 @@ const PersistentMenu = React.memo(
     handleShowSpecialPayLoad: (type: IceOrPersistent) => void;
   }) => {
     const { data: session } = useSession();
-    const [loadingStatus, setLoadingStaus] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.Message));
+    const [loadingStatus, setLoadingStaus] = useState(LoginStatus(session));
     const { t } = useTranslation();
     const [isHidden, setIsHidden] = useState(false);
     const [explanationsVisible, setExplanationsVisible] = useState<boolean[]>([]);

@@ -21,10 +21,10 @@ import { MethodType, UploadFile } from "brancy/helper/api";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { convertHeicToJpeg } from "brancy/helper/convertHeicToJPEG";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { AutoReplyPayLoadType, MediaProductType, MediaType, PartnerRole } from "brancy/models/enums";
+import { AutoReplyPayLoadType, MediaProductType, MediaType } from "brancy/models/enums";
 import {
   IAutomaticReply,
   IErrorPrePostInfo,
@@ -1002,7 +1002,7 @@ const CreateStory = ({ showNotAllowed = false }: { showNotAllowed?: boolean }) =
           </div>
           <div className="fullScreenPupup_content">
             {showNotAllowed && <NotAllowed />}
-            {!showNotAllowed && RoleAccess(session, PartnerRole.PageView) && session.user.publishPermission && (
+            {!showNotAllowed && (
               <>
                 <div className={`${styles.container} ${loadingUpload && "fadeDiv"}`}>
                   <div className={styles.cardPost}>

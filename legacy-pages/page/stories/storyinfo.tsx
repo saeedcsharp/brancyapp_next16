@@ -2,9 +2,9 @@ import ChartHour from "brancy/components/design/chart/Chart_hour";
 import InputBox from "brancy/components/design/inputBox/inputBox";
 import Modal from "brancy/components/design/modal";
 import Slider from "brancy/components/design/slider/slider";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import SelectProduct from "brancy/components/messages/popups/selectProduct";
 import { MediaModal, useMediaModal } from "brancy/components/messages/shared/utils";
@@ -16,7 +16,6 @@ import {
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
-import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
 import LotteryPopup, { LotteryPopupType } from "brancy/components/page/popup/lottery";
 import QuickStoryReplyPopup from "brancy/components/page/popup/quickStoryReply";
@@ -27,10 +26,10 @@ import { convertArrayToLarray } from "brancy/helper/chunkArray";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { handleCopyLink } from "brancy/helper/copyLink";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { AutoReplyPayLoadType, MediaProductType, MediaType, PartnerRole } from "brancy/models/enums";
+import { AutoReplyPayLoadType, MediaProductType, MediaType } from "brancy/models/enums";
 import {
   IAutomaticReply,
   IDirectMessageItem,
@@ -110,7 +109,7 @@ const ShowStory = () => {
   const isFetchingRef = useRef(false);
   const timeoutRef = useRef<NodeJS.Timeout | undefined>(undefined);
   const isAuthenticated = useMemo(() => session !== null && LoginStatus(session), [session]);
-  const hasPageAccess = useMemo(() => session && RoleAccess(session, PartnerRole.PageView), [session]);
+
   const hasPackageAccess = useMemo(() => session && packageStatus(session), [session]);
   const isValidIndex = useMemo(() => session?.user.currentIndex !== -1, [session?.user.currentIndex]);
   const [loading, setLoading] = useState(false);
@@ -722,7 +721,6 @@ const ShowStory = () => {
           </div>
         </div>
         <div className="fullScreenPupup_content" role="region" aria-label="Story content">
-          {!hasPageAccess && <NotAllowed />}
           {toggleValue === ToggleOrder.FirstToggle && (
             <>
               {loading && <Loading />}

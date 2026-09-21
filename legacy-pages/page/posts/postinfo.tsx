@@ -1,17 +1,10 @@
-import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { ChangeEvent, useCallback, useEffect, useMemo, useReducer, useRef, useState, useTransition } from "react";
-import { useTranslation } from "react-i18next";
-import { DateObject } from "react-multi-date-picker";
 import MultiChart from "brancy/components/design/chart/Chart_month";
 import InputBox from "brancy/components/design/inputBox/inputBox";
 import Modal from "brancy/components/design/modal";
 import Slider from "brancy/components/design/slider/slider";
+import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import { ToggleOrder } from "brancy/components/design/toggleButton/types";
-import ToggleCheckBoxButton from "brancy/components/design/switchButton/switchButton";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import { MediaModal, useMediaModal } from "brancy/components/messages/shared/utils";
 import {
@@ -22,21 +15,20 @@ import {
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
-import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
 import LotteryPopup, { LotteryPopupType } from "brancy/components/page/popup/lottery";
 import QuickReplyPopup from "brancy/components/page/popup/quickReply";
 import FollowersNonFollowers from "brancy/components/page/posts/popup/followers&NonFollowers";
+import { MethodType } from "brancy/helper/api";
+import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { isRTL } from "brancy/helper/checkRtl";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { handleCopyLink } from "brancy/helper/copyLink";
 import formatTimeAgo from "brancy/helper/formatTimeAgo";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
-import { MethodType } from "brancy/helper/api";
-import styles from "./showPost.module.css";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { MediaProductType, MediaType, PartnerRole, ShopMediaProductType } from "brancy/models/enums";
+import { MediaProductType, MediaType, ShopMediaProductType } from "brancy/models/enums";
 import {
   IAutomaticReply,
   IDetailsPost,
@@ -45,6 +37,13 @@ import {
   IMedia,
   IMediaUpdateAutoReply,
 } from "brancy/models/interfaces";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { ChangeEvent, useCallback, useEffect, useMemo, useReducer, useRef, useState, useTransition } from "react";
+import { useTranslation } from "react-i18next";
+import { DateObject } from "react-multi-date-picker";
+import styles from "./showPost.module.css";
 const basePictureUrl = getClientMediaBaseUrl();
 function convertMillisecondsToTime(ms: number) {
   if (ms <= 0) {
@@ -156,7 +155,7 @@ const ShowPost = () => {
   });
   const [quickReply, setQuickReply] = useState(false);
   const [showLotteryPopup, setShowLotteryPopup] = useState(false);
-  const [loading, setLoading] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.PageView));
+  const [loading, setLoading] = useState(LoginStatus(session));
   const [showFollowersNonFollowers, setShowFollowersNonFollowers] = useState(false);
   const [comments, setComments] = useState<IMedia>();
   const [searchComments, setSearchComments] = useState<IMedia>();
@@ -655,7 +654,6 @@ const ShowPost = () => {
             </div>
           </div>
           <div className="fullScreenPupup_content">
-            {!RoleAccess(session, PartnerRole.PageView) && <NotAllowed />}
             {toggleValue === ToggleOrder.FirstToggle && (
               <>
                 {loading && <Loading />}

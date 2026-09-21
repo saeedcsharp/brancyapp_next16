@@ -2,15 +2,13 @@
 import DotLoaders from "brancy/components/design/loader/dotLoaders";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
-import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotShopper from "brancy/components/notOk/notShopper";
 import { MethodType } from "brancy/helper/api";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { packageStatus } from "brancy/helper/loadingStatus";
 import { calculateSummary } from "brancy/helper/numberFormater";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/enums";
 import { IProduct_Candidate } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
@@ -338,7 +336,7 @@ const SelectProduct = () => {
   }, [isModalOpen]);
   useEffect(() => {
     if (!session || session.user.currentIndex === -1) return;
-    if (RoleAccess(session, PartnerRole.Products)) fetchData(true);
+    fetchData(true);
   }, [session, fetchData]);
   useEffect(() => {
     if (!session) return;
@@ -351,7 +349,7 @@ const SelectProduct = () => {
     }
   }, [session, router]);
   if (!session?.user.isShopper) return <NotShopper />;
-  if (!RoleAccess(session, PartnerRole.Products)) return <NotAllowed />;
+
   // if (!session?.user.hasPackage) return <NotBasePackage />;
   if (!session || session.user.currentIndex === -1) return null;
   // #endregion

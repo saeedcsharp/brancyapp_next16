@@ -2518,7 +2518,7 @@ const CreatePost = ({ showNotAllowed = false }: { showNotAllowed?: boolean }) =>
           </div>
           <div className="fullScreenPupup_content">
             {showNotAllowed && <NotAllowed />}
-            {!showNotAllowed && RoleAccess(session, PartnerRole.PageView) && session.user.publishPermission && (
+            {!showNotAllowed && (
               <>
                 <div className={styles.container}>
                   <div className={`${styles.cardPost} ${loadingUpload && "fadeDiv"} translate`}>

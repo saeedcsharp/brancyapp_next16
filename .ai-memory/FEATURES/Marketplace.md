@@ -48,6 +48,8 @@ The public destination-links section is shown for the default-domain selection. 
 
 ## Market Properties Features
 
+The Products feature remains visible for every business type, but its controls are enabled only for Shop, VShoper, and Advertise accounts.
+
 The FeatureBox popup provides Working Hours and Terms & Conditions sections through the shared `ToggleButton`. It calls the canonical `/api/bio/getWorkingHours`, `/api/bio/getTermsAndCondtions`, `/api/bio/updateWorkingHours`, and `/api/bio/updateTermsAndConditions` paths; `apiRouteMap` resolves them to the corresponding `Instagramer/Bio/*` backend URLs. It shows the shared loader during the initial requests, embeds the existing business-hours editor, and provides an Announcement-style editable Terms component with one fixed 200px textarea, character counter, cancel, and save actions. Terms use an `{ str: string }` response/request body and the text is limited to 1,500 characters. Working hours use an `IBusinessHour[]` body.
 Saving Terms & Conditions refreshes `lastUpdate` with the current Unix timestamp in milliseconds before sending the update and applying it to local state.
 The Terms editor displays the stored `lastUpdate` using `initialzedTime()` and `DateObject`, so the configured calendar and locale control the rendered date.

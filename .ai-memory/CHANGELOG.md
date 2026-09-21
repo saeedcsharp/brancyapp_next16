@@ -1,3 +1,5 @@
+- 2026-09-21: Enabled the Market Properties Products feature for Shop, VShoper, and Advertise business types while keeping it visible but disabled for other roles.
+
 - 2026-09-20: Media creator inputs now initialize from each non-null backend `defaultValue`, normalized by `inputType`, while null defaults retain the existing fallbacks and remain editable.
 
 - 2026-09-20: Updated the AI media creator token balance to use the shared `GetTotalFeatureCount` helper for `PsgFeatureType.AI` instead of loading package feature details.

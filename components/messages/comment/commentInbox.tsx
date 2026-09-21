@@ -89,7 +89,7 @@ const CommentInbox = () => {
   useEffect(() => {
     refStoryCommentInbox.current = storyCommentInbox;
   }, [storyCommentInbox]);
-  const [loading, setLoading] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.Comment));
+  const [loading, setLoading] = useState(LoginStatus(session));
   const [searchbox, setSearchbox] = useState("");
   const [toggleOrder, setToggleOrder] = useState<CommentType>(CommentType.Post);
   const [userSelectedId, setUserSelectedId] = useState<string | null>(null);
@@ -1624,13 +1624,7 @@ const CommentInbox = () => {
   /* ___SingnalR start ___ */
   useEffect(() => {
     console.log(" ✅ Console ⋙ Session", session, session?.user.username);
-    if (
-      session === undefined ||
-      session?.user.username === undefined ||
-      !LoginStatus(session) ||
-      !RoleAccess(session, PartnerRole.Comment)
-    )
-      return;
+    if (session === undefined || session?.user.username === undefined || !LoginStatus(session)) return;
     fetchStoryCpmments();
     // fetchHides();
     fetchPostComments();
@@ -1671,7 +1665,6 @@ const CommentInbox = () => {
 
   return (
     <>
-      {!RoleAccess(session, PartnerRole.Comment) && <NotAllowed />}
       {loading && <Loading />}
       {!loading && (
         <div onClick={() => setShowIcon("")} className={`pincontainerMSG translate`}>
