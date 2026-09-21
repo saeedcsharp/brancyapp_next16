@@ -277,7 +277,7 @@ const featureSearchDefinitions: FeatureSearchItem[] = [
     keywords: ["story", "stories", "استوری"],
   },
   {
-    route: "/page/ai",
+    route: "/Ai/creator",
     labelKey: LanguageKey.navbar_ContentCreator,
     contextKeys: [LanguageKey.sidebar_Page],
     keywordGroups: ["contentCreation", "mediaCreation", "artificialIntelligence"],
