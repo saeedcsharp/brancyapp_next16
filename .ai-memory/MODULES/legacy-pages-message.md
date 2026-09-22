@@ -4,6 +4,8 @@
 
 Legacy page module for message routes and workflows.
 
+`Properties.tsx` no longer wires the removed automatic/bot reply filtering toggle or its `ToggleHideCommentAutoReply` request; other Message Properties handlers and backend reply settings remain unchanged.
+
 ## Business Purpose
 
 Preserves existing Brancy message feature behavior during App Router migration.

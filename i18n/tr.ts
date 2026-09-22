@@ -1787,9 +1787,9 @@ export default {
 
     messagesetting_messagePanellanguage: "Varsayılan Direkt Dili",
     messagesetting_messagePanellanguageExplain: "Mesajlara yanıt vermek için direkt botun varsayılan dili.",
-    messagesetting_AutoReplyPerFollow: "Follow Sonrası Otomatik Yanıt",
+    messagesetting_AutoReplyPerFollow: "Özel Takip Şablonu",
     messagesetting_AutoReplyPerFollowExplain:
-      "Kullanıcıların otomatik mesaj alabilmesi için önce sayfanızı follow etmesi gerekir",
+      "Kullanıcıdan sayfayı takip etmesini istediğiniz durumlarda bu şablonu kullanın.",
     messagesetting_AutoReplyPerFollowtooltip:
       "Sizi follow etmeyen kullanıcılar önce bir follow isteği alır. Sayfanızı follow ettikten sonra otomatik mesaj gönderilir",
     messagesetting_AutoReplyPerFollowtitle: "Mesaj Metni",

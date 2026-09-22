@@ -1831,9 +1831,9 @@ export default {
 
     messagesetting_messagePanellanguage: "Langue par défaut du Direct",
     messagesetting_messagePanellanguageExplain: "La langue par défaut du bot Direct pour répondre aux messages.",
-    messagesetting_AutoReplyPerFollow: "Réponse automatique après le Follow",
+    messagesetting_AutoReplyPerFollow: "Modèle de suivi personnalisé",
     messagesetting_AutoReplyPerFollowExplain:
-      "Les utilisateurs doivent d'abord follow votre page pour recevoir les messages automatiques",
+      "Utilisez ce modèle lorsque vous demandez à un utilisateur de suivre la page.",
     messagesetting_AutoReplyPerFollowtooltip:
       "Les utilisateurs qui ne vous follow pas recevront d'abord une demande de Follow. Après avoir follow votre page, le message automatique leur sera envoyé",
     messagesetting_AutoReplyPerFollowtitle: "Texte du message",

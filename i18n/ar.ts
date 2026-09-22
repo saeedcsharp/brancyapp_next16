@@ -1699,8 +1699,8 @@ export default {
 
     messagesetting_messagePanellanguage: "اللغة الافتراضية للدایرکت",
     messagesetting_messagePanellanguageExplain: "اللغة الافتراضية لروبوت الدایرکت للرد على الرسائل.",
-    messagesetting_AutoReplyPerFollow: "الرد التلقائي بعد المتابعة",
-    messagesetting_AutoReplyPerFollowExplain: "يجب على المستخدمين follow صفحتك أولاً للحصول على الرسائل التلقائية",
+    messagesetting_AutoReplyPerFollow: "قالب متابعة مخصص",
+    messagesetting_AutoReplyPerFollowExplain: "يُستخدم هذا القالب عندما يُطلب من المستخدم متابعة الصفحة.",
     messagesetting_AutoReplyPerFollowtooltip:
       "المستخدمون الذين لا follow صفحتك سيتلقون أولاً طلب follow، وبعد المتابعة سيتم إرسال الرسالة التلقائية إليهم",
     messagesetting_AutoReplyPerFollowtitle: "نص الرسالة",

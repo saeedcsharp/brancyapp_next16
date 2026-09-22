@@ -1727,8 +1727,9 @@ export default {
       "اگر برای پست‌های مختلف پاسخ خودکار کامنت تنظیم کرده باشید، با این گزینه می‌توانید همه آن‌ها را یک‌جا فعال یا غیرفعال کنید. برای تنظیم پاسخ‌ها باید به صفحه هر پست به‌صورت جداگانه مراجعه کنید",
     messagesetting_messagePanellanguage: "زبان پیش‌فرض دایرکت",
     messagesetting_messagePanellanguageExplain: "زبان پیش‌فرض ربات دایرکت برای پاسخ‌دهی به پیام‌ها",
-    messagesetting_AutoReplyPerFollow: "پاسخ خودکار پس از فالو",
-    messagesetting_AutoReplyPerFollowExplain: "کاربران برای دریافت پیام‌های خودکار باید ابتدا صفحه شما را فالو کنند",
+    messagesetting_AutoReplyPerFollow: "فالو آپ",
+    messagesetting_AutoReplyPerFollowExplain:
+      "در مواردی که از کاربر درخواست می شود پیج را فالو کند از این تمپلیت استفاده می شود.",
     messagesetting_AutoReplyPerFollowtooltip:
       "کاربرانی که شما را فالو نکرده‌اند، ابتدا درخواست فالو دریافت می‌کنند و پس از فالو کردن، پیام خودکار برای آن‌ها ارسال می‌شود",
     messagesetting_AutoReplyPerFollowtitle: "متن پیام",

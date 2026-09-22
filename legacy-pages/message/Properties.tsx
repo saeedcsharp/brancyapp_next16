@@ -300,28 +300,6 @@ const Properties = () => {
     likeReplyStory: true,
     robotReply: true,
   });
-  async function handleHideRobotReply(e: ChangeEvent<HTMLInputElement>) {
-    try {
-      const toggle = e.target.checked;
-      const res = await clientFetchApi<boolean, boolean>("/api/message/ToggleHideCommentAutoReply", {
-        methodType: MethodType.get,
-        session: session,
-        data: null,
-        queries: [{ key: "isHide", value: toggle.toString() }],
-        onUploadProgress: undefined,
-      });
-      if (res.succeeded) {
-        setMessagePanel((prev) => ({
-          ...prev,
-          robotReply: toggle,
-        }));
-      } else {
-        notify(res.info.responseType, NotifType.Warning);
-      }
-    } catch (error) {
-      notify(ResponseType.Unexpected, NotifType.Error);
-    }
-  }
   async function handleLikeRobotReply(e: ChangeEvent<HTMLInputElement>) {
     try {
       const toggle = e.target.checked;
@@ -814,7 +792,6 @@ const Properties = () => {
                 likeReplyStory: false,
                 robotReply: false,
               }}
-              handleHideRobotReply={() => {}}
               handleLikeRobotReply={() => {}}
               handleToggleFollowTemplate={() => {}}
               handleChangeTitle={() => {}}
@@ -853,7 +830,6 @@ const Properties = () => {
             />
             <MessagePanel
               messagePanel={messagePanel}
-              handleHideRobotReply={handleHideRobotReply}
               handleLikeRobotReply={handleLikeRobotReply}
               handleToggleFollowTemplate={handleToggleFollowTemplate}
               handleChangeTitle={handleChangeFollowTempTitle}

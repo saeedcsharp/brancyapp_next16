@@ -2,6 +2,10 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+The Message Properties panel no longer exposes the automatic/bot reply filtering toggle or calls `ToggleHideCommentAutoReply`; the backend reply-setting shape remains intact for the other message settings.
+
+The Message Properties FollowUp template setting uses the `Custom FollowUp Template` label and the requested Persian explanation in all eight locales.
+
 The message response-rule smart default list shows View Store and Products only for authenticated Shop and VShoper business types; other business types cannot select that store-specific payload.
 
 Adding an Ice Breaker or Persistent Menu button on the message Properties page immediately removes the chosen special payload from the smart default picker: after saving, `handleSaveSpecialPayLoad` re-filters the special payload lists from the refetched menu items, so no page reload is needed for the picker to reflect the used item.

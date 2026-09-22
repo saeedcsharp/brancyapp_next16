@@ -1788,9 +1788,9 @@ export default {
 
     messagesetting_messagePanellanguage: "Язык по умолчанию для Direct",
     messagesetting_messagePanellanguageExplain: "Язык бота Direct по умолчанию для ответа на сообщения.",
-    messagesetting_AutoReplyPerFollow: "Автоответ после Follow",
+    messagesetting_AutoReplyPerFollow: "Пользовательский шаблон FollowUp",
     messagesetting_AutoReplyPerFollowExplain:
-      "Пользователь должен сначала follow вашу страницу, чтобы получить автоматические сообщения",
+      "Используйте этот шаблон, когда просите пользователя подписаться на страницу.",
     messagesetting_AutoReplyPerFollowtooltip:
       "Пользователи, которые не follow вас, сначала получат запрос на Follow. После этого им автоматически будет отправлено сообщение",
     messagesetting_AutoReplyPerFollowtitle: "Текст сообщения",

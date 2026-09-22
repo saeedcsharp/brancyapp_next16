@@ -6,6 +6,10 @@ The AI Flow editor shows a localized private-reply warning beside the back and s
 
 Component module for messages UI and feature concerns.
 
+The Message Properties panel no longer renders the automatic/bot reply filtering toggle; its related parent callback and `ToggleHideCommentAutoReply` request were removed while the remaining reply settings continue to use the existing backend model.
+
+The FollowUp template setting uses the `Custom FollowUp Template` label and the requested Persian explanation in all eight locales.
+
 ## Business Purpose
 
 Supports Brancy messages workflows or shared UI.

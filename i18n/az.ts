@@ -1722,9 +1722,9 @@ export default {
 
     messagesetting_messagePanellanguage: "Default Direct dili",
     messagesetting_messagePanellanguageExplain: "Direct robotunun mesajlara cavab üçün default dili",
-    messagesetting_AutoReplyPerFollow: "Follow-dan Sonra Avtomatik Cavab",
+    messagesetting_AutoReplyPerFollow: "Fərdi izləmə şablonu",
     messagesetting_AutoReplyPerFollowExplain:
-      "İstifadəçilər avtomatik mesaj almaq üçün əvvəlcə səhifənizi follow etməlidirlər",
+      "İstifadəçidən səhifəni izləməsi tələb olunduqda bu şablondan istifadə edilir.",
     messagesetting_AutoReplyPerFollowtooltip:
       "Sizi follow etməyən istifadəçilər əvvəlcə follow sorğusu alacaqlar. Səhifənizi follow etdikdən sonra avtomatik mesaj göndəriləcək",
     messagesetting_AutoReplyPerFollowtitle: "Mesaj Mətni",

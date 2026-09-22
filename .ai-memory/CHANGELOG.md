@@ -1,3 +1,7 @@
+- 2026-09-22: Updated the FollowUp template setting label and explanation in all eight locales to `Custom FollowUp Template` and the requested Persian description.
+
+- 2026-09-22: Removed the Message Properties toggle and API callback for filtering automatic and bot replies; the remaining message reply settings are unchanged.
+
 - 2026-09-22: Fixed the message Properties smart default list not removing a just-added special payload button until reload, by re-filtering `specialPayloadInfoForIce`/`specialPayloadInfoForPersistent` from the refetched Ice Breaker/Persistent Menu items after saving.
 
 - 2026-09-22: Restricted the message smart default View Store and Products option to Shop and VShoper sessions.

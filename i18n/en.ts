@@ -1758,8 +1758,8 @@ export default {
 
     messagesetting_messagePanellanguage: "Default Direct Language",
     messagesetting_messagePanellanguageExplain: "The default language of the direct bot for replying to messages.",
-    messagesetting_AutoReplyPerFollow: "Auto Reply After Follow",
-    messagesetting_AutoReplyPerFollowExplain: "Users must follow your page before receiving automatic messages",
+    messagesetting_AutoReplyPerFollow: "Custom FollowUp Template",
+    messagesetting_AutoReplyPerFollowExplain: "Use this template when asking a user to follow the page.",
     messagesetting_AutoReplyPerFollowtooltip:
       "Users who do not follow you will first receive a follow request. After following your page, the automatic message will be sent to them",
     messagesetting_AutoReplyPerFollowtitle: "Message Text",
