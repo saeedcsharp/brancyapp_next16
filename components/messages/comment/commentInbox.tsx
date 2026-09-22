@@ -59,6 +59,16 @@ let downFlagLeft = false;
 let downFlagRight = false;
 let hideDivIndex: string | null = null;
 
+const uniqueMedias = (medias: IMedia[]): IMedia[] => {
+  const seenMediaIds = new Set<string>();
+
+  return medias.filter((media) => {
+    if (seenMediaIds.has(media.mediaId)) return false;
+    seenMediaIds.add(media.mediaId);
+    return true;
+  });
+};
+
 const CommentInbox = () => {
   const { data: session } = useSession({
     required: true,
@@ -392,21 +402,18 @@ const CommentInbox = () => {
         console.log("not hides Fb inboxxxxxxxxxxxxxxxxxxx", postComments);
         if (postComments.succeeded && !query) {
           setPostCommentInbox((prev) => {
-            // Create a Set of existing mediaIds for efficient lookup
-            const existingMediaIds = new Set(prev!.medias.map((media) => media.mediaId));
-
-            // Filter out medias that already exist
-            const uniqueNewMedias = postComments.value.medias.filter((media) => !existingMediaIds.has(media.mediaId));
-
             return {
               ...prev!,
               oldestCursor: postComments.value.oldestCursor,
-              medias: [...prev!.medias, ...uniqueNewMedias],
+              medias: uniqueMedias([...prev!.medias, ...postComments.value.medias]),
             };
           });
         } else if (postComments.succeeded && query) {
           if (postComments.value.medias.length > 0) {
-            setSearchPostCommentInbox(postComments.value);
+            setSearchPostCommentInbox({
+              ...postComments.value,
+              medias: uniqueMedias(postComments.value.medias),
+            });
             setShowSearchThread((prev) => ({ ...prev, loading: false }));
           } else
             setShowSearchThread((prev) => ({
@@ -446,18 +453,18 @@ const CommentInbox = () => {
         console.log("businessRes ", businessRes.value);
         if (businessRes.succeeded && !query) {
           setStoryCommentInbox((prev) => {
-            const existingMediaIds = new Set(prev!.medias.map((media) => media.mediaId));
-            const uniqueNewMedias = businessRes.value.medias.filter((media) => !existingMediaIds.has(media.mediaId));
-
             return {
               ...prev!,
               oldestCursor: businessRes.value.oldestCursor,
-              medias: [...prev!.medias, ...uniqueNewMedias],
+              medias: uniqueMedias([...prev!.medias, ...businessRes.value.medias]),
             };
           });
         } else if (businessRes.succeeded && query) {
           if (businessRes.value.medias.length > 0) {
-            setSearchBusinessInbox(businessRes.value);
+            setSearchBusinessInbox({
+              ...businessRes.value,
+              medias: uniqueMedias(businessRes.value.medias),
+            });
             setShowSearchThread((prev) => ({ ...prev, loading: false }));
           } else
             setShowSearchThread((prev) => ({
@@ -492,11 +499,14 @@ const CommentInbox = () => {
           setHideInbox((prev) => ({
             ...prev!,
             oldestCursor: hideFb.value.oldestCursor,
-            medias: [...prev!.medias, ...hideFb.value.medias],
+            medias: uniqueMedias([...prev!.medias, ...hideFb.value.medias]),
           }));
         } else if (hideFb.succeeded && query) {
           if (hideFb.value.medias.length > 0) {
-            setSearchHideInbox(hideFb.value);
+            setSearchHideInbox({
+              ...hideFb.value,
+              medias: uniqueMedias(hideFb.value.medias),
+            });
             setShowSearchThread((prev) => ({ ...prev, loading: false }));
           } else
             setShowSearchThread((prev) => ({
@@ -539,7 +549,10 @@ const CommentInbox = () => {
         const media = postComments.value.medias.find((x) => x.mediaId === mediaId);
         if (media) {
           setUserSelectedId(mediaId);
-          setStoryCommentInbox(postComments.value);
+          setStoryCommentInbox({
+            ...postComments.value,
+            medias: uniqueMedias(postComments.value.medias),
+          });
         } else {
           try {
             const info: IGetMediaCommentInfo = {
@@ -561,14 +574,19 @@ const CommentInbox = () => {
               setStoryCommentInbox((prev) => ({
                 ...prev!,
                 ownerInbox: postComments.value.ownerInbox,
-                medias: [newThread.value, ...postComments.value.medias],
+                medias: uniqueMedias([newThread.value, ...postComments.value.medias]),
               }));
             } else notify(newThread.info.responseType, NotifType.Warning);
           } catch (error) {
             notify(ResponseType.Unexpected, NotifType.Error);
           }
         }
-      } else setStoryCommentInbox(postComments.value);
+      } else {
+        setStoryCommentInbox({
+          ...postComments.value,
+          medias: uniqueMedias(postComments.value.medias),
+        });
+      }
       console.log("fbRes.value ", postComments.value);
     } catch (error) {}
   }
@@ -591,7 +609,10 @@ const CommentInbox = () => {
         const media = postComments.value.medias.find((x) => x.mediaId === mediaId);
         if (media) {
           setUserSelectedId(mediaId);
-          setPostCommentInbox(postComments.value);
+          setPostCommentInbox({
+            ...postComments.value,
+            medias: uniqueMedias(postComments.value.medias),
+          });
         } else {
           try {
             const info: IGetMediaCommentInfo = {
@@ -613,14 +634,19 @@ const CommentInbox = () => {
               setPostCommentInbox((prev) => ({
                 ...prev!,
                 ownerInbox: postComments.value.ownerInbox,
-                medias: [newThread.value, ...postComments.value.medias],
+                medias: uniqueMedias([newThread.value, ...postComments.value.medias]),
               }));
             } else notify(newThread.info.responseType, NotifType.Warning);
           } catch (error) {
             notify(ResponseType.Unexpected, NotifType.Error);
           }
         }
-      } else setPostCommentInbox(postComments.value);
+      } else {
+        setPostCommentInbox({
+          ...postComments.value,
+          medias: uniqueMedias(postComments.value.medias),
+        });
+      }
       console.log("fbRes.value ", postComments.value);
     } catch (error) {}
     await handleSignalR();
@@ -636,8 +662,12 @@ const CommentInbox = () => {
         onUploadProgress: undefined,
       });
       console.log(" ✅ Console ⋙ Hide ", res.value);
-      if (res.succeeded) setHideInbox(res.value);
-      else notify(res.info.responseType, NotifType.Warning);
+      if (res.succeeded) {
+        setHideInbox({
+          ...res.value,
+          medias: uniqueMedias(res.value.medias),
+        });
+      } else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Warning);
     }
@@ -757,14 +787,14 @@ const CommentInbox = () => {
             if (media) return;
             setPostCommentInbox((prev) => ({
               ...prev!,
-              medias: [newThread.value, ...prev!.medias],
+              medias: uniqueMedias([newThread.value, ...prev!.medias]),
             }));
           } else {
             const media = refStoryCommentInbox.current?.medias.find((x) => x.mediaId === mediaId);
             if (media) return;
             setStoryCommentInbox((prev) => ({
               ...prev!,
-              medias: [newThread.value, ...prev!.medias],
+              medias: uniqueMedias([newThread.value, ...prev!.medias]),
             }));
 
             console.log("newItemsssssssssssssssssss", newThread.value);

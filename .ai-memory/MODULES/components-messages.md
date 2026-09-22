@@ -62,7 +62,7 @@ React components are present when the folder contains `.tsx` UI files.
 
 `comment/commentInbox.tsx` memoizes the selected media's auto-reply configuration before passing it to `popups/editAutoReplyForMedia.tsx`. Hover-driven parent renders therefore preserve the child fetch effect dependencies and do not repeat prompt or flow API requests; a media, search-mode, or inbox-data change still supplies updated configuration.
 
-`comment/commentInbox.tsx` returns fetched media pages from its Post and Story `useInfiniteScroll` callbacks. The backend `oldestCursor` is nullable; returning an empty array before the response was processed caused the shared hook to stop pagination even when another cursor existed. Post and Story page appends also filter duplicate media IDs.
+`comment/commentInbox.tsx` returns fetched media pages from its Post and Story `useInfiniteScroll` callbacks. The backend `oldestCursor` is nullable; returning an empty array before the response was processed caused the shared hook to stop pagination even when another cursor existed. Every comment-inbox media state write now de-duplicates by `mediaId`, including initial responses, search results, page appends, deep links, hidden inbox data, and SignalR media inserts.
 
 `aiflow/flowNode/TextNode.tsx` enforces a 1,000-byte UTF-8 limit for text input, paste, and existing node data. The counter reports bytes rather than JavaScript string length, and truncation preserves complete Unicode characters.
 

@@ -43,6 +43,8 @@ The Iranian/local Footer branch now publishes source-backed LocalBusiness JSON-L
 
 The media quick-reply popup now renders the reusable `components/notOk/commentPermissionState.tsx` localized comment-permission state with an inline SVG and an Instagram permission redirect when `session.user.commentPermission === false`. Its Enable Permission action checks `/api/user/ip` and opens `InvalidIpModalContent` for Iranian IPs; authorized users continue to see the existing auto-reply editor. The media auto-reply editor preserves same-comment, AI, and keyword workflows without message permission, while direct response, Flow, Product, and Connect Product selections show the localized message-permission state and reuse the Instagram permission redirect.
 
+The comment inbox de-duplicates every Post, Story, hidden-inbox, search, deep-link, pagination, and SignalR media list by `mediaId`, preserving the first item's order when the backend returns repeated media.
+
 The former icon-specific toggle control has been removed. Toggle tabs now use the shared `components/design/toggleButton/ToggleButton.tsx` control across wallet, event ideas, follower analysis, and the system-design showcase.
 
 Instagramer wallet navigation now has one canonical tab at `/wallet/payment`. The payment page contains the former statistics balance summary and card financial-status sections, while `/wallet`, `/wallet/statistics`, and `/wallet/title` redirect to it.

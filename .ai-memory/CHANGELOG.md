@@ -1,3 +1,5 @@
+- 2026-09-21: De-duplicated all comment-inbox media arrays by `mediaId`, covering initial loads, pagination, searches, hidden inboxes, deep links, and SignalR inserts.
+
 - 2026-09-21: Enabled the Market Properties Products feature for Shop, VShoper, and Advertise business types while keeping it visible but disabled for other roles.
 
 - 2026-09-20: Media creator inputs now initialize from each non-null backend `defaultValue`, normalized by `inputType`, while null defaults retain the existing fallbacks and remain editable.
