@@ -652,8 +652,14 @@ const Properties = () => {
               queries: undefined,
               onUploadProgress: undefined,
             });
-            if (res.succeeded) setPersistentMenus(res.value);
-            else notify(res.info.responseType, NotifType.Warning);
+            if (res.succeeded) {
+              setPersistentMenus(res.value);
+              setSpecialPayloadInfoForPersistent(
+                specialPayLoadArr.filter((x) =>
+                  res.value.profileButtons.items.every((y) => y.specialPayload !== x.specialPayload),
+                ),
+              );
+            } else notify(res.info.responseType, NotifType.Warning);
           } catch (error) {
             notify(ResponseType.Unexpected, NotifType.Error);
           }
@@ -684,8 +690,14 @@ const Properties = () => {
               queries: undefined,
               onUploadProgress: undefined,
             });
-            if (res.succeeded) setIceBreakers(res.value);
-            else notify(res.info.responseType, NotifType.Warning);
+            if (res.succeeded) {
+              setIceBreakers(res.value);
+              setSpecialPayloadInfoForIce(
+                specialPayLoadArr.filter((x) =>
+                  res.value.profileButtons.items.every((y) => y.specialPayload !== x.specialPayload),
+                ),
+              );
+            } else notify(res.info.responseType, NotifType.Warning);
           } catch (error) {
             notify(ResponseType.Unexpected, NotifType.Error);
           }

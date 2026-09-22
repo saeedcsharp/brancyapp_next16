@@ -1,3 +1,5 @@
+- 2026-09-22: Fixed the message Properties smart default list not removing a just-added special payload button until reload, by re-filtering `specialPayloadInfoForIce`/`specialPayloadInfoForPersistent` from the refetched Ice Breaker/Persistent Menu items after saving.
+
 - 2026-09-22: Restricted the message smart default View Store and Products option to Shop and VShoper sessions.
 
 - 2026-09-21: De-duplicated all comment-inbox media arrays by `mediaId`, covering initial loads, pagination, searches, hidden inboxes, deep links, and SignalR inserts.

@@ -56,6 +56,8 @@ See related source files for exported functions and local helpers.
 
 React components are present when the folder contains `.tsx` UI files.
 
+`Properties.tsx` keeps the smart default (special payload) lists in sync after adding a button: `handleSaveSpecialPayLoad` refetches the Ice Breaker/Persistent Menu and re-filters `specialPayloadInfoForIce`/`specialPayloadInfoForPersistent` from the refetched `profileButtons.items`, so a just-added special payload is removed from the picker without requiring a page reload.
+
 ## Hooks
 
 React hooks are present when named `use*` functions/files exist.
