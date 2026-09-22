@@ -52,7 +52,7 @@ const recordsEn = {
   responseRules: {
     title: "Reply rules and message controls",
     description:
-      "Configure general auto replies, icebreakers, persistent menus, special payloads, follower checks, and reply settings for direct conversations; create actions remain available when no AI prompt or flow is selected.",
+      "Configure general auto replies, icebreakers, persistent menus, special payloads, follower checks, and reply settings for direct conversations. The View Store and Products smart default is available only to Shop and VShoper accounts.",
   },
   aiFlows: {
     title: "AI prompts and visual flows",
@@ -612,9 +612,9 @@ export const featureKnowledgeFa = {
     responseRules: {
       title: "قوانین پاسخ به پیام",
       description:
-        "برای پیام‌ها جواب خودکار، شروع‌کننده گفت‌وگو و منوی آماده بسازید و هنگام انتخاب‌نکردن گزینه، مسیر ساخت آن را باز کنید.",
+        "برای پیام‌ها جواب خودکار، شروع‌کننده گفت‌وگو و منوی آماده بسازید؛ گزینه دیدن فروشگاه و محصولات فقط برای حساب فروشگاه یا فروشگاه مجازی نمایش داده می‌شود.",
       descriptionDetail:
-        "برای مدیریت پیام‌های تکراری، جواب خودکار و شروع‌کننده گفت‌وگو بسازید و منوی آماده در اختیار مخاطب بگذارید. در تنظیمات پاسخ خودکار، وقتی هنوز دستور هوش مصنوعی یا فلو را انتخاب نکرده‌اید، مسیر ساخت همان گزینه در کنار فهرست انتخاب نمایش داده می‌شود. می‌توانید قوانین پاسخ، بررسی دنبال‌کردن حساب و تنظیمات مربوط به هر گفت‌وگو را هماهنگ کنید تا پاسخ‌گویی منظم‌تر شود.",
+        "برای مدیریت پیام‌های تکراری، جواب خودکار و شروع‌کننده گفت‌وگو بسازید و منوی آماده در اختیار مخاطب بگذارید. در تنظیمات پاسخ خودکار، وقتی هنوز دستور هوش مصنوعی یا فلو را انتخاب نکرده‌اید، مسیر ساخت همان گزینه در کنار فهرست انتخاب نمایش داده می‌شود. گزینه دیدن فروشگاه و محصولات در فهرست هوشمند پیش‌فرض فقط برای حساب‌هایی با نوع فروشگاه یا فروشگاه مجازی در دسترس است. می‌توانید قوانین پاسخ، بررسی دنبال‌کردن حساب و تنظیمات مربوط به هر گفت‌وگو را هماهنگ کنید تا پاسخ‌گویی منظم‌تر شود.",
     },
     aiFlows: {
       title: "دستورها و جریان‌های هوش مصنوعی",

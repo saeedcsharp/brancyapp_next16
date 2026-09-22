@@ -2,6 +2,8 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+The message response-rule smart default list shows View Store and Products only for authenticated Shop and VShoper business types; other business types cannot select that store-specific payload.
+
 The home dashboard no longer remains on its full-page loader after authentication. `IngageInfo` derives loading from `props.data === null`, and a live browser refresh confirmed the five home tile sections render with the authenticated demo session.
 
 The home dashboard total-tile area now presents reserve tokens and remaining subscription days in one upgrade slideshow, while active stories, last likes, reach, and unread comments are grouped in a separate statistics slideshow. Both slideshows advance automatically every 10 seconds and remain manually navigable. The four statistic slides use purple, light green, firoze, and light red in that order.

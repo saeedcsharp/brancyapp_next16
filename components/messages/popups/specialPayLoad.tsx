@@ -14,7 +14,7 @@ import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
 import styles from "./specialPayLoad.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { PayloadType, SpecialPayLoad } from "brancy/models/enums";
+import { BusinessType, PayloadType, SpecialPayLoad } from "brancy/models/enums";
 import {
   ISpecialPayload,
   IUpdateProfileButton,
@@ -230,13 +230,20 @@ const SpecialPayLoadComp = React.memo(
         <div key="NoSelect" id="NoSelect">
           {t(LanguageKey.Pleaseselect)}
         </div>,
-        ...specialPayloads.map((payload) => (
-          <div key={payload.specialPayload.toString()} id={payload.specialPayload.toString()}>
-            {specialPayloadTextMap[payload.specialPayload as SpecialPayLoad].title}
-          </div>
-        )),
+        ...specialPayloads
+          .filter(
+            (payload) =>
+              payload.specialPayload !== SpecialPayLoad.ViewShop ||
+              session?.user.businessType === BusinessType.Shop ||
+              session?.user.businessType === BusinessType.VShoper,
+          )
+          .map((payload) => (
+            <div key={payload.specialPayload.toString()} id={payload.specialPayload.toString()}>
+              {specialPayloadTextMap[payload.specialPayload as SpecialPayLoad].title}
+            </div>
+          )),
       ],
-      [specialPayloads, t, specialPayloadTextMap],
+      [session?.user.businessType, specialPayloads, t, specialPayloadTextMap],
     );
     const getAITitles = useCallback(
       () => [

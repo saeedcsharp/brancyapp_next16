@@ -58,6 +58,8 @@ See related source files for exported functions and local helpers.
 
 React components are present when the folder contains `.tsx` UI files.
 
+`popups/specialPayLoad.tsx` includes the View Store and Products action in its smart default list only when `session.user.businessType` is `BusinessType.Shop` or `BusinessType.VShoper`. Other business types cannot select this store-specific payload.
+
 `popups/selectProduct.tsx` loads product thumbnails through `useInfiniteScroll`. Its pagination callback always applies the hook's `hasMore` result, including an empty terminal page, so a short product grid cannot repeatedly request an exhausted product cursor.
 
 `comment/commentInbox.tsx` memoizes the selected media's auto-reply configuration before passing it to `popups/editAutoReplyForMedia.tsx`. Hover-driven parent renders therefore preserve the child fetch effect dependencies and do not repeat prompt or flow API requests; a media, search-mode, or inbox-data change still supplies updated configuration.
@@ -213,7 +215,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-08-02
+2026-09-22
 
 ---
 
