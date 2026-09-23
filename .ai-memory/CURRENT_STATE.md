@@ -16,6 +16,8 @@ The home dashboard total-tile area now presents reserve tokens and remaining sub
 
 Instagramer AI navigation is now grouped under `/Ai`: the creator workspace is `/Ai/creator`, the Flow and Agent workspace is `/Ai/FlowandAgent`, and `/Ai` redirects to the creator workspace. The former `/page/ai` and `/message/AIAndFlow` route wrappers were removed, and desktop/mobile navigation no longer places these destinations under Page or Message.
 
+`/Ai/FlowandAgent` accepts an optional `id` query. `FlowAndAIInbox` validates it against the fetched `GetMasterFlows` list by `masterFlowId`; only a matching flow is selected and mounted, allowing `Flow` to fetch that flow with `GetMasterFlow`. Missing or unmatched `id` values leave the normal flow list view open.
+
 The Instagramer and user desktop sidebars now include a localized Support button at the bottom of their menus. Each opens the shared Goftino chat panel beside the sidebar while retaining the global website support control.
 
 Wallet invoice order details now load automatically when the `Order` tab is selected and render inside the existing invoice popup. The request still uses `/api/wallet/getInvoice`, but the returned invoice is passed to `OrderDetailPopup` inline instead of requiring a button or opening a second modal.

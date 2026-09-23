@@ -2675,6 +2675,7 @@ export default {
     AIFlow_item_text: "Element",
     AIFlow_block_title_required: "Zəhmət olmasa blok başlığını daxil edin (məcburi)",
     AIFlow_item_title: "Element Başlığı:",
+    AIFlow_show_graph: "Axın Qrafikini Göstər",
     AIFlow_item_subtitle: "Element Alt Başlığı:",
     AIFlow_option_title: "Seçim Başlığı",
     AIFlow_option_default: "Seçim",

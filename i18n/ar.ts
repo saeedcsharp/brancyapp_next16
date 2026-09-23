@@ -2626,6 +2626,7 @@ export default {
     AIFlow_item_text: "عنصر",
     AIFlow_block_title_required: "يرجى إدخال عنوان الكتلة (إلزامي)",
     AIFlow_item_title: "عنوان العنصر:",
+    AIFlow_show_graph: "عرض مخطط التدفق",
     AIFlow_item_subtitle: "العنوان الفرعي للعنصر:",
     AIFlow_option_title: "عنوان الخيار",
     AIFlow_option_default: "خيار",

@@ -2798,6 +2798,7 @@ export default {
     AIFlow_item_text: "Élément",
     AIFlow_block_title_required: "Veuillez saisir le titre du bloc (obligatoire)",
     AIFlow_item_title: "Titre de l’Élément:",
+    AIFlow_show_graph: "Afficher le graphique du flux",
     AIFlow_item_subtitle: "Sous-titre de l’Élément:",
     AIFlow_option_title: "Titre de l’Option",
     AIFlow_option_default: "Option",

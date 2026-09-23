@@ -1,4 +1,5 @@
 import { useSession } from "next-auth/react";
+import router from "next/router";
 import { useCallback, useEffect, useMemo, useReducer, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
@@ -335,7 +336,17 @@ function AutoReply({
                             {u.masterFlow.title}
                           </div>
                           <div className="headerandinput">
-                            <button className="saveButton">show Flow Graph</button>
+                            <button
+                              className="saveButton"
+                              onClick={() => {
+                                if (!u.masterFlow) return;
+                                void router.push({
+                                  pathname: "/Ai/FlowandAgent",
+                                  query: { id: u.masterFlow.masterFlowId },
+                                });
+                              }}>
+                              {t(LanguageKey.AIFlow_show_graph)}
+                            </button>
                           </div>
                         </div>
                       )}

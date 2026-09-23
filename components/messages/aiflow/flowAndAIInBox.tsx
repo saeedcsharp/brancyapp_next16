@@ -578,7 +578,20 @@ const FlowAndAIInbox = () => {
         }),
       ]);
       if (!flowRes.succeeded) notify(flowRes.info.responseType, NotifType.Warning);
-      if (flowRes.succeeded) setMasterFlow(flowRes.value);
+      if (flowRes.succeeded) {
+        setMasterFlow(flowRes.value);
+
+        const requestedFlowId = routerHook.query.id;
+        const requestedFlowIdValue = Array.isArray(requestedFlowId) ? requestedFlowId[0] : requestedFlowId;
+        const matchedFlow = requestedFlowIdValue
+          ? flowRes.value?.items.find((flow) => String(flow.masterFlowId) === String(requestedFlowIdValue))
+          : undefined;
+
+        if (matchedFlow) {
+          setToggleOrder(ToggleOrder.FirstToggle);
+          setUserSelectedId(matchedFlow.masterFlowId);
+        }
+      }
       if (promptRes.succeeded) setPromptInbox(promptRes.value);
       if (aiToolRes.succeeded) setAITools(aiToolRes.value);
     } catch (error) {
@@ -588,7 +601,12 @@ const FlowAndAIInbox = () => {
     }
   }
   useEffect(() => {
-    if (routerHook && routerHook.query && routerHook.query.flowId) {
+    if (!routerHook.isReady) return;
+
+    const requestedFlowId = routerHook.query.id;
+    const requestedFlowIdValue = Array.isArray(requestedFlowId) ? requestedFlowId[0] : requestedFlowId;
+
+    if (!requestedFlowIdValue && routerHook.query.flowId) {
       const fid = Array.isArray(routerHook.query.flowId) ? routerHook.query.flowId[0] : routerHook.query.flowId;
       if (fid) {
         setToggleOrder(ToggleOrder.FirstToggle);
@@ -617,7 +635,7 @@ const FlowAndAIInbox = () => {
       window.removeEventListener("touchstart", handleTouchStart);
       hideDivIndex = null;
     };
-  }, [session]);
+  }, [session, routerHook.isReady]);
   /* ___dragDropSidebar___ */
   useEffect(() => {
     window.addEventListener("resize", handleResize);

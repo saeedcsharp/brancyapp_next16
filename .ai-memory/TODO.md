@@ -1,3 +1,11 @@
+- Add component/browser coverage confirming the localized automatic-reply Flow Graph action navigates to `/Ai/FlowandAgent` with the selected `masterFlowId` as `id`.
+
+- Add component/browser coverage confirming Persistent Menu and Ice Breaker Flow Graph actions navigate with their selected `masterFlowId` query.
+
+- Add component/browser coverage confirming the special-payload selected Flow action uses the localized Flow Graph label and `masterFlowId` query.
+
+- Add component/browser coverage for `/Ai/FlowandAgent?id=...`, including matching `masterFlowId` selection, unmatched IDs leaving the normal list open, missing IDs, and the subsequent `GetMasterFlow` request when a UI test harness is introduced.
+
 - Add component coverage confirming the smart default View Store and Products option appears for Shop and VShoper sessions and is absent for all other business types.
 
 - Verify live AI image/video notifications on multiple authenticated routes after the provider router fix: no document reload, no notification-triggered account request, and notifications remain visible. Add durable React/browser regression coverage for unchanged session state after the 20-second account-check threshold and near token expiry; current validation uses synthetic hook/handler harnesses.

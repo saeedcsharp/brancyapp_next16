@@ -11,6 +11,7 @@ import { LanguageKey } from "brancy/i18n";
 import { IceOrPersistent, PayloadType, SpecialPayLoad } from "brancy/models/enums";
 import { IDetailPrompt, IIceBreaker } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
+import router from "next/router";
 import React, { ChangeEvent, useCallback, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./persistent_icebreaker.module.css";
@@ -342,9 +343,16 @@ const PersistentMenu = React.memo(
                           </div>
                           <div className={styles.qasection}>
                             {v.masterFlow && <div className="headertext">{v.masterFlow.title}</div>}
-                            <div className={styles.seeanswer} onClick={() => toggleExplanation(i)}>
-                              <span> {t(LanguageKey.show)}</span>
-                              {t(LanguageKey.Answer)} {t(LanguageKey.Flow)}
+                            <div
+                              className={styles.seeanswer}
+                              onClick={() => {
+                                if (!v.masterFlow) return;
+                                void router.push({
+                                  pathname: "/Ai/FlowandAgent",
+                                  query: { id: v.masterFlow.masterFlowId },
+                                });
+                              }}>
+                              {t(LanguageKey.AIFlow_show_graph)}
                             </div>
                           </div>
                         </>

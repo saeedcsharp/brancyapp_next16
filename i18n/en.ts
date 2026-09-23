@@ -2723,6 +2723,7 @@ export default {
     AIFlow_item_text: "Item",
     AIFlow_block_title_required: "Please Enter Block Title (Required)",
     AIFlow_item_title: "Item Title:",
+    AIFlow_show_graph: "Show Flow Graph",
     AIFlow_item_subtitle: "Item Subtitle:",
     AIFlow_option_title: "Option Title",
     AIFlow_option_default: "Option",

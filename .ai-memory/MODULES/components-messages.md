@@ -98,6 +98,16 @@ When `aiflow/aiPromptBox.tsx` loads an existing prompt through `GetPrompt`, it s
 
 `aiflow/flowAndAIInBox.tsx` opens a localized new-flow settings modal before selecting `newFlow`. The modal requires a title, collects follower, snap-grid, and panning-boundary settings, accepts an imported JSON editor state, and mounts the editor only after Continue.
 
+The same component validates an optional `/Ai/FlowandAgent?id=...` query against the `GetMasterFlows` response by `masterFlowId` before selecting a flow. A matching ID mounts `Flow`, which then requests `GetMasterFlow`; an absent or unmatched ID does not open a flow automatically.
+
+`properties/autoreply.tsx` sends the selected `masterFlow.masterFlowId` as the `id` query to `/Ai/FlowandAgent` when the Flow Graph action is activated.
+
+The automatic-reply Flow Graph action uses the localized `AIFlow_show_graph` key across all eight supported locales.
+
+The Flow entries in `properties/persistentMenu.tsx` and `properties/iceBreaker.tsx` use the same localized Flow Graph action and open `/Ai/FlowandAgent?id=<masterFlowId>` when activated.
+
+The selected Flow action in `popups/specialPayLoad.tsx` also uses `AIFlow_show_graph` and opens `/Ai/FlowandAgent?id=<masterFlowId>`.
+
 The same component keeps the continued new flow in `userslist` as a local `newFlow` Draft item. A successful manual save removes that item and prepends the backend-returned `ITotalMasterFlow`; `aiflow/flow.tsx` treats a new flow as unsaved until that save succeeds.
 
 `aiflow/flowNode/GenericItemNode.tsx` and `aiflow/flowNode/WeblinkNode.tsx` validate web links on blur. A valid HTTP(S) link must have a non-empty final hostname segment after a dot (for example, `.com` or `.ir`); the suffix is not restricted to a fixed list. Invalid non-empty links set the shared `InputBox` danger status and replay its shake animation once; editing the value clears the error state.

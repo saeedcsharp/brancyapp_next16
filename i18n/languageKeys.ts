@@ -2330,6 +2330,7 @@ export enum LanguageKey {
   AIFlow_quick_reply = "AIFlow_quick_reply",
   AIFlow_block_title_required = "AIFlow_block_title_required",
   AIFlow_item_title = "AIFlow_item_title",
+  AIFlow_show_graph = "AIFlow_show_graph",
   AIFlow_item_subtitle = "AIFlow_item_subtitle",
   AIFlow_link = "AIFlow_link",
   AIFlow_option_title = "AIFlow_option_title",

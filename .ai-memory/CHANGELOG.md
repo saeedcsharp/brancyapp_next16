@@ -1,3 +1,13 @@
+- 2026-09-24: Localized the automatic-reply `Show Flow Graph` action across all eight supported languages.
+
+- 2026-09-24: Updated Persistent Menu and Ice Breaker Flow entries to show the localized `Show Flow Graph` action and open `/Ai/FlowandAgent?id=...`.
+
+- 2026-09-24: Updated the selected Flow action in the special-payload popup to use the localized `Show Flow Graph` label and canonical `/Ai/FlowandAgent?id=...` route.
+
+- 2026-09-24: Connected the automatic-reply Flow Graph action to `/Ai/FlowandAgent?id=...`, using the selected flow's `masterFlowId`.
+
+- 2026-09-24: Added optional `/Ai/FlowandAgent?id=...` deep-link handling. The flow list now opens a flow only when the query ID matches a fetched `masterFlowId`; invalid or missing IDs preserve the normal list view.
+
 - 2026-09-22: Updated the FollowUp template setting label and explanation in all eight locales to `Custom FollowUp Template` and the requested Persian description.
 
 - 2026-09-22: Removed the Message Properties toggle and API callback for filtering automatic and bot replies; the remaining message reply settings are unchanged.
