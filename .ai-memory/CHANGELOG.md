@@ -1,3 +1,5 @@
+- 2026-09-24: Removed the must-follow-page option from Live media auto-reply AI and Flow modes.
+
 - 2026-09-24: Fixed Ice Breaker deletion by sending the filtered button list to `UpdateIceBreaker` instead of the pre-deletion list.
 
 - 2026-09-24: Localized the automatic-reply `Show Flow Graph` action across all eight supported languages.

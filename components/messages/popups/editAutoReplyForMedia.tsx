@@ -526,7 +526,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
             <div className="title" id={titleId} role="heading" aria-level={2}>
               {t(LanguageKey.replyMethod)}
             </div>
-            {mode !== "ConnectProduct" && (
+            {mode !== "ConnectProduct" && mode !== "AI" && mode !== "Flow" && (
               <CheckBoxButton
                 handleToggle={(e) =>
                   setReplyMethod((prev) => ({
