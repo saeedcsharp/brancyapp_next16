@@ -2,6 +2,8 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+Ice Breaker deletion now sends the filtered `profileButtons.items` list to `UpdateIceBreaker`, so the removed button is not persisted again.
+
 The Message Properties panel no longer exposes the automatic/bot reply filtering toggle or calls `ToggleHideCommentAutoReply`; the backend reply-setting shape remains intact for the other message settings.
 
 The Message Properties FollowUp template setting uses the `Custom FollowUp Template` label and the requested Persian explanation in all eight locales.

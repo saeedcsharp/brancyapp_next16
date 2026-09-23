@@ -1,3 +1,5 @@
+- Add component coverage confirming Ice Breaker deletion sends `UpdateIceBreaker` the filtered button list and removes the selected item from persisted state when a UI test harness is introduced.
+
 - Add component/browser coverage confirming the localized automatic-reply Flow Graph action navigates to `/Ai/FlowandAgent` with the selected `masterFlowId` as `id`.
 
 - Add component/browser coverage confirming Persistent Menu and Ice Breaker Flow Graph actions navigate with their selected `masterFlowId` query.

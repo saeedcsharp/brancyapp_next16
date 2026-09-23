@@ -1,3 +1,5 @@
+- 2026-09-24: Fixed Ice Breaker deletion by sending the filtered button list to `UpdateIceBreaker` instead of the pre-deletion list.
+
 - 2026-09-24: Localized the automatic-reply `Show Flow Graph` action across all eight supported languages.
 
 - 2026-09-24: Updated Persistent Menu and Ice Breaker Flow entries to show the localized `Show Flow Graph` action and open `/Ai/FlowandAgent?id=...`.
