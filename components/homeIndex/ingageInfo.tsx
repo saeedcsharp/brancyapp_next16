@@ -570,7 +570,7 @@ const IngageInfo = (props: {
               stroke="var(--color-light-yellow)"
               viewBox="0 0 24 24">
               <path d="M15.48 16.9v-.27c0-1.04.13-1.34.86-2.08l.58-.57a7 7 0 1 0-9.84 0l.6.59c.7.73.82 1.01.84 2.04v.47a2 2 0 0 0 2.1 1.92h2.93a2 2 0 0 0 1.93-1.95z" />
-              <path d="M10 19v1a2 2 0 1 0 4 0v-1m-5.5-3h7" stroke-linecap="round" stroke-linejoin="round" />
+              <path d="M10 19v1a2 2 0 1 0 4 0v-1m-5.5-3h7" strokeLinecap="round" strokeLinejoin="round" />
             </svg>
 
             <div className={styles.headerandinput} style={{ paddingInline: "10px" }}>
