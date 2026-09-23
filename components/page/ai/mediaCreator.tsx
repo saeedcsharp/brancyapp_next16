@@ -36,6 +36,7 @@ interface MediaCreatorProps {
   createMediaLoading?: boolean;
   setActiveTab: Dispatch<SetStateAction<MediaTab>>;
   activeTab: MediaTab;
+  onOpenImagePrompts?: () => void;
 }
 export interface MediaCreatorSelection {
   creatorKey: string;
@@ -510,6 +511,7 @@ export default function MediaCreator({
   onCreateMedia,
   createMediaLoading,
   activeTab,
+  onOpenImagePrompts,
 }: MediaCreatorProps) {
   const { data: session } = useSession();
   const { t, i18n } = useTranslation();
