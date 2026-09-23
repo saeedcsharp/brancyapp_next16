@@ -39,6 +39,7 @@ import { DateObject } from "react-multi-date-picker";
 import styles from "./pageAI.module.css";
 import GeneratedImageModal from "brancy/components/page/ai/generatedImageModal";
 import GeneratedVideoModal from "brancy/components/page/ai/generatedVideoModal";
+import ImagePromptSuggestions, { ImagePromptDetail } from "brancy/components/page/ai/imagePromptSuggestions";
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
 type AiQueryType = "1" | "2";
 const SUCCESS_MEDIA_STATUS = 2;
@@ -462,6 +463,22 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
           />
         )}
       </main>
+      <Modal closePopup={() => setShowImagePrompts(false)} classNamePopup="popupLarge" showContent={showImagePrompts}>
+        <ImagePromptSuggestions
+          session={session}
+          isOpen={showImagePrompts}
+          onSelect={(imagePrompt) => {
+            setSelectedImagePrompt(imagePrompt);
+            setShowImagePrompts(false);
+          }}
+        />
+      </Modal>
+      <Modal
+        closePopup={() => setSelectedImagePrompt(null)}
+        classNamePopup="popupLarge"
+        showContent={selectedImagePrompt !== null}>
+        {selectedImagePrompt && <ImagePromptDetail prompt={selectedImagePrompt} />}
+      </Modal>
       <Modal closePopup={() => setSelectedImage(null)} classNamePopup="popupLarge" showContent={selectedImage !== null}>
         {selectedImage && <GeneratedImageModal image={selectedImage} onClose={() => setSelectedImage(null)} />}
       </Modal>
