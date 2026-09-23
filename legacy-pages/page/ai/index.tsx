@@ -445,6 +445,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
             createMediaLoading={createMediaLoading}
             setActiveTab={setActiveTab}
             activeTab={creatorTab}
+            onOpenImagePrompts={() => setShowImagePrompts(true)}
           />
         )}
         {activeTab === "image" && (
