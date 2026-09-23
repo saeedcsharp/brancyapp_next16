@@ -735,6 +735,11 @@ export default function MediaCreator({
             <span className="explain">
               ({prompt.length} / {model.maxPromptLength})
             </span>
+            {!isVideoCreator && onOpenImagePrompts && (
+              <button type="button" className={styles.promptSuggestionButton} onClick={onOpenImagePrompts}>
+                {t("aiSuggestedPrompts_title")}
+              </button>
+            )}
           </span>
           <TextArea
             className="textArea"
