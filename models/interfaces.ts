@@ -505,6 +505,25 @@ export interface IGetMedias {
   items: IGetMedia[];
   nextMaxId: string | null;
 }
+export interface IImagePromptCategory {
+  id?: number | string;
+  name?: string;
+  title?: string;
+}
+export interface IImagePrompt {
+  id: number | string;
+  promptName: string;
+  description: string;
+  exampleOutputUrl: string | null;
+  category: string | IImagePromptCategory | null;
+  subCategory: string | IImagePromptCategory | null;
+  promptBody: string;
+}
+export interface IGetImagePrompts {
+  items: IImagePrompt[];
+  nextMaxId: string | null;
+}
+export type IGetImagePromptCategories = IImagePromptCategory[];
 export interface IMediaCreatorModel {
   name: string;
   displayName?: string;
