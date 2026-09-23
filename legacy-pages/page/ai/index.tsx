@@ -26,6 +26,7 @@ import {
   IGetImageUsageRequest,
   IGetMedia,
   IGetMedias,
+  IImagePrompt,
   IMediaCreator,
   PendingGeneration,
   PushNotif,
@@ -82,6 +83,8 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
   const pendingGenerationsRef = useRef<PendingGeneration[]>([]);
   const initialLibrary = initialType === "2" ? "video" : "image";
   const [initialLibraryLoading, setInitialLibraryLoading] = useState(true);
+  const [showImagePrompts, setShowImagePrompts] = useState(false);
+  const [selectedImagePrompt, setSelectedImagePrompt] = useState<IImagePrompt | null>(null);
 
   const fetchImages = useCallback(
     async (cursor: string | null): Promise<IGetMedia[]> => {
