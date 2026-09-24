@@ -267,7 +267,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
       promptId: null,
       response: null,
       sendPr: replyMethod,
-      shouldFollower: replyMethod && shouldFollower,
+      shouldFollower: checkBox.AI ? false : replyMethod && shouldFollower,
       title: autoReplytitle,
       replySuccessfullyDirected: replySuccessfullyDirected,
       customRepliesSuccessfullyDirected: customRepliesSuccessfullyDirected,
@@ -1252,12 +1252,6 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                                 textlabel={t(LanguageKey.sendreplydirectedsuccessfully)}
                               />
                               {renderCustomReplies("AI")}
-                              <CheckBoxButton
-                                handleToggle={(e) => setShouldFollower(e.target.checked)}
-                                value={shouldFollower}
-                                title={t(LanguageKey.shouldFollower)}
-                                textlabel={t(LanguageKey.shouldFollower)}
-                              />
                             </div>
                           )}
                         </>

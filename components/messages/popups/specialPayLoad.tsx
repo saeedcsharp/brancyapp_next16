@@ -942,8 +942,8 @@ const SpecialPayLoadComp = React.memo(
                         onClick={() => {
                           try {
                             void router.push({
-                              pathname: "/message/AIAndFlow",
-                              query: { flowId: selectedFlow.masterFlowId },
+                              pathname: "/Ai/FlowandAgent",
+                              query: { id: selectedFlow.masterFlowId },
                             });
                           } catch (e) {
                             console.error(e);
@@ -958,7 +958,7 @@ const SpecialPayLoadComp = React.memo(
                           />
                           <path d="M25 3a28 28 0 0 1 5.5.2q1 .2 1.6.8t.7 1.5c.3 1.6.2 4.3.1 5.6a2 2 0 0 1-3.3 1.2l-1.9-1.8-4.1 4a1.5 1.5 0 1 1-2.1-2.1l4-4-1.8-2a2 2 0 0 1 1.2-3.3" />
                         </svg>
-                        {t(LanguageKey.messagesetting_ViewFlow)}
+                        {t(LanguageKey.AIFlow_show_graph)}
                       </button>
                     )}
                   </div>

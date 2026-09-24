@@ -2755,6 +2755,7 @@ export default {
     AIFlow_item_text: "Элемент",
     AIFlow_block_title_required: "Пожалуйста, введите заголовок блока (обязательно)",
     AIFlow_item_title: "Заголовок Элемента:",
+    AIFlow_show_graph: "Показать график потока",
     AIFlow_item_subtitle: "Подзаголовок Элемента:",
     AIFlow_option_title: "Заголовок Опции",
     AIFlow_option_default: "Опция",

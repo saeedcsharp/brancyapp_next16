@@ -2780,6 +2780,7 @@ export default {
     AIFlow_item_text: "Element",
     AIFlow_block_title_required: "Bitte geben Sie den Blocktitel ein (erforderlich)",
     AIFlow_item_title: "Elementtitel:",
+    AIFlow_show_graph: "Flow-Diagramm anzeigen",
     AIFlow_item_subtitle: "Element Untertitel:",
     AIFlow_option_title: "Optionstitel",
     AIFlow_option_default: "Option",

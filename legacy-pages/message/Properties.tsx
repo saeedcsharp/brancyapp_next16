@@ -167,7 +167,7 @@ const Properties = () => {
       const res = await clientFetchApi<IProfileButtons[], boolean>("/api/message/UpdateIceBreaker", {
         methodType: MethodType.post,
         session: session,
-        data: iceBreakers.profileButtons.items,
+        data: newList,
         queries: undefined,
         onUploadProgress: undefined,
       });

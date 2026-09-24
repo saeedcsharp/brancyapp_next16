@@ -2,6 +2,10 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+General and media auto-replies no longer show the must-follow-page option for AI mode, and AI saves force it off. Live media auto-replies also hide it for Flow mode; other reply modes retain their existing behavior.
+
+Ice Breaker deletion now sends the filtered `profileButtons.items` list to `UpdateIceBreaker`, so the removed button is not persisted again.
+
 The Message Properties panel no longer exposes the automatic/bot reply filtering toggle or calls `ToggleHideCommentAutoReply`; the backend reply-setting shape remains intact for the other message settings.
 
 The Message Properties FollowUp template setting uses the `Custom FollowUp Template` label and the requested Persian explanation in all eight locales.
@@ -15,6 +19,8 @@ The home dashboard no longer remains on its full-page loader after authenticatio
 The home dashboard total-tile area now presents reserve tokens and remaining subscription days in one upgrade slideshow, while active stories, last likes, reach, and unread comments are grouped in a separate statistics slideshow. Both slideshows advance automatically every 10 seconds and remain manually navigable. The four statistic slides use purple, light green, firoze, and light red in that order.
 
 Instagramer AI navigation is now grouped under `/Ai`: the creator workspace is `/Ai/creator`, the Flow and Agent workspace is `/Ai/FlowandAgent`, and `/Ai` redirects to the creator workspace. The former `/page/ai` and `/message/AIAndFlow` route wrappers were removed, and desktop/mobile navigation no longer places these destinations under Page or Message.
+
+`/Ai/FlowandAgent` accepts an optional `id` query. `FlowAndAIInbox` validates it against the fetched `GetMasterFlows` list by `masterFlowId`; only a matching flow is selected and mounted, allowing `Flow` to fetch that flow with `GetMasterFlow`. Missing or unmatched `id` values leave the normal flow list view open.
 
 The Instagramer and user desktop sidebars now include a localized Support button at the bottom of their menus. Each opens the shared Goftino chat panel beside the sidebar while retaining the global website support control.
 

@@ -74,7 +74,7 @@ const setThemeAndManifestScript = `(function () {
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html lang="en" data-scroll-behavior="smooth" suppressHydrationWarning>
       <head>
         <meta name="theme-color" content="#edf4ff" />
         <link rel="apple-touch-icon" href="/icons/icon-152x152.png" />

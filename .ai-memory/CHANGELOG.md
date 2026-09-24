@@ -1,3 +1,25 @@
+- 2026-09-24: Updated the media auto-reply Flow action to use the localized Show Flow Graph label and navigate to `/Ai/FlowandAgent?id=<masterFlowId>`.
+
+- 2026-09-24: Fixed Live media quick-reply payloads to force `sendPr: false`; the Live follower control now only affects `shouldFollower`.
+
+- 2026-09-24: Fixed the media quick-reply Live must-follow-page control so it updates `shouldFollower` instead of `sendPr`.
+
+- 2026-09-24: Removed the must-follow-page option from general and media auto-reply AI modes and force-saved the AI setting as disabled.
+
+- 2026-09-24: Removed the must-follow-page option from Live media auto-reply AI and Flow modes.
+
+- 2026-09-24: Fixed Ice Breaker deletion by sending the filtered button list to `UpdateIceBreaker` instead of the pre-deletion list.
+
+- 2026-09-24: Localized the automatic-reply `Show Flow Graph` action across all eight supported languages.
+
+- 2026-09-24: Updated Persistent Menu and Ice Breaker Flow entries to show the localized `Show Flow Graph` action and open `/Ai/FlowandAgent?id=...`.
+
+- 2026-09-24: Updated the selected Flow action in the special-payload popup to use the localized `Show Flow Graph` label and canonical `/Ai/FlowandAgent?id=...` route.
+
+- 2026-09-24: Connected the automatic-reply Flow Graph action to `/Ai/FlowandAgent?id=...`, using the selected flow's `masterFlowId`.
+
+- 2026-09-24: Added optional `/Ai/FlowandAgent?id=...` deep-link handling. The flow list now opens a flow only when the query ID matches a fetched `masterFlowId`; invalid or missing IDs preserve the normal list view.
+
 - 2026-09-22: Updated the FollowUp template setting label and explanation in all eight locales to `Custom FollowUp Template` and the requested Persian description.
 
 - 2026-09-22: Removed the Message Properties toggle and API callback for filtering automatic and bot replies; the remaining message reply settings are unchanged.

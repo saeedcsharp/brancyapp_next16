@@ -2716,6 +2716,7 @@ export default {
     AIFlow_item_text: "Öğe",
     AIFlow_block_title_required: "Lütfen blok başlığını girin (zorunlu)",
     AIFlow_item_title: "Öğe Başlığı:",
+    AIFlow_show_graph: "Akış Grafiğini Göster",
     AIFlow_item_subtitle: "Öğe Alt Başlığı:",
     AIFlow_option_title: "Seçenek Başlığı",
     AIFlow_option_default: "Seçenek",

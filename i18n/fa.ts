@@ -2678,6 +2678,7 @@ export default {
     AIFlow_item_text: "آیتم",
     AIFlow_block_title_required: "لطفاً عنوان بلوک را وارد کنید (الزامی)",
     AIFlow_item_title: "عنوان آیتم:",
+    AIFlow_show_graph: "نمایش نمودار جریان",
     AIFlow_item_subtitle: "زیرعنوان آیتم:",
     AIFlow_option_title: "عنوان گزینه",
     AIFlow_option_default: "گزینه",

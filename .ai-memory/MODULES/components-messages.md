@@ -98,6 +98,16 @@ When `aiflow/aiPromptBox.tsx` loads an existing prompt through `GetPrompt`, it s
 
 `aiflow/flowAndAIInBox.tsx` opens a localized new-flow settings modal before selecting `newFlow`. The modal requires a title, collects follower, snap-grid, and panning-boundary settings, accepts an imported JSON editor state, and mounts the editor only after Continue.
 
+The same component validates an optional `/Ai/FlowandAgent?id=...` query against the `GetMasterFlows` response by `masterFlowId` before selecting a flow. A matching ID mounts `Flow`, which then requests `GetMasterFlow`; an absent or unmatched ID does not open a flow automatically.
+
+`properties/autoreply.tsx` sends the selected `masterFlow.masterFlowId` as the `id` query to `/Ai/FlowandAgent` when the Flow Graph action is activated.
+
+The automatic-reply Flow Graph action uses the localized `AIFlow_show_graph` key across all eight supported locales.
+
+The Flow entries in `properties/persistentMenu.tsx` and `properties/iceBreaker.tsx` use the same localized Flow Graph action and open `/Ai/FlowandAgent?id=<masterFlowId>` when activated.
+
+The selected Flow action in `popups/specialPayLoad.tsx` also uses `AIFlow_show_graph` and opens `/Ai/FlowandAgent?id=<masterFlowId>`.
+
 The same component keeps the continued new flow in `userslist` as a local `newFlow` Draft item. A successful manual save removes that item and prepends the backend-returned `ITotalMasterFlow`; `aiflow/flow.tsx` treats a new flow as unsaved until that save succeeds.
 
 `aiflow/flowNode/GenericItemNode.tsx` and `aiflow/flowNode/WeblinkNode.tsx` validate web links on blur. A valid HTTP(S) link must have a non-empty final hostname segment after a dot (for example, `.com` or `.ir`); the suffix is not restricted to a fixed list. Invalid non-empty links set the shared `InputBox` danger status and replay its shake animation once; editing the value clears the error state.
@@ -124,6 +134,15 @@ The media auto-reply AI selector keeps its `DragDrop` on the localized Please se
 `components/page/popup/quickReply.tsx` renders `components/notOk/commentPermissionState.tsx` as a localized Instagram comment-permission state with an inline SVG and an Enable Permission action only when `session.user.commentPermission === false`; the action checks `/api/user/ip`, opens `InvalidIpModalContent` for Iranian IPs, and otherwise follows the existing Instagram redirect flow. The existing media auto-reply editor remains unchanged when access is available.
 
 `popups/editAutoReplyForMedia.tsx` keeps media auto-reply and AI configuration available when `session.user.messagePermission === false`, but shows the localized message-permission state whenever direct response, Flow, Product, or Connect Product delivery is selected. Its Enable Permission action uses the same IP check, invalid-IP modal, and Instagram redirect flow as the comment quick-reply state; same-comment responses remain available without message permission.
+
+For `MediaProductType.Live`, the media auto-reply editor hides the must-follow-page option for AI and Flow modes; other Live modes retain their existing controls.
+
+General and media auto-reply editors hide the must-follow-page option for AI mode and save `shouldFollower` as `false` for AI replies; other reply modes retain their existing controls and values.
+
+In the media auto-reply Live quick-reply control, the must-follow-page toggle updates `shouldFollower`; it does not change `sendPr`.
+Live media quick-reply payloads force `sendPr` to `false`, including when an existing auto-reply contains a stale `sendPr` value.
+
+The selected Flow action in `popups/editAutoReplyForMedia.tsx` uses the localized `AIFlow_show_graph` label and opens `/Ai/FlowandAgent` with the selected `masterFlowId` as the `id` query.
 
 For message-delivery modes, the confirmation-message and must-follow-page options are omitted from the editor and both corresponding save payload flags are forced to `false`; same-comment delivery retains the existing controls and values.
 

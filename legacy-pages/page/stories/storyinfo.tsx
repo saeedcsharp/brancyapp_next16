@@ -885,7 +885,7 @@ const ShowStory = () => {
                               isLoading={isFetchingMoreReplies}
                               itemsPerSlide={commentsPerSlide}>
                               {storyReplies.threads.map((u, i) => (
-                                <div key={u.threadId || i} className={styles.comment}>
+                                <div key={i} className={styles.comment}>
                                   <img
                                     className="instagramimage"
                                     title="◰ resize the picture"
@@ -914,7 +914,7 @@ const ShowStory = () => {
                                         <img
                                           onClick={() => {
                                             if (!u.isActive) return;
-                                            handleReaction(u.items[0], u.threadId);
+                                            // handleReaction(u.items[0], u.threadId);
                                           }}
                                           className={`${styles.likeicon} ${!u.isActive && "fadeDiv"}`}
                                           alt="like icon"
@@ -1043,7 +1043,7 @@ const ShowStory = () => {
                                             <img
                                               onClick={() => {
                                                 if (!u.isActive) return;
-                                                handleReaction(u.items[0], u.threadId);
+                                                // handleReaction(u.items[0], u.threadId);
                                               }}
                                               className={`${styles.likeicon} ${!u.isActive && "fadeDiv"}`}
                                               alt="like icon"
