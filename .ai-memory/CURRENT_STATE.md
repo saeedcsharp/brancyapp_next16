@@ -2,7 +2,7 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
-For Live media auto-replies, the must-follow-page option is no longer shown for AI and Flow modes; other reply modes retain their existing behavior.
+General and media auto-replies no longer show the must-follow-page option for AI mode, and AI saves force it off. Live media auto-replies also hide it for Flow mode; other reply modes retain their existing behavior.
 
 Ice Breaker deletion now sends the filtered `profileButtons.items` list to `UpdateIceBreaker`, so the removed button is not persisted again.
 

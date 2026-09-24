@@ -42,3 +42,5 @@ Use this doc when the requested work is described as an Instagramer capability i
 The `/page/tools` hashtag capability is presented in one collapsible `hashtagManager` card with a shared toggle for saved hashtags and trend/search hashtags. Its shared header hides the manager content and reduces the card height while closed.
 
 Live media auto-replies do not expose the must-follow-page option for AI and Flow modes.
+
+General and media auto-replies do not expose the must-follow-page option for AI mode, and AI replies save that setting as disabled.

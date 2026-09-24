@@ -501,7 +501,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                   </div>
                 )}
 
-              {replyMethod && isDirectReplyMode && !hasMessagePermission && (
+              {replyMethod && isDirectReplyMode && mode !== "AI" && !hasMessagePermission && (
                 <CheckBoxButton
                   handleToggle={(e) =>
                     setReplyMethod((prev) => ({
@@ -600,7 +600,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
         checkBox.Flow || checkBox.ConnectProduct || isDirectReplyMode
           ? (replyMethod?.customRepliesSuccessfullyDirected ?? [])
           : [],
-      shouldFollower: isDirectReplyMode ? replyMethod !== null && replyMethod.shouldFollower : false,
+      shouldFollower: isDirectReplyMode && !checkBox.AI ? replyMethod !== null && replyMethod.shouldFollower : false,
       productId: replyMethod?.productId || null,
     };
     console.log("sendAutoooooo", sendAuto);

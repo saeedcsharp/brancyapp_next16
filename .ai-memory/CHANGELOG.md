@@ -1,3 +1,5 @@
+- 2026-09-24: Removed the must-follow-page option from general and media auto-reply AI modes and force-saved the AI setting as disabled.
+
 - 2026-09-24: Removed the must-follow-page option from Live media auto-reply AI and Flow modes.
 
 - 2026-09-24: Fixed Ice Breaker deletion by sending the filtered button list to `UpdateIceBreaker` instead of the pre-deletion list.

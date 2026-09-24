@@ -137,6 +137,8 @@ The media auto-reply AI selector keeps its `DragDrop` on the localized Please se
 
 For `MediaProductType.Live`, the media auto-reply editor hides the must-follow-page option for AI and Flow modes; other Live modes retain their existing controls.
 
+General and media auto-reply editors hide the must-follow-page option for AI mode and save `shouldFollower` as `false` for AI replies; other reply modes retain their existing controls and values.
+
 For message-delivery modes, the confirmation-message and must-follow-page options are omitted from the editor and both corresponding save payload flags are forced to `false`; same-comment delivery retains the existing controls and values.
 
 > > > > > > > sepehr
