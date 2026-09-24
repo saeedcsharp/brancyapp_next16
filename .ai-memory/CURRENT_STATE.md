@@ -18,6 +18,8 @@ The home dashboard no longer remains on its full-page loader after authenticatio
 
 The home dashboard total-tile area now presents reserve tokens and remaining subscription days in one upgrade slideshow, while active stories, last likes, reach, and unread comments are grouped in a separate statistics slideshow. Both slideshows advance automatically every 10 seconds and remain manually navigable. The four statistic slides use purple, light green, firoze, and light red in that order.
 
+The home dashboard tile component now memoizes status and slideshow data, validates the session login timestamp, prevents late AI-count responses from updating an unmounted component, and initializes subscription time without a zero-time flash. Slide content animates on change with reduced-motion support and Arrow/Home/End keyboard navigation. Story links have accessible labels and stable thumbnail dimensions. The authenticated home route now emits `noindex, nofollow, noarchive` metadata without a public canonical or social preview URL.
+
 Instagramer AI navigation is now grouped under `/Ai`: the creator workspace is `/Ai/creator`, the Flow and Agent workspace is `/Ai/FlowandAgent`, and `/Ai` redirects to the creator workspace. The former `/page/ai` and `/message/AIAndFlow` route wrappers were removed, and desktop/mobile navigation no longer places these destinations under Page or Message.
 
 `/Ai/FlowandAgent` accepts an optional `id` query. `FlowAndAIInbox` validates it against the fetched `GetMasterFlows` list by `masterFlowId`; only a matching flow is selected and mounted, allowing `Flow` to fetch that flow with `GetMasterFlow`. Missing or unmatched `id` values leave the normal flow list view open.

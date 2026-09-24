@@ -266,14 +266,14 @@ const AIToolsSettings: React.FC<AIToolsSettingsProps> = ({
         <React.Fragment key={index}>
           <div className="headerandinput">
             <div className="title"> {getDisplayName(item)}</div>
-            {/* <div className="explain" style={{ whiteSpace: "pre-line" }}>
-              {getDescription(item)}
-            </div> */}
-          </div>
-          <div className={styles.container}>
             <div className="explain" style={{ whiteSpace: "pre-line" }}>
               {getCompleteDescription(item)}
             </div>
+            <div className="explain" style={{ whiteSpace: "pre-line" }}>
+              {getDescription(item)}
+            </div>
+          </div>
+          <div className={styles.container}>
             {item.parameters.length > 0 ? (
               item.parameters
                 .filter((des) => !des.generateWithAI)

@@ -275,27 +275,7 @@ const Home = () => {
             name="description"
             content="Bran.cy offers advanced tools for managing Instagram posts, stories, insights, and more. Enhance your Instagram experience with our comprehensive suite of features."
           />
-          <meta
-            name="keywords"
-            content="Instagram, management, tools, Brancy, post creation, story creation, lottery, insights, Graph API, like, share, comment, view, tag, hashtag"
-          />
-          <meta name="robots" content="index, follow" />
-          <link rel="canonical" href="https://www.Brancy.app/home" />
-          <meta property="og:title" content="Bran.cy - Advanced Instagram Management" />
-          <meta
-            property="og:description"
-            content="Manage your Instagram posts, stories, and insights effortlessly with Bran.cy's advanced tools."
-          />
-          <meta property="og:url" content="https://www.Brancy.app/home" />
-          <meta property="og:type" content="website" />
-          <meta property="og:image" content="https://www.Brancy.app/images/og-image.png" />
-          <meta name="twitter:card" content="summary_large_image" />
-          <meta name="twitter:title" content="Bran.cy - Advanced Instagram Management" />
-          <meta
-            name="twitter:description"
-            content="Enhance your Instagram experience with Bran.cy's comprehensive management tools."
-          />
-          <meta name="twitter:image" content="https://www.Brancy.app/images/twitter-image.png" />
+          <meta name="robots" content="noindex, nofollow, noarchive" />
         </Head>
         <main
           id="mainContent"
@@ -308,17 +288,9 @@ const Home = () => {
           <div id="hometiles" className={styles.inboxContainer}>
             <IngageInfo
               data={state.hometiles}
-              collaboratePostNumber={
-                state?.posts && state?.hometiles?.mediaCount
-                  ? state.hometiles.mediaCount - state.posts[0].tempId < 0
-                    ? 0
-                    : state.hometiles.mediaCount - state.posts[0].tempId
-                  : 0
-              }
               activeStories={state.activeStories}
               onSummaryClick={() => setIsSummaryModalOpen(true)}
               onUpgradeClick={() => router.push("/upgrade")}
-              pageSummary={state.pageSummary}
             />
           </div>
 
@@ -343,7 +315,7 @@ const Home = () => {
               <PostSummary data={state.hometiles} posts={state.posts} />
             )}
 
-            {session.user.isShopper && session.user.isShopper && <LastOrder data={state.lastOrder} />}
+            {session.user.isShopper && <LastOrder data={state.lastOrder} />}
             {/* {session.user.isShopper && (
               <LastTransaction data={state.lastTransaction} />
             )} */}

@@ -1122,31 +1122,35 @@ const FlowAndAIInbox = () => {
         closePopup={handleClosePromptAnalysisModal}
         classNamePopup="popup"
         showContent={showPromptAnalysisModal && toggleOrder === ToggleOrder.SecondToggle && !loading}>
-        <div className={styles.promptAnalysisModal}>
-          <h2 id="modal-title" className="title2">
+        <div className="headerandinput">
+          <div id="modal-title" className="title">
             {t(LanguageKey.promptanalysis)}
-          </h2>
+          </div>
+          <div id="modal-title" className="explain">
+            {t(LanguageKey.promptanalysisExplain)}
+          </div>
+
           <TextArea
             className={"TextArea"}
             handleInputChange={(e) => setPromptAnalysisText(e.target.value)}
             value={promptAnalysisText}
             title={t(LanguageKey.promptanalysis)}
             autoExpandOnFocus
-            initialHeight={500}
+            initialHeight={300}
             placeholder={t(LanguageKey.promptanalysisplaceholder)}
           />
-          <div className={styles.promptAnalysisModalActions}>
-            <button type="button" className="cancelButton" onClick={handleClosePromptAnalysisModal}>
-              {t(LanguageKey.close)}
-            </button>
-            <button
-              type="button"
-              className={`saveButton ${promptAnalysisText.length <= 20 ? "fadeDiv" : ""}`}
-              onClick={handleAcceptPromptAnalysis}
-              disabled={promptAnalysisText.length <= 20}>
-              {t(LanguageKey.accept)}
-            </button>
-          </div>
+        </div>
+        <div className="ButtonContainer">
+          <button type="button" className="cancelButton" onClick={handleClosePromptAnalysisModal}>
+            {t(LanguageKey.close)}
+          </button>
+          <button
+            type="button"
+            className={`saveButton ${promptAnalysisText.length <= 20 ? "fadeDiv" : ""}`}
+            onClick={handleAcceptPromptAnalysis}
+            disabled={promptAnalysisText.length <= 20}>
+            {t(LanguageKey.accept)}
+          </button>
         </div>
       </Modal>
       {/* ================================================================= */}

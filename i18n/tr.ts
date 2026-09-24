@@ -2694,6 +2694,8 @@ export default {
     testlab: "Test Laboratuvarı",
     promptmode: "Prompt Modu",
     promptanalysis: "Prompt Analizi",
+    promptanalysisExplain:
+      "Promptunuzu ayrıntılı olarak girin; Brancy bunu karakterinize, tonunuza ve etkileşim tarzınıza göre analiz eder.",
     promptanalysisplaceholder: "Prompt analizi için en az 20 karakter girin",
     reanalyze: "Yeniden Analiz Et",
     shouldFollowerexplain: "Yanıtlar yalnızca sizi follow eden kullanıcılara gönderilir",

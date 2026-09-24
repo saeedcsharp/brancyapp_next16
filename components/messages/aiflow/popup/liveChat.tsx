@@ -239,7 +239,7 @@ export default function LiveChat({ promptInfo }: { promptInfo: ICreatePrompt }) 
 
   return (
     <>
-      <header className={styles.flowTestHeader}>
+      {/* <header className={styles.flowTestHeader}>
         <h2 className="title">{t(LanguageKey.testlab)}</h2>
         <div className={styles.flowTestControls}>
           <div
@@ -270,7 +270,7 @@ export default function LiveChat({ promptInfo }: { promptInfo: ICreatePrompt }) 
             </svg>
           </div>
         </div>
-      </header>
+      </header> */}
 
       <main className={`${styles.flowTestMessages} translate`} role="log" aria-live="polite" aria-atomic="false">
         {state.messages.map(renderMessage)}

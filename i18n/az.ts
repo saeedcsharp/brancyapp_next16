@@ -2653,6 +2653,8 @@ export default {
     testlab: "Test Laboratoriyası",
     promptmode: "Prompt Rejimi",
     promptanalysis: "Prompt Analizi",
+    promptanalysisExplain:
+      "Promptunuzu ətraflı daxil edin; Brancy onu xarakterinizə, tonunuza və qarşılıqlı əlaqə üslubunuza əsasən təhlil edəcək.",
     promptanalysisplaceholder: "Prompt analizi üçün ən azı 20 simvol daxil edin",
     reanalyze: "Yenidən Analiz Et",
     shouldFollowerexplain: "Cavablar yalnız sizi follow edən istifadəçilərə göndərilir",

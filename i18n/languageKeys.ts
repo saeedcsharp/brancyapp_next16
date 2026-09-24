@@ -3223,4 +3223,5 @@ export enum LanguageKey {
   BrancyKnowsYouExplain = "BrancyKnowsYouExplain",
   Postnotvisible = "Postnotvisible",
   Storynotvisible = "Storynotvisible",
+  promptanalysisExplain = "promptanalysisExplain",
 }

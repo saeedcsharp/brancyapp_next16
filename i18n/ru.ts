@@ -2732,6 +2732,8 @@ export default {
     testlab: "Тестовая лаборатория",
     promptmode: "Режим Prompt",
     promptanalysis: "Анализ Prompt",
+    promptanalysisExplain:
+      "Подробно введите свой промпт; Brancy проанализирует его с учётом вашей личности, тона и стиля взаимодействия.",
     promptanalysisplaceholder: "Введите не менее 20 символов для анализа Prompt",
     reanalyze: "Повторный анализ",
     shouldFollowerexplain: "Ответы отправляются только пользователям, которые follow вас",

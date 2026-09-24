@@ -2757,6 +2757,8 @@ export default {
     testlab: "Testlabor",
     promptmode: "Prompt-Modus",
     promptanalysis: "Prompt-Analyse",
+    promptanalysisExplain:
+      "Geben Sie Ihren Prompt detailliert ein; Brancy analysiert ihn anhand Ihrer Persönlichkeit, Ihres Tons und Ihres Interaktionsstils.",
     promptanalysisplaceholder: "Geben Sie mindestens 20 Zeichen für die Prompt-Analyse ein",
     reanalyze: "Erneut analysieren",
     shouldFollowerexplain: "Antworten werden nur an Benutzer gesendet, die Ihnen follow",

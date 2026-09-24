@@ -1,3 +1,5 @@
+- 2026-09-24: Optimized the home dashboard profile and tile component with memoized derived content, guarded AI-count lifecycle updates, validated login timestamps, animated slide transitions, reduced-motion support, Arrow/Home/End keyboard navigation, accessible story links, stable thumbnail dimensions, and noindex metadata for the private home route.
+
 - 2026-09-24: Updated the media auto-reply Flow action to use the localized Show Flow Graph label and navigate to `/Ai/FlowandAgent?id=<masterFlowId>`.
 
 - 2026-09-24: Fixed Live media quick-reply payloads to force `sendPr: false`; the Live follower control now only affects `shouldFollower`.
