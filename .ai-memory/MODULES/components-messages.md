@@ -139,6 +139,11 @@ For `MediaProductType.Live`, the media auto-reply editor hides the must-follow-p
 
 General and media auto-reply editors hide the must-follow-page option for AI mode and save `shouldFollower` as `false` for AI replies; other reply modes retain their existing controls and values.
 
+In the media auto-reply Live quick-reply control, the must-follow-page toggle updates `shouldFollower`; it does not change `sendPr`.
+Live media quick-reply payloads force `sendPr` to `false`, including when an existing auto-reply contains a stale `sendPr` value.
+
+The selected Flow action in `popups/editAutoReplyForMedia.tsx` uses the localized `AIFlow_show_graph` label and opens `/Ai/FlowandAgent` with the selected `masterFlowId` as the `id` query.
+
 For message-delivery modes, the confirmation-message and must-follow-page options are omitted from the editor and both corresponding save payload flags are forced to `false`; same-comment delivery retains the existing controls and values.
 
 > > > > > > > sepehr

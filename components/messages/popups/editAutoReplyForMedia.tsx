@@ -531,10 +531,10 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                 handleToggle={(e) =>
                   setReplyMethod((prev) => ({
                     ...prev!,
-                    sendPr: e.target.checked,
+                    shouldFollower: e.target.checked,
                   }))
                 }
-                value={replyMethod !== null && replyMethod.sendPr}
+                value={replyMethod !== null && replyMethod.shouldFollower}
                 title={t(LanguageKey.shouldFollower)}
                 textlabel={t(LanguageKey.shouldFollower)}
               />
@@ -581,7 +581,9 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
     }
   }, []);
   const handleUpdateAutoReply = useCallback(() => {
-    const isDirectReplyMode = (checkBox.Custom || checkBox.GeneralAI || checkBox.AI) && !!replyMethod?.sendPr;
+    const isLiveMedia = productType === MediaProductType.Live;
+    const isDirectReplyMode =
+      !isLiveMedia && (checkBox.Custom || checkBox.GeneralAI || checkBox.AI) && !!replyMethod?.sendPr;
     const isMessageDeliveryMode = checkBox.Flow || checkBox.Product || checkBox.ConnectProduct || isDirectReplyMode;
     let sendAuto: IMediaUpdateAutoReply = {
       automaticType: AutoReplyPayLoadType.Flow,
@@ -590,7 +592,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       promptId: null,
       response: null,
       sendPr:
-        hasMessagePermission || checkBox.Flow || checkBox.ConnectProduct
+        isLiveMedia || hasMessagePermission || checkBox.Flow || checkBox.ConnectProduct
           ? false
           : replyMethod !== null && replyMethod.sendPr,
       replySuccessfullyDirected:
@@ -600,7 +602,10 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
         checkBox.Flow || checkBox.ConnectProduct || isDirectReplyMode
           ? (replyMethod?.customRepliesSuccessfullyDirected ?? [])
           : [],
-      shouldFollower: isDirectReplyMode && !checkBox.AI ? replyMethod !== null && replyMethod.shouldFollower : false,
+      shouldFollower:
+        !checkBox.AI && !checkBox.Flow && !checkBox.ConnectProduct && (isDirectReplyMode || isLiveMedia)
+          ? replyMethod !== null && replyMethod.shouldFollower
+          : false,
       productId: replyMethod?.productId || null,
     };
     console.log("sendAutoooooo", sendAuto);
@@ -642,7 +647,16 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
     }
     console.log("sendAuto", sendAuto);
     handleSaveAutoReply(sendAuto);
-  }, [handleSaveAutoReply, replyMethod, selectedFlow, selectedPrompt, checkBox, session]);
+  }, [
+    handleSaveAutoReply,
+    replyMethod,
+    selectedFlow,
+    selectedPrompt,
+    checkBox,
+    session,
+    productType,
+    hasMessagePermission,
+  ]);
   const availablePrompts = useMemo(() => {
     const promptItems = prompts?.items || [];
     const savedPrompt = replyMethod?.prompt;
@@ -1606,7 +1620,15 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
 
                           {selectedFlow && (
                             <div className="headerandinput">
-                              <button className="saveButton">
+                              <button
+                                type="button"
+                                className="saveButton"
+                                onClick={() => {
+                                  void router.push({
+                                    pathname: "/Ai/FlowandAgent",
+                                    query: { id: selectedFlow.masterFlowId },
+                                  });
+                                }}>
                                 {" "}
                                 <svg
                                   width="16"
@@ -1621,7 +1643,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                                   />
                                   <path d="M25 3a28 28 0 0 1 5.5.2q1 .2 1.6.8t.7 1.5c.3 1.6.2 4.3.1 5.6a2 2 0 0 1-3.3 1.2l-1.9-1.8-4.1 4a1.5 1.5 0 1 1-2.1-2.1l4-4-1.8-2a2 2 0 0 1 1.2-3.3" />
                                 </svg>
-                                {t(LanguageKey.messagesetting_ViewFlow)}
+                                {t(LanguageKey.AIFlow_show_graph)}
                               </button>
                             </div>
                           )}

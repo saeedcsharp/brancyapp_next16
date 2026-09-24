@@ -885,7 +885,7 @@ const ShowStory = () => {
                               isLoading={isFetchingMoreReplies}
                               itemsPerSlide={commentsPerSlide}>
                               {storyReplies.threads.map((u, i) => (
-                                <div key={u.threadId || i} className={styles.comment}>
+                                <div key={i} className={styles.comment}>
                                   <img
                                     className="instagramimage"
                                     title="◰ resize the picture"

@@ -1,3 +1,9 @@
+- 2026-09-24: Updated the media auto-reply Flow action to use the localized Show Flow Graph label and navigate to `/Ai/FlowandAgent?id=<masterFlowId>`.
+
+- 2026-09-24: Fixed Live media quick-reply payloads to force `sendPr: false`; the Live follower control now only affects `shouldFollower`.
+
+- 2026-09-24: Fixed the media quick-reply Live must-follow-page control so it updates `shouldFollower` instead of `sendPr`.
+
 - 2026-09-24: Removed the must-follow-page option from general and media auto-reply AI modes and force-saved the AI setting as disabled.
 
 - 2026-09-24: Removed the must-follow-page option from Live media auto-reply AI and Flow modes.
