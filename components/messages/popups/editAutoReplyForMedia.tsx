@@ -407,6 +407,19 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
               </>
             )}
             <div className={styles.replyMethodOptions}>
+              {replyMethod && isDirectReplyMode && mode !== "AI" && !hasMessagePermission && (
+                <CheckBoxButton
+                  handleToggle={(e) =>
+                    setReplyMethod((prev) => ({
+                      ...prev!,
+                      shouldFollower: e.target.checked,
+                    }))
+                  }
+                  value={replyMethod.shouldFollower}
+                  title={t(LanguageKey.shouldFollower)}
+                  textlabel={t(LanguageKey.shouldFollower)}
+                />
+              )}
               {replyMethod && (isDirectReplyMode || supportsConfirmationReply) && (
                 <CheckBoxButton
                   id={`${mode}-confirmation-reply`}
@@ -427,16 +440,11 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                 replyMethod.replySuccessfullyDirected &&
                 !hasMessagePermission && (
                   <div className="headerandinput" role="group" aria-labelledby={`${titleId}-custom-replies`}>
-                    <div className="headerparent" id={`${titleId}-custom-replies`}>
-                      <div className="counter" aria-live="polite">
-                        ({replyMethod.customRepliesSuccessfullyDirected.length}/3)
-                      </div>
-                    </div>
                     <div className="headerparent">
                       <InputBox
                         name={`${mode}-custom-success-reply`}
                         className="textinputbox"
-                        placeHolder={t(LanguageKey.pageToolspopup_typehere)}
+                        placeHolder={`${t(LanguageKey.pageToolspopup_typehere)} - (${replyMethod.customRepliesSuccessfullyDirected.length}/3)`}
                         value={customReplyInput}
                         disabled={replyMethod.customRepliesSuccessfullyDirected.length >= 3}
                         handleInputChange={(e) => setCustomReplyInput(e.target.value)}
@@ -500,20 +508,6 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                     </div>
                   </div>
                 )}
-
-              {replyMethod && isDirectReplyMode && mode !== "AI" && !hasMessagePermission && (
-                <CheckBoxButton
-                  handleToggle={(e) =>
-                    setReplyMethod((prev) => ({
-                      ...prev!,
-                      shouldFollower: e.target.checked,
-                    }))
-                  }
-                  value={replyMethod.shouldFollower}
-                  title={t(LanguageKey.shouldFollower)}
-                  textlabel={t(LanguageKey.shouldFollower)}
-                />
-              )}
             </div>
             {hasMessagePermission && isMessageDeliveryMode && renderMessagePermissionState()}
           </div>
@@ -1188,44 +1182,43 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
         <link rel="canonical" href="https://www.brancy.app/page/posts" />
         <meta name="viewport" content="width=device-width, initial-scale=1.0" />
       </Head>
-      <div className="headerandinput" role="dialog" aria-modal="true" aria-labelledby="quick-reply-title">
-        <div className="headerparent">
-          <div className="title" id="quick-reply-title" role="heading" aria-level={1}>
-            {t(LanguageKey.messagesetting_automaticreplysystem)}
-            <Tooltip
-              triggerType="tooltip"
-              tooltipValue={t(LanguageKey.messagesetting_automaticreplysystemexplain)}
-              position="bottom"
-              onClick={true}
-            />
-          </div>
-          {showActiveAutoreply && (
-            <ToggleCheckBoxButton
-              handleToggle={(e) => {
-                handleActiveAutoReply(e);
-              }}
-              checked={activeAutoReply}
-              name="toggleAutoReply"
-              title="toggleAutoReply"
-              role="switch"
-            />
-          )}
-        </div>
-      </div>
 
       {loadingState.isLoading && <Loading />}
       {!loadingState.isLoading && (
         <div className={activeAutoReply ? styles.content : `${styles.content} fadeDiv`}>
-          <ToggleButton
-            options={[
-              { id: 0, label: t(LanguageKey.sidebar_Setting) },
-              { id: 1, label: t(LanguageKey.replyMethod) },
-            ]}
-            selectedValue={selectedTab}
-            onChange={(value) => setSelectedTab(value)}
-          />
-
           <>
+            <div className="headerandinput" role="dialog" aria-modal="true" aria-labelledby="quick-reply-title">
+              <div className="headerparent">
+                <div className="title" id="quick-reply-title" role="heading" aria-level={1}>
+                  {t(LanguageKey.messagesetting_automaticreplysystem)}
+                  <Tooltip
+                    triggerType="tooltip"
+                    tooltipValue={t(LanguageKey.messagesetting_automaticreplysystemexplain)}
+                    position="bottom"
+                    onClick={true}
+                  />
+                </div>
+                {showActiveAutoreply && (
+                  <ToggleCheckBoxButton
+                    handleToggle={(e) => {
+                      handleActiveAutoReply(e);
+                    }}
+                    checked={activeAutoReply}
+                    name="toggleAutoReply"
+                    title="toggleAutoReply"
+                    role="switch"
+                  />
+                )}
+              </div>
+              <ToggleButton
+                options={[
+                  { id: 0, label: t(LanguageKey.sidebar_Setting) },
+                  { id: 1, label: t(LanguageKey.replyMethod) },
+                ]}
+                selectedValue={selectedTab}
+                onChange={(value) => setSelectedTab(value)}
+              />
+            </div>
             {selectedTab === 0 && (
               <>
                 {/* Keywords Mode */}
@@ -1382,16 +1375,14 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
               <>
                 {/* Custom */}
                 <div className="headerandinput">
-                  <div className="headerandinput">
-                    <RadioButton
-                      name="custom"
-                      id={t(LanguageKey.product_Definenew)}
-                      checked={checkBox.Custom}
-                      handleOptionChanged={handleOptionChanged}
-                      textlabel={t(LanguageKey.AIFlow_quick_reply)}
-                    />
-                    <div className="explain">{t(LanguageKey.messagesetting_DefineCustomResponseExplain)}</div>
-                  </div>
+                  <RadioButton
+                    name="custom"
+                    id={t(LanguageKey.product_Definenew)}
+                    checked={checkBox.Custom}
+                    handleOptionChanged={handleOptionChanged}
+                    textlabel={t(LanguageKey.AIFlow_quick_reply)}
+                  />
+                  <div className="explain">{t(LanguageKey.messagesetting_DefineCustomResponseExplain)}</div>
                   {checkBox.Custom && (
                     <div className={styles.optioncontainer}>
                       <div className="headerandinput">
@@ -1440,17 +1431,16 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                 </div>
                 {/* AI */}
                 <div className="headerandinput">
-                  <div className="headerandinput">
-                    <RadioButton
-                      name="AI"
-                      id={"AI"}
-                      checked={checkBox.AI}
-                      handleOptionChanged={handleOptionChanged}
-                      textlabel={t(LanguageKey.AI)}
-                      title={t(LanguageKey.AI)}
-                    />
-                    <div className="explain">{t(LanguageKey.messagesetting_UseAIPromptsExplain)}</div>
-                  </div>
+                  <RadioButton
+                    name="AI"
+                    id={"AI"}
+                    checked={checkBox.AI}
+                    handleOptionChanged={handleOptionChanged}
+                    textlabel={t(LanguageKey.AI)}
+                    title={t(LanguageKey.AI)}
+                  />
+                  <div className="explain">{t(LanguageKey.messagesetting_UseAIPromptsExplain)}</div>
+
                   {checkBox.AI && (
                     <div className={styles.optioncontainer}>
                       {!hasAutomaticsPermission ? (
@@ -1458,7 +1448,8 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                       ) : (
                         <>
                           <div className="headerandinput">
-                            {(selectedPrompt || replyMethod?.prompt) && (
+                            <div className="headerandinput">
+                              {/* {(selectedPrompt || replyMethod?.prompt) && (
                               <>
                                 <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
                                 <InputBox
@@ -1467,65 +1458,69 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                                   value={selectedPrompt?.title || replyMethod?.prompt?.title || ""}
                                 />
                               </>
-                            )}
+                            )} */}
 
-                            {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : availablePrompts.length) > 0 ? (
-                              <DragDrop
-                                externalSearchMod={true}
-                                data={searchAIMode ? AISearchTitles : AITitles}
-                                item={0}
-                                handleOptionSelect={(id) => {
-                                  void getPromptById(id);
-                                }}
-                                handleGetMoreItems={async () => {
-                                  await getMorePrompts(prompts?.nextMaxId || null);
-                                }}
-                                isLoadingMoreItems={loadingState.isLoadingMoreAIItems}
-                                onExternalSearch={handleExternalAISearch}
-                                externalSearchLoading={loadingState.isExternalSearchAILoading}
-                                externalSearchText={
-                                  searchAIMode ? selectedPrompt?.title || replyMethod?.prompt?.title || "" : ""
-                                }
-                              />
-                            ) : null}
-
-                            {!selectedPrompt && !replyMethod?.prompt ? (
-                              <div className="headerandinput">
-                                {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : availablePrompts.length) ===
-                                  0 && <div className="explain">{t(LanguageKey.messagesetting_NoPromptsFound)}</div>}
-                                <button
-                                  onClick={() => {
-                                    try {
-                                      void router.push({ pathname: "/Ai/FlowandAgent" });
-                                    } catch (e) {
-                                      console.error(e);
-                                    }
+                              {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : availablePrompts.length) > 0 ? (
+                                <DragDrop
+                                  externalSearchMod={true}
+                                  data={searchAIMode ? AISearchTitles : AITitles}
+                                  item={0}
+                                  handleOptionSelect={(id) => {
+                                    void getPromptById(id);
                                   }}
-                                  className="saveButton">
-                                  <svg
-                                    width="16"
-                                    height="16"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="#fff"
-                                    viewBox="0 0 36 36">
-                                    <path
-                                      opacity={0.4}
-                                      fillRule="evenodd"
-                                      d="M18.2 4.5A1.5 1.5 0 0 1 16.5 6l-6.2.3q-2 .3-2.9 1.2t-1.3 3.3A61 61 0 0 0 6 18l.2 7.2q.4 2.4 1.3 3.3t3.3 1.3q2.5.2 7.2.2l7.2-.2q2.4-.4 3.3-1.3t1.2-3 .3-6.1a1.5 1.5 0 1 1 3 0l-.3 6.7a8 8 0 0 1-2.1 4.5 8 8 0 0 1-5 2.1q-3 .4-7.5.3H18q-4.6 0-7.5-.3t-5-2.1a8 8 0 0 1-2.1-5q-.4-3-.3-7.5v-.2l.3-7.5q.2-3 2.1-5a8 8 0 0 1 4.6-2q2.6-.5 6.7-.4a1.5 1.5 0 0 1 1.5 1.5"
-                                    />
-                                    <path d="M25 3a28 28 0 0 1 5.5.2q1 .2 1.6.8t.7 1.5c.3 1.6.2 4.3.1 5.6a2 2 0 0 1-3.3 1.2l-1.9-1.8-4.1 4a1.5 1.5 0 1 1-2.1-2.1l4-4-1.8-2a2 2 0 0 1 1.2-3.3" />
-                                  </svg>
-                                  {t(LanguageKey.CreateAutomationAI)}
-                                </button>
-                              </div>
-                            ) : null}
+                                  handleGetMoreItems={async () => {
+                                    await getMorePrompts(prompts?.nextMaxId || null);
+                                  }}
+                                  isLoadingMoreItems={loadingState.isLoadingMoreAIItems}
+                                  onExternalSearch={handleExternalAISearch}
+                                  externalSearchLoading={loadingState.isExternalSearchAILoading}
+                                  externalSearchText={
+                                    searchAIMode ? selectedPrompt?.title || replyMethod?.prompt?.title || "" : ""
+                                  }
+                                />
+                              ) : null}
+
+                              {!selectedPrompt && !replyMethod?.prompt ? (
+                                <div className="headerandinput">
+                                  {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : availablePrompts.length) ===
+                                    0 && <div className="explain">{t(LanguageKey.messagesetting_NoPromptsFound)}</div>}
+                                  <button
+                                    onClick={() => {
+                                      try {
+                                        void router.push({ pathname: "/Ai/FlowandAgent" });
+                                      } catch (e) {
+                                        console.error(e);
+                                      }
+                                    }}
+                                    className="saveButton">
+                                    <svg
+                                      width="16"
+                                      height="16"
+                                      xmlns="http://www.w3.org/2000/svg"
+                                      fill="#fff"
+                                      viewBox="0 0 36 36">
+                                      <path
+                                        opacity={0.4}
+                                        fillRule="evenodd"
+                                        d="M18.2 4.5A1.5 1.5 0 0 1 16.5 6l-6.2.3q-2 .3-2.9 1.2t-1.3 3.3A61 61 0 0 0 6 18l.2 7.2q.4 2.4 1.3 3.3t3.3 1.3q2.5.2 7.2.2l7.2-.2q2.4-.4 3.3-1.3t1.2-3 .3-6.1a1.5 1.5 0 1 1 3 0l-.3 6.7a8 8 0 0 1-2.1 4.5 8 8 0 0 1-5 2.1q-3 .4-7.5.3H18q-4.6 0-7.5-.3t-5-2.1a8 8 0 0 1-2.1-5q-.4-3-.3-7.5v-.2l.3-7.5q.2-3 2.1-5a8 8 0 0 1 4.6-2q2.6-.5 6.7-.4a1.5 1.5 0 0 1 1.5 1.5"
+                                      />
+                                      <path d="M25 3a28 28 0 0 1 5.5.2q1 .2 1.6.8t.7 1.5c.3 1.6.2 4.3.1 5.6a2 2 0 0 1-3.3 1.2l-1.9-1.8-4.1 4a1.5 1.5 0 1 1-2.1-2.1l4-4-1.8-2a2 2 0 0 1 1.2-3.3" />
+                                    </svg>
+                                    {t(LanguageKey.CreateAutomationAI)}
+                                  </button>
+                                </div>
+                              ) : null}
+                            </div>
+
+                            {loadingState.isLoadingPrompt && <RingLoader style={{ maxHeight: "14px" }} />}
+                            {!loadingState.isLoadingPrompt && selectedPrompt && (
+                              <TextArea
+                                style={{ maxHeight: "150px" }}
+                                fadeTextArea
+                                readOnly
+                                value={selectedPrompt.promptStr || ""}></TextArea>
+                            )}
                           </div>
-
-                          {loadingState.isLoadingPrompt && <RingLoader style={{ maxHeight: "14px" }} />}
-                          {!loadingState.isLoadingPrompt && selectedPrompt && (
-                            <div className="explain">{selectedPrompt.promptStr || ""}</div>
-                          )}
-
                           {renderReplyMethodSection("AI")}
                         </>
                       )}
@@ -1534,17 +1529,16 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                 </div>
                 {/* Flow */}
                 <div className="headerandinput">
-                  <div className="headerandinput">
-                    <RadioButton
-                      name="Flow"
-                      id={"Flow"}
-                      checked={checkBox.Flow}
-                      handleOptionChanged={handleOptionChanged}
-                      textlabel={t(LanguageKey.Flow)}
-                      title={t(LanguageKey.Flow)}
-                    />
-                    <div className="explain">{t(LanguageKey.messagesetting_SelectPredefinedFlowExplain)}</div>
-                  </div>
+                  <RadioButton
+                    name="Flow"
+                    id={"Flow"}
+                    checked={checkBox.Flow}
+                    handleOptionChanged={handleOptionChanged}
+                    textlabel={t(LanguageKey.Flow)}
+                    title={t(LanguageKey.Flow)}
+                  />
+                  <div className="explain">{t(LanguageKey.messagesetting_SelectPredefinedFlowExplain)}</div>
+
                   {checkBox.Flow && (
                     <div className={styles.optioncontainer}>
                       {!hasAutomaticsPermission ? (
@@ -1656,7 +1650,6 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                 </div>
                 {/* General AI */}
                 {/* <div className="headerandinput">
-                  <div className="headerandinput">
                     <RadioButton
                       name="GeneralAI"
                       id={"GeneralAI"}
@@ -1665,7 +1658,6 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                       textlabel={"GeneralAI"}
                       title={"GeneralAI"}
                     />
-                  </div>
                   {checkBox.GeneralAI && (
                     <div className={styles.optioncontainer}>{renderReplyMethodSection("GeneralAI")}</div>
                   )}
@@ -1674,16 +1666,14 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                 {/* Product */}
                 {session?.user.isShopper && shopMediaProductType === ShopMediaProductType.Instance && (
                   <div className="headerandinput">
-                    <div className="headerandinput">
-                      <RadioButton
-                        name="Product"
-                        id={t("Product")}
-                        checked={checkBox.Product}
-                        handleOptionChanged={handleOptionChanged}
-                        textlabel={t("Product")}
-                      />
-                      <div className="explain">{t(LanguageKey.messagesetting_ProductResponseExplain)}</div>
-                    </div>
+                    <RadioButton
+                      name="Product"
+                      id={t("Product")}
+                      checked={checkBox.Product}
+                      handleOptionChanged={handleOptionChanged}
+                      textlabel={t("Product")}
+                    />
+                    <div className="explain">{t(LanguageKey.messagesetting_ProductResponseExplain)}</div>
                     {checkBox.Product && !hasProductPermission ? (
                       <NotAllowedCard />
                     ) : (
@@ -1695,16 +1685,14 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                 {session?.user.isShopper &&
                   (productType === MediaProductType.Live || productType === MediaProductType.Story) && (
                     <div className="headerandinput">
-                      <div className="headerandinput">
-                        <RadioButton
-                          name="ConnectProduct"
-                          id={t(LanguageKey.ConnectProduct)}
-                          checked={checkBox.ConnectProduct}
-                          handleOptionChanged={handleOptionChanged}
-                          textlabel={t(LanguageKey.ConnectProduct)}
-                        />
-                        <div className="explain">{t(LanguageKey.messagesetting_SpecifyProductResponseExplain)}</div>
-                      </div>
+                      <RadioButton
+                        name="ConnectProduct"
+                        id={t(LanguageKey.ConnectProduct)}
+                        checked={checkBox.ConnectProduct}
+                        handleOptionChanged={handleOptionChanged}
+                        textlabel={t(LanguageKey.ConnectProduct)}
+                      />
+                      <div className="explain">{t(LanguageKey.messagesetting_SpecifyProductResponseExplain)}</div>
                       {checkBox.ConnectProduct && !hasProductPermission ? (
                         <NotAllowedCard />
                       ) : checkBox.ConnectProduct ? (

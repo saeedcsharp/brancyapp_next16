@@ -768,15 +768,10 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
       return (
         <div className="headerandinput" role="group" aria-label={t(LanguageKey.sendreplydirectedsuccessfully)}>
           <div className="headerparent">
-            <div className="counter" aria-live="polite">
-              ({customRepliesSuccessfullyDirected.length}/3)
-            </div>
-          </div>
-          <div className="headerparent">
             <InputBox
               name={`${mode}-custom-success-reply`}
               className="textinputbox"
-              placeHolder={t(LanguageKey.pageToolspopup_typehere)}
+              placeHolder={`${t(LanguageKey.pageToolspopup_typehere)} - (${customRepliesSuccessfullyDirected.length}/3)`}
               value={customReplyInput}
               disabled={customRepliesSuccessfullyDirected.length >= 3}
               handleInputChange={(e) => setCustomReplyInput(e.target.value)}
@@ -863,43 +858,44 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
         <meta name="application-name" content="Brancy Instagram Management" />
         <meta name="theme-color" content="#7C3AED" />
       </Head>
-      <div className="headerandinput" role="dialog" aria-modal="true" aria-labelledby="quick-reply-title">
-        <div className="headerparent">
-          <div className="title" id="quick-reply-title" role="heading" aria-level={1}>
-            {t(LanguageKey.messagesetting_automaticreplysystem)}
-            <Tooltip
-              triggerType="tooltip"
-              tooltipValue={t(LanguageKey.messagesetting_automaticreplysystemexplain)}
-              position="bottom"
-              onClick={true}
-            />
-          </div>
-          {autoReply.id !== null && autoReply.id !== "" && (
-            <ToggleCheckBoxButton
-              handleToggle={(e) => {
-                setActiveAutoReply(e.target.checked);
-                handleActiveAutoReply(e, autoReply.id);
-              }}
-              checked={activeAutoReply}
-              name="toggleAutoReply"
-              title="toggleAutoReply"
-              role="switch"
-            />
-          )}
-        </div>
-      </div>
+
       {loadingState.isLoading && <Loading />}
       {!loadingState.isLoading && (
         <div className={activeAutoReply ? styles.content : `${styles.content} fadeDiv`}>
-          <ToggleButton
-            options={[
-              { id: 0, label: t(LanguageKey.sidebar_Setting) },
-              { id: 1, label: t(LanguageKey.replyMethod) },
-            ]}
-            selectedValue={selectedTab}
-            onChange={(value) => setSelectedTab(value)}
-          />
           <>
+            <div className="headerandinput" role="dialog" aria-modal="true" aria-labelledby="quick-reply-title">
+              <div className="headerparent">
+                <div className="title" id="quick-reply-title" role="heading" aria-level={1}>
+                  {t(LanguageKey.messagesetting_automaticreplysystem)}
+                  <Tooltip
+                    triggerType="tooltip"
+                    tooltipValue={t(LanguageKey.messagesetting_automaticreplysystemexplain)}
+                    position="bottom"
+                    onClick={true}
+                  />
+                </div>
+                {autoReply.id !== null && autoReply.id !== "" && (
+                  <ToggleCheckBoxButton
+                    handleToggle={(e) => {
+                      setActiveAutoReply(e.target.checked);
+                      handleActiveAutoReply(e, autoReply.id);
+                    }}
+                    checked={activeAutoReply}
+                    name="toggleAutoReply"
+                    title="toggleAutoReply"
+                    role="switch"
+                  />
+                )}
+              </div>
+              <ToggleButton
+                options={[
+                  { id: 0, label: t(LanguageKey.sidebar_Setting) },
+                  { id: 1, label: t(LanguageKey.replyMethod) },
+                ]}
+                selectedValue={selectedTab}
+                onChange={(value) => setSelectedTab(value)}
+              />
+            </div>
             {selectedTab === 0 && (
               <>
                 {/* title Section */}
@@ -1036,22 +1032,19 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
               <>
                 {/* Custom Reply Section */}
                 <div className="headerandinput">
-                  <div className="headerandinput">
-                    <RadioButton
-                      name="custom"
-                      id={t(LanguageKey.product_Definenew)}
-                      checked={checkBox.Custom}
-                      handleOptionChanged={handleOptionChanged}
-                      textlabel={t(LanguageKey.AIFlow_quick_reply)}
-                    />
-                    <div className="explain">{t(LanguageKey.messagesetting_DefineCustomResponseExplain)}</div>
-                  </div>
+                  <RadioButton
+                    name="custom"
+                    id={t(LanguageKey.product_Definenew)}
+                    checked={checkBox.Custom}
+                    handleOptionChanged={handleOptionChanged}
+                    textlabel={t(LanguageKey.AIFlow_quick_reply)}
+                  />
+                  <div className="explain">{t(LanguageKey.messagesetting_DefineCustomResponseExplain)}</div>
                   {checkBox.Custom && (
                     <div className={styles.optioncontainer}>
                       <div className="headerandinput">
                         <div className="headerparent">
                           <div className="headertext">{t(LanguageKey.Answer)}</div>
-
                           <div className="counter">
                             ({autoReplyCustom?.length || 0}/800 )
                             <img
@@ -1123,18 +1116,18 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                           {replyMethod && (
                             <div className={styles.replyMethodOptions}>
                               <CheckBoxButton
+                                handleToggle={(e) => setShouldFollower(e.target.checked)}
+                                value={shouldFollower}
+                                title={t(LanguageKey.shouldFollower)}
+                                textlabel={t(LanguageKey.shouldFollower)}
+                              />
+                              <CheckBoxButton
                                 handleToggle={(e) => setReplySuccessfullyDirected(e.target.checked)}
                                 value={replySuccessfullyDirected}
                                 title={t(LanguageKey.sendreplydirectedsuccessfully)}
                                 textlabel={t(LanguageKey.sendreplydirectedsuccessfully)}
                               />
                               {renderCustomReplies("Custom")}
-                              <CheckBoxButton
-                                handleToggle={(e) => setShouldFollower(e.target.checked)}
-                                value={shouldFollower}
-                                title={t(LanguageKey.shouldFollower)}
-                                textlabel={t(LanguageKey.shouldFollower)}
-                              />
                             </div>
                           )}
                         </>
@@ -1158,67 +1151,72 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                   {checkBox.AI && (
                     <div className={styles.optioncontainer}>
                       <div className="headerandinput">
-                        {autoReply.prompt && (
-                          <>
-                            <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
-                            <InputBox
-                              className={"textinputbox"}
-                              handleInputChange={() => {}}
-                              value={autoReply.prompt.title}
-                            />
-                          </>
-                        )}
+                        <div className="headerandinput">
+                          {autoReply.prompt && (
+                            <>
+                              <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
+                              <InputBox
+                                className={"textinputbox"}
+                                handleInputChange={() => {}}
+                                value={autoReply.prompt.title}
+                              />
+                            </>
+                          )}
 
-                        {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : (prompts?.items?.length ?? 0)) > 0 ? (
-                          <DragDrop
-                            externalSearchMod={true}
-                            data={searchAIMode ? AISearchTitles : AITitles}
-                            handleOptionSelect={(id) => {
-                              getPromptById(id);
-                            }}
-                            handleGetMoreItems={() => getMorePrompts(prompts!.nextMaxId)}
-                            isLoadingMoreItems={loadingState.isLoadingMoreAIItems}
-                            onExternalSearch={handleExternalAISearch}
-                            externalSearchLoading={loadingState.isExternalSearchAILoading}
-                            externalSearchText={searchAIMode ? selectedPrompt?.title : ""}
-                          />
-                        ) : null}
-                        {!selectedPrompt && !autoReply.prompt ? (
-                          <div className="headerandinput">
-                            {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : (prompts?.items?.length ?? 0)) ===
-                              0 && <div className="explain">{t(LanguageKey.messagesetting_NoPromptsFound)}</div>}
-                            <button
-                              onClick={() => {
-                                try {
-                                  void router.push({ pathname: "/Ai/FlowandAgent" });
-                                } catch (e) {
-                                  console.error(e);
-                                }
+                          {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : (prompts?.items?.length ?? 0)) > 0 ? (
+                            <DragDrop
+                              externalSearchMod={true}
+                              data={searchAIMode ? AISearchTitles : AITitles}
+                              handleOptionSelect={(id) => {
+                                getPromptById(id);
                               }}
-                              className="saveButton">
-                              <svg
-                                width="16"
-                                height="16"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="#fff"
-                                viewBox="0 0 36 36">
-                                <path
-                                  opacity=".4"
-                                  fillRule="evenodd"
-                                  d="M18.2 4.5A1.5 1.5 0 0 1 16.5 6l-6.2.3q-2 .3-2.9 1.2t-1.3 3.3A61 61 0 0 0 6 18l.2 7.2q.4 2.4 1.3 3.3t3.3 1.3q2.5.2 7.2.2l7.2-.2q2.4-.4 3.3-1.3t1.2-3 .3-6.1a1.5 1.5 0 1 1 3 0l-.3 6.7a8 8 0 0 1-2.1 4.5 8 8 0 0 1-5 2.1q-3 .4-7.5.3H18q-4.6 0-7.5-.3t-5-2.1a8 8 0 0 1-2.1-5q-.4-3-.3-7.5v-.2l.3-7.5q.2-3 2.1-5a8 8 0 0 1 4.6-2q2.6-.5 6.7-.4a1.5 1.5 0 0 1 1.5 1.5"
-                                />
-                                <path d="M25 3a28 28 0 0 1 5.5.2q1 .2 1.6.8t.7 1.5c.3 1.6.2 4.3.1 5.6a2 2 0 0 1-3.3 1.2l-1.9-1.8-4.1 4a1.5 1.5 0 1 1-2.1-2.1l4-4-1.8-2a2 2 0 0 1 1.2-3.3" />
-                              </svg>
-                              {t(LanguageKey.CreateAutomationAI)}
-                            </button>
-                          </div>
-                        ) : null}
+                              handleGetMoreItems={() => getMorePrompts(prompts!.nextMaxId)}
+                              isLoadingMoreItems={loadingState.isLoadingMoreAIItems}
+                              onExternalSearch={handleExternalAISearch}
+                              externalSearchLoading={loadingState.isExternalSearchAILoading}
+                              externalSearchText={searchAIMode ? selectedPrompt?.title : ""}
+                            />
+                          ) : null}
+                          {!selectedPrompt && !autoReply.prompt ? (
+                            <div className="headerandinput">
+                              {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : (prompts?.items?.length ?? 0)) ===
+                                0 && <div className="explain">{t(LanguageKey.messagesetting_NoPromptsFound)}</div>}
+                              <button
+                                onClick={() => {
+                                  try {
+                                    void router.push({ pathname: "/Ai/FlowandAgent" });
+                                  } catch (e) {
+                                    console.error(e);
+                                  }
+                                }}
+                                className="saveButton">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="#fff"
+                                  viewBox="0 0 36 36">
+                                  <path
+                                    opacity=".4"
+                                    fillRule="evenodd"
+                                    d="M18.2 4.5A1.5 1.5 0 0 1 16.5 6l-6.2.3q-2 .3-2.9 1.2t-1.3 3.3A61 61 0 0 0 6 18l.2 7.2q.4 2.4 1.3 3.3t3.3 1.3q2.5.2 7.2.2l7.2-.2q2.4-.4 3.3-1.3t1.2-3 .3-6.1a1.5 1.5 0 1 1 3 0l-.3 6.7a8 8 0 0 1-2.1 4.5 8 8 0 0 1-5 2.1q-3 .4-7.5.3H18q-4.6 0-7.5-.3t-5-2.1a8 8 0 0 1-2.1-5q-.4-3-.3-7.5v-.2l.3-7.5q.2-3 2.1-5a8 8 0 0 1 4.6-2q2.6-.5 6.7-.4a1.5 1.5 0 0 1 1.5 1.5"
+                                  />
+                                  <path d="M25 3a28 28 0 0 1 5.5.2q1 .2 1.6.8t.7 1.5c.3 1.6.2 4.3.1 5.6a2 2 0 0 1-3.3 1.2l-1.9-1.8-4.1 4a1.5 1.5 0 1 1-2.1-2.1l4-4-1.8-2a2 2 0 0 1 1.2-3.3" />
+                                </svg>
+                                {t(LanguageKey.CreateAutomationAI)}
+                              </button>
+                            </div>
+                          ) : null}
+                        </div>
+                        {loadingState.isLoadingPrompt && <RingLoader style={{ maxHeight: "14px" }} />}
+                        {!loadingState.isLoadingPrompt && selectedPrompt && (
+                          <TextArea
+                            style={{ maxHeight: "150px" }}
+                            fadeTextArea
+                            readOnly
+                            value={selectedPrompt.promptStr || ""}></TextArea>
+                        )}
                       </div>
-                      {loadingState.isLoadingPrompt && <RingLoader style={{ maxHeight: "14px" }} />}
-                      {!loadingState.isLoadingPrompt && selectedPrompt && (
-                        <div className="explain">{selectedPrompt.promptStr || ""}</div>
-                      )}
-
                       {/* Reply Method for AI */}
                       {shouldShowReplyMethod && (
                         <>
@@ -1276,50 +1274,73 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                   {checkBox.Flow && (
                     <div className={styles.optioncontainer}>
                       <div className="headerandinput">
-                        {autoReply.masterFlow && (
-                          <>
-                            <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
-                            <InputBox
-                              className={"textinputbox"}
-                              handleInputChange={() => {}}
-                              value={autoReply.masterFlow.title}
-                            />
-                          </>
-                        )}
+                        <div className="headerandinput">
+                          {autoReply.masterFlow && (
+                            <>
+                              <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
+                              <InputBox
+                                className={"textinputbox"}
+                                handleInputChange={() => {}}
+                                value={autoReply.masterFlow.title}
+                              />
+                            </>
+                          )}
 
-                        {(searchFlowMode
-                          ? (masterSearchFlows?.items?.length ?? 0)
-                          : (masterFlows?.items?.length ?? 0)) > 0 ? (
-                          <DragDrop
-                            externalSearchMod={true}
-                            data={searchFlowMode ? flowSearchTitles : flowTitles}
-                            handleOptionSelect={(id) => {
-                              if (!masterFlows) return;
-                              setSelectedFlow(masterFlows.items.find((flow) => flow.masterFlowId === id) || null);
-                            }}
-                            handleGetMoreItems={() => handleGetMoreFlows()}
-                            isLoadingMoreItems={loadingState.isLoadingMoreFlowItems}
-                            onExternalSearch={handleExternalFlowSearch}
-                            externalSearchLoading={loadingState.isExternalSearchFlowLoading}
-                            externalSearchText={searchFlowMode ? selectedFlow?.title : ""}
-                          />
-                        ) : null}
-                        {!selectedFlow && !autoReply.masterFlow ? (
-                          <div className="headerandinput">
-                            {(searchFlowMode
-                              ? (masterSearchFlows?.items?.length ?? 0)
-                              : (masterFlows?.items?.length ?? 0)) === 0 && (
-                              <div className="explain">{t(LanguageKey.messagesetting_NoFlowsFound)}</div>
-                            )}
-                            <button
-                              onClick={() => {
-                                try {
-                                  void router.push({ pathname: "/Ai/FlowandAgent" });
-                                } catch (e) {
-                                  console.error(e);
-                                }
+                          {(searchFlowMode
+                            ? (masterSearchFlows?.items?.length ?? 0)
+                            : (masterFlows?.items?.length ?? 0)) > 0 ? (
+                            <DragDrop
+                              externalSearchMod={true}
+                              data={searchFlowMode ? flowSearchTitles : flowTitles}
+                              handleOptionSelect={(id) => {
+                                if (!masterFlows) return;
+                                setSelectedFlow(masterFlows.items.find((flow) => flow.masterFlowId === id) || null);
                               }}
-                              className="saveButton">
+                              handleGetMoreItems={() => handleGetMoreFlows()}
+                              isLoadingMoreItems={loadingState.isLoadingMoreFlowItems}
+                              onExternalSearch={handleExternalFlowSearch}
+                              externalSearchLoading={loadingState.isExternalSearchFlowLoading}
+                              externalSearchText={searchFlowMode ? selectedFlow?.title : ""}
+                            />
+                          ) : null}
+                          {!selectedFlow && !autoReply.masterFlow ? (
+                            <div className="headerandinput">
+                              {(searchFlowMode
+                                ? (masterSearchFlows?.items?.length ?? 0)
+                                : (masterFlows?.items?.length ?? 0)) === 0 && (
+                                <div className="explain">{t(LanguageKey.messagesetting_NoFlowsFound)}</div>
+                              )}
+                              <button
+                                onClick={() => {
+                                  try {
+                                    void router.push({ pathname: "/Ai/FlowandAgent" });
+                                  } catch (e) {
+                                    console.error(e);
+                                  }
+                                }}
+                                className="saveButton">
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="#fff"
+                                  viewBox="0 0 36 36">
+                                  <path
+                                    opacity=".4"
+                                    fillRule="evenodd"
+                                    d="M18.2 4.5A1.5 1.5 0 0 1 16.5 6l-6.2.3q-2 .3-2.9 1.2t-1.3 3.3A61 61 0 0 0 6 18l.2 7.2q.4 2.4 1.3 3.3t3.3 1.3q2.5.2 7.2.2l7.2-.2q2.4-.4 3.3-1.3t1.2-3 .3-6.1a1.5 1.5 0 1 1 3 0l-.3 6.7a8 8 0 0 1-2.1 4.5 8 8 0 0 1-5 2.1q-3 .4-7.5.3H18q-4.6 0-7.5-.3t-5-2.1a8 8 0 0 1-2.1-5q-.4-3-.3-7.5v-.2l.3-7.5q.2-3 2.1-5a8 8 0 0 1 4.6-2q2.6-.5 6.7-.4a1.5 1.5 0 0 1 1.5 1.5"
+                                  />
+                                  <path d="M25 3a28 28 0 0 1 5.5.2q1 .2 1.6.8t.7 1.5c.3 1.6.2 4.3.1 5.6a2 2 0 0 1-3.3 1.2l-1.9-1.8-4.1 4a1.5 1.5 0 1 1-2.1-2.1l4-4-1.8-2a2 2 0 0 1 1.2-3.3" />
+                                </svg>
+                                {t(LanguageKey.CreateAutomationFlow)}
+                              </button>
+                            </div>
+                          ) : null}
+                        </div>
+                        {selectedFlow && (
+                          <div className="headerandinput">
+                            <button className="saveButton">
+                              {" "}
                               <svg
                                 width="16"
                                 height="16"
@@ -1333,33 +1354,11 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                                 />
                                 <path d="M25 3a28 28 0 0 1 5.5.2q1 .2 1.6.8t.7 1.5c.3 1.6.2 4.3.1 5.6a2 2 0 0 1-3.3 1.2l-1.9-1.8-4.1 4a1.5 1.5 0 1 1-2.1-2.1l4-4-1.8-2a2 2 0 0 1 1.2-3.3" />
                               </svg>
-                              {t(LanguageKey.CreateAutomationFlow)}
+                              {t(LanguageKey.messagesetting_ViewFlow)}
                             </button>
                           </div>
-                        ) : null}
+                        )}
                       </div>
-                      {selectedFlow && (
-                        <div className="headerandinput">
-                          <button className="saveButton">
-                            {" "}
-                            <svg
-                              width="16"
-                              height="16"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="#fff"
-                              viewBox="0 0 36 36">
-                              <path
-                                opacity=".4"
-                                fillRule="evenodd"
-                                d="M18.2 4.5A1.5 1.5 0 0 1 16.5 6l-6.2.3q-2 .3-2.9 1.2t-1.3 3.3A61 61 0 0 0 6 18l.2 7.2q.4 2.4 1.3 3.3t3.3 1.3q2.5.2 7.2.2l7.2-.2q2.4-.4 3.3-1.3t1.2-3 .3-6.1a1.5 1.5 0 1 1 3 0l-.3 6.7a8 8 0 0 1-2.1 4.5 8 8 0 0 1-5 2.1q-3 .4-7.5.3H18q-4.6 0-7.5-.3t-5-2.1a8 8 0 0 1-2.1-5q-.4-3-.3-7.5v-.2l.3-7.5q.2-3 2.1-5a8 8 0 0 1 4.6-2q2.6-.5 6.7-.4a1.5 1.5 0 0 1 1.5 1.5"
-                              />
-                              <path d="M25 3a28 28 0 0 1 5.5.2q1 .2 1.6.8t.7 1.5c.3 1.6.2 4.3.1 5.6a2 2 0 0 1-3.3 1.2l-1.9-1.8-4.1 4a1.5 1.5 0 1 1-2.1-2.1l4-4-1.8-2a2 2 0 0 1 1.2-3.3" />
-                            </svg>
-                            {t(LanguageKey.messagesetting_ViewFlow)}
-                          </button>
-                        </div>
-                      )}
-
                       {/* Reply Method for Flow */}
                       {shouldShowReplyMethod && (
                         <div className="headerandinput">

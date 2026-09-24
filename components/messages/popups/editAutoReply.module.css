@@ -21,7 +21,7 @@
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: var(--gap-15);
+  gap: var(--gap-20);
   transition: var(--transition3);
   animation: var(--top04);
 }

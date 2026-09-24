@@ -75,12 +75,12 @@ const CommentChatBox = (props: {
           date: timestamp,
           calendar: initialzedTime().calendar,
           locale: initialzedTime().locale,
-        }).format("hh:mm A - dddd - DD/MM/YYYY")
+        }).format("hh:mm a - dddd - DD/MM/YYYY")
       : new DateObject({
           date: timestamp,
           calendar: initialzedTime().calendar,
           locale: initialzedTime().locale,
-        }).format("hh:mm A - ddd");
+        }).format("hh:mm a - ddd");
   };
   const baseMediaUrl = getClientMediaBaseUrl();
   var unixTypingTime = 0;

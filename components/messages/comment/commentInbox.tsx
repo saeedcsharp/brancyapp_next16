@@ -2444,7 +2444,7 @@ const CommentInbox = () => {
               if (!currentChatBox || !settingsAutoReply) return null;
               return (
                 <>
-                  <div className="headerandinput translate" style={{ marginBottom: "30px" }}>
+                  <div className="headerandinput" style={{ marginBottom: "30px" }}>
                     <div className="headerparent" aria-labelledby="vanish-mode">
                       <div className="title" id="vanish-mode-title">
                         {t(LanguageKey.vanishmode)}
