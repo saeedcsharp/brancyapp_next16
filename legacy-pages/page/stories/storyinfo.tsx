@@ -914,7 +914,7 @@ const ShowStory = () => {
                                         <img
                                           onClick={() => {
                                             if (!u.isActive) return;
-                                            handleReaction(u.items[0], u.threadId);
+                                            // handleReaction(u.items[0], u.threadId);
                                           }}
                                           className={`${styles.likeicon} ${!u.isActive && "fadeDiv"}`}
                                           alt="like icon"
@@ -1043,7 +1043,7 @@ const ShowStory = () => {
                                             <img
                                               onClick={() => {
                                                 if (!u.isActive) return;
-                                                handleReaction(u.items[0], u.threadId);
+                                                // handleReaction(u.items[0], u.threadId);
                                               }}
                                               className={`${styles.likeicon} ${!u.isActive && "fadeDiv"}`}
                                               alt="like icon"
