@@ -88,6 +88,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
 
   const fetchImages = useCallback(
     async (cursor: string | null): Promise<IGetMedia[]> => {
+      console.log("Fetching images...");
       if (!session) return [];
 
       const response = await clientFetchApi<null, IGetMedias>("/api/mediaai/GetImages", {
@@ -112,6 +113,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
   );
   const fetchVideos = useCallback(
     async (cursor: string | null): Promise<IGetMedia[]> => {
+      console.log("Fetching videos...");
       if (!session) return [];
 
       const response = await clientFetchApi<null, IGetMedias>("/api/mediaai/GetVideos", {
@@ -284,7 +286,10 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     enabled: activeTab === "image",
     fetchDelay: 0,
   });
-  const fetchMoreVideos = useCallback(() => fetchVideos(nextVideoMaxId), [fetchVideos, nextVideoMaxId]);
+  const fetchMoreVideos = useCallback(() => {
+    console.log("Fetching more videos...");
+    return fetchVideos(nextVideoMaxId);
+  }, [fetchVideos, nextVideoMaxId]);
   const handleVideosFetched = useCallback((newVideos: IGetMedia[]) => {
     setVideos((current) => [...current, ...newVideos]);
   }, []);
@@ -298,6 +303,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     isLoading: loading,
     enabled: activeTab === "video",
     fetchDelay: 0,
+    containerRef,
   });
 
   const openImageCreator = async () => {

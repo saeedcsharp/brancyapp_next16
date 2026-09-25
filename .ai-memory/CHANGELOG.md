@@ -1,3 +1,5 @@
+- 2026-09-25: Fixed AI video history pagination by sharing the mounted workspace ref with the video infinite-scroll hook, allowing short video lists to trigger their next cursor request automatically.
+
 - 2026-09-24: Updated the media auto-reply Flow action to use the localized Show Flow Graph label and navigate to `/Ai/FlowandAgent?id=<masterFlowId>`.
 
 - 2026-09-24: Fixed Live media quick-reply payloads to force `sendPr: false`; the Live follower control now only affects `shouldFollower`.
