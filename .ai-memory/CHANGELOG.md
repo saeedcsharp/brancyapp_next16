@@ -1,3 +1,5 @@
+- 2026-09-26: `redirectInterface` now navigates to the allowed target client-side after a 1-second delay (`ClientRedirect`) with `referrer: origin` metadata instead of a server `redirect()`, so the target receives `Referer: https://brancy.app/` rather than the previous page's host.
+
 - 2026-09-25: Fixed AI video history pagination by sharing the mounted workspace ref with the video infinite-scroll hook, allowing short video lists to trigger their next cursor request automatically.
 
 - 2026-09-24: Updated the media auto-reply Flow action to use the localized Show Flow Graph label and navigate to `/Ai/FlowandAgent?id=<masterFlowId>`.

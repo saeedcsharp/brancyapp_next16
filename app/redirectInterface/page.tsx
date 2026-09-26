@@ -1,7 +1,13 @@
-import { redirect, notFound } from "next/navigation";
+import type { Metadata } from "next";
+import { notFound } from "next/navigation";
 import { headers } from "next/headers";
 import ReloadTimer from "./ReloadTimer";
 import EscapeInAppBrowser from "./EscapeInAppBrowser";
+import ClientRedirect from "./ClientRedirect";
+
+export const metadata: Metadata = {
+  referrer: "origin",
+};
 
 const ALLOWED_DOMAINS = ["zarinpal.com", "pod.ir", "stripe.com", "instagram.com", "instagramer.com", "zibal.ir"];
 const IRAN_ONLY_DOMAINS = ["zarinpal.com", "pod.ir", "zibal.ir"];
@@ -119,6 +125,6 @@ export default async function RedirectInterfacePage({
       </div>
     );
   }
-
-  redirect(redirectUrl);
+  // HTTP redirects keep the previous page's Referer; navigating from this document sends the brancy.app origin.
+  return <ClientRedirect url={redirectUrl} />;
 }
