@@ -81,6 +81,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
   const [showModelList, setShowModelList] = useState(false);
   const fetchImages = useCallback(
     async (cursor: string | null): Promise<IGetMedia[]> => {
+      console.log("Fetching images...");
       if (!session) return [];
       const response = await clientFetchApi<null, IGetMedias>("/api/mediaai/GetImages", {
         session,
@@ -102,6 +103,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
   );
   const fetchVideos = useCallback(
     async (cursor: string | null): Promise<IGetMedia[]> => {
+      console.log("Fetching videos...");
       if (!session) return [];
       const response = await clientFetchApi<null, IGetMedias>("/api/mediaai/GetVideos", {
         session,
@@ -267,7 +269,10 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     useContainerScroll: true,
     fetchDelay: 0,
   });
-  const fetchMoreVideos = useCallback(() => fetchVideos(nextVideoMaxId), [fetchVideos, nextVideoMaxId]);
+  const fetchMoreVideos = useCallback(() => {
+    console.log("Fetching more videos...");
+    return fetchVideos(nextVideoMaxId);
+  }, [fetchVideos, nextVideoMaxId]);
   const handleVideosFetched = useCallback((newVideos: IGetMedia[]) => {
     setVideos((current) => [...current, ...newVideos]);
   }, []);
@@ -282,6 +287,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     useContainerScroll: true,
     containerRef,
     fetchDelay: 0,
+    containerRef,
   });
   const openImageCreator = async () => {
     if (!(await fetchAndCheckFeature(PsgFeatureType.AI, session))) {
