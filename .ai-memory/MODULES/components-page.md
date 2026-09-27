@@ -93,6 +93,10 @@ Each model row in `AiModelList` also displays the localized, de-duplicated title
 
 The AI model modal header includes a Features toggle. It reveals or hides all model feature-label groups with an opacity, visibility, and height animation, and disables hidden labels for pointer and assistive interaction.
 
+The AI model modal header also includes a Table toggle. It switches the active creator's model list between the existing card grid and a horizontally scrollable semantic table without changing selection behavior.
+
+The semantic model table supports ascending and descending sorting by category, model name, price, cost level, and visible feature labels through clickable and keyboard-accessible headers.
+
 Model cost indicators use the existing design tokens by level: one dollar is light green, two are light yellow, three are light red, and four are dark red.
 
 `MediaCreator` removes duplicate models returned for the same provider by model name before rendering, keeping the model selector and its React keys unique while preserving the existing name-based selection and request contract.

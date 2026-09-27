@@ -34,6 +34,8 @@
 
 - Add component coverage confirming each AI model row shows its localized, de-duplicated input-feature titles in the `IDgray` label and keeps the full list available through its tooltip when a UI test harness is introduced.
 - Add component coverage confirming the AI model modal Features toggle animates all feature-label groups, updates `aria-expanded`, and disables hidden labels when a UI test harness is introduced.
+- Add component coverage confirming the AI model modal Table toggle switches the active model list between card and semantic table views while preserving model selection when a UI test harness is introduced.
+- Add component coverage confirming AI model table headers sort category, name, price, cost, and feature labels in both directions and support keyboard activation when a UI test harness is introduced.
 - Add component/browser coverage confirming normal AI creator loading keeps the shared loader, while an unavailable AI feature renders the inline `NotFeature` state without mounting a feature modal when a UI test harness is introduced.
 - Add component coverage confirming an accepted AI media request resets the prompt and dynamic inputs, removes the token estimate, enables another submit, and keeps the matching pending library card until SignalR completion when a UI test harness is introduced.
 

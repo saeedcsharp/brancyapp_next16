@@ -95,6 +95,10 @@ Each AI model row now shows the localized, de-duplicated input-feature titles in
 
 The AI model modal header now provides an animated Features toggle that reveals or hides the independent feature-label groups for all model rows.
 
+The AI model modal header also provides a Table toggle. It switches each expanded creator's model cards to a responsive semantic table while preserving model selection and the optional feature details.
+
+Each table header sorts its model rows in ascending or descending order on repeated activation; keyboard activation is supported for sortable headers.
+
 AI model cost labels now use level-specific colors: light green, light yellow, light red, and dark red for one through four dollar signs.
 
 The comment inbox de-duplicates every Post, Story, hidden-inbox, search, deep-link, pagination, and SignalR media list by `mediaId`, preserving the first item's order when the backend returns repeated media.

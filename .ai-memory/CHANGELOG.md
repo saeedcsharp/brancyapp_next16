@@ -50,6 +50,10 @@
 
 - 2026-09-27: Added an animated Features toggle to the AI model modal header for showing or hiding the independent model feature labels.
 
+- 2026-09-28: Added a Table toggle to the AI model modal header for switching expanded model lists between cards and a responsive semantic table.
+
+- 2026-09-28: Added ascending/descending sorting to AI model table headers, including keyboard-accessible activation.
+
 - 2026-09-27: Added localized model input-feature titles to each AI model row's existing `IDgray` metadata label, with duplicate titles removed and long lists truncated with a full tooltip.
 
 - 2026-09-27: Made the AI token usage refresh icon rotate while recalculation is loading and stop automatically when the request completes.

@@ -477,6 +477,7 @@ export interface IPromptImageGen {
 export interface IMediaCreator {
   key: string;
   displayName: string;
+  category: string | null;
   logo: string | null;
   inputModels: IMediaCreatorModel[];
 }
@@ -528,6 +529,8 @@ export type IGetImagePromptCategories = IImagePromptCategory[];
 export interface IMediaCreatorModel {
   name: string;
   displayName?: string;
+  category: string;
+  price: number;
   minPromptLength: number;
   maxPromptLength: number;
   inputModelTypes: IMediaCreatorInput[];
