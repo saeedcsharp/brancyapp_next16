@@ -18,7 +18,7 @@ import { Session } from "next-auth";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import Loading from "brancy/components/notOk/loading";
-import styles from "./mediaCreator.module.css";
+import styles from "./imagePromptSuggestions.module.css";
 
 function promptValue(value: string | { name?: string; title?: string } | null | undefined): string {
   if (!value) return "";

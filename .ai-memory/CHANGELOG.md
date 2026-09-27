@@ -1,4 +1,30 @@
+- 2026-09-27: Removed unused legacy, empty-state, and duplicate declarations from the AI media library stylesheet; active history, pending-generation, loading, and empty-state styles remain.
+
+- 2026-09-27: Removed unused legacy selectors from the AI media creator stylesheet, including copied prompt-suggestion, provider/model, field, and upload-label styles; active media creator controls remain unchanged.
+
+- 2026-09-27: Removed unused media-creator, model, upload, range, and token styles from `imagePromptSuggestions.module.css`; the stylesheet now contains only prompt-suggestion and prompt-detail selectors.
+
+- 2026-09-26: Fixed the AI media creator Create image/Create video action by hosting its existing submit handler on a real form element.
+
+- 2026-09-26: Updated the AI workspace responsive layout so screens wider than `840px` use a capped history column beside a flexible creator column, while narrower screens stack the creator above the full-width history panel.
+
+- 2026-09-25: Changed the AI media creator feature-unavailable state to render `NotFeature` inline in the creator state panel and removed its dedicated modal.
+
+- 2026-09-25: Replaced the inline AI creator/model tree with an `AiModelList` modal; the selected creator and model remain visible in the settings panel and selection closes the modal.
+
+- 2026-09-25: Added proportional inline SVG icons, capped at 15px, beside supported Aspect Ratio options in the AI media creator.
+
+- 2026-09-24: Added an accessible paste button to the AI media creator prompt so clipboard text is written into the controlled `TextArea` and invalidates the previous token-usage estimate.
+
+- 2026-09-24: Inlined all AI media creator dynamic input rendering into `MediaCreator`'s settings-panel return and lifted upload and range-control state into the parent.
+
 - 2026-09-24: Optimized the home dashboard profile and tile component with memoized derived content, guarded AI-count lifecycle updates, validated login timestamps, animated slide transitions, reduced-motion support, Arrow/Home/End keyboard navigation, accessible story links, stable thumbnail dimensions, and noindex metadata for the private home route.
+
+- 2026-09-24: Moved AI media creator tabs, provider branches, and model selection into the single settings panel, removing the separate model-panel column while preserving empty and error states.
+
+- 2026-09-24: Combined AI image and video history into one creation-time-sorted library with All, Images, and Videos filtering while retaining independent loading and pagination for both media types.
+
+- 2026-09-24: Replaced the AI history ToggleButton filter with the shared DragDrop selector.
 
 - 2026-09-24: Updated the media auto-reply Flow action to use the localized Show Flow Graph label and navigate to `/Ai/FlowandAgent?id=<masterFlowId>`.
 

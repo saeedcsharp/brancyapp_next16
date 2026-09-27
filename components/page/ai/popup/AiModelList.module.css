@@ -1,0 +1,267 @@
+.trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-10);
+  padding: 10px 12px;
+  border: 1px solid var(--color-gray30);
+  border-radius: var(--br10);
+  color: var(--text-h1);
+  background: var(--color-white);
+  cursor: pointer;
+  text-align: start;
+  transition: var(--transition2);
+}
+
+.trigger:hover,
+.trigger:focus-visible {
+  border-color: var(--color-light-blue);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-light-blue) 18%, transparent);
+}
+
+.triggerInfo,
+.modalHeader,
+.creatorHeading,
+.creatorHeading > div {
+  display: flex;
+}
+
+.triggerInfo,
+.creatorHeading > div {
+  min-width: 0;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.triggerLabel,
+.creatorHeading span,
+.creatorHeading strong {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.triggerLabel,
+.creatorHeading span {
+  color: var(--text-h2);
+  font-size: var(--font-10);
+}
+
+.triggerInfo strong,
+.creatorHeading strong {
+  font-size: var(--font-14);
+  font-weight: var(--weight-600);
+}
+
+.triggerIcon {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+}
+
+.triggerIcon img {
+  width: 100%;
+  height: 100%;
+  transform: rotate(90deg);
+}
+
+.modalContent {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-20);
+}
+
+.modalHeader {
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-10);
+  width: 100%;
+}
+
+.modalHeader h2 {
+  margin: 0;
+  color: var(--text-h1);
+  font-size: var(--font-18);
+}
+
+.closeButton {
+  width: 40px;
+  height: 40px;
+  border: 0;
+  border-radius: 50%;
+  color: var(--text-h1);
+  background: var(--color-gray10);
+  font-size: 24px;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.creatorList {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-20);
+}
+
+.creatorSection {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-10);
+  padding-block-end: var(--padding-10);
+  border-block-end: 1px solid var(--color-gray30);
+}
+
+.creatorHeading {
+  align-items: center;
+  gap: var(--gap-10);
+}
+
+.creatorButton {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-10);
+  padding: 6px;
+  border: 0;
+  border-radius: var(--br10);
+  color: var(--text-h1);
+  background: transparent;
+  cursor: pointer;
+  text-align: start;
+}
+
+.creatorButton:hover,
+.creatorButton:focus-visible,
+.creatorButtonActive {
+  background: var(--color-gray10);
+}
+
+.creatorArrow {
+  width: 22px;
+  height: 22px;
+  flex: 0 0 auto;
+}
+
+.creatorArrow img {
+  width: 100%;
+  height: 100%;
+  transition: var(--transition2);
+  transform: rotate(90deg);
+}
+
+.creatorButtonActive .creatorArrow img {
+  transform: rotate(270deg);
+}
+.foldingicon {
+  cursor: pointer;
+  transition: var(--transition3);
+  min-width: 25px;
+  border: 0;
+  outline: none;
+}
+.creatorLogo {
+  width: 38px;
+  height: 38px;
+  display: grid;
+  place-items: center;
+  flex: 0 0 auto;
+  overflow: hidden;
+  border-radius: var(--br8);
+  color: var(--color-dark-blue);
+  background: var(--color-gray10);
+  font-weight: var(--weight-800);
+}
+
+.creatorLogo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.modelList {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: var(--gap-10);
+}
+
+.modelListWrapper {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    grid-template-rows 0.3s ease,
+    opacity 0.2s ease,
+    visibility 0s linear 0.3s;
+}
+
+.modelListWrapperOpen {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    grid-template-rows 0.3s ease,
+    opacity 0.2s ease;
+}
+
+.modelListWrapper > .modelList {
+  min-height: 0;
+  overflow: hidden;
+}
+
+.model,
+.modelSelected {
+  min-height: 58px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-10);
+  padding: 10px 12px;
+  border: 1px solid var(--color-gray30);
+  border-radius: var(--br10);
+  color: var(--text-h1);
+  background: transparent;
+  cursor: pointer;
+  text-align: start;
+  transition: var(--transition2);
+}
+
+.model:hover {
+  background: var(--color-gray10);
+}
+
+.modelSelected {
+  border-color: var(--color-dark-blue);
+  background: color-mix(in srgb, var(--color-light-blue) 12%, var(--color-white));
+}
+
+.model > span:first-child,
+.modelSelected > span:first-child {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cost {
+  flex: 0 0 auto;
+  color: var(--color-light-green);
+  font-weight: var(--weight-600);
+}
+
+@media (max-width: 520px) {
+  .modelList {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .creatorArrow img,
+  .modelListWrapper {
+    transition: none;
+  }
+}

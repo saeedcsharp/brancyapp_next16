@@ -26,6 +26,8 @@
 
 # TODO
 
+- Add component/browser coverage confirming normal AI creator loading keeps the shared loader, while an unavailable AI feature renders the inline `NotFeature` state without mounting a feature modal when a UI test harness is introduced.
+
 - Add component/browser coverage confirming the Upgrade close button navigates to `/home` through mouse, Enter, and Space activation without duplicate navigation when a UI test harness is introduced.
 
 - Add component coverage confirming the home dashboard upgrade slideshow displays the direct AI feature count, preserves zero as a valid value, shows the localized upgrade fallback for unavailable data, displays remaining subscription days, and preserves pagination keyboard access when a UI test harness is introduced.
@@ -111,6 +113,8 @@
 
 - Add component coverage confirming the Meta direct-login initial loading phrases hydrate without text mismatches and its verification request is sent only once when React Strict Mode replays effects.
 - Add component/browser coverage for the AI workspace order: shared ToggleButton Image/Video tabs inside the model panel, matching creator loading after tab changes, empty/error state placement in the settings panel, creator submission, and the corresponding library below the creator when a UI test harness is introduced.
+- Add browser coverage for the AI workspace responsive layout at `840px`, confirming the capped history column and flexible creator column above the breakpoint, then creator-first full-width stacking below it.
+- Add component/browser coverage confirming the AI model trigger opens `AiModelList`, lists all creators/models, updates the visible selection, closes after selection, and remains usable on mobile and RTL layouts when a UI test harness is introduced.
 
 - Add an automated review check for new UI code that detects avoidable duplication of shared `scss/` tokens/styles and `components/design/` controls when a suitable analysis tool is introduced.
 - Add integration coverage for `UploadFile` success paths to confirm media URLs are released after one second, errors are not delayed, progress callbacks are preserved, and direct-message image/video send flows use the shared uploader when a test harness is introduced.
@@ -163,8 +167,10 @@
 - Add testing strategy once test tooling exists.
 - Add component coverage for customer shop product cards with null titles and discount prices when a UI test harness is introduced.
 - Add component/browser coverage confirming both AI enum input variants render as `optionGrid` buttons, expose the active option, and retain required-input validation when a UI test harness is introduced.
+- Add component coverage confirming the AI media creator's inline dynamic-input branches preserve upload previews, range dragging, and required-input validation when a UI test harness is introduced.
 - Add component/browser coverage for the AI creator square range control, including independent edge dragging with mouse/touch, maximum clamping, RTL layout, and preservation of per-edge request keys when a UI test harness is introduced.
 - Add component/browser coverage confirming the AI creator footer keeps usage estimation and media creation as independent actions, permits creation before an estimate, and stacks both actions on narrow viewports when a UI test harness is introduced.
+- Add component coverage confirming the AI creator's Create image/Create video button submits its form and invokes the page callback when prompt and required inputs are valid.
 - Add component coverage confirming the sub-invoice popup header action calls `/api/wallet/getInvoice` with the selected invoice ID and opens order details on success when a UI test harness is introduced.
 - Add integration coverage for invoice-history cursor pagination, duplicate invoice IDs, and exhausted `nextMaxId` responses when test infrastructure is introduced.
 - Add integration coverage for sub-invoice popup cursor pagination, duplicate IDs, exhausted `nextMaxId`, and the mobile table overflow behavior when test infrastructure is introduced.

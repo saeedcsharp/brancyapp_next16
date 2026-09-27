@@ -2,6 +2,18 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+The AI media creator stylesheet now contains only selectors consumed by `mediaCreator.tsx`; copied prompt-suggestion, provider/model, field, and upload-label styles were removed without changing the creator UI.
+
+The AI media library stylesheet now contains only selectors used by `MediaLibrary.tsx` for loading, history items, pending generations, pagination loading, and the empty state; obsolete layout and duplicate declarations were removed without changing library behavior.
+
+The AI media creator's primary Create image/Create video action now submits through an actual `<form>`, so its existing submit handler reaches the page-owned media-generation callback.
+
+After an AI image or video generation request is accepted, the media creator clears the prompt, model inputs, uploaded previews, and token estimate so the user can submit another request immediately. Rejected entitlement checks and failed create requests preserve the form values.
+
+The AI media creator now renders the existing `NotFeature` upgrade state inline inside its empty creator panel when the AI feature check fails; the feature-unavailable `Modal` is no longer mounted. Normal creator loading still uses the shared `Loading` component.
+
+The AI workspace is responsive at the `840px` breakpoint: wider screens keep the history panel at or below `400px` beside a flexible creator panel, while narrower screens place the creator panel above the full-width history panel.
+
 General and media auto-replies no longer show the must-follow-page option for AI mode, and AI saves force it off. Live media auto-replies also hide it for Flow mode; other reply modes retain their existing behavior.
 
 Ice Breaker deletion now sends the filtered `profileButtons.items` list to `UpdateIceBreaker`, so the removed button is not persisted again.
@@ -58,6 +70,10 @@ The Iranian/local Footer branch now publishes source-backed LocalBusiness JSON-L
 ## Current Architecture
 
 The media quick-reply popup now renders the reusable `components/notOk/commentPermissionState.tsx` localized comment-permission state with an inline SVG and an Instagram permission redirect when `session.user.commentPermission === false`. Its Enable Permission action checks `/api/user/ip` and opens `InvalidIpModalContent` for Iranian IPs; authorized users continue to see the existing auto-reply editor. The media auto-reply editor preserves same-comment, AI, and keyword workflows without message permission, while direct response, Flow, Product, and Connect Product selections show the localized message-permission state and reuse the Instagram permission redirect.
+
+The AI media creator prompt now has an accessible paste button that reads clipboard text into its controlled `TextArea` and clears a previous token-usage estimate. Aspect Ratio enum options also show proportional inline SVG outline icons capped at 15 pixels when their labels use the supported `width:height` format.
+
+The AI media creator model section now opens `AiModelList` in the shared modal when its trigger is clicked. The modal lists available creators as expandable branches, reveals models for the active branch, and updates the existing creator/model selection used by prompt settings and generation requests.
 
 The comment inbox de-duplicates every Post, Story, hidden-inbox, search, deep-link, pagination, and SignalR media list by `mediaId`, preserving the first item's order when the backend returns repeated media.
 
@@ -208,7 +224,8 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - AI creator provider and model selection now share one tree-like panel: each provider branch expands to show its models underneath, replacing the separate provider panel.
 - Removed unused legacy AI creator styles for the old standalone header, back link, section heading, and provider-panel layout while preserving selectors shared by generated-media modals.
 - AI provider branches now use the public down-arrow asset with a 180-degree open-state rotation, and nested model lists animate open/closed with reduced-motion support.
-- AI media tabs now render inside the creator model panel. If the selected media type has no creator/model, the model panel retains only the tabs and the localized empty/error state is rendered in the settings panel.
+- AI media tabs, provider branches, and model selection now render inside one settings panel. If the selected media type has no creator/model, the settings panel retains only the tabs and the localized empty/error state below them.
+- AI image and video history now render in one `createdTime`-descending library with All, Images, and Videos filters. Both histories load independently with separate cursor pagination, and pending generations follow the selected filter.
 - AI creator enum inputs now use the shared button-based `optionGrid` presentation for both enum input variants instead of a native select.
 - AI creator multiple range inputs now render as one fixed `250px` square with a centered fixed `100px` inner square; mouse/touch handles define one shared hatched frame, including its corners, while each backend range key remains separate in submitted requests.
 - AI creator `IntRange` inputs render as standard integer-step sliders and are never included in the square expansion control. `AudioArray` inputs use the shared file-upload flow with audio acceptance and native playback controls. The square expansion control is used only when exactly the four backend `Range` keys `topExpantionRatio`, `buttonExpantionRatio`, `rightExpantionRatio`, and `leftExpantionRatio` are present; single, incomplete, or differently named ranges remain standard sliders.
@@ -250,6 +267,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 
 - The active AI workspace is localized across all eight supported locales. Creator states, model guidance, prompt validation, token usage actions, result metadata fallback values, request notifications, and the page description use the active i18next locale.
 - AI creator model lists remove duplicate model names returned by a provider before rendering, preventing duplicate React keys while preserving name-based model selection.
+- The AI media creator now renders all dynamic input JSX directly inside the main settings-panel return. Upload preview/progress state and square-range drag state are owned by `MediaCreator`; the separate `RangeSquareInput`, `FileInput`, and `DynamicInput` renderer components were removed without changing the request contract.
 
 - The AI library supports optional deep links: the App Router wrapper reads `/page/ai?type=1` or `/page/ai?type=2` with `useSearchParams` and passes the selected tab into the legacy page. Missing or unsupported values preserve the default image tab.
 
