@@ -3,32 +3,20 @@ import styles from "./Modal_Generated.module.css";
 import { DownloadImage } from "brancy/helper/DownloadImage";
 import { IGetMedia } from "brancy/models/interfaces";
 import { useTranslation } from "react-i18next";
-import { DateObject } from "react-multi-date-picker";
-import initialzedTime from "brancy/helper/manageTimer";
-import { parseImageMetadata } from "./GeneratedImageModal";
-
-function formatCreatedTime(timestamp: number) {
-  const t = initialzedTime();
-  const d = new DateObject({
-    date: timestamp * 1000,
-    calendar: t.calendar,
-    locale: t.locale,
-  });
-  return d.format("YYYY/MM/DD HH:mm:ss");
-}
+import { PromptCodeBlock } from "./generatedMediaHelpers";
+import { formatGeneratedMediaTime, parseGeneratedMediaMetadata } from "./generatedMediaHelpers";
 interface GeneratedVideoModalProps {
   video: IGetMedia;
-  onClose: () => void;
 }
 
 const DEFAULT_VIDEO_THUMBNAIL = "/cover-video.svg";
 
-export default function GeneratedVideoModal({ video, onClose }: GeneratedVideoModalProps) {
+export default function GeneratedVideoModal({ video }: GeneratedVideoModalProps) {
   const { t } = useTranslation();
   const videoUrl = video.videoUrl ? getClientMediaBaseUrl() + video.videoUrl : null;
   const videoFileName = video.videoUrl?.split("/").pop()?.split("?")[0] || `generated-video-${video.id}.mp4`;
   const previewImageUrl = video.imageUrl?.trim() ? getClientMediaBaseUrl() + video.imageUrl : DEFAULT_VIDEO_THUMBNAIL;
-  const metadataItems = video.metadata ? parseImageMetadata(video.metadata, t) : null;
+  const metadataItems = video.metadata ? parseGeneratedMediaMetadata(video.metadata, t) : null;
   const copyPrompt = async () => {
     if (!video.prompt || !navigator.clipboard?.writeText) return;
     await navigator.clipboard.writeText(video.prompt);
@@ -36,15 +24,6 @@ export default function GeneratedVideoModal({ video, onClose }: GeneratedVideoMo
 
   return (
     <article className={styles.resultModal}>
-      {/* <header className={styles.resultHeader}>
-        <div>
-          <span className={styles.resultEyebrow}>{t("AI image ready")}</span>
-          <h2 id="modal-title">{t("Generated image")}</h2>
-        </div>
-        <button className={styles.resultClose} type="button" aria-label={t("Close")} onClick={onClose}>
-          ×
-        </button>
-      </header> */}
       <div className={styles.resultContent}>
         <div className="headerandinput" style={{ gap: "20px" }}>
           <div className={styles.resultPreview}>
@@ -68,7 +47,7 @@ export default function GeneratedVideoModal({ video, onClose }: GeneratedVideoMo
                 <img width="22px" height="22px" src="/copy.svg" alt="" />
               </button>
             </div>
-            <span className={styles.promptSection}>{video.prompt || t("Not available")}</span>
+            <PromptCodeBlock prompt={video.prompt || t("Not available")} />
             {/* <section className={styles.resultSection}>
               <p></p>
             </section> */}
@@ -113,7 +92,7 @@ export default function GeneratedVideoModal({ video, onClose }: GeneratedVideoMo
             </div>
             <div>
               <dt>{t("Created Time")}</dt>
-              <dd>{formatCreatedTime(video.createdTime)}</dd>
+              <dd>{formatGeneratedMediaTime(video.createdTime)}</dd>
             </div>
 
             {video.jobId && (

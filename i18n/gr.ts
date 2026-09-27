@@ -1,6 +1,7 @@
 export default {
   translation: {
     aiSuggestedPrompts_title: "Vorgeschlagene Prompts",
+    aiSuggestedPrompts_openImage: "Bild im Vollbild öffnen",
     aiSuggestedPrompts_explain: "Wählen Sie einen Prompt als Ausgangspunkt.",
     aiSuggestedPrompts_category: "Prompt-Kategorie",
     aiSuggestedPrompts_subCategory: "Unterkategorie",
@@ -10,6 +11,8 @@ export default {
     aiSuggestedPrompts_loadMore: "Mehr laden",
     aiSuggestedPrompts_prompt: "Prompt",
     aiSuggestedPrompts_copy: "Prompt kopieren",
+    aiSuggestedPrompts_showMore: "Mehr anzeigen",
+    aiSuggestedPrompts_showLess: "Weniger anzeigen",
     unpin: "Lösen",
     pin: "Anheften",
     usethisPrompt: "Im Prompt verwenden",

@@ -1,6 +1,7 @@
 export default {
   translation: {
     aiSuggestedPrompts_title: "Prompts suggérés",
+    aiSuggestedPrompts_openImage: "Ouvrir l’image en plein écran",
     aiSuggestedPrompts_explain: "Choisissez un prompt pour commencer.",
     aiSuggestedPrompts_category: "Catégorie du prompt",
     aiSuggestedPrompts_subCategory: "Sous-catégorie",
@@ -10,6 +11,8 @@ export default {
     aiSuggestedPrompts_loadMore: "Charger plus",
     aiSuggestedPrompts_prompt: "Prompt",
     aiSuggestedPrompts_copy: "Copier le prompt",
+    aiSuggestedPrompts_showMore: "Afficher plus",
+    aiSuggestedPrompts_showLess: "Afficher moins",
     // #region landing page
     unpin: "Détacher",
     pin: "Épingler",

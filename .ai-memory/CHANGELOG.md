@@ -1,3 +1,64 @@
+- 2026-09-28: Added fullscreen preview for selected image prompt examples with close-button, backdrop, and Escape-key dismissal.
+
+- 2026-09-28: Moved the complete image-prompt renderer, including `PromptCodeBlock`, tokenization, layout styles, and token style objects, into `generatedMediaHelpers.ts`; the image prompt CSS module now keeps only surrounding UI layout styles.
+
+- 2026-09-27: Ensured every `**xxx**` segment renders as bold text without visible asterisks, including bold labels containing a colon.
+
+- 2026-09-27: Styled non-JSON labels ending in `:` with the same key/bold treatment as JSON keys, including headings such as `XXX:`.
+
+- 2026-09-27: Fixed bracket placeholders such as `[LOGO DESCRIPTION]` and `[USERNAME]` being split into punctuation tokens, while keeping JSON arrays intact.
+
+- 2026-09-27: Applied the distinct placeholder style to complete `[xxx]` values even when they appear inside JSON string tokens.
+
+- 2026-09-27: Hid empty prompt lines from the numbered image-prompt code block while preserving the original prompt for copy and Use in prompt.
+
+- 2026-09-27: Rendered selected image prompts as numbered, syntax-styled code blocks with distinct JSON token colors, bold markdown labels, and highlighted bracket placeholders while preserving copy and Use in prompt behavior.
+
+- 2026-09-27: Kept image prompt suggestions and selected prompt detail in one modal so the detail back action returns to the suggestions list instead of closing the modal.
+
+- 2026-09-27: Limited the selected image prompt detail to four initial lines and added localized Show more/Show less controls for longer prompts.
+
+- 2026-09-27: Standardized AI generated-media popup ownership: shared timestamp/metadata parsing now lives in `generatedMediaHelpers.ts`, `PageAI` exclusively owns modal closing, and the video modal follows PascalCase filename casing.
+
+- 2026-09-27: Replaced the image prompt suggestions native category select with the shared `DragDrop` selector while preserving All Categories and category filtering behavior.
+
+- 2026-09-27: Replaced the image prompt suggestions `DragDrop` category selector with adjacent tag-like buttons and `aria-pressed` active-state semantics.
+
+- 2026-09-27: Added backend-provided prompt counts beside each image prompt category tag.
+
+- 2026-09-27: Added the summed prompt count beside the image prompt suggestions All Categories tag.
+
+- 2026-09-27: Added touch and mouse-drag horizontal scrolling to the image prompt suggestions category tag row.
+
+- 2026-09-27: Prevented stale image prompt requests from replacing the selected category's list and cleared the previous list while a category loads.
+
+- 2026-09-27: Fixed category button clicks being swallowed by the mouse-drag pointer capture by delaying capture until drag movement begins.
+
+- 2026-09-27: Changed image prompt suggestion thumbnails to a responsive masonry-style column layout that preserves their natural aspect ratios instead of cropping them to a fixed height.
+
+- 2026-09-27: Redesigned the selected image prompt detail into a responsive left-preview/right-information layout with the copyable prompt body in a full-width section underneath.
+
+- 2026-09-27: Added a localized back button to image prompt detail, returning to the suggestions list through the owning AI page state.
+
+- 2026-09-27: Added a Use in prompt action that closes image prompt detail and inserts the selected prompt into the controlled media creator textarea while clearing its previous token estimate.
+
+- 2026-09-27: Restored the AI workspace's initial loading render and replaced its pending-history interactive AI prompt control with the shared presentation-only `RingLoader`.
+
+- 2026-09-27: Moved the AI model picker modal ownership to `PageAI` and kept `AiModelList` as the trigger/content component so the picker opens at the page's full-screen modal size.
+
+- 2026-09-27: Added level-specific design-token colors to AI model cost indicators for one through four dollar signs.
+
+- 2026-09-27: Added an animated Features toggle to the AI model modal header for showing or hiding the independent model feature labels.
+
+- 2026-09-27: Added localized model input-feature titles to each AI model row's existing `IDgray` metadata label, with duplicate titles removed and long lists truncated with a full tooltip.
+
+- 2026-09-27: Made the AI token usage refresh icon rotate while recalculation is loading and stop automatically when the request completes.
+
+- 2026-09-27: Added a refresh icon button to the AI media creator token usage panel so the current estimate can be recalculated without restoring the full usage button.
+
+- 2026-09-27: Updated the AI media creator token-usage control to use its CSS-module balance states and replace the estimate button with the requested-token progress panel after a successful estimate.
+
+- 2026-09-27: Reset the AI media creator after an accepted image/video request and release its submit loading state so another generation can start while the accepted request remains in the pending library.
 - 2026-09-27: Removed unused legacy, empty-state, and duplicate declarations from the AI media library stylesheet; active history, pending-generation, loading, and empty-state styles remain.
 
 - 2026-09-27: Removed unused legacy selectors from the AI media creator stylesheet, including copied prompt-suggestion, provider/model, field, and upload-label styles; active media creator controls remain unchanged.

@@ -1,6 +1,7 @@
 export default {
   translation: {
     aiSuggestedPrompts_title: "المطالبات المقترحة",
+    aiSuggestedPrompts_openImage: "فتح الصورة بملء الشاشة",
     aiSuggestedPrompts_explain: "اختر مطالبة لاستخدامها كنقطة بداية.",
     aiSuggestedPrompts_category: "فئة المطالبة",
     aiSuggestedPrompts_subCategory: "الفئة الفرعية",
@@ -10,6 +11,8 @@ export default {
     aiSuggestedPrompts_loadMore: "تحميل المزيد",
     aiSuggestedPrompts_prompt: "المطالبة",
     aiSuggestedPrompts_copy: "نسخ المطالبة",
+    aiSuggestedPrompts_showMore: "عرض المزيد",
+    aiSuggestedPrompts_showLess: "عرض أقل",
     unpin: "إلغاء التثبيت",
     pin: "تثبيت",
     usethisPrompt: "استخدم في البرومبت",

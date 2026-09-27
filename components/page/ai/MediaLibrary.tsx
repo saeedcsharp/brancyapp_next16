@@ -37,7 +37,7 @@ function formatCreatedTime(timestamp: number): string {
     date: timestamp * 1000,
     calendar: time.calendar,
     locale: time.locale,
-  }).format("YYYY/MM/DD - HH:mm:ss");
+  }).format("YYYY/MM/DD - HH:mm");
 }
 export default function MediaLibrary({
   images,
@@ -91,6 +91,7 @@ export default function MediaLibrary({
                 className={`${styles.imagePreview} ${styles.pendingPreview}`}
                 aria-label={t(pending.mediaType === "video" ? "Generating video" : "Generating image")}>
                 {/* <RingLoader width={36} height={36} /> */}
+
                 <AIWithPrompt
                   aiLoading
                   handleAIPromptSubmit={function (prompt: string): void {
@@ -121,7 +122,8 @@ export default function MediaLibrary({
               <div className={styles.instagramprofiledetail}>
                 <div className={styles.imageTitle}>{media.prompt || t("Untitled generation")}</div>
                 <div className={styles.version}>
-                  #{media.id} - <div className="IDgray">{t(type === "image" ? "Image" : "Video")}</div>
+                  <div className="translate"> #{media.id}</div>
+                  <div className="IDgray">{t(type === "image" ? "Image" : "Video")}</div>
                 </div>
                 <time className={styles.version} dateTime={new Date(media.createdTime * 1000).toISOString()}>
                   {formatCreatedTime(media.createdTime)}

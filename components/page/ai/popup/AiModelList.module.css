@@ -16,25 +16,32 @@
 
 .trigger:hover,
 .trigger:focus-visible {
-  border-color: var(--color-light-blue);
-  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-light-blue) 18%, transparent);
+  border-color: var(--color-dark-blue);
+  box-shadow: 0 0 0 3px color-mix(in srgb, var(--color-dark-blue) 18%, transparent);
+}
+.triggerInfo {
+  min-width: 0;
+  width: max-content;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  transition: var(--transition3);
+  align-items: flex-start;
+  justify-content: center;
 }
 
-.triggerInfo,
 .modalHeader,
 .creatorHeading,
 .creatorHeading > div {
   display: flex;
 }
 
-.triggerInfo,
 .creatorHeading > div {
   min-width: 0;
   flex-direction: column;
   gap: 4px;
 }
 
-.triggerLabel,
 .creatorHeading span,
 .creatorHeading strong {
   overflow: hidden;
@@ -48,22 +55,9 @@
   font-size: var(--font-10);
 }
 
-.triggerInfo strong,
 .creatorHeading strong {
   font-size: var(--font-14);
   font-weight: var(--weight-600);
-}
-
-.triggerIcon {
-  width: 22px;
-  height: 22px;
-  flex: 0 0 auto;
-}
-
-.triggerIcon img {
-  width: 100%;
-  height: 100%;
-  transform: rotate(90deg);
 }
 
 .modalContent {
@@ -78,6 +72,29 @@
   justify-content: space-between;
   gap: var(--gap-10);
   width: 100%;
+}
+
+.modalHeaderActions {
+  display: flex;
+  align-items: center;
+  gap: var(--gap-10);
+}
+
+.featuresButton {
+  min-height: 34px;
+  padding: 6px 10px;
+  border: 1px solid var(--color-gray30);
+  border-radius: var(--br8);
+  color: var(--text-h1);
+  background: var(--color-white);
+  cursor: pointer;
+  transition: var(--transition2);
+}
+
+.featuresButton:hover,
+.featuresButton:focus-visible {
+  border-color: var(--color-dark-blue);
+  color: var(--color-dark-blue);
 }
 
 .modalHeader h2 {
@@ -156,11 +173,8 @@
   transform: rotate(270deg);
 }
 .foldingicon {
-  cursor: pointer;
   transition: var(--transition3);
   min-width: 25px;
-  border: 0;
-  outline: none;
 }
 .creatorLogo {
   width: 38px;
@@ -247,10 +261,57 @@
   white-space: nowrap;
 }
 
+.modelFeatures {
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.modelFeatureList {
+  display: flex;
+  flex-wrap: wrap;
+  gap: var(--gap-5);
+  min-width: 0;
+  max-width: 100%;
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.2s ease,
+    visibility 0s linear 0.3s;
+}
+
+.modelFeatureListOpen {
+  max-height: 200px;
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition:
+    max-height 0.3s ease,
+    opacity 0.2s ease;
+}
+
 .cost {
   flex: 0 0 auto;
+  font-weight: var(--weight-400);
+}
+
+.costLevel1 {
   color: var(--color-light-green);
-  font-weight: var(--weight-600);
+}
+
+.costLevel2 {
+  color: var(--color-light-yellow);
+}
+
+.costLevel3 {
+  color: var(--color-light-red);
+}
+
+.costLevel4 {
+  color: var(--color-dark-red);
 }
 
 @media (max-width: 520px) {
@@ -261,7 +322,8 @@
 
 @media (prefers-reduced-motion: reduce) {
   .creatorArrow img,
-  .modelListWrapper {
+  .modelListWrapper,
+  .modelFeatureList {
     transition: none;
   }
 }

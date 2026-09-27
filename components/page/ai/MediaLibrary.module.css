@@ -107,6 +107,7 @@
   font-size: var(--font-10);
   font-weight: var(--weight-500);
   overflow: hidden;
+  gap: var(--gap-5);
   text-overflow: ellipsis;
   white-space: nowrap;
   justify-content: flex-start;

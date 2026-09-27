@@ -1,6 +1,7 @@
 export default {
   translation: {
     aiSuggestedPrompts_title: "Təklif olunan promptlar",
+    aiSuggestedPrompts_openImage: "Şəkli tam ekranda aç",
     aiSuggestedPrompts_explain: "Başlanğıc kimi istifadə etmək üçün prompt seçin.",
     aiSuggestedPrompts_category: "Prompt kateqoriyası",
     aiSuggestedPrompts_subCategory: "Alt kateqoriya",
@@ -10,6 +11,8 @@ export default {
     aiSuggestedPrompts_loadMore: "Daha çox yüklə",
     aiSuggestedPrompts_prompt: "Prompt",
     aiSuggestedPrompts_copy: "Promptu kopyala",
+    aiSuggestedPrompts_showMore: "Daha çox göstər",
+    aiSuggestedPrompts_showLess: "Daha az göstər",
     unpin: "Pin-i Ləğv Et",
     pin: "Pin Et",
     usethisPrompt: "Prompt daxilində istifadə et",

@@ -509,6 +509,7 @@ export interface IImagePromptCategory {
   id?: number | string;
   name?: string;
   title?: string;
+  count?: number;
 }
 export interface IImagePrompt {
   id: number | string;

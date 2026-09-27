@@ -1,6 +1,7 @@
 export default {
   translation: {
     aiSuggestedPrompts_title: "پرامپت‌های پیشنهادی",
+    aiSuggestedPrompts_openImage: "باز کردن تصویر به‌صورت تمام‌صفحه",
     aiSuggestedPrompts_explain: "یک پرامپت را برای شروع انتخاب کنید.",
     aiSuggestedPrompts_category: "دسته‌بندی پرامپت",
     aiSuggestedPrompts_subCategory: "زیردسته‌بندی",
@@ -10,6 +11,8 @@ export default {
     aiSuggestedPrompts_loadMore: "نمایش بیشتر",
     aiSuggestedPrompts_prompt: "پرامپت",
     aiSuggestedPrompts_copy: "کپی پرامپت",
+    aiSuggestedPrompts_showMore: "نمایش ادامه",
+    aiSuggestedPrompts_showLess: "نمایش کمتر",
     // #region landing page
     toggleShowAll: "نمایش همه",
     toggleShowmonthly: "نمایش ماهانه",

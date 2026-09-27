@@ -1,6 +1,7 @@
 export default {
   translation: {
     aiSuggestedPrompts_title: "Рекомендуемые промпты",
+    aiSuggestedPrompts_openImage: "Открыть изображение на весь экран",
     aiSuggestedPrompts_explain: "Выберите промпт для начала работы.",
     aiSuggestedPrompts_category: "Категория промпта",
     aiSuggestedPrompts_subCategory: "Подкатегория",
@@ -10,6 +11,8 @@ export default {
     aiSuggestedPrompts_loadMore: "Загрузить еще",
     aiSuggestedPrompts_prompt: "Промпт",
     aiSuggestedPrompts_copy: "Копировать промпт",
+    aiSuggestedPrompts_showMore: "Показать больше",
+    aiSuggestedPrompts_showLess: "Показать меньше",
     unpin: "Открепить",
     pin: "Закрепить",
     usethisPrompt: "Использовать в Prompt",

@@ -35,8 +35,9 @@ import router from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import styles from "./pageAI.module.css";
 import GeneratedImageModal from "brancy/components/page/ai/popup/GeneratedImageModal";
-import GeneratedVideoModal from "brancy/components/page/ai/popup/generatedVideoModal";
+import GeneratedVideoModal from "brancy/components/page/ai/popup/GeneratedVideoModal";
 import ImagePromptSuggestions, { ImagePromptDetail } from "brancy/components/page/ai/popup/imagePromptSuggestions";
+import { AiModelListContent } from "brancy/components/page/ai/popup/AiModelList";
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
 type AiQueryType = "1" | "2";
 const SUCCESS_MEDIA_STATUS = 2;
@@ -74,6 +75,10 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
   const [initialLibraryLoading, setInitialLibraryLoading] = useState(true);
   const [showImagePrompts, setShowImagePrompts] = useState(false);
   const [selectedImagePrompt, setSelectedImagePrompt] = useState<IImagePrompt | null>(null);
+  const [promptToUse, setPromptToUse] = useState<{ key: string; text: string } | null>(null);
+  const [imageModelSelection, setImageModelSelection] = useState({ creatorKey: "", modelName: "" });
+  const [videoModelSelection, setVideoModelSelection] = useState({ creatorKey: "", modelName: "" });
+  const [showModelList, setShowModelList] = useState(false);
   const fetchImages = useCallback(
     async (cursor: string | null): Promise<IGetMedia[]> => {
       if (!session) return [];
@@ -116,7 +121,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     },
     [session],
   );
-  const onCreateMedia = async (request: IGetImageUsageRequest, count: number) => {
+  const onCreateMedia = async (request: IGetImageUsageRequest, count: number): Promise<boolean> => {
     if (createMediaLoading) return false;
     setCreateMediaLoading(true);
     const checkFeatureResponse = await clientFetchApi<boolean, boolean>("/api/feature/hasFeatureCount", {
@@ -166,6 +171,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
       NotifType.Success,
       creatorTab === "createvideo" ? t("Video generation request sent.") : t("Image generation request sent."),
     );
+    setCreateMediaLoading(false);
     return true;
   };
   const loadCreators = async () => {
@@ -395,9 +401,18 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
       }
     };
   }, [handleGetNotif]);
+  const modelCreators = activeTab === "image" ? imageCreators : videoCreators;
+  const modelSelection = activeTab === "image" ? imageModelSelection : videoModelSelection;
+  const handleModelSelectionChange = useCallback(
+    (selection: { creatorKey: string; modelName: string }) => {
+      if (activeTab === "image") setImageModelSelection(selection);
+      else setVideoModelSelection(selection);
+    },
+    [activeTab],
+  );
+  const openModelList = useCallback(() => setShowModelList(true), []);
   if (initialLibraryLoading) {
-    return;
-    <Loading />;
+    return <Loading />;
   }
   return (
     <>
@@ -428,32 +443,54 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
             createMediaLoading={createMediaLoading}
             setActiveTab={setActiveTab}
             activeTab={creatorTab}
+            modelSelection={modelSelection}
+            onModelSelectionChange={handleModelSelectionChange}
+            onOpenModelList={openModelList}
             featureUnavailable={showFeaturePopup}
             onOpenImagePrompts={() => setShowImagePrompts(true)}
+            promptToUse={promptToUse}
           />
         )}
       </main>
-      <Modal closePopup={() => setShowImagePrompts(false)} classNamePopup="popupLarge" showContent={showImagePrompts}>
-        <ImagePromptSuggestions
-          session={session}
-          isOpen={showImagePrompts}
-          onSelect={(imagePrompt) => {
-            setSelectedImagePrompt(imagePrompt);
-            setShowImagePrompts(false);
-          }}
+      <Modal closePopup={() => setShowModelList(false)} classNamePopup="popupLarge" showContent={showModelList}>
+        <AiModelListContent
+          creators={modelCreators}
+          selectedCreatorKey={modelSelection.creatorKey}
+          selectedModelName={modelSelection.modelName}
+          onSelect={(creatorKey, modelName) => handleModelSelectionChange({ creatorKey, modelName })}
+          onClose={() => setShowModelList(false)}
         />
       </Modal>
       <Modal
-        closePopup={() => setSelectedImagePrompt(null)}
+        closePopup={() => {
+          setSelectedImagePrompt(null);
+          setShowImagePrompts(false);
+        }}
         classNamePopup="popupLarge"
-        showContent={selectedImagePrompt !== null}>
-        {selectedImagePrompt && <ImagePromptDetail prompt={selectedImagePrompt} />}
+        showContent={showImagePrompts}>
+        {selectedImagePrompt ? (
+          <ImagePromptDetail
+            prompt={selectedImagePrompt}
+            onBack={() => setSelectedImagePrompt(null)}
+            onUsePrompt={() => {
+              setPromptToUse({ key: String(selectedImagePrompt.id), text: selectedImagePrompt.promptBody });
+              setSelectedImagePrompt(null);
+            }}
+          />
+        ) : (
+          <ImagePromptSuggestions
+            session={session}
+            isOpen={showImagePrompts}
+            onClose={() => setShowImagePrompts(false)}
+            onSelect={setSelectedImagePrompt}
+          />
+        )}
       </Modal>
       <Modal closePopup={() => setSelectedImage(null)} classNamePopup="popupLarge" showContent={selectedImage !== null}>
-        {selectedImage && <GeneratedImageModal image={selectedImage} onClose={() => setSelectedImage(null)} />}
+        {selectedImage && <GeneratedImageModal image={selectedImage} />}
       </Modal>
       <Modal closePopup={() => setSelectedVideo(null)} classNamePopup="popupLarge" showContent={selectedVideo !== null}>
-        {selectedVideo && <GeneratedVideoModal video={selectedVideo} onClose={() => setSelectedVideo(null)} />}
+        {selectedVideo && <GeneratedVideoModal video={selectedVideo} />}
       </Modal>
     </>
   );

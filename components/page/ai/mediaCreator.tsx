@@ -39,6 +39,10 @@ interface MediaCreatorProps {
   setActiveTab: Dispatch<SetStateAction<MediaTab>>;
   activeTab: MediaTab;
   onOpenImagePrompts?: () => void;
+  promptToUse?: { key: string; text: string } | null;
+  modelSelection: { creatorKey: string; modelName: string };
+  onModelSelectionChange: (selection: { creatorKey: string; modelName: string }) => void;
+  onOpenModelList: () => void;
   featureUnavailable?: boolean;
 }
 export interface MediaCreatorSelection {
@@ -328,6 +332,10 @@ export default function MediaCreator({
   createMediaLoading,
   activeTab,
   onOpenImagePrompts,
+  promptToUse,
+  modelSelection,
+  onModelSelectionChange,
+  onOpenModelList,
   featureUnavailable,
 }: MediaCreatorProps) {
   const { data: session } = useSession();
@@ -343,9 +351,9 @@ export default function MediaCreator({
   const availableCreators = creators
     .map((item) => ({ ...item, inputModels: getUniqueModels(item.inputModels) }))
     .filter((item) => item.inputModels.length > 0);
-  const [creatorKey, setCreatorKey] = useState(availableCreators[0]?.key ?? "");
+  const creatorKey = modelSelection.creatorKey || availableCreators[0]?.key || "";
   const creator = availableCreators.find((item) => item.key === creatorKey) ?? availableCreators[0];
-  const [modelName, setModelName] = useState(creator?.inputModels[0]?.name ?? "");
+  const modelName = modelSelection.modelName || creator?.inputModels[0]?.name || "";
   const model = creator?.inputModels.find((item) => item.name === modelName) ?? creator?.inputModels[0];
   const [prompt, setPrompt] = useState("");
   const [values, setValues] = useState<Record<string, InputValue>>(() => getInitialValues(model));
@@ -380,9 +388,10 @@ export default function MediaCreator({
     const nextModelName = nextCreator.inputModels.some((item) => item.name === modelName)
       ? modelName
       : nextCreator.inputModels[0].name;
-    if (creatorKey !== nextCreator.key) setCreatorKey(nextCreator.key);
-    if (modelName !== nextModelName) setModelName(nextModelName);
-  }, [creators, creatorKey, modelName]);
+    if (creatorKey !== nextCreator.key || modelName !== nextModelName) {
+      onModelSelectionChange({ creatorKey: nextCreator.key, modelName: nextModelName });
+    }
+  }, [availableCreators, creatorKey, modelName, onModelSelectionChange]);
   useEffect(() => {
     setPrompt("");
     setValues(getInitialValues(model));
@@ -392,6 +401,11 @@ export default function MediaCreator({
     setDraggingSide(null);
     setDragStart(null);
   }, [creator?.key, model?.name]);
+  useEffect(() => {
+    if (!promptToUse) return;
+    setPrompt(promptToUse.text);
+    setTokenUsage(null);
+  }, [promptToUse]);
   if (error || !creator || !model) {
     return (
       <div className={styles.right}>
@@ -507,13 +521,23 @@ export default function MediaCreator({
     }
     setUploadingInputKey(null);
   };
+  const resetForm = () => {
+    setPrompt("");
+    setValues(getInitialValues(model));
+    setTokenUsage(null);
+    setPreviews({});
+    setUploadingInputKey(null);
+    setUploadProgress(0);
+    setDraggingSide(null);
+    setDragStart(null);
+  };
   return (
     <form
       className={styles.right}
       onSubmit={async (event) => {
         event.preventDefault();
         if (createMediaLoading || !promptIsValid || !requiredInputsAreValid || !onCreateMedia) return;
-        const requestAccepted = await onCreateMedia(
+        const created = await onCreateMedia(
           {
             creatorKey: creator.key,
             version: model.name,
@@ -525,15 +549,7 @@ export default function MediaCreator({
           },
           tokenUsage ?? 0,
         );
-        if (!requestAccepted) return;
-        setPrompt("");
-        setValues(getInitialValues(model));
-        setTokenUsage(null);
-        setPreviews({});
-        setUploadingInputKey(null);
-        setUploadProgress(0);
-        setDraggingSide(null);
-        setDragStart(null);
+        if (created) resetForm();
       }}>
       {/* type */}
 
@@ -552,10 +568,7 @@ export default function MediaCreator({
             creators={availableCreators}
             selectedCreatorKey={creator.key}
             selectedModelName={model.name}
-            onSelect={(nextCreatorKey, nextModelName) => {
-              setCreatorKey(nextCreatorKey);
-              setModelName(nextModelName);
-            }}
+            onOpen={onOpenModelList}
           />
         </div>
         {/* prompt section */}
@@ -569,7 +582,7 @@ export default function MediaCreator({
                 aria-label={t("Paste")}
                 title={t("Paste")}
                 onClick={() => void pastePromptFromClipboard()}
-                style={{ padding: 0, border: 0, background: "transparent", cursor: "pointer" }}>
+                style={{ height: "20px", padding: 0, border: 0, background: "transparent", cursor: "pointer" }}>
                 <img style={{ width: "20px", height: "20px" }} src="/copy.svg" alt="" />
               </button>
             </span>
@@ -1005,34 +1018,60 @@ export default function MediaCreator({
       {/* create Media and Token Usage */}
       <footer className={styles.actionBar}>
         <div className={styles.Checktoken}>
-          {tokenBalance && (
-            <div className={`${styles.tokenUsagePanel} `}>
-              <div
-                className={styles.tokenProgress}
-                role="progressbar"
-                aria-label={t("Requested token usage")}
-                aria-valuemin={0}
-                aria-valuemax={tokenBalance.total}
-                aria-valuenow={tokenUsage ?? 0}>
-                <span className={styles.tokenProgressRequested} style={{ width: `${tokenUsagePercentage}%` }} />
+          {tokenUsage !== null && tokenBalance ? (
+            <div className={styles.tokenUsagePanel} onClick={() => void getImageUsage()}>
+              <div className={styles.tokenUsageProgresscolumn}>
+                <div
+                  className={styles.tokenProgress}
+                  role="progressbar"
+                  aria-label={t("Requested token usage")}
+                  aria-valuemin={0}
+                  aria-valuemax={tokenBalance.total}
+                  aria-valuenow={tokenUsage ?? 0}>
+                  <span className={styles.tokenProgressRequested} style={{ width: `${tokenUsagePercentage}%` }} />
+                </div>
+
+                <div className={styles.tokenUsageLabels}>
+                  <span>{tokenUsage === null ? "-" : tokenUsage.toLocaleString()}</span>
+                  <span>{tokenBalance.total.toLocaleString()}</span>
+                </div>
               </div>
-              <div className={styles.tokenUsageLabels}>
-                <span>{tokenUsage === null ? "-" : tokenUsage.toLocaleString()}</span>
-                <span>{tokenBalance.total.toLocaleString()}</span>
-              </div>
+              <button
+                type="button"
+                className={`${styles.tokenUsageRefresh} ${usageLoading ? styles.tokenUsageRefreshLoading : ""}`}
+                disabled={usageLoading || !promptIsValid || !requiredInputsAreValid || createMediaLoading}
+                aria-label={t("TokenUsage")}
+                title={t("TokenUsage")}>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  color="currentColor"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  width="24"
+                  height="24"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  viewBox="0 0 24 24"
+                  aria-hidden="true">
+                  <path d="M12 11.5v1m1-.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0m7.95 1q.05-.5.05-1A9 9 0 0 0 5 6.34M3.05 11A9 9 0 0 0 19 17.66" />
+                  <path d="M8 7H7c-1.41 0-2.12 0-2.56-.44S4 5.41 4 4V3m12 14h1c1.41 0 2.12 0 2.56.44S20 18.59 20 20v1" />
+                </svg>
+              </button>
             </div>
+          ) : (
+            <button
+              type="button"
+              className={
+                usageLoading || !promptIsValid || !requiredInputsAreValid || createMediaLoading
+                  ? styles.tokenBalanceDisable
+                  : styles.tokenBalance
+              }
+              disabled={usageLoading || !promptIsValid || !requiredInputsAreValid || createMediaLoading}
+              onClick={getImageUsage}>
+              {usageLoading ? t("Calculating...") : t("TokenUsage")}
+            </button>
           )}
-          <button
-            type="button"
-            className={
-              usageLoading || !promptIsValid || !requiredInputsAreValid || createMediaLoading
-                ? "disableButton"
-                : "cancelButton"
-            }
-            disabled={usageLoading || !promptIsValid || !requiredInputsAreValid || createMediaLoading}
-            onClick={getImageUsage}>
-            {usageLoading ? t("Calculating...") : t("TokenUsage")}
-          </button>
         </div>
         <button
           type="submit"

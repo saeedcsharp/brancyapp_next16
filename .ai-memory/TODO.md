@@ -26,7 +26,16 @@
 
 # TODO
 
+- Add component coverage for the AI generated-media helper, including localized null/boolean metadata values, invalid JSON fallback, shared timestamp output, and image/video modal close ownership when a UI test harness is introduced.
+- Add component coverage confirming the image prompt suggestions category buttons select All Categories and load prompts for the selected category when a UI test harness is introduced.
+- Add component/browser coverage confirming the selected image prompt preview opens the fullscreen overlay and closes through the close button, backdrop, and Escape key when a UI test harness is introduced.
+- Add component coverage confirming image prompt detail shows ten newline-delimited lines initially, renders JSON keys/values and markdown placeholders with syntax styles, toggles the complete prompt with localized Show more/Show less controls, returns to the list through Back without closing the shared modal, and preserves copy/Use in prompt actions when a UI test harness is introduced.
+- Add component coverage confirming initial AI history loading renders the shared loader and pending cards render a non-interactive loader without invoking AI prompt behavior when a UI test harness is introduced.
+
+- Add component coverage confirming each AI model row shows its localized, de-duplicated input-feature titles in the `IDgray` label and keeps the full list available through its tooltip when a UI test harness is introduced.
+- Add component coverage confirming the AI model modal Features toggle animates all feature-label groups, updates `aria-expanded`, and disables hidden labels when a UI test harness is introduced.
 - Add component/browser coverage confirming normal AI creator loading keeps the shared loader, while an unavailable AI feature renders the inline `NotFeature` state without mounting a feature modal when a UI test harness is introduced.
+- Add component coverage confirming an accepted AI media request resets the prompt and dynamic inputs, removes the token estimate, enables another submit, and keeps the matching pending library card until SignalR completion when a UI test harness is introduced.
 
 - Add component/browser coverage confirming the Upgrade close button navigates to `/home` through mouse, Enter, and Space activation without duplicate navigation when a UI test harness is introduced.
 
@@ -171,6 +180,7 @@
 - Add component/browser coverage for the AI creator square range control, including independent edge dragging with mouse/touch, maximum clamping, RTL layout, and preservation of per-edge request keys when a UI test harness is introduced.
 - Add component/browser coverage confirming the AI creator footer keeps usage estimation and media creation as independent actions, permits creation before an estimate, and stacks both actions on narrow viewports when a UI test harness is introduced.
 - Add component coverage confirming the AI creator's Create image/Create video button submits its form and invokes the page callback when prompt and required inputs are valid.
+- Add component coverage confirming the AI creator usage button changes to the token progress panel after a successful estimate and returns when prompt or dynamic inputs invalidate the estimate.
 - Add component coverage confirming the sub-invoice popup header action calls `/api/wallet/getInvoice` with the selected invoice ID and opens order details on success when a UI test harness is introduced.
 - Add integration coverage for invoice-history cursor pagination, duplicate invoice IDs, and exhausted `nextMaxId` responses when test infrastructure is introduced.
 - Add integration coverage for sub-invoice popup cursor pagination, duplicate IDs, exhausted `nextMaxId`, and the mobile table overflow behavior when test infrastructure is introduced.

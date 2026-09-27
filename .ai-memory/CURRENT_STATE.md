@@ -2,13 +2,29 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+The selected image prompt detail initially shows the first ten non-empty newline-delimited prompt lines and provides localized Show more/Show less controls when additional lines exist; expanding reveals the complete prompt without changing the copy or Use in prompt actions. The visible prompt is rendered as a numbered, scrollable code block with JSON token colors, bold markdown labels, and highlighted `[xxx]` bracket placeholders, including placeholders inside JSON strings, while preserving the raw prompt for copying and use. The complete prompt code block, line filtering, tokenization, rendering, layout styles, and reusable inline token styles now live in `components/page/ai/popup/generatedMediaHelpers.ts`; the suggestions CSS module retains only surrounding UI layout styles. Prompt suggestions and prompt detail now share one modal, so the detail back button clears only the selected prompt and returns to the suggestions list; closing the modal clears both states.
+
+The selected image prompt detail preview opens in a body-portal fullscreen image overlay when clicked. The overlay supports a close button, backdrop click, and Escape-key dismissal without changing the parent prompt modal state.
+
+Generated image and video result modals now share neutral timestamp and JSON metadata parsing through `components/page/ai/popup/generatedMediaHelpers.ts`; the same helper also exports reusable prompt token rendering and inline syntax styles. Modal visibility and close state remain exclusively page-owned. The video modal file now follows PascalCase component naming, and pending library cards use the presentation-only shared `RingLoader` instead of an interactive AI prompt control.
+
+The AI media creator token-usage control now uses `tokenBalance` and `tokenBalanceDisable` CSS-module states. After a successful estimate, the control is replaced by the requested-token progress panel, which includes an accessible refresh icon that rotates during recalculation and stops when it completes; changing prompt or inputs clears the estimate and restores the button.
+
+The image prompt suggestions category filter now renders the All Categories option and backend categories as adjacent accessible tag buttons. Each backend category tag displays its returned prompt count, and the All Categories tag displays the sum of those counts. The tag row supports native touch scrolling and mouse drag scrolling; pointer capture starts only after actual mouse movement so normal category clicks still load their prompt list. Selecting a category clears the prior list and ignores stale prompt responses so the selected category's list remains authoritative.
+
+Image prompt suggestion thumbnails now render in a responsive CSS-column masonry layout that preserves each image's natural aspect ratio rather than cropping every image to a fixed height.
+
+The selected image prompt detail now places its preview image in the left column, descriptive information and metadata in the right column, and the copyable prompt body in a full-width section below both columns; narrow screens stack the top section vertically.
+
+The selected image prompt detail now includes a localized back button that clears the selected prompt and returns to the suggestions list without browser-history navigation.
+
+The selected image prompt detail now provides a Use in prompt action. It closes the detail modal and transfers the prompt body into the controlled AI media creator textarea, invalidating the previous token estimate; keyed transfers also support selecting the same prompt again.
+
 The AI media creator stylesheet now contains only selectors consumed by `mediaCreator.tsx`; copied prompt-suggestion, provider/model, field, and upload-label styles were removed without changing the creator UI.
 
 The AI media library stylesheet now contains only selectors used by `MediaLibrary.tsx` for loading, history items, pending generations, pagination loading, and the empty state; obsolete layout and duplicate declarations were removed without changing library behavior.
 
-The AI media creator's primary Create image/Create video action now submits through an actual `<form>`, so its existing submit handler reaches the page-owned media-generation callback.
-
-After an AI image or video generation request is accepted, the media creator clears the prompt, model inputs, uploaded previews, and token estimate so the user can submit another request immediately. Rejected entitlement checks and failed create requests preserve the form values.
+The AI media creator's primary Create image/Create video action now submits through an actual `<form>`, so its existing submit handler reaches the page-owned media-generation callback. After the create API accepts a request, the creator resets its prompt, dynamic inputs, uploads, and token estimate, and the submit action becomes available for another generation while the accepted request remains visible as a pending library card until SignalR completes it.
 
 The AI media creator now renders the existing `NotFeature` upgrade state inline inside its empty creator panel when the AI feature check fails; the feature-unavailable `Modal` is no longer mounted. Normal creator loading still uses the shared `Loading` component.
 
@@ -73,7 +89,13 @@ The media quick-reply popup now renders the reusable `components/notOk/commentPe
 
 The AI media creator prompt now has an accessible paste button that reads clipboard text into its controlled `TextArea` and clears a previous token-usage estimate. Aspect Ratio enum options also show proportional inline SVG outline icons capped at 15 pixels when their labels use the supported `width:height` format.
 
-The AI media creator model section now opens `AiModelList` in the shared modal when its trigger is clicked. The modal lists available creators as expandable branches, reveals models for the active branch, and updates the existing creator/model selection used by prompt settings and generation requests.
+The AI media creator model section now uses an `AiModelList` trigger while `PageAI` owns the shared modal, so the model picker opens at the page's full-screen modal size. The page also owns the selected creator/model state; the modal content lists expandable creator branches, reveals models for the active branch, and updates the selection used by prompt settings and generation requests.
+
+Each AI model row now shows the localized, de-duplicated input-feature titles in its existing `IDgray` metadata label, with long lists truncated visually and exposed through the label tooltip.
+
+The AI model modal header now provides an animated Features toggle that reveals or hides the independent feature-label groups for all model rows.
+
+AI model cost labels now use level-specific colors: light green, light yellow, light red, and dark red for one through four dollar signs.
 
 The comment inbox de-duplicates every Post, Story, hidden-inbox, search, deep-link, pagination, and SignalR media list by `mediaId`, preserving the first item's order when the backend returns repeated media.
 
@@ -230,7 +252,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - AI creator multiple range inputs now render as one fixed `250px` square with a centered fixed `100px` inner square; mouse/touch handles define one shared hatched frame, including its corners, while each backend range key remains separate in submitted requests.
 - AI creator `IntRange` inputs render as standard integer-step sliders and are never included in the square expansion control. `AudioArray` inputs use the shared file-upload flow with audio acceptance and native playback controls. The square expansion control is used only when exactly the four backend `Range` keys `topExpantionRatio`, `buttonExpantionRatio`, `rightExpantionRatio`, and `leftExpantionRatio` are present; single, incomplete, or differently named ranges remain standard sliders.
 - AI creator footers now show separate, independent token-usage and media-creation buttons on opposite sides; creation only requires a valid prompt and required inputs, and uses zero for the parent feature check when no estimate exists.
-- AI image/video creation controls now remain disabled for the full pending request and the form ignores duplicate submit events while creation is in progress.
+- AI image/video creation controls ignore duplicate submits while the create request is in progress, then reset the creator and become available again after the create API accepts the request; the matching pending card remains until SignalR reports success or failure.
 - The AI page now owns and passes the media-creation loading state, enabling it before feature validation and clearing it only after the correlated image/video SignalR success or failure notification.
 - AI image/video success notifications are now accepted after leaving and revisiting the AI page, even without a local pending-generation ref; duplicate library entries are ignored.
 - AI media tabs now use the shared `ToggleButton`; the former dedicated content-creator header component and stylesheet were removed.

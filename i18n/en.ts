@@ -1,6 +1,7 @@
 export default {
   translation: {
     aiSuggestedPrompts_title: "Suggested prompts",
+    aiSuggestedPrompts_openImage: "Open image fullscreen",
     aiSuggestedPrompts_explain: "Choose a prompt to use as your starting point.",
     aiSuggestedPrompts_category: "Prompt category",
     aiSuggestedPrompts_subCategory: "Subcategory",
@@ -10,6 +11,8 @@ export default {
     aiSuggestedPrompts_loadMore: "Load more",
     aiSuggestedPrompts_prompt: "Prompt",
     aiSuggestedPrompts_copy: "Copy prompt",
+    aiSuggestedPrompts_showMore: "Show more",
+    aiSuggestedPrompts_showLess: "Show less",
     // #region landing page.
     unpin: "Unpin",
     pin: "Pin",
