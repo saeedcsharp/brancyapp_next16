@@ -287,7 +287,6 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     useContainerScroll: true,
     containerRef,
     fetchDelay: 0,
-    containerRef,
   });
   const openImageCreator = async () => {
     if (!(await fetchAndCheckFeature(PsgFeatureType.AI, session))) {
