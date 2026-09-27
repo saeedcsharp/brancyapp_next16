@@ -2,6 +2,8 @@
 
 ## Known Bugs
 
+The AI media history pagination issue was fixed on 2026-09-28. The page previously attached `useInfiniteScroll` to the fixed workspace while history rows scrolled inside `.Medialist`, so reaching the visible list end did not trigger the next image or video cursor request. Both hook instances now observe the shared internal list container.
+
 The Ice Breaker deletion persistence bug was fixed on 2026-09-24. `Properties.tsx` previously sent the pre-deletion button list to `UpdateIceBreaker`; it now sends the filtered list without the selected item. Automated component coverage remains pending.
 
 The upgrade-page close action was fixed on 2026-09-20 by replacing the duplicated click/keyboard navigation with one guarded `router.replace("/home")` handler. Native button keyboard activation remains available, and repeated activation after navigation starts is ignored.

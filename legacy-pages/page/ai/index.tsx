@@ -264,6 +264,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     currentData: images,
     isLoading: imageHistoryLoading,
     enabled: true,
+    useContainerScroll: true,
     fetchDelay: 0,
   });
   const fetchMoreVideos = useCallback(() => fetchVideos(nextVideoMaxId), [fetchVideos, nextVideoMaxId]);
@@ -278,6 +279,8 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     currentData: videos,
     isLoading: videoHistoryLoading,
     enabled: true,
+    useContainerScroll: true,
+    containerRef,
     fetchDelay: 0,
   });
   const openImageCreator = async () => {
@@ -420,7 +423,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
         <title>Bran.cy ▸ {t(LanguageKey.navbar_AI)}</title>
         <meta name="description" content={t("Create and manage AI-generated images and videos.")} />
       </Head>
-      <main className={styles.aiWorkspace} ref={containerRef}>
+      <main className={styles.aiWorkspace}>
         <div className={styles.left}>
           <MediaLibrary
             images={images}
@@ -431,6 +434,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
             setSelectedImage={setSelectedImage}
             setSelectedVideo={setSelectedVideo}
             pendingGenerations={pendingGenerations}
+            containerRef={containerRef}
           />
         </div>
 

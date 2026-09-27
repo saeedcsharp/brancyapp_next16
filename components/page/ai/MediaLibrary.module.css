@@ -7,9 +7,12 @@
 }
 .Medialist {
   display: flex;
+  flex: 1;
   flex-direction: column;
   justify-content: flex-start;
   align-items: flex-start;
+  width: 100%;
+  min-height: 0;
 
   overflow-y: auto;
   overflow-x: hidden;

@@ -318,6 +318,9 @@
   width: 100%;
   flex-direction: column;
   justify-content: flex-start;
+  @media (max-width: 720px) {
+    padding: var(--paddingboxmobile);
+  }
 }
 .right:hover {
   box-shadow: var(--box-shadow);

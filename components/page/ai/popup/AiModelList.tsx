@@ -122,11 +122,10 @@ export default function AiModelList({ creators, selectedCreatorKey, selectedMode
             selectedCreator.displayName.slice(0, 1).toUpperCase()
           )}
         </span>
-
-        <span className="title2">
-          {selectedCreator?.displayName ?? t("AI Model")}
-          {selectedLabel}
-        </span>
+        <div className="headerandinput" style={{ gap: "1px" }}>
+          <span className="title2">{selectedCreator?.displayName ?? t("AI Model")}</span>
+          <span className="explain">{selectedLabel}</span>
+        </div>
       </div>
       <svg
         className={styles.foldingicon}

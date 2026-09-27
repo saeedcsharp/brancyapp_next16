@@ -563,7 +563,7 @@ export default function MediaCreator({
       <div className={styles.mediaCreatorContainer}>
         {/* model type */}
         <div className="headerandinput">
-          <div className="title">{t("SettingGeneralAiModelsTitle")}</div>
+          <div className="title2">{t("SettingGeneralAiModelsTitle")}</div>
           <AiModelList
             creators={availableCreators}
             selectedCreatorKey={creator.key}
@@ -574,7 +574,7 @@ export default function MediaCreator({
         {/* prompt section */}
         <label className="headerandinput">
           <span className="headerparent">
-            <span className="title">{t("Prompt")}</span>
+            <span className="title2">{t("Prompt")}</span>
             <span className="counter">
               ({prompt.length} / {model.maxPromptLength}){" "}
               <button
@@ -617,7 +617,7 @@ export default function MediaCreator({
         {/* settings section */}
         <div className="headerandinput">
           <div className="headerparent">
-            <div className="title">{t("sidebar_Setting")}</div>
+            <div className="title2">{t("sidebar_Setting")}</div>
             <svg
               className={styles.foldingicon}
               width="21"

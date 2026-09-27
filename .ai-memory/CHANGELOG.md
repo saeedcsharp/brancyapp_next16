@@ -1,3 +1,7 @@
+- 2026-09-28: Fixed the AI media history DragDrop All option to use the localized `toggleShowAll` translation key.
+
+- 2026-09-28: Fixed AI media history pagination by attaching both image and video `useInfiniteScroll` instances to the scrollable `MediaLibrary` container, so reaching the list end fetches the next backend cursor.
+
 - 2026-09-28: Added fullscreen preview for selected image prompt examples with close-button, backdrop, and Escape-key dismissal.
 
 - 2026-09-28: Moved the complete image-prompt renderer, including `PromptCodeBlock`, tokenization, layout styles, and token style objects, into `generatedMediaHelpers.ts`; the image prompt CSS module now keeps only surrounding UI layout styles.

@@ -11,6 +11,7 @@ import { useTranslation } from "react-i18next";
 import styles from "./MediaLibrary.module.css";
 import { AIIcon } from "brancy/components/design/textEditor/icons";
 import AIWithPrompt from "brancy/components/design/ai/AIWithPrompt";
+import type { RefObject } from "react";
 type MediaFilter = "all" | "image" | "video";
 type MediaLibraryProps = {
   images: IGetMedia[];
@@ -21,13 +22,14 @@ type MediaLibraryProps = {
   setSelectedImage: (image: IGetMedia) => void;
   setSelectedVideo: (video: IGetMedia) => void;
   pendingGenerations: PendingGeneration[];
+  containerRef: RefObject<HTMLDivElement | null>;
 };
 type MediaItem = {
   media: IGetMedia;
   type: "image" | "video";
 };
 const mediaFilterOptions = [
-  { id: 0, label: "All" },
+  { id: 0, label: "toggleShowAll" },
   { id: 1, label: "Images" },
   { id: 2, label: "Videos" },
 ];
@@ -48,6 +50,7 @@ export default function MediaLibrary({
   setSelectedImage,
   setSelectedVideo,
   pendingGenerations,
+  containerRef,
 }: MediaLibraryProps) {
   const { t } = useTranslation();
   const [filter, setFilter] = useState<MediaFilter>("all");
@@ -63,7 +66,7 @@ export default function MediaLibrary({
   return (
     <>
       <div className="headerparent">
-        <div className="title">History </div>
+        <div className="title">{t("pageTools_popup_history")} </div>
         <div style={{ maxWidth: "50%", width: "100%" }}>
           <DragDrop
             data={mediaFilterOptions.map((option) => (
@@ -84,7 +87,7 @@ export default function MediaLibrary({
           <Loading />
         </div>
       ) : hasMedia ? (
-        <div className={styles.Medialist}>
+        <div className={styles.Medialist} ref={containerRef}>
           {pendingMedia.map(({ pending }) => (
             <article className={styles.imageCard} key={pending.clientContext}>
               <div
@@ -123,7 +126,7 @@ export default function MediaLibrary({
                 <div className={styles.imageTitle}>{media.prompt || t("Untitled generation")}</div>
                 <div className={styles.version}>
                   <div className="translate"> #{media.id}</div>
-                  <div className="IDgray">{t(type === "image" ? "Image" : "Video")}</div>
+                  <div className="IDgray">{t(type === "image" ? "photo" : "video")}</div>
                 </div>
                 <time className={styles.version} dateTime={new Date(media.createdTime * 1000).toISOString()}>
                   {formatCreatedTime(media.createdTime)}

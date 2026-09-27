@@ -24,6 +24,8 @@ The AI media creator stylesheet now contains only selectors consumed by `mediaCr
 
 The AI media library stylesheet now contains only selectors used by `MediaLibrary.tsx` for loading, history items, pending generations, pagination loading, and the empty state; obsolete layout and duplicate declarations were removed without changing library behavior.
 
+AI media history pagination now listens to the scrollable `.Medialist` container for both independent image and video cursors; reaching its end requests and appends the next backend page.
+
 The AI media creator's primary Create image/Create video action now submits through an actual `<form>`, so its existing submit handler reaches the page-owned media-generation callback. After the create API accepts a request, the creator resets its prompt, dynamic inputs, uploads, and token estimate, and the submit action becomes available for another generation while the accepted request remains visible as a pending library card until SignalR completes it.
 
 The AI media creator now renders the existing `NotFeature` upgrade state inline inside its empty creator panel when the AI feature check fails; the feature-unavailable `Modal` is no longer mounted. Normal creator loading still uses the shared `Loading` component.

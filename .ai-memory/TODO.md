@@ -26,6 +26,7 @@
 
 # TODO
 
+- Add component/browser coverage confirming the constrained AI `MediaLibrary` requests the next image and video cursors when its internal list reaches the end, including independent cursors and duplicate prevention, when a UI test harness is introduced.
 - Add component coverage for the AI generated-media helper, including localized null/boolean metadata values, invalid JSON fallback, shared timestamp output, and image/video modal close ownership when a UI test harness is introduced.
 - Add component coverage confirming the image prompt suggestions category buttons select All Categories and load prompts for the selected category when a UI test harness is introduced.
 - Add component/browser coverage confirming the selected image prompt preview opens the fullscreen overlay and closes through the close button, backdrop, and Escape key when a UI test harness is introduced.

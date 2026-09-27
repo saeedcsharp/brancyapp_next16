@@ -126,6 +126,9 @@ When an enum input is identified as Aspect Ratio, option values in the `width:he
 `MediaCreator` keeps the dynamic input JSX inside its main settings-panel `return`. Upload previews, upload progress, and square-range dragging are owned by `MediaCreator`, so media, boolean, enum, range, number, and text controls render inline without separate child renderer components.
 
 `MediaLibrary` combines successful image and video history into one `createdTime`-descending grid with a shared `DragDrop` All, Images, and Videos filter. Image and video cursor pagination remain independent, and pending generations follow the selected filter.
+The media history `DragDrop` uses the existing localized `toggleShowAll` key for its All option.
+
+The shared history list owns the `useInfiniteScroll` container ref and uses container scrolling for both image and video pagination, so reaching the end of the constrained list requests the next non-null backend cursor.
 
 `MediaLibrary.module.css` contains only styles used by `MediaLibrary.tsx` for its loading state, history rows, pending-generation preview, pagination loader, and empty state; obsolete layout selectors and duplicate declarations were removed.
 
