@@ -176,7 +176,7 @@ const Stories = () => {
       return;
     }
 
-    if (!isDataLoaded && session && LoginStatus(session) && RoleAccess(session)) {
+    if (!isDataLoaded && session && LoginStatus(session)) {
       fetchData();
     }
 

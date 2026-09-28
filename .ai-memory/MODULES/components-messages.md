@@ -6,6 +6,10 @@ The AI Flow editor shows a localized private-reply warning beside the back and s
 
 Component module for messages UI and feature concerns.
 
+The Message Properties panel no longer renders the automatic/bot reply filtering toggle; its related parent callback and `ToggleHideCommentAutoReply` request were removed while the remaining reply settings continue to use the existing backend model.
+
+The FollowUp template setting uses the `Custom FollowUp Template` label and the requested Persian explanation in all eight locales.
+
 ## Business Purpose
 
 Supports Brancy messages workflows or shared UI.
@@ -58,11 +62,13 @@ See related source files for exported functions and local helpers.
 
 React components are present when the folder contains `.tsx` UI files.
 
+`popups/specialPayLoad.tsx` includes the View Store and Products action in its smart default list only when `session.user.businessType` is `BusinessType.Shop` or `BusinessType.VShoper`. Other business types cannot select this store-specific payload.
+
 `popups/selectProduct.tsx` loads product thumbnails through `useInfiniteScroll`. Its pagination callback always applies the hook's `hasMore` result, including an empty terminal page, so a short product grid cannot repeatedly request an exhausted product cursor.
 
 `comment/commentInbox.tsx` memoizes the selected media's auto-reply configuration before passing it to `popups/editAutoReplyForMedia.tsx`. Hover-driven parent renders therefore preserve the child fetch effect dependencies and do not repeat prompt or flow API requests; a media, search-mode, or inbox-data change still supplies updated configuration.
 
-`comment/commentInbox.tsx` returns fetched media pages from its Post and Story `useInfiniteScroll` callbacks. The backend `oldestCursor` is nullable; returning an empty array before the response was processed caused the shared hook to stop pagination even when another cursor existed. Post and Story page appends also filter duplicate media IDs.
+`comment/commentInbox.tsx` returns fetched media pages from its Post and Story `useInfiniteScroll` callbacks. The backend `oldestCursor` is nullable; returning an empty array before the response was processed caused the shared hook to stop pagination even when another cursor existed. Every comment-inbox media state write now de-duplicates by `mediaId`, including initial responses, search results, page appends, deep links, hidden inbox data, and SignalR media inserts.
 
 `aiflow/flowNode/TextNode.tsx` enforces a 1,000-byte UTF-8 limit for text input, paste, and existing node data. The counter reports bytes rather than JavaScript string length, and truncation preserves complete Unicode characters.
 
@@ -92,6 +98,16 @@ When `aiflow/aiPromptBox.tsx` loads an existing prompt through `GetPrompt`, it s
 
 `aiflow/flowAndAIInBox.tsx` opens a localized new-flow settings modal before selecting `newFlow`. The modal requires a title, collects follower, snap-grid, and panning-boundary settings, accepts an imported JSON editor state, and mounts the editor only after Continue.
 
+The same component validates an optional `/Ai/FlowandAgent?id=...` query against the `GetMasterFlows` response by `masterFlowId` before selecting a flow. A matching ID mounts `Flow`, which then requests `GetMasterFlow`; an absent or unmatched ID does not open a flow automatically.
+
+`properties/autoreply.tsx` sends the selected `masterFlow.masterFlowId` as the `id` query to `/Ai/FlowandAgent` when the Flow Graph action is activated.
+
+The automatic-reply Flow Graph action uses the localized `AIFlow_show_graph` key across all eight supported locales.
+
+The Flow entries in `properties/persistentMenu.tsx` and `properties/iceBreaker.tsx` use the same localized Flow Graph action and open `/Ai/FlowandAgent?id=<masterFlowId>` when activated.
+
+The selected Flow action in `popups/specialPayLoad.tsx` also uses `AIFlow_show_graph` and opens `/Ai/FlowandAgent?id=<masterFlowId>`.
+
 The same component keeps the continued new flow in `userslist` as a local `newFlow` Draft item. A successful manual save removes that item and prepends the backend-returned `ITotalMasterFlow`; `aiflow/flow.tsx` treats a new flow as unsaved until that save succeeds.
 
 `aiflow/flowNode/GenericItemNode.tsx` and `aiflow/flowNode/WeblinkNode.tsx` validate web links on blur. A valid HTTP(S) link must have a non-empty final hostname segment after a dot (for example, `.com` or `.ir`); the suffix is not restricted to a fixed list. Invalid non-empty links set the shared `InputBox` danger status and replay its shake animation once; editing the value clears the error state.
@@ -118,6 +134,15 @@ The media auto-reply AI selector keeps its `DragDrop` on the localized Please se
 `components/page/popup/quickReply.tsx` renders `components/notOk/commentPermissionState.tsx` as a localized Instagram comment-permission state with an inline SVG and an Enable Permission action only when `session.user.commentPermission === false`; the action checks `/api/user/ip`, opens `InvalidIpModalContent` for Iranian IPs, and otherwise follows the existing Instagram redirect flow. The existing media auto-reply editor remains unchanged when access is available.
 
 `popups/editAutoReplyForMedia.tsx` keeps media auto-reply and AI configuration available when `session.user.messagePermission === false`, but shows the localized message-permission state whenever direct response, Flow, Product, or Connect Product delivery is selected. Its Enable Permission action uses the same IP check, invalid-IP modal, and Instagram redirect flow as the comment quick-reply state; same-comment responses remain available without message permission.
+
+For `MediaProductType.Live`, the media auto-reply editor hides the must-follow-page option for AI and Flow modes; other Live modes retain their existing controls.
+
+General and media auto-reply editors hide the must-follow-page option for AI mode and save `shouldFollower` as `false` for AI replies; other reply modes retain their existing controls and values.
+
+In the media auto-reply Live quick-reply control, the must-follow-page toggle updates `shouldFollower`; it does not change `sendPr`.
+Live media quick-reply payloads force `sendPr` to `false`, including when an existing auto-reply contains a stale `sendPr` value.
+
+The selected Flow action in `popups/editAutoReplyForMedia.tsx` uses the localized `AIFlow_show_graph` label and opens `/Ai/FlowandAgent` with the selected `masterFlowId` as the `id` query.
 
 For message-delivery modes, the confirmation-message and must-follow-page options are omitted from the editor and both corresponding save payload flags are forced to `false`; same-comment delivery retains the existing controls and values.
 
@@ -213,7 +238,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-08-02
+2026-09-22
 
 ---
 

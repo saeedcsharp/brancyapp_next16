@@ -779,6 +779,15 @@ export default {
     // #endregion home Section      // #region 2️⃣page Section
     // 2️⃣ Page -> Post
     CreateNewPost: "Create New Post",
+    Postnotvisible: "Post Not Visible?",
+    Storynotvisible: "Story Not Visible?",
+    SmartPageAnalysis: "Smart Page Analytics",
+    EducationAndGuidance: "Education & Guidance",
+    HowToUseBrancy: "How to Use Brancy",
+    BrancyKnowsYou: "Brancy Knows You",
+    BrancyKnowsYouExplain:
+      "Brancy deeply analyzes your page to build a complete picture of your digital identity — from your personality, business, and activities to your communication tone and style, content type, presentation style, posting schedule, and the way you interact with your audience.\n\nThis analysis also considers how you operate across all of your page's communication touchpoints — from responding to comments and Direct messages to your writing style, the way you interact with your audience, and how you respond to different situations.\n\nWith no need for manual training, tone configuration, or entering additional information, Brancy knows you and aligns its AI with your real identity and style.",
+    CreateYourDigitalVersion: "Create Your Digital Version",
     CreateNewStrory: "Create New Story",
     PostDraft: "Post Draft",
     StoryDraft: "Story Draft",
@@ -1749,8 +1758,8 @@ export default {
 
     messagesetting_messagePanellanguage: "Default Direct Language",
     messagesetting_messagePanellanguageExplain: "The default language of the direct bot for replying to messages.",
-    messagesetting_AutoReplyPerFollow: "Auto Reply After Follow",
-    messagesetting_AutoReplyPerFollowExplain: "Users must follow your page before receiving automatic messages",
+    messagesetting_AutoReplyPerFollow: "Custom FollowUp Template",
+    messagesetting_AutoReplyPerFollowExplain: "Use this template when asking a user to follow the page.",
     messagesetting_AutoReplyPerFollowtooltip:
       "Users who do not follow you will first receive a follow request. After following your page, the automatic message will be sent to them",
     messagesetting_AutoReplyPerFollowtitle: "Message Text",
@@ -2338,6 +2347,7 @@ export default {
     Backtocart: "Back To Cart",
     product_ProductID: "Product ID",
     product_Producttitle: "Product Title",
+    product_Product: "Products",
     product_Categories: "Categories",
     product_MainCategory: "Main Category",
     product_Subcategory: "Sub category",
@@ -2510,9 +2520,9 @@ export default {
     SettingGeneral_partnertitle: "Collaborator Admin Title",
     SettingGeneral_partnernumberexplain:
       "An invitation will be sent to this number, and the collaborator admin must confirm it in their panel (the admin must register in Brancy to accept the invitation).",
-    SettingGeneral_contentTooltip: "Posts, Stories, Reels, IGTV, Carousels, and scheduling.",
-    SettingGeneral_publishTooltip: "Create posts and stories. This requires Content access.",
-    SettingGeneral_automaticsTooltip: "AI, Flow, and automated processes and tasks.",
+    SettingGeneral_contentTooltip: "Posts, Stories, Reels, IGTV, and Carousels.",
+    SettingGeneral_publishTooltip: "Create posts and stories, and create content. This requires Content access.",
+    SettingGeneral_automaticsTooltip: "AI, Flow, and automated processes and tasks. This requires Content access.",
     SettingGeneral_messageTooltip: "Instagram Direct, internal messages, and related tools.",
     SettingGeneral_commentTooltip: "Comments, replies, and related tools.",
     SettingGeneral_transactionTooltip: "Payment account management, transactions, wallet, and related tools.",
@@ -2713,6 +2723,7 @@ export default {
     AIFlow_item_text: "Item",
     AIFlow_block_title_required: "Please Enter Block Title (Required)",
     AIFlow_item_title: "Item Title:",
+    AIFlow_show_graph: "Show Flow Graph",
     AIFlow_item_subtitle: "Item Subtitle:",
     AIFlow_option_title: "Option Title",
     AIFlow_option_default: "Option",

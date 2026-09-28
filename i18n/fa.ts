@@ -776,7 +776,16 @@ export default {
     LastFollowers: "آخرین فالورها",
     // #endregion home Section      // #region 2️⃣page Section
     // 2️⃣ Page -> Post
+    SmartPageAnalysis: "آنالیز هوشمند پیج",
+    EducationAndGuidance: "آموزش و راهنمایی",
+    HowToUseBrancy: "نحوه کار با برنسی",
+    CreateYourDigitalVersion: "ساخت نسخه دیجیتال شما",
+    BrancyKnowsYou: "برنسی، شما را می‌شناسد",
+    BrancyKnowsYouExplain:
+      "برنسی با تحلیل عمیق پیج شما، یک تصویر کامل از هویت دیجیتال شما می‌سازد؛ از شخصیت، کسب‌وکار و فعالیت‌های شما گرفته تا لحن و سبک ارتباطی، نوع محتوا، نحوه ارائه مطالب، زمان‌بندی انتشار و شیوه تعامل با مخاطبین.\n\nاین تحلیل، نحوه فعالیت شما در تمام نقاط ارتباطی پیج را نیز در نظر می‌گیرد؛ از پاسخ‌گویی به کامنت‌ها و دایرکت‌ها گرفته تا سبک نوشتار، نوع برخورد با مخاطبین و واکنش به موقعیت‌های مختلف.\n\nبدون نیاز به آموزش دستی، تنظیم لحن یا وارد کردن اطلاعات اضافی؛ برنسی شما را می‌شناسد و هوش مصنوعی را بر اساس هویت و سبک واقعی شما هماهنگ می‌کند.",
     CreateNewPost: "ایجاد پست جدید",
+    Postnotvisible: "پست نمایش داده نمی‌شود؟",
+    Storynotvisible: "استوری نمایش داده نمی‌شود؟",
     CreateNewStrory: "ایجاد استوری جدید",
     PostDraft: "پیش‌نویس پست",
     StoryDraft: "پیش‌نویس استوری",
@@ -1718,8 +1727,9 @@ export default {
       "اگر برای پست‌های مختلف پاسخ خودکار کامنت تنظیم کرده باشید، با این گزینه می‌توانید همه آن‌ها را یک‌جا فعال یا غیرفعال کنید. برای تنظیم پاسخ‌ها باید به صفحه هر پست به‌صورت جداگانه مراجعه کنید",
     messagesetting_messagePanellanguage: "زبان پیش‌فرض دایرکت",
     messagesetting_messagePanellanguageExplain: "زبان پیش‌فرض ربات دایرکت برای پاسخ‌دهی به پیام‌ها",
-    messagesetting_AutoReplyPerFollow: "پاسخ خودکار پس از فالو",
-    messagesetting_AutoReplyPerFollowExplain: "کاربران برای دریافت پیام‌های خودکار باید ابتدا صفحه شما را فالو کنند",
+    messagesetting_AutoReplyPerFollow: "فالو آپ",
+    messagesetting_AutoReplyPerFollowExplain:
+      "در مواردی که از کاربر درخواست می شود پیج را فالو کند از این تمپلیت استفاده می شود.",
     messagesetting_AutoReplyPerFollowtooltip:
       "کاربرانی که شما را فالو نکرده‌اند، ابتدا درخواست فالو دریافت می‌کنند و پس از فالو کردن، پیام خودکار برای آن‌ها ارسال می‌شود",
     messagesetting_AutoReplyPerFollowtitle: "متن پیام",
@@ -2298,6 +2308,7 @@ export default {
     product_BasicDetail: "جزئیات پایه",
     product_ProductID: "شناسه محصول",
     product_Producttitle: "عنوان محصول",
+    product_Product: "محصولات",
     product_Categories: "دسته‌بندی ها",
     product_MainCategory: "دسته اصلی",
     product_Subcategory: "زیر دسته",
@@ -2470,9 +2481,10 @@ export default {
     SettingGeneral_partnertitle: "عنوان ادمین همکار",
     SettingGeneral_partnernumberexplain:
       "دعوت‌نامه به این شماره ارسال می‌شود و ادمین همکار باید در پنل خود آن را تأیید کند (ادمین باید در برنسی ثبت‌نام کند تا بتواند دعوت‌نامه را قبول کند).",
-    SettingGeneral_contentTooltip: "پست‌ها، استوری‌ها، ریلزها، IGTV، کاروسل‌ها و زمان‌بندی.",
-    SettingGeneral_publishTooltip: "ایجاد پست و استوری؛ این دسترسی به دسترسی محتوا نیاز دارد.",
-    SettingGeneral_automaticsTooltip: "هوش مصنوعی، فلوها و فرایندها و وظایف خودکار.",
+    SettingGeneral_contentTooltip: "پست‌ها، استوری‌ها، ریلزها، IGTV و کاروسل‌ها.",
+    SettingGeneral_publishTooltip: "ایجاد پست و استوری و تولید محتوا؛ این دسترسی به دسترسی محتوا نیاز دارد.",
+    SettingGeneral_automaticsTooltip:
+      "هوش مصنوعی، فلوها و فرایندها و وظایف خودکار. این دسترسی به دسترسی محتوا نیاز دارد.",
     SettingGeneral_messageTooltip: "دایرکت اینستاگرام، پیام‌های داخلی و ابزارهای مرتبط.",
     SettingGeneral_commentTooltip: "نظرات، پاسخ‌ها و ابزارهای مرتبط.",
     SettingGeneral_transactionTooltip: "مدیریت حساب پرداخت، تراکنش‌ها، کیف پول و ابزارهای مرتبط.",
@@ -2666,6 +2678,7 @@ export default {
     AIFlow_item_text: "آیتم",
     AIFlow_block_title_required: "لطفاً عنوان بلوک را وارد کنید (الزامی)",
     AIFlow_item_title: "عنوان آیتم:",
+    AIFlow_show_graph: "نمایش نمودار جریان",
     AIFlow_item_subtitle: "زیرعنوان آیتم:",
     AIFlow_option_title: "عنوان گزینه",
     AIFlow_option_default: "گزینه",

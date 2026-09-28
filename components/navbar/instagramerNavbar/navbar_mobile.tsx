@@ -26,7 +26,7 @@ const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: b
       newRoute === InstagramerRoute.MessageAIANDFlow ||
       // newRoute === "messagewhatsapp" ||
       // newRoute === "messagetelegram" ||
-      newRoute === InstagramerRoute.MessageProperties
+      newRoute === InstagramerRoute.MessageProperties.toLowerCase()
     )
       return "message";
     else if (newRoute === InstagramerRoute.WalletPayment) return "wallet";
@@ -41,7 +41,7 @@ const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: b
       newRoute === InstagramerRoute.AdvertiseCalendar ||
       newRoute === InstagramerRoute.AdvertiseStatistics ||
       newRoute === InstagramerRoute.AdvertiseAdlist ||
-      newRoute === InstagramerRoute.AdvertiseProperties
+      newRoute === InstagramerRoute.AdvertiseProperties.toLowerCase()
     )
       return "advertise";
     else if (
@@ -54,7 +54,7 @@ const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: b
     else if (
       newRoute === InstagramerRoute.Setting ||
       newRoute === InstagramerRoute.SettingGeneral ||
-      newRoute === InstagramerRoute.SettingSubAdmin
+      newRoute === InstagramerRoute.SettingSubAdmin.toLowerCase()
     )
       return "setting";
     return "";

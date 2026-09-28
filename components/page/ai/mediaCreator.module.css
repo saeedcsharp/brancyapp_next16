@@ -284,6 +284,177 @@
   transition: var(--transition2);
 }
 
+.promptSuggestionButton {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0;
+  border: 0;
+  color: var(--color-dark-blue);
+  background: transparent;
+  cursor: pointer;
+  font: inherit;
+  font-size: var(--font-10);
+}
+
+.promptSuggestionButton img {
+  width: 16px;
+  height: 16px;
+}
+
+.promptSuggestions,
+.promptDetail {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.promptSuggestionsHeader,
+.promptDetailMeta,
+.promptDetailBody .headerparent {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.promptSuggestionsHeader > div,
+.promptDetailBody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.promptSuggestionsHeader select {
+  min-height: 40px;
+  padding: 0 10px;
+  border: 1px solid var(--color-gray60);
+  border-radius: var(--br8);
+  background: var(--color-white);
+  color: var(--text-h1);
+}
+
+.promptSuggestionGrid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+  gap: 14px;
+}
+
+.promptSuggestionCard {
+  overflow: hidden;
+  padding: 0;
+  border: 1px solid var(--color-gray30);
+  border-radius: var(--br10);
+  background: var(--color-white);
+  color: var(--text-h1);
+  text-align: start;
+  cursor: pointer;
+  transition: var(--transition2);
+}
+
+.promptSuggestionCard:hover {
+  border-color: var(--color-light-blue);
+  box-shadow: var(--box-shadow);
+  transform: translateY(-2px);
+}
+
+.promptSuggestionCard > img,
+.promptSuggestionPlaceholder {
+  width: 100%;
+  height: 150px;
+  display: grid;
+  place-items: center;
+  object-fit: cover;
+  background: var(--color-gray10);
+  color: var(--color-dark-blue);
+  font-size: var(--font-20);
+  font-weight: var(--weight-800);
+}
+
+.promptSuggestionCardBody {
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 12px;
+}
+
+.promptSuggestionCardBody strong,
+.promptSuggestionCardBody small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.promptSuggestionCardBody small,
+.promptSuggestionCardBody span,
+.promptSuggestionsState,
+.promptDetailBody p,
+.promptDetailMeta dd {
+  color: var(--text-h2);
+  font-size: var(--font-10);
+}
+
+.promptDetailImage {
+  width: min(360px, 100%);
+  max-height: 300px;
+  margin: auto;
+  object-fit: contain;
+  border-radius: var(--br10);
+}
+
+.promptDetailMeta {
+  justify-content: flex-start;
+  flex-wrap: wrap;
+}
+
+.promptDetailMeta div {
+  min-width: 150px;
+}
+
+.promptDetailMeta dt {
+  color: var(--text-h2);
+  font-size: var(--font-10);
+}
+
+.promptDetailMeta dd {
+  margin: 3px 0 0;
+  color: var(--text-h1);
+}
+
+.promptBodyBox {
+  padding: 14px;
+  border-radius: var(--br10);
+  background: var(--color-gray10);
+}
+
+.promptBodyBox button {
+  padding: 0;
+  border: 0;
+  background: transparent;
+  cursor: pointer;
+}
+
+.promptBodyBox button img {
+  width: 20px;
+  height: 20px;
+}
+
+.promptBodyBox p {
+  margin: 10px 0 0;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+  line-height: 1.7;
+}
+
+@media (max-width: 520px) {
+  .promptSuggestionsHeader {
+    align-items: stretch;
+    flex-direction: column;
+  }
+}
+
 .field select,
 .field input {
   min-height: 46px;

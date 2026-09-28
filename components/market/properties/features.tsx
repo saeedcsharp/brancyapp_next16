@@ -26,7 +26,7 @@ import { MethodType } from "brancy/helper/api";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import styles from "./features.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { FeatureType } from "brancy/models/enums";
+import { BusinessType, FeatureType } from "brancy/models/enums";
 import { IMarketFeatureItem, IOrderFeatures, IUpdateFeatureOrder } from "brancy/models/interfaces";
 
 const getFeatureClassName = (featureType: FeatureType): string => {
@@ -61,17 +61,20 @@ const getFeatureClassName = (featureType: FeatureType): string => {
 const SortableFeatureItem = memo(
   ({
     feature,
+    disabled,
     onToggle,
     onEdit,
     handleFeatureTitle,
   }: {
     feature: IMarketFeatureItem;
+    disabled: boolean;
     onToggle: (featureType: FeatureType, e: ChangeEvent<HTMLInputElement>) => void;
     onEdit: (featureType: FeatureType) => void;
     handleFeatureTitle: (featureType: FeatureType) => string;
   }) => {
     const { attributes, listeners, setNodeRef, transform, transition } = useSortable({
       id: feature.featureType.toString(),
+      disabled,
     });
     const style = useMemo(
       () => ({
@@ -87,16 +90,18 @@ const SortableFeatureItem = memo(
       [feature.featureType, onToggle],
     );
     const handleEditClick = useCallback(() => {
+      if (disabled) return;
       onEdit(feature.featureType);
-    }, [feature.featureType, onEdit]);
+    }, [disabled, feature.featureType, onEdit]);
     const handleEditKeyDown = useCallback(
       (e: React.KeyboardEvent) => {
         if (e.key === "Enter" || e.key === " ") {
           e.preventDefault();
+          if (disabled) return;
           onEdit(feature.featureType);
         }
       },
-      [feature.featureType, onEdit],
+      [disabled, feature.featureType, onEdit],
     );
     const featureTitle = useMemo(
       () => handleFeatureTitle(feature.featureType),
@@ -107,10 +112,11 @@ const SortableFeatureItem = memo(
       [feature.featureType],
     );
     return (
-      <div ref={setNodeRef} style={style} className={className}>
+      <div ref={setNodeRef} style={style} className={`${className}${disabled ? ` ${styles.disabled}` : ""}`}>
         <CheckBoxButton
           handleToggle={handleToggleChange}
           value={feature.isActive}
+          disabled={disabled}
           title={"ℹ️ Feature name"}
           aria-label="Toggle feature activation"
         />
@@ -137,6 +143,7 @@ const SortableFeatureItem = memo(
           <button
             onClick={handleEditClick}
             onKeyDown={handleEditKeyDown}
+            disabled={disabled}
             className={styles.more}
             title="◰ Edit options"
             aria-label={`Edit ${featureTitle} options`}>
@@ -266,8 +273,11 @@ const Features = (props: {
           x.featureType === FeatureType.Reviews ||
           x.featureType === FeatureType.Products,
       ),
-    [featuresItem],
+    [featuresItem, session?.user?.businessType],
   );
+  const canUseProducts =
+    session?.user?.businessType === BusinessType.Shop || session?.user?.businessType === BusinessType.VShoper;
+  const canUseAdvertise = session?.user?.businessType === BusinessType.Advertise;
   const sortableIds = useMemo(() => filteredFeatures.map((item) => item.featureType.toString()), [filteredFeatures]);
   const handleBannerEdit = useCallback(
     (featureId: number) => {
@@ -366,6 +376,10 @@ const Features = (props: {
                     <SortableFeatureItem
                       key={feature.featureType}
                       feature={feature}
+                      disabled={
+                        (feature.featureType === FeatureType.Products && !canUseProducts) ||
+                        (feature.featureType === FeatureType.AdsTimeline && !canUseAdvertise)
+                      }
                       onToggle={handleCheckBox}
                       onEdit={handleBannerEdit}
                       handleFeatureTitle={handleFeatureTitle}

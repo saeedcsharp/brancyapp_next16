@@ -14,7 +14,7 @@ Partner accounts are restricted by `PartnerRole`; non-partner users are broadly 
 
 ## Country And Payments
 
-Pricing and redirect behavior use country headers. Iranian-only payment domains are blocked for non-IR/AZ visitors in `app/redirectInterface/page.tsx`; a client timer reloads the blocked page every second.
+Pricing and redirect behavior use country headers. Iranian-only payment domains are blocked for non-IR/AZ visitors in `app/redirectInterface/page.tsx`; a client timer reloads the blocked page every second. Allowed redirects are performed client-side via `ClientRedirect` with `Referrer-Policy: origin`, so gateways see the brancy.app origin as Referer (a server 3xx would forward the previous page's Referer).
 
 ---
 

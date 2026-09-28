@@ -60,102 +60,115 @@ const AccountSummary = memo(({ data }: AccountSummaryProps) => {
   const paragraphIcons = ["/icon-page.svg", "/Icon_follower.svg", "/edit-1.svg", "/calendar-wait.svg", "/msg-like.svg"];
 
   return (
-    <section
-      className={`${styles.tooBigCard} ${isHidden ? styles.toobigcardclose : ""} tooBigCard`}
-      role="region"
-      aria-label="Account Summary">
-      <div className={styles.contactBox}>
-        <header
-          className={styles.headersection}
-          onClick={handleCircleClick}
-          role="button"
-          tabIndex={0}
-          onKeyDown={(e) => e.key === "Enter" && handleCircleClick()}
-          aria-label="Toggle summary visibility">
-          <div className={styles.backdropfade} />
-          <img style={{ height: "50px" }} src="/home-summary.svg" alt="Summary icon" title="↕ Resize the Card" />
-          <div className="headerandinput">
-            <span className="title">{t(LanguageKey.pageSummary)}</span>
-            <span className="explain">{timeAgo}</span>
-          </div>
-        </header>
-        <div className={isHidden ? styles.frameContainer : styles.frameContainerShow} style={containerStyle}>
-          {paragraphs.length === 0 ? (
-            <div
-              style={{
-                textAlign: "center",
-                padding: "28px 20px",
-                color: "var(--text-h2)",
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                gap: "8px",
-              }}>
-              <img src="/home-summary.svg" alt="" style={{ width: "48px", opacity: 0.5 }} />
-              {t(LanguageKey.Notify_PageSummaryNotGenerated)
-                .split("\n")
-                .map((line, i) => (
-                  <p
-                    key={i}
-                    style={{
-                      margin: 0,
-                      fontSize: i === 0 ? "0.95rem" : "0.82rem",
-                      fontWeight: i === 0 ? 600 : 400,
-                      opacity: i === 0 ? 1 : 0.7,
-                    }}>
-                    {line}
-                  </p>
-                ))}
-            </div>
-          ) : (
-            paragraphs.map((paragraph, index) => {
-              const isOpen = index === openIndex;
-              return (
-                <div key={index} className="headerandinput">
-                  <div
-                    style={{ cursor: "pointer" }}
-                    className="headerparent"
-                    role="button"
-                    tabIndex={0}
-                    onClick={() => handleHeaderParentClick(index)}
-                    onKeyDown={(e) => e.key === "Enter" && handleHeaderParentClick(index)}>
-                    <div className="headerChild">
-                      <img src={paragraphIcons[index]} alt="" style={{ height: "20px", width: "20px" }} />
-                      <span className="title2">
-                        {paragraphTitles[index] || `${t(LanguageKey.pageSummary)} ${index + 1}`}
-                      </span>
-                    </div>
-                    <img
-                      src="/backwardAD.svg"
-                      alt=""
-                      style={{
-                        height: "14px",
-                        width: "14px",
-                        transform: isOpen ? "rotate(-90deg)" : "rotate(90deg)",
-                        transition: "var(--transition3)",
-                      }}
-                    />
-                  </div>
-
-                  <span
-                    className="explain"
-                    style={{
-                      lineHeight: "normal",
-                      maxHeight: isOpen ? "250px" : "0",
-                      opacity: isOpen ? 1 : 0,
-                      overflow: "hidden",
-                      transition: "var(--transition3)",
-                      display: "block",
-                    }}>
-                    {paragraph}
-                  </span>
-                </div>
-              );
-            })
-          )}
+    // <section
+    // className={`${styles.tooBigCard} ${isHidden ? styles.toobigcardclose : ""} tooBigCard`}
+    //   role="region"
+    //   aria-label="Account Summary">
+    <>
+      <header
+        className={styles.headersection}
+        // onClick={handleCircleClick}
+        role="button"
+        tabIndex={0}
+        onKeyDown={(e) => e.key === "Enter" && handleCircleClick()}
+        aria-label="Toggle summary visibility">
+        <div className={styles.backdropfade} />
+        <img style={{ height: "50px" }} src="/home-summary.svg" alt="Summary icon" />
+        <div className="headerandinput">
+          <span className="title">{t(LanguageKey.BrancyKnowsYou)}</span>
+          <span className="title2">
+            {t(LanguageKey.Storeorder_lastUpdateTime)}:{timeAgo}
+          </span>
         </div>
+      </header>
+
+      <div className={isHidden ? styles.frameContainer : styles.frameContainerShow} style={containerStyle}>
+        <span
+          className="explain"
+          style={{
+            whiteSpace: "pre-line",
+            backgroundColor: "var(--color-gray30)",
+            padding: "5px",
+            borderRadius: "10px",
+          }}>
+          {t(LanguageKey.BrancyKnowsYouExplain)}
+        </span>
+        {paragraphs.length === 0 ? (
+          <div
+            style={{
+              textAlign: "center",
+              padding: "28px 20px",
+              color: "var(--text-h2)",
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              gap: "8px",
+            }}>
+            <img src="/home-summary.svg" alt="" style={{ width: "48px", opacity: 0.5 }} />
+            {t(LanguageKey.Notify_PageSummaryNotGenerated)
+              .split("\n")
+              .map((line, i) => (
+                <p
+                  key={i}
+                  style={{
+                    margin: 0,
+                    fontSize: i === 0 ? "0.95rem" : "0.82rem",
+                    fontWeight: i === 0 ? 600 : 400,
+                    opacity: i === 0 ? 1 : 0.7,
+                  }}>
+                  {line}
+                </p>
+              ))}
+          </div>
+        ) : (
+          paragraphs.map((paragraph, index) => {
+            const isOpen = index === openIndex;
+            return (
+              <div key={index} className="headerandinput">
+                <div
+                  style={{ cursor: "pointer" }}
+                  className="headerparent"
+                  role="button"
+                  tabIndex={0}
+                  onClick={() => handleHeaderParentClick(index)}
+                  onKeyDown={(e) => e.key === "Enter" && handleHeaderParentClick(index)}>
+                  <div className="headerChild">
+                    <img src={paragraphIcons[index]} alt="" style={{ height: "20px", width: "20px" }} />
+                    <span className="title2">
+                      {paragraphTitles[index] || `${t(LanguageKey.pageSummary)} ${index + 1}`}
+                    </span>
+                  </div>
+                  <img
+                    src="/backwardAD.svg"
+                    alt=""
+                    style={{
+                      height: "14px",
+                      width: "14px",
+                      transform: isOpen ? "rotate(-90deg)" : "rotate(90deg)",
+                      transition: "var(--transition3)",
+                    }}
+                  />
+                </div>
+
+                <span
+                  className="explain"
+                  style={{
+                    lineHeight: "normal",
+                    maxHeight: isOpen ? "250px" : "0",
+                    opacity: isOpen ? 1 : 0,
+                    overflow: "hidden",
+                    transition: "var(--transition3)",
+                    display: "block",
+                  }}>
+                  {paragraph}
+                </span>
+              </div>
+            );
+          })
+        )}
       </div>
-    </section>
+    </>
+    // </section>
   );
 });
 AccountSummary.displayName = "AccountSummary";

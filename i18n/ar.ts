@@ -763,6 +763,15 @@ export default {
     // #region 2️⃣page Section
     // 2️⃣ Page -> Post
     CreateNewPost: "إنشاء منشور جديد",
+    Postnotvisible: "هل لا يظهر الـ Post؟",
+    Storynotvisible: "هل لا تظهر الـ Story؟",
+    SmartPageAnalysis: "تحليلات ذكية للصفحة",
+    EducationAndGuidance: "التعليم والإرشاد",
+    HowToUseBrancy: "كيفية استخدام برنسی",
+    BrancyKnowsYou: "برنسی يعرفك",
+    BrancyKnowsYouExplain:
+      "يقوم برنسی بتحليل صفحتك بعمق لبناء صورة متكاملة عن هويتك الرقمية؛ بدءًا من شخصيتك وعملك وأنشطتك، وصولًا إلى نبرة وأسلوب تواصلك، ونوع المحتوى، وطريقة تقديمه، وأوقات النشر، وأسلوب تفاعلك مع جمهورك.\n\nويأخذ هذا التحليل أيضًا في الاعتبار طريقة تفاعلك عبر جميع نقاط التواصل في صفحتك؛ بدءًا من الرد على التعليقات والرسائل المباشرة، وصولًا إلى أسلوب الكتابة، وطريقة التعامل مع الجمهور، والاستجابة للمواقف المختلفة.\n\nدون الحاجة إلى تدريب يدوي أو ضبط نبرة الصوت أو إدخال معلومات إضافية؛ برنسی يعرفك وينسّق الذكاء الاصطناعي وفق هويتك وأسلوبك الحقيقي.",
+    CreateYourDigitalVersion: "إنشاء نسختك الرقمية",
     CreateNewStrory: "إنشاء قصة جديدة",
     PostDraft: "مسودة المنشور",
     StoryDraft: "مسودة القصة",
@@ -1690,8 +1699,8 @@ export default {
 
     messagesetting_messagePanellanguage: "اللغة الافتراضية للدایرکت",
     messagesetting_messagePanellanguageExplain: "اللغة الافتراضية لروبوت الدایرکت للرد على الرسائل.",
-    messagesetting_AutoReplyPerFollow: "الرد التلقائي بعد المتابعة",
-    messagesetting_AutoReplyPerFollowExplain: "يجب على المستخدمين follow صفحتك أولاً للحصول على الرسائل التلقائية",
+    messagesetting_AutoReplyPerFollow: "قالب متابعة مخصص",
+    messagesetting_AutoReplyPerFollowExplain: "يُستخدم هذا القالب عندما يُطلب من المستخدم متابعة الصفحة.",
     messagesetting_AutoReplyPerFollowtooltip:
       "المستخدمون الذين لا follow صفحتك سيتلقون أولاً طلب follow، وبعد المتابعة سيتم إرسال الرسالة التلقائية إليهم",
     messagesetting_AutoReplyPerFollowtitle: "نص الرسالة",
@@ -2254,6 +2263,7 @@ export default {
     Backtocart: "العودة إلى عربة التسوق",
     product_ProductID: "معرف المنتج",
     product_Producttitle: "عنوان المنتج",
+    product_Product: "منتجات",
     product_Categories: "الفئات",
     product_MainCategory: "الفئة الرئيسية",
     product_Subcategory: "الفئة الفرعية",
@@ -2423,9 +2433,9 @@ export default {
     SettingGeneral_partnertitle: "عنوان الأدمن المتعاون",
     SettingGeneral_partnernumberexplain:
       "سيتم إرسال دعوة إلى هذا الرقم، ويجب على الأدمن المتعاون تأكيدها في لوحته (يجب أن يسجل الأدمن في برنسی ليتمكن من قبول الدعوة).",
-    SettingGeneral_contentTooltip: "المنشورات والقصص وReels وIGTV والمنشورات المتعددة والجدولة.",
-    SettingGeneral_publishTooltip: "إنشاء المنشورات والقصص. يتطلب ذلك صلاحية المحتوى.",
-    SettingGeneral_automaticsTooltip: "الذكاء الاصطناعي والتدفقات والعمليات والمهام الآلية.",
+    SettingGeneral_contentTooltip: "المنشورات والقصص وReels وIGTV والمنشورات المتعددة.",
+    SettingGeneral_publishTooltip: "إنشاء المنشورات والقصص وإنشاء المحتوى. يتطلب ذلك صلاحية المحتوى.",
+    SettingGeneral_automaticsTooltip: "الذكاء الاصطناعي والتدفقات والعمليات والمهام الآلية. يتطلب ذلك صلاحية المحتوى.",
     SettingGeneral_messageTooltip: "الرسائل المباشرة في Instagram والرسائل الداخلية والأدوات المرتبطة.",
     SettingGeneral_commentTooltip: "التعليقات والردود والأدوات المرتبطة.",
     SettingGeneral_transactionTooltip: "إدارة حساب الدفع والمعاملات والمحفظة والأدوات المرتبطة.",
@@ -2616,6 +2626,7 @@ export default {
     AIFlow_item_text: "عنصر",
     AIFlow_block_title_required: "يرجى إدخال عنوان الكتلة (إلزامي)",
     AIFlow_item_title: "عنوان العنصر:",
+    AIFlow_show_graph: "عرض مخطط التدفق",
     AIFlow_item_subtitle: "العنوان الفرعي للعنصر:",
     AIFlow_option_title: "عنوان الخيار",
     AIFlow_option_default: "خيار",

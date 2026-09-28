@@ -142,6 +142,7 @@ const Upgrade = memo(function Upgrade() {
   const { data: session } = useSession();
   const abortControllerRef = useRef<AbortController | null>(null);
   const skipNextSessionLoadRef = useRef(false);
+  const isClosingRef = useRef(false);
   const [isPending, startTransition] = useTransition();
   const componentId = useId();
   const [state, dispatch] = useReducer(upgradeReducer, initialState);
@@ -154,6 +155,14 @@ const Upgrade = memo(function Upgrade() {
     } catch (error) {
       console.error("Sign out error:", error);
     }
+  }, [router]);
+
+  const handleClose = useCallback(() => {
+    if (isClosingRef.current || router.pathname === "/home") return;
+    isClosingRef.current = true;
+    void router.replace("/home").catch(() => {
+      isClosingRef.current = false;
+    });
   }, [router]);
 
   const getUserPackageInfo = useCallback(async () => {
@@ -578,31 +587,6 @@ const Upgrade = memo(function Upgrade() {
   const [invalidIpExpireTime, setInvalidIpExpireTime] = useState(0);
   const invalidIpContinueRef = useRef<(() => Promise<void>) | null>(null);
 
-  const redirectToInstagram = useCallback(async () => {
-    if (!session) return;
-
-    try {
-      const response = await clientFetchApi<boolean, string>("/api/preinstagramer/GetInstagramRedirect", {
-        methodType: MethodType.get,
-        session,
-        data: undefined,
-        queries: undefined,
-        onUploadProgress: undefined,
-      });
-      if (response.succeeded) {
-        if (host.includes(redirectHostUrl())) {
-          router.push(response.value);
-        } else {
-          window.location.href = `https://${redirectHostUrl()}/redirectInterface?redirectUrl=${encodeURIComponent(response.value)}`;
-        }
-      } else {
-        notify(response.info.responseType, NotifType.Warning);
-      }
-    } catch (error) {
-      notify(ResponseType.Unexpected, NotifType.Error);
-    }
-  }, [session, router]);
-
   const handleInvalidIp = useCallback((continueAction: () => Promise<void>) => {
     invalidIpContinueRef.current = continueAction;
     setInvalidIpExpireTime(Date.now() + 10000);
@@ -664,8 +648,7 @@ const Upgrade = memo(function Upgrade() {
           <div className={styles.buttonContainer}>
             <button
               className={styles.closeButton}
-              onClick={() => router.push("/home")}
-              onKeyDown={(e) => handleKeyDown(e, () => router.push("/home"))}
+              onClick={handleClose}
               aria-label={t(LanguageKey.close)}
               title={t(LanguageKey.close)}
               aria-describedby={`${componentId}-close-description`}>

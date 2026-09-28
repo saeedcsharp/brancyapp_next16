@@ -779,6 +779,15 @@ export default {
     // #region 2️⃣page Section
     // 2️⃣ Page -> Post
     CreateNewPost: "Yeni Gönderi Oluştur",
+    Postnotvisible: "Post Görünmüyor mu?",
+    Storynotvisible: "Story Görünmüyor mu?",
+    SmartPageAnalysis: "Akıllı Sayfa Analizi",
+    EducationAndGuidance: "Eğitim ve Rehberlik",
+    HowToUseBrancy: "Brancy Nasıl Kullanılır",
+    BrancyKnowsYou: "Brancy Sizi Tanıyor",
+    BrancyKnowsYouExplain:
+      "Brancy, dijital kimliğinizin eksiksiz bir profilini oluşturmak için sayfanızı derinlemesine analiz eder; kişiliğiniz, işletmeniz ve faaliyetlerinizden iletişim tonunuz ve tarzınıza, içerik türünüzden içerikleri sunma biçiminize, paylaşım zamanlamanızdan kitlenizle etkileşim şeklinize kadar birçok unsuru değerlendirir.\n\nBu analiz, sayfanızdaki tüm iletişim noktalarındaki faaliyetlerinizi de dikkate alır; yorumlara ve Direct mesajlara verdiğiniz yanıtlardan yazım tarzınıza, kitlenizle iletişim şeklinizden farklı durumlara verdiğiniz tepkilere kadar.\n\nManuel eğitim, ton ayarı veya ek bilgi girişi gerekmeden Brancy sizi tanır ve yapay zekâyı gerçek kimliğiniz ve tarzınız doğrultusunda uyumlandırır.",
+    CreateYourDigitalVersion: "Dijital Versiyonunuzu Oluşturun",
     CreateNewStrory: "Yeni Hikaye Oluştur",
     PostDraft: "Gönderi Taslağı",
     StoryDraft: "Hikaye Taslağı",
@@ -1778,9 +1787,9 @@ export default {
 
     messagesetting_messagePanellanguage: "Varsayılan Direkt Dili",
     messagesetting_messagePanellanguageExplain: "Mesajlara yanıt vermek için direkt botun varsayılan dili.",
-    messagesetting_AutoReplyPerFollow: "Follow Sonrası Otomatik Yanıt",
+    messagesetting_AutoReplyPerFollow: "Özel Takip Şablonu",
     messagesetting_AutoReplyPerFollowExplain:
-      "Kullanıcıların otomatik mesaj alabilmesi için önce sayfanızı follow etmesi gerekir",
+      "Kullanıcıdan sayfayı takip etmesini istediğiniz durumlarda bu şablonu kullanın.",
     messagesetting_AutoReplyPerFollowtooltip:
       "Sizi follow etmeyen kullanıcılar önce bir follow isteği alır. Sayfanızı follow ettikten sonra otomatik mesaj gönderilir",
     messagesetting_AutoReplyPerFollowtitle: "Mesaj Metni",
@@ -2338,6 +2347,7 @@ export default {
     Backtocart: "Sepete Geri Dön",
     product_ProductID: "Ürün Kimliği",
     product_Producttitle: "Ürün Başlığı",
+    product_Product: "Ürünler",
     product_Categories: "Kategoriler",
     product_MainCategory: "Ana Kategori",
     product_Subcategory: "Alt Kategori",
@@ -2510,9 +2520,9 @@ export default {
     SettingGeneral_partnertitle: "İşbirlikçi Admin Başlığı",
     SettingGeneral_partnernumberexplain:
       "Bu numaraya davetiye gönderilecektir ve işbirlikçi admin bunu panelinde onaylamalıdır (admin davetiyeyi kabul edebilmek için Brancy’de kayıt olmalıdır).",
-    SettingGeneral_contentTooltip: "Gönderiler, Hikayeler, Reels, IGTV, karuseller ve zamanlama.",
-    SettingGeneral_publishTooltip: "Gönderi ve hikaye oluşturma. İçerik erişimi gerektirir.",
-    SettingGeneral_automaticsTooltip: "Yapay zeka, akışlar ve otomatik süreç ve görevler.",
+    SettingGeneral_contentTooltip: "Gönderiler, Hikayeler, Reels, IGTV ve karuseller.",
+    SettingGeneral_publishTooltip: "Gönderi ve hikaye oluşturma ve içerik oluşturma. İçerik erişimi gerektirir.",
+    SettingGeneral_automaticsTooltip: "Yapay zeka, akışlar ve otomatik süreç ve görevler. İçerik erişimi gerektirir.",
     SettingGeneral_messageTooltip: "Instagram Direct, dahili mesajlar ve ilgili araçlar.",
     SettingGeneral_commentTooltip: "Yorumlar, yanıtlar ve ilgili araçlar.",
     SettingGeneral_transactionTooltip: "Ödeme hesabı yönetimi, işlemler, cüzdan ve ilgili araçlar.",
@@ -2706,6 +2716,7 @@ export default {
     AIFlow_item_text: "Öğe",
     AIFlow_block_title_required: "Lütfen blok başlığını girin (zorunlu)",
     AIFlow_item_title: "Öğe Başlığı:",
+    AIFlow_show_graph: "Akış Grafiğini Göster",
     AIFlow_item_subtitle: "Öğe Alt Başlığı:",
     AIFlow_option_title: "Seçenek Başlığı",
     AIFlow_option_default: "Seçenek",

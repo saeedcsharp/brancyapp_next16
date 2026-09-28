@@ -762,6 +762,15 @@ export default {
     LastFollowers: "Son izləyicilər",
 
     CreateNewPost: "Yeni post yarat",
+    Postnotvisible: "Post görünmür?",
+    Storynotvisible: "Story görünmür?",
+    SmartPageAnalysis: "Ağıllı Səhifə Analitikası",
+    EducationAndGuidance: "Təlim və Rəhbərlik",
+    HowToUseBrancy: "Brancy-dən necə istifadə etməli",
+    BrancyKnowsYou: "Brancy sizi tanıyır",
+    BrancyKnowsYouExplain:
+      "Brancy rəqəmsal kimliyiniz haqqında tam təsəvvür yaratmaq üçün səhifənizi dərindən təhlil edir; şəxsiyyətiniz, biznesiniz və fəaliyyətlərinizdən tutmuş ünsiyyət tonunuza və üslubunuza, məzmun növünüzə, məlumatları təqdim etmə tərzinizə, paylaşım vaxtlarınıza və auditoriyanızla qarşılıqlı əlaqə üsulunuza qədər.\n\nBu təhlil səhifənizdəki bütün kommunikasiya nöqtələrində fəaliyyətinizi də nəzərə alır; şərhlərə və Direct mesajlara cavab verməkdən tutmuş yazı üslubunuza, auditoriyanızla ünsiyyətinizə və müxtəlif vəziyyətlərə reaksiyanıza qədər.\n\nƏl ilə təlimə, tonun tənzimlənməsinə və ya əlavə məlumat daxil etməyə ehtiyac olmadan Brancy sizi tanıyır və süni intellekti real kimliyinizə və üslubunuza uyğunlaşdırır.",
+    CreateYourDigitalVersion: "Rəqəmsal versiyanızı yaradın",
     CreateNewStrory: "Yeni story yarat",
     PostDraft: "Post qaralığı",
     StoryDraft: "Story qaralığı",
@@ -1713,9 +1722,9 @@ export default {
 
     messagesetting_messagePanellanguage: "Default Direct dili",
     messagesetting_messagePanellanguageExplain: "Direct robotunun mesajlara cavab üçün default dili",
-    messagesetting_AutoReplyPerFollow: "Follow-dan Sonra Avtomatik Cavab",
+    messagesetting_AutoReplyPerFollow: "Fərdi izləmə şablonu",
     messagesetting_AutoReplyPerFollowExplain:
-      "İstifadəçilər avtomatik mesaj almaq üçün əvvəlcə səhifənizi follow etməlidirlər",
+      "İstifadəçidən səhifəni izləməsi tələb olunduqda bu şablondan istifadə edilir.",
     messagesetting_AutoReplyPerFollowtooltip:
       "Sizi follow etməyən istifadəçilər əvvəlcə follow sorğusu alacaqlar. Səhifənizi follow etdikdən sonra avtomatik mesaj göndəriləcək",
     messagesetting_AutoReplyPerFollowtitle: "Mesaj Mətni",
@@ -2294,6 +2303,7 @@ export default {
     product_BasicDetail: "Əsas məlumat",
     product_ProductID: "Məhsul ID",
     product_Producttitle: "Məhsul başlığı",
+    product_Product: "Məhsullar",
     product_Categories: "Kateqoriyalar",
     product_MainCategory: "Əsas kateqoriya",
     product_Subcategory: "Alt kateqoriya",
@@ -2462,9 +2472,10 @@ export default {
     SettingGeneral_partnertitle: "Əməkdaş Admin Başlığı",
     SettingGeneral_partnernumberexplain:
       "Dəvət bu nömrəyə göndəriləcək və əməkdaş admin onu öz panelində təsdiqləməlidir (dəvəti qəbul etmək üçün admin Brancy-də qeydiyyatdan keçməlidir).",
-    SettingGeneral_contentTooltip: "Paylaşımlar, hekayələr, Reels, IGTV, karusellər və planlaşdırma.",
-    SettingGeneral_publishTooltip: "Paylaşım və hekayə yaratmaq. Bunun üçün məzmun girişi tələb olunur.",
-    SettingGeneral_automaticsTooltip: "Süni intellekt, axınlar və avtomatlaşdırılmış proses və tapşırıqlar.",
+    SettingGeneral_contentTooltip: "Paylaşımlar, hekayələr, Reels, IGTV və karusellər.",
+    SettingGeneral_publishTooltip: "Paylaşım, hekayə və məzmun yaratmaq. Bunun üçün məzmun girişi tələb olunur.",
+    SettingGeneral_automaticsTooltip:
+      "Süni intellekt, axınlar və avtomatlaşdırılmış proses və tapşırıqlar. Bunun üçün məzmun girişi tələb olunur.",
     SettingGeneral_messageTooltip: "Instagram Direct, daxili mesajlar və əlaqəli alətlər.",
     SettingGeneral_commentTooltip: "Şərhlər, cavablar və əlaqəli alətlər.",
     SettingGeneral_transactionTooltip: "Ödəniş hesabının idarəsi, əməliyyatlar, cüzdan və əlaqəli alətlər.",
@@ -2664,6 +2675,7 @@ export default {
     AIFlow_item_text: "Element",
     AIFlow_block_title_required: "Zəhmət olmasa blok başlığını daxil edin (məcburi)",
     AIFlow_item_title: "Element Başlığı:",
+    AIFlow_show_graph: "Axın Qrafikini Göstər",
     AIFlow_item_subtitle: "Element Alt Başlığı:",
     AIFlow_option_title: "Seçim Başlığı",
     AIFlow_option_default: "Seçim",

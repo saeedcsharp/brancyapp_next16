@@ -770,6 +770,15 @@ export default {
     // #region 2️⃣page Section
     // 2️⃣ Page -> Post
     CreateNewPost: "Neuen Beitrag erstellen",
+    Postnotvisible: "Post wird nicht angezeigt?",
+    Storynotvisible: "Story wird nicht angezeigt?",
+    SmartPageAnalysis: "Intelligente Seitenanalyse",
+    EducationAndGuidance: "Schulung und Anleitung",
+    HowToUseBrancy: "So verwendest du Brancy",
+    BrancyKnowsYou: "Brancy kennt Sie",
+    BrancyKnowsYouExplain:
+      "Brancy analysiert Ihre Seite umfassend, um ein vollständiges Bild Ihrer digitalen Identität zu erstellen – von Ihrer Persönlichkeit, Ihrem Unternehmen und Ihren Aktivitäten bis hin zu Ihrem Kommunikationsstil und -ton, der Art Ihrer Inhalte, der Präsentation Ihrer Beiträge, Ihren Veröffentlichungszeiten und Ihrer Art, mit Ihrer Zielgruppe zu interagieren.\n\nDie Analyse berücksichtigt außerdem Ihre Aktivitäten an allen Kommunikationspunkten Ihrer Seite – von Antworten auf Kommentare und Direct-Nachrichten bis hin zu Ihrem Schreibstil, Ihrem Umgang mit Ihrer Zielgruppe und Ihrer Reaktion auf unterschiedliche Situationen.\n\nOhne manuelles Training, eine Anpassung des Tons oder die Eingabe zusätzlicher Informationen kennt Brancy Sie und richtet die KI an Ihrer tatsächlichen Identität und Ihrem persönlichen Stil aus.",
+    CreateYourDigitalVersion: "Erstellen Sie Ihre digitale Version",
     CreateNewStrory: "Neue Geschichte erstellen",
     PostDraft: "Beitragsentwurf",
     StoryDraft: "Geschichtsentwurf",
@@ -1830,9 +1839,9 @@ export default {
     messagesetting_messagePanellanguage: "Standard-Direktsprache",
     messagesetting_messagePanellanguageExplain:
       "Die Standardsprache des Direct-Bots für die Beantwortung von Nachrichten.",
-    messagesetting_AutoReplyPerFollow: "Automatische Antwort nach dem Follow",
+    messagesetting_AutoReplyPerFollow: "Individuelle Follow-up-Vorlage",
     messagesetting_AutoReplyPerFollowExplain:
-      "Benutzer müssen zuerst Ihrer Seite follow, bevor sie automatische Nachrichten erhalten",
+      "Verwenden Sie diese Vorlage, wenn Sie einen Benutzer auffordern, der Seite zu folgen.",
     messagesetting_AutoReplyPerFollowtooltip:
       "Benutzer, die Ihnen noch nicht follow, erhalten zunächst eine Follow-Aufforderung. Nach dem Follow wird die automatische Nachricht gesendet",
     messagesetting_AutoReplyPerFollowtitle: "Nachrichtentext",
@@ -2396,6 +2405,7 @@ export default {
     Backtocart: "Zurück zum Warenkorb",
     product_ProductID: "Produkt-ID",
     product_Producttitle: "Produkttitel",
+    product_Product: "Produkte",
     product_Categories: "Kategorien",
     product_MainCategory: "Hauptkategorie",
     product_Subcategory: "Unterkategorie",
@@ -2567,9 +2577,11 @@ export default {
     SettingGeneral_partnertitle: "Titel des Mitwirkenden Admins",
     SettingGeneral_partnernumberexplain:
       "Eine Einladung wird an diese Nummer gesendet, und der Mitwirkende-Admin muss sie in seinem Panel bestätigen (der Admin muss sich bei Brancy registrieren, um die Einladung anzunehmen).",
-    SettingGeneral_contentTooltip: "Beiträge, Stories, Reels, IGTV, Karussells und Planung.",
-    SettingGeneral_publishTooltip: "Beiträge und Stories erstellen. Dafür ist der Inhaltszugriff erforderlich.",
-    SettingGeneral_automaticsTooltip: "KI, Flows sowie automatisierte Prozesse und Aufgaben.",
+    SettingGeneral_contentTooltip: "Beiträge, Stories, Reels, IGTV und Karussells.",
+    SettingGeneral_publishTooltip:
+      "Beiträge, Stories und Inhalte erstellen. Dafür ist der Inhaltszugriff erforderlich.",
+    SettingGeneral_automaticsTooltip:
+      "KI, Flows sowie automatisierte Prozesse und Aufgaben. Dafür ist der Inhaltszugriff erforderlich.",
     SettingGeneral_messageTooltip: "Instagram-Direktnachrichten, interne Nachrichten und zugehörige Tools.",
     SettingGeneral_commentTooltip: "Kommentare, Antworten und zugehörige Tools.",
     SettingGeneral_transactionTooltip: "Zahlungskontoverwaltung, Transaktionen, Wallet und zugehörige Tools.",
@@ -2768,6 +2780,7 @@ export default {
     AIFlow_item_text: "Element",
     AIFlow_block_title_required: "Bitte geben Sie den Blocktitel ein (erforderlich)",
     AIFlow_item_title: "Elementtitel:",
+    AIFlow_show_graph: "Flow-Diagramm anzeigen",
     AIFlow_item_subtitle: "Element Untertitel:",
     AIFlow_option_title: "Optionstitel",
     AIFlow_option_default: "Option",

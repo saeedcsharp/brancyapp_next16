@@ -39,7 +39,6 @@ import {
   LotteryGroupType,
   LotteryStatus,
   LotteryType,
-  MarketAdsType,
   MarketType,
   MediaProductType,
   MediaType,
@@ -77,7 +76,6 @@ import {
 
 import { StatusType } from "brancy/components/confirmationStatus/confirmationStatus";
 import { PriceType } from "brancy/components/priceFormater";
-import { StringDecoder } from "node:string_decoder";
 
 // #region _AccountInfo
 export interface InstagramerAccountInfo {
@@ -105,6 +103,7 @@ export interface InstagramerAccountInfo {
   publishPermission: boolean;
   website: string | null;
   biography: string | null;
+  businessType: BusinessType;
   createdTime: number;
 }
 
@@ -506,6 +505,25 @@ export interface IGetMedias {
   items: IGetMedia[];
   nextMaxId: string | null;
 }
+export interface IImagePromptCategory {
+  id?: number | string;
+  name?: string;
+  title?: string;
+}
+export interface IImagePrompt {
+  id: number | string;
+  promptName: string;
+  description: string;
+  exampleOutputUrl: string | null;
+  category: string | IImagePromptCategory | null;
+  subCategory: string | IImagePromptCategory | null;
+  promptBody: string;
+}
+export interface IGetImagePrompts {
+  items: IImagePrompt[];
+  nextMaxId: string | null;
+}
+export type IGetImagePromptCategories = IImagePromptCategory[];
 export interface IMediaCreatorModel {
   name: string;
   displayName?: string;
@@ -538,6 +556,7 @@ export interface IMediaCreatorInput {
   minArrayLength: number;
   fileTypes: string[] | null;
   isRequiredForToken: boolean;
+  defaultValue: any;
 }
 
 export interface IImageUsageInput {

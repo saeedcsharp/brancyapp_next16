@@ -96,7 +96,7 @@ const TicketInbox = () => {
   useEffect(() => {
     sInbox.current = systemInbox;
   }, [systemInbox]);
-  const [loading, setLoading] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.SystemTicket));
+  const [loading, setLoading] = useState(LoginStatus(session));
   const [searchbox, setSearchbox] = useState("");
   const [toggleOrder, setToggleOrder] = useState<TicketType>(TicketType.Direct);
   const [userSelectedId, setUserSelectedId] = useState<number | null>(null);
@@ -1486,13 +1486,7 @@ const TicketInbox = () => {
   const [messages, setMessages] = useState<string[]>([]);
   useEffect(() => {
     console.log(" ✅ Console ⋙ Session", session, session?.user.username);
-    if (
-      session === undefined ||
-      session?.user.username === undefined ||
-      !LoginStatus(session) ||
-      !RoleAccess(session, PartnerRole.SystemTicket)
-    )
-      return;
+    if (session === undefined || session?.user.username === undefined || !LoginStatus(session)) return;
     fetchSystemTicket();
     if (session.user.messagePermission) fetchHides();
     fetchHideSystemTicket();
@@ -1536,7 +1530,6 @@ const TicketInbox = () => {
 
   return (
     <>
-      {!RoleAccess(session, PartnerRole.SystemTicket) && <NotAllowed />}
       {loading && <Loading />}
       {!loading && (
         <div onClick={() => setShowIcon("")} className={`pincontainerMSG translate`}>

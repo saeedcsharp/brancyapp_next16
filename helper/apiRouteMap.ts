@@ -40,6 +40,8 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/mediaai/getVideos": "Instagramer/MediaAi/GetVideos",
   "/api/mediaai/getImageCreators": "Instagramer/MediaAi/GetImageCreators",
   "/api/mediaai/getVideoCreators": "Instagramer/MediaAi/GetVideoCreators",
+  "/api/mediaai/getImagePrompts": "Instagramer/MediaAi/GetImagePrompts",
+  "/api/mediaai/getImagePromptCategories": "Instagramer/MediaAi/GetImagePromptCategories",
   "/api/mediaai/getImageUsage": "Instagramer/MediaAi/GetImageUsage",
   "/api/mediaai/getVideoUsage": "Instagramer/MediaAi/GetVideoUsage",
   "/api/mediaai/createImage": "Instagramer/MediaAi/CreateImage",
@@ -143,7 +145,6 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/hashtag/updateHashtagList": "Instagramer/hashtag/UpdateHashtagList",
 
   // ── home ──────────────────────────────────────────────
-  "/api/home/getLastComments": "Instagramer/Home/GetLastComments",
   "/api/home/getLastMessages": "Instagramer/Home/GetLastMessages",
   "/api/home/getPageSummary": "Instagramer/Home/GetPageSummary",
   "/api/home/getTiles": "Instagramer/Home/GetTiles",
@@ -247,6 +248,7 @@ export const API_ROUTE_MAP: Record<string, string> = {
   "/api/post/getCaptionPromptExamples": "Instagramer/Post/GetCaptionPromptExamples",
   "/api/post/getDraft": "Instagramer/Post/GetDraft",
   "/api/post/getExportComments": "Instagramer/Post/GetExportComments",
+  "/api/post/getForceMedias": "Instagramer/Post/GetForceMedias",
   "/api/post/getPostByGuid": "Instagramer/Post/GetPostByGuid",
   "/api/post/getPostByScrollingDown": "Instagramer/Post/GetPostByScrollingDown",
   "/api/post/getPostCards": "Instagramer/Post/GetPostCards",

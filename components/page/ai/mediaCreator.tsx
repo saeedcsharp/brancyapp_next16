@@ -1,4 +1,5 @@
 import RingLoader from "brancy/components/design/loader/ringLoder";
+import TextArea from "brancy/components/design/textArea/textArea";
 import ToggleButton from "brancy/components/design/toggleButton/ToggleButton";
 import {
   internalNotify,
@@ -8,22 +9,15 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import { MethodType, UploadFile } from "brancy/helper/api";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
+import { getTotalFeatureCount } from "brancy/helper/checkFeature";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { InputType, PsgFeatureType } from "brancy/models/enums";
-import {
-  IGetImageUsageRequest,
-  IMediaCreator,
-  IMediaCreatorInput,
-  IMediaCreatorModel,
-  IPsgFeatureInfo,
-} from "brancy/models/interfaces";
+import { IGetImageUsageRequest, IMediaCreator, IMediaCreatorInput, IMediaCreatorModel } from "brancy/models/interfaces";
 import { Session } from "next-auth";
 import { useSession } from "next-auth/react";
 import { ChangeEvent, CSSProperties, Dispatch, PointerEvent, SetStateAction, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./mediaCreator.module.css";
-import { t } from "i18next";
-import TextArea from "brancy/components/design/textArea/textArea";
 type InputValue = string | number | boolean | string[];
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
 interface UploadedMediaPreview {
@@ -42,6 +36,7 @@ interface MediaCreatorProps {
   createMediaLoading?: boolean;
   setActiveTab: Dispatch<SetStateAction<MediaTab>>;
   activeTab: MediaTab;
+  onOpenImagePrompts?: () => void;
 }
 export interface MediaCreatorSelection {
   creatorKey: string;
@@ -63,10 +58,32 @@ function getInputTitle(input: IMediaCreatorInput, language: string): string {
   const localizedTitle = input[languageKey];
   return typeof localizedTitle === "string" && localizedTitle.trim() ? localizedTitle : input.titleEn || input.key;
 }
+function getDefaultInputValue(input: IMediaCreatorInput): InputValue | null {
+  if (input.defaultValue === null || input.defaultValue === undefined) return null;
+
+  const inputType = Number(input.inputType);
+  if (inputType === InputType.Boolean) return Boolean(input.defaultValue);
+  if (inputType === InputType.ImageArray || inputType === InputType.VideoArray || inputType === InputType.AudioArray) {
+    return Array.isArray(input.defaultValue) ? input.defaultValue.map(String) : [];
+  }
+  if (inputType === InputType.Number || inputType === InputType.Range || inputType === InputType.IntRange) {
+    const numericValue = Number(input.defaultValue);
+    return Number.isFinite(numericValue) ? numericValue : null;
+  }
+  return String(input.defaultValue);
+}
+function allowsEmptyValue(input: IMediaCreatorInput): boolean {
+  return Number(input.inputType) === InputType.Text && input.min === 0;
+}
 function getInitialValues(model: IMediaCreatorModel | undefined): Record<string, InputValue> {
   if (!model) return {};
   return model.inputModelTypes.reduce<Record<string, InputValue>>((values, input) => {
     const inputType = Number(input.inputType);
+    const defaultValue = getDefaultInputValue(input);
+    if (defaultValue !== null) {
+      values[input.key] = defaultValue;
+      return values;
+    }
     if (inputType === InputType.Boolean) values[input.key] = false;
     else if (
       inputType === InputType.ImageArray ||
@@ -79,6 +96,9 @@ function getInitialValues(model: IMediaCreatorModel | undefined): Record<string,
     else values[input.key] = input.enumValues?.[0] ?? "";
     return values;
   }, {});
+}
+function getUniqueModels(models: IMediaCreatorModel[]): IMediaCreatorModel[] {
+  return models.filter((model, index) => models.findIndex((candidate) => candidate.name === model.name) === index);
 }
 type RangeSide = "top" | "right" | "bottom" | "left";
 const rangeSides: RangeSide[] = ["top", "right", "bottom", "left"];
@@ -474,7 +494,7 @@ function DynamicInput({
         minLength={input.minTextLength || undefined}
         maxLength={input.maxTextLength || undefined}
         value={String(value ?? "")}
-        required={input.isRequired}
+        required={input.isRequired && !allowsEmptyValue(input)}
         onChange={(event) => onChange(event.target.value)}
       />
     </label>
@@ -491,6 +511,7 @@ export default function MediaCreator({
   onCreateMedia,
   createMediaLoading,
   activeTab,
+  onOpenImagePrompts,
 }: MediaCreatorProps) {
   const { data: session } = useSession();
   const { t, i18n } = useTranslation();
@@ -501,7 +522,9 @@ export default function MediaCreator({
   ];
   const selectedMediaTab = isVideoCreator ? 1 : 0;
   const handleMediaTabChange = (tab: number) => setActiveTab(tab === 1 ? "video" : "image");
-  const availableCreators = creators.filter((item) => item.inputModels.length > 0);
+  const availableCreators = creators
+    .map((item) => ({ ...item, inputModels: getUniqueModels(item.inputModels) }))
+    .filter((item) => item.inputModels.length > 0);
   const [creatorKey, setCreatorKey] = useState(availableCreators[0]?.key ?? "");
   const creator = availableCreators.find((item) => item.key === creatorKey) ?? availableCreators[0];
   const [modelName, setModelName] = useState(creator?.inputModels[0]?.name ?? "");
@@ -518,17 +541,9 @@ export default function MediaCreator({
         setTokenBalance(null);
         return;
       }
-      const response = await clientFetchApi<boolean, IPsgFeatureInfo>("/api/psg/GetPackageFeatureDetails", {
-        session,
-        methodType: MethodType.get,
-      });
-      if (!mounted || !response.succeeded || !response.value) return;
-      const aiFeature = response.value.features.find((feature) => feature.featureId === PsgFeatureType.AI);
-      const packages = [aiFeature?.packageFeature, aiFeature?.reserveFeature].filter(
-        (item): item is NonNullable<typeof item> => item !== null && item !== undefined,
-      );
-      const remaining = packages.reduce((total, item) => total + Math.max(0, item.maxCount - item.count), 0);
-      setTokenBalance({ total: remaining, remaining });
+      const totalFeatureCount = await getTotalFeatureCount(session, PsgFeatureType.AI);
+      if (!mounted || totalFeatureCount === null) return;
+      setTokenBalance({ total: totalFeatureCount, remaining: totalFeatureCount });
     };
     loadTokenBalance();
     return () => {
@@ -590,7 +605,7 @@ export default function MediaCreator({
   }
   const promptIsValid = prompt.length >= model.minPromptLength && prompt.length <= model.maxPromptLength;
   const requiredInputsAreValid = model.inputModelTypes.every((input) => {
-    if (!input.isRequired) return true;
+    if (!input.isRequired || allowsEmptyValue(input)) return true;
     const value = values[input.key];
     return Array.isArray(value) ? value.length >= input.minArrayLength : value !== "" && value !== undefined;
   });
@@ -722,6 +737,11 @@ export default function MediaCreator({
             <span className="explain">
               ({prompt.length} / {model.maxPromptLength})
             </span>
+            {!isVideoCreator && onOpenImagePrompts && (
+              <button type="button" className={styles.promptSuggestionButton} onClick={onOpenImagePrompts}>
+                {t("aiSuggestedPrompts_title")}
+              </button>
+            )}
           </span>
           <TextArea
             className="textArea"

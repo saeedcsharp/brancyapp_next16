@@ -134,7 +134,7 @@ Parent module: `legacy-pages`.
 
 ## Known Issues
 
-The upgrade page suppresses its session-based package-data load when the embedded account switcher begins an account change. This prevents the three package APIs from being called during the transition before navigation completes. The embedded switcher's Iranian-IP Add Account flow delegates to the upgrade page's shared invalid-IP modal, whose Continue and timeout actions perform the Instagram redirect while Close cancels it. Main subscription remaining time is supplied as a duration until expiry, clamped at zero after expiration, rather than as the absolute expiry timestamp.
+The upgrade page suppresses its session-based package-data load when the embedded account switcher begins an account change. This prevents the three package APIs from being called during the transition before navigation completes. The close action uses one guarded `router.replace("/home")` handler; native button keyboard activation remains supported and repeated activations are ignored while navigation is pending. The embedded switcher's Iranian-IP Add Account flow delegates to the upgrade page's shared invalid-IP modal, whose Continue and timeout actions perform the Instagram redirect while Close cancels it. Main subscription remaining time is supplied as a duration until expiry, clamped at zero after expiration, rather than as the absolute expiry timestamp.
 
 ## Technical Debt
 

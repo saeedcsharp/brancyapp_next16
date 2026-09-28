@@ -94,7 +94,7 @@ const DirectInbox = () => {
   useEffect(() => {
     bInbox.current = businessInbox;
   }, [businessInbox]);
-  const [loading, setLoading] = useState(LoginStatus(session) && RoleAccess(session, PartnerRole.Message));
+  const [loading, setLoading] = useState(LoginStatus(session));
   const [, setInboxError] = useState<Error | null>(null);
 
   const [searchbox, setSearchbox] = useState("");
@@ -1612,13 +1612,7 @@ const DirectInbox = () => {
 
   useEffect(() => {
     console.log(" ✅ Console ⋙ Session", session, session?.user.username);
-    if (
-      session === undefined ||
-      session?.user.username === undefined ||
-      !LoginStatus(session) ||
-      !RoleAccess(session, PartnerRole.Message)
-    )
-      return;
+    if (session === undefined || session?.user.username === undefined || !LoginStatus(session)) return;
     fetchBusiness();
     fetchHides();
     fetchGeneral();
@@ -1680,7 +1674,6 @@ const DirectInbox = () => {
 
   return (
     <>
-      {!RoleAccess(session, PartnerRole.Message) && <NotAllowed />}
       {loading && <Loading />}
       {!loading && (
         <div onClick={() => setShowIcon("")} className={`pincontainerMSG translate`}>

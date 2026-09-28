@@ -1,19 +1,16 @@
 import AdReport from "brancy/components/advertise/adList/popups/adreport";
 import Modal from "brancy/components/design/modal";
-import NotAllowed from "brancy/components/notOk/notAllowed";
-import NotShopper from "brancy/components/notOk/notShopper";
 import { NotifType, notify } from "brancy/components/notifications/notificationBox";
 import CouponManager from "brancy/components/store/statistics/couponManager";
 import CreateCouponModal, { CreateCouponRequest } from "brancy/components/store/statistics/createCouponModal";
-import UpdateCouponModal, { UpdateCouponRequest } from "brancy/components/store/statistics/updateCouponModal";
 import TotalSalesReport from "brancy/components/store/statistics/totalSalesReport";
 import TotalSales from "brancy/components/store/statistics/totalSalesStatistics";
 import TwoMonth from "brancy/components/store/statistics/twoMonth";
+import UpdateCouponModal, { UpdateCouponRequest } from "brancy/components/store/statistics/updateCouponModal";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { packageStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { PartnerRole } from "brancy/models/enums";
 import IUserCoupon, {
   IBuyerPurchaseReport,
   ISaleMonth,
@@ -476,8 +473,6 @@ const Statistics = () => {
   useEffect(() => {
     loadCoupons();
   }, [loadCoupons]);
-  if (!session?.user.isShopper) return <NotShopper />;
-  if (!RoleAccess(session, PartnerRole.Products) && !RoleAccess(session, PartnerRole.Orders)) return <NotAllowed />;
   return (
     session &&
     session!.user.currentIndex !== -1 && (

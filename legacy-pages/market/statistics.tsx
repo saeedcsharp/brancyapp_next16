@@ -25,10 +25,7 @@ const Statistics = () => {
       router.push("/");
     },
   });
-  const [loadingStatus, setLoadingStatus] = useState(
-    // LoginStatus(session) && RoleAccess(session, PartnerRole.Orders)
-    true,
-  );
+  const [loadingStatus, setLoadingStatus] = useState(true);
   const [totalInsight, setTotalInsight] = useState<ITotalInsight>({
     avgTimeOnSite: 0,
     bounceCount: 0,
@@ -156,8 +153,7 @@ const Statistics = () => {
     if (!session) return;
     if (session && !packageStatus(session)) router.push("/upgrade");
     if (!LoginStatus(session)) router.push("/");
-    if (RoleAccess(session, PartnerRole.Bio)) fetchData();
-    else setLoadingStatus(false);
+    fetchData();
   }, [session]);
   if (session?.user.currentIndex === -1) router.push("/user");
   return (
@@ -183,8 +179,7 @@ const Statistics = () => {
         {/* <Soon /> */}
         <main>
           {loadingStatus && <Loading />}
-          {!loadingStatus && !RoleAccess(session, PartnerRole.Bio) && <NotAllowed />}
-          {!loadingStatus && RoleAccess(session, PartnerRole.Bio) && (
+          {!loadingStatus && (
             <>
               <div className={styles.inboxContainer}>
                 <div className={styles.followers}>

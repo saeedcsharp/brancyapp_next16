@@ -4,6 +4,8 @@
 
 Legacy page module for message routes and workflows.
 
+`Properties.tsx` no longer wires the removed automatic/bot reply filtering toggle or its `ToggleHideCommentAutoReply` request; other Message Properties handlers and backend reply settings remain unchanged.
+
 ## Business Purpose
 
 Preserves existing Brancy message feature behavior during App Router migration.
@@ -55,6 +57,12 @@ See related source files for exported functions and local helpers.
 ## Components
 
 React components are present when the folder contains `.tsx` UI files.
+
+`Properties.tsx` keeps the smart default (special payload) lists in sync after adding a button: `handleSaveSpecialPayLoad` refetches the Ice Breaker/Persistent Menu and re-filters `specialPayloadInfoForIce`/`specialPayloadInfoForPersistent` from the refetched `profileButtons.items`, so a just-added special payload is removed from the picker without requiring a page reload.
+
+`Properties.tsx` sends the filtered Ice Breaker button list to `UpdateIceBreaker` during deletion, preventing the deleted button from being persisted again.
+
+The automatic-reply Flow Graph action opens the canonical `/Ai/FlowandAgent` route with the selected flow ID sent as the `id` query parameter.
 
 ## Hooks
 

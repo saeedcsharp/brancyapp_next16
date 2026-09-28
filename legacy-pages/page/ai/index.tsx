@@ -26,6 +26,7 @@ import {
   IGetImageUsageRequest,
   IGetMedia,
   IGetMedias,
+  IImagePrompt,
   IMediaCreator,
   PendingGeneration,
   PushNotif,
@@ -37,22 +38,13 @@ import router from "next/router";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { DateObject } from "react-multi-date-picker";
 import styles from "./pageAI.module.css";
-
 import GeneratedImageModal from "brancy/components/page/ai/generatedImageModal";
 import GeneratedVideoModal from "brancy/components/page/ai/generatedVideoModal";
+import ImagePromptSuggestions, { ImagePromptDetail } from "brancy/components/page/ai/imagePromptSuggestions";
 type MediaTab = "image" | "video" | "createimage" | "createvideo";
 type AiQueryType = "1" | "2";
 const SUCCESS_MEDIA_STATUS = 2;
 const VIDEO_THUMBNAIL_DELAY_MS = 1000;
-function formatCreatedTime(timestamp: number) {
-  const t = initialzedTime();
-  const d = new DateObject({
-    date: timestamp * 1000,
-    calendar: t.calendar,
-    locale: t.locale,
-  });
-  return d.format("YYYY/MM/DD HH:mm:ss");
-}
 export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
   const { data: session } = useSession({
     required: true,
@@ -82,9 +74,12 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
   const pendingGenerationsRef = useRef<PendingGeneration[]>([]);
   const initialLibrary = initialType === "2" ? "video" : "image";
   const [initialLibraryLoading, setInitialLibraryLoading] = useState(true);
+  const [showImagePrompts, setShowImagePrompts] = useState(false);
+  const [selectedImagePrompt, setSelectedImagePrompt] = useState<IImagePrompt | null>(null);
 
   const fetchImages = useCallback(
     async (cursor: string | null): Promise<IGetMedia[]> => {
+      console.log("Fetching images...");
       if (!session) return [];
 
       const response = await clientFetchApi<null, IGetMedias>("/api/mediaai/GetImages", {
@@ -109,6 +104,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
   );
   const fetchVideos = useCallback(
     async (cursor: string | null): Promise<IGetMedia[]> => {
+      console.log("Fetching videos...");
       if (!session) return [];
 
       const response = await clientFetchApi<null, IGetMedias>("/api/mediaai/GetVideos", {
@@ -281,7 +277,10 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     enabled: activeTab === "image",
     fetchDelay: 0,
   });
-  const fetchMoreVideos = useCallback(() => fetchVideos(nextVideoMaxId), [fetchVideos, nextVideoMaxId]);
+  const fetchMoreVideos = useCallback(() => {
+    console.log("Fetching more videos...");
+    return fetchVideos(nextVideoMaxId);
+  }, [fetchVideos, nextVideoMaxId]);
   const handleVideosFetched = useCallback((newVideos: IGetMedia[]) => {
     setVideos((current) => [...current, ...newVideos]);
   }, []);
@@ -295,6 +294,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     isLoading: loading,
     enabled: activeTab === "video",
     fetchDelay: 0,
+    containerRef,
   });
 
   const openImageCreator = async () => {
@@ -442,6 +442,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
             createMediaLoading={createMediaLoading}
             setActiveTab={setActiveTab}
             activeTab={creatorTab}
+            onOpenImagePrompts={() => setShowImagePrompts(true)}
           />
         )}
         {activeTab === "image" && (
@@ -463,6 +464,22 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
           />
         )}
       </main>
+      <Modal closePopup={() => setShowImagePrompts(false)} classNamePopup="popupLarge" showContent={showImagePrompts}>
+        <ImagePromptSuggestions
+          session={session}
+          isOpen={showImagePrompts}
+          onSelect={(imagePrompt) => {
+            setSelectedImagePrompt(imagePrompt);
+            setShowImagePrompts(false);
+          }}
+        />
+      </Modal>
+      <Modal
+        closePopup={() => setSelectedImagePrompt(null)}
+        classNamePopup="popupLarge"
+        showContent={selectedImagePrompt !== null}>
+        {selectedImagePrompt && <ImagePromptDetail prompt={selectedImagePrompt} />}
+      </Modal>
       <Modal closePopup={() => setSelectedImage(null)} classNamePopup="popupLarge" showContent={selectedImage !== null}>
         {selectedImage && <GeneratedImageModal image={selectedImage} onClose={() => setSelectedImage(null)} />}
       </Modal>

@@ -1,20 +1,20 @@
+import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
+import PostContent from "brancy/components/page/posts/postContent";
+import { MethodType } from "brancy/helper/api";
+import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import convertFirstLetterToLowerCase from "brancy/helper/convertFirstLetterToLowerCase";
+import { handleCopyLink } from "brancy/helper/copyLink";
+import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import { handleDecompress } from "brancy/helper/pako";
+import { getHubConnection } from "brancy/helper/pushNotif";
+import { LanguageKey } from "brancy/i18n";
+import { PushResponseType } from "brancy/models/enums";
+import { IPost, IPostContent, IShortDraft, PushNotif } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
 import Head from "next/head";
 import { useRouter } from "next/router";
 import { MouseEvent, useCallback, useEffect, useMemo, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
-import PostContent from "brancy/components/page/posts/postContent";
-import convertFirstLetterToLowerCase from "brancy/helper/convertFirstLetterToLowerCase";
-import { handleCopyLink } from "brancy/helper/copyLink";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
-import { handleDecompress } from "brancy/helper/pako";
-import { getHubConnection } from "brancy/helper/pushNotif";
-import { LanguageKey } from "brancy/i18n";
-import { MethodType } from "brancy/helper/api";
-import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { IPost, IPostContent, IShortDraft, PushNotif } from "brancy/models/interfaces";
-import { PushResponseType } from "brancy/models/enums";
 
 const Posts = () => {
   const router = useRouter();
@@ -123,7 +123,7 @@ const Posts = () => {
   );
   useEffect(() => {
     // Only fetch data if not already loaded and session is available
-    if (!isDataLoaded && session && LoginStatus(session) && status === "authenticated" && RoleAccess(session)) {
+    if (!isDataLoaded && session && LoginStatus(session) && status === "authenticated") {
       fetchData();
     }
   }, [session, status, isDataLoaded, fetchData]);

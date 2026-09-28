@@ -268,7 +268,11 @@ function System() {
     setIsHidden(!isHidden); // Toggle visibility and grid-row-end state
   };
   useEffect(() => {
-    setIsIranDomain(window.location.hostname.includes("brancy.ir") || window.location.hostname === "localhost");
+    setIsIranDomain(
+      window.location.hostname.includes("brancy.ir") ||
+        window.location.hostname === "localhost" ||
+        window.location.hostname === "patran.ir",
+    );
     const lng = window.localStorage.getItem("language");
     // Sync i18n instance with the stored language (i18n.ts already reads it on init,
     // but this covers cases where the instance was created before localStorage was set)

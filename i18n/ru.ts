@@ -777,6 +777,15 @@ export default {
     // #region 2️⃣page Section
     // 2️⃣ Page -> Post
     CreateNewPost: "Создать новый пост",
+    Postnotvisible: "Post не отображается?",
+    Storynotvisible: "Story не отображается?",
+    SmartPageAnalysis: "Умная аналитика страницы",
+    EducationAndGuidance: "Обучение и руководство",
+    HowToUseBrancy: "Как пользоваться Brancy",
+    BrancyKnowsYou: "Brancy знает вас",
+    BrancyKnowsYouExplain:
+      "Brancy глубоко анализирует вашу страницу, чтобы создать полное представление о вашей цифровой идентичности: от вашей личности, бизнеса и деятельности до тона и стиля общения, типа контента, способа подачи материалов, графика публикаций и характера взаимодействия с аудиторией.\n\nЭтот анализ также учитывает вашу активность во всех точках взаимодействия на странице: от ответов на комментарии и Direct-сообщения до стиля написания, общения с аудиторией и реакции на различные ситуации.\n\nБез необходимости ручного обучения, настройки тона или ввода дополнительной информации Brancy знает вас и настраивает искусственный интеллект в соответствии с вашей реальной идентичностью и стилем.",
+    CreateYourDigitalVersion: "Создайте свою цифровую версию",
     CreateNewStrory: "Создать новую историю",
     PostDraft: "Черновик поста",
     StoryDraft: "Черновик истории",
@@ -1779,9 +1788,9 @@ export default {
 
     messagesetting_messagePanellanguage: "Язык по умолчанию для Direct",
     messagesetting_messagePanellanguageExplain: "Язык бота Direct по умолчанию для ответа на сообщения.",
-    messagesetting_AutoReplyPerFollow: "Автоответ после Follow",
+    messagesetting_AutoReplyPerFollow: "Пользовательский шаблон FollowUp",
     messagesetting_AutoReplyPerFollowExplain:
-      "Пользователь должен сначала follow вашу страницу, чтобы получить автоматические сообщения",
+      "Используйте этот шаблон, когда просите пользователя подписаться на страницу.",
     messagesetting_AutoReplyPerFollowtooltip:
       "Пользователи, которые не follow вас, сначала получат запрос на Follow. После этого им автоматически будет отправлено сообщение",
     messagesetting_AutoReplyPerFollowtitle: "Текст сообщения",
@@ -2367,6 +2376,7 @@ export default {
     Backtocart: "Вернуться в корзину",
     product_ProductID: "ID продукта",
     product_Producttitle: "Название продукта",
+    product_Product: "Продукты",
     product_Categories: "Категории",
     product_MainCategory: "Основная категория",
     product_Subcategory: "Подкатегория",
@@ -2540,9 +2550,11 @@ export default {
     SettingGeneral_partnertitle: "Название Админа-Сотрудника",
     SettingGeneral_partnernumberexplain:
       "Приглашение будет отправлено на этот номер, и админ-сотрудник должен подтвердить его в своей панели (админ должен зарегистрироваться в Brancy, чтобы принять приглашение).",
-    SettingGeneral_contentTooltip: "Публикации, истории, Reels, IGTV, карусели и планирование.",
-    SettingGeneral_publishTooltip: "Создание публикаций и историй. Требуется доступ к контенту.",
-    SettingGeneral_automaticsTooltip: "ИИ, сценарии, автоматизированные процессы и задачи.",
+    SettingGeneral_contentTooltip: "Публикации, истории, Reels, IGTV и карусели.",
+    SettingGeneral_publishTooltip:
+      "Создавать публикации и истории, а также создавать контент. Требуется доступ к контенту.",
+    SettingGeneral_automaticsTooltip:
+      "ИИ, сценарии, автоматизированные процессы и задачи. Требуется доступ к контенту.",
     SettingGeneral_messageTooltip: "Директ Instagram, внутренние сообщения и связанные инструменты.",
     SettingGeneral_commentTooltip: "Комментарии, ответы и связанные инструменты.",
     SettingGeneral_transactionTooltip:
@@ -2743,6 +2755,7 @@ export default {
     AIFlow_item_text: "Элемент",
     AIFlow_block_title_required: "Пожалуйста, введите заголовок блока (обязательно)",
     AIFlow_item_title: "Заголовок Элемента:",
+    AIFlow_show_graph: "Показать график потока",
     AIFlow_item_subtitle: "Подзаголовок Элемента:",
     AIFlow_option_title: "Заголовок Опции",
     AIFlow_option_default: "Опция",

@@ -126,6 +126,11 @@ async function fetchDirect<TRes>(
     });
 
     if (onUploadProgress) onUploadProgress(100);
+    console.log("res.status", res.status);
+    if (res.status === 402 && typeof window !== "undefined") {
+      window.location.replace("/upgrade");
+      return normalizeResult<TRes>(null, 402, "Payment Required");
+    }
 
     if (res.status === 401 && session?.user?.loginByInsta) {
       await signOut({ redirect: false });
@@ -173,6 +178,11 @@ async function fetchViaProxy<TRes>(
     });
 
     if (onUploadProgress) onUploadProgress(100);
+    console.log("res.status", res.status);
+    if (res.status === 402 && typeof window !== "undefined") {
+      window.location.replace("/upgrade");
+      return normalizeResult<TRes>(null, 402, "Payment Required");
+    }
 
     if (res.status === 401 && session?.user?.loginByInsta) {
       await signOut({ redirect: false });

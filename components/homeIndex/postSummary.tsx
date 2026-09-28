@@ -1,11 +1,10 @@
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
-import { useSession } from "next-auth/react";
+import { LanguageKey } from "brancy/i18n";
+import { IInstagramerHomeTiles, IPostContent } from "brancy/models/interfaces";
 import { useRouter } from "next/router";
 import { memo, useCallback, useMemo, useReducer, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { LanguageKey } from "brancy/i18n";
 import styles from "./postSummary.module.css";
-import { IPostContent, IInstagramerHomeTiles } from "brancy/models/interfaces";
 
 // Cache for posts data
 // const postsCache = new Map<
@@ -116,7 +115,6 @@ PostItem.displayName = "PostItem";
 const PostSummary = memo((props: { data: IInstagramerHomeTiles | null; posts: IPostContent[] | null }) => {
   const { t } = useTranslation();
   const router = useRouter();
-  const { data: session } = useSession();
   const [state, dispatch] = useReducer(postSummaryReducer, initialState);
   const containerRef = useRef<HTMLDivElement>(null);
 

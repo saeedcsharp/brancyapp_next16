@@ -1,23 +1,22 @@
 "use client";
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useCallback, useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import Modal from "brancy/components/design/modal";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
-import NotAllowed from "brancy/components/notOk/notAllowed";
 import NotBasePackage from "brancy/components/notOk/notBasePackage";
 import NotShopper from "brancy/components/notOk/notShopper";
 import InstanceProductDetail from "brancy/components/store/products/productDetail/instanceProduct/instanceProductDetail";
 import NotInstanceProductDetail from "brancy/components/store/products/productDetail/notInstanceProduct/notInstanceProductDetail";
 import DeleteProduct from "brancy/components/store/products/productDetail/popups/deleteProduct";
-import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
-import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
+import { packageStatus } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useCallback, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
-import styles from "./productDetail.module.css";
+import NotAllowedShopper from "brancy/components/notOk/notAllowedShopper";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   IDetailsPost,
@@ -26,8 +25,7 @@ import {
   IProduct_ShortProduct,
   ITempIdAndNonProductCount,
 } from "brancy/models/interfaces";
-import { PartnerRole } from "brancy/models/enums";
-import NotAllowedShopper from "brancy/components/notOk/notAllowedShopper";
+import styles from "./productDetail.module.css";
 
 const ProductDetail = ({ tempId }: { tempId: string }) => {
   //  return <Soon />;
@@ -364,7 +362,6 @@ const ProductDetail = ({ tempId }: { tempId: string }) => {
     return null;
   }
   if (session?.user.isInfluencer) return <NotAllowedShopper />;
-  if (!RoleAccess(session, PartnerRole.Products)) return <NotAllowed />;
   return (
     session &&
     session!.user.currentIndex !== -1 && (

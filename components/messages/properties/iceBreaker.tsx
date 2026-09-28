@@ -14,6 +14,7 @@ import styles from "./persistent_icebreaker.module.css";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import { IceOrPersistent, SpecialPayLoad, PayloadType } from "brancy/models/enums";
 import { IIceBreaker, IDetailPrompt } from "brancy/models/interfaces";
+import router from "next/router";
 // Wrap component with React.memo for performance
 const IceBreaker = React.memo(
   ({
@@ -368,9 +369,16 @@ const IceBreaker = React.memo(
                           </div>
                           <div className={styles.qasection}>
                             {v.masterFlow && <div className="headertext">{v.masterFlow.title}</div>}
-                            <div className={styles.seeanswer} onClick={() => toggleExplanation(i)}>
-                              <span> {t(LanguageKey.show)}</span>
-                              {t(LanguageKey.Answer)} {t(LanguageKey.Flow)}
+                            <div
+                              className={styles.seeanswer}
+                              onClick={() => {
+                                if (!v.masterFlow) return;
+                                void router.push({
+                                  pathname: "/Ai/FlowandAgent",
+                                  query: { id: v.masterFlow.masterFlowId },
+                                });
+                              }}>
+                              {t(LanguageKey.AIFlow_show_graph)}
                             </div>
                           </div>
                         </>

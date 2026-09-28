@@ -36,6 +36,7 @@ declare module "next-auth" {
     biography: string | null;
     hasPackage?: boolean;
     createdTime: number;
+    businessType: BusinessType;
   }
 
   interface Session {

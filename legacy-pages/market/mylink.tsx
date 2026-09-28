@@ -1,5 +1,3 @@
-import BusinessHourPopup from "brancy/components/market/myLink/popups/businessHourPopup";
-import BusinessTermsPopup from "brancy/components/market/myLink/popups/businessTermsPopup";
 import TarrifPopup from "brancy/components/advertise/popups/tariffPopup";
 import Modal from "brancy/components/design/modal";
 import Aboutus from "brancy/components/market/myLink/abouts";
@@ -14,16 +12,17 @@ import Link from "brancy/components/market/myLink/link";
 import LotteryPopup from "brancy/components/market/myLink/lotteryPopup";
 import Menubar from "brancy/components/market/myLink/menubar";
 import OnlineStreaming from "brancy/components/market/myLink/onlinestreaming";
+import BusinessHourPopup from "brancy/components/market/myLink/popups/businessHourPopup";
+import BusinessTermsPopup from "brancy/components/market/myLink/popups/businessTermsPopup";
 import Product from "brancy/components/market/myLink/product";
 import Reviews from "brancy/components/market/myLink/reviews";
 import Loading from "brancy/components/notOk/loading";
-import NotAllowed from "brancy/components/notOk/notAllowed";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
 import { LanguageKey } from "brancy/i18n";
-import { FeatureType, LotteryStatus, PartnerRole } from "brancy/models/enums";
+import { FeatureType, LotteryStatus } from "brancy/models/enums";
 import {
   IFeatureBox,
   IFeatureInfo,
@@ -210,10 +209,6 @@ const MyLink = () => {
         !packageStatus(session) ||
         session.user.currentIndex === -1
       ) {
-        return;
-      }
-      if (!RoleAccess(session, PartnerRole.Bio)) {
-        if (isActive) setLoading(false);
         return;
       }
       setLoading(true);
@@ -413,7 +408,6 @@ const MyLink = () => {
   const handleShowLottery = useCallback(() => setActiveModal("lotteryList"), []);
   const removeMask = useCallback(() => setActiveModal(null), []);
   if (status === "loading" || loading) return <Loading />;
-  if (!RoleAccess(session, PartnerRole.Bio)) return <NotAllowed />;
   if (!myLink) return <h1 className="title">{t(LanguageKey.pageStatistics_EmptyList)}</h1>;
   return (
     session &&

@@ -267,7 +267,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
       promptId: null,
       response: null,
       sendPr: replyMethod,
-      shouldFollower: replyMethod && shouldFollower,
+      shouldFollower: checkBox.AI ? false : replyMethod && shouldFollower,
       title: autoReplytitle,
       replySuccessfullyDirected: replySuccessfullyDirected,
       customRepliesSuccessfullyDirected: customRepliesSuccessfullyDirected,
@@ -1190,7 +1190,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                             <button
                               onClick={() => {
                                 try {
-                                  void router.push({ pathname: "/message/AIAndFlow" });
+                                  void router.push({ pathname: "/Ai/FlowandAgent" });
                                 } catch (e) {
                                   console.error(e);
                                 }
@@ -1252,12 +1252,6 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                                 textlabel={t(LanguageKey.sendreplydirectedsuccessfully)}
                               />
                               {renderCustomReplies("AI")}
-                              <CheckBoxButton
-                                handleToggle={(e) => setShouldFollower(e.target.checked)}
-                                value={shouldFollower}
-                                title={t(LanguageKey.shouldFollower)}
-                                textlabel={t(LanguageKey.shouldFollower)}
-                              />
                             </div>
                           )}
                         </>
@@ -1320,7 +1314,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                             <button
                               onClick={() => {
                                 try {
-                                  void router.push({ pathname: "/message/AIAndFlow" });
+                                  void router.push({ pathname: "/Ai/FlowandAgent" });
                                 } catch (e) {
                                   console.error(e);
                                 }

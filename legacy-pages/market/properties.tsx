@@ -1,18 +1,13 @@
-import { useSession } from "next-auth/react";
-import Head from "next/head";
-import { useRouter } from "next/router";
-import { useEffect, useState } from "react";
-import { useTranslation } from "react-i18next";
 import Modal from "brancy/components/design/modal";
-import DomainManager from "brancy/components/market/properties/domainManager";
-import Features from "brancy/components/market/properties/features";
-import Link from "brancy/components/market/properties/link";
 import AddNewLink from "brancy/components/market/myLink/popups/addNewLink";
 import DeleteLink from "brancy/components/market/myLink/popups/deletLink";
 import EditLink from "brancy/components/market/myLink/popups/editLink";
 import FeaturePopUp from "brancy/components/market/myLink/popups/featurePopup";
 import StatisticsLinks from "brancy/components/market/myLink/popups/statisticsLink";
-import NotAllowed from "brancy/components/notOk/notAllowed";
+import DomainManager from "brancy/components/market/properties/domainManager";
+import Features from "brancy/components/market/properties/features";
+import Link from "brancy/components/market/properties/link";
+import NotFeature from "brancy/components/notOk/notFeature";
 import {
   internalNotify,
   InternalResponseType,
@@ -20,11 +15,11 @@ import {
   notify,
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
-import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
-import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
-import { LanguageKey } from "brancy/i18n";
 import { MethodType } from "brancy/helper/api";
+import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import { LanguageKey } from "brancy/i18n";
 import {
   ILink,
   InstagramerAccountInfo,
@@ -34,8 +29,11 @@ import {
   IUpdateLink,
   IUpdateOrderLink,
 } from "brancy/models/interfaces";
-import { PartnerRole } from "brancy/models/enums";
-import NotFeature from "brancy/components/notOk/notFeature";
+import { useSession } from "next-auth/react";
+import Head from "next/head";
+import { useRouter } from "next/router";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 const Properties = () => {
   //  return <Soon />;
@@ -196,7 +194,6 @@ const Properties = () => {
     if (!session) return;
     if (session && !packageStatus(session)) router.push("/upgrade");
     if (!LoginStatus(session)) router.push("/");
-    if (!RoleAccess(session, PartnerRole.Bio)) return;
     fetchData();
   }, [session]);
   if (session?.user.currentIndex === -1) router.push("/user");
@@ -214,56 +211,47 @@ const Properties = () => {
         </Head>
         {/* head for SEO */}
 
-        {!RoleAccess(session, PartnerRole.Bio) && <NotAllowed />}
-        {RoleAccess(session, PartnerRole.Bio) && (
-          <>
-            <div onClick={() => setLinkId(1000)} className="pinContainer">
-              <DomainManager instagramerInfo={instagramerInfo} setShowNotFeature={setShowNotFeature} />
-              <Features
-                showMask={handleShowFeatureBox}
-                features={features}
-                handleUpdateFeature={handleUpdatefeatures}
-              />
-              <Link
-                data={linkInfos}
-                addNewLink={() => {
-                  setShowAddNewLink(true);
-                  changePositionToFixed();
-                }}
-                handleShowDotIcons={handleShowDotIcons}
-                handleClickOnIcon={handleClickOnIcon}
-                handleUpdateOrderLinks={handleUpdateOrderLinks}
-                dotIconIndex={linkId}
-              />
-            </div>
-            <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showFeatureBox}>
-              <FeaturePopUp removeMask={handleRemoveMask} featureId={featureId} handleAddNewLink={handleAddNewLink} />
-            </Modal>
+        <div onClick={() => setLinkId(1000)} className="pinContainer">
+          <DomainManager instagramerInfo={instagramerInfo} setShowNotFeature={setShowNotFeature} />
+          <Features showMask={handleShowFeatureBox} features={features} handleUpdateFeature={handleUpdatefeatures} />
+          <Link
+            data={linkInfos}
+            addNewLink={() => {
+              setShowAddNewLink(true);
+              changePositionToFixed();
+            }}
+            handleShowDotIcons={handleShowDotIcons}
+            handleClickOnIcon={handleClickOnIcon}
+            handleUpdateOrderLinks={handleUpdateOrderLinks}
+            dotIconIndex={linkId}
+          />
+        </div>
+        <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showFeatureBox}>
+          <FeaturePopUp removeMask={handleRemoveMask} featureId={featureId} handleAddNewLink={handleAddNewLink} />
+        </Modal>
 
-            <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showAddNewLink}>
-              <AddNewLink removeMask={handleRemoveMask} handleAddNewLink={handleAddNewLink} />
-            </Modal>
+        <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showAddNewLink}>
+          <AddNewLink removeMask={handleRemoveMask} handleAddNewLink={handleAddNewLink} />
+        </Modal>
 
-            <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showLinkBox}>
-              <StatisticsLinks removeMask={handleRemoveMask} linkId={linkId} />
-            </Modal>
+        <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showLinkBox}>
+          <StatisticsLinks removeMask={handleRemoveMask} linkId={linkId} />
+        </Modal>
 
-            <Modal closePopup={handleRemoveMask} classNamePopup={"popupSendFile"} showContent={showDeleteLink}>
-              <DeleteLink linkId={linkId} removeMask={handleRemoveMask} handleDeleteLink={handleDeleteLink} />
-            </Modal>
+        <Modal closePopup={handleRemoveMask} classNamePopup={"popupSendFile"} showContent={showDeleteLink}>
+          <DeleteLink linkId={linkId} removeMask={handleRemoveMask} handleDeleteLink={handleDeleteLink} />
+        </Modal>
 
-            <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showEditLink}>
-              <EditLink
-                removeMask={handleRemoveMask}
-                handleUpdateLink={handleUpdateLink}
-                info={linkInfos?.find((x) => x.id === linkId)!}
-              />
-            </Modal>
-            <Modal closePopup={handleRemoveMask} classNamePopup="popupSendFile" showContent={showNotFeature}>
-              <NotFeature onClose={() => setShowNotFeature(false)} />
-            </Modal>
-          </>
-        )}
+        <Modal closePopup={handleRemoveMask} classNamePopup={"popup"} showContent={showEditLink}>
+          <EditLink
+            removeMask={handleRemoveMask}
+            handleUpdateLink={handleUpdateLink}
+            info={linkInfos?.find((x) => x.id === linkId)!}
+          />
+        </Modal>
+        <Modal closePopup={handleRemoveMask} classNamePopup="popupSendFile" showContent={showNotFeature}>
+          <NotFeature onClose={() => setShowNotFeature(false)} />
+        </Modal>
       </>
     )
   );

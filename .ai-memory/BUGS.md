@@ -2,6 +2,12 @@
 
 ## Known Bugs
 
+The Ice Breaker deletion persistence bug was fixed on 2026-09-24. `Properties.tsx` previously sent the pre-deletion button list to `UpdateIceBreaker`; it now sends the filtered list without the selected item. Automated component coverage remains pending.
+
+The upgrade-page close action was fixed on 2026-09-20 by replacing the duplicated click/keyboard navigation with one guarded `router.replace("/home")` handler. Native button keyboard activation remains available, and repeated activation after navigation starts is ignored.
+
+The home dashboard loading screen was fixed on 2026-09-19. `IngageInfo` previously initialized its loading flag from `LoginStatus(session)` and never cleared it for an authenticated session, hiding all home tiles indefinitely. The flag now follows the home tile data state; live browser verification confirmed five home tile sections render after refresh.
+
 The Instagram connection flow previously showed only a warning for Iranian IPs and blocked the redirect when the country code was absent. Fixed on 2026-09-08 by using the shared invalid-IP modal and matching `SwitchAccount`; live browser coverage remains pending.
 
 On 2026-09-08, a notification-only render was confirmed to retrigger `InstaProvider` account checks because its legacy router object changed identity. Using `next/navigation` fixes this dependency defect in a focused synthetic test. Whether this fully resolves the reported AI-notification browser reload remains unverified with live backend events.
@@ -18,7 +24,7 @@ The global browser-compatibility layout issues reported on 2026-08-04 were reduc
 
 Product-detail media drag reordering was fixed on 2026-08-23 in both product editors by applying a dnd-kit horizontal-axis modifier and an 8px pointer activation distance; vertical pointer movement no longer changes sortable transforms.
 
-No confirmed runtime bugs remain from the chart navigation issue addressed on 2026-07-20 or the AI-route navbar/sidebar logo issues addressed on 2026-07-25. The market mobile navbar logo mismatch was fixed on 2026-08-22 by aligning route enum values with the actual App Router paths.
+No confirmed runtime bugs remain from the chart navigation issue addressed on 2026-07-20 or the AI-route navbar/sidebar logo issues addressed on 2026-07-25. The market mobile navbar logo mismatch was fixed on 2026-08-22 by aligning route enum values with the actual App Router paths. The `/message/Properties`, `/setting/subAdmin`, and `/advertise/Properties` navbar visibility issues were fixed on 2026-09-19 by aligning desktop and mobile route matching with lowercase pathname normalization; these tabs now also receive the correct active index.
 
 The shared Tooltip ancestor-clipping issue was fixed on 2026-07-28 by rendering tooltip content through `document.body` and tracking the trigger's viewport position.
 

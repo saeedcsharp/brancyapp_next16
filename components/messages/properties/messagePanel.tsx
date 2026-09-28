@@ -23,7 +23,6 @@ import { Language } from "brancy/models/enums";
 
 function MessagePanel({
   messagePanel,
-  handleHideRobotReply,
   handleLikeRobotReply,
   handleToggleFollowTemplate,
   handleChangeTitle,
@@ -33,7 +32,6 @@ function MessagePanel({
   handleChangeDragDrop,
 }: {
   messagePanel: IMessagePanel;
-  handleHideRobotReply: (e: ChangeEvent<HTMLInputElement>) => void;
   handleLikeRobotReply: (e: ChangeEvent<HTMLInputElement>) => void;
   handleToggleFollowTemplate: (e: ChangeEvent<HTMLInputElement>) => void;
   handleChangeTitle: (e: ChangeEvent<HTMLInputElement>) => void;
@@ -153,28 +151,6 @@ function MessagePanel({
         {
           <>
             <div className={`${styles.all} ${isHidden ? "" : styles.show}`}>
-              <div className="headerandinput">
-                <div className="headerparent">
-                  <div className="title2">
-                    {t(LanguageKey.messagesetting_HideRobotReply)}
-                    <Tooltip
-                      triggerType="tooltip"
-                      tooltipValue={t(LanguageKey.messagesetting_HideRobotReplytooltip)}
-                      onClick={true}
-                      position="bottom"
-                    />
-                  </div>
-                  <ToggleCheckBoxButton
-                    handleToggle={handleHideRobotReply}
-                    checked={messagePanel.robotReply}
-                    name=" hideRobotReply"
-                    title={" hideRobotReply"}
-                    role={" switch"}
-                  />
-                </div>
-                <div className="explain"> {t(LanguageKey.messagesetting_HideRobotReplyExplain)}</div>
-              </div>
-
               <div className="headerandinput">
                 <div className="headerparent">
                   <div className="title2">{t(LanguageKey.messagesetting_LikeRobotReply)} </div>
