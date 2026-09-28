@@ -62,6 +62,8 @@
 
 - 2026-09-27: Added localized model input-feature titles to each AI model row's existing `IDgray` metadata label, with duplicate titles removed and long lists truncated with a full tooltip.
 
+- 2026-09-28: Added category selection buttons to expanded AI model creator branches, filtering card view by category while preserving the full table view and page-owned model selection.
+
 - 2026-09-27: Made the AI token usage refresh icon rotate while recalculation is loading and stop automatically when the request completes.
 
 - 2026-09-27: Added a refresh icon button to the AI media creator token usage panel so the current estimate can be recalculated without restoring the full usage button.

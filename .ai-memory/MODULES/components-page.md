@@ -97,6 +97,8 @@ The AI model modal header also includes a Table toggle. It switches the active c
 
 The semantic model table supports ascending and descending sorting by category, model name, price, cost level, and visible feature labels through clickable and keyboard-accessible headers.
 
+Each expanded AI creator branch in card view now shows a horizontal row of unique category buttons. Selecting a category filters the cards below it; the table view keeps its full model list and existing sorting behavior. Opening a creator selects its current model category or the first available category for card view.
+
 Model cost indicators use the existing design tokens by level: one dollar is light green, two are light yellow, three are light red, and four are dark red.
 
 `MediaCreator` removes duplicate models returned for the same provider by model name before rendering, keeping the model selector and its React keys unique while preserving the existing name-based selection and request contract.

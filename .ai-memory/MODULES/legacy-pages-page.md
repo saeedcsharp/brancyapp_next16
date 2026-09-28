@@ -51,6 +51,8 @@ The `/page/ai` controller localizes its page metadata and generation request/fai
 
 The `/page/ai` controller owns the AI model-picker modal and the image/video model selections. `MediaCreator` renders the trigger and receives the page-owned selection callbacks, allowing the picker to use the page's full-screen modal presentation.
 
+The model picker content provides category tabs within each expanded creator branch in card view. Category selection only changes the visible card subset; table view remains unfiltered, while model selection continues to update the page-owned selection and close the modal.
+
 ## Dependencies
 
 See imports in related files and dependency docs.

@@ -65,6 +65,10 @@ function getModelFeatureLabels(model: IMediaCreator["inputModels"][number] | und
   );
 }
 
+function getModelCategories(models: IMediaCreator["inputModels"]): string[] {
+  return Array.from(new Set(models.map((model) => model.category).filter(Boolean)));
+}
+
 type ModelModeIcon = "text" | "video" | "image" | "extend" | "editImage" | "editVideo" | "referenceVideo";
 
 function getModelModeIcons(model: IMediaCreator["inputModels"][number]): ModelModeIcon[] {
@@ -295,6 +299,7 @@ export function AiModelListContent({
   const [showFeatures, setShowFeatures] = useState(false);
   const [showTable, setShowTable] = useState(false);
   const [activeCreatorKey, setActiveCreatorKey] = useState(selectedCreatorKey);
+  const [activeCategory, setActiveCategory] = useState("");
   const [sortKey, setSortKey] = useState<ModelSortKey>("name");
   const [sortDirection, setSortDirection] = useState<SortDirection>("asc");
 
@@ -315,8 +320,13 @@ export function AiModelListContent({
   };
 
   useEffect(() => {
-    if (selectedCreatorKey) setActiveCreatorKey(selectedCreatorKey);
-  }, [selectedCreatorKey]);
+    if (!selectedCreatorKey) return;
+
+    setActiveCreatorKey(selectedCreatorKey);
+    const creator = creators.find((item) => item.key === selectedCreatorKey);
+    const selectedModel = creator?.inputModels.find((model) => model.name === selectedModelName);
+    setActiveCategory(selectedModel?.category ?? getModelCategories(creator?.inputModels ?? [])[0] ?? "");
+  }, [creators, selectedCreatorKey, selectedModelName]);
 
   return (
     <div className={styles.modalContent}>
@@ -369,6 +379,9 @@ export function AiModelListContent({
       <div className={`${styles.creatorList} translate`}>
         {creators.map((creator) => {
           const isActive = creator.key === activeCreatorKey;
+          const categories = getModelCategories(creator.inputModels);
+          const selectedCategory = categories.includes(activeCategory) ? activeCategory : (categories[0] ?? "");
+          const visibleModels = creator.inputModels.filter((model) => model.category === selectedCategory);
           return (
             <section className={`${styles.creatorSection} translate`} key={creator.key}>
               <button
@@ -376,7 +389,14 @@ export function AiModelListContent({
                 className={`${styles.creatorButton} ${isActive ? styles.creatorButtonActive : ""}`}
                 aria-expanded={isActive}
                 aria-controls={`models-${creator.key}`}
-                onClick={() => setActiveCreatorKey((current) => (current === creator.key ? "" : creator.key))}>
+                onClick={() => {
+                  setActiveCreatorKey((current) => (current === creator.key ? "" : creator.key));
+                  setActiveCategory(
+                    creator.inputModels.find((model) => model.name === selectedModelName)?.category ??
+                      categories[0] ??
+                      "",
+                  );
+                }}>
                 <div className={styles.creatorHeading}>
                   <span className={styles.creatorLogo}>
                     {getCreatorIcon(creator.displayName) ? (
@@ -414,195 +434,218 @@ export function AiModelListContent({
                 className={`${styles.modelListWrapper} ${isActive ? styles.modelListWrapperOpen : ""}`}
                 id={`models-${creator.key}`}
                 aria-hidden={!isActive}>
-                {showTable ? (
-                  <div className={styles.modelTableWrapper}>
-                    <table className={styles.modelTable}>
-                      <thead>
-                        <tr>
-                          <th
-                            scope="col"
-                            className={styles.sortableHeader}
-                            onClick={() => handleSort("category")}
-                            onKeyDown={(event) => handleSortKeyDown(event, "category")}
-                            tabIndex={0}
-                            role="button"
-                            aria-sort={
-                              sortKey === "category" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"
-                            }>
-                            {t("SettingGeneralAiModelsTitle")}
-                          </th>
-                          <th
-                            scope="col"
-                            className={styles.sortableHeader}
-                            onClick={() => handleSort("name")}
-                            onKeyDown={(event) => handleSortKeyDown(event, "name")}
-                            tabIndex={0}
-                            role="button"
-                            aria-sort={
-                              sortKey === "name" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"
-                            }>
-                            {t("product_Properties")}
-                          </th>
-                          <th
-                            scope="col"
-                            className={styles.sortableHeader}
-                            onClick={() => handleSort("price")}
-                            onKeyDown={(event) => handleSortKeyDown(event, "price")}
-                            tabIndex={0}
-                            role="button"
-                            aria-sort={
-                              sortKey === "price" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"
-                            }>
-                            {t("TokenUsage")}
-                          </th>
-                          <th
-                            scope="col"
-                            className={styles.sortableHeader}
-                            onClick={() => handleSort("expensiveType")}
-                            onKeyDown={(event) => handleSortKeyDown(event, "expensiveType")}
-                            tabIndex={0}
-                            role="button"
-                            aria-sort={
-                              sortKey === "expensiveType"
-                                ? sortDirection === "asc"
-                                  ? "ascending"
-                                  : "descending"
-                                : "none"
-                            }>
-                            {t("pricing")}
-                          </th>
-                          {showFeatures && (
+                <div className={styles.modelListWrapperContent}>
+                  {showTable ? (
+                    <div className={styles.modelTableWrapper}>
+                      <table className={styles.modelTable}>
+                        <thead>
+                          <tr>
                             <th
                               scope="col"
                               className={styles.sortableHeader}
-                              onClick={() => handleSort("features")}
-                              onKeyDown={(event) => handleSortKeyDown(event, "features")}
+                              onClick={() => handleSort("category")}
+                              onKeyDown={(event) => handleSortKeyDown(event, "category")}
                               tabIndex={0}
                               role="button"
                               aria-sort={
-                                sortKey === "features" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"
+                                sortKey === "category" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"
+                              }>
+                              {t("SettingGeneralAiModelsTitle")}
+                            </th>
+                            <th
+                              scope="col"
+                              className={styles.sortableHeader}
+                              onClick={() => handleSort("name")}
+                              onKeyDown={(event) => handleSortKeyDown(event, "name")}
+                              tabIndex={0}
+                              role="button"
+                              aria-sort={
+                                sortKey === "name" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"
                               }>
                               {t("product_Properties")}
                             </th>
+                            <th
+                              scope="col"
+                              className={styles.sortableHeader}
+                              onClick={() => handleSort("price")}
+                              onKeyDown={(event) => handleSortKeyDown(event, "price")}
+                              tabIndex={0}
+                              role="button"
+                              aria-sort={
+                                sortKey === "price" ? (sortDirection === "asc" ? "ascending" : "descending") : "none"
+                              }>
+                              {t("TokenUsage")}
+                            </th>
+                            <th
+                              scope="col"
+                              className={styles.sortableHeader}
+                              onClick={() => handleSort("expensiveType")}
+                              onKeyDown={(event) => handleSortKeyDown(event, "expensiveType")}
+                              tabIndex={0}
+                              role="button"
+                              aria-sort={
+                                sortKey === "expensiveType"
+                                  ? sortDirection === "asc"
+                                    ? "ascending"
+                                    : "descending"
+                                  : "none"
+                              }>
+                              {t("pricing")}
+                            </th>
+                            {showFeatures && (
+                              <th
+                                scope="col"
+                                className={styles.sortableHeader}
+                                onClick={() => handleSort("features")}
+                                onKeyDown={(event) => handleSortKeyDown(event, "features")}
+                                tabIndex={0}
+                                role="button"
+                                aria-sort={
+                                  sortKey === "features"
+                                    ? sortDirection === "asc"
+                                      ? "ascending"
+                                      : "descending"
+                                    : "none"
+                                }>
+                                {t("product_Properties")}
+                              </th>
+                            )}
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {sortModels(creator.inputModels, sortKey, sortDirection, i18n.language || "en").map(
+                            (model) => {
+                              const isSelected = creator.key === selectedCreatorKey && model.name === selectedModelName;
+                              const featureLabels = getModelFeatureLabels(model, i18n.language || "en");
+                              const costLevel = Math.min(Math.max(model.expensiveType + 1, 1), 4);
+                              return (
+                                <tr
+                                  className={isSelected ? styles.modelTableRowSelected : ""}
+                                  key={model.name}
+                                  onClick={() => {
+                                    onSelect(creator.key, model.name);
+                                    onClose();
+                                  }}
+                                  onKeyDown={(event) => {
+                                    if (event.key === "Enter" || event.key === " ") {
+                                      event.preventDefault();
+                                      onSelect(creator.key, model.name);
+                                      onClose();
+                                    }
+                                  }}
+                                  role="button"
+                                  tabIndex={0}
+                                  aria-pressed={isSelected}>
+                                  <td>{model.category}</td>
+                                  <td>
+                                    <span className={styles.modelModeIcons} style={{ gap: "5px" }}>
+                                      <ModelModeIcons model={model} />
+                                      {model.displayName ?? model.name}
+                                    </span>
+                                  </td>
+
+                                  <td>
+                                    <span className="explain">{model.price.toLocaleString()} </span>
+                                  </td>
+
+                                  <td>
+                                    <span
+                                      className={`${styles.cost} ${styles[`costLevel${costLevel}`]}`}
+                                      aria-label={t("Cost level {level}", { level: model.expensiveType + 1 })}>
+                                      {"$".repeat(costLevel)}
+                                    </span>
+                                  </td>
+
+                                  {showFeatures && (
+                                    <td className={styles.tableFeatures}>
+                                      {featureLabels.length > 0 ? (
+                                        <div className={styles.tableFeatureList}>
+                                          {featureLabels.map((featureLabel) => (
+                                            <span
+                                              className={`IDgray ${styles.modelFeatures}`}
+                                              key={featureLabel}
+                                              title={featureLabel}>
+                                              {featureLabel}
+                                            </span>
+                                          ))}
+                                        </div>
+                                      ) : (
+                                        "-"
+                                      )}
+                                    </td>
+                                  )}
+                                </tr>
+                              );
+                            },
                           )}
-                        </tr>
-                      </thead>
-                      <tbody>
-                        {sortModels(creator.inputModels, sortKey, sortDirection, i18n.language || "en").map((model) => {
+                        </tbody>
+                      </table>
+                    </div>
+                  ) : (
+                    <>
+                      <div className={styles.categoryList} role="tablist" aria-label={t("AI model categories")}>
+                        {categories.map((category) => (
+                          <button
+                            type="button"
+                            className={`${styles.categoryButton} ${selectedCategory === category ? styles.categoryButtonActive : ""}`}
+                            key={category}
+                            role="tab"
+                            aria-selected={selectedCategory === category}
+                            onClick={() => setActiveCategory(category)}>
+                            {category}
+                          </button>
+                        ))}
+                      </div>
+                      <div className={styles.modelList}>
+                        {visibleModels.map((model) => {
                           const isSelected = creator.key === selectedCreatorKey && model.name === selectedModelName;
                           const featureLabels = getModelFeatureLabels(model, i18n.language || "en");
                           const costLevel = Math.min(Math.max(model.expensiveType + 1, 1), 4);
                           return (
-                            <tr
-                              className={isSelected ? styles.modelTableRowSelected : ""}
+                            <button
+                              type="button"
+                              className={isSelected ? styles.modelSelected : styles.model}
                               key={model.name}
                               onClick={() => {
                                 onSelect(creator.key, model.name);
                                 onClose();
                               }}
-                              onKeyDown={(event) => {
-                                if (event.key === "Enter" || event.key === " ") {
-                                  event.preventDefault();
-                                  onSelect(creator.key, model.name);
-                                  onClose();
-                                }
-                              }}
-                              role="button"
-                              tabIndex={0}
                               aria-pressed={isSelected}>
-                              <td>{model.category}</td>
-                              <td>
-                                <span className={styles.modelModeIcons} style={{ gap: "5px" }}>
-                                  <ModelModeIcons model={model} />
-                                  {model.displayName ?? model.name}
-                                </span>
-                              </td>
-
-                              <td>
-                                <span className="explain">{model.price.toLocaleString()} </span>
-                              </td>
-
-                              <td>
-                                <span
-                                  className={`${styles.cost} ${styles[`costLevel${costLevel}`]}`}
-                                  aria-label={t("Cost level {level}", { level: model.expensiveType + 1 })}>
-                                  {"$".repeat(costLevel)}
-                                </span>
-                              </td>
-
-                              {showFeatures && (
-                                <td className={styles.tableFeatures}>
-                                  {featureLabels.length > 0 ? (
-                                    <div className={styles.tableFeatureList}>
-                                      {featureLabels.map((featureLabel) => (
-                                        <span
-                                          className={`IDgray ${styles.modelFeatures}`}
-                                          key={featureLabel}
-                                          title={featureLabel}>
-                                          {featureLabel}
-                                        </span>
-                                      ))}
-                                    </div>
-                                  ) : (
-                                    "-"
-                                  )}
-                                </td>
-                              )}
-                            </tr>
+                              <div className={styles.headerandinput} style={{ gap: "1px" }}>
+                                <div className="headerparent">
+                                  <span>{model.displayName ?? model.name}</span>
+                                  <span
+                                    className={`${styles.cost} ${styles[`costLevel${costLevel}`]}`}
+                                    aria-label={t("Cost level {level}", { level: model.expensiveType + 1 })}>
+                                    {"$".repeat(costLevel)}
+                                  </span>
+                                </div>
+                                <div className="headerparent">
+                                  <span className={styles.modelModeIcons} style={{ gap: "5px" }}>
+                                    <ModelModeIcons model={model} />
+                                  </span>
+                                  <span className="explain">{model.price.toLocaleString()} </span>
+                                </div>
+                              </div>
+                              <div
+                                className={`${styles.modelFeatureList} ${showFeatures ? styles.modelFeatureListOpen : ""}`}
+                                aria-hidden={!showFeatures}>
+                                {featureLabels.map((featureLabel) => (
+                                  <span
+                                    className={`IDgray ${styles.modelFeatures}`}
+                                    key={featureLabel}
+                                    title={featureLabel}>
+                                    {featureLabel}
+                                  </span>
+                                ))}
+                              </div>
+                            </button>
                           );
                         })}
-                      </tbody>
-                    </table>
-                  </div>
-                ) : (
-                  <div className={styles.modelList}>
-                    {creator.inputModels.map((model) => {
-                      const isSelected = creator.key === selectedCreatorKey && model.name === selectedModelName;
-                      const featureLabels = getModelFeatureLabels(model, i18n.language || "en");
-                      const costLevel = Math.min(Math.max(model.expensiveType + 1, 1), 4);
-                      return (
-                        <button
-                          type="button"
-                          className={isSelected ? styles.modelSelected : styles.model}
-                          key={model.name}
-                          onClick={() => {
-                            onSelect(creator.key, model.name);
-                            onClose();
-                          }}
-                          aria-pressed={isSelected}>
-                          <div className="headerandinput" style={{ gap: "1px" }}>
-                            <div className="headerparent">
-                              <span>{model.category}</span>
-                              <span
-                                className={`${styles.cost} ${styles[`costLevel${costLevel}`]}`}
-                                aria-label={t("Cost level {level}", { level: model.expensiveType + 1 })}>
-                                {"$".repeat(costLevel)}
-                              </span>
-                            </div>
-                            <div className="headerparent">
-                              <span className={styles.modelModeIcons} style={{ gap: "5px" }}>
-                                <ModelModeIcons model={model} /> {model.displayName ?? model.name}
-                              </span>
-                              <span className="explain">{model.price.toLocaleString()} </span>
-                            </div>
-                            <div
-                              className={`${styles.modelFeatureList} ${showFeatures ? styles.modelFeatureListOpen : ""}`}
-                              aria-hidden={!showFeatures}>
-                              {featureLabels.map((featureLabel) => (
-                                <span
-                                  className={`IDgray ${styles.modelFeatures}`}
-                                  key={featureLabel}
-                                  title={featureLabel}>
-                                  {featureLabel}
-                                </span>
-                              ))}
-                            </div>
-                          </div>
-                        </button>
-                      );
-                    })}
-                  </div>
-                )}
+                      </div>
+                    </>
+                  )}
+                </div>
               </div>
             </section>
           );

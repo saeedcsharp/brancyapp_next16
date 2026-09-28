@@ -103,6 +103,8 @@ The AI model modal header also provides a Table toggle. It switches each expande
 
 Each table header sorts its model rows in ascending or descending order on repeated activation; keyboard activation is supported for sortable headers.
 
+Expanded AI creator branches in card view now show unique category buttons above the model cards. The active category filters cards and defaults to the selected model's category when available; table view remains unfiltered, and model selection keeps the existing page-owned callback behavior.
+
 AI model cost labels now use level-specific colors: light green, light yellow, light red, and dark red for one through four dollar signs.
 
 The comment inbox de-duplicates every Post, Story, hidden-inbox, search, deep-link, pagination, and SignalR media list by `mediaId`, preserving the first item's order when the backend returns repeated media.

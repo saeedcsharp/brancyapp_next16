@@ -10,6 +10,7 @@ import {
 import { MethodType, UploadFile } from "brancy/helper/api";
 import { getTotalFeatureCount } from "brancy/helper/checkFeature";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { convertDigitsToEnglish, formatEnglishNumber } from "brancy/helper/numberFormater";
 import { InputType, PsgFeatureType } from "brancy/models/enums";
 import { IGetImageUsageRequest, IMediaCreator, IMediaCreatorInput, IMediaCreatorModel } from "brancy/models/interfaces";
 import { useSession } from "next-auth/react";
@@ -63,7 +64,9 @@ const titleByLanguage: Record<string, keyof IMediaCreatorInput> = {
 function getInputTitle(input: IMediaCreatorInput, language: string): string {
   const languageKey = titleByLanguage[language.split("-")[0]] ?? "titleEn";
   const localizedTitle = input[languageKey];
-  return typeof localizedTitle === "string" && localizedTitle.trim() ? localizedTitle : input.titleEn || input.key;
+  const title =
+    typeof localizedTitle === "string" && localizedTitle.trim() ? localizedTitle : input.titleEn || input.key;
+  return convertDigitsToEnglish(title);
 }
 function getDefaultInputValue(input: IMediaCreatorInput): InputValue | null {
   if (input.defaultValue === null || input.defaultValue === undefined) return null;
@@ -818,7 +821,7 @@ export default function MediaCreator({
                               {isBackground && <BackgroundIcon value={option} />}
                               {isModeration && <ModerationIcon value={option} />}
                               {isThinkingLevel && <ThinkingLevelIcon value={option} />}
-                              <span>{option}</span>
+                              <span>{convertDigitsToEnglish(option)}</span>
                             </span>
                           </button>
                         ))}
@@ -1032,8 +1035,8 @@ export default function MediaCreator({
                 </div>
 
                 <div className={styles.tokenUsageLabels}>
-                  <span>{tokenUsage === null ? "-" : tokenUsage.toLocaleString()}</span>
-                  <span>{tokenBalance.total.toLocaleString()}</span>
+                  <span>{tokenUsage === null ? "-" : formatEnglishNumber(tokenUsage)}</span>
+                  <span>{formatEnglishNumber(tokenBalance.total)}</span>
                 </div>
               </div>
               <button
