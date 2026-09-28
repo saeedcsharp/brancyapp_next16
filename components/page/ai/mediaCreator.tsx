@@ -22,7 +22,7 @@ import NotFeature from "brancy/components/notOk/notFeature";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import AiModelList from "brancy/components/page/ai/popup/AiModelList";
 type InputValue = string | number | boolean | string[];
-type MediaTab = "image" | "video" | "createimage" | "createvideo";
+export type MediaTab = "image" | "video" | "createimage" | "createvideo";
 interface UploadedMediaPreview {
   fileName: string;
   showUrl: string;

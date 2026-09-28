@@ -527,6 +527,11 @@ export const featureCatalog: FeatureRecord[] = [
 
 export const auditRecords: AuditRecord[] = [
   {
+    id: "visualIdentityPrototype",
+    routes: ["/Ai/creator"],
+    sourceKinds: ["route", "component"],
+  },
+  {
     id: "advertisingLifecyclePrototype",
     routes: ["/advertise/calendar", "/advertise/adlist", "/advertise/Properties", "/advertise/statistics"],
     sourceKinds: ["route", "component", "translation"],
