@@ -1,3 +1,5 @@
+- 2026-09-28: Fixed Docker build failure (E404 for `sharp@0.33.5` on the `repo.hmirror.ir` npm mirror): the runner stage now copies `sharp`, `@img/*`, and `detect-libc` from the builder's `node_modules` (installed by `npm ci`) instead of running `npm i sharp`.
+
 - 2026-09-28: Hardened `MediaCreator` `defaultValue` parsing per `InputType`: Boolean parses `"true"`/`"false"` strings, arrays accept JSON-string defaults, numeric/range defaults ignore empty strings and range values are clamped (IntRange rounded), and enum defaults must match an `enumValues` option (case-insensitive) or fall back to the first option.
 
 - 2026-09-28: Fixed the AI media history DragDrop All option to use the localized `toggleShowAll` translation key.
