@@ -1,3 +1,5 @@
+- 2026-09-28: Added the local-only Character Sheet Visual Identity wizard at `/dev/characterSheet`, linked from the Dev Panel; removed it from the AI creator tabs while preserving its Auto/Advanced flows, dynamic identity controls, local reference previews, locks, views, style, consistency, constraints, and presentation-only sheet.
+
 - 2026-09-28: Fixed the AI media history DragDrop All option to use the localized `toggleShowAll` translation key.
 
 - 2026-09-28: Fixed AI media history pagination by attaching both image and video `useInfiniteScroll` instances to the scrollable `MediaLibrary` container, so reaching the list end fetches the next backend cursor.

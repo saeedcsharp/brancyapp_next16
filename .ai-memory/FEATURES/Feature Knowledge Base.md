@@ -73,7 +73,7 @@ Known feature entitlements are `PsgFeatureType.AI`, `PsgFeatureType.Lottery`, an
 
 ## Audit-Only Findings
 
-The page explicitly keeps advertising calendar/list/properties/report screens, customer-ads lifecycle UI, store properties, store statistics, the static MyLink coupon display, incomplete AI video creation, market-home mock data, buyer wallet/payment-status shells, Telegram/WhatsApp download prompts, and password/help-center stubs out of the live catalog. Their visible frontend surfaces are useful audit clues but do not prove a backend-supported Brancy capability.
+The page explicitly keeps the local-only Visual Identity/Character Sheet prototype, advertising calendar/list/properties/report screens, customer-ads lifecycle UI, store properties, store statistics, the static MyLink coupon display, incomplete AI video creation, market-home mock data, buyer wallet/payment-status shells, Telegram/WhatsApp download prompts, and password/help-center stubs out of the live catalog. Their visible frontend surfaces are useful audit clues but do not prove a backend-supported Brancy capability. The Visual Identity record must remain audit-only until persistence, analysis, generation, versioning, permissions, and asset handling have source-backed contracts.
 
 ## Validation
 

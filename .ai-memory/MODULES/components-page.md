@@ -82,7 +82,11 @@ Each edge handle uses a directional two-second outward shadow pulse to indicate 
 
 The active AI components use direct i18next keys for visible creator, library, modal, upload, accessibility, metadata fallback, and pending-generation text. `parseImageMetadata` accepts an optional translator so shared history cards and result modals render boolean and null metadata values in the active locale.
 
-`MediaCreator` renders the AI Image/Video tablist with the shared `ToggleButton` at the top of its single settings panel. The page renders `MediaCreator` and the matching library beneath it, so the tab control no longer exposes a separate Create button. When no creator/model is available, the settings panel retains the media tabs and renders the localized state message below them.
+`MediaCreator` renders the AI Images and Videos tablist with the shared `ToggleButton` at the top of its single settings panel. The page renders `MediaCreator` and the matching library for image/video modes, so the tab control no longer exposes a separate Create button. When no creator/model is available, the settings panel retains the media tabs and renders the localized state message below them.
+
+`components/page/ai/CharacterSheet.tsx`, rendered by `app/dev/characterSheet/page.tsx`, owns the independent Character Sheet Visual Identity UI. It reuses the media creator's outer container and action-bar structure while keeping its own responsive CSS module and local state. Advanced mode has eight steps for type, identity references, structure, details, views, style, consistency, and review; Auto mode reduces this to type, identity, style, and review. Identity-specific field schemas cover Human, Product, Object, Animal, and Custom subjects. Browser-selected references use object URLs only and are revoked on removal or unmount.
+
+The Character Sheet surface is deliberately a frontend prototype. Auto-Define only reveals the proposed analysis fields, Generate sheet only reveals a local presentation preview, and consistency scores are fixed display data. There are no imports from API helpers, no upload call, no session dependency, no persistence, and no real analysis, generation, regeneration, publishing, versioning, or billing behavior.
 
 When the AI feature check reports that generation is unavailable, `MediaCreator` renders the shared `NotFeature` upgrade state directly inside that empty state panel; the page no longer opens a separate feature-unavailable modal. A normal creator request still renders the shared `Loading` component until data arrives.
 
