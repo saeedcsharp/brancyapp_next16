@@ -69,15 +69,41 @@ function getDefaultInputValue(input: IMediaCreatorInput): InputValue | null {
   if (input.defaultValue === null || input.defaultValue === undefined) return null;
 
   const inputType = Number(input.inputType);
-  if (inputType === InputType.Boolean) return Boolean(input.defaultValue);
+  const rawValue = input.defaultValue;
+  if (inputType === InputType.Boolean) {
+    if (typeof rawValue === "string") {
+      const normalized = rawValue.trim().toLowerCase();
+      if (normalized === "true") return true;
+      if (normalized === "false") return false;
+      return null;
+    }
+    return Boolean(rawValue);
+  }
   if (inputType === InputType.ImageArray || inputType === InputType.VideoArray || inputType === InputType.AudioArray) {
-    return Array.isArray(input.defaultValue) ? input.defaultValue.map(String) : [];
+    if (Array.isArray(rawValue)) return rawValue.map(String);
+    if (typeof rawValue !== "string" || !rawValue.trim()) return null;
+    try {
+      const parsed = JSON.parse(rawValue);
+      return Array.isArray(parsed) ? parsed.map(String) : null;
+    } catch {
+      return [rawValue.trim()];
+    }
   }
   if (inputType === InputType.Number || inputType === InputType.Range || inputType === InputType.IntRange) {
-    const numericValue = Number(input.defaultValue);
-    return Number.isFinite(numericValue) ? numericValue : null;
+    if (typeof rawValue === "string" && !rawValue.trim()) return null;
+    const numericValue = Number(rawValue);
+    if (!Number.isFinite(numericValue)) return null;
+    if (inputType === InputType.Number) return numericValue;
+    const { min, max } = getRangeBounds(input);
+    const clampedValue = Math.min(Math.max(numericValue, min), max);
+    return inputType === InputType.IntRange ? Math.round(clampedValue) : clampedValue;
   }
-  return String(input.defaultValue);
+  if (inputType === InputType.EnumV1 || inputType === InputType.EnumV2) {
+    const options = input.enumValues ?? [];
+    const normalized = String(rawValue).trim().toLowerCase();
+    return options.find((option) => option.trim().toLowerCase() === normalized) ?? null;
+  }
+  return String(rawValue);
 }
 function allowsEmptyValue(input: IMediaCreatorInput): boolean {
   return Number(input.inputType) === InputType.Text && input.min === 0;

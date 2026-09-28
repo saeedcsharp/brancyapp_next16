@@ -1,3 +1,5 @@
+- 2026-09-28: Hardened `MediaCreator` `defaultValue` parsing per `InputType`: Boolean parses `"true"`/`"false"` strings, arrays accept JSON-string defaults, numeric/range defaults ignore empty strings and range values are clamped (IntRange rounded), and enum defaults must match an `enumValues` option (case-insensitive) or fall back to the first option.
+
 - 2026-09-28: Fixed the AI media history DragDrop All option to use the localized `toggleShowAll` translation key.
 
 - 2026-09-28: Removed the AI media library All filter; Images now requests only `GetImages`, Videos requests only `GetVideos`, and each history loads when first selected.
