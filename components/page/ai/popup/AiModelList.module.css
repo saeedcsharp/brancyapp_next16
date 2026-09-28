@@ -308,6 +308,32 @@
   text-align: start;
 }
 
+.modelModeIcons {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  min-width: 0;
+  color: var(--text-h2);
+}
+
+.modelModeIcon {
+  display: inline-flex;
+  align-items: center;
+  gap: 1px;
+  flex: 0 0 auto;
+}
+
+.modelModeIcon svg {
+  display: block;
+  min-width: 18px;
+}
+
+.modelModeArrow {
+  color: var(--text-h2);
+  font-size: var(--font-12);
+  line-height: 1;
+}
+
 .tableFeatures {
   max-width: 280px;
   color: var(--text-h2);
@@ -419,7 +445,7 @@
   background-color: var(--color-gray10);
   border: 1px solid var(--color-gray30);
   border-radius: var(--br8);
-    padding: 2px var(--padding-5);
+  padding: 2px var(--padding-5);
   font-size: var(--font-10);
   min-width: 45px;
   font-weight: var(--weight-400);

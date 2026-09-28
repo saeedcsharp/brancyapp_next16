@@ -65,6 +65,132 @@ function getModelFeatureLabels(model: IMediaCreator["inputModels"][number] | und
   );
 }
 
+type ModelModeIcon = "text" | "video" | "image" | "extend" | "editImage" | "editVideo" | "referenceVideo";
+
+function getModelModeIcons(model: IMediaCreator["inputModels"][number]): ModelModeIcon[] {
+  const mode = (model.displayName ?? model.name).toLowerCase().replace(/[^a-z0-9]/g, "");
+  const category = model.category.toLowerCase();
+
+  if (mode.includes("texttovideo")) return ["text", "video"];
+  if (mode.includes("imagetovideo")) return ["image", "video"];
+  if (mode.includes("texttoimage")) return ["text", "image"];
+  if (mode.includes("referencetovideo") || mode.includes("refrencetovideo")) return ["referenceVideo"];
+  if (mode.includes("editimage")) return ["editImage"];
+  if (mode.includes("editvideo")) return ["editVideo"];
+  if (mode === "edit") return [category.includes("video") ? "editVideo" : "editImage"];
+  if (mode.includes("extend")) return ["extend"];
+
+  return [];
+}
+
+function ModelModeIcons({ model }: { model: IMediaCreator["inputModels"][number] }) {
+  const icons = getModelModeIcons(model);
+  const label = model.displayName ?? model.name;
+
+  if (icons.length === 0) return <span className="explain">{label}</span>;
+
+  return (
+    <span className={styles.modelModeIcons} aria-label={label} title={label}>
+      {icons.map((icon, index) => (
+        <span className={styles.modelModeIcon} key={icon}>
+          {index > 0 && (
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              color="currentColor"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="1"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              viewBox="0 0 24 24">
+              <path d="M18.5 12H5m8 6s6-4.4 6-6-6-6-6-6" />
+            </svg>
+          )}
+          <ModelModeIcon icon={icon} />
+        </span>
+      ))}
+    </span>
+  );
+}
+
+function ModelModeIcon({ icon }: { icon: ModelModeIcon }) {
+  const commonProps = {
+    xmlns: "http://www.w3.org/2000/svg",
+    viewBox: "0 0 24 24",
+    width: 18,
+    height: 18,
+    color: "currentColor",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.6,
+    strokeLinecap: "round" as const,
+    strokeLinejoin: "round" as const,
+    "aria-hidden": true,
+  };
+
+  if (icon === "text") {
+    return (
+      <svg {...commonProps}>
+        <path d="M7 9.5c-.2-2 1-2.4 5-2.5m0 0c4.1.1 5.3.6 5 2.5M12 7v10m-2 0h4" />
+        <path d="M3.9 3.9C2.5 5.3 2.5 7.5 2.5 12s0 6.7 1.4 8.1 3.6 1.4 8.1 1.4 6.7 0 8.1-1.4 1.4-3.6 1.4-8.1 0-6.7-1.4-8.1-3.6-1.4-8.1-1.4-6.7 0-8.1 1.4Z" />
+      </svg>
+    );
+  }
+
+  if (icon === "video") {
+    return (
+      <svg {...commonProps}>
+        <path d="M2.5 7.5h19m-4.5-5-3 5m-4-5-3 5" />
+        <path d="M2.5 12c0-4.48 0-6.72 1.4-8.1C5.27 2.5 7.51 2.5 12 2.5s6.72 0 8.1 1.4c1.4 1.38 1.4 3.62 1.4 8.1s0 6.72-1.4 8.1c-1.38 1.4-3.62 1.4-8.1 1.4s-6.72 0-8.1-1.4c-1.4-1.38-1.4-3.62-1.4-8.1Z" />
+        <path d="M14.95 14.9c-.15.62-.86 1.06-2.3 1.95-1.38.86-2.07 1.28-2.63 1.11q-.35-.1-.61-.39C9 17.12 9 16.25 9 14.5s0-2.62.41-3.07q.26-.28.61-.4c.56-.16 1.25.26 2.63 1.12 1.44.89 2.15 1.33 2.3 1.96q.1.39 0 .78Z" />
+      </svg>
+    );
+  }
+
+  if (icon === "image") {
+    return (
+      <svg {...commonProps}>
+        <path d="m3 16 4.47-4.47a1.8 1.8 0 0 1 2.56 0L14 15.5m1.5 1.5L14 15.5m7 .5-2.47-2.47a1.8 1.8 0 0 0-2.56 0L14 15.5M15.5 8a.5.5 0 0 0 0-1m0 1a.5.5 0 0 1 0-1m0 1V7" />
+        <path d="M3.7 19.75c-1.2-1.4-1.2-3.52-1.2-7.75s0-6.34 1.2-7.75a5 5 0 0 1 .55-.55C5.65 2.5 7.77 2.5 12 2.5s6.34 2.5 7.75 1.2a5 5 0 0 1 .55.55c1.2 1.4 1.2 3.52 1.2 7.75s0 6.34-1.2 7.75a5 5 0 0 1-.55.55c-1.4 1.2-3.52 1.2-7.75 1.2s-6.34 0-7.75-1.2a5 5 0 0 1-.55-.55Z" />
+      </svg>
+    );
+  }
+
+  if (icon === "extend") {
+    return (
+      <svg {...commonProps}>
+        <path d="M2.5 12c0-4.5 0-6.7 1.4-8.1S7.5 2.5 12 2.5s6.7 0 8.1 1.4 1.4 3.6 1.4 8.1 0 6.7-1.4 8.1-3.6 1.4-8.1 1.4-6.7 0-8.1-1.4-1.4-3.6-1.4-8.1Z M6 12h12M6 12c0-.7 2-2 2.5-2.5M6 12c0 .7 2 2 2.5 2.5M18 12c0-.7-2-2-2.5-2.5M18 12c0 .7-2 2-2.5 2.5" />
+      </svg>
+    );
+  }
+
+  if (icon === "referenceVideo") {
+    return (
+      <svg {...commonProps}>
+        <path d="M3 5h11a3 3 0 0 1 3 3v8a3 3 0 0 1-3 3H3z" />
+        <path d="m17 10 4-2v8l-4-2M7 12h5m-2.5-2.5v5" />
+      </svg>
+    );
+  }
+
+  if (icon === "editVideo") {
+    return (
+      <svg {...commonProps}>
+        <circle cx="8.5" cy="8.5" r="1.5" />
+        <path d="m10 10 2 2m5 5-2.5-2.5M10 14l2-2m5-5-5 5" />
+        <circle cx="8.5" cy="15.5" r="1.5" />
+        <path d="M14 21.5q.81 0 1.5-.03m-5.5.03q-.81 0-1.5-.03m10.5-.6q.64-.28 1.1-.76c1.4-1.39 1.4-3.63 1.4-8.1 0-4.49 0-6.73-1.4-8.12C18.73 2.5 16.49 2.5 12 2.5s-6.72 0-8.1 1.4C2.5 5.27 2.5 7.51 2.5 12s0 6.72 1.4 8.11q.46.48 1.1.76" />
+      </svg>
+    );
+  }
+
+  return (
+    <svg {...commonProps}>
+      <path d="M3 16 7.47 11.53a1.8 1.8 0 0 1 2.56 0L13 14.5M3 10v3.5c0 3.29 0 4.93.9 6.04a4 4 0 0 0 .56.55c1.1.91 2.75.91 6.04.91M10 3h4.5c2.33 0 3.5 0 4.39.47a4 4 0 0 1 1.64 1.64C21 6 21 7.17 21 9.5M4.5 2.94V6.06m0-1.56H3.25m1.25 0h1.25M7 4.5l-1.08-.36c-.5-.17-.9-.56-1.06-1.06L4.5 2l-.36 1.08c-.17.5-.56.9-1.06 1.06L2 4.5l1.08.36c.5.17.9.56 1.06 1.06L4.5 7l.36-1.08c.17-.5.56-.9 1.06-1.06zM16.5 8a.5.5 0 0 0 0-1m0 1a.5.5 0 0 1 0-1m0 1V7m2 8 1.5 1.5m1.43-3.07.14.14a1.5 1.5 0 0 1 0 2.08l-4.76 4.76a2 2 0 0 1-1.42.59h-.89a.5.5 0 0 1-.5-.5v-.9a2 2 0 0 1 .59-1.4l4.76-4.77a1.5 1.5 0 0 1 2.08 0Z" />
+    </svg>
+  );
+}
+
 type ModelSortKey = "category" | "name" | "price" | "expensiveType" | "features";
 type SortDirection = "asc" | "desc";
 
@@ -124,7 +250,14 @@ export default function AiModelList({ creators, selectedCreatorKey, selectedMode
         </span>
         <div className="headerandinput" style={{ gap: "1px" }}>
           <span className="title2">{selectedCreator?.displayName ?? t("AI Model")}</span>
-          <span className="explain">{selectedLabel}</span>
+          {selectedModel ? (
+            <span className={styles.modelModeIcons} style={{ gap: "5px" }}>
+              <ModelModeIcons model={selectedModel} />
+              {selectedModel.displayName ?? selectedModel.name}
+            </span>
+          ) : (
+            <span className="explain">{selectedLabel}</span>
+          )}
         </div>
       </div>
       <svg
@@ -170,7 +303,6 @@ export function AiModelListContent({
       setSortDirection((current) => (current === "asc" ? "desc" : "asc"));
       return;
     }
-
     setSortKey(nextSortKey);
     setSortDirection("asc");
   };
@@ -380,7 +512,10 @@ export function AiModelListContent({
                               aria-pressed={isSelected}>
                               <td>{model.category}</td>
                               <td>
-                                <span className={styles.modelTableSelect}>{model.displayName ?? model.name}</span>
+                                <span className={styles.modelModeIcons} style={{ gap: "5px" }}>
+                                  <ModelModeIcons model={model} />
+                                  {model.displayName ?? model.name}
+                                </span>
                               </td>
 
                               <td>
@@ -445,7 +580,9 @@ export function AiModelListContent({
                               </span>
                             </div>
                             <div className="headerparent">
-                              <span className="explain">{model.displayName ?? model.name}</span>
+                              <span className={styles.modelModeIcons} style={{ gap: "5px" }}>
+                                <ModelModeIcons model={model} /> {model.displayName ?? model.name}
+                              </span>
                               <span className="explain">{model.price.toLocaleString()} </span>
                             </div>
                             <div

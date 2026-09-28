@@ -58,6 +58,8 @@
 
 - 2026-09-28: Added ascending/descending sorting to AI model table headers, including keyboard-accessible activation.
 
+- 2026-09-28: Replaced known AI model operation labels with compact inline SVG icons in card and table views, preserving the original labels through accessible names and tooltips and retaining text fallback for unknown labels.
+
 - 2026-09-27: Added localized model input-feature titles to each AI model row's existing `IDgray` metadata label, with duplicate titles removed and long lists truncated with a full tooltip.
 
 - 2026-09-27: Made the AI token usage refresh icon rotate while recalculation is loading and stop automatically when the request completes.
