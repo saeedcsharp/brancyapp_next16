@@ -1,5 +1,9 @@
 - 2026-09-28: Fixed the AI media history DragDrop All option to use the localized `toggleShowAll` translation key.
 
+- 2026-09-28: Removed the AI media library All filter; Images now requests only `GetImages`, Videos requests only `GetVideos`, and each history loads when first selected.
+
+- 2026-09-28: Prevented malformed AI media `createdTime` values from crashing `MediaLibrary` during ISO serialization; affected items remain visible with a localized Not available timestamp.
+
 - 2026-09-28: Fixed AI media history pagination by attaching both image and video `useInfiniteScroll` instances to the scrollable `MediaLibrary` container, so reaching the list end fetches the next backend cursor.
 
 - 2026-09-28: Added fullscreen preview for selected image prompt examples with close-button, backdrop, and Escape-key dismissal.

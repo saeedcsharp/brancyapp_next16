@@ -2,6 +2,8 @@
 
 ## Known Bugs
 
+The AI media invalid-timestamp render crash was fixed on 2026-09-28. `MediaLibrary` now validates `createdTime` before localized formatting and `toISOString`; malformed values retain the media row and render the localized Not available fallback.
+
 The AI media history pagination issue was fixed on 2026-09-28. The page previously attached `useInfiniteScroll` to the fixed workspace while history rows scrolled inside `.Medialist`, so reaching the visible list end did not trigger the next image or video cursor request. Both hook instances now observe the shared internal list container.
 
 The Ice Breaker deletion persistence bug was fixed on 2026-09-24. `Properties.tsx` previously sent the pre-deletion button list to `UpdateIceBreaker`; it now sends the filtered list without the selected item. Automated component coverage remains pending.

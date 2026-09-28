@@ -2,6 +2,10 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+The AI media library no longer has an All filter. Its page-owned Images filter requests and paginates only `GetImages`, and its Videos filter requests and paginates only `GetVideos`; each history loads when first selected, and a new generation switches the library to its media type.
+
+The AI media library validates each backend `createdTime` before localized formatting or ISO serialization. Invalid timestamps no longer throw `RangeError`; the media item remains available and displays the localized Not available fallback.
+
 The selected image prompt detail initially shows the first ten non-empty newline-delimited prompt lines and provides localized Show more/Show less controls when additional lines exist; expanding reveals the complete prompt without changing the copy or Use in prompt actions. The visible prompt is rendered as a numbered, scrollable code block with JSON token colors, bold markdown labels, and highlighted `[xxx]` bracket placeholders, including placeholders inside JSON strings, while preserving the raw prompt for copying and use. The complete prompt code block, line filtering, tokenization, rendering, layout styles, and reusable inline token styles now live in `components/page/ai/popup/generatedMediaHelpers.ts`; the suggestions CSS module retains only surrounding UI layout styles. Prompt suggestions and prompt detail now share one modal, so the detail back button clears only the selected prompt and returns to the suggestions list; closing the modal clears both states.
 
 The selected image prompt detail preview opens in a body-portal fullscreen image overlay when clicked. The overlay supports a close button, backdrop click, and Escape-key dismissal without changing the parent prompt modal state.
@@ -253,7 +257,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - Removed unused legacy AI creator styles for the old standalone header, back link, section heading, and provider-panel layout while preserving selectors shared by generated-media modals.
 - AI provider branches now use the public down-arrow asset with a 180-degree open-state rotation, and nested model lists animate open/closed with reduced-motion support.
 - AI media tabs, provider branches, and model selection now render inside one settings panel. If the selected media type has no creator/model, the settings panel retains only the tabs and the localized empty/error state below them.
-- AI image and video history now render in one `createdTime`-descending library with All, Images, and Videos filters. Both histories load independently with separate cursor pagination, and pending generations follow the selected filter.
+- AI image and video history now render as separate Images and Videos library filters. Each filter loads only its own API with independent cursor pagination, and pending generations follow the selected filter.
 - AI creator enum inputs now use the shared button-based `optionGrid` presentation for both enum input variants instead of a native select.
 - AI creator multiple range inputs now render as one fixed `250px` square with a centered fixed `100px` inner square; mouse/touch handles define one shared hatched frame, including its corners, while each backend range key remains separate in submitted requests.
 - AI creator `IntRange` inputs render as standard integer-step sliders and are never included in the square expansion control. `AudioArray` inputs use the shared file-upload flow with audio acceptance and native playback controls. The square expansion control is used only when exactly the four backend `Range` keys `topExpantionRatio`, `buttonExpantionRatio`, `rightExpantionRatio`, and `leftExpantionRatio` are present; single, incomplete, or differently named ranges remain standard sliders.

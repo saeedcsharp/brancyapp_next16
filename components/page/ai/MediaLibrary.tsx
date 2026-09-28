@@ -4,16 +4,16 @@ import Loading from "brancy/components/notOk/loading";
 import DragDrop from "brancy/components/design/dragDrop/dragDrop";
 import { getClientMediaBaseUrl } from "brancy/helper/apiBaseUrl";
 import initialzedTime from "brancy/helper/manageTimer";
-import { IGetMedia, PendingGeneration } from "brancy/models/interfaces";
+import { IGetMedia, PendingGeneration, PendingMediaType } from "brancy/models/interfaces";
 import { DateObject } from "react-multi-date-picker";
-import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import styles from "./MediaLibrary.module.css";
 import { AIIcon } from "brancy/components/design/textEditor/icons";
 import AIWithPrompt from "brancy/components/design/ai/AIWithPrompt";
 import type { RefObject } from "react";
-type MediaFilter = "all" | "image" | "video";
 type MediaLibraryProps = {
+  filter: PendingMediaType;
+  onFilterChange: (filter: PendingMediaType) => void;
   images: IGetMedia[];
   videos: IGetMedia[];
   loading: boolean;
@@ -29,19 +29,25 @@ type MediaItem = {
   type: "image" | "video";
 };
 const mediaFilterOptions = [
-  { id: 0, label: "toggleShowAll" },
-  { id: 1, label: "Images" },
-  { id: 2, label: "Videos" },
+  { id: 0, label: "Images" },
+  { id: 1, label: "Videos" },
 ];
-function formatCreatedTime(timestamp: number): string {
+function getCreatedDate(timestamp: number): Date | null {
+  if (!Number.isFinite(timestamp)) return null;
+  const date = new Date(timestamp * 1000);
+  return Number.isNaN(date.getTime()) ? null : date;
+}
+function formatCreatedTime(date: Date): string {
   const time = initialzedTime();
   return new DateObject({
-    date: timestamp * 1000,
+    date,
     calendar: time.calendar,
     locale: time.locale,
   }).format("YYYY/MM/DD - HH:mm");
 }
 export default function MediaLibrary({
+  filter,
+  onFilterChange,
   images,
   videos,
   loading,
@@ -53,16 +59,14 @@ export default function MediaLibrary({
   containerRef,
 }: MediaLibraryProps) {
   const { t } = useTranslation();
-  const [filter, setFilter] = useState<MediaFilter>("all");
   const pendingMedia = pendingGenerations
-    .filter((pending) => filter === "all" || pending.mediaType === filter)
+    .filter((pending) => pending.mediaType === filter)
     .map((pending) => ({ pending }));
-  const mediaItems: MediaItem[] = [
-    ...(filter === "video" ? [] : images.map((media) => ({ media, type: "image" as const }))),
-    ...(filter === "image" ? [] : videos.map((media) => ({ media, type: "video" as const }))),
-  ].sort((first, second) => second.media.createdTime - first.media.createdTime);
+  const mediaItems: MediaItem[] = (filter === "image" ? images : videos)
+    .map((media) => ({ media, type: filter }))
+    .sort((first, second) => second.media.createdTime - first.media.createdTime);
   const hasMedia = mediaItems.length > 0 || pendingMedia.length > 0;
-  const filterValue = filter === "all" ? 0 : filter === "image" ? 1 : 2;
+  const filterValue = filter === "image" ? 0 : 1;
   return (
     <>
       <div className="headerparent">
@@ -75,10 +79,7 @@ export default function MediaLibrary({
               </div>
             ))}
             item={filterValue}
-            handleOptionSelect={(value) => {
-              const selectedValue = Number(value);
-              setFilter(selectedValue === 1 ? "image" : selectedValue === 2 ? "video" : "all");
-            }}
+            handleOptionSelect={(value) => onFilterChange(Number(value) === 1 ? "video" : "image")}
           />
         </div>
       </div>
@@ -110,46 +111,51 @@ export default function MediaLibrary({
               </div>
             </article>
           ))}
-          {mediaItems.map(({ media, type }) => (
-            <article
-              className={styles.imageCard}
-              key={`${type}-${media.id}`}
-              onClick={() => (type === "image" ? setSelectedImage(media) : setSelectedVideo(media))}>
-              <img
-                className={styles.imagePreview}
-                src={getClientMediaBaseUrl() + (type === "image" ? media.thumbnailUrl : media.imageUrl)}
-                onError={(e) => {
-                  (e.target as HTMLImageElement).src = "/cover.svg";
-                }}
-              />
-              <div className={styles.instagramprofiledetail}>
-                <div className={styles.imageTitle}>{media.prompt || t("Untitled generation")}</div>
-                <div className={styles.version}>
-                  <div className="translate"> #{media.id}</div>
-                  <div className="IDgray">{t(type === "image" ? "photo" : "video")}</div>
+          {mediaItems.map(({ media, type }) => {
+            const createdDate = getCreatedDate(media.createdTime);
+            return (
+              <article
+                className={styles.imageCard}
+                key={`${type}-${media.id}`}
+                onClick={() => (type === "image" ? setSelectedImage(media) : setSelectedVideo(media))}>
+                <img
+                  className={styles.imagePreview}
+                  src={getClientMediaBaseUrl() + (type === "image" ? media.thumbnailUrl : media.imageUrl)}
+                  onError={(e) => {
+                    (e.target as HTMLImageElement).src = "/cover.svg";
+                  }}
+                />
+                <div className={styles.instagramprofiledetail}>
+                  <div className={styles.imageTitle}>{media.prompt || t("Untitled generation")}</div>
+                  <div className={styles.version}>
+                    <div className="translate"> #{media.id}</div>
+                    <div className="IDgray">{t(type === "image" ? "photo" : "video")}</div>
+                  </div>
+                  {createdDate ? (
+                    <time className={styles.version} dateTime={createdDate.toISOString()}>
+                      {formatCreatedTime(createdDate)}
+                    </time>
+                  ) : (
+                    <span className={styles.version}>{t("Not available")}</span>
+                  )}
                 </div>
-                <time className={styles.version} dateTime={new Date(media.createdTime * 1000).toISOString()}>
-                  {formatCreatedTime(media.createdTime)}
-                </time>
-              </div>
-            </article>
-          ))}
+              </article>
+            );
+          })}
         </div>
       ) : (
         <div className={styles.emptyLibrary}>
-          <h2>{t(filter === "video" ? "No videos yet" : filter === "image" ? "No images yet" : "No media yet")}</h2>
+          <h2>{t(filter === "video" ? "No videos yet" : "No images yet")}</h2>
           <p>
             {t(
               filter === "video"
                 ? "Your successful video generations will appear here."
-                : filter === "image"
-                  ? "Your successful image generations will appear here."
-                  : "Your successful image and video generations will appear here.",
+                : "Your successful image generations will appear here.",
             )}
           </p>
         </div>
       )}
-      {(isLoadingMore || isLoadingMoreVideos) && (
+      {(filter === "image" ? isLoadingMore : isLoadingMoreVideos) && (
         <div className={styles.loadMore}>
           <DotLoaders />
         </div>

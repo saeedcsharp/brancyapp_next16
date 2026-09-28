@@ -28,6 +28,9 @@
 
 # TODO
 
+- Add component coverage confirming the AI library offers only Images and Videos, requests only `GetImages` or `GetVideos` for the selected filter, and loads each history once when a UI test harness is introduced.
+- Add component coverage confirming malformed, non-finite, and out-of-range AI media `createdTime` values keep their history rows visible, avoid ISO serialization errors, and show the localized Not available fallback when a UI test harness is introduced.
+
 - Add component/browser coverage confirming the constrained AI `MediaLibrary` requests the next image and video cursors when its internal list reaches the end, including independent cursors and duplicate prevention, when a UI test harness is introduced.
 - Add component coverage for the AI generated-media helper, including localized null/boolean metadata values, invalid JSON fallback, shared timestamp output, and image/video modal close ownership when a UI test harness is introduced.
 - Add component coverage confirming the image prompt suggestions category buttons select All Categories and load prompts for the selected category when a UI test harness is introduced.
