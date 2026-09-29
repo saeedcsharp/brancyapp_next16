@@ -15,6 +15,7 @@ Read the feature document after the related module and source context.
 - [Wallet](Wallet.md)
 - [Localization](Localization.md)
 - [Feature Knowledge Base](Feature%20Knowledge%20Base.md)
+- [Visual Identity](Visual%20Identity.md)
 - [PWA](PWA.md)
 
 ## Template

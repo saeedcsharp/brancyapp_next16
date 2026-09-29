@@ -82,20 +82,26 @@ Each edge handle uses a directional two-second outward shadow pulse to indicate 
 
 The active AI components use direct i18next keys for visible creator, library, modal, upload, accessibility, metadata fallback, and pending-generation text. `parseImageMetadata` accepts an optional translator so shared history cards and result modals render boolean and null metadata values in the active locale.
 
-`MediaCreator` renders the AI Image/Video tablist with the shared `ToggleButton` at the top of its single settings panel. The page renders `MediaCreator` and the matching library beneath it, so the tab control no longer exposes a separate Create button. When no creator/model is available, the settings panel retains the media tabs and renders the localized state message below them.
+`MediaCreator` renders the AI Images and Videos tablist with the shared `ToggleButton` at the top of its single settings panel. The page renders `MediaCreator` and the matching library for image/video modes, so the tab control no longer exposes a separate Create button. When no creator/model is available, the settings panel retains the media tabs and renders the localized state message below them.
+
+`components/page/ai/CharacterSheet.tsx`, rendered by `app/dev/characterSheet/page.tsx`, owns the independent Character Sheet Visual Identity UI. It reuses the media creator's outer container and action-bar structure while keeping its own responsive CSS module and local state. Advanced mode has eight steps for type, identity references, structure, details, views, style, consistency, and review; Auto mode reduces this to type, identity, style, and review. Identity-specific field schemas cover Human, Product, Object, Animal, and Custom subjects. Browser-selected references use object URLs only and are revoked on removal or unmount.
+
+The Character Sheet surface is deliberately a frontend prototype. Auto-Define only reveals the proposed analysis fields, Generate sheet only reveals a local presentation preview, and consistency scores are fixed display data. There are no imports from API helpers, no upload call, no session dependency, no persistence, and no real analysis, generation, regeneration, publishing, versioning, or billing behavior.
 
 When the AI feature check reports that generation is unavailable, `MediaCreator` renders the shared `NotFeature` upgrade state directly inside that empty state panel; the page no longer opens a separate feature-unavailable modal. A normal creator request still renders the shared `Loading` component until data arrives.
 
 `MediaCreator` renders the media tabs, provider selection, and model selection at the top of one settings panel. Each provider is an expandable branch with its models nested below it; selecting a provider opens its branch and selects its first model. Empty or error states keep the same single-panel layout, with the media tabs above the localized state content.
 The AI model section now uses `components/page/ai/popup/AiModelList.tsx`: the settings panel shows the selected creator/model as one trigger, while `PageAI` owns the shared full-screen `Modal` and renders the exported `AiModelListContent`. Only the active creator branch reveals its models; selecting a model updates the page-owned creator/model state and closes the modal.
 
-Each model row in `AiModelList` also displays the localized, de-duplicated titles of that model's `inputModelTypes` inside the existing `IDgray` metadata label; long lists are truncated visually while remaining available through the label tooltip and accessible name.
+Each model row in `AiModelList` also displays the localized, de-duplicated titles of that model's `inputModelTypes` inside the existing `IDgray` metadata label; long lists are truncated visually while remaining available through the label tooltip and accessible name. Known operation labels such as text-to-video, image-to-video, text-to-image, edit, extend, and reference-to-video use compact inline SVG icons in both card and table views, while their original labels remain available as accessible names and tooltips.
 
 The AI model modal header includes a Features toggle. It reveals or hides all model feature-label groups with an opacity, visibility, and height animation, and disables hidden labels for pointer and assistive interaction.
 
 The AI model modal header also includes a Table toggle. It switches the active creator's model list between the existing card grid and a horizontally scrollable semantic table without changing selection behavior.
 
 The semantic model table supports ascending and descending sorting by category, model name, price, cost level, and visible feature labels through clickable and keyboard-accessible headers.
+
+Each expanded AI creator branch in card view now shows a horizontal row of unique category buttons. Selecting a category filters the cards below it; the table view keeps its full model list and existing sorting behavior. Opening a creator selects its current model category or the first available category for card view.
 
 Model cost indicators use the existing design tokens by level: one dollar is light green, two are light yellow, three are light red, and four are dark red.
 

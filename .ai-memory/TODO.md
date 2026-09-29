@@ -28,9 +28,13 @@
 
 # TODO
 
+<<<<<<< HEAD
 - Add component coverage confirming the AI library offers only Images and Videos, requests only `GetImages` or `GetVideos` for the selected filter, and loads each history once when a UI test harness is introduced.
 - Add component coverage confirming malformed, non-finite, and out-of-range AI media `createdTime` values keep their history rows visible, avoid ISO serialization errors, and show the localized Not available fallback when a UI test harness is introduced.
 
+=======
+- Add a route smoke test confirming the Dev Panel Character Sheet button navigates to `/dev/characterSheet` and that the AI creator exposes only Image and Video tabs when a UI test harness is introduced.
+>>>>>>> sepehr
 - Add component/browser coverage confirming the constrained AI `MediaLibrary` requests the next image and video cursors when its internal list reaches the end, including independent cursors and duplicate prevention, when a UI test harness is introduced.
 - Add component coverage for the AI generated-media helper, including localized null/boolean metadata values, invalid JSON fallback, shared timestamp output, and image/video modal close ownership when a UI test harness is introduced.
 - Add component coverage confirming the image prompt suggestions category buttons select All Categories and load prompts for the selected category when a UI test harness is introduced.
@@ -42,6 +46,7 @@
 - Add component coverage confirming the AI model modal Features toggle animates all feature-label groups, updates `aria-expanded`, and disables hidden labels when a UI test harness is introduced.
 - Add component coverage confirming the AI model modal Table toggle switches the active model list between card and semantic table views while preserving model selection when a UI test harness is introduced.
 - Add component coverage confirming AI model table headers sort category, name, price, cost, and feature labels in both directions and support keyboard activation when a UI test harness is introduced.
+- Add component coverage confirming AI model category buttons show unique categories and filter card view, while table view remains unfiltered and model selection callbacks stay intact when a UI test harness is introduced.
 - Add component/browser coverage confirming normal AI creator loading keeps the shared loader, while an unavailable AI feature renders the inline `NotFeature` state without mounting a feature modal when a UI test harness is introduced.
 - Add component coverage confirming an accepted AI media request resets the prompt and dynamic inputs, removes the token estimate, enables another submit, and keeps the matching pending library card until SignalR completion when a UI test harness is introduced.
 
@@ -130,6 +135,7 @@
 
 - Add component coverage confirming the Meta direct-login initial loading phrases hydrate without text mismatches and its verification request is sent only once when React Strict Mode replays effects.
 - Add component/browser coverage for the AI workspace order: shared ToggleButton Image/Video tabs inside the model panel, matching creator loading after tab changes, empty/error state placement in the settings panel, creator submission, and the corresponding library below the creator when a UI test harness is introduced.
+- Add component/browser coverage for the local-only Visual Identity tab: confirm it never invokes media creator/API paths, switches between Auto and Advanced steps, changes dynamic controls by identity type, revokes reference object URLs, preserves lock and constraint state during the mounted session, and remains usable in mobile and RTL layouts.
 - Add browser coverage for the AI workspace responsive layout at `840px`, confirming the capped history column and flexible creator column above the breakpoint, then creator-first full-width stacking below it.
 - Add component/browser coverage confirming the AI model trigger opens `AiModelList`, lists all creators/models, updates the visible selection, closes after selection, and remains usable on mobile and RTL layouts when a UI test harness is introduced.
 

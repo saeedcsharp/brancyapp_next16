@@ -28,6 +28,15 @@ export function numberToFormattedString2(number: string | number) {
   if (!Number.isNaN(Number(number))) return number.toLocaleString();
   else return "";
 }
+export function formatEnglishNumber(value: number): string {
+  return value.toLocaleString("en-US");
+}
+export function convertDigitsToEnglish(value: string): string {
+  return value.replace(/[۰-۹٠-٩]/g, (digit) => {
+    const code = digit.charCodeAt(0);
+    return String(code >= 0x06f0 && code <= 0x06f9 ? code - 0x06f0 : code - 0x0660);
+  });
+}
 export function convertFormatedStringToNumber(input: string): number | null {
   var numberStr = input.replaceAll(",", "");
   const numbersRegex = /^[0-9]+$/;

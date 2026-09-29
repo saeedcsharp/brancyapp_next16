@@ -1,6 +1,10 @@
+<<<<<<< HEAD
 - 2026-09-28: Fixed Docker build failure (E404 for `sharp@0.33.5` on the `repo.hmirror.ir` npm mirror): the runner stage now copies `sharp`, `@img/*`, and `detect-libc` from the builder's `node_modules` (installed by `npm ci`) instead of running `npm i sharp`.
 
 - 2026-09-28: Hardened `MediaCreator` `defaultValue` parsing per `InputType`: Boolean parses `"true"`/`"false"` strings, arrays accept JSON-string defaults, numeric/range defaults ignore empty strings and range values are clamped (IntRange rounded), and enum defaults must match an `enumValues` option (case-insensitive) or fall back to the first option.
+=======
+- 2026-09-28: Added the local-only Character Sheet Visual Identity wizard at `/dev/characterSheet`, linked from the Dev Panel; removed it from the AI creator tabs while preserving its Auto/Advanced flows, dynamic identity controls, local reference previews, locks, views, style, consistency, constraints, and presentation-only sheet.
+>>>>>>> sepehr
 
 - 2026-09-28: Fixed the AI media history DragDrop All option to use the localized `toggleShowAll` translation key.
 
@@ -66,7 +70,11 @@
 
 - 2026-09-28: Added ascending/descending sorting to AI model table headers, including keyboard-accessible activation.
 
+- 2026-09-28: Replaced known AI model operation labels with compact inline SVG icons in card and table views, preserving the original labels through accessible names and tooltips and retaining text fallback for unknown labels.
+
 - 2026-09-27: Added localized model input-feature titles to each AI model row's existing `IDgray` metadata label, with duplicate titles removed and long lists truncated with a full tooltip.
+
+- 2026-09-28: Added category selection buttons to expanded AI model creator branches, filtering card view by category while preserving the full table view and page-owned model selection.
 
 - 2026-09-27: Made the AI token usage refresh icon rotate while recalculation is loading and stop automatically when the request completes.
 

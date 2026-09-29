@@ -2,9 +2,13 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+<<<<<<< HEAD
 The AI media library no longer has an All filter. Its page-owned Images filter requests and paginates only `GetImages`, and its Videos filter requests and paginates only `GetVideos`; each history loads when first selected, and a new generation switches the library to its media type.
 
 The AI media library validates each backend `createdTime` before localized formatting or ISO serialization. Invalid timestamps no longer throw `RangeError`; the media item remains available and displays the localized Not available fallback.
+=======
+The local-only Character Sheet Visual Identity prototype is available at `/dev/characterSheet` from the Dev Panel button and is no longer part of the AI creator tabs. It renders `components/page/ai/CharacterSheet.tsx` with Auto and Advanced modes, dynamic Human/Product/Object/Animal/Custom controls, local reference-image previews and roles, per-attribute and global locks, views/poses/expressions, style and layout controls, provider-agnostic generation settings, constraints, and a presentation-only sheet/consistency preview. It performs no API requests, uploads, AI analysis, generation, persistence, publishing, or server work, and all state is discarded when the component unmounts.
+>>>>>>> sepehr
 
 The selected image prompt detail initially shows the first ten non-empty newline-delimited prompt lines and provides localized Show more/Show less controls when additional lines exist; expanding reveals the complete prompt without changing the copy or Use in prompt actions. The visible prompt is rendered as a numbered, scrollable code block with JSON token colors, bold markdown labels, and highlighted `[xxx]` bracket placeholders, including placeholders inside JSON strings, while preserving the raw prompt for copying and use. The complete prompt code block, line filtering, tokenization, rendering, layout styles, and reusable inline token styles now live in `components/page/ai/popup/generatedMediaHelpers.ts`; the suggestions CSS module retains only surrounding UI layout styles. Prompt suggestions and prompt detail now share one modal, so the detail back button clears only the selected prompt and returns to the suggestions list; closing the modal clears both states.
 
@@ -99,11 +103,15 @@ The AI media creator model section now uses an `AiModelList` trigger while `Page
 
 Each AI model row now shows the localized, de-duplicated input-feature titles in its existing `IDgray` metadata label, with long lists truncated visually and exposed through the label tooltip.
 
+AI model operation labels such as text-to-video, image-to-video, text-to-image, edit, extend, and reference-to-video now render as compact inline SVG icons in card and table views. The original operation label remains available through the icon group's accessible name and tooltip; unknown operation labels retain their text fallback.
+
 The AI model modal header now provides an animated Features toggle that reveals or hides the independent feature-label groups for all model rows.
 
 The AI model modal header also provides a Table toggle. It switches each expanded creator's model cards to a responsive semantic table while preserving model selection and the optional feature details.
 
 Each table header sorts its model rows in ascending or descending order on repeated activation; keyboard activation is supported for sortable headers.
+
+Expanded AI creator branches in card view now show unique category buttons above the model cards. The active category filters cards and defaults to the selected model's category when available; table view remains unfiltered, and model selection keeps the existing page-owned callback behavior.
 
 AI model cost labels now use level-specific colors: light green, light yellow, light red, and dark red for one through four dollar signs.
 

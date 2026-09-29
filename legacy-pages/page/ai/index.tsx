@@ -8,7 +8,7 @@ import {
 } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
 import MediaLibrary from "brancy/components/page/ai/MediaLibrary";
-import MediaCreator from "brancy/components/page/ai/mediaCreator";
+import MediaCreator, { type MediaTab } from "brancy/components/page/ai/mediaCreator";
 import { MethodType } from "brancy/helper/api";
 import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
@@ -38,7 +38,6 @@ import GeneratedImageModal from "brancy/components/page/ai/popup/GeneratedImageM
 import GeneratedVideoModal from "brancy/components/page/ai/popup/GeneratedVideoModal";
 import ImagePromptSuggestions, { ImagePromptDetail } from "brancy/components/page/ai/popup/imagePromptSuggestions";
 import { AiModelListContent } from "brancy/components/page/ai/popup/AiModelList";
-type MediaTab = "image" | "video" | "createimage" | "createvideo";
 type AiQueryType = "1" | "2";
 const SUCCESS_MEDIA_STATUS = 2;
 const VIDEO_THUMBNAIL_DELAY_MS = 1000;
@@ -311,7 +310,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     if (activeTab === "image") {
       setCreatorTab("createimage");
       if (!loadedImageCreators) openImageCreator();
-    } else {
+    } else if (activeTab === "video") {
       setCreatorTab("createvideo");
       if (!loadedVideoCreators) openVideoCreator();
     }
@@ -430,7 +429,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     <>
       <Head>
         <title>Bran.cy ▸ {t(LanguageKey.navbar_AI)}</title>
-        <meta name="description" content={t("Create and manage AI-generated images and videos.")} />
+        <meta name="description" content={t("Create and manage AI-generated images, videos, and visual identities.")} />
       </Head>
       <main className={styles.aiWorkspace}>
         <div className={styles.left}>

@@ -204,6 +204,11 @@ const recordsEn = {
     description:
       "Load package and reserve-feature pricing from the backend and continue to the backend-provided payment redirect for an eligible purchase.",
   },
+  visualIdentityPrototype: {
+    title: "Visual Identity and Character Sheet",
+    description:
+      "A local-only UI prototype for defining reusable human, product, object, animal, or custom identities. Its references, locks, constraints, consistency controls, and sheet preview are not connected to persistence, analysis, generation, or provider APIs.",
+  },
   advertisingLifecyclePrototype: {
     title: "Advertising calendar, lists, and reports",
     description:
@@ -796,6 +801,11 @@ export const featureKnowledgeFa = {
       description: "بسته مناسب را ببینید و در صورت نیاز اشتراکتان را فعال کنید.",
       descriptionDetail:
         "بسته‌ها و قابلیت‌های قابل خرید را بر اساس اطلاعاتی که سامانه برمی‌گرداند بررسی کنید. اگر گزینه مناسبی پیدا کردید، فرایند فعال‌سازی اشتراک را ادامه دهید تا به مسیر پرداخت رسمی هدایت شوید؛ قیمت و محدودیت‌ها از خودمان حدس زده نمی‌شوند.",
+    },
+    visualIdentityPrototype: {
+      title: "هویت بصری و شناسنامه تصویری",
+      description:
+        "این بخش فعلاً یک نمونه رابط کاربری محلی برای تعریف هویت انسان، محصول، شیء، حیوان یا سوژه سفارشی است. تصویرهای مرجع، قفل‌ها، محدودیت‌ها، تنظیمات هماهنگی و پیش‌نمایش آن هنوز به ذخیره‌سازی، تحلیل یا ساخت واقعی وصل نیستند.",
     },
     advertisingLifecyclePrototype: {
       title: "تقویم و گزارش تبلیغات",

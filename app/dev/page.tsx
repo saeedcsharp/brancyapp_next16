@@ -38,6 +38,9 @@ export default function DevPage() {
             <button type="button" style={styles.designButton} onClick={() => router.push("/dev/systemDesign")}>
               تست System Design
             </button>
+            <button type="button" style={styles.button} onClick={() => router.push("/dev/characterSheet")}>
+              character sheet
+            </button>
           </div>
         </div>
       </div>

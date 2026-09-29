@@ -41,7 +41,7 @@ When a create request starts, the page returns to the matching image or video li
 The shared creator component uses media-neutral submit/loading props and switches its empty/error states, model label, prompt guidance, token-check text, and submit label for image or video mode. Video creator retry requests `GetVideoCreators`.
 The creator's primary action is backed by a real form submit, allowing the page-owned `onCreateMedia` callback to run for valid image and video requests.
 
-The AI workspace keeps the Image/Video `mediaTabs` visible as the primary navigation inside the creator's model panel. The selected media creator and its model controls are rendered there, followed by the matching image or video library; creator model data is loaded independently for each media type. When no model is available, the model panel retains only the media tabs and the localized empty state is shown in the settings panel. The former header Create button and create-only page mode were removed. The page owns the media-creation loading state, enabling it before feature validation, releasing it after the create API accepts or rejects the request, and retaining the pending card until the correlated create-image or create-video SignalR success or failure notification returns.
+The AI workspace keeps only the Images/Videos `mediaTabs` visible as the primary Create navigation. Both modes retain the selected creator, model controls, matching media library, independent creator loading, and existing request lifecycle. The local-only `CharacterSheet` Visual Identity prototype is no longer rendered by this page; it is available independently at `/dev/characterSheet`.
 
 The AI workspace uses a two-column layout above `840px`: the history panel stays at or below `400px` and the creator panel takes the remaining width. At `840px` and below, the creator panel moves above the history panel and both panels use the available page width.
 
@@ -50,6 +50,8 @@ When the AI feature entitlement check fails, the page passes that state to `Medi
 The `/page/ai` controller localizes its page metadata and generation request/failure notifications through the active i18next locale, while the shared creator and result components provide the remaining AI workspace translations.
 
 The `/page/ai` controller owns the AI model-picker modal and the image/video model selections. `MediaCreator` renders the trigger and receives the page-owned selection callbacks, allowing the picker to use the page's full-screen modal presentation.
+
+The model picker content provides category tabs within each expanded creator branch in card view. Category selection only changes the visible card subset; table view remains unfiltered, while model selection continues to update the page-owned selection and close the modal.
 
 ## Dependencies
 
