@@ -613,7 +613,6 @@ const FlowAndAIInbox = () => {
         setUserSelectedId(String(fid));
       }
     }
-    console.log(" ✅ Console ⋙ Session", session, session?.user.username);
     if (session === undefined || session?.user.username === undefined || !LoginStatus(session)) return;
     fetchFirstData();
     const handleMouseMove = (event: { clientX: number; clientY: number }) => {

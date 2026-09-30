@@ -139,7 +139,6 @@ const handler = NextAuth({
         const apiBase = getInternalApiBaseUrl(reqHeaders.get("host"));
         const clientIp = reqHeaders.get("cf-connecting-ip") || reqHeaders.get("x-real-ip") || "";
         const ipQuery = clientIp ? `&ip=${encodeURIComponent(clientIp)}` : "";
-        console.log("Verifying code with API:", { apiBase, myVerificationCode, Authorization, ipQuery });
         const res = await fetch(`${apiBase}sso/UserLoginVerifyCode?verificationCode=${myVerificationCode}${ipQuery}`, {
           headers: {
             Authorization,
@@ -208,7 +207,6 @@ const handler = NextAuth({
         // اینجا چیزی که از RefreshToken API گرفتی رو مستقیم نرمالایز کن
         // (چون قبلاً توی page.tsx گرفتیش، فقط باید به اینجا پاسش بدی)
         if (!credentials?.token) throw new Error("Token is required");
-        console.log("CredentialsProvider", credentials);
         let instagramerIds: number[] = [];
         try {
           instagramerIds = JSON.parse(credentials.instagramerIds ?? "[]");
@@ -234,11 +232,8 @@ const handler = NextAuth({
   callbacks: {
     async jwt({ token, user, trigger, session }) {
       if (trigger === "update") {
-        console.log("BEFORE", token.accessToken);
         const incoming = session?.user ?? session ?? {};
-        console.log("UPDATE DATA", incoming?.accessToken);
         const updated = normalizeUser({ ...token, ...incoming });
-        console.log("AFTER", updated.accessToken);
         return updated;
       }
       return normalizeUser({ ...token, ...user });

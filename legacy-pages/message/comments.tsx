@@ -23,7 +23,6 @@ const Comments = () => {
     if (session.user.currentIndex === -1) router.push("/user");
     if (session && !packageStatus(session)) router.push("/upgrade");
     if (!LoginStatus(session)) router.push("/");
-    console.log("session?.user.commentPermission", session?.user);
   }, [session]);
   if (session && !session?.user.commentPermission)
     return <NotPermission permissionType={PermissionType.Comments} />;

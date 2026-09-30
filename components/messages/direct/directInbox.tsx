@@ -1611,7 +1611,6 @@ const DirectInbox = () => {
   };
 
   useEffect(() => {
-    console.log(" ✅ Console ⋙ Session", session, session?.user.username);
     if (session === undefined || session?.user.username === undefined || !LoginStatus(session)) return;
     fetchBusiness();
     fetchHides();

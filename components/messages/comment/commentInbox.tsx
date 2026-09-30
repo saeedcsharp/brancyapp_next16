@@ -1653,7 +1653,6 @@ const CommentInbox = () => {
     thread.comments.some((comment) => !comment.sentByOwner && comment.createdTime > thread.lastSeenUnix);
   /* ___SingnalR start ___ */
   useEffect(() => {
-    console.log(" ✅ Console ⋙ Session", session, session?.user.username);
     if (session === undefined || session?.user.username === undefined || !LoginStatus(session)) return;
     fetchStoryCpmments();
     // fetchHides();

@@ -25,7 +25,5 @@ export default async function DirectLoginPage({
   }
   const response = await res.json();
   const refreshToken = response.value as IRefreshToken;
-  console.log("Direct login API response:", { status: res.status, refreshToken });
-  console.log("instagramerids:", refreshToken.role);
   return <DirectLoginClient res={refreshToken} redirectUrl={redirectUrl} instagramerId={Number(instagramerId)} />;
 }
