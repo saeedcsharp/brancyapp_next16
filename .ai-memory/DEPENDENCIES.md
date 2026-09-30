@@ -2,13 +2,13 @@
 
 ## Runtime Dependencies
 
-As of 2026-07-29, `package.json` contains 41 direct runtime dependencies. The complete package inventory and current usage classification are maintained in [app/dev/test.tsx](../app/dev/test.tsx), including the recently added `@next/third-parties` and `emoji-picker-react` packages.
+As of 2026-09-30, `package.json` contains 37 direct runtime dependencies. A dependency usage report is rendered by the `/dev/package` route ([app/dev/package/page.tsx](../app/dev/package/page.tsx)); it is a static source audit and still lists packages removed on 2026-09-30 until it is resynchronized.
 
-The report currently identifies 34 runtime dependencies as used and 7 as unused or requiring final verification. These classifications are source-audit findings, not automated dependency metadata; confirm candidates with `npm ls`, `npm audit`, and a production build before removal.
+On 2026-09-30, `jotai`, `lodash.throttle`, `pdf-lib`, `react-leaflet`, `react-select`, and `@types/wavesurfer.js` were removed after confirming no source, config, or type references (`wavesurfer.js` 7 ships its own types). `clsx` and `react-date-object`, which source files import directly but were previously only installed transitively (through `react-draggable`/`react-toastify` and `react-multi-date-picker`), are now declared at their already-installed versions. `braces` and `ws` are intentionally kept as pinned direct dependencies even though source does not import them.
 
 ## Development Dependencies
 
-As of 2026-07-29, 9 development dependencies are present: type packages, `next-router-mock`, and `patch-package`. `@types/react-beautiful-dnd` is currently orphaned because the application uses `@dnd-kit`; `patch-package` remains in the manifest because the `postinstall` script still invokes it, although its old Quill patch was removed.
+As of 2026-09-30, 8 development dependencies are present: type packages, `eslint`, `eslint-config-next`, and `patch-package`. `@types/react-beautiful-dnd`, `@types/react-i18next` (react-i18next ships its own types), and `next-router-mock` were removed on 2026-09-30 as unused. `patch-package` remains in the manifest because the `postinstall` script still invokes it, although its old Quill patch was removed and no `patches/` directory exists.
 
 On 2026-09-30, `eslint` (^9.39.5) and `eslint-config-next` (16.2.12, matching the installed Next version) were added for `npm run lint`.
 
