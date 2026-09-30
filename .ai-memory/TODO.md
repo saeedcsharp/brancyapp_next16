@@ -211,6 +211,7 @@
 
 ## Technical Debt Ideas
 
+- Deferred refactor cleanup (see `docs/REFACTOR_STATUS.md`): debug `console.log` and commented-out code in `components/store`, `components/messages`, and `legacy-pages`, leftover commented blocks in already-cleaned folders, and `no-unused-vars` warnings; clean opportunistically when a file is touched in Phase 3.
 - Audit hard-coded external keys/secrets.
 - Reduce the warning-level ESLint backlog incrementally (unused variables, `any`, hook dependencies, `<img>` usage) without repository-wide `--fix`.
 - Add integration coverage for country-gated external redirects when test infrastructure is introduced.
