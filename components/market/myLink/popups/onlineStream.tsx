@@ -284,7 +284,6 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
     props.removeMask();
   }, [channelSearch, updateYoutube, updateAparat, updateTwitch, session, props]);
   const handleSelectYoutubeChannel = useCallback((v: IChannelInfo) => {
-
     const payload = {
       searchYoutubePage: v.channelTitle || v.lastVideoTitle || "",
       youTubeThumbnailUrl: v.lastVideoThumbnail || v.profilePicture || "",
@@ -314,7 +313,6 @@ const VideoAndMusic = (props: { removeMask: () => void }) => {
     });
   }, []);
   const handleSelectTwitchChannel = useCallback((v: IChannelInfo) => {
-
     const payload = {
       searchTwitchPage: v.channelTitle || v.lastVideoTitle || "",
       twitchThumbnailUrl: v.lastVideoThumbnail || v.profilePicture || "",

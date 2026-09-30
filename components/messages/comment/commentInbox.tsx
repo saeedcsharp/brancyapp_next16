@@ -1014,7 +1014,6 @@ const CommentInbox = () => {
         return;
       }
       if (session == null) {
-
         return;
       }
       if (refPostCommentInbox.current === undefined) {

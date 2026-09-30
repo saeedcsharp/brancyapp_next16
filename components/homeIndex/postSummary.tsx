@@ -246,7 +246,6 @@ const PostSummary = memo((props: { data: IInstagramerHomeTiles | null; posts: IP
     [state.isHidden],
   );
 
-
   return (
     <section
       className={`${styles.tooBigCard} ${state.isHidden ? styles.toobigcardclose : ""} tooBigCard`}

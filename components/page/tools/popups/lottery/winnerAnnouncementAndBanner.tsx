@@ -86,7 +86,6 @@ const WinnerAnnouncementAndBanner = (props: {
         maxHeight: 700,
         mimeType: "image/jpeg",
         success(result) {
-
           // تبدیل Blob به File
           const compressedFile = new File([result], file.name, {
             type: result.type,

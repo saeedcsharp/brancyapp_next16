@@ -140,7 +140,6 @@ function FeatureRow({
     <article className={styles.featureRow}>
       <div className={styles.featureSummary}>
         <div className={styles.featureName}>
-
           <strong>{t(`${featureKey}.title`)}</strong>
           <span className={styles.categoryTag}>{t(`featureKnowledge.categoryLabels.${feature.category}`)}</span>
         </div>

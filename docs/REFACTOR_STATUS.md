@@ -10,24 +10,24 @@ Audit report delivered in chat (folder structure, dead code via knip, duplicatio
 
 Branch `saeedDev` (local commits, not pushed).
 
-| Commit | Scope |
-|---|---|
-| `0bcf6ea5` | ESLint 9 flat config (`eslint.config.mjs`, `eslint-config-next@16.2.12`, all rules `warn`); `npm run lint` = `eslint .` |
-| `28b2de9d` | Removed 71 unreferenced files (components, models, unrouted `legacy-pages` index/API files, unreachable legacy Meta redirect copy) and their exclusive stylesheets; archived module docs |
-| `7e0472ea` | Removed unused landing sections `page3`, `page6`, `page7`, `page10` |
+| Commit     | Scope                                                                                                                                                                                                                                           |
+| ---------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `0bcf6ea5` | ESLint 9 flat config (`eslint.config.mjs`, `eslint-config-next@16.2.12`, all rules `warn`); `npm run lint` = `eslint .`                                                                                                                         |
+| `28b2de9d` | Removed 71 unreferenced files (components, models, unrouted `legacy-pages` index/API files, unreachable legacy Meta redirect copy) and their exclusive stylesheets; archived module docs                                                        |
+| `7e0472ea` | Removed unused landing sections `page3`, `page6`, `page7`, `page10`                                                                                                                                                                             |
 | `9481edf8` | Removed unused dependencies (`jotai`, `lodash.throttle`, `pdf-lib`, `react-leaflet`, `react-select`, `@types/wavesurfer.js`, `@types/react-beautiful-dnd`, `@types/react-i18next`, `next-router-mock`); declared `clsx` and `react-date-object` |
-| `7c216993` | Knowledge-base merge-conflict markers resolved; verified stale claims corrected |
-| `d9e26741` | Removed 6 unused helpers and their `/dev/systemDesign` rows; synchronized `/dev/package` report; removed redundant `tsconfig.json` includes |
-| `1de40abc` | Debug `console.log` / commented-out code removed in `helper/`, `context/`, `models/` |
-| `69232bed` | Same for `app/`; removed unused `node:module` import |
-| `b3b67653` | Same for the smaller `components/` folders |
-| `97cef004` | `bankCard` and `verificationForm` reuse `convertDigitsToEnglish` (verified identical for every BMP character) |
-| `e16c3baa` | Security: removed logs printing credentials, verification codes with `Authorization`, access tokens, refresh-token responses, and session objects |
-| `0e72c326` | Debug logs / commented-out code removed in `components/market` |
-| `afaea888` | Docs: `/feature` audit-only section is currently disabled |
-| `8de62395` | Debug logs / commented-out code removed in `components/page` |
-| `4707e769` | `.github/copilot-instructions.md`: never log credentials, codes, `Authorization` headers, tokens, or session objects |
-| `88ba624e` | Security (second pass, AST scan): removed null-session `"session ", session` logs in the direct/comment/ticket inboxes and the RefreshToken response log in `legacy-pages/user/setting` |
+| `7c216993` | Knowledge-base merge-conflict markers resolved; verified stale claims corrected                                                                                                                                                                 |
+| `d9e26741` | Removed 6 unused helpers and their `/dev/systemDesign` rows; synchronized `/dev/package` report; removed redundant `tsconfig.json` includes                                                                                                     |
+| `1de40abc` | Debug `console.log` / commented-out code removed in `helper/`, `context/`, `models/`                                                                                                                                                            |
+| `69232bed` | Same for `app/`; removed unused `node:module` import                                                                                                                                                                                            |
+| `b3b67653` | Same for the smaller `components/` folders                                                                                                                                                                                                      |
+| `97cef004` | `bankCard` and `verificationForm` reuse `convertDigitsToEnglish` (verified identical for every BMP character)                                                                                                                                   |
+| `e16c3baa` | Security: removed logs printing credentials, verification codes with `Authorization`, access tokens, refresh-token responses, and session objects                                                                                               |
+| `0e72c326` | Debug logs / commented-out code removed in `components/market`                                                                                                                                                                                  |
+| `afaea888` | Docs: `/feature` audit-only section is currently disabled                                                                                                                                                                                       |
+| `8de62395` | Debug logs / commented-out code removed in `components/page`                                                                                                                                                                                    |
+| `4707e769` | `.github/copilot-instructions.md`: never log credentials, codes, `Authorization` headers, tokens, or session objects                                                                                                                            |
+| `88ba624e` | Security (second pass, AST scan): removed null-session `"session ", session` logs in the direct/comment/ticket inboxes and the RefreshToken response log in `legacy-pages/user/setting`                                                         |
 
 ### Final verification (HEAD `88ba624e`)
 

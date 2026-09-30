@@ -4,8 +4,7 @@ import { LanguageKey } from "brancy/i18n";
 import { ErrorPrePostType } from "brancy/models/enums";
 import { IErrorPrePostInfo } from "brancy/models/interfaces";
 function ErrorDraft(props: { data: IErrorPrePostInfo; removeMask: () => void }) {
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
   const { t } = useTranslation();
   return (
     <>

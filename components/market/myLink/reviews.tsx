@@ -13,9 +13,7 @@ const Reviews = ({ data }: { data: IReviews | null }) => {
     <>
       {data && data.reviews.length > 0 && (
         <div key={"reviews"} id="reviews" className={styles.all}>
-          <div
-            className={styles.header}
-          >
+          <div className={styles.header}>
             <div className={`${styles.squre} ${!isContentVisible ? styles.closed : ""}`}></div>
             <div className={styles.headertext}>
               Reviews

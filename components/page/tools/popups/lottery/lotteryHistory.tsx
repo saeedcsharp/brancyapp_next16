@@ -108,7 +108,6 @@ const LotteryHistory = (props: {
   async function loadMoreData() {
     if (loadingMore) return;
 
-
     setLoadingMore(true);
     try {
       let nextMaxId = "";
@@ -138,7 +137,6 @@ const LotteryHistory = (props: {
         lotteryStatus = LotteryStatus.Failed;
       }
 
-
       const response = await clientFetchApi<boolean, IShortLotteriesInfo>("/api/lottery/GetShortLotteries", {
         methodType: MethodType.get,
         session: session,
@@ -150,10 +148,8 @@ const LotteryHistory = (props: {
         onUploadProgress: undefined,
       });
 
-
       if (response.succeeded) {
         const newItems = response.value.items.filter((x) => x.status === lotteryStatus);
-
 
         // Update the appropriate state based on current tab
         if (toggleValue === ToggleOrder.FirstToggle) {
@@ -193,7 +189,6 @@ const LotteryHistory = (props: {
     const listContainer = listContainerRef.current;
     if (!listContainer) return;
 
-
     const handleScroll = () => {
       const { scrollTop, scrollHeight, clientHeight } = listContainer;
 
@@ -204,7 +199,6 @@ const LotteryHistory = (props: {
           (toggleValue === ToggleOrder.FirstToggle && hasMorePending) ||
           (toggleValue === ToggleOrder.SecondToggle && hasMoreDone) ||
           (toggleValue === ToggleOrder.ThirdToggle && hasMoreAbort);
-
 
         if (hasMore && !loadingMore) {
           loadMoreData();

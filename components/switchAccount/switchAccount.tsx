@@ -55,8 +55,7 @@ function SwitchAccount(props: {
         await getPartners(res.value);
         if (res.value.length > 0) setInstagramers(res.value);
         else handleSwitchToUser();
-      }
-      else notify(res.info.responseType, NotifType.Warning);
+      } else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);
     } finally {

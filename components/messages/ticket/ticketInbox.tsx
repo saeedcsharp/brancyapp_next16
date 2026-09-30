@@ -1051,7 +1051,6 @@ const TicketInbox = () => {
         return;
       }
       if (session == null) {
-
         return;
       }
       if (fbResInbox.current === undefined) {

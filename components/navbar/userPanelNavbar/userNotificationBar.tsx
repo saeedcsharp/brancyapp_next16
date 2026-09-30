@@ -11,8 +11,7 @@ import { PushNotif, ITicketPushNotif, IOrderPushNotifExtended } from "brancy/mod
 const basePictureUrl = getClientMediaBaseUrl();
 const UserNotificationBar = (props: { data: PushNotif[]; handleDeleteNotif: (index: number) => void }) => {
   const { t } = useTranslation();
-  useEffect(() => {
-  }, []);
+  useEffect(() => {}, []);
   function getNotifLogo(responseType: PushResponseType, orderStep?: OrderStep) {
     if (responseType === PushResponseType.UploadPostSuccess || responseType === PushResponseType.UploadStorySuccess)
       return (

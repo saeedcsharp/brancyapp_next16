@@ -466,16 +466,15 @@ const TermsAndConditionWinnerPicker = (props: {
                     flexWrap: "wrap",
                     justifyContent: "center",
                   }}>
-                  {v.split(" ").map(
-                    (v2, i2) =>
-                      i2 != 0 ? (
-                        <div style={{ paddingLeft: 9 }}>{v2}</div>
-                      ) : v2 == "" ? (
-                        <div style={{ paddingLeft: 9 }}></div>
-                      ) : (
-                        //  v2.length < 27 ?
-                        <div style={{}}>{v2}</div>
-                      ),
+                  {v.split(" ").map((v2, i2) =>
+                    i2 != 0 ? (
+                      <div style={{ paddingLeft: 9 }}>{v2}</div>
+                    ) : v2 == "" ? (
+                      <div style={{ paddingLeft: 9 }}></div>
+                    ) : (
+                      //  v2.length < 27 ?
+                      <div style={{}}>{v2}</div>
+                    ),
                   )}
                 </div>
               </>
@@ -559,7 +558,6 @@ const TermsAndConditionWinnerPicker = (props: {
           }
         } else {
         }
-
       } else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {
       notify(ResponseType.Unexpected, NotifType.Error);

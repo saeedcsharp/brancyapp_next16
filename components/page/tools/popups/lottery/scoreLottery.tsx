@@ -133,8 +133,7 @@ const ScoreLottery = (props: {
     noResult: false,
   });
   const [loadinStatus, setLoadinStatus] = useState(true);
-  function handleActiveScore() {
-  }
+  function handleActiveScore() {}
 
   function handleShowSpeccification(lotterySpecification: lotterySpecificationType) {
     props.showSpecification(lotteryInfo, lotterySpecification);

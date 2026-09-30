@@ -244,10 +244,7 @@ const CalendarComponent = (props: { totalAds: ICaledarAds[]; showReject: (adId: 
                         }).format("hh:mm A")}
                       </div>
                     )}
-                    {v.adsType === AdsType.PostAd && (
-                      <AdsTypeComp adType={v.adType} />
-
-                    )}
+                    {v.adsType === AdsType.PostAd && <AdsTypeComp adType={v.adType} />}
 
                     {v.adsType === AdsType.StoryAd && <AdsTypeComp adType={v.adType} />}
                   </div>

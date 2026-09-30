@@ -64,11 +64,9 @@ const AccessibilityHeader: React.FC<AccessibilityHeaderProps> = ({ themeState, d
   });
 
   // Determine which menu type to show based on current page
-  const isCompanyPage = [
-    "/Accessibility/About-Us",
-    "/Accessibility/Contact-Us",
-    "/Accessibility/join-Us",
-  ].includes(currentPath);
+  const isCompanyPage = ["/Accessibility/About-Us", "/Accessibility/Contact-Us", "/Accessibility/join-Us"].includes(
+    currentPath,
+  );
 
   const isSupportPage = [
     "/Accessibility/Help-Center",

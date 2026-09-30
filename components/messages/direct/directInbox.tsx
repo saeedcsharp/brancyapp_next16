@@ -1003,7 +1003,6 @@ const DirectInbox = () => {
         return;
       }
       if (session == null) {
-
         return;
       }
       if (gInbox.current === undefined) {

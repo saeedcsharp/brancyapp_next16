@@ -451,8 +451,7 @@ const AdminChatBox = (props: {
       setSeenItem(null);
     };
   }, []);
-  useEffect(() => {
-  }, [props.chatBox]);
+  useEffect(() => {}, [props.chatBox]);
   // #region JSX
   return (
     <>

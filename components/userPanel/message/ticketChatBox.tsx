@@ -185,7 +185,6 @@ const UserPanelDirectChatBox = (props: {
         props.chatBox.items.find((x) => x.sentByFb) &&
         props.chatBox.items.find((x) => x.sentByFb)!.timeStampUnix > props.chatBox.userLastSeenUnix
       ) {
-
         props.handleSendRead(props.chatBox.ticketId);
       }
     };

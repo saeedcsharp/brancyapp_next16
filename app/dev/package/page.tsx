@@ -205,7 +205,15 @@ const DEPS: DepRow[] = [
     bundleLabel: "~8KB",
   },
   { name: "react-slider", tier: 4, used: true, usedLabel: "Production", stars: 2, safe: "no", bundleLabel: "~10KB" },
-  { name: "clsx", tier: 4, used: true, usedLabel: "Production", stars: 2, safe: "no", bundleLabel: "shared (transitive)" },
+  {
+    name: "clsx",
+    tier: 4,
+    used: true,
+    usedLabel: "Production",
+    stars: 2,
+    safe: "no",
+    bundleLabel: "shared (transitive)",
+  },
   {
     name: "react-date-object",
     tier: 4,
@@ -723,7 +731,8 @@ export default function DependencyReport() {
             <ul className={styles.finalBoxList}>
               <li>
                 <span className={`${styles.dot} ${styles.dotGreen}`} />
-                pdf-lib، jotai، react-select، lodash.throttle، react-leaflet، @types/react-beautiful-dnd — در ۳۰ سپتامبر ۲۰۲۶ حذف شدند
+                pdf-lib، jotai، react-select، lodash.throttle، react-leaflet، @types/react-beautiful-dnd — در ۳۰ سپتامبر
+                ۲۰۲۶ حذف شدند
               </li>
             </ul>
           </div>

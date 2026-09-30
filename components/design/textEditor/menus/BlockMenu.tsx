@@ -8,9 +8,7 @@ import { renderInlineHTML } from "../utils/serializer";
 import s from "../TextEditor.module.css";
 import RingLoader from "brancy/components/design/loader/ringLoder";
 
-const AI_OPS = [
-  { id: "rewrite", label: "Rewrite" },
-];
+const AI_OPS = [{ id: "rewrite", label: "Rewrite" }];
 
 export function BlockMenu() {
   const { state, dispatch, deleteBlock, moveBlock, duplicateBlock, config, pushHistory, blockRefs } = useEditor();
