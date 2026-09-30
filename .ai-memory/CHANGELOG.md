@@ -1,3 +1,4 @@
+- 2026-09-30: Replaced the removed `next lint` script with ESLint 9 (`eslint .`) using `eslint.config.mjs` (flat config, `eslint-config-next` core-web-vitals + TypeScript presets, all rules at `warn`). Added `eslint` and `eslint-config-next@16.2.12` as dev dependencies; no source files were auto-fixed.
 - 2026-09-29: Added Alibaba creator logo (`public/AIIcons/alibaba.svg`) to the `AiModelList` creator icon map.
 
 <<<<<<< HEAD

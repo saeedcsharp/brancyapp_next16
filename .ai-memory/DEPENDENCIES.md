@@ -10,6 +10,8 @@ The report currently identifies 34 runtime dependencies as used and 7 as unused 
 
 As of 2026-07-29, 9 development dependencies are present: type packages, `next-router-mock`, and `patch-package`. `@types/react-beautiful-dnd` is currently orphaned because the application uses `@dnd-kit`; `patch-package` remains in the manifest because the `postinstall` script still invokes it, although its old Quill patch was removed.
 
+On 2026-09-30, `eslint` (^9.39.5) and `eslint-config-next` (16.2.12, matching the installed Next version) were added for `npm run lint`.
+
 ## Install Note
 
 Repository memory indicates npm operations may require `--legacy-peer-deps` because some peers expect React 18 while the project uses React 19.

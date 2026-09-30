@@ -223,7 +223,7 @@
 ## Technical Debt Ideas
 
 - Audit hard-coded external keys/secrets.
-- Validate `next lint` compatibility with Next 16.
+- Reduce the warning-level ESLint backlog incrementally (unused variables, `any`, hook dependencies, `<img>` usage) without repository-wide `--fix`.
 - Add integration coverage for country-gated external redirects when test infrastructure is introduced.
 - Consider separating generated PWA artifacts from hand-maintained assets.
 
