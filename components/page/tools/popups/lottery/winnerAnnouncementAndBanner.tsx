@@ -80,15 +80,12 @@ const WinnerAnnouncementAndBanner = (props: {
     setSelectedDiv("");
     const file = e.target.files?.[0];
     if (file) {
-      console.log("فایل اصلی - حجم:", file.size, "بایت");
       new ImageCompressor(file, {
         quality: 0.95,
         maxWidth: 700,
         maxHeight: 700,
         mimeType: "image/jpeg",
         success(result) {
-          console.log("فایل فشرده شده - حجم:", result.size, "بایت");
-          console.log("درصد کاهش حجم:", (((file.size - result.size) / file.size) * 100).toFixed(2) + "%");
 
           // تبدیل Blob به File
           const compressedFile = new File([result], file.name, {
@@ -101,7 +98,6 @@ const WinnerAnnouncementAndBanner = (props: {
             setSelectedImage(reader.result as string);
             // ارسال فایل فشرده شده به جای فایل اصلی
             const res = await UploadFile(session, compressedFile);
-            console.log("آیدی فایل آپلود شده:", res);
             setCustomBannerId(res.fileName);
           };
           reader.readAsDataURL(result);
@@ -144,7 +140,6 @@ const WinnerAnnouncementAndBanner = (props: {
   const handleSelectBanner = (id: string) => {
     if (isDragging) return; // Prevent selection during drag
     if (id == "newBanner") {
-      console.log("customBannerIddddddddd", customBannerId);
       setSelectedDiv("newBanner");
     } else {
       setDefaultBannerUrl(bannerInfo.bannerUrls[parseInt(id)]);
@@ -204,7 +199,6 @@ const WinnerAnnouncementAndBanner = (props: {
     (saveBanner as any).boxBlur = boxBlur;
     saveBanner.bannerTitle = textArea;
     saveBanner.bannerUrl = selectedDiv == "newBanner" ? customBannerId : defaultBannerUrl;
-    console.log("saveBanner", saveBanner);
     props.saveButton(saveBanner, selectedImage);
   };
   async function handleGetLastBanner() {

@@ -5,7 +5,6 @@ import { ErrorPrePostType } from "brancy/models/enums";
 import { IErrorPrePostInfo } from "brancy/models/interfaces";
 function ErrorDraft(props: { data: IErrorPrePostInfo; removeMask: () => void }) {
   useEffect(() => {
-    console.log("draft", props.data);
   }, []);
   const { t } = useTranslation();
   return (

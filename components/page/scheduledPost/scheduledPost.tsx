@@ -114,8 +114,6 @@ const ScheduledPost = (props: { data: IPrePost[] | null }) => {
   //test mode for styling
 
   //original code
-  //  }, [props.data]);
-  //original code
   const handleDeletePrepost = useCallback(async () => {
     if (deletePrePost === null) return;
     try {
@@ -337,7 +335,6 @@ const ScheduledPost = (props: { data: IPrePost[] | null }) => {
                           //test mode for styling
 
                           //original code
-                          //src={`${basePictureUrl}${v.postUrl}`}
                           //original code
                         />
                         <div className={styles.CounterDown}>

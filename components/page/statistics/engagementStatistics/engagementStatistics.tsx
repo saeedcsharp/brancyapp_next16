@@ -58,7 +58,6 @@ const statsReducer = (state: StatsState, action: StatsAction): StatsState => {
       if (!action.payload) {
         return state;
       }
-      console.log("Engagement Data repost:", action.payload);
       return {
         ...state,
         likes: action.payload.likes || null,
