@@ -116,14 +116,13 @@ The same component keeps the continued new flow in `userslist` as a local `newFl
 
 `direct/directInbox.tsx` waits one second before inserting SignalR audio messages into the inbox, allowing the audio URL to become available on the server before `ChatAudio` renders it.
 
-<<<<<<< HEAD
 `direct/directInbox.tsx` returns the fetched thread page from its `fetchData` pagination callback. This is required by `useInfiniteScroll`; returning an empty array would make the hook mark pagination as exhausted even when the inbox API returns a non-null `nextMaxId`. `IInbox.nextMaxId` is nullable because the backend uses `null` to indicate the final page.
 
 `direct/directInbox.tsx` keeps HTTP/API and initial-load failures local to the inbox so an unavailable category does not crash the whole route. Notifications retain the HTTP status and backend-provided reason when available.
 
 `direct/directInbox.tsx` resolves a `threadId` deep link from the browser URL after either inbox category has loaded. Reading `window.location.search` avoids the mixed App Router/legacy-router query timing issue; matching General and Business threads select their category and conversation, so links from the home Last Messages card open the requested chat.
 
-# Direct inbox rendering tolerates terminal pages containing threads with an empty `items` array. Message previews, timestamps, and unread counts use empty fallbacks instead of reading `sentByOwner`, `text`, or `createdTime` from an absent first item.
+Direct inbox rendering tolerates terminal pages containing threads with an empty `items` array. Message previews, timestamps, and unread counts use empty fallbacks instead of reading `sentByOwner`, `text`, or `createdTime` from an absent first item.
 
 `popups/editAutoReply.tsx` and `popups/editAutoReplyForMedia.tsx` show the Create Automation AI and Create Automation Flow actions whenever the active AI prompt or flow has not been selected, even when the corresponding `DragDrop` list contains options. Existing saved prompts and flows count as selected and keep the actions hidden.
 
@@ -145,8 +144,6 @@ Live media quick-reply payloads force `sendPr` to `false`, including when an exi
 The selected Flow action in `popups/editAutoReplyForMedia.tsx` uses the localized `AIFlow_show_graph` label and opens `/Ai/FlowandAgent` with the selected `masterFlowId` as the `id` query.
 
 For message-delivery modes, the confirmation-message and must-follow-page options are omitted from the editor and both corresponding save payload flags are forced to `false`; same-comment delivery retains the existing controls and values.
-
-> > > > > > > sepehr
 
 ## Hooks
 

@@ -1,17 +1,14 @@
+- 2026-09-30: Knowledge-base maintenance: resolved leftover merge-conflict markers in `CURRENT_STATE.md`, `CHANGELOG.md`, `TODO.md`, `BUGS.md`, `MODULES/components-messages.md`, and `MODULES/components-market.md` (keeping both sides, de-duplicating the repeated 2026-07-20/21 entries), and corrected claims verified against the code: file/route/API-map counts, missing `lib/`, `patches/`, and `scripts/sync-i18n-keys.cjs`, the `/Ai/creator` route and `MediaLibrary` replacing removed AI list components, the removed AI All filter, `InputType` values, the `/metaReDirect` path casing, and the Instagram Management source folders.
 - 2026-09-30: Removed unused dependencies `jotai`, `lodash.throttle`, `pdf-lib`, `react-leaflet`, `react-select`, `@types/wavesurfer.js` and dev dependencies `@types/react-beautiful-dnd`, `@types/react-i18next`, `next-router-mock`; declared directly imported `clsx` (^2.1.1) and `react-date-object` (^2.1.9) at their already-installed versions. No other lockfile versions changed.
 - 2026-09-30: Removed the unused landing sections `components/website/landing/page3`, `page6`, `page7`, and `page10` with their CSS modules; none were imported by the landing page or any route.
 - 2026-09-30: Removed 71 unreferenced files verified with knip and manual string/route searches: unused components (home `last*` tiles, `notOk/notBusiness|notPackage|notPassword`, `search/searchBar|searchContent`, `reload`, `upgrade`, `connectionStatus`, `rightHamMenu`, `instagramerNavbar/navbar`, `userPanelNavbar/notifBar`, `InstaIdVerificationForm`, `myLink/timeLine`, `customerAds/card/{card.1,posts}`, `store/order/7-InCart`, `store/order/delete-popups/reject`, `userPanel/setting/session`, `aiflow/popup/{popup,flowProperties}`, page-tools `autoInteraction`, `captionList/caption`, `hashtags_analisys`, `removeFollowing`, lottery `followersLottery|setTimeAndDate|shareRemainingTime`), `components/{checkCountry,neshan}`, `models/{A,ServerToggle,isBrowser,socketServer,svgToJpgBase64}`, `scss/index.js`, `legacy-pages/_document.tsx`, unrouted `legacy-pages/{advertise,market,message,store,user,user/orders}/index.tsx`, unrouted `legacy-pages/api/{hello,get-address}.ts`, the unreachable legacy Meta redirect copy under `legacy-pages/user/metaReDirect/`, and stylesheets used only by those files. Archived the `connectionStatus`, `reload`, and `upgrade` module docs. No routes or runtime behavior changed.
 - 2026-09-30: Replaced the removed `next lint` script with ESLint 9 (`eslint .`) using `eslint.config.mjs` (flat config, `eslint-config-next` core-web-vitals + TypeScript presets, all rules at `warn`). Added `eslint` and `eslint-config-next@16.2.12` as dev dependencies; no source files were auto-fixed.
 - 2026-09-29: Added Alibaba creator logo (`public/AIIcons/alibaba.svg`) to the `AiModelList` creator icon map.
 
-<<<<<<< HEAD
-
 - 2026-09-28: Fixed Docker build failure (E404 for `sharp@0.33.5` on the `repo.hmirror.ir` npm mirror): the runner stage now copies `sharp`, `@img/*`, and `detect-libc` from the builder's `node_modules` (installed by `npm ci`) instead of running `npm i sharp`.
 
-- # 2026-09-28: Hardened `MediaCreator` `defaultValue` parsing per `InputType`: Boolean parses `"true"`/`"false"` strings, arrays accept JSON-string defaults, numeric/range defaults ignore empty strings and range values are clamped (IntRange rounded), and enum defaults must match an `enumValues` option (case-insensitive) or fall back to the first option.
+- 2026-09-28: Hardened `MediaCreator` `defaultValue` parsing per `InputType`: Boolean parses `"true"`/`"false"` strings, arrays accept JSON-string defaults, numeric/range defaults ignore empty strings and range values are clamped (IntRange rounded), and enum defaults must match an `enumValues` option (case-insensitive) or fall back to the first option.
 - 2026-09-28: Added the local-only Character Sheet Visual Identity wizard at `/dev/characterSheet`, linked from the Dev Panel; removed it from the AI creator tabs while preserving its Auto/Advanced flows, dynamic identity controls, local reference previews, locks, views, style, consistency, constraints, and presentation-only sheet.
-
-  > > > > > > > sepehr
 
 - 2026-09-28: Fixed the AI media history DragDrop All option to use the localized `toggleShowAll` translation key.
 
@@ -302,17 +299,10 @@
 - Media auto-reply now reloads full AI prompt details through `GetPrompt`, so the saved prompt description appears below `DragDrop` after post-info reload.
 - Media auto-reply direct response, Flow, Product, and Connect Product modes now show the localized message-permission state with the existing Instagram permission and invalid-IP flow when `messagePermission` is false; same-comment replies remain available.
 - Media auto-reply message-delivery modes now hide confirmation-message and must-follow-page options and save both values as `false`; same-comment replies preserve the existing options.
-  <<<<<<< HEAD
-- # Reused the Instagramer layout's invalid-IP modal for the NotLogin Instagram connection button, replacing its local toast countdown with the shared warning, countdown, Continue, and Close behavior.
-- # Fixed the Upgrade page's embedded SwitchAccount Add Account flow by wiring its Iranian-IP callback to the same invalid-IP modal and redirect continuation.
+- Reused the Instagramer layout's invalid-IP modal for the NotLogin Instagram connection button, replacing its local toast countdown with the shared warning, countdown, Continue, and Close behavior.
+- Fixed the Upgrade page's embedded SwitchAccount Add Account flow by wiring its Iranian-IP callback to the same invalid-IP modal and redirect continuation.
 - Standardized all DotMenu consumers on the `placement` prop and removed the duplicate `menuPosition` prop.
 - Prevented DotMenu trigger clicks from bubbling into clickable parent cards, avoiding unintended post navigation when opening a menu.
-  > > > > > > > sepehr
-  > > > > > > > sepehr
-
-<<<<<<< HEAD
-
-<<<<<<< HEAD
 
 - Fixed the account switcher's Instagram redirect by using the runtime host and full browser navigation for external destinations.
 
@@ -336,17 +326,9 @@
 
 - Fixed comment inbox pagination so Post and Story scroll requests return fetched media to `useInfiniteScroll`; a non-null `/api/Comment/GetInbox` `oldestCursor` now loads the next page, while `null` stops pagination.
 
-=======
-
-> > > > > > > sepehr
-
 - Kept both lottery Terms image uploads at the verified publishable Instagram Story canvas size of `1080x1920`.
 
 - استاندارد ابعاد استوری اینستاگرام برای خروجی‌های Terms & Conditions لاتاری روی `1080x1920` قرار گرفت.
-
-=======
-
-<<<<<<< HEAD
 
 - Fixed the Instagramer hamburger menu BioLink active state for all market routes by aligning its active-route list with the actual slash-free App Router paths.
 
@@ -354,13 +336,8 @@
 
 - Added localized last-30-days labels in parentheses beside the Home PageDetail gender, age, and location section titles across all eight supported locales.
 
-=======
-
-> > > > > > > sepehr
-
 - Converted individual bulk-product adjustment cards to the shared free-mode horizontal slider while preserving each card's existing controls and save behavior.
 - Added an accessible collapse interaction to the unified Page Tools `hashtagManager` card. Its header toggles the content and reduces the card row span while closed, with Enter and Space keyboard support.
-  > > > > > > > sepehr
 - Fixed MyLink mobile horizontal carousels by allowing native horizontal and vertical touch panning on shortcut, FeatureBox, and product scroll containers.
 - Updated the MyLink About branding link to show `Brancy.App` on `brancy.app` and `Brancy.Ir` with the Iranian URL on other hosts.
 
@@ -768,26 +745,12 @@
 
 ## 2026-07-20
 
-- Updated the legacy Instagramer payment page to load wallet bank cards through `clientFetchApi` and display each card as a responsive standalone tile.
-- Moved the bank-card add action into a distinct toolbar and responsive form outside the card collection.
-- Revised the wallet card layout to remove the enclosing panel and use a centered, card-sized add tile in the bank-card grid.
-
-=======
-
-## 2026-07-21
-
-- Added a simple client timer that reloads the blocked IR/AZ-only redirect page every second.
-- Connected the wallet statistics `ChartDay` to monthly data from `/api/wallet/getBallanceHistory` and registered its backend route mapping.
-
-## 2026-07-20
-
 - Added a responsive bulk product price and discount modal for selected store products, with shared and individual edit modes, percentage and fixed-amount values, price increase/decrease controls, existing price/discount visibility, localized copy, backend persistence, and list refresh after save.
 - Updated both shared and individual bulk-product editors to use isolated percentage/amount radio groups that switch between the percentage stepper and fixed-amount input.
 - Updated bulk product editor switching to collapse the inactive editor to zero height and animate the active editor's return to the layout.
 - Updated the legacy Instagramer payment page to load wallet bank cards through `clientFetchApi` and display each card as a responsive standalone tile.
 - Moved the bank-card add action into a distinct toolbar and responsive form outside the card collection.
 - Revised the wallet card layout to remove the enclosing panel and use a centered, card-sized add tile in the bank-card grid.
-  > > > > > > > fa1690d501349a13f10de01b52613d1aef728d56
 
 ## 2026-07-19
 

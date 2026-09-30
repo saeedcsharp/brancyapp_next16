@@ -28,13 +28,9 @@
 
 # TODO
 
-<<<<<<< HEAD
 - Add component coverage confirming the AI library offers only Images and Videos, requests only `GetImages` or `GetVideos` for the selected filter, and loads each history once when a UI test harness is introduced.
 - Add component coverage confirming malformed, non-finite, and out-of-range AI media `createdTime` values keep their history rows visible, avoid ISO serialization errors, and show the localized Not available fallback when a UI test harness is introduced.
-
-=======
 - Add a route smoke test confirming the Dev Panel Character Sheet button navigates to `/dev/characterSheet` and that the AI creator exposes only Image and Video tabs when a UI test harness is introduced.
->>>>>>> sepehr
 - Add component/browser coverage confirming the constrained AI `MediaLibrary` requests the next image and video cursors when its internal list reaches the end, including independent cursors and duplicate prevention, when a UI test harness is introduced.
 - Add component coverage for the AI generated-media helper, including localized null/boolean metadata values, invalid JSON fallback, shared timestamp output, and image/video modal close ownership when a UI test harness is introduced.
 - Add component coverage confirming the image prompt suggestions category buttons select All Categories and load prompts for the selected category when a UI test harness is introduced.
@@ -98,14 +94,12 @@
 
 - Add browser coverage for the `/dev/systemDesign` helper reference, including complete helper-card coverage, safe live-example output, RTL/mobile layout, and confirmation that environment-dependent helpers are not invoked.
 
-<<<<<<< HEAD
-
 - Add component/browser coverage confirming all Instagramer market routes select the BioLink mobile navbar logo when a UI test harness is introduced.
 
 - Add component coverage for direct inbox general/business cursor pagination, including a non-null `nextMaxId`, fetched-page append, duplicate-page handling, and terminal `null` cursor behavior when a UI test harness is introduced.
 - Add component/browser coverage confirming a Last Messages `threadId` deep link selects the matching General or Business conversation after inbox loading when a UI test harness is introduced.
 
-- # Add component coverage for comment inbox Post/Story cursor pagination, including non-null `oldestCursor`, media append, duplicate-page handling, and terminal `null` cursor behavior when a UI test harness is introduced.
+- Add component coverage for comment inbox Post/Story cursor pagination, including non-null `oldestCursor`, media append, duplicate-page handling, and terminal `null` cursor behavior when a UI test harness is introduced.
 - Add component coverage confirming the auto-reply AI and Flow Create Automation actions appear with populated unselected DragDrop lists and remain hidden after selecting or retaining an existing prompt/flow when a UI test harness is introduced.
 - Extend the auto-reply Create Automation action coverage to `EditAutoReplyForMedia` and its retained media prompt/flow state when a UI test harness is introduced.
 
@@ -113,16 +107,11 @@
 
 - Add component/browser coverage for the new-flow settings modal, including title validation, Continue/cancel behavior, setting propagation, JSON import validation, RTL labels, and mobile overflow when a UI test harness is introduced.
 - Add component/browser coverage for new-flow Draft list insertion, initial Save availability, draft replacement after a successful API save, and draft retention after a failed save when a UI test harness is introduced.
-  > > > > > > > sepehr
 
-<<<<<<< HEAD
-
-- # Add component coverage confirming lottery Terms & Conditions output files passed to `saveTermsAndCondition` use `1080x1920` canvases when a UI test harness is introduced.
+- Add component coverage confirming lottery Terms & Conditions output files passed to `saveTermsAndCondition` use `1080x1920` canvases when a UI test harness is introduced.
 - Add component coverage for decimal bulk-product amount entry, localized unit display, independent amount/percentage values, inactive-editor `fadeDiv`/disabled states, and radio switching when a UI test harness is introduced.
 - Add browser coverage for individual bulk-product slider touch/pointer dragging, RTL direction, responsive card widths, and preserving focused editor state when a UI test harness is introduced.
 - Add browser coverage for product-detail media horizontal-only sorting in instance and non-instance editors, including vertical movement rejection, keyboard sorting, pointer activation distance, RTL, and mobile overflow when a UI test harness is introduced.
-
-  > > > > > > > sepehr
 
 - Add component/browser coverage for the `/page/tools` `hashtagManager` toggle and collapse interaction, including selected-view mounting, hidden content and row-span changes, saved-list callbacks, trend/search loading, keyboard activation, RTL labels, and mobile layout when a UI test harness is introduced.
 
@@ -183,7 +172,7 @@
 - Add component/browser coverage for FlexibleToggleButton keyboard activation, `aria-pressed`, disabled state, long localized labels, RTL layout, reduced motion, forced colors, and mobile/desktop touch targets when a UI test harness is introduced.
 - Replace remaining feature-level `overflow-y: scroll`, `100vw`, and WebKit-only layout rules after visual regression coverage is available.
 
-- Keep `app/dev/test.tsx` package counts and classifications synchronized with `package.json` after dependency changes; verify removal candidates with `npm ls`, `npm audit`, and a production build.
+- Keep the `/dev/package` report (`app/dev/package/page.tsx`) package counts and classifications synchronized with `package.json`; it still lists the dependencies removed on 2026-09-30. Verify removal candidates with `npm ls`, `npm audit`, and a production build.
 - Enrich module docs when touching each feature area.
 - Add endpoint-specific request and response examples from backend contracts.
 - Document exact environment variable names from deployment manifests without exposing secret values.

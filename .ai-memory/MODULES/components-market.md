@@ -164,7 +164,7 @@ Last-video titles and descriptions preserve backend newline characters in the re
 
 Online-stream titles and descriptions follow the same text rules: backend newline characters remain visible, titles can contain safe clickable links, and the responsive text sizing and line-height remain consistent with last-video content.
 
-# The product module keeps styles for its current header, static presentation coupon, carousel, and product cards; the former collapsible-section state and obsolete legacy header styles were removed.
+The product module keeps styles for its current header, static presentation coupon, carousel, and product cards; the former collapsible-section state and obsolete legacy header styles were removed.
 
 The Products card intentionally omits the edit-options three-dot control; other movable feature cards continue to expose it. `components/market/properties/popups/product.tsx` loads the complete products with `/api/product/getProductList`, loads current bio products with `/api/product/getBioProductList`, uses the shared cursor-based infinite-scroll helper, supports selecting up to ten product IDs, shows each selected thumbnail's one-based position in the ordered selection as a centered numeric badge, and saves that ordered array through `/api/product/updateShowInBio`.
 

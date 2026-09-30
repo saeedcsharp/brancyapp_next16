@@ -14,7 +14,7 @@ High
 
 ## Source Of Truth
 
-- `legacy-pages/instagramer/`
+- `legacy-pages/home/`, `legacy-pages/page/`, `legacy-pages/message/`
 - `components/`
 - `helper/apiRouteMap.ts`
 - `helper/clientFetchApi.ts`

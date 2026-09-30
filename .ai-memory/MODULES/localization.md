@@ -23,7 +23,7 @@ Follows existing Next/React/TypeScript project conventions.
 ## Folder Structure
 
 `i18n.ts`, `i18n/`, `context/directionContext.tsx`, `helper/detectLocaleFromTimezone.ts`, `helper/checkRtl.ts`.
-`scripts/sync-i18n-keys.cjs` maintains locale key alignment and updates `LanguageKey` for direct string keys.
+`scripts/sync-i18n-keys.cjs` is referenced by earlier changes but is not present in the repository (verified 2026-09-30); `LanguageKey` and locale key alignment are currently maintained manually.
 
 ## Execution Flow
 

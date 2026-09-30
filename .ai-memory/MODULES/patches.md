@@ -1,5 +1,7 @@
 # patches
 
+> As of 2026-09-30 no `patches/` folder exists in the repository. The `postinstall` script still runs `patch-package`, which applies nothing.
+
 ## Purpose
 
 Patch-package storage folder.

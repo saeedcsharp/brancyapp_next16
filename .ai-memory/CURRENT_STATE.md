@@ -2,13 +2,11 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
-<<<<<<< HEAD
 The AI media library no longer has an All filter. Its page-owned Images filter requests and paginates only `GetImages`, and its Videos filter requests and paginates only `GetVideos`; each history loads when first selected, and a new generation switches the library to its media type.
 
 The AI media library validates each backend `createdTime` before localized formatting or ISO serialization. Invalid timestamps no longer throw `RangeError`; the media item remains available and displays the localized Not available fallback.
-=======
+
 The local-only Character Sheet Visual Identity prototype is available at `/dev/characterSheet` from the Dev Panel button and is no longer part of the AI creator tabs. It renders `components/page/ai/CharacterSheet.tsx` with Auto and Advanced modes, dynamic Human/Product/Object/Animal/Custom controls, local reference-image previews and roles, per-attribute and global locks, views/poses/expressions, style and layout controls, provider-agnostic generation settings, constraints, and a presentation-only sheet/consistency preview. It performs no API requests, uploads, AI analysis, generation, persistence, publishing, or server work, and all state is discarded when the component unmounts.
->>>>>>> sepehr
 
 The selected image prompt detail initially shows the first ten non-empty newline-delimited prompt lines and provides localized Show more/Show less controls when additional lines exist; expanding reveals the complete prompt without changing the copy or Use in prompt actions. The visible prompt is rendered as a numbered, scrollable code block with JSON token colors, bold markdown labels, and highlighted `[xxx]` bracket placeholders, including placeholders inside JSON strings, while preserving the raw prompt for copying and use. The complete prompt code block, line filtering, tokenization, rendering, layout styles, and reusable inline token styles now live in `components/page/ai/popup/generatedMediaHelpers.ts`; the suggestions CSS module retains only surrounding UI layout styles. Prompt suggestions and prompt detail now share one modal, so the detail back button clears only the selected prompt and returns to the suggestions list; closing the modal clears both states.
 
@@ -170,9 +168,9 @@ The global App Router error boundary displays the received error message. Direct
 
 ## Completed Features
 
-- App Router tree contains 104 page files, including the direct `/feature` knowledge-base route.
+- App Router tree contains 109 page files, including the direct `/feature` knowledge-base route.
 - 9 route handler files exist, including auth, pricing, user proxy endpoints, IP country detection, and a text-file route.
-- API map contains 331 mapped backend entries.
+- API map contains 346 mapped local API paths.
 - Docker standalone build path exists.
 - IIS `web.config` exists for server.js hosting.
 
@@ -224,15 +222,11 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 
 - The home dashboard upgrade tile now provides accessible pagination between the remaining AI token balance and remaining subscription days; the tile's main click and keyboard action still opens the upgrade route.
 
-<<<<<<< HEAD
-
 - Fixed the Instagramer hamburger menu BioLink active state by using the actual slash-free market route values, so Home, Statistics, MyLink, and Properties all select the BioLink logo.
 
-- # Fixed Instagramer mobile navbar market-route detection by aligning the BioLink enum values with the actual slash-free `/market`, `/market/statistics`, `/market/mylink`, and `/market/properties` paths, so all market views display the BioLink logo.
+- Fixed Instagramer mobile navbar market-route detection by aligning the BioLink enum values with the actual slash-free `/market`, `/market/statistics`, `/market/mylink`, and `/market/properties` paths, so all market views display the BioLink logo.
 - AI Flow web-link inputs now apply the shared `InputBox` danger status after invalid non-empty URLs and replay the shake animation once per invalid blur; editing the URL clears the error state.
 - AI Flow web-link validation now requires HTTP(S) hostnames to end with a non-empty dot suffix such as `.com` or `.ir`, while allowing any suffix value.
-
-  > > > > > > > sepehr
 
 - The `/page/tools` `hashtagManager` now owns the card collapse interaction. Activating its shared header hides the manager content and reduces the masonry row span from `82` to `10`; Enter and Space provide the same keyboard behavior.
 
@@ -347,7 +341,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - Added a static MyLink Products coupon presentation with placeholder countdown values, code `BRANCY20`, and an accessible Clipboard API copy action with temporary confirmation; backend promotion data is still pending.
 - Converted the MyLink product cards into a free horizontal carousel with native touch scrolling, mouse/pointer dragging, no wrapping or scroll snap, and drag-click protection for product links.
 - Made MyLink product cards responsive with smaller mobile widths, square fixed-aspect thumbnails, and two-line ellipsis truncation for product names.
-- # Added responsive MyLink product controls with Best Sellers/Best Discounts sorting toggles, a flex-growing product search, and a Show All Products reset action that stacks cleanly on mobile.
+- Added responsive MyLink product controls with Best Sellers/Best Discounts sorting toggles, a flex-growing product search, and a Show All Products reset action that stacks cleanly on mobile. (Superseded: as of 2026-09-30 `components/market/myLink/product.tsx` contains no sorting, search, or Show All controls.)
 - Domain Manager now uses `baseShortUrl/username` instead of `username.baseShortUrl` for default and destination links only when the username contains `.`, while `_` and `-` continue to use the subdomain form.
 - Domain Manager domain displays no longer add a `www.` prefix.
 - Domain Manager hides the duplicate default link when an invalid subdomain username already resolves to the path-style URL.

@@ -1,5 +1,7 @@
 # lib
 
+> As of 2026-09-30 no `lib/` folder exists in the repository; shared utilities live in `helper/`.
+
 ## Purpose
 
 Reserved library folder currently empty.

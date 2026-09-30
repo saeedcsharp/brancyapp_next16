@@ -90,7 +90,7 @@ The image-creator API contract uses `IImageCreator`, `IImageCreatorModel`, and `
 
 Enums are in local files or shared `models/enums.ts`.
 
-`InputType` mirrors the backend values in order: `Text`, `EnumV1`, `Number`, `Range`, `EnumV2`, `Boolean`, `ImageArray`, and `VideoArray`.
+`InputType` mirrors the backend values in order: `Text`, `EnumV1`, `Number`, `Range`, `EnumV2`, `Boolean`, `ImageArray`, `VideoArray`, `IntRange`, and `AudioArray`.
 
 ## Configuration
 
