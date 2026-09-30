@@ -2,7 +2,7 @@
 
 ## Runtime Dependencies
 
-As of 2026-09-30, `package.json` contains 37 direct runtime dependencies. A dependency usage report is rendered by the `/dev/package` route ([app/dev/package/page.tsx](../app/dev/package/page.tsx)); it is a static source audit and still lists packages removed on 2026-09-30 until it is resynchronized.
+As of 2026-09-30, `package.json` contains 37 direct runtime dependencies. A dependency usage report is rendered by the `/dev/package` route ([app/dev/package/page.tsx](../app/dev/package/page.tsx)); it is a hand-maintained static source audit (not script-generated) and was synchronized with `package.json` on 2026-09-30.
 
 On 2026-09-30, `jotai`, `lodash.throttle`, `pdf-lib`, `react-leaflet`, `react-select`, and `@types/wavesurfer.js` were removed after confirming no source, config, or type references (`wavesurfer.js` 7 ships its own types). `clsx` and `react-date-object`, which source files import directly but were previously only installed transitively (through `react-draggable`/`react-toastify` and `react-multi-date-picker`), are now declared at their already-installed versions. `braces` and `ws` are intentionally kept as pinned direct dependencies even though source does not import them.
 

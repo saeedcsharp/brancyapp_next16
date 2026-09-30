@@ -8,7 +8,7 @@ This frontend consumes external Brancy services rather than implementing backend
 - `app/api/_lib/proxy.ts`: Next route proxy for selected user auth routes.
 - `helper/apiBaseUrl.ts`: host-aware service URL resolver.
 - `helper/apiRouteMap.ts`: local-to-backend route mapping.
-- `helper/socket.ts` and `helper/pushNotif.ts`: real-time and notification integration helpers.
+- `helper/pushNotif.ts`: real-time SignalR and notification integration helper. The unused `helper/socket.ts` was removed on 2026-09-30.
 
 ---
 

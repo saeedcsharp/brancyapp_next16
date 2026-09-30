@@ -36,8 +36,6 @@
     "**/*.jsx",
     "**/*.js",
     ".next/types/**/*.ts",
-    "helper/svgInsertor.js",
-    "components/messages/sendFile.jsx",
     ".next/dev/types/**/*.ts"
   ],
   "exclude": [

@@ -172,7 +172,7 @@
 - Add component/browser coverage for FlexibleToggleButton keyboard activation, `aria-pressed`, disabled state, long localized labels, RTL layout, reduced motion, forced colors, and mobile/desktop touch targets when a UI test harness is introduced.
 - Replace remaining feature-level `overflow-y: scroll`, `100vw`, and WebKit-only layout rules after visual regression coverage is available.
 
-- Keep the `/dev/package` report (`app/dev/package/page.tsx`) package counts and classifications synchronized with `package.json`; it still lists the dependencies removed on 2026-09-30. Verify removal candidates with `npm ls`, `npm audit`, and a production build.
+- Keep the `/dev/package` report (`app/dev/package/page.tsx`) package counts and classifications synchronized with `package.json` after dependency changes (last synchronized 2026-09-30). Verify removal candidates with `npm ls`, `npm audit`, and a production build.
 - Enrich module docs when touching each feature area.
 - Add endpoint-specific request and response examples from backend contracts.
 - Document exact environment variable names from deployment manifests without exposing secret values.
