@@ -36,6 +36,7 @@ Medium
 - It does not invent prices, package quantities, token quantities, follower thresholds, or backend limits.
 - `unknown` access is rendered as `Needs Business Logic review`.
 - Routes with local mock data, TODO API markers, unmapped calls, or local-only actions belong in the audit-only section instead of the active catalog.
+- The audit-only section is currently disabled: its JSX in `app/feature/FeatureKnowledgeBase.tsx` is commented out (verified 2026-09-30), so `/feature` renders only active records. Keep `auditRecords` in `app/feature/featureCatalog.ts` synchronized so the section can be re-enabled.
 - On mobile, expanded feature details keep the expand control in the card's top corner, while role and access values share one row.
 
 ## Current Coverage
