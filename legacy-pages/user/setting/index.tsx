@@ -333,7 +333,6 @@ function Setting() {
             currentIndex: newCurrentIndex,
           },
         });
-        console.log("newCurrentIndex", res.value);
         router.replace("/");
       } else notify(res.info.responseType, NotifType.Warning);
     } catch (error) {

@@ -1003,7 +1003,6 @@ const DirectInbox = () => {
         return;
       }
       if (session == null) {
-        console.log("session ", session);
 
         return;
       }

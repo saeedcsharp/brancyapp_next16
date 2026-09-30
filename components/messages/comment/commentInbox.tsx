@@ -1014,7 +1014,6 @@ const CommentInbox = () => {
         return;
       }
       if (session == null) {
-        console.log("session ", session);
 
         return;
       }
