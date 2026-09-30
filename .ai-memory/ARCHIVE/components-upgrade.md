@@ -1,5 +1,7 @@
 # components/upgrade
 
+> Archived 2026-09-30: `components/upgrade/upgrade.tsx` and its stylesheet had no importers and were removed; the folder no longer exists. The `/upgrade` route is implemented by `legacy-pages/upgrade/`.
+
 ## Purpose
 
 Component module for upgrade UI and feature concerns.

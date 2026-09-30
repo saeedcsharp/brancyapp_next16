@@ -11,7 +11,7 @@
 - `GET /api/user/ip`: returns country code from CDN headers, null on localhost.
 - `GET /api/pricing`: fetches package prices from `MyLink/GetPackagePrices`, cached for 24 hours.
 - `GET /22893589.txt`: static text response.
-- Legacy API routes: `/api/health`, `/api/get-address`, `/api/hello` under `legacy-pages/api`.
+- `legacy-pages/api/health.ts` remains in the repository but is not served: `legacy-pages/` is not a Pages Router directory, so no `/api/health` route exists in the build output. The former unrouted `hello.ts` and `get-address.ts` files were removed on 2026-09-30.
 
 ## Mapped Backend API
 

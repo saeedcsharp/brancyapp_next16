@@ -1,5 +1,7 @@
 # components/connectionStatus
 
+> Archived 2026-09-30: `components/connectionStatus/ConnectionStatusIndicator.tsx` and its stylesheet had no importers and were removed; the folder no longer exists.
+
 ## Purpose
 
 Component module for connectionStatus UI and feature concerns.

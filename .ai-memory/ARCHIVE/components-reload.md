@@ -1,5 +1,7 @@
 # components/reload
 
+> Archived 2026-09-30: `components/reload/reload.tsx` had no importers and was removed; the folder no longer exists.
+
 ## Purpose
 
 Component module for reload UI and feature concerns.

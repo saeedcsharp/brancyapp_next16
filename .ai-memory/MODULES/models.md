@@ -18,7 +18,7 @@ Follows existing Next/React/TypeScript project conventions.
 
 ## Folder Structure
 
-`models/enums.ts`, `models/interfaces.ts`, `models/mockData.ts`, `models/ServerToggle.tsx`, and related files.
+`models/enums.ts`, `models/interfaces.ts`, `models/mockData.ts`, and related files.
 
 ## Execution Flow
 
@@ -130,7 +130,7 @@ No module-specific env vars documented unless related files read them.
 
 ## Related Files
 
-`models/enums.ts`, `models/interfaces.ts`, `models/mockData.ts`, `models/ServerToggle.tsx`, and related files.
+`models/enums.ts`, `models/interfaces.ts`, `models/mockData.ts`, and related files.
 
 ## Related Modules
 

@@ -69,7 +69,7 @@ Wallet invoice order details now load automatically when the `Order` tab is sele
 Sub-invoice history labels now use the shared `IDblue`, `IDpurple`, `IDgreen`, `IDred`, and `IDgray` styles for unsettled, awaiting-settlement, settled, failed, and unknown statuses.
 Sub-invoice detail rows support horizontal native scrolling and pointer-captured mouse/touch dragging with vertical touch scrolling preserved.
 
-The direct Meta redirect route is available at `/metaRedirect`; its App Router directory no longer has a trailing space, so the route is discovered correctly by Next.js.
+The direct Meta redirect route is available at `/metaReDirect` (`app/metaReDirect/`; the path is case-sensitive); its App Router directory no longer has a trailing space, so the route is discovered correctly by Next.js.
 
 Shared Slider drag and keyboard handlers now leave native controls inside slides interactive, including the wallet add-card InputBox.
 
@@ -252,7 +252,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 
 - Prevented React Strict Mode effect replays from sending the Meta direct-login verification API request twice by guarding the request with a component ref.
 
-- The Meta direct-login flow waits 10 seconds after successful verification, then opens the `initialSetup` language, theme, and calendar flow; navigation to `/directlogin` occurs only after setup completion.
+- The Meta direct-login flow (`app/metaReDirect/page.tsx`) waits 10 seconds after successful verification, then shows the localized `metaRedirect_aiAnalysisNotice` modal; its Continue button navigates to the verified `/directlogin` URL. The unreachable legacy copy under `legacy-pages/user/metaReDirect/`, including its `initialSetup` step, was removed on 2026-09-30.
 
 - Removed the Store Properties entry from the Instagramer desktop navbar and mobile hamburger menu while keeping `/store/properties` directly accessible.
 
