@@ -15,7 +15,6 @@ const Reviews = ({ data }: { data: IReviews | null }) => {
         <div key={"reviews"} id="reviews" className={styles.all}>
           <div
             className={styles.header}
-            // onClick={toggleContentVisibility}
           >
             <div className={`${styles.squre} ${!isContentVisible ? styles.closed : ""}`}></div>
             <div className={styles.headertext}>

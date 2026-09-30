@@ -20,12 +20,10 @@ function AllMarket(props: { data: IMarketInfo[] | undefined; fetchAllData: (pagi
     }
   }
   useEffect(() => {
-    // if (props.data.length < 10) props.fetchAllData("");
     if (props.data) {
       setLoadingStatus(false);
     }
   }, [props.data]);
-  // if (session?.user.error) return console.log("erooooooooooooooooor");
   return (
     <div ref={userRef} onScroll={handleScroll} className={`${styles.swiper} translate`}>
       {loadingStatus && <Loading />}
