@@ -50,7 +50,6 @@ const NotificationBar = ({
       responseType === PushResponseType.AIImageFailed ||
       responseType === PushResponseType.AIVideoFailed
     ) {
-      console.log("responseTypeeeeeeeeee", responseType);
       return (
         <svg fill="none" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" aria-hidden="true">
           <path

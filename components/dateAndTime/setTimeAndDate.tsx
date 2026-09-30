@@ -37,27 +37,10 @@ const SetTimeAndDate = (props: {
     mounths.push(new DateObject(e).month.index);
     years.push(new DateObject(e).year);
   });
-  console.log("endunixxxxxx", props.endUnix);
-  console.log("fromunixxxxxx", props.fromUnix);
   const [value, setValue] = useState<Value>(startDate);
   const [rangeValue, setRangeValue] = useState<DateObject[]>([]);
   const [calendar, setCalendar] = useState(gregorian);
   const [locale, setLocale] = useState(english);
-  // const checkDate = (date: string) => {
-  //   var unixDate = parseInt(date);
-  //   const newDate = new Date(unixDate);
-  //   const seconds = newDate.getUTCSeconds();
-  //   if (
-  //     !(
-  //       dayes.includes(new DateObject(unixDate).day) &&
-  //       mounths.includes(new DateObject(unixDate).month.index) &&
-  //       years.includes(new DateObject(unixDate).year)
-  //     ) &&
-  //     unixDate >= startDate - seconds * 1000
-  //   ) {
-  //     return true;
-  //   }
-  // };
 
   const handleSave = (date: string | undefined) => {
     if (date !== undefined) {
@@ -104,27 +87,6 @@ const SetTimeAndDate = (props: {
         setCalendar(indian);
         break;
     }
-    // const calendar = window.localStorage.getItem("calendar");
-    // if (calendar) {
-    //   switch (calendar) {
-    //     case "Gregorian":
-    //       setCalendar(gregorian);
-    //       setLocale(english);
-    //       break;
-    //     case "shamsi":
-    //       setCalendar(persian);
-    //       setLocale(persian_fa);
-    //       break;
-    //     case "Hindi":
-    //       setCalendar(indian);
-    //       setLocale(indian_hi);
-    //       break;
-    //     case "Hijri":
-    //       setCalendar(arabic);
-    //       setLocale(arabic_ar);
-    //       break;
-    //   }
-    // }
   }, []);
 
   return (

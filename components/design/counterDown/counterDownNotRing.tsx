@@ -49,8 +49,6 @@ function CounterDownNotRing(props: {
     const intHoures = ((diffTime % 86400) - (diffTime % 3600)) / 3600;
     const intMinutes = ((diffTime % 3600) - (diffTime % 60)) / 60;
     const intSecons = Math.floor(diffTime % 60);
-    // console.log("intMinutes", intMinutes);
-    // console.log("intSecons", intSecons);
     return {
       intDays: intdays,
       intHours: intHoures,
@@ -81,12 +79,10 @@ function CounterDownNotRing(props: {
     }
     if (Math.floor(seconds) === -1) {
       setSeconds(59);
-      // setRevSecond(1);
       setMinutes(minutes - 1);
     }
     if (minutes === -1) {
       setMinutes(60);
-      //setRevSecond(1);
       setHour(hours - 1);
     }
     if (hours === -1) {
@@ -104,7 +100,6 @@ function CounterDownNotRing(props: {
     interval = window.setInterval(() => {
       if (Math.round(seconds) > -1) {
         setSeconds(seconds - 1);
-        // setRevSecond(60 - seconds);
       }
     }, 1000);
 

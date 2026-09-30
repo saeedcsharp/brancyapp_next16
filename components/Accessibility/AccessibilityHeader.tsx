@@ -68,7 +68,6 @@ const AccessibilityHeader: React.FC<AccessibilityHeaderProps> = ({ themeState, d
     "/Accessibility/About-Us",
     "/Accessibility/Contact-Us",
     "/Accessibility/join-Us",
-    // "/Accessibility/OrgChart",
   ].includes(currentPath);
 
   const isSupportPage = [

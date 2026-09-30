@@ -10,10 +10,6 @@ import RingLoader from "brancy/components/design/loader/ringLoder";
 
 const AI_OPS = [
   { id: "rewrite", label: "Rewrite" },
-  // { id: "continue", label: "Continue Writing" },
-  // { id: "summarize", label: "Summarize" },
-  // { id: "translate", label: "Translate" },
-  // { id: "grammar", label: "Fix Grammar" },
 ];
 
 export function BlockMenu() {

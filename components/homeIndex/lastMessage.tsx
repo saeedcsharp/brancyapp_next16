@@ -107,7 +107,6 @@ const MessageItem = memo(
         </div>
         <div
           title={item.message ?? ""}
-          //className={`${styles.message} ${isRTL(item.message ?? "") ? "rtl" : "ltr"}`}
           className={styles.message}>
           {item.directItemType === ItemType.Text && item.message}
           {item.directItemType !== ItemType.Media &&
@@ -232,7 +231,6 @@ const LastMessage = memo(({ data, repliesData, unreadComments }: LastMessageProp
   const sortedItems = useMemo(() => {
     const allItems = [
       ...(data || []).map((item) => ({ ...item, isReply: false })),
-      // ...(repliesData || []).map((item) => ({ ...item, isReply: true })),
     ];
     return allItems.sort((a, b) => b.timeStampUnix - a.timeStampUnix);
   }, [data, repliesData]);

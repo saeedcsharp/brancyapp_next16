@@ -34,7 +34,6 @@ function identifyUpingTimeType(timestamp: number): number {
 }
 
 const CounterDown2 = (prob: {
-  // itemId: string;
   upingTime: number;
   isDead: () => void;
   classNamewrapper: string;
@@ -74,8 +73,6 @@ const CounterDown2 = (prob: {
 
   const handleRing = () => {
     if (upingTime < Date.now() / 1000) {
-      console.log("upingTimeeeeeeeeee", upingTime);
-      console.log("nowwwwwwwww", Date.now() / 1000);
       prob.isDead();
     }
     if (seconds === 60) {
@@ -96,13 +93,11 @@ const CounterDown2 = (prob: {
     }
     if (Math.floor(seconds) === -1) {
       setSeconds(59);
-      // setRevSecond(1);
       setMinutes(minutes - 1);
       setRevMinutes(61 - minutes);
     }
     if (minutes === -1) {
       setMinutes(60);
-      //setRevSecond(1);
       setHour(hours - 1);
       setRevHours(25 - hours);
     }
@@ -119,7 +114,6 @@ const CounterDown2 = (prob: {
   };
 
   const initialzingRing = () => {
-    //handleRing();
     if (seconds > -1) {
       setRevSecond(60 - seconds);
     }

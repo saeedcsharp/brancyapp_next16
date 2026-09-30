@@ -93,7 +93,6 @@ export default function AiPrompt({
             handleInputChange={handleAIPromptChange}
             handleKeyDown={handleAIKeyDown}
             placeHolder={t(LanguageKey.ImagineSomething)}
-            // className="textarea"
             role="textbox"
             title="AI Prompt Input"
             autoFocus

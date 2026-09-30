@@ -63,13 +63,11 @@ const CounterDown = (prob: {
     }
     if (Math.floor(seconds) === -1) {
       setSeconds(59);
-      // setRevSecond(1);
       setMinutes(minutes - 1);
       setRevMinutes(61 - minutes);
     }
     if (minutes === -1) {
       setMinutes(60);
-      //setRevSecond(1);
       setHour(hours - 1);
       setRevHours(25 - hours);
     }
@@ -86,7 +84,6 @@ const CounterDown = (prob: {
   };
 
   const initialzingRing = () => {
-    //handleRing();
     if (seconds > -1) {
       setRevSecond(60 - seconds);
     }

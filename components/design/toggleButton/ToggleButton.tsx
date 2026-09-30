@@ -49,7 +49,6 @@ const ToggleButton = ({
           width: `calc((100% - 10px - ${Math.max(resolvedOptions.length - 1, 0) * 2}px) / ${resolvedOptions.length})`,
           transform: `translateX(calc(${
             activeOptionIndex *
-            // direction === "rtl" ? -100 :
             100
           }% + ${indicatorGapOffset}px))`,
         }}

@@ -7,26 +7,10 @@ import { useTranslation } from "react-i18next";
 import styles from "./postSummary.module.css";
 
 // Cache for posts data
-// const postsCache = new Map<
-//   string,
-//   {
-//     data: IPostContent[];
-//     timestamp: number;
-//     allPosts: IPostContent[];
-//   }
-// >();
 
 const CACHE_DURATION = 5 * 60 * 1000; // 5 minutes
 
 // Function to clear expired cache entries
-// const clearExpiredCache = () => {
-//   const now = Date.now();
-//   for (const [key, value] of postsCache.entries()) {
-//     if (now - value.timestamp >= CACHE_DURATION) {
-//       postsCache.delete(key);
-//     }
-//   }
-// };
 
 interface PostSummaryState {
   posts: IPostContent[] | null;
@@ -262,25 +246,6 @@ const PostSummary = memo((props: { data: IInstagramerHomeTiles | null; posts: IP
     [state.isHidden],
   );
 
-  // useEffect(() => {
-  //   // Clear expired cache entries on component mount
-  //   // clearExpiredCache();
-  //   fetchPosts(1, true);
-  // }, [fetchPosts]);
-
-  // useEffect(() => {
-  //   const container = containerRef.current;
-  //   if (container) {
-  //     container.addEventListener("scroll", handleScroll, { passive: true });
-  //     return () => container.removeEventListener("scroll", handleScroll);
-  //   }
-  // }, [handleScroll]);
-
-  // Cleanup expired cache entries periodically
-  // useEffect(() => {
-  //   const interval = setInterval(clearExpiredCache, CACHE_DURATION);
-  //   return () => clearInterval(interval);
-  // }, []);
 
   return (
     <section

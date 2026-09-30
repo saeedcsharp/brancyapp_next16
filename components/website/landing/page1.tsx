@@ -288,7 +288,6 @@ const Page1 = ({ handleShowVerification }: Page1Props) => {
                         "openid email profile",
                       )}&access_type=offline&prompt=consent`}
                       onSuccess={() => {
-                        console.log("Google login successful");
                       }}
                       onError={(error) => {
                         console.error("Google login error:", error);

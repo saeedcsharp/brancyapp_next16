@@ -121,7 +121,6 @@ export default function NotShopper() {
         queries: [{ key: "isShopper", value: "0" }],
         onUploadProgress: undefined,
       });
-      console.log("AddShopperAddress", res.value);
 
       if (!res.succeeded) notify(res.info.responseType, NotifType.Warning);
       else if (res.value === CreateShopStep.None) getAuthorizeUserType();

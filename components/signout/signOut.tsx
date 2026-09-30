@@ -31,18 +31,6 @@ function SignOut(props: { removeMask: () => void }) {
     await signOut({ redirect: false });
 
     // Commented code for csrf token and custom signout
-    // const res = await fetch("/api/auth/csrf");
-    // const csrf = await res.text();
-    // var res2 = await fetch("/api/auth/signout", {
-    //   method: "POST",
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: csrf
-    // });
-    // console.log(res2);
-    // await update(null);
-    console.log("signoutttttttttttttttttt");
     props.removeMask();
     router.replace("/"); // Redirect to the home page
   };

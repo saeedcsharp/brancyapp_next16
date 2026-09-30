@@ -51,7 +51,6 @@ export default function CircularCountdown({ unixTime }: { unixTime: number }) {
   const offset = CIRCUMFERENCE * percent; // فقط percent بدون (1 - percent)
 
   // console.log برای تشخیص مشکل
-  console.log(`Value: ${value}, Max: ${max}, Percent: ${percent}, Offset: ${offset}`);
 
   return (
     <div className={styles.countdownCircleWrapper}>

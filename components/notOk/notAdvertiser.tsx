@@ -81,7 +81,6 @@ export default function NotAdvertiser() {
         queries: [{ key: "isShopper", value: "1" }],
         onUploadProgress: undefined,
       });
-      console.log("AddAdvertiserAddress", res.value);
 
       if (!res.succeeded) {
         notify(res.info.responseType, NotifType.Warning);

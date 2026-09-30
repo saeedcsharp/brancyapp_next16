@@ -297,7 +297,6 @@ const AdminChatBox = (props: {
     if (atBottom && !loading.current && props.chatBox.nextMaxId) {
       setMoreItemLoading(true);
       loading.current = true; // Block further calls
-      console.log("Fetching more items...", props.chatBox.nextMaxId);
       await props.fetchItemData(props.chatBox.ticketId, props.chatBox.nextMaxId).finally(() => {
         setTimeout(() => {
           loading.current = false;
@@ -439,11 +438,8 @@ const AdminChatBox = (props: {
     setMoreItemLoading(false);
     handleBackToButton();
     if (!props.chatBox.items.find((x) => x.timeStampUnix > props.chatBox.fbLastSeenUnix)) {
-      // console.log("lockkkkkkkkkk");
       setLock(true);
     }
-    console.log("last itemmmm", props.chatBox.items[0]);
-    console.log("ownerrrrrrr", props.chatBox.fbLastSeenUnix);
     return () => {
       if (
         props.chatBox.items.length > 0 &&
@@ -456,7 +452,6 @@ const AdminChatBox = (props: {
     };
   }, []);
   useEffect(() => {
-    console.log("Next max ID changed:", props.chatBox.nextMaxId);
   }, [props.chatBox]);
   // #region JSX
   return (
