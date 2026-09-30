@@ -18,6 +18,7 @@ const titleByLanguage: Record<
 };
 
 const creatorIconByName: Record<string, string> = {
+  alibaba: "alibaba.svg",
   bytedance: "ByteDance.svg",
   chatgptimage: "OpenAI.svg",
   claude: "claude.svg",

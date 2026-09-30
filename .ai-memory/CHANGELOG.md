@@ -1,10 +1,13 @@
+- 2026-09-29: Added Alibaba creator logo (`public/AIIcons/alibaba.svg`) to the `AiModelList` creator icon map.
+
 <<<<<<< HEAD
+
 - 2026-09-28: Fixed Docker build failure (E404 for `sharp@0.33.5` on the `repo.hmirror.ir` npm mirror): the runner stage now copies `sharp`, `@img/*`, and `detect-libc` from the builder's `node_modules` (installed by `npm ci`) instead of running `npm i sharp`.
 
-- 2026-09-28: Hardened `MediaCreator` `defaultValue` parsing per `InputType`: Boolean parses `"true"`/`"false"` strings, arrays accept JSON-string defaults, numeric/range defaults ignore empty strings and range values are clamped (IntRange rounded), and enum defaults must match an `enumValues` option (case-insensitive) or fall back to the first option.
-=======
+- # 2026-09-28: Hardened `MediaCreator` `defaultValue` parsing per `InputType`: Boolean parses `"true"`/`"false"` strings, arrays accept JSON-string defaults, numeric/range defaults ignore empty strings and range values are clamped (IntRange rounded), and enum defaults must match an `enumValues` option (case-insensitive) or fall back to the first option.
 - 2026-09-28: Added the local-only Character Sheet Visual Identity wizard at `/dev/characterSheet`, linked from the Dev Panel; removed it from the AI creator tabs while preserving its Auto/Advanced flows, dynamic identity controls, local reference previews, locks, views, style, consistency, constraints, and presentation-only sheet.
->>>>>>> sepehr
+
+  > > > > > > > sepehr
 
 - 2026-09-28: Fixed the AI media history DragDrop All option to use the localized `toggleShowAll` translation key.
 
