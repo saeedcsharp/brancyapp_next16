@@ -1727,7 +1727,7 @@ export interface IImage {
 }
 
 export interface ReplyStory {
-  directStoryItemType: number;
+  linkStickerUrl: string;
   link: string;
   fbId: string;
   externalUrl: string;
@@ -1790,6 +1790,13 @@ export interface IHookRead {
   RecpId: string | null;
 }
 
+export interface IHookReplyStory {
+  LinkStickerUrl: string;
+  Link: string;
+  FbId: string;
+  ExternalUrl: string;
+}
+
 export interface IHookMediaShare {
   Id: string;
   Url: string;
@@ -1841,7 +1848,7 @@ export interface IHookDirectItem {
   ItemId: string;
   GraphItemId: string;
   Text: string;
-  ReplyStory: null;
+  ReplyStory: IHookReplyStory | null;
   MediaShares: IHookMediaShare[];
   Medias: IHookMedia[];
   ClientContext: null;
