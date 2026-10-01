@@ -1,6 +1,7 @@
 The bulk product individual editors now render as a free horizontal slider using the shared `Slider` and `SliderSlide` components; each product card keeps its existing independent controls and state.
 
 # Current State
+
 The AI page caches its per-account `hasFeature` entitlement result in `sessionStorage` and reuses an in-flight check during mount, preventing the feature API from being called again solely because the page was reloaded.
 
 <<<<<<< HEAD
@@ -14,13 +15,14 @@ Dashboard and upgrade client children now wait in `InstaProvider` for selected-a
 
 `InstaProvider` now fetches selected-account data on every document reload despite a recent session `lastUpdate`, chains account/title loading after routine token renewal, and redirects expired packages from protected Instagramer routes after persisting fresh account data. Focused synthetic checks pass; authenticated browser verification remains pending.
 
-The middleware redirects selected Instagramer accounts with missing or expired packages to `/upgrade` regardless of `loginByFb` or `loginByInsta`; it no longer logs full JWT tokens.
-=======
+# The middleware redirects selected Instagramer accounts with missing or expired packages to `/upgrade` regardless of `loginByFb` or `loginByInsta`; it no longer logs full JWT tokens.
+
 Wallet invoice order details now load automatically when the `Order` tab is selected and render inside the existing invoice popup. The request still uses `/api/wallet/getInvoice`, but the returned invoice is passed to `OrderDetailPopup` inline instead of requiring a button or opening a second modal.
 
 Sub-invoice history labels now use the shared `IDblue`, `IDpurple`, `IDgreen`, `IDred`, and `IDgray` styles for unsettled, awaiting-settlement, settled, failed, and unknown statuses.
 Sub-invoice detail rows support horizontal native scrolling and pointer-captured mouse/touch dragging with vertical touch scrolling preserved.
->>>>>>> sepehr
+
+> > > > > > > sepehr
 
 The direct Meta redirect route is available at `/metaRedirect`; its App Router directory no longer has a trailing space, so the route is discovered correctly by Next.js.
 
