@@ -1,6 +1,8 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 
+- 2026-10-01: Fixed the upgrade page showing exhausted AI/Custom Domain packages (remaining value `0`) as 100% full; they now report 0% and show the expired warning.
+
 - 2026-10-01: Added 12 backend `ResponseType` values (`InvalidMediaAiCreatorKey` through `OneFlowButtonHasEmptyItem`) with `Notify_*` language keys, legacy/hook notification mappings, and translations in all eight locales.
 
 - 2026-10-01: Prevented the AI page from repeating the `/api/feature/hasFeature` request on browser reload by caching the account-scoped entitlement in `sessionStorage` and deduplicating concurrent initial checks.
