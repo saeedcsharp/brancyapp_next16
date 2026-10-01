@@ -7,10 +7,10 @@ import {
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
 import Loading from "brancy/components/notOk/loading";
+import NotFeature from "brancy/components/notOk/notFeature";
 import MediaLibrary from "brancy/components/page/ai/MediaLibrary";
 import MediaCreator, { type MediaTab } from "brancy/components/page/ai/mediaCreator";
 import { MethodType } from "brancy/helper/api";
-import { fetchAndCheckFeature } from "brancy/helper/checkFeature";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import convertFirstLetterToLowerCase from "brancy/helper/convertFirstLetterToLowerCase";
 import { LoginStatus } from "brancy/helper/loadingStatus";
@@ -292,17 +292,9 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
     fetchDelay: 0,
   });
   const openImageCreator = async () => {
-    if (!(await fetchAndCheckFeature(PsgFeatureType.AI, session))) {
-      setShowFeaturePopup(true);
-      return;
-    }
     await loadCreators();
   };
   const openVideoCreator = async () => {
-    if (!(await fetchAndCheckFeature(PsgFeatureType.AI, session))) {
-      setShowFeaturePopup(true);
-      return;
-    }
     await loadVideoCreators();
   };
   useEffect(() => {
@@ -460,12 +452,17 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
             modelSelection={modelSelection}
             onModelSelectionChange={handleModelSelectionChange}
             onOpenModelList={openModelList}
-            featureUnavailable={showFeaturePopup}
             onOpenImagePrompts={() => setShowImagePrompts(true)}
             promptToUse={promptToUse}
           />
         )}
       </main>
+      <Modal
+        closePopup={() => setShowFeaturePopup(false)}
+        classNamePopup="popupSendFile"
+        showContent={showFeaturePopup}>
+        <NotFeature onClose={() => setShowFeaturePopup(false)} />
+      </Modal>
       <Modal closePopup={() => setShowModelList(false)} classNamePopup="popupLarge" showContent={showModelList}>
         <AiModelListContent
           creators={modelCreators}

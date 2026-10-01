@@ -28,6 +28,8 @@
 
 # TODO
 
+- Add component/browser coverage confirming the AI page reuses the account-scoped `hasFeature` result after reload and deduplicates concurrent initial creator checks when a UI test harness is introduced.
+
 <<<<<<< HEAD
 - Add component coverage confirming the AI library offers only Images and Videos, requests only `GetImages` or `GetVideos` for the selected filter, and loads each history once when a UI test harness is introduced.
 - Add component coverage confirming malformed, non-finite, and out-of-range AI media `createdTime` values keep their history rows visible, avoid ISO serialization errors, and show the localized Not available fallback when a UI test harness is introduced.

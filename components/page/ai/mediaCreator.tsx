@@ -18,7 +18,6 @@ import { ChangeEvent, CSSProperties, Dispatch, SetStateAction, useEffect, useRef
 import { useTranslation } from "react-i18next";
 import styles from "./mediaCreator.module.css";
 import Loading from "brancy/components/notOk/loading";
-import NotFeature from "brancy/components/notOk/notFeature";
 import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButton";
 import AiModelList from "brancy/components/page/ai/popup/AiModelList";
 type InputValue = string | number | boolean | string[];
@@ -44,7 +43,6 @@ interface MediaCreatorProps {
   modelSelection: { creatorKey: string; modelName: string };
   onModelSelectionChange: (selection: { creatorKey: string; modelName: string }) => void;
   onOpenModelList: () => void;
-  featureUnavailable?: boolean;
 }
 export interface MediaCreatorSelection {
   creatorKey: string;
@@ -365,7 +363,6 @@ export default function MediaCreator({
   modelSelection,
   onModelSelectionChange,
   onOpenModelList,
-  featureUnavailable,
 }: MediaCreatorProps) {
   const { data: session } = useSession();
   const { t, i18n } = useTranslation();
@@ -456,7 +453,7 @@ export default function MediaCreator({
               )}
             </>
           ) : (
-            <>{featureUnavailable ? <NotFeature onClose={() => undefined} /> : <Loading />}</>
+            <Loading />
           )}
         </div>
       </div>
@@ -468,8 +465,8 @@ export default function MediaCreator({
     const value = values[input.key];
     return Array.isArray(value) ? value.length >= input.minArrayLength : value !== "" && value !== undefined;
   });
-  const getImageUsage = async () => {
-    if (!session || !promptIsValid || !requiredInputsAreValid) return;
+  const getImageUsage = async (): Promise<number | null> => {
+    if (!session || !promptIsValid || !requiredInputsAreValid) return null;
     const request: IGetImageUsageRequest = {
       creatorKey: creator.key,
       version: model.name,
@@ -491,9 +488,10 @@ export default function MediaCreator({
     setUsageLoading(false);
     if (response.succeeded && typeof response.value === "number") {
       setTokenUsage(response.value);
-      return;
+      return response.value;
     }
     notify(response.info?.responseType, NotifType.Error, response.info?.message || response.errorMessage);
+    return null;
   };
   const pastePromptFromClipboard = async () => {
     if (typeof navigator === "undefined" || !navigator.clipboard?.readText) return;
@@ -566,6 +564,8 @@ export default function MediaCreator({
       onSubmit={async (event) => {
         event.preventDefault();
         if (createMediaLoading || !promptIsValid || !requiredInputsAreValid || !onCreateMedia) return;
+        const usage = tokenUsage ?? (await getImageUsage());
+        if (usage === null) return;
         const created = await onCreateMedia(
           {
             creatorKey: creator.key,
@@ -576,7 +576,7 @@ export default function MediaCreator({
             })),
             prompt,
           },
-          tokenUsage ?? 0,
+          usage,
         );
         if (created) resetForm();
       }}>
