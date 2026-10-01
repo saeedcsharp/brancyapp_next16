@@ -1,6 +1,8 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 
+- 2026-10-01: Added 12 backend `ResponseType` values (`InvalidMediaAiCreatorKey` through `OneFlowButtonHasEmptyItem`) with `Notify_*` language keys, legacy/hook notification mappings, and translations in all eight locales.
+
 - 2026-10-01: Prevented the AI page from repeating the `/api/feature/hasFeature` request on browser reload by caching the account-scoped entitlement in `sessionStorage` and deduplicating concurrent initial checks.
 
 - 2026-09-17: Localized all Add Partner access tooltips across the eight supported locales using dedicated `LanguageKey` entries.
