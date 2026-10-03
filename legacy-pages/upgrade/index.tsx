@@ -96,6 +96,15 @@ const initialState: UpgradeState = {
   },
   yourPlanExpanded: typeof window !== "undefined" && window.innerWidth >= 1024,
 };
+// A null remaining value means unlimited; 0 means exhausted.
+const getSliderPercentage = (
+  pkg: { sliderRemainingValue: number | null; sliderTotalValue: number } | null | undefined,
+): number => {
+  if (!pkg) return 0;
+  if (pkg.sliderRemainingValue === null) return 100;
+  if (!pkg.sliderTotalValue) return 0;
+  return Math.max(0, Math.min(100, (pkg.sliderRemainingValue / pkg.sliderTotalValue) * 100));
+};
 const upgradeReducer = (state: UpgradeState, action: UpgradeAction): UpgradeState => {
   switch (action.type) {
     case "SET_PACKAGE_EXTENSIONS":
@@ -305,70 +314,30 @@ const Upgrade = memo(function Upgrade() {
     },
     [t],
   );
-  const aiTokenProgressPercentage = useMemo(() => {
-    if (!state.userPackageInfo || !state.userPackageInfo.aiPackage) return 0;
-    if (!state.userPackageInfo.aiPackage.sliderRemainingValue) return 100;
-    return (
-      (state.userPackageInfo.aiPackage.sliderRemainingValue / state.userPackageInfo.aiPackage.sliderTotalValue) * 100
-    );
-  }, [state.userPackageInfo]);
-  const aiReserveTokenProgressPercentage = useMemo(() => {
-    if (!state.userPackageInfo || !state.userPackageInfo.aiReservePackage) return 0;
-    if (!state.userPackageInfo.aiReservePackage.sliderRemainingValue) return 100;
-    return (
-      (state.userPackageInfo.aiReservePackage.sliderRemainingValue /
-        state.userPackageInfo.aiReservePackage.sliderTotalValue) *
-      100
-    );
-  }, [state.userPackageInfo]);
-  const customDomainTokenProgressPercentage = useMemo(() => {
-    if (!state.userPackageInfo || !state.userPackageInfo.customDomainPackage) return 0;
-    if (!state.userPackageInfo.customDomainPackage.sliderRemainingValue) return 100;
-    return (
-      (state.userPackageInfo.customDomainPackage.sliderRemainingValue /
-        state.userPackageInfo.customDomainPackage.sliderTotalValue) *
-      100
-    );
-  }, [state.userPackageInfo]);
-  const reverseCustomDomainTokenProgressPercentage = useMemo(() => {
-    if (!state.userPackageInfo || !state.userPackageInfo.customDomainReservePackage) return 0;
-    if (!state.userPackageInfo.customDomainReservePackage.sliderRemainingValue) return 100;
-    return (
-      (state.userPackageInfo.customDomainReservePackage.sliderRemainingValue /
-        state.userPackageInfo.customDomainReservePackage.sliderTotalValue) *
-      100
-    );
-  }, [state.userPackageInfo]);
-  const lotteryTokenProgressPercentage = useMemo(() => {
-    if (
-      !state.userPackageInfo ||
-      !state.userPackageInfo.lotteryPackage ||
-      state.userPackageInfo.lotteryPackage.sliderRemainingValue === null
-    )
-      return 0;
-
-    const percentage =
-      (state.userPackageInfo.lotteryPackage.sliderRemainingValue /
-        state.userPackageInfo.lotteryPackage.sliderTotalValue) *
-      100;
-
-    return percentage;
-  }, [state.userPackageInfo]);
-  const reverseLotteryTokenProgressPercentage = useMemo(() => {
-    if (
-      !state.userPackageInfo ||
-      !state.userPackageInfo.lotteryReservePackage ||
-      state.userPackageInfo.lotteryReservePackage.sliderRemainingValue === null
-    )
-      return 0;
-
-    const percentage =
-      (state.userPackageInfo.lotteryReservePackage.sliderRemainingValue /
-        state.userPackageInfo.lotteryReservePackage.sliderTotalValue) *
-      100;
-
-    return percentage;
-  }, [state.userPackageInfo]);
+  const aiTokenProgressPercentage = useMemo(
+    () => getSliderPercentage(state.userPackageInfo?.aiPackage),
+    [state.userPackageInfo],
+  );
+  const aiReserveTokenProgressPercentage = useMemo(
+    () => getSliderPercentage(state.userPackageInfo?.aiReservePackage),
+    [state.userPackageInfo],
+  );
+  const customDomainTokenProgressPercentage = useMemo(
+    () => getSliderPercentage(state.userPackageInfo?.customDomainPackage),
+    [state.userPackageInfo],
+  );
+  const reverseCustomDomainTokenProgressPercentage = useMemo(
+    () => getSliderPercentage(state.userPackageInfo?.customDomainReservePackage),
+    [state.userPackageInfo],
+  );
+  const lotteryTokenProgressPercentage = useMemo(
+    () => getSliderPercentage(state.userPackageInfo?.lotteryPackage),
+    [state.userPackageInfo],
+  );
+  const reverseLotteryTokenProgressPercentage = useMemo(
+    () => getSliderPercentage(state.userPackageInfo?.lotteryReservePackage),
+    [state.userPackageInfo],
+  );
   const packageTimeProgressPercentage = useMemo(() => {
     if (!state.userPackageInfo) return 0;
     if (state.userPackageInfo.packageRemainingTime <= 0) return 0;
@@ -434,7 +403,8 @@ const Upgrade = memo(function Upgrade() {
         </svg>
       );
 
-      if (percentage < 1) {
+      // Warn only when neither the main nor the reserve package has anything left.
+      if (percentage <= 0) {
         let message = t(LanguageKey.subscriptionExpired);
         if (sectionType === "winnerpicker") {
           message = t(LanguageKey.winnerpickerexpired);
@@ -448,33 +418,15 @@ const Upgrade = memo(function Upgrade() {
           </span>
         );
       }
-      if (percentage < 20) {
-        let message = t(LanguageKey.subscriptionExpireSoon);
-        if (sectionType === "winnerpicker") {
-          message = t(LanguageKey.winnerpickerexpiresoon);
-        } else if (sectionType === "ai") {
-          message = t(LanguageKey.Aiexpiresoon);
-        }
-        return (
-          <span style={{ display: "flex", alignItems: "center", gap: "4px" }}>
-            {svgIcon}
-            {message}
-          </span>
-        );
-      }
       return null;
     },
     [t],
   );
   const getWarningStyle = useCallback((percentage: number) => {
-    if (percentage < 5) return styles.danger;
-    if (percentage < 20) return styles.attention;
-    return "";
+    return percentage <= 0 ? styles.danger : "";
   }, []);
   const getSectionIconClass = useCallback((percentage: number) => {
-    if (percentage < 5) return `${styles.sectionIcon} ${styles.danger}`;
-    if (percentage < 20) return `${styles.sectionIcon} ${styles.attention}`;
-    return styles.sectionIcon;
+    return percentage <= 0 ? `${styles.sectionIcon} ${styles.danger}` : styles.sectionIcon;
   }, []);
   const calculateOriginalPrice = useCallback((currentPrice: number, discount: number) => {
     const originalPrice = Math.round(currentPrice / (1 - discount / 100));

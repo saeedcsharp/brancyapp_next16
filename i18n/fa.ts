@@ -3328,6 +3328,18 @@ export default {
     Notify_NotBusinesser: "این کاربر صاحب کسب‌وکار نیست",
     Notify_NotFoundAnySuggestedCategory: "هیچ دسته‌بندی پیشنهادی یافت نشد",
     Notify_NoInvoiceExist: "هیچ صورتحسابی وجود ندارد",
+    Notify_InvalidMediaAiCreatorKey: "مدل هوش مصنوعی نامعتبر است",
+    Notify_InvalidMediaAiVersionKey: "ورژن هوش مصنوعی نامعتبر است",
+    Notify_InvalidMediaAiRequestModel: "مدل درخواست رسانه هوش مصنوعی نامعتبر است",
+    Notify_MediaAIError: "هنگام تولید رسانه با هوش مصنوعی خطایی رخ داد",
+    Notify_TwitchChannelDoestHaveAnyVideo: "این کانال توییچ هیچ ویدیویی ندارد",
+    Notify_CouponAlreadyDeleted: "این کوپن قبلاً حذف شده است",
+    Notify_CouponNotDeleted: "این کوپن حذف نشده است",
+    Notify_ExceedSubFlowCount: "تعداد زیرفلوها از حداکثر مجاز بیشتر شده است",
+    Notify_ExceedFlowDepth: "عمق فلو از حداکثر مجاز بیشتر شده است",
+    Notify_ExceedFlowItemCount: "تعداد آیتم‌های فلو از حداکثر مجاز بیشتر شده است",
+    Notify_ExceedFlowMediaAudioCount: "تعداد رسانه‌ها و فایل‌های صوتی فلو از حداکثر مجاز بیشتر شده است",
+    Notify_OneFlowButtonHasEmptyItem: "یکی از دکمه ها بدون فلو است",
 
     // Internal Notifications
     InternalNotify_Ok: "عملیات با موفقیت انجام شد",

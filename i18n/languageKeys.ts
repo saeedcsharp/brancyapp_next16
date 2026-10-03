@@ -2955,6 +2955,18 @@ export enum LanguageKey {
   Notify_NotBusinesser = "Notify_NotBusinesser",
   Notify_NotFoundAnySuggestedCategory = "Notify_NotFoundAnySuggestedCategory",
   Notify_NoInvoiceExist = "Notify_NoInvoiceExist",
+  Notify_InvalidMediaAiCreatorKey = "Notify_InvalidMediaAiCreatorKey",
+  Notify_InvalidMediaAiVersionKey = "Notify_InvalidMediaAiVersionKey",
+  Notify_InvalidMediaAiRequestModel = "Notify_InvalidMediaAiRequestModel",
+  Notify_MediaAIError = "Notify_MediaAIError",
+  Notify_TwitchChannelDoestHaveAnyVideo = "Notify_TwitchChannelDoestHaveAnyVideo",
+  Notify_CouponAlreadyDeleted = "Notify_CouponAlreadyDeleted",
+  Notify_CouponNotDeleted = "Notify_CouponNotDeleted",
+  Notify_ExceedSubFlowCount = "Notify_ExceedSubFlowCount",
+  Notify_ExceedFlowDepth = "Notify_ExceedFlowDepth",
+  Notify_ExceedFlowItemCount = "Notify_ExceedFlowItemCount",
+  Notify_ExceedFlowMediaAudioCount = "Notify_ExceedFlowMediaAudioCount",
+  Notify_OneFlowButtonHasEmptyItem = "Notify_OneFlowButtonHasEmptyItem",
 
   // Internal Notifications
   InternalNotify_Ok = "InternalNotify_Ok",
