@@ -2816,6 +2816,7 @@ export default {
     New_Flow_imageorvideo_block: "Görsel / Video Bloğu",
     New_Flow_quick_reply_block: "Hızlı Yanıt Bloğu",
     New_Flow_weblink_block: "Bağlantı Bloğu",
+    New_Flow_phonenumbergrabber_block: "Telefon Numarası Toplayıcı",
     New_Flow_generic_block: "Galeri Bloğu (Karusel)",
     New_Flow_add_general_block: "Galeri Bloğu Ekle",
     New_Flow_add_text_block: "Metin Bloğu Ekle",
@@ -3023,6 +3024,22 @@ export default {
     New_Flow_Tutorials_genericitem_connection_7: "✅ Resim ve video bloğu",
 
     New_Flow_Tutorials_weblink_title: "Web Linki Bloğu",
+    New_Flow_Tutorials_phonenumbergrabber_title: "Telefon Numarası Toplayıcı Bloğu",
+    New_Flow_Tutorials_phonenumbergrabber_description:
+      "Bu blok bir telefon numarası alınmasını bekler ve alındığında geçerli numara olarak kaydeder.",
+    New_Flow_Tutorials_phonenumbergrabber_usageType:
+      "Müşteri numaralarını toplama, kayıt, sipariş takibi, danışmanlık ve satış iletişimi için uygundur.",
+    New_Flow_Tutorials_phonenumbergrabber_feature_1: "Telefon numarası alınana kadar kullanıcının yanıtını bekler",
+    New_Flow_Tutorials_phonenumbergrabber_feature_2: "Alınan numarayı otomatik olarak doğrular ve kaydeder",
+    New_Flow_Tutorials_phonenumbergrabber_tip_1: "Bu bloktan önce bir metin bloğuyla kullanıcıdan numarasını isteyin",
+    New_Flow_Tutorials_phonenumbergrabber_tip_2: "Beklenen numara biçimini belirtin (ör. ülke koduyla)",
+    New_Flow_Tutorials_phonenumbergrabber_tip_3: "Bu bloktan sonra bir onay veya teşekkür mesajı gönderin",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_1: "Akışın ilk bloğu olamaz",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_2: "Yalnızca bir giriş ve bir çıkışı vardır",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_3: "Yalnızca geçerli numaralar kaydedilir",
+    New_Flow_Tutorials_phonenumbergrabber_connection_3: "❌ Galeri Alt Dal Bloğu",
+    New_Flow_Tutorials_phonenumbergrabber_connection_2: "❌ Hızlı Yanıt Bloğu",
+    New_Flow_Tutorials_phonenumbergrabber_connection_1: "❌ Mesaj Giriş Bloğu (ilk blok olamaz)",
     New_Flow_Tutorials_weblink_description: "Kullanıcının tarayıcısında açılan tıklanabilir web linki gönderir",
     New_Flow_Tutorials_weblink_usageType:
       "Web sitesi, ürün sayfası, mağaza, kayıt formu, açılış sayfaları ve makaleler için uygundur.",

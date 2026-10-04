@@ -239,6 +239,37 @@ export const getNodeTutorials = (t: any): Record<string, TutorialContent> => ({
       t(LanguageKey.New_Flow_Tutorials_weblink_connection_2),
     ],
   },
+
+  phonenumbergrabber: {
+    title: t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_title),
+    description: t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_description),
+    usageType: t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_usageType),
+    features: [
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_feature_1),
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_feature_2),
+    ],
+    tips: [
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_tip_1),
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_tip_2),
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_tip_3),
+    ],
+    limitations: [
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_limitation_1),
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_limitation_2),
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_limitation_3),
+    ],
+    // Allowed inputs match the text block except Message Input (cannot be first)
+    connections: [
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_connection_1),
+      t(LanguageKey.New_Flow_Tutorials_text_connection_2),
+      t(LanguageKey.New_Flow_Tutorials_text_connection_3),
+      t(LanguageKey.New_Flow_Tutorials_text_connection_4),
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_connection_2),
+      t(LanguageKey.New_Flow_Tutorials_text_connection_6),
+      t(LanguageKey.New_Flow_Tutorials_text_connection_7),
+      t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_connection_3),
+    ],
+  },
 });
 
 export const getTutorialContent = (nodeType: string, t: any): TutorialContent | null => {

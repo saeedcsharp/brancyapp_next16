@@ -2880,6 +2880,7 @@ export default {
     New_Flow_imageorvideo_block: "Bild / Video Block",
     New_Flow_quick_reply_block: "Schnellantwort-Block",
     New_Flow_weblink_block: "Link-Block",
+    New_Flow_phonenumbergrabber_block: "Telefonnummer-Erfassung",
     New_Flow_generic_block: "Galerie-Block (Karussell)",
     New_Flow_add_general_block: "Galerieblock hinzufügen",
     New_Flow_add_text_block: "Textblock hinzufügen",
@@ -3091,6 +3092,24 @@ export default {
     New_Flow_Tutorials_genericitem_connection_7: "✅ Bild- und Video-Block",
 
     New_Flow_Tutorials_weblink_title: "Weblink-Block",
+    New_Flow_Tutorials_phonenumbergrabber_title: "Telefonnummer-Erfassungsblock",
+    New_Flow_Tutorials_phonenumbergrabber_description:
+      "Dieser Block wartet auf den Empfang einer Telefonnummer und speichert sie nach dem Empfang als gültige Nummer.",
+    New_Flow_Tutorials_phonenumbergrabber_usageType:
+      "Geeignet zum Sammeln von Kundennummern, Anmeldungen, Bestellverfolgung, Beratung und Vertriebskontakt.",
+    New_Flow_Tutorials_phonenumbergrabber_feature_1:
+      "Wartet auf die Antwort des Nutzers, bis eine Telefonnummer eingeht",
+    New_Flow_Tutorials_phonenumbergrabber_feature_2: "Prüft und speichert die empfangene Nummer automatisch",
+    New_Flow_Tutorials_phonenumbergrabber_tip_1:
+      "Fragen Sie vor diesem Block mit einem Textblock nach der Telefonnummer",
+    New_Flow_Tutorials_phonenumbergrabber_tip_2: "Nennen Sie das erwartete Format (z. B. mit Ländervorwahl)",
+    New_Flow_Tutorials_phonenumbergrabber_tip_3: "Senden Sie nach diesem Block eine Bestätigungs- oder Dankesnachricht",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_1: "Kann nicht der erste Block des Flows sein",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_2: "Hat nur einen Eingang und einen Ausgang",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_3: "Nur gültige Nummern werden gespeichert",
+    New_Flow_Tutorials_phonenumbergrabber_connection_3: "❌ Galerie-Unterzweig-Block",
+    New_Flow_Tutorials_phonenumbergrabber_connection_2: "❌ Schnellantwort-Block",
+    New_Flow_Tutorials_phonenumbergrabber_connection_1: "❌ Nachrichteneingangsblock (kann nicht der erste Block sein)",
     New_Flow_Tutorials_weblink_description: "Sendet einen klickbaren Weblink, der im Browser des Nutzers geöffnet wird",
     New_Flow_Tutorials_weblink_usageType:
       "Ideal für Websites, Produktseiten, Shops, Registrierungsformulare, Landing Pages und Artikel.",

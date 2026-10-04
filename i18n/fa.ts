@@ -2785,6 +2785,7 @@ export default {
     New_Flow_imageorvideo_block: "بلوک تصویر / ویدیو",
     New_Flow_quick_reply_block: "بلوک پاسخ سریع",
     New_Flow_weblink_block: "بلوک لینک",
+    New_Flow_phonenumbergrabber_block: "دریافت شماره تلفن",
     New_Flow_generic_block: "بلوک گالری (کاروسل)",
     New_Flow_add_general_block: "اضافه‌کردن بلوک گالری",
     New_Flow_add_text_block: "اضافه‌کردن بلوک متن",
@@ -3003,6 +3004,23 @@ export default {
 
     // weblink
     New_Flow_Tutorials_weblink_title: "بلوک لینک وب",
+    New_Flow_Tutorials_phonenumbergrabber_title: "بلوک دریافت شماره تلفن",
+    New_Flow_Tutorials_phonenumbergrabber_description:
+      "این بلاک منتظر دریافت شماره تلفن می‌ماند و در صورت دریافت شماره، آن را به‌عنوان شماره معتبر ثبت می‌کند.",
+    New_Flow_Tutorials_phonenumbergrabber_usageType:
+      "مناسب برای جمع‌آوری شماره تماس مشتریان، ثبت‌نام، پیگیری سفارش، مشاوره و تماس با واحد فروش.",
+    New_Flow_Tutorials_phonenumbergrabber_feature_1: "انتظار برای پاسخ کاربر تا دریافت شماره تلفن",
+    New_Flow_Tutorials_phonenumbergrabber_feature_2: "اعتبارسنجی و ثبت خودکار شماره دریافت‌شده",
+    New_Flow_Tutorials_phonenumbergrabber_tip_1:
+      "قبل از این بلوک، با یک بلوک پیام متنی از کاربر بخواهید شماره خود را ارسال کند",
+    New_Flow_Tutorials_phonenumbergrabber_tip_2: "قالب مورد انتظار شماره را به کاربر بگویید (مثلاً با کد کشور)",
+    New_Flow_Tutorials_phonenumbergrabber_tip_3: "بعد از این بلوک، پیام تأیید یا تشکر ارسال کنید",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_1: "نمی‌تواند بلوک اول فلو باشد",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_2: "فقط یک ورودی و یک خروجی دارد",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_3: "فقط شماره‌های معتبر ثبت می‌شوند",
+    New_Flow_Tutorials_phonenumbergrabber_connection_3: "❌ بلوک زیرشاخه گالری",
+    New_Flow_Tutorials_phonenumbergrabber_connection_2: "❌ بلوک پاسخ سریع",
+    New_Flow_Tutorials_phonenumbergrabber_connection_1: "❌ بلوک ورودی پیام (نمی‌تواند بلوک اول باشد)",
     New_Flow_Tutorials_weblink_description: "ارسال لینک وب قابل کلیک که در مرورگر کاربر باز می‌شود",
     New_Flow_Tutorials_weblink_usageType:
       "مناسب برای هدایت به وب‌سایت، صفحه محصول، فروشگاه، فرم ثبت‌نام، صفحات لندینگ و مقالات.",

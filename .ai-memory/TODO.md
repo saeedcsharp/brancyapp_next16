@@ -2,6 +2,8 @@
 
 - Add component coverage confirming Ice Breaker deletion sends `UpdateIceBreaker` the filtered button list and removes the selected item from persisted state when a UI test harness is introduced.
 
+- Add live-test handling (`livetest.tsx`/`flowTest.tsx`) and backend schema confirmation for the `phonenumbergrabber` flow node.
+- Add component/browser coverage confirming the `phonenumbergrabber` node has one input/output and rejects connections directly from `onmessage`.
 - Add component/browser coverage confirming the localized automatic-reply Flow Graph action navigates to `/Ai/FlowandAgent` with the selected `masterFlowId` as `id`.
 
 - Add component coverage confirming the Live media auto-reply editor hides the must-follow-page option for AI and Flow modes.

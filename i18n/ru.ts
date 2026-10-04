@@ -2855,6 +2855,7 @@ export default {
     New_Flow_imageorvideo_block: "Блок изображения / видео",
     New_Flow_quick_reply_block: "Блок быстрого ответа",
     New_Flow_weblink_block: "Блок ссылки",
+    New_Flow_phonenumbergrabber_block: "Сбор номера телефона",
     New_Flow_generic_block: "Галерея-блок (Карусель)",
     New_Flow_add_general_block: "Добавить блок галереи",
     New_Flow_add_text_block: "Добавить текстовый блок",
@@ -3063,6 +3064,23 @@ export default {
     New_Flow_Tutorials_genericitem_connection_7: "✅ Блок изображений и видео",
 
     New_Flow_Tutorials_weblink_title: "Блок веб-ссылки",
+    New_Flow_Tutorials_phonenumbergrabber_title: "Блок сбора номера телефона",
+    New_Flow_Tutorials_phonenumbergrabber_description:
+      "Этот блок ожидает получения номера телефона и после получения сохраняет его как действительный номер.",
+    New_Flow_Tutorials_phonenumbergrabber_usageType:
+      "Подходит для сбора номеров клиентов, регистрации, отслеживания заказов, консультаций и связи с отделом продаж.",
+    New_Flow_Tutorials_phonenumbergrabber_feature_1: "Ожидает ответа пользователя до получения номера телефона",
+    New_Flow_Tutorials_phonenumbergrabber_feature_2: "Автоматически проверяет и сохраняет полученный номер",
+    New_Flow_Tutorials_phonenumbergrabber_tip_1: "Перед этим блоком попросите номер с помощью текстового блока",
+    New_Flow_Tutorials_phonenumbergrabber_tip_2: "Укажите ожидаемый формат номера (например, с кодом страны)",
+    New_Flow_Tutorials_phonenumbergrabber_tip_3:
+      "После этого блока отправьте сообщение подтверждения или благодарности",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_1: "Не может быть первым блоком потока",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_2: "Имеет только один вход и один выход",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_3: "Сохраняются только действительные номера",
+    New_Flow_Tutorials_phonenumbergrabber_connection_3: "❌ Блок подветви галереи",
+    New_Flow_Tutorials_phonenumbergrabber_connection_2: "❌ Блок быстрого ответа",
+    New_Flow_Tutorials_phonenumbergrabber_connection_1: "❌ Блок входящего сообщения (не может быть первым блоком)",
     New_Flow_Tutorials_weblink_description: "Отправка кликабельной веб-ссылки, открывающейся в браузере пользователя",
     New_Flow_Tutorials_weblink_usageType:
       "Подходит для перехода на сайт, страницу продукта, магазин, форму регистрации, лендинги и статьи.",

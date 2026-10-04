@@ -2827,6 +2827,7 @@ export default {
     New_Flow_imageorvideo_block: "Image / Video Block",
     New_Flow_quick_reply_block: "Quick Reply Block",
     New_Flow_weblink_block: "Link Block",
+    New_Flow_phonenumbergrabber_block: "Phone Number Grabber",
     New_Flow_generic_block: "Gallery Block (Carousel)",
     New_Flow_add_general_block: "Add Gallery Block",
     New_Flow_add_text_block: "Add Text Block",
@@ -3035,6 +3036,23 @@ export default {
     New_Flow_Tutorials_genericitem_connection_7: "✅ Image & Video Block",
 
     New_Flow_Tutorials_weblink_title: "Web Link Block",
+    New_Flow_Tutorials_phonenumbergrabber_title: "Phone Number Grabber Block",
+    New_Flow_Tutorials_phonenumbergrabber_description:
+      "This block waits to receive a phone number and, once received, registers it as a valid number.",
+    New_Flow_Tutorials_phonenumbergrabber_usageType:
+      "Suitable for collecting customer contact numbers, sign-ups, order follow-ups, consultations, and sales contact.",
+    New_Flow_Tutorials_phonenumbergrabber_feature_1: "Waits for the user's reply until a phone number is received",
+    New_Flow_Tutorials_phonenumbergrabber_feature_2: "Automatically validates and registers the received number",
+    New_Flow_Tutorials_phonenumbergrabber_tip_1:
+      "Before this block, use a text block to ask the user for their phone number",
+    New_Flow_Tutorials_phonenumbergrabber_tip_2: "Tell the user the expected number format (e.g., with country code)",
+    New_Flow_Tutorials_phonenumbergrabber_tip_3: "After this block, send a confirmation or thank-you message",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_1: "Cannot be the first block of the flow",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_2: "Has only one input and one output",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_3: "Only valid phone numbers are registered",
+    New_Flow_Tutorials_phonenumbergrabber_connection_3: "❌ Gallery Sub-branch Block",
+    New_Flow_Tutorials_phonenumbergrabber_connection_2: "❌ Quick Reply Block",
+    New_Flow_Tutorials_phonenumbergrabber_connection_1: "❌ Message Input Block (cannot be the first block)",
     New_Flow_Tutorials_weblink_description: "Send a clickable web link that opens in the user's browser",
     New_Flow_Tutorials_weblink_usageType:
       "Suitable for directing to websites, product pages, stores, registration forms, landing pages, and articles.",

@@ -2775,6 +2775,7 @@ export default {
     New_Flow_imageorvideo_block: "Şəkil / Video Bloku",
     New_Flow_quick_reply_block: "Sürətli Cavab Bloku",
     New_Flow_weblink_block: "Link Bloku",
+    New_Flow_phonenumbergrabber_block: "Telefon nömrəsi toplayıcı",
     New_Flow_generic_block: "Qalereya Bloku (Karusel)",
     New_Flow_add_general_block: "Qalereya Bloku Əlavə Et",
     New_Flow_add_text_block: "Mətn Bloku Əlavə Et",
@@ -2983,6 +2984,23 @@ export default {
     New_Flow_Tutorials_genericitem_connection_7: "✅ Şəkil və video bloku",
 
     New_Flow_Tutorials_weblink_title: "Web Link Bloku",
+    New_Flow_Tutorials_phonenumbergrabber_title: "Telefon Nömrəsi Toplayıcı Bloku",
+    New_Flow_Tutorials_phonenumbergrabber_description:
+      "Bu blok telefon nömrəsinin alınmasını gözləyir və nömrə alındıqda onu etibarlı nömrə kimi qeyd edir.",
+    New_Flow_Tutorials_phonenumbergrabber_usageType:
+      "Müştəri əlaqə nömrələrinin toplanması, qeydiyyat, sifariş izləməsi, məsləhət və satış əlaqəsi üçün uyğundur.",
+    New_Flow_Tutorials_phonenumbergrabber_feature_1: "Telefon nömrəsi alınana qədər istifadəçinin cavabını gözləyir",
+    New_Flow_Tutorials_phonenumbergrabber_feature_2: "Alınan nömrəni avtomatik yoxlayır və qeyd edir",
+    New_Flow_Tutorials_phonenumbergrabber_tip_1: "Bu blokdan əvvəl mətn bloku ilə istifadəçidən nömrəsini istəyin",
+    New_Flow_Tutorials_phonenumbergrabber_tip_2:
+      "İstifadəçiyə gözlənilən nömrə formatını bildirin (məsələn, ölkə kodu ilə)",
+    New_Flow_Tutorials_phonenumbergrabber_tip_3: "Bu blokdan sonra təsdiq və ya təşəkkür mesajı göndərin",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_1: "Axının ilk bloku ola bilməz",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_2: "Yalnız bir giriş və bir çıxışı var",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_3: "Yalnız etibarlı nömrələr qeyd olunur",
+    New_Flow_Tutorials_phonenumbergrabber_connection_3: "❌ Qaleriya Alt-Şöbə Bloku",
+    New_Flow_Tutorials_phonenumbergrabber_connection_2: "❌ Sürətli Cavab Bloku",
+    New_Flow_Tutorials_phonenumbergrabber_connection_1: "❌ Mesaj Giriş Bloku (ilk blok ola bilməz)",
     New_Flow_Tutorials_weblink_description: "İstifadəçi brauzerində açılan kliklənə bilən web link göndərir",
     New_Flow_Tutorials_weblink_usageType:
       "Veb sayt, məhsul səhifəsi, mağaza, qeydiyyat formu, landing page və məqalələr üçün uyğundur.",

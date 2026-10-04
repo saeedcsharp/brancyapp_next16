@@ -2898,6 +2898,7 @@ export default {
     New_Flow_imageorvideo_block: "Bloc image / vidéo",
     New_Flow_quick_reply_block: "Bloc de réponse rapide",
     New_Flow_weblink_block: "Bloc de lien",
+    New_Flow_phonenumbergrabber_block: "Collecte du numéro de téléphone",
     New_Flow_generic_block: "Bloc Galerie (Carrousel)",
     New_Flow_add_general_block: "Ajouter un bloc de galerie",
     New_Flow_add_text_block: "Ajouter un bloc de texte",
@@ -3107,6 +3108,24 @@ export default {
     New_Flow_Tutorials_genericitem_connection_7: "✅ Bloc image et vidéo",
 
     New_Flow_Tutorials_weblink_title: "Bloc Lien Web",
+    New_Flow_Tutorials_phonenumbergrabber_title: "Bloc Collecte du numéro de téléphone",
+    New_Flow_Tutorials_phonenumbergrabber_description:
+      "Ce bloc attend la réception d'un numéro de téléphone et, une fois reçu, l'enregistre comme numéro valide.",
+    New_Flow_Tutorials_phonenumbergrabber_usageType:
+      "Idéal pour collecter les numéros des clients, les inscriptions, le suivi des commandes, les consultations et le contact commercial.",
+    New_Flow_Tutorials_phonenumbergrabber_feature_1:
+      "Attend la réponse de l'utilisateur jusqu'à la réception d'un numéro",
+    New_Flow_Tutorials_phonenumbergrabber_feature_2: "Valide et enregistre automatiquement le numéro reçu",
+    New_Flow_Tutorials_phonenumbergrabber_tip_1: "Avant ce bloc, demandez le numéro à l'utilisateur avec un bloc texte",
+    New_Flow_Tutorials_phonenumbergrabber_tip_2: "Indiquez le format attendu (par ex. avec l'indicatif du pays)",
+    New_Flow_Tutorials_phonenumbergrabber_tip_3: "Après ce bloc, envoyez un message de confirmation ou de remerciement",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_1: "Ne peut pas être le premier bloc du flux",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_2: "Une seule entrée et une seule sortie",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_3: "Seuls les numéros valides sont enregistrés",
+    New_Flow_Tutorials_phonenumbergrabber_connection_3: "❌ Bloc sous-branche de la galerie",
+    New_Flow_Tutorials_phonenumbergrabber_connection_2: "❌ Bloc de réponse rapide",
+    New_Flow_Tutorials_phonenumbergrabber_connection_1:
+      "❌ Bloc d'entrée de message (ne peut pas être le premier bloc)",
     New_Flow_Tutorials_weblink_description:
       "Envoyer un lien web cliquable qui s’ouvre dans le navigateur de l’utilisateur",
     New_Flow_Tutorials_weblink_usageType:

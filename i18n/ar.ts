@@ -2725,6 +2725,7 @@ export default {
     New_Flow_imageorvideo_block: "كتلة الصورة / الفيديو",
     New_Flow_quick_reply_block: "كتلة الرد السريع",
     New_Flow_weblink_block: "كتلة الرابط",
+    New_Flow_phonenumbergrabber_block: "جمع رقم الهاتف",
     New_Flow_generic_block: "كتلة المعرض (كاروسيل)",
     New_Flow_add_general_block: "إضافة كتلة للمعرض",
     New_Flow_add_text_block: "إضافة كتلة نص",
@@ -2931,6 +2932,22 @@ export default {
     New_Flow_Tutorials_genericitem_connection_7: "✅ كتلة الصور والفيديو",
 
     New_Flow_Tutorials_weblink_title: "كتلة رابط ويب",
+    New_Flow_Tutorials_phonenumbergrabber_title: "كتلة جمع رقم الهاتف",
+    New_Flow_Tutorials_phonenumbergrabber_description:
+      "تنتظر هذه الكتلة استلام رقم هاتف، وعند استلامه تسجله كرقم صالح.",
+    New_Flow_Tutorials_phonenumbergrabber_usageType:
+      "مناسب لجمع أرقام هواتف العملاء والتسجيل ومتابعة الطلبات والاستشارات والتواصل مع قسم المبيعات.",
+    New_Flow_Tutorials_phonenumbergrabber_feature_1: "ينتظر رد المستخدم حتى يتم استلام رقم الهاتف",
+    New_Flow_Tutorials_phonenumbergrabber_feature_2: "التحقق من الرقم المستلم وتسجيله تلقائيًا",
+    New_Flow_Tutorials_phonenumbergrabber_tip_1: "قبل هذه الكتلة، اطلب من المستخدم رقم هاتفه بكتلة نصية",
+    New_Flow_Tutorials_phonenumbergrabber_tip_2: "أخبر المستخدم بالصيغة المتوقعة للرقم (مثلاً مع رمز الدولة)",
+    New_Flow_Tutorials_phonenumbergrabber_tip_3: "بعد هذه الكتلة، أرسل رسالة تأكيد أو شكر",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_1: "لا يمكن أن تكون الكتلة الأولى في التدفق",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_2: "لها مدخل واحد ومخرج واحد فقط",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_3: "يتم تسجيل الأرقام الصالحة فقط",
+    New_Flow_Tutorials_phonenumbergrabber_connection_3: "❌ كتلة الفرع الفرعي للمعرض",
+    New_Flow_Tutorials_phonenumbergrabber_connection_2: "❌ كتلة الرد السريع",
+    New_Flow_Tutorials_phonenumbergrabber_connection_1: "❌ كتلة إدخال الرسالة (لا يمكن أن تكون الكتلة الأولى)",
     New_Flow_Tutorials_weblink_description: "إرسال رابط ويب قابل للنقر يفتح في متصفح المستخدم",
     New_Flow_Tutorials_weblink_usageType:
       "مناسب للتوجيه إلى مواقع الويب، صفحات المنتجات، المتاجر، نماذج التسجيل، صفحات الهبوط والمقالات.",
