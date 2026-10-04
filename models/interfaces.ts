@@ -2263,6 +2263,25 @@ export interface IMasterFlow {
   items: ITotalMasterFlow[];
   nextMaxId: string | null;
 }
+
+export interface IFlowPhoneNumber {
+  phoneNumber: string;
+  fbId: string;
+  recpId: string;
+  createdTime: number;
+  id: number;
+  masterFlowId: string;
+  masterFlowTitle: string;
+  username: string;
+  fullName: string | null;
+  count: number;
+  profileUrl: string;
+}
+
+export interface IFlowPhoneNumbers {
+  items: IFlowPhoneNumber[];
+  nextMaxId: string | null;
+}
 // #endregion Messages
 
 // #region Page - Post

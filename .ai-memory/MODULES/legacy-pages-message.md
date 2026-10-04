@@ -64,6 +64,8 @@ React components are present when the folder contains `.tsx` UI files.
 
 The automatic-reply Flow Graph action opens the canonical `/Ai/FlowandAgent` route with the selected flow ID sent as the `id` query parameter.
 
+`Properties.tsx` also owns the Phone Numbers state: the first page is fetched from `/api/flow/GetPhoneNumbers` inside `fetchData`, and `handleGetNextPhoneNumbers` appends further pages using the stored `nextMaxId` (guarded against concurrent requests).
+
 ## Hooks
 
 React hooks are present when named `use*` functions/files exist.

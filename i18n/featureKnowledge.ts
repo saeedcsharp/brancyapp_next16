@@ -52,7 +52,7 @@ const recordsEn = {
   responseRules: {
     title: "Reply rules and message controls",
     description:
-      "Configure general auto replies, icebreakers, persistent menus, special payloads, follower checks, and reply settings for direct conversations. The View Store and Products smart default is available only to Shop and VShoper accounts.",
+      "Configure general auto replies, icebreakers, persistent menus, special payloads, follower checks, and reply settings for direct conversations, and review phone numbers collected through Flows. The View Store and Products smart default is available only to Shop and VShoper accounts.",
   },
   aiFlows: {
     title: "AI prompts and visual flows",

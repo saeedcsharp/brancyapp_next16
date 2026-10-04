@@ -9,6 +9,7 @@
 - Add component coverage confirming the Live media auto-reply editor hides the must-follow-page option for AI and Flow modes.
 
 - Add component/browser coverage confirming Persistent Menu and Ice Breaker Flow Graph actions navigate with their selected `masterFlowId` query.
+- Add component coverage for the Phone Numbers card (pagination via `nextMaxId`, Flow Graph navigation with `masterFlowId`).
 
 - Add component/browser coverage confirming the special-payload selected Flow action uses the localized Flow Graph label and `masterFlowId` query.
 
