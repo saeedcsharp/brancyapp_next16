@@ -31,6 +31,8 @@
 
 # TODO
 
+- Add a CI smoke check for the Docker standalone build using the official Docker Hub `node:22-alpine` base image.
+
 <<<<<<< HEAD
 
 - Add component coverage confirming the AI library offers only Images and Videos, requests only `GetImages` or `GetVideos` for the selected filter, and loads each history once when a UI test harness is introduced.
