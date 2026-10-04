@@ -175,6 +175,8 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 
 ## Recent Changes
 
+- The Phone Numbers card on `/message/Properties` now shows a localized Flow Graph button when no phone numbers are collected; it opens `/Ai/FlowandAgent` without an `id`.
+
 <<<<<<< HEAD
 
 - The home smart page-analysis tile now opens the current account summary in the shared modal, with mouse and keyboard activation plus close controls.

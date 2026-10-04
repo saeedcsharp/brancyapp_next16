@@ -36,7 +36,14 @@ function PhoneNumbers({
       <div className={`${autoReplyStyles.all} ${isHidden ? "" : autoReplyStyles.show}`}>
         <div className="explain">{t(LanguageKey.messagesetting_PhoneNumbersExplain)}</div>
         {phoneNumbers.length === 0 ? (
-          <div className="explain">{t(LanguageKey.messagesetting_PhoneNumbersEmpty)}</div>
+          <>
+            <div className="explain">{t(LanguageKey.messagesetting_PhoneNumbersEmpty)}</div>
+            <div className="headerandinput">
+              <button className="saveButton" onClick={() => void router.push({ pathname: "/Ai/FlowandAgent" })}>
+                {t(LanguageKey.AIFlow_show_graph)}
+              </button>
+            </div>
+          </>
         ) : (
           <div className={autoReplyStyles.autoreply} role="region" aria-label="Collected phone numbers">
             <Slider className={autoReplyStyles.swiperContent} onReachEnd={handleSliderReachEnd} itemsPerSlide={2}>

@@ -10,6 +10,7 @@
 
 - Add component/browser coverage confirming Persistent Menu and Ice Breaker Flow Graph actions navigate with their selected `masterFlowId` query.
 - Add component coverage for the Phone Numbers card (pagination via `nextMaxId`, Flow Graph navigation with `masterFlowId`).
+- Extend Phone Numbers card coverage to verify its empty-state Flow Graph button opens `/Ai/FlowandAgent` without an `id`.
 
 - Add component/browser coverage confirming the special-payload selected Flow action uses the localized Flow Graph label and `masterFlowId` query.
 

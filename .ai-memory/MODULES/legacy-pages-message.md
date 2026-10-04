@@ -66,6 +66,8 @@ The automatic-reply Flow Graph action opens the canonical `/Ai/FlowandAgent` rou
 
 `Properties.tsx` also owns the Phone Numbers state: the first page is fetched from `/api/flow/GetPhoneNumbers` inside `fetchData`, and `handleGetNextPhoneNumbers` appends further pages using the stored `nextMaxId` (guarded against concurrent requests).
 
+The Phone Numbers card displays a Flow Graph button when its result list is empty; it opens `/Ai/FlowandAgent` without a selected flow ID.
+
 ## Hooks
 
 React hooks are present when named `use*` functions/files exist.

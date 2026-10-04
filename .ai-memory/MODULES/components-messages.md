@@ -108,6 +108,8 @@ The Flow entries in `properties/persistentMenu.tsx` and `properties/iceBreaker.t
 
 `properties/phoneNumbers.tsx` is the fifth card on the message properties page. It renders the phone numbers collected by Flows (`IFlowPhoneNumber`) in the shared `Slider` (2 items per slide), shows profile, phone number, flow title, and creation date, and opens `/Ai/FlowandAgent?id=<masterFlowId>` from the Flow Graph action. It requests the next page through `handleGetNextPhoneNumbers` on slider reach-end only while `hasMore` is true.
 
+When no phone numbers have been collected, the card shows its localized empty-state message and a Flow Graph action that opens `/Ai/FlowandAgent` without an `id`, leaving the user on the Flow list.
+
 The selected Flow action in `popups/specialPayLoad.tsx` also uses `AIFlow_show_graph` and opens `/Ai/FlowandAgent?id=<masterFlowId>`.
 
 The same component keeps the continued new flow in `userslist` as a local `newFlow` Draft item. A successful manual save removes that item and prepends the backend-returned `ITotalMasterFlow`; `aiflow/flow.tsx` treats a new flow as unsaved until that save succeeds.
