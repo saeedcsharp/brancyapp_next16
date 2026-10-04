@@ -1185,7 +1185,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
 
       {loadingState.isLoading && <Loading />}
       {!loadingState.isLoading && (
-        <div className={activeAutoReply ? styles.content : `${styles.content} fadeDiv`}>
+        <div className={styles.content}>
           <>
             <div className="headerandinput" role="dialog" aria-modal="true" aria-labelledby="quick-reply-title">
               <div className="headerparent">
@@ -1219,6 +1219,9 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                 onChange={(value) => setSelectedTab(value)}
               />
             </div>
+            <div
+              className={activeAutoReply ? "" : "fadeDiv"}
+              style={{ display: "flex", flexDirection: "column", gap: "var(--gap-30)", width: "100%" }}>
             {selectedTab === 0 && (
               <>
                 {/* Keywords Mode */}
@@ -1719,6 +1722,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                   )}
               </>
             )}
+              </div>
           </>
         </div>
       )}

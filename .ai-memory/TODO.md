@@ -7,6 +7,7 @@
 - Add component/browser coverage confirming the localized automatic-reply Flow Graph action navigates to `/Ai/FlowandAgent` with the selected `masterFlowId` as `id`.
 
 - Add component coverage confirming the Live media auto-reply editor hides the must-follow-page option for AI and Flow modes.
+- Add component coverage confirming inactive general and media auto-replies keep their activation switches interactive and re-enable their settings after activation.
 
 - Add component/browser coverage confirming Persistent Menu and Ice Breaker Flow Graph actions navigate with their selected `masterFlowId` query.
 - Add component coverage for the Phone Numbers card (pagination via `nextMaxId`, Flow Graph navigation with `masterFlowId`).

@@ -75,6 +75,7 @@ The media quick-reply popup now renders the reusable `components/notOk/commentPe
 The media auto-reply editor now requires `PartnerRole.Automatics` for AI and Flow data access. Missing-role partners see `NotAllowed` in the selected AI/Flow panel, and prompt/flow list, search, pagination, selection, and saved-item enrichment APIs are skipped.
 
 The media auto-reply editor now requires `PartnerRole.Products` for Product and Connect Product modes. Missing-role partners see `NotAllowedCard`, and those modes cannot be saved while product access is unavailable.
+General and media auto-reply editors apply the inactive state to settings only; their activation switches stay interactive so users can re-enable a paused reply.
 
 The former icon-specific toggle control has been removed. Toggle tabs now use the shared `components/design/toggleButton/ToggleButton.tsx` control across wallet, event ideas, follower analysis, and the system-design showcase.
 

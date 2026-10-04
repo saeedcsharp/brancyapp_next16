@@ -44,3 +44,4 @@ The `/page/tools` hashtag capability is presented in one collapsible `hashtagMan
 Live media auto-replies do not expose the must-follow-page option for AI and Flow modes.
 
 General and media auto-replies do not expose the must-follow-page option for AI mode, and AI replies save that setting as disabled.
+When an auto-reply is inactive, its settings are disabled while the activation switch remains interactive.

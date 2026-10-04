@@ -2,6 +2,8 @@
 
 ## Known Bugs
 
+The general and media auto-reply editors previously placed their activation switches inside the inactive `fadeDiv`, preventing users from re-enabling a paused reply. Fixed on 2026-10-04 by applying the inactive state only to the settings content; automated component coverage remains pending.
+
 The Ice Breaker deletion persistence bug was fixed on 2026-09-24. `Properties.tsx` previously sent the pre-deletion button list to `UpdateIceBreaker`; it now sends the filtered list without the selected item. Automated component coverage remains pending.
 
 The upgrade-page close action was fixed on 2026-09-20 by replacing the duplicated click/keyboard navigation with one guarded `router.replace("/home")` handler. Native button keyboard activation remains available, and repeated activation after navigation starts is ignored.
