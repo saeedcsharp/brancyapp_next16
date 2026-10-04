@@ -899,517 +899,474 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
             <div
               className={activeAutoReply ? "" : "fadeDiv"}
               style={{ display: "flex", flexDirection: "column", gap: "var(--gap-30)", width: "100%" }}>
-            {selectedTab === 0 && (
-              <>
-                {/* title Section */}
-                <div className="headerandinput">
-                  <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
-                  <InputBox
-                    dangerOnEmpty
-                    placeHolder={t(LanguageKey.pageToolspopup_typehere)}
-                    className="textinputbox"
-                    handleInputChange={(e) => {
-                      setAutoReplyTitle(e.target.value);
-                    }}
-                    value={autoReplytitle}
-                    aria-label={t(LanguageKey.SettingGeneral_Title)}
-                    aria-required="true"
-                  />
-                </div>
-
-                {/* Media Type Section */}
-                <div className="headerandinput" role="group">
-                  <div className="headertext">{t(LanguageKey.autoReplyFor)}</div>
-                  <DragDrop
-                    data={mediaTypeArr}
-                    handleOptionSelect={(id) => {
-                      setMediaType(parseInt(id));
-                    }}
-                    item={productType}
-                  />
-                </div>
-
-                {/* Keywords Section */}
-                <div className="headerandinput" role="group">
-                  <div className="headerparent">
-                    <div className="headertext">
-                      {t(LanguageKey.messagesetting_KeywordsSensitive)}
-                      <Tooltip
-                        triggerType="tooltip"
-                        tooltipValue={t(LanguageKey.sensitiveToSpecificKeywordsExplain)}
-                        position="bottom"
-                        onClick={true}
-                      />
-                    </div>
-                    <div className="counter" aria-live="polite">
-                      ({specificKeywordsList.length}/10)
-                    </div>
-                  </div>
-                  <div className="headerparent">
+              {selectedTab === 0 && (
+                <>
+                  {/* title Section */}
+                  <div className="headerandinput">
+                    <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
                     <InputBox
-                      fadeTextArea={false}
-                      name="specific-keywords"
-                      className={"textinputbox"}
-                      placeHolder={t(LanguageKey.specifickeywords)}
-                      handleInputChange={(e) => {
-                        setSpecificKeywords(e.target.value);
-                      }}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter") {
-                          e.preventDefault();
-                          addSpecificKeyword();
-                        }
-                      }}
-                      value={specificKeywords}
-                      shake={shake}
-                      isEmptyOverride={specificKeywordsList.length === 0}
-                      aria-label="Specific keywords for auto-reply"
-                      aria-required="true"
                       dangerOnEmpty
+                      placeHolder={t(LanguageKey.pageToolspopup_typehere)}
+                      className="textinputbox"
+                      handleInputChange={(e) => {
+                        setAutoReplyTitle(e.target.value);
+                      }}
+                      value={autoReplytitle}
+                      aria-label={t(LanguageKey.SettingGeneral_Title)}
+                      aria-required="true"
                     />
-                    {(() => {
-                      const canAdd = specificKeywords.trim() !== "" && specificKeywordsList.length < 10;
-                      return (
-                        <button
-                          disabled={!canAdd}
-                          className={canAdd ? "saveButton" : "disableButton"}
-                          style={{
-                            height: "42px",
-                            width: "max-content",
-                            paddingInline: "10px",
-                          }}
-                          onClick={() => {
-                            if (!canAdd) return;
-                            addSpecificKeyword();
-                          }}
-                          aria-label="Add specific keyword"
-                          aria-disabled={!canAdd}>
-                          {t(LanguageKey.add)}
-                        </button>
-                      );
-                    })()}
                   </div>
 
-                  <div className={styles.wordpool} role="list" aria-label="Selected keywords">
-                    {specificKeywordsList.map((word, index) => (
-                      <div key={word.id || `keyword-${index}`} className={styles.specificword} role="listitem">
-                        <span>{word.text}</span>
-                        <button
-                          type="button"
-                          onClick={() => {
-                            setSpecificKeywordsList((prev) => prev.filter((_, i) => i !== index));
-                          }}
-                          onKeyDown={(e) => {
-                            if (e.key === "Delete" || e.key === "Backspace") {
-                              setSpecificKeywordsList((prev) => prev.filter((_, i) => i !== index));
-                            }
-                          }}
-                          aria-label={`Remove keyword: ${word.text}`}
-                          className="keyword-remove-btn"
-                          style={{
-                            background: "none",
-                            border: "none",
-                            cursor: "pointer",
-                            padding: "2px",
-                            display: "inline-flex",
-                            alignItems: "center",
-                          }}>
-                          <img
-                            style={{
-                              width: "15px",
-                              height: "15px",
-                              pointerEvents: "none",
-                            }}
-                            alt="Remove"
-                            src="/deleteHashtag.svg"
-                          />
-                        </button>
-                      </div>
-                    ))}
+                  {/* Media Type Section */}
+                  <div className="headerandinput" role="group">
+                    <div className="headertext">{t(LanguageKey.autoReplyFor)}</div>
+                    <DragDrop
+                      data={mediaTypeArr}
+                      handleOptionSelect={(id) => {
+                        setMediaType(parseInt(id));
+                      }}
+                      item={productType}
+                    />
                   </div>
-                </div>
-              </>
-            )}
 
-            {selectedTab === 1 && (
-              <>
-                {/* Custom Reply Section */}
-                <div className="headerandinput">
-                  <RadioButton
-                    name="custom"
-                    id={t(LanguageKey.product_Definenew)}
-                    checked={checkBox.Custom}
-                    handleOptionChanged={handleOptionChanged}
-                    textlabel={t(LanguageKey.AIFlow_quick_reply)}
-                  />
-                  <div className="explain">{t(LanguageKey.messagesetting_DefineCustomResponseExplain)}</div>
-                  {checkBox.Custom && (
-                    <div className={styles.optioncontainer}>
-                      <div className="headerandinput">
-                        <div className="headerparent">
-                          <div className="headertext">{t(LanguageKey.Answer)}</div>
-                          <div className="counter">
-                            ({autoReplyCustom?.length || 0}/800 )
-                            <img
-                              style={{
-                                cursor: "pointer",
-                                width: "16px",
-                                height: "16px",
-                              }}
-                              title="ℹ️ paste"
-                              src="/copy.svg"
-                              onClick={async () => {
-                                try {
-                                  if (!navigator?.clipboard?.readText) return;
-                                  const text = await navigator.clipboard.readText();
-                                  if (text == null) return;
-                                  const max = 800;
-                                  setAutoReplyCustom(text.length > max ? text.slice(0, max) : text);
-                                } catch {
-                                  // silent fail per request
-                                }
-                              }}
-                            />
-                          </div>
-                        </div>
-                        <TextArea
-                          className="TextArea"
-                          placeHolder={t(LanguageKey.pageToolspopup_typehere)}
-                          fadeTextArea={false}
-                          handleInputChange={(e) => {
-                            setAutoReplyCustom(e.target.value);
-                          }}
-                          value={autoReplyCustom ?? ""}
-                          maxLength={800}
-                          name="auto-reply-message"
-                          role="textbox"
-                          aria-label="Auto-reply message content"
-                          title={""}
-                          style={{ height: "120px" }}
+                  {/* Keywords Section */}
+                  <div className="headerandinput" role="group">
+                    <div className="headerparent">
+                      <div className="headertext">
+                        {t(LanguageKey.messagesetting_KeywordsSensitive)}
+                        <Tooltip
+                          triggerType="tooltip"
+                          tooltipValue={t(LanguageKey.sensitiveToSpecificKeywordsExplain)}
+                          position="bottom"
+                          onClick={true}
                         />
                       </div>
-                      {/* Reply Method for Custom */}
-                      {shouldShowReplyMethod && (
-                        <>
-                          <div className="headerandinput">
-                            <div className="headertext">{t(LanguageKey.replyMethod)}</div>
-                            <RadioButton
-                              name="reply-method"
-                              id={t(LanguageKey.respondInSameComment)}
-                              checked={!replyMethod}
-                              handleOptionChanged={() => {
-                                setReplyMethod(false);
-                              }}
-                              textlabel={t(LanguageKey.respondInSameComment)}
-                              aria-checked={!replyMethod}
-                              title={"Respond in the same comment"}
-                            />
-                            <RadioButton
-                              name="reply-method"
-                              id={t(LanguageKey.respondDirectly)}
-                              checked={replyMethod}
-                              handleOptionChanged={(e) => {
-                                setReplyMethod(true);
-                              }}
-                              textlabel={t(LanguageKey.respondDirectly)}
-                              aria-checked={replyMethod}
-                              title={"Respond directly"}
-                            />
-                          </div>
-                          {replyMethod && (
-                            <div className={styles.replyMethodOptions}>
-                              <CheckBoxButton
-                                handleToggle={(e) => setShouldFollower(e.target.checked)}
-                                value={shouldFollower}
-                                title={t(LanguageKey.shouldFollower)}
-                                textlabel={t(LanguageKey.shouldFollower)}
-                              />
-                              <CheckBoxButton
-                                handleToggle={(e) => setReplySuccessfullyDirected(e.target.checked)}
-                                value={replySuccessfullyDirected}
-                                title={t(LanguageKey.sendreplydirectedsuccessfully)}
-                                textlabel={t(LanguageKey.sendreplydirectedsuccessfully)}
-                              />
-                              {renderCustomReplies("Custom")}
-                            </div>
-                          )}
-                        </>
-                      )}{" "}
+                      <div className="counter" aria-live="polite">
+                        ({specificKeywordsList.length}/10)
+                      </div>
                     </div>
-                  )}
-                </div>
-                {/* AI Section */}
-                <div className="headerandinput">
+                    <div className="headerparent">
+                      <InputBox
+                        fadeTextArea={false}
+                        name="specific-keywords"
+                        className={"textinputbox"}
+                        placeHolder={t(LanguageKey.specifickeywords)}
+                        handleInputChange={(e) => {
+                          setSpecificKeywords(e.target.value);
+                        }}
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter") {
+                            e.preventDefault();
+                            addSpecificKeyword();
+                          }
+                        }}
+                        value={specificKeywords}
+                        shake={shake}
+                        isEmptyOverride={specificKeywordsList.length === 0}
+                        aria-label="Specific keywords for auto-reply"
+                        aria-required="true"
+                        dangerOnEmpty
+                      />
+                      {(() => {
+                        const canAdd = specificKeywords.trim() !== "" && specificKeywordsList.length < 10;
+                        return (
+                          <button
+                            disabled={!canAdd}
+                            className={canAdd ? "saveButton" : "disableButton"}
+                            style={{
+                              height: "42px",
+                              width: "max-content",
+                              paddingInline: "10px",
+                            }}
+                            onClick={() => {
+                              if (!canAdd) return;
+                              addSpecificKeyword();
+                            }}
+                            aria-label="Add specific keyword"
+                            aria-disabled={!canAdd}>
+                            {t(LanguageKey.add)}
+                          </button>
+                        );
+                      })()}
+                    </div>
+
+                    <div className={styles.wordpool} role="list" aria-label="Selected keywords">
+                      {specificKeywordsList.map((word, index) => (
+                        <div key={word.id || `keyword-${index}`} className={styles.specificword} role="listitem">
+                          <span>{word.text}</span>
+                          <button
+                            type="button"
+                            onClick={() => {
+                              setSpecificKeywordsList((prev) => prev.filter((_, i) => i !== index));
+                            }}
+                            onKeyDown={(e) => {
+                              if (e.key === "Delete" || e.key === "Backspace") {
+                                setSpecificKeywordsList((prev) => prev.filter((_, i) => i !== index));
+                              }
+                            }}
+                            aria-label={`Remove keyword: ${word.text}`}
+                            className="keyword-remove-btn"
+                            style={{
+                              background: "none",
+                              border: "none",
+                              cursor: "pointer",
+                              padding: "2px",
+                              display: "inline-flex",
+                              alignItems: "center",
+                            }}>
+                            <img
+                              style={{
+                                width: "15px",
+                                height: "15px",
+                                pointerEvents: "none",
+                              }}
+                              alt="Remove"
+                              src="/deleteHashtag.svg"
+                            />
+                          </button>
+                        </div>
+                      ))}
+                    </div>
+                  </div>
+                </>
+              )}
+
+              {selectedTab === 1 && (
+                <>
+                  {/* Custom Reply Section */}
                   <div className="headerandinput">
                     <RadioButton
-                      name="AI"
-                      id={"AI"}
-                      checked={checkBox.AI}
+                      name="custom"
+                      id={t(LanguageKey.product_Definenew)}
+                      checked={checkBox.Custom}
                       handleOptionChanged={handleOptionChanged}
-                      textlabel={t(LanguageKey.AI)}
-                      title={t(LanguageKey.AI)}
+                      textlabel={t(LanguageKey.AIFlow_quick_reply)}
                     />
-                    <div className="explain">{t(LanguageKey.messagesetting_UseAIPromptsExplain)}</div>
-                  </div>
-                  {checkBox.AI && (
-                    <div className={styles.optioncontainer}>
-                      <div className="headerandinput">
+                    <div className="explain">{t(LanguageKey.messagesetting_DefineCustomResponseExplain)}</div>
+                    {checkBox.Custom && (
+                      <div className={styles.optioncontainer}>
                         <div className="headerandinput">
-                          {autoReply.prompt && (
-                            <>
-                              <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
-                              <InputBox
-                                className={"textinputbox"}
-                                handleInputChange={() => {}}
-                                value={autoReply.prompt.title}
-                              />
-                            </>
-                          )}
-
-                          {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : (prompts?.items?.length ?? 0)) > 0 ? (
-                            <DragDrop
-                              externalSearchMod={true}
-                              data={searchAIMode ? AISearchTitles : AITitles}
-                              handleOptionSelect={(id) => {
-                                getPromptById(id);
-                              }}
-                              handleGetMoreItems={() => getMorePrompts(prompts!.nextMaxId)}
-                              isLoadingMoreItems={loadingState.isLoadingMoreAIItems}
-                              onExternalSearch={handleExternalAISearch}
-                              externalSearchLoading={loadingState.isExternalSearchAILoading}
-                              externalSearchText={searchAIMode ? selectedPrompt?.title : ""}
-                            />
-                          ) : null}
-                          {!selectedPrompt && !autoReply.prompt ? (
-                            <div className="headerandinput">
-                              {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : (prompts?.items?.length ?? 0)) ===
-                                0 && <div className="explain">{t(LanguageKey.messagesetting_NoPromptsFound)}</div>}
-                              <button
-                                onClick={() => {
+                          <div className="headerparent">
+                            <div className="headertext">{t(LanguageKey.Answer)}</div>
+                            <div className="counter">
+                              ({autoReplyCustom?.length || 0}/800 )
+                              <img
+                                style={{
+                                  cursor: "pointer",
+                                  width: "16px",
+                                  height: "16px",
+                                }}
+                                title="ℹ️ paste"
+                                src="/copy.svg"
+                                onClick={async () => {
                                   try {
-                                    void router.push({ pathname: "/Ai/FlowandAgent" });
-                                  } catch (e) {
-                                    console.error(e);
+                                    if (!navigator?.clipboard?.readText) return;
+                                    const text = await navigator.clipboard.readText();
+                                    if (text == null) return;
+                                    const max = 800;
+                                    setAutoReplyCustom(text.length > max ? text.slice(0, max) : text);
+                                  } catch {
+                                    // silent fail per request
                                   }
                                 }}
-                                className="saveButton">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="#fff"
-                                  viewBox="0 0 36 36">
-                                  <path
-                                    opacity=".4"
-                                    fillRule="evenodd"
-                                    d="M18.2 4.5A1.5 1.5 0 0 1 16.5 6l-6.2.3q-2 .3-2.9 1.2t-1.3 3.3A61 61 0 0 0 6 18l.2 7.2q.4 2.4 1.3 3.3t3.3 1.3q2.5.2 7.2.2l7.2-.2q2.4-.4 3.3-1.3t1.2-3 .3-6.1a1.5 1.5 0 1 1 3 0l-.3 6.7a8 8 0 0 1-2.1 4.5 8 8 0 0 1-5 2.1q-3 .4-7.5.3H18q-4.6 0-7.5-.3t-5-2.1a8 8 0 0 1-2.1-5q-.4-3-.3-7.5v-.2l.3-7.5q.2-3 2.1-5a8 8 0 0 1 4.6-2q2.6-.5 6.7-.4a1.5 1.5 0 0 1 1.5 1.5"
-                                  />
-                                  <path d="M25 3a28 28 0 0 1 5.5.2q1 .2 1.6.8t.7 1.5c.3 1.6.2 4.3.1 5.6a2 2 0 0 1-3.3 1.2l-1.9-1.8-4.1 4a1.5 1.5 0 1 1-2.1-2.1l4-4-1.8-2a2 2 0 0 1 1.2-3.3" />
-                                </svg>
-                                {t(LanguageKey.CreateAutomationAI)}
-                              </button>
+                              />
                             </div>
-                          ) : null}
-                        </div>
-                        {loadingState.isLoadingPrompt && <RingLoader style={{ maxHeight: "14px" }} />}
-                        {!loadingState.isLoadingPrompt && selectedPrompt && (
+                          </div>
                           <TextArea
-                            style={{ maxHeight: "150px" }}
-                            fadeTextArea
-                            readOnly
-                            value={selectedPrompt.promptStr || ""}></TextArea>
-                        )}
-                      </div>
-                      {/* Reply Method for AI */}
-                      {shouldShowReplyMethod && (
-                        <>
-                          <div className="headerandinput">
-                            <div className="headertext">{t(LanguageKey.replyMethod)}</div>
-                            <RadioButton
-                              name="ai-reply-method"
-                              id="ai-respondInSameComment"
-                              checked={!replyMethod}
-                              handleOptionChanged={() => setReplyMethod(false)}
-                              textlabel={t(LanguageKey.respondInSameComment)}
-                              aria-checked={!replyMethod}
-                              title={t(LanguageKey.respondInSameComment)}
-                            />
-                            <RadioButton
-                              name="ai-reply-method"
-                              id="ai-respondDirectly"
-                              checked={replyMethod}
-                              handleOptionChanged={() => setReplyMethod(true)}
-                              textlabel={t(LanguageKey.respondDirectly)}
-                              aria-checked={replyMethod}
-                              title={t(LanguageKey.respondDirectly)}
-                            />
-                          </div>
-                          {replyMethod && (
-                            <div className={styles.replyMethodOptions}>
-                              <CheckBoxButton
-                                handleToggle={(e) => setReplySuccessfullyDirected(e.target.checked)}
-                                value={replySuccessfullyDirected}
-                                title={t(LanguageKey.sendreplydirectedsuccessfully)}
-                                textlabel={t(LanguageKey.sendreplydirectedsuccessfully)}
-                              />
-                              {renderCustomReplies("AI")}
-                            </div>
-                          )}
-                        </>
-                      )}
-                    </div>
-                  )}
-                </div>
-
-                {/* Flow Section */}
-                <div className="headerandinput">
-                  <div className="headerandinput">
-                    <RadioButton
-                      name="Flow"
-                      id={"Flow"}
-                      checked={checkBox.Flow}
-                      handleOptionChanged={handleOptionChanged}
-                      textlabel={t(LanguageKey.Flow)}
-                      title={t(LanguageKey.Flow)}
-                    />
-                    <div className="explain">{t(LanguageKey.messagesetting_SelectPredefinedFlowExplain)}</div>
-                  </div>
-                  {checkBox.Flow && (
-                    <div className={styles.optioncontainer}>
-                      <div className="headerandinput">
-                        <div className="headerandinput">
-                          {autoReply.masterFlow && (
-                            <>
-                              <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
-                              <InputBox
-                                className={"textinputbox"}
-                                handleInputChange={() => {}}
-                                value={autoReply.masterFlow.title}
-                              />
-                            </>
-                          )}
-
-                          {(searchFlowMode
-                            ? (masterSearchFlows?.items?.length ?? 0)
-                            : (masterFlows?.items?.length ?? 0)) > 0 ? (
-                            <DragDrop
-                              externalSearchMod={true}
-                              data={searchFlowMode ? flowSearchTitles : flowTitles}
-                              handleOptionSelect={(id) => {
-                                if (!masterFlows) return;
-                                setSelectedFlow(masterFlows.items.find((flow) => flow.masterFlowId === id) || null);
-                              }}
-                              handleGetMoreItems={() => handleGetMoreFlows()}
-                              isLoadingMoreItems={loadingState.isLoadingMoreFlowItems}
-                              onExternalSearch={handleExternalFlowSearch}
-                              externalSearchLoading={loadingState.isExternalSearchFlowLoading}
-                              externalSearchText={searchFlowMode ? selectedFlow?.title : ""}
-                            />
-                          ) : null}
-                          {!selectedFlow && !autoReply.masterFlow ? (
-                            <div className="headerandinput">
-                              {(searchFlowMode
-                                ? (masterSearchFlows?.items?.length ?? 0)
-                                : (masterFlows?.items?.length ?? 0)) === 0 && (
-                                <div className="explain">{t(LanguageKey.messagesetting_NoFlowsFound)}</div>
-                              )}
-                              <button
-                                onClick={() => {
-                                  try {
-                                    void router.push({ pathname: "/Ai/FlowandAgent" });
-                                  } catch (e) {
-                                    console.error(e);
-                                  }
-                                }}
-                                className="saveButton">
-                                <svg
-                                  width="16"
-                                  height="16"
-                                  xmlns="http://www.w3.org/2000/svg"
-                                  fill="#fff"
-                                  viewBox="0 0 36 36">
-                                  <path
-                                    opacity=".4"
-                                    fillRule="evenodd"
-                                    d="M18.2 4.5A1.5 1.5 0 0 1 16.5 6l-6.2.3q-2 .3-2.9 1.2t-1.3 3.3A61 61 0 0 0 6 18l.2 7.2q.4 2.4 1.3 3.3t3.3 1.3q2.5.2 7.2.2l7.2-.2q2.4-.4 3.3-1.3t1.2-3 .3-6.1a1.5 1.5 0 1 1 3 0l-.3 6.7a8 8 0 0 1-2.1 4.5 8 8 0 0 1-5 2.1q-3 .4-7.5.3H18q-4.6 0-7.5-.3t-5-2.1a8 8 0 0 1-2.1-5q-.4-3-.3-7.5v-.2l.3-7.5q.2-3 2.1-5a8 8 0 0 1 4.6-2q2.6-.5 6.7-.4a1.5 1.5 0 0 1 1.5 1.5"
-                                  />
-                                  <path d="M25 3a28 28 0 0 1 5.5.2q1 .2 1.6.8t.7 1.5c.3 1.6.2 4.3.1 5.6a2 2 0 0 1-3.3 1.2l-1.9-1.8-4.1 4a1.5 1.5 0 1 1-2.1-2.1l4-4-1.8-2a2 2 0 0 1 1.2-3.3" />
-                                </svg>
-                                {t(LanguageKey.CreateAutomationFlow)}
-                              </button>
-                            </div>
-                          ) : null}
-                        </div>
-                        {selectedFlow && (
-                          <div className="headerandinput">
-                            <button className="saveButton">
-                              {" "}
-                              <svg
-                                width="16"
-                                height="16"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="#fff"
-                                viewBox="0 0 36 36">
-                                <path
-                                  opacity=".4"
-                                  fillRule="evenodd"
-                                  d="M18.2 4.5A1.5 1.5 0 0 1 16.5 6l-6.2.3q-2 .3-2.9 1.2t-1.3 3.3A61 61 0 0 0 6 18l.2 7.2q.4 2.4 1.3 3.3t3.3 1.3q2.5.2 7.2.2l7.2-.2q2.4-.4 3.3-1.3t1.2-3 .3-6.1a1.5 1.5 0 1 1 3 0l-.3 6.7a8 8 0 0 1-2.1 4.5 8 8 0 0 1-5 2.1q-3 .4-7.5.3H18q-4.6 0-7.5-.3t-5-2.1a8 8 0 0 1-2.1-5q-.4-3-.3-7.5v-.2l.3-7.5q.2-3 2.1-5a8 8 0 0 1 4.6-2q2.6-.5 6.7-.4a1.5 1.5 0 0 1 1.5 1.5"
-                                />
-                                <path d="M25 3a28 28 0 0 1 5.5.2q1 .2 1.6.8t.7 1.5c.3 1.6.2 4.3.1 5.6a2 2 0 0 1-3.3 1.2l-1.9-1.8-4.1 4a1.5 1.5 0 1 1-2.1-2.1l4-4-1.8-2a2 2 0 0 1 1.2-3.3" />
-                              </svg>
-                              {t(LanguageKey.messagesetting_ViewFlow)}
-                            </button>
-                          </div>
-                        )}
-                      </div>
-                      {/* Reply Method for Flow */}
-                      {shouldShowReplyMethod && (
-                        <div className="headerandinput">
-                          <CheckBoxButton
-                            handleToggle={(e) => setReplySuccessfullyDirected(e.target.checked)}
-                            value={replySuccessfullyDirected}
-                            title={t(LanguageKey.sendreplydirectedsuccessfully)}
-                            textlabel={t(LanguageKey.sendreplydirectedsuccessfully)}
+                            className="TextArea"
+                            placeHolder={t(LanguageKey.pageToolspopup_typehere)}
+                            fadeTextArea={false}
+                            handleInputChange={(e) => {
+                              setAutoReplyCustom(e.target.value);
+                            }}
+                            value={autoReplyCustom ?? ""}
+                            maxLength={800}
+                            name="auto-reply-message"
+                            role="textbox"
+                            aria-label="Auto-reply message content"
+                            title={""}
+                            style={{ height: "120px" }}
                           />
-                          {renderCustomReplies("Flow")}
                         </div>
-                      )}
-                    </div>
-                  )}
-                </div>
-
-                {/*Connect Product */}
-                {session?.user.isShopper && (
+                        {/* Reply Method for Custom */}
+                        {shouldShowReplyMethod && (
+                          <>
+                            <div className="headerandinput">
+                              <div className="headertext">{t(LanguageKey.replyMethod)}</div>
+                              <RadioButton
+                                name="reply-method"
+                                id={t(LanguageKey.respondInSameComment)}
+                                checked={!replyMethod}
+                                handleOptionChanged={() => {
+                                  setReplyMethod(false);
+                                }}
+                                textlabel={t(LanguageKey.respondInSameComment)}
+                                aria-checked={!replyMethod}
+                                title={"Respond in the same comment"}
+                              />
+                              <RadioButton
+                                name="reply-method"
+                                id={t(LanguageKey.respondDirectly)}
+                                checked={replyMethod}
+                                handleOptionChanged={(e) => {
+                                  setReplyMethod(true);
+                                }}
+                                textlabel={t(LanguageKey.respondDirectly)}
+                                aria-checked={replyMethod}
+                                title={"Respond directly"}
+                              />
+                            </div>
+                            {replyMethod && (
+                              <div className={styles.replyMethodOptions}>
+                                <CheckBoxButton
+                                  handleToggle={(e) => setShouldFollower(e.target.checked)}
+                                  value={shouldFollower}
+                                  title={t(LanguageKey.shouldFollower)}
+                                  textlabel={t(LanguageKey.shouldFollower)}
+                                />
+                                <CheckBoxButton
+                                  handleToggle={(e) => setReplySuccessfullyDirected(e.target.checked)}
+                                  value={replySuccessfullyDirected}
+                                  title={t(LanguageKey.sendreplydirectedsuccessfully)}
+                                  textlabel={t(LanguageKey.sendreplydirectedsuccessfully)}
+                                />
+                                {renderCustomReplies("Custom")}
+                              </div>
+                            )}
+                          </>
+                        )}{" "}
+                      </div>
+                    )}
+                  </div>
+                  {/* AI Section */}
                   <div className="headerandinput">
                     <div className="headerandinput">
                       <RadioButton
-                        name="ConnectProduct"
-                        id={t(LanguageKey.ConnectProduct)}
-                        checked={checkBox.ConnectProduct}
+                        name="AI"
+                        id={"AI"}
+                        checked={checkBox.AI}
                         handleOptionChanged={handleOptionChanged}
-                        textlabel={t(LanguageKey.ConnectProduct)}
+                        textlabel={t(LanguageKey.AI)}
+                        title={t(LanguageKey.AI)}
                       />
-                      <div className="explain">{t(LanguageKey.messagesetting_ConnectProductResponseExplain)}</div>
+                      <div className="explain">{t(LanguageKey.messagesetting_UseAIPromptsExplain)}</div>
                     </div>
-                    {checkBox.ConnectProduct && (
+                    {checkBox.AI && (
                       <div className={styles.optioncontainer}>
                         <div className="headerandinput">
-                          <div onClick={() => setShowProductPopup?.()} className="saveButton">
-                            {t(LanguageKey.SelectProduct)}
+                          <div className="headerandinput">
+                            {autoReply.prompt && (
+                              <>
+                                <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
+                                <InputBox
+                                  className={"textinputbox"}
+                                  handleInputChange={() => {}}
+                                  value={autoReply.prompt.title}
+                                />
+                              </>
+                            )}
+
+                            {(searchAIMode ? (searchPrompts?.items?.length ?? 0) : (prompts?.items?.length ?? 0)) >
+                            0 ? (
+                              <DragDrop
+                                externalSearchMod={true}
+                                data={searchAIMode ? AISearchTitles : AITitles}
+                                handleOptionSelect={(id) => {
+                                  getPromptById(id);
+                                }}
+                                handleGetMoreItems={() => getMorePrompts(prompts!.nextMaxId)}
+                                isLoadingMoreItems={loadingState.isLoadingMoreAIItems}
+                                onExternalSearch={handleExternalAISearch}
+                                externalSearchLoading={loadingState.isExternalSearchAILoading}
+                                externalSearchText={searchAIMode ? selectedPrompt?.title : ""}
+                              />
+                            ) : null}
+                            {!selectedPrompt && !autoReply.prompt ? (
+                              <div className="headerandinput">
+                                {(searchAIMode
+                                  ? (searchPrompts?.items?.length ?? 0)
+                                  : (prompts?.items?.length ?? 0)) === 0 && (
+                                  <div className="explain">{t(LanguageKey.messagesetting_NoPromptsFound)}</div>
+                                )}
+                                <button
+                                  onClick={() => {
+                                    try {
+                                      void router.push({ pathname: "/Ai/FlowandAgent" });
+                                    } catch (e) {
+                                      console.error(e);
+                                    }
+                                  }}
+                                  className="saveButton">
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="#fff"
+                                    viewBox="0 0 36 36">
+                                    <path
+                                      opacity=".4"
+                                      fillRule="evenodd"
+                                      d="M18.2 4.5A1.5 1.5 0 0 1 16.5 6l-6.2.3q-2 .3-2.9 1.2t-1.3 3.3A61 61 0 0 0 6 18l.2 7.2q.4 2.4 1.3 3.3t3.3 1.3q2.5.2 7.2.2l7.2-.2q2.4-.4 3.3-1.3t1.2-3 .3-6.1a1.5 1.5 0 1 1 3 0l-.3 6.7a8 8 0 0 1-2.1 4.5 8 8 0 0 1-5 2.1q-3 .4-7.5.3H18q-4.6 0-7.5-.3t-5-2.1a8 8 0 0 1-2.1-5q-.4-3-.3-7.5v-.2l.3-7.5q.2-3 2.1-5a8 8 0 0 1 4.6-2q2.6-.5 6.7-.4a1.5 1.5 0 0 1 1.5 1.5"
+                                    />
+                                    <path d="M25 3a28 28 0 0 1 5.5.2q1 .2 1.6.8t.7 1.5c.3 1.6.2 4.3.1 5.6a2 2 0 0 1-3.3 1.2l-1.9-1.8-4.1 4a1.5 1.5 0 1 1-2.1-2.1l4-4-1.8-2a2 2 0 0 1 1.2-3.3" />
+                                  </svg>
+                                  {t(LanguageKey.CreateAutomationAI)}
+                                </button>
+                              </div>
+                            ) : null}
                           </div>
+                          {loadingState.isLoadingPrompt && <RingLoader style={{ maxHeight: "14px" }} />}
+                          {!loadingState.isLoadingPrompt && selectedPrompt && (
+                            <TextArea
+                              style={{ maxHeight: "150px" }}
+                              fadeTextArea
+                              readOnly
+                              value={selectedPrompt.promptStr || ""}></TextArea>
+                          )}
                         </div>
-                        {selectedProduct && (
-                          <div className={styles.productInfo}>
-                            <img
-                              className={styles.thumbnailImage}
-                              src={basePictureUrl + selectedProduct.thumbnailMediaUrl}
-                            />
-                            <div className={styles.productDetail}>
-                              <div className={styles.productTitle}>{selectedProduct.title}</div>
-                              <div className={styles.productCaption}>{selectedProduct.caption}</div>
+                        {/* Reply Method for AI */}
+                        {shouldShowReplyMethod && (
+                          <>
+                            <div className="headerandinput">
+                              <div className="headertext">{t(LanguageKey.replyMethod)}</div>
+                              <RadioButton
+                                name="ai-reply-method"
+                                id="ai-respondInSameComment"
+                                checked={!replyMethod}
+                                handleOptionChanged={() => setReplyMethod(false)}
+                                textlabel={t(LanguageKey.respondInSameComment)}
+                                aria-checked={!replyMethod}
+                                title={t(LanguageKey.respondInSameComment)}
+                              />
+                              <RadioButton
+                                name="ai-reply-method"
+                                id="ai-respondDirectly"
+                                checked={replyMethod}
+                                handleOptionChanged={() => setReplyMethod(true)}
+                                textlabel={t(LanguageKey.respondDirectly)}
+                                aria-checked={replyMethod}
+                                title={t(LanguageKey.respondDirectly)}
+                              />
                             </div>
-                          </div>
+                            {replyMethod && (
+                              <div className={styles.replyMethodOptions}>
+                                <CheckBoxButton
+                                  handleToggle={(e) => setReplySuccessfullyDirected(e.target.checked)}
+                                  value={replySuccessfullyDirected}
+                                  title={t(LanguageKey.sendreplydirectedsuccessfully)}
+                                  textlabel={t(LanguageKey.sendreplydirectedsuccessfully)}
+                                />
+                                {renderCustomReplies("AI")}
+                              </div>
+                            )}
+                          </>
                         )}
+                      </div>
+                    )}
+                  </div>
+
+                  {/* Flow Section */}
+                  <div className="headerandinput">
+                    <div className="headerandinput">
+                      <RadioButton
+                        name="Flow"
+                        id={"Flow"}
+                        checked={checkBox.Flow}
+                        handleOptionChanged={handleOptionChanged}
+                        textlabel={t(LanguageKey.Flow)}
+                        title={t(LanguageKey.Flow)}
+                      />
+                      <div className="explain">{t(LanguageKey.messagesetting_SelectPredefinedFlowExplain)}</div>
+                    </div>
+                    {checkBox.Flow && (
+                      <div className={styles.optioncontainer}>
+                        <div className="headerandinput">
+                          <div className="headerandinput">
+                            {autoReply.masterFlow && (
+                              <>
+                                <div className="headertext">{t(LanguageKey.SettingGeneral_Title)}</div>
+                                <InputBox
+                                  className={"textinputbox"}
+                                  handleInputChange={() => {}}
+                                  value={autoReply.masterFlow.title}
+                                />
+                              </>
+                            )}
+
+                            {(searchFlowMode
+                              ? (masterSearchFlows?.items?.length ?? 0)
+                              : (masterFlows?.items?.length ?? 0)) > 0 ? (
+                              <DragDrop
+                                externalSearchMod={true}
+                                data={searchFlowMode ? flowSearchTitles : flowTitles}
+                                handleOptionSelect={(id) => {
+                                  if (!masterFlows) return;
+                                  setSelectedFlow(masterFlows.items.find((flow) => flow.masterFlowId === id) || null);
+                                }}
+                                handleGetMoreItems={() => handleGetMoreFlows()}
+                                isLoadingMoreItems={loadingState.isLoadingMoreFlowItems}
+                                onExternalSearch={handleExternalFlowSearch}
+                                externalSearchLoading={loadingState.isExternalSearchFlowLoading}
+                                externalSearchText={searchFlowMode ? selectedFlow?.title : ""}
+                              />
+                            ) : null}
+                            {!selectedFlow && !autoReply.masterFlow ? (
+                              <div className="headerandinput">
+                                {(searchFlowMode
+                                  ? (masterSearchFlows?.items?.length ?? 0)
+                                  : (masterFlows?.items?.length ?? 0)) === 0 && (
+                                  <div className="explain">{t(LanguageKey.messagesetting_NoFlowsFound)}</div>
+                                )}
+                                <button
+                                  onClick={() => {
+                                    try {
+                                      void router.push({ pathname: "/Ai/FlowandAgent" });
+                                    } catch (e) {
+                                      console.error(e);
+                                    }
+                                  }}
+                                  className="saveButton">
+                                  <svg
+                                    width="16"
+                                    height="16"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="#fff"
+                                    viewBox="0 0 36 36">
+                                    <path
+                                      opacity=".4"
+                                      fillRule="evenodd"
+                                      d="M18.2 4.5A1.5 1.5 0 0 1 16.5 6l-6.2.3q-2 .3-2.9 1.2t-1.3 3.3A61 61 0 0 0 6 18l.2 7.2q.4 2.4 1.3 3.3t3.3 1.3q2.5.2 7.2.2l7.2-.2q2.4-.4 3.3-1.3t1.2-3 .3-6.1a1.5 1.5 0 1 1 3 0l-.3 6.7a8 8 0 0 1-2.1 4.5 8 8 0 0 1-5 2.1q-3 .4-7.5.3H18q-4.6 0-7.5-.3t-5-2.1a8 8 0 0 1-2.1-5q-.4-3-.3-7.5v-.2l.3-7.5q.2-3 2.1-5a8 8 0 0 1 4.6-2q2.6-.5 6.7-.4a1.5 1.5 0 0 1 1.5 1.5"
+                                    />
+                                    <path d="M25 3a28 28 0 0 1 5.5.2q1 .2 1.6.8t.7 1.5c.3 1.6.2 4.3.1 5.6a2 2 0 0 1-3.3 1.2l-1.9-1.8-4.1 4a1.5 1.5 0 1 1-2.1-2.1l4-4-1.8-2a2 2 0 0 1 1.2-3.3" />
+                                  </svg>
+                                  {t(LanguageKey.CreateAutomationFlow)}
+                                </button>
+                              </div>
+                            ) : null}
+                          </div>
+                          {selectedFlow && (
+                            <div className="headerandinput">
+                              <button className="saveButton">
+                                {" "}
+                                <svg
+                                  width="16"
+                                  height="16"
+                                  xmlns="http://www.w3.org/2000/svg"
+                                  fill="#fff"
+                                  viewBox="0 0 36 36">
+                                  <path
+                                    opacity=".4"
+                                    fillRule="evenodd"
+                                    d="M18.2 4.5A1.5 1.5 0 0 1 16.5 6l-6.2.3q-2 .3-2.9 1.2t-1.3 3.3A61 61 0 0 0 6 18l.2 7.2q.4 2.4 1.3 3.3t3.3 1.3q2.5.2 7.2.2l7.2-.2q2.4-.4 3.3-1.3t1.2-3 .3-6.1a1.5 1.5 0 1 1 3 0l-.3 6.7a8 8 0 0 1-2.1 4.5 8 8 0 0 1-5 2.1q-3 .4-7.5.3H18q-4.6 0-7.5-.3t-5-2.1a8 8 0 0 1-2.1-5q-.4-3-.3-7.5v-.2l.3-7.5q.2-3 2.1-5a8 8 0 0 1 4.6-2q2.6-.5 6.7-.4a1.5 1.5 0 0 1 1.5 1.5"
+                                  />
+                                  <path d="M25 3a28 28 0 0 1 5.5.2q1 .2 1.6.8t.7 1.5c.3 1.6.2 4.3.1 5.6a2 2 0 0 1-3.3 1.2l-1.9-1.8-4.1 4a1.5 1.5 0 1 1-2.1-2.1l4-4-1.8-2a2 2 0 0 1 1.2-3.3" />
+                                </svg>
+                                {t(LanguageKey.messagesetting_ViewFlow)}
+                              </button>
+                            </div>
+                          )}
+                        </div>
+                        {/* Reply Method for Flow */}
                         {shouldShowReplyMethod && (
                           <div className="headerandinput">
                             <CheckBoxButton
@@ -1418,15 +1375,62 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                               title={t(LanguageKey.sendreplydirectedsuccessfully)}
                               textlabel={t(LanguageKey.sendreplydirectedsuccessfully)}
                             />
-                            {renderCustomReplies("ConnectProduct")}
+                            {renderCustomReplies("Flow")}
                           </div>
                         )}
                       </div>
                     )}
                   </div>
-                )}
-              </>
-            )}
+
+                  {/*Connect Product */}
+                  {session?.user.isShopper && (
+                    <div className="headerandinput">
+                      <div className="headerandinput">
+                        <RadioButton
+                          name="ConnectProduct"
+                          id={t(LanguageKey.ConnectProduct)}
+                          checked={checkBox.ConnectProduct}
+                          handleOptionChanged={handleOptionChanged}
+                          textlabel={t(LanguageKey.ConnectProduct)}
+                        />
+                        <div className="explain">{t(LanguageKey.messagesetting_ConnectProductResponseExplain)}</div>
+                      </div>
+                      {checkBox.ConnectProduct && (
+                        <div className={styles.optioncontainer}>
+                          <div className="headerandinput">
+                            <div onClick={() => setShowProductPopup?.()} className="saveButton">
+                              {t(LanguageKey.SelectProduct)}
+                            </div>
+                          </div>
+                          {selectedProduct && (
+                            <div className={styles.productInfo}>
+                              <img
+                                className={styles.thumbnailImage}
+                                src={basePictureUrl + selectedProduct.thumbnailMediaUrl}
+                              />
+                              <div className={styles.productDetail}>
+                                <div className={styles.productTitle}>{selectedProduct.title}</div>
+                                <div className={styles.productCaption}>{selectedProduct.caption}</div>
+                              </div>
+                            </div>
+                          )}
+                          {shouldShowReplyMethod && (
+                            <div className="headerandinput">
+                              <CheckBoxButton
+                                handleToggle={(e) => setReplySuccessfullyDirected(e.target.checked)}
+                                value={replySuccessfullyDirected}
+                                title={t(LanguageKey.sendreplydirectedsuccessfully)}
+                                textlabel={t(LanguageKey.sendreplydirectedsuccessfully)}
+                              />
+                              {renderCustomReplies("ConnectProduct")}
+                            </div>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </>
+              )}
             </div>
           </>
         </div>
