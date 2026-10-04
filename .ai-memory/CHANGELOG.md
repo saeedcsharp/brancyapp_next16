@@ -1,4 +1,5 @@
 2026-10-04: When the main subscription expires, `/upgrade` keeps the main package section open and collapses/disables AI, Custom Domain, and Winner Picker sections and purchases; guarded the shared purchase handler against bypass.
+2026-10-04: Added `/upgrade?section=ai|domain|winnerpicker` deep links that open and scroll to the requested section, which pulses red for as long as its query remains present; expired subscriptions instead highlight the main package renewal section.
 <<<<<<< HEAD
 
 - 2026-09-30: Phase 1 (safe cleanup) closed early; status, deferred work, and open review items recorded in `docs/REFACTOR_STATUS.md`. Remaining debug-log/commented-code cleanup in `components/store`, `components/messages`, and `legacy-pages`, plus unused-import/variable warnings, is deferred to Phase 3 (clean when a file is touched).

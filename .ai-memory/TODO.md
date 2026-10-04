@@ -226,6 +226,7 @@
 ## Technical Debt Ideas
 
 - Add component/browser coverage confirming an expired main package keeps its renewal section expanded, prevents opening the AI, Custom Domain, and Winner Picker sections, and issues no reserve-feature purchase redirect; active packages should restore those sections and purchases when a UI test harness is introduced.
+- Add browser coverage confirming each `/upgrade?section=ai|domain|winnerpicker` deep link opens, scrolls to, and continuously pulses red on the requested section until its query is removed, and redirects attention to main-package renewal when the subscription is expired.
 - Deferred refactor cleanup (see `docs/REFACTOR_STATUS.md`): debug `console.log` and commented-out code in `components/store`, `components/messages`, and `legacy-pages`, leftover commented blocks in already-cleaned folders, and `no-unused-vars` warnings; clean opportunistically when a file is touched in Phase 3.
 - Audit hard-coded external keys/secrets.
 - Reduce the warning-level ESLint backlog incrementally (unused variables, `any`, hook dependencies, `<img>` usage) without repository-wide `--fix`.

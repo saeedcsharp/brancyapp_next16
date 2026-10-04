@@ -79,6 +79,7 @@ type UpgradeAction =
       payload: Partial<UpgradeState["expandedSections"]>;
     }
   | { type: "TOGGLE_YOUR_PLAN" };
+type UpgradeSection = "packages" | "tokens" | "domain" | "winnerpicker";
 const initialState: UpgradeState = {
   packageExtensions: [],
   tokenPackages: [],
@@ -150,6 +151,14 @@ const Upgrade = memo(function Upgrade() {
   const router = useRouter();
   const { data: session } = useSession();
   const abortControllerRef = useRef<AbortController | null>(null);
+  const sectionRefs = useRef<Record<UpgradeSection, HTMLElement | null>>({
+    packages: null,
+    tokens: null,
+    domain: null,
+    winnerpicker: null,
+  });
+  const pendingSectionFocusRef = useRef<UpgradeSection | null>(null);
+  const [highlightedSection, setHighlightedSection] = useState<UpgradeSection | null>(null);
   const skipNextSessionLoadRef = useRef(false);
   const isClosingRef = useRef(false);
   const [isPending, startTransition] = useTransition();
@@ -520,6 +529,50 @@ const Upgrade = memo(function Upgrade() {
     effectiveLotteryPercentage,
   ]);
 
+  useEffect(() => {
+    if (!router.isReady) return;
+    const querySection = router.query.section;
+    if (!state.userPackageInfo || typeof querySection !== "string") {
+      pendingSectionFocusRef.current = null;
+      setHighlightedSection(null);
+      return;
+    }
+    const requestedSection =
+      querySection === "ai"
+        ? "tokens"
+        : querySection === "domain" || querySection === "winnerpicker"
+          ? querySection
+          : null;
+    if (!requestedSection) {
+      pendingSectionFocusRef.current = null;
+      setHighlightedSection(null);
+      return;
+    }
+
+    const targetSection = isMainPackageActive ? requestedSection : "packages";
+    pendingSectionFocusRef.current = targetSection;
+    dispatch({
+      type: "SET_EXPANDED_SECTIONS",
+      payload: {
+        packages: targetSection === "packages",
+        tokens: targetSection === "tokens",
+        domain: targetSection === "domain",
+        winnerpicker: targetSection === "winnerpicker",
+      },
+    });
+  }, [router.isReady, router.query.section, state.userPackageInfo, isMainPackageActive]);
+
+  useEffect(() => {
+    const targetSection = pendingSectionFocusRef.current;
+    if (!targetSection || !state.expandedSections[targetSection]) return;
+    pendingSectionFocusRef.current = null;
+
+    requestAnimationFrame(() => {
+      sectionRefs.current[targetSection]?.scrollIntoView({ behavior: "smooth", block: "center" });
+      setHighlightedSection(targetSection);
+    });
+  }, [state.expandedSections]);
+
   // مدیریت وضعیت yourPlanExpanded بر اساس عرض صفحه
   useEffect(() => {
     const handleResize = () => {
@@ -784,7 +837,11 @@ const Upgrade = memo(function Upgrade() {
               </div>
               <div className={styles.contentArea}>
                 {/* Section 1: Main Package */}
-                <section className={styles.section}>
+                <section
+                  ref={(element) => {
+                    sectionRefs.current.packages = element;
+                  }}
+                  className={`${styles.section} ${highlightedSection === "packages" ? styles.sectionHighlighted : ""}`}>
                   <div
                     className={styles.sectionHeader}
                     tabIndex={0}
@@ -936,7 +993,11 @@ const Upgrade = memo(function Upgrade() {
                 </section>
 
                 {/* Section 2: AI Services */}
-                <section className={styles.section}>
+                <section
+                  ref={(element) => {
+                    sectionRefs.current.tokens = element;
+                  }}
+                  className={`${styles.section} ${highlightedSection === "tokens" ? styles.sectionHighlighted : ""}`}>
                   <div
                     className={styles.sectionHeader}
                     tabIndex={0}
@@ -1163,7 +1224,11 @@ const Upgrade = memo(function Upgrade() {
                   </div>
                 </section>
 
-                <section className={styles.section}>
+                <section
+                  ref={(element) => {
+                    sectionRefs.current.domain = element;
+                  }}
+                  className={`${styles.section} ${highlightedSection === "domain" ? styles.sectionHighlighted : ""}`}>
                   <div
                     className={styles.sectionHeader}
                     tabIndex={0}
@@ -1355,7 +1420,11 @@ const Upgrade = memo(function Upgrade() {
                   </div>
                 </section>
                 {/* Section 4: Winner Picker */}
-                <section className={styles.section}>
+                <section
+                  ref={(element) => {
+                    sectionRefs.current.winnerpicker = element;
+                  }}
+                  className={`${styles.section} ${highlightedSection === "winnerpicker" ? styles.sectionHighlighted : ""}`}>
                   <div
                     className={styles.sectionHeader}
                     tabIndex={0}
