@@ -29,8 +29,8 @@ import WinnersList from "brancy/components/page/tools/popups/lottery/winnersList
 import WinnerPicker from "brancy/components/page/tools/winnerpicker/winnerPicker";
 import { MethodType, UploadFile } from "brancy/helper/api";
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
-import { checkRemainingTimeFeature, getPackageFeatureDetails } from "brancy/helper/checkFeature";
-import { LoginStatus, packageStatus } from "brancy/helper/loadingStatus";
+import checkFeature, { checkRemainingTimeFeature, getPackageFeatureDetails } from "brancy/helper/checkFeature";
+import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { convertToMilliseconds, convertToSeconds } from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { useSession } from "next-auth/react";
@@ -43,6 +43,7 @@ import NotFeature from "brancy/components/notOk/notFeature";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
 import {
   FollowerLotteryType,
+  PartnerRole,
   LotteryStatus,
   LotteryType,
   PsgFeatureType,
@@ -125,6 +126,7 @@ const Tools = () => {
   const [showLikeFollowerPosts, setShowLikeFollowerPosts] = useState(false);
   const [showUnfollowAllFollowing, setShowUnfollowAllFollowing] = useState(false);
   const [showScoreLottery, setShowScoreLottery] = useState<ShowScoreLotteryType>(ShowScoreLotteryType.None);
+  const [showWinnerPickerNotFeature, setShowWinnerPickerNotFeature] = useState(false);
   const [showFollowersLottery, setShowFollowersLottery] = useState(false);
   const [preSaveHashtagList, setPreSaveHashtagList] = useState<string[]>([]);
   const [showDataUpdate, setDataUpdate] = useState<{
@@ -619,6 +621,17 @@ const Tools = () => {
     }
     switch (e.currentTarget.id) {
       case "score":
+        if (!RoleAccess(session, PartnerRole.Automatics)) {
+          setShowScoreLottery(ShowScoreLotteryType.Forward);
+          return;
+        }
+        const lotteryFeatureInfo = featureInfo ?? (await getPackageFeatureDetails(session));
+        if (!lotteryFeatureInfo) return;
+        if (!featureInfo) setFeatureInfo(lotteryFeatureInfo);
+        if (!checkFeature(PsgFeatureType.Lottery, lotteryFeatureInfo)) {
+          setShowWinnerPickerNotFeature(true);
+          return;
+        }
         setlotteryInfo({
           lotteryId: null,
           bannerTitle: "",
@@ -1142,11 +1155,19 @@ const Tools = () => {
               removeMask={removeMask}
               showScoreLottery={showScoreLottery}
               lotteryInfo={lotteryInfo}
-              featureInfo={featureInfo}
               saveScoreLottery={saveScoreLottery}
               showSpecification={handleShowSpecification}
               shortPost={shortPostInfo}
               unixData={unixDate}
+            />
+          </Modal>
+          <Modal
+            closePopup={() => setShowWinnerPickerNotFeature(false)}
+            classNamePopup="popupSendFile"
+            showContent={showWinnerPickerNotFeature}>
+            <NotFeature
+              onClose={() => setShowWinnerPickerNotFeature(false)}
+              upgradeQuery={{ section: "winnerpicker" }}
             />
           </Modal>
           <Modal closePopup={removeMask} classNamePopup={"popupLarge"} showContent={showTermsAndConditionWinnerPicker}>
@@ -1217,7 +1238,7 @@ const Tools = () => {
             />
           </Modal>
           <Modal closePopup={removeMask} classNamePopup="popupSendFile" showContent={showNotFeature}>
-            <NotFeature onClose={() => setShowNotFeature(false)} />
+            <NotFeature onClose={() => setShowNotFeature(false)} upgradeQuery={{ section: "ai" }} />
           </Modal>
           <Modal closePopup={removeMask} classNamePopup={"popup"} showContent={showLotteryRunning}>
             <LotteryRunning

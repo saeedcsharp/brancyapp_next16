@@ -4,6 +4,8 @@ The bulk product individual editors now render as a free horizontal slider using
 
 The upgrade page keeps the main package section open for renewal when the subscription expires, while keeping AI, Custom Domain, and Winner Picker sections collapsed and unavailable to expand. Their package purchases remain disabled until the main package is active again, and the shared handler enforces the prerequisite.
 Upgrade deep links `?section=ai`, `?section=domain`, and `?section=winnerpicker` open and scroll to their section, which pulses red while its query remains present; when expired, they highlight the main renewal section instead.
+`NotFeature` supports optional upgrade query parameters; AI feature gates open `/upgrade?section=ai`, and custom-domain setup opens `/upgrade?section=domain`.
+The `/page/tools` parent checks the Lottery entitlement before opening ScoreLottery; when unavailable, it owns the `NotFeature` modal whose Upgrade action opens `/upgrade?section=winnerpicker`. ScoreLottery retains its Automatics role guard.
 
 <<<<<<< HEAD
 The AI media library no longer has an All filter. Its page-owned Images filter requests and paginates only `GetImages`, and its Videos filter requests and paginates only `GetVideos`; each history loads when first selected, and a new generation switches the library to its media type.

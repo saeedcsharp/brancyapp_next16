@@ -461,7 +461,7 @@ export default function PageAI({ initialType }: { initialType?: AiQueryType }) {
         closePopup={() => setShowFeaturePopup(false)}
         classNamePopup="popupSendFile"
         showContent={showFeaturePopup}>
-        <NotFeature onClose={() => setShowFeaturePopup(false)} />
+        <NotFeature onClose={() => setShowFeaturePopup(false)} upgradeQuery={{ section: "ai" }} />
       </Modal>
       <Modal closePopup={() => setShowModelList(false)} classNamePopup="popupLarge" showContent={showModelList}>
         <AiModelListContent

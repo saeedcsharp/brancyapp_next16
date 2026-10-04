@@ -61,6 +61,7 @@ React components are present when the folder contains `.tsx` UI files.
 `commentPermissionState.tsx` provides the localized comment-permission empty state used by the media quick-reply popup. It owns the permission icon, explanatory text, and Enable Permission action presentation while receiving the redirect action through `onEnablePermission`.
 
 `notFeature.tsx` is also rendered inline by the AI media creator when the account lacks the AI feature; its upgrade action remains active while the feature-unavailable modal is no longer used on that page.
+`notFeature.tsx` accepts optional upgrade query parameters; AI feature gates direct to `/upgrade?section=ai`, and custom-domain setup directs to `/upgrade?section=domain`. Callers without a query retain the plain `/upgrade` destination.
 
 When the local IP endpoint reports Iran (`countryCode === "ir"`), `notLogin.tsx` delegates the pending Instagram redirect to the Instagramer layout's `onInvalidIp` callback, which opens the shared localized invalid-IP modal and its ten-second countdown. Continue or timeout performs the redirect; closing the modal cancels it. Other countries and IP lookup failures continue directly to the redirect.
 
@@ -154,7 +155,7 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 
 ## Last Updated
 
-2026-08-17
+2026-10-04
 
 ---
 

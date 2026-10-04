@@ -1229,7 +1229,7 @@ const FlowAndAIInbox = () => {
         </Modal>
       )}
       <Modal closePopup={() => setShowNotFeature(false)} classNamePopup="popupSendFile" showContent={showNotFeature}>
-        <NotFeature onClose={() => setShowNotFeature(false)} />
+        <NotFeature onClose={() => setShowNotFeature(false)} upgradeQuery={{ section: "ai" }} />
       </Modal>
     </>
   );
