@@ -1,4 +1,6 @@
+2026-10-04: When the main subscription expires, `/upgrade` keeps the main package section open and collapses/disables AI, Custom Domain, and Winner Picker sections and purchases; guarded the shared purchase handler against bypass.
 <<<<<<< HEAD
+
 - 2026-09-30: Phase 1 (safe cleanup) closed early; status, deferred work, and open review items recorded in `docs/REFACTOR_STATUS.md`. Remaining debug-log/commented-code cleanup in `components/store`, `components/messages`, and `legacy-pages`, plus unused-import/variable warnings, is deferred to Phase 3 (clean when a file is touched).
 - 2026-09-30: Security (second pass, AST scan of all `console.*` arguments): removed `console.log("session ", session)` in `direct/directInbox.tsx`, `comment/commentInbox.tsx`, `ticket/ticketInbox.tsx`, and the RefreshToken response log (`accessToken`/`socketAccessToken`) in `legacy-pages/user/setting/index.tsx`. No other changes.
 - 2026-09-30: Added a "Logging and Secrets" rule to `.github/copilot-instructions.md`: never log credentials, codes, `Authorization` headers, tokens, or session objects.
@@ -21,10 +23,10 @@
 - 2026-09-28: Hardened `MediaCreator` `defaultValue` parsing per `InputType`: Boolean parses `"true"`/`"false"` strings, arrays accept JSON-string defaults, numeric/range defaults ignore empty strings and range values are clamped (IntRange rounded), and enum defaults must match an `enumValues` option (case-insensitive) or fall back to the first option.
 - 2026-09-28: Added the local-only Character Sheet Visual Identity wizard at `/dev/characterSheet`, linked from the Dev Panel; removed it from the AI creator tabs while preserving its Auto/Advanced flows, dynamic identity controls, local reference previews, locks, views, style, consistency, constraints, and presentation-only sheet.
 
-- 2026-09-28: Fixed the AI media history DragDrop All option to use the localized `toggleShowAll` translation key.
-=======
-<<<<<<< HEAD
-<<<<<<< HEAD
+- # 2026-09-28: Fixed the AI media history DragDrop All option to use the localized `toggleShowAll` translation key.
+
+  <<<<<<< HEAD
+  <<<<<<< HEAD
 
 - 2026-10-01: Fixed the upgrade page showing exhausted AI/Custom Domain packages (remaining value `0`) as 100% full; they now report 0% and show the expired warning.
 
@@ -33,7 +35,8 @@
 - 2026-10-01: Prevented the AI page from repeating the `/api/feature/hasFeature` request on browser reload by caching the account-scoped entitlement in `sessionStorage` and deduplicating concurrent initial checks.
 
 - 2026-09-17: Localized all Add Partner access tooltips across the eight supported locales using dedicated `LanguageKey` entries.
->>>>>>> saeed
+
+  > > > > > > > saeed
 
 - 2026-09-17: Updated Add Partner permissions so Content and Publish remain independent while the Publish control is disabled until Content is enabled.
 - 2026-09-17: Filtered Publish from Add Partner create/update payloads when Content is disabled.

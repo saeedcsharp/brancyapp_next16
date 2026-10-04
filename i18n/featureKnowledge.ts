@@ -202,7 +202,7 @@ const recordsEn = {
   subscriptionAccess: {
     title: "Subscription and feature-access management",
     description:
-      "Load package and reserve-feature pricing from the backend and continue to the backend-provided payment redirect for an eligible purchase.",
+      "Load package and reserve-feature pricing from the backend. The main subscription can be renewed at any time, while AI, Custom Domain, and Winner Picker packages can be purchased only when the main subscription is active.",
   },
   visualIdentityPrototype: {
     title: "Visual Identity and Character Sheet",
@@ -798,9 +798,9 @@ export const featureKnowledgeFa = {
     },
     subscriptionAccess: {
       title: "اشتراک و قابلیت‌ها",
-      description: "بسته مناسب را ببینید و در صورت نیاز اشتراکتان را فعال کنید.",
+      description: "بسته‌های هوش مصنوعی، دامنه و انتخاب برنده فقط با اشتراک اصلی فعال قابل خرید هستند.",
       descriptionDetail:
-        "بسته‌ها و قابلیت‌های قابل خرید را بر اساس اطلاعاتی که سامانه برمی‌گرداند بررسی کنید. اگر گزینه مناسبی پیدا کردید، فرایند فعال‌سازی اشتراک را ادامه دهید تا به مسیر پرداخت رسمی هدایت شوید؛ قیمت و محدودیت‌ها از خودمان حدس زده نمی‌شوند.",
+        "بسته‌ها و قابلیت‌های قابل خرید را بر اساس اطلاعاتی که سامانه برمی‌گرداند بررسی کنید. اشتراک اصلی را در هر زمان می‌توانید تمدید کنید، اما خرید بسته‌های هوش مصنوعی، دامنه و انتخاب برنده فقط وقتی ممکن است که اشتراک اصلی فعال باشد. قیمت و محدودیت‌ها از خودمان حدس زده نمی‌شوند.",
     },
     visualIdentityPrototype: {
       title: "هویت بصری و شناسنامه تصویری",

@@ -57,6 +57,7 @@ Role totals overlap because a single record can serve more than one role.
 The catalog reflects frontend checks only. `LoginStatus` requires a selected Instagram account and `loginByInsta`; `packageStatus` checks the package expiry; `RoleAccess` grants owners broad access and restricts partners by `PartnerRole`. Pages can also use `messagePermission`, `commentPermission`, `insightPermission`, and `publishPermission`. The response-rule smart default list exposes View Store and Products only for `BusinessType.Shop` and `BusinessType.VShoper` sessions. Backend authorization remains authoritative.
 
 Known feature entitlements are `PsgFeatureType.AI`, `PsgFeatureType.Lottery`, and `PsgFeatureType.CustomDomain`. The page labels them as entitlements rather than assigning a price or quota.
+On `/upgrade`, AI, Custom Domain, and Winner Picker packages require an active main subscription. When it expires, those sections stay collapsed and unavailable to expand while the main package remains open for renewal.
 
 ## UI Behavior
 

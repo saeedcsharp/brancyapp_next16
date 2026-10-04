@@ -238,6 +238,7 @@ const Upgrade = memo(function Upgrade() {
   }, [session]);
   const handleTokenPurchase = useCallback(
     async (tokenPackageId: number) => {
+      if ((state.userPackageInfo?.packageRemainingTime ?? 0) <= 0) return;
       try {
         const res = await clientFetchApi<boolean, string>("/api/psg/GetRedirectReserveFeaturePrice", {
           methodType: MethodType.get,
@@ -257,7 +258,7 @@ const Upgrade = memo(function Upgrade() {
         notify(ResponseType.Unexpected, NotifType.Error);
       }
     },
-    [session, router, host],
+    [session, router, host, state.userPackageInfo],
   );
   const handlePackageExtension = useCallback(
     async (monthCount: number) => {
@@ -282,13 +283,6 @@ const Upgrade = memo(function Upgrade() {
     },
     [session, router, host],
   );
-  const winnerPickerWarningLevel = useMemo(() => {
-    if (!state.userPackageInfo) return "normal";
-    if (!state.userPackageInfo.lotteryPackage) return "normal";
-    if (state.userPackageInfo.lotteryPackage.sliderRemainingValue === 0) return "danger";
-    if (state.userPackageInfo.lotteryPackage.sliderRemainingValue === 1) return "attention";
-    return "normal";
-  }, [state.userPackageInfo]);
 
   const formatTimeRemaining = useCallback(
     (timestamp: number | null) => {
@@ -346,9 +340,14 @@ const Upgrade = memo(function Upgrade() {
       Math.min(100, (state.userPackageInfo.packageRemainingTime / state.userPackageInfo.packageTotalDuration) * 100),
     );
   }, [state.userPackageInfo]);
-  const toggleSection = useCallback((section: "packages" | "tokens" | "domain" | "winnerpicker") => {
-    dispatch({ type: "TOGGLE_SECTION", payload: section });
-  }, []);
+  const isMainPackageActive = (state.userPackageInfo?.packageRemainingTime ?? 0) > 0;
+  const toggleSection = useCallback(
+    (section: "packages" | "tokens" | "domain" | "winnerpicker") => {
+      if (!isMainPackageActive) return;
+      dispatch({ type: "TOGGLE_SECTION", payload: section });
+    },
+    [isMainPackageActive],
+  );
   const toggleYourPlan = useCallback(() => {
     dispatch({ type: "TOGGLE_YOUR_PLAN" });
   }, []);
@@ -490,6 +489,14 @@ const Upgrade = memo(function Upgrade() {
 
   useEffect(() => {
     if (!state.userPackageInfo) return;
+    if (!isMainPackageActive) {
+      dispatch({
+        type: "SET_EXPANDED_SECTIONS",
+        payload: { packages: true, tokens: false, domain: false, winnerpicker: false },
+      });
+      return;
+    }
+
     const packageProgress = packageTimeProgressPercentage;
     const tokenProgress = effectiveAiPercentage;
     const domainProgress = effectiveDomainPercentage;
@@ -506,6 +513,7 @@ const Upgrade = memo(function Upgrade() {
     });
   }, [
     state.userPackageInfo,
+    isMainPackageActive,
     packageTimeProgressPercentage,
     effectiveAiPercentage,
     effectiveDomainPercentage,
@@ -938,6 +946,7 @@ const Upgrade = memo(function Upgrade() {
                     <div
                       className="headerparent"
                       role="button"
+                      aria-disabled={!isMainPackageActive}
                       onClick={() => toggleSection("tokens")}
                       onKeyDown={(e) => {
                         if (e.key === "Enter" || e.key === " ") {
@@ -1093,6 +1102,7 @@ const Upgrade = memo(function Upgrade() {
                           <button
                             key={pkg.reserveFeatureId}
                             className={styles.packageOption}
+                            disabled={!isMainPackageActive}
                             onClick={() => handleTokenPurchase(pkg.reserveFeatureId)}
                             onKeyDown={(e) => handleKeyDown(e, () => handleTokenPurchase(pkg.reserveFeatureId))}
                             aria-label={`${pkg.count ? pkg.count.toLocaleString() : ""} tokens package`}>
@@ -1163,6 +1173,7 @@ const Upgrade = memo(function Upgrade() {
                     <div
                       className="headerparent"
                       role="button"
+                      aria-disabled={!isMainPackageActive}
                       onClick={() => toggleSection("domain")}
                       onKeyDown={(e) => {
                         if (e.key === "Enter" || e.key === " ") {
@@ -1287,6 +1298,7 @@ const Upgrade = memo(function Upgrade() {
                           <button
                             key={pkg.reserveFeatureId}
                             className={styles.packageOption}
+                            disabled={!isMainPackageActive}
                             onClick={() => handleTokenPurchase(pkg.reserveFeatureId)}
                             onKeyDown={(e) => handleKeyDown(e, () => handleTokenPurchase(pkg.reserveFeatureId))}
                             aria-label={`${pkg.seconds} domain package`}>
@@ -1367,7 +1379,8 @@ const Upgrade = memo(function Upgrade() {
                           prevElement?.focus();
                         }
                       }}
-                      role="button">
+                      role="button"
+                      aria-disabled={!isMainPackageActive}>
                       <div className={styles.titlebody}>
                         <div className="headerandinput">
                           <div className="title" id={`${componentId}-winnerpicker-title`}>
@@ -1473,6 +1486,7 @@ const Upgrade = memo(function Upgrade() {
                           <button
                             key={pkg.reserveFeatureId}
                             className={styles.packageOption}
+                            disabled={!isMainPackageActive}
                             onClick={() => handleTokenPurchase(pkg.reserveFeatureId)}
                             onKeyDown={(e) => handleKeyDown(e, () => handleTokenPurchase(pkg.reserveFeatureId))}
                             aria-label={`${pkg.count} winner picker package`}>

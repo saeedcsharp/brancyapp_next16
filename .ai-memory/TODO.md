@@ -29,10 +29,10 @@
 # TODO
 
 <<<<<<< HEAD
+
 - Add component coverage confirming the AI library offers only Images and Videos, requests only `GetImages` or `GetVideos` for the selected filter, and loads each history once when a UI test harness is introduced.
 - Add component coverage confirming malformed, non-finite, and out-of-range AI media `createdTime` values keep their history rows visible, avoid ISO serialization errors, and show the localized Not available fallback when a UI test harness is introduced.
-- Add a route smoke test confirming the Dev Panel Character Sheet button navigates to `/dev/characterSheet` and that the AI creator exposes only Image and Video tabs when a UI test harness is introduced.
-=======
+- # Add a route smoke test confirming the Dev Panel Character Sheet button navigates to `/dev/characterSheet` and that the AI creator exposes only Image and Video tabs when a UI test harness is introduced.
 - Add component/browser coverage confirming the AI page reuses the account-scoped `hasFeature` result after reload and deduplicates concurrent initial creator checks when a UI test harness is introduced.
 
 <<<<<<< HEAD
@@ -44,7 +44,7 @@
 
 - Add a route smoke test confirming the Dev Panel Character Sheet button navigates to `/dev/characterSheet` and that the AI creator exposes only Image and Video tabs when a UI test harness is introduced.
   > > > > > > > sepehr
->>>>>>> saeed
+  > > > > > > > saeed
 - Add component/browser coverage confirming the constrained AI `MediaLibrary` requests the next image and video cursors when its internal list reaches the end, including independent cursors and duplicate prevention, when a UI test harness is introduced.
 - Add component coverage for the AI generated-media helper, including localized null/boolean metadata values, invalid JSON fallback, shared timestamp output, and image/video modal close ownership when a UI test harness is introduced.
 - Add component coverage confirming the image prompt suggestions category buttons select All Categories and load prompts for the selected category when a UI test harness is introduced.
@@ -225,6 +225,7 @@
 
 ## Technical Debt Ideas
 
+- Add component/browser coverage confirming an expired main package keeps its renewal section expanded, prevents opening the AI, Custom Domain, and Winner Picker sections, and issues no reserve-feature purchase redirect; active packages should restore those sections and purchases when a UI test harness is introduced.
 - Deferred refactor cleanup (see `docs/REFACTOR_STATUS.md`): debug `console.log` and commented-out code in `components/store`, `components/messages`, and `legacy-pages`, leftover commented blocks in already-cleaned folders, and `no-unused-vars` warnings; clean opportunistically when a file is touched in Phase 3.
 - Audit hard-coded external keys/secrets.
 - Reduce the warning-level ESLint backlog incrementally (unused variables, `any`, hook dependencies, `<img>` usage) without repository-wide `--fix`.

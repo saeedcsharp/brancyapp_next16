@@ -7,6 +7,8 @@ A valid working Instagramer session generally requires `session.user.currentInde
 ## Package Status
 
 `helper/loadingStatus.ts` treats a package as active when `session.user.packageExpireTime * 1000 > Date.now()`.
+On `/upgrade`, reserve-feature packages (AI, Custom Domain, and Winner Picker) may be purchased only while the main package has positive remaining time; main-package renewal remains available when expired.
+When the main package is expired, `/upgrade` keeps its package section expanded and the AI, Custom Domain, and Winner Picker sections collapsed and unavailable to expand.
 
 ## Partner Roles
 

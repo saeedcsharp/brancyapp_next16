@@ -2,20 +2,23 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+The upgrade page keeps the main package section open for renewal when the subscription expires, while keeping AI, Custom Domain, and Winner Picker sections collapsed and unavailable to expand. Their package purchases remain disabled until the main package is active again, and the shared handler enforces the prerequisite.
+
 <<<<<<< HEAD
 The AI media library no longer has an All filter. Its page-owned Images filter requests and paginates only `GetImages`, and its Videos filter requests and paginates only `GetVideos`; each history loads when first selected, and a new generation switches the library to its media type.
 
 The AI media library validates each backend `createdTime` before localized formatting or ISO serialization. Invalid timestamps no longer throw `RangeError`; the media item remains available and displays the localized Not available fallback.
 
-The local-only Character Sheet Visual Identity prototype is available at `/dev/characterSheet` from the Dev Panel button and is no longer part of the AI creator tabs. It renders `components/page/ai/CharacterSheet.tsx` with Auto and Advanced modes, dynamic Human/Product/Object/Animal/Custom controls, local reference-image previews and roles, per-attribute and global locks, views/poses/expressions, style and layout controls, provider-agnostic generation settings, constraints, and a presentation-only sheet/consistency preview. It performs no API requests, uploads, AI analysis, generation, persistence, publishing, or server work, and all state is discarded when the component unmounts.
-=======
+# The local-only Character Sheet Visual Identity prototype is available at `/dev/characterSheet` from the Dev Panel button and is no longer part of the AI creator tabs. It renders `components/page/ai/CharacterSheet.tsx` with Auto and Advanced modes, dynamic Human/Product/Object/Animal/Custom controls, local reference-image previews and roles, per-attribute and global locks, views/poses/expressions, style and layout controls, provider-agnostic generation settings, constraints, and a presentation-only sheet/consistency preview. It performs no API requests, uploads, AI analysis, generation, persistence, publishing, or server work, and all state is discarded when the component unmounts.
+
 The AI page caches its per-account `hasFeature` entitlement result in `sessionStorage` and reuses an in-flight check during mount, preventing the feature API from being called again solely because the page was reloaded.
 
 <<<<<<< HEAD
 The `/user` customer entry route now waits for NextAuth to finish loading before redirecting, performs only one `router.replace` decision, and treats an unset `currentIndex` as `-1`, preventing the production route from remaining at `/user`.
 
 Forced API sign-out now stays on the browser's current origin: both direct and proxied 401 handlers await NextAuth logout with redirects disabled and replace the location with `/`. Ten synthetic cases cover production, staging, local development, logout ordering, and unchanged non-logout responses. Deployed browser verification remains pending.
->>>>>>> saeed
+
+> > > > > > > saeed
 
 Selected-account `GetInfo` now runs on every client pathname transition, bypassing the same-route 20-second throttle. Dashboard/upgrade readiness is navigation-specific; a transition during a pending request is checked after completion. Query/hash-only changes are excluded. Focused synthetic navigation tests pass; live browser verification remains pending.
 
@@ -33,10 +36,12 @@ Sub-invoice detail rows support horizontal native scrolling and pointer-captured
 <<<<<<< HEAD
 The direct Meta redirect route is available at `/metaReDirect` (`app/metaReDirect/`; the path is case-sensitive); its App Router directory no longer has a trailing space, so the route is discovered correctly by Next.js.
 =======
+
 > > > > > > > sepehr
 
 The direct Meta redirect route is available at `/metaRedirect`; its App Router directory no longer has a trailing space, so the route is discovered correctly by Next.js.
->>>>>>> saeed
+
+> > > > > > > saeed
 
 Shared Slider drag and keyboard handlers now leave native controls inside slides interactive, including the wallet add-card InputBox.
 
@@ -168,14 +173,16 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 ## Recent Changes
 
 <<<<<<< HEAD
+
 - The home smart page-analysis tile now opens the current account summary in the shared modal, with mouse and keyboard activation plus close controls.
 
 - The home dashboard token tile now loads the direct AI total from `Instagramer/Feature/GetTotalFeatureCount` with `PsgFeatureType.AI`; numeric results, including zero, are displayed directly and unavailable results use the localized upgrade fallback.
 
-- The home dashboard upgrade tile now provides accessible pagination between the remaining AI token balance and remaining subscription days; the tile's main click and keyboard action still opens the upgrade route.
-=======
-<<<<<<< HEAD
->>>>>>> saeed
+- # The home dashboard upgrade tile now provides accessible pagination between the remaining AI token balance and remaining subscription days; the tile's main click and keyboard action still opens the upgrade route.
+
+  <<<<<<< HEAD
+
+  > > > > > > > saeed
 
 - Fixed the Instagramer hamburger menu BioLink active state by using the actual slash-free market route values, so Home, Statistics, MyLink, and Properties all select the BioLink logo.
 
