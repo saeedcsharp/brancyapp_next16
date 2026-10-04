@@ -32,7 +32,7 @@
 
 # TODO
 
-- Add a CI smoke check for the Docker standalone build using the official Docker Hub `node:22-alpine` base image.
+- Add a CI smoke check for the Docker standalone build using `public.ecr.aws/docker/library/node:22-alpine`.
 
 <<<<<<< HEAD
 

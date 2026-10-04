@@ -1,4 +1,4 @@
-FROM node:22-alpine AS base
+FROM public.ecr.aws/docker/library/node:22-alpine AS base
 RUN npm config set registry https://repo.hmirror.ir/npm
 RUN echo "https://repo.hmirror.ir/apk/v$(cat /etc/alpine-release | cut -d'.' -f1,2)/main" > /etc/apk/repositories && \
     echo "https://repo.hmirror.ir/apk/v$(cat /etc/alpine-release | cut -d'.' -f1,2)/community" >> /etc/apk/repositories
