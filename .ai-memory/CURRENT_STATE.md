@@ -1,19 +1,6 @@
 The bulk product individual editors now render as a free horizontal slider using the shared `Slider` and `SliderSlide` components; each product card keeps its existing independent controls and state.
 
 # Current State
-
-The upgrade page keeps the main package section open for renewal when the subscription expires, while keeping AI, Custom Domain, and Winner Picker sections collapsed and unavailable to expand. Their package purchases remain disabled until the main package is active again, and the shared handler enforces the prerequisite.
-Upgrade deep links `?section=ai`, `?section=domain`, and `?section=winnerpicker` open and scroll to their section, which pulses red while its query remains present; when expired, they highlight the main renewal section instead.
-`NotFeature` supports optional upgrade query parameters; AI feature gates open `/upgrade?section=ai`, and custom-domain setup opens `/upgrade?section=domain`.
-The `/page/tools` parent checks the Lottery entitlement before opening ScoreLottery; when unavailable, it owns the `NotFeature` modal whose Upgrade action opens `/upgrade?section=winnerpicker`. ScoreLottery retains its Automatics role guard.
-
-<<<<<<< HEAD
-The AI media library no longer has an All filter. Its page-owned Images filter requests and paginates only `GetImages`, and its Videos filter requests and paginates only `GetVideos`; each history loads when first selected, and a new generation switches the library to its media type.
-
-The AI media library validates each backend `createdTime` before localized formatting or ISO serialization. Invalid timestamps no longer throw `RangeError`; the media item remains available and displays the localized Not available fallback.
-
-# The local-only Character Sheet Visual Identity prototype is available at `/dev/characterSheet` from the Dev Panel button and is no longer part of the AI creator tabs. It renders `components/page/ai/CharacterSheet.tsx` with Auto and Advanced modes, dynamic Human/Product/Object/Animal/Custom controls, local reference-image previews and roles, per-attribute and global locks, views/poses/expressions, style and layout controls, provider-agnostic generation settings, constraints, and a presentation-only sheet/consistency preview. It performs no API requests, uploads, AI analysis, generation, persistence, publishing, or server work, and all state is discarded when the component unmounts.
-
 The AI page caches its per-account `hasFeature` entitlement result in `sessionStorage` and reuses an in-flight check during mount, preventing the feature API from being called again solely because the page was reloaded.
 
 <<<<<<< HEAD
@@ -21,30 +8,21 @@ The `/user` customer entry route now waits for NextAuth to finish loading before
 
 Forced API sign-out now stays on the browser's current origin: both direct and proxied 401 handlers await NextAuth logout with redirects disabled and replace the location with `/`. Ten synthetic cases cover production, staging, local development, logout ordering, and unchanged non-logout responses. Deployed browser verification remains pending.
 
-> > > > > > > saeed
-
 Selected-account `GetInfo` now runs on every client pathname transition, bypassing the same-route 20-second throttle. Dashboard/upgrade readiness is navigation-specific; a transition during a pending request is checked after completion. Query/hash-only changes are excluded. Focused synthetic navigation tests pass; live browser verification remains pending.
 
 Dashboard and upgrade client children now wait in `InstaProvider` for selected-account initialization and session persistence before mounting. Expired protected accounts remain behind the loader until upgrade navigation completes; initialization errors expose reload retry. Public/customer routes and server middleware remain outside this gate. Deferred-promise synthetic checks pass; live browser verification is pending.
 
 `InstaProvider` now fetches selected-account data on every document reload despite a recent session `lastUpdate`, chains account/title loading after routine token renewal, and redirects expired packages from protected Instagramer routes after persisting fresh account data. Focused synthetic checks pass; authenticated browser verification remains pending.
 
-# The middleware redirects selected Instagramer accounts with missing or expired packages to `/upgrade` regardless of `loginByFb` or `loginByInsta`; it no longer logs full JWT tokens.
-
+The middleware redirects selected Instagramer accounts with missing or expired packages to `/upgrade` regardless of `loginByFb` or `loginByInsta`; it no longer logs full JWT tokens.
+=======
 Wallet invoice order details now load automatically when the `Order` tab is selected and render inside the existing invoice popup. The request still uses `/api/wallet/getInvoice`, but the returned invoice is passed to `OrderDetailPopup` inline instead of requiring a button or opening a second modal.
 
 Sub-invoice history labels now use the shared `IDblue`, `IDpurple`, `IDgreen`, `IDred`, and `IDgray` styles for unsettled, awaiting-settlement, settled, failed, and unknown statuses.
 Sub-invoice detail rows support horizontal native scrolling and pointer-captured mouse/touch dragging with vertical touch scrolling preserved.
-
-<<<<<<< HEAD
-The direct Meta redirect route is available at `/metaReDirect` (`app/metaReDirect/`; the path is case-sensitive); its App Router directory no longer has a trailing space, so the route is discovered correctly by Next.js.
-=======
-
-> > > > > > > sepehr
+>>>>>>> sepehr
 
 The direct Meta redirect route is available at `/metaRedirect`; its App Router directory no longer has a trailing space, so the route is discovered correctly by Next.js.
-
-> > > > > > > saeed
 
 Shared Slider drag and keyboard handlers now leave native controls inside slides interactive, including the wallet add-card InputBox.
 
@@ -75,7 +53,6 @@ The media quick-reply popup now renders the reusable `components/notOk/commentPe
 The media auto-reply editor now requires `PartnerRole.Automatics` for AI and Flow data access. Missing-role partners see `NotAllowed` in the selected AI/Flow panel, and prompt/flow list, search, pagination, selection, and saved-item enrichment APIs are skipped.
 
 The media auto-reply editor now requires `PartnerRole.Products` for Product and Connect Product modes. Missing-role partners see `NotAllowedCard`, and those modes cannot be saved while product access is unavailable.
-General and media auto-reply editors apply the inactive state to settings only; their activation switches stay interactive so users can re-enable a paused reply.
 
 The former icon-specific toggle control has been removed. Toggle tabs now use the shared `components/design/toggleButton/ToggleButton.tsx` control across wallet, event ideas, follower analysis, and the system-design showcase.
 
@@ -128,9 +105,9 @@ The global App Router error boundary displays the received error message. Direct
 
 ## Completed Features
 
-- App Router tree contains 109 page files, including the direct `/feature` knowledge-base route.
+- App Router tree contains 104 page files, including the direct `/feature` knowledge-base route.
 - 9 route handler files exist, including auth, pricing, user proxy endpoints, IP country detection, and a text-file route.
-- API map contains 346 mapped local API paths.
+- API map contains 331 mapped backend entries.
 - Docker standalone build path exists.
 - IIS `web.config` exists for server.js hosting.
 
@@ -176,25 +153,15 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 
 ## Recent Changes
 
-- The Phone Numbers card on `/message/Properties` now shows a localized Flow Graph button when no phone numbers are collected; it opens `/Ai/FlowandAgent` without an `id`.
-
 <<<<<<< HEAD
-
-- The home smart page-analysis tile now opens the current account summary in the shared modal, with mouse and keyboard activation plus close controls.
-
-- The home dashboard token tile now loads the direct AI total from `Instagramer/Feature/GetTotalFeatureCount` with `PsgFeatureType.AI`; numeric results, including zero, are displayed directly and unavailable results use the localized upgrade fallback.
-
-- # The home dashboard upgrade tile now provides accessible pagination between the remaining AI token balance and remaining subscription days; the tile's main click and keyboard action still opens the upgrade route.
-
-  <<<<<<< HEAD
-
-  > > > > > > > saeed
 
 - Fixed the Instagramer hamburger menu BioLink active state by using the actual slash-free market route values, so Home, Statistics, MyLink, and Properties all select the BioLink logo.
 
-- Fixed Instagramer mobile navbar market-route detection by aligning the BioLink enum values with the actual slash-free `/market`, `/market/statistics`, `/market/mylink`, and `/market/properties` paths, so all market views display the BioLink logo.
+- # Fixed Instagramer mobile navbar market-route detection by aligning the BioLink enum values with the actual slash-free `/market`, `/market/statistics`, `/market/mylink`, and `/market/properties` paths, so all market views display the BioLink logo.
 - AI Flow web-link inputs now apply the shared `InputBox` danger status after invalid non-empty URLs and replay the shake animation once per invalid blur; editing the URL clears the error state.
 - AI Flow web-link validation now requires HTTP(S) hostnames to end with a non-empty dot suffix such as `.com` or `.ir`, while allowing any suffix value.
+
+  > > > > > > > sepehr
 
 - The `/page/tools` `hashtagManager` now owns the card collapse interaction. Activating its shared header hides the manager content and reduces the masonry row span from `82` to `10`; Enter and Space provide the same keyboard behavior.
 
@@ -214,7 +181,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 
 - Prevented React Strict Mode effect replays from sending the Meta direct-login verification API request twice by guarding the request with a component ref.
 
-- The Meta direct-login flow (`app/metaReDirect/page.tsx`) waits 10 seconds after successful verification, then shows the localized `metaRedirect_aiAnalysisNotice` modal; its Continue button navigates to the verified `/directlogin` URL. The unreachable legacy copy under `legacy-pages/user/metaReDirect/`, including its `initialSetup` step, was removed on 2026-09-30.
+- The Meta direct-login flow waits 10 seconds after successful verification, then opens the `initialSetup` language, theme, and calendar flow; navigation to `/directlogin` occurs only after setup completion.
 
 - Removed the Store Properties entry from the Instagramer desktop navbar and mobile hamburger menu while keeping `/store/properties` directly accessible.
 
@@ -306,7 +273,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - Added a static MyLink Products coupon presentation with placeholder countdown values, code `BRANCY20`, and an accessible Clipboard API copy action with temporary confirmation; backend promotion data is still pending.
 - Converted the MyLink product cards into a free horizontal carousel with native touch scrolling, mouse/pointer dragging, no wrapping or scroll snap, and drag-click protection for product links.
 - Made MyLink product cards responsive with smaller mobile widths, square fixed-aspect thumbnails, and two-line ellipsis truncation for product names.
-- Added responsive MyLink product controls with Best Sellers/Best Discounts sorting toggles, a flex-growing product search, and a Show All Products reset action that stacks cleanly on mobile. (Superseded: as of 2026-09-30 `components/market/myLink/product.tsx` contains no sorting, search, or Show All controls.)
+- # Added responsive MyLink product controls with Best Sellers/Best Discounts sorting toggles, a flex-growing product search, and a Show All Products reset action that stacks cleanly on mobile.
 - Domain Manager now uses `baseShortUrl/username` instead of `username.baseShortUrl` for default and destination links only when the username contains `.`, while `_` and `-` continue to use the subdomain form.
 - Domain Manager domain displays no longer add a `www.` prefix.
 - Domain Manager hides the duplicate default link when an invalid subdomain username already resolves to the path-style URL.

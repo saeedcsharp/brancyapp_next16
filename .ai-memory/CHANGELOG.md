@@ -1,50 +1,8 @@
-2026-10-04: Added a Flow Graph button to the empty Phone Numbers state on `/message/Properties`; it opens `/Ai/FlowandAgent` without an `id` so the Flow list is shown.
-2026-10-04: Fixed inactive general and media auto-replies trapping their activation switches inside `fadeDiv`; settings remain disabled while the switch stays clickable to re-enable the reply.
-2026-10-04: Switched the Docker base image to the public Amazon ECR mirror of official `node:22-alpine` after Docker Hub and the configured Docker mirror returned 403; retained the build's default target platform.
-2026-10-04: Added a fifth Phone Numbers card to `/message/Properties` (`components/messages/properties/phoneNumbers.tsx`). `Properties.tsx` loads `Instagramer/Flow/GetPhoneNumbers` (`/api/flow/getPhoneNumbers`, route-mapped in `helper/apiRouteMap.ts`) with the rest of the page data and paginates via `nextMaxId` when the slider reaches its end; `masterFlowId` is not sent as a query and is only used to open `/Ai/FlowandAgent?id=<masterFlowId>`. Added `IFlowPhoneNumber`/`IFlowPhoneNumbers` and the `messagesetting_PhoneNumbers*` i18n keys in all eight locales.
-2026-10-04: Added `phonenumbergrabber` flow node (`aiflow/flowNode/PhoneNumberGrabberNode.tsx`): one input, one output, cannot be connected directly from `onmessage`, `generic` (gallery), `genericitem` (gallery sub-branch), or `quickreply` (enforced in `validateConnection`; the rule matrices are not consulted for default connections); label key `New_Flow_phonenumbergrabber_block` in all languages; the type is registered in `INPUT_CONNECTION_RULES`/`OUTPUT_CONNECTION_RULES` because `validateConnection` rejects types missing from those matrices. Tutorial entry (title, description, usage type, features, tips, limitations, connections; connections reuse text-block keys 2–8) added in `NodeTutorials.tsx` and shown in the node body; live-test handling not yet added.
-2026-10-04: When the main subscription expires, `/upgrade` keeps the main package section open and collapses/disables AI, Custom Domain, and Winner Picker sections and purchases; guarded the shared purchase handler against bypass.
-2026-10-04: Added `/upgrade?section=ai|domain|winnerpicker` deep links that open and scroll to the requested section, which pulses red for as long as its query remains present; expired subscriptions instead highlight the main package renewal section.
-2026-10-04: Added optional upgrade query support to `NotFeature`; AI feature gates target `section=ai` and custom-domain setup targets `section=domain`.
-2026-10-04: Moved the Lottery entitlement check and `NotFeature` modal to the `/page/tools` parent; its Upgrade action targets `section=winnerpicker`, while ScoreLottery retains its Automatics role guard.
 <<<<<<< HEAD
-
-- 2026-09-30: Phase 1 (safe cleanup) closed early; status, deferred work, and open review items recorded in `docs/REFACTOR_STATUS.md`. Remaining debug-log/commented-code cleanup in `components/store`, `components/messages`, and `legacy-pages`, plus unused-import/variable warnings, is deferred to Phase 3 (clean when a file is touched).
-- 2026-09-30: Security (second pass, AST scan of all `console.*` arguments): removed `console.log("session ", session)` in `direct/directInbox.tsx`, `comment/commentInbox.tsx`, `ticket/ticketInbox.tsx`, and the RefreshToken response log (`accessToken`/`socketAccessToken`) in `legacy-pages/user/setting/index.tsx`. No other changes.
-- 2026-09-30: Added a "Logging and Secrets" rule to `.github/copilot-instructions.md`: never log credentials, codes, `Authorization` headers, tokens, or session objects.
-- 2026-09-30: `components/page`: removed 37 debug `console.log` calls (lottery history/score/terms/banner popups, hashtag analyzers, events, engagement statistics, draft popup, and a comma-expression log in `postContent` navigation, which now only calls `router.push`) and 21 commented-out code blocks. Kept the `Image failed:` error log and the loader `catch` log.
-- 2026-09-30: Docs: recorded that the `/feature` audit-only section is currently disabled (commented out in `FeatureKnowledgeBase.tsx`); the commented section and the `AIWithPrompt` usage example are intentionally kept.
-- 2026-09-30: `components/market`: removed 14 debug `console.log` calls (MyLink link/contact popups and online-stream channel selection) and 27 commented-out code blocks (disabled handlers, old fetch calls, a dead people-search block, and a commented tariff menu item). No behavior change.
-- 2026-09-30: Security: removed `console.log` calls that printed NextAuth credentials, verification codes with the `Authorization` header, before/after access tokens (auth route), the refresh-token response (`app/directlogin/page.tsx`), and whole session objects (flow, direct, comment, and ticket inboxes; `legacy-pages/home`; `legacy-pages/message/comments.tsx`). No other logic changed.
-- 2026-09-30: `components/wallet/bankCard.tsx` and `components/signIn/verificationForm.tsx` now use `convertDigitsToEnglish` from `helper/numberFormater.ts` instead of local copies; all three implementations were verified to produce identical output for every BMP character. `PhoneInput` and `InputBox` normalizers differ (non-digit stripping; extra digit scripts) and remain local. No clipboard or session-check call sites were behaviorally identical to `handleCopyLink`, `LoginStatus`, or `packageStatus`, so none were changed.
-- 2026-09-30: Removed debug `console.log` statements and commented-out code (explanatory comments kept) in `helper/`, `context/`, `models/`, `app/`, and the smaller `components/` folders. Error logging, `catch`/`.catch` logging, server-side logging (`app/api`, route handlers, server pages), and SignalR connection-state logs in `helper/pushNotif.ts` were kept.
-- 2026-09-30: Removed unused helpers `helper/{digitOTP.js,psgApi.ts,socket.ts,specifyAdType.ts,svgInsertor.js,urlToBase64.js}` and their `/dev/systemDesign` catalog rows (the catalog again matches all 39 helper source files). Removed redundant explicit `tsconfig.json` includes for `helper/svgInsertor.js` and the nonexistent `components/messages/sendFile.jsx` (both already covered by `**/*.js`/`**/*.jsx`). Minimally synchronized the static `/dev/package` report with `package.json` (37 runtime, 8 dev dependencies). Kept `legacy-pages/api/health.ts` (`clientFetchApi` references `/api/health/check`), `legacy-pages/Accessibility/OrgChart.tsx` (linked four times from `AccessibilityHeader`), and `public/no-profile.svg` (used by advertise components).
-- 2026-09-30: Knowledge-base maintenance: resolved leftover merge-conflict markers in `CURRENT_STATE.md`, `CHANGELOG.md`, `TODO.md`, `BUGS.md`, `MODULES/components-messages.md`, and `MODULES/components-market.md` (keeping both sides, de-duplicating the repeated 2026-07-20/21 entries), and corrected claims verified against the code: file/route/API-map counts, missing `lib/`, `patches/`, and `scripts/sync-i18n-keys.cjs`, the `/Ai/creator` route and `MediaLibrary` replacing removed AI list components, the removed AI All filter, `InputType` values, the `/metaReDirect` path casing, and the Instagram Management source folders.
-- 2026-09-30: Removed unused dependencies `jotai`, `lodash.throttle`, `pdf-lib`, `react-leaflet`, `react-select`, `@types/wavesurfer.js` and dev dependencies `@types/react-beautiful-dnd`, `@types/react-i18next`, `next-router-mock`; declared directly imported `clsx` (^2.1.1) and `react-date-object` (^2.1.9) at their already-installed versions. No other lockfile versions changed.
-- 2026-09-30: Removed the unused landing sections `components/website/landing/page3`, `page6`, `page7`, and `page10` with their CSS modules; none were imported by the landing page or any route.
-- 2026-09-30: Removed 71 unreferenced files verified with knip and manual string/route searches: unused components (home `last*` tiles, `notOk/notBusiness|notPackage|notPassword`, `search/searchBar|searchContent`, `reload`, `upgrade`, `connectionStatus`, `rightHamMenu`, `instagramerNavbar/navbar`, `userPanelNavbar/notifBar`, `InstaIdVerificationForm`, `myLink/timeLine`, `customerAds/card/{card.1,posts}`, `store/order/7-InCart`, `store/order/delete-popups/reject`, `userPanel/setting/session`, `aiflow/popup/{popup,flowProperties}`, page-tools `autoInteraction`, `captionList/caption`, `hashtags_analisys`, `removeFollowing`, lottery `followersLottery|setTimeAndDate|shareRemainingTime`), `components/{checkCountry,neshan}`, `models/{A,ServerToggle,isBrowser,socketServer,svgToJpgBase64}`, `scss/index.js`, `legacy-pages/_document.tsx`, unrouted `legacy-pages/{advertise,market,message,store,user,user/orders}/index.tsx`, unrouted `legacy-pages/api/{hello,get-address}.ts`, the unreachable legacy Meta redirect copy under `legacy-pages/user/metaReDirect/`, and stylesheets used only by those files. Archived the `connectionStatus`, `reload`, and `upgrade` module docs. No routes or runtime behavior changed.
-- 2026-09-30: Replaced the removed `next lint` script with ESLint 9 (`eslint .`) using `eslint.config.mjs` (flat config, `eslint-config-next` core-web-vitals + TypeScript presets, all rules at `warn`). Added `eslint` and `eslint-config-next@16.2.12` as dev dependencies; no source files were auto-fixed.
-- 2026-09-29: Added Alibaba creator logo (`public/AIIcons/alibaba.svg`) to the `AiModelList` creator icon map.
-
-- 2026-09-28: Fixed Docker build failure (E404 for `sharp@0.33.5` on the `repo.hmirror.ir` npm mirror): the runner stage now copies `sharp`, `@img/*`, and `detect-libc` from the builder's `node_modules` (installed by `npm ci`) instead of running `npm i sharp`.
-
-- 2026-09-28: Hardened `MediaCreator` `defaultValue` parsing per `InputType`: Boolean parses `"true"`/`"false"` strings, arrays accept JSON-string defaults, numeric/range defaults ignore empty strings and range values are clamped (IntRange rounded), and enum defaults must match an `enumValues` option (case-insensitive) or fall back to the first option.
-- 2026-09-28: Added the local-only Character Sheet Visual Identity wizard at `/dev/characterSheet`, linked from the Dev Panel; removed it from the AI creator tabs while preserving its Auto/Advanced flows, dynamic identity controls, local reference previews, locks, views, style, consistency, constraints, and presentation-only sheet.
-
-- # 2026-09-28: Fixed the AI media history DragDrop All option to use the localized `toggleShowAll` translation key.
-
-  <<<<<<< HEAD
-  <<<<<<< HEAD
-
-- 2026-10-01: Fixed the upgrade page showing exhausted AI/Custom Domain packages (remaining value `0`) as 100% full; they now report 0% and show the expired warning.
-
-- 2026-10-01: Added 12 backend `ResponseType` values (`InvalidMediaAiCreatorKey` through `OneFlowButtonHasEmptyItem`) with `Notify_*` language keys, legacy/hook notification mappings, and translations in all eight locales.
-
+<<<<<<< HEAD
 - 2026-10-01: Prevented the AI page from repeating the `/api/feature/hasFeature` request on browser reload by caching the account-scoped entitlement in `sessionStorage` and deduplicating concurrent initial checks.
 
 - 2026-09-17: Localized all Add Partner access tooltips across the eight supported locales using dedicated `LanguageKey` entries.
-
-  > > > > > > > saeed
 
 - 2026-09-17: Updated Add Partner permissions so Content and Publish remain independent while the Publish control is disabled until Content is enabled.
 - 2026-09-17: Filtered Publish from Add Partner create/update payloads when Content is disabled.
@@ -71,12 +29,12 @@
 
 - 2026-09-12: Image prompt suggestions now load category options from `Instagramer/MediaAi/GetImagePromptCategories`; selecting a category reloads `GetImagePrompts` with that category ID while retaining cursor pagination.
 
-- # 2026-09-11: Fixed the mixed-account package redirect bypass: selected Instagramer accounts with missing or expired packages now reach `/upgrade` even when both `loginByFb` and `loginByInsta` are false. Removed full JWT logging from middleware.
-  =======
+- 2026-09-11: Fixed the mixed-account package redirect bypass: selected Instagramer accounts with missing or expired packages now reach `/upgrade` even when both `loginByFb` and `loginByInsta` are false. Removed full JWT logging from middleware.
+=======
+=======
 - AI creator models with a single or incomplete set of range inputs now render standard sliders; the square expansion control remains reserved for complete top/right/bottom/left range sets.
 
-> > > > > > > saeed
-
+>>>>>>> saeed
 - Added the wallet settlement-history view to the payment page. `components/wallet/settle.tsx` uses paginated invoice data, shows awaiting/settled/failed sub-invoices in invoice-style cards, and keeps unsettled balances in the existing card and invoice views.
 
 - Wallet invoice order details now load automatically when the `Order` tab is selected and replace the invoice summary inside the existing invoice popup; back and close return to the invoice summary without a second modal.
@@ -100,8 +58,7 @@
 - Wallet cards now place the default card first after the add-card slide and open the slider on that card; users can still navigate freely between all cards.
 - Organized wallet modal contents under `components/wallet/modal/` and removed unused demo and legacy wallet components that had no active references.
 - 2026-09-12: Updated `vanishmode` and `vanishmodeexplain` across all eight locales to describe Hidden Mode as restoring unanswered messages that were not ignored or hidden.
-
-  > > > > > > > sepehr
+>>>>>>> sepehr
 
 - 2026-09-08: Updated the landing-page first-login check to call `PreInstagramer/CheckUserIsNew`; new users go to `/user/instagramerLogin` and existing users go to `/user`.
 
@@ -163,10 +120,17 @@
 - Media auto-reply now reloads full AI prompt details through `GetPrompt`, so the saved prompt description appears below `DragDrop` after post-info reload.
 - Media auto-reply direct response, Flow, Product, and Connect Product modes now show the localized message-permission state with the existing Instagram permission and invalid-IP flow when `messagePermission` is false; same-comment replies remain available.
 - Media auto-reply message-delivery modes now hide confirmation-message and must-follow-page options and save both values as `false`; same-comment replies preserve the existing options.
-- Reused the Instagramer layout's invalid-IP modal for the NotLogin Instagram connection button, replacing its local toast countdown with the shared warning, countdown, Continue, and Close behavior.
-- Fixed the Upgrade page's embedded SwitchAccount Add Account flow by wiring its Iranian-IP callback to the same invalid-IP modal and redirect continuation.
+  <<<<<<< HEAD
+- # Reused the Instagramer layout's invalid-IP modal for the NotLogin Instagram connection button, replacing its local toast countdown with the shared warning, countdown, Continue, and Close behavior.
+- # Fixed the Upgrade page's embedded SwitchAccount Add Account flow by wiring its Iranian-IP callback to the same invalid-IP modal and redirect continuation.
 - Standardized all DotMenu consumers on the `placement` prop and removed the duplicate `menuPosition` prop.
 - Prevented DotMenu trigger clicks from bubbling into clickable parent cards, avoiding unintended post navigation when opening a menu.
+  > > > > > > > sepehr
+  > > > > > > > sepehr
+
+<<<<<<< HEAD
+
+<<<<<<< HEAD
 
 - Fixed the account switcher's Instagram redirect by using the runtime host and full browser navigation for external destinations.
 
@@ -190,9 +154,17 @@
 
 - Fixed comment inbox pagination so Post and Story scroll requests return fetched media to `useInfiniteScroll`; a non-null `/api/Comment/GetInbox` `oldestCursor` now loads the next page, while `null` stops pagination.
 
+=======
+
+> > > > > > > sepehr
+
 - Kept both lottery Terms image uploads at the verified publishable Instagram Story canvas size of `1080x1920`.
 
 - استاندارد ابعاد استوری اینستاگرام برای خروجی‌های Terms & Conditions لاتاری روی `1080x1920` قرار گرفت.
+
+=======
+
+<<<<<<< HEAD
 
 - Fixed the Instagramer hamburger menu BioLink active state for all market routes by aligning its active-route list with the actual slash-free App Router paths.
 
@@ -200,8 +172,13 @@
 
 - Added localized last-30-days labels in parentheses beside the Home PageDetail gender, age, and location section titles across all eight supported locales.
 
+=======
+
+> > > > > > > sepehr
+
 - Converted individual bulk-product adjustment cards to the shared free-mode horizontal slider while preserving each card's existing controls and save behavior.
 - Added an accessible collapse interaction to the unified Page Tools `hashtagManager` card. Its header toggles the content and reduces the card row span while closed, with Enter and Space keyboard support.
+  > > > > > > > sepehr
 - Fixed MyLink mobile horizontal carousels by allowing native horizontal and vertical touch panning on shortcut, FeatureBox, and product scroll containers.
 - Updated the MyLink About branding link to show `Brancy.App` on `brancy.app` and `Brancy.Ir` with the Iranian URL on other hosts.
 
@@ -607,12 +584,26 @@
 
 ## 2026-07-20
 
+- Updated the legacy Instagramer payment page to load wallet bank cards through `clientFetchApi` and display each card as a responsive standalone tile.
+- Moved the bank-card add action into a distinct toolbar and responsive form outside the card collection.
+- Revised the wallet card layout to remove the enclosing panel and use a centered, card-sized add tile in the bank-card grid.
+
+=======
+
+## 2026-07-21
+
+- Added a simple client timer that reloads the blocked IR/AZ-only redirect page every second.
+- Connected the wallet statistics `ChartDay` to monthly data from `/api/wallet/getBallanceHistory` and registered its backend route mapping.
+
+## 2026-07-20
+
 - Added a responsive bulk product price and discount modal for selected store products, with shared and individual edit modes, percentage and fixed-amount values, price increase/decrease controls, existing price/discount visibility, localized copy, backend persistence, and list refresh after save.
 - Updated both shared and individual bulk-product editors to use isolated percentage/amount radio groups that switch between the percentage stepper and fixed-amount input.
 - Updated bulk product editor switching to collapse the inactive editor to zero height and animate the active editor's return to the layout.
 - Updated the legacy Instagramer payment page to load wallet bank cards through `clientFetchApi` and display each card as a responsive standalone tile.
 - Moved the bank-card add action into a distinct toolbar and responsive form outside the card collection.
 - Revised the wallet card layout to remove the enclosing panel and use a centered, card-sized add tile in the bank-card grid.
+  > > > > > > > fa1690d501349a13f10de01b52613d1aef728d56
 
 ## 2026-07-19
 
