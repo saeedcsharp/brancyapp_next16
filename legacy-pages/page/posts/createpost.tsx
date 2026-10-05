@@ -36,14 +36,13 @@ import {
   ResponseType,
 } from "brancy/components/notifications/notificationBox";
 import NotAllowed from "brancy/components/notOk/notAllowed";
-import NotPermission, { PermissionType } from "brancy/components/notOk/notPermission";
 import ChangePostToAlbum from "brancy/components/page/popup/changePostToAlbum";
 import DeleteDraft from "brancy/components/page/popup/deleteDraft";
 import ErrorDraft from "brancy/components/page/popup/errorDraft";
 import QuickReplyPopup from "brancy/components/page/popup/quickReply";
 import SaveDraft from "brancy/components/page/popup/saveDraft";
 import DeletePrePost from "brancy/components/page/scheduledPost/deletePrePost";
-import { packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
+import { packageStatus } from "brancy/helper/loadingStatus";
 import initialzedTime from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
 import { MethodType, UploadFile } from "brancy/helper/api";
@@ -67,7 +66,7 @@ import {
   IShowMedia,
   IUiParameter,
 } from "brancy/models/interfaces";
-import { AutoReplyPayLoadType, MediaProductType, MediaType, PartnerRole, PostType } from "brancy/models/enums";
+import { AutoReplyPayLoadType, MediaProductType, MediaType, PostType } from "brancy/models/enums";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 
 enum SearchType {
