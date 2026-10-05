@@ -1787,6 +1787,9 @@ export default {
     sensitiveToSpecificKeywords: "Empfindlich auf Bestimmte Schlüsselwörter",
     sensitiveToSpecificKeywordsExplain:
       "Wenn diese Schlüsselwörter irgendwo im Kommentartext vorkommen, antwortet das System automatisch",
+    contain: "Schlüsselwort enthalten",
+    containExplain:
+      "Wenn aktiviert, wird geantwortet, sobald das Schlüsselwort im Kommentar vorkommt. Wenn deaktiviert, wird nur geantwortet, wenn der gesamte Kommentar genau dem Schlüsselwort entspricht.",
     replyMethod: "Antwortmethode",
     respondInSameComment: "Im Selben Kommentar Antworten",
     respondDirectly: "Direkt Antworten",

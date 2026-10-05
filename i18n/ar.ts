@@ -1728,6 +1728,9 @@ export default {
     respondToAllComments: "الرد على جميع التعليقات",
     sensitiveToSpecificKeywords: "حساس للكلمات الرئيسية المحددة",
     sensitiveToSpecificKeywordsExplain: "إذا ظهرت هذه الكلمات في أي جزء من نص التعليق، يقوم النظام بالرد تلقائيًا",
+    contain: "يتضمن الكلمة",
+    containExplain:
+      "عند التفعيل، يتم الرد إذا احتوى التعليق على الكلمة. عند إيقافه، يتم الرد فقط إذا كان التعليق بالكامل مطابقًا للكلمة.",
     replyMethod: "طريقة الرد",
     respondInSameComment: "الرد في نفس التعليق",
     respondDirectly: "الرد عبر الدردشة المباشرة",

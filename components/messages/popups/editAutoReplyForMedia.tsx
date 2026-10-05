@@ -202,6 +202,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
     sendCount: 0,
     sendPr: false,
     shouldFollower: false,
+    isContain: autoReply?.isContain ?? true,
     replySuccessfullyDirected: true,
     customRepliesSuccessfullyDirected: autoReply?.customRepliesSuccessfullyDirected || [],
   });
@@ -601,6 +602,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
           ? replyMethod !== null && replyMethod.shouldFollower
           : false,
       productId: replyMethod?.productId || null,
+      isContain: replyMethod?.isContain ?? true,
     };
     console.log("sendAutoooooo", sendAuto);
     if (checkBox.AI) {
@@ -1087,6 +1089,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
     const customRepliesSuccessfullyDirectedChanged =
       JSON.stringify(replyMethod?.customRepliesSuccessfullyDirected ?? []) !==
       JSON.stringify(autoReply?.customRepliesSuccessfullyDirected ?? []);
+    const isContainChanged = (replyMethod?.isContain ?? true) !== (autoReply?.isContain ?? true);
 
     let autoTypeChanged = false;
     if (checkBox.Custom && autoReply?.automaticType !== AutoReplyPayLoadType.KeyWord) autoTypeChanged = true;
@@ -1106,6 +1109,7 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
       sendPrChanged ||
       shouldFollowerChanged ||
       replySuccessfullyDirectedChanged ||
+      isContainChanged ||
       customRepliesSuccessfullyDirectedChanged ||
       autoTypeChanged ||
       promptChanged ||
@@ -1318,6 +1322,25 @@ const EditAutoReplyForMedia: React.FC<QuickReplyPopupProps> = ({
                                 );
                               })()}
                             </div>
+
+                            <div className="headerparent">
+                              <div className="headertext">{t(LanguageKey.contain)}</div>
+                              <ToggleCheckBoxButton
+                                checked={replyMethod?.isContain ?? true}
+                                handleToggle={(e) =>
+                                  setReplyMethod((prev) => ({
+                                    ...prev!,
+                                    isContain: e.target.checked,
+                                  }))
+                                }
+                                name="contain"
+                                title={t(LanguageKey.contain)}
+                                aria-label={t(LanguageKey.contain)}
+                                role="switch"
+                                disabled={autoReplyAll}
+                              />
+                            </div>
+                            <div className="explain">{t(LanguageKey.containExplain)}</div>
 
                             <div className={styles.wordpool} role="list" aria-label="Selected keywords">
                               {(replyMethod?.items ?? []).map((word, index) => (

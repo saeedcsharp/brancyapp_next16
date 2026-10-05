@@ -50,6 +50,8 @@ The Iranian/local Footer branch now publishes source-backed LocalBusiness JSON-L
 
 ## Current Architecture
 
+General and media keyword auto-replies now expose a localized `Contain` switch across all eight locales. Both save payloads send `isContain`; missing values from older saved replies default to `true` (keyword may appear anywhere), while `false` requests an exact whole-comment match.
+
 The media quick-reply popup now renders the reusable `components/notOk/commentPermissionState.tsx` localized comment-permission state with an inline SVG and an Instagram permission redirect when `session.user.commentPermission === false`. Its Enable Permission action checks `/api/user/ip` and opens `InvalidIpModalContent` for Iranian IPs; authorized users continue to see the existing auto-reply editor. The media auto-reply editor preserves same-comment, AI, and keyword workflows without message permission, while direct response, Flow, Product, and Connect Product selections show the localized message-permission state and reuse the Instagram permission redirect.
 
 The media auto-reply editor now requires `PartnerRole.Automatics` for AI and Flow data access. Missing-role partners see `NotAllowed` in the selected AI/Flow panel, and prompt/flow list, search, pagination, selection, and saved-item enrichment APIs are skipped.

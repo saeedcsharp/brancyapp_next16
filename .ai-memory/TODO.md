@@ -28,6 +28,7 @@
 
 # TODO
 
+- Add component coverage for general and media auto-reply `isContain` defaults, toggle behavior, change detection, and save payloads when a UI test harness is introduced.
 - Add component/browser coverage confirming the AI page reuses the account-scoped `hasFeature` result after reload and deduplicates concurrent initial creator checks when a UI test harness is introduced.
 
 <<<<<<< HEAD

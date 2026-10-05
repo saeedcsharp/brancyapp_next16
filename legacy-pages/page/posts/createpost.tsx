@@ -795,6 +795,7 @@ const CreatePost = ({ showNotAllowed = false }: { showNotAllowed?: boolean }) =>
       sendCount: 0,
       replySuccessfullyDirected: false,
       productId: sendAutoReply.productId,
+      isContain: sendAutoReply.isContain ?? true,
       customRepliesSuccessfullyDirected: [],
     });
     uiDispatch({ type: "TOGGLE_QUICK_REPLY_POPUP", payload: false });
@@ -852,6 +853,7 @@ const CreatePost = ({ showNotAllowed = false }: { showNotAllowed?: boolean }) =>
                   replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
                   productId: autoReply.productId,
                   customRepliesSuccessfullyDirected: autoReply.customRepliesSuccessfullyDirected,
+                  isContain: autoReply.isContain ?? true,
                 }
               : null,
             collaborators: collabratorPages,
@@ -906,6 +908,7 @@ const CreatePost = ({ showNotAllowed = false }: { showNotAllowed?: boolean }) =>
                   replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
                   customRepliesSuccessfullyDirected: autoReply.customRepliesSuccessfullyDirected,
                   productId: autoReply.productId,
+                  isContain: autoReply.isContain ?? true,
                 }
               : null,
 
@@ -977,6 +980,7 @@ const CreatePost = ({ showNotAllowed = false }: { showNotAllowed?: boolean }) =>
                 replySuccessfullyDirected: autoReply.replySuccessfullyDirected,
                 productId: autoReply.productId,
                 customRepliesSuccessfullyDirected: autoReply.customRepliesSuccessfullyDirected,
+                isContain: autoReply.isContain ?? true,
               }
             : null,
           collaborators: collabratorPages,
@@ -2064,6 +2068,7 @@ const CreatePost = ({ showNotAllowed = false }: { showNotAllowed?: boolean }) =>
           promptId: draft.automaticMediaReply ? draft.automaticMediaReply.promptId : null,
           sendCount: 0,
           productId: draft.automaticMediaReply ? draft.automaticMediaReply.productId : null,
+          isContain: draft.automaticMediaReply ? (draft.automaticMediaReply.isContain ?? true) : true,
           customRepliesSuccessfullyDirected: draft.automaticMediaReply
             ? draft.automaticMediaReply.customRepliesSuccessfullyDirected
             : [],

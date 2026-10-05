@@ -1863,6 +1863,9 @@ export default {
     sensitiveToSpecificKeywords: "Sensible à des Mots-clés Spécifiques",
     sensitiveToSpecificKeywordsExplain:
       "Si ces mots-clés apparaissent n'importe où dans le texte du commentaire, le système répond automatiquement",
+    contain: "Contient le mot-clé",
+    containExplain:
+      "Activé, une réponse est envoyée si le commentaire contient le mot-clé. Désactivé, une réponse est envoyée uniquement si le commentaire entier correspond au mot-clé.",
     replyMethod: "Méthode de Réponse",
     respondInSameComment: "Répondre dans le Même Commentaire",
     respondDirectly: "Répondre par Message Direct",

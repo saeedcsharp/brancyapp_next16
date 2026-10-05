@@ -8,6 +8,8 @@ Component module for messages UI and feature concerns.
 
 The general and media auto-reply editors apply the inactive `fadeDiv` state only to settings, leaving the activation switch interactive so paused replies can be re-enabled.
 
+Both auto-reply keyword editors expose a localized `Contain` switch. `isContain: true` matches a keyword anywhere in the comment; `false` requests exact whole-comment matching. Legacy responses without the field default to `true`, and both save payloads include the boolean.
+
 The Message Properties panel no longer renders the automatic/bot reply filtering toggle; its related parent callback and `ToggleHideCommentAutoReply` request were removed while the remaining reply settings continue to use the existing backend model.
 
 The FollowUp template setting uses the `Custom FollowUp Template` label and the requested Persian explanation in all eight locales.

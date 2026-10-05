@@ -45,3 +45,4 @@ Live media auto-replies do not expose the must-follow-page option for AI and Flo
 
 General and media auto-replies do not expose the must-follow-page option for AI mode, and AI replies save that setting as disabled.
 When an auto-reply is inactive, its settings are disabled while the activation switch remains interactive.
+General and media keyword auto-replies use the localized `Contain` switch to choose between substring matching (`isContain: true`) and exact whole-comment matching (`isContain: false`); missing legacy values default to `true`.

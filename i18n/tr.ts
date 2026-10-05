@@ -1739,6 +1739,9 @@ export default {
     sensitiveToSpecificKeywords: "Belirli Anahtar Kelimelere Duyarlı",
     sensitiveToSpecificKeywordsExplain:
       "Bu anahtar kelimeler yorum metninin herhangi bir yerinde bulunursa, sistem otomatik olarak yanıt verir",
+    contain: "Anahtar kelimeyi içerir",
+    containExplain:
+      "Açıkken yorum anahtar kelimeyi içeriyorsa yanıt gönderilir. Kapalıyken yalnızca yorumun tamamı anahtar kelimeyle eşleşirse yanıt gönderilir.",
     replyMethod: "Yanıt Yöntemi",
     respondInSameComment: "Aynı Yorumda Yanıt Ver",
     respondDirectly: "Doğrudan Yanıt Ver",

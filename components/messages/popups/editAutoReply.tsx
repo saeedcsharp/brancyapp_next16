@@ -164,6 +164,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
   const shakeTimeoutRef = useRef<NodeJS.Timeout | null>(null);
   const [mediaType, setMediaType] = useState<MediaProductType>(autoReply.productType);
   const [specificKeywords, setSpecificKeywords] = useState("");
+  const [isContain, setIsContain] = useState(autoReply.isContain ?? true);
   const [autoReplyCustom, setAutoReplyCustom] = useState(autoReply.response);
   const [specificKeywordsList, setSpecificKeywordsList] = useState<{ id: string; text: string }[]>(
     autoReply.items.map((item) => {
@@ -272,6 +273,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
       replySuccessfullyDirected: replySuccessfullyDirected,
       customRepliesSuccessfullyDirected: customRepliesSuccessfullyDirected,
       productId: selectedProduct?.productId || autoReply.productId || "",
+      isContain,
     };
     if (checkBox.AI) {
       sendAuto = {
@@ -320,6 +322,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
     replySuccessfullyDirected,
     customRepliesSuccessfullyDirected,
     autoReplytitle,
+    isContain,
   ]);
   const AITitles = useMemo(
     () => [
@@ -683,6 +686,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
     const replySuccessfullyDirectedChanged = replySuccessfullyDirected !== autoReply.replySuccessfullyDirected;
     const customRepliesSuccessfullyDirectedChanged =
       JSON.stringify(customRepliesSuccessfullyDirected) !== JSON.stringify(autoReply.customRepliesSuccessfullyDirected);
+    const isContainChanged = isContain !== (autoReply.isContain ?? true);
 
     // Check if automation type changed
     let autoTypeChanged = false;
@@ -706,6 +710,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
       shouldFollowerChanged ||
       replySuccessfullyDirectedChanged ||
       customRepliesSuccessfullyDirectedChanged ||
+      isContainChanged ||
       autoTypeChanged ||
       promptChanged ||
       flowChanged
@@ -723,7 +728,22 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
     selectedPrompt,
     selectedFlow,
     autoReply,
+    isContain,
   ]);
+
+  // Edit mode only: a changed contain toggle alone must enable save, even if the type-specific selection is not re-picked.
+  const canSaveContainChange =
+    !!autoReply.id &&
+    isContain !== (autoReply.isContain ?? true) &&
+    autoReplytitle.length > 0 &&
+    (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI || checkBox.ConnectProduct);
+
+  const canSave =
+    activeAutoReply &&
+    specificKeywordsList.length > 0 &&
+    (((checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI || checkBox.ConnectProduct) &&
+      isFormValid) ||
+      canSaveContainChange);
 
   useEffect(() => {
     isMountedRef.current = true;
@@ -989,6 +1009,19 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
                         );
                       })()}
                     </div>
+
+                    <div className="headerparent">
+                      <div className="headertext">{t(LanguageKey.contain)}</div>
+                      <ToggleCheckBoxButton
+                        checked={isContain}
+                        handleToggle={(e) => setIsContain(e.target.checked)}
+                        name="contain"
+                        title={t(LanguageKey.contain)}
+                        aria-label={t(LanguageKey.contain)}
+                        role="switch"
+                      />
+                    </div>
+                    <div className="explain">{t(LanguageKey.containExplain)}</div>
 
                     <div className={styles.wordpool} role="list" aria-label="Selected keywords">
                       {specificKeywordsList.map((word, index) => (
@@ -1439,38 +1472,18 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
         <button
           type="submit"
           disabled={!(activeAutoReply && specificKeywordsList.length > 0 && (isFormValid || hasChanges))}
-          className={
-            activeAutoReply &&
-            specificKeywordsList.length > 0 &&
-            (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI || checkBox.ConnectProduct) &&
-            isFormValid
-              ? "saveButton"
-              : "disableButton"
-          }
+          className={canSave ? "saveButton" : "disableButton"}
           onClick={() => {
             handleUpdateAutoReply();
           }}
           onKeyDown={(e) => {
-            if (
-              e.key === "Enter" &&
-              activeAutoReply &&
-              specificKeywordsList.length > 0 &&
-              (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI || checkBox.ConnectProduct) &&
-              isFormValid
-            ) {
+            if (e.key === "Enter" && canSave) {
               e.preventDefault();
               handleUpdateAutoReply();
             }
           }}
           aria-label="Save auto-reply settings"
-          aria-disabled={
-            !(
-              activeAutoReply &&
-              specificKeywordsList.length > 0 &&
-              (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI || checkBox.ConnectProduct) &&
-              isFormValid
-            )
-          }>
+          aria-disabled={!canSave}>
           {t(LanguageKey.save)}
         </button>
         <button

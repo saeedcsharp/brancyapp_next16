@@ -52,7 +52,7 @@ const recordsEn = {
   responseRules: {
     title: "Reply rules and message controls",
     description:
-      "Configure general auto replies, icebreakers, persistent menus, special payloads, follower checks, and reply settings for direct conversations, and review phone numbers collected through Flows. The View Store and Products smart default is available only to Shop and VShoper accounts.",
+      "Configure general auto replies with either containing-keyword or exact-comment matching, icebreakers, persistent menus, special payloads, follower checks, and reply settings for direct conversations, and review phone numbers collected through Flows. The View Store and Products smart default is available only to Shop and VShoper accounts.",
   },
   aiFlows: {
     title: "AI prompts and visual flows",
@@ -617,9 +617,9 @@ export const featureKnowledgeFa = {
     responseRules: {
       title: "قوانین پاسخ به پیام",
       description:
-        "برای پیام‌ها جواب خودکار، شروع‌کننده گفت‌وگو و منوی آماده بسازید؛ گزینه دیدن فروشگاه و محصولات فقط برای حساب فروشگاه یا فروشگاه مجازی نمایش داده می‌شود.",
+        "برای پیام‌ها جواب خودکار بسازید و انتخاب کنید کلمه در متن کامنت باشد یا کل کامنت دقیقاً همان کلمه باشد؛ همچنین شروع‌کننده گفت‌وگو و منوی آماده تنظیم کنید. گزینه دیدن فروشگاه و محصولات فقط برای حساب فروشگاه یا فروشگاه مجازی نمایش داده می‌شود.",
       descriptionDetail:
-        "برای مدیریت پیام‌های تکراری، جواب خودکار و شروع‌کننده گفت‌وگو بسازید و منوی آماده در اختیار مخاطب بگذارید. در تنظیمات پاسخ خودکار، وقتی هنوز دستور هوش مصنوعی یا فلو را انتخاب نکرده‌اید، مسیر ساخت همان گزینه در کنار فهرست انتخاب نمایش داده می‌شود. گزینه دیدن فروشگاه و محصولات در فهرست هوشمند پیش‌فرض فقط برای حساب‌هایی با نوع فروشگاه یا فروشگاه مجازی در دسترس است. می‌توانید قوانین پاسخ، بررسی دنبال‌کردن حساب و تنظیمات مربوط به هر گفت‌وگو را هماهنگ کنید تا پاسخ‌گویی منظم‌تر شود.",
+        "برای مدیریت پیام‌های تکراری، جواب خودکار و شروع‌کننده گفت‌وگو بسازید و منوی آماده در اختیار مخاطب بگذارید. در پاسخ خودکار کلمه‌ای، مشخص کنید با وجود کلمه در متن کامنت پاسخ داده شود یا فقط وقتی کل کامنت دقیقاً همان کلمه است. در تنظیمات پاسخ خودکار، وقتی هنوز دستور هوش مصنوعی یا فلو را انتخاب نکرده‌اید، مسیر ساخت همان گزینه در کنار فهرست انتخاب نمایش داده می‌شود. گزینه دیدن فروشگاه و محصولات در فهرست هوشمند پیش‌فرض فقط برای حساب‌هایی با نوع فروشگاه یا فروشگاه مجازی در دسترس است. می‌توانید قوانین پاسخ، بررسی دنبال‌کردن حساب و تنظیمات مربوط به هر گفت‌وگو را هماهنگ کنید تا پاسخ‌گویی منظم‌تر شود.",
     },
     aiFlows: {
       title: "دستورها و جریان‌های هوش مصنوعی",

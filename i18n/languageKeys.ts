@@ -1614,6 +1614,8 @@ export enum LanguageKey {
   respondToAllComments = "respondToAllComments",
   sensitiveToSpecificKeywords = "sensitiveToSpecificKeywords",
   sensitiveToSpecificKeywordsExplain = "sensitiveToSpecificKeywordsExplain",
+  contain = "contain",
+  containExplain = "containExplain",
   replyMethod = "replyMethod",
   respondInSameComment = "respondInSameComment",
   respondDirectly = "respondDirectly",

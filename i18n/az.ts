@@ -1755,6 +1755,9 @@ export default {
     sensitiveToSpecificKeywords: "Xüsusi açar sözlərə həssas cavab",
     sensitiveToSpecificKeywordsExplain:
       "Əgər bu sözlər şərhdə varsa, sistem avtomatik olaraq həmin şərhə cavab verəcək",
+    contain: "Açar söz daxil olsun",
+    containExplain:
+      "Aktiv olduqda, şərhdə açar söz keçərsə cavab göndərilir. Söndürüləndə yalnız şərhin hamısı açar sözlə eyni olduqda cavab göndərilir.",
     replyMethod: "Cavab üsulu",
     respondInSameComment: "Eyni şərhdə cavab ver",
     respondDirectly: "Birbaşa Direct ilə cavab ver",

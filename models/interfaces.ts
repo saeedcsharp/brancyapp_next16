@@ -2230,6 +2230,7 @@ export interface IGeneralAutoReply {
   replySuccessfullyDirected: boolean;
   customRepliesSuccessfullyDirected: string[];
   productId: string;
+  isContain?: boolean;
 }
 
 export interface ICreateGeneralAutoReply {
@@ -2246,6 +2247,7 @@ export interface ICreateGeneralAutoReply {
   replySuccessfullyDirected: boolean;
   customRepliesSuccessfullyDirected: string[];
   productId: string;
+  isContain: boolean;
 }
 
 export interface ITotalMasterFlow {
@@ -2718,6 +2720,7 @@ export interface IAutomaticReply {
   replySuccessfullyDirected: boolean;
   customRepliesSuccessfullyDirected: string[];
   shouldFollower: boolean;
+  isContain?: boolean;
   productType: MediaProductType | null;
   automaticType: AutoReplyPayLoadType;
   promptId: string | null;
@@ -2738,6 +2741,7 @@ export interface IMediaUpdateAutoReply {
   customRepliesSuccessfullyDirected: string[];
   keys: string[];
   productId: string | null;
+  isContain?: boolean;
 }
 
 export interface IPublishLimit {

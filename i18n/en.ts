@@ -1788,6 +1788,9 @@ export default {
     sensitiveToSpecificKeywords: "Sensitive to Specific Keywords",
     sensitiveToSpecificKeywordsExplain:
       "If these keywords appear anywhere in the comment text, the system automatically replies to that comment",
+    contain: "Contain",
+    containExplain:
+      "When enabled, a reply is sent if the comment contains the keyword. When disabled, a reply is sent only when the entire comment matches the keyword.",
     replyMethod: "Reply Method",
     respondInSameComment: "Respond in the Same Comment",
     respondDirectly: "Respond via Direct",

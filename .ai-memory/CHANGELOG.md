@@ -250,6 +250,7 @@
 
 # Changelog
 
+- Added the localized `Contain` keyword-matching switch to general and media auto-replies, persisted as `isContain` in both save payloads, with all eight locales covered.
 - Prevented the Instagramer sidebar and navbar from flashing while the required NextAuth session is loading or redirecting an unauthenticated user.
 
 - Implemented phase two SEO metadata foundations: added localized Open Graph/Twitter cards, app icons, `x-default` hreflang, and reusable JSON-LD for Organization, WebSite, and SoftwareApplication on eight landing routes. Kept FAQ schema, keyword metrics, and backlink acquisition pending until visible reviewed content and external data are available.

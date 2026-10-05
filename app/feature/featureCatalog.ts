@@ -186,7 +186,7 @@ export const featureCatalog: FeatureRecord[] = [
     limitation: "persistentMenu",
     contentIdea: "workflow",
     routes: ["/message/Properties"],
-    sourceKinds: ["route", "component", "api", "permission", "enum"],
+    sourceKinds: ["route", "component", "api", "permission", "enum", "translation"],
   },
   {
     id: "aiFlows",

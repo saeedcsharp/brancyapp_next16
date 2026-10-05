@@ -1758,6 +1758,9 @@ export default {
     sensitiveToSpecificKeywords: "پاسخگویی حساس به کلمات کلیدی خاص",
     sensitiveToSpecificKeywordsExplain:
       "اگر این کلمات در هر جای متن کامنت وجود داشته باشد سیستم به صورت خودکار به آن کامنت پاسخ می‌دهد",
+    contain: "شامل کلمه باشد",
+    containExplain:
+      "اگر روشن باشد، با وجود کلمه در متن کامنت پاسخ داده می‌شود؛ اگر خاموش باشد، فقط وقتی پاسخ داده می‌شود که کل کامنت دقیقاً همان کلمه باشد.",
     replyMethod: "نحوه پاسخگویی",
     respondInSameComment: "پاسخ به همان کامنت",
     respondDirectly: "پاسخ به صورت دایرکت",
