@@ -30,6 +30,8 @@
 
 # TODO
 
+- Add component coverage confirming `/page/tools` checks lottery access through `checkPackageFeature`, makes no `GetPackageFeatureDetails` request, opens the feature-unavailable state when entitlement is false, and saves a selected start time without the package-time-window warning when a UI test harness is introduced.
+
 - Add component coverage for general and media auto-reply `isContain` defaults, toggle behavior, change detection, and save payloads when a UI test harness is introduced.
 - Add component/browser coverage confirming the AI page reuses the account-scoped `hasFeature` result after reload and deduplicates concurrent initial creator checks when a UI test harness is introduced.
 

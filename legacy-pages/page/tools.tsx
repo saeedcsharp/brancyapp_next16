@@ -29,7 +29,7 @@ import WinnersList from "brancy/components/page/tools/popups/lottery/winnersList
 import WinnerPicker from "brancy/components/page/tools/winnerpicker/winnerPicker";
 import { MethodType, UploadFile } from "brancy/helper/api";
 import { changePositionToFixed, changePositionToRelative } from "brancy/helper/changeMarketAdsStyle";
-import checkFeature, { checkRemainingTimeFeature, getPackageFeatureDetails } from "brancy/helper/checkFeature";
+import { checkPackageFeature } from "brancy/helper/checkFeature";
 import { LoginStatus, packageStatus, RoleAccess } from "brancy/helper/loadingStatus";
 import { convertToMilliseconds, convertToSeconds } from "brancy/helper/manageTimer";
 import { LanguageKey } from "brancy/i18n";
@@ -63,7 +63,6 @@ import {
   IGetTermsAndConditionInfo,
   IHashtag,
   ILotteryInfo,
-  IPsgFeatureInfo,
   IShareremainingTime,
   IShortLottery,
   IShortPostInfo,
@@ -625,10 +624,8 @@ const Tools = () => {
           setShowScoreLottery(ShowScoreLotteryType.Forward);
           return;
         }
-        const lotteryFeatureInfo = featureInfo ?? (await getPackageFeatureDetails(session));
-        if (!lotteryFeatureInfo) return;
-        if (!featureInfo) setFeatureInfo(lotteryFeatureInfo);
-        if (!checkFeature(PsgFeatureType.Lottery, lotteryFeatureInfo)) {
+        const hasLotteryFeature = await checkPackageFeature(session, PsgFeatureType.Lottery);
+        if (!hasLotteryFeature) {
           setShowWinnerPickerNotFeature(true);
           return;
         }
@@ -703,9 +700,6 @@ const Tools = () => {
   const saveDateAndTime = (date: string | undefined) => {
     if (date !== undefined) {
       let dateInt = parseInt(date);
-      if (!featureInfo) return;
-      const checkRemainingTime = checkRemainingTimeFeature(PsgFeatureType.Lottery, dateInt, featureInfo);
-      if (!checkRemainingTime) internalNotify(InternalResponseType.ExceedBasefeatureTime, NotifType.Warning);
       setlotteryInfo((prev) => ({ ...prev!, startTime: dateInt }));
       setUnixDate(dateInt);
       backToScoreWinnerPicker();
@@ -994,19 +988,11 @@ const Tools = () => {
     setShowRemoveUnFollowing(false);
     setShowUnfollowAllFollowing(true);
   }
-  const [featureInfo, setFeatureInfo] = useState<IPsgFeatureInfo | null>(null);
   useEffect(() => {
     if (session && LoginStatus(session) && !isDataLoaded) {
       GetHashtagList();
     }
   }, [session, GetHashtagList, isDataLoaded]);
-  useEffect(() => {
-    if (session && LoginStatus(session) && !isDataLoaded) {
-      getPackageFeatureDetails(session).then((result) => {
-        if (result) setFeatureInfo(result);
-      });
-    }
-  }, [session, isDataLoaded]);
 
   if (session?.user.currentIndex === -1) router.push("/user");
   return (

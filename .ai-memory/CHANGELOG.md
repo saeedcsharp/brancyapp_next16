@@ -1,3 +1,5 @@
+- 2026-10-06: Removed the `/page/tools` lottery request to `GetPackageFeatureDetails`; lottery access now uses only `checkPackageFeature`, and selecting a start time no longer shows the package-time-window warning.
+
 <<<<<<< HEAD
 <<<<<<< HEAD
 
