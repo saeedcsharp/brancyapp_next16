@@ -41,14 +41,16 @@ Medium
 
 ## Current Coverage
 
-- 41 evidence-backed catalog records.
-- Instagramer: 26 records when filtering by that role.
+- 42 evidence-backed catalog records.
+- Instagramer: 27 records when filtering by that role.
 - Shopper: 21 records when filtering by that role.
 - Advertiser: 8 records when filtering by that role.
 - Multi-role: 9 records.
 - AI-related: 5 records.
 - Confirmed frontend-free: 1 record.
-- Package, feature-entitlement, or AI-token controlled: 27 records.
+- Package, feature-entitlement, or AI-token controlled: 28 records.
+
+The Flow phone-number Excel export has its own active catalog record for the Message Properties route and documents its download-icon entry point, modal Export action, and six-month start-date limit in the localized description.
 
 Role totals overlap because a single record can serve more than one role.
 

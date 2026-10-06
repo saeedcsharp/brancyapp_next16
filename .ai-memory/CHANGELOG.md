@@ -1,6 +1,13 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 
+- 2026-10-06: Added the Message Properties Flow phone-number Excel export with the shared localized date/time picker and six-calendar-month limit, timezone-aware API request, media download link, and feature-catalog entry.
+- 2026-10-06: Moved the phone-number date picker modal to a body portal so the properties grid animation no longer hides it beneath the backdrop.
+- 2026-10-06: Replaced the phone-number card's inline date and Excel controls with a compact download icon; the modal's calendar now submits directly through an Export button with duplicate requests disabled.
+- 2026-10-06: Replaced the phone-number card's Flow Graph text buttons with compact, labeled redirect-arrow controls for individual flows and the empty state; removed the unrelated statistics graph artwork.
+- 2026-10-06: Placed the Flow navigation action beside each Flow name and replaced the font-based arrow with a dedicated external-navigation SVG, without adding a dependency.
+- 2026-10-06: Restored Flow phone-number export's `timezoneOffset` query to the browser offset in signed seconds; reverted the unrelated language-helper adjustment.
+
 - 2026-10-01: Prevented the AI page from repeating the `/api/feature/hasFeature` request on browser reload by caching the account-scoped entitlement in `sessionStorage` and deduplicating concurrent initial checks.
 
 - 2026-09-17: Localized all Add Partner access tooltips across the eight supported locales using dedicated `LanguageKey` entries.

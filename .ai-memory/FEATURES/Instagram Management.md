@@ -46,3 +46,6 @@ Live media auto-replies do not expose the must-follow-page option for AI and Flo
 General and media auto-replies do not expose the must-follow-page option for AI mode, and AI replies save that setting as disabled.
 When an auto-reply is inactive, its settings are disabled while the activation switch remains interactive.
 General and media keyword auto-replies use the localized `Contain` switch to choose between substring matching (`isContain: true`) and exact whole-comment matching (`isContain: false`); missing legacy values default to `true`.
+
+Message Properties displays phone numbers collected through Flows and has a download-icon action beside the card heading. It opens the shared localized calendar in a modal; choosing a date and time within the past six calendar months and pressing Export downloads the Excel file. The export currently covers all Flows; the unused `masterFlowId` query is omitted. The browser timezone offset is sent in seconds, and a returned media path is downloaded from the media host.
+Each collected number has a compact external-navigation icon next to its Flow name for opening that Flow; the empty state offers the same control to open the Flow list.

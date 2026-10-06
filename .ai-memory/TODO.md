@@ -1,3 +1,5 @@
+- Add component/browser coverage for the phone-number download icon and modal's direct Export action (localized date/time, six-month boundary), omitted `masterFlowId`, timezone offset, download link, duplicate-request guard, and failure notification when a UI test harness is available.
+
 - Add component/browser coverage confirming AI video history pagination triggers when the initial video result does not fill the workspace and appends the next cursor page when a UI test harness is introduced.
 
 - Add component coverage confirming Ice Breaker deletion sends `UpdateIceBreaker` the filtered button list and removes the selected item from persisted state when a UI test harness is introduced.

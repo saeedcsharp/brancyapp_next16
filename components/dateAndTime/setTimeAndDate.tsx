@@ -26,6 +26,8 @@ const SetTimeAndDate = (props: {
   range?: boolean;
   onSaveRange?: (startUnix: number, endUnix: number) => void;
   title?: string;
+  saveLabel?: string;
+  saveDisabled?: boolean;
 }) => {
   const { t } = useTranslation();
   let startDate = props.startDay && props.startDay !== 0 ? props.startDay : Date.now() + 3600000;
@@ -137,8 +139,11 @@ const SetTimeAndDate = (props: {
             {t(LanguageKey.save)}
           </button>
         ) : (
-          <button onClick={() => handleSave(value?.valueOf().toString())} className={"saveButton"}>
-            {t(LanguageKey.save)}
+          <button
+            onClick={() => handleSave(value?.valueOf().toString())}
+            className={"saveButton"}
+            disabled={props.saveDisabled}>
+            {props.saveLabel ?? t(LanguageKey.save)}
           </button>
         )}
       </div>

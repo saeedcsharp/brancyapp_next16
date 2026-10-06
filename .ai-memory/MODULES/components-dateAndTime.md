@@ -39,6 +39,8 @@ Used by routes, components, helpers, or build tooling where imported.
 ## Public APIs
 
 Exports are defined by source files in the module.
+`SetTimeAndDate` accepts `startDay`, `fromUnix`, and `endUnix` as millisecond timestamps; its single-date save callback returns the selected millisecond timestamp as a string. The Message Properties Flow phone-number export uses these bounds for the previous six calendar months and converts the saved value to Unix seconds only when requesting the API.
+Its optional `saveLabel` and `saveDisabled` props let the Flow export use the calendar's confirmation button as a disabled-while-pending Export action; other callers keep the existing Save label and enabled state.
 
 ## Internal APIs
 
@@ -155,13 +157,14 @@ Add examples, endpoint schemas, and diagrams when this module is changed.
 This document is part of the project knowledge base.
 
 Before modifying related code:
+
 - Read this document.
 - Understand the documented architecture and rules.
 
 After modifying related code:
+
 - Update this document if information changed.
 
 Keep documentation synchronized with the implementation.
 
 ---
-

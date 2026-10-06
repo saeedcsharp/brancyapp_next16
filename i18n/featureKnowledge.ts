@@ -52,12 +52,17 @@ const recordsEn = {
   responseRules: {
     title: "Reply rules and message controls",
     description:
-      "Configure general auto replies with either containing-keyword or exact-comment matching, icebreakers, persistent menus, special payloads, follower checks, and reply settings for direct conversations, and review phone numbers collected through Flows. The View Store and Products smart default is available only to Shop and VShoper accounts.",
+      "Configure general auto replies with either containing-keyword or exact-comment matching, icebreakers, persistent menus, special payloads, follower checks, and reply settings for direct conversations. Review phone numbers collected through Flows and download an Excel export from a selected date within the past six months. The View Store and Products smart default is available only to Shop and VShoper accounts.",
   },
   aiFlows: {
     title: "AI prompts and visual flows",
     description:
       "Build AI prompts, connect available tools, mention the sender with a manual-prompt placeholder, analyze prompts, test conversations, and compose node-based message flows for automated interactions.",
+  },
+  flowPhoneExport: {
+    title: "Export phone numbers collected by Flows",
+    description:
+      "In Message Properties, open the download icon beside Phone Numbers, choose a date and time within the past six months, and press Export to download the Excel file.",
   },
   postCaptionAi: {
     title: "AI caption generation",
@@ -619,13 +624,18 @@ export const featureKnowledgeFa = {
       description:
         "برای پیام‌ها جواب خودکار بسازید و انتخاب کنید کلمه در متن کامنت باشد یا کل کامنت دقیقاً همان کلمه باشد؛ همچنین شروع‌کننده گفت‌وگو و منوی آماده تنظیم کنید. گزینه دیدن فروشگاه و محصولات فقط برای حساب فروشگاه یا فروشگاه مجازی نمایش داده می‌شود.",
       descriptionDetail:
-        "برای مدیریت پیام‌های تکراری، جواب خودکار و شروع‌کننده گفت‌وگو بسازید و منوی آماده در اختیار مخاطب بگذارید. در پاسخ خودکار کلمه‌ای، مشخص کنید با وجود کلمه در متن کامنت پاسخ داده شود یا فقط وقتی کل کامنت دقیقاً همان کلمه است. در تنظیمات پاسخ خودکار، وقتی هنوز دستور هوش مصنوعی یا فلو را انتخاب نکرده‌اید، مسیر ساخت همان گزینه در کنار فهرست انتخاب نمایش داده می‌شود. گزینه دیدن فروشگاه و محصولات در فهرست هوشمند پیش‌فرض فقط برای حساب‌هایی با نوع فروشگاه یا فروشگاه مجازی در دسترس است. می‌توانید قوانین پاسخ، بررسی دنبال‌کردن حساب و تنظیمات مربوط به هر گفت‌وگو را هماهنگ کنید تا پاسخ‌گویی منظم‌تر شود.",
+        "برای مدیریت پیام‌های تکراری، جواب خودکار و شروع‌کننده گفت‌وگو بسازید و منوی آماده در اختیار مخاطب بگذارید. در پاسخ خودکار کلمه‌ای، مشخص کنید با وجود کلمه در متن کامنت پاسخ داده شود یا فقط وقتی کل کامنت دقیقاً همان کلمه است. در تنظیمات پاسخ خودکار، وقتی هنوز دستور هوش مصنوعی یا فلو را انتخاب نکرده‌اید، مسیر ساخت همان گزینه در کنار فهرست انتخاب نمایش داده می‌شود. گزینه دیدن فروشگاه و محصولات در فهرست هوشمند پیش‌فرض فقط برای حساب‌هایی با نوع فروشگاه یا فروشگاه مجازی در دسترس است. می‌توانید قوانین پاسخ و تنظیمات مربوط به هر گفت‌وگو را هماهنگ کنید؛ شماره‌های جمع‌آوری‌شده از فلوها را ببینید و با انتخاب تاریخی در شش ماه گذشته، فایل اکسل آن‌ها را دانلود کنید.",
     },
     aiFlows: {
       title: "دستورها و جریان‌های هوش مصنوعی",
       description: "با هوش مصنوعی گفت‌وگو بسازید، ابزار اضافه کنید و روند پاسخ‌گویی را تنظیم کنید.",
       descriptionDetail:
         "برای پاسخ‌گویی هوشمند، دستورهای دلخواهتان را بنویسید و ابزارهای در دسترس را به آن‌ها وصل کنید. گفت‌وگو را آزمایش کنید و با کنار هم گذاشتن مرحله‌ها، روندی بسازید که پاسخ‌ها و مسیر تعامل با مخاطب را منظم‌تر و قابل کنترل‌تر کند.",
+    },
+    flowPhoneExport: {
+      title: "دانلود شماره‌های جمع‌آوری‌شده از فلوها",
+      description:
+        "کنار عنوان شماره‌های تلفن، نماد دانلود را بزنید، تاریخ و ساعت را از شش ماه گذشته انتخاب کنید و با زدن خروجی اکسل فایل را دانلود کنید.",
     },
     postCaptionAi: {
       title: "نوشتن متن پست با هوش مصنوعی",
