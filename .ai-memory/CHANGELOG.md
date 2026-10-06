@@ -1,6 +1,7 @@
 <<<<<<< HEAD
 <<<<<<< HEAD
 
+- 2026-10-06: Shortened the Flow phone-number export date range by one calendar day at both the picker and API clamp to avoid errors on the oldest selectable day.
 - 2026-10-06: Added the Message Properties Flow phone-number Excel export with the shared localized date/time picker and six-calendar-month limit, timezone-aware API request, media download link, and feature-catalog entry.
 - 2026-10-06: Moved the phone-number date picker modal to a body portal so the properties grid animation no longer hides it beneath the backdrop.
 - 2026-10-06: Replaced the phone-number card's inline date and Excel controls with a compact download icon; the modal's calendar now submits directly through an Export button with duplicate requests disabled.

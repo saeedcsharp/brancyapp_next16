@@ -44,6 +44,7 @@ function PhoneNumbers({
     now.getSeconds(),
     now.getMilliseconds(),
   );
+  sixMonthsAgo.setDate(sixMonthsAgo.getDate() + 1);
 
   async function handleExport(date: string | undefined) {
     const fromTime = Number(date);
