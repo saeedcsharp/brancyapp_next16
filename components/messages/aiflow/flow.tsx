@@ -489,6 +489,10 @@ const validateConnection = (
   if (targetNodeType === "onmessage") {
     return false;
   }
+  // genericitem (sub block) only accepts connections from generic (gallery)
+  if (targetNodeType === "genericitem" && sourceNodeType !== "generic") {
+    return false;
+  }
   // phonenumbergrabber cannot be the first block (directly after onmessage)
   if (targetNodeType === "phonenumbergrabber" && sourceNodeType === "onmessage") {
     return false;
@@ -1378,42 +1382,64 @@ export default function Flow({
   /**
    * پیست کردن نودهای کپی شده
    */
+  const insertNodes = useCallback(
+    (data: { nodes: NodeData[]; connections: Connection[] }) => {
+      const idMap = new Map<string, string>();
+      const newNodes = data.nodes.map((node) => {
+        const newId = generateId();
+        idMap.set(node.id, newId);
+        return {
+          ...node,
+          id: newId,
+          position: {
+            x: node.position.x + 50,
+            y: node.position.y + 50,
+          },
+          selected: true,
+        };
+      });
+      const newConnections = data.connections.map((conn) => ({
+        ...conn,
+        id: generateId(),
+        sourceNodeId: idMap.get(conn.sourceNodeId) || conn.sourceNodeId,
+        targetNodeId: idMap.get(conn.targetNodeId) || conn.targetNodeId,
+      }));
+      updateStateWithHistory((prev) => ({
+        ...prev,
+        nodes: [...prev.nodes.map((n) => ({ ...n, selected: false })), ...newNodes],
+        connections: [...prev.connections, ...newConnections],
+      }));
+    },
+    [updateStateWithHistory],
+  );
+
   const pasteNodes = useCallback(() => {
     if (!clipboard) return;
-    const idMap = new Map<string, string>();
-    const newNodes = clipboard.nodes.map((node) => {
-      const newId = generateId();
-      idMap.set(node.id, newId);
-      return {
-        ...node,
-        id: newId,
-        position: {
-          x: node.position.x + 50,
-          y: node.position.y + 50,
-        },
-        selected: true,
-      };
-    });
-    const newConnections = clipboard.connections.map((conn) => ({
-      ...conn,
-      id: generateId(),
-      sourceNodeId: idMap.get(conn.sourceNodeId) || conn.sourceNodeId,
-      targetNodeId: idMap.get(conn.targetNodeId) || conn.targetNodeId,
-    }));
-    updateStateWithHistory((prev) => ({
-      ...prev,
-      nodes: [...prev.nodes.map((n) => ({ ...n, selected: false })), ...newNodes],
-      connections: [...prev.connections, ...newConnections],
-    }));
-  }, [clipboard, updateStateWithHistory]);
+    insertNodes(clipboard);
+  }, [clipboard, insertNodes]);
 
   /**
    * تکثیر نودهای انتخاب شده (کپی + پیست)
    */
-  const duplicateSelectedNodes = useCallback(() => {
-    copySelectedNodes();
-    pasteNodes();
-  }, [copySelectedNodes, pasteNodes]);
+  const duplicateSelectedNodes = useCallback(
+    (nodeId?: string) => {
+      const selected = editorState.nodes.filter(
+        (n) => (typeof nodeId === "string" ? n.id === nodeId : n.selected) && n.type !== "onmessage",
+      );
+      // sub blocks (genericitem) cannot be duplicated on their own
+      if (selected.length === 0 || selected.every((n) => n.type === "genericitem")) return;
+      const selectedIds = selected.map((n) => n.id);
+      const data = {
+        nodes: selected,
+        connections: editorState.connections.filter(
+          (c) => selectedIds.includes(c.sourceNodeId) && selectedIds.includes(c.targetNodeId),
+        ),
+      };
+      setClipboard(data);
+      insertNodes(data);
+    },
+    [editorState.nodes, editorState.connections, insertNodes],
+  );
   // #endregion NODE MANAGEMENT
 
   // #region EVENT HANDLERS - MOUSE & DRAG
@@ -3499,8 +3525,8 @@ export default function Flow({
 
       // افزودن گزینه‌های Duplicate و Delete فقط برای نودهای غیر از onmessage
       if (nodeType !== "onmessage") {
-        baseOptions.push(
-          {
+        if (nodeType !== "genericitem") {
+          baseOptions.push({
             icon: "/copy.svg",
             value: t(LanguageKey.Dublicate),
             onClick: () => {
@@ -3511,19 +3537,17 @@ export default function Flow({
                   selected: n.id === nodeId,
                 })),
               }));
-              setTimeout(() => {
-                duplicateSelectedNodes();
-              }, 0);
+              duplicateSelectedNodes(nodeId);
             },
+          });
+        }
+        baseOptions.push({
+          icon: "/delete.svg",
+          value: t(LanguageKey.delete),
+          onClick: () => {
+            deleteNode(nodeId);
           },
-          {
-            icon: "/delete.svg",
-            value: t(LanguageKey.delete),
-            onClick: () => {
-              deleteNode(nodeId);
-            },
-          },
-        );
+        });
       }
 
       return baseOptions;
@@ -4003,7 +4027,7 @@ export default function Flow({
 
         <button
           className={`${styles.toolbarBtn} ${styles.secondary}`}
-          onClick={duplicateSelectedNodes}
+          onClick={() => duplicateSelectedNodes()}
           disabled={editorState.nodes.filter((n) => n.selected).length === 0}
           style={{
             opacity: editorState.nodes.filter((n) => n.selected).length === 0 ? 0.5 : 1,
@@ -5178,27 +5202,29 @@ export default function Flow({
                         {t(LanguageKey.copy)}
                       </div>
 
-                      <div
-                        className={styles.contextMenuItem}
-                        onClick={() => {
-                          if (contextMenu.nodeId) {
-                            const node = editorState.nodes.find((n) => n.id === contextMenu.nodeId);
-                            if (node) {
-                              setEditorState((prev) => ({
-                                ...prev,
-                                nodes: prev.nodes.map((n) => ({
-                                  ...n,
-                                  selected: n.id === contextMenu.nodeId,
-                                })),
-                              }));
-                              duplicateSelectedNodes();
+                      {node?.type !== "genericitem" && (
+                        <div
+                          className={styles.contextMenuItem}
+                          onClick={() => {
+                            if (contextMenu.nodeId) {
+                              const node = editorState.nodes.find((n) => n.id === contextMenu.nodeId);
+                              if (node) {
+                                setEditorState((prev) => ({
+                                  ...prev,
+                                  nodes: prev.nodes.map((n) => ({
+                                    ...n,
+                                    selected: n.id === contextMenu.nodeId,
+                                  })),
+                                }));
+                                duplicateSelectedNodes(contextMenu.nodeId);
+                              }
                             }
-                          }
-                          setContextMenu({ visible: false, x: 0, y: 0 });
-                        }}>
-                        <img style={{ width: "24px", height: "24px" }} src="/copy.svg" />
-                        {t(LanguageKey.Dublicate)}
-                      </div>
+                            setContextMenu({ visible: false, x: 0, y: 0 });
+                          }}>
+                          <img style={{ width: "24px", height: "24px" }} src="/copy.svg" />
+                          {t(LanguageKey.Dublicate)}
+                        </div>
+                      )}
 
                       <div
                         className={styles.contextMenuItem}
