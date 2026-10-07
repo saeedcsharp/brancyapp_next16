@@ -731,10 +731,10 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
     isContain,
   ]);
 
-  // Edit mode only: a changed contain toggle alone must enable save, even if the type-specific selection is not re-picked.
+  // Edit mode only: any change (keywords, contain toggle, ...) must enable save even if the type-specific selection is not re-picked.
   const canSaveContainChange =
     !!autoReply.id &&
-    isContain !== (autoReply.isContain ?? true) &&
+    hasChanges &&
     autoReplytitle.length > 0 &&
     (checkBox.Custom || checkBox.AI || checkBox.Flow || checkBox.GeneralAI || checkBox.ConnectProduct);
 
@@ -1471,7 +1471,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
       <div className="ButtonContainer" role="group" aria-label="Form actions">
         <button
           type="submit"
-          disabled={!(activeAutoReply && specificKeywordsList.length > 0 && (isFormValid || hasChanges))}
+          disabled={!canSave}
           className={canSave ? "saveButton" : "disableButton"}
           onClick={() => {
             handleUpdateAutoReply();
