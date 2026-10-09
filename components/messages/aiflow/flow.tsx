@@ -537,10 +537,15 @@ const validateConnection = (
   sourceNodeType: NodeData["type"],
   targetNodeType: NodeData["type"],
   connectionType: ConnectionType = "default",
+  sourceSocketId?: string,
 ): boolean => {
   if (targetNodeType === "weblink") {
-    if (sourceNodeType == "genericitem" || sourceNodeType == "buttongroup") {
+    if (sourceNodeType == "genericitem") {
       return true;
+    }
+    // Only the button outputs of buttongroup may feed a link, not its regular output
+    if (sourceNodeType == "buttongroup") {
+      return sourceSocketId !== "output";
     }
     return false;
   }
@@ -1718,7 +1723,11 @@ export default function Flow({
       const sourceNode = editorState.nodes.find((n) => n.id === connectingSocket.nodeId);
       const targetNode = editorState.nodes.find((n) => n.id === nearestSocket.nodeId);
 
-      if (sourceNode && targetNode && validateConnection(sourceNode.type, targetNode.type)) {
+      if (
+        sourceNode &&
+        targetNode &&
+        validateConnection(sourceNode.type, targetNode.type, "default", connectingSocket.socketId)
+      ) {
         // بررسی که این اتصال قبلاً وجود ندارد
         const exists = editorState.connections.some(
           (c) =>
@@ -1835,7 +1844,7 @@ export default function Flow({
       }
 
       // بررسی اعتبار اتصال بر اساس ماتریس قوانین
-      if (!validateConnection(sourceNode.type, targetNode.type)) {
+      if (!validateConnection(sourceNode.type, targetNode.type, "default", connectingSocket.socketId)) {
         console.warn(`Invalid connection from ${sourceNode.type} to ${targetNode.type}`);
         setConnectingSocket(null);
         setTempConnectionEnd(null);
@@ -2471,7 +2480,11 @@ export default function Flow({
           const sourceNode = editorState.nodes.find((n) => n.id === connectingSocket.nodeId);
           const targetNode = editorState.nodes.find((n) => n.id === nearestSocket.nodeId);
 
-          if (sourceNode && targetNode && validateConnection(sourceNode.type, targetNode.type)) {
+          if (
+            sourceNode &&
+            targetNode &&
+            validateConnection(sourceNode.type, targetNode.type, "default", connectingSocket.socketId)
+          ) {
             // بررسی که این اتصال قبلاً وجود ندارد
             const exists = editorState.connections.some(
               (c) =>
@@ -2688,7 +2701,7 @@ export default function Flow({
       }
 
       // بررسی اعتبار اتصال بر اساس ماتریس قوانین
-      if (!validateConnection(sourceNode.type, targetNode.type)) {
+      if (!validateConnection(sourceNode.type, targetNode.type, "default", connectingSocket.socketId)) {
         console.warn(`Invalid connection from ${sourceNode.type} to ${targetNode.type}`);
         setConnectingSocket(null);
         setTempConnectionEnd(null);

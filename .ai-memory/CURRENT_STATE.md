@@ -2,6 +2,8 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
+The AI Flow editor has two new blocks. `buttongroup` has a 640-character title, at most three buttons, one regular output plus three button outputs, and its button outputs may connect to the Link block. `imagegallery` mirrors the image block but accepts images only, up to `IMAGE_GALLERY_MAX_ITEMS` (7) per block. Both appear in the desktop toolbar, mobile menu, Live Test, and (for `imagegallery`) the tutorial modal, with localized keys in all eight locales. The Phone Number Grabber node wrapper no longer inherits the inner content layout, matching the other blocks' header style. See `MODULES/components-messages.md`.
+
 The Message Properties phone-number card now has a small download icon beside its heading. It opens a body-portalled `SetTimeAndDate` modal where the selected date and time (from six calendar months ago plus one calendar day through now) is submitted directly with the Export button to `GetExportPhoneNumbers` for all Flows. The request uses the same buffered lower bound, avoiding backend errors on the oldest day. It sends the browser timezone offset in seconds and downloads the returned file from the media host; the `/feature` catalog includes this capability.
 The card's Flow Graph navigation uses the custom `/flow-redirect.svg` icon beside each Flow name or the empty-state message, replacing the large text buttons, font-dependent arrow glyph, and unrelated statistics graph artwork while retaining their routes and localized accessible labels. No icon dependency is needed.
 

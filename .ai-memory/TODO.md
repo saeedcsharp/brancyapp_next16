@@ -1,3 +1,6 @@
+- Confirm backend support for the AI Flow `buttongroup` (`data.title`, `data.buttons`, regular `output` plus `buttonOutputs`) and `imagegallery` (`data.images`, up to `IMAGE_GALLERY_MAX_ITEMS`) node types, and add the missing `buttongroup` tutorial entry in `flowNode/NodeTutorials.tsx`.
+- Verify in the browser that the estimated heights from `getButtonGroupNodeHeight` and `getImageGalleryNodeHeight` align connection lines with the output sockets, and add component coverage for the button limit, 640-character title limit, and 7-image limit when a UI test harness is introduced.
+
 - Add component/browser coverage for the phone-number download icon and modal's direct Export action (localized date/time, six-month boundary plus one calendar day at both picker and request clamp), omitted `masterFlowId`, timezone offset, download link, duplicate-request guard, and failure notification when a UI test harness is available.
 
 - Add component/browser coverage confirming AI video history pagination triggers when the initial video result does not fill the workspace and appends the next cursor page when a UI test harness is introduced.
