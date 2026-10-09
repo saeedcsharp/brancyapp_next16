@@ -2821,6 +2821,17 @@ export default {
     New_Flow_buttongroup_block: "بلوک گروه دکمه",
     New_Flow_add_buttongroup_block: "اضافه‌کردن گروه دکمه",
     New_Flow_buttongroup_title_placeholder: "متن پیام گروه دکمه",
+    New_Flow_imagegallery_block: "بلوک گالری تصویر",
+    New_Flow_add_imagegallery_block: "اضافه‌کردن گالری تصویر",
+    New_Flow_imagegallery_max_reached: "حداکثر {{max}} تصویر می‌توانید به این بلوک اضافه کنید",
+    New_Flow_Tutorials_imagegallery_title: "بلوک گالری تصویر",
+    New_Flow_Tutorials_imagegallery_description:
+      "این بلوک برای آپلود و ارسال چند تصویر (تا {{max}} تصویر) به کاربران در دایرکت استفاده می‌شود",
+    New_Flow_Tutorials_imagegallery_usageType:
+      "مناسب برای نمایش چند محصول، آلبوم عکس، تصاویر قبل و بعد و مجموعه‌های تصویری",
+    New_Flow_Tutorials_imagegallery_feature_1: "پذیرش تا {{max}} تصویر در یک بلوک",
+    New_Flow_Tutorials_imagegallery_limitation_1:
+      "حداکثر {{max}} تصویر در هر بلوک (این محدودیت ممکن است در آینده افزایش یابد)",
     New_Flow_message_title: "عنوان پیام",
     New_Flow_message_description: "توضیحات پیام",
     New_Flow_live_test_block: "تست زنده جریان",

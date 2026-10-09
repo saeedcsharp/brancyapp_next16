@@ -1,3 +1,4 @@
+- 2026-10-09: Added the AI Flow `imagegallery` block (`aiflow/flowNode/ImageGalleryNode.tsx`): image-only multi-upload with up to `IMAGE_GALLERY_MAX_ITEMS` (7) images stored in `data.images`, thumbnail grid with per-image removal, localized tutorial text stating the limit, toolbar entries, and Live Test support.
 - 2026-10-09: Added the AI Flow `buttongroup` block (`aiflow/flowNode/ButtonGroupNode.tsx`): a 640-character message title with at most three button outputs, usable as a source for the Link block; added localized keys in all eight locales, toolbar entries, and Live Test support. Fixed the Phone Number Grabber node wrapper style (`nodeContainer` split from inner `container`) so its header matches other blocks.
 - 2026-10-06: Removed the `/page/tools` lottery request to `GetPackageFeatureDetails`; lottery access now uses only `checkPackageFeature`, and selecting a start time no longer shows the package-time-window warning.
 

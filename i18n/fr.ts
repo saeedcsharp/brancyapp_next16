@@ -2931,6 +2931,17 @@ export default {
     New_Flow_buttongroup_block: "Bloc de groupe de boutons",
     New_Flow_add_buttongroup_block: "Ajouter un groupe de boutons",
     New_Flow_buttongroup_title_placeholder: "Texte du message du groupe de boutons",
+    New_Flow_imagegallery_block: "Bloc Galerie d'images",
+    New_Flow_add_imagegallery_block: "Ajouter une galerie d'images",
+    New_Flow_imagegallery_max_reached: "Vous pouvez ajouter jusqu'à {{max}} images dans ce bloc",
+    New_Flow_Tutorials_imagegallery_title: "Bloc Galerie d'images",
+    New_Flow_Tutorials_imagegallery_description:
+      "Ce bloc permet de téléverser et d'envoyer plusieurs images (jusqu'à {{max}}) aux utilisateurs par message direct.",
+    New_Flow_Tutorials_imagegallery_usageType:
+      "Idéal pour présenter plusieurs produits, des albums photo, des photos avant/après et des collections d'images.",
+    New_Flow_Tutorials_imagegallery_feature_1: "Accepte jusqu'à {{max}} images dans un seul bloc",
+    New_Flow_Tutorials_imagegallery_limitation_1:
+      "Maximum {{max}} images par bloc (cette limite pourrait augmenter à l'avenir)",
     New_Flow_message_title: "Titre du message",
     New_Flow_message_description: "Description du message",
     New_Flow_live_test_block: "Test en direct du flux",

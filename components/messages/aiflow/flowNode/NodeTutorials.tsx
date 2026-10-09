@@ -1,6 +1,7 @@
 import React from "react";
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
+import { IMAGE_GALLERY_MAX_ITEMS } from "brancy/components/messages/aiflow/flowNode/ImageGalleryNode";
 
 export interface TutorialContent {
   title?: string;
@@ -77,6 +78,38 @@ export const getNodeTutorials = (t: any): Record<string, TutorialContent> => ({
     limitations: [
       t(LanguageKey.New_Flow_Tutorials_image_limitation_1),
       t(LanguageKey.New_Flow_Tutorials_image_limitation_2),
+      t(LanguageKey.New_Flow_Tutorials_image_limitation_3),
+    ],
+    connections: [
+      t(LanguageKey.New_Flow_Tutorials_image_connection_1),
+      t(LanguageKey.New_Flow_Tutorials_image_connection_2),
+      t(LanguageKey.New_Flow_Tutorials_image_connection_3),
+      t(LanguageKey.New_Flow_Tutorials_image_connection_4),
+      t(LanguageKey.New_Flow_Tutorials_image_connection_5),
+      t(LanguageKey.New_Flow_Tutorials_image_connection_6),
+      t(LanguageKey.New_Flow_Tutorials_image_connection_7),
+      t(LanguageKey.New_Flow_Tutorials_image_connection_8),
+    ],
+  },
+
+  imagegallery: {
+    title: t(LanguageKey.New_Flow_Tutorials_imagegallery_title),
+    description: t(LanguageKey.New_Flow_Tutorials_imagegallery_description, { max: IMAGE_GALLERY_MAX_ITEMS }),
+    usageType: t(LanguageKey.New_Flow_Tutorials_imagegallery_usageType),
+    features: [
+      t(LanguageKey.New_Flow_Tutorials_imagegallery_feature_1, { max: IMAGE_GALLERY_MAX_ITEMS }),
+      t(LanguageKey.New_Flow_Tutorials_image_feature_1),
+      t(LanguageKey.New_Flow_Tutorials_image_feature_3),
+    ],
+    tips: [
+      t(LanguageKey.New_Flow_Tutorials_image_tip_1),
+      t(LanguageKey.New_Flow_Tutorials_image_tip_2),
+      t(LanguageKey.New_Flow_Tutorials_image_tip_3),
+      t(LanguageKey.New_Flow_Tutorials_image_tip_5),
+    ],
+    limitations: [
+      t(LanguageKey.New_Flow_Tutorials_imagegallery_limitation_1, { max: IMAGE_GALLERY_MAX_ITEMS }),
+      t(LanguageKey.New_Flow_Tutorials_image_limitation_1),
       t(LanguageKey.New_Flow_Tutorials_image_limitation_3),
     ],
     connections: [

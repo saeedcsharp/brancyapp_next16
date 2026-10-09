@@ -2863,6 +2863,17 @@ export default {
     New_Flow_buttongroup_block: "Button Group Block",
     New_Flow_add_buttongroup_block: "Add Button Group",
     New_Flow_buttongroup_title_placeholder: "Button Group Message Text",
+    New_Flow_imagegallery_block: "Image Gallery Block",
+    New_Flow_add_imagegallery_block: "Add Image Gallery",
+    New_Flow_imagegallery_max_reached: "You can add up to {{max}} images to this block",
+    New_Flow_Tutorials_imagegallery_title: "Image Gallery Block",
+    New_Flow_Tutorials_imagegallery_description:
+      "This block is used to upload and send multiple images (up to {{max}}) to users via direct messages.",
+    New_Flow_Tutorials_imagegallery_usageType:
+      "Suitable for showcasing multiple products, photo albums, before/after photos, and image collections.",
+    New_Flow_Tutorials_imagegallery_feature_1: "Accepts up to {{max}} images in a single block",
+    New_Flow_Tutorials_imagegallery_limitation_1:
+      "Maximum {{max}} images per block (this limit may increase in the future)",
     New_Flow_message_title: "Message Title",
     New_Flow_message_description: "Message Description",
     New_Flow_live_test_block: "Live Flow Test",

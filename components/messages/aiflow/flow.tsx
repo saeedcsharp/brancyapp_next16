@@ -9,6 +9,7 @@ import {
   GenericItemNode,
   GenericNode,
   ImageNode,
+  ImageGalleryNode,
   OnMessageNode,
   PhoneNumberGrabberNode,
   QuickReplyNode,
@@ -23,6 +24,7 @@ import {
   getGenericItemNodeHeight,
   getGenericNodeHeight,
   getImageNodeHeight,
+  getImageGalleryNodeHeight,
   getOnMessageNodeHeight,
   getPhoneNumberGrabberNodeHeight,
   getQuickReplyNodeHeight,
@@ -30,6 +32,7 @@ import {
   getVoiceNodeHeight,
   getWeblinkNodeHeight,
   imageNodeClassName,
+  imagegalleryNodeClassName,
   onmessageNodeClassName,
   phonenumbergrabberNodeClassName,
   quickreplyNodeClassName,
@@ -109,6 +112,7 @@ interface NodeData {
   type:
     | "text"
     | "image"
+    | "imagegallery"
     | "voice"
     | "quickreply"
     | "buttongroup"
@@ -216,6 +220,7 @@ type NodeType =
   | "quickreply"
   | "buttongroup"
   | "image"
+  | "imagegallery"
   | "generic"
   | "genericitem"
   | "phonenumbergrabber";
@@ -316,6 +321,18 @@ const INPUT_CONNECTION_RULES: Record<NodeType, Partial<Record<NodeType, number>>
     text: 1,
     quickreply: 1,
     image: 1,
+    generic: 0,
+    genericitem: 1,
+    phonenumbergrabber: 1,
+  },
+  imagegallery: {
+    onmessage: 1,
+    weblink: 1,
+    voice: 1,
+    text: 1,
+    quickreply: 1,
+    image: 1,
+    imagegallery: 1,
     generic: 0,
     genericitem: 1,
     phonenumbergrabber: 1,
@@ -435,6 +452,18 @@ const OUTPUT_CONNECTION_RULES: Record<NodeType, Partial<Record<NodeType, number>
     text: 1,
     quickreply: 1,
     image: 1,
+    generic: 1,
+    genericitem: 0,
+    phonenumbergrabber: 1,
+  },
+  imagegallery: {
+    onmessage: 0,
+    weblink: 1,
+    voice: 1,
+    text: 1,
+    quickreply: 1,
+    image: 1,
+    imagegallery: 1,
     generic: 1,
     genericitem: 0,
     phonenumbergrabber: 1,
@@ -596,6 +625,7 @@ const getNodeClassName = (nodeType: string): string => {
   const classNameMap: Record<string, string> = {
     text: textNodeClassName,
     image: imageNodeClassName,
+    imagegallery: imagegalleryNodeClassName,
     voice: voiceNodeClassName,
     quickreply: quickreplyNodeClassName,
     buttongroup: buttongroupNodeClassName,
@@ -617,6 +647,7 @@ const getNodeTypeTranslationKey = (nodeType: string): LanguageKey => {
   const translationMap: Record<string, LanguageKey> = {
     text: LanguageKey.New_Flow_text_block,
     image: LanguageKey.New_Flow_imageorvideo_block,
+    imagegallery: LanguageKey.New_Flow_imagegallery_block,
     voice: LanguageKey.New_Flow_voice_block,
     quickreply: LanguageKey.New_Flow_quick_reply_block,
     buttongroup: LanguageKey.New_Flow_buttongroup_block,
@@ -665,6 +696,7 @@ const getNodeTypeColor = (nodeType: string): string => {
   const colorMap: Record<string, string> = {
     text: "#E934DD",
     image: "#8F3AFF",
+    imagegallery: "#B06BFF",
     voice: "#e74c3c",
     quickreply: "#E99D34",
     buttongroup: "#F5703B",
@@ -774,6 +806,8 @@ const autoLayout = (nodes: NodeData[], connections: Connection[]): NodeData[] =>
         return getTextNodeHeight(node);
       case "image":
         return getImageNodeHeight(node);
+      case "imagegallery":
+        return getImageGalleryNodeHeight(node);
       case "voice":
         return getVoiceNodeHeight(node);
       case "quickreply":
@@ -1248,7 +1282,7 @@ export default function Flow({
         ...prev,
         nodes: [...prev.nodes, newNode],
       }));
-      if (type === "image") {
+      if (type === "image" || type === "imagegallery") {
         setTimeout(() => {
           const fileInput = document.getElementById(`img-${newNode.id}`) as HTMLInputElement;
           if (fileInput) {
@@ -1970,6 +2004,8 @@ export default function Flow({
           return getTextNodeHeight(node);
         case "image":
           return getImageNodeHeight(node);
+        case "imagegallery":
+          return getImageGalleryNodeHeight(node);
         case "voice":
           return getVoiceNodeHeight(node);
         case "quickreply":
@@ -2767,6 +2803,9 @@ export default function Flow({
           break;
         case "image":
           bodyHeight = getImageNodeHeight(node);
+          break;
+        case "imagegallery":
+          bodyHeight = getImageGalleryNodeHeight(node);
           break;
         case "voice":
           bodyHeight = getVoiceNodeHeight(node);
@@ -4328,6 +4367,23 @@ export default function Flow({
                 </button>
               </Tooltip>
 
+              <Tooltip tooltipValue={t(LanguageKey.New_Flow_add_imagegallery_block)} position="top">
+                <button onClick={() => addNode("imagegallery")} className={styles.toolbardesktopitem}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="var(--text-h1)"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                    width="24px"
+                    height="24px"
+                    fill="none"
+                    viewBox="0 0 24 25">
+                    <path d="M6 1.5h12M4.5 2.5h15M5.5 17.3 7 15.8q.9-.9 1.9 0h0l.9.8q1 .9 2 0L14 14c.5-.7 1.6-.8 2.3-.2l2.1 2.2M21 11v6c0 3-1.8 5-4.8 5H7.8c-3 0-4.8-2-4.8-5v-6c0-3 1.8-5 4.8-5h8.4c3 0 4.8 2 4.8 5" />
+                  </svg>
+                </button>
+              </Tooltip>
+
               <Tooltip tooltipValue={t(LanguageKey.New_Flow_add_voice_block)} position="top">
                 <button onClick={() => addNode("voice")} className={styles.toolbardesktopitem}>
                   <svg
@@ -4868,6 +4924,26 @@ export default function Flow({
                   </label>
                   <button
                     onClick={() => {
+                      addNode("imagegallery");
+                      setShowMobileMenu(false);
+                    }}
+                    className={styles.mobilemenuitem}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      stroke="var(--text-h1)"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                      width="20px"
+                      height="20px"
+                      fill="none"
+                      viewBox="0 0 24 25">
+                      <path d="M6 1.5h12M4.5 2.5h15M5.5 17.3 7 15.8q.9-.9 1.9 0h0l.9.8q1 .9 2 0L14 14c.5-.7 1.6-.8 2.3-.2l2.1 2.2M21 11v6c0 3-1.8 5-4.8 5H7.8c-3 0-4.8-2-4.8-5v-6c0-3 1.8-5 4.8-5h8.4c3 0 4.8 2 4.8 5" />
+                    </svg>
+                    <span>{t(LanguageKey.New_Flow_add_imagegallery_block)}</span>
+                  </button>
+                  <button
+                    onClick={() => {
                       addNode("voice");
                       setShowMobileMenu(false);
                     }}
@@ -5051,6 +5127,9 @@ export default function Flow({
                     )}
                     {node.type === "image" && (
                       <ImageNode node={node} updateNodeData={updateNodeData} setEditorState={setEditorState} />
+                    )}
+                    {node.type === "imagegallery" && (
+                      <ImageGalleryNode node={node} updateNodeData={updateNodeData} setEditorState={setEditorState} />
                     )}
                     {node.type === "voice" && (
                       <VoiceNode node={node} updateNodeData={updateNodeData} setEditorState={setEditorState} />

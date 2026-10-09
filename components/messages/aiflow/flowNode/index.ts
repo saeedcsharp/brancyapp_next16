@@ -5,6 +5,11 @@ export {
   imageNodeClassName,
 } from "brancy/components/messages/aiflow/flowNode/ImageNode";
 export {
+  ImageGalleryNode,
+  getImageGalleryNodeHeight,
+  imagegalleryNodeClassName,
+} from "brancy/components/messages/aiflow/flowNode/ImageGalleryNode";
+export {
   VoiceNode,
   getVoiceNodeHeight,
   voiceNodeClassName,

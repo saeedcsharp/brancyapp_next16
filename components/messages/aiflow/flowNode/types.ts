@@ -16,6 +16,7 @@ export interface NodeData {
   type:
     | "text"
     | "image"
+    | "imagegallery"
     | "voice"
     | "quickreply"
     | "buttongroup"

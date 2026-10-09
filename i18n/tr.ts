@@ -2849,6 +2849,17 @@ export default {
     New_Flow_buttongroup_block: "Düğme Grubu Bloğu",
     New_Flow_add_buttongroup_block: "Düğme Grubu Ekle",
     New_Flow_buttongroup_title_placeholder: "Düğme Grubu Mesaj Metni",
+    New_Flow_imagegallery_block: "Görsel Galerisi Bloğu",
+    New_Flow_add_imagegallery_block: "Görsel Galerisi Ekle",
+    New_Flow_imagegallery_max_reached: "Bu bloğa en fazla {{max}} görsel ekleyebilirsiniz",
+    New_Flow_Tutorials_imagegallery_title: "Görsel Galerisi Bloğu",
+    New_Flow_Tutorials_imagegallery_description:
+      "Bu blok, kullanıcılara doğrudan mesajla birden fazla görsel (en fazla {{max}}) yüklemek ve göndermek için kullanılır.",
+    New_Flow_Tutorials_imagegallery_usageType:
+      "Birden fazla ürünü, fotoğraf albümlerini, önce/sonra görsellerini ve görsel koleksiyonlarını sergilemek için uygundur.",
+    New_Flow_Tutorials_imagegallery_feature_1: "Tek blokta en fazla {{max}} görsel kabul eder",
+    New_Flow_Tutorials_imagegallery_limitation_1:
+      "Blok başına en fazla {{max}} görsel (bu sınır gelecekte artırılabilir)",
     New_Flow_message_title: "Mesaj Başlığı",
     New_Flow_message_description: "Mesaj Açıklaması",
     New_Flow_live_test_block: "Canlı Akış Testi",

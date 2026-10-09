@@ -2913,6 +2913,17 @@ export default {
     New_Flow_buttongroup_block: "Schaltflächengruppen-Block",
     New_Flow_add_buttongroup_block: "Schaltflächengruppe hinzufügen",
     New_Flow_buttongroup_title_placeholder: "Nachrichtentext der Schaltflächengruppe",
+    New_Flow_imagegallery_block: "Bildergalerie-Block",
+    New_Flow_add_imagegallery_block: "Bildergalerie hinzufügen",
+    New_Flow_imagegallery_max_reached: "Sie können diesem Block bis zu {{max}} Bilder hinzufügen",
+    New_Flow_Tutorials_imagegallery_title: "Bildergalerie-Block",
+    New_Flow_Tutorials_imagegallery_description:
+      "Dieser Block dient zum Hochladen und Senden mehrerer Bilder (bis zu {{max}}) per Direktnachricht an Nutzer.",
+    New_Flow_Tutorials_imagegallery_usageType:
+      "Geeignet für die Präsentation mehrerer Produkte, Fotoalben, Vorher-Nachher-Bilder und Bildersammlungen.",
+    New_Flow_Tutorials_imagegallery_feature_1: "Akzeptiert bis zu {{max}} Bilder in einem Block",
+    New_Flow_Tutorials_imagegallery_limitation_1:
+      "Maximal {{max}} Bilder pro Block (dieses Limit kann in Zukunft erhöht werden)",
     New_Flow_message_title: "Nachrichtentitel",
     New_Flow_message_description: "Nachrichtenbeschreibung",
     New_Flow_live_test_block: "Live-Flow-Test",

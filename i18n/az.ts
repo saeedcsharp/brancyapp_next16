@@ -2808,6 +2808,17 @@ export default {
     New_Flow_buttongroup_block: "Düymə Qrupu Bloku",
     New_Flow_add_buttongroup_block: "Düymə Qrupu Əlavə Et",
     New_Flow_buttongroup_title_placeholder: "Düymə Qrupu Mesaj Mətni",
+    New_Flow_imagegallery_block: "Şəkil Qalereyası Bloku",
+    New_Flow_add_imagegallery_block: "Şəkil Qalereyası Əlavə Et",
+    New_Flow_imagegallery_max_reached: "Bu bloka ən çox {{max}} şəkil əlavə edə bilərsiniz",
+    New_Flow_Tutorials_imagegallery_title: "Şəkil Qalereyası Bloku",
+    New_Flow_Tutorials_imagegallery_description:
+      "Bu blok istifadəçilərə birbaşa mesajla bir neçə şəkil (ən çox {{max}}) yükləmək və göndərmək üçün istifadə olunur.",
+    New_Flow_Tutorials_imagegallery_usageType:
+      "Bir neçə məhsulu, foto albomlarını, əvvəl və sonra şəkillərini və şəkil kolleksiyalarını nümayiş etdirmək üçün uyğundur.",
+    New_Flow_Tutorials_imagegallery_feature_1: "Bir blokda ən çox {{max}} şəkil qəbul edir",
+    New_Flow_Tutorials_imagegallery_limitation_1:
+      "Hər blokda maksimum {{max}} şəkil (bu limit gələcəkdə artırıla bilər)",
     New_Flow_message_title: "Mesaj Başlığı",
     New_Flow_message_description: "Mesaj Açıqlaması",
     New_Flow_live_test_block: "Canlı Axın Testi",

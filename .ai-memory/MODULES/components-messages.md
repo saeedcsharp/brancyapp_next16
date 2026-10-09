@@ -125,6 +125,8 @@ The same component keeps the continued new flow in `userslist` as a local `newFl
 
 `aiflow/flowNode/ButtonGroupNode.tsx` implements the `buttongroup` Flow block, modeled on `quickreply`: a `TextArea` message title limited to 640 characters (counted by code point) and a hard maximum of three buttons (20 characters each) stored in `data.buttons` with matching `buttonOutputs` sockets; the add control is hidden at three buttons and removing the last button deletes the node. Its button outputs may connect to the Link (`weblink`) block, which otherwise only accepts `genericitem`; like `quickreply`, it cannot feed `phonenumbergrabber`. Tutorials for this block are not yet written.
 
+`aiflow/flowNode/ImageGalleryNode.tsx` implements the `imagegallery` Flow block, modeled on `image` (same compression, 50 MB per-file limit, auto-opening file picker on add) but images only. It accepts multiple files per pick and stores each uploaded item (`imageUrl`, `tempUrl`, `fileName`, `fileSize`, `fileType`) in `data.images`, capped by the exported `IMAGE_GALLERY_MAX_ITEMS` (currently 7); the tutorial and limit messages interpolate that constant as `{{max}}`, so raising the limit needs only that one change (plus backend support). It uses the standard single input/output sockets and the same connection rules as `image`.
+
 `popups/sendFile.tsx` and `popups/sendVideoFile.tsx` use the shared `UploadFile` helper for progress-aware uploads, so direct-message image and video URLs are released only after the global one-second media-availability delay.
 
 `direct/directInbox.tsx` waits one second before inserting SignalR audio messages into the inbox, allowing the audio URL to become available on the server before `ChatAudio` renders it.

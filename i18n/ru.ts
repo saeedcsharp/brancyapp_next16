@@ -2888,6 +2888,17 @@ export default {
     New_Flow_buttongroup_block: "Блок группы кнопок",
     New_Flow_add_buttongroup_block: "Добавить группу кнопок",
     New_Flow_buttongroup_title_placeholder: "Текст сообщения группы кнопок",
+    New_Flow_imagegallery_block: "Блок Галерея изображений",
+    New_Flow_add_imagegallery_block: "Добавить галерею изображений",
+    New_Flow_imagegallery_max_reached: "В этот блок можно добавить до {{max}} изображений",
+    New_Flow_Tutorials_imagegallery_title: "Блок Галерея изображений",
+    New_Flow_Tutorials_imagegallery_description:
+      "Этот блок используется для загрузки и отправки нескольких изображений (до {{max}}) пользователям в личных сообщениях.",
+    New_Flow_Tutorials_imagegallery_usageType:
+      "Подходит для демонстрации нескольких товаров, фотоальбомов, фото «до и после» и коллекций изображений.",
+    New_Flow_Tutorials_imagegallery_feature_1: "Принимает до {{max}} изображений в одном блоке",
+    New_Flow_Tutorials_imagegallery_limitation_1:
+      "Максимум {{max}} изображений на блок (этот лимит может быть увеличен в будущем)",
     New_Flow_message_title: "Заголовок сообщения",
     New_Flow_message_description: "Описание сообщения",
     New_Flow_live_test_block: "Тест живого потока",

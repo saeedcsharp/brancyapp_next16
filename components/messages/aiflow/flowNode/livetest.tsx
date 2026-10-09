@@ -231,6 +231,19 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
           await cont();
           break;
         }
+        case "imagegallery": {
+          const images: Array<{ imageUrl?: string; tempUrl?: string }> = node.data?.images || [];
+          for (const image of images) {
+            const url = image.tempUrl || (image.imageUrl ? baseMediaUrl + image.imageUrl : "");
+            if (!url) continue;
+            setTyping(true);
+            await delay(400);
+            setTyping(false);
+            appendBot({ kind: "image", url });
+          }
+          await cont();
+          break;
+        }
         case "voice": {
           const url = node.data?.tempVoiceUrl || baseMediaUrl + node.data.voiceUrl;
           if (url) {
