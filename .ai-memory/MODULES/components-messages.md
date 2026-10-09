@@ -123,6 +123,8 @@ The same component keeps the continued new flow in `userslist` as a local `newFl
 
 `aiflow/flowNode/GenericItemNode.tsx` and `aiflow/flowNode/WeblinkNode.tsx` validate web links on blur. A valid HTTP(S) link must have a non-empty final hostname segment after a dot (for example, `.com` or `.ir`); the suffix is not restricted to a fixed list. Invalid non-empty links set the shared `InputBox` danger status and replay its shake animation once; editing the value clears the error state.
 
+`aiflow/flowNode/ButtonGroupNode.tsx` implements the `buttongroup` Flow block, modeled on `quickreply`: a `TextArea` message title limited to 640 characters (counted by code point) and a hard maximum of three buttons (20 characters each) stored in `data.buttons` with matching `buttonOutputs` sockets; the add control is hidden at three buttons and removing the last button deletes the node. Its button outputs may connect to the Link (`weblink`) block, which otherwise only accepts `genericitem`; like `quickreply`, it cannot feed `phonenumbergrabber`. Tutorials for this block are not yet written.
+
 `popups/sendFile.tsx` and `popups/sendVideoFile.tsx` use the shared `UploadFile` helper for progress-aware uploads, so direct-message image and video URLs are released only after the global one-second media-availability delay.
 
 `direct/directInbox.tsx` waits one second before inserting SignalR audio messages into the inbox, allowing the audio URL to become available on the server before `ChatAudio` renders it.

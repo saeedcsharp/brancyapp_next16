@@ -266,6 +266,20 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
           // Wait for user action; do not auto-continue
           break;
         }
+        case "buttongroup": {
+          const title = node.data?.title as string | undefined;
+          const options: string[] = Array.isArray(node.data?.buttons) ? node.data.buttons : [];
+          if (title) {
+            setTyping(true);
+            await delay(Math.min(1200, Math.max(300, title.length * 20)));
+            setTyping(false);
+            appendBot({ kind: "text", text: title });
+          }
+          if (options.length) {
+            appendBot({ kind: "quickreply", options, nodeId: node.id });
+          }
+          break;
+        }
         case "generic": {
           // Collect connected genericitem nodes
           const outs = getOutgoing(connections, node.id);

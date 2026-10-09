@@ -1,0 +1,43 @@
+.nodeContainer {
+  /* node wrapper hook; layout lives in .container */
+}
+
+.container {
+  display: flex;
+  flex-direction: column;
+  gap: var(--gap-10);
+}
+
+.titleSection {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  padding-bottom: 10px;
+  margin-bottom: 4px;
+  border-bottom: 1px solid var(--color-gray30);
+}
+
+.textareaWrapper {
+  flex: 0 0 100px;
+  height: 100px;
+}
+
+.buttonItem {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+}
+
+.inputTextparent {
+  flex: 1;
+  min-width: 0;
+}
+
+.deleteIcon {
+  flex: 0 0 30px;
+  width: 30px;
+  height: 30px;
+  padding: 5px;
+  cursor: pointer;
+}

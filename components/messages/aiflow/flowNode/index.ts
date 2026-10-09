@@ -15,6 +15,11 @@ export {
   quickreplyNodeClassName,
 } from "brancy/components/messages/aiflow/flowNode/QuickReplyNode";
 export {
+  ButtonGroupNode,
+  getButtonGroupNodeHeight,
+  buttongroupNodeClassName,
+} from "brancy/components/messages/aiflow/flowNode/ButtonGroupNode";
+export {
   GenericNode,
   getGenericNodeHeight,
   genericNodeClassName,

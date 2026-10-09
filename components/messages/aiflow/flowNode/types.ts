@@ -18,6 +18,7 @@ export interface NodeData {
     | "image"
     | "voice"
     | "quickreply"
+    | "buttongroup"
     | "generic"
     | "genericitem"
     | "weblink"

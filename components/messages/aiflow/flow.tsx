@@ -12,9 +12,12 @@ import {
   OnMessageNode,
   PhoneNumberGrabberNode,
   QuickReplyNode,
+  ButtonGroupNode,
   TextNode,
   VoiceNode,
   WeblinkNode,
+  buttongroupNodeClassName,
+  getButtonGroupNodeHeight,
   genericNodeClassName,
   genericitemNodeClassName,
   getGenericItemNodeHeight,
@@ -108,6 +111,7 @@ interface NodeData {
     | "image"
     | "voice"
     | "quickreply"
+    | "buttongroup"
     | "generic"
     | "genericitem"
     | "weblink"
@@ -118,7 +122,7 @@ interface NodeData {
   inputs: Socket[];
   outputs: Socket[];
   genericItemOutputs?: Socket[]; // برای نگهداری outputs مربوط به GenericItem ها (فقط برای نود generic)
-  buttonOutputs?: Socket[]; // برای نگهداری outputs مربوط به دکمه‌ها (فقط برای نود quickreply و genericitem)
+  buttonOutputs?: Socket[]; // برای نگهداری outputs مربوط به دکمه‌ها (فقط برای نود quickreply و buttongroup و genericitem)
   data?: any;
   selected?: boolean;
   uploadProgress?: number;
@@ -210,12 +214,13 @@ type NodeType =
   | "voice"
   | "text"
   | "quickreply"
+  | "buttongroup"
   | "image"
   | "generic"
   | "genericitem"
   | "phonenumbergrabber";
 
-const INPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
+const INPUT_CONNECTION_RULES: Record<NodeType, Partial<Record<NodeType, number>>> = {
   onmessage: {
     onmessage: 0,
     weblink: 0,
@@ -310,6 +315,18 @@ const INPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
     voice: 1,
     text: 1,
     quickreply: 1,
+    image: 1,
+    generic: 0,
+    genericitem: 1,
+    phonenumbergrabber: 1,
+  },
+  buttongroup: {
+    onmessage: 1,
+    weblink: 1,
+    voice: 1,
+    text: 1,
+    quickreply: 1,
+    buttongroup: 1,
     image: 1,
     generic: 0,
     genericitem: 1,
@@ -322,7 +339,7 @@ const INPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
  * هر سطر نشان‌دهنده نود منبع (source) و هر ستون نشان‌دهنده نود هدف (target) است
  * مقدار 1 = اتصال مجاز، مقدار 0 = اتصال غیرمجاز
  */
-const OUTPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
+const OUTPUT_CONNECTION_RULES: Record<NodeType, Partial<Record<NodeType, number>>> = {
   onmessage: {
     onmessage: 0,
     weblink: 1,
@@ -421,6 +438,18 @@ const OUTPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
     generic: 1,
     genericitem: 0,
     phonenumbergrabber: 1,
+  },
+  buttongroup: {
+    onmessage: 0,
+    weblink: 1,
+    voice: 1,
+    text: 1,
+    quickreply: 1,
+    buttongroup: 1,
+    image: 1,
+    generic: 1,
+    genericitem: 0,
+    phonenumbergrabber: 0,
   },
 };
 
@@ -481,7 +510,7 @@ const validateConnection = (
   connectionType: ConnectionType = "default",
 ): boolean => {
   if (targetNodeType === "weblink") {
-    if (sourceNodeType == "genericitem") {
+    if (sourceNodeType == "genericitem" || sourceNodeType == "buttongroup") {
       return true;
     }
     return false;
@@ -500,7 +529,10 @@ const validateConnection = (
   // generic (gallery), its items, and quickreply cannot feed phonenumbergrabber
   if (
     targetNodeType === "phonenumbergrabber" &&
-    (sourceNodeType === "generic" || sourceNodeType === "genericitem" || sourceNodeType === "quickreply")
+    (sourceNodeType === "generic" ||
+      sourceNodeType === "genericitem" ||
+      sourceNodeType === "quickreply" ||
+      sourceNodeType === "buttongroup")
   ) {
     return false;
   }
@@ -522,7 +554,7 @@ const validateConnection = (
     case "button":
       // قوانین خاص برای اتصالات دکمه‌ای (quickreply و genericitem)
       // دکمه‌های quickreply و genericitem می‌توانند به اکثر نودها وصل شوند
-      if (sourceNodeType === "quickreply" || sourceNodeType === "genericitem") {
+      if (sourceNodeType === "quickreply" || sourceNodeType === "buttongroup" || sourceNodeType === "genericitem") {
         // نمی‌توانند به onmessage، weblink، generic، یا genericitem وصل شوند
         return true;
       }
@@ -566,6 +598,7 @@ const getNodeClassName = (nodeType: string): string => {
     image: imageNodeClassName,
     voice: voiceNodeClassName,
     quickreply: quickreplyNodeClassName,
+    buttongroup: buttongroupNodeClassName,
     generic: genericNodeClassName,
     genericitem: genericitemNodeClassName,
     weblink: weblinkNodeClassName,
@@ -586,6 +619,7 @@ const getNodeTypeTranslationKey = (nodeType: string): LanguageKey => {
     image: LanguageKey.New_Flow_imageorvideo_block,
     voice: LanguageKey.New_Flow_voice_block,
     quickreply: LanguageKey.New_Flow_quick_reply_block,
+    buttongroup: LanguageKey.New_Flow_buttongroup_block,
     generic: LanguageKey.New_Flow_generic_block,
     genericitem: LanguageKey.New_Flow_generic_block,
     weblink: LanguageKey.New_Flow_weblink_block,
@@ -633,6 +667,7 @@ const getNodeTypeColor = (nodeType: string): string => {
     image: "#8F3AFF",
     voice: "#e74c3c",
     quickreply: "#E99D34",
+    buttongroup: "#F5703B",
     generic: "#2699fb",
     genericitem: "#00c1d4",
     weblink: "#3498db",
@@ -743,6 +778,8 @@ const autoLayout = (nodes: NodeData[], connections: Connection[]): NodeData[] =>
         return getVoiceNodeHeight(node);
       case "quickreply":
         return getQuickReplyNodeHeight(node);
+      case "buttongroup":
+        return getButtonGroupNodeHeight(node);
       case "generic":
         return getGenericNodeHeight(node);
       case "genericitem":
@@ -1183,6 +1220,14 @@ export default function Flow({
       }
       if (type === "quickreply") {
         newNode.outputs = []; // outputs معمولی - برای اتصالات غیر دکمه‌ای
+        newNode.buttonOutputs = [
+          { id: "output1", type: "output", label: "Button 1" },
+          { id: "output2", type: "output", label: "Button 2" },
+        ];
+        newNode.data = { buttons: ["Button 1", "Button 2"] };
+      }
+      if (type === "buttongroup") {
+        newNode.outputs = [];
         newNode.buttonOutputs = [
           { id: "output1", type: "output", label: "Button 1" },
           { id: "output2", type: "output", label: "Button 2" },
@@ -1929,6 +1974,8 @@ export default function Flow({
           return getVoiceNodeHeight(node);
         case "quickreply":
           return getQuickReplyNodeHeight(node);
+        case "buttongroup":
+          return getButtonGroupNodeHeight(node);
         case "generic":
           return getGenericNodeHeight(node);
         case "genericitem":
@@ -2701,10 +2748,10 @@ export default function Flow({
             socketIndex = (node.outputs || []).length + genericItemIndex;
           }
         }
-        // اگر پیدا نشد و نود quickreply یا genericitem است، در buttonOutputs جستجو کن
+        // اگر پیدا نشد و نود quickreply یا buttongroup یا genericitem است، در buttonOutputs جستجو کن
         if (
           socketIndex === -1 &&
-          (node.type === "quickreply" || node.type === "genericitem") &&
+          (node.type === "quickreply" || node.type === "buttongroup" || node.type === "genericitem") &&
           (node.buttonOutputs || []).length > 0
         ) {
           const buttonIndex = (node.buttonOutputs || []).findIndex((s) => s.id === socketId);
@@ -2732,6 +2779,9 @@ export default function Flow({
           break;
         case "quickreply":
           bodyHeight = getQuickReplyNodeHeight(node);
+          break;
+        case "buttongroup":
+          bodyHeight = getButtonGroupNodeHeight(node);
           break;
         case "generic":
           bodyHeight = getGenericNodeHeight(node);
@@ -4227,6 +4277,23 @@ export default function Flow({
                 </button>
               </Tooltip>
 
+              <Tooltip tooltipValue={t(LanguageKey.New_Flow_add_buttongroup_block)} position="top">
+                <button onClick={() => addNode("buttongroup")} className={styles.toolbardesktopitem}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="var(--text-h1)"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                    width="24px"
+                    height="24px"
+                    fill="none"
+                    viewBox="0 0 24 25">
+                    <path d="M7.7 4h8.6C19 4 21 5.600 21 8.300v1.400c0 2.700-2 4.300-4.700 4.300H7.700C5 14 3 12.400 3 9.700V8.300C3 5.600 5 4 7.700 4M7 17.500h10M7 21h10" />
+                  </svg>
+                </button>
+              </Tooltip>
+
               <Tooltip tooltipValue={t(LanguageKey.New_Flow_add_text_block)} position="top">
                 <button onClick={() => addNode("text")} className={styles.toolbardesktopitem}>
                   <svg
@@ -4737,6 +4804,26 @@ export default function Flow({
                   </button>
                   <button
                     onClick={() => {
+                      addNode("buttongroup");
+                      setShowMobileMenu(false);
+                    }}
+                    className={styles.mobilemenuitem}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      stroke="var(--text-h1)"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                      width="20px"
+                      height="20px"
+                      fill="none"
+                      viewBox="0 0 24 25">
+                      <path d="M7.7 4h8.6C19 4 21 5.600 21 8.300v1.400c0 2.700-2 4.300-4.700 4.300H7.700C5 14 3 12.400 3 9.700V8.300C3 5.600 5 4 7.700 4M7 17.500h10M7 21h10" />
+                    </svg>
+                    <span>{t(LanguageKey.New_Flow_add_buttongroup_block)}</span>
+                  </button>
+                  <button
+                    onClick={() => {
                       addNode("text");
                       setShowMobileMenu(false);
                     }}
@@ -4976,6 +5063,14 @@ export default function Flow({
                         updateStateWithHistory={updateStateWithHistory}
                       />
                     )}
+                    {node.type === "buttongroup" && (
+                      <ButtonGroupNode
+                        node={node}
+                        updateNodeData={updateNodeData}
+                        setEditorState={setEditorState}
+                        updateStateWithHistory={updateStateWithHistory}
+                      />
+                    )}
                     {node.type === "generic" && (
                       <GenericNode
                         node={node}
@@ -5036,7 +5131,10 @@ export default function Flow({
 
                     {node.outputs.map((socket, index) => {
                       const hasLabel =
-                        node.type === "quickreply" || node.type === "generic" || node.type === "genericitem";
+                        node.type === "quickreply" ||
+                        node.type === "buttongroup" ||
+                        node.type === "generic" ||
+                        node.type === "genericitem";
 
                       return (
                         <div key={socket.id} className={hasLabel ? styles.socketwithlabel : styles.socketwithicon}>
@@ -5115,8 +5213,8 @@ export default function Flow({
                         );
                       })}
 
-                    {/* Render buttonOutputs for quickreply and genericitem nodes */}
-                    {(node.type === "quickreply" || node.type === "genericitem") &&
+                    {/* Render buttonOutputs for quickreply, buttongroup and genericitem nodes */}
+                    {(node.type === "quickreply" || node.type === "buttongroup" || node.type === "genericitem") &&
                       (node.buttonOutputs || []).map((socket, index) => {
                         return (
                           <div key={socket.id} className={styles.socketwithlabel}>
