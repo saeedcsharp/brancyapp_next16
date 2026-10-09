@@ -36,18 +36,21 @@ Medium
 - It does not invent prices, package quantities, token quantities, follower thresholds, or backend limits.
 - `unknown` access is rendered as `Needs Business Logic review`.
 - Routes with local mock data, TODO API markers, unmapped calls, or local-only actions belong in the audit-only section instead of the active catalog.
+- The audit-only section is currently disabled: its JSX in `app/feature/FeatureKnowledgeBase.tsx` is commented out (verified 2026-09-30), so `/feature` renders only active records. Keep `auditRecords` in `app/feature/featureCatalog.ts` synchronized so the section can be re-enabled.
 - On mobile, expanded feature details keep the expand control in the card's top corner, while role and access values share one row.
 
 ## Current Coverage
 
-- 41 evidence-backed catalog records.
-- Instagramer: 26 records when filtering by that role.
+- 42 evidence-backed catalog records.
+- Instagramer: 27 records when filtering by that role.
 - Shopper: 21 records when filtering by that role.
 - Advertiser: 8 records when filtering by that role.
 - Multi-role: 9 records.
 - AI-related: 5 records.
 - Confirmed frontend-free: 1 record.
-- Package, feature-entitlement, or AI-token controlled: 27 records.
+- Package, feature-entitlement, or AI-token controlled: 28 records.
+
+The Flow phone-number Excel export has its own active catalog record for the Message Properties route and documents its download-icon entry point, modal Export action, and six-month start-date limit in the localized description.
 
 Role totals overlap because a single record can serve more than one role.
 
@@ -56,6 +59,7 @@ Role totals overlap because a single record can serve more than one role.
 The catalog reflects frontend checks only. `LoginStatus` requires a selected Instagram account and `loginByInsta`; `packageStatus` checks the package expiry; `RoleAccess` grants owners broad access and restricts partners by `PartnerRole`. Pages can also use `messagePermission`, `commentPermission`, `insightPermission`, and `publishPermission`. The response-rule smart default list exposes View Store and Products only for `BusinessType.Shop` and `BusinessType.VShoper` sessions. Backend authorization remains authoritative.
 
 Known feature entitlements are `PsgFeatureType.AI`, `PsgFeatureType.Lottery`, and `PsgFeatureType.CustomDomain`. The page labels them as entitlements rather than assigning a price or quota.
+On `/upgrade`, AI, Custom Domain, and Winner Picker packages require an active main subscription. When it expires, those sections stay collapsed and unavailable to expand while the main package remains open for renewal.
 
 ## UI Behavior
 
@@ -73,7 +77,7 @@ Known feature entitlements are `PsgFeatureType.AI`, `PsgFeatureType.Lottery`, an
 
 ## Audit-Only Findings
 
-The page explicitly keeps advertising calendar/list/properties/report screens, customer-ads lifecycle UI, store properties, store statistics, the static MyLink coupon display, incomplete AI video creation, market-home mock data, buyer wallet/payment-status shells, Telegram/WhatsApp download prompts, and password/help-center stubs out of the live catalog. Their visible frontend surfaces are useful audit clues but do not prove a backend-supported Brancy capability.
+The page explicitly keeps the local-only Visual Identity/Character Sheet prototype, advertising calendar/list/properties/report screens, customer-ads lifecycle UI, store properties, store statistics, the static MyLink coupon display, incomplete AI video creation, market-home mock data, buyer wallet/payment-status shells, Telegram/WhatsApp download prompts, and password/help-center stubs out of the live catalog. Their visible frontend surfaces are useful audit clues but do not prove a backend-supported Brancy capability. The Visual Identity record must remain audit-only until persistence, analysis, generation, versioning, permissions, and asset handling have source-backed contracts.
 
 ## Validation
 

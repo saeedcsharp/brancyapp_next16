@@ -3,7 +3,6 @@ import CheckBoxButton from "brancy/components/design/checkBoxButton/checkBoxButt
 import { LanguageKey } from "brancy/i18n";
 import styles from "./timeline.module.css";
 
-// import RangeBar from "brancy/components/graphs/rangeBar";
 const Timeline = () => {
   const { t } = useTranslation();
   return (

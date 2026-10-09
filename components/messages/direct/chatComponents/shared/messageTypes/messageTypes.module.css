@@ -71,7 +71,7 @@
 .leftrepliedmsg {
   border-left: 3px solid var(--color-light-blue30);
   text-align: left;
-  height: 46px;
+
   border-radius: 0px var(--br10) var(--br10) 0px;
   background: var(--color-light-blue30);
   display: -webkit-box;
@@ -81,7 +81,7 @@
   overflow: hidden;
   color: var(--text-h1);
   position: relative;
-  padding: var(--padding-5) var(--padding-10) 0px var(--padding-10);
+  padding: var(--padding-5) var(--padding-10) var(--padding-5) var(--padding-10);
   font-size: var(--font-14);
   font-weight: var(--weight-400);
 }

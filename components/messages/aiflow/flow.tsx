@@ -10,6 +10,7 @@ import {
   GenericNode,
   ImageNode,
   OnMessageNode,
+  PhoneNumberGrabberNode,
   QuickReplyNode,
   TextNode,
   VoiceNode,
@@ -20,12 +21,14 @@ import {
   getGenericNodeHeight,
   getImageNodeHeight,
   getOnMessageNodeHeight,
+  getPhoneNumberGrabberNodeHeight,
   getQuickReplyNodeHeight,
   getTextNodeHeight,
   getVoiceNodeHeight,
   getWeblinkNodeHeight,
   imageNodeClassName,
   onmessageNodeClassName,
+  phonenumbergrabberNodeClassName,
   quickreplyNodeClassName,
   textNodeClassName,
   voiceNodeClassName,
@@ -100,7 +103,16 @@ interface Socket {
  */
 interface NodeData {
   id: string;
-  type: "text" | "image" | "voice" | "quickreply" | "generic" | "genericitem" | "weblink" | "onmessage";
+  type:
+    | "text"
+    | "image"
+    | "voice"
+    | "quickreply"
+    | "generic"
+    | "genericitem"
+    | "weblink"
+    | "phonenumbergrabber"
+    | "onmessage";
   label: string;
   position: Position;
   inputs: Socket[];
@@ -192,7 +204,16 @@ interface IGetFlow {
  * هر سطر نشان‌دهنده نود هدف (target) و هر ستون نشان‌دهنده نود منبع (source) است
  * مقدار 1 = اتصال مجاز، مقدار 0 = اتصال غیرمجاز
  */
-type NodeType = "onmessage" | "weblink" | "voice" | "text" | "quickreply" | "image" | "generic" | "genericitem";
+type NodeType =
+  | "onmessage"
+  | "weblink"
+  | "voice"
+  | "text"
+  | "quickreply"
+  | "image"
+  | "generic"
+  | "genericitem"
+  | "phonenumbergrabber";
 
 const INPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
   onmessage: {
@@ -204,6 +225,7 @@ const INPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
     image: 0,
     generic: 0,
     genericitem: 0,
+    phonenumbergrabber: 0,
   },
   weblink: {
     onmessage: 0,
@@ -214,6 +236,7 @@ const INPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
     image: 0,
     generic: 0,
     genericitem: 1,
+    phonenumbergrabber: 0,
   },
   voice: {
     onmessage: 1,
@@ -224,6 +247,7 @@ const INPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
     image: 1,
     generic: 0,
     genericitem: 1,
+    phonenumbergrabber: 1,
   },
   text: {
     onmessage: 1,
@@ -234,6 +258,7 @@ const INPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
     image: 1,
     generic: 0,
     genericitem: 1,
+    phonenumbergrabber: 1,
   },
   quickreply: {
     onmessage: 1,
@@ -244,6 +269,7 @@ const INPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
     image: 1,
     generic: 0,
     genericitem: 1,
+    phonenumbergrabber: 1,
   },
   image: {
     onmessage: 1,
@@ -254,6 +280,7 @@ const INPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
     image: 1,
     generic: 0,
     genericitem: 1,
+    phonenumbergrabber: 1,
   },
   generic: {
     onmessage: 1,
@@ -264,6 +291,7 @@ const INPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
     image: 1,
     generic: 0,
     genericitem: 1,
+    phonenumbergrabber: 1,
   },
   genericitem: {
     onmessage: 0,
@@ -274,6 +302,18 @@ const INPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
     image: 0,
     generic: 1,
     genericitem: 0,
+    phonenumbergrabber: 0,
+  },
+  phonenumbergrabber: {
+    onmessage: 0,
+    weblink: 0,
+    voice: 1,
+    text: 1,
+    quickreply: 1,
+    image: 1,
+    generic: 0,
+    genericitem: 1,
+    phonenumbergrabber: 1,
   },
 };
 
@@ -292,6 +332,7 @@ const OUTPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
     image: 1,
     generic: 1,
     genericitem: 0,
+    phonenumbergrabber: 0,
   },
   weblink: {
     onmessage: 0,
@@ -302,6 +343,7 @@ const OUTPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
     image: 0,
     generic: 0,
     genericitem: 0,
+    phonenumbergrabber: 0,
   },
   voice: {
     onmessage: 0,
@@ -312,6 +354,7 @@ const OUTPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
     image: 1,
     generic: 1,
     genericitem: 0,
+    phonenumbergrabber: 1,
   },
   text: {
     onmessage: 0,
@@ -322,6 +365,7 @@ const OUTPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
     image: 1,
     generic: 1,
     genericitem: 0,
+    phonenumbergrabber: 1,
   },
   quickreply: {
     onmessage: 0,
@@ -332,6 +376,7 @@ const OUTPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
     image: 1,
     generic: 1,
     genericitem: 0,
+    phonenumbergrabber: 1,
   },
   image: {
     onmessage: 0,
@@ -342,6 +387,7 @@ const OUTPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
     image: 1,
     generic: 1,
     genericitem: 0,
+    phonenumbergrabber: 1,
   },
   generic: {
     onmessage: 0,
@@ -352,6 +398,7 @@ const OUTPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
     image: 0,
     generic: 0,
     genericitem: 1,
+    phonenumbergrabber: 0,
   },
   genericitem: {
     onmessage: 0,
@@ -362,6 +409,18 @@ const OUTPUT_CONNECTION_RULES: Record<NodeType, Record<NodeType, number>> = {
     image: 1,
     generic: 1,
     genericitem: 0,
+    phonenumbergrabber: 1,
+  },
+  phonenumbergrabber: {
+    onmessage: 0,
+    weblink: 0,
+    voice: 1,
+    text: 1,
+    quickreply: 1,
+    image: 1,
+    generic: 1,
+    genericitem: 0,
+    phonenumbergrabber: 1,
   },
 };
 
@@ -430,6 +489,21 @@ const validateConnection = (
   if (targetNodeType === "onmessage") {
     return false;
   }
+  // genericitem (sub block) only accepts connections from generic (gallery)
+  if (targetNodeType === "genericitem" && sourceNodeType !== "generic") {
+    return false;
+  }
+  // phonenumbergrabber cannot be the first block (directly after onmessage)
+  if (targetNodeType === "phonenumbergrabber" && sourceNodeType === "onmessage") {
+    return false;
+  }
+  // generic (gallery), its items, and quickreply cannot feed phonenumbergrabber
+  if (
+    targetNodeType === "phonenumbergrabber" &&
+    (sourceNodeType === "generic" || sourceNodeType === "genericitem" || sourceNodeType === "quickreply")
+  ) {
+    return false;
+  }
   // بررسی وجود نوع نود در ماتریس‌ها
   if (!OUTPUT_CONNECTION_RULES[sourceNodeType] || !INPUT_CONNECTION_RULES[targetNodeType]) {
     return false;
@@ -495,6 +569,7 @@ const getNodeClassName = (nodeType: string): string => {
     generic: genericNodeClassName,
     genericitem: genericitemNodeClassName,
     weblink: weblinkNodeClassName,
+    phonenumbergrabber: phonenumbergrabberNodeClassName,
     onmessage: onmessageNodeClassName,
   };
   return classNameMap[nodeType] || "";
@@ -514,6 +589,7 @@ const getNodeTypeTranslationKey = (nodeType: string): LanguageKey => {
     generic: LanguageKey.New_Flow_generic_block,
     genericitem: LanguageKey.New_Flow_generic_block,
     weblink: LanguageKey.New_Flow_weblink_block,
+    phonenumbergrabber: LanguageKey.New_Flow_phonenumbergrabber_block,
     onmessage: LanguageKey.New_Flow_input_message_block,
   };
   return translationMap[nodeType] || LanguageKey.New_Flow_general_block;
@@ -560,6 +636,7 @@ const getNodeTypeColor = (nodeType: string): string => {
     generic: "#2699fb",
     genericitem: "#00c1d4",
     weblink: "#3498db",
+    phonenumbergrabber: "#16a085",
     onmessage: "#34E994",
   };
   return colorMap[nodeType] || "#95a5a6"; // Default Gray
@@ -672,6 +749,8 @@ const autoLayout = (nodes: NodeData[], connections: Connection[]): NodeData[] =>
         return getGenericItemNodeHeight(node);
       case "weblink":
         return getWeblinkNodeHeight(node);
+      case "phonenumbergrabber":
+        return getPhoneNumberGrabberNodeHeight(node);
       case "onmessage":
         return getOnMessageNodeHeight(node);
       default:
@@ -1303,42 +1382,64 @@ export default function Flow({
   /**
    * پیست کردن نودهای کپی شده
    */
+  const insertNodes = useCallback(
+    (data: { nodes: NodeData[]; connections: Connection[] }) => {
+      const idMap = new Map<string, string>();
+      const newNodes = data.nodes.map((node) => {
+        const newId = generateId();
+        idMap.set(node.id, newId);
+        return {
+          ...node,
+          id: newId,
+          position: {
+            x: node.position.x + 50,
+            y: node.position.y + 50,
+          },
+          selected: true,
+        };
+      });
+      const newConnections = data.connections.map((conn) => ({
+        ...conn,
+        id: generateId(),
+        sourceNodeId: idMap.get(conn.sourceNodeId) || conn.sourceNodeId,
+        targetNodeId: idMap.get(conn.targetNodeId) || conn.targetNodeId,
+      }));
+      updateStateWithHistory((prev) => ({
+        ...prev,
+        nodes: [...prev.nodes.map((n) => ({ ...n, selected: false })), ...newNodes],
+        connections: [...prev.connections, ...newConnections],
+      }));
+    },
+    [updateStateWithHistory],
+  );
+
   const pasteNodes = useCallback(() => {
     if (!clipboard) return;
-    const idMap = new Map<string, string>();
-    const newNodes = clipboard.nodes.map((node) => {
-      const newId = generateId();
-      idMap.set(node.id, newId);
-      return {
-        ...node,
-        id: newId,
-        position: {
-          x: node.position.x + 50,
-          y: node.position.y + 50,
-        },
-        selected: true,
-      };
-    });
-    const newConnections = clipboard.connections.map((conn) => ({
-      ...conn,
-      id: generateId(),
-      sourceNodeId: idMap.get(conn.sourceNodeId) || conn.sourceNodeId,
-      targetNodeId: idMap.get(conn.targetNodeId) || conn.targetNodeId,
-    }));
-    updateStateWithHistory((prev) => ({
-      ...prev,
-      nodes: [...prev.nodes.map((n) => ({ ...n, selected: false })), ...newNodes],
-      connections: [...prev.connections, ...newConnections],
-    }));
-  }, [clipboard, updateStateWithHistory]);
+    insertNodes(clipboard);
+  }, [clipboard, insertNodes]);
 
   /**
    * تکثیر نودهای انتخاب شده (کپی + پیست)
    */
-  const duplicateSelectedNodes = useCallback(() => {
-    copySelectedNodes();
-    pasteNodes();
-  }, [copySelectedNodes, pasteNodes]);
+  const duplicateSelectedNodes = useCallback(
+    (nodeId?: string) => {
+      const selected = editorState.nodes.filter(
+        (n) => (typeof nodeId === "string" ? n.id === nodeId : n.selected) && n.type !== "onmessage",
+      );
+      // sub blocks (genericitem) cannot be duplicated on their own
+      if (selected.length === 0 || selected.every((n) => n.type === "genericitem")) return;
+      const selectedIds = selected.map((n) => n.id);
+      const data = {
+        nodes: selected,
+        connections: editorState.connections.filter(
+          (c) => selectedIds.includes(c.sourceNodeId) && selectedIds.includes(c.targetNodeId),
+        ),
+      };
+      setClipboard(data);
+      insertNodes(data);
+    },
+    [editorState.nodes, editorState.connections, insertNodes],
+  );
   // #endregion NODE MANAGEMENT
 
   // #region EVENT HANDLERS - MOUSE & DRAG
@@ -1834,6 +1935,8 @@ export default function Flow({
           return getGenericItemNodeHeight(node);
         case "weblink":
           return getWeblinkNodeHeight(node);
+        case "phonenumbergrabber":
+          return getPhoneNumberGrabberNodeHeight(node);
         case "onmessage":
           return getOnMessageNodeHeight(node);
         default:
@@ -2623,6 +2726,9 @@ export default function Flow({
           break;
         case "weblink":
           bodyHeight = getWeblinkNodeHeight(node);
+          break;
+        case "phonenumbergrabber":
+          bodyHeight = getPhoneNumberGrabberNodeHeight(node);
           break;
         case "quickreply":
           bodyHeight = getQuickReplyNodeHeight(node);
@@ -3419,8 +3525,8 @@ export default function Flow({
 
       // افزودن گزینه‌های Duplicate و Delete فقط برای نودهای غیر از onmessage
       if (nodeType !== "onmessage") {
-        baseOptions.push(
-          {
+        if (nodeType !== "genericitem") {
+          baseOptions.push({
             icon: "/copy.svg",
             value: t(LanguageKey.Dublicate),
             onClick: () => {
@@ -3431,19 +3537,17 @@ export default function Flow({
                   selected: n.id === nodeId,
                 })),
               }));
-              setTimeout(() => {
-                duplicateSelectedNodes();
-              }, 0);
+              duplicateSelectedNodes(nodeId);
             },
+          });
+        }
+        baseOptions.push({
+          icon: "/delete.svg",
+          value: t(LanguageKey.delete),
+          onClick: () => {
+            deleteNode(nodeId);
           },
-          {
-            icon: "/delete.svg",
-            value: t(LanguageKey.delete),
-            onClick: () => {
-              deleteNode(nodeId);
-            },
-          },
-        );
+        });
       }
 
       return baseOptions;
@@ -3923,7 +4027,7 @@ export default function Flow({
 
         <button
           className={`${styles.toolbarBtn} ${styles.secondary}`}
-          onClick={duplicateSelectedNodes}
+          onClick={() => duplicateSelectedNodes()}
           disabled={editorState.nodes.filter((n) => n.selected).length === 0}
           style={{
             opacity: editorState.nodes.filter((n) => n.selected).length === 0 ? 0.5 : 1,
@@ -4170,6 +4274,23 @@ export default function Flow({
                     fill="none"
                     viewBox="0 0 24 25">
                     <path d="M9.5 12v1.9m5.3-2v2M12.1 10v5.7M21 9v8c0 3-1.8 5-4.8 5H7.8c-3 0-4.8-2-4.8-5V9c0-3 1.8-5 4.8-5h8.4c3 0 4.8 2 4.8 5" />
+                  </svg>
+                </button>
+              </Tooltip>
+
+              <Tooltip tooltipValue={t(LanguageKey.New_Flow_phonenumbergrabber_block)} position="top">
+                <button onClick={() => addNode("phonenumbergrabber")} className={styles.toolbardesktopitem}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="var(--text-h1)"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                    width="24px"
+                    height="24px"
+                    fill="none"
+                    viewBox="0 0 24 25">
+                    <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2" />
                   </svg>
                 </button>
               </Tooltip>
@@ -4680,6 +4801,26 @@ export default function Flow({
                   </button>
                   <button
                     onClick={() => {
+                      addNode("phonenumbergrabber");
+                      setShowMobileMenu(false);
+                    }}
+                    className={styles.mobilemenuitem}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      stroke="var(--text-h1)"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                      width="20px"
+                      height="20px"
+                      fill="none"
+                      viewBox="0 0 24 25">
+                      <path d="M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A15 15 0 0 1 3 6a2 2 0 0 1 2-2" />
+                    </svg>
+                    <span>{t(LanguageKey.New_Flow_phonenumbergrabber_block)}</span>
+                  </button>
+                  <button
+                    onClick={() => {
                       addNode("weblink");
                       setShowMobileMenu(false);
                     }}
@@ -4818,6 +4959,9 @@ export default function Flow({
                     {node.type === "onmessage" && <OnMessageNode node={node} updateNodeData={updateNodeData} />}
                     {node.type === "text" && <TextNode node={node} updateNodeData={updateNodeData} />}
                     {node.type === "weblink" && <WeblinkNode node={node} updateNodeData={updateNodeData} />}
+                    {node.type === "phonenumbergrabber" && (
+                      <PhoneNumberGrabberNode node={node} updateNodeData={updateNodeData} />
+                    )}
                     {node.type === "image" && (
                       <ImageNode node={node} updateNodeData={updateNodeData} setEditorState={setEditorState} />
                     )}
@@ -5058,27 +5202,29 @@ export default function Flow({
                         {t(LanguageKey.copy)}
                       </div>
 
-                      <div
-                        className={styles.contextMenuItem}
-                        onClick={() => {
-                          if (contextMenu.nodeId) {
-                            const node = editorState.nodes.find((n) => n.id === contextMenu.nodeId);
-                            if (node) {
-                              setEditorState((prev) => ({
-                                ...prev,
-                                nodes: prev.nodes.map((n) => ({
-                                  ...n,
-                                  selected: n.id === contextMenu.nodeId,
-                                })),
-                              }));
-                              duplicateSelectedNodes();
+                      {node?.type !== "genericitem" && (
+                        <div
+                          className={styles.contextMenuItem}
+                          onClick={() => {
+                            if (contextMenu.nodeId) {
+                              const node = editorState.nodes.find((n) => n.id === contextMenu.nodeId);
+                              if (node) {
+                                setEditorState((prev) => ({
+                                  ...prev,
+                                  nodes: prev.nodes.map((n) => ({
+                                    ...n,
+                                    selected: n.id === contextMenu.nodeId,
+                                  })),
+                                }));
+                                duplicateSelectedNodes(contextMenu.nodeId);
+                              }
                             }
-                          }
-                          setContextMenu({ visible: false, x: 0, y: 0 });
-                        }}>
-                        <img style={{ width: "24px", height: "24px" }} src="/copy.svg" />
-                        {t(LanguageKey.Dublicate)}
-                      </div>
+                            setContextMenu({ visible: false, x: 0, y: 0 });
+                          }}>
+                          <img style={{ width: "24px", height: "24px" }} src="/copy.svg" />
+                          {t(LanguageKey.Dublicate)}
+                        </div>
+                      )}
 
                       <div
                         className={styles.contextMenuItem}

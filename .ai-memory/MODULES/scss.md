@@ -22,7 +22,7 @@ Follows existing Next/React/TypeScript project conventions.
 
 ## Folder Structure
 
-`scss/` contains 13 files.
+`scss/` contains 12 files (the unused `scss/index.js` was removed on 2026-09-30).
 
 ## Execution Flow
 
@@ -130,7 +130,7 @@ No module-specific env vars documented unless related files read them.
 
 ## Related Files
 
-`scss/` contains 13 files.
+`scss/` contains 12 files (the unused `scss/index.js` was removed on 2026-09-30).
 
 ## Related Modules
 

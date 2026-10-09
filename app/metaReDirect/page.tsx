@@ -66,7 +66,6 @@ export default function MetaRedirect() {
   }
 
   async function createInstagramerAccount() {
-    console.log("createInstagramerAccount");
     try {
       const verifyCodeRes = await clientFetchApiWithAccessToken<boolean, IVerifyCode>(
         "/api/preinstagramer/VerifyCode",
@@ -99,7 +98,6 @@ export default function MetaRedirect() {
         return;
       }
 
-      console.log("verifyCodeRes.info.responseType", verifyCodeRes.info.responseType);
       notify(verifyCodeRes.info.responseType, NotifType.Warning);
     } catch (error) {
       console.error("Error in createInstagramerAccount:", error);

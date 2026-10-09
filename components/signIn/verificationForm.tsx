@@ -14,6 +14,7 @@ import {
 import { useTranslation } from "react-i18next";
 import { LanguageKey } from "brancy/i18n";
 import RingLoader from "brancy/components/design/loader/ringLoder";
+import { convertDigitsToEnglish } from "brancy/helper/numberFormater";
 import { NotifType, notify } from "brancy/components/notifications/notificationBox";
 import styles from "./verificationForm.module.css";
 
@@ -34,12 +35,6 @@ function createEmptyCode() {
 
 function formatTime(time: number) {
   return String(time);
-}
-
-function normalizeDigits(input: string) {
-  return input
-    .replace(/[۰-۹]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) - 1728))
-    .replace(/[٠-٩]/g, (digit) => String.fromCharCode(digit.charCodeAt(0) - 1584));
 }
 
 export default function VerificationForm(props: {
@@ -92,7 +87,7 @@ export default function VerificationForm(props: {
 
   const handleChange = useCallback(
     (element: HTMLInputElement, index: number) => {
-      const normalizedValue = normalizeDigits(element.value);
+      const normalizedValue = convertDigitsToEnglish(element.value);
 
       if (!/^\d+$/.test(normalizedValue)) {
         return;
@@ -114,7 +109,7 @@ export default function VerificationForm(props: {
   const handlePaste = useCallback(
     (e: ClipboardEvent<HTMLInputElement>) => {
       e.preventDefault();
-      const pastedData = normalizeDigits(e.clipboardData.getData("Text").trim());
+      const pastedData = convertDigitsToEnglish(e.clipboardData.getData("Text").trim());
       if (CODE_PATTERN.test(pastedData)) {
         const newCode = pastedData.split("");
         setCode(() => newCode);
@@ -216,7 +211,7 @@ export default function VerificationForm(props: {
         .get({ otp: { transport: ["sms"] }, signal: controller.signal } as WebOtpRequestOptions)
         .then((otp) => {
           if (otp) {
-            const otpCode = normalizeDigits((otp as WebOtpCredential).code).split("");
+            const otpCode = convertDigitsToEnglish((otp as WebOtpCredential).code).split("");
             if (otpCode.length === CODE_LENGTH && CODE_PATTERN.test(otpCode.join(""))) {
               setCode(otpCode);
             }

@@ -12,7 +12,6 @@ import {
   type FeatureRole,
 } from "./featureCatalog";
 import styles from "./page.module.css";
-import { wrap } from "node:module";
 
 type AccessFilter = "all" | "free" | "paid" | "subscription" | "token" | "required";
 type SortField = "title" | "category" | "access";
@@ -53,7 +52,6 @@ function DetailPanel({ feature }: { feature: FeatureRecord }) {
 
   return (
     <div className={styles.detailPanel}>
-      {/* <p className={styles.detailIntro}>{t(`${featureKey}.description`)}</p> */}
       <div className={styles.detailGrid}>
         <section>
           <h3>{t("featureKnowledge.detail.problem")}</h3>
@@ -142,18 +140,14 @@ function FeatureRow({
     <article className={styles.featureRow}>
       <div className={styles.featureSummary}>
         <div className={styles.featureName}>
-          {/* <span className={styles.mobileLabel}>{t("featureKnowledge.columns.feature")}</span> */}
-
           <strong>{t(`${featureKey}.title`)}</strong>
           <span className={styles.categoryTag}>{t(`featureKnowledge.categoryLabels.${feature.category}`)}</span>
         </div>
         <div className={styles.description}>
-          {/* <span className={styles.mobileLabel}>{t("featureKnowledge.columns.description")}</span> */}
           <p>{t(`${featureKey}.description`)}</p>
         </div>
 
         <div className={styles.expandCell}>
-          {/* <span className={styles.mobileLabel}>{t("featureKnowledge.columns.details")}</span> */}
           <button
             className={styles.expandButton}
             type="button"
@@ -266,7 +260,6 @@ export default function FeatureKnowledgeBase() {
         <header className={styles.hero}>
           <h1>{t("featureKnowledge.title")}</h1>
           <span className={styles.eyebrow}>{t("featureKnowledge.verifiedCaption")}</span>
-          {/* <p>{t("featureKnowledge.subtitle")}</p> */}
         </header>
 
         {/* <section className={styles.overview} aria-labelledby="overview-title">

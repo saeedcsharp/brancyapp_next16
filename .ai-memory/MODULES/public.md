@@ -18,7 +18,8 @@ Follows existing Next/React/TypeScript project conventions.
 
 ## Folder Structure
 
-`public/` contains 407 files including fonts, icons, images, manifests, `sw.js`, and Workbox files.
+`public/` contains 704 tracked files (2026-09-30) including fonts, icons, images, manifests, `sw.js`, and Workbox files.
+`public/flow-redirect.svg` is the compact external-navigation icon used beside Flow titles in the Message Properties phone-number card and in its empty state.
 
 ## Execution Flow
 
@@ -126,7 +127,7 @@ No module-specific env vars documented unless related files read them.
 
 ## Related Files
 
-`public/` contains 407 files including fonts, icons, images, manifests, `sw.js`, and Workbox files.
+`public/` contains 704 tracked files (2026-09-30) including fonts, icons, images, manifests, `sw.js`, and Workbox files.
 
 The `public/Flag/` directory provides two-letter country-code SVG assets consumed by the setting activity-history cards.
 

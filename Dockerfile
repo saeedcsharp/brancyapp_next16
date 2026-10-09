@@ -1,4 +1,4 @@
-FROM --platform=linux/amd64 hub.hamdocker.ir/library/node:22-alpine AS base
+FROM public.ecr.aws/docker/library/node:22-alpine AS base
 RUN npm config set registry https://repo.hmirror.ir/npm
 RUN echo "https://repo.hmirror.ir/apk/v$(cat /etc/alpine-release | cut -d'.' -f1,2)/main" > /etc/apk/repositories && \
     echo "https://repo.hmirror.ir/apk/v$(cat /etc/alpine-release | cut -d'.' -f1,2)/community" >> /etc/apk/repositories
@@ -37,11 +37,10 @@ RUN mkdir .next && chown nextjs:nodejs .next
 COPY --from=builder --chown=nextjs:nodejs /app/.next/standalone ./
 COPY --from=builder --chown=nextjs:nodejs /app/.next/static ./.next/static
 
-# Install sharp for optimized image handling in production
-RUN mkdir -p /app/sharp && cd /app/sharp && npm init -y && npm i sharp@0.33.5 && \
-    cp -r node_modules/sharp /app/node_modules/sharp && \
-    rm -rf /app/sharp && \
-    chown -R nextjs:nodejs /app/node_modules/sharp
+# Reuse sharp already installed by npm ci (the npm mirror returns 404 for sharp)
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/sharp ./node_modules/sharp
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/@img ./node_modules/@img
+COPY --from=builder --chown=nextjs:nodejs /app/node_modules/detect-libc ./node_modules/detect-libc
 
 ENV NEXT_SHARP_PATH=/app/node_modules/sharp
 

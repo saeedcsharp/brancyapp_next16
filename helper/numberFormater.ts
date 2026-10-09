@@ -28,6 +28,15 @@ export function numberToFormattedString2(number: string | number) {
   if (!Number.isNaN(Number(number))) return number.toLocaleString();
   else return "";
 }
+export function formatEnglishNumber(value: number): string {
+  return value.toLocaleString("en-US");
+}
+export function convertDigitsToEnglish(value: string): string {
+  return value.replace(/[۰-۹٠-٩]/g, (digit) => {
+    const code = digit.charCodeAt(0);
+    return String(code >= 0x06f0 && code <= 0x06f9 ? code - 0x06f0 : code - 0x0660);
+  });
+}
 export function convertFormatedStringToNumber(input: string): number | null {
   var numberStr = input.replaceAll(",", "");
   const numbersRegex = /^[0-9]+$/;
@@ -42,7 +51,6 @@ export function numbToAmAndPmTime(number: number | undefined): string {
   var hour = Math.floor(number / 3600);
   var residual = Math.floor((number % 3600) / 60);
   var minStr: string = residual < 10 ? `0${residual}` : residual.toString();
-  // hourStr = hour < 10 || hour - 12 < 10 ? `0${hour}:` : hour.toString() + ":";
   if (hour < 10) {
     result = `0${hour}:` + minStr + " AM";
   } else if (hour < 12) {

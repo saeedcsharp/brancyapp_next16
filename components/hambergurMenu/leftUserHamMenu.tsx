@@ -119,7 +119,6 @@ const LeftUserHamMenue = (props: {
   const [isUserMenuOpen, setIsUserMenuOpen] = useState(false);
   const [isNotificationOpen, setIsNotificationOpen] = useState(false);
   function getNotifLogo(responseType: PushResponseType, orderStep?: OrderStep) {
-    console.log("new status", orderStep);
     if (responseType === PushResponseType.UploadPostSuccess || responseType === PushResponseType.UploadStorySuccess)
       return (
         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 16 16" aria-hidden="true">

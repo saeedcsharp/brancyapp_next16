@@ -1,5 +1,6 @@
 import { MethodType } from "brancy/helper/api";
 import { clientFetchApi } from "brancy/helper/clientFetchApi";
+import { convertDigitsToEnglish } from "brancy/helper/numberFormater";
 import { NotifType, notify, ResponseType } from "brancy/components/notifications/notificationBox";
 import { SubInvoiceStatus } from "brancy/models/enums";
 import { IBankCard, IGeneralBallance } from "brancy/models/interfaces";
@@ -34,12 +35,7 @@ type BankCardProps = {
   onSelectCard?: (cardNumber: string) => void;
   onDefaultCardChange?: (cardNumber: string) => void;
 };
-const toEnglishDigits = (value: string) =>
-  value.replace(/[\u0660-\u0669\u06F0-\u06F9]/g, (digit) => {
-    const code = digit.charCodeAt(0);
-    return String(code >= 0x06f0 ? code - 0x06f0 : code - 0x0660);
-  });
-const formatCardNumber = (value: string) => toEnglishDigits(value).replace(/(\d{4})(?=\d)/g, "$1  ");
+const formatCardNumber = (value: string) => convertDigitsToEnglish(value).replace(/(\d{4})(?=\d)/g, "$1  ");
 function BankCardItem(props: BankCardItemProps) {
   const { t } = useTranslation();
   const { data: session } = useSession();
@@ -187,7 +183,7 @@ function BankCardItem(props: BankCardItemProps) {
         <div className={styles.bankCarddetail}>
           <div className="headerandparent">
             <div className={styles.cardNumber}>{formatCardNumber(card.cardNumber)}</div>
-            <div className={styles.iban}>{toEnglishDigits(card.iban)}</div>
+            <div className={styles.iban}>{convertDigitsToEnglish(card.iban)}</div>
           </div>
           <span className={styles.holder}>{card.accountHolderName}</span>
         </div>

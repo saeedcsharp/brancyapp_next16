@@ -105,10 +105,7 @@ const MessageItem = memo(
             {item.username}
           </div>
         </div>
-        <div
-          title={item.message ?? ""}
-          //className={`${styles.message} ${isRTL(item.message ?? "") ? "rtl" : "ltr"}`}
-          className={styles.message}>
+        <div title={item.message ?? ""} className={styles.message}>
           {item.directItemType === ItemType.Text && item.message}
           {item.directItemType !== ItemType.Media &&
             item.directItemType !== ItemType.Text &&
@@ -230,10 +227,7 @@ const LastMessage = memo(({ data, repliesData, unreadComments }: LastMessageProp
   const repliesCount = useMemo(() => repliesData?.length || 0, [repliesData]);
 
   const sortedItems = useMemo(() => {
-    const allItems = [
-      ...(data || []).map((item) => ({ ...item, isReply: false })),
-      // ...(repliesData || []).map((item) => ({ ...item, isReply: true })),
-    ];
+    const allItems = [...(data || []).map((item) => ({ ...item, isReply: false }))];
     return allItems.sort((a, b) => b.timeStampUnix - a.timeStampUnix);
   }, [data, repliesData]);
 

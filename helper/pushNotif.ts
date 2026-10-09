@@ -28,38 +28,6 @@ function notifyConnectionStatus(status: ConnectionStatus) {
 }
 
 export default function startSignalR(session: Session | null) {
-  // if (
-  //   hubConnection?.state === HubConnectionState.Connected ||
-  //   hubConnection?.state === HubConnectionState.Connecting
-  // )
-  //   return;
-  // sessionVar = session;
-  // let instagramerId = session?.user.instagramerIds[session?.user.currentIndex];
-  // let userSession = {
-  //   accessToken: session?.user.socketAccessToken,
-  //   instagramerId: instagramerId,
-  // };
-  // let str = JSON.stringify(userSession);
-  // var hubConnectionBuilder = new HubConnectionBuilder()
-  //   .withUrl("https://socket.brancy.app/Hubs/PushClient?access_token=" + str)
-  //   .build();
-  // hubConnectionBuilder.start().catch((error) => {
-  //   console.log(error);
-  //   setTimeout(() => {
-  //     startSignalR(sessionVar);
-  //   }, 5000);
-  //   hubConnectionBuilder.on("Instagramer", (data: string) => {
-  //     console.log("Instagramer");
-  //   });
-  //   hubConnectionBuilder.on("User", (data: string) => {
-  //     console.log("User");
-  //   });
-  // });
-  // if (hubConnectionBuilder.state === HubConnectionState.Connected) {
-  //   startSignalRMethod(objsVar);
-  //   getHubConnection();
-  // }
-  // hubConnection = hubConnectionBuilder;
   if (
     hubConnection?.state === HubConnectionState.Connected ||
     hubConnection?.state === HubConnectionState.Connecting ||
@@ -74,7 +42,6 @@ export default function startSignalR(session: Session | null) {
     accessToken: session?.user.socketAccessToken,
     instagramerId: instagramerId,
   };
-  console.log("start signalr");
   let str = JSON.stringify(session.user.currentIndex === -1 ? userSession : instagramerSession);
   hubConnection = new HubConnectionBuilder()
     .withUrl(getClientSocketBaseUrl() + "/Hubs/PushClient?access_token=" + str)
@@ -84,7 +51,6 @@ export default function startSignalR(session: Session | null) {
       },
     })
     .build();
-  console.log("build");
 
   // Add event listeners for automatic reconnection
   hubConnection.onclose((error) => {
@@ -142,7 +108,6 @@ export default function startSignalR(session: Session | null) {
 }
 export function getHubConnection() {
   if (hubConnection?.state === HubConnectionState.Disconnected && !isRetrying) {
-    console.log("sessionVar", sessionVar);
     startSignalR(sessionVar);
   } else if (hubConnection?.state === HubConnectionState.Connected) {
     return hubConnection;

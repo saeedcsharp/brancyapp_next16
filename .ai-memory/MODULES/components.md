@@ -36,7 +36,7 @@ Follows existing Next/React/TypeScript project conventions.
 
 ## Folder Structure
 
-`components/` contains 712 files across UI and domain folders.
+`components/` contains 714 tracked files across UI and domain folders (2026-09-30).
 
 ## Execution Flow
 
@@ -158,7 +158,7 @@ No module-specific env vars documented unless related files read them.
 
 ## Related Files
 
-`components/` contains 712 files across UI and domain folders.
+`components/` contains 714 tracked files across UI and domain folders (2026-09-30).
 
 ## Related Modules
 

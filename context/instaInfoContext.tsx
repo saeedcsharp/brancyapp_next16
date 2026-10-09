@@ -118,8 +118,6 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             createdTime: res.value.createdTime,
           },
         });
-        // setUser(res.value);
-        // throw new Error(`Failed to fetch data, status: ${res.statusCode}`);
       } else if (res.succeeded) {
         if (res.value.packageExpireTime < Date.now() / 1000 && (res.value.loginByFb || res.value.loginByInsta))
           notPackageNotify();
@@ -154,11 +152,8 @@ export const InstaProvider: React.FC<{ children: React.ReactNode }> = ({ childre
             businessType: res.value.businessType,
           },
         });
-
-        // setUser(res.value);
       }
     } catch (error: any) {
-      // setUser((prev) => ({ ...prev!, error: error.message }));
     } finally {
       isUpdatingRef.current = false;
     }

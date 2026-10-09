@@ -1,6 +1,7 @@
 export default {
   translation: {
     aiSuggestedPrompts_title: "Prompts suggérés",
+    aiSuggestedPrompts_openImage: "Ouvrir l’image en plein écran",
     aiSuggestedPrompts_explain: "Choisissez un prompt pour commencer.",
     aiSuggestedPrompts_category: "Catégorie du prompt",
     aiSuggestedPrompts_subCategory: "Sous-catégorie",
@@ -10,6 +11,8 @@ export default {
     aiSuggestedPrompts_loadMore: "Charger plus",
     aiSuggestedPrompts_prompt: "Prompt",
     aiSuggestedPrompts_copy: "Copier le prompt",
+    aiSuggestedPrompts_showMore: "Afficher plus",
+    aiSuggestedPrompts_showLess: "Afficher moins",
     // #region landing page
     unpin: "Détacher",
     pin: "Épingler",
@@ -1860,6 +1863,9 @@ export default {
     sensitiveToSpecificKeywords: "Sensible à des Mots-clés Spécifiques",
     sensitiveToSpecificKeywordsExplain:
       "Si ces mots-clés apparaissent n'importe où dans le texte du commentaire, le système répond automatiquement",
+    contain: "Contient le mot-clé",
+    containExplain:
+      "Activé, une réponse est envoyée si le commentaire contient le mot-clé. Désactivé, une réponse est envoyée uniquement si le commentaire entier correspond au mot-clé.",
     replyMethod: "Méthode de Réponse",
     respondInSameComment: "Répondre dans le Même Commentaire",
     respondDirectly: "Répondre par Message Direct",
@@ -2774,6 +2780,8 @@ export default {
     testlab: "Laboratoire de test",
     promptmode: "Mode Prompt",
     promptanalysis: "Analyse du Prompt",
+    promptanalysisExplain:
+      "Saisissez votre prompt en détail ; Brancy l’analysera en fonction de votre personnalité, de votre ton et de votre style d’interaction.",
     promptanalysisplaceholder: "Saisissez au moins 20 caractères pour analyser le prompt",
     reanalyze: "Réanalyser",
     shouldFollowerexplain: "Les réponses sont envoyées uniquement aux utilisateurs qui vous follow",
@@ -2799,6 +2807,9 @@ export default {
     AIFlow_block_title_required: "Veuillez saisir le titre du bloc (obligatoire)",
     AIFlow_item_title: "Titre de l’Élément:",
     AIFlow_show_graph: "Afficher le graphique du flux",
+    messagesetting_PhoneNumbers: "Numéros de téléphone",
+    messagesetting_PhoneNumbersExplain: "Numéros de téléphone collectés auprès de vos clients via les flux",
+    messagesetting_PhoneNumbersEmpty: "Aucun numéro de téléphone n'a encore été collecté",
     AIFlow_item_subtitle: "Sous-titre de l’Élément:",
     AIFlow_option_title: "Titre de l’Option",
     AIFlow_option_default: "Option",
@@ -2893,6 +2904,7 @@ export default {
     New_Flow_imageorvideo_block: "Bloc image / vidéo",
     New_Flow_quick_reply_block: "Bloc de réponse rapide",
     New_Flow_weblink_block: "Bloc de lien",
+    New_Flow_phonenumbergrabber_block: "Collecte du numéro de téléphone",
     New_Flow_generic_block: "Bloc Galerie (Carrousel)",
     New_Flow_add_general_block: "Ajouter un bloc de galerie",
     New_Flow_add_text_block: "Ajouter un bloc de texte",
@@ -3102,6 +3114,24 @@ export default {
     New_Flow_Tutorials_genericitem_connection_7: "✅ Bloc image et vidéo",
 
     New_Flow_Tutorials_weblink_title: "Bloc Lien Web",
+    New_Flow_Tutorials_phonenumbergrabber_title: "Bloc Collecte du numéro de téléphone",
+    New_Flow_Tutorials_phonenumbergrabber_description:
+      "Ce bloc attend la réception d'un numéro de téléphone et, une fois reçu, l'enregistre comme numéro valide.",
+    New_Flow_Tutorials_phonenumbergrabber_usageType:
+      "Idéal pour collecter les numéros des clients, les inscriptions, le suivi des commandes, les consultations et le contact commercial.",
+    New_Flow_Tutorials_phonenumbergrabber_feature_1:
+      "Attend la réponse de l'utilisateur jusqu'à la réception d'un numéro",
+    New_Flow_Tutorials_phonenumbergrabber_feature_2: "Valide et enregistre automatiquement le numéro reçu",
+    New_Flow_Tutorials_phonenumbergrabber_tip_1: "Avant ce bloc, demandez le numéro à l'utilisateur avec un bloc texte",
+    New_Flow_Tutorials_phonenumbergrabber_tip_2: "Indiquez le format attendu (par ex. avec l'indicatif du pays)",
+    New_Flow_Tutorials_phonenumbergrabber_tip_3: "Après ce bloc, envoyez un message de confirmation ou de remerciement",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_1: "Ne peut pas être le premier bloc du flux",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_2: "Une seule entrée et une seule sortie",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_3: "Seuls les numéros valides sont enregistrés",
+    New_Flow_Tutorials_phonenumbergrabber_connection_3: "❌ Bloc sous-branche de la galerie",
+    New_Flow_Tutorials_phonenumbergrabber_connection_2: "❌ Bloc de réponse rapide",
+    New_Flow_Tutorials_phonenumbergrabber_connection_1:
+      "❌ Bloc d'entrée de message (ne peut pas être le premier bloc)",
     New_Flow_Tutorials_weblink_description:
       "Envoyer un lien web cliquable qui s’ouvre dans le navigateur de l’utilisateur",
     New_Flow_Tutorials_weblink_usageType:
@@ -3433,6 +3463,18 @@ export default {
     Notify_NotBusinesser: "Cet utilisateur n'est pas un professionnel",
     Notify_NotFoundAnySuggestedCategory: "Aucune catégorie suggérée n'a été trouvée",
     Notify_NoInvoiceExist: "Aucune facture n'existe",
+    Notify_InvalidMediaAiCreatorKey: "Modèle d'IA invalide",
+    Notify_InvalidMediaAiVersionKey: "Version d'IA invalide",
+    Notify_InvalidMediaAiRequestModel: "Modèle de requête de média IA invalide",
+    Notify_MediaAIError: "Une erreur s'est produite lors de la génération du média IA",
+    Notify_TwitchChannelDoestHaveAnyVideo: "Cette chaîne Twitch ne contient aucune vidéo",
+    Notify_CouponAlreadyDeleted: "Ce coupon a déjà été supprimé",
+    Notify_CouponNotDeleted: "Ce coupon n'est pas supprimé",
+    Notify_ExceedSubFlowCount: "Le nombre maximal de sous-flux a été dépassé",
+    Notify_ExceedFlowDepth: "La profondeur maximale du flux a été dépassée",
+    Notify_ExceedFlowItemCount: "Le nombre maximal d'éléments du flux a été dépassé",
+    Notify_ExceedFlowMediaAudioCount: "Le nombre maximal de médias et d'audios du flux a été dépassé",
+    Notify_OneFlowButtonHasEmptyItem: "L'un des boutons n'a pas de flux",
     InternalNotify_Ok: "Opération réussie",
     InternalNotify_RepetitiveHashtagInput: "Le hashtag saisi est répétitif",
     InternalNotify_NotFoundDevice: "Appareil non trouvé",

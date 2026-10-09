@@ -17,7 +17,6 @@ const LotteryRunning = (props: {
   handleViewAndDetails: (lotteryId: string) => void;
   handleShowShareTerms: (backgroundUrl: string, lotteryId: string) => void;
   handleShowDeleteLottery: (lotteryId: string) => void;
-  // handleShareRemainingTime:()=>void;
 }) => {
   const { t } = useTranslation();
   const { data: session } = useSession();

@@ -24,8 +24,6 @@ const NavbarMobile = (prop: { handleShowHamMenu: (ham: string) => void; gooli: b
       newRoute === InstagramerRoute.MessageComments ||
       newRoute === InstagramerRoute.MessageTicket ||
       newRoute === InstagramerRoute.MessageAIANDFlow ||
-      // newRoute === "messagewhatsapp" ||
-      // newRoute === "messagetelegram" ||
       newRoute === InstagramerRoute.MessageProperties.toLowerCase()
     )
       return "message";

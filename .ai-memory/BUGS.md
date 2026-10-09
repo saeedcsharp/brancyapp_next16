@@ -2,6 +2,8 @@
 
 ## Known Bugs
 
+The general and media auto-reply editors previously placed their activation switches inside the inactive `fadeDiv`, preventing users from re-enabling a paused reply. Fixed on 2026-10-04 by applying the inactive state only to the settings content; automated component coverage remains pending.
+
 The Ice Breaker deletion persistence bug was fixed on 2026-09-24. `Properties.tsx` previously sent the pre-deletion button list to `UpdateIceBreaker`; it now sends the filtered list without the selected item. Automated component coverage remains pending.
 
 The upgrade-page close action was fixed on 2026-09-20 by replacing the duplicated click/keyboard navigation with one guarded `router.replace("/home")` handler. Native button keyboard activation remains available, and repeated activation after navigation starts is ignored.
@@ -42,7 +44,6 @@ The main subscription remaining-time display was fixed on 2026-08-17 by calculat
 
 The AI-flow sender-username mention was fixed on 2026-08-17 so it inserts `[SENDER_USERNAME]` into the manual prompt instead of being added as a selected tool, cannot inherit another tool's selected state, and is disabled in prompt-analysis mode.
 
-<<<<<<< HEAD
 The direct inbox pagination stop bug was fixed on 2026-08-21. The general and business `fetchMore` callbacks now return the threads fetched from `/api/message/GetDirectInbox` instead of returning an empty array, which previously caused `useInfiniteScroll` to mark the cursor exhausted immediately. The inbox cursor is documented as nullable because the backend returns `null` for the final page.
 
 The direct inbox terminal-page render crash was fixed on 2026-08-21. Threads returned with an empty `items` array no longer cause `sentByOwner`, `text`, or `createdTime` access on an undefined first item.
@@ -55,11 +56,9 @@ The Last Messages chat-selection issue was fixed on 2026-08-27. DirectInbox now 
 
 The direct inbox category-request crash was fixed on 2026-08-22. Failed initial or pagination requests no longer rethrow `inboxError` during render, so a 500 from one category does not replace the entire inbox with the global error page.
 
-# The comment inbox pagination stop bug was fixed on 2026-08-21. Post and Story `fetchMore` callbacks now return the media fetched from `/api/Comment/GetInbox` instead of returning an empty array, and `ICommetInbox.oldestCursor` is nullable for the final page. Story page appends also ignore duplicate media IDs.
+The comment inbox pagination stop bug was fixed on 2026-08-21. Post and Story `fetchMore` callbacks now return the media fetched from `/api/Comment/GetInbox` instead of returning an empty array, and `ICommetInbox.oldestCursor` is nullable for the final page. Story page appends also ignore duplicate media IDs.
 
 The AI-flow connection lag and misalignment during zoom was fixed on 2026-08-21 by refreshing measured Socket positions in `useLayoutEffect` after the canvas transform commits and removing delayed zoom refresh timers.
-
-> > > > > > > sepehr
 
 ## Watchlist
 

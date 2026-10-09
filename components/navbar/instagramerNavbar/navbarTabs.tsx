@@ -340,12 +340,6 @@ const NavbarTabs = () => {
       indexValue: "wallet",
       initialSlide: 0,
     },
-    // biolinkHome: {
-    //   id: "home",
-    //   items: ["statistics", "mylink", "properties"],
-    //   indexValue: "market",
-    //   initialSlide: 0,
-    // },
     marketstatistics: {
       id: "statistics",
       items: ["statistics", "mylink", "properties"],

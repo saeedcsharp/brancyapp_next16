@@ -1,107 +1,54 @@
-- 2026-09-26: `redirectInterface` now navigates to the allowed target client-side after a 1-second delay (`ClientRedirect`) with `referrer: origin` metadata instead of a server `redirect()`, so the target receives `Referer: https://brancy.app/` rather than the previous page's host.
+- 2026-10-06: Removed the `/page/tools` lottery request to `GetPackageFeatureDetails`; lottery access now uses only `checkPackageFeature`, and selecting a start time no longer shows the package-time-window warning.
 
-- 2026-09-25: Fixed AI video history pagination by sharing the mounted workspace ref with the video infinite-scroll hook, allowing short video lists to trigger their next cursor request automatically.
+<<<<<<< HEAD
+<<<<<<< HEAD
 
-- 2026-09-24: Updated the media auto-reply Flow action to use the localized Show Flow Graph label and navigate to `/Ai/FlowandAgent?id=<masterFlowId>`.
+- 2026-10-06: Shortened the Flow phone-number export date range by one calendar day at both the picker and API clamp to avoid errors on the oldest selectable day.
+- 2026-10-06: Added the Message Properties Flow phone-number Excel export with the shared localized date/time picker and six-calendar-month limit, timezone-aware API request, media download link, and feature-catalog entry.
+- 2026-10-06: Moved the phone-number date picker modal to a body portal so the properties grid animation no longer hides it beneath the backdrop.
+- 2026-10-06: Replaced the phone-number card's inline date and Excel controls with a compact download icon; the modal's calendar now submits directly through an Export button with duplicate requests disabled.
+- 2026-10-06: Replaced the phone-number card's Flow Graph text buttons with compact, labeled redirect-arrow controls for individual flows and the empty state; removed the unrelated statistics graph artwork.
+- 2026-10-06: Placed the Flow navigation action beside each Flow name and replaced the font-based arrow with a dedicated external-navigation SVG, without adding a dependency.
+- 2026-10-06: Restored Flow phone-number export's `timezoneOffset` query to the browser offset in signed seconds; reverted the unrelated language-helper adjustment.
 
-- 2026-09-24: Fixed Live media quick-reply payloads to force `sendPr: false`; the Live follower control now only affects `shouldFollower`.
+- 2026-10-01: Prevented the AI page from repeating the `/api/feature/hasFeature` request on browser reload by caching the account-scoped entitlement in `sessionStorage` and deduplicating concurrent initial checks.
 
-- 2026-09-24: Fixed the media quick-reply Live must-follow-page control so it updates `shouldFollower` instead of `sendPr`.
+- 2026-09-17: Localized all Add Partner access tooltips across the eight supported locales using dedicated `LanguageKey` entries.
 
-- 2026-09-24: Removed the must-follow-page option from general and media auto-reply AI modes and force-saved the AI setting as disabled.
+- 2026-09-17: Updated Add Partner permissions so Content and Publish remain independent while the Publish control is disabled until Content is enabled.
+- 2026-09-17: Filtered Publish from Add Partner create/update payloads when Content is disabled.
 
-- 2026-09-24: Removed the must-follow-page option from Live media auto-reply AI and Flow modes.
+- 2026-09-17: Gated media auto-reply Product and Connect Product modes behind `PartnerRole.Products`; partners without the role see `NotAllowedCard` and cannot save those modes.
 
-- 2026-09-24: Fixed Ice Breaker deletion by sending the filtered button list to `UpdateIceBreaker` instead of the pre-deletion list.
+- 2026-09-15: Gated media auto-reply AI and Flow prompt APIs behind `PartnerRole.Automatics`; partners without the role see `NotAllowed` and do not trigger prompt/flow list, search, pagination, selection, or saved-item enrichment requests.
 
-- 2026-09-24: Localized the automatic-reply `Show Flow Graph` action across all eight supported languages.
+- 2026-09-14: Fixed the `/user` customer redirect in production by waiting for NextAuth session loading to finish, choosing one destination inside an effect, and using `router.replace` with an `-1` fallback for an unset `currentIndex`.
 
-- 2026-09-24: Updated Persistent Menu and Ice Breaker Flow entries to show the localized `Show Flow Graph` action and open `/Ai/FlowandAgent?id=...`.
+- 2026-09-15: Updated create-post role denial to preserve the existing create-post popup shell while rendering `NotAllowed` as its content when the partner lacks the `Publish` role.
+- 2026-09-15: Updated create-story role denial to preserve the existing create-story popup shell while rendering `NotAllowed` as its content when the partner lacks the `Publish` role.
+- 2026-09-15: Guarded create-post and create-story initial query-loading effects so denied role states do not request draft, pre-content, best-time, hashtag, caption-prompt, or publish-limit data.
 
-- 2026-09-24: Updated the selected Flow action in the special-payload popup to use the localized `Show Flow Graph` label and canonical `/Ai/FlowandAgent?id=...` route.
+- 2026-09-13: Fixed forced API sign-out following a server-generated localhost callback in production. Both direct and proxy 401 handlers now await `signOut({ redirect: false })` and navigate to the current origin root with `window.location.replace("/")`. Existing logout eligibility is unchanged; ten synthetic cases pass.
 
-- 2026-09-24: Connected the automatic-reply Flow Graph action to `/Ai/FlowandAgent?id=...`, using the selected flow's `masterFlowId`.
+- 2026-09-13: Added selected-account refresh on each client pathname transition, independent of the 20-second throttle. Request/readiness tracking now distinguishes individual navigations, queues the latest route check behind an active request, and restricts package redirects to current-navigation data. Synthetic rapid-navigation, return-navigation, deduplication, and in-flight transition checks pass.
 
-- 2026-09-24: Added optional `/Ai/FlowandAgent?id=...` deep-link handling. The flow list now opens a flow only when the query ID matches a fetched `masterFlowId`; invalid or missing IDs preserve the normal list view.
+- 2026-09-13: Added a selected-account initialization barrier above dashboard and upgrade client routes. Children mount only after `GetInfo` and session persistence complete; expired protected routes stay gated during upgrade navigation, and failures show the existing error/retry view. Public/customer rendering and middleware behavior are unchanged. Deferred API/session promise tests pass.
 
-- 2026-09-22: Updated the FollowUp template setting label and explanation in all eight locales to `Custom FollowUp Template` and the requested Persian description.
+- 2026-09-13: Fixed skipped `GetAccountInfo` calls on quick reloads by separating mount-local request tracking from persisted session freshness. Routine token renewal now chains account/title loading with the returned session; partner recovery releases the shared lock. Successful account refresh persists package expiry before redirecting protected Instagramer routes to `/upgrade`. Focused synthetic provider checks pass; live verification remains pending.
 
-- 2026-09-22: Removed the Message Properties toggle and API callback for filtering automatic and bot replies; the remaining message reply settings are unchanged.
+- 2026-09-12: Updated `vanishmode` and `vanishmodeexplain` across all eight locales to describe Hidden Mode as showing unanswered messages that were not ignored or hidden.
 
-- 2026-09-22: Fixed the message Properties smart default list not removing a just-added special payload button until reload, by re-filtering `specialPayloadInfoForIce`/`specialPayloadInfoForPersistent` from the refetched Ice Breaker/Persistent Menu items after saving.
+- 2026-09-12: Image prompt suggestions now load category options from `Instagramer/MediaAi/GetImagePromptCategories`; selecting a category reloads `GetImagePrompts` with that category ID while retaining cursor pagination.
 
-- 2026-09-22: Restricted the message smart default View Store and Products option to Shop and VShoper sessions.
-
-- 2026-09-21: De-duplicated all comment-inbox media arrays by `mediaId`, covering initial loads, pagination, searches, hidden inboxes, deep links, and SignalR inserts.
-
-- 2026-09-21: Enabled the Market Properties Products feature for Shop, VShoper, and Advertise business types while keeping it visible but disabled for other roles.
-
-- 2026-09-20: Media creator inputs now initialize from each non-null backend `defaultValue`, normalized by `inputType`, while null defaults retain the existing fallbacks and remain editable.
-
-- 2026-09-20: Updated the AI media creator token balance to use the shared `GetTotalFeatureCount` helper for `PsgFeatureType.AI` instead of loading package feature details.
-
-- 2026-09-20: Updated the home dashboard AI tile to use `Instagramer/Feature/GetTotalFeatureCount` with `PsgFeatureType.AI`; numeric results are displayed directly and unavailable results show the localized upgrade fallback while retaining the `/upgrade` action.
-
-- 2026-09-20: Stabilized the upgrade-page close button by using one guarded `router.replace("/home")` handler and relying on the native button keyboard behavior, preventing duplicate or intermittent navigation.
-
-- 2026-09-20: Removed the unused home-dashboard `/api/home/GetLastComments` request and its API route-map entry.
-
-- 2026-09-20: Redirected direct and proxied client API responses with HTTP 402 to `/upgrade` and preserved a normalized `Payment Required` result.
-
-- 2026-09-19: Fixed the home dashboard tile loader remaining visible forever by deriving `IngageInfo` loading state from the arrival of home tile data instead of the authenticated session status.
-- 2026-09-19: Added independent 10-second autoplay timers to the home upgrade and statistics slideshows while preserving manual pagination.
-- 2026-09-19: Split the home dashboard total-tile slideshow into a two-slide upgrade section for reserve tokens and remaining subscription days and a separate four-slide statistics section for stories, likes, reach, and unread comments, with purple, light green, firoze, and light red statistic colors.
-- 2026-09-19: Matched the home upgrade slideshow backdrop and active pagination colors to each slide: light yellow for tokens and dark yellow for remaining subscription days.
-- 2026-09-19: Added pagination to the home upgrade tile so users can switch between remaining AI tokens and remaining subscription days without losing the existing upgrade action.
-- 2026-09-19: Updated the home dashboard token tile to load and display the remaining AI token balance from the regular and reserve AI package features instead of an undefined prop.
-
-- 2026-09-18: Made the home smart page-analysis tile open a shared modal containing the current account summary, with keyboard activation and close controls.
-- 2026-09-19: Fixed desktop and mobile navbar detection for `/message/Properties` and corrected the active Properties tab index.
-
-- 2026-09-19: Fixed desktop and mobile navbar detection for `/setting/subAdmin` and corrected the active SubAdmin tab index.
-
-- 2026-09-19: Fixed desktop and mobile navbar detection for `/advertise/Properties` and corrected the active Properties tab index.
-
-- 2026-09-19: Changed the standalone partner access label from Product to Products across all eight locales.
-
-- 2026-09-19: Added the standalone `product_Product` label for the partner access role, leaving `product_Producttitle` unchanged for product forms.
-
-- 2026-09-19: Clarified the Publish Tooltip to explicitly express creating content across all eight locales, including the exact `Create content` wording in English.
-
-- 2026-09-19: Added content creation to the Publish partner Tooltip across all eight locales.
-
-- 2026-09-19: Clearing Content access now also clears Publish and Automatic selections, while keeping both toggles disabled.
-
-- 2026-09-19: Excluded Automatic from saved partner roles when Content access is disabled, matching Publish behavior.
-
-- 2026-09-19: Disabled the Automatic partner permission when Content access is disabled, matching Publish behavior.
-
-- 2026-09-19: Preserved the automatic-partner Tooltip wording and appended the Content access requirement across all eight locales.
-
-- 2026-09-19: Removed scheduling from `SettingGeneral_contentTooltip` across all eight locale dictionaries.
-
-- 2026-09-18: Grouped Instagramer AI navigation under `/Ai`, with creator and Flow and Agent tabs at `/Ai/creator` and `/Ai/FlowandAgent`; removed the former Page and Message route wrappers and updated desktop/mobile navigation.
-
-- 2026-09-18: Added localized Support buttons to the Instagramer and user sidebars. They open the shared Goftino chat panel beside the menu and use unique panel IDs alongside the global support control.
-
-## 2026-09-18
-
-- Fixed duplicate AI creator model entries returned for one provider by de-duplicating model names before rendering, preventing repeated React keys such as `seedance_2.0_mini_text_to_video`.
-
-- Updated `InternalNotify_ExceedPermittedUploadMedia` across all eight locales to state that the media count exceeds the permitted limit without assuming a fixed maximum of five.
-
-- AI creator `AudioArray` inputs now use the shared file-upload flow with `audio/*` acceptance, localized Add audio text, and native audio playback controls for uploaded previews.
-
-- AI creator `IntRange` inputs now render as standard sliders with integer values and a step of `1`; they remain separate from the four-direction square expansion control.
-
-- AI creator square expansion controls now use the four backend Range key names (`topExpantionRatio`, `buttonExpantionRatio`, `rightExpantionRatio`, and `leftExpantionRatio`) to decide whether to render `RangeSquareInput`; other Range inputs remain standard sliders.
-
+- # 2026-09-11: Fixed the mixed-account package redirect bypass: selected Instagramer accounts with missing or expired packages now reach `/upgrade` even when both `loginByFb` and `loginByInsta` are false. Removed full JWT logging from middleware.
+  =======
 - AI creator models with a single or incomplete set of range inputs now render standard sliders; the square expansion control remains reserved for complete top/right/bottom/left range sets.
+
+> > > > > > > saeed
 
 - Added the wallet settlement-history view to the payment page. `components/wallet/settle.tsx` uses paginated invoice data, shows awaiting/settled/failed sub-invoices in invoice-style cards, and keeps unsettled balances in the existing card and invoice views.
 
 - Wallet invoice order details now load automatically when the `Order` tab is selected and replace the invoice summary inside the existing invoice popup; back and close return to the invoice summary without a second modal.
-- Gated wallet invoice order details by the `PartnerRole.Orders` permission and show `NotAllowedCard` without requesting order data when access is unavailable; scoped popup CSS so the access state remains visible.
 
 - Added mouse and touch drag scrolling to the horizontally scrollable sub-invoice detail rows while preserving vertical touch scrolling.
 
@@ -122,6 +69,8 @@
 - Wallet cards now place the default card first after the add-card slide and open the slider on that card; users can still navigate freely between all cards.
 - Organized wallet modal contents under `components/wallet/modal/` and removed unused demo and legacy wallet components that had no active references.
 - 2026-09-12: Updated `vanishmode` and `vanishmodeexplain` across all eight locales to describe Hidden Mode as restoring unanswered messages that were not ignored or hidden.
+
+  > > > > > > > sepehr
 
 - 2026-09-08: Updated the landing-page first-login check to call `PreInstagramer/CheckUserIsNew`; new users go to `/user/instagramerLogin` and existing users go to `/user`.
 
@@ -311,8 +260,7 @@
 
 # Changelog
 
-- Combined the home dashboard statistic tiles with the existing reserve-token and remaining-days slideshow. Active stories, last likes, reach, and unread comments now use purple, light green, firoze, and light red slide colors.
-
+- Added the localized `Contain` keyword-matching switch to general and media auto-replies, persisted as `isContain` in both save payloads, with all eight locales covered.
 - Prevented the Instagramer sidebar and navbar from flashing while the required NextAuth session is loading or redirecting an unauthenticated user.
 
 - Implemented phase two SEO metadata foundations: added localized Open Graph/Twitter cards, app icons, `x-default` hreflang, and reusable JSON-LD for Organization, WebSite, and SoftwareApplication on eight landing routes. Kept FAQ schema, keyword metrics, and backlink acquisition pending until visible reviewed content and external data are available.

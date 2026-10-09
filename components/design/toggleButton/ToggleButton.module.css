@@ -94,12 +94,12 @@
   text-overflow: ellipsis;
   padding: 0 8px;
 }
-@media (max-width: 480px) {
+/* @media (max-width: 480px) {
   .toggleOptionActive,
   .toggleOptionInactive {
     min-height: 44px;
   }
-}
+} */
 @media (prefers-reduced-motion: reduce) {
   .toggleGroup,
   .activeIndicator,

@@ -106,28 +106,18 @@ const SelectProduct = (props: {
       {!loading && (
         <>
           <div className="title">{t(LanguageKey.pageLottery_SelectaPost)}</div>
-          <div className={styles.thumbnailsContainer}>
-            <div
-              ref={containerRef}
-              style={{
-                height: 500,
-                overflow: "auto",
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "space-between",
-              }}>
-              {products.map((v) => (
-                <div onClick={() => setSelectedProduct(v)} key={v.productId} className={styles.thumbnailMask}>
-                  <img
-                    className={`${styles.thumbnailImage} ${
-                      selectedProduct?.productId === v.productId ? styles.selectedPost : ""
-                    }`}
-                    src={basePictureUrl + v.thumbnailMediaUrl}
-                  />
-                </div>
-              ))}
-              {isLoadingMore && <DotLoaders />}
-            </div>
+          <div ref={containerRef} className={styles.thumbnailsContainer}>
+            {products.map((v) => (
+              <div onClick={() => setSelectedProduct(v)} key={v.productId} className={styles.thumbnailMask}>
+                <img
+                  className={`${styles.thumbnailImage} ${
+                    selectedProduct?.productId === v.productId ? styles.selectedPost : ""
+                  }`}
+                  src={basePictureUrl + v.thumbnailMediaUrl}
+                />
+              </div>
+            ))}
+            {isLoadingMore && <DotLoaders />}
           </div>
           <div className="ButtonContainer">
             <button onClick={props.backToAutoreply} className="cancelButton">

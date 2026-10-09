@@ -100,6 +100,7 @@
   font-weight: var(--weight-400);
   color: var(--text-h2);
   text-transform: capitalize;
+  animation: var(--top04);
   transition: var(--transition3);
   justify-content: flex-start;
   line-height: normal;
@@ -112,6 +113,7 @@
   text-transform: capitalize;
   text-align: start;
   color: var(--text-h1);
+  animation: var(--top04);
   font-weight: var(--weight-500);
   font-size: var(--font-14);
   transition: var(--transition3);
@@ -170,7 +172,33 @@ html[dir="rtl"] .shorticon {
   align-items: stretch;
   justify-content: space-between;
 }
+/* .slidecontentanimated {
+  animation: slide-content-in 260ms ease-out both;
+}
+@keyframes slide-content-in {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .slidecontentanimated {
+    animation: none;
+  }
+} */
 
+.slidecontentanimated {
+  animation: var(--top04);
+}
+@media (prefers-reduced-motion: reduce) {
+  .slidecontentanimated {
+    animation: none;
+  }
+}
 .pagination {
   position: relative;
   z-index: 1;
@@ -192,7 +220,6 @@ html[dir="rtl"] .shorticon {
   border-radius: 5px;
   background-color: var(--color-gray60);
   cursor: pointer;
-  transition: var(--transition3);
 }
 
 .paginationdot:hover {

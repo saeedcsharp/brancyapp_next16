@@ -112,8 +112,6 @@ const Announcement = memo(function Announcement({ data }: AnnouncementProps) {
         <button
           type="button"
           className={styles.Announcementsheader}
-          // onClick={handleToggle}
-          // onKeyDown={handleToggleKeys}
           aria-controls={contentId}
           aria-expanded={isExpanded}
           aria-label={announcementTitle}>

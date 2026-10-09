@@ -34,7 +34,7 @@ Follows existing Next/React/TypeScript project conventions.
 
 ## Folder Structure
 
-`legacy-pages/` contains 168 files.
+`legacy-pages/` contains 149 tracked files (2026-09-30).
 
 ## Execution Flow
 
@@ -142,7 +142,7 @@ No module-specific env vars documented unless related files read them.
 
 ## Related Files
 
-`legacy-pages/` contains 168 files.
+`legacy-pages/` contains 149 tracked files (2026-09-30).
 
 ## Related Modules
 

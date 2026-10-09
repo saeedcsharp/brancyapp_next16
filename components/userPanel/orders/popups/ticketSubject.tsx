@@ -93,7 +93,6 @@ export default function TicketTitle({ removeMask, orderId }: { removeMask: () =>
       itemType: state.imageId ? ITicketMediaType.Image : ITicketMediaType.Text,
     };
     try {
-      console.log("Creating ticket with data:", createSystemTicket);
       const res = await clientFetchApi<ICreateSystemTicket, ITicket>(
         "/api/systemticket/CreateSystemTicketBaseOrderId",
         {
@@ -108,7 +107,6 @@ export default function TicketTitle({ removeMask, orderId }: { removeMask: () =>
         },
       );
       if (res.succeeded) {
-        console.log("Ticket created successfully:", res);
         router.push(`/user/message?id=${res.value.ticketId}`);
       } else {
         notify(res.info.responseType, NotifType.Warning);

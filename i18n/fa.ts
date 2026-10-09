@@ -1,6 +1,7 @@
 export default {
   translation: {
     aiSuggestedPrompts_title: "پرامپت‌های پیشنهادی",
+    aiSuggestedPrompts_openImage: "باز کردن تصویر به‌صورت تمام‌صفحه",
     aiSuggestedPrompts_explain: "یک پرامپت را برای شروع انتخاب کنید.",
     aiSuggestedPrompts_category: "دسته‌بندی پرامپت",
     aiSuggestedPrompts_subCategory: "زیردسته‌بندی",
@@ -10,6 +11,8 @@ export default {
     aiSuggestedPrompts_loadMore: "نمایش بیشتر",
     aiSuggestedPrompts_prompt: "پرامپت",
     aiSuggestedPrompts_copy: "کپی پرامپت",
+    aiSuggestedPrompts_showMore: "نمایش ادامه",
+    aiSuggestedPrompts_showLess: "نمایش کمتر",
     // #region landing page
     toggleShowAll: "نمایش همه",
     toggleShowmonthly: "نمایش ماهانه",
@@ -1755,6 +1758,9 @@ export default {
     sensitiveToSpecificKeywords: "پاسخگویی حساس به کلمات کلیدی خاص",
     sensitiveToSpecificKeywordsExplain:
       "اگر این کلمات در هر جای متن کامنت وجود داشته باشد سیستم به صورت خودکار به آن کامنت پاسخ می‌دهد",
+    contain: "شامل کلمه باشد",
+    containExplain:
+      "اگر روشن باشد، با وجود کلمه در متن کامنت پاسخ داده می‌شود؛ اگر خاموش باشد، فقط وقتی پاسخ داده می‌شود که کل کامنت دقیقاً همان کلمه باشد.",
     replyMethod: "نحوه پاسخگویی",
     respondInSameComment: "پاسخ به همان کامنت",
     respondDirectly: "پاسخ به صورت دایرکت",
@@ -2655,6 +2661,9 @@ export default {
     testlab: "آزمایشگاه",
     promptmode: "حالت پرامپت",
     promptanalysis: "تحلیل پرامپت",
+
+    promptanalysisExplain:
+      "پرامپت خود را با جزئیات وارد کنید؛ برنسی آن را بر اساس کاراکتر، لحن و سبک تعامل شما تحلیل می‌کند.",
     promptanalysisplaceholder: "برای تحلیل پرامپت حداقل ۲۰ کاراکتر وارد کنید",
     promptanalysisexplain: "برنسی پرامپت شما را تحلیل می‌کند و بهترین تنظیمات را برای پاسخگویی هوشمند پیشنهاد می‌دهد",
 
@@ -2679,6 +2688,9 @@ export default {
     AIFlow_block_title_required: "لطفاً عنوان بلوک را وارد کنید (الزامی)",
     AIFlow_item_title: "عنوان آیتم:",
     AIFlow_show_graph: "نمایش نمودار جریان",
+    messagesetting_PhoneNumbers: "شماره‌های تلفن",
+    messagesetting_PhoneNumbersExplain: "شماره‌های تلفنی که از مشتریان شما از طریق جریان‌ها جمع‌آوری شده است",
+    messagesetting_PhoneNumbersEmpty: "هنوز شماره تلفنی جمع‌آوری نشده است",
     AIFlow_item_subtitle: "زیرعنوان آیتم:",
     AIFlow_option_title: "عنوان گزینه",
     AIFlow_option_default: "گزینه",
@@ -2779,6 +2791,7 @@ export default {
     New_Flow_imageorvideo_block: "بلوک تصویر / ویدیو",
     New_Flow_quick_reply_block: "بلوک پاسخ سریع",
     New_Flow_weblink_block: "بلوک لینک",
+    New_Flow_phonenumbergrabber_block: "دریافت شماره تلفن",
     New_Flow_generic_block: "بلوک گالری (کاروسل)",
     New_Flow_add_general_block: "اضافه‌کردن بلوک گالری",
     New_Flow_add_text_block: "اضافه‌کردن بلوک متن",
@@ -2997,6 +3010,23 @@ export default {
 
     // weblink
     New_Flow_Tutorials_weblink_title: "بلوک لینک وب",
+    New_Flow_Tutorials_phonenumbergrabber_title: "بلوک دریافت شماره تلفن",
+    New_Flow_Tutorials_phonenumbergrabber_description:
+      "این بلاک منتظر دریافت شماره تلفن می‌ماند و در صورت دریافت شماره، آن را به‌عنوان شماره معتبر ثبت می‌کند.",
+    New_Flow_Tutorials_phonenumbergrabber_usageType:
+      "مناسب برای جمع‌آوری شماره تماس مشتریان، ثبت‌نام، پیگیری سفارش، مشاوره و تماس با واحد فروش.",
+    New_Flow_Tutorials_phonenumbergrabber_feature_1: "انتظار برای پاسخ کاربر تا دریافت شماره تلفن",
+    New_Flow_Tutorials_phonenumbergrabber_feature_2: "اعتبارسنجی و ثبت خودکار شماره دریافت‌شده",
+    New_Flow_Tutorials_phonenumbergrabber_tip_1:
+      "قبل از این بلوک، با یک بلوک پیام متنی از کاربر بخواهید شماره خود را ارسال کند",
+    New_Flow_Tutorials_phonenumbergrabber_tip_2: "قالب مورد انتظار شماره را به کاربر بگویید (مثلاً با کد کشور)",
+    New_Flow_Tutorials_phonenumbergrabber_tip_3: "بعد از این بلوک، پیام تأیید یا تشکر ارسال کنید",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_1: "نمی‌تواند بلوک اول فلو باشد",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_2: "فقط یک ورودی و یک خروجی دارد",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_3: "فقط شماره‌های معتبر ثبت می‌شوند",
+    New_Flow_Tutorials_phonenumbergrabber_connection_3: "❌ بلوک زیرشاخه گالری",
+    New_Flow_Tutorials_phonenumbergrabber_connection_2: "❌ بلوک پاسخ سریع",
+    New_Flow_Tutorials_phonenumbergrabber_connection_1: "❌ بلوک ورودی پیام (نمی‌تواند بلوک اول باشد)",
     New_Flow_Tutorials_weblink_description: "ارسال لینک وب قابل کلیک که در مرورگر کاربر باز می‌شود",
     New_Flow_Tutorials_weblink_usageType:
       "مناسب برای هدایت به وب‌سایت، صفحه محصول، فروشگاه، فرم ثبت‌نام، صفحات لندینگ و مقالات.",
@@ -3322,6 +3352,18 @@ export default {
     Notify_NotBusinesser: "این کاربر صاحب کسب‌وکار نیست",
     Notify_NotFoundAnySuggestedCategory: "هیچ دسته‌بندی پیشنهادی یافت نشد",
     Notify_NoInvoiceExist: "هیچ صورتحسابی وجود ندارد",
+    Notify_InvalidMediaAiCreatorKey: "مدل هوش مصنوعی نامعتبر است",
+    Notify_InvalidMediaAiVersionKey: "ورژن هوش مصنوعی نامعتبر است",
+    Notify_InvalidMediaAiRequestModel: "مدل درخواست رسانه هوش مصنوعی نامعتبر است",
+    Notify_MediaAIError: "هنگام تولید رسانه با هوش مصنوعی خطایی رخ داد",
+    Notify_TwitchChannelDoestHaveAnyVideo: "این کانال توییچ هیچ ویدیویی ندارد",
+    Notify_CouponAlreadyDeleted: "این کوپن قبلاً حذف شده است",
+    Notify_CouponNotDeleted: "این کوپن حذف نشده است",
+    Notify_ExceedSubFlowCount: "تعداد زیرفلوها از حداکثر مجاز بیشتر شده است",
+    Notify_ExceedFlowDepth: "عمق فلو از حداکثر مجاز بیشتر شده است",
+    Notify_ExceedFlowItemCount: "تعداد آیتم‌های فلو از حداکثر مجاز بیشتر شده است",
+    Notify_ExceedFlowMediaAudioCount: "تعداد رسانه‌ها و فایل‌های صوتی فلو از حداکثر مجاز بیشتر شده است",
+    Notify_OneFlowButtonHasEmptyItem: "یکی از دکمه ها بدون فلو است",
 
     // Internal Notifications
     InternalNotify_Ok: "عملیات با موفقیت انجام شد",

@@ -1003,8 +1003,6 @@ const DirectInbox = () => {
         return;
       }
       if (session == null) {
-        console.log("session ", session);
-
         return;
       }
       if (gInbox.current === undefined) {
@@ -1313,7 +1311,14 @@ const DirectInbox = () => {
       payloadId: item.DirectItem.PayloadId,
       recpEmojiReaction: null,
       repliedToItemId: item.DirectItem.RepliedToItemId,
-      replyStory: null,
+      replyStory: item.DirectItem.ReplyStory
+        ? {
+            linkStickerUrl: item.DirectItem.ReplyStory.LinkStickerUrl,
+            link: item.DirectItem.ReplyStory.Link,
+            fbId: item.DirectItem.ReplyStory.FbId,
+            externalUrl: item.DirectItem.ReplyStory.ExternalUrl,
+          }
+        : null,
       sentByOwner: item.DirectItem.SentByOwner,
       text: item.DirectItem.Text,
       userId: item.DirectItem.UserId,
@@ -1611,7 +1616,6 @@ const DirectInbox = () => {
   };
 
   useEffect(() => {
-    console.log(" ✅ Console ⋙ Session", session, session?.user.username);
     if (session === undefined || session?.user.username === undefined || !LoginStatus(session)) return;
     fetchBusiness();
     fetchHides();

@@ -10,7 +10,6 @@ Browser renders Next routes. Route components either render app-native pages or 
 - Media CDN hosts configured through `helper/apiBaseUrl.ts` and Next image remote patterns.
 - SignalR/minisocket URLs configured by host.
 - Google Analytics and Tag Manager in root layout.
-- Neshan reverse geocoding in `legacy-pages/api/get-address.ts`.
 
 ## Source Of Truth
 

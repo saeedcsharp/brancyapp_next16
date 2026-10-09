@@ -168,79 +168,6 @@ const CalendarComponent = (props: { totalAds: ICaledarAds[]; showReject: (adId: 
   };
   useEffect(() => {
     //Api to fetch calendar info
-    // var response: ICaledarAds[] = [
-    //   {
-    //     date: Date.now(),
-    //     adsType: AdsType.PostAd,
-    //     fullName: "Ahoora Niazi",
-    //     profileUrl: "/no-profile.svg",
-    //     username: "@Ahoora",
-    //     adsId: 1,
-    //     adsTimeType: AdsTimeType.FullDay,
-    //     noPost: false,
-    //   },
-    //   {
-    //     date: Date.now() + 86400000,
-    //     adsType: AdsType.PostAd,
-    //     fullName: "Ahoora Niazi",
-    //     profileUrl: "/no-profile.svg",
-    //     username: "@Ahoora",
-    //     adsId: 2,
-    //     adsTimeType: AdsTimeType.FullDay,
-    //     noPost: false,
-    //   },
-    //   {
-    //     date: Date.now() + 86400000,
-    //     adsType: AdsType.StoryAd,
-    //     fullName: "Ahoora Niazi",
-    //     profileUrl: "/no-profile.svg",
-    //     username: "@Ahoora",
-    //     adsId: 3,
-    //     adsTimeType: AdsTimeType.FullDay,
-    //     noPost: false,
-    //   },
-
-    //   {
-    //     adsType: AdsType.PostAd,
-    //     fullName: "Ahoora Niazi",
-    //     profileUrl: "/no-profile.svg",
-    //     username: "@Ahoora",
-    //     adsId: 4,
-    //     adsTimeType: AdsTimeType.FullDay,
-    //     noPost: false,
-    //     date: Date.now() + 172800000,
-    //   },
-    //   {
-    //     adsType: AdsType.StoryAd,
-    //     fullName: "Ahoora Niazi",
-    //     profileUrl: "/no-profile.svg",
-    //     username: "@Ahoora",
-    //     adsId: 5,
-    //     adsTimeType: AdsTimeType.FullDay,
-    //     noPost: false,
-    //     date: Date.now() + 172800000,
-    //   },
-    //   {
-    //     adsType: AdsType.StoryAd,
-    //     fullName: "Ahoora Niazi",
-    //     profileUrl: "/no-profile.svg",
-    //     username: "@Ahoora",
-    //     adsId: 6,
-    //     adsTimeType: AdsTimeType.FullDay,
-    //     noPost: false,
-    //     date: Date.now() + 172890000,
-    //   },
-    //   {
-    //     adsType: AdsType.PostAd,
-    //     fullName: "Ahoora Niazi",
-    //     profileUrl: "/no-profile.svg",
-    //     username: "@Ahoora",
-    //     adsId: 7,
-    //     adsTimeType: AdsTimeType.FullDay,
-    //     noPost: false,
-    //     date: Date.now() + 172800000,
-    //   },
-    // ];
     if (props.totalAds.length > 0) {
       organizeCustomerAds(props.totalAds);
       setLoading(false);
@@ -317,10 +244,7 @@ const CalendarComponent = (props: { totalAds: ICaledarAds[]; showReject: (adId: 
                         }).format("hh:mm A")}
                       </div>
                     )}
-                    {v.adsType === AdsType.PostAd && (
-                      <AdsTypeComp adType={v.adType} />
-                      // <div className={styles.postad}>POST AD</div>
-                    )}
+                    {v.adsType === AdsType.PostAd && <AdsTypeComp adType={v.adType} />}
 
                     {v.adsType === AdsType.StoryAd && <AdsTypeComp adType={v.adType} />}
                   </div>

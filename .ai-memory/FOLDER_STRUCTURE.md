@@ -13,10 +13,10 @@
 - `hook/`: custom React hooks.
 - `i18n/`: translations, language keys, and the nested `/feature` catalog namespace.
 - `legacy-pages/`: historical page implementations rendered by app routes.
-- `lib/`: currently empty library folder.
+- `lib/`: not present (documented reservation only; shared utilities live in `helper/`).
 - `models/`: shared enums, interfaces, mocks, toggles.
 - `node_modules/`: installed third-party packages.
-- `patches/`: patch-package location, currently empty.
+- `patches/`: not present; `postinstall` still runs `patch-package`, which applies nothing.
 - `public/`: static assets, fonts, manifests, service worker files.
 - `scss/`: shared Sass variables and global style layers.
 - `types/`: TypeScript augmentation files.

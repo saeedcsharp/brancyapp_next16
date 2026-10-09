@@ -464,389 +464,413 @@ const AIPromptBox = ({
               />
             )}
           </div>
-          <div className={styles.aiPromptContainer}>
-            {/* ------------------------- */}
 
-            {/* ___chat___*/}
-            {(isWideScreen || activeTab === 0) && (
-              <section className={styles.AIgeneral} ref={chatBoxRef} role="region" aria-label="AI Prompt Settings">
-                <div className="headerandinput">
-                  <div className="headerparent">
-                    <label htmlFor="prompt-title" className="headertext">
-                      {t(LanguageKey.navbar_Title)}
-                    </label>
-                    <div className="counter" aria-live="polite">
-                      {detailedPrompt.title.length}/50
-                    </div>
+          {/* ------------------------- */}
+
+          {/* ___chat___*/}
+          {(isWideScreen || activeTab === 0) && (
+            <>
+              {/* <section className={styles.AIgeneral} ref={chatBoxRef} role="region" aria-label="AI Prompt Settings"> */}
+              {/* title section */}
+              <div className="headerandinput">
+                <div className="headerparent">
+                  <label htmlFor="prompt-title" className="headertext">
+                    {t(LanguageKey.navbar_Title)}
+                  </label>
+                  <div className="counter" aria-live="polite">
+                    {detailedPrompt.title.length}/50
                   </div>
-                  <InputBox
-                    id="prompt-title"
-                    dangerOnEmpty
-                    maxLength={50}
-                    className={"textinputbox"}
-                    handleInputChange={(e) => {
-                      setDetailedPrompt((prev) => ({
-                        ...prev,
-                        title: e.target.value,
-                      }));
-                    }}
-                    value={detailedPrompt.title}
-                    aria-required="true"
-                    aria-describedby="title-counter"
-                  />
                 </div>
+                <InputBox
+                  id="prompt-title"
+                  dangerOnEmpty
+                  maxLength={50}
+                  className={"textinputbox"}
+                  handleInputChange={(e) => {
+                    setDetailedPrompt((prev) => ({
+                      ...prev,
+                      title: e.target.value,
+                    }));
+                  }}
+                  value={detailedPrompt.title}
+                  aria-required="true"
+                  aria-describedby="title-counter"
+                />
+              </div>
+              {/* promptmode */}
+              <div className="headerandinput">
+                <div className="headerandinput">
+                  <div id="prompt-mode-label" className="sr-only">
+                    {t(LanguageKey.promptmode)}
+                  </div>
+                  <fieldset className={styles.promptMode} role="radiogroup" aria-labelledby="prompt-mode-label">
+                    <RadioButton
+                      name="promptMode"
+                      id={manualModeId}
+                      checked={promptMode === "manual"}
+                      textlabel={t(LanguageKey.prompt)}
+                      handleOptionChanged={(e) => {
+                        if (e.target.checked) {
+                          setPromptMode("manual");
+                          setAdvancePrompt(false);
+                          setShowAnalysisContent(false);
+                        }
+                      }}
+                    />
 
-                <div className={styles.promptModeparent}>
-                  <div className="headerandinput">
-                    <div id="prompt-mode-label" className="sr-only">
-                      {t(LanguageKey.promptmode)}
-                    </div>
-                    <fieldset className={styles.promptMode} role="radiogroup" aria-labelledby="prompt-mode-label">
+                    <div style={{ transition: "var(--transition3)" }}>
                       <RadioButton
                         name="promptMode"
-                        id={manualModeId}
-                        checked={promptMode === "manual"}
-                        textlabel={t(LanguageKey.prompt)}
+                        id={analysisModeId}
+                        checked={promptMode === "analysis"}
+                        textlabel={t(LanguageKey.promptanalysis)}
                         handleOptionChanged={(e) => {
                           if (e.target.checked) {
-                            setPromptMode("manual");
-                            setAdvancePrompt(false);
-                            setShowAnalysisContent(false);
+                            void handlePromptAnalysisSelection();
                           }
                         }}
                       />
-
-                      <div style={{ transition: "var(--transition3)" }}>
-                        <RadioButton
-                          name="promptMode"
-                          id={analysisModeId}
-                          checked={promptMode === "analysis"}
-                          textlabel={t(LanguageKey.promptanalysis)}
-                          handleOptionChanged={(e) => {
-                            if (e.target.checked) {
-                              void handlePromptAnalysisSelection();
-                            }
-                          }}
-                        />
-                      </div>
-                      <Tooltip
-                        triggerType="tooltip"
-                        position="bottom"
-                        onHover
-                        tooltipValue={t(LanguageKey.promptanalysisexplain)}
+                    </div>
+                    <Tooltip
+                      triggerType="tooltip"
+                      position="bottom"
+                      onHover
+                      tooltipValue={t(LanguageKey.promptanalysisexplain)}
+                    />
+                  </fieldset>
+                </div>
+                <div className={styles.promptModecontent}>
+                  {promptMode === "manual" && (
+                    <>
+                      <TextArea
+                        className="TextArea"
+                        handleInputChange={(e) => {
+                          setDetailedPrompt((prev) => ({
+                            ...prev,
+                            promptStr: e.target.value,
+                          }));
+                        }}
+                        value={detailedPrompt.promptStr}
+                        role={""}
+                        title={""}
+                        autoExpandOnFocus
+                        initialHeight={120}
                       />
-                    </fieldset>
-                  </div>
-                  <div className={styles.promptModecontent}>
-                    {promptMode === "manual" && (
-                      <>
-                        <TextArea
-                          className="TextArea"
-                          handleInputChange={(e) => {
-                            setDetailedPrompt((prev) => ({
-                              ...prev,
-                              promptStr: e.target.value,
-                            }));
-                          }}
-                          value={detailedPrompt.promptStr}
-                          role={""}
-                          title={""}
-                          autoExpandOnFocus
-                          initialHeight={120}
-                        />
-                        <div className={styles.promptModeoptionlist} role="list">
-                          {mergedAITools.map((tool, index) => {
-                            const selectedToolIndex = tools.findIndex(
-                              (selectedTool) => selectedTool.toolId === String(tool.toolType),
-                            );
-                            const isSelected = tool.name !== "SENDER_USERNAME" && selectedToolIndex !== -1;
+                      <div className={styles.promptModeoptionlist} role="list">
+                        {mergedAITools.map((tool, index) => {
+                          const selectedToolIndex = tools.findIndex(
+                            (selectedTool) => selectedTool.toolId === String(tool.toolType),
+                          );
+                          const isSelected = tool.name !== "SENDER_USERNAME" && selectedToolIndex !== -1;
 
-                            return (
-                              <div
-                                key={`tool-${index}-${tool.name}`}
-                                className={`${styles.promptModeoption} ${isSelected ? styles.promptModeoptionSelected : ""}`}
-                                onClick={() => {
+                          return (
+                            <div
+                              key={`tool-${index}-${tool.name}`}
+                              className={`${styles.promptModeoption} ${isSelected ? styles.promptModeoptionSelected : ""}`}
+                              onClick={() => {
+                                setSelectedAITool(tool);
+                                setShowAIToolsSettings(true);
+                              }}
+                              onKeyDown={(e) => {
+                                if (e.key === "Enter" || e.key === " ") {
+                                  e.preventDefault();
                                   setSelectedAITool(tool);
                                   setShowAIToolsSettings(true);
-                                }}
-                                onKeyDown={(e) => {
-                                  if (e.key === "Enter" || e.key === " ") {
-                                    e.preventDefault();
-                                    setSelectedAITool(tool);
-                                    setShowAIToolsSettings(true);
-                                  }
-                                }}
-                                role="button"
-                                tabIndex={0}
-                                aria-pressed={isSelected}
-                                aria-label={`${isSelected ? "Edit" : "Add"} ${getDisplayName(tool)}`}>
-                                {!isSelected && (
-                                  <img
-                                    style={{ width: "20px", height: "20px" }}
-                                    alt=""
-                                    title={tool.description}
-                                    src="/icon-plus.svg"
-                                    aria-hidden="true"
-                                  />
-                                )}
-                                <span>{getDisplayName(tool)}</span>
-                                {isSelected && (
-                                  <button
-                                    type="button"
-                                    className={styles.promptModeoptionRemove}
-                                    aria-label={`Remove ${getDisplayName(tool)}`}
-                                    onKeyDown={(event) => event.stopPropagation()}
-                                    onClick={(event) => {
-                                      event.stopPropagation();
-                                      setTools((prev) =>
-                                        prev.filter((_, toolIndex) => toolIndex !== selectedToolIndex),
-                                      );
-                                    }}>
-                                    <span aria-hidden="true">×</span>
-                                  </button>
-                                )}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </>
-                    )}
-                    {promptMode === "analysis" && loadingPromptAnalysis && (
-                      <>
-                        <AIButton
-                          style={{ cursor: "default" }}
-                          loading
-                          onClick={function (): void {
-                            throw new Error("Function not implemented.");
-                          }}></AIButton>
-                      </>
-                    )}
-                    {promptMode === "analysis" &&
-                      showAnalysisContent &&
-                      detailedPrompt.customPromptAnalysis &&
-                      !loadingPromptAnalysis && (
-                        <div
-                          className={`${styles.promptModecontentAnalysis} translate`}
-                          role="region"
-                          aria-live="polite">
-                          {promptMode === "analysis" && !loadingPromptAnalysis && (
-                            <button
-                              className={styles.reanalize}
-                              onClick={() => handleGetPromptAnalysis()}
-                              onKeyDown={(e) => e.key === "Enter" && handleGetPromptAnalysis()}
-                              aria-label="Reanalyze prompt"
-                              type="button">
-                              <svg
-                                fill="var(--color-dark-blue)"
-                                height="20"
-                                xmlns="http://www.w3.org/2000/svg"
-                                viewBox="0 0 24 24"
-                                aria-hidden="true">
-                                <path
-                                  opacity=".4"
-                                  d="M10 6.3q-.5 0-.7.4l-.5 1.4c-.7 2-1 2.6-1.5 3.2-.6.5-1.3.8-3.2 1.5l-1.4.5a.8.8 0 0 0 0 1.4l1.4.5c2 .7 2.6 1 3.2 1.5.5.6.8 1.3 1.5 3.2l.5 1.4a.8.8 0 0 0 1.4 0l.5-1.4c.7-2 1-2.6 1.5-3.2.6-.5 1.3-.8 3.2-1.5l1.4-.5a.8.8 0 0 0 0-1.4l-1.4-.5c-2-.7-2.6-1-3.2-1.5-.5-.6-.8-1.3-1.5-3.2l-.5-1.4z"
+                                }
+                              }}
+                              role="button"
+                              tabIndex={0}
+                              aria-pressed={isSelected}
+                              aria-label={`${isSelected ? "Edit" : "Add"} ${getDisplayName(tool)}`}>
+                              {!isSelected && (
+                                <img
+                                  style={{ width: "20px", height: "20px" }}
+                                  alt=""
+                                  title={tool.description}
+                                  src="/icon-plus.svg"
+                                  aria-hidden="true"
                                 />
-                                <path d="M18 2.3q-.5 0-.7.4l-.2.6c-.3.9-.4 1-.6 1.2q0 .2-1.2.6l-.6.2a.8.8 0 0 0 0 1.4l.6.2c.9.3 1 .4 1.2.6q.2 0 .6 1.2l.2.6a.8.8 0 0 0 1.4 0l.2-.6c.3-.9.4-1 .6-1.2q0-.2 1.2-.6l.6-.2a.8.8 0 0 0 0-1.4l-.6-.2c-.9-.3-1-.4-1.2-.6q-.2 0-.6-1.2l-.2-.6-.7-.5" />
-                              </svg>
-                              <span>{t(LanguageKey.reanalyze)}</span>
-                            </button>
-                          )}
-                          <div className="headerandinput">
-                            <div className="title2">Description:</div>
-                            <div className="explain" style={{ lineHeight: "16px" }}>
-                              {detailedPrompt.customPromptAnalysis.description}
+                              )}
+                              <span>{getDisplayName(tool)}</span>
+                              {isSelected && (
+                                <img
+                                  onKeyDown={(event) => event.stopPropagation()}
+                                  onClick={(event) => {
+                                    event.stopPropagation();
+                                    setTools((prev) => prev.filter((_, toolIndex) => toolIndex !== selectedToolIndex));
+                                  }}
+                                  className={styles.promptModeoptionRemove}
+                                  src="/deleteHashtag.svg"
+                                />
+
+                                // <button
+                                //   type="button"
+                                //   className={styles.promptModeoptionRemove}
+                                //   aria-label={`Remove ${getDisplayName(tool)}`}
+                                //   onKeyDown={(event) => event.stopPropagation()}
+                                //   onClick={(event) => {
+                                //     event.stopPropagation();
+                                //     setTools((prev) =>
+                                //       prev.filter((_, toolIndex) => toolIndex !== selectedToolIndex),
+                                //     );
+                                //   }}>
+                                //   <span aria-hidden="true">×</span>
+                                // </button>
+                              )}
                             </div>
+                          );
+                        })}
+                      </div>
+                    </>
+                  )}
+                  {promptMode === "analysis" && loadingPromptAnalysis && (
+                    <>
+                      <AIButton
+                        style={{ cursor: "default" }}
+                        loading
+                        onClick={function (): void {
+                          throw new Error("Function not implemented.");
+                        }}></AIButton>
+                    </>
+                  )}
+                  {promptMode === "analysis" &&
+                    showAnalysisContent &&
+                    detailedPrompt.customPromptAnalysis &&
+                    !loadingPromptAnalysis && (
+                      <div className={`${styles.promptModecontentAnalysis} translate`} role="region" aria-live="polite">
+                        {promptMode === "analysis" && !loadingPromptAnalysis && (
+                          <button
+                            className={styles.reanalize}
+                            onClick={() => handleGetPromptAnalysis()}
+                            onKeyDown={(e) => e.key === "Enter" && handleGetPromptAnalysis()}
+                            aria-label="Reanalyze prompt"
+                            type="button">
+                            <svg
+                              fill="var(--color-dark-blue)"
+                              height="20"
+                              xmlns="http://www.w3.org/2000/svg"
+                              viewBox="0 0 24 24"
+                              aria-hidden="true">
+                              <path
+                                opacity=".4"
+                                d="M10 6.3q-.5 0-.7.4l-.5 1.4c-.7 2-1 2.6-1.5 3.2-.6.5-1.3.8-3.2 1.5l-1.4.5a.8.8 0 0 0 0 1.4l1.4.5c2 .7 2.6 1 3.2 1.5.5.6.8 1.3 1.5 3.2l.5 1.4a.8.8 0 0 0 1.4 0l.5-1.4c.7-2 1-2.6 1.5-3.2.6-.5 1.3-.8 3.2-1.5l1.4-.5a.8.8 0 0 0 0-1.4l-1.4-.5c-2-.7-2.6-1-3.2-1.5-.5-.6-.8-1.3-1.5-3.2l-.5-1.4z"
+                              />
+                              <path d="M18 2.3q-.5 0-.7.4l-.2.6c-.3.9-.4 1-.6 1.2q0 .2-1.2.6l-.6.2a.8.8 0 0 0 0 1.4l.6.2c.9.3 1 .4 1.2.6q.2 0 .6 1.2l.2.6a.8.8 0 0 0 1.4 0l.2-.6c.3-.9.4-1 .6-1.2q0-.2 1.2-.6l.6-.2a.8.8 0 0 0 0-1.4l-.6-.2c-.9-.3-1-.4-1.2-.6q-.2 0-.6-1.2l-.2-.6-.7-.5" />
+                            </svg>
+                            <span>{t(LanguageKey.reanalyze)}</span>
+                          </button>
+                        )}
+                        <div className="headerandinput">
+                          <div className="title2">Description:</div>
+                          <div className="explain" style={{ lineHeight: "16px" }}>
+                            {detailedPrompt.customPromptAnalysis.description}
                           </div>
-
-                          {detailedPrompt.customPromptAnalysis.rules.length > 0 && (
-                            <div className="headerandinput">
-                              <div className="title2">Rules:</div>
-                              {detailedPrompt.customPromptAnalysis.rules.map((item, index) => (
-                                <div key={index} className="explain" style={{ lineHeight: "16px" }}>
-                                  <strong>{index + 1}.</strong> {item}
-                                </div>
-                              ))}
-                            </div>
-                          )}
-
-                          {detailedPrompt.customPromptAnalysis.tasks.length > 0 && (
-                            <div className="headerandinput">
-                              <div className="title2">Tasks:</div>
-                              {detailedPrompt.customPromptAnalysis.tasks.map((item, index) => (
-                                <div key={index} className="explain" style={{ lineHeight: "16px" }}>
-                                  <strong>{index + 1}.</strong> {item}
-                                </div>
-                              ))}
-                            </div>
-                          )}
                         </div>
-                      )}
-                    {promptMode === "analysis" && !loadingPromptAnalysis && showAnalysisContent && (
-                      <>
-                        <div className={styles.promptModeoptionlist} role="list">
-                          {mergedAITools.map((tool, index) => {
-                            const selectedToolIndex = tools.findIndex(
-                              (selectedTool) => selectedTool.toolId === String(tool.toolType),
-                            );
-                            const isSelected = tool.name !== "SENDER_USERNAME" && selectedToolIndex !== -1;
-                            const isDisabled = tool.name === "SENDER_USERNAME";
 
-                            return (
-                              <div
-                                key={`tool-analysis-${index}-${tool.name}`}
-                                className={`${styles.promptModeoption} ${isSelected ? styles.promptModeoptionSelected : ""} ${isDisabled ? styles.promptModeoptionDisabled : ""}`}
-                                onClick={
-                                  isDisabled
-                                    ? undefined
-                                    : () => {
+                        {detailedPrompt.customPromptAnalysis.rules.length > 0 && (
+                          <div className="headerandinput">
+                            <div className="title2">Rules:</div>
+                            {detailedPrompt.customPromptAnalysis.rules.map((item, index) => (
+                              <div key={index} className="explain" style={{ lineHeight: "16px" }}>
+                                <strong>{index + 1}.</strong> {item}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+
+                        {detailedPrompt.customPromptAnalysis.tasks.length > 0 && (
+                          <div className="headerandinput">
+                            <div className="title2">Tasks:</div>
+                            {detailedPrompt.customPromptAnalysis.tasks.map((item, index) => (
+                              <div key={index} className="explain" style={{ lineHeight: "16px" }}>
+                                <strong>{index + 1}.</strong> {item}
+                              </div>
+                            ))}
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  {promptMode === "analysis" && !loadingPromptAnalysis && showAnalysisContent && (
+                    <>
+                      <div className={styles.promptModeoptionlist} role="list">
+                        {mergedAITools.map((tool, index) => {
+                          const selectedToolIndex = tools.findIndex(
+                            (selectedTool) => selectedTool.toolId === String(tool.toolType),
+                          );
+                          const isSelected = tool.name !== "SENDER_USERNAME" && selectedToolIndex !== -1;
+                          const isDisabled = tool.name === "SENDER_USERNAME";
+
+                          return (
+                            <div
+                              key={`tool-analysis-${index}-${tool.name}`}
+                              className={`${styles.promptModeoption} ${isSelected ? styles.promptModeoptionSelected : ""} ${isDisabled ? styles.promptModeoptionDisabled : ""}`}
+                              onClick={
+                                isDisabled
+                                  ? undefined
+                                  : () => {
+                                      setSelectedAITool(tool);
+                                      setShowAIToolsSettings(true);
+                                    }
+                              }
+                              onKeyDown={
+                                isDisabled
+                                  ? undefined
+                                  : (e) => {
+                                      if (e.key === "Enter" || e.key === " ") {
+                                        e.preventDefault();
                                         setSelectedAITool(tool);
                                         setShowAIToolsSettings(true);
                                       }
-                                }
-                                onKeyDown={
-                                  isDisabled
-                                    ? undefined
-                                    : (e) => {
-                                        if (e.key === "Enter" || e.key === " ") {
-                                          e.preventDefault();
-                                          setSelectedAITool(tool);
-                                          setShowAIToolsSettings(true);
-                                        }
-                                      }
-                                }
-                                role="button"
-                                tabIndex={isDisabled ? -1 : 0}
-                                aria-disabled={isDisabled}
-                                aria-pressed={isDisabled ? undefined : isSelected}
-                                aria-label={`${isSelected ? "Edit" : "Add"} ${getDisplayName(tool)}`}>
-                                {!isSelected && !isDisabled && (
+                                    }
+                              }
+                              role="button"
+                              tabIndex={isDisabled ? -1 : 0}
+                              aria-disabled={isDisabled}
+                              aria-pressed={isDisabled ? undefined : isSelected}
+                              aria-label={`${isSelected ? "Edit" : "Add"} ${getDisplayName(tool)}`}>
+                              {!isSelected && !isDisabled && (
+                                <img
+                                  style={{ width: "20px", height: "20px" }}
+                                  alt=""
+                                  title={tool.description}
+                                  src="/icon-plus.svg"
+                                  aria-hidden="true"
+                                />
+                              )}
+                              <span>{getDisplayName(tool)}</span>
+                              {isSelected && !isDisabled && (
+                                <>
                                   <img
-                                    style={{ width: "20px", height: "20px" }}
-                                    alt=""
-                                    title={tool.description}
-                                    src="/icon-plus.svg"
-                                    aria-hidden="true"
-                                  />
-                                )}
-                                <span>{getDisplayName(tool)}</span>
-                                {isSelected && !isDisabled && (
-                                  <button
-                                    type="button"
-                                    className={styles.promptModeoptionRemove}
-                                    aria-label={`Remove ${getDisplayName(tool)}`}
                                     onKeyDown={(event) => event.stopPropagation()}
                                     onClick={(event) => {
                                       event.stopPropagation();
                                       setTools((prev) =>
                                         prev.filter((_, toolIndex) => toolIndex !== selectedToolIndex),
                                       );
-                                    }}>
-                                    <span aria-hidden="true">×</span>
-                                  </button>
-                                )}
-                              </div>
-                            );
-                          })}
-                        </div>
-                      </>
-                    )}
-                  </div>
+                                    }}
+                                    className={styles.promptModeoptionRemove}
+                                    src="/deleteHashtag.svg"
+                                  />
+                                  {/* <button
+                                      type="button"
+                                      className={styles.promptModeoptionRemove}
+                                      aria-label={`Remove ${getDisplayName(tool)}`}
+                                      onKeyDown={(event) => event.stopPropagation()}
+                                      onClick={(event) => {
+                                        event.stopPropagation();
+                                        setTools((prev) =>
+                                          prev.filter((_, toolIndex) => toolIndex !== selectedToolIndex),
+                                        );
+                                      }}>
+                                      <span aria-hidden="true">×</span>
+                                    </button> */}
+                                </>
+                              )}
+                            </div>
+                          );
+                        })}
+                      </div>
+                    </>
+                  )}
                 </div>
-
-                <div className="headerandinput">
-                  <div className="headerparent">
-                    <div className="title2">{t(LanguageKey.shouldFollower)}</div>
-                    <ToggleCheckBoxButton
-                      handleToggle={(e) => {
-                        setDetailedPrompt((prev) => ({
-                          ...prev,
-                          shouldFollower: e.target.checked,
-                        }));
-                      }}
-                      checked={detailedPrompt.shouldFollower}
-                      name="vanish-mode"
-                      title="Toggle vanish mode"
-                      aria-label="Toggle vanish mode"
-                      role="switch"
-                      aria-checked={detailedPrompt.shouldFollower}
-                    />
-                  </div>
-                  <div className="explain">{t(LanguageKey.shouldFollowerexplain)}</div>
-                </div>
-
-                <div className="headerandinput">
-                  <div className="headerparent">
-                    <div className="title2">{t(LanguageKey.RenewForThread)}</div>
-                    <ToggleCheckBoxButton
-                      handleToggle={(e) => {
-                        setDetailedPrompt((prev) => ({
-                          ...prev,
-                          reNewForThread: e.target.checked,
-                        }));
-                      }}
-                      checked={detailedPrompt.reNewForThread}
-                      name="vanish-mode"
-                      title="Toggle vanish mode"
-                      aria-label="Toggle vanish mode"
-                      role="switch"
-                      aria-checked={detailedPrompt.reNewForThread}
-                    />
-                  </div>
-                  <div className="explain">{t(LanguageKey.RenewForThreadexplain)}</div>
-                </div>
-                <button
-                  type="button"
-                  style={{ maxHeight: "42px" }}
-                  className={`saveButton ${!checkCondition ? "fadeDiv" : ""}`}
-                  onClick={handleCreateAIPrompt}
-                  disabled={!checkCondition}
-                  aria-label="Save AI prompt"
-                  aria-busy={updateLoading}>
-                  {updateLoading ? <RingLoader color="white" /> : t(LanguageKey.save)}
-                </button>
-              </section>
-            )}
-            {/* ___live test section___*/}
-            {(isWideScreen || activeTab === 1) && (
-              <section className={styles.AIlab} aria-label="Test lab" role="region">
-                {checkCondition ? (
-                  <LiveChat
-                    promptInfo={{
-                      prompt: detailedPrompt.promptStr,
-                      promptAnalysis: detailedPrompt.customPromptAnalysis,
-                      reNewForThread: detailedPrompt.reNewForThread,
-                      shouldFollower: detailedPrompt.shouldFollower,
-                      title: detailedPrompt.title,
-                      promptImageGen: null,
-                      tools: [],
-                      promptType: PromptType.General,
+              </div>
+              {/* settings */}
+              <div className="headerandinput">
+                <div className="headerparent">
+                  <div className="title2">{t(LanguageKey.shouldFollower)}</div>
+                  <ToggleCheckBoxButton
+                    handleToggle={(e) => {
+                      setDetailedPrompt((prev) => ({
+                        ...prev,
+                        shouldFollower: e.target.checked,
+                      }));
                     }}
+                    checked={detailedPrompt.shouldFollower}
+                    name="vanish-mode"
+                    title="Toggle vanish mode"
+                    aria-label="Toggle vanish mode"
+                    role="switch"
+                    aria-checked={detailedPrompt.shouldFollower}
                   />
-                ) : (
-                  <div className={styles.emptyAI}>
-                    <svg
-                      xmlns="http://www.w3.org/2000/svg"
-                      stroke="var(--text-h1)"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="1.5"
-                      width="40px"
-                      height="40px"
-                      fill="none"
-                      viewBox="0 0 24 25">
-                      <path d="M6.4 14.6h12.2M4.5 17.2l3.6-5q.4-.6.4-1.3V7q.1-.8.8-.8h6.4q.7 0 .8.8v4q0 .7.4 1.2l3.6 5.2A3 3 0 0 1 18 22H7a3 3 0 0 1-2.5-4.7m6.2-14q0 .2-.2.2t-.2-.2.2-.2.2.2m4.2-1q0 .2-.2.2l-.2-.2.2-.2q.2 0 .2.2" />
-                    </svg>
-                    <div className="title" role="alert" aria-live="polite">
-                      {t(LanguageKey.InternalNotify_FillRedBorderFields)}
-                    </div>
-                    <div className="explain" role="alert" aria-live="polite">
-                      {t(LanguageKey.AIFlow_live_test_block)}
-                    </div>
+                </div>
+                <div className="explain">{t(LanguageKey.shouldFollowerexplain)}</div>
+              </div>
+              <div className="headerandinput">
+                <div className="headerparent">
+                  <div className="title2">{t(LanguageKey.RenewForThread)}</div>
+                  <ToggleCheckBoxButton
+                    handleToggle={(e) => {
+                      setDetailedPrompt((prev) => ({
+                        ...prev,
+                        reNewForThread: e.target.checked,
+                      }));
+                    }}
+                    checked={detailedPrompt.reNewForThread}
+                    name="vanish-mode"
+                    title="Toggle vanish mode"
+                    aria-label="Toggle vanish mode"
+                    role="switch"
+                    aria-checked={detailedPrompt.reNewForThread}
+                  />
+                </div>
+                <div className="explain">{t(LanguageKey.RenewForThreadexplain)}</div>
+              </div>
+              {/* button section */}
+              <button
+                type="button"
+                style={{ minHeight: "42px", marginBlockEnd: "20px" }}
+                className={`saveButton ${!checkCondition ? "fadeDiv" : ""}`}
+                onClick={handleCreateAIPrompt}
+                disabled={!checkCondition}
+                aria-label="Save AI prompt"
+                aria-busy={updateLoading}>
+                {updateLoading ? <RingLoader color="white" /> : t(LanguageKey.save)}
+              </button>
+              {/* </section> */}
+            </>
+          )}
+          {/* ___live test section___*/}
+          {(isWideScreen || activeTab === 1) && (
+            // <section className={styles.AIlab} aria-label="Test lab" role="region">
+            <>
+              {checkCondition ? (
+                <LiveChat
+                  promptInfo={{
+                    prompt: detailedPrompt.promptStr,
+                    promptAnalysis: detailedPrompt.customPromptAnalysis,
+                    reNewForThread: detailedPrompt.reNewForThread,
+                    shouldFollower: detailedPrompt.shouldFollower,
+                    title: detailedPrompt.title,
+                    promptImageGen: null,
+                    tools: [],
+                    promptType: PromptType.General,
+                  }}
+                />
+              ) : (
+                <div className={styles.emptyAI}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="var(--text-h1)"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                    width="40px"
+                    height="40px"
+                    fill="none"
+                    viewBox="0 0 24 25">
+                    <path d="M6.4 14.6h12.2M4.5 17.2l3.6-5q.4-.6.4-1.3V7q.1-.8.8-.8h6.4q.7 0 .8.8v4q0 .7.4 1.2l3.6 5.2A3 3 0 0 1 18 22H7a3 3 0 0 1-2.5-4.7m6.2-14q0 .2-.2.2t-.2-.2.2-.2.2.2m4.2-1q0 .2-.2.2l-.2-.2.2-.2q.2 0 .2.2" />
+                  </svg>
+                  <div className="title" role="alert" aria-live="polite">
+                    {t(LanguageKey.InternalNotify_FillRedBorderFields)}
                   </div>
-                )}
-              </section>
-            )}
-          </div>
+                  <div className="explain" role="alert" aria-live="polite">
+                    {t(LanguageKey.AIFlow_live_test_block)}
+                  </div>
+                </div>
+              )}
+            </>
+            // </section>
+          )}
         </>
       )}
     </>

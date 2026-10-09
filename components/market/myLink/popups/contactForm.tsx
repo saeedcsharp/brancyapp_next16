@@ -234,7 +234,6 @@ const ContactForm = (props: { removeMask: () => void }) => {
                   className="textinputbox"
                   placeHolder={""}
                   handleInputChange={(e: ChangeEvent<HTMLInputElement>) => {
-                    console.log("emaillll", e.currentTarget.name);
                     setContactAndMap((prev) => ({
                       ...prev,
                       email: e.target.value,

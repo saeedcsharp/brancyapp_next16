@@ -52,12 +52,17 @@ const recordsEn = {
   responseRules: {
     title: "Reply rules and message controls",
     description:
-      "Configure general auto replies, icebreakers, persistent menus, special payloads, follower checks, and reply settings for direct conversations. The View Store and Products smart default is available only to Shop and VShoper accounts.",
+      "Configure general auto replies with either containing-keyword or exact-comment matching, icebreakers, persistent menus, special payloads, follower checks, and reply settings for direct conversations. Review phone numbers collected through Flows and download an Excel export from a selected date within the past six months. The View Store and Products smart default is available only to Shop and VShoper accounts.",
   },
   aiFlows: {
     title: "AI prompts and visual flows",
     description:
       "Build AI prompts, connect available tools, mention the sender with a manual-prompt placeholder, analyze prompts, test conversations, and compose node-based message flows for automated interactions.",
+  },
+  flowPhoneExport: {
+    title: "Export phone numbers collected by Flows",
+    description:
+      "In Message Properties, open the download icon beside Phone Numbers, choose a date and time within the past six months, and press Export to download the Excel file.",
   },
   postCaptionAi: {
     title: "AI caption generation",
@@ -202,7 +207,12 @@ const recordsEn = {
   subscriptionAccess: {
     title: "Subscription and feature-access management",
     description:
-      "Load package and reserve-feature pricing from the backend and continue to the backend-provided payment redirect for an eligible purchase.",
+      "Load package and reserve-feature pricing from the backend. The main subscription can be renewed at any time, while AI, Custom Domain, and Winner Picker packages can be purchased only when the main subscription is active.",
+  },
+  visualIdentityPrototype: {
+    title: "Visual Identity and Character Sheet",
+    description:
+      "A local-only UI prototype for defining reusable human, product, object, animal, or custom identities. Its references, locks, constraints, consistency controls, and sheet preview are not connected to persistence, analysis, generation, or provider APIs.",
   },
   advertisingLifecyclePrototype: {
     title: "Advertising calendar, lists, and reports",
@@ -612,15 +622,20 @@ export const featureKnowledgeFa = {
     responseRules: {
       title: "قوانین پاسخ به پیام",
       description:
-        "برای پیام‌ها جواب خودکار، شروع‌کننده گفت‌وگو و منوی آماده بسازید؛ گزینه دیدن فروشگاه و محصولات فقط برای حساب فروشگاه یا فروشگاه مجازی نمایش داده می‌شود.",
+        "برای پیام‌ها جواب خودکار بسازید و انتخاب کنید کلمه در متن کامنت باشد یا کل کامنت دقیقاً همان کلمه باشد؛ همچنین شروع‌کننده گفت‌وگو و منوی آماده تنظیم کنید. گزینه دیدن فروشگاه و محصولات فقط برای حساب فروشگاه یا فروشگاه مجازی نمایش داده می‌شود.",
       descriptionDetail:
-        "برای مدیریت پیام‌های تکراری، جواب خودکار و شروع‌کننده گفت‌وگو بسازید و منوی آماده در اختیار مخاطب بگذارید. در تنظیمات پاسخ خودکار، وقتی هنوز دستور هوش مصنوعی یا فلو را انتخاب نکرده‌اید، مسیر ساخت همان گزینه در کنار فهرست انتخاب نمایش داده می‌شود. گزینه دیدن فروشگاه و محصولات در فهرست هوشمند پیش‌فرض فقط برای حساب‌هایی با نوع فروشگاه یا فروشگاه مجازی در دسترس است. می‌توانید قوانین پاسخ، بررسی دنبال‌کردن حساب و تنظیمات مربوط به هر گفت‌وگو را هماهنگ کنید تا پاسخ‌گویی منظم‌تر شود.",
+        "برای مدیریت پیام‌های تکراری، جواب خودکار و شروع‌کننده گفت‌وگو بسازید و منوی آماده در اختیار مخاطب بگذارید. در پاسخ خودکار کلمه‌ای، مشخص کنید با وجود کلمه در متن کامنت پاسخ داده شود یا فقط وقتی کل کامنت دقیقاً همان کلمه است. در تنظیمات پاسخ خودکار، وقتی هنوز دستور هوش مصنوعی یا فلو را انتخاب نکرده‌اید، مسیر ساخت همان گزینه در کنار فهرست انتخاب نمایش داده می‌شود. گزینه دیدن فروشگاه و محصولات در فهرست هوشمند پیش‌فرض فقط برای حساب‌هایی با نوع فروشگاه یا فروشگاه مجازی در دسترس است. می‌توانید قوانین پاسخ و تنظیمات مربوط به هر گفت‌وگو را هماهنگ کنید؛ شماره‌های جمع‌آوری‌شده از فلوها را ببینید و با انتخاب تاریخی در شش ماه گذشته، فایل اکسل آن‌ها را دانلود کنید.",
     },
     aiFlows: {
       title: "دستورها و جریان‌های هوش مصنوعی",
       description: "با هوش مصنوعی گفت‌وگو بسازید، ابزار اضافه کنید و روند پاسخ‌گویی را تنظیم کنید.",
       descriptionDetail:
         "برای پاسخ‌گویی هوشمند، دستورهای دلخواهتان را بنویسید و ابزارهای در دسترس را به آن‌ها وصل کنید. گفت‌وگو را آزمایش کنید و با کنار هم گذاشتن مرحله‌ها، روندی بسازید که پاسخ‌ها و مسیر تعامل با مخاطب را منظم‌تر و قابل کنترل‌تر کند.",
+    },
+    flowPhoneExport: {
+      title: "دانلود شماره‌های جمع‌آوری‌شده از فلوها",
+      description:
+        "کنار عنوان شماره‌های تلفن، نماد دانلود را بزنید، تاریخ و ساعت را از شش ماه گذشته انتخاب کنید و با زدن خروجی اکسل فایل را دانلود کنید.",
     },
     postCaptionAi: {
       title: "نوشتن متن پست با هوش مصنوعی",
@@ -793,9 +808,14 @@ export const featureKnowledgeFa = {
     },
     subscriptionAccess: {
       title: "اشتراک و قابلیت‌ها",
-      description: "بسته مناسب را ببینید و در صورت نیاز اشتراکتان را فعال کنید.",
+      description: "بسته‌های هوش مصنوعی، دامنه و انتخاب برنده فقط با اشتراک اصلی فعال قابل خرید هستند.",
       descriptionDetail:
-        "بسته‌ها و قابلیت‌های قابل خرید را بر اساس اطلاعاتی که سامانه برمی‌گرداند بررسی کنید. اگر گزینه مناسبی پیدا کردید، فرایند فعال‌سازی اشتراک را ادامه دهید تا به مسیر پرداخت رسمی هدایت شوید؛ قیمت و محدودیت‌ها از خودمان حدس زده نمی‌شوند.",
+        "بسته‌ها و قابلیت‌های قابل خرید را بر اساس اطلاعاتی که سامانه برمی‌گرداند بررسی کنید. اشتراک اصلی را در هر زمان می‌توانید تمدید کنید، اما خرید بسته‌های هوش مصنوعی، دامنه و انتخاب برنده فقط وقتی ممکن است که اشتراک اصلی فعال باشد. قیمت و محدودیت‌ها از خودمان حدس زده نمی‌شوند.",
+    },
+    visualIdentityPrototype: {
+      title: "هویت بصری و شناسنامه تصویری",
+      description:
+        "این بخش فعلاً یک نمونه رابط کاربری محلی برای تعریف هویت انسان، محصول، شیء، حیوان یا سوژه سفارشی است. تصویرهای مرجع، قفل‌ها، محدودیت‌ها، تنظیمات هماهنگی و پیش‌نمایش آن هنوز به ذخیره‌سازی، تحلیل یا ساخت واقعی وصل نیستند.",
     },
     advertisingLifecyclePrototype: {
       title: "تقویم و گزارش تبلیغات",

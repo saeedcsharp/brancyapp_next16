@@ -2,32 +2,32 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
-General and media auto-replies no longer show the must-follow-page option for AI mode, and AI saves force it off. Live media auto-replies also hide it for Flow mode; other reply modes retain their existing behavior.
+The Message Properties phone-number card now has a small download icon beside its heading. It opens a body-portalled `SetTimeAndDate` modal where the selected date and time (from six calendar months ago plus one calendar day through now) is submitted directly with the Export button to `GetExportPhoneNumbers` for all Flows. The request uses the same buffered lower bound, avoiding backend errors on the oldest day. It sends the browser timezone offset in seconds and downloads the returned file from the media host; the `/feature` catalog includes this capability.
+The card's Flow Graph navigation uses the custom `/flow-redirect.svg` icon beside each Flow name or the empty-state message, replacing the large text buttons, font-dependent arrow glyph, and unrelated statistics graph artwork while retaining their routes and localized accessible labels. No icon dependency is needed.
 
-Ice Breaker deletion now sends the filtered `profileButtons.items` list to `UpdateIceBreaker`, so the removed button is not persisted again.
+The AI page caches its per-account `hasFeature` entitlement result in `sessionStorage` and reuses an in-flight check during mount, preventing the feature API from being called again solely because the page was reloaded.
 
-The Message Properties panel no longer exposes the automatic/bot reply filtering toggle or calls `ToggleHideCommentAutoReply`; the backend reply-setting shape remains intact for the other message settings.
+The `/page/tools` lottery creation flow checks its entitlement with `checkPackageFeature` and does not request package feature details. Selecting a start time no longer shows the package-time-window warning.
 
-The Message Properties FollowUp template setting uses the `Custom FollowUp Template` label and the requested Persian explanation in all eight locales.
+<<<<<<< HEAD
+The `/user` customer entry route now waits for NextAuth to finish loading before redirecting, performs only one `router.replace` decision, and treats an unset `currentIndex` as `-1`, preventing the production route from remaining at `/user`.
 
-The message response-rule smart default list shows View Store and Products only for authenticated Shop and VShoper business types; other business types cannot select that store-specific payload.
+Forced API sign-out now stays on the browser's current origin: both direct and proxied 401 handlers await NextAuth logout with redirects disabled and replace the location with `/`. Ten synthetic cases cover production, staging, local development, logout ordering, and unchanged non-logout responses. Deployed browser verification remains pending.
 
-Adding an Ice Breaker or Persistent Menu button on the message Properties page immediately removes the chosen special payload from the smart default picker: after saving, `handleSaveSpecialPayLoad` re-filters the special payload lists from the refetched menu items, so no page reload is needed for the picker to reflect the used item.
+Selected-account `GetInfo` now runs on every client pathname transition, bypassing the same-route 20-second throttle. Dashboard/upgrade readiness is navigation-specific; a transition during a pending request is checked after completion. Query/hash-only changes are excluded. Focused synthetic navigation tests pass; live browser verification remains pending.
 
-The home dashboard no longer remains on its full-page loader after authentication. `IngageInfo` derives loading from `props.data === null`, and a live browser refresh confirmed the five home tile sections render with the authenticated demo session.
+Dashboard and upgrade client children now wait in `InstaProvider` for selected-account initialization and session persistence before mounting. Expired protected accounts remain behind the loader until upgrade navigation completes; initialization errors expose reload retry. Public/customer routes and server middleware remain outside this gate. Deferred-promise synthetic checks pass; live browser verification is pending.
 
-The home dashboard total-tile area now presents reserve tokens and remaining subscription days in one upgrade slideshow, while active stories, last likes, reach, and unread comments are grouped in a separate statistics slideshow. Both slideshows advance automatically every 10 seconds and remain manually navigable. The four statistic slides use purple, light green, firoze, and light red in that order.
+`InstaProvider` now fetches selected-account data on every document reload despite a recent session `lastUpdate`, chains account/title loading after routine token renewal, and redirects expired packages from protected Instagramer routes after persisting fresh account data. Focused synthetic checks pass; authenticated browser verification remains pending.
 
-Instagramer AI navigation is now grouped under `/Ai`: the creator workspace is `/Ai/creator`, the Flow and Agent workspace is `/Ai/FlowandAgent`, and `/Ai` redirects to the creator workspace. The former `/page/ai` and `/message/AIAndFlow` route wrappers were removed, and desktop/mobile navigation no longer places these destinations under Page or Message.
-
-`/Ai/FlowandAgent` accepts an optional `id` query. `FlowAndAIInbox` validates it against the fetched `GetMasterFlows` list by `masterFlowId`; only a matching flow is selected and mounted, allowing `Flow` to fetch that flow with `GetMasterFlow`. Missing or unmatched `id` values leave the normal flow list view open.
-
-The Instagramer and user desktop sidebars now include a localized Support button at the bottom of their menus. Each opens the shared Goftino chat panel beside the sidebar while retaining the global website support control.
+# The middleware redirects selected Instagramer accounts with missing or expired packages to `/upgrade` regardless of `loginByFb` or `loginByInsta`; it no longer logs full JWT tokens.
 
 Wallet invoice order details now load automatically when the `Order` tab is selected and render inside the existing invoice popup. The request still uses `/api/wallet/getInvoice`, but the returned invoice is passed to `OrderDetailPopup` inline instead of requiring a button or opening a second modal.
 
 Sub-invoice history labels now use the shared `IDblue`, `IDpurple`, `IDgreen`, `IDred`, and `IDgray` styles for unsettled, awaiting-settlement, settled, failed, and unknown statuses.
 Sub-invoice detail rows support horizontal native scrolling and pointer-captured mouse/touch dragging with vertical touch scrolling preserved.
+
+> > > > > > > sepehr
 
 The direct Meta redirect route is available at `/metaRedirect`; its App Router directory no longer has a trailing space, so the route is discovered correctly by Next.js.
 
@@ -55,9 +55,13 @@ The Iranian/local Footer branch now publishes source-backed LocalBusiness JSON-L
 
 ## Current Architecture
 
+General and media keyword auto-replies now expose a localized `Contain` switch across all eight locales. Both save payloads send `isContain`; missing values from older saved replies default to `true` (keyword may appear anywhere), while `false` requests an exact whole-comment match.
+
 The media quick-reply popup now renders the reusable `components/notOk/commentPermissionState.tsx` localized comment-permission state with an inline SVG and an Instagram permission redirect when `session.user.commentPermission === false`. Its Enable Permission action checks `/api/user/ip` and opens `InvalidIpModalContent` for Iranian IPs; authorized users continue to see the existing auto-reply editor. The media auto-reply editor preserves same-comment, AI, and keyword workflows without message permission, while direct response, Flow, Product, and Connect Product selections show the localized message-permission state and reuse the Instagram permission redirect.
 
-The comment inbox de-duplicates every Post, Story, hidden-inbox, search, deep-link, pagination, and SignalR media list by `mediaId`, preserving the first item's order when the backend returns repeated media.
+The media auto-reply editor now requires `PartnerRole.Automatics` for AI and Flow data access. Missing-role partners see `NotAllowed` in the selected AI/Flow panel, and prompt/flow list, search, pagination, selection, and saved-item enrichment APIs are skipped.
+
+The media auto-reply editor now requires `PartnerRole.Products` for Product and Connect Product modes. Missing-role partners see `NotAllowedCard`, and those modes cannot be saved while product access is unavailable.
 
 The former icon-specific toggle control has been removed. Toggle tabs now use the shared `components/design/toggleButton/ToggleButton.tsx` control across wallet, event ideas, follower analysis, and the system-design showcase.
 
@@ -83,8 +87,6 @@ The desktop product list now keeps its table header inside the scrollable list, 
 The repository is a single Next.js 16 application using React 19, TypeScript strict mode, Sass, CSS modules, NextAuth, next-pwa, and a mixed App Router plus legacy-page bridge. App routes in `app/` commonly import pages from `legacy-pages/` while shared components live in `components/`.
 
 The global App Router error boundary displays the received error message. DirectInbox keeps failed initial inbox requests and pagination/API failures local to the inbox, preserving the HTTP status and backend reason in notifications without crashing the whole route.
-
-`clientFetchApi` now redirects both direct backend requests and `/api/user/*` proxy requests to `/upgrade` when the response status is 402, while returning a normalized `Payment Required` result.
 
 ## Active Features
 
@@ -160,12 +162,6 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 
 ## Recent Changes
 
-- The home smart page-analysis tile now opens the current account summary in the shared modal, with mouse and keyboard activation plus close controls.
-
-- The home dashboard token tile now loads the direct AI total from `Instagramer/Feature/GetTotalFeatureCount` with `PsgFeatureType.AI`; numeric results, including zero, are displayed directly and unavailable results use the localized upgrade fallback.
-
-- The home dashboard upgrade tile now provides accessible pagination between the remaining AI token balance and remaining subscription days; the tile's main click and keyboard action still opens the upgrade route.
-
 <<<<<<< HEAD
 
 - Fixed the Instagramer hamburger menu BioLink active state by using the actual slash-free market route values, so Home, Statistics, MyLink, and Properties all select the BioLink logo.
@@ -209,7 +205,7 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - AI media tabs now render inside the creator model panel. If the selected media type has no creator/model, the model panel retains only the tabs and the localized empty/error state is rendered in the settings panel.
 - AI creator enum inputs now use the shared button-based `optionGrid` presentation for both enum input variants instead of a native select.
 - AI creator multiple range inputs now render as one fixed `250px` square with a centered fixed `100px` inner square; mouse/touch handles define one shared hatched frame, including its corners, while each backend range key remains separate in submitted requests.
-- AI creator `IntRange` inputs render as standard integer-step sliders and are never included in the square expansion control. `AudioArray` inputs use the shared file-upload flow with audio acceptance and native playback controls. The square expansion control is used only when exactly the four backend `Range` keys `topExpantionRatio`, `buttonExpantionRatio`, `rightExpantionRatio`, and `leftExpantionRatio` are present; single, incomplete, or differently named ranges remain standard sliders.
+- AI creator range inputs use the square expansion control only when top, right, bottom, and left ranges are all present; single or incomplete ranges remain standard sliders.
 - AI creator footers now show separate, independent token-usage and media-creation buttons on opposite sides; creation only requires a valid prompt and required inputs, and uses zero for the parent feature check when no estimate exists.
 - AI image/video creation controls now remain disabled for the full pending request and the form ignores duplicate submit events while creation is in progress.
 - The AI page now owns and passes the media-creation loading state, enabling it before feature validation and clearing it only after the correlated image/video SignalR success or failure notification.
@@ -247,7 +243,6 @@ Selected AI tools are highlighted directly in the existing clickable tool-option
 - AI image and video creation now returns to the matching library immediately after request submission, shows one loading card per pending `clientContext`, and replaces or removes each card when its correlated SignalR success or failure notification arrives. Successful video results wait one second before replacing the loading card so the thumbnail URL has time to become available. Concurrent generations remain independently tracked.
 
 - The active AI workspace is localized across all eight supported locales. Creator states, model guidance, prompt validation, token usage actions, result metadata fallback values, request notifications, and the page description use the active i18next locale.
-- AI creator model lists remove duplicate model names returned by a provider before rendering, preventing duplicate React keys while preserving name-based model selection.
 
 - The AI library supports optional deep links: the App Router wrapper reads `/page/ai?type=1` or `/page/ai?type=2` with `useSearchParams` and passes the selected tab into the legacy page. Missing or unsupported values preserve the default image tab.
 

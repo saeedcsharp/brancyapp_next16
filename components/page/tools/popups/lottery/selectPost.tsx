@@ -108,37 +108,25 @@ const SelectPost = (props: {
       {!loading && (
         <>
           <div className="title">{t(LanguageKey.pageLottery_SelectaPost)}</div>
-          <div className={styles.thumbnailsContainer}>
-            <div
-              ref={containerRef}
-              style={{
-                height: 500,
-                overflow: "auto",
-                display: "flex",
-                flexWrap: "wrap",
-                justifyContent: "space-between",
-              }}>
-              {post.map((v) => (
-                <div
-                  onClick={() =>
-                    setSelectedPost({
-                      postId: v.postId,
-                      thumbnailMediaUrl: v.thumbnailMediaUrl,
-                      createdTime: v.createdTime,
-                    })
-                  }
-                  key={v.postId}
-                  className={styles.thumbnailMask}>
-                  <img
-                    className={`${styles.thumbnailImage} ${
-                      selectedPost?.postId === v.postId ? styles.selectedPost : ""
-                    }`}
-                    src={basePictureUrl + v.thumbnailMediaUrl}
-                  />
-                </div>
-              ))}
-              {isLoadingMore && <DotLoaders />}
-            </div>
+          <div ref={containerRef} className={styles.thumbnailsContainer}>
+            {post.map((v) => (
+              <div
+                onClick={() =>
+                  setSelectedPost({
+                    postId: v.postId,
+                    thumbnailMediaUrl: v.thumbnailMediaUrl,
+                    createdTime: v.createdTime,
+                  })
+                }
+                key={v.postId}
+                className={styles.thumbnailMask}>
+                <img
+                  className={`${styles.thumbnailImage} ${selectedPost?.postId === v.postId ? styles.selectedPost : ""}`}
+                  src={basePictureUrl + v.thumbnailMediaUrl}
+                />
+              </div>
+            ))}
+            {isLoadingMore && <DotLoaders />}
           </div>
           <div className="ButtonContainer">
             <button onClick={props.backToNormalPicker} className="cancelButton">

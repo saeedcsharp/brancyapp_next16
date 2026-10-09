@@ -8,7 +8,7 @@ Owns the `/feature` App Router page: an evidence-backed capability knowledge bas
 
 - `app/feature/page.tsx`: metadata and route entry.
 - `app/feature/FeatureKnowledgeBase.tsx`: interactive catalog UI.
-- `app/feature/featureCatalog.ts`: structured, non-localized feature and audit data.
+- `app/feature/featureCatalog.ts`: structured, non-localized feature and audit data. The audit section UI in `FeatureKnowledgeBase.tsx` is currently commented out (disabled); `auditRecords` is still maintained.
 - `app/feature/page.module.css`: responsive, RTL-safe, theme-variable-driven presentation.
 - `i18n/featureKnowledge.ts`: localized catalog text.
 

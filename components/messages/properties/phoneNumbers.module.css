@@ -1,0 +1,112 @@
+.card {
+  position: relative;
+  width: 100%;
+  min-height: 250px;
+  display: flex;
+  flex-direction: column;
+}
+.headerRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-10);
+}
+.exportTrigger {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: var(--br10);
+  background: transparent;
+  cursor: pointer;
+}
+.exportTrigger:hover {
+  background: var(--background-root);
+}
+.exportTrigger:focus-visible {
+  outline: 2px solid var(--color-dark-blue);
+  outline-offset: 2px;
+}
+.emptyState {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--gap-10);
+}
+.emptyState .flowLink {
+  margin-inline-start: auto;
+}
+.flowLink {
+  width: 44px;
+  height: 44px;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  border-radius: var(--br10);
+  background: transparent;
+  cursor: pointer;
+}
+.flowLink:hover {
+  background: var(--background-root);
+}
+.flowLink:focus-visible {
+  outline: 2px solid var(--color-dark-blue);
+  outline-offset: 2px;
+}
+.phone {
+  border: 1px solid var(--color-gray30);
+  border-radius: var(--br10);
+  padding: var(--padding-5);
+  color: var(--text-h2);
+  font-size: var(--font-14);
+  font-weight: var(--weight-500);
+  text-align: start;
+}
+.profile {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: var(--gap-10);
+}
+.profileImage {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+  flex-shrink: 0;
+}
+.profileInfo {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: var(--gap-3);
+  min-width: 0;
+  overflow: hidden;
+}
+.meta {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: var(--gap-10);
+  color: var(--text-h2);
+  font-size: var(--font-12);
+  font-weight: var(--weight-400);
+}
+.flowName {
+  display: flex;
+  align-items: center;
+  min-width: 0;
+  flex: 1;
+  gap: var(--gap-3);
+}
+.flowTitle {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.meta > span:last-child {
+  margin-inline-start: auto;
+}

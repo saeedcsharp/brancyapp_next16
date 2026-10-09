@@ -1,3 +1,5 @@
+- Add component/browser coverage for the phone-number download icon and modal's direct Export action (localized date/time, six-month boundary plus one calendar day at both picker and request clamp), omitted `masterFlowId`, timezone offset, download link, duplicate-request guard, and failure notification when a UI test harness is available.
+
 - Add component/browser coverage confirming AI video history pagination triggers when the initial video result does not fill the workspace and appends the next cursor page when a UI test harness is introduced.
 
 - Add component coverage confirming Ice Breaker deletion sends `UpdateIceBreaker` the filtered button list and removes the selected item from persisted state when a UI test harness is introduced.
@@ -28,10 +30,40 @@
 
 # TODO
 
+- Add component coverage confirming `/page/tools` checks lottery access through `checkPackageFeature`, makes no `GetPackageFeatureDetails` request, opens the feature-unavailable state when entitlement is false, and saves a selected start time without the package-time-window warning when a UI test harness is introduced.
+
+- Add component coverage for general and media auto-reply `isContain` defaults, toggle behavior, change detection, and save payloads when a UI test harness is introduced.
+- Add component/browser coverage confirming the AI page reuses the account-scoped `hasFeature` result after reload and deduplicates concurrent initial creator checks when a UI test harness is introduced.
+
+<<<<<<< HEAD
+
+- Add component coverage confirming the AI library offers only Images and Videos, requests only `GetImages` or `GetVideos` for the selected filter, and loads each history once when a UI test harness is introduced.
+- Add component coverage confirming malformed, non-finite, and out-of-range AI media `createdTime` values keep their history rows visible, avoid ISO serialization errors, and show the localized Not available fallback when a UI test harness is introduced.
+
+=======
+
+- Add a route smoke test confirming the Dev Panel Character Sheet button navigates to `/dev/characterSheet` and that the AI creator exposes only Image and Video tabs when a UI test harness is introduced.
+  > > > > > > > sepehr
+- Add component/browser coverage confirming the constrained AI `MediaLibrary` requests the next image and video cursors when its internal list reaches the end, including independent cursors and duplicate prevention, when a UI test harness is introduced.
+- Add component coverage for the AI generated-media helper, including localized null/boolean metadata values, invalid JSON fallback, shared timestamp output, and image/video modal close ownership when a UI test harness is introduced.
+- Add component coverage confirming the image prompt suggestions category buttons select All Categories and load prompts for the selected category when a UI test harness is introduced.
+- Add component/browser coverage confirming the selected image prompt preview opens the fullscreen overlay and closes through the close button, backdrop, and Escape key when a UI test harness is introduced.
+- Add component coverage confirming image prompt detail shows ten newline-delimited lines initially, renders JSON keys/values and markdown placeholders with syntax styles, toggles the complete prompt with localized Show more/Show less controls, returns to the list through Back without closing the shared modal, and preserves copy/Use in prompt actions when a UI test harness is introduced.
+- Add component coverage confirming initial AI history loading renders the shared loader and pending cards render a non-interactive loader without invoking AI prompt behavior when a UI test harness is introduced.
+
+- Add component coverage confirming each AI model row shows its localized, de-duplicated input-feature titles in the `IDgray` label and keeps the full list available through its tooltip when a UI test harness is introduced.
+- Add component coverage confirming the AI model modal Features toggle animates all feature-label groups, updates `aria-expanded`, and disables hidden labels when a UI test harness is introduced.
+- Add component coverage confirming the AI model modal Table toggle switches the active model list between card and semantic table views while preserving model selection when a UI test harness is introduced.
+- Add component coverage confirming AI model table headers sort category, name, price, cost, and feature labels in both directions and support keyboard activation when a UI test harness is introduced.
+- Add component coverage confirming AI model category buttons show unique categories and filter card view, while table view remains unfiltered and model selection callbacks stay intact when a UI test harness is introduced.
+- Add component/browser coverage confirming normal AI creator loading keeps the shared loader, while an unavailable AI feature renders the inline `NotFeature` state without mounting a feature modal when a UI test harness is introduced.
+- Add component coverage confirming an accepted AI media request resets the prompt and dynamic inputs, removes the token estimate, enables another submit, and keeps the matching pending library card until SignalR completion when a UI test harness is introduced.
+
 - Add component/browser coverage confirming the Upgrade close button navigates to `/home` through mouse, Enter, and Space activation without duplicate navigation when a UI test harness is introduced.
 
 - Add component coverage confirming the home dashboard upgrade slideshow displays the direct AI feature count, preserves zero as a valid value, shows the localized upgrade fallback for unavailable data, displays remaining subscription days, and preserves pagination keyboard access when a UI test harness is introduced.
 - Add component coverage confirming the separate home dashboard statistics slideshow renders stories, likes, reach, and unread comments in the specified color order and keeps story links independent from tile activation when a UI test harness is introduced.
+- Add component/browser coverage confirming home slideshow Arrow, Home, End, reduced-motion, story-link labeling, and private-route noindex behavior when a UI test harness is introduced.
 
 - Add component/browser coverage for opening and closing the home smart page-analysis modal with mouse, keyboard, backdrop, and missing-summary states when a UI test harness is introduced.
 
@@ -112,6 +144,9 @@
 
 - Add component coverage confirming the Meta direct-login initial loading phrases hydrate without text mismatches and its verification request is sent only once when React Strict Mode replays effects.
 - Add component/browser coverage for the AI workspace order: shared ToggleButton Image/Video tabs inside the model panel, matching creator loading after tab changes, empty/error state placement in the settings panel, creator submission, and the corresponding library below the creator when a UI test harness is introduced.
+- Add component/browser coverage for the local-only Visual Identity tab: confirm it never invokes media creator/API paths, switches between Auto and Advanced steps, changes dynamic controls by identity type, revokes reference object URLs, preserves lock and constraint state during the mounted session, and remains usable in mobile and RTL layouts.
+- Add browser coverage for the AI workspace responsive layout at `840px`, confirming the capped history column and flexible creator column above the breakpoint, then creator-first full-width stacking below it.
+- Add component/browser coverage confirming the AI model trigger opens `AiModelList`, lists all creators/models, updates the visible selection, closes after selection, and remains usable on mobile and RTL layouts when a UI test harness is introduced.
 
 - Add an automated review check for new UI code that detects avoidable duplication of shared `scss/` tokens/styles and `components/design/` controls when a suitable analysis tool is introduced.
 - Add integration coverage for `UploadFile` success paths to confirm media URLs are released after one second, errors are not delayed, progress callbacks are preserved, and direct-message image/video send flows use the shared uploader when a test harness is introduced.
@@ -164,8 +199,11 @@
 - Add testing strategy once test tooling exists.
 - Add component coverage for customer shop product cards with null titles and discount prices when a UI test harness is introduced.
 - Add component/browser coverage confirming both AI enum input variants render as `optionGrid` buttons, expose the active option, and retain required-input validation when a UI test harness is introduced.
+- Add component coverage confirming the AI media creator's inline dynamic-input branches preserve upload previews, range dragging, and required-input validation when a UI test harness is introduced.
 - Add component/browser coverage for the AI creator square range control, including independent edge dragging with mouse/touch, maximum clamping, RTL layout, and preservation of per-edge request keys when a UI test harness is introduced.
 - Add component/browser coverage confirming the AI creator footer keeps usage estimation and media creation as independent actions, permits creation before an estimate, and stacks both actions on narrow viewports when a UI test harness is introduced.
+- Add component coverage confirming the AI creator's Create image/Create video button submits its form and invokes the page callback when prompt and required inputs are valid.
+- Add component coverage confirming the AI creator usage button changes to the token progress panel after a successful estimate and returns when prompt or dynamic inputs invalidate the estimate.
 - Add component coverage confirming the sub-invoice popup header action calls `/api/wallet/getInvoice` with the selected invoice ID and opens order details on success when a UI test harness is introduced.
 - Add integration coverage for invoice-history cursor pagination, duplicate invoice IDs, and exhausted `nextMaxId` responses when test infrastructure is introduced.
 - Add integration coverage for sub-invoice popup cursor pagination, duplicate IDs, exhausted `nextMaxId`, and the mobile table overflow behavior when test infrastructure is introduced.

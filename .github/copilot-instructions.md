@@ -49,3 +49,7 @@ Before changing code:
     A task is NOT complete until documentation is synchronized.
 
 Documentation has the same priority as the source code.
+
+# Logging and Secrets
+
+Never log credentials, passwords, verification/OTP codes, `Authorization` headers, access/refresh/socket tokens, or NextAuth session objects (they contain tokens) — on the client or the server. Log only non-sensitive identifiers or status values.

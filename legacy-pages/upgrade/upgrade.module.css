@@ -240,6 +240,31 @@ html[dir="rtl"] .sidebarcontent:before {
 .section:hover {
   box-shadow: var(--box-shadow);
 }
+.sectionHighlighted {
+  animation: sectionHighlight 1.2s ease-in-out infinite;
+  scroll-margin-block: 24px;
+}
+
+@keyframes sectionHighlight {
+  0%,
+  100% {
+    box-shadow: 0 0 0 0 var(--color-light-red30);
+  }
+  20%,
+  65% {
+    box-shadow:
+      0 0 0 4px var(--color-light-red60),
+      0 8px 28px var(--color-light-red30);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .sectionHighlighted {
+    animation: none;
+    outline: 3px solid var(--color-light-red60);
+    outline-offset: 2px;
+  }
+}
 
 .sectionHeader {
   background-color: var(--color-white);
@@ -440,6 +465,15 @@ html[dir="rtl"] .sidebarcontent:before {
   transform: translateY(-2px);
   box-shadow: var(--small-shadow);
   border: 1px solid var(--color-dark-blue);
+}
+.packageOption:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+.packageOption:disabled:hover {
+  transform: none;
+  box-shadow: none;
+  border: 1px solid var(--background-root);
 }
 .packagePrice {
   width: 100%;

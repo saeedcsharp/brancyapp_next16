@@ -219,7 +219,6 @@ export default function CardAddress({
 
   const handleCreateOrder = useCallback(async () => {
     dispatch({ type: "SET_LOADING_CREATE_ORDER", payload: true });
-    console.log("productssss", products);
     const items: ICreateOrder["items"] = products.flatMap((product) =>
       product.subProducts.map((sub) => ({
         subProductId: sub.subProductId,
@@ -278,7 +277,6 @@ export default function CardAddress({
   ]);
 
   useEffect(() => {
-    console.log("notSupportedLogistic", isNotSupported);
     if (isNotSupported) {
       dispatch({ type: "SET_ACTIVE_BUTTON", payload: true });
     } else dispatch({ type: "SET_ACTIVE_BUTTON", payload: false });

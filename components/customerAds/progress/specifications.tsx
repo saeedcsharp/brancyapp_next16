@@ -13,7 +13,6 @@ function Specifications(props: {
   const [refresh, setRefresh] = useState(false);
   const [showSetDateAndTime, setShowSetDateAndTime] = useState<boolean>(false);
   const [specification, setSpecification] = useState<ISpecification>(props.specification);
-  // const [dateAndTime, setDateAndTime] = useState<number>(props.specification.date);
   function removeMask() {
     setShowSetDateAndTime(false);
   }

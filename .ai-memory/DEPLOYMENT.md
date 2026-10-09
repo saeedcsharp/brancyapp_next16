@@ -2,7 +2,7 @@
 
 ## Docker
 
-The Dockerfile builds a standalone Next application using Node 22 Alpine, installs dependencies with `npm ci --legacy-peer-deps`, runs `npm run build`, copies standalone output and static assets, installs `sharp`, and runs `node server.js` as non-root `nextjs` on port 3000.
+The Dockerfile builds a standalone Next application using the public Amazon ECR mirror of the official `node:22-alpine` image because this build environment returns 403 for Docker Hub and its configured mirrors. It installs dependencies with `npm ci --legacy-peer-deps`, runs `npm run build`, copies standalone output and static assets, installs `sharp`, and runs `node server.js` as non-root `nextjs` on port 3000. The image uses the build's default target platform.
 
 ## IIS
 

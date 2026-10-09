@@ -1051,8 +1051,6 @@ const TicketInbox = () => {
         return;
       }
       if (session == null) {
-        console.log("session ", session);
-
         return;
       }
       if (fbResInbox.current === undefined) {
@@ -1485,7 +1483,6 @@ const TicketInbox = () => {
   /* ___SingnalR start ___ */
   const [messages, setMessages] = useState<string[]>([]);
   useEffect(() => {
-    console.log(" ✅ Console ⋙ Session", session, session?.user.username);
     if (session === undefined || session?.user.username === undefined || !LoginStatus(session)) return;
     fetchSystemTicket();
     if (session.user.messagePermission) fetchHides();

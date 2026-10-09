@@ -349,7 +349,6 @@ const FeatureBox = memo<FeatureBoxProps>(
                   key={tile.key}
                   href={tile.href}
                   className={`${styles.tile} ${tile.className}`}
-                  // onClick={() => handleTileClick(tile.trackingName)}
                   role="button"
                   tabIndex={0}
                   aria-label={`${tile.content.image?.alt} - click`}>

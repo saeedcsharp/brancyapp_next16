@@ -1,6 +1,7 @@
 export default {
   translation: {
     aiSuggestedPrompts_title: "Vorgeschlagene Prompts",
+    aiSuggestedPrompts_openImage: "Bild im Vollbild öffnen",
     aiSuggestedPrompts_explain: "Wählen Sie einen Prompt als Ausgangspunkt.",
     aiSuggestedPrompts_category: "Prompt-Kategorie",
     aiSuggestedPrompts_subCategory: "Unterkategorie",
@@ -10,6 +11,8 @@ export default {
     aiSuggestedPrompts_loadMore: "Mehr laden",
     aiSuggestedPrompts_prompt: "Prompt",
     aiSuggestedPrompts_copy: "Prompt kopieren",
+    aiSuggestedPrompts_showMore: "Mehr anzeigen",
+    aiSuggestedPrompts_showLess: "Weniger anzeigen",
     unpin: "Lösen",
     pin: "Anheften",
     usethisPrompt: "Im Prompt verwenden",
@@ -1784,6 +1787,9 @@ export default {
     sensitiveToSpecificKeywords: "Empfindlich auf Bestimmte Schlüsselwörter",
     sensitiveToSpecificKeywordsExplain:
       "Wenn diese Schlüsselwörter irgendwo im Kommentartext vorkommen, antwortet das System automatisch",
+    contain: "Schlüsselwort enthalten",
+    containExplain:
+      "Wenn aktiviert, wird geantwortet, sobald das Schlüsselwort im Kommentar vorkommt. Wenn deaktiviert, wird nur geantwortet, wenn der gesamte Kommentar genau dem Schlüsselwort entspricht.",
     replyMethod: "Antwortmethode",
     respondInSameComment: "Im Selben Kommentar Antworten",
     respondDirectly: "Direkt Antworten",
@@ -2757,6 +2763,8 @@ export default {
     testlab: "Testlabor",
     promptmode: "Prompt-Modus",
     promptanalysis: "Prompt-Analyse",
+    promptanalysisExplain:
+      "Geben Sie Ihren Prompt detailliert ein; Brancy analysiert ihn anhand Ihrer Persönlichkeit, Ihres Tons und Ihres Interaktionsstils.",
     promptanalysisplaceholder: "Geben Sie mindestens 20 Zeichen für die Prompt-Analyse ein",
     reanalyze: "Erneut analysieren",
     shouldFollowerexplain: "Antworten werden nur an Benutzer gesendet, die Ihnen follow",
@@ -2781,6 +2789,9 @@ export default {
     AIFlow_block_title_required: "Bitte geben Sie den Blocktitel ein (erforderlich)",
     AIFlow_item_title: "Elementtitel:",
     AIFlow_show_graph: "Flow-Diagramm anzeigen",
+    messagesetting_PhoneNumbers: "Telefonnummern",
+    messagesetting_PhoneNumbersExplain: "Telefonnummern, die über Flows von Ihren Kunden gesammelt wurden",
+    messagesetting_PhoneNumbersEmpty: "Es wurden noch keine Telefonnummern gesammelt",
     AIFlow_item_subtitle: "Element Untertitel:",
     AIFlow_option_title: "Optionstitel",
     AIFlow_option_default: "Option",
@@ -2875,6 +2886,7 @@ export default {
     New_Flow_imageorvideo_block: "Bild / Video Block",
     New_Flow_quick_reply_block: "Schnellantwort-Block",
     New_Flow_weblink_block: "Link-Block",
+    New_Flow_phonenumbergrabber_block: "Telefonnummer-Erfassung",
     New_Flow_generic_block: "Galerie-Block (Karussell)",
     New_Flow_add_general_block: "Galerieblock hinzufügen",
     New_Flow_add_text_block: "Textblock hinzufügen",
@@ -3086,6 +3098,24 @@ export default {
     New_Flow_Tutorials_genericitem_connection_7: "✅ Bild- und Video-Block",
 
     New_Flow_Tutorials_weblink_title: "Weblink-Block",
+    New_Flow_Tutorials_phonenumbergrabber_title: "Telefonnummer-Erfassungsblock",
+    New_Flow_Tutorials_phonenumbergrabber_description:
+      "Dieser Block wartet auf den Empfang einer Telefonnummer und speichert sie nach dem Empfang als gültige Nummer.",
+    New_Flow_Tutorials_phonenumbergrabber_usageType:
+      "Geeignet zum Sammeln von Kundennummern, Anmeldungen, Bestellverfolgung, Beratung und Vertriebskontakt.",
+    New_Flow_Tutorials_phonenumbergrabber_feature_1:
+      "Wartet auf die Antwort des Nutzers, bis eine Telefonnummer eingeht",
+    New_Flow_Tutorials_phonenumbergrabber_feature_2: "Prüft und speichert die empfangene Nummer automatisch",
+    New_Flow_Tutorials_phonenumbergrabber_tip_1:
+      "Fragen Sie vor diesem Block mit einem Textblock nach der Telefonnummer",
+    New_Flow_Tutorials_phonenumbergrabber_tip_2: "Nennen Sie das erwartete Format (z. B. mit Ländervorwahl)",
+    New_Flow_Tutorials_phonenumbergrabber_tip_3: "Senden Sie nach diesem Block eine Bestätigungs- oder Dankesnachricht",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_1: "Kann nicht der erste Block des Flows sein",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_2: "Hat nur einen Eingang und einen Ausgang",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_3: "Nur gültige Nummern werden gespeichert",
+    New_Flow_Tutorials_phonenumbergrabber_connection_3: "❌ Galerie-Unterzweig-Block",
+    New_Flow_Tutorials_phonenumbergrabber_connection_2: "❌ Schnellantwort-Block",
+    New_Flow_Tutorials_phonenumbergrabber_connection_1: "❌ Nachrichteneingangsblock (kann nicht der erste Block sein)",
     New_Flow_Tutorials_weblink_description: "Sendet einen klickbaren Weblink, der im Browser des Nutzers geöffnet wird",
     New_Flow_Tutorials_weblink_usageType:
       "Ideal für Websites, Produktseiten, Shops, Registrierungsformulare, Landing Pages und Artikel.",
@@ -3415,6 +3445,18 @@ export default {
     Notify_NotBusinesser: "Dieser Benutzer ist kein Geschäftsinhaber",
     Notify_NotFoundAnySuggestedCategory: "Es wurde keine vorgeschlagene Kategorie gefunden",
     Notify_NoInvoiceExist: "Es existiert keine Rechnung",
+    Notify_InvalidMediaAiCreatorKey: "Ungültiges KI-Modell",
+    Notify_InvalidMediaAiVersionKey: "Ungültige KI-Version",
+    Notify_InvalidMediaAiRequestModel: "Ungültiges Anfragemodell für KI-Medien",
+    Notify_MediaAIError: "Beim Erstellen der KI-Medien ist ein Fehler aufgetreten",
+    Notify_TwitchChannelDoestHaveAnyVideo: "Dieser Twitch-Kanal enthält keine Videos",
+    Notify_CouponAlreadyDeleted: "Dieser Gutschein wurde bereits gelöscht",
+    Notify_CouponNotDeleted: "Dieser Gutschein ist nicht gelöscht",
+    Notify_ExceedSubFlowCount: "Die maximale Anzahl an Unterabläufen wurde überschritten",
+    Notify_ExceedFlowDepth: "Die maximale Ablauftiefe wurde überschritten",
+    Notify_ExceedFlowItemCount: "Die maximale Anzahl an Ablaufelementen wurde überschritten",
+    Notify_ExceedFlowMediaAudioCount: "Die maximale Anzahl an Medien- und Audioelementen im Ablauf wurde überschritten",
+    Notify_OneFlowButtonHasEmptyItem: "Eine der Schaltflächen hat keinen Ablauf",
     InternalNotify_Ok: "Vorgang erfolgreich abgeschlossen",
     InternalNotify_RepetitiveHashtagInput: "Eingegebener Hashtag ist wiederholt",
     InternalNotify_NotFoundDevice: "Gerät nicht gefunden",

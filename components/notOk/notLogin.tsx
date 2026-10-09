@@ -169,23 +169,11 @@ export default function NotLogin({ removeMask, onInvalidIp }: NotLoginProps) {
 
   const handleSignOut = useCallback(async () => {
     try {
-      // await sendSessionId();
     } catch (error) {}
 
     await signOut({ redirect: false });
 
     // Commented code for csrf token and custom signout
-    // const res = await fetch("/api/auth/csrf");
-    // const csrf = await res.text();
-    // var res2 = await fetch("/api/auth/signout", {
-    //   method: "POST",
-    //   headers: {
-    //     'Content-Type': 'application/json'
-    //   },
-    //   body: csrf
-    // });
-    // console.log(res2);
-    // await update(null);
 
     removeMask();
     router.replace("/");

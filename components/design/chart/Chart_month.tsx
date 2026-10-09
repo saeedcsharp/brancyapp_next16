@@ -1426,7 +1426,6 @@ const MultiChart: React.FC<MultiChartProps> = (props) => {
             />
             <div
               className={multiStyles.inlineNavigator}
-              //  className={`${multiStyles.inlineNavigator} ${state.showAll ? multiStyles.disabledNav : ""}`}
               onTouchStart={handleNavigatorTouchStart}
               onTouchEnd={handleNavigatorTouchEnd}
               onMouseDown={handleMouseDownNav}

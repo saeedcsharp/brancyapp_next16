@@ -74,7 +74,6 @@ export default function CreateAddresses({
     newAddress.subject = updateAddress.subject;
     newAddress.note = updateAddress.note;
     newAddress.isDefault = true;
-    console.log("updateAddress", updateAddress);
     updateUserAddress(newAddress);
     try {
       const res = await clientFetchApi<IUpdateUserAddress, boolean>("/api/address/UpdateUserAddress", {

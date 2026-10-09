@@ -443,10 +443,7 @@ const OnlineStreaming = memo(({ data }: { data: IOnlineStreaming }) => {
   if (!data.onlineStream) return null;
   return (
     <div key="onlinestreaming" id="onlinestreaming" className={styles.all}>
-      <div
-        className={styles.header}
-        // onClick={toggleContentVisibility}
-      >
+      <div className={styles.header}>
         <div className={styles.ribonparent}>
           {(() => {
             const marqueeItems = [

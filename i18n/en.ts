@@ -1,6 +1,7 @@
 export default {
   translation: {
     aiSuggestedPrompts_title: "Suggested prompts",
+    aiSuggestedPrompts_openImage: "Open image fullscreen",
     aiSuggestedPrompts_explain: "Choose a prompt to use as your starting point.",
     aiSuggestedPrompts_category: "Prompt category",
     aiSuggestedPrompts_subCategory: "Subcategory",
@@ -10,6 +11,8 @@ export default {
     aiSuggestedPrompts_loadMore: "Load more",
     aiSuggestedPrompts_prompt: "Prompt",
     aiSuggestedPrompts_copy: "Copy prompt",
+    aiSuggestedPrompts_showMore: "Show more",
+    aiSuggestedPrompts_showLess: "Show less",
     // #region landing page.
     unpin: "Unpin",
     pin: "Pin",
@@ -1785,6 +1788,9 @@ export default {
     sensitiveToSpecificKeywords: "Sensitive to Specific Keywords",
     sensitiveToSpecificKeywordsExplain:
       "If these keywords appear anywhere in the comment text, the system automatically replies to that comment",
+    contain: "Contain",
+    containExplain:
+      "When enabled, a reply is sent if the comment contains the keyword. When disabled, a reply is sent only when the entire comment matches the keyword.",
     replyMethod: "Reply Method",
     respondInSameComment: "Respond in the Same Comment",
     respondDirectly: "Respond via Direct",
@@ -2700,6 +2706,8 @@ export default {
     testlab: "Test Lab",
     promptmode: "Prompt Mode",
     promptanalysis: "Prompt Analysis",
+    promptanalysisExplain:
+      "Enter your prompt in detail; Brancy will analyze it based on your character, tone, and interaction style.",
     promptanalysisplaceholder: "Enter at least 20 characters for prompt analysis",
     reanalyze: "Reanalyze",
     shouldFollowerexplain: "Replies are sent only to users who follow you",
@@ -2724,6 +2732,9 @@ export default {
     AIFlow_block_title_required: "Please Enter Block Title (Required)",
     AIFlow_item_title: "Item Title:",
     AIFlow_show_graph: "Show Flow Graph",
+    messagesetting_PhoneNumbers: "Phone Numbers",
+    messagesetting_PhoneNumbersExplain: "Phone numbers collected from your customers through Flows",
+    messagesetting_PhoneNumbersEmpty: "No phone numbers have been collected yet",
     AIFlow_item_subtitle: "Item Subtitle:",
     AIFlow_option_title: "Option Title",
     AIFlow_option_default: "Option",
@@ -2822,6 +2833,7 @@ export default {
     New_Flow_imageorvideo_block: "Image / Video Block",
     New_Flow_quick_reply_block: "Quick Reply Block",
     New_Flow_weblink_block: "Link Block",
+    New_Flow_phonenumbergrabber_block: "Phone Number Grabber",
     New_Flow_generic_block: "Gallery Block (Carousel)",
     New_Flow_add_general_block: "Add Gallery Block",
     New_Flow_add_text_block: "Add Text Block",
@@ -3030,6 +3042,23 @@ export default {
     New_Flow_Tutorials_genericitem_connection_7: "✅ Image & Video Block",
 
     New_Flow_Tutorials_weblink_title: "Web Link Block",
+    New_Flow_Tutorials_phonenumbergrabber_title: "Phone Number Grabber Block",
+    New_Flow_Tutorials_phonenumbergrabber_description:
+      "This block waits to receive a phone number and, once received, registers it as a valid number.",
+    New_Flow_Tutorials_phonenumbergrabber_usageType:
+      "Suitable for collecting customer contact numbers, sign-ups, order follow-ups, consultations, and sales contact.",
+    New_Flow_Tutorials_phonenumbergrabber_feature_1: "Waits for the user's reply until a phone number is received",
+    New_Flow_Tutorials_phonenumbergrabber_feature_2: "Automatically validates and registers the received number",
+    New_Flow_Tutorials_phonenumbergrabber_tip_1:
+      "Before this block, use a text block to ask the user for their phone number",
+    New_Flow_Tutorials_phonenumbergrabber_tip_2: "Tell the user the expected number format (e.g., with country code)",
+    New_Flow_Tutorials_phonenumbergrabber_tip_3: "After this block, send a confirmation or thank-you message",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_1: "Cannot be the first block of the flow",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_2: "Has only one input and one output",
+    New_Flow_Tutorials_phonenumbergrabber_limitation_3: "Only valid phone numbers are registered",
+    New_Flow_Tutorials_phonenumbergrabber_connection_3: "❌ Gallery Sub-branch Block",
+    New_Flow_Tutorials_phonenumbergrabber_connection_2: "❌ Quick Reply Block",
+    New_Flow_Tutorials_phonenumbergrabber_connection_1: "❌ Message Input Block (cannot be the first block)",
     New_Flow_Tutorials_weblink_description: "Send a clickable web link that opens in the user's browser",
     New_Flow_Tutorials_weblink_usageType:
       "Suitable for directing to websites, product pages, stores, registration forms, landing pages, and articles.",
@@ -3350,6 +3379,18 @@ export default {
     Notify_NotBusinesser: "This user is not a business owner",
     Notify_NotFoundAnySuggestedCategory: "No suggested category was found",
     Notify_NoInvoiceExist: "No invoice exists",
+    Notify_InvalidMediaAiCreatorKey: "Invalid AI model",
+    Notify_InvalidMediaAiVersionKey: "Invalid AI version",
+    Notify_InvalidMediaAiRequestModel: "Invalid AI media request model",
+    Notify_MediaAIError: "An error occurred while generating the AI media",
+    Notify_TwitchChannelDoestHaveAnyVideo: "This Twitch channel doesn't have any videos",
+    Notify_CouponAlreadyDeleted: "This coupon has already been deleted",
+    Notify_CouponNotDeleted: "This coupon is not deleted",
+    Notify_ExceedSubFlowCount: "The maximum number of sub-flows has been exceeded",
+    Notify_ExceedFlowDepth: "The maximum flow depth has been exceeded",
+    Notify_ExceedFlowItemCount: "The maximum number of flow items has been exceeded",
+    Notify_ExceedFlowMediaAudioCount: "The maximum number of media and audio items in the flow has been exceeded",
+    Notify_OneFlowButtonHasEmptyItem: "One of the buttons has no flow",
     InternalNotify_Ok: "Operation completed successfully",
     InternalNotify_RepetitiveHashtagInput: "The entered hashtag is repetitive",
     InternalNotify_NotFoundDevice: "Device not found",

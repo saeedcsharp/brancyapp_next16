@@ -38,7 +38,6 @@ const AdDetails = (props: {
     setShowReject(true);
   }
   useEffect(() => {
-    console.log("ad detail mount phase");
     //Api to get details and content based on <<< props.advertiseId >>>
     var res: IAdDetail = {
       adType: AdsType.PostAd,

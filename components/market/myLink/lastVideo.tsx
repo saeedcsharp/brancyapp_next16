@@ -229,19 +229,16 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
 
       switch (platform) {
         case "youtube":
-          // OnClickPlayVideo("youtube", "play");
           const youtubeUrl = getFixedUrl(data.lastVideo?.youtubeChannel?.video?.reDirectUrl);
           if (youtubeUrl) openLinkSmart(youtubeUrl, "youtube");
           break;
 
         case "aparat":
-          // OnClickPlayVideo("aparat", "play");
           const aparatUrl = getFixedUrl(data.lastVideo?.aparatChannel?.video?.reDirectUrl);
           if (aparatUrl) openLinkSmart(aparatUrl, "aparat");
           break;
 
         case "twitch":
-          // OnClickPlayVideo("twitch", "play");
           const twitchUrl = getFixedUrl(data.lastVideo?.twitchChannel?.video?.reDirectUrl);
           if (twitchUrl) openLinkSmart(twitchUrl, "twitch");
           break;
@@ -389,7 +386,6 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
                   onStateChange: (event: any) => {
                     if (event.data === (window as any).YT.PlayerState.PLAYING) {
                       firstFetch = false;
-                      // OnClickPlayVideo("youtube", "play");
                     }
                     if (event.data === (window as any).YT.PlayerState.BUFFERING) {
                       firstFetch = true;
@@ -419,7 +415,6 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
           const aparatFrame = document.getElementById("AparatLastVideo");
           if (aparatFrame) {
             aparatFrame.addEventListener("click", () => {
-              // OnClickPlayVideo("aparat", "play");
               const aparatUrl = data.lastVideo?.aparatChannel?.video?.reDirectUrl;
               if (aparatUrl) {
                 window.open(aparatUrl, "_blank");
@@ -435,7 +430,6 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
           const twitchFrame = document.getElementById("TwitchLastVideo");
           if (twitchFrame) {
             twitchFrame.addEventListener("click", () => {
-              // OnClickPlayVideo("twitch", "play");
               const twitchUrl = data.lastVideo?.twitchChannel?.video?.reDirectUrl;
               if (twitchUrl) {
                 window.open(twitchUrl, "_blank");
@@ -553,7 +547,6 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
 
       const embedId = `${platform}Embed`;
       if (state.selectedEmbed !== embedId) return null;
-      // if (platform === "youtube") OnClickPlayVideo("youtube", "redirect");
       return (
         <div className={styles.embedvide} id={embedId} key={platform}>
           {streamStatus && channel.embedVideo && (
@@ -612,10 +605,7 @@ const LastVideo = memo(({ data }: { data: ILastVideo }) => {
   if (!data.lastVideo) return null;
   return (
     <div key="LastVideo" id="LastVideo" className={styles.all}>
-      <div
-        className={styles.header}
-        // onClick={toggleContentVisibility}
-      >
+      <div className={styles.header}>
         <div className={styles.headerparent}>
           <img
             className={styles.headerimg}

@@ -6,6 +6,10 @@ The AI Flow editor shows a localized private-reply warning beside the back and s
 
 Component module for messages UI and feature concerns.
 
+The general and media auto-reply editors apply the inactive `fadeDiv` state only to settings, leaving the activation switch interactive so paused replies can be re-enabled.
+
+Both auto-reply keyword editors expose a localized `Contain` switch. `isContain: true` matches a keyword anywhere in the comment; `false` requests exact whole-comment matching. Legacy responses without the field default to `true`, and both save payloads include the boolean.
+
 The Message Properties panel no longer renders the automatic/bot reply filtering toggle; its related parent callback and `ToggleHideCommentAutoReply` request were removed while the remaining reply settings continue to use the existing backend model.
 
 The FollowUp template setting uses the `Custom FollowUp Template` label and the requested Persian explanation in all eight locales.
@@ -106,6 +110,13 @@ The automatic-reply Flow Graph action uses the localized `AIFlow_show_graph` key
 
 The Flow entries in `properties/persistentMenu.tsx` and `properties/iceBreaker.tsx` use the same localized Flow Graph action and open `/Ai/FlowandAgent?id=<masterFlowId>` when activated.
 
+`properties/phoneNumbers.tsx` is the fifth card on the message properties page. It renders the phone numbers collected by Flows (`IFlowPhoneNumber`) in the shared `Slider` (2 items per slide), shows profile, phone number, flow title, and creation date, and opens `/Ai/FlowandAgent?id=<masterFlowId>` from the Flow Graph action. It requests the next page through `handleGetNextPhoneNumbers` on slider reach-end only while `hasMore` is true.
+The Flow Graph action uses the dedicated `/flow-redirect.svg` external-navigation icon immediately beside each Flow title, rather than the unrelated statistics graph artwork or a full-width button. Its localized name is available on hover and to assistive technology.
+
+The same card exposes a compact `/download.svg` icon beside its heading, including while collapsed. Activating it opens the shared `SetTimeAndDate` calendar in a body-portalled modal; the calendar's confirmation button is labelled Export and starts the request directly for a chosen localized date and time from six calendar months ago plus one calendar day through now. The portal keeps the animated `pinContainer` grid from trapping the popup beneath the backdrop. Its Excel action requests `/api/flow/getExportPhoneNumbers` with a Unix-seconds `fromTime` clamped to that same boundary and the browser's timezone offset in signed seconds. `masterFlowId` is omitted until filtering by a particular Flow is supported. On success the returned media path is opened with `/download`; while requesting, duplicate exports are disabled. The action is available even when the paginated list is empty.
+
+When no phone numbers have been collected, the card shows its localized empty-state message and the same redirect-arrow action, which opens `/Ai/FlowandAgent` without an `id`, leaving the user on the Flow list.
+
 The selected Flow action in `popups/specialPayLoad.tsx` also uses `AIFlow_show_graph` and opens `/Ai/FlowandAgent?id=<masterFlowId>`.
 
 The same component keeps the continued new flow in `userslist` as a local `newFlow` Draft item. A successful manual save removes that item and prepends the backend-returned `ITotalMasterFlow`; `aiflow/flow.tsx` treats a new flow as unsaved until that save succeeds.
@@ -116,14 +127,13 @@ The same component keeps the continued new flow in `userslist` as a local `newFl
 
 `direct/directInbox.tsx` waits one second before inserting SignalR audio messages into the inbox, allowing the audio URL to become available on the server before `ChatAudio` renders it.
 
-<<<<<<< HEAD
 `direct/directInbox.tsx` returns the fetched thread page from its `fetchData` pagination callback. This is required by `useInfiniteScroll`; returning an empty array would make the hook mark pagination as exhausted even when the inbox API returns a non-null `nextMaxId`. `IInbox.nextMaxId` is nullable because the backend uses `null` to indicate the final page.
 
 `direct/directInbox.tsx` keeps HTTP/API and initial-load failures local to the inbox so an unavailable category does not crash the whole route. Notifications retain the HTTP status and backend-provided reason when available.
 
 `direct/directInbox.tsx` resolves a `threadId` deep link from the browser URL after either inbox category has loaded. Reading `window.location.search` avoids the mixed App Router/legacy-router query timing issue; matching General and Business threads select their category and conversation, so links from the home Last Messages card open the requested chat.
 
-# Direct inbox rendering tolerates terminal pages containing threads with an empty `items` array. Message previews, timestamps, and unread counts use empty fallbacks instead of reading `sentByOwner`, `text`, or `createdTime` from an absent first item.
+Direct inbox rendering tolerates terminal pages containing threads with an empty `items` array. Message previews, timestamps, and unread counts use empty fallbacks instead of reading `sentByOwner`, `text`, or `createdTime` from an absent first item.
 
 `popups/editAutoReply.tsx` and `popups/editAutoReplyForMedia.tsx` show the Create Automation AI and Create Automation Flow actions whenever the active AI prompt or flow has not been selected, even when the corresponding `DragDrop` list contains options. Existing saved prompts and flows count as selected and keep the actions hidden.
 
@@ -145,8 +155,6 @@ Live media quick-reply payloads force `sendPr` to `false`, including when an exi
 The selected Flow action in `popups/editAutoReplyForMedia.tsx` uses the localized `AIFlow_show_graph` label and opens `/Ai/FlowandAgent` with the selected `masterFlowId` as the `id` query.
 
 For message-delivery modes, the confirmation-message and must-follow-page options are omitted from the editor and both corresponding save payload flags are forced to `false`; same-comment delivery retains the existing controls and values.
-
-> > > > > > > sepehr
 
 ## Hooks
 

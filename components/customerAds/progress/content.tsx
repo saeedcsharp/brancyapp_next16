@@ -47,7 +47,6 @@ function Content(props: {
   const handleApiPeopleSearch = async (query: string) => {
     try {
       var instagramerId = session?.user.instagramerIds[session.user.currentIndex];
-      console.log("start searched people ", query);
       var res = await clientFetchApi<boolean, ICustomerAdPageInfo[]>("Instagramer" + "/searchPeople", {
         methodType: MethodType.get,
         session: session,
@@ -55,7 +54,6 @@ function Content(props: {
         queries: [{ key: "query", value: query }],
         onUploadProgress: undefined,
       });
-      console.log(res);
       if (res.succeeded) setPageInfo(res.value);
     } catch {}
   };
@@ -72,7 +70,6 @@ function Content(props: {
     setPageInfo([]);
     setSelectedPeaple(null);
     var query = e.currentTarget.value;
-    // setPeopleTypingStopped(false);
     setSearchPeaple(query);
     if (peopleTimeOutId) clearTimeout(peopleTimeOutId);
     if (query.length > 0) {
@@ -120,7 +117,6 @@ function Content(props: {
         var medias = showMedias;
         let mediaType: MediaType;
         if (file === undefined) return;
-        console.log("handleSelectSingleMedia", file.type);
         if (file.type == "image/jpeg") {
           mediaType = MediaType.Image;
           const img = new Image();
@@ -164,12 +160,10 @@ function Content(props: {
           };
           video.src = selectedMedia1;
         } else {
-          console.log("Invalid MediaType");
           return;
         }
       };
       reader.readAsDataURL(file);
-      console.log("fffffffffffff ", inputRef);
     }
   };
   const handleSelectSingleMedia = async (e: ChangeEvent<HTMLInputElement>) => {
@@ -185,7 +179,6 @@ function Content(props: {
         var medias = showMedias;
         let mediaType: MediaType;
         if (file === undefined) return;
-        console.log("handleSelectSingleMedia", file.type);
         if (file.type == "image/jpeg") {
           mediaType = MediaType.Image;
           const img = new Image();
@@ -229,7 +222,6 @@ function Content(props: {
           };
           video.src = selectedMedia1;
         } else {
-          console.log("Invalid MediaType");
           return;
         }
       };
@@ -250,7 +242,6 @@ function Content(props: {
         medias[showMediaIndex].cover = selectedMedia1;
         setShowMedias(medias);
         setShowMediaIndex(showMediaIndex);
-        // setRefresh(!refresh);
       };
       reader.readAsDataURL(file);
     }
@@ -269,7 +260,6 @@ function Content(props: {
         let mediaType: MediaType;
         if (file === undefined) return;
         if (file === undefined) return;
-        console.log("handleSelectSingleMedia", file.type);
         if (file.type == "image/jpeg") {
           mediaType = MediaType.Image;
           const img = new Image();
@@ -325,10 +315,6 @@ function Content(props: {
     if (kemeMal) {
       kemeMal.click();
     }
-    // console.log(inputRef);
-    // if (inputRef.current) {
-    //   inputRef.current.click();
-    // }
   };
 
   const handleUploadCoverImage = () => {
@@ -392,11 +378,8 @@ function Content(props: {
         showMedias[showMediaIndex].height < showMedias[showMediaIndex].width
           ? renderWidthSize * (0.5 + (0.5 * showMedias[showMediaIndex].height) / showMedias[showMediaIndex].width)
           : renderWidthSize;
-      console.log("maxY-MinY", maxY - minY);
-      console.log("Position", position);
       let _x = (position.x + deltaX - minX) / (maxX - minX);
       let _y = (position.y + deltaY - minY) / (maxY - minY);
-      console.log("Current position ", username, _x, _y);
       if (_x < 0) _x = 0;
       if (_x > 1) _x = 1;
       if (_y < 0) _y = 0;
@@ -409,20 +392,14 @@ function Content(props: {
       setShowMedias(nShowMedias);
       setRefresh(!refresh);
     }
-    console.log(showMedias);
   };
   const handleChangeAlbumChildren = (index: number) => {
     setShowMediaIndex(index);
-    // var nTagPeaples = showMedias[index].tagPeaple;
-    // if (nTagPeaples) {
-    //   setRefresh(!refresh);
-    // }
   };
   const handleDeleteTag = (username: string) => {
     var nShowMedias = showMedias;
     var currentShowMedia = showMedias[showMediaIndex];
     var nTags = showMedias[showMediaIndex].tagPeaple?.filter((X) => X.Username !== username);
-    console.log(nTags);
     currentShowMedia.tagPeaple = nTags;
     nShowMedias[showMediaIndex] = currentShowMedia;
     setShowMedias(nShowMedias);

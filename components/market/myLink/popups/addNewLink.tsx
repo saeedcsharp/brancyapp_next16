@@ -55,7 +55,6 @@ const AddNewLink = (props: { removeMask: () => void; handleAddNewLink: (newLink:
   function handleInputChange(e: ChangeEvent<HTMLInputElement>) {
     if (e.target.name === "title" && addNewLink.type !== TitleType.GeneralLink && addNewLink.type !== TitleType.Custome)
       return;
-    console.log(e.currentTarget.name);
     setAddNewLink((prev) => ({
       ...prev,
       [e.currentTarget.name]: e.currentTarget.value,
@@ -112,7 +111,6 @@ const AddNewLink = (props: { removeMask: () => void; handleAddNewLink: (newLink:
 
     if (file) {
       if (file === undefined) return;
-      console.log(file.size);
       if (file?.size > 100000) {
         internalNotify(InternalResponseType.ExceededMedia, NotifType.Warning);
         return;
@@ -154,7 +152,6 @@ const AddNewLink = (props: { removeMask: () => void; handleAddNewLink: (newLink:
         }));
       };
       reader.readAsDataURL(droppedFiles[0]);
-      // setShowSendFile(true);
     }
   }
   const handleDragOver = (event: React.DragEvent) => {

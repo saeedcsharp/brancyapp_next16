@@ -11,11 +11,11 @@
 - `GET /api/user/ip`: returns country code from CDN headers, null on localhost.
 - `GET /api/pricing`: fetches package prices from `MyLink/GetPackagePrices`, cached for 24 hours.
 - `GET /22893589.txt`: static text response.
-- Legacy API routes: `/api/health`, `/api/get-address`, `/api/hello` under `legacy-pages/api`.
+- `legacy-pages/api/health.ts` remains in the repository but is not served: `legacy-pages/` is not a Pages Router directory, so no `/api/health` route exists in the build output. The former unrouted `hello.ts` and `get-address.ts` files were removed on 2026-09-30.
 
 ## Mapped Backend API
 
-`helper/apiRouteMap.ts` contains 319 mapped local API paths. The home dashboard uses the remaining tiles, page-summary, and last-messages mappings; the unused `GetLastComments` mapping has been removed. Categories include account, address, ai, business, autoacceptfollower, authorize, bio, comment, dayevent, flow, feature, hashtag, home, instagramer, likecomment, likelastpostfollower, link, lottery, message, order, post, preinstagramer, product, psg, session, shop, statistics, story, systemticket, transaction, user, and wallet-style domains.
+`helper/apiRouteMap.ts` contains 346 mapped local API paths (verified 2026-09-30). The home dashboard uses the remaining tiles, page-summary, and last-messages mappings; the unused `GetLastComments` mapping has been removed. Categories include account, address, ai, business, autoacceptfollower, authorize, bio, comment, dayevent, flow, feature, hashtag, home, instagramer, likecomment, likelastpostfollower, link, lottery, message, order, post, preinstagramer, product, psg, session, shop, statistics, story, systemticket, transaction, user, and wallet-style domains.
 
 Wallet balance history uses `/api/wallet/getBallanceHistory`, mapped directly to `Business/Wallet/GetBallanceHistory`. Its response value contains a `statistics` array of monthly day-count records for `ChartDay`.
 

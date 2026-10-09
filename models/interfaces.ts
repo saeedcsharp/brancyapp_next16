@@ -477,6 +477,7 @@ export interface IPromptImageGen {
 export interface IMediaCreator {
   key: string;
   displayName: string;
+  category: string | null;
   logo: string | null;
   inputModels: IMediaCreatorModel[];
 }
@@ -509,6 +510,7 @@ export interface IImagePromptCategory {
   id?: number | string;
   name?: string;
   title?: string;
+  count?: number;
 }
 export interface IImagePrompt {
   id: number | string;
@@ -527,6 +529,8 @@ export type IGetImagePromptCategories = IImagePromptCategory[];
 export interface IMediaCreatorModel {
   name: string;
   displayName?: string;
+  category: string;
+  price: number;
   minPromptLength: number;
   maxPromptLength: number;
   inputModelTypes: IMediaCreatorInput[];
@@ -1723,7 +1727,7 @@ export interface IImage {
 }
 
 export interface ReplyStory {
-  directStoryItemType: number;
+  linkStickerUrl: string;
   link: string;
   fbId: string;
   externalUrl: string;
@@ -1786,6 +1790,13 @@ export interface IHookRead {
   RecpId: string | null;
 }
 
+export interface IHookReplyStory {
+  LinkStickerUrl: string;
+  Link: string;
+  FbId: string;
+  ExternalUrl: string;
+}
+
 export interface IHookMediaShare {
   Id: string;
   Url: string;
@@ -1837,7 +1848,7 @@ export interface IHookDirectItem {
   ItemId: string;
   GraphItemId: string;
   Text: string;
-  ReplyStory: null;
+  ReplyStory: IHookReplyStory | null;
   MediaShares: IHookMediaShare[];
   Medias: IHookMedia[];
   ClientContext: null;
@@ -2219,6 +2230,7 @@ export interface IGeneralAutoReply {
   replySuccessfullyDirected: boolean;
   customRepliesSuccessfullyDirected: string[];
   productId: string;
+  isContain?: boolean;
 }
 
 export interface ICreateGeneralAutoReply {
@@ -2235,6 +2247,7 @@ export interface ICreateGeneralAutoReply {
   replySuccessfullyDirected: boolean;
   customRepliesSuccessfullyDirected: string[];
   productId: string;
+  isContain: boolean;
 }
 
 export interface ITotalMasterFlow {
@@ -2250,6 +2263,25 @@ export interface ITotalMasterFlow {
 
 export interface IMasterFlow {
   items: ITotalMasterFlow[];
+  nextMaxId: string | null;
+}
+
+export interface IFlowPhoneNumber {
+  phoneNumber: string;
+  fbId: string;
+  recpId: string;
+  createdTime: number;
+  id: number;
+  masterFlowId: string;
+  masterFlowTitle: string;
+  username: string;
+  fullName: string | null;
+  count: number;
+  profileUrl: string;
+}
+
+export interface IFlowPhoneNumbers {
+  items: IFlowPhoneNumber[];
   nextMaxId: string | null;
 }
 // #endregion Messages
@@ -2688,6 +2720,7 @@ export interface IAutomaticReply {
   replySuccessfullyDirected: boolean;
   customRepliesSuccessfullyDirected: string[];
   shouldFollower: boolean;
+  isContain?: boolean;
   productType: MediaProductType | null;
   automaticType: AutoReplyPayLoadType;
   promptId: string | null;
@@ -2708,6 +2741,7 @@ export interface IMediaUpdateAutoReply {
   customRepliesSuccessfullyDirected: string[];
   keys: string[];
   productId: string | null;
+  isContain?: boolean;
 }
 
 export interface IPublishLimit {

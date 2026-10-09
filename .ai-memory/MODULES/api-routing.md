@@ -72,6 +72,8 @@ Wallet mappings include `/api/wallet/getBallanceHistory` to `Business/Wallet/Get
 
 Product bio visibility maps `/api/product/updateShowInBio` to `Shopper/Product/UpdateShowInBio` and accepts a POST body containing the selected product ID array, including an empty array when no products are selected.
 
+Flow phone-number export maps `/api/flow/getExportPhoneNumbers` to `Instagramer/Flow/GetExportPhoneNumbers`. The card calls it through `clientFetchApi` with `fromTime` (Unix seconds, at most six calendar months old) and `timezoneOffset` (browser offset in signed seconds); it omits the unused optional `masterFlowId`. Its successful string value is treated as a media file path and downloaded using the media host's `/download` URL.
+
 The product popup loads currently visible bio products through `/api/product/getBioProductList`, mapped to `Shopper/Product/GetBioProductList`; its response contains `IProduct_ShortProduct` entries whose `productId` values are compared with the complete product list.
 
 Image history maps `/api/mediaai/getImages` to `Instagramer/MediaAi/GetImages`. The AI landing page calls it with `mediaCreationStatus=2` for successful creations and an initially empty `nextMaxId`; subsequent infinite-scroll requests send the cursor returned by the previous response. Image creator discovery maps `/api/mediaai/getImageCreators` to `Instagramer/MediaAi/GetImageCreators` and is called directly by `clientFetchApi` with the active Instagramer session headers. Token estimation maps `/api/mediaai/getImageUsage` to `Instagramer/MediaAi/GetImageUsage` and uses a POST body with `creatorKey`, model `version`, serialized dynamic `inputs`, and `prompt`; its successful value is the numeric token usage.

@@ -91,7 +91,6 @@ const DomainManager = ({
     const links = [
       instaInfo.isShopper && { label: t(LanguageKey.biolinkProperties_yourstore), path: "product" },
       instaInfo.isBusiness && { label: t(LanguageKey.biolinkProperties_yourads), path: "Advertise" },
-      // { label: t(LanguageKey.biolinkProperties_yourtariff), path: "Tariff" },
       { label: t(LanguageKey.biolinkProperties_yourlottery), path: "lottery" },
       { label: t(LanguageKey.biolinkProperties_yourBusinesshours), path: "workHour" },
       { label: t(LanguageKey.biolinkProperties_yourBusinessTerms), path: "terms" },
