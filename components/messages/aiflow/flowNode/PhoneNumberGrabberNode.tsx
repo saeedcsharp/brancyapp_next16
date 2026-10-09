@@ -11,4 +11,4 @@ export const PhoneNumberGrabberNode: React.FC<BaseNodeProps> = () => {
 
 export const getPhoneNumberGrabberNodeHeight = (node: NodeData): number => 80;
 
-export const phonenumbergrabberNodeClassName = styles.container;
+export const phonenumbergrabberNodeClassName = styles.nodeContainer;
