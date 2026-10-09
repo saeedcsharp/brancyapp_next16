@@ -291,6 +291,10 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
           if (options.length) {
             appendBot({ kind: "quickreply", options, nodeId: node.id });
           }
+          // The regular output continues the flow without waiting for a button click
+          for (const out of getOutgoing(connections, node.id).filter((c) => c.sourceSocketId === "output")) {
+            await runFromNode(out.targetNodeId, visited);
+          }
           break;
         }
         case "generic": {
@@ -391,9 +395,11 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
       const allConnsFromNode = connections.filter((c) => c.sourceNodeId === nodeId);
       console.log("All connections from this node:", allConnsFromNode);
 
-      // Try to find connection by index
-      // Method 1: If connections are in order, use index directly
-      const conn = allConnsFromNode[index];
+      // Resolve by button socket so a regular output on the same node does not shift the index
+      const buttonSocketId = node?.buttonOutputs?.[index]?.id;
+      const conn = buttonSocketId
+        ? allConnsFromNode.find((c) => c.sourceSocketId === buttonSocketId)
+        : allConnsFromNode[index];
       console.log("Connection at index", index, ":", conn);
 
       if (conn) {

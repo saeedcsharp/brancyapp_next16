@@ -1261,7 +1261,8 @@ export default function Flow({
         newNode.data = { buttons: ["Button 1", "Button 2"] };
       }
       if (type === "buttongroup") {
-        newNode.outputs = [];
+        // output معمولی برای ادامه جریان + سه خروجی دکمه‌ای
+        newNode.outputs = [{ id: "output", type: "output", label: "Output" }];
         newNode.buttonOutputs = [
           { id: "output1", type: "output", label: "Button 1" },
           { id: "output2", type: "output", label: "Button 2" },

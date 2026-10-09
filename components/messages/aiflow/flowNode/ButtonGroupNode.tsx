@@ -35,7 +35,10 @@ export const ButtonGroupNode: React.FC<ButtonGroupNodeProps> = ({
 
       const outputCount = (currentNode.buttonOutputs || []).length;
       if (outputCount >= BUTTON_GROUP_MAX_BUTTONS) return prev;
-      const newOutputId = `output${outputCount + 1}`;
+      const usedIds = new Set((currentNode.buttonOutputs || []).map((o: any) => o.id));
+      let nextNumber = outputCount + 1;
+      while (usedIds.has(`output${nextNumber}`)) nextNumber++;
+      const newOutputId = `output${nextNumber}`;
 
       return {
         ...prev,
