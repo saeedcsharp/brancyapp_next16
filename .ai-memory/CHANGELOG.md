@@ -1,3 +1,4 @@
+- 2026-10-09: Live Test (`aiflow/flowNode/livetest.tsx`) now handles `phonenumbergrabber`: it pauses the flow silently (no prompt message), rejects invalid input with `Notify_InvalidPhoneNumber`, and continues through the block's outputs once a valid number is sent.
 - 2026-10-09: Link-block connection validation is now socket-aware: only the `buttongroup` button outputs can connect to Link; its regular `output` cannot.
 - 2026-10-09: The `buttongroup` block now also has one regular `output` socket (continues the flow like text/image blocks) in addition to its three button outputs; Live Test resolves button connections by socket id.
 - 2026-10-09: Added the AI Flow `imagegallery` block (`aiflow/flowNode/ImageGalleryNode.tsx`): image-only multi-upload with up to `IMAGE_GALLERY_MAX_ITEMS` (7) images stored in `data.images`, thumbnail grid with per-image removal, localized tutorial text stating the limit, toolbar entries, and Live Test support.

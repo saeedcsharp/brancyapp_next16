@@ -104,6 +104,12 @@ function getConnectionForOutput(conns: Connection[], nodeId: string, socketId: s
   return conns.find((c) => c.sourceNodeId === nodeId && c.sourceSocketId === socketId);
 }
 
+function isValidPhoneNumber(value: string) {
+  if (!/^\+?[\d\s\-()]+$/.test(value)) return false;
+  const digits = value.replace(/\D/g, "");
+  return digits.length >= 7 && digits.length <= 15;
+}
+
 function isVideoUrl(url?: string | null) {
   if (!url) return false;
   return /(\.mp4|\.webm|\.ogg|\.mov|\.avi|\.mkv)($|\?)/i.test(url) || url.startsWith("data:video/");
@@ -116,6 +122,8 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
   const [input, setInput] = useState("");
   const [typing, setTyping] = useState(false);
   const lastUserIdRef = useRef<string | null>(null);
+  // Node id of the phonenumbergrabber block currently waiting for a phone number
+  const awaitingPhoneNodeIdRef = useRef<string | null>(null);
   const [seenUserId, setSeenUserId] = useState<string | null>(null);
   const [deliveredUserId, setDeliveredUserId] = useState<string | null>(null);
   const [clickedQuickReplies, setClickedQuickReplies] = useState<Set<string>>(new Set());
@@ -132,6 +140,7 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
     setMessages([]);
     setInput("");
     setTyping(false);
+    awaitingPhoneNodeIdRef.current = null;
   }, [isOpen]);
 
   useEffect(() => {
@@ -357,12 +366,17 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
           // Wait for click on button
           break;
         }
+        case "phonenumbergrabber": {
+          // Wait for the user's phone number; handleSend resumes the flow
+          awaitingPhoneNodeIdRef.current = node.id;
+          break;
+        }
         default: {
           await cont();
         }
       }
     },
-    [nodes, connections, appendBot],
+    [nodes, connections, appendBot, t],
   );
 
   const handleSend = useCallback(async () => {
@@ -370,10 +384,24 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
     if (!text) return;
     setInput("");
     appendUser(text);
+
+    const phoneNodeId = awaitingPhoneNodeIdRef.current;
+    if (phoneNodeId) {
+      if (!isValidPhoneNumber(text)) {
+        appendBot({ kind: "text", text: t(LanguageKey.Notify_InvalidPhoneNumber) });
+        return;
+      }
+      awaitingPhoneNodeIdRef.current = null;
+      for (const out of getOutgoing(connections, phoneNodeId)) {
+        await runFromNode(out.targetNodeId);
+      }
+      return;
+    }
+
     if (startNode) {
       await runFromNode(startNode.id);
     }
-  }, [input, appendUser, startNode, runFromNode]);
+  }, [input, appendUser, appendBot, startNode, runFromNode, connections, t]);
 
   const handlePickQuickReply = useCallback(
     async (nodeId: string, index: number, label: string, messageId: string) => {
@@ -457,6 +485,7 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
     setClickedQuickReplies(new Set());
     setClickedGenericButtons(new Set());
     lastUserIdRef.current = null;
+    awaitingPhoneNodeIdRef.current = null;
     if (seenTimerRef.current) clearTimeout(seenTimerRef.current);
   }, []);
 
