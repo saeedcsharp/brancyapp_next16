@@ -2907,6 +2907,17 @@ export default {
     New_Flow_phonenumbergrabber_block: "Collecte du numéro de téléphone",
     New_Flow_ai_block: "IA",
     New_Flow_ai_select: "Sélectionner une IA",
+    New_Flow_Tutorials_ai_title: "Bloc IA",
+    New_Flow_Tutorials_ai_description:
+      "Ce bloc confie la conversation à l'une des IA que vous avez créées ; choisissez l'IA dans la liste du bloc.",
+    New_Flow_Tutorials_ai_usageType:
+      "Adapté pour répondre automatiquement aux questions ouvertes des clients, au support, au conseil et aux conversations de vente.",
+    New_Flow_Tutorials_ai_feature_1: "Affiche toutes les IA que vous avez créées pour en choisir une",
+    New_Flow_Tutorials_ai_feature_2: "L'IA choisie prend en charge la conversation à partir de ce point du flux",
+    New_Flow_Tutorials_ai_tip_1: "Créez et configurez d'abord votre IA pour qu'elle apparaisse dans la liste",
+    New_Flow_Tutorials_ai_tip_2: "Placez-le après un bloc message qui introduit la conversation",
+    New_Flow_Tutorials_ai_limitation_1: "Possède une entrée mais aucune sortie, il termine donc le flux",
+    New_Flow_Tutorials_ai_limitation_2: "Une seule IA peut être sélectionnée par bloc",
     New_Flow_generic_block: "Bloc Galerie (Carrousel)",
     New_Flow_add_general_block: "Ajouter un bloc de galerie",
     New_Flow_add_text_block: "Ajouter un bloc de texte",

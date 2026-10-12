@@ -2864,6 +2864,17 @@ export default {
     New_Flow_phonenumbergrabber_block: "Сбор номера телефона",
     New_Flow_ai_block: "ИИ",
     New_Flow_ai_select: "Выберите ИИ",
+    New_Flow_Tutorials_ai_title: "Блок ИИ",
+    New_Flow_Tutorials_ai_description:
+      "Этот блок передаёт диалог одному из созданных вами ИИ; выберите ИИ из списка внутри блока.",
+    New_Flow_Tutorials_ai_usageType:
+      "Подходит для автоматических ответов на свободные вопросы клиентов, поддержки, консультаций и продающих диалогов.",
+    New_Flow_Tutorials_ai_feature_1: "Показывает список всех созданных вами ИИ для выбора",
+    New_Flow_Tutorials_ai_feature_2: "Выбранный ИИ берёт на себя диалог с этого места сценария",
+    New_Flow_Tutorials_ai_tip_1: "Сначала создайте и настройте ИИ, чтобы он появился в списке",
+    New_Flow_Tutorials_ai_tip_2: "Размещайте после блока сообщения, который вводит в диалог",
+    New_Flow_Tutorials_ai_limitation_1: "Имеет только вход и не имеет выхода, поэтому завершает сценарий",
+    New_Flow_Tutorials_ai_limitation_2: "В одном блоке можно выбрать только один ИИ",
     New_Flow_generic_block: "Галерея-блок (Карусель)",
     New_Flow_add_general_block: "Добавить блок галереи",
     New_Flow_add_text_block: "Добавить текстовый блок",

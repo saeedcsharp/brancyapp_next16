@@ -2794,6 +2794,17 @@ export default {
     New_Flow_phonenumbergrabber_block: "دریافت شماره تلفن",
     New_Flow_ai_block: "هوش مصنوعی",
     New_Flow_ai_select: "یک هوش مصنوعی انتخاب کنید",
+    New_Flow_Tutorials_ai_title: "بلوک هوش مصنوعی",
+    New_Flow_Tutorials_ai_description:
+      "این بلوک گفتگو را به یکی از هوش‌های مصنوعیِ ساخته‌شده توسط شما می‌سپارد؛ هوش مصنوعی را از لیست داخل بلوک انتخاب کنید.",
+    New_Flow_Tutorials_ai_usageType:
+      "مناسب پاسخ‌گویی خودکار به پرسش‌های آزاد مشتریان، پشتیبانی، مشاوره و گفتگوهای فروش.",
+    New_Flow_Tutorials_ai_feature_1: "فهرست همه هوش‌های مصنوعی ساخته‌شده را برای انتخاب نمایش می‌دهد",
+    New_Flow_Tutorials_ai_feature_2: "هوش مصنوعی انتخاب‌شده از همین نقطه فلو گفتگو را به عهده می‌گیرد",
+    New_Flow_Tutorials_ai_tip_1: "ابتدا هوش مصنوعی خود را بسازید و تنظیم کنید تا در لیست نمایش داده شود",
+    New_Flow_Tutorials_ai_tip_2: "آن را پس از یک بلوک پیام که گفتگو را معرفی می‌کند قرار دهید",
+    New_Flow_Tutorials_ai_limitation_1: "فقط ورودی دارد و خروجی ندارد، بنابراین فلو را پایان می‌دهد",
+    New_Flow_Tutorials_ai_limitation_2: "در هر بلوک فقط یک هوش مصنوعی قابل انتخاب است",
     New_Flow_generic_block: "بلوک گالری (کاروسل)",
     New_Flow_add_general_block: "اضافه‌کردن بلوک گالری",
     New_Flow_add_text_block: "اضافه‌کردن بلوک متن",

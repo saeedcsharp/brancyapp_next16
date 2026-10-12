@@ -2825,6 +2825,17 @@ export default {
     New_Flow_phonenumbergrabber_block: "Telefon Numarası Toplayıcı",
     New_Flow_ai_block: "Yapay Zeka",
     New_Flow_ai_select: "Bir yapay zeka seçin",
+    New_Flow_Tutorials_ai_title: "Yapay Zeka Bloğu",
+    New_Flow_Tutorials_ai_description:
+      "Bu blok, sohbeti oluşturduğunuz yapay zekalardan birine devreder; yapay zekayı blok içindeki listeden seçin.",
+    New_Flow_Tutorials_ai_usageType:
+      "Müşterilerin açık uçlu sorularını, destek, danışmanlık ve satış görüşmelerini otomatik yanıtlamak için uygundur.",
+    New_Flow_Tutorials_ai_feature_1: "Oluşturduğunuz tüm yapay zekaları seçmeniz için listeler",
+    New_Flow_Tutorials_ai_feature_2: "Seçilen yapay zeka akışın bu noktasından itibaren sohbeti devralır",
+    New_Flow_Tutorials_ai_tip_1: "Listede görünmesi için önce yapay zekanızı oluşturup yapılandırın",
+    New_Flow_Tutorials_ai_tip_2: "Sohbeti başlatan bir mesaj bloğundan sonra yerleştirin",
+    New_Flow_Tutorials_ai_limitation_1: "Yalnızca girişi vardır, çıkışı yoktur; bu yüzden akışı sonlandırır",
+    New_Flow_Tutorials_ai_limitation_2: "Her blokta yalnızca bir yapay zeka seçilebilir",
     New_Flow_generic_block: "Galeri Bloğu (Karusel)",
     New_Flow_add_general_block: "Galeri Bloğu Ekle",
     New_Flow_add_text_block: "Metin Bloğu Ekle",

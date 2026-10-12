@@ -2784,6 +2784,17 @@ export default {
     New_Flow_phonenumbergrabber_block: "Telefon nömrəsi toplayıcı",
     New_Flow_ai_block: "Süni intellekt",
     New_Flow_ai_select: "Süni intellekt seçin",
+    New_Flow_Tutorials_ai_title: "Süni İntellekt Bloku",
+    New_Flow_Tutorials_ai_description:
+      "Bu blok söhbəti sizin yaratdığınız süni intellektlərdən birinə həvalə edir; süni intellekti blokun daxilindəki siyahıdan seçin.",
+    New_Flow_Tutorials_ai_usageType:
+      "Müştərilərin açıq suallarına, dəstəyə, məsləhətləşməyə və satış söhbətlərinə avtomatik cavab vermək üçün uyğundur.",
+    New_Flow_Tutorials_ai_feature_1: "Yaratdığınız bütün süni intellektləri seçmək üçün siyahı şəklində göstərir",
+    New_Flow_Tutorials_ai_feature_2: "Seçilmiş süni intellekt axının bu nöqtəsindən söhbəti öz üzərinə götürür",
+    New_Flow_Tutorials_ai_tip_1: "Siyahıda görünməsi üçün əvvəlcə süni intellektinizi yaradın və tənzimləyin",
+    New_Flow_Tutorials_ai_tip_2: "Söhbəti təqdim edən mesaj blokundan sonra yerləşdirin",
+    New_Flow_Tutorials_ai_limitation_1: "Yalnız girişi var, çıxışı yoxdur, buna görə axını bitirir",
+    New_Flow_Tutorials_ai_limitation_2: "Hər blokda yalnız bir süni intellekt seçilə bilər",
     New_Flow_generic_block: "Qalereya Bloku (Karusel)",
     New_Flow_add_general_block: "Qalereya Bloku Əlavə Et",
     New_Flow_add_text_block: "Mətn Bloku Əlavə Et",

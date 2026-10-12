@@ -2889,6 +2889,17 @@ export default {
     New_Flow_phonenumbergrabber_block: "Telefonnummer-Erfassung",
     New_Flow_ai_block: "KI",
     New_Flow_ai_select: "KI auswählen",
+    New_Flow_Tutorials_ai_title: "KI-Block",
+    New_Flow_Tutorials_ai_description:
+      "Dieser Block übergibt das Gespräch an eine der von Ihnen erstellten KIs; wählen Sie die KI aus der Liste im Block aus.",
+    New_Flow_Tutorials_ai_usageType:
+      "Geeignet, um offene Kundenfragen, Support, Beratung und Verkaufsgespräche automatisch zu beantworten.",
+    New_Flow_Tutorials_ai_feature_1: "Listet alle von Ihnen erstellten KIs zur Auswahl auf",
+    New_Flow_Tutorials_ai_feature_2: "Die gewählte KI übernimmt das Gespräch ab dieser Stelle im Flow",
+    New_Flow_Tutorials_ai_tip_1: "Erstellen und konfigurieren Sie Ihre KI zuerst, damit sie in der Liste erscheint",
+    New_Flow_Tutorials_ai_tip_2: "Platzieren Sie ihn nach einem Nachrichtenblock, der das Gespräch einleitet",
+    New_Flow_Tutorials_ai_limitation_1: "Hat nur einen Eingang und keinen Ausgang, beendet also den Flow",
+    New_Flow_Tutorials_ai_limitation_2: "Pro Block kann nur eine KI ausgewählt werden",
     New_Flow_generic_block: "Galerie-Block (Karussell)",
     New_Flow_add_general_block: "Galerieblock hinzufügen",
     New_Flow_add_text_block: "Textblock hinzufügen",
