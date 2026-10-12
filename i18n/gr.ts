@@ -2889,6 +2889,24 @@ export default {
     New_Flow_phonenumbergrabber_block: "Telefonnummer-Erfassung",
     New_Flow_ai_block: "KI",
     New_Flow_ai_select: "KI auswählen",
+    New_Flow_Tutorials_buttongroup_title: "Schaltflächengruppen-Block",
+    New_Flow_Tutorials_buttongroup_description:
+      "Dieser Block sendet eine Nachricht mit bis zu drei Schaltflächen; jede Schaltfläche hat einen eigenen Ausgang, und der Block hat zusätzlich einen normalen Ausgang, der den Flow fortsetzt.",
+    New_Flow_Tutorials_buttongroup_usageType:
+      "Geeignet, um wenige klare Optionen, Menüs und schnelle Navigation anzubieten und Nutzer zu Links oder zum nächsten Schritt zu führen.",
+    New_Flow_Tutorials_buttongroup_feature_1: "Nachrichtentext mit bis zu 640 Zeichen",
+    New_Flow_Tutorials_buttongroup_feature_2: "Bis zu 3 Schaltflächen, jede mit eigenem Ausgang",
+    New_Flow_Tutorials_buttongroup_feature_3:
+      "Ein normaler Ausgang setzt den Flow fort, ohne auf einen Klick zu warten",
+    New_Flow_Tutorials_buttongroup_tip_1: "Formulieren Sie Nachricht und Beschriftungen klar und kurz",
+    New_Flow_Tutorials_buttongroup_tip_2:
+      "Verbinden Sie jede Schaltfläche mit dem Block, der auf ihre Auswahl folgen soll",
+    New_Flow_Tutorials_buttongroup_tip_3:
+      "Nur die Schaltflächen-Ausgänge können mit einem Weblink-Block verbunden werden",
+    New_Flow_Tutorials_buttongroup_limitation_1: "Maximal 3 Schaltflächen",
+    New_Flow_Tutorials_buttongroup_limitation_2: "Nachrichtentext: max. 640 Zeichen",
+    New_Flow_Tutorials_buttongroup_limitation_3: "Schaltflächentitel: max. 20 Zeichen",
+    New_Flow_Tutorials_buttongroup_limitation_4: "Das Löschen der letzten Schaltfläche entfernt den Block",
     New_Flow_Tutorials_ai_title: "KI-Block",
     New_Flow_Tutorials_ai_description:
       "Dieser Block übergibt das Gespräch an eine der von Ihnen erstellten KIs; wählen Sie die KI aus der Liste im Block aus.",

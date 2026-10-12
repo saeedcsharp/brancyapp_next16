@@ -2864,6 +2864,21 @@ export default {
     New_Flow_phonenumbergrabber_block: "Сбор номера телефона",
     New_Flow_ai_block: "ИИ",
     New_Flow_ai_select: "Выберите ИИ",
+    New_Flow_Tutorials_buttongroup_title: "Блок группы кнопок",
+    New_Flow_Tutorials_buttongroup_description:
+      "Этот блок отправляет сообщение с не более чем тремя кнопками; у каждой кнопки свой выход, а у блока есть и обычный выход, продолжающий сценарий.",
+    New_Flow_Tutorials_buttongroup_usageType:
+      "Подходит для предложения нескольких понятных вариантов, меню, быстрой навигации и направления пользователя по ссылке или на следующий шаг.",
+    New_Flow_Tutorials_buttongroup_feature_1: "Текст сообщения до 640 символов",
+    New_Flow_Tutorials_buttongroup_feature_2: "До 3 кнопок, у каждой свой независимый выход",
+    New_Flow_Tutorials_buttongroup_feature_3: "Обычный выход продолжает сценарий, не дожидаясь нажатия кнопки",
+    New_Flow_Tutorials_buttongroup_tip_1: "Пишите текст и надписи кнопок ясно и кратко",
+    New_Flow_Tutorials_buttongroup_tip_2: "Подключайте каждую кнопку к блоку, который должен следовать после её выбора",
+    New_Flow_Tutorials_buttongroup_tip_3: "К блоку «Ссылка» можно подключить только выходы кнопок",
+    New_Flow_Tutorials_buttongroup_limitation_1: "Максимум 3 кнопки",
+    New_Flow_Tutorials_buttongroup_limitation_2: "Текст сообщения: максимум 640 символов",
+    New_Flow_Tutorials_buttongroup_limitation_3: "Название кнопки: максимум 20 символов",
+    New_Flow_Tutorials_buttongroup_limitation_4: "Удаление последней кнопки удаляет блок",
     New_Flow_Tutorials_ai_title: "Блок ИИ",
     New_Flow_Tutorials_ai_description:
       "Этот блок передаёт диалог одному из созданных вами ИИ; выберите ИИ из списка внутри блока.",

@@ -2836,6 +2836,21 @@ export default {
     New_Flow_phonenumbergrabber_block: "Phone Number Grabber",
     New_Flow_ai_block: "AI",
     New_Flow_ai_select: "Select an AI",
+    New_Flow_Tutorials_buttongroup_title: "Button Group Block",
+    New_Flow_Tutorials_buttongroup_description:
+      "This block sends a message with up to three buttons; each button has its own output, and the block also has a regular output that continues the flow.",
+    New_Flow_Tutorials_buttongroup_usageType:
+      "Suitable for offering a few clear choices, menus, quick navigation, and guiding users to links or next steps.",
+    New_Flow_Tutorials_buttongroup_feature_1: "Message text of up to 640 characters",
+    New_Flow_Tutorials_buttongroup_feature_2: "Up to 3 buttons, each with an independent output",
+    New_Flow_Tutorials_buttongroup_feature_3: "A regular output continues the flow without waiting for a button click",
+    New_Flow_Tutorials_buttongroup_tip_1: "Write the message and button labels clearly and briefly",
+    New_Flow_Tutorials_buttongroup_tip_2: "Connect each button to the block that should follow its choice",
+    New_Flow_Tutorials_buttongroup_tip_3: "Only the button outputs can be connected to a Web Link block",
+    New_Flow_Tutorials_buttongroup_limitation_1: "Maximum 3 buttons",
+    New_Flow_Tutorials_buttongroup_limitation_2: "Message text: Max 640 characters",
+    New_Flow_Tutorials_buttongroup_limitation_3: "Button title: Max 20 characters",
+    New_Flow_Tutorials_buttongroup_limitation_4: "Deleting the last button removes the block",
     New_Flow_Tutorials_ai_title: "AI Block",
     New_Flow_Tutorials_ai_description:
       "This block hands the conversation over to one of the AIs you have created; select the AI from the list inside the block.",

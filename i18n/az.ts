@@ -2784,6 +2784,21 @@ export default {
     New_Flow_phonenumbergrabber_block: "Telefon nömrəsi toplayıcı",
     New_Flow_ai_block: "Süni intellekt",
     New_Flow_ai_select: "Süni intellekt seçin",
+    New_Flow_Tutorials_buttongroup_title: "Düymə Qrupu Bloku",
+    New_Flow_Tutorials_buttongroup_description:
+      "Bu blok maksimum üç düyməli mesaj göndərir; hər düymənin ayrı çıxışı var, blokun isə axını davam etdirən adi çıxışı da var.",
+    New_Flow_Tutorials_buttongroup_usageType:
+      "Bir neçə aydın seçim təqdim etmək, menyu, sürətli naviqasiya və istifadəçini linkə və ya növbəti addıma yönləndirmək üçün uyğundur.",
+    New_Flow_Tutorials_buttongroup_feature_1: "640 simvola qədər mesaj mətni",
+    New_Flow_Tutorials_buttongroup_feature_2: "3 düyməyə qədər, hər birinin ayrı çıxışı var",
+    New_Flow_Tutorials_buttongroup_feature_3: "Adi çıxış düymə klikini gözləmədən axını davam etdirir",
+    New_Flow_Tutorials_buttongroup_tip_1: "Mesajı və düymə başlıqlarını aydın və qısa yazın",
+    New_Flow_Tutorials_buttongroup_tip_2: "Hər düyməni seçimindən sonra gələcək bloka qoşun",
+    New_Flow_Tutorials_buttongroup_tip_3: "Veb Link blokuna yalnız düymə çıxışları qoşula bilər",
+    New_Flow_Tutorials_buttongroup_limitation_1: "Maksimum 3 düymə",
+    New_Flow_Tutorials_buttongroup_limitation_2: "Mesaj mətni: maksimum 640 simvol",
+    New_Flow_Tutorials_buttongroup_limitation_3: "Düymə başlığı: maksimum 20 simvol",
+    New_Flow_Tutorials_buttongroup_limitation_4: "Son düymənin silinməsi bloku silir",
     New_Flow_Tutorials_ai_title: "Süni İntellekt Bloku",
     New_Flow_Tutorials_ai_description:
       "Bu blok söhbəti sizin yaratdığınız süni intellektlərdən birinə həvalə edir; süni intellekti blokun daxilindəki siyahıdan seçin.",

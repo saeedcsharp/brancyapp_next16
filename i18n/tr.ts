@@ -2825,6 +2825,21 @@ export default {
     New_Flow_phonenumbergrabber_block: "Telefon Numarası Toplayıcı",
     New_Flow_ai_block: "Yapay Zeka",
     New_Flow_ai_select: "Bir yapay zeka seçin",
+    New_Flow_Tutorials_buttongroup_title: "Buton Grubu Bloğu",
+    New_Flow_Tutorials_buttongroup_description:
+      "Bu blok en fazla üç butonlu bir mesaj gönderir; her butonun kendi çıkışı vardır ve bloğun akışı sürdüren normal bir çıkışı da bulunur.",
+    New_Flow_Tutorials_buttongroup_usageType:
+      "Birkaç net seçenek sunmak, menü, hızlı gezinme ve kullanıcıyı bir bağlantıya veya sonraki adıma yönlendirmek için uygundur.",
+    New_Flow_Tutorials_buttongroup_feature_1: "640 karaktere kadar mesaj metni",
+    New_Flow_Tutorials_buttongroup_feature_2: "3 butona kadar, her birinin bağımsız çıkışı var",
+    New_Flow_Tutorials_buttongroup_feature_3: "Normal çıkış, buton tıklamasını beklemeden akışı sürdürür",
+    New_Flow_Tutorials_buttongroup_tip_1: "Mesajı ve buton etiketlerini açık ve kısa yazın",
+    New_Flow_Tutorials_buttongroup_tip_2: "Her butonu, seçiminden sonra gelmesi gereken bloka bağlayın",
+    New_Flow_Tutorials_buttongroup_tip_3: "Web Bağlantısı bloğuna yalnızca buton çıkışları bağlanabilir",
+    New_Flow_Tutorials_buttongroup_limitation_1: "En fazla 3 buton",
+    New_Flow_Tutorials_buttongroup_limitation_2: "Mesaj metni: en fazla 640 karakter",
+    New_Flow_Tutorials_buttongroup_limitation_3: "Buton başlığı: en fazla 20 karakter",
+    New_Flow_Tutorials_buttongroup_limitation_4: "Son butonu silmek bloğu siler",
     New_Flow_Tutorials_ai_title: "Yapay Zeka Bloğu",
     New_Flow_Tutorials_ai_description:
       "Bu blok, sohbeti oluşturduğunuz yapay zekalardan birine devreder; yapay zekayı blok içindeki listeden seçin.",

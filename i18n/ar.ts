@@ -2734,6 +2734,21 @@ export default {
     New_Flow_phonenumbergrabber_block: "جمع رقم الهاتف",
     New_Flow_ai_block: "الذكاء الاصطناعي",
     New_Flow_ai_select: "اختر ذكاءً اصطناعيًا",
+    New_Flow_Tutorials_buttongroup_title: "كتلة مجموعة الأزرار",
+    New_Flow_Tutorials_buttongroup_description:
+      "ترسل هذه الكتلة رسالة مع ثلاثة أزرار كحد أقصى؛ لكل زر مخرج مستقل، وللكتلة أيضًا مخرج عادي يواصل التدفق.",
+    New_Flow_Tutorials_buttongroup_usageType:
+      "مناسبة لعرض عدة خيارات واضحة وقوائم وتنقّل سريع وتوجيه المستخدم إلى رابط أو خطوة تالية.",
+    New_Flow_Tutorials_buttongroup_feature_1: "نص رسالة يصل إلى 640 حرفًا",
+    New_Flow_Tutorials_buttongroup_feature_2: "حتى 3 أزرار، لكل منها مخرج مستقل",
+    New_Flow_Tutorials_buttongroup_feature_3: "مخرج عادي يواصل التدفق دون انتظار النقر على زر",
+    New_Flow_Tutorials_buttongroup_tip_1: "اكتب نص الرسالة وعناوين الأزرار بوضوح وإيجاز",
+    New_Flow_Tutorials_buttongroup_tip_2: "صل كل زر بالكتلة التي يجب أن تلي اختياره",
+    New_Flow_Tutorials_buttongroup_tip_3: "يمكن وصل مخارج الأزرار فقط بكتلة رابط الويب",
+    New_Flow_Tutorials_buttongroup_limitation_1: "الحد الأقصى 3 أزرار",
+    New_Flow_Tutorials_buttongroup_limitation_2: "نص الرسالة: 640 حرفًا كحد أقصى",
+    New_Flow_Tutorials_buttongroup_limitation_3: "عنوان الزر: 20 حرفًا كحد أقصى",
+    New_Flow_Tutorials_buttongroup_limitation_4: "حذف آخر زر يزيل الكتلة",
     New_Flow_Tutorials_ai_title: "كتلة الذكاء الاصطناعي",
     New_Flow_Tutorials_ai_description:
       "تسلّم هذه الكتلة المحادثة إلى أحد أنظمة الذكاء الاصطناعي التي أنشأتها؛ اختر النظام من القائمة داخل الكتلة.",

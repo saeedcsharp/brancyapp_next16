@@ -273,6 +273,28 @@ export const getNodeTutorials = (t: any): Record<string, TutorialContent> => ({
     ],
   },
 
+  buttongroup: {
+    title: t(LanguageKey.New_Flow_Tutorials_buttongroup_title),
+    description: t(LanguageKey.New_Flow_Tutorials_buttongroup_description),
+    usageType: t(LanguageKey.New_Flow_Tutorials_buttongroup_usageType),
+    features: [
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_feature_1),
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_feature_2),
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_feature_3),
+    ],
+    tips: [
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_tip_1),
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_tip_2),
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_tip_3),
+    ],
+    limitations: [
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_limitation_1),
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_limitation_2),
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_limitation_3),
+      t(LanguageKey.New_Flow_Tutorials_buttongroup_limitation_4),
+    ],
+  },
+
   ai: {
     title: t(LanguageKey.New_Flow_Tutorials_ai_title),
     description: t(LanguageKey.New_Flow_Tutorials_ai_description),

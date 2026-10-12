@@ -2907,6 +2907,22 @@ export default {
     New_Flow_phonenumbergrabber_block: "Collecte du numéro de téléphone",
     New_Flow_ai_block: "IA",
     New_Flow_ai_select: "Sélectionner une IA",
+    New_Flow_Tutorials_buttongroup_title: "Bloc Groupe de boutons",
+    New_Flow_Tutorials_buttongroup_description:
+      "Ce bloc envoie un message avec jusqu'à trois boutons ; chaque bouton a sa propre sortie, et le bloc possède aussi une sortie classique qui poursuit le flux.",
+    New_Flow_Tutorials_buttongroup_usageType:
+      "Adapté pour proposer quelques choix clairs, des menus, une navigation rapide et orienter l'utilisateur vers un lien ou l'étape suivante.",
+    New_Flow_Tutorials_buttongroup_feature_1: "Texte du message jusqu'à 640 caractères",
+    New_Flow_Tutorials_buttongroup_feature_2: "Jusqu'à 3 boutons, chacun avec une sortie indépendante",
+    New_Flow_Tutorials_buttongroup_feature_3:
+      "Une sortie classique poursuit le flux sans attendre un clic sur un bouton",
+    New_Flow_Tutorials_buttongroup_tip_1: "Rédigez le message et les libellés des boutons de façon claire et brève",
+    New_Flow_Tutorials_buttongroup_tip_2: "Reliez chaque bouton au bloc qui doit suivre son choix",
+    New_Flow_Tutorials_buttongroup_tip_3: "Seules les sorties des boutons peuvent être reliées à un bloc Lien web",
+    New_Flow_Tutorials_buttongroup_limitation_1: "Maximum 3 boutons",
+    New_Flow_Tutorials_buttongroup_limitation_2: "Texte du message : 640 caractères max",
+    New_Flow_Tutorials_buttongroup_limitation_3: "Titre du bouton : 20 caractères max",
+    New_Flow_Tutorials_buttongroup_limitation_4: "Supprimer le dernier bouton supprime le bloc",
     New_Flow_Tutorials_ai_title: "Bloc IA",
     New_Flow_Tutorials_ai_description:
       "Ce bloc confie la conversation à l'une des IA que vous avez créées ; choisissez l'IA dans la liste du bloc.",

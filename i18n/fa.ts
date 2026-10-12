@@ -2794,6 +2794,21 @@ export default {
     New_Flow_phonenumbergrabber_block: "دریافت شماره تلفن",
     New_Flow_ai_block: "هوش مصنوعی",
     New_Flow_ai_select: "یک هوش مصنوعی انتخاب کنید",
+    New_Flow_Tutorials_buttongroup_title: "بلوک گروه دکمه",
+    New_Flow_Tutorials_buttongroup_description:
+      "این بلوک پیامی با حداکثر سه دکمه می‌فرستد؛ هر دکمه خروجی مستقل دارد و بلوک یک خروجی معمولی هم دارد که فلو را ادامه می‌دهد.",
+    New_Flow_Tutorials_buttongroup_usageType:
+      "مناسب ارائه چند گزینه مشخص، منو، ناوبری سریع و هدایت کاربر به لینک یا مرحله بعد.",
+    New_Flow_Tutorials_buttongroup_feature_1: "متن پیام تا ۶۴۰ کاراکتر",
+    New_Flow_Tutorials_buttongroup_feature_2: "تا ۳ دکمه با خروجی مستقل برای هر یک",
+    New_Flow_Tutorials_buttongroup_feature_3: "خروجی معمولی بدون انتظار برای کلیک دکمه فلو را ادامه می‌دهد",
+    New_Flow_Tutorials_buttongroup_tip_1: "متن پیام و برچسب دکمه‌ها را واضح و کوتاه بنویسید",
+    New_Flow_Tutorials_buttongroup_tip_2: "هر دکمه را به بلوکی وصل کنید که باید پس از انتخاب آن بیاید",
+    New_Flow_Tutorials_buttongroup_tip_3: "فقط خروجی‌های دکمه‌ها را می‌توان به بلوک لینک وصل کرد",
+    New_Flow_Tutorials_buttongroup_limitation_1: "حداکثر ۳ دکمه",
+    New_Flow_Tutorials_buttongroup_limitation_2: "متن پیام: حداکثر ۶۴۰ کاراکتر",
+    New_Flow_Tutorials_buttongroup_limitation_3: "عنوان دکمه: حداکثر ۲۰ کاراکتر",
+    New_Flow_Tutorials_buttongroup_limitation_4: "حذف آخرین دکمه، بلوک را حذف می‌کند",
     New_Flow_Tutorials_ai_title: "بلوک هوش مصنوعی",
     New_Flow_Tutorials_ai_description:
       "این بلوک گفتگو را به یکی از هوش‌های مصنوعیِ ساخته‌شده توسط شما می‌سپارد؛ هوش مصنوعی را از لیست داخل بلوک انتخاب کنید.",
