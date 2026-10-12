@@ -2887,6 +2887,8 @@ export default {
     New_Flow_quick_reply_block: "Schnellantwort-Block",
     New_Flow_weblink_block: "Link-Block",
     New_Flow_phonenumbergrabber_block: "Telefonnummer-Erfassung",
+    New_Flow_ai_block: "KI",
+    New_Flow_ai_select: "KI auswählen",
     New_Flow_generic_block: "Galerie-Block (Karussell)",
     New_Flow_add_general_block: "Galerieblock hinzufügen",
     New_Flow_add_text_block: "Textblock hinzufügen",

@@ -2732,6 +2732,8 @@ export default {
     New_Flow_quick_reply_block: "كتلة الرد السريع",
     New_Flow_weblink_block: "كتلة الرابط",
     New_Flow_phonenumbergrabber_block: "جمع رقم الهاتف",
+    New_Flow_ai_block: "الذكاء الاصطناعي",
+    New_Flow_ai_select: "اختر ذكاءً اصطناعيًا",
     New_Flow_generic_block: "كتلة المعرض (كاروسيل)",
     New_Flow_add_general_block: "إضافة كتلة للمعرض",
     New_Flow_add_text_block: "إضافة كتلة نص",

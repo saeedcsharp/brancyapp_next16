@@ -2834,6 +2834,8 @@ export default {
     New_Flow_quick_reply_block: "Quick Reply Block",
     New_Flow_weblink_block: "Link Block",
     New_Flow_phonenumbergrabber_block: "Phone Number Grabber",
+    New_Flow_ai_block: "AI",
+    New_Flow_ai_select: "Select an AI",
     New_Flow_generic_block: "Gallery Block (Carousel)",
     New_Flow_add_general_block: "Add Gallery Block",
     New_Flow_add_text_block: "Add Text Block",

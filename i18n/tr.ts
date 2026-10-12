@@ -2823,6 +2823,8 @@ export default {
     New_Flow_quick_reply_block: "Hızlı Yanıt Bloğu",
     New_Flow_weblink_block: "Bağlantı Bloğu",
     New_Flow_phonenumbergrabber_block: "Telefon Numarası Toplayıcı",
+    New_Flow_ai_block: "Yapay Zeka",
+    New_Flow_ai_select: "Bir yapay zeka seçin",
     New_Flow_generic_block: "Galeri Bloğu (Karusel)",
     New_Flow_add_general_block: "Galeri Bloğu Ekle",
     New_Flow_add_text_block: "Metin Bloğu Ekle",

@@ -6,6 +6,9 @@ import { toast } from "react-toastify";
 import Dotmenu from "brancy/components/design/dotMenu/dotMenu";
 import Tooltip from "brancy/components/design/tooltip/tooltip";
 import {
+  AiNode,
+  aiNodeClassName,
+  getAiNodeHeight,
   GenericItemNode,
   GenericNode,
   ImageNode,
@@ -120,6 +123,7 @@ interface NodeData {
     | "genericitem"
     | "weblink"
     | "phonenumbergrabber"
+    | "ai"
     | "onmessage";
   label: string;
   position: Position;
@@ -223,9 +227,11 @@ type NodeType =
   | "imagegallery"
   | "generic"
   | "genericitem"
-  | "phonenumbergrabber";
+  | "phonenumbergrabber"
+  | "ai";
 
 const INPUT_CONNECTION_RULES: Record<NodeType, Partial<Record<NodeType, number>>> = {
+  ai: {},
   onmessage: {
     onmessage: 0,
     weblink: 0,
@@ -357,6 +363,7 @@ const INPUT_CONNECTION_RULES: Record<NodeType, Partial<Record<NodeType, number>>
  * مقدار 1 = اتصال مجاز، مقدار 0 = اتصال غیرمجاز
  */
 const OUTPUT_CONNECTION_RULES: Record<NodeType, Partial<Record<NodeType, number>>> = {
+  ai: {},
   onmessage: {
     onmessage: 0,
     weblink: 1,
@@ -638,6 +645,7 @@ const getNodeClassName = (nodeType: string): string => {
     genericitem: genericitemNodeClassName,
     weblink: weblinkNodeClassName,
     phonenumbergrabber: phonenumbergrabberNodeClassName,
+    ai: aiNodeClassName,
     onmessage: onmessageNodeClassName,
   };
   return classNameMap[nodeType] || "";
@@ -660,6 +668,7 @@ const getNodeTypeTranslationKey = (nodeType: string): LanguageKey => {
     genericitem: LanguageKey.New_Flow_generic_block,
     weblink: LanguageKey.New_Flow_weblink_block,
     phonenumbergrabber: LanguageKey.New_Flow_phonenumbergrabber_block,
+    ai: LanguageKey.New_Flow_ai_block,
     onmessage: LanguageKey.New_Flow_input_message_block,
   };
   return translationMap[nodeType] || LanguageKey.New_Flow_general_block;
@@ -709,6 +718,7 @@ const getNodeTypeColor = (nodeType: string): string => {
     genericitem: "#00c1d4",
     weblink: "#3498db",
     phonenumbergrabber: "#16a085",
+    ai: "#6c5ce7",
     onmessage: "#34E994",
   };
   return colorMap[nodeType] || "#95a5a6"; // Default Gray
@@ -827,6 +837,8 @@ const autoLayout = (nodes: NodeData[], connections: Connection[]): NodeData[] =>
         return getWeblinkNodeHeight(node);
       case "phonenumbergrabber":
         return getPhoneNumberGrabberNodeHeight(node);
+      case "ai":
+        return getAiNodeHeight(node);
       case "onmessage":
         return getOnMessageNodeHeight(node);
       default:
@@ -1283,6 +1295,10 @@ export default function Flow({
       if (type === "weblink") {
         // نود weblink فقط input دارد و output ندارد
         newNode.outputs = [];
+      }
+      if (type === "ai") {
+        newNode.outputs = [];
+        newNode.data = { promptId: "", promptTitle: "" };
       }
       updateStateWithHistory((prev) => ({
         ...prev,
@@ -2030,6 +2046,8 @@ export default function Flow({
           return getWeblinkNodeHeight(node);
         case "phonenumbergrabber":
           return getPhoneNumberGrabberNodeHeight(node);
+        case "ai":
+          return getAiNodeHeight(node);
         case "onmessage":
           return getOnMessageNodeHeight(node);
         default:
@@ -2829,6 +2847,9 @@ export default function Flow({
           break;
         case "phonenumbergrabber":
           bodyHeight = getPhoneNumberGrabberNodeHeight(node);
+          break;
+        case "ai":
+          bodyHeight = getAiNodeHeight(node);
           break;
         case "quickreply":
           bodyHeight = getQuickReplyNodeHeight(node);
@@ -4432,6 +4453,23 @@ export default function Flow({
                 </button>
               </Tooltip>
 
+              <Tooltip tooltipValue={t(LanguageKey.New_Flow_ai_block)} position="top">
+                <button onClick={() => addNode("ai")} className={styles.toolbardesktopitem}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="var(--text-h1)"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                    width="24px"
+                    height="24px"
+                    fill="none"
+                    viewBox="0 0 24 25">
+                    <path d="M12 4v4m0 9v4M4 12.500h4m9 0h4M12 8.500l1.500 2.500 2.500 1.500-2.500 1.500L12 16.500 10.500 14 8 12.500 10.500 11z" />
+                  </svg>
+                </button>
+              </Tooltip>
+
               <Tooltip tooltipValue={t(LanguageKey.New_Flow_add_weblink_block)} position="top">
                 <button onClick={() => addNode("weblink")} className={styles.toolbardesktopitem}>
                   <svg
@@ -4998,6 +5036,26 @@ export default function Flow({
                   </button>
                   <button
                     onClick={() => {
+                      addNode("ai");
+                      setShowMobileMenu(false);
+                    }}
+                    className={styles.mobilemenuitem}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      stroke="var(--text-h1)"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                      width="20px"
+                      height="20px"
+                      fill="none"
+                      viewBox="0 0 24 25">
+                      <path d="M12 4v4m0 9v4M4 12.500h4m9 0h4M12 8.500l1.500 2.500 2.500 1.500-2.500 1.500L12 16.500 10.500 14 8 12.500 10.500 11z" />
+                    </svg>
+                    <span>{t(LanguageKey.New_Flow_ai_block)}</span>
+                  </button>
+                  <button
+                    onClick={() => {
                       addNode("weblink");
                       setShowMobileMenu(false);
                     }}
@@ -5136,6 +5194,7 @@ export default function Flow({
                     {node.type === "onmessage" && <OnMessageNode node={node} updateNodeData={updateNodeData} />}
                     {node.type === "text" && <TextNode node={node} updateNodeData={updateNodeData} />}
                     {node.type === "weblink" && <WeblinkNode node={node} updateNodeData={updateNodeData} />}
+                    {node.type === "ai" && <AiNode node={node} updateNodeData={updateNodeData} />}
                     {node.type === "phonenumbergrabber" && (
                       <PhoneNumberGrabberNode node={node} updateNodeData={updateNodeData} />
                     )}

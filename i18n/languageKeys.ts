@@ -2456,6 +2456,8 @@ export enum LanguageKey {
   New_Flow_quick_reply_block = "New_Flow_quick_reply_block",
   New_Flow_weblink_block = "New_Flow_weblink_block",
   New_Flow_phonenumbergrabber_block = "New_Flow_phonenumbergrabber_block",
+  New_Flow_ai_block = "New_Flow_ai_block",
+  New_Flow_ai_select = "New_Flow_ai_select",
   New_Flow_generic_block = "New_Flow_generic_block",
   New_Flow_add_general_block = "New_Flow_add_general_block",
   New_Flow_add_text_block = "New_Flow_add_text_block",

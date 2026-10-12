@@ -2782,6 +2782,8 @@ export default {
     New_Flow_quick_reply_block: "Sürətli Cavab Bloku",
     New_Flow_weblink_block: "Link Bloku",
     New_Flow_phonenumbergrabber_block: "Telefon nömrəsi toplayıcı",
+    New_Flow_ai_block: "Süni intellekt",
+    New_Flow_ai_select: "Süni intellekt seçin",
     New_Flow_generic_block: "Qalereya Bloku (Karusel)",
     New_Flow_add_general_block: "Qalereya Bloku Əlavə Et",
     New_Flow_add_text_block: "Mətn Bloku Əlavə Et",

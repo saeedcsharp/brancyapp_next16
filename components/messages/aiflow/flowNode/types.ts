@@ -24,6 +24,7 @@ export interface NodeData {
     | "genericitem"
     | "weblink"
     | "phonenumbergrabber"
+    | "ai"
     | "onmessage";
   label: string;
   position: Position;

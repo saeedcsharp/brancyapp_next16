@@ -2792,6 +2792,8 @@ export default {
     New_Flow_quick_reply_block: "بلوک پاسخ سریع",
     New_Flow_weblink_block: "بلوک لینک",
     New_Flow_phonenumbergrabber_block: "دریافت شماره تلفن",
+    New_Flow_ai_block: "هوش مصنوعی",
+    New_Flow_ai_select: "یک هوش مصنوعی انتخاب کنید",
     New_Flow_generic_block: "بلوک گالری (کاروسل)",
     New_Flow_add_general_block: "اضافه‌کردن بلوک گالری",
     New_Flow_add_text_block: "اضافه‌کردن بلوک متن",

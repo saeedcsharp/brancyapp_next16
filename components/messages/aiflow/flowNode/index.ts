@@ -44,6 +44,7 @@ export {
   getPhoneNumberGrabberNodeHeight,
   phonenumbergrabberNodeClassName,
 } from "brancy/components/messages/aiflow/flowNode/PhoneNumberGrabberNode";
+export { AiNode, getAiNodeHeight, aiNodeClassName } from "brancy/components/messages/aiflow/flowNode/AiNode";
 export {
   OnMessageNode,
   getOnMessageNodeHeight,

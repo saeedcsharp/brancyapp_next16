@@ -2905,6 +2905,8 @@ export default {
     New_Flow_quick_reply_block: "Bloc de réponse rapide",
     New_Flow_weblink_block: "Bloc de lien",
     New_Flow_phonenumbergrabber_block: "Collecte du numéro de téléphone",
+    New_Flow_ai_block: "IA",
+    New_Flow_ai_select: "Sélectionner une IA",
     New_Flow_generic_block: "Bloc Galerie (Carrousel)",
     New_Flow_add_general_block: "Ajouter un bloc de galerie",
     New_Flow_add_text_block: "Ajouter un bloc de texte",

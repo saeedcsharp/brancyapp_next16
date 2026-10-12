@@ -2862,6 +2862,8 @@ export default {
     New_Flow_quick_reply_block: "Блок быстрого ответа",
     New_Flow_weblink_block: "Блок ссылки",
     New_Flow_phonenumbergrabber_block: "Сбор номера телефона",
+    New_Flow_ai_block: "ИИ",
+    New_Flow_ai_select: "Выберите ИИ",
     New_Flow_generic_block: "Галерея-блок (Карусель)",
     New_Flow_add_general_block: "Добавить блок галереи",
     New_Flow_add_text_block: "Добавить текстовый блок",
