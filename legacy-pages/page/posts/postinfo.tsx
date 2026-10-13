@@ -211,7 +211,7 @@ const ShowPost = () => {
   const [activeChildUrl, setActiveChildUrl] = useState<string>("");
   const [autoReply, setAutoReply] = useState<IAutomaticReply>({
     items: [],
-    response: "hi",
+    response: null,
     sendPr: false,
     shouldFollower: false,
     automaticType: 0,
