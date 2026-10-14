@@ -1,3 +1,11 @@
+- Add component coverage confirming Character Sheet Undo/Redo restores serializable editor state without persisting or mutating reference object URLs when a UI test harness is introduced.
+
+- Add component/browser coverage for Character Sheet dynamic section numbering with hidden Advanced attributes, per-attribute locking, and reset-all local draft behavior when a UI test harness is introduced.
+- Add component coverage for Character Sheet type-driven prompt templates, including expected prompt field changes for each identity type and no API/network requests when a UI test harness is introduced.
+- Add component coverage confirming locked attributes become non-editable and appear in the final local prompt payload with exact-preservation reference instructions when a UI test harness is introduced.
+- Add component coverage for Character Sheet prompt preview Readable/JSON mode switching, copy/download actions, and safe localStorage draft persistence/restore excluding reference image object URLs when a UI test harness is introduced.
+- Add component coverage confirming Character Sheet Auto mode hides the identity attributes accordion, Advanced mode renders it, and the selected mode is included in the local JSON preview when a UI test harness is introduced.
+
 - Add component/browser coverage confirming AI video history pagination triggers when the initial video result does not fill the workspace and appends the next cursor page when a UI test harness is introduced.
 
 - Add component coverage confirming Ice Breaker deletion sends `UpdateIceBreaker` the filtered button list and removes the selected item from persisted state when a UI test harness is introduced.
@@ -129,7 +137,7 @@
 
 - Add component coverage confirming the Meta direct-login initial loading phrases hydrate without text mismatches and its verification request is sent only once when React Strict Mode replays effects.
 - Add component/browser coverage for the AI workspace order: shared ToggleButton Image/Video tabs inside the model panel, matching creator loading after tab changes, empty/error state placement in the settings panel, creator submission, and the corresponding library below the creator when a UI test harness is introduced.
-- Add component/browser coverage for the local-only Visual Identity tab: confirm it never invokes media creator/API paths, switches between Auto and Advanced steps, changes dynamic controls by identity type, revokes reference object URLs, preserves lock and constraint state during the mounted session, and remains usable in mobile and RTL layouts.
+- Add component/browser coverage for the local-only Visual Identity editor: confirm it never invokes media creator/API paths, exposes the correct type-specific attribute fields, includes attribute values in the JSON preview, revokes reference object URLs, and remains usable in mobile and RTL layouts.
 - Add browser coverage for the AI workspace responsive layout at `840px`, confirming the capped history column and flexible creator column above the breakpoint, then creator-first full-width stacking below it.
 - Add component/browser coverage confirming the AI model trigger opens `AiModelList`, lists all creators/models, updates the visible selection, closes after selection, and remains usable on mobile and RTL layouts when a UI test harness is introduced.
 

@@ -28,19 +28,28 @@ The Dev Panel links to `/dev/characterSheet`, which renders the full-width Visua
 
 The current implementation is a frontend-only prototype. It supports:
 
-- Auto and Advanced editor modes.
+- A subject-type section with an Auto/Advanced mode switch; the type-specific attributes accordion is rendered only in Advanced mode.
+- Dynamic section numbering that automatically reindexes when the Advanced-only attributes section is hidden.
+- Independently collapsible sections instead of a step-by-step wizard.
+- Local Undo and Redo controls for serializable editor changes.
 - Human, Product, Object, Animal, and Custom identity types.
-- Type-specific appearance, structure, clothing, branding, material, dimension, and detail controls.
-- Up to 12 browser-local reference previews with view and purpose metadata.
-- Per-attribute and global locks.
-- Views, expressions, poses, scale references, style, lighting, background, palette, and sheet layout.
-- Independent identity-consistency and creativity controls.
-- Output presets, detail level, provider-agnostic model strategy, reference strategy, and custom constraints.
-- A local Identity Profile, immutable-context summary, sheet preview, and fixed consistency-score presentation.
+- A type-specific attributes accordion restores the available Human appearance, face, hair, body, clothing, Product structure/material/branding, Object scale/material/details, Animal species/fur/markings, and Custom subject options.
+- Completion counters, local reset of attribute values, and an individual lock control for every attribute.
+- Locked attributes are visually faded, non-editable, and included in the final local prompt payload with an instruction to preserve them exactly from the reference images.
+- Up to 14 browser-local reference-image previews with remove controls; Advanced mode groups uploads into type-specific slots such as Human face/style/body and Product brand/logo/packaging/material.
+- Each reference stores its slot label in the local prompt payload, while Auto mode keeps the general reference uploader.
+- A prepared prompt and identity description that users can edit directly.
+- Negative prompt, identity rules, and consistency rules inputs.
+- Visual style, lighting, background, views, detail, consistency, creativity, output count, aspect ratio, and resolution settings.
+- Type-specific local prompt templates update the prompt, negative prompt, identity rules, and consistency rules when Human, Product, Object, Animal, or Custom is selected.
+- Prompt preview modes for Readable and JSON views, with local copy and download actions.
+- A local reset-all action that clears the full draft state.
+- Safe browser draft persistence with localStorage for serializable state only.
+- A live final prompt payload preview that includes mode, editable prompt fields, type-specific attributes, references, and settings.
 
 ## Explicit Non-Goals
 
-This implementation does not call an API and does not use a session, upload helper, backend model, server action, local storage, or database. Auto-Define, generation, consistency scoring, regeneration, publishing, lifecycle status, and version labels are presentation states only. Selected image files remain in browser memory as object URLs and are revoked on removal or component unmount. All editor state is lost when the component unmounts or the page reloads.
+This implementation does not call an API and does not use a session, upload helper, backend model, server action, or database. The payload output is a local request preview only. Selected image files remain in browser memory as object URLs and are revoked on removal or component unmount. Only serializable editor fields may persist in browser localStorage; reference image binaries and object URLs are never persisted.
 
 ## Future Architecture Boundary
 
@@ -58,7 +67,7 @@ Generation must reference an immutable identity version/snapshot so later identi
 
 ## Known Risks
 
-- Large type-specific schemas can overwhelm the UI; Auto mode must remain the reduced path.
+- Large type-specific schemas can overwhelm the UI; the attributes accordion remains independently collapsible and values are optional.
 - Direct navigation between steps currently permits incomplete optional sections; only Identity Name is enforced before the local preview.
 - Fixed score values and local lifecycle labels must not be mistaken for real AI validation or persistence.
 - Full browser coverage for RTL, mobile, object URL cleanup, and mode/type transitions is pending.

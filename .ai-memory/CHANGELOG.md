@@ -1,4 +1,14 @@
-- 2026-09-28: Added the local-only Character Sheet Visual Identity wizard at `/dev/characterSheet`, linked from the Dev Panel; removed it from the AI creator tabs while preserving its Auto/Advanced flows, dynamic identity controls, local reference previews, locks, views, style, consistency, constraints, and presentation-only sheet.
+- 2026-09-30: Added type-specific Advanced reference slots for Human, Product, Object, Animal, and Custom subjects while preserving the 14-image local limit and general Auto uploader.
+- 2026-09-30: Replaced Character Sheet select-based attribute options with the shared DragDrop component, including disabled behavior for locked attributes.
+- 2026-09-30: Removed Character Sheet Expand all/Collapse all and Attribute search controls; added per-attribute locks with faded non-editable fields and exact-preservation reference instructions in the local prompt payload.
+- 2026-09-30: Removed local Character Sheet presets and replaced them with type-driven local prompt templates applied when an identity type is selected.
+- 2026-09-30: Added local Undo and Redo controls for serializable Character Sheet editor state; browser object URLs remain outside history.
+- 2026-09-30: Expanded the local Character Sheet prototype with dynamic section numbering, expand/collapse-all controls, local presets, Advanced-attributes filtering/completion/reset controls, and reset-all local draft behavior.
+- 2026-09-30: Added local-only Character Sheet prompt fields for negative prompt plus identity/consistency rules, and introduced Readable/JSON prompt preview modes with local copy/download actions.
+- 2026-09-30: Added safe browser localStorage draft persistence for serializable Character Sheet state only; reference image files/object URLs remain in memory and are never persisted.
+- 2026-09-30: Added an Auto/Advanced mode switch to the local Character Sheet. Auto hides the type-specific identity attributes section, while Advanced renders it and includes the selected mode in the local JSON preview.
+- 2026-09-29: Restored the type-specific Visual Identity attribute accordion for Human, Product, Object, Animal, and Custom subjects, including structure, appearance, material, branding, dimension, and distinctive-feature fields in the local JSON preview.
+- 2026-09-29: Reworked the local-only Character Sheet at `/dev/characterSheet` from a step wizard into four collapsible sections for subject type, up to 14 browser-local reference images, an editable prepared prompt, and output settings with a live final prompt JSON preview.
 
 - 2026-09-28: Fixed the AI media history DragDrop All option to use the localized `toggleShowAll` translation key.
 
