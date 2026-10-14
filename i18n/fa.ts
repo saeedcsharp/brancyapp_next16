@@ -2794,6 +2794,7 @@ export default {
     New_Flow_phonenumbergrabber_block: "دریافت شماره تلفن",
     New_Flow_ai_block: "هوش مصنوعی",
     New_Flow_ai_select: "یک هوش مصنوعی انتخاب کنید",
+    New_Flow_ai_livetest: "بلوک هوش مصنوعی شما در اینجا اجرا می‌شود",
     New_Flow_Tutorials_buttongroup_title: "بلوک گروه دکمه",
     New_Flow_Tutorials_buttongroup_description:
       "این بلوک پیامی با حداکثر سه دکمه می‌فرستد؛ هر دکمه خروجی مستقل دارد و بلوک یک خروجی معمولی هم دارد که فلو را ادامه می‌دهد.",
@@ -2820,6 +2821,7 @@ export default {
     New_Flow_Tutorials_ai_tip_2: "آن را پس از یک بلوک پیام که گفتگو را معرفی می‌کند قرار دهید",
     New_Flow_Tutorials_ai_limitation_1: "فقط ورودی دارد و خروجی ندارد، بنابراین فلو را پایان می‌دهد",
     New_Flow_Tutorials_ai_limitation_2: "در هر بلوک فقط یک هوش مصنوعی قابل انتخاب است",
+    New_Flow_Tutorials_ai_limitation_3: "نمی‌تواند اولین بلوک فلو باشد",
     New_Flow_generic_block: "بلوک گالری (کاروسل)",
     New_Flow_add_general_block: "اضافه‌کردن بلوک گالری",
     New_Flow_add_text_block: "اضافه‌کردن بلوک متن",

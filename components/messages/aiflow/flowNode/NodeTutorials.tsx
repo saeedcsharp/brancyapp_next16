@@ -301,7 +301,11 @@ export const getNodeTutorials = (t: any): Record<string, TutorialContent> => ({
     usageType: t(LanguageKey.New_Flow_Tutorials_ai_usageType),
     features: [t(LanguageKey.New_Flow_Tutorials_ai_feature_1), t(LanguageKey.New_Flow_Tutorials_ai_feature_2)],
     tips: [t(LanguageKey.New_Flow_Tutorials_ai_tip_1), t(LanguageKey.New_Flow_Tutorials_ai_tip_2)],
-    limitations: [t(LanguageKey.New_Flow_Tutorials_ai_limitation_1), t(LanguageKey.New_Flow_Tutorials_ai_limitation_2)],
+    limitations: [
+      t(LanguageKey.New_Flow_Tutorials_ai_limitation_1),
+      t(LanguageKey.New_Flow_Tutorials_ai_limitation_2),
+      t(LanguageKey.New_Flow_Tutorials_ai_limitation_3),
+    ],
   },
 
   phonenumbergrabber: {

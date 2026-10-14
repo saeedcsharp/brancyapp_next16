@@ -2734,6 +2734,7 @@ export default {
     New_Flow_phonenumbergrabber_block: "جمع رقم الهاتف",
     New_Flow_ai_block: "الذكاء الاصطناعي",
     New_Flow_ai_select: "اختر ذكاءً اصطناعيًا",
+    New_Flow_ai_livetest: "يتم تنفيذ كتلة الذكاء الاصطناعي الخاصة بك هنا",
     New_Flow_Tutorials_buttongroup_title: "كتلة مجموعة الأزرار",
     New_Flow_Tutorials_buttongroup_description:
       "ترسل هذه الكتلة رسالة مع ثلاثة أزرار كحد أقصى؛ لكل زر مخرج مستقل، وللكتلة أيضًا مخرج عادي يواصل التدفق.",
@@ -2760,6 +2761,7 @@ export default {
     New_Flow_Tutorials_ai_tip_2: "ضعها بعد كتلة رسالة تمهّد للمحادثة",
     New_Flow_Tutorials_ai_limitation_1: "لها مدخل فقط وبلا مخرج، لذلك تنهي التدفق",
     New_Flow_Tutorials_ai_limitation_2: "يمكن اختيار ذكاء اصطناعي واحد فقط لكل كتلة",
+    New_Flow_Tutorials_ai_limitation_3: "لا يمكن أن تكون أول كتلة في التدفق",
     New_Flow_generic_block: "كتلة المعرض (كاروسيل)",
     New_Flow_add_general_block: "إضافة كتلة للمعرض",
     New_Flow_add_text_block: "إضافة كتلة نص",

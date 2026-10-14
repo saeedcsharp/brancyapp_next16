@@ -371,6 +371,10 @@ export const LiveTestModal: React.FC<LiveTestModalProps> = ({ isOpen, onClose, e
           awaitingPhoneNodeIdRef.current = node.id;
           break;
         }
+        case "ai": {
+          appendBot({ kind: "text", text: t(LanguageKey.New_Flow_ai_livetest) });
+          break;
+        }
         default: {
           await cont();
         }

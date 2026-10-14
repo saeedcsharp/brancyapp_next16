@@ -139,7 +139,7 @@ const loadingReducer = (state: LoadingState, action: LoadingAction) => {
 };
 const mediaTypeOptions = [
   { id: MediaProductType.AllMedia, label: MediaProductType[MediaProductType.AllMedia] },
-  { id: MediaProductType.All, label: MediaProductType[MediaProductType.All] },
+  { id: MediaProductType.Direct, label: MediaProductType[MediaProductType.Direct] },
   { id: MediaProductType.Feed, label: MediaProductType[MediaProductType.Feed] },
   { id: MediaProductType.Story, label: MediaProductType[MediaProductType.Story] },
   { id: MediaProductType.Reels, label: MediaProductType[MediaProductType.Reels] },
@@ -383,7 +383,7 @@ const EditAutoReply: React.FC<QuickReplyPopupProps> = ({
     switch (mediaType) {
       case MediaProductType.AllMedia:
         return 0;
-      case MediaProductType.All:
+      case MediaProductType.Direct:
         return 1;
       case MediaProductType.Feed:
         return 2;

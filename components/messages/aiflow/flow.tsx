@@ -567,6 +567,10 @@ const validateConnection = (
   if (targetNodeType === "phonenumbergrabber" && sourceNodeType === "onmessage") {
     return false;
   }
+  // ai cannot be the first block (directly after onmessage)
+  if (targetNodeType === "ai" && sourceNodeType === "onmessage") {
+    return false;
+  }
   // generic (gallery), its items, and quickreply cannot feed phonenumbergrabber
   if (
     targetNodeType === "phonenumbergrabber" &&

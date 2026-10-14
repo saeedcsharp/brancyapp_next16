@@ -2,7 +2,7 @@ The bulk product individual editors now render as a free horizontal slider using
 
 # Current State
 
-The AI Flow editor also has an `ai` block: input only (no output socket), with a dropdown of the account's created AI prompts loaded from `/api/ai/GetPrompts` (up to 10 pages) and the selection stored in `data.promptId`/`data.promptTitle`. It appears in the desktop toolbar, mobile menu, and tutorial modal; Live Test treats it as a pass-through. The `buttongroup` block now has its tutorial too. All new tutorial and label keys exist in all eight locales.
+The AI Flow editor also has an `ai` block: input only (no output socket), with a dropdown of the account's created AI prompts loaded from `/api/ai/GetPrompts` (up to 10 pages) and the selection stored in `data.promptId`/`data.promptTitle`. It appears in the desktop toolbar, mobile menu, and tutorial modal; Live Test shows a localized `New_Flow_ai_livetest` bot message ("Your AI block is being executed here") when it reaches it and stops there. The `buttongroup` block now has its tutorial too. All new tutorial and label keys exist in all eight locales.
 
 The AI Flow editor has two new blocks. `buttongroup` has a 640-character title, at most three buttons, one regular output plus three button outputs, and its button outputs may connect to the Link block. `imagegallery` mirrors the image block but accepts images only, up to `IMAGE_GALLERY_MAX_ITEMS` (7) per block. Both appear in the desktop toolbar, mobile menu, Live Test, and (for `imagegallery`) the tutorial modal, with localized keys in all eight locales. The Phone Number Grabber node wrapper no longer inherits the inner content layout, matching the other blocks' header style. See `MODULES/components-messages.md`.
 

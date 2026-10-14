@@ -2864,6 +2864,7 @@ export default {
     New_Flow_phonenumbergrabber_block: "Сбор номера телефона",
     New_Flow_ai_block: "ИИ",
     New_Flow_ai_select: "Выберите ИИ",
+    New_Flow_ai_livetest: "Ваш ИИ-блок выполняется здесь",
     New_Flow_Tutorials_buttongroup_title: "Блок группы кнопок",
     New_Flow_Tutorials_buttongroup_description:
       "Этот блок отправляет сообщение с не более чем тремя кнопками; у каждой кнопки свой выход, а у блока есть и обычный выход, продолжающий сценарий.",
@@ -2890,6 +2891,7 @@ export default {
     New_Flow_Tutorials_ai_tip_2: "Размещайте после блока сообщения, который вводит в диалог",
     New_Flow_Tutorials_ai_limitation_1: "Имеет только вход и не имеет выхода, поэтому завершает сценарий",
     New_Flow_Tutorials_ai_limitation_2: "В одном блоке можно выбрать только один ИИ",
+    New_Flow_Tutorials_ai_limitation_3: "Не может быть первым блоком потока",
     New_Flow_generic_block: "Галерея-блок (Карусель)",
     New_Flow_add_general_block: "Добавить блок галереи",
     New_Flow_add_text_block: "Добавить текстовый блок",

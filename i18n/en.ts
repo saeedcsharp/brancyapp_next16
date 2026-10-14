@@ -2836,6 +2836,7 @@ export default {
     New_Flow_phonenumbergrabber_block: "Phone Number Grabber",
     New_Flow_ai_block: "AI",
     New_Flow_ai_select: "Select an AI",
+    New_Flow_ai_livetest: "Your AI block is being executed here",
     New_Flow_Tutorials_buttongroup_title: "Button Group Block",
     New_Flow_Tutorials_buttongroup_description:
       "This block sends a message with up to three buttons; each button has its own output, and the block also has a regular output that continues the flow.",
@@ -2862,6 +2863,7 @@ export default {
     New_Flow_Tutorials_ai_tip_2: "Place it after a message block that introduces the conversation",
     New_Flow_Tutorials_ai_limitation_1: "Has an input only and no output, so it ends the flow",
     New_Flow_Tutorials_ai_limitation_2: "Only one AI can be selected per block",
+    New_Flow_Tutorials_ai_limitation_3: "Cannot be the first block of the flow",
     New_Flow_generic_block: "Gallery Block (Carousel)",
     New_Flow_add_general_block: "Add Gallery Block",
     New_Flow_add_text_block: "Add Text Block",

@@ -2907,6 +2907,7 @@ export default {
     New_Flow_phonenumbergrabber_block: "Collecte du numéro de téléphone",
     New_Flow_ai_block: "IA",
     New_Flow_ai_select: "Sélectionner une IA",
+    New_Flow_ai_livetest: "Votre bloc d’IA est en cours d’exécution ici",
     New_Flow_Tutorials_buttongroup_title: "Bloc Groupe de boutons",
     New_Flow_Tutorials_buttongroup_description:
       "Ce bloc envoie un message avec jusqu'à trois boutons ; chaque bouton a sa propre sortie, et le bloc possède aussi une sortie classique qui poursuit le flux.",
@@ -2934,6 +2935,7 @@ export default {
     New_Flow_Tutorials_ai_tip_2: "Placez-le après un bloc message qui introduit la conversation",
     New_Flow_Tutorials_ai_limitation_1: "Possède une entrée mais aucune sortie, il termine donc le flux",
     New_Flow_Tutorials_ai_limitation_2: "Une seule IA peut être sélectionnée par bloc",
+    New_Flow_Tutorials_ai_limitation_3: "Ne peut pas être le premier bloc du flux",
     New_Flow_generic_block: "Bloc Galerie (Carrousel)",
     New_Flow_add_general_block: "Ajouter un bloc de galerie",
     New_Flow_add_text_block: "Ajouter un bloc de texte",

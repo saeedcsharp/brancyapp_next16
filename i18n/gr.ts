@@ -2889,6 +2889,7 @@ export default {
     New_Flow_phonenumbergrabber_block: "Telefonnummer-Erfassung",
     New_Flow_ai_block: "KI",
     New_Flow_ai_select: "KI auswählen",
+    New_Flow_ai_livetest: "Ihr KI-Block wird hier ausgeführt",
     New_Flow_Tutorials_buttongroup_title: "Schaltflächengruppen-Block",
     New_Flow_Tutorials_buttongroup_description:
       "Dieser Block sendet eine Nachricht mit bis zu drei Schaltflächen; jede Schaltfläche hat einen eigenen Ausgang, und der Block hat zusätzlich einen normalen Ausgang, der den Flow fortsetzt.",
@@ -2918,6 +2919,7 @@ export default {
     New_Flow_Tutorials_ai_tip_2: "Platzieren Sie ihn nach einem Nachrichtenblock, der das Gespräch einleitet",
     New_Flow_Tutorials_ai_limitation_1: "Hat nur einen Eingang und keinen Ausgang, beendet also den Flow",
     New_Flow_Tutorials_ai_limitation_2: "Pro Block kann nur eine KI ausgewählt werden",
+    New_Flow_Tutorials_ai_limitation_3: "Kann nicht der erste Block des Flows sein",
     New_Flow_generic_block: "Galerie-Block (Karussell)",
     New_Flow_add_general_block: "Galerieblock hinzufügen",
     New_Flow_add_text_block: "Textblock hinzufügen",

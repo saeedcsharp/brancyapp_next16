@@ -2825,6 +2825,7 @@ export default {
     New_Flow_phonenumbergrabber_block: "Telefon Numarası Toplayıcı",
     New_Flow_ai_block: "Yapay Zeka",
     New_Flow_ai_select: "Bir yapay zeka seçin",
+    New_Flow_ai_livetest: "Yapay zeka bloğunuz burada çalıştırılıyor",
     New_Flow_Tutorials_buttongroup_title: "Buton Grubu Bloğu",
     New_Flow_Tutorials_buttongroup_description:
       "Bu blok en fazla üç butonlu bir mesaj gönderir; her butonun kendi çıkışı vardır ve bloğun akışı sürdüren normal bir çıkışı da bulunur.",
@@ -2851,6 +2852,7 @@ export default {
     New_Flow_Tutorials_ai_tip_2: "Sohbeti başlatan bir mesaj bloğundan sonra yerleştirin",
     New_Flow_Tutorials_ai_limitation_1: "Yalnızca girişi vardır, çıkışı yoktur; bu yüzden akışı sonlandırır",
     New_Flow_Tutorials_ai_limitation_2: "Her blokta yalnızca bir yapay zeka seçilebilir",
+    New_Flow_Tutorials_ai_limitation_3: "Akışın ilk bloğu olamaz",
     New_Flow_generic_block: "Galeri Bloğu (Karusel)",
     New_Flow_add_general_block: "Galeri Bloğu Ekle",
     New_Flow_add_text_block: "Metin Bloğu Ekle",

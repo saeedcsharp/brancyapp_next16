@@ -2784,6 +2784,7 @@ export default {
     New_Flow_phonenumbergrabber_block: "Telefon nömrəsi toplayıcı",
     New_Flow_ai_block: "Süni intellekt",
     New_Flow_ai_select: "Süni intellekt seçin",
+    New_Flow_ai_livetest: "Süni intellekt bloku burada icra olunur",
     New_Flow_Tutorials_buttongroup_title: "Düymə Qrupu Bloku",
     New_Flow_Tutorials_buttongroup_description:
       "Bu blok maksimum üç düyməli mesaj göndərir; hər düymənin ayrı çıxışı var, blokun isə axını davam etdirən adi çıxışı da var.",
@@ -2810,6 +2811,7 @@ export default {
     New_Flow_Tutorials_ai_tip_2: "Söhbəti təqdim edən mesaj blokundan sonra yerləşdirin",
     New_Flow_Tutorials_ai_limitation_1: "Yalnız girişi var, çıxışı yoxdur, buna görə axını bitirir",
     New_Flow_Tutorials_ai_limitation_2: "Hər blokda yalnız bir süni intellekt seçilə bilər",
+    New_Flow_Tutorials_ai_limitation_3: "Axının ilk bloku ola bilməz",
     New_Flow_generic_block: "Qalereya Bloku (Karusel)",
     New_Flow_add_general_block: "Qalereya Bloku Əlavə Et",
     New_Flow_add_text_block: "Mətn Bloku Əlavə Et",
