@@ -1,6 +1,6 @@
 # components/messages
 
-The AI Flow editor shows a localized private-reply warning beside the back and save controls when an `node_onmessage` connection targets a node with a non-null output while `checkFollower` is disabled. Output-less nodes such as quick replies do not trigger the warning. The warning condition is display-only: Save continues through the existing API flow, including after changing The user must follow the page in `settingModal`.
+The AI Flow editor shows a localized private-reply warning beside the back and save controls when an `node_onmessage` connection targets a node with a non-null output while `checkFollower` is disabled. Output-less nodes such as quick replies do not trigger the warning. For `buttongroup` and `generic` (gallery) targets, only an actual connection from the regular `output` socket triggers it; button outputs and gallery-item (sub-block) outputs, in any number, are ignored. The warning condition is display-only: Save continues through the existing API flow, including after changing The user must follow the page in `settingModal`.
 
 ## Purpose
 
