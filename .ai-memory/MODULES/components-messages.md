@@ -162,6 +162,8 @@ Live media quick-reply payloads force `sendPr` to `false`, including when an exi
 
 The selected Flow action in `popups/editAutoReplyForMedia.tsx` uses the localized `AIFlow_show_graph` label and opens `/Ai/FlowandAgent` with the selected `masterFlowId` as the `id` query.
 
+The custom quick-reply response in `popups/editAutoReplyForMedia.tsx` is capped at `MAX_QUICK_REPLY_BYTES` (800 UTF-8 bytes, so Persian letters count as two). The counter shows `getTextByteLength`, and typed input and clipboard paste pass through `truncateTextToBytes`; the `TextArea` has no character-based `maxLength`.
+
 For message-delivery modes, the confirmation-message and must-follow-page options are omitted from the editor and both corresponding save payload flags are forced to `false`; same-comment delivery retains the existing controls and values.
 
 ## Hooks

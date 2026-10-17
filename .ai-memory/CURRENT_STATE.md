@@ -145,6 +145,7 @@ The global App Router error boundary displays the received error message. Direct
 
 The shared `helper/textByteLength.ts` utility now owns UTF-8 byte counting and Unicode-safe truncation used by AI flow text input.
 The direct-message composer applies the same 1,000-byte UTF-8 limit to drafts, typing, emoji insertion, and outgoing messages.
+The media auto-reply editor (`popups/editAutoReplyForMedia.tsx`) limits the custom quick-reply response to 800 UTF-8 bytes with the same helper.
 
 AI tool parameter placeholders now select the localized `completeDescription*` model field for the active locale, with German used for `gr` and English fallback for French or missing values.
 AI prompt tool options now select each tool's localized `displayName*` field from the active i18next locale, with German used for `gr` and English/name fallbacks.

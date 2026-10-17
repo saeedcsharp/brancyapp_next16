@@ -121,6 +121,7 @@
 - # Add component coverage for comment inbox Post/Story cursor pagination, including non-null `oldestCursor`, media append, duplicate-page handling, and terminal `null` cursor behavior when a UI test harness is introduced.
 - Add component coverage confirming the auto-reply AI and Flow Create Automation actions appear with populated unselected DragDrop lists and remain hidden after selecting or retaining an existing prompt/flow when a UI test harness is introduced.
 - Extend the auto-reply Create Automation action coverage to `EditAutoReplyForMedia` and its retained media prompt/flow state when a UI test harness is introduced.
+- Add component coverage for the `EditAutoReplyForMedia` 800-byte quick-reply limit (Persian typing and paste truncation, byte counter) when a UI test harness is introduced.
 
 - Add browser coverage for AI Flow zooming and panning, confirming SVG connection paths remain aligned with Socket DOM positions across wheel zoom, toolbar zoom, reset, RTL, and mobile viewports when a UI test harness is introduced.
 
