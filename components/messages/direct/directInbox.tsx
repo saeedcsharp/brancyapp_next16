@@ -1071,9 +1071,9 @@ const DirectInbox = () => {
         response = "🔊 Voice";
         break;
       case ItemType.Media:
-        if (item.medias[0].image !== null) {
+        if (item.medias?.[0]?.image) {
           response = "🖼️ Image";
-        } else if (item.medias[0].video !== null) {
+        } else if (item.medias?.[0]?.video) {
           response = "▶️ Video";
         }
         break;
