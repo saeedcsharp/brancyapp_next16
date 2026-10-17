@@ -3499,6 +3499,13 @@ export default function Flow({
       if (connection.sourceNodeId !== "node_onmessage") return false;
 
       const targetNode = editorState.nodes.find((node) => node.id === connection.targetNodeId);
+      if (targetNode?.type === "buttongroup" || targetNode?.type === "generic") {
+        // Button/gallery-item outputs are ignored; only a connection from the regular output counts
+        return editorState.connections.some(
+          (c) =>
+            c.sourceNodeId === targetNode.id && targetNode.outputs?.some((output) => output?.id === c.sourceSocketId),
+        );
+      }
       return targetNode?.outputs?.some((output) => output !== null && output !== undefined) ?? false;
     });
   }, [checkFollower, editorState.connections, editorState.nodes]);
