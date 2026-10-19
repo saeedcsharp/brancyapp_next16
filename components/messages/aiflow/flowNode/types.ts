@@ -25,6 +25,7 @@ export interface NodeData {
     | "weblink"
     | "phonenumbergrabber"
     | "ai"
+    | "masterflow"
     | "onmessage";
   label: string;
   position: Position;

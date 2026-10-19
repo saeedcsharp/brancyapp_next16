@@ -2890,6 +2890,9 @@ export default {
     New_Flow_ai_block: "KI",
     New_Flow_ai_select: "KI auswählen",
     New_Flow_ai_livetest: "Ihr KI-Block wird hier ausgeführt",
+    New_Flow_masterflow_block: "Unterflow",
+    New_Flow_masterflow_select: "Flow auswählen",
+    New_Flow_masterflow_livetest: "Der ausgewählte Unterflow wird hier fortgesetzt",
     New_Flow_Tutorials_buttongroup_title: "Schaltflächengruppen-Block",
     New_Flow_Tutorials_buttongroup_description:
       "Dieser Block sendet eine Nachricht mit bis zu drei Schaltflächen; jede Schaltfläche hat einen eigenen Ausgang, und der Block hat zusätzlich einen normalen Ausgang, der den Flow fortsetzt.",
@@ -2920,6 +2923,22 @@ export default {
     New_Flow_Tutorials_ai_limitation_1: "Hat nur einen Eingang und keinen Ausgang, beendet also den Flow",
     New_Flow_Tutorials_ai_limitation_2: "Pro Block kann nur eine KI ausgewählt werden",
     New_Flow_Tutorials_ai_limitation_3: "Kann nicht der erste Block des Flows sein",
+    New_Flow_Tutorials_masterflow_title: "Unterflow-Block",
+    New_Flow_Tutorials_masterflow_description:
+      "Leitet das Gespräch an einen bereits erstellten Flow weiter, wenn der Nutzer auf eine Schaltfläche tippt.",
+    New_Flow_Tutorials_masterflow_usageType: "Einen vorhandenen Flow als Fortsetzung einer Schaltfläche wiederverwenden",
+    New_Flow_Tutorials_masterflow_feature_1: "Listet alle von Ihnen erstellten Flows zur Auswahl auf",
+    New_Flow_Tutorials_masterflow_feature_2: "Der ausgewählte Flow setzt das Gespräch ab diesem Punkt fort",
+    New_Flow_Tutorials_masterflow_tip_1:
+      "Erstellen und speichern Sie zuerst den Ziel-Flow, damit er in der Liste erscheint",
+    New_Flow_Tutorials_masterflow_tip_2: "Nutzen Sie ihn für gemeinsame Pfade (z. B. Support oder Preise) zwischen Flows",
+    New_Flow_Tutorials_masterflow_limitation_1: "Hat nur einen Eingang und keinen Ausgang und beendet daher diesen Flow",
+    New_Flow_Tutorials_masterflow_limitation_2:
+      "Kann nur mit Schaltflächen verbunden werden, nicht mit normalen Ausgängen",
+    New_Flow_Tutorials_masterflow_limitation_3: "Der gerade bearbeitete Flow kann nicht ausgewählt werden",
+    New_Flow_Tutorials_masterflow_connection_1: "Schaltflächen des Schnellantwort-Blocks",
+    New_Flow_Tutorials_masterflow_connection_2: "Schaltflächen des Schaltflächengruppen-Blocks",
+    New_Flow_Tutorials_masterflow_connection_3: "Schaltflächen des Galerie-Unterblocks",
     New_Flow_generic_block: "Galerie-Block (Karussell)",
     New_Flow_add_general_block: "Galerieblock hinzufügen",
     New_Flow_add_text_block: "Textblock hinzufügen",

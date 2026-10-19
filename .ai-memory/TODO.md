@@ -1,4 +1,5 @@
 - Confirm backend support for the AI Flow `buttongroup` (`data.title`, `data.buttons`, regular `output` plus `buttonOutputs`), `imagegallery` (`data.images`, up to `IMAGE_GALLERY_MAX_ITEMS`), and `ai` (`data.promptId`, `data.promptTitle`, no outputs) node types.
+- Confirm backend support for the AI Flow `masterflow` node type (`data.masterFlowId`, `data.flowTitle`, no outputs, reached only from button sockets).
 - Decide whether the `ai` block should load prompts incrementally (scroll/`useInfiniteScroll`) instead of the current 10-page one-pass fetch, and implement AI replies in Live Test; optionally add a connections list to the `ai` and `buttongroup` tutorials.
 - Verify in the browser that the estimated heights from `getButtonGroupNodeHeight` and `getImageGalleryNodeHeight` align connection lines with the output sockets, and add component coverage for the button limit, 640-character title limit, and 7-image limit when a UI test harness is introduced.
 

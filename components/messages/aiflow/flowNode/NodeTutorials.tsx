@@ -308,6 +308,27 @@ export const getNodeTutorials = (t: any): Record<string, TutorialContent> => ({
     ],
   },
 
+  masterflow: {
+    title: t(LanguageKey.New_Flow_Tutorials_masterflow_title),
+    description: t(LanguageKey.New_Flow_Tutorials_masterflow_description),
+    usageType: t(LanguageKey.New_Flow_Tutorials_masterflow_usageType),
+    features: [
+      t(LanguageKey.New_Flow_Tutorials_masterflow_feature_1),
+      t(LanguageKey.New_Flow_Tutorials_masterflow_feature_2),
+    ],
+    tips: [t(LanguageKey.New_Flow_Tutorials_masterflow_tip_1), t(LanguageKey.New_Flow_Tutorials_masterflow_tip_2)],
+    limitations: [
+      t(LanguageKey.New_Flow_Tutorials_masterflow_limitation_1),
+      t(LanguageKey.New_Flow_Tutorials_masterflow_limitation_2),
+      t(LanguageKey.New_Flow_Tutorials_masterflow_limitation_3),
+    ],
+    connections: [
+      t(LanguageKey.New_Flow_Tutorials_masterflow_connection_1),
+      t(LanguageKey.New_Flow_Tutorials_masterflow_connection_2),
+      t(LanguageKey.New_Flow_Tutorials_masterflow_connection_3),
+    ],
+  },
+
   phonenumbergrabber: {
     title: t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_title),
     description: t(LanguageKey.New_Flow_Tutorials_phonenumbergrabber_description),

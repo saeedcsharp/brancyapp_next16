@@ -17,6 +17,9 @@ import {
   PhoneNumberGrabberNode,
   QuickReplyNode,
   ButtonGroupNode,
+  MasterFlowNode,
+  getMasterFlowNodeHeight,
+  masterflowNodeClassName,
   TextNode,
   VoiceNode,
   WeblinkNode,
@@ -124,6 +127,7 @@ interface NodeData {
     | "weblink"
     | "phonenumbergrabber"
     | "ai"
+    | "masterflow"
     | "onmessage";
   label: string;
   position: Position;
@@ -228,10 +232,12 @@ type NodeType =
   | "generic"
   | "genericitem"
   | "phonenumbergrabber"
-  | "ai";
+  | "ai"
+  | "masterflow";
 
 const INPUT_CONNECTION_RULES: Record<NodeType, Partial<Record<NodeType, number>>> = {
   ai: {},
+  masterflow: {},
   onmessage: {
     onmessage: 0,
     weblink: 0,
@@ -364,6 +370,7 @@ const INPUT_CONNECTION_RULES: Record<NodeType, Partial<Record<NodeType, number>>
  */
 const OUTPUT_CONNECTION_RULES: Record<NodeType, Partial<Record<NodeType, number>>> = {
   ai: {},
+  masterflow: {},
   onmessage: {
     onmessage: 0,
     weblink: 1,
@@ -546,6 +553,14 @@ const validateConnection = (
   connectionType: ConnectionType = "default",
   sourceSocketId?: string,
 ): boolean => {
+  // masterflow is reachable only from button sockets (the regular "output" socket is excluded)
+  if (targetNodeType === "masterflow") {
+    return (
+      (sourceNodeType === "quickreply" || sourceNodeType === "buttongroup" || sourceNodeType === "genericitem") &&
+      !!sourceSocketId &&
+      sourceSocketId !== "output"
+    );
+  }
   if (targetNodeType === "weblink") {
     if (sourceNodeType == "genericitem") {
       return true;
@@ -650,6 +665,7 @@ const getNodeClassName = (nodeType: string): string => {
     weblink: weblinkNodeClassName,
     phonenumbergrabber: phonenumbergrabberNodeClassName,
     ai: aiNodeClassName,
+    masterflow: masterflowNodeClassName,
     onmessage: onmessageNodeClassName,
   };
   return classNameMap[nodeType] || "";
@@ -673,6 +689,7 @@ const getNodeTypeTranslationKey = (nodeType: string): LanguageKey => {
     weblink: LanguageKey.New_Flow_weblink_block,
     phonenumbergrabber: LanguageKey.New_Flow_phonenumbergrabber_block,
     ai: LanguageKey.New_Flow_ai_block,
+    masterflow: LanguageKey.New_Flow_masterflow_block,
     onmessage: LanguageKey.New_Flow_input_message_block,
   };
   return translationMap[nodeType] || LanguageKey.New_Flow_general_block;
@@ -723,6 +740,7 @@ const getNodeTypeColor = (nodeType: string): string => {
     weblink: "#3498db",
     phonenumbergrabber: "#16a085",
     ai: "#6c5ce7",
+    masterflow: "#00b894",
     onmessage: "#34E994",
   };
   return colorMap[nodeType] || "#95a5a6"; // Default Gray
@@ -843,6 +861,8 @@ const autoLayout = (nodes: NodeData[], connections: Connection[]): NodeData[] =>
         return getPhoneNumberGrabberNodeHeight(node);
       case "ai":
         return getAiNodeHeight(node);
+      case "masterflow":
+        return getMasterFlowNodeHeight(node);
       case "onmessage":
         return getOnMessageNodeHeight(node);
       default:
@@ -1303,6 +1323,10 @@ export default function Flow({
       if (type === "ai") {
         newNode.outputs = [];
         newNode.data = { promptId: "", promptTitle: "" };
+      }
+      if (type === "masterflow") {
+        newNode.outputs = [];
+        newNode.data = { masterFlowId: "", flowTitle: "" };
       }
       updateStateWithHistory((prev) => ({
         ...prev,
@@ -2052,6 +2076,8 @@ export default function Flow({
           return getPhoneNumberGrabberNodeHeight(node);
         case "ai":
           return getAiNodeHeight(node);
+        case "masterflow":
+          return getMasterFlowNodeHeight(node);
         case "onmessage":
           return getOnMessageNodeHeight(node);
         default:
@@ -2574,7 +2600,16 @@ export default function Flow({
                 targetSocketId,
               });
 
-              if (targetNodeId && targetSocketId && targetNodeId !== connectingSocket.nodeId) {
+              const fallbackSource = editorState.nodes.find((n) => n.id === connectingSocket.nodeId);
+              const fallbackTarget = editorState.nodes.find((n) => n.id === targetNodeId);
+              if (
+                targetNodeId &&
+                targetSocketId &&
+                targetNodeId !== connectingSocket.nodeId &&
+                fallbackSource &&
+                fallbackTarget &&
+                validateConnection(fallbackSource.type, fallbackTarget.type, "default", connectingSocket.socketId)
+              ) {
                 // بررسی اینکه این اتصال قبلاً وجود ندارد
                 const exists = editorState.connections.some(
                   (c) =>
@@ -2854,6 +2889,9 @@ export default function Flow({
           break;
         case "ai":
           bodyHeight = getAiNodeHeight(node);
+          break;
+        case "masterflow":
+          bodyHeight = getMasterFlowNodeHeight(node);
           break;
         case "quickreply":
           bodyHeight = getQuickReplyNodeHeight(node);
@@ -4481,6 +4519,23 @@ export default function Flow({
                 </button>
               </Tooltip>
 
+              <Tooltip tooltipValue={t(LanguageKey.New_Flow_masterflow_block)} position="top">
+                <button onClick={() => addNode("masterflow")} className={styles.toolbardesktopitem}>
+                  <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    stroke="var(--text-h1)"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="1.5"
+                    width="24px"
+                    height="24px"
+                    fill="none"
+                    viewBox="0 0 24 25">
+                    <path d="M6 3.5v12a3 3 0 0 0 3 3h6m0 0-3-3m3 3-3 3M6 8.5h6a3 3 0 0 1 3 3v1M6 5.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
+                  </svg>
+                </button>
+              </Tooltip>
+
               <Tooltip tooltipValue={t(LanguageKey.New_Flow_add_weblink_block)} position="top">
                 <button onClick={() => addNode("weblink")} className={styles.toolbardesktopitem}>
                   <svg
@@ -5067,6 +5122,26 @@ export default function Flow({
                   </button>
                   <button
                     onClick={() => {
+                      addNode("masterflow");
+                      setShowMobileMenu(false);
+                    }}
+                    className={styles.mobilemenuitem}>
+                    <svg
+                      xmlns="http://www.w3.org/2000/svg"
+                      stroke="var(--text-h1)"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.5"
+                      width="20px"
+                      height="20px"
+                      fill="none"
+                      viewBox="0 0 24 25">
+                      <path d="M6 3.5v12a3 3 0 0 0 3 3h6m0 0-3-3m3 3-3 3M6 8.5h6a3 3 0 0 1 3 3v1M6 5.5a2 2 0 1 0 0-4 2 2 0 0 0 0 4" />
+                    </svg>
+                    <span>{t(LanguageKey.New_Flow_masterflow_block)}</span>
+                  </button>
+                  <button
+                    onClick={() => {
                       addNode("weblink");
                       setShowMobileMenu(false);
                     }}
@@ -5206,6 +5281,9 @@ export default function Flow({
                     {node.type === "text" && <TextNode node={node} updateNodeData={updateNodeData} />}
                     {node.type === "weblink" && <WeblinkNode node={node} updateNodeData={updateNodeData} />}
                     {node.type === "ai" && <AiNode node={node} updateNodeData={updateNodeData} />}
+                    {node.type === "masterflow" && (
+                      <MasterFlowNode node={node} updateNodeData={updateNodeData} currentFlowId={flowPropsId} />
+                    )}
                     {node.type === "phonenumbergrabber" && (
                       <PhoneNumberGrabberNode node={node} updateNodeData={updateNodeData} />
                     )}
